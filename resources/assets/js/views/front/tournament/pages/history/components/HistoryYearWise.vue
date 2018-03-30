@@ -17,16 +17,18 @@
           <h3 class="mb-0 text-primary font-weight-bold">{{ ageCategory.name }}</h3>
           <hr class="hr mt-0 mb-0 bg-primary">
           <div class="js-list-parent-div">
-            <ul class="js-list list-unstyled">
+            <ul class="js-list list-unstyled" v-if="ageCategory.teams.length > 0">
               <li class="team-item d-flex justify-content-between" v-for="team in ageCategory.teams">
                 {{ team.name }} ({{ team.country.country_code }}) <span :class="'flag-icon flag-icon-' + team.country.country_flag"></span>
               </li>
             </ul>
+            <div class="no-data h6 text-muted" v-if="ageCategory.teams.length == 0">{{ $t('tournament.no_team_found') }}</div>
           </div>
         </div>
+        <div class="no-data h6 text-muted" v-if="currentYear.age_categories.length == 0">{{ $t('tournament.no_age_category_found') }}</div>
       </div>
     </div>
-    <span v-else>{{ $t('no_information_available') }}</span>
+    <div class="no-data h6 text-muted" v-else>{{ $t('tournament.no_history_found') }}</div>
   </div>
 </template>
 

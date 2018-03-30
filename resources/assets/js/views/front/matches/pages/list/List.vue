@@ -5,7 +5,7 @@
             <div class="col-md-12 col-lg-4 col-xl-4">
                 <div class="row align-items-center">
                     <div class="col-md-6 col-lg-5 col-xl-5">
-                        <label class="label-of-input font-weight-bold mb-0">{{ $t('matches.match_overview') }}</label>
+                        <label class="label-of-input font-weight-bold mb-0">{{ $t('matches.match_overview') }}:</label>
                     </div>
                     <div class="col-sm-7 col-md-6 col-lg-7 col-xl-7">
                         <label class="custom_select_box d-block mb-0" for="match_overview">
@@ -40,7 +40,7 @@
             </div>
             <div class="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 select2_override my-2 mt-sm-0 mt-md-2 my-lg-0 my-xl-0"  v-show="filterBy != 'category_and_competition'">
               <label class="custom_select_box d-block mb-0" for="location_team_filter">
-                <select id="location_team_filter" class="form-control" v-model="selectedOption" @change="setFilterOptions()">
+                <select id="location_team_filter" class="border-0" v-model="selectedOption" @change="setFilterOptions()">
                   <option value="">Select</option>
                   <option :value="option.id" v-for="option in filterOptions" v-bind:value="option">{{ option.name }}</option>
                 </select>

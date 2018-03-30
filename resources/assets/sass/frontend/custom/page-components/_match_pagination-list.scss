@@ -7,9 +7,10 @@
             @extend .d-inline-block;
             border-left: 1px solid theme-color('primary');
             color: theme-color('primary');
-             &:hover,&.active{
-                background-color:theme-color('primary');
-                a{
+            &:hover,
+            &.active {
+                background-color: theme-color('primary');
+                a {
                     &:not([href]):not([tabindex]) {
                         color: $white;
                     }
@@ -23,6 +24,7 @@
             }
             &.left-arrow {
                 margin-right: $spacer;
+                text-transform: uppercase;
                 a:after {
                     content: 'Previous';
                     padding-left: $h7-font-size;
@@ -30,6 +32,7 @@
             }
             &.right-arrow {
                 margin-left: $spacer;
+                text-transform: uppercase;
                 a:before {
                     content: 'Next';
                     padding-right: $h7-font-size;
@@ -64,7 +67,6 @@
                 &:not([href]):not([tabindex]) {
                     color: theme-color('primary');
                 }
-               
             }
         }
     }

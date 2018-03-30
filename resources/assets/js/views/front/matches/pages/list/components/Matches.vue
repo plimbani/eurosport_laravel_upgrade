@@ -47,7 +47,7 @@
         </table>
       </div>
 
-      <p v-if="matchData.length == 0">{{ $t('matches.no_matches_found') }}</p>
+      <div class="no-data h6 text-muted" v-if="matchData.length == 0">{{ $t('matches.no_matches_found') }}</div>
       <paginate v-if="currentView != 'Competition'" name="matchlist" :list="matchData" ref="paginator" :per="noOfRecords" class="paginate-list"></paginate>
       <div v-if="currentView != 'Competition'">
         <!-- <div v-if="matchData.length > 0">

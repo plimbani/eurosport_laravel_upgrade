@@ -16,6 +16,7 @@
         padding: $custom-select-padding-y ($custom-select-indicator-padding * 3.125) $custom-select-padding-y $custom-select-padding-x;
         font-size: $font-size-sm;
         line-height: $line-height-base-custom;
+        cursor: pointer;
     }
     &:after {
         position: absolute;
