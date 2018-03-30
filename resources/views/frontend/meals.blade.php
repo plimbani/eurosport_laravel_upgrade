@@ -18,7 +18,7 @@
 	        <div class="row my-5">
 	            <div class="col-lg-2">
 	            </div>
-	            <div class="col-lg-8 club_content">
+	            <div class="col-lg-8 club_content {{ $brand_font_class }}">
 	                {!! $mealsContent->content !!}
 	            </div>
 	        </div>

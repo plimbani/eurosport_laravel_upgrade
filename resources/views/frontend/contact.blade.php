@@ -11,7 +11,7 @@
 	<div class="content__wrapper">
 	    <div class="container">
 	        <div class="row my-5">
-	            <div class="col-lg-12 club_content contact-information">
+	            <div class="col-lg-12 club_content contact-information {{ $brand_font_class }}">
 	                <div class="row">
 						<div class="col-md-6">
 							<h6 class="font-weight-bold">{!! __('messages.tournament_organiser') !!}</h6>

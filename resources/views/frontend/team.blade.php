@@ -11,7 +11,7 @@
 	<div class="content__wrapper">
 	    <div class="container">
 	        <div class="row my-5">
-	            <div class="col-lg-12 club_content tournament-list">
+	            <div class="col-lg-12 club_content tournament-list {{ $brand_font_class }}">
 					<div class="row">
 						@foreach($ageCategories as $category)
 							<div class="col-sm-3 mb-5">
@@ -31,7 +31,7 @@
 							</div>
 						@endforeach
 						@if(count($ageCategories) == 0)
-							<div class="no-data h6 text-muted">No age category found.</div>
+							<div class="no-data col-sm-12 h6 text-muted">No age category found.</div>
 						@endif
 					</div>
 	            </div>

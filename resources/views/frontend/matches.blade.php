@@ -11,7 +11,7 @@
 	<div class="content__wrapper">
     <div class="container">
         <div class="row my-5">
-            <div class="col-lg-12 club_content match_table" id="matches_list">
+            <div class="col-lg-12 club_content match_table {{ $brand_font_class }}" id="matches_list">
                 @if($tournament)
                     <match-listing></match-listing>
                 @else
