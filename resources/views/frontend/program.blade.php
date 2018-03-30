@@ -15,7 +15,7 @@
 	            </div>
 	            <div class="col-lg-8 club_content list-style-type {{ $brand_font_class }}">
 	            	@foreach($itineraries as $itinerary)
-	            		<h4 class="text-primary font-weight-bold">{{ $itinerary->name }}</h4>
+	            		<h4 class="text-primary font-weight-bold mb-0">{{ $itinerary->name }}</h4>
 	            		<hr class="hr m-0 bg-primary">
 	            		@if(count($itinerary['items']) > 0)
 			            	<ul class="list-group list-group-flush mb-4">

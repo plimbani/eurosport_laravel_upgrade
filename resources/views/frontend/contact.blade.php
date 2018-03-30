@@ -11,11 +11,11 @@
 	<div class="content__wrapper">
 	    <div class="container">
 	        <div class="row my-5">
-	            <div class="col-lg-12 club_content contact-information {{ $brand_font_class }}">
+	            	<div class="col-lg-12 club_content contact-information">
 	                <div class="row">
 						<div class="col-md-6">
 							<h6 class="font-weight-bold">{!! __('messages.tournament_organiser') !!}</h6>
-							<div>
+							<div class="{{ $brand_font_class }}">
 								<p class="h6"> {{ $contactPageDetail->contact_name }}<br>
 								{!! nl2br($contactPageDetail->address) !!}</p>
 								<p class="h6"> {{ $contactPageDetail->email_address }}</p>
@@ -23,7 +23,7 @@
 							</div>
 						</div>
 						<div class="col-md-6">
-							<h6 class="font-weight-bold mb-3">{!! __('messages.contact_euro_sportring') !!}</h6>
+							<h6 class="font-weight-bold mb-3 mt-3 mt-md-0">{!! __('messages.contact_euro_sportring') !!}</h6>
 							<div class="row">
 								<div class="col-md-12">
 									<div class="alert alert-success js-inquiry-success-message" role="alert" style="display: none">
@@ -61,8 +61,8 @@
 								</div>
 								<div class="form-actions">
 								    <div class="row">
-								        <div class="col-md-12 text-right">
-								            <button type="submit" class="btn button btn-primary js-contact-frm-submit-btn btn-round text-uppercase text-left font-weight-bold">{!! __('messages.contact_form_send_btn') !!}</button>
+								        <div class="col-md-12 text-center text-sm-right">
+								            <button type="submit" class="position-relative btn button btn-primary js-contact-frm-submit-btn btn-round text-uppercase text-left font-weight-bold">{!! __('messages.contact_form_send_btn') !!}</button>
 								        </div>
 								    </div>
 								</div>

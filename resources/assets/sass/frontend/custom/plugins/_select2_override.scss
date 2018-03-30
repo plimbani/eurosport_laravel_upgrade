@@ -1,10 +1,5 @@
 .select2_override {
     .select2-container--default {
-        @include media-breakpoint-only(sm) {
-            &.select2-container {
-                width: 293px !important;
-            }
-        }
         &.select2-container--open {
             .select2-results__options {
                 font-size: $font-size-sm;
@@ -26,6 +21,11 @@
             border: $border-width solid $gray-400;
             border-radius: $border-radius-lg;
             height: 44px;
+            &:focus-within {
+                background-image: linear-gradient(180deg, #F0F0F0 0%, #D3D3D3 100%);
+                box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.1);
+                outline: none;
+            }
             .select2-selection__arrow {
                 height: 42px;
                 width: 50px;
