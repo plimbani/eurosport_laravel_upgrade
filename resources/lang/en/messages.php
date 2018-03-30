@@ -40,7 +40,7 @@
 		'contact_form_subject' => 'Message subject',
 		'contact_form_send_btn' => 'Send Enquiry',
 		'match_schedule_message' => 'The match schedule will be available 2-3 weeks before the tournament begins.',
-		'no_locations_found' => 'No locations found',
+		'no_location_found' => 'No location found.',
 		'no_photos_found' => 'No photos found',
 		'recaptcha_error_message' => 'Please validate reCAPTCHA',
 		'inquiry_form_success_message' =>'Thanks for getting in touch.<br>Someone will get back to you shortly.',

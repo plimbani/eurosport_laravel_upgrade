@@ -5,7 +5,7 @@
             <div class="col-md-12 col-lg-4 col-xl-4">
                 <div class="row align-items-center">
                     <div class="col-md-6 col-lg-5 col-xl-5">
-                        <label class="label-of-input font-weight-bold mb-0">{{ $t('matches.match_overview') }}</label>
+                        <label class="label-of-input font-weight-bold mb-0">{{ $t('matches.match_overview') }}:</label>
                     </div>
                     <div class="col-sm-7 col-md-6 col-lg-7 col-xl-7">
                         <label class="custom_select_box d-block mb-0" for="match_overview">
