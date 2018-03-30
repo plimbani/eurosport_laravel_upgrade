@@ -11,7 +11,7 @@
 	<div class="content__wrapper">
 	    <div class="container">
 	        <div class="row my-5">
-	            <div class="col-lg-12 club_content match_table">
+	            <div class="col-lg-12 club_content match_table {{ $brand_font_class }}">
 	            	<div class="table-responsive">
 	                	{!! $tournamentContent->content !!}
 	            	</div>

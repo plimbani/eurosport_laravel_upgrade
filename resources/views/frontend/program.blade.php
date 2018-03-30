@@ -13,7 +13,7 @@
 	        <div class="row my-5">
 	            <div class="col-lg-2">
 	            </div>
-	            <div class="col-lg-8 club_content list-style-type">
+	            <div class="col-lg-8 club_content list-style-type {{ $brand_font_class }}">
 	            	@foreach($itineraries as $itinerary)
 	            		<h4 class="text-primary font-weight-bold">{{ $itinerary->name }}</h4>
 	            		<hr class="hr m-0 bg-primary">

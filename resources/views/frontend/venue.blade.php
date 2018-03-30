@@ -12,13 +12,13 @@
 	    <div class="container">
 	    	@if(count($markers) > 0)
 		      	<div class="row my-5">
-		        	<div class="col-lg-12 club_content">
+		        	<div class="col-lg-12 club_content {{ $brand_font_class }}">
 						<div id="venue_map" style="width:100%;height:400px;"></div>
 		        	</div>
 		      	</div>
 	      	@endif
 	      	<div class="row mt-2 {{ count($markers) == 0 ? 'my-5' : 'mb-5' }}">
-		        <div class="col-lg-12 club_content">
+		        <div class="col-lg-12 club_content {{ $brand_font_class }}">
 					@if(count($locations) > 0)
 						<div class="row">
 							@foreach($locations as $location)
