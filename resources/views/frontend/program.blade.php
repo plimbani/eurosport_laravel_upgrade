@@ -34,6 +34,9 @@
 						</ul>
 					@endforeach
 	            </div>
+	            @if(count($itineraries) == 0)
+					<div class="no-data col-sm-12 h6 text-muted mb-0 mt-0">No itineraries found.</div>
+				@endif
 	        </div>
 	    </div>
 	</div>

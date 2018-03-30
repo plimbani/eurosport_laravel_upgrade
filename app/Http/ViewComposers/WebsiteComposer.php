@@ -104,7 +104,7 @@ class WebsiteComposer
         'serverAddr' => env('BROADCAST_SERVER_ADDRESS'),
         'serverPort' => env('BROADCAST_SERVER_PORT'),
         'broadcastChannel' => config('broadcasting.channel'),
-        'appSchema' => config('app.app_scheme'),
+        'appScheme' => config('app.app_scheme'),
     ]);
 
     JavaScript::put([

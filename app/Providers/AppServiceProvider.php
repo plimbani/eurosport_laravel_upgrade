@@ -60,10 +60,6 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot()
     {
-        if(config('app.app_scheme') == 'secure') {
-            $this->app['request']->server->set('HTTPS', true);
-        }
-
         Website::observe(WebsiteObserver::class);
         Statistic::observe(StatisticObserver::class);
         Sponsor::observe(SponsorObserver::class);

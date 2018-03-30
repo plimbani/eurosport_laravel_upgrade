@@ -15,7 +15,7 @@
                 @if($tournament)
                     <match-listing></match-listing>
                 @else
-                    {!! __('messages.match_schedule_message') !!}
+                    <div class="text-center">{!! __('messages.match_schedule_message') !!}</div>
                 @endif
             </div>
         </div>

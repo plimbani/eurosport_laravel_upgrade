@@ -31,7 +31,7 @@
 							@endforeach
 						</div>
 					@else
-						<div class="no-data h6 text-muted">{!! __('messages.no_location_found') !!}</div>
+						<div class="no-data h6 text-muted mb-0">{!! __('messages.no_location_found') !!}</div>
 					@endif
 		        </div>
 		     </div>

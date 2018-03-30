@@ -24,9 +24,9 @@
                 <span v-else>{{ match.competation_name | formatGroup(match.round) }}</span>
               </td>
               <td>
+                <span v-if="(match.Home_id != 0 )" :class="'flag-icon flag-icon-' + match.HomeCountryFlag"></span>
                 <span class="text-center" v-if="(match.Home_id == 0 )">{{ getHoldingName(match.competition_actual_name, match.displayHomeTeamPlaceholderName) }}</span>
                 <span class="text-center" v-else>{{ match.HomeTeam }}</span>
-                <span v-if="(match.Home_id != 0 )" :class="'flag-icon flag-icon-' + match.HomeCountryFlag"></span>
               </td>
               <td>
                 <span v-if="(match.Away_id != 0 )" :class="'flag-icon flag-icon-' + match.AwayCountryFlag"></span>

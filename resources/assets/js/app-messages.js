@@ -1,8 +1,8 @@
 var Vue = require('vue');
-var schema = Site.appSchema == 'secure' ? 'https' : 'http';
+var scheme = Site.appScheme;
 import VueSocketio from 'vue-socket.io';
 import AppMessages from './api/frontend/appmessages.js';
-Vue.use(VueSocketio, schema + '://'+ Site.serverAddr +':'+ Site.serverPort);
+Vue.use(VueSocketio, scheme + '://'+ Site.serverAddr +':'+ Site.serverPort);
 
 // components
 var appMessages = require('./components/Frontend/AppMessage.vue');
