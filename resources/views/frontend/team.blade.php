@@ -14,7 +14,7 @@
 	            <div class="col-lg-12 club_content tournament-list {{ $brand_font_class }}">
 					<div class="row">
 						@foreach($ageCategories as $category)
-							<div class="col-sm-3 mb-5">
+							<div class="col-sm-6 col-md-3 col-lg-3 mb-5">
 								<h3 class="mb-0 text-primary font-weight-bold">{{ $category->name }}</h3>
 								<hr class="hr mt-0 mb-0 bg-primary">
 								<div class="js-list-parent-div">
