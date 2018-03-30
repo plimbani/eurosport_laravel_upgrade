@@ -4,7 +4,7 @@
   </div>
 </template>
 
-<script type="text/babel">
+<script>
 
 import Tournament from '../api/tournament.js'
 import MatchListing from './MatchListing.vue'
@@ -14,13 +14,18 @@ import DrawDetails from './DrawDetails.vue'
 import LocationList from './LocationList.vue'
 import TeamDetails from './TeamDetails.vue'
 import TeamList from './TeamList.vue'
+import FinalPlacings from './FinalPlacings.vue'
 import _ from 'lodash'
 
 export default {
 	data() {
 		return {
 			drawsData:[],
-			matchData:[], otherData:[],
+			matchData:[], otherData:{
+				DrawName: null,
+				DrawId: null,
+				DrawType: null,
+			},
 			drawsList: [],draw:''
 		}
 	},
@@ -32,14 +37,17 @@ export default {
 	mounted() {
 		// here we call function to get all the Draws Listing
 		this.$store.dispatch('setCurrentScheduleView','drawList')
-		this.getAllDraws()
+		this.getAllDraws();
 	},
 	components: {
-		MatchListing,DrawList,MatchList,DrawDetails,LocationList,TeamDetails,TeamList
+		MatchListing,DrawList,MatchList,DrawDetails,LocationList,TeamDetails,TeamList,FinalPlacings
 	},
 	created: function() {
-    this.$root.$on('changeDrawListComp', this.setMatchData);
-  },
+		this.$store.dispatch('setCurrentScheduleViewAgeCategory', 'ageCategoryList')
+		this.$store.dispatch('setcurrentAgeCategoryId', 0)
+	    this.$root.$on('changeDrawListComp', this.setMatchData);
+	    this.$root.$on('getAllDraws', this.getAllDraws);
+	},
 	methods: {
 		setMatchData(id, Name='',CompetationType='') {
 			let comp = this.$store.state.currentScheduleView
@@ -64,7 +72,7 @@ export default {
   				(response)=> {
   					if(response.data.status_code == 200) {
   						vm.matchData = response.data.data
-						vm.matchData.map(function(value, key) {
+  						vm.matchData.map(function(value, key) {
 							if(value.actual_competition_type == 'Elimination') {
 								value.name = _.replace(value.name, '-Group', '');
 
@@ -83,10 +91,10 @@ export default {
 
 		},
 		getDrawDetails(drawId, drawName,CompetationType='') {
-
+			$("body .js-loader").removeClass('d-none');
 			let TournamentId = this.$store.state.Tournament.tournamentId
 			let tournamentData = {'tournamentId': TournamentId,
-			'competitionId':drawId,'is_scheduled':1}
+			'competitionId':drawId}
 
 			this.otherData.DrawName = drawName
 			this.otherData.DrawId = drawId
@@ -95,11 +103,20 @@ export default {
 			Tournament.getFixtures(tournamentData).then(
 				(response)=> {
 					if(response.data.status_code == 200) {
-						this.matchData = response.data.data
+						this.matchData = response.data.data;
+						this.matchData.map(function(value, key) {
+			                value.name = _.replace(value.name, '-Group', '');
+			                return value;
+			            })
+
+						this.$root.$emit('setMatchDataOfMatchList', this.matchData);
+
+						$("body .js-loader").addClass('d-none');
 					}
 				},
 				(error) => {
 					alert('Error in Getting Draws')
+					$("body .js-loader").addClass('d-none');
 				}
 			)
 		},

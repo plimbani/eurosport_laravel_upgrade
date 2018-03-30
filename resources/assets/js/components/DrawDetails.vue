@@ -28,30 +28,29 @@
     </div>
   </div>
 <!--<h6>{{otherData.DrawName}} results grid</h6>-->
-
   <table class="table table-hover table-bordered" border="1" v-if="match1Data.length > 0 && otherData.DrawType != 'Elimination'" >
-  	<thead>
+    <thead>
       <tr>
           <th></th>
          <th v-for="(match,index) in match1Data" class="text-center">
          <span :class="'flag-icon flag-icon-'+match.TeamCountryFlag"></span>
-         <span>{{match.TeamName}}</span></th>
+         <span class="font-weight-normal">{{match.TeamName}}</span></th>
          <!-- <img :src="match.TeamFlag" width="20"> &nbsp;<span>{{match.TeamName}}</span></th> -->
       </tr>
     </thead>
     <tbody>
-    	<tr v-for="(match,index) in match1Data">
+      <tr v-for="(match,index) in match1Data">
 
-      		<td>
+          <td>
 
-      			<!-- <a href="" class="pull-left text-left text-primary"> -->
+            <!-- <a href="" class="pull-left text-left text-primary"> -->
              <span :class="'flag-icon flag-icon-'+match.TeamCountryFlag"></span>
-      			  <!-- <img :src="match.TeamCountryFlag" width="20"> &nbsp; -->
-      			    <span>{{match.TeamName}}</span>
+              <!-- <img :src="match.TeamCountryFlag" width="20"> &nbsp; -->
+                <span>{{match.TeamName}}</span>
 
-      			  <!--<img :src="match.TeamFlag" width="20"> &nbsp;-->
+              <!--<img :src="match.TeamFlag" width="20"> &nbsp;-->
 
-      		</td>
+          </td>
 
 
           <td v-for="(teamMatch, ind2) in match.matches" :class="[teamMatch == 'Y' ? 'bg-light-grey' : '', '']">
@@ -80,11 +79,11 @@
   
 
   <h6>{{otherData.DrawName}} matches</h6>
-  <matchList :matchData1="matchData"></matchList>
-  <manualRanking :competitionId="currentCompetationId" :teamList="teamList" :teamCount="teamCount" :isManualOverrideStanding="DrawName.is_manual_override_standing" @refreshStanding="refreshStanding()" @competitionAsManualStanding="competitionAsManualStanding"></manualRanking>
+  <matchList :matchData1="matchData" :DrawName="DrawName"></matchList>
+  <manualRanking :competitionId="currentCompetationId" :teamList="teamList" :teamCount="teamCount" :isManualOverrideStanding="DrawName.is_manual_override_standing" @refreshStanding="refreshManualStanding()" @competitionAsManualStanding="competitionAsManualStanding"></manualRanking>
 </div>
 </template>
-<script type="text/babel">
+<script>
 import MatchListing from './MatchListing.vue'
 import MatchList from './MatchList.vue'
 import LocationList from'./LocationList.vue'
@@ -94,7 +93,7 @@ import ManualRanking from './manualRankingModal.vue'
 import _ from 'lodash'
 
 export default {
-	props: ['matchData','otherData'],
+  props: ['matchData','otherData'],
     data() {
         return {
             teamData: [],
@@ -165,7 +164,11 @@ export default {
  },
   filters: {
     formatDate: function(date) {
-     return moment(date).format("Do MMM YYYY HH:mm");
+      if (date!= null) {
+        return moment(date).format("Do MMM YYYY HH:mm");
+      } else {
+        return "";
+      }
     },
     getStatus: function(teamName) {
       // Now here we change it accoring to
@@ -202,7 +205,7 @@ export default {
         setCurrentMsg() {
           let msg = ''
           if(this.$store.state.setCurrentView == 'drawsListing') {
-            msg = 'category list'
+            msg = 'competition list'
           }
           if(this.$store.state.setCurrentView == 'teamListing') {
             msg = 'team list'
@@ -217,15 +220,35 @@ export default {
           //return this.$store.state.Users.userDetails.id
         },
     },
-	components: {
+  components: {
         MatchList,LocationList,MatchListing,TeamStanding,ManualRanking
-	},
+  },
     methods: {
+        refreshManualStanding() {
+          let vm =this;
+          let refreshManual =new Promise((resolve, reject) => {
+            let ref = vm.refreshStanding(resolve) ;
+          });
+         
+          refreshManual.then( (msg) => {
+            let teamRes = _.map(vm.teamList, (o) => {
+              if(o.id != '') {
+                return o.id;
+              }
+            });
+             // return false;
+            
+            let sendData = {'teams': teamRes,'tournamentId':this.DrawName.tournament_id,'ageGroupId':this.DrawName.tournament_competation_template_id,'teamId':true} 
+           Tournament.checkTeamIntervalforMatches(sendData);
+          },
+          );
+          // this.refreshStanding();
+        },
         manualRankingModalOpen() {
           this.$root.$emit('getStandingDataForManualRanking', this.currentCompetationId)
           $('#manual_ranking_modal').modal('show');
         },
-        refreshStanding() {
+        refreshStanding(resolve='') {
           $("body .js-loader").removeClass('d-none');
           let compId = ''
           if(this.currentCompetationId!=undefined){
@@ -233,29 +256,28 @@ export default {
           }
           let tournamentData = {'tournamentId': this.$store.state.Tournament.tournamentId,'competitionId': compId}
           Tournament.refreshStanding(tournamentData).then(
-                (response)=> {
-                  if(response.data.status_code == 200){
-                    $("body .js-loader").addClass('d-none');
-                     this.teamStatus = false
-                      let vm = this
-                      setTimeout(function(){
-                        vm.teamStatus = true
-                      },200)
+            (response)=> {
+              if(response.data.status_code == 200){
+                $("body .js-loader").addClass('d-none');
+                 this.teamStatus = false
+                  let vm = this
+                  if(resolve!=''){
+                    resolve('done');
                   }
+                  setTimeout(function(){
+                    vm.teamStatus = true
                   
-                },
-                (error)=> {
+                  },200)
 
-                }
-
-               )
+              }
+            },
+           )
         },
         onChangeDrawDetails() {
-
           this.$store.dispatch('setCurrentScheduleView','drawDetails')
           let Id = this.DrawName.id
           let Name = this.DrawName.name
-          let CompetationType = this.DrawName.competation_type
+          let CompetationType = this.DrawName.actual_competition_type
           this.$root.$emit('changeDrawListComp',Id, Name,CompetationType);
           // this.matchData = this.drawList
           this.refreshStanding()
@@ -338,15 +360,18 @@ export default {
           }
         },
         setCurrentTabView(setCurrentTabView) {
+          //
           if(setCurrentTabView == 'drawsListing')
           {
             this.$store.dispatch('setCurrentScheduleView','drawList')
+            this.$store.dispatch('setCurrentScheduleViewAgeCategory','drawList')
+
             let Id = this.DrawName.id
-          let Name = this.DrawName.name
-          let Comp = this.DrawName.competation_type
+            let Name = this.DrawName.name
+            let Comp = this.DrawName.competation_type
             this.$root.$emit('changeDrawListComp',Id, Name,Comp);
           }
-           if(setCurrentTabView == 'teamListing')
+          if(setCurrentTabView == 'teamListing')
           {
             this.$store.dispatch('setCurrentScheduleView','teamList')
             this.$root.$emit('changeComp')

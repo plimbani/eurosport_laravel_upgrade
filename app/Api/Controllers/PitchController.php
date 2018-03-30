@@ -42,6 +42,20 @@ class PitchController extends BaseController
     }
 
     /**
+     * Get pitch size summary
+     *
+     * Get a JSON representation of all the Pitches.
+     *
+     * @Get("/getPitchSizeWiseSummary")
+     * @Versions({"v1"})
+     * @Response(200, body={"id": 10, "username": "foo"})
+     */
+    public function getPitchSizeWiseSummary($tournamentId)
+    {
+        return $this->pitchObj->getPitchSizeWiseSummary($tournamentId);
+    }
+
+    /**
      * Create New Match Result.
      *
      * @Post("/match/create")
@@ -74,4 +88,9 @@ class PitchController extends BaseController
     {
         return $this->pitchObj->deletePitch($deleteId);
     }
+    public function generatePitchMatchReport($pitchId)
+    {
+        return $this->pitchObj->generatePitchMatchReport($pitchId);
+    }
+
 }

@@ -20,14 +20,14 @@
 								<div class="col-md-4">
 									<label><strong>{{$lang.summary_from}}</strong></label>
 									<div class="">
-										 <input type="text" name="start_date" id="start_date" value="" class="form-control ls-datepicker">
+										 <input placeholder="All" type="text" name="start_date" id="start_date" value="" class="form-control ls-datepicker">
 						                 <span style="color:red;" id="start_date_validation"></span>
 				                    </div>
 								</div>
 								<div class="col-md-4">
 									<label><strong>{{$lang.summary_to}}</strong></label>
 									<div class="">
-			            				 <input type="text" name="end_date" id="end_date" value="" class="form-control ls-datepicker" >
+			            				 <input placeholder="All" type="text" name="end_date" id="end_date" value="" class="form-control ls-datepicker" >
 				                    	<span style="color:red;" id="end_date_validation"></span>
 				                    </div>
 								</div>
@@ -78,7 +78,7 @@
 									<label><strong>{{$lang.summary_from_time}}</strong></label>
 									<div>
 										<select name="start_time" id="start_time"  class="form-control ls-select2">
-											<option value="">Select</option>
+											<option value="">All</option>
 											<option value="08:00">08:00</option>
 											<option value="08:30">08:30</option>
 											<option value="09:00">09:00</option>
@@ -103,7 +103,7 @@
 											<option value="18:30">18:30</option>
 											<option value="19:00">19:00</option>
 											<option value="19:30">19:30</option>
-											<option value="20:00">20:00</option>
+											<option value="23:00">23:00</option>
 										</select>
 				                    </div>
 								</div>
@@ -111,7 +111,7 @@
 									<label><strong>{{$lang.summary_to_time}}</strong></label>
 									<div>
 										<select name="end_time" id="end_time"  class="form-control ls-select2">
-											<option value="">Select</option>
+											<option value="">All</option>
 											<option value="08:00">08:00</option>
 											<option value="08:30">08:30</option>
 											<option value="09:00">09:00</option>
@@ -136,7 +136,7 @@
 											<option value="18:30">18:30</option>
 											<option value="19:00">19:00</option>
 											<option value="19:30">19:30</option>
-											<option value="20:00">20:00</option>
+											<option value="23:00">23:00</option>
 										</select>
 				                    </div>
 								</div>
@@ -144,7 +144,7 @@
 									<label><strong>{{$lang.summary_location}}</strong></label>
 									<div class="">
 				                     	<select name="sel_venues" id="sel_venues"  class="form-control ls-select2">
-				                     		<option value="">Select</option>
+				                     		<option value="">All</option>
 				                    		<option v-for="(venue, index) in venues" :value="venue.id">{{venue.name}}</option>
 				                    	</select>
 								    </div>
@@ -157,7 +157,7 @@
 									<label><strong>{{$lang.summary_pitch_select}}</strong></label>
 									<div class="">
 	  									<select name="sel_pitches" id="sel_pitches" class="form-control ls-select2">
-	  										<option value="">Select</option>
+	  										<option value="">All</option>
 	  				           				<option v-for="(pitch, index) in pitches" :value="pitch.id">{{pitch.pitch_number}}</option>
 	  				        			</select>
 				         			</div>
@@ -166,7 +166,7 @@
 									<label><strong>{{$lang.summary_referee_select}}</strong></label>
 									<div class="">
 					                   	<select name="sel_referees" id="sel_referees" class="form-control ls-select2">
-					                   		<option value="">Select</option>
+					                   		<option value="">All</option>
 					                  		<option v-for="(referee, index) in referees" :value="referee.id">{{referee.last_name}}, {{referee.first_name}}</option>
 					                    </select>
 							        </div>
@@ -174,39 +174,36 @@
 							</div>
 						</div>
 					</div>
-					<div class="row">
-						<div class="col-md-5">
-							<div class="row">
-								<div class="col-md-6">
-									<div class="d-flex align-items-center">
-										<button type="button" name="clearButton" id="clearButton" class="btn btn-primary mr-1" @click="clearForm()">{{$lang.summary_button_clear}}</button>
-										<button type="button" name="generateReport" id="generateReport" class="btn btn-primary" @click="generateReport()">{{$lang.summary_button_generate}}</button>
-									</div>
-								</div>
-		                	</div>
-						</div>
-					</div>
 				</div>
 			</form>
 		</div>
+		<div class="row align-items-center mt-4">
+			<div class="col-md-12">
+				<div class="d-flex align-items-center justify-content-end">
+					<button type="button" name="clearButton" id="clearButton" class="btn btn-primary mr-1" @click="clearForm()">{{$lang.summary_button_clear}}</button>
+					<button type="button" name="generateReport" id="generateReport" class="btn btn-primary" @click="generateReport()">{{$lang.summary_button_generate}}</button>
+				</div>
+			</div>
+		</div>	
 		<div class="row mt-4" id="summary_report_table">
 			<div class="col-md-12">
-					<div id="report_logo" style="display:none;">
-                        <img src="/assets/img/logo-desk.svg"  alt="Laraspace Logo" class="hidden-sm-down text-center" width="200px" height="200px">
-                        <h2>Reports</h2>
-                    </div>
-				<table class="table table-hover table-bordered" id="report_print" border="1" cellpadding="0" cellspacing="0" width="100%" style="font-size: 98%">
+				<div id="report_logo" style="display:none;">
+                    <img src="/assets/img/logo-desk.svg"  alt="Laraspace Logo" class="hidden-sm-down text-center" width="200px" height="200px">
+                    <h2>Reports</h2>
+                </div>
+				<table class="table table-hover table-bordered table-responsive report-table" v-bind:class="{ 'display_table' : reports.length == 0, 'display_block' : reports.length > 0 }" id="report_print" border="1" cellpadding="0" cellspacing="0" width="100%">
 					<thead>
 	                    <tr>
-	                        <th class="text-center" @click="sortReport('match_datetime')">{{$lang.summary_reports_date_time}}<i class="fa fa-fw fa-sort"></i></th>
-	                        <th class="text-center" @click="sortReport('group_name')">{{$lang.summary_reports_age_catrgory}}<i class="fa fa-fw fa-sort"></i></th>
-	                        <th class="text-center" @click="sortReport('venue_name')">{{$lang.summary_reports_location}}<i class="fa fa-fw fa-sort"></i></th>
-	                        <th class="text-center" @click="sortReport('pitch_number')">{{$lang.summary_reports_pitch}}<i class="fa fa-fw fa-sort"></i></th>
-	                        <th class="text-center" @click="sortReport('referee')">{{$lang.summary_reports_referee}}<i class="fa fa-fw fa-sort"></i></th>
-	                        <!--<th class="text-center" @click="sortReport('full_game')">{{$lang.summary_reports_game}}<i class="fa fa-fw fa-sort"></i></th>-->
-                           <th class="text-center" @click="sortReport('HomeTeam')">{{$lang.summary_schedule_matches_team}}<i class="fa fa-fw fa-sort"></i></th>
-                          <th class="text-center" @click="sortReport('AwayTeam')">{{$lang.summary_schedule_matches_team}}<i class="fa fa-fw fa-sort"></i></th>
-                    </tr>
+							<th class="text-center" @click="sortReport('match_datetime')">{{$lang.summary_reports_date_time}}&nbsp;<i class="fa fa-sort"></i></th>
+	                        <th class="text-center" @click="sortReport('group_name')">{{$lang.summary_reports_age_catrgory}}&nbsp;<i class="fa fa-sort"></i></th>
+	                        <th class="text-center" @click="sortReport('venue_name')">{{$lang.summary_reports_location}}&nbsp;<i class="fa fa-sort"></i></th>
+	                        <th class="text-center" @click="sortReport('pitch_number')">{{$lang.summary_reports_pitch}}&nbsp;<i class="fa fa-sort"></i></th>
+	                        <th class="text-center" @click="sortReport('referee')">{{$lang.summary_reports_referee}}&nbsp;<i class="fa fa-sort"></i></th>
+	                        <th class="text-center" @click="sortReport('displayMatchNumber')">{{$lang.summary_reports_match_code}}&nbsp;<i class="fa fa-sort"></i></th>
+                            <th class="text-center" @click="sortReport('HomeTeam')">{{$lang.summary_schedule_matches_team}}&nbsp;<i class="fa fa-sort"></i></th>
+                            <th class="text-center" @click="sortReport('AwayTeam')">{{$lang.summary_schedule_matches_team}}&nbsp;<i class="fa fa-sort"></i></th>
+                            <th class="text-center" @click="sortReport('position')">{{$lang.summary_schedule_matches_placing}}&nbsp;<i class="fa fa-sort"></i></th>
+                    	</tr>
 	                </thead>
 	                <tbody>
 	                	<tr v-for="report in reports">
@@ -216,16 +213,18 @@
 	                		<td>{{report.pitch_number}}</td>
 	                		<td v-if="report.referee_last_name && report.referee_first_name">{{report.referee_last_name}}, {{report.referee_first_name}}</td>
   		             		<td v-else></td>
-	                		<!--<td>{{report.full_game}}</td>-->
-                      <td align="right">
-                       <span class="text-center">{{report.HomeTeam}}</span>
-                       <span :class="'flag-icon flag-icon-'+report.HomeCountryFlag"></span>
-                      </td>
-                      <td align="left">
-                        <span :class="'flag-icon flag-icon-'+report.AwayCountryFlag"></span>
-                        <span class="text-center">{{report.AwayTeam}}</span>
-                      </td>
-                      <!--<td></td>-->
+	                		<td>{{displayMatch(report.displayMatchNumber,report.displayHomeTeamPlaceholder,report.displayAwayTeamPlaceholder)}}</td>
+							<td align="right">
+								<span class="text-center" v-if="(report.homeTeam == '0' )">{{ getHoldingName(report.competition_actual_name, report.displayHomeTeamPlaceholder,report.displayMatchNumber) }}</span>
+								<span class="text-center" v-else>{{ report.HomeTeam }}</span>
+								<span :class="'flag-icon flag-icon-'+report.HomeCountryFlag"></span>
+							</td>
+							<td align="left">
+								<span :class="'flag-icon flag-icon-'+report.AwayCountryFlag"></span>
+								<span class="text-center" v-if="(report.awayTeam == '0')">{{ getHoldingName(report.competition_actual_name, report.displayAwayTeamPlaceholder,report.displayMatchNumber) }}</span>
+								<span class="text-center" v-else>{{ report.AwayTeam }}</span>
+							</td>
+							<td align="center">{{ (report.position != null) ? report.position : 'N/A' }}</td>
 	                	</tr>
 	                </tbody>
 				</table>
@@ -238,7 +237,7 @@
 </template>
 <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.16.0/jquery.validate.min.js"></script> -->
-<script type="text/babel">
+<script >
 	import Tournament from '../api/tournament.js'
 	import Pitch from '../api/pitch.js'
 
@@ -253,7 +252,7 @@ export default {
         clubs: {},
         club:'',
         team:'',
-       	reports: {},
+       	reports: [],
         currentView:'summaryTab',
         reportQuery:'',
         isValidate:false,
@@ -270,7 +269,11 @@ export default {
     },
     filters: {
     	formatDate: function(date) {
-     	return moment(date).format("Do MMM YYYY HH:mm");
+    		if(date != null) {
+     			return moment(date).format("Do MMM YYYY HH:mm");
+    		} else {
+    			return '-';
+    		}
    	   },
     },
     mounted() {
@@ -531,12 +534,16 @@ export default {
 	    },
 	    clearForm() {
          $('#frmReport')[0].reset()
-          this.reports = {}
+          this.reports = []
           this.club = ''
           this.teams = {}
           this.team = ''
           $("#end_date_validation").html("");
           $("#start_date_validation").html("");
+      },
+
+      displayMatch(displayMatchNumber,displayHomeTeamPlaceholder,displayAwayTeamPlaceholder) {
+      	return displayMatchNumber.replace('@HOME', displayHomeTeamPlaceholder).replace('@AWAY', displayAwayTeamPlaceholder)
       },
 
     	generateReport() {
@@ -553,7 +560,43 @@ export default {
 		      this.reportQuery = ReportData
 		      Tournament.getAllReportsData(ReportData).then(
 		      (response) => {
+		    //   	this.reports = _.remove(response.data.data, function(res) {
+						//   if(res.competation_round_no == 'Round 1' && (res.HomeTeam == 0 || res.awayTeam == 0))  {
+						//   	return false;
+						//   } else {
+						//   	return true;
+						//   }
+						// });
 		      	this.reports = response.data.data
+
+		      	this.reports.map(function(value, key) {
+			              // if(value.actual_round == 'Elimination') {
+		      		// console.log(value,value.displayHomeTeamPlaceholder);
+		      				let dispTxt = '';
+			              	if(value.displayHomeTeamPlaceholder.indexOf("#") == -1){
+			              		
+			              		if(value.displayMatchNumber.indexOf("wrs") > -1){
+			              			dispTxt = 'wrs.' ;
+			              		} else if(value.displayMatchNumber.indexOf("lrs") > -1) {
+			              			dispTxt = 'lrs.' ;
+
+			              		}value.displayHomeTeamPlaceholder = dispTxt+value.displayHomeTeamPlaceholder
+			              	}
+			              	
+			                if(value.displayAwayTeamPlaceholder.indexOf("#") == -1){
+			              		
+			              		if(value.displayMatchNumber.indexOf("wrs") > -1){
+			              			dispTxt = 'wrs.' ;
+			              		} else if(value.displayMatchNumber.indexOf("lrs") > -1) {
+			              			dispTxt = 'lrs.' ;
+
+			              		}
+
+			              		value.displayAwayTeamPlaceholder = dispTxt+value.displayAwayTeamPlaceholder
+			              	}
+			              	return value;
+			              // }
+			            })
 		       },
 
 		      (error) => {
@@ -600,15 +643,35 @@ export default {
         }
       }
     },
-		exportPrint() {
-    		let ReportData = this.reportQuery
-    		if(ReportData!=''){
-    			var win = window.open("/api/tournament/report/print?"+ReportData, '_blank');
-          win.focus();
-    		}else{
-    			toastr['error']('Records not available', 'Error');
-    		}
+
+	exportPrint() {
+		let ReportData = this.reportQuery
+		if(ReportData!=''){
+			var win = window.open("/api/tournament/report/print?"+ReportData, '_blank');
+      win.focus();
+		}else{
+			toastr['error']('Records not available', 'Error');
 		}
+	},
+	getHoldingName(competitionActualName, placeholder,displayMatchNumber) {
+      if(competitionActualName.indexOf('Group') !== -1){
+      	let dispTxt = '';
+          // if(placeholder.indexOf("#") == -1){
+            
+          //   if(displayMatchNumber.indexOf("wrs") > -1){
+          //     dispTxt = 'wrs.' ;
+          //   } else if(displayMatchNumber.indexOf("lrs") > -1) {
+          //     dispTxt = 'lrs.' ;
+
+          //   }
+          //   placeholder = dispTxt+placeholder
+          // }
+                  
+        return placeholder;
+      } else if(competitionActualName.indexOf('Pos') !== -1){
+        return 'Pos-' + placeholder;
+      }
+    }
   }
 }
 

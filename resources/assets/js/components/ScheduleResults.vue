@@ -24,13 +24,16 @@
 								<div class="tabs tabs-primary">
 									<ul class="nav nav-tabs">
 										<li @click="setCurrentView('drawsListing')" class="nav-item">
-											<a :class="[currentView == 'drawsListing' ? 'active' : '']" class="nav-link">{{$lang.summary_schedule_draws}}</a>
+											<a :class="[currentView == 'drawsListing' ? 'active' : '']" class="nav-link">{{$lang.summary_schedule_categories}}</a>
 										</li>
 										<li @click="setCurrentView('matchListing')" class="nav-item">
 											<a :class="[currentView == 'matchListing' ? 'active' : '']" class="nav-link">{{$lang.summary_schedule_matches}}</a>
 										</li>
 										<li @click="setCurrentView('teamListing')" class="nav-item">
 											<a :class="[currentView == 'teamListing' ? 'active' : '']" class="nav-link">{{$lang.summary_schedule_teams}}</a>
+										</li>
+										<li @click="setCurrentView('finalPlacings')" class="nav-item">
+											<a :class="[currentView == 'finalPlacings' ? 'active' : '']" class="nav-link" href="javascript:void(0)">{{$lang.summary_schedule_final_placings}}</a>
 										</li>
 									</ul>
 									<div class="tab-content">
@@ -56,6 +59,8 @@ import DrawsListing from './DrawsListing.vue'
 import MatchListing from './MatchListing.vue'
 import TeamListing from './TeamListing.vue'
 import DrawDetails from './DrawDetails.vue'
+import Tournament from '../api/tournament.js'
+import FinalPlacings from './FinalPlacings.vue'
 
 export default {
 	props: ['currentScheduleView'],
@@ -66,14 +71,35 @@ export default {
 		}
 	},
 	mounted(){
+		let vm = this;
+		let TournamentData = {'slug':this.$route.params.tournamentslug}
+	    Tournament.getTournamentBySlug(TournamentData).then(
+	      (response) => {
+		    let tournamentSel  = {
+		        name: response.data.data['name'],
+		        id: response.data.data['id'],
+		        tournamentSlug: response.data.data['slug'],
+		        tournamentLogo: response.data.data['logo'],
+		        tournamentStatus:response.data.data['status'],
+		        tournamentStartDate:response.data.data['start_date'],
+		        tournamentEndDate:response.data.data['end_date']
+		    }
+		    vm.$store.dispatch('SetTournamentName', tournamentSel)
+		    vm.$root.$emit('getAllDraws')
+		    vm.$root.$emit('getAllMatches')
+		    vm.$root.$emit('getAllTournamentTeams')
+	      },
+	      (error) => {
+	      }
+	    )
 		// here we set drawsListing as currentView
 		this.currentView = 'drawsListing';
-    this.$store.dispatch('setCurrentView',this.currentView)
-    // here we set the value of users to null
-    this.$store.dispatch('isAdmin',false);
+	    this.$store.dispatch('setCurrentView',this.currentView)
+	    // here we set the value of users to null
+	    this.$store.dispatch('isAdmin',false);
 	},
 	components: {
-		DrawsListing, MatchListing, TeamListing,DrawDetails
+		DrawsListing, MatchListing, TeamListing,DrawDetails,FinalPlacings
 	},
 	created: function() {
        this.$root.$on('changeComp1', this.setMatchData1);

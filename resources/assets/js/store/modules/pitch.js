@@ -7,11 +7,11 @@ import moment from 'moment'
 const state = {
   pitches: [],
   pitchCapacity: '',
-  pitchData: '',
+  pitchData: {},
   pitchId:0,
   stageView:'gamesTab',
-  stages:0
-
+  stages:0,
+  isPitchPlannerInEnlargeMode: 0,
  }
 // getters
 const getters = {
@@ -38,17 +38,29 @@ const actions = {
         _.forEach(pitches , function(pitchAvailable, index) {
           let i = 1;
           let stage ={}
+          let breaks = {}
+          let stageTime = {}
 
-            _.forEach(pitchAvailable.pitch_availability , function(pitchAvailable1) {
-              if(pitchAvailable1.break_enable == "0") {
-                stage[pitchAvailable.id+"_"+i] =  "Stage "+i+": "+moment(pitchAvailable1.stage_start_time,["HH:mm"]).format("H:mm")+"-"+moment(pitchAvailable1.stage_end_time,["HH:mm"]).format("H:mm")
-                //console.log(Stval)
-              } else {
-                stage[pitchAvailable.id+"_"+i] =  "Stage "+i+": "+moment(pitchAvailable1.stage_start_time,["HH:mm"]).format("H:mm")+"-"+moment(pitchAvailable1.break_start_time,["HH:mm"]).format("H:mm")+", "+moment(pitchAvailable1.break_end_time,["HH:mm"]).format("H:mm")+"-"+moment(pitchAvailable1.stage_end_time,["HH:mm"]).format("H:mm")
+            _.forEach(pitchAvailable.pitch_availability, function(pitchAvailable1) {
+           
+              if(pitchAvailable1.break_enable == '0' || pitchAvailable1.break_enable == '1'  ) {
+                  
+                let stageStr = "Day " + pitchAvailable1.stage_no +" : "+pitchAvailable1.stage_start_time+'-';
+           
+                _.forEach(pitchAvailable1.pitch_breaks, function(pitchBreaks) {
+                
+                  stageStr = stageStr +pitchBreaks.break_start+', '+pitchBreaks.break_end+'-';
+                
+                }); 
+                stageStr = stageStr + pitchAvailable1.stage_end_time;
+                
+                stageTime[pitchAvailable.id+"_"+i]  = stageStr;
+
+                i++;
               }
-              i++;
-              response.data.pitches[index].pitch_av_text = stage
 
+              response.data.pitches[index].pitch_av_text = stageTime; 
+               
             });
 
         });
@@ -82,7 +94,7 @@ const actions = {
 
           // commit(types.SET_PITCH_ID, response.data.data.pitchdetail.id)
 
-          $('#editPitch').modal('show')
+          $('#editPitch').modal('show') 
         },500)
 
       },
@@ -100,7 +112,12 @@ const actions = {
   SetStages ({commit},stages) {
     commit(types.SET_STAGES, stages)
   },
-
+  SetPitchPlannerInEnlargeMode ({commit}) {
+    commit(types.SET_PITCH_PLANNER_IN_ENLARGE_MODE)
+  },
+  ResetPitchPlannerFromEnlargeMode ({commit}) {
+    commit(types.RESET_PITCH_PLANNER_FROM_ENLARGE_MODE)
+  },
 }
 
 // mutations
@@ -134,7 +151,12 @@ const mutations = {
     state.pitchCapacity = pitchTime
 
   },
-
+  [types.SET_PITCH_PLANNER_IN_ENLARGE_MODE] (state) {
+    state.isPitchPlannerInEnlargeMode = 1
+  },
+  [types.RESET_PITCH_PLANNER_FROM_ENLARGE_MODE] (state) {
+    state.isPitchPlannerInEnlargeMode = 0
+  },
 }
 
 export default {

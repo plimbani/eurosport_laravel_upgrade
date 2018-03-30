@@ -8352,7 +8352,7 @@ TimeGrid.mixin({
 				) +
 			'>' +
 				'<div class="scheduled-match-content">' +
-
+					'<div class="badge badge-custom " style="display: ' + event.displayFlag + '"><i class="fa fa-exclamation-triangle"></i></div>'+
 					'<div class="fc-content">' +
 						(timeText ?
 							'<span class="fc-referee referee_'+event.refereeId+'" id="'+ event.refereeId+'">'+ event.refereeText+'</span>' +
@@ -8371,6 +8371,12 @@ TimeGrid.mixin({
 							'</div>' :
 							''
 							) +
+						((event.homeScore !== null) && (event.awayScore !== null) ? 
+							'<div class="fc-score">' +
+								htmlEscape(event.homeScore) + '-' + htmlEscape(event.awayScore) +
+							'</div>' :
+							''
+						) +
 					'</div>' +
 					'<div class="fc-bg"/>' +
 					/* TODO: write CSS for this
