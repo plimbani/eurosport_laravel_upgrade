@@ -17,21 +17,25 @@
 	            	@foreach($itineraries as $itinerary)
 	            		<h4 class="text-primary font-weight-bold">{{ $itinerary->name }}</h4>
 	            		<hr class="hr m-0 bg-primary">
-		            	<ul class="list-group list-group-flush mb-4">
-		            		@foreach($itinerary['items'] as $item)
-							  	<li class="list-group-item border-0 px-0 py-4">
-							  		<div class="row">
-							  			<div class="col-4">
-							  				<h5 class="mb-0 font-weight-bold">{{ $item->day }}</h5>
-							  				<div class="h7">{{ $item->time }}</div>
-							  			</div>
-							  			<div class="col-8">
-											<h5>{{ $item->item }}</h5>
-							  			</div>
-							  		</div>
-							  	</li>
-						  	@endforeach
-						</ul>
+	            		@if(count($itinerary['items']) > 0)
+			            	<ul class="list-group list-group-flush mb-4">
+			            		@foreach($itinerary['items'] as $item)
+								  	<li class="list-group-item border-0 px-0 py-4">
+								  		<div class="row">
+								  			<div class="col-4">
+								  				<h5 class="mb-0 font-weight-bold">{{ $item->day }}</h5>
+								  				<div class="h7">{{ $item->time }}</div>
+								  			</div>
+								  			<div class="col-8">
+												<h5>{{ $item->item }}</h5>
+								  			</div>
+								  		</div>
+								  	</li>
+							  	@endforeach
+							</ul>
+						@else
+							<div class="no-data h6 text-muted mb-0 mt-4">No item found.</div>
+						@endif
 					@endforeach
 	            </div>
 	            @if(count($itineraries) == 0)
