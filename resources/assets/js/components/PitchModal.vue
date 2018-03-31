@@ -113,7 +113,7 @@
                 </div>
               </div>
               <div class="form-group row">
-                <label class="col-sm-3 form-control-label">{{$lang.pitch_modal_comments_label}}</label>
+                <label class="col-sm-3 form-control-label">Remarks</label>
                 <div class="col-sm-9">
                   <textarea class="form-control" name="comments" id="comments">{{matchDetail.comments}}</textarea>
                 </div>
@@ -341,9 +341,17 @@ var moment = require('moment');
       })
     },
     matchPrint(ReportData) {
-      var win = window.open("/api/match/print?"+ReportData, '_blank');
-      win.focus();
-      return true;
+      Tournament.getSignedUrlForMatchPrint(ReportData).then(
+        (response) => {
+          window.open(response.data, '_blank');
+        },
+        (error) => {
+
+        }
+      )
+      // var win = window.open("/api/match/print?"+ReportData, '_blank');
+      // win.focus();
+      // return true;
     },
     generateMatchPrint() {
        let ReportData = 'matchId='+this.matchId+'&result_override='+(this.matchDetail.is_result_override == 1 ? true : false)
@@ -376,8 +384,18 @@ var moment = require('moment');
             } },500)
 
         } else {
-          var win = window.open("/api/match/print?"+ReportData, '_blank');
-          win.focus();
+
+          Tournament.getSignedUrlForMatchPrint(ReportData).then(
+            (response) => {
+              window.open(response.data, '_blank');
+            },
+            (error) => {
+
+            }
+          )
+
+          // var win = window.open("/api/match/print?"+ReportData, '_blank');
+          // win.focus();
         }
 
     },
