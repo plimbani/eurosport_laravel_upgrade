@@ -15,6 +15,7 @@ use Laraspace\Models\Team;
 use Laraspace\Models\Referee;
 use Laraspace\Models\UserFavourites;
 use Laraspace\Models\Competition;
+use Illuminate\Support\Str;
 use Carbon\Carbon;
 use JWTAuth;
 
@@ -120,24 +121,11 @@ class TournamentRepository
      * Generate slug
      *
      */
-    public function generateSlug($title, $extra)
+    public function generateSlug($title)
     {
-      $this->getUniqueSlug($title, $extra);
-      return $this->slug;
-    }
-    /**
-     * Get unique slug name
-     *
-     */
-    public function getUniqueSlug($title, $extra)
-    {
-      $slug = str_slug($title.'-'.$extra);
-      if(Tournament::where('slug',$slug)->exists())
-      {
-          $this->generateSlug($slug, $extra+1);
-          return;
-      }
-      $this->slug=$slug;
+      $slug = Str::slug($title);
+      $slugCount = count(Tournament::whereRaw("slug REGEXP '^{$slug}(-[0-9]*)?$'")->get());
+      return ($slugCount > 0) ? "{$slug}-{$slugCount}" : $slug;
     }
 
     public function create($data)
@@ -224,7 +212,7 @@ class TournamentRepository
           $tournamentData = Tournament::where('id', $tournamentId)->update($newdata);
 
         } else {
-         $newdata['slug'] = $this->generateSlug($data['name'].Carbon::createFromFormat('d/m/Y', $newdata['start_date'])->year,'');
+         $newdata['slug'] = $this->generateSlug($data['name'].Carbon::createFromFormat('d/m/Y', $newdata['start_date'])->year);
          $newdata['status'] = 'Unpublished';
          $newdata['user_id'] = $data['user_id'];
          $tournamentId = Tournament::create($newdata)->id;

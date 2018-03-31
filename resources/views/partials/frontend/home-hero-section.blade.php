@@ -17,7 +17,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="grid-full club_info">
+                <div class="grid-full club_info {{ $brand_font_class }}">
                     <h1 class="club_info-title">{{ $websiteDetail->tournament_name }}</h1>
                     <span class="club_info-detail">{{ $websiteDetail->tournament_dates . ', ' . $websiteDetail->tournament_location }}</span>
                 </div>

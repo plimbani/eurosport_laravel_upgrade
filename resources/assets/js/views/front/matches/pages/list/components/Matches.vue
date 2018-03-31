@@ -24,9 +24,9 @@
                 <span v-else>{{ match.competation_name | formatGroup(match.round) }}</span>
               </td>
               <td>
+                <span v-if="(match.Home_id != 0 )" :class="'flag-icon flag-icon-' + match.HomeCountryFlag"></span>
                 <span class="text-center" v-if="(match.Home_id == 0 )">{{ getHoldingName(match.competition_actual_name, match.displayHomeTeamPlaceholderName) }}</span>
                 <span class="text-center" v-else>{{ match.HomeTeam }}</span>
-                <span v-if="(match.Home_id != 0 )" :class="'flag-icon flag-icon-' + match.HomeCountryFlag"></span>
               </td>
               <td>
                 <span v-if="(match.Away_id != 0 )" :class="'flag-icon flag-icon-' + match.AwayCountryFlag"></span>
@@ -47,7 +47,7 @@
         </table>
       </div>
 
-      <p v-if="matchData.length == 0">{{ $t('matches.no_matches_found') }}</p>
+      <div class="no-data h6 text-muted" v-if="matchData.length == 0">{{ $t('matches.no_matches_found') }}</div>
       <paginate v-if="currentView != 'Competition'" name="matchlist" :list="matchData" ref="paginator" :per="noOfRecords" class="paginate-list"></paginate>
       <div v-if="currentView != 'Competition'">
         <!-- <div v-if="matchData.length > 0">

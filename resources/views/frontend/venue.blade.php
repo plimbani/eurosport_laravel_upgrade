@@ -9,38 +9,33 @@
 @section('content')
 	<!-- Content wrapper -->
 	<div class="content__wrapper">
-    <div class="container">
-      <div class="row my-5">
-        <div class="col-lg-12 club_content">
-			@if(count($markers) > 0)
-				<div id="venue_map" style="width:100%;height:400px;"></div>
-			@endif
-        </div>
-      </div>
-    </div>
-	</div>
-	<!-- End of content wrapper -->
-
-	<!-- Content wrapper -->
-	<div class="content__wrapper">
-    <div class="container">
-      <div class="row my-5">
-        <div class="col-lg-12 club_content">
-			@if(count($locations) > 0)
-				@foreach($locations as $location)
-					<div class="col-sm-3">
-						<h3>{{ $location->name }}</h3>
-						<div>
-							{!! nl2br($location->address) !!}
+	    <div class="container">
+	    	@if(count($markers) > 0)
+		      	<div class="row my-5">
+		        	<div class="col-lg-12 club_content venue-information {{ $brand_font_class }}">
+						<div id="venue_map" class="venue-map"></div>
+		        	</div>
+		      	</div>
+	      	@endif
+	      	<div class="row mt-2 {{ count($markers) == 0 ? 'my-5' : 'mb-5' }}">
+		        <div class="col-lg-12 club_content {{ $brand_font_class }}">
+					@if(count($locations) > 0)
+						<div class="row">
+							@foreach($locations as $location)
+									<div class="col-sm-4 col-md-3 col-lg-3">
+										<h4 class="my-3 font-weight-bold">{{ $location->name }}</h4>
+										<h6>
+											{!! nl2br($location->address) !!}
+										</h6>
+									</div>
+							@endforeach
 						</div>
-					</div>
-				@endforeach
-			@else
-				<p>{!! __('messages.no_locations_found') !!}</p>
-			@endif
-        </div>
-      </div>
-    </div>
+					@else
+						<div class="no-data h6 text-muted mb-0">{!! __('messages.no_location_found') !!}</div>
+					@endif
+		        </div>
+		     </div>
+	    </div>
 	</div>
 	<!-- End of content wrapper -->
 @endsection

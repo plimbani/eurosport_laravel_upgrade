@@ -265,4 +265,12 @@ return [
     'media' => 'media.page.details',
     'contact' => 'contact.page.details',
   ],
+  'font_class' => [
+    'Open Sans' => 'font-open-sans',
+    'Montserrat' => 'font-montserrat',
+    'Roboto' => 'font-roboto',
+    'Lato' => 'font-lato',
+    'PT Sans' => 'font-pt-sans',
+    'Helvetica' => 'font-helvetica',
+  ],
 ];

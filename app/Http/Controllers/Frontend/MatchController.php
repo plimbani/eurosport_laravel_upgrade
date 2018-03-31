@@ -43,11 +43,11 @@ class MatchController extends Controller
         $website = Landlord::getTenants()['website'];
         $websiteId = $website->id;
         $pageDetail = $this->pageService->getPageDetails($this->matchPageName, $websiteId);
-        $tournament = $website->linked_tournament!=null ? Tournament::find($website->linked_tournament) : null;
+        $tournament = $website->linked_tournament!=null ? Tournament::find($website->linked_tournament)->toArray() : null;
 
         // Page title
         $varsForView['pageTitle'] = $pageDetail->title;
-        $varsForView['tournament'] = $tournament->toArray();
+        $varsForView['tournament'] = $tournament;
 
         return view('frontend.matches', $varsForView);
     }

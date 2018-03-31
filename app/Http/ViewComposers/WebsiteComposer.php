@@ -77,6 +77,11 @@ class WebsiteComposer
     $themeCss = $website->color ? mix('frontend/css/' . $colorThemes[$website->color]) : mix('frontend/css/main.css');
     $view->with('theme_css', $themeCss);
 
+    // Brand font class
+    $fontClasses = config('wot.font_class');
+    $brandFontClass = $website->font ? $fontClasses[$website->font] : 'Open Sans';
+    $view->with('brand_font_class', $brandFontClass);
+
     // Hero image
     $homePageDetail = $this->pageService->getPageDetails($this->homePageName, $website->id);
     $homePageMeta = $homePageDetail->meta;
@@ -95,10 +100,12 @@ class WebsiteComposer
 
     JavaScript::put([
         'websiteId' => $website->id,
+        'tournamentId' => $website->linked_tournament,
         'serverAddr' => env('BROADCAST_SERVER_ADDRESS'),
         'serverPort' => env('BROADCAST_SERVER_PORT'),
         'broadcastChannel' => config('broadcasting.channel'),
-        'appSchema' => config('app.app_scheme'),
+        'appScheme' => config('app.app_scheme'),
+        'googleAnalyticsId' => $website->google_analytics_id ?: null,
     ]);
 
     JavaScript::put([

@@ -1,3 +1,39 @@
 .btn-round {
-	border-radius: $h3-font-size;
+ border-radius: $h3-font-size;
+}
+
+@each $color, $value in $theme-colors {
+ 	.btn-#{$color} {
+     	@if $color=="primary" {
+         	@include linearGradient(theme-color("primary"), theme-color("shade-50"));
+         	box-shadow: 0 5px 10px 0 rgba($black,0.10);
+            border-color: theme-color("shade-50");
+     	}
+     	&:hover,
+     	&:focus {
+     		@if $color=="primary" {
+	         	@include linearGradient(theme-color("tint-20"), theme-color("primary"));
+                border-color: theme-color("shade-50");
+	     	}
+     	}
+ 	}
+}
+
+@each $color, $value in $theme-colors {
+ 	.btn-#{$color} {
+     	@if $color=="secondary" {
+         	@include linearGradient(theme-color("tint-10"), theme-color("tint-20"));
+         	box-shadow: 0 5px 10px 0 rgba($black,0.10);
+            color: theme-color("primary");
+            border-color: theme-color("tint-20");
+     	}
+     	&:hover,
+     	&:focus {
+     		@if $color=="secondary" {
+	         	@include linearGradient( $white, theme-color("tint-10"));
+                color: theme-color("primary");
+                border-color: theme-color("tint-20");
+	     	}
+     	}
+ 	}
 }

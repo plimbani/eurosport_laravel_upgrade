@@ -7,32 +7,62 @@
             @extend .d-inline-block;
             border-left: 1px solid theme-color('primary');
             color: theme-color('primary');
-             &:hover,&.active{
-                background-color:theme-color('primary');
-                a{
-                    &:not([href]):not([tabindex]) {
-                        color: $white;
-                    }
-                }
+            &.active,
+            &:focus {
+                background: theme-color("tint-10");
+                border-color: theme-color("tint-20");
+                // a {
+                //     &:not([href]):not([tabindex]) {
+                //         color: $white;
+                //     }
+                // }
+            }
+            &:hover {
+                background: theme-color("tint-10");
+                border-color: theme-color("tint-20");
             }
             &.left-arrow,
             &.right-arrow {
                 border-radius: $border-radius * 8;
                 border: 1px solid theme-color('primary');
                 width: 120px;
+                @include media-breakpoint-down(xs) {
+                    width: 90px;
+                }
+                &:hover,
+                &:focus {
+                    background: theme-color("tint-10");
+                }
+                &:hover {
+                    border-color: theme-color("tint-20");
+                }
             }
             &.left-arrow {
                 margin-right: $spacer;
+                text-transform: uppercase;
+                @include media-breakpoint-down(xs) {
+                    margin-right: $spacer / 2;
+                }
                 a:after {
                     content: 'Previous';
                     padding-left: $h7-font-size;
+                    @include media-breakpoint-down(xs) {
+                        padding-left: $table-cell-padding-sm;
+                    }
                 }
             }
             &.right-arrow {
                 margin-left: $spacer;
+                text-transform: uppercase;
+                @include media-breakpoint-down(xs) {
+                    margin-left: $spacer / 2;
+                }
                 a:before {
                     content: 'Next';
                     padding-right: $h7-font-size;
+                    @include media-breakpoint-down(xs) {
+                        padding-right: $table-cell-padding-sm;
+                    }
                 }
             }
             &.number,
@@ -45,6 +75,9 @@
                 border-bottom-left-radius: $border-radius * 8;
                 a {
                     padding-left: $h3-font-size;
+                    @include media-breakpoint-down(xs) {
+                        padding-left: $input-btn-padding-x-lg;
+                    }
                 }
             }
             &:nth-last-child(2) {
@@ -53,6 +86,9 @@
                 border-right: 1px solid theme-color('primary');
                 a {
                     padding-right: $h3-font-size;
+                    @include media-breakpoint-down(xs) {
+                        padding-right: $input-btn-padding-x-lg;
+                    }
                 }
             }
             a {
@@ -61,10 +97,12 @@
                 font-size: $h7-font-size;
                 font-weight: $font-weight-bold;
                 padding: $h8-font-size $h7-font-size;
+                @include media-breakpoint-down(xs) {
+                    padding: $table-cell-padding-sm;
+                }
                 &:not([href]):not([tabindex]) {
                     color: theme-color('primary');
                 }
-               
             }
         }
     }

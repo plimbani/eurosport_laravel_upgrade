@@ -172,7 +172,7 @@
                     @include media-breakpoint-only(lg) {
                         font-size: ($font-size-base * 0.68);
                     }
-                    &.active {
+                    &.active, &:active {
                         background-color: rgba(theme-color('primary'), 0.2);
                         border-radius: $font-size-base * 2;
                         @include media-breakpoint-down(md) {

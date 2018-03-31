@@ -3,11 +3,19 @@
     right: $form-check-input-gutter;
     z-index: 1;
     min-width: 250px;
+    max-width: 370px;
+    font-size: $h6-font-size;
+    line-height: $line-height-base;
     .alert {
-        background: $gray-200;
-        border: 1px solid $gray-500;
+        padding-right: $alert-padding-x;
     }
     .close {
         right: $spacer / 2;
+        opacity: 1;
+        &:hover,
+        &:focus {
+            color: $white;
+            outline: none;
+        }
     }
 }

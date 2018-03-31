@@ -39,6 +39,12 @@
       }}
     </style>
 
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet"></link>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet"></link>
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"></link>
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet"></link>
+    <link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet"></link>
+
     <style id="antiClickjack">body{display:none !important;}</style>
     <script type="text/javascript">
         if (self === top) {

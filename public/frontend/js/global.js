@@ -15,17 +15,17 @@ $(document).ready(function() {
 	    e.stopPropagation();
 	});
 
-  $('html').click(function() {
-    $(".js-locale-selection").removeClass("show");
-  });
+	$('html').click(function() {
+		$(".js-locale-selection").removeClass("show");
+	});
 
-	$('body').on('mouseenter mouseleave', '.dropdown', function(e) {
-    var _d = $(e.target).closest('.dropdown');
-    _d.addClass('show');
-    setTimeout(function() {
-        _d[_d.is(':hover') ? 'addClass' : 'removeClass']('show');
-    }, 50);
-  });
+	$(document).on('mouseenter mouseleave', '.navbar-nav li.dropdown', function(e) {
+	    var _d = $(e.target).closest('.dropdown');
+	    _d.addClass('show');
+	    setTimeout(function() {
+	        _d[_d.is(':hover') ? 'addClass' : 'removeClass']('show');
+	    }, 50);
+	});
 
 	// Custom validation messages
 	customValidationMessages();
@@ -43,10 +43,10 @@ function customValidationMessages() {
 }
 
 function initializeList() {
+	$('.js-list-parent-div').find('.more').remove();
+	$('.js-list-parent-div').find('.less').remove();
 	$('ul.js-list').each(function() {
 		var teamsLength = $(this).find('li').length;
-		$(this).closest('.js-list-parent-div').find('.more').remove();
-		$(this).closest('.js-list-parent-div').find('.less').remove();
 		$('li', this).eq(4).nextAll().addClass('d-flex').show().removeClass('toggleable');
 		if(teamsLength > 5) {
 			$('li', this).eq(4).nextAll().removeClass('d-flex').hide().addClass('toggleable');

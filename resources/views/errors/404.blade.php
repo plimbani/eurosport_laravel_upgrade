@@ -5,7 +5,9 @@
 <!--<![endif]-->
 
 <head>
-    @include('partials.frontend.google-analytics')
+    @if($websiteDetail->google_analytics_id)
+        @include('partials.frontend.google-analytics')
+    @endif
 
     <!-- Meta -->
     @include('partials.frontend.meta', ['pageTitle' => 'Error 404 - Page not found'])
@@ -96,6 +98,8 @@
 
     <!-- Javscript required for application -->
     @include('partials.frontend.app-js')
+
+    <script src="{{ asset('frontend/js/global.js') }}"></script>
 
     {{-- Plugin JS --}}
     @yield('plugin-scripts')
