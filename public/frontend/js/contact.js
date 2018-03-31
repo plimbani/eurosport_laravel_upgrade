@@ -38,7 +38,7 @@ var Contact = function() {
                     $('.recaptcha-errorspan').show();
                 } else {
                     $('.js-contact-frm-submit-btn').addClass('is-loading');
-                    if(typeof Site.googleAnalyticsId != 'null') {
+                    if(typeof Site.googleAnalyticsId !== 'null') {
                         gtag('event', 'submit', { event_category: 'form', event_label: 'contact'});
                     }
                     $.ajax({
