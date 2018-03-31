@@ -287,13 +287,13 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
     let routesName = ['tournament_add', 'competation_format', 'pitch_capacity', 'teams_groups', 'pitch_planner', 'enlarge_pitch_planner', 'tournaments_summary_details'];
-     let data = {};
-     if (routesName.includes(to.name)) {
-         data.tournamentId = store.state.Tournament.tournamentId;
+    let data = {};
+    if (routesName.indexOf(to.name) >= 0) {
+        data.tournamentId = store.state.Tournament.tournamentId;
     }
 
     let websiteRoutes = ['website_add', 'website_homepage', 'website_teams', 'website_venue', 'website_tournament', 'website_program', 'website_stay', 'website_visitors', 'website_media', 'website_contact'];
-    if (!websiteRoutes.includes(to.name)) {
+    if (websiteRoutes.indexOf(to.name) === -1) {
         store.dispatch('ResetWebsiteDetail');
     }
 
