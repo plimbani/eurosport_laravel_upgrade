@@ -28,7 +28,7 @@
 				                </div>
 				            @endforeach
 		                @else
-		                	<p>{!! __('messages.no_photos_found') !!}</p>
+		                	<div class="no-data col-sm-12 h6 text-muted mb-0">{!! __('messages.no_photos_found') !!}</div>
 		                @endif
 		            </div>
 	            </div>
