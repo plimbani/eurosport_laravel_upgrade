@@ -130,8 +130,9 @@ export default {
       this.$root.$emit('getPitchesByTournamentFilter',this.filterKey,this.filterValue,this.filterDependentKey,this.filterDependentValue);
     },
     filteredGroupName(actualGroupName) {
-      let splittedName = actualGroupName.split('-');
-      return splittedName[2] + '-' + splittedName[3];
+      let splittedName = actualGroupName.split("-");
+      splittedName = splittedName.splice(splittedName.length-2, 2);
+      return splittedName.join('-');
     },
   }
 }
