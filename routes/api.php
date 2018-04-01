@@ -75,7 +75,6 @@ $api->version('v1', function ($api) {
     $api->post('/passwordactivate', '\Laraspace\Api\Controllers\UserController@passwordActivate');
     $api->get('tournaments', 'Laraspace\Api\Controllers\TournamentController@index');
 
-    // placings data route
     $api->post('age_group/getPlacingsData','Laraspace\Api\Controllers\AgeGroupController@getPlacingsData');
 });
 
@@ -302,4 +301,6 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
 // Website frontend API calls
 $api->version('v1', function ($api) {
     $api->get('getWebsiteMessages/{tournamentId}', 'Laraspace\Api\Controllers\PushMessagesController@getWebsiteMessages');
+
+    $api->post('tournament/getFilterDropDownData','Laraspace\Api\Controllers\TournamentController@getFilterDropDownData');
 });

@@ -293,7 +293,7 @@ router.beforeEach((to, from, next) => {
     }
 
     let websiteRoutes = ['website_add', 'website_homepage', 'website_teams', 'website_venue', 'website_tournament', 'website_program', 'website_stay', 'website_visitors', 'website_media', 'website_contact'];
-    if (!websiteRoutes.includes(to.name)) {
+    if (websiteRoutes.indexOf(to.name) === -1) {
         store.dispatch('ResetWebsiteDetail');
     }
 

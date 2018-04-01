@@ -42,6 +42,9 @@ class MediaController extends Controller
         $websiteId = Landlord::getTenants()['website']->id;
         $pageDetail = $this->pageService->getPageDetails($this->mediaPageName, $websiteId);
 
+        $photos = $this->mediaContract->getPhotos($websiteId);
+        $varsForView['photos'] = $photos['data'];
+
         // Page title
         $varsForView['pageTitle'] = $pageDetail->title;
 

@@ -17,4 +17,11 @@ interface WebsiteTournamentContract
    * @return response
    */
   public function getPageData($websiteId);
+
+  /*
+   * Get get all history years
+   *
+   * @return response
+   */
+  public function getAllHistoryYears($websiteId);
 }

@@ -1,21 +1,42 @@
-@extends('layouts.frontend')
+@extends('layouts.frontend.inner')
+
+@section('hero-section')
+	<div class="col-lg-8 club_info">
+		<h1 class="club_info-title">{!! __('messages.teams') !!}</h1>
+	</div>
+@endsection
 
 @section('content')
-	<h2 class="text-center">{!! __('messages.teams') !!}</h2>
-	<div class="container teams-page">
-		<div class="row">
-			@foreach($ageCategories as $category)
-			<div class="col-sm-3">
-				<h3>{{ $category->name }}</h3>
-				<div>
-					<ul class="js-list">
-						@foreach($category->teams as $team)
-							<li class="team-item">{{ $team->name }} ({{ $team->country->country_code }}) <span class="flag-icon flag-icon-{{ $team->country->country_flag }}"></span></li>
+	<!-- Content wrapper -->
+	<div class="content__wrapper">
+	    <div class="container">
+	        <div class="row my-5">
+	            <div class="col-lg-12 club_content tournament-list {{ $brand_font_class }}">
+					<div class="row">
+						@foreach($ageCategories as $category)
+							<div class="col-sm-6 col-md-3 col-lg-3 mb-5">
+								<h3 class="mb-0 text-primary font-weight-bold">{{ $category->name }}</h3>
+								<hr class="hr mt-0 mb-0 bg-primary">
+								<div class="js-list-parent-div">
+									@if(count($category->teams) > 0)
+										<ul class="js-list list-unstyled">
+											@foreach($category->teams as $team)
+												<li class="team-item d-flex justify-content-between">{{ $team->name }} ({{ $team->country->country_code }}) <span class="flag-icon flag-icon-{{ $team->country->country_flag }}"></span></li>
+											@endforeach
+										</ul>
+									@else
+										<div class="no-data h6 text-muted mb-0">No team found.</div>
+									@endif
+								</div>
+							</div>
 						@endforeach
-					</ul>
-				</div>
-			</div>
-			@endforeach
-		</div>
+						@if(count($ageCategories) == 0)
+							<div class="no-data col-sm-12 h6 text-muted mb-0 mt-0">No age category found.</div>
+						@endif
+					</div>
+	            </div>
+	        </div>
+	    </div>
 	</div>
+	<!-- End of content wrapper -->
 @endsection

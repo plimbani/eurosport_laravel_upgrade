@@ -1,0 +1,61 @@
+.select2_override {
+    .select2-container--default {
+        &.select2-container--open {
+            .select2-results__options {
+                font-size: $font-size-sm;
+            }
+            .select2-selection--single {
+                .select2-selection__arrow {
+                    b {
+                        border-color: transparent transparent $gray-900 transparent;
+                        border-width: 0 ($border-width * 4) ($border-width * 5) ($border-width * 4);
+                    }
+                }
+            }
+        }
+        &:focus {
+            outline: none;
+        }
+        .select2-selection--single {
+            background-image: linear-gradient(-180deg, $gray-100 0%, $gray-200 100%);
+            border: $border-width solid $gray-400;
+            border-radius: $border-radius-lg;
+            height: 44px;
+            &:focus-within {
+                background-image: linear-gradient(180deg, #F0F0F0 0%, #D3D3D3 100%);
+                box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.1);
+                outline: none;
+            }
+            .select2-selection__arrow {
+                height: 42px;
+                width: 50px;
+                border-left: $border-width solid $gray-400;
+                b {
+                    border-color: $gray-900 transparent transparent transparent;
+                }
+            }
+            .select2-selection__rendered {
+                line-height: $line-height-base-custom;
+                font-size: $font-size-sm;
+                padding: $custom-select-padding-y ($custom-select-indicator-padding * 3.125) $custom-select-padding-y $custom-select-padding-x;
+            }
+        }
+    }
+}
+
+.select2-container--default {
+    &.select2-container--open {
+        .select2-results__options {
+            font-size: $font-size-sm;
+        }
+    }
+}
+
+.select2-results__option {
+    padding: 0 $custom-select-padding-x 0 $custom-select-padding-x;
+    line-height: $line-height-base;
+}
+
+.select2-results__option--highlighted[aria-selected] {
+    background-color: #1e90ff;
+}

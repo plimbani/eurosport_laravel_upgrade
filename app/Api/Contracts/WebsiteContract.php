@@ -10,7 +10,7 @@ interface WebsiteContract
      * @return websites array
      */
     public function index();
-	
+
     /*
      * Get user accessible websites
      *
@@ -42,6 +42,13 @@ interface WebsiteContract
 
     /*
      * Get image path
+     *
+     * @return response
+     */
+    public function getImagesPath();
+
+    /*
+     * Get configuration detail
      *
      * @return response
      */
@@ -102,7 +109,7 @@ interface WebsiteContract
      * @return response
      */
     public function uploadOrganiserLogo($request);
-    
+
     /*
      * Get website details
      *

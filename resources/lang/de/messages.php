@@ -29,10 +29,11 @@
 		'message_subject' => 'Betreffzeile / Nachrichtenbetreff',
 		'your_message' => 'Ihre Nachricht',
 		'send' => 'senden / versenden',
-		'contact_confirmation_message' => 'Vielen Dank für Ihre Kontaktaufnahme. Wir werden uns in Kürze mit 
+		'contact_confirmation_message' => 'Vielen Dank für Ihre Kontaktaufnahme. Wir werden uns in Kürze mit
 											Ihnen in Verbindung setzen.',
 		'404_page_title' => 'Fehlermeldung 404 - Seite kann nicht gefunden werden',
 		'404_page_message' => 'Bitte vergewissern Sie sich, dass Sie die korrekte Webadresse eingegeben haben.
-		</br>Die Seite, die Sie suchen, kann nicht angezeigt werden, da sie möglicherweise nicht mehr existiert oder verschoben worden ist</br>Bitte klicken Sie hier um zur Startseite zurückzukehren // Sie können durch <a href=":url">Klick</a> auf das Logo wieder auf die Homepage zurückkehren'
+		</br>Die Seite, die Sie suchen, kann nicht angezeigt werden, da sie möglicherweise nicht mehr existiert oder verschoben worden ist</br>Bitte klicken Sie hier um zur Startseite zurückzukehren // Sie können durch <a href=":url">Klick</a> auf das Logo wieder auf die Homepage zurückkehren',
+		'match_schedule_message' => 'The match schedule will be available 2-3 weeks before the tournament begins.',
 	]
 ?>
