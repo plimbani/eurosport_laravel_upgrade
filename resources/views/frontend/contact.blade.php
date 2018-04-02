@@ -78,8 +78,8 @@
 
 
 @section('page-scripts')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js" type="text/javascript"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/additional-methods.min.js" type="text/javascript"></script>
-    <script src='https://www.google.com/recaptcha/api.js'></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js" type="text/javascript"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/additional-methods.min.js" type="text/javascript"></script>
+    <script src='//www.google.com/recaptcha/api.js'></script>
 	<script src="{{ asset('frontend/js/contact.js') }}"></script>
 @endsection

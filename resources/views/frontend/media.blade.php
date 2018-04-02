@@ -1,7 +1,7 @@
 @extends('layouts.frontend.inner')
 
 @section('plugin-styles')
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.css" />
+	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.css" />
 @endsection
 
 @section('hero-section')
@@ -39,6 +39,6 @@
 @endsection
 
 @section('page-scripts')
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.js"></script>
 	<script src="{{ asset('frontend/js/media.js') }}"></script>
 @endsection
