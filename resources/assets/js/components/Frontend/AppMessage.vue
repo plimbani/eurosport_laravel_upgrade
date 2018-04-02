@@ -19,9 +19,6 @@
             };
         },
         computed: {
-            getRecentMessages() {
-                return this.messages;
-            },
         },
         methods: {
             dismissMessage(messageId) {

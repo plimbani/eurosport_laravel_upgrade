@@ -27,6 +27,18 @@ $(document).ready(function() {
 	    }, 50);
 	});
 
+	$(document).on('click', '.js-menu-open-button, .js-menu-close-button', function(e) {
+		if($('.js-header-menus').hasClass('show')) {
+			$('.js-header-menus').collapse('hide');
+			$('.js-menu-close-button').parent().hide();
+			$('.js-menu-open-button').parent().show();
+		} else {
+			$('.js-header-menus').collapse('show');
+			$('.js-menu-open-button').parent().hide();
+			$('.js-menu-close-button').parent().show();
+		}
+	});
+
 	// Custom validation messages
 	customValidationMessages();
 
