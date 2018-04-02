@@ -843,8 +843,6 @@ class TournamentService implements TournamentContract
       foreach ($venue as $location) {
         $address = $location->address1.', '.$location->city.', '.$location->postcode.', '.$location->country;
         try {
-          /*$geocode = Geocoder::geocode("$name, Tanzania")->toArray();
-          return Response::json($geocode);*/
           $locationDetails = app('geocoder')->geocode($address)->get();
           $coordinates['id'] = $location->id;
           foreach($locationDetails as $loc)
@@ -857,10 +855,7 @@ class TournamentService implements TournamentContract
             'venue_coordinates' => $coodinates['venue_coordinates']
           ];
           Venue::where('id',$coordinates['id'])->update($updateData);
-          return;
         } catch (\Exception $e) {
-          // echo $e->getMessage();
-          return;
         }
       }
     }

@@ -5,7 +5,9 @@
 <!--<![endif]-->
 
 <head>
-    @include('partials.frontend.google-analytics')
+    @if($websiteDetail->google_analytics_id)
+        @include('partials.frontend.google-analytics')
+    @endif
 
     <!-- Meta -->
     @include('partials.frontend.meta')

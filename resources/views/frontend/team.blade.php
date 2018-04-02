@@ -25,13 +25,13 @@
 											@endforeach
 										</ul>
 									@else
-										<div class="no-data h6 text-muted">No team found.</div>
+										<div class="no-data h6 text-muted mb-0">No team found.</div>
 									@endif
 								</div>
 							</div>
 						@endforeach
 						@if(count($ageCategories) == 0)
-							<div class="no-data col-sm-12 h6 text-muted">No age category found.</div>
+							<div class="no-data col-sm-12 h6 text-muted mb-0 mt-0">No age category found.</div>
 						@endif
 					</div>
 	            </div>

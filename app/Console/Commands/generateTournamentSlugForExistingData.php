@@ -44,7 +44,7 @@ class generateTournamentSlugForExistingData extends Command
     {
         $tournaments = Tournament::all()->toArray();
         foreach ($tournaments as $tournament) {
-            $slug = $this->tournamentRepoObj->generateSlug($tournament['name'].Carbon::createFromFormat('d/m/Y', $tournament['start_date'])->year,'');
+            $slug = $this->tournamentRepoObj->generateSlug($tournament['name'].Carbon::createFromFormat('d/m/Y', $tournament['start_date'])->year);
             DB::table('tournaments')
                 ->where('id', $tournament['id'])
                 ->update([
