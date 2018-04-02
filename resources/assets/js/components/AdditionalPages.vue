@@ -30,7 +30,7 @@
 					</div>
 				</draggable>
 			</div>
-			<p class="pt-0 help-block text-muted" v-show="pages.length === 0">{{ $lang.no_additional_page_title }}</p>
+			<p class="pt-0 text-muted" v-show="pages.length === 0">{{ $lang.no_additional_page_title }}</p>
 		</div>
 		<div class="col-sm-6" v-show="currentPageOperation == 'edit' || isAdmin">
 			<div class="row">
