@@ -12,7 +12,7 @@ class CountriesTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('countries')->truncate();
+        DB::table('countries')->delete();
         DB::table('countries')->insert([
           [ 'name' => 'ALBANIA', 'country_code' => 'AL ', 'country_flag' => 'al', 'logo' => '/assets/img/flags/al.gif', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
           [ 'name' => 'AUSTRIA', 'country_code' => 'AT', 'country_flag' => 'at', 'logo' => '/assets/img/flags/austr.gif', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],

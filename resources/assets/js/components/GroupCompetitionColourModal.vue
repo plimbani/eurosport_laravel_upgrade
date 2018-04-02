@@ -5,7 +5,7 @@
           <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">{{ $lang.pitch_planner_group_colours_title }}</h5>
             <div class="d-flex align-items-center">
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="closeModal()">
+              <button type="button" class="close" @click="closeModal()">
                 <span aria-hidden="true">×</span>
               </button>
             </div>
