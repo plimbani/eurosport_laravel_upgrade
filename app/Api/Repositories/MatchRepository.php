@@ -663,7 +663,6 @@ class MatchRepository
 
         $competition = Competition::find($tournamentData['competationId']);
         $splittedCompetitionActualName = explode('-', $competition->actual_name);
-        $inititalOfHolidingName = isset($splittedCompetitionActualName[2]) ? $splittedCompetitionActualName[2] . '-' : '';
         $inititalOfHolidingName = $competition->actual_competition_type == 'Round Robin' ? 'Group-' : 'Pos-';
 
         $home_team_arr = [];

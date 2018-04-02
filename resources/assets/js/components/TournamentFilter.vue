@@ -169,7 +169,7 @@ export default {
               newOption.push({"id":opt.id,"name": opt.name,"class":"age","data":opt.id});
               _.map(opt.competition, function(comp){
                  let grpName =comp.name.split("-");
-                      grpName = grpName.splice(grpName.length-2,grpName.length);
+                      grpName = grpName.splice(grpName.length-2,2);
                       grpName =grpName.join('-');
         
                 newOption.push({"id":comp.id, "name": grpName, "class":"group", "data":comp});

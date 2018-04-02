@@ -75,6 +75,7 @@ $api->version('v1', function ($api) {
     $api->post('/passwordactivate', '\Laraspace\Api\Controllers\UserController@passwordActivate');
     $api->get('tournaments', 'Laraspace\Api\Controllers\TournamentController@index');
 
+    // placings data route
     $api->post('age_group/getPlacingsData','Laraspace\Api\Controllers\AgeGroupController@getPlacingsData');
 });
 
@@ -215,5 +216,3 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
 
     $api->post('getSignedUrlForUsersTableData', 'Laraspace\Api\Controllers\UserController@getSignedUrlForUsersTableData');
 });
-
-
