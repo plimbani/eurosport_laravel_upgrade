@@ -1,6 +1,7 @@
 module.exports= {
-  no_information_available: 'No information available',
-  matches: {
+  'no_information_available': 'No information available',
+  'close': 'Close',
+  'matches': {
     'match_overview': 'Match overview',
     'all_dates': 'All dates',
     'filter_by': 'Filter by',
@@ -16,7 +17,7 @@ module.exports= {
     'placing': 'Placing',
     'location': 'Location',
     'view_match_result': 'Viewing {countFrom}-{countTo} of {totalCount} results',
-    'result_grid': 'result grid',
+    'results_grid': 'results grid',
     'standings': 'standings',
     'back_to_match_list': 'Back to match list',
     'n_a': 'N/A',
@@ -31,7 +32,7 @@ module.exports= {
     'points': 'Points',
     'no_matches_found': 'No matches found.',
   },
-  tournament: {
+  'tournament': {
     'category_name': 'Category name',
     'age_category': 'Age category',
     'placings': 'Placings',

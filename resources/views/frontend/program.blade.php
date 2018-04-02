@@ -34,12 +34,12 @@
 							  	@endforeach
 							</ul>
 						@else
-							<div class="no-data h6 text-muted mb-0 mt-4">No item found.</div>
+							<div class="no-data h6 text-muted mb-0 mt-4">{!! __('messages.no_item_found') !!}</div>
 						@endif
 					@endforeach
 	            </div>
 	            @if(count($itineraries) == 0)
-					<div class="no-data col-sm-12 h6 text-muted mb-0 mt-0">No itineraries found.</div>
+					<div class="no-data col-sm-12 h6 text-muted mb-0 mt-0">{!! __('messages.no_itineraries_found') !!}</div>
 				@endif
 	        </div>
 	    </div>

@@ -20,13 +20,13 @@
 					@endif
 
 					@if($publicTransport)
-					<h2>{!! __('messages.visitors_public_transport') !!}</h2>
-					{!! $publicTransport !!}
+						<h2>{!! __('messages.visitors_public_transport') !!}</h2>
+						{!! $publicTransport !!}
 					@endif
 
 					@if($tips)
-					<h2>{!! __('messages.visitors_tips_for_visitors') !!}</h2>
-					{!! $tips !!}
+						<h2>{!! __('messages.visitors_tips_for_visitors') !!}</h2>
+						{!! $tips !!}
 					@endif
 	            </div>
 	        </div>

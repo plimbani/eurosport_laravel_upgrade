@@ -1,10 +1,19 @@
 <!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-primary">
+<nav class="navbar navbar-expand-lg navbar-primary js-header-menu-section">
     <div class="container">
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-            <i class="fas fa-bars"></i>
-        </button>
-        <div class="collapse navbar-collapse justify-content-lg-center" id="navbarText">
+        <div>
+            <button class="navbar-toggler js-menu-open-button" type="button">
+                <i class="fas fa-bars"></i>
+            </button>
+            <span>Main Menu</span>
+        </div>
+        <div style="display: none;">
+            <button class="navbar-toggler js-menu-close-button" type="button">
+                <i class="fal fa-times"></i>
+            </button>
+            <span>Close</span>
+        </div>
+        <div class="collapse navbar-collapse justify-content-lg-center js-header-menus">
             <ul class="navbar-nav">
                 @foreach($menu_items as $item)
                     @if(!in_array($item['page_name'], config('wot.hide_header_menus')))

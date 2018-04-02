@@ -10,7 +10,7 @@
     @endif
 
     <!-- Meta -->
-    @include('partials.frontend.meta', ['pageTitle' => 'Error 404 - Page not found'])
+    @include('partials.frontend.meta', ['pageTitle' => __('messages.404_page_title')])
     <!-- END Meta -->
 
     <!-- Icons -->
@@ -55,7 +55,7 @@
                         </div>
                     </div>
                     <div class="col-lg-8 club_info">
-                        <h1 class="club_info-title">Error 404 - Page not found</h1>
+                        <h1 class="club_info-title">{!! __('messages.404_page_title') !!}</h1>
                     </div>
                 </div>
             </div>
