@@ -30,7 +30,7 @@
 		'your_message' => 'Your message',
 		'send' => 'Send',
 		'contact_confirmation_message' => 'Thanks for getting in touch. Someone will get back to you shortly.',
-		'404_page_title' => 'Error 404 - page not found',
+		'404_page_title' => 'Error 404 - Page not found',
 		'404_page_message' => 'This might be because you have typed the web address incorrectly, or the page you were looking for may have been moved, updated or deleted. <a href=":url">Click here</a> to return to the homepage.',
 
 		'contact_form_name' => 'Your name',
@@ -61,6 +61,10 @@
 		'euro_sportring' => 'Euro Sportring',
 		'language' => 'Language',
 		'hero_image' => 'Hero image',
-		'tournament_sponsored_by' => 'Tournament sponsored by'
+		'tournament_sponsored_by' => 'Tournament sponsored by',
+		'no_item_found' => 'No item found.',
+		'no_itineraries_found' => 'No itineraries found.',
+		'no_team_found' => 'No team found.',
+		'no_age_category_found' => 'No age category found.',
 	]
 ?>

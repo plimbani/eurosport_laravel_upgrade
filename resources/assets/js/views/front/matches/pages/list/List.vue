@@ -34,14 +34,14 @@
             </div>
             <div class="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 select2_override mt-0 mb-2 mt-sm-0 mt-md-2 my-lg-0 my-xl-0" v-show="filterBy == 'category_and_competition'">
                 <select class="form-control js-category-and-competition">
-                    <option value="">Select</option>
+                    <option value="">{{ $t('matches.select') }}</option>
                     <option v-for="option in filterOptions" v-bind:data-val="setFilterOption(option)" v-bind:id="option.id" v-bind:value="setFilterOption(option)" :class="option.class">{{ option.name }}</option>
                 </select>
             </div>
             <div class="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 select2_override mt-0 mb-2 mt-sm-0 mt-md-2 my-lg-0 my-xl-0"  v-show="filterBy != 'category_and_competition'">
               <label class="custom_select_box d-block mb-0" for="location_team_filter">
                 <select id="location_team_filter" class="border-0" v-model="selectedOption" @change="setFilterOptions()">
-                  <option value="">Select</option>
+                  <option value="">{{ $t('matches.select') }}</option>
                   <option :value="option.id" v-for="option in filterOptions" v-bind:value="option">{{ option.name }}</option>
                 </select>
               </label>
@@ -139,7 +139,7 @@
                 options.push({ "id": option.id, "name": option.name, "class": "category", "data": option.id });
                 _.map(option.competition, function(competition) {
                   let groupName = competition.name.split("-");
-                  groupName = groupName.splice(2, groupName.length);
+                  groupName = groupName.splice(groupName.length-2, 2);
                   groupName = groupName.join('-');
                   options.push({ "id": competition.id, "name": groupName, "class":"competition", "data":competition });
                 });
@@ -202,7 +202,6 @@
             vm.$root.$emit('setMatchesForMatchList', _.cloneDeep(response.data.data));
           },
           (error) => {
-            console.log('Error in getting matches.');
           }
         )
       },
@@ -227,7 +226,6 @@
             }
           },
           (error) => {
-            alert('Error in getting matches');
           }
         )
       },

@@ -75,7 +75,7 @@
 
                             @endif 
                         
-                       <?php if(strpos($report->competition_actual_name, 'Pos') !== false && strpos($report->displayHomeTeamPlaceholder, "." ) == false)
+                        <?php if(strpos($report->competition_actual_name, 'Pos') !== false && strpos($report->displayHomeTeamPlaceholder, "." ) == false)
                              $homeTeamDisplay = 'Pos-' . $report->displayHomeTeamPlaceholder; ?>
 
                         
@@ -113,7 +113,7 @@
                                 <?php $awayTeamDisplay = $report->displayAwayTeamPlaceholder ?>
                         
                         @endif
-                       <?php if(strpos($report->competition_actual_name, 'Pos') !== false && strpos($report->displayAwayTeamPlaceholder, "." ) == false)
+                        <?php if(strpos($report->competition_actual_name, 'Pos') !== false && strpos($report->displayAwayTeamPlaceholder, "." ) == false)
                              $awayTeamDisplay = 'Pos-' . $report->displayAwayTeamPlaceholder; ?>
 
                         
