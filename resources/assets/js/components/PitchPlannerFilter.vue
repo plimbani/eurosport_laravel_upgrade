@@ -131,7 +131,7 @@ export default {
     },
     filteredGroupName(actualGroupName) {
       let splittedName = actualGroupName.split("-");
-      splittedName = splittedName.splice(splittedName.length-2, splittedName.length);
+      splittedName = splittedName.splice(splittedName.length-2, 2);
       return splittedName.join('-');
     },
   }
