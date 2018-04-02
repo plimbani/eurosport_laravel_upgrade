@@ -34,7 +34,7 @@
 							  	@endforeach
 							</ul>
 						@else
-							<div class="no-data h6 text-muted mb-0 mt-4">{!! __('messages.no_item_found') !!}</div>
+							<div class="no-data h6 text-muted mb-0 py-4">{!! __('messages.no_item_found') !!}</div>
 						@endif
 					@endforeach
 	            </div>
