@@ -4,7 +4,7 @@
         font-size: $font-size-sm;
     }
     .radio {
-        padding-left: $list-inline-padding * 2;
+        padding-left: $list-inline-padding;
         @include media-breakpoint-down(xs) {
             padding-left: ($list-inline-padding / 2);
         }

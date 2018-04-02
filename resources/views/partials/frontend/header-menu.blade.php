@@ -2,16 +2,16 @@
 <nav class="navbar navbar-expand-lg navbar-primary js-header-menu-section">
     <div class="container">
         <div>
-            <button class="navbar-toggler js-menu-open-button" type="button">
-                <i class="fas fa-bars"></i>
+            <button class="navbar-toggler js-menu-open-button border-0 p-0" type="button">
+                <i class="fal fa-bars"></i>
             </button>
-            <span>Main Menu</span>
+            <span class="d-lg-none h6 text-white text-uppercase">Main Menu</span>
         </div>
-        <div style="display: none;">
-            <button class="navbar-toggler js-menu-close-button" type="button">
+        <div style="display: none;" class="close_menu_link text-primary">
+            <button class="navbar-toggler js-menu-close-button border-0 text-primary p-0" type="button">
                 <i class="fal fa-times"></i>
             </button>
-            <span>Close</span>
+            <span class="h6 text-uppercase">Close</span>
         </div>
         <div class="collapse navbar-collapse justify-content-lg-center js-header-menus">
             <ul class="navbar-nav">
@@ -23,7 +23,7 @@
                                 <a class="nav-link dropdown-toggle" href="{{ route(config('wot.page_routes')[$item['name']], ['domain' => $websiteDetail->domain_name]) }}" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{!! __('messages.' . $item['name']) !!}</a>
                                 <div class="dropdown-menu">
                                     <ul>
-                                        <li class="nav-value">
+                                        <li class="nav-value d-none d-lg-block">
                                             <a href="{{ route(config('wot.page_routes')[$item['name']], ['domain' => $websiteDetail->domain_name]) }}" class="current-tab">{!! __($item['title']) !!}</a>
                                         </li>
                                         @foreach($item['children'] as $childItem)

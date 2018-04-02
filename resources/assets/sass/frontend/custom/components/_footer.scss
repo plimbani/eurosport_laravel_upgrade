@@ -46,9 +46,12 @@ footer {
             font-size: 10px;
             text-transform: uppercase;
             color: theme-color('dark');
+            @include media-breakpoint-down(xs) {
+                margin: $form-check-input-gutter 0;
+            }
             li {
                 a {
-                	text-decoration: underline;
+                    text-decoration: underline;
                     &:hover {
                         opacity: 0.5;
                     }
@@ -59,9 +62,9 @@ footer {
             }
         }
         &-logo {
-        	img {
-        		height: 44px;
-        	}
+            img {
+                height: 44px;
+            }
         }
     }
 }
