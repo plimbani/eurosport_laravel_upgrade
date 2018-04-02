@@ -23,7 +23,7 @@
         <span v-if="matchesGrid.length == 0 && competitionDetail.type != 'Elimination'">{{ $t('matches.no_information_available') }}</span>
     </div>
 
-    <div class="table-responsive">    
+    <div class="table-responsive">
       <table class="table" v-if="matchesGrid.length > 0 && competitionDetail.type != 'Elimination'">
         <thead>
           <tr>
