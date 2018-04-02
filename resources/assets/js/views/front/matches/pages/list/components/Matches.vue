@@ -65,7 +65,7 @@
         <div class="match-pagination-list" v-if="matchData.length > 0">
           <paginate-links for="matchlist" :show-step-links="true" :limit="2" :async="true"></paginate-links>
         </div>
-      </div>      
+      </div>
     </div>
 </template>
 
