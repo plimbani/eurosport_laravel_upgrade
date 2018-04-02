@@ -241,10 +241,10 @@ return [
     'visitors' => ['tourist.page.details'],
   ],
 	'font_files' => [
-		'Montserrat' => 'https://fonts.googleapis.com/css?family=Montserrat',
-		'Roboto' => 'https://fonts.googleapis.com/css?family=Roboto',
-		'Lato' => 'https://fonts.googleapis.com/css?family=Lato',
-		'PT Sans' => 'https://fonts.googleapis.com/css?family=PT+Sans',
+		'Montserrat' => '//fonts.googleapis.com/css?family=Montserrat',
+		'Roboto' => '//fonts.googleapis.com/css?family=Roboto',
+		'Lato' => '//fonts.googleapis.com/css?family=Lato',
+		'PT Sans' => '//fonts.googleapis.com/css?family=PT+Sans',
 	],
   'page_routes' => [
     'home' => 'home.page.details',
