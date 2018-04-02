@@ -32,10 +32,12 @@ $(document).ready(function() {
 			$('.js-header-menus').collapse('hide');
 			$('.js-menu-close-button').parent().hide();
 			$('.js-menu-open-button').parent().show();
+			$('.js-header-menu-section').css('background', 'rgba(30, 70, 157, 0.9)');
 		} else {
 			$('.js-header-menus').collapse('show');
 			$('.js-menu-open-button').parent().hide();
 			$('.js-menu-close-button').parent().show();
+			$('.js-header-menu-section').css('background', '#EFEFEF');
 		}
 	});
 
