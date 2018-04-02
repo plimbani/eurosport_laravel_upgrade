@@ -6,6 +6,11 @@
     max-width: 370px;
     font-size: $h6-font-size;
     line-height: $line-height-base;
+    @include media-breakpoint-down(xs) {
+        top: 0.5rem;
+        right: 0.5rem;
+        min-width: 230px;
+    }
     .alert {
         padding-right: $alert-padding-x;
     }
