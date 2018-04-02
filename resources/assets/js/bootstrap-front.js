@@ -1,3 +1,4 @@
+import 'babel-polyfill';
 // load vuex i18n module
 import vuexI18n from 'vuex-i18n';
 import VuePaginate from 'vue-paginate';
