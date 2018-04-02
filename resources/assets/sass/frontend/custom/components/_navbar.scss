@@ -3,7 +3,7 @@
     top: 0;
     right: 0;
     left: 0;
-    z-index: 1;   
+    z-index: 1;
     @include media-breakpoint-up(lg) {
         height: $header-height;
     }
@@ -16,7 +16,7 @@
     }
     .navbar-nav {
         .nav-link {
-            color: $navbar-dark-color;       
+            color: $navbar-dark-color;
             font-weight: 700;
             text-transform: uppercase;
             padding-left: ($navbar-nav-link-padding-x / 1.5);
@@ -38,7 +38,7 @@
         .nav-link.active {
             color: $navbar-dark-active-color;
             background: rgba($navbar-dark-active-color, 0.25);
-            border-radius: $font-size-base * 2;           
+            border-radius: $font-size-base * 2;
         }
     }
     .navbar-toggler {
@@ -140,7 +140,7 @@
 
 @include media-breakpoint-down(md) {
     .navbar-primary {
-        .navbar-toggler{
+        .navbar-toggler {
             font-size: $h6-font-size;
         }
         .navbar-nav {
