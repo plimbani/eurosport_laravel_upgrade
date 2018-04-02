@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "77665844e21d64373905d306f7ad5482",
+    "content-hash": "43ed061e7bdf74c90e5a0b54684ca3ad",
     "packages": [
         {
             "name": "arcanedev/log-viewer",
@@ -4707,7 +4707,7 @@
         },
         {
             "name": "toin0u/geocoder-laravel",
-            "version": "1.1.2",
+            "version": "1.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/geocoder-php/GeocoderLaravel.git",
@@ -6677,7 +6677,8 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "dingo/api": 20
+        "dingo/api": 20,
+        "toin0u/geocoder-laravel": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

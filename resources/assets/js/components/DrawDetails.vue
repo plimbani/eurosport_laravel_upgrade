@@ -297,7 +297,7 @@ export default {
 
             this.currentCompetationId = this.otherData.DrawId
 
-            if(Object.keys(tempMatchdata).length !== 0) {
+            if(tempMatchdata.length !== 0) {
 
                let TeamData = []
                let ResultData = []
