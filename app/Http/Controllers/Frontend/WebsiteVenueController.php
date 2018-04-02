@@ -5,14 +5,14 @@ namespace Laraspace\Http\Controllers\Frontend;
 use Landlord;
 use Illuminate\Http\Request;
 use Laraspace\Api\Services\PageService;
-use Laraspace\Api\Contracts\VenueContract;
+use Laraspace\Api\Contracts\WebsiteVenueContract;
 
 class WebsiteVenueController extends Controller
 {
     /**
-     * @var VenueContract
+     * @var WebsiteVenueContract
      */
-    protected $venueContract;
+    protected $websiteVenueContract;
 
     /**
      * @var Venue page name
@@ -24,10 +24,10 @@ class WebsiteVenueController extends Controller
      *
      * @return void
      */
-    public function __construct(VenueContract $venueContract, PageService $pageService)
+    public function __construct(WebsiteVenueContract $websiteVenueContract, PageService $pageService)
     {
         $this->pageService = $pageService;
-        $this->venueContract = $venueContract;
+        $this->websiteVenueContract = $websiteVenueContract;
         $this->venuePageName = 'venue';
     }
 
@@ -44,7 +44,9 @@ class WebsiteVenueController extends Controller
 
         // Page title
         $varsForView['pageTitle'] = $pageDetail->title;
-
+        $varsForView['locations'] = $this->websiteVenueContract->getLocations($websiteId)['data'];
+        $varsForView['markers'] = $this->websiteVenueContract->getMarkers($websiteId)['data'];
+        
         return view('frontend.venue', $varsForView);
     }
 }

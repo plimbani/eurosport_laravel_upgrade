@@ -42,8 +42,11 @@ class ContactController extends Controller
         $websiteId = Landlord::getTenants()['website']->id;
         $pageDetail = $this->pageService->getPageDetails($this->contactPageName, $websiteId);
 
+        $contactPageDetail = $this->contactContract->getContactDetails($websiteId);
+
         // Page title
         $varsForView['pageTitle'] = $pageDetail->title;
+        $varsForView['contactPageDetail'] = $contactPageDetail['data'];
 
         return view('frontend.contact', $varsForView);
     }
@@ -53,10 +56,14 @@ class ContactController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function submitEnquiry(Request $request)
+    public function submitInquiry(Request $request)
     {
-        $varsForView = [];
+        $inquiryDetail = $this->contactContract->saveInquiryDetails($request);
 
-        return view('frontend.contact', $varsForView);
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Inquiry has been submitted'
+        ]);
     }
+
 }

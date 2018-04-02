@@ -56,7 +56,7 @@ class StayController extends Controller
       $websiteId = Landlord::getTenants()['website']->id;
       $pageDetail = $this->pageService->getPageDetails($this->stayPageName, $websiteId);
       $varsForView['stayContent'] = $pageDetail;
-      
+
       $pageParentId = $pageDetail->id;
       $additionalPages = $this->pageService->getAdditionalPagesByParentId($pageParentId, $websiteId);
       $varsForView['additionalPages'] = $additionalPages;
@@ -77,9 +77,13 @@ class StayController extends Controller
       $websiteId = Landlord::getTenants()['website']->id;
       $pageDetail = $this->pageService->getPageDetails($this->mealsPageName, $websiteId);
       $pageParentId = $pageDetail->parent_id;
-      
+
       $parentPage = Page::find($pageParentId);
       $varsForView['mealsContent'] = $pageDetail;
+
+      $additionalPages = $this->pageService->getAdditionalPagesByParentId($pageParentId, $websiteId);
+      $varsForView['additionalPages'] = $additionalPages;
+
       // page title
       $varsForView['pageTitle'] = $parentPage->title . ' - ' . $pageDetail->title;
 
@@ -100,6 +104,10 @@ class StayController extends Controller
       $parentPage = Page::find($pageParentId);
 
       $varsForView['accommodationContent'] = $pageDetail;
+
+      $additionalPages = $this->pageService->getAdditionalPagesByParentId($pageParentId, $websiteId);
+      $varsForView['additionalPages'] = $additionalPages;
+
       // page title
       $varsForView['pageTitle'] = $parentPage->title . ' - ' . $pageDetail->title;
 
@@ -118,6 +126,7 @@ class StayController extends Controller
       $parentPageDetail = $this->pageService->getPageDetails($this->stayPageName, $websiteId);
       $page = Page::where('parent_id', $parentPageDetail->id)
                     ->where('website_id', $websiteId)
+                    ->where('is_published', 1)
                     ->where('page_name', $additionalPageName)
                     ->first();
 
@@ -126,6 +135,10 @@ class StayController extends Controller
       }
 
       $varsForView['additionalPage'] = $page;
+
+      $additionalPages = $this->pageService->getAdditionalPagesByParentId($parentPageDetail->id, $websiteId);
+      $varsForView['additionalPages'] = $additionalPages;
+
       // page title
       $varsForView['pageTitle'] = $parentPageDetail->title . ' - ' . $page->title;
 

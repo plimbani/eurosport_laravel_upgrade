@@ -47,4 +47,16 @@ class WebsiteTournamentService implements WebsiteTournamentContract
 
     return ['data' => $data, 'status_code' => '200', 'message' => 'All data'];
   }
+
+  /*
+   * Get get all history years
+   *
+   * @return response
+   */
+  public function getAllHistoryYears($websiteId)
+  {
+    $data = $this->websiteTournamentRepo->getAllHistoryYears($websiteId);
+
+    return ['data' => $data, 'status_code' => '200', 'message' => 'All data'];
+  }
 }

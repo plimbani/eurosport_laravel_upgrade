@@ -32,6 +32,7 @@
 		'contact_confirmation_message' => 'Děkujeme za Váš kontakt, budeme Vás brzy kontaktovat',
 		'404_page_title' => 'Error 404 - page not found',
 		'404_page_message' => 'Může to být způsobeno tím, že jste zadali webovou adresu nesprávně nebo že
-stránka, kterou jste hledali, mohla být přesunuta, aktualizována nebo odstraněna. <a href=":url">Klikněte zde</a> pro návrat na domovskou stránku.'
+stránka, kterou jste hledali, mohla být přesunuta, aktualizována nebo odstraněna. <a href=":url">Klikněte zde</a> pro návrat na domovskou stránku.',
+		'match_schedule_message' => 'The match schedule will be available 2-3 weeks before the tournament begins.',
 	]
 ?>

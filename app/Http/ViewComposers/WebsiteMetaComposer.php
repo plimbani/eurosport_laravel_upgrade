@@ -27,7 +27,9 @@ class WebsiteMetaComposer
    */
   public function compose(View $view)
   {
-    $website = Landlord::getTenants()['website'];
+    $domain = $this->request->server('SERVER_NAME');
+    $website = Website::where('domain_name', $domain)->first();
+    
     $metaDetails = [];
     $organiserList = '';
     $organisers = $website->organisers()->pluck('name')->toArray();

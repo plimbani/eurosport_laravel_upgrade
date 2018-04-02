@@ -5,7 +5,9 @@
 <!--<![endif]-->
 
 <head>
-    @include('partials.frontend.google-analytics')
+    @if($websiteDetail->google_analytics_id)
+        @include('partials.frontend.google-analytics')
+    @endif
 
     <!-- Meta -->
     @include('partials.frontend.meta')
@@ -18,41 +20,52 @@
 
     <!-- Stylesheets required for application -->
     @include('partials.frontend.app-css')
-
     {{-- Stylesheets --}}
+
     {{-- Page specific plugin styles --}}
     @yield('plugin-styles')
 
-    <link rel="stylesheet" id="css-main" href="{{ mix('assets/css/frontend.css') }}">
+    <link rel="stylesheet" href="{{ $theme_css }}">
 
     @yield('page-styles')
     {{-- END Stylesheets --}}
 </head>
 
 <body>
-    <div>
-        @include('partials.frontend.header')
-        <main id="main-container">
-            @include('partials.frontend.messages')
-            @include('flash::message')
-            @yield('content')
-        </main>
-        @include('partials.frontend.footer')
+    @include('partials.frontend.header')
+
+    @include('partials.frontend.inner-hero-section')
+
+    @include('partials.frontend.tournament-messages')
+
+    @include('flash::message')
+
+    @yield('content')
+
+    @include('partials.frontend.sponsors')
+
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <hr class="hr">
+            </div>
+        </div>
     </div>
+
+    @include('partials.frontend.footer')
 
     @yield('modals')
 
     <!-- Javscript required for application -->
     @include('partials.frontend.app-js')
 
-    <script src="{{ asset('assets/js/frontend/global.js') }}"></script>
+    <script src="{{ asset('frontend/js/global.js') }}"></script>
 
     {{-- Plugin JS --}}
     @yield('plugin-scripts')
 
     {{-- Page specific custom scripts --}}
     @yield('page-scripts')
-    
-    <script src="https://maps.googleapis.com/maps/api/js?key={{ config('wot.google_api_key') }}"></script>
+
 </body>
 </html>

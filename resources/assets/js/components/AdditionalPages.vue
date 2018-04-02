@@ -117,7 +117,7 @@
 				this.additional_page.id = '';
 				this.additional_page.title = '';
 				this.additional_page.content = '';
-				this.$root.$emit('blankEditorValue');
+				this.$root.$emit('blankEditorValue', 'additional_page_content');
 				this.clearErrorMsgs();
 			},
 			editPage(page, index) {

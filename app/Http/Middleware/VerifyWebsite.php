@@ -10,11 +10,41 @@ use Landlord;
 use Redirect;
 use JavaScript;
 use Carbon\Carbon;
+use LaravelLocalization;
 use Laraspace\Models\Page;
 use Laraspace\Models\Website;
+use Laraspace\Api\Services\PageService;
+use Laraspace\Api\Contracts\WebsiteContract;
 
 class VerifyWebsite
 {
+    /**
+     * @var Home page name
+     */
+    protected $homePageName;
+
+    /**
+     * @var Page service
+     */
+    protected $pageService;
+
+    /**
+     * @var Website contract
+     */
+    protected $websiteContract;
+
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct(PageService $pageService, WebsiteContract $websiteContract)
+    {
+        $this->websiteContract = $websiteContract;
+        $this->pageService = $pageService;
+        $this->homePageName = 'home';
+    }
+
     /**
      * Handle an incoming request.
      *
@@ -29,7 +59,7 @@ class VerifyWebsite
         View::share('websiteDetail', $website);
 
         if(!$website) {
-            App::abort(404);
+            return Redirect::away(config('app.url'), 302);
         }
 
         if($website->is_website_offline == 1) {
@@ -37,10 +67,6 @@ class VerifyWebsite
         }
 
         Landlord::addTenant('website', $website);
-
-        // Get all published pages
-        $pages = $website->getPublishedPages()->toArray();
-        View::share('menu_items', Page::buildPageTree($pages));
 
         $accessibleRoutesArray = $website->getPublishedPages()->pluck('accessible_routes')->toArray();
         $accessibleRoutesCollection = collect($accessibleRoutesArray);
@@ -51,23 +77,6 @@ class VerifyWebsite
         if(!in_array($currentRoute, $accessibleRoutes)) {
             App::abort(404);
         }
-
-        // Get all website's organisers
-        $organisers = $website->organisers;
-        View::share('organisers', $organisers);
-
-        // Get all website's sponsors
-        $sponsors = $website->sponsors;
-        View::share('sponsors', $sponsors);
-
-        JavaScript::put([
-            'websiteId' => $website->id,
-            'serverAddr' => env('BROADCAST_SERVER_ADDRESS'),
-            'serverPort' => env('BROADCAST_SERVER_PORT'),
-            'broadcastChannel' => env('BROADCAST_CHANNEL'),
-        ]);
-
-        Config::set('wot.current_domain', $domain);
 
         return $next($request);
     }

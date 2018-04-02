@@ -205,6 +205,10 @@ class TournamentController extends BaseController
         return $this->tournamentObj->getAllPublishedTournaments($request->all());
     }
 
+    public function getFilterDropDownData(Request $request) {
+      return $this->tournamentObj->getFilterDropDownData($request->all());
+    }
+
     public function getSignedUrlForTournamentReport(GetSignedUrlForTournamentReportRequest $request)
     {
         $reportData = $request->all();
@@ -226,5 +230,4 @@ class TournamentController extends BaseController
 
         return $signedUrl;
     }
-
 }
