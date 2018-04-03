@@ -1,5 +1,6 @@
 <template>
   <div>
+    <h2 class="text-center mb-4">Current placings</h2>
     <div class="table-responsive" v-if="competitionList.length > 0">
       <table class="table">
         <thead>
@@ -22,6 +23,7 @@
         </tbody>
       </table>
     </div>
+    <div class="d-flex my-4"></div>
     <!-- View final placings modal -->
     <div class="modal" id="final_placing_modal" tabindex="-1" role="dialog" aria-labelledby="final_placing_modal" style="display: none;" aria-hidden="true" data-animation="false">
       <div class="modal-dialog modal-md" role="document">

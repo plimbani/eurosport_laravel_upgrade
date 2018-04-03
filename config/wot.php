@@ -223,7 +223,11 @@ return [
     'cc' => [],
     'bcc' => ['ssheth@aecordigital.com'],
   ],
-  'inquiries_recipient' => ['bgrout@aecordigital.com', 'mtilokani@aecordigital.com'],
+  'inquiries_recipient' => [
+    'to' => ['bgrout@aecordigital.com', 'mtilokani@aecordigital.com'],
+    'cc' => [],
+    'bcc' => ['ssheth@aecordigital.com'],
+  ],
   'google_re_captcha_site_key' => env('GOOGLE_RE_CAPTCHA_SITE_KEY', ''),
   'google_re_captcha_secret_key' => env('GOOGLE_RE_CAPTCHA_SECRET_KEY', ''),
   'colorthemes' => [
