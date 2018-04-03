@@ -32,12 +32,11 @@ $(document).ready(function() {
 			$('.js-header-menus').collapse('hide');
 			$('.js-menu-close-button').parent().hide();
 			$('.js-menu-open-button').parent().show();
-			// $('.js-header-menu-section').css('background', 'rgba(30, 70, 157, 0.9)');
 		} else {
 			$('.js-header-menus').collapse('show');
 			$('.js-menu-open-button').parent().hide();
 			$('.js-menu-close-button').parent().show();
-			// $('.js-header-menu-section').css('background', '#EFEFEF');
+			$('.js-header-menu-section').addClass('mobile-menu-open-background');
 		}
 	});
 
@@ -51,6 +50,10 @@ $(document).ready(function() {
 			$('.js-header-menus ul li.dropdown a').addClass('dropdown-toggle').attr('role', 'button').attr('data-toggle', 'dropdown');
 			$('.js-header-menus ul li.dropdown div').addClass('dropdown-menu');
 		}
+	});
+
+	$('.js-header-menus').on('hidden.bs.collapse', function () {
+	    $('.js-header-menu-section').removeClass('mobile-menu-open-background');
 	});
 
 	// Custom validation messages

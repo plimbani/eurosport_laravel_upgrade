@@ -36,23 +36,23 @@
 								<div class="form-body">
 									<div class="form-group">
 										{!! Form::text('name', null,['class' => 'form-control',
-										'id' => 'contact_name' ,'placeholder' => __('messages.contact_form_name') ]) !!}										
+										'id' => 'contact_name' ,'placeholder' => __('messages.your_name') ]) !!}										
 									</div>
 									<div class="form-group">
 										{!! Form::text('email', null,['class' => 'form-control',
-										'id' => 'contact_email' ,'placeholder' => __('messages.contact_form_email')  ]) !!}
+										'id' => 'contact_email' ,'placeholder' => __('messages.your_email_address')  ]) !!}
 									</div>
 									<div class="form-group">
 										{!! Form::text('telephone_number', null,['class' => 'form-control',
-										'id' => 'contact_telephone_number' ,'placeholder' => __('messages.contact_form_telephone') ]) !!}
+										'id' => 'contact_telephone_number' ,'placeholder' => __('messages.your_telephone_number') ]) !!}
 									</div>
 									<div class="form-group">
 										{!! Form::text('subject', null,['class' => 'form-control',
-										'id' => 'contact_subject' ,'placeholder' => __('messages.contact_form_subject')]) !!}
+										'id' => 'contact_subject' ,'placeholder' => __('messages.message_subject')]) !!}
 									</div>
 									<div class="form-group">
 										{!! Form::textarea('message', null,['class' => 'form-control',
-										'id' => 'contact_message' ,'placeholder' => __('messages.contact_form_message')]) !!}
+										'id' => 'contact_message' ,'placeholder' => __('messages.your_message')]) !!}
 									</div>
 									<div class="form-group">
 										<div class="g-recaptcha" data-sitekey="{{ config('wot.google_re_captcha_site_key') }}"></div>

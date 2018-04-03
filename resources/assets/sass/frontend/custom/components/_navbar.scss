@@ -8,6 +8,9 @@
         height: $header-height;
     }
     background: rgba(theme-color('primary'), .9);
+    &.mobile-menu-open-background {
+        background: rgba(#efefef, 1);
+    }
     .navbar-brand {
         color: $navbar-dark-active-color;
         @include hover-focus {
