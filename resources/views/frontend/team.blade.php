@@ -15,13 +15,13 @@
 					<div class="row">
 						@foreach($ageCategories as $category)
 							<div class="col-sm-6 col-md-3 col-lg-3 mb-5">
-								<h3 class="mb-0 text-primary font-weight-bold">{{ $category->name }}</h3>
+								<h4 class="mb-0 text-primary font-weight-bold">{{ $category->name }}</h4>
 								<hr class="hr mt-0 mb-0 bg-primary">
 								<div class="js-list-parent-div">
 									@if(count($category->teams) > 0)
 										<ul class="js-list list-unstyled">
 											@foreach($category->teams as $team)
-												<li class="team-item d-flex justify-content-between">{{ $team->name }} ({{ $team->country->country_code }}) <span class="flag-icon flag-icon-{{ $team->country->country_flag }}"></span></li>
+												<li class="team-item d-flex justify-content-between">{{ $loop->index + 1 }}. {{ $team->name }} ({{ $team->country->country_code }}) <span class="flag-icon flag-icon-{{ $team->country->country_flag }}"></span></li>
 											@endforeach
 										</ul>
 									@else
