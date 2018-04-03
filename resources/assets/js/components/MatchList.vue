@@ -192,6 +192,14 @@ export default {
   created: function() {
     this.$root.$on('reloadMatchList', this.setScore);
   },
+  watch: {
+    matchData1: {
+      handler: function (val, oldVal) {
+        this.matchData = _.sortBy(_.cloneDeep(val), ['match_datetime']);
+      },
+      deep: true,
+    },
+  },
   methods: {
     setScore(homescore,AwayScore,competationId,isResultOverride) {
       let vm = this
@@ -353,6 +361,9 @@ export default {
       if(competitionActualName.indexOf('Group') !== -1){
         return placeholder;
       } else if(competitionActualName.indexOf('Pos') !== -1){
+        if(placeholder.indexOf('wrs.') !== -1 || placeholder.indexOf('lrs.') !== -1) {
+          return placeholder;
+        }
         return 'Pos-' + placeholder;
       }
 
