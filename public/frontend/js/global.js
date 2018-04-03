@@ -27,11 +27,40 @@ $(document).ready(function() {
 	    }, 50);
 	});
 
+	$(document).on('click', '.js-menu-open-button, .js-menu-close-button', function(e) {
+		if($('.js-header-menus').hasClass('show')) {
+			$('.js-header-menus').collapse('hide');
+			$('.js-menu-close-button').parent().hide();
+			$('.js-menu-open-button').parent().show();
+		} else {
+			$('.js-header-menus').collapse('show');
+			$('.js-menu-open-button').parent().hide();
+			$('.js-menu-close-button').parent().show();
+			$('.js-header-menu-section').addClass('mobile-menu-open-background');
+		}
+	});
+
+	$( window ).resize(function() {
+		if($(window).width() < 992) {
+			$('.js-header-menus').collapse('hide');
+			$('.js-menu-close-button').parent().hide();
+			$('.js-menu-open-button').parent().show();
+		}
+		setHeaderMenu();
+	});
+
+	$('.js-header-menus').on('hidden.bs.collapse', function () {
+	    $('.js-header-menu-section').removeClass('mobile-menu-open-background');
+	});
+
 	// Custom validation messages
 	customValidationMessages();
 
 	// More / Less links
 	initializeList();
+
+	// Set header menu based on device width
+	setHeaderMenu();
 });
 
 function customValidationMessages() {
@@ -53,4 +82,16 @@ function initializeList() {
 			$(this).closest('.js-list-parent-div').append('<button type="button" class="btn btn-outline-primary btn-round px-h4 text-uppercase font-weight-bold more">' + Lang.get('messages.more') + '</button>');
 		}
 	});
+}
+
+function setHeaderMenu() {
+	if($(window).width() < 992) {
+		$('.js-header-menus ul li.dropdown > a').removeClass('dropdown-toggle').removeAttr('role').removeAttr('data-toggle');
+		$('.js-header-menus ul li.dropdown div').removeClass('dropdown-menu');
+		$('.js-header-menus ul li.dropdown').addClass('js-small-screen-dropdown-view').removeClass('dropdown');
+	} else {
+		$('.js-header-menus ul li.js-small-screen-dropdown-view').removeClass('js-small-screen-dropdown-view').addClass('dropdown');
+		$('.js-header-menus ul li.dropdown > a').addClass('dropdown-toggle').attr('role', 'button').attr('data-toggle', 'dropdown');
+		$('.js-header-menus ul li.dropdown div').addClass('dropdown-menu');
+	}
 }

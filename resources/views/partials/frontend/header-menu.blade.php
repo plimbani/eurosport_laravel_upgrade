@@ -1,10 +1,19 @@
 <!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-primary">
+<nav class="navbar navbar-expand-lg navbar-primary js-header-menu-section">
     <div class="container">
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-            <i class="fas fa-bars"></i>
-        </button>
-        <div class="collapse navbar-collapse justify-content-lg-center" id="navbarText">
+        <div class="d-lg-none">
+            <button class="navbar-toggler js-menu-open-button border-0 p-0" type="button">
+                <i class="fal fa-bars"></i>
+            </button>
+            <span class="h6 text-white text-uppercase pl-1">{!! __('messages.main_menu') !!}</span>
+        </div>
+        <div style="display: none;" class="close_menu_link text-primary d-lg-none">
+            <button class="navbar-toggler js-menu-close-button border-0 text-primary p-0" type="button">
+                <i class="fal fa-times"></i>
+            </button>
+            <span class="h6 text-uppercase pl-1">{!! __('messages.close') !!}</span>
+        </div>
+        <div class="collapse navbar-collapse justify-content-lg-center js-header-menus">
             <ul class="navbar-nav">
                 @foreach($menu_items as $item)
                     @if(!in_array($item['page_name'], config('wot.hide_header_menus')))
@@ -14,7 +23,7 @@
                                 <a class="nav-link dropdown-toggle" href="{{ route(config('wot.page_routes')[$item['name']], ['domain' => $websiteDetail->domain_name]) }}" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{!! __('messages.' . $item['name']) !!}</a>
                                 <div class="dropdown-menu">
                                     <ul>
-                                        <li class="nav-value">
+                                        <li class="nav-value d-none d-lg-block">
                                             <a href="{{ route(config('wot.page_routes')[$item['name']], ['domain' => $websiteDetail->domain_name]) }}" class="current-tab">{!! __($item['title']) !!}</a>
                                         </li>
                                         @foreach($item['children'] as $childItem)

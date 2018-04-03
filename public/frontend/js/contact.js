@@ -35,25 +35,24 @@ var Contact = function() {
             },
             submitHandler: function (form) {
                 if (grecaptcha.getResponse().length === 0) {
-                    $('.recaptcha-errorspan').show();
-                } else {
-                    $('.js-contact-frm-submit-btn').addClass('is-loading');
-                    if(typeof Site.googleAnalyticsId !== 'null') {
-                        gtag('event', 'submit', { event_category: 'form', event_label: 'contact'});
-                    }
-                    $.ajax({
-                      url: "/"+ Site.currentLocale + "/submitInquiry",
-                      method: 'POST',
-                      data: $('.js-frm-create-inquiry').serialize(),
-                      success: function(response){
-                        $('.js-contact-frm-submit-btn').removeClass('is-loading');
+                    return false;
+                }
+                $('.js-contact-frm-submit-btn').attr('disabled', 'true');
+                if(Site.googleAnalyticsId !== null) {
+                    gtag('event', 'submit', { event_category: 'form', event_label: 'contact'});
+                }
+                $.ajax({
+                    url: "/"+ Site.currentLocale + "/submitInquiry",
+                    method: 'POST',
+                    data: $('.js-frm-create-inquiry').serialize(),
+                    success: function(response){
+                        $('.js-contact-frm-submit-btn').removeAttr('disabled');
                         $('input[type=text], textarea').val('');
                         $('.js-frm-create-inquiry').hide();
                         $('.js-inquiry-success-message').show();
                         grecaptcha.reset();
-                      }
-                    });
-                }
+                    }
+                });
             }
 		});
 	};
@@ -66,4 +65,12 @@ var Contact = function() {
 
 $(document).ready(function() {
 	Contact.init();
+
+    $(document).on('click', '.js-submit-inquiry', function() {
+        $('.recaptcha-errorspan').hide();
+        if (grecaptcha.getResponse().length === 0) {
+            $('.recaptcha-errorspan').show();
+            return;
+        }
+    });
 });

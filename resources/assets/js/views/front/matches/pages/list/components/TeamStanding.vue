@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<div class="table-responsive">			
+		<div class="table-responsive">
 			<table class="table" v-if="standingData.length > 0">
 				<thead>
 					<tr>
@@ -74,7 +74,6 @@
 							}
 						},
 						(error) => {
-							console.log('Error in getting standing data');
 						}
 					);
 				}

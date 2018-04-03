@@ -223,7 +223,7 @@ return [
     'cc' => [],
     'bcc' => ['ssheth@aecordigital.com'],
   ],
-  'inquiries_recipient' => ['ssheth@aecordigital.com'],
+  'inquiries_recipient' => ['bgrout@aecordigital.com', 'mtilokani@aecordigital.com'],
   'google_re_captcha_site_key' => env('GOOGLE_RE_CAPTCHA_SITE_KEY', ''),
   'google_re_captcha_secret_key' => env('GOOGLE_RE_CAPTCHA_SECRET_KEY', ''),
   'colorthemes' => [
@@ -241,10 +241,10 @@ return [
     'visitors' => ['tourist.page.details'],
   ],
 	'font_files' => [
-		'Montserrat' => 'https://fonts.googleapis.com/css?family=Montserrat',
-		'Roboto' => 'https://fonts.googleapis.com/css?family=Roboto',
-		'Lato' => 'https://fonts.googleapis.com/css?family=Lato',
-		'PT Sans' => 'https://fonts.googleapis.com/css?family=PT+Sans',
+		'Montserrat' => '//fonts.googleapis.com/css?family=Montserrat',
+		'Roboto' => '//fonts.googleapis.com/css?family=Roboto',
+		'Lato' => '//fonts.googleapis.com/css?family=Lato',
+		'PT Sans' => '//fonts.googleapis.com/css?family=PT+Sans',
 	],
   'page_routes' => [
     'home' => 'home.page.details',

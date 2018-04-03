@@ -59,3 +59,16 @@
 .select2-results__option--highlighted[aria-selected] {
     background-color: #1e90ff;
 }
+
+li.select2-results__option {
+    &[id*="category"] {
+        font-weight: bold;
+    }
+    &[id*="competition"] {
+        &:before {
+            content: '-';
+            padding-left: 10px;
+            padding-right: 5px;
+        }
+    }   
+}

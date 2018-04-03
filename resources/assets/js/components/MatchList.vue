@@ -192,6 +192,14 @@ export default {
   created: function() {
     this.$root.$on('reloadMatchList', this.setScore);
   },
+  watch: {
+    matchData1: {
+      handler: function (val, oldVal) {
+        this.matchData = _.sortBy(_.cloneDeep(val), ['match_datetime']);
+      },
+      deep: true,
+    },
+  },
   methods: {
     setScore(homescore,AwayScore,competationId,isResultOverride) {
       let vm = this

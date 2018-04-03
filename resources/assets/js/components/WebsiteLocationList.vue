@@ -26,7 +26,7 @@
 		  		</div>
 		    </div>
 			</draggable>
-			<p v-else class="help-block text-muted">{{ $lang.no_location_found }}</p>
+			<p v-else class="text-muted">{{ $lang.no_location_found }}</p>
 		</div>
 		<button type="button" class="btn btn-primary" @click="addLocation()">{{ $lang.venue_add_location }}</button>
 		<website-location-modal :currentLocationOperation="currentLocationOperation" @storeLocation="storeLocation" @updateLocation="updateLocation"></website-location-modal>

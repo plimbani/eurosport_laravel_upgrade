@@ -1,3 +1,4 @@
+import 'babel-polyfill';
 import router from './router.js'
 
 import Layout from './helpers/layout'

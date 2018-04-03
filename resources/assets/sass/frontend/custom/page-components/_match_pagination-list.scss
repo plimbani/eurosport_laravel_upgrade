@@ -10,16 +10,16 @@
             &.active,
             &:focus {
                 background: theme-color("tint-10");
+                border-color: theme-color("primary");
+            }
+            &:hover {
+                background: theme-color("tint-10");
                 border-color: theme-color("tint-20");
                 // a {
                 //     &:not([href]):not([tabindex]) {
                 //         color: $white;
                 //     }
                 // }
-            }
-            &:hover {
-                background: theme-color("tint-10");
-                border-color: theme-color("tint-20");
             }
             &.left-arrow,
             &.right-arrow {
@@ -69,6 +69,15 @@
             &.ellipses {
                 border-top: 1px solid theme-color('primary');
                 border-bottom: 1px solid theme-color('primary');
+                &.active,
+                &:focus {
+                    background: theme-color("tint-10");
+                    border-color: theme-color("primary");
+                }
+                &:hover {
+                    background: theme-color("tint-10");
+                    border-color: theme-color("tint-20");
+                }
             }
             &:nth-child(2) {
                 border-top-left-radius: $border-radius * 8;
@@ -97,11 +106,13 @@
                 font-size: $h7-font-size;
                 font-weight: $font-weight-bold;
                 padding: $h8-font-size $h7-font-size;
+                text-decoration: $link-decoration;
                 @include media-breakpoint-down(xs) {
                     padding: $table-cell-padding-sm;
                 }
                 &:not([href]):not([tabindex]) {
                     color: theme-color('primary');
+                    text-decoration: $link-decoration;
                 }
             }
         }

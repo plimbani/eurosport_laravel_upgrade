@@ -36,33 +36,33 @@
 								<div class="form-body">
 									<div class="form-group">
 										{!! Form::text('name', null,['class' => 'form-control',
-										'id' => 'contact_name' ,'placeholder' => __('messages.contact_form_name') ]) !!}										
+										'id' => 'contact_name' ,'placeholder' => __('messages.your_name') ]) !!}										
 									</div>
 									<div class="form-group">
 										{!! Form::text('email', null,['class' => 'form-control',
-										'id' => 'contact_email' ,'placeholder' => __('messages.contact_form_email')  ]) !!}
+										'id' => 'contact_email' ,'placeholder' => __('messages.your_email_address')  ]) !!}
 									</div>
 									<div class="form-group">
 										{!! Form::text('telephone_number', null,['class' => 'form-control',
-										'id' => 'contact_telephone_number' ,'placeholder' => __('messages.contact_form_telephone') ]) !!}
+										'id' => 'contact_telephone_number' ,'placeholder' => __('messages.your_telephone_number') ]) !!}
 									</div>
 									<div class="form-group">
 										{!! Form::text('subject', null,['class' => 'form-control',
-										'id' => 'contact_subject' ,'placeholder' => __('messages.contact_form_subject')]) !!}
+										'id' => 'contact_subject' ,'placeholder' => __('messages.message_subject')]) !!}
 									</div>
 									<div class="form-group">
 										{!! Form::textarea('message', null,['class' => 'form-control',
-										'id' => 'contact_message' ,'placeholder' => __('messages.contact_form_message')]) !!}
+										'id' => 'contact_message' ,'placeholder' => __('messages.your_message')]) !!}
 									</div>
 									<div class="form-group">
 										<div class="g-recaptcha" data-sitekey="{{ config('wot.google_re_captcha_site_key') }}"></div>
-										<span class="recaptcha-errorspan" style="color:#f00; display: none;">{!! __('messages.recaptcha_error_message') !!}</span>
+										<label class="recaptcha-errorspan invalid-feedback" style="display: none;">{!! __('messages.recaptcha_error_message') !!}</label>
 									</div>
 								</div>
 								<div class="form-actions">
 								    <div class="row">
 								        <div class="col-md-12 text-center text-sm-right">
-								            <button type="submit" class="position-relative btn button btn-primary js-contact-frm-submit-btn btn-round text-uppercase text-left font-weight-bold">{!! __('messages.contact_form_send_btn') !!}</button>
+								            <button type="submit" class="js-submit-inquiry position-relative btn button btn-primary js-contact-frm-submit-btn btn-round text-uppercase text-left font-weight-bold">{!! __('messages.contact_form_send_btn') !!}</button>
 								        </div>
 								    </div>
 								</div>
@@ -78,8 +78,8 @@
 
 
 @section('page-scripts')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js" type="text/javascript"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/additional-methods.min.js" type="text/javascript"></script>
-    <script src='https://www.google.com/recaptcha/api.js'></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js" type="text/javascript"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/additional-methods.min.js" type="text/javascript"></script>
+    <script src='//www.google.com/recaptcha/api.js'></script>
 	<script src="{{ asset('frontend/js/contact.js') }}"></script>
 @endsection
