@@ -41,10 +41,11 @@ $(document).ready(function() {
 	});
 
 	$( window ).resize(function() {
-		$('.js-header-menus').collapse('hide');
-		$('.js-menu-close-button').parent().hide();
-		$('.js-menu-open-button').parent().show();
-		$('.js-header-menu-section').removeClass('mobile-menu-open-background');
+		if($(window).width() < 992) {
+			$('.js-header-menus').collapse('hide');
+			$('.js-menu-close-button').parent().hide();
+			$('.js-menu-open-button').parent().show();
+		}
 		setHeaderMenu();
 	});
 
