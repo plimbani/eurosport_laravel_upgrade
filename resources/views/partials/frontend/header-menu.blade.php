@@ -5,13 +5,13 @@
             <button class="navbar-toggler js-menu-open-button border-0 p-0" type="button">
                 <i class="fal fa-bars"></i>
             </button>
-            <span class="h6 text-white text-uppercase">{!! __('messages.main_menu') !!}</span>
+            <span class="h6 text-white text-uppercase pl-1">{!! __('messages.main_menu') !!}</span>
         </div>
         <div style="display: none;" class="close_menu_link text-primary d-lg-none">
             <button class="navbar-toggler js-menu-close-button border-0 text-primary p-0" type="button">
                 <i class="fal fa-times"></i>
             </button>
-            <span class="h6 text-uppercase">{!! __('messages.close') !!}</span>
+            <span class="h6 text-uppercase pl-1">{!! __('messages.close') !!}</span>
         </div>
         <div class="collapse navbar-collapse justify-content-lg-center js-header-menus">
             <ul class="navbar-nav">
