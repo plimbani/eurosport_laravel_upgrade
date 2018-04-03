@@ -69,12 +69,12 @@
         <div class="row align-items-center copyright_section my-lh3">
             <div class="col-md-9 d-none d-md-block">
                 <ul class="list-inline mb-0">
-                    <li class="list-inline-item">{!! __('messages.copyright') !!} {{ Carbon\Carbon::now()->format('Y') }} {!! __('messages.euro_sportring') !!}</li>
+                    <li class="list-inline-item">{!! __('messages.copyright') !!} {{ Carbon\Carbon::now()->format('Y') }} Euro Sportring</li>
                 </ul>
             </div>
             <div class="col-12 text-center d-block d-md-none">
                 <ul class="list-inline mb-2">
-                    <li class="list-inline-item">{!! __('messages.copyright') !!} {{ Carbon\Carbon::now()->format('Y') }} {!! __('messages.euro_sportring') !!}</li>
+                    <li class="list-inline-item">{!! __('messages.copyright') !!} {{ Carbon\Carbon::now()->format('Y') }} Euro Sportring</li>
                 </ul>
             </div>
             <div class="col-12 d-block d-md-none">

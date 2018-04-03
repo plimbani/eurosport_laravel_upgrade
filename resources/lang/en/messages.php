@@ -52,7 +52,6 @@
 		'the_venue' => 'The venue',
 		'travel_accommodation' => 'Travel & Accommodation',
 		'copyright' => 'Copyright &copy;',
-		'euro_sportring' => 'Euro Sportring',
 		'language' => 'Language',
 		'hero_image' => 'Hero image',
 		'tournament_sponsored_by' => 'Tournament sponsored by',

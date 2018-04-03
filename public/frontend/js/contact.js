@@ -37,9 +37,8 @@ var Contact = function() {
                 if (grecaptcha.getResponse().length === 0) {
                     return false;
                 }
-                $('.js-contact-frm-submit-btn').addClass('is-loading');
+                $('.js-contact-frm-submit-btn').attr('disabled', 'true');
                 if(Site.googleAnalyticsId !== null) {
-                    console.log('contact event');
                     gtag('event', 'submit', { event_category: 'form', event_label: 'contact'});
                 }
                 $.ajax({
@@ -47,7 +46,7 @@ var Contact = function() {
                     method: 'POST',
                     data: $('.js-frm-create-inquiry').serialize(),
                     success: function(response){
-                        $('.js-contact-frm-submit-btn').removeClass('is-loading');
+                        $('.js-contact-frm-submit-btn').removeAttr('disabled');
                         $('input[type=text], textarea').val('');
                         $('.js-frm-create-inquiry').hide();
                         $('.js-inquiry-success-message').show();

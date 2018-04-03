@@ -1,5 +1,5 @@
 module.exports= {
-  'no_information_available': 'No information available',
+  'no_information_available': 'No information available.',
   'close': 'Close',
   'matches': {
     'match_overview': 'Match overview',
@@ -21,7 +21,7 @@ module.exports= {
     'standings': 'standings',
     'back_to_match_list': 'Back to match list',
     'n_a': 'N/A',
-    'no_information_available': 'No information available',
+    'no_information_available': 'No information available.',
     'played': 'Played',
     'won': 'Won',
     'draws': 'Draws',
