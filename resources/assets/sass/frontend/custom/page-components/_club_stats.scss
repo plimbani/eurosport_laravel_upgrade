@@ -21,7 +21,7 @@
         >.container-fluid {
             @extend .d-flex;
             @extend .flex-column;
-            height: 100%;
+            height: 100%; 
         }
 
         .info_tile-circle {
@@ -61,4 +61,11 @@
             }
         }
     }
+}
+
+_::-webkit-:not(:root:root), .club_stats-overlay .container {
+    display:  block !important;
+}
+_::-webkit-:not(:root:root), .club_stats-overlay .container-fluid {
+    display:  block !important;
 }
