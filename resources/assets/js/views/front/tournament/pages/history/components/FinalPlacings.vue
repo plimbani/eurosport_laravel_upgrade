@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2 class="text-center mb-4">Current placings</h2>
+    <h2 class="text-center mb-4">{{ $t('tournament.current_placings') }}</h2>
     <div class="table-responsive" v-if="competitionList.length > 0">
       <table class="table">
         <thead>
