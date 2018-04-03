@@ -73,12 +73,12 @@
                 </ul>
             </div>
             <div class="col-12 text-center d-block d-md-none">
-                <ul class="list-inline m-0">
+                <ul class="list-inline mb-1">
                     <li class="list-inline-item">{!! __('messages.copyright') !!} {{ Carbon\Carbon::now()->format('Y') }} Euro Sportring</li>
                 </ul>
             </div>
             <div class="col-12 d-block d-md-none">
-                <hr class="hr my-4">
+                <hr class="hr my-5">
             </div>
             <div class="col-md-3">
                 <div class="d-flex justify-content-center justify-content-lg-end">
