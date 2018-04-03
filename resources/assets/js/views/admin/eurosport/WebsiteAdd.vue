@@ -288,18 +288,22 @@
 										<li class="row mb-2 align-items-center" v-for="page in website.pages" v-if="page.is_permission_changeable != 0">
 											<div class="col-sm-8">{{ page.title }}</div>
 											<div class="col-sm-2">
-												<div class="checkbox d-flex align-items-center">
-													<div class="c-input">
-														<input type="checkbox" v-bind:id="`enable-${page.name}`" class="euro-checkbox" v-model="page.is_enabled" :true-value="1" :false-value="0" />
-														<label class="mb-0" v-bind:for="`enable-${page.name}`"></label>
+												<div class="d-flex align-items-center justify-content-center">
+													<div class="checkbox">
+														<div class="c-input">
+															<input type="checkbox" v-bind:id="`enable-${page.name}`" class="euro-checkbox" v-model="page.is_enabled" :true-value="1" :false-value="0" />
+															<label class="mb-0" v-bind:for="`enable-${page.name}`"></label>
+														</div>
 													</div>
 												</div>
 											</div>
 											<div class="col-sm-2">
-												<div class="checkbox d-flex align-items-center">
-													<div class="c-input">
-														<input type="checkbox" v-bind:id="`publish-${page.name}`" class="euro-checkbox" v-model="page.is_published" :true-value="1" :false-value="0" />
-														<label class="mb-0" v-bind:for="`publish-${page.name}`"></label>
+												<div class="d-flex align-items-center justify-content-center">
+													<div class="checkbox d-flex align-items-center">
+														<div class="c-input">
+															<input type="checkbox" v-bind:id="`publish-${page.name}`" class="euro-checkbox" v-model="page.is_published" :true-value="1" :false-value="0" />
+															<label class="mb-0" v-bind:for="`publish-${page.name}`"></label>
+														</div>
 													</div>
 												</div>
 											</div>
@@ -307,18 +311,22 @@
 												<li class="row mt-2" v-for="childPage in page.children">
 													<div class="col-sm-8"><span class="ml-2">- {{ childPage.title }}</span></div>
 													<div class="col-sm-2">
-														<div class="checkbox d-flex align-items-center" :class="[isParentEnabled(page, childPage) ? 'is-disabled' : '']">
-															<div class="c-input">
-																<input type="checkbox" v-bind:id="`enable-${childPage.name}`" class="euro-checkbox" v-model="childPage.is_enabled" :true-value="1" :false-value="0" />
-																<label class="mb-0" v-bind:for="`enable-${childPage.name}`"></label>
+														<div class="d-flex align-items-center justify-content-center">
+															<div class="checkbox" :class="[isParentEnabled(page, childPage) ? 'is-disabled' : '']">
+																<div class="c-input">
+																	<input type="checkbox" v-bind:id="`enable-${childPage.name}`" class="euro-checkbox" v-model="childPage.is_enabled" :true-value="1" :false-value="0" />
+																	<label class="mb-0" v-bind:for="`enable-${childPage.name}`"></label>
+																</div>
 															</div>
 														</div>
 													</div>
 													<div class="col-sm-2">
-														<div class="checkbox d-flex align-items-center" :class="[isParentPublished(page, childPage) ? 'is-disabled' : '']">
-															<div class="c-input">
-																<input type="checkbox" v-bind:id="`publish-${childPage.name}`" class="euro-checkbox" v-model="childPage.is_published" :true-value="1" :false-value="0" />
-																<label class="mb-0" v-bind:for="`publish-${childPage.name}`"></label>
+														<div class="d-flex align-items-center justify-content-center">
+															<div class="checkbox" :class="[isParentPublished(page, childPage) ? 'is-disabled' : '']">
+																<div class="c-input">
+																	<input type="checkbox" v-bind:id="`publish-${childPage.name}`" class="euro-checkbox" v-model="childPage.is_published" :true-value="1" :false-value="0" />
+																	<label class="mb-0" v-bind:for="`publish-${childPage.name}`"></label>
+																</div>
 															</div>
 														</div>
 													</div>
