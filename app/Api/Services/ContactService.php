@@ -71,7 +71,7 @@ class ContactService implements ContactContract
     $currentWebsite = Landlord::getTenants()['website'];
     $recipient = config('wot.inquiries_recipient');
 
-    $email_msg = 'Message from ' . $currentWebsite->tournament_name  .'Website';
+    $email_msg = 'Message from ' . $currentWebsite->tournament_name  .' Website';
     $email_from = $data->email;
     $email_templates = 'emails.frontend.send_inquiries';
 
