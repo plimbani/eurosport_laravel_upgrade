@@ -16,6 +16,17 @@
                 font-size: $font-size-base * 1.2;
             }
         }
+        a {
+            color: $body-color;
+            text-decoration: $link-hover-decoration;
+            background-color: transparent; // Remove the gray background on active links in IE 10.
+            -webkit-text-decoration-skip: objects; // Remove gaps in links underline in iOS 8+ and Safari 8+.
+
+            @include hover {
+            color: theme-color("primary");
+            text-decoration: $link-hover-decoration;
+            }
+        }
         @at-root {
             .figure-thumb {
                 display: block;
