@@ -47,7 +47,7 @@
               </label>
             </div>
             <div class="col-4 col-sm-2 col-md-2 col-lg-1 col-xl-1"> 
-                <a href="javascript:void(0)" class="btn btn-primary btn-block" @click="clearFilter()">{{ $t('matches.clear') }}</a>
+                <button type="button" class="btn btn-primary btn-block" @click="clearFilter()">{{ $t('matches.clear') }}</button>
             </div>
         </div>
     </div>
