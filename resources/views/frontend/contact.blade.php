@@ -56,13 +56,13 @@
 									</div>
 									<div class="form-group">
 										<div class="g-recaptcha" data-sitekey="{{ config('wot.google_re_captcha_site_key') }}"></div>
-										<span class="recaptcha-errorspan" style="color:#f00; display: none;">{!! __('messages.recaptcha_error_message') !!}</span>
+										<label class="recaptcha-errorspan invalid-feedback" style="display: none;">{!! __('messages.recaptcha_error_message') !!}</label>
 									</div>
 								</div>
 								<div class="form-actions">
 								    <div class="row">
 								        <div class="col-md-12 text-center text-sm-right">
-								            <button type="submit" class="position-relative btn button btn-primary js-contact-frm-submit-btn btn-round text-uppercase text-left font-weight-bold">{!! __('messages.contact_form_send_btn') !!}</button>
+								            <button type="submit" class="js-submit-inquiry position-relative btn button btn-primary js-contact-frm-submit-btn btn-round text-uppercase text-left font-weight-bold">{!! __('messages.contact_form_send_btn') !!}</button>
 								        </div>
 								    </div>
 								</div>
