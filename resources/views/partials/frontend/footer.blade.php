@@ -47,12 +47,12 @@
                 </div>
             </div>
             <div class="col-lg-4 mt-4 mt-lg-0">
-                <div class="d-flex justify-content-center justify-content-lg-end">
-                    <div class="d-inline-block flex-column">
+                <div class="d-flex justify-content-center justify-content-lg-end ie-block">
+                    <div class="d-inline-flex flex-column ie-block ie-mx-auto">
                         <div class="w-100 text-center">
                             <span class="h8 text-uppercase text-muted">{!! __('messages.organised_by') !!}</span>
                         </div>
-                        <div class="organiser_logo_footer">
+                        <div class="organiser_logo_footer ie-mx-auto">
                             @foreach($organisers as $organiser)
                                 <img src="{{ $organiser->organiserLogo('small_thumbnail') }}" alt="{{ $organiser->name }}">
                             @endforeach
@@ -69,12 +69,12 @@
         <div class="row align-items-center copyright_section my-lh3">
             <div class="col-md-9 d-none d-md-block">
                 <ul class="list-inline mb-0">
-                    <li class="list-inline-item">{!! __('messages.copyright') !!} {{ Carbon\Carbon::now()->format('Y') }} {!! __('messages.euro_sportring') !!}</li>
+                    <li class="list-inline-item">{!! __('messages.copyright') !!} {{ Carbon\Carbon::now()->format('Y') }} Euro Sportring</li>
                 </ul>
             </div>
             <div class="col-12 text-center d-block d-md-none">
-                <ul class="list-inline mb-2">
-                    <li class="list-inline-item">{!! __('messages.copyright') !!} {{ Carbon\Carbon::now()->format('Y') }} {!! __('messages.euro_sportring') !!}</li>
+                <ul class="list-inline mb-1">
+                    <li class="list-inline-item">{!! __('messages.copyright') !!} {{ Carbon\Carbon::now()->format('Y') }} Euro Sportring</li>
                 </ul>
             </div>
             <div class="col-12 d-block d-md-none">

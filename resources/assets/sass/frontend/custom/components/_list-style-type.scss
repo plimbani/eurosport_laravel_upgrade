@@ -1,6 +1,5 @@
 .list-style-type {
     .list-group-item {
-        z-index: 1;
         &:after {
             content: '';
             position: absolute;

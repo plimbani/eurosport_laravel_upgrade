@@ -137,6 +137,9 @@
         background-color: theme-color('light');
         .nav {
             min-height: 60px;
+            @include media-breakpoint-up(md) {
+                height: 60px;
+            }
             @include media-breakpoint-down(md) {
                 display: flex;
                 flex-direction: column;
