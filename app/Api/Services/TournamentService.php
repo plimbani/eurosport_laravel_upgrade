@@ -854,6 +854,7 @@ class TournamentService implements TournamentContract
           ];
           Venue::where('id',$coordinates['id'])->update($updateData);
         } catch (\Exception $e) {
+          continue;
         }
       }
     }
