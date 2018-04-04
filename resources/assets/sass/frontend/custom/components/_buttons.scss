@@ -9,13 +9,15 @@
          	box-shadow: 0 5px 10px 0 rgba($black,0.10);
             border-color: theme-color("shade-50");
      	}
-     	&:hover,
-     	&:focus {
-     		@if $color=="primary" {
-	         	@include linearGradient(theme-color("tint-20"), theme-color("primary"));
-                border-color: theme-color("shade-50");
-	     	}
-     	}
+        &:not([disabled]) {
+         	&:hover,
+         	&:focus {
+         		@if $color=="primary" {
+    	         	@include linearGradient(theme-color("tint-20"), theme-color("primary"));
+                    border-color: theme-color("shade-50");
+    	     	}
+         	}
+        }
  	}
 }
 
@@ -27,13 +29,15 @@
             color: theme-color("primary");
             border-color: theme-color("tint-20");
      	}
-     	&:hover,
-     	&:focus {
-     		@if $color=="secondary" {
-	         	@include linearGradient( $white, theme-color("tint-10"));
-                color: theme-color("primary");
-                border-color: theme-color("tint-20");
-	     	}
-     	}
+        &:not([disabled]) {
+         	&:hover,
+         	&:focus {
+         		@if $color=="secondary" {
+    	         	@include linearGradient( $white, theme-color("tint-10"));
+                    color: theme-color("primary");
+                    border-color: theme-color("tint-20");
+    	     	}
+         	}
+        }
  	}
 }
