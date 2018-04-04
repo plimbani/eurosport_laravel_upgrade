@@ -4,6 +4,9 @@
     max-width: 100%;
     z-index: 1;
     margin-bottom: 0;
+    @include media-breakpoint-down(md) {
+        z-index: 0;
+    }
     @include linearGradient($gray-100, $gray-200);
     border: 1px solid $input-border-color;
     letter-spacing: 0;
