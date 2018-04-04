@@ -21,7 +21,10 @@
 									@if(count($category->teams) > 0)
 										<ul class="js-list list-unstyled">
 											@foreach($category->teams as $team)
-												<li class="team-item d-flex justify-content-between">{{ $loop->index + 1 }}. {{ $team->name }} ({{ $team->country->country_code }})
+												<li class="team-item d-flex justify-content-between">
+													<div>
+														<span class="country-count">{{ $loop->index + 1 }}.</span> {{ $team->name }} ({{ $team->country->country_code }})
+													</div>
 													<span class="flag-icon flag-icon-{{ $team->country->country_flag }}"></span>
 													{{-- <div class="t-shirt-icon">
 														<div class="icon-image-overlay">
