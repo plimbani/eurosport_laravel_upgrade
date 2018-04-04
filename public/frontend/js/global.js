@@ -43,7 +43,7 @@ $(document).ready(function() {
 	});
 
 	$( window ).resize(function() {
-		if($(window).width() < 992) {
+		if($(window).width() >= 992) {
 			$('.js-header-menus').collapse('hide');
 			$('.js-menu-close-button').parent().hide();
 			$('.js-menu-open-button').parent().show();
