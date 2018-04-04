@@ -22,6 +22,7 @@ class Kernel extends ConsoleKernel
         Commands\automaticallyPermissionRemoval::class,
         Commands\generatePositionsForExistingData::class,
         Commands\sendActivityNotification::class,
+        Commands\removeDanglingImages::class,
     ];
 
     /**
