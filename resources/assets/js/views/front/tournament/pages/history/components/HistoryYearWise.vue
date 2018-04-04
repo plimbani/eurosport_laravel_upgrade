@@ -23,7 +23,10 @@
           <div class="js-list-parent-div">
             <ul class="js-list list-unstyled" v-if="ageCategory.teams.length > 0">
               <li class="team-item d-flex justify-content-between" v-for="(team, index) in ageCategory.teams">
-                {{ index + 1 }}. {{ team.name }} ({{ team.country.country_code }}) <span :class="'flag-icon flag-icon-' + team.country.country_flag"></span>
+                <div>
+                  <span class="country-count">{{ index + 1 }}.</span> <span>{{ team.name }} ({{ team.country.country_code }})</span>
+                </div>
+                <span :class="'flag-icon flag-icon-' + team.country.country_flag"></span>
               </li>
             </ul>
             <div class="no-data h6 text-muted" v-if="ageCategory.teams.length == 0">{{ $t('tournament.no_team_found') }}</div>
