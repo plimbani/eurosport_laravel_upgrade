@@ -24,6 +24,9 @@
         font-size: $font-size-sm;
         line-height: $line-height-base-custom;
         cursor: pointer;
+        &::-ms-expand {
+            display: none;
+        }
     }
     &:after {
         position: absolute;
