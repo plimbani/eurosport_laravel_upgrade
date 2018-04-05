@@ -5,6 +5,7 @@
 @each $color, $value in $theme-colors {
  	.btn-#{$color} {
      	@if $color=="primary" {
+            color: $white;
          	@include linearGradient(theme-color("primary"), theme-color("shade-50"));
          	box-shadow: 0 5px 10px 0 rgba($black,0.10);
             border-color: theme-color("shade-50");
@@ -17,6 +18,13 @@
                     border-color: theme-color("shade-50");
     	     	}
          	}
+        }
+        &:hover,
+        &:active,
+        &:focus {
+            @if $color=="primary" {
+                color: $white;
+            }
         }
  	}
 }
