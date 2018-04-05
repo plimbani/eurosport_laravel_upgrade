@@ -3,6 +3,7 @@
 namespace Laraspace\Api\Repositories;
 
 use DB;
+use Config;
 use Laraspace\Models\Page;
 use Laraspace\Models\Contact;
 use Laraspace\Models\Sponsor;
@@ -11,6 +12,7 @@ use Laraspace\Custom\Helper\Image;
 use Laraspace\Custom\Helper\Common;
 use Laraspace\Traits\AuthUserDetail;
 use Laraspace\Api\Services\PageService;
+use Illuminate\Support\Facades\Storage;
 
 class WebsiteRepository
 {
@@ -36,6 +38,36 @@ class WebsiteRepository
    */
   protected $getAWSUrl;
 
+  /**
+   * @var Sponsor logo image
+   */
+  protected $sponsorLogoPath;
+
+  /**
+   * @var disk
+   */
+  protected $disk;
+
+  /**
+   * @var diskName
+   */
+  protected $diskName;
+
+  /**
+   * @var conversions
+   */
+  protected $sponsorLogoConversions;
+
+  /**
+   * @var Tournament logo conversions
+   */
+  protected $websiteTournamentLogoConversions;
+
+  /**
+   * @var Tournament logo path
+   */
+  protected $websiteTournamentLogoPath;
+
 	/**
    * Create a new controller instance.
    */
@@ -45,6 +77,25 @@ class WebsiteRepository
     $this->tournamentLogo =  getenv('S3_URL').'/assets/img/website_tournament_logo/';
     $this->socialSharingGraphicImage = getenv('S3_URL').'/assets/img/social_sharing_graphic/';
     $this->pageService = $pageService;
+    $this->sponsorLogoPath = config('wot.imagePath.sponsor_logo');
+    $this->diskName = config('filesystems.disks.s3.driver');
+    $this->disk = Storage::disk($this->diskName);
+    $this->sponsorLogoConversions = config('image-conversion.conversions.sponsor_logo');
+    $this->websiteTournamentLogoConversions = config('image-conversion.conversions.website_tournament_logo');
+    $this->websiteTournamentLogoPath = config('wot.imagePath.website_tournament_logo');    
+  }
+
+  /**
+   * Destroy instance.
+   *
+   * @return void
+   */
+  public function __destruct()
+  {
+    unset($this->disk);
+    unset($this->diskName);
+    unset($this->sponsorLogoPath);
+    unset($this->sponsorLogoConversions);
   }
 
   /*
@@ -122,6 +173,19 @@ class WebsiteRepository
       $website->google_analytics_id = $data['google_analytics_id'];
       $website->is_website_offline = $data['is_website_offline'];
       $website->offline_redirect_url = $data['is_website_offline'] == 1 ? Common::addSchemeToUrl($data['offline_redirect_url']) : null;
+      
+      if($data['isExistingWebsite'] == true) {
+        if ($website->tournament_logo != '' && $website->tournament_logo != NULL && $website->tournament_logo != $data['tournament_logo']) {
+          if ($this->disk->exists($this->websiteTournamentLogoPath . $website->tournament_logo)) {
+            $this->disk->delete($this->websiteTournamentLogoPath . $website->tournament_logo);
+            foreach ($this->websiteTournamentLogoConversions as $key => $value) {
+              if ($this->disk->exists($this->websiteTournamentLogoPath . $key . '/' . $website->tournament_logo)) {
+                $this->disk->delete($this->websiteTournamentLogoPath . $key . '/' . $website->tournament_logo);
+              }
+            }
+          }
+        }
+      }
       $website->tournament_logo = ($data['tournament_logo'] != '') ? $data['tournament_logo'] : NULL;
     }
     
@@ -330,6 +394,14 @@ class WebsiteRepository
   public function deleteSponsors($sponsorIds = [])
   {
     Sponsor::whereIn('id', $sponsorIds)->get()->each(function($sponsor) {
+      if ($this->disk->exists($this->sponsorLogoPath . $sponsor->logo)) {
+        $this->disk->delete($this->sponsorLogoPath . $sponsor->logo);
+        foreach ($this->sponsorLogoConversions as $key => $value) {
+          if ($this->disk->exists($this->sponsorLogoPath . $key . '/' . $sponsor->logo)) {
+            $this->disk->delete($this->sponsorLogoPath . $key . '/' . $sponsor->logo);
+          }
+        }
+      }
       $sponsor->delete();
     });
 

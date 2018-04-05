@@ -8,6 +8,7 @@ use Laraspace\Models\Organiser;
 use Laraspace\Custom\Helper\Image;
 use Laraspace\Traits\AuthUserDetail;
 use Laraspace\Api\Services\PageService;
+use Illuminate\Support\Facades\Storage;
 
 class HomeRepository
 {
@@ -29,6 +30,26 @@ class HomeRepository
   protected $pageName;
 
   /**
+   * @var Sponsor logo image
+   */
+  protected $organiserLogoPath;
+
+  /**
+   * @var disk
+   */
+  protected $disk;
+
+  /**
+   * @var diskName
+   */
+  protected $diskName;
+
+  /**
+   * @var conversions
+   */
+  protected $organiserLogoConversions;
+
+  /**
    * Create a new controller instance.
    */
   public function __construct(PageService $pageService)
@@ -36,6 +57,23 @@ class HomeRepository
     $this->AWSUrl = getenv('S3_URL');
     $this->pageService = $pageService;
     $this->pageName = 'home';
+    $this->organiserLogoPath = config('wot.imagePath.organiser_logo');
+    $this->diskName = config('filesystems.disks.s3.driver');
+    $this->disk = Storage::disk($this->diskName);
+    $this->organiserLogoConversions = config('image-conversion.conversions.organiser_logo');
+  }
+
+  /**
+   * Destroy instance.
+   *
+   * @return void
+   */
+  public function __destruct()
+  {
+    unset($this->disk);
+    unset($this->diskName);
+    unset($this->organiserLogoPath);
+    unset($this->organiserLogoConversions);
   }
 
   /*
@@ -191,6 +229,14 @@ class HomeRepository
   public function deleteOrganiser($organiserId)
   {
     $organiser = Organiser::find($organiserId);
+    if ($this->disk->exists($this->organiserLogoPath . $organiser->logo)) {
+      $this->disk->delete($this->organiserLogoPath . $organiser->logo);
+      foreach ($this->organiserLogoConversions as $key => $value) {
+        if ($this->disk->exists($this->organiserLogoPath . $key . '/' . $organiser->logo)) {
+          $this->disk->delete($this->organiserLogoPath . $key . '/' . $organiser->logo);
+        }
+      }
+    }
     if($organiser->delete()) {
       return true;
     }
@@ -205,6 +251,14 @@ class HomeRepository
   public function deleteOrganisers($organiserIds = [])
   {
     Organiser::whereIn('id', $organiserIds)->get()->each(function($organiser) {
+      if ($this->disk->exists($this->organiserLogoPath . $organiser->logo)) {
+        $this->disk->delete($this->organiserLogoPath . $organiser->logo);
+        foreach ($this->organiserLogoConversions as $key => $value) {
+          if ($this->disk->exists($this->organiserLogoPath . $key . '/' . $organiser->logo)) {
+            $this->disk->delete($this->organiserLogoPath . $key . '/' . $organiser->logo);
+          }
+        }
+      }
       $organiser->delete();
     });
 
