@@ -2,6 +2,9 @@
 	& * {
 		font-family: 'Open Sans', sans-serif !important;
 	}
+	& .fa {
+		font-family: Font Awesome\ 5 Pro !important;
+	}
     font-family: 'Open Sans', sans-serif;
 }
 
@@ -9,12 +12,18 @@
 	& * {
 		font-family: 'Montserrat', sans-serif !important;
 	}
+	& .fa {
+		font-family: Font Awesome\ 5 Pro !important;
+	}
     font-family: 'Montserrat', sans-serif;
 }
 
 .font-roboto {
 	& * {
 		font-family: 'Roboto', sans-serif !important;
+	}
+	& .fa {
+		font-family: Font Awesome\ 5 Pro !important;
 	}
     font-family: 'Roboto', sans-serif;
 }
@@ -30,12 +39,18 @@
 	& * {
 		font-family: 'PT Sans', sans-serif !important;
 	}
+	& .fa {
+		font-family: Font Awesome\ 5 Pro !important;
+	}
     font-family: 'PT Sans', sans-serif;
 }
 
 .font-helvetica {
 	& * {
 		font-family: 'Helvetica', 'Arial', sans-serif !important;
+	}
+	& .fa {
+		font-family: Font Awesome\ 5 Pro !important;
 	}
     font-family: 'Helvetica', 'Arial', sans-serif;
 }
