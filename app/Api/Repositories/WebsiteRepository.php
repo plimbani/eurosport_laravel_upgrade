@@ -68,6 +68,11 @@ class WebsiteRepository
    */
   protected $websiteTournamentLogoPath;
 
+  /**
+   * @var Social sharing graphic image path
+   */
+  protected $socialSharingGraphicImagePath;
+
 	/**
    * Create a new controller instance.
    */
@@ -82,7 +87,8 @@ class WebsiteRepository
     $this->disk = Storage::disk($this->diskName);
     $this->sponsorLogoConversions = config('image-conversion.conversions.sponsor_logo');
     $this->websiteTournamentLogoConversions = config('image-conversion.conversions.website_tournament_logo');
-    $this->websiteTournamentLogoPath = config('wot.imagePath.website_tournament_logo');    
+    $this->websiteTournamentLogoPath = config('wot.imagePath.website_tournament_logo');
+    $this->socialSharingGraphicImagePath = config('wot.imagePath.social_sharing_graphic');
   }
 
   /**
@@ -189,6 +195,13 @@ class WebsiteRepository
       $website->tournament_logo = ($data['tournament_logo'] != '') ? $data['tournament_logo'] : NULL;
     }
     
+    if($data['isExistingWebsite'] == true) {
+      if ($website->social_sharing_graphic != '' && $website->social_sharing_graphic != NULL && $website->social_sharing_graphic != $data['social_sharing_graphic']) {
+        if ($this->disk->exists($this->socialSharingGraphicImagePath . $website->social_sharing_graphic)) {
+          $this->disk->delete($this->socialSharingGraphicImagePath . $website->social_sharing_graphic);
+        }
+      }
+    }
     $website->social_sharing_graphic = ($data['social_sharing_graphic'] != '') ? $data['social_sharing_graphic'] : NULL;
     $website->color = $data['color'];
     $website->font = $data['font'];

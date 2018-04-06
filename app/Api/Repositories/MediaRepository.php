@@ -66,7 +66,7 @@ class MediaRepository
     $this->diskName = config('filesystems.disks.s3.driver');
     $this->disk = Storage::disk($this->diskName);
     $this->photoConversions = config('image-conversion.conversions.photo');
-    $this->documentPath = config('wot.imagePath.document');    
+    $this->documentPath = config('wot.imagePath.document');
   }
 
   /**
@@ -150,11 +150,11 @@ class MediaRepository
   public function deletePhoto($photoId)
   {
     $photo = Photo::find($photoId);
-    if ($this->disk->exists($this->photoPath . $photo->logo)) {
-      $this->disk->delete($this->photoPath . $photo->logo);
+    if ($this->disk->exists($this->photoPath . $photo->image)) {
+      $this->disk->delete($this->photoPath . $photo->image);
       foreach ($this->photoConversions as $key => $value) {
-        if ($this->disk->exists($this->photoPath . $key . '/' . $photo->logo)) {
-          $this->disk->delete($this->photoPath . $key . '/' . $photo->logo);
+        if ($this->disk->exists($this->photoPath . $key . '/' . $photo->image)) {
+          $this->disk->delete($this->photoPath . $key . '/' . $photo->image);
         }
       }
     }
@@ -172,11 +172,11 @@ class MediaRepository
   public function deletePhotos($photoIds = [])
   {
     Photo::whereIn('id', $photoIds)->get()->each(function($photo) {
-      if ($this->disk->exists($this->photoPath . $photo->logo)) {
-        $this->disk->delete($this->photoPath . $photo->logo);
+      if ($this->disk->exists($this->photoPath . $photo->image)) {
+        $this->disk->delete($this->photoPath . $photo->image);
         foreach ($this->photoConversions as $key => $value) {
-          if ($this->disk->exists($this->photoPath . $key . '/' . $photo->logo)) {
-            $this->disk->delete($this->photoPath . $key . '/' . $photo->logo);
+          if ($this->disk->exists($this->photoPath . $key . '/' . $photo->image)) {
+            $this->disk->delete($this->photoPath . $key . '/' . $photo->image);
           }
         }
       }
@@ -293,8 +293,8 @@ class MediaRepository
   public function deleteDocument($documentId)
   {
     $document = Document::find($documentId);
-    if ($this->disk->exists($this->documentPath . $document->file_name)) {
-      $this->disk->delete($this->documentPath . $document->file_name);        
+    if ($this->disk->exists($this->documentPath . $document->website_id . '/' . $document->file_name)) {
+      $this->disk->delete($this->documentPath . $document->website_id . '/' . $document->file_name);
     }
     if($document->delete()) {
       return true;
@@ -310,8 +310,8 @@ class MediaRepository
   public function deleteDocuments($documentIds = [])
   {
     Document::whereIn('id', $documentIds)->get()->each(function($document) {
-      if ($this->disk->exists($this->documentPath . $document->file_name)) {
-        $this->disk->delete($this->documentPath . $document->file_name);        
+      if ($this->disk->exists($this->documentPath . $document->website_id . '/' . $document->file_name)) {
+        $this->disk->delete($this->documentPath . $document->website_id . '/' . $document->file_name);
       }
       $document->delete();
     });
