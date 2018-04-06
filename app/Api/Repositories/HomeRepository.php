@@ -94,10 +94,17 @@ class HomeRepository
    */
   public function __destruct()
   {
+    unset($this->AWSUrl);
+    unset($this->pageService);
+    unset($this->pageName);    
     unset($this->disk);
     unset($this->diskName);
     unset($this->organiserLogoPath);
     unset($this->organiserLogoConversions);
+    unset($this->heroImagePath);
+    unset($this->heroImageConversions);
+    unset($this->welcomeImagePath);
+    unset($this->welcomeImageConversions);
   }
 
   /*
@@ -253,14 +260,7 @@ class HomeRepository
   public function deleteOrganiser($organiserId)
   {
     $organiser = Organiser::find($organiserId);
-    if ($this->disk->exists($this->organiserLogoPath . $organiser->logo)) {
-      $this->disk->delete($this->organiserLogoPath . $organiser->logo);
-      foreach ($this->organiserLogoConversions as $key => $value) {
-        if ($this->disk->exists($this->organiserLogoPath . $key . '/' . $organiser->logo)) {
-          $this->disk->delete($this->organiserLogoPath . $key . '/' . $organiser->logo);
-        }
-      }
-    }
+    $this->deleteOrganiserImage($organiser);
     if($organiser->delete()) {
       return true;
     }
@@ -275,18 +275,22 @@ class HomeRepository
   public function deleteOrganisers($organiserIds = [])
   {
     Organiser::whereIn('id', $organiserIds)->get()->each(function($organiser) {
-      if ($this->disk->exists($this->organiserLogoPath . $organiser->logo)) {
-        $this->disk->delete($this->organiserLogoPath . $organiser->logo);
-        foreach ($this->organiserLogoConversions as $key => $value) {
-          if ($this->disk->exists($this->organiserLogoPath . $key . '/' . $organiser->logo)) {
-            $this->disk->delete($this->organiserLogoPath . $key . '/' . $organiser->logo);
-          }
-        }
-      }
+      $this->deleteOrganiserImage($organiser);
       $organiser->delete();
     });
 
     return true;
+  }
+
+  public function deleteOrganiserImage($organiser) {
+    if ($this->disk->exists($this->organiserLogoPath . $organiser->logo)) {
+      $this->disk->delete($this->organiserLogoPath . $organiser->logo);
+      foreach ($this->organiserLogoConversions as $key => $value) {
+        if ($this->disk->exists($this->organiserLogoPath . $key . '/' . $organiser->logo)) {
+          $this->disk->delete($this->organiserLogoPath . $key . '/' . $organiser->logo);
+        }
+      }
+    }
   }
 
   /*
@@ -302,7 +306,7 @@ class HomeRepository
     $pageDetail['content'] = $data['introduction_text'];
     $meta = array();
     // Delete hero image from S3 - start
-    if (isset($pageData->meta['hero_image']) && $pageData->meta['hero_image'] != '' && $pageData->meta['hero_image'] != NULL && $pageData->meta['hero_image'] != $data['hero_image']) {
+    if ($pageData->meta && isset($pageData->meta['hero_image']) && $pageData->meta['hero_image'] != '' && $pageData->meta['hero_image'] != NULL && $pageData->meta['hero_image'] != $data['hero_image']) {
       if ($this->disk->exists($this->heroImagePath . $pageData->meta['hero_image'])) {
         $this->disk->delete($this->heroImagePath . $pageData->meta['hero_image']);
         foreach ($this->heroImageConversions as $key => $value) {
@@ -314,7 +318,7 @@ class HomeRepository
     }
     // Delete hero image from S3 - end
     // Delete welcome image from S3 - start
-    if (isset($pageData->meta['welcome_image']) && $pageData->meta['welcome_image'] != '' && $pageData->meta['welcome_image'] != NULL && $pageData->meta['welcome_image'] != $data['welcome_image']) {
+    if ($pageData->meta && isset($pageData->meta['welcome_image']) && $pageData->meta['welcome_image'] != '' && $pageData->meta['welcome_image'] != NULL && $pageData->meta['welcome_image'] != $data['welcome_image']) {
       if ($this->disk->exists($this->welcomeImagePath . $pageData->meta['welcome_image'])) {
         $this->disk->delete($this->welcomeImagePath . $pageData->meta['welcome_image']);
         foreach ($this->welcomeImageConversions as $key => $value) {
