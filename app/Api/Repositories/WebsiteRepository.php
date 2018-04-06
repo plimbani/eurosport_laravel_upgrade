@@ -98,10 +98,17 @@ class WebsiteRepository
    */
   public function __destruct()
   {
-    unset($this->disk);
+    unset($this->getAWSUrl);
+    unset($this->tournamentLogo);
+    unset($this->socialSharingGraphicImage);
+    unset($this->pageService);
     unset($this->diskName);
+    unset($this->disk);
     unset($this->sponsorLogoPath);
     unset($this->sponsorLogoConversions);
+    unset($this->websiteTournamentLogoConversions);
+    unset($this->websiteTournamentLogoPath);
+    unset($this->socialSharingGraphicImagePath);
   }
 
   /*
