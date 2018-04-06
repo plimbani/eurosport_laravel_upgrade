@@ -39,7 +39,8 @@
         other_options: {
           branding: false,
           height: 300,
-          content_css : "/assets/css/tiny-mce-light-gray.css",
+          body_class: 'tiny-mce-content-body',
+          content_css: ['https://fonts.googleapis.com/css?family=Lato', '/assets/css/tiny-mce.css'],
         },
       };
     },

@@ -16,3 +16,4 @@ Thumbs.db
 .sass-cache
 /public/frontend/css/main.*.css
 /public/frontend/css/theme*.css
+/public/assets/css/*.*.css
