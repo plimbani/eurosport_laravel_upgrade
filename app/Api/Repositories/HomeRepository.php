@@ -8,6 +8,7 @@ use Laraspace\Models\Organiser;
 use Laraspace\Custom\Helper\Image;
 use Laraspace\Traits\AuthUserDetail;
 use Laraspace\Api\Services\PageService;
+use Illuminate\Support\Facades\Storage;
 
 class HomeRepository
 {
@@ -29,6 +30,46 @@ class HomeRepository
   protected $pageName;
 
   /**
+   * @var Sponsor logo image
+   */
+  protected $organiserLogoPath;
+
+  /**
+   * @var disk
+   */
+  protected $disk;
+
+  /**
+   * @var diskName
+   */
+  protected $diskName;
+
+  /**
+   * @var conversions
+   */
+  protected $organiserLogoConversions;
+
+  /**
+   * @var Hero image path
+   */
+  protected $heroImagePath;
+
+  /**
+   * @var Hero image conversions
+   */
+  protected $heroImageConversions;
+
+  /**
+   * @var Welcome image path
+   */
+  protected $welcomeImagePath;
+
+  /**
+   * @var Welcome image conversions
+   */
+  protected $welcomeImageConversions;
+
+  /**
    * Create a new controller instance.
    */
   public function __construct(PageService $pageService)
@@ -36,6 +77,34 @@ class HomeRepository
     $this->AWSUrl = getenv('S3_URL');
     $this->pageService = $pageService;
     $this->pageName = 'home';
+    $this->organiserLogoPath = config('wot.imagePath.organiser_logo');
+    $this->diskName = config('filesystems.disks.s3.driver');
+    $this->disk = Storage::disk($this->diskName);
+    $this->organiserLogoConversions = config('image-conversion.conversions.organiser_logo');
+    $this->heroImagePath = config('wot.imagePath.hero_image');
+    $this->heroImageConversions = config('image-conversion.conversions.hero_image');    
+    $this->welcomeImagePath = config('wot.imagePath.welcome_image');
+    $this->welcomeImageConversions = config('image-conversion.conversions.welcome_image');    
+  }
+
+  /**
+   * Destroy instance.
+   *
+   * @return void
+   */
+  public function __destruct()
+  {
+    unset($this->AWSUrl);
+    unset($this->pageService);
+    unset($this->pageName);    
+    unset($this->disk);
+    unset($this->diskName);
+    unset($this->organiserLogoPath);
+    unset($this->organiserLogoConversions);
+    unset($this->heroImagePath);
+    unset($this->heroImageConversions);
+    unset($this->welcomeImagePath);
+    unset($this->welcomeImageConversions);
   }
 
   /*
@@ -191,6 +260,7 @@ class HomeRepository
   public function deleteOrganiser($organiserId)
   {
     $organiser = Organiser::find($organiserId);
+    $this->deleteOrganiserImage($organiser);
     if($organiser->delete()) {
       return true;
     }
@@ -205,10 +275,22 @@ class HomeRepository
   public function deleteOrganisers($organiserIds = [])
   {
     Organiser::whereIn('id', $organiserIds)->get()->each(function($organiser) {
+      $this->deleteOrganiserImage($organiser);
       $organiser->delete();
     });
 
     return true;
+  }
+
+  public function deleteOrganiserImage($organiser) {
+    if ($this->disk->exists($this->organiserLogoPath . $organiser->logo)) {
+      $this->disk->delete($this->organiserLogoPath . $organiser->logo);
+      foreach ($this->organiserLogoConversions as $key => $value) {
+        if ($this->disk->exists($this->organiserLogoPath . $key . '/' . $organiser->logo)) {
+          $this->disk->delete($this->organiserLogoPath . $key . '/' . $organiser->logo);
+        }
+      }
+    }
   }
 
   /*
@@ -218,10 +300,35 @@ class HomeRepository
    */
   public function savePageData($data)
   {
+    $pageData = $this->pageService->getPageDetails($this->pageName, $data['websiteId']);
     $pageDetail = array();
     $pageDetail['name'] = $this->pageName;
     $pageDetail['content'] = $data['introduction_text'];
     $meta = array();
+    // Delete hero image from S3 - start
+    if ($pageData->meta && isset($pageData->meta['hero_image']) && $pageData->meta['hero_image'] != '' && $pageData->meta['hero_image'] != NULL && $pageData->meta['hero_image'] != $data['hero_image']) {
+      if ($this->disk->exists($this->heroImagePath . $pageData->meta['hero_image'])) {
+        $this->disk->delete($this->heroImagePath . $pageData->meta['hero_image']);
+        foreach ($this->heroImageConversions as $key => $value) {
+          if ($this->disk->exists($this->heroImagePath . $key . '/' . $pageData->meta['hero_image'])) {
+            $this->disk->delete($this->heroImagePath . $key . '/' . $pageData->meta['hero_image']);
+          }
+        }
+      }
+    }
+    // Delete hero image from S3 - end
+    // Delete welcome image from S3 - start
+    if ($pageData->meta && isset($pageData->meta['welcome_image']) && $pageData->meta['welcome_image'] != '' && $pageData->meta['welcome_image'] != NULL && $pageData->meta['welcome_image'] != $data['welcome_image']) {
+      if ($this->disk->exists($this->welcomeImagePath . $pageData->meta['welcome_image'])) {
+        $this->disk->delete($this->welcomeImagePath . $pageData->meta['welcome_image']);
+        foreach ($this->welcomeImageConversions as $key => $value) {
+          if ($this->disk->exists($this->welcomeImagePath . $key . '/' . $pageData->meta['welcome_image'])) {
+            $this->disk->delete($this->welcomeImagePath . $key . '/' . $pageData->meta['welcome_image']);
+          }
+        }
+      }
+    }
+    // Delete welcome image from S3 - end
     // Upload hero image
     $meta['hero_image'] = basename(parse_url($data['hero_image'])['path']);
     // Upload welcome image
