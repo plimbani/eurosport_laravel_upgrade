@@ -272,6 +272,10 @@
       this.fetchAllClubs();
     },
     created: function() {
+      // Remove custom event listener 
+      this.$root.$off('getTeamsByTournamentFilter');
+      this.$root.$off('updateTeamList');
+
       this.$root.$on('getTeamsByTournamentFilter', this.setFilter);
       this.$root.$on('updateTeamList', this.getTeams);
       // this.$root.$on('onAssignGroup', this.onAssignGroup);

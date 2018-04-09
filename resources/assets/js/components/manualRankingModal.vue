@@ -68,6 +68,9 @@ import _ from 'lodash';
         created: function() {
         },
         mounted() {
+          // Remove custom event listener
+          this.$root.$off('getStandingDataForManualRanking');
+
           this.$root.$on('getStandingDataForManualRanking', this.getStandingData);
         },
         methods: {

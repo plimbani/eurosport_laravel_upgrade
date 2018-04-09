@@ -171,6 +171,9 @@ export default {
     DeleteModal1,
   },
   mounted() {
+    // Remove custom event listener
+    this.$root.$off('setMatchDataOfMatchList');
+
     this.$root.$on('setMatchDataOfMatchList', this.setMatchDataOfMatchList);
     $('.js-match-list').on('keypress', 'input',function(e) {
         var a = [];
@@ -190,6 +193,9 @@ export default {
     this.matchData = _.sortBy(_.cloneDeep(this.matchData1),['match_datetime'] );
   },
   created: function() {
+    // Remove custom event listener
+    this.$root.$off('reloadMatchList');
+
     this.$root.$on('reloadMatchList', this.setScore);
   },
   watch: {

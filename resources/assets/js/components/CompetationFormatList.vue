@@ -224,6 +224,10 @@ export default {
     }
   },
   created: function() {
+    // Remove custom event listener
+    this.$root.$off('setTemplate');
+    this.$root.$off('displayCompetationList');
+
     // We listen for the event on the eventHub
      this.$root.$on('setTemplate', this.next);
      this.$root.$on('displayCompetationList', this.displayTournamentCompetationList);

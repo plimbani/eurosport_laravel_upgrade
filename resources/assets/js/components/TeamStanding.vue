@@ -63,7 +63,10 @@ export default {
     }
   },
   created: function() {
-     this.$root.$on('setStandingData', this.getData);
+	// Remove custom event listener
+	this.$root.$off('setStandingData');
+
+    this.$root.$on('setStandingData', this.getData);
   },
 	mounted() {
 		// here we call function to get all the Draws Listing

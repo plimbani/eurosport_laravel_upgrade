@@ -45,6 +45,8 @@ import _ from 'lodash';
           // Plugin.initPlugins(['colorPicker']);
         },
         mounted() {
+          this.$root.$off('getCategoryCompetitions');
+          
           this.$root.$on('getCategoryCompetitions', this.getCategoryCompetitions);
           this.initiazeGroupCompetitionValidation();
           // this.$validator.updateDictionary(this.errorMessages);

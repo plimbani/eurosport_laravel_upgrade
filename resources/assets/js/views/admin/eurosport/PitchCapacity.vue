@@ -155,6 +155,11 @@ import Tournament from '../../../api/tournament.js'
         },
 
         created: function() {
+            // Remove custom event listener
+            this.$root.$off('displayPitch');
+            this.$root.$off('pitchrefresh');
+            this.$root.$off('getPitchSizeWiseSummary');
+
             this.$root.$on('displayPitch', this.displayPitch);
             this.$root.$on('pitchrefresh', this.getAllPitches);
             this.$root.$on('getPitchSizeWiseSummary', this.getPitchSizeWiseSummary);

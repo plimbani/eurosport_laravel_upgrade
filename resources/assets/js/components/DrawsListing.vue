@@ -45,6 +45,11 @@ export default {
 	created: function() {
 		this.$store.dispatch('setCurrentScheduleViewAgeCategory', 'ageCategoryList')
 		this.$store.dispatch('setcurrentAgeCategoryId', 0)
+
+		// Remove custom event listener
+		this.$root.$off('changeDrawListComp');
+	    this.$root.$off('getAllDraws');
+
 	    this.$root.$on('changeDrawListComp', this.setMatchData);
 	    this.$root.$on('getAllDraws', this.getAllDraws);
 	},
