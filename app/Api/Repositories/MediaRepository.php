@@ -8,6 +8,7 @@ use Laraspace\Models\Document;
 use Laraspace\Custom\Helper\Image;
 use Laraspace\Traits\AuthUserDetail;
 use Laraspace\Api\Services\PageService;
+use Illuminate\Support\Facades\Storage;
 
 class MediaRepository
 {
@@ -29,6 +30,31 @@ class MediaRepository
   protected $pageName;
 
   /**
+   * @var Photo
+   */
+  protected $photoPath;
+
+  /**
+   * @var disk
+   */
+  protected $disk;
+
+  /**
+   * @var diskName
+   */
+  protected $diskName;
+
+  /**
+   * @var conversions
+   */
+  protected $photoConversions;
+
+  /**
+   * @var Document
+   */
+  protected $documentPath;
+
+  /**
    * Create a new controller instance.
    */
   public function __construct(PageService $pageService)
@@ -36,6 +62,28 @@ class MediaRepository
     $this->getAWSUrl = getenv('S3_URL');
     $this->pageService = $pageService;
     $this->pageName = 'media';
+    $this->photoPath = config('wot.imagePath.photo');
+    $this->diskName = config('filesystems.disks.s3.driver');
+    $this->disk = Storage::disk($this->diskName);
+    $this->photoConversions = config('image-conversion.conversions.photo');
+    $this->documentPath = config('wot.imagePath.document');
+  }
+
+  /**
+   * Destroy instance.
+   *
+   * @return void
+   */
+  public function __destruct()
+  {
+    unset($this->getAWSUrl);
+    unset($this->pageService);
+    unset($this->pageName);
+    unset($this->diskName);
+    unset($this->disk);
+    unset($this->photoPath);
+    unset($this->photoConversions);
+    unset($this->documentPath);
   }
 
   /*
@@ -106,6 +154,7 @@ class MediaRepository
   public function deletePhoto($photoId)
   {
     $photo = Photo::find($photoId);
+    $this->deletePhotoFile($photo);
     if($photo->delete()) {
       return true;
     }
@@ -120,10 +169,22 @@ class MediaRepository
   public function deletePhotos($photoIds = [])
   {
     Photo::whereIn('id', $photoIds)->get()->each(function($photo) {
+      $this->deletePhotoFile($photo);
       $photo->delete();
     });
     return true;
   }
+
+  public function deletePhotoFile($photo) {
+    if ($this->disk->exists($this->photoPath . $photo->image)) {
+      $this->disk->delete($this->photoPath . $photo->image);
+      foreach ($this->photoConversions as $key => $value) {
+        if ($this->disk->exists($this->photoPath . $key . '/' . $photo->image)) {
+          $this->disk->delete($this->photoPath . $key . '/' . $photo->image);
+        }
+      }
+    }
+  } 
 
   /*
    * Get page data
@@ -233,6 +294,7 @@ class MediaRepository
   public function deleteDocument($documentId)
   {
     $document = Document::find($documentId);
+    $this->deleteDocumentFile($document);
     if($document->delete()) {
       return true;
     }
@@ -247,9 +309,17 @@ class MediaRepository
   public function deleteDocuments($documentIds = [])
   {
     Document::whereIn('id', $documentIds)->get()->each(function($document) {
+      $this->deleteDocumentFile($document);
       $document->delete();
     });
     return true;
+  }
+
+  public function deleteDocumentFile($document)
+  {
+    if ($this->disk->exists($this->documentPath . $document->website_id . '/' . $document->file_name)) {
+      $this->disk->delete($this->documentPath . $document->website_id . '/' . $document->file_name);
+    }
   }
 
   /*

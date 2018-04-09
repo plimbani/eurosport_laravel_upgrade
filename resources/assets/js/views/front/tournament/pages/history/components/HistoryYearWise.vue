@@ -56,9 +56,6 @@
         this.currentYear = _.cloneDeep(_.head(allHistoryYears));
         this.currentYearId = this.currentYear.id;
         this.getHistoryAgeCategories(this.currentYearId);
-        this.$nextTick().then(() => {
-          document.getElementById("history_year").selectedIndex = 0;
-        });
       }
     },
     methods: {
