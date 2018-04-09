@@ -37,6 +37,9 @@
         color: $input-color;
         text-transform: uppercase;
         font-weight: 700;
+        &::-ms-expand {
+            display: none;
+        }
     }
     &:after {
         position: absolute;

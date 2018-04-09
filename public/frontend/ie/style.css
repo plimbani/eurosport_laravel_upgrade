@@ -1,9 +1,10 @@
 @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
     .hero__wrapper .hero__wrapper-banner img {
-        height: auto
+        height: auto;
     }
     .ie-block,
-    footer .organiser_logo_footer {
+    footer .organiser_logo_footer,
+    .ekko-lightbox {
         display: block !important;
     }
     .ie-inline-block {
@@ -11,5 +12,22 @@
     }
     .ie-mx-auto {
         margin: 0 auto;
+    }
+    .tounament-data-table table,
+    .tounament-data-table th,
+    .tounament-data-table tr,
+    .tounament-data-table td{
+        border: hidden !important;
+    }
+}
+
+/*==============For Edge===============*/
+
+@supports (-ms-ime-align: auto) {
+    .tounament-data-table table,
+    .tounament-data-table th,
+    .tounament-data-table tr,
+    .tounament-data-table td{
+        border: hidden !important;
     }
 }
