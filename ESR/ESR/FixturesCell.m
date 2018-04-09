@@ -7,6 +7,7 @@
 //
 
 #import "FixturesCell.h"
+#import "UIColor+fromHex.h"
 
 @implementation FixturesCell
 
@@ -17,6 +18,7 @@
     //self.profileImage.layer.cornerRadius = 50;
     self.dateTimeview.layer.cornerRadius = 30;
     self.dateTimeview.layer.masksToBounds = true;
+    self.dateTimeview.backgroundColor = [UIColor colorwithHexString:@"E6E6E6" alpha:1.0];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

@@ -205,7 +205,7 @@
         if (indexPath.row == 0) {
             return 50;
         }else{
-            return 135 ;
+            return 140 ;
         }
     }else{
         if(indexPath.row == 0){
@@ -217,7 +217,7 @@
         }else if(indexPath.row == standingArray.count +2){
             return 50;
         }else if (indexPath.row <standingArray.count+3+fixturesArray.count){
-            return 135 ;
+            return 140;
         }else{
             return 60;
         }
@@ -306,16 +306,27 @@
                 int awayTeamScore =[[[fixturesArray objectAtIndex:indexPath.row-1] valueForKey:@"AwayScore"] intValue];
                 if (homeTeamScore > awayTeamScore) {
                     cell.HomeTeam.textColor =[UIColor colorwithHexString:@"C70A20" alpha:1.0];
+                    cell.homeTeamScore.textColor =[UIColor colorwithHexString:@"C70A20" alpha:1.0];
                     cell.AwayTeam.textColor = [UIColor blackColor];
+                    cell.awayTeamScore.textColor = [UIColor blackColor];
                 }else if(homeTeamScore < awayTeamScore){
                     cell.AwayTeam.textColor = [UIColor colorwithHexString:@"C70A20" alpha:1.0];
                     cell.HomeTeam.textColor = [UIColor blackColor];
+                    cell.homeTeamScore.textColor = [UIColor colorwithHexString:@"C70A20" alpha:1.0];
+                    cell.awayTeamScore.textColor = [UIColor blackColor];
                 }else{
                     cell.HomeTeam.textColor = [UIColor colorwithHexString:@"C70A20" alpha:1.0];
                     cell.AwayTeam.textColor = [UIColor colorwithHexString:@"C70A20" alpha:1.0];
+                    cell.homeTeamScore.textColor = [UIColor colorwithHexString:@"C70A20" alpha:1.0];
+                    cell.awayTeamScore.textColor = [UIColor colorwithHexString:@"C70A20" alpha:1.0];
                 }
-                cell.HomeTeam.text = [NSString stringWithFormat:@"%d %@",homeTeamScore,[[fixturesArray objectAtIndex:indexPath.row-1] valueForKey:@"HomeTeam"]];
-                cell.AwayTeam.text = [NSString stringWithFormat:@"%d %@",awayTeamScore,[[fixturesArray objectAtIndex:indexPath.row-1] valueForKey:@"AwayTeam"]];
+//                cell.HomeTeam.text = [NSString stringWithFormat:@"%d %@",homeTeamScore,[[fixturesArray objectAtIndex:indexPath.row-1] valueForKey:@"HomeTeam"]];
+//                cell.AwayTeam.text = [NSString stringWithFormat:@"%d %@",awayTeamScore,[[fixturesArray objectAtIndex:indexPath.row-1] valueForKey:@"AwayTeam"]];
+                
+                cell.HomeTeam.text = [NSString stringWithFormat:@"%@",[[fixturesArray objectAtIndex:indexPath.row-1] valueForKey:@"HomeTeam"]];
+                cell.AwayTeam.text = [NSString stringWithFormat:@"%@",[[fixturesArray objectAtIndex:indexPath.row-1] valueForKey:@"AwayTeam"]];
+                cell.homeTeamScore.text = [NSString stringWithFormat:@"%d",homeTeamScore];
+                cell.awayTeamScore.text = [NSString stringWithFormat:@"%d",awayTeamScore];
             }else{
                 cell.HomeTeam.textColor = [UIColor blackColor];
                 cell.AwayTeam.textColor = [UIColor blackColor];
@@ -332,14 +343,16 @@
                 
             }
             NSString *temp =[NSString stringWithFormat:@"%@",@"@^^@"];
-            if (![[[fixturesArray objectAtIndex:indexPath.row-1] valueForKey:@"Home_id"] isKindOfClass:[NSNull class]]  && ![[[fixturesArray objectAtIndex:indexPath.row-1] valueForKey:@"homeTeamName"] isKindOfClass:[NSNull class]]) {
+            if (![[[fixturesArray objectAtIndex:indexPath.row-1] valueForKey:@"Home_id"] isKindOfClass:[NSNull class]]) {
                 if ([[[[fixturesArray objectAtIndex:indexPath.row-1] valueForKey:@"Home_id"] stringValue] isEqualToString:@"0"] ) {
-                    if ( [[[fixturesArray objectAtIndex:indexPath.row-1] valueForKey:@"homeTeamName"] isEqualToString:temp]) {
-                        NSString *competition_actual_name =[[fixturesArray objectAtIndex:indexPath.row-1] valueForKey:@"competition_actual_name"];
-                        if ([competition_actual_name rangeOfString:@"Group"] .location != NSNotFound) {
-                            cell.HomeTeam.text = [NSString stringWithFormat:@"%@%@",@"",[[fixturesArray objectAtIndex:indexPath.row-1] valueForKey:@"homePlaceholder"]];
-                        }else if([competition_actual_name rangeOfString:@"Pos"] .location != NSNotFound){
-                            cell.HomeTeam.text = [NSString stringWithFormat:@"%@%@",@"Pos-",[[fixturesArray objectAtIndex:indexPath.row-1] valueForKey:@"homePlaceholder"]];
+                    if (![[[fixturesArray objectAtIndex:indexPath.row-1] valueForKey:@"homeTeamName"] isKindOfClass:[NSNull class]]) {
+                        if ( [[[fixturesArray objectAtIndex:indexPath.row-1] valueForKey:@"homeTeamName"] isEqualToString:temp]) {
+                            NSString *competition_actual_name =[[fixturesArray objectAtIndex:indexPath.row-1] valueForKey:@"competition_actual_name"];
+                            if ([competition_actual_name rangeOfString:@"Group"] .location != NSNotFound) {
+                                cell.HomeTeam.text = [NSString stringWithFormat:@"%@%@",@"",[[fixturesArray objectAtIndex:indexPath.row-1] valueForKey:@"homePlaceholder"]];
+                            }else if([competition_actual_name rangeOfString:@"Pos"] .location != NSNotFound){
+                                cell.HomeTeam.text = [NSString stringWithFormat:@"%@%@",@"Pos-",[[fixturesArray objectAtIndex:indexPath.row-1] valueForKey:@"homePlaceholder"]];
+                            }
                         }
                     }else{
                         cell.HomeTeam.text =[[fixturesArray objectAtIndex:indexPath.row-1] valueForKey:@"displayHomeTeamPlaceholderName"];
@@ -348,14 +361,16 @@
                     cell.HomeTeam.textColor = [UIColor blackColor];
                 }
             }
-            if (![[[fixturesArray objectAtIndex:indexPath.row-1] valueForKey:@"Away_id"] isKindOfClass:[NSNull class]]  && ![[[fixturesArray objectAtIndex:indexPath.row-1] valueForKey:@"awayTeamName"] isKindOfClass:[NSNull class]]) {
+            if (![[[fixturesArray objectAtIndex:indexPath.row-1] valueForKey:@"Away_id"] isKindOfClass:[NSNull class]]) {
                 if ([[[[fixturesArray objectAtIndex:indexPath.row-1] valueForKey:@"Away_id"] stringValue] isEqualToString:@"0"] ) {
-                    if ([[[fixturesArray objectAtIndex:indexPath.row-1] valueForKey:@"awayTeamName"] isEqualToString:temp]) {
-                        NSString *competition_actual_name =[[fixturesArray objectAtIndex:indexPath.row-1] valueForKey:@"competition_actual_name"];
-                        if ([competition_actual_name rangeOfString:@"Group"] .location != NSNotFound) {
-                            cell.AwayTeam.text = [NSString stringWithFormat:@"%@%@",@"",[[fixturesArray objectAtIndex:indexPath.row-1] valueForKey:@"awayPlaceholder"]];
-                        }else if([competition_actual_name rangeOfString:@"Pos"] .location != NSNotFound){
-                            cell.AwayTeam.text = [NSString stringWithFormat:@"%@%@",@"Pos-",[[fixturesArray objectAtIndex:indexPath.row-1] valueForKey:@"awayPlaceholder"]];
+                    if (![[[fixturesArray objectAtIndex:indexPath.row-1] valueForKey:@"awayTeamName"] isKindOfClass:[NSNull class]]) {
+                        if ([[[fixturesArray objectAtIndex:indexPath.row-1] valueForKey:@"awayTeamName"] isEqualToString:temp]) {
+                            NSString *competition_actual_name =[[fixturesArray objectAtIndex:indexPath.row-1] valueForKey:@"competition_actual_name"];
+                            if ([competition_actual_name rangeOfString:@"Group"] .location != NSNotFound) {
+                                cell.AwayTeam.text = [NSString stringWithFormat:@"%@%@",@"",[[fixturesArray objectAtIndex:indexPath.row-1] valueForKey:@"awayPlaceholder"]];
+                            }else if([competition_actual_name rangeOfString:@"Pos"] .location != NSNotFound){
+                                cell.AwayTeam.text = [NSString stringWithFormat:@"%@%@",@"Pos-",[[fixturesArray objectAtIndex:indexPath.row-1] valueForKey:@"awayPlaceholder"]];
+                            }
                         }
                     }else{
                         cell.AwayTeam.text =[[fixturesArray objectAtIndex:indexPath.row-1] valueForKey:@"displayAwayTeamPlaceholderName"];
@@ -383,10 +398,7 @@
             if (displayMatchNumber.length >15) {
                 displayMatchNumber=[displayMatchNumber substringToIndex:15];
             }
-//            NSString *match_number = [NSString stringWithFormat:@"%@",[[fixturesArray objectAtIndex:indexPath.row-1] valueForKey:@"match_number"]];
-//            if (match_number.length >12) {
-//                match_number=[match_number substringToIndex:12];
-//            }
+
             NSString *matchIDRoundStr =[NSString stringWithFormat:@"%@ | %@ | %@",displayMatchNumber,[[fixturesArray objectAtIndex:indexPath.row-1] valueForKey:@"group_name"],[[fixturesArray objectAtIndex:indexPath.row-1] valueForKey:@"round"]];
             cell.matchIDRound.text =matchIDRoundStr;
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -479,12 +491,6 @@
                 cell.date.text =@"";
                 cell.month.text = @"";
             }
-            
-//            cell.arrowBtn.tag = indexPath.row;
-//            [cell.arrowBtn addTarget:self action:@selector(handleButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-            
-            //        cell.HomeTeam.text = [[fixturesArray objectAtIndex:indexPath.row-(standingArray.count+2)] valueForKey:@"HomeTeam"];
-            //        cell.AwayTeam.text = [[fixturesArray objectAtIndex:indexPath.row-(standingArray.count+2)] valueForKey:@"AwayTeam"];
             if (![[[fixturesArray objectAtIndex:indexPath.row-(standingArray.count+3)] valueForKey:@"homeScore"]   isKindOfClass:[NSNull class]] && ![[[fixturesArray objectAtIndex:indexPath.row-(standingArray.count+3)] valueForKey:@"AwayScore"] isKindOfClass:[NSNull class]]) {
                 int homeTeamScore =[[[fixturesArray objectAtIndex:indexPath.row-(standingArray.count+3)] valueForKey:@"homeScore"] intValue];
                 int awayTeamScore =[[[fixturesArray objectAtIndex:indexPath.row-(standingArray.count+3)] valueForKey:@"AwayScore"] intValue];
@@ -536,14 +542,16 @@
             
             
             NSString *temp =[NSString stringWithFormat:@"%@",@"@^^@"];
-            if (![[[fixturesArray objectAtIndex:indexPath.row-(standingArray.count+3)] valueForKey:@"Home_id"] isKindOfClass:[NSNull class]]  && ![[[fixturesArray objectAtIndex:indexPath.row-(standingArray.count+3)] valueForKey:@"homeTeamName"] isKindOfClass:[NSNull class]]) {
+            if (![[[fixturesArray objectAtIndex:indexPath.row-(standingArray.count+3)] valueForKey:@"Home_id"] isKindOfClass:[NSNull class]] ) {
                 if ([[[[fixturesArray objectAtIndex:indexPath.row-(standingArray.count+3)] valueForKey:@"Home_id"] stringValue] isEqualToString:@"0"] ) {
-                    if ([[[fixturesArray objectAtIndex:indexPath.row-(standingArray.count+3)] valueForKey:@"homeTeamName"] isEqualToString:temp]) {
-                        NSString *competition_actual_name =[[fixturesArray objectAtIndex:indexPath.row-(standingArray.count+3)] valueForKey:@"competition_actual_name"];
-                        if ([competition_actual_name rangeOfString:@"Group"] .location != NSNotFound) {
-                            cell.HomeTeam.text = [NSString stringWithFormat:@"%@%@",@"",[[fixturesArray objectAtIndex:indexPath.row-(standingArray.count+3)] valueForKey:@"homePlaceholder"]];
-                        }else if([competition_actual_name rangeOfString:@"Pos"] .location != NSNotFound){
-                            cell.HomeTeam.text = [NSString stringWithFormat:@"%@%@",@"Pos-",[[fixturesArray objectAtIndex:indexPath.row-(standingArray.count+3)] valueForKey:@"homePlaceholder"]];
+                    if (![[[fixturesArray objectAtIndex:indexPath.row-(standingArray.count+3)] valueForKey:@"homeTeamName"] isKindOfClass:[NSNull class]]) {
+                        if ([[[fixturesArray objectAtIndex:indexPath.row-(standingArray.count+3)] valueForKey:@"homeTeamName"] isEqualToString:temp]) {
+                            NSString *competition_actual_name =[[fixturesArray objectAtIndex:indexPath.row-(standingArray.count+3)] valueForKey:@"competition_actual_name"];
+                            if ([competition_actual_name rangeOfString:@"Group"] .location != NSNotFound) {
+                                cell.HomeTeam.text = [NSString stringWithFormat:@"%@%@",@"",[[fixturesArray objectAtIndex:indexPath.row-(standingArray.count+3)] valueForKey:@"homePlaceholder"]];
+                            }else if([competition_actual_name rangeOfString:@"Pos"] .location != NSNotFound){
+                                cell.HomeTeam.text = [NSString stringWithFormat:@"%@%@",@"Pos-",[[fixturesArray objectAtIndex:indexPath.row-(standingArray.count+3)] valueForKey:@"homePlaceholder"]];
+                            }
                         }
                     }else{
                         cell.HomeTeam.text =[[fixturesArray objectAtIndex:indexPath.row-(standingArray.count+3)] valueForKey:@"displayHomeTeamPlaceholderName"];
@@ -552,14 +560,16 @@
                     cell.HomeTeam.textColor = [UIColor blackColor];
                 }
             }
-            if (![[[fixturesArray objectAtIndex:indexPath.row-(standingArray.count+3)] valueForKey:@"Away_id"] isKindOfClass:[NSNull class]]  && ![[[fixturesArray objectAtIndex:indexPath.row-(standingArray.count+3)] valueForKey:@"awayTeamName"] isKindOfClass:[NSNull class]]) {
+            if (![[[fixturesArray objectAtIndex:indexPath.row-(standingArray.count+3)] valueForKey:@"Away_id"] isKindOfClass:[NSNull class]]  ) {
                 if ([[[[fixturesArray objectAtIndex:indexPath.row-(standingArray.count+3)] valueForKey:@"Away_id"] stringValue] isEqualToString:@"0"]  ) {
-                    if ([[[fixturesArray objectAtIndex:indexPath.row-(standingArray.count+3)] valueForKey:@"awayTeamName"] isEqualToString:temp]) {
-                        NSString *competition_actual_name =[[fixturesArray objectAtIndex:indexPath.row-(standingArray.count+3)] valueForKey:@"competition_actual_name"];
-                        if ([competition_actual_name rangeOfString:@"Group"] .location != NSNotFound) {
-                            cell.AwayTeam.text = [NSString stringWithFormat:@"%@%@",@"",[[fixturesArray objectAtIndex:indexPath.row-(standingArray.count+3)] valueForKey:@"awayPlaceholder"]];
-                        }else if([competition_actual_name rangeOfString:@"Pos"] .location != NSNotFound){
-                            cell.AwayTeam.text = [NSString stringWithFormat:@"%@%@",@"Pos-",[[fixturesArray objectAtIndex:indexPath.row-(standingArray.count+3)] valueForKey:@"awayPlaceholder"]];
+                    if (![[[fixturesArray objectAtIndex:indexPath.row-(standingArray.count+3)] valueForKey:@"awayTeamName"] isKindOfClass:[NSNull class]]) {
+                        if ([[[fixturesArray objectAtIndex:indexPath.row-(standingArray.count+3)] valueForKey:@"awayTeamName"] isEqualToString:temp]) {
+                            NSString *competition_actual_name =[[fixturesArray objectAtIndex:indexPath.row-(standingArray.count+3)] valueForKey:@"competition_actual_name"];
+                            if ([competition_actual_name rangeOfString:@"Group"] .location != NSNotFound) {
+                                cell.AwayTeam.text = [NSString stringWithFormat:@"%@%@",@"",[[fixturesArray objectAtIndex:indexPath.row-(standingArray.count+3)] valueForKey:@"awayPlaceholder"]];
+                            }else if([competition_actual_name rangeOfString:@"Pos"] .location != NSNotFound){
+                                cell.AwayTeam.text = [NSString stringWithFormat:@"%@%@",@"Pos-",[[fixturesArray objectAtIndex:indexPath.row-(standingArray.count+3)] valueForKey:@"awayPlaceholder"]];
+                            }
                         }
                     }else{
                         cell.AwayTeam.text =[[fixturesArray objectAtIndex:indexPath.row-(standingArray.count+3)] valueForKey:@"displayAwayTeamPlaceholderName"];

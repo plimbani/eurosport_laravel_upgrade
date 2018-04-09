@@ -83,31 +83,37 @@
         
     }
     NSString *temp =[NSString stringWithFormat:@"%@",@"@^^@"];
-    if (![[matchDetails valueForKey:@"Home_id"] isKindOfClass:[NSNull class]]  && ![[matchDetails valueForKey:@"homeTeamName"] isKindOfClass:[NSNull class]]) {
+    if (![[matchDetails valueForKey:@"Home_id"] isKindOfClass:[NSNull class]] ) {
         if ([[[matchDetails valueForKey:@"Home_id"] stringValue] isEqualToString:@"0"] ) {
-            if ([[matchDetails valueForKey:@"homeTeamName"] isEqualToString:temp]) {
-                NSString *competition_actual_name =[matchDetails valueForKey:@"competition_actual_name"];
-                if ([competition_actual_name rangeOfString:@"Group"] .location != NSNotFound) {
-                    self.homeTeamNameTextField.text = [NSString stringWithFormat:@"%@%@",@"",[matchDetails valueForKey:@"homePlaceholder"]];
-                }else if([competition_actual_name rangeOfString:@"Pos"] .location != NSNotFound){
-                    self.homeTeamNameTextField.text = [NSString stringWithFormat:@"%@%@",@"Pos-",[matchDetails valueForKey:@"homePlaceholder"]];
+            if (![[matchDetails valueForKey:@"homeTeamName"] isKindOfClass:[NSNull class]]) {
+                if ([[matchDetails valueForKey:@"homeTeamName"] isEqualToString:temp]) {
+                    NSString *competition_actual_name =[matchDetails valueForKey:@"competition_actual_name"];
+                    if ([competition_actual_name rangeOfString:@"Group"] .location != NSNotFound) {
+                        self.homeTeamNameTextField.text = [NSString stringWithFormat:@"%@%@",@"",[matchDetails valueForKey:@"homePlaceholder"]];
+                    }else if([competition_actual_name rangeOfString:@"Pos"] .location != NSNotFound){
+                        self.homeTeamNameTextField.text = [NSString stringWithFormat:@"%@%@",@"Pos-",[matchDetails valueForKey:@"homePlaceholder"]];
+                    }
                 }
-            }else{
+            }
+            else{
                 self.homeTeamNameTextField.text =[matchDetails valueForKey:@"displayHomeTeamPlaceholderName"];
             }
             
         }
     }
-    if (![[matchDetails valueForKey:@"Away_id"] isKindOfClass:[NSNull class]]  && ![[matchDetails valueForKey:@"awayTeamName"] isKindOfClass:[NSNull class]]) {
+    if (![[matchDetails valueForKey:@"Away_id"] isKindOfClass:[NSNull class]] ) {
         if ([[[matchDetails valueForKey:@"Away_id"] stringValue] isEqualToString:@"0"] ) {
-            if ([[matchDetails valueForKey:@"awayTeamName"] isEqualToString:temp]) {
-                NSString *competition_actual_name =[matchDetails valueForKey:@"competition_actual_name"];
-                if ([competition_actual_name rangeOfString:@"Group"] .location != NSNotFound) {
-                    self.awayTeamNameTextField.text = [NSString stringWithFormat:@"%@%@",@"",[matchDetails valueForKey:@"awayPlaceholder"]];
-                }else if([competition_actual_name rangeOfString:@"Pos"] .location != NSNotFound){
-                    self.awayTeamNameTextField.text = [NSString stringWithFormat:@"%@%@",@"Pos-",[matchDetails valueForKey:@"awayPlaceholder"]];
+            if (![[matchDetails valueForKey:@"awayTeamName"] isKindOfClass:[NSNull class]]) {
+                if ([[matchDetails valueForKey:@"awayTeamName"] isEqualToString:temp]) {
+                    NSString *competition_actual_name =[matchDetails valueForKey:@"competition_actual_name"];
+                    if ([competition_actual_name rangeOfString:@"Group"] .location != NSNotFound) {
+                        self.awayTeamNameTextField.text = [NSString stringWithFormat:@"%@%@",@"",[matchDetails valueForKey:@"awayPlaceholder"]];
+                    }else if([competition_actual_name rangeOfString:@"Pos"] .location != NSNotFound){
+                        self.awayTeamNameTextField.text = [NSString stringWithFormat:@"%@%@",@"Pos-",[matchDetails valueForKey:@"awayPlaceholder"]];
+                    }
                 }
-            }else{
+            }
+            else{
                 self.awayTeamNameTextField.text =[matchDetails valueForKey:@"displayAwayTeamPlaceholderName"];
             }
             
@@ -145,7 +151,6 @@
     self.groupName.text =[matchDetails valueForKey:@"group_name"];
     if (![[matchDetails valueForKey:@"match_status"] isKindOfClass:[NSNull class]] && ![[matchDetails valueForKey:@"MatchWinner"] isKindOfClass:[NSNull class]]) {
         self.winnerLbl.text = [NSString stringWithFormat:@"%@ - %@ %@",[matchDetails valueForKey:@"match_status"],[matchDetails valueForKey:@"MatchWinner"],@"is the winner"];
-        
     }else{
         _winnerLblTopConstrain.constant = -50;
         _bottomViewTopConstrain.constant = 40;
@@ -159,12 +164,7 @@
             
             self.positionLbl.text =@"Placing: N/A";
         }
-        if (![[matchDetails valueForKey:@"match_status"] isKindOfClass:[NSNull class]] && ![[matchDetails valueForKey:@"MatchWinner"] isKindOfClass:[NSNull class]]) {
-            self.mainViewHeightConstrain.constant = 405+60;
-        }else{
-            self.mainViewHeightConstrain.constant = 405+20;
-        }
-        
+        self.mainViewHeightConstrain.constant = 405+25;
     }else{
         self.middleTeamDetailViewHeightConstrain.constant = self.middleTeamDetailViewHeightConstrain.constant-25;
         self.mainViewHeightConstrain.constant = 405;
@@ -221,8 +221,9 @@
         self.homeTeamImageWidthConstrain.constant = 40;
     }
     if (![[matchDetails valueForKey:@"venue_name"] isKindOfClass:[NSNull class]] && ![[matchDetails valueForKey:@"pitch_number"] isKindOfClass:[NSNull class]]) {
-         NSString *btnText = [NSString stringWithFormat:@"  %@ - %@",[matchDetails valueForKey:@"venue_name"],[matchDetails valueForKey:@"pitch_number"]];
-        [self.venueBtn setTitle:btnText  forState:UIControlStateNormal];
+         NSString *venueText = [NSString stringWithFormat:@"%@ - %@",[matchDetails valueForKey:@"venue_name"],[matchDetails valueForKey:@"pitch_number"]];
+        //[self.venueBtn setTitle:btnText  forState:UIControlStateNormal];
+        self.venueLbl.text = venueText;
         UITapGestureRecognizer *tapAction = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(lblClick:)];
         tapAction.delegate =self;
         tapAction.numberOfTapsRequired = 1;

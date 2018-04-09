@@ -25,56 +25,6 @@
 //@synthesize tournamentName,selectedTournament,
 @synthesize defaultTournamentDir,orientationFlag,selectedTab,firebaseToken,competationFormatId;
 NSString *const kGCMMessageIDKey = @"gcm.message_id";
--(void)updateToken{
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSDictionary *userData = [defaults objectForKey:@"userData"];
-    NSDictionary *params = @{@"email": [userData valueForKey:@"email"],@"password":[userData valueForKey:@"password"],@"forgotpassword":@"0",@"remember":@""};
-    //NSDictionary *params = @{@"email": @"spatel@aecrodigital.com",@"password":@"sanjay1!" ,@"tournament_id":@"1",@"first_name":@"sanjay",@"sur_name":@"patel" };
-    //Configure your session with common header fields like authorization etc
-    NSURLSessionConfiguration *sessionConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
-    sessionConfiguration.HTTPAdditionalHeaders = @{@"IsMobileUser": @"true"};
-    NSURLSession *session = [NSURLSession sessionWithConfiguration:sessionConfiguration];
-    NSString *url=[[NSString alloc]initWithFormat:@"%@%@", BaseURL,Login ];
-    //NSString *url =@"https://manager.gimbal.com/api/v2/places";
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]
-                                                           cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
-    NSData *requestData = [NSJSONSerialization dataWithJSONObject:params options:0 error:nil]; //TODO handle error
-    [request setHTTPMethod:@"POST"];
-    [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
-    [request setValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
-    [request setValue:[NSString stringWithFormat:@"%lu", (unsigned long)[requestData length]] forHTTPHeaderField:@"Content-Length"];
-    [request setHTTPBody: requestData];
-    NSURLSessionDataTask *dataTask = [session dataTaskWithRequest:request
-                                                completionHandler:^(NSData *data, NSURLResponse *response, NSError *error)
-                                      {
-                                          if (error) {
-                                              NSLog(@"data%@",data);
-                                              NSLog(@"response%@",error);
-                                              [SVProgressHUD dismiss];
-                                          } else{
-                                              NSError *parseError = nil;
-                                              NSDictionary *responseDictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&parseError];
-                                              NSLog(@"%@",responseDictionary);
-                                              NSString *token =responseDictionary[@"token"];
-                                              NSString *error =responseDictionary[@"error"];
-                                              
-                                              if(token != NULL){
-                                                  [[NSUserDefaults standardUserDefaults] setObject:token forKey:@"token"];
-                                                  [self GetDefaultTournament];
-                                                  [self getSetting];
-                                              }else{
-                                                  [SVProgressHUD dismiss];
-                                                  
-                                                  if (error != NULL) {
-                                                      
-                                                  }
-                                              }
-                                              
-                                          }
-                                      }];
-    [dataTask resume];
-
-}
 -(void)GetDefaultTournament{
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -110,10 +60,6 @@ NSString *const kGCMMessageIDKey = @"gcm.message_id";
                                                   NSError *parseError = nil;
                                                   NSDictionary *responseDictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&parseError];
                                                   defaultTournamentDir =[responseDictionary[@"data"] mutableCopy];
-                                                  //NSLog(@"%@",defaultTournamentDir);
-                                                  
-//                                                  selectedTournament = [[responseDictionary valueForKey:@"tournament_id"] integerValue];
-//                                                  tournamentName = [responseDictionary valueForKey:@"name"];
                                               }
                                           }];
         [dataTask resume];
@@ -287,6 +233,61 @@ NSString *const kGCMMessageIDKey = @"gcm.message_id";
     }
     
 }
+-(void)getUpdatedToken{
+    [SVProgressHUD show];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSDictionary *params = @{@"email": [defaults objectForKey:@"email"],@"password":[defaults objectForKey:@"password"] ,@"forgotpassword":@"0",@"remember":@""};
+    
+    NSURLSessionConfiguration *sessionConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
+    sessionConfiguration.HTTPAdditionalHeaders = @{@"IsMobileUser": @"true"};
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:sessionConfiguration];
+    NSString *url=[[NSString alloc]initWithFormat:@"%@%@", BaseURL,Login ];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]
+                                                           cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
+    NSData *requestData = [NSJSONSerialization dataWithJSONObject:params options:0 error:nil]; //TODO handle error
+    [request setHTTPMethod:@"POST"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    [request setValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
+    [request setValue:[NSString stringWithFormat:@"%lu", (unsigned long)[requestData length]] forHTTPHeaderField:@"Content-Length"];
+    [request setHTTPBody: requestData];
+    NSURLSessionDataTask *dataTask = [session dataTaskWithRequest:request
+                                                completionHandler:^(NSData *data, NSURLResponse *response, NSError *error)
+                                      {
+                                          if (error) {
+                                              NSLog(@"data%@",data);
+                                              NSLog(@"response%@",error);
+                                              [SVProgressHUD dismiss];
+                                          } else{
+                                              NSError *parseError = nil;
+                                              NSDictionary *responseDictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&parseError];
+                                              NSLog(@"%@",responseDictionary);
+                                              NSString *token =responseDictionary[@"token"];
+                                              NSString *error =responseDictionary[@"error"];
+                                             
+                                              if(token != NULL){
+                                                  [[NSUserDefaults standardUserDefaults] setObject:token forKey:@"token"];
+                                                  [[NSUserDefaults standardUserDefaults] synchronize];
+                                                  dispatch_async(dispatch_get_main_queue(), ^{
+                                                      AppDelegate *app = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+                                                      app.window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
+                                                      UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+                                                      HomeTabBar *myVC = (HomeTabBar *)[storyboard instantiateViewControllerWithIdentifier:@"HomeTabBar"];
+                                                      myVC.selectedIndex = 1;
+                                                      UINavigationController *navigationObject = [[UINavigationController alloc] initWithRootViewController:myVC];
+                                                      app.window.rootViewController = navigationObject;
+                                                      navigationObject.navigationBar.hidden = TRUE;
+                                                      
+                                                      [app.window makeKeyAndVisible];
+                                                  });
+                                                  [self getSetting];
+                                                  [self GetDefaultTournament];
+                                              }
+                                              [SVProgressHUD dismiss];
+                                          }
+                                      }];
+    [dataTask resume];
+
+}
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     [Crashlytics sharedInstance].debugMode = TRUE;
@@ -337,19 +338,7 @@ NSString *const kGCMMessageIDKey = @"gcm.message_id";
 //        
 //    }
     if (token != NULL) {
-        AppDelegate *app = (AppDelegate*)[[UIApplication sharedApplication] delegate];
-        app.window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
-        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-        HomeTabBar *myVC = (HomeTabBar *)[storyboard instantiateViewControllerWithIdentifier:@"HomeTabBar"];
-        myVC.selectedIndex = 1;
-        UINavigationController *navigationObject = [[UINavigationController alloc] initWithRootViewController:myVC];
-        app.window.rootViewController = navigationObject;
-        navigationObject.navigationBar.hidden = TRUE;
-        //UINavigationController *navigationObject = [[UINavigationController alloc] initWithRootViewController:myVC];
-        //app.window.rootViewController = myVC;
-        //navigationObject.navigationBar.hidden = TRUE;
-        [app.window makeKeyAndVisible];
-        [self updateToken];
+        [self getUpdatedToken];
         //[self getSetting];
     }
     
@@ -396,7 +385,7 @@ NSString *const kGCMMessageIDKey = @"gcm.message_id";
     // [START configure_firebase]
     
     if (token != NULL) {
-       // [self getSetting];
+        
     }
     // [END configure_firebase]
     // [START add_token_refresh_observer]
@@ -513,6 +502,7 @@ NSString *const kGCMMessageIDKey = @"gcm.message_id";
     // If you are receiving a notification message while your app is in the background,
     // this callback will not be fired till the user taps on the notification launching the application.
     // TODO: Handle data of notification
+    
     // Print message ID.
     if (userInfo[kGCMMessageIDKey]) {
         NSLog(@"Message ID: %@", userInfo[kGCMMessageIDKey]);
@@ -602,17 +592,6 @@ fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
         [self checkSoundON:alert];
         
     }
-    
-    
-    
-//    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"ESR" message:[alert valueForKey:@"body"] preferredStyle:UIAlertControllerStyleAlert];
-//    UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
-//        
-//    }];
-//    [alertController addAction:ok];
-//    [self.window.rootViewController presentViewController:alertController animated:YES completion:nil];
-
-    
     completionHandler(UIBackgroundFetchResultNewData);
 }
 - (void)application:(UIApplication *)application
@@ -623,11 +602,6 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     NSString *refreshedToken = [[FIRInstanceID instanceID] token];
     firebaseToken =refreshedToken;
     NSLog(@"firebaseToken %@",firebaseToken);
-    //    NSString* newToken = [deviceToken description];
-    //
-    //    newToken = [newToken stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]];
-    //    newToken = [newToken stringByReplacingOccurrencesOfString:@" " withString:@""];
-    
 }
 #if defined(__IPHONE_10_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
 // Receive data message on iOS 10 devices while app is in the foreground.

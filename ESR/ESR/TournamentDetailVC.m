@@ -65,16 +65,9 @@
                                                   NSError *parseError = nil;
                                                   NSDictionary *responseDictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&parseError];
                                                   app.defaultTournamentDir =[responseDictionary[@"data"] mutableCopy];
-//                                                  if (![[app.defaultTournamentDir valueForKey:@"status"] isEqualToString:@"Published"]) {
-//                                                      [self setFavAndDefault];
-//                                                  }else{
-//                                                      [self GetTournamentFavList];
-//                                                  }
+
                                                   [self GetTournamentFavList];
-                                                  //NSLog(@"%@",defaultTournamentDir);
                                                   
-                                                  //                                                  selectedTournament = [[responseDictionary valueForKey:@"tournament_id"] integerValue];
-                                                  //                                                  tournamentName = [responseDictionary valueForKey:@"name"];
                                               }
                                           }];
         [dataTask resume];
@@ -226,7 +219,31 @@
     [self.contactLbl addGestureRecognizer:phone1LblGesture];
 
 }
-
+-(void)viewWillAppear:(BOOL)animated{
+    [self.teamsBtn setTitle:NSLocalizedString(@"Teams",@"") forState:UIControlStateNormal];
+    self.dayLbl.text = NSLocalizedString(@"Days",@"");
+    self.hoursLbl.text = NSLocalizedString(@"Hours",@"");
+    self.minutesLbl.text = NSLocalizedString(@"Minutes",@"");
+    self.secondLbl.text = NSLocalizedString(@"Seconds",@"");
+    [self GetDefaultTournament];
+    _autoCompleteTableView.hidden =TRUE;
+    // _autoCompleteTableView.tableFooterView = [UIView new];
+    [[_autoCompleteTableView layer] setMasksToBounds:NO];
+    [[_autoCompleteTableView layer] setShadowColor:[UIColor blackColor].CGColor];
+    [[_autoCompleteTableView layer] setShadowOffset:CGSizeMake(0.0f, 5.0f)];
+    [[_autoCompleteTableView layer] setShadowOpacity:0.3f];
+    self.contactDetailAlertView.hidden = TRUE;
+    self.pickerView.hidden = TRUE;
+    if([Utils isNetworkAvailable] ==YES){
+        self.offlineView.hidden = TRUE;
+    }else{
+        self.offlineView.hidden = false;
+    }
+    [[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(reachabilityChanged:) name: kReachabilityChangedNotification object: nil];
+    Reachability* reachability = [Reachability reachabilityForInternetConnection];
+    [reachability startNotifier];
+    
+}
 - (void)phone1LblTapped
 {
     UIDevice *device = [UIDevice currentDevice];
@@ -461,31 +478,7 @@
     }
 }
 
--(void)viewWillAppear:(BOOL)animated{
-    [self.teamsBtn setTitle:NSLocalizedString(@"Teams",@"") forState:UIControlStateNormal];
-    self.dayLbl.text = NSLocalizedString(@"Days",@"");
-    self.hoursLbl.text = NSLocalizedString(@"Hours",@"");
-    self.minutesLbl.text = NSLocalizedString(@"Minutes",@"");
-    self.secondLbl.text = NSLocalizedString(@"Seconds",@"");
-    [self GetDefaultTournament];
-    _autoCompleteTableView.hidden =TRUE;
-    // _autoCompleteTableView.tableFooterView = [UIView new];
-    [[_autoCompleteTableView layer] setMasksToBounds:NO];
-    [[_autoCompleteTableView layer] setShadowColor:[UIColor blackColor].CGColor];
-    [[_autoCompleteTableView layer] setShadowOffset:CGSizeMake(0.0f, 5.0f)];
-    [[_autoCompleteTableView layer] setShadowOpacity:0.3f];
-    self.contactDetailAlertView.hidden = TRUE;
-    self.pickerView.hidden = TRUE;
-    if([Utils isNetworkAvailable] ==YES){
-        self.offlineView.hidden = TRUE;
-    }else{
-        self.offlineView.hidden = false;
-    }
-    [[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(reachabilityChanged:) name: kReachabilityChangedNotification object: nil];
-    Reachability* reachability = [Reachability reachabilityForInternetConnection];
-    [reachability startNotifier];
-    
-}
+
 - (void)reachabilityChanged:(NSNotification*)notification
 {
     Reachability* reachability = notification.object;

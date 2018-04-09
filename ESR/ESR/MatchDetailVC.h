@@ -26,6 +26,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *groupName;
 @property (weak, nonatomic) IBOutlet UILabel *matchId;
 @property (weak, nonatomic) IBOutlet UIButton *venueBtn;
+@property (weak, nonatomic) IBOutlet UILabel *venueLbl;
+
 @property (weak, nonatomic) IBOutlet UILabel *winnerLbl;
 @property (weak, nonatomic) IBOutlet UILabel *titleLbl;
 @property (weak, nonatomic) IBOutlet UILabel *referreLbl;

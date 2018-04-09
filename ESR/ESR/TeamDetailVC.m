@@ -218,7 +218,7 @@
     }else if(indexPath.row == standingArray.count +4){
         return 50;
     }else if (indexPath.row <standingArray.count+5+fixturesArray.count){
-        return 135 ;
+        return 140 ;
     }else{
         return 60;
     }
@@ -459,6 +459,8 @@
                         cell.HomeTeam.text = [NSString stringWithFormat:@"%@%@",@"Pos-",[[fixturesArray objectAtIndex:indexPath.row-(standingArray.count+5)] valueForKey:@"homePlaceholder"]];
                     }
                     cell.HomeTeam.textColor = [UIColor blackColor];
+                }else{
+                    
                 }
             }
             if (![[[fixturesArray objectAtIndex:indexPath.row-(standingArray.count+5)] valueForKey:@"Away_id"] isKindOfClass:[NSNull class]]  && ![[[fixturesArray objectAtIndex:indexPath.row-(standingArray.count+5)] valueForKey:@"awayTeamName"] isKindOfClass:[NSNull class]]) {

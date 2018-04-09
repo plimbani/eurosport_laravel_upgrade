@@ -302,23 +302,14 @@
 -(void)checkApi:(NSString *)token{
     NSString *concateToken = [NSString stringWithFormat:@"%@%@",@"Bearer ",token];
     if([Utils isNetworkAvailable] ==YES){
-//        NSMutableURLRequest *request = [[NSMutableURLRequest alloc]init];
         NSString *post = @"";
         NSData *postData = [post dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
-//        NSString *postLength = [NSString stringWithFormat:@"%lu",(unsigned long)[postData length]];
         NSString *url=[[NSString alloc]initWithFormat:@"%@%@", BaseURL,CheckApi];
-        //[request setURL:[NSURL URLWithString:url]];
         NSDictionary *header =@{@"IsMobileUser": @"true",@"Authorization":concateToken};
         NSURLSessionConfiguration *sessionConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
         sessionConfiguration.HTTPAdditionalHeaders =header;
         NSURLSession *session = [NSURLSession sessionWithConfiguration:sessionConfiguration];
-        
-//        NSLog(@"postLength =%@",postLength);
-//        
-//        [request setHTTPBody:postData];
-//        [request setHTTPMethod:@"GET"];
-//        [request addValue:post forHTTPHeaderField:@"GET"];
-//        [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+ 
         
         NSDictionary *params =@"";
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]
@@ -352,9 +343,11 @@
                                                           NSDictionary *user = [responseDictionary valueForKey:@"userData"];
                                                           NSLog(@"%@",user);
                                                           [[NSUserDefaults standardUserDefaults] setObject:token forKey:@"token"];
-                                                          NSDictionary *userDataDir =@{@"email":[user valueForKey:@"email"],@"password":self.passwordTxtField.text,@"first_name":[user valueForKey:@"first_name"],@"locale":[user valueForKey:@"locale"],@"profile_image_url":[user valueForKey:@"profile_image_url"],@"sur_name":[user valueForKey:@"sur_name"],@"tournament_id":[user valueForKey:@"tournament_id"],@"user_id":[user valueForKey:@"user_id"]};
+                                                          NSDictionary *userDataDir =@{@"email":[user valueForKey:@"email"],@"first_name":[user valueForKey:@"first_name"],@"locale":[user valueForKey:@"locale"],@"profile_image_url":[user valueForKey:@"profile_image_url"],@"sur_name":[user valueForKey:@"sur_name"],@"tournament_id":[user valueForKey:@"tournament_id"],@"user_id":[user valueForKey:@"user_id"]};
                                                           [[NSUserDefaults standardUserDefaults] setObject:userDataDir forKey:@"userData"];
                                                           [[NSUserDefaults standardUserDefaults] setObject:@"1" forKey:@"loginflag"];
+                                                          [[NSUserDefaults standardUserDefaults] setValue:self.passwordTxtField.text forKey:@"password"];
+                                                          [[NSUserDefaults standardUserDefaults] setValue:self.emailTxtField.text forKey:@"email"];
                                                           [[NSUserDefaults standardUserDefaults] synchronize];
                                                           [self GetDefaultTournament];
                                                       });
@@ -378,13 +371,11 @@
         if([Utils isNetworkAvailable] ==YES){
             [SVProgressHUD show];
             NSDictionary *params = @{@"email": self.emailTxtField.text,@"password":self.passwordTxtField.text ,@"forgotpassword":@"0",@"remember":@""};
-            //NSDictionary *params = @{@"email": @"spatel@aecrodigital.com",@"password":@"sanjay1!" ,@"tournament_id":@"1",@"first_name":@"sanjay",@"sur_name":@"patel" };
-            //Configure your session with common header fields like authorization etc
+            
             NSURLSessionConfiguration *sessionConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
             sessionConfiguration.HTTPAdditionalHeaders = @{@"IsMobileUser": @"true"};
             NSURLSession *session = [NSURLSession sessionWithConfiguration:sessionConfiguration];
             NSString *url=[[NSString alloc]initWithFormat:@"%@%@", BaseURL,Login ];
-            //NSString *url =@"https://manager.gimbal.com/api/v2/places";
             NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]
                                                                    cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
             NSData *requestData = [NSJSONSerialization dataWithJSONObject:params options:0 error:nil]; //TODO handle error
@@ -417,25 +408,11 @@
                                                                   self.alertView.hidden = FALSE;
                                                                   self.alertViewTitle.text = @"Error";
                                                                   self.alertViewSubtitle.text = error;
-//                                                                  UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Error" message:error preferredStyle:UIAlertControllerStyleAlert];
-//                                                                  
-//                                                                  UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
-//                                                                  [alertController addAction:ok];
-//                                                                  
-//                                                                  [self presentViewController:alertController animated:YES completion:nil];
+
                                                               });
                                                           }
                                                       }
                                                       
-                                                      
-                                                      
-//                                                      NSString *message = [responseDictionary valueForKey:@"message"];
-//                                                      UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Error" message:message preferredStyle:UIAlertControllerStyleAlert];
-//                                                      UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
-//                                                          
-//                                                          [self.navigationController popViewControllerAnimated:TRUE];                                                          }];
-//                                                      [alertController addAction:ok];
-//                                                      [self presentViewController:alertController animated:YES completion:nil];
                                                   }
                                               }];
             [dataTask resume];
