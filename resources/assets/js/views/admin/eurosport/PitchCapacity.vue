@@ -161,6 +161,12 @@ import Tournament from '../../../api/tournament.js'
             this.getPitchSizeWiseSummary();
             this.displayTournamentCompetationList();
         },
+        beforeDestroy: function() {
+            // Remove custom event listener
+            this.$root.$off('displayPitch');
+            this.$root.$off('pitchrefresh');
+            this.$root.$off('getPitchSizeWiseSummary');
+        },
         components: {
             editPitchDetail,addPitchDetail,DeleteModal
         },

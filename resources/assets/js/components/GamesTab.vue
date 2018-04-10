@@ -71,7 +71,7 @@ export default {
     $("#game-list").mCustomScrollbar({
       'autoHideScrollbar':true
     });
-    this.displayTournamentCompetationList();
+    // this.displayTournamentCompetationList();
   },
   methods: {
 
@@ -82,7 +82,7 @@ export default {
       } else {
           tdata ={'tournamentId':this.tournamentId }
       }
-      this.$store.dispatch('setMatches')
+      // this.$store.dispatch('setMatches')
       
     },
     displayTournamentCompetationList () {

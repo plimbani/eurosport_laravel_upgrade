@@ -228,6 +228,10 @@ export default {
      this.$root.$on('setTemplate', this.next);
      this.$root.$on('displayCompetationList', this.displayTournamentCompetationList);
   },
-
+  beforeDestroy: function() {
+    // Remove custom event listener
+    this.$root.$off('setTemplate');
+    this.$root.$off('displayCompetationList');
+  },
 }
 </script>

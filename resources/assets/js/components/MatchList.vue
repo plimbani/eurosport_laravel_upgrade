@@ -42,8 +42,8 @@
           <!-- </a>  -->
         </td>
         <td class="text-center js-match-list">
-            <input type="text" v-model="match.homeScore" :name="'home_score['+match.fid+']'" :value="match.homeScore" style="width: 25px; text-align: center;"  v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails'" :readonly="match.is_scheduled == '0' " @change="updateScore(match,index1)"><span v-else>{{match.homeScore}}</span> -
-            <input type="text" v-model="match.AwayScore" :name="'away_score['+match.fid+']'" :value="match.AwayScore" style="width: 25px; text-align: center;"  v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails'"
+            <input type="text" v-model="match.homeScore" :name="'home_score['+match.fid+']'" style="width: 25px; text-align: center;"  v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails'" :readonly="match.is_scheduled == '0' " @change="updateScore(match,index1)"><span v-else>{{match.homeScore}}</span> -
+            <input type="text" v-model="match.AwayScore" :name="'away_score['+match.fid+']'" style="width: 25px; text-align: center;"  v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails'"
             :readonly="match.is_scheduled == '0'" @change="updateScore(match,index1)"><span v-else>{{match.AwayScore}}</span>
         </td>
 
@@ -191,6 +191,11 @@ export default {
   },
   created: function() {
     this.$root.$on('reloadMatchList', this.setScore);
+  },
+  beforeDestroy: function() {
+    // Remove custom event listener
+    this.$root.$off('setMatchDataOfMatchList');
+    this.$root.$off('reloadMatchList');
   },
   watch: {
     matchData1: {

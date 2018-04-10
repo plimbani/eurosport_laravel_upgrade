@@ -469,6 +469,11 @@ export default {
      this.$root.$on('setCompetationFormatData', this.setEdit);
      this.$root.$on('createAgeCategory', this.createAgeCategory);
   },
+  beforeDestroy: function() {
+    // Remove custom event listener
+    this.$root.$off('setCompetationFormatData');
+    this.$root.$off('createAgeCategory');
+  },
   computed: {
     'messageLength': function () {
         return this.competation_format.comments !== null ? this.competation_format.comments.length : 0;
