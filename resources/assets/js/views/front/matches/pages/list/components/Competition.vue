@@ -1,8 +1,8 @@
 <template>
   <div>
-    <a @click="showMatchListView()" href="javascript:void(0)" class="btn btn-primary">
+    <button @click="showMatchListView()" class="btn btn-primary">
         <i aria-hidden="true" class="fa fa-angle-double-left"></i> {{ $t('matches.back_to_match_list') }}
-    </a>
+    </button>
     <div>
         <div class="row align-items-center my-4">
           <div class="col-10 col-sm-6 col-md-4 col-lg-3 col-xl-3">

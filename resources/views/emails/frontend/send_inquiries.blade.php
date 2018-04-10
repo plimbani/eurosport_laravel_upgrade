@@ -135,13 +135,13 @@
                                 <td style="word-wrap:break-word;font-size:0px;padding:10px 25px;padding-top:10px;padding-bottom:10px;padding-right:25px;padding-left:25px;" align="left">
                                   <div class="" style="cursor:auto;color:#555;font-family:Roboto, Helvetica, Arial, sans-serif;font-size:16px;font-weight:300;line-height:24px;text-align:left;">
                                     <br><br>
-                                    <p>Name: {{ $email_details->name }}</p>
-                                    <p>Email: {{ $email_details->email }}</p>
-                                    <p>Telephone Number: {{ $email_details->telephone_number }}</p>
-                                    <p>Subject: {{ $email_details->subject }}</p>
-                                    <p>Message: {{ $email_details->message }}</p>
-                                    <p>IP address: {{ $email_details->ip_address }}</p>
-                                    <p>Timestamp: {{ Carbon\Carbon::parse($email_details->created_at)->format('jS F Y, H:i') }}</p>
+                                    <p><strong>Name:</strong> {{ $email_details->name }}</p>
+                                    <p><strong>Email:</strong> {{ $email_details->email }}</p>
+                                    <p><strong>Telephone Number:</strong> {{ $email_details->telephone_number }}</p>
+                                    <p><strong>Subject:</strong> {{ $email_details->subject }}</p>
+                                    <p><strong>Message:</strong> {!! nl2br($email_details->message) !!}</p>
+                                    <p><strong>IP address:</strong> {{ $email_details->ip_address }}</p>
+                                    <p><strong>Timestamp:</strong> {{ Carbon\Carbon::parse($email_details->created_at)->format('jS F Y, H:i') }}</p>
                                    </div>
                                 </td>
                               </tr>

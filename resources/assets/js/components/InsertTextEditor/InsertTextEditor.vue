@@ -38,7 +38,9 @@
         plugins: ['advlist autolink lists link image charmap print preview hr anchor pagebreak','searchreplace wordcount visualblocks visualchars code fullscreen','insertdatetime media nonbreaking save table contextmenu directionality','template'],
         other_options: {
           branding: false,
-          height: 300
+          height: 300,
+          body_class: 'tiny-mce-content-body',
+          content_css: ['https://fonts.googleapis.com/css?family=Lato', '/assets/css/tiny-mce.css'],
         },
       };
     },

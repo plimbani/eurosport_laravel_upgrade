@@ -2,8 +2,9 @@
 
 namespace Laraspace\Api\Services;
 
+use Mail;
 use Landlord;
-use Laraspace\Custom\Helper\Common;
+use Laraspace\Mail\SendMail;
 use Laraspace\Api\Contracts\ContactContract;
 use Laraspace\Api\Repositories\ContactRepository;
 
@@ -71,11 +72,13 @@ class ContactService implements ContactContract
     $currentWebsite = Landlord::getTenants()['website'];
     $recipient = config('wot.inquiries_recipient');
 
-    $email_msg = 'Message from ' . $currentWebsite->tournament_name  .'Website';
+    $subject = 'Message from ' . $currentWebsite->tournament_name  .' Website';
     $email_from = $data->email;
     $email_templates = 'emails.frontend.send_inquiries';
 
-    Common::sendMail($email_details, $recipient, $email_msg, $email_templates, $email_from);
+    Mail::to($recipient['to'])
+          ->bcc($recipient['bcc'])
+          ->send(new SendMail($email_details, $subject, $email_templates, $email_from));
 
     return ['data' => $data, 'status_code' => '200', 'message' => 'All data'];
   }

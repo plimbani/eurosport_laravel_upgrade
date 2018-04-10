@@ -3,7 +3,7 @@
     <div v-if="allHistoryYears.length > 0">
       <div class="mx-auto text-center row align-items-center">
         <div class="col-12 col-sm-5 col-md-6 col-lg-6 col-xl-6 text-sm-right text-center mb-3 mb-sm-0">
-            <span class="text-uppercase h6">{{ $t('tournament.tournament_year') }}</span>
+            <span class="text-uppercase text-primary h6">{{ $t('tournament.tournament_year') }}</span>
         </div>
         <div class="col-12 col-sm-4 col-md-3 col-lg-2 col-xl-2">
             <label class="custom_select round custom_select-2 d-inline-block" for="history_year">
@@ -18,12 +18,15 @@
 
       <div class="row tournament-list" v-if="currentYear">
         <div class="col-sm-3 mb-5 js-age-category" v-for="ageCategory in currentYear.age_categories">
-          <h3 class="mb-0 text-primary font-weight-bold">{{ ageCategory.name }}</h3>
+          <h4 class="mb-0 text-primary font-weight-bold">{{ ageCategory.name }}</h4>
           <hr class="hr mt-0 mb-0 bg-primary">
           <div class="js-list-parent-div">
             <ul class="js-list list-unstyled" v-if="ageCategory.teams.length > 0">
-              <li class="team-item d-flex justify-content-between" v-for="team in ageCategory.teams">
-                {{ team.name }} ({{ team.country.country_code }}) <span :class="'flag-icon flag-icon-' + team.country.country_flag"></span>
+              <li class="team-item d-flex justify-content-between" v-for="(team, index) in ageCategory.teams">
+                <div>
+                  <span class="country-count">{{ index + 1 }}.</span> <span>{{ team.name }} ({{ team.country.country_code }})</span>
+                </div>
+                <span :class="'flag-icon flag-icon-' + team.country.country_flag"></span>
               </li>
             </ul>
             <div class="no-data h6 text-muted" v-if="ageCategory.teams.length == 0">{{ $t('tournament.no_team_found') }}</div>
