@@ -46,6 +46,10 @@
 		created() {
       this.$root.$on('setAgeCategoryData', this.setAgeCategoryData);
     },
+    beforeDestroy: function() {
+      // Remove custom event listener 
+      this.$root.$off('setAgeCategoryData');
+    },
     computed: {
 
     },

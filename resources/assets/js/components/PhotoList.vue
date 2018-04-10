@@ -6,7 +6,7 @@
 		  		<div class="draggable--section-card-header">
 			  		<div class="draggable--section-card-header-panel">
 			  			<div class="d-flex align-items-center">
-			  				<transition-image :image_url="photo.image" :image_class="'thumb'"></transition-image>
+			  				<transition-image :image_url="photo.image" :image_class="''"></transition-image>
 			  				<div>{{ photo.caption }}</div>
 			  			</div>
 			        <div class="draggable--section-card-header-icons">
@@ -67,6 +67,10 @@
 			this.getAllPhotos();
 			this.$root.$on('getPhotos', this.getPhotos);
 		},
+		beforeDestroy: function() {
+      // Remove custom event listener 
+      this.$root.$off('getPhotos');
+    },
 		methods: {
 			getAllPhotos() {
 				var vm = this;

@@ -6,10 +6,12 @@
 			  		<div class="draggable--section-card-header">
 				  		<div class="draggable--section-card-header-panel">
 				  			<div class="d-flex align-items-center">
-				  				<img class="thumb sponsor-thumb" :src="sponsor.logo">
-					        	<div class="draggable--section-card-header-panel-text-area">
-					        		<div>{{ sponsor.name }}</div>
-					        		<div>{{ sponsor.website }}</div>
+				  				<div class="thumb">
+				  					<img :src="sponsor.logo">
+				  				</div>
+				        	<div class="draggable--section-card-header-panel-text-area">
+				        		<div>{{ sponsor.name }}</div>
+				        		<div>{{ sponsor.website }}</div>
 					  			</div>
 				  			</div>
 				        	<div class="draggable--section-card-header-icons">
@@ -68,6 +70,10 @@
 			this.getSponsorsList();
 			this.$root.$on('getSponsors', this.getSponsors);
 		},
+		beforeDestroy: function() {
+      // Remove custom event listener 
+      this.$root.$off('getSponsors');
+    },
 		methods: {
 			getSponsorsList() {
 				if(this.getWebsite) {

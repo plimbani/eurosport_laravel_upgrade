@@ -48,6 +48,10 @@
 		created() {
       this.$root.$on('setStatisticData', this.setStatisticData);
     },
+    beforeDestroy: function() {
+      // Remove custom event listener 
+      this.$root.$off('setStatisticData');
+    },
     computed: {
     	remainingCount() {
 	    	return this.maxCount - this.formValues.statistic.length;

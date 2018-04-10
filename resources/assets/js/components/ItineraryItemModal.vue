@@ -66,6 +66,11 @@
       this.$root.$on('setItineraryItemData', this.setItineraryItemData);
       this.$root.$on('clearItineraryItemError', this.clearItineraryItemError);
     },
+    beforeDestroy: function() {
+      // Remove custom event listener 
+      this.$root.$off('setItineraryItemData');
+      this.$root.$off('clearItineraryItemError');
+    },
     computed: {
 	  },
 		methods: {

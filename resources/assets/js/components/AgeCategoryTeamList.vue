@@ -69,6 +69,10 @@
 			this.ageCategoryTeams = this.teams;
 			this.$root.$on('getAgeCategoryTeams', this.getAgeCategoryTeams);
 		},
+		beforeDestroy: function() {
+      // Remove custom event listener 
+      this.$root.$off('getAgeCategoryTeams');
+    },
 		methods: {
 			addAgeCategoryTeam() {
 				var formData = {

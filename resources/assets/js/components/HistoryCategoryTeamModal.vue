@@ -58,6 +58,10 @@
     created() {
       this.$root.$on('setCategoryTeamData', this.setCategoryTeamData);
     },
+    beforeDestroy: function() {
+      // Remove custom event listener 
+      this.$root.$off('setCategoryTeamData');
+    },
     computed: {
 
     },

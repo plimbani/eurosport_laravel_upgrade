@@ -63,6 +63,10 @@
 		created() {
 	    this.$root.$on('setOrganiserLogoData', this.setOrganiserLogoData);
 	  },
+	  beforeDestroy: function() {
+      // Remove custom event listener 
+      this.$root.$off('setOrganiserLogoData');
+    },
 	  computed: {
 	  	getOrganiserLogo() {
 	  		return this.formValues.logo == '' ? '/assets/img/noimage.png' : this.formValues.logo;

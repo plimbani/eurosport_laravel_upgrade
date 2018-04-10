@@ -52,6 +52,10 @@
 		created() {
 	    this.$root.$on('setDocumentData', this.setDocumentData);
 	  },
+	  beforeDestroy: function() {
+      // Remove custom event listener 
+      this.$root.$off('setDocumentData');
+    },
 	  computed: {
 	  	getWebsite() {
 				return this.$store.state.Website.id;
