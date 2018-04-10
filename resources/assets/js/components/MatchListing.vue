@@ -78,17 +78,18 @@ export default {
 	  this.getAllMatches()
 	},
 	created: function() {
-		// Remove custom event listener
-		this.$root.$off('changeComp');
-    	this.$root.$off('getMatchByTournamentFilter');
-    	this.$root.$off('changeDrawListComp');
-    	this.$root.$off('getAllMatches');
-
        this.$root.$on('changeComp', this.setMatchData);
        this.$root.$on('getMatchByTournamentFilter', this.setFilter);
        this.$root.$on('changeDrawListComp', this.setMatchData);
        this.$root.$on('getAllMatches', this.getAllMatches);
   	},
+  beforeDestroy: function() {
+  	// Remove custom event listener
+		this.$root.$off('changeComp');
+    this.$root.$off('getMatchByTournamentFilter');
+    this.$root.$off('changeDrawListComp');
+    this.$root.$off('getAllMatches');
+  },
 	computed: {
 		currentScheduleView() {
 			return this.$store.state.currentScheduleView

@@ -68,10 +68,11 @@ import _ from 'lodash';
         created: function() {
         },
         mounted() {
+          this.$root.$on('getStandingDataForManualRanking', this.getStandingData);
+        },
+        beforeDestroy: function() {
           // Remove custom event listener
           this.$root.$off('getStandingDataForManualRanking');
-
-          this.$root.$on('getStandingDataForManualRanking', this.getStandingData);
         },
         methods: {
             getStandingData(currentLCompetationId) {

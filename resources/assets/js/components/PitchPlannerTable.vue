@@ -119,17 +119,6 @@
             }
         },
         created: function() {
-            // Remove custom event listener
-            this.$root.$off('setPitchReset');
-            this.$root.$off('setGameReset');
-            this.$root.$off('setRefereeReset');
-            this.$root.$off('RefereeCount');
-            this.$root.$off('resetPitchesOnCategoryColorSave');
-            this.$root.$off('getPitchesByTournamentFilter');
-            this.$root.$off('setPitchPlanTab');
-            this.$root.$off('getAllReferee');
-            this.$root.$off('editReferee');
-
             this.$root.$on('setPitchReset', this.resetPitch);
             this.$root.$on('setGameReset', this.gameReset);
             this.$root.$on('setRefereeReset', this.refereeReset);
@@ -141,6 +130,18 @@
             // this.$root.$on('getTeamsByTournamentFilter', this.resetPitch);
 
             this.$root.$on('editReferee', this.editReferee);
+        },
+        beforeDestroy: function() {
+            // Remove custom event listener
+            this.$root.$off('setPitchReset');
+            this.$root.$off('setGameReset');
+            this.$root.$off('setRefereeReset');
+            this.$root.$off('RefereeCount');
+            this.$root.$off('resetPitchesOnCategoryColorSave');
+            this.$root.$off('getPitchesByTournamentFilter');
+            this.$root.$off('setPitchPlanTab');
+            this.$root.$off('getAllReferee');
+            this.$root.$off('editReferee');
         },
         data() {
             return {

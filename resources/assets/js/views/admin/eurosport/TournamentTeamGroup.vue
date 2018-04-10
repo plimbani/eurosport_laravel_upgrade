@@ -272,16 +272,16 @@
       this.fetchAllClubs();
     },
     created: function() {
-      // Remove custom event listener 
-      this.$root.$off('getTeamsByTournamentFilter');
-      this.$root.$off('updateTeamList');
-
       this.$root.$on('getTeamsByTournamentFilter', this.setFilter);
       this.$root.$on('updateTeamList', this.getTeams);
       // this.$root.$on('onAssignGroup', this.onAssignGroup);
       // this.$root.$on('beforeChange', this.beforeChange);
     },
-
+    beforeDestroy: function() {
+      // Remove custom event listener 
+      this.$root.$off('getTeamsByTournamentFilter');
+      this.$root.$off('updateTeamList');
+    },
     // watch: {
     // // whenever question changes, this function will run
     //     selectedGroupsTeam: function (newQuestion) {

@@ -466,12 +466,13 @@ export default {
     });
   },
   created: function() {
+     this.$root.$on('setCompetationFormatData', this.setEdit);
+     this.$root.$on('createAgeCategory', this.createAgeCategory);
+  },
+  beforeDestroy: function() {
     // Remove custom event listener
     this.$root.$off('setCompetationFormatData');
     this.$root.$off('createAgeCategory');
-
-     this.$root.$on('setCompetationFormatData', this.setEdit);
-     this.$root.$on('createAgeCategory', this.createAgeCategory);
   },
   computed: {
     'messageLength': function () {

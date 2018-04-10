@@ -57,10 +57,11 @@ import _ from 'lodash'
 
         },
         created: function() {
+            this.$root.$on('reloadAllEvents', this.reloadAllEvents);
+        },
+        beforeDestroy: function() {
             // Remove custom event listener
             this.$root.$off('reloadAllEvents');
-
-            this.$root.$on('reloadAllEvents', this.reloadAllEvents);
         },
         mounted() {
             let cal = this.$el;

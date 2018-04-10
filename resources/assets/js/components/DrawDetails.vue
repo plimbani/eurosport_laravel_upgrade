@@ -112,10 +112,11 @@ export default {
         }
     },
     created: function() {
+      this.$root.$on('setDrawTable', this.GenerateDrawTable);
+    },
+    beforeDestroy: function() {
       // Remove custom event listener
       this.$root.$off('setDrawTable');
-
-      this.$root.$on('setDrawTable', this.GenerateDrawTable);
     },
   mounted() {
     this.setTeamData()
@@ -262,6 +263,9 @@ export default {
             (response)=> {
               if(response.data.status_code == 200){
                 $("body .js-loader").addClass('d-none');
+                if(resolve!=''){  
+                  resolve('done'); 
+                }
                 this.teamStatus = true
               }
             },
