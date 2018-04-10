@@ -90,6 +90,11 @@
 			this.$root.$on('getHistoryYears', this.getHistoryYears);
 			this.$root.$on('setHistoryYears', this.setHistoryYears);
 		},
+		beforeDestroy: function() {
+      // Remove custom event listener 
+      this.$root.$off('getHistoryYears');
+      this.$root.$off('setHistoryYears');
+    },
 		methods: {
 			addHistoryYear() {
 				var formData = {

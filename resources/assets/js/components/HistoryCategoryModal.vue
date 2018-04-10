@@ -46,6 +46,10 @@
     created() {
       this.$root.$on('setCategoryData', this.setCategoryData);
     },
+    beforeDestroy: function() {
+      // Remove custom event listener 
+      this.$root.$off('setCategoryData');
+    },
     computed: {
 
     },

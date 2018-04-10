@@ -67,6 +67,10 @@
 			this.getAllPhotos();
 			this.$root.$on('getPhotos', this.getPhotos);
 		},
+		beforeDestroy: function() {
+      // Remove custom event listener 
+      this.$root.$off('getPhotos');
+    },
 		methods: {
 			getAllPhotos() {
 				var vm = this;

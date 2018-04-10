@@ -1,7 +1,7 @@
 <template>
-	<div>
+	<div class="thumb">
 		<transition>
-			<img v-show="isLoad" :src="image_url" :class="image_class" @load="loaded">
+			<img v-show="isLoad" :src="image_url" @load="loaded">
 		</transition>
 		<img class="thumb" v-show="!isLoad" src="/images/loader2.gif">
 	</div>

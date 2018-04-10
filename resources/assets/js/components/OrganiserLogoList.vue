@@ -6,7 +6,9 @@
 		  		<div class="draggable--section-card-header">
 			  		<div class="draggable--section-card-header-panel">
 			  			<div class="d-flex align-items-center">
-			  				<transition-image :image_url="organiserLogo.logo" :image_class="'thumb'"></transition-image>
+			  				<!-- <div class="thumb">			  					 -->
+			  					<transition-image :image_url="organiserLogo.logo"></transition-image>
+			  				<!-- </div> -->
 			  				<div>{{ organiserLogo.name }}</div>
 			  			</div>
 			        <div class="draggable--section-card-header-icons">
@@ -67,6 +69,10 @@
 			this.getOrganisers();
 			this.$root.$on('getOrganiserLogos', this.getOrganiserLogos);
 		},
+		beforeDestroy: function() {
+      // Remove custom event listener 
+      this.$root.$off('getOrganiserLogos');
+    },
 		methods: {
 			getOrganisers() {
 				var vm = this;

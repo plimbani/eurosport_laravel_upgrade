@@ -71,6 +71,10 @@
 			this.age_categories = _.cloneDeep(this.ageCategories);
 			this.$root.$on('getHistoryCategories', this.getHistoryCategories);
 		},
+		beforeDestroy: function() {
+      // Remove custom event listener 
+      this.$root.$off('getHistoryCategories');
+    },
 		methods: {
 			addCategory() {
 				var formData = {
