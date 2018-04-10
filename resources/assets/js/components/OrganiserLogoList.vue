@@ -6,9 +6,7 @@
 		  		<div class="draggable--section-card-header">
 			  		<div class="draggable--section-card-header-panel">
 			  			<div class="d-flex align-items-center">
-			  				<!-- <div class="thumb">			  					 -->
-			  					<transition-image :image_url="organiserLogo.logo"></transition-image>
-			  				<!-- </div> -->
+			  					<transition-image :image_url="organiserLogo.logo"  :image_class="''"></transition-image>
 			  				<div>{{ organiserLogo.name }}</div>
 			  			</div>
 			        <div class="draggable--section-card-header-icons">
