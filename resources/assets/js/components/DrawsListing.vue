@@ -49,7 +49,7 @@ export default {
 	    this.$root.$on('changeDrawListComp', this.setMatchData);
 	    this.$root.$on('getAllDraws', this.getAllDraws);
 	},
-	beforeDestroy: function() {
+	beforeCreate: function() {
 		// Remove custom event listener
 		this.$root.$off('changeDrawListComp');
 	  this.$root.$off('getAllDraws');

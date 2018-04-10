@@ -49,7 +49,7 @@ import _ from 'lodash';
           this.initiazeGroupCompetitionValidation();
           // this.$validator.updateDictionary(this.errorMessages);
         },
-        beforeDestroy: function() {
+        beforeCreate: function() {
           this.$root.$off('getCategoryCompetitions');
         },
         methods: {

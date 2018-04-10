@@ -131,7 +131,7 @@
 
             this.$root.$on('editReferee', this.editReferee);
         },
-        beforeDestroy: function() {
+        beforeCreate: function() {
             // Remove custom event listener
             this.$root.$off('setPitchReset');
             this.$root.$off('setGameReset');

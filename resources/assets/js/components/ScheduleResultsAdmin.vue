@@ -98,9 +98,9 @@ export default {
     	this.getAgeCategory();
 
   	},
-  beforeDestroy: function() {
+  beforeCreate: function() {
   	// Remove custom event listener
-		this.$root.$off('changeComp1');
+	this.$root.$off('changeComp1');
     this.$root.$off('lastUpdateDate');
     this.$root.$off('setCurrentView');
   },

@@ -277,7 +277,7 @@
       // this.$root.$on('onAssignGroup', this.onAssignGroup);
       // this.$root.$on('beforeChange', this.beforeChange);
     },
-    beforeDestroy: function() {
+    beforeCreate: function() {
       // Remove custom event listener 
       this.$root.$off('getTeamsByTournamentFilter');
       this.$root.$off('updateTeamList');

@@ -106,9 +106,9 @@ export default {
     	this.$root.$on('lastUpdateDate',this.lastUpdatedDate);
     	this.$root.$on('setCurrentView',this.setCurrentView);
   },
-  beforeDestroy: function() {
+  beforeCreate: function() {
   	// Remove custom event listener
-		this.$root.$off('changeComp1');
+	this.$root.$off('changeComp1');
     this.$root.$off('lastUpdateDate');
     this.$root.$off('setCurrentView');
   },

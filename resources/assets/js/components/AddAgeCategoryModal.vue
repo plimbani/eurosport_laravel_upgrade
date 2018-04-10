@@ -469,7 +469,7 @@ export default {
      this.$root.$on('setCompetationFormatData', this.setEdit);
      this.$root.$on('createAgeCategory', this.createAgeCategory);
   },
-  beforeDestroy: function() {
+  beforeCreate: function() {
     // Remove custom event listener
     this.$root.$off('setCompetationFormatData');
     this.$root.$off('createAgeCategory');

@@ -192,7 +192,7 @@ export default {
   created: function() {
     this.$root.$on('reloadMatchList', this.setScore);
   },
-  beforeDestroy: function() {
+  beforeCreate: function() {
     // Remove custom event listener
     this.$root.$off('setMatchDataOfMatchList');
     this.$root.$off('reloadMatchList');

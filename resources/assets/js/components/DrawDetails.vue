@@ -114,7 +114,7 @@ export default {
     created: function() {
       this.$root.$on('setDrawTable', this.GenerateDrawTable);
     },
-    beforeDestroy: function() {
+    beforeCreate: function() {
       // Remove custom event listener
       this.$root.$off('setDrawTable');
     },
@@ -263,8 +263,8 @@ export default {
             (response)=> {
               if(response.data.status_code == 200){
                 $("body .js-loader").addClass('d-none');
-                if(resolve!=''){  
-                  resolve('done'); 
+                if(resolve!=''){
+                  resolve('done');
                 }
                 this.teamStatus = true
               }
@@ -295,20 +295,6 @@ export default {
 
             this.currentCompetationId = this.otherData.DrawId
 
-            // if(tempMatchdata.length !== 0) {
-
-            //    let TeamData = []
-            //    let ResultData = []
-
-            //    let size = tempMatchdata[0].team_size
-            //    let competationId = tempMatchdata[0].id
-
-            //    //let currentCompetationId = this.otherData.DrawId
-            //    this.currentCompetationId = this.otherData.DrawId
-            //    // Here call Function for getting result
-            //    //let tournamentId = this.$store.state.Tournament.tournamentId
-
-            // }
              this.GenerateDrawTable(this.currentCompetationId)
              this.getTeamsListFromFixtures(this.currentCompetationId)
         },
@@ -329,11 +315,6 @@ export default {
                     this.errorMsg = response.data.message
                     this.error=true
                   }
-                  // this.teamStatus = false
-                  // let vm = this
-                  // setTimeout(function(){
-                  //   vm.teamStatus = true
-                  // },500)
                 },
                 (error)=> {}
 

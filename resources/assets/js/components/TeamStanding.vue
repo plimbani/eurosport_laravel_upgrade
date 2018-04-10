@@ -65,7 +65,7 @@ export default {
   created: function() {
     this.$root.$on('setStandingData', this.getData);
   },
-  beforeDestroy: function() {
+  beforeCreate: function() {
   	// Remove custom event listener
 		this.$root.$off('setStandingData');
   },

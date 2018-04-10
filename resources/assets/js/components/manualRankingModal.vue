@@ -70,7 +70,7 @@ import _ from 'lodash';
         mounted() {
           this.$root.$on('getStandingDataForManualRanking', this.getStandingData);
         },
-        beforeDestroy: function() {
+        beforeCreate: function() {
           // Remove custom event listener
           this.$root.$off('getStandingDataForManualRanking');
         },
