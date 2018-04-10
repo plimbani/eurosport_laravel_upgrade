@@ -145,23 +145,7 @@ const actions = {
 	)
   },
   SaveTournamentDetails ({commit}, tournamentData) {
-  Tournament.saveTournament(tournamentData).then(
-
-	  (response) => {
-
-		if(response.data.status_code == 200) {
-		  // Now here we set the tournament Id and Name
-		  //let data1 = {'tournamentData':response.data.data}
-      commit(types.CURRENT_TOURNAMENT, response.data.data)
-		} else {
-		  alert('Error Occured')
-		}
-		// commit(types.SAVE_TOURNAMENT, response.data)
-	  },
-	  (error) => {
-	  }
-	)
-
+    commit(types.CURRENT_TOURNAMENT, tournamentData)
   },
   setTournamentFilter({commit}, filterData) {
   	commit(types.SET_TOURNAMENT_FILTER, filterData)
