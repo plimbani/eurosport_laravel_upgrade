@@ -1,5 +1,5 @@
 <template>
-  <div class="main-content container" id="dashboardPage">
+  <div class="main-content container-fluid" id="dashboardPage">
     <!-- <div class="row">
       <div class="col-md-12">
         <div class="alert alert-info alert-dismissible" role="alert">
