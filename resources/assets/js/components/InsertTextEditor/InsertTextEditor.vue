@@ -31,10 +31,10 @@
       this.$root.$on('getEditorValue', this.getEditorValue);
       this.$root.$on('blankEditorValue', this.blankEditorValue);
     },
-    beforeDestroy: function() {
-      // Remove custom event listener 
-      this.$root.$off('getEditorValue');
-      this.$root.$off('blankEditorValue');
+    beforeCreate: function() {
+      // Remove custom event listener
+      // this.$root.$off('getEditorValue');
+      // this.$root.$off('blankEditorValue');
     },
     data() {
       return {

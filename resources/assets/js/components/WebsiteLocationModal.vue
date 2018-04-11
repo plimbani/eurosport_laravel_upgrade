@@ -54,7 +54,7 @@
 		created() {
       this.$root.$on('setLocationData', this.setLocationData);
     },
-    beforeDestroy: function() {
+    beforeCreate: function() {
       // Remove custom event listener 
       this.$root.$off('setLocationData');
     },

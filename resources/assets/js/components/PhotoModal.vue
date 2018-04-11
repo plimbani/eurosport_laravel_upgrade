@@ -63,7 +63,7 @@
 		created() {
 	    this.$root.$on('setPhotoData', this.setPhotoData);
 	  },
-	  beforeDestroy: function() {
+	  beforeCreate: function() {
       // Remove custom event listener 
       this.$root.$off('setPhotoData');
     },

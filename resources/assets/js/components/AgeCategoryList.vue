@@ -75,7 +75,7 @@
 			this.$root.$on('importAgeCategories', this.importAgeCategories);
 			this.teamModalData.countries = _.cloneDeep(this.countries);
 		},
-		beforeDestroy: function() {
+		beforeCreate: function() {
       // Remove custom event listener 
       this.$root.$off('getAgeCategories');
       this.$root.$off('importAgeCategories');

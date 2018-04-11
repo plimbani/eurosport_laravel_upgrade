@@ -67,7 +67,7 @@
 			this.itineraryItems = this.items;
 			this.$root.$on('getItineraryItems', this.getItineraryItems);
 		},
-		beforeDestroy: function() {
+		beforeCreate: function() {
       // Remove custom event listener 
       this.$root.$off('getItineraryItems');
     },

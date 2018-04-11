@@ -46,7 +46,7 @@
     created() {
       this.$root.$on('setCategoryData', this.setCategoryData);
     },
-    beforeDestroy: function() {
+    beforeCreate: function() {
       // Remove custom event listener 
       this.$root.$off('setCategoryData');
     },

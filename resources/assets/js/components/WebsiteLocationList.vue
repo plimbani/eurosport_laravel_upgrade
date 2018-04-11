@@ -61,7 +61,7 @@
 			this.getAllLocations();
 			this.$root.$on('getLocations', this.getLocations);
 		},
-		beforeDestroy: function() {
+		beforeCreate: function() {
       // Remove custom event listener 
       this.$root.$off('getLocations');
     },

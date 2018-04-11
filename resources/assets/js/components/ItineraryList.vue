@@ -70,7 +70,7 @@
 			this.getAllItineraries();
 			this.$root.$on('getItineraries', this.getItineraries);
 		},
-		beforeDestroy: function() {
+		beforeCreate: function() {
       // Remove custom event listener 
       this.$root.$off('getItineraries');
     },

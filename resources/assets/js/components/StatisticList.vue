@@ -61,7 +61,7 @@
 			this.getAllStatistics();
 			this.$root.$on('getStatistics', this.getStatistics);
 		},
-		beforeDestroy: function() {
+		beforeCreate: function() {
       // Remove custom event listener 
       this.$root.$off('getStatistics');
     },

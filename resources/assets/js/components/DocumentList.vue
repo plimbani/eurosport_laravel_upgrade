@@ -79,7 +79,7 @@
 			this.getAllDocuments();
 			this.$root.$on('getDocuments', this.getDocuments);
 		},
-		beforeDestroy: function() {
+		beforeCreate: function() {
       // Remove custom event listener 
       this.$root.$off('getDocuments');
     },

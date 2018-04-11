@@ -76,7 +76,7 @@
 		created() {
 	    this.$root.$on('setSponsorData', this.setSponsorData);
 	  },
-	  beforeDestroy: function() {
+	  beforeCreate: function() {
       // Remove custom event listener 
       this.$root.$off('setSponsorData');
     },

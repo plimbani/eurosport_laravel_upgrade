@@ -67,7 +67,7 @@
 			this.getOrganisers();
 			this.$root.$on('getOrganiserLogos', this.getOrganiserLogos);
 		},
-		beforeDestroy: function() {
+		beforeCreate: function() {
       // Remove custom event listener 
       this.$root.$off('getOrganiserLogos');
     },

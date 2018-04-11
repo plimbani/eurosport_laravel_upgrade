@@ -90,7 +90,7 @@ export default {
     this.getAllMarkers();
     this.$root.$on('getMarkers', this.getMarkers);
   },
-  beforeDestroy: function() {
+  beforeCreate: function() {
     // Remove custom event listener
     this.$root.$off('getMarkers');
   },

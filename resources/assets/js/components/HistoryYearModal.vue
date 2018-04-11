@@ -46,7 +46,7 @@
     created() {
       this.$root.$on('setHistoryYearData', this.setHistoryYearData);
     },
-    beforeDestroy: function() {
+    beforeCreate: function() {
       // Remove custom event listener 
       this.$root.$off('setHistoryYearData');
     },
