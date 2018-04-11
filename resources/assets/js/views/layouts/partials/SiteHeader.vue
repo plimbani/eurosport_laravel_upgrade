@@ -1,7 +1,7 @@
 <template>
 <div>
     <header class="site-header">
-        <div class="container-fluid">
+        <div class="container-fluid w-100">
             <a href="#" class="brand-main" @click="home">
                 <img src="/assets/img/logo-desk.svg" id="logo-desk" alt="Laraspace Logo" class="hidden-sm-down">
                 <img src="/assets/img/logo-mobile.svg" id="logo-mobile" alt="Laraspace Logo" class="hidden-md-up">
