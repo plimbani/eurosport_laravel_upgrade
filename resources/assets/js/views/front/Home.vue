@@ -1,6 +1,6 @@
 <template>
   <section class="section section-hero-area">
-    <div class="container">
+    <div class="container-fluid">
       <div class="d-flex justify-content-center">
         <div class="card">
           <div class="card-block">

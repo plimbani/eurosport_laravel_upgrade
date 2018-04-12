@@ -347,7 +347,7 @@ class WebsiteTournamentRepository
     $history = $this->getAllHistoryYears($websiteId);
     $response['history'] = $history;
 
-    $countries = Country::all();
+    $countries = Country::orderBy('name')->get();
     $response['countries'] = $countries;
 
     return $response;
