@@ -75,6 +75,10 @@ class CountriesTableSeeder extends Seeder
           [ 'name' => 'UNITED STATES OF AMERICA', 'country_code' => 'US', 'country_flag' => 'us', 'logo' => '/assets/img/flags/usa.gif', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
           [ 'name' => 'UZBEKISTAN', 'country_code' => 'UZ', 'country_flag' => 'uz', 'logo' => '/assets/img/flags/uzbekistan.gif', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
           [ 'name' => 'WALES', 'country_code' => 'WLS', 'country_flag' => 'gb-wls', 'logo' => '/assets/img/flags/wales.gif', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+          [ 'name' => 'ARGENTINA', 'country_code' => 'AR', 'country_flag' => 'ar', 'logo' => '/assets/img/flags/4x3/ar.svg', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+          [ 'name' => 'BRAZIL', 'country_code' => 'BR', 'country_flag' => 'br', 'logo' => '/assets/img/flags/4x3/br.svg', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+          [ 'name' => 'ALGERIA', 'country_code' => 'DZ', 'country_flag' => 'dz', 'logo' => '/assets/img/flags/4x3/dz.svg', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+          [ 'name' => 'GEORGIA', 'country_code' => 'GE', 'country_flag' => 'ge', 'logo' => '/assets/img/flags/4x3/ge.svg', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
         ]);
     }
 }
