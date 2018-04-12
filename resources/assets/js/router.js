@@ -214,7 +214,7 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
     let routesName = ['tournament_add', 'competation_format', 'pitch_capacity', 'teams_groups', 'pitch_planner', 'enlarge_pitch_planner', 'tournaments_summary_details'];
     let data = {};
-    if (routesName.includes(to.name)) {
+    if (routesName.indexOf(to.name) >= 0) {
         data.tournamentId = store.state.Tournament.tournamentId;
     }
     // If the next route is requires user to be Logged IN
