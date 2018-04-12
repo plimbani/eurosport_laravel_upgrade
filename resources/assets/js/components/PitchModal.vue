@@ -152,7 +152,6 @@ import Tournament from '../api/tournament.js'
 import _ from 'lodash';
 
 var moment = require('moment');
-
   export default {
     data() {
        return {
@@ -341,9 +340,11 @@ var moment = require('moment');
       })
     },
     matchPrint(ReportData) {
+      var matchPrintWindow = window.open('', '_blank');
       Tournament.getSignedUrlForMatchPrint(ReportData).then(
         (response) => {
-          window.open(response.data, '_blank');
+          console.log('response.data', response.data);
+          matchPrintWindow.location.href = response.data;
         },
         (error) => {
 
@@ -384,10 +385,10 @@ var moment = require('moment');
             } },500)
 
         } else {
-
+          var matchPrintWindow = window.open('', '_blank');
           Tournament.getSignedUrlForMatchPrint(ReportData).then(
             (response) => {
-              window.open(response.data, '_blank');
+              matchPrintWindow.location = response.data;
             },
             (error) => {
 
