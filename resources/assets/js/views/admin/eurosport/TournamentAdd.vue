@@ -529,11 +529,14 @@ this.$validator.validateAll().then(
     msg = 'Tournament details edited successfully.'
   }
 
+  $("body .js-loader").removeClass('d-none');
+
   Tournament.saveTournament(vm.tournament).then(
     (response) => {
       if(response.data.status_code == 200) {
         toastr['success'](msg, 'Success');
-        vm.$store.dispatch('SaveTournamentDetails', response.data.data)
+        vm.$store.dispatch('SaveTournamentDetails', response.data.data);
+        $("body .js-loader").addClass('d-none');
         vm.redirectCompetation();
       } else {
         alert('Error Occured');
