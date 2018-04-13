@@ -570,7 +570,6 @@ import Tournament from '../../../api/tournament.js'
                 Tournament.getSignedUrlForPitchMatchReport(pitchId).then(
                     (response) => {
                        pitchPrintWindow.location = response.data;
-                       pitchPrintWindow.close();
                     },
                     (error) => {
 

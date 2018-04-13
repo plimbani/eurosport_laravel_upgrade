@@ -343,8 +343,7 @@ var moment = require('moment');
       var matchPrintWindow = window.open('', '_blank');
       Tournament.getSignedUrlForMatchPrint(ReportData).then(
         (response) => {
-          console.log('response.data', response.data);
-          matchPrintWindow.location.href = response.data;
+          matchPrintWindow.location = response.data;
         },
         (error) => {
 
