@@ -89,7 +89,7 @@
         </paginate-links>
       </div>
     </div>
-    <div class="row d-flex align-items-center" v-if="isUserDataExist">
+    <div class="row d-flex align-items-center" v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails'">
       <div class="col-12">
         <button type="button" name="save" class="btn btn-primary pull-right" @click="saveMatchScore()">Save</button>  
       </div>
