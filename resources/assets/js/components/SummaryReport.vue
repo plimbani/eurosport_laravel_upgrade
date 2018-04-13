@@ -653,9 +653,10 @@ export default {
 	exportPrint() {
 		let ReportData = this.reportQuery
 		if(ReportData!=''){
+			var reportPrintWindow = window.open('', '_blank');
 			Tournament.getSignedUrlForTournamentReport(ReportData).then(
 				(response) => {
-					window.open(response.data, '_blank');
+					reportPrintWindow.location = response.data;
 				},
 				(error) => {
 
