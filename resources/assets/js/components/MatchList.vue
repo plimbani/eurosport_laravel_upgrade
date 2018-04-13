@@ -1,7 +1,7 @@
 <template>
 <div class="row">
   <div class="col-md-12">
-  <table id="matchSchedule" class="table table-hover table-bordered" v-if="matchData.length > 0">
+  <table id="matchSchedule" class="table table-hover table-bordered table-sm" v-if="matchData.length > 0">
     <thead>
       <th class="text-center">{{$lang.summary_schedule_date_time}}</th>
       <th class="text-center">{{$lang.summary_schedule_matches_categories}}</th>
