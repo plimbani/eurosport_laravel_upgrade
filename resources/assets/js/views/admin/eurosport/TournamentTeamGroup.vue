@@ -141,7 +141,7 @@
                     </tr>
                 </tbody>
             </table>
-            <button type="button" v-if="tournamentFilter.filterKey == 'age_category'" @click="groupUpdate()" class="btn btn-primary pull-right">{{$lang.teams_button_updategroups}}</button>
+            <button type="button" v-if="age_category != ''" @click="groupUpdate()" class="btn btn-primary pull-right">{{$lang.teams_button_updategroups}}</button>
           </form>
   				</div>
   			</div>
