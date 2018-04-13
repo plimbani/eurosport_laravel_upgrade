@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="thumb">
 		<transition>
 			<img v-show="isLoad" :src="image_url" :class="image_class" @load="loaded">
 		</transition>

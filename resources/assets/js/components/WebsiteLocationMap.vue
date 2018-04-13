@@ -90,6 +90,10 @@ export default {
     this.getAllMarkers();
     this.$root.$on('getMarkers', this.getMarkers);
   },
+  beforeCreate: function() {
+    // Remove custom event listener
+    this.$root.$off('getMarkers');
+  },
   methods: {
     getAllMarkers() {
       var vm = this;
