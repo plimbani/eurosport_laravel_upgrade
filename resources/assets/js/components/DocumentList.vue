@@ -79,6 +79,10 @@
 			this.getAllDocuments();
 			this.$root.$on('getDocuments', this.getDocuments);
 		},
+		beforeCreate: function() {
+      // Remove custom event listener 
+      this.$root.$off('getDocuments');
+    },
 		methods: {
 			getAllDocuments() {
 				var vm = this;

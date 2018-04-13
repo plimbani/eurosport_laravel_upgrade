@@ -91,6 +91,11 @@
 			this.$root.$on('getAdditionalPages', this.getAdditionalPages);
 			this.$root.$on('setPages', this.setPages);
 		},
+		beforeCreate: function() {
+			// Remove custom event listener 
+			this.$root.$off('getAdditionalPages');
+			this.$root.$off('setPages');
+		},
 		methods: {
 			setAdditionalPageContent(content) {
 				this.additional_page.content = content;

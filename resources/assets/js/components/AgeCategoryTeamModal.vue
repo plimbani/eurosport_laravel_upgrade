@@ -59,6 +59,11 @@
       this.$root.$on('setAgeCategoryTeamData', this.setAgeCategoryTeamData);
       this.$root.$on('clearAgeCategoryTeamError', this.clearAgeCategoryTeamError);
     },
+    beforeCreate: function() {
+      // Remove custom event listener 
+      this.$root.$off('setAgeCategoryTeamData');
+      this.$root.$off('clearAgeCategoryTeamError');
+    },
     computed: {
 	  },
 		methods: {

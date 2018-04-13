@@ -70,6 +70,10 @@
 			this.getAllItineraries();
 			this.$root.$on('getItineraries', this.getItineraries);
 		},
+		beforeCreate: function() {
+      // Remove custom event listener 
+      this.$root.$off('getItineraries');
+    },
 		methods: {
 			getAllItineraries() {
 				Website.getItineraries(this.getWebsite).then(

@@ -61,6 +61,10 @@
 			this.getAllLocations();
 			this.$root.$on('getLocations', this.getLocations);
 		},
+		beforeCreate: function() {
+      // Remove custom event listener 
+      this.$root.$off('getLocations');
+    },
 		methods: {
 			getAllLocations() {
 				Website.getLocations(this.getWebsite).then(
