@@ -51,10 +51,10 @@ export default {
             let refereeId = this.referee.id
             // var win = window.open("/api/match/reportCard/" + refereeId, '_blank');
             // win.focus();
-
+            var refereePrintWindow = window.open('', '_blank');
             Tournament.getSignedUrlForRefereeReport(refereeId).then(
                 (response) => {
-                    window.open(response.data, '_blank');
+                    refereePrintWindow.location = response.data;
                 },
                 (error) => {
 
