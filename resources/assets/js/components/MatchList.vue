@@ -7,7 +7,7 @@
       <th class="text-center">{{$lang.summary_schedule_matches_categories}}</th>
       <th class="text-center">{{$lang.summary_schedule_matches_team}}</th>
       <th class="text-center">{{$lang.summary_schedule_matches_team}}</th>
-      <th class="text-center" style="min-width:100px">{{$lang.summary_schedule_matches_score}}</th>
+      <th class="text-center" style="min-width:75px">{{$lang.summary_schedule_matches_score}}</th>
       <th class="text-center" v-if="showPlacingForMatch()">{{$lang.summary_schedule_matches_placing}}</th>
       <th class="text-center" v-if="isHideLocation !=  false">{{$lang.summary_schedule_matches_location}}</th>
       <th class="text-center"  v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails'">Details</th>
@@ -29,13 +29,13 @@
             <span class="text-center" v-if="(match.Home_id == '0' )">{{ getHoldingName(match.competition_actual_name, match.displayHomeTeamPlaceholderName) }}</span>
             <span class="text-center" v-else>{{ match.HomeTeam }}</span>
             <!--<img :src="match.HomeFlagLogo" width="20">-->
-                   <span :class="'flag-icon flag-icon-'+match.HomeCountryFlag"></span>
+                   <span :class="'flag-icon flag-icon-'+match.HomeCountryFlag" class="line-height-initial"></span>
           <!-- </a> -->
         </td>
         <td align="left">
           <!-- <a   href="" @click.prevent="changeTeam(match.Away_id, match.AwayTeam)"> -->
             <!--<img :src="match.AwayFlagLogo" width="20">-->
-                <span :class="'flag-icon flag-icon-'+match.AwayCountryFlag"></span>
+                <span :class="'flag-icon flag-icon-'+match.AwayCountryFlag" class="line-height-initial"></span>
           <!-- <span class="text-center">{{ match.AwayTeam}}</span> -->
           <span class="text-center" v-if="(match.Away_id == '0' )">{{ getHoldingName(match.competition_actual_name, match.displayAwayTeamPlaceholderName) }}</span>
           <span class="text-center" v-else>{{ match.AwayTeam }}</span>
