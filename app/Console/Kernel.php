@@ -35,7 +35,7 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('setup:automaticallypermissionremoval')->dailyAt('00:00');
         $schedule->command('activity:notification')->everyThirtyMinutes();
-        // $schedule->command('setup:removeDanglingImages')->dailyAt('03:00');
+        $schedule->command('setup:removeDanglingImages')->dailyAt('03:00');
     }
 
     /**
