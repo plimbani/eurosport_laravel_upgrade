@@ -43,7 +43,8 @@ module.exports= {
     'cancel': 'Cancel',
     'tournament_year': 'Tournament year',
     'no_history_found': 'No history found.',
-    'no_age_category_found': 'No age category found.',
-    'no_team_found': 'No team found.',
+    'no_age_category_found': 'No age categories found.',
+    'no_team_found': 'No teams found.',
+    'current_placings': 'Current placings',
   },
 };

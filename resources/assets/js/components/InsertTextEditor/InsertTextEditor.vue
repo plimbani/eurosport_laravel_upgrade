@@ -31,6 +31,11 @@
       this.$root.$on('getEditorValue', this.getEditorValue);
       this.$root.$on('blankEditorValue', this.blankEditorValue);
     },
+    beforeCreate: function() {
+      // Remove custom event listener
+      // this.$root.$off('getEditorValue');
+      // this.$root.$off('blankEditorValue');
+    },
     data() {
       return {
         content: this.value,
@@ -39,7 +44,8 @@
         other_options: {
           branding: false,
           height: 300,
-          content_css : "/assets/css/tiny-mce-light-gray.css",
+          body_class: 'tiny-mce-content-body',
+          content_css: ['https://fonts.googleapis.com/css?family=Lato', '/assets/css/tiny-mce.css'],
         },
       };
     },

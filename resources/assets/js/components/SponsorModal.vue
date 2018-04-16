@@ -76,6 +76,10 @@
 		created() {
 	    this.$root.$on('setSponsorData', this.setSponsorData);
 	  },
+	  beforeCreate: function() {
+      // Remove custom event listener 
+      this.$root.$off('setSponsorData');
+    },
 	  computed: {
 	  	getSponsorLogo() {
 	  		return this.formValues.logo == '' ? '/assets/img/noimage.png' : this.formValues.logo;

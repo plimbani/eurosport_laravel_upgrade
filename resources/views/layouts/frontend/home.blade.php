@@ -27,6 +27,8 @@
 
     <link rel="stylesheet" href="{{ $theme_css }}">
 
+    <link rel="stylesheet" href="{{ asset('frontend/ie/style.css') }}">
+
     @yield('page-styles')
     {{-- END Stylesheets --}}
 </head>

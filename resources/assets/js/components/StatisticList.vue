@@ -61,6 +61,10 @@
 			this.getAllStatistics();
 			this.$root.$on('getStatistics', this.getStatistics);
 		},
+		beforeCreate: function() {
+      // Remove custom event listener 
+      this.$root.$off('getStatistics');
+    },
 		methods: {
 			getAllStatistics() {
 				Website.getStatistics(this.getWebsite).then(

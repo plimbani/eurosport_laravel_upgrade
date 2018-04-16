@@ -3,8 +3,10 @@ $(document).ready(function() {
 
 	$(document).on('click', '.js-list-parent-div .more', function() {
 		if($(this).hasClass('less')){
+			$(this).closest('.js-list-parent-div').find('ul.js-list li.toggleable').removeClass('d-flex');
 			$(this).text(Lang.get('messages.more')).removeClass('less');
 		} else {
+			$(this).closest('.js-list-parent-div').find('ul.js-list li.toggleable').addClass('d-flex');
 			$(this).text(Lang.get('messages.less')).addClass('less');
 		}
 		$(this).closest('.js-list-parent-div').find('ul.js-list li.toggleable').slideToggle();
@@ -41,7 +43,7 @@ $(document).ready(function() {
 	});
 
 	$( window ).resize(function() {
-		if($(window).width() < 992) {
+		if($(window).width() >= 992) {
 			$('.js-header-menus').collapse('hide');
 			$('.js-menu-close-button').parent().hide();
 			$('.js-menu-open-button').parent().show();

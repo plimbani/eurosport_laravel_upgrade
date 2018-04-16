@@ -466,7 +466,7 @@ class TeamRepository
 
     public function getAllCountries()
     {
-      return $contries = Country::all();
+      return $contries = Country::orderBy('name')->get();
     }
 
     public function getAllClubs()

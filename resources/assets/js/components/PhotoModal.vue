@@ -63,6 +63,10 @@
 		created() {
 	    this.$root.$on('setPhotoData', this.setPhotoData);
 	  },
+	  beforeCreate: function() {
+      // Remove custom event listener 
+      this.$root.$off('setPhotoData');
+    },
 	  computed: {
 	  	getImage() {
 	  		return this.formValues.image == '' ? '/assets/img/noimage.png' : this.formValues.image;

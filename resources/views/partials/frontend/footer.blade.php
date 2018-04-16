@@ -47,12 +47,12 @@
                 </div>
             </div>
             <div class="col-lg-4 mt-4 mt-lg-0">
-                <div class="d-flex justify-content-center justify-content-lg-end">
-                    <div class="d-inline-block flex-column">
+                <div class="d-flex justify-content-center justify-content-lg-end ie-block">
+                    <div class="d-inline-flex flex-column ie-block ie-mx-auto">
                         <div class="w-100 text-center">
                             <span class="h8 text-uppercase text-muted">{!! __('messages.organised_by') !!}</span>
                         </div>
-                        <div class="organiser_logo_footer">
+                        <div class="organiser_logo_footer ie-mx-auto">
                             @foreach($organisers as $organiser)
                                 <img src="{{ $organiser->organiserLogo('small_thumbnail') }}" alt="{{ $organiser->name }}">
                             @endforeach

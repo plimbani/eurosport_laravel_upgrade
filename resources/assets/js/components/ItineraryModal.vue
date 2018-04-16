@@ -47,6 +47,10 @@
     created() {
       this.$root.$on('setItineraryData', this.setItineraryData);
     },
+    beforeCreate: function() {
+      // Remove custom event listener 
+      this.$root.$off('setItineraryData');
+    },
     computed: {
     },
     methods: {

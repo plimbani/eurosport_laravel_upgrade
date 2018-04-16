@@ -1,7 +1,7 @@
 <template>
     <div class="template-container">
         <site-header></site-header>
-          <div class="main-content container" id="dashboardPage">
+          <div class="main-content container-fluid" id="dashboardPage">
             <breadCrum></breadCrum>
             <websiteTabbed></websiteTabbed>
           </div>             
