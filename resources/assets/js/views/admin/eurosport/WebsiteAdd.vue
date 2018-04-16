@@ -438,7 +438,7 @@ export default {
 	    	return this.domainAndOfflineRedirectUrlValidation();
 	    },
 	    getPreviewColor: function() {
-	    	if(this.website.color != '') {
+	    	if(this.website.color != '' && this.website.color != null) {
 	    		return Plugin.HexToRgb(this.website.color, 90);
 	    	}
 	    	return Plugin.HexToRgb('#D0021B', 90);
