@@ -40,9 +40,9 @@ export default {
     ValidateImageDimension(image, requiredWidth, requiredHeight) {
       var height = image.height;
       var width = image.width;
-      if (height != requiredHeight && width != requiredWidth) {        
+      if (height != requiredHeight || width != requiredWidth) {
         return false;
-      }      
+      }
       return true;
     },
     ValidateImageType(file) {
