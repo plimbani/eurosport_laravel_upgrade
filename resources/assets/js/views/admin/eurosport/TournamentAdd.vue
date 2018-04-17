@@ -335,7 +335,7 @@ components: {
 location: location
 },
 mounted(){
-Plugin.initPlugins(['Select2','BootstrapSelect','TimePickers','MultiSelect','DatePicker','SwitchToggles','setCurrentDate'])
+Plugin.initPlugins(['Select2','TimePickers','MultiSelect','DatePicker','setCurrentDate'])
 // here we dispatch methods
 // First we check that if tournament id is Set then dont dispatch it
 $('#btnSelect').on('click',function(){
