@@ -141,7 +141,7 @@
                     </tr>
                 </tbody>
             </table>
-            <button type="button" v-if="tournamentFilter.filterKey == 'age_category'" @click="groupUpdate()" class="btn btn-primary pull-right">{{$lang.teams_button_updategroups}}</button>
+            <button type="button" v-if="age_category != ''" @click="groupUpdate()" class="btn btn-primary pull-right">{{$lang.teams_button_updategroups}}</button>
           </form>
   				</div>
   			</div>
@@ -277,7 +277,11 @@
       // this.$root.$on('onAssignGroup', this.onAssignGroup);
       // this.$root.$on('beforeChange', this.beforeChange);
     },
-
+    beforeCreate: function() {
+      // Remove custom event listener 
+      this.$root.$off('getTeamsByTournamentFilter');
+      this.$root.$off('updateTeamList');
+    },
     // watch: {
     // // whenever question changes, this function will run
     //     selectedGroupsTeam: function (newQuestion) {

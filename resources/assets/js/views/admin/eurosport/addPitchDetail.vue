@@ -378,7 +378,7 @@ export default {
   },
   mounted(){
     let vm =this;
-      Plugin.initPlugins(['Select2','BootstrapSelect','TimePickers','MultiSelect','DatePicker','SwitchToggles', 'addstage'])
+      Plugin.initPlugins(['Select2','TimePickers','MultiSelect','DatePicker', 'addstage'])
       // this.stage_capacity1 ='5.30';
       // this.stage_capacity1 ='5.30';
       // this.stage_capacity1 ='5.30';

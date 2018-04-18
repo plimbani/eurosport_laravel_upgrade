@@ -8,9 +8,9 @@
         <div class="row">
           <div class="col-sm-6">
             <div class="form-group" :class="{'has-error': errors.has('tournament.name') }">
-                <label class="col-sm-4 form-control-label">{{$lang.tournament_name}}*</label>
+                <label>{{$lang.tournament_name}}*</label>
                 <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Enter the name of your tournament" v-model="tournament.name" name="tournament_name"  v-validate="'required'" v-if="userRole == 'Tournament administrator'"  readonly="readonly" :class="{'is-danger': errors.has('tournament_name') }">
+                    <input type="text" class="form-control" placeholder="Enter the name of your tournament" v-model="tournament.name" name="tournament_name"  v-validate="'required'" v-if="userRole == 'Tournament administrator'" readonly="readonly" :class="{'is-danger': errors.has('tournament_name') }">
                     <input type="text" class="form-control" placeholder="Enter the name of your tournament" v-model="tournament.name" name="tournament_name" v-else  v-validate="'required'" :class="{'is-danger': errors.has('tournament_name') }">
                     <i v-show="errors.has('tournament_name')" class="fa fa-warning"></i>
                 </div>
@@ -19,7 +19,7 @@
           </div>
           <div class="col-sm-6">
             <div class="form-group" :class="{'has-error': errors.has('tournament.maximum_teams') }">
-              <label class="col-sm-4 form-control-label">{{$lang.maximum_teams}}*</label>
+              <label>{{$lang.maximum_teams}}*</label>
               <div class="input-group">
                  <input type="number" class="form-control" v-model="tournament.maximum_teams" name="maximum_teams" v-validate="'required'" v-if="userRole == 'Tournament administrator'"  readonly="readonly" :class="{'is-danger': errors.has('maximum_teams') }">
                  <input type="number" class="form-control" v-model="tournament.maximum_teams" name="maximum_teams" v-validate="'required'" v-else   :class="{'is-danger': errors.has('maximum_teams') }">
@@ -308,7 +308,7 @@ import Ls from './../../../services/ls'
 export default {
 data() {
 return {
-tournament: {name:' ',website:'',facebook:'',twitter:'',tournament_contact_first_name:'',tournament_contact_last_name:'',tournament_contact_home_phone:'',
+tournament: {name:'',website:'',facebook:'',twitter:'',tournament_contact_first_name:'',tournament_contact_last_name:'',tournament_contact_home_phone:'',
 image_logo:'',test_value:'',del_location:'0',maximum_teams:''
 },
 userRole:this.$store.state.Users.userDetails.role_name,
@@ -335,7 +335,7 @@ components: {
 location: location
 },
 mounted(){
-Plugin.initPlugins(['Select2','BootstrapSelect','TimePickers','MultiSelect','DatePicker','SwitchToggles','setCurrentDate'])
+Plugin.initPlugins(['Select2','TimePickers','MultiSelect','DatePicker','setCurrentDate'])
 // here we dispatch methods
 // First we check that if tournament id is Set then dont dispatch it
 $('#btnSelect').on('click',function(){
@@ -504,7 +504,7 @@ this.tournament.del_location = this.locations[index].tournament_location_id
 this.locations.splice(index,1)
 },
 next() {
-
+let vm = this;
 // this.handleValidation()
 // First Validate it
 // SET The Date Value for tournament
@@ -529,14 +529,17 @@ this.$validator.validateAll().then(
     msg = 'Tournament details edited successfully.'
   }
 
-  Tournament.saveTournament(this.tournament).then(
+  $("body .js-loader").removeClass('d-none');
+
+  Tournament.saveTournament(vm.tournament).then(
     (response) => {
       if(response.data.status_code == 200) {
-        this.$store.dispatch('SaveTournamentDetails', response.data.data);
         toastr['success'](msg, 'Success');
-        this.redirectCompetation();
+        vm.$store.dispatch('SaveTournamentDetails', response.data.data);
+        $("body .js-loader").addClass('d-none');
+        vm.redirectCompetation();
       } else {
-        alert('Error Occured')
+        alert('Error Occured');
       }
     },
     (error) => {

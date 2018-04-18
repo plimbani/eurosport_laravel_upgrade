@@ -15,7 +15,6 @@
 
     import SiteHeader from './partials/SiteHeader.vue'
     import SiteFooter from './partials/SiteFooter.vue'
-    import SiteHeaderBottom from './partials/SiteHeaderBottom.vue'
 
     import Layout from '../../helpers/layout'
     import BreadCrum from '../../components/BreadCrum.vue'
@@ -28,7 +27,7 @@
             }
         },
         components : {
-            SiteHeader , SiteHeaderBottom , SiteFooter, BreadCrum, TournamentTabbed
+            SiteHeader, SiteFooter, BreadCrum, TournamentTabbed
         }
     }
 </script>

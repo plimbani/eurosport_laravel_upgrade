@@ -66,25 +66,12 @@ export default {
       // this.$root.$on('getTeamsByTournamentFilter', this.setGameFilter);
   },
   mounted() {
-    this.displayFixtures(this.tournamentFilter.filterKey,this.tournamentFilter.filterValue);
     this.$store.dispatch('setCompetationWithGames');
     $("#game-list").mCustomScrollbar({
       'autoHideScrollbar':true
     });
-    this.displayTournamentCompetationList();
   },
   methods: {
-
-    displayFixtures(filterKey='',filterValue=''){
-      let tdata= []
-      if(filterKey != '' && filterValue != '') {
-          tdata ={'tournamentId':this.tournamentId ,'filterKey':filterKey,'filterValue':filterValue.id,'fiterEnable':true}
-      } else {
-          tdata ={'tournamentId':this.tournamentId }
-      }
-      this.$store.dispatch('setMatches')
-      
-    },
     displayTournamentCompetationList () {
     // Only called if valid tournament id is Present
       if (!isNaN(this.tournamentId)) {

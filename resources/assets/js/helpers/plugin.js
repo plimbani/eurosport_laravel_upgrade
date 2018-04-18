@@ -74,9 +74,9 @@ export default {
     },
 
     TimePickers(){
-        $('.ls-clockpicker').clockpicker({
-            donetext: 'Done'
-        });
+        // $('.ls-clockpicker').clockpicker({
+        //     donetext: 'Done'
+        // });
 
 
         var elems = $('.ls-timepicker');

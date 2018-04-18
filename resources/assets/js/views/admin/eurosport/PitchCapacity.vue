@@ -161,6 +161,12 @@ import Tournament from '../../../api/tournament.js'
             this.getPitchSizeWiseSummary();
             this.displayTournamentCompetationList();
         },
+        beforeCreate: function() {
+            // Remove custom event listener
+            this.$root.$off('displayPitch');
+            this.$root.$off('pitchrefresh');
+            this.$root.$off('getPitchSizeWiseSummary');
+        },
         components: {
             editPitchDetail,addPitchDetail,DeleteModal
         },
@@ -213,7 +219,7 @@ import Tournament from '../../../api/tournament.js'
               let currentNavigationData = {activeTab:'pitch_capacity', currentPage: 'Pitch Capacity'}
                 this.$store.dispatch('setActiveTab', currentNavigationData)
             }
-            Plugin.initPlugins(['Select2','BootstrapSelect','TimePickers','MultiSelect','DatePicker','SwitchToggles', 'addstage'])
+            Plugin.initPlugins(['Select2','TimePickers','MultiSelect','DatePicker', 'addstage'])
             // this.stage_capacity1 ='5.30';
             // this.stage_capacity1 ='5.30';
             // this.stage_capacity1 ='5.30';

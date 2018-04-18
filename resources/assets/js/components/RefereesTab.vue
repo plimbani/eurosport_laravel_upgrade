@@ -19,7 +19,6 @@
 
 <script type="text/babel">
   import DraggableReferee from './DraggableReferee';
-  import addReferee from '../components/AddReferee.vue'
   import Tournament from '../api/tournament.js'
 
   export default {
