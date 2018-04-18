@@ -92,6 +92,10 @@ select.form-control {
         -webkit-appearance: none;
         appearance: none;
     }
+    background-size: 30px 30px;
+    &::-ms-expand {
+        display: none;
+    }
 }
 
 .select2-container--default .select2-selection--single .select2-selection__arrow b {

@@ -1,13 +1,13 @@
 <template>
   <div>
     <div>
-        <div class="row align-items-center custom_radio_btn" v-if="currentView == 'Matches'">
-            <div class="col-md-12 col-lg-4 col-xl-4">
+        <div class="row align-items-end custom_radio_btn" v-if="currentView == 'Matches'">
+            <div class="grid-22">
                 <div class="row align-items-center">
-                    <div class="col-md-6 col-lg-5 col-xl-5">
+                    <div class="col-md-6 col-lg-5 col-xl-12">
                         <label class="label-of-input font-weight-bold mb-0">{{ $t('matches.match_overview') }}:</label>
                     </div>
-                    <div class="col-sm-12 col-md-6 col-lg-7 col-xl-7">
+                    <div class="col-sm-12 col-md-6 col-lg-7 col-xl-12">
                         <label class="custom_select_box d-block mb-0" for="match_overview">
                             <select id="match_overview" class="border-0" v-on:change="onMatchDateChange()" v-model="matchDate">
                                 <option value=""> {{ $t('matches.all_dates') }}</option>
@@ -17,37 +17,53 @@
                     </div>
                 </div>
             </div> 
-            <div class="col-md-6 col-lg-4 col-xl-4 my-2 my-lg-0 my-xl-0">
-                <label class="label-of-input font-weight-bold mb-0">{{ $t('matches.filter_by') }}:</label>
-                <div class="radio d-inline-block">
-                    <input type="radio" v-model="filterBy" id="filter_category_and_competition" value="category_and_competition" name="match_filter" @change="getFilterOptions()">
-                    <label for="filter_category_and_competition" class="d-inline-block mb-0">{{ $t('matches.category') }}</label>
+            <div class="grid-full">
+                <div class="row">
+                  <div class="col-12">
+                    <label class="label-of-input font-weight-bold mb-0">{{ $t('matches.filter_by') }}:</label>
+                  </div>
                 </div>
-                <div class="radio d-inline-block">
-                    <input type="radio" v-model="filterBy" id="filter_location" value="location" name="match_filter" @change="getFilterOptions()">
-                    <label for="filter_location" class="d-inline-block mb-0">{{ $t('matches.location') }}</label>
+                <div class="row">
+                  <div class="col-7">
+                    <div class="row align-items-center h-100">
+                      <div class="col-4">
+                        <div class="radio d-inline-block pl-0">
+                            <input type="radio" v-model="filterBy" id="filter_category_and_competition" value="category_and_competition" name="match_filter" @change="getFilterOptions()">
+                            <label for="filter_category_and_competition" class="d-inline-block mb-0">{{ $t('matches.category') }}</label>
+                        </div>
+                      </div>
+                      <div class="col-4">
+                        <div class="radio d-inline-block pl-0">
+                            <input type="radio" v-model="filterBy" id="filter_location" value="location" name="match_filter" @change="getFilterOptions()">
+                            <label for="filter_location" class="d-inline-block mb-0">{{ $t('matches.location') }}</label>
+                        </div>
+                      </div>
+                      <div class="col-4">
+                        <div class="radio d-inline-block pl-0">
+                            <input type="radio" v-model="filterBy" id="filter_team" value="team" name="match_filter" @change="getFilterOptions()">
+                            <label for="filter_team" class="d-inline-block mb-0">{{ $t('matches.team') }}</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-3 select2_override" v-show="filterBy == 'category_and_competition'">
+                    <select class="form-control js-category-and-competition">
+                        <option value="">{{ $t('matches.select') }}</option>
+                        <option v-for="option in filterOptions" v-bind:data-val="setFilterOption(option)" v-bind:id="option.id" v-bind:value="setFilterOption(option)" :class="option.class">{{ option.name }}</option>
+                    </select>
+                  </div>
+                  <div class="col-3 select2_override"  v-show="filterBy != 'category_and_competition'">
+                    <label class="custom_select_box d-block mb-0" for="location_team_filter">
+                      <select id="location_team_filter" class="border-0" v-model="selectedOption" @change="setFilterOptions()">
+                        <option value="">{{ $t('matches.select') }}</option>
+                        <option :value="option.id" v-for="option in filterOptions" v-bind:value="option">{{ option.name }}</option>
+                      </select>
+                    </label>
+                  </div>
+                  <div class="col-2">
+                    <button type="button" class="btn btn-primary btn-block h-100" @click="clearFilter()">{{ $t('matches.clear') }}</button>
+                  </div>
                 </div>
-                <div class="radio d-inline-block">
-                    <input type="radio" v-model="filterBy" id="filter_team" value="team" name="match_filter" @change="getFilterOptions()">
-                    <label for="filter_team" class="d-inline-block mb-0">{{ $t('matches.team') }}</label>
-                </div>
-            </div>
-            <div class="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 select2_override mt-0 mb-2 mt-sm-0 mt-md-2 my-lg-0 my-xl-0" v-show="filterBy == 'category_and_competition'">
-                <select class="form-control js-category-and-competition">
-                    <option value="">{{ $t('matches.select') }}</option>
-                    <option v-for="option in filterOptions" v-bind:data-val="setFilterOption(option)" v-bind:id="option.id" v-bind:value="setFilterOption(option)" :class="option.class">{{ option.name }}</option>
-                </select>
-            </div>
-            <div class="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 select2_override mt-0 mb-2 mt-sm-0 mt-md-2 my-lg-0 my-xl-0"  v-show="filterBy != 'category_and_competition'">
-              <label class="custom_select_box d-block mb-0" for="location_team_filter">
-                <select id="location_team_filter" class="border-0" v-model="selectedOption" @change="setFilterOptions()">
-                  <option value="">{{ $t('matches.select') }}</option>
-                  <option :value="option.id" v-for="option in filterOptions" v-bind:value="option">{{ option.name }}</option>
-                </select>
-              </label>
-            </div>
-            <div class="col-4 col-sm-2 col-md-2 col-lg-1 col-xl-1"> 
-                <button type="button" class="btn btn-primary btn-block" @click="clearFilter()">{{ $t('matches.clear') }}</button>
             </div>
         </div>
     </div>
