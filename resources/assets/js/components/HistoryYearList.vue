@@ -90,7 +90,7 @@
 			this.$root.$on('getHistoryYears', this.getHistoryYears);
 			this.$root.$on('setHistoryYears', this.setHistoryYears);
 		},
-		beforeDestroy: function() {
+		beforeCreate: function() {
       // Remove custom event listener 
       this.$root.$off('getHistoryYears');
       this.$root.$off('setHistoryYears');

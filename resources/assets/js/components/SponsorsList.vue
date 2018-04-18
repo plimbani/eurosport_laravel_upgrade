@@ -70,7 +70,7 @@
 			this.getSponsorsList();
 			this.$root.$on('getSponsors', this.getSponsors);
 		},
-		beforeDestroy: function() {
+		beforeCreate: function() {
       // Remove custom event listener 
       this.$root.$off('getSponsors');
     },

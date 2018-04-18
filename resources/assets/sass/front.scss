@@ -877,3 +877,11 @@ gmap-map {
 .mce-container .mce-ico {
     font-family: 'tinymce',Arial !important;
 }
+
+.line-height-initial {
+    line-height: initial;
+}
+
+.page-permission-checkbox .euro-checkbox + label {
+    padding-left: 20px;
+}

@@ -24,7 +24,7 @@
                                 <div class="dropdown-menu">
                                     <ul>
                                         <li class="nav-value d-none d-lg-block">
-                                            <a href="{{ route(config('wot.page_routes')[$item['name']], ['domain' => $websiteDetail->domain_name]) }}" class="current-tab">{!! __($item['title']) !!}</a>
+                                            <a href="{{ route(config('wot.page_routes')[$item['name']], ['domain' => $websiteDetail->domain_name]) }}" class="current-tab">{!! __('messages.' . $item['name']) !!}</a>
                                         </li>
                                         @foreach($item['children'] as $childItem)
                                             <li>

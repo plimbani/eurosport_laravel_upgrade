@@ -305,8 +305,14 @@ class HomeRepository
     $pageDetail['name'] = $this->pageName;
     $pageDetail['content'] = $data['introduction_text'];
     $meta = array();
+
+    // Upload hero image
+    $meta['hero_image'] = basename(parse_url($data['hero_image'])['path']);
+    // Upload welcome image
+    $meta['welcome_image'] = basename(parse_url($data['welcome_image'])['path']);
+
     // Delete hero image from S3 - start
-    if ($pageData->meta && isset($pageData->meta['hero_image']) && $pageData->meta['hero_image'] != '' && $pageData->meta['hero_image'] != NULL && $pageData->meta['hero_image'] != $data['hero_image']) {
+    if ($pageData->meta && isset($pageData->meta['hero_image']) && $pageData->meta['hero_image'] != '' && $pageData->meta['hero_image'] != NULL && $pageData->meta['hero_image'] != $meta['hero_image']) {
       if ($this->disk->exists($this->heroImagePath . $pageData->meta['hero_image'])) {
         $this->disk->delete($this->heroImagePath . $pageData->meta['hero_image']);
         foreach ($this->heroImageConversions as $key => $value) {
@@ -316,9 +322,10 @@ class HomeRepository
         }
       }
     }
+
     // Delete hero image from S3 - end
     // Delete welcome image from S3 - start
-    if ($pageData->meta && isset($pageData->meta['welcome_image']) && $pageData->meta['welcome_image'] != '' && $pageData->meta['welcome_image'] != NULL && $pageData->meta['welcome_image'] != $data['welcome_image']) {
+    if ($pageData->meta && isset($pageData->meta['welcome_image']) && $pageData->meta['welcome_image'] != '' && $pageData->meta['welcome_image'] != NULL && $pageData->meta['welcome_image'] != $meta['welcome_image']) {
       if ($this->disk->exists($this->welcomeImagePath . $pageData->meta['welcome_image'])) {
         $this->disk->delete($this->welcomeImagePath . $pageData->meta['welcome_image']);
         foreach ($this->welcomeImageConversions as $key => $value) {
@@ -329,10 +336,6 @@ class HomeRepository
       }
     }
     // Delete welcome image from S3 - end
-    // Upload hero image
-    $meta['hero_image'] = basename(parse_url($data['hero_image'])['path']);
-    // Upload welcome image
-    $meta['welcome_image'] = basename(parse_url($data['welcome_image'])['path']);
     $pageDetail['meta'] = $meta;
 
     $this->pageService->updatePageDetails($pageDetail, $data['websiteId']);

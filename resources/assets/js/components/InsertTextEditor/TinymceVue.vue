@@ -20,7 +20,6 @@
     import 'tinymce/plugins/codesample';
     import 'tinymce/plugins/contextmenu';
     import 'tinymce/plugins/emoticons';
-    import 'tinymce/plugins/codesample';
     import 'tinymce/plugins/fullscreen';
     import 'tinymce/plugins/hr';
     import 'tinymce/plugins/imagetools';
@@ -73,13 +72,14 @@
                                         'advlist autolink lists link image charmap print preview hr anchor pagebreak',
                                         'searchreplace wordcount visualblocks visualchars code fullscreen',
                                         'insertdatetime media nonbreaking save table contextmenu directionality',
-                                        'template paste textcolor colorpicker textpattern imagetools toc help emoticons hr'
+                                        'template paste textcolor colorpicker textpattern imagetools toc help emoticons hr codesample'
                                     ];
                                 } , type: Array
                             },
                 toolbar1: { default :'formatselect | bold italic  strikethrough  forecolor backcolor | link | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent  | removeformat', type: String},
                 toolbar2: { default : '', type: String },
-                other_options: { default : function() { return {}; }, type: Object}
+                other_options: { default : function() { return {}; }, type: Object},
+                readonly: { default: false, type: Boolean },
         },
         data(){
             return {
@@ -100,9 +100,9 @@
             this.init();
         },
         beforeDestroy () {
-            if(this.editor != null) {
-                this.editor.destroy();
-            }
+            // this.editor.destroy();
+            // this.$emit('destroy', this.editor);
+            tinymce.remove();
         },
         watch: {
             value : function (newValue){
@@ -113,6 +113,13 @@
                         this.content = newValue;
                 }
             },
+            readonly(value){
+                if(value){
+                    this.editor.setMode('readonly');
+                } else {
+                    this.editor.setMode('design');
+                }
+            }
         },
         methods: {
             init(){
@@ -172,11 +179,18 @@
                             if(this.editor.getContent() !== this.value){
                                this.submitNewContent();
                             }
+                            this.$emit('editorChange', e);
                         });
                         editor.on('init', (e) => {
                             // editor.setContent(this.content);
                             // this.$emit('input', this.content);
                         });
+                        if(this.readonly){
+                            this.editor.setMode('readonly');
+                        } else {
+                            this.editor.setMode('design');
+                        }
+                        this.$emit('editorInit', editor);
                         editor.setContent(this.content);
                     }
                 };
@@ -199,7 +213,7 @@
                     }, 300);
 
                 this.$emit('input', this.editor.getContent());
-            }
+            },
         }
     }
 </script>

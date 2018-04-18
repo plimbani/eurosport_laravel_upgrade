@@ -240,7 +240,7 @@ class WebsiteTeamRepository
    */
   public function getPageData($data)
   {
-    $countries = Country::all();
+    $countries = Country::orderBy('name')->get();
 
     return ['countries' => $countries];
   }
@@ -310,7 +310,7 @@ class WebsiteTeamRepository
    */
   public function getCountriesKeyByCode()
   {
-    $countries = Country::all()->keyBy('country_code')->toArray();
+    $countries = Country::orderBy('name')->get()->keyBy('country_code')->toArray();
     return $countries;
   }
 }

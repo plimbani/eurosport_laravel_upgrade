@@ -55,7 +55,7 @@
 		created() {
 			this.$root.$on('setStandingData', this.getStandingData);
 		},
-		beforeDestroy() {
+		beforeCreate() {
 			this.$root.$off('setStandingData');
 		},
 		mounted() {

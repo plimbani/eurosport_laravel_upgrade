@@ -24,8 +24,14 @@ Vue.use(VuePaginate);
 Vue.use(vuexI18n.plugin, store);
 
 // add translations directly to the application
+Vue.i18n.add('cs', require("./locale/frontend/cs.js"));
+Vue.i18n.add('da', require("./locale/frontend/da.js"));
+Vue.i18n.add('de', require("./locale/frontend/de.js"));
 Vue.i18n.add('en', require("./locale/frontend/en.js"));
-Vue.i18n.add('de', require("./locale/frontend/fr.js"));
+Vue.i18n.add('fr', require("./locale/frontend/fr.js"));
+Vue.i18n.add('it', require("./locale/frontend/it.js"));
+Vue.i18n.add('nl', require("./locale/frontend/nl.js"));
+Vue.i18n.add('pl', require("./locale/frontend/pl.js"));
 
 // set the start locale to use
 Vue.i18n.set(Site.currentLocale);

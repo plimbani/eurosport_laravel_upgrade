@@ -47,7 +47,7 @@
     created() {
       this.$root.$on('setItineraryData', this.setItineraryData);
     },
-    beforeDestroy: function() {
+    beforeCreate: function() {
       // Remove custom event listener 
       this.$root.$off('setItineraryData');
     },

@@ -67,7 +67,7 @@
 			this.categoryTeamList = this.teams;
 			this.$root.$on('getCategoryTeamList', this.getCategoryTeamList);
 		},
-		beforeDestroy: function() {
+		beforeCreate: function() {
       // Remove custom event listener 
       this.$root.$off('getCategoryTeamList');
     },

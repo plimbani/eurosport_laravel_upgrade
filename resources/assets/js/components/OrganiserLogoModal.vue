@@ -63,7 +63,7 @@
 		created() {
 	    this.$root.$on('setOrganiserLogoData', this.setOrganiserLogoData);
 	  },
-	  beforeDestroy: function() {
+	  beforeCreate: function() {
       // Remove custom event listener 
       this.$root.$off('setOrganiserLogoData');
     },
