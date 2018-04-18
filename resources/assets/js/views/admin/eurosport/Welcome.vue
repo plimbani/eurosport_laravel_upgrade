@@ -1,14 +1,5 @@
 <template>
   <div class="main-content container" id="dashboardPage">
-    <!-- <div class="row">
-      <div class="col-md-12">
-        <div class="alert alert-info alert-dismissible" role="alert">
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          Hi Chris, Welcome to Tournament Planner. Got a question? Check the <strong> Help </strong>page or <strong> contact us </strong>for assistance.
-
-        </div>
-      </div>
-    </div> -->
     <div class="row home-content">
       <div class="col-sm-6">
         <div class="card">
@@ -74,35 +65,8 @@ computed: {
     },
   },
   mounted() {
-
     let tournamentAdd  = {name:'', 'currentPage':'Home'}
     this.$store.dispatch('SetTournamentName', tournamentAdd)
-
-    // Here we set Default Value For Tournament
-
-    /*let userDetails = this.$store.state.Users.userDetails
-        // this.userDetails = this.$store.state.Users.userDetails
-
-    let that = this
-     setTimeout(function(){
-    //   // console.log(userDetails.length,'hh')
-       if(userDetails.length == 0)
-       {
-
-         let email = Ls.get('email');
-
-         // Now here we are call and fetch user details
-         let userData = {'email':email}
-         that.$store.dispatch('getUserDetails', userData);
-          that.userDetails = that.$store.state.Users.userDetails
-       }
-        let tournamentAdd  = {name:'', 'currentPage':'Home'}
-
-       that.$store.dispatch('SetTournamentName', tournamentAdd)
-     },1000)
-
-
-     */
   },
   methods : {
     addNewTournament() {
