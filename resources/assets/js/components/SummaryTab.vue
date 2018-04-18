@@ -13,8 +13,8 @@
 				<h6 class="mb-2"><strong>{{$lang.summary_dates}}:</strong> {{tournamentDates}} </h6>
 			 </div>
 			</div>
-			<td class="col-md-6">
-			<div class="row d-flex flex-row align-items-start">
+			<div class="col-md-6">
+				<div class="row d-flex flex-row align-items-center">
 				<div class="col-sm-4"><div style="line-height:1"><strong>{{$lang.summary_status}}:</strong> {{tournamentStatus}}</div></div>
 
 				<div class="col-md-4" v-if="tournamentStatus == 'Published'">
@@ -42,7 +42,7 @@
 				<!--<DeleteTournament></DeleteTournament>-->
 				</div>
 				</div>
-			</td>
+			</div>
 		</div>
 		<div class="clearfix mt-4"></div>
 		<div class="d-flex justify-content-between align-items-center text-center flex-wrap row">
