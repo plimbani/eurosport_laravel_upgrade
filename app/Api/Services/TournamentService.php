@@ -12,10 +12,13 @@ use Laraspace\Models\Tournament;
 use Validate;
 use JWTAuth;
 use Laraspace\Models\User;
+use Laraspace\Traits\TournamentAccess;
 use View;
 
 class TournamentService implements TournamentContract
 {
+    use TournamentAccess;
+
     /**
      *  Messages To Display.
      */
@@ -398,7 +401,7 @@ class TournamentService implements TournamentContract
         $data = $data->all();
         $tournamentData = $this->tournamentRepoObj->tournamentSummary($data['tournamentId']);
         if ($tournamentData) {
-            return ['status_code' => '200', 'data'=>$tournamentData];
+          return ['status_code' => '200', 'data'=>$tournamentData];
         }
     }
 
@@ -851,6 +854,7 @@ class TournamentService implements TournamentContract
           ];
           Venue::where('id',$coordinates['id'])->update($updateData);
         } catch (\Exception $e) {
+          continue;
         }
       }
     }

@@ -523,7 +523,7 @@ export default {
 
 	          Tournament.getAllClubs(TournamentData).then(
 	          (response) => {
-	            this.clubs = response.data.data
+	            this.clubs = response.data.clubs
 	          },
 	          (error) => {
 	          }
@@ -610,8 +610,14 @@ export default {
     	exportReport() {
     		let ReportData = this.reportQuery
     		if(ReportData!=''){
-				ReportData += '&report_download=yes'
-    			window.location.href = "/tournament/report/reportExport?"+ReportData;
+					ReportData += '&report_download=yes';
+					Tournament.getSignedUrlForTournamentReportExport(ReportData).then(
+	          (response) => {
+    					window.location.href = response.data;	        
+	           },
+	          (error) => {
+	          }
+          )
     		}else{
     			toastr['error']('Records not available', 'Error');
     		}
@@ -647,8 +653,17 @@ export default {
 	exportPrint() {
 		let ReportData = this.reportQuery
 		if(ReportData!=''){
-			var win = window.open("/api/tournament/report/print?"+ReportData, '_blank');
-      win.focus();
+			var reportPrintWindow = window.open('', '_blank');
+			Tournament.getSignedUrlForTournamentReport(ReportData).then(
+				(response) => {
+					reportPrintWindow.location = response.data;
+				},
+				(error) => {
+
+				}
+			)
+			// var win = window.open("/api/tournament/report/print?"+ReportData, '_blank');
+   		// win.focus();
 		}else{
 			toastr['error']('Records not available', 'Error');
 		}

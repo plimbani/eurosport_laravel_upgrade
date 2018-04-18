@@ -10,9 +10,12 @@ use Laraspace\Models\Team;
 use Laraspace\Models\Position;
 use Laraspace\Models\TempFixture;
 use Laraspace\Models\TournamentTemplates;
+use Laraspace\Traits\TournamentAccess;
 
 class AgeGroupService implements AgeGroupContract
 {
+  use TournamentAccess;
+
     public function __construct(AgeGroupRepository $ageRepoObj)
     {
         $this->ageGroupObj = $ageRepoObj;
@@ -399,7 +402,7 @@ class AgeGroupService implements AgeGroupContract
     public function getPlacingsData($data) {
       $data = $this->ageGroupObj->getPlacingsData($data);
       if ($data) {
-        return ['data' => $data, 'status_code' => '200', 'message' => 'Data Successfully Deleted'];
+        return ['data' => $data, 'status_code' => '200', 'message' => 'Data Fetched Successfully'];
       }
     }
 

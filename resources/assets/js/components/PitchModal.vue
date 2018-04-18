@@ -150,7 +150,6 @@ import Tournament from '../api/tournament.js'
 import _ from 'lodash';
 
 var moment = require('moment');
-
   export default {
     data() {
        return {
@@ -339,9 +338,18 @@ var moment = require('moment');
       })
     },
     matchPrint(ReportData) {
-      var win = window.open("/api/match/print?"+ReportData, '_blank');
-      win.focus();
-      return true;
+      var matchPrintWindow = window.open('', '_blank');
+      Tournament.getSignedUrlForMatchPrint(ReportData).then(
+        (response) => {
+          matchPrintWindow.location = response.data;
+        },
+        (error) => {
+
+        }
+      )
+      // var win = window.open("/api/match/print?"+ReportData, '_blank');
+      // win.focus();
+      // return true;
     },
     generateMatchPrint() {
        let ReportData = 'matchId='+this.matchId+'&result_override='+(this.matchDetail.is_result_override == 1 ? true : false)
@@ -374,8 +382,18 @@ var moment = require('moment');
             } },500)
 
         } else {
-          var win = window.open("/api/match/print?"+ReportData, '_blank');
-          win.focus();
+          var matchPrintWindow = window.open('', '_blank');
+          Tournament.getSignedUrlForMatchPrint(ReportData).then(
+            (response) => {
+              matchPrintWindow.location = response.data;
+            },
+            (error) => {
+
+            }
+          )
+
+          // var win = window.open("/api/match/print?"+ReportData, '_blank');
+          // win.focus();
         }
 
     },

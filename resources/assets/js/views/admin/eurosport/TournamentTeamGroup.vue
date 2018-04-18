@@ -82,7 +82,7 @@
   			</div> -->
   			<div class="row mt-4">
   				<div class="col-md-12">
-          <form name="frmTeamAssign" id="frmTeamAssign">
+          <form class="frm-team-assign" name="frmTeamAssign" id="frmTeamAssign">
   					<table class="table table-hover table-bordered">
               <thead>
                   <tr>
