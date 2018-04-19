@@ -219,14 +219,14 @@ return [
   ],
   'message_notification_days' => 14,
   'activity_notification_recepients' => [
-    'to' => ['bgrout@aecordigital.com', 'mtilokani@aecordigital.com'],
+    'to' => explode(',', env('ACTIVITY_NOTIFICATION_RECEPIENTS_TO')),
     'cc' => [],
-    'bcc' => ['ssheth@aecordigital.com'],
+    'bcc' => explode(',', env('ACTIVITY_NOTIFICATION_RECEPIENTS_BCC')),
   ],
   'inquiries_recipient' => [
-    'to' => ['bgrout@aecordigital.com', 'mtilokani@aecordigital.com'],
+    'to' => explode(',', env('INQUIRIES_RECEPIENTS_TO')),
     'cc' => [],
-    'bcc' => ['ssheth@aecordigital.com'],
+    'bcc' => explode(',', env('INQUIRIES_RECEPIENTS_BCC')),
   ],
   'google_re_captcha_site_key' => env('GOOGLE_RE_CAPTCHA_SITE_KEY', ''),
   'google_re_captcha_secret_key' => env('GOOGLE_RE_CAPTCHA_SECRET_KEY', ''),
