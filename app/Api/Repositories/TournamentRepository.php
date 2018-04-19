@@ -161,21 +161,31 @@ class TournamentRepository
           $tournamentDetail = Tournament::where('id', $tournamentId)->first();
           $oldSdate = Carbon::createFromFormat('d/m/Y', $tournamentDetail->start_date);
           $dateDiff = $oldSdate->diffInDays($newdata['start_date']);
+          \Log::info("Pitch capacity date check --- start");
+          \Log::info("Date diff - " . $dateDiff);
           if($dateDiff > 0) {
             $pitchCnt = Pitch::where('tournament_id',$tournamentId)->get()->count();
             $pitchAvailableAll = PitchAvailable::where('tournament_id',$tournamentId)->get();
+            \Log::info("Tournament id:" . $tournamentDetail->id);
+            \Log::info($oldSdate);
+            \Log::info($newdata['start_date']);
             if($pitchCnt > 0 ) {
               foreach($pitchAvailableAll as $pitchAvail) {
                 if ($oldSdate->lt($newdata['start_date'])) {
+                  \Log::info("Date found less than");
                   $newStageStartdate = Carbon::createFromFormat('d/m/Y', $pitchAvail['stage_start_date'])->addDays($dateDiff);
                   $newStageContinuedate = Carbon::createFromFormat('d/m/Y', $pitchAvail['stage_continue_date'])->addDays($dateDiff);
                   $newStageEnddate = Carbon::createFromFormat('d/m/Y', $pitchAvail['stage_end_date'])->addDays($dateDiff);
                 }
-                 if ($oldSdate->gt($newdata['start_date'])) {
+                if ($oldSdate->gt($newdata['start_date'])) {
+                  \Log::info("Date found greater than");
                   $newStageStartdate = Carbon::createFromFormat('d/m/Y', $pitchAvail['stage_start_date'])->subDays($dateDiff);
                   $newStageContinuedate = Carbon::createFromFormat('d/m/Y', $pitchAvail['stage_continue_date'])->subDays($dateDiff);
                   $newStageEnddate = Carbon::createFromFormat('d/m/Y', $pitchAvail['stage_end_date'])->subDays($dateDiff);
                 }
+                \Log::info($newStageStartdate);
+                \Log::info($newStageContinuedate);
+                \Log::info($newStageEnddate);
                 PitchAvailable::where('id',$pitchAvail['id'])->update([
                     'stage_start_date' => $newStageStartdate,
                     'stage_continue_date' => $newStageContinuedate,
@@ -206,8 +216,7 @@ class TournamentRepository
               }
             }
           }
-
-
+          \Log::info("Pitch capacity date check --- end");
 
           $tournamentData = Tournament::where('id', $tournamentId)->update($newdata);
 
