@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <include layout="@layout/toolbar_header" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="20dp"
+
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|center"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/text_black_title"
+                android:gravity="center_vertical"
+                android:paddingLeft="5dp"
+                android:text="@string/privacy_and_cookie_policy_title"
+                android:textSize="21sp"
+                android:textStyle="bold" />
+
+            <TextView
+                style="@style/text_black_sub_title"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical"
+                android:paddingLeft="5dp"
+                android:text="@string/which_personal_data_are_processed"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                style="@style/text_black_sub_title"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical"
+                android:lineSpacingExtra="1dp"
+                android:paddingLeft="5dp"
+                android:text="@string/privacy_terms_text_1"
+                android:textSize="15sp" />
+
+            <TextView
+                style="@style/text_black_sub_title"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical"
+                android:lineSpacingExtra="1dp"
+                android:paddingLeft="5dp"
+                android:text="@string/privacy_terms_text_2"
+                android:textSize="15sp" />
+
+            <TextView
+                style="@style/text_black_sub_title"
+                android:layout_marginTop="12dp"
+                android:gravity="center_vertical"
+                android:paddingLeft="5dp"
+                android:text="@string/why_app_needs_data"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                style="@style/text_black_sub_title"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical"
+                android:lineSpacingExtra="1dp"
+                android:paddingLeft="5dp"
+                android:text="@string/privacy_terms_text_3"
+                android:textSize="15sp" />
+
+            <TextView
+                style="@style/text_black_sub_title"
+                android:layout_marginTop="12dp"
+                android:gravity="center_vertical"
+                android:paddingLeft="5dp"
+                android:text="@string/how_long_retains_data"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                style="@style/text_black_sub_title"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical"
+                android:lineSpacingExtra="1dp"
+                android:paddingLeft="5dp"
+                android:text="@string/privacy_terms_text_4"
+                android:textSize="15sp" />
+
+            <TextView
+                style="@style/text_black_sub_title"
+                android:layout_marginTop="12dp"
+                android:gravity="center_vertical"
+                android:paddingLeft="5dp"
+                android:text="@string/sharing_with_others"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                style="@style/text_black_sub_title"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical"
+                android:lineSpacingExtra="1dp"
+                android:paddingLeft="5dp"
+                android:text="@string/privacy_terms_text_5"
+                android:textSize="15sp" />
+
+            <TextView
+                style="@style/text_black_sub_title"
+                android:layout_marginTop="12dp"
+                android:gravity="center_vertical"
+                android:paddingLeft="5dp"
+                android:text="@string/accessing_correcting_or_removing_data"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                style="@style/text_black_sub_title"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical"
+                android:lineSpacingExtra="1dp"
+                android:paddingLeft="5dp"
+                android:text="@string/privacy_terms_text_6"
+                android:textSize="15sp" />
+
+            <TextView
+                style="@style/text_black_sub_title"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical"
+                android:lineSpacingExtra="1dp"
+                android:paddingLeft="5dp"
+                android:text="@string/privacy_terms_text_5"
+                android:textSize="15sp" />
+
+            <TextView
+                style="@style/text_black_sub_title"
+                android:layout_marginTop="12dp"
+                android:gravity="center_vertical"
+                android:paddingLeft="5dp"
+                android:text="@string/protecting_data"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                style="@style/text_black_sub_title"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical"
+                android:lineSpacingExtra="1dp"
+                android:paddingLeft="5dp"
+                android:text="@string/privacy_terms_text_7"
+                android:textSize="15sp" />
+
+            <TextView
+                style="@style/text_black_sub_title"
+                android:layout_marginTop="12dp"
+                android:autoLink="all"
+                android:gravity="center_vertical"
+                android:lineSpacingExtra="1dp"
+                android:paddingLeft="5dp"
+                android:text="@string/privacy_terms_text_8"
+                android:textColorLink="@color/red"
+                android:textSize="15sp" />
+
+            <TextView
+                style="@style/text_black_sub_title"
+                android:layout_marginTop="12dp"
+                android:gravity="center_vertical"
+                android:paddingLeft="5dp"
+                android:text="@string/can_be_contacted_as"
+                android:textSize="18sp" />
+
+            <TextView
+                style="@style/text_black_sub_title"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="12dp"
+                android:autoLink="all"
+                android:gravity="center_vertical"
+                android:lineSpacingExtra="1dp"
+                android:paddingLeft="5dp"
+                android:text="@string/contact_info"
+                android:textColorLink="@color/red"
+                android:textSize="15sp" />
+        </LinearLayout>
+    </ScrollView>
+
+    <include layout="@layout/layout_footer" />
+
+</LinearLayout>

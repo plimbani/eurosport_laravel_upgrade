@@ -53,7 +53,7 @@ public class FinalPlacingMatchesAdapter extends RecyclerView.Adapter<FinalPlacin
         final FinalPlacingModel mGroupModel = mFinalPlacingList.get(position);
         String mPlacingName = "";
         if (!Utility.isNullOrEmpty(mGroupModel.getPos())) {
-            mPlacingName = mContext.getString(R.string.placing_text_holder) + " " + mGroupModel.getPos();
+            mPlacingName = mContext.getString(R.string.placing_text_holder) + " " + mGroupModel.getPos().trim();
         }
         holder.tv_team_pos.setText(mPlacingName);
         if (!Utility.isNullOrEmpty(mGroupModel.getTeam_name())) {

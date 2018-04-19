@@ -57,12 +57,14 @@
             android:drawableRight="@drawable/ic_arrow_right"
             android:gravity="left"
             android:padding="15dp"
-            android:text="@string/help" />
+            android:text="@string/help"
+            android:visibility="gone" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/lightGray" />
+            android:background="@color/lightGray"
+            android:visibility="gone" />
 
 
         <TextView
