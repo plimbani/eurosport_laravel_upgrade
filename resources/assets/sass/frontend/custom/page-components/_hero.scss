@@ -137,9 +137,9 @@
         background-color: theme-color('light');
         .nav {
             min-height: 60px;
-            @include media-breakpoint-up(md) {
-                height: 60px;
-            }
+            // @include media-breakpoint-up(md) {
+            //     height: 60px;
+            // }
             @include media-breakpoint-down(md) {
                 display: flex;
                 flex-direction: column;
@@ -148,7 +148,7 @@
             .nav-item {
                 .nav-link {
                     text-transform: uppercase;
-                    font-size: $h6-font-size;
+                    font-size: $h7-font-size;
                     font-weight: 700;
                     padding: $nav-link-padding-y $font-size-base;
                     line-height: 1;
