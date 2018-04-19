@@ -83,6 +83,13 @@ export default {
        this.$root.$on('changeDrawListComp', this.setMatchData);
        this.$root.$on('getAllMatches', this.getAllMatches);
   	},
+  beforeCreate: function() {
+  	// Remove custom event listener
+	this.$root.$off('changeComp');
+    this.$root.$off('getMatchByTournamentFilter');
+    this.$root.$off('changeDrawListComp');
+    this.$root.$off('getAllMatches');
+  },
 	computed: {
 		currentScheduleView() {
 			return this.$store.state.currentScheduleView

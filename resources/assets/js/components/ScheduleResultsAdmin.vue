@@ -92,12 +92,18 @@ export default {
 		DrawsListing, MatchListing, TeamListing,DrawDetails,FinalPlacings
 	},
 	created: function() {
-       this.$root.$on('changeComp1', this.setMatchData1);
-       this.$root.$on('lastUpdateDate',this.lastUpdatedDate);
-       this.$root.$on('setCurrentView',this.setCurrentView);
-       this.getAgeCategory();
+    	this.$root.$on('changeComp1', this.setMatchData1);
+    	this.$root.$on('lastUpdateDate',this.lastUpdatedDate);
+    	this.$root.$on('setCurrentView',this.setCurrentView);
+    	this.getAgeCategory();
 
   	},
+  beforeCreate: function() {
+  	// Remove custom event listener
+	this.$root.$off('changeComp1');
+    this.$root.$off('lastUpdateDate');
+    this.$root.$off('setCurrentView');
+  },
 	methods: {
 	    lastUpdatedDate(updatedDate) {
 	      this.lastUpdatedDateValue = moment(updatedDate.date).format("Do MMM YYYY HH:mm")

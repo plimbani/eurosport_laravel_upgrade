@@ -49,6 +49,9 @@ import _ from 'lodash';
           this.initiazeGroupCompetitionValidation();
           // this.$validator.updateDictionary(this.errorMessages);
         },
+        beforeCreate: function() {
+          this.$root.$off('getCategoryCompetitions');
+        },
         methods: {
             getCategoryCompetitions() {
               let vm = this;

@@ -57,11 +57,11 @@ import _ from 'lodash'
 
         },
         created: function() {
-            // this.$root.$on('getTeamsByTournamentFilter', this.setPitchPlannerFilter);
-            // this.$root.$on('matchSchedulerChange', this.matchSchedulerChange);
-             this.$root.$on('reloadAllEvents', this.reloadAllEvents);
-
-
+            this.$root.$on('reloadAllEvents', this.reloadAllEvents);
+        },
+        beforeCreate: function() {
+            // Remove custom event listener
+            this.$root.$off('reloadAllEvents');
         },
         mounted() {
             let cal = this.$el;
@@ -113,7 +113,7 @@ import _ from 'lodash'
                             'title':'Pitch',
                             'matchId':''
                             })
-                        });  
+                        });
                     });
                 });
                 this.pitchBreak = sPitch

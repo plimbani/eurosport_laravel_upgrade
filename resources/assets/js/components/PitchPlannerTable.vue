@@ -131,6 +131,18 @@
 
             this.$root.$on('editReferee', this.editReferee);
         },
+        beforeCreate: function() {
+            // Remove custom event listener
+            this.$root.$off('setPitchReset');
+            this.$root.$off('setGameReset');
+            this.$root.$off('setRefereeReset');
+            this.$root.$off('RefereeCount');
+            this.$root.$off('resetPitchesOnCategoryColorSave');
+            this.$root.$off('getPitchesByTournamentFilter');
+            this.$root.$off('setPitchPlanTab');
+            this.$root.$off('getAllReferee');
+            this.$root.$off('editReferee');
+        },
         data() {
             return {
                 // 'currentView':'gamesTab',
@@ -154,10 +166,10 @@
             $('.pitch_planner_section').mCustomScrollbar({
                 'autoHideScrollbar':true
             });
-                let vm = this
-            setTimeout(function(){
-                vm.resetPitch();
-            },500)    
+            //     let vm = this
+            // setTimeout(function(){
+            //     vm.resetPitch();
+            // },500)
             
             $(document).ready(function() {
                 $(document).on('click', '.js-pitch-planner-bt', function(e){
@@ -235,6 +247,7 @@
                     // responseData.unshift({'id':0,'category_age':'Select all'}) 
                     // this.competationList.push({'id':0,'category_age':'Select all'})
                     this.competationList = responseData
+                    this.$store.dispatch('setCompetationList', responseData)
                     // console.log(this.competationList);
                   },
                   (error) => {              
@@ -351,42 +364,36 @@
             resetPitch() {
                 let vm = this
                 this.stageStatus = false
-                vm.tournamentStages = ''
-                // this.GameStatus = false
-                // this.refereeStatus = false
-                this.tournamentStages = ''
+                this.tournamentStages = {}
                 let tournamentStartDate = moment(this.tournamentStartDate, 'DD/MM/YYYY');
                 let stages = [];
-                for (var i = 1; i <= this.tournamentDays; i++) {
-
-                    // fetch pitches available for this day
-                    let currentDateString  = tournamentStartDate.format('DD/MM/YYYY');
-                    // console.log(currentDateString)
-                    let availablePitchesForStage = _.filter(this.$store.state.Pitch.pitches, (pitch) => {
-                        return  _.find(pitch.pitch_availability, {
-                            'stage_start_date': currentDateString
+                let setTournamentStages = new Promise((resolve, reject) => {
+                    for (var i = 1; i <= this.tournamentDays; i++) {
+                        // fetch pitches available for this day
+                        let currentDateString  = tournamentStartDate.format('DD/MM/YYYY');
+                        // console.log(currentDateString)
+                        let availablePitchesForStage = _.filter(this.$store.state.Pitch.pitches, (pitch) => {
+                            return  _.find(pitch.pitch_availability, {
+                                'stage_start_date': currentDateString
+                            });
                         });
-                    });
 
-                    tournamentStartDate = tournamentStartDate.add(1, 'days');
-                    // console.log(currentDateString,i,tournamentStartDate.add(1, 'days'))
-                    stages.push({
-                        stageNumber: i,
-                        tournamentStartDate: currentDateString,
-                        pitches: availablePitchesForStage
-                    });
-                }
-                    // vm.stageStatus = true
-                    // vm.GameStatus = true
-                    // vm.refereeStatus = true
-                    vm.$store.dispatch('setTournamentStages',stages)
+                        tournamentStartDate = tournamentStartDate.add(1, 'days');
+                        // console.log(currentDateString,i,tournamentStartDate.add(1, 'days'))
+                        stages.push({
+                            stageNumber: i,
+                            tournamentStartDate: currentDateString,
+                            pitches: availablePitchesForStage
+                        });
+                    }
+                    resolve();
+                });
 
-                setTimeout(function(){
-                     vm.stageStatus = true
-                    // vm.GameStatus = true
-                    // vm.refereeStatus = true
-                     vm.tournamentStages = stages
-                },500)
+                setTournamentStages.then( (msg) => {
+                    this.$store.dispatch('setTournamentStages', stages)
+                    vm.stageStatus = true
+                    vm.tournamentStages = stages
+                });
             },
           gameReset() {
 
