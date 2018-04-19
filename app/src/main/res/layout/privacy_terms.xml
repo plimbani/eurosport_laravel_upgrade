@@ -131,14 +131,6 @@
                 android:text="@string/privacy_terms_text_6"
                 android:textSize="15sp" />
 
-            <TextView
-                style="@style/text_black_sub_title"
-                android:layout_marginTop="10dp"
-                android:gravity="center_vertical"
-                android:lineSpacingExtra="1dp"
-                android:paddingLeft="5dp"
-                android:text="@string/privacy_terms_text_5"
-                android:textSize="15sp" />
 
             <TextView
                 style="@style/text_black_sub_title"
