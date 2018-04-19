@@ -8,9 +8,9 @@
         <div class="row">
           <div class="col-sm-6">
             <div class="form-group" :class="{'has-error': errors.has('tournament.name') }">
-                <label class="col-sm-4 form-control-label">{{$lang.tournament_name}}*</label>
+                <label>{{$lang.tournament_name}}*</label>
                 <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Enter the name of your tournament" v-model="tournament.name" name="tournament_name"  v-validate="'required'" v-if="userRole == 'Tournament administrator'"  readonly="readonly" :class="{'is-danger': errors.has('tournament_name') }">
+                    <input type="text" class="form-control" placeholder="Enter the name of your tournament" v-model="tournament.name" name="tournament_name"  v-validate="'required'" v-if="userRole == 'Tournament administrator'" readonly="readonly" :class="{'is-danger': errors.has('tournament_name') }">
                     <input type="text" class="form-control" placeholder="Enter the name of your tournament" v-model="tournament.name" name="tournament_name" v-else  v-validate="'required'" :class="{'is-danger': errors.has('tournament_name') }">
                     <i v-show="errors.has('tournament_name')" class="fa fa-warning"></i>
                 </div>
@@ -19,7 +19,7 @@
           </div>
           <div class="col-sm-6">
             <div class="form-group" :class="{'has-error': errors.has('tournament.maximum_teams') }">
-              <label class="col-sm-4 form-control-label">{{$lang.maximum_teams}}*</label>
+              <label>{{$lang.maximum_teams}}*</label>
               <div class="input-group">
                  <input type="number" class="form-control" v-model="tournament.maximum_teams" name="maximum_teams" v-validate="'required'" v-if="userRole == 'Tournament administrator'"  readonly="readonly" :class="{'is-danger': errors.has('maximum_teams') }">
                  <input type="number" class="form-control" v-model="tournament.maximum_teams" name="maximum_teams" v-validate="'required'" v-else   :class="{'is-danger': errors.has('maximum_teams') }">
@@ -49,7 +49,7 @@
                   <span class="input-group-addon">
                       <i class="jv-icon jv-calendar"></i>
                   </span>
-                  <input type="text" class="form-control ls-datepicker" v-if="userRole == 'Tournament administrator'"  disabled="disabled" id="tournament_end_date">
+                  <input type="text" class="form-control ls-datepicker" v-if="((tournamentId != 0 ) || userRole == 'Tournament administrator')"  disabled="disabled" id="tournament_end_date">
                   <input type="text" class="form-control ls-datepicker" v-else id="tournament_end_date">
               </div>
             </div>
@@ -84,8 +84,7 @@
                       <label class="col-md-4 control-label">{{$lang.tournament_tournament_logo}}</label>
                       <div class="pull-right">
                         <div v-if="!image">
-                        <img  src="http://placehold.it/250x250"
-                             width="100px" height="100px"/>
+                            <img src="/assets/img/noimage.png" class="thumb-size" />
                             <!--<button type="button" name="btnSelect" id="btnSelect">-->
                             <button type="button" class="btn btn-default" name="btnSelect" id="btnSelect">{{$lang.tournament_tournament_choose_button}}</button>
                             <input type="file" id="selectFileT" style="display:none;" @change="onFileChangeT">
@@ -94,7 +93,7 @@
                         </div>
                         <div v-else>
                             <img :src="imagePath + image"
-                             width="100px" height="100px"/>
+                             class="thumb-size" />
                             <button class="btn btn-default" @click="removeImage">{{$lang.tournament_tournament_remove_button}}</button>
                         </div>
                       </div>
@@ -209,6 +208,7 @@
                 v-validate="'required'" :class="{'is-danger': errors.has('tournament_venue_country'+index) }">
                   <option value="">{{$lang.tournament_country_please_select}}</option>
                   <option value="Andorra">Andorra</option>
+                  <option value="Austria">Austria</option>
                   <option value="Belgium">Belgium</option>
                   <option value="Belarus">Belarus</option>
                   <option value="Bulgaria">Bulgaria</option>
@@ -299,7 +299,7 @@
   </div>
 </div>
 </template>
-<script type="text/babel">
+<script >
 var moment = require('moment');
 import location from '../../../components/Location.vue'
 import Tournament from '../../../api/tournament.js'
@@ -307,7 +307,7 @@ import Ls from './../../../services/ls'
 export default {
 data() {
 return {
-tournament: {name:' ',website:'',facebook:'',twitter:'',tournament_contact_first_name:'',tournament_contact_last_name:'',tournament_contact_home_phone:'',
+tournament: {name:'',website:'',facebook:'',twitter:'',tournament_contact_first_name:'',tournament_contact_last_name:'',tournament_contact_home_phone:'',
 image_logo:'',test_value:'',del_location:'0',maximum_teams:''
 },
 userRole:this.$store.state.Users.userDetails.role_name,
@@ -326,14 +326,15 @@ tournament_venue_organiser: "",
 image:'',
 customCount:0,
 tournamentId: 0,
-imagePath :''
+imagePath :'',
+tournamentDateDiff: 0
 }
 },
 components: {
 location: location
 },
 mounted(){
-Plugin.initPlugins(['Select2','BootstrapSelect','TimePickers','MultiSelect','DatePicker','SwitchToggles','setCurrentDate'])
+Plugin.initPlugins(['Select2','TimePickers','MultiSelect','DatePicker','setCurrentDate'])
 // here we dispatch methods
 // First we check that if tournament id is Set then dont dispatch it
 $('#btnSelect').on('click',function(){
@@ -341,8 +342,9 @@ $('#btnSelect').on('click',function(){
 })
 
 let tId = this.$store.state.Tournament.tournamentId
- this.$store.dispatch('SetPitches',this.$store.state.Tournament.tournamentId);
+
 if(tId.length != 0) {
+this.$store.dispatch('SetPitches',this.$store.state.Tournament.tournamentId);
 this.tournamentId = this.$store.state.Tournament.tournamentId
 // Now here we call method for getting the tournament Data
 // we call Summary
@@ -415,19 +417,31 @@ $('#tournament_start_date').datepicker('setDate', moment().format('DD/MM/YYYY'))
 }
 // $('#tournament_start_date').val()
 if(start_date != ''){
-$('#tournament_start_date').datepicker('setDate', start_date)
+  $('#tournament_start_date').datepicker('setDate', start_date)
 }
 let tEndDate = ''
 if(this.$store.state.Tournament.tournamentEndDate!= undefined){
 tEndDate = new Date(moment(this.$store.state.Tournament.tournamentEndDate, 'DD/MM/YYYY').format('MM/DD/YYYY'))
-$('#tournament_end_date').datepicker('setDate', tEndDate)
+  $('#tournament_end_date').datepicker('setDate', tEndDate)
 } else {
 $('#tournament_end_date').datepicker('setDate', moment().format('DD/MM/YYYY'))
 }
-$('#tournament_start_date').datepicker().on('changeDate',function(){
-$('#tournament_end_date').datepicker('setStartDate', $('#tournament_start_date').val())
-$('#tournament_end_date').datepicker('clearDates')
-});
+  let vm = this
+    let startDate = moment($('#tournament_start_date').val(), 'DD/MM/YYYY')
+    let endDate = moment($('#tournament_end_date').val(), 'DD/MM/YYYY')
+    this.tournamentDateDiff = endDate.diff(startDate, 'days')
+    $('#tournament_end_date').datepicker('setStartDate', moment($('#tournament_start_date').val(), 'DD/MM/YYYY').format("DD/MM/YYYY"))
+  $('#tournament_start_date').datepicker().on('changeDate',function(){
+
+    let newEndDate = moment($('#tournament_start_date').val(), "DD/MM/YYYY").add(vm.tournamentDateDiff, 'days');
+    if(vm.tournamentId != 0) {
+      $('#tournament_end_date').datepicker('setStartDate', newEndDate.format("DD/MM/YYYY"))
+      $('#tournament_end_date').datepicker('setDate', newEndDate.format("DD/MM/YYYY"));
+    } else {
+        $('#tournament_end_date').datepicker('setStartDate', moment($('#tournament_start_date').val(), 'DD/MM/YYYY').format("DD/MM/YYYY"))
+    }
+    // $('#tournament_end_date').datepicker('clearDates')
+  });
 //this.handleValidation()
 $('.panel-title').on('click',function(){
   if($('#opt_icon').hasClass('fa-plus') == true){
@@ -489,7 +503,7 @@ this.tournament.del_location = this.locations[index].tournament_location_id
 this.locations.splice(index,1)
 },
 next() {
-
+let vm = this;
 // this.handleValidation()
 // First Validate it
 // SET The Date Value for tournament
@@ -513,13 +527,23 @@ this.$validator.validateAll().then(
   } else {
     msg = 'Tournament details edited successfully.'
   }
-  this.$store.dispatch('SaveTournamentDetails', this.tournament)
-    // Display Toastr Message for add Tournament
-    toastr['success'](msg, 'Success');
-    // Now redirect to Comperation Format page
-    // now here also check if tournament id is set then we push it
-  setTimeout(this.redirectCompetation, 5000);
-  // commit(types.SAVE_TOURNAMENT, response.data)
+
+  $("body .js-loader").removeClass('d-none');
+
+  Tournament.saveTournament(vm.tournament).then(
+    (response) => {
+      if(response.data.status_code == 200) {
+        toastr['success'](msg, 'Success');
+        vm.$store.dispatch('SaveTournamentDetails', response.data.data);
+        $("body .js-loader").addClass('d-none');
+        vm.redirectCompetation();
+      } else {
+        alert('Error Occured');
+      }
+    },
+    (error) => {
+    }
+  );
 },
 (error) => {
 }

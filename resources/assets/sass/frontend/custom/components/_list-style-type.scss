@@ -1,0 +1,19 @@
+.list-style-type {
+    .list-group-item {
+        &:after {
+            content: '';
+            position: absolute;
+            height: 2px;
+            border-radius: 2px;
+            border-top: 0;
+            width: 100%;
+            top: 0;
+            background: $gray-200;
+        }
+        &:first-child {
+            &:after {
+                display: none;
+            }
+        }
+    }
+}
