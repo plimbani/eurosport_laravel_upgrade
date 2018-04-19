@@ -23,7 +23,7 @@ public class PrivacyAndTermsActivity extends BaseAppCompactActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        setContentView(R.layout.help);
+        setContentView(R.layout.privacy_terms);
         super.onCreate(savedInstanceState);
         initView();
     }

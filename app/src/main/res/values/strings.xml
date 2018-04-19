@@ -101,8 +101,25 @@
     <string name="no_tournament_selected_as_default">No default tournament selected.</string>
     <string name="the_internet_connection_appears_to_be_offline" translatable="false">The internet connection appears to be offline.</string>
     <string name="update_message">An app update is available. Please update the version you are using.</string>
+    <string name="privacy_and_cookie_policy_title">Privacy and cookie policy at Stichting Euro-Sportring </string>
+    <string name="which_personal_data_are_processed">WHICH PERSONAL DATA ARE PROCESSED?</string>
+    <string name="privacy_terms_text_1">Euro-Sportring may process personal data about you if you use the services offered by Euro-Sportring and/or if you provide these data yourself when registering on the Euro-Sporting app. Euro-Sportring may process the following personal data:</string>
+    <string name="privacy_terms_text_2">- Your first name and surname\n- Your preferred tournament details\n- Your e-mail address\n- Your IP address</string>
+    <string name="why_app_needs_data">WHY EURO-SPORTRING NEEDS DATA</string>
+    <string name="privacy_terms_text_3">Euro-Sportring processes your personal data so that it is able to contact you in writing by email when you ask it to.\n\nEuro-Sportring may also use your personal data as part of its performance of an agreement to provide services: usually involving the organisation and sale of international tournaments.</string>
 
-    <!--Volley-->
+    <string name="how_long_retains_data">HOW LONG EURO-SPORTRING RETAINS DATA</string>
+    <string name="privacy_terms_text_4">Euro-Sportring retains your personal data no longer than strictly necessary to achieve the purposes for which your data are collected. Your data will only be retained for five years if no agreement is concluded with you.</string>
+    <string name="sharing_with_others">SHARING WITH OTHERS</string>
+    <string name="privacy_terms_text_5">Euro-Sportring will only share your personal data with third parties if necessary for the performance of an agreement that it has entered into with you, or to comply with a statutory duty.</string>
+    <string name="accessing_correcting_or_removing_data">ACCESSING, CORRECTING OR REMOVING DATA</string>
+    <string name="privacy_terms_text_6">You have the right to access, correct or remove your personal data, which you can do by sending an access, correction or removal request to Euro-Sportring. Euro-Sportring will respond to your request as quickly as possible, but within four weeks at the very latest.</string>
+    <string name="protecting_data">PROTECTING DATA</string>
+    <string name="privacy_terms_text_7">Euro-Sportring recognises the need to protect your data and puts appropriate measures in place to discourage misuse, loss, unauthorised access, accidental disclosure and unauthorised modification. The Euro-Sportring app uses a reliable SSL Certificate to ensure that your personal data do not end up in the wrong hands (encrypted).</string>
+    <string name="privacy_terms_text_8">If you feel that your data are not being protected properly, if there are signs of misuse, or if you would like more information about the protection of personal data collected by Euro-Sportring, please contact Euro-Sportring via info@euro-sportring.org.</string>
+    <string name="can_be_contacted_as">Euro-Sportring can be contacted as indicated below:</string>
+    <string name="contact_info">Postal address: P.O. Box 78, 3740 AB Baarn, the Netherlands\nOffice address: Javalaan 7B, 3742 CN Baarn, the Netherlands\nRegistration number in the commercial register of the chamber of commerce: KVK32083831\nTelephone: +31 (0)355489800\nE-mail address: info@euro-sportring.org</string>
+
 
     <!--Language-->
     <string name="english">English</string>
