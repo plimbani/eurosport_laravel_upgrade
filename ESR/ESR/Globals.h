@@ -13,8 +13,9 @@
 //#define BaseURL @"http://esr.aecordigitalqa.com"
 //#define BaseURL @"http://192.168.0.6:8180/"
 //#define BaseURL @"http://usama-eurosport.dev.aecortech.com"
-#define BaseURL @"https://www.esrtmp.com"
+//#define BaseURL @"https://www.esrtmp.com"
 //#define BaseURL @"https://qa.esrtmp.com"
+#define BaseURL @"https://qa.wot.esrtmp.com"
 //#define BaseURL @"http://mukesh-eurosport.dev.aecortech.com"
 //#define BaseURL @"http://sunny-eurosport.dev.aecortech.com"
 

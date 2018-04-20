@@ -239,7 +239,7 @@
 - (void)scrollToView:(UIView*)view
 {
     CGRect theFrame = view.frame;
-    float y = theFrame.origin.y -90;
+    float y = theFrame.origin.y + 10;
     //float y = theFrame.origin.y + theFrame.size.height -90;
     y -= (y / 1.7);
     [self scrollToY:-y];
