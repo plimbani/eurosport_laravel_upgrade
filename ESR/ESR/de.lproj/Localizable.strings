@@ -1,0 +1,91 @@
+/* 
+  Localizable.strings
+  ESR
+
+  Created by Aecor Digital on 24/08/17.
+  Copyright © 2017 Aecor Digital. All rights reserved.
+*/
+
+"First name" = "Vorname";
+"Surname" = "Nachname";
+"Email address" = "E-Mail-Adresse";
+"Password" = "Passwort";
+"Confirm password" = "Passwort bestätigen";
+"Select tournament" = "Turnier auswählen";
+"Success" = "Erfolgreich ausgeführt";
+"Default tournament updated successfully" = "Standard-Turnier wurde aktualisiert";
+"Error" = "Fehler";
+"Default tournament cannot be removed from favourite." = "Standard-Turnier kann nicht aus Favorit entfernt werden.";
+"Profile updated successfully."= "Profil erfolgreich aktualisiert.";
+"The passwords entered do not match"="Die eingegebenen Passwörter sind nicht identisch.";
+"Passwords do not match."= "Die Passwörter sind nicht identisch.";
+"Are you sure you want to log out?"= "Sind Sie sicher, dass Sie sich abmelden möchten?";
+"We have sent a password reset link to your email address." = "Wir haben Ihnen einen Link zu Erstellung eines neuen Passworts an Ihre E-Mail-Adresse gesendet.";
+"Please check your inbox to verify your email address and complete your account registration"= "Bitte prüfen Sie Ihren E-Mail-Eingang, um Ihre E-Mail-Adresse zu verifizieren und Ihre Kontoanmeldung abzuschließen.";
+"Matches"="Spiele";
+"league table" = "Rangliste";
+"No league data available"="Keine Rangdaten gefunden";
+"No matches available"="Keine Spiele gefunden";
+"View full league table"="Rangdaten anzeigen";
+"View all club matches"="Alle Vereinsspiele anzeigen";
+"is the winner"="ist der Sieger";
+"Game information"="Spielinformationen";
+"GROUP"="GRUPPEN";
+"PLACING MATCHES SUMMARY"="ZUSAMMENFASSUNG DER PLATZIERUNGSSPIELE";
+"Elimination"="Eliminierung";
+"Round Robin"="Round Robin-Turnier";
+
+//Home(Tournament Tab)
+"Favourites"= "Favoriten";
+"Tournament" = "Turnier";
+"Teams"= "Teams";
+"Age categories"="Altersklassen";
+"Settings" = "Einstellungen";
+"Matches"="Spiele";
+"Days"="Tage";
+"Hours"="Stunden";
+"Seconds"="Sekunden";
+"Minutes"="Minuten";
+
+//Date and Time
+"January"="Januar";
+"February"="Februar";
+"March"="März";
+"April"="April";
+"May"="Mai";
+"June"="Juni";
+"July"="Juli";
+"August"="August";
+"September"="September";
+"October"="Oktober";
+"November"="November";
+"December"="Dezember";
+
+//Team Page
+"TEAMS"="TEAMS";
+"CLUBS"="VEREINE";
+"CATEGORY"="KATEGORIE";
+"GROUPS"="GRUPPEN";
+"Search clubs"="Vereine suchen";
+"Search age category"="Altersklassen suchen";
+"Search groups"="Gruppen suchen";
+
+//Team Listing
+"TEAM"="TEAM";
+
+//Settings
+"Profile"="Profil";
+"Notifications & sounds"="Benachrichtigung & Töne";
+"Help"="Hilfe";
+"Privacy & terms"="Datenschutz & Geschäftsbedingungen";
+"Log out"="Abmelden";
+
+//Profile Page
+"English"="Englisch";
+"French"="Französisch";
+"Italian"="Italienisch";
+"German"="Deutsch";
+"Dutch"="Niederländisch";
+"Czech"="Tschechisch";
+"Danish"="Dänisch";
+"Polish"="Polnisch";
