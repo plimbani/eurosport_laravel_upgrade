@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0F984C91208E11E5009F7BB0 /* PrivacyPolicy.txt in Resources */ = {isa = PBXBuildFile; fileRef = 0F984C90208E11E4009F7BB0 /* PrivacyPolicy.txt */; };
 		928681551F323FD3005BE626 /* HelpVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 928681541F323FD2005BE626 /* HelpVC.m */; };
 		928681581F323FEA005BE626 /* PrivacyVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 928681571F323FEA005BE626 /* PrivacyVC.m */; };
 		9E00E3791EF925CE002457CE /* SignUpTournamentList.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E00E3781EF925CE002457CE /* SignUpTournamentList.m */; };
@@ -147,6 +148,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0F984C90208E11E4009F7BB0 /* PrivacyPolicy.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = PrivacyPolicy.txt; sourceTree = "<group>"; };
 		14E6572A52E6A27F9B2F3417 /* Pods_ESRTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ESRTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		25E242443DE4918F7F22DA12 /* Pods-ESR.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ESR.release.xcconfig"; path = "Pods/Target Support Files/Pods-ESR/Pods-ESR.release.xcconfig"; sourceTree = "<group>"; };
 		43F2A882D451BC3970FCF221 /* Pods-ESRUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ESRUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-ESRUITests/Pods-ESRUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -568,6 +570,7 @@
 				9E01B8181F0B93B0007C60B1 /* UINavigationController+Rotation_IOS6.m */,
 				9EBC46911F3DD0AD0077256A /* WebVC.h */,
 				9EBC46921F3DD0AD0077256A /* WebVC.m */,
+				0F984C90208E11E4009F7BB0 /* PrivacyPolicy.txt */,
 				9E15F1A31F4EE76400BFE822 /* Localizable.strings */,
 				9E47C81420048CE600AD69FC /* ApplicationUpdateVC.h */,
 				9E47C81520048CE600AD69FC /* ApplicationUpdateVC.m */,
@@ -974,6 +977,7 @@
 				9E15F1A11F4EE76400BFE822 /* Localizable.strings in Resources */,
 				9E1E2ABD1EFBDE7100C748B1 /* icon_logout.png in Resources */,
 				9E421AA51EF261FC004693BF /* Main.storyboard in Resources */,
+				0F984C91208E11E5009F7BB0 /* PrivacyPolicy.txt in Resources */,
 				9E96B9141F20B53600725956 /* fav_default1.png in Resources */,
 				9E421AF91EF2A426004693BF /* insta.png in Resources */,
 			);
