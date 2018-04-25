@@ -278,7 +278,8 @@ export default {
           let CompetationType = this.DrawName.actual_competition_type
           this.$root.$emit('changeDrawListComp',Id, Name,CompetationType);
           // this.matchData = this.drawList
-          this.refreshStanding()
+          // this.refreshStanding()
+          this.$root.$emit('getcurrentCompetitionStanding', Id);
           this.setTeamData()
           this.currentCompetationId = Id
           // this.$children[1].getData(this.currentCompetationId)

@@ -64,6 +64,7 @@ export default {
   },
   created: function() {
     this.$root.$on('setStandingData', this.getData);
+    this.$root.$on('getcurrentCompetitionStanding', this.getcurrentCompetitionStanding);
   },
   beforeCreate: function() {
   	// Remove custom event listener
@@ -96,6 +97,19 @@ export default {
 			}
 
 		},
+		getcurrentCompetitionStanding(currentLCompetationId) {
+			this.standingData = [];
+          	if(currentLCompetationId != 0) {
+	          let tournamentData = {'tournamentId': this.$store.state.Tournament.tournamentId,'competitionId': currentLCompetationId}
+	          Tournament.refreshStanding(tournamentData).then(
+	            (response)=> {
+	              if(response.data.status_code == 200){
+	              	this.standingData = response.data.data
+	              }
+	            },
+	           )
+	       }
+        },
 		changeTeam(Id, Name) {
 			// here we dispatch Method
 
