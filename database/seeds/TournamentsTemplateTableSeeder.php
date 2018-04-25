@@ -198,7 +198,7 @@ class TournamentsTemplateTableSeeder extends Seeder
           [ 'name' => 'T.12.5 (v2)',
           'json_data' => jsonMin::minify(file_get_contents(base_path('resources/templates/template0036.json'))), 'total_teams' => '12', 'minimum_matches' => '5','position_type' => 'group_ranking','created_at' => Carbon::now()->format('Y-m-d H:i:s'), 'deleted_at' => null],
 
-          [ 'name' => 'T.12.6',
+          [ 'name' => 'T.12.6 (v1)',
           'json_data' => jsonMin::minify(file_get_contents(base_path('resources/templates/template0037.json'))), 'total_teams' => '12', 'minimum_matches' => '6','position_type' => 'final','created_at' => Carbon::now()->format('Y-m-d H:i:s'), 'deleted_at' => null],
 
           [ 'name' => 'T.13.3',
@@ -398,8 +398,11 @@ class TournamentsTemplateTableSeeder extends Seeder
           [ 'name' => 'T.5.5',
           'json_data' => jsonMin::minify(file_get_contents(base_path('resources/templates/template0143.json'))), 'total_teams' => '5', 'minimum_matches' => '5','position_type' => 'final_and_group_ranking','created_at' => Carbon::now()->format('Y-m-d H:i:s'), 'deleted_at' => null],
 
-           [ 'name' => 'T.5.6',
+          [ 'name' => 'T.5.6',
           'json_data' => jsonMin::minify(file_get_contents(base_path('resources/templates/template0144.json'))), 'total_teams' => '5', 'minimum_matches' => '6','position_type' => 'final_and_group_ranking','created_at' => Carbon::now()->format('Y-m-d H:i:s'), 'deleted_at' => null],
+
+          [ 'name' => 'T.12.6 (v2)',
+          'json_data' => jsonMin::minify(file_get_contents(base_path('resources/templates/template0145.json'))), 'total_teams' => '12', 'minimum_matches' => '6','position_type' => 'final','created_at' => Carbon::now()->format('Y-m-d H:i:s'), 'deleted_at' => null],
 
 
         ]);
