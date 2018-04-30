@@ -1119,6 +1119,7 @@ class MatchRepository
       $matchData['home_team_id'] = $tempFixtures['home_team'];
       $matchData['away_team_id'] = $tempFixtures['away_team'];
       $matchData['age_group_id'] = $tempFixtures['age_group_id'];
+      $matchData['competition_id'] = $tempFixtures['competition_id'];
       $updateData = [
         'hometeam_score' => $data['homeScore'],
         'awayteam_score' => $data['awayScore'],
