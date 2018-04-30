@@ -64,10 +64,12 @@ export default {
   },
   created: function() {
     this.$root.$on('setStandingData', this.getData);
+    this.$root.$on('getcurrentCompetitionStanding', this.getcurrentCompetitionStanding);
   },
   beforeCreate: function() {
   	// Remove custom event listener
 		this.$root.$off('setStandingData');
+		this.$root.$off('getcurrentCompetitionStanding');
   },
 	mounted() {
 		// here we call function to get all the Draws Listing
@@ -96,6 +98,21 @@ export default {
 			}
 
 		},
+		getcurrentCompetitionStanding(currentLCompetationId) {
+			this.standingData = [];
+			$("body .js-loader").removeClass('d-none');
+          	if(currentLCompetationId != 0) {
+	          let tournamentData = {'tournamentId': this.$store.state.Tournament.tournamentId,'competitionId': currentLCompetationId}
+	          Tournament.refreshStanding(tournamentData).then(
+	            (response)=> {
+	            	$("body .js-loader").addClass('d-none');
+		            if(response.data.status_code == 200){
+		            	this.standingData = response.data.data
+		            }
+	            },
+	           )
+	       }
+        },
 		changeTeam(Id, Name) {
 			// here we dispatch Method
 
