@@ -342,6 +342,7 @@ class MatchService implements MatchContract
 
     public function saveAllResults($matchData) {
       $teamArray = [];
+      $competitionIds = [];
       $AllMatches = $matchData->all()['matchData']['matchDataArray'];
       $tournamentId = $matchData->all()['matchData']['tournamentId'];
       foreach ($AllMatches as $match) {
@@ -349,7 +350,17 @@ class MatchService implements MatchContract
         $matchData = $matchResult['match_data'];
         $teamArray[$matchData['age_group_id']][] = $matchData['home_team_id'];
         $teamArray[$matchData['age_group_id']][] = $matchData['away_team_id'];
-        $competationId = $this->calculateCupLeagueTable($match['matchId']);
+        // $competationId = $this->calculateCupLeagueTable($match['matchId']);
+        $competitionIds[$matchData['age_group_id']][] = $matchData['competition_id'];
+      }
+
+      foreach ($competitionIds as $ageGroupId => $cids) {
+        $lowerCompetitionId = min(array_unique($cids));
+        $allCompetitionsIds = Competition::where('tournament_id', '=', $tournamentId)->where('tournament_competation_template_id', '=', $ageGroupId)->where('id', '>=', $lowerCompetitionId)->pluck('id')->toArray();
+        foreach ($allCompetitionsIds as $id) {
+          $data = ['tournamentId' => $tournamentId, 'competitionId' => $id];
+          $this->refreshCompetitionStandings($data);
+        }
       }
       foreach ($teamArray as $ageGroupId => $teamsList) {
         $teamsList = array_unique($teamsList);
@@ -2317,5 +2328,23 @@ class MatchService implements MatchContract
 
       $competitionIds = Competition::where('tournament_competation_template_id', $ageCategory->id)->whereIn('name', $groupNames)->pluck('id')->toArray();
       return array('groups' => $groups, 'competitionIds' => $competitionIds);
+    }
+
+    /**
+      * Update competition stndings
+      *
+      * @param array $data
+      */
+    public function refreshCompetitionStandings($data)
+    {
+      $standingCount =  DB::table('match_standing')
+                            ->where('tournament_id','=',$data['tournamentId'])
+                            ->where('competition_id','=',$data['competitionId'])->count();
+
+      $groupFixture = DB::table('temp_fixtures')->select('temp_fixtures.*')->where('tournament_id','=',$data['tournamentId'])->where('competition_id',$data['competitionId'])->get();
+
+      foreach ($groupFixture as $key => $value) {
+        $this->calculateCupLeagueTable($value->id, 0);
+      }
     }
 }
