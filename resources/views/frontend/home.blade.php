@@ -56,7 +56,9 @@
             </div>
         </div>
         <figure class="figure-thumb">
-            <img src="{{ $pageDetails->welcomeImage('medium') }}" class="figure-img img-fluid" alt="{!! __('messages.welcome_image') !!}">
+            @if($pageDetails->welcomeImage('medium'))
+                <img src="{{ $pageDetails->welcomeImage('medium') }}" class="figure-img img-fluid" alt="{!! __('messages.welcome_image') !!}">
+            @endif
         </figure>
         <div class="container">
             <div class="row">
