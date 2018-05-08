@@ -647,6 +647,7 @@ class TournamentRepository
       $userId = $authUser->id;
       $tournament = new Tournament();
       $tournament->name = $tournamentDetailData['tournament_name'];
+      $tournament->slug = $this->generateSlug($tournamentDetailData['tournament_name'].Carbon::createFromFormat('d/m/Y', $tournamentDetailData['tournament_start_date'])->year);
       $tournament->maximum_teams = $tournamentDetailData['tournament_max_teams'];
       $tournament->user_id = $userId;
       $tournament->start_date = $tournamentDetailData['tournament_start_date'];
