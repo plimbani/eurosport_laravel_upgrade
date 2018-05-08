@@ -653,7 +653,7 @@ class TournamentRepository
       $tournament->start_date = $tournamentDetailData['tournament_start_date'];
       $tournament->end_date = $tournamentDetailData['tournament_end_date'];
       $tournament->status = 'Unpublished';
-      $tournament->save();
+      $tournament->save(); 
     }
 
     public function getCategoryCompetitions($data)
