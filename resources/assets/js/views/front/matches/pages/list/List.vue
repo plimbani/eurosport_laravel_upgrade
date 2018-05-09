@@ -66,6 +66,9 @@
                 </div>
             </div>
         </div>
+        <div class="row align-items-end custom_radio_btn" v-if="currentView == 'Matches' && filterBy == 'category_and_competition' && selectedOption != ''">
+          Please click here to view full standings, results and schedule for U15-U15-Group-A
+        </div>
     </div>
     <component :is="currentView" :matches="matches" :competitionDetail="competitionDetail" :currentView="currentView"></component>
   </div>
