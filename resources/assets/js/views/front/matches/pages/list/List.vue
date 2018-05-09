@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-        <div class="row align-items-end custom_radio_btn" v-if="currentView == 'Matches'">
+        <div class="row align-items-end custom_radio_btn matches-filter" v-if="currentView == 'Matches'">
             <div class="col-xl-3">
                 <div class="row align-items-center justify-content-between">
                     <div class="col-md-6 col-lg-5 col-xl-12">
@@ -47,7 +47,7 @@
                     </div>
                   </div>
                   <div class="col-md-4 col-lg-3 select2_override" v-show="filterBy == 'category_and_competition'">
-                    <select class="form-control js-category-and-competition">
+                    <select class="form-control js-category-and-competition category-and-competition-filter">
                         <option value="">{{ $t('matches.select') }}</option>
                         <option v-for="option in filterOptions" v-bind:data-val="setFilterOption(option)" v-bind:id="option.id" v-bind:value="setFilterOption(option)" :class="option.class">{{ option.name }}</option>
                     </select>
