@@ -430,7 +430,7 @@ export default {
               this.$root.$emit('setStandingData',Id);
             }
             if(this.$store.state.currentScheduleView == 'matchList') {
-              this.$root.$emit('changeDrawListComp','','','');
+              this.$root.$emit('getMatchesByFilter');
             }
             toastr.success('Scores has been updated successfully', 'Score Updated', {timeOut: 5000});
           }
