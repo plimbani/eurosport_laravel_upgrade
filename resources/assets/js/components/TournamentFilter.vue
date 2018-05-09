@@ -77,6 +77,13 @@ export default {
     }
   },
   props:['section'],
+  created() {
+    this.$root.$on('getMatchesByFilter', this.getMatchesByFilter);
+  },
+  beforeCreate: function() {
+    // Remove custom event listener
+    this.$root.$off('getMatchesByFilter');
+  },
   mounted() {
     // By Default Called with Team
       this.getDropDownData('competation_group')
@@ -197,7 +204,10 @@ export default {
         (error) => {
         }
       )
-    }
+    },
+    getMatchesByFilter() {
+      this.$root.$emit('getMatchByTournamentFilter',this.filterKey,this.filterValue);
+    },
   }
 }
 </script>
