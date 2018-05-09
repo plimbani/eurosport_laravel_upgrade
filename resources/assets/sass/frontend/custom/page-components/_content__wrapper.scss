@@ -21,6 +21,7 @@
             text-decoration: $link-hover-decoration;
             background-color: transparent; // Remove the gray background on active links in IE 10.
             -webkit-text-decoration-skip: objects; // Remove gaps in links underline in iOS 8+ and Safari 8+.
+            word-wrap: break-word;
 
             @include hover {
             color: theme-color("primary");
@@ -57,6 +58,14 @@
                     font-size: ($font-size-base * 0.78);
                 }
             }
+        }
+        img {
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            display: block;
+            margin: 0 auto;
+            max-width: 100%;
         }
     }
 }
