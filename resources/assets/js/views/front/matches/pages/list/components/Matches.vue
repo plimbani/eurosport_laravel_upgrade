@@ -166,7 +166,7 @@
       },
       showCompetitionData(match) {
         var id = match.competitionId;
-        var competitionName = match.group_name + '-' + match.competation_name;
+        var competitionName = match.competation_name;
         var competitionType = match.round;
         this.$root.$emit('showCompetitionData', id, competitionName, competitionType);
       },

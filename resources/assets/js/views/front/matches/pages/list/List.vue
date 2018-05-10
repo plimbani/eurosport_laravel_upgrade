@@ -66,8 +66,8 @@
                 </div>
             </div>
         </div>
-        <div class="row align-items-end custom_radio_btn" v-if="currentView == 'Matches' && filterBy == 'category_and_competition' && selectedOption != ''">
-          Please click here to view full standings, results and schedule for U15-U15-Group-A
+        <div class="text-center view-full-information" v-if="showGroupInfo">
+            Please <a href="javascript: void(0);" @click="showCompetitionDetailPage()">click here</a> to view full standings, results and schedule for {{ selectedOption.data.name }}
         </div>
     </div>
     <component :is="currentView" :matches="matches" :competitionDetail="competitionDetail" :currentView="currentView"></component>
@@ -112,6 +112,9 @@
       this.$root.$on('showMatchesList', this.showMatchesList);
     },
     computed: {
+      showGroupInfo() {
+        return (this.currentView == 'Matches' && this.filterBy == 'category_and_competition' && this.selectedOption != '' && this.selectedOption.class == 'competition');
+      }
     },
     components: {
       Matches,
@@ -251,7 +254,11 @@
       showMatchesList() {
         this.currentView = 'Matches';
         this.getFilterOptions();
-      }
+      },
+      showCompetitionDetailPage() {
+        var currentSelectedCompetition = this.selectedOption.data;
+        this.showCompetitionData(currentSelectedCompetition.id, currentSelectedCompetition.name, currentSelectedCompetition.actual_competition_type);
+      },
     },
   };
 </script>
