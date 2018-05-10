@@ -1,3 +1,9 @@
 .matches-filter select.category-and-competition-filter {
 	height: 44px !important;
 }
+
+.view-full-information {
+    padding: $input-btn-padding-x;
+    background: $yellow-extralight;
+    margin-bottom: $spacer * 2.5;
+}
