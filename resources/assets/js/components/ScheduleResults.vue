@@ -85,16 +85,20 @@ export default {
 		        tournamentEndDate:response.data.data['end_date']
 		    }
 		    vm.$store.dispatch('SetTournamentName', tournamentSel)
-		    vm.$root.$emit('getAllDraws')
-		    vm.$root.$emit('getAllMatches')
-		    vm.$root.$emit('getAllTournamentTeams')
+
+		    Vue.nextTick().then(function () {
+		    	// here we set drawsListing as currentView
+				vm.currentView = 'drawsListing';
+			    vm.$store.dispatch('setCurrentView', vm.currentView)
+
+			    vm.$root.$emit('getAllDraws', response.data.data['id'])
+			    vm.$root.$emit('getAllMatches')
+			    vm.$root.$emit('getAllTournamentTeams');
+			});
 	      },
 	      (error) => {
 	      }
 	    )
-		// here we set drawsListing as currentView
-		this.currentView = 'drawsListing';
-	    this.$store.dispatch('setCurrentView',this.currentView)
 	    // here we set the value of users to null
 	    this.$store.dispatch('isAdmin',false);
 	},
