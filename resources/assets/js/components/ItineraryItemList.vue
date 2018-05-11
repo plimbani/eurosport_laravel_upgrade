@@ -6,7 +6,7 @@
 		  		<div class="draggable--section-card-header">
 		  			<div class="draggable--section-card-header-panel">
 		  				<div>
-			  				{{ itineraryItem.day }}, {{ itineraryItem.time }}, {{ itineraryItem.item }}
+			  				{{ (itineraryItem.day !== null && itineraryItem.day.trim() !== '' ) ? (itineraryItem.day + ', ') : '' }}{{ itineraryItem.time }}, {{ itineraryItem.item }}
 			  			</div>
 
 			  			<div class="draggable--section-card-header-icons">

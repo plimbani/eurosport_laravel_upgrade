@@ -155,7 +155,7 @@ class ProgramRepository
 
     $itineraryItem->website_id = $websiteId;
     $itineraryItem->itinerary_id = $itineraryId;
-    $itineraryItem->day = $data['day'];
+    $itineraryItem->day = trim($data['day']) ? $data['day'] : null;
     $itineraryItem->time = $data['time'];
     $itineraryItem->item = $data['item'];
     $itineraryItem->order = $data['order'];
@@ -173,7 +173,7 @@ class ProgramRepository
   public function updateItineraryItem($currentLoggedInUserId, $data)
   {
     $tineraryItem = ItineraryItem::find($data['id']);
-    $tineraryItem->day = $data['day'];
+    $tineraryItem->day = trim($data['day']) ? $data['day'] : null;
     $tineraryItem->time = $data['time'];
     $tineraryItem->item = $data['item'];
     $tineraryItem->order = $data['order'];

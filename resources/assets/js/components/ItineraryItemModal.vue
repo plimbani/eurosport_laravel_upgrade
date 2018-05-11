@@ -9,13 +9,10 @@
           </button>
         </div>
         <div class="modal-body">
-          <div class="form-group row" :class="{'has-error': errors.has('day') }">
-				    <label class="col-sm-5 form-control-label">{{ $lang.program_itinerary_day }}*</label>
+          <div class="form-group row">
+				    <label class="col-sm-5 form-control-label">{{ $lang.program_itinerary_day }}</label>
 				    <div class="col-sm-6">
-				        <input v-model="formValues.day" v-validate="{'required':true}" :class="{'is-danger': errors.has('day') }" name="day" type="text" class="form-control">
-				        <i v-show="errors.has('day')" class="fa fa-warning"></i>
-				        <span class="help is-danger" v-show="errors.has('day')">{{ errors.first('day') }}<br>
-				        </span>                
+				        <input v-model="formValues.day" name="day" type="text" class="form-control">
 				    </div>
 				  </div>
 				  <div class="form-group row" :class="{'has-error': errors.has('time') }">
