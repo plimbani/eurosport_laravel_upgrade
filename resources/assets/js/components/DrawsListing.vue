@@ -71,8 +71,12 @@ export default {
 				this.getAllDraws()
 			}
 		},
-		getAllDraws() {
-			let TournamentId = this.$store.state.Tournament.tournamentId
+		getAllDraws(id) {
+			let TournamentId = this.$store.state.Tournament.tournamentId;
+			if(typeof id !== 'undefined') {
+		        TournamentId = id;
+			}
+
 			let vm = this
   			Tournament.getAllDraws(TournamentId).then(
   				(response)=> {
