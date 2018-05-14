@@ -36,7 +36,8 @@
 	        	</div>
 	        </div>
 	      </form>
-
+	      <hr class="my-4">
+	      <additional-pages @setAdditionalPages="setAdditionalPages" :additional_pages="tournament.additional_pages"></additional-pages>
 			</div>
 		</div>
 		<div class="row">
@@ -56,11 +57,13 @@ var moment = require('moment');
 import InsertTextEditor from '../../../components/InsertTextEditor/InsertTextEditor.vue';
 import Website from '../../../api/website.js';
 import HistoryYearList from '../../../components/HistoryYearList.vue';
+import AdditionalPages  from  '../../../components/AdditionalPages.vue';
 
 export default {
 	components: {
 		InsertTextEditor,
 		HistoryYearList,
+		AdditionalPages
 	},
 	data() {
 		return {
@@ -70,6 +73,8 @@ export default {
 				websiteId: null,
 				history: [],
 				countries: [],
+				additional_pages: [],
+				parent_id: '',
 			},
 		}
 	},
@@ -88,6 +93,7 @@ export default {
 			this.$root.$emit('getEditorValue');
       this.tournament.websiteId = this.getWebsiteId();
       this.$root.$emit('getHistoryYears');
+      this.$root.$emit('getAdditionalPages');
       $("body .js-loader").removeClass('d-none');
 			Website.saveWebsiteTournamentPageData(this.tournament).then(
         (response)=> {
@@ -125,10 +131,17 @@ export default {
 					this.tournament.rules = response.data.data.rules.content !== null ? response.data.data.rules.content : '';
 					this.tournament.countries = response.data.data.countries;
 					this.$root.$emit('setHistoryYears', response.data.data.history);
+					
+					this.tournament.parent_id = response.data.data.tournament.id;
+					this.tournament.additional_pages = response.data.data.additionalPages;
+					this.$root.$emit('setPages', this.tournament.additional_pages);
 				},
 				(error) => {
 				}
 			);
+		},
+		setAdditionalPages(pages) {
+			this.tournament.additional_pages = pages;
 		},
 		setHistoryData(historyData) {
 			this.tournament.history = historyData;

@@ -127,4 +127,35 @@ class WebsiteTournamentController extends Controller
 
       return view('frontend.history', $varsForView);
     }
+
+    /**
+     * Get additional tournament page details.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getAdditionalTournamentPageDetails(Request $request, $domain, $additionalPageName)
+    {
+      $varsForView = [];
+      $websiteId = Landlord::getTenants()['website']->id;
+      $parentPageDetail = $this->pageService->getPageDetails($this->tournamentPageName, $websiteId);
+      $page = Page::where('parent_id', $parentPageDetail->id)
+                    ->where('website_id', $websiteId)
+                    ->where('is_published', 1)
+                    ->where('page_name', $additionalPageName)
+                    ->first();
+
+      if(!$page) {
+        App::abort(404);
+      }
+
+      $varsForView['additionalPage'] = $page;
+
+      $additionalPages = $this->pageService->getAdditionalPagesByParentId($parentPageDetail->id, $websiteId);
+      $varsForView['additionalPages'] = $additionalPages;
+
+      // page title
+      $varsForView['pageTitle'] = $parentPageDetail->title . ' - ' . $page->title;
+
+      return view('frontend.tournament_additional_page', $varsForView);
+    }
 }
