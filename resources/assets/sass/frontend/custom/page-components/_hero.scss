@@ -136,7 +136,8 @@
     &-child {
         background-color: theme-color('light');
         .nav {
-            min-height: 60px;
+            $nav-margin-y: 12px;
+            min-height: (60px - ($nav-margin-y*2));
             // @include media-breakpoint-up(md) {
             //     height: 60px;
             // }
@@ -146,6 +147,10 @@
                 padding: $nav-link-padding-y 0;
             }
             .nav-item {
+                @include media-breakpoint-up(lg) {
+                    margin-top: $nav-margin-y;
+                    margin-bottom: $nav-margin-y;
+                }
                 .nav-link {
                     text-transform: uppercase;
                     font-size: $h7-font-size;

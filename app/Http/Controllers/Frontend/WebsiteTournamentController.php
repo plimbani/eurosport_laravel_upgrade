@@ -65,6 +65,10 @@ class WebsiteTournamentController extends Controller
           $websiteId);
       $varsForView['tournamentContent'] = $pageDetail;
 
+      $pageParentId = $pageDetail->id;
+      $additionalPages = $this->pageService->getAdditionalPagesByParentId($pageParentId, $websiteId);
+      $varsForView['additionalPages'] = $additionalPages;
+
       // Page title
       $varsForView['pageTitle'] = $pageDetail->title;
 
@@ -85,6 +89,9 @@ class WebsiteTournamentController extends Controller
       $parentPage = Page::find($pageParentId);
 
       $varsForView['rulesContent'] = $pageDetail;
+
+      $additionalPages = $this->pageService->getAdditionalPagesByParentId($pageParentId, $websiteId);
+      $varsForView['additionalPages'] = $additionalPages;
 
       // page title
       $varsForView['pageTitle'] = $parentPage->title . ' - ' . $pageDetail->title;
@@ -118,6 +125,9 @@ class WebsiteTournamentController extends Controller
       }
 
       $allHistoryYears = $this->websiteTournamentContract->getAllHistoryYears($websiteId);
+
+      $additionalPages = $this->pageService->getAdditionalPagesByParentId($pageParentId, $websiteId);
+      $varsForView['additionalPages'] = $additionalPages;
 
       // page title
       $varsForView['pageTitle'] = $parentPage->title . ' - ' . $pageDetail->title;
