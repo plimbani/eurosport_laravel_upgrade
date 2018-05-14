@@ -10,6 +10,7 @@
         "barryvdh/laravel-snappy": "^0.3.3",
         "brozot/laravel-fcm": "^1.2",
         "dingo/api": "1.0.*@dev",
+        "doctrine/dbal": "^2.7",
         "duro85/roles": "^2.1",
         "h4cc/wkhtmltoimage-amd64": "0.12.x",
         "h4cc/wkhtmltopdf-amd64": "0.12.x",
