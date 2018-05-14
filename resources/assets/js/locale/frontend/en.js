@@ -31,6 +31,7 @@ module.exports= {
     'difference': 'Difference',
     'points': 'Points',
     'no_matches_found': 'No matches found.',
+    'view_match_info_message': 'Please <a href="javascript: void(0);">click here</a> to view full standings, results and schedule for {competitionName}',
   },
   'tournament': {
     'category_name': 'Category name',
