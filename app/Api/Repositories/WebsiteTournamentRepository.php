@@ -32,6 +32,16 @@ class WebsiteTournamentRepository
   protected $rulePageName;
 
   /**
+   * @var Tournament page name
+   */
+  protected $tournamentPageUrl;
+
+  /**
+   * @var Additional page route name
+   */
+  protected $additionalPageRoutesName;
+
+  /**
    * Create a new controller instance.
    */
   public function __construct(PageService $pageService)
@@ -39,6 +49,8 @@ class WebsiteTournamentRepository
     $this->pageService = $pageService;
     $this->pageName = 'tournament';
     $this->rulePageName = 'rules';
+    $this->tournamentPageUrl = '/tournament';
+    $this->additionalPageRoutesName = ['additional.tournament.page.details'];
   }
 
   /*
@@ -62,7 +74,60 @@ class WebsiteTournamentRepository
 
     // Save history years
     $this->saveHistoryYears($data);
+    $this->saveAdditionalPages($data);
 	}
+
+  /*
+   * Save additional page data
+   *
+   * @return response
+   */
+  public function saveAdditionalPages($data)
+  {
+    $websiteId = $data['websiteId'];
+    $additionalPages = $data['additional_pages'];
+
+    $existingPageIds = $this->getAllAdditionalPageIds($data['parent_id']);
+
+    $additionalPageIds = [];
+    foreach ($additionalPages as $key => $page) {
+
+      $pageData = $page;
+      $pageData['order'] = $key + 1;
+
+      if($pageData['id'] == '') {
+        $pageDetails = $this->pageService->generateUrl($pageData['title'], $websiteId, $this->tournamentPageUrl);
+        $name = $this->pageService->generateName($pageData['title'], $websiteId);
+        $pageData['url'] = $pageDetails['url'];
+        $pageData['page_name'] = $pageDetails['page_name'];
+        $pageData['accessible_routes'] = $this->additionalPageRoutesName;
+        $pageData['name'] = $name;
+        $pageData['parent_id'] = $data['parent_id'];
+        $pageData['is_additional_page'] = 1;
+
+        $pageObject = $this->pageService->insertPageDetails($pageData, $websiteId);
+      } else {
+        $pageObject = $this->pageService->updatePageDetails($pageData, $websiteId);
+      }
+
+      $additionalPageIds[] = $pageObject->id;
+    }
+
+    $deletePageId = array_diff($existingPageIds, $additionalPageIds);
+
+    $this->pageService->deletePages($deletePageId);
+  }
+
+  /*
+   * Get all page ids
+   *
+   * @return response
+   */
+  public function getAllAdditionalPageIds($parentId)
+  {
+    $pageIds = Page::where('parent_id', $parentId)->where('is_additional_page', 1)->pluck('id')->toArray();
+    return $pageIds;
+  }
 
   /*
    * Get all history years
@@ -343,6 +408,10 @@ class WebsiteTournamentRepository
   {
     $pages = [$this->pageName, $this->rulePageName];
     $response = $this->pageService->getMultiplePagesData($pages, $websiteId);
+
+    $pagesData = $this->pageService->getPageDetails($this->pageName, $websiteId);
+    $additionalPages = $this->pageService->getAdditionalPagesByParentId($pagesData->id, $websiteId);
+    $response['additionalPages'] = $additionalPages;
 
     $history = $this->getAllHistoryYears($websiteId);
     $response['history'] = $history;
