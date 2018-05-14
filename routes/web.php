@@ -35,6 +35,7 @@ Route::group(['domain' => '{domain}', 'middleware' => ['verify.website', 'locale
 	Route::get('/tournament', 'WebsiteTournamentController@getTournamentPageDetails')->name('tournament.page.details');
 	Route::get('/rules', 'WebsiteTournamentController@getRulesPageDetails')->name('rules.page.details');
 	Route::get('/history', 'WebsiteTournamentController@getHistoryPageDetails')->name('history.page.details');
+	Route::get('/tournament/{additionalPageName}', 'WebsiteTournamentController@getAdditionalTournamentPageDetails')->name('additional.tournament.page.details');
 	Route::get('/program', 'ProgramController@getProgramPageDetails')->name('program.page.details');
 	Route::get('/program/{additionalPageName}', 'ProgramController@getAdditionalProgramPageDetails')->name('additional.program.page.details');
 	Route::get('/stay', 'StayController@getStayPageDetails')->name('stay.page.details');
