@@ -686,10 +686,11 @@ class TournamentRepository
     {
       $tournamentId = $data['tournamentId'];
       $filterBy = $data['filterBy'];
+
       $resultData = array();
       switch($filterBy) {
         case 'team':
-          $resultData = Team::where('teams.tournament_id', $tournamentId)->select('id', 'name')->get();
+            $resultData = Team::where('teams.tournament_id', $tournamentId)->orderBy('name','asc')->select('id', 'name')->get();
           break;
         case 'category_and_competition':
           $resultData = TournamentCompetationTemplates::with('Competition')->where('tournament_id', $tournamentId)
