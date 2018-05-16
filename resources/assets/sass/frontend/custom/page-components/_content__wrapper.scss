@@ -16,6 +16,10 @@
                 font-size: $font-size-base * 1.2;
             }
         }
+        img {
+            max-width: 100%;
+            height: auto;
+        }
         a {
             color: $body-color;
             text-decoration: $link-hover-decoration;
