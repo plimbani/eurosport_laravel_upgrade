@@ -31,6 +31,7 @@ module.exports= {
     'difference': 'Różnica',
     'points': 'Punkty',
     'no_matches_found': 'Nie znaleziono żadnego meczu.',
+    'view_match_info_message': 'Please <a href="javascript: void(0);">click here</a> to view full standings, results and schedule for {competitionName}',
   },
   'tournament': {
     'category_name': 'Nie znaleziono żadnego meczu.',

@@ -31,6 +31,7 @@ module.exports= {
     'difference': 'rozdíl',
     'points': 'body',
     'no_matches_found': 'zápas nenalezen',
+    'view_match_info_message': 'Please <a href="javascript: void(0);">click here</a> to view full standings, results and schedule for {competitionName}',
   },
   'tournament': {
     'category_name': 'jméno kategorie',

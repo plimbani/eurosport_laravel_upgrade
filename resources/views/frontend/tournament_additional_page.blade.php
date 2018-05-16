@@ -3,7 +3,7 @@
 @section('hero-section')
 	<div class="col-lg-8 club_info">
 		<span class="club_info-detail">{!! __('messages.tournament') !!}</span>
-		<h1 class="club_info-title">{!! __('messages.rules') !!}</h1>
+		<h1 class="club_info-title">{{ $additionalPage->title }}</h1>
 	</div>
 @endsection
 
@@ -19,7 +19,7 @@
 	            <div class="col-lg-2">
 	            </div>
 	            <div class="col-lg-8 club_content {{ $brand_font_class }}">
-	                {!! $rulesContent->content !!}
+	                {!! $additionalPage->content !!}
 	            </div>
 	        </div>
 	    </div>

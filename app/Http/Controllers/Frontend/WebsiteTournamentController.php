@@ -65,6 +65,10 @@ class WebsiteTournamentController extends Controller
           $websiteId);
       $varsForView['tournamentContent'] = $pageDetail;
 
+      $pageParentId = $pageDetail->id;
+      $additionalPages = $this->pageService->getAdditionalPagesByParentId($pageParentId, $websiteId);
+      $varsForView['additionalPages'] = $additionalPages;
+
       // Page title
       $varsForView['pageTitle'] = $pageDetail->title;
 
@@ -85,6 +89,9 @@ class WebsiteTournamentController extends Controller
       $parentPage = Page::find($pageParentId);
 
       $varsForView['rulesContent'] = $pageDetail;
+
+      $additionalPages = $this->pageService->getAdditionalPagesByParentId($pageParentId, $websiteId);
+      $varsForView['additionalPages'] = $additionalPages;
 
       // page title
       $varsForView['pageTitle'] = $parentPage->title . ' - ' . $pageDetail->title;
@@ -119,6 +126,9 @@ class WebsiteTournamentController extends Controller
 
       $allHistoryYears = $this->websiteTournamentContract->getAllHistoryYears($websiteId);
 
+      $additionalPages = $this->pageService->getAdditionalPagesByParentId($pageParentId, $websiteId);
+      $varsForView['additionalPages'] = $additionalPages;
+
       // page title
       $varsForView['pageTitle'] = $parentPage->title . ' - ' . $pageDetail->title;
       $varsForView['tournament'] = $tournament;
@@ -126,5 +136,36 @@ class WebsiteTournamentController extends Controller
       $varsForView['allHistoryYears'] = $allHistoryYears['data'];
 
       return view('frontend.history', $varsForView);
+    }
+
+    /**
+     * Get additional tournament page details.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getAdditionalTournamentPageDetails(Request $request, $domain, $additionalPageName)
+    {
+      $varsForView = [];
+      $websiteId = Landlord::getTenants()['website']->id;
+      $parentPageDetail = $this->pageService->getPageDetails($this->tournamentPageName, $websiteId);
+      $page = Page::where('parent_id', $parentPageDetail->id)
+                    ->where('website_id', $websiteId)
+                    ->where('is_published', 1)
+                    ->where('page_name', $additionalPageName)
+                    ->first();
+
+      if(!$page) {
+        App::abort(404);
+      }
+
+      $varsForView['additionalPage'] = $page;
+
+      $additionalPages = $this->pageService->getAdditionalPagesByParentId($parentPageDetail->id, $websiteId);
+      $varsForView['additionalPages'] = $additionalPages;
+
+      // page title
+      $varsForView['pageTitle'] = $parentPageDetail->title . ' - ' . $page->title;
+
+      return view('frontend.tournament_additional_page', $varsForView);
     }
 }

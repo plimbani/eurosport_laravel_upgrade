@@ -66,9 +66,7 @@
                 </div>
             </div>
         </div>
-        <div class="text-center view-full-information" v-if="showGroupInfo">
-            Please <a href="javascript: void(0);" @click="showCompetitionDetailPage()">click here</a> to view full standings, results and schedule for {{ selectedOption.data.name }}
-        </div>
+        <div class="text-center view-full-information" v-if="showGroupInfo" v-html="$t('matches.view_match_info_message', {'competitionName': selectedOption.data.name})" v-on:click.capture="showCompetitionDetailPage()"></div>
     </div>
     <component :is="currentView" :matches="matches" :competitionDetail="competitionDetail" :currentView="currentView"></component>
   </div>
