@@ -23,7 +23,9 @@
 								  	<li class="list-group-item border-0 px-0 py-4">
 								  		<div class="row">
 								  			<div class="col-4">
-								  				<h5 class="mb-0 font-weight-bold">{{ $item->day }}</h5>
+								  				@if($item->day)
+								  					<h5 class="mb-0 font-weight-bold">{{ $item->day }}</h5>
+								  				@endif
 								  				<div class="h7">{{ $item->time }}</div>
 								  			</div>
 								  			<div class="col-8">
