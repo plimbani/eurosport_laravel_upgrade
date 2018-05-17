@@ -14,8 +14,8 @@ class AddPreviewFieldsToWebsitesTable extends Migration
     public function up()
     {
         Schema::table('websites', function (Blueprint $table) {
-            $table->string('preview_domain')->nullable()->default(NULL);
-            $table->string('preview_domain_generated_at')->nullable()->default(NULL);
+            $table->string('preview_domain_generated_at')->after('domain_name')->nullable()->default(NULL);
+            $table->string('preview_domain')->after('domain_name')->nullable()->default(NULL);
         });
     }
 
