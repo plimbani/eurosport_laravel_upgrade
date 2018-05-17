@@ -16,6 +16,7 @@ class AddPreviewFieldsToWebsitesTable extends Migration
         Schema::table('websites', function (Blueprint $table) {
             $table->string('preview_domain_generated_at')->after('domain_name')->nullable()->default(NULL);
             $table->string('preview_domain')->after('domain_name')->nullable()->default(NULL);
+            $table->boolean('is_published')->after('is_website_offline')->default(false);
         });
     }
 
@@ -29,6 +30,7 @@ class AddPreviewFieldsToWebsitesTable extends Migration
         Schema::table('websites', function (Blueprint $table) {
             $table->dropColumn('preview_domain');
             $table->dropColumn('preview_domain_generated_at');
+            $table->dropColumn('is_published');
         });
     }
 }
