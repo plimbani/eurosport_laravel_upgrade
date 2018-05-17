@@ -7,6 +7,7 @@
             <tr>
               <th scope="col">{{ $t('matches.date_and_time') }}</th>
               <th scope="col">{{ $t('matches.categories') }}</th>
+              <th scope="col">{{ $t('matches.codes') }}</th>
               <th scope="col">{{ $t('matches.team') }}</th>
               <th scope="col">{{ $t('matches.team') }}</th>
               <th scope="col">{{ $t('matches.score') }}</th>
@@ -23,7 +24,7 @@
                 </a>
                 <span v-else>{{ match.competation_name | formatGroup(match.round) }}</span>
               </td>
-              <td>
+                <td>{{displayMatch(match.displayMatchNumber)}}</td>
                 <span v-if="(match.Home_id != 0 )" :class="'flag-icon flag-icon-' + match.HomeCountryFlag"></span>
                 <span class="text-center" v-if="(match.Home_id == 0 )">{{ getHoldingName(match.competition_actual_name, match.displayHomeTeamPlaceholderName) }}</span>
                 <span class="text-center" v-else>{{ match.HomeTeam }}</span>
@@ -170,6 +171,13 @@
         var competitionType = match.round;
         this.$root.$emit('showCompetitionData', id, competitionName, competitionType);
       },
+      displayMatch(displayMatchNumber) {
+        var displayMatchText = displayMatchNumber.split('.');
+        var displayMatchSplitted = displayMatchNumber[1] + '.' + displayMatchNumber[2];
+
+        return displayMatchSplitted;
+      }
+      
     }
   };
 </script>
