@@ -40,7 +40,7 @@ class RemoveExpirePreviewDomain extends Command
     public function handle()
     {
         $websites = Website::whereNotNull('preview_domain')->get();
-       
+
         foreach ($websites as $key => $website) {
             $currentDate = Carbon::now();
             $previewDomainGenerateDate = Carbon::parse($website->preview_domain_generated_at);
@@ -50,9 +50,8 @@ class RemoveExpirePreviewDomain extends Command
                 $website->preview_domain = null;
                 $website->preview_domain_generated_at = null;
                 $website->save();
-            }
-            
+            } 
         }
-
+        $this->info('Script executed.');
     }
 }
