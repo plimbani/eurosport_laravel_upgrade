@@ -7,7 +7,7 @@
             <tr>
               <th scope="col">{{ $t('matches.date_and_time') }}</th>
               <th scope="col">{{ $t('matches.categories') }}</th>
-              <th scope="col">{{ $t('matches.codes') }}</th>
+              <th scope="col">{{ $t('matches.match_codes') }}</th>
               <th scope="col">{{ $t('matches.team') }}</th>
               <th scope="col">{{ $t('matches.team') }}</th>
               <th scope="col">{{ $t('matches.score') }}</th>

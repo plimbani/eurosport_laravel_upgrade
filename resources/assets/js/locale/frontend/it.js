@@ -32,6 +32,7 @@ module.exports= {
     'points': 'Punti',
     'no_matches_found': 'Nessuna partita trovata.',
     'view_match_info_message': 'Please <a href="javascript: void(0);">click here</a> to view full standings, results and schedule for {competitionName}',
+    'match_codes': 'Match codes',
   },
   'tournament': {
     'category_name': 'Nome categoria',
