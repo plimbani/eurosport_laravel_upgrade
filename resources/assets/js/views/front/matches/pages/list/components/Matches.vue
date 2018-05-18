@@ -7,6 +7,7 @@
             <tr>
               <th scope="col">{{ $t('matches.date_and_time') }}</th>
               <th scope="col">{{ $t('matches.categories') }}</th>
+              <th scope="col">{{ $t('matches.match_codes') }}</th>
               <th scope="col">{{ $t('matches.team') }}</th>
               <th scope="col">{{ $t('matches.team') }}</th>
               <th scope="col">{{ $t('matches.score') }}</th>
@@ -23,6 +24,7 @@
                 </a>
                 <span v-else>{{ match.competation_name | formatGroup(match.round) }}</span>
               </td>
+              <td>{{displayMatch(match.displayMatchNumber)}}</td>
               <td>
                 <span v-if="(match.Home_id != 0 )" :class="'flag-icon flag-icon-' + match.HomeCountryFlag"></span>
                 <span class="text-center" v-if="(match.Home_id == 0 )">{{ getHoldingName(match.competition_actual_name, match.displayHomeTeamPlaceholderName) }}</span>
@@ -170,6 +172,18 @@
         var competitionType = match.round;
         this.$root.$emit('showCompetitionData', id, competitionName, competitionType);
       },
+      displayMatch(displayMatchNumber) {
+        var displayMatchText = displayMatchNumber.split('.');
+
+        if(displayMatchNumber.indexOf("wrs") > 0 || displayMatchNumber.indexOf("lrs") > 0) {
+          if(displayMatchText[3] == 'wrs' || displayMatchText[3] == 'lrs') {
+            if(displayMatchNumber.indexOf('(@HOME-@AWAY)') > 0) {
+              return displayMatchText[1] + '.' + displayMatchText[2] + '.' + displayMatchText[3];
+            }
+          }
+        }
+        return displayMatchText[1] + '.' + displayMatchText[2];
+      } 
     }
   };
 </script>
