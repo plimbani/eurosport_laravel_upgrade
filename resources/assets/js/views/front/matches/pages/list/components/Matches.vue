@@ -182,6 +182,7 @@
             }
           }
         }
+        
         return displayMatchText[1] + '.' + displayMatchText[2];
       }
       
