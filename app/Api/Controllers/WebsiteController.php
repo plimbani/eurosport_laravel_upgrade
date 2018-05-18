@@ -201,4 +201,17 @@ class WebsiteController extends BaseController
   {
     return $this->websiteContract->getWebsiteDetails($websiteId);
   }
+
+  /**
+   * Generate preview URL
+   *
+   *
+   * @Post("/generatePreviewUrl")
+   * @Versions({"v1"})
+   * @Response(200, body={})
+   */
+  public function generatePreviewUrl(Request $request, $websiteId)
+  {
+    return $this->websiteContract->generatePreviewUrl($websiteId);
+  }
 }

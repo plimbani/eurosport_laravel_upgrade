@@ -13,6 +13,7 @@ use Laraspace\Custom\Helper\Common;
 use Laraspace\Traits\AuthUserDetail;
 use Laraspace\Api\Services\PageService;
 use Illuminate\Support\Facades\Storage;
+use Carbon\Carbon;
 
 class WebsiteRepository
 {
@@ -73,6 +74,11 @@ class WebsiteRepository
    */
   protected $socialSharingGraphicImagePath;
 
+  /**
+   * @var Website preview url
+   */
+  protected $websitePreviewUrl;
+
 	/**
    * Create a new controller instance.
    */
@@ -89,6 +95,7 @@ class WebsiteRepository
     $this->websiteTournamentLogoConversions = config('image-conversion.conversions.website_tournament_logo');
     $this->websiteTournamentLogoPath = config('wot.imagePath.website_tournament_logo');
     $this->socialSharingGraphicImagePath = config('wot.imagePath.social_sharing_graphic');
+    $this->websitePreviewUrl = config('config-variables.website_preview_url');
   }
 
   /**
@@ -453,5 +460,21 @@ class WebsiteRepository
     $websiteDetails = Website::with('pages')->where('id', $websiteId)->first();
 
     return $websiteDetails;
+  }
+
+  /*
+   * Generate preview URL
+   *
+   * @return response
+   */
+  public function generatePreviewUrl($websiteId)
+  {
+    $randomString = str_random(8);
+    $previewDomain = $randomString.str_replace("{id}", "", $this->websitePreviewUrl);
+    $currentDateTime = Carbon::now()->toDateTimeString();
+    /*$website = Website::where('id', $websiteId)->where('preview_domain',null)->get();
+    echo "<pre>";print_r($website);echo "</pre>";exit;*/
+    $website = Website::where('id', $websiteId)->update(['preview_domain'=>$previewDomain,'preview_domain_generated_at'=>$currentDateTime]);
+    return $previewUrl['preview_domain'] = $previewDomain;
   }
 }
