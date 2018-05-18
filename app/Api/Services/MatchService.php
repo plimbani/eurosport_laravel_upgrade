@@ -2345,7 +2345,7 @@ class MatchService implements MatchContract
       $groupFixture = DB::table('temp_fixtures')->select('temp_fixtures.*')->where('tournament_id','=',$data['tournamentId'])->where('competition_id',$data['competitionId'])->get();
 
       foreach ($groupFixture as $key => $value) {
-        $this->calculateCupLeagueTable($value->id, 0);
+        $this->calculateCupLeagueTable($value->id, 1);
       }
     }
 }
