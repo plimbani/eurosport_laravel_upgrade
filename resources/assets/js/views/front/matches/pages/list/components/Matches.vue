@@ -174,12 +174,15 @@
       },
       displayMatch(displayMatchNumber) {
         var displayMatchText = displayMatchNumber.split('.');
-        var displayMatchSplitted = displayMatchText[1] + '.' + displayMatchText[2];
-        
-        if(displayMatchNumber.indexOf("lrs") > 0 || displayMatchNumber.indexOf("wrs") > 0){
-          displayMatchSplitted = displayMatchSplitted + '.' + displayMatchText[3];
+
+        if(displayMatchNumber.indexOf("wrs") > 0 || displayMatchNumber.indexOf("lrs") > 0) {
+          if(displayMatchText[3] == 'wrs' || displayMatchText[3] == 'lrs') {
+            if(displayMatchNumber.indexOf('(@HOME-@AWAY)') > 0) {
+              return displayMatchText[1] + '.' + displayMatchText[2] + '.' + displayMatchText[3];
+            }
+          }
         }
-        return displayMatchSplitted;
+        return displayMatchText[1] + '.' + displayMatchText[2];
       }
       
     }
