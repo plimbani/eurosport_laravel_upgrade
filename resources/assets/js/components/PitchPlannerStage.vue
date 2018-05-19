@@ -370,7 +370,7 @@ import _ from 'lodash'
                  // console.log(this.$el);
                 setTimeout(function(){
                     $(ev).fullCalendar('addEventSource', vm.scheduledMatches);
-                },1000)
+                },1500)
             },
             getScheduledMatch(filterKey='',filterValue='',filterDependentKey='',filterDependentValue='') {
                 // this.$store.dispatch('SetScheduledMatches');
