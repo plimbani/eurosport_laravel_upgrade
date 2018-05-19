@@ -1675,7 +1675,7 @@ class MatchService implements MatchContract
       $winningPoints = 3;$drawPoints = 1;$losePoints = 0;
       $sendData = array();
 
-      if (count($homeTeamExist) > 0){
+      if ($homeTeamExist){
           $data = array();
 
           $data['points'] = $ageGroupList[$fix1['CupFixture']['hometeam']]['Won'] * $winningPoints + $ageGroupList[$fix1['CupFixture']['hometeam']]['Draw'] * $drawPoints + $ageGroupList[$fix1['CupFixture']['hometeam']]['Lost'] * $losePoints;
@@ -1720,7 +1720,7 @@ class MatchService implements MatchContract
                       ->where('team_id',$fix1['CupFixture']['awayteam'])
                       ->get()->first();
 
-      if (count($awayTeamExist) > 0){
+      if ($awayTeamExist){
           $data1 = array();
 
           $data1['points'] = $ageGroupList[$fix1['CupFixture']['awayteam']]['Won'] * $winningPoints + $ageGroupList[$fix1['CupFixture']['awayteam']]['Draw'] * $drawPoints + $ageGroupList[$fix1['CupFixture']['awayteam']]['Lost'] * $losePoints;
