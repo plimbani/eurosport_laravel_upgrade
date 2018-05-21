@@ -28,7 +28,7 @@ class WebsiteMetaComposer
   public function compose(View $view)
   {
     $domain = $this->request->server('SERVER_NAME');
-    $website = Website::where('domain_name', $domain)->first();
+    $website = Website::where('domain_name', $domain)->orWhere('preview_domain', $domain)->first();
     
     $metaDetails = [];
     $organiserList = '';

@@ -352,8 +352,7 @@ class WebsiteService implements WebsiteContract
    */
   public function generatePreviewUrl($websiteId)
   {
-    $previewUrl = $this->websiteRepo->generatePreviewUrl($websiteId);
-
-    return ['previewUrl' => $previewUrl, 'status_code' => '200', 'message' => 'All data'];
+    $data = $this->websiteRepo->generatePreviewUrl($websiteId);
+    return ['data' => $data, 'status_code' => '200', 'message' => 'All data'];
   }
 }

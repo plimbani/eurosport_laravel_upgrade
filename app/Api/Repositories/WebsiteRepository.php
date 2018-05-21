@@ -471,10 +471,14 @@ class WebsiteRepository
   {
     $randomString = str_random(8);
     $previewDomain = $randomString.str_replace("{id}", "", $this->websitePreviewUrl);
+    $websiteData = Website::where('id', $websiteId)->first();
     $currentDateTime = Carbon::now()->toDateTimeString();
-    /*$website = Website::where('id', $websiteId)->where('preview_domain',null)->get();
-    echo "<pre>";print_r($website);echo "</pre>";exit;*/
-    $website = Website::where('id', $websiteId)->update(['preview_domain'=>$previewDomain,'preview_domain_generated_at'=>$currentDateTime]);
-    return $previewUrl['preview_domain'] = $previewDomain;
+    if ($websiteData['preview_domain'] != $previewDomain) {
+      $website = Website::where('id', $websiteId)->update(['preview_domain'=>$previewDomain,'preview_domain_generated_at'=>$currentDateTime]);
+    }    
+    return [
+      'preview_domain' => $previewDomain,
+      'preview_domain_generated_at' => $currentDateTime,
+    ];
   }
 }
