@@ -21,25 +21,25 @@
                         @php($childRoutes = array_key_exists($item['name'], config('wot.parents_child_routes')) ? config('wot.parents_child_routes.' . $item['name']) : [])
                         <li class="nav-item{{ (isset($item['children']) && count($item['children']) > 0) ? ' dropdown' : '' }}{{ (in_array(Route::currentRouteName(), $item['accessible_routes']) || in_array(Route::currentRouteName(), $childRoutes)) ? ' active' : '' }}">
                             @if(isset($item['children']) && count($item['children']) > 0)
-                                <a class="nav-link dropdown-toggle" href="{{ route(config('wot.page_routes')[$item['name']], ['domain' => $websiteDomain]) }}" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{!! __('messages.' . $item['name']) !!}</a>
+                                <a class="nav-link dropdown-toggle" href="{{  (in_array(Route::currentRouteName(), $item['accessible_routes'])) ? 'javascript:void(0)' : route(config('wot.page_routes')[$item['name']], ['domain' => $websiteDomain]) }}" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{!! __('messages.' . $item['name']) !!}</a>
                                 <div class="dropdown-menu">
                                     <ul>
                                         <li class="nav-value d-none d-lg-block">
-                                            <a href="{{ route(config('wot.page_routes')[$item['name']], ['domain' => $websiteDomain]) }}" class="current-tab">{!! __('messages.' . $item['name']) !!}</a>
+                                            <a href="{{  (in_array(Route::currentRouteName(), $item['accessible_routes'])) ? 'javascript:void(0)' :route(config('wot.page_routes')[$item['name']], ['domain' => $websiteDomain]) }}" class="current-tab">{!! __('messages.' . $item['name']) !!}</a>
                                         </li>
                                         @foreach($item['children'] as $childItem)
                                             <li>
                                                 @if($childItem['is_additional_page'] == 1)
-                                                    <a href="{{ '/' . LaravelLocalization::getCurrentLocale() .$childItem['url'] }}" class="{{ app()->request->route('additionalPageName') == $childItem['page_name'] ? 'active' : '' }}">{{ $childItem['title'] }}</a>
+                                                    <a href="{{ app()->request->route('additionalPageName') == $childItem['page_name'] ? 'javascript:void(0)' :'/' . LaravelLocalization::getCurrentLocale() .$childItem['url'] }}" class="{{ app()->request->route('additionalPageName') == $childItem['page_name'] ? 'active' : '' }}">{{ $childItem['title'] }}</a>
                                                 @else
-                                                    <a href="{{ route(config('wot.page_routes')[$childItem['name']], ['domain' => $websiteDomain]) }}" class="{{ in_array(Route::currentRouteName(), $childItem['accessible_routes']) ? 'active' : '' }}">{!! __('messages.' . $childItem['name']) !!}</a>
+                                                    <a href="{{ in_array(Route::currentRouteName(), $childItem['accessible_routes']) ? 'javascript:void(0)' : route(config('wot.page_routes')[$childItem['name']], ['domain' => $websiteDomain]) }}" class="{{ in_array(Route::currentRouteName(), $childItem['accessible_routes']) ? 'active' : '' }}">{!! __('messages.' . $childItem['name']) !!}</a>
                                                 @endif
                                             </li>
                                         @endforeach
                                     </ul>
                                 </div>
                             @else
-                                <a class="nav-link" href="{{ route(config('wot.page_routes')[$item['name']], ['domain' => $websiteDomain]) }}">{!! __('messages.' . $item['name']) !!}</a>
+                                <a class="nav-link" href="{{ (in_array(Route::currentRouteName(), $item['accessible_routes']) || in_array(Route::currentRouteName(), $childRoutes)) ? 'javascript:void(0)' : route(config('wot.page_routes')[$item['name']], ['domain' => $websiteDomain]) }}">{!! __('messages.' . $item['name']) !!}</a>
                             @endif
                         </li>
                     @endif
