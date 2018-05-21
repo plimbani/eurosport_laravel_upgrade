@@ -23,6 +23,7 @@ class Kernel extends ConsoleKernel
         Commands\generatePositionsForExistingData::class,
         Commands\sendActivityNotification::class,
         Commands\removeDanglingImages::class,
+        Commands\RemoveExpirePreviewDomain::class,
     ];
 
     /**
