@@ -61,7 +61,7 @@
                 </div>
                 <div class="col-sm-3 align-self-center">
                   <input type="number" min="0" name="home_team_score"
-                  v-model="matchDetail.hometeam_score" id="home_team_score" class="form-control">
+                  v-model="matchDetail.hometeam_score" id="home_team_score" class="form-control" :readonly="(this.matchDetail.is_result_override == 1) && (this.matchDetail.match_status == 'Walk-over')">
                 </div>
                 <label class="col-sm-3 col-sm-3 form-control-label align-self-center">
                   &nbsp;
@@ -72,7 +72,7 @@
                 </div>
                 <div class="col-sm-3 align-self-center">
                   <input type="number" min="0" name="away_team_score"
-                  v-model="matchDetail.awayteam_score" id="away_team_score" class="form-control">
+                  v-model="matchDetail.awayteam_score" id="away_team_score" class="form-control" :readonly="(this.matchDetail.is_result_override == 1) && (this.matchDetail.match_status == 'Walk-over')">
                 </div>
               </div>
               <div class="form-group row">
@@ -86,7 +86,7 @@
                 <div class="col-sm-9">
                   <select v-model="matchDetail.match_status"
                    v-validate="'required'" :class="{'is-danger': errors.has('match_status') }"
-                  name="match_status" id="match_status" class="form-control ls-select2">
+                  name="match_status" id="match_status" class="form-control ls-select2" @change="changeScore()">
                       <option value="">Please select</option>
                       <option value="Penalties">Penalties</option>
                       <option value="Walk-over">Walk-over</option>
@@ -101,7 +101,7 @@
                 <div class="col-sm-9">
                   <select name="match_winner" v-model="matchDetail.match_winner"
                    v-validate="'required'" :class="{'is-danger': errors.has('match_winner') }"
-                   id="match_winner" class="form-control ls-select2">
+                   id="match_winner" class="form-control ls-select2" @change="changeScore()">
                       <option value="">Please select</option>
                       <option :value="matchDetail.home_team">Team 1 ({{ getTeamName(matchDetail.home_team, matchDetail.home_team_name, matchDetail.display_home_team_placeholder_name, matchDetail.competition.actual_name) }})
                       </option>
@@ -231,7 +231,9 @@ var moment = require('moment');
           this.matchDetail.match_status = (this.matchDetail.match_status == null || this.matchDetail.match_status == '') ? '' : this.matchDetail.match_status
 
           this.matchDetail.hometeam_score = (this.matchDetail.hometeam_score == null) ? '' : this.matchDetail.hometeam_score
+
           this.matchDetail.awayteam_score = (this.matchDetail.awayteam_score == null) ? '' : this.matchDetail.awayteam_score
+
           this.matchDetail.referee_id = (this.matchDetail.referee_id == null || this.matchDetail.referee_id == 0 ) ? '' :this.matchDetail.referee_id
 
           if(this.updatedMatchData !== null) {
@@ -277,14 +279,13 @@ var moment = require('moment');
       if (home_score == away_score && this.matchDetail.round == 'Elimination' && this.matchDetail.is_result_override == 0 && home_score != '' && away_score != '' && this.matchDetail.hometeam_score != null && this.matchDetail.awayteam_score != null) {
         this.matchDetail.is_result_override = 1;
       }
-
       Vue.nextTick(function () {
         vm.$validator.validateAll().then(() => {
           let  matchStatus = vm.matchDetail.is_result_override == 1 ? $('#match_status').val() : '';
           let  matchWinner = vm.matchDetail.is_result_override == 1 ? $('#match_winner').val() : '';
           let data = {'matchId':vm.matchDetail.id,'refereeId': vm.matchDetail.referee_id,'homeTeamScore':$('#home_team_score').val(),'awayTeamScore':$('#away_team_score').val(),
             'matchStatus': matchStatus,'matchWinner': matchWinner,'comments':$('#comments').val(),
-            'is_result_override':$('#is_result_override').val()}
+            'is_result_override':$('#is_result_override').val()}            
           Tournament.saveMatchResult(data).then(
             (response) => {
               vm.matchFixtureDetail();
@@ -395,7 +396,6 @@ var moment = require('moment');
           // var win = window.open("/api/match/print?"+ReportData, '_blank');
           // win.focus();
         }
-
     },
     getHoldingName(competitionActualName, placeholder) {
       if(competitionActualName.indexOf('Group') !== -1){
@@ -431,6 +431,20 @@ var moment = require('moment');
     updateMatchData(matchData) {
       this.updatedMatchData = matchData;
     },
-  } 
+    changeScore() {
+      if (this.matchDetail.is_result_override == 1 && this.matchDetail.match_status == 'Walk-over') {
+        if (this.matchDetail.match_winner == this.matchDetail.home_team) {
+          this.matchDetail.hometeam_score = 3;
+          this.matchDetail.awayteam_score = 0;
+        } else if(this.matchDetail.match_winner == this.matchDetail.away_team) {
+          this.matchDetail.hometeam_score = 0;
+          this.matchDetail.awayteam_score = 3;
+        } else  if(this.matchDetail.match_winner == '') {
+          this.matchDetail.hometeam_score = 0;
+          this.matchDetail.awayteam_score = 0;
+        }
+      }
+    }
+  }
 }
 </script>

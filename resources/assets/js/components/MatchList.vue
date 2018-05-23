@@ -42,9 +42,21 @@
           <!-- </a>  -->
         </td>
         <td class="text-center js-match-list">
-            <input type="text" v-model="match.homeScore" :name="'home_score['+match.fid+']'" style="width: 25px; text-align: center;"  v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails'" :readonly="match.is_scheduled == '0' " @change="updateScore(match,index1)"><span v-else>{{match.homeScore}}</span> -
-            <input type="text" v-model="match.AwayScore" :name="'away_score['+match.fid+']'" style="width: 25px; text-align: center;"  v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails'"
-            :readonly="match.is_scheduled == '0'" @change="updateScore(match,index1)"><span v-else>{{match.AwayScore}}</span>
+            <span v-if="(match.isResultOverride == '1') && (match.match_status == 'Walk-over') &&(match.match_winner == match.Home_id)">*</span>
+            <input type="text" v-model="match.homeScore" :name="'home_score['+match.fid+']'" style="width: 25px; text-align: center;"  v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails'" :readonly="(match.is_scheduled == '0') || (match.isResultOverride == '1' && match.match_status == 'Walk-over') " @change="updateScore(match,index1)"><span v-else>{{match.homeScore}}</span> -
+            <input type="text" v-model="match.AwayScore" :name="'away_score['+match.fid+']'" style="width: 25px; text-align: center;"  v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails'" :readonly="(match.is_scheduled == '0') || (match.isResultOverride == '1' && match.match_status == 'Walk-over' && match.match_winner == match.Away_id)" @change="updateScore(match,index1)">
+            <span v-else>{{match.AwayScore}}</span>
+            <span v-if="match.isResultOverride == '1' && match.match_status == 'Walk-over' &&match.match_winner == match.Away_id">*</span>
+            <!-- <div class="d-inline-flex position-relative">
+              <input type="text" v-model="match.homeScore" :name="'home_score['+match.fid+']'" style="width: 25px; text-align: center;"  v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails'" :readonly="match.is_scheduled == '0' " @change="updateScore(match,index1)"><span v-else>{{match.homeScore}}</span>
+              <span class="circle-badge left"><i class="fa fa-asterisk" aria-hidden="true"></i></span>
+            </div> -
+            <div class="d-inline-flex position-relative">
+              <input type="text" v-model="match.AwayScore" :name="'away_score['+match.fid+']'" style="width: 25px; text-align: center;"  v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails'"
+              :readonly="match.is_scheduled == '0'" @change="updateScore(match,index1)">
+              <span class="circle-badge right"><i class="fa fa-asterisk" aria-hidden="true"></i></span>
+              <span v-else>{{match.AwayScore}}</span>
+            </div> -->
         </td>
 
         <td class="text-center" v-if="showPlacingForMatch()">
