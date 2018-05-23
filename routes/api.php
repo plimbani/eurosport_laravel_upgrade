@@ -296,6 +296,9 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
     $api->post('saveContactDetails', 'Laraspace\Api\Controllers\ContactController@saveContactDetails');
 
     $api->post('uploadImage', 'Laraspace\Api\Controllers\UploadMediaController@uploadImage');
+
+    $api->post('generatePreviewUrl/{websiteId}', 'Laraspace\Api\Controllers\WebsiteController@generatePreviewUrl');
+    
 });
 
 // Website frontend API calls

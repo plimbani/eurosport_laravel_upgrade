@@ -36,6 +36,14 @@
                   <a data-toggle="tab" :class="[isNewWebsite ? 'is-disabled' : '', activePath == 'website_contact' ? 'active' : '', 'nav-link']" href="#website_contact" role="tab" @click="GetSelectComponent('website_contact')">{{$lang.website_contact}}</a>
                 </li>
           		</ul>
+              <div class="row" v-show="(this.$store.state.Website.preview_domain != null)">
+                <div class="col-lg-6">                  
+                  <div class="input-group mt-3">
+                    <span>Preview url: {{ this.$store.state.Website.preview_domain }}</span>
+                  </div>
+                </div>
+              </div>
+              <button class="btn btn-primary btn-icon generate-preview-btn tooltip" @click="generatePreviewUrl()" v-if="this.$store.state.Website.preview_domain == null" v-show="(this.$store.state.Website.preview_domain == null)"><i class="fa fa-globe"></i><span class="tooltiptext text-center">Generate Preview URL</span></button>
           		<router-view></router-view>
           	</div>
           </div>
@@ -44,14 +52,18 @@
   </div>
 </template>
 <script type="text/babel">
+import Website from '../../../api/website.js';
+import { VTooltip, VPopover, VClosePopover } from 'v-tooltip';
+
 export default {
   data() {
     return {
-    	'header': 'header'
+    	'header': 'header',
+      'previewUrl': '',
+      'previewDomain': ''
     }
   },
   mounted() {
-   
   },
   computed: {
     isNewWebsite() {
@@ -59,6 +71,9 @@ export default {
     },
    	activePath() {
       return this.$store.state.activePath
+    },
+    getWebsiteId() {
+      return this.$store.state.Website.id;
     },
   },
   methods: {
@@ -74,6 +89,20 @@ export default {
     		},2000 )
     	}
   	},
+    generatePreviewUrl() {
+      let vm = this;
+      if(this.getWebsiteId !== null) {  
+        $("body .js-loader").removeClass('d-none');              
+        Website.generatePreviewUrl(this.getWebsiteId).then(
+          (response)=> {
+            $("body .js-loader").addClass('d-none');
+            vm.$store.dispatch('SetWebsitePreviewDetail', response.data.data);
+          },
+          (error)=> {
+          }
+        );
+      }
+    },
   },
 }
 </script>

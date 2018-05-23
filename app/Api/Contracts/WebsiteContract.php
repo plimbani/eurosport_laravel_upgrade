@@ -117,4 +117,11 @@ interface WebsiteContract
      */
     public function getWebsiteDetails($websiteId);
 
+    /*
+     * Generate preview URL
+     *
+     * @return response
+     */
+    public function generatePreviewUrl($websiteId);
+
 }
