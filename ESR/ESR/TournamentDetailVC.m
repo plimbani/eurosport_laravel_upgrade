@@ -29,52 +29,7 @@
 -(void)setFavAndDefault{
     
 }
--(void)GetDefaultTournament{
-    
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSDictionary *userData = [defaults objectForKey:@"userData"];
-    if([Utils isNetworkAvailable] ==YES){
-        [SVProgressHUD show];
-        NSDictionary *params = @{@"user_id":[userData valueForKey:@"user_id"] };
-        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        NSString *token = [defaults objectForKey:@"token"];
-        NSString *concateToken = [NSString stringWithFormat:@"%@%@",@"Bearer ",token];
-        NSURLSessionConfiguration *sessionConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
-        NSDictionary *header =@{@"IsMobileUser": @"true",@"Authorization":concateToken};
-        sessionConfiguration.HTTPAdditionalHeaders = header;
-        NSURLSession *session = [NSURLSession sessionWithConfiguration:sessionConfiguration];
-        NSString *url=[[NSString alloc]initWithFormat:@"%@%@", BaseURL,GetTournamentDefault];
-        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]
-                                                               cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
-        NSData *requestData = [NSJSONSerialization dataWithJSONObject:params options:0 error:nil]; //TODO handle error
-        [request setHTTPMethod:@"POST"];
-        [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
-        [request setValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
-        [request setValue:[NSString stringWithFormat:@"%lu", (unsigned long)[requestData length]] forHTTPHeaderField:@"Content-Length"];
-        [request setHTTPBody: requestData];
-        NSURLSessionDataTask *dataTask = [session dataTaskWithRequest:request
-                                                    completionHandler:^(NSData *data, NSURLResponse *response, NSError *error)
-                                          {
-                                              if (error) {
-                                                  NSLog(@"data%@",data);
-                                                  NSLog(@"response%@",error);
-                                                  [SVProgressHUD dismiss];
-                                              } else{
-                                                  [SVProgressHUD dismiss];
-                                                  AppDelegate *app = (AppDelegate*)[[UIApplication sharedApplication] delegate];
-                                                  NSError *parseError = nil;
-                                                  NSDictionary *responseDictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&parseError];
-                                                  app.defaultTournamentDir =[responseDictionary[@"data"] mutableCopy];
 
-                                                  [self GetTournamentFavList];
-                                                  
-                                              }
-                                          }];
-        [dataTask resume];
-    }else{
-        
-    }
-}
 -(void)setDefaultToutnamet:(NSString *)tournament_id{
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSDictionary *userData = [[defaults objectForKey:@"userData"] mutableCopy];
@@ -122,17 +77,17 @@
         
     }
 }
--(void)GetTournamentFavList{
+- (void)sendRequestToGetTournamentFavList {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSDictionary *userData = [defaults objectForKey:@"userData"];
-    if([Utils isNetworkAvailable] ==YES){
+    if ([Utils isNetworkAvailable] == YES) {
         [SVProgressHUD show];
         NSDictionary *params = @{@"user_id":[userData valueForKey:@"user_id"] };
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
         NSString *token = [defaults objectForKey:@"token"];
         NSString *concateToken = [NSString stringWithFormat:@"%@%@",@"Bearer ",token];
         NSURLSessionConfiguration *sessionConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
-        NSDictionary *header =@{@"IsMobileUser": @"true",@"Authorization":concateToken};
+        NSDictionary *header = @{@"IsMobileUser": @"true",@"Authorization":concateToken};
         sessionConfiguration.HTTPAdditionalHeaders = header;
         NSURLSession *session = [NSURLSession sessionWithConfiguration:sessionConfiguration];
         NSString *url=[[NSString alloc]initWithFormat:@"%@%@", BaseURL,GetUserFavouriteTournamentList];
@@ -152,32 +107,31 @@
                                                   NSLog(@"response%@",error);
                                               } else{
                                                   [SVProgressHUD dismiss];
-                                                  AppDelegate *app = (AppDelegate*)[[UIApplication sharedApplication] delegate];
                                                   NSError *parseError = nil;
                                                   NSDictionary *responseDictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&parseError];
-                                                  NSLog(@"%@",responseDictionary);
+                                                  NSLog(@"responseDictionary - %@",responseDictionary);
+                                                  
+                                                  AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+                                                  app.defaultTournamentDir = [[[ApplicationData sharedInstance] getDefaultTournamentDic:responseDictionary[@"data"]] mutableCopy];
+                                                  
                                                   NSMutableArray *favTournamentlistArray =[responseDictionary[@"data"] mutableCopy];
                                                   _autoCompleteArray = [responseDictionary[@"data"] mutableCopy];
                                                   if (![[app.defaultTournamentDir valueForKey:@"status"] isEqualToString:@"Published"]) {
                                                       if (favTournamentlistArray >0) {
                                                           app.defaultTournamentDir =[favTournamentlistArray objectAtIndex:0];
                                                           [self setDefaultToutnamet:[app.defaultTournamentDir valueForKey:@"tournament_id"]];
-                                                          
                                                           dispatch_async(dispatch_get_main_queue(), ^{
-                                                              
                                                               [self updateUI];
                                                               [self.autoCompleteTableView reloadData];
                                                               [self.picker reloadAllComponents];
                                                           });
                                                       }
-                                                      
-                                                  }else{
+                                                  } else {
                                                       for (int i =0; i<favTournamentlistArray.count; i++) {
                                                           
                                                           if ([[[favTournamentlistArray objectAtIndex:i] valueForKey:@"tournament_id"] integerValue] == [[app.defaultTournamentDir valueForKey:@"tournament_id"] integerValue]) {
                                                               app.defaultTournamentDir =[favTournamentlistArray objectAtIndex:i];
                                                               dispatch_async(dispatch_get_main_queue(), ^{
-                                                                  
                                                                   [self updateUI];
                                                                   [self.autoCompleteTableView reloadData];
                                                                   [self.picker reloadAllComponents];
@@ -185,15 +139,13 @@
                                                           }
                                                       }
                                                   }
-                                                  
-                                                  
                                               }
                                           }];
         [dataTask resume];
-    }else{
-        
+    } else {
     }
 }
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.dayLbl.text = NSLocalizedString(@"Days",@"");
@@ -225,7 +177,7 @@
     self.hoursLbl.text = NSLocalizedString(@"Hours",@"");
     self.minutesLbl.text = NSLocalizedString(@"Minutes",@"");
     self.secondLbl.text = NSLocalizedString(@"Seconds",@"");
-    [self GetDefaultTournament];
+    [self sendRequestToGetTournamentFavList];
     _autoCompleteTableView.hidden =TRUE;
     // _autoCompleteTableView.tableFooterView = [UIView new];
     [[_autoCompleteTableView layer] setMasksToBounds:NO];

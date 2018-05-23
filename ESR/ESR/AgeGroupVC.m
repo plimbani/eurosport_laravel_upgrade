@@ -34,7 +34,7 @@
         NSDictionary *header =@{@"IsMobileUser": @"true",@"Authorization":concateToken};
         sessionConfiguration.HTTPAdditionalHeaders = header;
         NSURLSession *session = [NSURLSession sessionWithConfiguration:sessionConfiguration];
-        NSString *url=[[NSString alloc]initWithFormat:@"%@%@", BaseURL,GetAgeGroup];
+        NSString *url=[[NSString alloc]initWithFormat:@"%@%@", BaseURL,GetTournamentGroups];
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]
                                                                cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
         NSData *requestData = [NSJSONSerialization dataWithJSONObject:params options:0 error:nil]; //TODO handle error

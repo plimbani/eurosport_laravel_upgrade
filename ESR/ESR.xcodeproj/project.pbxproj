@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0F32AC5E20B56B42007C92A6 /* ApplicationData.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F32AC5920B56B40007C92A6 /* ApplicationData.m */; };
+		0F32AC5F20B56B42007C92A6 /* TableCellOwner.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F32AC5D20B56B41007C92A6 /* TableCellOwner.m */; };
+		0F32AC6420B56D37007C92A6 /* UserFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F32AC6320B56D37007C92A6 /* UserFileManager.m */; };
 		0F984C91208E11E5009F7BB0 /* PrivacyPolicy.txt in Resources */ = {isa = PBXBuildFile; fileRef = 0F984C90208E11E4009F7BB0 /* PrivacyPolicy.txt */; };
 		928681551F323FD3005BE626 /* HelpVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 928681541F323FD2005BE626 /* HelpVC.m */; };
 		928681581F323FEA005BE626 /* PrivacyVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 928681571F323FEA005BE626 /* PrivacyVC.m */; };
@@ -148,6 +151,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0F32AC5820B56B40007C92A6 /* AppConstantsList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppConstantsList.h; sourceTree = "<group>"; };
+		0F32AC5920B56B40007C92A6 /* ApplicationData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApplicationData.m; sourceTree = "<group>"; };
+		0F32AC5A20B56B40007C92A6 /* ApplicationData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApplicationData.h; sourceTree = "<group>"; };
+		0F32AC5C20B56B41007C92A6 /* TableCellOwner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableCellOwner.h; sourceTree = "<group>"; };
+		0F32AC5D20B56B41007C92A6 /* TableCellOwner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableCellOwner.m; sourceTree = "<group>"; };
+		0F32AC6020B56B73007C92A6 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
+		0F32AC6220B56D37007C92A6 /* UserFileManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserFileManager.h; sourceTree = "<group>"; };
+		0F32AC6320B56D37007C92A6 /* UserFileManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserFileManager.m; sourceTree = "<group>"; };
 		0F984C90208E11E4009F7BB0 /* PrivacyPolicy.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = PrivacyPolicy.txt; sourceTree = "<group>"; };
 		14E6572A52E6A27F9B2F3417 /* Pods_ESRTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ESRTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		25E242443DE4918F7F22DA12 /* Pods-ESR.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ESR.release.xcconfig"; path = "Pods/Target Support Files/Pods-ESR/Pods-ESR.release.xcconfig"; sourceTree = "<group>"; };
@@ -401,6 +412,34 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0F32AC5720B56B40007C92A6 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				0F32AC5820B56B40007C92A6 /* AppConstantsList.h */,
+				0F32AC5A20B56B40007C92A6 /* ApplicationData.h */,
+				0F32AC5920B56B40007C92A6 /* ApplicationData.m */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		0F32AC5B20B56B40007C92A6 /* CustomComponents */ = {
+			isa = PBXGroup;
+			children = (
+				0F32AC5C20B56B41007C92A6 /* TableCellOwner.h */,
+				0F32AC5D20B56B41007C92A6 /* TableCellOwner.m */,
+			);
+			path = CustomComponents;
+			sourceTree = "<group>";
+		};
+		0F32AC6120B56D37007C92A6 /* Downloader */ = {
+			isa = PBXGroup;
+			children = (
+				0F32AC6220B56D37007C92A6 /* UserFileManager.h */,
+				0F32AC6320B56D37007C92A6 /* UserFileManager.m */,
+			);
+			path = Downloader;
+			sourceTree = "<group>";
+		};
 		4C609F030F53907A2978F2F0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -535,6 +574,9 @@
 		9E421A991EF261FC004693BF /* ESR */ = {
 			isa = PBXGroup;
 			children = (
+				0F32AC5B20B56B40007C92A6 /* CustomComponents */,
+				0F32AC5720B56B40007C92A6 /* Data */,
+				0F32AC6120B56D37007C92A6 /* Downloader */,
 				9E5AD8EF202D6CC700303708 /* Final Placing */,
 				9E5CA9851F556EDC008E4F25 /* Sources */,
 				9E68177D1F39811300286A04 /* ESR.entitlements */,
@@ -574,6 +616,7 @@
 				9E15F1A31F4EE76400BFE822 /* Localizable.strings */,
 				9E47C81420048CE600AD69FC /* ApplicationUpdateVC.h */,
 				9E47C81520048CE600AD69FC /* ApplicationUpdateVC.m */,
+				0F32AC6020B56B73007C92A6 /* PrefixHeader.pch */,
 			);
 			path = ESR;
 			sourceTree = "<group>";
@@ -1165,6 +1208,7 @@
 				9E11BEC41F0A0D7D00EF50F3 /* TeamDetailVC.m in Sources */,
 				9E421B1B1EF2B0F8004693BF /* MHTabBarController.m in Sources */,
 				9EBA4A791F0FB9690021027A /* MapVC.m in Sources */,
+				0F32AC6420B56D37007C92A6 /* UserFileManager.m in Sources */,
 				9E65749B1F4DA93D0062AEA7 /* Reachability.m in Sources */,
 				9E38D0B11F0E1EC6005B5335 /* ClubsNewVC.m in Sources */,
 				9E4489F21EF7E6B900203FDF /* TournamentDetailVC.m in Sources */,
@@ -1181,6 +1225,7 @@
 				9E421AE71EF2A150004693BF /* FovouritesVC.m in Sources */,
 				9E1E2AB01EFBC0E600C748B1 /* UIColor+fromHex.m in Sources */,
 				9EE6EA561F051AFD00070FA9 /* GroupTeamListVC.m in Sources */,
+				0F32AC5E20B56B42007C92A6 /* ApplicationData.m in Sources */,
 				9E4F10DF1F026E2A00DF49C5 /* UpdateProfileVC.m in Sources */,
 				9E5CA98B1F556EF4008E4F25 /* LanguageManager.m in Sources */,
 				9EE6EA501F051ACC00070FA9 /* ClubTeamListVC.m in Sources */,
@@ -1210,6 +1255,7 @@
 				9E421B161EF2ABDB004693BF /* GroupListVC.m in Sources */,
 				9E421ADA1EF27718004693BF /* HomeVC.m in Sources */,
 				9E421B131EF2ABC1004693BF /* AgeListVC.m in Sources */,
+				0F32AC5F20B56B42007C92A6 /* TableCellOwner.m in Sources */,
 				9E01B8161F0B72E8007C60B1 /* LeagueDetailHeaderCell.m in Sources */,
 				9EBA4A741F0F5DFA0021027A /* VenueDetailVC.m in Sources */,
 				9E421A9C1EF261FC004693BF /* main.m in Sources */,
@@ -1405,14 +1451,15 @@
 				CODE_SIGN_STYLE = Manual;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = H9SRXQSP7G;
+				GCC_PREFIX_HEADER = ESR/PrefixHeader.pch;
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				INFOPLIST_FILE = ESR/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.aecordigital.ESR;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "f3d1a043-b060-4505-a560-bd99188b188b";
-				PROVISIONING_PROFILE_SPECIFIER = ESR_DEVELOPMENT_20_Apr_2018;
+				PROVISIONING_PROFILE = "28164505-ce2e-4330-81f0-097a18ccaab0";
+				PROVISIONING_PROFILE_SPECIFIER = ESR_DEVELOPMENT_23_May_2018;
 			};
 			name = Debug;
 		};
@@ -1425,14 +1472,15 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = H9SRXQSP7G;
+				GCC_PREFIX_HEADER = ESR/PrefixHeader.pch;
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				INFOPLIST_FILE = ESR/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.aecordigital.ESR;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "f3d1a043-b060-4505-a560-bd99188b188b";
-				PROVISIONING_PROFILE_SPECIFIER = ESR_DEVELOPMENT_20_Apr_2018;
+				PROVISIONING_PROFILE = "28164505-ce2e-4330-81f0-097a18ccaab0";
+				PROVISIONING_PROFILE_SPECIFIER = ESR_DEVELOPMENT_23_May_2018;
 			};
 			name = Release;
 		};
