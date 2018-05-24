@@ -470,9 +470,17 @@ class WebsiteRepository
   public function generatePreviewUrl($websiteId)
   {
     $randomString = str_random(8);
-    $previewDomain = $randomString.str_replace("{id}", "", $this->websitePreviewUrl);
     $websiteData = Website::where('id', $websiteId)->first();
     $currentDateTime = Carbon::now()->toDateTimeString();
+
+    
+    do {
+      $randomString = str_random(8);
+      $previewDomain = str_replace("{id}", $randomString, $this->websitePreviewUrl);
+      $checkForUniquePreviewUrl = Website::where('preview_domain', $previewDomain)->get();
+    }
+    while(count($checkForUniquePreviewUrl) > 0);
+
     if ($websiteData['preview_domain'] != $previewDomain) {
       $website = Website::where('id', $websiteId)->update(['preview_domain'=>$previewDomain,'preview_domain_generated_at'=>$currentDateTime]);
     }    
