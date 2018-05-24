@@ -639,7 +639,6 @@ export default {
          // let ReportData =  $('#frmReport').serializeArray()
 
           this.reportQuery = ReportData
-          console.log('reportData', ReportData);
           Tournament.getAllReportsData(ReportData).then(
           (response) => {
             this.reports = response.data.data
