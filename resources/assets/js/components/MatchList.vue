@@ -42,11 +42,11 @@
           <!-- </a>  -->
         </td>
         <td class="text-center js-match-list">
-            <span v-if="(match.isResultOverride == '1') && (match.match_status == 'Walk-over') &&(match.match_winner == match.Home_id)">*</span>
+            <span v-if="(match.isResultOverride == '1' && match.match_status == 'Walk-over' && match.match_winner == match.Home_id)">*</span>
             <input type="text" v-model="match.homeScore" :name="'home_score['+match.fid+']'" style="width: 25px; text-align: center;"  v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails'" :readonly="(match.is_scheduled == '0') || (match.isResultOverride == '1' && match.match_status == 'Walk-over') " @change="updateScore(match,index1)"><span v-else>{{match.homeScore}}</span> -
             <input type="text" v-model="match.AwayScore" :name="'away_score['+match.fid+']'" style="width: 25px; text-align: center;"  v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails'" :readonly="(match.is_scheduled == '0') || (match.isResultOverride == '1' && match.match_status == 'Walk-over' && match.match_winner == match.Away_id)" @change="updateScore(match,index1)">
             <span v-else>{{match.AwayScore}}</span>
-            <span v-if="match.isResultOverride == '1' && match.match_status == 'Walk-over' &&match.match_winner == match.Away_id">*</span>
+            <span v-if="(match.isResultOverride == '1' && match.match_status == 'Walk-over' &&match.match_winner == match.Away_id)">*</span>
             <!-- <div class="d-inline-flex position-relative">
               <input type="text" v-model="match.homeScore" :name="'home_score['+match.fid+']'" style="width: 25px; text-align: center;"  v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails'" :readonly="match.is_scheduled == '0' " @change="updateScore(match,index1)"><span v-else>{{match.homeScore}}</span>
               <span class="circle-badge left"><i class="fa fa-asterisk" aria-hidden="true"></i></span>
@@ -218,7 +218,7 @@ export default {
     },
   },
   methods: {
-    setScore(homescore,AwayScore,competationId,isResultOverride) {
+    setScore(matchData) {
       let vm = this
       let scheduleView = this.$store.state.currentScheduleView
 
@@ -229,10 +229,12 @@ export default {
       }
 
       index = index.toString()
-      if(index != '' && (homescore != undefined || AwayScore != undefined) ) {
-        vm.matchData[index].AwayScore = AwayScore
-        vm.matchData[index].homeScore = homescore
-        vm.matchData[index].isResultOverride = isResultOverride
+      if(index != '' && (matchData['home_score'] != undefined || matchData['away_score'] != undefined) ) {
+        vm.matchData[index].AwayScore = matchData['away_score']
+        vm.matchData[index].homeScore = matchData['home_score']
+        vm.matchData[index].isResultOverride = matchData['is_result_override']
+        vm.matchData[index].match_status = matchData['match_status']
+        vm.matchData[index].match_winner = matchData['match_winner']
         /*vm.$root.$emit('setDrawTable',competationId)
         vm.$root.$emit('setStandingData',competationId)*/
       }

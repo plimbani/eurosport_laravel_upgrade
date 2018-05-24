@@ -291,15 +291,19 @@ var moment = require('moment');
               vm.matchFixtureDetail();
               $('#matchScheduleModal').modal('hide')
               toastr.success('This match has been updated.', 'Match Details', {timeOut: 5000});
+              let matchData = {};
+
+              matchData['home_score'] = $('#home_team_score').val()
+              matchData['away_score'] = $('#away_team_score').val()
+              matchData['competation_id'] = response.data.data.competationId
+              matchData['is_result_override'] = response.data.data.isResultOverride
+              matchData['match_status'] = $('#match_status').val()
+              matchData['match_winner'] = $('#match_winner').val()
               if(vm.section == 'scheduleResult') {
-                let home_score = $('#home_team_score').val()
-                let away_score = $('#away_team_score').val()
-                let competationId = response.data.data.competationId
-                let isResultOverride = response.data.data.isResultOverride
-                vm.$root.$emit('reloadMatchList',home_score,away_score,competationId,isResultOverride)
+                vm.$root.$emit('reloadMatchList', matchData)
                 //
-                vm.$root.$emit('setDrawTable',competationId);
-                vm.$root.$emit('setStandingData',competationId);
+                vm.$root.$emit('setDrawTable',matchData['competation_id']);
+                vm.$root.$emit('setStandingData',matchData['competation_id']);
               } else {
                 vm.$root.$emit('reloadAllEvents')
                 vm.$root.$emit('setPitchPlanTab','gamesTab')
