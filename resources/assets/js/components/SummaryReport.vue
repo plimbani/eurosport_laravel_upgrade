@@ -188,46 +188,48 @@
 		<div class="row mt-4" id="summary_report_table">
 			<div class="col-md-12">
 				<div id="report_logo" style="display:none;">
-                    <img src="/assets/img/logo-desk.svg"  alt="Laraspace Logo" class="hidden-sm-down text-center" width="200px" height="200px">
-                    <h2>Reports</h2>
-                </div>
-				<table class="table table-hover table-bordered table-responsive report-table" v-bind:class="{ 'display_table' : reports.length == 0, 'display_block' : reports.length > 0 }" id="report_print" border="1" cellpadding="0" cellspacing="0" width="100%">
-					<thead>
-	                    <tr>
-							<th class="text-center" @click="sortReport('match_datetime')">{{$lang.summary_reports_date_time}}&nbsp;<i class="fa fa-sort"></i></th>
-	                        <th class="text-center" @click="sortReport('group_name')">{{$lang.summary_reports_age_catrgory}}&nbsp;<i class="fa fa-sort"></i></th>
-	                        <th class="text-center" @click="sortReport('venue_name')">{{$lang.summary_reports_location}}&nbsp;<i class="fa fa-sort"></i></th>
-	                        <th class="text-center" @click="sortReport('pitch_number')">{{$lang.summary_reports_pitch}}&nbsp;<i class="fa fa-sort"></i></th>
-	                        <th class="text-center" @click="sortReport('referee')">{{$lang.summary_reports_referee}}&nbsp;<i class="fa fa-sort"></i></th>
-	                        <th class="text-center" @click="sortReport('displayMatchNumber')">{{$lang.summary_reports_match_code}}&nbsp;<i class="fa fa-sort"></i></th>
-                            <th class="text-center" @click="sortReport('HomeTeam')">{{$lang.summary_schedule_matches_team}}&nbsp;<i class="fa fa-sort"></i></th>
-                            <th class="text-center" @click="sortReport('AwayTeam')">{{$lang.summary_schedule_matches_team}}&nbsp;<i class="fa fa-sort"></i></th>
-                            <th class="text-center" @click="sortReport('position')">{{$lang.summary_schedule_matches_placing}}&nbsp;<i class="fa fa-sort"></i></th>
-                    	</tr>
-	                </thead>
-	                <tbody>
-	                	<tr v-for="report in reports">
-	                		<td>{{report.match_datetime | formatDate }}</td>
-	                		<td>{{report.group_name}}</td>
-	                		<td>{{report.venue_name}}</td>
-	                		<td>{{report.pitch_number}}</td>
-	                		<td v-if="report.referee_last_name && report.referee_first_name">{{report.referee_last_name}}, {{report.referee_first_name}}</td>
-  		             		<td v-else></td>
-	                		<td>{{displayMatch(report.displayMatchNumber,report.displayHomeTeamPlaceholder,report.displayAwayTeamPlaceholder)}}</td>
-							<td align="right">
-								<span class="text-center" v-if="(report.homeTeam == '0' )">{{ getHoldingName(report.competition_actual_name, report.displayHomeTeamPlaceholder,report.displayMatchNumber) }}</span>
-								<span class="text-center" v-else>{{ report.HomeTeam }}</span>
-								<span :class="'flag-icon flag-icon-'+report.HomeCountryFlag"></span>
-							</td>
-							<td align="left">
-								<span :class="'flag-icon flag-icon-'+report.AwayCountryFlag"></span>
-								<span class="text-center" v-if="(report.awayTeam == '0')">{{ getHoldingName(report.competition_actual_name, report.displayAwayTeamPlaceholder,report.displayMatchNumber) }}</span>
-								<span class="text-center" v-else>{{ report.AwayTeam }}</span>
-							</td>
-							<td align="center">{{ (report.position != null) ? report.position : 'N/A' }}</td>
-	                	</tr>
-	                </tbody>
-				</table>
+            <img src="/assets/img/logo-desk.svg"  alt="Laraspace Logo" class="hidden-sm-down text-center" width="200px" height="200px">
+            <h2>Reports</h2>
+        </div>
+        <div class="table-responsive">
+					<table class="table table-hover table-bordered report-table" v-bind:class="{ 'display_table' : reports.length == 0, 'display_block' : reports.length > 0 }" id="report_print" border="1" cellpadding="0" cellspacing="0" width="100%">
+						<thead>
+		                    <tr>
+								<th class="text-center" @click="sortReport('match_datetime')">{{$lang.summary_reports_date_time}}&nbsp;<i class="fa fa-sort"></i></th>
+		                        <th class="text-center" @click="sortReport('group_name')">{{$lang.summary_reports_age_catrgory}}&nbsp;<i class="fa fa-sort"></i></th>
+		                        <th class="text-center" @click="sortReport('venue_name')">{{$lang.summary_reports_location}}&nbsp;<i class="fa fa-sort"></i></th>
+		                        <th class="text-center" @click="sortReport('pitch_number')">{{$lang.summary_reports_pitch}}&nbsp;<i class="fa fa-sort"></i></th>
+		                        <th class="text-center" @click="sortReport('referee')">{{$lang.summary_reports_referee}}&nbsp;<i class="fa fa-sort"></i></th>
+		                        <th class="text-center" @click="sortReport('displayMatchNumber')">{{$lang.summary_reports_match_code}}&nbsp;<i class="fa fa-sort"></i></th>
+	                            <th class="text-center" @click="sortReport('HomeTeam')">{{$lang.summary_schedule_matches_team}}&nbsp;<i class="fa fa-sort"></i></th>
+	                            <th class="text-center" @click="sortReport('AwayTeam')">{{$lang.summary_schedule_matches_team}}&nbsp;<i class="fa fa-sort"></i></th>
+	                            <th class="text-center" @click="sortReport('position')">{{$lang.summary_schedule_matches_placing}}&nbsp;<i class="fa fa-sort"></i></th>
+	                    	</tr>
+		                </thead>
+		                <tbody>
+		                	<tr v-for="report in reports">
+		                		<td>{{report.match_datetime | formatDate }}</td>
+		                		<td>{{report.group_name}}</td>
+		                		<td>{{report.venue_name}}</td>
+		                		<td>{{report.pitch_number}}</td>
+		                		<td v-if="report.referee_last_name && report.referee_first_name">{{report.referee_last_name}}, {{report.referee_first_name}}</td>
+	  		             		<td v-else></td>
+		                		<td>{{displayMatch(report.displayMatchNumber,report.displayHomeTeamPlaceholder,report.displayAwayTeamPlaceholder)}}</td>
+								<td align="right">
+									<span class="text-center" v-if="(report.homeTeam == '0' )">{{ getHoldingName(report.competition_actual_name, report.displayHomeTeamPlaceholder,report.displayMatchNumber) }}</span>
+									<span class="text-center" v-else>{{ report.HomeTeam }}</span>
+									<span :class="'flag-icon flag-icon-'+report.HomeCountryFlag"></span>
+								</td>
+								<td align="left">
+									<span :class="'flag-icon flag-icon-'+report.AwayCountryFlag"></span>
+									<span class="text-center" v-if="(report.awayTeam == '0')">{{ getHoldingName(report.competition_actual_name, report.displayAwayTeamPlaceholder,report.displayMatchNumber) }}</span>
+									<span class="text-center" v-else>{{ report.AwayTeam }}</span>
+								</td>
+								<td align="center">{{ (report.position != null) ? report.position : 'N/A' }}</td>
+		                	</tr>
+		                </tbody>
+					</table>
+				</div>
 				<span v-if="reports.length == 0">
 	         		 No information available
 	    		</span>
@@ -520,8 +522,7 @@ export default {
             } else {
               TournamentData = {'tournament_id': this.TournamentId}
             }
-
-	          Tournament.getAllClubs(TournamentData).then(
+	          Tournament.getClubsByTournamentId(this.TournamentId).then(
 	          (response) => {
 	            this.clubs = response.data.clubs
 	          },
@@ -638,6 +639,7 @@ export default {
          // let ReportData =  $('#frmReport').serializeArray()
 
           this.reportQuery = ReportData
+          console.log('reportData', ReportData);
           Tournament.getAllReportsData(ReportData).then(
           (response) => {
             this.reports = response.data.data
