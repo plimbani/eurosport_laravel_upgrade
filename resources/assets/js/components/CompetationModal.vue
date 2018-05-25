@@ -28,7 +28,7 @@
             </div> -->
             <div class="row">
               <div class="col-md-6">
-                <div class="jumbotron mb-0 px-4 py-4">
+                <div class="jumbotron h-100 mb-0 px-4 py-4">
                   <p class="row">
                       <label class="col-md-6"><strong>{{$lang.competation_modal_format_team}}</strong></label>
                       <label class="col-md-6">{{ templateData['tournament_teams'] }}</label>

@@ -9,6 +9,7 @@ const state = {
   tournament_location: null,
   pages: null,
   preview_domain: null,
+  preview_url: null,
   preview_domain_generated_at: null,
   routes: {
   	'website': 'website_add',
@@ -68,6 +69,7 @@ const mutations = {
 		state.tournament_location = currentWebsite.tournament_location;
 		state.pages = currentWebsite.pages;
 		state.preview_domain = currentWebsite.preview_domain;
+		state.preview_url = window.appScheme + '://' + currentWebsite.preview_domain;
 		state.preview_domain_generated_at = currentWebsite.preview_domain_generated_at;
 	},
 	[types.WEBSITE_DATA] (state, websiteData) {
@@ -98,6 +100,7 @@ const mutations = {
 	},
 	[types.SET_PREVIEW_DETAIL] (state, previewDetail) {
 		state.preview_domain = previewDetail.preview_domain;
+		state.preview_url = window.appScheme + '://' + previewDetail.preview_domain;
 		state.preview_domain_generated_at = previewDetail.preview_domain_generated_at;
 	},
 };

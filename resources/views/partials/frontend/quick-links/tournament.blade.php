@@ -5,7 +5,7 @@
                 <ul class="nav align-items-center justify-content-center">
                     @if(in_array('rules.page.details', $accessible_routes))
                         <li class="nav-item">
-                            <a class="nav-link {{ Route::currentRouteName() == 'rules.page.details' ? 'active' : '' }}" href="{{ route('rules.page.details', ['domain' => $websiteDetail->domain_name]) }}">
+                            <a class="nav-link {{ Route::currentRouteName() == 'rules.page.details' ? 'active' : '' }}" href="{{ route('rules.page.details', ['domain' => $websiteDomain]) }}">
                                 <span class="icon"><i class="fas fa-list-alt"></i></span>
                                 <span>{!! __('messages.rules') !!}</span>
                             </a>
@@ -13,7 +13,7 @@
                     @endif
                     @if(in_array('history.page.details', $accessible_routes))
                         <li class="nav-item">
-                            <a class="nav-link {{ Route::currentRouteName() == 'history.page.details' ? 'active' : '' }}" href="{{ route('history.page.details', ['domain' => $websiteDetail->domain_name]) }}">
+                            <a class="nav-link {{ Route::currentRouteName() == 'history.page.details' ? 'active' : '' }}" href="{{ route('history.page.details', ['domain' => $websiteDomain]) }}">
                                 <span class="icon"><i class="fas fa-history"></i></span>
                                 <span>{!! __('messages.history') !!}</span>
                             </a>
@@ -22,7 +22,7 @@
                     @foreach($additionalPages as $additionalPage)
                         @if($additionalPage->is_published == 1)
                             <li class="nav-item">
-                                <a class="nav-link {{ app()->request->route('additionalPageName') == $additionalPage->page_name ? 'active' : '' }}" href="{{ route('additional.tournament.page.details', ['domain' => $websiteDetail->domain_name, 'additionalPageName' => $additionalPage->page_name]) }}">
+                                <a class="nav-link {{ app()->request->route('additionalPageName') == $additionalPage->page_name ? 'active' : '' }}" href="{{ route('additional.tournament.page.details', ['domain' => $websiteDomain, 'additionalPageName' => $additionalPage->page_name]) }}">
                                     <span class="icon"><i class="fas fa-file-alt"></i></span>
                                     <span>{{ $additionalPage->title }}</span>
                                 </a>

@@ -13,7 +13,7 @@ class RemoveExpirePreviewDomain extends Command
      *
      * @var string
      */
-    protected $signature = 'remove:previewUrl';
+    protected $signature = 'setup:removePreviewUrl';
 
     /**
      * The console command description.
@@ -47,8 +47,9 @@ class RemoveExpirePreviewDomain extends Command
             $diffInMinutes = $currentDate->diffInMinutes($previewDomainGenerateDate);
 
             if($diffInMinutes >= config('config-variables.preview_url_expire_time')) {
-                $website->preview_domain = null;
-                $website->preview_domain_generated_at = null;
+                $website->preview_domain = NULL;
+                $website->preview_domain_generated_at = NULL;
+                $website->unsetEventDispatcher();
                 $website->save();
             } 
         }
