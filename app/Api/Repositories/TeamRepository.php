@@ -473,6 +473,14 @@ class TeamRepository
     {
       return $clubs = Club::all();
     }
+
+    public function getClubsByTournamentId($tournamentId)
+    {
+      $tournamentClubs = Team::where('tournament_id', $tournamentId)->pluck('club_id');
+      $uniqueClubs = $tournamentClubs->unique();
+
+      return Club::whereIn('id', $uniqueClubs)->get();
+    }
     
     public function checkTeamExist($request)
     {

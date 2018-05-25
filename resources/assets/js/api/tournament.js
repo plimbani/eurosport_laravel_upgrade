@@ -221,5 +221,8 @@ export default {
   },
   getSignedUrlForPitchMatchReport(pitchId) {
     return api.post('getSignedUrlForPitchMatchReport/' +pitchId);
-  }
+  },
+  getClubsByTournamentId(tournamentId) {
+    return api.post('getClubsByTournamentId/' +tournamentId);
+  },  
 }

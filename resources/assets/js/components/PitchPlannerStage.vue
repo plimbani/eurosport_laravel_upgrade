@@ -334,6 +334,7 @@ import _ from 'lodash'
                                     vm.matchFixture = {}
                                     vm.$store.dispatch('setCompetationWithGames');
                                     vm.getScheduledMatch()
+                                    vm.reloadAllEvents();
                                 });
                              },100);
                         }
