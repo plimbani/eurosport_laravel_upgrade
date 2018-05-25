@@ -155,6 +155,8 @@
                       tournament_dates: websiteDetail.tournament_dates,
                       tournament_location: websiteDetail.tournament_location,
                       pages: websiteDetail.pages,
+                      preview_domain: websiteDetail.preview_domain,
+                      preview_domain_generated_at: websiteDetail.preview_domain_generated_at
                     };
                     this.$store.dispatch('SetWebsite', website);
                   },

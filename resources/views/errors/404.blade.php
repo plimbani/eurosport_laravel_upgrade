@@ -77,7 +77,7 @@
                 <div class="col-lg-2">
                 </div>
                 <div class="col-lg-8 club_content">
-                    {!! __('messages.404_page_message', ['url' => route('home.page.details', ['domain' => $websiteDetail->domain_name])]) !!}
+                    {!! __('messages.404_page_message', ['url' => route('home.page.details', ['domain' => $websiteDomain])]) !!}
                 </div>
             </div>
         </div>

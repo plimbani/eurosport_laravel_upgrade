@@ -6,7 +6,7 @@
                     @foreach($additionalPages as $additionalPage)
                         @if($additionalPage->is_published == 1)
                             <li class="nav-item">
-                                <a class="nav-link {{ app()->request->route('additionalPageName') == $additionalPage->page_name ? 'active' : '' }}" href="{{ route('additional.program.page.details', ['domain' => $websiteDetail->domain_name, 'additionalPageName' => $additionalPage->page_name]) }}">
+                                <a class="nav-link {{ app()->request->route('additionalPageName') == $additionalPage->page_name ? 'active' : '' }}" href="{{ route('additional.program.page.details', ['domain' => $websiteDomain, 'additionalPageName' => $additionalPage->page_name]) }}">
                                     <span class="mr-2"><i class="fas fa-file-alt"></i></span>
                                     <span>{{ $additionalPage->title }}</span>
                                 </a>

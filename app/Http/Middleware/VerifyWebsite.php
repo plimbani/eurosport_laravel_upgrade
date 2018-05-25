@@ -55,7 +55,7 @@ class VerifyWebsite
     public function handle($request, Closure $next)
     {
         $domain = $request->route('domain');
-        $website = Website::where('domain_name', $domain)->first();
+        $website = Website::where('domain_name', $domain)->orWhere('preview_domain', $domain)->first();
         View::share('websiteDetail', $website);
 
         if(!$website) {
