@@ -344,4 +344,15 @@ class WebsiteService implements WebsiteContract
 
     return ['data' => $data, 'status_code' => '200', 'message' => 'All data'];
   }
+
+  /*
+   * Generate preview URL
+   *
+   * @return response
+   */
+  public function generatePreviewUrl($websiteId)
+  {
+    $data = $this->websiteRepo->generatePreviewUrl($websiteId);
+    return ['data' => $data, 'status_code' => '200', 'message' => 'All data'];
+  }
 }

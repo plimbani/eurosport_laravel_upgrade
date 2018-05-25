@@ -37,7 +37,7 @@ class Kernel extends HttpKernel
         );
 
         if($request->server('SERVER_NAME') != config('app.domain')) {
-            $website = Website::where('domain_name', $request->server('SERVER_NAME'))->first();
+            $website = Website::where('domain_name', $request->server('SERVER_NAME'))->orWhere('preview_domain', $request->server('SERVER_NAME'))->first();
 
             if(!$website) {
                 return Redirect::away(config('app.url'), 302);

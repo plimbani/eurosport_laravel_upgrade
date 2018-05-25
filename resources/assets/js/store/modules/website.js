@@ -8,6 +8,9 @@ const state = {
   tournament_dates: null,
   tournament_location: null,
   pages: null,
+  preview_domain: null,
+  preview_url: null,
+  preview_domain_generated_at: null,
   routes: {
   	'website': 'website_add',
   	'home': 'website_homepage',
@@ -52,6 +55,9 @@ const actions = {
 	ResetWebsiteDetail ({commit}) {
   	commit(types.RESET_WEBSITE_DETAIL);
   },
+  SetWebsitePreviewDetail ({commit}, previewDetail) {
+  	commit(types.SET_PREVIEW_DETAIL, previewDetail);
+  },
 };
 
 // mutations
@@ -62,6 +68,9 @@ const mutations = {
 	  state.tournament_dates = currentWebsite.tournament_dates;
 		state.tournament_location = currentWebsite.tournament_location;
 		state.pages = currentWebsite.pages;
+		state.preview_domain = currentWebsite.preview_domain;
+		state.preview_url = window.appScheme + '://' + currentWebsite.preview_domain;
+		state.preview_domain_generated_at = currentWebsite.preview_domain_generated_at;
 	},
 	[types.WEBSITE_DATA] (state, websiteData) {
 		state.id = websiteData.id;
@@ -88,6 +97,11 @@ const mutations = {
 		state.social_sharing_graphic = null;
 		state.font = null;
 		state.color = null;
+	},
+	[types.SET_PREVIEW_DETAIL] (state, previewDetail) {
+		state.preview_domain = previewDetail.preview_domain;
+		state.preview_url = window.appScheme + '://' + previewDetail.preview_domain;
+		state.preview_domain_generated_at = previewDetail.preview_domain_generated_at;
 	},
 };
 

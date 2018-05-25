@@ -17,7 +17,7 @@
                                     <ul class="list-unstyled mb-0">
                             @endif
                                     <li>
-                                        <a href="{{ route(config('wot.page_routes')[$item['name']], ['domain' => $websiteDetail->domain_name]) }}">{!! __('messages.' . $item['name']) !!}</a>
+                                        <a href="{{ route(config('wot.page_routes')[$item['name']], ['domain' => $websiteDomain]) }}">{!! __('messages.' . $item['name']) !!}</a>
                                         @php($itemCount++)
                                         @if(isset($item['children']) && count($item['children']) > 0)
                                             <ul>
@@ -26,7 +26,7 @@
                                                         @if($childItem['is_additional_page'] == 1)
                                                             <a href="{{ '/' . LaravelLocalization::getCurrentLocale() .$childItem['url'] }}">{{ $childItem['title'] }}</a>
                                                         @else
-                                                            <a href="{{ route(config('wot.page_routes')[$childItem['name']], ['domain' => $websiteDetail->domain_name]) }}">{!! __('messages.' . $childItem['name']) !!}</a>
+                                                            <a href="{{ route(config('wot.page_routes')[$childItem['name']], ['domain' => $websiteDomain]) }}">{!! __('messages.' . $childItem['name']) !!}</a>
                                                         @endif
                                                     </li>
                                                     @php($itemCount++)

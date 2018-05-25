@@ -51,7 +51,9 @@ class WebsiteComposer
   public function compose(View $view)
   {
     $domain = $this->request->server('SERVER_NAME');
-    $website = Website::where('domain_name', $domain)->first();
+    $website = Website::where('domain_name', $domain)->orWhere('preview_domain', $domain)->first();
+
+    $isWebsiteInPreview = false;
 
     $view->with('websiteDetail', $website);
 
@@ -97,6 +99,14 @@ class WebsiteComposer
 
     // All accessible routes
     $view->with('accessible_routes', $accessibleRoutes);
+
+    if($website->preview_domain == $domain) {
+      $isWebsiteInPreview = true;
+    }
+
+    $view->with('isWebsiteInPreview', $isWebsiteInPreview);
+
+    $view->with('websiteDomain', ($isWebsiteInPreview ? $website->preview_domain : $website->domain_name));
 
     JavaScript::put([
         'websiteId' => $website->id,

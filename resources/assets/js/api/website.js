@@ -141,4 +141,8 @@ export default {
   getWebsiteDetails(websiteId) {
     return axios.get('/api/getWebsiteDetails/' + websiteId);
   },
+  // Generate preview URL
+  generatePreviewUrl(websiteId) {
+    return axios.post('/api/generatePreviewUrl/' + websiteId);    
+  }
 }
