@@ -194,4 +194,9 @@ class TeamController extends BaseController
     {
         return $this->teamObj->resetAllTeams($request);
     }
+
+    public function getClubsByTournamentId(Request $request, $tournamentId)
+    {
+        return $this->teamObj->getClubsByTournamentId($tournamentId);
+    }
 }

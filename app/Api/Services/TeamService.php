@@ -360,4 +360,9 @@ class TeamService implements TeamContract
         $data = $request->toArray()['ageCategoryId'];
         $data = $this->teamRepoObj->resetAllTeams($data);
     }
+
+    public function getClubsByTournamentId($tournamentId)
+    {
+      return $this->teamRepoObj->getClubsByTournamentId($tournamentId);
+    }
 }
