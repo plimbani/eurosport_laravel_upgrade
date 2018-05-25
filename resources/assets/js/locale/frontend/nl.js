@@ -31,8 +31,8 @@ module.exports= {
     'difference': 'Verschil',
     'points': 'Punten',
     'no_matches_found': 'Geen wedstrijden',
-    'view_match_info_message': 'Please <a href="javascript: void(0);">click here</a> to view full standings, results and schedule for {competitionName}',
-    'match_codes': 'Match codes',
+    'view_match_info_message': '<a href="javascript: void(0);">Klik hier</a> voor de stand en overige rondes voor {competitionName}',
+    'match_codes': 'Wedstrijdcode',
   },
   'tournament': {
     'category_name': 'Naam categorie',

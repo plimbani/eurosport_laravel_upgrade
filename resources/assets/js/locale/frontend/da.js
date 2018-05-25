@@ -31,8 +31,8 @@ module.exports= {
     'difference': 'Forskel',
     'points': 'Point',
     'no_matches_found': 'Ingen kampe fundet',
-    'view_match_info_message': 'Please <a href="javascript: void(0);">click here</a> to view full standings, results and schedule for {competitionName}',
-    'match_codes': 'Match codes',
+    'view_match_info_message': '<a href="javascript: void(0);">Klik her</a> for den fulde stilling, resultater samt kampprogram for {competitionName}',
+    'match_codes': 'kamp nr',
   },
   'tournament': {
     'category_name': 'Kategori navn',
