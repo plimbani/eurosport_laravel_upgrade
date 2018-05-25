@@ -46,6 +46,9 @@
     <link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet"></link>
 
     <style id="antiClickjack">body{display:none !important;}</style>
+    <script>
+        var appScheme = "{{ config('app.app_scheme') }}";
+    </script>
     <script type="text/javascript">
         if (self === top) {
             var antiClickjack = document.getElementById("antiClickjack");

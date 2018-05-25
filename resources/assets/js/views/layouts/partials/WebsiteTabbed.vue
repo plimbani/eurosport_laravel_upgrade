@@ -36,14 +36,17 @@
                   <a data-toggle="tab" :class="[isNewWebsite ? 'is-disabled' : '', activePath == 'website_contact' ? 'active' : '', 'nav-link']" href="#website_contact" role="tab" @click="GetSelectComponent('website_contact')">{{$lang.website_contact}}</a>
                 </li>
           		</ul>
-              <div class="row" v-show="(this.$store.state.Website.preview_domain != null)">
-                <div class="col-lg-6">                  
-                  <div class="input-group mt-3">
-                    <span>Preview url: {{ this.$store.state.Website.preview_domain }}</span>
+              <div class="row" v-if="( $store.state.Website.preview_domain != null )">
+                <div class="col-lg-12 mt-3">
+                  <div class="alert alert-warning mb-0">
+                    <span class="font-weight-bold">Preview url: </span>
+                    <a target="_blank" v-bind:href=" $store.state.Website.preview_url">
+                    {{ $store.state.Website.preview_url }}
+                    </a>
                   </div>
                 </div>
               </div>
-              <button class="btn btn-primary btn-icon generate-preview-btn tooltip" @click="generatePreviewUrl()" v-if="this.$store.state.Website.preview_domain == null" v-show="(this.$store.state.Website.preview_domain == null)"><i class="fa fa-globe"></i><span class="tooltiptext text-center">Generate Preview URL</span></button>
+              <button class="btn btn-primary btn-icon generate-preview-btn tooltip" @click="generatePreviewUrl()" v-if="$store.state.Website.preview_domain == null"><i class="fa fa-globe"></i><span class="tooltiptext text-center">Generate Preview URL</span></button>
           		<router-view></router-view>
           	</div>
           </div>

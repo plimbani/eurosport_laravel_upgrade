@@ -1,5 +1,4 @@
 <!-- Navbar -->
-@php($websiteDomain = $isWebsiteInPreview ? $websiteDetail->preview_domain : $websiteDetail->domain_name)
 <nav class="navbar navbar-expand-lg navbar-primary js-header-menu-section">
     <div class="container">
         <div class="d-lg-none">

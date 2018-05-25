@@ -106,6 +106,8 @@ class WebsiteComposer
 
     $view->with('isWebsiteInPreview', $isWebsiteInPreview);
 
+    $view->with('websiteDomain', ($isWebsiteInPreview ? $website->preview_domain : $website->domain_name));
+
     JavaScript::put([
         'websiteId' => $website->id,
         'tournamentId' => $website->linked_tournament,

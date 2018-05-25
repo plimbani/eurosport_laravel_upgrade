@@ -49,6 +49,7 @@ class RemoveExpirePreviewDomain extends Command
             if($diffInMinutes >= config('config-variables.preview_url_expire_time')) {
                 $website->preview_domain = NULL;
                 $website->preview_domain_generated_at = NULL;
+                $website->unsetEventDispatcher();
                 $website->save();
             } 
         }

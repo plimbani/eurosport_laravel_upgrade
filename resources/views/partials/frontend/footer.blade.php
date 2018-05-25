@@ -1,5 +1,4 @@
 <!-- Footer -->
-@php($websiteDomain = $isWebsiteInPreview ? $websiteDetail->preview_domain : $websiteDetail->domain_name)
 <footer class="pt-lh1">
     <div class="container">
         <div class="row">
