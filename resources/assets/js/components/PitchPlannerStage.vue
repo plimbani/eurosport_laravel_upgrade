@@ -367,7 +367,6 @@ import _ from 'lodash'
                 let vm = this;
                 let ev = this.$el;
                 $(ev).fullCalendar( 'removeEvents' )
-                 // console.log(this.$el);
                 setTimeout(function(){
                     $(ev).fullCalendar('addEventSource', vm.scheduledMatches);
                 },1500)
@@ -479,7 +478,6 @@ import _ from 'lodash'
                                 refereeId = match.referee_id?match.referee_id:0
                                  matchTitle = displayMatchName
                               }
-
                                 let mData =  {
                                     'id': match.fid,
                                     'resourceId': match.pitchId,
@@ -496,7 +494,12 @@ import _ from 'lodash'
                                     'fixtureStripColor': fixtureStripColor,
                                     'homeScore': match.homeScore,
                                     'awayScore': match.AwayScore,
-                                    'displayFlag': match.min_interval_flag == 1 ?'block':''
+                                    'displayFlag': match.min_interval_flag == 1 ? 'block' : '',
+                                    'homeTeam': match.Home_id,
+                                    'awayTeam': match.Away_id,
+                                    'matchStatus': match.match_status,
+                                    'matchWinner': match.match_winner,
+                                    'isResultOverride': match.isResultOverride
                                 }
                             sMatches.push(mData)
                             }
@@ -523,7 +526,12 @@ import _ from 'lodash'
                                         'fixtureStripColor': '',
                                         'homeScore': null,
                                         'awayScore': null,
-                                        'displayFlag':''
+                                        'displayFlag':'',
+                                        'homeTeam': null,
+                                        'awayTeam': null,
+                                        'matchStatus': null,
+                                        'matchWinner': null,
+                                        'isResultOverride': null
                                     }
                                     sMatches.push(mData1)
                                     counter = counter+1;
@@ -545,7 +553,12 @@ import _ from 'lodash'
                                         'fixtureStripColor': '',
                                         'homeScore': null,
                                         'awayScore': null,
-                                        'displayFlag':''
+                                        'displayFlag':'',
+                                        'homeTeam': null,
+                                        'awayTeam': null,
+                                        'matchStatus': null,
+                                        'matchWinner': null,
+                                        'isResultOverride': null
                                     }
                                     sMatches.push(mData2)
                                     counter = counter+1;
@@ -568,7 +581,12 @@ import _ from 'lodash'
                                             'fixtureStripColor': '',
                                             'homeScore': null,
                                             'awayScore': null,
-                                            'displayFlag': ''
+                                            'displayFlag': '',
+                                            'homeTeam': null,
+                                            'awayTeam': null,
+                                            'matchStatus': null,
+                                            'matchWinner': null,
+                                            'isResultOverride': null
                                         }
 
                                         sMatches.push(mData)
