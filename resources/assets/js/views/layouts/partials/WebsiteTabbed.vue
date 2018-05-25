@@ -42,11 +42,20 @@
                     <span class="font-weight-bold">Preview url: </span>
                     <a target="_blank" v-bind:href=" $store.state.Website.preview_url">
                     {{ $store.state.Website.preview_url }}
-                    </a>
+                    </a>(Please note this URL will expire in {{urlExpirationTime}} hour)<br>
+                    <span class="font-weight-bold">Username: </span>preview
+                    <span class="font-weight-bold">Password: </span>t0urPrev!eM
                   </div>
                 </div>
               </div>
-              <button class="btn btn-primary btn-icon generate-preview-btn tooltip" @click="generatePreviewUrl()" v-if="$store.state.Website.preview_domain == null && $store.state.Website.id !== null"><i class="fa fa-globe"></i><span class="tooltiptext text-center">Generate Preview URL</span></button>
+              <div class="row" v-if="$store.state.Website.preview_domain == null && $store.state.Website.id !== null">
+                <div class="col-lg-12 mt-3">                
+                  <div class="alert alert-warning mb-0">                  
+                    <a href="#" @click="generatePreviewUrl()">Preview URL has expired. Please click here to generate a new URL</a>
+                  </div>
+                </div>
+              </div>
+              <!-- <button class="btn btn-primary btn-icon generate-preview-btn tooltip" @click="generatePreviewUrl()" v-if="$store.state.Website.preview_domain == null && $store.state.Website.id !== null"><i class="fa fa-globe"></i><span class="tooltiptext text-center">Generate Preview URL</span></button> -->
           		<router-view></router-view>
           	</div>
           </div>
@@ -56,7 +65,7 @@
 </template>
 <script type="text/babel">
 import Website from '../../../api/website.js';
-import { VTooltip, VPopover, VClosePopover } from 'v-tooltip';
+import moment from 'moment';
 
 export default {
   data() {
@@ -78,6 +87,13 @@ export default {
     getWebsiteId() {
       return this.$store.state.Website.id;
     },
+    urlExpirationTime() {
+      let currentDateTime = moment(new Date());
+      let previewDomainGeneratedAtObj = moment(this.$store.state.Website.preview_domain_generated_at);
+      let diffInMinutes = currentDateTime.diff(previewDomainGeneratedAtObj, 'minutes');
+      let diffInHours = (previewUrlExpireTimeMinutes - diffInMinutes) / 60;
+      return diffInHours;
+    }
   },
   methods: {
   	GetSelectComponent(componentName) {
