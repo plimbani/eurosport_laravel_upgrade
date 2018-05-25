@@ -46,7 +46,7 @@
                   </div>
                 </div>
               </div>
-              <button class="btn btn-primary btn-icon generate-preview-btn tooltip" @click="generatePreviewUrl()" v-if="$store.state.Website.preview_domain == null"><i class="fa fa-globe"></i><span class="tooltiptext text-center">Generate Preview URL</span></button>
+              <button class="btn btn-primary btn-icon generate-preview-btn tooltip" @click="generatePreviewUrl()" v-if="$store.state.Website.preview_domain == null && $store.state.Website.id !== null"><i class="fa fa-globe"></i><span class="tooltiptext text-center">Generate Preview URL</span></button>
           		<router-view></router-view>
           	</div>
           </div>
