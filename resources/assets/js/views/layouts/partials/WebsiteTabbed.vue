@@ -42,7 +42,7 @@
                     <span class="font-weight-bold">Preview url: </span>
                     <a target="_blank" v-bind:href=" $store.state.Website.preview_url">
                     {{ $store.state.Website.preview_url }}
-                    </a>(Please note this URL will expire in {{urlExpirationTime}} hour)<br>
+                    </a>(Please note this URL will expire in {{urlExpirationTime}})<br>
                     <span class="font-weight-bold">Username: </span>preview
                     <span class="font-weight-bold">Password: </span>t0urPrev!eM
                   </div>
@@ -55,7 +55,6 @@
                   </div>
                 </div>
               </div>
-              <!-- <button class="btn btn-primary btn-icon generate-preview-btn tooltip" @click="generatePreviewUrl()" v-if="$store.state.Website.preview_domain == null && $store.state.Website.id !== null"><i class="fa fa-globe"></i><span class="tooltiptext text-center">Generate Preview URL</span></button> -->
           		<router-view></router-view>
           	</div>
           </div>
@@ -88,11 +87,13 @@ export default {
       return this.$store.state.Website.id;
     },
     urlExpirationTime() {
-      let currentDateTime = moment(new Date());
+      let currentDateTime = moment.utc(new Date()).add(1, 'hours').format("YYYY-MM-DD HH:mm:ss");
       let previewDomainGeneratedAtObj = moment(this.$store.state.Website.preview_domain_generated_at);
-      let diffInMinutes = currentDateTime.diff(previewDomainGeneratedAtObj, 'minutes');
-      let diffInHours = (previewUrlExpireTimeMinutes - diffInMinutes) / 60;
-      return diffInHours;
+      let totalMinutes = moment(currentDateTime).diff(previewDomainGeneratedAtObj, 'minutes');
+      totalMinutes = window.previewUrlExpireTimeMinutes - totalMinutes;
+      let diffInHours = totalMinutes / 60;
+      let diffInMinutes = totalMinutes % 60;
+      return parseInt(diffInHours) + (parseInt(diffInHours) == 1 ? ' hour and ' : ' hours and ') + diffInMinutes + (parseInt(diffInMinutes) == 1 ? ' minute' : ' minutes');
     }
   },
   methods: {
