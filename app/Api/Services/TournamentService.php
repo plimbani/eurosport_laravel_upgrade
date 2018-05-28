@@ -514,10 +514,10 @@ class TournamentService implements TournamentContract
                     $fieldName = 'displayMatchNumber';
                     break;
               case 'HomeTeam':
-                    $fieldName = 'HomeTeam';
+                    $fieldName = 'homeTeamName';
                     break;
               case 'AwayTeam':
-                    $fieldName = 'AwayTeam';
+                    $fieldName = 'awayTeamName';
                     break;
               case 'position':
                     $fieldName = 'position';
