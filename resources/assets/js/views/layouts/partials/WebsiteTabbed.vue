@@ -42,11 +42,19 @@
                     <span class="font-weight-bold">Preview url: </span>
                     <a target="_blank" v-bind:href=" $store.state.Website.preview_url">
                     {{ $store.state.Website.preview_url }}
-                    </a>
+                    </a>(Please note this URL will expire in {{urlExpirationTime}})<br>
+                    <span class="font-weight-bold">Username: </span>preview
+                    <span class="font-weight-bold">Password: </span>t0urPrev!eM
                   </div>
                 </div>
               </div>
-              <button class="btn btn-primary btn-icon generate-preview-btn tooltip" @click="generatePreviewUrl()" v-if="$store.state.Website.preview_domain == null && $store.state.Website.id !== null"><i class="fa fa-globe"></i><span class="tooltiptext text-center">Generate Preview URL</span></button>
+              <div class="row" v-if="$store.state.Website.preview_domain == null && $store.state.Website.id !== null">
+                <div class="col-lg-12 mt-3">                
+                  <div class="alert alert-warning mb-0">                  
+                    Preview URL has expired. Please <a href="#" @click="generatePreviewUrl()">click here</a> to generate a new URL
+                  </div>
+                </div>
+              </div>
           		<router-view></router-view>
           	</div>
           </div>
@@ -56,7 +64,7 @@
 </template>
 <script type="text/babel">
 import Website from '../../../api/website.js';
-import { VTooltip, VPopover, VClosePopover } from 'v-tooltip';
+import moment from 'moment';
 
 export default {
   data() {
@@ -78,6 +86,15 @@ export default {
     getWebsiteId() {
       return this.$store.state.Website.id;
     },
+    urlExpirationTime() {
+      let currentDateTime = moment.utc(new Date()).add(1, 'hours').format("YYYY-MM-DD HH:mm:ss");
+      let previewDomainGeneratedAtObj = moment(this.$store.state.Website.preview_domain_generated_at);
+      let totalMinutes = moment(currentDateTime).diff(previewDomainGeneratedAtObj, 'minutes');
+      totalMinutes = window.previewUrlExpireTimeMinutes - totalMinutes;
+      let diffInHours = totalMinutes / 60;
+      let diffInMinutes = totalMinutes % 60;
+      return (parseInt(diffInHours) > 0 ? parseInt(diffInHours) + (parseInt(diffInHours) > 1 ? ' hours' : ' hour') + ' and ' : '') + diffInMinutes + (parseInt(diffInMinutes) > 1 ? ' minutes' : ' minute');
+    }
   },
   methods: {
   	GetSelectComponent(componentName) {
