@@ -51,7 +51,7 @@
               <div class="row" v-if="$store.state.Website.preview_domain == null && $store.state.Website.id !== null">
                 <div class="col-lg-12 mt-3">                
                   <div class="alert alert-warning mb-0">                  
-                    Preview URL has expired. <a href="#" @click="generatePreviewUrl()">Please click here to generate a new URL</a>
+                    Preview URL has expired. Please <a href="#" @click="generatePreviewUrl()">click here</a> to generate a new URL
                   </div>
                 </div>
               </div>
@@ -93,7 +93,7 @@ export default {
       totalMinutes = window.previewUrlExpireTimeMinutes - totalMinutes;
       let diffInHours = totalMinutes / 60;
       let diffInMinutes = totalMinutes % 60;
-      return parseInt(diffInHours) + (parseInt(diffInHours) <= 1 ? ' hour and ' : ' hours and ') + diffInMinutes + (parseInt(diffInMinutes) <= 1 ? ' minute' : ' minutes');
+      return (parseInt(diffInHours) > 0 ? parseInt(diffInHours) + (parseInt(diffInHours) > 1 ? ' hours' : ' hour') + ' and ' : '') + diffInMinutes + (parseInt(diffInMinutes) > 1 ? ' minutes' : ' minute');
     }
   },
   methods: {
