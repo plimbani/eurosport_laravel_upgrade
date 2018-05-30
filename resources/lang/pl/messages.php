@@ -33,7 +33,7 @@
 		'404_page_title' => 'Błąd 404 - strona nie została odnaleziona',
 		'404_page_message' => 'Przyczyną może być niepoprawne wpisanie adresu internetowego lub strony, której szukasz, mogła zostać ona przeniesiona, zaktualizowana lub usunięta. <a href=":url">Kliknij tutaj</a>, aby powrócić na stronę główną.',
 		'contact_form_send_btn' => 'Wyślij zapytanie',
-		'match_schedule_message' => 'Harmonogram meczów będzie dostępny na 2-3 tygodnie przed rozpoczęciem turnieju.',
+		'match_schedule_message' => 'Harmonogram meczów będzie dostępny na 2-3 dni przed rozpoczęciem turnieju',
 		'no_location_found' => 'Nie znaleziono żadnych lokalizacji.',
 		'no_photos_found' => 'Nie znaleziono żadnych zdjęć.',
 		'recaptcha_error_message' => 'Proszę potwierdzić reCAPTCHA',

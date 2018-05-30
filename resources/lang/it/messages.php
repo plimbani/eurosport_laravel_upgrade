@@ -33,7 +33,7 @@
 		'404_page_title' => 'Errore 404 - pagina non trovata',
 		'404_page_message' => 'Forse hai inserito un indirizzo web sbagliato, o la pagina che hai cercato non esiste più. <a href=":url">Clicca qui</a> per tornare alla homepage.',
 		'contact_form_send_btn' => 'Invia richiesta',
-		'match_schedule_message' => "Il calendario delle partite sarà disponibile 2-3 settimane prima dell'inizio del torneo.",
+		'match_schedule_message' => "Il calendario delle partite sarà disponibile 2-3 giorni prima dell’inizio del torneo",
 		'no_location_found' => 'Nessuna sede trovata.',
 		'no_photos_found' => 'Nessuna foto trovata.',
 		'recaptcha_error_message' => 'Verifica reCAPTCHA',
