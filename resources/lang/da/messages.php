@@ -34,7 +34,7 @@
 		'404_page_message' => 'Fejl 404 - Fejl på siden',
 		'match_schedule_message' => 'The match schedule will be available 2-3 weeks before the tournament begins.',
 		'contact_form_send_btn' => 'Send forespørgsel',
-		'match_schedule_message' => 'Kampprogram er tilgængeligt 2-3 uger før afvikling af turneringen',
+		'match_schedule_message' => 'Kampprogrammet vil være klar 2-3 dage før turneringen starter',
 		'no_location_found' => 'Ingen side fundet',
 		'no_photos_found' => 'Ingen fotos fundet',
 		'recaptcha_error_message' => 'Please validate reCAPTCHA',

@@ -34,7 +34,7 @@
 		'404_page_message' => 'Bitte vergewissern Sie sich, dass Sie die korrekte Webadresse eingegeben haben.
 		</br>Die Seite, die Sie suchen, kann nicht angezeigt werden, da sie möglicherweise nicht mehr existiert oder verschoben worden ist</br>Sie können durch <a href=":url">Klick</a> auf das Logo wieder auf die Homepage zurückkehren',
 		'contact_form_send_btn' => 'Anfrage versenden',
-		'match_schedule_message' => 'Der Spielplan wird 2-3 Wochen vor Turnierbeginn zur Verfügung stehen.',
+		'match_schedule_message' => 'Der Spielplan wird 2-3 Tagen vor Turnierbeginn zur Verfügung stehen',
 		'no_location_found' => 'Keine Orte gefunden',
 		'no_photos_found' => 'Keine Fotos gefunden',
 		'recaptcha_error_message' => 'Bitte validiere reCAPTCHA',

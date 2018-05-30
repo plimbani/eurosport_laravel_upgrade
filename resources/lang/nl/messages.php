@@ -33,7 +33,7 @@
 		'404_page_title' => 'Error 404. Pagina niet gevonden',
 		'404_page_message' => '<a href=":url">klik hier</a> om terug te gaan naar de homepage',
 		'contact_form_send_btn' => 'Versturen',
-		'match_schedule_message' => 'Het wedstrijdschema is 2-3 voor het toernooi beschikbaar',
+		'match_schedule_message' => 'Het wedstrijdschema is 2-3 dagen voor het toernooi beschikbaar',
 		'no_location_found' => 'Geen locatie gevonden',
 		'no_photos_found' => "Geen foto's beschikbaar",
 		'recaptcha_error_message' => 'Please validate reCAPTCHA',
