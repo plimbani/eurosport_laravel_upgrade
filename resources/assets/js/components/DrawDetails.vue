@@ -19,8 +19,9 @@
           </option>
         </select>
       </div>
-      <div v-if="otherData.DrawType != 'Elimination'">
-        <label class="mt-3 mb-0"><h6 class="mr-3 mb-0">{{otherData.DrawName}} results grid</h6></label>
+      <div class="w-100" v-if="otherData.DrawType != 'Elimination' || isUserDataExist">
+        <label class="mt-3 mb-0" v-if="otherData.DrawType != 'Elimination'"><h6 class="mr-3 mb-0">{{otherData.DrawName}} results grid</h6></label>
+        <button type="button" name="save" class="btn btn-primary pull-right" @click="saveMatchScore()" v-if="isUserDataExist">Save</button>
       </div>
       <span v-if="match1Data.length == 0 && otherData.DrawType != 'Elimination'"> No information available
           <div class="mt-2"></div>
@@ -368,6 +369,9 @@ export default {
         },
         competitionAsManualStanding(isManualOverrideStanding) {
           this.DrawName.is_manual_override_standing = isManualOverrideStanding;
+        },
+        saveMatchScore() {
+          this.$root.$emit('saveMatchScore')          
         }
     }
 }
