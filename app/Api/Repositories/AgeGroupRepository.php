@@ -7,7 +7,10 @@ use Laraspace\Models\TournamentCompetationTemplates;
 use Laraspace\Models\TournamentTemplates;
 use Laraspace\Models\Competition;
 use Laraspace\Models\Position;
+use Laraspace\Models\TempFixture;
 use DB;
+use Carbon\Carbon;
+
 class AgeGroupRepository
 {
     public function __construct() {
@@ -128,6 +131,46 @@ class AgeGroupRepository
       // here we also update the affected table like competaions and temp_fixtures
       // if(trim($data['oldageCat']) != trim($data['ageCategory_name']."-".$data['category_age'])) {
         // Here call function to update in tables
+        // echo "<pre>";print_r($data);echo "</pre>";exit;
+        // echo "<pre>";print_r($tournamentCompeationTemplate);echo "</pre>";exit;
+
+        // echo "<pre>";print_r($data['competation_format_id']);echo "</pre>";exit;
+
+        $tournamentCompetitionTemplate = TournamentCompetationTemplates::where('id', $data['competation_format_id'])->first();
+
+        // for normal mathches 
+        $previousNormalMatchTotalTime = ($tournamentCompetitionTemplate->game_duration_RR * $tournamentCompetitionTemplate->halves_RR) + $tournamentCompetitionTemplate->halftime_break_RR + $tournamentCompetitionTemplate->match_interval_RR;
+        $newNormalMatchTotalTime = ($tournamentCompeationTemplate['game_duration_RR'] * $tournamentCompeationTemplate['halves_RR']) + $tournamentCompeationTemplate['halftime_break_RR'] + $tournamentCompeationTemplate['match_interval_RR'];
+
+        $diffInMinutesForNormalMatches = $previousNormalMatchTotalTime - $newNormalMatchTotalTime;
+
+        if($previousNormalMatchTotalTime > $newNormalMatchTotalTime) {
+            $tempFixtures = TempFixture::where('age_group_id', $data['competation_format_id'])->get();
+            $updatedMatchEndTimeForNormalMatch = $tempFixtures->map(function ($item, $key) use($diffInMinutesForNormalMatches) {
+              if($item->is_scheduled == 1) {
+                  $item->match_endtime = Carbon::parse($item->match_endtime)->subMinutes($diffInMinutesForNormalMatches);
+                  $item->save();
+              }
+            });
+        }
+
+        // for final matches
+        $previousFinalMatchTotalTime = ($tournamentCompetitionTemplate->game_duration_FM * $tournamentCompetitionTemplate->halves_FM) + $tournamentCompetitionTemplate->halftime_break_FM + $tournamentCompetitionTemplate->match_interval_FM;
+        $newFinalMatchTotalTime = ($tournamentCompeationTemplate['game_duration_FM'] * $tournamentCompeationTemplate['halves_FM']) + $tournamentCompeationTemplate['halftime_break_FM'] + $tournamentCompeationTemplate['match_interval_FM'];
+
+        $diffInMinutesForFinalMatches = $previousFinalMatchTotalTime - $newFinalMatchTotalTime;
+
+        if($previousFinalMatchTotalTime > $newFinalMatchTotalTime) {
+          $tempFixture = TempFixture::where('age_group_id', $data['competation_format_id'])
+                                      ->where('is_scheduled', 1)
+                                      ->where('is_final_round_match', 1)
+                                      ->first();
+          $tempFixture->match_endtime = Carbon::parse($tempFixture->match_endtime)->subMinutes($diffInMinutesForFinalMatches);
+          $tempFixture->save();
+        }
+
+        // end
+
         $updataArr = array();
         $updataArr['tournament_id'] = $data['tournament_id'];
         $updataArr['age_cat_id'] = $data['competation_format_id'];

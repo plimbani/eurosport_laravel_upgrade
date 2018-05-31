@@ -101,7 +101,6 @@ class AgeGroupService implements AgeGroupContract
           $data['tournamentTemplate'] = $nwdata;
         }
         list($totalTime,$totalmatch,$dispFormatname) = $this->calculateTime($data);
-
         $data['total_time'] = $totalTime;
         $data['total_match'] = $totalmatch;
         $data['disp_format_name'] = $dispFormatname;
