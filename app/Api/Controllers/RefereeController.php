@@ -28,6 +28,7 @@ class RefereeController extends BaseController
         $this->refereeObj = $refereeObj;
         $this->refereeRepoObj  =  $refereeRepoObj;
         // $this->middleware('jwt.auth');
+        $this->data = [];        
     }
 
     /**
@@ -89,5 +90,23 @@ class RefereeController extends BaseController
     public function deleteReferee(DeleteRequest $request, $deleteId)
     {
         return $this->refereeObj->deleteReferee($deleteId);
+    }
+
+    /**
+     * Upload referees
+     */
+    public function uploadRefereesExcel(Request $request)
+    {
+        $refereesData = $request->all();
+        $file = $request->file('fileUpload');
+        $this->data['tournamentId'] = $refereesData['tournamentId'];
+        \Excel::load($file->getRealPath(), function($reader) {
+            $this->data['totalSize']  = $reader->getTotalRowsOfFile() - 1;
+            $reader->each(function($sheet) {
+                $sheet->refereeData = $this->data;
+                $this->refereeObj->uploadRefereesExcel($sheet);
+            });
+        }, 'ISO-8859-1');
+        return ['bigFileSize' =>  false];        
     }
 }

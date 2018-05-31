@@ -73,4 +73,12 @@ class RefereeService implements RefereeContract
             return ['code' => '200', 'message' => 'Referee Sucessfully Deleted'];
         }
      }
+
+    public function uploadRefereesExcel($data)
+    {
+        $data = $this->refereeRepoObj->uploadRefereesExcel($data);
+        if ($data) {
+            return ['data' => $data, 'status_code' => '200', 'message' => 'Data Sucessfully Inserted'];
+        }
+    }
 }
