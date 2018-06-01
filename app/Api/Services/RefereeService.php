@@ -74,11 +74,22 @@ class RefereeService implements RefereeContract
         }
      }
 
+    /*
+     * Upload referees
+     *
+     * @return response
+     */  
     public function uploadRefereesExcel($data)
     {
-        $data = $this->refereeRepoObj->uploadRefereesExcel($data);
-        if ($data) {
-            return ['data' => $data, 'status_code' => '200', 'message' => 'Data Sucessfully Inserted'];
-        }
+        $refereesData = $data->all();
+        $file = $data->file('fileUpload');
+        $this->data['tournamentId'] = $refereesData['tournamentId'];
+        \Excel::load($file->getRealPath(), function($reader) {
+            $this->data['totalSize']  = $reader->getTotalRowsOfFile() - 1;
+            $reader->each(function($sheet) {
+                $sheet->refereeData = $this->data;
+                return $this->refereeRepoObj->uploadRefereesExcel($sheet);
+            });
+        }, 'ISO-8859-1');
     }
 }

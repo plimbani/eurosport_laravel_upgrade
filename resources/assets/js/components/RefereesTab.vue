@@ -7,7 +7,7 @@
             <button type="button" data-toggle="modal" data-target="#refreesModal" id="add_referee" class="btn btn-primary mb-3 w-100" disabled="disabled">{{$lang.pitch_planner_referee}}</button>
           </div>
           <div class="col-12">
-            <button type="button" data-toggle="modal" data-target="#uploadRefreesModal" class="btn btn-primary mb-3 w-100">{{$lang.pitch_planner_upload_referees}}</button>
+            <button type="button" data-toggle="modal" data-target="#uploadRefereesModal" class="btn btn-primary mb-3 w-100">{{$lang.pitch_planner_upload_referees}}</button>
           </div>
         </div>
         <div v-if="refereeStatus"  v-for="referee in referees">

@@ -61,6 +61,11 @@ class RefereeRepository
         return Referee::find($refereeId);
     }
 
+    /*
+    * Upload referees
+    *
+    * @return response
+    */
     public function uploadRefereesExcel($data)
     {
         $ageGroups = TournamentCompetationTemplates::where('tournament_id', $data->refereeData['tournamentId'])->pluck('id')->toArray();
@@ -69,10 +74,11 @@ class RefereeRepository
             'tournament_id' => $data->refereeData['tournamentId'],
             'first_name' => $data['firstname'],
             'last_name' => $data['lastname'],
-            'telephone' => $data['telephone'],
-            'email' => $data['email'],
-            'comments' => $data['availability'],
+            'telephone' => $data['telephone'] ? $data['telephone'] : NULL,
+            'email' => $data['email'] ? $data['email'] : NULL,
+            'comments' => $data['availability'] ? $data['availability'] : NULL,
             'age_group_id' => $ageGroupsIds
         ]);
+        return ['status_code' => '500', 'message' => 'Please Upload Proper Data'];
     }
 }

@@ -1,5 +1,5 @@
 <template>
-<div class="modal fade" id="uploadRefreesModal" tabindex="-1" role="dialog" aria-labelledby="uploadRefreesModalLabel" style="display: none;" aria-hidden="true">
+<div class="modal fade" id="uploadRefereesModal" tabindex="-1" role="dialog" aria-labelledby="uploadRefereesModalLabel" style="display: none;" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
         <div class="modal-header">
@@ -51,7 +51,7 @@ export default {
   },
   methods: {
     closeUploadRefereesModal() {
-      $("#uploadRefreesModal").modal('hide');
+      $("#uploadRefereesModal").modal('hide');
     },
     setFileName(file, event) {
       this.canUploadRefereeFile = true;
@@ -77,7 +77,7 @@ export default {
         files.append('tournamentId', this.tournament_id);
         axios.post('/api/referee/uploadExcel',files).then(response =>  {
             toastr['success']('Referees are uploaded successfully', 'Success');
-            $('#uploadRefreesModal').modal('hide')
+            $('#uploadRefereesModal').modal('hide')
             this.$store.dispatch('getAllReferee',this.$store.state.Tournament.tournamentId);
         }).catch(error => {
 
