@@ -40,7 +40,7 @@ interface RefereeContract
     /*
      * Upload Referees
      *
-     * @param  array $api_key,$referee_id
+     * @param  array $request
      * @return response
      */
     public function uploadRefereesExcel($request);
