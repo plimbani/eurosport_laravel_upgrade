@@ -128,30 +128,21 @@ class AgeGroupRepository
       // here we check value for Edit as Well
 
       if(isset($data['competation_format_id']) && $data['competation_format_id'] != 0){
-      // here we also update the affected table like competaions and temp_fixtures
-      // if(trim($data['oldageCat']) != trim($data['ageCategory_name']."-".$data['category_age'])) {
-        // Here call function to update in tables
-        // echo "<pre>";print_r($data);echo "</pre>";exit;
-        // echo "<pre>";print_r($tournamentCompeationTemplate);echo "</pre>";exit;
-
-        // echo "<pre>";print_r($data['competation_format_id']);echo "</pre>";exit;
-
         $tournamentCompetitionTemplate = TournamentCompetationTemplates::where('id', $data['competation_format_id'])->first();
 
         // for normal mathches 
         $previousNormalMatchTotalTime = ($tournamentCompetitionTemplate->game_duration_RR * $tournamentCompetitionTemplate->halves_RR) + $tournamentCompetitionTemplate->halftime_break_RR + $tournamentCompetitionTemplate->match_interval_RR;
+
         $newNormalMatchTotalTime = ($tournamentCompeationTemplate['game_duration_RR'] * $tournamentCompeationTemplate['halves_RR']) + $tournamentCompeationTemplate['halftime_break_RR'] + $tournamentCompeationTemplate['match_interval_RR'];
 
         $diffInMinutesForNormalMatches = $previousNormalMatchTotalTime - $newNormalMatchTotalTime;
 
         if($previousNormalMatchTotalTime > $newNormalMatchTotalTime) {
-            $tempFixtures = TempFixture::where('age_group_id', $data['competation_format_id'])->get();
-            $updatedMatchEndTimeForNormalMatch = $tempFixtures->map(function ($item, $key) use($diffInMinutesForNormalMatches) {
-              if($item->is_scheduled == 1) {
-                  $item->match_endtime = Carbon::parse($item->match_endtime)->subMinutes($diffInMinutesForNormalMatches);
-                  $item->save();
-              }
-            });
+            $tempFixtures = TempFixture::where('age_group_id', $data['competation_format_id'])
+                                        ->where('is_scheduled', 1)
+                                        ->where('hometeam_score', '=', NULL)
+                                        ->where('awayteam_score', '=', NULL)
+                                        ->update(['match_endtime' => DB::raw('match_endtime - INTERVAL '.$diffInMinutesForNormalMatches.' Minute')]);
         }
 
         // for final matches
@@ -164,12 +155,14 @@ class AgeGroupRepository
           $tempFixture = TempFixture::where('age_group_id', $data['competation_format_id'])
                                       ->where('is_scheduled', 1)
                                       ->where('is_final_round_match', 1)
+                                      ->where('hometeam_score', '=', NULL)
+                                      ->where('awayteam_score', '=', NULL)
                                       ->first();
-          $tempFixture->match_endtime = Carbon::parse($tempFixture->match_endtime)->subMinutes($diffInMinutesForFinalMatches);
-          $tempFixture->save();
+          if($tempFixture) {
+              $tempFixture->match_endtime = Carbon::parse($tempFixture->match_endtime)->subMinutes($diffInMinutesForFinalMatches);
+              $tempFixture->save();
+          }
         }
-
-        // end
 
         $updataArr = array();
         $updataArr['tournament_id'] = $data['tournament_id'];
