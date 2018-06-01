@@ -157,11 +157,7 @@ class AgeGroupRepository
                                       ->where('is_final_round_match', 1)
                                       ->where('hometeam_score', '=', NULL)
                                       ->where('awayteam_score', '=', NULL)
-                                      ->first();
-          if($tempFixture) {
-              $tempFixture->match_endtime = Carbon::parse($tempFixture->match_endtime)->subMinutes($diffInMinutesForFinalMatches);
-              $tempFixture->save();
-          }
+                                      ->update(['match_endtime' => DB::raw('match_endtime - INTERVAL '.$diffInMinutesForFinalMatches.' Minute')]);
         }
 
         $updataArr = array();
