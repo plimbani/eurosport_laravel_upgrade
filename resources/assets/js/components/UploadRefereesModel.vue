@@ -26,7 +26,7 @@
         <div class="modal-footer d-flex flex-row justify-content-end">
           <div>
             <button type="button" class="btn btn-danger" data-dismiss="modal">{{$lang.add_refree_modal_cancel}}</button>
-            <button type="button" class="btn btn-primary" @click="refereesImport()">{{$lang.pitch_planner_upload_referees}}</button>
+            <button type="button" class="btn btn-primary" @click="refereesImport()" :disabled="isSaveInProcess" v-bind:class="{ 'is-loading' : isSaveInProcess }">{{$lang.pitch_planner_upload_referees}}</button>
           </div>
         </div>
     </div>
@@ -41,6 +41,7 @@ export default {
   data(){
     return {
       canUploadRefereeFile: true,
+      isSaveInProcess: false,      
       'tournament_id': this.$store.state.Tournament.tournamentId
     }
   },
@@ -75,10 +76,13 @@ export default {
         }
         let files = new FormData($("#frmUploadReferees")[0]);
         files.append('tournamentId', this.tournament_id);
+        this.isSaveInProcess = true;        
         axios.post('/api/referee/uploadExcel',files).then(response =>  {
             toastr['success']('Referees are uploaded successfully', 'Success');
+            $('#filename').text('');
             $('#uploadRefereesModal').modal('hide')
             this.$store.dispatch('getAllReferee',this.$store.state.Tournament.tournamentId);
+            this.isSaveInProcess = false;            
         }).catch(error => {
 
         });

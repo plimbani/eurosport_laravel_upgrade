@@ -70,15 +70,16 @@ class RefereeRepository
     {
         $ageGroups = TournamentCompetationTemplates::where('tournament_id', $data->refereeData['tournamentId'])->pluck('id')->toArray();
         $ageGroupsIds = implode(',', $ageGroups);
-        return Referee::create([
-            'tournament_id' => $data->refereeData['tournamentId'],
-            'first_name' => $data['firstname'],
-            'last_name' => $data['lastname'],
-            'telephone' => $data['telephone'] ? $data['telephone'] : NULL,
-            'email' => $data['email'] ? $data['email'] : NULL,
-            'comments' => $data['availability'] ? $data['availability'] : NULL,
-            'age_group_id' => $ageGroupsIds
-        ]);
-        return ['status_code' => '500', 'message' => 'Please Upload Proper Data'];
+        if ($data['firstname'] && $data['lastname']) {            
+            return Referee::create([
+                'tournament_id' => $data->refereeData['tournamentId'],
+                'first_name' => $data['firstname'],
+                'last_name' => $data['lastname'],
+                'telephone' => $data['telephone'] ? $data['telephone'] : NULL,
+                'email' => $data['email'] ? $data['email'] : NULL,
+                'comments' => $data['availability'] ? $data['availability'] : NULL,
+                'age_group_id' => $ageGroupsIds
+            ]);
+        }
     }
 }
