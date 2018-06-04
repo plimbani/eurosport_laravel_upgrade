@@ -78,11 +78,15 @@ export default {
         files.append('tournamentId', this.tournament_id);
         this.isSaveInProcess = true;        
         axios.post('/api/referee/uploadExcel',files).then(response =>  {
+          if (response.data.status_code == 500) {
+            toastr['error'](response.data.message, 'Error');            
+          } else {
             toastr['success']('Referees are uploaded successfully', 'Success');
-            $('#filename').text('');
             $('#uploadRefereesModal').modal('hide')
             this.$store.dispatch('getAllReferee',this.$store.state.Tournament.tournamentId);
-            this.isSaveInProcess = false;            
+          }
+          this.isSaveInProcess = false;
+          $('#filename').text('');
         }).catch(error => {
 
         });

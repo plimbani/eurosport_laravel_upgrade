@@ -84,12 +84,21 @@ class RefereeService implements RefereeContract
         $refereesData = $data->all();
         $file = $data->file('fileUpload');
         $this->data['tournamentId'] = $refereesData['tournamentId'];
-        \Excel::load($file->getRealPath(), function($reader) {
+        $excelDataCheck = false;
+        \Excel::load($file->getRealPath(), function($reader) use (&$excelDataCheck) {
             $this->data['totalSize']  = $reader->getTotalRowsOfFile() - 1;
-            $reader->each(function($sheet) {
-                $sheet->refereeData = $this->data;
-                return $this->refereeRepoObj->uploadRefereesExcel($sheet);
+            $reader->each(function($sheet) use (&$excelDataCheck) {
+                if (array_has($sheet, 'firstname') && array_has($sheet, 'lastname')) {
+                    $sheet->refereeData = $this->data;
+                    return $this->refereeRepoObj->uploadRefereesExcel($sheet);
+                } else {
+                    $excelDataCheck = true;
+                    return false;
+                }
             });
         }, 'ISO-8859-1');
+        if ($excelDataCheck) {
+            return ['status_code' => '500', 'message' => 'Please upload proper data'];                
+        }
     }
 }
