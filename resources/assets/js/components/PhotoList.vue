@@ -28,7 +28,7 @@
 		    </div>
 			</draggable>
 			<p v-else class="text-muted">{{ $lang.no_photo_gallery_found }}</p>
-			<button type="button" class="btn btn-primary" @click="addPhoto()" v-if="photos.length < 10">{{ $lang.add_image }}</button>
+			<button type="button" class="btn btn-primary" @click="addPhoto()" v-if="photos.length < 12">{{ $lang.add_image }}</button>
 			<photo-modal :currentPhotoOperation="currentPhotoOperation" @storePhoto="storePhoto" @updatePhoto="updatePhoto"></photo-modal>
 		</div>
 	</div>
@@ -87,7 +87,7 @@
 	      );
 			},
 			addPhoto() {
-				if(this.photos.length == 10) {
+				if(this.photos.length == 12) {
 					return;
 				}
 				var formData = {
