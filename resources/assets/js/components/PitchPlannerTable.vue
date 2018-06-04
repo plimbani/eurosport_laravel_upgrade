@@ -62,6 +62,7 @@
         </div>
         <GroupCompetitionColour></GroupCompetitionColour>
         <AddRefereesModel :formValues="formValues" :competationList="competationList" :tournamentId="tournamentId" :refereeId="refereeId" ></AddRefereesModel>
+        <UploadRefereesModel :tournamentId="tournamentId"></UploadRefereesModel>
     </div>
 </template>
 <script>
@@ -71,11 +72,12 @@
     import PitchPlannerStage from './PitchPlannerStage.vue'
     import GroupCompetitionColour from './GroupCompetitionColourModal.vue'
     import AddRefereesModel from './AddRefereesModel.vue'
+    import UploadRefereesModel from './UploadRefereesModel.vue'
     import Tournament from '../api/tournament.js'
 
     export default  {
         components: {
-            GamesTab, RefereesTab, PitchPlannerStage, GroupCompetitionColour, AddRefereesModel
+            GamesTab, RefereesTab, PitchPlannerStage, GroupCompetitionColour, AddRefereesModel, UploadRefereesModel
         },
         computed: {
             GameActiveTab () {

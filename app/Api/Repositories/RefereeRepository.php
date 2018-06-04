@@ -3,6 +3,7 @@
 namespace Laraspace\Api\Repositories;
 
 use Laraspace\Models\Referee;
+use Laraspace\Models\TournamentCompetationTemplates;
 use DB;
 
 class RefereeRepository
@@ -58,5 +59,27 @@ class RefereeRepository
     {
         // dd(Referee::find($refereeId));
         return Referee::find($refereeId);
+    }
+
+    /*
+    * Upload referees
+    *
+    * @return response
+    */
+    public function uploadRefereesExcel($data)
+    {
+        $ageGroups = TournamentCompetationTemplates::where('tournament_id', $data->refereeData['tournamentId'])->pluck('id')->toArray();
+        $ageGroupsIds = implode(',', $ageGroups);
+        if ($data['firstname'] && $data['lastname']) {            
+            return Referee::create([
+                'tournament_id' => $data->refereeData['tournamentId'],
+                'first_name' => $data['firstname'],
+                'last_name' => $data['lastname'],
+                'telephone' => $data['telephone'] ? $data['telephone'] : NULL,
+                'email' => $data['email'] ? $data['email'] : NULL,
+                'comments' => $data['availability'] ? $data['availability'] : NULL,
+                'age_group_id' => $ageGroupsIds
+            ]);
+        }
     }
 }

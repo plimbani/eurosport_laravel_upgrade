@@ -73,4 +73,23 @@ class RefereeService implements RefereeContract
             return ['code' => '200', 'message' => 'Referee Sucessfully Deleted'];
         }
      }
+
+    /*
+     * Upload referees
+     *
+     * @return response
+     */  
+    public function uploadRefereesExcel($data)
+    {
+        $refereesData = $data->all();
+        $file = $data->file('fileUpload');
+        $this->data['tournamentId'] = $refereesData['tournamentId'];
+        \Excel::load($file->getRealPath(), function($reader) {
+            $this->data['totalSize']  = $reader->getTotalRowsOfFile() - 1;
+            $reader->each(function($sheet) {
+                $sheet->refereeData = $this->data;
+                return $this->refereeRepoObj->uploadRefereesExcel($sheet);
+            });
+        }, 'ISO-8859-1');
+    }
 }
