@@ -75,9 +75,9 @@ class RefereeRepository
                 'tournament_id' => $data->refereeData['tournamentId'],
                 'first_name' => $data['firstname'],
                 'last_name' => $data['lastname'],
-                'telephone' => array_get($data, 'telephone'),
-                'email' => array_get($data, 'email'),
-                'comments' => array_get($data, 'availability'),
+                'telephone' => array_get($data, 'telephone', NULL),
+                'email' => array_get($data, 'email', NULL),
+                'comments' => array_get($data, 'availability', NULL),
                 'age_group_id' => $ageGroupsIds
             ]);
         }
