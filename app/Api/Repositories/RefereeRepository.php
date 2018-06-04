@@ -70,14 +70,14 @@ class RefereeRepository
     {
         $ageGroups = TournamentCompetationTemplates::where('tournament_id', $data->refereeData['tournamentId'])->pluck('id')->toArray();
         $ageGroupsIds = implode(',', $ageGroups);
-        if ($data['firstname'] && $data['lastname']) {            
+        if ($data['firstname'] && $data['lastname']) {
             return Referee::create([
                 'tournament_id' => $data->refereeData['tournamentId'],
                 'first_name' => $data['firstname'],
                 'last_name' => $data['lastname'],
-                'telephone' => $data['telephone'] ? $data['telephone'] : NULL,
-                'email' => $data['email'] ? $data['email'] : NULL,
-                'comments' => $data['availability'] ? $data['availability'] : NULL,
+                'telephone' => array_get($data, 'telephone', NULL),
+                'email' => array_get($data, 'email', NULL),
+                'comments' => array_get($data, 'availability', NULL),
                 'age_group_id' => $ageGroupsIds
             ]);
         }
