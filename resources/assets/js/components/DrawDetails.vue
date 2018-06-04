@@ -19,9 +19,9 @@
           </option>
         </select>
       </div>
-      <div class="w-100" v-if="otherData.DrawType != 'Elimination' || isUserDataExist">
+      <div class="w-100">
         <label class="mt-3 mb-0" v-if="otherData.DrawType != 'Elimination'"><h6 class="mr-3 mb-0">{{otherData.DrawName}} results grid</h6></label>
-        <button type="button" name="save" class="btn btn-primary pull-right" @click="saveMatchScore()" v-if="isUserDataExist">Save</button>
+        <button type="button" name="save" class="btn btn-primary pull-right" @click="saveMatchScore()" v-if="otherData.DrawType != 'Elimination' && isUserDataExist">Save</button>
       </div>
       <span v-if="match1Data.length == 0 && otherData.DrawType != 'Elimination'"> No information available
           <div class="mt-2"></div>
@@ -67,19 +67,23 @@
   </table>
 
   <div class="form-group">
-<h6 v-if="otherData.DrawType != 'Elimination'" class="mb-0"> 
-  {{otherData.DrawName}} standings
-  <a href="#" @click="manualRankingModalOpen()" v-if="isUserDataExist && teamList.length > 0"><span>(<u>manual ranking</u>)</span></a>
-  <span style="float: right;" v-if="DrawName.competation_round_no != 'Round 1' && isUserDataExist"><a href="javascript:void(0)" @click="refreshStanding()">Refresh standing</a></span>
-</h6>
-  <teamStanding :currentCompetationId="currentCompetationId" :drawType="otherData.DrawType" v-if="currentCompetationId != 0 && teamStatus == true" >
-  </teamStanding>
-  <div v-if="currentCompetationId == 0 && otherData.DrawType != 'Elimination'">No information available
-  </div>    
+    <h6 v-if="otherData.DrawType != 'Elimination'" class="mb-0"> 
+    {{otherData.DrawName}} standings
+    <a href="#" @click="manualRankingModalOpen()" v-if="isUserDataExist && teamList.length > 0"><span>(<u>manual ranking</u>)</span></a>
+    <span style="float: right;" v-if="DrawName.competation_round_no != 'Round 1' && isUserDataExist"><a href="javascript:void(0)" @click="refreshStanding()">Refresh standing</a></span>
+    </h6>
+    <teamStanding :currentCompetationId="currentCompetationId" :drawType="otherData.DrawType" v-if="currentCompetationId != 0 && teamStatus == true" >
+    </teamStanding>
+    <div v-if="currentCompetationId == 0 && otherData.DrawType != 'Elimination'">No information available
+    </div>
   </div>
   
-
-  <h6>{{otherData.DrawName}} matches</h6>
+  <div class="w-100">
+    <label class="mb-0">
+      <h6>{{otherData.DrawName}} matches</h6>
+    </label>
+    <button type="button" name="save" class="btn btn-primary pull-right" @click="saveMatchScore()" v-if="otherData.DrawType == 'Elimination' && isUserDataExist">Save</button>
+  </div>
   <matchList :matchData1="matchData" :DrawName="DrawName"></matchList>
   <manualRanking :competitionId="currentCompetationId" :teamList="teamList" :teamCount="teamCount" :isManualOverrideStanding="DrawName.is_manual_override_standing" @refreshStanding="refreshManualStanding()" @competitionAsManualStanding="competitionAsManualStanding"></manualRanking>
 </div>
