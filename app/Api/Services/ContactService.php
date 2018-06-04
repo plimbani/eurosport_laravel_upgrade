@@ -73,12 +73,11 @@ class ContactService implements ContactContract
     $recipient = config('wot.inquiries_recipient');
 
     $subject = 'Message from ' . $currentWebsite->tournament_name  .' Website';
-    $email_from = $data->email;
     $email_templates = 'emails.frontend.send_inquiries';
 
     Mail::to($recipient['to'])
           ->bcc($recipient['bcc'])
-          ->send(new SendMail($email_details, $subject, $email_templates, $email_from));
+          ->send(new SendMail($email_details, $subject, $email_templates, NULL, $data['email'], $data['name']));
 
     return ['data' => $data, 'status_code' => '200', 'message' => 'All data'];
   }
