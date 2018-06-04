@@ -53,7 +53,7 @@ class TournamentRepository
         $tournaments = $user->tournaments()->pluck('id');
         $data = $data->whereIn('id', $tournaments);
       }
-      $data = $data->get();
+      $data = $data->orderBy('name', 'asc')->get();
 
       return $data;
       /*if($status == '') {
