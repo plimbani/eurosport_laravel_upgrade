@@ -76,6 +76,11 @@ $api->version('v1', function ($api) {
     $api->get('tournaments', 'Laraspace\Api\Controllers\TournamentController@index');
 
     $api->post('age_group/getPlacingsData','Laraspace\Api\Controllers\AgeGroupController@getPlacingsData');
+
+    $api->post('tournament/getAgeCategoryDetails', 'Laraspace\Api\Controllers\TournamentController@getAgeCategoryDetails');
+
+    $api->post('tournament/scheduleAutomaticPitchPlanning', 'Laraspace\Api\Controllers\TournamentController@scheduleAutomaticPitchPlanning');
+
 });
 
 $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {

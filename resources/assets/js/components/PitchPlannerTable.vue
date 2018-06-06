@@ -6,6 +6,7 @@
                 <button class="btn btn-primary btn-md js-pitch-planner-bt vertical"  @click="setView('agendaDay')">{{$lang.pitch_planner_vertical}}</button>
                 <button v-if="isPitchPlannerInEnlargeMode == 0" class="btn btn-primary btn-md vertical" @click="enlargePitchPlanner()">Enlarge</button>
                 <button class="btn btn-primary btn-md vertical" v-if="isGroupFilterSet" @click="openGroupCompetitionColourModal()">{{$lang.pitch_planner_group_colours}}</button>
+                <button class="btn btn-primary btn-md" @click="openAutomaticPitchPlanningModal()">{{$lang.pitch_planner_automatic_planning}}</button>
             </div>
         </div>
 
@@ -61,6 +62,7 @@
             </div>
         </div>
         <GroupCompetitionColour></GroupCompetitionColour>
+        <AutomaticPitchPlanning></AutomaticPitchPlanning>
         <AddRefereesModel :formValues="formValues" :competationList="competationList" :tournamentId="tournamentId" :refereeId="refereeId" ></AddRefereesModel>
     </div>
 </template>
@@ -72,10 +74,11 @@
     import GroupCompetitionColour from './GroupCompetitionColourModal.vue'
     import AddRefereesModel from './AddRefereesModel.vue'
     import Tournament from '../api/tournament.js'
+    import AutomaticPitchPlanning from './AutomaticPitchPlanningModal.vue'
 
     export default  {
         components: {
-            GamesTab, RefereesTab, PitchPlannerStage, GroupCompetitionColour, AddRefereesModel
+            GamesTab, RefereesTab, PitchPlannerStage, GroupCompetitionColour, AddRefereesModel, AutomaticPitchPlanning
         },
         computed: {
             GameActiveTab () {
@@ -426,6 +429,9 @@
           openGroupCompetitionColourModal(){
             this.$root.$emit('getCategoryCompetitions')
             $('#group_competition_modal').modal('show');
+          },
+          openAutomaticPitchPlanningModal() {
+            $('#automatic_pitch_planning_modal').modal('show');
           },
           enlargePitchPlanner() {
             this.$router.push({name: 'enlarge_pitch_planner'})

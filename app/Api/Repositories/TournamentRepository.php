@@ -704,4 +704,19 @@ class TournamentRepository
 
       return $resultData;
     }
+
+    public function getAgeCategoryDetails($data)
+    {
+      $ageCategoryDetail = TournamentCompetationTemplates::with('Competition')->where('tournament_id', $data['tournamentId'])->first();
+      return $ageCategoryDetail;
+    }
+
+    public function scheduleAutomaticPitchPlanning($data)
+    {
+      $unscheduledMatches = TempFixture::where('competition_id', $data['competition'])->where('is_scheduled', 0)->get();
+      $ageCategory = TournamentCompetationTemplates::where('id', $data['age_category'][0]['id'])->first();
+      
+      // echo "<pre>";print_r($ageCategory);echo "</pre>";exit;
+      $totalRequiredTime = ($ageCategory->game_duration_RR * $ageCategory->halves_RR) + $ageCategory->halftime_break_RR + $ageCategory->match_interval_RR;
+    }
 }
