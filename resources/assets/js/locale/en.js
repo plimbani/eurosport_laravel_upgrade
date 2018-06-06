@@ -426,6 +426,7 @@ module.exports= {
   // pitch_planner_save: "Save",
 
   pitch_planner_referee: "Add referee",
+  pitch_planner_upload_referees: "Upload referees",
   add_referees_model: "Referee Details",
   add_refree_modal_first_name: "First name*",
   add_refree_modal_validation: "This field is required",

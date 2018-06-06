@@ -28,6 +28,7 @@ class RefereeController extends BaseController
         $this->refereeObj = $refereeObj;
         $this->refereeRepoObj  =  $refereeRepoObj;
         // $this->middleware('jwt.auth');
+        $this->data = [];        
     }
 
     /**
@@ -89,5 +90,13 @@ class RefereeController extends BaseController
     public function deleteReferee(DeleteRequest $request, $deleteId)
     {
         return $this->refereeObj->deleteReferee($deleteId);
+    }
+
+    /**
+     * Upload referees
+     */
+    public function uploadRefereesExcel(Request $request)
+    {
+        return $this->refereeObj->uploadRefereesExcel($request);        
     }
 }

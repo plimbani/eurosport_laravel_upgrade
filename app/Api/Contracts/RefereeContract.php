@@ -36,4 +36,12 @@ interface RefereeContract
      * @return response
      */
     public function deleteReferee($deleteId);
+
+    /*
+     * Upload Referees
+     *
+     * @param  array $request
+     * @return response
+     */
+    public function uploadRefereesExcel($request);
 }

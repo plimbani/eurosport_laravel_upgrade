@@ -138,7 +138,7 @@ class WebsiteRepository
    */
   public function getUserAccessibleWebsites($user)
   {
-  	$websites = Website::with('pages')->get();
+  	$websites = Website::with('pages')->orderBy('tournament_name','asc')->get();
 
   	if($user) {
       $websites = $user->load(['websites', 'websites.pages'])->websites;

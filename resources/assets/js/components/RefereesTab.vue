@@ -2,11 +2,14 @@
   <div class="tab-content planner_list_content">
     <div class="row">
       <div class="col-md-12">
-        <div class="text-center">
-          <button type="button" data-toggle="modal" data-target="#refreesModal" id="add_referee" class="btn btn-primary mb-3" disabled="disabled">{{$lang.pitch_planner_referee}}</button>
-
+        <div class="row">
+          <div class="col-12">
+            <button type="button" data-toggle="modal" data-target="#refreesModal" id="add_referee" class="btn btn-primary mb-3 w-100" disabled="disabled">{{$lang.pitch_planner_referee}}</button>
+          </div>
+          <div class="col-12">
+            <button type="button" data-toggle="modal" data-target="#uploadRefereesModal" class="btn btn-primary mb-3 w-100">{{$lang.pitch_planner_upload_referees}}</button>
+          </div>
         </div>
-        
         <div v-if="refereeStatus"  v-for="referee in referees">
           <div>
             <draggable-referee :referee="referee"></draggable-referee>

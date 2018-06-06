@@ -1,6 +1,7 @@
 <template>
 <div class="row">
   <div class="col-md-12">
+  <button type="button" name="save" class="btn btn-primary pull-right mb-3" @click="saveMatchScore()" v-if="getCurrentScheduleView == 'matchList' && isUserDataExist">Save</button>  
   <table id="matchSchedule" class="table table-hover table-bordered table-sm" v-if="matchData.length > 0">
     <thead>
       <th class="text-center">{{$lang.summary_schedule_date_time}}</th>
@@ -191,11 +192,13 @@ export default {
   },
   created: function() {
     this.$root.$on('reloadMatchList', this.setScore);
+    this.$root.$on('saveMatchScore', this.saveMatchScore);
   },
   beforeCreate: function() {
     // Remove custom event listener
     this.$root.$off('setMatchDataOfMatchList');
     this.$root.$off('reloadMatchList');
+    this.$root.$off('saveMatchScore');
   },
   watch: {
     matchData1: {
