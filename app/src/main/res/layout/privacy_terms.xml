@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="20dp"
-
+        android:layout_weight="1"
         android:fillViewport="true">
 
         <LinearLayout
@@ -131,14 +131,6 @@
                 android:text="@string/privacy_terms_text_6"
                 android:textSize="15sp" />
 
-            <TextView
-                style="@style/text_black_sub_title"
-                android:layout_marginTop="10dp"
-                android:gravity="center_vertical"
-                android:lineSpacingExtra="1dp"
-                android:paddingLeft="5dp"
-                android:text="@string/privacy_terms_text_5"
-                android:textSize="15sp" />
 
             <TextView
                 style="@style/text_black_sub_title"
