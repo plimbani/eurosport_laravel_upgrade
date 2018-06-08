@@ -437,15 +437,12 @@ var moment = require('moment');
     },
     changeScore() {
       if (this.matchDetail.is_result_override == 1 && this.matchDetail.match_status == 'Walk-over') {
+        this.matchDetail.hometeam_score = 0;
+        this.matchDetail.awayteam_score = 0;
         if (this.matchDetail.match_winner == this.matchDetail.home_team) {
           this.matchDetail.hometeam_score = 3;
-          this.matchDetail.awayteam_score = 0;
         } else if(this.matchDetail.match_winner == this.matchDetail.away_team) {
-          this.matchDetail.hometeam_score = 0;
           this.matchDetail.awayteam_score = 3;
-        } else  if(this.matchDetail.match_winner == '') {
-          this.matchDetail.hometeam_score = 0;
-          this.matchDetail.awayteam_score = 0;
         }
       }
     }
