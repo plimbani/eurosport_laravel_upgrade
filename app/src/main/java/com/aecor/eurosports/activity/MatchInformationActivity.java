@@ -7,6 +7,8 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
+import android.text.Html;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -294,6 +296,18 @@ public class MatchInformationActivity extends BaseAppCompactActivity {
             tv_placing.setVisibility(View.VISIBLE);
         } else {
             tv_placing.setVisibility(View.GONE);
+        }
+
+        if (!Utility.isNullOrEmpty(mTeamFixturesModel.getIsResultOverride()) && mTeamFixturesModel.getIsResultOverride().equalsIgnoreCase("1")) {
+            if (!Utility.isNullOrEmpty(mTeamFixturesModel.getMatch_status()) && mTeamFixturesModel.getMatch_status().equalsIgnoreCase("Walk-over")) {
+                if (!Utility.isNullOrEmpty(mTeamFixturesModel.getMatch_winner()) && !Utility.isNullOrEmpty(mTeamFixturesModel.getHome_id()) && mTeamFixturesModel.getMatch_winner().equalsIgnoreCase(mTeamFixturesModel.getHome_id())) {
+                    tv_team_score_1.setText(Html.fromHtml(tv_team_score_1.getText().toString().trim() + "*"));
+                    tv_winner_status.setText(tv_team_name_1.getText().toString().trim() + " " + getString(R.string.walkover_win));
+                } else if (!Utility.isNullOrEmpty(mTeamFixturesModel.getMatch_winner()) && !Utility.isNullOrEmpty(mTeamFixturesModel.getAway_id()) && mTeamFixturesModel.getMatch_winner().equalsIgnoreCase(mTeamFixturesModel.getAway_id())) {
+                    tv_team_score_2.setText(Html.fromHtml(tv_team_score_2.getText().toString().trim() + "*"));
+                    tv_winner_status.setText(tv_team_name_2.getText().toString().trim() + " " + getString(R.string.walkover_win));
+                }
+            }
         }
     }
 

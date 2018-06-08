@@ -66,6 +66,8 @@ public class TeamFixturesModel implements Parcelable{
     private String displayHomeTeamPlaceholderName;
     private String displayAwayTeamPlaceholderName;
     private String position;
+    private String isResultOverride;
+    private String match_winner;
 
     protected TeamFixturesModel(Parcel in) {
         fid = in.readString();
@@ -125,23 +127,8 @@ public class TeamFixturesModel implements Parcelable{
         displayHomeTeamPlaceholderName = in.readString();
         displayAwayTeamPlaceholderName = in.readString();
         position = in.readString();
-    }
-
-    public static final Creator<TeamFixturesModel> CREATOR = new Creator<TeamFixturesModel>() {
-        @Override
-        public TeamFixturesModel createFromParcel(Parcel in) {
-            return new TeamFixturesModel(in);
-        }
-
-        @Override
-        public TeamFixturesModel[] newArray(int size) {
-            return new TeamFixturesModel[size];
-        }
-    };
-
-    @Override
-    public int describeContents() {
-        return 0;
+        isResultOverride = in.readString();
+        match_winner = in.readString();
     }
 
     @Override
@@ -203,7 +190,26 @@ public class TeamFixturesModel implements Parcelable{
         dest.writeString(displayHomeTeamPlaceholderName);
         dest.writeString(displayAwayTeamPlaceholderName);
         dest.writeString(position);
+        dest.writeString(isResultOverride);
+        dest.writeString(match_winner);
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<TeamFixturesModel> CREATOR = new Creator<TeamFixturesModel>() {
+        @Override
+        public TeamFixturesModel createFromParcel(Parcel in) {
+            return new TeamFixturesModel(in);
+        }
+
+        @Override
+        public TeamFixturesModel[] newArray(int size) {
+            return new TeamFixturesModel[size];
+        }
+    };
 
     public String getFid() {
         return fid;
@@ -659,5 +665,21 @@ public class TeamFixturesModel implements Parcelable{
 
     public void setPosition(String position) {
         this.position = position;
+    }
+
+    public String getIsResultOverride() {
+        return isResultOverride;
+    }
+
+    public void setIsResultOverride(String isResultOverride) {
+        this.isResultOverride = isResultOverride;
+    }
+
+    public String getMatch_winner() {
+        return match_winner;
+    }
+
+    public void setMatch_winner(String match_winner) {
+        this.match_winner = match_winner;
     }
 }
