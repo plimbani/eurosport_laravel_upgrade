@@ -36,7 +36,9 @@
                 <span class="text-center" v-else>{{ match.AwayTeam }}</span>
               </td>
               <td>
+                <span v-if="(match.isResultOverride == '1' && match.match_status == 'Walk-over' && match.match_winner == match.Home_id)">*</span>
                 {{ (match.homeScore !== null && match.AwayScore !== null ? (match.homeScore + '-' + match.AwayScore) : '-') }}
+                <span v-if="(match.isResultOverride == '1' && match.match_status == 'Walk-over' &&match.match_winner == match.Away_id)">*</span>
               </td>
               <td v-if="showPlacingForMatch()">
                 {{ match.position != null ? match.position : $t('matches.n_a') }}
