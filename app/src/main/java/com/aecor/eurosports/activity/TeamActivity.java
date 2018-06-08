@@ -6,6 +6,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.text.Html;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -401,7 +403,7 @@ public class TeamActivity extends BaseAppCompactActivity {
             } else {
                 if (!Utility.isNullOrEmpty(mFixtureModel.getDisplayHomeTeamPlaceholderName())) {
                     team1_name.setText(mFixtureModel.getDisplayHomeTeamPlaceholderName());
-                }else{
+                } else {
                     team1_name.setText("");
                 }
             }
@@ -429,7 +431,7 @@ public class TeamActivity extends BaseAppCompactActivity {
             } else {
                 if (!Utility.isNullOrEmpty(mFixtureModel.getDisplayAwayTeamPlaceholderName())) {
                     team2_name.setText(mFixtureModel.getDisplayAwayTeamPlaceholderName());
-                }else{
+                } else {
                     team2_name.setText("");
                 }
             }
@@ -440,7 +442,6 @@ public class TeamActivity extends BaseAppCompactActivity {
                 team2_name.setText("");
             }
         }
-
 
 
         if (!Utility.isNullOrEmpty(mFixtureModel.getHomeScore()) && !Utility.isNullOrEmpty(mFixtureModel.getAwayScore()) && mFixtureModel.getHomeScore().equalsIgnoreCase(mFixtureModel.getAwayScore())) {
@@ -474,7 +475,20 @@ public class TeamActivity extends BaseAppCompactActivity {
                 startActivity(mMatchInfoIntent);
             }
         });
+        if (!Utility.isNullOrEmpty(mFixtureModel.getIsResultOverride()) && mFixtureModel.getIsResultOverride().equalsIgnoreCase("1")) {
+            if (!Utility.isNullOrEmpty(mFixtureModel.getMatch_status()) && mFixtureModel.getMatch_status().equalsIgnoreCase("Walk-over")) {
+                if (!Utility.isNullOrEmpty(mFixtureModel.getMatch_winner()) && !Utility.isNullOrEmpty(mFixtureModel.getHome_id()) && mFixtureModel.getMatch_winner().equalsIgnoreCase(mFixtureModel.getHome_id())) {
+                    team1_score.setText(Html.fromHtml(team1_score.getText().toString().trim() + "*"));
+                    team2_score.setText(Html.fromHtml(team2_score.getText().toString().trim() + "  "));
+                    team2_score.setGravity(Gravity.LEFT);
+                } else if (!Utility.isNullOrEmpty(mFixtureModel.getMatch_winner()) && !Utility.isNullOrEmpty(mFixtureModel.getAway_id()) && mFixtureModel.getMatch_winner().equalsIgnoreCase(mFixtureModel.getAway_id())) {
+                    team2_score.setText(Html.fromHtml(team2_score.getText().toString().trim() + "*"));
+                    team1_score.setText(Html.fromHtml(team1_score.getText().toString().trim() + "  "));
+                    team1_score.setGravity(Gravity.LEFT);
 
+                }
+            }
+        }
         ll_matches.addView(matchesView);
     }
 
