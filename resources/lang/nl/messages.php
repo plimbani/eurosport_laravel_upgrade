@@ -5,7 +5,7 @@
 		'matches' => 'Wedstrijden',
 		'venue' => 'Locatie',
 		'tournament' => 'Toernooi',
-		'rules' => 'Toernooi regelement',
+		'rules' => 'Toernooi reglement',
 		'history' => 'Historie',
 		'program' => 'Programma',
 		'stay' => 'Verblijf',
