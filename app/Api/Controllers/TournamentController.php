@@ -230,4 +230,14 @@ class TournamentController extends BaseController
 
         return $signedUrl;
     }
+
+    public function getAgeCategoryDetails(Request $request)
+    {
+        return $this->tournamentObj->getAgeCategoryDetails($request->all());   
+    }
+
+    public function scheduleAutomaticPitchPlanning(Request $request)
+    {
+        return $this->tournamentObj->scheduleAutomaticPitchPlanning($request->all());   
+    }
 }

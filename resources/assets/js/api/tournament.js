@@ -224,5 +224,11 @@ export default {
   },
   getClubsByTournamentId(tournamentId) {
     return api.post('getClubsByTournamentId/' +tournamentId);
-  },  
+  },
+  getAgeCategoryDetails(data) {
+    return api.post('tournament/getAgeCategoryDetails', data)
+  },
+  scheduleAutomaticPitchPlanning(data) {
+    return api.post('tournament/scheduleAutomaticPitchPlanning', data)
+  },
 }

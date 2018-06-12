@@ -889,4 +889,16 @@ class TournamentService implements TournamentContract
       $data = $this->tournamentRepoObj->getFilterDropDownData($data);
       return ['options' => $data];
     }
+
+    public function getAgeCategoryDetails($data)
+    {
+      $data = $this->tournamentRepoObj->getAgeCategoryDetails($data);
+      return ['options' => $data];
+    }
+
+    public function scheduleAutomaticPitchPlanning($data)
+    {
+      $data = $this->tournamentRepoObj->scheduleAutomaticPitchPlanning($data);
+      return ['options' => $data];
+    }
 }

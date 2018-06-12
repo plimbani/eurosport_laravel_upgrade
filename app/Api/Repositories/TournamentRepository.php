@@ -713,10 +713,56 @@ class TournamentRepository
 
     public function scheduleAutomaticPitchPlanning($data)
     {
-      $unscheduledMatches = TempFixture::where('competition_id', $data['competition'])->where('is_scheduled', 0)->get();
-      $ageCategory = TournamentCompetationTemplates::where('id', $data['age_category'][0]['id'])->first();
-      
-      // echo "<pre>";print_r($ageCategory);echo "</pre>";exit;
-      $totalRequiredTime = ($ageCategory->game_duration_RR * $ageCategory->halves_RR) + $ageCategory->halftime_break_RR + $ageCategory->match_interval_RR;
+      $ageCategory = TournamentCompetationTemplates::where('id', $data['age_category'])->first();
+
+      // for normal match
+      $unscheduledMatchesForNormalMatch = TempFixture::where('competition_id', $data['competition'])->where('is_scheduled', 0)->get();
+      $normalMatchTotalTime = ($ageCategory->game_duration_RR * $ageCategory->halves_RR) + $ageCategory->halftime_break_RR + $ageCategory->match_interval_RR;
+      $requiredNormalMatchTotalTime = $normalMatchTotalTime * count($unscheduledMatchesForNormalMatch);
+
+      // for final match
+      $unscheduledMatchesForFinalMatch = TempFixture::where('competition_id', $data['competition'])->where('is_final_round_match', 1)->where('is_scheduled', 0)->get();
+      $finalMatchTotalTime = ($ageCategory->game_duration_FM * $ageCategory->halves_FM) + $ageCategory->halftime_break_FM + $ageCategory->match_interval_FM;
+      $requiredFinalMatchTotalTime = $finalMatchTotalTime * count($unscheduledMatchesForFinalMatch);
+
+      $totalRequiredTime = $requiredNormalMatchTotalTime + $requiredFinalMatchTotalTime;
+
+      $totalPitchesAvailableTime = 0;
+      foreach ($data['pitches'] as $key => $pitch) {
+        $tempFixture = TempFixture::where('tournament_id', $data['tournamentId'])
+                                    ->where('pitch_id', $pitch)
+                                    ->where('is_scheduled', 1)                                    
+                                    ->select(\DB::raw("SUM(time_to_sec(timediff(match_endtime, match_datetime)) / 60) as result"))
+                                    ->first();
+
+        $pitchCapacity = Pitch::where('id', $pitch)->first();
+        $availableTime = $pitchCapacity->pitch_capacity - $tempFixture->result;
+        $totalPitchesAvailableTime = $totalPitchesAvailableTime + $availableTime;
+      }
+      if($totalRequiredTime > $totalPitchesAvailableTime) {
+        return ['status' => 'error', 'message' => 'Required time should be less than pitch available time.'];
+      }
+
+
+      foreach ($data['pitches'] as $key => $pitch) {
+        $pitchAvailability = PitchAvailable::where('pitch_id', $pitch)->get();
+        foreach ($pitchAvailability as $key => $pitchAvailable) {
+            $tempFixture = TempFixture::where('competition_id', $data['competition'])
+                                    ->where('age_group_id', $data['age_category'])
+                                    ->where('pitch_id', $pitch)
+                                    ->where('is_scheduled', 1)
+                                    ->get();
+
+            $pitchAvailableStart = \Carbon\Carbon::createFromFormat('d/m/Y H:i', $pitchAvailable->stage_start_date.' '.$pitchAvailable->stage_start_time);
+            $pitchAvailableEnd = \Carbon\Carbon::createFromFormat('d/m/Y H:i', $pitchAvailable->stage_start_date.' '.$pitchAvailable->stage_end_time);
+
+            foreach ($tempFixture as $tempFix) {
+                $startMatch = $tempFix->match_datetime;
+                $endMatch = $tempFix->match_endtime;
+                echo "<pre>";print_r($endMatch);echo "</pre>";exit;
+            }
+        }
+      }
+
     }
 }
