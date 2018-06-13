@@ -11,6 +11,7 @@ use Laraspace\Models\Position;
 use Laraspace\Models\TempFixture;
 use Laraspace\Models\TournamentTemplates;
 use Laraspace\Traits\TournamentAccess;
+use Laraspace\Models\Referee;
 
 class AgeGroupService implements AgeGroupContract
 {
@@ -114,6 +115,16 @@ class AgeGroupService implements AgeGroupContract
 
         $id = $this->ageGroupObj->createCompeationFormat($data);
 
+        $allReferees = Referee::where('tournament_id', $data['tournament_id'])->get()->map(function ($item, $key) use (&$id) {
+          if ($item['is_all_age_categories_selected'] == 1) {
+            if (!empty($item['age_group_id'])) {
+              $item['age_group_id'] .= ',' . $id;
+            } else {
+              $item['age_group_id'] = $id;
+            }
+            $item->save();
+          }
+        });
 
         // here we insert Groups in Competation Formats
         // First we check if its Edit or Update
