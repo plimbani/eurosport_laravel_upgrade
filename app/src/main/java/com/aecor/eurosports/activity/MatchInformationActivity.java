@@ -302,10 +302,10 @@ public class MatchInformationActivity extends BaseAppCompactActivity {
             if (!Utility.isNullOrEmpty(mTeamFixturesModel.getMatch_status()) && mTeamFixturesModel.getMatch_status().equalsIgnoreCase("Walk-over")) {
                 if (!Utility.isNullOrEmpty(mTeamFixturesModel.getMatch_winner()) && !Utility.isNullOrEmpty(mTeamFixturesModel.getHome_id()) && mTeamFixturesModel.getMatch_winner().equalsIgnoreCase(mTeamFixturesModel.getHome_id())) {
                     tv_team_score_1.setText(Html.fromHtml(tv_team_score_1.getText().toString().trim() + "*"));
-                    tv_winner_status.setText(tv_team_name_1.getText().toString().trim() + " " + getString(R.string.walkover_win));
+                    tv_winner_status.setText(getString(R.string.walkover_win));
                 } else if (!Utility.isNullOrEmpty(mTeamFixturesModel.getMatch_winner()) && !Utility.isNullOrEmpty(mTeamFixturesModel.getAway_id()) && mTeamFixturesModel.getMatch_winner().equalsIgnoreCase(mTeamFixturesModel.getAway_id())) {
                     tv_team_score_2.setText(Html.fromHtml(tv_team_score_2.getText().toString().trim() + "*"));
-                    tv_winner_status.setText(tv_team_name_2.getText().toString().trim() + " " + getString(R.string.walkover_win));
+                    tv_winner_status.setText(getString(R.string.walkover_win));
                 }
             }
         }
