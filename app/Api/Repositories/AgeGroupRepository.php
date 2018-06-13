@@ -137,11 +137,13 @@ class AgeGroupRepository
 
         $diffInMinutesForNormalMatches = $previousNormalMatchTotalTime - $newNormalMatchTotalTime;
 
+
         if($previousNormalMatchTotalTime > $newNormalMatchTotalTime) {
             $tempFixtures = TempFixture::where('age_group_id', $data['competation_format_id'])
                                         ->where('is_scheduled', 1)
                                         ->where('hometeam_score', '=', NULL)
                                         ->where('awayteam_score', '=', NULL)
+                                        ->whereRaw('TIMESTAMPDIFF(MINUTE, match_datetime, match_endtime) != '.$newNormalMatchTotalTime.'')
                                         ->update(['match_endtime' => DB::raw('match_endtime - INTERVAL '.$diffInMinutesForNormalMatches.' Minute')]);
         }
 
@@ -157,6 +159,7 @@ class AgeGroupRepository
                                       ->where('is_final_round_match', 1)
                                       ->where('hometeam_score', '=', NULL)
                                       ->where('awayteam_score', '=', NULL)
+                                      ->whereRaw('TIMESTAMPDIFF(MINUTE, match_datetime, match_endtime) != '.$newFinalMatchTotalTime.'')
                                       ->update(['match_endtime' => DB::raw('match_endtime - INTERVAL '.$diffInMinutesForFinalMatches.' Minute')]);
         }
 
