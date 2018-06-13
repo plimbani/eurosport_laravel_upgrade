@@ -143,7 +143,7 @@ class AgeGroupRepository
                                         ->where('is_scheduled', 1)
                                         ->where('hometeam_score', '=', NULL)
                                         ->where('awayteam_score', '=', NULL)
-                                        ->whereRaw('TIMESTAMPDIFF(MINUTE, match_datetime, match_endtime) != '.$newNormalMatchTotalTime.'')
+                                        ->whereRaw('TIMESTAMPDIFF(MINUTE, match_datetime, match_endtime) > '.$newNormalMatchTotalTime.'')
                                         ->update(['match_endtime' => DB::raw('match_endtime - INTERVAL '.$diffInMinutesForNormalMatches.' Minute')]);
         }
 
@@ -159,7 +159,7 @@ class AgeGroupRepository
                                       ->where('is_final_round_match', 1)
                                       ->where('hometeam_score', '=', NULL)
                                       ->where('awayteam_score', '=', NULL)
-                                      ->whereRaw('TIMESTAMPDIFF(MINUTE, match_datetime, match_endtime) != '.$newFinalMatchTotalTime.'')
+                                      ->whereRaw('TIMESTAMPDIFF(MINUTE, match_datetime, match_endtime) > '.$newFinalMatchTotalTime.'')
                                       ->update(['match_endtime' => DB::raw('match_endtime - INTERVAL '.$diffInMinutesForFinalMatches.' Minute')]);
         }
 
