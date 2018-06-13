@@ -141,6 +141,7 @@ class AgeGroupRepository
         if($previousNormalMatchTotalTime > $newNormalMatchTotalTime) {
             $tempFixtures = TempFixture::where('age_group_id', $data['competation_format_id'])
                                         ->where('is_scheduled', 1)
+                                        ->where('is_final_round_match', 0)
                                         ->where('hometeam_score', '=', NULL)
                                         ->where('awayteam_score', '=', NULL)
                                         ->whereRaw('TIMESTAMPDIFF(MINUTE, match_datetime, match_endtime) > '.$newNormalMatchTotalTime.'')
