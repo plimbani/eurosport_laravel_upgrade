@@ -332,6 +332,13 @@ table#Competition-modal-table {
     tbody {
         td {
             vertical-align: middle;
+            input[type=text] {
+                border: 1px solid rgba(0, 0, 0, 0.15);
+            }
+            input[type=text]:disabled, input[type=text][readonly] {
+                background-color: #eceeef;
+                opacity: 1;
+            }
         }
     }
 }

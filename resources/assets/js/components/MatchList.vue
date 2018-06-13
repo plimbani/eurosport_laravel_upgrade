@@ -49,7 +49,7 @@
               <span class="circle-badge left" v-if="(match.isResultOverride == '1' && match.match_status == 'Walk-over' && match.match_winner == match.Home_id && isUserDataExist)"><i class="fa fa-asterisk" aria-hidden="true"></i></span>
             </div> -
             <div class="d-inline-flex position-relative" v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails'">
-              <input type="text" v-model="match.AwayScore" :name="'away_score['+match.fid+']'" style="width: 25px; text-align: center;" :readonly="(match.is_scheduled == '0') || (match.isResultOverride == '1' && match.match_status == 'Walk-over' && match.match_winner == match.Away_id)" @change="updateScore(match,index1)">
+              <input type="text" v-model="match.AwayScore" :name="'away_score['+match.fid+']'" style="width: 25px; text-align: center;" :readonly="(match.is_scheduled == '0') || (match.isResultOverride == '1' && match.match_status == 'Walk-over')" @change="updateScore(match,index1)">
               <span class="circle-badge right" v-if="(match.isResultOverride == '1' && match.match_status == 'Walk-over' && match.match_winner == match.Away_id && isUserDataExist)"><i class="fa fa-asterisk" aria-hidden="true"></i></span>
             </div>
             <span v-else>{{match.AwayScore}}</span>
