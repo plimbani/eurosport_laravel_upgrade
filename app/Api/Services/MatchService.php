@@ -1023,7 +1023,7 @@ class MatchService implements MatchContract
                 // echo "<pre>"; print_r($group); echo "</pre>";
                 // $assigned_group = $group[2].'-'.$group[3];
                  // print_r($teamExist);
-                if ( count($teamExist) > 0){
+                if ($teamExist){
 
                     $calculatedArray[$compId][$gvalue->id]['Played'] = $teamExist->played;
                     $calculatedArray[$compId][$gvalue->id]['Won'] = $teamExist->won;
