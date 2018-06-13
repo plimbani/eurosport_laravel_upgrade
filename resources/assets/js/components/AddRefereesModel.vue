@@ -48,7 +48,7 @@
                       <option value="">U15</option>
                       <option value="">U19</option>
                   </select> -->
-                  <input type="checkbox" name="chk_ageCategory" id="chk_ageCategory" v-model="formValues.is_all_age_categories_selected" :true-value="true" :false-value="false" :checked="formValues.is_all_age_categories_selected == true ? ' checked' : ' checked'">&nbsp; Select all
+                  <input type="checkbox" name="chk_ageCategory" id="chk_ageCategory" v-model="formValues.is_all_age_categories_selected" :true-value="true" :false-value="false" :checked="formValues.is_all_age_categories_selected == true ? ' checked' : ''">&nbsp; Select all
                  <multiselect name="sel_ageCategory" id="sel_ageCategory" :options="competationList" :multiple="true" :hide-selected="false" :ShowLabels="false" :value="value" track-by="id"  label="category_age"   :clear-on-select="false" :Searchable="true"  @input="onChange"  @close="onTouch" @select="onSelect" @remove="onRemove"></multiselect>
                    <!-- <select name="sel_ageCategory"  v-model="formValues.age_group_id"  v-validate="'required'" v-bind:multiple="isMultiple" :class="{'is-danger': errors.has('sel_ageCategory') }"  class="form-control" id="sel_ageCategory" >
                         <option value="">Select</option>
