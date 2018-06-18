@@ -119,6 +119,68 @@
             </div>
           </div>
 
+          <div class="form-group row align-items-top"
+           :class="{'has-error': errors.has('tournamentTemplate') }">
+            <div class="col-sm-4">{{$lang.competation_label_template}}</div>
+            <div class="col-sm-8">
+              <div class="row align-items-center">
+                <div class="col-sm-12" v-show="errors.has('tournamentTemplate')">
+                  <span class="help is-danger"
+                  v-show="errors.has('tournamentTemplate')">
+                    {{$lang.competation_validation_template}}
+                  </span>
+                </div>
+
+                <div v-if=" dispTempl ==  true" class="col-sm-12">
+                Select number of teams and minimum matches above to view template options
+                </div>
+                <div class="col-sm-12" v-for="option in options">
+                  <div class="card mb-1" v-if="checkTemplate(option)" :id="option.id">
+                    <div class="card-block">
+                      <div class="row d-flex">
+                        <div class="col align-self-center text-center">
+                          <span v-if="option.id == competation_format.tournament_template_id">
+                          <input type="radio" checked='checked' :value="option"
+                          name="tournamentTemplate" class="ttmp"
+                          v-validate="'required'">
+                          </span>
+                          <span v-else>
+                          <input type="radio"
+                              :value="option"
+                              class="ttmp"
+                              :id="'tournament_template_'+option.id"
+                              name="tournamentTemplate"
+                              v-model="competation_format.tournamentTemplate"
+                              v-validate="'required'"
+                              :class="{'is-danger': errors.has('tournamentTemplate') }"
+                              v-if="checkTemplate(option)">
+                            </span>
+                        </div>
+                        <div class="col-sm-10 align-self-center">
+                          <span for="one"
+                          v-if="checkTemplate(option)"  :style="'color:'+option.template_font_color">
+                          {{option.name}}<br>{{option.disp_format}}<br>{{option.total_match}} matches<br>{{option.total_time | formatTime}}
+                          <br>
+                          <span v-if="option.remark != ''">Remark: {{option.remark}} </span>
+                          <span v-else>Remark: Not applicable </span>
+                          <br>
+                          <span v-if="option.avg_game_team != ''">Avg games per team: {{option.avg_game_team}} </span>
+                          <span v-else>Avg games per team: Not applicable </span>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-12 form-control-label dispTemplate" style="display:none">
+              <div class="form-text text-muted">
+                Template key: Green = preferred, Orange = second option, Red = last resort
+              </div>
+            </div>
+          </div>          
+
           <div class="form-group row align-items-center">
             <div class="col-sm-4 form-control-label">{{$lang.competation_modal_game_duration}}</div>
             <div class="col-sm-8">
@@ -244,67 +306,74 @@
                <span class="help is-danger" v-show="errors.has('team_interval')">{{$lang.competation_modal_team_interval_required}}</span>
             </div>
           </div>
-          <div class="form-group row align-items-top"
-           :class="{'has-error': errors.has('tournamentTemplate') }">
-            <div class="col-sm-4">{{$lang.competation_label_template}}</div>
+
+          <div class="form-group row align-items-center"> 
+            <div class="col-sm-4 form-control-label">{{$lang.competation_modal_points_structure}}</div>
             <div class="col-sm-8">
               <div class="row align-items-center">
-                <div class="col-sm-12" v-show="errors.has('tournamentTemplate')">
-                  <span class="help is-danger"
-                  v-show="errors.has('tournamentTemplate')">
-                    {{$lang.competation_validation_template}}
-                  </span>
+                <div class="col-sm-4">
+                  <div class="row align-items-center">
+                    <div class="col-sm-4">
+                       <label>Win</label>
+                    </div>
+                    <div class="col-sm-8">
+                      <input type="number" class="form-control" v-validate="'required'" name="win" v-model="competation_format.win" min="3" :class="{'is-danger': errors.has('win') }">
+                      <span v-show="errors.has('win')" class="help is-danger"></span>
+                    </div>
+                  </div>
                 </div>
-
-                <div v-if=" dispTempl ==  true" class="col-sm-12">
-                Select number of teams and minimum matches above to view template options
+                <div class="col-sm-4">
+                  <div class="row align-items-center">
+                    <div class="col-sm-4">
+                      <label>Draw</label>
+                    </div>
+                    <div class="col-sm-8">
+                      <input type="number" class="form-control" v-validate="'required'" name="draw" v-model="competation_format.draw" min="1" :class="{'is-danger': errors.has('draw') }">
+                      <span v-show="errors.has('draw')" class="help is-danger"></span>
+                    </div>
+                  </div>
                 </div>
-                <div class="col-sm-12" v-for="option in options">
-                  <div class="card mb-1" v-if="checkTemplate(option)" :id="option.id">
-                    <div class="card-block">
-                      <div class="row d-flex">
-                        <div class="col align-self-center text-center">
-                          <span v-if="option.id == competation_format.tournament_template_id">
-                          <input type="radio" checked='checked' :value="option"
-                          name="tournamentTemplate" class="ttmp"
-                          v-validate="'required'">
-                          </span>
-                          <span v-else>
-                          <input type="radio"
-                              :value="option"
-                              class="ttmp"
-                              :id="'tournament_template_'+option.id"
-                              name="tournamentTemplate"
-                              v-model="competation_format.tournamentTemplate"
-                              v-validate="'required'"
-                              :class="{'is-danger': errors.has('tournamentTemplate') }"
-                              v-if="checkTemplate(option)">
-                            </span>
-                        </div>
-                        <div class="col-sm-10 align-self-center">
-                          <span for="one"
-                          v-if="checkTemplate(option)"  :style="'color:'+option.template_font_color">
-                          {{option.name}}<br>{{option.disp_format}}<br>{{option.total_match}} matches<br>{{option.total_time | formatTime}}
-                          <br>
-                          <span v-if="option.remark != ''">Remark: {{option.remark}} </span>
-                          <span v-else>Remark: Not applicable </span>
-                          <br>
-                          <span v-if="option.avg_game_team != ''">Avg games per team: {{option.avg_game_team}} </span>
-                          <span v-else>Avg games per team: Not applicable </span>
-                          </span>
-                        </div>
-                      </div>
+                <div class="col-sm-4">
+                  <div class="row align-items-center">
+                    <div class="col-sm-4">
+                      <label>Loss</label>
+                    </div>
+                    <div class="col-sm-8">
+                      <input type="number" class="form-control" v-validate="'required'" name="loss" v-model="competation_format.loss" min="0" :class="{'is-danger': errors.has('loss') }">
+                      <span v-show="errors.has('loss')" class="help is-danger"></span>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="col-sm-12 form-control-label dispTemplate" style="display:none">
-              <div class="form-text text-muted">
-                Template key: Green = preferred, Orange = second option, Red = last resort
-              </div>
+          </div>     
+
+          <div class="form-group row">
+            <div class="col-sm-4 form-control-label">{{$lang.competation_modal_category_rules}}</div>
+            <div class="col-sm-8">
+              <draggable :options="{draggable:'.category-rules'}">
+                <div class="draggable--section-card category-rules" v-for="(rule, key) in competation_format.categoryRules">
+                  <div class="draggable--section-card-header">
+                    <div class="draggable--section-card-header-panel">
+                      <div class="d-flex align-items-center">
+                        <div class="draggable--section-card-header-panel-text-area">
+                            <label>
+                              <input type="checkbox" class="checkbox" v-model="competation_format.selectedCategoryRule" :value="key"> {{ rule }}
+                            </label>
+                        </div>                       
+                      </div>
+                      <div class="draggable--section-card-header-icons">
+                        <a class="text-primary additional-page-handle draggable-handle" href="javascript:void(0)">
+                          <i class="fa fa-bars"></i>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>            
+              </draggable>
             </div>
           </div>
+
           <div class="form-group row align-items-center">
             <div class="col-sm-4 form-control-label">Info for teams</div>
             <div class="col-sm-8">
@@ -332,9 +401,10 @@
 import Tournament from '../api/tournament.js'
 import Multiselect from 'vue-multiselect'
 import _ from 'lodash'
+import draggable from 'vuedraggable';
 
 export default {
-  components: { Multiselect },
+  components: { draggable, Multiselect },
   data() {
     return  {
       competation_format: this.initialState(),
@@ -363,7 +433,7 @@ export default {
       haveTwoHalvesRR: true,
       haveTwoHalvesFM: true,
       initialHalfBreakRR: '5',
-      initialHalfBreakFM: '5',
+      initialHalfBreakFM: '5',      
       categoryAgeArr: ['U08/5','U09','U09/5','U09/7','U10','U10/5','U10/7','U10/9','U10/5A','U10/7A','U10/5B','U10/7B','U11','U11/11','U11/7','U11/7A','U11/7B','U12','U12/7','U12/8','U12/9','U12-A','U12/7A','U12/8A','U12-B','U12/7B','U12/8B','U13','U13/7','U13/8','U13/9','U13-A','U13/7A','U13/8A','U13/9A','U13-B','U13/8B','U13/9B','U14','U14/7','U14-A','U14-B','U15','U15/7','U15/8','U15-A','U15-B','U16','U16-A','U16-B','U17','U17-A','U17-B','U18','U19','U19-A','U19-B','U10-U9','G08/5','G09/5','G09/7','G10/5','G10/7','G10/7A','G10/7B','G11','G11/7','G12','G12/7','G12/8','G12/9','G12/7A','G12/7B','G13','G13/7','G13/8','G13/9','G13/7A','G13/7B','G14','G14/7','G14/8','G14-A','G14-B','G15','G15/7','G15/8','G15-A','G15-B','G16','G17','G17/7','G17-A','G17-B','G18','G18/7','G18-A','G18-B','G19','G19-A','G19-B','M-O','M-O/5','M-O/7','M32','M35','M35/7','W-O','W-O/7'],
       categoryAgeColorArr: {
         'U08/5' : '#ffc0cb','U09' : '#008080','U09/5' : '#ffe4e1','U09/7' : '#ff0000','U10' : '#ffd700','U10/5' : '#d3ffce','U10/7' : '#00ffff','U10/9' : '#40e0d0','U10/5A' : '#ff7373','U10/7A' : '#e6e6fa','U10/5B' : '#0000ff','U10/7B' : '#ffa500','U11' : '#b0e0e6','U11/11' : '#7fffd4','U11/7' : '#333333','U11/7A' : '#faebd7','U11/7B' : '#003366','U12' : '#fa8072','U12/7' : '#800080','U12/8' : '#20b2aa','U12/9' : '#ffb6c1','U12-A' : '#c6e2ff','U12/7A' : '#00ff00','U12/8A' : '#f6546a','U12-B' : '#f08080','U12/7B' : '#468499','U12/8B' : '#ffff00','U13' : '#ffc3a0','U13/7' : '#088da5','U13/8' : '#fff68f','U13/9' : '#ff6666','U13-A' : '#00ced1','U13/7A' : '#66cdaa','U13/8A' : '#800000','U13/9A' : '#660066','U13-B' : '#ff00ff','U13/8B' : '#D8BFD8','U13/9B' : '#c39797','U14' : '#c0d6e4','U14/7' : '#0e2f44','U14-A' : '#cbbeb5','U14-B' : '#ff7f50','U15' : '#ffdab9','U15/7' : '#990000','U15/8' : '#808000','U15-A' : '#daa520','U15-B' : '#8b0000','U16' : '#b4eeb4','U16-A' : '#afeeee','U16-B' : '#ffff66','U17' : '#f5f5dc','U17-A' : '#81d8d0','U17-B' : '#b6fcd5','U18' : '#66cccc','U19' : '#00ff7f','U19-A' : '#ccff00','U19-B' : '#cc0000','U10-U9' : '#a0db8e','G08/5' : '#8a2be2','G09/5' : '#ff4040','G09/7' : '#3399ff','G10/5' : '#3b5998','G10/7' : '#0099cc','G10/7A' : '#794044','G10/7B' : '#ff4444','G11' : '#000080','G11/7' : '#6897bb','G12' : '#6dc066','G12/7' : '#31698a','G12/8' : '#191970','G12/9' : '#191919','G12/7A' : '#4169e1','G12/7B' : '#B0171F','G13' : '#FFBBFF','G13/7' : '#7D26CD','G13/8' : '#27408B','G13/9' : '#00C78C','G13/7A' : '#3D9140','G13/7B' : '#00EE00','G14' : '#EEEE00','G14/7' : '#FF9912','G14/8' : '#CD6600','G14-A' : '#F4A460','G14-B' : '#8B4C39','G15' : '#CD0000','G15/7' : '#8E8E38','G15/8' : '#FFEC8B','G15-A' : '#EE9A49','G15-B' : '#CD8162','G16' : '#BBFFFF','G17' : '#008B8B','G17/7' : '#1874CD','G17-A' : '#9F79EE','G17-B' : '#EE3A8C','G18' : '#92C685','G18/7' : '#C2B182','G18-A' : '#47CE6E','G18-B' : '#00A998','G19' : '#C2A9FD','G19-A' : '#D5FD30','G19-B' : '#CACA8E','M-O' : '#8D8812','M-O/5' : '#0075EA','M-O/7' : '#DCB8D4','M32' : '#F0FF18','M35' : '#60262E','M35/7' : '#B2F3B7','W-O' : '#532C5E','W-O/7' : '#BBF47F'
@@ -515,7 +585,7 @@ export default {
         halftime_break_RR:'5',halftime_break_FM:'5',match_interval_RR:'5',match_interval_FM:'5',tournamentTemplate:[],
         tournament_id: '', competation_format_id:'0',id:'',
         nwTemplate:[],game_duration_RR_other:'20',
-      game_duration_FM_other:'20',match_interval_RR_other:'20',match_interval_FM_other:'20',min_matches:'',team_interval:'40'
+      game_duration_FM_other:'20',match_interval_RR_other:'20',match_interval_FM_other:'20',min_matches:'',team_interval:'40', win: '3', draw: '1', loss: '0',categoryRules: [], selectedCategoryRule: []
       }
     },
     setEdit(id) {
@@ -545,6 +615,8 @@ export default {
 
             this.initialHalfBreakRR = this.competation_format.halftime_break_RR
             this.initialHalfBreakFM = this.competation_format.halftime_break_FM
+
+            this.competation_format.categoryRules = response.data.category_rules
 
             if(this.competation_format.game_duration_RR != '10' && this.competation_format.game_duration_RR != '15' && this.competation_format.game_duration_RR != '20')
             {
