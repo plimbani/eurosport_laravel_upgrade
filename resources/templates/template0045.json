@@ -606,6 +606,6 @@
             "dependent_type": "match",
             "match_number": "CAT.PM2.G1.4C-4D",
             "result_type": "looser"
-        },
+        }
     ]
 }
