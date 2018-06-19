@@ -339,7 +339,7 @@
                       <label>Loss</label>
                     </div>
                     <div class="col-sm-8">
-                      <input type="number" class="form-control" v-validate="'required'" name="loss" v-model="competation_format.loss" min="0" :class="{'is-danger': errors.has('loss') }">
+                      <input type="number" class="form-control" v-validate="'required'" name="loss" v-model="competation_format.loss" min="0" placeholder="" :class="{'is-danger': errors.has('loss') }">
                       <span v-show="errors.has('loss')" class="help is-danger"></span>
                     </div>
                   </div>
