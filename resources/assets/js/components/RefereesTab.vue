@@ -2,14 +2,17 @@
   <div class="tab-content planner_list_content">
     <div class="row">
       <div class="col-md-12">
-        <div class="text-center">
-          <button type="button" data-toggle="modal" data-target="#refreesModal" id="add_referee" class="btn btn-primary mb-3" disabled="disabled">{{$lang.pitch_planner_referee}}</button>
-
+        <div class="row">
+          <div class="col-12">
+            <button type="button" data-toggle="modal" data-target="#refreesModal" id="add_referee" class="btn btn-primary mb-3 w-100" disabled="disabled">{{$lang.pitch_planner_referee}}</button>
+          </div>
+          <div class="col-12">
+            <button type="button" data-toggle="modal" data-target="#uploadRefereesModal" class="btn btn-primary mb-3 w-100">{{$lang.pitch_planner_upload_referees}}</button>
+          </div>
         </div>
-        
         <div v-if="refereeStatus"  v-for="referee in referees">
-          <div  @click="editReferee(referee.id)">
-            <draggable-referee :referee="referee" ></draggable-referee>
+          <div>
+            <draggable-referee :referee="referee"></draggable-referee>
           </div>
         </div>
       </div>
@@ -19,7 +22,6 @@
 
 <script type="text/babel">
   import DraggableReferee from './DraggableReferee';
-  import addReferee from '../components/AddReferee.vue'
   import Tournament from '../api/tournament.js'
 
   export default {
@@ -51,22 +53,21 @@
             this.$root.$on('getAllReferee', this.getAllreferees);
 
     },
-    mounted(){
-           
-            this.$store.dispatch('getAllReferee',this.tournamentId);
-             // this.getAllreferees()
-            $("#addReferee").on('hidden.bs.modal', function () {
-                $('#frmAddReferee')[0].reset()
-            });
+    mounted() {
+      this.$store.dispatch('getAllReferee',this.tournamentId);
+       // this.getAllreferees()
+      $("#addReferee").on('hidden.bs.modal', function () {
+          $('#frmAddReferee')[0].reset()
+      });
 
-            //this.displayTournamentCompetationList()
-            $("#referee-list").mCustomScrollbar({
-               'autoHideScrollbar':true
-            });
-        },
+      //this.displayTournamentCompetationList()
+      $("#referee-list").mCustomScrollbar({
+         'autoHideScrollbar':true
+      });
+    },
     methods: {
+
       getAllreferees() {
-       
         this.referees = this.$store.state.Tournament.referees
       },
             // getAllReferee() {
@@ -88,17 +89,15 @@
             //       }
             //     )
             // },
-            addReferee(){
+      addReferee(){
 
-                $('#addReferee').modal('show')
-            },
-            editReferee (rId){
-              this.$root.$emit('editReferee', rId)
-            }
+          $('#addReferee').modal('show')
+      },
+     
             // editPitch(pitchId) {
             //     this.pitchId = pitchId
             //     this.$store.dispatch('PitchData',pitchId)
             // },
-        }
+    }
   }
 </script>

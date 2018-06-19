@@ -6,16 +6,19 @@ use DB;
 use Laraspace\Api\Contracts\RefereeContract;
 use Validator;
 use Laraspace\Model\Role;
+use Laraspace\Traits\TournamentAccess;
 
 class RefereeService implements RefereeContract
 {
+    use TournamentAccess;
+    
     public function __construct()
     {
         $this->refereeRepoObj = new \Laraspace\Api\Repositories\RefereeRepository();
     }
 
     public function getAllReferees($tournamentData)
-    {
+    {       
         return $this->refereeRepoObj->getAllReferees($tournamentData);
     }
 
@@ -70,4 +73,32 @@ class RefereeService implements RefereeContract
             return ['code' => '200', 'message' => 'Referee Sucessfully Deleted'];
         }
      }
+
+    /*
+     * Upload referees
+     *
+     * @return response
+     */  
+    public function uploadRefereesExcel($data)
+    {
+        $refereesData = $data->all();
+        $file = $data->file('fileUpload');
+        $this->data['tournamentId'] = $refereesData['tournamentId'];
+        $excelDataCheck = false;
+        \Excel::load($file->getRealPath(), function($reader) use (&$excelDataCheck) {
+            $this->data['totalSize']  = $reader->getTotalRowsOfFile() - 1;
+            $reader->each(function($sheet) use (&$excelDataCheck) {
+                if (array_has($sheet, 'firstname') && array_has($sheet, 'lastname')) {
+                    $sheet->refereeData = $this->data;
+                    return $this->refereeRepoObj->uploadRefereesExcel($sheet);
+                } else {
+                    $excelDataCheck = true;
+                    return false;
+                }
+            });
+        }, 'ISO-8859-1');
+        if ($excelDataCheck) {
+            return ['status_code' => '500', 'message' => 'Please upload proper data'];                
+        }
+    }
 }

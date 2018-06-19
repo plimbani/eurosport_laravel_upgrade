@@ -1,17 +1,16 @@
 <template>
 	<div class="tab-content">
-		<div class="card">
-			<div class="card-block pb-0 ">
+		<div class="card" :class="{ 'border-0' : isPitchPlannerInEnlargeMode }">
+			<div class="card-block pb-0">
           <div class="row align-items-center justify-content-start">
-            <div class="col-3 align-self-center" style="margin-top: -22px;">
-              <h6 class="m-0"><strong>{{$lang.pitch_planner_label}}</strong></h6>
+            <div class="col-3 align-self-center">
+              <h6 class="m-0" v-if="isPitchPlannerInEnlargeMode == 0"><strong>{{$lang.pitch_planner_label}}</strong></h6>
             </div>
             <div class="col-9 align-self-center">
-              <tournamentFilter :section="section"></tournamentFilter>
+              <pitchPlannerFilter :section="section"></pitchPlannerFilter>
             </div>
             <div>
-
-            <label class="col-md-12 align-self-center pitchCapacityNotice" v-if="!PitchAvailable"> {{$lang.pitch_planner_text}}</label>
+              <label class="col-md-12 align-self-center pitchCapacityNotice" v-if="!PitchAvailable"> {{$lang.pitch_planner_text}}</label>
             </div>
           </div>
 	  			<div class="mt-4" >
@@ -26,7 +25,7 @@
 var moment = require('moment');
 	import PitchModal from '../../../components/PitchModal.vue';
 	import PitchPlannerTable from '../../../components/PitchPlannerTable.vue';
-  import TournamentFilter from '../../../components/TournamentFilter.vue';
+  import PitchPlannerFilter from '../../../components/PitchPlannerFilter.vue';
 
 	export default {
     data() {
@@ -68,6 +67,9 @@ var moment = require('moment');
         }else{
           return false
         }
+      },
+      isPitchPlannerInEnlargeMode() {
+        return this.$store.state.Pitch.isPitchPlannerInEnlargeMode
       }
     },
     methods: {
@@ -75,7 +77,7 @@ var moment = require('moment');
       }
     },
     components: {
-        PitchModal, PitchPlannerTable, TournamentFilter
+        PitchModal, PitchPlannerTable, PitchPlannerFilter
     }
 }
 </script>

@@ -1,0 +1,67 @@
+.content__wrapper {
+    .organiser {
+        &_logo {
+            img {
+                max-width: 98px;
+                @extend .mb-5;
+                @include media-breakpoint-down(md) {
+                    max-height: 100px;
+                }
+            }
+        }
+    }
+    .club_content {
+        &-heading {
+            @include media-breakpoint-down(md) {
+                font-size: $font-size-base * 1.2;
+            }
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+        a {
+            color: $body-color;
+            text-decoration: $link-hover-decoration;
+            background-color: transparent; // Remove the gray background on active links in IE 10.
+            -webkit-text-decoration-skip: objects; // Remove gaps in links underline in iOS 8+ and Safari 8+.
+            word-wrap: break-word;
+
+            @include hover {
+            color: theme-color("primary");
+            text-decoration: $link-hover-decoration;
+            }
+        }
+        @at-root {
+            .figure-thumb {
+                display: block;
+            }
+            a.figure ,
+            a.figure-thumb {
+                text-decoration: none;
+                &:hover {
+                    img {
+                        box-shadow: 0px 5px 10px 0px rgba($black, .15);
+                    }
+                }
+            }
+            .figure,
+            .figure-thumb {
+                &.right {
+                    float: right
+                }
+                img {
+                    width: 100%;
+                    transition: all 0.3s ease;
+                    box-shadow: 0px 10px 20px 0px rgba($black, .15);
+                }
+                .figure-caption {
+                    font-weight: 700;
+                    color: $black;
+                    text-transform: uppercase;
+                    font-size: ($font-size-base * 0.78);
+                }
+            }
+        }
+    }
+}

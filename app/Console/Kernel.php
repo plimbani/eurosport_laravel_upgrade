@@ -14,6 +14,16 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         Commands\setHomeAndAwayTeamPlaceholder::class,
+        Commands\setNewMatchNumber::class,
+        Commands\generateAdditionalBreaks::class,
+        Commands\generateTournamentSlugForExistingData::class,
+        Commands\insertPitchSize::class,
+        Commands\insertPositionsForPlacingMatches::class,
+        Commands\automaticallyPermissionRemoval::class,
+        Commands\generatePositionsForExistingData::class,
+        Commands\sendActivityNotification::class,
+        Commands\removeDanglingImages::class,
+        Commands\RemoveExpirePreviewDomain::class,
     ];
 
     /**
@@ -24,8 +34,10 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')
-        //          ->hourly();
+        $schedule->command('setup:automaticallypermissionremoval')->dailyAt('00:00');
+        $schedule->command('activity:notification')->everyThirtyMinutes();
+        $schedule->command('setup:removeDanglingImages')->dailyAt('03:00');
+        $schedule->command('setup:removePreviewUrl')->everyFiveMinutes();
     }
 
     /**

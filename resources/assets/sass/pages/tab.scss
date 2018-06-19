@@ -26,9 +26,9 @@ textarea {
     font-size: 15px;
 }
 
-.select2-container {
-    width: 100% !important;
-}
+// .select2-container {
+//     width: 100% !important;
+// }
 
 .clearfix {
     clear: both;
@@ -297,10 +297,11 @@ textarea {
 }
 
 .fc-view, .fc-view > table {
-    width: 760px;
+    /*width: 760px;*/
     /*max-width: 760px;*/
     /*overflow-x: scroll;*/
     /*position: absolute;*/
+    width: 100%;
 }
 .fc th, .fc td {
     /*width: 80px;*/
