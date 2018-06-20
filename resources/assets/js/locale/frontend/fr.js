@@ -24,7 +24,7 @@ module.exports= {
     'no_information_available': 'Aucune information disponible',
     'played': 'Joué',
     'won': 'gagné',
-    'draws': 'Tirage',
+    'draws': 'Null',
     'lost': 'Perdu',
     'for': 'Pour',
     'against': 'Contre',
