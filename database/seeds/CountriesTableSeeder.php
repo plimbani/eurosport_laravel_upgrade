@@ -40,7 +40,7 @@ class CountriesTableSeeder extends Seeder
           [ 'name' => 'IRELAND', 'country_code' => 'IE', 'country_flag' => 'ie', 'logo' => '/assets/img/flags/ireland.gif', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
           [ 'name' => 'ISRAEL', 'country_code' => 'IL', 'country_flag' => 'il', 'logo' => '/assets/img/flags/israel.gif', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
           [ 'name' => 'ITALY', 'country_code' => 'IT', 'country_flag' => 'it', 'logo' => '/assets/img/flags/italy.gif', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
-          [ 'name' => 'KOSOVO', 'country_code' => 'XK', 'country_flag' => 'xk', 'logo' => '/assets/img/flags/kosovo.gif', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+          [ 'name' => 'KOSOVO', 'country_code' => 'XK', 'country_flag' => 'ko', 'logo' => '/assets/img/flags/kosovo.gif', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
           [ 'name' => 'LATVIA', 'country_code' => 'LV', 'country_flag' => 'lv', 'logo' => '/assets/img/flags/latvia.gif', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
           [ 'name' => 'LIECHTENSTEIN', 'country_code' => 'LI', 'country_flag' => 'li', 'logo' => '/assets/img/flags/liechtenstein.gif', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
           [ 'name' => 'LITHUANIA', 'country_code' => 'LT', 'country_flag' => 'lt', 'logo' => '/assets/img/flags/lithuania.gif', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
