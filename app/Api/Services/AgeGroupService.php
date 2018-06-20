@@ -49,7 +49,6 @@ class AgeGroupService implements AgeGroupContract
      */
     public function createCompetationFomat($data)
     {
-      echo "<pre>";print_r($data);echo "</pre>";exit;
         // Now here we set and Calculate and Save Data in
         //  tournament_competation_template Table
         $data = $data['compeationFormatData'];
@@ -323,10 +322,10 @@ class AgeGroupService implements AgeGroupContract
           $data = $this->ageGroupObj->getCompeationFormat($data['tournamentData']);
       }
 
-      $categoryRules = config('wot.category_rules');
-        if ($data) {
-            return ['status_code' => '200', 'message' => 'Competation Data', 'data' => $data, 'category_rules' => $categoryRules];
-        }
+      $categoryRules = config('config-variables.category_rules');
+      if ($data) {
+          return ['status_code' => '200', 'message' => 'Competation Data', 'data' => $data, 'category_rules' => $categoryRules];
+      }
     }
     public function deleteCompetationFormat($data) {
 

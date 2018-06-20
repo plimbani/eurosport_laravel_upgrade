@@ -1009,8 +1009,12 @@ class MatchService implements MatchContract
                               ->where('match_standing.competition_id',$cupId)
                                ->where('teams.id',$gvalue->id)
                                ->get()->first();
-                $winPoints = 3; $losePoints =0;$drawPoints=1;
+               // $winPoints = 3; $losePoints =0;$drawPoints=1;
 
+                $tournamentCompetationTemplatesRecord = TournamentCompetationTemplates::where('id',$competition->tournament_competation_template_id)->get()->first()->toArray();
+                $winPoints = $tournamentCompetationTemplatesRecord['win_point'];
+                $losePoints = $tournamentCompetationTemplatesRecord['loss_point'];
+                $drawPoints = $tournamentCompetationTemplatesRecord['draw_point'];
 
                 $assigned_group =  '';
                 if($teamExist){
@@ -1084,6 +1088,29 @@ class MatchService implements MatchContract
                $manual_order[$cckey]  = (int)$ccvalue['manual_order'];
                $mid[$cckey]  = (int)$ccvalue['Total'];
                // $cid[$cckey]  = (int)$ccvalue['Played'];
+
+              $rules = [];
+              foreach($tournamentCompetationTemplatesRecord['rules'] as $key => $value) {
+                if($value = 'match_points') {
+                  $rules[] = ['order' => 'SORT_DESC', 'value' => (int)$ccvalue['Total']];
+                }
+                if($value = 'goal_difference') {
+                  $rules[] = ['order' => 'SORT_DESC', 'value' => (int)$ccvalue['goal_difference']];
+                }
+                if($value = 'goals_for') {
+                  $rules[] = ['order' => 'SORT_DESC', 'value' => (int)$ccvalue['home_goal']];
+                }
+                if($value = 'goal_ratio') {
+                  $rules[] = ['order' => 'SORT_DESC', 'value' => $ccvalue['home_goal'] / $ccvalue['Played']];
+                }
+                if($value = 'matches_won') {
+                  $rules[] = ['order' => 'SORT_DESC', 'value' => (int)$ccvalue['Won']];
+                }
+              }
+
+              // echo "<pre>";print_r($rules);echo "</pre>";exit;
+
+
                $did[$cckey]  = (int)$ccvalue['goal_difference'];
                $eid[$cckey]  = (int)$ccvalue['home_goal'];
               // $overrride[$cckey]  = (int)$ccvalue['manual_override'];
@@ -1222,8 +1249,13 @@ class MatchService implements MatchContract
                               ->where('match_standing.competition_id',$cupId)
                                ->where('teams.id',$gvalue->id)
                                ->get()->first();
-                $winPoints = 3; $losePoints =0;$drawPoints=1;
+                //$winPoints = 3; $losePoints =0;$drawPoints=1;
 
+                $tournamentCompetationTemplatesRecord = TournamentCompetationTemplates::where('id',$teamExist->age_group_id)->get()->first()->toArray();
+
+                $winPoints = $tournamentCompetationTemplatesRecord['win_point'];
+                $losePoints = $tournamentCompetationTemplatesRecord['loss_point'];
+                $drawPoints = $tournamentCompetationTemplatesRecord['draw_point'];
                 //print_r($teamExist);
                 if ( count($teamExist) > 0){
 
