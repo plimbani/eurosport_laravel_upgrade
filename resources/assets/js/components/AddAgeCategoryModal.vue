@@ -317,7 +317,7 @@
                        <label class="mb-0">Win</label>
                     </div>
                     <div class="col-sm-8">
-                      <input type="number" class="form-control" v-validate="'required|min_value:0'" name="win" v-model="competation_format.win" min="0" :class="{'is-danger': errors.has('win') }">
+                      <input type="number" class="form-control" v-validate="'required|min_value:0'" name="win" v-model="competation_format.win_point" min="0" :class="{'is-danger': errors.has('win') }">
                       <span v-show="errors.has('win')" class="help is-danger"></span>
                     </div>
                   </div>
@@ -328,7 +328,7 @@
                       <label class="mb-0">Draw</label>
                     </div>
                     <div class="col-sm-8">
-                      <input type="number" class="form-control" v-validate="'required|min_value:0'" name="draw" v-model="competation_format.draw" min="0" :class="{'is-danger': errors.has('draw') }">
+                      <input type="number" class="form-control" v-validate="'required|min_value:0'" name="draw" v-model="competation_format.draw_point" min="0" :class="{'is-danger': errors.has('draw') }">
                       <span v-show="errors.has('draw')" class="help is-danger"></span>
                     </div>
                   </div>
@@ -339,7 +339,7 @@
                       <label class="mb-0">Loss</label>
                     </div>
                     <div class="col-sm-8">
-                      <input type="number" class="form-control" v-validate="'required|min_value:0'" name="loss" v-model="competation_format.loss" min="0" placeholder="" :class="{'is-danger': errors.has('loss') }">
+                      <input type="number" class="form-control" v-validate="'required|min_value:0'" name="loss" v-model="competation_format.loss_point" min="0" placeholder="" :class="{'is-danger': errors.has('loss') }">
                       <span v-show="errors.has('loss')" class="help is-danger"></span>
                     </div>
                   </div>
@@ -351,32 +351,31 @@
           <div class="form-group row">
             <div class="col-sm-4 form-control-label">{{$lang.competation_modal_category_rules}}</div>
             <div class="col-sm-8">
-              <draggable :options="{draggable:'.category-rules', handle: '.rules-handle'}">
-                <div class="draggable--section-card category-rules" v-for="(rule, key) in categoryRules">
-                  <div class="draggable--section-card-header">
-                    <div class="draggable--section-card-header-panel">
-                      <div class="d-flex align-items-center">
-                        <div class="draggable--section-card-header-panel-text-area">
-                            <!-- <label> -->
-                              <!-- <input type="checkbox" class="checkbox" v-model="competation_format.selectedCategoryRule" :value="key"> {{ rule }} -->
-                              <div class="checkbox">
-                                <div class="c-input">
-                                  <input type="checkbox" class="euro-checkbox" v-model="competation_format.selectedCategoryRule" :value="key" :id="key" :disabled="(key == 'match_points')">
-                                  <label :for="key">{{ rule }}</label>
-                                </div>
+              <div class="draggable--section">
+                <draggable :options="{draggable:'.category-rules', handle: '.rules-handle'}">
+                  <div class="draggable--section-card" v-for="(rule, key, index) in categoryRules" :class="(key != 'match_points') ? 'category-rules' : ''" :key="index">
+                    <div class="draggable--section-card-header">
+                      <div class="draggable--section-card-header-panel">
+                        <div class="d-flex align-items-center">
+                          <div class="draggable--section-card-header-panel-text-area">
+                            <div class="checkbox">
+                              <div class="c-input">
+                                <input type="checkbox" class="euro-checkbox" v-model="competation_format.rules" :value="key" :id="key" :disabled="(key == 'match_points')">
+                                <label :for="key" class="mb-0">{{ rule }}</label>
                               </div>
-                            <!-- </label> -->
-                        </div>                       
-                      </div>
-                      <div class="draggable--section-card-header-icons">
-                        <a class="text-primary rules-handle draggable-handle" href="javascript:void(0)">
-                          <i class="fa fa-bars"></i>
-                        </a>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="draggable--section-card-header-icons">
+                          <a class="text-primary rules-handle draggable-handle" href="javascript:void(0)">
+                            <i class="fa fa-bars"></i>
+                          </a>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </div>            
-              </draggable>
+                  </div>            
+                </draggable>
+              </div>
             </div>
           </div>
 
@@ -592,7 +591,7 @@ export default {
         halftime_break_RR:'5',halftime_break_FM:'5',match_interval_RR:'5',match_interval_FM:'5',tournamentTemplate:[],
         tournament_id: '', competation_format_id:'0',id:'',
         nwTemplate:[],game_duration_RR_other:'20',
-      game_duration_FM_other:'20',match_interval_RR_other:'20',match_interval_FM_other:'20',min_matches:'',team_interval:'40', win: '3', draw: '1', loss: '0', selectedCategoryRule: ['match_points', 'goal_difference', 'goals_for']
+      game_duration_FM_other:'20',match_interval_RR_other:'20',match_interval_FM_other:'20',min_matches:'',team_interval:'40', win_point: '3', draw_point: '1', loss_point: '0', rules: ['match_points', 'goal_difference', 'goals_for']
       }
     },
     setEdit(id) {
@@ -607,7 +606,6 @@ export default {
           (response) => {
             // return false;
             let resp = response.data.data[0]
-            console.log(resp);
             // here we set some of values for Edit Form
             this.competation_format = resp
             this.competation_format.ageCategory_name = resp.group_name;
@@ -621,10 +619,10 @@ export default {
             // Now here we have to append the value of game_duration
             //this.game_duration_rr_array.push(['130':'320'])
 
-            this.competation_format.win = resp.win_point;
-            this.competation_format.draw = resp.draw_point;
-            this.competation_format.loss = resp.loss_point;
-            this.competation_format.selectedCategoryRule = resp.rules;
+            this.competation_format.win_point = resp.win_point;
+            this.competation_format.draw_point = resp.draw_point;
+            this.competation_format.loss_point = resp.loss_point;
+            this.competation_format.rules = resp.rules;
 
 
             this.initialHalfBreakRR = this.competation_format.halftime_break_RR
@@ -737,6 +735,8 @@ export default {
      // TODO : add minimum_matches and number_teams with competation format
      this.competation_format.min_matches = this.minimum_matches
      this.competation_format.total_teams = this.number_teams
+     // this.competation_format.selectedCategoryRule = JSON.stringify(this.competation_format.selectedCategoryRule);
+
 
      this.$validator.validateAll().then(
           (response) => {

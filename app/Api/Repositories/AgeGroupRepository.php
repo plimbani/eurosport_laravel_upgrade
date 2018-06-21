@@ -125,11 +125,10 @@ class AgeGroupRepository
       $tournamentCompeationTemplate['min_matches'] = $data['min_matches'];
       $tournamentCompeationTemplate['team_interval'] = $data['team_interval'];
 
-      // echo "<pre>";print_r($data);echo "</pre>";exit;
-      $tournamentCompeationTemplate['win_point']= $data['win'];
-      $tournamentCompeationTemplate['loss_point']= $data['loss'];
-      $tournamentCompeationTemplate['draw_point']= $data['draw'];
-      $tournamentCompeationTemplate['rules']= json_encode($data['selectedCategoryRule']);
+      $tournamentCompeationTemplate['win_point']= $data['win_point'];
+      $tournamentCompeationTemplate['loss_point']= $data['loss_point'];
+      $tournamentCompeationTemplate['draw_point']= $data['draw_point'];
+      $tournamentCompeationTemplate['rules']= json_encode($data['rules']);
 
       // Insert value in Database
       // here we check value for Edit as Well
