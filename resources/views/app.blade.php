@@ -8,9 +8,6 @@
     <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900" rel="stylesheet">
     <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
     <script src="/assets/js/core/pace.js"></script>
-    
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-
     <link href="{{mix('assets/css/laraspace.css')}}" rel="stylesheet" type="text/css">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <link rel="apple-touch-icon" sizes="57x57" href="/assets/img/favicons/apple-icon-57x57.png">
@@ -77,17 +74,6 @@
 
 <script type="text/javascript" src="{{mix('/assets/js/core/plugins.js')}}"></script>
 <script type="text/javascript" src="{{mix("/assets/js/app.js")}}"></script>
-
-<script type="text/javascript">
-    $( document ).ready(function() {
-        $(document).on('click','.horizontal', function (){
-            $('.pitch-planner-wrapper .pitch-planner-item').each(function(index){
-                var canvasWidth = $(this).find('.fc-unselectable .fc-scroller-canvas').width();
-                $(this).find('.fc-view-container table').attr('style', 'width: ' + parseInt(canvasWidth + 107) + 'px');
-            });
-        })
-    });
-</script>
 </body>
 
 </html>
