@@ -12,8 +12,8 @@
 @property (weak, nonatomic) IBOutlet UIView *offlineView;
 @property (strong, nonatomic) NSMutableDictionary *matchDetails;
 @property (weak, nonatomic) IBOutlet UIView *mainView;
-@property (weak, nonatomic) IBOutlet UILabel *homeTeamScore;
-@property (weak, nonatomic) IBOutlet UILabel *awayTeamScore;
+@property (weak, nonatomic) IBOutlet UILabel *lblHomeTeamScore;
+@property (weak, nonatomic) IBOutlet UILabel *lblAwayTeamScore;
 @property (weak, nonatomic) IBOutlet UITextView *awayTeamNameTextField;
 @property (weak, nonatomic) IBOutlet UITextView *homeTeamNameTextField;
 @property (weak, nonatomic) IBOutlet UILabel *homeTeamName;
@@ -28,7 +28,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *venueBtn;
 @property (weak, nonatomic) IBOutlet UILabel *venueLbl;
 
-@property (weak, nonatomic) IBOutlet UILabel *winnerLbl;
+@property (weak, nonatomic) IBOutlet UILabel *lblWinner;
 @property (weak, nonatomic) IBOutlet UILabel *titleLbl;
 @property (weak, nonatomic) IBOutlet UILabel *referreLbl;
 @property (weak, nonatomic) IBOutlet UILabel *positionLbl;

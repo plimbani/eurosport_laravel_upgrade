@@ -45,6 +45,7 @@
 + (NSString *)convertJsonStringFromJsonObject:(NSObject *)object;
 + (NSObject *)convertJsonObjectFromJsonString:(NSString *)jsonString;
 + (NSString *)getStringByCheckNullString:(NSString *)string;
++ (NSString *)getStringFromAnyType:(id)temp;
 - (void)setAttributedText:(NSDictionary *)attribs inText:(NSMutableAttributedString *)atrbContentString word:(NSString *)word;
 
 - (void)reachabilityChanged:(NSNotification *)note;

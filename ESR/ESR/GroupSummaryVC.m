@@ -514,11 +514,27 @@
                 cell.AwayTeam.text = [NSString stringWithFormat:@"%@",[[fixturesArray objectAtIndex:indexPath.row-(standingArray.count+3)] valueForKey:@"AwayTeam"]];
                 cell.homeTeamScore.text = [NSString stringWithFormat:@"%d",homeTeamScore];
                 cell.awayTeamScore.text = [NSString stringWithFormat:@"%d",awayTeamScore];
-                if (cell.homeTeamScore.text.length ==2) {
+                if (cell.homeTeamScore.text.length == 2) {
                     cell.awayTeamScore.text = [NSString stringWithFormat:@" %d",awayTeamScore];
                 }
-                if (cell.awayTeamScore.text.length ==2) {
+                if (cell.awayTeamScore.text.length == 2) {
                     cell.homeTeamScore.text = [NSString stringWithFormat:@" %d",homeTeamScore];
+                }
+                NSDictionary *dicFixture = [fixturesArray objectAtIndex:indexPath.row-(standingArray.count+3)];
+                NSString *isResultOverride = [ApplicationData getStringFromAnyType:dicFixture[@"isResultOverride"]];
+                NSString *match_status = [ApplicationData getStringFromAnyType:dicFixture[@"match_status"]];
+                NSString *match_winner = [ApplicationData getStringFromAnyType:dicFixture[@"match_winner"]];
+                NSString *home_id = [ApplicationData getStringFromAnyType:dicFixture[@"Home_id"]];
+                NSString *away_id = [ApplicationData getStringFromAnyType:dicFixture[@"Away_id"]];
+
+                if ([isResultOverride length] > 0 && [isResultOverride intValue] == 1) {
+                    if ([match_status length] > 0 && [match_status caseInsensitiveCompare:@"Walk-over"] == NSOrderedSame) {
+                        if ([match_winner length] > 0 && [home_id length] > 0 && [match_winner caseInsensitiveCompare:home_id] == NSOrderedSame) {
+                            cell.homeTeamScore.text = [NSString stringWithFormat:@" %@*",cell.homeTeamScore.text];
+                        } else if ([match_winner length] > 0 && [away_id length] > 0 && [match_winner caseInsensitiveCompare:away_id] == NSOrderedSame) {
+                            cell.awayTeamScore.text = [NSString stringWithFormat:@" %@*",cell.awayTeamScore.text];
+                        }
+                    }
                 }
             }else{
                 cell.homeTeamScore.text = @"";

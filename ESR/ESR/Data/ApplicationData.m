@@ -143,6 +143,30 @@ static ApplicationData *applicationData = nil;
     return string;
 }
 
++ (NSString *)getStringFromAnyType:(id)temp {
+    if (temp == nil) {
+        return NULL_STRING;
+    }
+    
+    if ([temp isKindOfClass:[NSNull class]]) {
+        return NULL_STRING;
+    }
+    
+    NSString *string = NULL_STRING;
+    if ([temp isKindOfClass:[NSString class]]) {
+        string = (NSString *)temp;
+    } else if ([temp isKindOfClass:[NSNumber class]]) {
+        string = [(NSNumber *)temp stringValue];
+    }
+    
+    string = [string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    
+    if ([string length] == 0) {
+        string = NULL_STRING;
+    }
+    return string;
+}
+
 - (void)setAttributedText:(NSDictionary *)attribs inText:(NSMutableAttributedString *)atrbContentString word:(NSString *)word {
     NSUInteger count = 0, length = [atrbContentString length];
     NSRange range = NSMakeRange(0, length);

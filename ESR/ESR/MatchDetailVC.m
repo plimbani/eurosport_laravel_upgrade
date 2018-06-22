@@ -26,9 +26,9 @@
     self.mainView.layer.borderColor = [UIColor lightGrayColor].CGColor;
     self.mainView.layer.borderWidth = 2.0f;
     if (![[matchDetails valueForKey:@"homeScore"] isKindOfClass:[NSNull class]]) {
-        self.homeTeamScore.text = [NSString stringWithFormat:@"%@",[matchDetails valueForKey:@"homeScore"]];
+        _lblHomeTeamScore.text = [NSString stringWithFormat:@"%@",[matchDetails valueForKey:@"homeScore"]];
     }else{
-        self.homeTeamScore.text = @"";
+        _lblHomeTeamScore.text = NULL_STRING;
     }
     NSString *referreName;
     if (![[matchDetails valueForKey:@"first_name"] isKindOfClass:[NSNull class]]  ) {
@@ -39,9 +39,9 @@
     }
     self.referreLbl.text = referreName;
     if (![[matchDetails valueForKey:@"AwayScore"] isKindOfClass:[NSNull class]]) {
-        self.awayTeamScore.text = [NSString stringWithFormat:@"%@",[matchDetails valueForKey:@"AwayScore"]];
+        _lblAwayTeamScore.text = [NSString stringWithFormat:@"%@",[matchDetails valueForKey:@"AwayScore"]];
     }else{
-        self.awayTeamScore.text = @"";
+        _lblAwayTeamScore.text = NULL_STRING;
     }
     
     if (![[matchDetails valueForKey:@"HomeTeam"] isKindOfClass:[NSNull class]]) {
@@ -65,18 +65,18 @@
         int homeTeamScore =[[matchDetails valueForKey:@"homeScore"] intValue];
         int awayTeamScore =[[matchDetails valueForKey:@"AwayScore"] intValue];
         if (homeTeamScore > awayTeamScore) {
-            self.homeTeamScore.textColor = [UIColor colorwithHexString:@"C70A20" alpha:1.0];
-            self.awayTeamScore.textColor = [UIColor blackColor];
+            _lblHomeTeamScore.textColor = [UIColor colorwithHexString:@"C70A20" alpha:1.0];
+            _lblAwayTeamScore.textColor = [UIColor blackColor];
             self.homeTeamNameTextField.textColor = [UIColor colorwithHexString:@"C70A20" alpha:1.0];
             self.awayTeamNameTextField.textColor = [UIColor blackColor];
         }else if(homeTeamScore < awayTeamScore){
-            self.awayTeamScore.textColor = [UIColor colorwithHexString:@"C70A20" alpha:1.0];
-            self.homeTeamScore.textColor = [UIColor blackColor];
+            _lblAwayTeamScore.textColor = [UIColor colorwithHexString:@"C70A20" alpha:1.0];
+            _lblHomeTeamScore.textColor = [UIColor blackColor];
             self.awayTeamNameTextField.textColor = [UIColor colorwithHexString:@"C70A20" alpha:1.0];
             self.homeTeamNameTextField.textColor = [UIColor blackColor];
         }else{
-            self.homeTeamScore.textColor = [UIColor colorwithHexString:@"C70A20" alpha:1.0];;
-            self.awayTeamScore.textColor = [UIColor colorwithHexString:@"C70A20" alpha:1.0];
+            _lblHomeTeamScore.textColor = [UIColor colorwithHexString:@"C70A20" alpha:1.0];;
+            _lblAwayTeamScore.textColor = [UIColor colorwithHexString:@"C70A20" alpha:1.0];
             self.homeTeamNameTextField.textColor = [UIColor colorwithHexString:@"C70A20" alpha:1.0];;
             self.awayTeamNameTextField.textColor = [UIColor colorwithHexString:@"C70A20" alpha:1.0];
         }
@@ -150,7 +150,7 @@
     
     self.groupName.text =[matchDetails valueForKey:@"group_name"];
     if (![[matchDetails valueForKey:@"match_status"] isKindOfClass:[NSNull class]] && ![[matchDetails valueForKey:@"MatchWinner"] isKindOfClass:[NSNull class]]) {
-        self.winnerLbl.text = [NSString stringWithFormat:@"%@ - %@ %@",[matchDetails valueForKey:@"match_status"],[matchDetails valueForKey:@"MatchWinner"],@"is the winner"];
+        _lblWinner.text = [NSString stringWithFormat:@"%@ - %@ %@",[matchDetails valueForKey:@"match_status"],[matchDetails valueForKey:@"MatchWinner"],@"is the winner"];
     }else{
         _winnerLblTopConstrain.constant = -50;
         _bottomViewTopConstrain.constant = 40;
@@ -235,7 +235,7 @@
          [self.venueBtn setTitle:@""  forState:UIControlStateNormal];
     }
     
-   
+    [self setTeamScore:matchDetails];
     
 }
 - (void)reachabilityChanged:(NSNotification*)notification
@@ -256,6 +256,31 @@
     Reachability* reachability = [Reachability reachabilityForInternetConnection];
     [reachability startNotifier];
 }
+
+- (void)setTeamScore:(NSDictionary *)dicFixture {
+    NSString *isResultOverride = [ApplicationData getStringFromAnyType:dicFixture[@"isResultOverride"]];
+    NSString *match_status = [ApplicationData getStringFromAnyType:dicFixture[@"match_status"]];
+    NSString *match_winner = [ApplicationData getStringFromAnyType:dicFixture[@"match_winner"]];
+    NSString *home_id = [ApplicationData getStringFromAnyType:dicFixture[@"Home_id"]];
+    NSString *away_id = [ApplicationData getStringFromAnyType:dicFixture[@"Away_id"]];
+    
+    NSLog(@"Main Height = %f",_mainViewHeightConstrain.constant);
+    
+    if ([isResultOverride length] > 0 && [isResultOverride intValue] == 1) {
+        if ([match_status length] > 0 && [match_status caseInsensitiveCompare:@"Walk-over"] == NSOrderedSame) {
+            if ([match_winner length] > 0 && [home_id length] > 0 && [match_winner caseInsensitiveCompare:home_id] == NSOrderedSame) {
+                _lblHomeTeamScore.text = [NSString stringWithFormat:@" %@*", _lblHomeTeamScore.text];
+                _lblWinner.text = @"* Walkover win";
+                _mainViewHeightConstrain.constant = _mainViewHeightConstrain.constant + 40;
+            } else if ([match_winner length] > 0 && [away_id length] > 0 && [match_winner caseInsensitiveCompare:away_id] == NSOrderedSame) {
+                _lblAwayTeamScore.text = [NSString stringWithFormat:@" %@*", _lblAwayTeamScore.text];
+                _lblWinner.text = @"* Walkover win";
+                _mainViewHeightConstrain.constant = _mainViewHeightConstrain.constant + 40;
+            }
+        }
+    }
+}
+
 - (void)lblClick:(UITapGestureRecognizer *)tapGesture {
     [self.navigationController popViewControllerAnimated:TRUE];
 }

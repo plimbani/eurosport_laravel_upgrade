@@ -2247,7 +2247,7 @@
                                         <constraints>
                                             <constraint firstAttribute="height" constant="39" id="hgn-yZ-EWm"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -2387,7 +2387,6 @@
                         <outlet property="awayTeamImage" destination="Mb0-5P-zrn" id="rXo-Su-Jfm"/>
                         <outlet property="awayTeamName" destination="k9i-rv-dk3" id="oi3-H0-PVl"/>
                         <outlet property="awayTeamNameTextField" destination="GJ4-cY-dIg" id="ZF3-Nq-tcS"/>
-                        <outlet property="awayTeamScore" destination="MgF-FG-4fe" id="pBx-4B-eB6"/>
                         <outlet property="awayTeamWidthConstrain" destination="s8E-gx-7cn" id="LHg-cm-hk5"/>
                         <outlet property="bottomViewTopConstrain" destination="XTD-NM-rlM" id="c64-fQ-lXa"/>
                         <outlet property="dateTime" destination="nsT-xt-QuV" id="IpZ-az-8pB"/>
@@ -2398,7 +2397,9 @@
                         <outlet property="homeTeamImageWidthConstrain" destination="U3d-Ab-nvm" id="xQq-XY-ibc"/>
                         <outlet property="homeTeamName" destination="fQ9-Rr-IIz" id="EXg-K7-Td1"/>
                         <outlet property="homeTeamNameTextField" destination="M1h-CC-CRa" id="6h6-P9-af2"/>
-                        <outlet property="homeTeamScore" destination="mNe-Az-oik" id="P4A-QO-Eqb"/>
+                        <outlet property="lblAwayTeamScore" destination="MgF-FG-4fe" id="YkL-mx-hxV"/>
+                        <outlet property="lblHomeTeamScore" destination="mNe-Az-oik" id="dBt-0I-l6j"/>
+                        <outlet property="lblWinner" destination="XKY-ba-EXD" id="4yL-Wk-1sY"/>
                         <outlet property="mainView" destination="UPV-xN-f9m" id="8T0-du-ixM"/>
                         <outlet property="mainViewHeightConstrain" destination="JHm-zO-6uc" id="OpK-d0-wBa"/>
                         <outlet property="matchId" destination="IKQ-fu-flh" id="FlV-PX-Ecl"/>
@@ -2409,7 +2410,6 @@
                         <outlet property="titleLbl" destination="g92-Uf-IAw" id="3uj-bO-3rO"/>
                         <outlet property="venueBtn" destination="Ufo-2M-0m2" id="ohy-U0-0oI"/>
                         <outlet property="venueLbl" destination="tQH-s5-hRz" id="ZrZ-Jd-vVL"/>
-                        <outlet property="winnerLbl" destination="XKY-ba-EXD" id="Rwy-62-91L"/>
                         <outlet property="winnerLblTopConstrain" destination="CMj-Gq-VvG" id="UnI-Uc-IdX"/>
                     </connections>
                 </viewController>
