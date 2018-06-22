@@ -2,7 +2,7 @@
     <div>
         <div class="row">
             <div class="col-md-12 mb-3">
-                <button class="btn btn-secondary btn-md js-pitch-planner-bt horizontal"  @click="setView('timelineDay')">{{$lang.pitch_planner_horizontal}}</button>
+                <button class="btn btn-secondary btn-md js-pitch-planner-bt horizontal js-horizontal-view"  @click="setView('timelineDay')">{{$lang.pitch_planner_horizontal}}</button>
                 <button class="btn btn-primary btn-md js-pitch-planner-bt vertical"  @click="setView('agendaDay')">{{$lang.pitch_planner_vertical}}</button>
                 <button v-if="isPitchPlannerInEnlargeMode == 0" class="btn btn-primary btn-md vertical" @click="enlargePitchPlanner()">Enlarge</button>
                 <button class="btn btn-primary btn-md vertical" v-if="isGroupFilterSet" @click="openGroupCompetitionColourModal()">{{$lang.pitch_planner_group_colours}}</button>

@@ -65,8 +65,7 @@ import _ from 'lodash'
         },
         mounted() {
             $( document ).ready(function() {
-                $(document).on('click','.horizontal', function (){
-                    console.log('here');
+                $(document).on('click','.js-horizontal-view', function (){
                     $('.pitch-planner-wrapper .pitch-planner-item').each(function(index){
                         var canvasWidth = $(this).find('.fc-unselectable .fc-scroller-canvas').width();
                         $(this).find('.fc-view-container table').attr('style', 'width: ' + parseInt(canvasWidth + 107) + 'px');
