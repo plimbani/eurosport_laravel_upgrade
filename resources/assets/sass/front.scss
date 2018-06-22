@@ -613,7 +613,25 @@ input[type=number] {
 }
 
 .fc-view-container .fc-view {
+    overflow: scroll;
+    height: 594px !important;
+}
+
+.fc-view-container .fc-no-overlap.fc-view.fc-timelineDay-view {
     overflow-x: scroll;
+}
+.fc-no-overlap.fc-view-container .fc-view {
+    overflow: inherit;
+    height: 594px !important;
+}
+
+.fc-time-grid-container {
+    height: 100% !important;
+    overflow-y: hidden !important;
+}
+.fc-timeline .fc-body .fc-scroller {
+    height: 594px !important;
+    overflow-x: hidden !important;
 }
 
 /*.fc-view-container .fc-view>table {
