@@ -128,7 +128,7 @@ class AgeGroupRepository
       $tournamentCompeationTemplate['win_point']= $data['win_point'];
       $tournamentCompeationTemplate['loss_point']= $data['loss_point'];
       $tournamentCompeationTemplate['draw_point']= $data['draw_point'];
-      $tournamentCompeationTemplate['rules']= json_encode($data['rules']);
+      $tournamentCompeationTemplate['rules']= $data['rules'];
 
       // Insert value in Database
       // here we check value for Edit as Well
