@@ -64,6 +64,16 @@ import _ from 'lodash'
             this.$root.$off('reloadAllEvents');
         },
         mounted() {
+            $( document ).ready(function() {
+                $(document).on('click','.horizontal', function (){
+                    console.log('here');
+                    $('.pitch-planner-wrapper .pitch-planner-item').each(function(index){
+                        var canvasWidth = $(this).find('.fc-unselectable .fc-scroller-canvas').width();
+                        $(this).find('.fc-view-container table').attr('style', 'width: ' + parseInt(canvasWidth + 107) + 'px');
+                    });
+                })
+            });
+
             let cal = this.$el;
             let vm = this
             vm.initComponent()
