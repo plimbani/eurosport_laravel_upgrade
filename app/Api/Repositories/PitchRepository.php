@@ -2,7 +2,10 @@
 
 namespace Laraspace\Api\Repositories;
 
+use Laraspace\Models\Venue;
 use Laraspace\Models\Pitch;
+use Laraspace\Models\TempFixture;
+use Laraspace\Models\TournamentCompetationTemplates;
 use DB;
 
 class PitchRepository
@@ -14,13 +17,26 @@ class PitchRepository
 
     public function getAllPitches($tournamentId)
     {
-        return Pitch::with('pitchAvailability')->where('tournament_id',$tournamentId)->get();
+        return Pitch::with(['pitchAvailability','pitchAvailability.pitchBreaks'])->where('tournament_id',$tournamentId)->get();
+
+    }
+
+    public function getPitchSizeWiseSummary($tournamentId)
+    {
+        $totalAvailableTimePitchSizeWise = Pitch::where('tournament_id', $tournamentId)->select('size', DB::raw('SUM(pitch_capacity) AS totalAvailableTime'))->groupBy('size')->get();
+        $totalTimeRequiredPitchSizeWise = TournamentCompetationTemplates::where('tournament_id', $tournamentId)->select('pitch_size', DB::raw('SUM(total_time) AS totalTimeRequired'))->groupBy('pitch_size')->get();
+
+        $totalAvailableTimePitchSizeWiseData = $totalAvailableTimePitchSizeWise->pluck('totalAvailableTime', 'size');
+        $totalTimeRequiredPitchSizeWiseData = $totalTimeRequiredPitchSizeWise->pluck('totalTimeRequired', 'pitch_size');
+        $totalAvailableTimePitchSizeWiseKeys = $totalAvailableTimePitchSizeWiseData->keys()->all();
+        $totalTimeRequiredPitchSizeWiseKeys = $totalTimeRequiredPitchSizeWiseData->keys()->all();
+        $allPitchSizes = array_values(array_unique(array_merge($totalAvailableTimePitchSizeWiseKeys, $totalTimeRequiredPitchSizeWiseKeys)));
+
+        return array('totalAvailableTimePitchSizeWise' => $totalAvailableTimePitchSizeWiseData, 'totalTimeRequiredPitchSizeWise' => $totalTimeRequiredPitchSizeWiseData, 'allPitchSizes' => $allPitchSizes);
     }
 
     public function createPitch($pitchData)
     {
-        // dd($pitchData);
-
         return Pitch::create([
             'tournament_id' => $pitchData['tournamentId'],
             'pitch_number' => $pitchData['pitch_number'],
@@ -52,5 +68,28 @@ class PitchRepository
     public function getPitchFromId($pitchId)
     {
         return Pitch::find($pitchId);
+    }
+
+    /**
+     * Get location wise summary.
+     *
+     * @param Int $tournamentId
+     *
+     * @return [type]
+     */
+    public function getLocationWiseSummary($tournamentId)
+    {
+        $totalAvailableTimeLocationWise = Pitch::where('tournament_id', $tournamentId)->select('venue_id', DB::raw('SUM(pitch_capacity) AS totalAvailableTime'))->groupBy('venue_id')->get();
+        $totalTimeRequiredLocationWise = TempFixture::where('tournament_id', $tournamentId)->select('venue_id', DB::raw('SUM(TIMESTAMPDIFF(MINUTE, match_datetime, match_endtime)) AS totalTimeRequired'))->where('is_scheduled', 1)->groupBy('venue_id')->get();
+
+        $totalAvailableTimeLocationWiseData = $totalAvailableTimeLocationWise->pluck('totalAvailableTime', 'venue_id');
+        $totalTimeRequiredLocationWiseData = $totalTimeRequiredLocationWise->pluck('totalTimeRequired', 'venue_id');
+        $totalAvailableTimeLocationWiseKeys = $totalAvailableTimeLocationWiseData->keys()->all();
+        $totalTimeRequiredLocationWiseKeys = $totalTimeRequiredLocationWiseData->keys()->all();
+        $locations = array_values(array_unique(array_merge($totalAvailableTimeLocationWiseKeys, $totalTimeRequiredLocationWiseKeys)));
+        $allLocations = Venue::whereIn('id', $locations)->get();
+        $allPitches = Pitch::where('tournament_id', $tournamentId)->get();
+
+        return array('totalAvailableTimeLocationWise' => $totalAvailableTimeLocationWiseData, 'totalTimeRequiredLocationWise' => $totalTimeRequiredLocationWiseData, 'allLocations' => $allLocations, 'allPitches' => $allPitches);
     }
 }

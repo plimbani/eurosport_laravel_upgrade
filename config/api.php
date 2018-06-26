@@ -137,7 +137,7 @@ return [
     */
 
     'errorFormat' => [
-        'message' => ':message',
+        'message' => env('APP_DEBUG') == true ? ':message' : 'error',
         'errors' => ':errors',
         'code' => ':code',
         'status_code' => ':status_code',

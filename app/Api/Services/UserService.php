@@ -12,13 +12,15 @@ use Illuminate\Mail\Message;
 use Laraspace\Models\User;
 use Laraspace\Models\Role;
 use Hash;
-
+use Laraspace\Traits\AuthUserDetail;
 use App\Mail\SendMail;
 use Illuminate\Support\Facades\Mail;
 use Laraspace\Models\UserFavourites;
 
 class UserService implements UserContract
 {
+  use AuthUserDetail;
+
     public function __construct()
     {
         $this->userRepoObj = new \Laraspace\Api\Repositories\UserRepository();
@@ -53,9 +55,9 @@ class UserService implements UserContract
      * @return [type]
      */
     public function create($data)
-    { 
+    {
       // dd($data);
-  
+
         // Data Initilization
         $data = $data->all();
         $mobileUserRoleId = Role::where('slug', 'mobile.user')->first()->id;
@@ -271,7 +273,6 @@ class UserService implements UserContract
      */
     public function update($data, $userId)
     {
-
         $data = $data->all();
         $mobileUserRoleId = Role::where('slug', 'mobile.user')->first()->id;
         $userData=array();
@@ -298,12 +299,12 @@ class UserService implements UserContract
          // \Log::info('Update in password'.$data['password']);
          // $userData['user']['password'] = Hash::make(trim($data['password']));
           $data['emailAddress'] = '';
-          $data['organisation'] = NULL;
+          $data['organisation'] = $userObj->organisation;
           $data['userType'] = $userObj->roles[0]->id;
           // here we add code for Tournament id update
 
         } else {
-          if($userObj->roles[0]->id == $mobileUserRoleId && $data['userType'] != $mobileUserRoleId) {
+          if($userObj->roles[0]->id == $mobileUserRoleId && isset($data['userType']) && $data['userType'] != $mobileUserRoleId) {
             $email_details = array();
             $email_details['name'] = $data['name'];
             $recipient = $data['emailAddress'];
@@ -314,7 +315,7 @@ class UserService implements UserContract
             $userData['user']['is_desktop_user'] = 1;
           }
 
-          if($userObj->roles[0]->id != $mobileUserRoleId && $data['userType'] == $mobileUserRoleId) {
+          if($userObj->roles[0]->id != $mobileUserRoleId && isset($data['userType']) && $data['userType'] == $mobileUserRoleId) {
             $userData['user']['is_desktop_user'] = 0;
             $data['organisation'] = NULL;
           }
@@ -324,15 +325,17 @@ class UserService implements UserContract
         ($data['emailAddress']!= '') ? $userData['user']['email']=$data['emailAddress'] : '';
         $userData['user']['organisation']=$data['organisation'];
         (isset($data['locale']) && $data['locale']!='') ? $userData['user']['locale'] = $data['locale'] : '';
-
+        
         $this->userRepoObj->update($userData['user'], $userId);
 
         if(isset($data['tournament_id'])) {
           $this->setDefaultFavourite(['user_id' => $userId, 'tournament_id' => $data['tournament_id']]);
         }
 
-        $userObj->detachAllRoles();
-        $userObj->attachRole($data['userType']);
+        if(isset($data['userType'])) {
+          $userObj->detachAllRoles();
+          $userObj->attachRole($data['userType']);
+        }
 
         $userData['people']['first_name']=$data['name'];
         $userData['people']['last_name']=$data['surname'];
@@ -431,7 +434,7 @@ class UserService implements UserContract
         // Insert value and set default
          // $userData = UserFavourites::where('user_id','=',$user_id)
          //      ->get();
-        
+
         $userFavouriteData = array();
         $userFavouriteData['user_id'] =  $user_id;
         $userFavouriteData['tournament_id']  = $tournament_id;
@@ -521,11 +524,23 @@ class UserService implements UserContract
         return ['status_code'=>'200','message'=>'Tournament permissions has been updated successfully.'];
       } else {
         return ['status_code'=>'200','message'=>'Problem on updating'];
+      }
+    }
+
+    public function changePermissions($data) {
+      $data = $this->userRepoObj->changePermissions($data);
+      if($data) {
+        return ['status_code'=>'200','message'=>'Permissions has been updated successfully.'];
+      } else {
+        return ['status_code'=>'200','message'=>'Problem on updating'];
       }     
     }
 
     public function getUserTournaments($id) {
-      return $this->userRepoObj->getUserTournaments($id); 
+      return $this->userRepoObj->getUserTournaments($id);
     }
 
+    public function getUserWebsites($id) {
+      return $this->userRepoObj->getUserWebsites($id); 
+    }
 }

@@ -70,6 +70,10 @@ import _ from 'lodash';
         mounted() {
           this.$root.$on('getStandingDataForManualRanking', this.getStandingData);
         },
+        beforeCreate: function() {
+          // Remove custom event listener
+          this.$root.$off('getStandingDataForManualRanking');
+        },
         methods: {
             getStandingData(currentLCompetationId) {
               if(currentLCompetationId != 0) {
