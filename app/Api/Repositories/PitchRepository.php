@@ -79,17 +79,41 @@ class PitchRepository
      */
     public function getLocationWiseSummary($tournamentId)
     {
-        $totalAvailableTimeLocationWise = Pitch::where('tournament_id', $tournamentId)->select('venue_id', DB::raw('SUM(pitch_capacity) AS totalAvailableTime'))->groupBy('venue_id')->get();
-        $totalTimeRequiredLocationWise = TempFixture::where('tournament_id', $tournamentId)->select('venue_id', DB::raw('SUM(TIMESTAMPDIFF(MINUTE, match_datetime, match_endtime)) AS totalTimeRequired'))->where('is_scheduled', 1)->groupBy('venue_id')->get();
+        $allPitchSizes = [];
 
-        $totalAvailableTimeLocationWiseData = $totalAvailableTimeLocationWise->pluck('totalAvailableTime', 'venue_id');
-        $totalTimeRequiredLocationWiseData = $totalTimeRequiredLocationWise->pluck('totalTimeRequired', 'venue_id');
-        $totalAvailableTimeLocationWiseKeys = $totalAvailableTimeLocationWiseData->keys()->all();
-        $totalTimeRequiredLocationWiseKeys = $totalTimeRequiredLocationWiseData->keys()->all();
-        $locations = array_values(array_unique(array_merge($totalAvailableTimeLocationWiseKeys, $totalTimeRequiredLocationWiseKeys)));
+        $totalAvailableTimeLocationWise = [];
+        $allPitches = Pitch::where('tournament_id', $tournamentId)->get()->each(function ($item) use(&$totalAvailableTimeLocationWise, &$allPitchSizes) {
+            if (!isset($totalAvailableTimeLocationWise[$item->venue_id])) {
+                $totalAvailableTimeLocationWise[$item->venue_id] = [];
+            }
+            if (!isset($totalAvailableTimeLocationWise[$item->venue_id][$item->size])) {
+                $totalAvailableTimeLocationWise[$item->venue_id][$item->size] = 0;
+            }
+            $totalAvailableTimeLocationWise[$item->venue_id][$item->size] += $item->pitch_capacity;
+            $allPitchSizes[] = $item->size;
+        });
+
+        $totalTimeUsedLocationWise = [];
+        $locationWisePitches = TempFixture::with('pitch')->where('temp_fixtures.tournament_id', $tournamentId)->where('temp_fixtures.is_scheduled', 1)->get()->each(function ($item) use(&$totalTimeUsedLocationWise, &$allPitchSizes) {
+            if (!isset($totalTimeUsedLocationWise[$item->pitch->venue_id])) {
+                $totalTimeUsedLocationWise[$item->pitch->venue_id] = [];
+            }
+            if (!isset($totalTimeUsedLocationWise[$item->pitch->venue_id][$item->pitch->size])) {
+                $totalTimeUsedLocationWise[$item->pitch->venue_id][$item->pitch->size] = 0;
+            }
+            $totalTimeUsedLocationWise[$item->pitch->venue_id][$item->pitch->size] += $item->match_endtime->diffInMinutes($item->match_datetime);
+            $allPitchSizes[] = $item->pitch->size;
+        });
+
+        /*$totalAvailableTimeLocationWiseData = $totalAvailableTimeLocationWise->pluck('totalAvailableTime', 'venue_id');
+        $totalTimeUsedLocationWiseData = $totalTimeUsedLocationWise->pluck('totalTimeRequired', 'venue_id');*/
+        $totalAvailableTimeLocationWiseKeys = array_keys($totalAvailableTimeLocationWise);
+        $totalTimeUsedLocationWiseKeys = array_keys($totalTimeUsedLocationWise);
+        $locations = array_values(array_unique(array_merge($totalAvailableTimeLocationWiseKeys, $totalTimeUsedLocationWiseKeys)));
+        $allPitchSizes = array_unique($allPitchSizes);
         $allLocations = Venue::whereIn('id', $locations)->get();
         $allPitches = Pitch::where('tournament_id', $tournamentId)->get();
 
-        return array('totalAvailableTimeLocationWise' => $totalAvailableTimeLocationWiseData, 'totalTimeRequiredLocationWise' => $totalTimeRequiredLocationWiseData, 'allLocations' => $allLocations, 'allPitches' => $allPitches);
+        return array('totalAvailableTimeLocationWise' => $totalAvailableTimeLocationWise, 'totalTimeUsedLocationWise' => $totalTimeUsedLocationWise, 'allLocations' => $allLocations, 'allPitchSizes' => $allPitchSizes, 'allPitches' => $allPitches);
     }
 }

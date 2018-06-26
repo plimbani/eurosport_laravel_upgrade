@@ -191,9 +191,10 @@ import Tournament from '../../../api/tournament.js'
                 },
                 'locationWiseSummaryData': {
                     'allLocations': [],
+                    'allPitchSizes': [],
                     'allPitches': [],
                     'totalAvailableTimeLocationWise': {},
-                    'totalTimeRequiredLocationWise': {},
+                    'totalTimeUsedLocationWise': {},
                 },
                 'locationWiseSummaryArray': {},
                 'locationWiseSummaryTotal': {
@@ -649,41 +650,44 @@ import Tournament from '../../../api/tournament.js'
                       (response) => {
                         vm.locationWiseSummaryData = response.data;
                         let allLocations = response.data.allLocations;
+                        let allPitchSizes = response.data.allPitchSizes;
                         let totalAvailableTime = 0;
                         let totalTimeRequired = 0;
                         let totalBalance = 0;
 
                         for(let i=0; i<allLocations.length; i++) {
-                            let location = allLocations[i];
-                            let locationDetail = {};
+                            for(let j=0; j<allPitchSizes.length; j++) {
+                                // console.log(allPitchSizes.length);
+                                let location = allLocations[i];
+                                let locationDetail = {};
+                                let size = allPitchSizes[j];
+                                console.log('size', size);
+                                let locationPitches = vm.getPitchesByLocationSize(location, size);
+                                let availableTime = vm.getAvailableTimeOfLocation(location);
+                                let timeRequired = vm.getRequiredTimeForLocation(location);
+                                let balance = vm.getLocationBalance(location);
 
-                            let locationPitches = vm.getPitchesByLocation(location);
-                            console.log('locationPitches', locationPitches);
-                            return;
-                            let availableTime = vm.getAvailableTimeOfLocation(location);
-                            let timeRequired = vm.getRequiredTimeForLocation(location);
-                            let balance = vm.getLocationBalance(location);
+                                totalAvailableTime += availableTime;
+                                totalTimeRequired += timeRequired;
+                                totalBalance += balance;
 
-                            totalAvailableTime += availableTime;
-                            totalTimeRequired += timeRequired;
-                            totalBalance += balance;
+                                let minutes = balance % 60;
+                                let hours = (balance - minutes) / 60;
 
-                            let minutes = balance % 60;
-                            let hours = (balance - minutes) / 60;
+                                if(minutes<0){
+                                    minutes = parseInt(0 - minutes)
+                                }
+                                if(hours<0){
+                                    hours = parseInt(0 - hours)
+                                }
 
-                            if(minutes<0){
-                                minutes = parseInt(0 - minutes)
+                                locationDetail.availableTime = ( ((availableTime - (availableTime % 60)) / 60) + ' hrs ' + (availableTime % 60) + ' mins');
+                                locationDetail.timeRequired = ( ((timeRequired - (timeRequired % 60)) / 60) + ' hrs ' + (timeRequired % 60) + ' mins');
+                                locationDetail.balance = (balance < 0 ? '-' : '') + ( hours + ' hrs ' + minutes + ' mins' );
+                                locationDetail.balanceSign = balance < 0 ? '-' : '+';
+
+                                vm.locationWiseSummaryArray[location] = locationDetail;
                             }
-                            if(hours<0){
-                                hours = parseInt(0 - hours)
-                            }
-
-                            locationDetail.availableTime = ( ((availableTime - (availableTime % 60)) / 60) + ' hrs ' + (availableTime % 60) + ' mins');
-                            locationDetail.timeRequired = ( ((timeRequired - (timeRequired % 60)) / 60) + ' hrs ' + (timeRequired % 60) + ' mins');
-                            locationDetail.balance = (balance < 0 ? '-' : '') + ( hours + ' hrs ' + minutes + ' mins' );
-                            locationDetail.balanceSign = balance < 0 ? '-' : '+';
-
-                            vm.locationWiseSummaryArray[location] = locationDetail;
                         }
 
                         let minutes = totalBalance % 60;
@@ -713,7 +717,7 @@ import Tournament from '../../../api/tournament.js'
                     'allLocations': [],
                     'allPitches': [],
                     'totalAvailableTimeLocationWise': {},
-                    'totalTimeRequiredLocationWise': {},
+                    'totalTimeUsedLocationWise': {},
                 }
             },
             defaultLocationWiseSummaryTotal() {
@@ -733,29 +737,31 @@ import Tournament from '../../../api/tournament.js'
                 return timeInMinutes;
             },
             getRequiredTimeForLocation(location) {
-                let totalTimeRequiredLocationWise = this.locationWiseSummaryData.totalTimeRequiredLocationWise;
+                let totalTimeUsedLocationWise = this.locationWiseSummaryData.totalTimeUsedLocationWise;
                 let timeInMinutes = 0;
-                if(totalTimeRequiredLocationWise.hasOwnProperty(location)) {
-                    timeInMinutes = parseInt(totalTimeRequiredLocationWise[location]);
+                if(totalTimeUsedLocationWise.hasOwnProperty(location)) {
+                    timeInMinutes = parseInt(totalTimeUsedLocationWise[location]);
                 }
                 return timeInMinutes;
             },
             getLocationBalance(location) {
                 let totalAvailableTimeLocationWise = this.locationWiseSummaryData.totalAvailableTimeLocationWise;
-                let totalTimeRequiredLocationWise = this.locationWiseSummaryData.totalTimeRequiredLocationWise;
+                let totalTimeUsedLocationWise = this.locationWiseSummaryData.totalTimeUsedLocationWise;
                 let totalAvailableTime = 0;
                 let totalTimeRequired = 0;
 
                 if(totalAvailableTimeLocationWise.hasOwnProperty(location)) {
                     totalAvailableTime = parseInt(totalAvailableTimeLocationWise[location]);
                 }
-                if(totalTimeRequiredLocationWise.hasOwnProperty(location)) {
-                    totalTimeRequired = parseInt(totalTimeRequiredLocationWise[location]);
+                if(totalTimeUsedLocationWise.hasOwnProperty(location)) {
+                    totalTimeRequired = parseInt(totalTimeUsedLocationWise[location]);
                 }
 
                 return (totalAvailableTime - totalTimeRequired);
             },
-            getPitchesByLocation(location) {
+            getPitchesByLocationSize(location, size) {
+                console.log('here');
+                console.log('size', size);
                 let allPitches = this.locationWiseSummaryData.allPitches;
                 let locationPitches = _.filter(allPitches, function(o) { return o.venue_id = location; });
                 return locationPitches;
