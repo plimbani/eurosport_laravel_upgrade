@@ -110,7 +110,7 @@ class PitchRepository
         $totalAvailableTimeLocationWiseKeys = array_keys($totalAvailableTimeLocationWise);
         $totalTimeUsedLocationWiseKeys = array_keys($totalTimeUsedLocationWise);
         $locations = array_values(array_unique(array_merge($totalAvailableTimeLocationWiseKeys, $totalTimeUsedLocationWiseKeys)));
-        $allPitchSizes = array_unique($allPitchSizes);
+        $allPitchSizes = array_values(array_unique($allPitchSizes));
         $allLocations = Venue::whereIn('id', $locations)->get();
         $allPitches = Pitch::where('tournament_id', $tournamentId)->get();
 
