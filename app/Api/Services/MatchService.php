@@ -1081,9 +1081,10 @@ class MatchService implements MatchContract
        // echo 'Before Sort';
 
       //  echo 'After Sort';
+
         $for_override_condition = array();
         foreach ($calculatedArray as $ckey => $cvalue) {
-            $manual_order = $mid = $cid = $did = $eid = $overrride = $group_winner = array();
+            $manual_order = $mid = $cid = $did = $eid = $overrride = $group_winner = $matchesWon = $goalRatio = array();
             foreach ($cvalue as $cckey => $ccvalue) {
                $manual_order[$cckey]  = (int)$ccvalue['manual_order'];
                $mid[$cckey]  = (int)$ccvalue['Total'];
@@ -1092,41 +1093,53 @@ class MatchService implements MatchContract
                $did[$cckey]  = (int)$ccvalue['goal_difference'];
                $eid[$cckey]  = (int)$ccvalue['home_goal'];
                $matchesWon[$cckey]  = (int)$ccvalue['Won'];
-               $goalRatio[$cckey]  = $ccvalue['home_goal'] / $ccvalue['Played'];
+               $goalRatio[$cckey]  = $ccvalue['Played'] > 0 ? $ccvalue['home_goal'] / $ccvalue['Played'] : 0;
               // $overrride[$cckey]  = (int)$ccvalue['manual_override'];
               // $group_winner[$cckey]  = (int)$ccvalue['group_winner'];
               // $for_override_condition[$ckey][$cckey] = (int)$ccvalue['manual_override'];
             }
-            $rules = [];
-            foreach($tournamentCompetationTemplatesRecord['rules'] as $key => $value) {
-              if($value = 'match_points') {
-                $rules[] = $mid;
-                $rules[] = 'SORT_DESC';
+            $params = [];
+            foreach($tournamentCompetationTemplatesRecord->rules as $key => $rule) {
+
+              if($rule['checked'] == false) {
+                continue;
               }
-              if($value = 'goal_difference') {
-                $rules[] = $did;
-                $rules[] = 'SORT_DESC';
+
+              if($rule['key'] == 'match_points') {
+                $params[] = $mid;
+                $params[] = SORT_DESC;
               }
-              if($value = 'goals_for') {
-                $rules[] = $eid;
-                $rules[] = 'SORT_DESC';
+              if($rule['key'] == 'goal_difference') {
+                $params[] = $did;
+                $params[] = SORT_DESC;
               }
-              if($value = 'matches_won') {
-                $rules[] = $matchesWon;
-                $rules[] = 'SORT_DESC';
+              if($rule['key'] == 'goals_for') {
+                $params[] = $eid;
+                $params[] = SORT_DESC;
               }
-              if($value = 'goal_ratio') {
-                $rules[] = $goalRatio;
-                $rules[] = 'SORT_DESC';
+              if($rule['key'] == 'matches_won') {
+                $params[] = $matchesWon;
+                $params[] = SORT_DESC;
+              }
+              if($rule['key'] == 'goal_ratio') {
+                $params[] = $goalRatio;
+                $params[] = SORT_DESC;
               }
             }
+
+            $params[] = $cvalue;
+
             if($competition->is_manual_override_standing == 1) {
-              array_multisort($manual_order, SORT_ASC, $rules, $cvalue);
-            } else {
-              array_multisort($rules, $cvalue);
+              $params = array_merge(array($manual_order, SORT_ASC), $params);
             }
+            
+            array_multisort(...$params);
+            
             $calculatedArray[$ckey] = $cvalue;
+
+            print_r($mid);exit;
         }
+        
         $i=1;
         if(count($calculatedArray) > 0) {
           foreach($calculatedArray[$cupId] as $kky=>$data) {
