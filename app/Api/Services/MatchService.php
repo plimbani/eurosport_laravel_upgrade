@@ -882,6 +882,7 @@ class MatchService implements MatchContract
         // merge it
         $findTeams = array_merge($home_tema_id,$away_team_id);
         if($fix1['CupFixture']['match_round'] == 'Elimination') {
+
           // So here we have to Call Function For Elimination Matches
           $competitionId = $this->calculateEliminationTeams($singleFixture[0]);
 
@@ -890,7 +891,6 @@ class MatchService implements MatchContract
           if($competition->competation_type == 'Elimination' && $competition->actual_competition_type == 'Round Robin') {
               $this->generateStandingsForCompetitions($fix1, $cup_competition_id, $findTeams,'Elimination');
           }
-
           if($generatePositions == 1) {
             $this->updateCategoryPositions($competitionId, $ageCategoryId);
           }
@@ -900,7 +900,6 @@ class MatchService implements MatchContract
         }
         $comType = 'C';
         if ($comType == 'C') {
-
             // Manual standing insert - start
             $allCompetitions = Competition::where('tournament_id','=',$fix1['CupFixture']['tournamentId'])->where('tournament_competation_template_id','=',$fix1['CupFixture']['age_group_id'])->where('id','>',$cup_competition_id)->get();
 
@@ -1758,7 +1757,11 @@ class MatchService implements MatchContract
                       ->where('team_id',$fix1['CupFixture']['hometeam'])
                       ->get()->first();
 
-      $winningPoints = 3;$drawPoints = 1;$losePoints = 0;
+      $tournamentCompetationTemplatesRecord = TournamentCompetationTemplates::where('id', $fix1['CupFixture']['age_group_id'])->get()->first();
+      $winningPoints = $tournamentCompetationTemplatesRecord->win_point;
+      $losePoints = $tournamentCompetationTemplatesRecord->loss_point;
+      $drawPoints = $tournamentCompetationTemplatesRecord->draw_point;
+      // $winningPoints = 3;$drawPoints = 1;$losePoints = 0;
       $sendData = array();
 
       if ($homeTeamExist){
