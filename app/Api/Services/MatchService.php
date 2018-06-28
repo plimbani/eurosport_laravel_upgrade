@@ -1011,7 +1011,7 @@ class MatchService implements MatchContract
                                ->get()->first();
                // $winPoints = 3; $losePoints =0;$drawPoints=1;
 
-                $tournamentCompetationTemplatesRecord = TournamentCompetationTemplates::where('id',$competition->tournament_competation_template_id)->get()->first();
+                $tournamentCompetationTemplatesRecord = TournamentCompetationTemplates::where('id',$competition->tournament_competation_template_id)->first();
                 $winPoints = $tournamentCompetationTemplatesRecord->win_point;
                 $losePoints = $tournamentCompetationTemplatesRecord->loss_point;
                 $drawPoints = $tournamentCompetationTemplatesRecord->draw_point;
@@ -1136,8 +1136,6 @@ class MatchService implements MatchContract
             array_multisort(...$params);
             
             $calculatedArray[$ckey] = $cvalue;
-
-            print_r($mid);exit;
         }
         
         $i=1;
