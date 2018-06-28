@@ -630,6 +630,7 @@ var moment = require('moment');
                 this5.$root.$emit('pitchrefresh');
                 this5.$store.dispatch('SetPitchId',0);
                 this5.$root.$emit('getPitchSizeWiseSummary');
+                this5.$root.$emit('getLocationWiseSummary');
             });
             $(document).ready(function(){
               // let vm1 = this;
