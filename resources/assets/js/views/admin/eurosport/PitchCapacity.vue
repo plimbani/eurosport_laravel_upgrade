@@ -766,11 +766,6 @@ import Tournament from '../../../api/tournament.js'
                 }
                 return (totalAvailableTime - totalTimeRequired);
             },
-            getPitchesByLocation(location) {
-                let allPitches = this.locationWiseSummaryData.allPitches;
-                let locationPitches = _.filter(allPitches, function(o) { return o.venue_id = location; });
-                return locationPitches;
-            }
         }
     }
 </script>

@@ -105,8 +105,6 @@ class PitchRepository
             $allPitchSizes[] = $item->pitch->size;
         });
 
-        /*$totalAvailableTimeLocationWiseData = $totalAvailableTimeLocationWise->pluck('totalAvailableTime', 'venue_id');
-        $totalTimeUsedLocationWiseData = $totalTimeUsedLocationWise->pluck('totalTimeRequired', 'venue_id');*/
         $totalAvailableTimeLocationWiseKeys = array_keys($totalAvailableTimeLocationWise);
         $totalTimeUsedLocationWiseKeys = array_keys($totalTimeUsedLocationWise);
         $locations = array_values(array_unique(array_merge($totalAvailableTimeLocationWiseKeys, $totalTimeUsedLocationWiseKeys)));

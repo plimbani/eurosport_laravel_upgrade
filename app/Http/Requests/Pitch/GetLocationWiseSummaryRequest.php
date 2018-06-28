@@ -17,7 +17,7 @@ class GetLocationWiseSummaryRequest extends FormRequest
     public function authorize()
     {
         $tournamentId = $this->route('tournamentId');
-        $isTournamentAccessible = $this->checkForWritePermissionByTournament($tournamentId);
+        $isTournamentAccessible = $this->checkForTournamentReadAccess($tournamentId);
         if(!$isTournamentAccessible) {
             return false;
         }
