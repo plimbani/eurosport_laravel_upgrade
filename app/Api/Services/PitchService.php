@@ -255,4 +255,16 @@ class PitchService implements PitchContract
             ->setOption('margin-bottom', 20);
         return $pdf->download('Pitchmatchschedule.pdf');
     }
+
+    /**
+     * Get location wise summary.
+     *
+     * @param Int $tournamentId
+     *
+     * @return [type]
+     */
+    public function getLocationWiseSummary($tournamentId)
+    {
+      return $this->pitchRepoObj->getLocationWiseSummary($tournamentId);
+    }
 }
