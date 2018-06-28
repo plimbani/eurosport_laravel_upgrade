@@ -128,7 +128,7 @@
                                     <tr>
                                         <th class="text-center">Pitch</th>
                                         <th class="text-center">{{$lang.pitch_available_time}}</th>
-                                        <th class="text-center">{{$lang.pitch_totaL_time}}</th>
+                                        <th class="text-center">Total time used</th>
                                         <th class="text-center">{{$lang.pitch_balance}}</th>
                                     </tr>
                                 </thead>
