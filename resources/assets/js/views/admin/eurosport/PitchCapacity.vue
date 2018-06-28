@@ -115,7 +115,7 @@
                     </div>
                 </div>
                 
-                <div v-for="locationDetail in locationSizeWiseSummaryArray">
+                <div v-for="(locationDetail, locationId) in locationSizeWiseSummaryArray">
                     <div class="row my-3">
                       <div class="col-3 align-self-center">
                           <h6 class="mb-0 text-muted"><strong>Location - {{ locationDetail.name }}</strong></h6>
@@ -141,9 +141,9 @@
                                     </tr>
                                     <tr>
                                         <td class="text-center"><strong>{{ $lang.totals }}</strong></td>
-                                        <td class="text-center">{{ pitchSizeWiseSummaryTotal.totalAvailableTime }}</td>
-                                        <td class="text-center">{{ pitchSizeWiseSummaryTotal.totalTimeRequired }}</td>
-                                        <td class="text-center" :class="[pitchSizeWiseSummaryTotal.totalBalanceSign == '-' ? 'red' : 'text-success']">{{ pitchSizeWiseSummaryTotal.totalBalance }}</td>
+                                        <td class="text-center">{{ locationWiseSummaryTotal[locationId].totalAvailableTime }}</td>
+                                        <td class="text-center">{{ locationWiseSummaryTotal[locationId].totalTimeUsed }}</td>
+                                        <td class="text-center" :class="[locationWiseSummaryTotal[locationId].totalBalanceSign == '-' ? 'red' : 'text-success']">{{ locationWiseSummaryTotal[locationId].totalBalance }}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -678,12 +678,14 @@ import Tournament from '../../../api/tournament.js'
                                     hours = parseInt(0 - hours)
                                 }
 
-                                locationSizeDetail.availableTime = ( ((availableTime - (availableTime % 60)) / 60) + ' hrs ' + (availableTime % 60) + ' mins');
-                                locationSizeDetail.timeUsed = ( ((timeUsed - (timeUsed % 60)) / 60) + ' hrs ' + (timeUsed % 60) + ' mins');
-                                locationSizeDetail.balance = (balance < 0 ? '-' : '') + ( hours + ' hrs ' + minutes + ' mins' );
-                                locationSizeDetail.balanceSign = balance < 0 ? '-' : '+';
+                                if(availableTime > 0 || timeUsed > 0) {
+                                    locationSizeDetail.availableTime = ( ((availableTime - (availableTime % 60)) / 60) + ' hrs ' + (availableTime % 60) + ' mins');
+                                    locationSizeDetail.timeUsed = ( ((timeUsed - (timeUsed % 60)) / 60) + ' hrs ' + (timeUsed % 60) + ' mins');
+                                    locationSizeDetail.balance = (balance < 0 ? '-' : '') + ( hours + ' hrs ' + minutes + ' mins' );
+                                    locationSizeDetail.balanceSign = balance < 0 ? '-' : '+';
 
-                                locationSizeWiseSummaryArray[locationId]['sizes'][size] = locationSizeDetail;
+                                    locationSizeWiseSummaryArray[locationId]['sizes'][size] = locationSizeDetail;
+                                }
                             }
                             let minutes = totalBalance % 60;
                             let hours = (totalBalance - minutes) / 60;
