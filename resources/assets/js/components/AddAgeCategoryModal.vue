@@ -352,21 +352,21 @@
             <div class="col-sm-4 form-control-label">{{$lang.competation_modal_category_rules}}</div>
             <div class="col-sm-8">
               <div class="draggable--section">
-                <draggable v-model="this.allCategoryRules" :options="{draggable:'.category-rules', handle: '.rules-handle'}">
-                  <div class="draggable--section-card" v-for="(rule, key, index) in this.allCategoryRules" :class="(key != 'match_points') ? 'category-rules' : ''" :key="index">
+                <draggable :options="{draggable:'.category-rules', handle: '.rules-handle'}" v-model="competation_format.rules" :move="onRuleMove">
+                  <div class="draggable--section-card" v-for="(rule, index) in competation_format.rules" :class="'category-rules'" :key="rule.key">
                     <div class="draggable--section-card-header">
                       <div class="draggable--section-card-header-panel">
                         <div class="d-flex align-items-center">
                           <div class="draggable--section-card-header-panel-text-area">
                             <div class="checkbox">
                               <div class="c-input">
-                                <input type="checkbox" class="euro-checkbox" v-model="competation_format.rules" :value="key" :id="key" :disabled="(key == 'match_points')">
-                                <label :for="key" class="mb-0">{{ rule }}</label>
+                                <input type="checkbox" class="euro-checkbox" :value="rule.key" :id="rule.key" :checked="rule.checked" @change="changeCheckedStatus(index, $event)" :disabled="rule.key == 'match_points'">
+                                <label :for="rule.key" class="mb-0">{{ rule.title }}</label>
                               </div>
                             </div>
                           </div>
                         </div>
-                        <div class="draggable--section-card-header-icons">
+                        <div class="draggable--section-card-header-icons" v-if="rule.key != 'match_points'">
                           <a class="text-primary rules-handle draggable-handle" href="javascript:void(0)">
                             <i class="fa fa-bars"></i>
                           </a>
@@ -588,13 +588,19 @@ export default {
       this.initialHalfBreakFM = '5'
     },
     initialState() {
+      var rules = _.map(_.cloneDeep(this.categoryRules), function(o) {
+        if(o.key == 'match_points' || o.key == 'goal_difference' || o.key == 'goals_for') {
+          o.checked = true;
+        }
+        return o;
+      });
       return {
          ageCategory_name:'', comments:'', category_age:'',pitch_size:'',category_age_color:null,
          category_age_font_color:null,game_duration_RR:'10',halves_RR:'2',game_duration_FM:'10',halves_FM:'2',
         halftime_break_RR:'5',halftime_break_FM:'5',match_interval_RR:'5',match_interval_FM:'5',tournamentTemplate:[],
         tournament_id: '', competation_format_id:'0',id:'',
         nwTemplate:[],game_duration_RR_other:'20',
-      game_duration_FM_other:'20',match_interval_RR_other:'20',match_interval_FM_other:'20',min_matches:'',team_interval:'40', win_point: '3', draw_point: '1', loss_point: '0', rules: ['match_points', 'goal_difference', 'goals_for']
+      game_duration_FM_other:'20',match_interval_RR_other:'20',match_interval_FM_other:'20',min_matches:'',team_interval:'40', win_point: '3', draw_point: '1', loss_point: '0', rules: rules, selectedCategoryRule: null,
       }
     },
     setEdit(id) {
@@ -610,7 +616,7 @@ export default {
             // return false;
             let resp = response.data.data[0]
             // here we set some of values for Edit Form
-            this.competation_format = resp
+            this.competation_format = _.cloneDeep(resp);
             this.competation_format.ageCategory_name = resp.group_name;
 
             this.value = resp.category_age;
@@ -625,8 +631,6 @@ export default {
             this.competation_format.win_point = resp.win_point;
             this.competation_format.draw_point = resp.draw_point;
             this.competation_format.loss_point = resp.loss_point;
-            this.competation_format.rules = resp.rules;
-
 
             this.initialHalfBreakRR = this.competation_format.halftime_break_RR
             this.initialHalfBreakFM = this.competation_format.halftime_break_FM
@@ -738,8 +742,7 @@ export default {
      // TODO : add minimum_matches and number_teams with competation format
      this.competation_format.min_matches = this.minimum_matches
      this.competation_format.total_teams = this.number_teams
-     // this.competation_format.selectedCategoryRule = JSON.stringify(this.competation_format.selectedCategoryRule);
-
+     this.competation_format.selectedCategoryRule = _.cloneDeep(this.competation_format.rules);
 
      this.$validator.validateAll().then(
           (response) => {
@@ -905,7 +908,16 @@ export default {
 
         vm.options[index].total_time = total_time;
       });
-    }, 200)
+    }, 200),
+    changeCheckedStatus(index, event) {
+      this.competation_format.rules[index].checked = event.target.checked;
+    },
+    onRuleMove(event) {
+      if(event.draggedContext.futureIndex == 0) {
+        return false;
+      }
+      return true;
+    },
   }
 }
 </script>

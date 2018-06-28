@@ -177,7 +177,13 @@ export default {
       let TournamentData = {'tournament_id': this.TournamentId}
       Tournament.getCompetationFormat(TournamentData).then(
       (response) => {
-        this.categoryRules = response.data.category_rules
+        this.categoryRules = _.map(response.data.category_rules, (value, key) => {
+          return {
+            'key': key,
+            'title': value,
+            'checked': false,
+          };
+        });
         this.competationList = response.data.data
         let time_sum= 0;
         this.competationList.reduce(function (a,b) {

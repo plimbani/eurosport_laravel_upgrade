@@ -974,16 +974,18 @@ class MatchService implements MatchContract
 
         $cupId = $compId;
 
+        $teamScores = [];
+
         //$cupRoundrobinData = $this->CupRoundrobin->find('first', array('conditions' => array('comp_id' => $cupId)));
 
         //$groupTeams = json_decode($cupRoundrobinData['CupRoundrobin']['groups'],true);
         $comp = DB::table('temp_fixtures')
                     // ->join('competitions','competitions.id','temp_fixtures.competition_id')
-                    ->where('temp_fixtures.competition_id','=',$compId)
-                    ->select('temp_fixtures.home_team','temp_fixtures.away_team')->get();
+                    ->where('temp_fixtures.competition_id','=',$compId)->get();
         foreach ($comp as $key => $value) {
           $home_team_arr[] = $value->home_team;
           $away_team_arr[] = $value->away_team;
+          $teamScores[$value->home_team . '.' . $value->away_team] = ['home_score' => $value->hometeam_score, 'away_score' => $value->awayteam_score];
         }
         $teamList = array_unique(array_merge($home_team_arr,$away_team_arr));
 
@@ -1081,9 +1083,11 @@ class MatchService implements MatchContract
        // echo 'Before Sort';
 
       //  echo 'After Sort';
+
         $for_override_condition = array();
         foreach ($calculatedArray as $ckey => $cvalue) {
-            $manual_order = $mid = $cid = $did = $eid = $overrride = $group_winner = array();
+            $manual_order = $mid = $cid = $did = $eid = $overrride = $group_winner = $matchesWon = $goalRatio = $headToHead = array();
+            
             foreach ($cvalue as $cckey => $ccvalue) {
                $manual_order[$cckey]  = (int)$ccvalue['manual_order'];
                $mid[$cckey]  = (int)$ccvalue['Total'];
@@ -1092,41 +1096,89 @@ class MatchService implements MatchContract
                $did[$cckey]  = (int)$ccvalue['goal_difference'];
                $eid[$cckey]  = (int)$ccvalue['home_goal'];
                $matchesWon[$cckey]  = (int)$ccvalue['Won'];
-               $goalRatio[$cckey]  = $ccvalue['home_goal'] / $ccvalue['Played'];
+               $goalRatio[$cckey]  = $ccvalue['Played'] > 0 ? $ccvalue['home_goal'] / $ccvalue['Played'] : 0;
               // $overrride[$cckey]  = (int)$ccvalue['manual_override'];
               // $group_winner[$cckey]  = (int)$ccvalue['group_winner'];
               // $for_override_condition[$ckey][$cckey] = (int)$ccvalue['manual_override'];
             }
-            $rules = [];
-            foreach($tournamentCompetationTemplatesRecord['rules'] as $key => $value) {
-              if($value = 'match_points') {
-                $rules[] = $mid;
-                $rules[] = 'SORT_DESC';
+
+            $params = [];
+            $rules = $tournamentCompetationTemplatesRecord->rules;
+
+            $prevRuleParams = null;
+            foreach($rules as $rule) {
+
+              if($rule['checked'] == false) {
+                continue;
               }
-              if($value = 'goal_difference') {
-                $rules[] = $did;
-                $rules[] = 'SORT_DESC';
+
+              if($rule['key'] == 'match_points') {
+                $params[] = $mid;
+                $params[] = SORT_DESC;
               }
-              if($value = 'goals_for') {
-                $rules[] = $eid;
-                $rules[] = 'SORT_DESC';
+              if($rule['key'] == 'head_to_head') {
+                $teamIds = array_keys($cvalue);
+
+                for($j=0; $j < count($teamIds) - 1; $j++) {
+                  $scoreCompareOrder = array_reverse(range(1, count($teamIds)));
+
+                  $key1 = $teamIds[$j] . '.' . $teamIds[$j+1];
+                  $key2 = $teamIds[$j+1] . '.' . $teamIds[$j];
+                  $updatePositionFlag = 0;
+
+                  if(isset($teamScores[$key1])) {
+                    if($teamScores[$key1]['away_score'] > $teamScores[$key1]['home_score']) {
+                      $updatePositionFlag = 1;
+                    }
+                  }
+
+                  if(isset($teamScores[$key2])) {
+                    if($teamScores[$key1]['home_score'] > $teamScores[$key1]['away_score']) {
+                      $updatePositionFlag = 1;
+                    }
+                  }
+
+                  if($updatePositionFlag == 1) {
+                    $tmp = $scoreCompareOrder[$j+1];
+                    $scoreCompareOrder[$j+1] = $scoreCompareOrder[$j];
+                    $scoreCompareOrder[$j] = $tmp;
+                  }
+
+                  // $scoreCompareOrder = array_combine($teamIds, array_reverse(range(1, count($teamIds))));
+
+                  $params[] = array_combine($teamIds, $scoreCompareOrder);
+                  $params[] = SORT_DESC;
+                }
               }
-              if($value = 'matches_won') {
-                $rules[] = $matchesWon;
-                $rules[] = 'SORT_DESC';
+              if($rule['key'] == 'goal_difference') {
+                $params[] = $did;
+                $params[] = SORT_DESC;
               }
-              if($value = 'goal_ratio') {
-                $rules[] = $goalRatio;
-                $rules[] = 'SORT_DESC';
+              if($rule['key'] == 'goals_for') {
+                $params[] = $eid;
+                $params[] = SORT_DESC;
+              }
+              if($rule['key'] == 'matches_won') {
+                $params[] = $matchesWon;
+                $params[] = SORT_DESC;
+              }
+              if($rule['key'] == 'goal_ratio') {
+                $params[] = $goalRatio;
+                $params[] = SORT_DESC;
               }
             }
+
+            $params[] = $cvalue;
+
             if($competition->is_manual_override_standing == 1) {
-              array_multisort($manual_order, SORT_ASC, $rules, $cvalue);
-            } else {
-              array_multisort($rules, $cvalue);
+              $params = array_merge(array($manual_order, SORT_ASC), $params);
             }
+            
+            array_multisort(...$params);
+            
             $calculatedArray[$ckey] = $cvalue;
         }
+        
         $i=1;
         if(count($calculatedArray) > 0) {
           foreach($calculatedArray[$cupId] as $kky=>$data) {
