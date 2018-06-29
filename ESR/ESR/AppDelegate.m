@@ -211,7 +211,9 @@ NSString *const kGCMMessageIDKey = @"gcm.message_id";
                                                   NSString *build = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString *)kCFBundleVersionKey];
                                                   NSLog(@"%@  %@ %@",version,buildVersion,build);
                                                   if (version != NULL) {
-                                                      if (![build isEqualToString:version]) {
+                                                      int buildInt = [build intValue];
+                                                      int versionInt = [version intValue];
+                                                      if (buildInt < versionInt) {
                                                           dispatch_async(dispatch_get_main_queue(), ^{
                                                               AppDelegate *app = (AppDelegate*)[[UIApplication sharedApplication] delegate];
                                                               app.window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
@@ -223,6 +225,18 @@ NSString *const kGCMMessageIDKey = @"gcm.message_id";
                                                               [app.window makeKeyAndVisible];
                                                           });
                                                       }
+                                                      /*if (![build isEqualToString:version]) {
+                                                          dispatch_async(dispatch_get_main_queue(), ^{
+                                                              AppDelegate *app = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+                                                              app.window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
+                                                              UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+                                                              ApplicationUpdateVC *myVC = (ApplicationUpdateVC *)[storyboard instantiateViewControllerWithIdentifier:@"ApplicationUpdateVC"];
+                                                              UINavigationController *navigationObject = [[UINavigationController alloc] initWithRootViewController:myVC];
+                                                              app.window.rootViewController = navigationObject;
+                                                              navigationObject.navigationBar.hidden = TRUE;
+                                                              [app.window makeKeyAndVisible];
+                                                          });
+                                                      }*/
                                                   }
 
                                               }
