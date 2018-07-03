@@ -18,6 +18,7 @@ use Laraspace\Models\Competition;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
 use JWTAuth;
+use Laraspace\Models\PitchBreaks;
 
 class TournamentRepository
 {
@@ -755,6 +756,16 @@ class TournamentRepository
 
             $pitchAvailableStart = \Carbon\Carbon::createFromFormat('d/m/Y H:i', $pitchAvailable->stage_start_date.' '.$pitchAvailable->stage_start_time);
             $pitchAvailableEnd = \Carbon\Carbon::createFromFormat('d/m/Y H:i', $pitchAvailable->stage_start_date.' '.$pitchAvailable->stage_end_time);
+
+            $allPitchBreaks = PitchBreaks::where('availability_id', $pitchAvailable->id)->get();
+
+            $availableTimeSlots = [];
+
+            if(count($allPitchBreaks) > 0) {
+              foreach ($$allPitchBreaks as $key => $breaks) {
+                
+              }
+            }
 
             foreach ($tempFixture as $tempFix) {
                 $startMatch = $tempFix->match_datetime;
