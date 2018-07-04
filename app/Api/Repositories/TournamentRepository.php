@@ -762,7 +762,7 @@ class TournamentRepository
             $availableTimeSlots = [];
 
             if(count($allPitchBreaks) > 0) {
-              foreach ($$allPitchBreaks as $key => $breaks) {
+              foreach ($allPitchBreaks as $key => $breaks) {
                 
               }
             }
