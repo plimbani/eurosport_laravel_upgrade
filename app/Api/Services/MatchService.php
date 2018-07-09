@@ -1103,7 +1103,6 @@ class MatchService implements MatchContract
             }
 
             $params = [];
-            $previousRule = [];
             $rules = $tournamentCompetationTemplatesRecord->rules;
 
             $prevRuleParams = null;
@@ -1119,24 +1118,24 @@ class MatchService implements MatchContract
               }
 
               if($rule['key'] == 'match_points') {
-                $params[] = $previousRule = $mid;
+                $params[] = $mid;
                 $params[] = SORT_DESC;
               }
               
               if($rule['key'] == 'goal_difference') {
-                $params[] = $previousRule = $did;
+                $params[] = $did;
                 $params[] = SORT_DESC;
               }
               if($rule['key'] == 'goals_for') {
-                $params[] = $previousRule = $eid;
+                $params[] = $eid;
                 $params[] = SORT_DESC;
               }
               if($rule['key'] == 'matches_won') {
-                $params[] = $previousRule = $matchesWon;
+                $params[] = $matchesWon;
                 $params[] = SORT_DESC;
               }
               if($rule['key'] == 'goal_ratio') {
-                $params[] = $previousRule = $goalRatio;
+                $params[] = $goalRatio;
                 $params[] = SORT_DESC;
               }
             }
@@ -1147,111 +1146,6 @@ class MatchService implements MatchContract
               $params = array_merge(array($manual_order, SORT_ASC), $params);
             }
             array_multisort(...$params);
-
-            // if($i != count($rules)) {
-            //   $params[] = $cvalue;
-
-            //   if($competition->is_manual_override_standing == 1) {
-            //     $params = array_merge(array($manual_order, SORT_ASC), $params);
-            //   }
-            //   array_multisort(...$params);
-
-            //   print_r($cvalue);
-
-            //   return;
-
-            //   $params = [];
-
-            //   $standingDetails = array_values($cvalue);
-            //   $teamIds = array_keys($cvalue);
-
-            //   arsort($previousRule);
-
-            //   print_r($cvalue);
-            //   print_r($previousRule);exit;
-
-            //   for($j=0; $j < count($teamIds); $j++) {
-            //     // $scoreCompareOrder = array_reverse(range(1, count($standingDetails)));
-
-            //     for($k=$j+1; $k < count($teamIds); $k++) {
-            //       if($previousRule[$teamIds[$j]] != $previousRule[$teamIds[$k]]) {
-            //         continue 2;
-            //       }
-
-            //       $key1 = $teamIds[$j] . '.' . $teamIds[$k];
-            //       $key2 = $teamIds[$k] . '.' . $teamIds[$j];
-            //       $updatePositionFlag = 0;
-
-            //       if(isset($teamScores[$key1])) {
-            //         if($teamScores[$key1]['away_score'] > $teamScores[$key1]['home_score']) {
-            //           $updatePositionFlag = 1;
-            //         }
-            //       }
-
-            //       if(isset($teamScores[$key2])) {
-            //         if($teamScores[$key2]['home_score'] > $teamScores[$key2]['away_score']) {
-            //           $updatePositionFlag = 1;
-            //         }
-            //       }
-
-            //       if($updatePositionFlag == 1) {
-            //         $tmp = $standingDetails[$k];
-            //         $standingDetails[$k] = $standingDetails[$j];
-            //         $standingDetails[$j] = $tmp;
-
-            //         $tmp = $teamIds[$k];
-            //         $teamIds[$k] = $teamIds[$j];
-            //         $teamIds[$j] = $tmp;
-            //       }
-            //     }
-
-            //   }
-
-            //   $cvalue = array_combine($teamIds, $standingDetails);
-            //   $i++;
-            // }
-
-            // print_r($cvalue);exit;
-
-            // if($i != count($rules)) {
-            //   for($l=$i; $l<count($rules); $l++) {
-            //     $rule = $rules[$l];
-
-            //     if($rule['checked'] == false) {
-            //       continue;
-            //     }
-
-            //     if($rule['key'] == 'match_points') {
-            //       $params[] = $mid;
-            //       $params[] = SORT_DESC;
-            //     }
-                
-            //     if($rule['key'] == 'goal_difference') {
-            //       $params[] = $did;
-            //       $params[] = SORT_DESC;
-            //     }
-            //     if($rule['key'] == 'goals_for') {
-            //       $params[] = $eid;
-            //       $params[] = SORT_DESC;
-            //     }
-            //     if($rule['key'] == 'matches_won') {
-            //       $params[] = $matchesWon;
-            //       $params[] = SORT_DESC;
-            //     }
-            //     if($rule['key'] == 'goal_ratio') {
-            //       $params[] = $goalRatio;
-            //       $params[] = SORT_DESC;
-            //     }
-            //   }
-
-            //   $params[] = $cvalue;
-
-            //   if($competition->is_manual_override_standing == 1) {
-            //     $params = array_merge(array($manual_order, SORT_ASC), $params);
-            //   }
-              
-            //   array_multisort(...$params);
-            // }
             
             $calculatedArray[$ckey] = $cvalue;
         }
