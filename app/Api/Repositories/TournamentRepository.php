@@ -17,6 +17,7 @@ use Laraspace\Models\UserFavourites;
 use Laraspace\Models\Competition;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
+use Carbon\CarbonInterval;
 use JWTAuth;
 use Laraspace\Models\PitchBreaks;
 
@@ -744,36 +745,99 @@ class TournamentRepository
         return ['status' => 'error', 'message' => 'Required time should be less than pitch available time.'];
       }
 
+      $reservedStartTimeArray = [];
+      $reservedEndTimeArray = [];
+      $availableStartTimeArray = [];
+      $availableEndTimeArray = [];
+      $newReservedTimeArray = [];
+      $pitchOpeningTimes = [];
 
       foreach ($data['pitches'] as $key => $pitch) {
         $pitchAvailability = PitchAvailable::where('pitch_id', $pitch)->get();
-        foreach ($pitchAvailability as $key => $pitchAvailable) {
-            $tempFixture = TempFixture::where('competition_id', $data['competition'])
+        $tempFixtures = TempFixture::where('competition_id', $data['competition'])
                                     ->where('age_group_id', $data['age_category'])
                                     ->where('pitch_id', $pitch)
                                     ->where('is_scheduled', 1)
                                     ->get();
+        
+        foreach ($tempFixtures as $key => $fixture) {
+          $reservedStartTimeArray[] = $fixture->match_datetime->toDateTimeString();
+          $reservedEndTimeArray[] = $fixture->match_endtime->toDateTimeString();
 
-            $pitchAvailableStart = \Carbon\Carbon::createFromFormat('d/m/Y H:i', $pitchAvailable->stage_start_date.' '.$pitchAvailable->stage_start_time);
-            $pitchAvailableEnd = \Carbon\Carbon::createFromFormat('d/m/Y H:i', $pitchAvailable->stage_start_date.' '.$pitchAvailable->stage_end_time);
+          $newReservedTimeArray[] = [
+            'start' => $fixture->match_datetime->toDateTimeString(),
+            'end' => $fixture->match_endtime->toDateTimeString()
+          ];
+        }
 
-            $allPitchBreaks = PitchBreaks::where('availability_id', $pitchAvailable->id)->get();
+        foreach ($pitchAvailability as $key => $pitchAvailable) {
+          $pitchAvailableStart = Carbon::createFromFormat('d/m/Y H:i', $pitchAvailable->stage_start_date.' '.$pitchAvailable->stage_start_time);
+          $pitchAvailableEnd = Carbon::createFromFormat('d/m/Y H:i', $pitchAvailable->stage_start_date.' '.$pitchAvailable->stage_end_time);
 
-            $availableTimeSlots = [];
+          $allPitchBreaks = PitchBreaks::where('availability_id', $pitchAvailable->id)->get();
 
-            if(count($allPitchBreaks) > 0) {
-              foreach ($allPitchBreaks as $key => $breaks) {
-                
-              }
+          $availableStartTimeArray[] = $pitchAvailableStart->toDateTimeString();
+          $i=0;
+          $pitchOpeningTimes[$i]['pitchStart'] = $pitchAvailableStart->toDateTimeString();
+          if(count($allPitchBreaks) > 0) {
+            foreach ($allPitchBreaks as $key => $break) {
+              $availableEndTimeArray[] = $pitchAvailableStart->format('Y-m-d') . ' ' .$break->break_start . ''. ':00';
+              $availableStartTimeArray[] = $pitchAvailableStart->format('Y-m-d') . ' ' .$break->break_end . ''. ':00';
+
+              $pitchOpeningTimes[$i]['pitchClose'] = $pitchAvailableStart->format('Y-m-d') . ' ' .$break->break_start . ''. ':00';
+              $i++;
+              $pitchOpeningTimes[$i]['pitchStart'] = $pitchAvailableStart->format('Y-m-d') . ' ' .$break->break_end . ''. ':00';
             }
+          }
+          $availableEndTimeArray[] = $pitchAvailableEnd->toDateTimeString();
+          $pitchOpeningTimes[$i]['pitchClose'] = $pitchAvailableEnd->toDateTimeString();
 
-            foreach ($tempFixture as $tempFix) {
-                $startMatch = $tempFix->match_datetime;
-                $endMatch = $tempFix->match_endtime;
-                echo "<pre>";print_r($endMatch);echo "</pre>";exit;
-            }
+          return $this->openSlots($pitchOpeningTimes, $newReservedTimeArray);
+        }
+      }
+    }
+
+    public function openSlots($pitchOpeningTimes, $reservedStartTimeArray)
+    {
+      echo "<pre>";print_r($pitchOpeningTimes);echo "</pre>";exit;
+      if (count($reservedStartTimeArray) == 0) { # No games planned, pitch is free all day.
+        return ['freeSlotStart' => $pitchOpeningTimes['pitchStart'], 'freeSlotEnd' => $pitchOpeningTimes['pitchClose']];
+      }
+
+      $freeslots = []; # We need a result array to push our free slots to.
+
+      // First edge case: pitch might be free between pitchStart and start of the first game
+      // if game doesn't start at opening of the pitch.
+      if ($reservedStartTimeArray[0]['start'] !== $pitchOpeningTimes[0]['pitchStart']) {
+          $freeslots[] = [
+            'freeSlotStart' => $pitchOpeningTimes[0]['pitchStart'],
+            'freeSlotEnd' => $reservedStartTimeArray[0]['start']
+          ];
+      }
+
+      // Loop over the games to check for open slots between games.
+      for ($g = 0; $g < count($reservedStartTimeArray) - 1; $g++) {
+        if ($reservedStartTimeArray[$g]['end'] !== $reservedStartTimeArray[$g + 1]['start']) {
+            $freeslots[] = [
+              'freeSlotStart' => $reservedStartTimeArray[$g]['end'],
+              'freeSlotEnd' => $reservedStartTimeArray[$g + 1]['start']
+            ];
         }
       }
 
+      // Second edge case: pitch might be free between pitchEnd and end of the last game
+
+      // If game doesn't end at the time the pitch closes.
+
+      $lastGame = end($reservedStartTimeArray);
+
+      if ($lastGame['end'] !== $pitchOpeningTimes[0]['pitchClose']) {
+          $freeslots[] = [
+              'freeSlotStart' => $lastGame['end'],
+              'freeSlotEnd' => $pitchOpeningTimes[0]['pitchClose']
+          ];
+      }
+
+      return $freeslots;
     }
 }
