@@ -8,4 +8,12 @@ return [
     "signed_url_interval" => env('SIGNED_URL_INTERVAL'),
     "website_preview_url" => env('WEBSITE_PREVIEW_URL'),
     "preview_url_expire_time" => env('PREVIEW_URL_EXPIRE_TIME'),
+    "category_rules" => [
+	    "match_points" => "Match points",
+	    "goal_difference" => "Goal difference",
+	    "goals_for" => "Goals for",
+	    "head_to_head" => "Head to head",
+	    "goal_ratio" => "Goal ratio",
+	    "matches_won" => "Matches won"
+	  ],
 ];

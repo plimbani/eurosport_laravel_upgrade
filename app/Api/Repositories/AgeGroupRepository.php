@@ -89,13 +89,6 @@ class AgeGroupRepository
      return $competationIds;
     }
     public function createCompeationFormat($data){
-      // echo "<pre>";print_r($data);echo "</pre>";exit;
-      // here first we save the Age Group
-      // $ageGroupData['name'] = $data['ageCategory_name'];
-      // $ageGroupId = AgeGroup::create($ageGroupData)->id;
-
-      // here we save the tournament_competation_template
-     
       $tournamentCompeationTemplate = array();
       $tournamentCompeationTemplate['group_name'] = $data['ageCategory_name'];
       $tournamentCompeationTemplate['comments'] = $data['comments'] != '' ? $data['comments'] : null;
@@ -121,9 +114,15 @@ class AgeGroupRepository
       // TODO: Add New Code For more Other Options
 
       // TODO: Add total_teams and min_matches For particular Age Category
-      $tournamentCompeationTemplate['total_teams'] =$data['total_teams'];
-      $tournamentCompeationTemplate['min_matches']= $data['min_matches'];
-      $tournamentCompeationTemplate['team_interval']= $data['team_interval'];
+      $tournamentCompeationTemplate['total_teams'] = $data['total_teams'];
+      $tournamentCompeationTemplate['min_matches'] = $data['min_matches'];
+      $tournamentCompeationTemplate['team_interval'] = $data['team_interval'];
+
+      $tournamentCompeationTemplate['win_point']= $data['win_point'];
+      $tournamentCompeationTemplate['loss_point']= $data['loss_point'];
+      $tournamentCompeationTemplate['draw_point']= $data['draw_point'];
+      $tournamentCompeationTemplate['rules']= $data['selectedCategoryRule'];
+
       // Insert value in Database
       // here we check value for Edit as Well
 
@@ -170,7 +169,10 @@ class AgeGroupRepository
         $updataArr['newCatname'] = trim($data['ageCategory_name']."-".$data['category_age']);
         $this->updateAgeCatAndName($updataArr);
       // }
-      return  TournamentCompetationTemplates::where('id', $data['competation_format_id'])->update($tournamentCompeationTemplate);
+
+        $tournamentCompeationTemplate['rules'] = json_encode($tournamentCompeationTemplate['rules']);
+
+        return  TournamentCompetationTemplates::where('id', $data['competation_format_id'])->update($tournamentCompeationTemplate);
       } else {
       //TournamentCompetationTemplates::create($tournamentCompeationTemplate)->id;
       // Here also Save in competations table
