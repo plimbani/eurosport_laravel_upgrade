@@ -200,7 +200,7 @@ module.exports= {
   website_map: "Map",
   website_tournament: "Tournament",
   website_program: "Program",
-  website_stay: "Stay",
+  website_stay: "Hospitality",
   website_visitors: "Visitors",
   website_media: "Media",
   website_contact: "Contact",

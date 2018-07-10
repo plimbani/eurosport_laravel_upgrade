@@ -8,7 +8,7 @@
 		'rules' => 'Regler',
 		'history' => 'Historie',
 		'program' => 'Program',
-		'stay' => 'Ophold',
+		'stay' => 'Hospitality',
 		'meals' => 'Mad',
 		'accommodation' => 'Indkvartering',
 		'visitors' => 'Besøgende',

@@ -55,10 +55,10 @@ class StayRepository
 	public function saveStayPageData($data)
 	{
 		// update stay page detail
-    $stayPageDetail = array();
-    $stayPageDetail['name'] = $this->stayPageName;
-    $stayPageDetail['content'] = $data['stay_introduction_content'];
-    $this->pageService->updatePageDetails($stayPageDetail, $data['website_id']);
+    // $stayPageDetail = array();
+    // $stayPageDetail['name'] = $this->stayPageName;
+    // $stayPageDetail['content'] = $data['stay_introduction_content'];
+    // $this->pageService->updatePageDetails($stayPageDetail, $data['website_id']);
 
     // update meals page detail
     $mealsPageDetail = array();
@@ -83,7 +83,7 @@ class StayRepository
    */
   public function getStayPageData($websiteId)
   {
-    $pages = [$this->stayPageName, $this->mealsPageName, $this->accommodationPageName];
+    $pages = [$this->mealsPageName, $this->accommodationPageName];
     $pagesData = $this->pageService->getMultiplePagesData($pages, $websiteId);
     $additionalPages = $this->pageService->getAdditionalPagesByParentId($pagesData['stay']['id'], $websiteId);      
 

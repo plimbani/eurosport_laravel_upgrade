@@ -8,7 +8,7 @@
 		'rules' => 'Rules',
 		'history' => 'History',
 		'program' => 'Program',
-		'stay' => 'Stay',
+		'stay' => 'Hospitality',
 		'meals' => 'Meals',
 		'accommodation' => 'Accommodation',
 		'visitors' => 'Visitors',

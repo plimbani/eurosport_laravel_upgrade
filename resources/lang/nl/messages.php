@@ -8,7 +8,7 @@
 		'rules' => 'Toernooi reglement',
 		'history' => 'Historie',
 		'program' => 'Programma',
-		'stay' => 'Verblijf',
+		'stay' => 'Hospitality',
 		'meals' => 'Maaltijden',
 		'accommodation' => 'Accommodatie',
 		'visitors' => 'Bezoekers',
