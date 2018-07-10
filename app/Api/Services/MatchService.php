@@ -1131,14 +1131,15 @@ class MatchService implements MatchContract
               }
             }
 
-            $params[] = $cvalue;
+            $params[] = &$cvalue;
 
             if($competition->is_manual_override_standing == 1) {
               $params = array_merge(array($manual_order, SORT_ASC), $params);
             }
+
             array_multisort(...$params);
             
-            $calculatedArray[$ckey] = array_values($cvalue);
+            $calculatedArray[$ckey] = $cvalue;
         }
         
         $i=1;
