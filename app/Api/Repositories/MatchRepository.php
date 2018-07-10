@@ -501,7 +501,7 @@ class MatchRepository
             }
           }
 
-          $reportQuery->orderBy('match_standing.team_id','asc');
+          $reportQuery = $reportQuery->orderBy('match_standing.team_id','asc');
 
           $tempFixtures = DB::table('temp_fixtures')
                           ->leftjoin('competitions', 'temp_fixtures.competition_id', '=', 'competitions.id')

@@ -973,8 +973,6 @@ class MatchService implements MatchContract
 
         $cupId = $compId;
 
-        $teamScores = [];
-
         //$cupRoundrobinData = $this->CupRoundrobin->find('first', array('conditions' => array('comp_id' => $cupId)));
 
         //$groupTeams = json_decode($cupRoundrobinData['CupRoundrobin']['groups'],true);
@@ -984,7 +982,6 @@ class MatchService implements MatchContract
         foreach ($comp as $key => $value) {
           $home_team_arr[] = $value->home_team;
           $away_team_arr[] = $value->away_team;
-          $teamScores[$value->home_team . '.' . $value->away_team] = ['home_score' => $value->hometeam_score, 'away_score' => $value->awayteam_score];
         }
         $teamList = array_unique(array_merge($home_team_arr,$away_team_arr));
 
@@ -1104,18 +1101,13 @@ class MatchService implements MatchContract
             $params = [];
             $rules = $tournamentCompetationTemplatesRecord->rules;
 
-            $prevRuleParams = null;
             for($i=0; $i<count($rules); $i++) {
               $rule = $rules[$i];
 
               if($rule['checked'] == false) {
                 continue;
               }
-
-              if($rule['key'] == 'head_to_head') {
-                break;
-              }
-
+              
               if($rule['key'] == 'match_points') {
                 $params[] = $mid;
                 $params[] = SORT_DESC;
