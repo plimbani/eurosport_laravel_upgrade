@@ -1111,34 +1111,40 @@ class MatchService implements MatchContract
               if($rule['key'] == 'match_points') {
                 $params[] = $mid;
                 $params[] = SORT_DESC;
+                $params[] = SORT_NUMERIC;
               }
               
               if($rule['key'] == 'goal_difference') {
                 $params[] = $did;
                 $params[] = SORT_DESC;
+                $params[] = SORT_NUMERIC;
               }
               if($rule['key'] == 'goals_for') {
                 $params[] = $eid;
                 $params[] = SORT_DESC;
+                $params[] = SORT_NUMERIC;
               }
               if($rule['key'] == 'matches_won') {
                 $params[] = $matchesWon;
                 $params[] = SORT_DESC;
+                $params[] = SORT_NUMERIC;
               }
               if($rule['key'] == 'goal_ratio') {
                 $params[] = $goalRatio;
                 $params[] = SORT_DESC;
+                $params[] = SORT_NUMERIC;
               }
             }
 
-            $params[] = $cvalue;
+            $params[] = &$cvalue;
 
             if($competition->is_manual_override_standing == 1) {
               $params = array_merge(array($manual_order, SORT_ASC), $params);
             }
+
             array_multisort(...$params);
             
-            $calculatedArray[$ckey] = array_values($cvalue);
+            $calculatedArray[$ckey] = $cvalue;
         }
         
         $i=1;
