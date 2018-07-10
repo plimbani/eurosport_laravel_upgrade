@@ -12,7 +12,6 @@ return [
 	    "match_points" => "Match points",
 	    "goal_difference" => "Goal difference",
 	    "goals_for" => "Goals for",
-	    "head_to_head" => "Head to head",
 	    "goal_ratio" => "Goal ratio",
 	    "matches_won" => "Matches won"
 	  ],
