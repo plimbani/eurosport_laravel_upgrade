@@ -12,6 +12,7 @@ use Laraspace\Models\TempFixture;
 use Laraspace\Models\TournamentTemplates;
 use Laraspace\Traits\TournamentAccess;
 use Laraspace\Models\Referee;
+use Laraspace\Models\Competition;
 
 class AgeGroupService implements AgeGroupContract
 {
@@ -55,6 +56,8 @@ class AgeGroupService implements AgeGroupContract
 
         // Check if maximum team exceeds
         $totalCheckTeams = 0;
+
+        $tournamentTemplateObj = null;
 
         $tournamentTotalTeamSumObj = TournamentCompetationTemplates::where('tournament_id', $data['tournament_id']);
         $maximumTeams = Tournament::find($data['tournament_id'])->maximum_teams;
@@ -107,9 +110,8 @@ class AgeGroupService implements AgeGroupContract
         $data['disp_format_name'] = $dispFormatname;
 
         if(isset($data['competation_format_id']) && $data['competation_format_id'] != 0){
-
-            $mininterval = TournamentCompetationTemplates::where('id', '=', $data['competation_format_id'])->first()->team_interval;
-           
+            $tournamentTemplateObj = TournamentCompetationTemplates::where('id', '=', $data['competation_format_id'])->first();
+            $mininterval = $tournamentTemplateObj->team_interval;
         }
 
         $id = $this->ageGroupObj->createCompeationFormat($data);
@@ -153,8 +155,22 @@ class AgeGroupService implements AgeGroupContract
                 $ageGroupId  = $data['competation_format_id'];
 
                 $matchData = array('tournamentId'=>$tournamentId, 'ageGroupId'=>$ageGroupId);
-                $matchresult =  $this->matchRepoObj->checkTeamIntervalForMatchesOnCategoryUpdate($matchData);
-                
+                $matchresult =  $this->matchRepoObj->checkTeamIntervalForMatchesOnCategoryUpdate($matchData);                
+              }
+            }
+            $matchPointChangeFlag = 0;
+            if ($tournamentTemplateObj->win_point != $data['win_point'] || $tournamentTemplateObj->loss_point != $data['loss_point'] || $tournamentTemplateObj->draw_point != $data['draw_point']) {
+              $matchPointChangeFlag = 1;
+            }
+            $categoryChangeFlag = 0;
+            if (json_encode($tournamentTemplateObj->rules) != json_encode($data['selectedCategoryRule'])) {
+              $categoryChangeFlag = 1;
+            }
+            if($matchPointChangeFlag == 1 || $categoryChangeFlag==1) {
+              $allCompetitionsIds = Competition::where('tournament_id', '=', $data['tournament_id'])->where('tournament_competation_template_id', '=', $data['competation_format_id'])->pluck('id')->toArray();
+              foreach ($allCompetitionsIds as $id) {
+                $competitionData = ['tournamentId' => $data['tournament_id'], 'competitionId' => $id];
+                $this->matchServiceObj->refreshCompetitionStandings($competitionData);
               }
             }
 
