@@ -1138,7 +1138,7 @@ class MatchService implements MatchContract
             }
             array_multisort(...$params);
             
-            $calculatedArray[$ckey] = $cvalue;
+            $calculatedArray[$ckey] = array_values($cvalue);
         }
         
         $i=1;
