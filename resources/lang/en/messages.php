@@ -3,7 +3,7 @@
 	[
 		'teams' => 'Teams',
 		'matches' => 'Matches',
-		'venue' => 'Venue',
+		'venue' => 'Location',
 		'tournament' => 'Tournament',
 		'rules' => 'Rules',
 		'history' => 'History',
@@ -61,5 +61,8 @@
 		'no_age_category_found' => 'No age categories found.',
 		'close' => 'Close',
 		'main_menu' => 'Main Menu',
+		'age_categories' => 'Age categories',
+		'program_overview' => 'Overview',
+		'tips' => 'Tips',
 	]
 ?>
