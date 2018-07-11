@@ -45,8 +45,8 @@ return [
   	],
     [
       'url' => null,
-      'name' => null,
-      'page_name' => null,
+      'name' => 'tournament',
+      'page_name' => 'tournament',
       'title' => 'Tournament',
       'content' => null,
       'is_enabled' => 0,
@@ -56,7 +56,7 @@ return [
       'children' => [
         [
           'url' => '/tournament',
-          'name' => 'tournament',
+          'name' => 'age_categories',
           'page_name' => 'tournament',
           'title' => 'Age categories',
           'content' => null,
@@ -102,8 +102,8 @@ return [
     ], 
     [
       'url' => null,
-      'name' => null,
-      'page_name' => null,
+      'name' => 'program',
+      'page_name' => 'program',
       'title' => 'Program',
       'content' => null,
       'is_enabled' => 0,
@@ -113,7 +113,7 @@ return [
       'children' => [
         [
           'url' => '/program',
-          'name' => 'program',
+          'name' => 'program_overview',
           'page_name' => 'program',
           'title' => 'Overview',
           'content' => null,
@@ -149,13 +149,13 @@ return [
         [
           'url' => '/visitors/#public-transport',
           'name' => 'public_transport',
-          'page_name' => 'public_transport',
+          'page_name' => 'public-transport',
           'title' => 'Public Transport',
           'content' => null,
           'is_enabled' => 0,
           'is_published' => 0,
           'is_permission_changeable' => 1,
-          'accessible_routes' => ['stay.page.details']
+          'accessible_routes' => ['visitor.page.details']
         ],
         [
           'url' => '/tourist-information',
@@ -177,7 +177,7 @@ return [
           'is_enabled' => 0,
           'is_published' => 0,
           'is_permission_changeable' => 1,
-          'accessible_routes' => ['stay.page.details']
+          'accessible_routes' => ['visitor.page.details']
         ],
         [
           'url' => '/accommodation',
@@ -307,20 +307,24 @@ return [
 	],
   'page_routes' => [
     'home' => 'home.page.details',
-    'teams' => 'team.page.details',
     'matches' => 'match.page.details',
-    'venue' => 'venue.page.details',
     'tournament' => 'tournament.page.details',
+    'age_categories' => 'tournament.page.details',
+    'teams' => 'team.page.details',
     'rules' => 'rules.page.details',
     'history' => 'history.page.details',
     'program' => 'program.page.details',
+    'program_overview' => 'program.page.details',
     'additional_program_page' => 'additional.program.page.details',
     'stay' => 'stay.page.details',
-    'meals' => 'meals.page.details',
-    'accommodation' => 'accommodation.page.details',
-    'additional_stay_page' => 'additional.stay.page.details',
     'visitors' => 'visitor.page.details',
+    'public_transport' => 'visitor.page.details',
     'tourist_information' => 'tourist.page.details',
+    'tips' => 'visitor.page.details',
+    'accommodation' => 'accommodation.page.details',
+    'meals' => 'meals.page.details',
+    'venue' => 'venue.page.details',
+    'additional_stay_page' => 'additional.stay.page.details',
     'media' => 'media.page.details',
     'contact' => 'contact.page.details',
   ],
