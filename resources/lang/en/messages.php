@@ -11,7 +11,7 @@
 		'stay' => 'Hospitality',
 		'meals' => 'Meals',
 		'accommodation' => 'Accommodation',
-		'visitors' => 'Visitors',
+		'visitors' => 'Check-in',
 		'tourist_information' => 'Tourist information',
 		'media' => 'Media',
 		'contact' => 'Contact',
