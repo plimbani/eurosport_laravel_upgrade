@@ -21,17 +21,6 @@ return [
       'is_permission_changeable' => 0,
       'accessible_routes' => ['home.page.details']
     ],
-  	// [
-  	// 	'url' => '/teams',
-  	// 	'name' => 'teams',
-   //    'page_name' => 'teams',
-  	// 	'title' => 'Teams',
-   //    'content' => null,
-   //    'is_enabled' => 0,
-   //    'is_published' => 0,
-   //    'is_permission_changeable' => 1,
-   //    'accessible_routes' => ['team.page.details']
-  	// ],
   	[
   		'url' => '/matches',
   		'name' => 'matches',

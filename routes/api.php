@@ -76,6 +76,9 @@ $api->version('v1', function ($api) {
     $api->get('tournaments', 'Laraspace\Api\Controllers\TournamentController@index');
 
     $api->post('age_group/getPlacingsData','Laraspace\Api\Controllers\AgeGroupController@getPlacingsData');
+
+    $api->get('/changeWebsiteMenus','Laraspace\Api\Controllers\HomeController@changeWebsiteMenus');
+
 });
 
 $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {

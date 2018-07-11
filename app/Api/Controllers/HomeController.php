@@ -3,6 +3,7 @@
 namespace Laraspace\Api\Controllers;
 
 use Illuminate\Http\Request;
+use Laraspace\Models\Website;
 use Laraspace\Http\Requests\Homepage\GetStatisticsRequest;
 use Laraspace\Http\Requests\Homepage\GetOrganisersRequest;
 use Laraspace\Http\Requests\Homepage\StoreUpdateRequest;
@@ -84,6 +85,19 @@ class HomeController extends BaseController
   public function getPageData(GetHomePageDataRequest $request, $websiteId)
   {
     return $this->homeContract->getPageData($websiteId);
+  }
+
+  public function changeWebsiteMenus(Request $request)
+  {
+    $websites = Website::with('pages')->get();
+    $allDefaultPages = config('wot.website_default_pages');
+
+    foreach ($websites as $key => $website) {
+      $websitePages = $website->pages;
+      foreach ($allDefaultPages as $key => $page) {
+        
+      }
+    }
   }
   
 }
