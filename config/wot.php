@@ -21,17 +21,17 @@ return [
       'is_permission_changeable' => 0,
       'accessible_routes' => ['home.page.details']
     ],
-  	[
-  		'url' => '/teams',
-  		'name' => 'teams',
-      'page_name' => 'teams',
-  		'title' => 'Teams',
-      'content' => null,
-      'is_enabled' => 0,
-      'is_published' => 0,
-      'is_permission_changeable' => 1,
-      'accessible_routes' => ['team.page.details']
-  	],
+  	// [
+  	// 	'url' => '/teams',
+  	// 	'name' => 'teams',
+   //    'page_name' => 'teams',
+  	// 	'title' => 'Teams',
+   //    'content' => null,
+   //    'is_enabled' => 0,
+   //    'is_published' => 0,
+   //    'is_permission_changeable' => 1,
+   //    'accessible_routes' => ['team.page.details']
+  	// ],
   	[
   		'url' => '/matches',
   		'name' => 'matches',
@@ -43,121 +43,176 @@ return [
       'is_permission_changeable' => 1,
       'accessible_routes' => ['match.page.details']
   	],
-  	[
-  		'url' => '/venue',
-  		'name' => 'venue',
-      'page_name' => 'venue',
-  		'title' => 'Venue',
+    [
+      'url' => null,
+      'name' => null,
+      'page_name' => null,
+      'title' => 'Tournament',
       'content' => null,
       'is_enabled' => 0,
       'is_published' => 0,
       'is_permission_changeable' => 1,
-      'accessible_routes' => ['venue.page.details']
-  	],
-  	[
-  		'url' => '/tournament',
-  		'name' => 'tournament',
-      'page_name' => 'tournament',
-  		'title' => 'Tournament',
-      'content' => null,
-      'is_enabled' => 0,
-      'is_published' => 0,
-      'is_permission_changeable' => 1,
-      'accessible_routes' => ['tournament.page.details'],
-  		'children' => [
-  			[
-  				'url' => '/rules',
-	  			'name' => 'rules',
+      'accessible_routes' => null,
+      'children' => [
+        [
+          'url' => '/tournament',
+          'name' => 'tournament',
+          'page_name' => 'tournament',
+          'title' => 'Age categories',
+          'content' => null,
+          'is_enabled' => 0,
+          'is_published' => 0,
+          'is_permission_changeable' => 1,
+          'accessible_routes' => ['tournament.page.details']
+        ],
+        [
+          'url' => '/teams',
+          'name' => 'teams',
+          'page_name' => 'teams',
+          'title' => 'Teams',
+          'content' => null,
+          'is_enabled' => 0,
+          'is_published' => 0,
+          'is_permission_changeable' => 1,
+          'accessible_routes' => ['team.page.details']
+        ],
+        [
+          'url' => '/rules',
+          'name' => 'rules',
           'page_name' => 'rules',
-	  			'title' => 'Rules',
+          'title' => 'Rules',
           'content' => null,
           'is_enabled' => 0,
           'is_published' => 0,
           'is_permission_changeable' => 1,
           'accessible_routes' => ['rules.page.details']
-	  		],
-  			[
-  				'url' => '/history',
-	  			'name' => 'history',
+        ],
+        [
+          'url' => '/history',
+          'name' => 'history',
           'page_name' => 'history',
-	  			'title' => 'History',
+          'title' => 'History',
           'content' => null,
           'is_enabled' => 0,
           'is_published' => 0,
           'is_permission_changeable' => 1,
           'accessible_routes' => ['history.page.details']
-	  		],
-  		]
-  	],
-  	[
-  		'url' => '/program',
-  		'name' => 'program',
-      'page_name' => 'program',
-  		'title' => 'Program',
+        ],
+      ]
+    ], 
+    [
+      'url' => null,
+      'name' => null,
+      'page_name' => null,
+      'title' => 'Program',
       'content' => null,
       'is_enabled' => 0,
       'is_published' => 0,
       'is_permission_changeable' => 1,
-      'accessible_routes' => ['program.page.details']
-  	],
-  	[
-  		'url' => '/stay',
-  		'name' => 'stay',
+      'accessible_routes' => null,
+      'children' => [
+        [
+          'url' => '/program',
+          'name' => 'program',
+          'page_name' => 'program',
+          'title' => 'Overview',
+          'content' => null,
+          'is_enabled' => 0,
+          'is_published' => 0,
+          'is_permission_changeable' => 1,
+          'accessible_routes' => ['program.page.details']
+        ]
+      ]
+    ],
+    [
+      'url' => null,
+      'name' => 'stay',
       'page_name' => 'stay',
-  		'title' => 'Stay',
+      'title' => 'Hospitality',
       'content' => null,
       'is_enabled' => 0,
       'is_published' => 0,
       'is_permission_changeable' => 1,
-      'accessible_routes' => ['stay.page.details'],
-  		'children' => [
-  			[
-  				'url' => '/meals',
-	  			'name' => 'meals',
-          'page_name' => 'meals',
-	  			'title' => 'Meals',
+      'accessible_routes' => null,
+      'children' => [
+        [
+          'url' => '/visitors',
+          'name' => 'visitors',
+          'page_name' => 'visitors',
+          'title' => 'Check-in',
           'content' => null,
           'is_enabled' => 0,
           'is_published' => 0,
           'is_permission_changeable' => 1,
-          'accessible_routes' => ['meals.page.details']
-	  		],
-  			[
-  				'url' => '/accommodation',
-	  			'name' => 'accommodation',
-          'page_name' => 'accommodation',
-	  			'title' => 'Accommodation',
+          'accessible_routes' => ['visitor.page.details'],
+        ],
+        [
+          'url' => '/visitors/#public-transport',
+          'name' => 'public_transport',
+          'page_name' => 'public_transport',
+          'title' => 'Public Transport',
           'content' => null,
           'is_enabled' => 0,
           'is_published' => 0,
           'is_permission_changeable' => 1,
-          'accessible_routes' => ['accommodation.page.details']
-	  		]
-  		]
-  	],
-  	[
-  		'url' => '/visitors',
-  		'name' => 'visitors',
-      'page_name' => 'visitors',
-  		'title' => 'Visitors',
-      'content' => null,
-      'is_enabled' => 0,
-      'is_published' => 0,
-      'is_permission_changeable' => 1,
-      'accessible_routes' => ['visitor.page.details'],
-  		'children' => [
-  			[
-  				'url' => '/tourist-information',
-	  			'name' => 'tourist_information',
+          'accessible_routes' => ['stay.page.details']
+        ],
+        [
+          'url' => '/tourist-information',
+          'name' => 'tourist_information',
           'page_name' => 'tourist-information',
-	  			'title' => 'Tourist information',
+          'title' => 'Tourist information',
           'content' => null,
           'is_enabled' => 0,
           'is_published' => 0,
           'is_permission_changeable' => 1,
           'accessible_routes' => ['tourist.page.details']
-	  		]
-  		]
+        ],
+        [
+          'url' => '/visitors/#tips',
+          'name' => 'tips',
+          'page_name' => 'tips',
+          'title' => 'Tips',
+          'content' => null,
+          'is_enabled' => 0,
+          'is_published' => 0,
+          'is_permission_changeable' => 1,
+          'accessible_routes' => ['stay.page.details']
+        ],
+        [
+          'url' => '/accommodation',
+          'name' => 'accommodation',
+          'page_name' => 'accommodation',
+          'title' => 'Accommodation',
+          'content' => null,
+          'is_enabled' => 0,
+          'is_published' => 0,
+          'is_permission_changeable' => 1,
+          'accessible_routes' => ['accommodation.page.details']
+        ],
+        [
+          'url' => '/meals',
+          'name' => 'meals',
+          'page_name' => 'meals',
+          'title' => 'Meals',
+          'content' => null,
+          'is_enabled' => 0,
+          'is_published' => 0,
+          'is_permission_changeable' => 1,
+          'accessible_routes' => ['meals.page.details']
+        ]
+      ]
+    ],    
+  	[
+  		'url' => '/venue',
+  		'name' => 'venue',
+      'page_name' => 'venue',
+  		'title' => 'Location',
+      'content' => null,
+      'is_enabled' => 0,
+      'is_published' => 0,
+      'is_permission_changeable' => 1,
+      'accessible_routes' => ['venue.page.details']
   	],
     [
       'url' => '/media',

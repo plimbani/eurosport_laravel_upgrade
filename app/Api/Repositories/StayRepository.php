@@ -15,8 +15,8 @@ class StayRepository
   protected $pageService;
 
   /**
-   * @var Stay page name
-   */
+  * @var Stay page name
+  */ 
   protected $stayPageName;
 
   /**
@@ -83,9 +83,9 @@ class StayRepository
    */
   public function getStayPageData($websiteId)
   {
-    $pages = [$this->mealsPageName, $this->accommodationPageName];
+    $pages = [$this->stayPageName, $this->mealsPageName, $this->accommodationPageName];
     $pagesData = $this->pageService->getMultiplePagesData($pages, $websiteId);
-    $additionalPages = $this->pageService->getAdditionalPagesByParentId($pagesData['stay']['id'], $websiteId);      
+    $additionalPages = $this->pageService->getAdditionalPagesByParentId($pagesData['stay']['id'], $websiteId);
 
     return array_merge($pagesData,['additionalPages' => $additionalPages]);
   }
