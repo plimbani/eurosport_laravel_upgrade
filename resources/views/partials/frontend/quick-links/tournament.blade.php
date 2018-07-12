@@ -3,6 +3,22 @@
         <div class="row align-items-center">
             <div class="col-lg-12">
                 <ul class="nav align-items-center justify-content-center">
+                    @if(in_array('tournament.page.details', $accessible_routes))
+                        <li class="nav-item">
+                            <a class="nav-link {{ Route::currentRouteName() == 'tournament.page.details' ? 'active' : '' }}" href="{{ route('tournament.page.details', ['domain' => $websiteDomain]) }}">
+                                <span class="icon"><i class="fas fa-list-alt"></i></span>
+                                <span>{!! __('messages.age_categories') !!}</span>
+                            </a>
+                        </li>
+                    @endif
+                    @if(in_array('tournament.page.details', $accessible_routes))
+                        <li class="nav-item">
+                            <a class="nav-link {{ Route::currentRouteName() == 'team.page.details' ? 'active' : '' }}" href="{{ route('team.page.details', ['domain' => $websiteDomain]) }}">
+                                <span class="icon"><i class="fas fa-list-alt"></i></span>
+                                <span>{!! __('messages.teams') !!}</span>
+                            </a>
+                        </li>
+                    @endif
                     @if(in_array('rules.page.details', $accessible_routes))
                         <li class="nav-item">
                             <a class="nav-link {{ Route::currentRouteName() == 'rules.page.details' ? 'active' : '' }}" href="{{ route('rules.page.details', ['domain' => $websiteDomain]) }}">

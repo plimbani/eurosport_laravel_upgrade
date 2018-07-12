@@ -3,19 +3,52 @@
         <div class="row align-items-center">
             <div class="col-lg-12">
                 <ul class="nav align-items-center justify-content-center">
-                    @if(in_array('meals.page.details', $accessible_routes))
+                    @if(in_array('visitor.page.details', $accessible_routes))
                         <li class="nav-item">
-                            <a class="nav-link {{ Route::currentRouteName() == 'meals.page.details' ? 'active' : '' }}" href="{{ route('meals.page.details', ['domain' => $websiteDomain]) }}">
+                            <a class="nav-link {{ Route::currentRouteName() == 'visitor.page.details' ? 'active' : '' }}" href="{{ route('visitor.page.details', ['domain' => $websiteDomain]) }}">
                                 <span class="icon"><i class="fas fa-utensils"></i></span>
-                                <span>{!! __('messages.meals') !!}</span>
+                                <span>{!! __('messages.visitors') !!}</span>
                             </a>
                         </li>
                     @endif
+                    @if(in_array('visitor.page.details', $accessible_routes))
+                        <li class="nav-item">
+                            <a class="nav-link {{ Route::currentRouteName() == 'visitor.page.details' ? 'active' : '' }}" href="{{ route('visitor.page.details', ['domain' => $websiteDomain]) }}">
+                                <span class="icon"><i class="fas fa-shuttle-van"></i></span>
+                                <span>{!! __('messages.public_transport') !!}</span>
+                            </a>
+                        </li>
+                    @endif
+                    @if(in_array('tourist.page.details', $accessible_routes))
+                        <li class="nav-item">
+                            <a class="nav-link {{ Route::currentRouteName() == 'tourist.page.details' ? 'active' : '' }}" href="{{ route('tourist.page.details', ['domain' => $websiteDomain]) }}">
+                                <span class="icon"><i class="fas fa-utensils"></i></span>
+                                <span>{!! __('messages.tourist_information') !!}</span>
+                            </a>
+                        </li>
+                    @endif
+                    @if(in_array('visitor.page.details', $accessible_routes))
+                        <li class="nav-item">
+                            <a class="nav-link {{ Route::currentRouteName() == 'visitor.page.details' ? 'active' : '' }}" href="{{ route('visitor.page.details', ['domain' => $websiteDomain]) }}">
+                                <span class="icon"><i class="fas fa-utensils"></i></span>
+                                <span>{!! __('messages.tips') !!}</span>
+                            </a>
+                        </li>
+                    @endif
+
                     @if(in_array('accommodation.page.details', $accessible_routes))
                         <li class="nav-item">
                             <a class="nav-link {{ Route::currentRouteName() == 'accommodation.page.details' ? 'active' : '' }}" href="{{ route('accommodation.page.details', ['domain' => $websiteDomain]) }}">
                                 <span class="icon"><i class="fas fa-bed"></i></span>
                                 <span>{!! __('messages.accommodation') !!}</span>
+                            </a>
+                        </li>
+                    @endif
+                    @if(in_array('meals.page.details', $accessible_routes))
+                        <li class="nav-item">
+                            <a class="nav-link {{ Route::currentRouteName() == 'meals.page.details' ? 'active' : '' }}" href="{{ route('meals.page.details', ['domain' => $websiteDomain]) }}">
+                                <span class="icon"><i class="fas fa-utensils"></i></span>
+                                <span>{!! __('messages.meals') !!}</span>
                             </a>
                         </li>
                     @endif

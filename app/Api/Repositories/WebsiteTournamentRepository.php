@@ -48,6 +48,7 @@ class WebsiteTournamentRepository
   {
     $this->pageService = $pageService;
     $this->pageName = 'tournament';
+    $this->tournamentAgeCategoryPageName = 'age_categories';
     $this->rulePageName = 'rules';
     $this->tournamentPageUrl = '/tournament';
     $this->additionalPageRoutesName = ['additional.tournament.page.details'];
@@ -410,6 +411,8 @@ class WebsiteTournamentRepository
     $response = $this->pageService->getMultiplePagesData($pages, $websiteId);
 
     $pagesData = $this->pageService->getPageDetails($this->pageName, $websiteId);
+    $programOverviewPageData = $this->pageService->getPageDetails($this->tournamentAgeCategoryPageName, $websiteId);
+    
     $additionalPages = $this->pageService->getAdditionalPagesByParentId($pagesData->id, $websiteId);
     $response['additionalPages'] = $additionalPages;
 

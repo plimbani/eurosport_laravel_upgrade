@@ -53,6 +53,7 @@ class VisitorController extends Controller
         $varsForView = [];
         $websiteId = Landlord::getTenants()['website']->id;
         $visitorsContent = $this->pageService->getPageDetails($this->visitorPageName, $websiteId);
+        $pageParentId = $visitorsContent->parent_id;
 
         // Page title
         $varsForView['pageTitle'] = $visitorsContent->title;
@@ -62,6 +63,10 @@ class VisitorController extends Controller
         $varsForView['publicTransport'] = isset($visitorsContent->meta['public_transport']) ? $visitorsContent->meta['public_transport'] : '';
 
         $varsForView['tips'] = isset($visitorsContent->meta['tips']) ? $visitorsContent->meta['tips'] : '';
+
+        $additionalPages = $this->pageService->getAdditionalPagesByParentId($pageParentId, $websiteId);
+
+        $varsForView['additionalPages'] = $additionalPages;
 
         return view('frontend.visitor', $varsForView);
     }
@@ -83,6 +88,10 @@ class VisitorController extends Controller
 
         // page title
         $varsForView['pageTitle'] = $parentPage->title . ' - ' . $pageDetail->title;
+
+        $additionalPages = $this->pageService->getAdditionalPagesByParentId($pageParentId, $websiteId);
+
+        $varsForView['additionalPages'] = $additionalPages;
 
         return view('frontend.tourist', $varsForView);
     }
