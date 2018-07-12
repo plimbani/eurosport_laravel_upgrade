@@ -6,6 +6,10 @@
 	</div>
 @endsection
 
+@section('quick-links')
+	@include('partials.frontend.quick-links.stay')
+@endsection
+
 @section('content')
 	<!-- Content wrapper -->
 	<div class="content__wrapper">

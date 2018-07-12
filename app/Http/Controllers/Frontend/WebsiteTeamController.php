@@ -40,11 +40,14 @@ class WebsiteTeamController extends Controller
     {
         $websiteId = Landlord::getTenants()['website']->id;
         $pageDetail = $this->pageService->getPageDetails($this->websiteTeamPageName, $websiteId);
+        $pageParentId = $pageDetail->parent_id;
 
         // Page title
         $varsForView['pageTitle'] = $pageDetail->title;
 
         $varsForView['ageCategories'] = $this->websiteTeamContract->getAgeCategories($websiteId)['data'];
+        $additionalPages = $this->pageService->getAdditionalPagesByParentId($pageParentId, $websiteId);
+        $varsForView['additionalPages'] = $additionalPages;
 
         return view('frontend.team', $varsForView);
     }
