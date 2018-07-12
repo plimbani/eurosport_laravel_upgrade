@@ -17,7 +17,7 @@
                                     <ul class="list-unstyled mb-0">
                             @endif
                                     <li>
-                                        <a href="{{ route(config('wot.page_routes')[$item['name']], ['domain' => $websiteDomain]) }}">{!! __('messages.' . $item['name']) !!}</a>
+                                        <a href="{{ $item['accessible_routes'] == null ? 'javascript:void(0)' : route(config('wot.page_routes')[$item['name']], ['domain' => $websiteDomain]) }}">{!! __('messages.' . $item['name']) !!}</a>
                                         @php($itemCount++)
                                         @if(isset($item['children']) && count($item['children']) > 0)
                                             <ul>

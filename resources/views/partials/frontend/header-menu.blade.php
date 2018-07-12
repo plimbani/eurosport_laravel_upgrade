@@ -20,11 +20,11 @@
                         @php($childRoutes = array_key_exists($item['name'], config('wot.parents_child_routes')) ? config('wot.parents_child_routes.' . $item['name']) : [])
                         <li class="nav-item{{ (isset($item['children']) && count($item['children']) > 0) ? ' dropdown' : '' }}{{ ( ($item['accessible_routes'] && in_array(Route::currentRouteName(), $item['accessible_routes'])) || in_array(Route::currentRouteName(), $childRoutes)) ? ' active' : '' }}">
                             @if(isset($item['children']) && count($item['children']) > 0)
-                                <a class="nav-link dropdown-toggle" href="{{  ($item['accessible_routes'] && in_array(Route::currentRouteName(), $item['accessible_routes'])) ? 'javascript:void(0)' : route(config('wot.page_routes')[$item['name']], ['domain' => $websiteDomain]) }}" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{!! __('messages.' . $item['name']) !!}</a>
+                                <a class="nav-link dropdown-toggle" href="{{  ($item['accessible_routes'] == null || in_array(Route::currentRouteName(), $item['accessible_routes'])) ? 'javascript:void(0)' : route(config('wot.page_routes')[$item['name']], ['domain' => $websiteDomain]) }}" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{!! __('messages.' . $item['name']) !!}</a>
                                 <div class="dropdown-menu">
                                     <ul>
                                         <li class="nav-value d-none d-lg-block">
-                                            <a href="{{  ($item['accessible_routes'] && in_array(Route::currentRouteName(), $item['accessible_routes'])) ? 'javascript:void(0)' :route(config('wot.page_routes')[$item['name']], ['domain' => $websiteDomain]) }}" class="current-tab">{!! __('messages.' . $item['name']) !!}</a>
+                                            <a href="{{  ($item['accessible_routes'] == null || in_array(Route::currentRouteName(), $item['accessible_routes'])) ? 'javascript:void(0)' :route(config('wot.page_routes')[$item['name']], ['domain' => $websiteDomain]) }}" class="current-tab">{!! __('messages.' . $item['name']) !!}</a>
                                         </li>
                                         @foreach($item['children'] as $childItem)
                                             <li>
