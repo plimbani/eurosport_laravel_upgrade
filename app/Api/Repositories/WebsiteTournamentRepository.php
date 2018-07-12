@@ -22,9 +22,14 @@ class WebsiteTournamentRepository
   protected $pageService;
 
   /*
-  * @var Page name
+  * @var Tournament page name
   */
-  protected $pageName;
+  protected $tournamentPageName;
+
+  /*
+  * @var Tournament age category page name
+  */
+  protected $tournamentAgeCategoryPageName;
 
   /*
   * @var Rule page name
@@ -32,7 +37,7 @@ class WebsiteTournamentRepository
   protected $rulePageName;
 
   /**
-   * @var Tournament page name
+   * @var Tournament page url
    */
   protected $tournamentPageUrl;
 
@@ -47,7 +52,7 @@ class WebsiteTournamentRepository
   public function __construct(PageService $pageService)
   {
     $this->pageService = $pageService;
-    $this->pageName = 'tournament';
+    $this->tournamentPageName = 'tournament';
     $this->tournamentAgeCategoryPageName = 'age_categories';
     $this->rulePageName = 'rules';
     $this->tournamentPageUrl = '/tournament';
@@ -63,7 +68,7 @@ class WebsiteTournamentRepository
 	{
 		// update website tournament page age categories
     $ageCategoryPageDetail = array();
-    $ageCategoryPageDetail['name'] = $this->pageName;
+    $ageCategoryPageDetail['name'] = $this->tournamentAgeCategoryPageName;
     $ageCategoryPageDetail['content'] = $data['age_categories'];
     $this->pageService->updatePageDetails($ageCategoryPageDetail, $data['websiteId']);
 
@@ -407,11 +412,10 @@ class WebsiteTournamentRepository
    */
   public function getPageData($websiteId)
   {
-    $pages = [$this->pageName, $this->rulePageName];
+    $pages = [$this->tournamentAgeCategoryPageName, $this->rulePageName];
     $response = $this->pageService->getMultiplePagesData($pages, $websiteId);
 
-    $pagesData = $this->pageService->getPageDetails($this->pageName, $websiteId);
-    $programOverviewPageData = $this->pageService->getPageDetails($this->tournamentAgeCategoryPageName, $websiteId);
+    $pagesData = $this->pageService->getPageDetails($this->tournamentPageName, $websiteId);
     
     $additionalPages = $this->pageService->getAdditionalPagesByParentId($pagesData->id, $websiteId);
     $response['additionalPages'] = $additionalPages;

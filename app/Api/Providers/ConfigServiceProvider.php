@@ -25,7 +25,7 @@ class ConfigServiceProvider extends ServiceProvider
     public function setTournamentPageContent()
     {
         foreach(Config::get('wot.website_default_pages') as $key => $page) {
-            if($page['name'] == 'tournament') {
+            if($page['name'] == 'age_categories') {
                 Config::set("wot.website_default_pages.$key.content", file_get_contents(base_path('resources/predefined_html/age_category.html')));
             }
         }

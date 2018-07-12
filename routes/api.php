@@ -213,7 +213,7 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
     $api->post('tournament/saveCategoryCompetitionColor',
         'Laraspace\Api\Controllers\TournamentController@saveCategoryCompetitionColor');
 
-    // routes for sigend url
+    // routes for signed url
     $api->post('getSignedUrlForMatchReport/{ageCategory}', 'Laraspace\Api\Controllers\MatchController@getSignedUrlForMatchReport');
 
     $api->post('getSignedUrlForTournamentReport', 'Laraspace\Api\Controllers\TournamentController@getSignedUrlForTournamentReport');

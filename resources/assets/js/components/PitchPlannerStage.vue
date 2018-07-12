@@ -354,6 +354,7 @@ import _ from 'lodash'
                     //schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
                     schedulerLicenseKey: '0097912839-fcs-1497264705',
                 });
+                arrangeLeftColumn();
             },
             handleEventClick(calEvent, jsEvent, view) {
                 // console.log(calEvent);
@@ -379,6 +380,7 @@ import _ from 'lodash'
                 $(ev).fullCalendar( 'removeEvents' )
                 setTimeout(function(){
                     $(ev).fullCalendar('addEventSource', vm.scheduledMatches);
+                    arrangeLeftColumn();
                 },1500)
             },
             getScheduledMatch(filterKey='',filterValue='',filterDependentKey='',filterDependentValue='') {
@@ -747,4 +749,41 @@ import _ from 'lodash'
         $("#game-list").css('height', leftViewHeight + 'px');
         $("#referee-list").css('height', leftViewHeight + 'px');
     }
+    function arrangeLeftColumn(){
+        var scrollableBodys = document.querySelectorAll('.fc-content-skeleton');
+        var index = 1;
+        var plannerwidth = $('.pitch_planner_section').width()/8;
+        [].forEach.call(scrollableBodys, function(scrollableBody) {
+            var totalPitches = document.querySelectorAll('.pitch-planner-item:nth-child('+index+') .fc-head-container > .fc-row > table > thead > tr > th').length - 1;
+            if(totalPitches>7){
+                var pitchplanneritem = document.querySelectorAll('.pitch-planner-item:nth-child('+index+')');
+                pitchplanneritem[0].classList.add("ppitem");
+                var width = (plannerwidth*(totalPitches+2));
+                var width2 = (plannerwidth*(totalPitches));
+
+                var scrollableHeader = document.querySelector('.pitch-planner-item:nth-child('+index+') .fc-head-container > .fc-row');
+                var scrollableHeaderTable = document.querySelector('.pitch-planner-item:nth-child('+index+') .fc-head-container > .fc-row > table');
+                scrollableHeaderTable.style.width = (width-40)+'px';
+                var scrollableBg = document.querySelector('.pitch-planner-item:nth-child('+index+') .fc-bg');
+                var scrollableBgTable = document.querySelector('.pitch-planner-item:nth-child('+index+') .fc-bg > table');
+                scrollableBgTable.style.width = width+'px';
+                var fcsktable = document.querySelector('.pitch-planner-item:nth-child('+index+') .fc-time-grid .fc-content-skeleton > table');
+                fcsktable.style.width = (width-40)+'px';
+
+                var fcsktable2 = document.querySelector('.pitch-planner-item:nth-child('+index+') .fc-agenda-view > table');
+                fcsktable2.style.width = '100%';
+
+                scrollableBody.addEventListener('scroll', () => {
+                    scrollableHeader.scrollTo(scrollableBody.scrollLeft, 0);
+                    scrollableBg.scrollTo(scrollableBody.scrollLeft, 0);
+                });
+            }
+            index++;
+        });
+    }
+    $(window).load(function(){
+        setTimeout(function() {
+            arrangeLeftColumn();
+        }, 5000);
+    });
 </script>
