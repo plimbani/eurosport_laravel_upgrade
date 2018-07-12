@@ -283,10 +283,9 @@ return [
 		'#9013FE' => 'theme-6.css',
   ],
   'parents_child_routes' => [
-    'tournament' => ['rules.page.details', 'history.page.details', 'additional.tournament.page.details'],
-    'program' => ['additional.program.page.details'],
-    'stay' => ['meals.page.details', 'accommodation.page.details', 'additional.stay.page.details'],
-    'visitors' => ['tourist.page.details'],
+    'tournament' => ['tournament.page.details', 'rules.page.details', 'history.page.details', 'additional.tournament.page.details'],
+    'program' => ['program.page.details', 'additional.program.page.details'],
+    'stay' => ['visitor.page.details', 'tourist.page.details', 'meals.page.details', 'accommodation.page.details', 'additional.stay.page.details'],
   ],
 	'font_files' => [
 		'Montserrat' => '//fonts.googleapis.com/css?family=Montserrat',
