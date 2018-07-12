@@ -54,12 +54,6 @@ class StayRepository
    */	
 	public function saveStayPageData($data)
 	{
-		// update stay page detail
-    // $stayPageDetail = array();
-    // $stayPageDetail['name'] = $this->stayPageName;
-    // $stayPageDetail['content'] = $data['stay_introduction_content'];
-    // $this->pageService->updatePageDetails($stayPageDetail, $data['website_id']);
-
     // update meals page detail
     $mealsPageDetail = array();
     $mealsPageDetail['name'] = $this->mealsPageName;
