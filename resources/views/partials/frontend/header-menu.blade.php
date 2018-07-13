@@ -31,7 +31,7 @@
                                                 @if($childItem['is_additional_page'] == 1)
                                                     <a href="{{ app()->request->route('additionalPageName') == $childItem['page_name'] ? 'javascript:void(0)' :'/' . LaravelLocalization::getCurrentLocale() .$childItem['url'] }}" class="{{ app()->request->route('additionalPageName') == $childItem['page_name'] ? 'active' : '' }}">{{ $childItem['title'] }}</a>
                                                 @else
-                                                    <a href="{{ in_array($item['accessible_routes'] && Route::currentRouteName(), $childItem['accessible_routes']) ? 'javascript:void(0)' : route(config('wot.page_routes')[$childItem['name']], ['domain' => $websiteDomain]) }}" class="{{ in_array(Route::currentRouteName(), $childItem['accessible_routes']) ? 'active' : '' }}">{!! __('messages.' . $childItem['name']) !!}</a>
+                                                    <a href="{{ in_array($item['accessible_routes'] && Route::currentRouteName(), $childItem['accessible_routes']) ? 'javascript:void(0)' : '/' . LaravelLocalization::getCurrentLocale() .$childItem['url'] }}" class="{{ in_array(Route::currentRouteName(), $childItem['accessible_routes']) ? 'active' : '' }}">{!! __('messages.' . $childItem['name']) !!}</a>
                                                 @endif
                                             </li>
                                         @endforeach

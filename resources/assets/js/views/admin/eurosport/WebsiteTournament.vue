@@ -132,7 +132,7 @@ export default {
 					this.tournament.countries = response.data.data.countries;
 					this.$root.$emit('setHistoryYears', response.data.data.history);
 					
-					this.tournament.parent_id = response.data.data.tournament.id;
+					this.tournament.parent_id = response.data.data.age_categories.id;
 					this.tournament.additional_pages = response.data.data.additionalPages;
 					this.$root.$emit('setPages', this.tournament.additional_pages);
 				},
