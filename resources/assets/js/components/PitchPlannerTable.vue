@@ -353,6 +353,9 @@
             },
             setView(view) {
                 let vm = this
+                setTimeout(function() {
+                    vm.$root.$emit('arrangeLeftColumn')                
+                }, 2000);
                 this.defaultView = view
                 if(vm.defaultView == 'timelineDay'){
                     $('.fc-timelineDay-button').click()
