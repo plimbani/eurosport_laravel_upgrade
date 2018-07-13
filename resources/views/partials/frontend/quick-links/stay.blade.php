@@ -6,7 +6,7 @@
                     @if(in_array('visitor.page.details', $accessible_routes))
                         <li class="nav-item">
                             <a class="nav-link {{ Route::currentRouteName() == 'visitor.page.details' ? 'active' : '' }}" href="{{ route('visitor.page.details', ['domain' => $websiteDomain]) }}">
-                                <span class="icon"><i class="fas fa-utensils"></i></span>
+                                <span class="icon"><i class="fas fa-key"></i></span>
                                 <span>{!! __('messages.visitors') !!}</span>
                             </a>
                         </li>
@@ -14,7 +14,7 @@
                     @if(in_array('visitor.page.details', $accessible_routes))
                         <li class="nav-item">
                             <a class="nav-link {{ Route::currentRouteName() == 'visitor.page.details' ? 'active' : '' }}" href="{{ route('visitor.page.details', ['domain' => $websiteDomain]) }}">
-                                <span class="icon"><i class="fas fa-shuttle-van"></i></span>
+                                <span class="icon"><i class="fas fa-bus-alt"></i></span>
                                 <span>{!! __('messages.public_transport') !!}</span>
                             </a>
                         </li>
@@ -22,7 +22,7 @@
                     @if(in_array('tourist.page.details', $accessible_routes))
                         <li class="nav-item">
                             <a class="nav-link {{ Route::currentRouteName() == 'tourist.page.details' ? 'active' : '' }}" href="{{ route('tourist.page.details', ['domain' => $websiteDomain]) }}">
-                                <span class="icon"><i class="fas fa-utensils"></i></span>
+                                <span class="icon"><i class="fas fa-address-card"></i></span>
                                 <span>{!! __('messages.tourist_information') !!}</span>
                             </a>
                         </li>
@@ -30,7 +30,7 @@
                     @if(in_array('visitor.page.details', $accessible_routes))
                         <li class="nav-item">
                             <a class="nav-link {{ Route::currentRouteName() == 'visitor.page.details' ? 'active' : '' }}" href="{{ route('visitor.page.details', ['domain' => $websiteDomain]) }}">
-                                <span class="icon"><i class="fas fa-utensils"></i></span>
+                                <span class="icon"><i class="fas fa-newspaper"></i></span>
                                 <span>{!! __('messages.tips') !!}</span>
                             </a>
                         </li>
