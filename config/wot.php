@@ -136,7 +136,7 @@ return [
           'accessible_routes' => ['visitor.page.details'],
         ],
         [
-          'url' => '/visitors/#public-transport',
+          'url' => '/visitor#public-transport',
           'name' => 'public_transport',
           'page_name' => 'public-transport',
           'title' => 'Public Transport',
@@ -158,7 +158,7 @@ return [
           'accessible_routes' => ['tourist.page.details']
         ],
         [
-          'url' => '/visitors/#tips',
+          'url' => '/visitors#tips',
           'name' => 'tips',
           'page_name' => 'tips',
           'title' => 'Tips',
