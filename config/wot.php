@@ -136,7 +136,7 @@ return [
           'accessible_routes' => ['visitor.page.details'],
         ],
         [
-          'url' => '/visitor#public-transport',
+          'url' => '/public-transport',
           'name' => 'public_transport',
           'page_name' => 'public-transport',
           'title' => 'Public Transport',
@@ -144,7 +144,7 @@ return [
           'is_enabled' => 0,
           'is_published' => 0,
           'is_permission_changeable' => 1,
-          'accessible_routes' => ['visitor.page.details']
+          'accessible_routes' => ['public.transport.page.details']
         ],
         [
           'url' => '/tourist-information',
@@ -158,7 +158,7 @@ return [
           'accessible_routes' => ['tourist.page.details']
         ],
         [
-          'url' => '/visitors#tips',
+          'url' => '/tips',
           'name' => 'tips',
           'page_name' => 'tips',
           'title' => 'Tips',
@@ -166,7 +166,7 @@ return [
           'is_enabled' => 0,
           'is_published' => 0,
           'is_permission_changeable' => 1,
-          'accessible_routes' => ['visitor.page.details']
+          'accessible_routes' => ['tips.page.details']
         ],
         [
           'url' => '/accommodation',
