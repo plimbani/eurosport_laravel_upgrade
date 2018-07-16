@@ -1,6 +1,7 @@
 <div class="hero__wrapper-child">
     <div class="container">
         <div class="row align-items-center">
+            {{ dd($_SERVER['REQUEST_URI']) }}
             <div class="col-lg-12">
                 <ul class="nav align-items-center justify-content-center">
                     @if(in_array('visitor.page.details', $accessible_routes))
@@ -13,8 +14,8 @@
                     @endif
                     @if(in_array('visitor.page.details', $accessible_routes))
                         <li class="nav-item">
-                            <a class="nav-link {{ Route::currentRouteName() == 'visitor.page.details' ? 'active' : '' }}" href="{{ route('visitor.page.details', ['domain' => $websiteDomain]) }}">
-                                <span class="icon"><i class="fas fa-bus-alt"></i></span>
+                            <a class="nav-link {{ url()->current() == route('visitor.page.details', ['domain' => $websiteDomain]) . '/#public-transport' ? 'active' : '' }}" href="{{ route('visitor.page.details', ['domain' => $websiteDomain]) }}/#public-transport">
+                                <span class="icon"><i class="fas fa-shuttle-van"></i></span>
                                 <span>{!! __('messages.public_transport') !!}</span>
                             </a>
                         </li>
@@ -29,8 +30,8 @@
                     @endif
                     @if(in_array('visitor.page.details', $accessible_routes))
                         <li class="nav-item">
-                            <a class="nav-link {{ Route::currentRouteName() == 'visitor.page.details' ? 'active' : '' }}" href="{{ route('visitor.page.details', ['domain' => $websiteDomain]) }}">
-                                <span class="icon"><i class="fas fa-newspaper"></i></span>
+                            <a class="nav-link {{ url()->current() == route('visitor.page.details', ['domain' => $websiteDomain]) . '/#tips' ? 'active' : '' }}" href="{{ route('visitor.page.details', ['domain' => $websiteDomain]) }}/#tips">
+                                <span class="icon"><i class="fas fa-utensils"></i></span>
                                 <span>{!! __('messages.tips') !!}</span>
                             </a>
                         </li>

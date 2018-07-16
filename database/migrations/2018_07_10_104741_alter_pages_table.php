@@ -14,8 +14,6 @@ class AlterPagesTable extends Migration
     public function up()
     {
         DB::statement('ALTER TABLE pages CHANGE url url VARCHAR(255) NULL');
-        DB::statement('ALTER TABLE pages CHANGE page_name page_name VARCHAR(255) NULL');
-        DB::statement('ALTER TABLE pages CHANGE name name VARCHAR(255) NULL');
         DB::statement('ALTER TABLE pages CHANGE accessible_routes accessible_routes TEXT NULL');
     }
 
@@ -27,8 +25,6 @@ class AlterPagesTable extends Migration
     public function down()
     {
         DB::statement('ALTER TABLE pages CHANGE url url VARCHAR(255) NOT NULL');
-        DB::statement('ALTER TABLE pages CHANGE page_name page_name VARCHAR(255) NOT NULL');
-        DB::statement('ALTER TABLE pages CHANGE name name VARCHAR(255) NOT NULL');
         DB::statement('ALTER TABLE pages CHANGE accessible_routes accessible_routes TEXT NOT NULL');
     }
 }
