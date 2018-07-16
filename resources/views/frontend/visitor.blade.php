@@ -21,7 +21,6 @@
 	                @if($arrivalCheckInInformation)
 						<h2>{!! __('messages.visitors_arrival_and_check_in') !!}</h2>
 						{!! $arrivalCheckInInformation !!}
-						@if($publicTransport) <div class="py-4 mb-3"></div> @endif
 					@endif
 	            </div>
 	        </div>
