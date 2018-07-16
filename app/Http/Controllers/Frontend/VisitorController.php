@@ -53,7 +53,6 @@ class VisitorController extends Controller
         $this->touristPageName = 'tourist_information';
         $this->tipsPageName = 'tips';
         $this->publicTransportPageName = 'public_transport';
-        $this->checkInPageName = 'check_in';
     }
 
     /**
@@ -124,7 +123,7 @@ class VisitorController extends Controller
         // Page title
         $varsForView['pageTitle'] = $tipsContent->title;
 
-        $varsForView['tips'] = isset($tipsContent->meta['tips']) ? $tipsContent->meta['tips'] : '';
+        $varsForView['tipsContent'] = $tipsContent;
 
         $additionalPages = $this->pageService->getAdditionalPagesByParentId($pageParentId, $websiteId);
 
