@@ -18,9 +18,10 @@
 	            <div class="col-lg-2">
 	            </div>
 	            <div class="col-lg-8 club_content {{ $brand_font_class }}">
-	                @if($arrivalCheckInInformation)
-						<h2>{!! __('messages.visitors_arrival_and_check_in') !!}</h2>
-						{!! $arrivalCheckInInformation !!}
+					@if($publicTransport)
+						<a name="public-transport"></a>
+						<h2>{!! __('messages.visitors_public_transport') !!}</h2>
+						{!! $publicTransport !!}
 					@endif
 	            </div>
 	        </div>
