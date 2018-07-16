@@ -105,11 +105,11 @@ class HomeController extends BaseController
       'program_overview' => 'program',
       'stay' => 'stay',
       'visitors' => 'visitors',
-      'public_transport' => 'public_transport',
+      'public_transport' => 'visitors',
       'tourist_information' => 'tourist_information',
-      'tips' => 'tips',
+      'tips' => 'visitors',
       'accommodation' => 'accommodation',
-      'meals' => 'meals',      
+      'meals' => 'meals',
       'venue' => 'venue',
       'media' => 'media',
       'contact' => 'contact'
@@ -117,42 +117,94 @@ class HomeController extends BaseController
 
     foreach ($websites as $allWebsitKey => $website) {
       $websitePages = $website->pages->keyBy('name');
+      $websiteId = $website->id;
       foreach ($allDefaultPages as $defaultPageKey => $page) {
         $pageName = $navigationMenuReference[$page['name']];
-        $this->saveNewPageData($websitePages[$pageName], $pageName);
-        
+        $parentPageData = $this->saveNewPageData($websitePages[$pageName], $page, $websiteId, null);
+
         if(array_key_exists('children', $page)) {
           foreach ($page['children'] as $childPageKey => $child) {
             $childPageName = $navigationMenuReference[$child['name']];
-            $this->saveNewPageData($websitePages[$childPageName], $pageName);
+            $isParentPageReference = 0;
+            if($childPageName == 'public_transport' || $childPageName == 'tips') {
+              $isParentPageReference = 1;
+            }
+            $this->saveNewPageData($websitePages[$childPageName], $child, $websiteId, $parentPageData->id, $isParentPageReference);
           }
         }
 
+        //is_additional_page = 1 from pages
+        //loop start
+          //$additionalpage
+          //1) get parent page record from old table website->pages
+          //2) check for that page name in new table and get record id of it
+          //method call with the recordid and additionalpage
+        //loop end
+
+        //in method, make entry from additionalpage and provide parent_id ad recordid
       }
+
+        $additionalpages = $website->pages->where('is_additional_page', 1);
+echo "<pre>";
+        foreach ($additionalpages as $key => $additionalpage) {
+          $parentPage = $website->pages->where('parent_id', $additionalpage->parent_id)->first();
+          $newParentPage = NewPage::where('name', $parentPage->name)->where('website_id', $websiteId)->first();
+          print_r($parentPage);
+          echo $websiteId;
+          echo "<pre>";var_dump($newParentPage);echo "</pre>";
+          $this->saveAdditionalPageData($newParentPage->id, $additionalpage, $websiteId);
+        }
     }
   }
 
-  public function saveNewPageData($pageData, $pageName)
+  public function saveNewPageData($pageData, $pageItems, $websiteId, $parentId, $isParentPageReference = 0)
   {
-    // $newPage = new NewPage();
-    // $newPage->url = 
-    // $newPage->page_name = 
-    // $newPage->website_id = 
-    // $newPage->parent_id = 
-    // $newPage->name = 
-    // $newPage->accessible_routes = 
-    // $newPage->title = 
-    // $newPage->content = 
-    // $newPage->order = 
-    // $newPage->meta = 
-    // $newPage->is_additional_page = 
-    // $newPage->is_enabled = 
-    // $newPage->is_published = 
-    // $newPage->created_by = 
-    // $newPage->updated_by = 
-    // $newPage->save();
+    $newPage = new NewPage();
+    $newPage->url = $pageItems['url'];
+    $newPage->page_name = $pageItems['page_name'];
+    $newPage->website_id = $websiteId;
+    $newPage->parent_id = $parentId;
+    $newPage->name = $pageItems['name'];
+    $newPage->accessible_routes = $pageItems['accessible_routes'][0];
+    $newPage->title = $pageItems['title'];
+    $newPage->content = $isParentPageReference == 0 ? $pageData->content : null;
+    $newPage->order = $pageData->order;
+    $newPage->meta = $isParentPageReference == 0 ? $pageData->meta : null;
+    $newPage->is_additional_page = $pageData->is_additional_page;
+    $newPage->is_enabled = $pageData->is_enabled;
+    $newPage->is_published = $pageData->is_published;
+    $newPage->created_by = $pageData->created_by;
+    $newPage->updated_by = $pageData->updated_by;
+    $newPage->created_at = $pageData->created_at;
+    $newPage->updated_at = $pageData->updated_at;
+    $newPage->save();
 
-    // return $newPage;
+    return $newPage;
   }
+
+  public function saveAdditionalPageData($parentId, $additionalpage, $websiteId)
+  {
+    $newPage = new NewPage();
+    $newPage->url = $additionalpage->url;
+    $newPage->page_name = $additionalpage->page_name;
+    $newPage->website_id = $websiteId;
+    $newPage->parent_id = $parentId;
+    $newPage->name = $additionalpage->name;
+    $newPage->accessible_routes = $additionalpage->accessible_routes;
+    $newPage->title = $additionalpage->title;
+    $newPage->content = $additionalpage->content;
+    $newPage->order = $additionalpage->order;
+    $newPage->meta = $additionalpage->meta;
+    $newPage->is_additional_page = $additionalpage->is_additional_page;
+    $newPage->is_enabled = $additionalpage->is_enabled;
+    $newPage->is_published = $additionalpage->is_published;
+    $newPage->created_by = $additionalpage->created_by;
+    $newPage->updated_by = $additionalpage->updated_by;
+    $newPage->created_at = $additionalpage->created_at;
+    $newPage->updated_at = $additionalpage->updated_at;
+    $newPage->save();
+
+    return $newPage;
+  }  
   
 }

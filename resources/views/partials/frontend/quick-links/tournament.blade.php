@@ -6,7 +6,7 @@
                     @if(in_array('tournament.page.details', $accessible_routes))
                         <li class="nav-item">
                             <a class="nav-link {{ Route::currentRouteName() == 'tournament.page.details' ? 'active' : '' }}" href="{{ route('tournament.page.details', ['domain' => $websiteDomain]) }}">
-                                <span class="icon"><i class="fas fa-list-alt"></i></span>
+                                <span class="icon"><i class="fas fa-child"></i></span>
                                 <span>{!! __('messages.age_categories') !!}</span>
                             </a>
                         </li>
@@ -14,7 +14,7 @@
                     @if(in_array('tournament.page.details', $accessible_routes))
                         <li class="nav-item">
                             <a class="nav-link {{ Route::currentRouteName() == 'team.page.details' ? 'active' : '' }}" href="{{ route('team.page.details', ['domain' => $websiteDomain]) }}">
-                                <span class="icon"><i class="fas fa-list-alt"></i></span>
+                                <span class="icon"><i class="fas fa-users"></i></span>
                                 <span>{!! __('messages.teams') !!}</span>
                             </a>
                         </li>
