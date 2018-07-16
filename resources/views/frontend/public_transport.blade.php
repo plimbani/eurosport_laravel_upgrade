@@ -20,8 +20,7 @@
 	            <div class="col-lg-8 club_content {{ $brand_font_class }}">
 					@if($publicTransport)
 						<a name="public-transport"></a>
-						<h2>{!! __('messages.visitors_public_transport') !!}</h2>
-						{!! $publicTransport !!}
+						{!! $publicTransport->content !!}
 					@endif
 	            </div>
 	        </div>

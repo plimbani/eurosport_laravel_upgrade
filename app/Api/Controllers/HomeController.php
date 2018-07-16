@@ -124,16 +124,22 @@ class HomeController extends BaseController
       $websiteId = $website->id;
       foreach ($allDefaultPages as $defaultPageKey => $page) {
         $pageName = $navigationMenuReference[$page['name']];
-        $parentPageData = $this->saveNewPageData($websitePages[$pageName], $page, $websiteId, null);
+        $parentPageData = $this->saveNewPageData($websitePages[$pageName], $page, $websiteId, null, null);
 
         if(array_key_exists('children', $page)) {
           foreach ($page['children'] as $childPageKey => $child) {
             $childPageName = $navigationMenuReference[$child['name']];
-            $isParentPageReference = 0;
-            if($childPageName == 'public_transport' || $childPageName == 'tips') {
-              $isParentPageReference = 1;
+            $metaReference = null;
+            if($child['name'] == 'visitors') {
+              $metaReference = 'arrival_check_in_information';
             }
-            $this->saveNewPageData($websitePages[$childPageName], $child, $websiteId, $parentPageData->id, $isParentPageReference);
+            if($child['name'] == 'public_transport') {
+              $metaReference = 'public_transport';
+            }
+            if($child['name'] == 'tips') {
+              $metaReference = 'tips';
+            }
+            $this->saveNewPageData($websitePages[$childPageName], $child, $websiteId, $parentPageData->id, $metaReference);
           }
         }
       }
@@ -149,7 +155,7 @@ class HomeController extends BaseController
     echo "Script run successfully.";
   }
 
-  public function saveNewPageData($pageData, $pageItems, $websiteId, $parentId, $isParentPageReference = 0)
+  public function saveNewPageData($pageData, $pageItems, $websiteId, $parentId, $metaReference)
   {
     $newPage = new NewPage();
     $newPage->url = $pageItems['url'];
@@ -159,9 +165,9 @@ class HomeController extends BaseController
     $newPage->name = $pageItems['name'];
     $newPage->accessible_routes = $pageItems['accessible_routes'];
     $newPage->title = $pageItems['title'];
-    $newPage->content = $isParentPageReference == 0 ? $pageData->content : null;
+    $newPage->content = $metaReference === null ? $pageData->content : ( ($pageData->meta && isset($pageData->meta[$metaReference])) ? $pageData->meta[$metaReference] : null );
     $newPage->order = $pageData->order;
-    $newPage->meta = $isParentPageReference == 0 ? $pageData->meta : null;
+    $newPage->meta = $metaReference === null ? $pageData->meta : null;
     $newPage->is_additional_page = $pageData->is_additional_page;
     $newPage->is_enabled = $pageData->is_enabled;
     $newPage->is_published = $pageData->is_published;

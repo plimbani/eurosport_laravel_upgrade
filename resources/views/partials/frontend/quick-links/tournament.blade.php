@@ -11,7 +11,7 @@
                             </a>
                         </li>
                     @endif
-                    @if(in_array('tournament.page.details', $accessible_routes))
+                    @if(in_array('team.page.details', $accessible_routes))
                         <li class="nav-item">
                             <a class="nav-link {{ Route::currentRouteName() == 'team.page.details' ? 'active' : '' }}" href="{{ route('team.page.details', ['domain' => $websiteDomain]) }}">
                                 <span class="icon"><i class="fas fa-users"></i></span>

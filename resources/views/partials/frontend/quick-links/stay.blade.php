@@ -11,9 +11,9 @@
                             </a>
                         </li>
                     @endif
-                    @if(in_array('visitor.page.details', $accessible_routes))
+                    @if(in_array('public.transport.page.details', $accessible_routes))
                         <li class="nav-item">
-                            <a class="nav-link {{ url()->current() == route('visitor.page.details', ['domain' => $websiteDomain]) . '/#public-transport' ? 'active' : '' }}" href="{{ route('visitor.page.details', ['domain' => $websiteDomain]) }}/#public-transport">
+                            <a class="nav-link {{ Route::currentRouteName() == 'public.transport.page.details' ? 'active' : '' }}" href="{{ route('public.transport.page.details', ['domain' => $websiteDomain]) }}">
                                 <span class="icon"><i class="fas fa-shuttle-van"></i></span>
                                 <span>{!! __('messages.public_transport') !!}</span>
                             </a>
@@ -27,9 +27,9 @@
                             </a>
                         </li>
                     @endif
-                    @if(in_array('visitor.page.details', $accessible_routes))
+                    @if(in_array('tips.page.details', $accessible_routes))
                         <li class="nav-item">
-                            <a class="nav-link {{ url()->current() == route('visitor.page.details', ['domain' => $websiteDomain]) . '/#tips' ? 'active' : '' }}" href="{{ route('visitor.page.details', ['domain' => $websiteDomain]) }}/#tips">
+                            <a class="nav-link {{ Route::currentRouteName() == 'tips.page.details' ? 'active' : '' }}" href="{{ route('tips.page.details', ['domain' => $websiteDomain]) }}">
                                 <span class="icon"><i class="fas fa-utensils"></i></span>
                                 <span>{!! __('messages.tips') !!}</span>
                             </a>
