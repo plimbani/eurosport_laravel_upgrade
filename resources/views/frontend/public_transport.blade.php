@@ -2,7 +2,7 @@
 
 @section('hero-section')
 	<div class="col-lg-8 club_info">
-		<h1 class="club_info-title">{!! __('messages.visitors') !!}</h1>
+		<h1 class="club_info-title">{!! __('messages.public_transport') !!}</h1>
 	</div>
 @endsection
 
