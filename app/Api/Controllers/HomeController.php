@@ -90,7 +90,6 @@ class HomeController extends BaseController
 
   public function changeWebsiteMenus(Request $request)
   {
-    echo "<pre>";
     $websites = Website::with('pages')->get();
     $allDefaultPages = config('wot.website_default_pages');
 
