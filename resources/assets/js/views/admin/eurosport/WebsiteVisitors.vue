@@ -149,11 +149,9 @@ export default {
 			Website.getVisitorPageData(websiteId).then(
         (response)=> {
         	var responseData = response.data.data;
-        	if(responseData.visitor.meta !== null) {
-        		this.visitor.arrival_check_in_information = typeof responseData.visitor.meta.arrival_check_in_information != 'undefined' && responseData.visitor.meta.arrival_check_in_information != null ? responseData.visitor.meta.arrival_check_in_information : '';
-          	this.visitor.public_transport = typeof responseData.visitor.meta.public_transport != 'undefined' && responseData.visitor.meta.public_transport != null ? responseData.visitor.meta.public_transport : '';
-          	this.visitor.tips = typeof responseData.visitor.meta.tips != 'undefined' && responseData.visitor.meta.tips != null ? responseData.visitor.meta.tips : '';
-        	}
+        	this.visitor.arrival_check_in_information = responseData.visitor.content !== null ? responseData.visitor.content : '';
+          this.visitor.public_transport = responseData.public_transport.content !==null ? responseData.public_transport.content : '';
+          this.visitor.tips = responseData.tips.content !== null ? responseData.tips.content : '';
         	this.visitor.tourist_information = responseData.tourist.content !== null ? responseData.tourist.content : '';
         },
         (error)=>{
