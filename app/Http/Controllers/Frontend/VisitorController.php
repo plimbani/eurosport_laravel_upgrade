@@ -123,7 +123,7 @@ class VisitorController extends Controller
         // Page title
         $varsForView['pageTitle'] = $tipsContent->title;
 
-        $varsForView['tips'] = isset($tipsContent->meta['tips']) ? $tipsContent->meta['tips'] : '';
+        $varsForView['tipsContent'] = $tipsContent;
 
         $additionalPages = $this->pageService->getAdditionalPagesByParentId($pageParentId, $websiteId);
 
