@@ -90,7 +90,7 @@ class HomeController extends BaseController
 
   public function changeWebsiteMenus(Request $request)
   {
-    $websites = Website::with('pages')->get();
+    $websites = Website::with('pages')->withTrashed()->get();
     $allDefaultPages = config('wot.website_default_pages');
 
     $navigationMenuReference = [
@@ -157,7 +157,7 @@ class HomeController extends BaseController
     $newPage->website_id = $websiteId;
     $newPage->parent_id = $parentId;
     $newPage->name = $pageItems['name'];
-    $newPage->accessible_routes = $pageItems['accessible_routes'][0];
+    $newPage->accessible_routes = $pageItems['accessible_routes'];
     $newPage->title = $pageItems['title'];
     $newPage->content = $isParentPageReference == 0 ? $pageData->content : null;
     $newPage->order = $pageData->order;
