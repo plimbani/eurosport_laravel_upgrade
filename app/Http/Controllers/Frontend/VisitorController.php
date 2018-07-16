@@ -53,7 +53,6 @@ class VisitorController extends Controller
         $this->touristPageName = 'tourist_information';
         $this->tipsPageName = 'tips';
         $this->publicTransportPageName = 'public_transport';
-        $this->checkInPageName = 'check_in';
     }
 
     /**
