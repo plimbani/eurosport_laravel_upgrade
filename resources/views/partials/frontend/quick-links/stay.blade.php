@@ -1,7 +1,6 @@
 <div class="hero__wrapper-child">
     <div class="container">
         <div class="row align-items-center">
-            {{ dd($_SERVER['REQUEST_URI']) }}
             <div class="col-lg-12">
                 <ul class="nav align-items-center justify-content-center">
                     @if(in_array('visitor.page.details', $accessible_routes))
