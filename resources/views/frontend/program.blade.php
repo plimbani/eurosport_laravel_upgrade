@@ -2,8 +2,13 @@
 
 @section('hero-section')
 	<div class="col-lg-8 club_info">
-		<h1 class="club_info-title">{!! __('messages.program') !!}</h1>
+		<span class="club_info-detail">{!! __('messages.program') !!}</span>
+		<h1 class="club_info-title">{!! __('messages.program_overview') !!}</h1>
 	</div>
+@endsection
+
+@section('quick-links')
+	@include('partials.frontend.quick-links.program')
 @endsection
 
 @section('content')

@@ -100,7 +100,7 @@ export default {
 			var websiteId = this.getWebsiteId();
 			Website.getProgramPageData(websiteId).then(
 				(response)=> {
-					this.programpage.parent_id = response.data.data.pagesData.id;
+					this.programpage.parent_id = response.data.data.pagesData.parent_id;
 					this.programpage.additional_pages = response.data.data.additionalPages;
 					this.$root.$emit('setPages', this.programpage.additional_pages);
 				},

@@ -71,7 +71,7 @@ class WebsiteTournamentController extends Controller
           $websiteId);
       $varsForView['tournamentContent'] = $pageDetail;
 
-      $pageParentId = $pageDetail->id;
+      $pageParentId = $pageDetail->parent_id;
       $additionalPages = $this->pageService->getAdditionalPagesByParentId($pageParentId, $websiteId);
       $varsForView['additionalPages'] = $additionalPages;
 

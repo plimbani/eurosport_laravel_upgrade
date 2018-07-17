@@ -2,7 +2,7 @@
 
 @section('hero-section')
 	<div class="col-lg-8 club_info">
-		<span class="club_info-detail">{!! __('messages.visitors') !!}</span>
+		<span class="club_info-detail">{!! __('messages.stay') !!}</span>
 		<h1 class="club_info-title">{!! __('messages.tourist_information') !!}</h1>
 	</div>
 @endsection

@@ -2,6 +2,7 @@
 
 @section('hero-section')
 	<div class="col-lg-8 club_info">
+		<span class="club_info-detail">{!! __('messages.tournament') !!}</span>
 		<h1 class="club_info-title">{!! __('messages.teams') !!}</h1>
 	</div>
 @endsection
