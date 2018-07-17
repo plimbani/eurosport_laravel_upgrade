@@ -70,11 +70,7 @@ class VisitorController extends Controller
         // Page title
         $varsForView['pageTitle'] = $visitorsContent->title;
 
-        $varsForView['arrivalCheckInInformation'] = isset($visitorsContent->meta['arrival_check_in_information']) ? $visitorsContent->meta['arrival_check_in_information'] : '';
-
-        $varsForView['publicTransport'] = isset($visitorsContent->meta['public_transport']) ? $visitorsContent->meta['public_transport'] : '';
-
-        $varsForView['tips'] = isset($visitorsContent->meta['tips']) ? $visitorsContent->meta['tips'] : '';
+        $varsForView['visitorsContent'] = $visitorsContent;
 
         $additionalPages = $this->pageService->getAdditionalPagesByParentId($pageParentId, $websiteId);
 
@@ -147,7 +143,7 @@ class VisitorController extends Controller
         // Page title
         $varsForView['pageTitle'] = $publicTransportContent->title;
 
-        $varsForView['publicTransport'] = isset($visitorsContent->meta['public_transport']) ? $visitorsContent->meta['public_transport'] : '';
+        $varsForView['publicTransport'] = $publicTransportContent;
 
         $additionalPages = $this->pageService->getAdditionalPagesByParentId($pageParentId, $websiteId);
 
