@@ -18,7 +18,7 @@ class VisitorController extends Controller
     /**
      * @var Visitors page name
      */
-    protected $visitorsPageName;
+    protected $visitorsPageName; 
 
      /**
      * @var Tourist page name
@@ -31,6 +31,16 @@ class VisitorController extends Controller
     protected $pageService;
 
     /**
+     * @var Visitors page name
+     */
+    protected $tipsPageName;
+
+    /**
+     * @var Visitors page name
+     */
+    protected $publicTransportPageName;
+
+    /**
      * Create a new controller instance.
      *
      * @return void
@@ -41,6 +51,8 @@ class VisitorController extends Controller
         $this->pageService = $pageService;
         $this->visitorPageName = 'visitors';
         $this->touristPageName = 'tourist_information';
+        $this->tipsPageName = 'tips';
+        $this->publicTransportPageName = 'public_transport';
     }
 
     /**
@@ -53,15 +65,16 @@ class VisitorController extends Controller
         $varsForView = [];
         $websiteId = Landlord::getTenants()['website']->id;
         $visitorsContent = $this->pageService->getPageDetails($this->visitorPageName, $websiteId);
+        $pageParentId = $visitorsContent->parent_id;
 
         // Page title
         $varsForView['pageTitle'] = $visitorsContent->title;
 
-        $varsForView['arrivalCheckInInformation'] = isset($visitorsContent->meta['arrival_check_in_information']) ? $visitorsContent->meta['arrival_check_in_information'] : '';
+        $varsForView['visitorsContent'] = $visitorsContent;
 
-        $varsForView['publicTransport'] = isset($visitorsContent->meta['public_transport']) ? $visitorsContent->meta['public_transport'] : '';
+        $additionalPages = $this->pageService->getAdditionalPagesByParentId($pageParentId, $websiteId);
 
-        $varsForView['tips'] = isset($visitorsContent->meta['tips']) ? $visitorsContent->meta['tips'] : '';
+        $varsForView['additionalPages'] = $additionalPages;
 
         return view('frontend.visitor', $varsForView);
     }
@@ -84,6 +97,58 @@ class VisitorController extends Controller
         // page title
         $varsForView['pageTitle'] = $parentPage->title . ' - ' . $pageDetail->title;
 
+        $additionalPages = $this->pageService->getAdditionalPagesByParentId($pageParentId, $websiteId);
+
+        $varsForView['additionalPages'] = $additionalPages;
+
         return view('frontend.tourist', $varsForView);
+    }
+
+    /**
+     * Get tips page details.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getTipsPageDetails(Request $request)
+    {
+        $varsForView = [];
+        $websiteId = Landlord::getTenants()['website']->id;
+        $tipsContent = $this->pageService->getPageDetails($this->tipsPageName, $websiteId);
+        $pageParentId = $tipsContent->parent_id;
+
+        // Page title
+        $varsForView['pageTitle'] = $tipsContent->title;
+
+        $varsForView['tipsContent'] = $tipsContent;
+
+        $additionalPages = $this->pageService->getAdditionalPagesByParentId($pageParentId, $websiteId);
+
+        $varsForView['additionalPages'] = $additionalPages;
+
+        return view('frontend.tips', $varsForView);
+    }
+
+    /**
+     * Get tips page details.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getPublicTransportPageDetails(Request $request)
+    {
+        $varsForView = [];
+        $websiteId = Landlord::getTenants()['website']->id;
+        $publicTransportContent = $this->pageService->getPageDetails($this->publicTransportPageName, $websiteId);
+        $pageParentId = $publicTransportContent->parent_id;
+
+        // Page title
+        $varsForView['pageTitle'] = $publicTransportContent->title;
+
+        $varsForView['publicTransport'] = $publicTransportContent;
+
+        $additionalPages = $this->pageService->getAdditionalPagesByParentId($pageParentId, $websiteId);
+
+        $varsForView['additionalPages'] = $additionalPages;
+
+        return view('frontend.public_transport', $varsForView);
     }
 }

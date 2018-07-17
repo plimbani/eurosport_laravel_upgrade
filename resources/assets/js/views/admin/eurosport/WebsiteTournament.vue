@@ -127,12 +127,12 @@ export default {
 			var websiteId = this.getWebsiteId();
 			Website.getWebsiteTournamentPageData(websiteId).then(
 				(response)=> {
-					this.tournament.age_categories = response.data.data.tournament.content !== null ? response.data.data.tournament.content : '';
+					this.tournament.age_categories = response.data.data.age_categories.content !== null ? response.data.data.age_categories.content : '';
 					this.tournament.rules = response.data.data.rules.content !== null ? response.data.data.rules.content : '';
 					this.tournament.countries = response.data.data.countries;
 					this.$root.$emit('setHistoryYears', response.data.data.history);
 					
-					this.tournament.parent_id = response.data.data.tournament.id;
+					this.tournament.parent_id = response.data.data.age_categories.parent_id;
 					this.tournament.additional_pages = response.data.data.additionalPages;
 					this.$root.$emit('setPages', this.tournament.additional_pages);
 				},

@@ -15,8 +15,8 @@ class StayRepository
   protected $pageService;
 
   /**
-   * @var Stay page name
-   */
+  * @var Stay page name
+  */ 
   protected $stayPageName;
 
   /**
@@ -54,12 +54,6 @@ class StayRepository
    */	
 	public function saveStayPageData($data)
 	{
-		// update stay page detail
-    $stayPageDetail = array();
-    $stayPageDetail['name'] = $this->stayPageName;
-    $stayPageDetail['content'] = $data['stay_introduction_content'];
-    $this->pageService->updatePageDetails($stayPageDetail, $data['website_id']);
-
     // update meals page detail
     $mealsPageDetail = array();
     $mealsPageDetail['name'] = $this->mealsPageName;
@@ -85,7 +79,7 @@ class StayRepository
   {
     $pages = [$this->stayPageName, $this->mealsPageName, $this->accommodationPageName];
     $pagesData = $this->pageService->getMultiplePagesData($pages, $websiteId);
-    $additionalPages = $this->pageService->getAdditionalPagesByParentId($pagesData['stay']['id'], $websiteId);      
+    $additionalPages = $this->pageService->getAdditionalPagesByParentId($pagesData['stay']['id'], $websiteId);
 
     return array_merge($pagesData,['additionalPages' => $additionalPages]);
   }

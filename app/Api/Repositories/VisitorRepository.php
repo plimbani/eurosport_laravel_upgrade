@@ -24,6 +24,8 @@ class VisitorRepository
   {
     $this->pageService = $pageService;
     $this->visitorPageName = 'visitors';
+    $this->publicTransportPageName = 'public_transport';
+    $this->tipsPageName = 'tips';
     $this->touristPageName = 'tourist_information';
   }
 
@@ -37,11 +39,19 @@ class VisitorRepository
     // Visitor page details
     $pageDetail = array();
     $pageDetail['name'] = $this->visitorPageName;
-    $meta = array();
-    $meta['arrival_check_in_information'] = $data['arrival_check_in_information'];
-    $meta['public_transport'] = $data['public_transport'];
-    $meta['tips'] = $data['tips'];
-    $pageDetail['meta'] = $meta;
+    $pageDetail['content'] = $data['arrival_check_in_information']; 
+    $this->pageService->updatePageDetails($pageDetail, $data['websiteId']);
+
+    // Public transport page details
+    $pageDetail = array();
+    $pageDetail['name'] = $this->publicTransportPageName;
+    $pageDetail['content'] = $data['public_transport']; 
+    $this->pageService->updatePageDetails($pageDetail, $data['websiteId']);
+
+    // Tips page details
+    $pageDetail = array();
+    $pageDetail['name'] = $this->tipsPageName;
+    $pageDetail['content'] = $data['tips']; 
     $this->pageService->updatePageDetails($pageDetail, $data['websiteId']);
 
     // Visitor page details
@@ -59,7 +69,9 @@ class VisitorRepository
   public function getPageData($websiteId)
   {
     $visitorPageDetail = $this->pageService->getPageDetails($this->visitorPageName, $websiteId);
+    $publicTransportPageDetail = $this->pageService->getPageDetails($this->publicTransportPageName, $websiteId);
+    $tipsPageDetail = $this->pageService->getPageDetails($this->tipsPageName, $websiteId);
     $touristPageDetail = $this->pageService->getPageDetails($this->touristPageName, $websiteId);
-    return ['visitor' => $visitorPageDetail, 'tourist' => $touristPageDetail];
+    return ['visitor' => $visitorPageDetail, 'public_transport' => $publicTransportPageDetail, 'tips' => $tipsPageDetail, 'tourist' => $touristPageDetail];
   }
 }

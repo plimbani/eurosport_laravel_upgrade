@@ -3,19 +3,8 @@
 		<form name="website_staypage" enctype="multipart/form-data">
 			<div class="card">
 				<div class="card-block">
-					<h6><strong>{{$lang.website_stay}}</strong></h6>
-					<div class="form-group justify-content-between row">
-	        	<div class="col-sm-12">
-	        		<div class="row">
-		          	<label class="col-sm-12 no-padding form-control-label">{{$lang.website_stay_introduction_content}}</label>
-		          	<div class="col-sm-12">
-		          		<insert-text-editor :id="'stay_introduction_content'" :value="staypage.stay_introduction_content" @setEditorValue="setStayIntroductionContent"></insert-text-editor>
-		          	</div>
-	          	</div>
-	          </div>
-					</div>
 					<div v-if="isPageEnabled('meals')">
-						<hr class="my-4">
+						<!-- <hr class="my-4"> -->
 						<h6><strong>{{$lang.website_meals}}</strong></h6>
 						<div class="form-group justify-content-between row">
 		        	<div class="col-sm-12">
@@ -75,7 +64,6 @@ export default {
 		return {
 			staypage: {
 				website_id: null,
-				stay_introduction_content: '',
 				meals_page_content: '',
 				accommodation_page_content: '',
 				additional_pages: [],
@@ -106,9 +94,6 @@ export default {
         this.$router.push({name:route});
       }
 		},
-		setStayIntroductionContent(content) {
-			this.staypage.stay_introduction_content = content;
-		},
 		setMealsPageContent(content) {
 			this.staypage.meals_page_content = content;
 		},
@@ -137,7 +122,6 @@ export default {
 			var websiteId = this.getWebsiteId();
 			Website.getStayPageData(websiteId).then(
 				(response)=> {
-					this.staypage.stay_introduction_content = response.data.data.stay.content !== null ? response.data.data.stay.content : '';
 					this.staypage.meals_page_content = response.data.data.meals.content !== null ? response.data.data.meals.content : '';
 					this.staypage.accommodation_page_content = response.data.data.accommodation.content !== null ? response.data.data.accommodation.content : '';
 					this.staypage.parent_id = response.data.data.stay.id !== null ? response.data.data.stay.id : '';

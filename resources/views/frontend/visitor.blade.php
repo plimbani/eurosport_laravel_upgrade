@@ -2,8 +2,13 @@
 
 @section('hero-section')
 	<div class="col-lg-8 club_info">
+		<span class="club_info-detail">{!! __('messages.stay') !!}</span>
 		<h1 class="club_info-title">{!! __('messages.visitors') !!}</h1>
 	</div>
+@endsection
+
+@section('quick-links')
+	@include('partials.frontend.quick-links.stay')
 @endsection
 
 @section('content')
@@ -14,21 +19,8 @@
 	            <div class="col-lg-2">
 	            </div>
 	            <div class="col-lg-8 club_content {{ $brand_font_class }}">
-	                @if($arrivalCheckInInformation)
-						<h2>{!! __('messages.visitors_arrival_and_check_in') !!}</h2>
-						{!! $arrivalCheckInInformation !!}
-						@if($publicTransport) <div class="py-4 mb-3"></div> @endif
-					@endif
-
-					@if($publicTransport)
-						<h2>{!! __('messages.visitors_public_transport') !!}</h2>
-						{!! $publicTransport !!}
-						@if($tips) <div class="py-4 mb-3"></div> @endif
-					@endif
-
-					@if($tips)
-						<h2>{!! __('messages.visitors_tips_for_visitors') !!}</h2>
-						{!! $tips !!}
+	                @if($visitorsContent)
+						{!! $visitorsContent->content !!}
 					@endif
 	            </div>
 	        </div>
