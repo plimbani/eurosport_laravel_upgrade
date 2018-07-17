@@ -882,6 +882,7 @@ class MatchService implements MatchContract
         // merge it
         $findTeams = array_merge($home_tema_id,$away_team_id);
         if($fix1['CupFixture']['match_round'] == 'Elimination') {
+
           // So here we have to Call Function For Elimination Matches
           $competitionId = $this->calculateEliminationTeams($singleFixture[0]);
 
@@ -890,7 +891,6 @@ class MatchService implements MatchContract
           if($competition->competation_type == 'Elimination' && $competition->actual_competition_type == 'Round Robin') {
               $this->generateStandingsForCompetitions($fix1, $cup_competition_id, $findTeams,'Elimination');
           }
-
           if($generatePositions == 1) {
             $this->updateCategoryPositions($competitionId, $ageCategoryId);
           }
@@ -900,7 +900,6 @@ class MatchService implements MatchContract
         }
         $comType = 'C';
         if ($comType == 'C') {
-
             // Manual standing insert - start
             $allCompetitions = Competition::where('tournament_id','=',$fix1['CupFixture']['tournamentId'])->where('tournament_competation_template_id','=',$fix1['CupFixture']['age_group_id'])->where('id','>',$cup_competition_id)->get();
 
@@ -979,8 +978,7 @@ class MatchService implements MatchContract
         //$groupTeams = json_decode($cupRoundrobinData['CupRoundrobin']['groups'],true);
         $comp = DB::table('temp_fixtures')
                     // ->join('competitions','competitions.id','temp_fixtures.competition_id')
-                    ->where('temp_fixtures.competition_id','=',$compId)
-                    ->select('temp_fixtures.home_team','temp_fixtures.away_team')->get();
+                    ->where('temp_fixtures.competition_id','=',$compId)->get();
         foreach ($comp as $key => $value) {
           $home_team_arr[] = $value->home_team;
           $away_team_arr[] = $value->away_team;
@@ -1009,8 +1007,12 @@ class MatchService implements MatchContract
                               ->where('match_standing.competition_id',$cupId)
                                ->where('teams.id',$gvalue->id)
                                ->get()->first();
-                $winPoints = 3; $losePoints =0;$drawPoints=1;
+               // $winPoints = 3; $losePoints =0;$drawPoints=1;
 
+                $tournamentCompetationTemplatesRecord = TournamentCompetationTemplates::where('id',$competition->tournament_competation_template_id)->first();
+                $winPoints = $tournamentCompetationTemplatesRecord->win_point;
+                $losePoints = $tournamentCompetationTemplatesRecord->loss_point;
+                $drawPoints = $tournamentCompetationTemplatesRecord->draw_point;
 
                 $assigned_group =  '';
                 if($teamExist){
@@ -1077,27 +1079,69 @@ class MatchService implements MatchContract
        // echo 'Before Sort';
 
       //  echo 'After Sort';
+
         $for_override_condition = array();
         foreach ($calculatedArray as $ckey => $cvalue) {
-            $manual_order = $mid = $cid = $did = $eid = $overrride = $group_winner = array();
+            $manual_order = $mid = $cid = $did = $eid = $overrride = $group_winner = $matchesWon = $goalRatio = $headToHead = array();
+            
             foreach ($cvalue as $cckey => $ccvalue) {
                $manual_order[$cckey]  = (int)$ccvalue['manual_order'];
                $mid[$cckey]  = (int)$ccvalue['Total'];
                // $cid[$cckey]  = (int)$ccvalue['Played'];
+              
                $did[$cckey]  = (int)$ccvalue['goal_difference'];
                $eid[$cckey]  = (int)$ccvalue['home_goal'];
+               $matchesWon[$cckey]  = (int)$ccvalue['Won'];
+               $goalRatio[$cckey]  = $ccvalue['Played'] > 0 ? $ccvalue['home_goal'] / $ccvalue['Played'] : 0;
               // $overrride[$cckey]  = (int)$ccvalue['manual_override'];
               // $group_winner[$cckey]  = (int)$ccvalue['group_winner'];
               // $for_override_condition[$ckey][$cckey] = (int)$ccvalue['manual_override'];
             }
 
-            if($competition->is_manual_override_standing == 1) {
-              array_multisort($manual_order, SORT_ASC,$mid, SORT_DESC,$did, SORT_DESC,$eid, SORT_DESC,$cvalue);
-            } else {
-              array_multisort($mid, SORT_DESC,$did, SORT_DESC,$eid, SORT_DESC,$cvalue);
+            $params = [];
+            $rules = $tournamentCompetationTemplatesRecord->rules;
+
+            for($i=0; $i<count($rules); $i++) {
+              $rule = $rules[$i];
+
+              if($rule['checked'] == false) {
+                continue;
+              }
+              
+              if($rule['key'] == 'match_points') {
+                $params[] = $mid;
+                $params[] = SORT_DESC;
+              }
+              
+              if($rule['key'] == 'goal_difference') {
+                $params[] = $did;
+                $params[] = SORT_DESC;
+              }
+              if($rule['key'] == 'goals_for') {
+                $params[] = $eid;
+                $params[] = SORT_DESC;
+              }
+              if($rule['key'] == 'matches_won') {
+                $params[] = $matchesWon;
+                $params[] = SORT_DESC;
+              }
+              if($rule['key'] == 'goal_ratio') {
+                $params[] = $goalRatio;
+                $params[] = SORT_DESC;
+              }
             }
+
+            $params[] = &$cvalue;
+
+            if($competition->is_manual_override_standing == 1) {
+              $params = array_merge(array($manual_order, SORT_ASC), $params);
+            }
+
+            array_multisort(...$params);
+            
             $calculatedArray[$ckey] = $cvalue;
         }
+        
         $i=1;
         if(count($calculatedArray) > 0) {
           foreach($calculatedArray[$cupId] as $kky=>$data) {
@@ -1222,8 +1266,13 @@ class MatchService implements MatchContract
                               ->where('match_standing.competition_id',$cupId)
                                ->where('teams.id',$gvalue->id)
                                ->get()->first();
-                $winPoints = 3; $losePoints =0;$drawPoints=1;
+                //$winPoints = 3; $losePoints =0;$drawPoints=1;
 
+                $tournamentCompetationTemplatesRecord = TournamentCompetationTemplates::where('id',$teamExist->age_group_id)->get()->first();
+
+                $winPoints = $tournamentCompetationTemplatesRecord->win_point;
+                $losePoints = $tournamentCompetationTemplatesRecord->loss_point;
+                $drawPoints = $tournamentCompetationTemplatesRecord->draw_point;
                 //print_r($teamExist);
                 if ( count($teamExist) > 0){
 
@@ -1672,7 +1721,11 @@ class MatchService implements MatchContract
                       ->where('team_id',$fix1['CupFixture']['hometeam'])
                       ->get()->first();
 
-      $winningPoints = 3;$drawPoints = 1;$losePoints = 0;
+      $tournamentCompetationTemplatesRecord = TournamentCompetationTemplates::where('id', $fix1['CupFixture']['age_group_id'])->get()->first();
+      $winningPoints = $tournamentCompetationTemplatesRecord->win_point;
+      $losePoints = $tournamentCompetationTemplatesRecord->loss_point;
+      $drawPoints = $tournamentCompetationTemplatesRecord->draw_point;
+      // $winningPoints = 3;$drawPoints = 1;$losePoints = 0;
       $sendData = array();
 
       if ($homeTeamExist){

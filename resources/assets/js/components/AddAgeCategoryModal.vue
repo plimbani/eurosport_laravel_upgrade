@@ -119,6 +119,68 @@
             </div>
           </div>
 
+          <div class="form-group row align-items-top"
+           :class="{'has-error': errors.has('tournamentTemplate') }">
+            <div class="col-sm-4">{{$lang.competation_label_template}}</div>
+            <div class="col-sm-8">
+              <div class="row align-items-center">
+                <div class="col-sm-12" v-show="errors.has('tournamentTemplate')">
+                  <span class="help is-danger"
+                  v-show="errors.has('tournamentTemplate')">
+                    {{$lang.competation_validation_template}}
+                  </span>
+                </div>
+
+                <div v-if=" dispTempl ==  true" class="col-sm-12">
+                Select number of teams and minimum matches above to view template options
+                </div>
+                <div class="col-sm-12" v-for="option in options">
+                  <div class="card mb-1" v-if="checkTemplate(option)" :id="option.id">
+                    <div class="card-block">
+                      <div class="row d-flex">
+                        <div class="col align-self-center text-center">
+                          <span v-if="option.id == competation_format.tournament_template_id">
+                          <input type="radio" checked='checked' :value="option"
+                          name="tournamentTemplate" class="ttmp"
+                          v-validate="'required'">
+                          </span>
+                          <span v-else>
+                          <input type="radio"
+                              :value="option"
+                              class="ttmp"
+                              :id="'tournament_template_'+option.id"
+                              name="tournamentTemplate"
+                              v-model="competation_format.tournamentTemplate"
+                              v-validate="'required'"
+                              :class="{'is-danger': errors.has('tournamentTemplate') }"
+                              v-if="checkTemplate(option)">
+                            </span>
+                        </div>
+                        <div class="col-sm-10 align-self-center">
+                          <span for="one"
+                          v-if="checkTemplate(option)"  :style="'color:'+option.template_font_color">
+                          {{option.name}}<br>{{option.disp_format}}<br>{{option.total_match}} matches<br>{{option.total_time | formatTime}}
+                          <br>
+                          <span v-if="option.remark != ''">Remark: {{option.remark}} </span>
+                          <span v-else>Remark: Not applicable </span>
+                          <br>
+                          <span v-if="option.avg_game_team != ''">Avg games per team: {{option.avg_game_team}} </span>
+                          <span v-else>Avg games per team: Not applicable </span>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-12 form-control-label dispTemplate" style="display:none">
+              <div class="form-text text-muted">
+                Template key: Green = preferred, Orange = second option, Red = last resort
+              </div>
+            </div>
+          </div>          
+
           <div class="form-group row align-items-center">
             <div class="col-sm-4 form-control-label">{{$lang.competation_modal_game_duration}}</div>
             <div class="col-sm-8">
@@ -244,67 +306,79 @@
                <span class="help is-danger" v-show="errors.has('team_interval')">{{$lang.competation_modal_team_interval_required}}</span>
             </div>
           </div>
-          <div class="form-group row align-items-top"
-           :class="{'has-error': errors.has('tournamentTemplate') }">
-            <div class="col-sm-4">{{$lang.competation_label_template}}</div>
+
+          <div class="form-group row align-items-center"> 
+            <div class="col-sm-4 form-control-label">{{$lang.competation_modal_points_structure}}</div>
             <div class="col-sm-8">
               <div class="row align-items-center">
-                <div class="col-sm-12" v-show="errors.has('tournamentTemplate')">
-                  <span class="help is-danger"
-                  v-show="errors.has('tournamentTemplate')">
-                    {{$lang.competation_validation_template}}
-                  </span>
+                <div class="col-sm-4">
+                  <div class="row align-items-center">
+                    <div class="col-sm-4">
+                       <label class="mb-0">Win</label>
+                    </div>
+                    <div class="col-sm-8">
+                      <input type="number" class="form-control" v-validate="'required|min_value:0'" name="win" v-model="competation_format.win_point" min="0" :class="{'is-danger': errors.has('win') }">
+                      <span v-show="errors.has('win')" class="help is-danger"></span>
+                    </div>
+                  </div>
                 </div>
-
-                <div v-if=" dispTempl ==  true" class="col-sm-12">
-                Select number of teams and minimum matches above to view template options
+                <div class="col-sm-4">
+                  <div class="row align-items-center">
+                    <div class="col-sm-4">
+                      <label class="mb-0">Draw</label>
+                    </div>
+                    <div class="col-sm-8">
+                      <input type="number" class="form-control" v-validate="'required|min_value:0'" name="draw" v-model="competation_format.draw_point" min="0" :class="{'is-danger': errors.has('draw') }">
+                      <span v-show="errors.has('draw')" class="help is-danger"></span>
+                    </div>
+                  </div>
                 </div>
-                <div class="col-sm-12" v-for="option in options">
-                  <div class="card mb-1" v-if="checkTemplate(option)" :id="option.id">
-                    <div class="card-block">
-                      <div class="row d-flex">
-                        <div class="col align-self-center text-center">
-                          <span v-if="option.id == competation_format.tournament_template_id">
-                          <input type="radio" checked='checked' :value="option"
-                          name="tournamentTemplate" class="ttmp"
-                          v-validate="'required'">
-                          </span>
-                          <span v-else>
-                          <input type="radio"
-                              :value="option"
-                              class="ttmp"
-                              :id="'tournament_template_'+option.id"
-                              name="tournamentTemplate"
-                              v-model="competation_format.tournamentTemplate"
-                              v-validate="'required'"
-                              :class="{'is-danger': errors.has('tournamentTemplate') }"
-                              v-if="checkTemplate(option)">
-                            </span>
-                        </div>
-                        <div class="col-sm-10 align-self-center">
-                          <span for="one"
-                          v-if="checkTemplate(option)"  :style="'color:'+option.template_font_color">
-                          {{option.name}}<br>{{option.disp_format}}<br>{{option.total_match}} matches<br>{{option.total_time | formatTime}}
-                          <br>
-                          <span v-if="option.remark != ''">Remark: {{option.remark}} </span>
-                          <span v-else>Remark: Not applicable </span>
-                          <br>
-                          <span v-if="option.avg_game_team != ''">Avg games per team: {{option.avg_game_team}} </span>
-                          <span v-else>Avg games per team: Not applicable </span>
-                          </span>
-                        </div>
-                      </div>
+                <div class="col-sm-4">
+                  <div class="row align-items-center">
+                    <div class="col-sm-4">
+                      <label class="mb-0">Loss</label>
+                    </div>
+                    <div class="col-sm-8">
+                      <input type="number" class="form-control" v-validate="'required|min_value:0'" name="loss" v-model="competation_format.loss_point" min="0" placeholder="" :class="{'is-danger': errors.has('loss') }">
+                      <span v-show="errors.has('loss')" class="help is-danger"></span>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="col-sm-12 form-control-label dispTemplate" style="display:none">
-              <div class="form-text text-muted">
-                Template key: Green = preferred, Orange = second option, Red = last resort
+          </div>     
+
+          <div class="form-group row">
+            <div class="col-sm-4 form-control-label">{{$lang.competation_modal_category_rules}}</div>
+            <div class="col-sm-8">
+              <div class="draggable--section">
+                <draggable :options="{draggable:'.category-rules', handle: '.rules-handle'}" v-model="competation_format.rules" :move="onRuleMove">
+                  <div class="draggable--section-card" v-for="(rule, index) in competation_format.rules" :class="'category-rules'" :key="rule.key">
+                    <div class="draggable--section-card-header">
+                      <div class="draggable--section-card-header-panel">
+                        <div class="d-flex align-items-center">
+                          <div class="draggable--section-card-header-panel-text-area">
+                            <div class="checkbox">
+                              <div class="c-input">
+                                <input type="checkbox" class="euro-checkbox" :value="rule.key" :id="rule.key" :checked="rule.checked" @change="changeCheckedStatus(index, $event)" :disabled="rule.key == 'match_points'">
+                                <label :for="rule.key" class="mb-0">{{ rule.title }}</label>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="draggable--section-card-header-icons" v-if="rule.key != 'match_points'">
+                          <a class="text-primary rules-handle draggable-handle" href="javascript:void(0)">
+                            <i class="fa fa-bars"></i>
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>            
+                </draggable>
               </div>
             </div>
           </div>
+
           <div class="form-group row align-items-center">
             <div class="col-sm-4 form-control-label">Info for teams</div>
             <div class="col-sm-8">
@@ -332,9 +406,11 @@
 import Tournament from '../api/tournament.js'
 import Multiselect from 'vue-multiselect'
 import _ from 'lodash'
+import draggable from 'vuedraggable';
 
 export default {
-  components: { Multiselect },
+  props: ['categoryRules'],
+  components: { draggable, Multiselect },
   data() {
     return  {
       competation_format: this.initialState(),
@@ -363,13 +439,14 @@ export default {
       haveTwoHalvesRR: true,
       haveTwoHalvesFM: true,
       initialHalfBreakRR: '5',
-      initialHalfBreakFM: '5',
+      initialHalfBreakFM: '5',      
       categoryAgeArr: ['U08/5','U09','U09/5','U09/7','U10','U10/5','U10/7','U10/9','U10/5A','U10/7A','U10/5B','U10/7B','U11','U11/11','U11/7','U11/7A','U11/7B','U12','U12/7','U12/8','U12/9','U12-A','U12/7A','U12/8A','U12-B','U12/7B','U12/8B','U13','U13/7','U13/8','U13/9','U13-A','U13/7A','U13/8A','U13/9A','U13-B','U13/8B','U13/9B','U14','U14/7','U14-A','U14-B','U15','U15/7','U15/8','U15-A','U15-B','U16','U16-A','U16-B','U17','U17-A','U17-B','U18','U19','U19-A','U19-B','U10-U9','G08/5','G09/5','G09/7','G10/5','G10/7','G10/7A','G10/7B','G11','G11/7','G12','G12/7','G12/8','G12/9','G12/7A','G12/7B','G13','G13/7','G13/8','G13/9','G13/7A','G13/7B','G14','G14/7','G14/8','G14-A','G14-B','G15','G15/7','G15/8','G15-A','G15-B','G16','G17','G17/7','G17-A','G17-B','G18','G18/7','G18-A','G18-B','G19','G19-A','G19-B','M-O','M-O/5','M-O/7','M32','M35','M35/7','W-O','W-O/7'],
       categoryAgeColorArr: {
         'U08/5' : '#ffc0cb','U09' : '#008080','U09/5' : '#ffe4e1','U09/7' : '#ff0000','U10' : '#ffd700','U10/5' : '#d3ffce','U10/7' : '#00ffff','U10/9' : '#40e0d0','U10/5A' : '#ff7373','U10/7A' : '#e6e6fa','U10/5B' : '#0000ff','U10/7B' : '#ffa500','U11' : '#b0e0e6','U11/11' : '#7fffd4','U11/7' : '#333333','U11/7A' : '#faebd7','U11/7B' : '#003366','U12' : '#fa8072','U12/7' : '#800080','U12/8' : '#20b2aa','U12/9' : '#ffb6c1','U12-A' : '#c6e2ff','U12/7A' : '#00ff00','U12/8A' : '#f6546a','U12-B' : '#f08080','U12/7B' : '#468499','U12/8B' : '#ffff00','U13' : '#ffc3a0','U13/7' : '#088da5','U13/8' : '#fff68f','U13/9' : '#ff6666','U13-A' : '#00ced1','U13/7A' : '#66cdaa','U13/8A' : '#800000','U13/9A' : '#660066','U13-B' : '#ff00ff','U13/8B' : '#D8BFD8','U13/9B' : '#c39797','U14' : '#c0d6e4','U14/7' : '#0e2f44','U14-A' : '#cbbeb5','U14-B' : '#ff7f50','U15' : '#ffdab9','U15/7' : '#990000','U15/8' : '#808000','U15-A' : '#daa520','U15-B' : '#8b0000','U16' : '#b4eeb4','U16-A' : '#afeeee','U16-B' : '#ffff66','U17' : '#f5f5dc','U17-A' : '#81d8d0','U17-B' : '#b6fcd5','U18' : '#66cccc','U19' : '#00ff7f','U19-A' : '#ccff00','U19-B' : '#cc0000','U10-U9' : '#a0db8e','G08/5' : '#8a2be2','G09/5' : '#ff4040','G09/7' : '#3399ff','G10/5' : '#3b5998','G10/7' : '#0099cc','G10/7A' : '#794044','G10/7B' : '#ff4444','G11' : '#000080','G11/7' : '#6897bb','G12' : '#6dc066','G12/7' : '#31698a','G12/8' : '#191970','G12/9' : '#191919','G12/7A' : '#4169e1','G12/7B' : '#B0171F','G13' : '#FFBBFF','G13/7' : '#7D26CD','G13/8' : '#27408B','G13/9' : '#00C78C','G13/7A' : '#3D9140','G13/7B' : '#00EE00','G14' : '#EEEE00','G14/7' : '#FF9912','G14/8' : '#CD6600','G14-A' : '#F4A460','G14-B' : '#8B4C39','G15' : '#CD0000','G15/7' : '#8E8E38','G15/8' : '#FFEC8B','G15-A' : '#EE9A49','G15-B' : '#CD8162','G16' : '#BBFFFF','G17' : '#008B8B','G17/7' : '#1874CD','G17-A' : '#9F79EE','G17-B' : '#EE3A8C','G18' : '#92C685','G18/7' : '#C2B182','G18-A' : '#47CE6E','G18-B' : '#00A998','G19' : '#C2A9FD','G19-A' : '#D5FD30','G19-B' : '#CACA8E','M-O' : '#8D8812','M-O/5' : '#0075EA','M-O/7' : '#DCB8D4','M32' : '#F0FF18','M35' : '#60262E','M35/7' : '#B2F3B7','W-O' : '#532C5E','W-O/7' : '#BBF47F'
       },
       categoryAgeFontColorArr: {'U08/5' : '#000000','U09' : '#FFFFFF','U09/5' : '#000000','U09/7' : '#000000','U10' : '#000000','U10/5' : '#000000','U10/7' : '#000000','U10/9' : '#000000','U10/5A' : '#000000','U10/7A' : '#000000','U10/5B' : '#FFFFFF','U10/7B' : '#000000','U11' : '#000000','U11/11' : '#000000','U11/7' : '#FFFFFF','U11/7A' : '#000000','U11/7B' : '#FFFFFF','U12' : '#000000','U12/7' : '#FFFFFF','U12/8' : '#000000','U12/9' : '#000000','U12-A' : '#000000','U12/7A' : '#000000','U12/8A' : '#000000','U12-B' : '#000000','U12/7B' : '#000000','U12/8B' : '#000000','U13' : '#000000','U13/7' : '#000000','U13/8' : '#000000','U13/9' : '#000000','U13-A' : '#000000','U13/7A' : '#000000','U13/8A' : '#FFFFFF','U13/9A' : '#000000','U13-B' : '#000000','U13/8B' : '#000000','U13/9B' : '#000000','U14' : '#000000','U14/7' : '#FFFFFF','U14-A' : '#000000','U14-B' : '#000000','U15' : '#000000','U15/7' : '#FFFFFF','U15/8' : '#FFFFFF','U15-A' : '#000000','U15-B' : '#FFFFFF','U16' : '#000000','U16-A' : '#000000','U16-B' : '#000000','U17' : '#000000','U17-A' : '#000000','U17-B' : '#000000','U18' : '#000000','U19' : '#000000','U19-A' : '#000000','U19-B' : '#FFFFFF','U10-U9' : '#000000','G08/5' : '#000000','G09/5' : '#000000','G09/7' : '#000000','G10/5' : '#FFFFFF','G10/7' : '#000000','G10/7A' : '#FFFFFF','G10/7B' : '#000000','G11' : '#FFFFFF','G11/7' : '#000000','G12' : '#000000','G12/7' : '#FFFFFF','G12/8' : '#FFFFFF','G12/9' : '#FFFFFF','G12/7A' : '#FFFFFF','G12/7B' : '#FFFFFF','G13' : '#000000','G13/7' : '#FFFFFF','G13/8' : '#FFFFFF','G13/9' : '#000000','G13/7A' : '#000000','G13/7B' : '#000000','G14' : '#000000','G14/7' : '#000000','G14/8' : '#000000','G14-A' : '#000000','G14-B' : '#000000','G15' : '#000000','G15/7' : '#000000','G15/8' : '#000000','G15-A' : '#000000','G15-B' : '#000000','G16' : '#000000','G17' : '#000000','G17/7' : '#000000','G17-A' : '#000000','G17-B' : '#000000','G18' : '#000000','G18/7' : '#000000','G18-A' : '#000000','G18-B' : '#000000','G19' : '#000000','G19-A' : '#000000','G19-B' : '#000000','M-O' : '#000000','M-O/5' : '#000000','M-O/7' : '#000000','M32' : '#000000','M35' : '#FFFFFF','M35/7' : '#000000','W-O' : '#FFFFFF','W-O/7' : '#000000'
       },
+      allCategoryRules: []
     }
   },
 
@@ -425,6 +502,8 @@ export default {
     }
   },
   mounted() {
+    this.allCategoryRules = this.categoryRules;
+
     // here we call A function to delete all data
 
     let this1 = this
@@ -477,7 +556,7 @@ export default {
   computed: {
     'messageLength': function () {
         return this.competation_format.comments !== null ? this.competation_format.comments.length : 0;
-    },
+    }
   },
   methods: {
     checkV(id) {
@@ -509,13 +588,19 @@ export default {
       this.initialHalfBreakFM = '5'
     },
     initialState() {
+      var rules = _.map(_.cloneDeep(this.categoryRules), function(o) {
+        if(o.key == 'match_points' || o.key == 'goal_difference' || o.key == 'goals_for') {
+          o.checked = true;
+        }
+        return o;
+      });
       return {
          ageCategory_name:'', comments:'', category_age:'',pitch_size:'',category_age_color:null,
          category_age_font_color:null,game_duration_RR:'10',halves_RR:'2',game_duration_FM:'10',halves_FM:'2',
         halftime_break_RR:'5',halftime_break_FM:'5',match_interval_RR:'5',match_interval_FM:'5',tournamentTemplate:[],
         tournament_id: '', competation_format_id:'0',id:'',
         nwTemplate:[],game_duration_RR_other:'20',
-      game_duration_FM_other:'20',match_interval_RR_other:'20',match_interval_FM_other:'20',min_matches:'',team_interval:'40'
+      game_duration_FM_other:'20',match_interval_RR_other:'20',match_interval_FM_other:'20',min_matches:'',team_interval:'40', win_point: '3', draw_point: '1', loss_point: '0', rules: rules, selectedCategoryRule: null,
       }
     },
     setEdit(id) {
@@ -531,7 +616,7 @@ export default {
             // return false;
             let resp = response.data.data[0]
             // here we set some of values for Edit Form
-            this.competation_format = resp
+            this.competation_format = _.cloneDeep(resp);
             this.competation_format.ageCategory_name = resp.group_name;
 
             this.value = resp.category_age;
@@ -542,6 +627,10 @@ export default {
             this.minimum_matches  = resp.min_matches
             // Now here we have to append the value of game_duration
             //this.game_duration_rr_array.push(['130':'320'])
+
+            this.competation_format.win_point = resp.win_point;
+            this.competation_format.draw_point = resp.draw_point;
+            this.competation_format.loss_point = resp.loss_point;
 
             this.initialHalfBreakRR = this.competation_format.halftime_break_RR
             this.initialHalfBreakFM = this.competation_format.halftime_break_FM
@@ -653,6 +742,7 @@ export default {
      // TODO : add minimum_matches and number_teams with competation format
      this.competation_format.min_matches = this.minimum_matches
      this.competation_format.total_teams = this.number_teams
+     this.competation_format.selectedCategoryRule = _.cloneDeep(this.competation_format.rules);
 
      this.$validator.validateAll().then(
           (response) => {
@@ -818,7 +908,16 @@ export default {
 
         vm.options[index].total_time = total_time;
       });
-    }, 200)
+    }, 200),
+    changeCheckedStatus(index, event) {
+      this.competation_format.rules[index].checked = event.target.checked;
+    },
+    onRuleMove(event) {
+      if(event.draggedContext.futureIndex == 0) {
+        return false;
+      }
+      return true;
+    },
   }
 }
 </script>

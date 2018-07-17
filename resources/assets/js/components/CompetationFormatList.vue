@@ -43,7 +43,7 @@
               </td>
             </tr>
           </tbody>
-          <AddAgeCateogryModel v-if="categoryStatus"></AddAgeCateogryModel>
+          <AddAgeCateogryModel v-if="categoryStatus" :categoryRules="categoryRules"></AddAgeCateogryModel>
           <delete-modal :deleteConfirmMsg="deleteConfirmMsg" @confirmed="deleteConfirmed()"></delete-modal>
           <competationModal :templateData="templateData" :totalTime="totalTime" :templateImage="templateImage"></competationModal>
           <!-- <div class="modal fade p-0" id="template-image-modal" tabindex="-1" role="dialog" aria-labelledby="template-image-modal" aria-hidden="true">
@@ -90,7 +90,8 @@ export default {
       templateData:[],
       totalTime: '',
       templateImage: '',
-      categoryStatus: false
+      categoryStatus: false,
+      categoryRules: []
     }
   },
   components: {
@@ -176,6 +177,13 @@ export default {
       let TournamentData = {'tournament_id': this.TournamentId}
       Tournament.getCompetationFormat(TournamentData).then(
       (response) => {
+        this.categoryRules = _.map(response.data.category_rules, (value, key) => {
+          return {
+            'key': key,
+            'title': value,
+            'checked': false,
+          };
+        });
         this.competationList = response.data.data
         let time_sum= 0;
         this.competationList.reduce(function (a,b) {

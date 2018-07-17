@@ -10,6 +10,7 @@ use Laraspace\Models\Pitch;
 use Laraspace\Models\PitchUnavailable;
 use Laraspace\Models\Team;
 use Laraspace\Models\Referee;
+use Laraspace\Models\TournamentCompetationTemplates;
 use DB;
 use Carbon\Carbon;
 
@@ -441,6 +442,13 @@ class MatchRepository
     }
     public function getStanding($tournamentData)
     {
+      $competition = Competition::find($tournamentData['competitionId']);
+
+      $tournamentCompetationTemplatesRecord = TournamentCompetationTemplates::where('id',$competition->tournament_competation_template_id)->first();
+
+      $rules = $tournamentCompetationTemplatesRecord->rules;
+
+
         $reportQuery = DB::table('match_standing')
           ->leftjoin('teams', 'match_standing.team_id', '=', 'teams.id')
           ->leftjoin('countries', 'teams.country_id', '=', 'countries.id')
@@ -449,6 +457,8 @@ class MatchRepository
           ->select('match_standing.*','teams.*',
 
             DB::raw('match_standing.goal_for - match_standing.goal_against as GoalDifference'),
+
+            DB::raw('IF(match_standing.Played > 0, (match_standing.goal_for / match_standing.Played), 0) as GoalRatio'),
 
             DB::raw('CONCAT("'.$this->getAWSUrl.'", countries.logo) AS teamFlag'),
             'countries.country_flag as teamCountryFlag');
@@ -466,11 +476,32 @@ class MatchRepository
           $reportQuery = $reportQuery->where('match_standing.tournament_id', $tournamentData['tournamentId']);
           }
 
-          $reportQuery->orderBy('match_standing.manual_order','asc')
-                      ->orderBy('match_standing.points','desc')
-                      ->orderBy('GoalDifference','desc')
-                      ->orderBy('match_standing.goal_for','desc')
-                      ->orderBy('match_standing.team_id','asc');
+          $reportQuery = $reportQuery->orderBy('match_standing.manual_order','asc');
+
+          foreach($rules as $rule) {
+            if($rule['checked'] == false) {
+              continue;
+            }
+
+            if($rule['key'] == 'match_points') {
+              $reportQuery = $reportQuery->orderBy('match_standing.points','desc');
+            }
+            
+            if($rule['key'] == 'goal_difference') {
+              $reportQuery = $reportQuery->orderBy('GoalDifference','desc');
+            }
+            if($rule['key'] == 'goals_for') {
+              $reportQuery = $reportQuery->orderBy('match_standing.goal_for','desc');
+            }
+            if($rule['key'] == 'matches_won') {
+              $reportQuery = $reportQuery->orderBy('match_standing.won','desc');
+            }
+            if($rule['key'] == 'goal_ratio') {
+              $reportQuery = $reportQuery->orderBy('GoalRatio','desc');
+            }
+          }
+
+          $reportQuery = $reportQuery->orderBy('match_standing.team_id','asc');
 
           $tempFixtures = DB::table('temp_fixtures')
                           ->leftjoin('competitions', 'temp_fixtures.competition_id', '=', 'competitions.id')

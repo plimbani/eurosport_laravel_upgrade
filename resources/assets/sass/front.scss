@@ -942,3 +942,53 @@ gmap-map {
         left: -3px;
     }
 }
+
+// Work for fixed column
+
+.ppitem .fc-head .fc-head-container > .fc-row {
+    border-left-width: 1px;
+    border-right-width: 0 !important;
+    left: 40px;
+    width: calc(100% - 40px - 14px);
+    overflow-x: hidden;
+
+    th:first-child {
+        display: none;
+    }
+}
+
+.ppitem .fc-head{
+  position: -webkit-sticky !important;
+  position: sticky !important;
+  top:0;
+  background-color: white;
+  z-index:9999 !important;
+}
+
+
+.ppitem .fc-bg {
+    overflow-x: hidden;
+}
+
+
+.ppitem .fc-time-grid .fc-content-skeleton {
+    overflow-x: scroll;
+    overflow-y: hidden;
+    height: 100%;
+    left: 40px;
+}
+
+.ppitem .fc-time-grid .fc-content-skeleton > table {
+
+    td:first-child {
+        display: none;
+    }
+}
+
+.ppitem .fc-slats td:first-child {
+    background-color: white;
+}
+
+.ppitem .fc-header-toolbar{
+  display: none;
+}
