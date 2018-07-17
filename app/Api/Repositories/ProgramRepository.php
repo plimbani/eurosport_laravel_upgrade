@@ -20,6 +20,11 @@ class ProgramRepository
   protected $programPageName;
 
   /**
+   * @var Program overview page name
+   */
+  protected $programOverviewPageName;
+
+  /**
    * @var Program page name
    */
   protected $programPageUrl;
@@ -36,6 +41,7 @@ class ProgramRepository
   {
     $this->pageService = $pageService;
     $this->programPageName = 'program';
+    $this->programOverviewPageName = 'program_overview';
     $this->programPageUrl = '/program';
     $this->additionalPageRoutesName = ['additional.program.page.details'];
   }
@@ -253,10 +259,11 @@ class ProgramRepository
    */
   public function getProgramPageData($websiteId)
   {
-    $pagesData = $this->pageService->getPageDetails($this->programPageName, $websiteId);
-    $additionalPages = $this->pageService->getAdditionalPagesByParentId($pagesData->id, $websiteId);
-
-    return ['pagesData' => $pagesData, 'additionalPages' => $additionalPages];
+    $programPageData = $this->pageService->getPageDetails($this->programPageName, $websiteId);
+    $programOverviewPageData = $this->pageService->getPageDetails($this->programOverviewPageName, $websiteId);
+    $additionalPages = $this->pageService->getAdditionalPagesByParentId($programPageData->id, $websiteId);
+    
+    return ['pagesData' => $programOverviewPageData, 'additionalPages' => $additionalPages];
   }
 
   /*

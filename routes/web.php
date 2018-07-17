@@ -47,4 +47,7 @@ Route::group(['domain' => '{domain}', 'middleware' => ['verify.website', 'locale
 	Route::get('/media', 'MediaController@getMediaPageDetails')->name('media.page.details');
 	Route::get('/contact', 'ContactController@getContactPageDetails')->name('contact.page.details');
 	Route::post('/submitInquiry', 'ContactController@submitInquiry')->name('submit.enquiry');
+
+	Route::get('/tips', 'VisitorController@getTipsPageDetails')->name('tips.page.details');
+	Route::get('/public-transport', 'VisitorController@getPublicTransportPageDetails')->name('public.transport.page.details');
 });

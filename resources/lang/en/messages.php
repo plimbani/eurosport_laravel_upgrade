@@ -3,15 +3,15 @@
 	[
 		'teams' => 'Teams',
 		'matches' => 'Matches',
-		'venue' => 'Venue',
+		'venue' => 'Location',
 		'tournament' => 'Tournament',
 		'rules' => 'Rules',
 		'history' => 'History',
 		'program' => 'Program',
-		'stay' => 'Stay',
+		'stay' => 'Hospitality',
 		'meals' => 'Meals',
 		'accommodation' => 'Accommodation',
-		'visitors' => 'Visitors',
+		'visitors' => 'Check-in',
 		'tourist_information' => 'Tourist information',
 		'media' => 'Media',
 		'contact' => 'Contact',
@@ -61,5 +61,8 @@
 		'no_age_category_found' => 'No age categories found.',
 		'close' => 'Close',
 		'main_menu' => 'Main Menu',
+		'age_categories' => 'Age categories',
+		'program_overview' => 'Overview',
+		'tips' => 'Tips',
 	]
 ?>

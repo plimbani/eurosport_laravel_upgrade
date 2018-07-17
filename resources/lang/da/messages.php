@@ -3,15 +3,15 @@
 	[
 		'teams' => 'Hold',
 		'matches' => 'Kampe',
-		'venue' => 'Spillesteder',
+		'venue' => 'Location',
 		'tournament' => 'Turnering',
 		'rules' => 'Regler',
 		'history' => 'Historie',
 		'program' => 'Program',
-		'stay' => 'Ophold',
+		'stay' => 'Hospitality',
 		'meals' => 'Mad',
 		'accommodation' => 'Indkvartering',
-		'visitors' => 'Besøgende',
+		'visitors' => 'Check-in',
 		'tourist_information' => 'Turist informationer',
 		'media' => 'Medie',
 		'contact' => 'Kontakt',
@@ -61,5 +61,8 @@
 		'no_age_category_found' => 'Ingen alders kategorier fundet',
 		'close' => 'Luk',
 		'main_menu' => 'Hovedmenu',
+		'age_categories' => 'Age categories',
+		'program_overview' => 'Overview',
+		'tips' => 'Tips',
 	]
 ?>

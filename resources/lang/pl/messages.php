@@ -3,7 +3,7 @@
 	[
 		'teams' => 'Drużyny',
 		'matches' => 'Mecze',
-		'venue' => 'Miejsce spotkania',
+		'venue' => 'Location',
 		'tournament' => 'Turniej',
 		'rules' => 'Zasady',
 		'history' => 'Historia ',
@@ -11,7 +11,7 @@
 		'stay' => 'Pobyt',
 		'meals' => 'Posiłki ',
 		'accommodation' => 'Nocleg',
-		'visitors' => 'Goście',
+		'visitors' => 'Check-in',
 		'tourist_information' => 'Informacja turystyczna',
 		'media' => 'Media',
 		'contact' => 'Kontakt',
@@ -61,5 +61,8 @@
 		'no_age_category_found' => 'Nie znaleziono kategorii wiekowych.',
 		'close' => 'Zamknij',
 		'main_menu' => 'Menu główne',
+		'age_categories' => 'Age categories',
+		'program_overview' => 'Overview',
+		'tips' => 'Tips',		
 	]
 ?>

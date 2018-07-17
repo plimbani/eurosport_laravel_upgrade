@@ -3,7 +3,7 @@
 	[
 		'teams' => 'týmy',
 		'matches' => 'zápasy',
-		'venue' => 'místo',
+		'venue' => 'Location',
 		'tournament' => 'turnaj',
 		'rules' => 'pravidla',
 		'history' => 'historie',
@@ -11,7 +11,7 @@
 		'stay' => 'pobyt',
 		'meals' => 'strava',
 		'accommodation' => 'ubytování',
-		'visitors' => 'návštěvníci',
+		'visitors' => 'Check-in',
 		'tourist_information' => 'turistické informace',
 		'media' => 'media',
 		'contact' => 'kontakt',
@@ -62,5 +62,8 @@ stránka, kterou jste hledali, mohla být přesunuta, aktualizována nebo odstra
 		'no_age_category_found' => 'věkové kategorie nenalezeny',
 		'close' => 'zavřít',
 		'main_menu' => 'hlavní menu',
+		'age_categories' => 'Age categories',
+		'program_overview' => 'Overview',
+		'tips' => 'Tips',
 	]
 ?>
