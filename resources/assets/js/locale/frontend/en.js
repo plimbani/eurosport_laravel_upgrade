@@ -33,6 +33,9 @@ module.exports= {
     'no_matches_found': 'No matches found.',
     'view_match_info_message': 'Please <a href="javascript: void(0);">click here</a> to view full standings, results and schedule for {competitionName}',
     'match_codes': 'Match codes',
+    'matches': 'Matches',
+    'teams': 'Teams',
+    'final_placings': 'Final placings'
   },
   'tournament': {
     'category_name': 'Category name',
