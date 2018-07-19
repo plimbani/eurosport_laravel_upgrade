@@ -20,10 +20,7 @@ class ImageConversion implements ShouldQueue
      * @var local image uplod name
      */
     protected $imageName;
-    /**
-     * @var local image tempImagePath path
-     */
-    protected $tempImagePath;
+
     /**
      * @var logo s3 path
      */
@@ -34,10 +31,9 @@ class ImageConversion implements ShouldQueue
      */
     protected $conversions;
 
-    public function __construct($imageName, $tempImagePath, $s3Path, $conversions)
+    public function __construct($imageName, $s3Path, $conversions)
     {
-        $this->imageName = $imageName;
-        $this->tempImagePath = $tempImagePath;
+        $this->imageName = $imageName;        
         $this->s3Path = $s3Path;
         $this->conversions = $conversions;
     }
@@ -49,18 +45,19 @@ class ImageConversion implements ShouldQueue
      */
     public function handle(ImageManager $imageManager)
     {
-        $imageName = $this->imageName;
-        $imageWithPath = $this->tempImagePath.$imageName;
+        $imageName = $this->imageName;        
+        $s3ImagePath = $this->s3Path.$imageName;
         $disk = Storage::disk('s3');
+        $mainImage = Storage::disk('s3')->get($s3ImagePath);
 
         foreach ($this->conversions as $key => $value) {
             $image = null;
             if(isset($value['width']) && isset($value['height'])) {
-                $image = $this->cropAndResize($imageWithPath, $value['width'], $value['height'], $imageManager);
+                $image = $this->cropAndResize($mainImage, $value['width'], $value['height'], $imageManager);
             } else if(isset($value['width']) && !isset($value['height'])) {
-                $image = $this->resizeImageProportionally($imageWithPath, $value['width'], null, $imageManager);
+                $image = $this->resizeImageProportionally($mainImage, $value['width'], null, $imageManager);
             } else if(!isset($value['width']) && isset($value['height'])) {
-                $image = $this->resizeImageProportionally($imageWithPath, null, $value['height'], $imageManager);
+                $image = $this->resizeImageProportionally($mainImage, null, $value['height'], $imageManager);
             } else {
                 continue;
             }
@@ -71,8 +68,6 @@ class ImageConversion implements ShouldQueue
                 'public'
             );
         }
-
-        File::delete($imageWithPath);
     }
 
     /**

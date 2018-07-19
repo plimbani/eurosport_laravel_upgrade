@@ -2,6 +2,7 @@
 
 namespace Laraspace\Api\Services;
 
+use File;
 use Storage;
 use Config;
 use Laraspace\Api\Contracts\MediaContract;
@@ -111,9 +112,10 @@ class MediaService implements MediaContract
     $disk = Storage::disk('s3');
     $disk->put($s3path, file_get_contents($localpath), 'public');
 
+    File::delete($localpath);
+
     ImageConversion::dispatch(
-      $filename, 
-      $this->tempImagePath, 
+      $filename,
       $this->imagePath['photo'], 
       $this->conversions['photo']
     );

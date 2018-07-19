@@ -2,6 +2,7 @@
 
 namespace Laraspace\Api\Services;
 
+use File;
 use Storage;
 use JWTAuth;
 use Config;
@@ -208,9 +209,10 @@ class WebsiteService implements WebsiteContract
     $disk = Storage::disk('s3');
     $disk->put($s3path, file_get_contents($localpath), 'public');
 
+    File::delete($localpath);
+
     ImageConversion::dispatch(
       $filename,
-      $this->tempImagePath,
       $this->imagePath['website_tournament_logo'],
       $this->conversions['website_tournament_logo']
     );
@@ -249,9 +251,10 @@ class WebsiteService implements WebsiteContract
     $disk = Storage::disk('s3');
     $disk->put($s3path, file_get_contents($localpath), 'public');
 
+    File::delete($localpath);
+
     ImageConversion::dispatch(
       $filename,
-      $this->tempImagePath,
       $this->imagePath['sponsor_logo'],
       $this->conversions['sponsor_logo']
     );
@@ -274,9 +277,10 @@ class WebsiteService implements WebsiteContract
     $disk = Storage::disk('s3');
     $disk->put($s3path, file_get_contents($localpath), 'public');
 
+    File::delete($localpath);
+
     ImageConversion::dispatch(
       $filename,
-      $this->tempImagePath,
       $this->imagePath['hero_image'],
       $this->conversions['hero_image']
     );
@@ -299,9 +303,10 @@ class WebsiteService implements WebsiteContract
     $disk = Storage::disk('s3');
     $disk->put($s3path, file_get_contents($localpath), 'public');
 
+    File::delete($localpath);
+
     ImageConversion::dispatch(
       $filename,
-      $this->tempImagePath,
       $this->imagePath['welcome_image'],
       $this->conversions['welcome_image']
     );
@@ -324,9 +329,10 @@ class WebsiteService implements WebsiteContract
     $disk = Storage::disk('s3');
     $disk->put($s3path, file_get_contents($localpath), 'public');
 
+    File::delete($localpath);
+
     ImageConversion::dispatch(
       $filename,
-      $this->tempImagePath,
       $this->imagePath['organiser_logo'],
       $this->conversions['organiser_logo']
     );
