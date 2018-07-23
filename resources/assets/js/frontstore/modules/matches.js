@@ -24,7 +24,6 @@ const actions = {
 // mutations
 const mutations = {
     [types.SET_CURRENT_VIEW] (state, currentView) {
-        console.log('currentView', currentView);
         state.currentView = currentView;
     }
 }

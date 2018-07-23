@@ -10,22 +10,23 @@
 									<div class="tabs tabs-primary">
 										<ul class="nav nav-tabs">
 											<li @click="setCurrentView('drawsListing')" class="nav-item">
-												<a href="javascript:void(0)" class="nav-link">{{ $t('matches.categories') }}</a>
+												<a :class="[currentView == 'drawsListing' ? 'active' : '']" href="javascript:void(0)" class="nav-link">{{ $t('matches.categories') }}</a>
 											</li>
 											<li @click="setCurrentView('matchListing')" class="nav-item">
-												<a href="javascript:void(0)" class="nav-link">{{ $t('matches.matches') }}</a>
+												<a :class="[currentView == 'matchListing' ? 'active' : '']" href="javascript:void(0)" class="nav-link">{{ $t('matches.matches') }}</a>
 											</li>
 											<li @click="setCurrentView('teamListing')" class="nav-item">
-												<a href="javascript:void(0)" class="nav-link">{{ $t('matches.teams') }}</a>
+												<a :class="[currentView == 'teamListing' ? 'active' : '']" href="javascript:void(0)" class="nav-link">{{ $t('matches.teams') }}</a>
 											</li>
 											<li @click="setCurrentView('finalPlacings')" class="nav-item">
-												<a href="javascript:void(0)" class="nav-link">{{ $t('matches.final_placings') }}</a>
+												<a :class="[currentView == 'finalPlacings' ? 'active' : '']" href="javascript:void(0)" class="nav-link">{{ $t('matches.final_placings') }}</a>
 											</li>
 										</ul>
 										<div class="tab-content">
 											<div class="card">
 												<div class="card-block">
 													<!-- <component :is="currentView" :currentView="currentView"></component> -->
+													<match-listing v-if="currentView == 'matchListing'"></match-listing>
 												</div>
 											</div>
 										</div>
@@ -41,11 +42,16 @@
 </template>
 <script type="text/babel">
 
+import MatchListing from './list/List.vue';
+
 export default {
 	data() {
 		return {
 			currentView: '',
 		}
+	},
+	components: {
+		MatchListing,
 	},
 	mounted() {
 		this.currentView = 'drawsListing';
@@ -53,8 +59,10 @@ export default {
 	},
 	methods: {
 		setCurrentView(currentView) {
-			this.currentView = currentView;
-    		this.$store.dispatch('setCurrentView', this.currentView)
+			if(currentView != this.currentView) {
+				this.currentView = currentView;
+	    		this.$store.dispatch('setCurrentView', this.currentView);
+	    	}
 		}
 	}
 }
