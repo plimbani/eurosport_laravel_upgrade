@@ -27,7 +27,7 @@
     > </component>
   </div>
 </template>
-<script type="text/babel">
+<script>
 
 import Tournament from '../api/tournament.js'
 import TeamDetails from './TeamDetails.vue'
@@ -38,7 +38,8 @@ import DrawsListing from './DrawsListing.vue'
 import LocationList from'./LocationList.vue'
 import DrawList from './DrawList.vue'
 // import MatchFilter from './MatchFilter.vue'
- import TournamentFilter from './TournamentFilter.vue'
+import TournamentFilter from './TournamentFilter.vue'
+import FinalPlacings from './FinalPlacings.vue'
 
 var moment = require('moment')
 
@@ -80,7 +81,15 @@ export default {
        this.$root.$on('changeComp', this.setMatchData);
        this.$root.$on('getMatchByTournamentFilter', this.setFilter);
        this.$root.$on('changeDrawListComp', this.setMatchData);
+       this.$root.$on('getAllMatches', this.getAllMatches);
   	},
+  beforeCreate: function() {
+  	// Remove custom event listener
+	this.$root.$off('changeComp');
+    this.$root.$off('getMatchByTournamentFilter');
+    this.$root.$off('changeDrawListComp');
+    this.$root.$off('getAllMatches');
+  },
 	computed: {
 		currentScheduleView() {
 			return this.$store.state.currentScheduleView
@@ -88,7 +97,7 @@ export default {
 	},
 	components: {
 		MatchList,TeamDetails,LocationList,DrawsListing,
-		DrawDetails,TeamList,DrawList,TournamentFilter
+		DrawDetails,TeamList,DrawList,TournamentFilter,FinalPlacings
 	},
 	methods: {
 		setFilter(filterKey,filterValue) {
@@ -124,6 +133,7 @@ export default {
 	    },
 
 		onChangeMatchDate(){
+
 			let matchDate = this.matchDate
 			this.currentDate = this.matchDate
 
@@ -143,7 +153,7 @@ export default {
 
 	      }
 	},
-	
+
 	getDateRange(startDate, stopDate, dateFormat)
 	{
         var dateArray = [];
@@ -192,7 +202,7 @@ export default {
 		getDrawDetails(drawId, drawName,CompetationType='') {
 			let TournamentId = this.$store.state.Tournament.tournamentId
 			let tournamentData = {'tournamentId': TournamentId,
-			'competitionId':drawId,'is_scheduled':1}
+			'competitionId':drawId}
 
 			this.otherData.DrawName = drawName
 			this.otherData.DrawId = drawId
@@ -216,7 +226,7 @@ export default {
 		getTeamDetails(teamId, teamName) {
 			let TournamentId = this.$store.state.Tournament.tournamentId
 			let tournamentData = {'tournamentId': TournamentId,
-			'teamId':teamId,'is_scheduled':1}
+			'teamId':teamId}
 			this.otherData.TeamName = teamName
 			Tournament.getFixtures(tournamentData).then(
 				(response)=> {
@@ -235,7 +245,7 @@ export default {
 
 			let TournamentId = this.$store.state.Tournament.tournamentId
 			let PitchId = fixtureData.pitchId
-			let tournamentData = {'tournamentId': TournamentId, 'pitchId':PitchId,'is_scheduled':1}
+			let tournamentData = {'tournamentId': TournamentId, 'pitchId':PitchId}
 			this.otherData.Name = fixtureData.venue_name+'-'+fixtureData.pitch_number
 
 			Tournament.getFixtures(tournamentData).then(
@@ -248,7 +258,7 @@ export default {
 					    setTimeout(function(){
 					      vm.matchData = _.orderBy(vm.matchData, ['match_datetime'], ['asc'])
 					       // console.log(newArray)
-					       // vm.matchData = 
+					       // vm.matchData =
 					    },100)
 						// here we add extra Field Fot Not Displat Location
 					}
@@ -259,18 +269,18 @@ export default {
 			)
 		},
 		getAllMatches(date='',filterKey='',filterValue='') {
-
+			$("body .js-loader").removeClass('d-none');
 			let TournamentId = this.$store.state.Tournament.tournamentId
 			let tournamentData = ''
-		    
+
 		    if(date != '') {
-		          tournamentData ={'tournamentId':TournamentId,'tournamentDate':date,'is_scheduled':1 }
+		          tournamentData ={'tournamentId':TournamentId,'tournamentDate':date }
 		    } else {
-		          tournamentData ={'tournamentId':TournamentId,'is_scheduled':1 }
+		          tournamentData ={'tournamentId':TournamentId }
 		    }
 
 			if(filterKey != '' && filterValue != '') {
-          		tournamentData ={'tournamentId':TournamentId ,'tournamentDate':date ,'is_scheduled':1,'filterKey':filterKey,'filterValue':filterValue.id,'fiterEnable':true}
+          		tournamentData ={'tournamentId':TournamentId ,'tournamentDate':date ,'filterKey':filterKey,'filterValue':filterValue.id,'fiterEnable':true}
 	        }
 
 		//	let TournamentId = this.$store.state.Tournament.tournamentId
@@ -279,10 +289,12 @@ export default {
 			let vm =this
 			Tournament.getFixtures(tournamentData).then(
 				(response)=> {
+					$("body .js-loader").addClass('d-none');
 					if(response.data.status_code == 200) {
 						this.matchData = response.data.data
 						setTimeout(function(){
 					      vm.matchData = _.orderBy(vm.matchData, ['match_datetime'], ['asc'])
+					      vm.$root.$emit('setMatchDataOfMatchList', vm.matchData);
 					    },100)
 					}
 				},

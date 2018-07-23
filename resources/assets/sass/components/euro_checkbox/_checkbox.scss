@@ -3,7 +3,7 @@
     border-radius: 3px;
   }
   &:after {
-    top: 4px;
+    top: 5px;
     left: 7px;
     box-sizing: border-box;
     width: 6px;
@@ -28,4 +28,8 @@
     border: $euro-disabled-checked-color;
     background: $euro-disabled-checked-color;
   }
+}
+
+.c-input {
+  min-height: 24px;
 }

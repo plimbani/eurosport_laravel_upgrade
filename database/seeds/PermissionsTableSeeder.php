@@ -12,7 +12,7 @@ class PermissionsTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('permissions')->truncate();
+        DB::table('permissions')->delete();
         DB::table('permissions')->insert([
         	[ 'name' => 'Create users', 'slug' => 'create.users', 'description' => 'euro', 'model' => '', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
         	[ 'name' => 'Delete users', 'slug' => 'delete.users', 'description' => 'euro', 'model' => '', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],

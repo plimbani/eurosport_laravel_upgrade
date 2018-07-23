@@ -6,7 +6,11 @@ use Brotzka\DotenvEditor\DotenvEditor;
 use Dingo\Api\Routing\Helpers;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
-
+use Laraspace\Http\Requests\Referee\StoreRequest;
+use Laraspace\Http\Requests\Referee\UpdateRequest;
+use Laraspace\Http\Requests\Referee\DeleteRequest;
+use Laraspace\Http\Requests\Referee\GetRefereesRequest;
+use Laraspace\Http\Requests\Referee\RefereeDetailRequest;
 // Need to Define Only Contracts
 use Laraspace\Api\Contracts\RefereeContract;
 use Laraspace\Api\Repositories\RefereeRepository;
@@ -24,6 +28,7 @@ class RefereeController extends BaseController
         $this->refereeObj = $refereeObj;
         $this->refereeRepoObj  =  $refereeRepoObj;
         // $this->middleware('jwt.auth');
+        $this->data = [];        
     }
 
     /**
@@ -35,7 +40,7 @@ class RefereeController extends BaseController
      * @Versions({"v1"})
      * @Response(200, body={"id": 10, "username": "foo"})
      */
-    public function getReferees(Request $request)
+    public function getReferees(GetRefereesRequest $request)
     {
         return $this->refereeObj->getAllReferees($request->all()['tournamentData']);
     }
@@ -50,18 +55,18 @@ class RefereeController extends BaseController
      * @Versions({"v1"})
      * @Request("name=test", contentType="application/x-www-form-urlencoded")
      */
-    public function createReferee(Request $request)
+    public function createReferee(StoreRequest $request)
     {
         return $this->refereeObj->createReferee($request);
     }
-    public function updateReferee(Request $request)
+    public function updateReferee(UpdateRequest $request)
     {
         $data = $request->all()['data'];
         // dd($data);
 
         return $this->refereeObj->edit($data, $data['refereeId']);
     }
-    public function refereeDetail(Request $request)
+    public function refereeDetail(RefereeDetailRequest $request)
     {
         return $this->refereeRepoObj->getRefereeFromId($request->refereeId);
         // dd($request->refereeId);
@@ -82,8 +87,16 @@ class RefereeController extends BaseController
         return $this->refereeObj->edit($request, $refereeId);
     }
 
-    public function deleteReferee($deleteId)
+    public function deleteReferee(DeleteRequest $request, $deleteId)
     {
         return $this->refereeObj->deleteReferee($deleteId);
+    }
+
+    /**
+     * Upload referees
+     */
+    public function uploadRefereesExcel(Request $request)
+    {
+        return $this->refereeObj->uploadRefereesExcel($request);        
     }
 }
