@@ -35,7 +35,10 @@ module.exports= {
     'match_codes': 'Match codes',
     'matches': 'Matches',
     'teams': 'Teams',
-    'final_placings': 'Final placings'
+    'final_placings': 'Final placings',
+    'type': 'Type',
+    'no_teams_found': 'No teams found.',
+    'no_categories_found': 'No categories found.',
   },
   'tournament': {
     'category_name': 'Category name',

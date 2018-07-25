@@ -27,6 +27,9 @@
 												<div class="card-block">
 													<!-- <component :is="currentView" :currentView="currentView"></component> -->
 													<match-listing v-if="currentView == 'matchListing'"></match-listing>
+													<category-listing v-if="currentView == 'drawsListing'"></category-listing>	
+													<team-listing v-if="currentView == 'teamListing'"></team-listing>
+													<finalPlacings v-if="currentView == 'finalPlacings'"></finalPlacings>
 												</div>
 											</div>
 										</div>
@@ -43,6 +46,9 @@
 <script type="text/babel">
 
 import MatchListing from './list/List.vue';
+import TeamListing from './teams/List.vue';
+import CategoryListing from './categories/List.vue';
+import FinalPlacings from '../../tournament/pages/history/components/FinalPlacings.vue';
 
 export default {
 	data() {
@@ -51,7 +57,7 @@ export default {
 		}
 	},
 	components: {
-		MatchListing,
+		MatchListing, TeamListing, CategoryListing, FinalPlacings
 	},
 	mounted() {
 		this.currentView = 'drawsListing';

@@ -169,6 +169,7 @@
         }
       },
       showCompetitionData(match) {
+        console.log('match', match.competitionId);
         var id = match.competitionId;
         var competitionName = match.competation_name;
         var competitionType = match.round;

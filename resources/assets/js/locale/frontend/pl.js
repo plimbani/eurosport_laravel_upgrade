@@ -33,6 +33,12 @@ module.exports= {
     'no_matches_found': 'Nie znaleziono żadnego meczu.',
     'view_match_info_message': '<a href="javascript: void(0);">Kliknij tutaj</a>, aby wyświetlić pełną listę tabel, wyników i harmonogramu dla {competitionName}',
     'match_codes': 'Kod meczu',
+    'matches': 'Matches',
+    'teams': 'Teams',
+    'final_placings': 'Final placings',
+    'type': 'Type',
+    'no_teams_found': 'No teams found.',
+    'no_categories_found': 'No categories found.',    
   },
   'tournament': {
     'category_name': 'Nie znaleziono żadnego meczu.',
