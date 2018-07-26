@@ -1,7 +1,8 @@
+import 'babel-polyfill';
 import router from './router.js'
 
 import Layout from './helpers/layout'
-
+import store from './store'
 /**
  * First we will load all of this project's JavaScript dependencies which
  * include Vue and Vue Resource. This gives a great starting point for
@@ -9,6 +10,9 @@ import Layout from './helpers/layout'
  */
 
 require('./bootstrap');
+
+require('./mixins');
+
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -21,9 +25,12 @@ window.Plugin = Plugin
 
 const app = new Vue({
     router,
+    store,
     methods : {
         onOverlayClick(){
             Layout.toggleSidebar()
         }
     }
 }).$mount('#app')
+
+document.addEventListener('contextmenu', event => event.preventDefault());

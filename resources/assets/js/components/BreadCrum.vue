@@ -1,10 +1,14 @@
 <template>
-<div>
-	<ol class="breadcrumb">
-		<li class="breadcrumb-item"><a href="#">Welcome</a></li>
-		<li class="breadcrumb-item"><a href="#">Tournament Name</a></li>
-		<li class="breadcrumb-item active">Summary</li>
-	</ol>
+<div class="row">
+  <div class="col-sm-12">
+    <div class="page-header">
+      <ol class="breadcrumb">
+        <li><a href="/admin">Home</a></li>
+        <li v-if="TournamentName != ''"><a href="#">{{TournamentName}}</a></li>
+        <li class="active"><span>{{currentPage}}</span></li>
+      </ol>
+    </div>
+  </div>
 </div>
 </template>
 <script>
@@ -13,6 +17,14 @@ export default  {
   	return {
   		'breadCrum' : 'breadCrum'
   	}
+  },  
+  computed: {
+  	TournamentName() {
+  		return this.$store.state.Tournament.tournamentName
+  	},
+    currentPage() {
+    return (this.$store.state.currentPage == '') ? '' : this.$store.state.currentPage      
+    }
   }
 }
 </script>

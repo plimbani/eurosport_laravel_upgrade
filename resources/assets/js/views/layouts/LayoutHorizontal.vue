@@ -1,9 +1,9 @@
 <template>
-    <div class="template-container 13113">13131
+    <div class="template-container 13113">
         <site-header></site-header>        
         <!--<site-header-bottom></site-header-bottom>-->
         <router-view></router-view>
-        <div class="horizontal_line"></div>
+        <!-- <div class="horizontal_line"></div> -->
         <site-footer></site-footer>
     </div>
 </template>
@@ -12,7 +12,6 @@
 
     import SiteHeader from './partials/SiteHeader.vue'
     import SiteFooter from './partials/SiteFooter.vue'
-    import SiteHeaderBottom from './partials/SiteHeaderBottom.vue'
 
     import Layout from '../../helpers/layout'
 
@@ -23,7 +22,7 @@
             }
         },
         components : {
-            SiteHeader , SiteHeaderBottom , SiteFooter
+            SiteHeader, SiteFooter
         },
         mounted() {
             Layout.set('layout-horizontal')

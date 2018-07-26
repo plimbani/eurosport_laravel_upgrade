@@ -2,10 +2,55 @@
 
 namespace Laraspace\Http;
 
+use App;
+use Redirect;
+use Laraspace\Models\Website;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
+use Illuminate\Foundation\Http\Events\RequestHandled;
 
 class Kernel extends HttpKernel
 {
+    /**
+     * Handle an incoming HTTP request.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function handle($request)
+    {
+        try {
+            $request->enableHttpMethodParameterOverride();
+
+            $response = $this->sendRequestThroughRouter($request);
+        } catch (Exception $e) {
+            $this->reportException($e);
+
+            $response = $this->renderException($request, $e);
+        } catch (Throwable $e) {
+            $this->reportException($e = new FatalThrowableError($e));
+
+            $response = $this->renderException($request, $e);
+        }
+
+        $this->app['events']->dispatch(
+            new RequestHandled($request, $response)
+        );
+
+        if($request->server('SERVER_NAME') != config('app.domain')) {
+            $website = Website::where('domain_name', $request->server('SERVER_NAME'))->orWhere('preview_domain', $request->server('SERVER_NAME'))->first();
+
+            if(!$website) {
+                return Redirect::away(config('app.url'), 302);
+            }
+
+            if($website->is_website_offline == 1) {
+              return Redirect::away($website->offline_redirect_url, 302);
+            }
+        }
+
+        return $response;
+    }
+
     /**
      * The application's global HTTP middleware stack.
      *
@@ -32,7 +77,7 @@ class Kernel extends HttpKernel
             \Illuminate\Session\Middleware\StartSession::class,
             // \Illuminate\Session\Middleware\AuthenticateSession::class,
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
-            \Laraspace\Http\Middleware\VerifyCsrfToken::class,
+            // \Laraspace\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
         'api' => [
@@ -53,7 +98,18 @@ class Kernel extends HttpKernel
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'bindings' => \Illuminate\Routing\Middleware\SubstituteBindings::class,
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
-        'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
+        'guest' => \Laraspace\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
+        'role' => \Duro85\Roles\Middleware\VerifyRole::class,
+        'permission' => \Duro85\Roles\Middleware\VerifyPermission::class,
+        'level' => \Duro85\Roles\Middleware\VerifyLevel::class,
+        'jwt.auth' => \Tymon\JWTAuth\Middleware\GetUserFromToken::class,
+        'jwt.refresh' => \Tymon\JWTAuth\Middleware\RefreshToken::class,
+        'verify.website' => \Laraspace\Http\Middleware\VerifyWebsite::class,
+        'localize' => \Mcamara\LaravelLocalization\Middleware\LaravelLocalizationRoutes::class,
+        'localizationRedirect' => \Mcamara\LaravelLocalization\Middleware\LaravelLocalizationRedirectFilter::class,
+        'localeSessionRedirect' => \Mcamara\LaravelLocalization\Middleware\LocaleSessionRedirect::class,
+        'localeViewPath' => \Mcamara\LaravelLocalization\Middleware\LaravelLocalizationViewPath::class,
+        'signedurl' => \Spatie\UrlSigner\Laravel\Middleware\ValidateSignature::class,
     ];
 }

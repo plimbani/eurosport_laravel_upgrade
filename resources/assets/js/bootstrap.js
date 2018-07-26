@@ -3,6 +3,11 @@ import VeeValidate from 'vee-validate';
 import Axios from 'axios';
 import Ls from './services/ls'
 
+import Multiselect from 'vue-multiselect';
+import Lang from 'vue-lang';
+import VuePaginate from 'vue-paginate';
+import VueClipboard from 'vue-clipboard2';
+
 window._ = require('lodash');
 
 /**
@@ -60,5 +65,14 @@ axios.interceptors.request.use(function (config) {
 
 
 Vue.use(VueRouter)
-
 Vue.use(VeeValidate);
+Vue.use(VuePaginate);
+Vue.component('multiselect',Multiselect);
+Vue.use(VueClipboard);
+
+var locales = {
+  "en": require("./locale/en.js"),
+  "fr": require("./locale/fr.js")
+}
+
+Vue.use(Lang, {lang: 'en', locales: locales})

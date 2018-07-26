@@ -1,13 +1,12 @@
 <template>
     <div class="template-container">
         <site-header></site-header>
-          <div class="main-content" id="dashboardPage">
+          <div class="main-content container-fluid" id="dashboardPage">
             <breadCrum></breadCrum>
-            <tournamentTabbed>              
-            </tournamentTabbed>                 
+            <tournamentTabbed></tournamentTabbed>
           </div>             
         <!--<router-view></router-view>-->
-        <div class="horizontal_line"></div>
+        <!-- <div class="horizontal_line"></div> -->
         <site-footer></site-footer>
     </div>
 </template>
@@ -16,12 +15,11 @@
 
     import SiteHeader from './partials/SiteHeader.vue'
     import SiteFooter from './partials/SiteFooter.vue'
-    import SiteHeaderBottom from './partials/SiteHeaderBottom.vue'
 
     import Layout from '../../helpers/layout'
     import BreadCrum from '../../components/BreadCrum.vue'
     import TournamentTabbed from './partials/TournamentTabbed.vue'
-
+    
     export default {
         data() {
             return {
@@ -29,10 +27,7 @@
             }
         },
         components : {
-            SiteHeader , SiteHeaderBottom , SiteFooter, BreadCrum, TournamentTabbed
-        },
-        mounted() {
-            Layout.set('layout-horizontal')
+            SiteHeader, SiteFooter, BreadCrum, TournamentTabbed
         }
     }
 </script>

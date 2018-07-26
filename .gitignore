@@ -7,3 +7,13 @@
 Homestead.json
 Homestead.yaml
 .env
+.DS_Store
+Desktop.ini
+._*
+Thumbs.db
+.Spotlight-V100
+.Trashes
+.sass-cache
+/public/frontend/css/main.*.css
+/public/frontend/css/theme*.css
+/public/assets/css/*.*.css

@@ -1,7 +1,7 @@
 .brand-main {
     img {
-        height: 25px;
-        padding-top: 6px;
+        height: 55px;
+        // padding-top: 6px;
     }
 }
 
@@ -21,62 +21,76 @@
 }
 
 .action-list {
-    float: right;
+    display: -ms-inline-flexbox;
+    display: -webkit-inline-flex;
+    display: inline-flex;
     list-style: none;
     margin: 0;
 
     li {
-        display: block;
-        float: left;
-        position: relative;
-        height: 36px;
-        margin: 0;
-        padding: 0 4px;
+        -webkit-order: 0;
+        -ms-flex-order: 0;
+        order: 0;
+        -webkit-flex: 0 1 auto;
+        -ms-flex: 0 1 auto;
+        flex: 0 1 auto;
+        -webkit-align-self: center;
+        -ms-flex-item-align: center;
+        align-self: center;
+        padding: 0 10px;
+        color: color('grey','base');
+        &:last-child {
+            padding-right: 0;
+        }
 
         a {
             // OC: 
-            background-color: $header-buttons-bg-color;
+            // background-color: $header-buttons-bg-color;
            // background: #eee none repeat scroll 0 0
-            border-radius: 2px;
-            color: $header-buttons-font-color;
-            display: inline-block;
-            font-size: 14px;
-            line-height: 14px;
-            padding: 11px;
+            // border-radius: 2px;
+            color: color('grey','base');
+            // display: inline-block;
+            // font-size: 14px;
+            // line-height: 14px;
+            // padding: 0 5px;
         }
 
-        a.active {
-            background-color: $header-buttons-bg-color;
-            color  : $ls-color-primary;
-        }
+        // a.active {
+        //     background-color: $header-buttons-bg-color;
+        //     color  : $ls-color-primary;
+        // }
 
         a:hover {
-            background-color: $header-buttons-bg-color--hover;
-            color: $header-font-color;
+            // background-color: $header-buttons-bg-color--hover;
+            color: darken(color('grey','base'), 20%);
         }
 
     }
 
-    .avatar {
-        padding: 0;
-        background-color: transparent;
-    }
+    // .avatar {
+    //     padding: 0;
+    //     background-color: transparent;
+    // }
 
     .avatar img {
         width: 36px;
-        border-radius: 2px;
+        border-radius: 50%;
     }
 
     .dropdown-menu {
-        background-color: $header-buttons-bg-color;
+        color: $header-buttons-bg-color;
+        background-color: color("shades","white");
+        border: $dropdown-border-width solid color("shades","white");
+        @include border-radius($border-radius);
+        @include box-shadow($dropdown-box-shadow);
 
         i {
             width: 25px;
             text-align: center;
             margin-left: -5px;
         }
-
     }
+
 
     .notification-dropdown {
         padding: 5px;

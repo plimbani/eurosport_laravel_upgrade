@@ -12,7 +12,7 @@ return [
     | any other location as required by the application or its packages.
     */
 
-    'name' => 'Laraspace',
+    'name' => 'Eurosport',
 
     /*
     |--------------------------------------------------------------------------
@@ -55,6 +55,15 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Application DOMAIN
+    |--------------------------------------------------------------------------
+    |
+    */
+
+    'domain' => env('APP_DOMAIN', 'www.localhost.com'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Application Timezone
     |--------------------------------------------------------------------------
     |
@@ -64,7 +73,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'Europe/London',
 
     /*
     |--------------------------------------------------------------------------
@@ -124,6 +133,8 @@ return [
 
     'log_level' => env('APP_LOG_LEVEL', 'debug'),
 
+    'app_scheme' => env('APP_SCHEME',''),
+
     /*
     |--------------------------------------------------------------------------
     | Autoloaded Service Providers
@@ -141,6 +152,7 @@ return [
          * Laravel Framework Service Providers...
          */
         Illuminate\Auth\AuthServiceProvider::class,
+        Illuminate\Foundation\Providers\ArtisanServiceProvider::class,
         Illuminate\Broadcasting\BroadcastServiceProvider::class,
         Illuminate\Bus\BusServiceProvider::class,
         Illuminate\Cache\CacheServiceProvider::class,
@@ -168,12 +180,64 @@ return [
          */
         Laraspace\Providers\AppServiceProvider::class,
         Laraspace\Providers\AuthServiceProvider::class,
-//        Laraspace\Providers\BroadcastServiceProvider::class,
+        Laraspace\Providers\BroadcastServiceProvider::class,
         Laraspace\Providers\EventServiceProvider::class,
         Laraspace\Providers\RouteServiceProvider::class,
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
         Laracasts\Flash\FlashServiceProvider::class,
-        Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class
+        Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class,
+        Dingo\Api\Provider\LaravelServiceProvider::class,
+        Duro85\Roles\RolesServiceProvider::class,
+        Maatwebsite\Excel\ExcelServiceProvider::class,
+        Intervention\Image\ImageServiceProvider::class,
+        Toin0u\Geotools\GeotoolsServiceProvider::class,
+        Geocoder\Laravel\Providers\GeocoderService::class,
+        LaravelFCM\FCMServiceProvider::class,
+        HipsterJazzbo\Landlord\LandlordServiceProvider::class,
+        Mcamara\LaravelLocalization\LaravelLocalizationServiceProvider::class,
+        Laracasts\Utilities\JavaScript\JavaScriptServiceProvider::class,
+        Mariuzzo\LaravelJsLocalization\LaravelJsLocalizationServiceProvider::class,
+
+        /*
+         *  Custom Service Providers
+         */
+        Laraspace\Providers\UserServiceProvider::class,
+        Laraspace\Providers\TeamServiceProvider::class,
+        Laraspace\Providers\AgeGroupServiceProvider::class,
+        Laraspace\Providers\RefereeServiceProvider::class,
+        Laraspace\Providers\MatchServiceProvider::class,
+        Laraspace\Providers\TournamentServiceProvider::class,
+        Laraspace\Providers\ApiServiceProvider::class,
+        Laraspace\Providers\PitchServiceProvider::class,
+        Barryvdh\Snappy\ServiceProvider::class,
+
+        /*
+         *  Api Service Providers
+         */
+        Laraspace\Api\Providers\UserServiceProvider::class,
+        Laraspace\Api\Providers\TeamServiceProvider::class,
+        Laraspace\Api\Providers\AgeGroupServiceProvider::class,
+        Laraspace\Api\Providers\RefereeServiceProvider::class,
+        Laraspace\Api\Providers\MatchServiceProvider::class,
+        Laraspace\Api\Providers\TournamentServiceProvider::class,
+        Laraspace\Api\Providers\PitchServiceProvider::class,
+        Laraspace\Api\Providers\RoleServiceProvider::class,
+        Laraspace\Api\Providers\VenueServiceProvider::class,
+        Laraspace\Api\Providers\WebsiteServiceProvider::class,
+        Laraspace\Api\Providers\HomeServiceProvider::class,
+        Laraspace\Api\Providers\StayServiceProvider::class,
+        Laraspace\Api\Providers\VisitorServiceProvider::class,
+        Laraspace\Api\Providers\WebsiteTournamentServiceProvider::class,
+        Laraspace\Api\Providers\WebsiteTeamServiceProvider::class,
+        Laraspace\Api\Providers\ProgramServiceProvider::class,
+        Laraspace\Api\Providers\ConfigServiceProvider::class,
+        Laraspace\Api\Providers\MediaServiceProvider::class,
+        Laraspace\Api\Providers\WebsiteVenueServiceProvider::class,
+        Laraspace\Api\Providers\ContactServiceProvider::class,
+        Laraspace\Api\Providers\UploadMediaServiceProvider::class,
+        Laraspace\Providers\ComposerServiceProvider::class,
+        Collective\Html\HtmlServiceProvider::class,
+        Spatie\UrlSigner\Laravel\UrlSignerServiceProvider::class,
     ],
 
     /*
@@ -193,6 +257,7 @@ return [
         'Artisan' => Illuminate\Support\Facades\Artisan::class,
         'Auth' => Illuminate\Support\Facades\Auth::class,
         'Blade' => Illuminate\Support\Facades\Blade::class,
+        'Broadcast' => Illuminate\Support\Facades\Broadcast::class,
         'Bus' => Illuminate\Support\Facades\Bus::class,
         'Cache' => Illuminate\Support\Facades\Cache::class,
         'Config' => Illuminate\Support\Facades\Config::class,
@@ -204,7 +269,10 @@ return [
         'File' => Illuminate\Support\Facades\File::class,
         'Gate' => Illuminate\Support\Facades\Gate::class,
         'Hash' => Illuminate\Support\Facades\Hash::class,
+        'JavaScript' =>  Laracasts\Utilities\JavaScript::class,
+        'Landlord'   => HipsterJazzbo\Landlord\Facades\Landlord::class,
         'Lang' => Illuminate\Support\Facades\Lang::class,
+        'LaravelLocalization' => Mcamara\LaravelLocalization\Facades\LaravelLocalization::class,
         'Log' => Illuminate\Support\Facades\Log::class,
         'Mail' => Illuminate\Support\Facades\Mail::class,
         'Notification' => Illuminate\Support\Facades\Notification::class,
@@ -221,8 +289,16 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-        'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class
-
+        'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+        'Image' => Intervention\Image\Facades\Image::class,
+        'Geotools' => Toin0u\Geotools\Facade\Geotools::class,
+        'PDF' => Barryvdh\Snappy\Facades\SnappyPdf::class,
+        'FCM'      => LaravelFCM\Facades\FCM::class,
+        'FCMGroup' => LaravelFCM\Facades\FCMGroup::class, // Optional
+        'Form' => Collective\Html\FormFacade::class,
+        'Html' => Collective\Html\HtmlFacade::class,
+        'UrlSigner' => Spatie\UrlSigner\Laravel\UrlSignerFacade::class,
     ],
 
 ];

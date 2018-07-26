@@ -1,21 +1,4 @@
-.table {
-
-    th,
-    td {
-        font-size: 0.9rem;
-    }
-
-    th {
-        color: $heading-font-color;
-        font-weight: normal;
-    }
-
-}
-
-.card-block .table {
-    margin-top: -10px;
-
-    th {
-        border-top: none;
-    }
+// Table override
+.table-bordered thead th, .table-bordered thead td {
+    border-bottom-width: 1px;
 }

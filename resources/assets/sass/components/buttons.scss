@@ -5,10 +5,19 @@
     }
 
     font-family: $base-font-family;
+    cursor: pointer;
 }
 
+// .btn {
+//     font-size: 15px;
+// }
 // Disable Outline on focus
-.btn:focus, .btn.focus, .btn:active:focus, .btn:active.focus, .btn.active:focus, .btn.active.focus {
+.btn:focus,
+.btn.focus,
+.btn:active:focus,
+.btn:active.focus,
+.btn.active:focus,
+.btn.active.focus {
     outline: none;
 }
 
@@ -16,7 +25,9 @@
     border: 1px solid $ls-color-gray--dark;
     background-color: $white;
 
-    &:hover, &:active, &:focus {
+    &:hover,
+    &:active,
+    &:focus {
         background-color: $ls-color-gray--light;
     }
 }
@@ -25,13 +36,15 @@
     border: 1px solid $ls-color-gray--dark;
     background-color: $white;
 
-    &:hover, &:active, &:focus {
+    &:hover,
+    &:active,
+    &:focus {
         background-color: $ls-color-gray--light;
     }
 }
 
 .btn-theme {
-    @include button-variant($ls-color-secondary, $ls-color-primary, $ls-color-primary);
+    @include button-variant($white, $ls-color-primary, $ls-color-primary);
 }
 
 .btn-outline-theme {
@@ -57,17 +70,61 @@
 }
 
 // Sizes
-.btn-xs {
-    font-size: 12px;
-    padding: 3px 10px;
-}
-
+// .btn-xs {
+//     font-size: 12px;
+//     padding: 3px 10px;
+// }
 .btn-full {
     width: 100%;
 }
 
 // Extra
-
 .ladda-button {
     overflow: visible !important;
+}
+
+
+// Preview Button
+.generate-preview-btn {
+    &.tooltip {
+        border-radius: 50%;
+        position: fixed;
+        right: 10px;
+        bottom: 30px;
+        z-index: 1000;
+        font-size: $font-size-base * 1.25;
+        opacity: 1;
+        box-shadow: 0 5px 11px 0 rgba(0, 0, 0, .18), 0 4px 15px 0 rgba(0, 0, 0, .15);
+        &:hover {
+            box-shadow: 0 8px 17px 0 rgba(0, 0, 0, .2), 0 6px 20px 0 rgba(0, 0, 0, .19);
+        }
+        .tooltiptext {
+            visibility: hidden;
+            width: 150px;
+            background-color: $black;
+            color: $white;
+            border-radius: 6px;
+            padding: 5px 0;
+            position: absolute;
+            z-index: 1;
+            top: 15%;
+            right: 115%;
+            font-size: $font-size-sm;
+            &:after {
+                content: "";
+                position: absolute;
+                top: 50%;
+                left: 100%;
+                margin-top: -5px;
+                border-width: 5px;
+                border-style: solid;
+                border-color: transparent transparent transparent $black;
+            }
+        }
+        &:hover {
+            .tooltiptext {
+                visibility: visible;
+            }
+        }
+    }
 }
