@@ -1,5 +1,6 @@
 package com.aecor.eurosports.activity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -10,13 +11,16 @@ import android.support.v4.content.ContextCompat;
 import android.text.Html;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.aecor.eurosports.R;
+import com.aecor.eurosports.adapter.GroupsSpinnerAdapter;
 import com.aecor.eurosports.gson.GsonConverter;
 import com.aecor.eurosports.http.VolleyJsonObjectRequest;
 import com.aecor.eurosports.http.VolleySingeltone;
@@ -46,6 +50,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -74,6 +79,24 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
     protected LinearLayout ll_match_header;
     @BindView(R.id.tr_group_header)
     protected TableRow tr_group_header;
+    @BindView(R.id.tv_standing_selector)
+    protected View tv_standing_selector;
+    @BindView(R.id.tv_matches_selector)
+    protected View tv_matches_selector;
+    @BindView(R.id.ll_matches_tab)
+    protected LinearLayout ll_matches_tab;
+    @BindView(R.id.ll_standing_tab)
+    protected LinearLayout ll_standing_tab;
+    @BindView(R.id.ll_matches_view)
+    protected LinearLayout ll_matches_view;
+    @BindView(R.id.ll_standings)
+    protected LinearLayout ll_standings;
+    @BindView(R.id.sp_groups)
+    protected Spinner sp_groups;
+    @BindView(R.id.sp_groups_matches)
+    protected Spinner sp_groups_matches;
+    private List<ClubGroupModel> mGroupList;
+    private List<ClubGroupModel> mGroupListWOPM;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -82,6 +105,13 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
         mContext = this;
 
         mGroupModel = getIntent().getParcelableExtra(AppConstants.ARG_GROUP_DETAIL);
+
+        if (getIntent() != null && getIntent().getExtras() != null) {
+            Bundle bundle = getIntent().getExtras();
+            if (bundle.containsKey(AppConstants.ARG_ALL_GROUP_LIST)) {
+                mGroupList = bundle.getParcelableArrayList(AppConstants.ARG_ALL_GROUP_LIST);
+            }
+        }
         initView();
     }
 
@@ -158,6 +188,48 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
     @Override
     protected void initView() {
         mPreference = AppPreference.getInstance(mContext);
+        initUI();
+        onStandingClicked();
+        if (mGroupList != null && mGroupList.size() > 0) {
+            mGroupListWOPM = new ArrayList<>();
+            int selectedGroupPos = 0;
+            for (int i =0; i < mGroupList.size(); i++) {
+                if (mGroupList != null && mGroupList.get(i) != null && mGroupList.get(i).getActual_competition_type().equalsIgnoreCase(AppConstants.GROUP_COMPETATION_TYPE_ELIMINATION)) {
+                } else {
+                    mGroupListWOPM.add(mGroupList.get(i));
+                }
+            }
+            for (int i = 0; i < mGroupList.size(); i++) {
+                if (mGroupList.get(i).getId().equalsIgnoreCase(mGroupModel.getId())) {
+                    AppLogger.LogE(TAG, "selected pos" + selectedGroupPos);
+                    selectedGroupPos = i;
+                    break;
+                }
+            }
+            GroupsSpinnerAdapter adapter = new GroupsSpinnerAdapter((Activity) mContext,
+                    mGroupList);
+            sp_groups_matches.setAdapter(adapter);
+            sp_groups_matches.setSelection(selectedGroupPos);
+
+            selectedGroupPos = 0;
+            for (int i = 0; i < mGroupListWOPM.size(); i++) {
+                if (mGroupListWOPM.get(i).getId().equalsIgnoreCase(mGroupModel.getId())) {
+                    AppLogger.LogE(TAG, "selected pos" + selectedGroupPos);
+                    selectedGroupPos = i;
+                    break;
+                }
+            }
+            GroupsSpinnerAdapter mSpinnerAdapter2 = new GroupsSpinnerAdapter((Activity) mContext,
+                    mGroupListWOPM);
+            sp_groups.setAdapter(mSpinnerAdapter2);
+            sp_groups.setSelection(selectedGroupPos);
+
+
+        }
+        setListener();
+    }
+
+    private void initUI() {
         tv_view_all_club_matches.setVisibility(View.GONE);
         tr_group_header.setVisibility(View.GONE);
         ll_match_header.setVisibility(View.GONE);
@@ -180,11 +252,42 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
             tl_group_rows.setVisibility(View.GONE);
         }
         getTeamFixtures();
+
+
     }
 
     @Override
     protected void setListener() {
+        sp_groups.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (mGroupListWOPM != null && mGroupListWOPM.get(position) != null) {
+                    mGroupModel = mGroupListWOPM.get(position);
+                }
 
+                initUI();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+
+            }
+        });
+        sp_groups_matches.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (mGroupList != null && mGroupList.get(position) != null) {
+                    mGroupModel = mGroupList.get(position);
+                }
+
+                initUI();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+
+            }
+        });
     }
 
     private void getTeamFixtures() {
@@ -415,7 +518,7 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
             } else {
                 if (!Utility.isNullOrEmpty(mFixtureModel.getDisplayHomeTeamPlaceholderName())) {
                     team1_name.setText(mFixtureModel.getDisplayHomeTeamPlaceholderName());
-                }else{
+                } else {
                     team1_name.setText("");
                 }
             }
@@ -443,7 +546,7 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
             } else {
                 if (!Utility.isNullOrEmpty(mFixtureModel.getDisplayAwayTeamPlaceholderName())) {
                     team2_name.setText(mFixtureModel.getDisplayAwayTeamPlaceholderName());
-                }else{
+                } else {
                     team2_name.setText("");
                 }
             }
@@ -519,6 +622,23 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
         startActivity(mFullLeagueTableIntent);
     }
 
+    @OnClick(R.id.ll_standing_tab)
+    protected void onStandingClicked() {
+        tv_standing_selector.setVisibility(View.VISIBLE);
+        ll_standings.setVisibility(View.VISIBLE);
+        tv_matches_selector.setVisibility(View.GONE);
+        ll_matches_view.setVisibility(View.GONE);
+
+    }
+
+    @OnClick(R.id.ll_matches_tab)
+    protected void onMatchesClicked() {
+
+        tv_standing_selector.setVisibility(View.GONE);
+        ll_standings.setVisibility(View.GONE);
+        tv_matches_selector.setVisibility(View.VISIBLE);
+        ll_matches_view.setVisibility(View.VISIBLE);
+    }
 
 //    @OnClick(R.id.tv_view_all_rounds)
 //    protected void onViewAllRoundsClicked() {
