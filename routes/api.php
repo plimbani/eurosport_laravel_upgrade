@@ -227,6 +227,9 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
     $api->post('getSignedUrlForTournamentReportExport', 'Laraspace\Api\Controllers\TournamentController@getSignedUrlForTournamentReportExport');
 
     $api->post('getSignedUrlForUsersTableData', 'Laraspace\Api\Controllers\UserController@getSignedUrlForUsersTableData');
+
+    $api->post('match/saveUnavailableBlock', 'Laraspace\Api\Controllers\MatchController@saveUnavailableBlock');
+    $api->post('match/remove_block/{blockId}', 'Laraspace\Api\Controllers\MatchController@removeBlock');
 });
 
 // Websites CMS routes

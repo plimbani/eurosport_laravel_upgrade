@@ -33,18 +33,18 @@ export default {
             $(this.$el).data('event', {
                 id: this.match.id,
 
-                title: this.match.displayMatchName ? this.match.displayMatchName : 'unavailable', // use the element's text as the event title
+                title: this.match.displayMatchName ? this.match.displayMatchName : '', // use the element's text as the event title
                 refereeId: this.match=='unavailable'?-2:'0', // use the element's text as the event title
                 refereeText: 'R', // use the element's text as the event title
-                color: this.fixtureBackgroundColor,
-                textColor: this.fixtureTextColor,
-                borderColor: this.fixtureBackgroundColor,
+                color: this.match == 'unavailable' ? 'grey' : this.fixtureBackgroundColor,
+                textColor: this.match == 'unavailable' ? '#FFFFFF' : this.fixtureTextColor,
+                borderColor: this.match == 'unavailable' ? 'grey' : this.fixtureBackgroundColor,
                 stick: true, // maintain when user navigates (see docs on the renderEvent method),
                 duration: this.match.matchTime ? moment.duration(this.match.matchTime, 'minutes') : moment.duration(60, 'minutes'),
                 matchId: this.match.matchId,
                 matchAgeGroupId: this.match.ageGroupId,
                 forceEventDuration: true,
-                fixtureStripColor: this.match.competationColorCode != null ? this.match.competationColorCode : '#FFFFFF'
+                fixtureStripColor: this.match == 'unavailable' ? 'grey' : (this.match.competationColorCode != null ? this.match.competationColorCode : '#FFFFFF')
                 
             });
 
