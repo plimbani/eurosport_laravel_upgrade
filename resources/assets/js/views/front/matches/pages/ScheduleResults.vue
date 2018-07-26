@@ -46,8 +46,8 @@
 <script type="text/babel">
 
 import MatchListing from './list/List.vue';
-import TeamListing from './teams/List.vue';
-import CategoryListing from './categories/List.vue';
+import TeamListing from './teams/Teams.vue';
+import CategoryListing from './categories/Categories.vue';
 import FinalPlacings from '../../tournament/pages/history/components/FinalPlacings.vue';
 
 export default {
