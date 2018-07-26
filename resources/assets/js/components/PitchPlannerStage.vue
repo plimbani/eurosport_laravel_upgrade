@@ -404,6 +404,7 @@ import _ from 'lodash'
 
                         _.forEach(rdata, function(match) {
                             let scheduleBlock = false
+                            let locationCheckFlag = true;
                             let refereeId = ''
                             let matchTitle = ''
 
@@ -458,7 +459,8 @@ import _ from 'lodash'
                                     }
                                 } else if(filterKey == 'location'){
                                     if( filterValue != '' && filterValue.id != match.venueId){
-                                        scheduleBlock = true
+                                        scheduleBlock = true;
+                                        locationCheckFlag = false;
                                     }
                                 }
                               let colorVal = match.category_age_color;
@@ -513,7 +515,8 @@ import _ from 'lodash'
                                     'awayTeam': match.Away_id,
                                     'matchStatus': match.match_status,
                                     'matchWinner': match.match_winner,
-                                    'isResultOverride': match.isResultOverride
+                                    'isResultOverride': match.isResultOverride,
+                                    'locationCheckFlag': locationCheckFlag
                                 }
                             sMatches.push(mData)
                             }
@@ -545,7 +548,8 @@ import _ from 'lodash'
                                         'awayTeam': null,
                                         'matchStatus': null,
                                         'matchWinner': null,
-                                        'isResultOverride': null
+                                        'isResultOverride': null,
+                                        'locationCheckFlag': null
                                     }
                                     sMatches.push(mData1)
                                     counter = counter+1;
@@ -572,7 +576,8 @@ import _ from 'lodash'
                                         'awayTeam': null,
                                         'matchStatus': null,
                                         'matchWinner': null,
-                                        'isResultOverride': null
+                                        'isResultOverride': null,
+                                        'locationCheckFlag': null
                                     }
                                     sMatches.push(mData2)
                                     counter = counter+1;
@@ -600,7 +605,8 @@ import _ from 'lodash'
                                             'awayTeam': null,
                                             'matchStatus': null,
                                             'matchWinner': null,
-                                            'isResultOverride': null
+                                            'isResultOverride': null,
+                                            'locationCheckFlag': null
                                         }
 
                                         sMatches.push(mData)
