@@ -1,0 +1,16 @@
+.nav-tabs  {
+	border-bottom: 1px solid theme-color('primary');
+    .nav-link {
+    	text-decoration: none !important;
+    	&.active,
+    	&.active:hover {
+    		background-color: theme-color('primary');
+    		border-bottom: 1px solid theme-color('primary');
+    		color: $white;
+    	}
+    	&:hover {
+    		border-color: theme-color('primary') theme-color('primary') theme-color('primary');
+    		text-decoration: none !important;
+    	}
+    }
+}

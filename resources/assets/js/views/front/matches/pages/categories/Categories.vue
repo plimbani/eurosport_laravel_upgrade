@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<div class="" v-if="showTable == 'category'">
-			<table id="categoriesTable" class="table table-hover table-bordered">
+			<table id="categoriesTable" class="table table-hover table-responsive table-bordered mt-4">
 				<thead>
 					<tr>
 						<th class="text-center">{{ $t('matches.categories') }}</th>
