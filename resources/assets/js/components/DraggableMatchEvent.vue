@@ -31,7 +31,7 @@ export default {
             // store data so the calendar knows to render an event upon drop
 
             $(this.$el).data('event', {
-                id: this.match.id,
+                id: this.match=='unavailable' ? 'block_' + new Date().getTime() : this.match.id,
 
                 title: this.match.displayMatchName ? this.match.displayMatchName : '', // use the element's text as the event title
                 refereeId: this.match=='unavailable'?-2:'0', // use the element's text as the event title
