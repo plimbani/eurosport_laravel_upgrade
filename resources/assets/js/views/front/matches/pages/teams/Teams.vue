@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<div class="">
-			<table id="teamsTable" class="table table-hover table-bordered">
+			<table id="teamsTable" class="table table-responsive table-hover table-bordered mt-4">
 				<thead>
 					<tr>
 						<th class="text-center">{{ $t('matches.team') }}</th>

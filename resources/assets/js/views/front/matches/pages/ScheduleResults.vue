@@ -2,38 +2,30 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-sm-12">
-				<div class="card">
-					<div class="card-block">
-						<div class="tab-content summary-report-content">
-							<div class="row">
-								<div class="col-md-12">
-									<div class="tabs tabs-primary">
-										<ul class="nav nav-tabs">
-											<li @click="setCurrentView('drawsListing')" class="nav-item">
-												<a :class="[currentView == 'drawsListing' ? 'active' : '']" href="javascript:void(0)" class="nav-link">{{ $t('matches.categories') }}</a>
-											</li>
-											<li @click="setCurrentView('matchListing')" class="nav-item">
-												<a :class="[currentView == 'matchListing' ? 'active' : '']" href="javascript:void(0)" class="nav-link">{{ $t('matches.matches') }}</a>
-											</li>
-											<li @click="setCurrentView('teamListing')" class="nav-item">
-												<a :class="[currentView == 'teamListing' ? 'active' : '']" href="javascript:void(0)" class="nav-link">{{ $t('matches.teams') }}</a>
-											</li>
-											<li @click="setCurrentView('finalPlacings')" class="nav-item">
-												<a :class="[currentView == 'finalPlacings' ? 'active' : '']" href="javascript:void(0)" class="nav-link">{{ $t('matches.final_placings') }}</a>
-											</li>
-										</ul>
-										<div class="tab-content">
-											<div class="card">
-												<div class="card-block">
-													<!-- <component :is="currentView" :currentView="currentView"></component> -->
-													<match-listing v-if="currentView == 'matchListing'"></match-listing>
-													<category-listing v-if="currentView == 'drawsListing'"></category-listing>	
-													<team-listing v-if="currentView == 'teamListing'"></team-listing>
-													<finalPlacings v-if="currentView == 'finalPlacings'"></finalPlacings>
-												</div>
-											</div>
-										</div>
-									</div>
+				<div class="tab-content summary-report-content">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="tabs tabs-primary">
+								<ul class="nav nav-tabs">
+									<li @click="setCurrentView('drawsListing')" class="nav-item">
+										<a :class="[currentView == 'drawsListing' ? 'active' : '']" href="javascript:void(0)" class="nav-link">{{ $t('matches.categories') }}</a>
+									</li>
+									<li @click="setCurrentView('matchListing')" class="nav-item">
+										<a :class="[currentView == 'matchListing' ? 'active' : '']" href="javascript:void(0)" class="nav-link">{{ $t('matches.matches') }}</a>
+									</li>
+									<li @click="setCurrentView('teamListing')" class="nav-item">
+										<a :class="[currentView == 'teamListing' ? 'active' : '']" href="javascript:void(0)" class="nav-link">{{ $t('matches.teams') }}</a>
+									</li>
+									<li @click="setCurrentView('finalPlacings')" class="nav-item">
+										<a :class="[currentView == 'finalPlacings' ? 'active' : '']" href="javascript:void(0)" class="nav-link">{{ $t('matches.final_placings') }}</a>
+									</li>
+								</ul>
+								<div class="tab-content">
+									<!-- <component :is="currentView" :currentView="currentView"></component> -->
+									<match-listing v-if="currentView == 'matchListing'"></match-listing>
+									<category-listing v-if="currentView == 'drawsListing'"></category-listing>	
+									<team-listing v-if="currentView == 'teamListing'"></team-listing>
+									<finalPlacings v-if="currentView == 'finalPlacings'"></finalPlacings>
 								</div>
 							</div>
 						</div>
@@ -48,7 +40,7 @@
 import MatchListing from './list/List.vue';
 import TeamListing from './teams/Teams.vue';
 import CategoryListing from './categories/Categories.vue';
-import FinalPlacings from '../../tournament/pages/history/components/FinalPlacings.vue';
+import FinalPlacings from './finalplacings/FinalPlacings.vue';
 
 export default {
 	data() {
