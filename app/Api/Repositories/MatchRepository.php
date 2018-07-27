@@ -295,6 +295,7 @@ class MatchRepository
               'AwayFlag.name as AwayCountryName',
               'temp_fixtures.hometeam_score as homeScore',
               'temp_fixtures.awayteam_score as AwayScore',
+              'temp_fixtures.comments as matchRemarks',
               'temp_fixtures.pitch_id as pitchId',
               'temp_fixtures.is_scheduled',
               'temp_fixtures.is_final_round_match',

@@ -11,7 +11,7 @@
       <th class="text-center" style="min-width:75px">{{$lang.summary_schedule_matches_score}}</th>
       <th class="text-center" v-if="showPlacingForMatch()">{{$lang.summary_schedule_matches_placing}}</th>
       <th class="text-center" v-if="isHideLocation !=  false">{{$lang.summary_schedule_matches_location}}</th>
-      <th class="text-center"  v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails'">Details</th>
+      <th class="text-center" v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails'">Details</th>
     </thead>
 
     <tbody>
@@ -68,11 +68,14 @@
         </td>
         <td class="text-center" v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails'">
           <span class="align-middle">
-            <a  v-if="match.is_scheduled == '0'">-</i>
-            </a>
-            <a class="text-primary js-edit-match" href="javascript:void(0);"  v-bind:data-id="match.fid" v-else
+            <span v-if="match.is_scheduled == '0'">-
+            </span>
+            <span v-else>
+              <a class="text-primary js-edit-match" href="javascript:void(0);"  v-bind:data-id="match.fid"
               @click="openPitchModal(match,match.fid)"><i class="jv-icon jv-edit"></i>
-            </a>
+              </a>
+              <a class="text-primary" href="javascript:void(0);" @click="openPitchModal(match, match.fid)"><img src="/assets/img/speech_bubble.svg" width="15" v-if="match.matchRemarks" /></a>
+            </span>
           </span>
         </td>
       </tr>

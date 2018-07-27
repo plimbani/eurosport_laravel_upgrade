@@ -383,7 +383,7 @@ import _ from 'lodash'
                 setTimeout(function(){
                     $(ev).fullCalendar('addEventSource', vm.scheduledMatches);
                     arrangeLeftColumn();
-                },1500)
+                },2100)
             },
             getScheduledMatch(filterKey='',filterValue='',filterDependentKey='',filterDependentValue='') {
                 // this.$store.dispatch('SetScheduledMatches');
@@ -492,6 +492,8 @@ import _ from 'lodash'
                                 refereeId = match.referee_id?match.referee_id:0
                                  matchTitle = displayMatchName
                               }
+
+                              console.log('match', match);
                                 let mData =  {
                                     'id': match.fid,
                                     'resourceId': match.pitchId,
@@ -513,7 +515,8 @@ import _ from 'lodash'
                                     'awayTeam': match.Away_id,
                                     'matchStatus': match.match_status,
                                     'matchWinner': match.match_winner,
-                                    'isResultOverride': match.isResultOverride
+                                    'isResultOverride': match.isResultOverride,
+                                    'remarks': match.matchRemarks
                                 }
                             sMatches.push(mData)
                             }
@@ -545,7 +548,8 @@ import _ from 'lodash'
                                         'awayTeam': null,
                                         'matchStatus': null,
                                         'matchWinner': null,
-                                        'isResultOverride': null
+                                        'isResultOverride': null,
+                                        'remarks': null,
                                     }
                                     sMatches.push(mData1)
                                     counter = counter+1;
@@ -572,7 +576,8 @@ import _ from 'lodash'
                                         'awayTeam': null,
                                         'matchStatus': null,
                                         'matchWinner': null,
-                                        'isResultOverride': null
+                                        'isResultOverride': null,
+                                        'remarks': null,
                                     }
                                     sMatches.push(mData2)
                                     counter = counter+1;
@@ -600,7 +605,8 @@ import _ from 'lodash'
                                             'awayTeam': null,
                                             'matchStatus': null,
                                             'matchWinner': null,
-                                            'isResultOverride': null
+                                            'isResultOverride': null,
+                                            'remarks': null,
                                         }
 
                                         sMatches.push(mData)
@@ -677,7 +683,8 @@ import _ from 'lodash'
                             'matchAgeGroupId':'',
                             'homeScore': null,
                             'awayScore': null,
-                            'displayFlag':''
+                            'displayFlag': '',
+                            'remarks': null,
                         }
                         this.scheduledMatches.push(mData2)
                         this.unavailableBlock.push(mData2)
