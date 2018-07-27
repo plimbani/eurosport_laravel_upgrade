@@ -73,7 +73,8 @@
                         android:id="@+id/tv_matches_selector"
                         android:layout_width="match_parent"
                         android:layout_height="5dp"
-                        android:background="@color/colorPrimaryDark" />
+                        android:background="@color/colorPrimaryDark"
+                        android:visibility="gone" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -98,66 +99,73 @@
                     android:drawSelectorOnTop="true"
                     android:prompt="@string/select_tournament" />
 
-                <TableLayout
-                    android:id="@+id/tl_group_rows"
+                <LinearLayout
+                    android:id="@+id/ll_standings_content"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:shrinkColumns="*"
-                    android:stretchColumns="*">
+                    android:orientation="vertical">
 
-                    <TableRow
-                        android:id="@+id/tr_group_header"
+                    <TableLayout
+                        android:id="@+id/tl_group_rows"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@color/view_line"
-                        android:orientation="horizontal"
-                        android:paddingBottom="15dp"
-                        android:paddingTop="15dp">
+                        android:layout_height="wrap_content"
+                        android:shrinkColumns="*"
+                        android:stretchColumns="*">
 
-                        <TextView
-                            android:id="@+id/tv_group_table_title"
-                            style="@style/text_black_sub_title"
-                            android:layout_width="wrap_content"
-                            android:layout_marginLeft="12dp"
-                            android:layout_marginRight="12dp"
-                            android:layout_span="8"
-                            android:gravity="center_vertical"
-                            android:textStyle="bold" />
+                        <TableRow
+                            android:id="@+id/tr_group_header"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@color/view_line"
+                            android:orientation="horizontal"
+                            android:paddingBottom="15dp"
+                            android:paddingTop="15dp">
 
-                        <TextView
-                            style="@style/text_black_sub_title"
-                            android:layout_width="wrap_content"
-                            android:gravity="left|center"
-                            android:text="@string/G"
-                            android:textStyle="bold" />
+                            <TextView
+                                android:id="@+id/tv_group_table_title"
+                                style="@style/text_black_sub_title"
+                                android:layout_width="wrap_content"
+                                android:layout_marginLeft="12dp"
+                                android:layout_marginRight="12dp"
+                                android:layout_span="8"
+                                android:gravity="center_vertical"
+                                android:textStyle="bold" />
 
-                        <TextView
-                            style="@style/text_black_sub_title"
-                            android:layout_width="wrap_content"
-                            android:gravity="left|center"
-                            android:text="@string/plus_minus"
-                            android:textStyle="bold" />
+                            <TextView
+                                style="@style/text_black_sub_title"
+                                android:layout_width="wrap_content"
+                                android:gravity="left|center"
+                                android:text="@string/G"
+                                android:textStyle="bold" />
 
-                        <TextView
-                            style="@style/text_black_sub_title"
-                            android:layout_width="wrap_content"
-                            android:gravity="left|center"
-                            android:text="@string/P"
-                            android:textStyle="bold" />
-                    </TableRow>
-                </TableLayout>
+                            <TextView
+                                style="@style/text_black_sub_title"
+                                android:layout_width="wrap_content"
+                                android:gravity="left|center"
+                                android:text="@string/plus_minus"
+                                android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/tv_view_full_league_table"
-                    style="@style/text_black_sub_title"
-                    android:layout_marginLeft="8dp"
-                    android:drawableRight="@drawable/green_right_arrow"
-                    android:gravity="left"
-                    android:padding="15dp"
-                    android:text="@string/view_league_table"
-                    android:textColor="@color/green"
-                    android:textStyle="bold"
-                    android:visibility="gone" />
+                            <TextView
+                                style="@style/text_black_sub_title"
+                                android:layout_width="wrap_content"
+                                android:gravity="left|center"
+                                android:text="@string/P"
+                                android:textStyle="bold" />
+                        </TableRow>
+                    </TableLayout>
+
+                    <TextView
+                        android:id="@+id/tv_view_full_league_table"
+                        style="@style/text_black_sub_title"
+                        android:layout_marginLeft="8dp"
+                        android:drawableRight="@drawable/green_right_arrow"
+                        android:gravity="left"
+                        android:padding="15dp"
+                        android:text="@string/view_league_table"
+                        android:textColor="@color/green"
+                        android:textStyle="bold"
+                        android:visibility="gone" />
+                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
@@ -176,40 +184,48 @@
                     android:prompt="@string/select_tournament" />
 
                 <LinearLayout
-                    android:id="@+id/ll_match_header"
+                    android:id="@+id/ll_match_content"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/view_line"
-                    android:orientation="horizontal"
-                    android:padding="15dp">
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:id="@+id/ll_match_header"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/view_line"
+                        android:orientation="horizontal"
+                        android:padding="15dp">
+
+                        <TextView
+                            style="@style/text_black_sub_title"
+                            android:layout_marginLeft="8dp"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+                            android:text="@string/game_information"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ll_matches"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical" />
 
                     <TextView
+                        android:id="@+id/tv_view_all_club_matches"
                         style="@style/text_black_sub_title"
                         android:layout_marginLeft="8dp"
-                        android:layout_weight="1"
-                        android:gravity="center_vertical"
-                        android:text="@string/game_information"
-                        android:textStyle="bold" />
+                        android:drawableRight="@drawable/green_right_arrow"
+                        android:gravity="left"
+                        android:padding="15dp"
+                        android:text="@string/view_club_match"
+                        android:textColor="@color/green"
+                        android:textStyle="bold"
+                        android:visibility="gone" />
                 </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/ll_matches"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical" />
-
-                <TextView
-                    android:id="@+id/tv_view_all_club_matches"
-                    style="@style/text_black_sub_title"
-                    android:layout_marginLeft="8dp"
-                    android:drawableRight="@drawable/green_right_arrow"
-                    android:gravity="left"
-                    android:padding="15dp"
-                    android:text="@string/view_club_match"
-                    android:textColor="@color/green"
-                    android:textStyle="bold"
-                    android:visibility="gone" />
             </LinearLayout>
+
         </LinearLayout>
     </ScrollView>
 
