@@ -273,6 +273,40 @@ import _ from 'lodash'
                         }
                     },
                     eventAfterAllRender: function(view ){
+                        $('[data-toggle="tooltip"]').tooltip();
+                        $('[data-toggle="tooltip"]').each(function() {
+                            console.log($(this));
+                            var tt = $(this);
+                            tt.on('shown.bs.tooltip', function(){
+                                var tooltipId = $(this).attr('aria-describedby');
+                                console.log('#' + tooltipId);
+                                $('.tooltip.bottom .tooltip-arrow').css('border-bottom-color', 'red');
+                                $('.tooltip-inner').css('background-color', 'red');
+                            });
+
+                            tt.on('focus mouseenter', function(){
+                                var bc = tt.css('background-color');
+                                
+                                var tc = (tt.data('color')===undefined || tt.data('color')==='') ? '' : tt.data('color');
+                                var pt = tt.data('placement');
+
+                                
+                                console.log($('#' + tooltipId).length);
+
+                                $('#' + tooltipId + ' .tooltip-inner').css({
+                                    'background-color': '#FF0000',
+                                    'color': '#FFF00',
+                                });
+                                //$('<style id="colortips-style">.bs-tooltip-bottom.show .arrow::before{border-'+pt+'-color: '+bc+';}</style>').appendTo('head');
+                            }).on('focusout mouseleave', function(){
+                                // $('.bs-tooltip-bottom.show .tooltip-inner').css({
+                                //     'background-color': '',
+                                //     'color': ''
+                                // });
+                                // $('#colortips-style').remove();
+                            });
+                        });
+
                          $('#add_referee').prop('disabled', false);
                          // Code for horizontal scroll bar
                          let totalPitches = vm.stage.pitches.length;
