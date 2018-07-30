@@ -1084,10 +1084,9 @@ class MatchRepository
     }
     public function assignReferee($data)
     {
-       $refereeData = Referee::find($data['refereeId'])->toArray();
-        // dd($data);
-       $age_group = explode(',',$refereeData['age_group_id']);
-       $matchData = TempFixture::where('match_datetime','<=',$data['matchStartDate'])
+      $refereeData = Referee::find($data['refereeId'])->toArray();
+      $age_group = explode(',',$refereeData['age_group_id']);
+      $matchData = TempFixture::where('match_datetime','<=',$data['matchStartDate'])
                   ->where('match_endtime','>=',$data['matchStartDate'])
                   ->where('tournament_id',$data['tournamentId'])
                   ->where('is_scheduled',1)
@@ -1096,6 +1095,7 @@ class MatchRepository
                       $query->where('referee_id',NULL)
                             ->orWhere('referee_id',0);
                   });
+
       if($data['filterKey']!='' && $data['filterValue']!= '') {
         if($data['filterKey'] == 'age_category' ){
           $matchData->where('age_group_id',$data['filterValue']['id']);
@@ -1107,17 +1107,11 @@ class MatchRepository
         return ['status'=> false,'data' => 'Please assign referee properly'];
       }else{
         if($age_group){
-        $matchData = $matchData->whereIn('age_group_id',$age_group)->first();
-          if(!$matchData){
-            return ['status' => false, 'data' => 'This referee is not authorised to referee this age category'];
-          }else{
-             $result =  $matchData->update(['referee_id' => $data['refereeId']]);
-          return  ['status' => true, 'data' => $matchData];
-          }
+          $result = $matchData->update(['referee_id' => $data['refereeId']]);
+          return ['status' => true, 'data' => $matchData];
         }
       }
-
-      }
+    }
     public function saveResult($data)
     {
       
