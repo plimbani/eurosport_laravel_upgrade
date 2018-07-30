@@ -275,35 +275,16 @@ import _ from 'lodash'
                     eventAfterAllRender: function(view ){
                         $('[data-toggle="tooltip"]').tooltip();
                         $('[data-toggle="tooltip"]').each(function() {
-                            console.log($(this));
-                            var tt = $(this);
-                            tt.on('shown.bs.tooltip', function(){
+                            let tt = $(this);
+                            let fixtureStripColor = tt.data('fixture-strip-color');
+                            let categoryColor = tt.data('category-color');
+
+                            tt.on('shown.bs.tooltip', function() {
                                 var tooltipId = $(this).attr('aria-describedby');
-                                console.log('#' + tooltipId);
-                                $('.tooltip.bottom .tooltip-arrow').css('border-bottom-color', 'red');
-                                $('.tooltip-inner').css('background-color', 'red');
-                            });
-
-                            tt.on('focus mouseenter', function(){
-                                var bc = tt.css('background-color');
                                 
-                                var tc = (tt.data('color')===undefined || tt.data('color')==='') ? '' : tt.data('color');
-                                var pt = tt.data('placement');
+                                $('#' + tooltipId + ' .tooltip-inner').css('background-color', categoryColor);
 
-                                
-                                console.log($('#' + tooltipId).length);
-
-                                $('#' + tooltipId + ' .tooltip-inner').css({
-                                    'background-color': '#FF0000',
-                                    'color': '#FFF00',
-                                });
-                                //$('<style id="colortips-style">.bs-tooltip-bottom.show .arrow::before{border-'+pt+'-color: '+bc+';}</style>').appendTo('head');
-                            }).on('focusout mouseleave', function(){
-                                // $('.bs-tooltip-bottom.show .tooltip-inner').css({
-                                //     'background-color': '',
-                                //     'color': ''
-                                // });
-                                // $('#colortips-style').remove();
+                                $('<style>#' + tooltipId + ' .tooltip-inner::before { border-top-color: '+ fixtureStripColor +'; }</style>' ).appendTo( 'head');
                             });
                         });
 
@@ -547,7 +528,9 @@ import _ from 'lodash'
                                     'awayTeam': match.Away_id,
                                     'matchStatus': match.match_status,
                                     'matchWinner': match.match_winner,
-                                    'isResultOverride': match.isResultOverride
+                                    'isResultOverride': match.isResultOverride,
+                                    'homeTeamPlaceHolder': displayHomeTeamPlaceholder,
+                                    'awayTeamPlaceHolder': displayAwayTeamPlaceholder,
                                 }
                             sMatches.push(mData)
                             }
@@ -579,7 +562,9 @@ import _ from 'lodash'
                                         'awayTeam': null,
                                         'matchStatus': null,
                                         'matchWinner': null,
-                                        'isResultOverride': null
+                                        'isResultOverride': null,
+                                        'homeTeamPlaceHolder': null,
+                                        'awayTeamPlaceHolder': null,
                                     }
                                     sMatches.push(mData1)
                                     counter = counter+1;
@@ -606,7 +591,9 @@ import _ from 'lodash'
                                         'awayTeam': null,
                                         'matchStatus': null,
                                         'matchWinner': null,
-                                        'isResultOverride': null
+                                        'isResultOverride': null,
+                                        'homeTeamPlaceHolder': null,
+                                        'awayTeamPlaceHolder': null,
                                     }
                                     sMatches.push(mData2)
                                     counter = counter+1;
@@ -634,7 +621,9 @@ import _ from 'lodash'
                                             'awayTeam': null,
                                             'matchStatus': null,
                                             'matchWinner': null,
-                                            'isResultOverride': null
+                                            'isResultOverride': null,
+                                            'homeTeamPlaceHolder': null,
+                                            'awayTeamPlaceHolder': null,
                                         }
 
                                         sMatches.push(mData)
@@ -707,7 +696,7 @@ import _ from 'lodash'
                             'title': 'Unavailable',
                             'color': 'grey',
                             'textColor': '#FFFFFF',
-                            'matchId': 'block_'+block.id,
+                            'matchId': -1,
                             'matchAgeGroupId':'',
                             'homeScore': null,
                             'awayScore': null,
