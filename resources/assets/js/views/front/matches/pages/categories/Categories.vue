@@ -1,11 +1,11 @@
 <template>
 	<div>
-		<div class="" v-if="showTable == 'category'">
-			<table id="categoriesTable" class="table table-hover table-responsive table-bordered mt-4">
+		<div class="table-responsive" v-if="showTable == 'category'">
+			<table id="categoriesTable" class="table table-hover table-bordered mt-4">
 				<thead>
 					<tr>
-						<th class="text-center">{{ $t('matches.categories') }}</th>
-						<th class="text-center">{{ $t('matches.teams') }}</th>
+						<th>{{ $t('matches.categories') }}</th>
+						<th>{{ $t('matches.teams') }}</th>
 					</tr>
 				</thead>
 				<tbody>

@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="table-responsive" v-if="competitionList.length > 0">
-      <table class="table table-responsive mt-4">
+      <table class="table table-hover table-bordered mt-4">
         <thead>
           <tr>
             <th scope="col">{{ $t('tournament.category_name') }}</th>
