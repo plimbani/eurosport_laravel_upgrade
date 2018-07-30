@@ -74,7 +74,7 @@
               <a class="text-primary js-edit-match" href="javascript:void(0);"  v-bind:data-id="match.fid"
               @click="openPitchModal(match,match.fid)"><i class="jv-icon jv-edit"></i>
               </a>
-              <a class="text-primary" href="javascript:void(0);" @click="openPitchModal(match, match.fid)"><img src="/assets/img/speech_bubble.svg" width="15" v-if="match.matchRemarks" /></a>
+              <a class="text-primary" href="javascript:void(0);" @click="openPitchModal(match, match.fid)"><i class="jv-icon jv-comment"></i></a>
             </span>
           </span>
         </td>
