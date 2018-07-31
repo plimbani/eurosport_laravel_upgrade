@@ -1,11 +1,11 @@
 <template>
 	<div>
-		<div class="">
-			<table id="teamsTable" class="table table-responsive table-hover table-bordered mt-4">
+		<div class="table-responsive">
+			<table id="teamsTable" class="table table-hover table-bordered mt-4">
 				<thead>
 					<tr>
-						<th class="text-center">{{ $t('matches.team') }}</th>
-						<th class="text-center">{{ $t('matches.categories') }}</th>
+						<th>{{ $t('matches.team') }}</th>
+						<th>{{ $t('matches.categories') }}</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -14,7 +14,7 @@
 		          			<span :class="'flag-icon flag-icon-'+team.countryFlag"></span>
 							<span class="text-center"><a class="text-primary" href="">{{team.name}}</a></span>
 						</td>
-						<td class="text-center">
+						<td>
 							<a href="" class="text-primary pull-left text-left">
 							<u>{{team.competationName}}</u></a>
 						</td>
