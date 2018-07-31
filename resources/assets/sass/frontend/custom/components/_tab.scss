@@ -14,3 +14,16 @@
     	}
     }
 }
+
+.summary-report-content{
+    .tab-content{
+        a{
+            &.btn.btn-primary{
+                text-decoration:none;
+                &:hover{
+                    text-decoration:none;
+                }
+            }
+        }
+    }
+}

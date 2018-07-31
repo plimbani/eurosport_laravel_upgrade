@@ -77,7 +77,7 @@
   import VuePaginate from 'vue-paginate';
 
   export default {
-    props: ['matches', 'competitionDetail', 'currentView'],
+    props: ['matches', 'competitionDetail', 'currentView', 'fromView'],
     data() {
       return {
         matchData: [],
@@ -169,7 +169,6 @@
         }
       },
       showCompetitionData(match) {
-        console.log('match', match.competitionId);
         var id = match.competitionId;
         var competitionName = match.competation_name;
         var competitionType = match.round;

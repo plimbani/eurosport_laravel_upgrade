@@ -68,7 +68,7 @@
         </div>
         <div class="text-center view-full-information" v-if="showGroupInfo" v-html="$t('matches.view_match_info_message', {'competitionName': selectedOption.data.name})" v-on:click.capture="showCompetitionDetailPage()"></div>
     </div>
-    <component :is="currentView" :matches="matches" :competitionDetail="competitionDetail" :currentView="currentView"></component>
+    <component :is="currentView" :matches="matches" :competitionDetail="competitionDetail" :currentView="currentView" :fromView="'Matches'" :categoryId="currentCategoryId"></component>
   </div>
 </template>
 
@@ -93,6 +93,7 @@
           type: '',
         },
         filterBy: 'category_and_competition',
+        currentCategoryId: '',
       };
     },
     filters: {
@@ -251,10 +252,12 @@
       },
       showMatchesList() {
         this.currentView = 'Matches';
+        this.currentCategoryId = '';
         this.getFilterOptions();
       },
       showCompetitionDetailPage() {
         var currentSelectedCompetition = this.selectedOption.data;
+        this.currentCategoryId = currentSelectedCompetition.tournament_competation_template_id;
         this.showCompetitionData(currentSelectedCompetition.id, currentSelectedCompetition.name, currentSelectedCompetition.actual_competition_type);
       },
     },

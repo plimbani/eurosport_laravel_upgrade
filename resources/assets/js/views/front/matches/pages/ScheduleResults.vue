@@ -6,7 +6,7 @@
 					<div class="row">
 						<div class="col-md-12">
 							<div class="tabs tabs-primary">
-								<ul class="nav nav-tabs">
+								<ul class="nav nav-tabs mb-4">
 									<li @click="setCurrentView('drawsListing')" class="nav-item">
 										<a :class="[currentView == 'drawsListing' ? 'active' : '']" href="javascript:void(0)" class="nav-link">{{ $t('matches.categories') }}</a>
 									</li>
