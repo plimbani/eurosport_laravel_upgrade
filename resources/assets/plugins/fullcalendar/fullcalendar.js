@@ -8403,7 +8403,7 @@ TimeGrid.mixin({
 						''
 						) +
 					(event.remarks ?
-					'<div class="' + matchRemarkClasses + '"><img src="/assets/img/speech_bubble.svg" /></div>' : ''
+					'<div class="' + matchRemarkClasses + '"><i class="jv-icon jv-comment"></i></div>' : ''
 						) +
 				'</div>' +
 			'</a>';

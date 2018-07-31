@@ -493,7 +493,6 @@ import _ from 'lodash'
                                  matchTitle = displayMatchName
                               }
 
-                              console.log('match', match);
                                 let mData =  {
                                     'id': match.fid,
                                     'resourceId': match.pitchId,
