@@ -1103,13 +1103,12 @@ class MatchRepository
           $matchData->where('venue_id',$data['filterValue']['id']);
         }
       }
-      if( $matchData->count() == 0){
+
+      if($matchData->count() == 0){
         return ['status'=> false,'data' => 'Please assign referee properly'];
       }else{
-        if($age_group){
-          $result = $matchData->update(['referee_id' => $data['refereeId']]);
-          return ['status' => true, 'data' => $matchData];
-        }
+        $result = $matchData->update(['referee_id' => $data['refereeId']]);
+        return ['status' => true, 'data' => $matchData];
       }
     }
     public function saveResult($data)
