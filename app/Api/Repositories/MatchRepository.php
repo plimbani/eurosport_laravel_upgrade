@@ -366,6 +366,7 @@ class MatchRepository
         {
           $reportQuery =  $reportQuery->whereDate('temp_fixtures.match_datetime','=',$tournamentData['fixture_date']);
         }
+        
         // if($tournamentData['matchScoreFilter'] == 'scored') {
         //     $reportQuery = $reportQuery->where(function($query) {
         //                         $query->where('temp_fixtures.hometeam_score', '!=', NULL)

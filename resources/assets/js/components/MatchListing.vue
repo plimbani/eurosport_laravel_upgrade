@@ -170,7 +170,23 @@ export default {
 	},
 
 	onChangeAllMatchScore(){
-		this.getAllMatches();
+		let matchScoreFilter = this.matchScoreFilter;
+	
+		if(matchScoreFilter != 'all') {
+	        if(this.filterKey1 != undefined) {
+	          this.getAllMatches('',this.filterKey1,this.filterValue1,matchScoreFilter)
+	        } else {
+	          this.getAllMatches('')
+	        }
+	    }  else {
+	        if(this.filterKey1 != undefined) {
+	          this.getAllMatches('',this.filterKey1,this.filterValue1)
+	        } else {
+	          this.getAllMatches('')
+	        }
+      	}  
+	   
+      	
 	},
 
 	getDateRange(startDate, stopDate, dateFormat)
@@ -287,7 +303,7 @@ export default {
 				}
 			)
 		},
-		getAllMatches(date='',filterKey='',filterValue='') {
+		getAllMatches(date='',filterKey='',filterValue='',matchScoreFilter='') {
 			$("body .js-loader").removeClass('d-none');
 			let TournamentId = this.$store.state.Tournament.tournamentId
 			let tournamentData = ''
@@ -298,12 +314,14 @@ export default {
 		          tournamentData ={'tournamentId':TournamentId }
 		    }
 
-		    if(this.matchScoreFilter) {
-		    	tournamentData = {'tournamentId':TournamentId,'matchScoreFilter':this.matchScoreFilter }
+		    if(matchScoreFilter != '') {
+		          tournamentData ={'tournamentId':TournamentId,'matchScoreFilter':matchScoreFilter }
+		    } else {
+		          tournamentData ={'tournamentId':TournamentId }
 		    }
 
 			if(filterKey != '' && filterValue != '') {
-          		tournamentData ={'tournamentId':TournamentId ,'tournamentDate':date ,'filterKey':filterKey,'filterValue':filterValue.id,'matchScoreFilter':this.matchScoreFilter,'fiterEnable':true}
+          		tournamentData ={'tournamentId':TournamentId ,'tournamentDate':date ,'filterKey':filterKey,'filterValue':filterValue.id,'matchScoreFilter':matchScoreFilter,'fiterEnable':true}
 	        }
 		//	let TournamentId = this.$store.state.Tournament.tournamentId
 			//let tournamentData = {'tournamentId': TournamentId,
