@@ -13,7 +13,7 @@
 						<tr v-for="team in paginated('teams')">
 							<td>
 			          			<span :class="'flag-icon flag-icon-'+team.countryFlag"></span>
-								<span class="text-center"><a @click.prevent="changeTeam(team.id, team.name)" class="text-primary" href="javascript:void(0)">{{team.name}}</a></span>
+								<span class="text-center"><a @click.prevent="getTeamDetails(team.id, team.name)" class="text-primary" href="javascript:void(0)">{{ team.name }}</a></span>
 							</td>
 							<td>
 								<a href="javascript:void(0)" @click.prevent="showCompetitionDetail(team)" class="text-primary pull-left text-left">
@@ -36,6 +36,9 @@
 		
 		<!-- Competition detail page -->
       	<competition v-if="showView == 'competition'" :matches="matches" :competitionDetail="competitionDetail" :currentView="'Competition'" :fromView="'Teams'" :categoryId="currentCategoryId"></competition>
+
+      	<!-- Team detail page -->
+      	<team-details v-if="showView == 'teamdetail'" :teamMatches="teamMatches" :currentView="'TeamDetail'" :currentSelectedTeamName="currentSelectedTeamName" :fromView="'Teams'"></team-details>
 	</div>
 </template>
 
@@ -44,6 +47,7 @@
   import TeamList from '../../../../../api/frontend/teamlist.js';
   import MatchList from '../../../../../api/frontend/matchlist.js';
   import Competition from './../list/components/Competition.vue';
+  import TeamDetails from './components/TeamDetails.vue';
 
   export default {
   	data() {
@@ -61,12 +65,15 @@
           type: '',
         },
         currentCategoryId: '',
+        teamMatches: [],
+        currentSelectedTeamName: '',
       };
     },
     computed: {
     },
     components: {
     	Competition,
+    	TeamDetails,
     },
     mounted() {
     	this.getAllTournamentTeams();
@@ -134,19 +141,22 @@
 			this.getTeamDetails(id, name);
 		},
 		getTeamDetails(teamId, teamName) {
-			let TournamentId = tournamentData.id;
+			let TournamentId = this.tournamentData.id;
 			let tournamentData = {'tournamentId': TournamentId, 'teamId': teamId,'is_scheduled': 1};
-			this.otherData.TeamName = teamName;
-			Tournament.getFixtures(tournamentData).then(
-			(response)=> {
-			  if(response.data.status_code == 200) {
-			    this.matchData = response.data.data
-			    // here we add extra Field Fot Not Displat Location
-			  }
-			},
-			(error) => {
-			  alert('Error in Getting Draws')
-			}
+			this.currentSelectedTeamName = teamName;
+			this.showView = 'teamdetail';
+			let vm = this;
+			MatchList.getFixtures(tournamentData).then(
+				(response)=> {
+					if(response.data.status_code == 200) {
+						vm.teamMatches = response.data.data;
+			            vm.teamMatches = _.orderBy(vm.teamMatches, ['match_datetime'], ['asc']);
+			            vm.$root.$emit('setMatchesForMatchList', _.cloneDeep(response.data.data));
+					}
+				},
+				(error) => {
+				  alert('Error in Getting Draws')
+				}
 			)
 	    },
     }
