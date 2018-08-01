@@ -1,40 +1,44 @@
 <template>
   <div>
 	<div  v-if="currentScheduleView == 'matchList'" class="form-group row d-flex flex-row align-items-center">
-		<div class="col-sm-4">
-			<div class="row d-flex flex-row align-items-center">
-				<div class="col-sm-5 pr-sm-0">
-					<h6 class="mb-0">{{$lang.summary_schedule_match_overview}}</h6>
- 				</div>
-				<div class="col pl-sm-0">
-					<select class="form-control ls-select2"
-					    v-on:change="onChangeMatchDate"
-						v-model="matchDate">
-						<option value="all">All dates</option>
-						<option v-for="option in tournamentDates" v-bind:value="option">
-							{{option | formatDate}}
-						</option>
-					</select>
+		<div class="col-sm-5">
+			<div class="row">
+				<div class="col-sm-7">
+					<div class="row d-flex flex-row align-items-center">
+						<div class="col-sm-6 pr-sm-0">
+							<h6 class="mb-0">{{$lang.summary_schedule_match_overview}}</h6>
+		 				</div>
+						<div class="col pl-sm-0">
+							<select class="form-control ls-select2"
+							    v-on:change="onChangeMatchDate"
+								v-model="matchDate">
+								<option value="all">All dates</option>
+								<option v-for="option in tournamentDates" v-bind:value="option">
+									{{option | formatDate}}
+								</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-5">
+					<div class="row d-flex flex-row align-items-center">
+						<div class="col-sm-4 pr-sm-0">
+							<h6 class="mb-0">Score</h6>
+		 				</div>
+						<div class="col pl-sm-0">
+							<select class="form-control ls-select2"
+								v-on:change="onChangeAllMatchScore"
+								v-model="matchScoreFilter">
+								<option value="all">All matches</option>
+								<option value="scored">Scored</option>
+								<option value="notscored">Not scored</option>						
+							</select>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
-		<div class="col-sm-4">
-			<div class="row d-flex flex-row align-items-center">
-				<div class="col-sm-5 pr-sm-0">
-					<h6 class="mb-0">Score</h6>
- 				</div>
-				<div class="col pl-sm-0">
-					<select class="form-control ls-select2"
-						v-on:change="onChangeAllMatchScore"
-						v-model="matchScoreFilter">
-						<option value="all">All matches</option>
-						<option value="scored">Scored</option>
-						<option value="notscored">Not scored</option>						
-					</select>
-				</div>
-			</div>
-		</div>
-		<div class="col-sm-4">
+		<div class="col-sm-7">
 			 <tournamentFilter v-if="filterStatus" :section="section"></tournamentFilter>
 		</div>
 	</div>
