@@ -101,6 +101,7 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
     protected Spinner sp_groups_matches;
     private List<ClubGroupModel> mGroupList;
     private List<ClubGroupModel> mGroupListWOPM;
+    private boolean isCalledFromOnCreate = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -109,7 +110,7 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
         mContext = this;
 
         mGroupModel = getIntent().getParcelableExtra(AppConstants.ARG_GROUP_DETAIL);
-
+        isCalledFromOnCreate = true;
         if (getIntent() != null && getIntent().getExtras() != null) {
             Bundle bundle = getIntent().getExtras();
             if (bundle.containsKey(AppConstants.ARG_ALL_GROUP_LIST)) {
@@ -193,7 +194,12 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
     protected void initView() {
         mPreference = AppPreference.getInstance(mContext);
         initUI();
-        onStandingClicked();
+
+        if (mGroupModel.getActual_competition_type().equalsIgnoreCase(AppConstants.GROUP_COMPETATION_TYPE_ELIMINATION)) {
+            onMatchesClicked();
+        } else {
+            onStandingClicked();
+        }
         if (mGroupList != null && mGroupList.size() > 0) {
             mGroupListWOPM = new ArrayList<>();
             int selectedGroupPos = 0;
@@ -256,8 +262,9 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
             getGroupStanding();
         } else {
             tl_group_rows.setVisibility(View.GONE);
+            getTeamFixtures();
         }
-        getTeamFixtures();
+
     }
 
     @Override
@@ -265,11 +272,17 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
         sp_groups.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (mGroupListWOPM != null && mGroupListWOPM.get(position) != null) {
-                    mGroupModel = mGroupListWOPM.get(position);
-                }
+                if (!isCalledFromOnCreate) {
+                    if (mGroupListWOPM != null && mGroupListWOPM.get(position) != null) {
+                        mGroupModel = mGroupListWOPM.get(position);
+                        int mGroupMatchesSpPos = mGroupList.indexOf(mGroupListWOPM.get(position));
+                        if (mGroupMatchesSpPos != -1) {
+                            sp_groups_matches.setSelection(mGroupMatchesSpPos);
+                        }
+                    }
 
-                initUI();
+                    initUI();
+                }
             }
 
             @Override
@@ -280,13 +293,21 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
         sp_groups_matches.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (mGroupList != null && mGroupList.get(position) != null) {
-                    mGroupModel = mGroupList.get(position);
+                if (!isCalledFromOnCreate) {
+                    if (mGroupList != null && mGroupList.get(position) != null) {
+                        mGroupModel = mGroupList.get(position);
+                    }
+                    if (mGroupModel.getActual_competition_type().equalsIgnoreCase(AppConstants.GROUP_COMPETATION_TYPE_ELIMINATION)) {
+                        sp_groups.setSelection(0);
+                    } else {
+                        int mGroupSpPos = mGroupListWOPM.indexOf(mGroupList.get(position));
+                        if (mGroupSpPos != -1) {
+                            sp_groups.setSelection(mGroupSpPos);
+                        }
+
+                    }
+                    initUI();
                 }
-                if (mGroupModel.getActual_competition_type().equalsIgnoreCase(AppConstants.GROUP_COMPETATION_TYPE_ELIMINATION)) {
-                    sp_groups.setSelection(0);
-                }
-                initUI();
             }
 
             @Override
@@ -298,7 +319,7 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
 
     private void getTeamFixtures() {
 
-
+        isCalledFromOnCreate = false;
         if (Utility.isInternetAvailable(mContext)) {
             final ProgressHUD mProgressdialog = Utility.getProgressDialog(mContext);
             String url = ApiConstants.GET_TEAM_FIXTURES;
@@ -397,6 +418,7 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
                 @Override
                 public void onResponse(JSONObject response) {
                     Utility.StopProgress(mProgressdialog);
+                    getTeamFixtures();
                     try {
                         AppLogger.LogE(TAG, "getGroupStanding Response" + response.toString());
                         if (response.has("status_code") && !Utility.isNullOrEmpty(response.getString("status_code")) && response.getString("status_code").equalsIgnoreCase("200")) {
