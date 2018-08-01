@@ -1,9 +1,9 @@
 <template>
 	<div>
 		<div class="form-group">
-		   <a @click="backToTeamList()" data-toggle="tab" href="javascript:void(0)"
-		   role="tab" aria-expanded="true" class="btn btn-primary">
-	       <i aria-hidden="true" class="fa fa-angle-double-left"></i>Back to team list</a>
+	       	<button @click="backToTeamList()" class="btn btn-primary">
+		        <i aria-hidden="true" class="fa fa-angle-double-left"></i> Back to team list
+		    </button>
 		</div>
 		<div class="row">
 			<div class="col-md-12 mb-3">
