@@ -472,6 +472,17 @@ import _ from 'lodash'
                               let textColorVal = match.category_age_font_color;
                               let fixtureStripColor = match.competation_color_code != null ? match.competation_color_code : '#FFFFFF';
 
+                              let ageCategoryColor = match.age_category_color;
+                              let groupColor = match.group_color;
+
+                              if(ageCategoryColor != null) {
+                                colorVal = ageCategoryColor;
+                              }
+
+                              if(groupColor != null) {
+                                fixtureStripColor = groupColor;
+                              }
+
                               if(scheduleBlock){
                                 colorVal = 'grey'
                                 textColorVal = '#FFFFFF'
@@ -492,6 +503,14 @@ import _ from 'lodash'
                                 refereeId = match.referee_id?match.referee_id:0
                                  matchTitle = displayMatchName
                               }
+
+                              if(ageCategoryColor != null) {
+                                colorVal = ageCategoryColor;
+                              }
+                              
+                              if(groupColor != null) {
+                                fixtureStripColor = groupColor; 
+                              }                              
                                 let mData =  {
                                     'id': match.fid,
                                     'resourceId': match.pitchId,

@@ -316,6 +316,9 @@ class MatchRepository
               'tournament_competation_template.match_interval_RR',
               'tournament_competation_template.match_interval_FM',
               'tournament_competation_template.id as tid',
+              'temp_fixtures.home_yellow_cards', 'temp_fixtures.away_yellow_cards',
+              'temp_fixtures.home_red_cards', 'temp_fixtures.away_red_cards',
+              'temp_fixtures.age_category_color', 'temp_fixtures.group_color',              
               DB::raw('CONCAT(home_team.name, " vs ", away_team.name) AS full_game')
               )
           ->where('temp_fixtures.tournament_id', $tournamentData['tournamentId']);
@@ -1120,7 +1123,6 @@ class MatchRepository
       }
     public function saveResult($data)
     {
-      
       if($data['is_result_override'] == 0) {
         $data['matchStatus'] == null;
         $data['matchWinner'] == null;
@@ -1134,7 +1136,12 @@ class MatchRepository
         'match_winner' => $data['matchWinner'],
         'comments' => $data['comments'],
         'is_result_override' => $data['is_result_override'],
-
+        'home_yellow_cards' => $data['home_yellow_cards'],
+        'away_yellow_cards' => $data['away_yellow_cards'],
+        'home_red_cards' => $data['home_red_cards'],
+        'away_red_cards' => $data['away_red_cards'],
+        'age_category_color' => $data['age_category_color'],
+        'group_color' => $data['group_color']
       ];
 
       $data = TempFixture::where('id',$data['matchId'])
