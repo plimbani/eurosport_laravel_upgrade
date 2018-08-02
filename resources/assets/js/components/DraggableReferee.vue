@@ -1,7 +1,13 @@
 <template>
     <div class="raferee_details">
         <div class="raferee_list">
-            <div class="d-flex align-items-center justify-content-between my-2">
+            <div v-bind:id="'i'+referee.id" style="display:none;">
+                <div class="popover-body">
+                    <b>Age Categories</b><br/>
+                    {{referee.age_group_id | formatAgeCategoryName(competationList) }}
+                </div>
+            </div>
+            <div class="d-flex align-items-center justify-content-between my-2" data-toggle="popover" data-placement="left" :data-popover-content="'#i'+referee.id">
                 <div>
                     {{referee.last_name}}, {{referee.first_name}}
                 </div>
@@ -17,9 +23,35 @@
 <script type="text/babel">
 import Tournament from '../api/tournament.js'
 export default {
-    props: ['referee'],
+    props: ['referee', 'competationList'],
+    filters: {
+
+        formatAgeCategoryName: function(ageGroupId,competationList) {
+            console.log('ageGroupId',ageGroupId);
+            let ageGroupArray = ageGroupId.split(',');
+            console.log(competationList,'competationList');
+            let ageGroupString = '';
+            _.forEach(ageGroupArray, function(key,value) {
+                ageGroupString += ageGroupString == '' ? competationList[key] : ', '+competationList[key];
+            });
+            return ageGroupString;   
+        }
+    },
     mounted() {
-        this.initEvents();
+        console.log('competationList',this.competationList);
+        this.initEvents();  
+        $("[data-toggle=popover]").popover({
+            html : true,
+            trigger: 'hover',
+            content: function() {
+                var content = $(this).attr("data-popover-content");
+                return $(content).children(".popover-body").html();
+            },
+            title: function() {
+                var title = $(this).attr("data-popover-content");
+                return $(title).children(".popover-heading").html();
+            }
+        });
     },
     methods: {
         initEvents() {
@@ -61,9 +93,10 @@ export default {
                 }  
             )
         },
+
         editReferee() { 
             this.$root.$emit('editReferee', this.referee.id)
-        }
+        },
     }    
 };
     
