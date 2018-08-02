@@ -27,9 +27,7 @@ export default {
     filters: {
 
         formatAgeCategoryName: function(ageGroupId,competationList) {
-            console.log('ageGroupId',ageGroupId);
             let ageGroupArray = ageGroupId.split(',');
-            console.log(competationList,'competationList');
             let ageGroupString = '';
             _.forEach(ageGroupArray, function(key,value) {
                 ageGroupString += ageGroupString == '' ? competationList[key] : ', '+competationList[key];
@@ -38,7 +36,6 @@ export default {
         }
     },
     mounted() {
-        console.log('competationList',this.competationList);
         this.initEvents();  
         $("[data-toggle=popover]").popover({
             html : true,
