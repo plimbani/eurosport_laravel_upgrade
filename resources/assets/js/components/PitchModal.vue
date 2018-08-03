@@ -211,14 +211,14 @@
 
                 <div id="colors_tab" class="tab-pane">                  
                   <div class="form-group row">
-                    <div class="col-sm-3 form-control-label">Age Category</div>
+                    <div class="col-sm-3 form-control-label">Age Category ({{ matchDetail.category_age.category_age }})</div>                    
                     <div class="col-sm-6">
                       <input type="text" class="js-colorpicker" :name="matchDetail.age_category_color" v-model="matchDetail.age_category_color" @input="matchDetail.age_category_color" id="age_category_color" data-name="age_category_color" :class="{'form-control demo minicolors-input' : true }"/>
                     </div>
                   </div>
 
                   <div class="form-group row">
-                    <div class="col-sm-3 form-control-label">Group</div>
+                    <div class="col-sm-3 form-control-label">Group ({{ formatGroupName() }})</div>                    
                     <div class="col-sm-6">
                       <input type="text" class="js-colorpicker" id="group_color" data-name="group_color" :name="matchDetail.group_color" v-model="matchDetail.group_color" @input="matchDetail.group_color" :class="{'form-control demo minicolors-input' : true }"/>
                     </div>
@@ -253,6 +253,9 @@ var moment = require('moment');
          'matchDetail':{
             'competition': {
               'actual_name': null
+            },
+            'category_age': {
+              'category_age': null
             },
          },
          'referees': {},
@@ -565,6 +568,13 @@ var moment = require('moment');
           this.matchDetail.awayteam_score = 3;
         }
       }
+    },
+    formatGroupName() {
+      if(this.matchDetail.competition.actual_name) {
+        var groupName = this.matchDetail.competition.actual_name;
+        var splittedGroupName = groupName.split("-");
+        return splittedGroupName[splittedGroupName.length - 1];
+      }      
     }
   }
 }

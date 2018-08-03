@@ -1123,6 +1123,13 @@ class MatchRepository
       }
     public function saveResult($data)
     {
+      $tempFixture = TempFixture::where('id', $data['matchId'])->first();
+      $competition = Competition::where('id', $tempFixture->competition_id)->first();
+      $ageCategory = TournamentCompetationTemplates::where('id', $tempFixture->age_group_id)->first();
+
+      $categoryAgeColor = $ageCategory->category_age_color;
+      $categoryStripColor = $competition->color_code ? $competition->color_code : '#FFFFFF';
+
       if($data['is_result_override'] == 0) {
         $data['matchStatus'] == null;
         $data['matchWinner'] == null;
@@ -1140,8 +1147,8 @@ class MatchRepository
         'away_yellow_cards' => $data['away_yellow_cards'],
         'home_red_cards' => $data['home_red_cards'],
         'away_red_cards' => $data['away_red_cards'],
-        'age_category_color' => $data['age_category_color'],
-        'group_color' => $data['group_color']
+        'age_category_color' => ($categoryAgeColor == $data['age_category_color']) ? null : $data['age_category_color'],
+        'group_color' => ($categoryAgeColor == $data['group_color']) ? $categoryStripColor : $data['group_color'],
       ];
 
       $data = TempFixture::where('id',$data['matchId'])
