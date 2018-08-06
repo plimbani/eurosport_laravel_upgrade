@@ -150,6 +150,7 @@
         }
         let data = { 'tournamentId': tournamentData.id, 'filterBy': this.filterBy };
         this.selectedOption = '';
+        this.matches = [];
         MatchList.getFilterDropDownData(data).then(
           (response) => {
             this.filterOptions = response.data.options;

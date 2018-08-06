@@ -172,7 +172,7 @@
         var id = match.competitionId;
         var competitionName = match.competation_name;
         var competitionType = match.round;
-        if(this.fromView == 'Competition') {
+        if(this.fromView == 'Competition' || this.fromView == 'Matches') {
           this.$root.$emit('showCompetitionData', id, competitionName, competitionType);
         } else if(this.fromView == 'Teams') {
           this.$root.$emit('showCompetitionViewFromTeam', id, competitionName, competitionType);
