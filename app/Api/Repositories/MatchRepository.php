@@ -300,6 +300,8 @@ class MatchRepository
               'temp_fixtures.is_final_round_match',
               'temp_fixtures.is_result_override as isResultOverride',              
               'home_team.name as HomeTeam','away_team.name as AwayTeam',
+              'home_team.shirt_color as HomeTeamShirtColor','away_team.shirt_color as AwayTeamShirtColor',
+              'home_team.shorts_color as HomeTeamShortsColor','away_team.shorts_color as AwayTeamShortsColor',
               'tournament_competation_template.halves_RR',
               'temp_fixtures.home_team_name as homeTeamName',
               'temp_fixtures.away_team_name as awayTeamName',

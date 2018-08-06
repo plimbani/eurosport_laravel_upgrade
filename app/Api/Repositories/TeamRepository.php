@@ -139,6 +139,8 @@ class TeamRepository
         $teamName =  isset($data['team']) ? $data['team'] : '';
         $place =  isset($data['place']) ? $data['place'] : '';
         $club_id =  isset($data['club_id']) ? $data['club_id'] : '';
+        $shirtColor = isset($data['shirtcolor']) ? $data['shirtcolor'] : '';
+        $shortsColor = isset($data['shortscolor']) ? $data['shortscolor'] : '';
         // dd($data);
         \Log::info($data);
         return Team::create([
@@ -150,7 +152,8 @@ class TeamRepository
             'age_group_id' => $data['age_group_id'],
             'club_id'=>$data['club_id'],
             'comments'=>$data['teamcomment'],
-
+            'shirt_color'=>$shirtColor,
+            'shorts_color'=>$shortsColor,
             ]);
     }
 
