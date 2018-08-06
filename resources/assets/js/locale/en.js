@@ -587,6 +587,14 @@ module.exports= {
   summary_reports_game: "Game",
   summary_reports_match_code: "Match codes",
 
+  summary_fair_play_reports_team_id: "TeamID",
+  summary_fair_play_reports_team: "Team",
+  summary_fair_play_reports_club: "Club",
+  summary_fair_play_reports_country: "Country",
+  summary_fair_play_reports_age_category: "Age category",
+  summary_fair_play_reports_red_cards: "Red cards",
+  summary_fair_play_reports_yellow_cards: "Yellow cards",
+
   summary_schedule: "Schedule and results",
   summary_schedule_last_update: "Last updated",
   summary_schedule_draws: "Draws",

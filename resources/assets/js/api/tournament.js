@@ -224,5 +224,12 @@ export default {
   },
   getClubsByTournamentId(tournamentId) {
     return api.post('getClubsByTournamentId/' +tournamentId);
+  },
+  getTeamsFairPlayData(teamData) {
+    return api.get('getTeamsFairPlayData?' +teamData);
+    // return api.get('tournament/report/generate?'+ data)
+  },
+  getSignedUrlForTeamsFairPlayReportExport(reportData) {
+    return api.post('getSignedUrlForTeamsFairPlayReportExport?' + reportData);
   },  
 }

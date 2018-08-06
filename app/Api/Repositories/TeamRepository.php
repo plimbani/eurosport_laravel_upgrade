@@ -550,4 +550,22 @@ class TeamRepository
                                    ->update(['is_manual_override_standing'=> 0 , 'color_code'=>null]);
       
     }
+
+    public function getTeamsFairPlayData($data)
+    {
+      $teamData = Team::join('countries', function ($join) {
+        $join->on('teams.country_id', '=', 'countries.id');
+      })
+      ->join('tournament_competation_template', 'tournament_competation_template.id', '=', 'teams.age_group_id')
+      ->join('clubs', 'clubs.id', '=', 'teams.club_id')
+      ->where('teams.tournament_id',$data['tournament_id']);
+
+      if(isset($data['sel_ageCategory']) && $data['sel_ageCategory'] != null && $data['sel_ageCategory'] != '')
+      {
+        $teamData = $teamData->where('teams.age_group_id',$data['sel_ageCategory']);
+      }
+
+      return $teamData->select('teams.*','teams.id as team_id', 'countries.name as country_name',
+          'tournament_competation_template.group_name as age_name','tournament_competation_template.category_age as category_age','clubs.name as club_name')->get();
+    }
 }
