@@ -1148,7 +1148,7 @@ class MatchRepository
         'home_red_cards' => $data['home_red_cards'],
         'away_red_cards' => $data['away_red_cards'],
         'age_category_color' => ($categoryAgeColor == $data['age_category_color']) ? null : $data['age_category_color'],
-        'group_color' => ($categoryAgeColor == $data['group_color']) ? $categoryStripColor : $data['group_color'],
+        'group_color' => ($categoryStripColor == $data['group_color']) ? null : $data['group_color'],
       ];
 
       $data = TempFixture::where('id',$data['matchId'])

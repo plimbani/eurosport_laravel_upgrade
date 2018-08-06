@@ -205,13 +205,11 @@
         </tr>
         <tr>
           <td align="left">&nbsp;Age category color</td>
-          {{-- <td>&nbsp;{{ $data['age_category_color']}}</td> --}}
-          <td><div class="color-preview" style="background: {{ $data['age_category_color'] }}"></div></td>
+          <td><div class="color-preview" style="background: {{ $data['age_category_color'] ? $data['age_category_color'] : $categoryAgeColor }}"></div></td>
         </tr>
         <tr>
           <td align="left">&nbsp;Group color</td>
-          {{-- <td>&nbsp;{{ $data['group_color']}}</td> --}}
-          <td><div class="color-preview" style="background: {{ $data['group_color'] }}"></div></td>
+          <td><div class="color-preview" style="background: {{ $data['group_color'] ? $data['group_color'] : $categoryStripColor }}"></div></td>
         </tr>        
     </thead>
 </table>

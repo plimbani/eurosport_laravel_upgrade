@@ -288,7 +288,7 @@ var moment = require('moment');
           })
         this.matchFixtureDetail();
       }
-
+      
       $('.js-colorpicker').minicolors({
         animationSpeed: 50,
         animationEasing: 'swing',
