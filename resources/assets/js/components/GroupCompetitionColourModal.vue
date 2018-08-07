@@ -73,7 +73,7 @@ import _ from 'lodash';
                           animationEasing: 'swing',
                           format : 'hex',
                           theme: 'bootstrap',
-                          position: 'bottom right',
+                          position: 'bottom right',                          
                           change : function() {
                             let inputObj = $(this);
                             let competitionId = inputObj.data('competition-id');

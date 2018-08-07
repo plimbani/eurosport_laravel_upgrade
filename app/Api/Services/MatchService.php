@@ -201,14 +201,11 @@ class MatchService implements MatchContract
 
     public function generateMatchPrint($matchData)
     {
-
-       $matchId = $matchData['matchId'];
-       $matchResult = $this->matchRepoObj->getMatchDetail($matchId);
-       //echo '<pre>';
-     // print_r($matchResult->toArray());exit;
+      $matchId = $matchData['matchId'];
+      $matchResult = $this->matchRepoObj->getMatchDetail($matchId);
       $date = new \DateTime(date('H:i d M Y'));
-        // $date->setTimezone();.
       $resultData = $matchResult->toArray();
+      
       // Here we modified the array according to status and winner
       if(isset($matchData['result_override']) && $matchData['result_override']== 'false' ) {
         // Unset the match_status result and match Wineer
@@ -219,18 +216,24 @@ class MatchService implements MatchContract
         $resultData['name'] = $matchData['winner'];
       }
 
-      // dd($resultData);
-        $pdf = PDF::loadView('pitchplanner.pitch',['data' => $resultData,'result_override'=>$matchData['result_override']])
-            ->setPaper('a4')
-            ->setOption('header-spacing', '5')
-            ->setOption('header-font-size', 7)
-            ->setOption('header-font-name', 'Open Sans')
-            ->setOrientation('portrait')
-            ->setOption('footer-right', 'Page [page] of [toPage]')
-            ->setOption('header-right', $date->format('H:i d M Y'))
-            ->setOption('margin-top', 20)
-            ->setOption('margin-bottom', 20);
-        return $pdf->inline('Pitch.pdf');
+      $tempFixture = TempFixture::where('id', $matchId)->first();
+      $competition = Competition::where('id', $tempFixture->competition_id)->first();
+      $ageCategory = TournamentCompetationTemplates::where('id', $tempFixture->age_group_id)->first();
+      
+      $categoryAgeColor = $ageCategory->category_age_color;
+      $categoryStripColor = $competition->color_code ? $competition->color_code : '#FFFFFF';
+
+      $pdf = PDF::loadView('pitchplanner.pitch',['data' => $resultData,'result_override'=>$matchData['result_override'], 'categoryAgeColor' => $categoryAgeColor, 'categoryStripColor' => $categoryStripColor])
+          ->setPaper('a4')
+          ->setOption('header-spacing', '5')
+          ->setOption('header-font-size', 7)
+          ->setOption('header-font-name', 'Open Sans')
+          ->setOrientation('portrait')
+          ->setOption('footer-right', 'Page [page] of [toPage]')
+          ->setOption('header-right', $date->format('H:i d M Y'))
+          ->setOption('margin-top', 20)
+          ->setOption('margin-bottom', 20);
+      return $pdf->inline('Pitch.pdf');
     }
 
     public function generateCategoryReport($ageGroupId)

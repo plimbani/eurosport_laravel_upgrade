@@ -365,4 +365,17 @@ class TeamService implements TeamContract
     {
       return $this->teamRepoObj->getClubsByTournamentId($tournamentId);
     }
+
+    public function getTeamsFairPlayData($teamData)
+    {
+      // echo "<pre>";print_r($teamData);echo "</pre>";exit;
+      // $data = $teamData['teamData'];
+      $data = $this->teamRepoObj->getTeamsFairPlayData($teamData);
+
+      if ($data) {
+        return ['status_code' => '200', 'data' => $data];
+      }
+
+      return ['status_code' => '505', 'message' => 'Error in Data'];
+    }
 }
