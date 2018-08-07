@@ -2,6 +2,7 @@
 
 namespace Laraspace\Api\Repositories;
 
+use Laraspace\Models\Referee;
 use Laraspace\Models\AgeGroup;
 use Laraspace\Models\TournamentCompetationTemplates;
 use Laraspace\Models\TournamentTemplates;
@@ -314,7 +315,25 @@ class AgeGroupRepository
       We pass tournamentId
      */
     public function deleteCompeationFormat($tournamentCompetationTemplateId) {
-     return TournamentCompetationTemplates::find($tournamentCompetationTemplateId)->delete();
+
+      $tournamentCompetationTemplate = TournamentCompetationTemplates::find($tournamentCompetationTemplateId);
+      $tournamentId = $tournamentCompetationTemplate->tournament_id;
+
+      $tournamentReferees = Referee::where('tournament_id', $tournamentId)->get();
+
+      foreach ($tournamentReferees as $tournamentReferee) {
+        $ageGroupIds = explode(',', $tournamentReferee->age_group_id);
+        $index = array_search($tournamentCompetationTemplateId, $ageGroupIds);
+
+        if($index !== false) {
+          unset($ageGroupIds[$index]);
+        }
+
+        $tournamentReferee->age_group_id = count($ageGroupIds) > 0 ? implode(',', array_values($ageGroupIds)) : null;
+        $tournamentReferee->save();
+      }
+
+      return $tournamentCompetationTemplate->delete();
     }
 
     public function deleteCompetationData($data)

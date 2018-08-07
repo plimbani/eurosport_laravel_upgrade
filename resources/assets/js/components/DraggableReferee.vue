@@ -4,7 +4,12 @@
             <div v-bind:id="'i'+referee.id" style="display:none;">
                 <div class="popover-body">
                     <b>Age Categories</b><br/>
-                    {{referee.age_group_id | formatAgeCategoryName(competationList) }}
+                    <span v-show="referee.age_group_id !== null">
+                        {{ referee.age_group_id | formatAgeCategoryName(competationList) }}
+                    </span>
+                    <span class="text-muted" v-show="referee.age_group_id === null">
+                        No age categories assigned
+                    </span>
                 </div>
             </div>
             <div class="d-flex align-items-center justify-content-between my-2" data-toggle="popover" data-animation="false" data-placement="left" :data-popover-content="'#i'+referee.id">
@@ -27,11 +32,13 @@ export default {
     filters: {
 
         formatAgeCategoryName: function(ageGroupId,competationList) {
-            let ageGroupArray = ageGroupId.split(',');
             let ageGroupString = '';
-            _.forEach(ageGroupArray, function(key,value) {
-                ageGroupString += ageGroupString == '' ? competationList[key] : ', '+competationList[key];
-            });
+            if(ageGroupId !== null) {
+                let ageGroupArray = ageGroupId.split(',');
+                _.forEach(ageGroupArray, function(key,value) {
+                    ageGroupString += ageGroupString == '' ? competationList[key] : ', '+competationList[key];
+                });
+            }
             return ageGroupString;   
         }
     },
