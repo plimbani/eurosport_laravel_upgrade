@@ -76,6 +76,8 @@ module.exports= {
 
   team_edit_team_id: "TeamID*",
   team_edit_team_name: "Team*",
+  team_edit_team_shirt_color: "Shirt Color",
+  team_edit_team_shorts_color: "Shorts Color",
   team_edit_team_place: "Place*",
   team_edit_comment: "Comment",
   team_edit_country: "Country*",

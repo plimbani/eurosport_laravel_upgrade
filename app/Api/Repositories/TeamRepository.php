@@ -472,6 +472,11 @@ class TeamRepository
       return $contries = Country::orderBy('name')->get();
     }
 
+    public function getAllTeamColors()
+    {
+      return config('config-variables.team_colors');
+    }
+
     public function getAllClubs()
     {
       return $clubs = Club::all();
@@ -525,6 +530,8 @@ class TeamRepository
       $team->country_id = $request['team_country'];
       $team->club_id = $clubId;
       $team->comments = $request['comment'];  
+      $team->shirt_color = $request['team_shirt_color'];
+      $team->shorts_color = $request['team_shorts_color'];
       $team->save();    
     }
 

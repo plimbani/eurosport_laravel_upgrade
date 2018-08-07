@@ -16,6 +16,7 @@ use Laraspace\Http\Requests\Team\ClubsTeamsRequest;
 use Laraspace\Http\Requests\Team\AssignTeamRequest;
 use Laraspace\Http\Requests\Team\TeamDetailsRequest;
 use Laraspace\Http\Requests\Team\AllCountriesRequest;
+use Laraspace\Http\Requests\Team\AllTeamColorsRequest;
 use Laraspace\Http\Requests\Team\ResetAllTeamsRequest;
 use Laraspace\Http\Requests\Team\ChangeTeamNameRequest;
 use Laraspace\Http\Requests\Team\CheckTeamExistRequest;
@@ -171,6 +172,11 @@ class TeamController extends BaseController
     public function editTeamDetails(TeamDetailsRequest $request, $teamId) 
     {
         return $this->teamObj->editTeamDetails($teamId);
+    }
+
+    public function getAllTeamColors(AllTeamColorsRequest $request)
+    {
+        return $this->teamObj->getAllTeamColors();
     }
 
     public function getAllCountries(AllCountriesRequest $request)

@@ -195,6 +195,9 @@ export default {
   getAllClubs() {
     return api.get('getAllClubs');
   },
+  getAllTeamColors() {
+    return api.get('getAllTeamColors');
+  },
   updateTeamDetails(teamId, formData) {
     return api.post('updateTeamDetails/'+teamId, formData);
   },

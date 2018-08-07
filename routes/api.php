@@ -98,6 +98,7 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
     $api->post('team/checkTeamExist', 'Laraspace\Api\Controllers\TeamController@checkTeamExist');
 
     $api->post('editTeamDetails/{id}', 'Laraspace\Api\Controllers\TeamController@editTeamDetails');
+    $api->get('getAllTeamColors', 'Laraspace\Api\Controllers\TeamController@getAllTeamColors');
     $api->get('getAllCountries', 'Laraspace\Api\Controllers\TeamController@getAllCountries');
     $api->get('getAllClubs', 'Laraspace\Api\Controllers\TeamController@getAllClubs');
 
