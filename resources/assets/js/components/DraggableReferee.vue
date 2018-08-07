@@ -7,7 +7,7 @@
                     {{referee.age_group_id | formatAgeCategoryName(competationList) }}
                 </div>
             </div>
-            <div class="d-flex align-items-center justify-content-between my-2" data-toggle="popover" data-placement="left" :data-popover-content="'#i'+referee.id">
+            <div class="d-flex align-items-center justify-content-between my-2" data-toggle="popover" data-animation="false" data-placement="left" :data-popover-content="'#i'+referee.id">
                 <div>
                     {{referee.last_name}}, {{referee.first_name}}
                 </div>
