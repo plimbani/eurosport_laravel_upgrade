@@ -8371,7 +8371,7 @@ TimeGrid.mixin({
 							'</div>' :
 							''
 							) +
-						((event.homeScore !== null) && (event.awayScore !== null) ? 
+						((event.homeScore !== null) && (event.awayScore !== null) && (typeof event.awayScore !== 'undefined') && (typeof event.awayScore !== 'undefined') ? 
 							'<div class="fc-score">' +
 								((event.isResultOverride == 1 && event.matchStatus == 'Walk-over' && event.matchWinner == event.homeTeam) ? '*' : '') +
 								htmlEscape(event.homeScore) + '-' + htmlEscape(event.awayScore) +
