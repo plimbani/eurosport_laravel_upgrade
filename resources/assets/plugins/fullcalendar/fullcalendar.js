@@ -8341,6 +8341,13 @@ TimeGrid.mixin({
 			startTimeText = this.getEventTimeText(event, null, false); // displayEnd=false
 		}
 
+		let matchRemarkClasses = 'match-remark';
+		if( (event.fixtureStripColor && event.fixtureStripColor == event.color)) {
+			matchRemarkClasses += ' match-remark-right-position2';
+		} else {
+			matchRemarkClasses += ' match-remark-right-position17';
+		}
+
 		return '<a class="' + classes.join(' ') + '"' +
 			(event.url ?
 				' href="' + htmlEscape(event.url) + '"' :
@@ -8394,6 +8401,9 @@ TimeGrid.mixin({
 					(event.fixtureStripColor ?
 					'<div class="scheduled-match-content-strip" style="background: ' + event.fixtureStripColor + '"></div>' :
 						''
+						) +
+					(event.remarks ?
+					'<div class="' + matchRemarkClasses + '"><i class="jv-icon jv-comment"></i></div>' : ''
 						) +
 				'</div>' +
 			'</a>';
