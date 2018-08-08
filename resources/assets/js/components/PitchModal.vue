@@ -213,7 +213,7 @@
                   <div class="form-group row">
                     <div class="col-sm-3 form-control-label">Age Category ({{ matchDetail.category_age.category_age }})</div>                    
                     <div class="col-sm-6">
-                      <input type="text" class="js-colorpicker" :name="matchDetail.age_category_color" v-model="matchDetail.age_category_color" @input="matchDetail.age_category_color" id="age_category_color" data-name="age_category_color" :class="{'form-control demo minicolors-input' : true }"/>
+                      <input type="text" class="js-colorpicker" :name="matchDetail.age_category_color" v-model="matchDetail.age_category_color" @input="matchDetail.age_category_color" id="age_category_color" data-name="age_category_color" :class="{'form-control demo minicolors-input' : true }" />
                     </div>
                   </div>
 
@@ -257,6 +257,8 @@ var moment = require('moment');
             'category_age': {
               'category_age': null
             },
+            'age_category_color': '',
+            'group_color': '',
          },
          'referees': {},
          // 'matchId': this.matchFixture.id ? this.matchFixture.id : this.matchFixture.matchId,
@@ -287,19 +289,19 @@ var moment = require('moment');
               this.referees = response.data.referees
           })
         this.matchFixtureDetail();
+
+        $('.js-colorpicker').minicolors({
+          animationSpeed: 50,
+          animationEasing: 'swing',
+          format : 'hex',
+          theme: 'bootstrap',
+          position: 'bottom right',
+          change : function() {
+            vm.matchDetail[$(this).data('name')] = $(this).val();
+            return;
+          }
+        });
       }
-      
-      $('.js-colorpicker').minicolors({
-        animationSpeed: 50,
-        animationEasing: 'swing',
-        format : 'hex',
-        theme: 'bootstrap',
-        position: 'bottom right',
-        change : function() {
-          vm.matchDetail[$(this).data('name')] = $(this).val();
-          return;
-        }
-      });
   },
   methods: {
     initialState() {
@@ -324,18 +326,24 @@ var moment = require('moment');
             this.matchFixture.refereeId = this.matchDetail.referee_id
            }
 
-           let colorVal = this.matchDetail.category_age.category_age_color;
-           let textColorVal = this.matchDetail.category_age.category_age_font_color;
-           let borderColorVal = this.matchDetail.category_age.category_age_color;
-           let fixtureStripColor = this.matchDetail.competition.color_code != null ? this.matchDetail.competition.color_code : '#FFFFFF';
+          let colorVal = this.matchDetail.category_age.category_age_color;
+          let textColorVal = this.matchDetail.category_age.category_age_font_color;
+          let borderColorVal = this.matchDetail.category_age.category_age_color;
+          let fixtureStripColor = this.matchDetail.competition.color_code != null ? this.matchDetail.competition.color_code : '#FFFFFF';
 
-            this.matchFixture.color = colorVal;
-            this.matchFixture.textColor = textColorVal;
-            this.matchFixture.borderColor = borderColorVal;
-            this.matchFixture.fixtureStripColor = fixtureStripColor;
+          colorVal = (this.matchDetail.age_category_color == null) ? colorVal : this.matchDetail.age_category_color;
 
-            this.matchDetail.age_category_color = (this.matchDetail.age_category_color == null) ? colorVal : this.matchDetail.age_category_color;
-            this.matchDetail.group_color = (this.matchDetail.group_color == null) ? fixtureStripColor : this.matchDetail.group_color;
+          borderColorVal = (this.matchDetail.age_category_color == null) ? borderColorVal : this.matchDetail.age_category_color;
+
+          fixtureStripColor = (this.matchDetail.group_color == null) ? fixtureStripColor : this.matchDetail.group_color;
+
+          this.matchFixture.color = colorVal;
+          this.matchFixture.textColor = textColorVal;
+          this.matchFixture.borderColor = borderColorVal;
+          this.matchFixture.fixtureStripColor = fixtureStripColor;
+
+          this.matchDetail.age_category_color = (this.matchDetail.age_category_color == null) ? colorVal : this.matchDetail.age_category_color;
+          this.matchDetail.group_color = (this.matchDetail.group_color == null) ? fixtureStripColor : this.matchDetail.group_color;
 
           // this.matchDetail.matchTime = moment(response.data.data.match_datetime,' hh:mm"ss DD-MMM-YYYY ').format(' kk:mm DD MMM  YYYY ')
 
@@ -370,6 +378,9 @@ var moment = require('moment');
               });
             }
           }
+
+          $('input[data-name=age_category_color]').minicolors('value', colorVal);
+          $('input[data-name=group_color]').minicolors('value', fixtureStripColor);
       })
     },
     removeReferee(){
