@@ -73,7 +73,7 @@ export default {
 		    'currentDate':'',
 		    'filterKey1': '',
 		    'filterValue1': '',
-		    'matchScoreFilter': '',
+		    'matchScoreFilter': 'all',
 		}
 	},
 	filters: {
@@ -127,7 +127,7 @@ export default {
             this.filterKey1 = filterKey
             this.filterValue1 = filterValue
 
-  	        this.getAllMatches(this.currentDate,filterKey,filterValue)
+  	        this.getAllMatches(this.currentDate, this.matchScoreFilter, filterKey,filterValue)
         	}
 
 	      //  if(filterKey == 'age_category'){
@@ -157,40 +157,24 @@ export default {
 		let matchDate = this.matchDate
 		this.currentDate = this.matchDate
 
-		if(matchDate != 'all') {
-	        if(this.filterKey1 != undefined) {
-	          this.getAllMatches(matchDate,this.filterKey1,this.filterValue1)
-	        } else {
-	          this.getAllMatches(matchDate)
-	        }
-    	}
-		else {
-	        if(this.filterKey1 != undefined) {
-	          this.getAllMatches('',this.filterKey1,this.filterValue1)
-	        } else {
-	          this.getAllMatches()
-	        }
-      	}
+		let matchScoreFilter = this.matchScoreFilter;
+
+		if(this.filterKey1 != undefined) {
+          this.getAllMatches(matchDate, matchScoreFilter, this.filterKey1, this.filterValue1);
+        } else {
+          this.getAllMatches(matchDate, matchScoreFilter);
+        }
 	},
 
 	onChangeAllMatchScore(){
+		let matchDate = this.matchDate;
 		let matchScoreFilter = this.matchScoreFilter;
 	
-		if(matchScoreFilter != 'all') {
-	        if(this.filterKey1 != undefined) {
-	          this.getAllMatches('',this.filterKey1,this.filterValue1,matchScoreFilter)
-	        } else {
-	          this.getAllMatches('')
-	        }
-	    }  else {
-	        if(this.filterKey1 != undefined) {
-	          this.getAllMatches('',this.filterKey1,this.filterValue1)
-	        } else {
-	          this.getAllMatches('')
-	        }
-      	}  
-	   
-      	
+		if(this.filterKey1 != undefined) {
+          this.getAllMatches(matchDate, matchScoreFilter, this.filterKey1, this.filterValue1);
+        } else {
+          this.getAllMatches(matchDate, matchScoreFilter);
+        }
 	},
 
 	getDateRange(startDate, stopDate, dateFormat)
@@ -235,7 +219,7 @@ export default {
 				this.getDrawDetails(id, Name,CompetationType)
 			}
 		    if(comp == 'matchList') {
-		        this.getAllMatches(this.currentDate)
+		        this.getAllMatches(this.currentDate, this.matchScoreFilter)
 		    }
 		},
 		getDrawDetails(drawId, drawName,CompetationType='') {
@@ -307,29 +291,25 @@ export default {
 				}
 			)
 		},
-		getAllMatches(date='',filterKey='',filterValue='',matchScoreFilter='') {
+		getAllMatches(date='all',matchScoreFilter='',filterKey='',filterValue='') {
 			$("body .js-loader").removeClass('d-none');
 			let TournamentId = this.$store.state.Tournament.tournamentId
-			let tournamentData = ''
+			let tournamentData = {};
 
-		    if(date != '') {
-		          tournamentData ={'tournamentId':TournamentId,'tournamentDate':date }
-		    } else {
-		          tournamentData ={'tournamentId':TournamentId }
+			tournamentData = {'tournamentId':TournamentId };
+
+		    if(date != 'all') {
+		        tournamentData.tournamentDate = date;
 		    }
 
 		    if(matchScoreFilter != '') {
-		          tournamentData ={'tournamentId':TournamentId,'matchScoreFilter':matchScoreFilter }
-		    } else {
-		          tournamentData ={'tournamentId':TournamentId }
+		        tournamentData.matchScoreFilter = matchScoreFilter
 		    }
 
 			if(filterKey != '' && filterValue != '') {
-          		tournamentData ={'tournamentId':TournamentId ,'tournamentDate':date ,'filterKey':filterKey,'filterValue':filterValue.id,'matchScoreFilter':matchScoreFilter,'fiterEnable':true}
+          		tournamentData = {'tournamentId':TournamentId ,'tournamentDate': date ,'filterKey':filterKey,'filterValue':filterValue.id,'matchScoreFilter':matchScoreFilter,'fiterEnable':true}
 	        }
-		//	let TournamentId = this.$store.state.Tournament.tournamentId
-			//let tournamentData = {'tournamentId': TournamentId,
-		//	'tournamentDate':date,'is_scheduled':1,'filterKey':filterKey,'filterValue':filterValue}
+			
 			let vm =this
 			Tournament.getFixtures(tournamentData).then(
 				(response)=> {
