@@ -367,6 +367,20 @@ class MatchRepository
         {
           $reportQuery =  $reportQuery->whereDate('temp_fixtures.match_datetime','=',$tournamentData['fixture_date']);
         }
+        
+        if(isset($tournamentData['matchScoreFilter']) && $tournamentData['matchScoreFilter'] == 'scored') {
+            $reportQuery = $reportQuery->where(function($query) {
+                                $query->where('temp_fixtures.hometeam_score', '!=', NULL)
+                                ->orWhere('temp_fixtures.awayteam_score', '!=', NULL);
+                            });
+        }
+          
+        if(isset($tournamentData['matchScoreFilter']) && $tournamentData['matchScoreFilter'] == 'notscored') { 
+          $reportQuery = $reportQuery->where(function($query) {
+                                $query->where('temp_fixtures.hometeam_score', NULL)
+                                ->orWhere('temp_fixtures.awayteam_score', NULL);
+                            });
+        }
 
         // Todo Added Condition For Filtering Purpose on Pitch Planner
         if(isset($tournamentData['fiterEnable'])){

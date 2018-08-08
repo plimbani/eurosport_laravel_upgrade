@@ -1,7 +1,7 @@
 <template>
 <div class="row">
   <div class="col-md-12">
-  <button type="button" name="save" class="btn btn-primary pull-right mb-3" @click="saveMatchScore()" v-if="getCurrentScheduleView == 'matchList' && isUserDataExist">Save</button>  
+  <button type="button" name="save" class="btn btn-primary pull-right mb-3" @click="saveMatchScore()" v-if="getCurrentScheduleView == 'matchList' && isUserDataExist && matchData.length > 0">Save</button>  
   <table id="matchSchedule" class="table table-hover table-bordered table-sm" v-if="matchData.length > 0">
     <thead>
       <th class="text-center">{{$lang.summary_schedule_date_time}}</th>
@@ -82,9 +82,9 @@
     </tbody>
   </table>
   
-    <paginate v-if="getCurrentScheduleView != 'teamDetails' && getCurrentScheduleView != 'drawDetails'" name="matchlist" :list="matchData" ref="paginator" :per="no_of_records"  class="paginate-list">
+    <paginate v-if="getCurrentScheduleView != 'teamDetails' && getCurrentScheduleView != 'drawDetails' && matchData.length > 0" name="matchlist" :list="matchData" ref="paginator" :per="no_of_records"  class="paginate-list">
     </paginate>
-    <div v-if="getCurrentScheduleView != 'teamDetails' && getCurrentScheduleView != 'drawDetails'" class="row d-flex flex-row align-items-center mb-3">
+    <div v-if="getCurrentScheduleView != 'teamDetails' && getCurrentScheduleView != 'drawDetails' && matchData.length > 0" class="row d-flex flex-row align-items-center mb-3">
       <div class="col page-dropdown">
         <select class="form-control ls-select2"  name="no_of_records" v-model="no_of_records">
           <option v-for="recordCount in recordCounts" v-bind:value="recordCount">
@@ -103,7 +103,7 @@
         </paginate-links>
       </div>
     </div>
-    <div class="row d-flex align-items-center" v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails'">
+    <div class="row d-flex align-items-center" v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails' && matchData.length > 0">
       <div class="col-12">
         <button type="button" name="save" class="btn btn-primary pull-right" @click="saveMatchScore()">Save</button>  
       </div>
