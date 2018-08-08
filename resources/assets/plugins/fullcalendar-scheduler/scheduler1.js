@@ -3704,7 +3704,19 @@ TimelineGrid = (function(superClass) {
     classes = this.getSegClasses(seg, isDraggable, isResizableFromStart || isResizableFromEnd);
     classes.unshift('fc-timeline-event', 'fc-h-event');
     timeText = this.getEventTimeText(event);
-    return '<a class="' + classes.join(' ') + '" style="' + cssToStr(this.getSegSkinCss(seg)) + '"' + (event.url ? ' href="' + htmlEscape(event.url) + '"' : '') + '>' +
+
+    var tootipHtml;
+
+    if(event.matchId != -1) {
+      tootipHtml = "<div style='color: " + event.textColor + "'>";
+      tootipHtml += "<span>" + moment.utc(event.start).format("HH:mm") + " - " + moment.utc(event.end).format("HH:mm") + "</span><br/>";
+      tootipHtml += "<span>" + event.homeTeamPlaceHolder + " - " + event.awayTeamPlaceHolder + "</span>";
+      tootipHtml += "</div>";
+    }
+
+    tootipHtml = htmlentities.encode(tootipHtml);
+    
+    return '<a data-animation="false" data-html="true" data-category-color="' + event.color +  '" data-fixture-strip-color="' + event.fixtureStripColor +  '" data-placement="top" data-toggle="tooltip" title="' + tootipHtml + '" class="' + classes.join(' ') + '" style="' + cssToStr(this.getSegSkinCss(seg)) + '"' + (event.url ? ' href="' + htmlEscape(event.url) + '"' : '') + '>' +
     '<div class="fc-content">'
     +'<span class="fc-referee referee_'+event.refereeId+'" id="'+ event.refereeId+'">'+ event.refereeText+'</span>' +
      (timeText ? '<span class="fc-time">' + htmlEscape(timeText) + '</span>' : '') + '<span class="fc-title">' + (event.title ? htmlEscape(event.title) : '&nbsp;') + '</span>' + '</div>' + '<div class="fc-bg" />' + (isResizableFromStart ? '<div class="fc-resizer fc-start-resizer"></div>' : '') + (isResizableFromEnd ? '<div class="fc-resizer fc-end-resizer"></div>' : '') + '</a>';

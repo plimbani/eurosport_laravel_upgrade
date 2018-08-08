@@ -992,3 +992,18 @@ gmap-map {
 .ppitem .fc-header-toolbar{
   display: none;
 }
+
+.tooltip {
+    &.show {
+        opacity: 1;
+    }
+    .tooltip-inner {
+        text-align: left;
+    }
+    .tooltip-inner,
+    .tooltip-inner:before {
+        -webkit-box-shadow: 10px 10px 40px 1px rgba(0,0,0,0.31);
+        -moz-box-shadow: 10px 10px 40px 1px rgba(0,0,0,0.31);
+        box-shadow: 10px 10px 40px 1px rgba(0,0,0,0.31);
+    }
+}
