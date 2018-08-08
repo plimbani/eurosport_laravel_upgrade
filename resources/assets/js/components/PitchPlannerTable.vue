@@ -48,7 +48,7 @@
                                 <games-tab></games-tab>
                             </div>
                             <div :class="[currentView == 'refereeTab' ? 'active' : '', 'tab-pane']" v-if="refereeStatus"  id="referee-list" role="tabpanel">
-                                <referees-tab></referees-tab>
+                                <referees-tab :competationList="competationList"></referees-tab>
                             </div>
                         </div>
                     </div>
