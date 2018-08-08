@@ -14,9 +14,9 @@ require('../../../bootstrap-front.js');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('match-listing', require('./pages/ScheduleResults.vue'));
+Vue.component('schedule-results', require('./pages/ScheduleResults.vue'));
 
 const app = new Vue({
-    el: '#matches_list',
+    el: '#schedule_results',
     store,
 });

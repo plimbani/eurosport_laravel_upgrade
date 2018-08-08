@@ -1,7 +1,13 @@
 <template>
   <div>
-    <button @click="showMatchListView()" class="btn btn-primary">
+    <button v-if="fromView == 'Matches'" @click="showMatchListView()" class="btn btn-primary">
         <i aria-hidden="true" class="fa fa-angle-double-left"></i> {{ $t('matches.back_to_match_list') }}
+    </button>
+    <button v-if="fromView == 'Categories'" @click="showCompetitionListView()" class="btn btn-primary">
+        <i aria-hidden="true" class="fa fa-angle-double-left"></i> Back to competition list
+    </button>
+    <button v-if="fromView == 'Teams'" @click="showTeamListView()" class="btn btn-primary">
+        <i aria-hidden="true" class="fa fa-angle-double-left"></i> Back to team list
     </button>
     <div>
         <div class="row align-items-center my-4">
@@ -60,7 +66,7 @@
     </div>
 
     <h6 class="mt-3 font-weight-bold">{{ competitionDetail.name }} matches</h6>
-    <matches :matches="matches" :competitionDetail="currentCompetition" :currentView="currentView"></matches>
+    <matches :matches="matches" :competitionDetail="currentCompetition" :currentView="currentView" :fromView="'Competition'"></matches>
   </div>
 </template>
 
@@ -70,7 +76,7 @@
   import MatchList from '../../../../../../api/frontend/matchlist.js';
 
   export default {
-    props: ['matches', 'competitionDetail', 'currentView'],
+    props: ['matches', 'competitionDetail', 'currentView', 'fromView', 'categoryId'],
     data() {
       return {
         currentCompetition: {},
@@ -170,7 +176,13 @@
         var competitionId = this.currentCompetition.id;
         var competitionName = this.currentCompetition.name;
         var competitionType = this.currentCompetition.actual_competition_type;
-        this.$root.$emit('showCompetitionData', competitionId, competitionName, competitionType);
+        if(this.fromView == 'Matches') {
+          this.$root.$emit('showCompetitionData', competitionId, competitionName, competitionType);
+        } else if(this.fromView == 'Categories') {
+          this.$root.$emit('showCompetitionViewFromCategory', competitionId, competitionName, competitionType);
+        } else if(this.fromView == 'Teams') {
+          this.$root.$emit('showCompetitionViewFromTeam', competitionId, competitionName, competitionType);
+        }
         this.currentCompetitionId = competitionId;
 
         this.generateDrawTable();
@@ -179,6 +191,12 @@
       showMatchListView() {
         this.$root.$off('setStandingData');
         this.$root.$emit('showMatchesList');
+      },
+      showCompetitionListView() {
+        this.$root.$emit('showCategoryGroups', this.categoryId);
+      },
+      showTeamListView() {
+        this.$root.$emit('showTeamsList');
       },
     }
   };
