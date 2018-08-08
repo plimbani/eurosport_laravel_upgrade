@@ -28,7 +28,7 @@
           <!-- <a class="text-center text-primary" href="" @click.prevent="changeTeam(match.Home_id, match.HomeTeam)"> -->
             <!-- <span class="text-center">{{match.HomeTeam}}</span> -->
             <span class="text-center" v-if="(match.Home_id == '0' )">{{ getHoldingName(match.competition_actual_name, match.displayHomeTeamPlaceholderName) }}</span>
-            <span class="text-center" v-else>{{ match.HomeTeam }}</span>
+            <span class="text-center" v-else><a class="text-primary" href="javascript:void(0)" @click.prevent="changeTeam(match.Home_id, match.HomeTeam)">{{ match.HomeTeam }}</a></span>
             <!--<img :src="match.HomeFlagLogo" width="20">-->
                    <span :class="'flag-icon flag-icon-'+match.HomeCountryFlag" class="line-height-initial"></span>
           <!-- </a> -->
@@ -39,7 +39,7 @@
                 <span :class="'flag-icon flag-icon-'+match.AwayCountryFlag" class="line-height-initial"></span>
           <!-- <span class="text-center">{{ match.AwayTeam}}</span> -->
           <span class="text-center" v-if="(match.Away_id == '0' )">{{ getHoldingName(match.competition_actual_name, match.displayAwayTeamPlaceholderName) }}</span>
-          <span class="text-center" v-else>{{ match.AwayTeam }}</span>
+          <span class="text-center" v-else><a class="text-primary" href="javascript:void(0)" @click.prevent="changeTeam(match.Away_id, match.AwayTeam)">{{ match.AwayTeam }}</a></span>
           <!-- </a>  -->
         </td>
         <td class="text-center js-match-list">
