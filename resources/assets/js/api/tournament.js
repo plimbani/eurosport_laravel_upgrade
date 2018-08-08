@@ -227,9 +227,11 @@ export default {
   },
   getTeamsFairPlayData(teamData) {
     return api.get('getTeamsFairPlayData?' +teamData);
-    // return api.get('tournament/report/generate?'+ data)
   },
   getSignedUrlForTeamsFairPlayReportExport(reportData) {
     return api.post('getSignedUrlForTeamsFairPlayReportExport?' + reportData);
-  },  
+  },
+  getSignedUrlForFairPlayReportPrint(reportData) {
+    return api.post('getSignedUrlForFairPlayReportPrint?' + reportData);
+  },
 }

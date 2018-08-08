@@ -2,14 +2,18 @@
 
 namespace Laraspace\Api\Services;
 
+use DB;
+use PDF;
+use Carbon\Carbon;
+use Laraspace\Models\Club;
+use Laraspace\Models\Team;
+use Laraspace\Models\Tournament;
+use Laraspace\Models\TempFixture;
+use Laraspace\Models\Competition;
+use Laraspace\Traits\TournamentAccess;
 use Laraspace\Api\Contracts\TeamContract;
 use Laraspace\Api\Repositories\TeamRepository;
 use Laraspace\Models\TournamentCompetationTemplates;
-use Laraspace\Models\Club;
-use Laraspace\Models\TempFixture;
-use Laraspace\Models\Competition;
-use DB;
-use Laraspace\Traits\TournamentAccess;
 
 
 
@@ -21,6 +25,7 @@ class TeamService implements TeamContract
     {
         $this->teamRepoObj = $teamRepoObj;
         $this->matchRepoObj = new \Laraspace\Api\Repositories\MatchRepository();
+        $this->tournamentLogo =  getenv('S3_URL').'/assets/img/tournament_logo/';
     }
 
     /*
@@ -368,8 +373,6 @@ class TeamService implements TeamContract
 
     public function getTeamsFairPlayData($teamData)
     {
-      // echo "<pre>";print_r($teamData);echo "</pre>";exit;
-      // $data = $teamData['teamData'];
       $data = $this->teamRepoObj->getTeamsFairPlayData($teamData);
 
       if ($data) {
@@ -377,5 +380,112 @@ class TeamService implements TeamContract
       }
 
       return ['status_code' => '505', 'message' => 'Error in Data'];
+    }
+
+    public function exportTeamFairPlayReport($data)
+    {      
+      $reportData = $this->queryForTeamsFairPlayReport($data);
+      $dataArray = array();
+
+      if(isset($data['report_download']) &&  $data['report_download'] == 'yes') {
+        foreach ($reportData as $report) {
+          $finalData = [
+            $report->team_id,
+            $report->name,
+            $report->club_name,
+            $report->country_name,
+            $report->age_name,
+            $report->total_red_cards == null ? 0 : $report->total_red_cards,
+            $report->total_yellow_cards == null ? 0 : $report->total_yellow_cards
+          ];
+          array_push($dataArray, $finalData);
+        }
+
+        $otherParams = [
+          'sheetTitle' => "fair_play_report",
+          'sheetName' => "fair_play_report",
+          'boldLastRow' => false
+        ];
+
+        $lableArray = [
+          'TeamID', 'Team', 'Club', 'Country', 'Age category', 'Red cards', 'Yellow cards'
+        ];
+
+        \Laraspace\Custom\Helper\Common::toExcel($lableArray,$dataArray,$otherParams,'xlsx','yes');
+      }
+
+      if ($reportData) {
+        return ['status_code' => '200', 'message' => '','data'=>$reportData];
+      }
+    }
+
+    public function printTeamFairPlayReport($data)
+    {
+      $tournamentData = Tournament::where('id', '=', $data['tournament_id'])->select(DB::raw('CONCAT("'.$this->tournamentLogo.'", logo) AS tournamentLogo'))->first();
+      $reportData = $this->queryForTeamsFairPlayReport($data);
+      $date = new \DateTime(date('H:i d M Y'));
+
+      $pdf = PDF::loadView('summary.fair_play_report',['data' => $reportData->all(), 'tournamentData' => $tournamentData])
+            ->setPaper('a4')
+            ->setOption('header-spacing', '5')
+            ->setOption('header-font-size', 7)
+            ->setOption('header-font-name', 'Open Sans')
+            ->setOrientation('portrait')
+            ->setOption('footer-html', route('pdf.footer'))
+            ->setOption('header-right', $date->format('H:i d M Y'))
+            ->setOption('margin-top', 20)
+            ->setOption('margin-bottom', 20);
+      
+      return $pdf->inline('fair_play_report.pdf');
+    }
+
+    public function queryForTeamsFairPlayReport($data)
+    {
+      $reportQuery = Team::join('countries', function ($join) {
+        $join->on('teams.country_id', '=', 'countries.id');
+      })
+      ->join('tournament_competation_template', 'tournament_competation_template.id', '=', 'teams.age_group_id')
+      ->join('clubs', 'clubs.id', '=', 'teams.club_id')
+      ->join('temp_fixtures', function($join) {
+          $join->on('teams.id', '=', 'temp_fixtures.home_team')->orOn('teams.id', '=', 'temp_fixtures.away_team');
+        })
+      ->groupBy('teams.id')      
+      ->where('teams.tournament_id',$data['tournament_id'])
+      ->select('teams.*','teams.id as team_id', 'countries.name as country_name',
+          'tournament_competation_template.group_name as age_name','tournament_competation_template.category_age as category_age','clubs.name as club_name', DB::raw('SUM(temp_fixtures.home_yellow_cards) + SUM(temp_fixtures.away_yellow_cards) AS total_yellow_cards'), DB::raw('SUM(temp_fixtures.home_red_cards) + SUM(temp_fixtures.away_red_cards) AS total_red_cards'));
+
+      if(isset($data['sel_ageCategory']) && $data['sel_ageCategory'] != null && $data['sel_ageCategory'] != ''){
+        $reportQuery = $reportQuery->where('teams.age_group_id',$data['sel_ageCategory']);
+      }
+
+      if(isset($data['sort_by']) && $data['sort_by'] != '') {
+        switch($data['sort_by']) {
+          case 'team_id':
+                $fieldName = 'teams.id';
+                break;
+          case 'name':
+                $fieldName = 'teams.name';
+                break;
+          case 'club_name':
+                $fieldName = 'clubs.name';
+                break;
+          case 'country_name':
+                $fieldName = 'countries.name';
+                break;
+          case 'age_name':
+                $fieldName = 'tournament_competation_template.group_name';
+                break;
+          case 'total_red_cards':
+                $fieldName = 'total_red_cards';
+                break;
+          case 'total_yellow_cards':
+                $fieldName = 'total_yellow_cards';
+                break;
+        }
+        $reportQuery = $reportQuery->orderBy($fieldName, $data['sort_order']);
+      }      
+
+      $reportData = $reportQuery->get();
+      return $reportData;
     }
 }

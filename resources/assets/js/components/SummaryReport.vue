@@ -1,7 +1,5 @@
 <template>
 	<div class="tab-content summary-report-content">
-
-
 		<div class="tabs tabs-primary">
 			<ul class="nav nav-tabs" role="tablist">
 	            <li class="nav-item">
@@ -258,7 +256,7 @@
 						<div class="col-md-6">
 							<div class="d-flex align-items-center justify-content-end">
 								<button class="btn btn-primary mr-1" @click='exportTeamsFairPlayReport()'>{{$lang.summary_button_download}}</button>
-								<button class="btn btn-primary"  @click="exportFairPlayPrint()">{{$lang.summary_button_print}}</button>
+								<button class="btn btn-primary"  @click="generateTeamsFairPlayPrint()">{{$lang.summary_button_print}}</button>
 							</div>
 						</div>
 					</div>
@@ -297,17 +295,17 @@
 					<div class="row mt-4" id="summary_fair_play_report_table">
 						<div class="col-md-12">
 							<div class="table-responsive">
-							 	<table class="table table-hover table-bordered report-table" v-bind:class="{ 'display_table' : teams.length == 0, 'display_block' : teams.length > 0 }" id="report_print" border="1" cellpadding="0" cellspacing="0" width="100%">
+							 	<table class="table table-hover table-bordered report-table" v-bind:class="{ 'display_table' : teams.length == 0, 'display_block' : teams.length > 0 }" id="fair_play_report_print" border="1" cellpadding="0" cellspacing="0" width="100%">
 									<thead>
-					          <tr>
-											<th class="text-center" @click="sortReport('match_datetime')">{{$lang.summary_fair_play_reports_team_id}}&nbsp;<i class="fa fa-sort"></i></th>
-	                    <th class="text-center" @click="sortReport('group_name')">{{$lang.summary_fair_play_reports_team}}&nbsp;<i class="fa fa-sort"></i></th>
-	                    <th class="text-center" @click="sortReport('venue_name')">{{$lang.summary_fair_play_reports_club}}&nbsp;<i class="fa fa-sort"></i></th>
-	                    <th class="text-center" @click="sortReport('pitch_number')">{{$lang.summary_fair_play_reports_country}}&nbsp;<i class="fa fa-sort"></i></th>
-	                    <th class="text-center" @click="sortReport('referee')">{{$lang.summary_fair_play_reports_age_category}}&nbsp;<i class="fa fa-sort"></i></th>
-	                    <th class="text-center" @click="sortReport('displayMatchNumber')">{{$lang.summary_fair_play_reports_red_cards}}&nbsp;<i class="fa fa-sort"></i></th>
-	                      <th class="text-center" @click="sortReport('HomeTeam')">{{$lang.summary_fair_play_reports_yellow_cards}}&nbsp;<i class="fa fa-sort"></i></th>
-	              	</tr>
+						      	<tr>
+											<th class="text-center" @click="sortFairPlayReport('team_id')">{{$lang.summary_fair_play_reports_team_id}}&nbsp;<i class="fa fa-sort"></i></th>
+	                    <th class="text-center" @click="sortFairPlayReport('name')">{{$lang.summary_fair_play_reports_team}}&nbsp;<i class="fa fa-sort"></i></th>
+	                    <th class="text-center" @click="sortFairPlayReport('club_name')">{{$lang.summary_fair_play_reports_club}}&nbsp;<i class="fa fa-sort"></i></th>
+	                    <th class="text-center" @click="sortFairPlayReport('country_name')">{{$lang.summary_fair_play_reports_country}}&nbsp;<i class="fa fa-sort"></i></th>
+	                    <th class="text-center" @click="sortFairPlayReport('age_name')">{{$lang.summary_fair_play_reports_age_category}}&nbsp;<i class="fa fa-sort"></i></th>
+	                    <th class="text-center" @click="sortFairPlayReport('total_red_cards')">{{$lang.summary_fair_play_reports_red_cards}}&nbsp;<i class="fa fa-sort"></i></th>
+	                    <th class="text-center" @click="sortFairPlayReport('total_yellow_cards')">{{$lang.summary_fair_play_reports_yellow_cards}}&nbsp;<i class="fa fa-sort"></i></th>
+		              	</tr>
 				          </thead>
 	                <tbody>
 	                	<tr v-for="team in teamsFairPlayData">
@@ -316,8 +314,8 @@
 	                		<td>{{ team.club_name }}</td>
 	                		<td>{{ team.country_name }}</td>
 	                		<td>{{ team.age_name }}</td>
-	                		<td></td>
-	                		<td></td>
+	                		<td>{{ team.total_red_cards == null ? 0 : team.total_red_cards }}</td>
+	                		<td>{{ team.total_yellow_cards == null ? 0 : team.total_yellow_cards }}</td>
 	                	</tr>
 	                </tbody>
 	              </table>
@@ -357,6 +355,7 @@ export default {
         isValidate:false,
         age_category_id: '',
         sortKey: 'match_datetime',
+        fairPlayReportSortKey: 'team_id',
         sortBy: 'asc',
         reverse: false,
        	}
@@ -787,12 +786,12 @@ export default {
     },
     generateFairPlayReport() {
 			if (!isNaN(this.TournamentId)) {
-		    let teamsFairPlayReportData = 'tournament_id='+this.TournamentId+'&'+$('#frmFairPlayReport').serialize()+'&sort_by='+this.sortKey+'&sort_order='+this.sortBy;
+		    let teamsFairPlayReportData = 'tournament_id='+this.TournamentId+'&'+$('#frmFairPlayReport').serialize()+'&sort_by='+this.fairPlayReportSortKey+'&sort_order='+this.sortBy;
 
 		   	this.teamsFairPlayReportQuery = teamsFairPlayReportData;
 				Tournament.getTeamsFairPlayData(teamsFairPlayReportData).then(
 	        (response) => {
-      			this.teamsFairPlayData = response.data.data
+      			this.teamsFairPlayData = response.data.data.teamData;
 	    		},
 	      	(error) => {
 	      	}
@@ -805,13 +804,37 @@ export default {
     	$('#frmFairPlayReport')[0].reset()
       this.teamsFairPlayData = {};
     },
+    sortFairPlayReport(filter) {
+      if(this.teamsFairPlayData && this.teamsFairPlayData.length > 0) {
+	      let teamsFairPlayReportData = this.teamsFairPlayReportQuery
+	      if (!isNaN(this.TournamentId)) {
+          this.reverse = (this.fairPlayReportSortKey == filter) ? ! this.reverse : false;
+          this.fairPlayReportSortKey = filter
+          if(this.reverse == false) {
+           	this.sortBy = 'asc'
+          } else {
+            this.sortBy = 'desc'
+        	}
+          let teamsFairPlayReportData = 'tournament_id='+this.TournamentId+'&'+$('#frmFairPlayReport').serialize()+'&sort_by='+filter+'&sort_order='+this.sortBy;
+
+          this.teamsFairPlayReportQuery = teamsFairPlayReportData;
+					Tournament.getTeamsFairPlayData(teamsFairPlayReportData).then(
+		        (response) => {
+	      			this.teamsFairPlayData = response.data.data.teamData;
+		    		},
+		      	(error) => {
+		      	}
+		      )
+        }
+      }
+    },    
     exportTeamsFairPlayReport() {
     		let reportData = this.teamsFairPlayReportQuery;
     		if(reportData!=''){
 					reportData += '&report_download=yes';
 					Tournament.getSignedUrlForTeamsFairPlayReportExport(reportData).then(
 	          (response) => {
-    					window.location.href = response.data;	        
+    					window.location.href = response.data;
 	           },
 	          (error) => {
 	          }
@@ -819,7 +842,22 @@ export default {
     		}else{
     			toastr['error']('Records not available', 'Error');
     		}
-		},    
+		},
+		generateTeamsFairPlayPrint() {
+			let reportData = this.teamsFairPlayReportQuery
+			if(reportData!=''){
+				var reportPrintWindow = window.open('', '_blank');
+				Tournament.getSignedUrlForFairPlayReportPrint(reportData).then(
+					(response) => {
+						reportPrintWindow.location = response.data;
+					},
+					(error) => {
+					}
+				)
+			}else{
+				toastr['error']('Records not available', 'Error');
+			}
+		},
   }
 }
 </script>

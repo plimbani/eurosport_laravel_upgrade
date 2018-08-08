@@ -558,14 +558,47 @@ class TeamRepository
       })
       ->join('tournament_competation_template', 'tournament_competation_template.id', '=', 'teams.age_group_id')
       ->join('clubs', 'clubs.id', '=', 'teams.club_id')
+      ->join('temp_fixtures', function($join) {
+          $join->on('teams.id', '=', 'temp_fixtures.home_team')->orOn('teams.id', '=', 'temp_fixtures.away_team');
+        })
+      ->groupBy('teams.id')
       ->where('teams.tournament_id',$data['tournament_id']);
 
-      if(isset($data['sel_ageCategory']) && $data['sel_ageCategory'] != null && $data['sel_ageCategory'] != '')
-      {
+      if(isset($data['sel_ageCategory']) && $data['sel_ageCategory'] != null && $data['sel_ageCategory'] != ''){
         $teamData = $teamData->where('teams.age_group_id',$data['sel_ageCategory']);
       }
 
-      return $teamData->select('teams.*','teams.id as team_id', 'countries.name as country_name',
-          'tournament_competation_template.group_name as age_name','tournament_competation_template.category_age as category_age','clubs.name as club_name')->get();
+      if(isset($data['sort_by']) && $data['sort_by'] != '') {
+        switch($data['sort_by']) {
+            case 'team_id':
+                  $fieldName = 'teams.id';
+                  break;
+            case 'name':
+                  $fieldName = 'teams.name';
+                  break;
+            case 'club_name':
+                  $fieldName = 'clubs.name';
+                  break;
+            case 'country_name':
+                  $fieldName = 'countries.name';
+                  break;
+            case 'age_name':
+                  $fieldName = 'tournament_competation_template.group_name';
+                  break;
+            case 'total_red_cards':
+                  $fieldName = 'total_red_cards';
+                  break;
+            case 'total_yellow_cards':
+                  $fieldName = 'total_yellow_cards';
+                  break;
+        }
+        $teamData = $teamData->orderBy($fieldName, $data['sort_order']);
+      }
+
+      $teamData = $teamData->select('teams.*','teams.id as team_id', 'countries.name as country_name',
+                            'tournament_competation_template.group_name as age_name','tournament_competation_template.category_age as category_age','clubs.name as club_name', DB::raw('SUM(home_yellow_cards) + SUM(temp_fixtures.away_yellow_cards) AS total_yellow_cards'), DB::raw('SUM(temp_fixtures.home_red_cards) + SUM(temp_fixtures.away_red_cards) AS total_red_cards'))
+                            ->get();
+
+      return ['teamData' => $teamData];
     }
 }

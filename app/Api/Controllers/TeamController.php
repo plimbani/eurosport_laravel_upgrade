@@ -21,6 +21,7 @@ use Laraspace\Http\Requests\Team\ChangeTeamNameRequest;
 use Laraspace\Http\Requests\Team\CheckTeamExistRequest;
 use Laraspace\Http\Requests\Team\GetAllTournamentTeamsRequest;
 use Laraspace\Http\Requests\Team\GetAllCompetitionTeamsFromFixtureRequest;
+use Laraspace\Http\Requests\Team\GetSignedUrlForTeamsFairPlayReportPrint;
 use Laraspace\Http\Requests\Team\GetSignedUrlForTeamsFairPlayReportExport;
 
 
@@ -214,8 +215,29 @@ class TeamController extends BaseController
         ksort($reportData);
         $reportData  = http_build_query($reportData);
 
-        $signedUrl = UrlSigner::sign(url('api/getTeamsFairPlayData?' . $reportData), Carbon::now()->addMinutes(config('config-variables.signed_url_interval')));
+        $signedUrl = UrlSigner::sign(url('api/teams/getTeamsFairPlayData/report/reportExport?' . $reportData), Carbon::now()->addMinutes(config('config-variables.signed_url_interval')));
 
         return $signedUrl;
+    }
+
+    public function getSignedUrlForFairPlayReportPrint(GetSignedUrlForTeamsFairPlayReportPrint $request)
+    {
+        $reportData = $request->all();
+        ksort($reportData);
+        $reportData  = http_build_query($reportData);
+
+        $signedUrl = UrlSigner::sign(url('api/teams/getTeamsFairPlayData/report/print?' . $reportData), Carbon::now()->addMinutes(config('config-variables.signed_url_interval')));
+
+        return $signedUrl;
+    }
+
+    public function exportTeamFairPlayReport(Request $request)
+    {
+        return $this->teamObj->exportTeamFairPlayReport($request->all());
+    }
+
+    public function printTeamFairPlayReport(Request $request)
+    {
+        return $this->teamObj->printTeamFairPlayReport($request->all());   
     }
 }
