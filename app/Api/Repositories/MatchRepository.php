@@ -1147,11 +1147,11 @@ class MatchRepository
         'away_yellow_cards' => $data['away_yellow_cards'],
         'home_red_cards' => $data['home_red_cards'],
         'away_red_cards' => $data['away_red_cards'],
-        'age_category_color' => ($categoryAgeColor == $data['age_category_color']) ? null : $data['age_category_color'],
-        'group_color' => ($categoryStripColor == $data['group_color']) ? null : $data['group_color'],
+        'age_category_color' => (strtolower($categoryAgeColor) == strtolower($data['age_category_color'])) ? null : $data['age_category_color'],
+        'group_color' => (strtolower($categoryStripColor) == strtolower($data['group_color'])) ? null : $data['group_color'],
       ];
 
-      $data = TempFixture::where('id',$data['matchId'])
+      $data = TempFixture::where('id', $data['matchId'])
                   ->update($updateData);
       // TODO : call function to add result
       return $data;
