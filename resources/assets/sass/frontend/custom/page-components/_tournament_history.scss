@@ -1,0 +1,13 @@
+.tournament_history {
+    .custom_select {
+        width: 100%;
+        select {
+            font-size: $font-size-base * 1.125;
+            padding-left: $input-btn-padding-x-lg * 2;
+            cursor: pointer;
+        }
+    }
+    .tournament-list {
+        margin-top: $h5-line-height;
+    }
+}

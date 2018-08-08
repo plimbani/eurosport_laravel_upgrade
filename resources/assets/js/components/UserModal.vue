@@ -53,7 +53,7 @@
                     <div class="col-sm-6">
                       <select v-validate="'required'":class="{'is-danger': errors.has('user_type') }" class="form-control ls-select2" name="user_type" v-model="formValues.userType" @change="userTypeChanged()">
                         <option value="">Select</option>
-                        <option v-for="role in userRolesOptions" v-bind:value="role.id">
+                        <option v-for="role in userRolesOptions" v-bind:value="role.id" v-if="(!(isMasterAdmin == true && role.slug == 'Super.administrator'))">
                             {{ role.name }}
                         </option>
                       </select>
@@ -118,6 +118,7 @@ import { ErrorBag } from 'vee-validate';
                 emailData:[],
                 existEmail: false,
                 showOrganisation: false,
+                initialUserType: null,
                 errorMessages: {
                   en: {
                     custom: {
@@ -147,6 +148,7 @@ import { ErrorBag } from 'vee-validate';
             }
         },
         created() {
+          this.$root.$on('privilegeChangeConfirmed', this.updateUser);
         },
         mounted(){
             if(this.userId!=''){
@@ -156,7 +158,7 @@ import { ErrorBag } from 'vee-validate';
 
             this.$validator.updateDictionary(this.errorMessages);
         },
-        props:['userId','userRoles','userEmailData','publishedTournaments'],
+        props:['userId','userRoles','userEmailData','publishedTournaments','isMasterAdmin'],
         methods: {
             initialState() {
                 this.$data.formValues.id = '',
@@ -174,6 +176,7 @@ import { ErrorBag } from 'vee-validate';
                   (response)=> {
                     this.userModalTitle="Edit User";
                     this.$data.formValues = response.data;
+                    this.initialUserType = response.data.userType;
                     this.$data.formValues.userEmail2 = this.$data.formValues.emailAddress;
                     this.userTypeChanged();
                   },
@@ -230,7 +233,8 @@ import { ErrorBag } from 'vee-validate';
                 }); */
             },
             validateBeforeSubmit1() {
-                this.$validator.validateAll().then(() => {
+                this.$validator.validateAll().then((response) => {
+                  if(response) {
                     if(this.$data.formValues.id=="") {
                     var a = this.userEmailData.emaildata.indexOf(this.$data.formValues.emailAddress)
 
@@ -281,33 +285,21 @@ import { ErrorBag } from 'vee-validate';
 
                     }
 
+                    let initailUserType = this.initialUserType;
+                    let initialRole = _.head(_.filter(this.userRolesOptions, function(o) { return initailUserType == o.id; }));
+                    
+                    let selectedUserType = this.formValues.userType;
+                    let selectedRole = _.head(_.filter(this.userRolesOptions, function(o) { return selectedUserType == o.id; }));
 
+                    if(initialRole.slug == 'Super.administrator' && selectedRole.slug != 'Super.administrator') {
+                      this.$emit('showChangePrivilegeModal');
+                      return false;
+                    }
 
-                    let that = this
-                    setTimeout(function(){
-                      User.updateUser(that.formValues.id,that.formValues).then(
-                          (response)=> {
-                          toastr.success('User has been updated successfully.', 'Update User', {timeOut: 5000});
-                            $("#user_form_modal").modal("hide");
-                            setTimeout(Plugin.reloadPage, 500);
-                            // that.$data.formValues = that.initialState();
-                            // that.updateUserList();
-                          },
-                          (error)=>{
-                          }
-
-                        )
-
-                        /*axios.post("/api/user/update/"+that.formValues.id, that.formValues).then((response) => {
-                            toastr.success('User has been updated successfully.', 'Update User', {timeOut: 5000});
-                            $("#user_form_modal").modal("hide");
-                             setTimeout(Plugin.reloadPage, 500);
-                            that.$data.formValues = that.initialState();
-                            that.updateUserList();
-                        }); */
-                    },1000)
+                    this.updateUser();
 
                     }
+                  }
                 }).catch((errors) => {
                     // toastr['error']('Please fill all required fields ', 'Error')
                  });
@@ -324,6 +316,21 @@ import { ErrorBag } from 'vee-validate';
               if(roleData && roleData.slug !== 'mobile.user') {
                 this.showOrganisation = true;
               }
+            },
+            updateUser() {
+              let that = this;
+              setTimeout(function(){
+                User.updateUser(that.formValues.id,that.formValues).then(
+                    (response)=> {
+                    toastr.success('User has been updated successfully.', 'Update User', {timeOut: 5000});
+                      $("#user_form_modal").modal("hide");
+                      setTimeout(Plugin.reloadPage, 500);
+                    },
+                    (error)=>{
+                    }
+
+                  )
+              },1000)
             },
         }
     }

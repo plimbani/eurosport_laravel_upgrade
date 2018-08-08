@@ -3,123 +3,233 @@
     <div class="modal-dialog modal-lg" role="document">
       <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">{{$lang.pitch_modal_match_details}}</h5>
+            <h5 class="modal-title" id="exampleModalLabel">{{$lang.pitch_modal_match_card}}</h5>
             <div class="d-flex align-items-center">
 
               <button type="button" class="btn btn-primary mr-4" @click="generateMatchPrint()">{{$lang.pitch_modal_print}}</button>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="closeModal()">
+              <button type="button" class="close" @click="closeModal()">
                 <span aria-hidden="true">×</span>
               </button>
             </div>
           </div>
           <div class="modal-body" id="pitch_model_body">
-            <div class="form-group row mb-0">
-              <label class="col-sm-3">{{$lang.pitch_modal_match_number}}</label><p class="col-sm-9"> {{matchFixture.title}}</p>
-              <label class="col-sm-3"></label><p class="col-sm-9">Team 1 ({{matchDetail.home_team_name}}) and Team 2 ({{matchDetail.away_team_name}}) </p>
-              <label class="col-sm-3">{{$lang.pitch_modal_date}}</label><p class="col-sm-9">{{matchDetail.matchTime}}</p>
-              <label class="col-sm-3">{{$lang.pitch_modal_pitch_details}}</label><p class="col-sm-9"
-              v-if="matchDetail.pitch && matchDetail.pitch.pitch_number">{{matchDetail.pitch.pitch_number}}</p>
-            </div>
-            <p class="mt-0 refree_name">
-            <div v-if="matchDetail.referee">
-              <div class="form-group row">
-                  <label class="col-sm-3 col-sm-3 form-control-label align-self-center">
-                    Referee
-                  </label>
-                  <div class="col-sm-6 align-self-center">
-                      <input class="form-control mr-sm-2" type="text"
-                      v-model="matchDetail.referee.first_name"
-                      readonly>
+            <div class="tabs tabs-primary">
+              <ul class="nav nav-tabs" role="tablist">
+                <li class="nav-item">
+                  <a data-toggle="tab" class="nav-link active" href="#general_tab" role="tab">General</a>
+                </li>
+                <li class="nav-item">
+                  <a data-toggle="tab" class="nav-link" href="#results_tab" role="tab">Results</a>
+                </li>
+                <li class="nav-item">
+                  <a data-toggle="tab" class="nav-link" href="#colors_tab" role="tab">Colors</a>
+                </li>                                    
+              </ul>
 
+              <div class="tab-content">
+                <div id="general_tab" class="tab-pane active">
+                  <div class="form-group row mb-0">
+                    <label class="col-sm-3">{{$lang.pitch_modal_match_number}}</label>
+                    <p class="col-sm-9">{{ matchDetail.display_match_number }}</p>
+
+                    <label class="col-sm-3"></label>
+                    <p class="col-sm-9 mb-0">
+                      <ul class="list-unstyled">
+                          <li class="d-inline">Team 1 ({{ getTeamName(matchDetail.home_team, matchDetail.home_team_name, matchDetail.display_home_team_placeholder_name, matchDetail.competition.actual_name) }})</li>
+                          <li class="d-inline">Team 2 ({{  getTeamName(matchDetail.away_team, matchDetail.away_team_name, matchDetail.display_away_team_placeholder_name, matchDetail.competition.actual_name) }})</li>
+                      </ul>
+                      <!-- Team 1 ({{ getTeamName(matchDetail.home_team, matchDetail.home_team_name, matchDetail.display_home_team_placeholder_name, matchDetail.competition.actual_name) }}) and Team 2 ({{  getTeamName(matchDetail.away_team, matchDetail.away_team_name, matchDetail.display_away_team_placeholder_name, matchDetail.competition.actual_name) }}) --> 
+                    </p>
+
+
+                    <label class="col-sm-3">{{$lang.pitch_modal_date}}</label>
+                    <p class="col-sm-9">{{matchDetail.matchTime}}</p>
+                    <label class="col-sm-3">{{$lang.pitch_modal_pitch_details}}</label><p class="col-sm-9"
+                    v-if="matchDetail.pitch && matchDetail.pitch.pitch_number">{{matchDetail.pitch.pitch_number}}</p>
                   </div>
-                  <div class="col-sm-3 align-self-center">
-                      <a class="btn btn-danger w-100" href="javascript:void(0)" @click="removeReferee()">{{$lang.pitch_modal_remove_button}}</a>
+                  <!-- <p class="mt-0 refree_name"> -->
+                    <div v-if="matchDetail.referee">
+                      <div class="form-group row">
+                        <label class="col-sm-3 col-sm-3 form-control-label align-self-center">
+                          Referee
+                        </label>
+                        <div class="col-sm-6 align-self-center">
+                            <input class="form-control mr-sm-2" type="text"
+                            v-model="matchDetail.referee.first_name"
+                            readonly>
+
+                        </div>
+                        <div class="col-sm-3 align-self-center">
+                            <a class="btn btn-danger w-100" href="javascript:void(0)" @click="removeReferee()">{{$lang.pitch_modal_remove_button}}</a>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group row" v-else>
+                      <label class="col-sm-3 form-control-label">{{$lang.pitch_modal_referee_label}}</label>
+                      <div class="col-sm-9">
+                        <select  v-model="matchDetail.referee_id" class="form-control ls-select2" name="selReferee">
+                          <option value="">{{$lang.pitch_modal_refree_select}}</option>
+                          <option :value="referee.id" v-for="referee in referees">{{referee.last_name}}, {{referee.first_name}} </option>
+                        </select>
+                      </div>
+                    </div>
+                  <!-- </p> -->
+                  <div class="form-group row">
+                    <label class="col-sm-3 form-control-label">Remarks</label>
+                    <div class="col-sm-9">
+                      <textarea class="form-control" name="comments" id="comments">{{matchDetail.comments}}</textarea>
+                    </div>
                   </div>
+                  <div class="form-group row">
+                    <label class="col-sm-3 form-control-label">{{$lang.pitch_modal_team1_comments_label}}</label>
+                    <div class="col-sm-9">
+                      <textarea class="form-control" name="home_comment" id="home_comment" disabled="disabled">{{matchDetail.hometeam_comment}}</textarea>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-sm-3 form-control-label">{{$lang.pitch_modal_team2_comments_label}}</label>
+                    <div class="col-sm-9">
+                      <textarea class="form-control" name="comments" id="comments" disabled="disabled">{{matchDetail.awayteam_comment}}</textarea>
+                    </div>
+                  </div>                  
+                </div>
+
+                <div id="results_tab" class="tab-pane">
+                  <div class="form-group row">
+                    <label class="col-sm-3 col-sm-3 form-control-label align-self-center">
+                      Result
+                    </label>
+                    
+                    <div class="col-sm-3 align-self-center">
+                      <input type="number" min="0" name="home_team_score"
+                      v-model="matchDetail.hometeam_score" id="home_team_score" class="form-control" :readonly="(this.matchDetail.is_result_override == 1) && (this.matchDetail.match_status == 'Walk-over')">
+                    </div>
+                    <div class="col-sm-6 align-self-center">
+                      Team 1 ({{ getTeamName(matchDetail.home_team, matchDetail.home_team_name, matchDetail.
+                      display_home_team_placeholder_name, matchDetail.competition.actual_name) }})
+                    </div>                    
+                    <label class="col-sm-3 col-sm-3 form-control-label align-self-center">
+                      &nbsp;
+                    </label>
+                    <div class="col-sm-3 align-self-center">
+                      <input type="number" min="0" name="away_team_score"
+                      v-model="matchDetail.awayteam_score" id="away_team_score" class="form-control" :readonly="(this.matchDetail.is_result_override == 1) && (this.matchDetail.match_status == 'Walk-over')">
+                    </div>                    
+                    <div class="col-sm-6 align-self-center">
+                      Team 2 ({{ getTeamName(matchDetail.away_team, matchDetail.away_team_name, matchDetail.
+                      display_away_team_placeholder_name, matchDetail.competition.actual_name) }})
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <div class="col-sm-3"><!-- {{$lang.pitch_modal_result_override}} --></div>
+                    <div class="col-sm-9 align-self-center">
+                      <!-- <input type="checkbox" id="is_result_override" name="is_result_override" v-model="matchDetail.is_result_override" :true-value="'1'" :false-value="'0'" :value="matchDetail.is_result_override" @change="checkOverride()"> -->
+                      <div class="checkbox">
+                        <label><input type="checkbox" id="is_result_override" name="is_result_override" v-model="matchDetail.is_result_override" :true-value="'1'" :false-value="'0'" :value="matchDetail.is_result_override" @change="checkOverride()"> {{$lang.pitch_modal_result_override}}</label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group row" v-if="matchDetail.is_result_override == 1">
+                    <label class="col-sm-3 form-control-label">{{$lang.pitch_modal_status_label}}</label>
+                    <div class="col-sm-9">
+                      <select v-model="matchDetail.match_status"
+                       v-validate="'required'" :class="{'is-danger': errors.has('match_status') }"
+                      name="match_status" id="match_status" class="form-control ls-select2" @change="changeScore()">
+                          <option value="">Please select</option>
+                          <option value="Penalties">Penalties</option>
+                          <option value="Walk-over">Walk-over</option>
+                          <option value="Abandoned">Abandoned</option>
+                      </select>
+                      <span class="help is-danger" v-show="errors.has('match_status')">This field is required</span>
+                    </div>
+                  </div>
+                  <div class="form-group row" v-if="matchDetail.is_result_override == 1">
+                    <label class="col-sm-3 form-control-label">{{$lang.pitch_modal_winner_label}}</label>
+                    <div class="col-sm-9">
+                      <select name="match_winner" v-model="matchDetail.match_winner"
+                       v-validate="'required'" :class="{'is-danger': errors.has('match_winner') }"
+                       id="match_winner" class="form-control ls-select2" @change="changeScore()">
+                          <option value="">Please select</option>
+                          <option :value="matchDetail.home_team">Team 1 ({{ getTeamName(matchDetail.home_team, matchDetail.home_team_name, matchDetail.display_home_team_placeholder_name, matchDetail.competition.actual_name) }})
+                          </option>
+                          <option :value="matchDetail.away_team">Team 2 ({{ getTeamName(matchDetail.away_team, matchDetail.away_team_name, matchDetail.display_away_team_placeholder_name, matchDetail.competition.actual_name) }})</option>
+                      </select>
+                      <span class="help is-danger" v-show="errors.has('match_winner')">This field is required</span>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-sm-3 col-sm-3 form-control-label align-self-center">
+                      Yellow cards
+                    </label>
+                    
+                    <div class="col-sm-3 align-self-center">
+                      <input type="number" min="0" name="home_yellow_cards"
+                      v-model="matchDetail.home_yellow_cards" id="home_yellow_cards" class="form-control">
+                    </div>
+                    <div class="col-sm-6 align-self-center">
+                      Team 1 ({{ getTeamName(matchDetail.home_team, matchDetail.home_team_name, matchDetail.
+                      display_home_team_placeholder_name, matchDetail.competition.actual_name) }})
+                    </div>                    
+                    <label class="col-sm-3 col-sm-3 form-control-label align-self-center">
+                      &nbsp;
+                    </label>
+                    <div class="col-sm-3 align-self-center">
+                      <input type="number" min="0" name="away_yellow_cards"
+                      v-model="matchDetail.away_yellow_cards" id="away_yellow_cards" class="form-control">
+                    </div>                    
+                    <div class="col-sm-6 align-self-center">
+                      Team 2 ({{ getTeamName(matchDetail.away_team, matchDetail.away_team_name, matchDetail.
+                      display_away_team_placeholder_name, matchDetail.competition.actual_name) }})
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-sm-3 col-sm-3 form-control-label align-self-center">
+                      Red cards
+                    </label>
+                    
+                    <div class="col-sm-3 align-self-center">
+                      <input type="number" min="0" name="home_red_cards"
+                      v-model="matchDetail.home_red_cards" id="home_red_cards" class="form-control">
+                    </div>
+                    <div class="col-sm-6 align-self-center">
+                      Team 1 ({{ getTeamName(matchDetail.home_team, matchDetail.home_team_name, matchDetail.
+                      display_home_team_placeholder_name, matchDetail.competition.actual_name) }})
+                    </div>                    
+                    <label class="col-sm-3 col-sm-3 form-control-label align-self-center">
+                      &nbsp;
+                    </label>
+                    <div class="col-sm-3 align-self-center">
+                      <input type="number" min="0" name="away_red_cards"
+                      v-model="matchDetail.away_red_cards" id="away_red_cards" class="form-control">
+                    </div>                    
+                    <div class="col-sm-6 align-self-center">
+                      Team 2 ({{ getTeamName(matchDetail.away_team, matchDetail.away_team_name, matchDetail.
+                      display_away_team_placeholder_name, matchDetail.competition.actual_name) }})
+                    </div>
+                  </div>                  
+                </div>
+
+                <div id="colors_tab" class="tab-pane">                  
+                  <div class="form-group row">
+                    <div class="col-sm-3 form-control-label">Age Category ({{ matchDetail.category_age.category_age }})</div>                    
+                    <div class="col-sm-6">
+                      <input type="text" class="js-colorpicker" :name="matchDetail.age_category_color" v-model="matchDetail.age_category_color" @input="matchDetail.age_category_color" id="age_category_color" data-name="age_category_color" :class="{'form-control demo minicolors-input' : true }"/>
+                    </div>
+                  </div>
+
+                  <div class="form-group row">
+                    <div class="col-sm-3 form-control-label">Group ({{ formatGroupName() }})</div>                    
+                    <div class="col-sm-6">
+                      <input type="text" class="js-colorpicker" id="group_color" data-name="group_color" :name="matchDetail.group_color" v-model="matchDetail.group_color" @input="matchDetail.group_color" :class="{'form-control demo minicolors-input' : true }"/>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-            <div class="row" v-else>
-            <label class="col-sm-3 form-control-label">{{$lang.pitch_modal_referee_label}}</label>
-              <div class="col-sm-9">
-                <select  v-model="matchDetail.referee_id" class="form-control ls-select2" name="selReferee">
-                  <option value="">{{$lang.pitch_modal_refree_select}}</option>
-                  <option :value="referee.id" v-for="referee in referees">{{referee.last_name}}, {{referee.first_name}} </option>
-                </select>
-              </div>
-            </div>
-
-            </p>
-
-            <form name="pitchModal">
-              <div class="form-group row">
-                <label class="col-sm-3 col-sm-3 form-control-label align-self-center">
-                  Result
-                </label>
-                <div class="col-sm-6 align-self-center">
-                  Team 1 ({{matchDetail.home_team_name}})
-                </div>
-                <div class="col-sm-3 align-self-center">
-                  <input type="number" min="0" name="home_team_score"
-                  v-model="matchDetail.hometeam_score"
-                  :value="matchDetail.hometeam_score" id="home_team_score" class="form-control">
-                </div>
-                <label class="col-sm-3 col-sm-3 form-control-label align-self-center">
-                  &nbsp;
-                </label>
-                <div class="col-sm-6 align-self-center">
-                  Team 2 ({{matchDetail.away_team_name}})
-                </div>
-                <div class="col-sm-3 align-self-center">
-                  <input type="number" min="0" name="away_team_score"
-                  v-model="matchDetail.awayteam_score"
-                  :value="matchDetail.awayteam_score" id="away_team_score" class="form-control">
-                </div>
-              </div>
-              <div class="form-group row">
-                <div class="col-sm-3">{{$lang.pitch_modal_result_override}}</div>
-                <div class="col-sm-9 align-self-center">
-                  <input type="checkbox" v-model="match_result" value="match_result">
-                </div>
-              </div>
-              <div class="form-group row" v-if="match_result ==  true">
-                <label class="col-sm-3 form-control-label">{{$lang.pitch_modal_status_label}}</label>
-                <div class="col-sm-9">
-                  <select v-model="matchDetail.match_status"
-                   v-validate="'required'" :class="{'is-danger': errors.has('match_status') }"
-                  name="match_status" id="match_status" class="form-control ls-select2">
-                      <option value="">Please select</option>
-                      <option value="Penalties">Penalties</option>
-                      <option value="Walk-over">Walk-over</option>
-                      <option value="Abandoned">Abandoned</option>
-                  </select>
-                  <span class="help is-danger" v-show="errors.has('match_status')">This field is required</span>
-                </div>
-              </div>
-              <div class="form-group row" v-if="match_result ==  true">
-
-                <label class="col-sm-3 form-control-label">{{$lang.pitch_modal_winner_label}}</label>
-                <div class="col-sm-9">
-                  <select name="match_winner" v-model="matchDetail.match_winner"
-                   v-validate="'required'" :class="{'is-danger': errors.has('match_winner') }"
-                   id="match_winner" class="form-control ls-select2">
-                      <option value="">Please select</option>
-                      <option :value="matchDetail.home_team">Team 1 ({{matchDetail.home_team_name}})</option>
-                      <option :value="matchDetail.away_team">Team 2 ({{matchDetail.away_team_name}})</option>
-                  </select>
-                  <span class="help is-danger" v-show="errors.has('match_winner')">This field is required</span>
-                </div>
-              </div>
-              <div class="form-group row">
-                <label class="col-sm-3 form-control-label">{{$lang.pitch_modal_comments_label}}</label>
-                <div class="col-sm-9">
-                  <textarea class="form-control" name="comments" id="comments">{{matchDetail.comments}}</textarea>
-                </div>
-              </div>
-            </form>
           </div>
           <div class="modal-footer justify-content-between">
-
             <div class="">
-              <button type="button" class="btn btn-danger pull-left" @click="matchUnschedule()">{{$lang.pitch_modal_unschedule}}</button>
+              <button type="button" class="btn btn-danger pull-left" @click="matchUnschedule()"><i class="fa fa-undo" aria-hidden="true"></i>{{$lang.pitch_modal_unschedule}}</button>
             </div>
             <div class="">
               <button type="button" class="btn btn-danger" data-dismiss="modal" @click="closeModal()">{{$lang.pitch_modal_cancel}}</button>
@@ -131,35 +241,65 @@
     </div>
   </div>
 </template>
-<script type="text/babel">
+<script>
 import Tournament from '../api/tournament.js'
+import _ from 'lodash';
 
 var moment = require('moment');
-
   export default {
     data() {
        return {
          'tournamentId': this.$store.state.Tournament.tournamentId,
-         'matchDetail':{},
+         'matchDetail':{
+            'competition': {
+              'actual_name': null
+            },
+            'category_age': {
+              'category_age': null
+            },
+         },
          'referees': {},
-         'matchId': this.matchFixture.id ? this.matchFixture.id : this.matchFixture.matchId,
+         // 'matchId': this.matchFixture.id ? this.matchFixture.id : this.matchFixture.matchId,
+         'matchId': null,
          'referee_name' : '',
-         'match_result': false,
          'reportQuery': '',
-         'refereeRemoved': 'no'
+         'refereeRemoved': 'no',
+         'updatedMatchData': null,
        }
     },
+
     props: ['matchFixture','section'],
     mounted() {
-      let tournamentData = {
-        'tournamentId':this.tournamentId,
-        'age_category':this.matchFixture.matchAgeGroupId
+      let vm = this;
+      this.$root.$off('getMatchData');
+      this.$root.$off('updateMatchData');
+
+      this.$root.$on('getMatchData',this.getMatchData);
+      this.$root.$on('updateMatchData',this.updateMatchData);
+      if(this.section == 'pitchPlanner') {
+        this.matchId = this.matchFixture.matchId;
+        let tournamentData = {
+          'tournamentId':this.tournamentId,
+          'age_category':this.matchFixture.matchAgeGroupId
+        }
+         Tournament.getReferees(tournamentData).then(
+          (response) => {
+              this.referees = response.data.referees
+          })
+        this.matchFixtureDetail();
       }
-       Tournament.getReferees(tournamentData).then(
-        (response) => {
-            this.referees = response.data.referees
-        })
-      this.matchFixtureDetail()
+      
+      $('.js-colorpicker').minicolors({
+        animationSpeed: 50,
+        animationEasing: 'swing',
+        format : 'hex',
+        theme: 'bootstrap',
+        position: 'bottom right',
+        change : function() {
+          vm.matchDetail[$(this).data('name')] = $(this).val();
+          return;
+        }
+      });
   },
   methods: {
     initialState() {
@@ -168,10 +308,11 @@ var moment = require('moment');
       }
     },
     matchFixtureDetail(){
+      let vm = this;
       Tournament.getMatchFixtureDetail(this.matchId).then(
-        (response) => {
+          (response) => {
+            this.matchDetail = response.data.data;
 
-            this.matchDetail = response.data.data
             this.matchDetail.id = this.matchId
           if(this.matchDetail.referee == null) {
              this.matchFixture.refereeId = 0
@@ -182,17 +323,22 @@ var moment = require('moment');
             this.referee_name = this.matchDetail.referee.first_name
             this.matchFixture.refereeId = this.matchDetail.referee_id
            }
-           
+
            let colorVal = this.matchDetail.category_age.category_age_color;
+           let textColorVal = this.matchDetail.category_age.category_age_font_color;
            let borderColorVal = this.matchDetail.category_age.category_age_color;
            let fixtureStripColor = this.matchDetail.competition.color_code != null ? this.matchDetail.competition.color_code : '#FFFFFF';
 
             this.matchFixture.color = colorVal;
+            this.matchFixture.textColor = textColorVal;
             this.matchFixture.borderColor = borderColorVal;
             this.matchFixture.fixtureStripColor = fixtureStripColor;
-            
+
+            this.matchDetail.age_category_color = (this.matchDetail.age_category_color == null) ? colorVal : this.matchDetail.age_category_color;
+            this.matchDetail.group_color = (this.matchDetail.group_color == null) ? fixtureStripColor : this.matchDetail.group_color;
+
           // this.matchDetail.matchTime = moment(response.data.data.match_datetime,' hh:mm"ss DD-MMM-YYYY ').format(' kk:mm DD MMM  YYYY ')
-      
+
           $('div.fc-unthemed').fullCalendar('updateEvent', this.matchFixture);
           let date = moment(response.data.data.match_datetime,'YYYY-MM-DD hh:mm:ss')
           this.matchDetail.matchTime = date.format('HH:mm ddd DD MMM YYYY')
@@ -202,8 +348,28 @@ var moment = require('moment');
           this.matchDetail.match_status = (this.matchDetail.match_status == null || this.matchDetail.match_status == '') ? '' : this.matchDetail.match_status
 
           this.matchDetail.hometeam_score = (this.matchDetail.hometeam_score == null) ? '' : this.matchDetail.hometeam_score
+
           this.matchDetail.awayteam_score = (this.matchDetail.awayteam_score == null) ? '' : this.matchDetail.awayteam_score
+
           this.matchDetail.referee_id = (this.matchDetail.referee_id == null || this.matchDetail.referee_id == 0 ) ? '' :this.matchDetail.referee_id
+
+          this.matchDetail.home_yellow_cards = this.matchDetail.home_yellow_cards ? this.matchDetail.home_yellow_cards : null;
+          this.matchDetail.away_yellow_cards = this.matchDetail.away_yellow_cards ? this.matchDetail.away_yellow_cards : null;
+          this.matchDetail.home_red_cards = this.matchDetail.home_red_cards ? this.matchDetail.home_red_cards : null;
+          this.matchDetail.away_red_cards = this.matchDetail.away_red_cards ? this.matchDetail.away_red_cards : null;
+
+          if(this.updatedMatchData !== null) {
+            this.matchDetail.hometeam_score = this.updatedMatchData.homeScore;
+            this.matchDetail.awayteam_score = this.updatedMatchData.awayScore;
+
+            if (this.matchDetail.round == 'Elimination' && this.matchDetail.hometeam_score != '' && this.matchDetail.awayteam_score != '' && this.matchDetail.hometeam_score != null && this.matchDetail.awayteam_score != null && this.matchDetail.hometeam_score == this.matchDetail.awayteam_score && this.matchDetail.is_result_override == 0) {
+              this.matchDetail.is_result_override = 1;
+              let vm = this;
+              Vue.nextTick(function () {
+                vm.$validator.validateAll().then(() => {}).catch(() => {});
+              });
+            }
+          }
       })
     },
     removeReferee(){
@@ -225,65 +391,51 @@ var moment = require('moment');
       }
     },
     saveFixtureDetail(){
-
-        if(this.match_result == true) {
-
-          this.$validator.validateAll().then(() => {
-
-            let  matchStatus = $('#match_status').val()
-            let  matchWinner = $('#match_winner').val()
-
-            let data = {'matchId':this.matchDetail.id,'refereeId': this.matchDetail.referee_id,'homeTeamScore':$('#home_team_score').val(),'awayTeamScore':$('#away_team_score').val(),'matchStatus': matchStatus,'matchWinner': matchWinner,'comments':$('#comments').val()}
-
-            Tournament.saveMatchResult(data).then(
-              (response) => {
-                this.matchFixtureDetail()
-                // this.$root.$emit('setPitchReset')
-                $('#matchScheduleModal').modal('hide')
-
-                toastr.success('This match has been updated.', 'Match Details', {timeOut: 5000});
-
-                if(this.section == 'scheduleResult') {
-                  let home_score = $('#home_team_score').val()
-                  let away_score = $('#away_team_score').val()
-
-                   let competationId = response.data.data.competationId
-                   this.$root.$emit('reloadMatchList',home_score,away_score,competationId)
-                } else {
-                   this.$root.$emit('setPitchPlanTab','gamesTab')
-                }
-
-              }
-            )
-          })
-        }
-
-      //  this.$validator.validateAll().then(() => {
-
-      if(this.match_result == false) {
-
-      let  matchStatus = ''
-      let matchWinner = ''
-
-      let data = {'matchId':this.matchDetail.id,'refereeId': this.matchDetail.referee_id,'homeTeamScore':$('#home_team_score').val(),'awayTeamScore':$('#away_team_score').val(),'matchStatus': matchStatus,'matchWinner': matchWinner,'comments':$('#comments').val()}
-
-        Tournament.saveMatchResult(data).then(
-          (response) => {
-            this.matchFixtureDetail()
-            // this.$root.$emit('setPitchReset')
-            $('#matchScheduleModal').modal('hide')
-            toastr.success('This match has been updated.', 'Match Details', {timeOut: 5000});
-              if(this.section == 'scheduleResult') {
-                let home_score = $('#home_team_score').val()
-                let away_score = $('#away_team_score').val()
-                let competationId = response.data.data.competationId
-                this.$root.$emit('reloadMatchList',home_score,away_score,competationId)
-              } else {
-                this.$root.$emit('setPitchPlanTab','gamesTab')
-             }
-          }
-        )
+      let vm = this;
+      if(($('#home_team_score').val() != '' || $('#away_team_score').val() != '') && (this.matchDetail.home_team == 0 || this.matchDetail.away_team == 0)) {
+        toastr.error('Both home and away teams should be there for score update.');
+        return false;
       }
+      let home_score = $('#home_team_score').val()
+      let away_score = $('#away_team_score').val()
+      if (home_score == away_score && this.matchDetail.round == 'Elimination' && this.matchDetail.is_result_override == 0 && home_score != '' && away_score != '' && this.matchDetail.hometeam_score != null && this.matchDetail.awayteam_score != null) {
+        this.matchDetail.is_result_override = 1;
+      }
+      Vue.nextTick(function () {
+        vm.$validator.validateAll().then(() => {
+          let  matchStatus = vm.matchDetail.is_result_override == 1 ? $('#match_status').val() : '';
+          let  matchWinner = vm.matchDetail.is_result_override == 1 ? $('#match_winner').val() : '';
+          let data = {'matchId':vm.matchDetail.id,'refereeId': vm.matchDetail.referee_id,'homeTeamScore':$('#home_team_score').val(),'awayTeamScore':$('#away_team_score').val(),
+            'matchStatus': matchStatus,'matchWinner': matchWinner,'comments':$('#comments').val(),
+            'is_result_override':$('#is_result_override').val(), 'home_yellow_cards': $('#home_yellow_cards').val(), 'away_yellow_cards': $('#away_yellow_cards').val(), 'home_red_cards': $('#home_red_cards').val(), 'away_red_cards': $('#away_red_cards').val(),'age_category_color': vm.matchDetail.age_category_color, 'group_color': vm.matchDetail.group_color}
+          Tournament.saveMatchResult(data).then(
+            (response) => {
+              vm.matchFixtureDetail();
+              $('#matchScheduleModal').modal('hide')
+              toastr.success('This match has been updated.', 'Match Details', {timeOut: 5000});
+              let matchData = {};
+
+              matchData['home_score'] = $('#home_team_score').val()
+              matchData['away_score'] = $('#away_team_score').val()
+              matchData['competation_id'] = response.data.data.competationId
+              matchData['is_result_override'] = response.data.data.isResultOverride
+              matchData['match_status'] = $('#match_status').val()
+              matchData['match_winner'] = $('#match_winner').val()
+
+              if(vm.section == 'scheduleResult') {
+                vm.$root.$emit('reloadMatchList', matchData)
+                //
+                vm.$root.$emit('setDrawTable',matchData['competation_id']);
+                vm.$root.$emit('setStandingData',matchData['competation_id']);
+              } else {
+                // vm.$root.$emit('reloadAllEvents')
+                vm.$root.$emit('setPitchPlanTab','gamesTab')
+              }
+            }
+          )
+        }).catch(() => {
+        });
+      });
     },
     assignReferee(refereeId){
       let data = {'refereeId': refereeId,'matchId': this.matchId}
@@ -305,19 +457,31 @@ var moment = require('moment');
              $('div.fc-unthemed').fullCalendar( 'removeEvents', [vm.matchFixture._id] )
            },200)
           toastr.success('Match has been unscheduled successfully', 'Match Unscheduled', {timeOut: 5000});
-          
+
           this.$store.dispatch('setMatches');
           this.$store.dispatch('SetScheduledMatches');
+          this.$root.$emit('reloadAllEvents')
+
+
       })
     },
     matchPrint(ReportData) {
-      var win = window.open("/api/match/print?"+ReportData, '_blank');
-      win.focus();
-      return true;
+      var matchPrintWindow = window.open('', '_blank');
+      Tournament.getSignedUrlForMatchPrint(ReportData).then(
+        (response) => {
+          matchPrintWindow.location = response.data;
+        },
+        (error) => {
+
+        }
+      )
+      // var win = window.open("/api/match/print?"+ReportData, '_blank');
+      // win.focus();
+      // return true;
     },
     generateMatchPrint() {
-       let ReportData = 'matchId='+this.matchId+'&result_override='+this.match_result
-       if(this.match_result == true) {
+       let ReportData = 'matchId='+this.matchId+'&result_override='+(this.matchDetail.is_result_override == 1 ? true : false)
+       if(this.matchDetail.is_result_override == 1) {
         let matchWinner = ''
         if(this.matchDetail.match_winner == this.matchDetail.home_team) {
           matchWinner = this.matchDetail.home_team_name
@@ -328,7 +492,7 @@ var moment = require('moment');
           ReportData = ReportData+'&status='+this.matchDetail.match_status+'&winner='+matchWinner
         }
 
-        if(this.match_result == true){
+        if(this.matchDetail.is_result_override == 1){
             let vm = this
             let val = 0
             this.$validator.validateAll().then(
@@ -346,10 +510,71 @@ var moment = require('moment');
             } },500)
 
         } else {
-          var win = window.open("/api/match/print?"+ReportData, '_blank');
-          win.focus();
-        }
+          var matchPrintWindow = window.open('', '_blank');
+          Tournament.getSignedUrlForMatchPrint(ReportData).then(
+            (response) => {
+              matchPrintWindow.location = response.data;
+            },
+            (error) => {
 
+            }
+          )
+
+          // var win = window.open("/api/match/print?"+ReportData, '_blank');
+          // win.focus();
+        }
+    },
+    getHoldingName(competitionActualName, placeholder) {
+      if(competitionActualName.indexOf('Group') !== -1){
+        return placeholder;
+      } else if(competitionActualName.indexOf('Pos') !== -1){
+        return 'Pos-' + placeholder;
+      }
+    },
+    getTeamName(teamId, teamName, teamPlaceHolder, competitionActualName){ 
+      if(teamId != 0){
+          return teamName;
+      } else if(teamId == 0 && teamName == '@^^@') {
+          return this.getHoldingName(competitionActualName, teamPlaceHolder)
+      }
+      return teamPlaceHolder;
+    },
+    checkOverride() {
+      this.matchDetail.match_status = '';
+      this.matchDetail.match_winner = '';
+    },
+    getMatchData() {
+      this.matchId = this.matchFixture.id;
+      let tournamentData = {
+        'tournamentId':this.tournamentId,
+        'age_category':this.matchFixture.matchAgeGroupId
+      }
+       Tournament.getReferees(tournamentData).then(
+        (response) => {
+            this.referees = response.data.referees
+        })
+      this.matchFixtureDetail();
+    },
+    updateMatchData(matchData) {
+      this.updatedMatchData = matchData;
+    },
+    changeScore() {
+      if (this.matchDetail.is_result_override == 1 && this.matchDetail.match_status == 'Walk-over') {
+        this.matchDetail.hometeam_score = 0;
+        this.matchDetail.awayteam_score = 0;
+        if (this.matchDetail.match_winner == this.matchDetail.home_team) {
+          this.matchDetail.hometeam_score = 3;
+        } else if(this.matchDetail.match_winner == this.matchDetail.away_team) {
+          this.matchDetail.awayteam_score = 3;
+        }
+      }
+    },
+    formatGroupName() {
+      if(this.matchDetail.competition.actual_name) {
+        var groupName = this.matchDetail.competition.actual_name;
+        var splittedGroupName = groupName.split("-");
+        return splittedGroupName[splittedGroupName.length - 1];
+      }      
     }
   }
 }

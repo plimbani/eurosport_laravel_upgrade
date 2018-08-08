@@ -5,7 +5,7 @@
           <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">{{ $lang.pitch_planner_group_colours_title }}</h5>
             <div class="d-flex align-items-center">
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="closeModal()">
+              <button type="button" class="close" @click="closeModal()">
                 <span aria-hidden="true">×</span>
               </button>
             </div>
@@ -49,6 +49,9 @@ import _ from 'lodash';
           this.initiazeGroupCompetitionValidation();
           // this.$validator.updateDictionary(this.errorMessages);
         },
+        beforeCreate: function() {
+          this.$root.$off('getCategoryCompetitions');
+        },
         methods: {
             getCategoryCompetitions() {
               let vm = this;
@@ -70,7 +73,7 @@ import _ from 'lodash';
                           animationEasing: 'swing',
                           format : 'hex',
                           theme: 'bootstrap',
-                          position: 'bottom right',
+                          position: 'bottom right',                          
                           change : function() {
                             let inputObj = $(this);
                             let competitionId = inputObj.data('competition-id');
