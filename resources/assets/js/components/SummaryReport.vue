@@ -271,8 +271,7 @@
 											</div>
 											<div class="col-md-5">
 		         						<select name="sel_ageCategory" id="sel_ageCategory"
-		                      v-on:change="onSelectAgeCategory()"
-		                      v-model="age_category_id" class="form-control ls-select2">
+		                      class="form-control ls-select2">
 		          						<option value="">{{$lang.summary_age_category_select}}</option>
 		            					<option v-for="(competation, index) in competationList"
 		            						:value="competation.id">{{competation.group_name}}</option>
@@ -297,32 +296,32 @@
 							<div class="table-responsive">
 							 	<table class="table table-hover table-bordered report-table" v-bind:class="{ 'display_table' : teams.length == 0, 'display_block' : teams.length > 0 }" id="fair_play_report_print" border="1" cellpadding="0" cellspacing="0" width="100%">
 									<thead>
-						      	<tr>
+								      	<tr>
 											<th class="text-center" @click="sortFairPlayReport('team_id')">{{$lang.summary_fair_play_reports_team_id}}&nbsp;<i class="fa fa-sort"></i></th>
-	                    <th class="text-center" @click="sortFairPlayReport('name')">{{$lang.summary_fair_play_reports_team}}&nbsp;<i class="fa fa-sort"></i></th>
-	                    <th class="text-center" @click="sortFairPlayReport('club_name')">{{$lang.summary_fair_play_reports_club}}&nbsp;<i class="fa fa-sort"></i></th>
-	                    <th class="text-center" @click="sortFairPlayReport('country_name')">{{$lang.summary_fair_play_reports_country}}&nbsp;<i class="fa fa-sort"></i></th>
-	                    <th class="text-center" @click="sortFairPlayReport('age_name')">{{$lang.summary_fair_play_reports_age_category}}&nbsp;<i class="fa fa-sort"></i></th>
-	                    <th class="text-center" @click="sortFairPlayReport('total_red_cards')">{{$lang.summary_fair_play_reports_red_cards}}&nbsp;<i class="fa fa-sort"></i></th>
-	                    <th class="text-center" @click="sortFairPlayReport('total_yellow_cards')">{{$lang.summary_fair_play_reports_yellow_cards}}&nbsp;<i class="fa fa-sort"></i></th>
-		              	</tr>
-				          </thead>
-	                <tbody>
-	                	<tr v-for="team in teamsFairPlayData">
-	                		<td>{{ team.team_id }}</td>
-	                		<td>{{ team.name }}</td>
-	                		<td>{{ team.club_name }}</td>
-	                		<td>{{ team.country_name }}</td>
-	                		<td>{{ team.age_name }}</td>
-	                		<td>{{ team.total_red_cards == null ? 0 : team.total_red_cards }}</td>
-	                		<td>{{ team.total_yellow_cards == null ? 0 : team.total_yellow_cards }}</td>
-	                	</tr>
-	                </tbody>
-	              </table>
-			    		</div>
-					    <span v-if="teams.length == 0">
-			         		No information available
-			    		</span>
+						                    <th class="text-center" @click="sortFairPlayReport('name')">{{$lang.summary_fair_play_reports_team}}&nbsp;<i class="fa fa-sort"></i></th>
+						                    <th class="text-center" @click="sortFairPlayReport('club_name')">{{$lang.summary_fair_play_reports_club}}&nbsp;<i class="fa fa-sort"></i></th>
+						                    <th class="text-center" @click="sortFairPlayReport('country_name')">{{$lang.summary_fair_play_reports_country}}&nbsp;<i class="fa fa-sort"></i></th>
+						                    <th class="text-center" @click="sortFairPlayReport('age_name')">{{$lang.summary_fair_play_reports_age_category}}&nbsp;<i class="fa fa-sort"></i></th>
+						                    <th class="text-center" @click="sortFairPlayReport('total_red_cards')">{{$lang.summary_fair_play_reports_red_cards}}&nbsp;<i class="fa fa-sort"></i></th>
+						                    <th class="text-center" @click="sortFairPlayReport('total_yellow_cards')">{{$lang.summary_fair_play_reports_yellow_cards}}&nbsp;<i class="fa fa-sort"></i></th>
+							            </tr>
+				          			</thead>
+	                				<tbody>
+					                	<tr v-for="team in teamsFairPlayData">
+					                		<td>{{ team.team_id }}</td>
+					                		<td>{{ team.name }}</td>
+					                		<td>{{ team.club_name }}</td>
+					                		<td>{{ team.country_name }}</td>
+					                		<td>{{ team.age_name }}</td>
+					                		<td>{{ team.total_red_cards == null ? 0 : team.total_red_cards }}</td>
+					                		<td>{{ team.total_yellow_cards == null ? 0 : team.total_yellow_cards }}</td>
+					                	</tr>
+	                				</tbody>
+	              				</table>
+			    			</div>
+						    <span v-if="teams.length == 0">
+				         		No information available
+				    		</span>
 						</div>
 					</div>
 				</div>
@@ -801,7 +800,7 @@ export default {
 	    }
     },
     clearFairPlayForm() {
-    	$('#frmFairPlayReport')[0].reset()
+    	$('#frmFairPlayReport')[0].reset();
       this.teamsFairPlayData = {};
     },
     sortFairPlayReport(filter) {
@@ -829,35 +828,35 @@ export default {
       }
     },    
     exportTeamsFairPlayReport() {
-    		let reportData = this.teamsFairPlayReportQuery;
-    		if(reportData!=''){
-					reportData += '&report_download=yes';
-					Tournament.getSignedUrlForTeamsFairPlayReportExport(reportData).then(
-	          (response) => {
-    					window.location.href = response.data;
-	           },
-	          (error) => {
-	          }
-          )
+		let reportData = this.teamsFairPlayReportQuery;
+		if(reportData!=''){
+			reportData += '&report_download=yes';
+			Tournament.getSignedUrlForTeamsFairPlayReportExport(reportData).then(
+	          	(response) => {
+					window.location.href = response.data;
+	           	},
+	            (error) => {
+	            }
+	        )
     		}else{
     			toastr['error']('Records not available', 'Error');
     		}
 		},
-		generateTeamsFairPlayPrint() {
-			let reportData = this.teamsFairPlayReportQuery
-			if(reportData!=''){
-				var reportPrintWindow = window.open('', '_blank');
-				Tournament.getSignedUrlForFairPlayReportPrint(reportData).then(
-					(response) => {
-						reportPrintWindow.location = response.data;
-					},
-					(error) => {
-					}
-				)
-			}else{
-				toastr['error']('Records not available', 'Error');
-			}
-		},
+	generateTeamsFairPlayPrint() {
+		let reportData = this.teamsFairPlayReportQuery
+		if(reportData!=''){
+			var reportPrintWindow = window.open('', '_blank');
+			Tournament.getSignedUrlForFairPlayReportPrint(reportData).then(
+				(response) => {
+					reportPrintWindow.location = response.data;
+				},
+				(error) => {
+				}
+			)
+		}else{
+			toastr['error']('Records not available', 'Error');
+		}
+	},
   }
 }
 </script>
