@@ -3715,9 +3715,14 @@ TimelineGrid = (function(superClass) {
     }
 
     tootipHtml = htmlentities.encode(tootipHtml);
+
+    let skinCSSHorizontal = cssToStr(this.getSegSkinCss(seg));
+    if(event.locationCheckFlag == false) {
+      skinCSSHorizontal += ';display: none;';
+    }
     
-    return '<a data-animation="false" data-html="true" data-category-color="' + event.color +  '" data-fixture-strip-color="' + event.fixtureStripColor +  '" data-placement="top" data-toggle="tooltip" title="' + tootipHtml + '" class="' + classes.join(' ') + '" style="' + cssToStr(this.getSegSkinCss(seg)) + '"' + (event.url ? ' href="' + htmlEscape(event.url) + '"' : '') + '>' +
-    '<div class="fc-content">'
+    return '<a data-animation="false" data-html="true" data-category-color="' + event.color +  '" data-fixture-strip-color="' + event.fixtureStripColor +  '" data-placement="top" data-toggle="tooltip" title="' + tootipHtml + '" class="' + classes.join(' ') + '" style="' + skinCSSHorizontal + '"' + (event.url ? ' href="' + htmlEscape(event.url) + '"' : '') + '>' +
+     '<div class="fc-content">'
     +'<span class="fc-referee referee_'+event.refereeId+'" id="'+ event.refereeId+'">'+ event.refereeText+'</span>' +
      (timeText ? '<span class="fc-time">' + htmlEscape(timeText) + '</span>' : '') + '<span class="fc-title">' + (event.title ? htmlEscape(event.title) : '&nbsp;') + '</span>' + '</div>' + '<div class="fc-bg" />' + (isResizableFromStart ? '<div class="fc-resizer fc-start-resizer"></div>' : '') + (isResizableFromEnd ? '<div class="fc-resizer fc-end-resizer"></div>' : '') + '</a>';
   };

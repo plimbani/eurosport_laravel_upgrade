@@ -8348,6 +8348,10 @@ TimeGrid.mixin({
 			matchRemarkClasses += ' match-remark-right-position17';
 		}
 
+		if(event.locationCheckFlag == false) {
+			skinCss += ';display: none;';
+		}
+
 		return '<a class="' + classes.join(' ') + '"' +
 			(event.url ?
 				' href="' + htmlEscape(event.url) + '"' :

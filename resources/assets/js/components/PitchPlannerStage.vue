@@ -419,6 +419,7 @@ import _ from 'lodash'
 
                         _.forEach(rdata, function(match) {
                             let scheduleBlock = false
+                            let locationCheckFlag = true;
                             let refereeId = ''
                             let matchTitle = ''
 
@@ -473,7 +474,8 @@ import _ from 'lodash'
                                     }
                                 } else if(filterKey == 'location'){
                                     if( filterValue != '' && filterValue.id != match.venueId){
-                                        scheduleBlock = true
+                                        scheduleBlock = true;
+                                        locationCheckFlag = false;
                                     }
                                 }
                               let colorVal = match.category_age_color;
@@ -532,7 +534,8 @@ import _ from 'lodash'
                                     'isResultOverride': match.isResultOverride,
                                     'homeTeamPlaceHolder': displayHomeTeamPlaceholder,
                                     'awayTeamPlaceHolder': displayAwayTeamPlaceholder,
-                                    'remarks': match.matchRemarks
+                                    'remarks': match.matchRemarks,
+                                    'locationCheckFlag': locationCheckFlag
                                 }
                             sMatches.push(mData)
                             }
@@ -568,6 +571,7 @@ import _ from 'lodash'
                                         'homeTeamPlaceHolder': null,
                                         'awayTeamPlaceHolder': null,
                                         'remarks': null,
+                                        'locationCheckFlag': null
                                     }
                                     sMatches.push(mData1)
                                     counter = counter+1;
@@ -598,6 +602,7 @@ import _ from 'lodash'
                                         'homeTeamPlaceHolder': null,
                                         'awayTeamPlaceHolder': null,
                                         'remarks': null,
+                                        'locationCheckFlag': null
                                     }
                                     sMatches.push(mData2)
                                     counter = counter+1;
@@ -629,6 +634,7 @@ import _ from 'lodash'
                                             'homeTeamPlaceHolder': null,
                                             'awayTeamPlaceHolder': null,
                                             'remarks': null,
+                                            'locationCheckFlag': null
                                         }
 
                                         sMatches.push(mData)
@@ -685,8 +691,8 @@ import _ from 'lodash'
               }
                this.scheduledMatches.push(mData21)
                // Also Add for Resources as well
-                let resources = {'id':'111213','eventColor':'grey'}
-               this.pitchesData = resources
+                //let resources = {'id':'111213','eventColor':'grey'}
+               //this.pitchesData = resources
              }
 
             },
