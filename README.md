@@ -1,1 +1,3 @@
-eurosport-swift - this repo is swift version of eurosport repo which is built in Objective-C language
+### eurosport-swift
+
+This branch is swift version of eurosport ios branch which is built in Objective-C language
