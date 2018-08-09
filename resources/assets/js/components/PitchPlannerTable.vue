@@ -5,6 +5,7 @@
                 <button class="btn btn-secondary btn-md js-pitch-planner-bt horizontal js-horizontal-view"  @click="setView('timelineDay')">{{$lang.pitch_planner_horizontal}}</button>
                 <button class="btn btn-primary btn-md js-pitch-planner-bt vertical"  @click="setView('agendaDay')">{{$lang.pitch_planner_vertical}}</button>
                 <button v-if="isPitchPlannerInEnlargeMode == 0" class="btn btn-primary btn-md vertical" @click="enlargePitchPlanner()">Enlarge</button>
+                <button v-if="isPitchPlannerInEnlargeMode == 0" class="btn btn-primary btn-md vertical" @click="printPitchPlanner()">Print</button>
                 <button class="btn btn-primary btn-md vertical" v-if="isGroupFilterSet" @click="openGroupCompetitionColourModal()">{{$lang.pitch_planner_group_colours}}</button>
             </div>
         </div>
@@ -118,6 +119,9 @@
             },
             isPitchPlannerInEnlargeMode() {
                 return this.$store.state.Pitch.isPitchPlannerInEnlargeMode
+            },
+            isPrintPitchPlanner() {
+                return this.$store.state.Pitch.isPrintPitchPlanner
             }
         },
         created: function() {
@@ -435,6 +439,9 @@
           enlargePitchPlanner() {
             this.$router.push({name: 'enlarge_pitch_planner'})
           },
+          printPitchPlanner() {
+            this.$router.push({name: 'print_pitch_planner'})
+          }
         }
     }
 </script>
