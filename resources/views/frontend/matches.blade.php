@@ -11,9 +11,9 @@
 	<div class="content__wrapper">
     <div class="container">
         <div class="row my-5">
-            <div class="col-lg-12 club_content match_table {{ $brand_font_class }}" id="matches_list">
+            <div class="col-lg-12 club_content match_table {{ $brand_font_class }}" id="schedule_results">
                 @if($tournament)
-                    <match-listing></match-listing>
+                    <schedule-results></schedule-results>
                 @else
                     <div class="text-center">{!! __('messages.match_schedule_message') !!}</div>
                 @endif
@@ -27,7 +27,8 @@
 @section('page-scripts')
   <script type="text/javascript">
     var tournamentData = {!! json_encode($tournament) !!};
+    var competitionList = {!! json_encode($competitionList) !!};
   </script>
   <script type="text/javascript" src="{{ mix('assets/js/core/matches-plugins.js') }}"></script>
-  <script type="text/javascript" src="{{ mix('frontend/js/matchlist.js') }}"></script>
+  <script type="text/javascript" src="{{ mix('frontend/js/scheduleresults.js') }}"></script>
 @endsection

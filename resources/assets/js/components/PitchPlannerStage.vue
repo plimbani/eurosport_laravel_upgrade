@@ -273,6 +273,21 @@ import _ from 'lodash'
                         }
                     },
                     eventAfterAllRender: function(view ){
+                        $('[data-toggle="tooltip"]').tooltip();
+                        $('[data-toggle="tooltip"]').each(function() {
+                            let tt = $(this);
+                            let fixtureStripColor = tt.data('fixture-strip-color');
+                            let categoryColor = tt.data('category-color');
+
+                            tt.on('shown.bs.tooltip', function() {
+                                var tooltipId = $(this).attr('aria-describedby');
+                                
+                                $('#' + tooltipId + ' .tooltip-inner').css('background-color', categoryColor);
+
+                                $('<style>#' + tooltipId + ' .tooltip-inner::before { border-top-color: '+ fixtureStripColor +'; }</style>' ).appendTo( 'head');
+                            });
+                        });
+
                          $('#add_referee').prop('disabled', false);
                          // Code for horizontal scroll bar
                          let totalPitches = vm.stage.pitches.length;
@@ -383,7 +398,7 @@ import _ from 'lodash'
                 setTimeout(function(){
                     $(ev).fullCalendar('addEventSource', vm.scheduledMatches);
                     arrangeLeftColumn();
-                },1500)
+                },2100)
             },
             getScheduledMatch(filterKey='',filterValue='',filterDependentKey='',filterDependentValue='') {
                 // this.$store.dispatch('SetScheduledMatches');
@@ -404,6 +419,7 @@ import _ from 'lodash'
 
                         _.forEach(rdata, function(match) {
                             let scheduleBlock = false
+                            let locationCheckFlag = true;
                             let refereeId = ''
                             let matchTitle = ''
 
@@ -458,7 +474,8 @@ import _ from 'lodash'
                                     }
                                 } else if(filterKey == 'location'){
                                     if( filterValue != '' && filterValue.id != match.venueId){
-                                        scheduleBlock = true
+                                        scheduleBlock = true;
+                                        locationCheckFlag = false;
                                     }
                                 }
                               let colorVal = match.category_age_color;
@@ -492,6 +509,7 @@ import _ from 'lodash'
                                 refereeId = match.referee_id?match.referee_id:0
                                  matchTitle = displayMatchName
                               }
+
                                 let mData =  {
                                     'id': match.fid,
                                     'resourceId': match.pitchId,
@@ -513,7 +531,11 @@ import _ from 'lodash'
                                     'awayTeam': match.Away_id,
                                     'matchStatus': match.match_status,
                                     'matchWinner': match.match_winner,
-                                    'isResultOverride': match.isResultOverride
+                                    'isResultOverride': match.isResultOverride,
+                                    'homeTeamPlaceHolder': displayHomeTeamPlaceholder,
+                                    'awayTeamPlaceHolder': displayAwayTeamPlaceholder,
+                                    'remarks': match.matchRemarks,
+                                    'locationCheckFlag': locationCheckFlag
                                 }
                             sMatches.push(mData)
                             }
@@ -531,7 +553,7 @@ import _ from 'lodash'
                                         'end': moment.utc(availability.stage_start_date+' '+availability.stage_start_time,'DD/MM/YYYY hh:mm:ss'),
                                         'refereeId': -1,
                                         'refereeText': 'R',
-                                        'title': 'Pitch is not available',
+                                        'title': '',
                                         'color': 'grey',
                                         'textColor': '#FFFFFF',
                                         'borderColor': 'grey',
@@ -545,7 +567,11 @@ import _ from 'lodash'
                                         'awayTeam': null,
                                         'matchStatus': null,
                                         'matchWinner': null,
-                                        'isResultOverride': null
+                                        'isResultOverride': null,
+                                        'homeTeamPlaceHolder': null,
+                                        'awayTeamPlaceHolder': null,
+                                        'remarks': null,
+                                        'locationCheckFlag': null
                                     }
                                     sMatches.push(mData1)
                                     counter = counter+1;
@@ -558,7 +584,7 @@ import _ from 'lodash'
                                         'end': moment.utc(availability.stage_start_date+' '+'23:00:00','DD/MM/YYYY HH:mm:ss'),
                                         'refereeId': -1,
                                         'refereeText': 'R',
-                                        'title':'Pitch is not available',
+                                        'title':'',
                                         'color': 'grey',
                                         'textColor': '#FFFFFF',
                                         'borderColor': 'grey',
@@ -572,7 +598,11 @@ import _ from 'lodash'
                                         'awayTeam': null,
                                         'matchStatus': null,
                                         'matchWinner': null,
-                                        'isResultOverride': null
+                                        'isResultOverride': null,
+                                        'homeTeamPlaceHolder': null,
+                                        'awayTeamPlaceHolder': null,
+                                        'remarks': null,
+                                        'locationCheckFlag': null
                                     }
                                     sMatches.push(mData2)
                                     counter = counter+1;
@@ -586,7 +616,7 @@ import _ from 'lodash'
                                             'end': moment.utc(availability.stage_start_date+' '+pitchBreak.break_end,'DD/MM/YYYY hh:mm:ss'),
                                             'refereeId': -1,
                                             'refereeText': 'R',
-                                            'title':'Pitch is not available',
+                                            'title':'',
                                             'color': 'grey',
                                             'textColor': '#FFFFFF',
                                             'borderColor': 'grey',
@@ -600,7 +630,11 @@ import _ from 'lodash'
                                             'awayTeam': null,
                                             'matchStatus': null,
                                             'matchWinner': null,
-                                            'isResultOverride': null
+                                            'isResultOverride': null,
+                                            'homeTeamPlaceHolder': null,
+                                            'awayTeamPlaceHolder': null,
+                                            'remarks': null,
+                                            'locationCheckFlag': null
                                         }
 
                                         sMatches.push(mData)
@@ -640,20 +674,25 @@ import _ from 'lodash'
                     'end': moment.utc(end_date,'DD/MM/YYYY HH:mm:ss'),
                     'refereeId': -2,
                     'refereeText': '',
-                    'title': 'Pitch is not available',
+                    'title': '',
                     'color': 'grey',
                     'textColor': '#FFFFFF',
                     'matchId': '111212',
                     'matchAgeGroupId':'',
                     'homeScore': null,
                     'awayScore': null,
-                    'displayFlag':''
+                    'displayFlag':'',
+                    'homeTeam': null,
+                    'awayTeam': null,
+                    'matchStatus': null,
+                    'matchWinner': null,
+                    'isResultOverride': null
 
               }
                this.scheduledMatches.push(mData21)
                // Also Add for Resources as well
-                let resources = {'id':'111213','eventColor':'grey'}
-               this.pitchesData = resources
+                //let resources = {'id':'111213','eventColor':'grey'}
+               //this.pitchesData = resources
              }
 
             },
@@ -670,14 +709,15 @@ import _ from 'lodash'
                             'end': moment.utc(block.match_end_datetime,'YYYY/MM/DD HH:mm:ss'),
                             'refereeId': -2,
                             'refereeText': '',
-                            'title': 'Unavailable',
+                            'title': '',
                             'color': 'grey',
                             'textColor': '#FFFFFF',
-                            'matchId': 'block_'+block.id,
+                            'matchId': -1,
                             'matchAgeGroupId':'',
                             'homeScore': null,
                             'awayScore': null,
-                            'displayFlag':''
+                            'displayFlag': '',
+                            'remarks': null,
                         }
                         this.scheduledMatches.push(mData2)
                         this.unavailableBlock.push(mData2)

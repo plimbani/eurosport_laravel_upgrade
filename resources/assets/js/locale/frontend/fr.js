@@ -33,6 +33,12 @@ module.exports= {
     'no_matches_found': 'Aucun match trouvé',
     'view_match_info_message': '<a href="javascript: void(0);">Cliquez ici</a> pour voir le classement complet, les résultats et le programme pour les {competitionName}',
     'match_codes': 'Codes de matchs',
+    'matches': 'Matches',
+    'teams': 'Teams',
+    'final_placings': 'Final placings',
+    'type': 'Type',
+    'no_teams_found': 'No teams found.',
+    'no_categories_found': 'No categories found.',    
   },
   'tournament': {
     'category_name': 'Nom de la catégorie',
