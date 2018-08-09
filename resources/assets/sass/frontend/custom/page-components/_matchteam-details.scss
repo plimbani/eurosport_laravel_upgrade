@@ -15,4 +15,11 @@
 	.matchteam-name {
 		margin-left: .3rem;
 	}
+	&.flex-row-reverse {
+		.matchteam-dress,
+		.matchteam-name {
+			margin-left: 0;
+			margin-right: .3rem;
+		}
+	}
 }

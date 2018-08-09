@@ -91,6 +91,7 @@ class MatchRepository
                 'temp_fixtures.awayteam_score as AwayScore',
                 'temp_fixtures.pitch_id as pitchId',
                 'home_team.name as HomeTeam','away_team.name as AwayTeam',
+                'home_team.shirt_color as HomeTeamShirtColor','away_team.shirt_color as AwayTeamShirtColor','home_team.shorts_color as HomeTeamShortsColor','away_team.shorts_color as AwayTeamShortsColor',
                 DB::raw('CONCAT(home_team.name, " vs ", away_team.name) AS full_game')
                 )
             ->where('temp_fixtures.tournament_id', $tournamentData['tournamentId']);
@@ -755,7 +756,9 @@ class MatchRepository
                     ->leftjoin('tournament_competation_template', 'tournament_competation_template.id', '=', 'teams.age_group_id')
                     ->leftjoin('competitions', 'competitions.id', '=', 'teams.competation_id')
                     ->select('teams.id as TeamId','teams.name as TeamName','competitions.*','countries.logo as TeamLogo',
-                      'countries.country_flag as TeamCountryFlag'
+                      'countries.country_flag as TeamCountryFlag',
+                      'teams.shirt_color as ShirtColor',
+                      'teams.shorts_color as ShortsColor'
                       )->whereIn('teams.id',$teamList)->get();
 
       $teamDetails=array();
@@ -768,6 +771,8 @@ class MatchRepository
           $teamDetails[$Tdata->TeamId]['TeamName']=$Tdata->TeamName;
           $teamDetails[$Tdata->TeamId]['TeamFlag']=$Tdata->TeamLogo;
           $teamDetails[$Tdata->TeamId]['TeamCountryFlag']=$Tdata->TeamCountryFlag;
+          $teamDetails[$Tdata->TeamId]['ShirtColor']=$Tdata->ShirtColor;
+          $teamDetails[$Tdata->TeamId]['ShortsColor']=$Tdata->ShortsColor;
         }
       } else if (count($team_placeholder_name_arr_all) == 0){
 
@@ -789,6 +794,8 @@ class MatchRepository
           $arr1[$i]['TeamName'] = $teamDetails[$teamId]['TeamName'];
           $arr1[$i]['TeamFlag'] = $teamDetails[$teamId]['TeamFlag'];
           $arr1[$i]['TeamCountryFlag'] = $teamDetails[$teamId]['TeamCountryFlag'];
+          $arr1[$i]['ShirtColor'] = $teamDetails[$teamId]['ShirtColor'];
+          $arr1[$i]['ShortsColor'] = $teamDetails[$teamId]['ShortsColor'];
         } else {
           $rowKey = explode('-', $teamPlaceholderList[$i])[1];
           $arr1[$i]['id'] = null;

@@ -11,10 +11,15 @@
 		<tbody>
 			<tr v-for="team in paginated('teamlist')">
 				<td>
+					<div class="matchteam-details">
+      			<span :class="'matchteam-flag flag-icon flag-icon-'+team.countryFlag"></span>
+						<div class="matchteam-dress" v-if="team.shorts_color && team.shirt_color">
+							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64.4 62"><g><g><polygon v-bind:fill="team.shorts_color" points="13.2 40 13.2 62 30.2 62 32.2 56 34.2 62 51.2 62 51.2 40 13.2 40"/></g><path v-bind:fill="team.shirt_color" d="M63.81,10.81,51.2,0h-13a6.5,6.5,0,0,1-6,4,6.5,6.5,0,0,1-6-4h-13L.59,10.81A1.7,1.7,0,0,0,.5,13.3L7.2,20l6-4V40h38V16l6,4,6.7-6.7A1.7,1.7,0,0,0,63.81,10.81Z"/></g></svg>
+						</div>
+						<span class="text-center matchteam-name"><a class="text-primary" href="" @click.prevent="changeTeam(team.id, team.name)">{{team.name}}</a></span>
+					</div>
 					<!-- <a  href="" @click.prevent="changeTeam(team.id, team.name)"> -->
 						<!--<img :src="team.logo" width="20">-->
-          			<span :class="'flag-icon flag-icon-'+team.countryFlag"></span>
-					<span class="text-center"><a class="text-primary" href="" @click.prevent="changeTeam(team.id, team.name)">{{team.name}}</a></span>
 					<!-- </a> -->
 				</td>
 				<td class="text-center">
