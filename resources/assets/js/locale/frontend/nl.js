@@ -33,6 +33,12 @@ module.exports= {
     'no_matches_found': 'Geen wedstrijden',
     'view_match_info_message': '<a href="javascript: void(0);">Klik hier</a> voor de stand en overige rondes voor {competitionName}',
     'match_codes': 'Wedstrijdcode',
+    'matches': 'Matches',
+    'teams': 'Teams',
+    'final_placings': 'Final placings',
+    'type': 'Type',
+    'no_teams_found': 'No teams found.',
+    'no_categories_found': 'No categories found.',    
   },
   'tournament': {
     'category_name': 'Naam categorie',

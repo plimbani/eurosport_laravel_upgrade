@@ -827,4 +827,16 @@ class MatchController extends BaseController
 
         return $signedUrl;
     }
+
+    public function getRefreeAgecategoryName(Request $request, $refereeId) {
+        $refereeData = Referee::where('id',$refereeId)->each(function ($item, $key) {
+        $ageGroupId = $item->age_group_id;
+        $ageGroupIdArray = explode(',', $ageGroupId);
+       
+        foreach ($ageGroupIdArray as $ageGroupId) {
+            $categoryName = TournamentCompetationTemplates::where('id',$ageGroupId)->pluck('category_age')->toArray();
+        }
+
+        });
+    }
 }
