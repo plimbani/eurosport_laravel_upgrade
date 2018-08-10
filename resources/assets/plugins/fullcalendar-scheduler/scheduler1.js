@@ -3716,7 +3716,7 @@ TimelineGrid = (function(superClass) {
 
     tootipHtml = htmlentities.encode(tootipHtml);
 
-    let skinCSSHorizontal = cssToStr(this.getSegSkinCss(seg));
+    var skinCSSHorizontal = cssToStr(this.getSegSkinCss(seg));
     if(event.locationCheckFlag == false) {
       skinCSSHorizontal += ';display: none;';
     }
