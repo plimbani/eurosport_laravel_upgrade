@@ -3721,10 +3721,17 @@ TimelineGrid = (function(superClass) {
       skinCSSHorizontal += ';display: none;';
     }
     
-    return '<a data-animation="false" data-html="true" data-category-color="' + event.color +  '" data-fixture-strip-color="' + event.fixtureStripColor +  '" data-placement="top" data-toggle="tooltip" title="' + tootipHtml + '" class="' + classes.join(' ') + '" style="' + skinCSSHorizontal + '"' + (event.url ? ' href="' + htmlEscape(event.url) + '"' : '') + '>' +
+    if(event.refereeId != -1) {
+      return '<a data-animation="false" data-html="true" data-category-color="' + event.color +  '" data-fixture-strip-color="' + event.fixtureStripColor +  '" data-placement="top" data-toggle="tooltip" title="' + tootipHtml + '" class="' + classes.join(' ') + '" style="' + skinCSSHorizontal + '"' + (event.url ? ' href="' + htmlEscape(event.url) + '"' : '') + '>' +
      '<div class="fc-content">'
     +'<span class="fc-referee referee_'+event.refereeId+'" id="'+ event.refereeId+'">'+ event.refereeText+'</span>' +
      (timeText ? '<span class="fc-time">' + htmlEscape(timeText) + '</span>' : '') + '<span class="fc-title">' + (event.title ? htmlEscape(event.title) : '&nbsp;') + '</span>' + '</div>' + '<div class="fc-bg" />' + (isResizableFromStart ? '<div class="fc-resizer fc-start-resizer"></div>' : '') + (isResizableFromEnd ? '<div class="fc-resizer fc-end-resizer"></div>' : '') + '</a>';
+    } else {
+      return '<a data-category-color="' + event.color +  '" data-fixture-strip-color="' + event.fixtureStripColor +  '" class="' + classes.join(' ') + '" style="' + skinCSSHorizontal + '"' + (event.url ? ' href="' + htmlEscape(event.url) + '"' : '') + '>' +
+     '<div class="fc-content">'
+    +'<span class="fc-referee referee_'+event.refereeId+'" id="'+ event.refereeId+'">'+ event.refereeText+'</span>' +
+     (timeText ? '<span class="fc-time">' + htmlEscape(timeText) + '</span>' : '') + '<span class="fc-title">' + (event.title ? htmlEscape(event.title) : '&nbsp;') + '</span>' + '</div>' + '<div class="fc-bg" />' + (isResizableFromStart ? '<div class="fc-resizer fc-start-resizer"></div>' : '') + (isResizableFromEnd ? '<div class="fc-resizer fc-end-resizer"></div>' : '') + '</a>';
+    }
   };
 
   TimelineGrid.prototype.updateSegFollowers = function(segs) {
