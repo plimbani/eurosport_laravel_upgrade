@@ -3705,7 +3705,7 @@ TimelineGrid = (function(superClass) {
     classes.unshift('fc-timeline-event', 'fc-h-event');
     timeText = this.getEventTimeText(event);
 
-    var tootipHtml;
+    var tootipHtml = '';
 
     if(event.matchId != -1) {
       tootipHtml = "<div style='color: " + event.textColor + "'>";
