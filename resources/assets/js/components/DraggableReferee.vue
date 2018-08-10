@@ -1,5 +1,5 @@
 <template>
-    <div class="raferee_details">
+    <div class="raferee_details" data-toggle="popover" data-animation="false" data-placement="left" :data-popover-content="'#i'+referee.id">
         <div class="raferee_list">
             <div v-bind:id="'i'+referee.id" style="display:none;">
                 <div class="popover-body">
@@ -12,7 +12,7 @@
                     </span>
                 </div>
             </div>
-            <div class="d-flex align-items-center justify-content-between my-2" data-toggle="popover" data-animation="false" data-placement="left" :data-popover-content="'#i'+referee.id">
+            <div class="d-flex align-items-center justify-content-between my-2">
                 <div>
                     {{referee.last_name}}, {{referee.first_name}}
                 </div>
