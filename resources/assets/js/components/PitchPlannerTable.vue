@@ -405,7 +405,6 @@
             //     },500)
           },
           dispDate(date) {
-            console.log('date', date);
             var date1 = moment(date, 'DD/MM/YYYY')
             return date1.format('ddd DD MMM YYYY')
           },
