@@ -15,8 +15,8 @@
                     <div class="pitch-planner-item" v-if="stageStatus" v-for="stage in tournamentStages">
                         <div class="card">
                             <div class="btn pnl" :id="stage.stageNumber">
-                                Day {{ stage.stageNumber }}: {{dispDate(stage.tournamentStartDates)}}
-                                <a data-toggle="collapse" v-bind:data-target="'#demo'+stage.stageNumber" :id="'pitch_stage_open_close_'+stage.stageNumber" href="javascript:void(0)" data-status="open" @click="toggleStage(stage.stageNumber)" class="pull-right">Close</a>
+                                Day {{ stage.stageNumber }}: {{dispDate(stage.tournamentStartDate)}}
+                                <a data-toggle="collapse" v-bind:data-target="'#demo'+stage.stageNumber" :id="'pitch_stage_open_close_'+stage.stageNumber" href="javascript:void(0)" data-status="open" @click="toggleStage(stage.stageNumber)" class="pull-right open-close-link">Close</a>
                             </div>
                             
                             <div :id="'demo'+stage.stageNumber" class="stages collapse in show" aria-expanded="true">
@@ -405,6 +405,7 @@
             //     },500)
           },
           dispDate(date) {
+            console.log('date', date);
             var date1 = moment(date, 'DD/MM/YYYY')
             return date1.format('ddd DD MMM YYYY')
           },
