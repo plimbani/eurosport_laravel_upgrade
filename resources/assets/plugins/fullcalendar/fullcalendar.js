@@ -8341,7 +8341,7 @@ TimeGrid.mixin({
 			startTimeText = this.getEventTimeText(event, null, false); // displayEnd=false
 		}
 
-		let matchRemarkClasses = 'match-remark';
+		var matchRemarkClasses = 'match-remark';
 		if( (event.fixtureStripColor && event.fixtureStripColor == event.color)) {
 			matchRemarkClasses += ' match-remark-right-position2';
 		} else {

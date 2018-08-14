@@ -16,7 +16,7 @@
                         <div class="card">
                             <div class="btn pnl" :id="stage.stageNumber">
                                 Day {{ stage.stageNumber }}: {{dispDate(stage.tournamentStartDate)}}
-                                <a data-toggle="collapse" v-bind:data-target="'#demo'+stage.stageNumber" :id="'pitch_stage_open_close_'+stage.stageNumber" href="javascript:void(0)" data-status="open" @click="toggleStage(stage.stageNumber)">Close</a>
+                                <a data-toggle="collapse" v-bind:data-target="'#demo'+stage.stageNumber" :id="'pitch_stage_open_close_'+stage.stageNumber" href="javascript:void(0)" data-status="open" @click="toggleStage(stage.stageNumber)" class="pull-right open-close-link">Close</a>
                             </div>
                             
                             <div :id="'demo'+stage.stageNumber" class="stages collapse in show" aria-expanded="true">
