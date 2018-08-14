@@ -596,7 +596,18 @@ class TeamRepository
       }
 
       $teamData = $teamData->select('teams.*','teams.id as team_id', 'countries.name as country_name',
-                            'tournament_competation_template.group_name as age_name','tournament_competation_template.category_age as category_age','clubs.name as club_name', DB::raw('SUM(home_yellow_cards) + SUM(temp_fixtures.away_yellow_cards) AS total_yellow_cards'), DB::raw('SUM(temp_fixtures.home_red_cards) + SUM(temp_fixtures.away_red_cards) AS total_red_cards'))
+                            'tournament_competation_template.group_name as age_name','tournament_competation_template.category_age as category_age','clubs.name as club_name', 
+                            DB::raw('
+                              SUM(CASE
+                              WHEN (temp_fixtures.home_team = teams.id) THEN temp_fixtures.home_yellow_cards ELSE temp_fixtures.away_yellow_cards
+                              END
+                              ) AS total_yellow_cards'),
+                            DB::raw('
+                              SUM(CASE
+                              WHEN (temp_fixtures.home_team = teams.id) THEN temp_fixtures.home_red_cards ELSE temp_fixtures.away_red_cards
+                              END
+                              ) AS total_red_cards')
+                            )
                             ->get();
 
       return ['teamData' => $teamData];

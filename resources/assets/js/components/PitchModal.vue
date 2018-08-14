@@ -211,7 +211,7 @@
 
                 <div id="colors_tab" class="tab-pane">                  
                   <div class="form-group row">
-                    <div class="col-sm-3 form-control-label">Age Category ({{ matchDetail.category_age.category_age }})</div>                    
+                    <div class="col-sm-3 form-control-label">Age Category ({{ matchDetail.category_age.category_age }})</div>
                     <div class="col-sm-6">
                       <input type="text" class="js-colorpicker" :name="matchDetail.age_category_color" v-model="matchDetail.age_category_color" @input="matchDetail.age_category_color" id="age_category_color" data-name="age_category_color" :class="{'form-control demo minicolors-input' : true }"/>
                     </div>
