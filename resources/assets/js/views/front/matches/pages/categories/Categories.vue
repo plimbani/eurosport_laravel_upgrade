@@ -2,7 +2,7 @@
 	<div>
 		<div class="table-responsive" v-if="showView == 'category'">
 			<table id="categoriesTable" class="table table-hover table-bordered">
-				<thead>
+				<thead class="no-border">
 					<tr>
 						<th>{{ $t('matches.categories') }}</th>
 						<th>{{ $t('matches.teams') }}</th>
@@ -27,24 +27,26 @@
 		<div class="" v-if="showView == 'groups'">
       <a @click="changeTable()" href="javascript:void(0)" aria-expanded="true" class="btn btn-primary mb-2 text-white">
       <i aria-hidden="true" class="fa fa-angle-double-left"></i> Back to category list</a>
-      <table class="table table-hover table-bordered mt-2" v-if="groupsData.length > 0">
-        <thead>
-              <tr>
-                  <th>{{ $t('matches.categories') }}</th>
-                  <th>{{ $t('matches.type') }}</th>
-                  <th>{{ $t('matches.teams') }}</th>
+      <div class="table-responsive" v-if="groupsData.length > 0">
+        <table class="table table-hover table-bordered mt-2">
+          <thead class="no-border">
+                <tr>
+                    <th>{{ $t('matches.categories') }}</th>
+                    <th>{{ $t('matches.type') }}</th>
+                    <th>{{ $t('matches.teams') }}</th>
+                </tr>
+            </thead>
+            <tbody>
+              <tr v-for="group in groupsData">
+                <td>
+                  <a class="pull-left text-left text-primary" href="javascript:void(0)" @click.prevent="showCompetitionDetail(group)"><u>{{ group.name }}</u> </a>
+                </td>
+                <td>{{ group.competation_type }}</td>
+                <td class="text-center">{{ group.team_size }}</td>
               </tr>
-          </thead>
-          <tbody>
-            <tr v-for="group in groupsData">
-              <td>
-                <a class="pull-left text-left text-primary" href="javascript:void(0)" @click.prevent="showCompetitionDetail(group)"><u>{{ group.name }}</u> </a>
-              </td>
-              <td>{{ group.competation_type }}</td>
-              <td class="text-center">{{ group.team_size }}</td>
-            </tr>
-          </tbody>
-      </table>
+            </tbody>
+        </table>
+      </div>
     </div>
   
     <!-- Competition detail page -->

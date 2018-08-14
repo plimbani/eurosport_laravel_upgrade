@@ -3,7 +3,7 @@
       <!-- <hr class="hr m-0"> -->
       <div class="table-responsive">
         <table id="matchSchedule" class="table" v-if="matchData.length > 0">
-          <thead>
+          <thead class="no-border">
             <tr>
               <th scope="col">{{ $t('matches.date_and_time') }}</th>
               <th scope="col">{{ $t('matches.categories') }}</th>

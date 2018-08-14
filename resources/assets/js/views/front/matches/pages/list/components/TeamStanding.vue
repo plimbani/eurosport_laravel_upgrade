@@ -2,7 +2,7 @@
 	<div>
 		<div class="table-responsive">
 			<table class="table" v-if="standingData.length > 0">
-				<thead>
+				<thead class="no-border">
 					<tr>
 						<th></th>
 						<th class="text-center" scope="col">{{ $t('matches.played') }}</th>

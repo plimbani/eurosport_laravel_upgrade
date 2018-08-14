@@ -31,7 +31,7 @@
 
     <div class="table-responsive">
       <table class="table" v-if="matchesGrid.length > 0 && competitionDetail.type != 'Elimination'">
-        <thead>
+        <thead class="no-border">
           <tr>
             <th></th>
             <th scope="col" v-for="(match, index) in matchesGrid">

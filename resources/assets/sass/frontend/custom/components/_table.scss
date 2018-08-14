@@ -63,6 +63,11 @@ table {
                 border-radius: 2px;
                 background: $gray-200;
             }
+            &.no-border {
+                &:before {
+                    height: 0;
+                }
+            }
         }
         a {
             text-decoration: $link-hover-decoration;
