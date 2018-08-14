@@ -33,6 +33,12 @@ module.exports= {
     'no_matches_found': 'Ingen kampe fundet',
     'view_match_info_message': '<a href="javascript: void(0);">Klik her</a> for den fulde stilling, resultater samt kampprogram for {competitionName}',
     'match_codes': 'kamp nr',
+    'matches': 'Matches',
+    'teams': 'Teams',
+    'final_placings': 'Final placings',
+    'type': 'Type',
+    'no_teams_found': 'No teams found.',
+    'no_categories_found': 'No categories found.',    
   },
   'tournament': {
     'category_name': 'Kategori navn',

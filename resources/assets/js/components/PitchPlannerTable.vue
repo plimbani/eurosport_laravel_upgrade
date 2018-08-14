@@ -14,19 +14,14 @@
                 <div class="pitch-planner-wrapper">
                     <div class="pitch-planner-item" v-if="stageStatus" v-for="stage in tournamentStages">
                         <div class="card">
-                          <!-- <div class="card-block text-center pb-0">
-                            <h4 class="table_heading">Stage {{ stage.stageNumber }}: {{dispDate(stage.tournamentStartDate)}}</h4>
-                          </div> -->
-                          <button class="btn pnl" data-toggle="collapse"
-                          @click="toggleStage(stage.stageNumber)"
-                          :id="stage.stageNumber"
-                          v-bind:data-target="'#demo'+stage.stageNumber">
-                           <i :id="'opt_icon_'+stage.stageNumber"  class="fa fa-minus"></i>
-                           Day {{ stage.stageNumber }}: {{dispDate(stage.tournamentStartDate)}}</button>
-                          <div :id="'demo'+stage.stageNumber"
-                          class="stages collapse in show" aria-expanded="true">
-                            <pitch-planner-stage :stage="stage"  :defaultView="defaultView"></pitch-planner-stage>
-                          </div>
+                            <div class="btn pnl" :id="stage.stageNumber">
+                                Day {{ stage.stageNumber }}: {{dispDate(stage.tournamentStartDate)}}
+                                <a data-toggle="collapse" v-bind:data-target="'#demo'+stage.stageNumber" :id="'pitch_stage_open_close_'+stage.stageNumber" href="javascript:void(0)" data-status="open" @click="toggleStage(stage.stageNumber)" class="pull-right open-close-link">Close</a>
+                            </div>
+                            
+                            <div :id="'demo'+stage.stageNumber" class="stages collapse in show" aria-expanded="true">
+                                <pitch-planner-stage :stage="stage"  :defaultView="defaultView"></pitch-planner-stage>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -53,7 +48,7 @@
                                 <games-tab></games-tab>
                             </div>
                             <div :class="[currentView == 'refereeTab' ? 'active' : '', 'tab-pane']" v-if="refereeStatus"  id="referee-list" role="tabpanel">
-                                <referees-tab></referees-tab>
+                                <referees-tab :competationList="competationList"></referees-tab>
                             </div>
                         </div>
                     </div>
@@ -221,6 +216,8 @@
                 }
             });
 
+            this.htmlEncodeDecode();
+
 
          // TODO set Default View
 
@@ -313,43 +310,26 @@
             },
             setCurrentTab(currentTab = 'refereeTab') {
                 let vm =this;
-             
-               vm.$store.dispatch('SetStageView',currentTab)
-                // setTimeout(function(){
-                //      // vm.stageStatus = true
-                //     // vm.GameStatus = true
-                //     if(currentTab == 'refereeTab'){
-                //       // vm.refereeReset()
-                //       vm.$emit('getAllReferee');
-                //       // vm.$store.dispatch('getAllReferee', vm.$store.state.Tournament.tournamentId)
-                //     }
-                   
-                // },500)
-              
+                vm.$store.dispatch('SetStageView',currentTab)
             },
-            
-            // myFilter: function(){
-            //     this.isActive = !this.isActive;
-            //   // some code to filter users
-            // },
             toggleStage(stageNo){
-                // Change the opt_icon as well
-            if($('#opt_icon_'+stageNo).hasClass('fa-plus') == true){
-                $('#opt_icon_'+stageNo).addClass('fa-minus')
-                $('#opt_icon_'+stageNo).removeClass('fa-plus')
-            }else{
-                $('#opt_icon_'+stageNo).addClass('fa-plus')
-                $('#opt_icon_'+stageNo).removeClass('fa-minus')
-            }
-                let vm =this
+                // Change the pitch_stage_open_close as well
+                if($('#pitch_stage_open_close_' + stageNo).data('status') == "open") {
+                    $('#pitch_stage_open_close_' + stageNo).text("Open");
+                    $('#pitch_stage_open_close_' + stageNo).data('status', "close");
+                } else {
+                    $('#pitch_stage_open_close_' + stageNo).text("Close");
+                    $('#pitch_stage_open_close_' + stageNo).data('status', "open");
+                }
+                
+                let vm = this;
                 setTimeout(function(){
-                        if(vm.defaultView == 'timelineDay'){
+                    if(vm.defaultView == 'timelineDay'){
                         $('.fc-timelineDay-button').click()
                     }else{
                         $('.fc-agendaDay-button').click()
                     }
-                },100)
-
+                },100);
             },
             setView(view) {
                 let vm = this
@@ -434,6 +414,36 @@
           },
           enlargePitchPlanner() {
             this.$router.push({name: 'enlarge_pitch_planner'})
+          },
+          htmlEncodeDecode() {
+            (function(window){
+                window.htmlentities = {
+                    /**
+                     * Converts a string to its html characters completely.
+                     *
+                     * @param {String} str String with unescaped HTML characters
+                     **/
+                    encode : function(str) {
+                        var buf = [];
+                        
+                        for (var i=str.length-1;i>=0;i--) {
+                            buf.unshift(['&#', str[i].charCodeAt(), ';'].join(''));
+                        }
+                        
+                        return buf.join('');
+                    },
+                    /**
+                     * Converts an html characterSet into its original character.
+                     *
+                     * @param {String} str htmlSet entities
+                     **/
+                    decode : function(str) {
+                        return str.replace(/&#(\d+);/g, function(match, dec) {
+                            return String.fromCharCode(dec);
+                        });
+                    }
+                };
+            })(window);
           },
         }
     }

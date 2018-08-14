@@ -48,11 +48,15 @@ export default {
 
 	    this.$root.$on('changeDrawListComp', this.setMatchData);
 	    this.$root.$on('getAllDraws', this.getAllDraws);
+   	this.$root.$on('changeComp', this.setMatchData);
+
 	},
 	beforeCreate: function() {
 		// Remove custom event listener
 		this.$root.$off('changeDrawListComp');
 	  this.$root.$off('getAllDraws');
+		this.$root.$off('changeComp');
+
 	},
 	methods: {
 		setMatchData(id, Name='',CompetationType='') {
@@ -127,6 +131,24 @@ export default {
 				(error) => {
 					alert('Error in Getting Draws')
 					$("body .js-loader").addClass('d-none');
+				}
+			)
+		},
+		getTeamDetails(teamId, teamName) {
+			let TournamentId = this.$store.state.Tournament.tournamentId
+			let tournamentData = {'tournamentId': TournamentId,
+			'teamId':teamId}
+			this.otherData.TeamName = teamName
+			Tournament.getFixtures(tournamentData).then(
+				(response)=> {
+					if(response.data.status_code == 200) {
+
+						this.matchData = response.data.data
+						// here we add extra Field Fot Not Displat Location
+					}
+				},
+				(error) => {
+					alert('Error in Getting Draws')
 				}
 			)
 		},

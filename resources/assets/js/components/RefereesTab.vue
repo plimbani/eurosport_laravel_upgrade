@@ -12,7 +12,7 @@
         </div>
         <div v-if="refereeStatus"  v-for="referee in referees">
           <div>
-            <draggable-referee :referee="referee"></draggable-referee>
+            <draggable-referee :referee="referee" :competationList="getCompetationList"></draggable-referee>
           </div>
         </div>
       </div>
@@ -22,15 +22,18 @@
 
 <script type="text/babel">
   import DraggableReferee from './DraggableReferee';
-  import Tournament from '../api/tournament.js'
+  import Tournament from '../api/tournament.js';
+  import _ from 'lodash';
 
   export default {
+    props: ['competationList'],
     data() {
-            return {
-                'tournamentId': this.$store.state.Tournament.tournamentId,
-                refereeStatus: true,
-                }
-        },
+    return {
+      'tournamentId': this.$store.state.Tournament.tournamentId,
+       refereeStatus: true,
+       competationListData:{}
+      }
+    },
     components: {
         DraggableReferee
     },
@@ -47,11 +50,18 @@
         // return vm.$store.getters.getAllReferees
         // } 
         
-      }
+      },
+      getCompetationList() {
+        let vm = this;
+        _.forEach(vm.competationList, function(value) {
+          if(value.id && value.category_age) 
+            vm.competationListData[value.id] = value.category_age;
+        });
+        return vm.competationListData;
+      },
     },
     created:function() {
-            this.$root.$on('getAllReferee', this.getAllreferees);
-
+        this.$root.$on('getAllReferee', this.getAllreferees);
     },
     mounted() {
       this.$store.dispatch('getAllReferee',this.tournamentId);
@@ -66,6 +76,8 @@
       });
     },
     methods: {
+
+      
 
       getAllreferees() {
         this.referees = this.$store.state.Tournament.referees

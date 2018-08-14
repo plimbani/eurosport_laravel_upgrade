@@ -4,6 +4,7 @@ import Vuex from 'vuex';
 import * as actions from './actions';
 import * as getters from './getters';
 import * as types from './mutation-types';
+import Matches from './modules/matches';
 
 import createPersistedState from 'vuex-persistedstate';
 
@@ -15,6 +16,7 @@ const state = {
 }
 
 const mutations = {
+
 };
 
 export default new Vuex.Store({
@@ -24,6 +26,7 @@ export default new Vuex.Store({
   mutations,
   getters,
   modules: {
+    Matches,
   },
   strict: debug,
 });
