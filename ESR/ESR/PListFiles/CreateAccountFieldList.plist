@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+    <array>
+        <!--
+         {
+             cellType
+             title - default text if any
+             placeholder - placeholder text
+             secureTextEntry
+             keyboardType 1-general, 2-number, 3-email, 4-URL
+             keyboardReturn 1-return, 2-next, 3-search, 4-next, 5-done
+         }
+         -->
+        <dict>
+            <key>cellType</key>
+            <integer>1</integer>
+            <key>placeholder</key>
+            <string>First name</string>
+            <key>keyboardType</key>
+            <integer>1</integer>
+            <key>keyboardReturn</key>
+            <integer>2</integer>
+        </dict>
+        <dict>
+            <key>cellType</key>
+            <integer>1</integer>
+            <key>placeholder</key>
+            <string>Surname</string>
+            <key>keyboardType</key>
+            <integer>1</integer>
+            <key>keyboardReturn</key>
+            <integer>2</integer>
+        </dict>
+        <dict>
+            <key>cellType</key>
+            <integer>1</integer>
+            <key>placeholder</key>
+            <string>Email address</string>
+            <key>keyboardType</key>
+            <integer>3</integer>
+            <key>keyboardReturn</key>
+            <integer>2</integer>
+        </dict>
+        <dict>
+            <key>cellType</key>
+            <integer>1</integer>
+            <key>placeholder</key>
+            <string>Password</string>
+            <key>secureTextEntry</key>
+            <true/>
+            <key>keyboardType</key>
+            <integer>1</integer>
+            <key>keyboardReturn</key>
+            <integer>2</integer>
+        </dict>
+        <dict>
+            <key>cellType</key>
+            <integer>1</integer>
+            <key>placeholder</key>
+            <string>Confirm password</string>
+            <key>secureTextEntry</key>
+            <true/>
+            <key>keyboardType</key>
+            <integer>1</integer>
+            <key>keyboardReturn</key>
+            <integer>2</integer>
+        </dict>
+        <dict>
+            <key>cellType</key>
+            <integer>2</integer>
+            <key>title</key>
+            <string>Select tournament</string>
+        </dict>
+        <dict>
+            <key>cellType</key>
+            <integer>3</integer>
+            <key>title</key>
+            <string>Create new account</string>
+        </dict>
+    </array>
+</plist>

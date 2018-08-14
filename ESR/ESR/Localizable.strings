@@ -1,0 +1,63 @@
+/*
+  Localizable.strings
+  StructureDemo
+ 
+  Created by Me on 24/03/18.
+*/
+
+//titles
+"title_contacts"                            =   "Contacts";
+"title_backups"                             =   "Backups";
+"title_settings"                            =   "Settings";
+"title_privacy_policy"                      =   "Privacy policy";
+"title_terms_n_condition"                   =   "Terms of use";
+// Tab titles
+"title_tab_fav"                             = "Favorites";
+"title_tab_tournament"                      = "Tournament";
+"title_tab_teams"                           = "Teams";
+"title_tab_agecategories"                   = "Age categories";
+"title_tab_settings"                        = "Settings";
+
+//Alert titles
+"alert_title_error"                     =   "Error";
+"alert_title_success"                   =   "Success";
+"alert_title_warning"                   =   "Warning!!";
+"alert_title_info"                      =   "Information";
+"alert_title_app"                       =   "Marketti";
+"alert_title_request_code"              =   "Request New Code";
+"alert_title_send_receipt"              =   "Send Receipt?";
+"alert_title_email_receipt"             =   "Email Receipt";
+
+//Alert Messages
+"alert_msg_networkerror"                =   "Network not available.";
+"alert_msg_request_code"                =   "Would you like to request a new confirmation code?";
+"alert_msg_wrong_current_password"      =   "You have entered wrong current password!";
+"alert_msg_password_change"             =   "Password changed successfully!";
+"alert_msg_password_not_match"          =   "Password not matched.";
+"alert_msg_profile_update"              =   "Profile updated successfully.";
+"alert_msg_image_size"                  =   "Small image size.";
+"alert_msg_image_unknown"               =   "Unknown image type.";
+
+"alert_msg_login_credentials"           =   "These credentials do not match our records.";
+"alert_msg_forgot_pass_invalid_email"   =   "The selected email is invalid.";
+"alert_msg_confirmation_code_send"      =   "A new code has been sent to your email address.";
+
+//Button titles
+"btn_ok"                                =   "Ok";
+"btn_no"                                =   "No";
+"btn_yes"                               =   "Yes";
+"btn_back"                              =   "Back";
+"btn_send"                              =   "Send";
+"btn_cancel"                            =   "Cancel";
+
+//Strings
+"string_payment_kit_btn_order"          = "Buy now for just %@";
+"select_image"                          = "Select image";
+"change_image"                          = "Change image";
+"add_offer"                             = "Add offer";
+"update"                                = "Update";
+"string_placeholder_token_list"         = "Search";
+
+// Placeholder Strings
+"string_placeholder_search_map"         = "What are you looking for?";
+"string_placeholder_enter_amount"       = "Enter amount";

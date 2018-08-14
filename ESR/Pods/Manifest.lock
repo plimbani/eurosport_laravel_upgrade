@@ -1,0 +1,29 @@
+PODS:
+  - Alamofire (4.7.2)
+  - Crashlytics (3.10.0):
+    - Fabric (~> 1.7.3)
+  - ESTabBarController-swift (2.6.2)
+  - Fabric (1.7.7)
+
+DEPENDENCIES:
+  - Alamofire (~> 4.7)
+  - Crashlytics (= 3.10)
+  - ESTabBarController-swift
+  - Fabric
+
+SPEC REPOS:
+  https://github.com/CocoaPods/Specs.git:
+    - Alamofire
+    - Crashlytics
+    - ESTabBarController-swift
+    - Fabric
+
+SPEC CHECKSUMS:
+  Alamofire: e4fa87002c137ba2d8d634d2c51fabcda0d5c223
+  Crashlytics: a989ef242b66605577a425733797f810bd2725eb
+  ESTabBarController-swift: f0a8679e43df1e60b7b36bbcaf1dc98ba6273c7d
+  Fabric: bda89e242bce1b7b8ab264248cf3407774ce0095
+
+PODFILE CHECKSUM: 0e80b9d027d64114c1d47725fb08789c2e3e5650
+
+COCOAPODS: 1.5.0
