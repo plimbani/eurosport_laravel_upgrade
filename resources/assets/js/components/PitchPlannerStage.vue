@@ -481,13 +481,26 @@ import _ from 'lodash'
                               let colorVal = match.category_age_color;
                               var isBright = (parseInt(vm.getBrightness(match.category_age_color)) > 160);
                               let borderColorVal;
-                              if(isBright) {
-                                borderColorVal = vm.LightenDarkenColor(match.category_age_color, -40);
-                              } else {
-                                borderColorVal = vm.LightenDarkenColor(match.category_age_color, 40);
-                              }
+                              
                               let textColorVal = match.category_age_font_color;
                               let fixtureStripColor = match.competation_color_code != null ? match.competation_color_code : '#FFFFFF';
+
+                              let ageCategoryColor = match.age_category_color;
+                              let groupColor = match.group_color;
+
+                              if(ageCategoryColor != null) {
+                                colorVal = ageCategoryColor;
+                              }
+
+                              if(groupColor != null) {
+                                fixtureStripColor = groupColor;
+                              }
+
+                              if(isBright) {
+                                borderColorVal = vm.LightenDarkenColor(colorVal, -40);
+                              } else {
+                                borderColorVal = vm.LightenDarkenColor(colorVal, 40);
+                              }
 
                               if(scheduleBlock){
                                 colorVal = 'grey'
@@ -509,6 +522,14 @@ import _ from 'lodash'
                                 refereeId = match.referee_id?match.referee_id:0
                                  matchTitle = displayMatchName
                               }
+
+                              if(ageCategoryColor != null) {
+                                colorVal = ageCategoryColor;
+                              }
+                              
+                              if(groupColor != null) {
+                                fixtureStripColor = groupColor; 
+                              }                              
 
                                 let mData =  {
                                     'id': match.fid,
