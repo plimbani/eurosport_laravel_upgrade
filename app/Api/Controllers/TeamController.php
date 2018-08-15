@@ -2,6 +2,8 @@
 
 namespace Laraspace\Api\Controllers;
 
+use UrlSigner;
+use Carbon\Carbon;
 use Brotzka\DotenvEditor\DotenvEditor;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
@@ -19,6 +21,8 @@ use Laraspace\Http\Requests\Team\ChangeTeamNameRequest;
 use Laraspace\Http\Requests\Team\CheckTeamExistRequest;
 use Laraspace\Http\Requests\Team\GetAllTournamentTeamsRequest;
 use Laraspace\Http\Requests\Team\GetAllCompetitionTeamsFromFixtureRequest;
+use Laraspace\Http\Requests\Team\GetSignedUrlForTeamsFairPlayReportPrint;
+use Laraspace\Http\Requests\Team\GetSignedUrlForTeamsFairPlayReportExport;
 
 
 // Need to Define Only Contracts
@@ -198,5 +202,42 @@ class TeamController extends BaseController
     public function getClubsByTournamentId(Request $request, $tournamentId)
     {
         return $this->teamObj->getClubsByTournamentId($tournamentId);
+    }
+
+    public function getTeamsFairPlayData(Request $request)
+    {
+        return $this->teamObj->getTeamsFairPlayData($request->all());   
+    }
+
+    public function getSignedUrlForTeamsFairPlayReportExport(GetSignedUrlForTeamsFairPlayReportExport $request)
+    {
+        $reportData = $request->all();
+        ksort($reportData);
+        $reportData  = http_build_query($reportData);
+
+        $signedUrl = UrlSigner::sign(url('api/teams/getTeamsFairPlayData/report/reportExport?' . $reportData), Carbon::now()->addMinutes(config('config-variables.signed_url_interval')));
+
+        return $signedUrl;
+    }
+
+    public function getSignedUrlForFairPlayReportPrint(GetSignedUrlForTeamsFairPlayReportPrint $request)
+    {
+        $reportData = $request->all();
+        ksort($reportData);
+        $reportData  = http_build_query($reportData);
+
+        $signedUrl = UrlSigner::sign(url('api/teams/getTeamsFairPlayData/report/print?' . $reportData), Carbon::now()->addMinutes(config('config-variables.signed_url_interval')));
+
+        return $signedUrl;
+    }
+
+    public function exportTeamFairPlayReport(Request $request)
+    {
+        return $this->teamObj->exportTeamFairPlayReport($request->all());
+    }
+
+    public function printTeamFairPlayReport(Request $request)
+    {
+        return $this->teamObj->printTeamFairPlayReport($request->all());   
     }
 }

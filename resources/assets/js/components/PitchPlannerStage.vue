@@ -528,8 +528,8 @@ import _ from 'lodash'
                               }
                               
                               if(groupColor != null) {
-                                fixtureStripColor = groupColor; 
-                              }                              
+                                fixtureStripColor = groupColor;
+                              }
 
                                 let mData =  {
                                     'id': match.fid,
