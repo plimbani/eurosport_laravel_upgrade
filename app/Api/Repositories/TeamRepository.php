@@ -139,6 +139,8 @@ class TeamRepository
         $teamName =  isset($data['team']) ? $data['team'] : '';
         $place =  isset($data['place']) ? $data['place'] : '';
         $club_id =  isset($data['club_id']) ? $data['club_id'] : '';
+        $shirtColor = isset($data['shirtcolor']) ? $data['shirtcolor'] : '';
+        $shortsColor = isset($data['shortscolor']) ? $data['shortscolor'] : '';
         // dd($data);
         \Log::info($data);
         return Team::create([
@@ -150,7 +152,8 @@ class TeamRepository
             'age_group_id' => $data['age_group_id'],
             'club_id'=>$data['club_id'],
             'comments'=>$data['teamcomment'],
-
+            'shirt_color'=>$shirtColor,
+            'shorts_color'=>$shortsColor,
             ]);
     }
 
@@ -469,6 +472,11 @@ class TeamRepository
       return $contries = Country::orderBy('name')->get();
     }
 
+    public function getAllTeamColors()
+    {
+      return config('config-variables.team_colors');
+    }
+
     public function getAllClubs()
     {
       return $clubs = Club::all();
@@ -522,6 +530,8 @@ class TeamRepository
       $team->country_id = $request['team_country'];
       $team->club_id = $clubId;
       $team->comments = $request['comment'];  
+      $team->shirt_color = $request['team_shirt_color'];
+      $team->shorts_color = $request['team_shorts_color'];
       $team->save();    
     }
 

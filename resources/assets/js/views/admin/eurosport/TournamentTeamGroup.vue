@@ -147,7 +147,7 @@
   			</div>
   		</div>
   	</div>
-     <team-modal v-if="teamId!=''" :teamId="teamId" :countries="countries" :clubs="clubs"></team-modal>
+     <team-modal v-if="teamId!=''" :teamId="teamId" :countries="countries" :clubs="clubs" :teamColors="teamColors"></team-modal>
     <div class="modal fade" id="reset_modal" tabindex="-1" role="dialog" 
     aria-labelledby="resetModalLabel">
       <div class="modal-dialog" role="document">
@@ -212,6 +212,7 @@
         'teamsInEdit': {},
         'countries': [],
         'clubs': [],
+        'teamColors': []
         // 'tournamentFilter':{
         //   'filterKey':'team',
         //   'filterValue': ''
@@ -270,6 +271,7 @@
       this.getTeams()
       this.fetchAllCountries();
       this.fetchAllClubs();
+      this.fetchAllTeamColors();
     },
     created: function() {
       this.$root.$on('getTeamsByTournamentFilter', this.setFilter);
@@ -696,7 +698,16 @@
           (error) => {
           }
         )
-      }
+      },
+      fetchAllTeamColors() {
+        Tournament.getAllTeamColors().then(
+          (response) => {
+            this.teamColors = response.data
+          },
+            (error)=> {
+            }
+          );
+      },
     }
   }
 </script>

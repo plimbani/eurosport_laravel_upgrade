@@ -340,6 +340,11 @@ class TeamService implements TeamContract
         return $this->teamRepoObj->getAllCountries();
     }
 
+    public function getAllTeamColors()
+    {
+        return $this->teamRepoObj->getAllTeamColors();
+    }
+
     public function getAllClubs()
     {
         return $this->teamRepoObj->getAllClubs();      

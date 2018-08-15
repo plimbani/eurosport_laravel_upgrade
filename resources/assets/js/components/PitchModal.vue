@@ -31,17 +31,40 @@
                   <div class="form-group row mb-0">
                     <label class="col-sm-3">{{$lang.pitch_modal_match_number}}</label>
                     <p class="col-sm-9">{{ matchDetail.display_match_number }}</p>
-
-                    <label class="col-sm-3"></label>
-                    <p class="col-sm-9 mb-0">
-                      <ul class="list-unstyled">
-                          <li class="d-inline">Team 1 ({{ getTeamName(matchDetail.home_team, matchDetail.home_team_name, matchDetail.display_home_team_placeholder_name, matchDetail.competition.actual_name) }})</li>
-                          <li class="d-inline">Team 2 ({{  getTeamName(matchDetail.away_team, matchDetail.away_team_name, matchDetail.display_away_team_placeholder_name, matchDetail.competition.actual_name) }})</li>
-                      </ul>
+                  </div>
+                  <div class="form-group row">
+                    <div class="col-sm-3"></div>
+                    <div class="col-sm-9">
+                      <div class="row">
+                        <div class="col-lg-6">
+                          <div class="d-inline-flex">
+                            <div class="matchteam-details">
+                              <div class="matchteam-dress" v-if="matchDetail.hometeam_shorts_color && matchDetail.hometeam_shirt_color">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64.4 62"><g><g><polygon v-bind:fill="matchDetail.hometeam_shorts_color" points="13.2 40 13.2 62 30.2 62 32.2 56 34.2 62 51.2 62 51.2 40 13.2 40"/></g><path v-bind:fill="matchDetail.hometeam_shirt_color" d="M63.81,10.81,51.2,0h-13a6.5,6.5,0,0,1-6,4,6.5,6.5,0,0,1-6-4h-13L.59,10.81A1.7,1.7,0,0,0,.5,13.3L7.2,20l6-4V40h38V16l6,4,6.7-6.7A1.7,1.7,0,0,0,63.81,10.81Z"/></g></svg>
+                              </div>
+                              <div class="matchteam-name">
+                                Team 1 ({{ getTeamName(matchDetail.home_team, matchDetail.home_team_name, matchDetail.display_home_team_placeholder_name, matchDetail.competition.actual_name) }})
+                              </div>                              
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-lg-6">
+                          <div class="d-inline-flex">
+                            <div class="matchteam-details">
+                              <div v-if="matchDetail.awayteam_shorts_color && matchDetail.awayteam_shirt_color" style="width: 20px;">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64.4 62"><g><g><polygon v-bind:fill="matchDetail.awayteam_shorts_color" points="13.2 40 13.2 62 30.2 62 32.2 56 34.2 62 51.2 62 51.2 40 13.2 40"/></g><path v-bind:fill="matchDetail.awayteam_shirt_color" d="M63.81,10.81,51.2,0h-13a6.5,6.5,0,0,1-6,4,6.5,6.5,0,0,1-6-4h-13L.59,10.81A1.7,1.7,0,0,0,.5,13.3L7.2,20l6-4V40h38V16l6,4,6.7-6.7A1.7,1.7,0,0,0,63.81,10.81Z"/></g></svg>
+                              </div>
+                              <div class="matchteam-name">
+                                Team 2 ({{  getTeamName(matchDetail.away_team, matchDetail.away_team_name, matchDetail.display_away_team_placeholder_name, matchDetail.competition.actual_name) }})
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                       <!-- Team 1 ({{ getTeamName(matchDetail.home_team, matchDetail.home_team_name, matchDetail.display_home_team_placeholder_name, matchDetail.competition.actual_name) }}) and Team 2 ({{  getTeamName(matchDetail.away_team, matchDetail.away_team_name, matchDetail.display_away_team_placeholder_name, matchDetail.competition.actual_name) }}) --> 
-                    </p>
-
-
+                    </div>
+                  </div>
+                  <div class="form-group row">
                     <label class="col-sm-3">{{$lang.pitch_modal_date}}</label>
                     <p class="col-sm-9">{{matchDetail.matchTime}}</p>
                     <label class="col-sm-3">{{$lang.pitch_modal_pitch_details}}</label><p class="col-sm-9"
@@ -166,7 +189,7 @@
                       <input type="number" min="0" name="home_yellow_cards"
                       v-model="matchDetail.home_yellow_cards" id="home_yellow_cards" class="form-control">
                     </div>
-                    <div class="col-sm-6 align-self-center">
+                    <div class="col-sm-6 align-self-center">                      
                       Team 1 ({{ getTeamName(matchDetail.home_team, matchDetail.home_team_name, matchDetail.
                       display_home_team_placeholder_name, matchDetail.competition.actual_name) }})
                     </div>                    
