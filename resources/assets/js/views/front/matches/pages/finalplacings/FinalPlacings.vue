@@ -2,7 +2,7 @@
   <div>
     <div class="table-responsive" v-if="competitionList.length > 0">
       <table class="table table-hover table-bordered">
-        <thead>
+        <thead class="no-border">
           <tr>
             <th scope="col">{{ $t('tournament.category_name') }}</th>
             <th scope="col">{{ $t('tournament.age_category') }}</th>

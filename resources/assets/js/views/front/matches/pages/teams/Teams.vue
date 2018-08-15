@@ -3,7 +3,7 @@
 		<div v-if="showView == 'teams'">
 			<div class="table-responsive">
 				<table id="teamsTable" class="table table-hover table-bordered">
-					<thead>
+					<thead class="no-border">
 						<tr>
 							<th>{{ $t('matches.team') }}</th>
 							<th>{{ $t('matches.categories') }}</th>
