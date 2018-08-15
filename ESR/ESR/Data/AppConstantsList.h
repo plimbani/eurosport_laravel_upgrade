@@ -58,7 +58,7 @@
 
 // Webservice Urls
 #define HostName_URL                    @"74.120.218.195"
-#define BaseURL                         @"https://qa.wot.esrtmp.com"    // QA
+//#define BaseURL                         @"https://qa.wot.esrtmp.com"    // QA
 //#define BaseURL                         @"https://www.esrtmp.com"       // Live
 //#define BaseURL                         @"http://192.168.0.6:8180/"
 //#define BaseURL                         @"https://qa.esrtmp.com"
@@ -66,7 +66,7 @@
 //#define BaseURL                         @"http://mukesh-wot.dev.aecortech.com"
 //#define BaseURL                         @"http://sunny-eurosport.dev.aecortech.com"
 //#define BaseURL                         @"http://krunal-eurosport.dev.aecortech.com"
-//#define BaseURL                         @"http://usama-eurosport.dev.aecortech.com"
+#define BaseURL                         @"http://usama-eurosport.dev.aecortech.com"
 
 #define VersionDetail                   @"/api/appversion"
 #define Forgotpassword                  @"/api/password/email"
