@@ -195,6 +195,9 @@ export default {
   getAllClubs() {
     return api.get('getAllClubs');
   },
+  getAllTeamColors() {
+    return api.get('getAllTeamColors');
+  },
   updateTeamDetails(teamId, formData) {
     return api.post('updateTeamDetails/'+teamId, formData);
   },
@@ -224,5 +227,14 @@ export default {
   },
   getClubsByTournamentId(tournamentId) {
     return api.post('getClubsByTournamentId/' +tournamentId);
-  },  
+  },
+  getTeamsFairPlayData(teamData) {
+    return api.get('getTeamsFairPlayData?' +teamData);
+  },
+  getSignedUrlForTeamsFairPlayReportExport(reportData) {
+    return api.post('getSignedUrlForTeamsFairPlayReportExport?' + reportData);
+  },
+  getSignedUrlForFairPlayReportPrint(reportData) {
+    return api.post('getSignedUrlForFairPlayReportPrint?' + reportData);
+  },
 }

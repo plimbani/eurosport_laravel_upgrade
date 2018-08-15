@@ -139,6 +139,8 @@ class TeamRepository
         $teamName =  isset($data['team']) ? $data['team'] : '';
         $place =  isset($data['place']) ? $data['place'] : '';
         $club_id =  isset($data['club_id']) ? $data['club_id'] : '';
+        $shirtColor = isset($data['shirtcolor']) ? $data['shirtcolor'] : '';
+        $shortsColor = isset($data['shortscolor']) ? $data['shortscolor'] : '';
         // dd($data);
         \Log::info($data);
         return Team::create([
@@ -150,7 +152,8 @@ class TeamRepository
             'age_group_id' => $data['age_group_id'],
             'club_id'=>$data['club_id'],
             'comments'=>$data['teamcomment'],
-
+            'shirt_color'=>$shirtColor,
+            'shorts_color'=>$shortsColor,
             ]);
     }
 
@@ -469,6 +472,11 @@ class TeamRepository
       return $contries = Country::orderBy('name')->get();
     }
 
+    public function getAllTeamColors()
+    {
+      return config('config-variables.team_colors');
+    }
+
     public function getAllClubs()
     {
       return $clubs = Club::all();
@@ -522,6 +530,8 @@ class TeamRepository
       $team->country_id = $request['team_country'];
       $team->club_id = $clubId;
       $team->comments = $request['comment'];  
+      $team->shirt_color = $request['team_shirt_color'];
+      $team->shorts_color = $request['team_shorts_color'];
       $team->save();    
     }
 
@@ -549,5 +559,67 @@ class TeamRepository
       $competitions = Competition::where('tournament_competation_template_id',$ageCategoryId)
                                    ->update(['is_manual_override_standing'=> 0 , 'color_code'=>null]);
       
+    }
+
+    public function getTeamsFairPlayData($data)
+    {
+      $teamData = Team::join('countries', function ($join) {
+        $join->on('teams.country_id', '=', 'countries.id');
+      })
+      ->join('tournament_competation_template', 'tournament_competation_template.id', '=', 'teams.age_group_id')
+      ->join('clubs', 'clubs.id', '=', 'teams.club_id')
+      ->join('temp_fixtures', function($join) {
+          $join->on('teams.id', '=', 'temp_fixtures.home_team')->orOn('teams.id', '=', 'temp_fixtures.away_team');
+        })
+      ->groupBy('teams.id')
+      ->where('teams.tournament_id',$data['tournament_id']);
+
+      if(isset($data['sel_ageCategory']) && $data['sel_ageCategory'] != null && $data['sel_ageCategory'] != ''){
+        $teamData = $teamData->where('teams.age_group_id',$data['sel_ageCategory']);
+      }
+
+      if(isset($data['sort_by']) && $data['sort_by'] != '') {
+        switch($data['sort_by']) {
+            case 'team_id':
+                  $fieldName = 'teams.id';
+                  break;
+            case 'name':
+                  $fieldName = 'teams.name';
+                  break;
+            case 'club_name':
+                  $fieldName = 'clubs.name';
+                  break;
+            case 'country_name':
+                  $fieldName = 'countries.name';
+                  break;
+            case 'age_name':
+                  $fieldName = 'tournament_competation_template.group_name';
+                  break;
+            case 'total_red_cards':
+                  $fieldName = 'total_red_cards';
+                  break;
+            case 'total_yellow_cards':
+                  $fieldName = 'total_yellow_cards';
+                  break;
+        }
+        $teamData = $teamData->orderBy($fieldName, $data['sort_order']);
+      }
+
+      $teamData = $teamData->select('teams.*','teams.id as team_id', 'countries.name as country_name',
+                            'tournament_competation_template.group_name as age_name','tournament_competation_template.category_age as category_age','clubs.name as club_name', 
+                            DB::raw('
+                              SUM(CASE
+                              WHEN (temp_fixtures.home_team = teams.id) THEN temp_fixtures.home_yellow_cards ELSE temp_fixtures.away_yellow_cards
+                              END
+                              ) AS total_yellow_cards'),
+                            DB::raw('
+                              SUM(CASE
+                              WHEN (temp_fixtures.home_team = teams.id) THEN temp_fixtures.home_red_cards ELSE temp_fixtures.away_red_cards
+                              END
+                              ) AS total_red_cards')
+                            )
+                            ->get();
+
+      return ['teamData' => $teamData];
     }
 }

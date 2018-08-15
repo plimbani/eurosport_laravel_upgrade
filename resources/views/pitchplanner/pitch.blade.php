@@ -26,6 +26,13 @@
     min-height: 22.7cm;
     margin: 0cm auto;
   }
+  .color-preview {
+    float: left;
+    width: 20px;
+    height: 20px;
+    margin: 5px;
+    border: 1px solid rgba(0, 0, 0, .2);
+  }
 </style>
 
 <center>
@@ -138,5 +145,71 @@
           <td align="left">&nbsp;Team 2 comment</td>
           <td>&nbsp;{{ $data['awayteam_comment']}}</td>
         </tr>
+        <tr>
+            <td align="left">&nbsp;Yellow cards</td>
+             <td>&nbsp;Team 1
+              @if($data['home_team'] == 0 && $data['home_team_name'] == '@^^@')
+                  @if(strpos($data['competition']['actual_name'], 'Group') !== false)
+                      ({{ $data['display_home_team_placeholder_name'] }})
+                  @elseif(strpos($data['competition']['actual_name'], 'Pos') !== false)
+                      ({{ 'Pos-' . $data['display_home_team_placeholder_name'] }})
+                  @endif
+              @elseif($data['home_team'] != 0)
+                  ({{ $data['home_team_name'] }})
+              @else
+                  ({{ $data['display_home_team_placeholder_name']}})    
+              @endif
+              - {{$data['home_yellow_cards']}}<br>
+              &nbsp;Team 2
+              @if($data['away_team'] == 0 && $data['away_team_name'] == '@^^@')
+                  @if(strpos($data['competition']['actual_name'], 'Group') !== false)
+                      ({{ $data['display_away_team_placeholder_name'] }})
+                  @elseif(strpos($data['competition']['actual_name'], 'Pos') !== false)
+                      ({{ 'Pos-' . $data['display_away_team_placeholder_name'] }})
+                  @endif
+              @elseif($data['away_team'] !=0)
+                  ({{ $data['away_team_name'] }})
+              @else
+                  ({{ $data['display_away_team_placeholder_name']}})    
+              @endif
+              - {{$data['away_yellow_cards']}}</td>
+        </tr>
+        <tr>
+            <td align="left">&nbsp;Red cards</td>
+             <td>&nbsp;Team 1
+              @if($data['home_team'] == 0 && $data['home_team_name'] == '@^^@')
+                  @if(strpos($data['competition']['actual_name'], 'Group') !== false)
+                      ({{ $data['display_home_team_placeholder_name'] }})
+                  @elseif(strpos($data['competition']['actual_name'], 'Pos') !== false)
+                      ({{ 'Pos-' . $data['display_home_team_placeholder_name'] }})
+                  @endif
+              @elseif($data['home_team'] != 0)
+                  ({{ $data['home_team_name'] }})
+              @else
+                  ({{ $data['display_home_team_placeholder_name']}})    
+              @endif
+              - {{$data['home_red_cards']}}<br>
+              &nbsp;Team 2
+              @if($data['away_team'] == 0 && $data['away_team_name'] == '@^^@')
+                  @if(strpos($data['competition']['actual_name'], 'Group') !== false)
+                      ({{ $data['display_away_team_placeholder_name'] }})
+                  @elseif(strpos($data['competition']['actual_name'], 'Pos') !== false)
+                      ({{ 'Pos-' . $data['display_away_team_placeholder_name'] }})
+                  @endif
+              @elseif($data['away_team'] !=0)
+                  ({{ $data['away_team_name'] }})
+              @else
+                  ({{ $data['display_away_team_placeholder_name']}})    
+              @endif
+              - {{$data['away_red_cards']}}</td>
+        </tr>
+        <tr>
+          <td align="left">&nbsp;Age category color</td>
+          <td><div class="color-preview" style="background: {{ $data['age_category_color'] ? $data['age_category_color'] : $categoryAgeColor }}"></div></td>
+        </tr>
+        <tr>
+          <td align="left">&nbsp;Group color</td>
+          <td><div class="color-preview" style="background: {{ $data['group_color'] ? $data['group_color'] : $categoryStripColor }}"></div></td>
+        </tr>        
     </thead>
 </table>
