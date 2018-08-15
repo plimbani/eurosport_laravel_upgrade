@@ -133,6 +133,9 @@ export default {
       this.$root.$off('setDrawTable');
     },
   mounted() {
+    if(this.$store.state.setCurrentView != 'drawsListing') {
+      return;
+    }
     this.setTeamData()
     // this.refreshStanding();
     // here call method to get All Draws

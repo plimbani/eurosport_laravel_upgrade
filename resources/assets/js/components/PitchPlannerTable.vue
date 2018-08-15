@@ -48,7 +48,7 @@
                                 <games-tab></games-tab>
                             </div>
                             <div :class="[currentView == 'refereeTab' ? 'active' : '', 'tab-pane']" v-if="refereeStatus"  id="referee-list" role="tabpanel">
-                                <referees-tab :competationList="competationList"></referees-tab>
+                                <referees-tab v-if="isCompetitionCallProcessed" :competationList="competationList"></referees-tab>
                             </div>
                         </div>
                     </div>
@@ -145,7 +145,7 @@
                 // 'currentView':'gamesTab',
                 'currentButton' : 'horizontal',
                 'matchCount':'',
-                 'tournamentStages': {},
+                'tournamentStages': {},
                 'stageStatus':false,
                 'GameStatus':true,
                 'refereeStatus':true,
@@ -153,7 +153,8 @@
                 'defaultView': 'agendaDay',
                 'refereeId': '',
                 'tournamentId': this.$store.state.Tournament.tournamentId,
-                'competationList': [{}],
+                'competationList': [],
+                'isCompetitionCallProcessed': false,
                 'formValues': this.initialState(),
             };
         },
@@ -247,6 +248,7 @@
                     // this.competationList.push({'id':0,'category_age':'Select all'})
                     this.competationList = responseData
                     this.$store.dispatch('setCompetationList', responseData)
+                    this.isCompetitionCallProcessed = true;
                     // console.log(this.competationList);
                   },
                   (error) => {              
