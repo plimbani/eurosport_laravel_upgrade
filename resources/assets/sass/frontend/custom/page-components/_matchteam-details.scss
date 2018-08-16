@@ -23,3 +23,16 @@
 		}
 	}
 }
+
+.summary-report-content {
+	.nav-tabs {
+		.nav-item {
+			.nav-link {
+				@include media-breakpoint-down(sm) { 
+					font-size: 0.75rem;
+				    padding: 0.4rem;
+				}
+			}
+		}
+	}
+}
