@@ -10,7 +10,7 @@ import UIKit
 class CreateAccountVC: SuperViewController {
 
     @IBOutlet var table: UITableView!
-    @IBOutlet var titleNavigationBar: TitleNavigationBar!
+    @IBOutlet var lblNoInternet: UILabel!
     
     var txtFirstName: UITextField!
     var txtLastName: UITextField!
@@ -28,18 +28,27 @@ class CreateAccountVC: SuperViewController {
     var heightTextFieldCell: CGFloat = 0
     var heightButtonCell: CGFloat = 0
     
+    // PickerHandlerView
+    var pickerHandlerView: PickerHandlerView!
+    var titleList = [String]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         initialize()
     }
     
     func initialize(){
+        titleNavigationBar.delegate = self
+        
+        // Checks internet connectivity
+        setConstraintLblNoInternet(APPDELEGATE.reachability.connection == .none)
         
         // Fieldlist
         if let url = Bundle.main.url(forResource: "CreateAccountFieldList", withExtension: "plist") {
             fieldList = NSArray(contentsOf: url)!
         }
         
+        // Heights for cell
         _ = cellOwner.loadMyNibFile(nibName: kNiB.Cell.LabelSelectionCell)
         heightLabelSelectionCell = (cellOwner.cell as! LabelSelectionCell).getCellHeight()
         
@@ -49,8 +58,68 @@ class CreateAccountVC: SuperViewController {
         _ = cellOwner.loadMyNibFile(nibName: kNiB.Cell.ButtonCell)
         heightButtonCell = (cellOwner.cell as! ButtonCell).getCellHeight()
         
+        pickerHandlerView = getPickerView()
+        pickerHandlerView.delegate = self
+        self.view.addSubview(pickerHandlerView)
+        
+        // Events when keyboard shows and hides
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        // To show/hide internet view in Navigation bar
+        NotificationCenter.default.addObserver(self, selector: #selector(showHideNoInternetView(_:)), name: .internetConnectivity, object: nil)
+        
         // Hides keyboard if tap outside of view
         hideKeyboardWhenTappedAround()
+        
+        // Get tournaments API request
+        sendRequestForTournaments()
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: .internetConnectivity, object: nil)
+    }
+    
+    //MARK:- Request Methods
+    func sendRequestForTournaments() {
+        if APPDELEGATE.reachability.connection == .none {
+            return
+        }
+        
+        self.view.showProgressHUD()
+        ApiManager().getTournaments(success: { result in
+            DispatchQueue.main.async {
+                self.view.hideProgressHUD()
+                
+                if let tournamentList = result.value(forKey: "data") as? NSArray {
+                    for tournament in tournamentList {
+                        self.titleList.append((tournament as! NSDictionary).value(forKey: "name") as! String)
+                    }
+                }
+                
+                self.pickerHandlerView.titleList = self.titleList
+                self.pickerHandlerView.reloadPickerView()
+            }
+            
+        }, failure: { result in
+            DispatchQueue.main.async {
+                self.view.hideProgressHUD()
+            }
+        })
+    }
+    
+    @objc func showHideNoInternetView(_ notification: NSNotification) {
+        if notification.userInfo != nil {
+            if let isShow = notification.userInfo![kNotification.isShow] as? Bool {
+                setConstraintLblNoInternet(isShow)
+            }
+        }
+    }
+    
+    @objc func keyboardWillShow(notification: NSNotification) {
+        if let newFrame = (notification.userInfo?[ UIKeyboardFrameEndUserInfoKey ] as? NSValue)?.cgRectValue {
+            let insets = UIEdgeInsetsMake( 0, 0, newFrame.height, 0 )
+            table.contentInset = insets
+            table.scrollIndicatorInsets = insets
+        }
     }
     
     func updateCreateAccountBtn() {
@@ -92,6 +161,21 @@ class CreateAccountVC: SuperViewController {
     }
 }
 
+extension CreateAccountVC : PickerHandlerViewDelegate {
+    
+    func pickerCancelBtnPressed() {}
+    
+    func pickerDoneBtnPressed(_ title: String) {
+        
+    }
+}
+
+extension CreateAccountVC : TitleNavigationBarDelegate {
+    func titleNavBarBackBtnPressed() {
+        self.navigationController?.popViewController(animated: true)
+    }
+}
+
 extension CreateAccountVC : UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -124,8 +208,8 @@ extension CreateAccountVC : UITableViewDataSource, UITableViewDelegate {
                         height = heightLabelSelectionCell
                     case .TextFieldCell:
                         height = heightTextFieldCell
-                    default:
-                        print("default")
+                    case .ButtonCell:
+                        height = heightButtonCell
                 }
             }
         }
@@ -188,8 +272,6 @@ extension CreateAccountVC : UITableViewDataSource, UITableViewDelegate {
                             btnCreateNewAccount.isEnabled = true
                             cell = buttonCell
                             cellList.add(cell)
-                        default:
-                            print("")
                     }
                 }
                 cell.backgroundColor = .clear
@@ -205,6 +287,7 @@ extension CreateAccountVC : UITableViewDataSource, UITableViewDelegate {
             if let cellType = CellType(rawValue: rawValue) {
                 if cellType == .LabelSelectionCell {
                     self.view.endEditing(true)
+                    pickerHandlerView.show()
                 } else if cellType == .ButtonCell {
                     
                 }

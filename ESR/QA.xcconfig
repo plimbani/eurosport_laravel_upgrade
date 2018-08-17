@@ -1,0 +1,10 @@
+//
+//  QA.xcconfig
+//  ESR
+//
+//  Created by Pratik Patel on 17/08/18.
+//
+#include "/Users/pratik/Documents/WS_ios/eurosport-swift/ESR/Pods/Target Support Files/Pods-ESR/Pods-ESR.debug ( qa ).xcconfig"
+
+// Base URL
+base_url = https:/$()/qa.wot.esrtmp.com/api/

@@ -29,7 +29,6 @@
 "alert_title_email_receipt"             =   "Email Receipt";
 
 //Alert Messages
-"alert_msg_networkerror"                =   "Network not available.";
 "alert_msg_request_code"                =   "Would you like to request a new confirmation code?";
 "alert_msg_wrong_current_password"      =   "You have entered wrong current password!";
 "alert_msg_password_change"             =   "Password changed successfully!";
@@ -57,6 +56,7 @@
 "add_offer"                             = "Add offer";
 "update"                                = "Update";
 "string_placeholder_token_list"         = "Search";
+"string_no_internet"                    = "The internet connection appears to be offline.";
 
 // Placeholder Strings
 "string_placeholder_search_map"         = "What are you looking for?";

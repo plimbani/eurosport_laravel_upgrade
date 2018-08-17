@@ -64,7 +64,7 @@ class MainTabViewController: ESTabBarController {
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         
-        let newTabBarHeight = self.tabBar.frame.size.height + 16
+        let newTabBarHeight = self.tabBar.frame.size.height + 10
         var newFrame = tabBar.frame
         newFrame.size.height = newTabBarHeight
         newFrame.origin.y = view.frame.size.height - newTabBarHeight

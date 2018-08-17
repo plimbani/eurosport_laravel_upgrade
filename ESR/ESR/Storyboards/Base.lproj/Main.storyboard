@@ -104,6 +104,16 @@
                                     <constraint firstAttribute="height" constant="44" id="TaF-xj-ZLb"/>
                                 </constraints>
                             </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="The internet connection appears to be offline." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FBq-Re-5Vo">
+                                <rect key="frame" x="0.0" y="64" width="320" height="20"/>
+                                <color key="backgroundColor" red="1" green="0.64705882349999999" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="20" id="Fyg-fE-7qR"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bG8-S6-efE">
                                 <rect key="frame" x="0.0" y="295" width="320" height="273"/>
                                 <subviews>
@@ -188,11 +198,14 @@
                         <constraints>
                             <constraint firstItem="7S9-Bu-pok" firstAttribute="width" secondItem="iEO-7E-87x" secondAttribute="width" id="0fF-LG-VPX"/>
                             <constraint firstItem="bG8-S6-efE" firstAttribute="leading" secondItem="wuK-9g-hMk" secondAttribute="leading" id="0iE-md-k6m"/>
+                            <constraint firstItem="FBq-Re-5Vo" firstAttribute="leading" secondItem="wuK-9g-hMk" secondAttribute="leading" id="67t-tT-LKI"/>
                             <constraint firstItem="7xD-an-3j8" firstAttribute="top" secondItem="wuK-9g-hMk" secondAttribute="top" id="9Sw-H5-row"/>
                             <constraint firstItem="44s-NK-au0" firstAttribute="leading" secondItem="wuK-9g-hMk" secondAttribute="leading" constant="20" id="BYj-et-VOP"/>
+                            <constraint firstItem="FBq-Re-5Vo" firstAttribute="top" secondItem="7xD-an-3j8" secondAttribute="bottom" id="CHh-ff-shX"/>
                             <constraint firstItem="FT2-U1-7pL" firstAttribute="leading" secondItem="wuK-9g-hMk" secondAttribute="leading" id="CS8-7n-tXK"/>
                             <constraint firstItem="7xD-an-3j8" firstAttribute="leading" secondItem="wuK-9g-hMk" secondAttribute="leading" id="NNg-MG-8sk"/>
                             <constraint firstItem="bG8-S6-efE" firstAttribute="top" secondItem="44s-NK-au0" secondAttribute="bottom" constant="25" id="NoM-NS-lv3"/>
+                            <constraint firstItem="wuK-9g-hMk" firstAttribute="trailing" secondItem="FBq-Re-5Vo" secondAttribute="trailing" id="Tdq-tu-4Ig"/>
                             <constraint firstItem="44s-NK-au0" firstAttribute="top" secondItem="wuK-9g-hMk" secondAttribute="top" constant="50" id="cME-ah-EDj"/>
                             <constraint firstItem="wuK-9g-hMk" firstAttribute="trailing" secondItem="7xD-an-3j8" secondAttribute="trailing" id="ccU-nK-RR3"/>
                             <constraint firstItem="FT2-U1-7pL" firstAttribute="top" secondItem="wuK-9g-hMk" secondAttribute="top" id="e0L-bJ-bGP"/>
@@ -205,14 +218,16 @@
                         <viewLayoutGuide key="safeArea" id="wuK-9g-hMk"/>
                     </view>
                     <connections>
-                        <outlet property="titleNavigationBar" destination="7xD-an-3j8" id="AMN-1H-0wW"/>
+                        <outlet property="heightConstraintLblNoInternet" destination="Fyg-fE-7qR" id="Z2R-mP-Ci8"/>
+                        <outlet property="lblNoInternet" destination="FBq-Re-5Vo" id="9tq-dz-35U"/>
+                        <outlet property="titleNavigationBar" destination="7xD-an-3j8" id="fwf-AZ-jZo"/>
                         <outlet property="txtEmail" destination="Gc3-VS-T3G" id="Qfx-ir-33q"/>
                         <outlet property="txtPassword" destination="YNZ-tS-Qbq" id="XZK-G8-W4h"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EfA-Bq-9U2" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1500" y="33"/>
+            <point key="canvasLocation" x="1500" y="32.74647887323944"/>
         </scene>
         <!--Forgot PasswordVC-->
         <scene sceneID="bok-Nn-qst">
@@ -225,6 +240,23 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="registration_bg" translatesAutoresizingMaskIntoConstraints="NO" id="PBk-dj-ZHs">
                                 <rect key="frame" x="0.0" y="20" width="320" height="548"/>
                             </imageView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="54c-7r-qA9" customClass="TitleNavigationBar" customModule="ESR" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="20" width="320" height="44"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="UVs-Dl-You"/>
+                                </constraints>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="The internet connection appears to be offline." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Pn-tg-Rye">
+                                <rect key="frame" x="0.0" y="64" width="320" height="20"/>
+                                <color key="backgroundColor" red="1" green="0.64705882349999999" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="20" id="BmU-AV-gth"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo_esr_landing" translatesAutoresizingMaskIntoConstraints="NO" id="Zgm-6u-jW6">
                                 <rect key="frame" x="20" y="70" width="280" height="200"/>
                                 <constraints>
@@ -232,13 +264,13 @@
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Enter your email address and we'll send you an email to reset your password." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pkD-Bh-ro4">
-                                <rect key="frame" x="30" y="296" width="260" height="61"/>
+                                <rect key="frame" x="30" y="295" width="260" height="61"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email address" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="YPh-SE-uPc">
-                                <rect key="frame" x="30" y="365" width="260" height="40"/>
+                                <rect key="frame" x="30" y="366" width="260" height="40"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="wG3-8r-1bl"/>
@@ -248,7 +280,7 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kLz-Cm-VBY">
-                                <rect key="frame" x="30" y="429" width="260" height="50"/>
+                                <rect key="frame" x="30" y="430" width="260" height="50"/>
                                 <color key="backgroundColor" red="0.80000000000000004" green="0.80000000000000004" blue="0.80000000000000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="kqO-dG-R2t"/>
@@ -257,33 +289,49 @@
                                 <state key="normal" title="Submit">
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
+                                <connections>
+                                    <action selector="onSubmitBtnPressed:" destination="W67-Nc-pf3" eventType="touchUpInside" id="OBA-vn-N17"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="YYB-ax-WDZ" firstAttribute="trailing" secondItem="pkD-Bh-ro4" secondAttribute="trailing" constant="30" id="38d-jv-gvw"/>
+                            <constraint firstItem="YYB-ax-WDZ" firstAttribute="trailing" secondItem="54c-7r-qA9" secondAttribute="trailing" id="A1E-hr-IrE"/>
+                            <constraint firstItem="6Pn-tg-Rye" firstAttribute="leading" secondItem="YYB-ax-WDZ" secondAttribute="leading" id="CRJ-il-aLR"/>
                             <constraint firstItem="YYB-ax-WDZ" firstAttribute="bottom" secondItem="PBk-dj-ZHs" secondAttribute="bottom" id="DcW-nn-i8U"/>
+                            <constraint firstItem="54c-7r-qA9" firstAttribute="leading" secondItem="YYB-ax-WDZ" secondAttribute="leading" id="E3j-UU-er0"/>
                             <constraint firstItem="YYB-ax-WDZ" firstAttribute="trailing" secondItem="kLz-Cm-VBY" secondAttribute="trailing" constant="30" id="G2O-e0-uBF"/>
                             <constraint firstItem="YYB-ax-WDZ" firstAttribute="trailing" secondItem="YPh-SE-uPc" secondAttribute="trailing" constant="30" id="HF4-lq-EqG"/>
                             <constraint firstItem="YYB-ax-WDZ" firstAttribute="trailing" secondItem="PBk-dj-ZHs" secondAttribute="trailing" id="Im7-0l-KbP"/>
+                            <constraint firstItem="6Pn-tg-Rye" firstAttribute="top" secondItem="54c-7r-qA9" secondAttribute="bottom" id="Pcp-4h-bCT"/>
                             <constraint firstItem="Zgm-6u-jW6" firstAttribute="top" secondItem="YYB-ax-WDZ" secondAttribute="top" constant="50" id="Pxt-Mz-i9W"/>
                             <constraint firstItem="PBk-dj-ZHs" firstAttribute="top" secondItem="YYB-ax-WDZ" secondAttribute="top" id="SJo-Gh-xB0"/>
                             <constraint firstItem="Zgm-6u-jW6" firstAttribute="leading" secondItem="YYB-ax-WDZ" secondAttribute="leading" constant="20" id="VCw-MX-Ydd"/>
                             <constraint firstItem="pkD-Bh-ro4" firstAttribute="leading" secondItem="YYB-ax-WDZ" secondAttribute="leading" constant="30" id="Vm8-Gd-EQJ"/>
-                            <constraint firstItem="pkD-Bh-ro4" firstAttribute="top" secondItem="Zgm-6u-jW6" secondAttribute="bottom" constant="26" id="Xyf-v9-EuP"/>
+                            <constraint firstItem="pkD-Bh-ro4" firstAttribute="top" secondItem="Zgm-6u-jW6" secondAttribute="bottom" constant="25" id="Xyf-v9-EuP"/>
                             <constraint firstItem="YYB-ax-WDZ" firstAttribute="trailing" secondItem="Zgm-6u-jW6" secondAttribute="trailing" constant="20" id="YGk-NP-cNd"/>
                             <constraint firstItem="kLz-Cm-VBY" firstAttribute="leading" secondItem="YYB-ax-WDZ" secondAttribute="leading" constant="30" id="YeL-Pr-Vrm"/>
+                            <constraint firstItem="54c-7r-qA9" firstAttribute="top" secondItem="YYB-ax-WDZ" secondAttribute="top" id="YyL-La-Hv4"/>
                             <constraint firstItem="YPh-SE-uPc" firstAttribute="leading" secondItem="YYB-ax-WDZ" secondAttribute="leading" constant="30" id="aVY-se-AZj"/>
-                            <constraint firstItem="YPh-SE-uPc" firstAttribute="top" secondItem="pkD-Bh-ro4" secondAttribute="bottom" constant="8" id="cct-5d-TE6"/>
+                            <constraint firstItem="YPh-SE-uPc" firstAttribute="top" secondItem="pkD-Bh-ro4" secondAttribute="bottom" constant="10" id="cct-5d-TE6"/>
                             <constraint firstItem="PBk-dj-ZHs" firstAttribute="leading" secondItem="YYB-ax-WDZ" secondAttribute="leading" id="dKf-OB-BDL"/>
+                            <constraint firstItem="YYB-ax-WDZ" firstAttribute="trailing" secondItem="6Pn-tg-Rye" secondAttribute="trailing" id="gHU-eK-9X6"/>
                             <constraint firstItem="kLz-Cm-VBY" firstAttribute="top" secondItem="YPh-SE-uPc" secondAttribute="bottom" constant="24" id="iUT-0v-7kZ"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="YYB-ax-WDZ"/>
                     </view>
+                    <connections>
+                        <outlet property="btnSubmit" destination="kLz-Cm-VBY" id="uge-Xa-GIl"/>
+                        <outlet property="heightConstraintLblNoInternet" destination="BmU-AV-gth" id="LMv-N1-aCX"/>
+                        <outlet property="lblNoInternet" destination="6Pn-tg-Rye" id="hHI-sK-s52"/>
+                        <outlet property="titleNavigationBar" destination="54c-7r-qA9" id="rjP-yJ-iuP"/>
+                        <outlet property="txtEmail" destination="YPh-SE-uPc" id="7Zz-su-zAz"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="M7E-a8-9uu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="739" y="758"/>
+            <point key="canvasLocation" x="738.75" y="757.3943661971831"/>
         </scene>
         <!--Main Tab View Controller-->
         <scene sceneID="LWf-6e-yvg">
@@ -318,6 +366,16 @@
                                     <constraint firstAttribute="height" constant="44" id="t5J-dg-Hpd"/>
                                 </constraints>
                             </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="The internet connection appears to be offline." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="klE-Kh-4iq">
+                                <rect key="frame" x="0.0" y="64" width="320" height="20"/>
+                                <color key="backgroundColor" red="1" green="0.64705882349999999" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="20" id="TvD-Lk-AOt"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo_esr_landing" translatesAutoresizingMaskIntoConstraints="NO" id="rmG-ta-khQ">
                                 <rect key="frame" x="20" y="70" width="280" height="200"/>
                                 <constraints>
@@ -339,8 +397,10 @@
                             <constraint firstItem="lko-eC-aax" firstAttribute="trailing" secondItem="KhJ-Vk-3Cu" secondAttribute="trailing" id="9BS-vN-O4v"/>
                             <constraint firstItem="rmG-ta-khQ" firstAttribute="leading" secondItem="lko-eC-aax" secondAttribute="leading" constant="20" id="K1z-CR-8eX"/>
                             <constraint firstItem="KhJ-Vk-3Cu" firstAttribute="top" secondItem="lko-eC-aax" secondAttribute="top" id="Psh-4e-tNN"/>
+                            <constraint firstItem="klE-Kh-4iq" firstAttribute="leading" secondItem="lko-eC-aax" secondAttribute="leading" id="QlL-2X-XOr"/>
                             <constraint firstItem="KhJ-Vk-3Cu" firstAttribute="leading" secondItem="lko-eC-aax" secondAttribute="leading" id="S25-Ym-Mmn"/>
                             <constraint firstItem="lko-eC-aax" firstAttribute="trailing" secondItem="gcM-PF-ozV" secondAttribute="trailing" constant="20" id="YZ1-Xx-KLJ"/>
+                            <constraint firstItem="lko-eC-aax" firstAttribute="trailing" secondItem="klE-Kh-4iq" secondAttribute="trailing" id="f8X-zk-5Kb"/>
                             <constraint firstItem="rmG-ta-khQ" firstAttribute="top" secondItem="lko-eC-aax" secondAttribute="top" constant="50" id="gzT-OP-VSw"/>
                             <constraint firstItem="gcM-PF-ozV" firstAttribute="top" secondItem="rmG-ta-khQ" secondAttribute="bottom" constant="25" id="ib8-UP-QRZ"/>
                             <constraint firstItem="lko-eC-aax" firstAttribute="trailing" secondItem="rmG-ta-khQ" secondAttribute="trailing" constant="20" id="klT-D6-mbN"/>
@@ -349,12 +409,15 @@
                             <constraint firstItem="1Xa-N6-fku" firstAttribute="top" secondItem="lko-eC-aax" secondAttribute="top" id="vYn-7Z-X4L"/>
                             <constraint firstItem="lko-eC-aax" firstAttribute="trailing" secondItem="1Xa-N6-fku" secondAttribute="trailing" id="wdi-7p-Go9"/>
                             <constraint firstItem="1Xa-N6-fku" firstAttribute="leading" secondItem="lko-eC-aax" secondAttribute="leading" id="ww7-gB-oMJ"/>
+                            <constraint firstItem="klE-Kh-4iq" firstAttribute="top" secondItem="KhJ-Vk-3Cu" secondAttribute="bottom" id="xcr-Jz-WyY"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="lko-eC-aax"/>
                     </view>
                     <connections>
+                        <outlet property="heightConstraintLblNoInternet" destination="TvD-Lk-AOt" id="j2T-lz-Lkr"/>
+                        <outlet property="lblNoInternet" destination="klE-Kh-4iq" id="M0Y-TR-cds"/>
                         <outlet property="table" destination="gcM-PF-ozV" id="YhC-Lu-RcL"/>
-                        <outlet property="titleNavigationBar" destination="KhJ-Vk-3Cu" id="7Aq-As-NU0"/>
+                        <outlet property="titleNavigationBar" destination="KhJ-Vk-3Cu" id="am0-mf-iZp"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DXz-hh-BdW" userLabel="First Responder" sceneMemberID="firstResponder"/>

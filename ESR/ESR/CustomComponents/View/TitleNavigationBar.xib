@@ -22,38 +22,51 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1ib-qi-axQ">
-                    <rect key="frame" x="50" y="21.5" width="220" height="0.0"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <nil key="textColor"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hmG-Lf-1RH">
-                    <rect key="frame" x="7" y="9.5" width="25" height="25"/>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="P4u-gV-UQm">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1ib-qi-axQ">
+                            <rect key="frame" x="40" y="0.0" width="240" height="44"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hmG-Lf-1RH">
+                            <rect key="frame" x="5" y="1" width="30" height="41.5"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="41" id="ZSa-jT-bmO"/>
+                                <constraint firstAttribute="width" constant="30" id="cf5-Pc-tc3"/>
+                            </constraints>
+                            <inset key="imageEdgeInsets" minX="10" minY="12" maxX="10" maxY="12"/>
+                            <state key="normal" image="back_white"/>
+                            <connections>
+                                <action selector="backBtnPressed:" destination="-1" eventType="touchUpInside" id="OfQ-aH-K9h"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="25" id="Aje-uA-JIJ"/>
-                        <constraint firstAttribute="width" constant="25" id="ESb-de-sYH"/>
+                        <constraint firstItem="1ib-qi-axQ" firstAttribute="leading" secondItem="P4u-gV-UQm" secondAttribute="leading" constant="40" id="5QS-n2-AUm"/>
+                        <constraint firstAttribute="trailing" secondItem="1ib-qi-axQ" secondAttribute="trailing" constant="40" id="ZOo-Nv-9wo"/>
+                        <constraint firstItem="hmG-Lf-1RH" firstAttribute="leading" secondItem="P4u-gV-UQm" secondAttribute="leading" constant="5" id="bcx-qb-nGy"/>
+                        <constraint firstAttribute="bottom" secondItem="1ib-qi-axQ" secondAttribute="bottom" id="kgT-9p-b00"/>
+                        <constraint firstItem="hmG-Lf-1RH" firstAttribute="centerY" secondItem="P4u-gV-UQm" secondAttribute="centerY" id="tTZ-mE-BaY"/>
+                        <constraint firstAttribute="height" constant="44" id="uox-dX-60Z"/>
+                        <constraint firstItem="1ib-qi-axQ" firstAttribute="top" secondItem="P4u-gV-UQm" secondAttribute="top" id="zFC-Jp-Aeg"/>
                     </constraints>
-                    <inset key="imageEdgeInsets" minX="7" minY="5" maxX="7" maxY="4"/>
-                    <state key="normal" image="back_white"/>
-                    <connections>
-                        <action selector="backBtnPressed:" destination="-1" eventType="touchUpInside" id="OfQ-aH-K9h"/>
-                    </connections>
-                </button>
+                </view>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
-                <constraint firstItem="1ib-qi-axQ" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="50" id="3K6-5Y-qhN"/>
-                <constraint firstItem="hmG-Lf-1RH" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="7" id="JR2-H2-rvp"/>
-                <constraint firstItem="1ib-qi-axQ" firstAttribute="centerY" secondItem="vUN-kp-3ea" secondAttribute="centerY" id="Ol2-uW-oe3"/>
-                <constraint firstItem="hmG-Lf-1RH" firstAttribute="centerY" secondItem="vUN-kp-3ea" secondAttribute="centerY" id="UQX-wk-7OZ"/>
-                <constraint firstItem="1ib-qi-axQ" firstAttribute="centerX" secondItem="vUN-kp-3ea" secondAttribute="centerX" id="VK2-Yp-Hjf"/>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="1ib-qi-axQ" secondAttribute="trailing" constant="50" id="noX-1Y-2cY"/>
+                <constraint firstItem="P4u-gV-UQm" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="3cr-uy-kJN"/>
+                <constraint firstItem="P4u-gV-UQm" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="Dkj-dw-UDF"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="P4u-gV-UQm" secondAttribute="trailing" id="Xd1-U8-UEk"/>
             </constraints>
             <nil key="simulatedTopBarMetrics"/>
             <nil key="simulatedBottomBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <point key="canvasLocation" x="34" y="53.5"/>
         </view>
     </objects>
     <resources>

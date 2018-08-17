@@ -21,6 +21,11 @@ let SYSTEM_VERSION  =   DEVICE.systemVersion
 let USERDEFAULTS    =   UserDefaults.standard
 let APPDELEGATE     =   UIApplication.shared.delegate as! AppDelegate
 
+struct API_ENDPOINT {
+    // Page
+    static let TOURNAMENTS = API_URL.BASE_URL + "tournaments"
+}
+
 struct kViewController {
     
     // Login
@@ -32,10 +37,27 @@ struct kViewController {
     static let MainTabViewController            = "MainTabViewController"
     static let TabFavouritesVC                  = "TabFavouritesVC"
     static let TabTournamentVC                  = "TabTournamentVC"
-    static let TabTeamsVC                       = "TabOffersVC"
+    static let TabTeamsVC                       = "TabTeamsVC"
     static let TabAgeCategoriesVC               = "TabAgeCategoriesVC"
     static let TabSettingsVC                    = "TabSettingsVC"
     
+}
+
+enum ResponseCode: Int {
+    case created = 201
+    case unauthorised = 401
+    case unacceptable = 409
+    case unprocessableEntity = 422
+    case invalidUserRole = 403
+    case receiptError = 400
+}
+
+extension Notification.Name {
+    static let internetConnectivity = Notification.Name("internetConnectivity")
+}
+
+struct kNotification {
+    static let isShow                          = "isShow"
 }
 
 struct kDateFormat {

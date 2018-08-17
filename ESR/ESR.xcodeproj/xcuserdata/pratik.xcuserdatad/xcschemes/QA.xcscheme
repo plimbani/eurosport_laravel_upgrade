@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "2DCEE68654FF054376B1EC644D9A86E6"
-               BuildableName = "Pods_ESR.framework"
-               BlueprintName = "Pods-ESR"
-               ReferencedContainer = "container:Pods.xcodeproj">
+               BlueprintIdentifier = "30181CBF211D95B60067D65F"
+               BuildableName = "ESR.app"
+               BlueprintName = "ESR"
+               ReferencedContainer = "container:ESR.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -29,11 +29,20 @@
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
       </Testables>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "30181CBF211D95B60067D65F"
+            BuildableName = "ESR.app"
+            BlueprintName = "ESR"
+            ReferencedContainer = "container:ESR.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>
    <LaunchAction
-      buildConfiguration = "Debug"
+      buildConfiguration = "Debug ( QA )"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       launchStyle = "0"
@@ -42,15 +51,16 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
-      <MacroExpansion>
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "2DCEE68654FF054376B1EC644D9A86E6"
-            BuildableName = "Pods_ESR.framework"
-            BlueprintName = "Pods-ESR"
-            ReferencedContainer = "container:Pods.xcodeproj">
+            BlueprintIdentifier = "30181CBF211D95B60067D65F"
+            BuildableName = "ESR.app"
+            BlueprintName = "ESR"
+            ReferencedContainer = "container:ESR.xcodeproj">
          </BuildableReference>
-      </MacroExpansion>
+      </BuildableProductRunnable>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
@@ -60,12 +70,22 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "30181CBF211D95B60067D65F"
+            BuildableName = "ESR.app"
+            BlueprintName = "ESR"
+            ReferencedContainer = "container:ESR.xcodeproj">
+         </BuildableReference>
+      </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">
    </AnalyzeAction>
    <ArchiveAction
-      buildConfiguration = "Release"
+      buildConfiguration = "Debug ( QA )"
       revealArchiveInOrganizer = "YES">
    </ArchiveAction>
 </Scheme>

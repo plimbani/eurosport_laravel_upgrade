@@ -12,6 +12,7 @@ import CoreLocation
 class ApplicationData: NSObject {
     
     static var applicationData:ApplicationData!
+    let reachability = Reachability()!
     
     static func sharedInstance() -> ApplicationData {
         if (applicationData == nil) {
@@ -21,7 +22,37 @@ class ApplicationData: NSObject {
     }
     
     override init() {
+        API_URL.BASE_URL = Environment().configuration(PlistKey.BaseURL)
         
+        // Network connectivity check
+        reachability.whenReachable = { reachability in
+            if reachability.connection == .wifi || reachability.connection == .cellular {
+                var userInfo: [String : Any] = [:]
+                userInfo[kNotification.isShow] = false
+                NotificationCenter.default.post(name: .internetConnectivity, object: nil, userInfo: userInfo)
+            }
+        }
+        
+        reachability.whenUnreachable = { _ in
+            var userInfo: [String : Any] = [:]
+            userInfo[kNotification.isShow] = true
+            NotificationCenter.default.post(name: .internetConnectivity, object: nil, userInfo: userInfo)
+        }
+        
+        do {
+            try reachability.startNotifier()
+        } catch {
+            print("Unable to start notifier")
+        }
+    }
+    
+    static func setTextFieldAttributes(_ textField: UITextField) {
+        textField.setLeftPaddingPoints(10)
+        
+        textField.attributedPlaceholder = NSAttributedString(string: textField.placeholder!, attributes: [
+            NSAttributedStringKey.foregroundColor: UIColor.txtPlaceholderTxt,
+            NSAttributedStringKey.font : UIFont(name: Font.HELVETICA_REGULAR, size: Font.Size.commonTextFieldPlaceholder)!
+            ])
     }
     
     static func setBorder(view: UIView, Color: UIColor, CornerRadius: CGFloat, Thickness: CGFloat) {
