@@ -47,7 +47,7 @@
 	                    <label class="col-sm-5 form-control-label">{{$lang.team_edit_team_shirt_color}}</label>
 	                    <div class="col-sm-6">
                         <select name="team_shirt_color" id="team_shirt_color" class="form-control" v-model="formValues.team_shirt_color">
-												  <option value=" ">{{$lang.countries_list}}</option>
+												  <option value="">{{$lang.countries_list}}</option>
 												  <option v-for="(teamColor, key) in teamColors"
 												   v-bind:value="key"> {{teamColor}}</option>
 												</select>
