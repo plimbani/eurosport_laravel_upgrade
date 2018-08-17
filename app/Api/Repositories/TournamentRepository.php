@@ -770,9 +770,26 @@ class TournamentRepository
           ];
         }
 
+        $pitchAvailableTime = [];
         foreach ($pitchAvailability as $key => $pitchAvailable) {
           $pitchAvailableStart = Carbon::createFromFormat('d/m/Y H:i', $pitchAvailable->stage_start_date.' '.$pitchAvailable->stage_start_time);
           $pitchAvailableEnd = Carbon::createFromFormat('d/m/Y H:i', $pitchAvailable->stage_start_date.' '.$pitchAvailable->stage_end_time);
+
+
+        echo "<pre>";print_r($pitchAvailableStart->timestamp);echo "</pre>";exit;
+
+        while($pitchAvailable->stage_start_time->getTimestamp() < $pitchAvailable->stage_end_time->getTimestamp()) {
+
+          
+
+          $pitchAvailableTime['timestamp'] = 1;
+            $all_slots[] = [
+                'start' => clone $slots_start, 
+                'end' => (clone $slots_start)->add($slot_interval)
+            ];
+            $slots_start->add($slot_interval);
+        }
+
 
           $allPitchBreaks = PitchBreaks::where('availability_id', $pitchAvailable->id)->get();
 
