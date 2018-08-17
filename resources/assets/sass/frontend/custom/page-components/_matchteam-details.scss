@@ -9,6 +9,11 @@
   	line-height: 1em;
  		svg {
  			width: 100%;
+ 			.cls-1, .cls-2{
+ 				stroke:#999a9c;
+ 				stroke-linecap:round;
+ 				stroke-linejoin:round;
+ 			}
  		}
 	}
 	.matchteam-dress,
