@@ -312,18 +312,6 @@ var moment = require('moment');
               this.referees = response.data.referees
           })
         this.matchFixtureDetail();
-
-        $('.js-colorpicker').minicolors({
-          animationSpeed: 50,
-          animationEasing: 'swing',
-          format : 'hex',
-          theme: 'bootstrap',
-          position: 'bottom right',
-          change : function() {
-            vm.matchDetail[$(this).data('name')] = $(this).val();
-            return;
-          }
-        });
       }
   },
   methods: {
@@ -336,6 +324,18 @@ var moment = require('moment');
       let vm = this;
       Tournament.getMatchFixtureDetail(this.matchId).then(
           (response) => {
+            $('.js-colorpicker').minicolors({
+              animationSpeed: 50,
+              animationEasing: 'swing',
+              format : 'hex',
+              theme: 'bootstrap',
+              position: 'bottom right',
+              change : function() {
+                vm.matchDetail[$(this).data('name')] = $(this).val();
+                return;
+              }
+            });
+                
             this.matchDetail = response.data.data;
 
             this.matchDetail.id = this.matchId
