@@ -37,6 +37,9 @@ $api->version('v1', ['middleware' => 'signedurl'], function ($api) {
     $api->get('pitch/reportCard/{pitchId}', 'Laraspace\Api\Controllers\PitchController@generatePitchMatchReport');
     $api->get('tournament/report/reportExport','Laraspace\Api\Controllers\TournamentController@exportReport');
     $api->get('users/getUserTableData', 'Laraspace\Api\Controllers\UserController@getUserTableData');
+
+    $api->get('teams/getTeamsFairPlayData/report/reportExport', 'Laraspace\Api\Controllers\TeamController@exportTeamFairPlayReport');
+    $api->get('teams/getTeamsFairPlayData/report/print', 'Laraspace\Api\Controllers\TeamController@printTeamFairPlayReport');
 });
 
 $api->version('v1', function ($api) {
@@ -80,6 +83,7 @@ $api->version('v1', function ($api) {
     $api->post('tournament/getAgeCategoryDetails', 'Laraspace\Api\Controllers\TournamentController@getAgeCategoryDetails');
 
     $api->post('tournament/scheduleAutomaticPitchPlanning', 'Laraspace\Api\Controllers\TournamentController@scheduleAutomaticPitchPlanning');
+    $api->get('/changeWebsiteMenus','Laraspace\Api\Controllers\HomeController@changeWebsiteMenus');
 
 });
 
@@ -100,6 +104,7 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
     $api->post('team/checkTeamExist', 'Laraspace\Api\Controllers\TeamController@checkTeamExist');
 
     $api->post('editTeamDetails/{id}', 'Laraspace\Api\Controllers\TeamController@editTeamDetails');
+    $api->get('getAllTeamColors', 'Laraspace\Api\Controllers\TeamController@getAllTeamColors');
     $api->get('getAllCountries', 'Laraspace\Api\Controllers\TeamController@getAllCountries');
     $api->get('getAllClubs', 'Laraspace\Api\Controllers\TeamController@getAllClubs');
 
@@ -140,6 +145,7 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
 
     $api->get('pitches/{tournamentId}', 'Laraspace\Api\Controllers\PitchController@getPitches');
     $api->get('getPitchSizeWiseSummary/{tournamentId}', 'Laraspace\Api\Controllers\PitchController@getPitchSizeWiseSummary');
+    $api->get('getLocationWiseSummary/{tournamentId}', 'Laraspace\Api\Controllers\PitchController@getLocationWiseSummary');
     $api->get('pitch/show/{pitchId}', 'Laraspace\Api\Controllers\PitchController@show');
     $api->post('pitch/create', 'Laraspace\Api\Controllers\PitchController@createPitch');
     $api->post('pitch/edit/{id}', 'Laraspace\Api\Controllers\PitchController@edit');
@@ -214,7 +220,7 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
     $api->post('tournament/saveCategoryCompetitionColor',
         'Laraspace\Api\Controllers\TournamentController@saveCategoryCompetitionColor');
 
-    // routes for sigend url
+    // routes for signed url
     $api->post('getSignedUrlForMatchReport/{ageCategory}', 'Laraspace\Api\Controllers\MatchController@getSignedUrlForMatchReport');
 
     $api->post('getSignedUrlForTournamentReport', 'Laraspace\Api\Controllers\TournamentController@getSignedUrlForTournamentReport');
@@ -228,6 +234,14 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
     $api->post('getSignedUrlForTournamentReportExport', 'Laraspace\Api\Controllers\TournamentController@getSignedUrlForTournamentReportExport');
 
     $api->post('getSignedUrlForUsersTableData', 'Laraspace\Api\Controllers\UserController@getSignedUrlForUsersTableData');
+
+    $api->get('getTeamsFairPlayData', 'Laraspace\Api\Controllers\TeamController@getTeamsFairPlayData');
+    $api->post('getSignedUrlForTeamsFairPlayReportExport', 'Laraspace\Api\Controllers\TeamController@getSignedUrlForTeamsFairPlayReportExport');
+
+    $api->post('getSignedUrlForFairPlayReportPrint', 'Laraspace\Api\Controllers\TeamController@getSignedUrlForFairPlayReportPrint');
+
+    $api->post('match/saveUnavailableBlock', 'Laraspace\Api\Controllers\MatchController@saveUnavailableBlock');
+    $api->post('match/remove_block/{blockId}', 'Laraspace\Api\Controllers\MatchController@removeBlock');
 });
 
 // Websites CMS routes

@@ -4,6 +4,8 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
+ import store from './../../../frontstore';
+
 require('../../../bootstrap-front.js');
 
 /**
@@ -12,8 +14,9 @@ require('../../../bootstrap-front.js');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('match-listing', require('./pages/list/List.vue'));
+Vue.component('match-listing', require('./pages/ScheduleResults.vue'));
 
 const app = new Vue({
-    el: '#matches_list'
+    el: '#matches_list',
+    store,
 });

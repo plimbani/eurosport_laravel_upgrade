@@ -3,7 +3,7 @@
 	[
 		'teams' => 'týmy',
 		'matches' => 'zápasy',
-		'venue' => 'místo',
+		'venue' => 'Location',
 		'tournament' => 'turnaj',
 		'rules' => 'pravidla',
 		'history' => 'historie',
@@ -11,7 +11,7 @@
 		'stay' => 'pobyt',
 		'meals' => 'strava',
 		'accommodation' => 'ubytování',
-		'visitors' => 'návštěvníci',
+		'visitors' => 'Check-in',
 		'tourist_information' => 'turistické informace',
 		'media' => 'media',
 		'contact' => 'kontakt',
@@ -34,7 +34,7 @@
 		'404_page_message' => 'Může to být způsobeno tím, že jste zadali webovou adresu nesprávně nebo že
 stránka, kterou jste hledali, mohla být přesunuta, aktualizována nebo odstraněna. <a href=":url">Klikněte zde</a> pro návrat na domovskou stránku.',
 		'contact_form_send_btn' => 'Odelsat dotaz',
-		'match_schedule_message' => 'Rozlosování turnaje k dispozic 2 až 3 týdny před začátkem turnaje',
+		'match_schedule_message' => 'Rozpis zápasů bude k dispozici 2-3 dny před zahájením turnaje',
 		'no_location_found' => 'lokalita nenalezena',
 		'no_photos_found' => 'fotka nenalezena',
 		'recaptcha_error_message' => 'prosím ověřte captcha',
@@ -62,5 +62,8 @@ stránka, kterou jste hledali, mohla být přesunuta, aktualizována nebo odstra
 		'no_age_category_found' => 'věkové kategorie nenalezeny',
 		'close' => 'zavřít',
 		'main_menu' => 'hlavní menu',
+		'age_categories' => 'Age categories',
+		'program_overview' => 'Overview',
+		'tips' => 'Tips',
 	]
 ?>

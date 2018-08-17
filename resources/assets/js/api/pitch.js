@@ -19,4 +19,7 @@ export default {
   removePitch(pitchId) {   
     return api.post('pitch/delete/'+pitchId)
   },
+  getLocationWiseSummary(tournamentId) {
+    return api.get('getLocationWiseSummary/' + tournamentId)
+  },
 }

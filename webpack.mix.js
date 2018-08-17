@@ -59,7 +59,7 @@ mix.combine([
 
 .js('resources/assets/js/app-messages.js', 'public/frontend/js/app-messages.js')
 
-.js('resources/assets/js/views/front/matches/matchlist.js', 'public/frontend/js/matchlist.js')
+.js('resources/assets/js/views/front/matches/scheduleresults.js', 'public/frontend/js/scheduleresults.js')
 
 .js('resources/assets/js/views/front/tournament/tournamenthistory.js', 'public/frontend/js/tournamenthistory.js')
 

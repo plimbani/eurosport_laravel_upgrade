@@ -10,9 +10,9 @@
             <button type="button" data-toggle="modal" data-target="#uploadRefereesModal" class="btn btn-primary mb-3 w-100">{{$lang.pitch_planner_upload_referees}}</button>
           </div>
         </div>
-        <div v-if="refereeStatus"  v-for="referee in referees">
+        <div v-if="refereeStatus" v-for="referee in referees">
           <div>
-            <draggable-referee :referee="referee"></draggable-referee>
+            <draggable-referee :referee="referee" :competationList="competationListData"></draggable-referee>
           </div>
         </div>
       </div>
@@ -22,40 +22,31 @@
 
 <script type="text/babel">
   import DraggableReferee from './DraggableReferee';
-  import Tournament from '../api/tournament.js'
+  import Tournament from '../api/tournament.js';
+  import _ from 'lodash';
 
   export default {
+    props: ['competationList'],
     data() {
-            return {
-                'tournamentId': this.$store.state.Tournament.tournamentId,
-                refereeStatus: true,
-                }
-        },
+    return {
+      'tournamentId': this.$store.state.Tournament.tournamentId,
+       refereeStatus: true,
+       competationListData:{}
+      }
+    },
     components: {
-        DraggableReferee
+      DraggableReferee
     },
     computed:{
       referees() {
         return this.$store.state.Tournament.referees
-        // let vm = this
-        // vm.refereeStatus = false
-        // if(vm.$store.getters.getAllReferees) {
-        //   console.log('asd')
-        //     setTimeout(function(){
-        //   vm.refereeStatus = true
-        // },1000)
-        // return vm.$store.getters.getAllReferees
-        // } 
-        
-      }
+      },
     },
     created:function() {
-            this.$root.$on('getAllReferee', this.getAllreferees);
-
+      this.$root.$on('getAllReferee', this.getAllreferees);
     },
     mounted() {
       this.$store.dispatch('getAllReferee',this.tournamentId);
-       // this.getAllreferees()
       $("#addReferee").on('hidden.bs.modal', function () {
           $('#frmAddReferee')[0].reset()
       });
@@ -64,40 +55,24 @@
       $("#referee-list").mCustomScrollbar({
          'autoHideScrollbar':true
       });
+
+      this.getCompetationList();
     },
     methods: {
-
       getAllreferees() {
         this.referees = this.$store.state.Tournament.referees
       },
-            // getAllReferee() {
-            //     // Tournament.getReferees(this.tournamentId)rnamentId);
-            //     let vm = this
-            //     Tournament.getReferees(this.tournamentId).then(
-            //       (response) => {
-            //         if(response.data.referees){
-            //           vm.referees = response.data.referees
-            //           vm.$store.dispatch('SetTotalReferee', response.data.referees.length)
-            //         }else{
-            //           vm.referees = ''
-            //           vm.$store.dispatch('SetTotalReferee', 0)
-            //         }
-
-            //       },
-            //       (error) => {
-            //          console.log('Error occured during Tournament api ', error)
-            //       }
-            //     )
-            // },
       addReferee(){
-
-          $('#addReferee').modal('show')
+        $('#addReferee').modal('show')
       },
-     
-            // editPitch(pitchId) {
-            //     this.pitchId = pitchId
-            //     this.$store.dispatch('PitchData',pitchId)
-            // },
+      getCompetationList() {
+        let vm = this;
+        _.forEach(vm.competationList, function(value) {
+          if(value.id && value.category_age) 
+            vm.competationListData[value.id] = value.category_age;
+        });
+        return vm.competationListData;
+      },
     }
   }
 </script>

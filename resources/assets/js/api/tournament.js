@@ -195,6 +195,9 @@ export default {
   getAllClubs() {
     return api.get('getAllClubs');
   },
+  getAllTeamColors() {
+    return api.get('getAllTeamColors');
+  },
   updateTeamDetails(teamId, formData) {
     return api.post('updateTeamDetails/'+teamId, formData);
   },
@@ -226,9 +229,18 @@ export default {
     return api.post('getClubsByTournamentId/' +tournamentId);
   },
   getAgeCategoryDetails(data) {
-    return api.post('tournament/getAgeCategoryDetails', data)
+    return api.post('tournament/getAgeCategoryDetails', data);
   },
   scheduleAutomaticPitchPlanning(data) {
-    return api.post('tournament/scheduleAutomaticPitchPlanning', data)
+    return api.post('tournament/scheduleAutomaticPitchPlanning', data);
+  },
+  getTeamsFairPlayData(teamData) {
+    return api.get('getTeamsFairPlayData?' +teamData);
+  },
+  getSignedUrlForTeamsFairPlayReportExport(reportData) {
+    return api.post('getSignedUrlForTeamsFairPlayReportExport?' + reportData);
+  },
+  getSignedUrlForFairPlayReportPrint(reportData) {
+    return api.post('getSignedUrlForFairPlayReportPrint?' + reportData);
   },
 }

@@ -332,6 +332,13 @@ table#Competition-modal-table {
     tbody {
         td {
             vertical-align: middle;
+            input[type=text] {
+                border: 1px solid rgba(0, 0, 0, 0.15);
+            }
+            input[type=text]:disabled, input[type=text][readonly] {
+                background-color: #eceeef;
+                opacity: 1;
+            }
         }
     }
 }
@@ -606,7 +613,25 @@ input[type=number] {
 }
 
 .fc-view-container .fc-view {
+    overflow: scroll;
+    height: 594px !important;
+}
+
+.fc-view-container .fc-no-overlap.fc-view.fc-timelineDay-view {
     overflow-x: scroll;
+}
+.fc-no-overlap.fc-view-container .fc-view {
+    overflow: inherit;
+    height: 594px !important;
+}
+
+.fc-time-grid-container {
+    height: 100% !important;
+    overflow-y: hidden !important;
+}
+.fc-timeline .fc-body .fc-scroller {
+    height: 594px !important;
+    overflow-x: hidden !important;
 }
 
 /*.fc-view-container .fc-view>table {
@@ -888,4 +913,116 @@ gmap-map {
 
 .page-permission-checkbox .euro-checkbox + label {
     padding-left: 20px;
+}
+
+.position-relative {
+    position: relative;
+}
+
+.position-absolute {
+    position: absolute;
+}
+
+.circle-badge {
+    top: -3px;
+    width: 10px;
+    height: 10px;
+    position: absolute;
+    background: $brand-primary;
+    border-radius: 50%;
+    color: $white;
+    display: inline-flex;
+    align-items: center;
+    font-size: 8px;
+    justify-content: center;
+    &.right {
+        right: -3px;
+    }
+    &.left {
+        left: -3px;
+    }
+}
+
+// Work for fixed column
+
+.ppitem .fc-head .fc-head-container > .fc-row {
+    border-left-width: 1px;
+    border-right-width: 0 !important;
+    left: 40px;
+    width: calc(100% - 40px - 14px);
+    overflow-x: hidden;
+
+    th:first-child {
+        display: none;
+    }
+}
+
+.ppitem .fc-head{
+  position: -webkit-sticky !important;
+  position: sticky !important;
+  top:0;
+  background-color: white;
+  z-index:9999 !important;
+}
+
+
+.ppitem .fc-bg {
+    overflow-x: hidden;
+}
+
+
+.ppitem .fc-time-grid .fc-content-skeleton {
+    overflow-x: scroll;
+    overflow-y: hidden;
+    height: 100%;
+    left: 40px;
+}
+
+.ppitem .fc-time-grid .fc-content-skeleton > table {
+
+    td:first-child {
+        display: none;
+    }
+}
+
+.ppitem .fc-slats td:first-child {
+    background-color: white;
+}
+
+.ppitem .fc-header-toolbar{
+  display: none;
+}
+
+.tooltip {
+    &.show {
+        opacity: 1;
+    }
+    .tooltip-inner {
+        text-align: left;
+    }
+    .tooltip-inner,
+    .tooltip-inner:before {
+        -webkit-box-shadow: 10px 10px 40px 1px rgba(0,0,0,0.31);
+        -moz-box-shadow: 10px 10px 40px 1px rgba(0,0,0,0.31);
+        box-shadow: 10px 10px 40px 1px rgba(0,0,0,0.31);
+    }
+}
+
+.match-remark {
+    position:absolute;
+    width: 15px;
+    bottom: 2px;
+}
+
+.match-remark-right-position2 {
+    right: 2px;
+}
+
+.match-remark-right-position17 {
+    right: 17px;
+}
+
+.pitch-planner-item .card a.open-close-link{
+    color:#2196f3;
+    text-decoration:underline;
 }

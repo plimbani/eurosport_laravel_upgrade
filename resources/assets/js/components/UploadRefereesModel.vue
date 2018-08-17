@@ -3,7 +3,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">{{$lang.pitch_planner_upload_referees}}</h5>
+          <h5 class="modal-title" id="exampleModalLabel">{{$lang.pitch_planner_upload_referees_title}}</h5>
             <button type="button" class="close" @click="closeUploadRefereesModal()">
                 <span aria-hidden="true">×</span>
             </button>
@@ -16,7 +16,7 @@
                   <div class="col-sm-12">
                     <button type="button" class="btn btn-default w-100 btn-color-black--light text-left" id="referee_upload_file">Select list (excel files only)</button>
                   </div>
-                  <div class="col my-2"><span id="filename"></span></div>
+                  <div class="col my-2"><span id="filename" class="ml-3"></span></div>
                 </div>
                 <input type="file" name="fileUpload" @change="setFileName(this,$event)"  id="fileUpload" style="display:none;" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel,application/excel,application/vnd.ms-excel,application/vnd.msexcel,text/anytext,application/txt">
               </div>
@@ -25,7 +25,7 @@
         </div>
         <div class="modal-footer d-flex flex-row justify-content-end">
           <div>
-            <button type="button" class="btn btn-danger" data-dismiss="modal">{{$lang.add_refree_modal_cancel}}</button>
+            <button type="button" class="btn btn-danger" @click="resetFileName()" data-dismiss="modal">{{$lang.add_refree_modal_cancel}}</button>
             <button type="button" class="btn btn-primary" @click="refereesImport()" :disabled="isSaveInProcess" v-bind:class="{ 'is-loading' : isSaveInProcess }">{{$lang.pitch_planner_upload_referees}}</button>
           </div>
         </div>
@@ -41,7 +41,7 @@ export default {
   data(){
     return {
       canUploadRefereeFile: true,
-      isSaveInProcess: false,      
+      isSaveInProcess: false,   
       'tournament_id': this.$store.state.Tournament.tournamentId
     }
   },
@@ -93,6 +93,10 @@ export default {
       } else {
          toastr['error']('Please upload an excel file.', 'Error');
       }
+    },
+    resetFileName() {
+      $('#fileUpload').val('');
+      $('#filename').text('');
     }
   }
 }

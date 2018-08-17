@@ -1,7 +1,13 @@
 <template>
   <div>
-    <button @click="showMatchListView()" class="btn btn-primary">
+    <button v-if="fromView == 'Matches'" @click="showMatchListView()" class="btn btn-primary">
         <i aria-hidden="true" class="fa fa-angle-double-left"></i> {{ $t('matches.back_to_match_list') }}
+    </button>
+    <button v-if="fromView == 'Categories'" @click="showCompetitionListView()" class="btn btn-primary">
+        <i aria-hidden="true" class="fa fa-angle-double-left"></i> Back to competition list
+    </button>
+    <button v-if="fromView == 'Teams'" @click="showTeamListView()" class="btn btn-primary">
+        <i aria-hidden="true" class="fa fa-angle-double-left"></i> Back to team list
     </button>
     <div>
         <div class="row align-items-center my-4">
@@ -25,20 +31,30 @@
 
     <div class="table-responsive">
       <table class="table" v-if="matchesGrid.length > 0 && competitionDetail.type != 'Elimination'">
-        <thead>
+        <thead class="no-border">
           <tr>
             <th></th>
             <th scope="col" v-for="(match, index) in matchesGrid">
-              <span v-if="match.TeamCountryFlag" :class="'flag-icon flag-icon-' + match.TeamCountryFlag"></span>
-              <span>{{ match.TeamName }}</span>
+              <div class="matchteam-details">                
+                <span v-if="match.TeamCountryFlag" :class="'matchteam-flag flag-icon flag-icon-' + match.TeamCountryFlag"></span>
+                <div class="matchteam-dress" v-if="match.ShortsColor && match.ShirtColor">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64.4 62"><g><g><polygon v-bind:fill="match.ShortsColor" points="13.2 40 13.2 62 30.2 62 32.2 56 34.2 62 51.2 62 51.2 40 13.2 40"/></g><path v-bind:fill="match.ShirtColor" d="M63.81,10.81,51.2,0h-13a6.5,6.5,0,0,1-6,4,6.5,6.5,0,0,1-6-4h-13L.59,10.81A1.7,1.7,0,0,0,.5,13.3L7.2,20l6-4V40h38V16l6,4,6.7-6.7A1.7,1.7,0,0,0,63.81,10.81Z"/></g></svg>
+                </div>
+                <span class="matchteam-name">{{ match.TeamName }}</span>
+              </div>
             </th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="(match, index) in matchesGrid">
             <td>
-              <span v-if="match.TeamCountryFlag" :class="'flag-icon flag-icon-'+ match.TeamCountryFlag"></span>
-              <span>{{ match.TeamName }}</span>
+              <div class="matchteam-details">                
+                <span v-if="match.TeamCountryFlag" :class="'matchteam-flag flag-icon flag-icon-' + match.TeamCountryFlag"></span>
+                <div class="matchteam-dress" v-if="match.ShortsColor && match.ShirtColor">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64.4 62"><g><g><polygon v-bind:fill="match.ShortsColor" points="13.2 40 13.2 62 30.2 62 32.2 56 34.2 62 51.2 62 51.2 40 13.2 40"/></g><path v-bind:fill="match.ShirtColor" d="M63.81,10.81,51.2,0h-13a6.5,6.5,0,0,1-6,4,6.5,6.5,0,0,1-6-4h-13L.59,10.81A1.7,1.7,0,0,0,.5,13.3L7.2,20l6-4V40h38V16l6,4,6.7-6.7A1.7,1.7,0,0,0,63.81,10.81Z"/></g></svg>
+                </div>
+                <span class="matchteam-name">{{ match.TeamName }}</span>
+              </div>
             </td>
             <td v-for="(teamMatch, ind2) in match.matches" :class="[teamMatch == 'Y' ? 'bg-light-grey' : '', '']">
               <div v-if="teamMatch.score == null && teamMatch != 'Y' && teamMatch != 'X' ">{{ teamMatch.date | formatDate }}</div>
@@ -60,7 +76,7 @@
     </div>
 
     <h6 class="mt-3 font-weight-bold">{{ competitionDetail.name }} matches</h6>
-    <matches :matches="matches" :competitionDetail="currentCompetition" :currentView="currentView"></matches>
+    <matches :matches="matches" :competitionDetail="currentCompetition" :currentView="currentView" :fromView="'Competition'"></matches>
   </div>
 </template>
 
@@ -70,7 +86,7 @@
   import MatchList from '../../../../../../api/frontend/matchlist.js';
 
   export default {
-    props: ['matches', 'competitionDetail', 'currentView'],
+    props: ['matches', 'competitionDetail', 'currentView', 'fromView', 'categoryId'],
     data() {
       return {
         currentCompetition: {},
@@ -170,7 +186,13 @@
         var competitionId = this.currentCompetition.id;
         var competitionName = this.currentCompetition.name;
         var competitionType = this.currentCompetition.actual_competition_type;
-        this.$root.$emit('showCompetitionData', competitionId, competitionName, competitionType);
+        if(this.fromView == 'Matches') {
+          this.$root.$emit('showCompetitionData', competitionId, competitionName, competitionType);
+        } else if(this.fromView == 'Categories') {
+          this.$root.$emit('showCompetitionViewFromCategory', competitionId, competitionName, competitionType);
+        } else if(this.fromView == 'Teams') {
+          this.$root.$emit('showCompetitionViewFromTeam', competitionId, competitionName, competitionType);
+        }
         this.currentCompetitionId = competitionId;
 
         this.generateDrawTable();
@@ -179,6 +201,12 @@
       showMatchListView() {
         this.$root.$off('setStandingData');
         this.$root.$emit('showMatchesList');
+      },
+      showCompetitionListView() {
+        this.$root.$emit('showCategoryGroups', this.categoryId);
+      },
+      showTeamListView() {
+        this.$root.$emit('showTeamsList');
       },
     }
   };

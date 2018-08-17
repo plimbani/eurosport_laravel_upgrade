@@ -16,6 +16,7 @@ use Laraspace\Http\Requests\Pitch\DeleteRequest;
 use Laraspace\Http\Requests\Pitch\GetPitchesRequest;
 use Laraspace\Http\Requests\Pitch\GetSignedUrlForPitchMatchReportRequest;
 use Laraspace\Http\Requests\Pitch\GetPitchSizeWiseSummaryRequest;
+use Laraspace\Http\Requests\Pitch\GetLocationWiseSummaryRequest;
 // Need to Define Only Contracts
 use Laraspace\Api\Contracts\PitchContract;
 
@@ -107,5 +108,19 @@ class PitchController extends BaseController
 
         return $signedUrl;
     }
+
+    /**
+     * Get lcation wise summary
+     *
+     * Get a JSON representation of all the Pitches.
+     *
+     * @Get("/getLocationWiseSummary")
+     * @Versions({"v1"})
+     */
+    public function getLocationWiseSummary(GetLocationWiseSummaryRequest $request, $tournamentId)
+    {
+        return $this->pitchObj->getLocationWiseSummary($tournamentId);
+    }
+
 
 }

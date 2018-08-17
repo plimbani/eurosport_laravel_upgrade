@@ -23,6 +23,11 @@ class WebsiteTournamentController extends Controller
     protected $tournamentPageName;
 
     /**
+     * @var Tournament age category page name
+     */
+    protected $tournamentAgeCategoryPageName;
+
+    /**
      * @var Page service
      */
     protected $pageService;
@@ -48,6 +53,7 @@ class WebsiteTournamentController extends Controller
       $this->pageService = $pageService;
       $this->websiteTournamentContract = $websiteTournamentContract;
       $this->tournamentPageName = 'tournament';
+      $this->tournamentAgeCategoryPageName = 'age_categories';
       $this->rulesPageName = 'rules';
       $this->historyPageName = 'history';
     }
@@ -61,11 +67,11 @@ class WebsiteTournamentController extends Controller
     {
       $varsForView = [];
       $websiteId = Landlord::getTenants()['website']->id;
-      $pageDetail = $this->pageService->getPageDetails($this->tournamentPageName,
+      $pageDetail = $this->pageService->getPageDetails($this->tournamentAgeCategoryPageName,
           $websiteId);
       $varsForView['tournamentContent'] = $pageDetail;
 
-      $pageParentId = $pageDetail->id;
+      $pageParentId = $pageDetail->parent_id;
       $additionalPages = $this->pageService->getAdditionalPagesByParentId($pageParentId, $websiteId);
       $varsForView['additionalPages'] = $additionalPages;
 

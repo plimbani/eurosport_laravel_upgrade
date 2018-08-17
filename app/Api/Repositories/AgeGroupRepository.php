@@ -2,6 +2,7 @@
 
 namespace Laraspace\Api\Repositories;
 
+use Laraspace\Models\Referee;
 use Laraspace\Models\AgeGroup;
 use Laraspace\Models\TournamentCompetationTemplates;
 use Laraspace\Models\TournamentTemplates;
@@ -89,13 +90,6 @@ class AgeGroupRepository
      return $competationIds;
     }
     public function createCompeationFormat($data){
-      // echo "<pre>";print_r($data);echo "</pre>";exit;
-      // here first we save the Age Group
-      // $ageGroupData['name'] = $data['ageCategory_name'];
-      // $ageGroupId = AgeGroup::create($ageGroupData)->id;
-
-      // here we save the tournament_competation_template
-     
       $tournamentCompeationTemplate = array();
       $tournamentCompeationTemplate['group_name'] = $data['ageCategory_name'];
       $tournamentCompeationTemplate['comments'] = $data['comments'] != '' ? $data['comments'] : null;
@@ -121,9 +115,15 @@ class AgeGroupRepository
       // TODO: Add New Code For more Other Options
 
       // TODO: Add total_teams and min_matches For particular Age Category
-      $tournamentCompeationTemplate['total_teams'] =$data['total_teams'];
-      $tournamentCompeationTemplate['min_matches']= $data['min_matches'];
-      $tournamentCompeationTemplate['team_interval']= $data['team_interval'];
+      $tournamentCompeationTemplate['total_teams'] = $data['total_teams'];
+      $tournamentCompeationTemplate['min_matches'] = $data['min_matches'];
+      $tournamentCompeationTemplate['team_interval'] = $data['team_interval'];
+
+      $tournamentCompeationTemplate['win_point']= $data['win_point'];
+      $tournamentCompeationTemplate['loss_point']= $data['loss_point'];
+      $tournamentCompeationTemplate['draw_point']= $data['draw_point'];
+      $tournamentCompeationTemplate['rules']= $data['selectedCategoryRule'];
+
       // Insert value in Database
       // here we check value for Edit as Well
 
@@ -137,11 +137,14 @@ class AgeGroupRepository
 
         $diffInMinutesForNormalMatches = $previousNormalMatchTotalTime - $newNormalMatchTotalTime;
 
+
         if($previousNormalMatchTotalTime > $newNormalMatchTotalTime) {
             $tempFixtures = TempFixture::where('age_group_id', $data['competation_format_id'])
                                         ->where('is_scheduled', 1)
+                                        ->where('is_final_round_match', 0)
                                         ->where('hometeam_score', '=', NULL)
                                         ->where('awayteam_score', '=', NULL)
+                                        ->whereRaw('TIMESTAMPDIFF(MINUTE, match_datetime, match_endtime) > '.$newNormalMatchTotalTime.'')
                                         ->update(['match_endtime' => DB::raw('match_endtime - INTERVAL '.$diffInMinutesForNormalMatches.' Minute')]);
         }
 
@@ -157,6 +160,7 @@ class AgeGroupRepository
                                       ->where('is_final_round_match', 1)
                                       ->where('hometeam_score', '=', NULL)
                                       ->where('awayteam_score', '=', NULL)
+                                      ->whereRaw('TIMESTAMPDIFF(MINUTE, match_datetime, match_endtime) > '.$newFinalMatchTotalTime.'')
                                       ->update(['match_endtime' => DB::raw('match_endtime - INTERVAL '.$diffInMinutesForFinalMatches.' Minute')]);
         }
 
@@ -166,7 +170,10 @@ class AgeGroupRepository
         $updataArr['newCatname'] = trim($data['ageCategory_name']."-".$data['category_age']);
         $this->updateAgeCatAndName($updataArr);
       // }
-      return  TournamentCompetationTemplates::where('id', $data['competation_format_id'])->update($tournamentCompeationTemplate);
+
+        $tournamentCompeationTemplate['rules'] = json_encode($tournamentCompeationTemplate['rules']);
+
+        return  TournamentCompetationTemplates::where('id', $data['competation_format_id'])->update($tournamentCompeationTemplate);
       } else {
       //TournamentCompetationTemplates::create($tournamentCompeationTemplate)->id;
       // Here also Save in competations table
@@ -308,7 +315,25 @@ class AgeGroupRepository
       We pass tournamentId
      */
     public function deleteCompeationFormat($tournamentCompetationTemplateId) {
-     return TournamentCompetationTemplates::find($tournamentCompetationTemplateId)->delete();
+
+      $tournamentCompetationTemplate = TournamentCompetationTemplates::find($tournamentCompetationTemplateId);
+      $tournamentId = $tournamentCompetationTemplate->tournament_id;
+
+      $tournamentReferees = Referee::where('tournament_id', $tournamentId)->get();
+
+      foreach ($tournamentReferees as $tournamentReferee) {
+        $ageGroupIds = explode(',', $tournamentReferee->age_group_id);
+        $index = array_search($tournamentCompetationTemplateId, $ageGroupIds);
+
+        if($index !== false) {
+          unset($ageGroupIds[$index]);
+        }
+
+        $tournamentReferee->age_group_id = count($ageGroupIds) > 0 ? implode(',', array_values($ageGroupIds)) : null;
+        $tournamentReferee->save();
+      }
+
+      return $tournamentCompetationTemplate->delete();
     }
 
     public function deleteCompetationData($data)

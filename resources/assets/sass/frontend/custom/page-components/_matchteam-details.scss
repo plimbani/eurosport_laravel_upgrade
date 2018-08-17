@@ -1,0 +1,38 @@
+.matchteam-details {
+ 	display: flex;
+ 	align-items: center;
+ 	// .matchteam-flag {}
+ 	.matchteam-dress {
+ 		position: relative;
+  	display: inline-block;
+  	width: (4 / 3) * 1em;
+  	line-height: 1em;
+ 		svg {
+ 			width: 100%;
+ 		}
+	}
+	.matchteam-dress,
+	.matchteam-name {
+		margin-left: .3rem;
+	}
+	&.flex-row-reverse {
+		.matchteam-dress,
+		.matchteam-name {
+			margin-left: 0;
+			margin-right: .3rem;
+		}
+	}
+}
+
+.summary-report-content {
+	.nav-tabs {
+		.nav-item {
+			.nav-link {
+				@include media-breakpoint-down(sm) { 
+					font-size: 0.75rem;
+				    padding: 0.4rem;
+				}
+			}
+		}
+	}
+}

@@ -58,12 +58,23 @@ import _ from 'lodash'
         },
         created: function() {
             this.$root.$on('reloadAllEvents', this.reloadAllEvents);
+            this.$root.$on('arrangeLeftColumn', this.arrangeLeftColumn);
         },
         beforeCreate: function() {
             // Remove custom event listener
             this.$root.$off('reloadAllEvents');
+            this.$root.$off('arrangeLeftColumn');
         },
         mounted() {
+            $( document ).ready(function() {
+                $(document).on('click','.js-horizontal-view', function (){
+                    $('.pitch-planner-wrapper .pitch-planner-item').each(function(index){
+                        var canvasWidth = $(this).find('.fc-unselectable .fc-scroller-canvas').width();
+                        $(this).find('.fc-view-container table').attr('style', 'width: ' + parseInt(canvasWidth + 107) + 'px');
+                    });
+                })
+            });
+
             let cal = this.$el;
             let vm = this
             vm.initComponent()
@@ -262,6 +273,21 @@ import _ from 'lodash'
                         }
                     },
                     eventAfterAllRender: function(view ){
+                        $('[data-toggle="tooltip"]').tooltip();
+                        $('[data-toggle="tooltip"]').each(function() {
+                            let tt = $(this);
+                            let fixtureStripColor = tt.data('fixture-strip-color');
+                            let categoryColor = tt.data('category-color');
+
+                            tt.on('shown.bs.tooltip', function() {
+                                var tooltipId = $(this).attr('aria-describedby');
+                                
+                                $('#' + tooltipId + ' .tooltip-inner').css('background-color', categoryColor);
+
+                                $('<style>#' + tooltipId + ' .tooltip-inner::before { border-top-color: '+ fixtureStripColor +'; }</style>' ).appendTo( 'head');
+                            });
+                        });
+
                          $('#add_referee').prop('disabled', false);
                          // Code for horizontal scroll bar
                          let totalPitches = vm.stage.pitches.length;
@@ -334,6 +360,7 @@ import _ from 'lodash'
                                     vm.matchFixture = {}
                                     vm.$store.dispatch('setCompetationWithGames');
                                     vm.getScheduledMatch()
+                                    vm.reloadAllEvents();
                                 });
                              },100);
                         }
@@ -344,6 +371,7 @@ import _ from 'lodash'
                     //schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
                     schedulerLicenseKey: '0097912839-fcs-1497264705',
                 });
+                arrangeLeftColumn();
             },
             handleEventClick(calEvent, jsEvent, view) {
                 // console.log(calEvent);
@@ -367,10 +395,10 @@ import _ from 'lodash'
                 let vm = this;
                 let ev = this.$el;
                 $(ev).fullCalendar( 'removeEvents' )
-                 // console.log(this.$el);
                 setTimeout(function(){
                     $(ev).fullCalendar('addEventSource', vm.scheduledMatches);
-                },1500)
+                    arrangeLeftColumn();
+                },2100)
             },
             getScheduledMatch(filterKey='',filterValue='',filterDependentKey='',filterDependentValue='') {
                 // this.$store.dispatch('SetScheduledMatches');
@@ -391,6 +419,7 @@ import _ from 'lodash'
 
                         _.forEach(rdata, function(match) {
                             let scheduleBlock = false
+                            let locationCheckFlag = true;
                             let refereeId = ''
                             let matchTitle = ''
 
@@ -445,19 +474,33 @@ import _ from 'lodash'
                                     }
                                 } else if(filterKey == 'location'){
                                     if( filterValue != '' && filterValue.id != match.venueId){
-                                        scheduleBlock = true
+                                        scheduleBlock = true;
+                                        locationCheckFlag = false;
                                     }
                                 }
                               let colorVal = match.category_age_color;
                               var isBright = (parseInt(vm.getBrightness(match.category_age_color)) > 160);
                               let borderColorVal;
-                              if(isBright) {
-                                borderColorVal = vm.LightenDarkenColor(match.category_age_color, -40);
-                              } else {
-                                borderColorVal = vm.LightenDarkenColor(match.category_age_color, 40);
-                              }
+                              
                               let textColorVal = match.category_age_font_color;
                               let fixtureStripColor = match.competation_color_code != null ? match.competation_color_code : '#FFFFFF';
+
+                              let ageCategoryColor = match.age_category_color;
+                              let groupColor = match.group_color;
+
+                              if(ageCategoryColor != null) {
+                                colorVal = ageCategoryColor;
+                              }
+
+                              if(groupColor != null) {
+                                fixtureStripColor = groupColor;
+                              }
+
+                              if(isBright) {
+                                borderColorVal = vm.LightenDarkenColor(colorVal, -40);
+                              } else {
+                                borderColorVal = vm.LightenDarkenColor(colorVal, 40);
+                              }
 
                               if(scheduleBlock){
                                 colorVal = 'grey'
@@ -480,6 +523,14 @@ import _ from 'lodash'
                                  matchTitle = displayMatchName
                               }
 
+                              if(ageCategoryColor != null) {
+                                colorVal = ageCategoryColor;
+                              }
+                              
+                              if(groupColor != null) {
+                                fixtureStripColor = groupColor;
+                              }
+
                                 let mData =  {
                                     'id': match.fid,
                                     'resourceId': match.pitchId,
@@ -496,7 +547,16 @@ import _ from 'lodash'
                                     'fixtureStripColor': fixtureStripColor,
                                     'homeScore': match.homeScore,
                                     'awayScore': match.AwayScore,
-                                    'displayFlag': match.min_interval_flag == 1 ?'block':''
+                                    'displayFlag': match.min_interval_flag == 1 ? 'block' : '',
+                                    'homeTeam': match.Home_id,
+                                    'awayTeam': match.Away_id,
+                                    'matchStatus': match.match_status,
+                                    'matchWinner': match.match_winner,
+                                    'isResultOverride': match.isResultOverride,
+                                    'homeTeamPlaceHolder': displayHomeTeamPlaceholder,
+                                    'awayTeamPlaceHolder': displayAwayTeamPlaceholder,
+                                    'remarks': match.matchRemarks,
+                                    'locationCheckFlag': locationCheckFlag
                                 }
                             sMatches.push(mData)
                             }
@@ -514,7 +574,7 @@ import _ from 'lodash'
                                         'end': moment.utc(availability.stage_start_date+' '+availability.stage_start_time,'DD/MM/YYYY hh:mm:ss'),
                                         'refereeId': -1,
                                         'refereeText': 'R',
-                                        'title': 'Pitch is not available',
+                                        'title': '',
                                         'color': 'grey',
                                         'textColor': '#FFFFFF',
                                         'borderColor': 'grey',
@@ -523,7 +583,16 @@ import _ from 'lodash'
                                         'fixtureStripColor': '',
                                         'homeScore': null,
                                         'awayScore': null,
-                                        'displayFlag':''
+                                        'displayFlag':'',
+                                        'homeTeam': null,
+                                        'awayTeam': null,
+                                        'matchStatus': null,
+                                        'matchWinner': null,
+                                        'isResultOverride': null,
+                                        'homeTeamPlaceHolder': null,
+                                        'awayTeamPlaceHolder': null,
+                                        'remarks': null,
+                                        'locationCheckFlag': null
                                     }
                                     sMatches.push(mData1)
                                     counter = counter+1;
@@ -536,7 +605,7 @@ import _ from 'lodash'
                                         'end': moment.utc(availability.stage_start_date+' '+'23:00:00','DD/MM/YYYY HH:mm:ss'),
                                         'refereeId': -1,
                                         'refereeText': 'R',
-                                        'title':'Pitch is not available',
+                                        'title':'',
                                         'color': 'grey',
                                         'textColor': '#FFFFFF',
                                         'borderColor': 'grey',
@@ -545,7 +614,16 @@ import _ from 'lodash'
                                         'fixtureStripColor': '',
                                         'homeScore': null,
                                         'awayScore': null,
-                                        'displayFlag':''
+                                        'displayFlag':'',
+                                        'homeTeam': null,
+                                        'awayTeam': null,
+                                        'matchStatus': null,
+                                        'matchWinner': null,
+                                        'isResultOverride': null,
+                                        'homeTeamPlaceHolder': null,
+                                        'awayTeamPlaceHolder': null,
+                                        'remarks': null,
+                                        'locationCheckFlag': null
                                     }
                                     sMatches.push(mData2)
                                     counter = counter+1;
@@ -559,7 +637,7 @@ import _ from 'lodash'
                                             'end': moment.utc(availability.stage_start_date+' '+pitchBreak.break_end,'DD/MM/YYYY hh:mm:ss'),
                                             'refereeId': -1,
                                             'refereeText': 'R',
-                                            'title':'Pitch is not available',
+                                            'title':'',
                                             'color': 'grey',
                                             'textColor': '#FFFFFF',
                                             'borderColor': 'grey',
@@ -568,7 +646,16 @@ import _ from 'lodash'
                                             'fixtureStripColor': '',
                                             'homeScore': null,
                                             'awayScore': null,
-                                            'displayFlag': ''
+                                            'displayFlag': '',
+                                            'homeTeam': null,
+                                            'awayTeam': null,
+                                            'matchStatus': null,
+                                            'matchWinner': null,
+                                            'isResultOverride': null,
+                                            'homeTeamPlaceHolder': null,
+                                            'awayTeamPlaceHolder': null,
+                                            'remarks': null,
+                                            'locationCheckFlag': null
                                         }
 
                                         sMatches.push(mData)
@@ -608,20 +695,25 @@ import _ from 'lodash'
                     'end': moment.utc(end_date,'DD/MM/YYYY HH:mm:ss'),
                     'refereeId': -2,
                     'refereeText': '',
-                    'title': 'Pitch is not available',
+                    'title': '',
                     'color': 'grey',
                     'textColor': '#FFFFFF',
                     'matchId': '111212',
                     'matchAgeGroupId':'',
                     'homeScore': null,
                     'awayScore': null,
-                    'displayFlag':''
+                    'displayFlag':'',
+                    'homeTeam': null,
+                    'awayTeam': null,
+                    'matchStatus': null,
+                    'matchWinner': null,
+                    'isResultOverride': null
 
               }
                this.scheduledMatches.push(mData21)
                // Also Add for Resources as well
-                let resources = {'id':'111213','eventColor':'grey'}
-               this.pitchesData = resources
+                //let resources = {'id':'111213','eventColor':'grey'}
+               //this.pitchesData = resources
              }
 
             },
@@ -638,14 +730,15 @@ import _ from 'lodash'
                             'end': moment.utc(block.match_end_datetime,'YYYY/MM/DD HH:mm:ss'),
                             'refereeId': -2,
                             'refereeText': '',
-                            'title': 'Unavailable',
+                            'title': '',
                             'color': 'grey',
                             'textColor': '#FFFFFF',
-                            'matchId': 'block_'+block.id,
+                            'matchId': -1,
                             'matchAgeGroupId':'',
                             'homeScore': null,
                             'awayScore': null,
-                            'displayFlag':''
+                            'displayFlag': '',
+                            'remarks': null,
                         }
                         this.scheduledMatches.push(mData2)
                         this.unavailableBlock.push(mData2)
@@ -699,6 +792,9 @@ import _ from 'lodash'
               var c_g = parseInt(hexCode.substr(2, 2),16);
               var c_b = parseInt(hexCode.substr(4, 2),16);
               return ((c_r * 299) + (c_g * 587) + (c_b * 114)) / 1000;
+            },
+            arrangeLeftColumn() {
+                arrangeLeftColumn();
             }
         }
     };
@@ -719,4 +815,42 @@ import _ from 'lodash'
         $("#game-list").css('height', leftViewHeight + 'px');
         $("#referee-list").css('height', leftViewHeight + 'px');
     }
+
+    function arrangeLeftColumn() {        
+        var scrollableBodys = document.querySelectorAll('.fc-content-skeleton');        
+        var index = 1;
+        var plannerwidth = $('.pitch_planner_section').width()/8;        
+        [].forEach.call(scrollableBodys, function(scrollableBody) {
+            var totalPitches = document.querySelectorAll('.pitch-planner-item:nth-child('+index+') .fc-head-container > .fc-row > table > thead > tr > th').length - 1;            
+            if(totalPitches>7){
+                var pitchplanneritem = document.querySelectorAll('.pitch-planner-item:nth-child('+index+')');
+                pitchplanneritem[0].classList.add("ppitem");
+                var width = (plannerwidth*(totalPitches+2));
+                var width2 = (plannerwidth*(totalPitches));
+
+                var scrollableHeader = document.querySelector('.pitch-planner-item:nth-child('+index+') .fc-head-container > .fc-row');
+                var scrollableHeaderTable = document.querySelector('.pitch-planner-item:nth-child('+index+') .fc-head-container > .fc-row > table');
+                scrollableHeaderTable.style.width = (width-40)+'px';
+                var scrollableBg = document.querySelector('.pitch-planner-item:nth-child('+index+') .fc-bg');
+                var scrollableBgTable = document.querySelector('.pitch-planner-item:nth-child('+index+') .fc-bg > table');
+                scrollableBgTable.style.width = width+'px';
+                var fcsktable = document.querySelector('.pitch-planner-item:nth-child('+index+') .fc-time-grid .fc-content-skeleton > table');
+                fcsktable.style.width = (width-40)+'px';
+
+                var fcsktable2 = document.querySelector('.pitch-planner-item:nth-child('+index+') .fc-agenda-view > table');
+                fcsktable2.style.width = '100%';
+
+                scrollableBody.addEventListener('scroll', () => {
+                    scrollableHeader.scrollTo(scrollableBody.scrollLeft, 0);
+                    scrollableBg.scrollTo(scrollableBody.scrollLeft, 0);
+                });
+            }
+            index++;
+        });
+    }
+    $(window).load(function(){
+        setTimeout(function() {
+            arrangeLeftColumn();
+        }, 5000);
+    });
 </script>

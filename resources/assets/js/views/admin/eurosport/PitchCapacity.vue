@@ -90,6 +90,7 @@
                         </table>
                     </div>
                 </div>
+
                 <div class="row my-3">
                   <div class="col-3 align-self-center">
                       <h6 class="mb-0 text-muted"><strong>{{$lang.pitch_totals}}</strong></h6>
@@ -110,6 +111,42 @@
                                 <label class="col-md-3 m-0"><strong>{{$lang.pitch_balance}}</strong></label>
                                 <label :class="[parseInt(pitchCapacity-tournamentTime)<0? 'red': 'text-success','col-md-5 m-0' ]">{{ pitchAvailableBalance[2] + '' +pitchAvailableBalance[0]+ ' hrs ' + pitchAvailableBalance[1] + ' mins '}}</label>
                             </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div v-for="(locationDetail, locationId) in locationSizeWiseSummaryArray">
+                    <div class="row my-3">
+                      <div class="col-3 align-self-center">
+                          <h6 class="mb-0 text-muted"><strong>Location - {{ locationDetail.name }}</strong></h6>
+                      </div>
+                    </div>
+                    <div class="row">
+                        <div class="result col-md-12">
+                            <table class="table table-hover table-bordered mb-0 pitch_size_summary">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">Pitch</th>
+                                        <th class="text-center">{{$lang.pitch_available_time}}</th>
+                                        <th class="text-center">Total time used</th>
+                                        <th class="text-center">{{$lang.pitch_balance}}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="(pitchSizeDetail, pitchSize) in locationDetail.sizes">
+                                        <td class="text-center">{{ pitchSize }}</td>
+                                        <td class="text-center">{{ pitchSizeDetail.availableTime }}</td>
+                                        <td class="text-center">{{ pitchSizeDetail.timeUsed }}</td>
+                                        <td class="text-center" :class="[pitchSizeDetail.balanceSign == '-' ? 'red' : 'text-success']">{{ pitchSizeDetail.balance }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center"><strong>{{ $lang.totals }}</strong></td>
+                                        <td class="text-center">{{ locationWiseSummaryTotal[locationId].totalAvailableTime }}</td>
+                                        <td class="text-center">{{ locationWiseSummaryTotal[locationId].totalTimeUsed }}</td>
+                                        <td class="text-center" :class="[locationWiseSummaryTotal[locationId].totalBalanceSign == '-' ? 'red' : 'text-success']">{{ locationWiseSummaryTotal[locationId].totalBalance }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -151,6 +188,15 @@ import Tournament from '../../../api/tournament.js'
                     'totalBalance': 0,
                     'totalBalanceSign': '+',
                 },
+                'locationWiseSummaryData': {
+                    'allLocations': [],
+                    'allPitchSizes': [],
+                    'allPitches': [],
+                    'totalAvailableTimeLocationWise': {},
+                    'totalTimeUsedLocationWise': {},
+                },
+                'locationSizeWiseSummaryArray': {},
+                'locationWiseSummaryTotal': {},
             }
         },
 
@@ -158,7 +204,9 @@ import Tournament from '../../../api/tournament.js'
             this.$root.$on('displayPitch', this.displayPitch);
             this.$root.$on('pitchrefresh', this.getAllPitches);
             this.$root.$on('getPitchSizeWiseSummary', this.getPitchSizeWiseSummary);
+            this.$root.$on('getLocationWiseSummary', this.getLocationWiseSummary);
             this.getPitchSizeWiseSummary();
+            this.getLocationWiseSummary();
             this.displayTournamentCompetationList();
         },
         beforeCreate: function() {
@@ -166,6 +214,7 @@ import Tournament from '../../../api/tournament.js'
             this.$root.$off('displayPitch');
             this.$root.$off('pitchrefresh');
             this.$root.$off('getPitchSizeWiseSummary');
+            this.$root.$off('getLocationWiseSummary');
         },
         components: {
             editPitchDetail,addPitchDetail,DeleteModal
@@ -390,6 +439,7 @@ import Tournament from '../../../api/tournament.js'
                     $("#addPitchModal").on('hidden.bs.modal', function () {
                        vm.getAllPitches()
                        vm.getPitchSizeWiseSummary();
+                       vm.getLocationWiseSummary();
                        vm.$root.$emit('')
                   });
                 },1000)
@@ -418,6 +468,7 @@ import Tournament from '../../../api/tournament.js'
                     // toastr['success']('Pitch Successfully removed', 'Success');
                     vm.getAllPitches();
                     vm.getPitchSizeWiseSummary();
+                    vm.getLocationWiseSummary();
                     }).catch(error => {
                     if (error.response.status == 401) {
                         toastr['error']('Invalid Credentials', 'Error');
@@ -581,6 +632,139 @@ import Tournament from '../../../api/tournament.js'
 
                     }  
                 )               
+            },
+            getLocationWiseSummary() {
+                if (!isNaN(this.tournamentId)) {
+                    let vm = this;
+                    vm.locationWiseSummaryData = this.defaultLocationWiseSummaryData();
+                    vm.locationSizeWiseSummaryArray = {};
+
+                    Pitch.getLocationWiseSummary(this.tournamentId).then (
+                      (response) => {
+                        vm.locationWiseSummaryData = response.data;
+                        let allLocations = response.data.allLocations;
+                        let allPitchSizes = response.data.allPitchSizes;
+                        let locationSizeWiseSummaryArray = {};
+                        let locationWiseSummaryTotal = {};
+                        for(let i=0; i<allLocations.length; i++) {
+                            let totalAvailableTime = 0;
+                            let totalTimeUsed = 0;
+                            let totalBalance = 0;
+                            let location = allLocations[i];
+                            let locationId = allLocations[i].id;
+                            locationSizeWiseSummaryArray[locationId] = {};
+                            locationSizeWiseSummaryArray[locationId]['name'] = location.name;
+                            locationSizeWiseSummaryArray[locationId]['sizes'] = {};
+                            locationWiseSummaryTotal[locationId] = this.defaultLocationWiseSummaryTotal();
+                            for(let j=0; j<allPitchSizes.length; j++) {
+                                let locationSizeDetail = {};
+                                let size = allPitchSizes[j];
+                                
+                                let availableTime = vm.getAvailableTimeOfLocationSize(locationId, size);
+                                let timeUsed = vm.getRequiredTimeForLocationSize(locationId, size);
+                                let balance = vm.getLocationBalanceSize(locationId, size);
+
+                                totalAvailableTime += availableTime;
+                                totalTimeUsed += timeUsed;
+                                totalBalance += balance;
+
+                                let minutes = balance % 60;
+                                let hours = (balance - minutes) / 60;
+
+                                if(minutes<0){
+                                    minutes = parseInt(0 - minutes)
+                                }
+                                if(hours<0){
+                                    hours = parseInt(0 - hours)
+                                }
+
+                                if(availableTime > 0 || timeUsed > 0) {
+                                    locationSizeDetail.availableTime = ( ((availableTime - (availableTime % 60)) / 60) + ' hrs ' + (availableTime % 60) + ' mins');
+                                    locationSizeDetail.timeUsed = ( ((timeUsed - (timeUsed % 60)) / 60) + ' hrs ' + (timeUsed % 60) + ' mins');
+                                    locationSizeDetail.balance = (balance < 0 ? '-' : '') + ( hours + ' hrs ' + minutes + ' mins' );
+                                    locationSizeDetail.balanceSign = balance < 0 ? '-' : '+';
+
+                                    locationSizeWiseSummaryArray[locationId]['sizes'][size] = locationSizeDetail;
+                                }
+                            }
+                            let minutes = totalBalance % 60;
+                            let hours = (totalBalance - minutes) / 60;
+
+                            if(minutes<0){
+                                minutes = parseInt(0 - minutes)
+                            }
+                            if(hours<0){
+                                hours = parseInt(0 - hours)
+                            }
+
+                            locationWiseSummaryTotal[locationId].totalAvailableTime = ( ((totalAvailableTime - (totalAvailableTime % 60)) / 60) + ' hrs ' + (totalAvailableTime % 60) + ' mins');
+                            locationWiseSummaryTotal[locationId].totalTimeUsed = ( ((totalTimeUsed - (totalTimeUsed % 60)) / 60) + ' hrs ' + (totalTimeUsed % 60) + ' mins');
+                            locationWiseSummaryTotal[locationId].totalBalance = (totalBalance < 0 ? '-' : '') + ( hours + ' hrs ' + minutes + ' mins' );
+                            locationWiseSummaryTotal[locationId].totalBalanceSign = totalBalance < 0 ? '-' : '+';
+                        }
+                        vm.locationSizeWiseSummaryArray = locationSizeWiseSummaryArray;
+                        vm.locationWiseSummaryTotal = locationWiseSummaryTotal;
+                      },
+                      (error) => {
+                      }
+                    )
+                } else {
+                  this.TournamentId = 0;
+                }
+            },
+            defaultLocationWiseSummaryData() {
+                return {
+                    'allLocations': [],
+                    'allPitches': [],
+                    'totalAvailableTimeLocationWise': {},
+                    'totalTimeUsedLocationWise': {},
+                }
+            },
+            defaultLocationWiseSummaryTotal() {
+                return {
+                    'totalAvailableTime': 0,
+                    'totalTimeRequired': 0,
+                    'totalBalance': 0,
+                    'totalBalanceSign': '+',
+                };
+            },
+            getAvailableTimeOfLocationSize(locationId, size) {
+                let totalAvailableTimeLocationWise = this.locationWiseSummaryData.totalAvailableTimeLocationWise;
+                let timeInMinutes = 0;
+                if(totalAvailableTimeLocationWise.hasOwnProperty(locationId)) {
+                    if (totalAvailableTimeLocationWise[locationId][size]) {
+                        timeInMinutes = parseInt(totalAvailableTimeLocationWise[locationId][size]);
+                    }
+                }
+                return timeInMinutes;
+            },
+            getRequiredTimeForLocationSize(locationId, size) {
+                let totalTimeUsedLocationWise = this.locationWiseSummaryData.totalTimeUsedLocationWise;
+                let timeInMinutes = 0;
+                if(totalTimeUsedLocationWise.hasOwnProperty(locationId)) {
+                    if (totalTimeUsedLocationWise[locationId][size]) {
+                        timeInMinutes = parseInt(totalTimeUsedLocationWise[locationId][size]);
+                    }
+                }
+                return timeInMinutes;
+            },
+            getLocationBalanceSize(locationId, size) {
+                let totalAvailableTimeLocationWise = this.locationWiseSummaryData.totalAvailableTimeLocationWise;
+                let totalTimeUsedLocationWise = this.locationWiseSummaryData.totalTimeUsedLocationWise;
+                let totalAvailableTime = 0;
+                let totalTimeRequired = 0;
+
+                if(totalAvailableTimeLocationWise.hasOwnProperty(locationId)) {
+                    if (totalAvailableTimeLocationWise[locationId][size]) {
+                        totalAvailableTime = parseInt(totalAvailableTimeLocationWise[locationId][size]);
+                    }
+                }
+                if(totalTimeUsedLocationWise.hasOwnProperty(locationId)) {
+                    if (totalTimeUsedLocationWise[locationId][size]) {
+                        totalTimeRequired = parseInt(totalTimeUsedLocationWise[locationId][size]);
+                    }
+                }
+                return (totalAvailableTime - totalTimeRequired);
             },
         }
     }

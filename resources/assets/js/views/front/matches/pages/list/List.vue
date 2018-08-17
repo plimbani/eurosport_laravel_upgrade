@@ -2,7 +2,7 @@
   <div>
     <div>
         <div class="row align-items-end custom_radio_btn matches-filter" v-if="currentView == 'Matches'">
-            <div class="col-xl-3">
+            <div class="col-xl-6">
                 <div class="row align-items-center justify-content-between">
                     <div class="col-md-6 col-lg-5 col-xl-12">
                         <label class="label-of-input font-weight-bold mb-0">{{ $t('matches.match_overview') }}:</label>
@@ -16,8 +16,24 @@
                         </label>
                     </div>
                 </div>
-            </div> 
-            <div class="col-xl-9 mt-4 mt-xl-0">
+            </div>
+            <div class="col-xl-6">
+                <div class="row align-items-center justify-content-between">
+                    <div class="col-md-6 col-lg-5 col-xl-12">
+                        <label class="label-of-input font-weight-bold mb-0">{{ $t('matches.score') }}:</label>
+                    </div>
+                    <div class="col-sm-12 col-md-5 col-lg-5 col-xl-12">
+                        <label class="custom_select_box d-block mb-0" for="match_score">
+                            <select id="match_score"  class="border-0" v-on:change="onChangeAllMatchScore" v-model="matchScoreFilter">
+                              <option value="all">All matches</option>
+                              <option value="scored">Scored</option>
+                              <option value="notscored">Not scored</option>
+                            </select>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-12 mt-4 mt-xl-0">
                 <div class="row">
                   <div class="col-12">
                     <label class="label-of-input font-weight-bold mb-0">{{ $t('matches.filter_by') }}:</label>
@@ -68,7 +84,7 @@
         </div>
         <div class="text-center view-full-information" v-if="showGroupInfo" v-html="$t('matches.view_match_info_message', {'competitionName': selectedOption.data.name})" v-on:click.capture="showCompetitionDetailPage()"></div>
     </div>
-    <component :is="currentView" :matches="matches" :competitionDetail="competitionDetail" :currentView="currentView"></component>
+    <component :is="currentView" :matches="matches" :competitionDetail="competitionDetail" :currentView="currentView" :fromView="'Matches'" :categoryId="currentCategoryId"></component>
   </div>
 </template>
 
@@ -93,6 +109,8 @@
           type: '',
         },
         filterBy: 'category_and_competition',
+        currentCategoryId: '',
+        matchScoreFilter: 'all',
       };
     },
     filters: {
@@ -149,6 +167,7 @@
         }
         let data = { 'tournamentId': tournamentData.id, 'filterBy': this.filterBy };
         this.selectedOption = '';
+        this.matches = [];
         MatchList.getFilterDropDownData(data).then(
           (response) => {
             this.filterOptions = response.data.options;
@@ -207,6 +226,7 @@
         data.tournamentId = tournamentId;
         data.fiterEnable = true;
         this.matchDate != '' ? data.tournamentDate = this.matchDate : null;
+        this.matchScoreFilter != '' ? data.matchScoreFilter = this.matchScoreFilter : null;
 
         if(filterKey != '' && filterValue != '') {
           data.filterKey = filterKey;
@@ -251,11 +271,16 @@
       },
       showMatchesList() {
         this.currentView = 'Matches';
+        this.currentCategoryId = '';
         this.getFilterOptions();
       },
       showCompetitionDetailPage() {
         var currentSelectedCompetition = this.selectedOption.data;
+        this.currentCategoryId = currentSelectedCompetition.tournament_competation_template_id;
         this.showCompetitionData(currentSelectedCompetition.id, currentSelectedCompetition.name, currentSelectedCompetition.actual_competition_type);
+      },
+      onChangeAllMatchScore(){
+        this.setFilterOptions();
       },
     },
   };
