@@ -200,8 +200,8 @@ export default {
         			this.formValues.comment = response.data.team.comments
         			this.formValues.team_club = response.data.team.club_id
         			this.formValues.club_name = response.data.team.club.name
-        			this.formValues.team_shirt_color = response.data.team.shirt_color
-        			this.formValues.team_shorts_color = response.data.team.shorts_color
+        			this.formValues.team_shirt_color = response.data.team.shirt_color == null ? '' : response.data.team.shirt_color;
+        			this.formValues.team_shorts_color = response.data.team.shorts_color == null ? '' : response.data.team.shorts_color;
         		},
         		(error) => {
 
