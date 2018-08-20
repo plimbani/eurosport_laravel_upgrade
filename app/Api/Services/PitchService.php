@@ -267,4 +267,16 @@ class PitchService implements PitchContract
     {
       return $this->pitchRepoObj->getLocationWiseSummary($tournamentId);
     }
+
+    /**
+     * Get pitch planner print data.
+     *
+     * @param Int $tournamentId
+     *
+     * @return [type]
+     */
+    public function getPitchPlannerPrintData($tournamentId)
+    {
+      return $this->pitchRepoObj->getPitchPlannerPrintData($tournamentId);
+    }
 }

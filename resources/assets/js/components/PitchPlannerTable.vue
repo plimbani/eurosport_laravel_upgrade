@@ -6,6 +6,7 @@
                 <button class="btn btn-primary btn-md js-pitch-planner-bt vertical"  @click="setView('agendaDay')">{{$lang.pitch_planner_vertical}}</button>
                 <button v-if="isPitchPlannerInEnlargeMode == 0" class="btn btn-primary btn-md vertical" @click="enlargePitchPlanner()">Enlarge</button>
                 <button class="btn btn-primary btn-md vertical" v-if="isGroupFilterSet" @click="openGroupCompetitionColourModal()">{{$lang.pitch_planner_group_colours}}</button>
+                <button class="btn btn-primary btn-md vertical" @click="printPitchPlanner()">Print</button>
             </div>
         </div>
 
@@ -446,6 +447,17 @@
                     }
                 };
             })(window);
+          },
+          printPitchPlanner() {
+            var pitchPlannerPrintWindow = window.open('', '_blank');
+            Tournament.getSignedUrlForPitchPlannerPrint(this.tournamentId).then(
+              (response) => {
+                pitchPlannerPrintWindow.location = response.data;
+              },
+              (error) => {
+
+              }
+            );
           },
         }
     }
