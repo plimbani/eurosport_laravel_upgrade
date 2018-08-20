@@ -237,4 +237,7 @@ export default {
   getSignedUrlForFairPlayReportPrint(reportData) {
     return api.post('getSignedUrlForFairPlayReportPrint?' + reportData);
   },
+  getSignedUrlForPitchPlannerPrint(tournamentId) {
+    return api.post('getSignedUrlForPitchPlannerPrint/' + tournamentId);
+  },
 }
