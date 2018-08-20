@@ -131,6 +131,7 @@ class PitchRepository
             ->select('temp_fixtures.*','referee.first_name','referee.last_name')
             ->join('referee', 'temp_fixtures.tournament_id', '=', 'referee.tournament_id')
             ->where('temp_fixtures.tournament_id', $tournamentId)
+            ->where('temp_fixtures.is_scheduled', 1)
             ->orderBy('match_datetime')
             ->get();
 
