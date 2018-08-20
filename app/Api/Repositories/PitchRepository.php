@@ -4,6 +4,7 @@ namespace Laraspace\Api\Repositories;
 
 use Laraspace\Models\Venue;
 use Laraspace\Models\Pitch;
+use Laraspace\Models\Tournament;
 use Laraspace\Models\TempFixture;
 use Laraspace\Models\TournamentCompetationTemplates;
 use DB;
@@ -113,5 +114,26 @@ class PitchRepository
         $allPitches = Pitch::where('tournament_id', $tournamentId)->get();
 
         return array('totalAvailableTimeLocationWise' => $totalAvailableTimeLocationWise, 'totalTimeUsedLocationWise' => $totalTimeUsedLocationWise, 'allLocations' => $allLocations, 'allPitchSizes' => $allPitchSizes, 'allPitches' => $allPitches);
+    }
+
+    /**
+     * Get pitch planner print data.
+     *
+     * @param Int $tournamentId
+     *
+     * @return [type]
+     */
+    public function getPitchPlannerPrintData($tournamentId)
+    {
+      $tournament = Tournament::find($tournamentId);
+
+      $matches = DB::table('temp_fixtures')
+            ->select('temp_fixtures.*','referee.first_name','referee.last_name')
+            ->join('referee', 'temp_fixtures.tournament_id', '=', 'referee.tournament_id')
+            ->where('temp_fixtures.tournament_id', $tournamentId)
+            ->orderBy('match_datetime')
+            ->get();
+
+      return ['tournamentData' => $tournament, 'matches' => $matches];
     }
 }
