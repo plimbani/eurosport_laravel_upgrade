@@ -67,9 +67,29 @@
               <div class="form-group row">
                 <div class="col-sm-3 form-control-label">{{ $lang.pitch_planner_automatic_planning_pitch_selection }}</div>
                 <div class="col-sm-6">
-                  <multiselect name="sel_pitch" id="sel_pitch" :options="pitches" :multiple="true" :hide-selected="false" :ShowLabels="false" track-by="id" @close="onTouch" label="pitch_number" :value="value" :clear-on-select="false" :Searchable="true" @input="onChange" @select="onSelect">
+                  <multiselect name="sel_pitch" id="sel_pitch" :options="pitches" :multiple="true" :hide-selected="false" :ShowLabels="false" track-by="id" @close="onTouch" label="pitch_number" :value="value" :clear-on-select="false" :Searchable="true" @input="onChange" @select="onSelect"@remove="onRemove">
                   </multiselect>
                   <span class="help is-danger" v-show="isInvalid">{{$lang.user_management_user_type_required}}</span>
+                </div>
+              </div>
+
+              <div class="form-group row" v-for="pitch in pitchNames">
+                <div class="col-sm-3 form-control-label">{{ pitch.pitchName }}</div>
+                <div class="col-sm-6">
+                  <div class="row align-items-center">
+                    <div class="col-md-3">
+                      <span>Start time:</span>
+                    </div>
+                    <div class="col-md-3">
+                      <input :name="start_time" :class="[errors.has('start_time')?'is-danger': '', 'form-control ls-timepicker start_time']"  :id="start_time"  type="text" >
+                    </div>
+                    <div class="col-md-3">
+                      <span>End time:</span>
+                    </div>
+                    <div class="col-md-3">
+                      <input :name="end_time" :class="[errors.has('end_time')?'is-danger': '', 'form-control ls-timepicker end_time']"  :id="end_time"  type="text" >
+                    </div>
+                  </div>
                 </div>
               </div>
 
@@ -107,12 +127,21 @@ import Tournament from '../api/tournament.js'
             selectedAgeCategory: '',
             final_match_duration: '',
             normal_match_duration: '',
+            pitchNames: [],
+            start_time: '',
+            end_time: ''
           }
         },
         created: function() {
           this.getAgeCategories();
         },
         mounted() {
+          Plugin.initPlugins(['TimePickers']);
+          $('#start_time').timepicker({
+              minTime: '08:00',
+              maxTime: '23:00',
+              'timeFormat': 'H:i'
+          });
         },
         computed: {
           pitches() {
@@ -195,10 +224,17 @@ import Tournament from '../api/tournament.js'
             },
             onSelect (option) {
               if (option === 'Disable me!') this.isDisabled = true
+              this.pitchNames.push({'id': option.id, 'pitchName': option.pitch_number});
             },
             onTouch () {
               this.isTouched = true
             },
+            onRemove(option) {
+              let deletedIndex = _.findIndex(this.pitchNames, function(o) { 
+                return o.id == option.id;
+              });
+              this.pitchNames.splice(deletedIndex);
+            }
         }
     }
 </script>
