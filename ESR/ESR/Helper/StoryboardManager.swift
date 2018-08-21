@@ -128,6 +128,18 @@ struct Storyboards {
         static func instantiateSettingsVC() -> TabSettingsVC {
             return self.storyboard.instantiateViewController(withIdentifier: kViewController.TabSettingsVC) as! TabSettingsVC
         }
+        
+        static func instantiateProfileVC() -> ProfileVC {
+            return self.storyboard.instantiateViewController(withIdentifier: kViewController.ProfileVC) as! ProfileVC
+        }
+        
+        static func instantiateNotificationAndSoundVC() -> NotificationAndSoundVC {
+            return self.storyboard.instantiateViewController(withIdentifier: kViewController.NotificationAndSoundVC) as! NotificationAndSoundVC
+        }
+        
+        static func instantiatePrivacyAndTermsVC() -> PrivacyAndTermsVC {
+            return self.storyboard.instantiateViewController(withIdentifier: kViewController.PrivacyAndTermsVC) as! PrivacyAndTermsVC
+        }
     }
 }
 

@@ -37,9 +37,7 @@ class CustomAlertViewTwoButton: UIView {
         lblTitle.text = title
         lblMessage.text = message
         btnYes.setTitle(buttonYesTitle, for: .normal)
-        btnYes.setTitle(buttonYesTitle, for: .highlighted)
         btnNo.setTitle(buttonNoTitle, for: .normal)
-        btnNo.setTitle(buttonNoTitle, for: .highlighted)
         self.requestCode = requestCode
     }
     

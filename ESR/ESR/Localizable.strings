@@ -10,6 +10,7 @@
 "title_tab_teams"                           = "Teams";
 "title_tab_agecategories"                   = "Age categories";
 "title_tab_settings"                        = "Settings";
+"title_profile"                             = "PROFILE";
 
 //Alert titles
 "alert_title_error"                     =   "Error";
@@ -25,6 +26,8 @@
 "alert_msg_login_credentials"           =   "These credentials do not match our records.";
 "alert_msg_forgot_pass_invalid_email"   =   "The selected email is invalid.";
 "alert_msg_confirmation_code_send"      =   "A new code has been sent to your email address.";
+"alert_msg_logout"                      =   "Are you sure you want yo log out?";
+"alert_profile_update"                  =   "Profile updated successfully.";
 
 //Button titles
 "btn_ok"                                =   "Ok";
@@ -32,6 +35,7 @@
 "btn_yes"                               =   "Yes";
 "btn_cancel"                            =   "Cancel";
 "btn_update"                            =   "Update";
+"btn_logout"                            =   "Log out";
 
 //Strings
 "string_no_internet"                    = "The internet connection appears to be offline.";

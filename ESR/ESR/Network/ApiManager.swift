@@ -116,6 +116,10 @@ class ApiManager {
     func forgotPassword(_ parameters: [String: Any]?, success: @escaping (_ result: NSDictionary) -> (), failure: @escaping (_ result: NSDictionary) -> ()) {
         postRequest(API_ENDPOINT.FORGOT_PASSWORD, parameters, success: success, failure: failure)
     }
+    
+    func updateProfile(userId: String, _ parameters: [String: Any]?, success: @escaping (_ result: NSDictionary) -> (), failure: @escaping (_ result: NSDictionary) -> ()) {
+        postRequest(String.init(format: API_ENDPOINT.UPDATE_PROFILE, userId), parameters, success: success, failure: failure, true)
+    }
 
     // MARK:- Tournaments list
     func getTournaments(success: @escaping (_ result: NSDictionary) -> (), failure: @escaping (_ result: NSDictionary) -> ()) {

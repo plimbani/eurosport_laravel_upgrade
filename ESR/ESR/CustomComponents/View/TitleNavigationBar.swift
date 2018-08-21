@@ -16,6 +16,7 @@ class TitleNavigationBar: UIView {
     @IBOutlet var baseView: UIView!
     @IBOutlet var btnBack: UIButton!
     @IBOutlet var lblTitle: UILabel!
+    @IBOutlet var containerView: UIView!
     
     var delegate: TitleNavigationBarDelegate?
 
@@ -29,6 +30,12 @@ class TitleNavigationBar: UIView {
             UIViewAutoresizing.flexibleHeight
         ]
         self.addSubview(self.baseView)
+        
+        lblTitle.textColor = .white
+    }
+    
+    func setBackgroundColor(){
+        containerView.backgroundColor = UIColor.AppColor()
     }
     
     @IBAction func backBtnPressed(_ sender: UIButton) {

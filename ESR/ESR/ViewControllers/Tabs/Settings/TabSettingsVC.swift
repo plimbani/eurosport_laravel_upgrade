@@ -28,13 +28,21 @@ class TabSettingsVC: SuperViewController {
         table.tableFooterView = UIView()
         
         // Alertview
-        initInfoAlertView(self.view, self)
+        initInfoAlertViewTwoButton(self.view, self)
     }
 }
 
-extension TabSettingsVC: CustomAlertViewDelegate {
-    func customAlertViewOkBtnPressed(requestCode: Int) {
+extension TabSettingsVC: CustomAlertViewTwoButtonDelegate {
+    
+    func customAlertViewTwoButtonNoBtnPressed(requestCode: Int) {
         
+    }
+    
+    func customAlertViewTwoButtonYesBtnPressed(requestCode: Int) {
+        if requestCode == AlertRequestCode.logOut.rawValue {
+            USERDEFAULTS.set(nil, forKey: kUserDefaults.token)
+            UIApplication.shared.keyWindow?.rootViewController = UINavigationController(rootViewController: Storyboards.Main.instantiateLandingVC())
+        }
     }
 }
 
@@ -53,7 +61,7 @@ extension TabSettingsVC: UITableViewDataSource, UITableViewDelegate {
             cell = UITableViewCell(style: .default, reuseIdentifier: "cellIdentifier")
             cell!.separatorInset = .zero
             cell!.selectionStyle = .none
-            let imgView = UIImageView(frame: CGRect(x: tableView.frame.size.width - 22 - 10, y: 10, width: 22, height: 22))
+            let imgView = UIImageView(frame: CGRect(x: tableView.frame.size.width - 40, y: 13, width: 22, height: 22))
             
             imgView.image = UIImage(named: "arrow_right_green")!
             imgView.image = imgView.image!.withRenderingMode(.alwaysTemplate)
@@ -87,22 +95,15 @@ extension TabSettingsVC: UITableViewDataSource, UITableViewDelegate {
             if let identifier = record.value(forKey: "identifier") as? String {
                 if !identifier.isEmpty {
                     
-//                    if identifier == "BecomeOperator" || identifier == "BecomeTrader" {
-//                        if identifier == "BecomeOperator" {
-//                            becomeOperator = true
-//                        } else {
-//                            becomeOperator = false
-//                        }
-//                        showInfoAlertView(title: String.localize(key: "alert_title_info"), message: String.localize(key: "alert_msg_consumer_signup_msg"), buttonTitle: String.localize(key: "btn_open_website"), requestCode: AlertRequestCode.BecomeTrader.rawValue, showCloseButton: true)
-//                    } else {
-//
-//                        if let enabled = record.value(forKey: "enabled") as? Bool {
-//                            if !enabled {
-//                                return
-//                            }
-//                        }
-//                        self.navigationController?.pushViewController(StoryBoard.Profile.instantiateViewController(withIdentifier: identifier), animated: true)
-//                    }
+                    if identifier == "ProfileVC" {
+                        self.navigationController?.pushViewController(Storyboards.Settings.instantiateProfileVC(), animated: true)
+                    } else if identifier == "NotificationAndSoundVC" {
+                        self.navigationController?.pushViewController(Storyboards.Settings.instantiateNotificationAndSoundVC(), animated: true)
+                    } else if identifier == "PrivacyAndTermsVC" {
+                        self.navigationController?.pushViewController(Storyboards.Settings.instantiatePrivacyAndTermsVC(), animated: true)
+                    } else if identifier == "Logout" {
+                        self.showInfoAlertViewTwoButton(title: "Confirm", message: String.localize(key: "alert_msg_logout"), buttonYesTitle: String.localize(key: "btn_logout"), buttonNoTitle: String.localize(key: "btn_cancel"), requestCode: AlertRequestCode.logOut.rawValue)
+                    }
                 }
             }
         }

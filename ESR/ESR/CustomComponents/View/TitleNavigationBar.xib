@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina4_7" orientation="portrait">
+    <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
@@ -14,6 +14,7 @@
             <connections>
                 <outlet property="baseView" destination="iN0-l3-epB" id="HvC-ib-6vv"/>
                 <outlet property="btnBack" destination="hmG-Lf-1RH" id="YK2-ah-9oI"/>
+                <outlet property="containerView" destination="P4u-gV-UQm" id="7Dg-1d-atZ"/>
                 <outlet property="lblTitle" destination="1ib-qi-axQ" id="zbe-c3-SXw"/>
             </connections>
         </placeholder>
@@ -25,10 +26,9 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="P4u-gV-UQm">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                     <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1ib-qi-axQ">
-                            <rect key="frame" x="40" y="0.0" width="240" height="44"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1ib-qi-axQ">
+                            <rect key="frame" x="50" y="0.0" width="220" height="44"/>
+                            <attributedString key="attributedText"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hmG-Lf-1RH">
@@ -46,8 +46,8 @@
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
-                        <constraint firstItem="1ib-qi-axQ" firstAttribute="leading" secondItem="P4u-gV-UQm" secondAttribute="leading" constant="40" id="5QS-n2-AUm"/>
-                        <constraint firstAttribute="trailing" secondItem="1ib-qi-axQ" secondAttribute="trailing" constant="40" id="ZOo-Nv-9wo"/>
+                        <constraint firstItem="1ib-qi-axQ" firstAttribute="leading" secondItem="P4u-gV-UQm" secondAttribute="leading" constant="50" id="5QS-n2-AUm"/>
+                        <constraint firstAttribute="trailing" secondItem="1ib-qi-axQ" secondAttribute="trailing" constant="50" id="ZOo-Nv-9wo"/>
                         <constraint firstItem="hmG-Lf-1RH" firstAttribute="leading" secondItem="P4u-gV-UQm" secondAttribute="leading" constant="5" id="bcx-qb-nGy"/>
                         <constraint firstAttribute="bottom" secondItem="1ib-qi-axQ" secondAttribute="bottom" id="kgT-9p-b00"/>
                         <constraint firstItem="hmG-Lf-1RH" firstAttribute="centerY" secondItem="P4u-gV-UQm" secondAttribute="centerY" id="tTZ-mE-BaY"/>

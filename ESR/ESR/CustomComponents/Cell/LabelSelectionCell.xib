@@ -65,6 +65,7 @@
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
+                <outlet property="containerView" destination="aBn-4A-oKE" id="q7P-nD-3PJ"/>
                 <outlet property="lblTitle" destination="mJx-IW-Mim" id="4Px-xa-KNH"/>
             </connections>
         </tableViewCell>

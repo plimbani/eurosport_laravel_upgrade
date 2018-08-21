@@ -22,6 +22,7 @@ class PickerHandlerView: UIView {
     var delegate: PickerHandlerViewDelegate?
     var titleList = [String]()
     var selectedTitle = NULL_STRING
+    var selectedPickerPosition = NULL_ID
     
     override func awakeFromNib() {
         btnDone.setTitleTextAttributes([NSAttributedStringKey(rawValue: NSAttributedStringKey.font.rawValue): UIFont(name: Font.HELVETICA_REGULAR, size: Font.Size.commonBtnSize)], for: .normal)
@@ -52,6 +53,7 @@ class PickerHandlerView: UIView {
     func reloadPickerView() {
         if titleList.count > 0 {
             selectedTitle = titleList[0]
+            selectedPickerPosition = 0
         }
         picker_view.reloadAllComponents()
     }
@@ -91,5 +93,6 @@ extension PickerHandlerView: UIPickerViewDataSource, UIPickerViewDelegate {
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         selectedTitle = titleList[row]
+        selectedPickerPosition = row
     }
 }

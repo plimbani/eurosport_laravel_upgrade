@@ -22,7 +22,13 @@ class ParseManager {
             if let surName = userDataDic.value(forKey: "sur_name") as? String {
                 userData.surName = surName
             }
-            if let id = userDataDic.value(forKey: "id") {
+            if let locale = userDataDic.value(forKey: "locale") as? String {
+                userData.locale = locale
+            }
+            if let tournamentId = userDataDic.value(forKey: "tournament_id") as? Int {
+                userData.tournamentId = tournamentId
+            }
+            if let id = userDataDic.value(forKey: "user_id") {
                 if id is Int {
                     userData.id = id as! Int
                 }

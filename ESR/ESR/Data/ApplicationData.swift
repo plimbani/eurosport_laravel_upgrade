@@ -14,6 +14,9 @@ class ApplicationData: NSObject {
     static var applicationData:ApplicationData!
     let reachability = Reachability()!
     
+    static let languageList: [String] = ["English", "French", "Italian", "German", "Dutch", "Czech", "Danish", "Polish"]
+    static let localeKeyList: [String] = ["en", "fr", "it", "de", "nl", "cs", "da", "pl"]
+    
     static func sharedInstance() -> ApplicationData {
         if (applicationData == nil) {
             applicationData = ApplicationData()
@@ -83,6 +86,24 @@ class ApplicationData: NSObject {
             }
         }
         return nil
+    }
+    
+    func getSelectedLocale() -> (String, String){
+        var selectedLocale = NULL_STRING
+        var selectedLanguage = NULL_STRING
+        if let userData = getUserData() {
+            if !userData.locale.isEmpty {
+                for i in 0..<ApplicationData.localeKeyList.count{
+                    if userData.locale == ApplicationData.localeKeyList[i] {
+                        selectedLocale = userData.locale
+                        selectedLanguage = ApplicationData.languageList[i]
+                        break
+                    }
+                }
+            }
+        }
+        
+        return (selectedLocale, selectedLanguage)
     }
     
     static func convertDateFromDateString(dateString: String, dateFormat: String) -> Date {

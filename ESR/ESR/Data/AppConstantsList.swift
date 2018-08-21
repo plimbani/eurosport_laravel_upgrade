@@ -32,7 +32,7 @@ struct API_ENDPOINT {
     static let CHECK_USER = API_URL.BASE_URL + "auth/check"
     static let GET_SETTINGS = API_URL.BASE_URL + "users/getSetting"
     static let UPDATE_SETTINGS = API_URL.BASE_URL + "users/postSetting"
-    static let UPDATE_PROFILE = API_URL.BASE_URL + "user/update"
+    static let UPDATE_PROFILE = API_URL.BASE_URL + "user/update/%@"
 }
 
 struct kViewController {
@@ -49,7 +49,10 @@ struct kViewController {
     static let TabTeamsVC                       = "TabTeamsVC"
     static let TabAgeCategoriesVC               = "TabAgeCategoriesVC"
     static let TabSettingsVC                    = "TabSettingsVC"
-    
+    // Settings
+    static let ProfileVC                        = "ProfileVC"
+    static let NotificationAndSoundVC           = "NotificationAndSoundVC"
+    static let PrivacyAndTermsVC                = "PrivacyAndTermsVC"
 }
 
 struct kUserDefaults {
@@ -63,6 +66,8 @@ struct kUserDefaults {
 enum AlertRequestCode: Int {
     case appUpgrade = 100
     case forgotPass = 101
+    case logOut = 102
+    case profileUpdate = 103
 }
 
 enum ResponseCode: Int {
@@ -197,7 +202,7 @@ extension UIColor {
     static func AppColor() -> UIColor {
         return UIColor(R: 199, G: 10, B: 32)
     }
-    
+    static let labelSlectionBg = UIColor(R: 222, G: 223, B: 226)
     static let btnDisable = UIColor(R: 204, G: 204, B: 204)
     static let btnYellow = UIColor(R: 237, G: 158, B: 45)
     static let txtPlaceholderBorder = UIColor(R: 223, G: 223, B: 223)

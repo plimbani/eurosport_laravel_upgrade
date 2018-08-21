@@ -171,7 +171,7 @@ class CreateAccountVC: SuperViewController {
     }
 }
 
-extension CreateAccountVC : PickerHandlerViewDelegate {
+extension CreateAccountVC: PickerHandlerViewDelegate {
     
     func pickerCancelBtnPressed() {}
     

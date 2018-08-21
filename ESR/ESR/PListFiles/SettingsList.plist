@@ -8,7 +8,7 @@
             <key>image</key>
             <string>S0</string>
             <key>identifier</key>
-            <string>TraderProfileVC</string>
+            <string>ProfileVC</string>
         </dict>
         <dict>
             <key>title</key>
@@ -16,7 +16,7 @@
             <key>image</key>
             <string>S1</string>
             <key>identifier</key>
-            <string>TraderAddTraderDetailVC</string>
+            <string>NotificationAndSoundVC</string>
         </dict>
         <dict>
             <key>title</key>
@@ -24,7 +24,7 @@
             <key>image</key>
             <string>S2</string>
             <key>identifier</key>
-            <string>TraderSocialMediaVC</string>
+            <string>PrivacyAndTermsVC</string>
         </dict>
         <dict>
             <key>title</key>
@@ -32,7 +32,7 @@
             <key>image</key>
             <string>S3</string>
             <key>identifier</key>
-            <string>TraderMarketDetailVC</string>
+            <string>Logout</string>
         </dict>
     </array>
 </plist>

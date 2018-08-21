@@ -10,6 +10,8 @@ import UIKit
 class LabelSelectionCell: UITableViewCell {
 
     @IBOutlet var lblTitle: UILabel!
+    @IBOutlet var containerView: UIView!
+    
     var record = NSDictionary()
     
     override func awakeFromNib() {

@@ -19,6 +19,10 @@ class TextFieldCell: UITableViewCell {
         txtField.setRightPaddingPoints(10)
     }
     
+    func setBorder() {
+        ApplicationData.setBorder(view: txtField, Color: UIColor.txtPlaceholderBorder, CornerRadius: 0.0, Thickness: 1.0)
+    }
+    
     func reloadCell() {
         if let placeholder = record.value(forKey: "placeholder") as? String {
             txtField.placeholder = placeholder
