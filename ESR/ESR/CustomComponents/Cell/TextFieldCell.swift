@@ -30,7 +30,6 @@ class TextFieldCell: UITableViewCell {
         
         if let secured = record.value(forKey: "secured") as? Bool {
             txtField.isSecureTextEntry = secured
-            
         }
         
         if let rawValue = record.value(forKey: "keyboardType") as? Int {

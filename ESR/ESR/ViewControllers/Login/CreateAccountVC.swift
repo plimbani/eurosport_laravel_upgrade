@@ -142,6 +142,10 @@ class CreateAccountVC: SuperViewController {
             if text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                 return
             }
+            
+            if !Utils.isValidEmail(text) {
+                return
+            }
         }
         
         if let text = txtPassword.text {
@@ -156,6 +160,12 @@ class CreateAccountVC: SuperViewController {
             }
         }
         
+        if let text = lblTournament.text {
+            if text.trimmingCharacters(in: .whitespaces).isEmpty {
+                return
+            }
+        }
+        
         btnCreateNewAccount.isEnabled = true
         btnCreateNewAccount.backgroundColor = UIColor.btnYellow
     }
@@ -166,7 +176,9 @@ extension CreateAccountVC : PickerHandlerViewDelegate {
     func pickerCancelBtnPressed() {}
     
     func pickerDoneBtnPressed(_ title: String) {
-        
+        lblTournament.text = title
+        lblTournament.textColor = .black
+        updateCreateAccountBtn()
     }
 }
 

@@ -31,6 +31,9 @@ class ForgotPasswordVC: SuperViewController {
         // To show/hide internet view in Navigation bar
         NotificationCenter.default.addObserver(self, selector: #selector(showHideNoInternetView(_:)), name: .internetConnectivity, object: nil)
         
+        // Alerview
+        initInfoAlertView(self.view, self)
+        
         // Hides keyboard if tap outside of view
         hideKeyboardWhenTappedAround()
     }
@@ -65,8 +68,44 @@ class ForgotPasswordVC: SuperViewController {
         btnSubmit.backgroundColor = UIColor.btnYellow
     }
     
+    func sendForgotPasswordRequest() {
+        if APPDELEGATE.reachability.connection == .none {
+            return
+        }
+        
+        var parameters: [String: Any] = [:]
+        parameters["email"] = txtEmail.text!
+        ApiManager().forgotPassword(parameters, success: { result in
+            DispatchQueue.main.async {
+                self.view.hideProgressHUD()
+                
+                self.showInfoAlertView(title: String.localize(key: "alert_title_success"), message: String.localize(key: "alert_msg_forgot_password"), requestCode: AlertRequestCode.forgotPass.rawValue)
+            }
+        }, failure: { result in
+            DispatchQueue.main.async {
+                self.view.hideProgressHUD()
+                
+                if result.allKeys.count == 0 {
+                    return
+                }
+                
+                if let error = result.value(forKey: "error") as? String {
+                    self.showInfoAlertView(title: String.localize(key: "alert_title_error"), message: error)
+                }
+            }
+        })
+    }
+    
     @IBAction func onSubmitBtnPressed(_ sender: UIButton) {
         
+    }
+}
+
+extension ForgotPasswordVC : CustomAlertViewDelegate {
+    func customAlertViewOkBtnPressed(requestCode: Int) {
+        if requestCode == AlertRequestCode.forgotPass.rawValue {
+            self.navigationController?.popViewController(animated: true)
+        }
     }
 }
 

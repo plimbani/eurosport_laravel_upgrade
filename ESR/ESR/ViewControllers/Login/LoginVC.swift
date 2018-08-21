@@ -12,6 +12,7 @@ class LoginVC: SuperViewController {
     @IBOutlet var txtEmail: UITextField!
     @IBOutlet var txtPassword: UITextField!
     @IBOutlet var lblNoInternet: UILabel!
+    @IBOutlet var btnLogin: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,6 +24,14 @@ class LoginVC: SuperViewController {
         ApplicationData.setTextFieldAttributes(txtEmail)
         ApplicationData.setTextFieldAttributes(txtPassword)
         
+        //btnLogin.isEnabled = false
+        
+         txtEmail.text = "rstenson@aecordigital.com"
+         txtPassword.text = "password"
+        
+        txtEmail.addTarget(self, action: #selector(textFieldDidChange(textField:)), for: .editingChanged)
+        txtPassword.addTarget(self, action: #selector(textFieldDidChange(textField:)), for: .editingChanged)
+        
         // Checks internet connectivity
         setConstraintLblNoInternet(APPDELEGATE.reachability.connection == .none)
             
@@ -31,6 +40,9 @@ class LoginVC: SuperViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         // To show/hide internet view in Navigation bar
         NotificationCenter.default.addObserver(self, selector: #selector(showHideNoInternetView(_:)), name: .internetConnectivity, object: nil)
+        
+        // Alert view
+        initInfoAlertView(self.view, self)
         
         // Hides keyboard if tap outside of view
         hideKeyboardWhenTappedAround()
@@ -64,12 +76,124 @@ class LoginVC: SuperViewController {
         }
     }
     
+    @objc func textFieldDidChange(textField: UITextField){
+        updateLoginBtn()
+    }
+    
+    func updateLoginBtn() {
+        btnLogin.isEnabled = false
+        btnLogin.backgroundColor = UIColor.btnDisable
+        
+        if let text = txtEmail.text {
+            if text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                return
+            }
+            
+            if !Utils.isValidEmail(text) {
+                return
+            }
+        }
+        
+        if let text = txtPassword.text {
+            if text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                return
+            }
+            
+            if text.count < 6 {
+                return
+            }
+        }
+        
+        btnLogin.isEnabled = true
+        btnLogin.backgroundColor = UIColor.btnYellow
+    }
+    
+    func sendLoginRequest() {
+        if APPDELEGATE.reachability.connection == .none {
+            return
+        }
+        
+        self.view.showProgressHUD()
+        
+        var parameters: [String: Any] = [:]
+        parameters["email"] = txtEmail.text!
+        parameters["password"] = txtPassword.text!
+        
+        ApiManager().login(parameters, success: { result in
+            DispatchQueue.main.async {
+                if let token = result.value(forKey: "token") as? String {
+                    USERDEFAULTS.set(token, forKey: kUserDefaults.token)
+                    USERDEFAULTS.set(self.txtEmail.text!, forKey: kUserDefaults.email)
+                    USERDEFAULTS.set(self.txtPassword.text!, forKey: kUserDefaults.password)
+                    self.sendGetUserDetailsRequest()
+                } else {
+                    self.view.hideProgressHUD()
+                }
+            }
+        }, failure: { result in
+            DispatchQueue.main.async {
+                self.view.hideProgressHUD()
+                
+                if result.allKeys.count == 0 {
+                    return
+                }
+                
+                if let error = result.value(forKey: "error") as? String {
+                    self.showInfoAlertView(title: String.localize(key: "alert_title_error"), message: error)
+                }
+            }
+        })
+    }
+    
+    func sendGetUserDetailsRequest() {
+        if APPDELEGATE.reachability.connection == .none {
+            return
+        }
+        
+        let parameters: [String: Any] = [:]
+        ApiManager().getUserDetails(parameters, success: { result in
+            DispatchQueue.main.async {
+                self.view.hideProgressHUD()
+                
+                if let authenticated = result.value(forKey: "authenticated") as? Bool {
+                    if authenticated {
+                        ParseManager.parseLogin(result)
+                    } else {
+                        if let message = result.value(forKey: "message") as? String {
+                            self.showInfoAlertView(title: String.localize(key: "alert_title_error"), message: message)
+                        }
+                    }
+                }
+                
+                UIApplication.shared.keyWindow?.rootViewController = Storyboards.Main.instantiateMainVC()
+            }
+        }, failure: { result in
+            DispatchQueue.main.async {
+                self.view.hideProgressHUD()
+                
+                if result.allKeys.count == 0 {
+                    return
+                }
+                
+                if let error = result.value(forKey: "error") as? String {
+                    self.showInfoAlertView(title: String.localize(key: "alert_title_error"), message: error)
+                }
+            }
+        })
+    }
+    
     @IBAction func signInBtnPressed(_ sender: UIButton) {
-        UIApplication.shared.keyWindow?.rootViewController = Storyboards.Main.instantiateMainVC()
+        sendLoginRequest()
     }
     
     @IBAction func forgotPassBtnPressed(_ sender: UIButton) {
         self.navigationController?.pushViewController(Storyboards.Main.instantiateForgotPasswordVC(), animated: true)
+    }
+}
+
+extension LoginVC: CustomAlertViewDelegate {
+    func customAlertViewOkBtnPressed(requestCode: Int) {
+        
     }
 }
 

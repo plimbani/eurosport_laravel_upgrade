@@ -26,4 +26,23 @@ class Utils {
         }
         return nil
     }
+    
+    static func compareVersion(_ version1: String, _ version2: String) -> Int {
+        var v1 = version1.split(separator: ".").map { Int(String($0)) }
+        var v2 = version2.split(separator: ".").map { Int(String($0)) }
+        var result = 0
+        for i in 0..<max(v1.count,v2.count) {
+            let left = i >= v1.count ? 0 : v1[i]
+            let right = i >= v2.count ? 0 : v2[i]
+            
+            if (left! == right!) {
+                result = 0
+            } else if left! > right! {
+                return 1
+            } else if right! > left! {
+                return -1
+            }
+        }
+        return result
+    }
 }

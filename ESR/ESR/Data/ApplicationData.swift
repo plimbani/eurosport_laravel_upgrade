@@ -72,6 +72,19 @@ class ApplicationData: NSObject {
         view.layer.addSublayer(layer)
     }
     
+    func saveUserData(_ userData: UserData?) {
+        USERDEFAULTS.set(NSKeyedArchiver.archivedData(withRootObject: userData), forKey: kUserDefaults.userData)
+    }
+    
+    func getUserData() -> UserData? {
+        if let data = USERDEFAULTS.data(forKey: kUserDefaults.userData) {
+            if let user = NSKeyedUnarchiver.unarchiveObject(with: data) {
+                return user as? UserData
+            }
+        }
+        return nil
+    }
+    
     static func convertDateFromDateString(dateString: String, dateFormat: String) -> Date {
         let dateFormatter = DateFormatter()
         dateFormatter.timeZone = NSTimeZone.default

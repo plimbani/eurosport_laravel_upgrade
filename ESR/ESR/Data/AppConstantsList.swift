@@ -10,6 +10,7 @@ import Foundation
 // MARK:- Default Value Constants
 let NULL_STRING     =   ""
 let NA_STRING       =   "NA"
+let NULL_ID         =   -1
 
 // MARK:- Global Constants
 let DEVICE          =   UIDevice.current
@@ -22,8 +23,16 @@ let USERDEFAULTS    =   UserDefaults.standard
 let APPDELEGATE     =   UIApplication.shared.delegate as! AppDelegate
 
 struct API_ENDPOINT {
-    // Page
+    
     static let TOURNAMENTS = API_URL.BASE_URL + "tournaments"
+    static let APP_VERSION = API_URL.BASE_URL + "appversion"
+    static let LOGIN = API_URL.BASE_URL + "auth/login"
+    static let REGISTER = API_URL.BASE_URL + "user/create"
+    static let FORGOT_PASSWORD = API_URL.BASE_URL + "password/email"
+    static let CHECK_USER = API_URL.BASE_URL + "auth/check"
+    static let GET_SETTINGS = API_URL.BASE_URL + "users/getSetting"
+    static let UPDATE_SETTINGS = API_URL.BASE_URL + "users/postSetting"
+    static let UPDATE_PROFILE = API_URL.BASE_URL + "user/update"
 }
 
 struct kViewController {
@@ -41,6 +50,19 @@ struct kViewController {
     static let TabAgeCategoriesVC               = "TabAgeCategoriesVC"
     static let TabSettingsVC                    = "TabSettingsVC"
     
+}
+
+struct kUserDefaults {
+    static let token                = "token"
+    static let email                = "email"
+    static let password             = "password"
+    static let locale               = "locale"
+    static let userData             = "userData"
+}
+
+enum AlertRequestCode: Int {
+    case appUpgrade = 100
+    case forgotPass = 101
 }
 
 enum ResponseCode: Int {
@@ -102,6 +124,9 @@ struct Font {
         static let commonLblSize = CGFloat(16)
         static let commonTextFieldTxt = CGFloat(16)
         static let commonTextFieldPlaceholder = CGFloat(16)
+        
+        // CustomAlertView
+        static let customAlertViewLblTitle = CGFloat(17)
     }
     
 }
@@ -179,6 +204,7 @@ extension UIColor {
     static let txtPlaceholderTxt = UIColor(R: 117, G: 117, B: 117)
     static let txtPlaceholderDisable = UIColor(R: 246, G: 246, B: 246)
     static let txtDefaultTxt = UIColor(R: 52, G: 52, B: 52)
+    static let settingsGreenArrow = UIColor(R: 109, G: 167, B: 33)
 }
 
 extension String {

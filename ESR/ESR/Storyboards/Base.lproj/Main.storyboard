@@ -218,6 +218,7 @@
                         <viewLayoutGuide key="safeArea" id="wuK-9g-hMk"/>
                     </view>
                     <connections>
+                        <outlet property="btnLogin" destination="ii2-mt-sE8" id="A16-wV-jnY"/>
                         <outlet property="heightConstraintLblNoInternet" destination="Fyg-fE-7qR" id="Z2R-mP-Ci8"/>
                         <outlet property="lblNoInternet" destination="FBq-Re-5Vo" id="9tq-dz-35U"/>
                         <outlet property="titleNavigationBar" destination="7xD-an-3j8" id="fwf-AZ-jZo"/>

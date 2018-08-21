@@ -47,7 +47,7 @@
             <integer>1</integer>
             <key>placeholder</key>
             <string>Password</string>
-            <key>secureTextEntry</key>
+            <key>secured</key>
             <true/>
             <key>keyboardType</key>
             <integer>1</integer>
@@ -59,7 +59,7 @@
             <integer>1</integer>
             <key>placeholder</key>
             <string>Confirm password</string>
-            <key>secureTextEntry</key>
+            <key>secured</key>
             <true/>
             <key>keyboardType</key>
             <integer>1</integer>

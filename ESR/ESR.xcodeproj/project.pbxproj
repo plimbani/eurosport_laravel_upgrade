@@ -61,6 +61,13 @@
 		30181D682126EB830067D65F /* UIViewExtentions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D672126EB830067D65F /* UIViewExtentions.swift */; };
 		30181D6B2126F4060067D65F /* PickerHandlerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30181D692126F4050067D65F /* PickerHandlerView.xib */; };
 		30181D6C2126F4060067D65F /* PickerHandlerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D6A2126F4050067D65F /* PickerHandlerView.swift */; };
+		30181D6F212AA3400067D65F /* CustomAlertView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30181D6D212AA33F0067D65F /* CustomAlertView.xib */; };
+		30181D70212AA3400067D65F /* CustomAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D6E212AA33F0067D65F /* CustomAlertView.swift */; };
+		30181D77212AB9CE0067D65F /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D76212AB9CE0067D65F /* UserData.swift */; };
+		30181D79212ABB5A0067D65F /* ParseManger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D78212ABB5A0067D65F /* ParseManger.swift */; };
+		30181D7C212AD07C0067D65F /* CustomAlertViewTwoButton.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30181D7A212AD07C0067D65F /* CustomAlertViewTwoButton.xib */; };
+		30181D7D212AD07C0067D65F /* CustomAlertViewTwoButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D7B212AD07C0067D65F /* CustomAlertViewTwoButton.swift */; };
+		30181D81212AF0590067D65F /* SettingsList.plist in Resources */ = {isa = PBXBuildFile; fileRef = 30181D80212AF0590067D65F /* SettingsList.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -120,6 +127,13 @@
 		30181D672126EB830067D65F /* UIViewExtentions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtentions.swift; sourceTree = "<group>"; };
 		30181D692126F4050067D65F /* PickerHandlerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PickerHandlerView.xib; sourceTree = "<group>"; };
 		30181D6A2126F4050067D65F /* PickerHandlerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PickerHandlerView.swift; sourceTree = "<group>"; };
+		30181D6D212AA33F0067D65F /* CustomAlertView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomAlertView.xib; sourceTree = "<group>"; };
+		30181D6E212AA33F0067D65F /* CustomAlertView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomAlertView.swift; sourceTree = "<group>"; };
+		30181D76212AB9CE0067D65F /* UserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
+		30181D78212ABB5A0067D65F /* ParseManger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseManger.swift; sourceTree = "<group>"; };
+		30181D7A212AD07C0067D65F /* CustomAlertViewTwoButton.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomAlertViewTwoButton.xib; sourceTree = "<group>"; };
+		30181D7B212AD07C0067D65F /* CustomAlertViewTwoButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomAlertViewTwoButton.swift; sourceTree = "<group>"; };
+		30181D80212AF0590067D65F /* SettingsList.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = SettingsList.plist; sourceTree = "<group>"; };
 		5669E6CBF27485D33013CE06 /* Pods-ESR.release ( production ).xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ESR.release ( production ).xcconfig"; path = "Pods/Target Support Files/Pods-ESR/Pods-ESR.release ( production ).xcconfig"; sourceTree = "<group>"; };
 		9BD23A70543185FD0C23E807 /* Pods-ESR.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ESR.release.xcconfig"; path = "Pods/Target Support Files/Pods-ESR/Pods-ESR.release.xcconfig"; sourceTree = "<group>"; };
 		C883A75926EF01AE85CE5AFF /* Pods-ESR.release ( qa ).xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ESR.release ( qa ).xcconfig"; path = "Pods/Target Support Files/Pods-ESR/Pods-ESR.release ( qa ).xcconfig"; sourceTree = "<group>"; };
@@ -230,6 +244,7 @@
 			isa = PBXGroup;
 			children = (
 				30181D352122C6590067D65F /* CreateAccountFieldList.plist */,
+				30181D80212AF0590067D65F /* SettingsList.plist */,
 			);
 			path = PListFiles;
 			sourceTree = "<group>";
@@ -248,6 +263,7 @@
 		30181CDB211D99990067D65F /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				30181D71212AB81A0067D65F /* Model */,
 				30181CDC211D99F50067D65F /* AppConstantsList.swift */,
 				30181CDE211D9DFF0067D65F /* ApplicationData.swift */,
 			);
@@ -285,6 +301,10 @@
 				30181D4D212590EC0067D65F /* ImageNavigationBar.xib */,
 				30181D6A2126F4050067D65F /* PickerHandlerView.swift */,
 				30181D692126F4050067D65F /* PickerHandlerView.xib */,
+				30181D6E212AA33F0067D65F /* CustomAlertView.swift */,
+				30181D6D212AA33F0067D65F /* CustomAlertView.xib */,
+				30181D7B212AD07C0067D65F /* CustomAlertViewTwoButton.swift */,
+				30181D7A212AD07C0067D65F /* CustomAlertViewTwoButton.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -307,6 +327,7 @@
 			isa = PBXGroup;
 			children = (
 				30181D4F2126BB520067D65F /* ApiManager.swift */,
+				30181D78212ABB5A0067D65F /* ParseManger.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -383,6 +404,14 @@
 			path = Login;
 			sourceTree = "<group>";
 		};
+		30181D71212AB81A0067D65F /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				30181D76212AB9CE0067D65F /* UserData.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -454,9 +483,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				30181D1721219F5B0067D65F /* Teams.storyboard in Resources */,
+				30181D81212AF0590067D65F /* SettingsList.plist in Resources */,
 				30181D622126D6930067D65F /* Production.plist in Resources */,
 				30181D1121219EA00067D65F /* Favourites.storyboard in Resources */,
 				30181D282122A8FB0067D65F /* TitleNavigationBar.xib in Resources */,
+				30181D7C212AD07C0067D65F /* CustomAlertViewTwoButton.xib in Resources */,
 				30181CCE211D95B80067D65F /* LaunchScreen.storyboard in Resources */,
 				30181D1921219F780067D65F /* Settings.storyboard in Resources */,
 				30181D1B2121A1B00067D65F /* Localizable.strings in Resources */,
@@ -471,6 +502,7 @@
 				30181D40212312EC0067D65F /* ButtonCell.xib in Resources */,
 				30181D5A2126CF830067D65F /* QA.xcconfig in Resources */,
 				30181D4E212590EC0067D65F /* ImageNavigationBar.xib in Resources */,
+				30181D6F212AA3400067D65F /* CustomAlertView.xib in Resources */,
 				30181D612126D6930067D65F /* QA.plist in Resources */,
 				30181D1521219F3A0067D65F /* AgeCategories.storyboard in Resources */,
 				30181D1321219F1A0067D65F /* Tournament.storyboard in Resources */,
@@ -525,6 +557,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				30181D7D212AD07C0067D65F /* CustomAlertViewTwoButton.swift in Sources */,
 				30181CDF211D9DFF0067D65F /* ApplicationData.swift in Sources */,
 				30181D502126BB520067D65F /* ApiManager.swift in Sources */,
 				30181D08211DBA1B0067D65F /* TabTeamsVC.swift in Sources */,
@@ -542,12 +575,14 @@
 				30181D212121A8DD0067D65F /* LoginVC.swift in Sources */,
 				30181CDD211D99F50067D65F /* AppConstantsList.swift in Sources */,
 				30181D0C211DBA900067D65F /* TabSettingsVC.swift in Sources */,
+				30181D79212ABB5A0067D65F /* ParseManger.swift in Sources */,
 				30181D4C212590E30067D65F /* ImageNavigationBar.swift in Sources */,
 				30181D3B21230ABF0067D65F /* TextFieldCell.swift in Sources */,
 				30181D232121A8EA0067D65F /* LandingVC.swift in Sources */,
 				30181D3F212312EC0067D65F /* ButtonCell.swift in Sources */,
 				30181D2A2122B0CB0067D65F /* TabTournamentVC.swift in Sources */,
 				30181D682126EB830067D65F /* UIViewExtentions.swift in Sources */,
+				30181D77212AB9CE0067D65F /* UserData.swift in Sources */,
 				30181D332122C0370067D65F /* LabelSelectionCell.swift in Sources */,
 				30181D2C2122B9B30067D65F /* UIViewControllerExtentions.swift in Sources */,
 				30181D262122A8F10067D65F /* TitleNavigationBar.swift in Sources */,
@@ -555,6 +590,7 @@
 				30181CFC211DB6E30067D65F /* StoryboardManager.swift in Sources */,
 				30181D0A211DBA3E0067D65F /* TabAgeCategoriesVC.swift in Sources */,
 				30181D4A212588340067D65F /* Reachability.swift in Sources */,
+				30181D70212AA3400067D65F /* CustomAlertView.swift in Sources */,
 				30181D42212558900067D65F /* Utils.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -586,6 +622,7 @@
 			baseConfigurationReference = 30181D5B2126CF9C0067D65F /* Dev.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -646,6 +683,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -747,6 +785,7 @@
 			baseConfigurationReference = 30181D592126CF830067D65F /* QA.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -831,6 +870,7 @@
 			baseConfigurationReference = 30181D5D2126CFAF0067D65F /* Production.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -914,6 +954,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -991,6 +1032,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";

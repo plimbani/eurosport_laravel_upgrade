@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+    <array>
+        <dict>
+            <key>title</key>
+            <string>Profile</string>
+            <key>image</key>
+            <string>S0</string>
+            <key>identifier</key>
+            <string>TraderProfileVC</string>
+        </dict>
+        <dict>
+            <key>title</key>
+            <string>Notifications &amp; sounds details</string>
+            <key>image</key>
+            <string>S1</string>
+            <key>identifier</key>
+            <string>TraderAddTraderDetailVC</string>
+        </dict>
+        <dict>
+            <key>title</key>
+            <string>Privacy &amp; terms</string>
+            <key>image</key>
+            <string>S2</string>
+            <key>identifier</key>
+            <string>TraderSocialMediaVC</string>
+        </dict>
+        <dict>
+            <key>title</key>
+            <string>Log out</string>
+            <key>image</key>
+            <string>S3</string>
+            <key>identifier</key>
+            <string>TraderMarketDetailVC</string>
+        </dict>
+    </array>
+</plist>

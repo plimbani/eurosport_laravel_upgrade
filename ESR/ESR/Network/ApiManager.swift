@@ -23,13 +23,18 @@ class ApiManager {
     func getHeaders(_ auth:Bool=false) -> HTTPHeaders {
         var headers = [
             "Content-Type": "application/json",
-            "Accept": "application/json"
+            "Accept": "application/json",
+            "IsMobileUser" : "true"
         ]
         
+        if let locale = USERDEFAULTS.string(forKey: kUserDefaults.locale) {
+            headers["locale"] = "\(locale))"
+        }
+        
         if auth {
-//            if let token = USERDEFAULTS.string(forKey: kUserDefaults.token) {
-//                headers["Authorization"] = "Bearer \(token))"
-//            }
+            if let token = USERDEFAULTS.string(forKey: kUserDefaults.token) {
+                headers["Authorization"] = "Bearer \(token))"
+            }
         }
         return headers as HTTPHeaders
     }
@@ -47,24 +52,25 @@ class ApiManager {
         return result
     }
     
-    func getRequestWithHeader(_ apiURL: String,success: @escaping (_ result: NSDictionary) -> (), failure: @escaping (_ result: NSDictionary) -> ()) {
-        Alamofire.request(apiURL, method: .get, parameters: nil,encoding: URLEncoding.queryString, headers: getHeaders(true)).validate(statusCode: 200..<300).responseJSON {
+    func getRequest(_ apiURL: String,success: @escaping (_ result: NSDictionary) -> (), failure: @escaping (_ result: NSDictionary) -> (), _ isTokenNeeded: Bool = false) {
+        Alamofire.request(apiURL, method: .get, parameters: nil,encoding: URLEncoding.queryString, headers: getHeaders(isTokenNeeded)).validate(statusCode: 200..<300).responseJSON {
             response in
             
-            if let response = response.response {
-                if response.statusCode == ResponseCode.unauthorised.rawValue {
-                    // MainTabViewController.setLandingScreen()
-                    failure(NSDictionary())
-                    return
-                }
-            }
+//            if let response = response.response {
+//                if response.statusCode == ResponseCode.unauthorised.rawValue {
+//
+//                    failure(NSDictionary())
+//                    return
+//                }
+//            }
             
             switch response.result {
             case .success:
                 if let json = response.result.value {
-                    success(json as! NSDictionary)
+                    print("JSON: \(json)")
+                    let result = json as! NSDictionary
+                    success(result)
                 }
-                break
             case .failure(let error):
                 print(error.localizedDescription)
                 if let data = response.data {
@@ -74,9 +80,9 @@ class ApiManager {
         }
     }
     
-    func postWithoutHeader(_ apiURL: String, _ parameters: [String: Any]?, success: @escaping (_ result: NSDictionary) -> (), failure: @escaping (_ result: NSDictionary) -> ()) {
+    func postRequest(_ apiURL: String, _ parameters: [String: Any]?, success: @escaping (_ result: NSDictionary) -> (), failure: @escaping (_ result: NSDictionary) -> (), _ isTokenNeeded: Bool = false) {
         
-        Alamofire.request(apiURL, method: .post, parameters: parameters,encoding: JSONEncoding.default, headers: getHeaders()).validate(statusCode: 200..<300).responseJSON {
+        Alamofire.request(apiURL, method: .post, parameters: parameters,encoding: JSONEncoding.default, headers: getHeaders(isTokenNeeded)).validate(statusCode: 200..<300).responseJSON {
             response in
             switch response.result {
             case .success:
@@ -85,7 +91,6 @@ class ApiManager {
                     let result = json as! NSDictionary
                     success(result)
                 }
-                break
             case .failure(let error):
                 print(error.localizedDescription)
                 if let data = response.data {
@@ -95,32 +100,25 @@ class ApiManager {
         }
     }
   
-//    // MARK:- Login
-//    func getTournaments(_ parameters: [String: Any], success: @escaping (_ result: NSDictionary) -> (), failure: @escaping (_ result: NSDictionary) -> ()) {
-//
-//        postWithoutHeader(API_ENDPOINT.TOURNAMENTS, parameters, success: success, failure: failure)
-//    }
+    // MARK:- Login
+    func login(_ parameters: [String: Any]?, success: @escaping (_ result: NSDictionary) -> (), failure: @escaping (_ result: NSDictionary) -> ()) {
+        postRequest(API_ENDPOINT.LOGIN, parameters, success: success, failure: failure)
+    }
+    
+    func getAppVersion(_ parameters: [String: Any]?, success: @escaping (_ result: NSDictionary) -> (), failure: @escaping (_ result: NSDictionary) -> ()) {
+        postRequest(API_ENDPOINT.APP_VERSION, parameters, success: success, failure: failure, true)
+    }
+    
+    func getUserDetails(_ parameters: [String: Any]?, success: @escaping (_ result: NSDictionary) -> (), failure: @escaping (_ result: NSDictionary) -> ()) {
+        postRequest(API_ENDPOINT.CHECK_USER, parameters, success: success, failure: failure, true)
+    }
+    
+    func forgotPassword(_ parameters: [String: Any]?, success: @escaping (_ result: NSDictionary) -> (), failure: @escaping (_ result: NSDictionary) -> ()) {
+        postRequest(API_ENDPOINT.FORGOT_PASSWORD, parameters, success: success, failure: failure)
+    }
 
     // MARK:- Tournaments list
     func getTournaments(success: @escaping (_ result: NSDictionary) -> (), failure: @escaping (_ result: NSDictionary) -> ()) {
-
-        Alamofire.request(API_ENDPOINT.TOURNAMENTS, method: .get, parameters: nil,encoding: JSONEncoding.default, headers: getHeaders()).validate(statusCode: 200..<300).responseJSON {
-            response in
-
-            switch response.result {
-            case .success:
-                if let json = response.result.value {
-                    let dic = json as! NSDictionary
-                    _ = ApplicationData.convertJsonStringFromJsonObject(dic)
-                    success(dic)
-                }
-            case .failure(let error):
-                print(error.localizedDescription)
-                if let data = response.data {
-                    failure(self.getErrorResult(data))
-                }
-            }
-        }
+        getRequest(API_ENDPOINT.TOURNAMENTS, success: success, failure: failure)
     }
-    
 }
