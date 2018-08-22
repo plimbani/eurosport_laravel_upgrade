@@ -85,6 +85,8 @@ $api->version('v1', function ($api) {
     $api->post('tournament/scheduleAutomaticPitchPlanning', 'Laraspace\Api\Controllers\TournamentController@scheduleAutomaticPitchPlanning');
     $api->get('/changeWebsiteMenus','Laraspace\Api\Controllers\HomeController@changeWebsiteMenus');
 
+    $api->post('/getPitchDays', 'Laraspace\Api\Controllers\TournamentController@getPitchDays');
+
 });
 
 $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {

@@ -240,4 +240,9 @@ class TournamentController extends BaseController
     {
         return $this->tournamentObj->scheduleAutomaticPitchPlanning($request->all());   
     }
+
+    public function getPitchDays(Request $request)
+    {
+        return $this->tournamentObj->getPitchDays($request->all());      
+    }
 }

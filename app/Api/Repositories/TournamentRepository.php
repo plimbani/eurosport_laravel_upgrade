@@ -714,6 +714,18 @@ class TournamentRepository
       return $ageCategoryDetail;
     }
 
+    public function getPitchDays($data)
+    {
+      $pitchAvailability = PitchAvailable::where('pitch_id', $data['id'])->get();
+      $pitchDays[$data['id']] = [];
+
+      foreach ($pitchAvailability as $key => $availability) {
+        array_push($pitchDays[$data['id']], $availability->stage_no);
+      }
+
+      return $pitchDays;
+    }
+
     public function scheduleAutomaticPitchPlanning($data)
     {
       $ageCategory = TournamentCompetationTemplates::where('id', $data['age_category'])->first();
@@ -776,8 +788,8 @@ class TournamentRepository
           $pitchAvailableEnd = Carbon::createFromFormat('d/m/Y H:i', $pitchAvailable->stage_start_date.' '.$pitchAvailable->stage_end_time);
 
         while($pitchAvailableStart < $pitchAvailableEnd) {
-          $pitchAvailableStart->addMinute(1);
           $pitchAvailableTime[$pitch][$pitchAvailableStart->timestamp] = 1;
+          $pitchAvailableStart->addMinute(1);
         }
 
         $allPitchBreaks = PitchBreaks::where('availability_id', $pitchAvailable->id)->get();
@@ -800,8 +812,8 @@ class TournamentRepository
             $stageEndTime = Carbon::createFromFormat('d/m/Y H:i', $availability->stage_start_date.' '.$break->break_end);
 
             while($stageStartTime < $stageEndTime) {
-              $stageStartTime->addMinute(1);
               $pitchAvailableTime[$pitch][$stageStartTime->timestamp] = 0;
+              $stageStartTime->addMinute(1);
             }
           }
         }
@@ -835,19 +847,19 @@ class TournamentRepository
             $i = 0;
             $startTimeStamp = null;
             foreach ($availability as $key => $value) {
-
               if($matchTime == $i) {
                 $startTimeStamp = Carbon::createFromTimestamp($startTimeStamp);
+
                 $endTimeStamp = Carbon::createFromTimestamp($key);
 
-                $finalArray[$match->id] = array('match_start_time' => $startTimeStamp, 'match_end_time' => $endTimeStamp);
+                $finalArray[$match->id] = array('match_start_time' => clone($startTimeStamp), 'match_end_time' => clone($endTimeStamp));
                 
-                while($startTimeStamp <= $endTimeStamp) {
+                while($startTimeStamp < $endTimeStamp) {
                   $pitchAvailableTime[$pitch][$startTimeStamp->timestamp] = 0;
                   $startTimeStamp->addMinute(1);
                 }
                 break;
-              }              
+              }
 
               if($i < $matchTime && $value == 1) {
                 if($startTimeStamp == null) {

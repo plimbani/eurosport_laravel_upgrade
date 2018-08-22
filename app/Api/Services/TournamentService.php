@@ -901,4 +901,10 @@ class TournamentService implements TournamentContract
       $data = $this->tournamentRepoObj->scheduleAutomaticPitchPlanning($data);
       return ['options' => $data];
     }
+
+    public function getPitchDays($data)
+    {
+      $data = $this->tournamentRepoObj->getPitchDays($data);
+      return ['data' => $data, 'status_code' => '200'];
+    }
 }
