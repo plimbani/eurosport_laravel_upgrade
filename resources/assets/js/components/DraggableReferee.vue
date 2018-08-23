@@ -3,7 +3,7 @@
         <div class="raferee_list">
             <div v-bind:id="'i'+referee.id" style="display:none;">
                 <div class="popover-body">
-                    <b>Age Categories</b><br/>
+                    <b>Age categories</b><br/>
                     <span v-show="referee.age_group_id !== null">
                         {{ referee.age_group_id | formatAgeCategoryName(competationList) }}
                     </span>

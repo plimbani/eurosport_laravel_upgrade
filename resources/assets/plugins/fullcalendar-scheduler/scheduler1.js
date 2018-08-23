@@ -3709,8 +3709,21 @@ TimelineGrid = (function(superClass) {
 
     if(event.matchId != -1) {
       tootipHtml = "<div style='color: " + event.textColor + "'>";
+      if(event.refereeId != '' && event.refereeId > 0) {
+        tootipHtml += "<span>" + event.refereeText + "</span><br/>";
+      }
       tootipHtml += "<span>" + moment.utc(event.start).format("HH:mm") + " - " + moment.utc(event.end).format("HH:mm") + "</span><br/>";
-      tootipHtml += "<span>" + event.homeTeamPlaceHolder + " - " + event.awayTeamPlaceHolder + "</span>";
+      tootipHtml += "<span>" + event.title + "</span><br/>";
+      if((event.homeScore !== null) && (event.awayScore !== null) && (typeof event.awayScore !== 'undefined') && (typeof event.awayScore !== 'undefined')) {
+        tootipHtml += '<div>' +
+        ((event.isResultOverride == 1 && event.matchStatus == 'Walk-over' && event.matchWinner == event.homeTeam) ? '*' : '') +
+        htmlEscape(event.homeScore) + '-' + htmlEscape(event.awayScore) +
+        ((event.isResultOverride == 1 && event.matchStatus == 'Walk-over' && event.matchWinner == event.awayTeam) ? '*' : '') +
+        '</div>';
+      }
+      if(event.remarks) {
+        tootipHtml += '<div class="tootltip-bubble"><i class="jv-icon jv-comment"></i></div>';
+      }
       tootipHtml += "</div>";
     }
 
