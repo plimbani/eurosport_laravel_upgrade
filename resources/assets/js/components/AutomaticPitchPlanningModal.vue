@@ -101,13 +101,15 @@
                                 <span>Start time:</span>
                               </div>
                               <div class="col-md-3">
-                                <input :name="start_time" :class="[errors.has('start_time')?'is-danger': '', 'form-control ls-timepicker start_time']"  :id="start_time"  type="text" >
+                                <input :name="'start_time_'+pitch.id+'_'+day" v-validate="'required'" :class="[errors.has('start_time_'+pitch.id+'_'+day)?'is-danger': '', 'form-control ls-timepicker start_time']"  :id="'start_time_'+pitch.id+'_'+day"  type="text" >
+                                <i v-show="errors.has('start_time_'+pitch.id+'_'+day)" class="fa fa-warning text-danger" data-placement="top" title="Start time is required"></i>
                               </div>
                               <div class="col-md-3">
                                 <span>End time:</span>
                               </div>
                               <div class="col-md-3">
-                                <input :name="end_time" :class="[errors.has('end_time')?'is-danger': '', 'form-control ls-timepicker end_time']"  :id="end_time"  type="text" >
+                                <input :name="'end_time_'+pitch.id+'_'+day" v-validate="'required'" :class="[errors.has('end_time_'+pitch.id+'_'+day)?'is-danger': '', 'form-control ls-timepicker end_time']"  :id="'end_time_'+pitch.id+'_'+day"  type="text" >
+                                <i v-show="errors.has('end_time_'+pitch.id+'_'+day)" class="fa fa-warning text-danger" data-placement="top" title="End time is required"></i>
                               </div>
                             </div>
                           </div>
@@ -151,8 +153,6 @@ import Tournament from '../api/tournament.js'
             selectedAgeCategory: '',
             final_match_duration: '',
             normal_match_duration: '',
-            start_time: '',
-            end_time: '',
             allPitchesWithDays: {},
           }
         },
@@ -160,11 +160,11 @@ import Tournament from '../api/tournament.js'
           this.getAgeCategories();
         },
         mounted() {
-          Plugin.initPlugins(['TimePickers']);
+          // Plugin.initPlugins(['TimePickers']);
           $('#start_time').timepicker({
-              minTime: '08:00',
-              maxTime: '23:00',
-              'timeFormat': 'H:i'
+            minTime: '08:00',
+            maxTime: '23:00',
+            'timeFormat': 'H:i'
           });
         },
         computed: {
@@ -206,35 +206,35 @@ import Tournament from '../api/tournament.js'
               }
             },
             scheduleAutomaticPitchPlanning() {
-              this.isInvalid = false
-              if(this.value.length === 0) {
-                this.isInvalid = true
-              }
-              this.$validator.validateAll().then((response) => {
-                if(this.isInvalid == true) {
-                  return false;
+                this.isInvalid = false
+                if(this.value.length === 0) {
+                  this.isInvalid = true
                 }
+                this.$validator.validateAll().then((response) => {
+                  if(this.isInvalid == true) {
+                    return false;
+                  }
 
-                let pitches = []
-                _.forEach(this.value, function(opt) {
-                  pitches.push(opt.id)
-                });
-
-                let tournamentId = this.$store.state.Tournament.tournamentId
-                let tournamentData = {'tournamentId': tournamentId, 'age_category': this.selectedAgeCategory.id, 'competition': this.selectedGroup.id, 'pitches': pitches}
-                Tournament.scheduleAutomaticPitchPlanning(tournamentData).then(
-                  (response) => {
-                    if(response.data.options.status == 'error') {
-                      $('.js-available-time-error-message').removeClass('d-none');
-                      $('.js-available-time-error-message').html(response.data.options.message);
-                    }
-                  },
-                  (error) => {
-
+                  let pitches = []
+                  _.forEach(this.value, function(opt) {
+                    pitches.push(opt.id)
                   });
-              }).catch((errors) => {
 
-              });
+                  let tournamentId = this.$store.state.Tournament.tournamentId
+                  let tournamentData = {'tournamentId': tournamentId, 'age_category': this.selectedAgeCategory.id, 'competition': this.selectedGroup.id, 'pitches': pitches}
+                  Tournament.scheduleAutomaticPitchPlanning(tournamentData).then(
+                    (response) => {
+                      if(response.data.options.status == 'error') {
+                        $('.js-available-time-error-message').removeClass('d-none');
+                        $('.js-available-time-error-message').html(response.data.options.message);
+                      }
+                    },
+                    (error) => {
+
+                    });
+                }).catch((errors) => {
+
+                });
             },
             filteredGroupName(actualGroupName) {
               let splittedName = actualGroupName.split("-");
