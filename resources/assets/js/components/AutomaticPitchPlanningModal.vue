@@ -221,7 +221,8 @@ import Tournament from '../api/tournament.js'
                   });
 
                   let tournamentId = this.$store.state.Tournament.tournamentId
-                  let tournamentData = {'tournamentId': tournamentId, 'age_category': this.selectedAgeCategory.id, 'competition': this.selectedGroup.id, 'pitches': pitches}
+                  let tournamentData = {'tournamentId': tournamentId, 'age_category': this.selectedAgeCategory.id, 'competition': this.selectedGroup.id, 'pitches': pitches,
+                   'timings': this.allPitchesWithDays}
                   Tournament.scheduleAutomaticPitchPlanning(tournamentData).then(
                     (response) => {
                       if(response.data.options.status == 'error') {
