@@ -251,7 +251,7 @@ import Tournament from '../api/tournament.js'
             },
             onSelect (option) {
               if (option === 'Disable me!') this.isDisabled = true
-              this.allPitchesWithDays[option.id] = {'id': option.id, 'pitchName': option.pitch_number};
+              this.allPitchesWithDays[option.id] = {'id': option.id, 'pitchName': option.pitch_number, 'days': []};
               this.getAllPitchesWithDays(option.id);
             },
             onTouch () {
@@ -268,6 +268,15 @@ import Tournament from '../api/tournament.js'
               Tournament.getAllPitchesWithDays(pitchId).then(
                 (response) => {
                   vm.allPitchesWithDays[pitchId].days = response.data.data;
+                  let pitchTime = [];
+                  $.each(response.data.data, function(index, element) {
+                    pitchTime[index] = {'start_time': '08:00', 'end_time': '23:00'};
+                  });
+                  vm.allPitchesWithDays[pitchId].time = pitchTime;
+                  Vue.nextTick()
+                  .then(function () {
+                    vm.$forceUpdate();
+                  });
                 },
                 (error) => {
 
