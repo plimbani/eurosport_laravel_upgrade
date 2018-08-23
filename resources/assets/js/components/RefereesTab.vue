@@ -3,6 +3,9 @@
     <div class="row">
       <div class="col-md-12">
         <div class="row">
+          <div class="col-12 mb-3">
+            <a href="javascript:void(0)" @click="downloadRefereeSample()" class="text-primary"><u>Click here</u></a> to download the latest version of the referee upload spreadsheet.
+          </div>
           <div class="col-12">
             <button type="button" data-toggle="modal" data-target="#refreesModal" id="add_referee" class="btn btn-primary mb-3 w-100" disabled="disabled">{{$lang.pitch_planner_referee}}</button>
           </div>
@@ -72,6 +75,14 @@
             vm.competationListData[value.id] = value.category_age;
         });
         return vm.competationListData;
+      },
+      downloadRefereeSample() {
+        Tournament.getSignedUrlForRefereeSampleDownload().then(
+          (response) => {
+            window.location.href = response.data;         
+          },
+          (error) => {
+        });
       },
     }
   }

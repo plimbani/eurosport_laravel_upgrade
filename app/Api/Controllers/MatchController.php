@@ -39,6 +39,7 @@ use UrlSigner;
 use Laraspace\Api\Contracts\MatchContract;
 use JWTAuth;
 use Carbon\Carbon;
+use Laraspace\Http\Requests\Match\GetSignedUrlForTeamsSpreadsheetSampleDownloadRequest;
 
 /**
  * Matches Resource Description.
@@ -838,5 +839,28 @@ class MatchController extends BaseController
         }
 
         });
+    }
+
+    /**
+     * Get signed url for team spreadsheet download
+     */
+    public function getSignedUrlForTeamsSpreadsheetSampleDownload(GetSignedUrlForTeamsSpreadsheetSampleDownloadRequest $request)
+    {
+        $signedUrl = UrlSigner::sign(url('api/match/downloadSampleUploadSheet'), Carbon::now()->addMinutes(config('config-variables.signed_url_interval')));
+
+        return $signedUrl;
+    }
+
+    /**
+     * Download sample upload sheet
+     */
+    public function downloadSampleUploadSheet(Request $request)
+    {
+        $headers = [
+            'Content-Type' => 'application/vnd.ms-excel',
+            'Content-Disposition' => "attachment; filename='TeamsUploadSample.xls'"
+        ];
+
+        return response()->download(base_path('resources/sample_uploads/TeamsUploadSample.xls'), 'TeamsUploadSample.xls', $headers);
     }
 }

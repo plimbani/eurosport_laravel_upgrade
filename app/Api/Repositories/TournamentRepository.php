@@ -714,16 +714,11 @@ class TournamentRepository
       return $ageCategoryDetail;
     }
 
-    public function getPitchDays($data)
+    public function getAllPitchesWithDays($pitchId)
     {
-      $pitchAvailability = PitchAvailable::where('pitch_id', $data['id'])->get();
-      $pitchDays[$data['id']] = [];
+      $pitchAvailability = PitchAvailable::where('pitch_id', $pitchId)->pluck('stage_no')->toArray();
 
-      foreach ($pitchAvailability as $key => $availability) {
-        array_push($pitchDays[$data['id']], $availability->stage_no);
-      }
-
-      return $pitchDays;
+      return $pitchAvailability;
     }
 
     public function scheduleAutomaticPitchPlanning($data)

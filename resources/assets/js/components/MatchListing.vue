@@ -3,12 +3,12 @@
 	<div  v-if="currentScheduleView == 'matchList'" class="form-group row d-flex flex-row align-items-center">
 		<div class="col-sm-5">
 			<div class="row">
-				<div class="col-sm-7">
+				<div class="col-sm-5">
 					<div class="row d-flex flex-row align-items-center">
-						<div class="col-sm-6 pr-sm-0">
-							<h6 class="mb-0">{{$lang.summary_schedule_match_overview}}</h6>
+						<div class="col-sm-12">
+							<h6 class="font-weight-bold">{{$lang.summary_schedule_match_overview}}</h6>
 		 				</div>
-						<div class="col pl-sm-0">
+						<div class="col-12">
 							<select class="form-control ls-select2"
 							    v-on:change="onChangeMatchDate"
 								v-model="matchDate">
@@ -22,16 +22,16 @@
 				</div>
 				<div class="col-sm-5">
 					<div class="row d-flex flex-row align-items-center">
-						<div class="col-sm-4 pr-sm-0">
-							<h6 class="mb-0">Score</h6>
+						<div class="col-sm-12">
+							<h6 class="font-weight-bold">Score</h6>
 		 				</div>
-						<div class="col pl-sm-0">
+						<div class="col-12">
 							<select class="form-control ls-select2"
 								v-on:change="onChangeAllMatchScore"
 								v-model="matchScoreFilter">
 								<option value="all">All matches</option>
 								<option value="scored">Scored</option>
-								<option value="notscored">Not scored</option>						
+								<option value="notscored">Not scored</option>
 							</select>
 						</div>
 					</div>

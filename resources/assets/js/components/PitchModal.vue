@@ -40,7 +40,7 @@
                           <div class="d-inline-flex">
                             <div class="matchteam-details">
                               <div class="matchteam-dress" v-if="matchDetail.hometeam_shorts_color && matchDetail.hometeam_shirt_color">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64.4 62"><g><g><polygon v-bind:fill="matchDetail.hometeam_shorts_color" points="13.2 40 13.2 62 30.2 62 32.2 56 34.2 62 51.2 62 51.2 40 13.2 40"/></g><path v-bind:fill="matchDetail.hometeam_shirt_color" d="M63.81,10.81,51.2,0h-13a6.5,6.5,0,0,1-6,4,6.5,6.5,0,0,1-6-4h-13L.59,10.81A1.7,1.7,0,0,0,.5,13.3L7.2,20l6-4V40h38V16l6,4,6.7-6.7A1.7,1.7,0,0,0,63.81,10.81Z"/></g></svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64.4 62"><g><polygon class="cls-1" v-bind:fill="matchDetail.hometeam_shorts_color" points="13.79 39.72 13.79 61.04 30.26 61.04 32.2 55.22 34.14 61.04 50.61 61.04 50.61 39.72 13.79 39.72"/></g><path class="cls-2" v-bind:fill="matchDetail.hometeam_shirt_color" d="M62.83,11.44,50.61,1H38A6.29,6.29,0,0,1,32.2,4.84,6.29,6.29,0,0,1,26.39,1H13.79L1.57,11.44a1.65,1.65,0,0,0-.09,2.41L8,20.34l5.81-3.87V39.72H50.61V16.47l5.81,3.87,6.5-6.49A1.65,1.65,0,0,0,62.83,11.44Z"/></svg>
                               </div>
                               <div class="matchteam-name">
                                 Team 1 ({{ getTeamName(matchDetail.home_team, matchDetail.home_team_name, matchDetail.display_home_team_placeholder_name, matchDetail.competition.actual_name) }})
@@ -51,8 +51,8 @@
                         <div class="col-lg-6">
                           <div class="d-inline-flex">
                             <div class="matchteam-details">
-                              <div v-if="matchDetail.awayteam_shorts_color && matchDetail.awayteam_shirt_color" style="width: 20px;">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64.4 62"><g><g><polygon v-bind:fill="matchDetail.awayteam_shorts_color" points="13.2 40 13.2 62 30.2 62 32.2 56 34.2 62 51.2 62 51.2 40 13.2 40"/></g><path v-bind:fill="matchDetail.awayteam_shirt_color" d="M63.81,10.81,51.2,0h-13a6.5,6.5,0,0,1-6,4,6.5,6.5,0,0,1-6-4h-13L.59,10.81A1.7,1.7,0,0,0,.5,13.3L7.2,20l6-4V40h38V16l6,4,6.7-6.7A1.7,1.7,0,0,0,63.81,10.81Z"/></g></svg>
+                              <div v-if="matchDetail.awayteam_shorts_color && matchDetail.awayteam_shirt_color" class="matchteam-dress">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64.4 62"><g><polygon class="cls-1" v-bind:fill="matchDetail.awayteam_shorts_color" points="13.79 39.72 13.79 61.04 30.26 61.04 32.2 55.22 34.14 61.04 50.61 61.04 50.61 39.72 13.79 39.72"/></g><path class="cls-2" v-bind:fill="matchDetail.awayteam_shirt_color" d="M62.83,11.44,50.61,1H38A6.29,6.29,0,0,1,32.2,4.84,6.29,6.29,0,0,1,26.39,1H13.79L1.57,11.44a1.65,1.65,0,0,0-.09,2.41L8,20.34l5.81-3.87V39.72H50.61V16.47l5.81,3.87,6.5-6.49A1.65,1.65,0,0,0,62.83,11.44Z"/></svg>
                               </div>
                               <div class="matchteam-name">
                                 Team 2 ({{  getTeamName(matchDetail.away_team, matchDetail.away_team_name, matchDetail.display_away_team_placeholder_name, matchDetail.competition.actual_name) }})
@@ -148,7 +148,7 @@
                     <div class="col-sm-9 align-self-center">
                       <!-- <input type="checkbox" id="is_result_override" name="is_result_override" v-model="matchDetail.is_result_override" :true-value="'1'" :false-value="'0'" :value="matchDetail.is_result_override" @change="checkOverride()"> -->
                       <div class="checkbox">
-                        <label><input type="checkbox" id="is_result_override" name="is_result_override" v-model="matchDetail.is_result_override" :true-value="'1'" :false-value="'0'" :value="matchDetail.is_result_override" @change="checkOverride()"> {{$lang.pitch_modal_result_override}}</label>
+                        <label class="mb-0 result-override-checkbox"><input type="checkbox" class="position-relative" id="is_result_override" name="is_result_override" v-model="matchDetail.is_result_override" :true-value="'1'" :false-value="'0'" :value="matchDetail.is_result_override" @change="checkOverride()"> &nbsp; {{$lang.pitch_modal_result_override}}</label>
                       </div>
                     </div>
                   </div>
@@ -186,8 +186,10 @@
                     </label>
                     
                     <div class="col-sm-3 align-self-center">
-                      <input type="number" min="0" name="home_yellow_cards"
-                      v-model="matchDetail.home_yellow_cards" id="home_yellow_cards" class="form-control">
+                      <input type="text" min="0" name="home_yellow_cards"
+                      v-model="matchDetail.home_yellow_cards" id="home_yellow_cards" class="form-control" v-validate="{ rules: { regex: /^[0-9]*$/ } }" :class="{'is-danger': errors.has('home_yellow_cards') }">
+                      <i v-show="errors.has('home_yellow_cards')" class="fa fa-warning"></i>
+                      <span class="help is-danger" v-show="errors.has('home_yellow_cards')">Only numbers accepted</span>
                     </div>
                     <div class="col-sm-6 align-self-center">                      
                       Team 1 ({{ getTeamName(matchDetail.home_team, matchDetail.home_team_name, matchDetail.
@@ -197,8 +199,10 @@
                       &nbsp;
                     </label>
                     <div class="col-sm-3 align-self-center">
-                      <input type="number" min="0" name="away_yellow_cards"
-                      v-model="matchDetail.away_yellow_cards" id="away_yellow_cards" class="form-control">
+                      <input type="text" min="0" name="away_yellow_cards"
+                      v-model="matchDetail.away_yellow_cards" id="away_yellow_cards" class="form-control" v-validate="{ rules: { regex: /^[0-9]*$/ } }" :class="{'is-danger': errors.has('away_yellow_cards') }">
+                      <i v-show="errors.has('away_yellow_cards')" class="fa fa-warning"></i>
+                      <span class="help is-danger" v-show="errors.has('away_yellow_cards')">Only numbers accepted</span>
                     </div>                    
                     <div class="col-sm-6 align-self-center">
                       Team 2 ({{ getTeamName(matchDetail.away_team, matchDetail.away_team_name, matchDetail.
@@ -211,8 +215,10 @@
                     </label>
                     
                     <div class="col-sm-3 align-self-center">
-                      <input type="number" min="0" name="home_red_cards"
-                      v-model="matchDetail.home_red_cards" id="home_red_cards" class="form-control">
+                      <input type="text" min="0" name="home_red_cards"
+                      v-model="matchDetail.home_red_cards" id="home_red_cards" class="form-control" v-validate="{ rules: { regex: /^[0-9]*$/ } }" :class="{'is-danger': errors.has('home_red_cards') }">
+                      <i v-show="errors.has('home_red_cards')" class="fa fa-warning"></i>
+                      <span class="help is-danger" v-show="errors.has('home_red_cards')">Only numbers accepted</span>
                     </div>
                     <div class="col-sm-6 align-self-center">
                       Team 1 ({{ getTeamName(matchDetail.home_team, matchDetail.home_team_name, matchDetail.
@@ -222,8 +228,9 @@
                       &nbsp;
                     </label>
                     <div class="col-sm-3 align-self-center">
-                      <input type="number" min="0" name="away_red_cards"
-                      v-model="matchDetail.away_red_cards" id="away_red_cards" class="form-control">
+                      <input type="text" min="0" name="away_red_cards" v-model="matchDetail.away_red_cards" id="away_red_cards" class="form-control" v-validate="{ rules: { regex: /^[0-9]*$/ } }" :class="{'is-danger': errors.has('away_red_cards') }">
+                      <i v-show="errors.has('away_red_cards')" class="fa fa-warning"></i>
+                      <span class="help is-danger" v-show="errors.has('away_red_cards')">Only numbers accepted</span>
                     </div>                    
                     <div class="col-sm-6 align-self-center">
                       Team 2 ({{ getTeamName(matchDetail.away_team, matchDetail.away_team_name, matchDetail.
