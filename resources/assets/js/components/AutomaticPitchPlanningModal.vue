@@ -78,21 +78,21 @@
                   <div class="form-group row">
                     <label class="col-sm-12 col-form-label">{{ $lang.pitch_planner_automatic_planning_pitch_selection }}</label>
                     <div class="col-sm-12">
-                      <multiselect name="sel_pitch" id="sel_pitch" :options="pitches" :multiple="true" :hide-selected="false" :ShowLabels="false" track-by="id" @close="onTouch" label="pitch_number" :value="value" :clear-on-select="false" :Searchable="true" @input="onChange" @select="onSelect"@remove="onRemove">
+                      <multiselect name="sel_pitch" id="sel_pitch" :options="pitches" :multiple="true" :hide-selected="false" :ShowLabels="false" track-by="id" @close="onTouch" label="pitch_number" :value="value" :clear-on-select="false" :Searchable="true" @input="onChange" @select="onSelect" @remove="onRemove">
                       </multiselect>
                       <span class="help is-danger" v-show="isInvalid">{{$lang.user_management_user_type_required}}</span>
                     </div>
                   </div>
                 </div>
               </div>
-              <div class="row" v-for="pitch in pitchNames">
+              <div class="row" v-for="pitch in getAllPitches">
                 <div class="col-md-12">
                   <div class="card">
                     <div class="card-header bg-light-grey">
                       {{ pitch.pitchName }}
                     </div>
                     <ul class="list-group list-group-flush">
-                      <li class="list-group-item" v-for="day in pitchDays">
+                      <li class="list-group-item" v-for="day in pitch.days">
                         <div class="row align-items-center">
                           <label class="col-sm-3 col-form-label">Day {{ day }}</label>
                           <div class="col-sm-9">
@@ -151,10 +151,9 @@ import Tournament from '../api/tournament.js'
             selectedAgeCategory: '',
             final_match_duration: '',
             normal_match_duration: '',
-            pitchNames: [],
             start_time: '',
             end_time: '',
-            pitchDays: [],
+            allPitchesWithDays: {},
           }
         },
         created: function() {
@@ -171,6 +170,9 @@ import Tournament from '../api/tournament.js'
         computed: {
           pitches() {
             return this.$store.state.Pitch.pitches;
+          },
+          getAllPitches() {
+            return this.allPitchesWithDays;
           },
         },
         methods: {
@@ -249,28 +251,28 @@ import Tournament from '../api/tournament.js'
             },
             onSelect (option) {
               if (option === 'Disable me!') this.isDisabled = true
-              this.pitchNames.push({'id': option.id, 'pitchName': option.pitch_number});
-              this.getPitchDays(option);
+              this.allPitchesWithDays[option.id] = {'id': option.id, 'pitchName': option.pitch_number};
+              this.getAllPitchesWithDays(option.id);
             },
             onTouch () {
               this.isTouched = true
             },
             onRemove(option) {
-              let deletedIndex = _.findIndex(this.pitchNames, function(o) { 
+              let deletedIndex = _.findIndex(this.allPitchesWithDays, function(o) { 
                 return o.id == option.id;
               });
-              this.pitchNames.splice(deletedIndex);
+              this.allPitchesWithDays.splice(deletedIndex);
             },
-            getPitchDays(pitch) {
-              Tournament.getPitchDays(pitch).then(
+            getAllPitchesWithDays(pitchId) {
+              let vm = this;
+              Tournament.getAllPitchesWithDays(pitchId).then(
                 (response) => {
-                  console.log('response', response);
-                  this.pitchDays.push(response.data.data);
+                  vm.allPitchesWithDays[pitchId].days = response.data.data;
                 },
                 (error) => {
 
                 });
-            }
+            },
         }
     }
 </script>

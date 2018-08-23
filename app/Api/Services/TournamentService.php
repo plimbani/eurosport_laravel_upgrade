@@ -902,9 +902,9 @@ class TournamentService implements TournamentContract
       return ['options' => $data];
     }
 
-    public function getPitchDays($data)
+    public function getAllPitchesWithDays($pitchId)
     {
-      $data = $this->tournamentRepoObj->getPitchDays($data);
+      $data = $this->tournamentRepoObj->getAllPitchesWithDays($pitchId);
       return ['data' => $data, 'status_code' => '200'];
     }
 }

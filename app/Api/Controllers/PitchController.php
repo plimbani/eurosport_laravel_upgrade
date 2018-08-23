@@ -19,6 +19,9 @@ use Laraspace\Http\Requests\Pitch\GetPitchSizeWiseSummaryRequest;
 use Laraspace\Http\Requests\Pitch\GetLocationWiseSummaryRequest;
 // Need to Define Only Contracts
 use Laraspace\Api\Contracts\PitchContract;
+use Laraspace\Http\Requests\Pitch\GetSignedUrlForPitchPlannerPrintRequest;
+use Laraspace\Models\Tournament;
+use PDF;
 
 /**
  * Matches Resource Description.
@@ -122,5 +125,36 @@ class PitchController extends BaseController
         return $this->pitchObj->getLocationWiseSummary($tournamentId);
     }
 
+    public function getSignedUrlForPitchPlannerPrint(GetSignedUrlForPitchPlannerPrintRequest $request, $tournamentId)
+    {
+        $signedUrl = UrlSigner::sign(url('api/pitchPlanner/print/' . $tournamentId), Carbon::now()->addMinutes(config('config-variables.signed_url_interval')));
 
+        return $signedUrl;
+    }
+
+    public function generatePitchPlannerPrint(Request $request, $tournamentId)
+    {
+        $date = new \DateTime(date('H:i d M Y'));
+
+        $pitchPlannerPrintData = $this->pitchObj->getPitchPlannerPrintData($tournamentId);
+
+        $pitchPlannerPdf =  "Pitch planner - ".$pitchPlannerPrintData['tournamentData']->name;
+
+        $initialDate = [];
+
+        $pdf = PDF::loadView('pitchplanner.tournament_matches',['pitchPlannerPrintData' => $pitchPlannerPrintData, 'initialDate' => $initialDate])
+            ->setPaper('a4')
+            ->setOption('header-spacing', '5')
+            ->setOption('header-font-size', 7)
+            ->setOption('header-font-name', 'Open Sans')
+            ->setOption('footer-font-size', 9)
+            ->setOption('footer-font-name', 'Open Sans')
+            ->setOrientation('portrait')
+            ->setOption('footer-right', 'Page [page] of [toPage]')
+            ->setOption('header-right', $date->format('H:i D d M Y'))
+            ->setOption('margin-top', 20)
+            ->setOption('margin-bottom', 15);
+
+        return $pdf->inline($pitchPlannerPdf);
+    }
 }

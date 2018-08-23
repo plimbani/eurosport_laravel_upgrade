@@ -302,8 +302,8 @@
 						                    <th class="text-center" @click="sortFairPlayReport('club_name')">{{$lang.summary_fair_play_reports_club}}&nbsp;<i class="fa fa-sort"></i></th>
 						                    <th class="text-center" @click="sortFairPlayReport('country_name')">{{$lang.summary_fair_play_reports_country}}&nbsp;<i class="fa fa-sort"></i></th>
 						                    <th class="text-center" @click="sortFairPlayReport('age_name')">{{$lang.summary_fair_play_reports_age_category}}&nbsp;<i class="fa fa-sort"></i></th>
-						                    <th class="text-center" @click="sortFairPlayReport('total_red_cards')">{{$lang.summary_fair_play_reports_red_cards}}&nbsp;<i class="fa fa-sort"></i></th>
 						                    <th class="text-center" @click="sortFairPlayReport('total_yellow_cards')">{{$lang.summary_fair_play_reports_yellow_cards}}&nbsp;<i class="fa fa-sort"></i></th>
+						                    <th class="text-center" @click="sortFairPlayReport('total_red_cards')">{{$lang.summary_fair_play_reports_red_cards}}&nbsp;<i class="fa fa-sort"></i></th>
 							            </tr>
 				          			</thead>
 	                				<tbody>
@@ -313,8 +313,8 @@
 					                		<td>{{ team.club_name }}</td>
 					                		<td>{{ team.country_name }}</td>
 					                		<td>{{ team.age_name }}</td>
-					                		<td>{{ team.total_red_cards == null ? 0 : team.total_red_cards }}</td>
-					                		<td>{{ team.total_yellow_cards == null ? 0 : team.total_yellow_cards }}</td>
+					                		<td align="center">{{ team.total_yellow_cards == null ? 0 : team.total_yellow_cards }}</td>
+					                		<td align="center">{{ team.total_red_cards == null ? 0 : team.total_red_cards }}</td>
 					                	</tr>
 	                				</tbody>
 	              				</table>

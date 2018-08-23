@@ -243,7 +243,16 @@ export default {
   getSignedUrlForFairPlayReportPrint(reportData) {
     return api.post('getSignedUrlForFairPlayReportPrint?' + reportData);
   },
-  getPitchDays(pitchData) {
-    return api.post('getPitchDays', pitchData);
+  getAllPitchesWithDays(pitchId) {
+    return api.post('getAllPitchesWithDays/' + pitchId);
+  },
+  getSignedUrlForPitchPlannerPrint(tournamentId) {
+    return api.post('getSignedUrlForPitchPlannerPrint/' + tournamentId);
+  },
+  getSignedUrlForRefereeSampleDownload() {
+    return api.post('getSignedUrlForRefereeSampleDownload');
+  },
+  getSignedUrlForTeamsSpreadsheetSampleDownload() {
+    return api.post('getSignedUrlForTeamsSpreadsheetSampleDownload');
   },
 }
