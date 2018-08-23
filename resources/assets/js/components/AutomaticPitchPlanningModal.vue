@@ -92,7 +92,7 @@
                       {{ pitch.pitchName }}
                     </div>
                     <ul class="list-group list-group-flush">
-                      <li class="list-group-item" v-for="day in pitch.days">
+                      <li class="list-group-item" v-for="(day, index) in pitch.days">
                         <div class="row align-items-center">
                           <label class="col-sm-3 col-form-label">Day {{ day }}</label>
                           <div class="col-sm-9">
@@ -101,13 +101,13 @@
                                 <span>Start time:</span>
                               </div>
                               <div class="col-md-3">
-                                <input :name="start_time" :class="[errors.has('start_time')?'is-danger': '', 'form-control ls-timepicker start_time']"  :id="start_time"  type="text" >
+                                <input v-model="pitch.time[index].start_time" :name="start_time" :class="[errors.has('start_time')?'is-danger': '', 'form-control ls-timepicker start_time']"  :id="start_time"  type="text" >
                               </div>
                               <div class="col-md-3">
                                 <span>End time:</span>
                               </div>
                               <div class="col-md-3">
-                                <input :name="end_time" :class="[errors.has('end_time')?'is-danger': '', 'form-control ls-timepicker end_time']"  :id="end_time"  type="text" >
+                                <input v-model="pitch.time[index].end_time" :name="end_time" :class="[errors.has('end_time')?'is-danger': '', 'form-control ls-timepicker end_time']"  :id="end_time"  type="text" >
                               </div>
                             </div>
                           </div>
