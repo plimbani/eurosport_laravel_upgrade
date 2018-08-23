@@ -23,7 +23,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <LinearLayout
+                <FrameLayout
                     android:id="@+id/ll_standing_tab"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -31,8 +31,10 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/tv_standing"
                         style="@style/text_black_sub_title"
                         android:layout_gravity="center"
+                        android:layout_marginBottom="5dp"
                         android:layout_weight="1"
                         android:gravity="center"
                         android:padding="10dp"
@@ -44,15 +46,16 @@
                         android:id="@+id/tv_standing_selector"
                         android:layout_width="match_parent"
                         android:layout_height="5dp"
+                        android:layout_gravity="bottom"
                         android:background="@color/colorPrimaryDark" />
-                </LinearLayout>
+                </FrameLayout>
 
                 <View
                     android:layout_width="2dp"
                     android:layout_height="match_parent"
                     android:background="@color/view_line" />
 
-                <LinearLayout
+                <FrameLayout
                     android:id="@+id/ll_matches_tab"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -62,6 +65,7 @@
                     <TextView
                         style="@style/text_black_sub_title"
                         android:layout_gravity="center"
+                        android:layout_marginBottom="5dp"
                         android:layout_weight="1"
                         android:gravity="center"
                         android:padding="10dp"
@@ -73,9 +77,9 @@
                         android:id="@+id/tv_matches_selector"
                         android:layout_width="match_parent"
                         android:layout_height="5dp"
-                        android:background="@color/colorPrimaryDark"
-                        android:visibility="gone" />
-                </LinearLayout>
+                        android:layout_gravity="bottom"
+                        android:background="@color/colorPrimaryDark" />
+                </FrameLayout>
             </LinearLayout>
 
             <View
@@ -83,21 +87,21 @@
                 android:layout_height="2dp"
                 android:background="@color/view_line" />
 
+            <Spinner
+                android:id="@+id/sp_groups"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:background="@drawable/spinner_bg_image_gray"
+                android:drawSelectorOnTop="true"
+                android:paddingRight="35dp"
+                android:prompt="@string/select_tournament" />
 
             <LinearLayout
                 android:id="@+id/ll_standings"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
-
-                <Spinner
-                    android:id="@+id/sp_groups"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="20dp"
-                    android:background="@drawable/spinner_bg_image_gray"
-                    android:drawSelectorOnTop="true"
-                    android:prompt="@string/select_tournament" />
 
                 <LinearLayout
                     android:id="@+id/ll_standings_content"
@@ -112,46 +116,7 @@
                         android:shrinkColumns="*"
                         android:stretchColumns="*">
 
-                        <TableRow
-                            android:id="@+id/tr_group_header"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@color/view_line"
-                            android:orientation="horizontal"
-                            android:paddingBottom="15dp"
-                            android:paddingTop="15dp">
 
-                            <TextView
-                                android:id="@+id/tv_group_table_title"
-                                style="@style/text_black_sub_title"
-                                android:layout_width="wrap_content"
-                                android:layout_marginLeft="12dp"
-                                android:layout_marginRight="12dp"
-                                android:layout_span="8"
-                                android:gravity="center_vertical"
-                                android:textStyle="bold" />
-
-                            <TextView
-                                style="@style/text_black_sub_title"
-                                android:layout_width="wrap_content"
-                                android:gravity="left|center"
-                                android:text="@string/G"
-                                android:textStyle="bold" />
-
-                            <TextView
-                                style="@style/text_black_sub_title"
-                                android:layout_width="wrap_content"
-                                android:gravity="left|center"
-                                android:text="@string/plus_minus"
-                                android:textStyle="bold" />
-
-                            <TextView
-                                style="@style/text_black_sub_title"
-                                android:layout_width="wrap_content"
-                                android:gravity="left|center"
-                                android:text="@string/P"
-                                android:textStyle="bold" />
-                        </TableRow>
                     </TableLayout>
 
                     <TextView
@@ -174,14 +139,6 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <Spinner
-                    android:id="@+id/sp_groups_matches"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="20dp"
-                    android:background="@drawable/spinner_bg_image_gray"
-                    android:drawSelectorOnTop="true"
-                    android:prompt="@string/select_tournament" />
 
                 <LinearLayout
                     android:id="@+id/ll_match_content"

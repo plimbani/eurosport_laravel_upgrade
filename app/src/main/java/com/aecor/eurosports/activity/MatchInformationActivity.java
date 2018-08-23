@@ -65,6 +65,8 @@ public class MatchInformationActivity extends BaseAppCompactActivity {
     protected LinearLayout ll_color_team_1;
     @BindView(R.id.ll_color_team_2)
     protected LinearLayout ll_color_team_2;
+    @BindView(R.id.ll_team_dress)
+    protected LinearLayout ll_team_dress;
     @BindView(R.id.iv_shirt_team_1)
     protected ImageView iv_shirt_team_1;
     @BindView(R.id.iv_short_team_1)
@@ -74,8 +76,7 @@ public class MatchInformationActivity extends BaseAppCompactActivity {
     @BindView(R.id.iv_short_team_2)
     protected ImageView iv_short_team_2;
     private TeamFixturesModel mTeamFixturesModel;
-    private String position;
-    private Context mContext;
+     private Context mContext;
     private AppPreference mPreference;
 
     @Override
@@ -328,22 +329,26 @@ public class MatchInformationActivity extends BaseAppCompactActivity {
         // Set color for home and away team dress
         ll_color_team_1.setVisibility(View.GONE);
         ll_color_team_2.setVisibility(View.GONE);
+        ll_team_dress.setVisibility(View.GONE);
 
         if (!Utility.isNullOrEmpty(mTeamFixturesModel.getHomeTeamShirtColor())) {
+            ll_team_dress.setVisibility(View.VISIBLE);
             ll_color_team_1.setVisibility(View.VISIBLE);
             iv_shirt_team_1.setColorFilter(Color.parseColor(mTeamFixturesModel.getHomeTeamShirtColor()), PorterDuff.Mode.SRC_IN);
-
         }
         if (!Utility.isNullOrEmpty(mTeamFixturesModel.getHomeTeamShortsColor())) {
+            ll_team_dress.setVisibility(View.VISIBLE);
             ll_color_team_1.setVisibility(View.VISIBLE);
             iv_short_team_1.setColorFilter(Color.parseColor(mTeamFixturesModel.getHomeTeamShortsColor()), PorterDuff.Mode.SRC_IN);
         }
         if (!Utility.isNullOrEmpty(mTeamFixturesModel.getAwayTeamShirtColor())) {
+            ll_team_dress.setVisibility(View.VISIBLE);
             ll_color_team_2.setVisibility(View.VISIBLE);
             iv_shirt_team_2.setColorFilter(Color.parseColor(mTeamFixturesModel.getAwayTeamShirtColor()), PorterDuff.Mode.SRC_IN);
 
         }
         if (!Utility.isNullOrEmpty(mTeamFixturesModel.getAwayTeamShortsColor())) {
+            ll_team_dress.setVisibility(View.VISIBLE);
             ll_color_team_2.setVisibility(View.VISIBLE);
             iv_short_team_2.setColorFilter(Color.parseColor(mTeamFixturesModel.getAwayTeamShortsColor()), PorterDuff.Mode.SRC_IN);
         }
