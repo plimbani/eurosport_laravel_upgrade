@@ -1,10 +1,10 @@
 <template>
   <div>
-	<div  v-if="currentScheduleView == 'matchList'" class="form-group row d-flex flex-row align-items-center">
+	<div  v-if="currentScheduleView == 'matchList'" class="row">
 		<div class="col-sm-5">
 			<div class="row">
 				<div class="col-sm-5">
-					<div class="row d-flex flex-row align-items-center">
+					<div class="row">
 						<div class="col-sm-12">
 							<h6 class="font-weight-bold">{{$lang.summary_schedule_match_overview}}</h6>
 		 				</div>
