@@ -240,4 +240,7 @@ export default {
   getSignedUrlForPitchPlannerPrint(tournamentId) {
     return api.post('getSignedUrlForPitchPlannerPrint/' + tournamentId);
   },
+  getSignedUrlForRefereeSampleDownload() {
+    return api.post('getSignedUrlForRefereeSampleDownload');
+  },
 }

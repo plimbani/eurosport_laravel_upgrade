@@ -134,13 +134,16 @@ class TeamRepository
 
     public function create($data)
     {
+        $teamColors = config('config-variables.team_colors');
+        $teamColors = array_flip($teamColors);
+
         $age_group_id = 0;
         $reference_no =  isset($data['teamid']) ? $data['teamid'] : '';
         $teamName =  isset($data['team']) ? $data['team'] : '';
         $place =  isset($data['place']) ? $data['place'] : '';
         $club_id =  isset($data['club_id']) ? $data['club_id'] : '';
-        $shirtColor = isset($data['shirtcolor']) ? $data['shirtcolor'] : '';
-        $shortsColor = isset($data['shortscolor']) ? $data['shortscolor'] : '';
+        $shirtColor = (isset($data['shirtcolor']) && $data['shirtcolor']) ? $teamColors[$data['shirtcolor']] : NULL;
+        $shortsColor = (isset($data['shortscolor']) && $data['shortscolor']) ? $teamColors[$data['shortscolor']] : NULL;
         // dd($data);
         \Log::info($data);
         return Team::create([
