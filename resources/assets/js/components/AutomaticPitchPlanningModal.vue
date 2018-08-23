@@ -92,7 +92,7 @@
                       {{ pitch.pitchName }}
                     </div>
                     <ul class="list-group list-group-flush">
-                      <li class="list-group-item" v-for="day in pitch.days">
+                      <li class="list-group-item" v-for="(day, index) in pitch.days">
                         <div class="row align-items-center">
                           <label class="col-sm-3 col-form-label">Day {{ day }}</label>
                           <div class="col-sm-9">
@@ -101,14 +101,14 @@
                                 <span>Start time:</span>
                               </div>
                               <div class="col-md-3">
-                                <input :name="'start_time_'+pitch.id+'_'+day" v-validate="'required'" :class="[errors.has('start_time_'+pitch.id+'_'+day)?'is-danger': '', 'form-control ls-timepicker start_time']"  :id="'start_time_'+pitch.id+'_'+day"  type="text" >
+                                <input :name="'start_time_'+pitch.id+'_'+day" v-model="pitch.time[index].start_time" v-validate="'required'" :class="[errors.has('start_time_'+pitch.id+'_'+day)?'is-danger': '', 'form-control ls-timepicker start_time']"  :id="'start_time_'+pitch.id+'_'+day"  type="text" >
                                 <i v-show="errors.has('start_time_'+pitch.id+'_'+day)" class="fa fa-warning text-danger" data-placement="top" title="Start time is required"></i>
                               </div>
                               <div class="col-md-3">
                                 <span>End time:</span>
                               </div>
                               <div class="col-md-3">
-                                <input :name="'end_time_'+pitch.id+'_'+day" v-validate="'required'" :class="[errors.has('end_time_'+pitch.id+'_'+day)?'is-danger': '', 'form-control ls-timepicker end_time']"  :id="'end_time_'+pitch.id+'_'+day"  type="text" >
+                                <input :name="'end_time_'+pitch.id+'_'+day" v-model="pitch.time[index].end_time" v-validate="'required'" :class="[errors.has('end_time_'+pitch.id+'_'+day)?'is-danger': '', 'form-control ls-timepicker end_time']"  :id="'end_time_'+pitch.id+'_'+day"  type="text" >
                                 <i v-show="errors.has('end_time_'+pitch.id+'_'+day)" class="fa fa-warning text-danger" data-placement="top" title="End time is required"></i>
                               </div>
                             </div>
