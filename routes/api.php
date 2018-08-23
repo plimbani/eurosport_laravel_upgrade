@@ -41,6 +41,8 @@ $api->version('v1', ['middleware' => 'signedurl'], function ($api) {
     $api->get('teams/getTeamsFairPlayData/report/reportExport', 'Laraspace\Api\Controllers\TeamController@exportTeamFairPlayReport');
     $api->get('teams/getTeamsFairPlayData/report/print', 'Laraspace\Api\Controllers\TeamController@printTeamFairPlayReport');
     $api->get('pitchPlanner/print/{tournamentId}', 'Laraspace\Api\Controllers\PitchController@generatePitchPlannerPrint');
+    $api->get('referee/downloadSampleUploadSheet', 'Laraspace\Api\Controllers\RefereeController@downloadSampleUploadSheet');
+    $api->get('match/downloadSampleUploadSheet', 'Laraspace\Api\Controllers\MatchController@downloadSampleUploadSheet');
 });
 
 $api->version('v1', function ($api) {
@@ -241,6 +243,9 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
     $api->post('match/saveUnavailableBlock', 'Laraspace\Api\Controllers\MatchController@saveUnavailableBlock');
     $api->post('match/remove_block/{blockId}', 'Laraspace\Api\Controllers\MatchController@removeBlock');
     $api->post('getSignedUrlForPitchPlannerPrint/{tournamentId}', 'Laraspace\Api\Controllers\PitchController@getSignedUrlForPitchPlannerPrint');
+
+    $api->post('getSignedUrlForRefereeSampleDownload', 'Laraspace\Api\Controllers\RefereeController@getSignedUrlForRefereeSampleDownload');
+    $api->post('getSignedUrlForTeamsSpreadsheetSampleDownload', 'Laraspace\Api\Controllers\MatchController@getSignedUrlForTeamsSpreadsheetSampleDownload');
 });
 
 // Websites CMS routes

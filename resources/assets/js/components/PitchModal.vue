@@ -148,7 +148,7 @@
                     <div class="col-sm-9 align-self-center">
                       <!-- <input type="checkbox" id="is_result_override" name="is_result_override" v-model="matchDetail.is_result_override" :true-value="'1'" :false-value="'0'" :value="matchDetail.is_result_override" @change="checkOverride()"> -->
                       <div class="checkbox">
-                        <label><input type="checkbox" id="is_result_override" name="is_result_override" v-model="matchDetail.is_result_override" :true-value="'1'" :false-value="'0'" :value="matchDetail.is_result_override" @change="checkOverride()"> {{$lang.pitch_modal_result_override}}</label>
+                        <label class="mb-0 result-override-checkbox"><input type="checkbox" class="position-relative" id="is_result_override" name="is_result_override" v-model="matchDetail.is_result_override" :true-value="'1'" :false-value="'0'" :value="matchDetail.is_result_override" @change="checkOverride()"> &nbsp; {{$lang.pitch_modal_result_override}}</label>
                       </div>
                     </div>
                   </div>
@@ -186,8 +186,10 @@
                     </label>
                     
                     <div class="col-sm-3 align-self-center">
-                      <input type="number" min="0" name="home_yellow_cards"
-                      v-model="matchDetail.home_yellow_cards" id="home_yellow_cards" class="form-control">
+                      <input type="text" min="0" name="home_yellow_cards"
+                      v-model="matchDetail.home_yellow_cards" id="home_yellow_cards" class="form-control" v-validate="{ rules: { regex: /^[0-9]*$/ } }" :class="{'is-danger': errors.has('home_yellow_cards') }">
+                      <i v-show="errors.has('home_yellow_cards')" class="fa fa-warning"></i>
+                      <span class="help is-danger" v-show="errors.has('home_yellow_cards')">Only numbers accepted</span>
                     </div>
                     <div class="col-sm-6 align-self-center">                      
                       Team 1 ({{ getTeamName(matchDetail.home_team, matchDetail.home_team_name, matchDetail.
@@ -197,8 +199,10 @@
                       &nbsp;
                     </label>
                     <div class="col-sm-3 align-self-center">
-                      <input type="number" min="0" name="away_yellow_cards"
-                      v-model="matchDetail.away_yellow_cards" id="away_yellow_cards" class="form-control">
+                      <input type="text" min="0" name="away_yellow_cards"
+                      v-model="matchDetail.away_yellow_cards" id="away_yellow_cards" class="form-control" v-validate="{ rules: { regex: /^[0-9]*$/ } }" :class="{'is-danger': errors.has('away_yellow_cards') }">
+                      <i v-show="errors.has('away_yellow_cards')" class="fa fa-warning"></i>
+                      <span class="help is-danger" v-show="errors.has('away_yellow_cards')">Only numbers accepted</span>
                     </div>                    
                     <div class="col-sm-6 align-self-center">
                       Team 2 ({{ getTeamName(matchDetail.away_team, matchDetail.away_team_name, matchDetail.
@@ -211,8 +215,10 @@
                     </label>
                     
                     <div class="col-sm-3 align-self-center">
-                      <input type="number" min="0" name="home_red_cards"
-                      v-model="matchDetail.home_red_cards" id="home_red_cards" class="form-control">
+                      <input type="text" min="0" name="home_red_cards"
+                      v-model="matchDetail.home_red_cards" id="home_red_cards" class="form-control" v-validate="{ rules: { regex: /^[0-9]*$/ } }" :class="{'is-danger': errors.has('home_red_cards') }">
+                      <i v-show="errors.has('home_red_cards')" class="fa fa-warning"></i>
+                      <span class="help is-danger" v-show="errors.has('home_red_cards')">Only numbers accepted</span>
                     </div>
                     <div class="col-sm-6 align-self-center">
                       Team 1 ({{ getTeamName(matchDetail.home_team, matchDetail.home_team_name, matchDetail.
@@ -222,8 +228,9 @@
                       &nbsp;
                     </label>
                     <div class="col-sm-3 align-self-center">
-                      <input type="number" min="0" name="away_red_cards"
-                      v-model="matchDetail.away_red_cards" id="away_red_cards" class="form-control">
+                      <input type="text" min="0" name="away_red_cards" v-model="matchDetail.away_red_cards" id="away_red_cards" class="form-control" v-validate="{ rules: { regex: /^[0-9]*$/ } }" :class="{'is-danger': errors.has('away_red_cards') }">
+                      <i v-show="errors.has('away_red_cards')" class="fa fa-warning"></i>
+                      <span class="help is-danger" v-show="errors.has('away_red_cards')">Only numbers accepted</span>
                     </div>                    
                     <div class="col-sm-6 align-self-center">
                       Team 2 ({{ getTeamName(matchDetail.away_team, matchDetail.away_team_name, matchDetail.

@@ -27,8 +27,8 @@
         <th align="center">Club</th>
         <th align="center">Country</th>
         <th align="center">Age category</th>
-        <th align="center">Red cards</th>
         <th align="center">Yellow cards</th>
+        <th align="center">Red cards</th>
     </tr>
 
     <tbody>
@@ -39,8 +39,8 @@
     		<td align="center">{{ $report->club_name}}</td>
     		<td align="center">{{ $report->country_name}}</td>
             <td align="center">{{ $report->age_name }}</td>
-            <td align="center">{{ $report->total_red_cards == null ? 0 : $report->total_red_cards }}</td>
             <td align="center">{{ $report->total_yellow_cards == null ? 0 : $report->total_yellow_cards }}</td>
+            <td align="center">{{ $report->total_red_cards == null ? 0 : $report->total_red_cards }}</td>
     	</tr>
     @endforeach
     </tbody>
