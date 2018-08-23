@@ -1027,8 +1027,6 @@ gmap-map {
     text-decoration:underline;
 }
 
-.tootltip-bubble{
-    position: absolute;
-    right: 10px;
-    bottom: 10px;
+.result-override-checkbox input[type="checkbox"]{
+    top: 1px;
 }

@@ -243,4 +243,7 @@ export default {
   getSignedUrlForRefereeSampleDownload() {
     return api.post('getSignedUrlForRefereeSampleDownload');
   },
+  getSignedUrlForTeamsSpreadsheetSampleDownload() {
+    return api.post('getSignedUrlForTeamsSpreadsheetSampleDownload');
+  },
 }
