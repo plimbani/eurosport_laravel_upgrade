@@ -295,6 +295,10 @@ class MatchController extends BaseController
                     'matchWinner' => NULL,
                     'is_result_override' => 0,
                     'refereeId' => NULL,
+                    'home_yellow_cards' => NULL,
+                    'away_yellow_cards' => NULL,
+                    'home_red_cards' => NULL,
+                    'away_red_cards' => NULL,
                 ];
 
                 $matchResult = $matchRepoObj->saveResult($matchData);
