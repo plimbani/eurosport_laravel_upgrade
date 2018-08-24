@@ -156,27 +156,24 @@ class PitchController extends BaseController
 
         foreach ($pitchPlannerPrintData['matches'] as $match) {
 
-            if($match->match_datetime) {
+            $stdate = Carbon::parse($match->match_datetime);
+            
+            $matches->push([
+                    'match_id' => $match->id,
+                    'referee_id' => $match->referee_id,
+                    'pitch_id' => $match->pitch_id,
+                    'match_datetime' => $stdate,
+                    'match_endtime' => Carbon::parse($match->match_endtime),
+                    'pitch_name' => $match->pitch_number,
+                    'match_day' => $stdate->format('Y-m-d'),
+                    'referre_name' => $match->first_name.' '.$match->last_name,
+                    'venues_name' => $match->venues_name,
+                    'match_name' => str_replace('@AWAY', $match->away_team_name, str_replace('@HOME', $match->home_team_name, $match->display_match_number)),
+                    'hometeam_score' => $match->hometeam_score,
+                    'awayteam_score' => $match->awayteam_score,
+                ]);
 
-                $stdate = Carbon::parse($match->match_datetime);
-
-                $matches->push([
-                        'match_id' => $match->id,
-                        'referee_id' => $match->referee_id,
-                        'pitch_id' => $match->pitch_id,
-                        'match_datetime' => $stdate,
-                        'match_endtime' => Carbon::parse($match->match_endtime),
-                        'pitch_name' => $match->pitch_number,
-                        'match_day' => $stdate->format('Y-m-d'),
-                        'referre_name' => $match->first_name.' '.$match->last_name,
-                        'venues_name' => $match->venues_name,
-                        'match_name' => str_replace('@AWAY', $match->away_team_name, str_replace('@HOME', $match->home_team_name, $match->display_match_number)),
-                        'hometeam_score' => $match->hometeam_score,
-                        'awayteam_score' => $match->awayteam_score,
-                    ]);
-
-                $tournamentPitches[$match->pitch_id] = $match->pitch_number;
-            }
+            $tournamentPitches[$match->pitch_id] = $match->pitch_number;
         }
 
         $data = ['pitchPlannerPrintData' => $pitchPlannerPrintData, 'tournamentDates' => $tournamentDates, 'matches' => $matches, 'tournamentPitches' => $tournamentPitches];
