@@ -1,6 +1,6 @@
 <template>
   <div>
-	<div  v-if="currentScheduleView == 'matchList'" class="row">
+	<div v-if="currentScheduleView == 'matchList'" class="row">
 		<div class="col-sm-5">
 			<div class="row">
 				<div class="col-sm-5">

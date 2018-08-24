@@ -999,6 +999,7 @@ gmap-map {
     }
     .tooltip-inner {
         text-align: left;
+        padding-right:30px;
     }
     .tooltip-inner,
     .tooltip-inner:before {
@@ -1029,4 +1030,11 @@ gmap-map {
 
 .result-override-checkbox input[type="checkbox"]{
     top: 1px;
+}
+
+.tootltip-bubble{
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    width:15px;
 }

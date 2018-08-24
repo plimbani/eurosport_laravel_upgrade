@@ -1,9 +1,9 @@
 <template>
   <div class="row justify-content-end">
-    <div class="col-sm-8">
+    <div class="col-sm-10">
       <h6 class="font-weight-bold">{{$lang.teams_filter}}</h6>
     </div>
-    <div class="col-sm-8">
+    <div class="col-sm-10">
       <div class="row">
         <div class="col-md-10">
           <div class="row align-items-center">
