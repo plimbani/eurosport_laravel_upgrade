@@ -6,7 +6,7 @@
 				<div class="col-sm-5">
 					<div class="row">
 						<div class="col-sm-12">
-							<h6 class="font-weight-bold">{{$lang.summary_schedule_match_overview}}</h6>
+							<h6 class="font-weight-bold">{{$lang.summary_schedule_match_overview}}:</h6>
 		 				</div>
 						<div class="col-12">
 							<select class="form-control ls-select2"
@@ -23,7 +23,7 @@
 				<div class="col-sm-5">
 					<div class="row d-flex flex-row align-items-center">
 						<div class="col-sm-12">
-							<h6 class="font-weight-bold">Score</h6>
+							<h6 class="font-weight-bold">Score:</h6>
 		 				</div>
 						<div class="col-12">
 							<select class="form-control ls-select2"

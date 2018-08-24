@@ -858,9 +858,9 @@ class MatchController extends BaseController
     {
         $headers = [
             'Content-Type' => 'application/vnd.ms-excel',
-            'Content-Disposition' => "attachment; filename='TeamsUploadSample.xls'"
+            'Content-Disposition' => "attachment; filename='TeamsUploadSpreadsheet.xls'"
         ];
 
-        return response()->download(base_path('resources/sample_uploads/TeamsUploadSample.xls'), 'TeamsUploadSample.xls', $headers);
+        return response()->download(base_path('resources/sample_uploads/TeamsUploadSpreadsheet.xls'), 'TeamsUploadSpreadsheet.xls', $headers);
     }
 }

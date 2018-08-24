@@ -121,9 +121,9 @@ class RefereeController extends BaseController
     {
         $headers = [
             'Content-Type' => 'application/vnd.ms-excel',
-            'Content-Disposition' => "attachment; filename='RefereesUploadSample.xls'"
+            'Content-Disposition' => "attachment; filename='RefereesUploadSpreadsheet.xls'"
         ];
 
-        return response()->download(base_path('resources/sample_uploads/RefereesUploadSample.xls'), 'RefereesUploadSample.xls', $headers);
+        return response()->download(base_path('resources/sample_uploads/RefereesUploadSpreadsheet.xls'), 'RefereesUploadSpreadsheet.xls', $headers);
     }
 }
