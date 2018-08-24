@@ -299,6 +299,8 @@ class MatchController extends BaseController
                     'away_yellow_cards' => NULL,
                     'home_red_cards' => NULL,
                     'away_red_cards' => NULL,
+                    'age_category_color' => NULL,
+                    'group_color' => NULL,
                 ];
 
                 $matchResult = $matchRepoObj->saveResult($matchData);
