@@ -26,7 +26,7 @@ return [
         "#FBE122" => "Yellow",
         "#FF3C00" => "Orange",
         "#D4A12A" => "Gold",
-        "#D3BC8D" => "Light Gold",
+        "#D3BC8D" => "Light gold",
         "#EF0107" => "Red",
         "#6C1D45" => "Burgundy",
         "#0DB14B" => "Green",

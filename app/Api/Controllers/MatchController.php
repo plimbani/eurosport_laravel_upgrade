@@ -295,6 +295,12 @@ class MatchController extends BaseController
                     'matchWinner' => NULL,
                     'is_result_override' => 0,
                     'refereeId' => NULL,
+                    'home_yellow_cards' => NULL,
+                    'away_yellow_cards' => NULL,
+                    'home_red_cards' => NULL,
+                    'away_red_cards' => NULL,
+                    'age_category_color' => NULL,
+                    'group_color' => NULL,
                 ];
 
                 $matchResult = $matchRepoObj->saveResult($matchData);
@@ -858,9 +864,9 @@ class MatchController extends BaseController
     {
         $headers = [
             'Content-Type' => 'application/vnd.ms-excel',
-            'Content-Disposition' => "attachment; filename='TeamsUploadSample.xls'"
+            'Content-Disposition' => "attachment; filename='TeamsUploadSpreadsheet.xls'"
         ];
 
-        return response()->download(base_path('resources/sample_uploads/TeamsUploadSample.xls'), 'TeamsUploadSample.xls', $headers);
+        return response()->download(base_path('resources/sample_uploads/TeamsUploadSpreadsheet.xls'), 'TeamsUploadSpreadsheet.xls', $headers);
     }
 }
