@@ -44,7 +44,9 @@
               <div class="matchteam-dress" v-if="match.ShortsColor && match.ShirtColor">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64.4 62"><g><g><polygon v-bind:fill="match.ShortsColor" points="13.2 40 13.2 62 30.2 62 32.2 56 34.2 62 51.2 62 51.2 40 13.2 40"/></g><path v-bind:fill="match.ShirtColor" d="M63.81,10.81,51.2,0h-13a6.5,6.5,0,0,1-6,4,6.5,6.5,0,0,1-6-4h-13L.59,10.81A1.7,1.7,0,0,0,.5,13.3L7.2,20l6-4V40h38V16l6,4,6.7-6.7A1.7,1.7,0,0,0,63.81,10.81Z"/></g></svg>
               </div>
-              <span class="font-weight-normal matchteam-name">{{match.TeamName}}</span>
+              <span class="text-center matchteam-name">
+                  <a class="text-primary font-weight-normal" href="" @click.prevent="changeTeam(match.id, match.TeamName)" >{{match.TeamName}}</a>
+              </span>
             </div>
           </th>
          <!-- <img :src="match.TeamFlag" width="20"> &nbsp;<span>{{match.TeamName}}</span></th> -->
@@ -54,12 +56,14 @@
       <tr v-for="(match,index) in match1Data">
 
           <td>
-            <div class="matchteam-details">                
+            <div class="matchteam-details">
               <span v-if="match.TeamCountryFlag" :class="'matchteam-flag flag-icon flag-icon-' + match.TeamCountryFlag"></span>
               <div class="matchteam-dress" v-if="match.ShortsColor && match.ShirtColor">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64.4 62"><g><g><polygon v-bind:fill="match.ShortsColor" points="13.2 40 13.2 62 30.2 62 32.2 56 34.2 62 51.2 62 51.2 40 13.2 40"/></g><path v-bind:fill="match.ShirtColor" d="M63.81,10.81,51.2,0h-13a6.5,6.5,0,0,1-6,4,6.5,6.5,0,0,1-6-4h-13L.59,10.81A1.7,1.7,0,0,0,.5,13.3L7.2,20l6-4V40h38V16l6,4,6.7-6.7A1.7,1.7,0,0,0,63.81,10.81Z"/></g></svg>
               </div>
-              <span class="matchteam-name">{{ match.TeamName }}</span>
+              <span class="text-center matchteam-name">
+                  <a class="text-primary font-weight-normal" href="" @click.prevent="changeTeam(match.id, match.TeamName)" >{{match.TeamName}}</a>
+              </span>
             </div>
           </td>
 
@@ -77,7 +81,7 @@
   </table>
 
   <div class="form-group">
-    <h6 v-if="otherData.DrawType != 'Elimination'" class="mb-0"> 
+    <h6 v-if="otherData.DrawType != 'Elimination'" class="mb-0">
     {{otherData.DrawName}} standings
     <a href="#" @click="manualRankingModalOpen()" v-if="isUserDataExist && teamList.length > 0"><span>(<u>manual ranking</u>)</span></a>
     <span style="float: right;" v-if="DrawName.competation_round_no != 'Round 1' && isUserDataExist"><a href="javascript:void(0)" @click="refreshStanding()">Refresh standing</a></span>
@@ -87,7 +91,7 @@
     <div v-if="currentCompetationId == 0 && otherData.DrawType != 'Elimination'">No information available
     </div>
   </div>
-  
+
   <div class="row align-items-center mb-3">
     <div class="col-md-10">
       <label class="mb-0">
@@ -252,7 +256,7 @@ export default {
           let refreshManual =new Promise((resolve, reject) => {
             let ref = vm.refreshStanding(resolve) ;
           });
-         
+
           refreshManual.then( (msg) => {
             let teamRes = _.map(vm.teamList, (o) => {
               if(o.id != '') {
@@ -260,8 +264,8 @@ export default {
               }
             });
              // return false;
-            
-            let sendData = {'teams': teamRes,'tournamentId':this.DrawName.tournament_id,'ageGroupId':this.DrawName.tournament_competation_template_id,'teamId':true} 
+
+            let sendData = {'teams': teamRes,'tournamentId':this.DrawName.tournament_id,'ageGroupId':this.DrawName.tournament_competation_template_id,'teamId':true}
            Tournament.checkTeamIntervalforMatches(sendData);
           },
           );
@@ -328,7 +332,7 @@ export default {
                   if(response.data.status_code == 200){
 
                     this.match1Data = response.data.data
-                    
+
                   }
                   if(response.data.status_code == 300){
                     this.match1Data = []
@@ -389,8 +393,14 @@ export default {
           this.DrawName.is_manual_override_standing = isManualOverrideStanding;
         },
         saveMatchScore() {
-          this.$root.$emit('saveMatchScore')          
-        }
+          this.$root.$emit('saveMatchScore')
+        },
+        changeTeam(Id, Name) {
+            // here we dispatch Method
+
+            this.$store.dispatch('setCurrentScheduleView','teamDetails')
+            this.$root.$emit('changeComp', Id, Name);
+        },
     }
 }
 </script>
