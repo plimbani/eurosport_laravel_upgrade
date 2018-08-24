@@ -999,6 +999,7 @@ gmap-map {
     }
     .tooltip-inner {
         text-align: left;
+        padding:15px;
     }
     .tooltip-inner,
     .tooltip-inner:before {
@@ -1033,6 +1034,6 @@ gmap-map {
 
 .tootltip-bubble{
     position: absolute;
-    right: 10px;
-    bottom: 10px;
+    right: 5px;
+    bottom: 5px;
 }
