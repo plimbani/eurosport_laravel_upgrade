@@ -213,7 +213,7 @@ class MatchController extends BaseController
             abort(404);
         }
         $status = 'success';
-        try {
+        //try {
             if($tournamentId === null) {
                 $publishedTournaments = Tournament::where('status', 'Published')->get();
                 $unpublishedTournaments = Tournament::where('status', 'Unpublished')->get();
@@ -295,14 +295,18 @@ class MatchController extends BaseController
                     'matchWinner' => NULL,
                     'is_result_override' => 0,
                     'refereeId' => NULL,
+                    'home_yellow_cards' => NULL,
+                    'away_yellow_cards' => NULL,
+                    'home_red_cards' => NULL,
+                    'away_red_cards' => NULL,
                 ];
 
                 $matchResult = $matchRepoObj->saveResult($matchData);
                 $competationId = $matchServiceObj->calculateCupLeagueTable($matchData['matchId']);
             }
-        } catch(\Exception $e) {
-            $status = 'error';
-        }
+        // } catch(\Exception $e) {
+        //     $status = 'error';
+        // }
 
         return view('automate_tournament.success_match_scheduled', compact('status') );
     }
