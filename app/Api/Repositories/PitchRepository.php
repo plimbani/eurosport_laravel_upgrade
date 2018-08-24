@@ -128,11 +128,14 @@ class PitchRepository
       $tournament = Tournament::find($tournamentId);
 
       $matches = DB::table('temp_fixtures')
-            ->select('temp_fixtures.*','referee.first_name','referee.last_name')
-            ->join('referee', 'temp_fixtures.tournament_id', '=', 'referee.tournament_id')
+            ->select('temp_fixtures.*','referee.first_name','referee.last_name','pitches.pitch_number','venues.name as venues_name')
+            ->leftjoin('referee', 'temp_fixtures.referee_id', '=', 'referee.id')
+            ->leftjoin('pitches', 'temp_fixtures.pitch_id', '=', 'pitches.id')
+            ->leftjoin('venues', 'pitches.venue_id', '=', 'venues.id')
             ->where('temp_fixtures.tournament_id', $tournamentId)
             ->where('temp_fixtures.is_scheduled', 1)
-            ->orderBy('match_datetime')
+            ->orderBy('temp_fixtures.match_datetime')
+            ->orderBy('temp_fixtures.pitch_id')
             ->get();
 
       return ['tournamentData' => $tournament, 'matches' => $matches];
