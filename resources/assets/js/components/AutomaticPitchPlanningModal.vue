@@ -259,10 +259,7 @@ import Tournament from '../api/tournament.js'
               this.isTouched = true
             },
             onRemove(option) {
-              let deletedIndex = _.findIndex(this.allPitchesWithDays, function(o) { 
-                return o.id == option.id;
-              });
-              this.allPitchesWithDays.splice(deletedIndex);
+              delete this.allPitchesWithDays[option.id];
             },
             getAllPitchesWithDays(pitchId) {
               let vm = this;
