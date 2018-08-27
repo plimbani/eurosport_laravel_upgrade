@@ -38,6 +38,22 @@ import _ from 'lodash'
         },
         computed: {
             pitchesData() {
+
+                if(this.tournamentFilter.filterKey == 'location' && this.tournamentFilter.filterValue != ''){
+                    var pitches = _.remove(this.stage.pitches, (pitch) => {
+                        let assign = false;
+                        pitch.title = pitch.pitch_number+' ('+pitch.size+')';
+                        pitch.resourceAreaWidth = '500px';
+                        if(this.tournamentFilter.filterValue.id == pitch.venue_id){
+                            assign = true;
+                        }
+
+                        return assign;
+                    });
+                    
+                    return pitches;
+                }
+
                 return _.forEach(this.stage.pitches, (pitch) => {
                     pitch.title = pitch.pitch_number+' ('+pitch.size+')';
                     pitch.resourceAreaWidth = '500px';
@@ -290,10 +306,10 @@ import _ from 'lodash'
 
                          $('#add_referee').prop('disabled', false);
                          // Code for horizontal scroll bar
-                         let totalPitches = vm.stage.pitches.length;
-                         if(totalPitches > 8) {
+                        let totalPitches = vm.stage.pitches.length;
+                        if(totalPitches > 8) {
                             $(vm.$el).find('.fc-view-container .fc-view > table').css('width', (totalPitches * ($('.pitch_planner_section').width()/8)) + 'px');
-                         }
+                        }
                     },
                     eventDrop: function(event, delta, revertFunc, jsEvent, ui, view) { // called when an event (already on the calendar) is moved
                         // update api call
@@ -478,6 +494,7 @@ import _ from 'lodash'
                                         locationCheckFlag = false;
                                     }
                                 }
+                                
                               let colorVal = match.category_age_color;
                               var isBright = (parseInt(vm.getBrightness(match.category_age_color)) > 160);
                               let borderColorVal;
@@ -821,7 +838,7 @@ import _ from 'lodash'
         var index = 1;
         var plannerwidth = $('.pitch_planner_section').width()/8;        
         [].forEach.call(scrollableBodys, function(scrollableBody) {
-            var totalPitches = document.querySelectorAll('.pitch-planner-item:nth-child('+index+') .fc-head-container > .fc-row > table > thead > tr > th').length - 1;            
+            var totalPitches = document.querySelectorAll('.pitch-planner-item:nth-child('+index+') .fc-head-container > .fc-row > table > thead > tr > th').length - 1;
             if(totalPitches>7){
                 var pitchplanneritem = document.querySelectorAll('.pitch-planner-item:nth-child('+index+')');
                 pitchplanneritem[0].classList.add("ppitem");
@@ -844,6 +861,8 @@ import _ from 'lodash'
                     scrollableHeader.scrollTo(scrollableBody.scrollLeft, 0);
                     scrollableBg.scrollTo(scrollableBody.scrollLeft, 0);
                 });
+            } else {
+                $(scrollableBody).closest('table').css('width', ($('.pitch_planner_section').width() - 20) + 'px');
             }
             index++;
         });
