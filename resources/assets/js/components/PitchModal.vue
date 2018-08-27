@@ -361,19 +361,13 @@ var moment = require('moment');
           let borderColorVal = this.matchDetail.category_age.category_age_color;
           let fixtureStripColor = this.matchDetail.competition.color_code != null ? this.matchDetail.competition.color_code : '#FFFFFF';
 
-          colorVal = (this.matchDetail.age_category_color == null) ? colorVal : this.matchDetail.age_category_color;
-
-          borderColorVal = (this.matchDetail.age_category_color == null) ? borderColorVal : this.matchDetail.age_category_color;
-
-          fixtureStripColor = (this.matchDetail.group_color == null) ? fixtureStripColor : this.matchDetail.group_color;
-
           this.matchFixture.color = colorVal;
           this.matchFixture.textColor = textColorVal;
           this.matchFixture.borderColor = borderColorVal;
           this.matchFixture.fixtureStripColor = fixtureStripColor;
 
-          this.matchDetail.age_category_color = (this.matchDetail.age_category_color == null) ? colorVal : this.matchDetail.age_category_color;
-          this.matchDetail.group_color = (this.matchDetail.group_color == null) ? fixtureStripColor : this.matchDetail.group_color;
+          this.matchDetail.age_category_color = colorVal;
+          this.matchDetail.group_color = fixtureStripColor;
 
           // this.matchDetail.matchTime = moment(response.data.data.match_datetime,' hh:mm"ss DD-MMM-YYYY ').format(' kk:mm DD MMM  YYYY ')
 
