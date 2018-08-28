@@ -101,14 +101,14 @@
                                 <span>Start time:</span>
                               </div>
                               <div class="col-md-3">
-                                <input :name="'start_time_'+pitch.id+'_'+day" v-model="pitch.time[index].start_time" v-validate="'required'" :class="[errors.has('start_time_'+pitch.id+'_'+day)?'is-danger': '', 'form-control ls-timepicker start_time']"  :id="'start_time_'+pitch.id+'_'+day"  type="text" >
+                                <input :name="'start_time_'+pitch.id+'_'+day"  v-validate="'required'" :class="[errors.has('start_time_'+pitch.id+'_'+day) ? 'is-danger': '', 'form-control ls-timepicker start_time']" :id="'start_time_'+pitch.id+'_'+day" type="text" value="08:00">
                                 <i v-show="errors.has('start_time_'+pitch.id+'_'+day)" class="fa fa-warning text-danger" data-placement="top" title="Start time is required"></i>
                               </div>
                               <div class="col-md-3">
                                 <span>End time:</span>
                               </div>
                               <div class="col-md-3">
-                                <input :name="'end_time_'+pitch.id+'_'+day" v-model="pitch.time[index].end_time" v-validate="'required'" :class="[errors.has('end_time_'+pitch.id+'_'+day)?'is-danger': '', 'form-control ls-timepicker end_time']"  :id="'end_time_'+pitch.id+'_'+day"  type="text" >
+                                <input :name="'end_time_'+pitch.id+'_'+day"  v-validate="'required'" :class="[errors.has('end_time_'+pitch.id+'_'+day)?'is-danger': '', 'form-control ls-timepicker end_time']" :id="'end_time_'+pitch.id+'_'+day" type="text" onchange="onEndTimeChange($event)" value="23:00">
                                 <i v-show="errors.has('end_time_'+pitch.id+'_'+day)" class="fa fa-warning text-danger" data-placement="top" title="End time is required"></i>
                               </div>
                             </div>
@@ -205,6 +205,7 @@ import Tournament from '../api/tournament.js'
               }
             },
             scheduleAutomaticPitchPlanning() {
+                let vm = this;
                 this.isInvalid = false
                 if(this.value.length === 0) {
                   this.isInvalid = true
@@ -219,9 +220,18 @@ import Tournament from '../api/tournament.js'
                     pitches.push(opt.id)
                   });
 
-                  let tournamentId = this.$store.state.Tournament.tournamentId
+                  let tournamentId = this.$store.state.Tournament.tournamentId;
+
+                  _.forEach(this.allPitchesWithDays, function(pitchDetail) {
+                    _.forEach(pitchDetail.time, function(timeDetail, index) {
+                      vm.allPitchesWithDays[pitchDetail.id].time[index].start_time = $("#start_time_" + pitchDetail.id + "_" + parseInt(index+1)).val();
+                      vm.allPitchesWithDays[pitchDetail.id].time[index].end_time = $("#end_time_" + pitchDetail.id + "_" + parseInt(index+1)).val();
+                    });
+                  });
+
                   let tournamentData = {'tournamentId': tournamentId, 'age_category': this.selectedAgeCategory.id, 'competition': this.selectedGroup.id, 'pitches': pitches,
-                   'timings': this.allPitchesWithDays}
+                   'timings': this.allPitchesWithDays};
+
                   Tournament.scheduleAutomaticPitchPlanning(tournamentData).then(
                     (response) => {
                       if(response.data.options.status == 'error') {
@@ -251,7 +261,7 @@ import Tournament from '../api/tournament.js'
             },
             onSelect (option) {
               if (option === 'Disable me!') this.isDisabled = true
-              this.allPitchesWithDays[option.id] = {'id': option.id, 'pitchName': option.pitch_number, 'days': []};
+              this.allPitchesWithDays[option.id] = {'id': option.id, 'pitchName': option.pitch_number, 'days': [], 'time': []};
               this.getAllPitchesWithDays(option.id);
             },
             onTouch () {
@@ -272,12 +282,27 @@ import Tournament from '../api/tournament.js'
                   vm.allPitchesWithDays[pitchId].time = pitchTime;
                   Vue.nextTick()
                   .then(function () {
+                    setTimeout(function(){
+                      $('.start_time, .end_time').timepicker({
+                        'minTime': '08:00',
+                        'maxTime': '23:00',
+                        'timeFormat': 'H:i',
+                      });
+                    }, 1000);
                     vm.$forceUpdate();
                   });
                 },
                 (error) => {
 
                 });
+            },
+            onStartTimeChange(event) {
+              var el = event.target;
+              this.allPitchesWithDays[pitchId].time[index].start_time = el.value;
+            },
+            onEndTimeChange(event) {
+              var el = event.target;
+              this.allPitchesWithDays[pitchId].time[index].end_time = el.value;
             },
         }
     }
