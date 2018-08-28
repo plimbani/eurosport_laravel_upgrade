@@ -231,9 +231,9 @@ class TournamentController extends BaseController
         return $signedUrl;
     }
 
-    public function getAgeCategoryDetails(Request $request)
+    public function getCompetitionAndPitchDetail(Request $request)
     {
-        return $this->tournamentObj->getAgeCategoryDetails($request->all());   
+        return $this->tournamentObj->getCompetitionAndPitchDetail($request->all());   
     }
 
     public function scheduleAutomaticPitchPlanning(Request $request)

@@ -228,8 +228,8 @@ export default {
   getClubsByTournamentId(tournamentId) {
     return api.post('getClubsByTournamentId/' +tournamentId);
   },
-  getAgeCategoryDetails(data) {
-    return api.post('tournament/getAgeCategoryDetails', data);
+  getCompetitionAndPitchDetail(data) {
+    return api.post('tournament/getCompetitionAndPitchDetail', data);
   },
   scheduleAutomaticPitchPlanning(data) {
     return api.post('tournament/scheduleAutomaticPitchPlanning', data);
