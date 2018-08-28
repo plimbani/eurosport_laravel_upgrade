@@ -139,10 +139,46 @@ class PitchController extends BaseController
         $pitchPlannerPrintData = $this->pitchObj->getPitchPlannerPrintData($tournamentId);
 
         $pitchPlannerPdf =  "Pitch planner - ".$pitchPlannerPrintData['tournamentData']->name;
+        $tournamentStartDate = Carbon::createFromFormat('d/m/Y H:i:s', $pitchPlannerPrintData['tournamentData']->start_date.'00:00:00');
+        $tournamentEndDate = Carbon::createFromFormat('d/m/Y H:i:s', $pitchPlannerPrintData['tournamentData']->end_date.'00:00:00');
 
-        $initialDate = [];
+        $tournamentDates = [];
 
-        $pdf = PDF::loadView('pitchplanner.tournament_matches',['pitchPlannerPrintData' => $pitchPlannerPrintData, 'initialDate' => $initialDate])
+        while ($tournamentStartDate <= $tournamentEndDate)
+        {
+            array_push($tournamentDates, clone($tournamentStartDate));
+            $tournamentStartDate->addDay();
+        }
+
+        $matches = collect([]);
+
+        $tournamentPitches = [];
+
+        foreach ($pitchPlannerPrintData['matches'] as $match) {
+
+            $stdate = Carbon::parse($match->match_datetime);
+            
+            $matches->push([
+                    'match_id' => $match->id,
+                    'referee_id' => $match->referee_id,
+                    'pitch_id' => $match->pitch_id,
+                    'match_datetime' => $stdate,
+                    'match_endtime' => Carbon::parse($match->match_endtime),
+                    'pitch_name' => $match->pitch_number,
+                    'match_day' => $stdate->format('Y-m-d'),
+                    'referre_name' => $match->first_name.' '.$match->last_name,
+                    'venues_name' => $match->venues_name,
+                    'match_name' => str_replace('@AWAY', $match->away_team_name, str_replace('@HOME', $match->home_team_name, $match->display_match_number)),
+                    'hometeam_score' => $match->hometeam_score,
+                    'awayteam_score' => $match->awayteam_score,
+                ]);
+
+            $tournamentPitches[$match->pitch_id] = $match->pitch_number;
+        }
+
+        $data = ['pitchPlannerPrintData' => $pitchPlannerPrintData, 'tournamentDates' => $tournamentDates, 'matches' => $matches, 'tournamentPitches' => $tournamentPitches];
+
+        $pdf = PDF::loadView('pitchplanner.tournament_matches',$data)
             ->setPaper('a4')
             ->setOption('header-spacing', '5')
             ->setOption('header-font-size', 7)
@@ -153,7 +189,7 @@ class PitchController extends BaseController
             ->setOption('footer-right', 'Page [page] of [toPage]')
             ->setOption('header-right', $date->format('H:i D d M Y'))
             ->setOption('margin-top', 20)
-            ->setOption('margin-bottom', 15);
+            ->setOption('margin-bottom', 20);
 
         return $pdf->inline($pitchPlannerPdf);
     }
