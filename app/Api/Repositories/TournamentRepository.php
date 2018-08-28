@@ -704,8 +704,8 @@ class TournamentRepository
     public function getCompetitionAndPitchDetail($data)
     {
         $ageCategoryDetail = TournamentCompetationTemplates::with('Competition')
-                                ->where('id', $data['ageCategoryId'])
-                                ->first();
+            ->where('id', $data['ageCategoryId'])
+            ->first();
         $pitches = Pitch::where('tournament_id', $data['tournamentId'])->where('size', $ageCategoryDetail->pitch_size)->get();
 
         return ['ageCategoryDetail' => $ageCategoryDetail, 'pitches' => $pitches];
@@ -722,7 +722,7 @@ class TournamentRepository
     {
         $scheduleMatchesCount = TempFixture::where('competition_id', $data['competition'])->where('is_scheduled', 1)->count();
 
-        if($scheduleMatchesCount > 0) {
+        if ($scheduleMatchesCount > 0) {
             return ['status' => 'error', 'message' => 'Sorry! You cannot schedule matches automatically as some of the matches are already scheduled.'];
         }
 
@@ -748,24 +748,24 @@ class TournamentRepository
                 ->select(\DB::raw("SUM(time_to_sec(timediff(match_endtime, match_datetime)) / 60) as result"))
                 ->first();
 
-            $pitchCapacity = Pitch::where('id', $pitchId)->first();
-            $availableTime = $pitchCapacity->pitch_capacity - $tempFixture->result;
+            $pitchCapacity             = Pitch::where('id', $pitchId)->first();
+            $availableTime             = $pitchCapacity->pitch_capacity - $tempFixture->result;
             $totalPitchesAvailableTime = $totalPitchesAvailableTime + $availableTime;
         }
         if ($totalRequiredTime > $totalPitchesAvailableTime) {
             return ['status' => 'error', 'message' => 'Required time should be less than pitch available time.'];
         }
 
-        $reservedStartTimeArray = [];
-        $reservedEndTimeArray = [];
+        $reservedStartTimeArray  = [];
+        $reservedEndTimeArray    = [];
         $availableStartTimeArray = [];
-        $availableEndTimeArray = [];
-        $newReservedTimeArray = [];
-        $pitchOpeningTimes = [];
+        $availableEndTimeArray   = [];
+        $newReservedTimeArray    = [];
+        $pitchOpeningTimes       = [];
 
         foreach ($data['pitches'] as $key => $pitchId) {
             $pitchAvailability = PitchAvailable::where('pitch_id', $pitchId)->get();
-            $tempFixtures = TempFixture::where('competition_id', $data['competition'])
+            $tempFixtures      = TempFixture::where('competition_id', $data['competition'])
                 ->where('age_group_id', $data['age_category'])
                 ->where('pitch_id', $pitchId)
                 ->where('is_scheduled', 1)
@@ -783,7 +783,7 @@ class TournamentRepository
                     $pitchEndDateTime   = $pitchAvailable->stage_start_date . ' ' . $time['end_time'] . ':00';
 
                     $pitchStartDateTime = Carbon::createFromFormat('d/m/Y H:i:s', $pitchStartDateTime);
-                    $pitchEndDateTime = Carbon::createFromFormat('d/m/Y H:i:s', $pitchEndDateTime);
+                    $pitchEndDateTime   = Carbon::createFromFormat('d/m/Y H:i:s', $pitchEndDateTime);
 
                     while ($pitchStartDateTime <= $pitchEndDateTime) {
                         $pitchAvailableTime[$pitchId][$pitchStartDateTime->timestamp] = 1;
@@ -796,12 +796,12 @@ class TournamentRepository
 
                 $allPitchBreaks = PitchBreaks::where('availability_id', $pitchAvailable->id)->get();
 
-                $availableStartTimeArray[] = $pitchAvailableStart->toDateTimeString();
-                $i = 0;
+                $availableStartTimeArray[]           = $pitchAvailableStart->toDateTimeString();
+                $i                                   = 0;
                 $pitchOpeningTimes[$i]['pitchStart'] = $pitchAvailableStart->toDateTimeString();
                 if (count($allPitchBreaks) > 0) {
                     foreach ($allPitchBreaks as $key => $break) {
-                        $availableEndTimeArray[] = $pitchAvailableStart->format('Y-m-d') . ' ' . $break->break_start . '' . ':00';
+                        $availableEndTimeArray[]   = $pitchAvailableStart->format('Y-m-d') . ' ' . $break->break_start . '' . ':00';
                         $availableStartTimeArray[] = $pitchAvailableStart->format('Y-m-d') . ' ' . $break->break_end . '' . ':00';
 
                         $pitchOpeningTimes[$i]['pitchClose'] = $pitchAvailableStart->format('Y-m-d') . ' ' . $break->break_start . '' . ':00';
@@ -833,10 +833,10 @@ class TournamentRepository
                 }
 
                 $fixtures = TempFixture::where('pitch_id', $pitchId)->where('is_scheduled', 1)->where(\DB::raw('DATE_FORMAT(match_datetime, "%Y-%m-%d")'), $pitchAvailableDate)->get();
-                
-                foreach($fixtures as $fixture) {
+
+                foreach ($fixtures as $fixture) {
                     $matchStartDateTime = Carbon::parse($fixture->match_datetime);
-                    $matchEndDateTime = Carbon::parse($fixture->match_endtime);
+                    $matchEndDateTime   = Carbon::parse($fixture->match_endtime);
 
                     while ($matchStartDateTime < $matchEndDateTime) {
                         $matchStartDateTime->addMinute(1);
@@ -858,18 +858,18 @@ class TournamentRepository
                     }
 
                     foreach ($pitchAvailableTime as $availability) {
-                        $i = 0;
-                        $startTimeStamp = null;
+                        $i                    = 0;
+                        $startTimeStamp       = null;
                         $isMatchScheduledFlag = false;
                         foreach ($availability as $key => $value) {
                             if ($matchTime == $i) {
                                 $startTimeStamp = Carbon::createFromTimestamp($startTimeStamp);
-                                $endTimeStamp = Carbon::createFromTimestamp($key);
+                                $endTimeStamp   = Carbon::createFromTimestamp($key);
 
                                 $matchScheduleArray[$match->id] = array(
                                     'match_start_time' => clone ($startTimeStamp),
-                                    'match_end_time' => clone ($endTimeStamp),
-                                    'pitch_id' => $pitchId,
+                                    'match_end_time'   => clone ($endTimeStamp),
+                                    'pitch_id'         => $pitchId,
                                 );
 
                                 while ($startTimeStamp < $endTimeStamp) {
@@ -886,30 +886,28 @@ class TournamentRepository
                                 $i++;
                                 continue;
                             }
-                            $i = 0;
+                            $i              = 0;
                             $startTimeStamp = null;
                         }
-                        if($isMatchScheduledFlag == true) {
+                        if ($isMatchScheduledFlag == true) {
                             break;
                         }
                     }
                 }
 
-                // echo "<pre>";print_r($pitchAvailableTime);echo "</pre>";exit;
-                // echo "<pre>";print_r($matchScheduleArray);echo "</pre>";exit;
-
-                foreach($matchScheduleArray as $matchId => $matchDetail) {
-                    $matchFixture = TempFixture::find($matchId);
+                foreach ($matchScheduleArray as $matchId => $matchDetail) {
+                    $matchFixture                 = TempFixture::find($matchId);
                     $matchFixture->match_datetime = $matchDetail['match_start_time'];
-                    $matchFixture->match_endtime = $matchDetail['match_end_time'];
-                    $matchFixture->pitch_id = $matchDetail['pitch_id'];
-                    $matchFixture->is_scheduled = 1;
+                    $matchFixture->match_endtime  = $matchDetail['match_end_time'];
+                    $matchFixture->pitch_id       = $matchDetail['pitch_id'];
+                    $matchFixture->is_scheduled   = 1;
                     $matchFixture->save();
                 }
 
+                return ['status' => 'Success', 'message' => 'Matches has been scheduled.'];
                 exit;
 
-                $availableEndTimeArray[] = $pitchAvailableEnd->toDateTimeString();
+                $availableEndTimeArray[]             = $pitchAvailableEnd->toDateTimeString();
                 $pitchOpeningTimes[$i]['pitchClose'] = $pitchAvailableEnd->toDateTimeString();
             }
         }
