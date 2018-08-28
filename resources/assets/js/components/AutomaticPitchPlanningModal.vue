@@ -188,10 +188,9 @@ import Tournament from '../api/tournament.js'
             getCompetitions() {
               this.groups = []
               if(this.selectedAgeCategory != '') {
-                let tournamentId = this.$store.state.Tournament.tournamentId
-                let tournamentData = {'tournamentId': tournamentId}
+                let ageCategoryData = {'ageCategoryId': this.selectedAgeCategory}
 
-                Tournament.getAgeCategoryDetails(tournamentData).then(
+                Tournament.getAgeCategoryDetails(ageCategoryData).then(
                   (response) => {
                     this.groups = response.data.options.competition
                     this.team_interval = response.data.options.team_interval
