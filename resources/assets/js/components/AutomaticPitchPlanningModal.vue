@@ -22,7 +22,7 @@
                         <option value="">Select category</option>
                         <option :value="item.id"
                         v-for="item in ageCategories"
-                        v-bind:value="item">
+                        v-bind:value="item.id">
                           {{item.group_name}} ({{item.category_age}})
                         </option>
                       </select>
@@ -154,6 +154,7 @@ import Tournament from '../api/tournament.js'
             final_match_duration: '',
             normal_match_duration: '',
             allPitchesWithDays: {},
+            pitches: [],
           }
         },
         created: function() {
@@ -168,9 +169,6 @@ import Tournament from '../api/tournament.js'
           });
         },
         computed: {
-          pitches() {
-            return this.$store.state.Pitch.pitches;
-          },
           getAllPitches() {
             return this.allPitchesWithDays;
           },
@@ -186,18 +184,27 @@ import Tournament from '../api/tournament.js'
               })
             },
             getCompetitions() {
-              this.groups = []
-              if(this.selectedAgeCategory != '') {
-                let ageCategoryData = {'ageCategoryId': this.selectedAgeCategory}
+              this.groups = [];
+              this.pitches = [];
+              this.selectedGroup = '';
+              this.team_interval = '';
+              this.normal_match_duration = '';
+              this.final_match_duration = '';
+              this.allPitchesWithDays = {};
+              this.value = null;
 
-                Tournament.getAgeCategoryDetails(ageCategoryData).then(
+              if(this.selectedAgeCategory != '') {
+                let ageCategoryData = {'ageCategoryId': this.selectedAgeCategory, 'tournamentId': this.$store.state.Tournament.tournamentId};
+
+                Tournament.getCompetitionAndPitchDetail(ageCategoryData).then(
                   (response) => {
-                    this.groups = response.data.options.competition
-                    this.team_interval = response.data.options.team_interval
-                    this.normal_match_duration = (response.data.options.game_duration_RR * response.data.options.halves_RR)
-                    + response.data.options.halftime_break_RR + response.data.options.match_interval_RR
-                    this.final_match_duration = (response.data.options.game_duration_FM * response.data.options.halves_FM)
-                    + response.data.options.halftime_break_FM + response.data.options.match_interval_FM
+                    this.pitches = response.data.options.pitches;
+                    this.groups = response.data.options.ageCategoryDetail.competition;
+                    this.team_interval = response.data.options.ageCategoryDetail.team_interval;
+                    this.normal_match_duration = (response.data.options.ageCategoryDetail.game_duration_RR * response.data.options.ageCategoryDetail.halves_RR)
+                    + response.data.options.ageCategoryDetail.halftime_break_RR + response.data.options.ageCategoryDetail.match_interval_RR;
+                    this.final_match_duration = (response.data.options.ageCategoryDetail.game_duration_FM * response.data.options.ageCategoryDetail.halves_FM)
+                    + response.data.options.ageCategoryDetail.halftime_break_FM + response.data.options.ageCategoryDetail.match_interval_FM;
                   },
                   (error) => {
                   }
@@ -220,7 +227,7 @@ import Tournament from '../api/tournament.js'
                   });
 
                   let tournamentId = this.$store.state.Tournament.tournamentId
-                  let tournamentData = {'tournamentId': tournamentId, 'age_category': this.selectedAgeCategory.id, 'competition': this.selectedGroup.id, 'pitches': pitches,
+                  let tournamentData = {'tournamentId': tournamentId, 'age_category': this.selectedAgeCategory, 'competition': this.selectedGroup.id, 'pitches': pitches,
                    'timings': this.allPitchesWithDays}
                   Tournament.scheduleAutomaticPitchPlanning(tournamentData).then(
                     (response) => {

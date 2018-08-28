@@ -890,9 +890,9 @@ class TournamentService implements TournamentContract
       return ['options' => $data];
     }
 
-    public function getAgeCategoryDetails($data)
+    public function getCompetitionAndPitchDetail($data)
     {
-      $data = $this->tournamentRepoObj->getAgeCategoryDetails($data);
+      $data = $this->tournamentRepoObj->getCompetitionAndPitchDetail($data);
       return ['options' => $data];
     }
 
