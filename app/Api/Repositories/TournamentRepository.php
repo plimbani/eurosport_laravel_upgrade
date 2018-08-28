@@ -701,10 +701,14 @@ class TournamentRepository
         return $resultData;
     }
 
-    public function getAgeCategoryDetails($data)
+    public function getCompetitionAndPitchDetail($data)
     {
-        $ageCategoryDetail = TournamentCompetationTemplates::with('Competition')->where('id', $data['ageCategoryId'])->first();
-        return $ageCategoryDetail;
+        $ageCategoryDetail = TournamentCompetationTemplates::with('Competition')
+                                ->where('id', $data['ageCategoryId'])
+                                ->first();
+        $pitches = Pitch::where('tournament_id', $data['tournamentId'])->where('size', $ageCategoryDetail->pitch_size)->get();
+
+        return ['ageCategoryDetail' => $ageCategoryDetail, 'pitches' => $pitches];
     }
 
     public function getAllPitchesWithDays($pitchId)
@@ -716,6 +720,12 @@ class TournamentRepository
 
     public function scheduleAutomaticPitchPlanning($data)
     {
+        $scheduleMatchesCount = TempFixture::where('competition_id', $data['competition'])->where('is_scheduled', 1)->count();
+
+        if($scheduleMatchesCount > 0) {
+            return ['status' => 'error', 'message' => 'Sorry! You cannot schedule matches automatically as some of the matches are already scheduled.'];
+        }
+
         $ageCategory = TournamentCompetationTemplates::where('id', $data['age_category'])->first();
 
         // for normal match
