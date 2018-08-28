@@ -59,7 +59,7 @@
                 </div>
                 <div class="row my-3">
                   <div class="col-3 align-self-center">
-                      <h6 class="mb-0 text-muted"><strong>{{$lang.pitch_summary}}</strong></h6>
+                      <h6 class="mb-0"><strong>{{$lang.pitch_summary}}</strong></h6>
                   </div>
                 </div>
                 <div class="row">
@@ -93,7 +93,7 @@
 
                 <div class="row my-3">
                   <div class="col-3 align-self-center">
-                      <h6 class="mb-0 text-muted"><strong>{{$lang.pitch_totals}}</strong></h6>
+                      <h6 class="mb-0"><strong>{{$lang.pitch_totals}}</strong></h6>
                   </div>
                 </div>
                 <div class="row">
@@ -114,11 +114,11 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div v-for="(locationDetail, locationId) in locationSizeWiseSummaryArray">
                     <div class="row my-3">
                       <div class="col-3 align-self-center">
-                          <h6 class="mb-0 text-muted"><strong>Location - {{ locationDetail.name }}</strong></h6>
+                          <h6 class="mb-0"><strong>Location - {{ locationDetail.name }}</strong></h6>
                       </div>
                     </div>
                     <div class="row">
@@ -630,8 +630,8 @@ import Tournament from '../../../api/tournament.js'
                     },
                     (error) => {
 
-                    }  
-                )               
+                    }
+                )
             },
             getLocationWiseSummary() {
                 if (!isNaN(this.tournamentId)) {
@@ -659,7 +659,7 @@ import Tournament from '../../../api/tournament.js'
                             for(let j=0; j<allPitchSizes.length; j++) {
                                 let locationSizeDetail = {};
                                 let size = allPitchSizes[j];
-                                
+
                                 let availableTime = vm.getAvailableTimeOfLocationSize(locationId, size);
                                 let timeUsed = vm.getRequiredTimeForLocationSize(locationId, size);
                                 let balance = vm.getLocationBalanceSize(locationId, size);

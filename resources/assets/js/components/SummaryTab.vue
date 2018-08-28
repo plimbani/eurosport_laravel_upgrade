@@ -9,13 +9,13 @@
 					<strong>{{tournamentName}}</strong>
 				</h6>
 
-				<h6 class="mb-2"><strong>{{$lang.summary_location}}:</strong> {{tournamentSummary.locations}}</h6>
-				<h6 class="mb-2"><strong>{{$lang.summary_dates}}:</strong> {{tournamentDates}} </h6>
+				<h6 class="mb-2 text-muted">{{$lang.summary_location}}: {{tournamentSummary.locations}}</h6>
+				<h6 class="mb-2 text-muted">{{$lang.summary_dates}}: {{tournamentDates}} </h6>
 			 </div>
 			</div>
 			<div class="col-md-6">
 				<div class="row d-flex flex-row align-items-center">
-				<div class="col-sm-4"><div style="line-height:1"><strong>{{$lang.summary_status}}:</strong> {{tournamentStatus}}</div></div>
+				<div class="col-sm-4"><div style="line-height:1">{{$lang.summary_status}}: {{tournamentStatus}}</div></div>
 
 				<div class="col-md-4" v-if="tournamentStatus == 'Published'">
 				   <button type="button" data-toggle="modal"
@@ -98,9 +98,9 @@
 		<div class="clearfix mt-4"></div>
 		<div class="row">
 			<div class="col-md-12">
-			<span><strong>{{$lang.summary_age_groups}}: </strong>{{tournamentSummary.tournament_groups}}</span><br>
-				<span><strong>{{$lang.summary_participating_countries}}: </strong> {{tournamentSummary.tournament_countries}}</span><br>
-				<span><strong>{{$lang.summary_euro_supporting_contact}}: </strong> {{tournamentSummary.tournament_contact}}</span>
+			<span>{{$lang.summary_age_groups}}: {{tournamentSummary.tournament_groups}}</span><br>
+				<span>{{$lang.summary_participating_countries}}: {{tournamentSummary.tournament_countries}}</span><br>
+				<span>{{$lang.summary_euro_supporting_contact}}:  {{tournamentSummary.tournament_contact}}</span>
 			</div>
 		</div>
 	</div>
