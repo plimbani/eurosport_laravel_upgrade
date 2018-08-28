@@ -228,12 +228,18 @@ import Tournament from '../api/tournament.js'
 
                   let tournamentId = this.$store.state.Tournament.tournamentId
                   let tournamentData = {'tournamentId': tournamentId, 'age_category': this.selectedAgeCategory, 'competition': this.selectedGroup.id, 'pitches': pitches,
-                   'timings': this.allPitchesWithDays}
+                   'timings': this.allPitchesWithDays};
+
+                  $("body .js-loader").removeClass('d-none');
                   Tournament.scheduleAutomaticPitchPlanning(tournamentData).then(
-                    (response) => {
-                      if(response.data.options.status == 'error') {
+                    (response) => {                      
+                      $("body .js-loader").addClass('d-none');
+                      if(response.data.options.status === 'error') {
                         $('.js-available-time-error-message').removeClass('d-none');
                         $('.js-available-time-error-message').html(response.data.options.message);
+                      } else {
+                        $('.js-available-time-error-message').removeClass('d-none');
+                        $('#automatic_pitch_planning_modal').modal('hide');
                       }
                     },
                     (error) => {
