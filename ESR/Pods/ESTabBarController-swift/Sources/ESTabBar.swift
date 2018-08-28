@@ -2,7 +2,7 @@
 //  ESTabBar.swift
 //
 //  Created by Vincent Li on 2017/2/8.
-//  Copyright (c) 2013-2018 ESTabBarController (https://github.com/eggswift/ESTabBarController)
+//  Copyright (c) 2013-2017 ESTabBarController (https://github.com/eggswift/ESTabBarController)
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -50,7 +50,7 @@ public enum ESTabBarItemPositioning : Int {
 
 /// 对UITabBarDelegate进行扩展，以支持UITabBarControllerDelegate的相关方法桥接
 internal protocol ESTabBarDelegate: NSObjectProtocol {
-
+    
     /// 当前item是否支持选中
     ///
     /// - Parameters:
@@ -80,7 +80,7 @@ internal protocol ESTabBarDelegate: NSObjectProtocol {
 
 /// ESTabBar是高度自定义的UITabBar子类，通过添加UIControl的方式实现自定义tabBarItem的效果。目前支持tabBar的大部分属性的设置，例如delegate,items,selectedImge,itemPositioning,itemWidth,itemSpacing等，以后会更加细致的优化tabBar原有属性的设置效果。
 open class ESTabBar: UITabBar {
-
+    
     internal weak var customDelegate: ESTabBarDelegate?
     
     /// tabBar中items布局偏移量
@@ -351,49 +351,74 @@ internal extension ESTabBar /* Actions */ {
             return
         }
         
-        if currentIndex != newIndex {
-            if currentIndex != -1 && currentIndex < items?.count ?? 0{
-                if let currentItem = items?[currentIndex] as? ESTabBarItem {
-                    currentItem.contentView?.deselect(animated: animated, completion: nil)
-                } else if self.isMoreItem(currentIndex) {
-                    moreContentView?.deselect(animated: animated, completion: nil)
+        //if currentIndex != newIndex {
+        if currentIndex != -1 && currentIndex < items?.count ?? 0{
+            if let currentItem = items?[currentIndex] as? ESTabBarItem {
+                currentItem.contentView?.deselect(animated: animated, completion: nil)
+            } else if self.isMoreItem(currentIndex) {
+                moreContentView?.deselect(animated: animated, completion: nil)
+            }
+        }
+        if let item = item as? ESTabBarItem {
+            item.contentView?.select(animated: animated, completion: nil)
+        } else if self.isMoreItem(newIndex) {
+            moreContentView?.select(animated: animated, completion: nil)
+        }
+        delegate?.tabBar?(self, didSelect: item)
+        
+        if let tabBarController = tabBarController {
+            var navVC: UINavigationController?
+            if let n = tabBarController.selectedViewController as? UINavigationController {
+                navVC = n
+            } else if let n = tabBarController.selectedViewController?.navigationController {
+                navVC = n
+            }
+            
+            if let navVC = navVC {
+                if navVC.viewControllers.count > 1 {
+                    navVC.popToRootViewController(animated: animated)
                 }
             }
-            if let item = item as? ESTabBarItem {
-                item.contentView?.select(animated: animated, completion: nil)
-            } else if self.isMoreItem(newIndex) {
-                moreContentView?.select(animated: animated, completion: nil)
-            }
-            delegate?.tabBar?(self, didSelect: item)
-        } else if currentIndex == newIndex {
+        }
+        
+        if currentIndex == newIndex {
             if let item = item as? ESTabBarItem {
                 item.contentView?.reselect(animated: animated, completion: nil)
             } else if self.isMoreItem(newIndex) {
                 moreContentView?.reselect(animated: animated, completion: nil)
             }
-            
-            if let tabBarController = tabBarController {
-                var navVC: UINavigationController?
-                if let n = tabBarController.selectedViewController as? UINavigationController {
-                    navVC = n
-                } else if let n = tabBarController.selectedViewController?.navigationController {
-                    navVC = n
-                }
-                
-                if let navVC = navVC {
-                    if navVC.viewControllers.contains(tabBarController) {
-                        if navVC.viewControllers.count > 1 && navVC.viewControllers.last != tabBarController {
-                            navVC.popToViewController(tabBarController, animated: true);
-                        }
-                    } else {
-                        if navVC.viewControllers.count > 1 {
-                            navVC.popToRootViewController(animated: animated)
-                        }
-                    }
-                }
-            
-            }
         }
+        
+        /*} else if currentIndex == newIndex {
+         if let item = item as? ESTabBarItem {
+         item.contentView?.reselect(animated: animated, completion: nil)
+         } else if self.isMoreItem(newIndex) {
+         moreContentView?.reselect(animated: animated, completion: nil)
+         }
+         
+         if let tabBarController = tabBarController {
+         var navVC: UINavigationController?
+         if let n = tabBarController.selectedViewController as? UINavigationController {
+         navVC = n
+         } else if let n = tabBarController.selectedViewController?.navigationController {
+         navVC = n
+         }
+         
+         
+         if let navVC = navVC {
+         if navVC.viewControllers.contains(tabBarController) {
+         if navVC.viewControllers.count > 1 && navVC.viewControllers.last != tabBarController {
+         navVC.popToViewController(tabBarController, animated: true);
+         }
+         } else {
+         if navVC.viewControllers.count > 1 {
+         navVC.popToRootViewController(animated: animated)
+         }
+         }
+         }
+         
+         }
+         }*/
         
         self.updateAccessibilityLabels()
     }

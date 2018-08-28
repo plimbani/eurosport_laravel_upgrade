@@ -56,6 +56,9 @@ class PickerHandlerView: UIView {
             selectedPickerPosition = 0
         }
         picker_view.reloadAllComponents()
+        if titleList.count > 0 {
+            picker_view.selectRow(0, inComponent: 0, animated: false)
+        }
     }
     
     @IBAction func cancelButtonPressed(_ sender: UIBarButtonItem) {

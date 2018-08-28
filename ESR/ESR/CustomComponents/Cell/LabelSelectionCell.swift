@@ -18,6 +18,7 @@ class LabelSelectionCell: UITableViewCell {
         super.awakeFromNib()
         // Initialization code
         lblTitle.textColor = UIColor.txtPlaceholderTxt
+        lblTitle.font = UIFont.init(name: Font.HELVETICA_REGULAR, size: Font.Size.commonLblSize)
     }
 
     func reloadCell() {

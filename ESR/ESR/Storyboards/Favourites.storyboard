@@ -25,17 +25,108 @@
                                     <constraint firstAttribute="height" constant="60" id="RBX-xA-iID"/>
                                 </constraints>
                             </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="The internet connection appears to be offline." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gyh-OD-Hmd">
+                                <rect key="frame" x="0.0" y="80" width="320" height="20.5"/>
+                                <color key="backgroundColor" red="1" green="0.64705882349999999" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="20" id="2iz-KC-vhd"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="1" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="2bJ-BY-OFT">
+                                <rect key="frame" x="10" y="100.5" width="300" height="411.5"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="8Yy-Gb-43E" id="mim-vT-w0C"/>
+                                    <outlet property="delegate" destination="8Yy-Gb-43E" id="HmL-Me-PgI"/>
+                                </connections>
+                            </tableView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EGu-QK-yKa">
+                                <rect key="frame" x="0.0" y="512" width="320" height="1"/>
+                                <color key="backgroundColor" red="0.87450980392156863" green="0.88627450980392153" blue="0.8901960784313725" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="1" id="ViO-A5-P84"/>
+                                </constraints>
+                            </view>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="tGY-Sg-LFB">
+                                <rect key="frame" x="0.0" y="513" width="320" height="45"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="T6M-VX-9mv">
+                                        <rect key="frame" x="0.0" y="0.0" width="160" height="45"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jrl-V9-YaM">
+                                                <rect key="frame" x="40" y="13" width="80" height="18"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="80" id="xaG-vE-5RH"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="12"/>
+                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="12" maxY="0.0"/>
+                                                <state key="normal" title="Favourite" image="fav_small">
+                                                    <color key="titleColor" red="0.45882352941176469" green="0.45882352941176469" blue="0.45882352941176469" alpha="1" colorSpace="calibratedRGB"/>
+                                                </state>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstItem="jrl-V9-YaM" firstAttribute="centerY" secondItem="T6M-VX-9mv" secondAttribute="centerY" id="qCU-sB-sK7"/>
+                                            <constraint firstItem="jrl-V9-YaM" firstAttribute="centerX" secondItem="T6M-VX-9mv" secondAttribute="centerX" id="rDG-a0-Bp3"/>
+                                        </constraints>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ju4-Tp-fhY">
+                                        <rect key="frame" x="160" y="0.0" width="160" height="45"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MLL-uy-Od3">
+                                                <rect key="frame" x="40.5" y="13.5" width="80" height="18"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="80" id="rgK-Lx-6Ue"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="12"/>
+                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="12" maxY="0.0"/>
+                                                <state key="normal" title="Default" image="default_tournament">
+                                                    <color key="titleColor" red="0.45882352939999999" green="0.45882352939999999" blue="0.45882352939999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                </state>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstItem="MLL-uy-Od3" firstAttribute="centerX" secondItem="ju4-Tp-fhY" secondAttribute="centerX" id="4s0-nY-5ja"/>
+                                            <constraint firstItem="MLL-uy-Od3" firstAttribute="centerY" secondItem="ju4-Tp-fhY" secondAttribute="centerY" id="XZk-Wa-E3l"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="45" id="exz-FR-RAX"/>
+                                </constraints>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="Ym0-IN-r4x" firstAttribute="top" secondItem="ocv-EC-zL7" secondAttribute="top" id="2aa-gv-Pvm"/>
+                            <constraint firstItem="gyh-OD-Hmd" firstAttribute="top" secondItem="Ym0-IN-r4x" secondAttribute="bottom" id="4iO-ff-Jju"/>
+                            <constraint firstItem="EGu-QK-yKa" firstAttribute="top" secondItem="2bJ-BY-OFT" secondAttribute="bottom" id="4xM-pS-Ccq"/>
+                            <constraint firstItem="ocv-EC-zL7" firstAttribute="trailing" secondItem="EGu-QK-yKa" secondAttribute="trailing" id="9F2-py-i9I"/>
+                            <constraint firstItem="EGu-QK-yKa" firstAttribute="leading" secondItem="ocv-EC-zL7" secondAttribute="leading" id="Eof-dM-ogr"/>
+                            <constraint firstItem="ocv-EC-zL7" firstAttribute="trailing" secondItem="2bJ-BY-OFT" secondAttribute="trailing" constant="10" id="I5y-VP-N5n"/>
+                            <constraint firstItem="tGY-Sg-LFB" firstAttribute="top" secondItem="EGu-QK-yKa" secondAttribute="bottom" id="JHp-Z9-JX6"/>
                             <constraint firstItem="ocv-EC-zL7" firstAttribute="trailing" secondItem="Ym0-IN-r4x" secondAttribute="trailing" id="O3D-DI-0pm"/>
+                            <constraint firstItem="tGY-Sg-LFB" firstAttribute="leading" secondItem="ocv-EC-zL7" secondAttribute="leading" id="aAP-xc-Lvr"/>
+                            <constraint firstItem="2bJ-BY-OFT" firstAttribute="top" secondItem="gyh-OD-Hmd" secondAttribute="bottom" id="cS4-bp-MVQ"/>
                             <constraint firstItem="Ym0-IN-r4x" firstAttribute="leading" secondItem="ocv-EC-zL7" secondAttribute="leading" id="djO-Hz-r7L"/>
+                            <constraint firstItem="ocv-EC-zL7" firstAttribute="bottom" secondItem="tGY-Sg-LFB" secondAttribute="bottom" constant="10" id="e9W-xw-MGS"/>
+                            <constraint firstItem="ocv-EC-zL7" firstAttribute="trailing" secondItem="tGY-Sg-LFB" secondAttribute="trailing" id="iLo-mg-Bzi"/>
+                            <constraint firstItem="2bJ-BY-OFT" firstAttribute="leading" secondItem="ocv-EC-zL7" secondAttribute="leading" constant="10" id="mt4-v5-fdB"/>
+                            <constraint firstItem="ocv-EC-zL7" firstAttribute="trailing" secondItem="gyh-OD-Hmd" secondAttribute="trailing" id="qR8-eq-N23"/>
+                            <constraint firstItem="gyh-OD-Hmd" firstAttribute="leading" secondItem="ocv-EC-zL7" secondAttribute="leading" id="swg-WD-mWv"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="ocv-EC-zL7"/>
                     </view>
                     <connections>
+                        <outlet property="heightConstraintLblNoInternet" destination="2iz-KC-vhd" id="NeA-gH-Fnh"/>
                         <outlet property="imageNavigationBar" destination="Ym0-IN-r4x" id="55j-fa-bJy"/>
+                        <outlet property="lblNoInternet" destination="gyh-OD-Hmd" id="owb-Qd-UBG"/>
+                        <outlet property="table" destination="2bJ-BY-OFT" id="Ji4-72-2Hf"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cXT-mL-xuH" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -43,4 +134,8 @@
             <point key="canvasLocation" x="-3397.5" y="-97.183098591549296"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="default_tournament" width="18" height="18"/>
+        <image name="fav_small" width="18" height="18"/>
+    </resources>
 </document>

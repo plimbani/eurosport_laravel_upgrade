@@ -71,7 +71,7 @@ class CreateAccountVC: SuperViewController {
         hideKeyboardWhenTappedAround()
         
         // Get tournaments API request
-        sendRequestForTournaments()
+        sendGetTournamentsRequest()
     }
     
     deinit {
@@ -79,7 +79,7 @@ class CreateAccountVC: SuperViewController {
     }
     
     //MARK:- Request Methods
-    func sendRequestForTournaments() {
+    func sendGetTournamentsRequest() {
         if APPDELEGATE.reachability.connection == .none {
             return
         }

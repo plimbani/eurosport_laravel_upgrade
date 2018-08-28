@@ -11,6 +11,11 @@
 "title_tab_agecategories"                   = "Age categories";
 "title_tab_settings"                        = "Settings";
 "title_profile"                             = "PROFILE";
+"title_notification_sound"                  = "NOTIFICATIONS & SOUNDS";
+"title_privacy_terms"                       = "PRIVACY & TERMS";
+"title_age_categories"                      = "AGE CATEGORIES";
+"title_age_categories_groups"               = "GROUPS";
+"title_age_categories_groups_summary"       = "GROUP SUMMARY";
 
 //Alert titles
 "alert_title_error"                     =   "Error";
@@ -28,6 +33,8 @@
 "alert_msg_confirmation_code_send"      =   "A new code has been sent to your email address.";
 "alert_msg_logout"                      =   "Are you sure you want yo log out?";
 "alert_profile_update"                  =   "Profile updated successfully.";
+"alert_default_tournament_remove"       =   "Default tournament cannot be removed from favourite.";
+
 
 //Button titles
 "btn_ok"                                =   "Ok";

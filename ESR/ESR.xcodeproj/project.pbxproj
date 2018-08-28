@@ -72,6 +72,16 @@
 		30569400212BEACC009790BA /* NotificationAndSoundVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 305693FF212BEACC009790BA /* NotificationAndSoundVC.swift */; };
 		30569402212BEADC009790BA /* PrivacyAndTermsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30569401212BEADC009790BA /* PrivacyAndTermsVC.swift */; };
 		30569404212C0251009790BA /* ProfileList.plist in Resources */ = {isa = PBXBuildFile; fileRef = 30569403212C0251009790BA /* ProfileList.plist */; };
+		30FB3111212EB2B300ABA22A /* privacyContent.html in Resources */ = {isa = PBXBuildFile; fileRef = 30FB3110212EB2B300ABA22A /* privacyContent.html */; };
+		30FB3114212EEB0B00ABA22A /* FavouriteTournamentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FB3112212EEB0B00ABA22A /* FavouriteTournamentCell.swift */; };
+		30FB3115212EEB0B00ABA22A /* FavouriteTournamentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30FB3113212EEB0B00ABA22A /* FavouriteTournamentCell.xib */; };
+		30FB3117212FEA4B00ABA22A /* Tournament.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FB3116212FEA4B00ABA22A /* Tournament.swift */; };
+		30FB311A21353CA000ABA22A /* AgeCategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FB311821353CA000ABA22A /* AgeCategoryCell.swift */; };
+		30FB311B21353CA000ABA22A /* AgeCategoryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30FB311921353CA000ABA22A /* AgeCategoryCell.xib */; };
+		30FB311D213550C600ABA22A /* AgeCategoriesGroupsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FB311C213550C600ABA22A /* AgeCategoriesGroupsVC.swift */; };
+		30FB311F2135523B00ABA22A /* AgeCategoriesGroupsSummaryVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FB311E2135523B00ABA22A /* AgeCategoriesGroupsSummaryVC.swift */; };
+		30FB3121213579FE00ABA22A /* GroupSummaryStandingsHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FB3120213579FE00ABA22A /* GroupSummaryStandingsHeader.swift */; };
+		30FB312321357A0800ABA22A /* GroupSummaryStandingsHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30FB312221357A0800ABA22A /* GroupSummaryStandingsHeader.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -142,6 +152,16 @@
 		305693FF212BEACC009790BA /* NotificationAndSoundVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationAndSoundVC.swift; sourceTree = "<group>"; };
 		30569401212BEADC009790BA /* PrivacyAndTermsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyAndTermsVC.swift; sourceTree = "<group>"; };
 		30569403212C0251009790BA /* ProfileList.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = ProfileList.plist; sourceTree = "<group>"; };
+		30FB3110212EB2B300ABA22A /* privacyContent.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = privacyContent.html; sourceTree = "<group>"; };
+		30FB3112212EEB0B00ABA22A /* FavouriteTournamentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouriteTournamentCell.swift; sourceTree = "<group>"; };
+		30FB3113212EEB0B00ABA22A /* FavouriteTournamentCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FavouriteTournamentCell.xib; sourceTree = "<group>"; };
+		30FB3116212FEA4B00ABA22A /* Tournament.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tournament.swift; sourceTree = "<group>"; };
+		30FB311821353CA000ABA22A /* AgeCategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgeCategoryCell.swift; sourceTree = "<group>"; };
+		30FB311921353CA000ABA22A /* AgeCategoryCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AgeCategoryCell.xib; sourceTree = "<group>"; };
+		30FB311C213550C600ABA22A /* AgeCategoriesGroupsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgeCategoriesGroupsVC.swift; sourceTree = "<group>"; };
+		30FB311E2135523B00ABA22A /* AgeCategoriesGroupsSummaryVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgeCategoriesGroupsSummaryVC.swift; sourceTree = "<group>"; };
+		30FB3120213579FE00ABA22A /* GroupSummaryStandingsHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupSummaryStandingsHeader.swift; sourceTree = "<group>"; };
+		30FB312221357A0800ABA22A /* GroupSummaryStandingsHeader.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GroupSummaryStandingsHeader.xib; sourceTree = "<group>"; };
 		5669E6CBF27485D33013CE06 /* Pods-ESR.release ( production ).xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ESR.release ( production ).xcconfig"; path = "Pods/Target Support Files/Pods-ESR/Pods-ESR.release ( production ).xcconfig"; sourceTree = "<group>"; };
 		9BD23A70543185FD0C23E807 /* Pods-ESR.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ESR.release.xcconfig"; path = "Pods/Target Support Files/Pods-ESR/Pods-ESR.release.xcconfig"; sourceTree = "<group>"; };
 		C883A75926EF01AE85CE5AFF /* Pods-ESR.release ( qa ).xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ESR.release ( qa ).xcconfig"; path = "Pods/Target Support Files/Pods-ESR/Pods-ESR.release ( qa ).xcconfig"; sourceTree = "<group>"; };
@@ -206,6 +226,7 @@
 		30181CC2211D95B60067D65F /* ESR */ = {
 			isa = PBXGroup;
 			children = (
+				30FB3110212EB2B300ABA22A /* privacyContent.html */,
 				30181CE7211DA2AE0067D65F /* ESR.entitlements */,
 				30181CDA211D998A0067D65F /* CustomComponents */,
 				30181CDB211D99990067D65F /* Data */,
@@ -295,6 +316,10 @@
 				30181D3A21230ABF0067D65F /* TextFieldCell.xib */,
 				30181D3D212312EC0067D65F /* ButtonCell.swift */,
 				30181D3E212312EC0067D65F /* ButtonCell.xib */,
+				30FB3112212EEB0B00ABA22A /* FavouriteTournamentCell.swift */,
+				30FB3113212EEB0B00ABA22A /* FavouriteTournamentCell.xib */,
+				30FB311821353CA000ABA22A /* AgeCategoryCell.swift */,
+				30FB311921353CA000ABA22A /* AgeCategoryCell.xib */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -314,6 +339,8 @@
 				30181D6D212AA33F0067D65F /* CustomAlertView.xib */,
 				30181D7B212AD07C0067D65F /* CustomAlertViewTwoButton.swift */,
 				30181D7A212AD07C0067D65F /* CustomAlertViewTwoButton.xib */,
+				30FB3120213579FE00ABA22A /* GroupSummaryStandingsHeader.swift */,
+				30FB312221357A0800ABA22A /* GroupSummaryStandingsHeader.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -382,6 +409,8 @@
 			isa = PBXGroup;
 			children = (
 				30181D09211DBA3E0067D65F /* TabAgeCategoriesVC.swift */,
+				30FB311C213550C600ABA22A /* AgeCategoriesGroupsVC.swift */,
+				30FB311E2135523B00ABA22A /* AgeCategoriesGroupsSummaryVC.swift */,
 			);
 			path = AgeCategories;
 			sourceTree = "<group>";
@@ -420,6 +449,7 @@
 			isa = PBXGroup;
 			children = (
 				30181D76212AB9CE0067D65F /* UserData.swift */,
+				30FB3116212FEA4B00ABA22A /* Tournament.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -501,11 +531,15 @@
 				30181D282122A8FB0067D65F /* TitleNavigationBar.xib in Resources */,
 				30181D7C212AD07C0067D65F /* CustomAlertViewTwoButton.xib in Resources */,
 				30181CCE211D95B80067D65F /* LaunchScreen.storyboard in Resources */,
+				30FB311B21353CA000ABA22A /* AgeCategoryCell.xib in Resources */,
 				30181D1921219F780067D65F /* Settings.storyboard in Resources */,
+				30FB3115212EEB0B00ABA22A /* FavouriteTournamentCell.xib in Resources */,
 				30181D1B2121A1B00067D65F /* Localizable.strings in Resources */,
+				30FB3111212EB2B300ABA22A /* privacyContent.html in Resources */,
 				30181CCB211D95B80067D65F /* Assets.xcassets in Resources */,
 				30181D5C2126CF9C0067D65F /* Dev.xcconfig in Resources */,
 				30181D6B2126F4060067D65F /* PickerHandlerView.xib in Resources */,
+				30FB312321357A0800ABA22A /* GroupSummaryStandingsHeader.xib in Resources */,
 				30181CC9211D95B60067D65F /* Main.storyboard in Resources */,
 				30569404212C0251009790BA /* ProfileList.plist in Resources */,
 				30181D362122C6590067D65F /* CreateAccountFieldList.plist in Resources */,
@@ -571,12 +605,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				30181D7D212AD07C0067D65F /* CustomAlertViewTwoButton.swift in Sources */,
+				30FB311F2135523B00ABA22A /* AgeCategoriesGroupsSummaryVC.swift in Sources */,
+				30FB311A21353CA000ABA22A /* AgeCategoryCell.swift in Sources */,
+				30FB311D213550C600ABA22A /* AgeCategoriesGroupsVC.swift in Sources */,
 				30181CDF211D9DFF0067D65F /* ApplicationData.swift in Sources */,
+				30FB3121213579FE00ABA22A /* GroupSummaryStandingsHeader.swift in Sources */,
 				30181D502126BB520067D65F /* ApiManager.swift in Sources */,
 				30181D08211DBA1B0067D65F /* TabTeamsVC.swift in Sources */,
 				30181CFA211DAFA80067D65F /* MainTabViewController.swift in Sources */,
 				30181D382122D1A00067D65F /* UITextFieldExtensions.swift in Sources */,
 				30181D642126D7850067D65F /* Environments.swift in Sources */,
+				30FB3114212EEB0B00ABA22A /* FavouriteTournamentCell.swift in Sources */,
 				30569400212BEACC009790BA /* NotificationAndSoundVC.swift in Sources */,
 				30181D662126EB460067D65F /* ProgressView.swift in Sources */,
 				30181CD9211D98720067D65F /* SuperViewController.swift in Sources */,
@@ -593,6 +632,7 @@
 				30181D79212ABB5A0067D65F /* ParseManger.swift in Sources */,
 				30181D4C212590E30067D65F /* ImageNavigationBar.swift in Sources */,
 				30181D3B21230ABF0067D65F /* TextFieldCell.swift in Sources */,
+				30FB3117212FEA4B00ABA22A /* Tournament.swift in Sources */,
 				30181D232121A8EA0067D65F /* LandingVC.swift in Sources */,
 				30181D3F212312EC0067D65F /* ButtonCell.swift in Sources */,
 				30181D2A2122B0CB0067D65F /* TabTournamentVC.swift in Sources */,

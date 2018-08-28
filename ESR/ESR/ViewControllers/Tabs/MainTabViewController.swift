@@ -69,6 +69,7 @@ class MainTabViewController: ESTabBarController {
         newFrame.size.height = newTabBarHeight
         newFrame.origin.y = view.frame.size.height - newTabBarHeight
         self.tabBar.frame = newFrame
+        self.tabBar.updateConstraintsIfNeeded()
     }
     
     func getTabBarItem(_ customView: ESTabBarItemContentView, title: String, image: String, selectedImage: String) -> ESTabBarItem {

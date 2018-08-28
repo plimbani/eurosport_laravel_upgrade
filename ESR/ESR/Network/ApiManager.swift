@@ -120,9 +120,37 @@ class ApiManager {
     func updateProfile(userId: String, _ parameters: [String: Any]?, success: @escaping (_ result: NSDictionary) -> (), failure: @escaping (_ result: NSDictionary) -> ()) {
         postRequest(String.init(format: API_ENDPOINT.UPDATE_PROFILE, userId), parameters, success: success, failure: failure, true)
     }
+    
+    func updateUserSettings(_ parameters: [String: Any]?, success: @escaping (_ result: NSDictionary) -> (), failure: @escaping (_ result: NSDictionary) -> ()) {
+        postRequest(API_ENDPOINT.UPDATE_SETTINGS, parameters, success: success, failure: failure, true)
+    }
 
     // MARK:- Tournaments list
     func getTournaments(success: @escaping (_ result: NSDictionary) -> (), failure: @escaping (_ result: NSDictionary) -> ()) {
         getRequest(API_ENDPOINT.TOURNAMENTS, success: success, failure: failure)
+    }
+    
+    func getFavTournaments(_ parameters: [String: Any]?, success: @escaping (_ result: NSDictionary) -> (), failure: @escaping (_ result: NSDictionary) -> ()) {
+        postRequest(API_ENDPOINT.GET_FAVOURITE, parameters, success: success, failure: failure, true)
+    }
+    
+    func setFavTournament(_ parameters: [String: Any]?, success: @escaping (_ result: NSDictionary) -> (), failure: @escaping (_ result: NSDictionary) -> ()) {
+        postRequest(API_ENDPOINT.SET_FAVOURITE, parameters, success: success, failure: failure, true)
+    }
+    
+    func setDefaultFavTournament(_ parameters: [String: Any]?, success: @escaping (_ result: NSDictionary) -> (), failure: @escaping (_ result: NSDictionary) -> ()) {
+        postRequest(API_ENDPOINT.SET_DEFAULT_FAVOURITE, parameters, success: success, failure: failure, true)
+    }
+    
+    func removeFavTournament(_ parameters: [String: Any]?, success: @escaping (_ result: NSDictionary) -> (), failure: @escaping (_ result: NSDictionary) -> ()) {
+        postRequest(API_ENDPOINT.REMOVE_FAVOURITE, parameters, success: success, failure: failure, true)
+    }
+    
+    func getAgeCategories(_ parameters: [String: Any]?, success: @escaping (_ result: NSDictionary) -> (), failure: @escaping (_ result: NSDictionary) -> ()) {
+        postRequest(API_ENDPOINT.AGE_CATEGORIES, parameters, success: success, failure: failure, true)
+    }
+    
+    func getAgeCategoriesGroups(_ parameters: [String: Any]?, success: @escaping (_ result: NSDictionary) -> (), failure: @escaping (_ result: NSDictionary) -> ()) {
+        postRequest(API_ENDPOINT.TOURNAMENT_GROUP, parameters, success: success, failure: failure, true)
     }
 }

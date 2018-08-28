@@ -20,6 +20,8 @@ class TitleNavigationBar: UIView {
     
     var delegate: TitleNavigationBarDelegate?
 
+    @IBOutlet var widthConstraintBackBtn: NSLayoutConstraint!
+    
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         Bundle.main.loadNibNamed("TitleNavigationBar", owner: self, options: nil)
@@ -32,6 +34,12 @@ class TitleNavigationBar: UIView {
         self.addSubview(self.baseView)
         
         lblTitle.textColor = .white
+    }
+    
+    func hideBackButton(){
+        btnBack.isHidden = true
+        widthConstraintBackBtn.constant = 0
+        updateConstraints()
     }
     
     func setBackgroundColor(){

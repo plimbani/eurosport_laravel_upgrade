@@ -22,8 +22,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         _ = ApplicationData.sharedInstance()
         // Fabric
         Fabric.with([Crashlytics.self])
-        
-        
         return true
     }
     

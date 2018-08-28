@@ -17,9 +17,6 @@ class UserData: NSObject, NSCoding {
     var tournamentId:Int = NULL_ID
     var locale:String = NULL_STRING
     var imageURL:String = NULL_STRING
-    var isNotification:Bool = false
-    var isVibration:Bool = false
-    var isSound:Bool = false
     
     override init() {
     }
@@ -47,10 +44,6 @@ class UserData: NSObject, NSCoding {
         if let imageURL = aDecoder.decodeObject(forKey: "imageURL") as? String {
             self.imageURL = imageURL
         }
-        
-        self.isNotification = aDecoder.decodeBool(forKey: "isNotification")
-        self.isVibration = aDecoder.decodeBool(forKey: "isVibration")
-        self.isSound = aDecoder.decodeBool(forKey: "isSound")
     }
     
     func encode(with aCoder: NSCoder) {
@@ -61,8 +54,5 @@ class UserData: NSObject, NSCoding {
         aCoder.encode(email, forKey: "email")
         aCoder.encode(locale, forKey: "locale")
         aCoder.encode(imageURL, forKey: "imageURL")
-        aCoder.encode(isNotification, forKey: "isNotification")
-        aCoder.encode(isVibration, forKey: "isVibration")
-        aCoder.encode(isSound, forKey: "isSound")
     }
 }

@@ -67,7 +67,9 @@ class ProfileVC: SuperViewController {
         if let userData = ApplicationData.sharedInstance().getUserData() {
             selectedTournamentId = userData.tournamentId
         }
-        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
         sendRequestForTournaments()
     }
     
@@ -90,21 +92,17 @@ class ProfileVC: SuperViewController {
                 }
                 
                 if self.lblTournament != nil && self.tournamentTitleList.count > 0 {
-                    if let userData = ApplicationData.sharedInstance().getUserData() {
-                        if userData.tournamentId != -1 {
-                            for i in 0..<self.tournamentList.count {
-                                if let serverTournamentId = self.tournamentList[i].value(forKey: "id") as? Int {
-                                    if serverTournamentId == userData.tournamentId {
-                                        self.lblTournament.text = self.tournamentList[i].value(forKey: "name") as! String
-                                        self.selectedTournamentId = serverTournamentId
-                                        break
-                                    }
-                                    // print("Server id",serverTournamentId)
+                    if self.selectedTournamentId != -1 {
+                        for i in 0..<self.tournamentList.count {
+                            if let serverTournamentId = self.tournamentList[i].value(forKey: "id") as? Int {
+                                if serverTournamentId == self.selectedTournamentId {
+                                    self.lblTournament.text = self.tournamentList[i].value(forKey: "name") as! String
+                                    break
                                 }
                             }
-                        } else {
-                            self.lblTournament.text = self.tournamentTitleList[0]
                         }
+                    } else {
+                        self.lblTournament.text = self.tournamentTitleList[0]
                     }
                 }
             }

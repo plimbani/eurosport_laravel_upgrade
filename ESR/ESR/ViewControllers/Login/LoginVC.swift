@@ -158,14 +158,14 @@ class LoginVC: SuperViewController {
                 if let authenticated = result.value(forKey: "authenticated") as? Bool {
                     if authenticated {
                         ParseManager.parseLogin(result)
+                        UIApplication.shared.keyWindow?.rootViewController = Storyboards.Main.instantiateMainVC()
+                        
                     } else {
                         if let message = result.value(forKey: "message") as? String {
                             self.showInfoAlertView(title: String.localize(key: "alert_title_error"), message: message)
                         }
                     }
                 }
-                
-                UIApplication.shared.keyWindow?.rootViewController = Storyboards.Main.instantiateMainVC()
             }
         }, failure: { result in
             DispatchQueue.main.async {

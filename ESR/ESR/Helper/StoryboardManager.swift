@@ -104,6 +104,14 @@ struct Storyboards {
         static func instantiateAgeCategoriesVC() -> TabAgeCategoriesVC {
             return self.storyboard.instantiateViewController(withIdentifier: kViewController.TabAgeCategoriesVC) as! TabAgeCategoriesVC
         }
+        
+        static func instantiateAgeCategoriesGroupsVC() -> AgeCategoriesGroupsVC {
+            return self.storyboard.instantiateViewController(withIdentifier: kViewController.AgeCategoriesGroupsVC) as! AgeCategoriesGroupsVC
+        }
+        
+        static func instantiateAgeCategoriesGroupsSummaryVC() -> AgeCategoriesGroupsSummaryVC {
+            return self.storyboard.instantiateViewController(withIdentifier: kViewController.AgeCategoriesGroupsSummaryVC) as! AgeCategoriesGroupsSummaryVC
+        }
     }
     
     struct Teams: Storyboard {

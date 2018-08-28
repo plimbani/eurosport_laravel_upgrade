@@ -17,6 +17,7 @@ class TextFieldCell: UITableViewCell {
         txtField.autocorrectionType = .no
         txtField.setLeftPaddingPoints(10)
         txtField.setRightPaddingPoints(10)
+        txtField.font = UIFont.init(name: Font.HELVETICA_REGULAR, size: Font.Size.commonTextFieldTxt)
     }
     
     func setBorder() {

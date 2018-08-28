@@ -33,6 +33,14 @@ struct API_ENDPOINT {
     static let GET_SETTINGS = API_URL.BASE_URL + "users/getSetting"
     static let UPDATE_SETTINGS = API_URL.BASE_URL + "users/postSetting"
     static let UPDATE_PROFILE = API_URL.BASE_URL + "user/update/%@"
+    // Tab fav
+    static let REMOVE_FAVOURITE = API_URL.BASE_URL + "users/removeFavourite"
+    static let SET_FAVOURITE = API_URL.BASE_URL + "users/setFavourite"
+    static let SET_DEFAULT_FAVOURITE = API_URL.BASE_URL + "users/setDefaultFavourite"
+    static let GET_FAVOURITE = API_URL.BASE_URL + "users/getLoginUserFavouriteTournament"
+    
+    static let AGE_CATEGORIES = API_URL.BASE_URL + "age_group/getCompetationFormat"
+    static let TOURNAMENT_GROUP = API_URL.BASE_URL + "match/getDraws"
 }
 
 struct kViewController {
@@ -53,6 +61,8 @@ struct kViewController {
     static let ProfileVC                        = "ProfileVC"
     static let NotificationAndSoundVC           = "NotificationAndSoundVC"
     static let PrivacyAndTermsVC                = "PrivacyAndTermsVC"
+    static let AgeCategoriesGroupsVC            = "AgeCategoriesGroupsVC"
+    static let AgeCategoriesGroupsSummaryVC     = "AgeCategoriesGroupsSummaryVC"
 }
 
 struct kUserDefaults {
@@ -61,6 +71,9 @@ struct kUserDefaults {
     static let password             = "password"
     static let locale               = "locale"
     static let userData             = "userData"
+    static let isNotification       = "isNotification"
+    static let isVibration          = "isVibration"
+    static let isSound              = "isSound"
 }
 
 enum AlertRequestCode: Int {
@@ -100,6 +113,8 @@ struct kNiB {
         static let TextFieldCell                = "TextFieldCell"
         static let LabelSelectionCell           = "LabelSelectionCell"
         static let ButtonCell                   = "ButtonCell"
+        static let FavouriteTournamentCell      = "FavouriteTournamentCell"
+        static let AgeCategoryCell              = "AgeCategoryCell"
     }
     
     struct View {
@@ -202,13 +217,17 @@ extension UIColor {
     static func AppColor() -> UIColor {
         return UIColor(R: 199, G: 10, B: 32)
     }
+    
+    static let favDefaultSelected = UIColor(R: 0, G: 147, B: 0)
+    static let favUnfav = UIColor(R: 187, G: 190, B: 195)
+    static let favDefaultText = UIColor(R: 117, G: 117, B: 117)
     static let labelSlectionBg = UIColor(R: 222, G: 223, B: 226)
     static let btnDisable = UIColor(R: 204, G: 204, B: 204)
     static let btnYellow = UIColor(R: 237, G: 158, B: 45)
     static let txtPlaceholderBorder = UIColor(R: 223, G: 223, B: 223)
     static let txtPlaceholderTxt = UIColor(R: 117, G: 117, B: 117)
     static let txtPlaceholderDisable = UIColor(R: 246, G: 246, B: 246)
-    static let txtDefaultTxt = UIColor(R: 52, G: 52, B: 52)
+    static let txtDefaultTxt = UIColor(R: 81, G: 82, B: 88)
     static let settingsGreenArrow = UIColor(R: 109, G: 167, B: 33)
 }
 
