@@ -312,7 +312,7 @@ import Tournament from '../api/tournament.js'
               this.normal_match_duration = '';
               this.final_match_duration = '';
               this.allPitchesWithDays = {};
-              this.selectedPitches = null;
+              this.selectedPitches = [];
               this.errors.clear();
               this.isInvalid = false;
             }
