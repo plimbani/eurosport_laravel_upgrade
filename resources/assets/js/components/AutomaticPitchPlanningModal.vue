@@ -184,14 +184,7 @@ import Tournament from '../api/tournament.js'
               })
             },
             getCompetitions() {
-              this.groups = [];
-              this.pitches = [];
-              this.selectedGroup = '';
-              this.team_interval = '';
-              this.normal_match_duration = '';
-              this.final_match_duration = '';
-              this.allPitchesWithDays = {};
-              this.value = null;
+              this.resetForm();
 
               if(this.selectedAgeCategory != '') {
                 let ageCategoryData = {'ageCategoryId': this.selectedAgeCategory, 'tournamentId': this.$store.state.Tournament.tournamentId};
@@ -255,7 +248,9 @@ import Tournament from '../api/tournament.js'
               return splittedName.join('-');
             },
             closeModal() {
-                $('#automatic_pitch_planning_modal').modal('hide')
+                $('#automatic_pitch_planning_modal').modal('hide');
+                this.selectedAgeCategory = '';
+                this.resetForm();
                 return false
             },
             onChange (value) {
@@ -292,6 +287,18 @@ import Tournament from '../api/tournament.js'
 
                 });
             },
+            resetForm() {
+              this.groups = [];
+              this.pitches = [];
+              this.selectedGroup = '';
+              this.team_interval = '';
+              this.normal_match_duration = '';
+              this.final_match_duration = '';
+              this.allPitchesWithDays = {};
+              this.value = null;
+              this.errors.clear();
+              this.isInvalid = false;
+            }
         }
     }
 </script>
