@@ -78,9 +78,9 @@
                   <div class="form-group row">
                     <label class="col-sm-12 col-form-label">{{ $lang.pitch_planner_automatic_planning_pitch_selection }}</label>
                     <div class="col-sm-12">
-                      <multiselect name="sel_pitch" id="sel_pitch" :options="pitches" :multiple="true" :hide-selected="false" :ShowLabels="false" track-by="id" @close="onTouch" label="pitch_number" :value="value" :clear-on-select="false" :Searchable="true" @input="onChange" @select="onSelect" @remove="onRemove">
+                      <multiselect name="sel_pitch" id="sel_pitch" :options="availablePitches" :multiple="true" :hide-selected="false" :ShowLabels="false" track-by="id" @close="onTouch" label="pitch_number" :value="selectedPitches" :clear-on-select="false" :Searchable="true" @input="onChange" @select="onSelect" @remove="onRemove">
                       </multiselect>
-                      <span class="help is-danger" v-show="isInvalid">{{$lang.user_management_user_type_required}}</span>
+                      <span class="help is-danger" v-show="isSelectedPitchInvalid">{{$lang.user_management_user_type_required}}</span>
                     </div>
                   </div>
                 </div>
@@ -108,7 +108,7 @@
                                 <span>End time:</span>
                               </div>
                               <div class="col-md-3">
-                                <input :name="'end_time_'+pitch.id+'_'+day"  v-validate="'required'" :class="[errors.has('end_time_'+pitch.id+'_'+day)?'is-danger': '', 'form-control ls-timepicker end_time']" :id="'end_time_'+pitch.id+'_'+day" type="text" onchange="onEndTimeChange($event)" value="23:00">
+                                <input :name="'end_time_'+pitch.id+'_'+day"  v-validate="'required'" :class="[errors.has('end_time_'+pitch.id+'_'+day)?'is-danger': '', 'form-control ls-timepicker end_time']" :id="'end_time_'+pitch.id+'_'+day" type="text" value="23:00">
                                 <i v-show="errors.has('end_time_'+pitch.id+'_'+day)" class="fa fa-warning text-danger" data-placement="top" title="End time is required"></i>
                               </div>
                             </div>
@@ -141,11 +141,11 @@ import Tournament from '../api/tournament.js'
         components: { Multiselect },
         data() {
           return {
-            value: [],
+            selectedPitches: [],
             groups: [],
             options: [],
             isTouched: false,
-            isInvalid: false,
+            isSelectedPitchInvalid: false,
             isDisabled: false,
             ageCategories: [],
             team_interval: '',
@@ -154,7 +154,7 @@ import Tournament from '../api/tournament.js'
             final_match_duration: '',
             normal_match_duration: '',
             allPitchesWithDays: {},
-            pitches: [],
+            availablePitches: [],
           }
         },
         created: function() {
@@ -185,20 +185,20 @@ import Tournament from '../api/tournament.js'
             },
             getCompetitions() {
               this.groups = [];
-              this.pitches = [];
+              this.availablePitches = [];
               this.selectedGroup = '';
               this.team_interval = '';
               this.normal_match_duration = '';
               this.final_match_duration = '';
               this.allPitchesWithDays = {};
-              this.value = null;
+              this.selectedPitches = null;
 
               if(this.selectedAgeCategory != '') {
                 let ageCategoryData = {'ageCategoryId': this.selectedAgeCategory, 'tournamentId': this.$store.state.Tournament.tournamentId};
 
                 Tournament.getCompetitionAndPitchDetail(ageCategoryData).then(
                   (response) => {
-                    this.pitches = response.data.options.pitches;
+                    this.availablePitches = response.data.options.pitches;
                     this.groups = response.data.options.ageCategoryDetail.competition;
                     this.team_interval = response.data.options.ageCategoryDetail.team_interval;
                     this.normal_match_duration = (response.data.options.ageCategoryDetail.game_duration_RR * response.data.options.ageCategoryDetail.halves_RR)
@@ -213,18 +213,18 @@ import Tournament from '../api/tournament.js'
             },
             scheduleAutomaticPitchPlanning() {
                 let vm = this;
-                this.isInvalid = false
-                if(this.value.length === 0) {
-                  this.isInvalid = true
+                this.isSelectedPitchInvalid = false
+                if(this.selectedPitches.length === 0) {
+                  this.isSelectedPitchInvalid = true
                 }
                 this.$validator.validateAll().then((response) => {
-                  if(this.isInvalid == true) {
+                  if(this.isSelectedPitchInvalid == true) {
                     return false;
                   }
 
-                  let pitches = []
-                  _.forEach(this.value, function(opt) {
-                    pitches.push(opt.id)
+                  let pitches = [];
+                  _.forEach(this.selectedPitches, function(opt) {
+                    pitches.push(opt.id);
                   });
 
                   let tournamentId = this.$store.state.Tournament.tournamentId;
@@ -236,14 +236,20 @@ import Tournament from '../api/tournament.js'
                     });
                   });
 
-                  let tournamentData = {'tournamentId': tournamentId, 'age_category': this.selectedAgeCategory.id, 'competition': this.selectedGroup.id, 'pitches': pitches,
+                  let tournamentData = {'tournamentId': tournamentId, 'age_category': this.selectedAgeCategory, 'competition': this.selectedGroup.id, 'pitches': pitches,
                    'timings': this.allPitchesWithDays};
 
+                  $("body .js-loader").removeClass('d-none');
                   Tournament.scheduleAutomaticPitchPlanning(tournamentData).then(
-                    (response) => {
-                      if(response.data.options.status == 'error') {
-                        $('.js-available-time-error-message').removeClass('d-none');
+                    (response) => {                      
+                      $("body .js-loader").addClass('d-none');
+                      if(response.data.options.status === 'error') {
+                        $('.js-available-time-error-message').show();
                         $('.js-available-time-error-message').html(response.data.options.message);
+                      } else {
+                        $('.js-available-time-error-message').hide();
+                        $('#automatic_pitch_planning_modal').modal('hide');
+                        vm.$root.$emit('setPitchReset');
                       }
                     },
                     (error) => {
@@ -263,8 +269,8 @@ import Tournament from '../api/tournament.js'
                 return false
             },
             onChange (value) {
-              this.value = value
-              if (value.indexOf('Reset me!') !== -1) this.value = []
+              this.selectedPitches = value
+              if (value.indexOf('Reset me!') !== -1) this.selectedPitches = []
             },
             onSelect (option) {
               if (option === 'Disable me!') this.isDisabled = true
@@ -302,14 +308,6 @@ import Tournament from '../api/tournament.js'
                 (error) => {
 
                 });
-            },
-            onStartTimeChange(event) {
-              var el = event.target;
-              this.allPitchesWithDays[pitchId].time[index].start_time = el.value;
-            },
-            onEndTimeChange(event) {
-              var el = event.target;
-              this.allPitchesWithDays[pitchId].time[index].end_time = el.value;
             },
         }
     }
