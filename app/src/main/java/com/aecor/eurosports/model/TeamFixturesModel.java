@@ -68,6 +68,10 @@ public class TeamFixturesModel implements Parcelable{
     private String position;
     private String isResultOverride;
     private String match_winner;
+    private String HomeTeamShirtColor;
+    private String AwayTeamShirtColor;
+    private String HomeTeamShortsColor;
+    private String AwayTeamShortsColor;
 
     protected TeamFixturesModel(Parcel in) {
         fid = in.readString();
@@ -129,6 +133,10 @@ public class TeamFixturesModel implements Parcelable{
         position = in.readString();
         isResultOverride = in.readString();
         match_winner = in.readString();
+        HomeTeamShirtColor = in.readString();
+        AwayTeamShirtColor = in.readString();
+        HomeTeamShortsColor = in.readString();
+        AwayTeamShortsColor = in.readString();
     }
 
     @Override
@@ -192,6 +200,10 @@ public class TeamFixturesModel implements Parcelable{
         dest.writeString(position);
         dest.writeString(isResultOverride);
         dest.writeString(match_winner);
+        dest.writeString(HomeTeamShirtColor);
+        dest.writeString(AwayTeamShirtColor);
+        dest.writeString(HomeTeamShortsColor);
+        dest.writeString(AwayTeamShortsColor);
     }
 
     @Override
@@ -681,5 +693,37 @@ public class TeamFixturesModel implements Parcelable{
 
     public void setMatch_winner(String match_winner) {
         this.match_winner = match_winner;
+    }
+
+    public String getHomeTeamShirtColor() {
+        return HomeTeamShirtColor;
+    }
+
+    public void setHomeTeamShirtColor(String homeTeamShirtColor) {
+        HomeTeamShirtColor = homeTeamShirtColor;
+    }
+
+    public String getAwayTeamShirtColor() {
+        return AwayTeamShirtColor;
+    }
+
+    public void setAwayTeamShirtColor(String awayTeamShirtColor) {
+        AwayTeamShirtColor = awayTeamShirtColor;
+    }
+
+    public String getHomeTeamShortsColor() {
+        return HomeTeamShortsColor;
+    }
+
+    public void setHomeTeamShortsColor(String homeTeamShortsColor) {
+        HomeTeamShortsColor = homeTeamShortsColor;
+    }
+
+    public String getAwayTeamShortsColor() {
+        return AwayTeamShortsColor;
+    }
+
+    public void setAwayTeamShortsColor(String awayTeamShortsColor) {
+        AwayTeamShortsColor = awayTeamShortsColor;
     }
 }

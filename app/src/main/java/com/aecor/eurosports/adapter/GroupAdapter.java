@@ -3,6 +3,8 @@ package com.aecor.eurosports.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +20,6 @@ import com.aecor.eurosports.activity.GroupSummaryActivity;
 import com.aecor.eurosports.activity.TeamListingActivity;
 import com.aecor.eurosports.model.ClubGroupModel;
 import com.aecor.eurosports.util.AppConstants;
-import com.aecor.eurosports.util.AppPreference;
 import com.aecor.eurosports.util.Utility;
 
 import java.util.ArrayList;
@@ -34,20 +35,15 @@ import butterknife.ButterKnife;
 public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> implements Filterable {
 
     private final String TAG = GroupAdapter.class.getSimpleName();
-    private LayoutInflater inflater;
     private Context mContext;
     private List<ClubGroupModel> mGroupList;
     private List<ClubGroupModel> mOriginalList;
-    private AppPreference mPreference;
     private ClubGroupFilter mClubGroupFilter;
 
     public GroupAdapter(Activity context, List<ClubGroupModel> list) {
         mContext = context;
-        inflater = (LayoutInflater) context
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.mGroupList = list;
         this.mOriginalList = list;
-        mPreference = AppPreference.getInstance(mContext);
     }
 
     @Override
@@ -74,7 +70,10 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
                 if (mContext instanceof AgeGroupActivity) {
                     Intent mGroupSummary = new Intent(mContext, GroupSummaryActivity.class);
                     mGroupSummary.putExtra(AppConstants.ARG_GROUP_DETAIL, mGroupModel);
-                    mContext.startActivity(mGroupSummary);
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelableArrayList(AppConstants.ARG_ALL_GROUP_LIST, (ArrayList<? extends Parcelable>) mGroupList);
+                    mGroupSummary.putExtras(bundle);
+                     mContext.startActivity(mGroupSummary);
                 } else {
                     Intent mTeamListIntent = new Intent(mContext, TeamListingActivity.class);
                     mTeamListIntent.putExtra(AppConstants.ARG_GROUP_ID, mGroupModel.getId());
