@@ -235,7 +235,6 @@ import Tournament from '../api/tournament.js'
                   $("body .js-loader").removeClass('d-none');
                   Tournament.scheduleAutomaticPitchPlanning(tournamentData).then(
                     (response) => {
-                    console.log('response', response);
                       $("body .js-loader").addClass('d-none');
                       if(response.data.options.status === 'error') {
                         $('.js-available-time-error-message').removeClass('d-none');
@@ -243,9 +242,9 @@ import Tournament from '../api/tournament.js'
                         $('.js-available-time-error-message').html(response.data.options.message);
                       } else {
                         $('.js-available-time-error-message').hide();
-                        $('#automatic_pitch_planning_modal').modal('hide');
                         this.selectedAgeCategory = '';
                         this.resetForm();
+                        $('#automatic_pitch_planning_modal').modal('hide');
                         vm.$root.$emit('setPitchReset');
                       }
                     },
@@ -262,10 +261,10 @@ import Tournament from '../api/tournament.js'
               return splittedName.join('-');
             },
             closeModal() {
-                this.selectedAgeCategory = '';
-                this.resetForm();
-                $('#automatic_pitch_planning_modal').modal('hide');
-                return false
+              this.selectedAgeCategory = '';
+              this.resetForm();
+              $('#automatic_pitch_planning_modal').modal('hide');
+              return false
             },
             onChange (value) {
               this.selectedPitches = value
@@ -318,7 +317,8 @@ import Tournament from '../api/tournament.js'
               this.allPitchesWithDays = {};
               this.selectedPitches = [];
               this.isSelectedPitchInvalid = false;
-              this.errors.clear();
+              this.clearErrorMsgs();
+              $('.js-available-time-error-message').hide();
             }
         }
     }
