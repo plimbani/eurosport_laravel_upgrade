@@ -850,6 +850,7 @@ class TournamentRepository
                     ->get();
 
                 $matchScheduleArray = [];
+                $arrayForTeamInterval = [];
                 foreach ($unscheduledMatches as $match) {
                     if ($match->is_final_round_match == 1) {
                         $matchTime = $finalMatchTotalTime;
@@ -862,6 +863,11 @@ class TournamentRepository
                         $startTimeStamp       = null;
                         $isMatchScheduledFlag = false;
                         foreach ($availability as $key => $value) {
+
+                            foreach ($arrayForTeamInterval as $matchId => $value) {
+                                echo "<pre>";print_r($value);echo "</pre>";exit;
+                            }
+
                             if ($matchTime == $i) {
                                 $startTimeStamp = Carbon::createFromTimestamp($startTimeStamp);
                                 $endTimeStamp   = Carbon::createFromTimestamp($key);
@@ -870,6 +876,13 @@ class TournamentRepository
                                     'match_start_time' => clone ($startTimeStamp),
                                     'match_end_time'   => clone ($endTimeStamp),
                                     'pitch_id'         => $pitchId,
+                                );
+
+                                $arrayForTeamInterval[$match->id] = array(
+                                    'match_start_time' => clone($startTimeStamp),
+                                    'match_end_time' => clone($endTimeStamp),
+                                    'home_id' => $match->home_team,
+                                    'away_id' => $match->away_team
                                 );
 
                                 while ($startTimeStamp < $endTimeStamp) {
