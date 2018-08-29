@@ -234,14 +234,18 @@ import Tournament from '../api/tournament.js'
 
                   $("body .js-loader").removeClass('d-none');
                   Tournament.scheduleAutomaticPitchPlanning(tournamentData).then(
-                    (response) => {                      
+                    (response) => {
+                    console.log('response', response);
                       $("body .js-loader").addClass('d-none');
                       if(response.data.options.status === 'error') {
+                        $('.js-available-time-error-message').removeClass('d-none');
                         $('.js-available-time-error-message').show();
                         $('.js-available-time-error-message').html(response.data.options.message);
                       } else {
                         $('.js-available-time-error-message').hide();
                         $('#automatic_pitch_planning_modal').modal('hide');
+                        this.selectedAgeCategory = '';
+                        this.resetForm();
                         vm.$root.$emit('setPitchReset');
                       }
                     },
@@ -258,9 +262,9 @@ import Tournament from '../api/tournament.js'
               return splittedName.join('-');
             },
             closeModal() {
-                $('#automatic_pitch_planning_modal').modal('hide');
                 this.selectedAgeCategory = '';
                 this.resetForm();
+                $('#automatic_pitch_planning_modal').modal('hide');
                 return false
             },
             onChange (value) {
@@ -313,8 +317,8 @@ import Tournament from '../api/tournament.js'
               this.final_match_duration = '';
               this.allPitchesWithDays = {};
               this.selectedPitches = [];
+              this.isSelectedPitchInvalid = false;
               this.errors.clear();
-              this.isInvalid = false;
             }
         }
     }
