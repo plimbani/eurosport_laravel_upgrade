@@ -374,14 +374,14 @@ class MatchRepository
           $reportQuery =  $reportQuery->whereDate('temp_fixtures.match_datetime','=',$tournamentData['fixture_date']);
         }
         
-        if(isset($tournamentData['matchScoreFilter']) && $tournamentData['matchScoreFilter'] == 'scored') {
+        if(isset($tournamentData['matchScoreFilter']) && $tournamentData['matchScoreFilter'] == 'played') {
             $reportQuery = $reportQuery->where(function($query) {
                                 $query->where('temp_fixtures.hometeam_score', '!=', NULL)
                                 ->orWhere('temp_fixtures.awayteam_score', '!=', NULL);
                             });
         }
           
-        if(isset($tournamentData['matchScoreFilter']) && $tournamentData['matchScoreFilter'] == 'notscored') { 
+        if(isset($tournamentData['matchScoreFilter']) && $tournamentData['matchScoreFilter'] == 'to_be_played') { 
           $reportQuery = $reportQuery->where(function($query) {
                                 $query->where('temp_fixtures.hometeam_score', NULL)
                                 ->orWhere('temp_fixtures.awayteam_score', NULL);
