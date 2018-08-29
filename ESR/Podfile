@@ -15,4 +15,6 @@ target 'ESR' do
   # For API calling
   pod 'Alamofire', '~> 4.7'
 
+  # For image loading
+  pod 'SDWebImage', '~> 4.0'
 end

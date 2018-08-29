@@ -34,6 +34,7 @@
 "alert_msg_logout"                      =   "Are you sure you want yo log out?";
 "alert_profile_update"                  =   "Profile updated successfully.";
 "alert_default_tournament_remove"       =   "Default tournament cannot be removed from favourite.";
+"alert_create_account_email"            =   "Please check your inbox to verify your email address and complete your account registration";
 
 
 //Button titles

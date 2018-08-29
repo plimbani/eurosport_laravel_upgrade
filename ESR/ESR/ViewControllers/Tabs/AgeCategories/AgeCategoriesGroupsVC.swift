@@ -51,6 +51,7 @@ class AgeCategoriesGroupsVC: SuperViewController {
                 
                 if let data = result.value(forKey: "data") as? NSArray {
                     self.ageCategoriesGroupsList = data
+                    ApplicationData.groupsList = data
                 }
                 
                 self.table.reloadData()
@@ -92,8 +93,8 @@ extension AgeCategoriesGroupsVC : UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        let viewController = Storyboards.AgeCategories.instantiateAgeCategoriesGroupsVC()
-//        viewController.ageCategoryId = (ageCategoriesList[indexPath.row] as! NSDictionary).value(forKey: "id") as! Int
-//        self.navigationController?.pushViewController(viewController, animated: true)
+        let viewController = Storyboards.AgeCategories.instantiateAgeCategoriesGroupsSummaryVC()
+        viewController.groupId = (ageCategoriesGroupsList[indexPath.row] as! NSDictionary).value(forKey: "id") as! Int
+        self.navigationController?.pushViewController(viewController, animated: true)
     }
 }

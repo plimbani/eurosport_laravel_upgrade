@@ -82,6 +82,12 @@
 		30FB311F2135523B00ABA22A /* AgeCategoriesGroupsSummaryVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FB311E2135523B00ABA22A /* AgeCategoriesGroupsSummaryVC.swift */; };
 		30FB3121213579FE00ABA22A /* GroupSummaryStandingsHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FB3120213579FE00ABA22A /* GroupSummaryStandingsHeader.swift */; };
 		30FB312321357A0800ABA22A /* GroupSummaryStandingsHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30FB312221357A0800ABA22A /* GroupSummaryStandingsHeader.xib */; };
+		30FB3125213665FE00ABA22A /* GroupSummaryMatchesHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FB3124213665FE00ABA22A /* GroupSummaryMatchesHeader.swift */; };
+		30FB31272136660900ABA22A /* GroupSummaryMatchesHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30FB31262136660900ABA22A /* GroupSummaryMatchesHeader.xib */; };
+		30FB312A21366A6400ABA22A /* GroupSummaryMatchesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FB312821366A6400ABA22A /* GroupSummaryMatchesCell.swift */; };
+		30FB312B21366A6400ABA22A /* GroupSummaryMatchesCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30FB312921366A6400ABA22A /* GroupSummaryMatchesCell.xib */; };
+		30FB312E21366AA400ABA22A /* GroupSummaryStandingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FB312C21366AA400ABA22A /* GroupSummaryStandingsCell.swift */; };
+		30FB312F21366AA400ABA22A /* GroupSummaryStandingsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30FB312D21366AA400ABA22A /* GroupSummaryStandingsCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -162,6 +168,12 @@
 		30FB311E2135523B00ABA22A /* AgeCategoriesGroupsSummaryVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgeCategoriesGroupsSummaryVC.swift; sourceTree = "<group>"; };
 		30FB3120213579FE00ABA22A /* GroupSummaryStandingsHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupSummaryStandingsHeader.swift; sourceTree = "<group>"; };
 		30FB312221357A0800ABA22A /* GroupSummaryStandingsHeader.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GroupSummaryStandingsHeader.xib; sourceTree = "<group>"; };
+		30FB3124213665FE00ABA22A /* GroupSummaryMatchesHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupSummaryMatchesHeader.swift; sourceTree = "<group>"; };
+		30FB31262136660900ABA22A /* GroupSummaryMatchesHeader.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GroupSummaryMatchesHeader.xib; sourceTree = "<group>"; };
+		30FB312821366A6400ABA22A /* GroupSummaryMatchesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupSummaryMatchesCell.swift; sourceTree = "<group>"; };
+		30FB312921366A6400ABA22A /* GroupSummaryMatchesCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GroupSummaryMatchesCell.xib; sourceTree = "<group>"; };
+		30FB312C21366AA400ABA22A /* GroupSummaryStandingsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupSummaryStandingsCell.swift; sourceTree = "<group>"; };
+		30FB312D21366AA400ABA22A /* GroupSummaryStandingsCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GroupSummaryStandingsCell.xib; sourceTree = "<group>"; };
 		5669E6CBF27485D33013CE06 /* Pods-ESR.release ( production ).xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ESR.release ( production ).xcconfig"; path = "Pods/Target Support Files/Pods-ESR/Pods-ESR.release ( production ).xcconfig"; sourceTree = "<group>"; };
 		9BD23A70543185FD0C23E807 /* Pods-ESR.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ESR.release.xcconfig"; path = "Pods/Target Support Files/Pods-ESR/Pods-ESR.release.xcconfig"; sourceTree = "<group>"; };
 		C883A75926EF01AE85CE5AFF /* Pods-ESR.release ( qa ).xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ESR.release ( qa ).xcconfig"; path = "Pods/Target Support Files/Pods-ESR/Pods-ESR.release ( qa ).xcconfig"; sourceTree = "<group>"; };
@@ -320,6 +332,10 @@
 				30FB3113212EEB0B00ABA22A /* FavouriteTournamentCell.xib */,
 				30FB311821353CA000ABA22A /* AgeCategoryCell.swift */,
 				30FB311921353CA000ABA22A /* AgeCategoryCell.xib */,
+				30FB312821366A6400ABA22A /* GroupSummaryMatchesCell.swift */,
+				30FB312921366A6400ABA22A /* GroupSummaryMatchesCell.xib */,
+				30FB312C21366AA400ABA22A /* GroupSummaryStandingsCell.swift */,
+				30FB312D21366AA400ABA22A /* GroupSummaryStandingsCell.xib */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -341,6 +357,8 @@
 				30181D7A212AD07C0067D65F /* CustomAlertViewTwoButton.xib */,
 				30FB3120213579FE00ABA22A /* GroupSummaryStandingsHeader.swift */,
 				30FB312221357A0800ABA22A /* GroupSummaryStandingsHeader.xib */,
+				30FB3124213665FE00ABA22A /* GroupSummaryMatchesHeader.swift */,
+				30FB31262136660900ABA22A /* GroupSummaryMatchesHeader.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -544,13 +562,16 @@
 				30569404212C0251009790BA /* ProfileList.plist in Resources */,
 				30181D362122C6590067D65F /* CreateAccountFieldList.plist in Resources */,
 				30181D3C21230ABF0067D65F /* TextFieldCell.xib in Resources */,
+				30FB312F21366AA400ABA22A /* GroupSummaryStandingsCell.xib in Resources */,
 				30181D5E2126CFAF0067D65F /* Production.xcconfig in Resources */,
 				30181D342122C0370067D65F /* LabelSelectionCell.xib in Resources */,
+				30FB312B21366A6400ABA22A /* GroupSummaryMatchesCell.xib in Resources */,
 				30181D40212312EC0067D65F /* ButtonCell.xib in Resources */,
 				30181D5A2126CF830067D65F /* QA.xcconfig in Resources */,
 				30181D4E212590EC0067D65F /* ImageNavigationBar.xib in Resources */,
 				30181D6F212AA3400067D65F /* CustomAlertView.xib in Resources */,
 				30181D612126D6930067D65F /* QA.plist in Resources */,
+				30FB31272136660900ABA22A /* GroupSummaryMatchesHeader.xib in Resources */,
 				30181D1521219F3A0067D65F /* AgeCategories.storyboard in Resources */,
 				30181D1321219F1A0067D65F /* Tournament.storyboard in Resources */,
 			);
@@ -586,11 +607,13 @@
 				"${SRCROOT}/Pods/Target Support Files/Pods-ESR/Pods-ESR-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/ESTabBarController-swift/ESTabBarController_swift.framework",
+				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ESTabBarController_swift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -613,6 +636,7 @@
 				30181D502126BB520067D65F /* ApiManager.swift in Sources */,
 				30181D08211DBA1B0067D65F /* TabTeamsVC.swift in Sources */,
 				30181CFA211DAFA80067D65F /* MainTabViewController.swift in Sources */,
+				30FB312E21366AA400ABA22A /* GroupSummaryStandingsCell.swift in Sources */,
 				30181D382122D1A00067D65F /* UITextFieldExtensions.swift in Sources */,
 				30181D642126D7850067D65F /* Environments.swift in Sources */,
 				30FB3114212EEB0B00ABA22A /* FavouriteTournamentCell.swift in Sources */,
@@ -622,6 +646,7 @@
 				30181D6C2126F4060067D65F /* PickerHandlerView.swift in Sources */,
 				30181CC4211D95B60067D65F /* AppDelegate.swift in Sources */,
 				30181CE6211DA1BF0067D65F /* TableCellOwner.swift in Sources */,
+				30FB3125213665FE00ABA22A /* GroupSummaryMatchesHeader.swift in Sources */,
 				305693FE212BEABC009790BA /* ProfileVC.swift in Sources */,
 				30181D0F21215EE70067D65F /* TabBarContentView.swift in Sources */,
 				30181D1F2121A8BC0067D65F /* CreateAccountVC.swift in Sources */,
@@ -633,6 +658,7 @@
 				30181D4C212590E30067D65F /* ImageNavigationBar.swift in Sources */,
 				30181D3B21230ABF0067D65F /* TextFieldCell.swift in Sources */,
 				30FB3117212FEA4B00ABA22A /* Tournament.swift in Sources */,
+				30FB312A21366A6400ABA22A /* GroupSummaryMatchesCell.swift in Sources */,
 				30181D232121A8EA0067D65F /* LandingVC.swift in Sources */,
 				30181D3F212312EC0067D65F /* ButtonCell.swift in Sources */,
 				30181D2A2122B0CB0067D65F /* TabTournamentVC.swift in Sources */,
@@ -800,10 +826,7 @@
 				DEVELOPMENT_TEAM = H9SRXQSP7G;
 				INFOPLIST_FILE = ESR/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.aecordigital.ESR;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "6abce4a5-a9b3-471f-a3ee-1c033247164d";
@@ -823,10 +846,7 @@
 				DEVELOPMENT_TEAM = H9SRXQSP7G;
 				INFOPLIST_FILE = ESR/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.aecordigital.ESR;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "6abce4a5-a9b3-471f-a3ee-1c033247164d";
@@ -908,10 +928,7 @@
 				DEVELOPMENT_TEAM = H9SRXQSP7G;
 				INFOPLIST_FILE = ESR/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.aecordigital.ESR;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "6abce4a5-a9b3-471f-a3ee-1c033247164d";
@@ -993,10 +1010,7 @@
 				DEVELOPMENT_TEAM = H9SRXQSP7G;
 				INFOPLIST_FILE = ESR/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.aecordigital.ESR;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "6abce4a5-a9b3-471f-a3ee-1c033247164d";
@@ -1071,10 +1085,7 @@
 				DEVELOPMENT_TEAM = H9SRXQSP7G;
 				INFOPLIST_FILE = ESR/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.aecordigital.ESR;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "6abce4a5-a9b3-471f-a3ee-1c033247164d";
@@ -1149,10 +1160,7 @@
 				DEVELOPMENT_TEAM = H9SRXQSP7G;
 				INFOPLIST_FILE = ESR/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.aecordigital.ESR;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "6abce4a5-a9b3-471f-a3ee-1c033247164d";

@@ -17,6 +17,8 @@ class ApplicationData: NSObject {
     static let languageList: [String] = ["English", "French", "Italian", "German", "Dutch", "Czech", "Danish", "Polish"]
     static let localeKeyList: [String] = ["en", "fr", "it", "de", "nl", "cs", "da", "pl"]
     
+    static var groupsList = NSArray()
+    
     static func sharedInstance() -> ApplicationData {
         if (applicationData == nil) {
             applicationData = ApplicationData()

@@ -105,6 +105,10 @@ class ApiManager {
         postRequest(API_ENDPOINT.LOGIN, parameters, success: success, failure: failure)
     }
     
+    func register(_ parameters: [String: Any]?, success: @escaping (_ result: NSDictionary) -> (), failure: @escaping (_ result: NSDictionary) -> ()) {
+        postRequest(API_ENDPOINT.REGISTER, parameters, success: success, failure: failure)
+    }
+    
     func getAppVersion(_ parameters: [String: Any]?, success: @escaping (_ result: NSDictionary) -> (), failure: @escaping (_ result: NSDictionary) -> ()) {
         postRequest(API_ENDPOINT.APP_VERSION, parameters, success: success, failure: failure, true)
     }
@@ -152,5 +156,13 @@ class ApiManager {
     
     func getAgeCategoriesGroups(_ parameters: [String: Any]?, success: @escaping (_ result: NSDictionary) -> (), failure: @escaping (_ result: NSDictionary) -> ()) {
         postRequest(API_ENDPOINT.TOURNAMENT_GROUP, parameters, success: success, failure: failure, true)
+    }
+    
+    func getGroupStandings(_ parameters: [String: Any]?, success: @escaping (_ result: NSDictionary) -> (), failure: @escaping (_ result: NSDictionary) -> ()) {
+        postRequest(API_ENDPOINT.GROUP_STANDING, parameters, success: success, failure: failure, true)
+    }
+    
+    func getMatchFixtures(_ parameters: [String: Any]?, success: @escaping (_ result: NSDictionary) -> (), failure: @escaping (_ result: NSDictionary) -> ()) {
+        postRequest(API_ENDPOINT.TEAM_FIXTURES, parameters, success: success, failure: failure, true)
     }
 }

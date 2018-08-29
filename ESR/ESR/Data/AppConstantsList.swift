@@ -41,6 +41,8 @@ struct API_ENDPOINT {
     
     static let AGE_CATEGORIES = API_URL.BASE_URL + "age_group/getCompetationFormat"
     static let TOURNAMENT_GROUP = API_URL.BASE_URL + "match/getDraws"
+    static let TEAM_FIXTURES = API_URL.BASE_URL + "match/getFixtures"
+    static let GROUP_STANDING = API_URL.BASE_URL + "match/getStanding/yes"
 }
 
 struct kViewController {
@@ -115,6 +117,8 @@ struct kNiB {
         static let ButtonCell                   = "ButtonCell"
         static let FavouriteTournamentCell      = "FavouriteTournamentCell"
         static let AgeCategoryCell              = "AgeCategoryCell"
+        static let GroupSummaryMatchesCell      = "GroupSummaryMatchesCell"
+        static let GroupSummaryStandingsCell    = "GroupSummaryStandingsCell"
     }
     
     struct View {

@@ -31,6 +31,7 @@ class CreateAccountVC: SuperViewController {
     // PickerHandlerView
     var pickerHandlerView: PickerHandlerView!
     var titleList = [String]()
+    var tournamentList = NSArray()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -67,6 +68,9 @@ class CreateAccountVC: SuperViewController {
         // To show/hide internet view in Navigation bar
         NotificationCenter.default.addObserver(self, selector: #selector(showHideNoInternetView(_:)), name: .internetConnectivity, object: nil)
         
+        // AlertView
+        initInfoAlertView(self.view, self)
+        
         // Hides keyboard if tap outside of view
         hideKeyboardWhenTappedAround()
         
@@ -76,6 +80,43 @@ class CreateAccountVC: SuperViewController {
     
     deinit {
         NotificationCenter.default.removeObserver(self, name: .internetConnectivity, object: nil)
+    }
+    
+    func sendRegisterRequest() {
+        if APPDELEGATE.reachability.connection == .none {
+            return
+        }
+        
+        self.view.showProgressHUD()
+        
+        var parameters: [String: Any] = [:]
+        parameters["email"] = txtEmail.text!
+        parameters["password"] = txtPassword.text!
+        parameters["first_name"] = txtFirstName.text!
+        parameters["sur_name"] = txtLastName.text!
+        
+        if self.tournamentList.count > 0 {
+            parameters["tournament_id"] = (self.tournamentList[pickerHandlerView.selectedPickerPosition] as! NSDictionary).value(forKey: "id")
+        }
+        
+        ApiManager().register(parameters, success: { result in
+            DispatchQueue.main.async {
+                self.view.hideProgressHUD()
+                self.showInfoAlertView(title: String.localize(key: "alert_title_success"), message: String.localize(key: "alert_create_account_email"))
+            }
+        }, failure: { result in
+            DispatchQueue.main.async {
+                self.view.hideProgressHUD()
+                
+                if result.allKeys.count == 0 {
+                    return
+                }
+                
+                if let error = result.value(forKey: "error") as? String {
+                    self.showInfoAlertView(title: String.localize(key: "alert_title_error"), message: error)
+                }
+            }
+        })
     }
     
     //MARK:- Request Methods
@@ -92,6 +133,7 @@ class CreateAccountVC: SuperViewController {
                 if let tournamentList = result.value(forKey: "data") as? NSArray {
                     for tournament in tournamentList {
                         self.titleList.append((tournament as! NSDictionary).value(forKey: "name") as! String)
+                        self.tournamentList.adding(tournament)
                     }
                 }
                 
@@ -168,6 +210,12 @@ class CreateAccountVC: SuperViewController {
         
         btnCreateNewAccount.isEnabled = true
         btnCreateNewAccount.backgroundColor = UIColor.btnYellow
+    }
+}
+
+extension CreateAccountVC: CustomAlertViewDelegate {
+    func customAlertViewOkBtnPressed(requestCode: Int) {
+        self.navigationController?.popViewController(animated: true)
     }
 }
 
