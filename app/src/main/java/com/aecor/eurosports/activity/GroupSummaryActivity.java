@@ -1,22 +1,28 @@
 package com.aecor.eurosports.activity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.text.Html;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.aecor.eurosports.R;
+import com.aecor.eurosports.adapter.GroupsSpinnerAdapter;
 import com.aecor.eurosports.gson.GsonConverter;
 import com.aecor.eurosports.http.VolleyJsonObjectRequest;
 import com.aecor.eurosports.http.VolleySingeltone;
@@ -46,6 +52,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -66,14 +73,34 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
     private LeagueModel mLeagueModelData[];
     @BindView(R.id.tl_group_rows)
     protected TableLayout tl_group_rows;
-    @BindView(R.id.tv_group_table_title)
-    protected TextView tv_group_table_title;
+
     @BindView(R.id.tv_view_full_league_table)
     protected TextView tv_view_full_league_table;
     @BindView(R.id.ll_match_header)
     protected LinearLayout ll_match_header;
-    @BindView(R.id.tr_group_header)
-    protected TableRow tr_group_header;
+     @BindView(R.id.tv_standing_selector)
+    protected View tv_standing_selector;
+    @BindView(R.id.tv_matches_selector)
+    protected View tv_matches_selector;
+    @BindView(R.id.ll_matches_tab)
+    protected FrameLayout ll_matches_tab;
+    @BindView(R.id.ll_standing_tab)
+    protected FrameLayout ll_standing_tab;
+    @BindView(R.id.tv_standing)
+    protected TextView tv_standing;
+    @BindView(R.id.ll_matches_view)
+    protected LinearLayout ll_matches_view;
+    @BindView(R.id.ll_standings)
+    protected LinearLayout ll_standings;
+    @BindView(R.id.ll_standings_content)
+    protected LinearLayout ll_standings_content;
+    @BindView(R.id.ll_match_content)
+    protected LinearLayout ll_match_content;
+    @BindView(R.id.sp_groups)
+    protected Spinner sp_groups;
+    private List<ClubGroupModel> mGroupList;
+    private boolean isApiAlreadyCalled = false;
+    private boolean isFixApiAlreadyCalled = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -82,6 +109,13 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
         mContext = this;
 
         mGroupModel = getIntent().getParcelableExtra(AppConstants.ARG_GROUP_DETAIL);
+
+        if (getIntent() != null && getIntent().getExtras() != null) {
+            Bundle bundle = getIntent().getExtras();
+            if (bundle.containsKey(AppConstants.ARG_ALL_GROUP_LIST)) {
+                mGroupList = bundle.getParcelableArrayList(AppConstants.ARG_ALL_GROUP_LIST);
+            }
+        }
         initView();
     }
 
@@ -147,6 +181,17 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
         tl_group_rows.addView(seperatorView);
     }
 
+    private void addGroupLeagueHeaderRow( ) {
+        View teamLeagueHeaderView = getLayoutInflater().inflate(R.layout.standing_header, null);
+        TextView tv_group_table_title = (TextView) teamLeagueHeaderView.findViewById(R.id.tv_group_table_title);
+        String groupTableTitle = mGroupModel.getName() + " " + getString(R.string.league_table);
+        tv_group_table_title.setText(groupTableTitle);
+
+        tl_group_rows.addView(teamLeagueHeaderView);
+//        View seperatorView = getLayoutInflater().inflate(R.layout.table_row_seperator, null);
+//        tl_group_rows.addView(seperatorView);
+    }
+
     private void addNoItemGroupLeagueView() {
         View noMatchesView = getLayoutInflater().inflate(R.layout.no_item_textview, null);
         TextView tv_noMatchesView = (TextView) noMatchesView.findViewById(R.id.tv_no_item);
@@ -158,11 +203,42 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
     @Override
     protected void initView() {
         mPreference = AppPreference.getInstance(mContext);
+        initUI();
+
+        if (mGroupModel.getActual_competition_type().equalsIgnoreCase(AppConstants.GROUP_COMPETATION_TYPE_ELIMINATION)) {
+            ll_standing_tab.setBackgroundColor(Color.GRAY);
+            ll_standing_tab.setEnabled(false);
+            onMatchesClicked();
+        } else {
+            ll_standing_tab.setBackgroundColor(Color.WHITE);
+            ll_standing_tab.setEnabled(true);
+            onStandingClicked();
+        }
+        if (mGroupList != null && mGroupList.size() > 0) {
+            int selectedGroupPos = 0;
+
+            for (int i = 0; i < mGroupList.size(); i++) {
+                if (mGroupList.get(i).getId().equalsIgnoreCase(mGroupModel.getId())) {
+                    AppLogger.LogE(TAG, "selected pos" + selectedGroupPos);
+                    selectedGroupPos = i;
+                    break;
+                }
+            }
+            GroupsSpinnerAdapter adapter = new GroupsSpinnerAdapter((Activity) mContext,
+                    mGroupList);
+            sp_groups.setAdapter(adapter);
+            sp_groups.setSelection(selectedGroupPos);
+
+
+        }
+        setListener();
+    }
+
+    private void initUI() {
         tv_view_all_club_matches.setVisibility(View.GONE);
-        tr_group_header.setVisibility(View.GONE);
-        ll_match_header.setVisibility(View.GONE);
-        String groupTableTitle = mGroupModel.getName() + " " + getString(R.string.league_table);
-        tv_group_table_title.setText(groupTableTitle);
+         ll_match_header.setVisibility(View.GONE);
+        ll_standings_content.setVisibility(View.GONE);
+        ll_match_content.setVisibility(View.GONE);
         if (mGroupModel.getActual_competition_type().equalsIgnoreCase(AppConstants.GROUP_COMPETATION_TYPE_ELIMINATION)) {
             showBackButton(getString(R.string.placing_matches_summary));
         } else {
@@ -172,18 +248,61 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
 
         if (mGroupModel.getCompetation_type().equalsIgnoreCase(AppConstants.GROUP_COMPETATION_TYPE_ROUND_ROBIN)) {
             tl_group_rows.setVisibility(View.VISIBLE);
-            getGroupStanding();
+            if (!isApiAlreadyCalled) {
+                isApiAlreadyCalled = true;
+                getGroupStanding();
+            } else {
+                isApiAlreadyCalled = false;
+            }
         } else if (mGroupModel.getCompetation_type() != null && !Utility.isNullOrEmpty(mGroupModel.getCompetation_type()) && mGroupModel.getCompetation_type().equalsIgnoreCase(AppConstants.GROUP_COMPETATION_TYPE_ELIMINATION) && mGroupModel.getActual_competition_type() != null && !Utility.isNullOrEmpty(mGroupModel.getActual_competition_type()) && mGroupModel.getActual_competition_type().equalsIgnoreCase(AppConstants.GROUP_COMPETATION_TYPE_ROUND_ROBIN)) {
             tl_group_rows.setVisibility(View.VISIBLE);
-            getGroupStanding();
+
+            if (!isApiAlreadyCalled) {
+                isApiAlreadyCalled = true;
+                getGroupStanding();
+            } else {
+                isApiAlreadyCalled = false;
+            }
         } else {
             tl_group_rows.setVisibility(View.GONE);
+            ll_standing_tab.setBackgroundColor(Color.GRAY);
+            ll_standing_tab.setEnabled(false);
+            onMatchesClicked();
         }
-        getTeamFixtures();
+
+        if (!isFixApiAlreadyCalled) {
+            isFixApiAlreadyCalled = true;
+            getTeamFixtures();
+        } else {
+            isFixApiAlreadyCalled = false;
+        }
+
     }
 
     @Override
     protected void setListener() {
+        sp_groups.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (mGroupList != null && mGroupList.get(position) != null) {
+                    mGroupModel = mGroupList.get(position);
+                }
+                if (mGroupModel.getActual_competition_type().equalsIgnoreCase(AppConstants.GROUP_COMPETATION_TYPE_ELIMINATION)) {
+                    ll_standing_tab.setBackgroundColor(Color.GRAY);
+                    ll_standing_tab.setEnabled(false);
+                } else {
+                    ll_standing_tab.setBackgroundColor(Color.WHITE);
+                    ll_standing_tab.setEnabled(true);
+                }
+
+                initUI();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+
+            }
+        });
 
     }
 
@@ -213,11 +332,13 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
                 public void onResponse(JSONObject response) {
                     Utility.StopProgress(mProgressdialog);
                     try {
+                        isFixApiAlreadyCalled = false;
                         AppLogger.LogE(TAG, "getTeamFixtures Response" + response.toString());
                         if (response.has("status_code") && !Utility.isNullOrEmpty(response.getString("status_code")) && response.getString("status_code").equalsIgnoreCase("200")) {
                             if (response.has("data") && !Utility.isNullOrEmpty(response.getString("data"))) {
                                 TeamFixturesModel mTeamFixtureData[] = GsonConverter.getInstance().decodeFromJsonString(response.getString("data"), TeamFixturesModel[].class);
                                 ll_match_header.setVisibility(View.VISIBLE);
+                                ll_match_content.setVisibility(View.VISIBLE);
                                 if (mTeamFixtureData != null && mTeamFixtureData.length > 0) {
                                     Collections.sort(Arrays.asList(mTeamFixtureData), new Comparator<TeamFixturesModel>() {
                                         public int compare(TeamFixturesModel o1, TeamFixturesModel o2) {
@@ -230,6 +351,7 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
                                             return o1.getMatch_datetime().compareTo(o2.getMatch_datetime());
                                         }
                                     });
+                                    ll_matches.removeAllViews();
                                     for (TeamFixturesModel aMTeamFixtureData : mTeamFixtureData) {
                                         addMatchesRow(aMTeamFixtureData);
                                     }
@@ -288,14 +410,23 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
                 public void onResponse(JSONObject response) {
                     Utility.StopProgress(mProgressdialog);
                     try {
+                        isApiAlreadyCalled = false;
                         AppLogger.LogE(TAG, "getGroupStanding Response" + response.toString());
                         if (response.has("status_code") && !Utility.isNullOrEmpty(response.getString("status_code")) && response.getString("status_code").equalsIgnoreCase("200")) {
                             if (response.has("data") && !Utility.isNullOrEmpty(response.getString("data"))) {
+                                tl_group_rows.removeAllViews();
                                 mLeagueModelData = GsonConverter.getInstance().decodeFromJsonString(response.getString("data"), LeagueModel[].class);
-                                tr_group_header.setVisibility(View.VISIBLE);
+
+                                ll_standings_content.setVisibility(View.VISIBLE);
                                 if (mLeagueModelData != null && mLeagueModelData.length > 0) {
+                                    int curPos = 0;
                                     for (LeagueModel aMLeagueModelData : mLeagueModelData) {
+                                        if (curPos == 0) {
+                                            // add header first
+                                            addGroupLeagueHeaderRow();
+                                        }
                                         addGroupLeagueRow(aMLeagueModelData);
+                                        curPos = curPos + 1;
                                     }
                                     tv_view_full_league_table.setVisibility(View.VISIBLE);
                                 } else {
@@ -415,7 +546,7 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
             } else {
                 if (!Utility.isNullOrEmpty(mFixtureModel.getDisplayHomeTeamPlaceholderName())) {
                     team1_name.setText(mFixtureModel.getDisplayHomeTeamPlaceholderName());
-                }else{
+                } else {
                     team1_name.setText("");
                 }
             }
@@ -443,7 +574,7 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
             } else {
                 if (!Utility.isNullOrEmpty(mFixtureModel.getDisplayAwayTeamPlaceholderName())) {
                     team2_name.setText(mFixtureModel.getDisplayAwayTeamPlaceholderName());
-                }else{
+                } else {
                     team2_name.setText("");
                 }
             }
@@ -519,11 +650,22 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
         startActivity(mFullLeagueTableIntent);
     }
 
+    @OnClick(R.id.ll_standing_tab)
+    protected void onStandingClicked() {
+        tv_standing_selector.setVisibility(View.VISIBLE);
+        ll_standings.setVisibility(View.VISIBLE);
+        tv_matches_selector.setVisibility(View.GONE);
+        ll_matches_view.setVisibility(View.GONE);
 
-//    @OnClick(R.id.tv_view_all_rounds)
-//    protected void onViewAllRoundsClicked() {
-//        Intent mAgeGroupIntent = new Intent(mContext, AgeGroupActivity.class);
-//        mAgeGroupIntent.putExtra(AppConstants.ARG_AGE_CATEGORY_ID, mGroupModel.get);
-//        mContext.startActivity(mAgeGroupIntent);
-//    }
+
+    }
+
+    @OnClick(R.id.ll_matches_tab)
+    protected void onMatchesClicked() {
+        tv_standing_selector.setVisibility(View.GONE);
+        ll_standings.setVisibility(View.GONE);
+        tv_matches_selector.setVisibility(View.VISIBLE);
+        ll_matches_view.setVisibility(View.VISIBLE);
+    }
+
 }
