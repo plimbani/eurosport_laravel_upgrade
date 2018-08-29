@@ -721,7 +721,6 @@ class TournamentRepository
     public function scheduleAutomaticPitchPlanning($data)
     {
         $scheduleMatchesCount = TempFixture::where('competition_id', $data['competition'])->where('is_scheduled', 1)->count();
-
         if ($scheduleMatchesCount > 0) {
             return ['status' => 'error', 'message' => 'You cannot schedule matches automatically as some of the matches are already scheduled.'];
         }
@@ -864,9 +863,9 @@ class TournamentRepository
                         $isMatchScheduledFlag = false;
                         foreach ($availability as $key => $value) {
 
-                            foreach ($arrayForTeamInterval as $matchId => $value) {
-                                echo "<pre>";print_r($value);echo "</pre>";exit;
-                            }
+                            // foreach ($arrayForTeamInterval as $matchId => $value) {
+                            //     echo "<pre>";print_r($value);echo "</pre>";exit;
+                            // }
 
                             if ($matchTime == $i) {
                                 $startTimeStamp = Carbon::createFromTimestamp($startTimeStamp);
