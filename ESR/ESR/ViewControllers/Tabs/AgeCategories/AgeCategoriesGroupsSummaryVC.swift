@@ -13,16 +13,23 @@ class AgeCategoriesGroupsSummaryVC: SuperViewController {
     @IBOutlet var tabStandingsSeparator: UIView!
     @IBOutlet var tabMatchesSeparator: UIView!
     @IBOutlet var headerGroupStandingView: UIView!
+    @IBOutlet var headerGroupMatchesView: UIView!
+    @IBOutlet var footerGroupStandingView: UIView!
     @IBOutlet var tabStandingView: UIView!
     @IBOutlet var tabMatchView: UIView!
+    @IBOutlet var groupSelectionView: UIView!
+    @IBOutlet var lblGroupName: UILabel!
     
-    var groupSummaryStandingsHeader: UIView!
     var heightGroupSummaryStandingsCell: CGFloat = 0
     var heightGroupSummaryMatchesCell: CGFloat = 0
     var groupId: Int = NULL_ID
+    var groupName = NULL_STRING
     
-    var teamFixuteuresList = NSArray()
+    var teamFixuteuresList = [TeamFixture]()
     var groupStandingsList = NSArray()
+    
+    var pickerHandlerView: PickerHandlerView!
+    var titleList = [String]()
     
     var selectedTab = 0
     
@@ -42,6 +49,12 @@ class AgeCategoriesGroupsSummaryVC: SuperViewController {
         gesture = UITapGestureRecognizer(target: self, action:  #selector(self.onTabMatchViewPressed))
         self.tabMatchView.addGestureRecognizer(gesture)
         
+        gesture = UITapGestureRecognizer(target: self, action:  #selector(self.onGroupViewPressed))
+        self.groupSelectionView.addGestureRecognizer(gesture)
+        
+        gesture = UITapGestureRecognizer(target: self, action:  #selector(self.onFooterGroupStandingView))
+        self.footerGroupStandingView.addGestureRecognizer(gesture)
+        
         // Height for cell
         _ = cellOwner.loadMyNibFile(nibName: kNiB.Cell.GroupSummaryStandingsCell)
         heightGroupSummaryStandingsCell = (cellOwner.cell as! GroupSummaryStandingsCell).getCellHeight()
@@ -49,33 +62,61 @@ class AgeCategoriesGroupsSummaryVC: SuperViewController {
         _ = cellOwner.loadMyNibFile(nibName: kNiB.Cell.GroupSummaryMatchesCell)
         heightGroupSummaryMatchesCell = (cellOwner.cell as! GroupSummaryMatchesCell).getCellHeight()
         
-        _ = cellOwner.loadMyNibFile(nibName: "GroupSummaryStandingsHeader")
-        groupSummaryStandingsHeader = cellOwner.view
+        for group in ApplicationData.groupsList {
+            titleList.append((group as! NSDictionary).value(forKey: "name") as! String)
+        }
         
+        pickerHandlerView = getPickerView(titleList)
+        pickerHandlerView.delegate = self
+        self.view.addSubview(pickerHandlerView)
+        
+        lblGroupName.text = groupName
+        
+        if headerGroupStandingView != nil {
+            headerGroupStandingView.frame = CGRect(x: 0, y: 0, width: DEVICE_WIDTH, height: 60)
+        }
+        
+        if headerGroupMatchesView != nil {
+            headerGroupMatchesView.frame = CGRect(x: 0, y: 0, width: DEVICE_WIDTH, height: 40)
+        }
+        
+        if footerGroupStandingView != nil {
+            footerGroupStandingView.frame = CGRect(x: 0, y: 0, width: DEVICE_WIDTH, height: 50)
+        }
         
         sendGetGroupStadingsRequest()
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        
-        if groupSummaryStandingsHeader != nil {
-            groupSummaryStandingsHeader.frame = CGRect(x: 0, y: 0, width: DEVICE_WIDTH, height: 130)
-            self.table.tableHeaderView = groupSummaryStandingsHeader
-        }
     }
     
     @objc func onTabStandingViewPressed(sender : UITapGestureRecognizer) {
         tabStandingsSeparator.backgroundColor = UIColor.AppColor()
         tabMatchesSeparator.backgroundColor = UIColor.clear
         selectedTab = 0
-        sendGetGroupStadingsRequest()
+        
+        if groupStandingsList.count == 0 {
+            sendGetGroupStadingsRequest()
+        } else {
+            table.reloadData()
+        }
     }
     
     @objc func onTabMatchViewPressed(sender : UITapGestureRecognizer) {
         tabMatchesSeparator.backgroundColor = UIColor.AppColor()
         tabStandingsSeparator.backgroundColor = UIColor.clear
         selectedTab = 1
+        
+        if teamFixuteuresList.count == 0 {
+            sendGetFixturesRequest()
+        } else {
+            table.reloadData()
+        }
+    }
+    
+    @objc func onGroupViewPressed(sender : UITapGestureRecognizer) {
+        pickerHandlerView.show()
+    }
+    
+    @objc func onFooterGroupStandingView(sender : UITapGestureRecognizer) {
+        
     }
     
     func sendGetFixturesRequest() {
@@ -100,7 +141,19 @@ class AgeCategoriesGroupsSummaryVC: SuperViewController {
             DispatchQueue.main.async {
                 self.view.hideProgressHUD()
                 
+                if let data = result.value(forKey: "data") as? NSArray {
+                    
+                    for i in 0..<data.count {
+                        self.teamFixuteuresList.append(ParseManager.parseTeamFixture(data[i] as! NSDictionary))
+                    }
+                    
+                    // Sort array by start date
+                    self.teamFixuteuresList.sort(by: { (t1, t2) -> Bool in
+                        return (t1.matchDatetimeObj.timeIntervalSinceNow > t2.matchDatetimeObj.timeIntervalSinceNow)
+                    })
+                }
                 
+                self.table.reloadData()
             }
         }, failure: { result in
             DispatchQueue.main.async {
@@ -145,6 +198,35 @@ class AgeCategoriesGroupsSummaryVC: SuperViewController {
     }
 }
 
+extension AgeCategoriesGroupsSummaryVC: PickerHandlerViewDelegate {
+    
+    func pickerCancelBtnPressed() {}
+    
+    func pickerDoneBtnPressed(_ title: String) {
+        lblGroupName.text = title
+        
+        let groupDic = ApplicationData.groupsList[pickerHandlerView.selectedPickerPosition] as! NSDictionary
+        
+        if let type = groupDic.value(forKey: "competation_type") as? String {
+            if type == "Elimination" {
+                tabStandingsSeparator.backgroundColor = UIColor.clear
+                tabStandingView.backgroundColor = UIColor.gray
+                tabStandingView.isUserInteractionEnabled = false
+                tabMatchesSeparator.backgroundColor = UIColor.AppColor()
+                
+                selectedTab = 1
+                sendGetFixturesRequest()
+            } else {
+                tabStandingView.backgroundColor = UIColor.white
+                tabStandingView.isUserInteractionEnabled = true
+                
+                sendGetFixturesRequest()
+                sendGetGroupStadingsRequest()
+            }
+        }
+    }
+}
+
 extension AgeCategoriesGroupsSummaryVC : TitleNavigationBarDelegate {
     func titleNavBarBackBtnPressed() {
         self.navigationController?.popViewController(animated: true)
@@ -169,6 +251,38 @@ extension AgeCategoriesGroupsSummaryVC : UITableViewDataSource, UITableViewDeleg
         return heightGroupSummaryMatchesCell
     }
     
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if selectedTab == 0 {
+            return 60
+        } else {
+            return 40
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        if selectedTab == 0 {
+            return 50
+        } else {
+            return 0
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        if selectedTab == 0 {
+           return headerGroupStandingView
+        } else {
+           return headerGroupMatchesView
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        if selectedTab == 0 {
+            return footerGroupStandingView
+        } else {
+            return UIView()
+        }
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         if selectedTab == 0 {
@@ -186,7 +300,7 @@ extension AgeCategoriesGroupsSummaryVC : UITableViewDataSource, UITableViewDeleg
                 _ = cellOwner.loadMyNibFile(nibName: "GroupSummaryMatchesCell")
                 cell = cellOwner.cell as? GroupSummaryMatchesCell
             }
-            cell?.record = teamFixuteuresList[indexPath.row] as! NSDictionary
+            cell?.record = teamFixuteuresList[indexPath.row]
             cell?.reloadCell()
             return cell!
         }
@@ -200,8 +314,8 @@ extension AgeCategoriesGroupsSummaryVC : UITableViewDataSource, UITableViewDeleg
             
         }
         
-        //        let viewController = Storyboards.AgeCategories.instantiateAgeCategoriesGroupsVC()
-        //        viewController.ageCategoryId = (ageCategoriesList[indexPath.row] as! NSDictionary).value(forKey: "id") as! Int
-        //        self.navigationController?.pushViewController(viewController, animated: true)
+        //   let viewController = Storyboards.AgeCategories.instantiateAgeCategoriesGroupsVC()
+        //   viewController.ageCategoryId = (ageCategoriesList[indexPath.row] as! NSDictionary).value(forKey: "id") as! Int
+        //   self.navigationController?.pushViewController(viewController, animated: true)
     }
 }

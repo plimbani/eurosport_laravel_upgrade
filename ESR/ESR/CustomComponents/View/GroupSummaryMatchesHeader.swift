@@ -7,14 +7,27 @@
 
 import UIKit
 
+protocol GroupSummaryMatchesHeaderDelegate {
+    func groupSummaryMatchesHeaderOnGroupSelect()
+}
+
 class GroupSummaryMatchesHeader: UIView {
 
-    /*
-    // Only override draw() if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func draw(_ rect: CGRect) {
-        // Drawing code
+    @IBOutlet var groupSelectionView: UIView!
+    @IBOutlet var lblGroupName: UILabel!
+    
+    var delegate: GroupSummaryMatchesHeaderDelegate?
+    
+    override func awakeFromNib() {
+        let gesture = UITapGestureRecognizer(target: self, action:  #selector(self.onGroupBtnPressed))
+        self.groupSelectionView.addGestureRecognizer(gesture)
     }
-    */
-
+    
+    @objc func onGroupBtnPressed() {
+        delegate?.groupSummaryMatchesHeaderOnGroupSelect()
+    }
+    
+    func setGroupName(_ name: String) {
+        lblGroupName.text = name
+    }
 }

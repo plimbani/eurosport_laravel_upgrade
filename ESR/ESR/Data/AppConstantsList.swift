@@ -108,6 +108,8 @@ struct kDateFormat {
     static let format3                          = "yyyy-MM-dd HH:mm:ss"
     static let format4                          = "dd/MM/yyyy HH:mm:ss"
     static let format5                          = "dd/MM/yyyy hh:mm a"
+    static let MMM                              = "MMM"
+    static let dd                               = "dd"
 }
 
 struct kNiB {

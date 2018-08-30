@@ -90,6 +90,19 @@ class ApplicationData: NSObject {
         return nil
     }
     
+    static func getFormattedDate(_ dateStr: String, dateFormat: String = kDateFormat.format1) -> Date {
+        let formatter = DateFormatter()
+        formatter.dateFormat = kDateFormat.format3
+        
+        var localeStr = "en"
+        if let userData = ApplicationData.sharedInstance().getUserData() {
+            localeStr = userData.locale
+        }
+        
+        formatter.locale = Locale(identifier: localeStr)
+        return formatter.date(from: dateStr)!
+    }
+    
     func getSelectedLocale() -> (String, String){
         var selectedLocale = NULL_STRING
         var selectedLanguage = NULL_STRING

@@ -165,7 +165,12 @@
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
                 <outlet property="lblAwayTeam" destination="qvT-eD-Knv" id="1DU-3t-5eQ"/>
+                <outlet property="lblDate" destination="g53-cm-xwD" id="wm9-nr-VQf"/>
+                <outlet property="lblGroupName" destination="76k-Hv-AjJ" id="JBk-g4-boQ"/>
                 <outlet property="lblHomeTeam" destination="Ksf-HN-bCa" id="dgK-22-TFv"/>
+                <outlet property="lblMatchId" destination="aBq-lD-VuN" id="CdS-0O-uw5"/>
+                <outlet property="lblRound" destination="Ian-90-Pdw" id="Gg3-wB-Bq6"/>
+                <outlet property="lblVenue" destination="9Gm-81-I0t" id="adV-q9-oOk"/>
             </connections>
             <point key="canvasLocation" x="34" y="53.5"/>
         </tableViewCell>

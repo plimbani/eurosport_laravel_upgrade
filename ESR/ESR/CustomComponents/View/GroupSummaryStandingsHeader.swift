@@ -7,14 +7,27 @@
 
 import UIKit
 
+protocol GroupSummaryStandingsHeaderDelegate {
+    func groupSummaryStandingsHeaderOnGroupSelect()
+}
+
 class GroupSummaryStandingsHeader: UIView {
-
-    /*
-    // Only override draw() if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func draw(_ rect: CGRect) {
-        // Drawing code
+    
+    @IBOutlet var groupSelectionView: UIView!
+    @IBOutlet var lblGroupName: UILabel!
+    
+    var delegate: GroupSummaryStandingsHeaderDelegate?
+    
+    override func awakeFromNib() {
+        let gesture = UITapGestureRecognizer(target: self, action:  #selector(self.onGroupBtnPressed))
+        self.groupSelectionView.addGestureRecognizer(gesture)
     }
-    */
 
+    @objc func onGroupBtnPressed() {
+        delegate?.groupSummaryStandingsHeaderOnGroupSelect()
+    }
+    
+    func setGroupName(_ name: String) {
+        lblGroupName.text = name
+    }
 }

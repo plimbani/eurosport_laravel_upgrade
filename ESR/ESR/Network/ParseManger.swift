@@ -9,6 +9,144 @@ import Foundation
 
 class ParseManager {
     
+//    var pitchType: String = NULL_STRING
+//    var groupName: String = NULL_STRING
+//    var homeTeamShirtColor: String = NULL_STRING
+//    var awayTeamShirtColor: String = NULL_STRING
+//    var homeTeamShortsColor: String = NULL_STRING
+//    var awayTeamShortsColor: String = NULL_STRING
+    
+    static func parseTeamFixture(_ record: NSDictionary) -> TeamFixture {
+        let teamFixture = TeamFixture()
+        
+        if let text = record.value(forKey: "match_number") as? String {
+            teamFixture.matchNumber = text
+        }
+        
+        if let text = record.value(forKey: "displayMatchNumber") as? String {
+            teamFixture.displayMatchNumber = text
+        }
+        
+        if let text = record.value(forKey: "round") as? String {
+            teamFixture.round = text
+        }
+        
+        if let text = record.value(forKey: "actual_round") as? String {
+            teamFixture.actualRound = text
+        }
+        
+        if let text = record.value(forKey: "competation_name") as? String {
+            teamFixture.competationName = text
+        }
+        
+        if let isScheduled = record.value(forKey: "is_scheduled") as? Int {
+            if isScheduled == 1 {
+                if let text = record.value(forKey: "match_datetime") as? String {
+                    teamFixture.matchDatetime = text
+                    teamFixture.matchDatetimeObj = ApplicationData.getFormattedDate(text)
+                }
+            }
+        }
+        
+        if let teamSize = record.value(forKey: "team_size") as? Int {
+            teamFixture.teamSize = teamSize
+        }
+        
+        if let text = record.value(forKey: "match_endtime") as? String {
+            teamFixture.matchEndtime = text
+        }
+        
+        if let ageGroupId = record.value(forKey: "age_group_id") as? Int {
+            teamFixture.ageGroupId = ageGroupId
+        }
+        
+        if let text = record.value(forKey: "displayHomeTeamPlaceholderName") as? String {
+            teamFixture.displayHomeTeamPlaceholderName = text
+        }
+        
+        if let text = record.value(forKey: "displayAwayTeamPlaceholderName") as? String {
+            teamFixture.displayAwayTeamPlaceholderName = text
+        }
+        
+        if let competitionId = record.value(forKey: "competitionId") as? Int {
+            teamFixture.competitionId = competitionId
+        }
+        
+        if let text = record.value(forKey: "venueCoordinates") as? String {
+            teamFixture.venueCoordinates = text
+        }
+        
+        if let text = record.value(forKey: "venue_name") as? String {
+            teamFixture.venueName = text
+        }
+        
+        if let text = record.value(forKey: "pitch_number") as? String {
+            teamFixture.pitchNumber = text
+        }
+        
+        if let homeId = record.value(forKey: "Home_id") as? Int {
+            teamFixture.homeId = homeId
+        }
+        
+        if let awayId = record.value(forKey: "Away_id") as? Int {
+            teamFixture.awayId = awayId
+        }
+        
+        if let text = record.value(forKey: "HomeTeam") as? String {
+            teamFixture.homeTeam = text
+        }
+        
+        if let text = record.value(forKey: "AwayTeam") as? String {
+            teamFixture.awayTeam = text
+        }
+        
+        if let text = record.value(forKey: "HomeFlagLogo") as? String {
+            teamFixture.homeFlagLogo = text
+        }
+        
+        if let text = record.value(forKey: "AwayFlagLogo") as? String {
+            teamFixture.awayFlagLogo = text
+        }
+        
+        if let text = record.value(forKey: "HomeCountryName") as? String {
+            teamFixture.homeCountryName = text
+        }
+        
+        if let text = record.value(forKey: "AwayCountryName") as? String {
+            teamFixture.awayCountryName = text
+        }
+        
+        if let homeScore = record.value(forKey: "homeScore") as? Int {
+            teamFixture.homeScore = homeScore
+        }
+        
+        if let awayScore = record.value(forKey: "AwayScore") as? Int {
+            teamFixture.awayScore = awayScore
+        }
+        
+        if let pitchId = record.value(forKey: "pitchId") as? Int {
+            teamFixture.pitchId = pitchId
+        }
+        
+        if let text = record.value(forKey: "HomeTeamShirtColor") as? String {
+            teamFixture.homeTeamShirtColor = text
+        }
+        
+        if let text = record.value(forKey: "AwayTeamShirtColor") as? String {
+            teamFixture.awayTeamShirtColor = text
+        }
+        
+        if let text = record.value(forKey: "HomeTeamShortsColor") as? String {
+            teamFixture.homeTeamShortsColor = text
+        }
+        
+        if let text = record.value(forKey: "AwayTeamShortsColor") as? String {
+            teamFixture.awayTeamShortsColor = text
+        }
+        
+        return teamFixture
+    }
+    
     static func parseTournament(_ record: NSDictionary) -> Tournament {
         let tournamentObj = Tournament()
         
