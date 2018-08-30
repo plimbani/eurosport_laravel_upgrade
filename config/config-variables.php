@@ -15,6 +15,13 @@ return [
 	    "goal_ratio" => "Goal ratio",
 	    "matches_won" => "Matches won"
 	  ],
+      "category_rules_info" => [
+        "match_points" => "The points total for games won, drawn or lost",
+        "goal_difference" => "Number of goals scored minus goals conceded",
+        "goals_for" => "Number of goals scored",
+        "goal_ratio" => "Number of goals scored divided by the number of games played",
+        "matches_won" => "Number of matches won"
+      ],
     "team_colors" => [
         "#000000" => "Black",
         "#034694" => "Blue",

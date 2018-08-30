@@ -361,14 +361,19 @@
                             <div class="checkbox">
                               <div class="c-input">
                                 <input type="checkbox" class="euro-checkbox" :value="rule.key" :id="rule.key" :checked="rule.checked" @change="changeCheckedStatus(index, $event)" :disabled="rule.key == 'match_points'">
-                                <label :for="rule.key" class="mb-0">{{ rule.title }}</label>
+                                <label :for="rule.key" class="mb-0">{{ rule.title }} <span class="pr-2 pl-2" data-toggle="popover" data-animation="false" data-placement="right" :data-popover-content="'#category_rules'+index"><i class="fa fa-info"></i></span>
+                                    <div v-bind:id="'category_rules'+index" style="display:none;">
+                                        <div class="popover-body">{{ rule.description }}</div>
+                                    </div>
+                                </label>
                               </div>
                             </div>
                           </div>
                         </div>
                         <div class="draggable--section-card-header-icons" v-if="rule.key != 'match_points'">
                           <a class="text-primary rules-handle draggable-handle" href="javascript:void(0)">
-                            <i class="fa fa-bars"></i>
+                            <i class="fa fa-arrow-down" v-if="rule.key == 'goal_difference'"></i>
+                            <i class="fa fa-arrow-up" v-else></i>
                           </a>
                         </div>
                       </div>
@@ -543,6 +548,20 @@ export default {
       '10':'10',
       'Other':'other'
     });
+
+    $("[data-toggle=popover]").popover({
+        html : false,
+        trigger: 'hover',
+        content: function() {
+            var content = $(this).attr("data-popover-content");
+            return $(content).children(".popover-body").html();
+        },
+        title: function() {
+            var title = $(this).attr("data-popover-content");
+            return $(title).children(".popover-heading").html();
+        }
+    });
+
   },
   created: function() {
      this.$root.$on('setCompetationFormatData', this.setEdit);
@@ -614,6 +633,7 @@ export default {
         Tournament.getCompetationFormat(TournamentData).then(
           (response) => {
             // return false;
+            let category_rules_info = response.data.category_rules_info;
             let resp = response.data.data[0]
             // here we set some of values for Edit Form
             this.competation_format = _.cloneDeep(resp);
@@ -691,6 +711,11 @@ export default {
 
             this.showHideHalfTimeBreakRR();
             this.showHideHalfTimeBreakFM();
+
+            this.competation_format.rules = _.forEach(this.competation_format.rules, (value, key) => {
+                value.description = category_rules_info[value.key]
+            });
+
           },
           (error) => {
           }
