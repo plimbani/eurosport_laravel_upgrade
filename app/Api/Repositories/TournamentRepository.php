@@ -726,6 +726,9 @@ class TournamentRepository
         }
 
         $ageCategory = TournamentCompetationTemplates::where('id', $data['age_category'])->first();
+        $teamIntervalCheck = TempFixture::where('age_group_id', $data['age_category'])->where('is_scheduled', 1)->get()->only(['id', 'match_datetime', 'match_end_time', 'home_team', 'away_team'])->toArray();
+
+        $teamIntervalTime = $ageCategory->team_interval;
 
         // for normal match
         $unscheduledMatchesForNormalMatch = TempFixture::where('competition_id', $data['competition'])->where('is_scheduled', 0)->get();
@@ -755,16 +758,16 @@ class TournamentRepository
             return ['status' => 'error', 'message' => 'Required time should be less than pitch available time.'];
         }
 
-        $reservedStartTimeArray  = [];
-        $reservedEndTimeArray    = [];
+        $reservedStartTimeArray = [];
+        $reservedEndTimeArray = [];
         $availableStartTimeArray = [];
-        $availableEndTimeArray   = [];
-        $newReservedTimeArray    = [];
-        $pitchOpeningTimes       = [];
+        $availableEndTimeArray = [];
+        $newReservedTimeArray = [];
+        $pitchOpeningTimes = [];
 
         foreach ($data['pitches'] as $key => $pitchId) {
             $pitchAvailability = PitchAvailable::where('pitch_id', $pitchId)->get();
-            $tempFixtures      = TempFixture::where('competition_id', $data['competition'])
+            $tempFixtures = TempFixture::where('competition_id', $data['competition'])
                 ->where('age_group_id', $data['age_category'])
                 ->where('pitch_id', $pitchId)
                 ->where('is_scheduled', 1)
@@ -775,7 +778,7 @@ class TournamentRepository
                 $pitchAvailableDate = Carbon::createFromFormat('d/m/Y', $pitchAvailable->stage_start_date)->format('Y-m-d');
 
                 $pitchAvailableStart = Carbon::createFromFormat('d/m/Y H:i', $pitchAvailable->stage_start_date . ' ' . $pitchAvailable->stage_start_time);
-                $pitchAvailableEnd   = Carbon::createFromFormat('d/m/Y H:i', $pitchAvailable->stage_start_date . ' ' . $pitchAvailable->stage_end_time);
+                $pitchAvailableEnd = Carbon::createFromFormat('d/m/Y H:i', $pitchAvailable->stage_start_date . ' ' . $pitchAvailable->stage_end_time);
 
                 foreach ($data['timings'][$pitchId]['time'] as $time) {
                     $pitchStartDateTime = $pitchAvailable->stage_start_date . ' ' . $time['start_time'] . ':00';
@@ -795,8 +798,8 @@ class TournamentRepository
 
                 $allPitchBreaks = PitchBreaks::where('availability_id', $pitchAvailable->id)->get();
 
-                $availableStartTimeArray[]           = $pitchAvailableStart->toDateTimeString();
-                $i                                   = 0;
+                $availableStartTimeArray[] = $pitchAvailableStart->toDateTimeString();
+                $i = 0;
                 $pitchOpeningTimes[$i]['pitchStart'] = $pitchAvailableStart->toDateTimeString();
                 if (count($allPitchBreaks) > 0) {
                     foreach ($allPitchBreaks as $key => $break) {
@@ -849,7 +852,6 @@ class TournamentRepository
                     ->get();
 
                 $matchScheduleArray = [];
-                $arrayForTeamInterval = [];
                 foreach ($unscheduledMatches as $match) {
                     if ($match->is_final_round_match == 1) {
                         $matchTime = $finalMatchTotalTime;
@@ -862,11 +864,6 @@ class TournamentRepository
                         $startTimeStamp = null;
                         $isMatchScheduledFlag = false;
                         foreach ($availability as $key => $value) {
-
-                            // foreach ($arrayForTeamInterval as $matchId => $value) {
-                            //     echo "<pre>";print_r($value);echo "</pre>";exit;
-                            // }
-
                             if ($matchTime == $i) {
                                 $startTimeStamp = Carbon::createFromTimestamp($startTimeStamp);
                                 $endTimeStamp = Carbon::createFromTimestamp($key);
@@ -877,11 +874,12 @@ class TournamentRepository
                                     'pitch_id' => $pitchId,
                                 );
 
-                                $arrayForTeamInterval[$match->id] = array(
-                                    'match_start_time' => clone($startTimeStamp),
-                                    'match_end_time' => clone($endTimeStamp),
-                                    'home_id' => $match->home_team,
-                                    'away_id' => $match->away_team
+                                $teamIntervalCheck[] = array(
+                                    'id' => $match->id,
+                                    'match_datetime' => clone($startTimeStamp),
+                                    'match_endtime' => clone($endTimeStamp),
+                                    'home_team' => $match->home_team,
+                                    'away_team' => $match->away_team
                                 );
 
                                 while ($startTimeStamp < $endTimeStamp) {
@@ -892,11 +890,35 @@ class TournamentRepository
                             }
 
                             if ($i < $matchTime && $value == 1) {
+                                $canMatchBeSchedule = true;
                                 if ($startTimeStamp == null) {
-                                    $startTimeStamp = $key;
+                                    $matchStartTimeStamp = Carbon::createFromTimestamp($key);
+                                    $matchEndTimeStamp = (clone ($matchStartTimeStamp))->addMinute($matchTime);
+
+                                    foreach($teamIntervalCheck as $matchId => $matchDetails) {
+                                        $homeTeamCondition = ($match->home_team == $matchDetails['home_team'] || $match->home_team == $matchDetails['away_team']);
+
+                                        $awayTeamCondition = ($match->away_team == $matchDetails['home_team'] || $match->away_team == $matchDetails['away_team']);
+
+                                        if($homeTeamCondition || $awayTeamCondition) {
+                                            $beforeMatchStartTimeStamp = (clone ($matchStartTimeStamp))->subMinute($teamIntervalTime);
+
+                                            $afterMatchEndTimeStamp = (clone ($matchEndTimeStamp))->addMinute($teamIntervalTime);
+
+                                            if((clone($matchDetails['match_datetime']))->between($beforeMatchStartTimeStamp, $afterMatchEndTimeStamp, false) || (clone($matchDetails['match_endtime']))->between($beforeMatchStartTimeStamp, $afterMatchEndTimeStamp, false)) {
+                                                $canMatchBeSchedule = false;
+                                            }
+                                        }
+                                    }
+
+                                    if($canMatchBeSchedule == true) {
+                                        $startTimeStamp = $key;
+                                    }
                                 }
-                                $i++;
-                                continue;
+                                if($canMatchBeSchedule == true) {
+                                    $i++;
+                                    continue;
+                                }
                             }
                             $i = 0;
                             $startTimeStamp = null;
