@@ -316,7 +316,7 @@ import Tournament from '../api/tournament.js'
               this.normal_match_duration = '';
               this.final_match_duration = '';
               this.allPitchesWithDays = {};
-              this.selectedPitches = null;
+              this.selectedPitches = [];
               this.isSelectedPitchInvalid = false;
               this.clearErrorMsgs();
               $('.js-available-time-error-message').hide();
