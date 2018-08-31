@@ -713,14 +713,9 @@ class TournamentRepository
 
     public function getAllPitchesWithDays($pitchId)
     {
-        $pitchAvailability = PitchAvailable::where('pitch_id', $pitchId)->select('stage_no', 'stage_start_date')->get();
+        $pitchAvailability = PitchAvailable::where('pitch_id', $pitchId)->select('stage_no', 'stage_start_date')->get()->toArray();
 
-        $stages = [];
-        $pitchAvailability->each(function ($item, $key) use (&$stages) {
-            $stages[$key] = ['stage_no' => $item->stage_no, 'stage_start_date' => $item->stage_start_date];
-        });
-
-        return $stages;
+        return $pitchAvailability;
     }
 
     public function scheduleAutomaticPitchPlanning($data)
