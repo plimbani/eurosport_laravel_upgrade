@@ -463,8 +463,10 @@ var moment = require('moment');
                 vm.$root.$emit('setDrawTable',matchData['competation_id']);
                 vm.$root.$emit('setStandingData',matchData['competation_id']);
               } else {
-                // vm.$root.$emit('reloadAllEvents')
-                vm.$root.$emit('setPitchPlanTab','gamesTab')
+                vm.$root.$emit('displayTournamentCompetationList');
+                vm.$root.$emit('setPitchReset');
+                vm.$store.dispatch('setMatches');
+                vm.$root.$emit('reloadAllEvents');
               }
             }
           )
