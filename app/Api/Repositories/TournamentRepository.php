@@ -731,7 +731,7 @@ class TournamentRepository
         $teamIntervalTime = $ageCategory->team_interval;
 
         // for normal match
-        $unscheduledMatchesForNormalMatch = TempFixture::where('competition_id', $data['competition'])->where('is_scheduled', 0)->get();
+        $unscheduledMatchesForNormalMatch = TempFixture::where('competition_id', $data['competition'])->where('is_final_round_match', 0)->where('is_scheduled', 0)->get();
         $normalMatchTotalTime  = ($ageCategory->game_duration_RR * $ageCategory->halves_RR) + $ageCategory->halftime_break_RR + $ageCategory->match_interval_RR;
         $requiredNormalMatchTotalTime = $normalMatchTotalTime * count($unscheduledMatchesForNormalMatch);
 
