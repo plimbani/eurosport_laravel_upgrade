@@ -226,7 +226,6 @@ import Tournament from '../api/tournament.js'
                   let tournamentId = this.$store.state.Tournament.tournamentId;
 
                   _.forEach(this.allPitchesWithDays, function(pitchDetail) {
-                    console.log('pitchDetail',pitchDetail);
                     _.forEach(pitchDetail.time, function(timeDetail, index) {
                       vm.allPitchesWithDays[pitchDetail.id].time[index].start_time = $("#start_time_" + pitchDetail.id + "_" + parseInt(index+1)).val();
                       vm.allPitchesWithDays[pitchDetail.id].time[index].end_time = $("#end_time_" + pitchDetail.id + "_" + parseInt(index+1)).val();
@@ -292,7 +291,6 @@ import Tournament from '../api/tournament.js'
               let vm = this;
               Tournament.getAllPitchesWithDays(pitchId).then(
                 (response) => {
-                  console.log('response', response);
                   vm.allPitchesWithDays[pitchId].days = response.data.data;
                   let pitchTime = [];
                   $.each(response.data.data, function(index, element) {
