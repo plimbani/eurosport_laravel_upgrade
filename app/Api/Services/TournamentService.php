@@ -889,4 +889,22 @@ class TournamentService implements TournamentContract
       $data = $this->tournamentRepoObj->getFilterDropDownData($data);
       return ['options' => $data];
     }
+
+    public function getCompetitionAndPitchDetail($data)
+    {
+      $data = $this->tournamentRepoObj->getCompetitionAndPitchDetail($data);
+      return ['options' => $data];
+    }
+
+    public function scheduleAutomaticPitchPlanning($data)
+    {
+      $data = $this->tournamentRepoObj->scheduleAutomaticPitchPlanning($data);
+      return ['options' => $data];
+    }
+
+    public function getAllPitchesWithDays($pitchId)
+    {
+      $data = $this->tournamentRepoObj->getAllPitchesWithDays($pitchId);
+      return ['data' => $data, 'status_code' => '200'];
+    }
 }

@@ -230,4 +230,19 @@ class TournamentController extends BaseController
 
         return $signedUrl;
     }
+
+    public function getCompetitionAndPitchDetail(Request $request)
+    {
+        return $this->tournamentObj->getCompetitionAndPitchDetail($request->all());   
+    }
+
+    public function scheduleAutomaticPitchPlanning(Request $request)
+    {
+        return $this->tournamentObj->scheduleAutomaticPitchPlanning($request->all());   
+    }
+
+    public function getAllPitchesWithDays(Request $request, $pitchId)
+    {
+        return $this->tournamentObj->getAllPitchesWithDays($pitchId);      
+    }
 }

@@ -228,6 +228,12 @@ export default {
   getClubsByTournamentId(tournamentId) {
     return api.post('getClubsByTournamentId/' +tournamentId);
   },
+  getCompetitionAndPitchDetail(data) {
+    return api.post('tournament/getCompetitionAndPitchDetail', data);
+  },
+  scheduleAutomaticPitchPlanning(data) {
+    return api.post('tournament/scheduleAutomaticPitchPlanning', data);
+  },
   getTeamsFairPlayData(teamData) {
     return api.get('getTeamsFairPlayData?' +teamData);
   },
@@ -236,6 +242,9 @@ export default {
   },
   getSignedUrlForFairPlayReportPrint(reportData) {
     return api.post('getSignedUrlForFairPlayReportPrint?' + reportData);
+  },
+  getAllPitchesWithDays(pitchId) {
+    return api.post('getAllPitchesWithDays/' + pitchId);
   },
   getSignedUrlForPitchPlannerPrint(tournamentId) {
     return api.post('getSignedUrlForPitchPlannerPrint/' + tournamentId);

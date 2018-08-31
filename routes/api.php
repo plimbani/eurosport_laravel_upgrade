@@ -83,7 +83,12 @@ $api->version('v1', function ($api) {
 
     $api->post('age_group/getPlacingsData','Laraspace\Api\Controllers\AgeGroupController@getPlacingsData');
 
+    $api->post('tournament/getCompetitionAndPitchDetail', 'Laraspace\Api\Controllers\TournamentController@getCompetitionAndPitchDetail');
+
+    $api->post('tournament/scheduleAutomaticPitchPlanning', 'Laraspace\Api\Controllers\TournamentController@scheduleAutomaticPitchPlanning');
     $api->get('/changeWebsiteMenus','Laraspace\Api\Controllers\HomeController@changeWebsiteMenus');
+
+    $api->post('/getAllPitchesWithDays/{pitchId}', 'Laraspace\Api\Controllers\TournamentController@getAllPitchesWithDays');
 
 });
 

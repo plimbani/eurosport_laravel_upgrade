@@ -675,6 +675,17 @@ module.exports= {
   pitch_planner_group_colours: "Group colours",
   pitch_planner_group_colours_title: "Group Colours",
 
+  // Automatic planning
+  pitch_planner_automatic_planning: "Automatic planning",
+  pitch_planner_automatic_planning_title: "Automatic Pitch Planning",
+  pitch_planner_automatic_planning_age_categories: "Age Categories*",
+  pitch_planner_automatic_planning_competitions: "Competitions*",
+  pitch_planner_automatic_planning_team_interval: "Team interval",
+  pitch_planner_automatic_planning_total_normal_matches_duration: "Total game duration for RR/EM/PM",
+  pitch_planner_automatic_planning_total_final_matches_duration: "Total game duration for final",
+  pitch_planner_automatic_planning_pitch_selection: "Pitch selection*",
+  pitch_planner_automatic_planning_schedule_btn: "Plan",
+
   pitch_detail_break_add: "Add break",
   pitch_detail_break_remove: "Delete break",
 
