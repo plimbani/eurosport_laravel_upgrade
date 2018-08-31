@@ -11,8 +11,13 @@ class GroupSummaryMatchesCell: UITableViewCell {
 
     var record: TeamFixture!
     
+    @IBOutlet var dateView: UIView!
+    
     @IBOutlet var lblHomeTeam: UILabel!
     @IBOutlet var lblAwayTeam: UILabel!
+    @IBOutlet var lblHomeTeamScore: UILabel!
+    @IBOutlet var lblAwayTeamScore: UILabel!
+    
     @IBOutlet var lblVenue: UILabel!
     @IBOutlet var lblDate: UILabel!
     @IBOutlet var lblMatchId: UILabel!
@@ -21,6 +26,9 @@ class GroupSummaryMatchesCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        
+        dateView.layer.cornerRadius = dateView.frame.size.width/2
+        dateView.clipsToBounds = true
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -37,11 +45,11 @@ class GroupSummaryMatchesCell: UITableViewCell {
         if record.matchDatetime != NULL_STRING {
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = kDateFormat.MMM
-            let nameOfMonth = dateFormatter.string(from: record.matchDatetimeObj)
+            let nameOfMonth = dateFormatter.string(from: record.matchDatetimeObj!)
             dateFormatter.dateFormat = kDateFormat.dd
-            let dateOfMonth = dateFormatter.string(from: record.matchDatetimeObj)
+            let dateOfMonth = dateFormatter.string(from: record.matchDatetimeObj!)
             
-            lblDate.text = nameOfMonth + " " + dateOfMonth
+            lblDate.text = dateOfMonth + " " + nameOfMonth
         } else {
             lblDate.text = NULL_STRING
         }
@@ -76,6 +84,109 @@ class GroupSummaryMatchesCell: UITableViewCell {
             lblRound.text = NULL_STRING
         }
         
+        // Home team name
+        if record.homeId == 0 {
+            if record.homeTeamName != NULL_STRING && record.homeTeamName == "@^^@" {
+                if record.competitionActualName != NULL_STRING && record.competitionActualName.contains("Group") {
+                    lblHomeTeam.text = record.homePlaceholder
+                } else if record.competitionActualName != NULL_STRING && record.competitionActualName.contains("Pos") {
+                    lblHomeTeam.text = "Pos - " + record.homePlaceholder
+                } else {
+                    if record.homeTeam != NULL_STRING {
+                        lblHomeTeam.text = record.homeTeam
+                    } else {
+                        lblHomeTeam.text = NULL_STRING
+                    }
+                }
+            } else {
+                if record.displayHomeTeamPlaceholderName != NULL_STRING {
+                    lblHomeTeam.text = record.displayHomeTeamPlaceholderName
+                } else {
+                    lblHomeTeam.text = NULL_STRING
+                }
+            }
+        } else {
+            if record.homeTeam != NULL_STRING {
+                lblHomeTeam.text = record.homeTeam
+            } else {
+                lblHomeTeam.text = NULL_STRING
+            }
+        }
         
+        // Away team name
+        if record.awayId == 0 {
+            if record.awayTeamName != NULL_STRING && record.awayTeamName == "@^^@" {
+                if record.competitionActualName != NULL_STRING && record.competitionActualName.contains("Group") {
+                    lblAwayTeam.text = record.awayPlaceholder
+                } else if record.competitionActualName != NULL_STRING && record.competitionActualName.contains("Pos") {
+                    lblAwayTeam.text = "Pos - " + record.awayPlaceholder
+                } else {
+                    if record.awayTeam != NULL_STRING {
+                        lblAwayTeam.text = record.awayTeam
+                    } else {
+                        lblAwayTeam.text = NULL_STRING
+                    }
+                }
+            } else {
+                if record.displayAwayTeamPlaceholderName != NULL_STRING {
+                    lblAwayTeam.text = record.displayAwayTeamPlaceholderName
+                } else {
+                    lblAwayTeam.text = NULL_STRING
+                }
+            }
+        } else {
+            if record.awayTeam != NULL_STRING {
+                lblAwayTeam.text = record.awayTeam
+            } else {
+                lblAwayTeam.text = NULL_STRING
+            }
+        }
+        
+        var homeScore = NULL_ID
+        var awayScore = NULL_ID
+        
+        // Home team score
+        if record.homeScore != NULL_ID {
+            lblHomeTeamScore.text = "\(record.homeScore)"
+            homeScore = record.homeScore
+        } else {
+            lblHomeTeamScore.text = NULL_STRING
+        }
+        
+        // Away team score
+        if record.awayScore != NULL_ID {
+            lblAwayTeamScore.text = "\(record.awayScore)"
+            awayScore = record.awayScore
+        } else {
+            lblAwayTeamScore.text = NULL_STRING
+        }
+        
+        if homeScore != NULL_ID && awayScore != NULL_ID {
+            if homeScore == awayScore {
+                lblHomeTeamScore.textColor = .AppColor()
+                lblAwayTeamScore.textColor = .AppColor()
+                
+                lblHomeTeam.textColor = .AppColor()
+                lblAwayTeam.textColor = .AppColor()
+            } else if homeScore > awayScore {
+                lblHomeTeamScore.textColor = .AppColor()
+                lblAwayTeamScore.textColor = .black
+                
+                lblHomeTeam.textColor = .AppColor()
+                lblAwayTeam.textColor = .black
+            } else {
+                lblHomeTeamScore.textColor = .black
+                lblAwayTeamScore.textColor = .AppColor()
+                
+                lblHomeTeam.textColor = .black
+                lblAwayTeam.textColor = .AppColor()
+            }
+        } else {
+            lblHomeTeamScore.textColor = .black
+            lblAwayTeamScore.textColor = .black
+            
+            lblHomeTeam.textColor = .black
+            lblAwayTeam.textColor = .black
+        }
     }
 }

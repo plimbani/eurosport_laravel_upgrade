@@ -100,6 +100,7 @@ class ApplicationData: NSObject {
         }
         
         formatter.locale = Locale(identifier: localeStr)
+        
         return formatter.date(from: dateStr)!
     }
     

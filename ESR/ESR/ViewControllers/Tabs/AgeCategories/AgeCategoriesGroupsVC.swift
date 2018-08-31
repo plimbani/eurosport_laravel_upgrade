@@ -94,8 +94,7 @@ extension AgeCategoriesGroupsVC : UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let viewController = Storyboards.AgeCategories.instantiateAgeCategoriesGroupsSummaryVC()
-        viewController.groupId = (ageCategoriesGroupsList[indexPath.row] as! NSDictionary).value(forKey: "id") as! Int
-        viewController.groupName = (ageCategoriesGroupsList[indexPath.row] as! NSDictionary).value(forKey: "name") as! String
+        viewController.dicGroup = (ageCategoriesGroupsList[indexPath.row] as! NSDictionary)
         self.navigationController?.pushViewController(viewController, animated: true)
     }
 }

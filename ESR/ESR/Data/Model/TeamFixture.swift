@@ -11,12 +11,13 @@ class TeamFixture {
     
     var matchNumber: String = NULL_STRING
     var displayMatchNumber: String = NULL_STRING
+    var competitionActualName: String = NULL_STRING
     var round: String = NULL_STRING
     var actualRound: String = NULL_STRING
     var competationName: String = NULL_STRING
     var teamSize: Int = NULL_ID
     var matchDatetime: String = NULL_STRING
-    var matchDatetimeObj = Date()
+    var matchDatetimeObj: Date?
     var matchEndtime: String = NULL_STRING
     var ageGroupId: Int = NULL_ID
     var displayHomeTeamPlaceholderName: String = NULL_STRING
@@ -37,6 +38,11 @@ class TeamFixture {
     var awayCountryName: String = NULL_STRING
     var homeScore: Int = NULL_ID
     var awayScore: Int = NULL_ID
+    var isResultOverride: Int = NULL_ID
+    var homeTeamName: String = NULL_STRING
+    var homePlaceholder: String = NULL_STRING
+    var awayPlaceholder: String = NULL_STRING
+    var awayTeamName: String = NULL_STRING
     var pitchId: Int = NULL_ID
     var isScheduled: Int = NULL_ID
     var homeTeamShirtColor: String = NULL_STRING

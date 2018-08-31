@@ -47,3 +47,4 @@
 
 //Strings
 "string_no_internet"                    = "The internet connection appears to be offline.";
+"string_league_table"                   = "league table";

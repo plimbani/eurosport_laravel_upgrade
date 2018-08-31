@@ -9,18 +9,15 @@ import Foundation
 
 class ParseManager {
     
-//    var pitchType: String = NULL_STRING
-//    var groupName: String = NULL_STRING
-//    var homeTeamShirtColor: String = NULL_STRING
-//    var awayTeamShirtColor: String = NULL_STRING
-//    var homeTeamShortsColor: String = NULL_STRING
-//    var awayTeamShortsColor: String = NULL_STRING
-    
     static func parseTeamFixture(_ record: NSDictionary) -> TeamFixture {
         let teamFixture = TeamFixture()
         
         if let text = record.value(forKey: "match_number") as? String {
             teamFixture.matchNumber = text
+        }
+        
+        if let text = record.value(forKey: "group_name") as? String {
+            teamFixture.groupName = text
         }
         
         if let text = record.value(forKey: "displayMatchNumber") as? String {
@@ -54,6 +51,10 @@ class ParseManager {
         
         if let text = record.value(forKey: "match_endtime") as? String {
             teamFixture.matchEndtime = text
+        }
+        
+        if let competitionActualName = record.value(forKey: "competition_actual_name") as? String {
+            teamFixture.competitionActualName = competitionActualName
         }
         
         if let ageGroupId = record.value(forKey: "age_group_id") as? Int {
@@ -122,6 +123,26 @@ class ParseManager {
         
         if let awayScore = record.value(forKey: "AwayScore") as? Int {
             teamFixture.awayScore = awayScore
+        }
+        
+        if let text = record.value(forKey: "homeTeamName") as? String {
+            teamFixture.homeTeamName = text
+        }
+        
+        if let text = record.value(forKey: "homePlaceholder") as? String {
+            teamFixture.homePlaceholder = text
+        }
+        
+        if let text = record.value(forKey: "awayPlaceholder") as? String {
+            teamFixture.awayPlaceholder = text
+        }
+        
+        if let isResultOverride = record.value(forKey: "isResultOverride") as? Int {
+            teamFixture.isResultOverride = isResultOverride
+        }
+        
+        if let text = record.value(forKey: "awayTeamName") as? String {
+            teamFixture.awayTeamName = text
         }
         
         if let pitchId = record.value(forKey: "pitchId") as? Int {

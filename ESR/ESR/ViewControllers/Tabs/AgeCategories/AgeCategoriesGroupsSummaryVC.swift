@@ -19,11 +19,13 @@ class AgeCategoriesGroupsSummaryVC: SuperViewController {
     @IBOutlet var tabMatchView: UIView!
     @IBOutlet var groupSelectionView: UIView!
     @IBOutlet var lblGroupName: UILabel!
+    @IBOutlet var lblHeaderGroupName: UILabel!
     
     var heightGroupSummaryStandingsCell: CGFloat = 0
     var heightGroupSummaryMatchesCell: CGFloat = 0
     var groupId: Int = NULL_ID
-    var groupName = NULL_STRING
+    
+    var dicGroup: NSDictionary!
     
     var teamFixuteuresList = [TeamFixture]()
     var groupStandingsList = NSArray()
@@ -70,7 +72,7 @@ class AgeCategoriesGroupsSummaryVC: SuperViewController {
         pickerHandlerView.delegate = self
         self.view.addSubview(pickerHandlerView)
         
-        lblGroupName.text = groupName
+        lblGroupName.text = dicGroup.value(forKey: "name") as! String
         
         if headerGroupStandingView != nil {
             headerGroupStandingView.frame = CGRect(x: 0, y: 0, width: DEVICE_WIDTH, height: 60)
@@ -84,7 +86,7 @@ class AgeCategoriesGroupsSummaryVC: SuperViewController {
             footerGroupStandingView.frame = CGRect(x: 0, y: 0, width: DEVICE_WIDTH, height: 50)
         }
         
-        sendGetGroupStadingsRequest()
+        refreshListByGroup(false)
     }
     
     @objc func onTabStandingViewPressed(sender : UITapGestureRecognizer) {
@@ -143,14 +145,29 @@ class AgeCategoriesGroupsSummaryVC: SuperViewController {
                 
                 if let data = result.value(forKey: "data") as? NSArray {
                     
+                    self.teamFixuteuresList.removeAll()
+                    
                     for i in 0..<data.count {
                         self.teamFixuteuresList.append(ParseManager.parseTeamFixture(data[i] as! NSDictionary))
                     }
                     
-                    // Sort array by start date
-                    self.teamFixuteuresList.sort(by: { (t1, t2) -> Bool in
-                        return (t1.matchDatetimeObj.timeIntervalSinceNow > t2.matchDatetimeObj.timeIntervalSinceNow)
-                    })
+                    if let type = self.dicGroup.value(forKey: "competation_type") as? String {
+                        if type != "Elimination" {
+                            // Sort array by start date
+                            self.teamFixuteuresList.sort(by: { (t1, t2) -> Bool in
+                                
+                                if let date1 = t1.matchDatetimeObj {
+                                    if let date2 = t1.matchDatetimeObj {
+                                        return (date1.timeIntervalSinceNow < date2.timeIntervalSinceNow)
+                                    } else {
+                                        return true
+                                    }
+                                } else {
+                                    return true
+                                }
+                            })
+                        }
+                    }
                 }
                 
                 self.table.reloadData()
@@ -180,6 +197,8 @@ class AgeCategoriesGroupsSummaryVC: SuperViewController {
         var serverTournamentData: [String: Any] = [:]
         serverTournamentData["tournamentData"] = parameters
         
+        lblHeaderGroupName.text = lblGroupName.text! + "\n" + String.localize(key: "string_league_table")
+        
         ApiManager().getGroupStandings(serverTournamentData, success: { result in
             DispatchQueue.main.async {
                 self.view.hideProgressHUD()
@@ -196,16 +215,18 @@ class AgeCategoriesGroupsSummaryVC: SuperViewController {
             }
         })
     }
-}
-
-extension AgeCategoriesGroupsSummaryVC: PickerHandlerViewDelegate {
     
-    func pickerCancelBtnPressed() {}
-    
-    func pickerDoneBtnPressed(_ title: String) {
-        lblGroupName.text = title
+    func refreshListByGroup(_ flag: Bool) {
         
-        let groupDic = ApplicationData.groupsList[pickerHandlerView.selectedPickerPosition] as! NSDictionary
+        var groupDic = NSDictionary()
+        
+        if flag {
+            groupDic = ApplicationData.groupsList[pickerHandlerView.selectedPickerPosition] as! NSDictionary
+        } else {
+            groupDic = dicGroup
+        }
+        
+        groupId = groupDic.value(forKey: "id") as! Int
         
         if let type = groupDic.value(forKey: "competation_type") as? String {
             if type == "Elimination" {
@@ -224,6 +245,16 @@ extension AgeCategoriesGroupsSummaryVC: PickerHandlerViewDelegate {
                 sendGetGroupStadingsRequest()
             }
         }
+    }
+}
+
+extension AgeCategoriesGroupsSummaryVC: PickerHandlerViewDelegate {
+    
+    func pickerCancelBtnPressed() {}
+    
+    func pickerDoneBtnPressed(_ title: String) {
+        lblGroupName.text = title
+        refreshListByGroup(true)
     }
 }
 

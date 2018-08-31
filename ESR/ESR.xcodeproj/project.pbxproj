@@ -73,6 +73,9 @@
 		30569402212BEADC009790BA /* PrivacyAndTermsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30569401212BEADC009790BA /* PrivacyAndTermsVC.swift */; };
 		30569404212C0251009790BA /* ProfileList.plist in Resources */ = {isa = PBXBuildFile; fileRef = 30569403212C0251009790BA /* ProfileList.plist */; };
 		307949DF2137F78100DE23A3 /* TeamFixture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307949DE2137F78100DE23A3 /* TeamFixture.swift */; };
+		307949E621394C6800DE23A3 /* GroupDetailsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307949E521394C6800DE23A3 /* GroupDetailsVC.swift */; };
+		307949ED21395AB200DE23A3 /* GroupDetailsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307949EB21395AB200DE23A3 /* GroupDetailsCell.swift */; };
+		307949EE21395AB200DE23A3 /* GroupDetailsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 307949EC21395AB200DE23A3 /* GroupDetailsCell.xib */; };
 		30FB3111212EB2B300ABA22A /* privacyContent.html in Resources */ = {isa = PBXBuildFile; fileRef = 30FB3110212EB2B300ABA22A /* privacyContent.html */; };
 		30FB3114212EEB0B00ABA22A /* FavouriteTournamentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FB3112212EEB0B00ABA22A /* FavouriteTournamentCell.swift */; };
 		30FB3115212EEB0B00ABA22A /* FavouriteTournamentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30FB3113212EEB0B00ABA22A /* FavouriteTournamentCell.xib */; };
@@ -160,6 +163,9 @@
 		30569401212BEADC009790BA /* PrivacyAndTermsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyAndTermsVC.swift; sourceTree = "<group>"; };
 		30569403212C0251009790BA /* ProfileList.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = ProfileList.plist; sourceTree = "<group>"; };
 		307949DE2137F78100DE23A3 /* TeamFixture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamFixture.swift; sourceTree = "<group>"; };
+		307949E521394C6800DE23A3 /* GroupDetailsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupDetailsVC.swift; sourceTree = "<group>"; };
+		307949EB21395AB200DE23A3 /* GroupDetailsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupDetailsCell.swift; sourceTree = "<group>"; };
+		307949EC21395AB200DE23A3 /* GroupDetailsCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GroupDetailsCell.xib; sourceTree = "<group>"; };
 		30FB3110212EB2B300ABA22A /* privacyContent.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = privacyContent.html; sourceTree = "<group>"; };
 		30FB3112212EEB0B00ABA22A /* FavouriteTournamentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouriteTournamentCell.swift; sourceTree = "<group>"; };
 		30FB3113212EEB0B00ABA22A /* FavouriteTournamentCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FavouriteTournamentCell.xib; sourceTree = "<group>"; };
@@ -338,6 +344,8 @@
 				30FB312921366A6400ABA22A /* GroupSummaryMatchesCell.xib */,
 				30FB312C21366AA400ABA22A /* GroupSummaryStandingsCell.swift */,
 				30FB312D21366AA400ABA22A /* GroupSummaryStandingsCell.xib */,
+				307949EB21395AB200DE23A3 /* GroupDetailsCell.swift */,
+				307949EC21395AB200DE23A3 /* GroupDetailsCell.xib */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -431,6 +439,7 @@
 				30181D09211DBA3E0067D65F /* TabAgeCategoriesVC.swift */,
 				30FB311C213550C600ABA22A /* AgeCategoriesGroupsVC.swift */,
 				30FB311E2135523B00ABA22A /* AgeCategoriesGroupsSummaryVC.swift */,
+				307949E521394C6800DE23A3 /* GroupDetailsVC.swift */,
 			);
 			path = AgeCategories;
 			sourceTree = "<group>";
@@ -551,6 +560,7 @@
 				30181D1121219EA00067D65F /* Favourites.storyboard in Resources */,
 				30181D282122A8FB0067D65F /* TitleNavigationBar.xib in Resources */,
 				30181D7C212AD07C0067D65F /* CustomAlertViewTwoButton.xib in Resources */,
+				307949EE21395AB200DE23A3 /* GroupDetailsCell.xib in Resources */,
 				30181CCE211D95B80067D65F /* LaunchScreen.storyboard in Resources */,
 				30FB311B21353CA000ABA22A /* AgeCategoryCell.xib in Resources */,
 				30181D1921219F780067D65F /* Settings.storyboard in Resources */,
@@ -631,6 +641,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				30181D7D212AD07C0067D65F /* CustomAlertViewTwoButton.swift in Sources */,
+				307949E621394C6800DE23A3 /* GroupDetailsVC.swift in Sources */,
 				30FB311F2135523B00ABA22A /* AgeCategoriesGroupsSummaryVC.swift in Sources */,
 				30FB311A21353CA000ABA22A /* AgeCategoryCell.swift in Sources */,
 				30FB311D213550C600ABA22A /* AgeCategoriesGroupsVC.swift in Sources */,
@@ -657,6 +668,7 @@
 				30181D212121A8DD0067D65F /* LoginVC.swift in Sources */,
 				30181CDD211D99F50067D65F /* AppConstantsList.swift in Sources */,
 				307949DF2137F78100DE23A3 /* TeamFixture.swift in Sources */,
+				307949ED21395AB200DE23A3 /* GroupDetailsCell.swift in Sources */,
 				30181D0C211DBA900067D65F /* TabSettingsVC.swift in Sources */,
 				30181D79212ABB5A0067D65F /* ParseManger.swift in Sources */,
 				30181D4C212590E30067D65F /* ImageNavigationBar.swift in Sources */,
