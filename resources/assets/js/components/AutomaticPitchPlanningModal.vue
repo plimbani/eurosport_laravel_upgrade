@@ -94,22 +94,25 @@
                     <ul class="list-group list-group-flush">
                       <li class="list-group-item" v-for="(day, index) in pitch.days">
                         <div class="row align-items-center">
-                          <label class="col-sm-3 col-form-label">Day {{ day }}</label>
+                          <div class="col-sm-3">
+                            <div><strong>Day {{ day.stage_no }}</strong></div>
+                            <div><small>{{ day.stage_start_date }}</small></div>
+                          </div>
                           <div class="col-sm-9">
                             <div class="row align-items-center">
-                              <div class="col-md-3">
+                              <div class="col-md-3 text-right">
                                 <span>Start time:</span>
                               </div>
                               <div class="col-md-3">
-                                <input :name="'start_time_'+pitch.id+'_'+day"  v-validate="'required'" :class="[errors.has('start_time_'+pitch.id+'_'+day) ? 'is-danger': '', 'form-control ls-timepicker start_time']" :id="'start_time_'+pitch.id+'_'+day" type="text" value="08:00">
-                                <i v-show="errors.has('start_time_'+pitch.id+'_'+day)" class="fa fa-warning text-danger" data-placement="top" title="Start time is required"></i>
+                                <input :name="'start_time_'+pitch.id+'_'+day.stage_no"  v-validate="'required'" :class="[errors.has('start_time_'+pitch.id+'_'+day.stage_no) ? 'is-danger': '', 'form-control ls-timepicker start_time']" :id="'start_time_'+pitch.id+'_'+day.stage_no" type="text" value="08:00">
+                                <i v-show="errors.has('start_time_'+pitch.id+'_'+day.stage_no)" class="fa fa-warning text-danger" data-placement="top" title="Start time is required"></i>
                               </div>
-                              <div class="col-md-3">
+                              <div class="col-md-3 text-right">
                                 <span>End time:</span>
                               </div>
                               <div class="col-md-3">
-                                <input :name="'end_time_'+pitch.id+'_'+day"  v-validate="'required'" :class="[errors.has('end_time_'+pitch.id+'_'+day)?'is-danger': '', 'form-control ls-timepicker end_time']" :id="'end_time_'+pitch.id+'_'+day" type="text" value="23:00">
-                                <i v-show="errors.has('end_time_'+pitch.id+'_'+day)" class="fa fa-warning text-danger" data-placement="top" title="End time is required"></i>
+                                <input :name="'end_time_'+pitch.id+'_'+day.stage_no"  v-validate="'required'" :class="[errors.has('end_time_'+pitch.id+'_'+day.stage_no)?'is-danger': '', 'form-control ls-timepicker end_time']" :id="'end_time_'+pitch.id+'_'+day.stage_no" type="text" value="23:00">
+                                <i v-show="errors.has('end_time_'+pitch.id+'_'+day.stage_no)" class="fa fa-warning text-danger" data-placement="top" title="End time is required"></i>
                               </div>
                             </div>
                           </div>
@@ -223,6 +226,7 @@ import Tournament from '../api/tournament.js'
                   let tournamentId = this.$store.state.Tournament.tournamentId;
 
                   _.forEach(this.allPitchesWithDays, function(pitchDetail) {
+                    console.log('pitchDetail',pitchDetail);
                     _.forEach(pitchDetail.time, function(timeDetail, index) {
                       vm.allPitchesWithDays[pitchDetail.id].time[index].start_time = $("#start_time_" + pitchDetail.id + "_" + parseInt(index+1)).val();
                       vm.allPitchesWithDays[pitchDetail.id].time[index].end_time = $("#end_time_" + pitchDetail.id + "_" + parseInt(index+1)).val();
@@ -288,6 +292,7 @@ import Tournament from '../api/tournament.js'
               let vm = this;
               Tournament.getAllPitchesWithDays(pitchId).then(
                 (response) => {
+                  console.log('response', response);
                   vm.allPitchesWithDays[pitchId].days = response.data.data;
                   let pitchTime = [];
                   $.each(response.data.data, function(index, element) {
