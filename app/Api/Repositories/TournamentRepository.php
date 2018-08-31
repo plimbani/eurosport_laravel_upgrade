@@ -713,7 +713,7 @@ class TournamentRepository
 
     public function getAllPitchesWithDays($pitchId)
     {
-        $pitchAvailability = PitchAvailable::where('pitch_id', $pitchId)->pluck('stage_no')->toArray();
+        $pitchAvailability = PitchAvailable::where('pitch_id', $pitchId)->select('stage_no', 'stage_start_date')->get()->toArray();
 
         return $pitchAvailability;
     }
