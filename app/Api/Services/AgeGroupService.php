@@ -339,8 +339,10 @@ class AgeGroupService implements AgeGroupContract
       }
 
       $categoryRules = config('config-variables.category_rules');
+      $categoryRulesInfo = config('config-variables.category_rules_info');
+      
       if ($data) {
-          return ['status_code' => '200', 'message' => 'Competation Data', 'data' => $data, 'category_rules' => $categoryRules];
+          return ['status_code' => '200', 'message' => 'Competation Data', 'data' => $data, 'category_rules' => $categoryRules, 'category_rules_info' => $categoryRulesInfo];
       }
     }
     public function deleteCompetationFormat($data) {
