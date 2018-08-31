@@ -91,7 +91,7 @@
                     </div>
                 </div>
 
-                <div class="row my-3">
+                <!-- <div class="row my-3">
                   <div class="col-3 align-self-center">
                       <h6 class="mb-0 text-muted"><strong>{{$lang.pitch_totals}}</strong></h6>
                   </div>
@@ -113,7 +113,7 @@
                             </p>
                         </div>
                     </div>
-                </div>
+                </div> -->
                 
                 <div v-for="(locationDetail, locationId) in locationSizeWiseSummaryArray">
                     <div class="row my-3">
@@ -220,9 +220,6 @@ import Tournament from '../../../api/tournament.js'
             editPitchDetail,addPitchDetail,DeleteModal
         },
         computed: {
-            tournamentTime: function() {
-                return this.$store.state.Tournament.currentTotalTime
-            },
             pitchId: function(){
                 return _.cloneDeep(this.$store.getters.curPitchId)
             },
@@ -232,30 +229,6 @@ import Tournament from '../../../api/tournament.js'
             pitchData: function() {
                 return this.$store.state.Pitch.pitchData
             },
-            pitchCapacity: function() {
-                return this.$store.state.Pitch.pitchCapacity
-            },
-            pitchAvailableBalance : function() {
-                let pitchavailableBalance = []
-                let tournamentAvailableTime =  this.tournamentTime
-                let pitchCapacityTime =this.pitchCapacity
-                let availableTime = pitchCapacityTime - tournamentAvailableTime
-                var minutes = availableTime % 60;
-                var hours = (availableTime - minutes) / 60;
-
-                if(minutes<0){
-                    minutes = parseInt(0- minutes)
-                }
-                if(hours<0){
-                    hours = parseInt(0- hours)
-                }
-                let pitchSign= ''
-                if(this.tournamentTime > this.pitchCapacity){
-                  pitchSign = '-'
-                }
-                pitchavailableBalance.push (hours,minutes,pitchSign)
-                return pitchavailableBalance
-            }
         },
         mounted(){
             this.getAllPitches()

@@ -321,8 +321,7 @@ class MatchRepository
               'tournament_competation_template.match_interval_FM',
               'tournament_competation_template.id as tid',
               'temp_fixtures.home_yellow_cards', 'temp_fixtures.away_yellow_cards',
-              'temp_fixtures.home_red_cards', 'temp_fixtures.away_red_cards',
-              'temp_fixtures.age_category_color', 'temp_fixtures.group_color',              
+              'temp_fixtures.home_red_cards', 'temp_fixtures.away_red_cards',              
               DB::raw('CONCAT(home_team.name, " vs ", away_team.name) AS full_game')
               )
           ->where('temp_fixtures.tournament_id', $tournamentData['tournamentId']);
@@ -374,14 +373,14 @@ class MatchRepository
           $reportQuery =  $reportQuery->whereDate('temp_fixtures.match_datetime','=',$tournamentData['fixture_date']);
         }
         
-        if(isset($tournamentData['matchScoreFilter']) && $tournamentData['matchScoreFilter'] == 'scored') {
+        if(isset($tournamentData['matchScoreFilter']) && $tournamentData['matchScoreFilter'] == 'played') {
             $reportQuery = $reportQuery->where(function($query) {
                                 $query->where('temp_fixtures.hometeam_score', '!=', NULL)
                                 ->orWhere('temp_fixtures.awayteam_score', '!=', NULL);
                             });
         }
           
-        if(isset($tournamentData['matchScoreFilter']) && $tournamentData['matchScoreFilter'] == 'notscored') { 
+        if(isset($tournamentData['matchScoreFilter']) && $tournamentData['matchScoreFilter'] == 'to_be_played') { 
           $reportQuery = $reportQuery->where(function($query) {
                                 $query->where('temp_fixtures.hometeam_score', NULL)
                                 ->orWhere('temp_fixtures.awayteam_score', NULL);
@@ -1144,9 +1143,6 @@ class MatchRepository
       $competition = Competition::where('id', $tempFixture->competition_id)->first();
       $ageCategory = TournamentCompetationTemplates::where('id', $tempFixture->age_group_id)->first();
 
-      $categoryAgeColor = $ageCategory->category_age_color;
-      $categoryStripColor = $competition->color_code ? $competition->color_code : '#FFFFFF';
-
       if($data['is_result_override'] == 0) {
         $data['matchStatus'] == null;
         $data['matchWinner'] == null;
@@ -1164,14 +1160,19 @@ class MatchRepository
         'away_yellow_cards' => $data['away_yellow_cards'],
         'home_red_cards' => $data['home_red_cards'],
         'away_red_cards' => $data['away_red_cards'],
-        'age_category_color' => (strtolower($categoryAgeColor) == strtolower($data['age_category_color'])) ? null : $data['age_category_color'],
-        'group_color' => (strtolower($categoryStripColor) == strtolower($data['group_color'])) ? null : $data['group_color'],
       ];
 
-      $data = TempFixture::where('id', $data['matchId'])
+      $updateResult = TempFixture::where('id', $data['matchId'])
                   ->update($updateData);
+
+      $ageCategory->category_age_color = $data['age_category_color'];
+      $ageCategory->save();
+
+      $competition->color_code = strtolower($data['group_color']) == '#ffffff' ? NULL : $data['group_color'];
+      $competition->save();
+
       // TODO : call function to add result
-      return $data;
+      return $updateResult;
     }
 
     public function saveAllResults($data)
