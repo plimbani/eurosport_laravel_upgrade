@@ -240,6 +240,7 @@ import Tournament from '../api/tournament.js'
                         $('.js-available-time-error-message').removeClass('d-none');
                         $('.js-available-time-error-message').show();
                         $('.js-available-time-error-message').html(response.data.options.message);
+                        $("#automatic_pitch_planning_modal").scrollTop(0);
                       } else {
                         $('.js-available-time-error-message').hide();
                         this.selectedAgeCategory = '';
