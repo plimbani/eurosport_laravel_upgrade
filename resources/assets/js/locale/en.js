@@ -76,8 +76,8 @@ module.exports= {
 
   team_edit_team_id: "TeamID*",
   team_edit_team_name: "Team*",
-  team_edit_team_shirt_color: "Shirt Color",
-  team_edit_team_shorts_color: "Shorts Color",
+  team_edit_team_shirt_color: "Shirt colour",
+  team_edit_team_shorts_color: "Shorts colour",
   team_edit_team_place: "Place*",
   team_edit_comment: "Comment",
   team_edit_country: "Country*",
@@ -124,7 +124,7 @@ module.exports= {
 
   tournament_manage_edition: "Select an existing tournament",
   tournament_select_website: "Select an existing website",
-  tournament_information: "Tournament information",
+  tournament_information: "Tournament details",
   tournament_name: "Tournament name",
   tournament_start_date: "Tournament start date",
   tournament_end_date: "Tournament end date",
@@ -676,7 +676,7 @@ module.exports= {
   pitch_planner_group_colours_title: "Group Colours",
 
   // Automatic planning
-  pitch_planner_automatic_planning: "Automatic Planning",
+  pitch_planner_automatic_planning: "Automatic planning",
   pitch_planner_automatic_planning_title: "Automatic Pitch Planning",
   pitch_planner_automatic_planning_age_categories: "Age Categories*",
   pitch_planner_automatic_planning_competitions: "Competitions*",

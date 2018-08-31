@@ -99,7 +99,7 @@ class TeamController extends BaseController
        // $rows = \Excel::load($file->getRealPath(), null, 'ISO-8859-1')->get();
         //print_r($rows);
         //exit;
-        \Excel::load($file->getRealPath(), function($reader) {
+        \Excel::selectSheetsByIndex(0)->load($file->getRealPath(), function($reader) {
             // dd($reader->getTotalRowsOfFile() - 1);
             $this->data['totalSize']  = $reader->getTotalRowsOfFile() - 1;
             // dd($this->data['totalSize']);
