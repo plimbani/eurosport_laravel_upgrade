@@ -9,16 +9,16 @@
               <div class="col-sm-12">
                 <ul class="nav nav-tabs" role="tablist">
                   <li class="nav-item">
-                    <a class="nav-link active" data-toggle="tab" href="javascript:void(0)" role="tab" @click="currentView='summaryTab'"><b>{{$lang.summary_label_summary}}</b></a>
+                    <a class="nav-link active" data-toggle="tab" href="javascript:void(0)" role="tab" @click="currentView='summaryTab'">{{$lang.summary_label_summary}}</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" href="javascript:void(0)" role="tab" @click="currentView='summaryReport'"><b>{{$lang.summary_label_reports}}</b></a>
+                    <a class="nav-link" data-toggle="tab" href="javascript:void(0)" role="tab" @click="currentView='summaryReport'">{{$lang.summary_label_reports}}</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" href="javascript:void(0)" role="tab" @click="currentView='scheduleResultsAdmin'"><b>{{$lang.summary_label_schedule}}</b></a>
+                    <a class="nav-link" data-toggle="tab" href="javascript:void(0)" role="tab" @click="currentView='scheduleResultsAdmin'">{{$lang.summary_label_schedule}}</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" href="javascript:void(0)" role="tab" @click="currentView='messages'"><b>{{$lang.summary_label_message}}</b></a>
+                    <a class="nav-link" data-toggle="tab" href="javascript:void(0)" role="tab" @click="currentView='messages'">{{$lang.summary_label_message}}</a>
                   </li>
              <!--      <div class="col display-flex align-items-center justify-content-end padding-right-zero" v-show="currentView=='messages'">
                     <button type="button" class="btn btn-primary"
