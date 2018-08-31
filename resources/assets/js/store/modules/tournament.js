@@ -359,8 +359,6 @@ const mutations = {
         state.totalMatch = matchCountDisplay
         state.competitionWithGames = state.competationList
       }
-
-
   },
 
 }
