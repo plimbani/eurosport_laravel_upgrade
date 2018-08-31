@@ -361,7 +361,7 @@
                             <div class="checkbox">
                               <div class="c-input">
                                 <input type="checkbox" class="euro-checkbox" :value="rule.key" :id="rule.key" :checked="rule.checked" @change="changeCheckedStatus(index, $event)" :disabled="rule.key == 'match_points'">
-                                <label :for="rule.key" class="mb-0">{{ rule.title }} <span class="pr-2 pl-2" data-toggle="popover" data-animation="false" data-placement="right" :data-popover-content="'#category_rules'+index"><i class="fa fa-info"></i></span>
+                                <label :for="rule.key" class="mb-0">{{ rule.title }} <span class="pr-2 pl-2 text-primary" data-toggle="popover" data-animation="false" data-placement="right" :data-popover-content="'#category_rules'+index"><i class="fa fa-info-circle"></i></span>
                                     <div v-bind:id="'category_rules'+index" style="display:none;">
                                         <div class="popover-body">{{ rule.description }}</div>
                                     </div>
@@ -372,7 +372,7 @@
                         </div>
                         <div class="draggable--section-card-header-icons" v-if="rule.key != 'match_points'">
                           <a class="text-primary rules-handle draggable-handle" href="javascript:void(0)">
-                            <i class="fa fa-arrow-down" v-if="rule.key == 'goal_difference'"></i>
+                            <i class="fa fa-arrow-down" v-if="index == 1"></i>
                             <i class="fa fa-arrow-up" v-else></i>
                           </a>
                         </div>
