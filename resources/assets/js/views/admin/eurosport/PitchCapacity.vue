@@ -59,7 +59,7 @@
                 </div>
                 <div class="row my-3">
                   <div class="col-3 align-self-center">
-                      <h6 class="mb-0 text-muted"><strong>{{$lang.pitch_summary}}</strong></h6>
+                      <h6 class="mb-0"><strong>{{$lang.pitch_summary}}</strong></h6>
                   </div>
                 </div>
                 <div class="row">
@@ -91,34 +91,10 @@
                     </div>
                 </div>
 
-                <!-- <div class="row my-3">
-                  <div class="col-3 align-self-center">
-                      <h6 class="mb-0 text-muted"><strong>{{$lang.pitch_totals}}</strong></h6>
-                  </div>
-                </div>
-                <div class="row">
-                    <div class="result col-md-12">
-                        <div class="dashbox mb-2">
-                            <p class="row">
-                                <label class="col-md-3"><strong>{{$lang.pitch_totaL_time}}</strong></label>
-                                <label class="col-md-5">{{((tournamentTime - (tournamentTime % 60)) / 60)+ ' hrs ' + (tournamentTime % 60) + ' mins '}}</label>
-                            </p>
-                            <p class="row">
-                                <label class="col-md-3"><strong>{{$lang.pitch_total_capacity}}</strong></label>
-                                <label class="col-md-5">{{((pitchCapacity - (pitchCapacity % 60)) / 60)+ ' hrs ' + (pitchCapacity % 60) + ' mins '}}</label>
-                            </p>
-                            <p class="row mb-0">
-                                <label class="col-md-3 m-0"><strong>{{$lang.pitch_balance}}</strong></label>
-                                <label :class="[parseInt(pitchCapacity-tournamentTime)<0? 'red': 'text-success','col-md-5 m-0' ]">{{ pitchAvailableBalance[2] + '' +pitchAvailableBalance[0]+ ' hrs ' + pitchAvailableBalance[1] + ' mins '}}</label>
-                            </p>
-                        </div>
-                    </div>
-                </div> -->
-                
                 <div v-for="(locationDetail, locationId) in locationSizeWiseSummaryArray">
                     <div class="row my-3">
                       <div class="col-3 align-self-center">
-                          <h6 class="mb-0 text-muted"><strong>Location - {{ locationDetail.name }}</strong></h6>
+                          <h6 class="mb-0"><strong>Location - {{ locationDetail.name }}</strong></h6>
                       </div>
                     </div>
                     <div class="row">
@@ -603,8 +579,8 @@ import Tournament from '../../../api/tournament.js'
                     },
                     (error) => {
 
-                    }  
-                )               
+                    }
+                )
             },
             getLocationWiseSummary() {
                 if (!isNaN(this.tournamentId)) {
@@ -632,7 +608,7 @@ import Tournament from '../../../api/tournament.js'
                             for(let j=0; j<allPitchSizes.length; j++) {
                                 let locationSizeDetail = {};
                                 let size = allPitchSizes[j];
-                                
+
                                 let availableTime = vm.getAvailableTimeOfLocationSize(locationId, size);
                                 let timeUsed = vm.getRequiredTimeForLocationSize(locationId, size);
                                 let balance = vm.getLocationBalanceSize(locationId, size);

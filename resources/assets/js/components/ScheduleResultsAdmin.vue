@@ -4,9 +4,9 @@
 	    	<div class="col-sm-12">
 				<!-- <div class="card"> -->
 					<!-- <div class="card-block"> -->
-						<div class="row align-items-center">
+						<div class="row align-items-center last-updated-row-text">
 							<div class="col-md-7">
-								<p class="mb-0"><small class="text-muted">{{$lang.summary_schedule_last_update}}
+								<p class="mb-0 last-updated-time"><small class="text-muted">{{$lang.summary_schedule_last_update}}
 							        : {{lastUpdatedDateValue}}</small> </p>
 							</div>
 							<div class="col-md-5" v-if="currentView != 'teamListing' && currentView != 'matchListing'">

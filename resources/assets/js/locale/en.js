@@ -124,7 +124,7 @@ module.exports= {
 
   tournament_manage_edition: "Select an existing tournament",
   tournament_select_website: "Select an existing website",
-  tournament_information: "Tournament information",
+  tournament_information: "Tournament details",
   tournament_name: "Tournament name",
   tournament_start_date: "Tournament start date",
   tournament_end_date: "Tournament end date",
