@@ -676,7 +676,7 @@ module.exports= {
   pitch_planner_group_colours_title: "Group Colours",
 
   // Automatic planning
-  pitch_planner_automatic_planning: "Automatic Planning",
+  pitch_planner_automatic_planning: "Automatic planning",
   pitch_planner_automatic_planning_title: "Automatic Pitch Planning",
   pitch_planner_automatic_planning_age_categories: "Age Categories*",
   pitch_planner_automatic_planning_competitions: "Competitions*",
