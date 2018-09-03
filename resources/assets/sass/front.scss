@@ -1028,10 +1028,6 @@ gmap-map {
     text-decoration:underline;
 }
 
-.result-override-checkbox input[type="checkbox"]{
-    top: 1px;
-}
-
 .tootltip-bubble{
     position: absolute;
     right: 10px;
@@ -1051,4 +1047,21 @@ gmap-map {
 }
 .last-updated-row-text{
     min-height:38px;
+}
+
+.checkbox.result-override-checkbox .euro-checkbox + label{
+    padding-left: 25px;
+}
+
+.checkbox.result-override-checkbox .euro-checkbox + label:before {
+    top: 5px;
+    width: 15px;
+    height: 15px;
+}
+
+.checkbox.result-override-checkbox .euro-checkbox + label:after {
+    top: 8px;
+    left: 6px;
+    width: 4px;
+    height: 8px;
 }
