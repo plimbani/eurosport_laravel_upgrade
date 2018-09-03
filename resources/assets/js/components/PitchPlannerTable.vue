@@ -128,6 +128,7 @@
             // this.$root.$on('getTeamsByTournamentFilter', this.resetPitch);
 
             this.$root.$on('editReferee', this.editReferee);
+            this.$root.$on('displayTournamentCompetationList', this.displayTournamentCompetationList);
         },
         beforeCreate: function() {
             // Remove custom event listener
@@ -140,6 +141,7 @@
             this.$root.$off('setPitchPlanTab');
             this.$root.$off('getAllReferee');
             this.$root.$off('editReferee');
+            this.$root.$off('displayTournamentCompetationList');
         },
         data() {
             return {
