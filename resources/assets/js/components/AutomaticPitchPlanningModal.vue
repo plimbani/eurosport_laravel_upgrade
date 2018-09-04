@@ -117,8 +117,8 @@
 
                             </div>
                           </div>
-                          <div class="col-sm-1 ttext-center">
-                            <a href="javascript:void(0);" @click="removePitchDay(pitch, index)"><i class="fa fa-times"></i></a>
+                          <div class="col-sm-1 text-right">
+                            <a href="javascript:void(0);" class="text-danger" @click="removePitchDay(pitch, index)"><i class="fa fa-times"></i></a>
                           </div>
                         </div>
                       </li>
@@ -353,7 +353,7 @@ import Tournament from '../api/tournament.js'
               .then(function () {
                 vm.$forceUpdate();
               });
-            }         
+            }
         }
     }
 </script>
