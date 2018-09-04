@@ -346,9 +346,8 @@ import Tournament from '../api/tournament.js'
               delete vm.allPitchesWithDays[pitch.id].time[index];
               if(Object.keys(vm.allPitchesWithDays[pitch.id].days).length == 0) {
                 delete vm.allPitchesWithDays[pitch.id];
-                _.remove(vm.selectedPitches, function(obj) {
-                  return obj.id == pitch.id;
-                });
+                let index = _.findIndex(vm.selectedPitches, { 'id': pitch.id });
+                vm.selectedPitches.splice(index, 1);
               }
               Vue.nextTick()
               .then(function () {
