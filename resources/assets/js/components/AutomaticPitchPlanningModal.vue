@@ -85,20 +85,20 @@
                   </div>
                 </div>
               </div>
-              <div class="row" v-for="pitch in getAllPitches">
+              <div class="row" v-for="pitch in getAllPitches" :key="pitch.id">
                 <div class="col-md-12">
                   <div class="card">
                     <div class="card-header bg-light-grey">
                       {{ pitch.pitchName }}
                     </div>
                     <ul class="list-group list-group-flush">
-                      <li class="list-group-item" v-for="(day, index) in pitch.days">
+                      <li class="list-group-item" v-for="(day, index) in pitch.days" :key="day.stage_no">
                         <div class="row align-items-center">
                           <div class="col-sm-3">
                             <div><strong>Day {{ day.stage_no }}</strong></div>
                             <div><small>{{ day.stage_start_date }}</small></div>
                           </div>
-                          <div class="col-sm-9">
+                          <div class="col-sm-8">
                             <div class="row align-items-center">
                               <div class="col-md-3 text-right">
                                 <span>Start time:</span>
@@ -114,7 +114,11 @@
                                 <input :name="'end_time_'+pitch.id+'_'+day.stage_no"  v-validate="'required'" :class="[errors.has('end_time_'+pitch.id+'_'+day.stage_no)?'is-danger': '', 'form-control ls-timepicker end_time']" :id="'end_time_'+pitch.id+'_'+day.stage_no" type="text" value="23:00">
                                 <i v-show="errors.has('end_time_'+pitch.id+'_'+day.stage_no)" class="fa fa-warning text-danger" data-placement="top" title="End time is required"></i>
                               </div>
+
                             </div>
+                          </div>
+                          <div class="col-sm-1 ttext-center">
+                            <a href="javascript:void(0);" @click="removePitchDay(pitch, index)"><i class="fa fa-times"></i></a>
                           </div>
                         </div>
                       </li>
@@ -291,6 +295,9 @@ import Tournament from '../api/tournament.js'
               let vm = this;
               Tournament.getAllPitchesWithDays(pitchId).then(
                 (response) => {
+                  // vm.allPitchesWithDays = Object.assign({}, vm.allPitchesWithDays, {
+                  //   pitchId: {days: response.data.data, pitchId: pitchId},
+                  // });
                   vm.allPitchesWithDays[pitchId].days = response.data.data;
                   let pitchTime = [];
                   $.each(response.data.data, function(index, element) {
@@ -325,7 +332,10 @@ import Tournament from '../api/tournament.js'
               this.isSelectedPitchInvalid = false;
               this.clearErrorMsgs();
               $('.js-available-time-error-message').hide();
-            }
+            },
+            removePitchDay(pitch, index) {
+              pitch.days.splice(index, 1);
+            }         
         }
     }
 </script>
