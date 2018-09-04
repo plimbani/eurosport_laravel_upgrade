@@ -104,14 +104,14 @@
                                 <span>Start time:</span>
                               </div>
                               <div class="col-md-3">
-                                <input :name="'start_time_'+pitch.id+'_'+day.stage_no"  v-validate="'required'" :class="[errors.has('start_time_'+pitch.id+'_'+day.stage_no) ? 'is-danger': '', 'form-control ls-timepicker start_time']" :id="'start_time_'+pitch.id+'_'+day.stage_no" type="text" value="08:00">
+                                <input :name="'start_time_'+pitch.id+'_'+day.stage_no"  v-validate="'required'" :class="[errors.has('start_time_'+pitch.id+'_'+day.stage_no) ? 'is-danger': '', 'form-control ls-timepicker start_time']" :id="'start_time_'+pitch.id+'_'+day.stage_no" type="text" v-model="day.stage_start_time">
                                 <i v-show="errors.has('start_time_'+pitch.id+'_'+day.stage_no)" class="fa fa-warning text-danger" data-placement="top" title="Start time is required"></i>
                               </div>
                               <div class="col-md-3 text-right">
                                 <span>End time:</span>
                               </div>
                               <div class="col-md-3">
-                                <input :name="'end_time_'+pitch.id+'_'+day.stage_no"  v-validate="'required'" :class="[errors.has('end_time_'+pitch.id+'_'+day.stage_no)?'is-danger': '', 'form-control ls-timepicker end_time']" :id="'end_time_'+pitch.id+'_'+day.stage_no" type="text" value="23:00">
+                                <input :name="'end_time_'+pitch.id+'_'+day.stage_no"  v-validate="'required'" :class="[errors.has('end_time_'+pitch.id+'_'+day.stage_no)?'is-danger': '', 'form-control ls-timepicker end_time']" :id="'end_time_'+pitch.id+'_'+day.stage_no" type="text" v-model="day.stage_end_time">
                                 <i v-show="errors.has('end_time_'+pitch.id+'_'+day.stage_no)" class="fa fa-warning text-danger" data-placement="top" title="End time is required"></i>
                               </div>
 
@@ -170,8 +170,8 @@ import Tournament from '../api/tournament.js'
         mounted() {
           // Plugin.initPlugins(['TimePickers']);
           $('#start_time').timepicker({
-            minTime: '08:00',
-            maxTime: '23:00',
+            // minTime: '08:00',
+            // maxTime: '23:00',
             'timeFormat': 'H:i'
           });
         },
@@ -301,15 +301,15 @@ import Tournament from '../api/tournament.js'
                   vm.allPitchesWithDays[pitchId].days = response.data.data;
                   let pitchTime = [];
                   $.each(response.data.data, function(index, element) {
-                    pitchTime[index] = {'start_time': '08:00', 'end_time': '23:00'};
+                    pitchTime[index] = {'start_time': element.stage_start_time, 'end_time': element.stage_end_time};
                   });
                   vm.allPitchesWithDays[pitchId].time = pitchTime;
                   Vue.nextTick()
                   .then(function () {
                     setTimeout(function(){
                       $('.start_time, .end_time').timepicker({
-                        'minTime': '08:00',
-                        'maxTime': '23:00',
+                        // 'minTime': '08:00',
+                        // 'maxTime': '23:00',
                         'timeFormat': 'H:i',
                       });
                     }, 1000);
