@@ -777,6 +777,10 @@ class TournamentRepository
                 ->get();
 
             foreach ($pitchAvailability as $key => $pitchAvailable) {
+                if(!isset($data['timings'][$pitchId]['days'][$key])) {
+                    continue;
+                }
+
                 $pitchAvailableDate = Carbon::createFromFormat('d/m/Y', $pitchAvailable->stage_start_date)->format('Y-m-d');
 
                 $pitchAvailableStart = Carbon::createFromFormat('d/m/Y H:i', $pitchAvailable->stage_start_date . ' ' . $pitchAvailable->stage_start_time);
