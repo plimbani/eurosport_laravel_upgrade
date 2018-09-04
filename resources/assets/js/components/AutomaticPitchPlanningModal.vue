@@ -92,7 +92,7 @@
                       {{ pitch.pitchName }}
                     </div>
                     <ul class="list-group list-group-flush">
-                      <li class="list-group-item" v-for="(day, index) in pitch.days" :key="day.stage_no">
+                      <li class="list-group-item" v-for="(day, index) in pitch.days">
                         <div class="row align-items-center">
                           <div class="col-sm-3">
                             <div><strong>Day {{ day.stage_no }}</strong></div>
@@ -231,8 +231,9 @@ import Tournament from '../api/tournament.js'
 
                   _.forEach(this.allPitchesWithDays, function(pitchDetail) {
                     _.forEach(pitchDetail.time, function(timeDetail, index) {
-                      vm.allPitchesWithDays[pitchDetail.id].time[index].start_time = $("#start_time_" + pitchDetail.id + "_" + parseInt(index+1)).val();
-                      vm.allPitchesWithDays[pitchDetail.id].time[index].end_time = $("#end_time_" + pitchDetail.id + "_" + parseInt(index+1)).val();
+                      let timeIndex = parseInt(index) + parseInt(1);
+                      vm.allPitchesWithDays[pitchDetail.id].time[index].start_time = $("#start_time_" + pitchDetail.id + "_" + timeIndex).val();
+                      vm.allPitchesWithDays[pitchDetail.id].time[index].end_time = $("#end_time_" + pitchDetail.id + "_" + timeIndex).val();
                     });
                   });
 
@@ -295,15 +296,15 @@ import Tournament from '../api/tournament.js'
               let vm = this;
               Tournament.getAllPitchesWithDays(pitchId).then(
                 (response) => {
-                  // vm.allPitchesWithDays = Object.assign({}, vm.allPitchesWithDays, {
-                  //   pitchId: {days: response.data.data, pitchId: pitchId},
-                  // });
-                  vm.allPitchesWithDays[pitchId].days = response.data.data;
-                  let pitchTime = [];
+                  // vm.allPitchesWithDays[pitchId].days = response.data.data;
+                  let pitchTime = {};
+                  let pitchDay = {};
                   $.each(response.data.data, function(index, element) {
                     pitchTime[index] = {'start_time': element.stage_start_time, 'end_time': element.stage_end_time};
+                    pitchDay[index] = {'stage_no': element.stage_no, 'stage_start_date': element.stage_start_date};
                   });
                   vm.allPitchesWithDays[pitchId].time = pitchTime;
+                  vm.allPitchesWithDays[pitchId].days = pitchDay;
                   Vue.nextTick()
                   .then(function () {
                     setTimeout(function(){
@@ -334,7 +335,13 @@ import Tournament from '../api/tournament.js'
               $('.js-available-time-error-message').hide();
             },
             removePitchDay(pitch, index) {
-              pitch.days.splice(index, 1);
+              let vm = this;
+              delete pitch.days[index];
+              delete pitch.time[index];
+              Vue.nextTick()
+              .then(function () {
+                vm.$forceUpdate();
+              });
             }         
         }
     }
