@@ -65,6 +65,9 @@ struct kViewController {
     static let PrivacyAndTermsVC                = "PrivacyAndTermsVC"
     static let AgeCategoriesGroupsVC            = "AgeCategoriesGroupsVC"
     static let AgeCategoriesGroupsSummaryVC     = "AgeCategoriesGroupsSummaryVC"
+    static let GroupDetailsVC                   = "GroupDetailsVC"
+    static let MatchInfoVC                      = "MatchInfoVC"
+    static let VenueVC                          = "VenueVC"
 }
 
 struct kUserDefaults {
@@ -76,6 +79,13 @@ struct kUserDefaults {
     static let isNotification       = "isNotification"
     static let isVibration          = "isVibration"
     static let isSound              = "isSound"
+}
+
+enum ViewBorderType: Int {
+    case top = 1
+    case bottom = 2
+    case left = 3
+    case right = 4
 }
 
 enum AlertRequestCode: Int {
@@ -110,11 +120,13 @@ struct kDateFormat {
     static let format5                          = "dd/MM/yyyy hh:mm a"
     static let MMM                              = "MMM"
     static let dd                               = "dd"
+    static let hhmm                             = "hh:mm"
 }
 
 struct kNiB {
     struct Cell {
         static let TextFieldCell                = "TextFieldCell"
+        static let TwoLabelCell                 = "TwoLabelCell"
         static let LabelSelectionCell           = "LabelSelectionCell"
         static let ButtonCell                   = "ButtonCell"
         static let FavouriteTournamentCell      = "FavouriteTournamentCell"
@@ -161,6 +173,7 @@ enum CellType: Int {
     case TextFieldCell              = 1
     case LabelSelectionCell         = 2
     case ButtonCell                 = 3
+    case TwoLabelCell               = 4
 }
 
 enum CustomKeyboardType: Int {

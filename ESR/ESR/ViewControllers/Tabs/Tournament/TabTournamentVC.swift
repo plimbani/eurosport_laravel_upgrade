@@ -11,8 +11,31 @@ class TabTournamentVC: SuperViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        initialize()
+    }
+    
+    func initialize() {
         self.navigationController?.isNavigationBarHidden = true
+        
+        // Checks internet connectivity
+        setConstraintLblNoInternet(APPDELEGATE.reachability.connection == .none)
+        
+        // To show/hide internet view in Navigation bar
+        NotificationCenter.default.addObserver(self, selector: #selector(showHideNoInternetView(_:)), name: .internetConnectivity, object: nil)
+        
         sendGetFavTournamentsRequest()
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: .internetConnectivity, object: nil)
+    }
+    
+    @objc func showHideNoInternetView(_ notification: NSNotification) {
+        if notification.userInfo != nil {
+            if let isShow = notification.userInfo![kNotification.isShow] as? Bool {
+                setConstraintLblNoInternet(isShow)
+            }
+        }
     }
     
     func sendGetFavTournamentsRequest() {

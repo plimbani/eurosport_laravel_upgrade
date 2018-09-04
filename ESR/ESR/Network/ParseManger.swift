@@ -9,6 +9,56 @@ import Foundation
 
 class ParseManager {
     
+    static func parseGroupStandings(_ record: NSDictionary) -> GroupStanding {
+        let groupStanding = GroupStanding()
+        
+        if let id = record.value(forKey: "id") as? Int {
+            groupStanding.id = id
+        }
+        
+        if let tournamentId = record.value(forKey: "tournament_id") as? Int {
+            groupStanding.tournamentId = tournamentId
+        }
+        
+        if let played = record.value(forKey: "played") as? Int {
+            groupStanding.played = played
+        }
+        
+        if let won = record.value(forKey: "won") as? Int {
+            groupStanding.won = won
+        }
+        
+        if let lost = record.value(forKey: "lost") as? Int {
+            groupStanding.lost = lost
+        }
+        
+        if let draws = record.value(forKey: "draws") as? Int {
+            groupStanding.draws = draws
+        }
+        
+        if let points = record.value(forKey: "points") as? Int {
+            groupStanding.points = points
+        }
+        
+        if let goalFor = record.value(forKey: "goal_for") as? Int {
+            groupStanding.goalFor = goalFor
+        }
+        
+        if let goalAgainst = record.value(forKey: "goal_against") as? Int {
+            groupStanding.goalAgainst = goalAgainst
+        }
+        
+        if let teamFlag = record.value(forKey: "teamFlag") as? String {
+            groupStanding.teamFlag = teamFlag
+        }
+        
+        if let name = record.value(forKey: "name") as? String {
+            groupStanding.name = name
+        }
+        
+        return groupStanding
+    }
+    
     static func parseTeamFixture(_ record: NSDictionary) -> TeamFixture {
         let teamFixture = TeamFixture()
         
@@ -26,6 +76,10 @@ class ParseManager {
         
         if let text = record.value(forKey: "round") as? String {
             teamFixture.round = text
+        }
+        
+        if let text = record.value(forKey: "pitchType") as? String {
+            teamFixture.pitchType = text
         }
         
         if let text = record.value(forKey: "actual_round") as? String {
@@ -51,6 +105,18 @@ class ParseManager {
         
         if let text = record.value(forKey: "match_endtime") as? String {
             teamFixture.matchEndtime = text
+        }
+        
+        if let text = record.value(forKey: "position") as? String {
+            teamFixture.position = text
+        }
+        
+        if let text = record.value(forKey: "MatchWinner") as? String {
+            teamFixture.matchWinner = text
+        }
+        
+        if let text = record.value(forKey: "match_status") as? String {
+            teamFixture.matchStatus = text
         }
         
         if let competitionActualName = record.value(forKey: "competition_actual_name") as? String {
@@ -99,6 +165,13 @@ class ParseManager {
         
         if let text = record.value(forKey: "AwayTeam") as? String {
             teamFixture.awayTeam = text
+        }
+        
+        if let text = record.value(forKey: "first_name") as? String {
+            teamFixture.firstName = text
+        }
+        if let text = record.value(forKey: "last_name") as? String {
+            teamFixture.lastName = text
         }
         
         if let text = record.value(forKey: "HomeFlagLogo") as? String {

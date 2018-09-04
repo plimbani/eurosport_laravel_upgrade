@@ -33,6 +33,7 @@ class TitleNavigationBar: UIView {
         ]
         self.addSubview(self.baseView)
         
+        lblTitle.text = NULL_STRING
         lblTitle.textColor = .white
     }
     

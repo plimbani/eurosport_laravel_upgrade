@@ -28,12 +28,13 @@ class AgeCategoriesGroupsSummaryVC: SuperViewController {
     var dicGroup: NSDictionary!
     
     var teamFixuteuresList = [TeamFixture]()
-    var groupStandingsList = NSArray()
+    var groupStandingsList = [GroupStanding]()
     
     var pickerHandlerView: PickerHandlerView!
     var titleList = [String]()
     
     var selectedTab = 0
+    var rotateToPortrait = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,6 +45,12 @@ class AgeCategoriesGroupsSummaryVC: SuperViewController {
         titleNavigationBar.lblTitle.text = String.localize(key: "title_age_categories_groups")
         titleNavigationBar.delegate = self
         titleNavigationBar.setBackgroundColor()
+        
+        // Checks internet connectivity
+        setConstraintLblNoInternet(APPDELEGATE.reachability.connection == .none)
+        
+        // To show/hide internet view in Navigation bar
+        NotificationCenter.default.addObserver(self, selector: #selector(showHideNoInternetView(_:)), name: .internetConnectivity, object: nil)
         
         var gesture = UITapGestureRecognizer(target: self, action:  #selector(self.onTabStandingViewPressed))
         self.tabStandingView.addGestureRecognizer(gesture)
@@ -89,6 +96,26 @@ class AgeCategoriesGroupsSummaryVC: SuperViewController {
         refreshListByGroup(false)
     }
     
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: .internetConnectivity, object: nil)
+    }
+    
+    @objc func showHideNoInternetView(_ notification: NSNotification) {
+        if notification.userInfo != nil {
+            if let isShow = notification.userInfo![kNotification.isShow] as? Bool {
+                setConstraintLblNoInternet(isShow)
+            }
+        }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        if rotateToPortrait {
+            UIDevice.current.setValue(UIInterfaceOrientation.portrait.rawValue, forKey: "orientation")
+            self.tabBarController?.tabBar.isHidden = false
+            rotateToPortrait = false
+        }
+    }
+    
     @objc func onTabStandingViewPressed(sender : UITapGestureRecognizer) {
         tabStandingsSeparator.backgroundColor = UIColor.AppColor()
         tabMatchesSeparator.backgroundColor = UIColor.clear
@@ -118,7 +145,10 @@ class AgeCategoriesGroupsSummaryVC: SuperViewController {
     }
     
     @objc func onFooterGroupStandingView(sender : UITapGestureRecognizer) {
-        
+        let viewController = Storyboards.AgeCategories.instantiateGroupDetailsVC()
+        viewController.groupStandingsList = self.groupStandingsList
+        viewController.groupName = lblGroupName.text!
+        self.navigationController?.pushViewController(viewController, animated: true)
     }
     
     func sendGetFixturesRequest() {
@@ -203,8 +233,12 @@ class AgeCategoriesGroupsSummaryVC: SuperViewController {
             DispatchQueue.main.async {
                 self.view.hideProgressHUD()
                 
+                self.groupStandingsList.removeAll()
+                
                 if let data = result.value(forKey: "data") as? NSArray {
-                    self.groupStandingsList = data
+                    for i in 0..<data.count {
+                        self.groupStandingsList.append(ParseManager.parseGroupStandings(data[i] as! NSDictionary))
+                    }
                 }
                 
                 self.table.reloadData()
@@ -322,7 +356,7 @@ extension AgeCategoriesGroupsSummaryVC : UITableViewDataSource, UITableViewDeleg
                 _ = cellOwner.loadMyNibFile(nibName: "GroupSummaryStandingsCell")
                 cell = cellOwner.cell as? GroupSummaryStandingsCell
             }
-            cell?.record = groupStandingsList[indexPath.row] as! NSDictionary
+            cell?.record = groupStandingsList[indexPath.row]
             cell?.reloadCell()
             return cell!
         } else {
@@ -339,14 +373,10 @@ extension AgeCategoriesGroupsSummaryVC : UITableViewDataSource, UITableViewDeleg
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        if selectedTab == 0 {
-            
-        } else {
-            
+        if selectedTab == 1 {
+            let viewController = Storyboards.AgeCategories.instantiateMatchInfoVC()
+            viewController.dicTeamFixture = self.teamFixuteuresList[indexPath.row]
+            self.navigationController?.pushViewController(viewController, animated: true)
         }
-        
-        //   let viewController = Storyboards.AgeCategories.instantiateAgeCategoriesGroupsVC()
-        //   viewController.ageCategoryId = (ageCategoriesList[indexPath.row] as! NSDictionary).value(forKey: "id") as! Int
-        //   self.navigationController?.pushViewController(viewController, animated: true)
     }
 }

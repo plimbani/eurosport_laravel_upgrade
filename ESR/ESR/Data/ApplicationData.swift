@@ -77,6 +77,25 @@ class ApplicationData: NSObject {
         view.layer.addSublayer(layer)
     }
     
+    static func setBorder(_ view: UIView, Color: UIColor, thickness: CGFloat, type: ViewBorderType) {
+        let layer = CALayer()
+        layer.borderWidth = thickness
+        layer.borderColor = Color.cgColor
+        
+        if type == .top {
+            layer.frame = CGRect(x: 0, y: 0, width: view.frame.size.width, height: thickness)
+        } else if type == .bottom {
+            layer.frame = CGRect(x: 0, y: view.frame.size.height - thickness, width:  view.frame.size.width, height: view.frame.size.height)
+        } else if type == .left {
+            layer.frame =  CGRect(x: 0, y: 0, width: thickness, height: view.frame.size.height)
+        } else if type == .right {
+            layer.frame = CGRect(x: view.frame.size.width - thickness, y: 0, width: thickness, height: view.frame.size.height)
+        }
+        
+        view.layer.masksToBounds = true
+        view.layer.addSublayer(layer)
+    }
+    
     func saveUserData(_ userData: UserData?) {
         USERDEFAULTS.set(NSKeyedArchiver.archivedData(withRootObject: userData), forKey: kUserDefaults.userData)
     }

@@ -13,12 +13,16 @@ class TeamFixture {
     var displayMatchNumber: String = NULL_STRING
     var competitionActualName: String = NULL_STRING
     var round: String = NULL_STRING
+    var pitchType: String = NULL_STRING
     var actualRound: String = NULL_STRING
     var competationName: String = NULL_STRING
     var teamSize: Int = NULL_ID
     var matchDatetime: String = NULL_STRING
     var matchDatetimeObj: Date?
     var matchEndtime: String = NULL_STRING
+    var position: String = NULL_STRING
+    var matchStatus: String = NULL_STRING
+    var matchWinner: String = NULL_STRING
     var ageGroupId: Int = NULL_ID
     var displayHomeTeamPlaceholderName: String = NULL_STRING
     var displayAwayTeamPlaceholderName: String = NULL_STRING
@@ -26,12 +30,13 @@ class TeamFixture {
     var venueCoordinates: String = NULL_STRING
     var venueName: String = NULL_STRING
     var pitchNumber: String = NULL_STRING
-    var pitchType: String = NULL_STRING
     var groupName: String = NULL_STRING
     var homeId: Int = NULL_ID
     var awayId: Int = NULL_ID
     var homeTeam: String = NULL_STRING
     var awayTeam: String = NULL_STRING
+    var firstName: String = NULL_STRING
+    var lastName: String = NULL_STRING
     var homeFlagLogo: String = NULL_STRING
     var awayFlagLogo: String = NULL_STRING
     var homeCountryName: String = NULL_STRING

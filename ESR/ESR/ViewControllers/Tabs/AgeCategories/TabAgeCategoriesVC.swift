@@ -25,11 +25,29 @@ class TabAgeCategoriesVC: SuperViewController {
         titleNavigationBar.hideBackButton()
         titleNavigationBar.setBackgroundColor()
         
+        // Checks internet connectivity
+        setConstraintLblNoInternet(APPDELEGATE.reachability.connection == .none)
+        
+        // To show/hide internet view in Navigation bar
+        NotificationCenter.default.addObserver(self, selector: #selector(showHideNoInternetView(_:)), name: .internetConnectivity, object: nil)
+        
         // Height for cell
         _ = cellOwner.loadMyNibFile(nibName: kNiB.Cell.AgeCategoryCell)
         heightAgeCategoryCell = (cellOwner.cell as! AgeCategoryCell).getCellHeight()
         
         sendAgeCategoriesRequest()
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: .internetConnectivity, object: nil)
+    }
+    
+    @objc func showHideNoInternetView(_ notification: NSNotification) {
+        if notification.userInfo != nil {
+            if let isShow = notification.userInfo![kNotification.isShow] as? Bool {
+                setConstraintLblNoInternet(isShow)
+            }
+        }
     }
     
     func sendAgeCategoriesRequest() {

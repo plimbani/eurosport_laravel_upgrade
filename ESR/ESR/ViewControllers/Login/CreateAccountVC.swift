@@ -270,6 +270,8 @@ extension CreateAccountVC : UITableViewDataSource, UITableViewDelegate {
                         height = heightTextFieldCell
                     case .ButtonCell:
                         height = heightButtonCell
+                    default:
+                        print("Default")
                 }
             }
         }
@@ -332,6 +334,8 @@ extension CreateAccountVC : UITableViewDataSource, UITableViewDelegate {
                             btnCreateNewAccount.isEnabled = true
                             cell = buttonCell
                             cellList.add(cell)
+                        default:
+                            print("Default")
                     }
                 }
                 cell.backgroundColor = .clear

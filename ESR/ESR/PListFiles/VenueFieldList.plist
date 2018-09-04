@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+    <array>
+        <!--
+         {
+             cellType
+             title - default text if any
+         }
+         -->
+        <dict>
+            <key>cellType</key>
+            <integer>4</integer>
+            <key>title</key>
+            <string>Pitch:</string>
+        </dict>
+        <dict>
+            <key>cellType</key>
+            <integer>4</integer>
+            <key>title</key>
+            <string>Type:</string>
+        </dict>
+        <dict>
+            <key>cellType</key>
+            <integer>4</integer>
+            <key>title</key>
+            <string>Location:</string>
+        </dict>
+        <dict>
+            <key>cellType</key>
+            <integer>4</integer>
+            <key>title</key>
+            <string>Address:</string>
+        </dict>
+    </array>
+</plist>

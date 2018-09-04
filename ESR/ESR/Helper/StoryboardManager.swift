@@ -112,6 +112,18 @@ struct Storyboards {
         static func instantiateAgeCategoriesGroupsSummaryVC() -> AgeCategoriesGroupsSummaryVC {
             return self.storyboard.instantiateViewController(withIdentifier: kViewController.AgeCategoriesGroupsSummaryVC) as! AgeCategoriesGroupsSummaryVC
         }
+        
+        static func instantiateGroupDetailsVC() -> GroupDetailsVC {
+            return self.storyboard.instantiateViewController(withIdentifier: kViewController.GroupDetailsVC) as! GroupDetailsVC
+        }
+        
+        static func instantiateMatchInfoVC() -> MatchInfoVC {
+            return self.storyboard.instantiateViewController(withIdentifier: kViewController.MatchInfoVC) as! MatchInfoVC
+        }
+        
+        static func instantiateVenueVC() -> VenueVC {
+            return self.storyboard.instantiateViewController(withIdentifier: kViewController.VenueVC) as! VenueVC
+        }
     }
     
     struct Teams: Storyboard {

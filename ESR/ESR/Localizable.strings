@@ -16,6 +16,8 @@
 "title_age_categories"                      = "AGE CATEGORIES";
 "title_age_categories_groups"               = "GROUPS";
 "title_age_categories_groups_summary"       = "GROUP SUMMARY";
+"title_match_info"                          = "MATCH INFO";
+"title_venue"                               = "VENUE";
 
 //Alert titles
 "alert_title_error"                     =   "Error";
@@ -48,3 +50,11 @@
 //Strings
 "string_no_internet"                    = "The internet connection appears to be offline.";
 "string_league_table"                   = "league table";
+"string_is_the_winner"                  = "is the winner";
+"string_match_id"                       = "Match ID:";
+"string_placing"                        = "Placing:";
+"string_na"                             = "N/A";
+"string_walkover_win"                   = "* Walkover win";
+
+
+
