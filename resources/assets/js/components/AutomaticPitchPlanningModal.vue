@@ -117,8 +117,8 @@
 
                             </div>
                           </div>
-                          <div class="col-sm-1 ttext-center">
-                            <a href="javascript:void(0);" @click="removePitchDay(pitch, index)"><i class="fa fa-times"></i></a>
+                          <div class="col-sm-1 text-right">
+                            <a href="javascript:void(0);" class="text-danger" @click="removePitchDay(pitch, index)"><i class="fa fa-times"></i></a>
                           </div>
                         </div>
                       </li>
@@ -335,14 +335,14 @@ import Tournament from '../api/tournament.js'
               $('.js-available-time-error-message').hide();
             },
             removePitchDay(pitch, index) {
-              let vm = this;
+              let vm = this;              
               delete pitch.days[index];
               delete pitch.time[index];
               Vue.nextTick()
               .then(function () {
                 vm.$forceUpdate();
               });
-            }         
+            }
         }
     }
 </script>
