@@ -104,14 +104,14 @@
                                 <span>Start time:</span>
                               </div>
                               <div class="col-md-3">
-                                <input :name="'start_time_'+pitch.id+'_'+day.stage_no"  v-validate="'required'" :class="[errors.has('start_time_'+pitch.id+'_'+day.stage_no) ? 'is-danger': '', 'form-control ls-timepicker start_time']" :id="'start_time_'+pitch.id+'_'+day.stage_no" type="text" v-model="day.stage_start_time">
+                                <input :name="'start_time_'+pitch.id+'_'+day.stage_no"  v-validate="'required'" :class="[errors.has('start_time_'+pitch.id+'_'+day.stage_no) ? 'is-danger': '', 'form-control ls-timepicker start_time start-time-' + pitch.id + '-' + day.stage_no]" :id="'start_time_'+pitch.id+'_'+day.stage_no" type="text">
                                 <i v-show="errors.has('start_time_'+pitch.id+'_'+day.stage_no)" class="fa fa-warning text-danger" data-placement="top" title="Start time is required"></i>
                               </div>
                               <div class="col-md-3 text-right">
                                 <span>End time:</span>
                               </div>
                               <div class="col-md-3">
-                                <input :name="'end_time_'+pitch.id+'_'+day.stage_no"  v-validate="'required'" :class="[errors.has('end_time_'+pitch.id+'_'+day.stage_no)?'is-danger': '', 'form-control ls-timepicker end_time']" :id="'end_time_'+pitch.id+'_'+day.stage_no" type="text" v-model="day.stage_end_time">
+                                <input :name="'end_time_'+pitch.id+'_'+day.stage_no"  v-validate="'required'" :class="[errors.has('end_time_'+pitch.id+'_'+day.stage_no)?'is-danger': '', 'form-control ls-timepicker end_time end-time-' + pitch.id + '-' + day.stage_no]" :id="'end_time_'+pitch.id+'_'+day.stage_no" type="text">
                                 <i v-show="errors.has('end_time_'+pitch.id+'_'+day.stage_no)" class="fa fa-warning text-danger" data-placement="top" title="End time is required"></i>
                               </div>
 
@@ -170,8 +170,8 @@ import Tournament from '../api/tournament.js'
         mounted() {
           // Plugin.initPlugins(['TimePickers']);
           $('#start_time').timepicker({
-            // minTime: '08:00',
-            // maxTime: '23:00',
+            minTime: '10:00',
+            maxTime: '23:00',
             'timeFormat': 'H:i'
           });
         },
@@ -308,12 +308,18 @@ import Tournament from '../api/tournament.js'
                   Vue.nextTick()
                   .then(function () {
                     setTimeout(function(){
-                      $('.start_time, .end_time').timepicker({
-                        // 'minTime': '08:00',
-                        // 'maxTime': '23:00',
-                        'timeFormat': 'H:i',
+                      $.each(vm.allPitchesWithDays, function(pitchIndex, pitch) {
+                        $.each(pitch.days, function(dayIndex, dayDetail) {
+                          $('.start-time-' + pitch.id + '-' + dayDetail.stage_no + ', .end-time-' + pitch.id + '-' + dayDetail.stage_no).timepicker({
+                            'minTime': pitch.time[dayIndex].start_time,
+                            'maxTime': pitch.time[dayIndex].end_time,
+                            'timeFormat': 'H:i',
+                          });
+                          $('.start-time-' + pitch.id + '-' + dayDetail.stage_no).timepicker('setTime', pitch.time[dayIndex].start_time);
+                          $('.end-time-' + pitch.id + '-' + dayDetail.stage_no).timepicker('setTime', pitch.time[dayIndex].end_time);
+                        });
                       });
-                    }, 1000);
+                    }, 500);
                     vm.$forceUpdate();
                   });
                 },
@@ -335,9 +341,15 @@ import Tournament from '../api/tournament.js'
               $('.js-available-time-error-message').hide();
             },
             removePitchDay(pitch, index) {
-              let vm = this;              
-              delete pitch.days[index];
-              delete pitch.time[index];
+              let vm = this;
+              delete vm.allPitchesWithDays[pitch.id].days[index];
+              delete vm.allPitchesWithDays[pitch.id].time[index];
+              if(Object.keys(vm.allPitchesWithDays[pitch.id].days).length == 0) {
+                delete vm.allPitchesWithDays[pitch.id];
+                _.remove(vm.selectedPitches, function(obj) {
+                  return obj.id == pitch.id;
+                });
+              }
               Vue.nextTick()
               .then(function () {
                 vm.$forceUpdate();
