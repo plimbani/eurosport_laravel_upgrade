@@ -182,7 +182,7 @@
                   </div>
                   <div class="form-group row">
                     <label class="col-sm-3 col-sm-3 form-control-label align-self-center">
-                      Yellow cards
+                      {{$lang.pitch_modal_yellow_cards}}
                     </label>
                     
                     <div class="col-sm-3 align-self-center">
@@ -211,7 +211,7 @@
                   </div>
                   <div class="form-group row">
                     <label class="col-sm-3 col-sm-3 form-control-label align-self-center">
-                      Red cards
+                      {{$lang.pitch_modal_red_cards}}
                     </label>
                     
                     <div class="col-sm-3 align-self-center">
@@ -241,14 +241,14 @@
 
                 <div id="colors_tab" class="tab-pane">                  
                   <div class="form-group row">
-                    <div class="col-sm-3 form-control-label">Age Category ({{ matchDetail.category_age.category_age }})</div>
+                    <div class="col-sm-3 form-control-label">{{ $lang.pitch_modal_age_category_color }} ({{ matchDetail.category_age.category_age }})</div>
                     <div class="col-sm-6">
                       <input type="text" class="js-colorpicker" :name="matchDetail.age_category_color" v-model="matchDetail.age_category_color" @input="matchDetail.age_category_color" id="age_category_color" data-name="age_category_color" :class="{'form-control demo minicolors-input' : true }" />
                     </div>
                   </div>
 
                   <div class="form-group row">
-                    <div class="col-sm-3 form-control-label">Group ({{ formatGroupName() }})</div>                    
+                    <div class="col-sm-3 form-control-label">{{ $lang.pitch_modal_group_color }} ({{ formatGroupName() }})</div>                    
                     <div class="col-sm-6">
                       <input type="text" class="js-colorpicker" id="group_color" data-name="group_color" :name="matchDetail.group_color" v-model="matchDetail.group_color" @input="matchDetail.group_color" :class="{'form-control demo minicolors-input' : true }"/>
                     </div>
