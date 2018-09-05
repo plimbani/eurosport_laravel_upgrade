@@ -4,6 +4,11 @@ PODS:
     - Fabric (~> 1.7.3)
   - ESTabBarController-swift (2.6.2)
   - Fabric (1.7.7)
+  - GoogleMaps (2.7.0):
+    - GoogleMaps/Maps (= 2.7.0)
+  - GoogleMaps/Base (2.7.0)
+  - GoogleMaps/Maps (2.7.0):
+    - GoogleMaps/Base
   - SDWebImage (4.4.2):
     - SDWebImage/Core (= 4.4.2)
   - SDWebImage/Core (4.4.2)
@@ -13,6 +18,7 @@ DEPENDENCIES:
   - Crashlytics (= 3.10)
   - ESTabBarController-swift
   - Fabric
+  - GoogleMaps
   - SDWebImage (~> 4.0)
 
 SPEC REPOS:
@@ -21,6 +27,7 @@ SPEC REPOS:
     - Crashlytics
     - ESTabBarController-swift
     - Fabric
+    - GoogleMaps
     - SDWebImage
 
 SPEC CHECKSUMS:
@@ -28,8 +35,9 @@ SPEC CHECKSUMS:
   Crashlytics: a989ef242b66605577a425733797f810bd2725eb
   ESTabBarController-swift: f0a8679e43df1e60b7b36bbcaf1dc98ba6273c7d
   Fabric: bda89e242bce1b7b8ab264248cf3407774ce0095
+  GoogleMaps: f79af95cb24d869457b1f961c93d3ce8b2f3b848
   SDWebImage: 624d6e296c69b244bcede364c72ae0430ac14681
 
-PODFILE CHECKSUM: e924adac41db9ac866af0dfdffb0cc5dbd53bd88
+PODFILE CHECKSUM: 2e6369e7b4b84ca127283c46ccead3bd579471e0
 
 COCOAPODS: 1.5.0

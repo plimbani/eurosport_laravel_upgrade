@@ -602,7 +602,7 @@ league table</string>
                                 <nil key="highlightedColor"/>
                             </label>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EqV-cT-fUx">
-                                <rect key="frame" x="0.0" y="84" width="320" height="484"/>
+                                <rect key="frame" x="0.0" y="84" width="320" height="474"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="ryP-m6-FLw">
                                         <rect key="frame" x="15" y="15" width="290" height="483"/>
@@ -890,7 +890,7 @@ league table</string>
                             <constraint firstItem="QZ2-J2-S3J" firstAttribute="top" secondItem="u08-CQ-csP" secondAttribute="bottom" id="ThT-01-KWw"/>
                             <constraint firstItem="IMO-Ah-dNE" firstAttribute="trailing" secondItem="u08-CQ-csP" secondAttribute="trailing" id="ZCu-nS-1j6"/>
                             <constraint firstItem="QZ2-J2-S3J" firstAttribute="leading" secondItem="IMO-Ah-dNE" secondAttribute="leading" id="akq-Al-Exc"/>
-                            <constraint firstItem="IMO-Ah-dNE" firstAttribute="bottom" secondItem="EqV-cT-fUx" secondAttribute="bottom" id="igx-Wa-zi0"/>
+                            <constraint firstItem="IMO-Ah-dNE" firstAttribute="bottom" secondItem="EqV-cT-fUx" secondAttribute="bottom" constant="10" id="igx-Wa-zi0"/>
                             <constraint firstItem="ryP-m6-FLw" firstAttribute="height" secondItem="ycC-n3-onS" secondAttribute="height" multiplier="0.85" id="kuC-0p-GfZ"/>
                             <constraint firstItem="IMO-Ah-dNE" firstAttribute="trailing" secondItem="EqV-cT-fUx" secondAttribute="trailing" id="rm0-Ny-Gg7"/>
                             <constraint firstItem="EqV-cT-fUx" firstAttribute="top" secondItem="QZ2-J2-S3J" secondAttribute="bottom" id="wAU-Pf-Mer"/>
@@ -956,7 +956,7 @@ league table</string>
                                 <nil key="highlightedColor"/>
                             </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="1" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="KNH-2N-BOg">
-                                <rect key="frame" x="0.0" y="92" width="320" height="424"/>
+                                <rect key="frame" x="0.0" y="92" width="320" height="414"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <connections>
                                     <outlet property="dataSource" destination="69V-vB-9Da" id="3fj-Mj-FlX"/>
@@ -964,7 +964,7 @@ league table</string>
                                 </connections>
                             </tableView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FQ1-jW-efe">
-                                <rect key="frame" x="90" y="528" width="140" height="28"/>
+                                <rect key="frame" x="90" y="518" width="140" height="28"/>
                                 <state key="normal" title="View on map" image="map_marker">
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
@@ -982,7 +982,7 @@ league table</string>
                             <constraint firstItem="IHh-fI-6h2" firstAttribute="top" secondItem="A0D-QB-bQQ" secondAttribute="bottom" constant="8" id="SMe-XH-slY"/>
                             <constraint firstItem="IHh-fI-6h2" firstAttribute="leading" secondItem="Z40-2D-ZHz" secondAttribute="leading" id="bI6-W0-oBm"/>
                             <constraint firstItem="FQ1-jW-efe" firstAttribute="top" secondItem="KNH-2N-BOg" secondAttribute="bottom" constant="12" id="bhF-Kw-ypE"/>
-                            <constraint firstItem="Z40-2D-ZHz" firstAttribute="bottom" secondItem="FQ1-jW-efe" secondAttribute="bottom" constant="12" id="eOP-CL-gUs"/>
+                            <constraint firstItem="Z40-2D-ZHz" firstAttribute="bottom" secondItem="FQ1-jW-efe" secondAttribute="bottom" constant="22" id="eOP-CL-gUs"/>
                             <constraint firstItem="Z40-2D-ZHz" firstAttribute="trailing" secondItem="A0D-QB-bQQ" secondAttribute="trailing" id="gsl-P7-ZfR"/>
                             <constraint firstItem="Z40-2D-ZHz" firstAttribute="trailing" secondItem="FQ1-jW-efe" secondAttribute="trailing" constant="90" id="hTf-WH-IMr"/>
                             <constraint firstItem="Z40-2D-ZHz" firstAttribute="trailing" secondItem="IHh-fI-6h2" secondAttribute="trailing" id="oa3-ro-NdO"/>
@@ -992,6 +992,7 @@ league table</string>
                         <viewLayoutGuide key="safeArea" id="Z40-2D-ZHz"/>
                     </view>
                     <connections>
+                        <outlet property="btnVenueViewOnMap" destination="FQ1-jW-efe" id="y9D-Dv-wOG"/>
                         <outlet property="heightConstraintLblNoInternet" destination="zOK-zA-WTU" id="wng-aD-U4X"/>
                         <outlet property="table" destination="KNH-2N-BOg" id="Ts3-Mv-3Jf"/>
                         <outlet property="titleNavigationBar" destination="A0D-QB-bQQ" id="az6-ld-SqB"/>

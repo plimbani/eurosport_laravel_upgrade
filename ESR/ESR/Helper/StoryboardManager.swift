@@ -53,6 +53,10 @@ struct Storyboards {
             return self.storyboard.instantiateViewController(withIdentifier: kViewController.MainTabViewController) as! MainTabViewController
         }
         
+        static func instantiateMapVC() -> MapVC {
+            return self.storyboard.instantiateViewController(withIdentifier: kViewController.MapVC) as! MapVC
+        }
+        
         static func instantiateLoginVC() -> LoginVC {
             return self.storyboard.instantiateViewController(withIdentifier: kViewController.LoginVC) as! LoginVC
         }

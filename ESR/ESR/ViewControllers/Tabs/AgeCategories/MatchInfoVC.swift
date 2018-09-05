@@ -80,7 +80,7 @@ class MatchInfoVC: SuperViewController {
     
     @objc func onVenueViewPressed(sender : UITapGestureRecognizer) {
         let viewController = Storyboards.AgeCategories.instantiateVenueVC()
-        
+        viewController.dicTeamFixture = dicTeamFixture
         self.navigationController?.pushViewController(viewController, animated: true)
     }
     

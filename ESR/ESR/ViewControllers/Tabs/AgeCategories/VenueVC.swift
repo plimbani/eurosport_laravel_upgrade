@@ -10,12 +10,16 @@ import UIKit
 class VenueVC: SuperViewController {
 
     @IBOutlet var table: UITableView!
+    @IBOutlet var btnVenueViewOnMap: UIButton!
+    
     var fieldList = NSArray()
     
     var lblPitch: UILabel!
     var lblType: UILabel!
     var lblLocation: UILabel!
     var lblAddress: UILabel!
+    
+    var dicTeamFixture: TeamFixture!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,7 +47,9 @@ class VenueVC: SuperViewController {
     }
     
     @IBAction func viewOnMapBtnPressed(_ sender: UIButton) {
-        
+        let viewController = Storyboards.Main.instantiateMapVC()
+        viewController.strLocation = dicTeamFixture.venueCoordinates
+        self.navigationController?.pushViewController(viewController, animated: true)
     }
     
     deinit {
@@ -90,17 +96,63 @@ extension VenueVC : UITableViewDataSource, UITableViewDelegate {
                         textFieldCell.reloadCell()
                         cell = textFieldCell
                         
-                        if indexPath.row == 0 {
-                            lblPitch = textFieldCell.lblTitle
-                        } else if indexPath.row == 1 {
-                            lblType = textFieldCell.lblTitle
-                        } else if indexPath.row == 2 {
-                            lblLocation = textFieldCell.lblTitle
-                        } else if indexPath.row == 3 {
-                            lblAddress = textFieldCell.lblTitle
+                        if dicTeamFixture != nil {
+                            if indexPath.row == 0 {
+                                lblPitch = textFieldCell.lblTitle
+                                
+                                if dicTeamFixture.pitchNumber != NULL_STRING {
+                                    lblPitch.text = dicTeamFixture.pitchNumber
+                                } else {
+                                    lblPitch.text = String.localize(key: "string_na")
+                                }
+                                
+                            } else if indexPath.row == 1 {
+                                lblType = textFieldCell.lblTitle
+                                
+                                if dicTeamFixture.pitchType != NULL_STRING {
+                                    lblType.text = String(dicTeamFixture.pitchType[0]).uppercased() + String(dicTeamFixture.pitchType[1])
+                                } else {
+                                    lblType.text = String.localize(key: "string_na")
+                                }
+                                
+                            } else if indexPath.row == 2 {
+                                lblLocation = textFieldCell.lblTitle
+                                
+                                if dicTeamFixture.venueName != NULL_STRING {
+                                    lblLocation.text = dicTeamFixture.venueName
+                                } else {
+                                    lblLocation.text = String.localize(key: "string_na")
+                                }
+                                
+                                btnVenueViewOnMap.isHidden = (dicTeamFixture.venueCoordinates == NULL_STRING)
+                            } else if indexPath.row == 3 {
+                                lblAddress = textFieldCell.lblTitle
+                                
+                                var address = NULL_STRING
+                                
+                                if dicTeamFixture.venueAddress != NULL_STRING {
+                                    address = dicTeamFixture.venueAddress
+                                }
+                                
+                                if dicTeamFixture.venueCity != NULL_STRING {
+                                    address += ", " + dicTeamFixture.venueCity
+                                }
+                                
+                                if dicTeamFixture.venueCountry != NULL_STRING {
+                                    address += ", " + dicTeamFixture.venueCountry
+                                }
+                                
+                                if dicTeamFixture.venuePostcode != NULL_STRING {
+                                    address += ", " + dicTeamFixture.venuePostcode
+                                }
+                                
+                                if address != NULL_STRING {
+                                    lblAddress.text = address
+                                } else {
+                                    lblAddress.text = String.localize(key: "string_na")
+                                }
+                            }
                         }
-                        
-                        
                     default:
                         print("Default")
                     }

@@ -50,6 +50,7 @@
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
+                <outlet property="lblStaticTitle" destination="7Pa-9Q-D8U" id="Syq-M2-V3c"/>
                 <outlet property="lblTitle" destination="WQv-D8-CVa" id="2rC-wA-Fmx"/>
             </connections>
         </tableViewCell>

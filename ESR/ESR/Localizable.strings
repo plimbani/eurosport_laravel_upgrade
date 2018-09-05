@@ -18,6 +18,7 @@
 "title_age_categories_groups_summary"       = "GROUP SUMMARY";
 "title_match_info"                          = "MATCH INFO";
 "title_venue"                               = "VENUE";
+"title_venue_map"                           = "VENUE MAP";
 
 //Alert titles
 "alert_title_error"                     =   "Error";
@@ -27,9 +28,6 @@
 //Alert Messages
 "alert_msg_forgot_password"             =   "We have sent a password reset link to your email address.";
 "alert_msg_app_update"                  =   "An app update is available. Please update the version you are using.";
-
-
-
 "alert_msg_login_credentials"           =   "These credentials do not match our records.";
 "alert_msg_forgot_pass_invalid_email"   =   "The selected email is invalid.";
 "alert_msg_confirmation_code_send"      =   "A new code has been sent to your email address.";

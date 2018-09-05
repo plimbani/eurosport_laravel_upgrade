@@ -9,11 +9,14 @@ import Foundation
 
 public enum PlistKey {
     case BaseURL
+    case GoogleMapKey
     
     func value() -> String {
         switch self {
         case .BaseURL:
             return "base_url"
+        case .GoogleMapKey:
+            return "google_map_key"
         }
     }
 }
@@ -33,6 +36,8 @@ public struct Environment {
         switch key {
         case .BaseURL:
             return infoDict[PlistKey.BaseURL.value()] as! String
+        case .GoogleMapKey:
+            return infoDict[PlistKey.GoogleMapKey.value()] as! String
         }
     }
 }

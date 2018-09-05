@@ -57,6 +57,10 @@ SOFTWARE.
 
 Fabric: Copyright 2018 Google, Inc. All Rights Reserved. Use of this software is subject to the terms and conditions of the Fabric Software and Services Agreement located at https://fabric.io/terms. OSS: http://get.fabric.io/terms/opensource.txt
 
+## GoogleMaps
+
+Copyright 2018 Google
+
 ## SDWebImage
 
 Copyright (c) 2009-2017 Olivier Poitrey rs@dailymotion.com

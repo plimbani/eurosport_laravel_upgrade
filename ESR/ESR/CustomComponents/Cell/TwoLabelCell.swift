@@ -9,6 +9,7 @@ import UIKit
 
 class TwoLabelCell: UITableViewCell {
 
+    @IBOutlet var lblStaticTitle: UILabel!
     @IBOutlet var lblTitle: UILabel!
     var record = NSDictionary()
     
@@ -25,7 +26,7 @@ class TwoLabelCell: UITableViewCell {
     
     func reloadCell() {
         if let title = record.value(forKey: "title") as? String {
-            lblTitle.text = title
+            lblStaticTitle.text = title
         }
     }
     

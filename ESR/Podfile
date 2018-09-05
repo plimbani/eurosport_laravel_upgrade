@@ -17,4 +17,7 @@ target 'ESR' do
 
   # For image loading
   pod 'SDWebImage', '~> 4.0'
+  
+  # Google map
+  pod 'GoogleMaps'
 end

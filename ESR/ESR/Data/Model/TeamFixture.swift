@@ -29,6 +29,11 @@ class TeamFixture {
     var competitionId: Int = NULL_ID
     var venueCoordinates: String = NULL_STRING
     var venueName: String = NULL_STRING
+    var venueAddress: String = NULL_STRING
+    var venueState: String = NULL_STRING
+    var venueCountry: String = NULL_STRING
+    var venueCity: String = NULL_STRING
+    var venuePostcode: String = NULL_STRING
     var pitchNumber: String = NULL_STRING
     var groupName: String = NULL_STRING
     var homeId: Int = NULL_ID

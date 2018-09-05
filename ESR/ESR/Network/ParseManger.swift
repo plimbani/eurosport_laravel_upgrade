@@ -147,6 +147,26 @@ class ParseManager {
             teamFixture.venueName = text
         }
         
+        if let text = record.value(forKey: "venueaddress") as? String {
+            teamFixture.venueAddress = text
+        }
+        
+        if let text = record.value(forKey: "venueCity") as? String {
+            teamFixture.venueCity = text
+        }
+        
+        if let text = record.value(forKey: "venueCountry") as? String {
+            teamFixture.venueCountry = text
+        }
+        
+        if let text = record.value(forKey: "venuePostcode") as? String {
+            teamFixture.venuePostcode = text
+        }
+        
+        if let text = record.value(forKey: "venueState") as? String {
+            teamFixture.venueState = text
+        }
+        
         if let text = record.value(forKey: "pitch_number") as? String {
             teamFixture.pitchNumber = text
         }
