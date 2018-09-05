@@ -682,7 +682,7 @@ module.exports= {
   // Automatic planning
   pitch_planner_automatic_planning: "Automatic planning",
   pitch_planner_automatic_planning_title: "Automatic Pitch Planning",
-  pitch_planner_automatic_planning_age_categories: "Age Categories*",
+  pitch_planner_automatic_planning_age_categories: "Age categories*",
   pitch_planner_automatic_planning_competitions: "Competitions*",
   pitch_planner_automatic_planning_team_interval: "Team interval",
   pitch_planner_automatic_planning_total_normal_matches_duration: "Total game duration for RR/EM/PM",
