@@ -731,13 +731,25 @@ class MatchService implements MatchContract
           $homeTeamId = 0;
 
           if($singleFixture->hometeam_score !== null && $singleFixture->awayteam_score !== null) {
-            if($singleFixture->hometeam_score >= $singleFixture->awayteam_score)
-            {
-              $hometeamName = $singleFixture->home_team_name;
-              $homeTeamId = $singleFixture->home_team;
-            }else {
-              $hometeamName = $singleFixture->away_team_name;
-              $homeTeamId = $singleFixture->away_team;
+            if($singleFixture->hometeam_score == $singleFixture->awayteam_score) {
+              if($singleFixture->is_result_override == 1 && $singleFixture->match_status == 'Penalties') {
+                $teamDetail = $this->getWinnersTeamDetail($singleFixture);
+                $hometeamName = $teamDetail['teamName'];
+                $homeTeamId = $teamDetail['teamId'];
+
+                // $team = Team::where('id', $singleFixture->match_winner)->first();
+                // $hometeamName = $team->name;
+                // $homeTeamId = $singleFixture->match_winner;
+              }
+            } else {
+              if($singleFixture->hometeam_score >= $singleFixture->awayteam_score)
+              {
+                $hometeamName = $singleFixture->home_team_name;
+                $homeTeamId = $singleFixture->home_team;
+              }else {
+                $hometeamName = $singleFixture->away_team_name;
+                $homeTeamId = $singleFixture->away_team;
+              }
             }
           }
 
@@ -746,22 +758,33 @@ class MatchService implements MatchContract
             $updateArray = [ 'home_team_name'=> $fixture->home_team_placeholder_name,'home_team'=>$homeTeamId];
             $fixture->update($updateArray);
           } else {
-            $updateArray = [ 'home_team_name'=> $hometeamName,'home_team'=>$homeTeamId];
+            $updateArray = ['home_team_name'=> $hometeamName,'home_team'=>$homeTeamId];
             DB::table('temp_fixtures')->where('id',$match->id)->update($updateArray);
           }
         }
         if($awayTeam  == $modifiedTeamsWinner) {
           $awayteamName = null;
           $awayTeamId = 0;
-
           if($singleFixture->hometeam_score !== null && $singleFixture->awayteam_score !== null) {
-            if($singleFixture->hometeam_score >= $singleFixture->awayteam_score)
-            {
-              $awayteamName = $singleFixture->home_team_name;
-              $awayTeamId = $singleFixture->home_team;
-            }else {
-              $awayteamName = $singleFixture->away_team_name;
-              $awayTeamId = $singleFixture->away_team;
+            if($singleFixture->hometeam_score == $singleFixture->awayteam_score) {
+              if($singleFixture->is_result_override == 1 && $singleFixture->match_status == 'Penalties') {                
+                $teamDetail = $this->getWinnersTeamDetail($singleFixture);
+                $awayteamName = $teamDetail['teamName'];
+                $awayTeamId = $teamDetail['teamId'];
+
+                // $team = Team::where('id', $singleFixture->match_winner)->first();
+                // $awayteamName = $team->name;
+                // $awayTeamId = $singleFixture->match_winner;
+              }
+            } else {
+              if($singleFixture->hometeam_score >= $singleFixture->awayteam_score)
+              {
+                $awayteamName = $singleFixture->home_team_name;
+                $awayTeamId = $singleFixture->home_team;
+              }else {
+                $awayteamName = $singleFixture->away_team_name;
+                $awayTeamId = $singleFixture->away_team;
+              }
             }
           }
 
@@ -780,16 +803,28 @@ class MatchService implements MatchContract
         if($homeTeam  == $modifiedTeamsLooser) {
           $hometeamName = null;
           $homeTeamId = 0;
-
           if($singleFixture->hometeam_score !== null && $singleFixture->awayteam_score !== null) {
-            if($singleFixture->hometeam_score < $singleFixture->awayteam_score)
-            {
-              $hometeamName = $singleFixture->home_team_name;
-              $homeTeamId = $singleFixture->home_team;
 
-            }else {
+            if($singleFixture->hometeam_score == $singleFixture->awayteam_score) {
+              if($singleFixture->is_result_override == 1 && $singleFixture->match_status == 'Penalties') {
+                $teamDetail = $this->getWinnersTeamDetail($singleFixture);
+                $hometeamName = $teamDetail['teamName'];
+                $homeTeamId = $teamDetail['teamId'];
+
+                // $team = Team::where('id', $singleFixture->match_winner)->first();
+                // $hometeamName = $team->name;
+                // $homeTeamId = $singleFixture->match_winner;
+              }
+            } else {
+              if($singleFixture->hometeam_score < $singleFixture->awayteam_score)
+              {
+                $hometeamName = $singleFixture->home_team_name;
+                $homeTeamId = $singleFixture->home_team;
+
+              }else {
                 $hometeamName = $singleFixture->away_team_name;
-                 $homeTeamId = $singleFixture->away_team;
+                $homeTeamId = $singleFixture->away_team;
+              }
             }
           }
 
@@ -805,15 +840,26 @@ class MatchService implements MatchContract
         if($awayTeam  == $modifiedTeamsLooser) {
           $awayteamName = null;
           $awayTeamId = 0;
-
           if($singleFixture->hometeam_score !== null && $singleFixture->awayteam_score !== null) {
-            if($singleFixture->hometeam_score < $singleFixture->awayteam_score)
-            {
-                 $awayteamName = $singleFixture->home_team_name;
-                 $awayTeamId = $singleFixture->home_team;
-            }else {
-                 $awayteamName = $singleFixture->away_team_name;
-                 $awayTeamId = $singleFixture->away_team;
+            if($singleFixture->hometeam_score == $singleFixture->awayteam_score) {
+              if($singleFixture->is_result_override == 1 && $singleFixture->match_status == 'Penalties') {
+                $teamDetail = $this->getWinnersTeamDetail($singleFixture);
+                $awayteamName = $teamDetail['teamName'];
+                $awayTeamId = $teamDetail['teamId'];
+
+                // $team = Team::where('id', $singleFixture->match_winner)->first();
+                // $awayteamName = $team->name;
+                // $awayTeamId = $singleFixture->match_winner;
+              }
+            } else {
+              if($singleFixture->hometeam_score < $singleFixture->awayteam_score)
+              {
+                $awayteamName = $singleFixture->home_team_name;
+                $awayTeamId = $singleFixture->home_team;
+              }else {
+                $awayteamName = $singleFixture->away_team_name;
+                $awayTeamId = $singleFixture->away_team;
+              }              
             }
           }
 
@@ -2347,5 +2393,13 @@ class MatchService implements MatchContract
       foreach ($groupFixture as $key => $value) {
         $this->calculateCupLeagueTable($value->id, 1);
       }
+    }
+
+    public function getWinnersTeamDetail($singleFixture) {
+      $team = Team::where('id', $singleFixture->match_winner)->first();
+      $teamName = $team->name;
+      $teamId = $singleFixture->match_winner;
+
+      return ['teamName' => $teamName, 'teamId' => $teamId];
     }
 }
