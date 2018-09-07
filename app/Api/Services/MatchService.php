@@ -840,7 +840,7 @@ class MatchService implements MatchContract
           } else if($singleFixture->hometeam_score !== null && $singleFixture->awayteam_score !== null) {
             $takeTeam = "home";
 
-            if($singleFixture->hometeam_score < $singleFixture->awayteam_score) {
+            if($singleFixture->hometeam_score >= $singleFixture->awayteam_score) {
               $takeTeam = "away";
             }
           }
@@ -877,7 +877,7 @@ class MatchService implements MatchContract
           } else if($singleFixture->hometeam_score !== null && $singleFixture->awayteam_score !== null) {
             $takeTeam = "home";
 
-            if($singleFixture->hometeam_score < $singleFixture->awayteam_score) {
+            if($singleFixture->hometeam_score >= $singleFixture->awayteam_score) {
               $takeTeam = "away";
             }
           }
