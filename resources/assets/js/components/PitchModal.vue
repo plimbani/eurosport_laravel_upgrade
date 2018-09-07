@@ -145,12 +145,23 @@
                   </div>
                   <div class="form-group row">
                     <div class="col-sm-3"><!-- {{$lang.pitch_modal_result_override}} --></div>
+
                     <div class="col-sm-9 align-self-center">
                       <!-- <input type="checkbox" id="is_result_override" name="is_result_override" v-model="matchDetail.is_result_override" :true-value="'1'" :false-value="'0'" :value="matchDetail.is_result_override" @change="checkOverride()"> -->
-                      <div class="checkbox">
-                        <label class="mb-0 result-override-checkbox"><input type="checkbox" class="position-relative" id="is_result_override" name="is_result_override" v-model="matchDetail.is_result_override" :true-value="'1'" :false-value="'0'" :value="matchDetail.is_result_override" @change="checkOverride()"> &nbsp; {{$lang.pitch_modal_result_override}}</label>
-                      </div>
+                      <!-- <div class="checkbox">
+                        <label class="mb-0 result-override-checkbox">
+                            <input type="checkbox" class="position-relative" id="is_result_override" name="is_result_override" v-model="matchDetail.is_result_override" :true-value="'1'" :false-value="'0'" :value="matchDetail.is_result_override" @change="checkOverride()"> &nbsp; {{$lang.pitch_modal_result_override}}
+                        </label>
+                      </div> -->
+
+                        <div class="checkbox result-override-checkbox">
+                            <div class="c-input">
+                                <input type="checkbox" class="euro-checkbox" id="is_result_override" name="is_result_override" v-model="matchDetail.is_result_override" :true-value="'1'" :false-value="'0'" :value="matchDetail.is_result_override" @change="checkOverride()">
+                                <label for="is_result_override" class="mb-0">{{$lang.pitch_modal_result_override}}</label>
+                            </div>
+                        </div>
                     </div>
+
                   </div>
                   <div class="form-group row" v-if="matchDetail.is_result_override == 1">
                     <label class="col-sm-3 form-control-label">{{$lang.pitch_modal_status_label}}</label>
