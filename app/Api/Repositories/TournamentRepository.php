@@ -951,6 +951,14 @@ class TournamentRepository
                     break;
                 }
             }
+
+            if(count($pitchAvailableTime) > 1) {
+                // Rotate array
+                $pitchAvailableTimeKeys = array_keys($pitchAvailableTime);
+                $pitchAvailableTimeValues = $pitchAvailableTime[$pitchAvailableTimeKeys[0]];
+                unset($pitchAvailableTime[$pitchAvailableTimeKeys[0]]);
+                $pitchAvailableTime[$pitchAvailableTimeKeys[0]] = $pitchAvailableTimeValues;
+            }
         }
 
         if($totalMatchesToBeScheduled != count($matchScheduleArray)) {
