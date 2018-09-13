@@ -22,7 +22,7 @@ open class ProgressView {
   }
   
   open func showProgressView(_ view: UIView) {
-    containerView.frame = view.frame
+    containerView.frame = CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.height)
     containerView.center = view.center
     containerView.backgroundColor = UIColor(hex: 0xffffff, Alpha: 0.3)
     
@@ -38,8 +38,8 @@ open class ProgressView {
     
     progressView.addSubview(activityIndicator)
     containerView.addSubview(progressView)
-    view.addSubview(containerView)
     
+    view.addSubview(containerView)
     activityIndicator.startAnimating()
   }
   

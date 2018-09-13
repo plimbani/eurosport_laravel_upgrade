@@ -19,6 +19,7 @@
 "title_match_info"                          = "MATCH INFO";
 "title_venue"                               = "VENUE";
 "title_venue_map"                           = "VENUE MAP";
+"title_teams"                               = "TEAMS";
 
 //Alert titles
 "alert_title_error"                     =   "Error";
@@ -54,5 +55,7 @@
 "string_na"                             = "N/A";
 "string_walkover_win"                   = "* Walkover win";
 
-
+"placeholder_search_tab_club"           = "Search clubs";
+"placeholder_search_tab_category"       = "Search age category";
+"placeholder_search_tab_group"          = "Search groups";
 

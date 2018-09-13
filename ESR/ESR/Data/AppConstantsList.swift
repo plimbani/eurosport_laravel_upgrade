@@ -41,6 +41,7 @@ struct API_ENDPOINT {
     
     static let AGE_CATEGORIES = API_URL.BASE_URL + "age_group/getCompetationFormat"
     static let TOURNAMENT_GROUP = API_URL.BASE_URL + "match/getDraws"
+    static let TOURNAMENT_CLUBS = API_URL.BASE_URL + "tournaments/getTournamentClub"
     static let TEAM_FIXTURES = API_URL.BASE_URL + "match/getFixtures"
     static let GROUP_STANDING = API_URL.BASE_URL + "match/getStanding/yes"
 }
@@ -57,6 +58,9 @@ struct kViewController {
     static let TabFavouritesVC                  = "TabFavouritesVC"
     static let TabTournamentVC                  = "TabTournamentVC"
     static let TabTeamsVC                       = "TabTeamsVC"
+    static let ClubCategoryVC                   = "ClubCategoryVC"
+    static let ClubGroupVC                      = "ClubGroupVC"
+    static let ClubClubsVC                      = "ClubClubsVC"
     static let TabAgeCategoriesVC               = "TabAgeCategoriesVC"
     static let TabSettingsVC                    = "TabSettingsVC"
     // Settings
@@ -135,6 +139,7 @@ struct kNiB {
         static let AgeCategoryCell              = "AgeCategoryCell"
         static let GroupSummaryMatchesCell      = "GroupSummaryMatchesCell"
         static let GroupSummaryStandingsCell    = "GroupSummaryStandingsCell"
+        static let TournamentClubCell           = "TournamentClubCell"
     }
     
     struct View {
@@ -238,7 +243,8 @@ extension UIColor {
     static func AppColor() -> UIColor {
         return UIColor(R: 199, G: 10, B: 32)
     }
-    
+    static let teamTabLblDefault = UIColor(R: 221, G: 170, B: 171)
+    static let teamTabOrange = UIColor(R: 213, G: 143, B: 40)
     static let favDefaultSelected = UIColor(R: 0, G: 147, B: 0)
     static let favUnfav = UIColor(R: 187, G: 190, B: 195)
     static let favDefaultText = UIColor(R: 117, G: 117, B: 117)

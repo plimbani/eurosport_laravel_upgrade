@@ -158,6 +158,10 @@ class ApiManager {
         postRequest(API_ENDPOINT.TOURNAMENT_GROUP, parameters, success: success, failure: failure, true)
     }
     
+    func getTournamentClub(_ parameters: [String: Any]?, success: @escaping (_ result: NSDictionary) -> (), failure: @escaping (_ result: NSDictionary) -> ()) {
+        postRequest(API_ENDPOINT.TOURNAMENT_CLUBS, parameters, success: success, failure: failure, true)
+    }
+    
     func getGroupStandings(_ parameters: [String: Any]?, success: @escaping (_ result: NSDictionary) -> (), failure: @escaping (_ result: NSDictionary) -> ()) {
         postRequest(API_ENDPOINT.GROUP_STANDING, parameters, success: success, failure: failure, true)
     }
