@@ -91,6 +91,7 @@ class MatchRepository
                 'temp_fixtures.awayteam_score as AwayScore',
                 'temp_fixtures.pitch_id as pitchId',
                 'home_team.name as HomeTeam','away_team.name as AwayTeam',
+                'home_team.shirt_color as HomeTeamShirtColor','away_team.shirt_color as AwayTeamShirtColor','home_team.shorts_color as HomeTeamShortsColor','away_team.shorts_color as AwayTeamShortsColor',
                 DB::raw('CONCAT(home_team.name, " vs ", away_team.name) AS full_game')
                 )
             ->where('temp_fixtures.tournament_id', $tournamentData['tournamentId']);
@@ -295,11 +296,14 @@ class MatchRepository
               'AwayFlag.name as AwayCountryName',
               'temp_fixtures.hometeam_score as homeScore',
               'temp_fixtures.awayteam_score as AwayScore',
+              'temp_fixtures.comments as matchRemarks',
               'temp_fixtures.pitch_id as pitchId',
               'temp_fixtures.is_scheduled',
               'temp_fixtures.is_final_round_match',
               'temp_fixtures.is_result_override as isResultOverride',              
               'home_team.name as HomeTeam','away_team.name as AwayTeam',
+              'home_team.shirt_color as HomeTeamShirtColor','away_team.shirt_color as AwayTeamShirtColor',
+              'home_team.shorts_color as HomeTeamShortsColor','away_team.shorts_color as AwayTeamShortsColor',
               'tournament_competation_template.halves_RR',
               'temp_fixtures.home_team_name as homeTeamName',
               'temp_fixtures.away_team_name as awayTeamName',
@@ -316,6 +320,8 @@ class MatchRepository
               'tournament_competation_template.match_interval_RR',
               'tournament_competation_template.match_interval_FM',
               'tournament_competation_template.id as tid',
+              'temp_fixtures.home_yellow_cards', 'temp_fixtures.away_yellow_cards',
+              'temp_fixtures.home_red_cards', 'temp_fixtures.away_red_cards',              
               DB::raw('CONCAT(home_team.name, " vs ", away_team.name) AS full_game')
               )
           ->where('temp_fixtures.tournament_id', $tournamentData['tournamentId']);
@@ -365,6 +371,20 @@ class MatchRepository
         if(isset($tournamentData['fixture_date']))
         {
           $reportQuery =  $reportQuery->whereDate('temp_fixtures.match_datetime','=',$tournamentData['fixture_date']);
+        }
+        
+        if(isset($tournamentData['matchScoreFilter']) && $tournamentData['matchScoreFilter'] == 'played') {
+            $reportQuery = $reportQuery->where(function($query) {
+                                $query->where('temp_fixtures.hometeam_score', '!=', NULL)
+                                ->orWhere('temp_fixtures.awayteam_score', '!=', NULL);
+                            });
+        }
+          
+        if(isset($tournamentData['matchScoreFilter']) && $tournamentData['matchScoreFilter'] == 'to_be_played') { 
+          $reportQuery = $reportQuery->where(function($query) {
+                                $query->where('temp_fixtures.hometeam_score', NULL)
+                                ->orWhere('temp_fixtures.awayteam_score', NULL);
+                            });
         }
 
         // Todo Added Condition For Filtering Purpose on Pitch Planner
@@ -750,7 +770,9 @@ class MatchRepository
                     ->leftjoin('tournament_competation_template', 'tournament_competation_template.id', '=', 'teams.age_group_id')
                     ->leftjoin('competitions', 'competitions.id', '=', 'teams.competation_id')
                     ->select('teams.id as TeamId','teams.name as TeamName','competitions.*','countries.logo as TeamLogo',
-                      'countries.country_flag as TeamCountryFlag'
+                      'countries.country_flag as TeamCountryFlag',
+                      'teams.shirt_color as ShirtColor',
+                      'teams.shorts_color as ShortsColor'
                       )->whereIn('teams.id',$teamList)->get();
 
       $teamDetails=array();
@@ -763,6 +785,8 @@ class MatchRepository
           $teamDetails[$Tdata->TeamId]['TeamName']=$Tdata->TeamName;
           $teamDetails[$Tdata->TeamId]['TeamFlag']=$Tdata->TeamLogo;
           $teamDetails[$Tdata->TeamId]['TeamCountryFlag']=$Tdata->TeamCountryFlag;
+          $teamDetails[$Tdata->TeamId]['ShirtColor']=$Tdata->ShirtColor;
+          $teamDetails[$Tdata->TeamId]['ShortsColor']=$Tdata->ShortsColor;
         }
       } else if (count($team_placeholder_name_arr_all) == 0){
 
@@ -784,6 +808,8 @@ class MatchRepository
           $arr1[$i]['TeamName'] = $teamDetails[$teamId]['TeamName'];
           $arr1[$i]['TeamFlag'] = $teamDetails[$teamId]['TeamFlag'];
           $arr1[$i]['TeamCountryFlag'] = $teamDetails[$teamId]['TeamCountryFlag'];
+          $arr1[$i]['ShirtColor'] = $teamDetails[$teamId]['ShirtColor'];
+          $arr1[$i]['ShortsColor'] = $teamDetails[$teamId]['ShortsColor'];
         } else {
           $rowKey = explode('-', $teamPlaceholderList[$i])[1];
           $arr1[$i]['id'] = null;
@@ -1084,10 +1110,9 @@ class MatchRepository
     }
     public function assignReferee($data)
     {
-       $refereeData = Referee::find($data['refereeId'])->toArray();
-        // dd($data);
-       $age_group = explode(',',$refereeData['age_group_id']);
-       $matchData = TempFixture::where('match_datetime','<=',$data['matchStartDate'])
+      $refereeData = Referee::find($data['refereeId'])->toArray();
+      $age_group = explode(',',$refereeData['age_group_id']);
+      $matchData = TempFixture::where('match_datetime','<=',$data['matchStartDate'])
                   ->where('match_endtime','>=',$data['matchStartDate'])
                   ->where('tournament_id',$data['tournamentId'])
                   ->where('is_scheduled',1)
@@ -1096,6 +1121,7 @@ class MatchRepository
                       $query->where('referee_id',NULL)
                             ->orWhere('referee_id',0);
                   });
+
       if($data['filterKey']!='' && $data['filterValue']!= '') {
         if($data['filterKey'] == 'age_category' ){
           $matchData->where('age_group_id',$data['filterValue']['id']);
@@ -1103,24 +1129,20 @@ class MatchRepository
           $matchData->where('venue_id',$data['filterValue']['id']);
         }
       }
-      if( $matchData->count() == 0){
+
+      if($matchData->count() == 0){
         return ['status'=> false,'data' => 'Please assign referee properly'];
       }else{
-        if($age_group){
-        $matchData = $matchData->whereIn('age_group_id',$age_group)->first();
-          if(!$matchData){
-            return ['status' => false, 'data' => 'This referee is not authorised to referee this age category'];
-          }else{
-             $result =  $matchData->update(['referee_id' => $data['refereeId']]);
-          return  ['status' => true, 'data' => $matchData];
-          }
-        }
+        $result = $matchData->update(['referee_id' => $data['refereeId']]);
+        return ['status' => true, 'data' => $matchData];
       }
-
-      }
+    }
     public function saveResult($data)
     {
-      
+      $tempFixture = TempFixture::where('id', $data['matchId'])->first();
+      $competition = Competition::where('id', $tempFixture->competition_id)->first();
+      $ageCategory = TournamentCompetationTemplates::where('id', $tempFixture->age_group_id)->first();
+
       if($data['is_result_override'] == 0) {
         $data['matchStatus'] == null;
         $data['matchWinner'] == null;
@@ -1134,13 +1156,23 @@ class MatchRepository
         'match_winner' => $data['matchWinner'],
         'comments' => $data['comments'],
         'is_result_override' => $data['is_result_override'],
-
+        'home_yellow_cards' => $data['home_yellow_cards'],
+        'away_yellow_cards' => $data['away_yellow_cards'],
+        'home_red_cards' => $data['home_red_cards'],
+        'away_red_cards' => $data['away_red_cards'],
       ];
 
-      $data = TempFixture::where('id',$data['matchId'])
+      $updateResult = TempFixture::where('id', $data['matchId'])
                   ->update($updateData);
+
+      $ageCategory->category_age_color = $data['age_category_color'];
+      $ageCategory->save();
+
+      $competition->color_code = strtolower($data['group_color']) == '#ffffff' ? NULL : $data['group_color'];
+      $competition->save();
+
       // TODO : call function to add result
-      return $data;
+      return $updateResult;
     }
 
     public function saveAllResults($data)
@@ -1168,7 +1200,7 @@ class MatchRepository
           ->leftjoin('teams as away_team', function ($join) {
               $join->on('away_team.id', '=', 'temp_fixtures.away_team');
           })
-          ->with('referee','pitch','competition', 'winnerTeam', 'categoryAge')->select('temp_fixtures.*','home_team.comments as hometeam_comment','away_team.comments as awayteam_comment')->find($matchId);
+          ->with('referee','pitch','competition', 'winnerTeam', 'categoryAge')->select('temp_fixtures.*','home_team.comments as hometeam_comment','away_team.comments as awayteam_comment', 'home_team.shirt_color as  hometeam_shirt_color', 'home_team.shorts_color as  hometeam_shorts_color', 'away_team.shirt_color as  awayteam_shirt_color', 'away_team.shorts_color as  awayteam_shorts_color')->find($matchId);
     }
 
     public function getLastUpdateValue($tournamentId)

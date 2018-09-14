@@ -872,12 +872,6 @@ class TournamentService implements TournamentContract
       return ['status_code' => '200', 'competitions' => $competitions];
     }
 
-    public function saveCategoryCompetitionColor($data)
-    {
-      $this->tournamentRepoObj->saveCategoryCompetitionColor($data['competitionsColorData']);
-      return ['status_code' => '200', 'message' => 'Group colors have been saved successfully.'];
-    }
-
     public function getAllPublishedTournaments($data)
     {
       $data = $this->tournamentRepoObj->getAllPublishedTournaments($data);
@@ -888,5 +882,23 @@ class TournamentService implements TournamentContract
     {
       $data = $this->tournamentRepoObj->getFilterDropDownData($data);
       return ['options' => $data];
+    }
+
+    public function getCompetitionAndPitchDetail($data)
+    {
+      $data = $this->tournamentRepoObj->getCompetitionAndPitchDetail($data);
+      return ['options' => $data];
+    }
+
+    public function scheduleAutomaticPitchPlanning($data)
+    {
+      $data = $this->tournamentRepoObj->scheduleAutomaticPitchPlanning($data);
+      return ['options' => $data];
+    }
+
+    public function getAllPitchesWithDays($pitchId)
+    {
+      $data = $this->tournamentRepoObj->getAllPitchesWithDays($pitchId);
+      return ['data' => $data, 'status_code' => '200'];
     }
 }

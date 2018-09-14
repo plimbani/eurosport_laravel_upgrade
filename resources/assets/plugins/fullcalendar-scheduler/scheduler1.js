@@ -3704,10 +3704,49 @@ TimelineGrid = (function(superClass) {
     classes = this.getSegClasses(seg, isDraggable, isResizableFromStart || isResizableFromEnd);
     classes.unshift('fc-timeline-event', 'fc-h-event');
     timeText = this.getEventTimeText(event);
-    return '<a class="' + classes.join(' ') + '" style="' + cssToStr(this.getSegSkinCss(seg)) + '"' + (event.url ? ' href="' + htmlEscape(event.url) + '"' : '') + '>' +
-    '<div class="fc-content">'
+
+    var tootipHtml = '';
+
+    if(event.matchId != -1) {
+      tootipHtml = "<div style='color: " + event.textColor + "'>";
+      if(event.refereeId != '' && event.refereeId > 0) {
+        tootipHtml += "<span>" + event.refereeText + "</span><br/>";
+      }
+      tootipHtml += "<span>" + moment.utc(event.start).format("HH:mm") + " - " + moment.utc(event.end).format("HH:mm") + "</span><br/>";
+      tootipHtml += "<span>" + event.title + "</span><br/>";
+      if((event.homeScore !== null) && (event.awayScore !== null) && (typeof event.awayScore !== 'undefined') && (typeof event.awayScore !== 'undefined')) {
+        tootipHtml += '<div>' +
+        ((event.isResultOverride == 1 && event.matchStatus == 'Walk-over' && event.matchWinner == event.homeTeam) ? '*' : '') +
+        htmlEscape(event.homeScore) + '-' + htmlEscape(event.awayScore) +
+        ((event.isResultOverride == 1 && event.matchStatus == 'Walk-over' && event.matchWinner == event.awayTeam) ? '*' : '') +
+        '</div>';
+      }
+      if(event.remarks) {
+        tootipHtml += '<div class="tootltip-bubble"><i class="jv-icon jv-comment"></i></div>';
+      }
+      tootipHtml += "</div>";
+    }
+
+    tootipHtml = htmlentities.encode(tootipHtml);
+
+    var skinCSSHorizontal = cssToStr(this.getSegSkinCss(seg));
+    if(event.locationCheckFlag == false) {
+      skinCSSHorizontal += ';display: none;';
+    }
+
+    var horizontalBlockHtml;
+
+    if(event.refereeId != -1) {
+      horizontalBlockHtml = '<a data-animation="false" data-html="true" data-category-color="' + event.color +  '" data-fixture-strip-color="' + event.fixtureStripColor +  '" data-placement="top" data-toggle="tooltip" title="' + tootipHtml + '" class="' + classes.join(' ') + '" style="' + skinCSSHorizontal + '"' + (event.url ? ' href="' + htmlEscape(event.url) + '"' : '') + '>';
+    } else {
+      horizontalBlockHtml = '<a data-category-color="' + event.color +  '" data-fixture-strip-color="' + event.fixtureStripColor +  '" class="' + classes.join(' ') + '" style="' + skinCSSHorizontal + '"' + (event.url ? ' href="' + htmlEscape(event.url) + '"' : '') + '>';
+    }
+    
+    horizontalBlockHtml += '<div class="fc-content">'
     +'<span class="fc-referee referee_'+event.refereeId+'" id="'+ event.refereeId+'">'+ event.refereeText+'</span>' +
      (timeText ? '<span class="fc-time">' + htmlEscape(timeText) + '</span>' : '') + '<span class="fc-title">' + (event.title ? htmlEscape(event.title) : '&nbsp;') + '</span>' + '</div>' + '<div class="fc-bg" />' + (isResizableFromStart ? '<div class="fc-resizer fc-start-resizer"></div>' : '') + (isResizableFromEnd ? '<div class="fc-resizer fc-end-resizer"></div>' : '') + '</a>';
+
+    return horizontalBlockHtml;
   };
 
   TimelineGrid.prototype.updateSegFollowers = function(segs) {

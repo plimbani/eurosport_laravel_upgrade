@@ -177,9 +177,11 @@ export default {
       let TournamentData = {'tournament_id': this.TournamentId}
       Tournament.getCompetationFormat(TournamentData).then(
       (response) => {
+        let category_rules_info = response.data.category_rules_info;
         this.categoryRules = _.map(response.data.category_rules, (value, key) => {
           return {
             'key': key,
+            'description': category_rules_info[key],
             'title': value,
             'checked': false,
           };

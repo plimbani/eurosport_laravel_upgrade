@@ -38,9 +38,17 @@
     <thead>
       <tr>
           <th></th>
-         <th v-for="(match,index) in match1Data" class="text-center">
-         <span :class="'flag-icon flag-icon-'+match.TeamCountryFlag"></span>
-         <span class="font-weight-normal">{{match.TeamName}}</span></th>
+          <th v-for="(match,index) in match1Data" class="text-center">
+            <div class="matchteam-details">
+              <span :class="'matchteam-flag flag-icon flag-icon-'+match.TeamCountryFlag"></span>
+              <div class="matchteam-dress" v-if="match.ShortsColor && match.ShirtColor">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64.4 62"><g><polygon class="cls-1" v-bind:fill="match.ShortsColor" points="13.79 39.72 13.79 61.04 30.26 61.04 32.2 55.22 34.14 61.04 50.61 61.04 50.61 39.72 13.79 39.72"/></g><path class="cls-2" v-bind:fill="match.ShirtColor" d="M62.83,11.44,50.61,1H38A6.29,6.29,0,0,1,32.2,4.84,6.29,6.29,0,0,1,26.39,1H13.79L1.57,11.44a1.65,1.65,0,0,0-.09,2.41L8,20.34l5.81-3.87V39.72H50.61V16.47l5.81,3.87,6.5-6.49A1.65,1.65,0,0,0,62.83,11.44Z"/></svg>
+              </div>
+              <span class="text-center matchteam-name">
+                  <a class="text-primary font-weight-normal" href="" @click.prevent="changeTeam(match.id, match.TeamName)" >{{match.TeamName}}</a>
+              </span>
+            </div>
+          </th>
          <!-- <img :src="match.TeamFlag" width="20"> &nbsp;<span>{{match.TeamName}}</span></th> -->
       </tr>
     </thead>
@@ -48,14 +56,15 @@
       <tr v-for="(match,index) in match1Data">
 
           <td>
-
-            <!-- <a href="" class="pull-left text-left text-primary"> -->
-             <span :class="'flag-icon flag-icon-'+match.TeamCountryFlag"></span>
-              <!-- <img :src="match.TeamCountryFlag" width="20"> &nbsp; -->
-                <span>{{match.TeamName}}</span>
-
-              <!--<img :src="match.TeamFlag" width="20"> &nbsp;-->
-
+            <div class="matchteam-details">
+              <span v-if="match.TeamCountryFlag" :class="'matchteam-flag flag-icon flag-icon-' + match.TeamCountryFlag"></span>
+              <div class="matchteam-dress" v-if="match.ShortsColor && match.ShirtColor">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64.4 62"><g><polygon class="cls-1" v-bind:fill="match.ShortsColor" points="13.79 39.72 13.79 61.04 30.26 61.04 32.2 55.22 34.14 61.04 50.61 61.04 50.61 39.72 13.79 39.72"/></g><path class="cls-2" v-bind:fill="match.ShirtColor" d="M62.83,11.44,50.61,1H38A6.29,6.29,0,0,1,32.2,4.84,6.29,6.29,0,0,1,26.39,1H13.79L1.57,11.44a1.65,1.65,0,0,0-.09,2.41L8,20.34l5.81-3.87V39.72H50.61V16.47l5.81,3.87,6.5-6.49A1.65,1.65,0,0,0,62.83,11.44Z"/></svg>
+              </div>
+              <span class="text-center matchteam-name">
+                  <a class="text-primary font-weight-normal" href="" @click.prevent="changeTeam(match.id, match.TeamName)" >{{match.TeamName}}</a>
+              </span>
+            </div>
           </td>
 
 
@@ -72,7 +81,7 @@
   </table>
 
   <div class="form-group">
-    <h6 v-if="otherData.DrawType != 'Elimination'" class="mb-0"> 
+    <h6 v-if="otherData.DrawType != 'Elimination'" class="mb-0">
     {{otherData.DrawName}} standings
     <a href="#" @click="manualRankingModalOpen()" v-if="isUserDataExist && teamList.length > 0"><span>(<u>manual ranking</u>)</span></a>
     <span style="float: right;" v-if="DrawName.competation_round_no != 'Round 1' && isUserDataExist"><a href="javascript:void(0)" @click="refreshStanding()">Refresh standing</a></span>
@@ -82,7 +91,7 @@
     <div v-if="currentCompetationId == 0 && otherData.DrawType != 'Elimination'">No information available
     </div>
   </div>
-  
+
   <div class="row align-items-center mb-3">
     <div class="col-md-10">
       <label class="mb-0">
@@ -247,7 +256,7 @@ export default {
           let refreshManual =new Promise((resolve, reject) => {
             let ref = vm.refreshStanding(resolve) ;
           });
-         
+
           refreshManual.then( (msg) => {
             let teamRes = _.map(vm.teamList, (o) => {
               if(o.id != '') {
@@ -255,8 +264,8 @@ export default {
               }
             });
              // return false;
-            
-            let sendData = {'teams': teamRes,'tournamentId':this.DrawName.tournament_id,'ageGroupId':this.DrawName.tournament_competation_template_id,'teamId':true} 
+
+            let sendData = {'teams': teamRes,'tournamentId':this.DrawName.tournament_id,'ageGroupId':this.DrawName.tournament_competation_template_id,'teamId':true}
            Tournament.checkTeamIntervalforMatches(sendData);
           },
           );
@@ -323,7 +332,7 @@ export default {
                   if(response.data.status_code == 200){
 
                     this.match1Data = response.data.data
-                    
+
                   }
                   if(response.data.status_code == 300){
                     this.match1Data = []
@@ -384,8 +393,14 @@ export default {
           this.DrawName.is_manual_override_standing = isManualOverrideStanding;
         },
         saveMatchScore() {
-          this.$root.$emit('saveMatchScore')          
-        }
+          this.$root.$emit('saveMatchScore')
+        },
+        changeTeam(Id, Name) {
+            // here we dispatch Method
+
+            this.$store.dispatch('setCurrentScheduleView','teamDetails')
+            this.$root.$emit('changeComp', Id, Name);
+        },
     }
 }
 </script>

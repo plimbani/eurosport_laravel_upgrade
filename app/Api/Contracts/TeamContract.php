@@ -27,6 +27,7 @@ interface TeamContract
 
     public function editTeamDetails($teamId);
     public function getAllCountries();
+    public function getAllTeamColors();
     public function getAllClubs();
     public function updateTeamDetails($request, $teamId);
     

@@ -8341,6 +8341,17 @@ TimeGrid.mixin({
 			startTimeText = this.getEventTimeText(event, null, false); // displayEnd=false
 		}
 
+		var matchRemarkClasses = 'match-remark';
+		if( (event.fixtureStripColor && event.fixtureStripColor == event.color)) {
+			matchRemarkClasses += ' match-remark-right-position2';
+		} else {
+			matchRemarkClasses += ' match-remark-right-position17';
+		}
+
+		if(event.locationCheckFlag == false) {
+			skinCss += ';display: none;';
+		}
+
 		return '<a class="' + classes.join(' ') + '"' +
 			(event.url ?
 				' href="' + htmlEscape(event.url) + '"' :
@@ -8371,7 +8382,7 @@ TimeGrid.mixin({
 							'</div>' :
 							''
 							) +
-						((event.homeScore !== null) && (event.awayScore !== null) ? 
+						((event.homeScore !== null) && (event.awayScore !== null) && (typeof event.awayScore !== 'undefined') && (typeof event.awayScore !== 'undefined') ? 
 							'<div class="fc-score">' +
 								((event.isResultOverride == 1 && event.matchStatus == 'Walk-over' && event.matchWinner == event.homeTeam) ? '*' : '') +
 								htmlEscape(event.homeScore) + '-' + htmlEscape(event.awayScore) +
@@ -8394,6 +8405,9 @@ TimeGrid.mixin({
 					(event.fixtureStripColor ?
 					'<div class="scheduled-match-content-strip" style="background: ' + event.fixtureStripColor + '"></div>' :
 						''
+						) +
+					(event.remarks ?
+					'<div class="' + matchRemarkClasses + '"><i class="jv-icon jv-comment"></i></div>' : ''
 						) +
 				'</div>' +
 			'</a>';

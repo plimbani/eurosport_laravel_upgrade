@@ -38,6 +38,22 @@ import _ from 'lodash'
         },
         computed: {
             pitchesData() {
+
+                if(this.tournamentFilter.filterKey == 'location' && this.tournamentFilter.filterValue != ''){
+                    var pitches = _.remove(this.stage.pitches, (pitch) => {
+                        let assign = false;
+                        pitch.title = pitch.pitch_number+' ('+pitch.size+')';
+                        pitch.resourceAreaWidth = '500px';
+                        if(this.tournamentFilter.filterValue.id == pitch.venue_id){
+                            assign = true;
+                        }
+
+                        return assign;
+                    });
+                    
+                    return pitches;
+                }
+
                 return _.forEach(this.stage.pitches, (pitch) => {
                     pitch.title = pitch.pitch_number+' ('+pitch.size+')';
                     pitch.resourceAreaWidth = '500px';
@@ -273,12 +289,27 @@ import _ from 'lodash'
                         }
                     },
                     eventAfterAllRender: function(view ){
+                        $('[data-toggle="tooltip"]').tooltip();
+                        $('[data-toggle="tooltip"]').each(function() {
+                            let tt = $(this);
+                            let fixtureStripColor = tt.data('fixture-strip-color');
+                            let categoryColor = tt.data('category-color');
+
+                            tt.on('shown.bs.tooltip', function() {
+                                var tooltipId = $(this).attr('aria-describedby');
+                                
+                                $('#' + tooltipId + ' .tooltip-inner').css('background-color', categoryColor);
+
+                                $('<style>#' + tooltipId + ' .tooltip-inner::before { border-top-color: '+ fixtureStripColor +'; }</style>' ).appendTo( 'head');
+                            });
+                        });
+
                          $('#add_referee').prop('disabled', false);
                          // Code for horizontal scroll bar
-                         let totalPitches = vm.stage.pitches.length;
-                         if(totalPitches > 8) {
+                        let totalPitches = vm.stage.pitches.length;
+                        if(totalPitches > 8) {
                             $(vm.$el).find('.fc-view-container .fc-view > table').css('width', (totalPitches * ($('.pitch_planner_section').width()/8)) + 'px');
-                         }
+                        }
                     },
                     eventDrop: function(event, delta, revertFunc, jsEvent, ui, view) { // called when an event (already on the calendar) is moved
                         // update api call
@@ -324,9 +355,10 @@ import _ from 'lodash'
                         }
                     },
                     eventClick: function(calEvent, jsEvent, view) {
+                        var posX = $(this).offset().left, posY = $(this).offset().top;
+                        var eventPositionLeft = (jsEvent.pageX - posX);
+                        var matchBlockWidth = $(this).width();
 
-                        // $('div.fc-unthemed').fullCalendar('updateEvent', calEvent);
-                       // return false;
                         if(calEvent.refereeId == -1){
                             return false
                         } else if(calEvent.refereeId == -2) {
@@ -339,7 +371,11 @@ import _ from 'lodash'
                             vm.setPitchModal = 1
                             vm.matchFixture = calEvent
                              setTimeout(function() {
-                                $('#matchScheduleModal').modal('show')
+                                $('#matchScheduleModal').modal('show');
+                                if((matchBlockWidth - eventPositionLeft) <= 15) {
+                                    $("#matchScheduleModal #pitch_model_body .tabs li a").removeClass('active');
+                                    $("#matchScheduleModal #pitch_model_body .tabs li.nav-item:last-child a").addClass('active');
+                                }
                                 $("#matchScheduleModal").on('hidden.bs.modal', function () {
                                     vm.setPitchModal = 0
                                     vm.matchFixture = {}
@@ -383,7 +419,7 @@ import _ from 'lodash'
                 setTimeout(function(){
                     $(ev).fullCalendar('addEventSource', vm.scheduledMatches);
                     arrangeLeftColumn();
-                },1500)
+                },2100)
             },
             getScheduledMatch(filterKey='',filterValue='',filterDependentKey='',filterDependentValue='') {
                 // this.$store.dispatch('SetScheduledMatches');
@@ -404,6 +440,7 @@ import _ from 'lodash'
 
                         _.forEach(rdata, function(match) {
                             let scheduleBlock = false
+                            let locationCheckFlag = true;
                             let refereeId = ''
                             let matchTitle = ''
 
@@ -458,19 +495,34 @@ import _ from 'lodash'
                                     }
                                 } else if(filterKey == 'location'){
                                     if( filterValue != '' && filterValue.id != match.venueId){
-                                        scheduleBlock = true
+                                        scheduleBlock = true;
+                                        locationCheckFlag = false;
                                     }
                                 }
+                                
                               let colorVal = match.category_age_color;
                               var isBright = (parseInt(vm.getBrightness(match.category_age_color)) > 160);
                               let borderColorVal;
-                              if(isBright) {
-                                borderColorVal = vm.LightenDarkenColor(match.category_age_color, -40);
-                              } else {
-                                borderColorVal = vm.LightenDarkenColor(match.category_age_color, 40);
-                              }
+                              
                               let textColorVal = match.category_age_font_color;
                               let fixtureStripColor = match.competation_color_code != null ? match.competation_color_code : '#FFFFFF';
+
+                              let ageCategoryColor = match.age_category_color;
+                              let groupColor = match.group_color;
+
+                              if(ageCategoryColor != null) {
+                                colorVal = ageCategoryColor;
+                              }
+
+                              if(groupColor != null) {
+                                fixtureStripColor = groupColor;
+                              }
+
+                              if(isBright) {
+                                borderColorVal = vm.LightenDarkenColor(colorVal, -40);
+                              } else {
+                                borderColorVal = vm.LightenDarkenColor(colorVal, 40);
+                              }
 
                               if(scheduleBlock){
                                 colorVal = 'grey'
@@ -492,6 +544,15 @@ import _ from 'lodash'
                                 refereeId = match.referee_id?match.referee_id:0
                                  matchTitle = displayMatchName
                               }
+
+                              if(ageCategoryColor != null) {
+                                colorVal = ageCategoryColor;
+                              }
+                              
+                              if(groupColor != null) {
+                                fixtureStripColor = groupColor;
+                              }
+
                                 let mData =  {
                                     'id': match.fid,
                                     'resourceId': match.pitchId,
@@ -513,7 +574,11 @@ import _ from 'lodash'
                                     'awayTeam': match.Away_id,
                                     'matchStatus': match.match_status,
                                     'matchWinner': match.match_winner,
-                                    'isResultOverride': match.isResultOverride
+                                    'isResultOverride': match.isResultOverride,
+                                    'homeTeamPlaceHolder': displayHomeTeamPlaceholder,
+                                    'awayTeamPlaceHolder': displayAwayTeamPlaceholder,
+                                    'remarks': match.matchRemarks,
+                                    'locationCheckFlag': locationCheckFlag
                                 }
                             sMatches.push(mData)
                             }
@@ -531,7 +596,7 @@ import _ from 'lodash'
                                         'end': moment.utc(availability.stage_start_date+' '+availability.stage_start_time,'DD/MM/YYYY hh:mm:ss'),
                                         'refereeId': -1,
                                         'refereeText': 'R',
-                                        'title': 'Pitch is not available',
+                                        'title': '',
                                         'color': 'grey',
                                         'textColor': '#FFFFFF',
                                         'borderColor': 'grey',
@@ -545,7 +610,11 @@ import _ from 'lodash'
                                         'awayTeam': null,
                                         'matchStatus': null,
                                         'matchWinner': null,
-                                        'isResultOverride': null
+                                        'isResultOverride': null,
+                                        'homeTeamPlaceHolder': null,
+                                        'awayTeamPlaceHolder': null,
+                                        'remarks': null,
+                                        'locationCheckFlag': null
                                     }
                                     sMatches.push(mData1)
                                     counter = counter+1;
@@ -558,7 +627,7 @@ import _ from 'lodash'
                                         'end': moment.utc(availability.stage_start_date+' '+'23:00:00','DD/MM/YYYY HH:mm:ss'),
                                         'refereeId': -1,
                                         'refereeText': 'R',
-                                        'title':'Pitch is not available',
+                                        'title':'',
                                         'color': 'grey',
                                         'textColor': '#FFFFFF',
                                         'borderColor': 'grey',
@@ -572,7 +641,11 @@ import _ from 'lodash'
                                         'awayTeam': null,
                                         'matchStatus': null,
                                         'matchWinner': null,
-                                        'isResultOverride': null
+                                        'isResultOverride': null,
+                                        'homeTeamPlaceHolder': null,
+                                        'awayTeamPlaceHolder': null,
+                                        'remarks': null,
+                                        'locationCheckFlag': null
                                     }
                                     sMatches.push(mData2)
                                     counter = counter+1;
@@ -586,7 +659,7 @@ import _ from 'lodash'
                                             'end': moment.utc(availability.stage_start_date+' '+pitchBreak.break_end,'DD/MM/YYYY hh:mm:ss'),
                                             'refereeId': -1,
                                             'refereeText': 'R',
-                                            'title':'Pitch is not available',
+                                            'title':'',
                                             'color': 'grey',
                                             'textColor': '#FFFFFF',
                                             'borderColor': 'grey',
@@ -600,7 +673,11 @@ import _ from 'lodash'
                                             'awayTeam': null,
                                             'matchStatus': null,
                                             'matchWinner': null,
-                                            'isResultOverride': null
+                                            'isResultOverride': null,
+                                            'homeTeamPlaceHolder': null,
+                                            'awayTeamPlaceHolder': null,
+                                            'remarks': null,
+                                            'locationCheckFlag': null
                                         }
 
                                         sMatches.push(mData)
@@ -640,20 +717,25 @@ import _ from 'lodash'
                     'end': moment.utc(end_date,'DD/MM/YYYY HH:mm:ss'),
                     'refereeId': -2,
                     'refereeText': '',
-                    'title': 'Pitch is not available',
+                    'title': '',
                     'color': 'grey',
                     'textColor': '#FFFFFF',
                     'matchId': '111212',
                     'matchAgeGroupId':'',
                     'homeScore': null,
                     'awayScore': null,
-                    'displayFlag':''
+                    'displayFlag':'',
+                    'homeTeam': null,
+                    'awayTeam': null,
+                    'matchStatus': null,
+                    'matchWinner': null,
+                    'isResultOverride': null
 
               }
                this.scheduledMatches.push(mData21)
                // Also Add for Resources as well
-                let resources = {'id':'111213','eventColor':'grey'}
-               this.pitchesData = resources
+                //let resources = {'id':'111213','eventColor':'grey'}
+               //this.pitchesData = resources
              }
 
             },
@@ -670,14 +752,15 @@ import _ from 'lodash'
                             'end': moment.utc(block.match_end_datetime,'YYYY/MM/DD HH:mm:ss'),
                             'refereeId': -2,
                             'refereeText': '',
-                            'title': 'Unavailable',
+                            'title': '',
                             'color': 'grey',
                             'textColor': '#FFFFFF',
-                            'matchId': 'block_'+block.id,
+                            'matchId': -1,
                             'matchAgeGroupId':'',
                             'homeScore': null,
                             'awayScore': null,
-                            'displayFlag':''
+                            'displayFlag': '',
+                            'remarks': null,
                         }
                         this.scheduledMatches.push(mData2)
                         this.unavailableBlock.push(mData2)
@@ -760,7 +843,7 @@ import _ from 'lodash'
         var index = 1;
         var plannerwidth = $('.pitch_planner_section').width()/8;        
         [].forEach.call(scrollableBodys, function(scrollableBody) {
-            var totalPitches = document.querySelectorAll('.pitch-planner-item:nth-child('+index+') .fc-head-container > .fc-row > table > thead > tr > th').length - 1;            
+            var totalPitches = document.querySelectorAll('.pitch-planner-item:nth-child('+index+') .fc-head-container > .fc-row > table > thead > tr > th').length - 1;
             if(totalPitches>7){
                 var pitchplanneritem = document.querySelectorAll('.pitch-planner-item:nth-child('+index+')');
                 pitchplanneritem[0].classList.add("ppitem");
@@ -783,6 +866,8 @@ import _ from 'lodash'
                     scrollableHeader.scrollTo(scrollableBody.scrollLeft, 0);
                     scrollableBg.scrollTo(scrollableBody.scrollLeft, 0);
                 });
+            } else {
+                $(scrollableBody).closest('table').css('width', ($('.pitch_planner_section').width() - 20) + 'px');
             }
             index++;
         });

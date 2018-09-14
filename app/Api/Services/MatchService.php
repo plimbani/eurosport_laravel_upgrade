@@ -201,14 +201,11 @@ class MatchService implements MatchContract
 
     public function generateMatchPrint($matchData)
     {
-
-       $matchId = $matchData['matchId'];
-       $matchResult = $this->matchRepoObj->getMatchDetail($matchId);
-       //echo '<pre>';
-     // print_r($matchResult->toArray());exit;
+      $matchId = $matchData['matchId'];
+      $matchResult = $this->matchRepoObj->getMatchDetail($matchId);
       $date = new \DateTime(date('H:i d M Y'));
-        // $date->setTimezone();.
       $resultData = $matchResult->toArray();
+      
       // Here we modified the array according to status and winner
       if(isset($matchData['result_override']) && $matchData['result_override']== 'false' ) {
         // Unset the match_status result and match Wineer
@@ -219,18 +216,24 @@ class MatchService implements MatchContract
         $resultData['name'] = $matchData['winner'];
       }
 
-      // dd($resultData);
-        $pdf = PDF::loadView('pitchplanner.pitch',['data' => $resultData,'result_override'=>$matchData['result_override']])
-            ->setPaper('a4')
-            ->setOption('header-spacing', '5')
-            ->setOption('header-font-size', 7)
-            ->setOption('header-font-name', 'Open Sans')
-            ->setOrientation('portrait')
-            ->setOption('footer-right', 'Page [page] of [toPage]')
-            ->setOption('header-right', $date->format('H:i d M Y'))
-            ->setOption('margin-top', 20)
-            ->setOption('margin-bottom', 20);
-        return $pdf->inline('Pitch.pdf');
+      $tempFixture = TempFixture::where('id', $matchId)->first();
+      $competition = Competition::where('id', $tempFixture->competition_id)->first();
+      $ageCategory = TournamentCompetationTemplates::where('id', $tempFixture->age_group_id)->first();
+      
+      $categoryAgeColor = $ageCategory->category_age_color;
+      $categoryStripColor = $competition->color_code ? $competition->color_code : '#FFFFFF';
+
+      $pdf = PDF::loadView('pitchplanner.pitch',['data' => $resultData,'result_override'=>$matchData['result_override'], 'categoryAgeColor' => $categoryAgeColor, 'categoryStripColor' => $categoryStripColor])
+          ->setPaper('a4')
+          ->setOption('header-spacing', '5')
+          ->setOption('header-font-size', 7)
+          ->setOption('header-font-name', 'Open Sans')
+          ->setOrientation('portrait')
+          ->setOption('footer-right', 'Page [page] of [toPage]')
+          ->setOption('header-right', $date->format('H:i d M Y'))
+          ->setOption('margin-top', 20)
+          ->setOption('margin-bottom', 20);
+      return $pdf->inline('Pitch.pdf');
     }
 
     public function generateCategoryReport($ageGroupId)
@@ -310,7 +313,6 @@ class MatchService implements MatchContract
     }
     public function assignReferee($matchData) {
         $matchResult = $this->matchRepoObj->assignReferee($matchData->all()['data']);
-        // dd($matchResult);
         if ($matchResult) {
             return ['status_code' => '200', 'data' => $matchResult];
         } else {
@@ -540,31 +542,52 @@ class MatchService implements MatchContract
       $home_team_score = $singleFixture->hometeam_score;
       $away_team_score = $singleFixture->awayteam_score;
 
-      // FOr Winner Conditions
-      if($home_team_score !== null && $away_team_score !== null) {
-        if($home_team_score >=  $away_team_score) {
-          $winnerTeam = $singleFixture->home_team_name;
-          $winnerId = $singleFixture->home_team;
+
+      $winnerTeam = $singleFixture->home_team_name;
+      $winnerId = $singleFixture->home_team;
+      $takeTeam = null;
+      // For Winner Conditions
+      if(($singleFixture->hometeam_score == $singleFixture->awayteam_score) && ($singleFixture->is_result_override == 1 && $singleFixture->match_status == 'Penalties')) {
+        $takeTeam = "home";
+
+        if($singleFixture->match_winner == $singleFixture->away_team) {
+          $takeTeam = "away";
         }
+      } else if($home_team_score !== null && $away_team_score !== null) {
+        $takeTeam = "home";
+
         if($home_team_score <  $away_team_score) {
-          $winnerTeam = $singleFixture->away_team_name;
-          $winnerId = $singleFixture->away_team;
+          $takeTeam = "away";
         }
       }
-
-      // FOr Looser Conditions
-      if($home_team_score !== null && $away_team_score !== null) {
-        if($home_team_score <  $away_team_score) {
-          $looserTeam = $singleFixture->home_team_name;
-          $looserId = $singleFixture->home_team;
-        }
-        if($home_team_score >=  $away_team_score) {
-          $looserTeam = $singleFixture->away_team_name;
-          $looserId = $singleFixture->away_team;
-        }
+      if($takeTeam == "away") {
+        $winnerTeam = $singleFixture->away_team_name;
+        $winnerId = $singleFixture->away_team;
       }
 
-      if($home_team_score !== null && $away_team_score !== null) {
+      $looserTeam = $singleFixture->home_team_name;
+      $looserId = $singleFixture->home_team;
+      $takeTeam = null;
+      // For Looser Conditions
+      if(($singleFixture->hometeam_score == $singleFixture->awayteam_score) && ($singleFixture->is_result_override == 1 && $singleFixture->match_status == 'Penalties')) {
+        $takeTeam = "home";
+
+        if($singleFixture->match_winner != $singleFixture->away_team) {
+          $takeTeam = "away";
+        }
+      } else if($home_team_score !== null && $away_team_score !== null) { 
+        $takeTeam = "home";
+
+        if($home_team_score >=  $away_team_score) {
+          $takeTeam = "away";
+        }
+      }
+      if($takeTeam == "away") {
+        $looserTeam = $singleFixture->away_team_name;
+        $looserId = $singleFixture->away_team;
+      }
+
+      if((($singleFixture->hometeam_score == $singleFixture->awayteam_score) && ($singleFixture->is_result_override == 1 && $singleFixture->match_status == 'Penalties')) || ($home_team_score !== null && $away_team_score !== null)) {
         // Now fire a query which gives two record Winner and Looser
         $results = DB::table('temp_fixtures')->where('age_group_id','=',$age_category_id)->where('tournament_id','=',$tournament_id)
         ->where(function($query) use ($val) {
@@ -729,16 +752,29 @@ class MatchService implements MatchContract
         if($homeTeam  == $modifiedTeamsWinner) {
           $hometeamName = null;
           $homeTeamId = 0;
+          $takeTeam = null;
 
-          if($singleFixture->hometeam_score !== null && $singleFixture->awayteam_score !== null) {
-            if($singleFixture->hometeam_score >= $singleFixture->awayteam_score)
-            {
-              $hometeamName = $singleFixture->home_team_name;
-              $homeTeamId = $singleFixture->home_team;
-            }else {
-              $hometeamName = $singleFixture->away_team_name;
-              $homeTeamId = $singleFixture->away_team;
+          if(($singleFixture->hometeam_score == $singleFixture->awayteam_score) && ($singleFixture->is_result_override == 1 && $singleFixture->match_status == 'Penalties')) {
+            $takeTeam = "home";
+
+            if($singleFixture->match_winner == $singleFixture->away_team) {
+              $takeTeam = "away";
             }
+          } else if($singleFixture->hometeam_score !== null && $singleFixture->awayteam_score !== null) {
+            $takeTeam = "home";
+
+            if($singleFixture->hometeam_score < $singleFixture->awayteam_score) {
+              $takeTeam = "away";
+            }
+          }
+
+          if($takeTeam == 'home') {
+            $hometeamName = $singleFixture->home_team_name;
+            $homeTeamId = $singleFixture->home_team;
+          }
+          if($takeTeam == 'away') {
+            $hometeamName = $singleFixture->away_team_name;
+            $homeTeamId = $singleFixture->away_team;
           }
 
           if($hometeamName === null && $homeTeamId == 0) {
@@ -746,23 +782,36 @@ class MatchService implements MatchContract
             $updateArray = [ 'home_team_name'=> $fixture->home_team_placeholder_name,'home_team'=>$homeTeamId];
             $fixture->update($updateArray);
           } else {
-            $updateArray = [ 'home_team_name'=> $hometeamName,'home_team'=>$homeTeamId];
+            $updateArray = ['home_team_name'=> $hometeamName,'home_team'=>$homeTeamId];
             DB::table('temp_fixtures')->where('id',$match->id)->update($updateArray);
           }
         }
         if($awayTeam  == $modifiedTeamsWinner) {
           $awayteamName = null;
           $awayTeamId = 0;
+          $takeTeam = null;
 
-          if($singleFixture->hometeam_score !== null && $singleFixture->awayteam_score !== null) {
-            if($singleFixture->hometeam_score >= $singleFixture->awayteam_score)
-            {
-              $awayteamName = $singleFixture->home_team_name;
-              $awayTeamId = $singleFixture->home_team;
-            }else {
-              $awayteamName = $singleFixture->away_team_name;
-              $awayTeamId = $singleFixture->away_team;
+          if(($singleFixture->hometeam_score == $singleFixture->awayteam_score) && ($singleFixture->is_result_override == 1 && $singleFixture->match_status == 'Penalties')) {
+            $takeTeam = "home";
+
+            if($singleFixture->match_winner == $singleFixture->away_team) {
+              $takeTeam = "away";
             }
+          } else if($singleFixture->hometeam_score !== null && $singleFixture->awayteam_score !== null) {
+            $takeTeam = "home";
+
+            if($singleFixture->hometeam_score < $singleFixture->awayteam_score) {
+              $takeTeam = "away";
+            }
+          }
+
+          if($takeTeam == 'home') {
+            $awayteamName = $singleFixture->home_team_name;
+            $awayTeamId = $singleFixture->home_team;
+          }
+          if($takeTeam == 'away') {
+            $awayteamName = $singleFixture->away_team_name;
+            $awayTeamId = $singleFixture->away_team;
           }
 
           if($awayteamName === null && $awayTeamId == 0) {
@@ -780,17 +829,29 @@ class MatchService implements MatchContract
         if($homeTeam  == $modifiedTeamsLooser) {
           $hometeamName = null;
           $homeTeamId = 0;
+          $takeTeam = null;
 
-          if($singleFixture->hometeam_score !== null && $singleFixture->awayteam_score !== null) {
-            if($singleFixture->hometeam_score < $singleFixture->awayteam_score)
-            {
-              $hometeamName = $singleFixture->home_team_name;
-              $homeTeamId = $singleFixture->home_team;
+          if(($singleFixture->hometeam_score == $singleFixture->awayteam_score) && ($singleFixture->is_result_override == 1 && $singleFixture->match_status == 'Penalties')) {
+            $takeTeam = "home";
 
-            }else {
-                $hometeamName = $singleFixture->away_team_name;
-                 $homeTeamId = $singleFixture->away_team;
+            if($singleFixture->match_winner != $singleFixture->away_team) {
+              $takeTeam = "away";
             }
+          } else if($singleFixture->hometeam_score !== null && $singleFixture->awayteam_score !== null) {
+            $takeTeam = "home";
+
+            if($singleFixture->hometeam_score >= $singleFixture->awayteam_score) {
+              $takeTeam = "away";
+            }
+          }
+
+          if($takeTeam == 'home') {
+            $hometeamName = $singleFixture->home_team_name;
+            $homeTeamId = $singleFixture->home_team;
+          }
+          if($takeTeam == 'away') {
+            $hometeamName = $singleFixture->away_team_name;
+            $homeTeamId = $singleFixture->away_team;
           }
 
           if($hometeamName === null && $homeTeamId == 0) {
@@ -805,16 +866,29 @@ class MatchService implements MatchContract
         if($awayTeam  == $modifiedTeamsLooser) {
           $awayteamName = null;
           $awayTeamId = 0;
+          $takeTeam = null;
 
-          if($singleFixture->hometeam_score !== null && $singleFixture->awayteam_score !== null) {
-            if($singleFixture->hometeam_score < $singleFixture->awayteam_score)
-            {
-                 $awayteamName = $singleFixture->home_team_name;
-                 $awayTeamId = $singleFixture->home_team;
-            }else {
-                 $awayteamName = $singleFixture->away_team_name;
-                 $awayTeamId = $singleFixture->away_team;
+          if(($singleFixture->hometeam_score == $singleFixture->awayteam_score) && ($singleFixture->is_result_override == 1 && $singleFixture->match_status == 'Penalties')) {
+            $takeTeam = "home";
+
+            if($singleFixture->match_winner != $singleFixture->away_team) {
+              $takeTeam = "away";
             }
+          } else if($singleFixture->hometeam_score !== null && $singleFixture->awayteam_score !== null) {
+            $takeTeam = "home";
+
+            if($singleFixture->hometeam_score >= $singleFixture->awayteam_score) {
+              $takeTeam = "away";
+            }
+          }
+
+          if($takeTeam == 'home') {
+            $awayteamName = $singleFixture->home_team_name;
+            $awayTeamId = $singleFixture->home_team;
+          }
+          if($takeTeam == 'away') {
+            $awayteamName = $singleFixture->away_team_name;
+            $awayTeamId = $singleFixture->away_team;
           }
 
           if($awayteamName === null && $awayTeamId == 0) {

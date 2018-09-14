@@ -174,9 +174,6 @@ export default {
   getCategoryCompetitions(data) {
     return api.post('tournament/getCategoryCompetitions', data)
   },
-  saveCategoryCompetitionColor(data) {
-    return api.post('tournament/saveCategoryCompetitionColor', {competitionsColorData:  data})
-  },
   getAllCompetitionTeamsFromFixture(tournamentData){
     return api.post('teams/getAllCompetitionTeamsFromFixture', {'tournamentData': tournamentData})
   },
@@ -194,6 +191,9 @@ export default {
   },
   getAllClubs() {
     return api.get('getAllClubs');
+  },
+  getAllTeamColors() {
+    return api.get('getAllTeamColors');
   },
   updateTeamDetails(teamId, formData) {
     return api.post('updateTeamDetails/'+teamId, formData);
@@ -224,5 +224,32 @@ export default {
   },
   getClubsByTournamentId(tournamentId) {
     return api.post('getClubsByTournamentId/' +tournamentId);
-  },  
+  },
+  getCompetitionAndPitchDetail(data) {
+    return api.post('tournament/getCompetitionAndPitchDetail', data);
+  },
+  scheduleAutomaticPitchPlanning(data) {
+    return api.post('tournament/scheduleAutomaticPitchPlanning', data);
+  },
+  getTeamsFairPlayData(teamData) {
+    return api.get('getTeamsFairPlayData?' +teamData);
+  },
+  getSignedUrlForTeamsFairPlayReportExport(reportData) {
+    return api.post('getSignedUrlForTeamsFairPlayReportExport?' + reportData);
+  },
+  getSignedUrlForFairPlayReportPrint(reportData) {
+    return api.post('getSignedUrlForFairPlayReportPrint?' + reportData);
+  },
+  getAllPitchesWithDays(pitchId) {
+    return api.post('getAllPitchesWithDays/' + pitchId);
+  },
+  getSignedUrlForPitchPlannerPrint(tournamentId) {
+    return api.post('getSignedUrlForPitchPlannerPrint/' + tournamentId);
+  },
+  getSignedUrlForRefereeSampleDownload() {
+    return api.post('getSignedUrlForRefereeSampleDownload');
+  },
+  getSignedUrlForTeamsSpreadsheetSampleDownload() {
+    return api.post('getSignedUrlForTeamsSpreadsheetSampleDownload');
+  },
 }

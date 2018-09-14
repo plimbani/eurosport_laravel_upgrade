@@ -196,10 +196,6 @@ class TournamentController extends BaseController
     {
         return $this->tournamentObj->getCategoryCompetitions($request->all());
     }
-    public function saveCategoryCompetitionColor(CategoryCompetitionColorRequest $request)
-    {
-        return $this->tournamentObj->saveCategoryCompetitionColor($request->all());
-    }
 
     public function getAllPublishedTournaments(GetAllPublishedTournamentsRequest $request) {
         return $this->tournamentObj->getAllPublishedTournaments($request->all());
@@ -229,5 +225,20 @@ class TournamentController extends BaseController
         $signedUrl = UrlSigner::sign(url('api/tournament/report/reportExport?' . $reportData), Carbon::now()->addMinutes(config('config-variables.signed_url_interval')));
 
         return $signedUrl;
+    }
+
+    public function getCompetitionAndPitchDetail(Request $request)
+    {
+        return $this->tournamentObj->getCompetitionAndPitchDetail($request->all());   
+    }
+
+    public function scheduleAutomaticPitchPlanning(Request $request)
+    {
+        return $this->tournamentObj->scheduleAutomaticPitchPlanning($request->all());   
+    }
+
+    public function getAllPitchesWithDays(Request $request, $pitchId)
+    {
+        return $this->tournamentObj->getAllPitchesWithDays($pitchId);      
     }
 }

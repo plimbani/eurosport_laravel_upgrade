@@ -992,3 +992,76 @@ gmap-map {
 .ppitem .fc-header-toolbar{
   display: none;
 }
+
+.tooltip {
+    &.show {
+        opacity: 1;
+    }
+    .tooltip-inner {
+        text-align: left;
+        padding-right:30px;
+    }
+    .tooltip-inner,
+    .tooltip-inner:before {
+        -webkit-box-shadow: 10px 10px 40px 1px rgba(0,0,0,0.31);
+        -moz-box-shadow: 10px 10px 40px 1px rgba(0,0,0,0.31);
+        box-shadow: 10px 10px 40px 1px rgba(0,0,0,0.31);
+    }
+}
+
+.match-remark {
+    position:absolute;
+    width: 15px;
+    bottom: 2px;
+}
+
+.match-remark-right-position2 {
+    right: 2px;
+}
+
+.match-remark-right-position17 {
+    right: 17px;
+}
+
+.pitch-planner-item .card a.open-close-link{
+    color:#2196f3;
+    text-decoration:underline;
+}
+
+.tootltip-bubble{
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    width:15px;
+}
+
+.add-category-table th:nth-child(6){
+    width:120px !important;
+}
+
+.jv-icon.jv-dustbin{
+    color:#ff0000;
+}
+.last-updated-time{
+    padding-left:1.25rem;
+}
+.last-updated-row-text{
+    min-height:38px;
+}
+
+.checkbox.result-override-checkbox .euro-checkbox + label{
+    padding-left: 25px;
+}
+
+.checkbox.result-override-checkbox .euro-checkbox + label:before {
+    top: 5px;
+    width: 15px;
+    height: 15px;
+}
+
+.checkbox.result-override-checkbox .euro-checkbox + label:after {
+    top: 8px;
+    left: 6px;
+    width: 4px;
+    height: 8px;
+}

@@ -1,6 +1,23 @@
 <template>
-    <div class="raferee_details">
+    <div class="raferee_details" data-toggle="popover" data-animation="false" data-placement="left" :data-popover-content="'#i'+referee.id">
         <div class="raferee_list">
+            <div v-bind:id="'i'+referee.id" style="display:none;">
+                <div class="popover-body">
+                    <div>
+                        <b>Age categories</b><br/>
+                        <span v-show="referee.age_group_id !== null">
+                            {{ referee.age_group_id | formatAgeCategoryName(competationList) }}
+                        </span>
+                        <span class="text-muted" v-show="referee.age_group_id === null">
+                            No age categories assigned
+                        </span>
+                    </div>
+                    <div v-if="referee.comments">
+                        <br/><b>Availability</b><br/>
+                        <span>{{ referee.comments }}</span>
+                    </div>
+                </div>
+            </div>
             <div class="d-flex align-items-center justify-content-between my-2">
                 <div>
                     {{referee.last_name}}, {{referee.first_name}}
@@ -17,9 +34,34 @@
 <script type="text/babel">
 import Tournament from '../api/tournament.js'
 export default {
-    props: ['referee'],
+    props: ['referee', 'competationList'],
+    filters: {
+
+        formatAgeCategoryName: function(ageGroupId,competationList) {
+            let ageGroupString = '';
+            if(ageGroupId !== null) {
+                let ageGroupArray = ageGroupId.split(',');
+                _.forEach(ageGroupArray, function(key,value) {
+                    ageGroupString += ageGroupString == '' ? competationList[key] : ', '+competationList[key];
+                });
+            }
+            return ageGroupString;   
+        }
+    },
     mounted() {
-        this.initEvents();
+        this.initEvents();  
+        $("[data-toggle=popover]").popover({
+            html : true,
+            trigger: 'hover',
+            content: function() {
+                var content = $(this).attr("data-popover-content");
+                return $(content).children(".popover-body").html();
+            },
+            title: function() {
+                var title = $(this).attr("data-popover-content");
+                return $(title).children(".popover-heading").html();
+            }
+        });
     },
     methods: {
         initEvents() {
@@ -61,9 +103,10 @@ export default {
                 }  
             )
         },
+
         editReferee() { 
             this.$root.$emit('editReferee', this.referee.id)
-        }
+        },
     }    
 };
     

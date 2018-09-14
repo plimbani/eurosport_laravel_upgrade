@@ -39,6 +39,7 @@ use UrlSigner;
 use Laraspace\Api\Contracts\MatchContract;
 use JWTAuth;
 use Carbon\Carbon;
+use Laraspace\Http\Requests\Match\GetSignedUrlForTeamsSpreadsheetSampleDownloadRequest;
 
 /**
  * Matches Resource Description.
@@ -294,6 +295,12 @@ class MatchController extends BaseController
                     'matchWinner' => NULL,
                     'is_result_override' => 0,
                     'refereeId' => NULL,
+                    'home_yellow_cards' => NULL,
+                    'away_yellow_cards' => NULL,
+                    'home_red_cards' => NULL,
+                    'away_red_cards' => NULL,
+                    'age_category_color' => NULL,
+                    'group_color' => NULL,
                 ];
 
                 $matchResult = $matchRepoObj->saveResult($matchData);
@@ -826,5 +833,40 @@ class MatchController extends BaseController
         $signedUrl = UrlSigner::sign(url('api/match/reportCard/' . $refereeId), Carbon::now()->addMinutes(config('config-variables.signed_url_interval')));
 
         return $signedUrl;
+    }
+
+    public function getRefreeAgecategoryName(Request $request, $refereeId) {
+        $refereeData = Referee::where('id',$refereeId)->each(function ($item, $key) {
+        $ageGroupId = $item->age_group_id;
+        $ageGroupIdArray = explode(',', $ageGroupId);
+       
+        foreach ($ageGroupIdArray as $ageGroupId) {
+            $categoryName = TournamentCompetationTemplates::where('id',$ageGroupId)->pluck('category_age')->toArray();
+        }
+
+        });
+    }
+
+    /**
+     * Get signed url for team spreadsheet download
+     */
+    public function getSignedUrlForTeamsSpreadsheetSampleDownload(GetSignedUrlForTeamsSpreadsheetSampleDownloadRequest $request)
+    {
+        $signedUrl = UrlSigner::sign(url('api/match/downloadSampleUploadSheet'), Carbon::now()->addMinutes(config('config-variables.signed_url_interval')));
+
+        return $signedUrl;
+    }
+
+    /**
+     * Download sample upload sheet
+     */
+    public function downloadSampleUploadSheet(Request $request)
+    {
+        $headers = [
+            'Content-Type' => 'application/vnd.ms-excel',
+            'Content-Disposition' => "attachment; filename='TeamsUploadSpreadsheet.xls'"
+        ];
+
+        return response()->download(base_path('resources/sample_uploads/TeamsUploadSpreadsheet.xls'), 'TeamsUploadSpreadsheet.xls', $headers);
     }
 }

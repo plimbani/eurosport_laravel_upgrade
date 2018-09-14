@@ -2,6 +2,8 @@
 
 namespace Laraspace\Api\Controllers;
 
+use UrlSigner;
+use Carbon\Carbon;
 use Brotzka\DotenvEditor\DotenvEditor;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
@@ -14,11 +16,14 @@ use Laraspace\Http\Requests\Team\ClubsTeamsRequest;
 use Laraspace\Http\Requests\Team\AssignTeamRequest;
 use Laraspace\Http\Requests\Team\TeamDetailsRequest;
 use Laraspace\Http\Requests\Team\AllCountriesRequest;
+use Laraspace\Http\Requests\Team\AllTeamColorsRequest;
 use Laraspace\Http\Requests\Team\ResetAllTeamsRequest;
 use Laraspace\Http\Requests\Team\ChangeTeamNameRequest;
 use Laraspace\Http\Requests\Team\CheckTeamExistRequest;
 use Laraspace\Http\Requests\Team\GetAllTournamentTeamsRequest;
 use Laraspace\Http\Requests\Team\GetAllCompetitionTeamsFromFixtureRequest;
+use Laraspace\Http\Requests\Team\GetSignedUrlForTeamsFairPlayReportPrint;
+use Laraspace\Http\Requests\Team\GetSignedUrlForTeamsFairPlayReportExport;
 
 
 // Need to Define Only Contracts
@@ -94,7 +99,7 @@ class TeamController extends BaseController
        // $rows = \Excel::load($file->getRealPath(), null, 'ISO-8859-1')->get();
         //print_r($rows);
         //exit;
-        \Excel::load($file->getRealPath(), function($reader) {
+        \Excel::selectSheetsByIndex(0)->load($file->getRealPath(), function($reader) {
             // dd($reader->getTotalRowsOfFile() - 1);
             $this->data['totalSize']  = $reader->getTotalRowsOfFile() - 1;
             // dd($this->data['totalSize']);
@@ -170,6 +175,11 @@ class TeamController extends BaseController
         return $this->teamObj->editTeamDetails($teamId);
     }
 
+    public function getAllTeamColors(AllTeamColorsRequest $request)
+    {
+        return $this->teamObj->getAllTeamColors();
+    }
+
     public function getAllCountries(AllCountriesRequest $request)
     {
         return $this->teamObj->getAllCountries();
@@ -198,5 +208,42 @@ class TeamController extends BaseController
     public function getClubsByTournamentId(Request $request, $tournamentId)
     {
         return $this->teamObj->getClubsByTournamentId($tournamentId);
+    }
+
+    public function getTeamsFairPlayData(Request $request)
+    {
+        return $this->teamObj->getTeamsFairPlayData($request->all());   
+    }
+
+    public function getSignedUrlForTeamsFairPlayReportExport(GetSignedUrlForTeamsFairPlayReportExport $request)
+    {
+        $reportData = $request->all();
+        ksort($reportData);
+        $reportData  = http_build_query($reportData);
+
+        $signedUrl = UrlSigner::sign(url('api/teams/getTeamsFairPlayData/report/reportExport?' . $reportData), Carbon::now()->addMinutes(config('config-variables.signed_url_interval')));
+
+        return $signedUrl;
+    }
+
+    public function getSignedUrlForFairPlayReportPrint(GetSignedUrlForTeamsFairPlayReportPrint $request)
+    {
+        $reportData = $request->all();
+        ksort($reportData);
+        $reportData  = http_build_query($reportData);
+
+        $signedUrl = UrlSigner::sign(url('api/teams/getTeamsFairPlayData/report/print?' . $reportData), Carbon::now()->addMinutes(config('config-variables.signed_url_interval')));
+
+        return $signedUrl;
+    }
+
+    public function exportTeamFairPlayReport(Request $request)
+    {
+        return $this->teamObj->exportTeamFairPlayReport($request->all());
+    }
+
+    public function printTeamFairPlayReport(Request $request)
+    {
+        return $this->teamObj->printTeamFairPlayReport($request->all());   
     }
 }

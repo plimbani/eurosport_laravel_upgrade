@@ -1,238 +1,330 @@
 <template>
 	<div class="tab-content summary-report-content">
-	   <div class="row align-items-center">
-			<div class="col-md-6">
-				<span>{{$lang.summary_message}}</span>
-			</div>
-			<div class="col-md-6">
-				<div class="d-flex align-items-center justify-content-end">
-					<button class="btn btn-primary mr-1" @click='exportReport()'>{{$lang.summary_button_download}}</button>
-					<button class="btn btn-primary"  @click="exportPrint()">{{$lang.summary_button_print}}</button>
-				</div>
-			</div>
-		</div>
-		<div class="block-bg mt-4">
-			<form name="frmReport" id="frmReport" class="report_form">
-				<div class="form-group text-left mb-0">
-					<div class="row mb-4">
-						<div class="col-md-7">
-							<div class="row">
-								<div class="col-md-4">
-									<label><strong>{{$lang.summary_from}}</strong></label>
-									<div class="">
-										 <input placeholder="All" type="text" name="start_date" id="start_date" value="" class="form-control ls-datepicker">
-						                 <span style="color:red;" id="start_date_validation"></span>
-				                    </div>
-								</div>
-								<div class="col-md-4">
-									<label><strong>{{$lang.summary_to}}</strong></label>
-									<div class="">
-			            				 <input placeholder="All" type="text" name="end_date" id="end_date" value="" class="form-control ls-datepicker" >
-				                    	<span style="color:red;" id="end_date_validation"></span>
-				                    </div>
-								</div>
-								<div class="col-md-4">
-									<label><strong>{{$lang.summary_age_category}}</strong></label>
-									<div class="">
-                   						 <select name="sel_ageCategory" id="sel_ageCategory"
-			                                v-on:change="onSelectAgeCategory()"
-			                                v-model="age_category_id" class="form-control ls-select2">
-                    						<option value="">{{$lang.summary_age_category_select}}</option>
-                      						<option v-for="(competation, index) in competationList"
-                      						:value="competation.id">{{competation.group_name}}</option>
-                     					</select>
-				    				</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-5">
-							<div class="row">
-								<div class="col-md-6">
-									<label><strong>{{$lang.summary_club}}</strong></label>
-									<div class="">
-				                    	<select class="form-control ls-select2" v-on:change="onSelectClub()"
-				                    	  name="sel_clubs" id="sel_clubs" v-model="club">
-					                      <option value="">{{$lang.summary_club_select}}</option>
-					                      <option v-for="(club, index) in clubs"
-					                      :value="club.id">{{club.name}}</option>
-					                    </select>
-								 	</div>
-								</div>
-								<div class="col-md-6">
-									<label><strong>{{$lang.summary_team}}</strong></label>
-									<div class="">
-					                    <select name="sel_teams" id="sel_teams" v-model="team" class="form-control ls-select2" v-on:change="onSelectTeam()">
-						                    <option value="">{{$lang.summary_team_select}}</option>
-						                  	<option v-for="(team, index) in teams" :value="team.id">{{team.name}}</option>
-					                    </select>
-							        </div>
-								</div>
-							</div>
+		<div class="tabs tabs-primary">
+			<ul class="nav nav-tabs" role="tablist">
+	            <li class="nav-item">
+	              <a data-toggle="tab" class="nav-link active" href="#matches_tab" role="tab">Matches</a>
+	            </li>
+	            <li class="nav-item">
+	              <a data-toggle="tab" class="nav-link" href="#fair_play_tab" role="tab">Fair play</a>
+	            </li>
+	        </ul>
+			
+			<div class="tab-content">
+				<div id="matches_tab" class="tab-pane active">
+			    <div class="row align-items-center">
+					<div class="col-md-6">
+						<span>{{$lang.summary_message}}</span>
+					</div>
+					<div class="col-md-6">
+						<div class="d-flex align-items-center justify-content-end">
+							<button class="btn btn-primary mr-1" @click='exportReport()'>{{$lang.summary_button_download}}</button>
+							<button class="btn btn-primary"  @click="exportPrint()">{{$lang.summary_button_print}}</button>
 						</div>
 					</div>
+					</div>
+					<div class="block-bg mt-4">
+						<form name="frmReport" id="frmReport" class="report_form">
+							<div class="form-group text-left mb-0">
+								<div class="row mb-4">
+									<div class="col-md-7">
+										<div class="row">
+											<div class="col-md-4">
+												<label><strong>{{$lang.summary_from}}</strong></label>
+												<div class="">
+													 <input placeholder="All" type="text" name="start_date" id="start_date" value="" class="form-control ls-datepicker">
+									                 <span style="color:red;" id="start_date_validation"></span>
+							                    </div>
+											</div>
+											<div class="col-md-4">
+												<label><strong>{{$lang.summary_to}}</strong></label>
+												<div class="">
+						            				 <input placeholder="All" type="text" name="end_date" id="end_date" value="" class="form-control ls-datepicker" >
+							                    	<span style="color:red;" id="end_date_validation"></span>
+							                    </div>
+											</div>
+											<div class="col-md-4">
+												<label><strong>{{$lang.summary_age_category}}</strong></label>
+												<div class="">
+		           						<select name="sel_ageCategory" id="sel_ageCategory"
+		                              v-on:change="onSelectAgeCategory()"
+		                              v-model="age_category_id" class="form-control ls-select2">
+		            						<option value="">{{$lang.summary_age_category_select}}</option>
+		              						<option v-for="(competation, index) in competationList"
+		              						:value="competation.id">{{competation.group_name}}</option>
+		             					</select>
+							    			</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-5">
+										<div class="row">
+											<div class="col-md-6">
+												<label><strong>{{$lang.summary_club}}</strong></label>
+												<div class="">
+							                    	<select class="form-control ls-select2" v-on:change="onSelectClub()"
+							                    	  name="sel_clubs" id="sel_clubs" v-model="club">
+								                      <option value="">{{$lang.summary_club_select}}</option>
+								                      <option v-for="(club, index) in clubs"
+								                      :value="club.id">{{club.name}}</option>
+								                    </select>
+											 	</div>
+											</div>
+											<div class="col-md-6">
+												<label><strong>{{$lang.summary_team}}</strong></label>
+												<div class="">
+								                    <select name="sel_teams" id="sel_teams" v-model="team" class="form-control ls-select2" v-on:change="onSelectTeam()">
+									                    <option value="">{{$lang.summary_team_select}}</option>
+									                  	<option v-for="(team, index) in teams" :value="team.id">{{team.name}}</option>
+								                    </select>
+										        </div>
+											</div>
+										</div>
+									</div>
+								</div>
 
-					<div class="row mb-4">
-						<div class="col-md-7">
-							<div class="row">
-								<div class="col-md-4">
-									<label><strong>{{$lang.summary_from_time}}</strong></label>
-									<div>
-										<select name="start_time" id="start_time"  class="form-control ls-select2">
-											<option value="">All</option>
-											<option value="08:00">08:00</option>
-											<option value="08:30">08:30</option>
-											<option value="09:00">09:00</option>
-											<option value="09:30">09:30</option>
-											<option value="10:00">10:00</option>
-											<option value="10:30">10:30</option>
-											<option value="11:00">11:00</option>
-											<option value="11:30">11:30</option>
-											<option value="12:00">12:00</option>
-											<option value="12:30">12:30</option>
-											<option value="13:00">13:00</option>
-											<option value="13:30">13:30</option>
-											<option value="14:00">14:00</option>
-											<option value="14:30">14:30</option>
-											<option value="15:00">15:00</option>
-											<option value="15:30">15:30</option>
-											<option value="16:00">16:00</option>
-											<option value="16:30">16:30</option>
-											<option value="17:00">17:00</option>
-											<option value="17:30">17:30</option>
-											<option value="18:00">18:00</option>
-											<option value="18:30">18:30</option>
-											<option value="19:00">19:00</option>
-											<option value="19:30">19:30</option>
-											<option value="23:00">23:00</option>
-										</select>
-				                    </div>
-								</div>
-								<div class="col-md-4">
-									<label><strong>{{$lang.summary_to_time}}</strong></label>
-									<div>
-										<select name="end_time" id="end_time"  class="form-control ls-select2">
-											<option value="">All</option>
-											<option value="08:00">08:00</option>
-											<option value="08:30">08:30</option>
-											<option value="09:00">09:00</option>
-											<option value="09:30">09:30</option>
-											<option value="10:00">10:00</option>
-											<option value="10:30">10:30</option>
-											<option value="11:00">11:00</option>
-											<option value="11:30">11:30</option>
-											<option value="12:00">12:00</option>
-											<option value="12:30">12:30</option>
-											<option value="13:00">13:00</option>
-											<option value="13:30">13:30</option>
-											<option value="14:00">14:00</option>
-											<option value="14:30">14:30</option>
-											<option value="15:00">15:00</option>
-											<option value="15:30">15:30</option>
-											<option value="16:00">16:00</option>
-											<option value="16:30">16:30</option>
-											<option value="17:00">17:00</option>
-											<option value="17:30">17:30</option>
-											<option value="18:00">18:00</option>
-											<option value="18:30">18:30</option>
-											<option value="19:00">19:00</option>
-											<option value="19:30">19:30</option>
-											<option value="23:00">23:00</option>
-										</select>
-				                    </div>
-								</div>
-								<div class="col-md-4">
-									<label><strong>{{$lang.summary_location}}</strong></label>
-									<div class="">
-				                     	<select name="sel_venues" id="sel_venues"  class="form-control ls-select2">
-				                     		<option value="">All</option>
-				                    		<option v-for="(venue, index) in venues" :value="venue.id">{{venue.name}}</option>
-				                    	</select>
-								    </div>
+								<div class="row mb-4">
+									<div class="col-md-7">
+										<div class="row">
+											<div class="col-md-4">
+												<label><strong>{{$lang.summary_from_time}}</strong></label>
+												<div>
+													<select name="start_time" id="start_time"  class="form-control ls-select2">
+														<option value="">All</option>
+														<option value="08:00">08:00</option>
+														<option value="08:30">08:30</option>
+														<option value="09:00">09:00</option>
+														<option value="09:30">09:30</option>
+														<option value="10:00">10:00</option>
+														<option value="10:30">10:30</option>
+														<option value="11:00">11:00</option>
+														<option value="11:30">11:30</option>
+														<option value="12:00">12:00</option>
+														<option value="12:30">12:30</option>
+														<option value="13:00">13:00</option>
+														<option value="13:30">13:30</option>
+														<option value="14:00">14:00</option>
+														<option value="14:30">14:30</option>
+														<option value="15:00">15:00</option>
+														<option value="15:30">15:30</option>
+														<option value="16:00">16:00</option>
+														<option value="16:30">16:30</option>
+														<option value="17:00">17:00</option>
+														<option value="17:30">17:30</option>
+														<option value="18:00">18:00</option>
+														<option value="18:30">18:30</option>
+														<option value="19:00">19:00</option>
+														<option value="19:30">19:30</option>
+														<option value="23:00">23:00</option>
+													</select>
+							                    </div>
+											</div>
+											<div class="col-md-4">
+												<label><strong>{{$lang.summary_to_time}}</strong></label>
+												<div>
+													<select name="end_time" id="end_time"  class="form-control ls-select2">
+														<option value="">All</option>
+														<option value="08:00">08:00</option>
+														<option value="08:30">08:30</option>
+														<option value="09:00">09:00</option>
+														<option value="09:30">09:30</option>
+														<option value="10:00">10:00</option>
+														<option value="10:30">10:30</option>
+														<option value="11:00">11:00</option>
+														<option value="11:30">11:30</option>
+														<option value="12:00">12:00</option>
+														<option value="12:30">12:30</option>
+														<option value="13:00">13:00</option>
+														<option value="13:30">13:30</option>
+														<option value="14:00">14:00</option>
+														<option value="14:30">14:30</option>
+														<option value="15:00">15:00</option>
+														<option value="15:30">15:30</option>
+														<option value="16:00">16:00</option>
+														<option value="16:30">16:30</option>
+														<option value="17:00">17:00</option>
+														<option value="17:30">17:30</option>
+														<option value="18:00">18:00</option>
+														<option value="18:30">18:30</option>
+														<option value="19:00">19:00</option>
+														<option value="19:30">19:30</option>
+														<option value="23:00">23:00</option>
+													</select>
+							                    </div>
+											</div>
+											<div class="col-md-4">
+												<label><strong>{{$lang.summary_location}}</strong></label>
+												<div class="">
+							                     	<select name="sel_venues" id="sel_venues"  class="form-control ls-select2">
+							                     		<option value="">All</option>
+							                    		<option v-for="(venue, index) in venues" :value="venue.id">{{venue.name}}</option>
+							                    	</select>
+											    </div>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-5">
+										<div class="row">
+											<div class="col-md-6">
+												<label><strong>{{$lang.summary_pitch_select}}</strong></label>
+												<div class="">
+				  									<select name="sel_pitches" id="sel_pitches" class="form-control ls-select2">
+				  										<option value="">All</option>
+				  				           				<option v-for="(pitch, index) in pitches" :value="pitch.id">{{pitch.pitch_number}}</option>
+				  				        			</select>
+							         			</div>
+											</div>
+											<div class="col-md-6">
+												<label><strong>{{$lang.summary_referee_select}}</strong></label>
+												<div class="">
+								                   	<select name="sel_referees" id="sel_referees" class="form-control ls-select2">
+								                   		<option value="">All</option>
+								                  		<option v-for="(referee, index) in referees" :value="referee.id">{{referee.last_name}}, {{referee.first_name}}</option>
+								                    </select>
+										        </div>
+										    </div>
+										</div>
+									</div>
 								</div>
 							</div>
-						</div>
-						<div class="col-md-5">
-							<div class="row">
-								<div class="col-md-6">
-									<label><strong>{{$lang.summary_pitch_select}}</strong></label>
-									<div class="">
-	  									<select name="sel_pitches" id="sel_pitches" class="form-control ls-select2">
-	  										<option value="">All</option>
-	  				           				<option v-for="(pitch, index) in pitches" :value="pitch.id">{{pitch.pitch_number}}</option>
-	  				        			</select>
-				         			</div>
-								</div>
-								<div class="col-md-6">
-									<label><strong>{{$lang.summary_referee_select}}</strong></label>
-									<div class="">
-					                   	<select name="sel_referees" id="sel_referees" class="form-control ls-select2">
-					                   		<option value="">All</option>
-					                  		<option v-for="(referee, index) in referees" :value="referee.id">{{referee.last_name}}, {{referee.first_name}}</option>
-					                    </select>
-							        </div>
-							    </div>
+						</form>
+					</div>
+					<div class="row align-items-center mt-4">
+						<div class="col-md-12">
+							<div class="d-flex align-items-center justify-content-end">
+								<button type="button" name="clearButton" id="clearButton" class="btn btn-primary mr-1" @click="clearForm()">{{$lang.summary_button_clear}}</button>
+								<button type="button" name="generateReport" id="generateReport" class="btn btn-primary" @click="generateReport()">{{$lang.summary_button_generate}}</button>
 							</div>
 						</div>
 					</div>
+					<div class="row mt-4" id="summary_report_table">
+						<div class="col-md-12">
+							<div id="report_logo" style="display:none;">
+				        		<img src="/assets/img/logo-desk.svg"  alt="Laraspace Logo" class="hidden-sm-down text-center" width="200px" height="200px">
+				        		<h2>Reports</h2>
+				        	</div>
+				        	<div class="table-responsive">
+									<table class="table table-hover table-bordered report-table" v-bind:class="{ 'display_table' : reports.length == 0, 'display_block' : reports.length > 0 }" id="report_print" border="1" cellpadding="0" cellspacing="0" width="100%">
+										<thead>
+						                    <tr>
+												<th class="text-center" @click="sortReport('match_datetime')">{{$lang.summary_reports_date_time}}&nbsp;<i class="fa fa-sort"></i></th>
+						                        <th class="text-center" @click="sortReport('group_name')">{{$lang.summary_reports_age_catrgory}}&nbsp;<i class="fa fa-sort"></i></th>
+						                        <th class="text-center" @click="sortReport('venue_name')">{{$lang.summary_reports_location}}&nbsp;<i class="fa fa-sort"></i></th>
+						                        <th class="text-center" @click="sortReport('pitch_number')">{{$lang.summary_reports_pitch}}&nbsp;<i class="fa fa-sort"></i></th>
+						                        <th class="text-center" @click="sortReport('referee')">{{$lang.summary_reports_referee}}&nbsp;<i class="fa fa-sort"></i></th>
+						                        <th class="text-center" @click="sortReport('displayMatchNumber')">{{$lang.summary_reports_match_code}}&nbsp;<i class="fa fa-sort"></i></th>
+					                            <th class="text-center" @click="sortReport('HomeTeam')">{{$lang.summary_schedule_matches_team}}&nbsp;<i class="fa fa-sort"></i></th>
+					                            <th class="text-center" @click="sortReport('AwayTeam')">{{$lang.summary_schedule_matches_team}}&nbsp;<i class="fa fa-sort"></i></th>
+					                            <th class="text-center" @click="sortReport('position')">{{$lang.summary_schedule_matches_placing}}&nbsp;<i class="fa fa-sort"></i></th>
+					                    	</tr>
+						                </thead>
+						                <tbody>
+						                	<tr v-for="report in reports">
+						                		<td>{{report.match_datetime | formatDate }}</td>
+						                		<td>{{report.group_name}}</td>
+						                		<td>{{report.venue_name}}</td>
+						                		<td>{{report.pitch_number}}</td>
+						                		<td v-if="report.referee_last_name && report.referee_first_name">{{report.referee_last_name}}, {{report.referee_first_name}}</td>
+					  		             		<td v-else></td>
+						                		<td>{{displayMatch(report.displayMatchNumber,report.displayHomeTeamPlaceholder,report.displayAwayTeamPlaceholder)}}</td>
+												<td align="right">
+													<span class="text-center" v-if="(report.homeTeam == '0' )">{{ getHoldingName(report.competition_actual_name, report.displayHomeTeamPlaceholder,report.displayMatchNumber) }}</span>
+													<span class="text-center" v-else>{{ report.HomeTeam }}</span>
+													<span :class="'flag-icon flag-icon-'+report.HomeCountryFlag"></span>
+												</td>
+												<td align="left">
+													<span :class="'flag-icon flag-icon-'+report.AwayCountryFlag"></span>
+													<span class="text-center" v-if="(report.awayTeam == '0')">{{ getHoldingName(report.competition_actual_name, report.displayAwayTeamPlaceholder,report.displayMatchNumber) }}</span>
+													<span class="text-center" v-else>{{ report.AwayTeam }}</span>
+												</td>
+												<td align="center">{{ (report.position != null) ? report.position : 'N/A' }}</td>
+						                	</tr>
+						                </tbody>
+									</table>
+							</div>
+							<span v-if="reports.length == 0">
+				         		No information available
+				    		</span>
+						</div>
+					</div>
 				</div>
-			</form>
-		</div>
-		<div class="row align-items-center mt-4">
-			<div class="col-md-12">
-				<div class="d-flex align-items-center justify-content-end">
-					<button type="button" name="clearButton" id="clearButton" class="btn btn-primary mr-1" @click="clearForm()">{{$lang.summary_button_clear}}</button>
-					<button type="button" name="generateReport" id="generateReport" class="btn btn-primary" @click="generateReport()">{{$lang.summary_button_generate}}</button>
+				<div id="fair_play_tab" class="tab-pane">
+				  <div class="row align-items-center">
+						<div class="col-md-6">
+							<span>{{$lang.summary_message}}</span>
+						</div>
+						<div class="col-md-6">
+							<div class="d-flex align-items-center justify-content-end">
+								<button class="btn btn-primary mr-1" @click='exportTeamsFairPlayReport()'>{{$lang.summary_button_download}}</button>
+								<button class="btn btn-primary"  @click="generateTeamsFairPlayPrint()">{{$lang.summary_button_print}}</button>
+							</div>
+						</div>
+					</div>
+					<div class="block-bg mt-4">
+						<form name="frmFairPlayReport" id="frmFairPlayReport" class="fair_play_report_form">
+							<div class="form-group text-left mb-0">
+								<div class="row align-items-center">
+									<div class="col-md-6">
+										<div class="row align-items-center">
+											<div class="col-md-3">
+												<label class="mb-0"><strong>{{$lang.summary_reports_age_catrgory}}</strong></label>
+											</div>
+											<div class="col-md-5">
+		         						<select name="sel_ageCategory" id="sel_ageCategory"
+		                      class="form-control ls-select2">
+		          						<option value="">{{$lang.summary_age_category_select}}</option>
+		            					<option v-for="(competation, index) in competationList"
+		            						:value="competation.id">{{competation.group_name}}</option>
+		           					</select>							
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class="row align-items-center mt-4">
+						<div class="col-md-12">
+							<div class="d-flex align-items-center justify-content-end">
+								<button type="button" name="clearFairPlayButton" id="clearButton" class="btn btn-primary mr-1" @click="clearFairPlayForm()">{{$lang.summary_button_clear}}</button>
+								<button type="button" name="generateFairPlayReport" id="generateReport" class="btn btn-primary" @click="generateFairPlayReport()">{{$lang.summary_button_generate}}</button>
+							</div>
+						</div>
+					</div>
+					<div class="row mt-4" id="summary_fair_play_report_table">
+						<div class="col-md-12">
+							<div class="table-responsive">
+							 	<table class="table table-hover table-bordered report-table" v-bind:class="{ 'display_table' : teams.length == 0, 'display_block' : teams.length > 0 }" id="fair_play_report_print" border="1" cellpadding="0" cellspacing="0" width="100%">
+									<thead>
+								      	<tr>
+											<th class="text-center" @click="sortFairPlayReport('team_id')">{{$lang.summary_fair_play_reports_team_id}}&nbsp;<i class="fa fa-sort"></i></th>
+						                    <th class="text-center" @click="sortFairPlayReport('name')">{{$lang.summary_fair_play_reports_team}}&nbsp;<i class="fa fa-sort"></i></th>
+						                    <th class="text-center" @click="sortFairPlayReport('club_name')">{{$lang.summary_fair_play_reports_club}}&nbsp;<i class="fa fa-sort"></i></th>
+						                    <th class="text-center" @click="sortFairPlayReport('country_name')">{{$lang.summary_fair_play_reports_country}}&nbsp;<i class="fa fa-sort"></i></th>
+						                    <th class="text-center" @click="sortFairPlayReport('age_name')">{{$lang.summary_fair_play_reports_age_category}}&nbsp;<i class="fa fa-sort"></i></th>
+						                    <th class="text-center" @click="sortFairPlayReport('total_yellow_cards')">{{$lang.summary_fair_play_reports_yellow_cards}}&nbsp;<i class="fa fa-sort"></i></th>
+						                    <th class="text-center" @click="sortFairPlayReport('total_red_cards')">{{$lang.summary_fair_play_reports_red_cards}}&nbsp;<i class="fa fa-sort"></i></th>
+							            </tr>
+				          			</thead>
+	                				<tbody>
+					                	<tr v-for="team in teamsFairPlayData">
+					                		<td>{{ team.team_id }}</td>
+					                		<td>{{ team.name }}</td>
+					                		<td>{{ team.club_name }}</td>
+					                		<td>{{ team.country_name }}</td>
+					                		<td>{{ team.age_name }}</td>
+					                		<td align="center">{{ team.total_yellow_cards == null ? 0 : team.total_yellow_cards }}</td>
+					                		<td align="center">{{ team.total_red_cards == null ? 0 : team.total_red_cards }}</td>
+					                	</tr>
+	                				</tbody>
+	              				</table>
+			    			</div>
+						    <span v-if="teams.length == 0">
+				         		No information available
+				    		</span>
+						</div>
+					</div>
 				</div>
-			</div>
-		</div>	
-		<div class="row mt-4" id="summary_report_table">
-			<div class="col-md-12">
-				<div id="report_logo" style="display:none;">
-            <img src="/assets/img/logo-desk.svg"  alt="Laraspace Logo" class="hidden-sm-down text-center" width="200px" height="200px">
-            <h2>Reports</h2>
-        </div>
-        <div class="table-responsive">
-					<table class="table table-hover table-bordered report-table" v-bind:class="{ 'display_table' : reports.length == 0, 'display_block' : reports.length > 0 }" id="report_print" border="1" cellpadding="0" cellspacing="0" width="100%">
-						<thead>
-		                    <tr>
-								<th class="text-center" @click="sortReport('match_datetime')">{{$lang.summary_reports_date_time}}&nbsp;<i class="fa fa-sort"></i></th>
-		                        <th class="text-center" @click="sortReport('group_name')">{{$lang.summary_reports_age_catrgory}}&nbsp;<i class="fa fa-sort"></i></th>
-		                        <th class="text-center" @click="sortReport('venue_name')">{{$lang.summary_reports_location}}&nbsp;<i class="fa fa-sort"></i></th>
-		                        <th class="text-center" @click="sortReport('pitch_number')">{{$lang.summary_reports_pitch}}&nbsp;<i class="fa fa-sort"></i></th>
-		                        <th class="text-center" @click="sortReport('referee')">{{$lang.summary_reports_referee}}&nbsp;<i class="fa fa-sort"></i></th>
-		                        <th class="text-center" @click="sortReport('displayMatchNumber')">{{$lang.summary_reports_match_code}}&nbsp;<i class="fa fa-sort"></i></th>
-	                            <th class="text-center" @click="sortReport('HomeTeam')">{{$lang.summary_schedule_matches_team}}&nbsp;<i class="fa fa-sort"></i></th>
-	                            <th class="text-center" @click="sortReport('AwayTeam')">{{$lang.summary_schedule_matches_team}}&nbsp;<i class="fa fa-sort"></i></th>
-	                            <th class="text-center" @click="sortReport('position')">{{$lang.summary_schedule_matches_placing}}&nbsp;<i class="fa fa-sort"></i></th>
-	                    	</tr>
-		                </thead>
-		                <tbody>
-		                	<tr v-for="report in reports">
-		                		<td>{{report.match_datetime | formatDate }}</td>
-		                		<td>{{report.group_name}}</td>
-		                		<td>{{report.venue_name}}</td>
-		                		<td>{{report.pitch_number}}</td>
-		                		<td v-if="report.referee_last_name && report.referee_first_name">{{report.referee_last_name}}, {{report.referee_first_name}}</td>
-	  		             		<td v-else></td>
-		                		<td>{{displayMatch(report.displayMatchNumber,report.displayHomeTeamPlaceholder,report.displayAwayTeamPlaceholder)}}</td>
-								<td align="right">
-									<span class="text-center" v-if="(report.homeTeam == '0' )">{{ getHoldingName(report.competition_actual_name, report.displayHomeTeamPlaceholder,report.displayMatchNumber) }}</span>
-									<span class="text-center" v-else>{{ report.HomeTeam }}</span>
-									<span :class="'flag-icon flag-icon-'+report.HomeCountryFlag"></span>
-								</td>
-								<td align="left">
-									<span :class="'flag-icon flag-icon-'+report.AwayCountryFlag"></span>
-									<span class="text-center" v-if="(report.awayTeam == '0')">{{ getHoldingName(report.competition_actual_name, report.displayAwayTeamPlaceholder,report.displayMatchNumber) }}</span>
-									<span class="text-center" v-else>{{ report.AwayTeam }}</span>
-								</td>
-								<td align="center">{{ (report.position != null) ? report.position : 'N/A' }}</td>
-		                	</tr>
-		                </tbody>
-					</table>
-				</div>
-				<span v-if="reports.length == 0">
-	         		 No information available
-	    		</span>
 			</div>
 		</div>
 	</div>
@@ -255,11 +347,14 @@ export default {
         club:'',
         team:'',
        	reports: [],
+       	teamsFairPlayData: {},
         currentView:'summaryTab',
         reportQuery:'',
+        teamsFairPlayReportQuery: '',
         isValidate:false,
         age_category_id: '',
         sortKey: 'match_datetime',
+        fairPlayReportSortKey: 'team_id',
         sortBy: 'asc',
         reverse: false,
        	}
@@ -687,8 +782,81 @@ export default {
       } else if(competitionActualName.indexOf('Pos') !== -1){
         return 'Pos-' + placeholder;
       }
-    }
+    },
+    generateFairPlayReport() {
+			if (!isNaN(this.TournamentId)) {
+		    let teamsFairPlayReportData = 'tournament_id='+this.TournamentId+'&'+$('#frmFairPlayReport').serialize()+'&sort_by='+this.fairPlayReportSortKey+'&sort_order='+this.sortBy;
+
+		   	this.teamsFairPlayReportQuery = teamsFairPlayReportData;
+				Tournament.getTeamsFairPlayData(teamsFairPlayReportData).then(
+	        (response) => {
+      			this.teamsFairPlayData = response.data.data.teamData;
+	    		},
+	      	(error) => {
+	      	}
+	      )
+	    } else {
+	      this.TournamentId = 0;
+	    }
+    },
+    clearFairPlayForm() {
+    	$('#frmFairPlayReport')[0].reset();
+      this.teamsFairPlayData = {};
+    },
+    sortFairPlayReport(filter) {
+      if(this.teamsFairPlayData && this.teamsFairPlayData.length > 0) {
+	      let teamsFairPlayReportData = this.teamsFairPlayReportQuery
+	      if (!isNaN(this.TournamentId)) {
+          this.reverse = (this.fairPlayReportSortKey == filter) ? ! this.reverse : false;
+          this.fairPlayReportSortKey = filter
+          if(this.reverse == false) {
+           	this.sortBy = 'asc'
+          } else {
+            this.sortBy = 'desc'
+        	}
+          let teamsFairPlayReportData = 'tournament_id='+this.TournamentId+'&'+$('#frmFairPlayReport').serialize()+'&sort_by='+filter+'&sort_order='+this.sortBy;
+
+          this.teamsFairPlayReportQuery = teamsFairPlayReportData;
+					Tournament.getTeamsFairPlayData(teamsFairPlayReportData).then(
+		        (response) => {
+	      			this.teamsFairPlayData = response.data.data.teamData;
+		    		},
+		      	(error) => {
+		      	}
+		      )
+        }
+      }
+    },    
+    exportTeamsFairPlayReport() {
+		let reportData = this.teamsFairPlayReportQuery;
+		if(reportData!=''){
+			reportData += '&report_download=yes';
+			Tournament.getSignedUrlForTeamsFairPlayReportExport(reportData).then(
+	          	(response) => {
+					window.location.href = response.data;
+	           	},
+	            (error) => {
+	            }
+	        )
+    		}else{
+    			toastr['error']('Records not available', 'Error');
+    		}
+		},
+	generateTeamsFairPlayPrint() {
+		let reportData = this.teamsFairPlayReportQuery
+		if(reportData!=''){
+			var reportPrintWindow = window.open('', '_blank');
+			Tournament.getSignedUrlForFairPlayReportPrint(reportData).then(
+				(response) => {
+					reportPrintWindow.location = response.data;
+				},
+				(error) => {
+				}
+			)
+		}else{
+			toastr['error']('Records not available', 'Error');
+		}
+	},
   }
 }
-
 </script>

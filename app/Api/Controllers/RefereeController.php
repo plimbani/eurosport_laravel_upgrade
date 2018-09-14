@@ -2,6 +2,8 @@
 
 namespace Laraspace\Api\Controllers;
 
+use UrlSigner;
+use Carbon\Carbon;
 use Brotzka\DotenvEditor\DotenvEditor;
 use Dingo\Api\Routing\Helpers;
 use Illuminate\Routing\Controller;
@@ -14,6 +16,8 @@ use Laraspace\Http\Requests\Referee\RefereeDetailRequest;
 // Need to Define Only Contracts
 use Laraspace\Api\Contracts\RefereeContract;
 use Laraspace\Api\Repositories\RefereeRepository;
+use Laraspace\Http\Requests\Referee\GetSignedUrlForRefereeSampleDownloadRequest;
+
 /**
  * Referees Resource Description.
  *
@@ -98,5 +102,28 @@ class RefereeController extends BaseController
     public function uploadRefereesExcel(Request $request)
     {
         return $this->refereeObj->uploadRefereesExcel($request);        
+    }
+
+    /**
+     * Get signed url for referee sample download
+     */
+    public function getSignedUrlForRefereeSampleDownload(GetSignedUrlForRefereeSampleDownloadRequest $request)
+    {
+        $signedUrl = UrlSigner::sign(url('api/referee/downloadSampleUploadSheet'), Carbon::now()->addMinutes(config('config-variables.signed_url_interval')));
+
+        return $signedUrl;
+    }
+
+    /**
+     * Download sample upload sheet
+     */
+    public function downloadSampleUploadSheet(Request $request)
+    {
+        $headers = [
+            'Content-Type' => 'application/vnd.ms-excel',
+            'Content-Disposition' => "attachment; filename='RefereesUploadSpreadsheet.xls'"
+        ];
+
+        return response()->download(base_path('resources/sample_uploads/RefereesUploadSpreadsheet.xls'), 'RefereesUploadSpreadsheet.xls', $headers);
     }
 }

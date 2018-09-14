@@ -1,19 +1,19 @@
 @import "variables";
 
 @font-face {
-  font-family: 'jobviewer';
-  src:  url('#{$icomoon-font-path}/jobviewer.eot?jpvk5g');
-  src:  url('#{$icomoon-font-path}/jobviewer.eot?jpvk5g#iefix') format('embedded-opentype'),
-    url('#{$icomoon-font-path}/jobviewer.ttf?jpvk5g') format('truetype'),
-    url('#{$icomoon-font-path}/jobviewer.woff?jpvk5g') format('woff'),
-    url('#{$icomoon-font-path}/jobviewer.svg?jpvk5g#jobviewer') format('svg');
+  font-family: '#{$icomoon-font-family}';
+  src:  url('#{$icomoon-font-path}/#{$icomoon-font-family}.eot?2ocmzh');
+  src:  url('#{$icomoon-font-path}/#{$icomoon-font-family}.eot?2ocmzh#iefix') format('embedded-opentype'),
+    url('#{$icomoon-font-path}/#{$icomoon-font-family}.ttf?2ocmzh') format('truetype'),
+    url('#{$icomoon-font-path}/#{$icomoon-font-family}.woff?2ocmzh') format('woff'),
+    url('#{$icomoon-font-path}/#{$icomoon-font-family}.svg?2ocmzh##{$icomoon-font-family}') format('svg');
   font-weight: normal;
   font-style: normal;
 }
 
 .jv-icon {
   /* use !important to prevent issues with browser extensions that change fonts */
-  font-family: 'jobviewer' !important;
+  font-family: $icomoon-font-family !important;
   speak: none;
   font-style: normal;
   font-weight: bold;
@@ -26,214 +26,239 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.jv-comment {
+  &:before {
+    content: $jv-comment; 
+  }
+}
 .jv-home {
   &:before {
-    content: $jv-home;
+    content: $jv-home; 
   }
 }
 .jv-dashboard-app {
   &:before {
-    content: $jv-dashboard-app;
+    content: $jv-dashboard-app; 
   }
 }
 .jv-dashboard {
   &:before {
-    content: $jv-dashboard;
+    content: $jv-dashboard; 
   }
 }
 .jv-tools {
   &:before {
-    content: $jv-tools;
+    content: $jv-tools; 
   }
 }
 .jv-clock {
   &:before {
-    content: $jv-clock;
+    content: $jv-clock; 
   }
 }
 .jv-car {
   &:before {
-    content: $jv-car;
+    content: $jv-car; 
   }
 }
 .jv-chats {
   &:before {
-    content: $jv-chats;
+    content: $jv-chats; 
   }
 }
 .jv-chat {
   &:before {
-    content: $jv-chat;
+    content: $jv-chat; 
   }
 }
 .jv-water {
   &:before {
-    content: $jv-water;
+    content: $jv-water; 
   }
 }
 .jv-fish {
   &:before {
-    content: $jv-fish;
+    content: $jv-fish; 
   }
 }
 .jv-pipe {
   &:before {
-    content: $jv-pipe;
+    content: $jv-pipe; 
   }
 }
 .jv-pipe-line {
   &:before {
-    content: $jv-pipe-line;
+    content: $jv-pipe-line; 
   }
 }
 .jv-calendar {
   &:before {
-    content: $jv-calendar;
+    content: $jv-calendar; 
   }
 }
 .jv-list {
   &:before {
-    content: $jv-list;
+    content: $jv-list; 
   }
 }
 .jv-user {
   &:before {
-    content: $jv-user;
+    content: $jv-user; 
   }
 }
 .jv-doc {
   &:before {
-    content: $jv-doc;
+    content: $jv-doc; 
   }
 }
 .jv-edit {
   &:before {
-    content: $jv-edit;
+    content: $jv-edit; 
   }
 }
 .jv-backward {
   &:before {
-    content: $jv-backward;
+    content: $jv-backward; 
   }
 }
 .jv-forward {
   &:before {
-    content: $jv-forward;
+    content: $jv-forward; 
   }
 }
 .jv-previous {
   &:before {
-    content: $jv-previous;
+    content: $jv-previous; 
   }
 }
 .jv-next {
   &:before {
-    content: $jv-next;
+    content: $jv-next; 
   }
 }
 .jv-checked-arrow {
   &:before {
-    content: $jv-checked-arrow;
+    content: $jv-checked-arrow; 
   }
 }
 .jv-checked {
   &:before {
-    content: $jv-checked;
+    content: $jv-checked; 
   }
 }
 .jv-downarrow-black {
   &:before {
-    content: $jv-downarrow-black;
+    content: $jv-downarrow-black; 
   }
 }
 .jv-uparrow-black {
   &:before {
-    content: $jv-uparrow-black;
+    content: $jv-uparrow-black; 
   }
 }
 .jv-downarrow {
   &:before {
-    content: $jv-downarrow;
+    content: $jv-downarrow; 
   }
 }
 .jv-uparrow {
   &:before {
-    content: $jv-uparrow;
+    content: $jv-uparrow; 
   }
 }
 .jv-down {
   &:before {
-    content: $jv-down;
+    content: $jv-down; 
   }
 }
 .jv-up {
   &:before {
-    content: $jv-up;
+    content: $jv-up; 
   }
 }
 .jv-up-down {
   &:before {
-    content: $jv-up-down;
+    content: $jv-up-down; 
   }
 }
 .jv-plus {
   &:before {
-    content: $jv-plus;
+    content: $jv-plus; 
   }
 }
 .jv-close {
   &:before {
-    content: $jv-close;
+    content: $jv-close; 
   }
 }
 .jv-search {
   &:before {
-    content: $jv-search;
+    content: $jv-search; 
   }
 }
 .jv-dustbin {
   &:before {
-    content: $jv-dustbin;
+    content: $jv-dustbin; 
   }
 }
 .jv-download {
   &:before {
-    content: $jv-download;
+    content: $jv-download; 
   }
 }
 .jv-find-doc {
   &:before {
-    content: $jv-find-doc;
+    content: $jv-find-doc; 
   }
 }
 .jv-go-up {
   &:before {
-    content: $jv-go-up;
+    content: $jv-go-up; 
   }
 }
 .jv-cloud {
   &:before {
-    content: $jv-cloud;
+    content: $jv-cloud; 
   }
 }
 .jv-reload {
   &:before {
-    content: $jv-reload;
+    content: $jv-reload; 
   }
 }
 .jv-web {
   &:before {
-    content: $jv-web;
+    content: $jv-web; 
   }
 }
 .jv-error {
   &:before {
-    content: $jv-error;
+    content: $jv-error; 
   }
 }
 .jv-calendar-time {
   &:before {
-    content: $jv-calendar-time;
+    content: $jv-calendar-time; 
+  }
+}
+.jv-checklist {
+  &:before {
+    content: $jv-checklist; 
+  }
+}
+.jv-steering {
+  &:before {
+    content: $jv-steering; 
+  }
+}
+.jv-truck {
+  &:before {
+    content: $jv-truck; 
+  }
+}
+.jv-truck-info {
+  &:before {
+    content: $jv-truck-info; 
   }
 }
 

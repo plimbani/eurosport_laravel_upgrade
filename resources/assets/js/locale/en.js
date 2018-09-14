@@ -76,6 +76,8 @@ module.exports= {
 
   team_edit_team_id: "TeamID*",
   team_edit_team_name: "Team*",
+  team_edit_team_shirt_color: "Shirt colour",
+  team_edit_team_shorts_color: "Shorts colour",
   team_edit_team_place: "Place*",
   team_edit_comment: "Comment",
   team_edit_country: "Country*",
@@ -122,7 +124,7 @@ module.exports= {
 
   tournament_manage_edition: "Select an existing tournament",
   tournament_select_website: "Select an existing website",
-  tournament_information: "Tournament information",
+  tournament_information: "Tournament details",
   tournament_name: "Tournament name",
   tournament_start_date: "Tournament start date",
   tournament_end_date: "Tournament end date",
@@ -325,6 +327,10 @@ module.exports= {
   pitch_modal_comments_label: "Comments",
   pitch_modal_team1_comments_label: "Team 1 comment",
   pitch_modal_team2_comments_label: "Team 2 comment",
+  pitch_modal_yellow_cards: "Yellow cards",
+  pitch_modal_red_cards: "Red cards",
+  pitch_modal_age_category_color: "Age category",
+  pitch_modal_group_color: "Group",
   pitch_modal_unschedule: "Unschedule",
   pitch_modal_cancel: "Cancel",
   pitch_modal_save: "Save",
@@ -587,6 +593,14 @@ module.exports= {
   summary_reports_game: "Game",
   summary_reports_match_code: "Match codes",
 
+  summary_fair_play_reports_team_id: "TeamID",
+  summary_fair_play_reports_team: "Team",
+  summary_fair_play_reports_club: "Club",
+  summary_fair_play_reports_country: "Country",
+  summary_fair_play_reports_age_category: "Age category",
+  summary_fair_play_reports_red_cards: "Red cards",
+  summary_fair_play_reports_yellow_cards: "Yellow cards",
+
   summary_schedule: "Schedule and results",
   summary_schedule_last_update: "Last updated",
   summary_schedule_draws: "Draws",
@@ -664,6 +678,17 @@ module.exports= {
   // Group colours
   pitch_planner_group_colours: "Group colours",
   pitch_planner_group_colours_title: "Group Colours",
+
+  // Automatic planning
+  pitch_planner_automatic_planning: "Automatic planning",
+  pitch_planner_automatic_planning_title: "Automatic Pitch Planning",
+  pitch_planner_automatic_planning_age_categories: "Age categories*",
+  pitch_planner_automatic_planning_competitions: "Competitions*",
+  pitch_planner_automatic_planning_team_interval: "Team interval",
+  pitch_planner_automatic_planning_total_normal_matches_duration: "Total game duration for RR/EM/PM",
+  pitch_planner_automatic_planning_total_final_matches_duration: "Total game duration for final",
+  pitch_planner_automatic_planning_pitch_selection: "Pitch selection*",
+  pitch_planner_automatic_planning_schedule_btn: "Plan",
 
   pitch_detail_break_add: "Add break",
   pitch_detail_break_remove: "Delete break",
