@@ -3,13 +3,19 @@
         <div class="raferee_list">
             <div v-bind:id="'i'+referee.id" style="display:none;">
                 <div class="popover-body">
-                    <b>Age categories</b><br/>
-                    <span v-show="referee.age_group_id !== null">
-                        {{ referee.age_group_id | formatAgeCategoryName(competationList) }}
-                    </span>
-                    <span class="text-muted" v-show="referee.age_group_id === null">
-                        No age categories assigned
-                    </span>
+                    <div>
+                        <b>Age categories</b><br/>
+                        <span v-show="referee.age_group_id !== null">
+                            {{ referee.age_group_id | formatAgeCategoryName(competationList) }}
+                        </span>
+                        <span class="text-muted" v-show="referee.age_group_id === null">
+                            No age categories assigned
+                        </span>
+                    </div>
+                    <div v-if="referee.comments">
+                        <br/><b>Availability</b><br/>
+                        <span>{{ referee.comments }}</span>
+                    </div>
                 </div>
             </div>
             <div class="d-flex align-items-center justify-content-between my-2">

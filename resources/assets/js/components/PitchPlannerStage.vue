@@ -355,9 +355,10 @@ import _ from 'lodash'
                         }
                     },
                     eventClick: function(calEvent, jsEvent, view) {
+                        var posX = $(this).offset().left, posY = $(this).offset().top;
+                        var eventPositionLeft = (jsEvent.pageX - posX);
+                        var matchBlockWidth = $(this).width();
 
-                        // $('div.fc-unthemed').fullCalendar('updateEvent', calEvent);
-                       // return false;
                         if(calEvent.refereeId == -1){
                             return false
                         } else if(calEvent.refereeId == -2) {
@@ -370,7 +371,11 @@ import _ from 'lodash'
                             vm.setPitchModal = 1
                             vm.matchFixture = calEvent
                              setTimeout(function() {
-                                $('#matchScheduleModal').modal('show')
+                                $('#matchScheduleModal').modal('show');
+                                if((matchBlockWidth - eventPositionLeft) <= 15) {
+                                    $("#matchScheduleModal #pitch_model_body .tabs li a").removeClass('active');
+                                    $("#matchScheduleModal #pitch_model_body .tabs li.nav-item:last-child a").addClass('active');
+                                }
                                 $("#matchScheduleModal").on('hidden.bs.modal', function () {
                                     vm.setPitchModal = 0
                                     vm.matchFixture = {}
