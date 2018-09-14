@@ -22,7 +22,7 @@
                   <a data-toggle="tab" class="nav-link" href="#results_tab" role="tab">Result</a>
                 </li>
                 <li class="nav-item">
-                  <a data-toggle="tab" class="nav-link" href="#colors_tab" role="tab">Colors</a>
+                  <a data-toggle="tab" class="nav-link" href="#colors_tab" role="tab">Colours</a>
                 </li>                                    
               </ul>
 
@@ -125,7 +125,7 @@
                     
                     <div class="col-sm-3 align-self-center">
                       <input type="number" min="0" name="home_team_score"
-                      v-model="matchDetail.hometeam_score" id="home_team_score" class="form-control" :readonly="(this.matchDetail.is_result_override == 1) && (this.matchDetail.match_status == 'Walk-over')">
+                      v-model="matchDetail.hometeam_score" id="home_team_score" class="form-control" :readonly="(this.matchDetail.is_result_override == 1) && (this.matchDetail.match_status == 'Walk-over' || this.matchDetail.match_status == 'Abandoned')">
                     </div>
                     <div class="col-sm-6 align-self-center">
                       Team 1 ({{ getTeamName(matchDetail.home_team, matchDetail.home_team_name, matchDetail.
@@ -136,7 +136,7 @@
                     </label>
                     <div class="col-sm-3 align-self-center">
                       <input type="number" min="0" name="away_team_score"
-                      v-model="matchDetail.awayteam_score" id="away_team_score" class="form-control" :readonly="(this.matchDetail.is_result_override == 1) && (this.matchDetail.match_status == 'Walk-over')">
+                      v-model="matchDetail.awayteam_score" id="away_team_score" class="form-control" :readonly="(this.matchDetail.is_result_override == 1) && (this.matchDetail.match_status == 'Walk-over' || this.matchDetail.match_status == 'Abandoned')">
                     </div>                    
                     <div class="col-sm-6 align-self-center">
                       Team 2 ({{ getTeamName(matchDetail.away_team, matchDetail.away_team_name, matchDetail.
@@ -144,16 +144,8 @@
                     </div>
                   </div>
                   <div class="form-group row">
-                    <div class="col-sm-3"><!-- {{$lang.pitch_modal_result_override}} --></div>
-
+                    <div class="col-sm-3"></div>
                     <div class="col-sm-9 align-self-center">
-                      <!-- <input type="checkbox" id="is_result_override" name="is_result_override" v-model="matchDetail.is_result_override" :true-value="'1'" :false-value="'0'" :value="matchDetail.is_result_override" @change="checkOverride()"> -->
-                      <!-- <div class="checkbox">
-                        <label class="mb-0 result-override-checkbox">
-                            <input type="checkbox" class="position-relative" id="is_result_override" name="is_result_override" v-model="matchDetail.is_result_override" :true-value="'1'" :false-value="'0'" :value="matchDetail.is_result_override" @change="checkOverride()"> &nbsp; {{$lang.pitch_modal_result_override}}
-                        </label>
-                      </div> -->
-
                         <div class="checkbox result-override-checkbox">
                             <div class="c-input">
                                 <input type="checkbox" class="euro-checkbox" id="is_result_override" name="is_result_override" v-model="matchDetail.is_result_override" :true-value="'1'" :false-value="'0'" :value="matchDetail.is_result_override" @change="checkOverride()">
@@ -170,7 +162,7 @@
                        v-validate="'required'" :class="{'is-danger': errors.has('match_status') }"
                       name="match_status" id="match_status" class="form-control ls-select2" @change="changeScore()">
                           <option value="">Please select</option>
-                          <option value="Penalties">Penalties</option>
+                          <option v-if="matchDetail.round == 'Elimination'" value="Penalties">Penalties</option>
                           <option value="Walk-over">Walk-over</option>
                           <option value="Abandoned">Abandoned</option>
                       </select>
@@ -590,6 +582,10 @@ var moment = require('moment');
     checkOverride() {
       this.matchDetail.match_status = '';
       this.matchDetail.match_winner = '';
+      if(this.matchDetail.is_result_override == '0') {
+        this.matchDetail.hometeam_score = '';
+        this.matchDetail.awayteam_score = '';
+      }
     },
     getMatchData() {
       this.matchId = this.matchFixture.id;
@@ -607,7 +603,7 @@ var moment = require('moment');
       this.updatedMatchData = matchData;
     },
     changeScore() {
-      if (this.matchDetail.is_result_override == 1 && this.matchDetail.match_status == 'Walk-over') {
+      if (this.matchDetail.is_result_override == 1 && (this.matchDetail.match_status == 'Walk-over' || this.matchDetail.match_status == 'Abandoned')) {
         this.matchDetail.hometeam_score = 0;
         this.matchDetail.awayteam_score = 0;
         if (this.matchDetail.match_winner == this.matchDetail.home_team) {

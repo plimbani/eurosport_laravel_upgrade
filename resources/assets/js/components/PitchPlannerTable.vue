@@ -5,7 +5,6 @@
                 <button class="btn btn-secondary btn-md js-pitch-planner-bt horizontal js-horizontal-view"  @click="setView('timelineDay')">{{$lang.pitch_planner_horizontal}}</button>
                 <button class="btn btn-primary btn-md js-pitch-planner-bt vertical"  @click="setView('agendaDay')">{{$lang.pitch_planner_vertical}}</button>
                 <button v-if="isPitchPlannerInEnlargeMode == 0" class="btn btn-primary btn-md vertical" @click="enlargePitchPlanner()">Enlarge</button>
-                <button class="btn btn-primary btn-md vertical" v-if="isGroupFilterSet" @click="openGroupCompetitionColourModal()">{{$lang.pitch_planner_group_colours}}</button>
                 <button class="btn btn-primary btn-md vertical" @click="printPitchPlanner()">Print</button>
                 <button class="btn btn-primary btn-md" @click="openAutomaticPitchPlanningModal()">{{$lang.pitch_planner_automatic_planning}}</button>
             </div>
@@ -57,7 +56,6 @@
                 </div>
             </div>
         </div>
-        <GroupCompetitionColour></GroupCompetitionColour>
         <AutomaticPitchPlanning></AutomaticPitchPlanning>
         <AddRefereesModel :formValues="formValues" :competationList="competationList" :tournamentId="tournamentId" :refereeId="refereeId" ></AddRefereesModel>
         <UploadRefereesModel :tournamentId="tournamentId"></UploadRefereesModel>
@@ -68,7 +66,6 @@
     import GamesTab from './GamesTab.vue'
     import RefereesTab from './RefereesTab.vue'
     import PitchPlannerStage from './PitchPlannerStage.vue'
-    import GroupCompetitionColour from './GroupCompetitionColourModal.vue'
     import AddRefereesModel from './AddRefereesModel.vue'
     import UploadRefereesModel from './UploadRefereesModel.vue'
     import Tournament from '../api/tournament.js'
@@ -76,7 +73,7 @@
 
     export default  {
         components: {
-            GamesTab, RefereesTab, PitchPlannerStage, GroupCompetitionColour, AddRefereesModel, UploadRefereesModel, AutomaticPitchPlanning
+            GamesTab, RefereesTab, PitchPlannerStage, AddRefereesModel, UploadRefereesModel, AutomaticPitchPlanning
         },
         computed: {
             GameActiveTab () {
@@ -99,12 +96,6 @@
             },
             currentView() {
               return this.$store.getters.curStageView  
-            },
-            isGroupFilterSet() {
-              if(this.$store.state.Tournament.tournamentFiler.filterKey == 'age_category' && this.$store.state.Tournament.tournamentFiler.filterValue != '') {
-                return true;
-              }
-              return false;
             },
             competitionWithGames(){
       
@@ -415,10 +406,6 @@
           dispDate(date) {
             var date1 = moment(date, 'DD/MM/YYYY')
             return date1.format('ddd DD MMM YYYY')
-          },
-          openGroupCompetitionColourModal(){
-            this.$root.$emit('getCategoryCompetitions')
-            $('#group_competition_modal').modal('show');
           },
           openAutomaticPitchPlanningModal() {
             $('#automatic_pitch_planning_modal').modal('show');

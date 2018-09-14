@@ -665,13 +665,6 @@ class TournamentRepository
         return $categoryCompetitions;
     }
 
-    public function saveCategoryCompetitionColor($competitionColorData)
-    {
-        foreach ($competitionColorData as $key => $data) {
-            $competition = Competition::where('id', $key)->update(['color_code' => $data]);
-        }
-    }
-
     public function getAllPublishedTournaments($data)
     {
         $publishedTournaments = Tournament::where('status', 'Published')->get();

@@ -5,19 +5,19 @@
       		<h6><strong>{{$lang.teams_terms_groups}}</strong></h6>
             <div class="row">
                 <div class="col-sm-12 mb-4">
-                    <a href="javascript:void(0)" @click="downloadTeamsSpreadsheetSample()" class="text-primary"><u>Click here</u></a> to download the latest version of the team upload spreadsheet.
+                    Spreadsheet <a href="javascript:void(0)" @click="downloadTeamsSpreadsheetSample()" class="text-primary"><u>Click here</u></a>
                 </div>
             </div>
     		<form>
             <div class="form-group row">
-              <label class="col-sm-2 form-control-label">Import teams</label>
+              <label class="col-sm-2 form-control-label">Import file</label>
              <div class="col-sm-10">
                 <form method="post" name="frmCsvImport" id="frmCsvImport" enctype="multipart/form-data">
                 <div class="row">
                   <div class="col align-self-center">
                     <div class="row align-items-center">
                       <div class="col-sm-4">
-                        <button type="button" class="btn btn-default w-100 btn-color-black--light" id="profile_image_file">Select list (excel files only)</button>
+                        <button type="button" class="btn btn-default w-100 btn-color-black--light" id="profile_image_file">Select file (excel files only)</button>
                       </div>
                       <div class="col-sm-3">
                         <button type="button" @click="csvImport()"  class="btn btn-primary w-100">Upload teams
@@ -32,7 +32,8 @@
               </div>
             </div>
       		<div class="form-group row">
-                <label class="col-sm-2 form-control-label">Filter by age category</label>
+                <div class="col-sm-12 mb-2 text-muted">Choose an age category to allocate teams to groups.</div>
+                <label class="col-sm-2 form-control-label">Select age category</label>
                 <div class="col-sm-10">
                   <div class="row">
                     <div class="col-sm-4">
@@ -100,7 +101,7 @@
 
                       <th class="text-center" v-if="tournamentFilter.filterKey == 'age_category' && tournamentFilter.filterValue != '' ">{{$lang.teams_age_category_allocate}}</th>
                       <th width="130px" class="text-center" v-else>{{$lang.teams_age_category_allocate}}</th>
-                      <th class="text-center">{{$lang.teams_age_category_action}}</th>
+                      <th class="text-center">Edit</th>
                   </tr>
               </thead>
                 <tbody v-if="teams.length!=0">

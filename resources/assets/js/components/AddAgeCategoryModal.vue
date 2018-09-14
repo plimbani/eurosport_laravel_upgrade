@@ -308,7 +308,10 @@
           </div>
 
           <div class="form-group row align-items-center"> 
-            <div class="col-sm-4 form-control-label">{{$lang.competation_modal_points_structure}}</div>
+            <div class="col-sm-4 form-control-label">
+              Points structure*
+              <span class="pr-2 pl-2 text-primary" data-toggle="popover" data-animation="false" data-placement="right" data-content="Enter the number of points for a win, draw or loss"><i class="fa fa-info-circle"></i></span>
+            </div>
             <div class="col-sm-8">
               <div class="row align-items-center">
                 <div class="col-sm-4">
