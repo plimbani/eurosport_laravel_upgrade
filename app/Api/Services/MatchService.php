@@ -547,7 +547,7 @@ class MatchService implements MatchContract
       $winnerId = $singleFixture->home_team;
       $takeTeam = null;
       // For Winner Conditions
-      if(($singleFixture->hometeam_score == $singleFixture->awayteam_score) && ($singleFixture->is_result_override == 1 && $singleFixture->match_status == 'Penalties')) {
+      if($singleFixture->is_result_override == 1 && $singleFixture->match_status == 'Penalties') {
         $takeTeam = "home";
 
         if($singleFixture->match_winner == $singleFixture->away_team) {
@@ -569,7 +569,7 @@ class MatchService implements MatchContract
       $looserId = $singleFixture->home_team;
       $takeTeam = null;
       // For Looser Conditions
-      if(($singleFixture->hometeam_score == $singleFixture->awayteam_score) && ($singleFixture->is_result_override == 1 && $singleFixture->match_status == 'Penalties')) {
+      if($singleFixture->is_result_override == 1 && $singleFixture->match_status == 'Penalties') {
         $takeTeam = "home";
 
         if($singleFixture->match_winner != $singleFixture->away_team) {
@@ -587,7 +587,7 @@ class MatchService implements MatchContract
         $looserId = $singleFixture->away_team;
       }
 
-      if((($singleFixture->hometeam_score == $singleFixture->awayteam_score) && ($singleFixture->is_result_override == 1 && $singleFixture->match_status == 'Penalties')) || ($home_team_score !== null && $away_team_score !== null)) {
+      if(($singleFixture->is_result_override == 1 && $singleFixture->match_status == 'Penalties') || ($home_team_score !== null && $away_team_score !== null)) {
         // Now fire a query which gives two record Winner and Looser
         $results = DB::table('temp_fixtures')->where('age_group_id','=',$age_category_id)->where('tournament_id','=',$tournament_id)
         ->where(function($query) use ($val) {
@@ -754,7 +754,7 @@ class MatchService implements MatchContract
           $homeTeamId = 0;
           $takeTeam = null;
 
-          if(($singleFixture->hometeam_score == $singleFixture->awayteam_score) && ($singleFixture->is_result_override == 1 && $singleFixture->match_status == 'Penalties')) {
+          if($singleFixture->is_result_override == 1 && $singleFixture->match_status == 'Penalties') {
             $takeTeam = "home";
 
             if($singleFixture->match_winner == $singleFixture->away_team) {
@@ -791,7 +791,7 @@ class MatchService implements MatchContract
           $awayTeamId = 0;
           $takeTeam = null;
 
-          if(($singleFixture->hometeam_score == $singleFixture->awayteam_score) && ($singleFixture->is_result_override == 1 && $singleFixture->match_status == 'Penalties')) {
+          if($singleFixture->is_result_override == 1 && $singleFixture->match_status == 'Penalties') {
             $takeTeam = "home";
 
             if($singleFixture->match_winner == $singleFixture->away_team) {
@@ -831,7 +831,7 @@ class MatchService implements MatchContract
           $homeTeamId = 0;
           $takeTeam = null;
 
-          if(($singleFixture->hometeam_score == $singleFixture->awayteam_score) && ($singleFixture->is_result_override == 1 && $singleFixture->match_status == 'Penalties')) {
+          if($singleFixture->is_result_override == 1 && $singleFixture->match_status == 'Penalties') {
             $takeTeam = "home";
 
             if($singleFixture->match_winner != $singleFixture->away_team) {
@@ -868,7 +868,7 @@ class MatchService implements MatchContract
           $awayTeamId = 0;
           $takeTeam = null;
 
-          if(($singleFixture->hometeam_score == $singleFixture->awayteam_score) && ($singleFixture->is_result_override == 1 && $singleFixture->match_status == 'Penalties')) {
+          if($singleFixture->is_result_override == 1 && $singleFixture->match_status == 'Penalties') {
             $takeTeam = "home";
 
             if($singleFixture->match_winner != $singleFixture->away_team) {

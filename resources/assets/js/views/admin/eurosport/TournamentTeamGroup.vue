@@ -4,55 +4,52 @@
   		<div class="card-block">
       		<h6><strong>{{$lang.teams_terms_groups}}</strong></h6>
             <div class="row">
-                <div class="col-sm-12 mb-4">
-                    Spreadsheet <a href="javascript:void(0)" @click="downloadTeamsSpreadsheetSample()" class="text-primary"><u>Click here</u></a>
-                </div>
+              <div class="col-sm-12 mb-2">
+                Spreadsheet <a href="javascript:void(0)" @click="downloadTeamsSpreadsheetSample()" class="text-primary"><u>click here</u></a>
+              </div>
             </div>
-    		<form>
             <div class="form-group row">
               <label class="col-sm-2 form-control-label">Import file</label>
-             <div class="col-sm-10">
+              <div class="col-sm-10">
                 <form method="post" name="frmCsvImport" id="frmCsvImport" enctype="multipart/form-data">
-                <div class="row">
-                  <div class="col align-self-center">
-                    <div class="row align-items-center">
-                      <div class="col-sm-4">
-                        <button type="button" class="btn btn-default w-100 btn-color-black--light" id="profile_image_file">Select file (excel files only)</button>
+                  <div class="row">
+                    <div class="col align-self-center">
+                      <div class="row align-items-center">
+                        <div class="col-sm-4">
+                          <button type="button" class="btn btn-default w-100 btn-color-black--light" id="profile_image_file">Select file (excel files only)</button>
+                        </div>
+                        <div class="col-sm-3">
+                          <button type="button" @click="csvImport()"  class="btn btn-primary w-100">Upload teams
+                          </button>
+                        </div>
+                        <div class="col"><span id="filename"></span></div>
                       </div>
-                      <div class="col-sm-3">
-                        <button type="button" @click="csvImport()"  class="btn btn-primary w-100">Upload teams
-                        </button>
-                      </div>
-                      <div class="col"><span id="filename"></span></div>
+                      <input type="file" name="fileUpload" @change="setFileName(this,$event)"  id="fileUpload" style="display:none;" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel,application/excel,application/vnd.ms-excel,application/vnd.msexcel,text/anytext,application/txt">
                     </div>
-                    <input type="file" name="fileUpload" @change="setFileName(this,$event)"  id="fileUpload" style="display:none;" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel,application/excel,application/vnd.ms-excel,application/vnd.msexcel,text/anytext,application/txt">
                   </div>
-                </div>
-              </form>
+                </form>
               </div>
             </div>
-      		<div class="form-group row">
-                <div class="col-sm-12 mb-2 text-muted">Choose an age category to allocate teams to groups.</div>
-                <label class="col-sm-2 form-control-label">Select age category</label>
-                <div class="col-sm-10">
-                  <div class="row">
-                    <div class="col-sm-4">
-                      <div class="form-group">
-                        <select class="form-control" v-model="age_category" v-on:change="onSelectAgeCategory('view')">
-                          <option value="">{{$lang.teams_all_age_category}}</option>
-                          <option v-for="option in options"
-                           v-bind:value="option"> {{option.group_name}} ({{option.category_age}})</option>
-                        </select>
-                      </div>
+      		  <div class="form-group row">
+              <div class="col-sm-12 mb-2 text-muted">Choose an age category to allocate teams to groups.</div>
+              <label class="col-sm-2 form-control-label">Select age category</label>
+              <div class="col-sm-10">
+                <div class="row">
+                  <div class="col-sm-4">
+                    <div class="form-group">
+                      <select class="form-control" v-model="age_category" v-on:change="onSelectAgeCategory('view')">
+                        <option value="">{{$lang.teams_all_age_category}}</option>
+                        <option v-for="option in options"
+                         v-bind:value="option"> {{option.group_name}} ({{option.category_age}})</option>
+                      </select>
                     </div>
-                    <div class="col-sm-3" v-show="this.age_category != ''" v-if="this.role_slug == 'Super.administrator'">
-                      <button type="button" data-toggle="modal" data-target="#reset_modal" class="btn btn-primary w-100">Delete teams</button>
-                    </div>
+                  </div>
+                  <div class="col-sm-3" v-show="this.age_category != ''" v-if="this.role_slug == 'Super.administrator'">
+                    <button type="button" data-toggle="modal" data-target="#reset_modal" class="btn btn-primary w-100">Delete teams</button>
                   </div>
                 </div>
               </div>
-              
-      			</form>
+            </div>
             <div class="block-bg age-category mb-4">
               <div class="d-flex flex-row flex-wrap justify-content-center" v-if="grpsView.length != 0">
                 <div class="col-sm-3 my-2"  v-for="(group, index) in grpsView">
@@ -74,83 +71,71 @@
                 </div>
               </div>
             </div>
-<!--
-          <div class="row align-items-center">
-            <div class="col-sm-3">
-              <h6 class="m-0"><strong>{{$lang.teams_team_list}}</strong></h6>
-            </div>
-            <div class="col-sm-12">
-              <tournamentFilter v-if="filterStatus" :section="section"></tournamentFilter>
-            </div>
-          </div>
-          <div class="row">
+    			<div class="row mt-4">
+    				<div class="col-md-12">
+              <form name="frmTeamAssign" id="frmTeamAssign" class="frm-team-assign">
+      					<table class="table table-hover table-bordered">
+                  <thead>
+                      <tr>
+                          <th width="150px" class="text-center">{{$lang.teams_reference}}</th>
+                          <th class="text-center">{{$lang.teams_name}}</th>
+                          <th class="text-center">{{$lang.teams_country}}</th>
+                          <th class="text-center">{{$lang.teams_place}}</th>
+                          <th class="text-center">{{$lang.teams_age_category}}</th>
+                          <th  class="text-center">{{$lang.teams_name_category}}</th>
 
-  			</div> -->
-  			<div class="row mt-4">
-  				<div class="col-md-12">
-          <form name="frmTeamAssign" id="frmTeamAssign" class="frm-team-assign">
-  					<table class="table table-hover table-bordered">
-              <thead>
-                  <tr>
-                      <th width="150px" class="text-center">{{$lang.teams_reference}}</th>
-                      <th class="text-center">{{$lang.teams_name}}</th>
-                      <th class="text-center">{{$lang.teams_country}}</th>
-                      <th class="text-center">{{$lang.teams_place}}</th>
-                      <th class="text-center">{{$lang.teams_age_category}}</th>
-                      <th  class="text-center">{{$lang.teams_name_category}}</th>
+                          <th class="text-center" v-if="tournamentFilter.filterKey == 'age_category' && tournamentFilter.filterValue != '' ">{{$lang.teams_age_category_allocate}}</th>
+                          <th width="130px" class="text-center" v-else>{{$lang.teams_age_category_allocate}}</th>
+                          <th class="text-center">Edit</th>
+                      </tr>
+                  </thead>
+                    <tbody v-if="teams.length!=0">
+                        <tr v-for="(team, index) in teams">
+                          <td width="150px">{{team.esr_reference}}</td>
+                          <td class="team-edit-section">
+                            <div class="custom-d-flex align-items-center justify-content-between" v-show="!(team.id in teamsInEdit)">
+                              <span>{{team.name}}</span>
+                              <span class="pull-right"><a href="javascript:void(0);" v-on:click="editTeamName($event, team.id, team.name)"><i class="fa fa-pencil" aria-hidden="true"></i></a></span>
+                            </div>
+                            <div v-show="(team.id in teamsInEdit)">
+                              <div class="btn-group btn-group-sm w-100" role="group">
+                                <input type="text" class="form-control" v-model="team.name" />
+                                <a href="javascript:void(0);" v-on:click="cancelTeamNameChange(team.id)" class="btn btn-secondary d-inline-flex align-items-center"><i class="fa fa-times text-center text-danger" aria-hidden="true"></i></a>
+                                <a href="javascript:void(0);" v-on:click="saveTeamNameChanges($event, team.id, team.name)" class="btn btn-secondary d-inline-flex align-items-center"><i class="fa fa-check text-center text-primary" aria-hidden="true"></i></a>
+                              </div>
+                            </div>
+                          </td>
+                          <td>
+                          	<!-- <img :src="team.logo" width="20"> {{team.country_name}} -->
+                              <span :class="'flag-icon flag-icon-'+team.country_flag"></span> {{team.country_name}}
+                          </td>
+                          <td>{{team.place}} </td>
+                          <td>{{team.category_age}} </td>
+                          <td>{{team.age_name}} </td>
 
-                      <th class="text-center" v-if="tournamentFilter.filterKey == 'age_category' && tournamentFilter.filterValue != '' ">{{$lang.teams_age_category_allocate}}</th>
-                      <th width="130px" class="text-center" v-else>{{$lang.teams_age_category_allocate}}</th>
-                      <th class="text-center">Edit</th>
-                  </tr>
-              </thead>
-                <tbody v-if="teams.length!=0">
-                    <tr v-for="(team, index) in teams">
-                      <td width="150px">{{team.esr_reference}}</td>
-                      <td class="team-edit-section">
-                        <div class="custom-d-flex align-items-center justify-content-between" v-show="!(team.id in teamsInEdit)">
-                          <span>{{team.name}}</span>
-                          <span class="pull-right"><a href="javascript:void(0);" v-on:click="editTeamName($event, team.id, team.name)"><i class="fa fa-pencil" aria-hidden="true"></i></a></span>
-                        </div>
-                        <div v-show="(team.id in teamsInEdit)">
-                          <div class="btn-group btn-group-sm w-100" role="group">
-                            <input type="text" class="form-control" v-model="team.name" />
-                            <a href="javascript:void(0);" v-on:click="cancelTeamNameChange(team.id)" class="btn btn-secondary d-inline-flex align-items-center"><i class="fa fa-times text-center text-danger" aria-hidden="true"></i></a>
-                            <a href="javascript:void(0);" v-on:click="saveTeamNameChanges($event, team.id, team.name)" class="btn btn-secondary d-inline-flex align-items-center"><i class="fa fa-check text-center text-primary" aria-hidden="true"></i></a>
-                          </div>
-                        </div>
-                      </td>
-                      <td>
-                      	<!-- <img :src="team.logo" width="20"> {{team.country_name}} -->
-                          <span :class="'flag-icon flag-icon-'+team.country_flag"></span> {{team.country_name}}
-                      </td>
-                      <td>{{team.place}} </td>
-                      <td>{{team.category_age}} </td>
-                      <td>{{team.age_name}} </td>
+                          <td width="130px" v-if="age_category != ''" style="position: relative">
+                            <teamSelect :team="team" :grps="grps" @onAssignGroup="onAssignGroup" @beforeChange="beforeChange" @assignTeamGroupName="assignTeamGroupName"></teamSelect>
+                          </td>
+                          <td width="130px" v-else>{{ getModifiedDisplayGroupName(team.group_name) }}</td>
+                          <td class="text-center">
+                            <a class="text-primary" href="javascript:void(0)"
+                             @click="editTeam(team.id)">
+                              <i class="jv-icon jv-edit"></i>
+                            </a>
+                          </td>
+                        </tr>
 
-                      <td width="130px" v-if="age_category != ''" style="position: relative">
-                        <teamSelect :team="team" :grps="grps" @onAssignGroup="onAssignGroup" @beforeChange="beforeChange" @assignTeamGroupName="assignTeamGroupName"></teamSelect>
-                      </td>
-                      <td width="130px" v-else>{{ getModifiedDisplayGroupName(team.group_name) }}</td>
-                      <td class="text-center">
-                        <a class="text-primary" href="javascript:void(0)"
-                         @click="editTeam(team.id)">
-                          <i class="jv-icon jv-edit"></i>
-                        </a>
-                      </td>
-                    </tr>
-
-                </tbody>
-                <tbody v-else>
-                  <tr>
-                    <td colspan="8"> No teams available</td>
-                    </tr>
-                </tbody>
-            </table>
-            <button type="button" v-if="age_category != ''" @click="groupUpdate()" class="btn btn-primary pull-right">{{$lang.teams_button_updategroups}}</button>
-          </form>
-  				</div>
-  			</div>
+                    </tbody>
+                    <tbody v-else>
+                      <tr>
+                        <td colspan="8"> No teams available</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button type="button" v-if="age_category != ''" @click="groupUpdate()" class="btn btn-primary pull-right">{{$lang.teams_button_updategroups}}</button>
+              </form>
+    				</div>
+    			</div>
   		</div>
   	</div>
      <team-modal v-if="teamId!=''" :teamId="teamId" :countries="countries" :clubs="clubs" :teamColors="teamColors"></team-modal>

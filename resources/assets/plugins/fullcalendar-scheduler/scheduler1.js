@@ -3716,9 +3716,9 @@ TimelineGrid = (function(superClass) {
       tootipHtml += "<span>" + event.title + "</span><br/>";
       if((event.homeScore !== null) && (event.awayScore !== null) && (typeof event.awayScore !== 'undefined') && (typeof event.awayScore !== 'undefined')) {
         tootipHtml += '<div>' +
-        ((event.isResultOverride == 1 && event.matchStatus == 'Walk-over' && event.matchWinner == event.homeTeam) ? '*' : '') +
+        ((event.isResultOverride == 1 && (event.matchStatus == 'Walk-over' || event.matchStatus == 'Abandoned') && event.matchWinner == event.homeTeam) ? '*' : '') +
         htmlEscape(event.homeScore) + '-' + htmlEscape(event.awayScore) +
-        ((event.isResultOverride == 1 && event.matchStatus == 'Walk-over' && event.matchWinner == event.awayTeam) ? '*' : '') +
+        ((event.isResultOverride == 1 && (event.matchStatus == 'Walk-over' || event.matchStatus == 'Abandoned') && event.matchWinner == event.awayTeam) ? '*' : '') +
         '</div>';
       }
       if(event.remarks) {

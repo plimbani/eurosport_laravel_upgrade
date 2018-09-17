@@ -6,6 +6,7 @@
     <thead>
       <th class="text-center">{{$lang.summary_schedule_date_time}}</th>
       <th class="text-center">{{$lang.summary_schedule_matches_categories}}</th>
+      <th class="text-center">Match codes</th>
       <th class="text-center">{{$lang.summary_schedule_matches_team}}</th>
       <th class="text-center">{{$lang.summary_schedule_matches_team}}</th>
       <th class="text-center" style="min-width:75px">{{$lang.summary_schedule_matches_score}}</th>
@@ -24,6 +25,7 @@
           </a>
           <span v-else>{{match.competation_name | formatGroup(match.round)}}</span>
         </td>
+        <td class="text-center">{{displayMatch(match.displayMatchNumber)}}</td>
         <td align="right">
           <div class="matchteam-details flex-row-reverse">
             <span :class="'flag-icon flag-icon-'+match.HomeCountryFlag" class="line-height-initial matchteam-flag"></span>
@@ -43,27 +45,20 @@
             <span class="text-center matchteam-name" v-if="(match.Away_id == '0' )">{{ getHoldingName(match.competition_actual_name, match.displayAwayTeamPlaceholderName) }}</span>
             <span class="text-center matchteam-name" v-else><a class="text-primary" href="javascript:void(0)" @click.prevent="changeTeam(match.Away_id, match.AwayTeam)">{{ match.AwayTeam }}</a></span>
           </div>
-          <!-- <a   href="" @click.prevent="changeTeam(match.Away_id, match.AwayTeam)"> -->
-            <!--<img :src="match.AwayFlagLogo" width="20">-->
-                
-          <!-- <span class="text-center">{{ match.AwayTeam}}</span> -->
-          <!-- <span class="text-center" v-if="(match.Away_id == '0' )">{{ getHoldingName(match.competition_actual_name, match.displayAwayTeamPlaceholderName) }}</span>
-          <span class="text-center" v-else><a class="text-primary" href="javascript:void(0)" @click.prevent="changeTeam(match.Away_id, match.AwayTeam)">{{ match.AwayTeam }}</a></span> -->
-          <!-- </a>  -->
         </td>
         <td class="text-center js-match-list">
             <div class="d-inline-flex position-relative">
-              <span v-show="!isUserDataExist && match.isResultOverride == '1' && match.match_status == 'Walk-over' && match.match_winner == match.Home_id">*</span>
-              <input type="text" v-model="match.homeScore" :name="'home_score['+match.fid+']'" style="width: 25px; text-align: center;" v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails'" :readonly="(match.is_scheduled == '0') || (match.isResultOverride == '1' && match.match_status == 'Walk-over')" @change="updateScore(match,index1)">
+              <span v-show="!isUserDataExist && match.isResultOverride == '1' && (match.match_status == 'Walk-over' || match.match_status == 'Abandoned') && match.match_winner == match.Home_id">*</span>
+              <input type="text" v-model="match.homeScore" :name="'home_score['+match.fid+']'" style="width: 25px; text-align: center;" v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails'" :readonly="(match.is_scheduled == '0') || (match.isResultOverride == '1' && (match.match_status == 'Walk-over' || match.match_status == 'Abandoned'))" @change="updateScore(match,index1)">
               <span v-else>{{match.homeScore}}</span>
-              <span class="circle-badge left" v-if="(match.isResultOverride == '1' && match.match_status == 'Walk-over' && match.match_winner == match.Home_id && isUserDataExist)"><i class="fa fa-asterisk" aria-hidden="true"></i></span>
+              <span class="circle-badge left" v-if="(match.isResultOverride == '1' && (match.match_status == 'Walk-over' || match.match_status == 'Abandoned') && match.match_winner == match.Home_id && isUserDataExist)"><i class="fa fa-asterisk" aria-hidden="true"></i></span>
             </div> -
             <div class="d-inline-flex position-relative" v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails'">
-              <input type="text" v-model="match.AwayScore" :name="'away_score['+match.fid+']'" style="width: 25px; text-align: center;" :readonly="(match.is_scheduled == '0') || (match.isResultOverride == '1' && match.match_status == 'Walk-over')" @change="updateScore(match,index1)">
-              <span class="circle-badge right" v-if="(match.isResultOverride == '1' && match.match_status == 'Walk-over' && match.match_winner == match.Away_id && isUserDataExist)"><i class="fa fa-asterisk" aria-hidden="true"></i></span>
+              <input type="text" v-model="match.AwayScore" :name="'away_score['+match.fid+']'" style="width: 25px; text-align: center;" :readonly="(match.is_scheduled == '0') || (match.isResultOverride == '1' && (match.match_status == 'Walk-over' || match.match_status == 'Abandoned'))" @change="updateScore(match,index1)">
+              <span class="circle-badge right" v-if="(match.isResultOverride == '1' && (match.match_status == 'Walk-over' || match.match_status == 'Abandoned') && match.match_winner == match.Away_id && isUserDataExist)"><i class="fa fa-asterisk" aria-hidden="true"></i></span>
             </div>
             <span v-else>{{match.AwayScore}}</span>
-            <span v-show="!isUserDataExist && match.isResultOverride == '1' && match.match_status == 'Walk-over' && match.match_winner == match.Away_id">*</span>
+            <span v-show="!isUserDataExist && match.isResultOverride == '1' && (match.match_status == 'Walk-over' || match.match_status == 'Abandoned') && match.match_winner == match.Away_id">*</span>
 
         </td>
 
@@ -471,6 +466,18 @@ export default {
       } else {
         return this.matchData;
       }
+    },
+    displayMatch(displayMatchNumber) {
+      var displayMatchText = displayMatchNumber.split('.');
+
+      if(displayMatchNumber.indexOf("wrs") > 0 || displayMatchNumber.indexOf("lrs") > 0) {
+        if(displayMatchText[3] == 'wrs' || displayMatchText[3] == 'lrs') {
+          if(displayMatchNumber.indexOf('(@HOME-@AWAY)') > 0) {
+            return displayMatchText[1] + '.' + displayMatchText[2] + '.' + displayMatchText[3];
+          }
+        }
+      }
+      return displayMatchText[1] + '.' + displayMatchText[2];
     },
   },
 }
