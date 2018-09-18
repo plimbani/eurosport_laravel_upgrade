@@ -20,6 +20,7 @@ use Laraspace\Http\Requests\Pitch\GetLocationWiseSummaryRequest;
 // Need to Define Only Contracts
 use Laraspace\Api\Contracts\PitchContract;
 use Laraspace\Http\Requests\Pitch\GetSignedUrlForPitchPlannerPrintRequest;
+use Laraspace\Http\Requests\Pitch\GetSignedUrlForPitchPlannerExportRequest;
 use Laraspace\Models\Tournament;
 use PDF;
 
@@ -192,5 +193,91 @@ class PitchController extends BaseController
             ->setOption('margin-bottom', 20);
 
         return $pdf->inline($pitchPlannerPdf);
+    }
+
+    public function getSignedUrlForPitchPlannerExport(GetSignedUrlForPitchPlannerExportRequest $request, $tournamentId)
+    {
+        $signedUrl = UrlSigner::sign(url('api/pitchPlanner/export/' . $tournamentId), Carbon::now()->addMinutes(config('config-variables.signed_url_interval')));
+
+        return $signedUrl;
+    }
+
+    public function generatePitchPlannerExport(Request $request, $tournamentId)
+    {
+        $pitchPlannerExportData = $this->pitchObj->getPitchPlannerPrintData($tournamentId);
+
+        $tournamentStartDate = Carbon::createFromFormat('d/m/Y H:i:s', $pitchPlannerExportData['tournamentData']->start_date.'00:00:00');
+        $tournamentEndDate = Carbon::createFromFormat('d/m/Y H:i:s', $pitchPlannerExportData['tournamentData']->end_date.'00:00:00');
+
+        $tournamentDates = [];
+
+        while ($tournamentStartDate <= $tournamentEndDate)
+        {
+            array_push($tournamentDates, clone($tournamentStartDate));
+            $tournamentStartDate->addDay();
+        }
+
+        $i = 1;
+        $startTime = Carbon::parse('8:00');
+        $endTime = Carbon::parse('23:00');
+        $time[0] = '';
+
+        while($startTime <= $endTime) { 
+            $time[$i] = $startTime->format('H:i');
+            $startTime->addMinute(5);
+            $i++;
+        }
+
+        $matches = collect();
+
+        $tournamentPitches = [];
+        $dataArray = [];
+
+        
+        foreach ($pitchPlannerExportData['matches'] as $match) {
+            $stdate = Carbon::parse($match->match_datetime);
+            $matches->push([
+                'match_id' => $match->id,
+                'referee_id' => $match->referee_id,
+                'pitch_id' => $match->pitch_id,
+                'match_datetime' => $stdate,
+                'match_endtime' => Carbon::parse($match->match_endtime),
+                'pitch_name' => $match->pitch_number,
+                'match_day' => $stdate->format('Y-m-d'),
+                'referre_name' => $match->first_name.' '.$match->last_name,
+                'venues_name' => $match->venues_name,
+                'match_name' => str_replace('@AWAY', $match->away_team_name, str_replace('@HOME', $match->home_team_name, $match->display_match_number)),
+                'hometeam_score' => $match->hometeam_score,
+                'awayteam_score' => $match->awayteam_score,
+            ]);
+
+            $tournamentPitches[$match->pitch_id] = $match->pitch_number.'( '.$match->size.' )';
+        }
+
+        $a = 0;
+        foreach ($tournamentDates as $date) {
+            $time[0] = $date->format('D d M Y');
+
+            $allFixtureData[] = [$date->format('D d M Y')];
+            foreach($tournamentPitches as $pitchKey => $pitch){
+                foreach($matches->where('pitch_id', $pitchKey)->where('match_day', $date->format('Y-m-d')) as $match) {
+                    $matchString = $match['match_name'];
+                    $allFixtureData[] = [$pitch, $matchString];
+                    $a++;
+                }
+            }
+        }
+        // echo "<pre>";print_r($allFixtureData);echo "</pre>";exit;
+
+        $otherParams = [
+          'sheetTitle' => "pitch_planner",
+          'sheetName' => "pitch_planner",
+          'boldLastRow' => false
+        ];
+
+        $lableArray = $time;
+        $dataArray = $allFixtureData;
+
+        \Laraspace\Custom\Helper\Common::toExcel($lableArray, $dataArray, $otherParams, 'xlsx', 'yes');
     }
 }

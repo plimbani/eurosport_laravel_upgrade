@@ -6,6 +6,7 @@
                 <button class="btn btn-primary btn-md js-pitch-planner-bt vertical"  @click="setView('agendaDay')">{{$lang.pitch_planner_vertical}}</button>
                 <button v-if="isPitchPlannerInEnlargeMode == 0" class="btn btn-primary btn-md vertical" @click="enlargePitchPlanner()">Enlarge</button>
                 <button class="btn btn-primary btn-md vertical" @click="printPitchPlanner()">Print</button>
+                <button class="btn btn-primary btn-md vertical" @click="exportPitchPlanner()">Export</button>
                 <button class="btn btn-primary btn-md" @click="openAutomaticPitchPlanningModal()">{{$lang.pitch_planner_automatic_planning}}</button>
             </div>
         </div>
@@ -457,6 +458,17 @@
               }
             );
           },
+          exportPitchPlanner() {
+            var pitchPlannerPrintWindow = window.open('', '_blank');
+            Tournament.getSignedUrlForPitchPlannerExport(this.tournamentId).then(
+              (response) => {
+                pitchPlannerPrintWindow.location = response.data;
+              },
+              (error) => {
+
+              }
+            );
+          }
         }
     }
 </script>
