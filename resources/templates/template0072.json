@@ -593,8 +593,8 @@
                                 },
                                 {
                                     "in_between": "CAT.PM3.G7WR-CAT.PM3.G8WR",
-                                    "match_number": "CAT.PM4.G6.(PM3_G7_WR)-(PM3_G8_WR)",
-                                    "display_match_number": "CAT.4.6.wrs.(@HOME-@AWAY)",
+                                    "match_number": "CAT.PM4.G7.(PM3_G7_WR)-(PM3_G8_WR)",
+                                    "display_match_number": "CAT.4.7.wrs.(@HOME-@AWAY)",
                                     "display_home_team_placeholder_name": "3.7",
                                     "display_away_team_placeholder_name": "3.8",
                                     "position": "13-14"
