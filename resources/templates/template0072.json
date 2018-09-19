@@ -638,25 +638,25 @@
         {
             "position": 3,
             "dependent_type": "match",
-            "match_number": "CAT.PM4.G2.(PM3_G3_WR)-(PM3_G4_WR)",
+            "match_number": "CAT.PM4.G2.(PM3_G1_LR)-(PM3_G2_LR)",
             "result_type": "winner"
         },
         {
             "position": 4,
             "dependent_type": "match",
-            "match_number": "CAT.PM4.G2.(PM3_G3_WR)-(PM3_G4_WR)",
+            "match_number": "CAT.PM4.G2.(PM3_G1_LR)-(PM3_G2_LR)",
             "result_type": "looser"
         },
         {
             "position": 5,
             "dependent_type": "match",
-            "match_number": "CAT.PM4.G3.(PM3_G1_LR)-(PM3_G2_LR)",
+            "match_number": "CAT.PM4.G3.(PM3_G3_WR)-(PM3_G4_WR)",
             "result_type": "winner"
         },
         {
             "position": 6,
             "dependent_type": "match",
-            "match_number": "CAT.PM4.G3.(PM3_G1_LR)-(PM3_G2_LR)",
+            "match_number": "CAT.PM4.G3.(PM3_G3_WR)-(PM3_G4_WR)",
             "result_type": "looser"
         },
         {
@@ -686,25 +686,25 @@
         {
             "position": 11,
             "dependent_type": "match",
-            "match_number": "CAT.PM4.G6.(PM3_G7_WR)-(PM3_G8_WR)",
+            "match_number": "CAT.PM4.G6.(PM3_G5_LR)-(PM3_G6_LR)",
             "result_type": "winner"
         },
         {
             "position": 12,
             "dependent_type": "match",
-            "match_number": "CAT.PM4.G6.(PM3_G7_WR)-(PM3_G8_WR)",
+            "match_number": "CAT.PM4.G6.(PM3_G5_LR)-(PM3_G6_LR)",
             "result_type": "looser"
         },
         {
             "position": 13,
             "dependent_type": "match",
-            "match_number": "CAT.PM4.G7.(PM3_G5_LR)-(PM3_G6_LR)",
+            "match_number": "CAT.PM4.G7.(PM3_G7_WR)-(PM3_G8_WR)",
             "result_type": "winner"
         },
         {
             "position": 14,
             "dependent_type": "match",
-            "match_number": "CAT.PM4.G7.(PM3_G5_LR)-(PM3_G6_LR)",
+            "match_number": "CAT.PM4.G7.(PM3_G7_WR)-(PM3_G8_WR)",
             "result_type": "looser"
         },
         {
