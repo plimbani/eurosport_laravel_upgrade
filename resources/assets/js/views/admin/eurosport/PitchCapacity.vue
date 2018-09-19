@@ -29,9 +29,9 @@
                             </thead>
                             <tbody>
                                 <tr v-for="pitch in pitches">
-                                    <td class="text-center">{{pitch.pitch_number}}</td>
-                                    <td class="text-center">{{pitch.size}}</td>
-                                    <td class="text-center" style="text-transform: capitalize;">{{pitch.type}}</td>
+                                    <td class="text-left">{{pitch.pitch_number}}</td>
+                                    <td class="text-left">{{pitch.size}}</td>
+                                    <td class="text-left" style="text-transform: capitalize;">{{pitch.type}}</td>
                                     <td>
                                         <p v-for="pitchStage in pitch.pitch_av_text">
                                         {{pitchStage}}</p>
@@ -75,16 +75,16 @@
                             </thead>
                             <tbody>
                                 <tr v-for="(pitchSizeDetail, pitchSize) in pitchSizeWiseSummaryArray">
-                                    <td class="text-center">{{ pitchSize }}</td>
-                                    <td class="text-center">{{ pitchSizeDetail.availableTime }}</td>
-                                    <td class="text-center">{{ pitchSizeDetail.timeRequired }}</td>
-                                    <td class="text-center" :class="[pitchSizeDetail.balanceSign == '-' ? 'red' : 'text-success']">{{ pitchSizeDetail.balance }}</td>
+                                    <td class="text-left">{{ pitchSize }}</td>
+                                    <td class="text-left">{{ pitchSizeDetail.availableTime }}</td>
+                                    <td class="text-left">{{ pitchSizeDetail.timeRequired }}</td>
+                                    <td class="text-left" :class="[pitchSizeDetail.balanceSign == '-' ? 'red' : 'text-success']">{{ pitchSizeDetail.balance }}</td>
                                 </tr>
                                 <tr>
-                                    <td class="text-center"><strong>{{ $lang.totals }}</strong></td>
-                                    <td class="text-center">{{ pitchSizeWiseSummaryTotal.totalAvailableTime }}</td>
-                                    <td class="text-center">{{ pitchSizeWiseSummaryTotal.totalTimeRequired }}</td>
-                                    <td class="text-center" :class="[pitchSizeWiseSummaryTotal.totalBalanceSign == '-' ? 'red' : 'text-success']">{{ pitchSizeWiseSummaryTotal.totalBalance }}</td>
+                                    <td class="text-left"><strong>{{ $lang.totals }}</strong></td>
+                                    <td class="text-left">{{ pitchSizeWiseSummaryTotal.totalAvailableTime }}</td>
+                                    <td class="text-left">{{ pitchSizeWiseSummaryTotal.totalTimeRequired }}</td>
+                                    <td class="text-left" :class="[pitchSizeWiseSummaryTotal.totalBalanceSign == '-' ? 'red' : 'text-success']">{{ pitchSizeWiseSummaryTotal.totalBalance }}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -110,16 +110,16 @@
                                 </thead>
                                 <tbody>
                                     <tr v-for="(pitchSizeDetail, pitchSize) in locationDetail.sizes">
-                                        <td class="text-center">{{ pitchSize }}</td>
-                                        <td class="text-center">{{ pitchSizeDetail.availableTime }}</td>
-                                        <td class="text-center">{{ pitchSizeDetail.timeUsed }}</td>
-                                        <td class="text-center" :class="[pitchSizeDetail.balanceSign == '-' ? 'red' : 'text-success']">{{ pitchSizeDetail.balance }}</td>
+                                        <td class="text-left">{{ pitchSize }}</td>
+                                        <td class="text-left">{{ pitchSizeDetail.availableTime }}</td>
+                                        <td class="text-left">{{ pitchSizeDetail.timeUsed }}</td>
+                                        <td class="text-left" :class="[pitchSizeDetail.balanceSign == '-' ? 'red' : 'text-success']">{{ pitchSizeDetail.balance }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="text-center"><strong>{{ $lang.totals }}</strong></td>
-                                        <td class="text-center">{{ locationWiseSummaryTotal[locationId].totalAvailableTime }}</td>
-                                        <td class="text-center">{{ locationWiseSummaryTotal[locationId].totalTimeUsed }}</td>
-                                        <td class="text-center" :class="[locationWiseSummaryTotal[locationId].totalBalanceSign == '-' ? 'red' : 'text-success']">{{ locationWiseSummaryTotal[locationId].totalBalance }}</td>
+                                        <td class="text-left"><strong>{{ $lang.totals }}</strong></td>
+                                        <td class="text-left">{{ locationWiseSummaryTotal[locationId].totalAvailableTime }}</td>
+                                        <td class="text-left">{{ locationWiseSummaryTotal[locationId].totalTimeUsed }}</td>
+                                        <td class="text-left" :class="[locationWiseSummaryTotal[locationId].totalBalanceSign == '-' ? 'red' : 'text-success']">{{ locationWiseSummaryTotal[locationId].totalBalance }}</td>
                                     </tr>
                                 </tbody>
                             </table>

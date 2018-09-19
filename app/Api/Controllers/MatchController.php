@@ -226,6 +226,18 @@ class MatchController extends BaseController
                 return view('automate_tournament.competetions', compact('tournamentCompetationTemplates'));
             }
 
+            $tournament = Tournament::find($tournamentId);
+
+            $tournamentCompetationTemplate = TournamentCompetationTemplates::find($ageGroupId);
+
+            if(!$tournament) {
+                $status = 'error';
+            }
+
+            if(!$tournamentCompetationTemplate) {
+                $status = 'error';
+            }
+
             $matchRepoObj = new \Laraspace\Api\Repositories\MatchRepository();
             $matchServiceObj = new \Laraspace\Api\Services\MatchService();
             $pitchRepoObj = new \Laraspace\Api\Repositories\PitchRepository();
