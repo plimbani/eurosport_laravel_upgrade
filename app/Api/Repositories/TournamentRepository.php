@@ -738,6 +738,9 @@ class TournamentRepository
         $totalRequiredTime = $requiredNormalMatchTotalTime + $requiredFinalMatchTotalTime;
 
         $totalPitchesAvailableTime = 0;
+
+        $allPitches = Pitch::whereIn('id', $data['pitches'])->get()->keyBy('id');
+
         foreach ($data['pitches'] as $key => $pitchId) {
             $tempFixture = TempFixture::where('tournament_id', $data['tournamentId'])
                 ->where('pitch_id', $pitchId)
@@ -745,8 +748,8 @@ class TournamentRepository
                 ->select(\DB::raw("SUM(time_to_sec(timediff(match_endtime, match_datetime)) / 60) as result"))
                 ->first();
 
-            $pitchCapacity = Pitch::where('id', $pitchId)->first();
-            $availableTime = $pitchCapacity->pitch_capacity - $tempFixture->result;
+            $pitch = $allPitches[$pitchId];
+            $availableTime = $pitch->pitch_capacity - $tempFixture->result;
             $totalPitchesAvailableTime = $totalPitchesAvailableTime + $availableTime;
         }
         if ($totalRequiredTime > $totalPitchesAvailableTime) {
@@ -871,6 +874,7 @@ class TournamentRepository
                             'match_start_time' => clone ($startTimeStamp),
                             'match_end_time' => clone ($endTimeStamp),
                             'pitch_id' => $pitchId,
+                            'venue_id' => $allPitches[$pitchId]->venue_id,
                         );
 
                         $teamIntervalCheck[] = array(
@@ -963,6 +967,7 @@ class TournamentRepository
             $matchFixture->match_datetime = $matchDetail['match_start_time'];
             $matchFixture->match_endtime = $matchDetail['match_end_time'];
             $matchFixture->pitch_id = $matchDetail['pitch_id'];
+            $matchFixture->venue_id = $matchDetail['venue_id'];
             $matchFixture->is_scheduled = 1;
             $matchFixture->save();
         }
