@@ -246,14 +246,16 @@
                   <div class="form-group row">
                     <div class="col-sm-3 form-control-label">{{ $lang.pitch_modal_age_category_color }} ({{ matchDetail.category_age.category_age }})</div>
                     <div class="col-sm-6">
-                      <input type="text" class="js-colorpicker" :name="matchDetail.age_category_color" v-model="matchDetail.age_category_color" @input="matchDetail.age_category_color" id="age_category_color" data-name="age_category_color" :class="{'form-control demo minicolors-input' : true }" />
+                      <input v-validate="'required'" :class="{'is-danger': errors.has('age_category_color'), 'js-colorpicker form-control demo minicolors-input': true }" type="text" name="age_category_color" v-model="matchDetail.age_category_color" @input="matchDetail.age_category_color" id="age_category_color" data-name="age_category_color" />
+                      <span class="help is-danger" v-show="errors.has('age_category_color')">This field is required</span>
                     </div>
                   </div>
 
                   <div class="form-group row">
                     <div class="col-sm-3 form-control-label">{{ $lang.pitch_modal_group_color }} ({{ formatGroupName() }})</div>                    
                     <div class="col-sm-6">
-                      <input type="text" class="js-colorpicker" id="group_color" data-name="group_color" :name="matchDetail.group_color" v-model="matchDetail.group_color" @input="matchDetail.group_color" :class="{'form-control demo minicolors-input' : true }"/>
+                      <input  v-validate="'required'" :class="{'is-danger': errors.has('group_color'), 'form-control demo minicolors-input js-colorpicker' : true }" type="text" id="group_color" data-name="group_color" name="group_color" v-model="matchDetail.group_color" @input="matchDetail.group_color"/>
+                      <span class="help is-danger" v-show="errors.has('group_color')">This field is required</span>
                     </div>
                   </div>
                 </div>
@@ -440,41 +442,45 @@ var moment = require('moment');
         this.matchDetail.is_result_override = 1;
       }
       Vue.nextTick(function () {
-        vm.$validator.validateAll().then(() => {
-          let  matchStatus = vm.matchDetail.is_result_override == 1 ? $('#match_status').val() : '';
-          let  matchWinner = vm.matchDetail.is_result_override == 1 ? $('#match_winner').val() : '';
-          let data = {'matchId':vm.matchDetail.id,'refereeId': vm.matchDetail.referee_id,'homeTeamScore':$('#home_team_score').val(),'awayTeamScore':$('#away_team_score').val(),
-            'matchStatus': matchStatus,'matchWinner': matchWinner,'comments':$('#comments').val(),
-            'is_result_override':$('#is_result_override').val(), 'home_yellow_cards': $('#home_yellow_cards').val(), 'away_yellow_cards': $('#away_yellow_cards').val(), 'home_red_cards': $('#home_red_cards').val(), 'away_red_cards': $('#away_red_cards').val(),'age_category_color': vm.matchDetail.age_category_color, 'group_color': vm.matchDetail.group_color}
-          Tournament.saveMatchResult(data).then(
-            (response) => {
-              vm.matchFixtureDetail();
-              $('#matchScheduleModal').modal('hide')
-              toastr.success('This match has been updated.', 'Match Details', {timeOut: 5000});
-              let matchData = {};
+        vm.$validator.validateAll().then((response) => {
+          if(response) {
+            let  matchStatus = vm.matchDetail.is_result_override == 1 ? $('#match_status').val() : '';
+            let  matchWinner = vm.matchDetail.is_result_override == 1 ? $('#match_winner').val() : '';
+            let data = {'matchId':vm.matchDetail.id,'refereeId': vm.matchDetail.referee_id,'homeTeamScore':$('#home_team_score').val(),'awayTeamScore':$('#away_team_score').val(),
+              'matchStatus': matchStatus,'matchWinner': matchWinner,'comments':$('#comments').val(),
+              'is_result_override':$('#is_result_override').val(), 'home_yellow_cards': $('#home_yellow_cards').val(), 'away_yellow_cards': $('#away_yellow_cards').val(), 'home_red_cards': $('#home_red_cards').val(), 'away_red_cards': $('#away_red_cards').val(),'age_category_color': vm.matchDetail.age_category_color, 'group_color': vm.matchDetail.group_color}
+            Tournament.saveMatchResult(data).then(
+              (response) => {
+                vm.matchFixtureDetail();
+                $('#matchScheduleModal').modal('hide')
+                toastr.success('This match has been updated.', 'Match Details', {timeOut: 5000});
+                let matchData = {};
 
-              matchData['home_score'] = $('#home_team_score').val()
-              matchData['away_score'] = $('#away_team_score').val()
-              matchData['competation_id'] = response.data.data.competationId
-              matchData['is_result_override'] = response.data.data.isResultOverride
-              matchData['match_status'] = $('#match_status').val()
-              matchData['match_winner'] = $('#match_winner').val()
+                matchData['home_score'] = $('#home_team_score').val()
+                matchData['away_score'] = $('#away_team_score').val()
+                matchData['competation_id'] = response.data.data.competationId
+                matchData['is_result_override'] = response.data.data.isResultOverride
+                matchData['match_status'] = $('#match_status').val()
+                matchData['match_winner'] = $('#match_winner').val()
 
-              if(vm.section == 'scheduleResult') {
-                vm.$root.$emit('reloadMatchList', matchData)
-                //
-                vm.$root.$emit('setDrawTable',matchData['competation_id']);
-                vm.$root.$emit('setStandingData',matchData['competation_id']);
-              } else {
-                vm.$root.$emit('displayTournamentCompetationList');
-                vm.$root.$emit('setPitchReset');
-                vm.$store.dispatch('setMatches');
-                vm.$root.$emit('reloadAllEvents');
+                if(vm.section == 'scheduleResult') {
+                  vm.$root.$emit('reloadMatchList', matchData)
+                  //
+                  vm.$root.$emit('setDrawTable',matchData['competation_id']);
+                  vm.$root.$emit('setStandingData',matchData['competation_id']);
+                } else {
+                  vm.$root.$emit('displayTournamentCompetationList');
+                  vm.$root.$emit('setPitchReset');
+                  vm.$store.dispatch('setMatches');
+                  vm.$root.$emit('reloadAllEvents');
+                }
               }
-            }
-          )
-        }).catch(() => {
+            )
+          }
+        },
+        (error) => {
         });
+
       });
     },
     assignReferee(refereeId){
