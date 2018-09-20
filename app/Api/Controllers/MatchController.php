@@ -311,7 +311,7 @@ class MatchController extends BaseController
                     'away_yellow_cards' => NULL,
                     'home_red_cards' => NULL,
                     'away_red_cards' => NULL,
-                    'age_category_color' => NULL,
+                    'age_category_color' => $tournamentCompetationTemplate->category_age_color,
                     'group_color' => NULL,
                 ];
 
