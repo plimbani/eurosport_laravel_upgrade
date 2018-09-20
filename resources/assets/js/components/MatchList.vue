@@ -48,22 +48,18 @@
         </td>
         <td class="text-center js-match-list">
             <div class="d-inline-flex position-relative">
-              <span v-show="(!isUserDataExist || getCurrentScheduleView == 'teamDetails') && match.isResultOverride == '1' && (match.match_status == 'Walk-over' || match.match_status == 'Abandoned') && match.match_winner == match.Home_id">*</span>
-
               <input type="text" v-model="match.homeScore" :name="'home_score['+match.fid+']'" style="width: 25px; text-align: center;" v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails'" :readonly="(match.is_scheduled == '0') || (match.isResultOverride == '1' && (match.match_status == 'Walk-over' || match.match_status == 'Abandoned'))" @change="updateScore(match,index1)">
 
               <span v-else>{{match.homeScore}}</span>
 
-              <span class="circle-badge left" v-if="(match.isResultOverride == '1' && (match.match_status == 'Walk-over' || match.match_status == 'Abandoned') && match.match_winner == match.Home_id && isUserDataExist && getCurrentScheduleView != 'teamDetails')"><i class="fa fa-asterisk" aria-hidden="true"></i></span>
+              <span class="circle-badge" :class="{'left-input': (isUserDataExist && getCurrentScheduleView != 'teamDetails'), 'left-text': (!isUserDataExist || getCurrentScheduleView == 'teamDetails') }" v-if="(match.isResultOverride == '1' && (match.match_status == 'Walk-over' || match.match_status == 'Abandoned') && match.match_winner == match.Home_id)"><i class="fa fa-asterisk" aria-hidden="true"></i></span>
             </div> -
             <div class="d-inline-flex position-relative">
               <input type="text" v-model="match.AwayScore" :name="'away_score['+match.fid+']'" style="width: 25px; text-align: center;"  v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails'" :readonly="(match.is_scheduled == '0') || (match.isResultOverride == '1' && (match.match_status == 'Walk-over' || match.match_status == 'Abandoned'))" @change="updateScore(match,index1)">
 
-              <span class="circle-badge right" v-if="(isUserDataExist && getCurrentScheduleView != 'teamDetails' && match.isResultOverride == '1' && (match.match_status == 'Walk-over' || match.match_status == 'Abandoned') && match.match_winner == match.Away_id)"><i class="fa fa-asterisk" aria-hidden="true"></i></span>
+              <span class="circle-badge" :class="{'right-input': (isUserDataExist && getCurrentScheduleView != 'teamDetails'), 'right-text': (!isUserDataExist || getCurrentScheduleView == 'teamDetails') }" v-if="(match.isResultOverride == '1' && (match.match_status == 'Walk-over' || match.match_status == 'Abandoned') && match.match_winner == match.Away_id)"><i class="fa fa-asterisk" aria-hidden="true"></i></span>
 
               <span v-if="(!isUserDataExist || getCurrentScheduleView == 'teamDetails')">{{match.AwayScore}}</span>
-
-              <span v-show="(!isUserDataExist || getCurrentScheduleView == 'teamDetails') && match.isResultOverride == '1' && (match.match_status == 'Walk-over' || match.match_status == 'Abandoned') && match.match_winner == match.Away_id">*</span>
             </div>
         </td>
 

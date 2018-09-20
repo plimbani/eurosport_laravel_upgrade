@@ -935,11 +935,17 @@ gmap-map {
     align-items: center;
     font-size: 8px;
     justify-content: center;
-    &.right {
+    &.right-input {
         right: -3px;
     }
-    &.left {
+    &.left-input {
         left: -3px;
+    }
+    &.right-text {
+        right: -9px;
+    }
+    &.left-text {
+        left: -9px;
     }
 }
 

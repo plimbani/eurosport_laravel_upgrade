@@ -88,7 +88,7 @@
                 </div>
 
                 <div class="page-copyright">
-                     <p>Copyright 2017 Euro-Sportring. All rights reserved.<br/>
+                     <p>Copyright {{ Carbon\Carbon::now()->format('Y') }} Euro-Sportring. All rights reserved.<br/>
                     Developed  by <a href="http://aecordigital.com" target="_blank">aecor </a></p>
                 </div>
             </div>

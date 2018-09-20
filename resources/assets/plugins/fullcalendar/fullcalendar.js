@@ -8384,9 +8384,9 @@ TimeGrid.mixin({
 							) +
 						((event.homeScore !== null) && (event.awayScore !== null) && (typeof event.awayScore !== 'undefined') && (typeof event.awayScore !== 'undefined') ? 
 							'<div class="fc-score">' +
-								((event.isResultOverride == 1 && event.matchStatus == 'Walk-over' && event.matchWinner == event.homeTeam) ? '*' : '') +
+								((event.isResultOverride == 1 && (event.matchStatus == 'Walk-over' || event.matchStatus == 'Abandoned') && event.matchWinner == event.homeTeam) ? '*' : '') +
 								htmlEscape(event.homeScore) + '-' + htmlEscape(event.awayScore) +
-								((event.isResultOverride == 1 && event.matchStatus == 'Walk-over' && event.matchWinner == event.awayTeam) ? '*' : '') +
+								((event.isResultOverride == 1 && (event.matchStatus == 'Walk-over' || event.matchStatus == 'Abandoned') && event.matchWinner == event.awayTeam) ? '*' : '') +
 							'</div>' :
 							''
 						) +
