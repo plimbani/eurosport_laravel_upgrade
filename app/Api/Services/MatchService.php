@@ -2388,14 +2388,16 @@ class MatchService implements MatchContract
           }
         }
 
-        // Update winner team
-        $positions[$i]->team_id = $winner;
-        $positions[$i]->save();
+        if($winner!==null || $looser!==null) {
+          // Update winner team
+          $positions[$i]->team_id = $winner;
+          $positions[$i]->save();
 
-        // Update looser team
-        if(isset($positions[$i + 1])) {
-          $positions[$i + 1]->team_id = $looser;
-          $positions[$i + 1]->save();
+          // Update looser team
+          if(isset($positions[$i + 1])) {
+            $positions[$i + 1]->team_id = $looser;
+            $positions[$i + 1]->save();
+          }
         }
       }
     }
