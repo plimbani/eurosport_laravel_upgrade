@@ -2388,7 +2388,7 @@ class MatchService implements MatchContract
           }
         }
 
-        if($winner!==null || $looser!==null) {
+        if($winner!==null && $looser!==null) {
           // Update winner team
           $positions[$i]->team_id = $winner;
           $positions[$i]->save();
