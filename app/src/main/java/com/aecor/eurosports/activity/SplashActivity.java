@@ -71,7 +71,8 @@ public class SplashActivity extends BaseActivity {
     }
 
     private void isUserLogin() {
-        checkAppVersion();
+        checkStoreCredentials();
+
 
     }
 
