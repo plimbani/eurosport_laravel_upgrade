@@ -2368,36 +2368,34 @@ class MatchService implements MatchContract
       for($i=0; $i < count($positions); $i=$i+2) {
         $matchNumber = str_replace('CAT.', $prefixMatchName, $positions[$i]->match_number);
         $fixture = DB::table('temp_fixtures')->where('match_number', $matchNumber)->where('age_group_id', $ageCategory->id)->get()->first();
-        if($fixture->hometeam_score !== null && $fixture->awayteam_score !== null) {
-          $winner = null;
-          $looser = null;
 
-          if($fixture->is_result_override == 1 && $fixture->match_status == 'Penalties') {
-            $winner = $fixture->home_team;
-            $looser = $fixture->away_team;
-            if($fixture->match_winner == $fixture->away_team) {
-              $winner = $fixture->away_team;
-              $looser = $fixture->home_team;
-            }
+        $winner = null;
+        $looser = null;
+        if($fixture->is_result_override == 1 && $fixture->match_status == 'Penalties') {
+          $winner = $fixture->home_team;
+          $looser = $fixture->away_team;
+          if($fixture->match_winner == $fixture->away_team) {
+            $winner = $fixture->away_team;
+            $looser = $fixture->home_team;
+          }
+        } else if($fixture->hometeam_score !== null && $fixture->awayteam_score !== null) {
+          if($fixture->hometeam_score >= $fixture->awayteam_score) {
+            $winner = $fixture->home_team != 0 ? $fixture->home_team : null;
+            $looser = $fixture->away_team != 0 ? $fixture->away_team : null;
           } else {
-            if($fixture->hometeam_score >= $fixture->awayteam_score) {
-              $winner = $fixture->home_team != 0 ? $fixture->home_team : null;
-              $looser = $fixture->away_team != 0 ? $fixture->away_team : null;
-            } else {
-              $winner = $fixture->away_team != 0 ? $fixture->away_team : null;
-              $looser = $fixture->home_team != 0 ? $fixture->home_team : null;
-            }
+            $winner = $fixture->away_team != 0 ? $fixture->away_team : null;
+            $looser = $fixture->home_team != 0 ? $fixture->home_team : null;
           }
+        }
 
-          // Update winner team
-          $positions[$i]->team_id = $winner;
-          $positions[$i]->save();
+        // Update winner team
+        $positions[$i]->team_id = $winner;
+        $positions[$i]->save();
 
-          // Update looser team
-          if(isset($positions[$i + 1])) {
-            $positions[$i + 1]->team_id = $looser;
-            $positions[$i + 1]->save();
-          }
+        // Update looser team
+        if(isset($positions[$i + 1])) {
+          $positions[$i + 1]->team_id = $looser;
+          $positions[$i + 1]->save();
         }
       }
     }
