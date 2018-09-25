@@ -2371,12 +2371,22 @@ class MatchService implements MatchContract
         if($fixture->hometeam_score !== null && $fixture->awayteam_score !== null) {
           $winner = null;
           $looser = null;
-          if($fixture->hometeam_score >= $fixture->awayteam_score) {
-            $winner = $fixture->home_team != 0 ? $fixture->home_team : null;
-            $looser = $fixture->away_team != 0 ? $fixture->away_team : null;
+
+          if($fixture->is_result_override == 1 && $fixture->match_status == 'Penalties') {
+            $winner = $fixture->home_team;
+            $looser = $fixture->away_team;
+            if($fixture->match_winner == $fixture->away_team) {
+              $winner = $fixture->away_team;
+              $looser = $fixture->home_team;
+            }
           } else {
-            $winner = $fixture->away_team != 0 ? $fixture->away_team : null;
-            $looser = $fixture->home_team != 0 ? $fixture->home_team : null;
+            if($fixture->hometeam_score >= $fixture->awayteam_score) {
+              $winner = $fixture->home_team != 0 ? $fixture->home_team : null;
+              $looser = $fixture->away_team != 0 ? $fixture->away_team : null;
+            } else {
+              $winner = $fixture->away_team != 0 ? $fixture->away_team : null;
+              $looser = $fixture->home_team != 0 ? $fixture->home_team : null;
+            }
           }
 
           // Update winner team
