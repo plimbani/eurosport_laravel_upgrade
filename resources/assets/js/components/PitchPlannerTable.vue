@@ -459,10 +459,9 @@
             );
           },
           exportPitchPlanner() {
-            var pitchPlannerPrintWindow = window.open('', '_blank');
             Tournament.getSignedUrlForPitchPlannerExport(this.tournamentId).then(
               (response) => {
-                pitchPlannerPrintWindow.location = response.data;
+                window.location.href = response.data;
               },
               (error) => {
 
