@@ -46,6 +46,7 @@ import LayoutWebsite from './views/layouts/LayoutWebsite.vue'
 
 // Full EuroSport Layout
 import FullLayoutTournament from './views/layouts/FullLayoutTournament.vue'
+import PrintPitchPlannerLayout from './views/layouts/PrintPitchPlannerLayout.vue'
 
 //EuroSport Pages
 import Welcome from './views/admin/eurosport/Welcome.vue'
@@ -184,6 +185,18 @@ const routes = [
             }
         ]
     },
+    {
+        path: '/admin', component: PrintPitchPlannerLayout,
+        meta: { requiresAuth: true },
+        children: [
+            {
+                path: 'print_pitch_planner',
+                component: PitchPlanner,
+                name: 'print_pitch_planner'
+
+            }
+        ]
+    },    
     {
         path: '/users',
         component: LayoutUserManagement,
