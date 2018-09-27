@@ -38,7 +38,10 @@
           <div class="modal-body modal-fixed-height">
               <div class="form-group row mb-0" v-for="position in positionData">
                 <div class="col-sm-3 form-control-label font-weight-bold border">Placing {{ position.pos }}</div>
-                <div class="col-sm-9 form-control-label"> {{ position.team_name }}</div>
+                <div class="col-sm-9 form-control-label d-flex"> 
+                  <span :class="'flag-icon flag-icon-' + position.team_flag"></span>
+                  <span class="ml-1">{{ position.team_name }}</span>
+                </div>
               </div>   
           </div>
           <div class="modal-footer">
