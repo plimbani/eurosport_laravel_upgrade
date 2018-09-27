@@ -38,8 +38,11 @@
                 <div class="col-sm-3 form-control-label border-0">
                   <h6 class="font-weight-bold">{{ $t('tournament.placing') }} {{ position.pos }}</h6>
                 </div>
-                <div class="col-sm-9 form-control-label"> 
-                  <h6>{{ position.team_name }}</h6>
+                <div class="col-sm-9 form-control-label">                   
+                  <h6>
+                    <span :class="'flag-icon flag-icon-' + position.team_flag"></span>
+                    {{ position.team_name }}
+                  </h6>
                 </div>
               </div>
           </div>

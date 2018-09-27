@@ -424,7 +424,7 @@ class AgeGroupRepository
     }
 
     public function getPlacingsData($data) {
-      $positions = Position::with('team')->where('age_category_id', $data['ageCategoryId'])->get();
+      $positions = Position::with('team', 'team.country')->where('age_category_id', $data['ageCategoryId'])->get();
       
       $positionData = [];
       // echo "<pre>";print_r($positions[0]->team);echo "</pre>";exit;
@@ -432,6 +432,7 @@ class AgeGroupRepository
         $positionData[$key]['pos'] = $position->position;
         if(isset($position->team)) {
           $positionData[$key]['team_name'] = $position->team['name'];
+          $positionData[$key]['team_flag'] = $position->team->country->country_flag;
         } else {
           $positionData[$key]['team_name'] = '';
 
