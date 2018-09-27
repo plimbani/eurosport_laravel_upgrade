@@ -432,6 +432,7 @@ class AgeGroupRepository
         if(isset($position->team)) {
           $positionData[$key]['team_name'] = $position->team['name'];
           $positionData[$key]['team_flag'] = $position->team->country->country_flag;
+          $positionData[$key]['team_logo'] = getenv('S3_URL') . $position->team->country->logo;
         } else {
           $positionData[$key]['team_name'] = '';
 
