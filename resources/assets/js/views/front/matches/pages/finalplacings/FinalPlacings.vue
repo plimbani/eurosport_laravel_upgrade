@@ -39,9 +39,9 @@
                   <h6 class="font-weight-bold">{{ $t('tournament.placing') }} {{ position.pos }}</h6>
                 </div>
                 <div class="col-sm-9 form-control-label">                   
-                  <h6>
+                  <h6 class="d-flex">
                     <span :class="'flag-icon flag-icon-' + position.team_flag"></span>
-                    {{ position.team_name }}
+                    <span class="ml-1">{{ position.team_name }}</span>
                   </h6>
                 </div>
               </div>

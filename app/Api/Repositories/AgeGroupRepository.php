@@ -427,7 +427,6 @@ class AgeGroupRepository
       $positions = Position::with('team', 'team.country')->where('age_category_id', $data['ageCategoryId'])->get();
       
       $positionData = [];
-      // echo "<pre>";print_r($positions[0]->team);echo "</pre>";exit;
       foreach ($positions as $key => $position) {
         $positionData[$key]['pos'] = $position->position;
         if(isset($position->team)) {
