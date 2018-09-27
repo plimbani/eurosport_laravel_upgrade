@@ -11,6 +11,7 @@
 		0F32AC5F20B56B42007C92A6 /* TableCellOwner.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F32AC5D20B56B41007C92A6 /* TableCellOwner.m */; };
 		0F32AC6420B56D37007C92A6 /* UserFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F32AC6320B56D37007C92A6 /* UserFileManager.m */; };
 		0F984C91208E11E5009F7BB0 /* PrivacyPolicy.txt in Resources */ = {isa = PBXBuildFile; fileRef = 0F984C90208E11E4009F7BB0 /* PrivacyPolicy.txt */; };
+		688AA8F1215A51C600735D0D /* MatchDetailVCNew.m in Sources */ = {isa = PBXBuildFile; fileRef = 688AA8F0215A51C600735D0D /* MatchDetailVCNew.m */; };
 		928681551F323FD3005BE626 /* HelpVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 928681541F323FD2005BE626 /* HelpVC.m */; };
 		928681581F323FEA005BE626 /* PrivacyVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 928681571F323FEA005BE626 /* PrivacyVC.m */; };
 		9E00E3791EF925CE002457CE /* SignUpTournamentList.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E00E3781EF925CE002457CE /* SignUpTournamentList.m */; };
@@ -163,6 +164,8 @@
 		14E6572A52E6A27F9B2F3417 /* Pods_ESRTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ESRTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		25E242443DE4918F7F22DA12 /* Pods-ESR.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ESR.release.xcconfig"; path = "Pods/Target Support Files/Pods-ESR/Pods-ESR.release.xcconfig"; sourceTree = "<group>"; };
 		43F2A882D451BC3970FCF221 /* Pods-ESRUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ESRUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-ESRUITests/Pods-ESRUITests.release.xcconfig"; sourceTree = "<group>"; };
+		688AA8EF215A51C600735D0D /* MatchDetailVCNew.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MatchDetailVCNew.h; sourceTree = "<group>"; };
+		688AA8F0215A51C600735D0D /* MatchDetailVCNew.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MatchDetailVCNew.m; sourceTree = "<group>"; };
 		7A4ECFB24635BD2CF8371704 /* Pods_ESRUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ESRUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		928681531F323FD2005BE626 /* HelpVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HelpVC.h; sourceTree = "<group>"; };
 		928681541F323FD2005BE626 /* HelpVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HelpVC.m; sourceTree = "<group>"; };
@@ -777,6 +780,8 @@
 				9EBA4A731F0F5DFA0021027A /* VenueDetailVC.m */,
 				9EBA4A771F0FB9690021027A /* MapVC.h */,
 				9EBA4A781F0FB9690021027A /* MapVC.m */,
+				688AA8EF215A51C600735D0D /* MatchDetailVCNew.h */,
+				688AA8F0215A51C600735D0D /* MatchDetailVCNew.m */,
 			);
 			name = Club;
 			sourceTree = "<group>";
@@ -1264,6 +1269,7 @@
 				9E421AEA1EF2A16B004693BF /* TournamentVC.m in Sources */,
 				9EE6EA4D1F04CFAD00070FA9 /* FavTourmanentListVC.m in Sources */,
 				9E11BECE1F0A482F00EF50F3 /* TeamDetailCell.m in Sources */,
+				688AA8F1215A51C600735D0D /* MatchDetailVCNew.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

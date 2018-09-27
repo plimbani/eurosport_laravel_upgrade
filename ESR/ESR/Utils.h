@@ -14,5 +14,6 @@
 +(BOOL)isNetworkAvailable;
 +(NSString *)getCurrentDateAndTime;
 +(NSString *)getCurrentDateAndTimeSecond;
++(UIImage *)coloredImage:(UIImage *)image withColor:(UIColor *)color;
 //+(bool)isNetwork;
 @end

@@ -16,7 +16,7 @@
 #import "TeamDetailCell.h"
 #import "StandingHeaderCell.h"
 #import "ViewDetailCell.h"
-#import "MatchDetailVC.h"
+#import "MatchDetailVCNew.h"
 #import "AllMatchVC.h"
 #import "LeagueDetailVC.h"
 #import "UIColor+fromHex.h"
@@ -654,7 +654,7 @@
     if (![[groupDetails valueForKey:@"competation_type"] isEqualToString:@"Round Robin"] && ![[groupDetails valueForKey:@"actual_competition_type"] isEqualToString:@"Round Robin"]) {
         if (indexPath.row != 0) {
             UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-            MatchDetailVC *myVC = (MatchDetailVC *)[storyboard instantiateViewControllerWithIdentifier:@"MatchDetailVC"];
+            MatchDetailVCNew *myVC = (MatchDetailVCNew *)[storyboard instantiateViewControllerWithIdentifier:@"MatchDetailVCNew"];
             myVC.matchDetails = [fixturesArray objectAtIndex:indexPath.row-1];
             [self.navigationController pushViewController:myVC animated:YES];
         }
@@ -673,7 +673,7 @@
             [self.navigationController pushViewController:myVC animated:YES];
         }else if(indexPath.row <standingArray.count+3+fixturesArray.count){
             UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-            MatchDetailVC *myVC = (MatchDetailVC *)[storyboard instantiateViewControllerWithIdentifier:@"MatchDetailVC"];
+            MatchDetailVCNew *myVC = (MatchDetailVCNew *)[storyboard instantiateViewControllerWithIdentifier:@"MatchDetailVCNew"];
             myVC.matchDetails = [fixturesArray objectAtIndex:indexPath.row-(standingArray.count+3)];
             [self.navigationController pushViewController:myVC animated:YES];
         }else{

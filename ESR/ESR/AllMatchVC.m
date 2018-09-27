@@ -13,7 +13,7 @@
 #import "SVProgressHUD.h"
 #import "AppDelegate.h"
 #import "FixturesCell.h"
-#import "MatchDetailVC.h"
+#import "MatchDetailVCNew.h"
 #import  "QuartzCore/QuartzCore.h"
 #import "UIColor+fromHex.h"
 #import "Reachability.h"
@@ -265,7 +265,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    MatchDetailVC *myVC = (MatchDetailVC *)[storyboard instantiateViewControllerWithIdentifier:@"MatchDetailVC"];
+    MatchDetailVCNew *myVC = (MatchDetailVCNew *)[storyboard instantiateViewControllerWithIdentifier:@"MatchDetailVCNew"];
     myVC.matchDetails = [fixturesArray objectAtIndex:indexPath.row];
     [self.navigationController pushViewController:myVC animated:YES];
 }
