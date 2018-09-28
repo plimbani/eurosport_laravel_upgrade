@@ -58,12 +58,12 @@
 
 // Webservice Urls
 #define HostName_URL                    @"74.120.218.195"
-#define BaseURL                         @"https://qa.wot.esrtmp.com"    // QA
+//#define BaseURL                         @"https://qa.wot.esrtmp.com"    // QA
 //#define BaseURL                         @"https://www.esrtmp.com"       // Live
 //#define BaseURL                         @"http://192.168.0.6:8180/"
 //#define BaseURL                         @"https://qa.esrtmp.com"
 //#define BaseURL                         @"http://esr.aecordigitalqa.com"
-//#define BaseURL                         @"http://mukesh-wot.dev.aecortech.com"
+#define BaseURL                         @"http://mukesh-wot.dev.aecortech.com"
 //#define BaseURL                         @"http://sunny-eurosport.dev.aecortech.com"
 //#define BaseURL                         @"http://krunal-eurosport.dev.aecortech.com"
 //#define BaseURL                         @"http://usama-eurosport.dev.aecortech.com"
@@ -123,8 +123,8 @@
 #define kWhiteColor                     [UIColor whiteColor]
 #define kBlackColor                     [UIColor blackColor]
 #define kGrayColor                      RGBA(100, 100, 100, 1)
-#define kThemeColor                     RGBA(70, 166, 219, 1)
-#define kThemeHexaColor                 @"47A6DB"
+#define kThemeColor                     RGBA(199, 10, 32, 1)
+#define kThemeHexaColor                 @"C70A20"
 
 // Date Formats
 #define kDateFormat                     @"dd/MM/yy"

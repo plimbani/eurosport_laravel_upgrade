@@ -253,10 +253,12 @@
         NSString *dateStr = [df stringFromDate:matchDate];
         [df setDateFormat:@"MMMM"];
         NSString *monthStr = [df stringFromDate:matchDate];
+        [df setDateFormat:@"YYYY"];
+        NSString *yearStr = [df stringFromDate:matchDate];
         [df setDateFormat:@"HH:mm"];
         NSString *hoursStr = [df stringFromDate:matchDate];
         //self.dateTime.text =[NSString stringWithFormat:@"%@ %@  |  %@",dateStr,monthStr,hoursStr];
-        self.lblDate.text = [NSString stringWithFormat:@"%@ %@",dateStr,monthStr];
+        self.lblDate.text = [NSString stringWithFormat:@"%@ %@ %@",dateStr,monthStr,yearStr];
         self.lblTime.text = [NSString stringWithFormat:@"%@",hoursStr];
     }else{
         self.lblDate.text = NULL_STRING;

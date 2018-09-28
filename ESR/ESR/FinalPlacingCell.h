@@ -11,5 +11,5 @@
 @interface FinalPlacingCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UILabel *posLbl;
 @property (weak, nonatomic) IBOutlet UILabel *teamNameLbl;
-
+@property (strong, nonatomic) IBOutlet UIImageView *finalPlacingImage;
 @end

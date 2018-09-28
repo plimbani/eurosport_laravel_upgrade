@@ -12,6 +12,7 @@
 		0F32AC6420B56D37007C92A6 /* UserFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F32AC6320B56D37007C92A6 /* UserFileManager.m */; };
 		0F984C91208E11E5009F7BB0 /* PrivacyPolicy.txt in Resources */ = {isa = PBXBuildFile; fileRef = 0F984C90208E11E4009F7BB0 /* PrivacyPolicy.txt */; };
 		688AA8F1215A51C600735D0D /* MatchDetailVCNew.m in Sources */ = {isa = PBXBuildFile; fileRef = 688AA8F0215A51C600735D0D /* MatchDetailVCNew.m */; };
+		68DD79F5215D0B740089DA57 /* GroupSummaryHeaderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 68DD79F4215D0B740089DA57 /* GroupSummaryHeaderCell.m */; };
 		928681551F323FD3005BE626 /* HelpVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 928681541F323FD2005BE626 /* HelpVC.m */; };
 		928681581F323FEA005BE626 /* PrivacyVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 928681571F323FEA005BE626 /* PrivacyVC.m */; };
 		9E00E3791EF925CE002457CE /* SignUpTournamentList.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E00E3781EF925CE002457CE /* SignUpTournamentList.m */; };
@@ -166,6 +167,8 @@
 		43F2A882D451BC3970FCF221 /* Pods-ESRUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ESRUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-ESRUITests/Pods-ESRUITests.release.xcconfig"; sourceTree = "<group>"; };
 		688AA8EF215A51C600735D0D /* MatchDetailVCNew.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MatchDetailVCNew.h; sourceTree = "<group>"; };
 		688AA8F0215A51C600735D0D /* MatchDetailVCNew.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MatchDetailVCNew.m; sourceTree = "<group>"; };
+		68DD79F3215D0B740089DA57 /* GroupSummaryHeaderCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GroupSummaryHeaderCell.h; sourceTree = "<group>"; };
+		68DD79F4215D0B740089DA57 /* GroupSummaryHeaderCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GroupSummaryHeaderCell.m; sourceTree = "<group>"; };
 		7A4ECFB24635BD2CF8371704 /* Pods_ESRUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ESRUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		928681531F323FD2005BE626 /* HelpVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HelpVC.h; sourceTree = "<group>"; };
 		928681541F323FD2005BE626 /* HelpVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HelpVC.m; sourceTree = "<group>"; };
@@ -458,6 +461,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		68DD79ED215D0A280089DA57 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				68DD79F3215D0B740089DA57 /* GroupSummaryHeaderCell.h */,
+				68DD79F4215D0B740089DA57 /* GroupSummaryHeaderCell.m */,
+			);
+			name = Cell;
+			sourceTree = "<group>";
+		};
 		873DA3C644E68A19D1B65FDF /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -474,6 +486,7 @@
 		9E01B8091F0B5C42007C60B1 /* Age Tab */ = {
 			isa = PBXGroup;
 			children = (
+				68DD79ED215D0A280089DA57 /* Cell */,
 				9E01B80A1F0B5D76007C60B1 /* AgeGroupVC.h */,
 				9E01B80B1F0B5D76007C60B1 /* AgeGroupVC.m */,
 				9E4489F31EF7FC1200203FDF /* GroupSummaryVC.h */,
@@ -1226,6 +1239,7 @@
 				9E421AA21EF261FC004693BF /* ViewController.m in Sources */,
 				9EBC46931F3DD0AD0077256A /* WebVC.m in Sources */,
 				9E24D22F1F0D07D6005BCB21 /* AllMatchVC.m in Sources */,
+				68DD79F5215D0B740089DA57 /* GroupSummaryHeaderCell.m in Sources */,
 				9EE6EA591F051EFF00070FA9 /* ClubTeamCell.m in Sources */,
 				9E421AE71EF2A150004693BF /* FovouritesVC.m in Sources */,
 				9E1E2AB01EFBC0E600C748B1 /* UIColor+fromHex.m in Sources */,
