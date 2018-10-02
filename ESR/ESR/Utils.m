@@ -25,6 +25,28 @@
     
     return canReach;
 }
++(UIImage *)coloredImage:(UIImage *)image withColor:(UIColor *)color {
+    UIGraphicsBeginImageContext(image.size);
+    
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    [color setFill];
+    
+    CGContextTranslateCTM(context, 0, image.size.height);
+    CGContextScaleCTM(context, 1.0, -1.0);
+    
+    CGContextSetBlendMode(context, kCGBlendModeCopy);
+    CGRect rect = CGRectMake(0, 0, image.size.width, image.size.height);
+    CGContextDrawImage(context, rect, image.CGImage);
+    
+    CGContextClipToMask(context, rect, image.CGImage);
+    CGContextAddRect(context, rect);
+    CGContextDrawPath(context,kCGPathElementMoveToPoint);
+    
+    UIImage *coloredImg = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return coloredImg;
+}
 +(NSString *)getCurrentDateAndTimeSecond{
     NSDateFormatter *dateFormatter=[[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"HH:mm:ss d MMM yyyy"];

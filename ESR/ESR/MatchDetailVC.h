@@ -42,5 +42,9 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *middleTeamDetailViewHeightConstrain;
 - (IBAction)backBtnClick:(id)sender;
 - (IBAction)venueBtnClick:(id)sender;
+@property (strong, nonatomic) IBOutlet UIImageView *homeTeamShirt;
+@property (strong, nonatomic) IBOutlet UIImageView *homeTeamShort;
+@property (strong, nonatomic) IBOutlet UIImageView *awayTeamShirt;
+@property (strong, nonatomic) IBOutlet UIImageView *awayTeamShort;
 
 @end

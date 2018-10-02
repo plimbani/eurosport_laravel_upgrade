@@ -32,9 +32,9 @@ PODS:
   - FirebaseAnalytics (3.7.0):
     - FirebaseCore (~> 3.5)
     - FirebaseInstanceID (~> 1.0)
-    - GoogleToolboxForMac/NSData+zlib (~> 2.1)
+    - "GoogleToolboxForMac/NSData+zlib (~> 2.1)"
   - FirebaseCore (3.5.1):
-    - GoogleToolboxForMac/NSData+zlib (~> 2.1)
+    - "GoogleToolboxForMac/NSData+zlib (~> 2.1)"
   - FirebaseInstanceID (1.0.9)
   - FirebaseMessaging (1.2.2):
     - FirebaseAnalytics (~> 3.7)
@@ -44,10 +44,13 @@ PODS:
   - GoogleToolboxForMac/Defines (2.1.1)
   - GoogleToolboxForMac/Logger (2.1.1):
     - GoogleToolboxForMac/Defines (= 2.1.1)
-  - GoogleToolboxForMac/NSData+zlib (2.1.1):
+  - "GoogleToolboxForMac/NSData+zlib (2.1.1)":
     - GoogleToolboxForMac/Defines (= 2.1.1)
   - MBCircularProgressBar (0.3.5)
   - Protobuf (3.2.0)
+  - SDWebImage (4.4.2):
+    - SDWebImage/Core (= 4.4.2)
+  - SDWebImage/Core (4.4.2)
   - SVProgressHUD (2.1.2)
 
 DEPENDENCIES:
@@ -57,7 +60,24 @@ DEPENDENCIES:
   - Firebase/Core
   - Firebase/Messaging
   - MBCircularProgressBar
+  - SDWebImage (~> 4.0)
   - SVProgressHUD
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - AFNetworking
+    - Crashlytics
+    - Fabric
+    - Firebase
+    - FirebaseAnalytics
+    - FirebaseCore
+    - FirebaseInstanceID
+    - FirebaseMessaging
+    - GoogleToolboxForMac
+    - MBCircularProgressBar
+    - Protobuf
+    - SDWebImage
+    - SVProgressHUD
 
 SPEC CHECKSUMS:
   AFNetworking: cb8d14a848e831097108418f5d49217339d4eb60
@@ -71,8 +91,9 @@ SPEC CHECKSUMS:
   GoogleToolboxForMac: 8e329f1b599f2512c6b10676d45736bcc2cbbeb0
   MBCircularProgressBar: 0b795b722a5eb5b0923822f90474e2576a1a7855
   Protobuf: 745f59e122e5de98d4d7ef291e264a0eef80f58e
+  SDWebImage: 624d6e296c69b244bcede364c72ae0430ac14681
   SVProgressHUD: c404a55d78acbeb7ebb78b76d3faf986475a6994
 
-PODFILE CHECKSUM: 41346b672f45508f980f9dd66d759ac8ef0858b2
+PODFILE CHECKSUM: 766f3f55232a02a3b71b90798cf00289bed63e46
 
-COCOAPODS: 1.1.1
+COCOAPODS: 1.5.3

@@ -153,8 +153,8 @@
         _lblWinner.text = [NSString stringWithFormat:@"%@ - %@ %@",[matchDetails valueForKey:@"match_status"],[matchDetails valueForKey:@"MatchWinner"],@"is the winner"];
     }else{
         _winnerLblTopConstrain.constant = -50;
-        _bottomViewTopConstrain.constant = 40;
-        self.mainViewHeightConstrain.constant = 405;
+        _bottomViewTopConstrain.constant = 40+10;
+        self.mainViewHeightConstrain.constant = 405+45;
     }
     if ([[matchDetails valueForKey:@"actual_round"] isEqualToString:@"Elimination"]) {
         if (![[matchDetails valueForKey:@"position"] isKindOfClass:[NSNull class]]) {
@@ -164,10 +164,10 @@
             
             self.positionLbl.text =@"Placing: N/A";
         }
-        self.mainViewHeightConstrain.constant = 405+25;
+        self.mainViewHeightConstrain.constant = 405+25+45;
     }else{
         self.middleTeamDetailViewHeightConstrain.constant = self.middleTeamDetailViewHeightConstrain.constant-25;
-        self.mainViewHeightConstrain.constant = 405;
+        self.mainViewHeightConstrain.constant = 405+45;
         self.positionLbl.text =@"";
     }
     
@@ -234,7 +234,22 @@
     }else{
          [self.venueBtn setTitle:@""  forState:UIControlStateNormal];
     }
-    
+    if (![[matchDetails valueForKey:@"HomeTeamShirtColor"] isKindOfClass:[NSNull class]]) {
+        self.homeTeamShirt.image = [self.homeTeamShirt.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+        [self.homeTeamShirt setTintColor:[UIColor colorwithHexString:[matchDetails valueForKey:@"HomeTeamShirtColor"] alpha:1.0]];
+    }
+    if (![[matchDetails valueForKey:@"HomeTeamShortsColor"] isKindOfClass:[NSNull class]]) {
+        self.homeTeamShort.image = [self.homeTeamShort.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+        [self.homeTeamShort setTintColor:[UIColor colorwithHexString:[matchDetails valueForKey:@"HomeTeamShortsColor"] alpha:1.0]];
+    }
+    if (![[matchDetails valueForKey:@"AwayTeamShirtColor"] isKindOfClass:[NSNull class]]) {
+        self.awayTeamShirt.image = [self.awayTeamShirt.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+        [self.awayTeamShirt setTintColor:[UIColor colorwithHexString:[matchDetails valueForKey:@"AwayTeamShirtColor"] alpha:1.0]];
+    }
+    if (![[matchDetails valueForKey:@"AwayTeamShortsColor"] isKindOfClass:[NSNull class]]) {
+        self.awayTeamShort.image = [self.awayTeamShort.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+        [self.awayTeamShort setTintColor:[UIColor colorwithHexString:[matchDetails valueForKey:@"AwayTeamShortsColor"] alpha:1.0]];
+    }
     [self setTeamScore:matchDetails];
     
 }
@@ -271,11 +286,11 @@
             if ([match_winner length] > 0 && [home_id length] > 0 && [match_winner caseInsensitiveCompare:home_id] == NSOrderedSame) {
                 _lblHomeTeamScore.text = [NSString stringWithFormat:@" %@*", _lblHomeTeamScore.text];
                 _lblWinner.text = @"* Walkover win";
-                _mainViewHeightConstrain.constant = _mainViewHeightConstrain.constant + 40;
+                _mainViewHeightConstrain.constant = _mainViewHeightConstrain.constant + 40 + 40;
             } else if ([match_winner length] > 0 && [away_id length] > 0 && [match_winner caseInsensitiveCompare:away_id] == NSOrderedSame) {
                 _lblAwayTeamScore.text = [NSString stringWithFormat:@" %@*", _lblAwayTeamScore.text];
                 _lblWinner.text = @"* Walkover win";
-                _mainViewHeightConstrain.constant = _mainViewHeightConstrain.constant + 40;
+                _mainViewHeightConstrain.constant = _mainViewHeightConstrain.constant + 40 + 40;
             }
         }
     }

@@ -11,6 +11,8 @@
 		0F32AC5F20B56B42007C92A6 /* TableCellOwner.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F32AC5D20B56B41007C92A6 /* TableCellOwner.m */; };
 		0F32AC6420B56D37007C92A6 /* UserFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F32AC6320B56D37007C92A6 /* UserFileManager.m */; };
 		0F984C91208E11E5009F7BB0 /* PrivacyPolicy.txt in Resources */ = {isa = PBXBuildFile; fileRef = 0F984C90208E11E4009F7BB0 /* PrivacyPolicy.txt */; };
+		688AA8F1215A51C600735D0D /* MatchDetailVCNew.m in Sources */ = {isa = PBXBuildFile; fileRef = 688AA8F0215A51C600735D0D /* MatchDetailVCNew.m */; };
+		68DD79F5215D0B740089DA57 /* GroupSummaryHeaderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 68DD79F4215D0B740089DA57 /* GroupSummaryHeaderCell.m */; };
 		928681551F323FD3005BE626 /* HelpVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 928681541F323FD2005BE626 /* HelpVC.m */; };
 		928681581F323FEA005BE626 /* PrivacyVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 928681571F323FEA005BE626 /* PrivacyVC.m */; };
 		9E00E3791EF925CE002457CE /* SignUpTournamentList.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E00E3781EF925CE002457CE /* SignUpTournamentList.m */; };
@@ -163,6 +165,10 @@
 		14E6572A52E6A27F9B2F3417 /* Pods_ESRTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ESRTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		25E242443DE4918F7F22DA12 /* Pods-ESR.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ESR.release.xcconfig"; path = "Pods/Target Support Files/Pods-ESR/Pods-ESR.release.xcconfig"; sourceTree = "<group>"; };
 		43F2A882D451BC3970FCF221 /* Pods-ESRUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ESRUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-ESRUITests/Pods-ESRUITests.release.xcconfig"; sourceTree = "<group>"; };
+		688AA8EF215A51C600735D0D /* MatchDetailVCNew.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MatchDetailVCNew.h; sourceTree = "<group>"; };
+		688AA8F0215A51C600735D0D /* MatchDetailVCNew.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MatchDetailVCNew.m; sourceTree = "<group>"; };
+		68DD79F3215D0B740089DA57 /* GroupSummaryHeaderCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GroupSummaryHeaderCell.h; sourceTree = "<group>"; };
+		68DD79F4215D0B740089DA57 /* GroupSummaryHeaderCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GroupSummaryHeaderCell.m; sourceTree = "<group>"; };
 		7A4ECFB24635BD2CF8371704 /* Pods_ESRUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ESRUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		928681531F323FD2005BE626 /* HelpVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HelpVC.h; sourceTree = "<group>"; };
 		928681541F323FD2005BE626 /* HelpVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HelpVC.m; sourceTree = "<group>"; };
@@ -455,6 +461,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		68DD79ED215D0A280089DA57 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				68DD79F3215D0B740089DA57 /* GroupSummaryHeaderCell.h */,
+				68DD79F4215D0B740089DA57 /* GroupSummaryHeaderCell.m */,
+			);
+			name = Cell;
+			sourceTree = "<group>";
+		};
 		873DA3C644E68A19D1B65FDF /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -471,6 +486,7 @@
 		9E01B8091F0B5C42007C60B1 /* Age Tab */ = {
 			isa = PBXGroup;
 			children = (
+				68DD79ED215D0A280089DA57 /* Cell */,
 				9E01B80A1F0B5D76007C60B1 /* AgeGroupVC.h */,
 				9E01B80B1F0B5D76007C60B1 /* AgeGroupVC.m */,
 				9E4489F31EF7FC1200203FDF /* GroupSummaryVC.h */,
@@ -777,6 +793,8 @@
 				9EBA4A731F0F5DFA0021027A /* VenueDetailVC.m */,
 				9EBA4A771F0FB9690021027A /* MapVC.h */,
 				9EBA4A781F0FB9690021027A /* MapVC.m */,
+				688AA8EF215A51C600735D0D /* MatchDetailVCNew.h */,
+				688AA8F0215A51C600735D0D /* MatchDetailVCNew.m */,
 			);
 			name = Club;
 			sourceTree = "<group>";
@@ -852,7 +870,6 @@
 				9E421A941EF261FC004693BF /* Frameworks */,
 				9E421A951EF261FC004693BF /* Resources */,
 				3438DD8E40E910BCAE4FDBE1 /* [CP] Embed Pods Frameworks */,
-				009A56B3A6553207EDF3753C /* [CP] Copy Pods Resources */,
 				9E0EDEE51F137ADC00CBE105 /* ShellScript */,
 			);
 			buildRules = (
@@ -872,8 +889,6 @@
 				9E421AAF1EF261FC004693BF /* Sources */,
 				9E421AB01EF261FC004693BF /* Frameworks */,
 				9E421AB11EF261FC004693BF /* Resources */,
-				B09B874CD0098EBCA0C8162A /* [CP] Embed Pods Frameworks */,
-				82A0B6B1B5808DE15F25AB4F /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -893,8 +908,6 @@
 				9E421ABA1EF261FC004693BF /* Sources */,
 				9E421ABB1EF261FC004693BF /* Frameworks */,
 				9E421ABC1EF261FC004693BF /* Resources */,
-				3668E15349FE67E0A5A31FE6 /* [CP] Embed Pods Frameworks */,
-				E3B04149AD6DF07E95EF92AA /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1043,49 +1056,32 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		009A56B3A6553207EDF3753C /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ESR/Pods-ESR-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		3438DD8E40E910BCAE4FDBE1 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-ESR/Pods-ESR-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/AFNetworking/AFNetworking.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/MBCircularProgressBar/MBCircularProgressBar.framework",
+				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
+				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
+				"${BUILT_PRODUCTS_DIR}/SVProgressHUD/SVProgressHUD.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AFNetworking.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MBCircularProgressBar.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SVProgressHUD.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ESR/Pods-ESR-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		3668E15349FE67E0A5A31FE6 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ESRUITests/Pods-ESRUITests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		45EC9EDE81BB7C4F41712272 /* [CP] Check Pods Manifest.lock */ = {
@@ -1094,13 +1090,16 @@
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-ESRTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		7A6DDDEAD70CCB86BA5C38AB /* [CP] Check Pods Manifest.lock */ = {
@@ -1109,28 +1108,16 @@
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-ESRUITests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		82A0B6B1B5808DE15F25AB4F /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ESRTests/Pods-ESRTests-resources.sh\"\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		9E0EDEE51F137ADC00CBE105 /* ShellScript */ = {
@@ -1146,49 +1133,22 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Fabric/run\" 58c4cde33a8a37c94c26a26e31b96fc092baafce c1046ddac7a5209aa6ab7c2bf8eec973a87b3ba4a9e50c1f009b10fa3849376e";
 		};
-		B09B874CD0098EBCA0C8162A /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ESRTests/Pods-ESRTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		DBBDADADA24F27A120AD7242 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-ESR-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		E3B04149AD6DF07E95EF92AA /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ESRUITests/Pods-ESRUITests-resources.sh\"\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -1221,6 +1181,7 @@
 				9E421AA21EF261FC004693BF /* ViewController.m in Sources */,
 				9EBC46931F3DD0AD0077256A /* WebVC.m in Sources */,
 				9E24D22F1F0D07D6005BCB21 /* AllMatchVC.m in Sources */,
+				68DD79F5215D0B740089DA57 /* GroupSummaryHeaderCell.m in Sources */,
 				9EE6EA591F051EFF00070FA9 /* ClubTeamCell.m in Sources */,
 				9E421AE71EF2A150004693BF /* FovouritesVC.m in Sources */,
 				9E1E2AB01EFBC0E600C748B1 /* UIColor+fromHex.m in Sources */,
@@ -1264,6 +1225,7 @@
 				9E421AEA1EF2A16B004693BF /* TournamentVC.m in Sources */,
 				9EE6EA4D1F04CFAD00070FA9 /* FavTourmanentListVC.m in Sources */,
 				9E11BECE1F0A482F00EF50F3 /* TeamDetailCell.m in Sources */,
+				688AA8F1215A51C600735D0D /* MatchDetailVCNew.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
