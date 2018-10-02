@@ -22,9 +22,11 @@
                     </div>
                 </div>
                 <div class="col-lg-8 club_content {{ $brand_font_class }}">
-                    <figure class="figure right pl-gg">
+                    {{-- <figure class="figure right pl-gg"> --}}
+                    <figure class="figure right player-img">
                         @if($pageDetails->welcomeImage('thumbnail'))
-                            <img src="{{ $pageDetails->welcomeImage('thumbnail') }}" class="figure-img img-fluid ml-1" alt="{!! __('messages.welcome_image') !!}" />
+                            {{-- <img src="{{ $pageDetails->welcomeImage('thumbnail') }}" class="figure-img img-fluid ml-1" alt="{!! __('messages.welcome_image') !!}" /> --}}
+                            <img src="{{ $pageDetails->welcomeImage('thumbnail') }}" class="figure-img img-fluid" alt="{!! __('messages.welcome_image') !!}" />
                         @endif
                     </figure>
                     {!! $pageDetails->content !!}
