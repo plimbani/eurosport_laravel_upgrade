@@ -251,6 +251,7 @@ class PitchController extends BaseController
                 'awayteam_score' => $match->awayteam_score,
                 'age_category_color' => $match->age_category_color,
                 'category_age_color' => $match->category_age_color,
+                'category_age_font_color' => $match->category_age_font_color,
             ]);
         }
 
@@ -430,22 +431,33 @@ class PitchController extends BaseController
                         // displaying match fixtures
                         $matchString = '';
                         foreach($matches->where('pitch_id', $pitch->id)->where('match_day', $date->format('Y-m-d')) as $match) {
-                            $matchString = $match['match_name'];
                             $ageCategoryColor = $match['age_category_color'] ? $match['age_category_color'] : $match['category_age_color'];
+                            $ageCategoryFontColor = $match['category_age_font_color'];
                             $startTime = $match['match_datetime']->format('H:i');
-                            $endTime = $match['match_endtime']->subMinutes(5)->format('H:i');                            
+                            $endTime = $match['match_endtime']->subMinutes(5)->format('H:i');
                             $startIndex = array_search($startTime, $time);
                             $endIndex = array_search($endTime, $time);
 
+                            $matchTime = $startTime . ' - ' . Carbon::parse($endTime)->addMinute(5)->format('H:i');
+                            $refreeName = $match['referre_name'] == " " ? "\n" : "\n" .$match['referre_name']. "\n";
+                            $score = '';
+                            if($match['hometeam_score'] !== null && $match['awayteam_score'] !== null) {
+                                $score = "\n" .$match['hometeam_score'] . ' - ' .$match['awayteam_score'];
+                            }
+
+                            $matchString = $matchTime .$refreeName .$match['match_name'] .$score;
+
                             // displaying fixtures
-                            $sheet->cell($startIndex.$cell, function($cell) use ($matchString, $ageCategoryColor) {
+                            $sheet->cell($startIndex.$cell, function($cell) use ($matchString, $ageCategoryColor, $ageCategoryFontColor) {
                                 $cell->setValue($matchString);
                                 $cell->setBackground($ageCategoryColor);
-                                $cell->setFontColor('#ffffff');
+                                $cell->setFontColor($ageCategoryFontColor);
                                 $cell->setFontFamily('Arial');
                                 $cell->setFontSize(10);
                             });
                             $sheet->mergeCells($startIndex.$cell. ':' .$endIndex.$cell);
+                            $sheet->getRowDimension($cell)->setRowHeight(50);
+                            $sheet->getStyle($startIndex.$cell)->getAlignment()->setWrapText(true);
                         }
                         $rowCount++;
                         $cell++;

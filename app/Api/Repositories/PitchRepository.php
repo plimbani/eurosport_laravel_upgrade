@@ -128,7 +128,7 @@ class PitchRepository
         $tournament = Tournament::find($tournamentId);
 
         $matches = DB::table('temp_fixtures')
-            ->select('temp_fixtures.*','referee.first_name','referee.last_name','pitches.pitch_number','pitches.size', 'venues.name as venues_name', 'tournament_competation_template.category_age_color')
+            ->select('temp_fixtures.*','referee.first_name','referee.last_name','pitches.pitch_number','pitches.size', 'venues.name as venues_name', 'tournament_competation_template.category_age_color', 'tournament_competation_template.category_age_font_color')
             ->leftjoin('referee', 'temp_fixtures.referee_id', '=', 'referee.id')
             ->leftjoin('pitches', 'temp_fixtures.pitch_id', '=', 'pitches.id')
             ->leftjoin('venues', 'pitches.venue_id', '=', 'venues.id')
