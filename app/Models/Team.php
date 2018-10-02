@@ -32,6 +32,10 @@ class Team extends Model
     {
         return $this->belongsTo('Laraspace\Models\Club','club_id');
     }
+    public function country()
+    {
+        return $this->belongsTo('Laraspace\Models\Country', 'country_id');
+    }
 
     protected $dates = ['deleted_at'];
 }
