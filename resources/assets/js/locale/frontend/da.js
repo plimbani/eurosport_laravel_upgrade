@@ -35,9 +35,9 @@ module.exports= {
     'match_codes': 'kamp nr',
     'matches': 'Matches',
     'teams': 'Teams',
-    'final_placings': 'Final placings',
+    'final_placings': 'Endelige stillinger',
     'type': 'Type',
-    'no_teams_found': 'No teams found.',
+    'no_teams_found': 'Ingen hold fundet.',
     'no_categories_found': 'No categories found.',    
   },
   'tournament': {

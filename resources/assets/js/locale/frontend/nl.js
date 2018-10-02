@@ -35,9 +35,9 @@ module.exports= {
     'match_codes': 'Wedstrijdcode',
     'matches': 'Matches',
     'teams': 'Teams',
-    'final_placings': 'Final placings',
+    'final_placings': 'Ranking',
     'type': 'Type',
-    'no_teams_found': 'No teams found.',
+    'no_teams_found': 'Geen teams gevonden.',
     'no_categories_found': 'No categories found.',    
   },
   'tournament': {

@@ -382,7 +382,7 @@ class PitchController extends BaseController
                         }
                         // displaying pitch names with its size
                         $sheet->cell('A'.$cell, function($cell) use ($pitch) {
-                            $cell->setValue($pitch->pitch_number.'( '.$pitch->size.' )');
+                            $cell->setValue($pitch->pitch_number.' ('.$pitch->size.')');
                         });
 
                         //pitch unavailable before starting pitch time block scenario
