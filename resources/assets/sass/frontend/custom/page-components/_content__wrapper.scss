@@ -20,6 +20,12 @@
             max-width: 100%;
             height: auto;
         }
+        .player-img {
+            text-align: center;
+            img {
+                max-width: 50%;
+            }
+        }
         a {
             color: $body-color;
             text-decoration: $link-hover-decoration;
@@ -28,15 +34,15 @@
             word-wrap: break-word;
 
             @include hover {
-            color: theme-color("primary");
-            text-decoration: $link-hover-decoration;
+                color: theme-color("primary");
+                text-decoration: $link-hover-decoration;
             }
         }
         @at-root {
             .figure-thumb {
                 display: block;
             }
-            a.figure ,
+            a.figure,
             a.figure-thumb {
                 text-decoration: none;
                 &:hover {
