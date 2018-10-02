@@ -34,7 +34,7 @@ public class AutoLoginUtils {
         String password = mAppSharedPref.getString(AppConstants.PREF_PASSWORD);
 
         if (Utility.isInternetAvailable(mContext) && !Utility.isNullOrEmpty(email) && !Utility.isNullOrEmpty(password)) {
-            mAppSharedPref.setString(AppConstants.PREF_SESSION_TOURNAMENT_ID, "");
+//            mAppSharedPref.setString(AppConstants.PREF_SESSION_TOURNAMENT_ID, "");
             String url = ApiConstants.SIGN_IN;
             final JSONObject requestJson = new JSONObject();
             try {

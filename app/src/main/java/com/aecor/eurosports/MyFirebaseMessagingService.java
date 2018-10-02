@@ -21,23 +21,23 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     public MyFirebaseMessagingService() {
     }
 
-    @Override
-    public void zzm(Intent intent) {
-//        super.zzm(intent);
-        try {
-            Log.d(TAG, "inside ***********zzm***********");
-            Bundle bundle = intent.getExtras();
-            if (bundle != null) {
-                for (String key : bundle.keySet()) {
-                    Object value = bundle.get(key);
-                    Log.d(TAG, String.format("%s %s (%s)", key,
-                            value.toString(), value.getClass().getName()));
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+//    @Override
+//    public void zzm(Intent intent) {
+////        super.zzm(intent);
+//        try {
+//            Log.d(TAG, "inside ***********zzm***********");
+//            Bundle bundle = intent.getExtras();
+//            if (bundle != null) {
+//                for (String key : bundle.keySet()) {
+//                    Object value = bundle.get(key);
+//                    Log.d(TAG, String.format("%s %s (%s)", key,
+//                            value.toString(), value.getClass().getName()));
+//                }
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {

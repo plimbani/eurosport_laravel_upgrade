@@ -2,6 +2,7 @@ package com.aecor.eurosports.util;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -10,6 +11,7 @@ import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
@@ -368,4 +370,24 @@ public class Utility {
 
         return context;
     }
+
+
+    public static void updateRecentTaskHeaderColor(Context mContext) {
+        try {
+            ActivityManager.TaskDescription taskDescription = null;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                Bitmap icon = BitmapFactory.decodeResource(
+                        mContext.getResources(), R.mipmap.ic_launcher);
+
+                taskDescription = new ActivityManager.TaskDescription(mContext
+                        .getResources().getString(R.string.app_name), icon,
+                        mContext.getResources().getColor(R.color.black));
+                ((Activity) mContext).setTaskDescription(taskDescription);
+            }
+        } catch (Exception e) {
+            // TODO: handle exception
+            e.printStackTrace();
+        }
+    }
+
 }

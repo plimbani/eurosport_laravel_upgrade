@@ -6,7 +6,7 @@ import android.util.Log;
  * Created by asoni on 02-06-2016.
  */
 public class AppLogger {
-    public static boolean isDebugable = true;
+    public static boolean isDebugable = false;
 
     public static void LogD(String TAG, String message) {
         if (isDebugable) {
