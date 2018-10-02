@@ -252,4 +252,7 @@ export default {
   getSignedUrlForTeamsSpreadsheetSampleDownload() {
     return api.post('getSignedUrlForTeamsSpreadsheetSampleDownload');
   },
+  getSignedUrlForPitchPlannerExport(tournamentId) {
+    return api.post('getSignedUrlForPitchPlannerExport/' + tournamentId);
+  },
 }

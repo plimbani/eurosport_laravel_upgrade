@@ -43,6 +43,7 @@ $api->version('v1', ['middleware' => 'signedurl'], function ($api) {
     $api->get('pitchPlanner/print/{tournamentId}', 'Laraspace\Api\Controllers\PitchController@generatePitchPlannerPrint');
     $api->get('referee/downloadSampleUploadSheet', 'Laraspace\Api\Controllers\RefereeController@downloadSampleUploadSheet');
     $api->get('match/downloadSampleUploadSheet', 'Laraspace\Api\Controllers\MatchController@downloadSampleUploadSheet');
+    $api->get('pitchPlanner/export/{tournamentId}', 'Laraspace\Api\Controllers\PitchController@generatePitchPlannerExport');
 });
 
 $api->version('v1', function ($api) {
@@ -248,6 +249,7 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
     $api->post('match/saveUnavailableBlock', 'Laraspace\Api\Controllers\MatchController@saveUnavailableBlock');
     $api->post('match/remove_block/{blockId}', 'Laraspace\Api\Controllers\MatchController@removeBlock');
     $api->post('getSignedUrlForPitchPlannerPrint/{tournamentId}', 'Laraspace\Api\Controllers\PitchController@getSignedUrlForPitchPlannerPrint');
+    $api->post('getSignedUrlForPitchPlannerExport/{tournamentId}', 'Laraspace\Api\Controllers\PitchController@getSignedUrlForPitchPlannerExport');
 
     $api->post('getSignedUrlForRefereeSampleDownload', 'Laraspace\Api\Controllers\RefereeController@getSignedUrlForRefereeSampleDownload');
     $api->post('getSignedUrlForTeamsSpreadsheetSampleDownload', 'Laraspace\Api\Controllers\MatchController@getSignedUrlForTeamsSpreadsheetSampleDownload');
