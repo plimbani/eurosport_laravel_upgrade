@@ -27,5 +27,6 @@ pod 'Fabric'
 pod 'Crashlytics'
 pod 'Firebase/Core'
 pod 'Firebase/Messaging'
+pod 'SDWebImage', '~> 4.0'
 use_frameworks!
 end

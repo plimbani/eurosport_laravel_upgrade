@@ -119,12 +119,15 @@
     if ([tabSelectionStr isEqualToString:@"match"]) {
         if (![[groupDetails valueForKey:@"competation_type"] isEqualToString:@"Round Robin"] && ![[groupDetails valueForKey:@"actual_competition_type"] isEqualToString:@"Round Robin"]) {
             headerCell.standingView.backgroundColor = [UIColor darkGrayColor];
+            headerCell.stendingBtn.enabled = FALSE;
         }else{
             headerCell.standingView.backgroundColor = [UIColor whiteColor];
+            headerCell.stendingBtn.enabled = TRUE;
         }
         headerCell.matchSeperaterView.backgroundColor = kThemeColor;
         headerCell.standingSeperaterView.backgroundColor = [UIColor clearColor];;
     }else{
+        headerCell.stendingBtn.enabled = TRUE;
         headerCell.matchSeperaterView.backgroundColor = [UIColor clearColor];
         headerCell.standingSeperaterView.backgroundColor = kThemeColor;
     }
@@ -168,7 +171,7 @@
 //            self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
             return 0;
         }
-        return fixturesArray.count;
+        return fixturesArray.count+1;
     }else{
         if (standingArray.count == 0) {
 //            self.tableView.separatorColor = [UIColor clearColor];
@@ -379,34 +382,50 @@
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (![[groupDetails valueForKey:@"competation_type"] isEqualToString:@"Round Robin"] && ![[groupDetails valueForKey:@"actual_competition_type"] isEqualToString:@"Round Robin"]) {
+//    if (![[groupDetails valueForKey:@"competation_type"] isEqualToString:@"Round Robin"] && ![[groupDetails valueForKey:@"actual_competition_type"] isEqualToString:@"Round Robin"]) {
+//        if (indexPath.row != 0) {
+//            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+//            MatchDetailVCNew *myVC = (MatchDetailVCNew *)[storyboard instantiateViewControllerWithIdentifier:@"MatchDetailVCNew"];
+//            myVC.matchDetails = [fixturesArray objectAtIndex:indexPath.row-1];
+//            [self.navigationController pushViewController:myVC animated:YES];
+//        }
+//
+//    }else{
+//        if(indexPath.row == 0){
+//            
+//        }
+//        else if (indexPath.row <=standingArray.count) {
+//
+//        }else if (indexPath.row ==standingArray.count+1) {
+//            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+//            LeagueDetailVC *myVC = (LeagueDetailVC *)[storyboard instantiateViewControllerWithIdentifier:@"LeagueDetailVC"];
+//            myVC.leagueArray = standingArray;
+//            myVC.teamDetails = groupDetails;
+//            [self.navigationController pushViewController:myVC animated:YES];
+//        }else if(indexPath.row <standingArray.count+3+fixturesArray.count){
+//            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+//            MatchDetailVCNew *myVC = (MatchDetailVCNew *)[storyboard instantiateViewControllerWithIdentifier:@"MatchDetailVCNew"];
+//            myVC.matchDetails = [fixturesArray objectAtIndex:indexPath.row-(standingArray.count+3)];
+//            [self.navigationController pushViewController:myVC animated:YES];
+//        }else{
+//            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+//            AllMatchVC *myVC = (AllMatchVC *)[storyboard instantiateViewControllerWithIdentifier:@"AllMatchVC"];
+//            myVC.teamDetails = groupDetails;
+//            [self.navigationController pushViewController:myVC animated:YES];
+//        }
+//    }
+    if ([tabSelectionStr isEqualToString:@"match"] ) {
         if (indexPath.row != 0) {
             UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
             MatchDetailVCNew *myVC = (MatchDetailVCNew *)[storyboard instantiateViewControllerWithIdentifier:@"MatchDetailVCNew"];
             myVC.matchDetails = [fixturesArray objectAtIndex:indexPath.row-1];
             [self.navigationController pushViewController:myVC animated:YES];
         }
-        
     }else{
-        if(indexPath.row == 0){
-            
-        }
-        else if (indexPath.row <=standingArray.count) {
-            
-        }else if (indexPath.row ==standingArray.count+1) {
+        if (indexPath.row ==standingArray.count+1) {
             UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
             LeagueDetailVC *myVC = (LeagueDetailVC *)[storyboard instantiateViewControllerWithIdentifier:@"LeagueDetailVC"];
             myVC.leagueArray = standingArray;
-            myVC.teamDetails = groupDetails;
-            [self.navigationController pushViewController:myVC animated:YES];
-        }else if(indexPath.row <standingArray.count+3+fixturesArray.count){
-            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-            MatchDetailVCNew *myVC = (MatchDetailVCNew *)[storyboard instantiateViewControllerWithIdentifier:@"MatchDetailVCNew"];
-            myVC.matchDetails = [fixturesArray objectAtIndex:indexPath.row-(standingArray.count+3)];
-            [self.navigationController pushViewController:myVC animated:YES];
-        }else{
-            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-            AllMatchVC *myVC = (AllMatchVC *)[storyboard instantiateViewControllerWithIdentifier:@"AllMatchVC"];
             myVC.teamDetails = groupDetails;
             [self.navigationController pushViewController:myVC animated:YES];
         }

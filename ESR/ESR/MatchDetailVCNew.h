@@ -26,7 +26,6 @@
 @property (weak, nonatomic) IBOutlet UIImageView *imgViewTeam2Short;
 
 @property (weak, nonatomic) IBOutlet UILabel *lblDate;
-@property (weak, nonatomic) IBOutlet UILabel *lblTime;
 @property (weak, nonatomic) IBOutlet UILabel *lblRefereeName;
 @property (weak, nonatomic) IBOutlet UILabel *lblAgeNGroupInfo;
 @property (weak, nonatomic) IBOutlet UILabel *lblMatchId;

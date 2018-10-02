@@ -12,6 +12,7 @@
 #import "Reachability.h"
 #import "Globals.h"
 #import "AppDelegate.h"
+#import <SDWebImage/UIImageView+WebCache.h>
 
 @interface FinalPlacingVC ()
 
@@ -123,6 +124,10 @@
     cell.posLbl.text = [NSString stringWithFormat:@"%@ %@",@"Placing",[[_placinglistArray objectAtIndex:indexPath.row] valueForKey:@"pos"]];
     cell.teamNameLbl.text = [NSString stringWithFormat:@"%@",[[_placinglistArray objectAtIndex:indexPath.row] valueForKey:@"team_name"]];
     if([[_placinglistArray objectAtIndex:indexPath.row] valueForKey:@"team_logo"] != nil) {
+        cell.finalPlacingImage.hidden = FALSE;
+        NSURL *url = [NSURL URLWithString:[[_placinglistArray objectAtIndex:indexPath.row] valueForKey:@"team_logo"]];
+        [cell.finalPlacingImage sd_setImageWithURL:url];
+        
 //        NSURL *url = [NSURL URLWithString:[[_placinglistArray objectAtIndex:indexPath.row] valueForKey:@"team_logo"]];
 //        NSURLRequest* request = [NSURLRequest requestWithURL:url];
 //        [NSURLConnection sendAsynchronousRequest:request
@@ -146,23 +151,24 @@
 //                cell.finalPlacingImage.image = [UIImage imageWithData:imgData];
 //            });
 //        });
-        NSURL *url = [NSURL URLWithString:[[_placinglistArray objectAtIndex:indexPath.row] valueForKey:@"team_logo"]];
         
-        // 2
-        NSURLSessionDownloadTask *downloadPhotoTask = [[NSURLSession sharedSession]
-                                                       downloadTaskWithURL:url completionHandler:^(NSURL *location, NSURLResponse *response, NSError *error) {
-                                                           // 3
-                                                           UIImage *downloadedImage = [UIImage imageWithData:
-                                                                               [NSData dataWithContentsOfURL:location]];
-                                                           
-                                                           //5
-                                                           dispatch_async(dispatch_get_main_queue(), ^{
-                                                               cell.finalPlacingImage.image = downloadedImage;
-                                                           });
-                                                       }];
-        
-        // 4
-        [downloadPhotoTask resume];
+//        NSURL *url = [NSURL URLWithString:[[_placinglistArray objectAtIndex:indexPath.row] valueForKey:@"team_logo"]];
+//
+//        // 2
+//        NSURLSessionDownloadTask *downloadPhotoTask = [[NSURLSession sharedSession]
+//                                                       downloadTaskWithURL:url completionHandler:^(NSURL *location, NSURLResponse *response, NSError *error) {
+//                                                           // 3
+//                                                           UIImage *downloadedImage = [UIImage imageWithData:
+//                                                                               [NSData dataWithContentsOfURL:location]];
+//
+//                                                           //5
+//                                                           dispatch_async(dispatch_get_main_queue(), ^{
+//                                                               cell.finalPlacingImage.image = downloadedImage;
+//                                                           });
+//                                                       }];
+//
+//        // 4
+//        [downloadPhotoTask resume];
     }
     else {
         cell.finalPlacingImage.hidden = TRUE;

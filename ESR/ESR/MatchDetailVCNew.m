@@ -258,11 +258,11 @@
         [df setDateFormat:@"HH:mm"];
         NSString *hoursStr = [df stringFromDate:matchDate];
         //self.dateTime.text =[NSString stringWithFormat:@"%@ %@  |  %@",dateStr,monthStr,hoursStr];
-        self.lblDate.text = [NSString stringWithFormat:@"%@ %@ %@",dateStr,monthStr,yearStr];
-        self.lblTime.text = [NSString stringWithFormat:@"%@",hoursStr];
+        self.lblDate.text = [NSString stringWithFormat:@"%@ %@ %@ %@",hoursStr,dateStr,monthStr,yearStr];
+        //self.lblTime.text = [NSString stringWithFormat:@"%@",hoursStr];
     }else{
         self.lblDate.text = NULL_STRING;
-        self.lblTime.text = NULL_STRING;
+        //self.lblTime.text = NULL_STRING;
         self.heightConstraintDateSeparator.constant = 0;
     }
     
