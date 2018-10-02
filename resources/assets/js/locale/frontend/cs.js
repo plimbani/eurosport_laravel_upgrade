@@ -35,9 +35,9 @@ module.exports= {
     'match_codes': 'Match codes',
     'matches': 'Matches',
     'teams': 'Teams',
-    'final_placings': 'Final placings',
+    'final_placings': 'finální umístění',
     'type': 'Type',
-    'no_teams_found': 'No teams found.',
+    'no_teams_found': 'žadné týmy nenalezeny.',
     'no_categories_found': 'No categories found.',    
   },
   'tournament': {
