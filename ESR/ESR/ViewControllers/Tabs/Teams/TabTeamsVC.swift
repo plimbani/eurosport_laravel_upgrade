@@ -9,44 +9,15 @@ import UIKit
 
 class TabTeamsVC: SuperViewController {
 
-    @IBOutlet var tabClubsView: UIView!
-    @IBOutlet var tabCategoryView: UIView!
-    @IBOutlet var tabGroupsView: UIView!
+    @IBOutlet var contentView: UIView!
     
-    @IBOutlet var tabClubsLineView: UIView!
-    @IBOutlet var tabCategoryLineView: UIView!
-    @IBOutlet var tabGroupLineView: UIView!
+    @IBOutlet var tabViewList: [UIView]!
+    @IBOutlet var tabLineViewList: [UIView]!
+    @IBOutlet var tabLabelList: [UILabel]!
     
-    @IBOutlet var lblTabClubs: UILabel!
-    @IBOutlet var lblTabCategory: UILabel!
-    @IBOutlet var lblTabGroup: UILabel!
-    
-    var selectedTab = 0
-    
-    enum ClubTabs: Int {
-        case tabClubs = 0
-        case tabCategory = 1
-        case tabGroups = 2
-    }
-    
-    private lazy var clubClubsVC: ClubClubsVC = {
-        let viewController = Storyboards.Teams.instantiateClubClubsVC()
-        self.addChildViewController(viewController)
-        return viewController
-    }()
-    
-    private lazy var clubCategoryVC: ClubCategoryVC = {
-        let viewController = Storyboards.Teams.instantiateClubCategoryVC()
-        self.addChildViewController(viewController)
-        return viewController
-    }()
-    
-    private lazy var clubGroupVC: ClubGroupVC = {
-        let viewController = Storyboards.Teams.instantiateClubGroupVC()
-        self.addChildViewController(viewController)
-        return viewController
-    }()
-    
+    var selectedIndex = 0
+    var previousIndex = 0
+    var viewControllers: [UIViewController]!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -59,92 +30,101 @@ class TabTeamsVC: SuperViewController {
         titleNavigationBar.setBackgroundColor()
         titleNavigationBar.hideBackButton()
         
-        var gesture = UITapGestureRecognizer(target: self, action:  #selector(self.onTabClubsViewPressed))
-        self.tabClubsView.addGestureRecognizer(gesture)
+        for i in 0..<tabViewList.count{
+            let view = tabViewList[i]
+            view.tag = i
+            view.addGestureRecognizer(UITapGestureRecognizer(target: self, action:  #selector(self.onTabSelected)))
+        }
         
-        gesture = UITapGestureRecognizer(target: self, action:  #selector(self.onTabCategoryViewPressed))
-        self.tabCategoryView.addGestureRecognizer(gesture)
-        
-        gesture = UITapGestureRecognizer(target: self, action:  #selector(self.onTabGroupsViewPressed))
-        self.tabGroupsView.addGestureRecognizer(gesture)
-        
-        let viewController = Storyboards.Teams.instantiateClubClubsVC()
-        addTabViewcontroller(viewController)
+        setupTabs()
     }
     
-    func addTabViewcontroller(_ viewController: UIViewController) {
-        // Add Child View Controller
-        self.addChildViewController(viewController)
-         // Add Child View as Subview
-        self.view.addSubview(viewController.view)
+    func setupTabs() {
+        let tabClubsVC = Storyboards.Teams.instantiateClubClubsVC()
+        let tabCategoryVC = Storyboards.Teams.instantiateClubCategoryVC()
+        let tabGroupVC = Storyboards.Teams.instantiateClubGroupVC()
         
-        let tabBarHeight = APPDELEGATE.tabBarController?.tabBar.frame.size.height
+        viewControllers = [tabClubsVC, tabCategoryVC, tabGroupVC]
         
-        // Status bar + Navigation bar + tab bar
-        let topViewHeight: CGFloat = 20 + 44 + 45
-        
-        // Configure Child View
-        viewController.view.frame = CGRect(x: self.view.frame.origin.x, y: self.view.frame.origin.y + topViewHeight, width: self.view.frame.size.width, height: self.view.frame.size.height - tabBarHeight! - topViewHeight)
-        viewController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        
-        // Notify Child View Controller
-        viewController.didMove(toParentViewController: self)
+        addViewControllerToContentView(false)
     }
     
-    func removeTabViewcontroller(_ viewController: UIViewController) {
-        // Notify Child View Controller
-        viewController.willMove(toParentViewController: nil)
-        // Remove Child View From Superview
-        viewController.view.removeFromSuperview()
-        // Notify Child View Controller
-        viewController.removeFromParentViewController()
+    func addViewControllerToContentView(_ flag: Bool) {
+        
+        if flag {
+            if selectedIndex == 0 {
+                viewControllers[selectedIndex] = Storyboards.Teams.instantiateClubClubsVC()
+            } else if selectedIndex == 1 {
+                viewControllers[selectedIndex] = Storyboards.Teams.instantiateClubCategoryVC()
+            } else if selectedIndex == 2 {
+                viewControllers[selectedIndex] = Storyboards.Teams.instantiateClubGroupVC()
+            }
+        }
+        
+        let vc = viewControllers[selectedIndex]
+        
+        addChildViewController(vc)
+        vc.view.frame = contentView.bounds
+        contentView.addSubview(vc.view)
+        vc.didMove(toParentViewController: self)
     }
     
-    func updateView() {
-        tabClubsLineView.backgroundColor = .clear
-        tabCategoryLineView.backgroundColor = .clear
-        tabGroupLineView.backgroundColor = .clear
+    @objc func onTabSelected(sender : UITapGestureRecognizer) {
         
-        lblTabClubs.textColor = .teamTabLblDefault
-        lblTabGroup.textColor = .teamTabLblDefault
-        lblTabCategory.textColor = .teamTabLblDefault
-        
-        if selectedTab == ClubTabs.tabClubs.rawValue {
-            removeTabViewcontroller(clubGroupVC)
-            removeTabViewcontroller(clubCategoryVC)
-            addTabViewcontroller(clubClubsVC)
-            
-            tabClubsLineView.backgroundColor = .teamTabOrange
-            lblTabClubs.textColor = .white
-        } else if selectedTab == ClubTabs.tabCategory.rawValue {
-            removeTabViewcontroller(clubClubsVC)
-            removeTabViewcontroller(clubGroupVC)
-            addTabViewcontroller(clubCategoryVC)
-            
-            tabCategoryLineView.backgroundColor = .teamTabOrange
-            lblTabCategory.textColor = .white
-        } else if selectedTab == ClubTabs.tabGroups.rawValue {
-            removeTabViewcontroller(clubClubsVC)
-            removeTabViewcontroller(clubCategoryVC)
-            addTabViewcontroller(clubGroupVC)
-            
-            tabGroupLineView.backgroundColor = .teamTabOrange
-            lblTabGroup.textColor = .white
+        if let viewValue = sender.view {
+            if selectedIndex != viewValue.tag {
+                selectedIndex = viewValue.tag
+                
+                tabLabelList[selectedIndex].textColor = .white
+                tabLineViewList[selectedIndex].backgroundColor = .teamTabOrange
+                
+                if selectedIndex != previousIndex {
+                    tabLabelList[previousIndex].textColor = .teamTabLblDefault
+                    tabLineViewList[previousIndex].backgroundColor = .clear
+                    previousIndex = selectedIndex
+                }
+                
+                // Remove previous view controller
+                let previousVC = viewControllers[previousIndex]
+                previousVC.willMove(toParentViewController: nil)
+                previousVC.view.removeFromSuperview()
+                previousVC.removeFromParentViewController()
+                
+                addViewControllerToContentView(true)
+            }
         }
     }
     
-    @objc func onTabClubsViewPressed(sender : UITapGestureRecognizer) {
-        selectedTab = ClubTabs.tabClubs.rawValue
-        updateView()
-    }
-    
-    @objc func onTabCategoryViewPressed(sender : UITapGestureRecognizer) {
-        selectedTab = ClubTabs.tabCategory.rawValue
-        updateView()
-    }
-    
-    @objc func onTabGroupsViewPressed(sender : UITapGestureRecognizer) {
-        selectedTab = ClubTabs.tabGroups.rawValue
-        updateView()
-    }
+//    func updateView() {
+//        tabClubsLineView.backgroundColor = .clear
+//        tabCategoryLineView.backgroundColor = .clear
+//        tabGroupLineView.backgroundColor = .clear
+//
+//        lblTabClubs.textColor = .teamTabLblDefault
+//        lblTabGroup.textColor = .teamTabLblDefault
+//        lblTabCategory.textColor = .teamTabLblDefault
+//
+//        if selectedTab == ClubTabs.tabClubs.rawValue {
+//            removeTabViewcontroller(clubGroupVC)
+//            removeTabViewcontroller(clubCategoryVC)
+//            addTabViewcontroller(clubClubsVC)
+//
+//            tabClubsLineView.backgroundColor = .teamTabOrange
+//            lblTabClubs.textColor = .white
+//        } else if selectedTab == ClubTabs.tabCategory.rawValue {
+//            removeTabViewcontroller(clubClubsVC)
+//            removeTabViewcontroller(clubGroupVC)
+//            addTabViewcontroller(clubCategoryVC)
+//
+//            tabCategoryLineView.backgroundColor = .teamTabOrange
+//            lblTabCategory.textColor = .white
+//        } else if selectedTab == ClubTabs.tabGroups.rawValue {
+//            removeTabViewcontroller(clubClubsVC)
+//            removeTabViewcontroller(clubCategoryVC)
+//            addTabViewcontroller(clubGroupVC)
+//
+//            tabGroupLineView.backgroundColor = .teamTabOrange
+//            lblTabGroup.textColor = .white
+//        }
+//    }
 }

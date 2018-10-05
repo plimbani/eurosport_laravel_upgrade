@@ -36,7 +36,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="1" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="2bJ-BY-OFT">
-                                <rect key="frame" x="10" y="100.5" width="300" height="411.5"/>
+                                <rect key="frame" x="10" y="100.5" width="300" height="421.5"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <connections>
                                     <outlet property="dataSource" destination="8Yy-Gb-43E" id="mim-vT-w0C"/>
@@ -44,14 +44,14 @@
                                 </connections>
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EGu-QK-yKa">
-                                <rect key="frame" x="0.0" y="512" width="320" height="1"/>
+                                <rect key="frame" x="0.0" y="522" width="320" height="1"/>
                                 <color key="backgroundColor" red="0.87450980392156863" green="0.88627450980392153" blue="0.8901960784313725" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="1" id="ViO-A5-P84"/>
                                 </constraints>
                             </view>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="tGY-Sg-LFB">
-                                <rect key="frame" x="0.0" y="513" width="320" height="45"/>
+                                <rect key="frame" x="0.0" y="523" width="320" height="45"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="T6M-VX-9mv">
                                         <rect key="frame" x="0.0" y="0.0" width="160" height="45"/>
@@ -114,7 +114,7 @@
                             <constraint firstItem="tGY-Sg-LFB" firstAttribute="leading" secondItem="ocv-EC-zL7" secondAttribute="leading" id="aAP-xc-Lvr"/>
                             <constraint firstItem="2bJ-BY-OFT" firstAttribute="top" secondItem="gyh-OD-Hmd" secondAttribute="bottom" id="cS4-bp-MVQ"/>
                             <constraint firstItem="Ym0-IN-r4x" firstAttribute="leading" secondItem="ocv-EC-zL7" secondAttribute="leading" id="djO-Hz-r7L"/>
-                            <constraint firstItem="ocv-EC-zL7" firstAttribute="bottom" secondItem="tGY-Sg-LFB" secondAttribute="bottom" constant="10" id="e9W-xw-MGS"/>
+                            <constraint firstItem="ocv-EC-zL7" firstAttribute="bottom" secondItem="tGY-Sg-LFB" secondAttribute="bottom" id="e9W-xw-MGS"/>
                             <constraint firstItem="ocv-EC-zL7" firstAttribute="trailing" secondItem="tGY-Sg-LFB" secondAttribute="trailing" id="iLo-mg-Bzi"/>
                             <constraint firstItem="2bJ-BY-OFT" firstAttribute="leading" secondItem="ocv-EC-zL7" secondAttribute="leading" constant="10" id="mt4-v5-fdB"/>
                             <constraint firstItem="ocv-EC-zL7" firstAttribute="trailing" secondItem="gyh-OD-Hmd" secondAttribute="trailing" id="qR8-eq-N23"/>

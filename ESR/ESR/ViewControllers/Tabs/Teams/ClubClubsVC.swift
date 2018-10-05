@@ -29,7 +29,7 @@ class ClubClubsVC: SuperViewController {
         txtSearch.setLeftPaddingPoints(35)
         txtSearch.delegate = self
         txtSearch.returnKeyType = .done
-        txtSearch.layer.cornerRadius = 40
+        txtSearch.layer.cornerRadius = (txtSearch.frame.size.height / 2)
         txtSearch.clipsToBounds = true
         txtSearch.font = UIFont(name: Font.HELVETICA_REGULAR, size: Font.Size.commonTextFieldTxt)
         

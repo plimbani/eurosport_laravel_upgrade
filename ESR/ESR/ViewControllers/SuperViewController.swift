@@ -12,6 +12,8 @@ class SuperViewController: UIViewController {
     @IBOutlet var titleNavigationBar: TitleNavigationBar!
     @IBOutlet var imageNavigationBar: ImageNavigationBar!
     
+    var button: UIButton?
+    
     // AlertView
     var infoAlertView: CustomAlertView!
     // AlertView two button
