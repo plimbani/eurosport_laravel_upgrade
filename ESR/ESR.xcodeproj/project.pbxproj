@@ -22,7 +22,6 @@
 		30181D08211DBA1B0067D65F /* TabTeamsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D07211DBA1B0067D65F /* TabTeamsVC.swift */; };
 		30181D0A211DBA3E0067D65F /* TabAgeCategoriesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D09211DBA3E0067D65F /* TabAgeCategoriesVC.swift */; };
 		30181D0C211DBA900067D65F /* TabSettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D0B211DBA900067D65F /* TabSettingsVC.swift */; };
-		30181D0F21215EE70067D65F /* TabBarContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D0E21215EE60067D65F /* TabBarContentView.swift */; };
 		30181D1121219EA00067D65F /* Favourites.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 30181D1021219EA00067D65F /* Favourites.storyboard */; };
 		30181D1321219F1A0067D65F /* Tournament.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 30181D1221219F1A0067D65F /* Tournament.storyboard */; };
 		30181D1721219F5B0067D65F /* Teams.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 30181D1621219F5B0067D65F /* Teams.storyboard */; };
@@ -124,7 +123,6 @@
 		30181D07211DBA1B0067D65F /* TabTeamsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabTeamsVC.swift; sourceTree = "<group>"; };
 		30181D09211DBA3E0067D65F /* TabAgeCategoriesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabAgeCategoriesVC.swift; sourceTree = "<group>"; };
 		30181D0B211DBA900067D65F /* TabSettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabSettingsVC.swift; sourceTree = "<group>"; };
-		30181D0E21215EE60067D65F /* TabBarContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarContentView.swift; sourceTree = "<group>"; };
 		30181D1021219EA00067D65F /* Favourites.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Favourites.storyboard; sourceTree = "<group>"; };
 		30181D1221219F1A0067D65F /* Tournament.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Tournament.storyboard; sourceTree = "<group>"; };
 		30181D1621219F5B0067D65F /* Teams.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Teams.storyboard; sourceTree = "<group>"; };
@@ -380,7 +378,6 @@
 		30181CE2211D9F360067D65F /* View */ = {
 			isa = PBXGroup;
 			children = (
-				30181D0D21215EC80067D65F /* ESTabBar */,
 				30181D652126EB460067D65F /* ProgressView.swift */,
 				30181D252122A8F10067D65F /* TitleNavigationBar.swift */,
 				30181D272122A8FB0067D65F /* TitleNavigationBar.xib */,
@@ -487,14 +484,6 @@
 				30569401212BEADC009790BA /* PrivacyAndTermsVC.swift */,
 			);
 			path = Settings;
-			sourceTree = "<group>";
-		};
-		30181D0D21215EC80067D65F /* ESTabBar */ = {
-			isa = PBXGroup;
-			children = (
-				30181D0E21215EE60067D65F /* TabBarContentView.swift */,
-			);
-			path = ESTabBar;
 			sourceTree = "<group>";
 		};
 		30181D242121A91A0067D65F /* Login */ = {
@@ -676,13 +665,11 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-ESR/Pods-ESR-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
-				"${BUILT_PRODUCTS_DIR}/ESTabBarController-swift/ESTabBarController_swift.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ESTabBarController_swift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -723,7 +710,6 @@
 				30181CE6211DA1BF0067D65F /* TableCellOwner.swift in Sources */,
 				30FB3125213665FE00ABA22A /* GroupSummaryMatchesHeader.swift in Sources */,
 				305693FE212BEABC009790BA /* ProfileVC.swift in Sources */,
-				30181D0F21215EE70067D65F /* TabBarContentView.swift in Sources */,
 				30181D1F2121A8BC0067D65F /* CreateAccountVC.swift in Sources */,
 				30181D1D2121A8AB0067D65F /* ForgotPasswordVC.swift in Sources */,
 				30181D212121A8DD0067D65F /* LoginVC.swift in Sources */,

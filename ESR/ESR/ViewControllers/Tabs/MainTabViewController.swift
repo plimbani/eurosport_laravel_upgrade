@@ -5,7 +5,6 @@
 //  Created by Pratik Patel on 10/08/18.
 //
 import UIKit
-import ESTabBarController_swift
 
 class MainTabViewController: UIViewController {
     

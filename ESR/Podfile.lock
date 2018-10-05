@@ -2,7 +2,6 @@ PODS:
   - Alamofire (4.7.2)
   - Crashlytics (3.10.0):
     - Fabric (~> 1.7.3)
-  - ESTabBarController-swift (2.6.2)
   - Fabric (1.7.7)
   - GoogleMaps (2.7.0):
     - GoogleMaps/Maps (= 2.7.0)
@@ -16,7 +15,6 @@ PODS:
 DEPENDENCIES:
   - Alamofire (~> 4.7)
   - Crashlytics (= 3.10)
-  - ESTabBarController-swift
   - Fabric
   - GoogleMaps
   - SDWebImage (~> 4.0)
@@ -25,7 +23,6 @@ SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
     - Alamofire
     - Crashlytics
-    - ESTabBarController-swift
     - Fabric
     - GoogleMaps
     - SDWebImage
@@ -33,11 +30,10 @@ SPEC REPOS:
 SPEC CHECKSUMS:
   Alamofire: e4fa87002c137ba2d8d634d2c51fabcda0d5c223
   Crashlytics: a989ef242b66605577a425733797f810bd2725eb
-  ESTabBarController-swift: f0a8679e43df1e60b7b36bbcaf1dc98ba6273c7d
   Fabric: bda89e242bce1b7b8ab264248cf3407774ce0095
   GoogleMaps: f79af95cb24d869457b1f961c93d3ce8b2f3b848
   SDWebImage: 624d6e296c69b244bcede364c72ae0430ac14681
 
-PODFILE CHECKSUM: 2e6369e7b4b84ca127283c46ccead3bd579471e0
+PODFILE CHECKSUM: c5a05019fa294f1b8163efb1bc8755012f77f5c6
 
 COCOAPODS: 1.5.0
