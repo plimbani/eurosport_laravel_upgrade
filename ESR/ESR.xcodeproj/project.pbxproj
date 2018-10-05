@@ -164,6 +164,7 @@
 		0F984C90208E11E4009F7BB0 /* PrivacyPolicy.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = PrivacyPolicy.txt; sourceTree = "<group>"; };
 		14E6572A52E6A27F9B2F3417 /* Pods_ESRTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ESRTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		25E242443DE4918F7F22DA12 /* Pods-ESR.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ESR.release.xcconfig"; path = "Pods/Target Support Files/Pods-ESR/Pods-ESR.release.xcconfig"; sourceTree = "<group>"; };
+		301FB03121674BF000BBEB16 /* MBCircularProgressBar.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MBCircularProgressBar.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		43F2A882D451BC3970FCF221 /* Pods-ESRUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ESRUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-ESRUITests/Pods-ESRUITests.release.xcconfig"; sourceTree = "<group>"; };
 		688AA8EF215A51C600735D0D /* MatchDetailVCNew.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MatchDetailVCNew.h; sourceTree = "<group>"; };
 		688AA8F0215A51C600735D0D /* MatchDetailVCNew.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MatchDetailVCNew.m; sourceTree = "<group>"; };
@@ -449,6 +450,7 @@
 		4C609F030F53907A2978F2F0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				301FB03121674BF000BBEB16 /* MBCircularProgressBar.framework */,
 				9E15F1991F4EA5FA00BFE822 /* AudioToolbox.framework */,
 				9E6574971F4DA82F0062AEA7 /* SystemConfiguration.framework */,
 				9E5D6A691F4C2B710071AB58 /* AdSupport.framework */,

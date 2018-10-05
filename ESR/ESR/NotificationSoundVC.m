@@ -22,13 +22,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     //[[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"prefs:root=NOTIFICATIONS_ID"]];
-    UIApplication *application = [UIApplication sharedApplication];
-    NSURL *URL = [NSURL URLWithString:@"prefs:root=MUSIC"];
-    [application openURL:URL options:@{} completionHandler:^(BOOL success) {
-        if (success) {
-            NSLog(@"Opened url");
-        }
-    }];
+//    UIApplication *application = [UIApplication sharedApplication];
+//    NSURL *URL = [NSURL URLWithString:@"prefs:root=MUSIC"];
+//    [application openURL:URL options:@{} completionHandler:^(BOOL success) {
+//        if (success) {
+//            NSLog(@"Opened url");
+//        }
+//    }];
     [self getSetting];
     UITapGestureRecognizer *tapAction = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(lblClick:)];
     tapAction.delegate =self;
