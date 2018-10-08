@@ -71,7 +71,8 @@ public class SplashActivity extends BaseActivity {
     }
 
     private void isUserLogin() {
-        checkAppVersion();
+        checkStoreCredentials();
+
 
     }
 
@@ -80,7 +81,7 @@ public class SplashActivity extends BaseActivity {
         if (Utility.isInternetAvailable(mContext)) {
             String email = mAppSharedPref.getString(AppConstants.PREF_EMAIL);
             String password = mAppSharedPref.getString(AppConstants.PREF_PASSWORD);
-            mAppSharedPref.setString(AppConstants.PREF_SESSION_TOURNAMENT_ID, "");
+//            mAppSharedPref.setString(AppConstants.PREF_SESSION_TOURNAMENT_ID, "");
             String url = ApiConstants.SIGN_IN;
             final JSONObject requestJson = new JSONObject();
             try {

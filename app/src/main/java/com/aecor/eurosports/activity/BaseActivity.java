@@ -36,6 +36,7 @@ public abstract class BaseActivity extends Activity implements ConnectivityChang
         super.onCreate(savedInstanceState);
         mContext = this;
         mPref = AppPreference.getInstance(mContext);
+        Utility.updateRecentTaskHeaderColor(mContext);
     }
 
     @Override

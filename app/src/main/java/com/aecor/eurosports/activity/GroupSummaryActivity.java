@@ -587,21 +587,21 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
         }
 
         if (!Utility.isNullOrEmpty(mFixtureModel.getHomeScore()) && !Utility.isNullOrEmpty(mFixtureModel.getAwayScore()) && mFixtureModel.getHomeScore().equalsIgnoreCase(mFixtureModel.getAwayScore())) {
-            team1_score.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimary));
-            team2_score.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimary));
-            team1_name.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimary));
-            team2_name.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimary));
+            team1_score.setTextColor(ContextCompat.getColor(mContext, R.color.appColorPrimary));
+            team2_score.setTextColor(ContextCompat.getColor(mContext, R.color.appColorPrimary));
+            team1_name.setTextColor(ContextCompat.getColor(mContext, R.color.appColorPrimary));
+            team2_name.setTextColor(ContextCompat.getColor(mContext, R.color.appColorPrimary));
 
         } else if (!Utility.isNullOrEmpty(mFixtureModel.getHomeScore()) && !Utility.isNullOrEmpty(mFixtureModel.getAwayScore()) && Integer.parseInt(mFixtureModel.getHomeScore()) > Integer.parseInt(mFixtureModel.getAwayScore())) {
-            team1_score.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimary));
+            team1_score.setTextColor(ContextCompat.getColor(mContext, R.color.appColorPrimary));
             team2_score.setTextColor(ContextCompat.getColor(mContext, R.color.black));
-            team1_name.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimary));
+            team1_name.setTextColor(ContextCompat.getColor(mContext, R.color.appColorPrimary));
             team2_name.setTextColor(ContextCompat.getColor(mContext, R.color.black));
         } else if (!Utility.isNullOrEmpty(mFixtureModel.getHomeScore()) && !Utility.isNullOrEmpty(mFixtureModel.getAwayScore()) && Integer.parseInt(mFixtureModel.getHomeScore()) < Integer.parseInt(mFixtureModel.getAwayScore())) {
             team1_score.setTextColor(ContextCompat.getColor(mContext, R.color.black));
-            team2_score.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimary));
+            team2_score.setTextColor(ContextCompat.getColor(mContext, R.color.appColorPrimary));
             team1_name.setTextColor(ContextCompat.getColor(mContext, R.color.black));
-            team2_name.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimary));
+            team2_name.setTextColor(ContextCompat.getColor(mContext, R.color.appColorPrimary));
         } else {
             team1_name.setTextColor(ContextCompat.getColor(mContext, R.color.black));
             team2_name.setTextColor(ContextCompat.getColor(mContext, R.color.black));

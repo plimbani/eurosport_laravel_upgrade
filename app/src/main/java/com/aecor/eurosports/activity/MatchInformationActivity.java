@@ -279,20 +279,20 @@ public class MatchInformationActivity extends BaseAppCompactActivity {
 
 
         if (!Utility.isNullOrEmpty(mTeamFixturesModel.getHomeScore()) && !Utility.isNullOrEmpty(mTeamFixturesModel.getAwayScore()) && mTeamFixturesModel.getHomeScore().equalsIgnoreCase(mTeamFixturesModel.getAwayScore())) {
-            tv_team_score_1.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimary));
-            tv_team_name_1.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimary));
-            tv_team_score_2.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimary));
-            tv_team_name_2.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimary));
+            tv_team_score_1.setTextColor(ContextCompat.getColor(mContext, R.color.appColorPrimary));
+            tv_team_name_1.setTextColor(ContextCompat.getColor(mContext, R.color.appColorPrimary));
+            tv_team_score_2.setTextColor(ContextCompat.getColor(mContext, R.color.appColorPrimary));
+            tv_team_name_2.setTextColor(ContextCompat.getColor(mContext, R.color.appColorPrimary));
         } else if (!Utility.isNullOrEmpty(mTeamFixturesModel.getHomeScore()) && !Utility.isNullOrEmpty(mTeamFixturesModel.getAwayScore()) && Integer.parseInt(mTeamFixturesModel.getHomeScore()) > Integer.parseInt(mTeamFixturesModel.getAwayScore())) {
-            tv_team_score_1.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimary));
-            tv_team_name_1.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimary));
+            tv_team_score_1.setTextColor(ContextCompat.getColor(mContext, R.color.appColorPrimary));
+            tv_team_name_1.setTextColor(ContextCompat.getColor(mContext, R.color.appColorPrimary));
             tv_team_score_2.setTextColor(ContextCompat.getColor(mContext, R.color.black));
             tv_team_name_2.setTextColor(ContextCompat.getColor(mContext, R.color.black));
         } else if (!Utility.isNullOrEmpty(mTeamFixturesModel.getHomeScore()) && !Utility.isNullOrEmpty(mTeamFixturesModel.getAwayScore()) && Integer.parseInt(mTeamFixturesModel.getHomeScore()) < Integer.parseInt(mTeamFixturesModel.getAwayScore())) {
             tv_team_score_1.setTextColor(ContextCompat.getColor(mContext, R.color.black));
             tv_team_name_1.setTextColor(ContextCompat.getColor(mContext, R.color.black));
-            tv_team_score_2.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimary));
-            tv_team_name_2.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimary));
+            tv_team_score_2.setTextColor(ContextCompat.getColor(mContext, R.color.appColorPrimary));
+            tv_team_name_2.setTextColor(ContextCompat.getColor(mContext, R.color.appColorPrimary));
         } else {
             tv_team_score_1.setTextColor(ContextCompat.getColor(mContext, R.color.black));
             tv_team_name_1.setTextColor(ContextCompat.getColor(mContext, R.color.black));
