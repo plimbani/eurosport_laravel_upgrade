@@ -76,7 +76,7 @@ public class MatchInformationActivity extends BaseAppCompactActivity {
     @BindView(R.id.iv_short_team_2)
     protected ImageView iv_short_team_2;
     private TeamFixturesModel mTeamFixturesModel;
-     private Context mContext;
+    private Context mContext;
     private AppPreference mPreference;
 
     @Override
@@ -314,13 +314,19 @@ public class MatchInformationActivity extends BaseAppCompactActivity {
         }
 
         if (!Utility.isNullOrEmpty(mTeamFixturesModel.getIsResultOverride()) && mTeamFixturesModel.getIsResultOverride().equalsIgnoreCase("1")) {
-            if (!Utility.isNullOrEmpty(mTeamFixturesModel.getMatch_status()) && mTeamFixturesModel.getMatch_status().equalsIgnoreCase("Walk-over")) {
+            if (!Utility.isNullOrEmpty(mTeamFixturesModel.getMatch_status())) {
                 if (!Utility.isNullOrEmpty(mTeamFixturesModel.getMatch_winner()) && !Utility.isNullOrEmpty(mTeamFixturesModel.getHome_id()) && mTeamFixturesModel.getMatch_winner().equalsIgnoreCase(mTeamFixturesModel.getHome_id())) {
                     tv_team_score_1.setText(Html.fromHtml(tv_team_score_1.getText().toString().trim() + "*"));
-                    tv_winner_status.setText(getString(R.string.walkover_win));
                 } else if (!Utility.isNullOrEmpty(mTeamFixturesModel.getMatch_winner()) && !Utility.isNullOrEmpty(mTeamFixturesModel.getAway_id()) && mTeamFixturesModel.getMatch_winner().equalsIgnoreCase(mTeamFixturesModel.getAway_id())) {
                     tv_team_score_2.setText(Html.fromHtml(tv_team_score_2.getText().toString().trim() + "*"));
+                }
+
+                if (mTeamFixturesModel.getMatch_status().equalsIgnoreCase("Walk-over")) {
                     tv_winner_status.setText(getString(R.string.walkover_win));
+                } else if (mTeamFixturesModel.getMatch_status().equalsIgnoreCase("Penalties")) {
+                    tv_winner_status.setText(getString(R.string.penalties_win));
+                }else if (mTeamFixturesModel.getMatch_status().equalsIgnoreCase("Abandoned")) {
+                    tv_winner_status.setText(getString(R.string.abandoned_win));
                 }
             }
         }
