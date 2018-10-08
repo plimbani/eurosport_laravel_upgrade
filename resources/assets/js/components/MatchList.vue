@@ -52,12 +52,12 @@
 
               <span v-else>{{match.homeScore}}</span>
 
-              <span class="circle-badge" :class="{'left-input': (isUserDataExist && getCurrentScheduleView != 'teamDetails'), 'left-text': (!isUserDataExist || getCurrentScheduleView == 'teamDetails') }" v-if="(match.isResultOverride == '1' && (match.match_status == 'Walk-over' || match.match_status == 'Abandoned') && match.match_winner == match.Home_id)"><i class="fa fa-asterisk" aria-hidden="true"></i></span>
+              <span class="circle-badge" :class="{'left-input': (isUserDataExist && getCurrentScheduleView != 'teamDetails'), 'left-text': (!isUserDataExist || getCurrentScheduleView == 'teamDetails') }" v-if="(match.isResultOverride == '1' && match.match_winner == match.Home_id)"><a data-toggle="popover" :class="'result-override-home-popover-' + match.fid" href="#" data-placement="top" data-trigger="hover" :data-content="match.result_override_popover"><i class="fa fa-asterisk text-white" aria-hidden="true"></i></a></span>
             </div> -
             <div class="d-inline-flex position-relative">
               <input type="text" v-model="match.AwayScore" :name="'away_score['+match.fid+']'" style="width: 25px; text-align: center;"  v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails'" :readonly="(match.is_scheduled == '0') || (match.isResultOverride == '1' && (match.match_status == 'Walk-over' || match.match_status == 'Abandoned'))" @change="updateScore(match,index1)">
 
-              <span class="circle-badge" :class="{'right-input': (isUserDataExist && getCurrentScheduleView != 'teamDetails'), 'right-text': (!isUserDataExist || getCurrentScheduleView == 'teamDetails') }" v-if="(match.isResultOverride == '1' && (match.match_status == 'Walk-over' || match.match_status == 'Abandoned') && match.match_winner == match.Away_id)"><i class="fa fa-asterisk" aria-hidden="true"></i></span>
+              <span class="circle-badge" :class="{'right-input': (isUserDataExist && getCurrentScheduleView != 'teamDetails'), 'right-text': (!isUserDataExist || getCurrentScheduleView == 'teamDetails') }" v-if="(match.isResultOverride == '1' && match.match_winner == match.Away_id)"><a :class="'result-override-away-popover-' + match.fid" href="#" data-toggle="popover" data-placement="top" data-trigger="hover" :data-content="match.result_override_popover"><i class="fa fa-asterisk text-white" aria-hidden="true"></i></a></span>
 
               <span v-if="(!isUserDataExist || getCurrentScheduleView == 'teamDetails')">{{match.AwayScore}}</span>
             </div>
@@ -222,6 +222,13 @@ export default {
     matchData1: {
       handler: function (val, oldVal) {
         this.matchData = _.sortBy(_.cloneDeep(val), ['match_datetime']);
+        let vm = this;
+        Vue.nextTick()
+        .then(function () {
+          $.each(vm.matchData, function (index,value){
+            vm.getResultOverridePopover(value);
+          });
+        });
       },
       deep: true,
     },
@@ -244,6 +251,18 @@ export default {
         vm.matchData[index].isResultOverride = matchData['is_result_override']
         vm.matchData[index].match_status = matchData['match_status']
         vm.matchData[index].match_winner = matchData['match_winner']
+        vm.getResultOverridePopover(vm.matchData[index]);
+
+        Vue.nextTick()
+        .then(function () {
+          if($('.result-override-home-popover-' + vm.matchData[index].fid).length) {
+            $('.result-override-home-popover-' + vm.matchData[index].fid).popover().attr('content', vm.matchData[index].result_override_popover);
+          }
+          if($('.result-override-away-popover-' + vm.matchData[index].fid).length) {
+            $('.result-override-away-popover-' + vm.matchData[index].fid).popover().attr('content', vm.matchData[index].result_override_popover);
+          }
+        });
+        
         /*vm.$root.$emit('setDrawTable',competationId)
         vm.$root.$emit('setStandingData',competationId)*/
       }
@@ -397,6 +416,10 @@ export default {
 
     },
     getMatchList() {
+      let vm = this;
+      $.each(this.matchData, function (index,value){
+        vm.getResultOverridePopover(value);
+      });
       if(this.getCurrentScheduleView != 'teamDetails' && this.getCurrentScheduleView != 'drawDetails') {
         return this.paginated('matchlist');
       } else {
@@ -479,6 +502,16 @@ export default {
         }
       }
       return displayMatchText[1] + '.' + displayMatchText[2];
+    },
+    getResultOverridePopover(match) {
+      $('[data-toggle="popover"]').popover();
+      if(match.match_status == 'Penalties') {
+        match.result_override_popover = "* Game won on penalties";
+      } else if(match.match_status == 'Walk-over') {
+        match.result_override_popover = "* Walkover, win awarded";
+      } else if(match.match_status == 'Abandoned') {
+        match.result_override_popover = "Abandoned, win awarded";
+      }
     },
   },
 }
