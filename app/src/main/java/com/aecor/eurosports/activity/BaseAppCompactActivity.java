@@ -92,6 +92,7 @@ public abstract class BaseAppCompactActivity extends AppCompatActivity implement
         mPref = AppPreference.getInstance(mContext);
         updateAppLocale();
         initFooterContent();
+        Utility.updateRecentTaskHeaderColor(mContext);
     }
 
     private void initFooterContent() {
@@ -99,7 +100,7 @@ public abstract class BaseAppCompactActivity extends AppCompatActivity implement
         ActivityManager.TaskDescription taskDescription;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Bitmap icon = BitmapFactory.decodeResource(mContext.getResources(), R.mipmap.ic_launcher);
-            taskDescription = new ActivityManager.TaskDescription(mContext.getResources().getString(R.string.app_name), icon, mContext.getResources().getColor(R.color.colorPrimary));
+            taskDescription = new ActivityManager.TaskDescription(mContext.getResources().getString(R.string.app_name), icon, mContext.getResources().getColor(R.color.appColorPrimary));
             this.setTaskDescription(taskDescription);
         }
 
