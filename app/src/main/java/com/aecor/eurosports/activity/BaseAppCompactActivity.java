@@ -35,36 +35,52 @@ import butterknife.ButterKnife;
 public abstract class BaseAppCompactActivity extends AppCompatActivity implements ConnectivityReceiverListener {
 
     public static String selectedTabName = "";
+    @Nullable
     @BindView(R.id.tv_tournament)
     protected TextView tv_tournament;
+    @Nullable
     @BindView(R.id.tv_clubs)
     protected TextView tv_clubs;
+    @Nullable
     @BindView(R.id.tv_age_categories)
     protected TextView tv_age_categories;
+    @Nullable
     @BindView(R.id.tv_user_settings)
     protected TextView tv_user_settings;
+    @Nullable
     @BindView(R.id.iv_favourites)
     protected ImageView iv_favourites;
+    @Nullable
     @BindView(R.id.iv_age_categories)
     protected ImageView iv_age_categories;
+    @Nullable
     @BindView(R.id.iv_tournament)
     protected ImageView iv_tournament;
+    @Nullable
     @BindView(R.id.iv_user_settings)
     protected ImageView iv_user_settings;
+    @Nullable
     @BindView(R.id.iv_clubs)
     protected ImageView iv_clubs;
+    @Nullable
     @BindView(R.id.lv_age_categories)
     protected LinearLayout lv_age_categories;
+    @Nullable
     @BindView(R.id.lv_tournament)
     protected LinearLayout lv_tournament;
+    @Nullable
     @BindView(R.id.lv_clubs)
     protected LinearLayout lv_clubs;
+    @Nullable
     @BindView(R.id.lv_user_settings)
     protected LinearLayout lv_user_settings;
+    @Nullable
     @BindView(R.id.lv_favourites)
     protected LinearLayout lv_favourites;
+    @Nullable
     @BindView(R.id.tv_favourites)
     protected TextView tv_favourites;
+    @Nullable
     @BindView(R.id.tv_no_internet)
     protected TextView tv_no_internet;
     private Context mContext;
@@ -121,11 +137,11 @@ public abstract class BaseAppCompactActivity extends AppCompatActivity implement
 
     private void setFooterClickListener() {
         FooterClickListener footerClickListener = new FooterClickListener();
-        lv_age_categories.setOnClickListener(footerClickListener);
-        lv_user_settings.setOnClickListener(footerClickListener);
-        lv_favourites.setOnClickListener(footerClickListener);
-        lv_clubs.setOnClickListener(footerClickListener);
-        lv_tournament.setOnClickListener(footerClickListener);
+        if (lv_age_categories != null) lv_age_categories.setOnClickListener(footerClickListener);
+        if (lv_user_settings != null) lv_user_settings.setOnClickListener(footerClickListener);
+        if (lv_favourites != null) lv_favourites.setOnClickListener(footerClickListener);
+        if (lv_clubs != null) lv_clubs.setOnClickListener(footerClickListener);
+        if (lv_tournament != null) lv_tournament.setOnClickListener(footerClickListener);
     }
 
     private void selectDiselectBottomTab(ImageView iv, TextView tv, LinearLayout lv, boolean isSelected, int imageDrawable) {
@@ -188,7 +204,7 @@ public abstract class BaseAppCompactActivity extends AppCompatActivity implement
 
     }
 
-    protected void updateAppLocale(){
+    protected void updateAppLocale() {
         String language = mPref.getString(AppConstants.LANGUAGE_SELECTION);
         if (Utility.isNullOrEmpty(language))
             Utility.setLocale(mContext, "en");
