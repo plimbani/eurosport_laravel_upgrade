@@ -49,8 +49,63 @@
       "scale" : "3x"
     },
     {
-      "idiom" : "ios-marketing",
+      "size" : "20x20",
+      "idiom" : "ipad",
+      "filename" : "logo581-3.png",
+      "scale" : "1x"
+    },
+    {
+      "size" : "20x20",
+      "idiom" : "ipad",
+      "filename" : "logo401-1.png",
+      "scale" : "2x"
+    },
+    {
+      "size" : "29x29",
+      "idiom" : "ipad",
+      "filename" : "logo581-2.png",
+      "scale" : "1x"
+    },
+    {
+      "size" : "29x29",
+      "idiom" : "ipad",
+      "filename" : "logo581-1.png",
+      "scale" : "2x"
+    },
+    {
+      "size" : "40x40",
+      "idiom" : "ipad",
+      "filename" : "logo401-2.png",
+      "scale" : "1x"
+    },
+    {
+      "size" : "40x40",
+      "idiom" : "ipad",
+      "filename" : "logo801-2.png",
+      "scale" : "2x"
+    },
+    {
+      "size" : "76x76",
+      "idiom" : "ipad",
+      "filename" : "logo152.png",
+      "scale" : "1x"
+    },
+    {
+      "size" : "76x76",
+      "idiom" : "ipad",
+      "filename" : "logo152-1.png",
+      "scale" : "2x"
+    },
+    {
+      "size" : "83.5x83.5",
+      "idiom" : "ipad",
+      "filename" : "logo167.png",
+      "scale" : "2x"
+    },
+    {
       "size" : "1024x1024",
+      "idiom" : "ios-marketing",
+      "filename" : "iTunesArtwork@1x.png",
       "scale" : "1x"
     }
   ],
