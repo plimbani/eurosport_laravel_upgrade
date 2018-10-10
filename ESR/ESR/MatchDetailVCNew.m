@@ -127,6 +127,8 @@
                     }else if([competition_actual_name rangeOfString:@"Pos"] .location != NSNotFound){
                         self.lblTeam1Name.text = [NSString stringWithFormat:@"%@%@",@"Pos-",[matchDetails valueForKey:@"homePlaceholder"]];
                     }
+                }else{
+                    self.lblTeam1Name.text =[matchDetails valueForKey:@"displayHomeTeamPlaceholderName"];
                 }
             }
             else{

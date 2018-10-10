@@ -93,6 +93,10 @@
                     }else if([competition_actual_name rangeOfString:@"Pos"] .location != NSNotFound){
                         self.homeTeamNameTextField.text = [NSString stringWithFormat:@"%@%@",@"Pos-",[matchDetails valueForKey:@"homePlaceholder"]];
                     }
+                }else{
+                    if (![[matchDetails valueForKey:@"displayHomeTeamPlaceholderName"] isKindOfClass:[NSNull class]]) {
+                        self.homeTeamNameTextField.text =[matchDetails valueForKey:@"displayHomeTeamPlaceholderName"];
+                    }
                 }
             }
             else{
@@ -110,6 +114,10 @@
                         self.awayTeamNameTextField.text = [NSString stringWithFormat:@"%@%@",@"",[matchDetails valueForKey:@"awayPlaceholder"]];
                     }else if([competition_actual_name rangeOfString:@"Pos"] .location != NSNotFound){
                         self.awayTeamNameTextField.text = [NSString stringWithFormat:@"%@%@",@"Pos-",[matchDetails valueForKey:@"awayPlaceholder"]];
+                    }
+                }else{
+                    if (![[matchDetails valueForKey:@"displayAwayTeamPlaceholderName"] isKindOfClass:[NSNull class]]) {
+                        self.awayTeamNameTextField.text =[matchDetails valueForKey:@"displayAwayTeamPlaceholderName"];
                     }
                 }
             }

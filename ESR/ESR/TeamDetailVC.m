@@ -460,7 +460,9 @@
                     }
                     cell.HomeTeam.textColor = [UIColor blackColor];
                 }else{
-                    
+                    if (![[[fixturesArray objectAtIndex:indexPath.row-(standingArray.count+5)] valueForKey:@"displayHomeTeamPlaceholderName"] isKindOfClass:[NSNull class]]) {
+                        cell.HomeTeam.textColor =[[fixturesArray objectAtIndex:indexPath.row-(standingArray.count+5)] valueForKey:@"displayHomeTeamPlaceholderName"];
+                    }
                 }
             }
             if (![[[fixturesArray objectAtIndex:indexPath.row-(standingArray.count+5)] valueForKey:@"Away_id"] isKindOfClass:[NSNull class]]  && ![[[fixturesArray objectAtIndex:indexPath.row-(standingArray.count+5)] valueForKey:@"awayTeamName"] isKindOfClass:[NSNull class]]) {
@@ -472,6 +474,10 @@
                         cell.AwayTeam.text = [NSString stringWithFormat:@"%@%@",@"Pos-",[[fixturesArray objectAtIndex:indexPath.row-(standingArray.count+5)] valueForKey:@"awayPlaceholder"]];
                     }
                     cell.AwayTeam.textColor = [UIColor blackColor];
+                }else{
+                    if (![[[fixturesArray objectAtIndex:indexPath.row-(standingArray.count+5)] valueForKey:@"displayAwayTeamPlaceholderName"] isKindOfClass:[NSNull class]]) {
+                        cell.AwayTeam.textColor =[[fixturesArray objectAtIndex:indexPath.row-(standingArray.count+5)] valueForKey:@"displayAwayTeamPlaceholderName"];
+                    }
                 }
             }
             NSString *displayMatchNumber=[NSString stringWithFormat:@"%@",[[fixturesArray objectAtIndex:indexPath.row-(standingArray.count+5)] valueForKey:@"displayMatchNumber"]];;
