@@ -267,6 +267,11 @@
                             }else if([competition_actual_name rangeOfString:@"Pos"] .location != NSNotFound){
                                 cell.HomeTeam.text = [NSString stringWithFormat:@"%@%@",@"Pos-",[[fixturesArray objectAtIndex:indexPath.row-1] valueForKey:@"homePlaceholder"]];
                             }
+                        }else{
+                            if (![[[fixturesArray objectAtIndex:indexPath.row-1] valueForKey:@"displayHomeTeamPlaceholderName"] isKindOfClass:[NSNull class]]) {
+                                cell.HomeTeam.text =[[fixturesArray objectAtIndex:indexPath.row-1] valueForKey:@"displayHomeTeamPlaceholderName"];
+                            }
+                            
                         }
                     }else{
                         cell.HomeTeam.text =[[fixturesArray objectAtIndex:indexPath.row-1] valueForKey:@"displayHomeTeamPlaceholderName"];
@@ -284,6 +289,10 @@
                                 cell.AwayTeam.text = [NSString stringWithFormat:@"%@%@",@"",[[fixturesArray objectAtIndex:indexPath.row-1] valueForKey:@"awayPlaceholder"]];
                             }else if([competition_actual_name rangeOfString:@"Pos"] .location != NSNotFound){
                                 cell.AwayTeam.text = [NSString stringWithFormat:@"%@%@",@"Pos-",[[fixturesArray objectAtIndex:indexPath.row-1] valueForKey:@"awayPlaceholder"]];
+                            }
+                        }else{
+                            if (![[[fixturesArray objectAtIndex:indexPath.row-1] valueForKey:@"displayAwayTeamPlaceholderName"] isKindOfClass:[NSNull class]]) {
+                                cell.AwayTeam.text =[[fixturesArray objectAtIndex:indexPath.row-1] valueForKey:@"displayAwayTeamPlaceholderName"];
                             }
                         }
                     }else{
