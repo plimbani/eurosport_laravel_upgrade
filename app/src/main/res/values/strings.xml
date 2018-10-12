@@ -124,7 +124,7 @@
     <string name="abandoned_win">* Abandoned, win awarded</string>
     <string name="standings">STANDINGS</string>
 
-
+    <string name="terms_of_use">By continuing you accept our <u>Terms of Use</u>.</string>
     <!--Language-->
     <string name="english">English</string>
     <string name="french">French</string>
@@ -162,6 +162,7 @@
     <string name="oct">Oct</string>
     <string name="nov">Nov</string>
     <string name="dec">Dec</string>
+
 
 
     <string-array name="clubs_tabs">

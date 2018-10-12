@@ -3,15 +3,24 @@ package com.aecor.eurosports.activity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
+import android.text.Html;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.TextWatcher;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.aecor.eurosports.R;
 import com.aecor.eurosports.adapter.TournamentSpinnerAdapter;
@@ -20,6 +29,7 @@ import com.aecor.eurosports.http.VolleyJsonObjectRequest;
 import com.aecor.eurosports.http.VolleySingeltone;
 import com.aecor.eurosports.model.TournamentModel;
 import com.aecor.eurosports.util.ApiConstants;
+import com.aecor.eurosports.util.AppConstants;
 import com.aecor.eurosports.util.AppLogger;
 import com.aecor.eurosports.util.Utility;
 import com.android.volley.Request;
@@ -38,7 +48,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class RegisterActivity extends BaseActivity {
+public class RegisterActivity extends BaseAppCompactActivity {
     private final String TAG = RegisterActivity.class.getSimpleName();
     private Context mContext;
     @BindView(R.id.sp_tournament)
@@ -59,13 +69,39 @@ public class RegisterActivity extends BaseActivity {
     private TournamentModel mTournamentList[];
     @BindView(R.id.ll_main_layout)
     protected LinearLayout ll_main_layout;
+    @BindView(R.id.tv_privacy_terms)
+    protected TextView tv_privacy_terms;
 
     @Override
     public void initView() {
+
+        SpannableString myString = new SpannableString(Html.fromHtml(getString(R.string.terms_of_use)));
+
+        ClickableSpan clickableSpan = new ClickableSpan() {
+            @Override
+            public void onClick(View textView) {
+                Intent mTermsAndConditionActivity = new Intent(mContext, PrivacyAndTermsActivity.class);
+                mTermsAndConditionActivity.putExtra(AppConstants.KEY_IS_FROM_SIGNUP, true);
+                startActivity(mTermsAndConditionActivity);
+                textView.invalidate();
+            }
+        };
+
+
+        myString.setSpan(clickableSpan, 29, 42, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+
+        tv_privacy_terms.setMovementMethod(LinkMovementMethod.getInstance());
+        tv_privacy_terms.setText(myString);
+        tv_privacy_terms.setHighlightColor(Color.TRANSPARENT);
+
+
         Utility.setupUI(mContext, ll_main_layout);
         getTournamentList();
         enabledDisableRegisterButton(false);
         setListener();
+
+        showBackButton("");
     }
 
     @Override
@@ -101,9 +137,8 @@ public class RegisterActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        ButterKnife.bind(this);
+        super.onCreate(savedInstanceState);
         mContext = this;
         initView();
     }
@@ -310,16 +345,30 @@ public class RegisterActivity extends BaseActivity {
         }
     }
 
-    @OnClick(R.id.iv_back)
-    protected void onBackButtonPressed() {
-        loadBackActivity();
-    }
+    //
+//    @OnClick(R.id.iv_back)
+//    protected void onBackButtonPressed() {
+//        loadBackActivity();
+//    }
 
     private void loadBackActivity() {
         Intent mLandingActivityIntent = new Intent(mContext, LandingActivity.class);
         startActivity(mLandingActivityIntent);
         finish();
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                // app icon in action bar clicked; go home
+                loadBackActivity();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
 
     @Override
     public void onBackPressed() {
