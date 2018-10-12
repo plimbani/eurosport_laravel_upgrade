@@ -531,10 +531,13 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
 
 
         if (mFixtureModel.getHome_id().equalsIgnoreCase("0")) {
-            if (!Utility.isNullOrEmpty(mFixtureModel.getHomeTeamName()) && mFixtureModel.getHomeTeamName().equalsIgnoreCase(AppConstants.TEAM_NAME_PLACE_HOLDER)) {
-                if (!Utility.isNullOrEmpty(mFixtureModel.getCompetition_actual_name()) && mFixtureModel.getCompetition_actual_name().contains(AppConstants.COMPETATION_NAME_GROUP)) {
+            if (!Utility.isNullOrEmpty(mFixtureModel.getHomeTeamName())
+                    && mFixtureModel.getHomeTeamName().equalsIgnoreCase(AppConstants.TEAM_NAME_PLACE_HOLDER)) {
+                if (!Utility.isNullOrEmpty(mFixtureModel.getCompetition_actual_name())
+                        && mFixtureModel.getCompetition_actual_name().contains(AppConstants.COMPETATION_NAME_GROUP)) {
                     team1_name.setText(mFixtureModel.getHomePlaceholder());
-                } else if (!Utility.isNullOrEmpty(mFixtureModel.getCompetition_actual_name()) && mFixtureModel.getCompetition_actual_name().contains(AppConstants.COMPETATION_NAME_POS)) {
+                } else if (!Utility.isNullOrEmpty(mFixtureModel.getCompetition_actual_name())
+                        && mFixtureModel.getCompetition_actual_name().contains(AppConstants.COMPETATION_NAME_POS)) {
                     team1_name.setText(AppConstants.COMPETATION_NAME_POS + "-" + mFixtureModel.getHomePlaceholder());
                 } else {
                     if (!Utility.isNullOrEmpty(mFixtureModel.getHomeTeam())) {

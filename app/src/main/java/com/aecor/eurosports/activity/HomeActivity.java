@@ -397,7 +397,7 @@ public class HomeActivity extends BaseAppCompactActivity {
     private void setTournamnetSpinnerAdapter(TournamentModel mTournamentList[]) {
         List<TournamentModel> list = new ArrayList<>();
         list.addAll(Arrays.asList(mTournamentList));
-        for (int i = 1; i < list.size(); i++) {
+        for (int i = 0; i < list.size(); i++) {
             if (list.get(i).getIs_default() == 1) {
                 mPreference.setString(AppConstants.PREF_TOURNAMENT_ID, list.get(i).getTournament_id());
                 AppLogger.LogE(TAG, "selected pos" + tournamentPosition);
