@@ -353,19 +353,21 @@
     //NSLog(@"Main Height = %f",_mainViewHeightConstrain.constant);
     
     if ([isResultOverride length] > 0 && [isResultOverride intValue] == 1) {
-        if ([match_status length] > 0 && [match_status caseInsensitiveCompare:@"Walk-over"] == NSOrderedSame) {
+        if ([match_status length] > 0 ) {
             if ([match_winner length] > 0 && [home_id length] > 0 && [match_winner caseInsensitiveCompare:home_id] == NSOrderedSame) {
                 self.lblTeam1Score.text = [NSString stringWithFormat:@" %@*", self.lblTeam1Score.text];
-                //_lblWinner.text = @"* Walkover win";
-                
             } else if ([match_winner length] > 0 && [away_id length] > 0 && [match_winner caseInsensitiveCompare:away_id] == NSOrderedSame) {
                 self.lblTeam2Score.text = [NSString stringWithFormat:@" %@*", self.lblTeam2Score.text];
-                //_lblWinner.text = @"* Walkover win";
-                
             }
         }
+        if([match_status caseInsensitiveCompare:@"Walk-over"]){
+            _lblWinnerStatus.text = @"* Walkover, win awarded";
+        }else if([match_status caseInsensitiveCompare:@"penalties"]){
+            _lblWinnerStatus.text = @"* Game won on penalties";
+        }else if ([match_status caseInsensitiveCompare:@"abandoned"]){
+            _lblWinnerStatus.text = @"* Abandoned, win awarded";
+        }
     }
-    
 }
 
 -(void)setBorder:(UIView *)view setColor :(UIColor *)color setThickness:(CGFloat)thickness  setType: (NSString *)type{

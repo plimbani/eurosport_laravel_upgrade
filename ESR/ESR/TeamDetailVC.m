@@ -495,6 +495,20 @@
 //                match_number=[match_number substringToIndex:12];
 //            }
             
+            NSString *isResultOverride = [ApplicationData getStringFromAnyType:[fixturesArray objectAtIndex:indexPath.row-(standingArray.count+5)][@"isResultOverride"]];
+            NSString *match_status = [ApplicationData getStringFromAnyType:[fixturesArray objectAtIndex:indexPath.row-(standingArray.count+5)][@"match_status"]];
+            NSString *match_winner = [ApplicationData getStringFromAnyType:[fixturesArray objectAtIndex:indexPath.row-(standingArray.count+5)][@"match_winner"]];
+            NSString *home_id = [ApplicationData getStringFromAnyType:[fixturesArray objectAtIndex:indexPath.row-(standingArray.count+5)][@"Home_id"]];
+            NSString *away_id = [ApplicationData getStringFromAnyType:[fixturesArray objectAtIndex:indexPath.row-(standingArray.count+5)][@"Away_id"]];
+            if ([isResultOverride length] > 0 && [isResultOverride intValue] == 1) {
+                if ([match_status length] > 0 ) {
+                    if ([match_winner length] > 0 && [home_id length] > 0 && [match_winner caseInsensitiveCompare:home_id] == NSOrderedSame) {
+                        cell.homeTeamScore.text = [NSString stringWithFormat:@" %@*", cell.homeTeamScore.text];
+                    } else if ([match_winner length] > 0 && [away_id length] > 0 && [match_winner caseInsensitiveCompare:away_id] == NSOrderedSame) {
+                        cell.awayTeamScore.text = [NSString stringWithFormat:@" %@*", cell.awayTeamScore.text];
+                    }
+                }
+            }
             if (displayMatchNumber.length >15) {
                 displayMatchNumber=[displayMatchNumber substringToIndex:15];
             }

@@ -16,8 +16,11 @@
 #import "SVProgressHUD.h"
 #import "TournamentListCell.h"
 #import "Reachability.h"
+#import "PrivacyVC.h"
 
-@interface SignUPVC ()
+@interface SignUPVC (){
+    NSRange targetRange;
+}
 
 @end
 
@@ -162,6 +165,30 @@
     UIGestureRecognizer *gestureRecognizer = [[UIGestureRecognizer alloc] init];
     gestureRecognizer.delegate = self;
     [self.scrollSubView addGestureRecognizer:gestureRecognizer];
+    
+    
+    // for term of User label for getting click event
+    _termOfUseLbl.userInteractionEnabled = YES;
+    [_termOfUseLbl addGestureRecognizer:
+     [[UITapGestureRecognizer alloc] initWithTarget:self
+                                             action:@selector(handleTapOnLabel:)]];
+    
+    // create your attributed text and keep an ivar of your "link" text range
+    NSAttributedString *plainText;
+    NSAttributedString *linkText;
+    plainText = [[NSMutableAttributedString alloc] initWithString:@"By continuing you accept our "
+                                                       attributes:nil];
+    linkText = [[NSMutableAttributedString alloc] initWithString:@"Terms of Use"
+                                                      attributes:@{
+                                                                   NSForegroundColorAttributeName:[UIColor colorwithHexString:@"#ED9E2D" alpha:1.0]
+                                                                   }];
+    NSMutableAttributedString *attrText = [[NSMutableAttributedString alloc] init];
+    [attrText appendAttributedString:plainText];
+    [attrText appendAttributedString:linkText];
+    _termOfUseLbl.attributedText = attrText;
+    // ivar -- keep track of the target range so you can compare in the callback
+    targetRange = NSMakeRange(plainText.length, linkText.length);
+    
 //    tap = [[UITapGestureRecognizer alloc] initWithTarget:self
 //                                                                          action:@selector(dismissKeyboard)];
 //    
@@ -174,6 +201,54 @@
     
     
     
+}
+// handle the gesture recognizer callback and call the category method
+- (void)handleTapOnLabel:(UITapGestureRecognizer *)tapGesture {
+    BOOL didTapLink = [self didTapAttributedTextInLabel:_termOfUseLbl
+                                                      inRange:targetRange forTapGesture:tapGesture ];
+    NSLog(@"didTapLink: %d", didTapLink);
+    if (didTapLink == TRUE) {
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        PrivacyVC *myVC = (PrivacyVC *)[storyboard instantiateViewControllerWithIdentifier:@"PrivacyVC"];
+        [self.navigationController pushViewController:myVC animated:YES];
+    }
+    
+}
+- (BOOL)didTapAttributedTextInLabel:(UILabel *)label inRange:(NSRange)targetRange forTapGesture:(UITapGestureRecognizer *)tapGesture {
+    NSParameterAssert(label != nil);
+    
+    CGSize labelSize = label.bounds.size;
+    // create instances of NSLayoutManager, NSTextContainer and NSTextStorage
+    NSLayoutManager *layoutManager = [[NSLayoutManager alloc] init];
+    NSTextContainer *textContainer = [[NSTextContainer alloc] initWithSize:CGSizeZero];
+    NSTextStorage *textStorage = [[NSTextStorage alloc] initWithAttributedString:label.attributedText];
+    
+    // configure layoutManager and textStorage
+    [layoutManager addTextContainer:textContainer];
+    [textStorage addLayoutManager:layoutManager];
+    
+    // configure textContainer for the label
+    textContainer.lineFragmentPadding = 0.0;
+    textContainer.lineBreakMode = label.lineBreakMode;
+    textContainer.maximumNumberOfLines = label.numberOfLines;
+    textContainer.size = labelSize;
+    
+    // find the tapped character location and compare it to the specified range
+    CGPoint locationOfTouchInLabel = [tapGesture locationInView:tapGesture.view];
+    //CGPoint locationOfTouchInLabel = [self locationInView:label];
+    CGRect textBoundingBox = [layoutManager usedRectForTextContainer:textContainer];
+    CGPoint textContainerOffset = CGPointMake((labelSize.width - textBoundingBox.size.width) * 0.5 - textBoundingBox.origin.x,
+                                              (labelSize.height - textBoundingBox.size.height) * 0.5 - textBoundingBox.origin.y);
+    CGPoint locationOfTouchInTextContainer = CGPointMake(locationOfTouchInLabel.x - textContainerOffset.x,
+                                                         locationOfTouchInLabel.y - textContainerOffset.y);
+    NSInteger indexOfCharacter = [layoutManager characterIndexForPoint:locationOfTouchInTextContainer
+                                                       inTextContainer:textContainer
+                              fractionOfDistanceBetweenInsertionPoints:nil];
+    if (NSLocationInRange(indexOfCharacter, targetRange)) {
+        return YES;
+    } else {
+        return NO;
+    }
 }
 - (BOOL) gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
 {

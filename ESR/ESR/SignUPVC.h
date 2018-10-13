@@ -37,6 +37,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *passwordAlertTitle;
 @property (weak, nonatomic) IBOutlet UILabel *passwordAlertSubTitle;
 @property (weak, nonatomic) IBOutlet UILabel *alertTitle;
+@property (strong, nonatomic) IBOutlet UILabel *termOfUseLbl;
 - (IBAction)passwordAlertOkBtnClick:(id)sender;
 @property (weak, nonatomic) IBOutlet UILabel *alertSubTitle;
 - (IBAction)alertOkBtnClick:(id)sender;

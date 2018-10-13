@@ -254,6 +254,21 @@
         cell.venue_name.text = @"";
     }
     
+    NSString *isResultOverride = [ApplicationData getStringFromAnyType:[fixturesArray objectAtIndex:indexPath.row][@"isResultOverride"]];
+    NSString *match_status = [ApplicationData getStringFromAnyType:[fixturesArray objectAtIndex:indexPath.row][@"match_status"]];
+    NSString *match_winner = [ApplicationData getStringFromAnyType:[fixturesArray objectAtIndex:indexPath.row][@"match_winner"]];
+    NSString *home_id = [ApplicationData getStringFromAnyType:[fixturesArray objectAtIndex:indexPath.row][@"Home_id"]];
+    NSString *away_id = [ApplicationData getStringFromAnyType:[fixturesArray objectAtIndex:indexPath.row][@"Away_id"]];
+    if ([isResultOverride length] > 0 && [isResultOverride intValue] == 1) {
+        if ([match_status length] > 0 ) {
+            if ([match_winner length] > 0 && [home_id length] > 0 && [match_winner caseInsensitiveCompare:home_id] == NSOrderedSame) {
+                cell.homeTeamScore.text = [NSString stringWithFormat:@" %@*", cell.homeTeamScore.text];
+            } else if ([match_winner length] > 0 && [away_id length] > 0 && [match_winner caseInsensitiveCompare:away_id] == NSOrderedSame) {
+                cell.awayTeamScore.text = [NSString stringWithFormat:@" %@*", cell.awayTeamScore.text];
+            }
+        }
+    }
+    
     if (cell.homeTeamScore.text.length == 2 || cell.awayTeamScore.text.length == 2) {
         cell.homeTeamScore.textAlignment = NSTextAlignmentRight;
         cell.awayTeamScore.textAlignment = NSTextAlignmentRight;

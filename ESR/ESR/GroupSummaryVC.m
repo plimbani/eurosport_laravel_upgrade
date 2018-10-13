@@ -47,7 +47,13 @@
     NSLog(@"%@",selectedGroupStr);
     // Do any additional setup after loading the view.
     [self.tableView flashScrollIndicators];
-    [self getStanding];
+    
+    if (![[groupDetails valueForKey:@"competation_type"] isEqualToString:@"Round Robin"] && ![[groupDetails valueForKey:@"actual_competition_type"] isEqualToString:@"Round Robin"]) {
+        tabSelectionStr = @"match";
+        [self getMatchFixtures];
+    }else{
+        [self getStanding];
+    }
     UIGestureRecognizer *gestureRecognizer = [[UIGestureRecognizer alloc] init];
     gestureRecognizer.delegate = self;
     [self.tableView addGestureRecognizer:gestureRecognizer];
@@ -227,9 +233,9 @@
                     cell.awayTeamScore.textColor = [UIColor blackColor];
                 }else if(homeTeamScore < awayTeamScore){
                     cell.AwayTeam.textColor = [UIColor colorwithHexString:@"C70A20" alpha:1.0];
+                    cell.awayTeamScore.textColor = [UIColor colorwithHexString:@"C70A20" alpha:1.0];
                     cell.HomeTeam.textColor = [UIColor blackColor];
-                    cell.homeTeamScore.textColor = [UIColor colorwithHexString:@"C70A20" alpha:1.0];
-                    cell.awayTeamScore.textColor = [UIColor blackColor];
+                    cell.homeTeamScore.textColor = [UIColor blackColor];
                 }else{
                     cell.HomeTeam.textColor = [UIColor colorwithHexString:@"C70A20" alpha:1.0];
                     cell.AwayTeam.textColor = [UIColor colorwithHexString:@"C70A20" alpha:1.0];
@@ -244,6 +250,8 @@
             }else{
                 cell.HomeTeam.textColor = [UIColor blackColor];
                 cell.AwayTeam.textColor = [UIColor blackColor];
+                cell.homeTeamScore.text = @"";
+                cell.awayTeamScore.text = @"";
                 if (![[[fixturesArray objectAtIndex:indexPath.row-1] valueForKey:@"HomeTeam"] isKindOfClass:[NSNull class]]) {
                     cell.HomeTeam.text = [NSString stringWithFormat:@"%@",[[fixturesArray objectAtIndex:indexPath.row-1] valueForKey:@"HomeTeam"]];
                 }else{
@@ -320,6 +328,21 @@
             }
             if (displayMatchNumber.length >15) {
                 displayMatchNumber=[displayMatchNumber substringToIndex:15];
+            }
+            
+            NSString *isResultOverride = [ApplicationData getStringFromAnyType:[fixturesArray objectAtIndex:indexPath.row-1][@"isResultOverride"]];
+            NSString *match_status = [ApplicationData getStringFromAnyType:[fixturesArray objectAtIndex:indexPath.row-1][@"match_status"]];
+            NSString *match_winner = [ApplicationData getStringFromAnyType:[fixturesArray objectAtIndex:indexPath.row-1][@"match_winner"]];
+            NSString *home_id = [ApplicationData getStringFromAnyType:[fixturesArray objectAtIndex:indexPath.row-1][@"Home_id"]];
+            NSString *away_id = [ApplicationData getStringFromAnyType:[fixturesArray objectAtIndex:indexPath.row-1][@"Away_id"]];
+            if ([isResultOverride length] > 0 && [isResultOverride intValue] == 1) {
+                if ([match_status length] > 0 ) {
+                    if ([match_winner length] > 0 && [home_id length] > 0 && [match_winner caseInsensitiveCompare:home_id] == NSOrderedSame) {
+                        cell.homeTeamScore.text = [NSString stringWithFormat:@" %@*", cell.homeTeamScore.text];
+                    } else if ([match_winner length] > 0 && [away_id length] > 0 && [match_winner caseInsensitiveCompare:away_id] == NSOrderedSame) {
+                        cell.awayTeamScore.text = [NSString stringWithFormat:@" %@*", cell.awayTeamScore.text];
+                    }
+                }
             }
             
             NSString *matchIDRoundStr =[NSString stringWithFormat:@"%@ | %@ | %@",displayMatchNumber,[[fixturesArray objectAtIndex:indexPath.row-1] valueForKey:@"group_name"],[[fixturesArray objectAtIndex:indexPath.row-1] valueForKey:@"round"]];
