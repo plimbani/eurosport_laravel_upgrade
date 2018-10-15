@@ -570,6 +570,7 @@ class TournamentRepository
         // Now here we attach the tournament Start Date Seperately for check the first started match
         $userData = UserFavourites::where('users_favourite.user_id', '=', $data['user_id'])
             ->where('tournaments.status', '=', 'Published')
+            ->where('tournaments.deleted_at', '=', NULL)
             ->leftJoin('tournaments', 'tournaments.id', '=', 'users_favourite.tournament_id')
             ->leftJoin('tournament_contact', 'tournaments.id', '=', 'tournament_contact.tournament_id')
             ->select('tournaments.*',
