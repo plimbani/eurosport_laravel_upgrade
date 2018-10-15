@@ -70,6 +70,9 @@ var moment = require('moment');
       },
       isPitchPlannerInEnlargeMode() {
         return this.$store.state.Pitch.isPitchPlannerInEnlargeMode
+      },
+      isPrintPitchPlanner() {
+        return this.$store.state.Pitch.isPrintPitchPlanner
       }
     },
     methods: {

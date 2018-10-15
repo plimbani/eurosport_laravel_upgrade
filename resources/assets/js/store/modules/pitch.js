@@ -12,6 +12,7 @@ const state = {
   stageView:'gamesTab',
   stages:0,
   isPitchPlannerInEnlargeMode: 0,
+  isPrintPitchPlanner: 0,
  }
 // getters
 const getters = {
@@ -118,6 +119,12 @@ const actions = {
   ResetPitchPlannerFromEnlargeMode ({commit}) {
     commit(types.RESET_PITCH_PLANNER_FROM_ENLARGE_MODE)
   },
+  SetPrintPitchPlanner ({commit}) {
+    commit(types.SET_PRINT_PITCH_PLANNER)
+  },
+  ResetPrintPitchPlanner ({commit}) {
+    commit(types.RESET_PRINT_PITCH_PLANNER)
+  },  
 }
 
 // mutations
@@ -157,6 +164,12 @@ const mutations = {
   [types.RESET_PITCH_PLANNER_FROM_ENLARGE_MODE] (state) {
     state.isPitchPlannerInEnlargeMode = 0
   },
+  [types.SET_PRINT_PITCH_PLANNER] (state) {
+    state.isPrintPitchPlanner = 1
+  },
+  [types.RESET_PRINT_PITCH_PLANNER] (state) {
+    state.isPrintPitchPlanner = 0
+  },  
 }
 
 export default {

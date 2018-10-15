@@ -6,12 +6,13 @@
                 <button class="btn btn-primary btn-md js-pitch-planner-bt vertical"  @click="setView('agendaDay')">{{$lang.pitch_planner_vertical}}</button>
                 <button v-if="isPitchPlannerInEnlargeMode == 0" class="btn btn-primary btn-md vertical" @click="enlargePitchPlanner()">Enlarge</button>
                 <button class="btn btn-primary btn-md vertical" @click="printPitchPlanner()">Print</button>
+                <button class="btn btn-primary btn-md vertical" @click="exportPitchPlanner()">Export</button>
                 <button class="btn btn-primary btn-md" @click="openAutomaticPitchPlanningModal()">{{$lang.pitch_planner_automatic_planning}}</button>
             </div>
         </div>
 
         <div class="row">
-            <div class="pitch_planner_section pitch" v-bind:class="[isPitchPlannerInEnlargeMode == 0 ? 'col-md-9' : 'col-md-10']">
+            <div class="pitch_planner_section pitch" v-bind:class="[isPrintPitchPlanner == 0 ? (isPitchPlannerInEnlargeMode == 0 ? 'col-md-9' : 'col-md-10') : 'col-md-12' ]">
                 <div class="pitch-planner-wrapper">
                     <div class="pitch-planner-item" v-if="stageStatus" v-for="stage in tournamentStages">
                         <div class="card">
@@ -27,7 +28,7 @@
                     </div>
                 </div>
             </div>
-            <div class="" id="outerGame" v-bind:class="[isPitchPlannerInEnlargeMode == 0 ? 'col-md-3' : 'col-md-2']">
+            <div class="" id="outerGame" v-bind:class="[isPitchPlannerInEnlargeMode == 0 ? 'col-md-3' : 'col-md-2']" v-if="isPrintPitchPlanner == 0">
                 <div class="grey_bg" id="gameReferee">
                     <div class="tabs tabs-primary">
                         <ul class="nav nav-tabs" role="tablist">
@@ -108,6 +109,9 @@
             },
             isPitchPlannerInEnlargeMode() {
                 return this.$store.state.Pitch.isPitchPlannerInEnlargeMode
+            },
+            isPrintPitchPlanner() {
+                return this.$store.state.Pitch.isPrintPitchPlanner
             }
         },
         created: function() {
@@ -454,6 +458,16 @@
               }
             );
           },
+          exportPitchPlanner() {
+            Tournament.getSignedUrlForPitchPlannerExport(this.tournamentId).then(
+              (response) => {
+                window.location.href = response.data;
+              },
+              (error) => {
+
+              }
+            );
+          }
         }
     }
 </script>
