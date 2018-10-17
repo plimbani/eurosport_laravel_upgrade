@@ -104,6 +104,7 @@ public class HomeActivity extends BaseAppCompactActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (mTournamentList != null && mTournamentList.get(position) != null && !Utility.isNullOrEmpty(mTournamentList.get(position).getName())) {
                     tournamentPosition = position;
+                    AppConstants.SESSION_TOURNAMENT_ID = Integer.parseInt(mTournamentList.get(position).getTournament_id());
                     AppLogger.LogE(TAG, "Tournament Position -> " + tournamentPosition);
                     mPreference.setString(AppConstants.PREF_SESSION_TOURNAMENT_ID, mTournamentList.get(position).getTournament_id());
                     if (!Utility.isNullOrEmpty(mTournamentList.get(position).getName())) {
@@ -200,7 +201,10 @@ public class HomeActivity extends BaseAppCompactActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        sp_tournament.setSelection(tournamentPosition);
+
+        if(AppConstants.SESSION_TOURNAMENT_ID == -1) {
+            sp_tournament.setSelection(tournamentPosition);
+        }
     }
 
     public void getDateDifference(String FutureDate) {
@@ -410,7 +414,21 @@ public class HomeActivity extends BaseAppCompactActivity {
         TournamentSpinnerAdapter adapter = new TournamentSpinnerAdapter((Activity) mContext,
                 list);
         sp_tournament.setAdapter(adapter);
-        sp_tournament.setSelection(tournamentPosition);
+
+
+        // Sets selected tournament
+        if(AppConstants.SESSION_TOURNAMENT_ID != -1) {
+            if (this.mTournamentList.size() > 0) {
+                for(int i=0; i<this.mTournamentList.size();i++){
+                    if(Integer.parseInt(this.mTournamentList.get(i).getTournament_id()) == AppConstants.SESSION_TOURNAMENT_ID){
+                        sp_tournament.setSelection(i);
+                        break;
+                    }
+                }
+            }
+        } else {
+            sp_tournament.setSelection(tournamentPosition);
+        }
     }
 
     private void setEmptyTournamentAdapter(TournamentModel mTournamentList[]) {
