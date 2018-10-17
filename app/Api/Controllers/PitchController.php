@@ -382,7 +382,7 @@ class PitchController extends BaseController
                         }
                         // displaying pitch names with its size
                         $sheet->cell('A'.$cell, function($cell) use ($pitch) {
-                            $cell->setValue($pitch->pitch_number.'( '.$pitch->size.' )');
+                            $cell->setValue($pitch->pitch_number.' ('.$pitch->size.')');
                         });
 
                         //pitch unavailable before starting pitch time block scenario
@@ -438,13 +438,15 @@ class PitchController extends BaseController
                             $startIndex = array_search($startTime, $time);
                             $endIndex = array_search($endTime, $time);
 
-                            $matchTime = $startTime . ' - ' . Carbon::parse($endTime)->addMinute(5)->format('H:i');
-                            $refreeName = $match['referre_name'] == " " ? "\n" : "\n" .$match['referre_name']. "\n";
+                            $matchTime = $startTime . ' - ' . Carbon::parse($endTime)->addMinute(5)->format('H:i'). "\n";
+                            $refreeName = '';
+                            if($match['referre_name'] != ' '){
+                                $refreeName = $match['referre_name']."\n";
+                            }
                             $score = '';
                             if($match['hometeam_score'] !== null && $match['awayteam_score'] !== null) {
-                                $score = "\n" .$match['hometeam_score'] . ' - ' .$match['awayteam_score'];
+                                $score = "\n".$match['hometeam_score'] . ' - ' .$match['awayteam_score'];
                             }
-
                             $matchString = $matchTime .$refreeName .$match['match_name'] .$score;
 
                             // displaying fixtures
