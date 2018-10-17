@@ -1,6 +1,5 @@
 package com.aecor.eurosports.activity;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,7 +16,6 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 
 import com.aecor.eurosports.R;
-import com.aecor.eurosports.adapter.TournamentSpinnerAdapter;
 import com.aecor.eurosports.gson.GsonConverter;
 import com.aecor.eurosports.http.VolleyJsonObjectRequest;
 import com.aecor.eurosports.http.VolleySingeltone;
@@ -58,18 +56,12 @@ public class ProfileActivity extends BaseAppCompactActivity {
     protected EditText input_last_name;
     @BindView(R.id.input_email)
     protected EditText input_email;
-    @BindView(R.id.profile_sp_tournament)
-    protected Spinner profile_sp_tournament;
     @BindView(R.id.profile_language_selection)
     protected Spinner profile_language_selection;
     @BindView(R.id.btn_update)
     protected Button btn_update;
-
     private AppPreference mAppPref;
     private Context mContext;
-    private int tournamet_id = 0;
-    private int selectedTournamentPos;
-    private List<TournamentModel> mTournamentList;
     private int languagePos = 0;
     private String[] localeKeys;
     private String selectedLocale;
@@ -98,15 +90,12 @@ public class ProfileActivity extends BaseAppCompactActivity {
             try {
                 profileModel.setFirst_name(input_first_name.getText().toString().trim());
                 profileModel.setSur_name(input_last_name.getText().toString().trim());
-                profileModel.setTournament_id(tournamet_id);
                 mAppPref.setString(AppConstants.PREF_PROFILE, GsonConverter.getInstance().encodeToJsonString(profileModel));
-                mAppPref.setString(AppConstants.PREF_TOURNAMENT_ID, tournamet_id + "");
                 mAppPref.setString(AppConstants.PREF_USER_LOCALE, selectedLocale);
                 mAppPref.setString(AppConstants.LANGUAGE_SELECTION, selectedLocale);
 
                 requestJson.put("first_name", input_first_name.getText().toString().trim());
                 requestJson.put("last_name", input_last_name.getText().toString().trim());
-                requestJson.put("tournament_id", tournamet_id);
                 requestJson.put("locale", selectedLocale);
                 requestJson.put("user_id", user_id);
             } catch (JSONException e) {
@@ -188,9 +177,7 @@ public class ProfileActivity extends BaseAppCompactActivity {
         } else {
             input_last_name.setText("");
         }
-        if (!Utility.isNullOrEmpty(mAppPref.getString(AppConstants.PREF_TOURNAMENT_ID))) {
-            tournamet_id = Integer.parseInt(mAppPref.getString(AppConstants.PREF_TOURNAMENT_ID));
-        }
+
         setLanguageSpinner();
     }
 
@@ -208,25 +195,7 @@ public class ProfileActivity extends BaseAppCompactActivity {
         GenericTextMatcher textWatcher = new GenericTextMatcher();
         input_last_name.addTextChangedListener(textWatcher);
         input_first_name.addTextChangedListener(textWatcher);
-        profile_sp_tournament.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position > 0) {
-                    if (mTournamentList != null && mTournamentList.get(position) != null && Utility.isNullOrEmpty(mTournamentList.get(position).getTournament_id())) {
-                        tournamet_id = Integer.parseInt(mTournamentList.get(position).getId());
 
-                        setDefaultTournament(mTournamentList.get(position).getId());
-                        mAppPref.setString(AppConstants.PREF_TOURNAMENT_ID, tournamet_id + "");
-
-                    }
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
         profile_language_selection.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -347,22 +316,7 @@ public class ProfileActivity extends BaseAppCompactActivity {
         List<TournamentModel> list = new ArrayList<>();
         list.addAll(Arrays.asList(mTournamentList));
         list.add(0, mHintModel);
-        selectedTournamentPos = 0;
 
-
-        if (!Utility.isNullOrEmpty(mAppPref.getString(AppConstants.PREF_TOURNAMENT_ID))) {
-            for (int i = 1; i < list.size(); i++) {
-                if (list.get(i).getId().equalsIgnoreCase(mAppPref.getString(AppConstants.PREF_TOURNAMENT_ID))) {
-                    selectedTournamentPos = i;
-                    break;
-                }
-            }
-        }
-        this.mTournamentList = list;
-        TournamentSpinnerAdapter adapter = new TournamentSpinnerAdapter((Activity) mContext,
-                list);
-        profile_sp_tournament.setAdapter(adapter);
-        profile_sp_tournament.setSelection(selectedTournamentPos);
     }
 
     private boolean validate() {
