@@ -13,6 +13,7 @@ use Laraspace\Models\Tournament;
 use Validate;
 use JWTAuth;
 use Laraspace\Models\User;
+use Laraspace\Models\UserFavourites;
 use Laraspace\Traits\TournamentAccess;
 use View;
 
@@ -391,12 +392,25 @@ class TournamentService implements TournamentContract
      */
     public function delete($tournamentId)
     {
+      $this->manageDeletedAndUnpublishedTournaments($tournamentId);      
+
         DB::table('tournament_user')->where('tournament_id', $tournamentId)->delete();
         Website::where('linked_tournament', $tournamentId)->update(['linked_tournament' => NULL]);
         $data = $this->tournamentRepoObj->delete($tournamentId);
         if ($data) {
             return ['status_code' => '200', 'message' => 'Data Successfully Deleted'];
         }
+    }
+
+    public function manageDeletedAndUnpublishedTournaments($tournamentId)
+    {
+      $allUserFavourites = UserFavourites::where('tournament_id', $tournamentId)->where('is_default','=',1)->get()->map(function ($item, $key) {
+        $userFavourites = UserFavourites::where('user_id', $item->user_id)->where('is_default','!=',1)->where('deleted_at',NULL)->first();
+        if ($userFavourites) {
+          $userFavourites->update(['is_default' => 1]);
+        }
+      });
+      UserFavourites::where('tournament_id', $tournamentId)->delete();
     }
     public function tournamentSummary($data)
     {
@@ -796,6 +810,10 @@ class TournamentService implements TournamentContract
 
     public function updateStatus($data)
     {
+      if ($data['tournamentData']['status'] == 'Unpublished') {
+        $this->manageDeletedAndUnpublishedTournaments($data['tournamentData']['tournamentId']);        
+      }
+      
         $data = $this->tournamentRepoObj->updateStatus($data['tournamentData']);
 
         if ($data) {
