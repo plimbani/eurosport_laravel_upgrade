@@ -50,4 +50,15 @@
             android:text="@string/sign_in" />
 
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvAppVersion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Version"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="8dp"
+        />
 </LinearLayout>
