@@ -52,6 +52,12 @@
                                     <action selector="signInBtnPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="w7V-AX-Rpo"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Version 1.0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wDJ-cx-eJj">
+                                <rect key="frame" x="128" y="542.5" width="64.5" height="15.5"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="13"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -61,11 +67,13 @@
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Knz-E6-WlJ" secondAttribute="trailing" id="Acp-er-NWV"/>
                             <constraint firstItem="58f-Q2-Gzf" firstAttribute="top" secondItem="JeI-5d-P5b" secondAttribute="bottom" constant="25" id="Bx1-vm-nbL"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="JeI-5d-P5b" secondAttribute="trailing" constant="20" id="DVO-5F-XPl"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="wDJ-cx-eJj" secondAttribute="bottom" constant="10" id="E0s-f2-GrG"/>
                             <constraint firstItem="76L-d2-oG0" firstAttribute="width" secondItem="58f-Q2-Gzf" secondAttribute="width" id="Inh-Sn-NOf"/>
                             <constraint firstItem="76L-d2-oG0" firstAttribute="height" secondItem="58f-Q2-Gzf" secondAttribute="height" id="LMA-0D-04u"/>
                             <constraint firstItem="JeI-5d-P5b" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="50" id="PFE-Co-mjm"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="58f-Q2-Gzf" secondAttribute="trailing" constant="30" id="WyH-hb-xqn"/>
                             <constraint firstItem="Knz-E6-WlJ" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="efh-ss-ILs"/>
+                            <constraint firstItem="wDJ-cx-eJj" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="f5t-20-5kK"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="Knz-E6-WlJ" secondAttribute="bottom" id="oMH-A5-MOy"/>
                             <constraint firstItem="58f-Q2-Gzf" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="30" id="oN1-rl-hT9"/>
                             <constraint firstItem="JeI-5d-P5b" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="u6U-aa-dDU"/>
@@ -75,6 +83,9 @@
                     </view>
                     <navigationItem key="navigationItem" id="vbX-KT-fhy"/>
                     <nil key="simulatedTopBarMetrics"/>
+                    <connections>
+                        <outlet property="lblAppVersion" destination="wDJ-cx-eJj" id="2qF-Mu-vGT"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>

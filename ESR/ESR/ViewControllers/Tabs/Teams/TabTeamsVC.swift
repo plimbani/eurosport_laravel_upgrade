@@ -94,37 +94,4 @@ class TabTeamsVC: SuperViewController {
             }
         }
     }
-    
-//    func updateView() {
-//        tabClubsLineView.backgroundColor = .clear
-//        tabCategoryLineView.backgroundColor = .clear
-//        tabGroupLineView.backgroundColor = .clear
-//
-//        lblTabClubs.textColor = .teamTabLblDefault
-//        lblTabGroup.textColor = .teamTabLblDefault
-//        lblTabCategory.textColor = .teamTabLblDefault
-//
-//        if selectedTab == ClubTabs.tabClubs.rawValue {
-//            removeTabViewcontroller(clubGroupVC)
-//            removeTabViewcontroller(clubCategoryVC)
-//            addTabViewcontroller(clubClubsVC)
-//
-//            tabClubsLineView.backgroundColor = .teamTabOrange
-//            lblTabClubs.textColor = .white
-//        } else if selectedTab == ClubTabs.tabCategory.rawValue {
-//            removeTabViewcontroller(clubClubsVC)
-//            removeTabViewcontroller(clubGroupVC)
-//            addTabViewcontroller(clubCategoryVC)
-//
-//            tabCategoryLineView.backgroundColor = .teamTabOrange
-//            lblTabCategory.textColor = .white
-//        } else if selectedTab == ClubTabs.tabGroups.rawValue {
-//            removeTabViewcontroller(clubClubsVC)
-//            removeTabViewcontroller(clubCategoryVC)
-//            addTabViewcontroller(clubGroupVC)
-//
-//            tabGroupLineView.backgroundColor = .teamTabOrange
-//            lblTabGroup.textColor = .white
-//        }
-//    }
 }

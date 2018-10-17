@@ -16,6 +16,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     // Tab controller global instance
     let reachability = Reachability()!
+    let cellOwner = TableCellOwner()
+    var infoAlertViewTwoButton: CustomAlertViewTwoButton!
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         _ = ApplicationData.sharedInstance()
@@ -47,4 +49,3 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
 }
-

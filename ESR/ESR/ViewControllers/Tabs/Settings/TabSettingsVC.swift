@@ -34,9 +34,7 @@ class TabSettingsVC: SuperViewController {
 
 extension TabSettingsVC: CustomAlertViewTwoButtonDelegate {
     
-    func customAlertViewTwoButtonNoBtnPressed(requestCode: Int) {
-        
-    }
+    func customAlertViewTwoButtonNoBtnPressed(requestCode: Int) {}
     
     func customAlertViewTwoButtonYesBtnPressed(requestCode: Int) {
         if requestCode == AlertRequestCode.logOut.rawValue {

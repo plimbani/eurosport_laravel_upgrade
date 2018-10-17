@@ -24,10 +24,8 @@ class LoginVC: SuperViewController {
         ApplicationData.setTextFieldAttributes(txtEmail)
         ApplicationData.setTextFieldAttributes(txtPassword)
         
-        //btnLogin.isEnabled = false
-        
-         txtEmail.text = "rstenson@aecordigital.com"
-         txtPassword.text = "password"
+        txtEmail.text = "rstenson@aecordigital.com"
+        txtPassword.text = "password"
         
         txtEmail.addTarget(self, action: #selector(textFieldDidChange(textField:)), for: .editingChanged)
         txtPassword.addTarget(self, action: #selector(textFieldDidChange(textField:)), for: .editingChanged)
@@ -159,7 +157,6 @@ class LoginVC: SuperViewController {
                     if authenticated {
                         ParseManager.parseLogin(result)
                         UIApplication.shared.keyWindow?.rootViewController = Storyboards.Main.instantiateMainVC()
-                        
                     } else {
                         if let message = result.value(forKey: "message") as? String {
                             self.showInfoAlertView(title: String.localize(key: "alert_title_error"), message: message)

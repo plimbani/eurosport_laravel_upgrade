@@ -298,8 +298,15 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5lm-4o-ySm">
-                                <rect key="frame" x="0.0" y="20" width="320" height="50"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6J4-RE-7SI" customClass="TitleNavigationBar" customModule="ESR" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="20" width="320" height="44"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="LPg-as-apd"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5lm-4o-ySm" userLabel="SearchView">
+                                <rect key="frame" x="0.0" y="64" width="320" height="50"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="d32-WQ-0lv">
                                         <rect key="frame" x="12" y="10" width="296" height="30"/>
@@ -327,7 +334,7 @@
                                 </constraints>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="1" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="hAh-mF-Ozp">
-                                <rect key="frame" x="0.0" y="70" width="320" height="498"/>
+                                <rect key="frame" x="0.0" y="114" width="320" height="454"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <connections>
                                     <outlet property="dataSource" destination="goi-Vb-JmH" id="21g-RA-FpR"/>
@@ -337,17 +344,25 @@
                         </subviews>
                         <constraints>
                             <constraint firstItem="5lm-4o-ySm" firstAttribute="leading" secondItem="s8O-xc-qIj" secondAttribute="leading" id="8rR-iF-9XQ"/>
+                            <constraint firstItem="6J4-RE-7SI" firstAttribute="top" secondItem="s8O-xc-qIj" secondAttribute="top" id="LZr-iO-Bvz"/>
+                            <constraint firstItem="6J4-RE-7SI" firstAttribute="leading" secondItem="s8O-xc-qIj" secondAttribute="leading" id="Ppm-s0-wan"/>
                             <constraint firstItem="s8O-xc-qIj" firstAttribute="bottom" secondItem="hAh-mF-Ozp" secondAttribute="bottom" id="PxU-Pr-Naj"/>
+                            <constraint firstItem="5lm-4o-ySm" firstAttribute="top" secondItem="6J4-RE-7SI" secondAttribute="bottom" id="Tlz-Vf-Orp"/>
                             <constraint firstItem="s8O-xc-qIj" firstAttribute="trailing" secondItem="hAh-mF-Ozp" secondAttribute="trailing" id="UYG-HG-nfX"/>
+                            <constraint firstItem="s8O-xc-qIj" firstAttribute="trailing" secondItem="6J4-RE-7SI" secondAttribute="trailing" id="eYs-XK-wgR"/>
                             <constraint firstItem="hAh-mF-Ozp" firstAttribute="leading" secondItem="s8O-xc-qIj" secondAttribute="leading" id="krJ-Ph-hIO"/>
                             <constraint firstItem="hAh-mF-Ozp" firstAttribute="top" secondItem="5lm-4o-ySm" secondAttribute="bottom" id="oHd-2S-DbF"/>
-                            <constraint firstItem="s8O-xc-qIj" firstAttribute="top" secondItem="5lm-4o-ySm" secondAttribute="top" id="oPz-du-caC"/>
                             <constraint firstItem="s8O-xc-qIj" firstAttribute="trailing" secondItem="5lm-4o-ySm" secondAttribute="trailing" id="qbf-v1-yUj"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="s8O-xc-qIj"/>
                     </view>
                     <connections>
+                        <outlet property="heightConstraintSeachView" destination="fs8-w3-mNc" id="rKH-Nq-x9t"/>
+                        <outlet property="heightConstraintTitleNavigationBar" destination="LPg-as-apd" id="GIh-Jf-hSj"/>
+                        <outlet property="imgSearch" destination="6O6-TZ-cK0" id="ZHd-gc-Uz5"/>
+                        <outlet property="searchView" destination="5lm-4o-ySm" id="Py1-PZ-kRN"/>
                         <outlet property="table" destination="hAh-mF-Ozp" id="vfF-uP-Prq"/>
+                        <outlet property="titleNavigationBar" destination="6J4-RE-7SI" id="ZNt-cT-pmT"/>
                         <outlet property="txtSearch" destination="d32-WQ-0lv" id="F7M-0e-dMm"/>
                     </connections>
                 </viewController>

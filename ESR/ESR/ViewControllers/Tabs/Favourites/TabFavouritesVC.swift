@@ -34,7 +34,7 @@ class TabFavouritesVC: SuperViewController {
         heightFavTournamentCell = (cellOwner.cell as! FavouriteTournamentCell).getCellHeight()
         
         // Alert view
-        initInfoAlertView(self.view)
+        initInfoAlertView(self.view)    
         
         // Get tournaments API request
         sendGetTournamentsRequest()

@@ -154,6 +154,10 @@ class ApiManager {
         postRequest(API_ENDPOINT.AGE_CATEGORIES, parameters, success: success, failure: failure, true)
     }
     
+    func getFinalPlacings(_ parameters: [String: Any]?, success: @escaping (_ result: NSDictionary) -> (), failure: @escaping (_ result: NSDictionary) -> ()) {
+        postRequest(API_ENDPOINT.GET_FINAL_PLACING_MATCHES, parameters, success: success, failure: failure, true)
+    }
+    
     func getAgeCategoriesGroups(_ parameters: [String: Any]?, success: @escaping (_ result: NSDictionary) -> (), failure: @escaping (_ result: NSDictionary) -> ()) {
         postRequest(API_ENDPOINT.TOURNAMENT_GROUP, parameters, success: success, failure: failure, true)
     }

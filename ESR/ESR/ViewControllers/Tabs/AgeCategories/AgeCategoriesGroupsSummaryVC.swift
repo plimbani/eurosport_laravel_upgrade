@@ -42,7 +42,7 @@ class AgeCategoriesGroupsSummaryVC: SuperViewController {
     }
     
     func initialize() {
-        titleNavigationBar.lblTitle.text = String.localize(key: "title_age_categories_groups")
+        titleNavigationBar.lblTitle.text = String.localize(key: "title_age_categories_groups_summary")
         titleNavigationBar.delegate = self
         titleNavigationBar.setBackgroundColor()
         
@@ -160,10 +160,11 @@ class AgeCategoriesGroupsSummaryVC: SuperViewController {
         
         var parameters: [String: Any] = [:]
         
-        if let userData = ApplicationData.sharedInstance().getUserData() {
-            parameters["tournamentId"] = userData.tournamentId
-        }
-        
+//        if let userData = ApplicationData.sharedInstance().getUserData() {
+//            parameters["tournamentId"] = userData.tournamentId
+//        }
+
+        parameters["tournamentId"] = ApplicationData.selectedTournament!.id
         parameters["competitionId"] = groupId
         
         var serverTournamentData: [String: Any] = [:]
@@ -218,10 +219,11 @@ class AgeCategoriesGroupsSummaryVC: SuperViewController {
         
         var parameters: [String: Any] = [:]
         
-        if let userData = ApplicationData.sharedInstance().getUserData() {
-            parameters["tournamentId"] = userData.tournamentId
-        }
+//        if let userData = ApplicationData.sharedInstance().getUserData() {
+//            parameters["tournamentId"] = userData.tournamentId
+//        }
         
+        parameters["tournamentId"] = ApplicationData.selectedTournament!.id
         parameters["competitionId"] = groupId
         
         var serverTournamentData: [String: Any] = [:]

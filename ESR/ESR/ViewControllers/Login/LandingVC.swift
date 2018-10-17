@@ -9,13 +9,29 @@ import UIKit
 
 class LandingVC: SuperViewController {
 
+    @IBOutlet var lblAppVersion: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        initialize()
+    }
+    
+    func initialize() {
         self.navigationController?.isNavigationBarHidden = true
+        
+        // Sets app version
+        if let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
+            lblAppVersion.text = String.init(format: String.localize(key: "string_app_version"), arguments: [version])
+        }
         
         initInfoAlertViewTwoButton(self.view, self)
         
         if USERDEFAULTS.string(forKey: kUserDefaults.token) != nil {
+            let viewController = Storyboards.Main.instantiateMainVC()
+            viewController.isFromLanding = true
+            UIApplication.shared.keyWindow?.rootViewController = viewController
+        } else {
+            // Checks if new app version is available or not
             sendAppversionRequest()
         }
     }
@@ -31,13 +47,13 @@ class LandingVC: SuperViewController {
             DispatchQueue.main.async {
                 self.view.hideProgressHUD()
                 if let serverVersion = result.value(forKey: "ios_app_version") as? String {
-                    let appVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
+                    let appVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as! String
                     
                     // 1 - left version is greater than right version
                     if Utils.compareVersion(serverVersion, appVersion) == 1 {
-                        self.showInfoAlertViewTwoButton(title: String.localize(key: "btn_update"), message: String.localize(key: "alert_msg_app_update"), buttonYesTitle: String.localize(key: "btn_update"), buttonNoTitle: String.localize(key: "btn_cancel"), requestCode: AlertRequestCode.appUpgrade.rawValue)
-                    } else {
-                        UIApplication.shared.keyWindow?.rootViewController = Storyboards.Main.instantiateMainVC()
+                        self.showInfoAlertViewTwoButton(title: String.localize(key: "alert_title_app_update"), message: String.localize(key: "alert_msg_app_update"), buttonYesTitle: String.localize(key: "btn_update"), buttonNoTitle: String.localize(key: "btn_cancel"), requestCode: AlertRequestCode.appUpgrade.rawValue)
+                        
+                        ApplicationData.isAppUpdateDispalyed = true
                     }
                 }
             }
@@ -66,15 +82,18 @@ class LandingVC: SuperViewController {
 }
 
 extension LandingVC: CustomAlertViewTwoButtonDelegate {
-    func customAlertViewTwoButtonNoBtnPressed(requestCode: Int) {
-        if requestCode == AlertRequestCode.appUpgrade.rawValue {
-            self.navigationController?.popViewController(animated: true)
-        }
-    }
+    func customAlertViewTwoButtonNoBtnPressed(requestCode: Int) {}
     
     func customAlertViewTwoButtonYesBtnPressed(requestCode: Int) {
         if requestCode == AlertRequestCode.appUpgrade.rawValue {
-            // redirect to app store
+            if let url = URL(string: APPSTORE_APP_URL),
+                UIApplication.shared.canOpenURL(url){
+                if #available(iOS 10.0, *) {
+                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                } else {
+                    UIApplication.shared.openURL(url)
+                }
+            }
         }
     }
 }

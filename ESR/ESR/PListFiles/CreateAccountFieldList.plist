@@ -74,6 +74,12 @@
         </dict>
         <dict>
             <key>cellType</key>
+            <integer>6</integer>
+            <key>title</key>
+            <string>By continuing you accept our Terms of Use.</string>
+        </dict>
+        <dict>
+            <key>cellType</key>
             <integer>3</integer>
             <key>title</key>
             <string>Create new account</string>

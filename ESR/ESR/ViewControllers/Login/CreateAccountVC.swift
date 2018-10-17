@@ -27,6 +27,8 @@ class CreateAccountVC: SuperViewController {
     var heightLabelSelectionCell: CGFloat = 0
     var heightTextFieldCell: CGFloat = 0
     var heightButtonCell: CGFloat = 0
+    var heightLabelCell: CGFloat = 0
+    var heightTextViewCell: CGFloat = 0
     
     // PickerHandlerView
     var pickerHandlerView: PickerHandlerView!
@@ -58,6 +60,12 @@ class CreateAccountVC: SuperViewController {
         
         _ = cellOwner.loadMyNibFile(nibName: kNiB.Cell.ButtonCell)
         heightButtonCell = (cellOwner.cell as! ButtonCell).getCellHeight()
+        
+        _ = cellOwner.loadMyNibFile(nibName: kNiB.Cell.LabelCell)
+        heightLabelCell = (cellOwner.cell as! LabelCell).getCellHeight()
+        
+        _ = cellOwner.loadMyNibFile(nibName: kNiB.Cell.TextViewCell)
+        heightTextViewCell = (cellOwner.cell as! TextViewCell).getCellHeight()
         
         pickerHandlerView = getPickerView()
         pickerHandlerView.delegate = self
@@ -164,6 +172,24 @@ class CreateAccountVC: SuperViewController {
         }
     }
     
+    @objc func termsNPolicyPressed(gestureRecognizer: UITapGestureRecognizer) {
+        if let txtViewTermsNPrivacy = gestureRecognizer.view as? UITextView {
+            let location: CGPoint = gestureRecognizer.location(in: txtViewTermsNPrivacy)
+            
+            let tapPosition: UITextPosition = txtViewTermsNPrivacy.closestPosition(to: location)!
+            let textRange: UITextRange? = txtViewTermsNPrivacy.tokenizer.rangeEnclosingPosition(tapPosition, with: UITextGranularity.word, inDirection: UITextLayoutDirection.right.rawValue)
+            
+            if textRange != nil {
+                let textClicked = txtViewTermsNPrivacy.text(in: textRange!)
+                if textClicked != nil {
+                    if "Terms of Use".contains(textClicked!) {
+                        self.navigationController?.pushViewController(Storyboards.Settings.instantiatePrivacyAndTermsVC(), animated: true)
+                    }
+                }
+            }
+        }
+    }
+    
     func updateCreateAccountBtn() {
         btnCreateNewAccount.isEnabled = false
         btnCreateNewAccount.backgroundColor = UIColor.btnDisable
@@ -211,6 +237,20 @@ class CreateAccountVC: SuperViewController {
         btnCreateNewAccount.isEnabled = true
         btnCreateNewAccount.backgroundColor = UIColor.btnYellow
     }
+    
+    func addUnderLineToAttributedString(_ attrString: NSMutableAttributedString, _ mainString: String, _ subString: String,_ underlineColor: UIColor,_ foregroundColor: UIColor) {
+        
+        let nsRangeTerms = NSString(string: mainString).range(of: subString, options: String.CompareOptions.caseInsensitive)
+        attrString.addAttribute(NSAttributedStringKey.underlineStyle, value: NSUnderlineStyle.styleSingle.rawValue, range: nsRangeTerms)
+        attrString.addAttribute(NSAttributedStringKey.foregroundColor, value: foregroundColor, range: nsRangeTerms)
+        attrString.addAttribute(NSAttributedStringKey.underlineColor, value: underlineColor, range: nsRangeTerms)
+    }
+}
+
+extension CreateAccountVC: UIGestureRecognizerDelegate {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
+    }
 }
 
 extension CreateAccountVC: CustomAlertViewDelegate {
@@ -227,6 +267,12 @@ extension CreateAccountVC: PickerHandlerViewDelegate {
         lblTournament.text = title
         lblTournament.textColor = .black
         updateCreateAccountBtn()
+    }
+}
+
+extension CreateAccountVC: UITextViewDelegate {
+    func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
+        return false
     }
 }
 
@@ -270,6 +316,8 @@ extension CreateAccountVC : UITableViewDataSource, UITableViewDelegate {
                         height = heightTextFieldCell
                     case .ButtonCell:
                         height = heightButtonCell
+                    case .TextViewCell:
+                        height = heightTextViewCell
                     default:
                         print("Default")
                 }
@@ -334,6 +382,29 @@ extension CreateAccountVC : UITableViewDataSource, UITableViewDelegate {
                             btnCreateNewAccount.isEnabled = true
                             cell = buttonCell
                             cellList.add(cell)
+                        case .TextViewCell:
+                            _ = cellOwner.loadMyNibFile(nibName: kNiB.Cell.TextViewCell)
+                            let textViewCell = cellOwner.cell as! TextViewCell
+                            textViewCell.textView.text = ""
+                            cell = textViewCell
+                            cellList.add(cell)
+                        
+                            // Attributed string
+                            let mainString = String.localize(key: "string_accept_terms_of_use")
+                            let attrString = NSMutableAttributedString.init(string: mainString)
+                            let nsRange = NSString(string: mainString).range(of: mainString, options: String.CompareOptions.caseInsensitive)
+                        
+                            attrString.addAttribute(NSAttributedStringKey.foregroundColor, value: UIColor.black, range: nsRange)
+                            attrString.addAttribute(NSAttributedStringKey.font, value: UIFont(name: Font.HELVETICA_REGULAR, size: 15.0)!, range: NSRange.init(location: 0, length: mainString.count))
+                        
+                            addUnderLineToAttributedString(attrString, mainString, "Terms of Use", UIColor.btnYellow, UIColor.btnYellow)
+                        
+                            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(termsNPolicyPressed))
+                            tapGesture.delegate = self
+                            textViewCell.textView.attributedText = attrString
+                            textViewCell.textView.delegate = self
+                            textViewCell.textView.textAlignment = .left
+                            textViewCell.textView.addGestureRecognizer(tapGesture)
                         default:
                             print("Default")
                     }

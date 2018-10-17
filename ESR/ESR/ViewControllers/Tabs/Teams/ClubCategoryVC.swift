@@ -11,9 +11,16 @@ class ClubCategoryVC: SuperViewController {
 
     @IBOutlet var txtSearch: UITextField!
     @IBOutlet var table: UITableView!
+    @IBOutlet var searchView: UIView!
+    @IBOutlet var imgSearch: UIImageView!
+    
+    @IBOutlet var heightConstraintSeachView: NSLayoutConstraint!
+    @IBOutlet var heightConstraintTitleNavigationBar: NSLayoutConstraint!
     
     var ageCategoriesList = NSArray()
     var heightAgeCategoryCell: CGFloat = 0
+    var isFromTournament = false
+    var tournamentId = NULL_ID
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,6 +43,17 @@ class ClubCategoryVC: SuperViewController {
         // Height for cell
         _ = cellOwner.loadMyNibFile(nibName: kNiB.Cell.AgeCategoryCell)
         heightAgeCategoryCell = (cellOwner.cell as! AgeCategoryCell).getCellHeight()
+        
+        if isFromTournament {
+            heightConstraintSeachView.constant = 0
+            titleNavigationBar.lblTitle.text = String.localize(key: "title_final_placing")
+            titleNavigationBar.delegate = self
+            titleNavigationBar.setBackgroundColor()
+            searchView.updateConstraints()
+            imgSearch.image = UIImage()
+        } else {
+            heightConstraintTitleNavigationBar.constant = 0
+        }
     }
     
     func sendAgeCategoriesRequest() {
@@ -45,9 +63,18 @@ class ClubCategoryVC: SuperViewController {
         
         self.view.showProgressHUD()
         var parameters: [String: Any] = [:]
-        if let userData = ApplicationData.sharedInstance().getUserData() {
-            parameters["tournament_id"] = userData.tournamentId
-        }
+        
+//        if isFromTournament {
+//            if tournamentId != NULL_ID {
+//                parameters["tournament_id"] = tournamentId
+//            }
+//        } else {
+//            if let userData = ApplicationData.sharedInstance().getUserData() {
+//                parameters["tournament_id"] = userData.tournamentId
+//            }
+//        }
+        
+        parameters["tournament_id"] = ApplicationData.selectedTournament!.id
         
         ApiManager().getAgeCategories(parameters, success: { (result) in
             DispatchQueue.main.async {
@@ -64,6 +91,12 @@ class ClubCategoryVC: SuperViewController {
                 self.view.hideProgressHUD()
             }
         }
+    }
+}
+
+extension ClubCategoryVC: TitleNavigationBarDelegate {
+    func titleNavBarBackBtnPressed() {
+        self.navigationController?.popViewController(animated: true)
     }
 }
 
@@ -95,6 +128,14 @@ extension ClubCategoryVC: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        if isFromTournament {
+            let viewController = Storyboards.Tournament.instantiateFinalPlacingsVC()
+            viewController.ageCategoryId = (ageCategoriesList[indexPath.row] as! NSDictionary).value(forKey: "id") as! Int
+            self.navigationController?.pushViewController(viewController, animated: true)
+            return
+        }
+        
         let viewController = Storyboards.AgeCategories.instantiateAgeCategoriesGroupsSummaryVC()
         viewController.dicGroup = (ageCategoriesList[indexPath.row] as! NSDictionary)
         self.navigationController?.pushViewController(viewController, animated: true)

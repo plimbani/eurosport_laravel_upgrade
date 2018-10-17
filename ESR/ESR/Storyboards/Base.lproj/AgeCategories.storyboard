@@ -625,31 +625,28 @@ league table</string>
                                                                         <nil key="textColor"/>
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
-                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="T1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mOO-u2-pcY">
-                                                                        <rect key="frame" x="63" y="55.5" width="20" height="20.5"/>
-                                                                        <constraints>
-                                                                            <constraint firstAttribute="height" constant="20.5" id="8CY-pW-NNk"/>
-                                                                        </constraints>
+                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Long team name long" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mOO-u2-pcY">
+                                                                        <rect key="frame" x="3" y="55.5" width="139" height="41"/>
                                                                         <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="17"/>
                                                                         <nil key="textColor"/>
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
                                                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="hIc-ls-kbG">
-                                                                        <rect key="frame" x="58" y="96" width="30" height="21"/>
+                                                                        <rect key="frame" x="58" y="116.5" width="30" height="21"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="height" constant="21" id="PqM-ka-wYU"/>
                                                                             <constraint firstAttribute="width" constant="30" id="vVe-nW-d6g"/>
                                                                         </constraints>
                                                                     </imageView>
                                                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tshirt" translatesAutoresizingMaskIntoConstraints="NO" id="CzH-x9-lRu">
-                                                                        <rect key="frame" x="52" y="132" width="42" height="30"/>
+                                                                        <rect key="frame" x="52" y="152.5" width="42" height="30"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="height" constant="30" id="fDO-Ob-NU2"/>
                                                                             <constraint firstAttribute="width" constant="42" id="uqH-0X-Ed7"/>
                                                                         </constraints>
                                                                     </imageView>
                                                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="short" translatesAutoresizingMaskIntoConstraints="NO" id="qB0-cB-7dC">
-                                                                        <rect key="frame" x="52" y="162" width="42" height="15"/>
+                                                                        <rect key="frame" x="52" y="182.5" width="42" height="15"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="height" constant="15" id="Msi-5e-8bQ"/>
                                                                         </constraints>
@@ -659,6 +656,8 @@ league table</string>
                                                                 <constraints>
                                                                     <constraint firstItem="CzH-x9-lRu" firstAttribute="centerX" secondItem="R8X-tB-O8g" secondAttribute="centerX" id="9fe-g2-dDU"/>
                                                                     <constraint firstItem="hIc-ls-kbG" firstAttribute="top" secondItem="mOO-u2-pcY" secondAttribute="bottom" constant="20" id="EIF-e8-V6G"/>
+                                                                    <constraint firstItem="mOO-u2-pcY" firstAttribute="leading" secondItem="R8X-tB-O8g" secondAttribute="leading" constant="3" id="ESR-ZZ-o5t"/>
+                                                                    <constraint firstAttribute="trailing" secondItem="mOO-u2-pcY" secondAttribute="trailing" constant="3" id="JgX-bV-Uzj"/>
                                                                     <constraint firstItem="CzH-x9-lRu" firstAttribute="top" secondItem="hIc-ls-kbG" secondAttribute="bottom" constant="15" id="NYS-Qt-nnZ"/>
                                                                     <constraint firstItem="qB0-cB-7dC" firstAttribute="width" secondItem="CzH-x9-lRu" secondAttribute="width" id="Vc4-Sf-UY3"/>
                                                                     <constraint firstItem="hIc-ls-kbG" firstAttribute="centerX" secondItem="R8X-tB-O8g" secondAttribute="centerX" id="Y7O-S6-iID"/>
@@ -683,26 +682,23 @@ league table</string>
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="T1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oyL-ts-0lK">
-                                                                        <rect key="frame" x="63" y="55.5" width="20" height="20.5"/>
-                                                                        <constraints>
-                                                                            <constraint firstAttribute="height" constant="20.5" id="Bix-ZL-yNt"/>
-                                                                        </constraints>
+                                                                        <rect key="frame" x="63" y="55.5" width="20" height="41"/>
                                                                         <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="17"/>
                                                                         <nil key="textColor"/>
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
                                                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="RIm-1K-YC7">
-                                                                        <rect key="frame" x="57.5" y="96" width="30" height="21"/>
+                                                                        <rect key="frame" x="57.5" y="116.5" width="30" height="21"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="width" constant="30" id="0wh-UC-w8Q"/>
                                                                             <constraint firstAttribute="height" constant="21" id="AcW-bw-5Im"/>
                                                                         </constraints>
                                                                     </imageView>
                                                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tshirt" translatesAutoresizingMaskIntoConstraints="NO" id="LIz-t4-6wK">
-                                                                        <rect key="frame" x="51.5" y="132" width="42" height="30"/>
+                                                                        <rect key="frame" x="51.5" y="152.5" width="42" height="30"/>
                                                                     </imageView>
                                                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="short" translatesAutoresizingMaskIntoConstraints="NO" id="28N-V4-BJ7">
-                                                                        <rect key="frame" x="51.5" y="162" width="42" height="15"/>
+                                                                        <rect key="frame" x="51.5" y="182.5" width="42" height="15"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="height" constant="15" id="SDX-1L-E0c"/>
                                                                         </constraints>
@@ -727,6 +723,7 @@ league table</string>
                                                         <constraints>
                                                             <constraint firstItem="28N-V4-BJ7" firstAttribute="height" secondItem="qB0-cB-7dC" secondAttribute="height" id="MQ4-CR-FBb"/>
                                                             <constraint firstItem="LIz-t4-6wK" firstAttribute="height" secondItem="CzH-x9-lRu" secondAttribute="height" id="Xje-5D-f4i"/>
+                                                            <constraint firstItem="oyL-ts-0lK" firstAttribute="height" secondItem="mOO-u2-pcY" secondAttribute="height" id="e2V-Y6-ISq"/>
                                                             <constraint firstItem="LIz-t4-6wK" firstAttribute="width" secondItem="CzH-x9-lRu" secondAttribute="width" id="h48-9R-c2Y"/>
                                                             <constraint firstItem="28N-V4-BJ7" firstAttribute="width" secondItem="qB0-cB-7dC" secondAttribute="width" id="mhu-va-NQW"/>
                                                         </constraints>
@@ -762,21 +759,8 @@ league table</string>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DKE-MX-Dmo">
                                                         <rect key="frame" x="0.0" y="0.0" width="290" height="35"/>
                                                         <subviews>
-                                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="k9t-IP-gQq">
-                                                                <rect key="frame" x="144.5" y="8" width="1" height="19"/>
-                                                                <color key="backgroundColor" red="0.33725490200000002" green="0.3411764706" blue="0.34901960780000002" alpha="1" colorSpace="calibratedRGB"/>
-                                                                <constraints>
-                                                                    <constraint firstAttribute="width" constant="1" id="tPs-9l-169"/>
-                                                                </constraints>
-                                                            </view>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T8M-7q-2ZE">
-                                                                <rect key="frame" x="157.5" y="6.5" width="46.5" height="22.5"/>
-                                                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="19"/>
-                                                                <color key="textColor" red="0.33725490200000002" green="0.3411764706" blue="0.34901960780000002" alpha="1" colorSpace="calibratedRGB"/>
-                                                                <nil key="highlightedColor"/>
-                                                            </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wOq-JG-Aha">
-                                                                <rect key="frame" x="86" y="6.5" width="46.5" height="22.5"/>
+                                                                <rect key="frame" x="122" y="6.5" width="46.5" height="22.5"/>
                                                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="19"/>
                                                                 <color key="textColor" red="0.33725490200000002" green="0.3411764706" blue="0.34901960780000002" alpha="1" colorSpace="calibratedRGB"/>
                                                                 <nil key="highlightedColor"/>
@@ -785,14 +769,8 @@ league table</string>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <constraints>
                                                             <constraint firstItem="wOq-JG-Aha" firstAttribute="centerY" secondItem="DKE-MX-Dmo" secondAttribute="centerY" id="06C-GT-7Ey"/>
-                                                            <constraint firstItem="k9t-IP-gQq" firstAttribute="top" secondItem="DKE-MX-Dmo" secondAttribute="top" constant="8" id="3O1-o9-dGr"/>
-                                                            <constraint firstAttribute="bottom" secondItem="k9t-IP-gQq" secondAttribute="bottom" constant="8" id="QTf-hr-kfh"/>
-                                                            <constraint firstItem="k9t-IP-gQq" firstAttribute="centerY" secondItem="DKE-MX-Dmo" secondAttribute="centerY" id="T0s-P8-ZhJ"/>
-                                                            <constraint firstItem="T8M-7q-2ZE" firstAttribute="leading" secondItem="k9t-IP-gQq" secondAttribute="trailing" constant="12" id="Uqq-SL-Zwp"/>
-                                                            <constraint firstItem="T8M-7q-2ZE" firstAttribute="centerY" secondItem="DKE-MX-Dmo" secondAttribute="centerY" id="fOd-XU-XBH"/>
-                                                            <constraint firstItem="k9t-IP-gQq" firstAttribute="centerX" secondItem="DKE-MX-Dmo" secondAttribute="centerX" id="lgs-GB-KnU"/>
+                                                            <constraint firstItem="wOq-JG-Aha" firstAttribute="centerX" secondItem="DKE-MX-Dmo" secondAttribute="centerX" id="Mba-w7-ej4"/>
                                                             <constraint firstAttribute="height" constant="35" id="ri2-UP-laB"/>
-                                                            <constraint firstItem="k9t-IP-gQq" firstAttribute="leading" secondItem="wOq-JG-Aha" secondAttribute="trailing" constant="12" id="rs4-It-24P"/>
                                                         </constraints>
                                                     </view>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="leB-FL-7PY">
@@ -898,7 +876,6 @@ league table</string>
                         <viewLayoutGuide key="safeArea" id="IMO-Ah-dNE"/>
                     </view>
                     <connections>
-                        <outlet property="heightConstraintDateSeparator" destination="tPs-9l-169" id="wtz-XQ-Odu"/>
                         <outlet property="heightConstraintLblNoInternet" destination="AiY-Oh-rF0" id="0RE-MH-XiW"/>
                         <outlet property="heightConstraintViewWinnerStatus" destination="ya6-7Z-yhe" id="Z77-c6-xJE"/>
                         <outlet property="imgViewTeam1Flag" destination="hIc-ls-kbG" id="stZ-fX-Aqx"/>
@@ -916,7 +893,6 @@ league table</string>
                         <outlet property="lblTeam1Score" destination="5cT-0y-bqR" id="Mgg-zO-6Gj"/>
                         <outlet property="lblTeam2Name" destination="oyL-ts-0lK" id="7An-l2-7RG"/>
                         <outlet property="lblTeam2Score" destination="NGv-Ap-dxw" id="77T-7H-Z36"/>
-                        <outlet property="lblTime" destination="T8M-7q-2ZE" id="fOG-nh-v0U"/>
                         <outlet property="lblVenue" destination="Pyz-FQ-9kZ" id="Dmq-ps-joa"/>
                         <outlet property="lblWinnerStatus" destination="rgA-NA-pLG" id="cwE-Nd-fdL"/>
                         <outlet property="stackviewMiddle" destination="bzb-PT-Mld" id="Pju-qC-T0y"/>

@@ -71,6 +71,15 @@
 		30569404212C0251009790BA /* ProfileList.plist in Resources */ = {isa = PBXBuildFile; fileRef = 30569403212C0251009790BA /* ProfileList.plist */; };
 		306893F5214A813900BA543F /* TournamentClubCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306893F3214A813900BA543F /* TournamentClubCell.swift */; };
 		306893F6214A813900BA543F /* TournamentClubCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 306893F4214A813900BA543F /* TournamentClubCell.xib */; };
+		307542AB2170BE03003715C7 /* LabelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307542A92170BE03003715C7 /* LabelCell.swift */; };
+		307542AC2170BE03003715C7 /* LabelCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 307542AA2170BE03003715C7 /* LabelCell.xib */; };
+		307542AF21745D03003715C7 /* TextViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307542AD21745D03003715C7 /* TextViewCell.swift */; };
+		307542B021745D03003715C7 /* TextViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 307542AE21745D03003715C7 /* TextViewCell.xib */; };
+		307542B2217474AD003715C7 /* TournamentDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307542B1217474AD003715C7 /* TournamentDetailsView.swift */; };
+		307542B421747520003715C7 /* TournamentDetailsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 307542B321747520003715C7 /* TournamentDetailsView.xib */; };
+		307542B62174BCED003715C7 /* FinalPlacingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307542B52174BCED003715C7 /* FinalPlacingsVC.swift */; };
+		307542B92174C9DD003715C7 /* FinalPlacingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307542B72174C9DD003715C7 /* FinalPlacingsCell.swift */; };
+		307542BA2174C9DD003715C7 /* FinalPlacingsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 307542B82174C9DD003715C7 /* FinalPlacingsCell.xib */; };
 		307949DF2137F78100DE23A3 /* TeamFixture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307949DE2137F78100DE23A3 /* TeamFixture.swift */; };
 		307949E621394C6800DE23A3 /* GroupDetailsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307949E521394C6800DE23A3 /* GroupDetailsVC.swift */; };
 		307949ED21395AB200DE23A3 /* GroupDetailsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307949EB21395AB200DE23A3 /* GroupDetailsCell.swift */; };
@@ -166,12 +175,22 @@
 		30181D7A212AD07C0067D65F /* CustomAlertViewTwoButton.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomAlertViewTwoButton.xib; sourceTree = "<group>"; };
 		30181D7B212AD07C0067D65F /* CustomAlertViewTwoButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomAlertViewTwoButton.swift; sourceTree = "<group>"; };
 		30181D80212AF0590067D65F /* SettingsList.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = SettingsList.plist; sourceTree = "<group>"; };
+		3033AE99216E062600C19FCD /* MBCircularProgressBar.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MBCircularProgressBar.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		305693FD212BEABC009790BA /* ProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVC.swift; sourceTree = "<group>"; };
 		305693FF212BEACC009790BA /* NotificationAndSoundVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationAndSoundVC.swift; sourceTree = "<group>"; };
 		30569401212BEADC009790BA /* PrivacyAndTermsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyAndTermsVC.swift; sourceTree = "<group>"; };
 		30569403212C0251009790BA /* ProfileList.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = ProfileList.plist; sourceTree = "<group>"; };
 		306893F3214A813900BA543F /* TournamentClubCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TournamentClubCell.swift; sourceTree = "<group>"; };
 		306893F4214A813900BA543F /* TournamentClubCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TournamentClubCell.xib; sourceTree = "<group>"; };
+		307542A92170BE03003715C7 /* LabelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelCell.swift; sourceTree = "<group>"; };
+		307542AA2170BE03003715C7 /* LabelCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LabelCell.xib; sourceTree = "<group>"; };
+		307542AD21745D03003715C7 /* TextViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextViewCell.swift; sourceTree = "<group>"; };
+		307542AE21745D03003715C7 /* TextViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TextViewCell.xib; sourceTree = "<group>"; };
+		307542B1217474AD003715C7 /* TournamentDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TournamentDetailsView.swift; sourceTree = "<group>"; };
+		307542B321747520003715C7 /* TournamentDetailsView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TournamentDetailsView.xib; sourceTree = "<group>"; };
+		307542B52174BCED003715C7 /* FinalPlacingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinalPlacingsVC.swift; sourceTree = "<group>"; };
+		307542B72174C9DD003715C7 /* FinalPlacingsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinalPlacingsCell.swift; sourceTree = "<group>"; };
+		307542B82174C9DD003715C7 /* FinalPlacingsCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FinalPlacingsCell.xib; sourceTree = "<group>"; };
 		307949DE2137F78100DE23A3 /* TeamFixture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamFixture.swift; sourceTree = "<group>"; };
 		307949E521394C6800DE23A3 /* GroupDetailsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupDetailsVC.swift; sourceTree = "<group>"; };
 		307949EB21395AB200DE23A3 /* GroupDetailsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupDetailsCell.swift; sourceTree = "<group>"; };
@@ -237,6 +256,7 @@
 		2BDEF858AB329BF64FB52540 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3033AE99216E062600C19FCD /* MBCircularProgressBar.framework */,
 				EBD932D29D0473CA455A5CCA /* Pods_ESR.framework */,
 			);
 			name = Frameworks;
@@ -371,6 +391,12 @@
 				3086BC94213EB11A00810CC8 /* TwoLabelCell.xib */,
 				306893F3214A813900BA543F /* TournamentClubCell.swift */,
 				306893F4214A813900BA543F /* TournamentClubCell.xib */,
+				307542A92170BE03003715C7 /* LabelCell.swift */,
+				307542AA2170BE03003715C7 /* LabelCell.xib */,
+				307542AD21745D03003715C7 /* TextViewCell.swift */,
+				307542AE21745D03003715C7 /* TextViewCell.xib */,
+				307542B72174C9DD003715C7 /* FinalPlacingsCell.swift */,
+				307542B82174C9DD003715C7 /* FinalPlacingsCell.xib */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -393,6 +419,8 @@
 				30FB312221357A0800ABA22A /* GroupSummaryStandingsHeader.xib */,
 				30FB3124213665FE00ABA22A /* GroupSummaryMatchesHeader.swift */,
 				30FB31262136660900ABA22A /* GroupSummaryMatchesHeader.xib */,
+				307542B1217474AD003715C7 /* TournamentDetailsView.swift */,
+				307542B321747520003715C7 /* TournamentDetailsView.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -447,6 +475,7 @@
 			isa = PBXGroup;
 			children = (
 				30181D292122B0CB0067D65F /* TabTournamentVC.swift */,
+				307542B52174BCED003715C7 /* FinalPlacingsVC.swift */,
 			);
 			path = Tournament;
 			sourceTree = "<group>";
@@ -596,13 +625,17 @@
 				30FB3111212EB2B300ABA22A /* privacyContent.html in Resources */,
 				30181CCB211D95B80067D65F /* Assets.xcassets in Resources */,
 				30181D5C2126CF9C0067D65F /* Dev.xcconfig in Resources */,
+				307542BA2174C9DD003715C7 /* FinalPlacingsCell.xib in Resources */,
 				30181D6B2126F4060067D65F /* PickerHandlerView.xib in Resources */,
 				30FB312321357A0800ABA22A /* GroupSummaryStandingsHeader.xib in Resources */,
+				307542B421747520003715C7 /* TournamentDetailsView.xib in Resources */,
 				30181CC9211D95B60067D65F /* Main.storyboard in Resources */,
 				30569404212C0251009790BA /* ProfileList.plist in Resources */,
 				30181D362122C6590067D65F /* CreateAccountFieldList.plist in Resources */,
 				30181D3C21230ABF0067D65F /* TextFieldCell.xib in Resources */,
+				307542B021745D03003715C7 /* TextViewCell.xib in Resources */,
 				30FB312F21366AA400ABA22A /* GroupSummaryStandingsCell.xib in Resources */,
+				307542AC2170BE03003715C7 /* LabelCell.xib in Resources */,
 				3086BC96213EB11A00810CC8 /* TwoLabelCell.xib in Resources */,
 				30181D5E2126CFAF0067D65F /* Production.xcconfig in Resources */,
 				30181D342122C0370067D65F /* LabelSelectionCell.xib in Resources */,
@@ -665,11 +698,13 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-ESR/Pods-ESR-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/MBCircularProgressBar/MBCircularProgressBar.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MBCircularProgressBar.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -690,12 +725,15 @@
 				30FB311A21353CA000ABA22A /* AgeCategoryCell.swift in Sources */,
 				30FB311D213550C600ABA22A /* AgeCategoriesGroupsVC.swift in Sources */,
 				30181CDF211D9DFF0067D65F /* ApplicationData.swift in Sources */,
+				307542AF21745D03003715C7 /* TextViewCell.swift in Sources */,
 				30FB3121213579FE00ABA22A /* GroupSummaryStandingsHeader.swift in Sources */,
 				30181D502126BB520067D65F /* ApiManager.swift in Sources */,
 				30181D08211DBA1B0067D65F /* TabTeamsVC.swift in Sources */,
 				30181CFA211DAFA80067D65F /* MainTabViewController.swift in Sources */,
 				30FB312E21366AA400ABA22A /* GroupSummaryStandingsCell.swift in Sources */,
 				30181D382122D1A00067D65F /* UITextFieldExtensions.swift in Sources */,
+				307542B92174C9DD003715C7 /* FinalPlacingsCell.swift in Sources */,
+				307542B62174BCED003715C7 /* FinalPlacingsVC.swift in Sources */,
 				30181D642126D7850067D65F /* Environments.swift in Sources */,
 				3083AEAA21466C7400F9B4B2 /* ClubGroupVC.swift in Sources */,
 				306893F5214A813900BA543F /* TournamentClubCell.swift in Sources */,
@@ -721,6 +759,7 @@
 				30181D79212ABB5A0067D65F /* ParseManger.swift in Sources */,
 				30181D4C212590E30067D65F /* ImageNavigationBar.swift in Sources */,
 				30181D3B21230ABF0067D65F /* TextFieldCell.swift in Sources */,
+				307542B2217474AD003715C7 /* TournamentDetailsView.swift in Sources */,
 				30FB3117212FEA4B00ABA22A /* Tournament.swift in Sources */,
 				30FB312A21366A6400ABA22A /* GroupSummaryMatchesCell.swift in Sources */,
 				30181D232121A8EA0067D65F /* LandingVC.swift in Sources */,
@@ -742,6 +781,7 @@
 				30181D70212AA3400067D65F /* CustomAlertView.swift in Sources */,
 				3086BC9A213FB54E00810CC8 /* MapVC.swift in Sources */,
 				30181D42212558900067D65F /* Utils.swift in Sources */,
+				307542AB2170BE03003715C7 /* LabelCell.swift in Sources */,
 				30569402212BEADC009790BA /* PrivacyAndTermsVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

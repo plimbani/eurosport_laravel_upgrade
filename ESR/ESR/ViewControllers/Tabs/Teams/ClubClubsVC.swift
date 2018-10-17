@@ -45,9 +45,11 @@ class ClubClubsVC: SuperViewController {
         
         self.view.showProgressHUD()
         var parameters: [String: Any] = [:]
-        if let userData = ApplicationData.sharedInstance().getUserData() {
-            parameters["tournament_id"] = userData.tournamentId
-        }
+//        if let userData = ApplicationData.sharedInstance().getUserData() {
+//            parameters["tournament_id"] = userData.tournamentId
+//        }
+        
+        parameters["tournament_id"] = ApplicationData.selectedTournament!.id
         
         ApiManager().getTournamentClub(parameters, success: { (result) in
             DispatchQueue.main.async {

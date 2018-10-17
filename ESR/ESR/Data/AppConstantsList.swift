@@ -22,6 +22,8 @@ let SYSTEM_VERSION  =   DEVICE.systemVersion
 let USERDEFAULTS    =   UserDefaults.standard
 let APPDELEGATE     =   UIApplication.shared.delegate as! AppDelegate
 
+let APPSTORE_APP_URL = "itms-apps://itunes.apple.com/app/id1437488944"
+
 struct API_ENDPOINT {
     
     static let TOURNAMENTS = API_URL.BASE_URL + "tournaments"
@@ -33,6 +35,7 @@ struct API_ENDPOINT {
     static let GET_SETTINGS = API_URL.BASE_URL + "users/getSetting"
     static let UPDATE_SETTINGS = API_URL.BASE_URL + "users/postSetting"
     static let UPDATE_PROFILE = API_URL.BASE_URL + "user/update/%@"
+    static let GET_FINAL_PLACING_MATCHES = API_URL.BASE_URL + "age_group/getPlacingsData"
     // Tab fav
     static let REMOVE_FAVOURITE = API_URL.BASE_URL + "users/removeFavourite"
     static let SET_FAVOURITE = API_URL.BASE_URL + "users/setFavourite"
@@ -63,6 +66,7 @@ struct kViewController {
     static let ClubClubsVC                      = "ClubClubsVC"
     static let TabAgeCategoriesVC               = "TabAgeCategoriesVC"
     static let TabSettingsVC                    = "TabSettingsVC"
+    static let FinalPlacingsVC                  = "FinalPlacingsVC"
     // Settings
     static let ProfileVC                        = "ProfileVC"
     static let NotificationAndSoundVC           = "NotificationAndSoundVC"
@@ -74,6 +78,14 @@ struct kViewController {
     static let VenueVC                          = "VenueVC"
     
     static let MapVC                            = "MapVC"
+}
+
+enum TabIndex: Int {
+    case tabFav = 0
+    case tabTournament = 1
+    case tabTeams = 2
+    case tabAgeCategories = 3
+    case tabsettings = 4
 }
 
 struct kUserDefaults {
@@ -124,6 +136,7 @@ struct kDateFormat {
     static let format3                          = "yyyy-MM-dd HH:mm:ss"
     static let format4                          = "dd/MM/yyyy HH:mm:ss"
     static let format5                          = "dd/MM/yyyy hh:mm a"
+    static let format6                          = "hh:mm dd MMMM yyyy"
     static let MMM                              = "MMM"
     static let dd                               = "dd"
     static let hhmm                             = "hh:mm"
@@ -140,6 +153,9 @@ struct kNiB {
         static let GroupSummaryMatchesCell      = "GroupSummaryMatchesCell"
         static let GroupSummaryStandingsCell    = "GroupSummaryStandingsCell"
         static let TournamentClubCell           = "TournamentClubCell"
+        static let LabelCell                    = "LabelCell"
+        static let TextViewCell                 = "TextViewCell"
+        static let FinalPlacingsCell            = "FinalPlacingsCell"
     }
     
     struct View {
@@ -181,6 +197,8 @@ enum CellType: Int {
     case LabelSelectionCell         = 2
     case ButtonCell                 = 3
     case TwoLabelCell               = 4
+    case LabelCell                  = 5
+    case TextViewCell               = 6
 }
 
 enum CustomKeyboardType: Int {
@@ -196,6 +214,15 @@ enum CustomKeyboardReturn: Int {
     case search
     case send
     case done
+}
+
+extension Date {
+    func getMonthName() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MMMM"
+        let strMonth = dateFormatter.string(from: self)
+        return strMonth
+    }
 }
 
 // MARK:- Extensions
@@ -243,6 +270,8 @@ extension UIColor {
     static func AppColor() -> UIColor {
         return UIColor(R: 199, G: 10, B: 32)
     }
+    
+    static let tournamentDetailYellow = UIColor(R: 255, G: 182, B: 39)
     static let teamTabLblDefault = UIColor(R: 221, G: 170, B: 171)
     static let teamTabOrange = UIColor(R: 213, G: 143, B: 40)
     static let favDefaultSelected = UIColor(R: 0, G: 147, B: 0)

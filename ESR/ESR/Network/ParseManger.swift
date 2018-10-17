@@ -90,14 +90,17 @@ class ParseManager {
             teamFixture.competationName = text
         }
         
-        if let isScheduled = record.value(forKey: "is_scheduled") as? Int {
-            if isScheduled == 1 {
+        //if let isScheduled = record.value(forKey: "is_scheduled") as? Int {
+           // if isScheduled == 1 {
                 if let text = record.value(forKey: "match_datetime") as? String {
                     teamFixture.matchDatetime = text
-                    teamFixture.matchDatetimeObj = ApplicationData.getFormattedDate(text)
+                    
+                    if let date = ApplicationData.getFormattedDate(text, dateFormat: kDateFormat.format3) {
+                        teamFixture.matchDatetimeObj = date
+                    }
                 }
-            }
-        }
+           // }
+        //}
         
         if let teamSize = record.value(forKey: "team_size") as? Int {
             teamFixture.teamSize = teamSize
@@ -111,7 +114,7 @@ class ParseManager {
             teamFixture.position = text
         }
         
-        if let text = record.value(forKey: "MatchWinner") as? String {
+        if let text = record.value(forKey: "match_winner") as? String {
             teamFixture.matchWinner = text
         }
         
@@ -261,6 +264,56 @@ class ParseManager {
         return teamFixture
     }
     
+    static func parseFavTournament(_ record: NSDictionary) -> Tournament {
+        let tournamentObj = Tournament()
+        
+        if let id = record.value(forKey: "tournament_id") as? Int {
+            tournamentObj.id = id
+        }
+        
+        if let text = record.value(forKey: "name") as? String {
+            tournamentObj.name = text
+        }
+        
+        if let text = record.value(forKey: "start_date") as? String {
+            tournamentObj.startDate = text
+            
+            if let formattedDate = ApplicationData.getFormattedDate(text, dateFormat: kDateFormat.format3) {
+                tournamentObj.startDateObj = formattedDate
+            }
+        }
+        
+        if let text = record.value(forKey: "end_date") as? String {
+            tournamentObj.endDate = text
+            
+            if let formattedDate = ApplicationData.getFormattedDate(text, dateFormat: kDateFormat.format3) {
+                tournamentObj.endDateObj = formattedDate
+            }
+        }
+        
+        if let text = record.value(forKey: "TournamentStartTime") as? String {
+            tournamentObj.tournamentStartTime = text
+        }
+        
+        if let isDefault = record.value(forKey: "is_default") as? Int {
+            tournamentObj.isDefault = isDefault
+        }
+        
+        if let telephone = record.value(forKey: "telephone") as? String {
+            tournamentObj.telephone = telephone
+        }
+        
+        if let firstName = record.value(forKey: "first_name") as? String {
+            tournamentObj.firstName = firstName
+        }
+        
+        if let lastName = record.value(forKey: "last_name") as? String {
+            tournamentObj.lastName = lastName
+        }
+        
+        return tournamentObj
+    }
+    
     static func parseTournament(_ record: NSDictionary) -> Tournament {
         let tournamentObj = Tournament()
         
@@ -272,20 +325,20 @@ class ParseManager {
             tournamentObj.name = text
         }
 
-        let formatter = DateFormatter()
-        formatter.dateFormat = kDateFormat.format1
-        
         if let text = record.value(forKey: "start_date") as? String {
             tournamentObj.startDate = text
-            tournamentObj.startDateObj = formatter.date(from: text)!
+            
+            if let formattedDate = ApplicationData.getFormattedDate(text, dateFormat: kDateFormat.format1) {
+                tournamentObj.startDateObj = formattedDate
+            }
         }
 
         if let text = record.value(forKey: "end_date") as? String {
             tournamentObj.endDate = text
-        }
-        
-        if let isDefault = record.value(forKey: "is_default") as? Int {
-            tournamentObj.isDefault = isDefault
+            
+            if let formattedDate = ApplicationData.getFormattedDate(text, dateFormat: kDateFormat.format1) {
+                tournamentObj.endDateObj = formattedDate
+            }
         }
         
         return tournamentObj

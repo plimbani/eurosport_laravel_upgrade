@@ -17,4 +17,6 @@ target 'ESR' do
   
   # Google map
   pod 'GoogleMaps'
+  
+  pod "MBCircularProgressBar"
 end

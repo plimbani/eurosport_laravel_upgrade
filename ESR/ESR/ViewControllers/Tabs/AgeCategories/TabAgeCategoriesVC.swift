@@ -57,9 +57,11 @@ class TabAgeCategoriesVC: SuperViewController {
         
         self.view.showProgressHUD()
         var parameters: [String: Any] = [:]
-        if let userData = ApplicationData.sharedInstance().getUserData() {
-            parameters["tournament_id"] = userData.tournamentId
-        }
+//        if let userData = ApplicationData.sharedInstance().getUserData() {
+//            parameters["tournament_id"] = userData.tournamentId
+//        }
+        
+        parameters["tournament_id"] = ApplicationData.selectedTournament!.id
         
         ApiManager().getAgeCategories(parameters, success: { (result) in
             DispatchQueue.main.async {
@@ -102,7 +104,7 @@ extension TabAgeCategoriesVC : UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let viewController = Storyboards.AgeCategories.instantiateAgeCategoriesGroupsVC()
-        viewController.ageCategoryId = (ageCategoriesList[indexPath.row] as! NSDictionary).value(forKey: "id") as! Int
+        // viewController.ageCategoryId = (ageCategoriesList[indexPath.row] as! NSDictionary).value(forKey: "id") as! Int
         self.navigationController?.pushViewController(viewController, animated: true)
     }
 }

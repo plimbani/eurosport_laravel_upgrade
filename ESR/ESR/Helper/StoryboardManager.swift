@@ -96,6 +96,10 @@ struct Storyboards {
         static func instantiateTournamentVC() -> TabTournamentVC {
             return self.storyboard.instantiateViewController(withIdentifier: kViewController.TabTournamentVC) as! TabTournamentVC
         }
+        
+        static func instantiateFinalPlacingsVC() -> FinalPlacingsVC {
+            return self.storyboard.instantiateViewController(withIdentifier: kViewController.FinalPlacingsVC) as! FinalPlacingsVC
+        }
     }
     
     struct AgeCategories: Storyboard {

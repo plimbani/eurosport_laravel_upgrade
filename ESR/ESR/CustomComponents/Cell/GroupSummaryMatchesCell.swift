@@ -42,13 +42,12 @@ class GroupSummaryMatchesCell: UITableViewCell {
     func reloadCell() {
         
         // Sets date
-        if record.matchDatetime != NULL_STRING {
+        if record.matchDatetime != NULL_STRING && record.matchDatetimeObj != nil {
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = kDateFormat.MMM
             let nameOfMonth = dateFormatter.string(from: record.matchDatetimeObj!)
             dateFormatter.dateFormat = kDateFormat.dd
             let dateOfMonth = dateFormatter.string(from: record.matchDatetimeObj!)
-            
             lblDate.text = dateOfMonth + " " + nameOfMonth
         } else {
             lblDate.text = NULL_STRING
@@ -187,6 +186,21 @@ class GroupSummaryMatchesCell: UITableViewCell {
             
             lblHomeTeam.textColor = .black
             lblAwayTeam.textColor = .black
+        }
+        
+        if record.isResultOverride != NULL_ID && record.isResultOverride == 1 {
+            if record.matchStatus != NULL_STRING {
+                
+                if record.matchStatus == "Walk-over" || record.matchStatus == "Penalties" || record.matchStatus == "Abandoned" {
+                    if record.matchWinner != NULL_STRING && record.homeId != NULL_ID && record.homeId == Int(record.matchWinner) {
+                        lblHomeTeamScore.text = lblHomeTeamScore.text! + "*"
+                        lblAwayTeamScore.text = lblAwayTeamScore.text! + " "
+                    } else if record.matchWinner != NULL_STRING && record.awayId != NULL_ID && record.awayId == Int(record.matchWinner) {
+                        lblAwayTeamScore.text = lblAwayTeamScore.text! + "*"
+                        lblHomeTeamScore.text = lblHomeTeamScore.text! + " "
+                    }
+                }
+            }
         }
     }
 }

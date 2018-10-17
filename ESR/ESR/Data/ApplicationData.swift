@@ -19,6 +19,10 @@ class ApplicationData: NSObject {
     
     static var groupsList = NSArray()
     
+    static var isAppUpdateDispalyed = false
+    
+    static var selectedTournament: Tournament?
+    
     static func sharedInstance() -> ApplicationData {
         if (applicationData == nil) {
             applicationData = ApplicationData()
@@ -109,9 +113,9 @@ class ApplicationData: NSObject {
         return nil
     }
     
-    static func getFormattedDate(_ dateStr: String, dateFormat: String = kDateFormat.format1) -> Date {
+    static func getFormattedDate(_ dateStr: String, dateFormat: String = kDateFormat.format1) -> Date? {
         let formatter = DateFormatter()
-        formatter.dateFormat = kDateFormat.format3
+        formatter.dateFormat = dateFormat
         
         var localeStr = "en"
         if let userData = ApplicationData.sharedInstance().getUserData() {
@@ -120,7 +124,11 @@ class ApplicationData: NSObject {
         
         formatter.locale = Locale(identifier: localeStr)
         
-        return formatter.date(from: dateStr)!
+        if let newDate = formatter.date(from: dateStr) {
+            return newDate
+        }
+        
+        return nil
     }
     
     func getSelectedLocale() -> (String, String){

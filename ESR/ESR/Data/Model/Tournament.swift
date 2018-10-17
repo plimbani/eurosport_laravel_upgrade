@@ -28,8 +28,13 @@ class Tournament {
     var pointsPerMatchTie: String = NULL_STRING
     var pointsPerBye: String = NULL_STRING
     var tournamentLogo: String = NULL_STRING
+    var telephone: String = NULL_STRING
+    var tournamentStartTime: String = NULL_STRING
+    var firstName: String = NULL_STRING
+    var lastName: String = NULL_STRING
     
     var startDateObj = Date()
+    var endDateObj = Date()
     
     var isFavourite: Bool = false
     var isDefault: Int = 0 // 0 - no, 1 -  yes

@@ -25,7 +25,6 @@ class MatchInfoVC: SuperViewController {
     @IBOutlet var imgViewTeam2Short: UIImageView!
     
     @IBOutlet var lblDate: UILabel!
-    @IBOutlet var lblTime: UILabel!
     @IBOutlet var lblRefereeName: UILabel!
     @IBOutlet var lblAgeNGroupInfo: UILabel!
     @IBOutlet var lblMatchId: UILabel!
@@ -39,7 +38,6 @@ class MatchInfoVC: SuperViewController {
     var dicTeamFixture: TeamFixture!
     
     @IBOutlet var heightConstraintViewWinnerStatus: NSLayoutConstraint!
-    @IBOutlet var heightConstraintDateSeparator: NSLayoutConstraint!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -238,21 +236,24 @@ class MatchInfoVC: SuperViewController {
             imgViewTeam2Flag.image = UIImage.init(named: "globe")
         }
         
-        if dicTeamFixture.matchDatetime != NULL_STRING {
+        if dicTeamFixture.matchDatetime != NULL_STRING && dicTeamFixture.matchDatetimeObj != nil{
             let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = kDateFormat.MMM
-            let nameOfMonth = dateFormatter.string(from: dicTeamFixture.matchDatetimeObj!)
-            dateFormatter.dateFormat = kDateFormat.dd
-            let dateOfMonth = dateFormatter.string(from: dicTeamFixture.matchDatetimeObj!)
-            dateFormatter.dateFormat = kDateFormat.hhmm
-            let strTime = dateFormatter.string(from: dicTeamFixture.matchDatetimeObj!)
+//            dateFormatter.dateFormat = kDateFormat.MMM
+//            let nameOfMonth = dateFormatter.string(from: dicTeamFixture.matchDatetimeObj!)
+//            dateFormatter.dateFormat = kDateFormat.dd
+//            let dateOfMonth = dateFormatter.string(from: dicTeamFixture.matchDatetimeObj!)
+//            dateFormatter.dateFormat = kDateFormat.hhmm
+//            let strTime = dateFormatter.string(from: dicTeamFixture.matchDatetimeObj!)
             
-            lblDate.text = dateOfMonth + " " + nameOfMonth
-            lblTime.text = strTime
+            dateFormatter.dateFormat = kDateFormat.format6
+            let formattedDate = dateFormatter.string(from: dicTeamFixture.matchDatetimeObj!)
+            
+            //lblDate.text = dateOfMonth + " " + nameOfMonth
+            //lblTime.text = strTime
+            
+            lblDate.text = formattedDate
         } else {
             lblDate.text = NULL_STRING
-            lblTime.text = NULL_STRING
-            heightConstraintDateSeparator.constant = 0
         }
         
         if dicTeamFixture.groupName != NULL_STRING {
@@ -305,13 +306,19 @@ class MatchInfoVC: SuperViewController {
         }
         
         if dicTeamFixture.isResultOverride != NULL_ID && dicTeamFixture.isResultOverride == 1 {
-            if dicTeamFixture.matchStatus != NULL_STRING && dicTeamFixture.matchStatus == "Walk-over" {
-                if dicTeamFixture.matchWinner != NULL_STRING {
-                    if dicTeamFixture.homeId != NULL_ID && dicTeamFixture.homeId == Int(dicTeamFixture.matchWinner) {
-                        lblTeam1Score.text = lblTeam1Score.text! + "*"
-                    } else if dicTeamFixture.awayId != NULL_ID && dicTeamFixture.awayId == Int(dicTeamFixture.matchWinner)  {
-                        lblTeam2Score.text = lblTeam2Score.text! + "*"
-                    }
+            if dicTeamFixture.matchStatus != NULL_STRING {
+                if dicTeamFixture.matchWinner != NULL_STRING && dicTeamFixture.homeId != NULL_ID && dicTeamFixture.homeId == Int(dicTeamFixture.matchWinner) {
+                    lblTeam1Score.text = lblTeam1Score.text! + "*"
+                } else if dicTeamFixture.matchWinner != NULL_STRING && dicTeamFixture.awayId != NULL_ID && dicTeamFixture.awayId == Int(dicTeamFixture.matchWinner) {
+                    lblTeam2Score.text = lblTeam2Score.text! + "*"
+                }
+                
+                if dicTeamFixture.matchStatus == "Walk-over" {
+                    lblWinnerStatus.text = String.localize(key: "string_walkover_win")
+                } else if dicTeamFixture.matchStatus == "Penalties" {
+                    lblWinnerStatus.text = String.localize(key: "string_penalties_win")
+                } else if dicTeamFixture.matchStatus == "Abandoned" {
+                    lblWinnerStatus.text = String.localize(key: "string_abandoned_win")
                 }
             }
         }
