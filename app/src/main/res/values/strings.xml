@@ -4,6 +4,8 @@
     <string name="view_all_rounds">Match schedule</string>
     <string name="sign_in">Sign in</string>
     <string name="update">Update</string>
+    <string name="update_available">Update Available</string>
+    <string name="app_version" formatted="false">Version %1$s</string>
     <string name="favorites">Favourites</string>
     <string name="tournament">Tournament</string>
     <string name="teams">Teams</string>
@@ -101,6 +103,7 @@
     <string name="no_tournament_selected_as_default">No default tournament selected.</string>
     <string name="the_internet_connection_appears_to_be_offline" translatable="false">The internet connection appears to be offline.</string>
     <string name="update_message">An app update is available. Please update the version you are using.</string>
+    <string name="update_message_new">An updated version of this app is now available to download.</string>
     <string name="privacy_and_cookie_policy_title">Privacy and cookie policy at Stichting Euro-Sportring </string>
     <string name="which_personal_data_are_processed">WHICH PERSONAL DATA ARE PROCESSED?</string>
     <string name="privacy_terms_text_1">Euro-Sportring may process personal data about you if you use the services offered by Euro-Sportring and/or if you provide these data yourself when registering on the Euro-Sporting app. Euro-Sportring may process the following personal data:</string>
