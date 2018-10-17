@@ -20,12 +20,13 @@
     NSString *vibration;
     NSString *notification;
 }
+
 @property (nonatomic, strong) NSMutableDictionary *defaultTournamentDir;
 @property (nonatomic, strong) NSString *orientationFlag;
 @property (nonatomic, strong) NSString *competationFormatId;
 @property (nonatomic, strong) NSString *firebaseToken;
 @property (nonatomic, strong) NSString *selectedTab;
-//@property (nonatomic, assign) NSInteger selectedTournament;
+//@property (nonatomic, assign) NSString *selectedCurrentTournament;
 
 @property (strong, nonatomic) UIWindow *window;
 

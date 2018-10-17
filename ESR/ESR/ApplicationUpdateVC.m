@@ -37,6 +37,38 @@
 }
 */
 - (IBAction)updateBtnClick:(id)sender {
+    //    NSString *simple = @"itms-apps://itunes.apple.com/app/id1234567890";
+//    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:simple]];
+
+    NSString *iTunesLink = @"itms-apps://itunes.apple.com/app/id1437488944";
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:iTunesLink]];
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSString *token = [defaults objectForKey:@"token"];
+    if (token != NULL) {
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        AppDelegate *app = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+        app.window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
+        HomeTabBar *myVC = (HomeTabBar *)[storyboard instantiateViewControllerWithIdentifier:@"HomeTabBar"];
+        myVC.selectedIndex = 1;
+        UINavigationController *navigationObject = [[UINavigationController alloc] initWithRootViewController:myVC];
+        app.window.rootViewController = navigationObject;
+        navigationObject.navigationBar.hidden = TRUE;
+        [app.window makeKeyAndVisible];
+        [self.navigationController popToRootViewControllerAnimated:TRUE];
+    }else{
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        AppDelegate *app = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+        app.window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
+        LoginVC *myVC = (LoginVC *)[storyboard instantiateViewControllerWithIdentifier:@"LoginVC"];
+        UINavigationController *navigationObject = [[UINavigationController alloc] initWithRootViewController:myVC];
+        app.window.rootViewController = navigationObject;
+        navigationObject.navigationBar.hidden = TRUE;
+        [app.window makeKeyAndVisible];
+        [self.navigationController popToRootViewControllerAnimated:TRUE];
+    }
+    
+   // https://itunes.apple.com/us/app/euro-sportring-tournaments/id1437488944?mt=8
 }
 
 - (IBAction)cancelBtnClick:(id)sender {

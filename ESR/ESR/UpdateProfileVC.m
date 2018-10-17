@@ -350,6 +350,8 @@
     //Enable the lable UserIntraction
     _titleLbl.userInteractionEnabled = YES;
     [_titleLbl addGestureRecognizer:tapAction];
+    
+    _tournamentConstanHeight.constant = 0;
 }
 - (void)reachabilityChanged:(NSNotification*)notification1
 {

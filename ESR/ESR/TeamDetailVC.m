@@ -461,7 +461,8 @@
                     cell.HomeTeam.textColor = [UIColor blackColor];
                 }else{
                     if (![[[fixturesArray objectAtIndex:indexPath.row-(standingArray.count+5)] valueForKey:@"displayHomeTeamPlaceholderName"] isKindOfClass:[NSNull class]]) {
-                        cell.HomeTeam.textColor =[[fixturesArray objectAtIndex:indexPath.row-(standingArray.count+5)] valueForKey:@"displayHomeTeamPlaceholderName"];
+                        //cell.HomeTeam.textColor = [[fixturesArray objectAtIndex:indexPath.row-(standingArray.count+5)] valueForKey:@"displayHomeTeamPlaceholderName"];
+                        
                     }
                 }
             }
@@ -476,7 +477,7 @@
                     cell.AwayTeam.textColor = [UIColor blackColor];
                 }else{
                     if (![[[fixturesArray objectAtIndex:indexPath.row-(standingArray.count+5)] valueForKey:@"displayAwayTeamPlaceholderName"] isKindOfClass:[NSNull class]]) {
-                        cell.AwayTeam.textColor =[[fixturesArray objectAtIndex:indexPath.row-(standingArray.count+5)] valueForKey:@"displayAwayTeamPlaceholderName"];
+                        //ankitcell.AwayTeam.textColor =[[fixturesArray objectAtIndex:indexPath.row-(standingArray.count+5)] valueForKey:@"displayAwayTeamPlaceholderName"];
                     }
                 }
             }

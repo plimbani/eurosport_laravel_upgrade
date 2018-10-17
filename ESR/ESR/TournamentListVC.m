@@ -98,6 +98,8 @@
         [self.tableView reloadData];
         [self sendRequestToSetDefaultTournament];
     }
+    
+    //app.selectedCurrentTournament = @"yes";
 }
 
 - (IBAction)handleButtonClick:(UIButton *)sender {

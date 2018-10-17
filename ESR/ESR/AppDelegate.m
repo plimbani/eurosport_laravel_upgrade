@@ -104,21 +104,30 @@ NSString *const kGCMMessageIDKey = @"gcm.message_id";
                                                   id responseDictionary1 = [NSJSONSerialization JSONObjectWithData:data1 options:0 error:nil];
                                                   dispatch_async(dispatch_get_main_queue(), ^{
                                                       
-                                                      if ([[responseDictionary1 valueForKey:@"is_sound"] isEqualToString:@"true"]) {
+                                                      NSString *is_sound  = [NSString stringWithFormat:@"%@",[responseDictionary1 valueForKey:@"is_sound"]];
+                                                      
+                                                      if ([is_sound isEqualToString:@"true"] || [is_sound isEqualToString:@"1"]) {
                                                           sound = @"true";
                                                       }else{
                                                           sound = @"false";
-                                                    }
-                                                      if ([[responseDictionary1  valueForKey:@"is_vibration"] isEqualToString:@"true"]) {
+                                                      }
+                                                      
+                                                      NSString *is_vibration  = [NSString stringWithFormat:@"%@",[responseDictionary1 valueForKey:@"is_vibration"]];
+                                                      
+                                                      if ([is_vibration isEqualToString:@"true"] || [is_vibration isEqualToString:@"1"]) {
                                                           vibration = @"true";
                                                       }else{
                                                           vibration = @"false";
                                                       }
-                                                      if ([[responseDictionary1  valueForKey:@"is_notification"] isEqualToString:@"true"]) {
+                                                      
+                                                      NSString *is_notification  = [NSString stringWithFormat:@"%@",[responseDictionary1 valueForKey:@"is_notification"]];
+
+                                                      if ([is_notification isEqualToString:@"true"] || [is_notification isEqualToString:@"1"]) {
                                                           notification = @"true";
                                                       }else{
                                                           notification = @"false";
                                                       }
+                                                      
                                                       if([sound isEqualToString:@"true"])
                                                       {
                                                           sound = @"true";
@@ -292,6 +301,7 @@ NSString *const kGCMMessageIDKey = @"gcm.message_id";
                                                       navigationObject.navigationBar.hidden = TRUE;
                                                       
                                                       [app.window makeKeyAndVisible];
+                                                      [self getVersionDetail];
                                                   });
                                                   [self getSetting];
                                                   [self GetDefaultTournament];
@@ -351,9 +361,12 @@ NSString *const kGCMMessageIDKey = @"gcm.message_id";
 //    if (![loginFlag isEqualToString:@"0"]) {
 //        
 //    }
+    
     if (token != NULL) {
         [self getUpdatedToken];
         //[self getSetting];
+    }else{
+        [self getVersionDetail];
     }
     
     if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_7_1) {
@@ -425,7 +438,7 @@ NSString *const kGCMMessageIDKey = @"gcm.message_id";
 //    
 //    [[NSUserDefaults standardUserDefaults] setObject:@"fr" forKey:@"ICPreferredLanguage"];
 //    [[NSUserDefaults standardUserDefaults] synchronize];
-    [self getVersionDetail];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(tokenRefreshNotification:)
                                                  name:kFIRInstanceIDTokenRefreshNotification object:nil];
     return YES;

@@ -10,4 +10,6 @@
 
 @interface HomeVC : UIViewController
 @property (weak, nonatomic) IBOutlet UIView *offlineView;
+@property (strong, nonatomic) IBOutlet UILabel *lblVersion;
+
 @end

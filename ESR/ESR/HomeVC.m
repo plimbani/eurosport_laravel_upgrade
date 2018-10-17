@@ -18,6 +18,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    NSString * version = [[NSBundle mainBundle] objectForInfoDictionaryKey: @"CFBundleShortVersionString"];
+
+    _lblVersion.text = [NSString stringWithFormat:@"Version %@",version];
     // Do any additional setup after loading the view.
 }
 - (void)reachabilityChanged:(NSNotification*)notification
@@ -42,6 +45,8 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+
 //-(void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item
 //{
 //    

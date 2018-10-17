@@ -40,6 +40,9 @@
 @property (weak, nonatomic) IBOutlet UIView *alertView;
 @property (weak, nonatomic) IBOutlet UILabel *alertViewTitle;
 @property (weak, nonatomic) IBOutlet UILabel *alertViewSubTitle;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *tournamentConstanHeight;
+
+
 - (IBAction)signUpBtnClick:(id)sender;
 - (IBAction)tournamentBtnClick:(id)sender;
 - (IBAction)languageBtnClick:(id)sender;

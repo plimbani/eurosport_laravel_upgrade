@@ -115,7 +115,15 @@
                                                   app.defaultTournamentDir = [[[ApplicationData sharedInstance] getDefaultTournamentDic:responseDictionary[@"data"]] mutableCopy];
                                                   
                                                   NSMutableArray *favTournamentlistArray =[responseDictionary[@"data"] mutableCopy];
+                                                  
+                                                  
                                                   _autoCompleteArray = [responseDictionary[@"data"] mutableCopy];
+                                                  
+                                                  [_autoCompleteArray sortUsingComparator:^NSComparisonResult(NSDictionary *a, NSDictionary *b) {
+                                                      return [b[@"start_date"] compare:a[@"start_date"]];
+                                                  }];
+                                                  
+                                                  
                                                   if (![[app.defaultTournamentDir valueForKey:@"status"] isEqualToString:@"Published"]) {
                                                       if (favTournamentlistArray >0) {
                                                           app.defaultTournamentDir =[favTournamentlistArray objectAtIndex:0];
@@ -170,14 +178,16 @@
     [self.contactLbl setUserInteractionEnabled:YES];
     [self.contactLbl addGestureRecognizer:phone1LblGesture];
 
+    [self sendRequestToGetTournamentFavList];
 }
+
 -(void)viewWillAppear:(BOOL)animated{
     [self.teamsBtn setTitle:NSLocalizedString(@"Teams",@"") forState:UIControlStateNormal];
     self.dayLbl.text = NSLocalizedString(@"Days",@"");
     self.hoursLbl.text = NSLocalizedString(@"Hours",@"");
     self.minutesLbl.text = NSLocalizedString(@"Minutes",@"");
     self.secondLbl.text = NSLocalizedString(@"Seconds",@"");
-    [self sendRequestToGetTournamentFavList];
+    
     _autoCompleteTableView.hidden =TRUE;
     // _autoCompleteTableView.tableFooterView = [UIView new];
     [[_autoCompleteTableView layer] setMasksToBounds:NO];
@@ -194,7 +204,6 @@
     [[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(reachabilityChanged:) name: kReachabilityChangedNotification object: nil];
     Reachability* reachability = [Reachability reachabilityForInternetConnection];
     [reachability startNotifier];
-    
 }
 - (void)phone1LblTapped
 {

@@ -9,6 +9,9 @@
 #import <UIKit/UIKit.h>
 
 @interface ApplicationUpdateVC : UIViewController
+
+@property (nonatomic,retain) NSString *isFirsttime;
+
 - (IBAction)updateBtnClick:(id)sender;
 - (IBAction)cancelBtnClick:(id)sender;
 
