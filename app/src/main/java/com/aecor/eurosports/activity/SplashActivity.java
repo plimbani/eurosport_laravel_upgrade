@@ -238,7 +238,7 @@ public class SplashActivity extends BaseActivity {
 
         ViewDialog.showTwoButtonDialog(this,
                 getString(R.string.update),
-                getString(R.string.update_message),
+                getString(R.string.update_message_new),
                 getString(R.string.update),
                 getString(R.string.cancel),
                 new ViewDialog.UpdateDialogInterface() {
@@ -270,12 +270,14 @@ public class SplashActivity extends BaseActivity {
 
                     @Override
                     public void onNegativeButtonClicked() {
-                        Intent j = new Intent(Intent.ACTION_MAIN);
+                        /*Intent j = new Intent(Intent.ACTION_MAIN);
                         j.addCategory(Intent.CATEGORY_HOME);
                         j.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(j);
                         finish();
-                        System.exit(0);
+                        System.exit(0);*/
+
+
                     }
                 });
     }
