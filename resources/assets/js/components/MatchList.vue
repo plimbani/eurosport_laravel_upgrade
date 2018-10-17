@@ -510,7 +510,7 @@ export default {
       } else if(match.match_status == 'Walk-over') {
         match.result_override_popover = "* Walkover, win awarded";
       } else if(match.match_status == 'Abandoned') {
-        match.result_override_popover = "Abandoned, win awarded";
+        match.result_override_popover = "* Abandoned, win awarded";
       }
     },
   },
