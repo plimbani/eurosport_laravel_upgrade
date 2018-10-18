@@ -15,12 +15,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2f1c4652-19cb-43dd-b51d-01ca5c5bbb41" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/activity/HomeActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/activity/HomeActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/activity/SplashActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/activity/SplashActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/util/ApiConstants.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/util/ApiConstants.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/util/AppConstants.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/util/AppConstants.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/util/AutoLoginUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/util/AutoLoginUtils.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -55,7 +50,7 @@
       <file leaf-file-name="HomeActivity.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/activity/HomeActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="207">
+            <state relative-caret-position="187">
               <caret line="446" column="138" selection-start-line="446" selection-start-column="138" selection-end-line="446" selection-end-column="138" />
               <folding>
                 <element signature="e#7274#7308#0" expanded="true" />
@@ -72,12 +67,12 @@
                 <element signature="e#15487#15893#0" expanded="true" />
                 <element signature="e#15892#15893#0" expanded="true" />
                 <element signature="e#16610#16627#0" expanded="true" />
-                <element signature="e#19624#19648#0" expanded="true" />
-                <element signature="e#20296#20330#0" expanded="true" />
-                <element signature="e#20548#20590#0" expanded="true" />
-                <element signature="e#20619#20644#0" expanded="true" />
-                <element signature="e#20646#20672#0" expanded="true" />
-                <element signature="e#21053#21093#0" expanded="true" />
+                <element signature="e#19557#19581#0" expanded="true" />
+                <element signature="e#20229#20263#0" expanded="true" />
+                <element signature="e#20481#20523#0" expanded="true" />
+                <element signature="e#20552#20577#0" expanded="true" />
+                <element signature="e#20579#20605#0" expanded="true" />
+                <element signature="e#20986#21026#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -2669,6 +2664,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="Android Profiler" order="7" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -3136,7 +3132,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/activity/HomeActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="207">
+        <state relative-caret-position="187">
           <caret line="446" column="138" selection-start-line="446" selection-start-column="138" selection-end-line="446" selection-end-column="138" />
           <folding>
             <element signature="e#7274#7308#0" expanded="true" />
@@ -3153,12 +3149,12 @@
             <element signature="e#15487#15893#0" expanded="true" />
             <element signature="e#15892#15893#0" expanded="true" />
             <element signature="e#16610#16627#0" expanded="true" />
-            <element signature="e#19624#19648#0" expanded="true" />
-            <element signature="e#20296#20330#0" expanded="true" />
-            <element signature="e#20548#20590#0" expanded="true" />
-            <element signature="e#20619#20644#0" expanded="true" />
-            <element signature="e#20646#20672#0" expanded="true" />
-            <element signature="e#21053#21093#0" expanded="true" />
+            <element signature="e#19557#19581#0" expanded="true" />
+            <element signature="e#20229#20263#0" expanded="true" />
+            <element signature="e#20481#20523#0" expanded="true" />
+            <element signature="e#20552#20577#0" expanded="true" />
+            <element signature="e#20579#20605#0" expanded="true" />
+            <element signature="e#20986#21026#0" expanded="true" />
           </folding>
         </state>
       </provider>
