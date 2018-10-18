@@ -29,8 +29,6 @@ import com.crashlytics.android.Crashlytics;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.regex.Pattern;
-
 import butterknife.ButterKnife;
 import io.fabric.sdk.android.Fabric;
 
@@ -49,7 +47,7 @@ public class SplashActivity extends BaseActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                checkAppVersion();
+                checkStoreCredentials();
             }
         }, SPLASH_TIME_OUT);
     }

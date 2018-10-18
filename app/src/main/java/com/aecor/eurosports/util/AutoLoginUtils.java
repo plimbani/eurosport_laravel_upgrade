@@ -132,7 +132,7 @@ public class AutoLoginUtils {
         ViewDialog.showTwoButtonDialog(mActivity,
                 mActivity.getString(R.string.update_available),
                 mActivity.getString(R.string.update_message_new),
-                mActivity.getString(R.string.button_ok),
+                mActivity.getString(R.string.update),
                 mActivity.getString(R.string.cancel),
                 new ViewDialog.UpdateDialogInterface() {
                     @Override
