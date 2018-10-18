@@ -12,7 +12,6 @@ public class AppConstants {
     public static final int MAX_IMAGE_WIDTH_LARGE = 230;
     public static final int MAX_IMAGE_HEIGHT_LARGE = 230;
 
-    public static int SESSION_TOURNAMENT_ID = -1;
 
     public static final String KEY_IS_FROM_SIGNUP = "is_from_signup";
     public static final String FIREBASE_TOKEN = "firebase_token";
