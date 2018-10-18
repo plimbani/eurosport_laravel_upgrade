@@ -444,7 +444,7 @@ public class HomeActivity extends BaseAppCompactActivity {
         if (!Utility.isNullOrEmpty(mPreference.getString(AppConstants.PREF_SESSION_TOURNAMENT_ID))) {
             if (list.size() > 0) {
                 for (int i = 0; i < list.size(); i++) {
-                    if (list.get(i).getTournament_id().equalsIgnoreCase(mPreference.getString(AppConstants.PREF_SESSION_TOURNAMENT_ID))) {to
+                    if (list.get(i).getTournament_id().equalsIgnoreCase(mPreference.getString(AppConstants.PREF_SESSION_TOURNAMENT_ID))) {
                         tournamentPosition = i;
                         break;
                     }
