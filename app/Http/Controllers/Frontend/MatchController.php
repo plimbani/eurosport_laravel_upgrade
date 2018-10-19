@@ -45,12 +45,13 @@ class MatchController extends Controller
         $website = Landlord::getTenants()['website'];
         $websiteId = $website->id;
         $pageDetail = $this->pageService->getPageDetails($this->matchPageName, $websiteId);
-        $tournament = $website->linked_tournament!=null ? Tournament::find($website->linked_tournament)->toArray() : null;
+        $tournament = $website->linked_tournament!=null ? Tournament::where('id', $website->linked_tournament)->where('status', 'Published')->first() : null;
 
         $data = [];
         $competitionListData = [];
 
         if($tournament) {
+            $tournament = $tournament->toArray();
             $data['tournamentData'] = ['tournament_id' => $tournament['id']];
             $competitionList = $this->ageGroupObj->GetCompetationFormat($data);
             $competitionListData = $competitionList['data'];
