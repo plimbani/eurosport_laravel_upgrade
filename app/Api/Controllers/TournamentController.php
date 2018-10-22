@@ -241,4 +241,9 @@ class TournamentController extends BaseController
     {
         return $this->tournamentObj->getAllPitchesWithDays($pitchId);      
     }
+
+    public function updateCompetitionDisplayName(Request $request)
+    {
+        return $this->tournamentObj->updateCompetitionDisplayName($request->all());
+    }
 }
