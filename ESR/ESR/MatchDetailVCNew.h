@@ -12,6 +12,8 @@
 @property (weak, nonatomic) IBOutlet UIView *offlineView;
 @property (weak, nonatomic) IBOutlet UIStackView *stackviewTop;
 @property (weak, nonatomic) IBOutlet UIStackView *stackviewMiddle;
+@property (strong, nonatomic) IBOutlet UIStackView *shortTshirtStackView;
+
 // Team 1
 @property (weak, nonatomic) IBOutlet UILabel *lblTeam1Score;
 @property (weak, nonatomic) IBOutlet UILabel *lblTeam1Name;

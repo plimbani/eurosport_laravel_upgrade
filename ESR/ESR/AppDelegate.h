@@ -26,7 +26,7 @@
 @property (nonatomic, strong) NSString *competationFormatId;
 @property (nonatomic, strong) NSString *firebaseToken;
 @property (nonatomic, strong) NSString *selectedTab;
-//@property (nonatomic, assign) NSString *selectedCurrentTournament;
+@property (nonatomic, assign) NSString *selectedCurrentTournament;
 
 @property (strong, nonatomic) UIWindow *window;
 

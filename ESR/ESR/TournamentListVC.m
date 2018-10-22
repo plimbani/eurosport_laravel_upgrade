@@ -81,7 +81,7 @@
     defaultFlag = 1;
     defaultTournamentDir = [_tournamentlistArray objectAtIndex:sender.tag];
     AppDelegate *app = (AppDelegate*)[[UIApplication sharedApplication] delegate];
-    app.defaultTournamentDir = [_tournamentlistArray objectAtIndex:sender.tag];
+    //app.defaultTournamentDir = [_tournamentlistArray objectAtIndex:sender.tag];
     int flag = 0;
     for (int i=0; i<_selectedArray.count;i++) {
         if ([[defaultTournamentDir valueForKey:@"id"] integerValue] == [[[_selectedArray objectAtIndex:i] valueForKey:@"tournament_id"] integerValue]) {
@@ -381,7 +381,7 @@
                                                   
                                                   defaultTournamentDir = [dicDefaultTournament mutableCopy];
                                                   AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-                                                  app.defaultTournamentDir = [defaultTournamentDir mutableCopy];
+                                                  //app.defaultTournamentDir = [defaultTournamentDir mutableCopy];
                                                   
                                                   //defaultTournamentDir = [responseDictionary[@"data"] mutableCopy];
                                                   //AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];

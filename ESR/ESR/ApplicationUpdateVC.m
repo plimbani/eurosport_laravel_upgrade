@@ -10,6 +10,7 @@
 #import "AppDelegate.h"
 #import "HomeTabBar.h"
 #import "LoginVC.h"
+#import "HomeVC.h"
 
 @interface ApplicationUpdateVC ()
 
@@ -60,7 +61,7 @@
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         AppDelegate *app = (AppDelegate*)[[UIApplication sharedApplication] delegate];
         app.window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
-        LoginVC *myVC = (LoginVC *)[storyboard instantiateViewControllerWithIdentifier:@"LoginVC"];
+        HomeVC *myVC = (HomeVC *)[storyboard instantiateViewControllerWithIdentifier:@"HomeVC"];
         UINavigationController *navigationObject = [[UINavigationController alloc] initWithRootViewController:myVC];
         app.window.rootViewController = navigationObject;
         navigationObject.navigationBar.hidden = TRUE;
@@ -89,7 +90,7 @@
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         AppDelegate *app = (AppDelegate*)[[UIApplication sharedApplication] delegate];
         app.window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
-        LoginVC *myVC = (LoginVC *)[storyboard instantiateViewControllerWithIdentifier:@"LoginVC"];
+        HomeVC *myVC = (HomeVC *)[storyboard instantiateViewControllerWithIdentifier:@"HomeVC"];
         UINavigationController *navigationObject = [[UINavigationController alloc] initWithRootViewController:myVC];
         app.window.rootViewController = navigationObject;
         navigationObject.navigationBar.hidden = TRUE;

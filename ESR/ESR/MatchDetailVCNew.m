@@ -32,6 +32,8 @@
     [self setBorder:_stackviewTop setColor:[UIColor lightGrayColor] setThickness:1.0 setType:@"top"];
     [self setBorder:_stackviewTop setColor:[UIColor lightGrayColor] setThickness:1.0 setType:@"left"];
     [self setBorder:_stackviewTop setColor:[UIColor lightGrayColor] setThickness:1.0 setType:@"right"];
+    [self setBorder:_shortTshirtStackView setColor:[UIColor lightGrayColor] setThickness:1.0 setType:@"left"];
+    [self setBorder:_shortTshirtStackView setColor:[UIColor lightGrayColor] setThickness:1.0 setType:@"right"];
     [self setBorder:_stackviewMiddle setColor:[UIColor lightGrayColor] setThickness:1.0 setType:@"left"];
     [self setBorder:_stackviewMiddle setColor:[UIColor lightGrayColor] setThickness:1.0 setType:@"right"];
     [self setBorder:_viewWinnerStatus setColor:[UIColor lightGrayColor] setThickness:1.0 setType:@"left"];
@@ -340,6 +342,9 @@
     if (![[matchDetails valueForKey:@"AwayTeamShortsColor"] isKindOfClass:[NSNull class]] && ![[matchDetails valueForKey:@"AwayTeamShortsColor"] isEqualToString:@"#FFFFFF"]) {
         self.imgViewTeam2Short.image = [self.imgViewTeam2Short.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
         [self.imgViewTeam2Short setTintColor:[UIColor colorwithHexString:[matchDetails valueForKey:@"AwayTeamShortsColor"] alpha:1.0]];
+    }
+    if ([[matchDetails valueForKey:@"HomeTeamShirtColor"] isKindOfClass:[NSNull class]] || [[matchDetails valueForKey:@"HomeTeamShortsColor"] isKindOfClass:[NSNull class]] || [[matchDetails valueForKey:@"AwayTeamShortsColor"] isKindOfClass:[NSNull class]] || [[matchDetails valueForKey:@"AwayTeamShortsColor"] isKindOfClass:[NSNull class]]) {
+        _shortTshirtStackView.hidden = true;
     }
     
 }

@@ -112,19 +112,15 @@
                                                   NSLog(@"responseDictionary - %@",responseDictionary);
                                                   
                                                   AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-                                                  app.defaultTournamentDir = [[[ApplicationData sharedInstance] getDefaultTournamentDic:responseDictionary[@"data"]] mutableCopy];
+                                                  
+                                                  NSMutableDictionary *defaultTournamentDir = [[[ApplicationData sharedInstance] getDefaultTournamentDic:responseDictionary[@"data"]] mutableCopy];
                                                   
                                                   NSMutableArray *favTournamentlistArray =[responseDictionary[@"data"] mutableCopy];
                                                   
                                                   
                                                   _autoCompleteArray = [responseDictionary[@"data"] mutableCopy];
                                                   
-                                                  [_autoCompleteArray sortUsingComparator:^NSComparisonResult(NSDictionary *a, NSDictionary *b) {
-                                                      return [b[@"start_date"] compare:a[@"start_date"]];
-                                                  }];
-                                                  
-                                                  
-                                                  if (![[app.defaultTournamentDir valueForKey:@"status"] isEqualToString:@"Published"]) {
+                                                  if (![[defaultTournamentDir valueForKey:@"status"] isEqualToString:@"Published"]) {
                                                       if (favTournamentlistArray >0) {
                                                           app.defaultTournamentDir =[favTournamentlistArray objectAtIndex:0];
                                                           [self setDefaultToutnamet:[app.defaultTournamentDir valueForKey:@"tournament_id"]];
@@ -147,13 +143,118 @@
                                                           }
                                                       }
                                                   }
+                                                  [_autoCompleteArray sortUsingComparator:^NSComparisonResult(NSDictionary *a, NSDictionary *b) {
+                                                      return [b[@"start_date"] compare:a[@"start_date"]];
+                                                  }];
+                                                  int incval = 0;
+                                                  int setIncval = 0;
+                                                  NSDictionary *updateDict;
+                                                  for (NSMutableDictionary* dict in _autoCompleteArray ) {
+                                                      
+                                                      if ([[NSString stringWithFormat:@"%@",dict[@"is_default"]] isEqualToString:@"1"]) {
+                                                          NSData *dictData = [[NSUserDefaults standardUserDefaults]objectForKey:@"SELECTEDTOURNAMENT"];
+                                                          if (dictData == nil) {
+                                                              NSData *data = [NSKeyedArchiver archivedDataWithRootObject:dict];
+                                                              [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"SELECTEDTOURNAMENT"];
+                                                              app.defaultTournamentDir = dict;
+                                                              dispatch_async(dispatch_get_main_queue(), ^{
+                                                                  [self updateUI];
+                                                              });
+                                                              
+                                                          }
+                                                          updateDict = dict;
+                                                          setIncval = incval;
+                                                      }
+                                                      incval++;
+                                                  }
+                                                  
+                                                  if (setIncval != 0) {
+                                                      [_autoCompleteArray removeObjectAtIndex:setIncval];
+                                                      [_autoCompleteArray insertObject:updateDict atIndex:0];
+                                                  }
+                                                  dispatch_async(dispatch_get_main_queue(), ^{
+                                                      [self.autoCompleteTableView reloadData];
+                                                      [self.picker reloadAllComponents];
+                                                  });
                                               }
                                           }];
         [dataTask resume];
     } else {
     }
 }
-
+- (void)sendRequestToGetUpdatedTournamentFavList {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSDictionary *userData = [defaults objectForKey:@"userData"];
+    if ([Utils isNetworkAvailable] == YES) {
+        [SVProgressHUD show];
+        NSDictionary *params = @{@"user_id":[userData valueForKey:@"user_id"] };
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        NSString *token = [defaults objectForKey:@"token"];
+        NSString *concateToken = [NSString stringWithFormat:@"%@%@",@"Bearer ",token];
+        NSURLSessionConfiguration *sessionConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
+        NSDictionary *header = @{@"IsMobileUser": @"true",@"Authorization":concateToken};
+        sessionConfiguration.HTTPAdditionalHeaders = header;
+        NSURLSession *session = [NSURLSession sessionWithConfiguration:sessionConfiguration];
+        NSString *url=[[NSString alloc]initWithFormat:@"%@%@", BaseURL,GetUserFavouriteTournamentList];
+        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]
+                                                               cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
+        NSData *requestData = [NSJSONSerialization dataWithJSONObject:params options:0 error:nil]; //TODO handle error
+        [request setHTTPMethod:@"POST"];
+        [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+        [request setValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
+        [request setValue:[NSString stringWithFormat:@"%lu", (unsigned long)[requestData length]] forHTTPHeaderField:@"Content-Length"];
+        [request setHTTPBody: requestData];
+        NSURLSessionDataTask *dataTask = [session dataTaskWithRequest:request
+                                                    completionHandler:^(NSData *data, NSURLResponse *response, NSError *error)
+                                          {
+                                              if (error) {
+                                                  NSLog(@"data%@",data);
+                                                  NSLog(@"response%@",error);
+                                              } else{
+                                                  [SVProgressHUD dismiss];
+                                                  NSError *parseError = nil;
+                                                  NSDictionary *responseDictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&parseError];
+                                                  NSLog(@"responseDictionary - %@",responseDictionary);
+                                                  
+                                                  AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+                                                  //NSMutableDictionary *tournamentData =
+                                                  //app.defaultTournamentDir = [[[ApplicationData sharedInstance] getDefaultTournamentDic:responseDictionary[@"data"]] mutableCopy];
+                                                  
+                                                  NSMutableArray *favTournamentlistArray =[responseDictionary[@"data"] mutableCopy];
+                                                  
+                                                  
+                                                  _autoCompleteArray = [responseDictionary[@"data"] mutableCopy];
+                                                  
+                                                  [_autoCompleteArray sortUsingComparator:^NSComparisonResult(NSDictionary *a, NSDictionary *b) {
+                                                      return [b[@"start_date"] compare:a[@"start_date"]];
+                                                  }];
+                                                  [_autoCompleteArray sortUsingComparator:^NSComparisonResult(NSDictionary *a, NSDictionary *b) {
+                                                      return [b[@"start_date"] compare:a[@"start_date"]];
+                                                  }];
+                                                  int incval = 0;
+                                                  int setIncval = 0;
+                                                  NSDictionary *updateDict;
+                                                  for (NSDictionary* dict in _autoCompleteArray ) {
+                                                      
+                                                      if ([[NSString stringWithFormat:@"%@",dict[@"is_default"]] isEqualToString:@"1"]) {
+                                                          updateDict = dict;
+                                                          setIncval = incval;
+                                                      }
+                                                      incval++;
+                                                  }
+                                                  
+                                                  if (setIncval != 0) {
+                                                      [_autoCompleteArray removeObjectAtIndex:setIncval];
+                                                      [_autoCompleteArray insertObject:updateDict atIndex:0];
+                                                  }
+                                                  [self.autoCompleteTableView reloadData];
+                                                  [self.picker reloadAllComponents];
+                                              }
+                                          }];
+        [dataTask resume];
+    } else {
+    }
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.dayLbl.text = NSLocalizedString(@"Days",@"");
@@ -178,15 +279,15 @@
     [self.contactLbl setUserInteractionEnabled:YES];
     [self.contactLbl addGestureRecognizer:phone1LblGesture];
     
-//    NSData *dictData = [[NSUserDefaults standardUserDefaults]objectForKey:@"SELECTEDTOURNAMENT"];
-//
-//    if (dictData != nil) {
-//
-//        NSMutableDictionary *dictTournament = [NSKeyedUnarchiver unarchiveObjectWithData:dictData];
-//
-//        AppDelegate *app = (AppDelegate*)[[UIApplication sharedApplication] delegate];
-//        app.defaultTournamentDir = dictTournament;
-//    }
+    NSData *dictData = [[NSUserDefaults standardUserDefaults]objectForKey:@"SELECTEDTOURNAMENT"];
+
+    if (dictData != nil) {
+
+        NSMutableDictionary *dictTournament = [NSKeyedUnarchiver unarchiveObjectWithData:dictData];
+
+        AppDelegate *app = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+        app.defaultTournamentDir = dictTournament;
+    }
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -291,8 +392,8 @@
     NSTimeInterval secondsBetween = [endDate timeIntervalSinceDate:startDate];
     //NSLog(@"%f",secondsBetween/60);
     
-//    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:[_autoCompleteArray objectAtIndex:row]];
-//    [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"SELECTEDTOURNAMENT"];
+    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:[_autoCompleteArray objectAtIndex:row]];
+    [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"SELECTEDTOURNAMENT"];
     
     int remainingTime = (24*60*60) -(secondsBetween/60);
     

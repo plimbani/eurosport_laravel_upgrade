@@ -60,7 +60,9 @@
                                                   NSError *parseError = nil;
                                                   NSDictionary *responseDictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&parseError];
                                                   AppDelegate *app = (AppDelegate*)[[UIApplication sharedApplication] delegate];
-                                                  app.defaultTournamentDir =[responseDictionary[@"data"] mutableCopy];
+//                                                  NSData *data = [NSKeyedArchiver archivedDataWithRootObject:responseDictionary[@"data"]];
+//                                                  [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"SELECTEDTOURNAMENT"];
+//                                                  app.defaultTournamentDir =[responseDictionary[@"data"] mutableCopy];
                                                   dispatch_async(dispatch_get_main_queue(), ^{
                                                       NSLog(@"%@",app.firebaseToken);
                                                       if(app.firebaseToken != NULL){

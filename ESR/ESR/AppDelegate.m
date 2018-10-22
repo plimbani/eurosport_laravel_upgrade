@@ -220,9 +220,9 @@ NSString *const kGCMMessageIDKey = @"gcm.message_id";
                                                   NSString *build = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString *)kCFBundleVersionKey];
                                                   NSLog(@"%@  %@ %@",version,buildVersion,build);
                                                   if (version != NULL) {
-                                                      int buildInt = [build intValue];
-                                                      int versionInt = [version intValue];
-                                                      if (buildInt < versionInt) {
+//                                                      int buildInt = [build intValue];
+//                                                      int versionInt = [version intValue];
+                                                      if (![version isEqualToString:buildVersion]) {
                                                           dispatch_async(dispatch_get_main_queue(), ^{
                                                               AppDelegate *app = (AppDelegate*)[[UIApplication sharedApplication] delegate];
                                                               app.window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
