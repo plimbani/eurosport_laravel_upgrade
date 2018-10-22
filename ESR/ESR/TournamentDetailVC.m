@@ -177,11 +177,20 @@
     // if labelView is not set userInteractionEnabled, you must do so
     [self.contactLbl setUserInteractionEnabled:YES];
     [self.contactLbl addGestureRecognizer:phone1LblGesture];
-
-    [self sendRequestToGetTournamentFavList];
+    
+//    NSData *dictData = [[NSUserDefaults standardUserDefaults]objectForKey:@"SELECTEDTOURNAMENT"];
+//
+//    if (dictData != nil) {
+//
+//        NSMutableDictionary *dictTournament = [NSKeyedUnarchiver unarchiveObjectWithData:dictData];
+//
+//        AppDelegate *app = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+//        app.defaultTournamentDir = dictTournament;
+//    }
 }
 
 -(void)viewWillAppear:(BOOL)animated{
+    [self sendRequestToGetTournamentFavList];
     [self.teamsBtn setTitle:NSLocalizedString(@"Teams",@"") forState:UIControlStateNormal];
     self.dayLbl.text = NSLocalizedString(@"Days",@"");
     self.hoursLbl.text = NSLocalizedString(@"Hours",@"");
@@ -281,9 +290,13 @@
     NSLog(@"startdate %@ %@",startDate,endDate);
     NSTimeInterval secondsBetween = [endDate timeIntervalSinceDate:startDate];
     //NSLog(@"%f",secondsBetween/60);
-    int remainingTime = (24*60*60) -(secondsBetween/60);
-    [self updateUI];
     
+//    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:[_autoCompleteArray objectAtIndex:row]];
+//    [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"SELECTEDTOURNAMENT"];
+    
+    int remainingTime = (24*60*60) -(secondsBetween/60);
+    
+    [self updateUI];
 }
 
 - (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation

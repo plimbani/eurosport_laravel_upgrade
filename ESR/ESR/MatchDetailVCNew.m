@@ -360,11 +360,11 @@
                 self.lblTeam2Score.text = [NSString stringWithFormat:@" %@*", self.lblTeam2Score.text];
             }
         }
-        if([match_status caseInsensitiveCompare:@"Walk-over"]){
+        if([match_status caseInsensitiveCompare:@"Walk-over"] == NSOrderedSame){
             _lblWinnerStatus.text = @"* Walkover, win awarded";
-        }else if([match_status caseInsensitiveCompare:@"penalties"]){
+        }else if([match_status caseInsensitiveCompare:@"penalties"] == NSOrderedSame){
             _lblWinnerStatus.text = @"* Game won on penalties";
-        }else if ([match_status caseInsensitiveCompare:@"abandoned"]){
+        }else if ([match_status caseInsensitiveCompare:@"abandoned"] == NSOrderedSame){
             _lblWinnerStatus.text = @"* Abandoned, win awarded";
         }
     }
