@@ -166,22 +166,24 @@
     [cell.defaultBtn addTarget:self action:@selector(handleDefaultButtonClick:) forControlEvents:UIControlEventTouchUpInside];
     if (![[[_tournamentlistArray objectAtIndex:indexPath.row] valueForKey:@"tournamentLogo"] isKindOfClass:[NSNull class]]) {
         NSURL *url = [NSURL URLWithString:[[_tournamentlistArray objectAtIndex:indexPath.row] valueForKey:@"tournamentLogo"]];
-        NSURLRequest* request = [NSURLRequest requestWithURL:url];
-        [NSURLConnection sendAsynchronousRequest:request
-                                           queue:[NSOperationQueue mainQueue]
-                               completionHandler:^(NSURLResponse * response,
-                                                   NSData * data,
-                                                   NSError * error) {
-                                   if (!error){
-                                       UIImage *image = [UIImage imageWithData:data];
-                                       if (image != NULL) {
-                                           cell.image.image = image;
-                                       }else{
-                                           cell.image.image = [UIImage imageNamed:@"globe.png"];
-                                       }
-                                   }else{
-                                   }
-                               }];
+        
+        dispatch_queue_t concurrentQueue =  dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+        
+        //this will start the image loading in bg
+        
+        dispatch_async(concurrentQueue, ^{
+            NSData *image = [[NSData alloc] initWithContentsOfURL:url];
+            //this will set the image when loading is finished
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (image != nil) {
+                    cell.image.image = [UIImage imageWithData:image];
+                }else{
+                    cell.image.image = [UIImage imageNamed:@"globe.png"];
+                }
+                
+            });
+        });
     }
     
     for (int i=0; i<_selectedArray.count; i++) {

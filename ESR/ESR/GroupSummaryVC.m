@@ -310,13 +310,20 @@
                     cell.AwayTeam.textColor = [UIColor blackColor];
                 }
             }
-            if (![[[fixturesArray objectAtIndex:indexPath.row-1] valueForKey:@"venue_name"] isKindOfClass:[NSNull class]] && ![[[fixturesArray objectAtIndex:indexPath.row-1] valueForKey:@"pitch_number"] isKindOfClass:[NSNull class]]) {
-                NSString *vanueName = [NSString stringWithFormat:@"%@ - %@",[[fixturesArray objectAtIndex:indexPath.row-1] valueForKey:@"venue_name"],[[fixturesArray objectAtIndex:indexPath.row-1] valueForKey:@"pitch_number"]];
-                cell.venue_name.text=vanueName;
-            }else{
-                cell.venue_name.text= @"";
+//            if (![[[fixturesArray objectAtIndex:indexPath.row-1] valueForKey:@"venue_name"] isKindOfClass:[NSNull class]] && ![[[fixturesArray objectAtIndex:indexPath.row-1] valueForKey:@"pitch_number"] isKindOfClass:[NSNull class]]) {
+//                NSString *vanueName = [NSString stringWithFormat:@"%@ - %@",[[fixturesArray objectAtIndex:indexPath.row-1] valueForKey:@"venue_name"],[[fixturesArray objectAtIndex:indexPath.row-1] valueForKey:@"pitch_number"]];
+//                cell.venue_name.text=vanueName;
+//            }else{
+//                cell.venue_name.text= @"";
+//            }
+            NSString *venueStr = NULL_STRING;
+            if (![[[fixturesArray objectAtIndex:indexPath.row-1] valueForKey:@"venue_name"] isKindOfClass:[NSNull class]]) {
+                venueStr = [NSString stringWithFormat:@"%@",[[fixturesArray objectAtIndex:indexPath.row-1] valueForKey:@"venue_name"]];
             }
-            
+            if (![[[fixturesArray objectAtIndex:indexPath.row-1] valueForKey:@"pitch_number"] isKindOfClass:[NSNull class]]) {
+                venueStr = [NSString stringWithFormat:@"%@ - %@",venueStr,[[fixturesArray objectAtIndex:indexPath.row-1] valueForKey:@"pitch_number"]];
+            }
+            cell.venue_name.text = venueStr;
             
             NSString *displayMatchNumber=[NSString stringWithFormat:@"%@",[[fixturesArray objectAtIndex:indexPath.row-1] valueForKey:@"displayMatchNumber"]];;
             if (![[[fixturesArray objectAtIndex:indexPath.row-1] valueForKey:@"displayHomeTeamPlaceholderName"] isKindOfClass:[NSNull class]]) {

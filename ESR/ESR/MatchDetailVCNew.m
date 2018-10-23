@@ -26,18 +26,18 @@
 }
 -(void)viewDidAppear:(BOOL)animated{
 
-    [self setBorder:_viewVenue setColor:[UIColor lightGrayColor] setThickness:1.0 setType:@"left"];
-    [self setBorder:_viewVenue setColor:[UIColor lightGrayColor] setThickness:1.0 setType:@"bottom"];
-    [self setBorder:_viewVenue setColor:[UIColor lightGrayColor] setThickness:1.0 setType:@"right"];
-    [self setBorder:_stackviewTop setColor:[UIColor lightGrayColor] setThickness:1.0 setType:@"top"];
-    [self setBorder:_stackviewTop setColor:[UIColor lightGrayColor] setThickness:1.0 setType:@"left"];
-    [self setBorder:_stackviewTop setColor:[UIColor lightGrayColor] setThickness:1.0 setType:@"right"];
-    [self setBorder:_shortTshirtStackView setColor:[UIColor lightGrayColor] setThickness:1.0 setType:@"left"];
-    [self setBorder:_shortTshirtStackView setColor:[UIColor lightGrayColor] setThickness:1.0 setType:@"right"];
-    [self setBorder:_stackviewMiddle setColor:[UIColor lightGrayColor] setThickness:1.0 setType:@"left"];
-    [self setBorder:_stackviewMiddle setColor:[UIColor lightGrayColor] setThickness:1.0 setType:@"right"];
-    [self setBorder:_viewWinnerStatus setColor:[UIColor lightGrayColor] setThickness:1.0 setType:@"left"];
-    [self setBorder:_viewWinnerStatus setColor:[UIColor lightGrayColor] setThickness:1.0 setType:@"right"];
+    [self setBorder:_viewVenue setColor:[UIColor lightGrayColor] setThickness:2.0 setType:@"left"];
+    [self setBorder:_viewVenue setColor:[UIColor lightGrayColor] setThickness:2.0 setType:@"bottom"];
+    [self setBorder:_viewVenue setColor:[UIColor lightGrayColor] setThickness:2.0 setType:@"right"];
+    [self setBorder:_stackviewTop setColor:[UIColor lightGrayColor] setThickness:2.0 setType:@"top"];
+    [self setBorder:_stackviewTop setColor:[UIColor lightGrayColor] setThickness:2.0 setType:@"left"];
+    [self setBorder:_stackviewTop setColor:[UIColor lightGrayColor] setThickness:2.0 setType:@"right"];
+    [self setBorder:_shortTshirtStackView setColor:[UIColor lightGrayColor] setThickness:2.0 setType:@"left"];
+    [self setBorder:_shortTshirtStackView setColor:[UIColor lightGrayColor] setThickness:2.0 setType:@"right"];
+    [self setBorder:_stackviewMiddle setColor:[UIColor lightGrayColor] setThickness:2.0 setType:@"left"];
+    [self setBorder:_stackviewMiddle setColor:[UIColor lightGrayColor] setThickness:2.0 setType:@"right"];
+    [self setBorder:_viewWinnerStatus setColor:[UIColor lightGrayColor] setThickness:2.0 setType:@"left"];
+    [self setBorder:_viewWinnerStatus setColor:[UIColor lightGrayColor] setThickness:2.0 setType:@"right"];
     UIView* subView = [[UIView alloc] initWithFrame:_stackviewMiddle.bounds];
     
     subView.backgroundColor = [UIColor colorwithHexString:@"#DEDFE2" alpha:1.0];
@@ -288,22 +288,21 @@
     }
     self.lblMatchId.text = displayMatchNumber;
     
-    
-    if (![[matchDetails valueForKey:@"venue_name"] isKindOfClass:[NSNull class]] && ![[matchDetails valueForKey:@"pitch_number"] isKindOfClass:[NSNull class]]) {
-        NSString *venueText = [NSString stringWithFormat:@"%@ - %@",[matchDetails valueForKey:@"venue_name"],[matchDetails valueForKey:@"pitch_number"]];
-        //[self.venueBtn setTitle:btnText  forState:UIControlStateNormal];
-        self.lblVenue.text = venueText;
-        UITapGestureRecognizer *tapAction = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onVenueViewPressed:)];
-        tapAction.delegate =self;
-        tapAction.numberOfTapsRequired = 1;
-        
-        //Enable the lable UserIntraction
-        self.viewVenue.userInteractionEnabled = YES;
-        [self.viewVenue addGestureRecognizer:tapAction];
-    }else{
-        //[self.lblVenue setTitle:@""  forState:UIControlStateNormal];
+    NSString *venueStr = NULL_STRING;
+    if (![[matchDetails valueForKey:@"venue_name"] isKindOfClass:[NSNull class]]) {
+        venueStr = [NSString stringWithFormat:@"%@",[matchDetails valueForKey:@"venue_name"]];
     }
+    if (![[matchDetails valueForKey:@"pitch_number"] isKindOfClass:[NSNull class]]) {
+        venueStr = [NSString stringWithFormat:@"%@ - %@",venueStr,[matchDetails valueForKey:@"pitch_number"]];
+    }
+    self.lblVenue.text = venueStr;
+    UITapGestureRecognizer *tapAction = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onVenueViewPressed:)];
+    tapAction.delegate =self;
+    tapAction.numberOfTapsRequired = 1;
     
+    //Enable the lable UserIntraction
+    self.viewVenue.userInteractionEnabled = YES;
+    [self.viewVenue addGestureRecognizer:tapAction];
     if ([[matchDetails valueForKey:@"actual_round"] isEqualToString:@"Elimination"]) {
         if (![[matchDetails valueForKey:@"position"] isKindOfClass:[NSNull class]]) {
             
@@ -343,7 +342,7 @@
         self.imgViewTeam2Short.image = [self.imgViewTeam2Short.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
         [self.imgViewTeam2Short setTintColor:[UIColor colorwithHexString:[matchDetails valueForKey:@"AwayTeamShortsColor"] alpha:1.0]];
     }
-    if ([[matchDetails valueForKey:@"HomeTeamShirtColor"] isKindOfClass:[NSNull class]] || [[matchDetails valueForKey:@"HomeTeamShortsColor"] isKindOfClass:[NSNull class]] || [[matchDetails valueForKey:@"AwayTeamShortsColor"] isKindOfClass:[NSNull class]] || [[matchDetails valueForKey:@"AwayTeamShortsColor"] isKindOfClass:[NSNull class]]) {
+    if ([[matchDetails valueForKey:@"HomeTeamShirtColor"] isKindOfClass:[NSNull class]] && [[matchDetails valueForKey:@"HomeTeamShortsColor"] isKindOfClass:[NSNull class]] && [[matchDetails valueForKey:@"AwayTeamShortsColor"] isKindOfClass:[NSNull class]] && [[matchDetails valueForKey:@"AwayTeamShortsColor"] isKindOfClass:[NSNull class]]) {
         _shortTshirtStackView.hidden = true;
     }
     
@@ -372,12 +371,16 @@
         }else if ([match_status caseInsensitiveCompare:@"abandoned"] == NSOrderedSame){
             _lblWinnerStatus.text = @"* Abandoned, win awarded";
         }
+        self.heightConstraintViewWinnerStatus.constant = 50;
+        self.viewWinnerStatus.clipsToBounds = TRUE;
+        [self.viewWinnerStatus updateConstraints];
     }
 }
 
 -(void)setBorder:(UIView *)view setColor :(UIColor *)color setThickness:(CGFloat)thickness  setType: (NSString *)type{
     CALayer *sublayer = [CALayer layer];
     sublayer.borderWidth = thickness;
+    sublayer.borderColor = color.CGColor;
     if ([type isEqualToString:@"top"]) {
         sublayer.frame = CGRectMake(0, 0, view.frame.size.width, thickness);
     }else if ([type isEqualToString:@"bottom"]) {

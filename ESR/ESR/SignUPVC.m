@@ -178,17 +178,22 @@
     NSAttributedString *linkText;
     plainText = [[NSMutableAttributedString alloc] initWithString:@"By continuing you accept our "
                                                        attributes:nil];
-    linkText = [[NSMutableAttributedString alloc] initWithString:@"Terms of Use"
+    linkText = [[NSMutableAttributedString alloc] initWithString:@"Terms of Use."
                                                       attributes:@{
-                                                                   NSForegroundColorAttributeName:[UIColor colorwithHexString:@"#ED9E2D" alpha:1.0]
+                                                                   NSForegroundColorAttributeName:[UIColor colorwithHexString:@"#ED9E2D" alpha:1.0],NSUnderlineStyleAttributeName: @(NSUnderlineStyleSingle)
                                                                    }];
+    
     NSMutableAttributedString *attrText = [[NSMutableAttributedString alloc] init];
     [attrText appendAttributedString:plainText];
     [attrText appendAttributedString:linkText];
     _termOfUseLbl.attributedText = attrText;
     // ivar -- keep track of the target range so you can compare in the callback
     targetRange = NSMakeRange(plainText.length, linkText.length);
-    
+    UITapGestureRecognizer *logoTap = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                              action:@selector(logoImgClick)];
+    logoTap.numberOfTapsRequired = 1;
+    [self.esrLogoImg setUserInteractionEnabled:YES];
+    [self.esrLogoImg addGestureRecognizer:logoTap];
 //    tap = [[UITapGestureRecognizer alloc] initWithTarget:self
 //                                                                          action:@selector(dismissKeyboard)];
 //    
@@ -201,6 +206,18 @@
     
     
     
+}
+-(void)logoImgClick{
+    [self.firstNameTxtField resignFirstResponder];
+    [self.passwordTxtField resignFirstResponder];
+    [self.confirmTxtField resignFirstResponder];
+    [self.surnameTxtField resignFirstResponder];
+    [self.emailTxtField resignFirstResponder];
+    [self.TournamentTxtField resignFirstResponder];
+    [self.scroll endEditing: YES];
+    [self.scrollSubView endEditing:YES];
+    [self scrollToY:0];
+    [self.navigationController popViewControllerAnimated:TRUE];
 }
 // handle the gesture recognizer callback and call the category method
 - (void)handleTapOnLabel:(UITapGestureRecognizer *)tapGesture {
@@ -408,9 +425,24 @@
 }
 - (BOOL)validateEmailWithString:(NSString*)email
 {
-    NSString *emailRegex = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}";
-    NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegex];
-    return [emailTest evaluateWithObject:email];
+//    NSString *emailRegex = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}";
+//    NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegex];
+//    return [emailTest evaluateWithObject:email];
+    if([email length]==0){
+        return NO;
+    }
+    
+    NSString *regExPattern = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}";
+    
+    NSRegularExpression *regEx = [[NSRegularExpression alloc] initWithPattern:regExPattern options:NSRegularExpressionCaseInsensitive error:nil];
+    NSUInteger regExMatches = [regEx numberOfMatchesInString:email options:0 range:NSMakeRange(0, [email length])];
+    
+    NSLog(@"%i", regExMatches);
+    if (regExMatches == 0) {
+        return NO;
+    } else {
+        return YES;
+    }
 }
 - (void)viewDidDisappear:(BOOL)animated
 {
@@ -435,8 +467,13 @@
 {
     
     if (self.firstNameTxtField.text.length > 0 && self.surnameTxtField.text.length >0 && self.emailTxtField.text.length >0 && self.passwordTxtField.text.length >0 && self.confirmTxtField.text.length >0 && self.TournamentTxtField.text.length >0) {
-        self.signUpBtn.enabled = TRUE;
-        self.signUpBtn.backgroundColor =[UIColor colorwithHexString:@"ED9E2D" alpha:1.0];
+        if ([self validateEmailWithString:self.emailTxtField.text]) {
+            self.signUpBtn.enabled = TRUE;
+            self.signUpBtn.backgroundColor =[UIColor colorwithHexString:@"ED9E2D" alpha:1.0];
+        }else{
+            self.signUpBtn.enabled = FALSE;
+            self.signUpBtn.backgroundColor =[UIColor colorwithHexString:@"CCCCCC" alpha:1.0];
+        }
     }else{
         self.signUpBtn.enabled = FALSE;
         self.signUpBtn.backgroundColor =[UIColor colorwithHexString:@"CCCCCC" alpha:1.0];
@@ -478,8 +515,13 @@
         [self.view endEditing:YES];
     }
     if (self.firstNameTxtField.text.length > 0 && self.surnameTxtField.text.length >0 && self.emailTxtField.text.length >0 && self.passwordTxtField.text.length >0 && self.confirmTxtField.text.length >0 && self.TournamentTxtField.text.length >0) {
-        self.signUpBtn.enabled = TRUE;
-        self.signUpBtn.backgroundColor =[UIColor colorwithHexString:@"ED9E2D" alpha:1.0];
+        if ([self validateEmailWithString:self.emailTxtField.text]) {
+            self.signUpBtn.enabled = TRUE;
+            self.signUpBtn.backgroundColor =[UIColor colorwithHexString:@"ED9E2D" alpha:1.0];
+        }else{
+            self.signUpBtn.enabled = FALSE;
+            self.signUpBtn.backgroundColor =[UIColor colorwithHexString:@"CCCCCC" alpha:1.0];
+        }
     }else{
         self.signUpBtn.enabled = FALSE;
         self.signUpBtn.backgroundColor =[UIColor colorwithHexString:@"CCCCCC" alpha:1.0];

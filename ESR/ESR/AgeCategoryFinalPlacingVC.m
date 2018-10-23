@@ -67,7 +67,7 @@
     // Do any additional setup after loading the view.
 }
 -(void)viewWillAppear:(BOOL)animated{
-    self.ageCategoriesLbl.text = [NSLocalizedString(@"Final placing", @"") uppercaseString];
+    self.ageCategoriesLbl.text = [NSLocalizedString(@"Final placings", @"") uppercaseString];
     [self getAgeList];
     if([Utils isNetworkAvailable] ==YES){
         self.offlineView.hidden = TRUE;

@@ -38,9 +38,20 @@
     self.scroll2OPTTxt.leftView = [self PaddingView];
     self.scroll2OPTTxt.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"OTP" attributes:@{NSForegroundColorAttributeName: color}];
     self.scroll2EmailTxt.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"Email address" attributes:@{NSForegroundColorAttributeName: color}];
-    
+    UITapGestureRecognizer *logoTap = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                              action:@selector(logoImgClick)];
+    logoTap.numberOfTapsRequired = 1;
+    [self.esrLogoImg setUserInteractionEnabled:YES];
+    [self.esrLogoImg addGestureRecognizer:logoTap];
 //    self.scroll1.hidden = TRUE;
 //    self.scroll2.hidden = FALSE;
+}
+-(void)logoImgClick{
+    [self.scroll1EmailTxt resignFirstResponder];
+    [self.scroll1 endEditing: YES];
+    [self.scrollSubView endEditing:YES];
+    [self scrollToY:0];
+    [self.navigationController popToRootViewControllerAnimated:TRUE];
 }
 -(void)hideKeyboard
 {

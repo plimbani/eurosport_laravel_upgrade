@@ -117,8 +117,21 @@
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self
                                                                           action:@selector(dismissKeyboard)];
     [self.scrollSubView addGestureRecognizer:tap];
+    UITapGestureRecognizer *logoTap = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                          action:@selector(logoImgClick)];
+    logoTap.numberOfTapsRequired = 1;
+    [self.esrLogoImg setUserInteractionEnabled:YES];
+    [self.esrLogoImg addGestureRecognizer:logoTap];
 }
-
+-(void)logoImgClick{
+    [self.emailTxtField resignFirstResponder];
+    [self.passwordTxtField resignFirstResponder];
+    
+    [self.scroll endEditing: YES];
+    [self.scrollSubView endEditing:YES];
+    [self scrollToY:0];
+    [self.navigationController popViewControllerAnimated:TRUE];
+}
 -(void)dismissKeyboard {
     
     [self.emailTxtField resignFirstResponder];

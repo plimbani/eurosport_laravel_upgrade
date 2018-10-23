@@ -29,6 +29,7 @@
 @property (weak, nonatomic) IBOutlet UIScrollView *scroll;
 @property (weak, nonatomic) IBOutlet UIView *scrollSubView;
 @property (weak, nonatomic) IBOutlet UIButton *signUpBtn;
+@property (strong, nonatomic) IBOutlet UIImageView *esrLogoImg;
 - (IBAction)signUpBtnClick:(id)sender;
 - (IBAction)tournamentBtnClick:(id)sender;
 - (IBAction)backBtnClick:(id)sender;

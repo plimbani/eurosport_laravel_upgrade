@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface LoginVC : UIViewController<UITextFieldDelegate,UIScrollViewDelegate>
+@interface LoginVC : UIViewController<UITextFieldDelegate,UIScrollViewDelegate,UIGestureRecognizerDelegate>
 @property (weak, nonatomic) IBOutlet UIView *offlineView;
 
 @property (weak, nonatomic) IBOutlet UITextField *emailTxtField;
@@ -19,6 +19,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *alertViewSubtitle;
 @property (weak, nonatomic) IBOutlet UIScrollView *scroll;
 @property (weak, nonatomic) IBOutlet UIView *scrollSubView;
+@property (strong, nonatomic) IBOutlet UIImageView *esrLogoImg;
 - (IBAction)loginBtnClick:(id)sender;
 - (IBAction)forgotPasswordBtnClick:(id)sender;
 - (IBAction)backBtnClick:(id)sender;

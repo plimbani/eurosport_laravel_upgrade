@@ -15,6 +15,7 @@
 @property (weak, nonatomic) IBOutlet UIView *offlineView;
 @property (weak, nonatomic) IBOutlet UIScrollView *scroll1;
 @property (weak, nonatomic) IBOutlet UIScrollView *scroll2;
+@property (strong, nonatomic) IBOutlet UIImageView *esrLogoImg;
 @property (weak, nonatomic) IBOutlet UIButton *scroll1GetOTPBtn;
 @property (weak, nonatomic) IBOutlet UITextField *scroll1EmailTxt;
 @property (weak, nonatomic) IBOutlet UITextField *scroll2EmailTxt;
