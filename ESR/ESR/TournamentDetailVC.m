@@ -144,7 +144,35 @@
                                                           }
                                                       }
                                                   }
+                                                 NSData *dictData = [[NSUserDefaults standardUserDefaults]objectForKey:@"SELECTEDTOURNAMENT"];
                                                   
+                                                  if (dictData == nil) {
+                                                      int incval = 0;
+                                                      int setIncval = 0;
+                                                      NSDictionary *updateDict;
+                                                      for (NSMutableDictionary* dict in _autoCompleteArray ) {
+                                                          
+                                                          if ([[NSString stringWithFormat:@"%@",dict[@"is_default"]] isEqualToString:@"1"]) {
+                                                              updateDict = dict;
+                                                              setIncval = incval;
+                                                              NSData *data = [NSKeyedArchiver archivedDataWithRootObject:dict];
+                                                              [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"SELECTEDTOURNAMENT"];
+                                                              app.defaultTournamentDir = dict;
+                                                              dispatch_async(dispatch_get_main_queue(), ^{
+                                                                  [self updateUI];
+                                                              });
+                                                          }
+                                                          incval++;
+                                                      }
+                                                      
+                                                      if (setIncval != 0) {
+                                                          [_autoCompleteArray removeObjectAtIndex:setIncval];
+                                                          [_autoCompleteArray insertObject:updateDict atIndex:0];
+                                                      }
+                                                      
+                                                      [self.picker reloadAllComponents];
+                                                      [self.picker selectRow:0 inComponent:0 animated:false];
+                                                  }
                                                   
                                                   dispatch_async(dispatch_get_main_queue(), ^{
                                                       [self.autoCompleteTableView reloadData];

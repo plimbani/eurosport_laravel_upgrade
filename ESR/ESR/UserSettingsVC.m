@@ -88,6 +88,7 @@
 }
 - (IBAction)alertViewOkBtnClick:(id)sender {
     self.alertView.hidden = TRUE;
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"SELECTEDTOURNAMENT"];
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"token"];
     AppDelegate *app = (AppDelegate*)[[UIApplication sharedApplication] delegate];
     app.window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
