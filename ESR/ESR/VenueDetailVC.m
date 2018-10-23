@@ -24,12 +24,12 @@
     if (![[matchDetails valueForKey:@"pitch_number"] isKindOfClass:[NSNull class]]) {
         self.pitchName.text = [matchDetails valueForKey:@"pitch_number"];
     }else{
-        self.pitchName.text = @"NA";
+        self.pitchName.text = @"N/A";
     }
     if (![[matchDetails valueForKey:@"venue_name"] isKindOfClass:[NSNull class]]) {
         self.location.text =[matchDetails valueForKey:@"venue_name"];
     }else{
-        self.location.text =@"NA";;
+        self.location.text =@"N/A";;
     }
     
     
@@ -60,13 +60,15 @@
         }
     }
     if ([self.address.text isEqualToString:@""]) {
-        self.address.text = @"NA";
+        self.address.text = @"N/A";
     }
     
     if (![[matchDetails valueForKey:@"pitchType"] isKindOfClass:[NSNull class]]) {
-        self.playingSurface.text = [matchDetails valueForKey:@"pitchType"];
+        NSString *pichtype = [matchDetails valueForKey:@"pitchType"];
+        self.playingSurface.text = [NSString stringWithFormat:@"%@%@",[[pichtype substringToIndex:1] uppercaseString],[pichtype substringFromIndex:1] ];
+        
     }else{
-        self.playingSurface.text = @"NA";
+        self.playingSurface.text = @"N/A";
     }
     if ([[matchDetails valueForKey:@"venueCoordinates"]isKindOfClass:[NSNull class]]) {
         self.bottomMapView.hidden = TRUE;

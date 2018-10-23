@@ -17,6 +17,7 @@
 #import "WebVC.h"
 #import "SVProgressHUD.h"
 #import "Reachability.h"
+#import "UIColor+fromHex.h"
 @interface TournamentDetailVC ()
 
 @end
@@ -143,35 +144,8 @@
                                                           }
                                                       }
                                                   }
-                                                  [_autoCompleteArray sortUsingComparator:^NSComparisonResult(NSDictionary *a, NSDictionary *b) {
-                                                      return [b[@"start_date"] compare:a[@"start_date"]];
-                                                  }];
-                                                  int incval = 0;
-                                                  int setIncval = 0;
-                                                  NSDictionary *updateDict;
-                                                  for (NSMutableDictionary* dict in _autoCompleteArray ) {
-                                                      
-                                                      if ([[NSString stringWithFormat:@"%@",dict[@"is_default"]] isEqualToString:@"1"]) {
-                                                          NSData *dictData = [[NSUserDefaults standardUserDefaults]objectForKey:@"SELECTEDTOURNAMENT"];
-                                                          if (dictData == nil) {
-                                                              NSData *data = [NSKeyedArchiver archivedDataWithRootObject:dict];
-                                                              [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"SELECTEDTOURNAMENT"];
-                                                              app.defaultTournamentDir = dict;
-                                                              dispatch_async(dispatch_get_main_queue(), ^{
-                                                                  [self updateUI];
-                                                              });
-                                                              
-                                                          }
-                                                          updateDict = dict;
-                                                          setIncval = incval;
-                                                      }
-                                                      incval++;
-                                                  }
                                                   
-                                                  if (setIncval != 0) {
-                                                      [_autoCompleteArray removeObjectAtIndex:setIncval];
-                                                      [_autoCompleteArray insertObject:updateDict atIndex:0];
-                                                  }
+                                                  
                                                   dispatch_async(dispatch_get_main_queue(), ^{
                                                       [self.autoCompleteTableView reloadData];
                                                       [self.picker reloadAllComponents];
@@ -476,7 +450,15 @@
         _nameLbl.text = @"";
     }
     if (![[app.defaultTournamentDir valueForKey:@"telephone"] isKindOfClass:[NSNull class]]) {
-        self.contactLbl.text = [NSString stringWithFormat:@"%@",[app.defaultTournamentDir valueForKey:@"telephone"]];
+        
+        NSMutableAttributedString *telephonestr = [[NSMutableAttributedString alloc] initWithString:[app.defaultTournamentDir valueForKey:@"telephone"]];
+
+        UIColor* textColor = [UIColor colorwithHexString:@"ED9E2D" alpha:1.0];
+        
+        [telephonestr setAttributes:@{NSForegroundColorAttributeName:textColor,NSUnderlineStyleAttributeName:[NSNumber numberWithInteger:NSUnderlineStyleSingle]} range:NSMakeRange(0,[telephonestr length])];
+        
+        self.contactLbl.attributedText = telephonestr;
+
     }else{
         self.contactLbl.text = @"";
     }
@@ -699,6 +681,38 @@
 //    FavTourmanentListVC *myVC = (FavTourmanentListVC *)[self.storyboard instantiateViewControllerWithIdentifier:@"FavTourmanentListVC"];
 //    [self.navigationController pushViewController:myVC animated:YES];
     //self.autoCompleteTableView.hidden = FALSE;
+    
+    [_autoCompleteArray sortUsingComparator:^NSComparisonResult(NSDictionary *a, NSDictionary *b) {
+        return [b[@"start_date"] compare:a[@"start_date"]];
+    }];
+    
+    NSData *dictData = [[NSUserDefaults standardUserDefaults]objectForKey:@"SELECTEDTOURNAMENT"];
+    
+    if (dictData != nil) {
+        NSMutableDictionary *dictTournament = [NSKeyedUnarchiver unarchiveObjectWithData:dictData];
+        
+        NSString *tournamentID = [NSString stringWithFormat:@"%@",[dictTournament valueForKey:@"TournamentId"]];
+        
+        int incval = 0;
+        int setIncval = 0;
+        NSDictionary *updateDict;
+        for (NSMutableDictionary* dict in _autoCompleteArray ) {
+            if ([[NSString stringWithFormat:@"%@",dict[@"TournamentId"]] isEqualToString:tournamentID]) {
+                updateDict = dict;
+                setIncval = incval;
+            }
+            incval++;
+        }
+        
+        if (setIncval != 0) {
+            [_autoCompleteArray removeObjectAtIndex:setIncval];
+            [_autoCompleteArray insertObject:updateDict atIndex:0];
+        }
+
+        [self.picker reloadAllComponents];
+        [self.picker selectRow:0 inComponent:0 animated:false];
+    }
+    
     self.pickerView.hidden = FALSE;
 }
 
