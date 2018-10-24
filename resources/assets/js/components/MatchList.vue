@@ -143,6 +143,7 @@ export default {
       'currentMatchId': 0,
       paginate: (this.getCurrentScheduleView != 'teamDetails' && this.getCurrentScheduleView != 'drawDetails') ? ['matchlist'] : null,
       shown: false,
+      isMatchListInitialized: false,
       no_of_records: 20,
       recordCounts: [5,10,20,50,100]
     }
@@ -417,9 +418,19 @@ export default {
     },
     getMatchList() {
       let vm = this;
-      $.each(this.matchData, function (index,value){
-        vm.getResultOverridePopover(value);
-      });
+      if(!vm.isMatchListInitialized) {
+        $.each(vm.matchData, function (index,value){
+          vm.getResultOverridePopover(value);
+        });
+        vm.isMatchListInitialized = true;
+      }
+      
+      Vue.nextTick()
+        .then(function () {
+          $.each(vm.matchData, function (index,value){
+            vm.getResultOverridePopover(value);
+          });
+        });
       if(this.getCurrentScheduleView != 'teamDetails' && this.getCurrentScheduleView != 'drawDetails') {
         return this.paginated('matchlist');
       } else {
