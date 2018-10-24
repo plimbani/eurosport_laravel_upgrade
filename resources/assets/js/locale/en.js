@@ -17,6 +17,7 @@ module.exports= {
   welcome_add_button_tournament_details: 'Add tournament details only',
   welcome_manage_websites: "Manage Websites",
   welcome_create_website: 'Create website',
+  welcome_manage_templates: 'Manage templates',
 
   siteheader_name: "Chris",
   siteheader_settings: "Settings",
@@ -53,6 +54,16 @@ module.exports= {
   user_desktop_status: "Status",
   user_desktop: "Desktop",
   user_mobile: "Mobile",
+
+  template_management_template: "Templates",
+  template_management_add_new_template: "Add new template",
+  template_name: "Name",
+  template_teams: "Teams",
+  template_created_date: "Date created",
+  template_action: "Action",
+  template_modal_header: "Template detail",
+  template_modal_tournaments_listing: "Tournament",
+  template_modal_age_categories_listing: "Age Categories",
 
   user_management_add_new_user: "Add new user",
   // user_management_edit_user: "Edit User",

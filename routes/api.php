@@ -253,6 +253,10 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
 
     $api->post('getSignedUrlForRefereeSampleDownload', 'Laraspace\Api\Controllers\RefereeController@getSignedUrlForRefereeSampleDownload');
     $api->post('getSignedUrlForTeamsSpreadsheetSampleDownload', 'Laraspace\Api\Controllers\MatchController@getSignedUrlForTeamsSpreadsheetSampleDownload');
+
+
+    $api->get('getTemplates', 'Laraspace\Api\Controllers\TemplateController@getTemplates');
+    $api->post('getTemplateDetail', 'Laraspace\Api\Controllers\TemplateController@getTemplateDetail');
 });
 
 // Websites CMS routes
