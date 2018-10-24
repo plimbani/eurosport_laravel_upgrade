@@ -242,6 +242,12 @@ class TournamentController extends BaseController
         return $this->tournamentObj->getAllPitchesWithDays($pitchId);      
     }
 
+    /**
+     * Update competition display name
+     *
+     * @Versions({"v1"})
+     * @Request("name=test", contentType="application/x-www-form-urlencoded")
+     */
     public function updateCompetitionDisplayName(Request $request)
     {
         return $this->tournamentObj->updateCompetitionDisplayName($request->all());

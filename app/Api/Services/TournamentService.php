@@ -920,6 +920,12 @@ class TournamentService implements TournamentContract
       return ['data' => $data, 'status_code' => '200'];
     }
 
+    /**
+     * Update competition display name.
+     *
+     * @Versions({"v1"})
+     * @Request("name=test", contentType="application/x-www-form-urlencoded")
+     */
     public function updateCompetitionDisplayName($data)
     {
       $data = $this->tournamentRepoObj->updateCompetitionDisplayName($data);
