@@ -9,7 +9,7 @@ interface TemplateContract
      *
      * @return response
      */
-    public function getTemplates();
+    public function getTemplates($data);
 
     /*
      * Get template detail
@@ -18,4 +18,20 @@ interface TemplateContract
      * @return response
      */
     public function getTemplateDetail($data);
+
+    /*
+     * Get users for filter
+     *
+     * @param  $data
+     * @return response
+     */
+    public function getUsersForFilter();
+
+    /*
+     * Delete template
+     *
+     * @param  $id
+     * @return response
+     */
+    public function deleteTemplate($id);
 }

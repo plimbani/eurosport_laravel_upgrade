@@ -255,8 +255,10 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
     $api->post('getSignedUrlForTeamsSpreadsheetSampleDownload', 'Laraspace\Api\Controllers\MatchController@getSignedUrlForTeamsSpreadsheetSampleDownload');
 
 
-    $api->get('getTemplates', 'Laraspace\Api\Controllers\TemplateController@getTemplates');
+    $api->post('getTemplates', 'Laraspace\Api\Controllers\TemplateController@getTemplates');
     $api->post('getTemplateDetail', 'Laraspace\Api\Controllers\TemplateController@getTemplateDetail');
+    $api->get('templates/getUsersForFilter', 'Laraspace\Api\Controllers\TemplateController@getUsersForFilter');
+    $api->post('template/delete/{id}', 'Laraspace\Api\Controllers\TemplateController@deleteTemplate');
 });
 
 // Websites CMS routes

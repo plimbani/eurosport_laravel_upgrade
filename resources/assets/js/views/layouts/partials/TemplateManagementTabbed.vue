@@ -24,7 +24,6 @@ import TemplateList from '../../admin/templates/List.vue'
 export default {
 	data() {
 		return {
-			'header' : 'header',
 			'templateList': {
       		}
 		}
@@ -33,21 +32,32 @@ export default {
 		TemplateList
 	},
 	created() {
-	},
-	mounted() {
+		this.$root.$on('setSearch', this.getTemplates);
+		this.$root.$on('clearSearch', this.clearSearch);
 		this.getTemplates();
 	},
+	mounted() {
+	},
 	methods: {
-		getTemplates() {
-			Template.getTemplates().then(
+		getTemplates(teamSearch='', createdBySearch='') {
+			let templateData = {};
+			if(teamSearch != '') {
+	  	  		templateData.teamSearch = teamSearch;
+  			}
+			if(createdBySearch != '') {
+	  	  		templateData.createdBySearch = createdBySearch;
+  			}
+
+			Template.getTemplates(templateData).then(
 				(response)=> {
-					console.log('response', response);
 					this.templateList = response.data.data;
 				},
 		        (error)=> {
-
 		        }
 		    )
+		},
+		clearSearch() {
+			this.getTemplates();
 		}
 	}
 }

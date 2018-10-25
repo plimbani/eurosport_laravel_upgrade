@@ -20,7 +20,7 @@ class TemplateController extends BaseController
      */
     public function getTemplates(Request $request)
     {
-       return $this->templateObj->getTemplates();
+       return $this->templateObj->getTemplates($request->all());
     }
 
     /**
@@ -29,5 +29,21 @@ class TemplateController extends BaseController
     public function getTemplateDetail(Request $request)
     {
         return $this->templateObj->getTemplateDetail($request->all());
+    }
+
+    /**
+     * Get users for filter
+     */
+    public function getUsersForFilter(Request $request)
+    {
+        return $this->templateObj->getUsersForFilter();
+    }
+
+    /**
+     * Delete template
+     */
+    public function deleteTemplate(Request $request, $id)
+    {
+        return $this->templateObj->deleteTemplate($id);
     }
 }

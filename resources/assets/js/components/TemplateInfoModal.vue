@@ -9,38 +9,26 @@
                 </button>
             </div>
             <div class="modal-body modal-fixed-height">
-                <div class="row">
-                    <div class="col-6 col-md-6">
-                        <h5>{{ $lang.template_modal_tournaments_listing }}</h5>
-                    </div>
-                    <div class="col-6 col-md-6">
-                        <h5>{{ $lang.template_modal_age_categories_listing }}</h5>
-                    </div>
+                <p v-show="templateData.length != 0">{{ $lang.template_modal_message }}</p>
+                <div v-for="(template, key) in templateData">   
+                    {{ key }}
+                    (<span>        
+                        <span class="font-weight-bold py-2">{{ displayGroupName(template) }}  
+                        </span>
+                    </span>)
                 </div>
-                <div class="row" v-for="template in templateData">
-                    <div v-for="templateDetail in template">
-                        <div class="col-6 col-md-6">                        
-                            <ul class="list-unstyled">
-                                <li class="font-weight-bold py-2">{{ templateDetail }}</li>
-                            </ul>
-                        </div>
-                        <div class="col-6 col-md-6">
-                            <ul class="list-unstyled">
-                                <li class="font-weight-bold py-2">{{ templateDetail }}</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
+                <p v-show="templateData.length == 0">{{ $lang.no_template_in_use_message }}</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger"  @click="closeModal()">{{$lang.manual_ranking_cancel}}</button>
-            </div>            
+            </div>
         </div>
       </div>
     </div>
 </template>
 <script type="text/babel">
     import Template from '../api/template.js'
+    import _ from 'lodash';
 
     export default  {
         data() {
@@ -68,7 +56,10 @@
 
                     }
                 )
-            }
+            },
+            displayGroupName(template){
+                return _.map(template, 'group_name').join(', ');
+            }            
         }
     }
 </script>

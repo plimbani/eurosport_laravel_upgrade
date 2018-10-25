@@ -14,23 +14,15 @@
                           <div class="col-12">
                             <div class="row">
                               <div class="col-md-5">
-                                <select class="form-control ls-select2" v-model="teamSearch" name="teams" id="teams">
+                                <select class="form-control ls-select2" v-model="teamSearch" name="teams" id="teams" v-on:change="filterData">
                                     <option value="">Number of teams</option>
-                                    <option value="Internal.administrator">Internal administrator</option>
-                                    <option value="Master.administrator">Master administrator</option>
-                                    <option value="mobile.user">Mobile user</option>
-                                    <option value="Super.administrator">Super administrator</option>
-                                    <option value="tournament.administrator">Tournament administrator</option>
+                                    <option v-for="n in 28" v-if="n >=4" :value="n">{{ n }}</option>
                                 </select>
                               </div>
                               <div class="col-md-5">
-                                <select class="form-control ls-select2" v-model="createdBySearch" name="created_by" id="created_by">
+                                <select class="form-control ls-select2" v-model="createdBySearch" name="created_by" id="created_by" v-on:change="filterData">
                                     <option value="">Created by</option>
-                                    <option value="Internal.administrator">Internal administrator</option>
-                                    <option value="Master.administrator">Master administrator</option>
-                                    <option value="mobile.user">Mobile user</option>
-                                    <option value="Super.administrator">Super administrator</option>
-                                    <option value="tournament.administrator">Tournament administrator</option>
+                                    <option :value="user.id" v-for="user in users"> {{ user.email }}</option>
                                 </select>
                               </div>
                               <div class="col-md-2">
@@ -49,6 +41,7 @@
                                         <th>{{$lang.template_name}}</th>
                                         <th>{{$lang.template_teams}}</th>
                                         <th>{{$lang.template_created_date}}</th>
+                                        <th>{{$lang.template_created_by}}</th>
                                         <th>{{$lang.template_action}}</th>
                                     </tr>
                                 </thead>
@@ -57,11 +50,10 @@
                                     <td>{{ template.name }}</td>
                                     <td>{{ template.total_teams }}</td>
                                     <td>{{ template.created_at | createdAtFilter }}</td>
+                                    <td>{{ template.userEmail }}</td>
                                     <td>
                                         <a href="javascript:void(0)"
-                                          data-confirm-msg="Are you sure you would like to delete
-                                          this template record?" data-toggle="modal" data-target="#delete_modal"
-                                          @click="deleteTournament(template.id)">
+                                          @click="deleteTournament(template)">
                                           <i class="jv-icon jv-dustbin"></i>
                                         </a>
                                         <a class="text-primary" href="javascript:void(0)"
@@ -77,8 +69,8 @@
                                   <tr><td colspan="8"></td></tr>
                                 </tbody>
                             </table>
-                            <!-- <paginate v-if="shown" name="templatePagination" :list="templateList" ref="paginator" :per="no_of_records"  class="paginate-list"> -->
-                            <!-- </paginate> -->
+                            <!-- <paginate v-if="shown" name="templateData" :list="templateList" ref="paginator" :per="no_of_records"  class="paginate-list">
+                            </paginate> -->
                             <div class="row d-flex flex-row align-items-center">
                               <div class="col page-dropdown">
                                 <select class="form-control ls-select2" name="no_of_records" v-model="no_of_records">
@@ -93,7 +85,7 @@
                                 </span>
                               </div>
                               <div class="col-md-6">
-                                <paginate-links for="templatePagination"
+                                <paginate-links for="templateList"
                                   :show-step-links="true" :async="true" class="mb-0">
                                 </paginate-links>
                               </div>
@@ -107,7 +99,8 @@
             </div>
         </div>
         <delete-modal :deleteConfirmMsg="deleteConfirmMsg" @confirmed="deleteConfirmed()"></delete-modal>
-        <template-info-modal v-if="templateInfoModal" :templateDetail="templateDetail"></template-info-modal>
+        <template-info-modal v-show="templateInfoModal" :templateDetail="templateDetail"></template-info-modal>
+        <template-in-use-modal v-show="templateInUseModal"></template-in-use-modal>
     </div>
 </template>
 <script type="text/babel">
@@ -117,35 +110,38 @@
     import VuePaginate from 'vue-paginate'
     import DeleteModal from '../../../components/DeleteModal.vue'
     import TemplateInfoModal from '../../../components/TemplateInfoModal.vue'
+    import TemplateInUseModal from '../../../components/TemplateInUseModal.vue'
 
     export default {
         components: {
-          TemplateInfoModal, DeleteModal
+          TemplateInfoModal, DeleteModal, TemplateInUseModal
         },
         data() {
             return {
+                users: '',
                 page: '',
                 enb: false,
-                paginate: ['templatePagination'],
+                paginate: ['templateData'],
                 shown: false,
                 no_of_records: 20,
                 recordCounts: [5,10,20,50,100],
                 teamSearch: '',
                 createdBySearch: '',
                 templateInfoModal: false,
+                templateInUseModal: false,
                 templateDetail: '',
-                deleteConfirmMsg: 'Are you sure you would like to delete this template',
+                deleteAction: '',
+                deleteConfirmMsg: 'Are you sure you would like to delete this template?',
             }
         },
-        props: {
-            templateList: this.templateList,
-        },
-        computed: {
-        },
+        props: ['templateList'],
         filters: {
           createdAtFilter(value) {
             return moment(value).format("Do MMMM YYYY");
           }
+        },
+        created() {
+          this.getUsersForFilter();
         },
         mounted() {
           let role_slug = this.$store.state.Users.userDetails.role_slug
@@ -167,22 +163,63 @@
         },
         methods: {
           openTemplateInfoModal(template) {
-            this.templateInfoModal = true;
             this.templateDetail = template;
-            this.$root.$emit('getTemplateDetail');
-            $('#template_info_modal').modal('show');
+            this.templateInfoModal = true;
+            setTimeout(() => {
+              $('#template_info_modal').modal('show');
+              this.$root.$emit('getTemplateDetail');
+            }, 500);
           },
           editTemplate(templateId) {
             return;
           },
-          deleteTournament(templateId) {
-            return;
+          deleteTournament(template) {
+            Template.getTemplateDetail(template).then(
+              (response)=> {
+                  if(response.data.data.length == 0) {
+                    this.deleteAction="template/delete/"+template.id;
+                    $('#delete_modal').modal('show');
+                  } else {
+                    this.templateInUseModal = true;
+                    $('#template_in_use_modal').modal('show');
+                  }
+              },
+              (error)=> {
+
+              }
+            )
           },
           clear() {
             this.teamSearch = '';
             this.createdBySearch = '';
+            this.$root.$emit('clearSearch');
           },
           deleteConfirmed() {
+            Template.deleteTemplate(this.deleteAction).then(
+              (response)=> {
+                //  $("#delete_modal").modal("hide");
+                //  setTimeout(Plugin.reloadPage, 500);
+                // toastr.success('User has been deleted successfully.', 'Delete User', {timeOut: 5000});
+              },
+              (error)=> {
+
+              }
+            )
+          },
+          filterData() {
+            this.$root.$emit('setSearch', this.teamSearch, this.createdBySearch);
+          },
+          getUsersForFilter() {
+            Template.getUsersForFilter().then(
+              (response)=> {
+                this.users = response.data.data;
+              },
+              (error)=> {
+
+              }
+            )
+          },
+          addTemplate() {
 
           }
         }

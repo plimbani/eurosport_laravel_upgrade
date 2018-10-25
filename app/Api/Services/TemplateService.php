@@ -23,9 +23,9 @@ class TemplateService implements TemplateContract
      * @param  array $api_key,$state,$type
      * @return response
      */
-    public function getTemplates()
+    public function getTemplates($data)
     {
-       $data = $this->templateRepoObj->getTemplates();
+       $data = $this->templateRepoObj->getTemplates($data);
        return ['data' => $data, 'status_code' => '200'];
     }
 
@@ -39,5 +39,32 @@ class TemplateService implements TemplateContract
     {
         $data = $this->templateRepoObj->getTemplateDetail($data);
         return ['data' => $data, 'status_code' => '200'];
+    }
+
+    /*
+     * Get users for filter
+     *
+     * @param  array $data
+     * @return response
+     */
+    public function getUsersForFilter()
+    {
+        $data = $this->templateRepoObj->getUsersForFilter();
+        return ['data' => $data, 'status_code' => '200'];
+    }
+
+    /*
+     * Delete template
+     *
+     * @param  array $id
+     * @return response
+     */
+    public function deleteTemplate($id)
+    {
+        $data = $this->templateRepoObj->deleteTemplate($id);
+        if ($data) {
+            return ['status_code' => '200', 'message' => 'Data Successfully Deleted'];
+        }
+
     }
 }

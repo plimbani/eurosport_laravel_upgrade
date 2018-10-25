@@ -18,7 +18,8 @@ class AddNewFieldsToTournamentTemplateTable extends Migration
             $table->string('total_matches')->nullable()->after('avg_matches');
             $table->string('divisions')->nullable()->after('total_matches');
             $table->string('version')->nullable()->after('divisions');
-            $table->string('created_by')->nullable()->after('version');
+            $table->integer('created_by')->unsigned()->nullable()->after('version');
+            $table->foreign('created_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
         });
     }
 

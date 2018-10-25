@@ -60,10 +60,16 @@ module.exports= {
   template_name: "Name",
   template_teams: "Teams",
   template_created_date: "Date created",
+  template_created_by: "Created by",
   template_action: "Action",
   template_modal_header: "Template detail",
   template_modal_tournaments_listing: "Tournament",
   template_modal_age_categories_listing: "Age Categories",
+  template_modal_message: "Below are the tournament(s) and age categorie(s) that are using this template.",
+  no_template_in_use_message: "This template is not using in any tournament.",
+
+  template_in_use_modal_header: "Information",
+  template_in_use_modal_message: "This template is in use and cannot be deleted.",
 
   user_management_add_new_user: "Add new user",
   // user_management_edit_user: "Edit User",
