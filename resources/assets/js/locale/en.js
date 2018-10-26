@@ -59,6 +59,10 @@ module.exports= {
   template_management_add_new_template: "Add new template",
   template_name: "Name",
   template_teams: "Teams",
+  template_avg_teams: "Avg matches",
+  template_total_matches: "Total matches",
+  template_divisions: "Divisions",
+  template_version: "Version",
   template_created_date: "Date created",
   template_created_by: "Created by",
   template_action: "Action",
@@ -67,9 +71,15 @@ module.exports= {
   template_modal_age_categories_listing: "Age Categories",
   template_modal_message: "Below are the tournament(s) and age categorie(s) that are using this template.",
   no_template_in_use_message: "This template is not using in any tournament.",
-
-  template_in_use_modal_header: "Information",
+  template_in_use_modal_header: "Warning",
   template_in_use_modal_message: "This template is in use and cannot be deleted.",
+  template_in_use_modal_button_text: "Okay",
+
+  add_template_modal_step1_header: "Step 1: Template settings",
+  add_template_modal_template_name: "Template name*",
+  add_template_modal_number_of_teams: "Number of teams*",
+  add_template_modal_step1_button: "Next",
+  add_template_modal_header: "New template",
 
   user_management_add_new_user: "Add new user",
   // user_management_edit_user: "Edit User",

@@ -11,13 +11,13 @@
             <div class="modal-body modal-fixed-height">
                 <p v-show="templateData.length != 0">{{ $lang.template_modal_message }}</p>
                 <div v-for="(template, key) in templateData">   
-                    {{ key }}
+                    <span class="font-weight-bold">{{ key }}</span>
                     (<span>        
-                        <span class="font-weight-bold py-2">{{ displayGroupName(template) }}  
+                        <span class="py-2">{{ displayGroupName(template) }}  
                         </span>
                     </span>)
                 </div>
-                <p v-show="templateData.length == 0">{{ $lang.no_template_in_use_message }}</p>
+                <span v-show="templateData.length == 0">{{ $lang.no_template_in_use_message }}</span>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger"  @click="closeModal()">{{$lang.manual_ranking_cancel}}</button>
@@ -53,7 +53,6 @@
                         this.templateData = response.data.data
                     },
                     (error)=> {
-
                     }
                 )
             },

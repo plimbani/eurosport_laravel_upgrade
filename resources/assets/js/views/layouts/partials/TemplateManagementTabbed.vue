@@ -25,6 +25,8 @@ export default {
 	data() {
 		return {
 			'templateList': {
+				'templateData': [],
+				'templateCount': 0,
       		}
 		}
 	},
@@ -50,7 +52,9 @@ export default {
 
 			Template.getTemplates(templateData).then(
 				(response)=> {
-					this.templateList = response.data.data;
+					// this.templateList = response.data.data;
+					this.templateList.templateData = response.data.data;
+					this.templateList.templateCount = response.data.data.length;
 				},
 		        (error)=> {
 		        }

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="add_user_btn d-flex align-items-center justify-content-end">
+        <div class="add_user_btn d-flex align-items-center justify-content-end add-new-template">
           <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#template_form_modal" @click="addTemplate()">{{$lang.template_management_add_new_template}}</button>
         </div>
         <div class="tab-content">
@@ -40,37 +40,45 @@
                                     <tr>
                                         <th>{{$lang.template_name}}</th>
                                         <th>{{$lang.template_teams}}</th>
+                                        <th>{{$lang.template_avg_teams}}</th>
+                                        <th>{{$lang.template_total_matches}}</th>
+                                        <th>{{$lang.template_divisions}}</th>
+                                        <th>{{$lang.template_version}}</th>
                                         <th>{{$lang.template_created_date}}</th>
                                         <th>{{$lang.template_created_by}}</th>
                                         <th>{{$lang.template_action}}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                  <tr class="" v-for="template in templateList">
+                                  <tr class="" v-for="template in paginated('templateData')">
                                     <td>{{ template.name }}</td>
                                     <td>{{ template.total_teams }}</td>
+                                    <td>{{ template.avg_matches }}</td>
+                                    <td>{{ template.total_matches }}</td>
+                                    <td>{{ template.divisions }}</td>
+                                    <td>{{ template.version }}</td>
                                     <td>{{ template.created_at | createdAtFilter }}</td>
                                     <td>{{ template.userEmail }}</td>
                                     <td>
-                                        <a href="javascript:void(0)"
-                                          @click="deleteTournament(template)">
-                                          <i class="jv-icon jv-dustbin"></i>
+                                        <a class="text-primary" href="javascript:void(0)"
+                                         @click="openTemplateInfoModal(template)">
+                                          <i class="fa fa-info-circle"></i>
                                         </a>
                                         <a class="text-primary" href="javascript:void(0)"
                                          @click="editTemplate(template.id)">
                                           <i class="jv-icon jv-edit"></i>
                                         </a>
-                                        <a class="text-primary" href="javascript:void(0)"
-                                         @click="openTemplateInfoModal(template)">
-                                          <i class="fa fa-info-circle"></i>
+                                        <a href="javascript:void(0)"
+                                          @click="deleteTournament(template)">
+                                          <i class="jv-icon jv-dustbin"></i>
                                         </a>
                                     </td>
                                   </tr>
                                   <tr><td colspan="8"></td></tr>
                                 </tbody>
                             </table>
-                            <!-- <paginate v-if="shown" name="templateData" :list="templateList" ref="paginator" :per="no_of_records"  class="paginate-list">
-                            </paginate> -->
+                            <paginate v-if="shown" name="templateData" :list="templateList.templateData" ref="paginator" :per="no_of_records"  class="paginate-list">
+                            </paginate>
                             <div class="row d-flex flex-row align-items-center">
                               <div class="col page-dropdown">
                                 <select class="form-control ls-select2" name="no_of_records" v-model="no_of_records">
@@ -85,7 +93,7 @@
                                 </span>
                               </div>
                               <div class="col-md-6">
-                                <paginate-links for="templateList"
+                                <paginate-links for="templateData"
                                   :show-step-links="true" :async="true" class="mb-0">
                                 </paginate-links>
                               </div>
@@ -101,6 +109,7 @@
         <delete-modal :deleteConfirmMsg="deleteConfirmMsg" @confirmed="deleteConfirmed()"></delete-modal>
         <template-info-modal v-show="templateInfoModal" :templateDetail="templateDetail"></template-info-modal>
         <template-in-use-modal v-show="templateInUseModal"></template-in-use-modal>
+        <add-template-modal></add-template-modal>
     </div>
 </template>
 <script type="text/babel">
@@ -111,16 +120,16 @@
     import DeleteModal from '../../../components/DeleteModal.vue'
     import TemplateInfoModal from '../../../components/TemplateInfoModal.vue'
     import TemplateInUseModal from '../../../components/TemplateInUseModal.vue'
+    import AddTemplateModal from '../../../components/AddTemplateModal.vue'
 
     export default {
         components: {
-          TemplateInfoModal, DeleteModal, TemplateInUseModal
+          TemplateInfoModal, DeleteModal, TemplateInUseModal, AddTemplateModal
         },
         data() {
             return {
                 users: '',
                 page: '',
-                enb: false,
                 paginate: ['templateData'],
                 shown: false,
                 no_of_records: 20,
@@ -185,7 +194,6 @@
                   }
               },
               (error)=> {
-
               }
             )
           },
@@ -198,11 +206,9 @@
             Template.deleteTemplate(this.deleteAction).then(
               (response)=> {
                 //  $("#delete_modal").modal("hide");
-                //  setTimeout(Plugin.reloadPage, 500);
-                // toastr.success('User has been deleted successfully.', 'Delete User', {timeOut: 5000});
+                // toastr.success('Template has been deleted successfully.', 'Delete Template', {timeOut: 5000});
               },
               (error)=> {
-
               }
             )
           },
@@ -215,12 +221,11 @@
                 this.users = response.data.data;
               },
               (error)=> {
-
               }
             )
           },
           addTemplate() {
-
+            $('#add_new_template_modal').modal('show');
           }
         }
     }

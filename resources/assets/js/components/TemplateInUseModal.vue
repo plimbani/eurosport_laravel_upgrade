@@ -8,10 +8,21 @@
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
-            <div class="modal-body">
-                <p>{{ $lang.template_in_use_modal_message }}</p>                    
+            <div class="modal-body">{{ $lang.template_in_use_modal_message }}</div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger"  @click="closeModal()">{{$lang.template_in_use_modal_button_text}}</button>
             </div>
         </div>
       </div>
     </div>
 </template>
+<script>
+    export default  {
+        methods: {
+            closeModal() {
+                $('#template_in_use_modal').modal('hide')
+                return false
+            }
+        }
+    }
+</script>
