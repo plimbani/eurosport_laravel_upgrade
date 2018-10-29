@@ -50,9 +50,10 @@ export default {
 	  	  		templateData.createdBySearch = createdBySearch;
   			}
 
+  			$("body .js-loader").removeClass('d-none');
 			Template.getTemplates(templateData).then(
 				(response)=> {
-					// this.templateList = response.data.data;
+					$("body .js-loader").addClass('d-none');
 					this.templateList.templateData = response.data.data;
 					this.templateList.templateCount = response.data.data.length;
 				},

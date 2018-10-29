@@ -1112,8 +1112,12 @@ gmap-map {
     margin-left:10px;
 }
 
-.rounds{
+.bordered-box{
     border:1px solid #000;
     padding:10px;
     margin-bottom:1rem;
+}
+
+.popover.bs-tether-element.show {
+    z-index: 9999;
 }

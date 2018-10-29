@@ -10,10 +10,10 @@
             </div>
             <div class="modal-body">
                 <!-- Step 1 -->
-                <new-template-step-one v-if="currentStep === 1" @change-tab-index="changeTabIndex"></new-template-step-one>
+                <new-template-step-one v-show="currentStep === 1" @change-tab-index="changeTabIndex"></new-template-step-one>
 
                 <!-- Step 2 -->
-                <new-template-step-two v-if="currentStep === 2" @change-tab-index="changeTabIndex"></new-template-step-two>
+                <new-template-step-two v-show="currentStep === 2" :templateFormDetail="templateFormDetail" @change-tab-index="changeTabIndex"></new-template-step-two>
             </div>
         </div>
       </div>
@@ -26,12 +26,8 @@
 	export default {
 		data() {
 		    return {
-		    	formValues: {
-		    		templateName: '',
-                    teams: '',
-                    editor: '',
-		    	},
-                currentStep: 1
+                currentStep: 1,
+                templateFormDetail: {}
 		    }
 		},
         components: {
@@ -40,7 +36,8 @@
 		mounted() {
 		},
 		methods: {
-            changeTabIndex(from, to) {
+            changeTabIndex(from, to, data) {
+                this.templateFormDetail = data;
                 this.currentStep = to;
             }
 		}

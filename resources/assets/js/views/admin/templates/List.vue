@@ -197,14 +197,19 @@
               }
             )
           },
+          addTemplate() {
+            $('#add_new_template_modal').modal('show');
+          },
           clear() {
             this.teamSearch = '';
             this.createdBySearch = '';
             this.$root.$emit('clearSearch');
           },
           deleteConfirmed() {
+            $("body .js-loader").removeClass('d-none');
             Template.deleteTemplate(this.deleteAction).then(
               (response)=> {
+                $("body .js-loader").addClass('d-none');
                 //  $("#delete_modal").modal("hide");
                 // toastr.success('Template has been deleted successfully.', 'Delete Template', {timeOut: 5000});
               },
@@ -224,9 +229,6 @@
               }
             )
           },
-          addTemplate() {
-            $('#add_new_template_modal').modal('show');
-          }
         }
     }
 </script>
