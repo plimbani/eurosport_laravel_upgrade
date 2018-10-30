@@ -120,7 +120,7 @@
     import DeleteModal from '../../../components/DeleteModal.vue'
     import TemplateInfoModal from '../../../components/TemplateInfoModal.vue'
     import TemplateInUseModal from '../../../components/TemplateInUseModal.vue'
-    import AddTemplateModal from '../../../components/AddTemplateModal.vue'
+    import AddTemplateModal from '../../../components/AddTemplate/AddTemplateModal.vue'
 
     export default {
         components: {

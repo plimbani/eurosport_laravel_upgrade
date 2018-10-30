@@ -4,18 +4,18 @@
             <div class="row">
                 <div class="col-md-4">
                     <h5>Step 2 : Setup rounds</h5>
-                    <div class="rounds bordered-box" v-for="(round, index) in rounds">
+                    <div class="rounds bordered-box" v-for="(round, index) in templateFormDetail.steptwo.rounds">
                         <h6 class="font-weight-bold">Round {{index + 1}} <span class="pull-right"><a href="javascript:void(0)" @click="removeRound(index)"><i class="fa fa-trash"></i></a></span></h6>
                         <div class="form-group">
                             <label>Number of teams in round</label>
-                            <select class="form-control ls-select2" v-model="templateFormDetail.teams" name="teams" id="teams" disabled="disabled">
+                            <select class="form-control ls-select2" v-model="round.no_of_teams" name="teams" id="teams" disabled="disabled">
                                 <option value="">Number of teams</option>
                                 <option v-for="n in 28" v-if="n >=4" :value="n">{{ n }}</option>
                             </select>
                         </div>
                         
                         <!-- add new group component -->
-                        <add-new-group v-for="(group, index) in groups" :index="index" :groups="groups"></add-new-group>
+                        <group v-for="(group, index) in groups" :index="index" :groups="groups"></group>
 
                         <div class="form-group mb-0">
                             <button type="button" class="btn btn-default" @click="addNewGroup">Add a group</button>
@@ -41,16 +41,22 @@
     </div>
 </template>
 <script type="text/javascript">
-    // import AddNewRound from './AddNewTemplateRound.vue'
-    import AddNewGroup from './AddNewTemplateGroup.vue'
+    import Group from './Group.vue'
     export default {
         data() {
             return {
-                formValues: {
+                templateFormDetail: {
+                    stepone: {
+                        templateName: '',
+                        teams: '',
+                        editor: '',
+                    },
+                    steptwo: {
+                        rounds: [{
+                            no_of_teams: ''
+                        }],
+                    },
                 },
-                rounds: [{
-                    no_of_teams: ""
-                }],
                 groups: [{
                     group_type: "",
                     no_of_teams_in_groups: "",
@@ -58,22 +64,31 @@
                 }],
             }
         },
-        props: ['templateFormDetail'],
         components: {
-            AddNewGroup
+            Group
         },
         mounted() {
         },
+        created() {
+            this.$root.$on('updateTemplateData', this.updateTemplateData);
+        },
+        beforeCreate: function() {
+            // Remove custom event listener 
+            this.$root.$off('updateTemplateData');
+        },
         methods: {
             addNewRound() {
-                this.rounds.push({no_of_teams: ""});
+                this.templateFormDetail.steptwo.rounds.push({no_of_teams: ""});
             },
             addNewGroup() {
                 this.groups.push({group_type: "", no_of_teams_in_groups: "", teams_play_eachother: ""});
             },
             removeRound(index) {
-                this.rounds.splice(index, 1);
-            }
+                this.templateFormDetail.steptwo.rounds.splice(index, 1);
+            },
+            updateTemplateData(data) {
+                this.templateFormDetail = data;
+            },
         }
     }
 </script>
