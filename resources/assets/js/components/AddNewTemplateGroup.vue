@@ -1,7 +1,7 @@
 <template>
 	<div>
 	    <div class="bordered-box">
-	        <h6 class="font-weight-bold">Group A <span class="pull-right"><i class="fa fa-trash"></i></span></h6>
+	        <h6 class="font-weight-bold">Group {{ index + 1}} <span class="pull-right"><a href="javascript:void(0)" @click="removeGroup(index)"><i class="fa fa-trash"></i></a></span></h6>
 	        <div class="form-group">
 	            <div class="radio">
 	                <label><input type="radio" name="grouping-method" checked="checked"> Round robin</label>
@@ -47,11 +47,15 @@
                 },
             }
         },
+        props: ['index', 'groups'],
         components: {
         },
         mounted() {
         },
         methods: {
+        	removeGroup(index) {
+        		this.groups.splice(index, 1);
+        	}
         }
     }
 </script>

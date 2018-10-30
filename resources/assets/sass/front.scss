@@ -1121,3 +1121,8 @@ gmap-map {
 .popover.bs-tether-element.show {
     z-index: 9999;
 }
+
+.modal-dialog.add-newtemplate-modal {
+    overflow-y: auto;
+    height: 100vh;
+}
