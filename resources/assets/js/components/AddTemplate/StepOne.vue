@@ -6,7 +6,7 @@
             		<h5>{{ $lang.add_template_modal_step1_header }}</h5>
             		<div class="form-group" :class="{'has-error': errors.has('template_name') }">
             			<label>{{$lang.add_template_modal_template_name}}</label>
-            			<input v-model="formValues.templateName" name="template_name" type="text" class="form-control" placeholder="My custom template" v-validate="'required'" :class="{'is-danger': errors.has('template_name') }">
+            			<input v-model="formValues.templateName" name="template_name" type="text" class="form-control" placeholder="My custom template" data-vv-as="template name" v-validate="'required'" :class="{'is-danger': errors.has('template_name') }">
                         <i v-show="errors.has('template_name')" class="fa fa-warning"></i>
                         <span class="help is-danger" v-show="errors.has('template_name')">{{ errors.first('template_name') }}</span>
             		</div>
@@ -47,34 +47,11 @@
                     teams: '',
                     editor: '',
 		    	},
-                errorMessages: {
-                    en: {
-                        custom: {
-                          template_name: {
-                            required: 'This field is required.',
-                          },
-                          teams: {
-                            required: 'This field is required.',
-                          }
-                        }
-                    },
-                    fr: {
-                        custom: {
-                          template_name: {
-                            required: 'FThis field is required.',
-                          },
-                          teams: {
-                            required: 'This field is required.',
-                          }                          
-                        }
-                    },
-                }
 		    }
 		},
         components: {
         },
 		mounted() {
-            this.$validator.updateDictionary(this.errorMessages);
             $("[data-toggle=popover]").popover({
                 html : false,
                 trigger: 'hover',
@@ -91,7 +68,9 @@
 		methods: {
             next() {
                 this.$validator.validateAll().then((response) => {
-            	   this.$emit('change-tab-index', 1, 2, this.formValues);
+                    if(response) {
+            	       this.$emit('change-tab-index', 1, 2, 'stepone', this.formValues);
+                    }
                 }).catch((errors) => {
 
                 });
