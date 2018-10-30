@@ -43,6 +43,8 @@
               <button class="btn btn-primary col-sm-10 btn-theme" @click="addNewTournament()" v-if="(userDetails.role_name == 'Internal administrator') ">{{$lang.welcome_add_button_new_edition}} </button>
               <button class="btn btn-primary col-sm-10 btn-theme" @click="userList()" v-if="(userDetails.role_name == 'Master administrator' || userDetails.role_name == 'Super administrator')">{{$lang.welcome_add_new_user}}</button>
               <br>
+              <br>
+              <button class="btn btn-primary col-sm-10 btn-theme" @click="templateList()" v-if="(userDetails.role_name == 'Master administrator' || userDetails.role_name == 'Super administrator')">{{$lang.welcome_manage_templates}}</button>
           </div>
         </div>
       </div>
@@ -115,6 +117,13 @@ computed: {
       'Create Website'}
       this.$store.dispatch('setActiveTab', currentNavigationData)
       this.$router.push({name: 'website_add'})
+    },
+    templateList() {
+      let currentNavigationData = {activeTab:'tournament_add', currentPage: 'Templates'};
+      this.$store.dispatch('setActiveTab', currentNavigationData);
+      let tournamentAdd  = {name:'', 'currentPage':'Templates'}
+      this.$store.dispatch('SetTournamentName', tournamentAdd)
+      this.$router.push({ name: 'templates_list' });
     }
   }
 }
