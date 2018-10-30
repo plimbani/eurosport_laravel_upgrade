@@ -36,7 +36,12 @@
                     },
                     steptwo: {
                         rounds: [{
-                            no_of_teams: ''
+                            no_of_teams: '',
+                            groups: [{
+                                type: "round_robin",
+                                no_of_teams_in_groups: "2",
+                                teams_play_eachother: "once"
+                            }],
                         }],
                     },
                 }
