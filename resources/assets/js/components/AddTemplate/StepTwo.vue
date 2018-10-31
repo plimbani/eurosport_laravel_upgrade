@@ -2,7 +2,7 @@
     <div>
         <div id="step2-template-setting">
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-7 col-lg-5">
                     <h5>Step 2 : Setup rounds</h5>
                     <round v-for="(round, roundIndex) in templateFormDetail.steptwo.rounds" :index="roundIndex" :data="round" :templateFormDetail="templateFormDetail"></round>
 

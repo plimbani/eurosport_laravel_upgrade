@@ -30,6 +30,37 @@
 	                </div>
 	            </div>
 	        </div>
+
+	        <div class="row align-items-center mt-3">
+	        	<div class="col-md-3">
+	        		<label>Team 1</label>
+	        	</div>
+	        	<div class="col-md-9">
+	        		<div class="row">
+	        			<div class="col-md-4">
+	        				<div class="form-group">
+		        				<select class="form-control ls-select2" name="placing" id="placing">
+			                    	<option>Placed</option>
+			                    </select>
+			                </div>
+	        			</div>
+	        			<div class="col-md-4">
+	        				<div class="form-group">
+		        				<select class="form-control ls-select2" name="rank" id="rank">
+		                    		<option>1st</option>
+		                    	</select>
+		                    </div>
+	        			</div>
+	        			<div class="col-md-4">
+	        				<div class="form-group">
+		        				<select class="form-control ls-select2" name="relevant-group" id="relevant-group">
+		                    		<option>Group A</option>
+		                    	</select>
+		                    </div>
+	        			</div>
+	        		</div>
+	        	</div>
+	        </div>
 	    </div>
     </div>
 </template>
