@@ -10,18 +10,18 @@
                         <h6 class="font-weight-bold">Division {{ divisionIndex + 1 }} <span class="pull-right"><a href="javascript:void(0)" @click="removeDivision(divisionIndex)"><i class="fa fa-trash"></i></a></span></h6>
                         <div class="form-group">
                             <label>Number of teams in division</label>
-                            <select class="form-control ls-select2" v-model="division.no_of_teams" :disabled="divisionIndex == 0">
+                            <select class="form-control ls-select2" v-model="division.no_of_teams">
                                 <option value="">Number of teams</option>
                                 <option v-for="n in 28" v-if="n >=4" :value="n">{{ n }}</option>
                             </select>
                         </div>
                         
-                        <!-- add new group component -->
-                        <!-- <group v-for="(group, groupIndex) in round.groups" :index="groupIndex" :divisionIndex="divisionIndex" :data="group"></group> -->
+                        <!-- add new round component -->
+                        <round v-for="(round, roundIndex) in division.rounds" :index="roundIndex" :divisionIndex="divisionIndex" :data="round" :templateFormDetail="templateFormDetail"></round>
 
-                        <!-- <div class="form-group mb-0">
-                            <button type="button" class="btn btn-default" @click="addNewGroup(divisionIndex)" :disabled="disabled(round.no_of_teams, divisionIndex)">Add a group</button>
-                        </div> -->
+                        <div class="form-group mb-0">
+                            <button type="button" class="btn btn-default" @click="addNewDivisionRound(divisionIndex)">Add a round</button>
+                        </div>
                     </div>
                     
                     <div class="form-group">
@@ -66,6 +66,9 @@
             addNewRound() {
                 this.templateFormDetail.steptwo.rounds.push({no_of_teams: "", groups: []});
             },
+            addNewDivisionRound(index) {
+                this.templateFormDetail.steptwo.division[index].rounds.push({no_of_teams: "", groups: []});
+            },
             addNewGroup(index) {
                 this.templateFormDetail.steptwo.rounds[index].groups.push({type: "round_robin", no_of_teams: "2", teams_play_each_other: "once"});
             },
@@ -83,18 +86,6 @@
             },
             addNewDivision() {
                 this.templateFormDetail.steptwo.divisions.push({no_of_teams: "", teams: [], rounds: []});
-            },
-            disabled(teamsInRound, roundIndex) {
-                let groupTeams = this.templateFormDetail.steptwo.rounds[roundIndex].groups;
-                let totalGroupTeams = 0;
-                $(groupTeams).each(function( index, element ) {
-                    totalGroupTeams += parseInt(element.no_of_teams);
-                });
-
-                if(totalGroupTeams >= teamsInRound) {
-                    return true;
-                }
-                return false;
             },
         }
     }
