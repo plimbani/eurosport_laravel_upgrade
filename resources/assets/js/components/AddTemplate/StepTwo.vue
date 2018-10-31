@@ -15,7 +15,7 @@
                         </div>
                         
                         <!-- add new group component -->
-                        <group v-for="(group, groupIndex) in round.groups" :groupIndex="groupIndex" :roundIndex="roundIndex"></group>
+                        <group v-for="(group, groupIndex) in round.groups" :index="groupIndex" :roundIndex="roundIndex" :data="group"></group>
 
                         <div class="form-group mb-0">
                             <button type="button" class="btn btn-default" @click="addNewGroup(roundIndex)">Add a group</button>
@@ -56,8 +56,8 @@
                             no_of_teams: '',
                             groups: [{
                                 type: "round_robin",
-                                no_of_teams_in_groups: "2",
-                                teams_play_eachother: "once"
+                                no_of_teams: "2",
+                                teams_play_each_other: "once"
                             }],
                         }],
                     }
@@ -82,7 +82,7 @@
                 this.templateFormDetail.steptwo.rounds.push({no_of_teams: "", groups: []});
             },
             addNewGroup(index) {
-                this.templateFormDetail.steptwo.rounds[index].groups.push({type: "", no_of_teams_in_groups: "", teams_play_eachother: ""});
+                this.templateFormDetail.steptwo.rounds[index].groups.push({type: "", no_of_teams: "", teams_play_each_other: ""});
             },
             removeRound(index) {
                 this.templateFormDetail.steptwo.rounds.splice(index, 1);
