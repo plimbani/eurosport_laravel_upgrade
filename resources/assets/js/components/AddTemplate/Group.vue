@@ -46,7 +46,7 @@
         },
         methods: {
         	removeGroup() {
-        		this.$parent.removeGroup(this.groupIndex, this.roundIndex);
+        		this.$parent.removeGroup(this.index, this.roundIndex);
         	}
         }
     }
