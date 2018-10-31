@@ -18,7 +18,7 @@
                         <group v-for="(group, index) in groups" :index="index" :groups="groups"></group>
 
                         <div class="form-group mb-0">
-                            <button type="button" class="btn btn-default" @click="addNewGroup">Add a group</button>
+                            <button type="button" class="btn btn-default" @click="addNewGroup()">Add a group</button>
                         </div>
                     </div>                    
                     

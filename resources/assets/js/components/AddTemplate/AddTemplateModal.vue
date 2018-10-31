@@ -32,12 +32,15 @@
                     stepone: {
                         templateName: '',
                         teams: '',
-                        editor: '',
+                        editor: 'advance_editor',
                     },
                     steptwo: {
                         rounds: [{
                             no_of_teams: ''
                         }],
+                    },
+                    stepthree: {
+                        placings: [],
                     },
                 }
 		    }
