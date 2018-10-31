@@ -24,12 +24,12 @@
                     
                     <div class="form-group">
                         <div class="btn-group">
-                            <button type="button" class="btn btn-default" @click="addNewRound">Add a round</button>
-                            <button type="button" class="btn btn-default">Add a divison</button>
+                            <button type="button" class="btn btn-default" @click="addNewRound()">Add a round</button>
+                            <button type="button" class="btn btn-default" @click="addNewDivision()">Add a divison</button>
                         </div>
                         <span class="info-editor text-primary" data-toggle="popover" data-animation="false" data-placement="right" :data-popover-content="'#editor_detail'"><i class="fa fa-info-circle"></i></span>
                         <div v-bind:id="'editor_detail'" style="display:none;">
-                            <div class="popover-body">Division description</div>
+                            <div class="popover-body">After a round you have the option to split the teams into seperate divisions. Teams in different divisions will not play again each other again.</div>
                         </div>
                     </div>
                     <div class="form-group">
@@ -92,7 +92,10 @@
             },
             removeGroup(groupIndex, roundIndex) {
                 this.templateFormDetail.steptwo.rounds[roundIndex].groups.splice(groupIndex, 1);
-            }
+            },
+            addNewDivision() {
+                this.templateFormDetail.steptwo.rounds.push({no_of_teams: "", rounds: []});
+            },
         }
     }
 </script>
