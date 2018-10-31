@@ -2,7 +2,7 @@
 	<div>
 		<div id="step1-template-setting">
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-7 col-lg-5">
             		<h5>{{ $lang.add_template_modal_step1_header }}</h5>
             		<div class="form-group" :class="{'has-error': errors.has('template_name') }">
             			<label>{{$lang.add_template_modal_template_name}}</label>

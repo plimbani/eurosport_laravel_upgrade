@@ -2,7 +2,7 @@
     <div>
         <div id="step2-template-setting">
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-7 col-lg-5">
                     <h5>Step 2 : Setup rounds</h5>
                     <div class="rounds bordered-box" v-for="(round, roundIndex) in templateFormDetail.steptwo.rounds">
                         <h6 class="font-weight-bold">Round {{ roundIndex + 1 }} <span :class="{'pull-right': true, 'is-disabled': roundIndex == 0}"><a href="javascript:void(0)" @click="removeRound(roundIndex)"><i class="fa fa-trash"></i></a></span></h6>
@@ -82,6 +82,7 @@
             disabled(teamsInRound, roundIndex) {
                 let groupTeams = this.templateFormDetail.steptwo.rounds[roundIndex].groups;
                 let totalGroupTeams = 0;
+
                 $(groupTeams).each(function( index, element ) {
                     totalGroupTeams += parseInt(element.no_of_teams);
                 });
