@@ -12,7 +12,7 @@
 	            <div class="col-md-6">
 	                <div class="form-group mb-0">
 	                    <label>Number of teams in group</label>
-	                    <select class="form-control ls-select2" name="no_of_teams" id="no_of_teams" v-model="data.no_of_teams">
+	                    <select class="form-control ls-select2" name="no_of_teams" id="no_of_teams" v-model="data.no_of_teams" @change="onTeamChange()">
 	                    	<option v-for="n in 28" v-if="n >=2" :value="n">{{ n }}</option>
 	                    </select>
 	                </div>
@@ -31,7 +31,7 @@
 	            </div>
 	        </div>
 
-	        <div class="row align-items-center mt-3">
+	        <div class="row align-items-center mt-3" v-show="index > 0">
 	        	<div class="col-md-3">
 	        		<label>Team 1</label>
 	        	</div>
@@ -78,6 +78,9 @@
         methods: {
         	removeGroup() {
         		this.$parent.removeGroup(this.index, this.roundIndex);
+        	},
+        	onTeamChange() {
+        		this.$parent.disabledTeamSelection(this.roundIndex);
         	}
         }
     }

@@ -13,7 +13,7 @@
         <group v-for="(group, groupIndex) in data.groups" :index="groupIndex" :roundIndex="index" :data="group"></group>
 
         <div class="form-group mb-0">
-            <button type="button" class="btn btn-default" @click="addNewGroup(index)" :disabled="disabled(data.no_of_teams, index)">Add a group</button>
+            <button type="button" class="btn btn-default" @click="addNewGroup(index)" :disabled="disabledNewGroupButton(data.no_of_teams, index)">Add a group</button>
         </div>
     </div>
 </template>
@@ -44,18 +44,30 @@
             removeGroup(groupIndex, roundIndex) {
                 this.templateFormDetail.steptwo.rounds[roundIndex].groups.splice(groupIndex, 1);
             },
-            disabled(teamsInRound, roundIndex) {
+            disabledTeamSelection(roundIndex) {
+                let groupTotalTeams = this.getGroupTotalTeams(roundIndex);
+                if(groupTotalTeams >= this.templateFormDetail.steptwo.rounds[roundIndex].no_of_teams) {
+                    toastr['error']('Group teams should not be greater than round teams.', 'Error');
+                    return true;
+                }
+                return false;
+            },
+            disabledNewGroupButton(teamsInRound, roundIndex) {
+                var groupTotalTeams = this.getGroupTotalTeams(roundIndex);
+                if(groupTotalTeams >= teamsInRound) {
+                    return true;
+                }
+                return false;
+            },
+            getGroupTotalTeams(roundIndex) {
                 let groupTeams = this.templateFormDetail.steptwo.rounds[roundIndex].groups;
                 let totalGroupTeams = 0;
                 $(groupTeams).each(function( index, element ) {
                     totalGroupTeams += parseInt(element.no_of_teams);
                 });
 
-                if(totalGroupTeams >= teamsInRound) {
-                    return true;
-                }
-                return false;
-            },
+                return totalGroupTeams;
+            }
         }
     }
 </script>
