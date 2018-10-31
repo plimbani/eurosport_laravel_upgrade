@@ -32,7 +32,7 @@
                     stepone: {
                         templateName: '',
                         teams: '',
-                        editor: '',
+                        editor: 'advance_editor',
                     },
                     steptwo: {
                         rounds: [{
@@ -43,6 +43,9 @@
                                 teams_play_eachother: "once"
                             }],
                         }],
+                    },
+                    stepthree: {
+                        placings: [],
                     },
                 }
 		    }
