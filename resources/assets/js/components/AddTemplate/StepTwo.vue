@@ -18,7 +18,7 @@
                         <group v-for="(group, groupIndex) in round.groups" :index="groupIndex" :roundIndex="roundIndex" :data="group"></group>
 
                         <div class="form-group mb-0">
-                            <button type="button" class="btn btn-default" @click="addNewGroup(roundIndex)" :disabled="disabled(round.no_of_teams)">Add a group</button>
+                            <button type="button" class="btn btn-default" @click="addNewGroup(roundIndex)" :disabled="disabled(round.no_of_teams, roundIndex)">Add a group</button>
                         </div>
                     </div>
                     
@@ -93,8 +93,17 @@
             removeGroup(groupIndex, roundIndex) {
                 this.templateFormDetail.steptwo.rounds[roundIndex].groups.splice(groupIndex, 1);
             },
-            disabled(teamsInRound) {
+            disabled(teamsInRound, roundIndex) {
+                let groupTeams = this.templateFormDetail.steptwo.rounds[roundIndex].groups;
+                let totalTeams = 0;
+                $(groupTeams).each(function( index, element ) {
+                    totalTeams = totalTeams + parseInt(element.no_of_teams);
+                });
 
+                if(totalTeams >=  teamsInRound) {
+                    return true;
+                }
+                return false;
             }
         }
     }
