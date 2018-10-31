@@ -43,6 +43,7 @@
                                 teams_play_each_other: "once"
                             }],
                         }],
+                        divisions: [{}],
                     },
                     stepthree: {
                         placings: [],

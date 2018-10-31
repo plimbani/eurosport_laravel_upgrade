@@ -18,9 +18,9 @@
                         <group v-for="(group, groupIndex) in round.groups" :index="groupIndex" :roundIndex="roundIndex" :data="group"></group>
 
                         <div class="form-group mb-0">
-                            <button type="button" class="btn btn-default" @click="addNewGroup(roundIndex)">Add a group</button>
+                            <button type="button" class="btn btn-default" @click="addNewGroup(roundIndex)" :disabled="disabled(round.no_of_teams, roundIndex)">Add a group</button>
                         </div>
-                    </div>                    
+                    </div>
                     
                     <div class="form-group">
                         <div class="btn-group">
@@ -43,30 +43,13 @@
 <script type="text/javascript">
     import Group from './Group.vue'
     export default {
+        props: ['templateFormDetail'],
         data() {
             return {
-                templateFormDetail: {
-                    stepone: {
-                        templateName: '',
-                        teams: '',
-                        editor: '',
-                    },
-                    steptwo: {
-                        rounds: [{
-                            no_of_teams: '',
-                            groups: [{
-                                type: "round_robin",
-                                no_of_teams: "2",
-                                teams_play_each_other: "once"
-                            }],
-                        }],
-                    }
-                },
-                
             }
         },
         components: {
-            Group
+            Group,
         },
         mounted() {
         },
@@ -88,13 +71,25 @@
                 this.templateFormDetail.steptwo.rounds.splice(index, 1);
             },
             updateTemplateData(data) {
-                this.templateFormDetail = data;
+                // this.templateFormDetail = data;
             },
             removeGroup(groupIndex, roundIndex) {
                 this.templateFormDetail.steptwo.rounds[roundIndex].groups.splice(groupIndex, 1);
             },
             addNewDivision() {
                 this.templateFormDetail.steptwo.rounds.push({no_of_teams: "", rounds: []});
+            },
+            disabled(teamsInRound, roundIndex) {
+                let groupTeams = this.templateFormDetail.steptwo.rounds[roundIndex].groups;
+                let totalGroupTeams = 0;
+                $(groupTeams).each(function( index, element ) {
+                    totalGroupTeams += parseInt(element.no_of_teams);
+                });
+
+                if(totalGroupTeams >= teamsInRound) {
+                    return true;
+                }
+                return false;
             },
         }
     }
