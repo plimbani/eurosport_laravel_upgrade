@@ -24,12 +24,12 @@
                     
                     <div class="form-group">
                         <div class="btn-group">
-                            <button type="button" class="btn btn-default" @click="addNewRound">Add a round</button>
-                            <button type="button" class="btn btn-default">Add a divison</button>
+                            <button type="button" class="btn btn-default" @click="addNewRound()">Add a round</button>
+                            <button type="button" class="btn btn-default" @click="addNewDivision()">Add a divison</button>
                         </div>
                         <span class="info-editor text-primary" data-toggle="popover" data-animation="false" data-placement="right" :data-popover-content="'#editor_detail'"><i class="fa fa-info-circle"></i></span>
                         <div v-bind:id="'editor_detail'" style="display:none;">
-                            <div class="popover-body">Division description</div>
+                            <div class="popover-body">After a round you have the option to split the teams into seperate divisions. Teams in different divisions will not play again each other again.</div>
                         </div>
                     </div>
                     <div class="form-group">
@@ -43,30 +43,13 @@
 <script type="text/javascript">
     import Group from './Group.vue'
     export default {
+        props: ['templateFormDetail'],
         data() {
             return {
-                templateFormDetail: {
-                    stepone: {
-                        templateName: '',
-                        teams: '',
-                        editor: '',
-                    },
-                    steptwo: {
-                        rounds: [{
-                            no_of_teams: '',
-                            groups: [{
-                                type: "round_robin",
-                                no_of_teams: "2",
-                                teams_play_each_other: "once"
-                            }],
-                        }],
-                    }
-                },
-                
             }
         },
         components: {
-            Group
+            Group,
         },
         mounted() {
         },
@@ -88,23 +71,26 @@
                 this.templateFormDetail.steptwo.rounds.splice(index, 1);
             },
             updateTemplateData(data) {
-                this.templateFormDetail = data;
+                // this.templateFormDetail = data;
             },
             removeGroup(groupIndex, roundIndex) {
                 this.templateFormDetail.steptwo.rounds[roundIndex].groups.splice(groupIndex, 1);
             },
+            addNewDivision() {
+                this.templateFormDetail.steptwo.rounds.push({no_of_teams: "", rounds: []});
+            },
             disabled(teamsInRound, roundIndex) {
                 let groupTeams = this.templateFormDetail.steptwo.rounds[roundIndex].groups;
-                let totalTeams = 0;
+                let totalGroupTeams = 0;
                 $(groupTeams).each(function( index, element ) {
-                    totalTeams = totalTeams + parseInt(element.no_of_teams);
+                    totalGroupTeams += parseInt(element.no_of_teams);
                 });
 
-                if(totalTeams >=  teamsInRound) {
+                if(totalGroupTeams >= teamsInRound) {
                     return true;
                 }
                 return false;
-            }
+            },
         }
     }
 </script>
