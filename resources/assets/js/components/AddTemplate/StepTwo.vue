@@ -87,6 +87,7 @@
                 });
 
                 if(totalGroupTeams >= teamsInRound) {
+                    toastr['error']('Group teams should not be greater than total round teams', 'Error');
                     return true;
                 }
                 return false;
