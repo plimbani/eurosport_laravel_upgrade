@@ -10,7 +10,7 @@
             </div>
             <div class="modal-body">
                 <!-- Step 1 -->
-                <step-one v-show="currentStep === 1" @change-tab-index="changeTabIndex"></step-one>
+                <step-one v-show="currentStep === 1" :templateFormDetail="templateFormDetail" @change-tab-index="changeTabIndex"></step-one>
 
                 <!-- Step 2 -->
                 <step-two v-show="currentStep === 2" :templateFormDetail="templateFormDetail" @change-tab-index="changeTabIndex"></step-two>

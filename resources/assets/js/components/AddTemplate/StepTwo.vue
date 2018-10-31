@@ -5,10 +5,10 @@
                 <div class="col-md-4">
                     <h5>Step 2 : Setup rounds</h5>
                     <div class="rounds bordered-box" v-for="(round, roundIndex) in templateFormDetail.steptwo.rounds">
-                        <h6 class="font-weight-bold">Round {{roundIndex + 1}} <span class="pull-right"><a href="javascript:void(0)" @click="removeRound(roundIndex)"><i class="fa fa-trash"></i></a></span></h6>
+                        <h6 class="font-weight-bold">Round {{ roundIndex + 1 }} <span :class="{'pull-right': true, 'is-disabled': roundIndex == 0}"><a href="javascript:void(0)" @click="removeRound(roundIndex)"><i class="fa fa-trash"></i></a></span></h6>
                         <div class="form-group">
                             <label>Number of teams in round</label>
-                            <select class="form-control ls-select2" v-model="round.no_of_teams" name="teams" id="teams" disabled="disabled">
+                            <select class="form-control ls-select2" v-model="round.no_of_teams" name="teams" id="teams" :disabled="roundIndex == 0">
                                 <option value="">Number of teams</option>
                                 <option v-for="n in 28" v-if="n >=4" :value="n">{{ n }}</option>
                             </select>
@@ -25,7 +25,7 @@
                     <div class="form-group">
                         <div class="btn-group">
                             <button type="button" class="btn btn-default" @click="addNewRound()">Add a round</button>
-                            <button type="button" class="btn btn-default" @click="addNewDivision()">Add a divison</button>
+                            <button type="button" class="btn btn-default" @click="addNewDivision()" :disabled="templateFormDetail.steptwo.rounds.length === 0">Add a divison</button>
                         </div>
                         <span class="info-editor text-primary" data-toggle="popover" data-animation="false" data-placement="right" :data-popover-content="'#editor_detail'"><i class="fa fa-info-circle"></i></span>
                         <div v-bind:id="'editor_detail'" style="display:none;">
@@ -65,7 +65,7 @@
                 this.templateFormDetail.steptwo.rounds.push({no_of_teams: "", groups: []});
             },
             addNewGroup(index) {
-                this.templateFormDetail.steptwo.rounds[index].groups.push({type: "", no_of_teams: "", teams_play_each_other: ""});
+                this.templateFormDetail.steptwo.rounds[index].groups.push({type: "round_robin", no_of_teams: "2", teams_play_each_other: "once"});
             },
             removeRound(index) {
                 this.templateFormDetail.steptwo.rounds.splice(index, 1);
@@ -77,7 +77,7 @@
                 this.templateFormDetail.steptwo.rounds[roundIndex].groups.splice(groupIndex, 1);
             },
             addNewDivision() {
-                this.templateFormDetail.steptwo.rounds.push({no_of_teams: "", rounds: []});
+                this.templateFormDetail.steptwo.divisions.push({no_of_teams: "", teams: [], rounds: []});
             },
             disabled(teamsInRound, roundIndex) {
                 let groupTeams = this.templateFormDetail.steptwo.rounds[roundIndex].groups;

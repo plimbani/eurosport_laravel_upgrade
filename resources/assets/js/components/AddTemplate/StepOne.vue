@@ -40,6 +40,7 @@
 <script type="text/javascript">
     import { ErrorBag } from 'vee-validate';
 	export default {
+        props: ['templateFormDetail'],
 		data() {
 		    return {
 		    	formValues: {
