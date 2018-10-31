@@ -44,7 +44,7 @@
                                 teams: [{groups: [], position_type: 'placed', position: []}]
                             }],
                         }],
-                        divisions: [{}],
+                        divisions: [],
                     },
                     stepthree: {
                         placings: [],
