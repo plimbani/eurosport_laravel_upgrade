@@ -4,8 +4,8 @@
             <div class="row">
                 <div class="col-md-4">
                     <h5>Step 2 : Setup rounds</h5>
-                    <div class="rounds bordered-box" v-for="(round, index) in templateFormDetail.steptwo.rounds">
-                        <h6 class="font-weight-bold">Round {{index + 1}} <span class="pull-right"><a href="javascript:void(0)" @click="removeRound(index)"><i class="fa fa-trash"></i></a></span></h6>
+                    <div class="rounds bordered-box" v-for="(round, roundIndex) in templateFormDetail.steptwo.rounds">
+                        <h6 class="font-weight-bold">Round {{roundIndex + 1}} <span class="pull-right"><a href="javascript:void(0)" @click="removeRound(roundIndex)"><i class="fa fa-trash"></i></a></span></h6>
                         <div class="form-group">
                             <label>Number of teams in round</label>
                             <select class="form-control ls-select2" v-model="round.no_of_teams" name="teams" id="teams" disabled="disabled">
@@ -15,10 +15,10 @@
                         </div>
                         
                         <!-- add new group component -->
-                        <group v-for="(group, index) in groups" :index="index" :groups="groups"></group>
+                        <group v-for="(group, groupIndex) in round.groups" :groupIndex="groupIndex" :roundIndex="roundIndex"></group>
 
                         <div class="form-group mb-0">
-                            <button type="button" class="btn btn-default" @click="addNewGroup()">Add a group</button>
+                            <button type="button" class="btn btn-default" @click="addNewGroup(roundIndex)">Add a group</button>
                         </div>
                     </div>                    
                     
@@ -53,15 +53,16 @@
                     },
                     steptwo: {
                         rounds: [{
-                            no_of_teams: ''
+                            no_of_teams: '',
+                            groups: [{
+                                type: "round_robin",
+                                no_of_teams_in_groups: "2",
+                                teams_play_eachother: "once"
+                            }],
                         }],
-                    },
+                    }
                 },
-                groups: [{
-                    group_type: "",
-                    no_of_teams_in_groups: "",
-                    teams_play_eachother: ""
-                }],
+                
             }
         },
         components: {
@@ -78,10 +79,10 @@
         },
         methods: {
             addNewRound() {
-                this.templateFormDetail.steptwo.rounds.push({no_of_teams: ""});
+                this.templateFormDetail.steptwo.rounds.push({no_of_teams: "", groups: []});
             },
-            addNewGroup() {
-                this.groups.push({group_type: "", no_of_teams_in_groups: "", teams_play_eachother: ""});
+            addNewGroup(index) {
+                this.templateFormDetail.steptwo.rounds[index].groups.push({type: "", no_of_teams_in_groups: "", teams_play_eachother: ""});
             },
             removeRound(index) {
                 this.templateFormDetail.steptwo.rounds.splice(index, 1);
@@ -89,6 +90,9 @@
             updateTemplateData(data) {
                 this.templateFormDetail = data;
             },
+            removeGroup(groupIndex, roundIndex) {
+                this.templateFormDetail.steptwo.rounds[roundIndex].groups.splice(groupIndex, 1);
+            }
         }
     }
 </script>

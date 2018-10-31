@@ -21,8 +21,8 @@
             		</div>
             		<div class="form-group">
             			<div class="radio">
-            				<label><input type="radio" name="editor" checked="checked"> Advance editor</label>
-            				<label><input type="radio" name="editor"> Simple editor</label>
+            				<label><input type="radio" name="editor" value="advance_editor" v-model="formValues.editor"> Advance editor</label>
+            				<label><input type="radio" name="editor" value="simple_editor" v-model="formValues.editor"> Simple editor</label>
                             <span class="info-editor text-primary" data-toggle="popover" data-animation="false" data-placement="right" :data-popover-content="'#divison_detail'"><i class="fa fa-info-circle"></i></span>
                             <div v-bind:id="'divison_detail'" style="display:none;">
                                 <div class="popover-body">Editor description</div>
@@ -45,7 +45,7 @@
 		    	formValues: {
                     templateName: '',
                     teams: '',
-                    editor: '',
+                    editor: 'advance_editor',
 		    	},
 		    }
 		},
