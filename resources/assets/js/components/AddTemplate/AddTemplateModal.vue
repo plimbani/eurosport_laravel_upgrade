@@ -39,8 +39,8 @@
                             no_of_teams: '',
                             groups: [{
                                 type: "round_robin",
-                                no_of_teams_in_groups: "2",
-                                teams_play_eachother: "once"
+                                no_of_teams: "2",
+                                teams_play_each_other: "once"
                             }],
                         }],
                     },
