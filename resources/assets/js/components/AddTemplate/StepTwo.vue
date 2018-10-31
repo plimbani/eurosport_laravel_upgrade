@@ -4,22 +4,24 @@
             <div class="row">
                 <div class="col-md-4">
                     <h5>Step 2 : Setup rounds</h5>
-                    <div class="rounds bordered-box" v-for="(round, roundIndex) in templateFormDetail.steptwo.rounds">
-                        <h6 class="font-weight-bold">Round {{ roundIndex + 1 }} <span :class="{'pull-right': true, 'is-disabled': roundIndex == 0}"><a href="javascript:void(0)" @click="removeRound(roundIndex)"><i class="fa fa-trash"></i></a></span></h6>
+                    <round v-for="(round, roundIndex) in templateFormDetail.steptwo.rounds" :index="roundIndex" :data="round" :templateFormDetail="templateFormDetail"></round>
+
+                    <div class="rounds bordered-box" v-for="(division, divisionIndex) in templateFormDetail.steptwo.divisions">
+                        <h6 class="font-weight-bold">Division {{ divisionIndex + 1 }} <span class="pull-right"><a href="javascript:void(0)" @click="removeDivision(divisionIndex)"><i class="fa fa-trash"></i></a></span></h6>
                         <div class="form-group">
-                            <label>Number of teams in round</label>
-                            <select class="form-control ls-select2" v-model="round.no_of_teams" name="teams" id="teams" :disabled="roundIndex == 0">
+                            <label>Number of teams in division</label>
+                            <select class="form-control ls-select2" v-model="division.no_of_teams" :disabled="divisionIndex == 0">
                                 <option value="">Number of teams</option>
                                 <option v-for="n in 28" v-if="n >=4" :value="n">{{ n }}</option>
                             </select>
                         </div>
                         
                         <!-- add new group component -->
-                        <group v-for="(group, groupIndex) in round.groups" :index="groupIndex" :roundIndex="roundIndex" :data="group"></group>
+                        <!-- <group v-for="(group, groupIndex) in round.groups" :index="groupIndex" :divisionIndex="divisionIndex" :data="group"></group> -->
 
-                        <div class="form-group mb-0">
-                            <button type="button" class="btn btn-default" @click="addNewGroup(roundIndex)" :disabled="disabled(round.no_of_teams, roundIndex)">Add a group</button>
-                        </div>
+                        <!-- <div class="form-group mb-0">
+                            <button type="button" class="btn btn-default" @click="addNewGroup(divisionIndex)" :disabled="disabled(round.no_of_teams, divisionIndex)">Add a group</button>
+                        </div> -->
                     </div>
                     
                     <div class="form-group">
@@ -41,7 +43,7 @@
     </div>
 </template>
 <script type="text/javascript">
-    import Group from './Group.vue'
+    import Round from './Round.vue';
     export default {
         props: ['templateFormDetail'],
         data() {
@@ -49,7 +51,7 @@
             }
         },
         components: {
-            Group,
+            Round,
         },
         mounted() {
         },
@@ -75,6 +77,9 @@
             },
             removeGroup(groupIndex, roundIndex) {
                 this.templateFormDetail.steptwo.rounds[roundIndex].groups.splice(groupIndex, 1);
+            },
+            removeDivision(index) {
+                this.templateFormDetail.steptwo.divisions.splice(index, 1);
             },
             addNewDivision() {
                 this.templateFormDetail.steptwo.divisions.push({no_of_teams: "", teams: [], rounds: []});
