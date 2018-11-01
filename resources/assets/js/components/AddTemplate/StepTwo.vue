@@ -26,7 +26,7 @@
                     
                     <div class="form-group">
                         <div class="btn-group">
-                            <button type="button" class="btn btn-default" @click="addNewRound()">Add a round</button>
+                            <button type="button" class="btn btn-default" @click="addNewRound()" :disabled="templateFormDetail.steptwo.divisions.length > 0">Add a round</button>
                             <button type="button" class="btn btn-default" @click="addNewDivision()" :disabled="templateFormDetail.steptwo.rounds.length === 0">Add a divison</button>
                         </div>
                         <span class="info-editor text-primary" data-toggle="popover" data-animation="false" data-placement="right" :data-popover-content="'#editor_detail'"><i class="fa fa-info-circle"></i></span>
@@ -67,7 +67,7 @@
                 this.templateFormDetail.steptwo.rounds.push({no_of_teams: "", groups: []});
             },
             addNewDivisionRound(index) {
-                this.templateFormDetail.steptwo.division[index].rounds.push({no_of_teams: "", groups: []});
+                this.templateFormDetail.steptwo.divisions[index].rounds.push({no_of_teams: "", groups: []});
             },
             addNewGroup(index) {
                 this.templateFormDetail.steptwo.rounds[index].groups.push({type: "round_robin", no_of_teams: "2", teams_play_each_other: "once"});
