@@ -12,8 +12,8 @@
 	            <div class="col-md-6">
 	                <div class="form-group mb-0">
 	                    <label>Number of teams in group</label>
-	                    <select class="form-control ls-select2" name="no_of_teams" id="no_of_teams" v-model="data.no_of_teams" @change="onTeamChange()">
-	                    	<option v-for="n in 28" v-if="n >=2" :value="n">{{ n }}</option>
+	                    <select :data-last-selected="last_selected_teams" class="form-control ls-select2" name="no_of_teams" id="no_of_teams" v-model="data.no_of_teams" @change="onTeamChange($event)">
+	                    	<option v-for="n in 28" v-if="n >= 2" :value="n">{{ n }}</option>
 	                    </select>
 	                </div>
 	            </div>
@@ -65,10 +65,12 @@
     </div>
 </template>
 <script type="text/javascript">
+	import _ from 'lodash';
     export default {
     	props: ['index', 'roundIndex', 'data'],
         data() {
             return {
+            	last_selected_teams: this.data.no_of_teams,
             }
         },
         components: {
