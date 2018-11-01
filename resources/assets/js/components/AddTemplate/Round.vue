@@ -10,7 +10,7 @@
         </div>
         
         <!-- add new group component -->
-        <group v-for="(group, groupIndex) in data.groups" :index="groupIndex" :roundIndex="index" :data="group"></group>
+        <group v-for="(group, groupIndex) in data.groups" :index="groupIndex" :roundIndex="index" :roundData="data" :data="group"></group>
 
         <div class="form-group mb-0">
             <button type="button" class="btn btn-default" @click="addNewGroup(index)" :disabled="disabledNewGroupButton(data.no_of_teams, index)">Add a group</button>
@@ -36,7 +36,7 @@
         },
         methods: {
             addNewGroup(index) {
-                this.templateFormDetail.steptwo.rounds[index].groups.push({type: "round_robin", no_of_teams: "2", teams_play_each_other: "once"});
+                this.templateFormDetail.steptwo.rounds[index].groups.push({type: "round_robin", no_of_teams: "2", teams_play_each_other: "once", teams: [{groups: [], position_type: 'placed', position: []}]});
             },
             removeRound(index) {
                 this.templateFormDetail.steptwo.rounds.splice(index, 1);
@@ -44,14 +44,14 @@
             removeGroup(groupIndex, roundIndex) {
                 this.templateFormDetail.steptwo.rounds[roundIndex].groups.splice(groupIndex, 1);
             },
-            disabledTeamSelection(roundIndex) {
-                let groupTotalTeams = this.getGroupTotalTeams(roundIndex);
-                if(groupTotalTeams >= this.templateFormDetail.steptwo.rounds[roundIndex].no_of_teams) {
-                    toastr['error']('Group teams should not be greater than round teams.', 'Error');
-                    return true;
-                }
-                return false;
-            },
+            // disabledTeamSelection(roundIndex) {
+            //     let groupTotalTeams = this.getGroupTotalTeams(roundIndex);
+            //     if(groupTotalTeams >= this.templateFormDetail.steptwo.rounds[roundIndex].no_of_teams) {
+            //         toastr['error']('Group teams should not be greater than round teams.', 'Error');
+            //         return true;
+            //     }
+            //     return false;
+            // },
             disabledNewGroupButton(teamsInRound, roundIndex) {
                 var groupTotalTeams = this.getGroupTotalTeams(roundIndex);
                 if(groupTotalTeams >= teamsInRound) {

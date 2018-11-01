@@ -31,12 +31,19 @@
 	            </div>
 	        </div>
 
-	        <div class="row align-items-center mt-3" v-show="index > 0">
+	        <div class="row align-items-center mt-3" v-show="roundIndex > 0">
 	        	<div class="col-md-3">
 	        		<label>Team 1</label>
 	        	</div>
 	        	<div class="col-md-9">
 	        		<div class="row">
+	        			<div class="col-md-4">
+	        				<div class="form-group">
+		        				<select class="form-control ls-select2" name="relevant-group" id="relevant-group">
+		                    		<option>Group A</option>
+		                    	</select>
+		                    </div>
+	        			</div>	        			
 	        			<div class="col-md-4">
 	        				<div class="form-group">
 		        				<select class="form-control ls-select2" name="placing" id="placing">
@@ -51,13 +58,6 @@
 		                    	</select>
 		                    </div>
 	        			</div>
-	        			<div class="col-md-4">
-	        				<div class="form-group">
-		        				<select class="form-control ls-select2" name="relevant-group" id="relevant-group">
-		                    		<option>Group A</option>
-		                    	</select>
-		                    </div>
-	        			</div>
 	        		</div>
 	        	</div>
 	        </div>
@@ -66,9 +66,10 @@
 </template>
 <script type="text/javascript">
     export default {
-    	props: ['index', 'roundIndex', 'data'],
+    	props: ['index', 'roundIndex', 'data', 'roundData'],
         data() {
             return {
+
             }
         },
         components: {
@@ -80,7 +81,12 @@
         		this.$parent.removeGroup(this.index, this.roundIndex);
         	},
         	onTeamChange() {
-        		this.$parent.disabledTeamSelection(this.roundIndex);
+ 				let groupTotalTeams = this.$parent.getGroupTotalTeams(this.roundIndex);
+                if(groupTotalTeams >= this.roundData.no_of_teams) {
+                    toastr['error']('Group teams should not be greater than round teams.', 'Error');
+                    return true;
+                }
+                return false;        		
         	}
         }
     }
