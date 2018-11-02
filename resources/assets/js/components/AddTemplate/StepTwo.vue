@@ -4,7 +4,7 @@
             <div class="row">
                 <div class="col-md-7 col-lg-5">
                     <h5>Step 2 : Setup rounds</h5>
-                    <round v-for="(round, roundIndex) in templateFormDetail.steptwo.rounds" :index="roundIndex" :data="round" :templateFormDetail="templateFormDetail"></round>
+                    <round v-for="(round, roundIndex) in templateFormDetail.steptwo.rounds" :index="roundIndex" :divisionIndex="-1" :roundData="round" :templateFormDetail="templateFormDetail"></round>
 
                     <div class="rounds bordered-box" v-for="(division, divisionIndex) in templateFormDetail.steptwo.divisions">
                         <h6 class="font-weight-bold">Division {{ divisionIndex + 1 }} <span class="pull-right"><a href="javascript:void(0)" @click="removeDivision(divisionIndex)"><i class="fa fa-trash"></i></a></span></h6>
@@ -17,7 +17,7 @@
                         </div>
                         
                         <!-- add new round component -->
-                        <round v-for="(round, roundIndex) in division.rounds" :index="roundIndex" :divisionIndex="divisionIndex" :data="round" :templateFormDetail="templateFormDetail"></round>
+                        <round v-for="(round, roundIndex) in division.rounds" :index="roundIndex" :divisionIndex="divisionIndex" :roundData="round" :templateFormDetail="templateFormDetail"></round>
 
                         <div class="form-group mb-0">
                             <button type="button" class="btn btn-default" @click="addNewDivisionRound(divisionIndex)">Add a round</button>
@@ -35,7 +35,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <button type="button" class="btn btn-danger" @click="next()">{{$lang.add_template_modal_step1_button}}</button>
+                        <button type="button" class="btn btn-danger" @click="next()">{{ $lang.add_template_modal_step1_button }}</button>
                     </div>
                 </div>
             </div>                  

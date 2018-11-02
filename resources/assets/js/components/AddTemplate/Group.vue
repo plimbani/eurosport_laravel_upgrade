@@ -4,15 +4,15 @@
 	        <h6 class="font-weight-bold">Group {{ index + 1}} <span class="pull-right"><a href="javascript:void(0)" @click="removeGroup()"><i class="fa fa-trash"></i></a></span></h6>
 	        <div class="form-group">
 	            <div class="radio">
-	                <label><input type="radio" checked="checked" value="round_robin" v-model="data.type"> Round robin</label>
-	                <label><input type="radio" value="placing_match" v-model="data.type"> Placing match</label>
+	                <label><input type="radio" checked="checked" value="round_robin" v-model="groupData.type"> Round robin</label>
+	                <label><input type="radio" value="placing_match" v-model="groupData.type"> Placing match</label>
 	            </div>
 	        </div>
 	        <div class="row">
 	            <div class="col-md-6">
 	                <div class="form-group mb-0">
 	                    <label>Number of teams in group</label>
-	                    <select :data-last-selected="last_selected_teams" class="form-control ls-select2" name="no_of_teams" id="no_of_teams" v-model="data.no_of_teams" @change="onTeamChange($event)">
+	                    <select :data-last-selected="last_selected_teams" class="form-control ls-select2" name="no_of_teams" id="no_of_teams" v-model="groupData.no_of_teams" @change="onTeamChange($event)">
 	                    	<option v-for="n in 28" v-if="n >= 2" :value="n">{{ n }}</option>
 	                    </select>
 	                </div>
@@ -21,7 +21,7 @@
 	            <div class="col-md-6">
 	                <div class="form-group mb-0">
 	                    <label>Teams play each other</label>
-	                    <select class="form-control ls-select2" name="teams_play_each_other" id="teams_play_each_other" v-model="data.teams_play_each_other">
+	                    <select class="form-control ls-select2" name="teams_play_each_other" id="teams_play_each_other" v-model="groupData.teams_play_each_other">
 	                        <option value="once">Once</option>
 	                        <option value="twice">Twice</option>
 	                        <option value="three_times">Three times</option>
@@ -31,12 +31,19 @@
 	            </div>
 	        </div>
 
-	        <div class="row align-items-center mt-3" v-show="index > 0">
+	        <div class="row align-items-center mt-3" v-show="roundIndex > 0">
 	        	<div class="col-md-3">
 	        		<label>Team 1</label>
 	        	</div>
 	        	<div class="col-md-9">
 	        		<div class="row">
+	        			<div class="col-md-4">
+	        				<div class="form-group">
+		        				<select class="form-control ls-select2" name="relevant-group" id="relevant-group">
+		                    		<option>Group A</option>
+		                    	</select>
+		                    </div>
+	        			</div>	        			
 	        			<div class="col-md-4">
 	        				<div class="form-group">
 		        				<select class="form-control ls-select2" name="placing" id="placing">
@@ -51,13 +58,6 @@
 		                    	</select>
 		                    </div>
 	        			</div>
-	        			<div class="col-md-4">
-	        				<div class="form-group">
-		        				<select class="form-control ls-select2" name="relevant-group" id="relevant-group">
-		                    		<option>Group A</option>
-		                    	</select>
-		                    </div>
-	        			</div>
 	        		</div>
 	        	</div>
 	        </div>
@@ -67,10 +67,10 @@
 <script type="text/javascript">
 	import _ from 'lodash';
     export default {
-    	props: ['index', 'roundIndex', 'data'],
+    	props: ['index', 'roundIndex', 'groupData', 'roundData'],
         data() {
             return {
-            	last_selected_teams: this.data.no_of_teams,
+            	last_selected_teams: this.groupData.no_of_teams,
             }
         },
         components: {
@@ -82,7 +82,13 @@
         		this.$parent.removeGroup(this.index, this.roundIndex);
         	},
         	onTeamChange() {
-        		this.$parent.disabledTeamSelection(this.roundIndex);
+ 				let groupTotalTeams = this.$parent.getGroupTotalTeams(this.roundIndex);
+                if(groupTotalTeams > this.roundData.no_of_teams) {
+                    toastr['error']('Round team count get exceeds.', 'Error');
+                    this.groupData.no_of_teams = this.last_selected_teams;
+                    return false;
+                }
+                this.last_selected_teams = this.groupData.no_of_teams;
         	}
         }
     }
