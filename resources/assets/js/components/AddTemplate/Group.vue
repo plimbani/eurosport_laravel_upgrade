@@ -31,9 +31,9 @@
 	            </div>
 	        </div>
 
-	        <div class="row align-items-center mt-3" v-show="roundIndex > 0">
+	        <div class="row align-items-center mt-3" v-show="roundIndex > 0" v-for="(team, teamIndex) in groupData.teams">
 	        	<div class="col-md-3">
-	        		<label>Team 1</label>
+	        		<label>Team {{ teamIndex+1 }}</label>
 	        	</div>
 	        	<div class="col-md-9">
 	        		<div class="row">
@@ -54,7 +54,7 @@
 	        			<div class="col-md-4">
 	        				<div class="form-group">
 		        				<select class="form-control ls-select2" name="rank" id="rank">
-		                    		<option>1st</option>
+		                    		<option v-for="position in team.position">{{ position }}</option>
 		                    	</select>
 		                    </div>
 	        			</div>
@@ -77,6 +77,10 @@
         },
         mounted() {
         },
+        created() {
+        	this.groupData.teams = [];
+        	this.displayTeams();
+        },
         methods: {
         	removeGroup() {
         		this.$parent.removeGroup(this.index, this.roundIndex);
@@ -89,6 +93,17 @@
                     return false;
                 }
                 this.last_selected_teams = this.groupData.no_of_teams;
+
+                this.displayTeams();
+        	},
+        	displayTeams() {
+        		var i;
+				var positions = [];
+				this.groupData.teams = [];
+				for (i = 0; i < this.groupData.no_of_teams; i++) {
+					positions.push(i + 1);
+				    this.groupData.teams.push({groups: [i], position_type: 'placed', position: positions});
+				}
         	}
         }
     }
