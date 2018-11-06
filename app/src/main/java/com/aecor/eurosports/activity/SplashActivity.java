@@ -47,7 +47,7 @@ public class SplashActivity extends BaseActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                checkStoreCredentials();
+                checkAppVersion();
             }
         }, SPLASH_TIME_OUT);
     }
@@ -169,7 +169,7 @@ public class SplashActivity extends BaseActivity {
                                 && Utility.compare(installedAppVersion, serverVersion)) {
                             showUpdateDialog();
                         } else {
-                            checkStoreCredentials();
+                            isUserLogin();
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -205,7 +205,7 @@ public class SplashActivity extends BaseActivity {
     private void showUpdateDialog() {
 
         ViewDialog.showTwoButtonDialog(this,
-                getString(R.string.update),
+                getString(R.string.update_available),
                 getString(R.string.update_message_new),
                 getString(R.string.update),
                 getString(R.string.cancel),
