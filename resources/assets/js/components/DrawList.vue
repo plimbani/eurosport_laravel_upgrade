@@ -30,9 +30,9 @@
       <table class="table table-hover table-bordered" v-if="groupsData.length > 0">
         <thead>
               <tr>
-                  <th class="text-center">{{$lang.summary_schedule_draws_categories}}</th>
-                  <th class="text-center">{{$lang.summary_schedule_type}}</th>
-                  <th class="text-center">{{$lang.summary_schedule_team}}</th>
+                  <th>{{$lang.summary_schedule_draws_categories}}</th>
+                  <th class="text-center" style="width:200px">{{$lang.summary_schedule_type}}</th>
+                  <th class="text-center" style="width:100px">{{$lang.summary_schedule_team}}</th>
               </tr>
           </thead>
           <tbody>
@@ -41,7 +41,7 @@
                 <a class="pull-left text-left text-primary" @click.prevent="changeGroup(drawData)" href=""><u>{{ drawData.display_name }}</u> </a>
                 <a href="#" @click="openEditCompetitionNameModal(drawData)" class="pull-right"><i class="fa fa-edit"></i></a>
               </td>
-              <td>{{ drawData.competation_type }}</td>
+              <td class="text-center">{{ drawData.competation_type }}</td>
               <td class="text-center">{{ drawData.team_size }}</td>
             </tr>
           </tbody>
@@ -183,14 +183,15 @@ export default {
       this.ageCatgeoryComments = competition.comments;
     },
     openEditCompetitionNameModal(drawData) {
-      this.competitionData = drawData;
-      this.competitionData.display_name = drawData.display_name;
+      this.competitionData = _.clone(drawData, true);
+      // this.competitionData.display_name = drawData.display_name;
       $('#editCompetitionNameModal').modal('show');
     },
     updateCompetitionName() {
       var data = {'competitionData': this.competitionData};
       Tournament.updateCompetitionDisplayName(data).then(
         (response) => {
+          this.groupsData = response.data.options.data;
           $('#editCompetitionNameModal').modal('hide');
           toastr.success(response.data.options.message, 'Competition Details', {timeOut: 5000});
         },

@@ -988,6 +988,10 @@ class TournamentRepository
                     ->where('tournament_id', $data['competitionData']['tournament_id'])
                     ->update(['display_name' => $data['competitionData']['display_name']]);
 
-        return ['data'=> $competition, 'status' => 'Success', 'message' => 'Competition name has been updated.'];
+        $competitionData = Competition::where('tournament_competation_template_id', $data['competitionData']['tournament_competation_template_id'])
+                                        ->where('tournament_id', $data['competitionData']['tournament_id'])
+                                        ->get();
+                                        
+        return ['data' => $competitionData, 'status' => 'Success', 'message' => 'Competition name has been updated.'];
     }
 }
