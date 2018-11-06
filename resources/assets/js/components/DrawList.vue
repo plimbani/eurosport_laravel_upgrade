@@ -38,7 +38,8 @@
           <tbody>
             <tr v-for="drawData in groupsData">
               <td>
-                <a class="pull-left text-left text-primary" @click.prevent="changeGroup(drawData)" href=""><u>{{ drawData.name }}</u> </a>
+                <a class="pull-left text-left text-primary" @click.prevent="changeGroup(drawData)" href=""><u>{{ drawData.display_name }}</u> </a>
+                <a href="#" @click="openEditCompetitionNameModal(drawData)" class="pull-right"><i class="fa fa-edit"></i></a>
               </td>
               <td>{{ drawData.competation_type }}</td>
               <td class="text-center">{{ drawData.team_size }}</td>
@@ -65,6 +66,34 @@
          </div>
       </div>
     </div>
+    <div class="modal" id="editCompetitionNameModal" tabindex="-1" role="dialog" aria-labelledby="commentmodalLabel" style="display: none;" aria-hidden="true" data-animation="false">
+      <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+             <h5 class="modal-title" id="competationmodalLabel">Edit Competition</h5>
+             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+             <span aria-hidden="true">×</span>
+             </button>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group row">
+                  <label class="col-sm-4 form-control-label">Competition name</label>
+                  <div class="col-sm-8">
+                    <input type="text" name="competition_display_name" v-model="competitionData.display_name" class="form-control">
+                  </div>
+                </div>
+              </div>
+            </div>    
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal" @click="closeModal()">{{$lang.pitch_modal_cancel}}</button>
+            <button type="button" class="btn btn-primary" @click="updateCompetitionName()">{{$lang.pitch_modal_save}}</button>
+          </div>
+         </div>
+      </div>
+    </div>    
   </div>
 </template>
 <script type="text/babel">
@@ -80,7 +109,8 @@ export default {
       competationList:[],
       showTable: 'category',
       groupsData:[],
-      ageCatgeoryComments: ''
+      ageCatgeoryComments: '',
+      competitionData: {}
     }
   },
   mounted() {
@@ -152,6 +182,25 @@ export default {
     showComment(competition) {
       this.ageCatgeoryComments = competition.comments;
     },
+    openEditCompetitionNameModal(drawData) {
+      this.competitionData = drawData;
+      this.competitionData.display_name = drawData.display_name;
+      $('#editCompetitionNameModal').modal('show');
+    },
+    updateCompetitionName() {
+      var data = {'competitionData': this.competitionData};
+      Tournament.updateCompetitionDisplayName(data).then(
+        (response) => {
+          $('#editCompetitionNameModal').modal('hide');
+          toastr.success(response.data.options.message, 'Competition Details', {timeOut: 5000});
+        },
+        (error) => {
+        }
+      )
+    },
+    closeModal() {
+      $('#editCompetitionNameModal').modal('hide');
+    }
 	},
 	filters: {
     formatGroup:function (value,round) {

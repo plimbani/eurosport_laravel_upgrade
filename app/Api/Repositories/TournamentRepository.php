@@ -975,4 +975,19 @@ class TournamentRepository
 
         return ['status' => 'Success', 'message' => 'Matches has been scheduled.'];
     }
+
+    /**
+     * Update competition display name.
+     *
+     * @Versions({"v1"})
+     * @Request("name=test", contentType="application/x-www-form-urlencoded")
+     */
+    public function updateCompetitionDisplayName($data)
+    {
+        $competition = Competition::where('id', $data['competitionData']['id'])
+                    ->where('tournament_id', $data['competitionData']['tournament_id'])
+                    ->update(['display_name' => $data['competitionData']['display_name']]);
+
+        return ['data'=> $competition, 'status' => 'Success', 'message' => 'Competition name has been updated.'];
+    }
 }
