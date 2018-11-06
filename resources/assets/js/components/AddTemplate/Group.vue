@@ -39,8 +39,9 @@
 	        		<div class="row">
 	        			<div class="col-md-4">
 	        				<div class="form-group">
+	        					<!-- {{ groupData }} -->
 		        				<select class="form-control ls-select2" name="relevant-group" id="relevant-group">
-		                    		<option>Group A</option>
+		                    		<option>Group</option>
 		                    	</select>
 		                    </div>
 	        			</div>	        			
@@ -93,16 +94,17 @@
                     return false;
                 }
                 this.last_selected_teams = this.groupData.no_of_teams;
-
                 this.displayTeams();
         	},
         	displayTeams() {
         		var i;
 				var positions = [];
-				this.groupData.teams = [];
+				var groupsArray = [];
+				this.groupData.teams = [];				
 				for (i = 0; i < this.groupData.no_of_teams; i++) {
 					positions.push(i + 1);
-				    this.groupData.teams.push({groups: [i], position_type: 'placed', position: positions});
+					console.log('roundData', this.roundData.groups);
+				    this.groupData.teams.push({groups: this.roundData.groups, position_type: 'placed', position: positions});
 				}
         	}
         }
