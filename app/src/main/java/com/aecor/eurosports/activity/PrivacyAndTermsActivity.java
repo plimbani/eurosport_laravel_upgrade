@@ -36,7 +36,7 @@ public class PrivacyAndTermsActivity extends BaseAppCompactActivity {
         super.onCreate(savedInstanceState);
         initView();
 
-        if (getIntent() != null && getIntent().getExtras().containsKey(AppConstants.KEY_IS_FROM_SIGNUP)) {
+        if (getIntent() != null && getIntent().getExtras() != null &&  getIntent().getExtras().containsKey(AppConstants.KEY_IS_FROM_SIGNUP)) {
             isFromSignup = getIntent().getExtras().getBoolean(AppConstants.KEY_IS_FROM_SIGNUP);
             if (isFromSignup) {
                 ll_footer.setVisibility(View.GONE);
