@@ -255,4 +255,7 @@ export default {
   getSignedUrlForPitchPlannerExport(tournamentId) {
     return api.post('getSignedUrlForPitchPlannerExport/' + tournamentId);
   },
+  updateCompetitionDisplayName(data) {
+    return api.post('tournament/updateCompetitionDisplayName', data);
+  },
 }
