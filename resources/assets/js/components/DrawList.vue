@@ -39,7 +39,7 @@
             <tr v-for="drawData in groupsData">
               <td>
                 <a class="pull-left text-left text-primary" @click.prevent="changeGroup(drawData)" href=""><u>{{ drawData.display_name }}</u> </a>
-                <a href="#" @click="openEditCompetitionNameModal(drawData)" class="pull-right"><i class="fa fa-edit"></i></a>
+                <a href="#" @click="openEditCompetitionNameModal(drawData)" class="pull-right text-primary"><i class="jv-icon jv-edit"></i></a>
               </td>
               <td class="text-center">{{ drawData.competation_type }}</td>
               <td class="text-center">{{ drawData.team_size }}</td>
@@ -70,7 +70,7 @@
       <div class="modal-dialog modal-md" role="document">
         <div class="modal-content">
           <div class="modal-header">
-             <h5 class="modal-title" id="competationmodalLabel">Edit Competition</h5>
+             <h5 class="modal-title" id="competationmodalLabel">Edit Name</h5>
              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
              <span aria-hidden="true">×</span>
              </button>
@@ -79,7 +79,7 @@
             <div class="row">
               <div class="col-md-12">
                 <div class="form-group row">
-                  <label class="col-sm-4 form-control-label">Competition name</label>
+                  <label class="col-sm-4 form-control-label">Name</label>
                   <div class="col-sm-8">
                     <input type="text" name="competition_display_name" v-model="competitionData.display_name" class="form-control">
                   </div>
