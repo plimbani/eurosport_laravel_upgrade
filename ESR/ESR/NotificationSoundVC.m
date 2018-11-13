@@ -109,21 +109,24 @@
                                                   NSData *data1 = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
                                                   id responseDictionary1 = [NSJSONSerialization JSONObjectWithData:data1 options:0 error:nil];
                                      	             dispatch_async(dispatch_get_main_queue(), ^{
-                                                      if ([[responseDictionary1 valueForKey:@"is_sound"] isEqualToString:@"true"]) {
+                                                    NSString *is_sound  = [NSString stringWithFormat:@"%@",[responseDictionary1 valueForKey:@"is_sound"]];
+                                                      if ([is_sound isEqualToString:@"true"]|| [is_sound isEqualToString:@"1"]) {
                                                           [_soundSwitch setOn:YES animated:YES];
                                                           sound = @"true";
                                                       }else{
                                                           sound = @"false";
                                                           [_soundSwitch setOn:NO animated:YES];
                                                       }
-                                                      if ([[responseDictionary1  valueForKey:@"is_vibration"] isEqualToString:@"true"]) {
+                                                    NSString *is_vibration  = [NSString stringWithFormat:@"%@",[responseDictionary1 valueForKey:@"is_vibration"]];
+                                                      if ([is_vibration isEqualToString:@"true"] || [is_vibration isEqualToString:@"1"]) {
                                                           [_vibrationSwitch setOn:YES animated:YES];
                                                           vibration = @"true";
                                                       }else{
                                                           vibration = @"false";
                                                           [_vibrationSwitch setOn:NO animated:YES];
                                                       }
-                                                      if ([[responseDictionary1 valueForKey:@"is_notification"] isEqualToString:@"true"]) {
+                                                    NSString *is_notification  = [NSString stringWithFormat:@"%@",[responseDictionary1 valueForKey:@"is_notification"]];
+                                                      if ([is_notification isEqualToString:@"true"]|| [is_notification isEqualToString:@"1"]) {
                                                           notification = @"true";
                                                           [_notificationSwitch setOn:YES animated:YES];
                                                       }else{

@@ -122,6 +122,12 @@
     logoTap.numberOfTapsRequired = 1;
     [self.esrLogoImg setUserInteractionEnabled:YES];
     [self.esrLogoImg addGestureRecognizer:logoTap];
+    [self.emailTxtField addTarget:self
+                  action:@selector(textFieldDidChange:)
+        forControlEvents:UIControlEventEditingChanged];
+    [self.passwordTxtField addTarget:self
+                           action:@selector(textFieldDidChange:)
+                 forControlEvents:UIControlEventEditingChanged];
 }
 -(void)logoImgClick{
     [self.emailTxtField resignFirstResponder];
@@ -136,10 +142,19 @@
     
     [self.emailTxtField resignFirstResponder];
     [self.passwordTxtField resignFirstResponder];
-   
     [self.scroll endEditing: YES];
     [self.scrollSubView endEditing:YES];
     [self scrollToY:0];
+    if (self.emailTxtField.text.length > 0 && self.passwordTxtField.text.length >0) {
+        if ([self validateEmailWithString:self.emailTxtField.text]) {
+            self.loginBtn.enabled = TRUE;
+            self.loginBtn.backgroundColor =[UIColor colorwithHexString:@"ED9E2D" alpha:1.0];
+        }
+        
+    }else{
+        self.loginBtn.enabled = FALSE;
+        self.loginBtn.backgroundColor =[UIColor colorwithHexString:@"CCCCCC" alpha:1.0];
+    }
 }
 - (void)reachabilityChanged:(NSNotification*)notification
 {
@@ -209,6 +224,7 @@
     
     return YES;
 }
+
 - (BOOL)validateEmailWithString:(NSString*)email
 {
     NSString *emailRegex = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}";
@@ -225,7 +241,18 @@
     [self scrollToView:textField];
     return YES;
 }
-
+-(void)textFieldDidChange:(UITextField*)textField{
+    if (self.emailTxtField.text.length > 0 && self.passwordTxtField.text.length >0) {
+        if ([self validateEmailWithString:self.emailTxtField.text]) {
+            self.loginBtn.enabled = TRUE;
+            self.loginBtn.backgroundColor =[UIColor colorwithHexString:@"ED9E2D" alpha:1.0];
+        }
+        
+    }else{
+        self.loginBtn.enabled = FALSE;
+        self.loginBtn.backgroundColor =[UIColor colorwithHexString:@"CCCCCC" alpha:1.0];
+    }
+}
 - (void)textFieldDidEndEditing:(UITextField*)textField
 {
     if (textField == self.emailTxtField) {

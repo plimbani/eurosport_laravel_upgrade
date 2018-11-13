@@ -118,15 +118,15 @@
     ClubTeamCell *cell = (ClubTeamCell*)[tableView dequeueReusableCellWithIdentifier:@"ClubTeamCell"];
     if (![[[_ageGroupArray objectAtIndex:indexPath.row] valueForKey:@"actual_competition_type"] isKindOfClass:[NSNull class]]) {
         if ([[[_ageGroupArray objectAtIndex:indexPath.row] valueForKey:@"actual_competition_type"] isEqualToString:@"Elimination"]) {
-            NSString *name = [[_ageGroupArray objectAtIndex:indexPath.row] valueForKey:@"name"];
+            NSString *name = [[_ageGroupArray objectAtIndex:indexPath.row] valueForKey:@"display_name"];
             name = [name stringByReplacingOccurrencesOfString:@"Group-" withString:@""];
             cell.lbl.text = name;
         }else{
-            cell.lbl.text = [[_ageGroupArray objectAtIndex:indexPath.row] valueForKey:@"name"];
+            cell.lbl.text = [[_ageGroupArray objectAtIndex:indexPath.row] valueForKey:@"display_name"];
         }
     }else{
         
-        cell.lbl.text = [[_ageGroupArray objectAtIndex:indexPath.row] valueForKey:@"name"];
+        cell.lbl.text = [[_ageGroupArray objectAtIndex:indexPath.row] valueForKey:@"display_name"];
     }
     //cell.lbl.text = [[_ageGroupArray objectAtIndex:indexPath.row] valueForKey:@"name"];
     //cell.lblRowData.text=[[[[screen objectForKey:@"options"] objectForKey:@"optionList"] objectAtIndex:indexPath.row] objectForKey:@"text"];
