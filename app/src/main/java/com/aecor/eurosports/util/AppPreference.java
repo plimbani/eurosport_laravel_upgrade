@@ -95,9 +95,16 @@ public class AppPreference {
 
     public void clear() {
         String fcmDeviceToken = getString(AppConstants.FIREBASE_TOKEN);
+        String mRememberEmail = getString(AppConstants.KEY_REMEMBER_EMAIL);
+        String mRememberPassword = getString(AppConstants.KEY_REMEMBER_PASSWORD);
+
         mPref.edit()
                 .clear()
                 .apply();
         setString(AppConstants.FIREBASE_TOKEN, fcmDeviceToken);
+        if (!Utility.isNullOrEmpty(mRememberEmail) && !Utility.isNullOrEmpty(mRememberPassword)) {
+            setString(AppConstants.KEY_REMEMBER_EMAIL, mRememberEmail);
+            setString(AppConstants.KEY_REMEMBER_PASSWORD, mRememberPassword);
+        }
     }
 }

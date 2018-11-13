@@ -30,8 +30,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/paddingleft_landing_page"
+        android:layout_marginTop="10dp"
         android:layout_marginRight="@dimen/paddingleft_landing_page"
-        android:layout_marginTop="40dp"
         android:layout_weight="1"
         android:orientation="vertical">
 
@@ -48,12 +48,23 @@
             android:hint="@string/password"
             android:inputType="textPassword" />
 
+        <CheckBox
+            android:id="@+id/cb_remember_me"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@drawable/selector_check"
+            android:checked="true"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            android:text="@string/remember_me"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            android:theme="@style/yellowCheckBox" />
 
         <Button
             android:id="@+id/signin"
             style="@style/text_black_title"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/btn_disable"
+             android:background="@drawable/btn_disable"
             android:text="@string/sign_in" />
 
         <TextView

@@ -1,11 +1,13 @@
 package com.aecor.eurosports.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
@@ -43,12 +45,23 @@ public class SignInActivity extends BaseActivity {
     private AppPreference mAppSharedPref;
     @BindView(R.id.ll_main_layout)
     protected LinearLayout ll_main_layout;
+    @BindView(R.id.cb_remember_me)
+    protected CheckBox cb_remember_me;
 
     @Override
     public void initView() {
         enabledDisableLoginButton(false);
         Utility.setupUI(mContext, ll_main_layout);
         mAppSharedPref = AppPreference.getInstance(mContext);
+        if (!Utility.isNullOrEmpty(mAppSharedPref.getString(AppConstants.KEY_REMEMBER_EMAIL))
+                && !Utility.isNullOrEmpty(mAppSharedPref.getString(AppConstants.KEY_REMEMBER_PASSWORD))) {
+            email_address.setText(mAppSharedPref.getString(AppConstants.KEY_REMEMBER_EMAIL));
+            sign_in_password.setText(mAppSharedPref.getString(AppConstants.KEY_REMEMBER_PASSWORD));
+            cb_remember_me.setChecked(true);
+            checkValidation();
+        } else {
+            cb_remember_me.setChecked(false);
+        }
         setListener();
     }
 
@@ -109,6 +122,7 @@ public class SignInActivity extends BaseActivity {
 
     }
 
+    @SuppressLint("NewApi")
     private void enabledDisableLoginButton(boolean isEnable) {
         if (isEnable) {
             log_in.setEnabled(true);
@@ -274,7 +288,13 @@ public class SignInActivity extends BaseActivity {
     }
 
     private void checkuser() {
-
+        if (cb_remember_me.isChecked()) {
+            mAppSharedPref.setString(AppConstants.KEY_REMEMBER_EMAIL, email_address.getText().toString().trim());
+            mAppSharedPref.setString(AppConstants.KEY_REMEMBER_PASSWORD, sign_in_password.getText().toString().trim());
+        } else {
+            mAppSharedPref.setString(AppConstants.KEY_REMEMBER_EMAIL, "");
+            mAppSharedPref.setString(AppConstants.KEY_REMEMBER_PASSWORD, "");
+        }
 
         if (Utility.isInternetAvailable(mContext)) {
             Utility.startProgress(mContext);

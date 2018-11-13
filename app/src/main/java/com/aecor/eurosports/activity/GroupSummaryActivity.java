@@ -184,7 +184,7 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
     private void addGroupLeagueHeaderRow( ) {
         View teamLeagueHeaderView = getLayoutInflater().inflate(R.layout.standing_header, null);
         TextView tv_group_table_title = (TextView) teamLeagueHeaderView.findViewById(R.id.tv_group_table_title);
-        String groupTableTitle = mGroupModel.getName() + " " + getString(R.string.league_table);
+        String groupTableTitle = mGroupModel.getDisplay_name() + " " + getString(R.string.league_table);
         tv_group_table_title.setText(groupTableTitle);
 
         tl_group_rows.addView(teamLeagueHeaderView);
@@ -531,10 +531,13 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
 
 
         if (mFixtureModel.getHome_id().equalsIgnoreCase("0")) {
-            if (!Utility.isNullOrEmpty(mFixtureModel.getHomeTeamName()) && mFixtureModel.getHomeTeamName().equalsIgnoreCase(AppConstants.TEAM_NAME_PLACE_HOLDER)) {
-                if (!Utility.isNullOrEmpty(mFixtureModel.getCompetition_actual_name()) && mFixtureModel.getCompetition_actual_name().contains(AppConstants.COMPETATION_NAME_GROUP)) {
+            if (!Utility.isNullOrEmpty(mFixtureModel.getHomeTeamName())
+                    && mFixtureModel.getHomeTeamName().equalsIgnoreCase(AppConstants.TEAM_NAME_PLACE_HOLDER)) {
+                if (!Utility.isNullOrEmpty(mFixtureModel.getCompetition_actual_name())
+                        && mFixtureModel.getCompetition_actual_name().contains(AppConstants.COMPETATION_NAME_GROUP)) {
                     team1_name.setText(mFixtureModel.getHomePlaceholder());
-                } else if (!Utility.isNullOrEmpty(mFixtureModel.getCompetition_actual_name()) && mFixtureModel.getCompetition_actual_name().contains(AppConstants.COMPETATION_NAME_POS)) {
+                } else if (!Utility.isNullOrEmpty(mFixtureModel.getCompetition_actual_name())
+                        && mFixtureModel.getCompetition_actual_name().contains(AppConstants.COMPETATION_NAME_POS)) {
                     team1_name.setText(AppConstants.COMPETATION_NAME_POS + "-" + mFixtureModel.getHomePlaceholder());
                 } else {
                     if (!Utility.isNullOrEmpty(mFixtureModel.getHomeTeam())) {
@@ -650,7 +653,7 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
     protected void onFullLeagueTableClicked() {
         Intent mFullLeagueTableIntent = new Intent(mContext, FullLeageTableActivity.class);
         mFullLeagueTableIntent.putExtra(AppConstants.ARG_FULL_LEAGUE_TABLE_DETAIL, new ArrayList<>(Arrays.asList(mLeagueModelData)));
-        mFullLeagueTableIntent.putExtra(AppConstants.ARG_GROUP_NAME, mGroupModel.getName());
+        mFullLeagueTableIntent.putExtra(AppConstants.ARG_GROUP_NAME, mGroupModel.getDisplay_name());
         startActivity(mFullLeagueTableIntent);
     }
 

@@ -415,4 +415,8 @@ public class FavouriteListAdapter extends BaseAdapter {
         }
     }
 
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
 }

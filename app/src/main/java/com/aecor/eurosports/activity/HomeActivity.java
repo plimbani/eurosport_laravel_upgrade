@@ -40,9 +40,13 @@ import com.github.lzyzsd.circleprogress.DonutProgress;
 
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -104,7 +108,6 @@ public class HomeActivity extends BaseAppCompactActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (mTournamentList != null && mTournamentList.get(position) != null && !Utility.isNullOrEmpty(mTournamentList.get(position).getName())) {
                     tournamentPosition = position;
-                    AppConstants.SESSION_TOURNAMENT_ID = Integer.parseInt(mTournamentList.get(position).getTournament_id());
                     AppLogger.LogE(TAG, "Tournament Position -> " + tournamentPosition);
                     mPreference.setString(AppConstants.PREF_SESSION_TOURNAMENT_ID, mTournamentList.get(position).getTournament_id());
                     if (!Utility.isNullOrEmpty(mTournamentList.get(position).getName())) {
@@ -198,14 +201,6 @@ public class HomeActivity extends BaseAppCompactActivity {
         }
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        if(AppConstants.SESSION_TOURNAMENT_ID == -1) {
-            sp_tournament.setSelection(tournamentPosition);
-        }
-    }
 
     public void getDateDifference(String FutureDate) {
 
@@ -398,10 +393,47 @@ public class HomeActivity extends BaseAppCompactActivity {
         changeBottomTabAccordingToFlag();
     }
 
+    private List<TournamentModel> moveItemToTop(List<TournamentModel> lists, int positionOfItem) {
+        if (lists == null || positionOfItem < 0 || positionOfItem >= lists.size()) {
+            return lists;
+        }
+
+        ArrayList<TournamentModel> sortedList = new ArrayList<TournamentModel>();
+        //add the item to the top
+        sortedList.add(lists.get(positionOfItem));
+
+        for (int i = 0; i < lists.size(); i++) {
+            if (i != positionOfItem) {
+                sortedList.add(lists.get(i));
+            }
+        }
+
+        return sortedList;
+    }
+
     private void setTournamnetSpinnerAdapter(TournamentModel mTournamentList[]) {
         List<TournamentModel> list = new ArrayList<>();
         list.addAll(Arrays.asList(mTournamentList));
-        for (int i = 1; i < list.size(); i++) {
+        Collections.sort(list, new Comparator<TournamentModel>() {
+            DateFormat f = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+
+            public int compare(TournamentModel o1, TournamentModel o2) {
+                if (o1.getStart_date() == null) {
+                    return (o2.getStart_date() == null) ? 0 : -1;
+                }
+                if (o2.getStart_date() == null) {
+                    return 1;
+                }
+
+                try {
+                    return f.parse(o2.getStart_date()).compareTo(f.parse(o1.getStart_date()));
+                } catch (ParseException e) {
+                    throw new IllegalArgumentException(e);
+                }
+            }
+        });
+
+        for (int i = 0; i < list.size(); i++) {
             if (list.get(i).getIs_default() == 1) {
                 mPreference.setString(AppConstants.PREF_TOURNAMENT_ID, list.get(i).getTournament_id());
                 AppLogger.LogE(TAG, "selected pos" + tournamentPosition);
@@ -409,26 +441,27 @@ public class HomeActivity extends BaseAppCompactActivity {
                 break;
             }
         }
-        this.mTournamentList = list;
-
-        TournamentSpinnerAdapter adapter = new TournamentSpinnerAdapter((Activity) mContext,
-                list);
-        sp_tournament.setAdapter(adapter);
-
-
-        // Sets selected tournament
-        if(AppConstants.SESSION_TOURNAMENT_ID != -1) {
-            if (this.mTournamentList.size() > 0) {
-                for(int i=0; i<this.mTournamentList.size();i++){
-                    if(Integer.parseInt(this.mTournamentList.get(i).getTournament_id()) == AppConstants.SESSION_TOURNAMENT_ID){
-                        sp_tournament.setSelection(i);
+        if (!Utility.isNullOrEmpty(mPreference.getString(AppConstants.PREF_SESSION_TOURNAMENT_ID))) {
+            if (list.size() > 0) {
+                for (int i = 0; i < list.size(); i++) {
+                    if (list.get(i).getTournament_id().equalsIgnoreCase(mPreference.getString(AppConstants.PREF_SESSION_TOURNAMENT_ID))) {
+                        tournamentPosition = i;
                         break;
                     }
                 }
             }
-        } else {
-            sp_tournament.setSelection(tournamentPosition);
         }
+        list = moveItemToTop(list, tournamentPosition);
+        this.mTournamentList = list;
+        TournamentSpinnerAdapter adapter = new TournamentSpinnerAdapter((Activity) mContext,
+                list);
+        sp_tournament.setAdapter(adapter);
+
+        // Sets selected tournament
+
+
+        sp_tournament.setSelection(0);
+
     }
 
     private void setEmptyTournamentAdapter(TournamentModel mTournamentList[]) {
