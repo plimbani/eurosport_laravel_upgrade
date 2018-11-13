@@ -175,13 +175,13 @@ public class ClubsGroupFragment extends Fragment {
             @Override
             public int compare(ClubGroupModel lhs, ClubGroupModel rhs) {
                 //here getTitle() method return app name...
-                if (lhs.getName() == null) {
-                    return (rhs.getName() == null) ? 0 : -1;
+                if (lhs.getDisplay_name() == null) {
+                    return (rhs.getDisplay_name() == null) ? 0 : -1;
                 }
-                if (rhs.getName() == null) {
+                if (rhs.getDisplay_name() == null) {
                     return 1;
                 }
-                return lhs.getName().compareTo(rhs.getName());
+                return lhs.getDisplay_name().compareTo(rhs.getDisplay_name());
             }
         });
         adapter = new GroupAdapter((Activity) mContext, list);

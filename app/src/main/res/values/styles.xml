@@ -12,9 +12,11 @@
         <item name="android:fadeScrollbars">false</item>
         <item name="android:scrollbarThumbVertical">@drawable/app_scrollbar</item>
         <item name="android:statusBarColor" tools:targetApi="lollipop">@color/black</item>
-
     </style>
 
+    <style name="yellowCheckBox">
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
     <style name="myDialog" parent="Theme.AppCompat.Dialog">
         <item name="android:windowNoTitle">true</item>
     </style>

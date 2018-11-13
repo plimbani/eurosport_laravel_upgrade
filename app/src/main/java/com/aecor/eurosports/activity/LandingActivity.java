@@ -19,7 +19,8 @@ public class LandingActivity extends BaseActivity {
     private Context mContext;
     private AppPreference mAppPref;
 
-    @BindView(R.id.tvAppVersion) TextView tvAppVersion;
+    @BindView(R.id.tvAppVersion)
+    TextView tvAppVersion;
 
     @Override
     public void initView() {

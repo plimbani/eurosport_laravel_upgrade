@@ -29,6 +29,7 @@ public class AgeCategoriesModel implements Parcelable {
     private String deleted_at;
     private String template_name;
     private String comments;
+    private String display_name;
 
     protected AgeCategoriesModel(Parcel in) {
         id = in.readInt();
@@ -52,6 +53,7 @@ public class AgeCategoriesModel implements Parcelable {
         deleted_at = in.readString();
         template_name = in.readString();
         comments = in.readString();
+        display_name = in.readString();
     }
 
     public static final Creator<AgeCategoriesModel> CREATOR = new Creator<AgeCategoriesModel>() {
@@ -234,6 +236,14 @@ public class AgeCategoriesModel implements Parcelable {
         this.comments = comments;
     }
 
+    public String getDisplay_name() {
+        return display_name;
+    }
+
+    public void setDisplay_name(String display_name) {
+        this.display_name = display_name;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -262,5 +272,6 @@ public class AgeCategoriesModel implements Parcelable {
         dest.writeString(deleted_at);
         dest.writeString(template_name);
         dest.writeString(comments);
+        dest.writeString(display_name);
     }
 }

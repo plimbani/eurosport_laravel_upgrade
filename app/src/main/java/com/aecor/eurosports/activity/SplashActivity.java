@@ -29,8 +29,6 @@ import com.crashlytics.android.Crashlytics;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.regex.Pattern;
-
 import butterknife.ButterKnife;
 import io.fabric.sdk.android.Fabric;
 
@@ -49,7 +47,7 @@ public class SplashActivity extends BaseActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                isUserLogin();
+                checkAppVersion();
             }
         }, SPLASH_TIME_OUT);
     }
@@ -135,36 +133,6 @@ public class SplashActivity extends BaseActivity {
         }
     }
 
-    private String normalisedVersion(String version) {
-        return normalisedVersion(version, ".", 4);
-    }
-
-    private String normalisedVersion(String version, String sep, int maxWidth) {
-        String[] split = Pattern.compile(sep, Pattern.LITERAL).split(version);
-        StringBuilder sb = new StringBuilder();
-        for (String s : split) {
-            sb.append(String.format("%" + maxWidth + 's', s));
-        }
-        return sb.toString();
-    }
-
-    private boolean compare(String v1, String v2) {
-        boolean returnFlag = false;
-        String s1 = normalisedVersion(v1);
-        String s2 = normalisedVersion(v2);
-        int cmp = s1.compareTo(s2);
-        String cmpStr = cmp < 0 ? "<" : cmp > 0 ? ">" : "==";
-        System.out.printf("result: " + "'%s' %s '%s'%n", v1, cmpStr, v2);
-        if (cmpStr.contains("<")) {
-            returnFlag = true;
-
-        }
-        if (cmpStr.contains(">") || cmpStr.contains("==")) {
-            returnFlag = false;
-        }
-        return returnFlag;
-    }
-
     private void checkAppVersion() {
         if (Utility.isInternetAvailable(mContext)) {
             String url = ApiConstants.APP_VERSION;
@@ -198,10 +166,10 @@ public class SplashActivity extends BaseActivity {
                                 && !installedAppVersion.equals("")
                                 && serverVersion != null
                                 && !serverVersion.equals("")
-                                && compare(installedAppVersion, serverVersion)) {
+                                && Utility.compare(installedAppVersion, serverVersion)) {
                             showUpdateDialog();
                         } else {
-                            checkStoreCredentials();
+                            isUserLogin();
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -237,7 +205,7 @@ public class SplashActivity extends BaseActivity {
     private void showUpdateDialog() {
 
         ViewDialog.showTwoButtonDialog(this,
-                getString(R.string.update),
+                getString(R.string.update_available),
                 getString(R.string.update_message_new),
                 getString(R.string.update),
                 getString(R.string.cancel),
@@ -270,12 +238,13 @@ public class SplashActivity extends BaseActivity {
 
                     @Override
                     public void onNegativeButtonClicked() {
-                        /*Intent j = new Intent(Intent.ACTION_MAIN);
-                        j.addCategory(Intent.CATEGORY_HOME);
-                        j.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        startActivity(j);
-                        finish();
-                        System.exit(0);*/
+//                        Intent j = new Intent(Intent.ACTION_MAIN);
+//                        j.addCategory(Intent.CATEGORY_HOME);
+//                        j.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                        startActivity(j);
+//                        finish();
+//                        System.exit(0);
+                        checkStoreCredentials();
 
 
                     }
@@ -307,4 +276,6 @@ public class SplashActivity extends BaseActivity {
             });
         }
     }
+
+
 }

@@ -30,8 +30,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/paddingleft_landing_page"
+        android:layout_marginTop="10dp"
         android:layout_marginRight="@dimen/paddingleft_landing_page"
-        android:layout_marginTop="40dp"
         android:layout_weight="1"
         android:orientation="vertical">
 
@@ -44,8 +44,8 @@
         <Button
             android:id="@+id/signin"
             style="@style/text_black_title"
-            android:layout_marginBottom="20dp"
             android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
             android:background="@drawable/btn_yellow"
             android:text="@string/sign_in" />
 
@@ -53,12 +53,9 @@
 
     <TextView
         android:id="@+id/tvAppVersion"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Version"
-        android:textColor="@color/white"
-        android:textSize="14sp"
-        android:layout_gravity="center"
+        style="@style/text_white_title"
         android:layout_marginBottom="8dp"
-        />
+        android:gravity="center"
+        android:textSize="14sp" />
+
 </LinearLayout>

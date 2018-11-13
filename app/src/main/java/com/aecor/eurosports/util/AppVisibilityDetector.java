@@ -13,6 +13,10 @@ import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.aecor.eurosports.activity.SplashActivity;
+import com.aecor.eurosports.application.ApplicationClass;
+
+import java.lang.ref.WeakReference;
 import java.util.List;
 
 /**
@@ -112,12 +116,17 @@ public final class AppVisibilityDetector {
 
         @Override
         public void onActivityStarted(Activity activity) {
-            sHandler.removeMessages(MSG_GOTO_FOREGROUND);
-            sHandler.removeMessages(MSG_GOTO_BACKGROUND);
-            if (activityDisplayCount == 0) {
-                sHandler.sendEmptyMessage(MSG_GOTO_FOREGROUND);
+            ApplicationClass.getInstance().setmActivity(new WeakReference<Activity>(activity));
+
+            if (!(activity instanceof SplashActivity)) {
+                sHandler.removeMessages(MSG_GOTO_FOREGROUND);
+                sHandler.removeMessages(MSG_GOTO_BACKGROUND);
+                if (activityDisplayCount == 0) {
+                    sHandler.sendEmptyMessage(MSG_GOTO_FOREGROUND);
+                }
+                activityDisplayCount++;
             }
-            activityDisplayCount++;
+
 
             if (DEBUG) {
                 Log.d(TAG, activity.getClass().getName() + " onActivityStarted "
@@ -148,16 +157,19 @@ public final class AppVisibilityDetector {
 
         @Override
         public void onActivityStopped(Activity activity) {
-            sHandler.removeMessages(MSG_GOTO_FOREGROUND);
-            sHandler.removeMessages(MSG_GOTO_BACKGROUND);
-            if (activityDisplayCount > 0) {
-                activityDisplayCount--;
-            }
+            if (!(activity instanceof SplashActivity)) {
 
-            if (activityDisplayCount == 0) {
-                sHandler.sendEmptyMessage(MSG_GOTO_BACKGROUND);
-            }
+                sHandler.removeMessages(MSG_GOTO_FOREGROUND);
+                sHandler.removeMessages(MSG_GOTO_BACKGROUND);
+                if (activityDisplayCount > 0) {
+                    activityDisplayCount--;
+                }
 
+                if (activityDisplayCount == 0) {
+                    sHandler.sendEmptyMessage(MSG_GOTO_BACKGROUND);
+                }
+
+            }
             if (DEBUG) {
                 Log.d(TAG, activity.getClass().getName() + " onActivityStopped "
                         + " activityDisplayCount: " + activityDisplayCount);
@@ -166,6 +178,7 @@ public final class AppVisibilityDetector {
 
         @Override
         public void onActivityDestroyed(Activity activity) {
+            ApplicationClass.getInstance().getmActivity().clear();
             if (DEBUG) {
                 Log.d(TAG, activity.getClass().getName() + " onActivityDestroyed");
             }
