@@ -55,8 +55,8 @@ public class GroupsSpinnerAdapter extends ArrayAdapter<ClubGroupModel> {
             holder = (ViewHolder) rowview.getTag();
         }
         ClubGroupModel rowItem = getItem(position);
-        if (!Utility.isNullOrEmpty(rowItem.getName())) {
-            holder.tv_spinner.setText(rowItem.getName());
+        if (!Utility.isNullOrEmpty(rowItem.getDisplay_name())) {
+            holder.tv_spinner.setText(rowItem.getDisplay_name());
         }
         holder.tv_spinner.setTextColor(Color.BLACK);
 
