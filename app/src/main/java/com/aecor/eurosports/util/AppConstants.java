@@ -13,6 +13,8 @@ public class AppConstants {
     public static final int MAX_IMAGE_HEIGHT_LARGE = 230;
 
 
+    public static final String KEY_REMEMBER_EMAIL = "remember_email";
+    public static final String KEY_REMEMBER_PASSWORD = "remember_password";
     public static final String KEY_IS_FROM_SIGNUP = "is_from_signup";
     public static final String FIREBASE_TOKEN = "firebase_token";
     public static final String FACEBOOK_URL = "https://www.facebook.com/eurosportring/";
