@@ -39,7 +39,6 @@
 	        		<div class="row">
 	        			<div class="col-md-4">
 	        				<div class="form-group">
-	        					<!-- {{ groupData }} -->
 		        				<select class="form-control ls-select2" name="relevant-group" id="relevant-group">
 		                    		<option>Group</option>
 		                    	</select>
@@ -103,7 +102,6 @@
 				this.groupData.teams = [];				
 				for (i = 0; i < this.groupData.no_of_teams; i++) {
 					positions.push(i + 1);
-					console.log('roundData', this.roundData.groups);
 				    this.groupData.teams.push({groups: this.roundData.groups, position_type: 'placed', position: positions});
 				}
         	}
