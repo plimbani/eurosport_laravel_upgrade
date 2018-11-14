@@ -1113,7 +1113,7 @@ gmap-map {
 }
 
 .bordered-box{
-    border:1px solid #000;
+    border:1px solid rgba(0, 0, 0, 0.125);
     padding:10px;
     margin-bottom:1rem;
 }
@@ -1125,4 +1125,8 @@ gmap-map {
 .modal-dialog.add-newtemplate-modal {
     overflow-y: auto;
     height: 100vh;
+}
+
+.add-newtemplate-modal .modal-content{
+    min-height: 100%;
 }
