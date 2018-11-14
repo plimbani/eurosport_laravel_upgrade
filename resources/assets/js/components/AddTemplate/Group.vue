@@ -101,10 +101,19 @@
 				var groupsArray = [];
 				this.groupData.teams = [];				
 				for (i = 0; i < this.groupData.no_of_teams; i++) {
-					positions.push(i + 1);
+					positions.push(this.getSuffixForPosition(i + 1));
 				    this.groupData.teams.push({groups: this.roundData.groups, position_type: 'placed', position: positions});
 				}
-        	}
+        	},
+			getSuffixForPosition(d) {
+		      	if(d>3 && d<21) return d +'th';
+		      	switch (d % 10) {
+		            case 1:  return d +"st";
+		            case 2:  return d +"nd";
+		            case 3:  return d +"rd";
+		            default: return d +"th";
+		        }
+		    }
         }
     }
 </script>
