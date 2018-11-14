@@ -1,13 +1,13 @@
-<template>
+<template>  
     <div>
         <div id="step2-template-setting">
-            <div class="row">
-                <div class="col-md-7 col-lg-5">
+            <div class="row justify-content-center">
+                <div class="col-md-9 col-lg-7">
                     <h5>Step 2 : Setup rounds</h5>
                     <round v-for="(round, roundIndex) in templateFormDetail.steptwo.rounds" :index="roundIndex" :divisionIndex="-1" :roundData="round" :templateFormDetail="templateFormDetail"></round>
 
                     <div class="rounds bordered-box" v-for="(division, divisionIndex) in templateFormDetail.steptwo.divisions">
-                        <h6 class="font-weight-bold">Division {{ divisionIndex + 1 }} <span class="pull-right"><a href="javascript:void(0)" @click="removeDivision(divisionIndex)"><i class="fa fa-trash"></i></a></span></h6>
+                        <h6 class="font-weight-bold">Division {{ divisionIndex + 1 }} <span class="pull-right"><a href="javascript:void(0)" @click="removeDivision(divisionIndex)"><i class="jv-icon jv-dustbin"></i></a></span></h6>
                         <div class="form-group">
                             <label>Number of teams in division</label>
                             <select class="form-control ls-select2" v-model="division.no_of_teams">
@@ -20,14 +20,14 @@
                         <round v-for="(round, roundIndex) in division.rounds" :index="roundIndex" :divisionIndex="divisionIndex" :roundData="round" :templateFormDetail="templateFormDetail"></round>
 
                         <div class="form-group mb-0">
-                            <button type="button" class="btn btn-default" @click="addNewDivisionRound(divisionIndex)">Add a round</button>
+                            <button type="button" class="btn btn-success" @click="addNewDivisionRound(divisionIndex)"><small><i class="jv-icon jv-plus"></i></small> &nbsp;Add a round</button>
                         </div>
                     </div>
                     
                     <div class="form-group">
                         <div class="btn-group">
-                            <button type="button" class="btn btn-default" @click="addNewRound()" :disabled="templateFormDetail.steptwo.divisions.length > 0">Add a round</button>
-                            <button type="button" class="btn btn-default" @click="addNewDivision()" :disabled="templateFormDetail.steptwo.rounds.length === 0">Add a divison</button>
+                            <button type="button" class="btn btn-success" @click="addNewRound()" :disabled="templateFormDetail.steptwo.divisions.length > 0"><small><i class="jv-icon jv-plus"></i></small> &nbsp;Add a round</button>
+                            <button type="button" class="btn btn-success" @click="addNewDivision()" :disabled="templateFormDetail.steptwo.rounds.length === 0"><small><i class="jv-icon jv-plus"></i></small> &nbsp;Add a divison</button>
                         </div>
                         <span class="info-editor text-primary" data-toggle="popover" data-animation="false" data-placement="right" :data-popover-content="'#editor_detail'"><i class="fa fa-info-circle"></i></span>
                         <div v-bind:id="'editor_detail'" style="display:none;">
@@ -35,7 +35,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <button type="button" class="btn btn-danger" @click="next()">{{ $lang.add_template_modal_step1_button }}</button>
+                        <button type="button" class="btn btn-primary" @click="next()">{{ $lang.add_template_modal_step1_button }}</button>
                     </div>
                 </div>
             </div>                  

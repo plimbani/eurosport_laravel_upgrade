@@ -1,6 +1,6 @@
 <template>
     <div class="rounds bordered-box">
-        <h6 class="font-weight-bold">Round {{ index + 1 }} <span :class="{'pull-right': true, 'is-disabled': (index === 0 && divisionIndex === -1)}"><a href="javascript:void(0)" @click="removeRound(index)"><i class="fa fa-trash"></i></a></span></h6>
+        <h6 class="font-weight-bold">Round {{ index + 1 }} <span :class="{'pull-right': true, 'is-disabled': (index === 0 && divisionIndex === -1)}"><a href="javascript:void(0)" @click="removeRound(index)"><i class="jv-icon jv-dustbin"></i></a></span></h6>
         <div class="form-group">
             <label>Number of teams in round</label>
             <select class="form-control ls-select2" v-model="roundData.no_of_teams" :disabled="index === 0 && divisionIndex === -1">
@@ -13,7 +13,7 @@
         <group v-for="(group, groupIndex) in roundData.groups" :index="groupIndex" :roundIndex="index" :roundData="roundData" :groupData="group"></group>
 
         <div class="form-group mb-0">
-            <button type="button" class="btn btn-default" @click="addNewGroup(index)" :disabled="disabledNewGroupButton(roundData.no_of_teams, index)">Add a group</button>
+            <button type="button" class="btn btn-primary" @click="addNewGroup(index)" :disabled="disabledNewGroupButton(roundData.no_of_teams, index)"><small><i class="jv-icon jv-plus"></i></small> Add a group</button>
         </div>
     </div>
 </template>

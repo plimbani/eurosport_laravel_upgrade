@@ -1,7 +1,7 @@
 <template>
 	<div>
 	    <div class="bordered-box">
-	        <h6 class="font-weight-bold">Group {{ index + 1}} <span class="pull-right"><a href="javascript:void(0)" @click="removeGroup()"><i class="fa fa-trash"></i></a></span></h6>
+	        <h6 class="font-weight-bold">Group {{ index + 1}} <span class="pull-right"><a href="javascript:void(0)" @click="removeGroup()"><i class="jv-icon jv-dustbin"></i></a></span></h6>
 	        <div class="form-group">
 	            <div class="radio">
 	                <label><input type="radio" checked="checked" value="round_robin" v-model="groupData.type"> Round robin</label>
@@ -33,26 +33,26 @@
 
 	        <div class="row align-items-center mt-3" v-show="roundIndex > 0" v-for="(team, teamIndex) in groupData.teams">
 	        	<div class="col-md-3">
-	        		<label>Team {{ teamIndex+1 }}</label>
+	        		<label class="mb-0">Team {{ teamIndex+1 }}</label>
 	        	</div>
 	        	<div class="col-md-9">
 	        		<div class="row">
 	        			<div class="col-md-4">
-	        				<div class="form-group">
+	        				<div class="form-group mb-0">
 		        				<select class="form-control ls-select2" name="relevant-group" id="relevant-group">
 		                    		<option>Group</option>
 		                    	</select>
 		                    </div>
 	        			</div>	        			
 	        			<div class="col-md-4">
-	        				<div class="form-group">
+	        				<div class="form-group mb-0">
 		        				<select class="form-control ls-select2" name="placing" id="placing">
 			                    	<option>Placed</option>
 			                    </select>
 			                </div>
 	        			</div>
 	        			<div class="col-md-4">
-	        				<div class="form-group">
+	        				<div class="form-group mb-0">
 		        				<select class="form-control ls-select2" name="rank" id="rank">
 		                    		<option v-for="position in team.position">{{ position }}</option>
 		                    	</select>
