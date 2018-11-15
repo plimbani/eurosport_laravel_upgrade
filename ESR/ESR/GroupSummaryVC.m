@@ -369,7 +369,7 @@
         }
         else if (indexPath.row <=standingArray.count) {
             StandingCell *cell = (StandingCell*)[tableView dequeueReusableCellWithIdentifier:@"StandingCell"];
-            cell.name.text = [[standingArray objectAtIndex:indexPath.row-1] valueForKey:@"display_name"];
+            cell.name.text = [[standingArray objectAtIndex:indexPath.row-1] valueForKey:@"name"];
             cell.played.text = [NSString stringWithFormat:@"%@",[[standingArray objectAtIndex:indexPath.row-1] valueForKey:@"played"]];
             cell.points.text = [NSString stringWithFormat:@"%@",[[standingArray objectAtIndex:indexPath.row-1] valueForKey:@"points"]];
             int differance = [[[standingArray objectAtIndex:indexPath.row-1] valueForKey:@"goal_for"] intValue] -[[[standingArray objectAtIndex:indexPath.row-1] valueForKey:@"goal_against"] intValue];

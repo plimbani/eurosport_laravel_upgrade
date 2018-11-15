@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="y37-bp-gm3">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="y37-bp-gm3">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -13,6 +13,13 @@
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <array key="HelveticaNeue.ttc">
+            <string>HelveticaNeue</string>
+            <string>HelveticaNeue-Bold</string>
+            <string>HelveticaNeue-Medium</string>
+        </array>
+    </customFonts>
     <scenes>
         <!--Forgot PasswordVC-->
         <scene sceneID="JSa-rU-ChF">
@@ -345,6 +352,15 @@
                                                     <action selector="loginBtnClick:" destination="pVm-Y7-b1B" eventType="touchUpInside" id="FS7-fp-l2I"/>
                                                 </connections>
                                             </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="is1-R4-Vhv">
+                                                <rect key="frame" x="25" y="317" width="129" height="40"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="40" id="OD6-cA-Wdi"/>
+                                                </constraints>
+                                                <connections>
+                                                    <action selector="rememberMeClick:" destination="pVm-Y7-b1B" eventType="touchUpInside" id="hF7-VO-9be"/>
+                                                </connections>
+                                            </button>
                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="HvH-P3-Vg7">
                                                 <rect key="frame" x="25" y="262" width="325" height="40"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -380,6 +396,7 @@
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstItem="01o-Cv-ZXm" firstAttribute="top" secondItem="HvH-P3-Vg7" secondAttribute="bottom" constant="15" id="1FC-an-zEh"/>
+                                            <constraint firstItem="is1-R4-Vhv" firstAttribute="trailing" secondItem="ASO-Zi-4eH" secondAttribute="trailing" id="91o-ug-x5g"/>
                                             <constraint firstItem="4Ve-go-s7W" firstAttribute="leading" secondItem="8NS-zS-41e" secondAttribute="leading" constant="25" id="9ir-KT-Tc8"/>
                                             <constraint firstItem="H4D-aG-lUh" firstAttribute="top" secondItem="jQT-2j-PLB" secondAttribute="top" id="AgR-qr-ajf"/>
                                             <constraint firstItem="HvH-P3-Vg7" firstAttribute="top" secondItem="4Ve-go-s7W" secondAttribute="bottom" constant="10" id="Bz9-Cu-tx5"/>
@@ -387,6 +404,7 @@
                                             <constraint firstItem="H4D-aG-lUh" firstAttribute="leading" secondItem="jQT-2j-PLB" secondAttribute="leading" id="IS0-fA-F0P"/>
                                             <constraint firstItem="HvH-P3-Vg7" firstAttribute="leading" secondItem="4Ve-go-s7W" secondAttribute="leading" id="MVN-qD-tj5"/>
                                             <constraint firstItem="H4D-aG-lUh" firstAttribute="bottom" secondItem="jQT-2j-PLB" secondAttribute="bottom" id="Ni4-nX-tnd"/>
+                                            <constraint firstItem="is1-R4-Vhv" firstAttribute="leading" secondItem="01o-Cv-ZXm" secondAttribute="leading" id="a7R-Wn-vxy"/>
                                             <constraint firstItem="ASO-Zi-4eH" firstAttribute="centerY" secondItem="01o-Cv-ZXm" secondAttribute="centerY" id="bR6-Jw-U9h"/>
                                             <constraint firstItem="HvH-P3-Vg7" firstAttribute="trailing" secondItem="4Ve-go-s7W" secondAttribute="trailing" id="cOb-Re-DQk"/>
                                             <constraint firstItem="boN-UT-07h" firstAttribute="leading" secondItem="8NS-zS-41e" secondAttribute="leading" constant="25" id="gcY-6e-v6G"/>
@@ -395,6 +413,7 @@
                                             <constraint firstAttribute="trailing" secondItem="boN-UT-07h" secondAttribute="trailing" constant="25" id="lmi-xH-hST"/>
                                             <constraint firstItem="H4D-aG-lUh" firstAttribute="trailing" secondItem="jQT-2j-PLB" secondAttribute="trailing" id="mem-lW-lbp"/>
                                             <constraint firstItem="jQT-2j-PLB" firstAttribute="top" secondItem="boN-UT-07h" secondAttribute="bottom" constant="10" id="rSq-Cv-odA"/>
+                                            <constraint firstItem="is1-R4-Vhv" firstAttribute="top" secondItem="01o-Cv-ZXm" secondAttribute="top" id="seF-WV-LKE"/>
                                             <constraint firstItem="01o-Cv-ZXm" firstAttribute="leading" secondItem="boN-UT-07h" secondAttribute="leading" id="vlk-67-lFL"/>
                                             <constraint firstItem="jQT-2j-PLB" firstAttribute="leading" secondItem="boN-UT-07h" secondAttribute="leading" id="xWW-Sp-3Ut"/>
                                             <constraint firstAttribute="bottom" secondItem="jQT-2j-PLB" secondAttribute="bottom" constant="20" id="yTC-im-0QG"/>
@@ -1049,7 +1068,7 @@
                                 <rect key="frame" x="0.0" y="70" width="391" height="442"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="AgeCell" rowHeight="51" id="vj9-kh-boR" customClass="AgeCell">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="AgeCell" rowHeight="51" id="vj9-kh-boR" customClass="AgeCell">
                                         <rect key="frame" x="0.0" y="28" width="391" height="51"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="vj9-kh-boR" id="kTR-uy-rIh">
@@ -1057,13 +1076,13 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Glh-7Q-cVR">
-                                                    <rect key="frame" x="25" y="0.0" width="337" height="50.5"/>
+                                                    <rect key="frame" x="25" y="0.0" width="321" height="50.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.34509803919999998" green="0.34901960780000002" blue="0.35686274509999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="m9j-yG-InY">
-                                                    <rect key="frame" x="372" y="13.5" width="15" height="25"/>
+                                                    <rect key="frame" x="356" y="13.5" width="15" height="25"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="25" id="USB-WF-BiD"/>
                                                         <constraint firstAttribute="width" constant="15" id="f08-aF-Dnd"/>

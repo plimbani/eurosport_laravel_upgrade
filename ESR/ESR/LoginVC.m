@@ -467,6 +467,7 @@
                                                       if(token != NULL){
                                                           
                                                           if (_isRemember == true) {
+                                                              
                                                               NSDictionary *dict = @{ @"Username" : _emailTxtField.text, @"Password" : _passwordTxtField.text};
                                                               NSData *data = [NSKeyedArchiver archivedDataWithRootObject:dict];
                                                               [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"ISREMEMBER"];
@@ -518,9 +519,6 @@
     _passwordTxtField.text = [_passwordTxtField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     _emailTxtField.text = [_emailTxtField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     
-    if ((_emailTxtField.text.length == 0) ||  (_passwordTxtField.text.length == 0)){
-        return;
-    }
     
     if (_isRemember == false) {
         _isRemember = true;
