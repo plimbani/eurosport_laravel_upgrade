@@ -200,7 +200,7 @@
 					<div class="row mt-4" id="summary_report_table">
 						<div class="col-md-12">
 							<div id="report_logo" style="display:none;">
-				        		<img src="/assets/img/logo-desk.svg"  alt="Laraspace Logo" class="hidden-sm-down text-center" width="200px" height="200px">
+				        		<img src="/assets/img/tmplogo.svg"  alt="Laraspace Logo" class="hidden-sm-down text-center" width="200px" height="200px">
 				        		<h2>Reports</h2>
 				        	</div>
 				        	<div class="table-responsive">

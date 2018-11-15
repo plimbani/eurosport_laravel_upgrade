@@ -374,7 +374,7 @@ import _ from 'lodash'
                                 $('#matchScheduleModal').modal('show');
                                 if((matchBlockWidth - eventPositionLeft) <= 15) {
                                     $("#matchScheduleModal #pitch_model_body .tabs li a").removeClass('active');
-                                    $("#matchScheduleModal #pitch_model_body .tabs li.nav-item:last-child a").addClass('active');
+                                    $("#matchScheduleModal #pitch_model_body .tabs li.nav-item:last-child a").tab('show');
                                 }
                                 $("#matchScheduleModal").on('hidden.bs.modal', function () {
                                     vm.setPitchModal = 0
