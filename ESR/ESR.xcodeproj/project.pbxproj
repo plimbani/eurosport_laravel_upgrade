@@ -11,6 +11,8 @@
 		0F32AC5F20B56B42007C92A6 /* TableCellOwner.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F32AC5D20B56B41007C92A6 /* TableCellOwner.m */; };
 		0F32AC6420B56D37007C92A6 /* UserFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F32AC6320B56D37007C92A6 /* UserFileManager.m */; };
 		0F984C91208E11E5009F7BB0 /* PrivacyPolicy.txt in Resources */ = {isa = PBXBuildFile; fileRef = 0F984C90208E11E4009F7BB0 /* PrivacyPolicy.txt */; };
+		34B24A88219AF1FE009D3A80 /* ic_check.png in Resources */ = {isa = PBXBuildFile; fileRef = 34B24A86219AF1F3009D3A80 /* ic_check.png */; };
+		34B24A89219AF1FE009D3A80 /* ic_un_check.png in Resources */ = {isa = PBXBuildFile; fileRef = 34B24A87219AF1F9009D3A80 /* ic_un_check.png */; };
 		688AA8F1215A51C600735D0D /* MatchDetailVCNew.m in Sources */ = {isa = PBXBuildFile; fileRef = 688AA8F0215A51C600735D0D /* MatchDetailVCNew.m */; };
 		68DD79F5215D0B740089DA57 /* GroupSummaryHeaderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 68DD79F4215D0B740089DA57 /* GroupSummaryHeaderCell.m */; };
 		928681551F323FD3005BE626 /* HelpVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 928681541F323FD2005BE626 /* HelpVC.m */; };
@@ -165,6 +167,8 @@
 		14E6572A52E6A27F9B2F3417 /* Pods_ESRTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ESRTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		25E242443DE4918F7F22DA12 /* Pods-ESR.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ESR.release.xcconfig"; path = "Pods/Target Support Files/Pods-ESR/Pods-ESR.release.xcconfig"; sourceTree = "<group>"; };
 		301FB03121674BF000BBEB16 /* MBCircularProgressBar.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MBCircularProgressBar.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		34B24A86219AF1F3009D3A80 /* ic_check.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_check.png; sourceTree = "<group>"; };
+		34B24A87219AF1F9009D3A80 /* ic_un_check.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_un_check.png; sourceTree = "<group>"; };
 		43F2A882D451BC3970FCF221 /* Pods-ESRUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ESRUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-ESRUITests/Pods-ESRUITests.release.xcconfig"; sourceTree = "<group>"; };
 		688AA8EF215A51C600735D0D /* MatchDetailVCNew.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MatchDetailVCNew.h; sourceTree = "<group>"; };
 		688AA8F0215A51C600735D0D /* MatchDetailVCNew.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MatchDetailVCNew.m; sourceTree = "<group>"; };
@@ -668,6 +672,8 @@
 		9E421AD01EF270B7004693BF /* Image */ = {
 			isa = PBXGroup;
 			children = (
+				34B24A86219AF1F3009D3A80 /* ic_check.png */,
+				34B24A87219AF1F9009D3A80 /* ic_un_check.png */,
 				9EA4922C20188BEF0055D0D2 /* info_circle.png */,
 				9EB580521F445592004AF71E /* fav_add.png */,
 				9E5D6A6B1F4C30100071AB58 /* icon_contact_old.png */,
@@ -990,6 +996,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				34B24A88219AF1FE009D3A80 /* ic_check.png in Resources */,
+				34B24A89219AF1FE009D3A80 /* ic_un_check.png in Resources */,
 				9E96B95B1F20DFD500725956 /* icon_privacy.png in Resources */,
 				9EB580541F445592004AF71E /* fav_add.png in Resources */,
 				9E62DEA81EFA970700C3E346 /* right_arrow_green.png in Resources */,

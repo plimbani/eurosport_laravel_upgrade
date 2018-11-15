@@ -362,14 +362,14 @@
         if(indexPath.row == 0){
             StandingHeaderCell *cell = (StandingHeaderCell*)[tableView dequeueReusableCellWithIdentifier:@"StandingHeaderCell"];
             
-            cell.titleLbl.text = [NSString stringWithFormat:@"%@ %@",[groupDetails valueForKey:@"name"],NSLocalizedString(@"league table", @"")];
+            cell.titleLbl.text = [NSString stringWithFormat:@"%@ %@",[groupDetails valueForKey:@"display_name"],NSLocalizedString(@"league table", @"")];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             cell.backgroundColor = [UIColor colorwithHexString:@"DEDFE2" alpha:1.0];
             return cell;
         }
         else if (indexPath.row <=standingArray.count) {
             StandingCell *cell = (StandingCell*)[tableView dequeueReusableCellWithIdentifier:@"StandingCell"];
-            cell.name.text = [[standingArray objectAtIndex:indexPath.row-1] valueForKey:@"name"];
+            cell.name.text = [[standingArray objectAtIndex:indexPath.row-1] valueForKey:@"display_name"];
             cell.played.text = [NSString stringWithFormat:@"%@",[[standingArray objectAtIndex:indexPath.row-1] valueForKey:@"played"]];
             cell.points.text = [NSString stringWithFormat:@"%@",[[standingArray objectAtIndex:indexPath.row-1] valueForKey:@"points"]];
             int differance = [[[standingArray objectAtIndex:indexPath.row-1] valueForKey:@"goal_for"] intValue] -[[[standingArray objectAtIndex:indexPath.row-1] valueForKey:@"goal_against"] intValue];
@@ -496,7 +496,7 @@
 }
 - (NSAttributedString *)pickerView:(UIPickerView *)pickerView attributedTitleForRow:(NSInteger)row forComponent:(NSInteger)component
 {
-    NSString *title = [NSString stringWithFormat:@"%@", [[_pickerViewArray objectAtIndex:row] valueForKey:@"name"]];
+    NSString *title = [NSString stringWithFormat:@"%@", [[_pickerViewArray objectAtIndex:row] valueForKey:@"display_name"]];
     NSAttributedString *attString =
     [[NSAttributedString alloc] initWithString:title attributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
     
@@ -511,13 +511,13 @@
 // The data to return for the row and component (column) that's being passed in
 - (NSString*)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
 {
-    return [NSString stringWithFormat:@"%@", [[_pickerViewArray objectAtIndex:row] valueForKey:@"name"]];
+    return [NSString stringWithFormat:@"%@", [[_pickerViewArray objectAtIndex:row] valueForKey:@"display_name"]];
     
 }
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
     
-    selectedGroupStr = [[_pickerViewArray objectAtIndex:row] valueForKey:@"name"];
+    selectedGroupStr = [[_pickerViewArray objectAtIndex:row] valueForKey:@"display_name"];
     groupDetails = [_pickerViewArray objectAtIndex:row];
     if (![[groupDetails valueForKey:@"competation_type"] isEqualToString:@"Round Robin"] && ![[groupDetails valueForKey:@"actual_competition_type"] isEqualToString:@"Round Robin"]) {
         tabSelectionStr = @"match";

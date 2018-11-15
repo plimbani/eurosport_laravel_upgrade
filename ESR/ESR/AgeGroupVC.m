@@ -149,7 +149,7 @@
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     GroupSummaryVC *myVC = (GroupSummaryVC *)[storyboard instantiateViewControllerWithIdentifier:@"GroupSummaryVC"];
     myVC.groupDetails = [_ageGroupArray objectAtIndex:indexPath.row];
-    myVC.selectedGroupStr = [[_ageGroupArray objectAtIndex:indexPath.row] valueForKey:@"name"];
+    myVC.selectedGroupStr = [[_ageGroupArray objectAtIndex:indexPath.row] valueForKey:@"display_name"];
     myVC.pickerViewArray = [_ageGroupArray mutableCopy];
     [self.navigationController pushViewController:myVC animated:YES];
 }

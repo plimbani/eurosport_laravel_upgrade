@@ -20,9 +20,13 @@
 @property (weak, nonatomic) IBOutlet UIScrollView *scroll;
 @property (weak, nonatomic) IBOutlet UIView *scrollSubView;
 @property (strong, nonatomic) IBOutlet UIImageView *esrLogoImg;
+@property (weak, nonatomic) IBOutlet UIButton *btnRemember;
+@property (nonatomic) BOOL isRemember;
+
 - (IBAction)loginBtnClick:(id)sender;
 - (IBAction)forgotPasswordBtnClick:(id)sender;
 - (IBAction)backBtnClick:(id)sender;
 - (IBAction)alertViewOkBtnClick:(id)sender;
+- (IBAction)rememberMeClick:(id)sender;
 
 @end

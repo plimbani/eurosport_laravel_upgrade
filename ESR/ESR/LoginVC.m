@@ -95,9 +95,13 @@
         
     }
 }
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    [_btnRemember setBackgroundImage:[UIImage imageNamed:@"ic_un_check.png"] forState:UIControlStateNormal];
+    
     self.emailTxtField.delegate = self;
     self.passwordTxtField.delegate = self;
     self.emailTxtField.leftView = [self PaddingView];
@@ -128,7 +132,23 @@
     [self.passwordTxtField addTarget:self
                            action:@selector(textFieldDidChange:)
                  forControlEvents:UIControlEventEditingChanged];
+    
+    NSData *dictData = [[NSUserDefaults standardUserDefaults]objectForKey:@"ISREMEMBER"];
+    if (dictData != nil) {
+        _isRemember = true;
+        [_btnRemember setBackgroundImage:[UIImage imageNamed:@"ic_check.png"] forState:UIControlStateNormal];
+         NSDictionary *dictTournament = [NSKeyedUnarchiver unarchiveObjectWithData:dictData];
+        _emailTxtField.text = [dictTournament valueForKey:@"Username"];
+        _passwordTxtField.text = [dictTournament valueForKey:@"Password"];
+        self.loginBtn.enabled = TRUE;
+        self.loginBtn.backgroundColor =[UIColor colorwithHexString:@"ED9E2D" alpha:1.0];
+    }
+    else{
+        _isRemember = false;
+        [_btnRemember setBackgroundImage:[UIImage imageNamed:@"ic_un_check.png"] forState:UIControlStateNormal];
+    }
 }
+
 -(void)logoImgClick{
     [self.emailTxtField resignFirstResponder];
     [self.passwordTxtField resignFirstResponder];
@@ -156,6 +176,7 @@
         self.loginBtn.backgroundColor =[UIColor colorwithHexString:@"CCCCCC" alpha:1.0];
     }
 }
+
 - (void)reachabilityChanged:(NSNotification*)notification
 {
     Reachability* reachability = notification.object;
@@ -164,6 +185,7 @@
     else
         self.offlineView.hidden = TRUE;
 }
+
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
@@ -434,12 +456,26 @@
                                                       NSLog(@"response%@",error);
                                                       [SVProgressHUD dismiss];
                                                   } else{
+                                                      
+                                                      
+                                                      
                                                       NSError *parseError = nil;
                                                       NSDictionary *responseDictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&parseError];
                                                       NSLog(@"%@",responseDictionary);
                                                       NSString *token =responseDictionary[@"token"];
                                                       NSString *error =responseDictionary[@"error"];
                                                       if(token != NULL){
+                                                          
+                                                          if (_isRemember == true) {
+                                                              NSDictionary *dict = @{ @"Username" : _emailTxtField.text, @"Password" : _passwordTxtField.text};
+                                                              NSData *data = [NSKeyedArchiver archivedDataWithRootObject:dict];
+                                                              [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"ISREMEMBER"];
+                                                              [[NSUserDefaults standardUserDefaults]synchronize];
+                                                          }else{
+                                                              [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"ISREMEMBER"];
+                                                              [[NSUserDefaults standardUserDefaults]synchronize];
+                                                          }
+                                                          
                                                           [self checkApi:token];
                                                           
                                                       }else{
@@ -451,6 +487,8 @@
                                                                   self.alertViewTitle.text = @"Error";
                                                                   self.alertViewSubtitle.text = error;
 
+                                                                  [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"ISREMEMBER"];
+                                                                  [[NSUserDefaults standardUserDefaults]synchronize];
                                                               });
                                                           }
                                                       }
@@ -474,4 +512,25 @@
 - (IBAction)alertViewOkBtnClick:(id)sender {
     self.alertView.hidden = TRUE;
 }
+
+- (IBAction)rememberMeClick:(id)sender {
+
+    _passwordTxtField.text = [_passwordTxtField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    _emailTxtField.text = [_emailTxtField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    
+    if ((_emailTxtField.text.length == 0) ||  (_passwordTxtField.text.length == 0)){
+        return;
+    }
+    
+    if (_isRemember == false) {
+        _isRemember = true;
+        [_btnRemember setBackgroundImage:[UIImage imageNamed:@"ic_check.png"] forState:UIControlStateNormal];
+        }
+    else{
+        _isRemember = false;
+        [_btnRemember setBackgroundImage:[UIImage imageNamed:@"ic_un_check.png"] forState:UIControlStateNormal];
+    }
+}
+
+
 @end
