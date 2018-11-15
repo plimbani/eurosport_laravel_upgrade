@@ -53,8 +53,8 @@
 	        			</div>
 	        			<div class="col-md-4">
 	        				<div class="form-group mb-0">
-		        				<select class="form-control ls-select2" name="rank" id="rank">
-		                    		<option v-for="position in team.position">{{ position }}</option>
+		        				<select class="form-control ls-select2 js-select-position" name="rank" :id="'pos_'+(teamIndex+1)" @change="onAssignPosition(teamIndex+1)" v-model="selectedPosition">
+		                    		<option v-for="position in team.position" v-bind:value="(teamIndex+1)" v-bind:data-id="(teamIndex+1)">{{ position }}</option>
 		                    	</select>
 		                    </div>
 	        			</div>
@@ -71,14 +71,21 @@
         data() {
             return {
             	last_selected_teams: this.groupData.no_of_teams,
+            	teamPositions: [],
+            	selectedPosition: '',
             }
         },
         components: {
         },
         mounted() {
+        	var vm = this
+        	$('.js-select-position').change(function() {
+        		let vl = $(this).val();
+        		console.log('vl', vl);
+        	});
         },
         created() {
-        	this.groupData.teams = [];
+        	this.groupData.teams = '';
         	this.displayTeams();
         },
         methods: {
@@ -101,10 +108,23 @@
 				var groupsArray = [];
 				this.groupData.teams = [];				
 				for (i = 0; i < this.groupData.no_of_teams; i++) {
-					positions.push(i + 1);
+					this.teamPositions.push(i + 1);
+					positions.push(this.getSuffixForPosition(i + 1));
 				    this.groupData.teams.push({groups: this.roundData.groups, position_type: 'placed', position: positions});
 				}
-        	}
+        	},
+			getSuffixForPosition(d) {
+		      	if(d>3 && d<21) return d +'th';
+		      	switch (d % 10) {
+		            case 1:  return d +"st";
+		            case 2:  return d +"nd";
+		            case 3:  return d +"rd";
+		            default: return d +"th";
+		        }
+		    },
+		    onAssignPosition(e) {
+		    	console.log('selectedPosition', this.selectedPosition);
+		    }
         }
     }
 </script>
