@@ -1,9 +1,9 @@
 <template>  
     <div>
-        <div id="step2-template-setting">
+        <div class="container" id="step2-template-setting">
             <div class="row justify-content-center">
-                <div class="col-md-9 col-lg-7">
-                    <h5>Step 2 : Setup rounds</h5>
+                <div class="col-md-8">
+                    <h5>{{ $lang.add_template_modal_step2_header }}</h5>
                     <round v-for="(round, roundIndex) in templateFormDetail.steptwo.rounds" :index="roundIndex" :divisionIndex="-1" :roundData="round" :templateFormDetail="templateFormDetail"></round>
 
                     <div class="rounds bordered-box" v-for="(division, divisionIndex) in templateFormDetail.steptwo.divisions">
@@ -87,6 +87,9 @@
             addNewDivision() {
                 this.templateFormDetail.steptwo.divisions.push({no_of_teams: "", teams: [], rounds: []});
             },
+            next() {
+                this.$emit('change-tab-index', 2, 3, 'steptwo', _.cloneDeep(this.templateFormDetail.steptwo));
+            }
         }
     }
 </script>
