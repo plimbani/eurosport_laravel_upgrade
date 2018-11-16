@@ -31,7 +31,7 @@
 	            </div>
 	        </div>
 
-	        <div class="row align-items-center mt-3" v-show="roundIndex > 0" v-for="(team, teamIndex) in groupData.teams">
+	        <div class="row align-items-center mt-3" v-if="roundIndex > 0" v-for="(team, teamIndex) in groupData.teams">
 	        	<div class="col-md-3">
 	        		<label class="mb-0">Team {{ teamIndex+1 }}</label>
 	        	</div>
@@ -39,22 +39,26 @@
 	        		<div class="row">
 	        			<div class="col-md-4">
 	        				<div class="form-group mb-0">
-		        				<select class="form-control ls-select2" name="relevant-group" id="relevant-group">
-		                    		<option>Group</option>
-		                    	</select>
-		                    </div>
-	        			</div>	        			
-	        			<div class="col-md-4">
-	        				<div class="form-group mb-0">
-		        				<select class="form-control ls-select2" name="placing" id="placing">
-			                    	<option>Placed</option>
+		        				<select class="form-control ls-select2" name="placing">
+			                    	<option value="placed">Placed</option>
+			                    	<option value="winner">Winner</option>
+			                    	<option value="loser">Loser</option>
+			                    	<option value="team">Team</option>
 			                    </select>
 			                </div>
 	        			</div>
 	        			<div class="col-md-4">
 	        				<div class="form-group mb-0">
+		        				<select class="form-control ls-select2" name="relevant_group">
+		                    		<option value="group">Group</option>
+		                    		<option value="pm">PM</option>
+		                    	</select>
+		                    </div>
+	        			</div>
+	        			<div class="col-md-4">
+	        				<div class="form-group mb-0">
 		        				<select class="form-control ls-select2 js-select-position" name="rank" :id="'pos_'+(teamIndex+1)" @change="onAssignPosition(teamIndex+1)" v-model="selectedPosition">
-		                    		<option v-for="position in team.position" v-bind:value="(teamIndex+1)" v-bind:data-id="(teamIndex+1)">{{ position }}</option>
+		                    		<option v-for="position in team.position" v-bind:value="(teamIndex+1)" v-bind:data-id="'pos_'+(teamIndex+1)">{{ position }}</option>
 		                    	</select>
 		                    </div>
 	        			</div>
@@ -114,7 +118,7 @@
 				}
         	},
 			getSuffixForPosition(d) {
-		      	if(d>3 && d<21) return d +'th';
+		      	if(d>=11 && d<=13) return d +'th';
 		      	switch (d % 10) {
 		            case 1:  return d +"st";
 		            case 2:  return d +"nd";
