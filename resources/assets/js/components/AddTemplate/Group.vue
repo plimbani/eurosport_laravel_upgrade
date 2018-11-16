@@ -53,8 +53,8 @@
 	        			</div>
 	        			<div class="col-md-4">
 	        				<div class="form-group mb-0">
-		        				<select class="form-control ls-select2 js-select-position" name="rank" :id="'pos_'+(teamIndex+1)" @change="onAssignPosition(teamIndex+1)" v-model="selectedPosition">
-		                    		<option v-for="position in team.position" v-bind:value="(teamIndex+1)" v-bind:data-id="(teamIndex+1)">{{ position }}</option>
+		        				<select class="form-control ls-select2 js-select-position" name="rank">
+		                    		<option v-for="position in team.position" v-bind:value="(teamIndex+1)">{{ position }}</option>
 		                    	</select>
 		                    </div>
 	        			</div>
@@ -71,8 +71,6 @@
         data() {
             return {
             	last_selected_teams: this.groupData.no_of_teams,
-            	teamPositions: [],
-            	selectedPosition: '',
             }
         },
         components: {
@@ -108,7 +106,6 @@
 				var groupsArray = [];
 				this.groupData.teams = [];				
 				for (i = 0; i < this.groupData.no_of_teams; i++) {
-					this.teamPositions.push(i + 1);
 					positions.push(this.getSuffixForPosition(i + 1));
 				    this.groupData.teams.push({groups: this.roundData.groups, position_type: 'placed', position: positions});
 				}
@@ -122,9 +119,6 @@
 		            default: return d +"th";
 		        }
 		    },
-		    onAssignPosition(e) {
-		    	console.log('selectedPosition', this.selectedPosition);
-		    }
         }
     }
 </script>
