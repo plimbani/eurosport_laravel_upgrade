@@ -123,7 +123,7 @@
         		var i;
 				// var positions = [];
 				// var groupsArray = [];
-				this.groupData.teams = [];				
+				this.groupData.teams = [];
 				for (i = 0; i < this.groupData.no_of_teams; i++) {
 					// this.teamPositions.push(i + 1);
 					// positions.push(this.getSuffixForPosition(i + 1));
