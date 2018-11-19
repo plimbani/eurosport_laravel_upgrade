@@ -12,5 +12,8 @@ export default {
 	},
 	deleteTemplate(deleteUrl) {
 		return api.post(deleteUrl)
+	},
+	saveTemplateDetail(templateData) {
+		return api.post('saveTemplateDetail', templateData)
 	}
 }

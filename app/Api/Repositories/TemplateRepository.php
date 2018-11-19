@@ -73,6 +73,17 @@ class TemplateRepository
     }
 
     /*
+     * Save template detail
+     *
+     * @param  array $api_key,$state,$type
+     * @return response
+     */
+    public function saveTemplateDetail($data)
+    {
+        echo "<pre>";print_r($data);echo "</pre>";exit;
+    }
+
+    /*
      * Delete template
      *
      * @param  array $id

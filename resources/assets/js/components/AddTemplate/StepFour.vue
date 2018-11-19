@@ -5,7 +5,12 @@
 				<div class="col-md-8">
 					<div class="row">
 						<div class="col-12">
-							<h5>My Custom Template &nbsp;<span class="small">(8 items)</span></h5>
+							<h5>{{ $lang.add_template_modal_step4_header }}</h5>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-12">
+							<h6 class="font-weight-bold">My Custom Template &nbsp;<span class="small">(8 items)</span></h6>
 						</div>
 					</div>
 					<div class="card mb-3">
@@ -21,7 +26,7 @@
 									<p>Teams play eachother once</p>
 								</div>
 								<div class="col-6">
-									<h6 class="font-weight-bold">Group A</h6>
+									<h6 class="font-weight-bold">Group B</h6>
 									<p>Teams play eachother once</p>
 								</div>
 							</div>
@@ -81,7 +86,7 @@
 					</div>
 					<div class="row align-items-center mb-3">
 						<div class="col-12">
-							<button type="button" class="btn btn-primary">Save</button>
+							<button type="button" class="btn btn-primary" @click="saveTemplateDetail">Save</button>
 						</div>
 			    	</div>
 				</div>
@@ -90,6 +95,7 @@
 	</div>
 </template>
 <script type="text/javascript">
+	import Template from '../../api/template.js'
 	export default {
 		props: ['templateFormDetail'],
         data() {
@@ -103,7 +109,18 @@
             this.$root.$off('updateTemplateData');
         },
         methods: {
+        	saveTemplateDetail() {
+        		alert('here');
+        		var templateData = {'templateFormDetail': this.templateFormDetail};
+        		Template.saveTemplateDetail(templateData).then(
+        			(response) => {
 
+        			},
+        			(error) => {
+
+        			}
+        		);
+        	}
         }
     }
 </script>

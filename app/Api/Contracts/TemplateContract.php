@@ -28,6 +28,14 @@ interface TemplateContract
     public function getUsersForFilter();
 
     /*
+     * Save template data
+     *
+     * @param  $data
+     * @return response
+     */
+    public function saveTemplateDetail($data);
+
+    /*
      * Delete template
      *
      * @param  $id

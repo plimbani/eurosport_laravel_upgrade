@@ -261,6 +261,8 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
     $api->post('getTemplateDetail', 'Laraspace\Api\Controllers\TemplateController@getTemplateDetail');
     $api->get('templates/getUsersForFilter', 'Laraspace\Api\Controllers\TemplateController@getUsersForFilter');
     $api->post('template/delete/{id}', 'Laraspace\Api\Controllers\TemplateController@deleteTemplate');
+
+    $api->post('saveTemplateDetail', 'Laraspace\Api\Controllers\TemplateController@saveTemplateDetail');
 });
 
 // Websites CMS routes
