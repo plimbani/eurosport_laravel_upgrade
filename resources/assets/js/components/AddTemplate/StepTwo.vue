@@ -4,7 +4,7 @@
             <div class="row justify-content-center">
                 <div class="col-md-8">
                     <h5>{{ $lang.add_template_modal_step2_header }}</h5>
-                    <round v-for="(round, roundIndex) in templateFormDetail.steptwo.rounds" :index="roundIndex" :divisionIndex="-1" :roundData="round" :templateFormDetail="templateFormDetail"></round>
+                    <round v-for="(round, roundIndex) in templateFormDetail.steptwo.rounds" :index="roundIndex" :divisionIndex="-1" :roundData="round" :templateFormDetail="templateFormDetail" :startGroupCount="getPreviousRoundGroupCount(roundIndex-1)"></round>
 
                     <div class="rounds bordered-box" v-for="(division, divisionIndex) in templateFormDetail.steptwo.divisions">
                         <h6 class="font-weight-bold">Division {{ divisionIndex + 1 }} <span class="pull-right"><a href="javascript:void(0)" @click="removeDivision(divisionIndex)"><i class="jv-icon jv-dustbin"></i></a></span></h6>
@@ -57,23 +57,22 @@
         },
         created() {
             this.$root.$on('updateTemplateData', this.updateTemplateData);
+            this.$root.$on('updateGroupCount', this.updateGroupCount);
         },
         beforeCreate: function() {
             // Remove custom event listener 
             this.$root.$off('updateTemplateData');
+            this.$root.$off('updateGroupCount');
+        },
+        computed: {
+
         },
         methods: {
             addNewRound() {
-                this.templateFormDetail.steptwo.rounds.push({no_of_teams: "", groups: []});
+                this.templateFormDetail.steptwo.rounds.push({no_of_teams: "", groups: [], startRoundGroupCount: this.templateFormDetail.round_group_count, startPlacingGroupCount: this.templateFormDetail.placing_group_count});
             },
             addNewDivisionRound(index) {
                 this.templateFormDetail.steptwo.divisions[index].rounds.push({no_of_teams: "", groups: []});
-            },
-            addNewGroup(index) {
-                this.templateFormDetail.steptwo.rounds[index].groups.push({type: "round_robin", no_of_teams: "2", teams_play_each_other: "once"});
-            },
-            removeRound(index) {
-                this.templateFormDetail.steptwo.rounds.splice(index, 1);
             },
             updateTemplateData(data) {
                 // this.templateFormDetail = data;
@@ -89,7 +88,24 @@
             },
             next() {
                 this.$emit('change-tab-index', 2, 3, 'steptwo', _.cloneDeep(this.templateFormDetail.steptwo));
-            }
+            },
+            getPreviousRoundGroupCount(previousRoundIndex) {
+                return 0;
+                // return this.templateFormDetail.steptwo.rounds[previousRoundIndex].groups.length;
+            },
+            updateGroupCount() {
+                let startRoundGroupCount = 0;
+                let startPlacingGroupCount = 0;
+                let vm = this;
+                _.forEach(vm.templateFormDetail.steptwo.rounds, function(round, index) {
+                    vm.templateFormDetail.steptwo.rounds[index].startRoundGroupCount =  startRoundGroupCount;
+                    vm.templateFormDetail.steptwo.rounds[index].startPlacingGroupCount =  startPlacingGroupCount;
+                    startRoundGroupCount +=  _.filter(round.groups, function(o) { return o.type === 'round_robin'; }).length;
+                    startPlacingGroupCount +=  _.filter(round.groups, function(o) { return o.type === 'placing_match'; }).length;
+                });
+                this.templateFormDetail.round_group_count = startRoundGroupCount;
+                this.templateFormDetail.placing_group_count = startPlacingGroupCount; 
+            },
         }
     }
 </script>
