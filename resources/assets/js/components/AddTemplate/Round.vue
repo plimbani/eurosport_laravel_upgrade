@@ -66,7 +66,7 @@
                 return totalGroupTeams;
             },
             onTeamChange() {
-                if(this.roundData.no_of_teams >= this.templateFormDetail.steptwo.rounds[0].no_of_teams) {
+                if(this.roundData.no_of_teams > this.templateFormDetail.steptwo.rounds[0].no_of_teams) {
                     toastr['error']('Round team count get exceeds.', 'Error');
                     this.roundData.no_of_teams = this.last_selected_teams;
                     return false;

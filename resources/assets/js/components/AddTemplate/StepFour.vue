@@ -110,7 +110,6 @@
         },
         methods: {
         	saveTemplateDetail() {
-        		alert('here');
         		var templateData = {'templateFormDetail': this.templateFormDetail};
         		Template.saveTemplateDetail(templateData).then(
         			(response) => {
