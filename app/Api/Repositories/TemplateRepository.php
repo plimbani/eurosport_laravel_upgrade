@@ -80,9 +80,16 @@ class TemplateRepository
      */
     public function saveTemplateDetail($data)
     {
+        // echo "<pre>";print_r($data);echo "</pre>";exit;
         $finalArray = [];
         $finalArray['total_matches'] = 9;
         $finalArray['tournament_id'] = 15;
+        $finalArray['tournament_teams'] = $data['templateFormDetail']['stepone']['teams'];
+
+        $rounds = [];
+        foreach ($data['templateFormDetail']['steptwo']['rounds'] as $key => $round) {
+            echo "<pre>";print_r($round);echo "</pre>";exit;
+        }
         echo "<pre>";print_r(json_encode($finalArray));echo "</pre>";exit;
     }
 

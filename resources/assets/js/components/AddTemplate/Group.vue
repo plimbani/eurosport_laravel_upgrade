@@ -140,7 +140,6 @@
 		        }
 		    },
 		    onAssignPosition(e) {
-		    	console.log('selectedPosition', this.selectedPosition);
 		    },
 		    onChangeGroupType() {
 		    	this.$root.$emit('updateGroupCount');
@@ -185,7 +184,20 @@
 				});
 				return groupsForSelection;
 		    },
-		    getPositionsForSelection() {
+		    getPositionsForSelection(group) {
+		    	if(group) {
+			    	var currentGroup = group.split(',');
+			    	var positionsForSelection = [];
+			    	_.forEach(this.templateFormDetail['steptwo'].rounds[this.roundIndex - 1].groups, function(group, groupIndex) {
+		    			if(groupIndex == currentGroup[1]) {
+			    			_.forEach(group.teams, function(team, teamIndex) {
+			    				positionsForSelection.push('Position '+ (teamIndex + 1));
+			    			});
+		    			}
+			    	});
+
+			    	return positionsForSelection;
+		    	}
 		    },
         }
     }

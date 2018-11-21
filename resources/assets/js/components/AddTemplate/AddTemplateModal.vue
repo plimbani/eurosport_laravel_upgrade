@@ -59,7 +59,7 @@
                             no_of_teams: '',
                             groups: [{
                                 type: "round_robin",
-                                no_of_teams: "2",
+                                no_of_teams: 2,
                                 teams_play_each_other: "once",
                                 teams: [{groups: [], position_type: 'placed', position: []}]
                             }],
