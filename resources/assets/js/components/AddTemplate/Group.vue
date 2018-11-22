@@ -56,7 +56,7 @@
 		        			</div>
 		        			<div class="col-md-4">
 		        				<div class="form-group mb-0">
-			        				<select class="form-control ls-select2 js-select-position" :id="'pos_'+(teamIndex+1)" @change="onAssignPosition(teamIndex+1)" v-model="team.position">
+			        				<select class="form-control ls-select2 js-select-position" :id="'pos_'+(teamIndex+1)" @change="onAssignPosition(teamIndex+1)" :value="team.position">
 			                    		<option v-for="position in getPositionsForSelection(team.group)">{{ position }}</option>
 			                    	</select>
 			                    </div>
@@ -83,7 +83,6 @@
         	var vm = this
         	$('.js-select-position').change(function() {
         		let vl = $(this).val();
-        		console.log('vl', vl);
         	});
         },
         created() {
@@ -185,6 +184,7 @@
 				return groupsForSelection;
 		    },
 		    getPositionsForSelection(group) {
+		    	let vm = this;
 		    	if(group) {
 			    	var currentGroup = group.split(',');
 			    	var positionsForSelection = [];
@@ -192,6 +192,7 @@
 		    			if(groupIndex == currentGroup[1]) {
 			    			_.forEach(group.teams, function(team, teamIndex) {
 			    				positionsForSelection.push('Position '+ (teamIndex + 1));
+			    				// vm.groupData.teams[teamIndex].position = positionsForSelection;
 			    			});
 		    			}
 			    	});
