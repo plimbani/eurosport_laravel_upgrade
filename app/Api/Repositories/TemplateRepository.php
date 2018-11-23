@@ -73,6 +73,26 @@ class TemplateRepository
     }
 
     /*
+     * Save template detail
+     *
+     * @param  array $api_key,$state,$type
+     * @return response
+     */
+    public function saveTemplateDetail($data)
+    {
+        $finalArray = [];
+        $finalArray['total_matches'] = 9;
+        $finalArray['tournament_id'] = 15;
+        $finalArray['tournament_teams'] = $data['templateFormDetail']['stepone']['teams'];
+
+        $rounds = [];
+        foreach ($data['templateFormDetail']['steptwo']['rounds'] as $key => $round) {
+            echo "<pre>";print_r($round);echo "</pre>";exit;
+        }
+        echo "<pre>";print_r(json_encode($finalArray));echo "</pre>";exit;
+    }
+
+    /*
      * Delete template
      *
      * @param  array $id

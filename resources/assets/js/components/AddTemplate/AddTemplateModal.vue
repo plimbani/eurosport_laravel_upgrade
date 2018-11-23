@@ -3,10 +3,22 @@
       <div class="modal-dialog add-newtemplate-modal">
         <div class="modal-content border-0 rounded-0">
             <div class="modal-header">
-                <h4 class="modal-title" id="addNewTemplateModal">{{$lang.add_template_modal_header}}</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                </button>
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-md-8">
+                            <div class="row align-items-center">
+                                <div class="col-8">
+                                    <h4 class="modal-title" id="addNewTemplateModal">{{$lang.add_template_modal_header}}</h4>
+                                </div>
+                                <div class="col-4">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">×</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="modal-body">
                 <!-- Step 1 -->
@@ -14,6 +26,12 @@
 
                 <!-- Step 2 -->
                 <step-two v-show="currentStep === 2" :templateFormDetail="templateFormDetail" @change-tab-index="changeTabIndex"></step-two>
+
+                <!-- Step 3 -->
+                <step-three v-show="currentStep === 3" :templateFormDetail="templateFormDetail" @change-tab-index="changeTabIndex"></step-three>
+                
+                <!-- Step 4 -->
+                <step-four v-show="currentStep === 4" :templateFormDetail="templateFormDetail" @change-tab-index="changeTabIndex"></step-four>
             </div>
         </div>
       </div>
@@ -23,6 +41,8 @@
     import _ from 'lodash';
     import StepOne from './StepOne.vue'
     import StepTwo from './StepTwo.vue'
+    import StepThree from './StepThree.vue'
+    import StepFour from './StepFour.vue'
 
 	export default {
 		data() {
@@ -39,7 +59,7 @@
                             no_of_teams: '',
                             groups: [{
                                 type: "round_robin",
-                                no_of_teams: "2",
+                                no_of_teams: 2,
                                 teams_play_each_other: "once",
                                 teams: [{groups: [], position_type: 'placed', position: []}]
                             }],
@@ -51,13 +71,13 @@
                         placing_group_count: 0,
                     },
                     stepthree: {
-                        placings: [],
+                        placings: [{groups: [], position_type: 'placed', position: []}],
                     },
                 }
 		    }
 		},
         components: {
-          StepOne, StepTwo
+          StepOne, StepTwo, StepThree, StepFour
         },
 		mounted() {
 		},

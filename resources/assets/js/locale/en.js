@@ -81,6 +81,10 @@ module.exports= {
   add_template_modal_step1_button: "Next",
   add_template_modal_header: "New template",
 
+  add_template_modal_step2_header: "Step 2 : Setup rounds",
+  add_template_modal_step3_header: "Step 3 : Placings",
+  add_template_modal_step4_header: "Step 4 : Review",
+  
   user_management_add_new_user: "Add new user",
   // user_management_edit_user: "Edit User",
   user_management_sentence: "Add, edit and remove Euro-Sportring Tournament Planner users.",

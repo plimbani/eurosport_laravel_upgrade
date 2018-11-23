@@ -1,69 +1,70 @@
 <template>
 	<div>
-	    <div class="bordered-box">
-	        <h6 class="font-weight-bold">{{ getGroupName }} <span class="pull-right"><a href="javascript:void(0)" @click="removeGroup()"><i class="jv-icon jv-dustbin"></i></a></span></h6>
-	        <div class="form-group">
-	            <div class="radio">
-	                <label><input type="radio" checked="checked" value="round_robin" v-model="groupData.type" @change="onChangeGroupType()"> Round robin</label>
-	                <label><input type="radio" value="placing_match" v-model="groupData.type" @change="onChangeGroupType()"> Placing match</label>
-	            </div>
-	        </div>
-	        <div class="row">
-	            <div class="col-md-6">
-	                <div class="form-group mb-0">
-	                    <label>Number of teams in group</label>
-	                    <select :data-last-selected="last_selected_teams" class="form-control ls-select2" name="no_of_teams" id="no_of_teams" v-model="groupData.no_of_teams" @change="onTeamChange($event)">
-	                    	<option v-for="n in 28" v-if="n >= 2" :value="n">{{ n }}</option>
-	                    </select>
-	                </div>
-	            </div>
+	    <div class="card mb-3">
+	    	<div class="card-block">
+		        <h6 class="font-weight-bold">{{ getGroupName }} <span class="pull-right"><a href="javascript:void(0)" @click="removeGroup()"><i class="jv-icon jv-dustbin"></i></a></span></h6>
+		        <div class="form-group">
+		            <div class="radio">
+		                <label><input type="radio" checked="checked" value="round_robin" v-model="groupData.type" @change="onChangeGroupType()"> Round robin</label>
+		                <label><input type="radio" value="placing_match" v-model="groupData.type" @change="onChangeGroupType()"> Placing match</label>
+		            </div>
+		        </div>
+		        <div class="row">
+		            <div class="col-md-6">
+		                <div class="form-group mb-0">
+		                    <label>Number of teams in group</label>
+		                    <select :data-last-selected="last_selected_teams" class="form-control ls-select2" name="no_of_teams" id="no_of_teams" v-model="groupData.no_of_teams" @change="onTeamChange($event)">
+		                    	<option v-for="n in 28" v-if="n >= 2" :value="n">{{ n }}</option>
+		                    </select>
+		                </div>
+		            </div>
 
-	            <div class="col-md-6">
-	                <div class="form-group mb-0">
-	                    <label>Teams play each other</label>
-	                    <select class="form-control ls-select2" name="teams_play_each_other" id="teams_play_each_other" v-model="groupData.teams_play_each_other">
-	                        <option value="once">Once</option>
-	                        <option value="twice">Twice</option>
-	                        <option value="three_times">Three times</option>
-	                        <option value="four_times">Four times</option>
-	                    </select>
-	                </div>
-	            </div>
-	        </div>
-
-	        <div class="row align-items-center mt-3" v-if="roundIndex > 0" v-for="(team, teamIndex) in groupData.teams">
-	        	<div class="col-md-3">
-	        		<label class="mb-0">Team {{ teamIndex+1 }}</label>
-	        	</div>
-	        	<div class="col-md-9">
-	        		<div class="row">
-	        			<div class="col-md-4">
-	        				<div class="form-group mb-0">
-		        				<select class="form-control ls-select2" v-model="team.position_type">
-			                    	<option value="placed">Placed</option>
-			                    	<option value="winner">Winner</option>
-			                    	<option value="loser">Loser</option>
-			                    	<option value="team">Team</option>
-			                    </select>
-			                </div>
-	        			</div>
-	        			<div class="col-md-4">
-	        				<div class="form-group mb-0">
-		        				<select class="form-control ls-select2" v-model="team.group">
-		                    		<option v-for="group in getGroupsForSelection(teamIndex)" :value="group.value">{{ group.name }}</option>
-		                    	</select>
-		                    </div>
-	        			</div>
-	        			<div class="col-md-4">
-	        				<div class="form-group mb-0">
-		        				<select class="form-control ls-select2 js-select-position" :id="'pos_'+(teamIndex+1)" @change="onAssignPosition(teamIndex+1)" v-model="team.position">
-		                    		<option v-for="position in getPositionsForSelection(team.group)">{{ position }}</option>
-		                    	</select>
-		                    </div>
-	        			</div>
-	        		</div>
-	        	</div>
-	        </div>
+		            <div class="col-md-6">
+		                <div class="form-group mb-0">
+		                    <label>Teams play each other</label>
+		                    <select class="form-control ls-select2" name="teams_play_each_other" id="teams_play_each_other" v-model="groupData.teams_play_each_other">
+		                        <option value="once">Once</option>
+		                        <option value="twice">Twice</option>
+		                        <option value="three_times">Three times</option>
+		                        <option value="four_times">Four times</option>
+		                    </select>
+		                </div>
+		            </div>
+		        </div>
+		        <div class="row align-items-center mt-3" v-if="roundIndex > 0" v-for="(team, teamIndex) in groupData.teams">
+		        	<div class="col-md-3">
+		        		<label class="mb-0">Team {{ teamIndex+1 }}</label>
+		        	</div>
+		        	<div class="col-md-9">
+		        		<div class="row">
+		        			<div class="col-md-4">
+		        				<div class="form-group mb-0">
+			        				<select class="form-control ls-select2" v-model="team.position_type">
+				                    	<option value="placed">Placed</option>
+				                    	<option value="winner">Winner</option>
+				                    	<option value="loser">Loser</option>
+				                    	<option value="team">Team</option>
+				                    </select>
+				                </div>
+		        			</div>
+		        			<div class="col-md-4">
+		        				<div class="form-group mb-0">
+			        				<select class="form-control ls-select2" v-model="team.group">
+			                    		<option v-for="group in getGroupsForSelection(teamIndex)" :value="group.value">{{ group.name }}</option>
+			                    	</select>
+			                    </div>
+		        			</div>
+		        			<div class="col-md-4">
+		        				<div class="form-group mb-0">
+			        				<select class="form-control ls-select2 js-select-position" :id="'pos_'+(teamIndex+1)" @change="onAssignPosition(teamIndex+1)" :value="team.position">
+			                    		<option v-for="position in getPositionsForSelection(team.group)">{{ position }}</option>
+			                    	</select>
+			                    </div>
+		        			</div>
+		        		</div>
+		        	</div>
+		        </div>
+		    </div>
 	    </div>
     </div>
 </template>
@@ -74,8 +75,6 @@
         data() {
             return {
             	last_selected_teams: this.groupData.no_of_teams,
-            	teamPositions: [],
-            	selectedPosition: '',
             }
         },
         components: {
@@ -84,7 +83,6 @@
         	var vm = this
         	$('.js-select-position').change(function() {
         		let vl = $(this).val();
-        		console.log('vl', vl);
         	});
         },
         created() {
@@ -124,7 +122,7 @@
         		var i;
 				// var positions = [];
 				// var groupsArray = [];
-				this.groupData.teams = [];				
+				this.groupData.teams = [];
 				for (i = 0; i < this.groupData.no_of_teams; i++) {
 					// this.teamPositions.push(i + 1);
 					// positions.push(this.getSuffixForPosition(i + 1));
@@ -141,7 +139,6 @@
 		        }
 		    },
 		    onAssignPosition(e) {
-		    	console.log('selectedPosition', this.selectedPosition);
 		    },
 		    onChangeGroupType() {
 		    	this.$root.$emit('updateGroupCount');
@@ -184,11 +181,24 @@
 					});
 					if(roundIndex >= vm.roundIndex) return false;
 				});
-				console.log('groupsForSelection', groupsForSelection);
 				return groupsForSelection;
 		    },
-		    getPositionsForSelection() {
+		    getPositionsForSelection(group) {
+		    	let vm = this;
+		    	if(group) {
+			    	var currentGroup = group.split(',');
+			    	var positionsForSelection = [];
+			    	_.forEach(this.templateFormDetail['steptwo'].rounds[this.roundIndex - 1].groups, function(group, groupIndex) {
+		    			if(groupIndex == currentGroup[1]) {
+			    			_.forEach(group.teams, function(team, teamIndex) {
+			    				positionsForSelection.push('Position '+ (teamIndex + 1));
+			    				// positionsForSelection.push(this.getSuffixForPosition(teamIndex + 1));
+			    			});
+		    			}
+			    	});
 
+			    	return positionsForSelection;
+		    	}
 		    },
         }
     }

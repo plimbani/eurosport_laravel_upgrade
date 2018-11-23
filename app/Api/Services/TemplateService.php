@@ -54,6 +54,17 @@ class TemplateService implements TemplateContract
     }
 
     /*
+     * Save template data
+     *
+     * @param  array $data
+     * @return response
+     */
+    public function saveTemplateDetail($data) {
+        $data = $this->templateRepoObj->saveTemplateDetail($data);
+        return ['data' => $data, 'status_code' => '200'];
+    }
+
+    /*
      * Delete template
      *
      * @param  array $id
@@ -65,6 +76,5 @@ class TemplateService implements TemplateContract
         if ($data) {
             return ['status_code' => '200', 'message' => 'Data Successfully Deleted'];
         }
-
     }
 }

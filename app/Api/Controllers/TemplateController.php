@@ -40,6 +40,14 @@ class TemplateController extends BaseController
     }
 
     /**
+     * Save template data
+     */
+    public function saveTemplateDetail(Request $request)
+    {
+        return $this->templateObj->saveTemplateDetail($request->all());
+    }
+
+    /**
      * Delete template
      */
     public function deleteTemplate(Request $request, $id)

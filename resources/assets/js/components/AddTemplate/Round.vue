@@ -1,19 +1,21 @@
 <template>
-    <div class="rounds bordered-box">
-        <h6 class="font-weight-bold">Round {{ index + 1 }} <span :class="{'pull-right': true, 'is-disabled': (index === 0 && divisionIndex === -1)}"><a href="javascript:void(0)" @click="removeRound(index)"><i class="jv-icon jv-dustbin"></i></a></span></h6>
-        <div class="form-group">
-            <label>Number of teams in round</label>
-            <select class="form-control ls-select2" v-model="roundData.no_of_teams" :disabled="index === 0 && divisionIndex === -1">
-                <option value="">Number of teams</option>
-                <option v-for="n in 28" v-if="n >=4" :value="n">{{ n }}</option>
-            </select>
-        </div>
-        
-        <!-- add new group component -->
-        <group v-for="(group, groupIndex) in roundData.groups" :index="groupIndex" :roundIndex="index" :roundData="roundData" :groupData="group" :templateFormDetail="templateFormDetail"></group>
+    <div class="card mb-3">
+        <div class="card-block">
+            <h6 class="font-weight-bold">Round {{ index + 1 }} <span :class="{'pull-right': true, 'is-disabled': (index === 0 && divisionIndex === -1)}"><a href="javascript:void(0)" @click="removeRound(index)"><i class="jv-icon jv-dustbin"></i></a></span></h6>
+            <div class="form-group">
+                <label>Number of teams in round</label>
+                <select class="form-control ls-select2" v-model="roundData.no_of_teams" :disabled="index === 0 && divisionIndex === -1" @change="onTeamChange()">
+                    <option value="">Number of teams</option>
+                    <option v-for="n in 28" v-if="n >=4" :value="n">{{ n }}</option>
+                </select>
+            </div>
+            
+            <!-- new group component -->
+            <group v-for="(group, groupIndex) in roundData.groups" :index="groupIndex" :roundIndex="index" :roundData="roundData" :groupData="group" :templateFormDetail="templateFormDetail"></group>
 
-        <div class="form-group mb-0">
-            <button type="button" class="btn btn-primary" @click="addNewGroup(index)" :disabled="disabledNewGroupButton(roundData.no_of_teams, index)"><small><i class="jv-icon jv-plus"></i></small> Add a group</button>
+            <div class="form-group mb-0">
+                <button type="button" class="btn btn-primary" @click="addNewGroup(index)" :disabled="disabledNewGroupButton(roundData.no_of_teams, index)"><small><i class="jv-icon jv-plus"></i></small> Add a group</button>
+            </div>
         </div>
     </div>
 </template>
@@ -23,6 +25,7 @@
         props: ['roundData', 'templateFormDetail', 'index', 'divisionIndex'],
         data() {
             return {
+                last_selected_teams: this.roundData.no_of_teams,
             }
         },
         components: {
@@ -61,6 +64,14 @@
                 });
 
                 return totalGroupTeams;
+            },
+            onTeamChange() {
+                if(this.roundData.no_of_teams > this.templateFormDetail.steptwo.rounds[0].no_of_teams) {
+                    toastr['error']('Round team count get exceeds.', 'Error');
+                    this.roundData.no_of_teams = this.last_selected_teams;
+                    return false;
+                }
+                this.last_selected_teams = this.roundData.no_of_teams;
             }
         }
     }
