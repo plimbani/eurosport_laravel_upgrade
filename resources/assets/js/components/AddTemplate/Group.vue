@@ -192,7 +192,7 @@
 		    			if(groupIndex == currentGroup[1]) {
 			    			_.forEach(group.teams, function(team, teamIndex) {
 			    				positionsForSelection.push('Position '+ (teamIndex + 1));
-			    				// vm.groupData.teams[teamIndex].position = positionsForSelection;
+			    				// positionsForSelection.push(this.getSuffixForPosition(teamIndex + 1));
 			    			});
 		    			}
 			    	});
