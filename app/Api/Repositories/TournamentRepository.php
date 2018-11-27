@@ -702,9 +702,12 @@ class TournamentRepository
 
     public function getCompetitionAndPitchDetail($data)
     {
-        $ageCategoryDetail = TournamentCompetationTemplates::with('Competition')
-            ->where('id', $data['ageCategoryId'])
-            ->first();
+        $ageCategoryDetail = TournamentCompetationTemplates::with(['Competition' => function($query) {
+            return $query->doesnthave('scheduledFixtures');
+        }])
+        ->where('id', $data['ageCategoryId'])
+        ->first();
+
         $pitches = Pitch::where('tournament_id', $data['tournamentId'])->where('size', $ageCategoryDetail->pitch_size)->get();
 
         return ['ageCategoryDetail' => $ageCategoryDetail, 'pitches' => $pitches];
