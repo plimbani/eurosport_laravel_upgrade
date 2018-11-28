@@ -29,7 +29,7 @@
     if ([app.selectedTab isEqualToString:@"1"]) {
         self.titleLbl.text =[[teamDetails valueForKey:@"group_name"] uppercaseString];
     }else{
-        self.titleLbl.text =[[teamDetails valueForKey:@"name"] uppercaseString];
+        self.titleLbl.text =[[teamDetails valueForKey:@"display_name"] uppercaseString];
     }
     self.tabBarController.tabBar.hidden = TRUE;
 //    for (int i= 0; i<leagueArray.count; i++) {
@@ -135,7 +135,7 @@
         if ([app.selectedTab isEqualToString:@"1"]) {
             cell.gName.text =[teamDetails valueForKey:@"group_name"];
         }else{
-            cell.gName.text =[teamDetails valueForKey:@"name"];
+            cell.gName.text =[teamDetails valueForKey:@"display_name"];
         }
         cell.backgroundColor = [UIColor colorwithHexString:@"DEDFE2" alpha:1.0];
         return cell;

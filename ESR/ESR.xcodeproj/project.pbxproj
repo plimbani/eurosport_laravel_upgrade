@@ -1453,8 +1453,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.aecordigital.eurosporting;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "244768f5-42d0-4a88-abce-5efd46eaf6d7";
-				PROVISIONING_PROFILE_SPECIFIER = PROD_ESR_27_sept_2018;
+				PROVISIONING_PROFILE = "165d0065-78f4-47f4-9470-f19cd4eb737a";
+				PROVISIONING_PROFILE_SPECIFIER = ADHOC_ESR_18_oct_2018;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
