@@ -203,17 +203,31 @@
 		    },
 		    getPositionsForSelection(teamIndex, group) {
 		    	let vm = this;
+			    var positionsForSelection = [];
+		    	let team = this.groupData.teams[teamIndex];
 		    	if(group) {
 			    	var currentRoundGroup = group.split(',');
-			    	var positionsForSelection = [];
-			    	var teams = this.templateFormDetail['steptwo'].rounds[currentRoundGroup[0]].groups[currentRoundGroup[1]].teams;
-			    	if(this.groupData.teams[teamIndex].position === '' || typeof this.groupData.teams[teamIndex].position === 'undefined') {
-			    		this.groupData.teams[teamIndex].position = group + ',0';	
-			    	}
+			    	var teams = this.templateFormDetail['steptwo'].rounds[currentRoundGroup[0]].groups[currentRoundGroup[1]].teams;			    	
+			    	var numberOfTeams = this.templateFormDetail['steptwo'].rounds[currentRoundGroup[0]].groups[currentRoundGroup[1]].no_of_teams;
+			    	var groupType = this.templateFormDetail['steptwo'].rounds[currentRoundGroup[0]].groups[currentRoundGroup[1]].type;
 			    	
-			    	_.forEach(teams, function(team, index) {
-	    				positionsForSelection.push({'name': vm.getSuffixForPosition(index + 1), 'value': group + ',' + index});
-	    			});
+				    // for round robin
+			    	if(groupType === 'round_robin' && team.position_type === 'placed') {
+				    	if(this.groupData.teams[teamIndex].position === '' || typeof this.groupData.teams[teamIndex].position === 'undefined') {
+				    		this.groupData.teams[teamIndex].position = group + ',0';
+				    	}
+				    	_.forEach(teams, function(team, index) {
+		    				positionsForSelection.push({'name': vm.getSuffixForPosition(index + 1), 'value': group + ',' + index});
+		    			});
+		    		}
+
+			    	// for placing
+					if(groupType === 'placing_match' && _.indexOf(['winner', 'loser'], team.position_type) > -1) {
+						let matches = numberOfTeams / 2;
+						for (var i = 1; i <= matches; i++) {
+							positionsForSelection.push({'name': 'Match' + i, 'value': group + ',' + (i - 1)});
+						}
+					}
 
 			    	return positionsForSelection;
 		    	}

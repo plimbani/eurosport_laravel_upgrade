@@ -86,7 +86,8 @@
 					</div>
 					<div class="row align-items-center mb-3">
 						<div class="col-12">
-							<button type="button" class="btn btn-primary" @click="saveTemplateDetail">Save</button>
+							<button type="button" class="btn btn-primary" @click="back()">{{ $lang.add_template_modal_back_button }}</button>
+							<button type="button" class="btn btn-primary" @click="saveTemplateDetail">{{ $lang.add_template_modal_save_button }}</button>
 						</div>
 			    	</div>
 				</div>
@@ -119,6 +120,9 @@
 
         			}
         		);
+        	},
+        	back() {
+        		this.$emit('change-tab-index', 4, 3, 'stepfour', _.cloneDeep(this.templateFormDetail.stepfour));
         	}
         }
     }

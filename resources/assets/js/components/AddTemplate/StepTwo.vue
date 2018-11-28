@@ -35,7 +35,8 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <button type="button" class="btn btn-primary" @click="next()">{{ $lang.add_template_modal_step1_button }}</button>
+                        <button type="button" class="btn btn-primary" @click="back()">{{ $lang.add_template_modal_back_button }}</button>
+                        <button type="button" class="btn btn-primary" @click="next()">{{ $lang.add_template_modal_next_button }}</button>
                     </div>
                 </div>
             </div>                  
@@ -101,6 +102,9 @@
                 this.templateFormDetail.round_group_count = startRoundGroupCount;
                 this.templateFormDetail.placing_group_count = startPlacingGroupCount; 
             },
+            back() {
+                this.$emit('change-tab-index', 2, 1, 'steptwo', _.cloneDeep(this.templateFormDetail.steptwo));
+            }
         }
     }
 </script>

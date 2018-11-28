@@ -30,7 +30,7 @@
             			</div>
             		</div>
             		<div class="form-group">
-            			<button type="button" class="btn btn-primary" @click="next()">{{$lang.add_template_modal_step1_button}}</button>
+            			<button type="button" class="btn btn-primary" @click="next()">{{$lang.add_template_modal_next_button}}</button>
             		</div>   
                 </div>
             </div>         		
