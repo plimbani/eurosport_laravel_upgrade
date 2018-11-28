@@ -56,12 +56,10 @@
         mounted() {
         },
         created() {
-            this.$root.$on('updateTemplateData', this.updateTemplateData);
             this.$root.$on('updateGroupCount', this.updateGroupCount);
         },
         beforeCreate: function() {
             // Remove custom event listener 
-            this.$root.$off('updateTemplateData');
             this.$root.$off('updateGroupCount');
         },
         computed: {
@@ -73,9 +71,6 @@
             },
             addNewDivisionRound(index) {
                 this.templateFormDetail.steptwo.divisions[index].rounds.push({no_of_teams: "", groups: []});
-            },
-            updateTemplateData(data) {
-                // this.templateFormDetail = data;
             },
             removeGroup(groupIndex, roundIndex) {
                 this.templateFormDetail.steptwo.rounds[roundIndex].groups.splice(groupIndex, 1);

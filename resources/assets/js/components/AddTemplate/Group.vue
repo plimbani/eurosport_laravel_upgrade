@@ -13,16 +13,16 @@
 		            <div class="col-md-6">
 		                <div class="form-group mb-0">
 		                    <label>Number of teams in group</label>
-		                    <select :data-last-selected="last_selected_teams" class="form-control ls-select2" name="no_of_teams" id="no_of_teams" v-model="groupData.no_of_teams" @change="onTeamChange($event)">
+		                    <select :data-last-selected="last_selected_teams" class="form-control ls-select2" v-model="groupData.no_of_teams" @change="onTeamChange($event)">
 		                    	<option v-for="n in 28" v-if="n >= 2" :value="n">{{ n }}</option>
 		                    </select>
 		                </div>
 		            </div>
 
-		            <div class="col-md-6">
+		            <div class="col-md-6" v-if="groupData.type == 'round_robin'">
 		                <div class="form-group mb-0">
 		                    <label>Teams play each other</label>
-		                    <select class="form-control ls-select2" name="teams_play_each_other" id="teams_play_each_other" v-model="groupData.teams_play_each_other">
+		                    <select class="form-control ls-select2" v-model="groupData.teams_play_each_other">
 		                        <option value="once">Once</option>
 		                        <option value="twice">Twice</option>
 		                        <option value="three_times">Three times</option>
@@ -32,37 +32,53 @@
 		            </div>
 		        </div>
 		        <div class="row align-items-center mt-3" v-if="roundIndex > 0" v-for="(team, teamIndex) in groupData.teams">
-		        	<div class="col-md-3">
-		        		<label class="mb-0">Team {{ teamIndex+1 }}</label>
-		        	</div>
-		        	<div class="col-md-9">
+		        	<div class="col-md-12 mb-3" v-if="teamIndex % 2 === 0 && groupData.type === 'placing_match'">
 		        		<div class="row">
-		        			<div class="col-md-4">
-		        				<div class="form-group mb-0">
-			        				<select class="form-control ls-select2" v-model="team.position_type">
-				                    	<option value="placed">Placed</option>
-				                    	<option value="winner">Winner</option>
-				                    	<option value="loser">Loser</option>
-				                    	<option value="team">Team</option>
-				                    </select>
-				                </div>
-		        			</div>
-		        			<div class="col-md-4">
-		        				<div class="form-group mb-0">
-			        				<select class="form-control ls-select2" v-model="team.group">
-			                    		<option v-for="group in getGroupsForSelection(teamIndex)" :value="group.value">{{ group.name }}</option>
-			                    	</select>
-			                    </div>
-		        			</div>
-		        			<div class="col-md-4">
-		        				<div class="form-group mb-0">
-			        				<select class="form-control ls-select2 js-select-position" :id="'pos_'+(teamIndex+1)" @change="onAssignPosition(teamIndex+1)" :value="team.position">
-			                    		<option v-for="position in getPositionsForSelection(team.group)">{{ position }}</option>
-			                    	</select>
-			                    </div>
-		        			</div>
+		        			<div class="col-md-3">
+				        		<strong>Match {{ teamIndex/2 + 1 }}</strong>
+				        	</div>
+				        	<div class="col-md-9">
+				        		<input type="checkbox" />
+				        	</div>
 		        		</div>
 		        	</div>
+		        	<div class="col-md-12">
+		        		<div class="row">
+				        	<div class="col-md-3">
+				        		<label class="mb-0">
+				        			{{ (groupData.type === 'round_robin' ? 'Team ' + (teamIndex + 1) : (teamIndex/2 === 0) ? 'Home' : 'Away' )  }}
+				        		</label>
+				        	</div>
+				        	<div class="col-md-9">
+				        		<div class="row">
+				        			<div class="col-md-4">
+				        				<div class="form-group mb-0">
+					        				<select class="form-control ls-select2" v-model="team.position_type" @change="onPositionTypeChange(teamIndex)">
+						                    	<option value="placed">Placed</option>
+						                    	<option value="winner">Winner</option>
+						                    	<option value="loser">Loser</option>
+						                    	<option value="team">Team</option>
+						                    </select>
+						                </div>
+				        			</div>
+				        			<div class="col-md-4">
+				        				<div class="form-group mb-0">
+					        				<select class="form-control ls-select2" v-model="team.group" @change="onGroupChange(teamIndex)">
+					                    		<option v-for="group in getGroupsForSelection(teamIndex)" :value="group.value">{{ group.name }}</option>
+					                    	</select>
+					                    </div>
+				        			</div>
+				        			<div class="col-md-4">
+				        				<div class="form-group mb-0">
+					        				<select class="form-control ls-select2 js-select-position" :id="'pos_'+(teamIndex+1)" @change="onAssignPosition(teamIndex+1)" v-model="team.position">
+					                    		<option :value="position.value" v-for="position in getPositionsForSelection(teamIndex, team.group)">{{ position.name }}</option>
+					                    	</select>
+					                    </div>
+				        			</div>
+				        		</div>
+				        	</div>
+				        </div>
+				    </div>
 		        </div>
 		    </div>
 	    </div>
@@ -120,12 +136,13 @@
         	},
         	displayTeams() {
         		var i;
-				// var positions = [];
-				// var groupsArray = [];
+        		var oldGroupTeamData = _.cloneDeep(this.groupData.teams);
 				this.groupData.teams = [];
 				for (i = 0; i < this.groupData.no_of_teams; i++) {
-					// this.teamPositions.push(i + 1);
-					// positions.push(this.getSuffixForPosition(i + 1));
+					if(_.has(oldGroupTeamData, i)) {
+						this.groupData.teams.push({position_type: oldGroupTeamData[i].position_type, group: oldGroupTeamData[i].group, position: oldGroupTeamData[i].position});
+						continue;
+					}
 				    this.groupData.teams.push({position_type: 'placed', group: '', position: ''});
 				}
         	},
@@ -171,8 +188,9 @@
 							placingGroupCount += 1;
 							groupsForSelection[placingMatchIndex] = {'name': 'PM ' + (placingGroupCount), 'value': roundIndex + ',' + groupIndex};
 
-							if(placingMatchIndex === 0 && team.group === '')
+							if(placingMatchIndex === 0 && (team.group === '' || typeof team.group === 'undefined')) {
 								vm.groupData.teams[teamIndex].group = groupsForSelection[placingMatchIndex].value;
+							}
 
 							placingMatchIndex++;
 
@@ -183,22 +201,29 @@
 				});
 				return groupsForSelection;
 		    },
-		    getPositionsForSelection(group) {
+		    getPositionsForSelection(teamIndex, group) {
 		    	let vm = this;
 		    	if(group) {
-			    	var currentGroup = group.split(',');
+			    	var currentRoundGroup = group.split(',');
 			    	var positionsForSelection = [];
-			    	_.forEach(this.templateFormDetail['steptwo'].rounds[this.roundIndex - 1].groups, function(group, groupIndex) {
-		    			if(groupIndex == currentGroup[1]) {
-			    			_.forEach(group.teams, function(team, teamIndex) {
-			    				positionsForSelection.push('Position '+ (teamIndex + 1));
-			    				// positionsForSelection.push(this.getSuffixForPosition(teamIndex + 1));
-			    			});
-		    			}
-			    	});
+			    	var teams = this.templateFormDetail['steptwo'].rounds[currentRoundGroup[0]].groups[currentRoundGroup[1]].teams;
+			    	if(this.groupData.teams[teamIndex].position === '' || typeof this.groupData.teams[teamIndex].position === 'undefined') {
+			    		this.groupData.teams[teamIndex].position = group + ',0';	
+			    	}
+			    	
+			    	_.forEach(teams, function(team, index) {
+	    				positionsForSelection.push({'name': vm.getSuffixForPosition(index + 1), 'value': group + ',' + index});
+	    			});
 
 			    	return positionsForSelection;
 		    	}
+		    },
+		    onPositionTypeChange(teamIndex) {
+		    	this.groupData.teams[teamIndex].group = '';
+		    	this.groupData.teams[teamIndex].position = '';
+		    },
+		    onGroupChange(teamIndex) {
+		    	this.groupData.teams[teamIndex].position = '';
 		    },
         }
     }

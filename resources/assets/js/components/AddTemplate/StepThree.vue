@@ -76,10 +76,8 @@
             }
         },
         created() {
-            this.$root.$on('updateTemplateData', this.updateTemplateData);
         },
         beforeCreate: function() {
-            this.$root.$off('updateTemplateData');
         },
         components: {
         },

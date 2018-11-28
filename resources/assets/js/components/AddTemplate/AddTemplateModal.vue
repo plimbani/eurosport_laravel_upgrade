@@ -86,8 +86,7 @@
                 this.templateFormDetail[key] = _.cloneDeep(data);
                 this.currentStep = to;
                 this.templateFormDetail.steptwo.rounds[0].no_of_teams = this.templateFormDetail.stepone.teams;
-                this.$root.$emit('updateTemplateData', _.cloneDeep(this.templateFormDetail));
-            }
+            },
 		}
 	}
 </script>
