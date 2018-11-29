@@ -78,8 +78,10 @@ module.exports= {
   add_template_modal_step1_header: "Step 1: Template settings",
   add_template_modal_template_name: "Template name*",
   add_template_modal_number_of_teams: "Number of teams*",
-  add_template_modal_step1_button: "Next",
   add_template_modal_header: "New template",
+  add_template_modal_next_button: "Next",
+  add_template_modal_back_button: "Back",
+  add_template_modal_save_button: "Save",
 
   add_template_modal_step2_header: "Step 2 : Setup rounds",
   add_template_modal_step3_header: "Step 3 : Placings",

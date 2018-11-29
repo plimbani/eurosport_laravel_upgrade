@@ -16,14 +16,6 @@
 						        </div>
 						        <div class="col-md-9">
 						        	<div class="row align-items-center">
-						        		<div class="col-md-3">
-						        			<div class="form-group mb-0">
-							        			<select class="form-control ls-select2" name="relevant_group">
-							                    	<option value="group">Group</option>
-							                    	<option value="pm">PM</option>
-							                    </select>
-							                </div>
-						        		</div>
 						        		<div class="col-md-4">
 					        				<div class="form-group mb-0">
 						        				<select class="form-control ls-select2" name="placing">
@@ -34,6 +26,14 @@
 							                    </select>
 							                </div>
 						        		</div>
+						        		<div class="col-md-3">
+						        			<div class="form-group mb-0">
+							        			<select class="form-control ls-select2" name="relevant_group">
+							                    	<option value="group">Group</option>
+							                    	<option value="pm">PM</option>
+							                    </select>
+							                </div>
+						        		</div>						        		
 						        		<div class="col-md-4">
 					        				<div class="form-group mb-0">
 						        				<select class="form-control ls-select2" name="placing">
@@ -59,7 +59,8 @@
 			    	</div>
 			    	<div class="row align-items-center">
 			    		<div class="col-12">
-			    			<button type="button" class="btn btn-primary" @click="next()">Next</button>
+			    			<button type="button" class="btn btn-primary" @click="back()">{{ $lang.add_template_modal_back_button }}</button>
+			    			<button type="button" class="btn btn-primary" @click="next()">{{ $lang.add_template_modal_next_button }}</button>
 			    		</div>
 			    	</div>
 			    </div>
@@ -100,12 +101,14 @@
 		        }
 		    },
 		    updateTemplateData(data) {
-		    	console.log('data', data);
 		    	// this.templateFormDetail = data;
 		    },
 		    next() {
 		    	this.$emit('change-tab-index', 3, 4, 'stepthree', _.cloneDeep(this.templateFormDetail.stepthree));
-		    }
+		    },
+		    back() {
+                this.$emit('change-tab-index', 3, 2, 'stepthree', _.cloneDeep(this.templateFormDetail.stepthree));
+            }
 
         }
 	}

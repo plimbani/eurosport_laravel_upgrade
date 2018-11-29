@@ -11,7 +11,7 @@
                                     <h4 class="modal-title" id="addNewTemplateModal">{{$lang.add_template_modal_header}}</h4>
                                 </div>
                                 <div class="col-4">
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <button type="button" class="close" aria-label="Close" @click="closeModal()">
                                         <span aria-hidden="true">×</span>
                                     </button>
                                 </div>
@@ -73,6 +73,7 @@
                     stepthree: {
                         placings: [{groups: [], position_type: 'placed', position: []}],
                     },
+                    stepfour: {}
                 }
 		    }
 		},
@@ -87,6 +88,11 @@
                 this.currentStep = to;
                 this.templateFormDetail.steptwo.rounds[0].no_of_teams = this.templateFormDetail.stepone.teams;
             },
+            closeModal() {
+                $('#add_new_template_modal').modal('hide');
+                // this.changeTabIndex(this.currentStep, 1, 'stepone', this.templateFormDetail);
+                return;
+            }
 		}
 	}
 </script>
