@@ -38,7 +38,7 @@
 				        		<strong>Match {{ teamIndex/2 + 1 }}</strong>
 				        	</div>
 				        	<div class="col-md-9">
-				        		<input type="checkbox" />
+				        		<input type="checkbox" /> Final
 				        	</div>
 		        		</div>
 		        	</div>
