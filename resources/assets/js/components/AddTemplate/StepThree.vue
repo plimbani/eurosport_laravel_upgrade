@@ -28,9 +28,11 @@
 						        		</div>
 						        		<div class="col-md-3">
 						        			<div class="form-group mb-0">
-							        			<select class="form-control ls-select2" name="relevant_group">
-							                    	<option value="group">Group</option>
-							                    	<option value="pm">PM</option>
+							        			<select class="form-control ls-select2" v-model="placing.group" name="relevant_group">
+							                    	<!-- <option value="group">Group</option>
+							                    	<option value="pm">PM</option> -->
+							                    	<option v-for="group in getGroupsForSelection()" :value="group.value">{{ group.name }}
+							                    	</option>
 							                    </select>
 							                </div>
 						        		</div>						        		
@@ -108,8 +110,45 @@
 		    },
 		    back() {
                 this.$emit('change-tab-index', 3, 2, 'stepthree', _.cloneDeep(this.templateFormDetail.stepthree));
-            }
+            },
+            getGroupsForSelection() {
+        		let groupsForSelection = [];
+        		let roundRobinIndex = 0;
+        		let placingMatchIndex = 0;
+        		let roundGroupCount = 0;
+                let placingGroupCount = 0;
+                let vm = this;
 
+                _.forEach(this.templateFormDetail['stepthree'].placings, function(placing, placingIndex) {
+                	if(placing.position_type === 'placed') {
+                		console.log('placed');
+                		groupsForSelection[roundRobinIndex] = {'name': 'Group ' + String.fromCharCode(65 +roundGroupCount), 'value': placingIndex};
+						roundGroupCount += 1;
+
+						if(roundRobinIndex === 0 && placing.group === '')
+							vm.templateFormDetail.stepthree.placings[placingIndex].group = groupsForSelection[roundRobinIndex].value;
+						roundRobinIndex++;
+						return true;
+                	}
+
+					if(_.indexOf(['winner', 'loser'], placing.position_type) > -1) {
+						console.log('winner');
+						placingGroupCount += 1;
+						groupsForSelection[placingMatchIndex] = {'name': 'PM ' + (placingGroupCount), 'value': placingIndex};
+
+						if(placingMatchIndex === 0 && (placing.group === '' || typeof placing.group === 'undefined')) {
+							vm.templateFormDetail['stepthree'].placings[placingIndex].group = groupsForSelection[placingMatchIndex].value;
+						}
+						placingMatchIndex++;
+						return true;
+					}
+                });
+
+                return groupsForSelection;
+            },
+            getPositionsForSelection() {
+
+            }
         }
 	}
 </script>

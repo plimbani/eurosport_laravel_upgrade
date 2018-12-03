@@ -61,7 +61,7 @@
                                 type: "round_robin",
                                 no_of_teams: 2,
                                 teams_play_each_other: "once",
-                                teams: [{groups: [], position_type: 'placed', position: []}]
+                                teams: [{position_type: 'placed', group: '', position: ''}]
                             }],
                             start_round_group_count: 0,
                             start_placing_group_count: 0,
@@ -73,7 +73,7 @@
                         round_count: 1,
                     },
                     stepthree: {
-                        placings: [{groups: [], position_type: 'placed', position: []}],
+                        placings: [{position_type: 'placed', group: '', position: ''}]
                     },
                     stepfour: {}
                 }
