@@ -73,9 +73,11 @@
         methods: {
             addNewRound() {
                 this.templateFormDetail.steptwo.rounds.push({no_of_teams: "", groups: [], startRoundGroupCount: this.templateFormDetail.steptwo.round_group_count, startPlacingGroupCount: this.templateFormDetail.steptwo.placing_group_count});
+                this.updateRoundCount();
             },
             addNewDivisionRound(index) {
                 this.templateFormDetail.steptwo.divisions[index].rounds.push({no_of_teams: "", groups: [], startRoundGroupCount: this.templateFormDetail.steptwo.round_group_count, startPlacingGroupCount: this.templateFormDetail.steptwo.placing_group_count});
+                this.updateRoundCount();
             },
             removeGroup(groupIndex, roundIndex) {
                 this.templateFormDetail.steptwo.rounds[roundIndex].groups.splice(groupIndex, 1);
@@ -84,7 +86,7 @@
                 this.templateFormDetail.steptwo.divisions.splice(index, 1);
             },
             addNewDivision() {
-                this.templateFormDetail.steptwo.divisions.push({no_of_teams: "", teams: [], rounds: [], start_round_count: this.templateFormDetail.round_count});
+                this.templateFormDetail.steptwo.divisions.push({no_of_teams: "", teams: [], rounds: [], start_round_count: this.templateFormDetail.steptwo.round_count});
             },
             next() {
                 this.$emit('change-tab-index', 2, 3, 'steptwo', _.cloneDeep(this.templateFormDetail.steptwo));

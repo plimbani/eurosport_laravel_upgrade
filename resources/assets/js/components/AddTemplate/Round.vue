@@ -37,6 +37,17 @@
         },
         beforeCreate: function() {
         },
+        computed: {
+            getRoundName() {
+                let vm = this;
+
+                if(this.divisionIndex === -1) {
+                    return 'Round ' + (this.templateFormDetail.steptwo.start_round_count + this.index + 1);
+                }
+
+                return 'Round ' + (this.templateFormDetail.steptwo.divisions[this.divisionIndex].start_round_count + this.index + 1);
+            },
+        },
         methods: {
             addNewGroup(index) {
                 this.roundData.groups.push({type: "round_robin", no_of_teams: "2", teams_play_each_other: "once", teams: []});
@@ -45,6 +56,7 @@
             removeRound(index) {
                 this.templateFormDetail.steptwo.rounds.splice(index, 1);
                 this.$root.$emit('updateGroupCount');
+                this.$root.$emit('updateRoundCount');
             },
             removeGroup(groupIndex, roundIndex) {
                 this.roundData.groups.splice(groupIndex, 1);
@@ -72,27 +84,6 @@
                     return false;
                 }
                 this.last_selected_teams = this.roundData.no_of_teams;
-            },
-            getRoundName() {
-                let vm = this;
-
-                if(this.divisionIndex === -1) {
-                    let currentRoundCount =  this.templateFormDetail.steptwo.rounds.length;
-                    return 'Round ' + this.templateFormDetail.steptwo.start_round_count + currentRoundCount;
-                }
-
-                let currentRoundCount =  this.templateFormDetail.steptwo.rounds.length;
-                    return 'Round ' + this.templateFormDetail.steptwo.start_round_count + currentRoundCount;
-
-                if(this.groupData.type === 'round_robin') {
-                    let currentRoundGroupCount =  _.filter(this.roundData.groups, function(o, index) { return (o.type === 'round_robin' && index < vm.index); }).length;
-                    return 'Group ' + String.fromCharCode(65 + this.roundData.start_round_group_count + currentRoundGroupCount);
-                }
-
-                if(this.groupData.type === 'placing_match') {
-                    let currentPlacingGroupCount =  _.filter(this.roundData.groups, function(o, index) { return (o.type === 'placing_match' && index <= vm.index); }).length;
-                    return 'PM ' + (this.roundData.start_placing_group_count + currentPlacingGroupCount);
-                }
             },
         }
     }
