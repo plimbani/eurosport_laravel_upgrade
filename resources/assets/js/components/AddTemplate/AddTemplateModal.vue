@@ -63,12 +63,14 @@
                                 teams_play_each_other: "once",
                                 teams: [{groups: [], position_type: 'placed', position: []}]
                             }],
-                            startRoundGroupCount: 0,
-                            startPlacingGroupCount: 0,
+                            start_round_group_count: 0,
+                            start_placing_group_count: 0,
                         }],
                         divisions: [],
                         round_group_count: 1,
                         placing_group_count: 0,
+                        start_round_count: 0,
+                        round_count: 1,
                     },
                     stepthree: {
                         placings: [{groups: [], position_type: 'placed', position: []}],

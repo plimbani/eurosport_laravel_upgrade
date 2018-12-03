@@ -1,7 +1,7 @@
 <template>
     <div class="card mb-3">
         <div class="card-block">
-            <h6 class="font-weight-bold">Round {{ index + 1 }} <span :class="{'pull-right': true, 'is-disabled': (index === 0 && divisionIndex === -1)}"><a href="javascript:void(0)" @click="removeRound(index)"><i class="jv-icon jv-dustbin"></i></a></span></h6>
+            <h6 class="font-weight-bold">{{ getRoundName }} <span :class="{'pull-right': true, 'is-disabled': (index === 0 && divisionIndex === -1)}"><a href="javascript:void(0)" @click="removeRound(index)"><i class="jv-icon jv-dustbin"></i></a></span></h6>
             <div class="form-group">
                 <label>Number of teams in round</label>
                 <select class="form-control ls-select2" v-model="roundData.no_of_teams" :disabled="index === 0 && divisionIndex === -1" @change="onTeamChange()">
@@ -72,7 +72,28 @@
                     return false;
                 }
                 this.last_selected_teams = this.roundData.no_of_teams;
-            }
+            },
+            getRoundName() {
+                let vm = this;
+
+                if(this.divisionIndex === -1) {
+                    let currentRoundCount =  this.templateFormDetail.steptwo.rounds.length;
+                    return 'Round ' + this.templateFormDetail.steptwo.start_round_count + currentRoundCount;
+                }
+
+                let currentRoundCount =  this.templateFormDetail.steptwo.rounds.length;
+                    return 'Round ' + this.templateFormDetail.steptwo.start_round_count + currentRoundCount;
+
+                if(this.groupData.type === 'round_robin') {
+                    let currentRoundGroupCount =  _.filter(this.roundData.groups, function(o, index) { return (o.type === 'round_robin' && index < vm.index); }).length;
+                    return 'Group ' + String.fromCharCode(65 + this.roundData.start_round_group_count + currentRoundGroupCount);
+                }
+
+                if(this.groupData.type === 'placing_match') {
+                    let currentPlacingGroupCount =  _.filter(this.roundData.groups, function(o, index) { return (o.type === 'placing_match' && index <= vm.index); }).length;
+                    return 'PM ' + (this.roundData.start_placing_group_count + currentPlacingGroupCount);
+                }
+            },
         }
     }
 </script>

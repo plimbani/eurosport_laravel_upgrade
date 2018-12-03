@@ -110,12 +110,12 @@
 
 		    	if(this.groupData.type === 'round_robin') {
 		    		let currentRoundGroupCount =  _.filter(this.roundData.groups, function(o, index) { return (o.type === 'round_robin' && index < vm.index); }).length;
-		    		return 'Group ' + String.fromCharCode(65 + this.roundData.startRoundGroupCount + currentRoundGroupCount);
+		    		return 'Group ' + String.fromCharCode(65 + this.roundData.start_round_group_count + currentRoundGroupCount);
 		    	}
 
 		    	if(this.groupData.type === 'placing_match') {
 		    		let currentPlacingGroupCount =  _.filter(this.roundData.groups, function(o, index) { return (o.type === 'placing_match' && index <= vm.index); }).length;
-		    		return 'PM ' + (this.roundData.startPlacingGroupCount + currentPlacingGroupCount);
+		    		return 'PM ' + (this.roundData.start_placing_group_count + currentPlacingGroupCount);
 		    	}
 		    },
         },
@@ -224,6 +224,7 @@
 			    	// for placing
 					if(groupType === 'placing_match' && _.indexOf(['winner', 'loser'], team.position_type) > -1) {
 						let matches = numberOfTeams / 2;
+						this.groupData.teams[teamIndex].position = group + ',0';
 						for (var i = 1; i <= matches; i++) {
 							positionsForSelection.push({'name': 'Match' + i, 'value': group + ',' + (i - 1)});
 						}

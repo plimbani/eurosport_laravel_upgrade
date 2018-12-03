@@ -6,21 +6,23 @@
                     <h5>{{ $lang.add_template_modal_step2_header }}</h5>
                     <round v-for="(round, roundIndex) in templateFormDetail.steptwo.rounds" :index="roundIndex" :divisionIndex="-1" :roundData="round" :templateFormDetail="templateFormDetail" :startGroupCount="getPreviousRoundGroupCount(roundIndex-1)"></round>
 
-                    <div class="rounds bordered-box" v-for="(division, divisionIndex) in templateFormDetail.steptwo.divisions">
-                        <h6 class="font-weight-bold">Division {{ divisionIndex + 1 }} <span class="pull-right"><a href="javascript:void(0)" @click="removeDivision(divisionIndex)"><i class="jv-icon jv-dustbin"></i></a></span></h6>
-                        <div class="form-group">
-                            <label>Number of teams in division</label>
-                            <select class="form-control ls-select2" v-model="division.no_of_teams">
-                                <option value="">Number of teams</option>
-                                <option v-for="n in 28" v-if="n >=4" :value="n">{{ n }}</option>
-                            </select>
-                        </div>
-                        
-                        <!-- add new round component -->
-                        <round v-for="(round, roundIndex) in division.rounds" :index="roundIndex" :divisionIndex="divisionIndex" :roundData="round" :templateFormDetail="templateFormDetail"></round>
+                    <div class="card mb-3" v-for="(division, divisionIndex) in templateFormDetail.steptwo.divisions">
+                        <div class="card-block">
+                            <h6 class="font-weight-bold">Division {{ divisionIndex + 1 }} <span class="pull-right"><a href="javascript:void(0)" @click="removeDivision(divisionIndex)"><i class="jv-icon jv-dustbin"></i></a></span></h6>
+                            <div class="form-group">
+                                <label>Number of teams in division</label>
+                                <select class="form-control ls-select2" v-model="division.no_of_teams">
+                                    <option value="">Number of teams</option>
+                                    <option v-for="n in 28" v-if="n >= 4" :value="n">{{ n }}</option>
+                                </select>
+                            </div>
+                            
+                            <!-- add new round component -->
+                            <round v-for="(round, roundIndex) in division.rounds" :index="roundIndex" :divisionIndex="divisionIndex" :roundData="round" :templateFormDetail="templateFormDetail"></round>
 
-                        <div class="form-group mb-0">
-                            <button type="button" class="btn btn-success" @click="addNewDivisionRound(divisionIndex)"><small><i class="jv-icon jv-plus"></i></small> &nbsp;Add a round</button>
+                            <div class="form-group mb-0">
+                                <button type="button" class="btn btn-success" @click="addNewDivisionRound(divisionIndex)"><small><i class="jv-icon jv-plus"></i></small> &nbsp;Add a round</button>
+                            </div>
                         </div>
                     </div>
                     
@@ -58,20 +60,22 @@
         },
         created() {
             this.$root.$on('updateGroupCount', this.updateGroupCount);
+            this.$root.$on('updateRoundCount', this.updateRoundCount);
         },
         beforeCreate: function() {
             // Remove custom event listener 
             this.$root.$off('updateGroupCount');
+            this.$root.$off('updateRoundCount');
         },
         computed: {
 
         },
         methods: {
             addNewRound() {
-                this.templateFormDetail.steptwo.rounds.push({no_of_teams: "", groups: [], startRoundGroupCount: this.templateFormDetail.round_group_count, startPlacingGroupCount: this.templateFormDetail.placing_group_count});
+                this.templateFormDetail.steptwo.rounds.push({no_of_teams: "", groups: [], startRoundGroupCount: this.templateFormDetail.steptwo.round_group_count, startPlacingGroupCount: this.templateFormDetail.steptwo.placing_group_count});
             },
             addNewDivisionRound(index) {
-                this.templateFormDetail.steptwo.divisions[index].rounds.push({no_of_teams: "", groups: []});
+                this.templateFormDetail.steptwo.divisions[index].rounds.push({no_of_teams: "", groups: [], startRoundGroupCount: this.templateFormDetail.steptwo.round_group_count, startPlacingGroupCount: this.templateFormDetail.steptwo.placing_group_count});
             },
             removeGroup(groupIndex, roundIndex) {
                 this.templateFormDetail.steptwo.rounds[roundIndex].groups.splice(groupIndex, 1);
@@ -80,7 +84,7 @@
                 this.templateFormDetail.steptwo.divisions.splice(index, 1);
             },
             addNewDivision() {
-                this.templateFormDetail.steptwo.divisions.push({no_of_teams: "", teams: [], rounds: []});
+                this.templateFormDetail.steptwo.divisions.push({no_of_teams: "", teams: [], rounds: [], start_round_count: this.templateFormDetail.round_count});
             },
             next() {
                 this.$emit('change-tab-index', 2, 3, 'steptwo', _.cloneDeep(this.templateFormDetail.steptwo));
@@ -94,17 +98,36 @@
                 let startPlacingGroupCount = 0;
                 let vm = this;
                 _.forEach(vm.templateFormDetail.steptwo.rounds, function(round, index) {
-                    vm.templateFormDetail.steptwo.rounds[index].startRoundGroupCount =  startRoundGroupCount;
-                    vm.templateFormDetail.steptwo.rounds[index].startPlacingGroupCount =  startPlacingGroupCount;
+                    vm.templateFormDetail.steptwo.rounds[index].start_round_group_count =  startRoundGroupCount;
+                    vm.templateFormDetail.steptwo.rounds[index].start_placing_group_count =  startPlacingGroupCount;
                     startRoundGroupCount +=  _.filter(round.groups, function(o) { return o.type === 'round_robin'; }).length;
                     startPlacingGroupCount +=  _.filter(round.groups, function(o) { return o.type === 'placing_match'; }).length;
                 });
-                this.templateFormDetail.round_group_count = startRoundGroupCount;
-                this.templateFormDetail.placing_group_count = startPlacingGroupCount; 
+                _.forEach(vm.templateFormDetail.steptwo.divisions, function(division, divisionIndex) {
+                    _.forEach(division.rounds, function(round, index) {
+                        vm.templateFormDetail.steptwo.divisions[divisionIndex].rounds[index].start_round_group_count = startRoundGroupCount;
+                        vm.templateFormDetail.steptwo.divisions[divisionIndex].rounds[index].start_placing_group_count = startPlacingGroupCount;
+                        startRoundGroupCount +=  _.filter(round.groups, function(o) { return o.type === 'round_robin'; }).length;
+                        startPlacingGroupCount +=  _.filter(round.groups, function(o) { return o.type === 'placing_match'; }).length;
+                    });
+                });
+                this.templateFormDetail.steptwo.round_group_count = startRoundGroupCount;
+                this.templateFormDetail.steptwo.placing_group_count = startPlacingGroupCount;
             },
             back() {
                 this.$emit('change-tab-index', 2, 1, 'steptwo', _.cloneDeep(this.templateFormDetail.steptwo));
-            }
+            },
+            updateRoundCount() {
+                let vm = this;
+                let startRoundCount = 0;
+                this.templateFormDetail.steptwo.start_round_count = startRoundCount;
+                startRoundCount = this.templateFormDetail.steptwo.rounds.length;
+                _.forEach(vm.templateFormDetail.steptwo.divisions, function(division, divisionIndex) {
+                    vm.templateFormDetail.steptwo.divisions[divisionIndex].start_round_count = startRoundCount;
+                    startRoundCount +=  vm.templateFormDetail.steptwo.divisions[divisionIndex].rounds.length;
+                });
+                this.templateFormDetail.steptwo.round_count = startRoundCount;
+            },
         }
     }
 </script>
