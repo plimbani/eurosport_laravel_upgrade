@@ -80,14 +80,26 @@ class TemplateRepository
      */
     public function saveTemplateDetail($data)
     {
+        echo "<pre>";print_r($data);echo "</pre>";exit;
         $finalArray = [];
         $finalArray['total_matches'] = 9;
         $finalArray['tournament_id'] = 15;
         $finalArray['tournament_teams'] = $data['templateFormDetail']['stepone']['teams'];
+        $finalArray['remark'] = '';
+        $finalArray['template_font_color'] = '';
+        $finalArray['tournament_name'] = '';
+        $finalArray['competition_round'] = '';
+        $finalArray['competition_group_round'] = '';
+        $finalArray['competation_format'] = '';
+        $finalArray['tournament_min_match'] = '';
+        $finalArray['avg_game_team'] = '';
+        $finalArray['position_type'] = '';
+        $finalArray['tournament_competition_ranking']['format_name'] = [];
 
         $rounds = [];
         foreach ($data['templateFormDetail']['steptwo']['rounds'] as $key => $round) {
-            echo "<pre>";print_r($round);echo "</pre>";exit;
+            // echo "<pre>";print_r($round);echo "</pre>";exit;
+            $finalArray['tournament_competition_ranking']['format_name']['round'] = 'Round ' .$key;
         }
         echo "<pre>";print_r(json_encode($finalArray));echo "</pre>";exit;
     }
