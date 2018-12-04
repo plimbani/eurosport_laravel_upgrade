@@ -80,7 +80,6 @@ class TemplateRepository
      */
     public function saveTemplateDetail($data)
     {
-        echo "<pre>";print_r($data);echo "</pre>";exit;
         $finalArray = [];
         $finalArray['total_matches'] = 9;
         $finalArray['tournament_id'] = 15;
@@ -94,13 +93,30 @@ class TemplateRepository
         $finalArray['tournament_min_match'] = '';
         $finalArray['avg_game_team'] = '';
         $finalArray['position_type'] = '';
-        $finalArray['tournament_competition_ranking']['format_name'] = [];
+        $finalArray['tournament_competation_format'] = [];
+        $finalArray['tournament_competation_format']['format_name'] = [];
 
         $rounds = [];
-        foreach ($data['templateFormDetail']['steptwo']['rounds'] as $key => $round) {
-            // echo "<pre>";print_r($round);echo "</pre>";exit;
-            $finalArray['tournament_competition_ranking']['format_name']['round'] = 'Round ' .$key;
+        foreach ($data['templateFormDetail']['steptwo']['rounds'] as $roundIndex => $round) {
+            $finalArray['tournament_competation_format']['format_name']['match_type'] = [];
+            
+            foreach ($round['groups'] as $groupIndex => $group) {
+                $finalArray['tournament_competation_format']['format_name'][$roundIndex] = [
+                    'name' => 'Round ' .($roundIndex + 1),
+                    'match_type' => [
+                        [
+                            'name' => '',
+                            'total_match' => $group['no_of_teams'],
+                            'group_count' => count($round['groups']),
+                            'groups' => ['group_name' => 'Group-' .($groupIndex + 1)]
+                        ]
+                    ]
+                ];
+            }
+
+
         }
+
         echo "<pre>";print_r(json_encode($finalArray));echo "</pre>";exit;
     }
 
