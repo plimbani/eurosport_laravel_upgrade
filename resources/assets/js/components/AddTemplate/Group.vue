@@ -31,7 +31,7 @@
 		                </div>
 		            </div>
 		        </div>
-		        <div class="row align-items-center mt-3" v-if="roundIndex > 0" v-for="(team, teamIndex) in groupData.teams">
+		        <div class="row align-items-center mt-3" v-if="!(roundIndex === 0 && groupData.type === 'round_robin')" v-for="(team, teamIndex) in groupData.teams">
 		        	<div class="col-md-12 mb-3" v-if="teamIndex % 2 === 0 && groupData.type === 'placing_match'">
 		        		<div class="row">
 		        			<div class="col-md-3">
@@ -54,16 +54,13 @@
 				        			<div class="col-md-4">
 				        				<div class="form-group mb-0">
 					        				<select class="form-control ls-select2" v-model="team.position_type" @change="onPositionTypeChange(teamIndex)">
-						                    	<option value="placed">Placed</option>
-						                    	<option value="winner">Winner</option>
-						                    	<option value="loser">Loser</option>
-						                    	<option value="team">Team</option>
+					        					<option :value="position.key" v-for="position in getPositionTypes()">{{ position.value }}</option>
 						                    </select>
 						                </div>
 				        			</div>
 				        			<div class="col-md-4">
 				        				<div class="form-group mb-0">
-					        				<select class="form-control ls-select2" v-model="team.group" @change="onGroupChange(teamIndex)">
+					        				<select :disabled="(roundIndex === 0 && groupData.type === 'placing_match' && index === getFirstPlacingMatch())" class="form-control ls-select2" v-model="team.group" @change="onGroupChange(teamIndex)">
 					                    		<option v-for="group in getGroupsForSelection(teamIndex)" :value="group.value">{{ group.name }}</option>
 					                    	</select>
 					                    </div>
@@ -133,6 +130,7 @@
                 }
                 this.last_selected_teams = this.groupData.no_of_teams;
                 this.displayTeams();
+                this.updateTeamPositions();
         	},
         	displayTeams() {
         		var i;
@@ -141,6 +139,10 @@
 				for (i = 0; i < this.groupData.no_of_teams; i++) {
 					if(_.has(oldGroupTeamData, i)) {
 						this.groupData.teams.push({position_type: oldGroupTeamData[i].position_type, group: oldGroupTeamData[i].group, position: oldGroupTeamData[i].position});
+						continue;
+					}
+					if(this.roundIndex === 0 && this.groupData.type === 'placing_match' && this.index === this.getFirstPlacingMatch()) {
+						this.groupData.teams.push({position_type: 'team', group: '', position: i});
 						continue;
 					}
 				    this.groupData.teams.push({position_type: 'placed', group: '', position: ''});
@@ -159,6 +161,7 @@
 		    },
 		    onChangeGroupType() {
 		    	this.$root.$emit('updateGroupCount');
+		    	this.updateTeamPositions();
 		    },
 		    getGroupsForSelection(teamIndex) {
 		    	let team = this.groupData.teams[teamIndex];
@@ -204,6 +207,14 @@
 		    getPositionsForSelection(teamIndex, group) {
 		    	let vm = this;
 			    var positionsForSelection = [];
+
+			    if(this.roundIndex === 0 && this.groupData.type === 'placing_match' && this.index === this.getFirstPlacingMatch()) {
+			    	_.forEach(this.groupData.teams, function(team, teamIndex) {
+		    			positionsForSelection.push({'name': vm.getSuffixForPosition(teamIndex + 1), 'value': teamIndex});
+		    		});
+		    		return positionsForSelection;
+			    }
+
 		    	let team = this.groupData.teams[teamIndex];
 		    	if(group) {
 			    	var currentRoundGroup = group.split(',');
@@ -240,6 +251,36 @@
 		    onGroupChange(teamIndex) {
 		    	this.groupData.teams[teamIndex].position = '';
 		    },
+		    getPositionTypes() {
+				let positionTypes = [];
+
+				if(!(this.roundIndex === 0 && this.groupData.type === 'placing_match')) {
+					positionTypes.push({'key': 'placed', 'value': 'Placed'});
+				}
+
+				if(!(this.roundIndex === 0 && this.groupData.type === 'placing_match' && this.index === this.getFirstPlacingMatch())) {
+					positionTypes.push({'key': 'winner', 'value': 'Winner'});
+					positionTypes.push({'key': 'loser', 'value': 'Loser'});
+				}
+
+				if(this.roundIndex === 0 && this.groupData.type === 'placing_match' && this.index === this.getFirstPlacingMatch()) {
+					positionTypes.push({'key': 'team', 'value': 'Team'});
+				}
+				return positionTypes;
+		    },
+		    updateTeamPositions() {
+		    	let vm = this;
+		    	if(this.roundIndex === 0 && this.groupData.type === 'placing_match' && this.index === this.getFirstPlacingMatch()) {
+		    		_.forEach(this.groupData.teams, function(team, teamIndex) {
+		    			vm.groupData.teams[teamIndex].position = teamIndex;
+		    			vm.groupData.teams[teamIndex].position_type = 'team';
+		    		});
+		    	}
+		    },
+		    getFirstPlacingMatch() {
+		    	let index = _.findIndex(this.roundData.groups, {'type': 'placing_match'});
+		    	return index;
+		    }
         }
     }
 </script>
