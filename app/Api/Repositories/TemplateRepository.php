@@ -3,6 +3,7 @@
 namespace Laraspace\Api\Repositories;
 
 use DB;
+use Auth;
 use Laraspace\Models\User;
 use Laraspace\Models\TournamentTemplates;
 use Laraspace\Models\TournamentCompetationTemplates;
@@ -84,8 +85,8 @@ class TemplateRepository
         $finalArray['total_matches'] = 9;
         $finalArray['tournament_id'] = 15;
         $finalArray['tournament_teams'] = $data['templateFormDetail']['stepone']['teams'];
-        $finalArray['remark'] = '';
-        $finalArray['template_font_color'] = '';
+        $finalArray['remark'] = $data['templateFormDetail']['stepfour']['remarks'];
+        $finalArray['template_font_color'] = $data['templateFormDetail']['stepfour']['template_font_color'];
         $finalArray['tournament_name'] = '';
         $finalArray['competition_round'] = '';
         $finalArray['competition_group_round'] = '';
@@ -97,26 +98,34 @@ class TemplateRepository
         $finalArray['tournament_competation_format']['format_name'] = [];
 
         $rounds = [];
+        $groupCount = 0;
         foreach ($data['templateFormDetail']['steptwo']['rounds'] as $roundIndex => $round) {
-            $finalArray['tournament_competation_format']['format_name']['match_type'] = [];
-            
+            $finalArray['tournament_competation_format']['format_name'][$roundIndex]['name'] = 'Round '.($roundIndex+1);
             foreach ($round['groups'] as $groupIndex => $group) {
-                $finalArray['tournament_competation_format']['format_name'][$roundIndex] = [
-                    'name' => 'Round ' .($roundIndex + 1),
-                    'match_type' => [
-                        [
-                            'name' => '',
-                            'total_match' => $group['no_of_teams'],
-                            'group_count' => count($round['groups']),
-                            'groups' => ['group_name' => 'Group-' .($groupIndex + 1)]
-                        ]
-                    ]
+                $finalGroupCount = 65 + $groupCount + $groupIndex;
+                $grouplist = [
+                    'name' => '',
+                    'total_match' => $group['no_of_teams'],
+                    'group_count' => count($round['groups']),
+                    'groups' => ['group_name' => 'Group-' .chr($finalGroupCount)]
                 ];
+
+                $finalArray['tournament_competation_format']['format_name'][$roundIndex]['match_type'][] = $grouplist;
             }
-
-
+            $groupCount += count($round['groups']);
         }
 
+        file_put_contents(resource_path('templates') . '/' . 'template555.json', json_encode($finalArray));
+
+        // storing template data
+        $tournamentTemplate = new TournamentTemplates();
+        $tournamentTemplate->json_data = json_encode($finalArray);
+        $tournamentTemplate->name = $data['templateFormDetail']['stepone']['templateName'];
+        $tournamentTemplate->total_teams = $data['templateFormDetail']['stepone']['teams'];
+        $tournamentTemplate->editor_type = $data['templateFormDetail']['stepone']['editor'];
+        $tournamentTemplate->competition_type = $data['templateFormDetail']['stepone']['competition_type'] ? $data['templateFormDetail']['stepone']['competition_type'] : null;
+        $tournamentTemplate->created_by = Auth::user()->id;
+        $tournamentTemplate->save();
         echo "<pre>";print_r(json_encode($finalArray));echo "</pre>";exit;
     }
 

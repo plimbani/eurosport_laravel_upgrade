@@ -69,7 +69,7 @@
 								</div>
 							</div>
 						</div>
-					</div>
+					</div>					
 					<div class="card mb-3">
 						<div class="card-block">
 							<div class="row align-items-center">
@@ -84,12 +84,24 @@
 							</div>
 						</div>
 					</div>
-					<div class="row align-items-center mb-3">
-						<div class="col-12">
-							<button type="button" class="btn btn-primary" @click="back()">{{ $lang.add_template_modal_back_button }}</button>
-							<button type="button" class="btn btn-primary" @click="saveTemplateDetail">{{ $lang.add_template_modal_save_button }}</button>
+					<form>
+						<div class="form-group">
+							<label for="remarks">Remarks</label>
+							<input name="remarks" type="text" class="form-control" v-model="templateFormDetail.stepfour.remarks" placeholder="Remarks">
 						</div>
-			    	</div>
+						<div class="form-group row">
+							<label class="col-12 form-control-label">Template font color</label>
+							<div class="col-12">
+								<div class="template-font-color-box pull-left mr-2" @click="setTemplateFontColor(color)" v-for="color in templateFontColors" :style="{'background-color': color}" :class="{ 'template-font-color-active' : templateFormDetail.stepfour.template_font_color == color }" ></div>
+							</div>
+						</div>					
+						<div class="form-group row align-items-center mb-3">
+							<div class="col-12">
+								<button type="button" class="btn btn-primary" @click="back()">{{ $lang.add_template_modal_back_button }}</button>
+								<button type="button" class="btn btn-primary" @click="saveTemplateDetail">{{ $lang.add_template_modal_save_button }}</button>
+							</div>
+				    	</div>
+				    </form>
 				</div>
 			</div>
 		</div>
@@ -101,6 +113,9 @@
 		props: ['templateFormDetail'],
         data() {
             return {
+            	templateFontColors: [
+            		'rgb(148,208,80)', 'rgb(146,208,80)', 'rgb(255,192,0)', 'rgb(217,149,148)'
+            	],
             }
         },
         created() {
@@ -123,6 +138,9 @@
         	},
         	back() {
         		this.$emit('change-tab-index', 4, 3, 'stepfour', _.cloneDeep(this.templateFormDetail.stepfour));
+        	},
+        	setTemplateFontColor(color) {
+        		this.templateFormDetail.stepfour.template_font_color = color;
         	}
         }
     }

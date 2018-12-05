@@ -53,6 +53,7 @@
                         templateName: '',
                         teams: '',
                         editor: 'advance_editor',
+                        competition_type: '',
                     },
                     steptwo: {
                         rounds: [{
@@ -75,7 +76,10 @@
                     stepthree: {
                         placings: [{position_type: 'placed', group: '', position: ''}]
                     },
-                    stepfour: {}
+                    stepfour: {
+                        remarks: '',
+                        template_font_color: ''
+                    }
                 }
 		    }
 		},
