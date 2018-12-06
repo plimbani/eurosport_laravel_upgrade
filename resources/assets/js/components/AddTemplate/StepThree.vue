@@ -121,7 +121,6 @@
 
                 _.forEach(this.templateFormDetail['stepthree'].placings, function(placing, placingIndex) {
                 	if(placing.position_type === 'placed') {
-                		console.log('placed');
                 		groupsForSelection[roundRobinIndex] = {'name': 'Group ' + String.fromCharCode(65 +roundGroupCount), 'value': placingIndex};
 						roundGroupCount += 1;
 
@@ -132,7 +131,6 @@
                 	}
 
 					if(_.indexOf(['winner', 'loser'], placing.position_type) > -1) {
-						console.log('winner');
 						placingGroupCount += 1;
 						groupsForSelection[placingMatchIndex] = {'name': 'PM ' + (placingGroupCount), 'value': placingIndex};
 
