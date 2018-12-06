@@ -88,6 +88,12 @@
         data() {
             return {
             	last_selected_teams: this.groupData.no_of_teams,
+            	teamsPlayedEachOther: {
+        			'once': '1',
+        			'twice': '2',
+        			'three_times': '3',
+        			'four_times': '4'
+        		}
             }
         },
         components: {
@@ -128,8 +134,14 @@
                     this.groupData.no_of_teams = this.last_selected_teams;
                     return false;
                 }
+                if(this.groupData.type == 'placing_match' && this.groupData.no_of_teams % 2 != 0) {
+                	toastr['error']('Group teams should be in even numbers.', 'Error');
+                	this.groupData.no_of_teams = this.last_selected_teams;
+                	return false;
+                }
                 this.last_selected_teams = this.groupData.no_of_teams;
                 this.displayTeams();
+                this.setMatches();
         	},
         	displayTeams() {
         		var i;
@@ -289,6 +301,21 @@
 		    getFirstPlacingMatch() {
 		    	let index = _.findIndex(this.roundData.groups, {'type': 'placing_match'});
 		    	return index;
+		    },
+		    setMatches() {
+		    	this.groupData.matches = [];
+        		if(this.roundIndex == 0 && this.groupData.type == "round_robin") {
+        			var times = this.groupData.teams_play_each_other;
+        			var noOfTeams = this.groupData.no_of_teams;
+
+        			for(this.teamsPlayedEachOther[times]=0; this.teamsPlayedEachOther[times]<1; this.teamsPlayedEachOther[times]++){
+        				for(var i=1; i<=noOfTeams; i++) {        					
+        					for(var j=(i+1); j<=noOfTeams; j++) {
+        						this.groupData.matches.push({position_type: 'winner', group: '', position: '', teams: i + '-' + j});
+        					}
+        				}
+        			}
+        		}
 		    }
         }
     }

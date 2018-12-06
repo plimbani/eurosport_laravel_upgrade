@@ -81,7 +81,13 @@ class TemplateRepository
      */
     public function saveTemplateDetail($data)
     {
-        echo "<pre>";print_r($data);echo "</pre>";exit;
+        $competitionType = '';
+        if($data['templateFormDetail']['stepone']['editor'] == 'simple_editor' && $data['templateFormDetail']['stepone']['competition_type']) {
+            $competitionType = $data['templateFormDetail']['stepone']['competition_type']; 
+        } else {
+            $competitionType = null;
+        }
+
         $finalArray = [];
         $finalArray['total_matches'] = 9;
         $finalArray['tournament_id'] = 15;
@@ -116,17 +122,19 @@ class TemplateRepository
             $groupCount += count($round['groups']);
         }
 
-        file_put_contents(resource_path('templates') . '/' . 'template555.json', json_encode($finalArray));
-
         // storing template data
         $tournamentTemplate = new TournamentTemplates();
         $tournamentTemplate->json_data = json_encode($finalArray);
         $tournamentTemplate->name = $data['templateFormDetail']['stepone']['templateName'];
         $tournamentTemplate->total_teams = $data['templateFormDetail']['stepone']['no_of_teams'];
         $tournamentTemplate->editor_type = $data['templateFormDetail']['stepone']['editor'];
-        $tournamentTemplate->competition_type = $data['templateFormDetail']['stepone']['competition_type'] ? $data['templateFormDetail']['stepone']['competition_type'] : null;
+        $tournamentTemplate->competition_type = $competitionType;
         $tournamentTemplate->created_by = Auth::user()->id;
         $tournamentTemplate->save();
+
+        // saving json file
+        file_put_contents(resource_path('templates') . '/' . 'template555.json', json_encode($finalArray));
+
         echo "<pre>";print_r(json_encode($finalArray));echo "</pre>";exit;
     }
 
