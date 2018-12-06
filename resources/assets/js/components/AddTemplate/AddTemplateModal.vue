@@ -92,7 +92,7 @@
             changeTabIndex(from, to, key, data) {
                 this.templateFormDetail[key] = _.cloneDeep(data);
                 this.currentStep = to;
-                this.templateFormDetail.steptwo.rounds[0].no_of_teams = this.templateFormDetail.stepone.teams;
+                this.templateFormDetail.steptwo.rounds[0].no_of_teams = this.templateFormDetail.stepone.no_of_teams;
             },
             closeModal() {
                 $('#add_new_template_modal').modal('hide');
