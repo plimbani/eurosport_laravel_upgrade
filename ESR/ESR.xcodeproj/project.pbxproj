@@ -80,6 +80,7 @@
 		307542B62174BCED003715C7 /* FinalPlacingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307542B52174BCED003715C7 /* FinalPlacingsVC.swift */; };
 		307542B92174C9DD003715C7 /* FinalPlacingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307542B72174C9DD003715C7 /* FinalPlacingsCell.swift */; };
 		307542BA2174C9DD003715C7 /* FinalPlacingsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 307542B82174C9DD003715C7 /* FinalPlacingsCell.xib */; };
+		307542BE2178A157003715C7 /* TeamListingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307542BD2178A157003715C7 /* TeamListingVC.swift */; };
 		307949DF2137F78100DE23A3 /* TeamFixture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307949DE2137F78100DE23A3 /* TeamFixture.swift */; };
 		307949E621394C6800DE23A3 /* GroupDetailsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307949E521394C6800DE23A3 /* GroupDetailsVC.swift */; };
 		307949ED21395AB200DE23A3 /* GroupDetailsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307949EB21395AB200DE23A3 /* GroupDetailsCell.swift */; };
@@ -191,6 +192,7 @@
 		307542B52174BCED003715C7 /* FinalPlacingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinalPlacingsVC.swift; sourceTree = "<group>"; };
 		307542B72174C9DD003715C7 /* FinalPlacingsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinalPlacingsCell.swift; sourceTree = "<group>"; };
 		307542B82174C9DD003715C7 /* FinalPlacingsCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FinalPlacingsCell.xib; sourceTree = "<group>"; };
+		307542BD2178A157003715C7 /* TeamListingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamListingVC.swift; sourceTree = "<group>"; };
 		307949DE2137F78100DE23A3 /* TeamFixture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamFixture.swift; sourceTree = "<group>"; };
 		307949E521394C6800DE23A3 /* GroupDetailsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupDetailsVC.swift; sourceTree = "<group>"; };
 		307949EB21395AB200DE23A3 /* GroupDetailsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupDetailsCell.swift; sourceTree = "<group>"; };
@@ -487,6 +489,7 @@
 				3083AEA721466C5C00F9B4B2 /* ClubCategoryVC.swift */,
 				3083AEA921466C7400F9B4B2 /* ClubGroupVC.swift */,
 				3083AEAB21466C8500F9B4B2 /* ClubClubsVC.swift */,
+				307542BD2178A157003715C7 /* TeamListingVC.swift */,
 			);
 			path = Teams;
 			sourceTree = "<group>";
@@ -766,6 +769,7 @@
 				30181D3F212312EC0067D65F /* ButtonCell.swift in Sources */,
 				30181D2A2122B0CB0067D65F /* TabTournamentVC.swift in Sources */,
 				30181D682126EB830067D65F /* UIViewExtentions.swift in Sources */,
+				307542BE2178A157003715C7 /* TeamListingVC.swift in Sources */,
 				3086BC90213E94B600810CC8 /* UIImageViewExtensions.swift in Sources */,
 				30181D77212AB9CE0067D65F /* UserData.swift in Sources */,
 				30181D332122C0370067D65F /* LabelSelectionCell.swift in Sources */,
@@ -949,8 +953,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.aecordigital.eurosporting;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "8719cb16-b9f3-429a-955b-82a6a72ef75c";
-				PROVISIONING_PROFILE_SPECIFIER = DEV_ESR_27_sept_2018;
+				PROVISIONING_PROFILE = "5c907909-6093-43ce-a9f6-c6e5e281745b";
+				PROVISIONING_PROFILE_SPECIFIER = DEV_ESR_18_oct_2018;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -1143,8 +1147,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.aecordigital.eurosporting;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "8719cb16-b9f3-429a-955b-82a6a72ef75c";
-				PROVISIONING_PROFILE_SPECIFIER = DEV_ESR_27_sept_2018;
+				PROVISIONING_PROFILE = "5c907909-6093-43ce-a9f6-c6e5e281745b";
+				PROVISIONING_PROFILE_SPECIFIER = DEV_ESR_18_oct_2018;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};

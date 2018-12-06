@@ -160,11 +160,10 @@ class AgeCategoriesGroupsSummaryVC: SuperViewController {
         
         var parameters: [String: Any] = [:]
         
-//        if let userData = ApplicationData.sharedInstance().getUserData() {
-//            parameters["tournamentId"] = userData.tournamentId
-//        }
+        if let selectedTournament = ApplicationData.sharedInstance().getSelectedTournament() {
+            parameters["tournamentId"] = selectedTournament.id
+        }
 
-        parameters["tournamentId"] = ApplicationData.selectedTournament!.id
         parameters["competitionId"] = groupId
         
         var serverTournamentData: [String: Any] = [:]
@@ -219,11 +218,10 @@ class AgeCategoriesGroupsSummaryVC: SuperViewController {
         
         var parameters: [String: Any] = [:]
         
-//        if let userData = ApplicationData.sharedInstance().getUserData() {
-//            parameters["tournamentId"] = userData.tournamentId
-//        }
+        if let selectedTournament = ApplicationData.sharedInstance().getSelectedTournament() {
+            parameters["tournamentId"] = selectedTournament.id
+        }
         
-        parameters["tournamentId"] = ApplicationData.selectedTournament!.id
         parameters["competitionId"] = groupId
         
         var serverTournamentData: [String: Any] = [:]

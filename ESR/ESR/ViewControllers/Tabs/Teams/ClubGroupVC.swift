@@ -45,11 +45,10 @@ class ClubGroupVC: SuperViewController {
         
         self.view.showProgressHUD()
         var parameters: [String: Any] = [:]
-//        if let userData = ApplicationData.sharedInstance().getUserData() {
-//            parameters["tournamentId"] = userData.tournamentId
-//        }
 
-        parameters["tournamentId"] = ApplicationData.selectedTournament!.id
+        if let selectedTournament = ApplicationData.sharedInstance().getSelectedTournament() {
+            parameters["tournamentId"] = selectedTournament.id
+        }
         
         ApiManager().getAgeCategoriesGroups(parameters, success: { (result) in
             DispatchQueue.main.async {

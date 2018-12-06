@@ -13,7 +13,10 @@ class ClubClubsVC: SuperViewController {
     @IBOutlet var table: UITableView!
     
     var tournamentClubList = NSArray()
+    var tournamentClubFilterList = NSArray()
     var heightTournamentClubCell: CGFloat = 0
+    
+    var isSearch = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,11 +34,31 @@ class ClubClubsVC: SuperViewController {
         txtSearch.returnKeyType = .done
         txtSearch.layer.cornerRadius = (txtSearch.frame.size.height / 2)
         txtSearch.clipsToBounds = true
+        txtSearch.clearButtonMode = .whileEditing
         txtSearch.font = UIFont(name: Font.HELVETICA_REGULAR, size: Font.Size.commonTextFieldTxt)
+        txtSearch.addTarget(self, action: #selector(textFieldDidChange(textField:)), for: .editingChanged)
         
         // Height for cell
         _ = cellOwner.loadMyNibFile(nibName: kNiB.Cell.TournamentClubCell)
         heightTournamentClubCell = (cellOwner.cell as! TournamentClubCell).getCellHeight()
+    }
+    
+    @objc func textFieldDidChange(textField: UITextField) {
+        if let text = txtSearch.text {
+            if text.isEmpty {
+                isSearch = false
+                table.reloadData()
+                return
+            }
+            
+            isSearch = true
+            
+            tournamentClubFilterList = tournamentClubList.filter({
+                (($0 as! NSDictionary).value(forKey: "clubName") as! String).contains(text)
+            }) as NSArray
+            
+            table.reloadData()
+        }
     }
     
     func sendGetTournamentClubsRequest() {
@@ -45,11 +68,10 @@ class ClubClubsVC: SuperViewController {
         
         self.view.showProgressHUD()
         var parameters: [String: Any] = [:]
-//        if let userData = ApplicationData.sharedInstance().getUserData() {
-//            parameters["tournament_id"] = userData.tournamentId
-//        }
-        
-        parameters["tournament_id"] = ApplicationData.selectedTournament!.id
+
+        if let selectedTournament = ApplicationData.sharedInstance().getSelectedTournament() {
+            parameters["tournament_id"] = selectedTournament.id
+        }
         
         ApiManager().getTournamentClub(parameters, success: { (result) in
             DispatchQueue.main.async {
@@ -58,6 +80,9 @@ class ClubClubsVC: SuperViewController {
                 if let data = result.value(forKey: "data") as? NSArray {
                     self.tournamentClubList = data
                 }
+                
+                let descriptor: NSSortDescriptor = NSSortDescriptor(key: "clubName", ascending: true)
+                self.tournamentClubList = self.tournamentClubList.sortedArray(using: [descriptor]) as NSArray
                 
                 self.table.reloadData()
             }
@@ -78,6 +103,10 @@ extension ClubClubsVC: UITextFieldDelegate {
 extension ClubClubsVC: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if isSearch {
+            return tournamentClubFilterList.count
+        }
+        
         return tournamentClubList.count
     }
     
@@ -91,14 +120,28 @@ extension ClubClubsVC: UITableViewDataSource, UITableViewDelegate {
             _ = cellOwner.loadMyNibFile(nibName: "TournamentClubCell")
             cell = cellOwner.cell as? TournamentClubCell
         }
-        cell?.record = tournamentClubList[indexPath.row] as! NSDictionary
+        
+        if isSearch {
+            cell?.record = tournamentClubFilterList[indexPath.row] as! NSDictionary
+        } else {
+            cell?.record = tournamentClubList[indexPath.row] as! NSDictionary
+        }
+        
         cell?.reloadCell()
         return cell!
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let viewController = Storyboards.AgeCategories.instantiateAgeCategoriesGroupsSummaryVC()
-        viewController.dicGroup = (tournamentClubList[indexPath.row] as! NSDictionary)
+        let viewController = Storyboards.Teams.instantiateTeamListingVC()
+        
+        if isSearch {
+            viewController.clubId = (tournamentClubFilterList[indexPath.row] as! NSDictionary).value(forKey: "ClubId") as! Int
+        } else {
+            viewController.clubId = (tournamentClubList[indexPath.row] as! NSDictionary).value(forKey: "ClubId") as! Int
+        }
+        
         self.navigationController?.pushViewController(viewController, animated: true)
+        
+        txtSearch.text = NULL_STRING
     }
 }

@@ -21,7 +21,7 @@ class ApplicationData: NSObject {
     
     static var isAppUpdateDispalyed = false
     
-    static var selectedTournament: Tournament?
+    // static var selectedTournament: Tournament?
     
     static func sharedInstance() -> ApplicationData {
         if (applicationData == nil) {
@@ -108,6 +108,19 @@ class ApplicationData: NSObject {
         if let data = USERDEFAULTS.data(forKey: kUserDefaults.userData) {
             if let user = NSKeyedUnarchiver.unarchiveObject(with: data) {
                 return user as? UserData
+            }
+        }
+        return nil
+    }
+    
+    func saveSelectedTournament(_ tournament: Tournament?) {
+        USERDEFAULTS.set(NSKeyedArchiver.archivedData(withRootObject: tournament), forKey: kUserDefaults.selectedTournament)
+    }
+    
+    func getSelectedTournament() -> Tournament? {
+        if let data = USERDEFAULTS.data(forKey: kUserDefaults.selectedTournament) {
+            if let tournament = NSKeyedUnarchiver.unarchiveObject(with: data) {
+                return tournament as? Tournament
             }
         }
         return nil

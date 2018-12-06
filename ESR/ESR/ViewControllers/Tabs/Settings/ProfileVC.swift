@@ -32,7 +32,7 @@ class ProfileVC: SuperViewController {
     var selectedTournamentId = NULL_ID
     var selectedLocale = NULL_STRING
     
-    var isTournament = false
+    // var isTournament = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -204,12 +204,12 @@ extension ProfileVC: PickerHandlerViewDelegate {
     func pickerCancelBtnPressed() {}
     
     func pickerDoneBtnPressed(_ title: String) {
-        if isTournament {
-            lblTournament.text = title
-            lblTournament.textColor = .black
-            
-            selectedTournamentId = tournamentList[pickerHandlerView.selectedPickerPosition].value(forKey: "id") as! Int
-        } else {
+//        if isTournament {
+//            lblTournament.text = title
+//            lblTournament.textColor = .black
+//
+//            selectedTournamentId = tournamentList[pickerHandlerView.selectedPickerPosition].value(forKey: "id") as! Int
+//        } else {
             lblLanguage.text = title
             lblLanguage.textColor = .black
             
@@ -219,7 +219,7 @@ extension ProfileVC: PickerHandlerViewDelegate {
                     break
                 }
             }
-        }
+       // }
     }
 }
 
@@ -310,10 +310,10 @@ extension ProfileVC : UITableViewDataSource, UITableViewDelegate {
                             cell = labelSelectionCell
                             cellList.add(cell)
                         
-                            if indexPath.row == 3 {
+                            /*if indexPath.row == 3 {
                                 lblTournament = labelSelectionCell.lblTitle
                                 lblTournament.textColor = .black
-                            } else if indexPath.row == 4 {
+                            } else if indexPath.row == 4 {*/
                                 lblLanguage = labelSelectionCell.lblTitle
                                 lblLanguage.textColor = .black
                                 
@@ -326,7 +326,7 @@ extension ProfileVC : UITableViewDataSource, UITableViewDelegate {
                                     lblLanguage.text = ApplicationData.languageList[0]
                                     selectedLocale = ApplicationData.localeKeyList[0]
                                 }
-                            }
+                           // }
                         default:
                             print("default")
                     }
@@ -345,13 +345,13 @@ extension ProfileVC : UITableViewDataSource, UITableViewDelegate {
                 if cellType == .LabelSelectionCell {
                     self.view.endEditing(true)
                     
-                    if indexPath.row == 3 {
-                        pickerHandlerView.titleList = tournamentTitleList
-                        isTournament = true
-                    } else {
+//                    if indexPath.row == 3 {
+//                        pickerHandlerView.titleList = tournamentTitleList
+//                        isTournament = true
+//                    } else {
                         pickerHandlerView.titleList = ApplicationData.languageList
-                        isTournament = false
-                    }
+                        // isTournament = false
+                    //}
                     
                     pickerHandlerView.reloadPickerView()
                     pickerHandlerView.show()

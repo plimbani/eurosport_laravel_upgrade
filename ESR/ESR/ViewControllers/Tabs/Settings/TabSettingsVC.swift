@@ -39,6 +39,8 @@ extension TabSettingsVC: CustomAlertViewTwoButtonDelegate {
     func customAlertViewTwoButtonYesBtnPressed(requestCode: Int) {
         if requestCode == AlertRequestCode.logOut.rawValue {
             USERDEFAULTS.set(nil, forKey: kUserDefaults.token)
+            USERDEFAULTS.set(nil, forKey: kUserDefaults.selectedTournament)
+            USERDEFAULTS.set(nil, forKey: kUserDefaults.userData)
             UIApplication.shared.keyWindow?.rootViewController = UINavigationController(rootViewController: Storyboards.Main.instantiateLandingVC())
         }
     }

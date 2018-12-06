@@ -57,11 +57,9 @@ class TabAgeCategoriesVC: SuperViewController {
         
         self.view.showProgressHUD()
         var parameters: [String: Any] = [:]
-//        if let userData = ApplicationData.sharedInstance().getUserData() {
-//            parameters["tournament_id"] = userData.tournamentId
-//        }
-        
-        parameters["tournament_id"] = ApplicationData.selectedTournament!.id
+        if let selectedTournament = ApplicationData.sharedInstance().getSelectedTournament() {
+            parameters["tournament_id"] = selectedTournament.id
+        }
         
         ApiManager().getAgeCategories(parameters, success: { (result) in
             DispatchQueue.main.async {

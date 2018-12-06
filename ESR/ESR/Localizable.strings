@@ -21,6 +21,7 @@
 "title_venue_map"                           = "VENUE MAP";
 "title_teams"                               = "TEAMS";
 "title_final_placing"                       = "FINAL PLACINGS";
+"title_team"                                = "TEAM";
 
 //Alert titles
 "alert_title_error"                     =   "Error";

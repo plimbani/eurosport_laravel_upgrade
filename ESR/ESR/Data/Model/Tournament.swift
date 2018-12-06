@@ -8,34 +8,83 @@
 import Foundation
 
 
-class Tournament {
+class Tournament: NSObject, NSCoding {
     
     var id: Int = NULL_ID
     var name: String = NULL_STRING
+    var logo: String = NULL_STRING
+    var startDate: String = NULL_STRING
+    var endDate: String = NULL_STRING
+    var telephone: String = NULL_STRING
+    var tournamentStartTime: String = NULL_STRING
+    var firstName: String = NULL_STRING
+    var lastName: String = NULL_STRING
+    var competitionType: String = NULL_STRING
+    var startDateObj = Date()
+    var endDateObj = Date()
+    var isFavourite: Bool = false
+    var isDefault: Int = 0 // 0 - no, 1 -  yes
+    
     var slug: String = NULL_STRING
     var maximumTeams: Int = NULL_ID
     var website: String = NULL_STRING
     var facebook: String = NULL_STRING
     var twitter: String = NULL_STRING
     var status: String = NULL_STRING
-    var competitioType: String = NULL_STRING
-    var logo: String = NULL_STRING
-    var startDate: String = NULL_STRING
-    var endDate: String = NULL_STRING
     var noOfPitches: String = NULL_STRING
     var noOfMatchPerDayPitch: String = NULL_STRING
     var pointsPerMatchWin: String = NULL_STRING
     var pointsPerMatchTie: String = NULL_STRING
     var pointsPerBye: String = NULL_STRING
     var tournamentLogo: String = NULL_STRING
-    var telephone: String = NULL_STRING
-    var tournamentStartTime: String = NULL_STRING
-    var firstName: String = NULL_STRING
-    var lastName: String = NULL_STRING
     
-    var startDateObj = Date()
-    var endDateObj = Date()
+    override init() {}
     
-    var isFavourite: Bool = false
-    var isDefault: Int = 0 // 0 - no, 1 -  yes
+    required init(coder aDecoder: NSCoder) {
+        self.id = aDecoder.decodeInteger(forKey: "id")
+        
+        if let name = aDecoder.decodeObject(forKey: "name") as? String {
+            self.name = name
+        }
+        
+        if let firstName = aDecoder.decodeObject(forKey: "firstName") as? String {
+            self.firstName = firstName
+        }
+        
+        if let lastName = aDecoder.decodeObject(forKey: "lastName") as? String {
+            self.lastName = lastName
+        }
+        
+        if let startDate = aDecoder.decodeObject(forKey: "startDate") as? String {
+            self.startDate = startDate
+        }
+        
+        if let endDate = aDecoder.decodeObject(forKey: "endDate") as? String {
+            self.endDate = endDate
+        }
+        
+        if let logo = aDecoder.decodeObject(forKey: "logo") as? String {
+            self.logo = logo
+        }
+        
+        if let competitionType = aDecoder.decodeObject(forKey: "competitionType") as? String {
+            self.competitionType = competitionType
+        }
+        
+        if let tournamentStartTime = aDecoder.decodeObject(forKey: "tournamentStartTime") as? String {
+            self.tournamentStartTime = tournamentStartTime
+        }
+    }
+    
+    func encode(with aCoder: NSCoder) {
+        aCoder.encode(id, forKey: "id")
+        aCoder.encode(name, forKey: "name")
+        aCoder.encode(firstName, forKey: "firstName")
+        aCoder.encode(lastName, forKey: "lastName")
+        aCoder.encode(startDate, forKey: "startDate")
+        aCoder.encode(endDate, forKey: "endDate")
+        aCoder.encode(logo, forKey: "logo")
+        aCoder.encode(competitionType, forKey: "competitionType")
+        aCoder.encode(tournamentStartTime, forKey: "tournamentStartTime")
+    }
 }

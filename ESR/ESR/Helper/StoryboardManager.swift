@@ -156,6 +156,10 @@ struct Storyboards {
         static func instantiateClubGroupVC() -> ClubGroupVC {
             return self.storyboard.instantiateViewController(withIdentifier: kViewController.ClubGroupVC) as! ClubGroupVC
         }
+        
+        static func instantiateTeamListingVC() -> TeamListingVC {
+            return self.storyboard.instantiateViewController(withIdentifier: kViewController.TeamListingVC) as! TeamListingVC
+        }
     }
     
     struct Settings: Storyboard {

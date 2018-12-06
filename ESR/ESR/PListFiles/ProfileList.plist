@@ -42,14 +42,14 @@
             <key>keyboardReturn</key>
             <integer>2</integer>
         </dict>
-        <dict>
-            <key>cellType</key>
-            <integer>2</integer>
-            <key>title</key>
-            <string>Select default tournament</string>
-            <key>identifier</key>
-            <string>tournament</string>
-        </dict>
+<!--        <dict>-->
+<!--            <key>cellType</key>-->
+<!--            <integer>2</integer>-->
+<!--            <key>title</key>-->
+<!--            <string>Select default tournament</string>-->
+<!--            <key>identifier</key>-->
+<!--            <string>tournament</string>-->
+<!--        </dict>-->
         <dict>
             <key>cellType</key>
             <integer>2</integer>

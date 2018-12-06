@@ -41,6 +41,8 @@ struct API_ENDPOINT {
     static let SET_FAVOURITE = API_URL.BASE_URL + "users/setFavourite"
     static let SET_DEFAULT_FAVOURITE = API_URL.BASE_URL + "users/setDefaultFavourite"
     static let GET_FAVOURITE = API_URL.BASE_URL + "users/getLoginUserFavouriteTournament"
+    // Tab team
+    static let GET_TEAM_LIST = API_URL.BASE_URL + "teams/getTeamsList"
     
     static let AGE_CATEGORIES = API_URL.BASE_URL + "age_group/getCompetationFormat"
     static let TOURNAMENT_GROUP = API_URL.BASE_URL + "match/getDraws"
@@ -64,6 +66,7 @@ struct kViewController {
     static let ClubCategoryVC                   = "ClubCategoryVC"
     static let ClubGroupVC                      = "ClubGroupVC"
     static let ClubClubsVC                      = "ClubClubsVC"
+    static let TeamListingVC                    = "TeamListingVC"
     static let TabAgeCategoriesVC               = "TabAgeCategoriesVC"
     static let TabSettingsVC                    = "TabSettingsVC"
     static let FinalPlacingsVC                  = "FinalPlacingsVC"
@@ -97,6 +100,7 @@ struct kUserDefaults {
     static let isNotification       = "isNotification"
     static let isVibration          = "isVibration"
     static let isSound              = "isSound"
+    static let selectedTournament   = "selectedTournament"
 }
 
 enum ViewBorderType: Int {

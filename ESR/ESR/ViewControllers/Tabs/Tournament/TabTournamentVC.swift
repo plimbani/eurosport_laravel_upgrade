@@ -140,7 +140,8 @@ class TabTournamentVC: SuperViewController {
     }
     
     func updateTournamentDetails() {
-        if let selectedTournament = ApplicationData.selectedTournament {
+        
+        if let selectedTournament = ApplicationData.sharedInstance().getSelectedTournament() {
             if selectedTournament.logo != NULL_STRING {
                 tounamentImgView.sd_setImage(with: URL(string: selectedTournament.logo), placeholderImage:nil)
             }
@@ -165,8 +166,8 @@ class TabTournamentVC: SuperViewController {
     
     func convertToCountdownTime() {
         
-        if ApplicationData.selectedTournament != nil {
-            if let tournamentStartTime = ApplicationData.getFormattedDate(ApplicationData.selectedTournament!.tournamentStartTime, dateFormat: kDateFormat.format3) {
+        if let selectedTournament = ApplicationData.sharedInstance().getSelectedTournament() {
+            if let tournamentStartTime = ApplicationData.getFormattedDate(selectedTournament.tournamentStartTime, dateFormat: kDateFormat.format3) {
                 
                 let calendar = NSCalendar.current
                 let unitFlags = Set<Calendar.Component>([.day, .hour, .minute, .second])
@@ -219,7 +220,7 @@ class TabTournamentVC: SuperViewController {
     
     @IBAction func onTournamentDetailsPressed(_ sender: UIButton) {
         
-        if let selectedTournament = ApplicationData.selectedTournament {
+        if let selectedTournament = ApplicationData.sharedInstance().getSelectedTournament() {
             tournamentDetailsView.nameString = selectedTournament.firstName + " " + selectedTournament.lastName
             tournamentDetailsView.contactString = selectedTournament.telephone
             tournamentDetailsView.reload()
@@ -250,13 +251,14 @@ class TabTournamentVC: SuperViewController {
                         
                         let tournament = ParseManager.parseFavTournament(dicTournament as! NSDictionary)
                         
-                        if ApplicationData.selectedTournament != nil {
-                            if  ApplicationData.selectedTournament!.id == tournament.id {
-                                ApplicationData.selectedTournament = tournament
+                        if let selectedTournament = ApplicationData.sharedInstance().getSelectedTournament() {
+                            if selectedTournament.id == tournament.id {
+                                ApplicationData.sharedInstance().saveSelectedTournament(tournament)
+                                self.lblSelectedTournamentName.text = tournament.name
                             }
                         } else {
                             if tournament.isDefault == 1 {
-                                ApplicationData.selectedTournament = tournament
+                                ApplicationData.sharedInstance().saveSelectedTournament(tournament)
                                 
                                 if let userData = ApplicationData.sharedInstance().getUserData() {
                                     userData.tournamentId = tournament.id
@@ -264,8 +266,14 @@ class TabTournamentVC: SuperViewController {
                                 }
                             }
                         }
-                        
-                        self.tournamentList.append(tournament)
+//                        if ApplicationData.selectedTournament != nil {
+//                            if  ApplicationData.selectedTournament!.id == tournament.id {
+//                                ApplicationData.selectedTournament = tournament
+//                            }
+//                        } else {
+//
+//                        }
+                            self.tournamentList.append(tournament)
                     }
                     
                     // Sort array by start date
@@ -296,7 +304,7 @@ extension TabTournamentVC: PickerHandlerViewDelegate {
     
     func pickerDoneBtnPressed(_ title: String) {
         lblSelectedTournamentName.text = title
-        ApplicationData.selectedTournament = self.tournamentList[pickerHandlerView.selectedPickerPosition]
+        ApplicationData.sharedInstance().saveSelectedTournament(self.tournamentList[pickerHandlerView.selectedPickerPosition])
         updateTournamentDetails()
     }
 }

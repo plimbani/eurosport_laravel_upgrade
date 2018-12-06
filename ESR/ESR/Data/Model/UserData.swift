@@ -18,8 +18,7 @@ class UserData: NSObject, NSCoding {
     var locale:String = NULL_STRING
     var imageURL:String = NULL_STRING
     
-    override init() {
-    }
+    override init() {}
     
     required init(coder aDecoder: NSCoder) {
         self.id = aDecoder.decodeInteger(forKey: "id")
