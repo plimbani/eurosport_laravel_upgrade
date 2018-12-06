@@ -71,8 +71,12 @@
             getGroupTotalTeams(roundIndex) {
                 let groupTeams = this.roundData.groups;
                 let totalGroupTeams = 0;
-                $(groupTeams).each(function( index, element ) {
-                    totalGroupTeams += parseInt(element.no_of_teams);
+                let placingMatchIndex = _.findIndex(this.roundData.groups, {'type': 'placing_match'});
+                $(groupTeams).each(function( index, group ) {
+                    if(roundIndex === 0 && group.type === 'placing_match' && index !== placingMatchIndex) {
+                        return true;
+                    }
+                    totalGroupTeams += parseInt(group.no_of_teams);
                 });
 
                 return totalGroupTeams;

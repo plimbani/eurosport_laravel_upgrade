@@ -130,7 +130,6 @@
                 }
                 this.last_selected_teams = this.groupData.no_of_teams;
                 this.displayTeams();
-                this.updateTeamPositions();
         	},
         	displayTeams() {
         		var i;
@@ -143,6 +142,10 @@
 					}
 					if(this.roundIndex === 0 && this.groupData.type === 'placing_match' && this.index === this.getFirstPlacingMatch()) {
 						this.groupData.teams.push({position_type: 'team', group: '', position: i});
+						continue;
+					}
+					if(this.roundIndex === 0 && this.groupData.type === 'placing_match' && this.index !== this.getFirstPlacingMatch()) {
+						this.groupData.teams.push({position_type: 'winner', group: '', position: ''});
 						continue;
 					}
 				    this.groupData.teams.push({position_type: 'placed', group: '', position: ''});
@@ -276,6 +279,11 @@
 		    			vm.groupData.teams[teamIndex].position_type = 'team';
 		    		});
 		    	}
+		    	if(this.roundIndex === 0 && this.groupData.type === 'placing_match' && this.index !== this.getFirstPlacingMatch()) {
+		    		_.forEach(this.groupData.teams, function(team, teamIndex) {
+		    			vm.groupData.teams[teamIndex].position_type = 'winner';
+		    		});
+				}
 		    },
 		    getFirstPlacingMatch() {
 		    	let index = _.findIndex(this.roundData.groups, {'type': 'placing_match'});
