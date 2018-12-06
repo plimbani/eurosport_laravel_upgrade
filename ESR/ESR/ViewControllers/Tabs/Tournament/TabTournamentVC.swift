@@ -101,7 +101,7 @@ class TabTournamentVC: SuperViewController {
         tournamentDetailsView!.hide()
         self.view.addSubview(tournamentDetailsView!)
         
-        sendGetTournamentsRequest()
+        sendRequestGetTournaments()
     }
     
     func runTimer() {
@@ -133,7 +133,7 @@ class TabTournamentVC: SuperViewController {
         // Fonts
         progressBarView.valueFontName = Font.HELVETICA_BOLD
         progressBarView.valueFontSize = 18
-        progressBarView.fontColor = .black
+        progressBarView.fontColor = .AppColor()
         // Unit
         progressBarView.unitString = NULL_STRING
         return progressBarView
@@ -143,7 +143,9 @@ class TabTournamentVC: SuperViewController {
         
         if let selectedTournament = ApplicationData.sharedInstance().getSelectedTournament() {
             if selectedTournament.logo != NULL_STRING {
-                tounamentImgView.sd_setImage(with: URL(string: selectedTournament.logo), placeholderImage:nil)
+                tounamentImgView.sd_setImage(with: URL(string: selectedTournament.logo), placeholderImage: UIImage(named: "globe"))
+            } else {
+                tounamentImgView.image = UIImage(named: "globe")
             }
             
             lblTournamentName.text = selectedTournament.name
@@ -152,14 +154,19 @@ class TabTournamentVC: SuperViewController {
             var tournamentDate = NULL_STRING
             
             let calendar = Calendar.current
-            let monthString = selectedTournament.startDateObj.getMonthName()
+            let startTournamentMonthStr = selectedTournament.startDateObj.getMonthName()
+            let endTournamentMonthStr = selectedTournament.endDateObj.getMonthName()
             let endDay = calendar.component(.day, from: selectedTournament.endDateObj)
             let startDay = calendar.component(.day, from: selectedTournament.startDateObj)
             let yearString = calendar.component(.year, from: selectedTournament.startDateObj)
             
-            tournamentDate = "\(startDay) - \(endDay) \(monthString) \(yearString)"
-            lblTournamentDate.text = tournamentDate
+            if startTournamentMonthStr == endTournamentMonthStr {
+                tournamentDate = "\(startDay) - \(endDay) \(startTournamentMonthStr) \(yearString)"
+            }else{
+                tournamentDate = "\(startDay) \(startTournamentMonthStr) - \(endDay) \(startTournamentMonthStr) \(yearString)"
+            }
             
+            lblTournamentDate.text = tournamentDate
             convertToCountdownTime()
         }
     }
@@ -210,7 +217,6 @@ class TabTournamentVC: SuperViewController {
     @IBAction func onFinalPlacingPressed(_ sender: UIButton) {
         let viewController = Storyboards.Teams.instantiateClubCategoryVC()
         viewController.isFromTournament = true
-        // viewController.tournamentId = ApplicationData.selectedTournament.id
         self.navigationController?.pushViewController(viewController, animated: true)
     }
     
@@ -229,7 +235,39 @@ class TabTournamentVC: SuperViewController {
         tournamentDetailsView.show()
     }
     
-    func sendGetTournamentsRequest() {
+    func refreshTournamentPosition() {
+        var defaultTournament: Tournament?
+        var selectedIndex = 0
+        
+        for i in 0..<tournamentList.count {
+            
+            let tournament = tournamentList[i]
+            
+            if let selectedTournament = ApplicationData.sharedInstance().getSelectedTournament() {
+                if selectedTournament.id == tournament.id {
+                    defaultTournament = tournament
+                    selectedIndex = i
+                    break
+                }
+            }
+        }
+        
+        self.tournamentList.remove(at: selectedIndex)
+        
+        if let defaultTournamentValue = defaultTournament {
+            self.tournamentList.insert(defaultTournamentValue, at: 0)
+        }
+        
+        self.titleList.removeAll()
+        for tournament in self.tournamentList {
+            self.titleList.append(tournament.name)
+        }
+        
+        pickerHandlerView.titleList = titleList
+        pickerHandlerView.reloadPickerView()
+    }
+    
+    func sendRequestGetTournaments() {
         if APPDELEGATE.reachability.connection == .none {
             return
         }
@@ -246,15 +284,19 @@ class TabTournamentVC: SuperViewController {
                 
                 self.titleList.removeAll()
                 
+                var isDefaultTournament = false
+                var defaultTournament: Tournament?
+                
                 if let tournamentList = result.value(forKey: "data") as? NSArray {
-                    for dicTournament in tournamentList {
-                        
-                        let tournament = ParseManager.parseFavTournament(dicTournament as! NSDictionary)
+                    for i in 0..<tournamentList.count {
+                        let dicTournament = tournamentList[i] as! NSDictionary
+                        let tournament = ParseManager.parseFavTournament(dicTournament)
                         
                         if let selectedTournament = ApplicationData.sharedInstance().getSelectedTournament() {
                             if selectedTournament.id == tournament.id {
                                 ApplicationData.sharedInstance().saveSelectedTournament(tournament)
                                 self.lblSelectedTournamentName.text = tournament.name
+                                isDefaultTournament = true
                             }
                         } else {
                             if tournament.isDefault == 1 {
@@ -264,22 +306,27 @@ class TabTournamentVC: SuperViewController {
                                     userData.tournamentId = tournament.id
                                     ApplicationData.sharedInstance().saveUserData(userData)
                                 }
+                                
+                                isDefaultTournament = true
                             }
                         }
-//                        if ApplicationData.selectedTournament != nil {
-//                            if  ApplicationData.selectedTournament!.id == tournament.id {
-//                                ApplicationData.selectedTournament = tournament
-//                            }
-//                        } else {
-//
-//                        }
+
+                        if isDefaultTournament {
+                            defaultTournament = tournament
+                            isDefaultTournament = false
+                        } else {
                             self.tournamentList.append(tournament)
+                        }
                     }
                     
                     // Sort array by start date
                     self.tournamentList.sort(by: { (t1, t2) -> Bool in
                         return (t1.startDateObj.timeIntervalSinceNow > t2.startDateObj.timeIntervalSinceNow)
                     })
+                    
+                    if let defaultTournamentValue = defaultTournament {
+                        self.tournamentList.insert(defaultTournamentValue, at: 0)
+                    }
                     
                     for tournament in self.tournamentList {
                         self.titleList.append(tournament.name)
@@ -304,7 +351,11 @@ extension TabTournamentVC: PickerHandlerViewDelegate {
     
     func pickerDoneBtnPressed(_ title: String) {
         lblSelectedTournamentName.text = title
-        ApplicationData.sharedInstance().saveSelectedTournament(self.tournamentList[pickerHandlerView.selectedPickerPosition])
+        
+        let selectedPosition = pickerHandlerView.selectedPickerPosition
+        let dicSelectedTournament = self.tournamentList[selectedPosition]
+        ApplicationData.sharedInstance().saveSelectedTournament(dicSelectedTournament)
         updateTournamentDetails()
+        refreshTournamentPosition()
     }
 }

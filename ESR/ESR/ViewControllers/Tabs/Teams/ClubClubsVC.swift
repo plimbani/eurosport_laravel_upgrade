@@ -126,7 +126,6 @@ extension ClubClubsVC: UITableViewDataSource, UITableViewDelegate {
         } else {
             cell?.record = tournamentClubList[indexPath.row] as! NSDictionary
         }
-        
         cell?.reloadCell()
         return cell!
     }
@@ -135,11 +134,12 @@ extension ClubClubsVC: UITableViewDataSource, UITableViewDelegate {
         let viewController = Storyboards.Teams.instantiateTeamListingVC()
         
         if isSearch {
-            viewController.clubId = (tournamentClubFilterList[indexPath.row] as! NSDictionary).value(forKey: "ClubId") as! Int
+            viewController.dic = (tournamentClubFilterList[indexPath.row] as! NSDictionary)
         } else {
-            viewController.clubId = (tournamentClubList[indexPath.row] as! NSDictionary).value(forKey: "ClubId") as! Int
+            viewController.dic = (tournamentClubList[indexPath.row] as! NSDictionary)
         }
         
+        viewController.isClubTeam = true
         self.navigationController?.pushViewController(viewController, animated: true)
         
         txtSearch.text = NULL_STRING

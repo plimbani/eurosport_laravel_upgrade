@@ -34,6 +34,14 @@ class AgeCategoryCell: UITableViewCell {
             if let text = record.value(forKey: "name") as? String {
                 ageCategory = text
             }
+            
+            //if let competitionType = record.value(forKey: "actual_competition_type") as? String {
+                //if competitionType == "Elimination" {
+                    if let displayName = record.value(forKey: "display_name") as? String {
+                        ageCategory = displayName
+                    }
+                //}
+           // }
         } else {
             if let text = record.value(forKey: "group_name") as? String {
                 ageCategory = text

@@ -12,7 +12,7 @@ class ClubGroupVC: SuperViewController {
     @IBOutlet var txtSearch: UITextField!
     @IBOutlet var table: UITableView!
     
-    var ageCategoriesGroupsList = NSArray()
+    var ageCategoriesGroupsList = NSMutableArray()
     var heightAgeCategoryCell: CGFloat = 0
     
     override func viewDidLoad() {
@@ -55,8 +55,10 @@ class ClubGroupVC: SuperViewController {
                 self.view.hideProgressHUD()
                 
                 if let data = result.value(forKey: "data") as? NSArray {
-                    self.ageCategoriesGroupsList = data
-                    ApplicationData.groupsList = data
+                    
+                    let descriptor: NSSortDescriptor = NSSortDescriptor(key: "display_name", ascending: true)
+                    self.ageCategoriesGroupsList = NSMutableArray.init(array: data.sortedArray(using: [descriptor]))
+                    ApplicationData.groupsList = self.ageCategoriesGroupsList
                 }
                 
                 self.table.reloadData()
@@ -99,8 +101,9 @@ extension ClubGroupVC: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let viewController = Storyboards.AgeCategories.instantiateAgeCategoriesGroupsSummaryVC()
-        viewController.dicGroup = (ageCategoriesGroupsList[indexPath.row] as! NSDictionary)
+        let viewController = Storyboards.Teams.instantiateTeamListingVC()
+        viewController.isClubsGroupTeam = true
+        viewController.dic = (ageCategoriesGroupsList[indexPath.row] as! NSDictionary)
         self.navigationController?.pushViewController(viewController, animated: true)
     }
 }

@@ -128,8 +128,10 @@ extension ClubCategoryVC: UITableViewDataSource, UITableViewDelegate {
             return
         }
         
-        let viewController = Storyboards.AgeCategories.instantiateAgeCategoriesGroupsSummaryVC()
-        viewController.dicGroup = (ageCategoriesList[indexPath.row] as! NSDictionary)
+        let viewController = Storyboards.Teams.instantiateTeamListingVC()
+        viewController.isClubsCategoryTeam = true
+        viewController.dic = (ageCategoriesList[indexPath.row] as! NSDictionary)
         self.navigationController?.pushViewController(viewController, animated: true)
+        
     }
 }

@@ -26,8 +26,8 @@
                         <constraints>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Mw6-fR-wmp" secondAttribute="trailing" id="1q3-eN-0sz"/>
                             <constraint firstItem="Mw6-fR-wmp" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="CqR-Mw-lMl"/>
-                            <constraint firstItem="Mw6-fR-wmp" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="-20" id="EDS-l6-Vi8"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="Mw6-fR-wmp" secondAttribute="bottom" id="Inc-24-Fti"/>
+                            <constraint firstItem="Mw6-fR-wmp" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="EDS-l6-Vi8"/>
+                            <constraint firstAttribute="bottom" secondItem="Mw6-fR-wmp" secondAttribute="bottom" id="Inc-24-Fti"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>

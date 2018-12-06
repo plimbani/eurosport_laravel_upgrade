@@ -13,7 +13,11 @@ class TeamListingVC: SuperViewController {
     var teamList = NSArray()
     
     var heightTournamentClubCell: CGFloat = 0
-    var clubId = -1
+    
+    var dic: NSDictionary!
+    var isClubTeam = false
+    var isClubsCategoryTeam = false
+    var isClubsGroupTeam = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,7 +42,20 @@ class TeamListingVC: SuperViewController {
         
         self.view.showProgressHUD()
         var parameters: [String: Any] = [:]
-        parameters["club_id"] = clubId
+        
+        if isClubTeam {
+            if let id = dic.value(forKey: "ClubId") as? Int {
+                parameters["club_id"] = id
+            }
+        } else if isClubsCategoryTeam {
+            if let id = dic.value(forKey: "id") as? Int {
+                parameters["age_group_id"] = id
+            }
+        } else if isClubsGroupTeam {
+            if let id = dic.value(forKey: "id") as? Int {
+                parameters["group_id"] = id
+            }
+        }
         
         if let selectedTournament = ApplicationData.sharedInstance().getSelectedTournament() {
             parameters["tournament_id"] = selectedTournament.id
@@ -86,13 +103,21 @@ extension TeamListingVC: UITableViewDataSource, UITableViewDelegate {
         }
         
         cell?.record = teamList[indexPath.row] as! NSDictionary
+        cell?.isClubsTeam = isClubTeam
+        cell?.isClubsCategoryTeam = isClubsCategoryTeam
+        cell?.isClubsGroupTeam = isClubsGroupTeam
         cell?.reloadCell()
         return cell!
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let viewController = Storyboards.Teams.instantiateTeamListingVC()
-        self.navigationController?.pushViewController(viewController, animated: true)
+        if isClubTeam {
+            
+        } else if isClubsCategoryTeam {
+            
+        } else if isClubsGroupTeam {
+            
+        }
     }
 }
 

@@ -25,7 +25,7 @@
                     <subviews>
                         <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RNq-Z5-PZd">
                             <rect key="frame" x="0.0" y="332" width="320" height="216"/>
-                            <color key="backgroundColor" red="0.97254901960784312" green="0.97254901960784312" blue="0.97254901960784312" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="backgroundColor" red="0.78039215689999997" green="0.039215686270000001" blue="0.12549019610000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="216" id="l9W-6L-31y"/>
                             </constraints>
@@ -34,27 +34,29 @@
                                 <outlet property="delegate" destination="iN0-l3-epB" id="AmY-re-o6Y"/>
                             </connections>
                         </pickerView>
-                        <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lqr-sr-QTq">
+                        <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lqr-sr-QTq">
                             <rect key="frame" x="0.0" y="288" width="320" height="44"/>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="44" id="Jst-Bk-hbU"/>
                             </constraints>
                             <items>
                                 <barButtonItem title="Cancel" id="FQF-Qe-v0V">
-                                    <color key="tintColor" red="0.7803921568627451" green="0.039215686274509803" blue="0.12549019607843137" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <connections>
                                         <action selector="cancelButtonPressed:" destination="iN0-l3-epB" id="MOO-Ty-57T"/>
                                     </connections>
                                 </barButtonItem>
                                 <barButtonItem style="plain" systemItem="flexibleSpace" id="I81-QM-T58"/>
                                 <barButtonItem title="Done" id="T33-fl-MDh">
-                                    <color key="tintColor" red="0.78039215689999997" green="0.039215686270000001" blue="0.12549019610000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <connections>
                                         <action selector="doneButtonPressed:" destination="iN0-l3-epB" id="P9d-wx-wxh"/>
                                     </connections>
                                 </barButtonItem>
                             </items>
+                            <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <color key="barTintColor" red="0.78039215689999997" green="0.039215686270000001" blue="0.12549019610000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         </toolbar>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -82,6 +84,7 @@
             <connections>
                 <outlet property="btnCancel" destination="FQF-Qe-v0V" id="xNU-4g-x2L"/>
                 <outlet property="btnDone" destination="T33-fl-MDh" id="QQm-fj-wKi"/>
+                <outlet property="mainView" destination="Ueg-Gg-wbL" id="bJ7-Ub-xiO"/>
                 <outlet property="picker_view" destination="RNq-Z5-PZd" id="cAW-be-oDP"/>
             </connections>
             <point key="canvasLocation" x="84" y="-160"/>

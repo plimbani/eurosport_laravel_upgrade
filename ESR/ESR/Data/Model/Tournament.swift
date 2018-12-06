@@ -63,6 +63,14 @@ class Tournament: NSObject, NSCoding {
             self.endDate = endDate
         }
         
+        if let startDateObj = aDecoder.decodeObject(forKey: "startDateObj") as? Date {
+            self.startDateObj = startDateObj
+        }
+        
+        if let endDateObj = aDecoder.decodeObject(forKey: "endDateObj") as? Date {
+            self.endDateObj = endDateObj
+        }
+        
         if let logo = aDecoder.decodeObject(forKey: "logo") as? String {
             self.logo = logo
         }
@@ -83,6 +91,8 @@ class Tournament: NSObject, NSCoding {
         aCoder.encode(lastName, forKey: "lastName")
         aCoder.encode(startDate, forKey: "startDate")
         aCoder.encode(endDate, forKey: "endDate")
+        aCoder.encode(startDateObj, forKey: "startDateObj")
+        aCoder.encode(endDateObj, forKey: "endDateObj")
         aCoder.encode(logo, forKey: "logo")
         aCoder.encode(competitionType, forKey: "competitionType")
         aCoder.encode(tournamentStartTime, forKey: "tournamentStartTime")

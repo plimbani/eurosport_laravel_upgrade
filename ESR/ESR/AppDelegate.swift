@@ -20,6 +20,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var infoAlertViewTwoButton: CustomAlertViewTwoButton!
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        
+        if let statusBar = UIApplication.shared.value(forKey: "statusBar") as? UIView {
+            statusBar.backgroundColor = UIColor.AppColor()
+        }
+        
         _ = ApplicationData.sharedInstance()
         GMSServices.provideAPIKey(Environment().configuration(PlistKey.GoogleMapKey))
         // Fabric

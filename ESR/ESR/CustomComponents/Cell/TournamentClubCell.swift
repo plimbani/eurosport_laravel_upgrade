@@ -13,6 +13,10 @@ class TournamentClubCell: UITableViewCell {
     @IBOutlet var lblTitle: UILabel!
     var record: NSDictionary!
     
+    var isClubsTeam = false
+    var isClubsCategoryTeam = false
+    var isClubsGroupTeam = false
+    
     override func awakeFromNib() {
         super.awakeFromNib()
     }
@@ -21,16 +25,36 @@ class TournamentClubCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
     }
     
-    func reloadCell() {
+    func setClubCategoryTeam() {
+        var name = NULL_STRING
         
-        if let text = record.value(forKey: "clubName") as? String {
-            lblTitle.text = text
+        if let text = record.value(forKey: "name") as? String {
+            name = text + " "
         }
-    
-        if let text = record.value(forKey: "CountryLogo") as? String {
+        
+        if let text = record.value(forKey: "CategoryAge") as? String {
+            name += "(\(text))"
+        }
+        
+        if let text = record.value(forKey: "countryLogo") as? String {
             imgView.sd_setImage(with: URL(string: text), placeholderImage:nil)
         }
         
+        lblTitle.text = name
+    }
+    
+   func reloadCell() {
+        if isClubsTeam || isClubsCategoryTeam || isClubsGroupTeam {
+            setClubCategoryTeam()
+        } else {
+            if let text = record.value(forKey: "clubName") as? String {
+                lblTitle.text = text
+            }
+            
+            if let text = record.value(forKey: "CountryLogo") as? String {
+                imgView.sd_setImage(with: URL(string: text), placeholderImage:nil)
+            }
+        }
     }
     
     func getCellHeight() -> CGFloat {

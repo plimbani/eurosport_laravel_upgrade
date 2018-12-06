@@ -311,6 +311,10 @@ class ParseManager {
             tournamentObj.lastName = lastName
         }
         
+        if let logo = record.value(forKey: "tournamentLogo") as? String {
+            tournamentObj.logo = logo;
+        }
+        
         return tournamentObj
     }
     

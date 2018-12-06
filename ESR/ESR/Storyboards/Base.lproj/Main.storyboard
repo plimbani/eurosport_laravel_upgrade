@@ -13,13 +13,13 @@
         <!--LandingVC-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController storyboardIdentifier="LandingVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="BYZ-38-t0r" customClass="LandingVC" customModule="ESR" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LandingVC" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="BYZ-38-t0r" customClass="LandingVC" customModule="ESR" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="landing_bg" translatesAutoresizingMaskIntoConstraints="NO" id="Knz-E6-WlJ">
-                                <rect key="frame" x="0.0" y="20" width="320" height="548"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo_esr_landing" translatesAutoresizingMaskIntoConstraints="NO" id="JeI-5d-P5b">
                                 <rect key="frame" x="20" y="70" width="280" height="200"/>
@@ -72,15 +72,16 @@
                             <constraint firstItem="76L-d2-oG0" firstAttribute="height" secondItem="58f-Q2-Gzf" secondAttribute="height" id="LMA-0D-04u"/>
                             <constraint firstItem="JeI-5d-P5b" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="50" id="PFE-Co-mjm"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="58f-Q2-Gzf" secondAttribute="trailing" constant="30" id="WyH-hb-xqn"/>
-                            <constraint firstItem="Knz-E6-WlJ" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="efh-ss-ILs"/>
+                            <constraint firstItem="Knz-E6-WlJ" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="efh-ss-ILs"/>
                             <constraint firstItem="wDJ-cx-eJj" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="f5t-20-5kK"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="Knz-E6-WlJ" secondAttribute="bottom" id="oMH-A5-MOy"/>
+                            <constraint firstAttribute="bottom" secondItem="Knz-E6-WlJ" secondAttribute="bottom" id="oMH-A5-MOy"/>
                             <constraint firstItem="58f-Q2-Gzf" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="30" id="oN1-rl-hT9"/>
                             <constraint firstItem="JeI-5d-P5b" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="u6U-aa-dDU"/>
                             <constraint firstItem="76L-d2-oG0" firstAttribute="top" secondItem="58f-Q2-Gzf" secondAttribute="bottom" constant="20" id="wdR-RO-LFr"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
+                    <extendedEdge key="edgesForExtendedLayout" top="YES"/>
                     <navigationItem key="navigationItem" id="vbX-KT-fhy"/>
                     <nil key="simulatedTopBarMetrics"/>
                     <connections>
@@ -100,7 +101,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="landing_bg" translatesAutoresizingMaskIntoConstraints="NO" id="FT2-U1-7pL">
-                                <rect key="frame" x="0.0" y="20" width="320" height="548"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo_esr_landing" translatesAutoresizingMaskIntoConstraints="NO" id="44s-NK-au0">
                                 <rect key="frame" x="20" y="70" width="280" height="200"/>
@@ -219,10 +220,10 @@
                             <constraint firstItem="wuK-9g-hMk" firstAttribute="trailing" secondItem="FBq-Re-5Vo" secondAttribute="trailing" id="Tdq-tu-4Ig"/>
                             <constraint firstItem="44s-NK-au0" firstAttribute="top" secondItem="wuK-9g-hMk" secondAttribute="top" constant="50" id="cME-ah-EDj"/>
                             <constraint firstItem="wuK-9g-hMk" firstAttribute="trailing" secondItem="7xD-an-3j8" secondAttribute="trailing" id="ccU-nK-RR3"/>
-                            <constraint firstItem="FT2-U1-7pL" firstAttribute="top" secondItem="wuK-9g-hMk" secondAttribute="top" id="e0L-bJ-bGP"/>
+                            <constraint firstItem="FT2-U1-7pL" firstAttribute="top" secondItem="iEO-7E-87x" secondAttribute="top" id="e0L-bJ-bGP"/>
                             <constraint firstItem="wuK-9g-hMk" firstAttribute="bottom" secondItem="bG8-S6-efE" secondAttribute="bottom" id="gNX-O1-kYN"/>
                             <constraint firstItem="wuK-9g-hMk" firstAttribute="trailing" secondItem="44s-NK-au0" secondAttribute="trailing" constant="20" id="l8e-6R-YTE"/>
-                            <constraint firstItem="wuK-9g-hMk" firstAttribute="bottom" secondItem="FT2-U1-7pL" secondAttribute="bottom" id="sOJ-NN-IsE"/>
+                            <constraint firstAttribute="bottom" secondItem="FT2-U1-7pL" secondAttribute="bottom" id="sOJ-NN-IsE"/>
                             <constraint firstItem="wuK-9g-hMk" firstAttribute="trailing" secondItem="FT2-U1-7pL" secondAttribute="trailing" id="tDQ-LE-dPN"/>
                             <constraint firstItem="wuK-9g-hMk" firstAttribute="trailing" secondItem="bG8-S6-efE" secondAttribute="trailing" id="xDr-ka-u0Z"/>
                         </constraints>
@@ -460,7 +461,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="registration_bg" translatesAutoresizingMaskIntoConstraints="NO" id="PBk-dj-ZHs">
-                                <rect key="frame" x="0.0" y="20" width="320" height="548"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="54c-7r-qA9" customClass="TitleNavigationBar" customModule="ESR" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="20" width="320" height="44"/>
@@ -521,14 +522,14 @@
                             <constraint firstItem="YYB-ax-WDZ" firstAttribute="trailing" secondItem="pkD-Bh-ro4" secondAttribute="trailing" constant="30" id="38d-jv-gvw"/>
                             <constraint firstItem="YYB-ax-WDZ" firstAttribute="trailing" secondItem="54c-7r-qA9" secondAttribute="trailing" id="A1E-hr-IrE"/>
                             <constraint firstItem="6Pn-tg-Rye" firstAttribute="leading" secondItem="YYB-ax-WDZ" secondAttribute="leading" id="CRJ-il-aLR"/>
-                            <constraint firstItem="YYB-ax-WDZ" firstAttribute="bottom" secondItem="PBk-dj-ZHs" secondAttribute="bottom" id="DcW-nn-i8U"/>
+                            <constraint firstAttribute="bottom" secondItem="PBk-dj-ZHs" secondAttribute="bottom" id="DcW-nn-i8U"/>
                             <constraint firstItem="54c-7r-qA9" firstAttribute="leading" secondItem="YYB-ax-WDZ" secondAttribute="leading" id="E3j-UU-er0"/>
                             <constraint firstItem="YYB-ax-WDZ" firstAttribute="trailing" secondItem="kLz-Cm-VBY" secondAttribute="trailing" constant="30" id="G2O-e0-uBF"/>
                             <constraint firstItem="YYB-ax-WDZ" firstAttribute="trailing" secondItem="YPh-SE-uPc" secondAttribute="trailing" constant="30" id="HF4-lq-EqG"/>
                             <constraint firstItem="YYB-ax-WDZ" firstAttribute="trailing" secondItem="PBk-dj-ZHs" secondAttribute="trailing" id="Im7-0l-KbP"/>
                             <constraint firstItem="6Pn-tg-Rye" firstAttribute="top" secondItem="54c-7r-qA9" secondAttribute="bottom" id="Pcp-4h-bCT"/>
                             <constraint firstItem="Zgm-6u-jW6" firstAttribute="top" secondItem="YYB-ax-WDZ" secondAttribute="top" constant="50" id="Pxt-Mz-i9W"/>
-                            <constraint firstItem="PBk-dj-ZHs" firstAttribute="top" secondItem="YYB-ax-WDZ" secondAttribute="top" id="SJo-Gh-xB0"/>
+                            <constraint firstItem="PBk-dj-ZHs" firstAttribute="top" secondItem="Xam-8O-OmS" secondAttribute="top" id="SJo-Gh-xB0"/>
                             <constraint firstItem="Zgm-6u-jW6" firstAttribute="leading" secondItem="YYB-ax-WDZ" secondAttribute="leading" constant="20" id="VCw-MX-Ydd"/>
                             <constraint firstItem="pkD-Bh-ro4" firstAttribute="leading" secondItem="YYB-ax-WDZ" secondAttribute="leading" constant="30" id="Vm8-Gd-EQJ"/>
                             <constraint firstItem="pkD-Bh-ro4" firstAttribute="top" secondItem="Zgm-6u-jW6" secondAttribute="bottom" constant="25" id="Xyf-v9-EuP"/>
@@ -605,7 +606,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="registration_bg" translatesAutoresizingMaskIntoConstraints="NO" id="1Xa-N6-fku">
-                                <rect key="frame" x="0.0" y="20" width="320" height="548"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KhJ-Vk-3Cu" customClass="TitleNavigationBar" customModule="ESR" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="20" width="320" height="44"/>
@@ -641,7 +642,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="lko-eC-aax" firstAttribute="bottom" secondItem="1Xa-N6-fku" secondAttribute="bottom" id="7ET-ne-u56"/>
+                            <constraint firstAttribute="bottom" secondItem="1Xa-N6-fku" secondAttribute="bottom" id="7ET-ne-u56"/>
                             <constraint firstItem="lko-eC-aax" firstAttribute="trailing" secondItem="KhJ-Vk-3Cu" secondAttribute="trailing" id="9BS-vN-O4v"/>
                             <constraint firstItem="rmG-ta-khQ" firstAttribute="leading" secondItem="lko-eC-aax" secondAttribute="leading" constant="20" id="K1z-CR-8eX"/>
                             <constraint firstItem="KhJ-Vk-3Cu" firstAttribute="top" secondItem="lko-eC-aax" secondAttribute="top" id="Psh-4e-tNN"/>
@@ -654,7 +655,7 @@
                             <constraint firstItem="lko-eC-aax" firstAttribute="trailing" secondItem="rmG-ta-khQ" secondAttribute="trailing" constant="20" id="klT-D6-mbN"/>
                             <constraint firstItem="lko-eC-aax" firstAttribute="bottom" secondItem="gcM-PF-ozV" secondAttribute="bottom" id="lUb-3e-oYc"/>
                             <constraint firstItem="gcM-PF-ozV" firstAttribute="leading" secondItem="lko-eC-aax" secondAttribute="leading" constant="20" id="qjB-nU-VJ9"/>
-                            <constraint firstItem="1Xa-N6-fku" firstAttribute="top" secondItem="lko-eC-aax" secondAttribute="top" id="vYn-7Z-X4L"/>
+                            <constraint firstItem="1Xa-N6-fku" firstAttribute="top" secondItem="sTR-dh-xju" secondAttribute="top" id="vYn-7Z-X4L"/>
                             <constraint firstItem="lko-eC-aax" firstAttribute="trailing" secondItem="1Xa-N6-fku" secondAttribute="trailing" id="wdi-7p-Go9"/>
                             <constraint firstItem="1Xa-N6-fku" firstAttribute="leading" secondItem="lko-eC-aax" secondAttribute="leading" id="ww7-gB-oMJ"/>
                             <constraint firstItem="klE-Kh-4iq" firstAttribute="top" secondItem="KhJ-Vk-3Cu" secondAttribute="bottom" id="xcr-Jz-WyY"/>

@@ -18,6 +18,7 @@ class PickerHandlerView: UIView {
     @IBOutlet var btnCancel: UIBarButtonItem!
     @IBOutlet var btnDone: UIBarButtonItem!
     @IBOutlet var picker_view: UIPickerView!
+    @IBOutlet var mainView: UIView!
     
     var delegate: PickerHandlerViewDelegate?
     var titleList = [String]()
@@ -31,6 +32,13 @@ class PickerHandlerView: UIView {
         if titleList.count > 0 {
             picker_view.selectRow(0, inComponent: 0, animated: false)
         }
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
+        mainView.addGestureRecognizer(tap)
+    }
+    
+    @objc func handleTap(_ sender: UITapGestureRecognizer? = nil) {
+        hide()
     }
     
     func show() {
@@ -90,6 +98,7 @@ extension PickerHandlerView: UIPickerViewDataSource, UIPickerViewDelegate {
         label.textColor = .black
         label.textAlignment = .center
         label.font = UIFont(name: Font.HELVETICA_REGULAR, size: Font.Size.commonBtnSize)
+        label.textColor = .white
         label.text = titleList[row]
         return label
     }
