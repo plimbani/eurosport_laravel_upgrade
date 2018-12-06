@@ -81,10 +81,11 @@ class TemplateRepository
      */
     public function saveTemplateDetail($data)
     {
+        echo "<pre>";print_r($data);echo "</pre>";exit;
         $finalArray = [];
         $finalArray['total_matches'] = 9;
         $finalArray['tournament_id'] = 15;
-        $finalArray['tournament_teams'] = $data['templateFormDetail']['stepone']['teams'];
+        $finalArray['tournament_teams'] = $data['templateFormDetail']['stepone']['no_of_teams'];
         $finalArray['remark'] = $data['templateFormDetail']['stepfour']['remarks'];
         $finalArray['template_font_color'] = $data['templateFormDetail']['stepfour']['template_font_color'];
         $finalArray['tournament_name'] = '';
@@ -121,7 +122,7 @@ class TemplateRepository
         $tournamentTemplate = new TournamentTemplates();
         $tournamentTemplate->json_data = json_encode($finalArray);
         $tournamentTemplate->name = $data['templateFormDetail']['stepone']['templateName'];
-        $tournamentTemplate->total_teams = $data['templateFormDetail']['stepone']['teams'];
+        $tournamentTemplate->total_teams = $data['templateFormDetail']['stepone']['no_of_teams'];
         $tournamentTemplate->editor_type = $data['templateFormDetail']['stepone']['editor'];
         $tournamentTemplate->competition_type = $data['templateFormDetail']['stepone']['competition_type'] ? $data['templateFormDetail']['stepone']['competition_type'] : null;
         $tournamentTemplate->created_by = Auth::user()->id;
