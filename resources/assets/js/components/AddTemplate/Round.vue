@@ -50,7 +50,7 @@
         },
         methods: {
             addNewGroup(index) {
-                this.roundData.groups.push({type: "round_robin", no_of_teams: "2", teams_play_each_other: "once", teams: []});
+                this.roundData.groups.push({type: "round_robin", no_of_teams: "2", teams_play_each_other: "once", matches: []});
                 this.$root.$emit('updateGroupCount');
             },
             removeRound(index) {

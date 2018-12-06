@@ -12,7 +12,7 @@
             		</div>
             		<div class="form-group" :class="{'has-error': errors.has('teams') }">
             			<label>{{$lang.add_template_modal_number_of_teams}}</label>
-                        <select class="form-control ls-select2" name="teams" id="teams" v-model="templateFormDetail.stepone.teams" v-validate="'required'" :class="{'is-danger': errors.has('teams') }">
+                        <select class="form-control ls-select2" name="teams" id="teams" v-model="templateFormDetail.stepone.no_of_teams" v-validate="'required'" :class="{'is-danger': errors.has('teams') }">
                             <option value="">Number of teams</option>
                             <option v-for="n in 28" v-if="n >=4" :value="n">{{ n }}</option>
                         </select>
@@ -20,13 +20,14 @@
                         <span class="help is-danger" v-show="errors.has('teams')">{{ errors.first('teams') }}</span>
             		</div>
             		<div class="form-group">
-            			<div class="radio">
-            				<label><input type="radio" name="editor" value="advance_editor" v-model="templateFormDetail.stepone.editor"> Advance editor</label>
-            				<label><input type="radio" name="editor" value="simple_editor" v-model="templateFormDetail.stepone.editor"> Simple editor</label>
-                            <span class="info-editor text-primary" data-toggle="popover" data-animation="false" data-placement="right" :data-popover-content="'#divison_detail'"><i class="fa fa-info-circle"></i></span>
-                            <div v-bind:id="'divison_detail'" style="display:none;">
-                                <div class="popover-body">Editor description</div>
-                            </div>
+                        <label for="competition_type">Editor type</label>
+                        <span class="info-editor text-primary" data-toggle="popover" data-animation="false" data-placement="right" :data-popover-content="'#divison_detail'"><i class="fa fa-info-circle"></i></span>
+                        <div v-bind:id="'divison_detail'" style="display:none;">
+                            <div class="popover-body">Editor description</div>
+                        </div>
+                        <div class="radio">
+            				<label><input type="radio" name="editor" value="advance_editor" v-model="templateFormDetail.stepone.editor">Advance</label>
+            				<label><input type="radio" name="editor" value="simple_editor" v-model="templateFormDetail.stepone.editor">Simple</label>                            
             			</div>
             		</div>
                     <div class="form-group" v-if="templateFormDetail.stepone.editor == 'simple_editor'">
@@ -68,6 +69,8 @@
                 }
             });
 		},
+        computed: {
+        },
 		methods: {
             next() {
                 this.$validator.validateAll().then((response) => {
