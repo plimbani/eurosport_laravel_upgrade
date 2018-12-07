@@ -1,26 +1,19 @@
 //
-//  ClubCategoryVC.swift
+//  GroupListVC.swift
 //  ESR
 //
-//  Created by Pratik Patel on 10/09/18.
+//  Created by Pratik Patel on 07/12/18.
 //
 
 import UIKit
 
-class ClubCategoryVC: SuperViewController {
+class GroupListVC: SuperViewController {
 
     @IBOutlet var txtSearch: UITextField!
     @IBOutlet var table: UITableView!
-    @IBOutlet var searchView: UIView!
-    @IBOutlet var imgSearch: UIImageView!
     
-    @IBOutlet var heightConstraintSeachView: NSLayoutConstraint!
-    @IBOutlet var heightConstraintTitleNavigationBar: NSLayoutConstraint!
-    
-    var ageCategoriesList = NSArray()
+    var ageCategoriesGroupsList = NSMutableArray()
     var heightAgeCategoryCell: CGFloat = 0
-    var isFromTournament = false
-    var tournamentId = NULL_ID
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,11 +21,11 @@ class ClubCategoryVC: SuperViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        sendAgeCategoriesRequest()
+        sendAgeCategoriesGroupRequest()
     }
     
     func initialize() {
-        txtSearch.placeholder = String.localize(key: "placeholder_search_tab_category")
+        txtSearch.placeholder = String.localize(key: "placeholder_search_tab_group")
         txtSearch.setLeftPaddingPoints(35)
         txtSearch.delegate = self
         txtSearch.returnKeyType = .done
@@ -43,20 +36,9 @@ class ClubCategoryVC: SuperViewController {
         // Height for cell
         _ = cellOwner.loadMyNibFile(nibName: kNiB.Cell.AgeCategoryCell)
         heightAgeCategoryCell = (cellOwner.cell as! AgeCategoryCell).getCellHeight()
-        
-        if isFromTournament {
-            heightConstraintSeachView.constant = 0
-            titleNavigationBar.lblTitle.text = String.localize(key: "title_final_placing")
-            titleNavigationBar.delegate = self
-            titleNavigationBar.setBackgroundColor()
-            searchView.updateConstraints()
-            imgSearch.image = UIImage()
-        } else {
-            heightConstraintTitleNavigationBar.constant = 0
-        }
     }
     
-    func sendAgeCategoriesRequest() {
+    func sendAgeCategoriesGroupRequest() {
         if APPDELEGATE.reachability.connection == .none {
             return
         }
@@ -65,15 +47,18 @@ class ClubCategoryVC: SuperViewController {
         var parameters: [String: Any] = [:]
         
         if let selectedTournament = ApplicationData.sharedInstance().getSelectedTournament() {
-            parameters["tournament_id"] = selectedTournament.id
+            parameters["tournamentId"] = selectedTournament.id
         }
         
-        ApiManager().getAgeCategories(parameters, success: { (result) in
+        ApiManager().getAgeCategoriesGroups(parameters, success: { (result) in
             DispatchQueue.main.async {
                 self.view.hideProgressHUD()
                 
                 if let data = result.value(forKey: "data") as? NSArray {
-                    self.ageCategoriesList = data
+                    
+                    let descriptor: NSSortDescriptor = NSSortDescriptor(key: "display_name", ascending: true)
+                    self.ageCategoriesGroupsList = NSMutableArray.init(array: data.sortedArray(using: [descriptor]))
+                    ApplicationData.groupsList = self.ageCategoriesGroupsList
                 }
                 
                 self.table.reloadData()
@@ -86,22 +71,16 @@ class ClubCategoryVC: SuperViewController {
     }
 }
 
-extension ClubCategoryVC: TitleNavigationBarDelegate {
-    func titleNavBarBackBtnPressed() {
-        self.navigationController?.popViewController(animated: true)
-    }
-}
-
-extension ClubCategoryVC: UITextFieldDelegate {
+extension GroupListVC: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
         
     }
 }
 
-extension ClubCategoryVC: UITableViewDataSource, UITableViewDelegate {
+extension GroupListVC: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return ageCategoriesList.count
+        return ageCategoriesGroupsList.count
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -113,25 +92,17 @@ extension ClubCategoryVC: UITableViewDataSource, UITableViewDelegate {
         if cell == nil {
             _ = cellOwner.loadMyNibFile(nibName: "AgeCategoryCell")
             cell = cellOwner.cell as? AgeCategoryCell
+            cell?.isAgeGroup = true
         }
-        cell?.record = ageCategoriesList[indexPath.row] as! NSDictionary
+        cell?.record = ageCategoriesGroupsList[indexPath.row] as! NSDictionary
         cell?.reloadCell()
         return cell!
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        if isFromTournament {
-            let viewController = Storyboards.Tournament.instantiateFinalPlacingsVC()
-            viewController.ageCategoryId = (ageCategoriesList[indexPath.row] as! NSDictionary).value(forKey: "id") as! Int
-            self.navigationController?.pushViewController(viewController, animated: true)
-            return
-        }
-        
         let viewController = Storyboards.Teams.instantiateTeamListingVC()
-        viewController.isClubsCategoryTeam = true
-        viewController.dic = (ageCategoriesList[indexPath.row] as! NSDictionary)
+        viewController.isClubsGroupTeam = true
+        viewController.dic = (ageCategoriesGroupsList[indexPath.row] as! NSDictionary)
         self.navigationController?.pushViewController(viewController, animated: true)
-        
     }
 }

@@ -52,7 +52,7 @@ class ParseManager {
             groupStanding.teamFlag = teamFlag
         }
         
-        if let name = record.value(forKey: "name") as? String {
+        if let name = record.value(forKey: "display_name") as? String {
             groupStanding.name = name
         }
         

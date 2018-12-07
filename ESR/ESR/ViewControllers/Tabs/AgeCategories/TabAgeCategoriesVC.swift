@@ -12,7 +12,7 @@ class TabAgeCategoriesVC: SuperViewController {
     @IBOutlet var table: UITableView!
     
     var ageCategoriesList = NSArray()
-    var heightAgeCategoryCell: CGFloat = 0
+    var heightAgeCategoriesCell: CGFloat = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,8 +32,10 @@ class TabAgeCategoriesVC: SuperViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(showHideNoInternetView(_:)), name: .internetConnectivity, object: nil)
         
         // Height for cell
-        _ = cellOwner.loadMyNibFile(nibName: kNiB.Cell.AgeCategoryCell)
-        heightAgeCategoryCell = (cellOwner.cell as! AgeCategoryCell).getCellHeight()
+        _ = cellOwner.loadMyNibFile(nibName: kNiB.Cell.TabAgeCategoriesCell)
+        heightAgeCategoriesCell = (cellOwner.cell as! TabAgeCategoriesCell).getCellHeight()
+        
+        initInfoAlertView(self.view)
         
         sendAgeCategoriesRequest()
     }
@@ -79,30 +81,39 @@ class TabAgeCategoriesVC: SuperViewController {
     }
 }
 
-extension TabAgeCategoriesVC : UITableViewDataSource, UITableViewDelegate {
+extension TabAgeCategoriesVC: TabAgeCategoriesCellDelegate {
+    func tabAgeCategoriesCellBtnInfoPressed(_ indexPath: IndexPath) {
+        if let comment = (ageCategoriesList[indexPath.row] as! NSDictionary).value(forKey: "comments") as? String {
+            showInfoAlertView(title: String.localize(key: "alert_title_comment"), message: comment, buttonTitle: String.localize(key: "btn_close"))
+        }
+    }
+}
+
+extension TabAgeCategoriesVC: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return ageCategoriesList.count
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return heightAgeCategoryCell
+        return heightAgeCategoriesCell
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        var cell = tableView.dequeueReusableCell(withIdentifier: "AgeCategoryCell") as? AgeCategoryCell
+        var cell = tableView.dequeueReusableCell(withIdentifier: "TabAgeCategoriesCell") as? TabAgeCategoriesCell
         if cell == nil {
-            _ = cellOwner.loadMyNibFile(nibName: "AgeCategoryCell")
-            cell = cellOwner.cell as? AgeCategoryCell
+            _ = cellOwner.loadMyNibFile(nibName: "TabAgeCategoriesCell")
+            cell = cellOwner.cell as? TabAgeCategoriesCell
         }
         cell?.record = ageCategoriesList[indexPath.row] as! NSDictionary
+        cell?.indexPath = indexPath
+        cell?.delegate = self
         cell?.reloadCell()
         return cell!
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let viewController = Storyboards.AgeCategories.instantiateAgeCategoriesGroupsVC()
-        // viewController.ageCategoryId = (ageCategoriesList[indexPath.row] as! NSDictionary).value(forKey: "id") as! Int
         self.navigationController?.pushViewController(viewController, animated: true)
     }
 }

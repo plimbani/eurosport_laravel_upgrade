@@ -40,9 +40,9 @@ class TabTeamsVC: SuperViewController {
     }
     
     func setupTabs() {
-        let tabClubsVC = Storyboards.Teams.instantiateClubClubsVC()
-        let tabCategoryVC = Storyboards.Teams.instantiateClubCategoryVC()
-        let tabGroupVC = Storyboards.Teams.instantiateClubGroupVC()
+        let tabClubsVC = Storyboards.Teams.instantiateClubListVC()
+        let tabCategoryVC = Storyboards.Teams.instantiateCategoryListVC()
+        let tabGroupVC = Storyboards.Teams.instantiateGroupListVC()
         
         viewControllers = [tabClubsVC, tabCategoryVC, tabGroupVC]
         
@@ -53,11 +53,11 @@ class TabTeamsVC: SuperViewController {
         
         if flag {
             if selectedIndex == 0 {
-                viewControllers[selectedIndex] = Storyboards.Teams.instantiateClubClubsVC()
+                viewControllers[selectedIndex] = Storyboards.Teams.instantiateClubListVC()
             } else if selectedIndex == 1 {
-                viewControllers[selectedIndex] = Storyboards.Teams.instantiateClubCategoryVC()
+                viewControllers[selectedIndex] = Storyboards.Teams.instantiateCategoryListVC()
             } else if selectedIndex == 2 {
-                viewControllers[selectedIndex] = Storyboards.Teams.instantiateClubGroupVC()
+                viewControllers[selectedIndex] = Storyboards.Teams.instantiateGroupListVC()
             }
         }
         

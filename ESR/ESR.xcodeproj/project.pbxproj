@@ -85,9 +85,6 @@
 		307949E621394C6800DE23A3 /* GroupDetailsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307949E521394C6800DE23A3 /* GroupDetailsVC.swift */; };
 		307949ED21395AB200DE23A3 /* GroupDetailsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307949EB21395AB200DE23A3 /* GroupDetailsCell.swift */; };
 		307949EE21395AB200DE23A3 /* GroupDetailsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 307949EC21395AB200DE23A3 /* GroupDetailsCell.xib */; };
-		3083AEA821466C5C00F9B4B2 /* ClubCategoryVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3083AEA721466C5C00F9B4B2 /* ClubCategoryVC.swift */; };
-		3083AEAA21466C7400F9B4B2 /* ClubGroupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3083AEA921466C7400F9B4B2 /* ClubGroupVC.swift */; };
-		3083AEAC21466C8500F9B4B2 /* ClubClubsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3083AEAB21466C8500F9B4B2 /* ClubClubsVC.swift */; };
 		3086BC84213D344A00810CC8 /* GroupStanding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3086BC83213D344A00810CC8 /* GroupStanding.swift */; };
 		3086BC87213D3DB800810CC8 /* AgeCategories.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3086BC89213D3DB800810CC8 /* AgeCategories.storyboard */; };
 		3086BC8C213D4FA600810CC8 /* MatchInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3086BC8B213D4FA600810CC8 /* MatchInfoVC.swift */; };
@@ -97,6 +94,11 @@
 		3086BC95213EB11A00810CC8 /* TwoLabelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3086BC93213EB11A00810CC8 /* TwoLabelCell.swift */; };
 		3086BC96213EB11A00810CC8 /* TwoLabelCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3086BC94213EB11A00810CC8 /* TwoLabelCell.xib */; };
 		3086BC9A213FB54E00810CC8 /* MapVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3086BC99213FB54E00810CC8 /* MapVC.swift */; };
+		30AF116121BA531900BE50F4 /* ClubListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30AF116021BA531900BE50F4 /* ClubListVC.swift */; };
+		30AF116321BA53A300BE50F4 /* CategoryListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30AF116221BA53A300BE50F4 /* CategoryListVC.swift */; };
+		30AF116521BA53B600BE50F4 /* GroupListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30AF116421BA53B600BE50F4 /* GroupListVC.swift */; };
+		30AF116821BA596400BE50F4 /* TabAgeCategoriesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30AF116621BA596400BE50F4 /* TabAgeCategoriesCell.swift */; };
+		30AF116921BA596400BE50F4 /* TabAgeCategoriesCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30AF116721BA596400BE50F4 /* TabAgeCategoriesCell.xib */; };
 		30FB3111212EB2B300ABA22A /* privacyContent.html in Resources */ = {isa = PBXBuildFile; fileRef = 30FB3110212EB2B300ABA22A /* privacyContent.html */; };
 		30FB3114212EEB0B00ABA22A /* FavouriteTournamentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FB3112212EEB0B00ABA22A /* FavouriteTournamentCell.swift */; };
 		30FB3115212EEB0B00ABA22A /* FavouriteTournamentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30FB3113212EEB0B00ABA22A /* FavouriteTournamentCell.xib */; };
@@ -197,9 +199,6 @@
 		307949E521394C6800DE23A3 /* GroupDetailsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupDetailsVC.swift; sourceTree = "<group>"; };
 		307949EB21395AB200DE23A3 /* GroupDetailsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupDetailsCell.swift; sourceTree = "<group>"; };
 		307949EC21395AB200DE23A3 /* GroupDetailsCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GroupDetailsCell.xib; sourceTree = "<group>"; };
-		3083AEA721466C5C00F9B4B2 /* ClubCategoryVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClubCategoryVC.swift; sourceTree = "<group>"; };
-		3083AEA921466C7400F9B4B2 /* ClubGroupVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClubGroupVC.swift; sourceTree = "<group>"; };
-		3083AEAB21466C8500F9B4B2 /* ClubClubsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClubClubsVC.swift; sourceTree = "<group>"; };
 		3086BC83213D344A00810CC8 /* GroupStanding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupStanding.swift; sourceTree = "<group>"; };
 		3086BC8A213D3DC400810CC8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/AgeCategories.storyboard; sourceTree = "<group>"; };
 		3086BC8B213D4FA600810CC8 /* MatchInfoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchInfoVC.swift; sourceTree = "<group>"; };
@@ -209,6 +208,11 @@
 		3086BC93213EB11A00810CC8 /* TwoLabelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoLabelCell.swift; sourceTree = "<group>"; };
 		3086BC94213EB11A00810CC8 /* TwoLabelCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TwoLabelCell.xib; sourceTree = "<group>"; };
 		3086BC99213FB54E00810CC8 /* MapVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapVC.swift; sourceTree = "<group>"; };
+		30AF116021BA531900BE50F4 /* ClubListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClubListVC.swift; sourceTree = "<group>"; };
+		30AF116221BA53A300BE50F4 /* CategoryListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryListVC.swift; sourceTree = "<group>"; };
+		30AF116421BA53B600BE50F4 /* GroupListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupListVC.swift; sourceTree = "<group>"; };
+		30AF116621BA596400BE50F4 /* TabAgeCategoriesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabAgeCategoriesCell.swift; sourceTree = "<group>"; };
+		30AF116721BA596400BE50F4 /* TabAgeCategoriesCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TabAgeCategoriesCell.xib; sourceTree = "<group>"; };
 		30FB3110212EB2B300ABA22A /* privacyContent.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = privacyContent.html; sourceTree = "<group>"; };
 		30FB3112212EEB0B00ABA22A /* FavouriteTournamentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouriteTournamentCell.swift; sourceTree = "<group>"; };
 		30FB3113212EEB0B00ABA22A /* FavouriteTournamentCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FavouriteTournamentCell.xib; sourceTree = "<group>"; };
@@ -399,6 +403,8 @@
 				307542AE21745D03003715C7 /* TextViewCell.xib */,
 				307542B72174C9DD003715C7 /* FinalPlacingsCell.swift */,
 				307542B82174C9DD003715C7 /* FinalPlacingsCell.xib */,
+				30AF116621BA596400BE50F4 /* TabAgeCategoriesCell.swift */,
+				30AF116721BA596400BE50F4 /* TabAgeCategoriesCell.xib */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -486,10 +492,10 @@
 			isa = PBXGroup;
 			children = (
 				30181D07211DBA1B0067D65F /* TabTeamsVC.swift */,
-				3083AEA721466C5C00F9B4B2 /* ClubCategoryVC.swift */,
-				3083AEA921466C7400F9B4B2 /* ClubGroupVC.swift */,
-				3083AEAB21466C8500F9B4B2 /* ClubClubsVC.swift */,
 				307542BD2178A157003715C7 /* TeamListingVC.swift */,
+				30AF116021BA531900BE50F4 /* ClubListVC.swift */,
+				30AF116221BA53A300BE50F4 /* CategoryListVC.swift */,
+				30AF116421BA53B600BE50F4 /* GroupListVC.swift */,
 			);
 			path = Teams;
 			sourceTree = "<group>";
@@ -646,6 +652,7 @@
 				30181D40212312EC0067D65F /* ButtonCell.xib in Resources */,
 				30181D5A2126CF830067D65F /* QA.xcconfig in Resources */,
 				30181D4E212590EC0067D65F /* ImageNavigationBar.xib in Resources */,
+				30AF116921BA596400BE50F4 /* TabAgeCategoriesCell.xib in Resources */,
 				30181D6F212AA3400067D65F /* CustomAlertView.xib in Resources */,
 				30181D612126D6930067D65F /* QA.plist in Resources */,
 				30FB31272136660900ABA22A /* GroupSummaryMatchesHeader.xib in Resources */,
@@ -733,12 +740,12 @@
 				30181D502126BB520067D65F /* ApiManager.swift in Sources */,
 				30181D08211DBA1B0067D65F /* TabTeamsVC.swift in Sources */,
 				30181CFA211DAFA80067D65F /* MainTabViewController.swift in Sources */,
+				30AF116821BA596400BE50F4 /* TabAgeCategoriesCell.swift in Sources */,
 				30FB312E21366AA400ABA22A /* GroupSummaryStandingsCell.swift in Sources */,
 				30181D382122D1A00067D65F /* UITextFieldExtensions.swift in Sources */,
 				307542B92174C9DD003715C7 /* FinalPlacingsCell.swift in Sources */,
 				307542B62174BCED003715C7 /* FinalPlacingsVC.swift in Sources */,
 				30181D642126D7850067D65F /* Environments.swift in Sources */,
-				3083AEAA21466C7400F9B4B2 /* ClubGroupVC.swift in Sources */,
 				306893F5214A813900BA543F /* TournamentClubCell.swift in Sources */,
 				30FB3114212EEB0B00ABA22A /* FavouriteTournamentCell.swift in Sources */,
 				3086BC84213D344A00810CC8 /* GroupStanding.swift in Sources */,
@@ -756,10 +763,10 @@
 				30181D212121A8DD0067D65F /* LoginVC.swift in Sources */,
 				30181CDD211D99F50067D65F /* AppConstantsList.swift in Sources */,
 				307949DF2137F78100DE23A3 /* TeamFixture.swift in Sources */,
-				3083AEAC21466C8500F9B4B2 /* ClubClubsVC.swift in Sources */,
 				307949ED21395AB200DE23A3 /* GroupDetailsCell.swift in Sources */,
 				30181D0C211DBA900067D65F /* TabSettingsVC.swift in Sources */,
 				30181D79212ABB5A0067D65F /* ParseManger.swift in Sources */,
+				30AF116321BA53A300BE50F4 /* CategoryListVC.swift in Sources */,
 				30181D4C212590E30067D65F /* ImageNavigationBar.swift in Sources */,
 				30181D3B21230ABF0067D65F /* TextFieldCell.swift in Sources */,
 				307542B2217474AD003715C7 /* TournamentDetailsView.swift in Sources */,
@@ -771,10 +778,10 @@
 				30181D682126EB830067D65F /* UIViewExtentions.swift in Sources */,
 				307542BE2178A157003715C7 /* TeamListingVC.swift in Sources */,
 				3086BC90213E94B600810CC8 /* UIImageViewExtensions.swift in Sources */,
+				30AF116521BA53B600BE50F4 /* GroupListVC.swift in Sources */,
 				30181D77212AB9CE0067D65F /* UserData.swift in Sources */,
 				30181D332122C0370067D65F /* LabelSelectionCell.swift in Sources */,
 				3086BC8E213D503A00810CC8 /* VenueVC.swift in Sources */,
-				3083AEA821466C5C00F9B4B2 /* ClubCategoryVC.swift in Sources */,
 				3086BC8C213D4FA600810CC8 /* MatchInfoVC.swift in Sources */,
 				30181D2C2122B9B30067D65F /* UIViewControllerExtentions.swift in Sources */,
 				30181D262122A8F10067D65F /* TitleNavigationBar.swift in Sources */,
@@ -786,6 +793,7 @@
 				3086BC9A213FB54E00810CC8 /* MapVC.swift in Sources */,
 				30181D42212558900067D65F /* Utils.swift in Sources */,
 				307542AB2170BE03003715C7 /* LabelCell.swift in Sources */,
+				30AF116121BA531900BE50F4 /* ClubListVC.swift in Sources */,
 				30569402212BEADC009790BA /* PrivacyAndTermsVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

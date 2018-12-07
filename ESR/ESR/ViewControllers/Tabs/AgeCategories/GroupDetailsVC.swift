@@ -26,7 +26,7 @@ class GroupDetailsVC: SuperViewController {
         titleNavigationBar.delegate = self
         titleNavigationBar.setBackgroundColor()
         
-        // Checks internet connectivity
+         // Checks internet connectivity
         setConstraintLblNoInternet(APPDELEGATE.reachability.connection == .none)
         
         // To show/hide internet view in Navigation bar
@@ -41,8 +41,6 @@ class GroupDetailsVC: SuperViewController {
         heightGroupDetailCell = (cellOwner.cell as! GroupDetailsCell).getCellHeight()
         
         headerView.frame = CGRect(x: 0, y: 0, width: DEVICE_WIDTH, height: 60)
-        
-        self.tabBarController?.tabBar.isHidden = true
     }
     
     deinit {
@@ -85,7 +83,7 @@ extension GroupDetailsVC : UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableViewAutomaticDimension
+        return 40
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {

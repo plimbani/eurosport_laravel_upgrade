@@ -32,7 +32,7 @@ class GroupDetailsCell: UITableViewCell {
         lblF.font = UIFont(name: Font.HELVETICA_REGULAR, size: Font.Size.commonLblSize)
         lblA.font = UIFont(name: Font.HELVETICA_REGULAR, size: Font.Size.commonLblSize)
         lblGoalDifference.font = UIFont(name: Font.HELVETICA_REGULAR, size: Font.Size.commonLblSize)
-        lblP.font = UIFont(name: Font.HELVETICA_REGULAR, size: Font.Size.commonLblSize)
+        lblP.font = UIFont(name: Font.HELVETICA_BOLD, size: Font.Size.commonLblSize)
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

@@ -27,6 +27,7 @@
 "alert_title_error"                     =   "Error";
 "alert_title_success"                   =   "Success";
 "alert_title_app_update"                =   "Update Available";
+"alert_title_comment"                   =   "Comments";
 
 
 //Alert Messages
@@ -45,6 +46,7 @@
 "btn_ok"                                =   "Ok";
 "btn_no"                                =   "No";
 "btn_yes"                               =   "Yes";
+"btn_close"                             =   "Close";
 "btn_cancel"                            =   "Cancel";
 "btn_update"                            =   "Update";
 "btn_logout"                            =   "Log out";

@@ -160,10 +160,10 @@
             </objects>
             <point key="canvasLocation" x="103.125" y="130.98591549295776"/>
         </scene>
-        <!--Club ClubsVC-->
+        <!--Club ListVC-->
         <scene sceneID="wu8-k1-VZM">
             <objects>
-                <viewController storyboardIdentifier="ClubClubsVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="1fd-gd-aa0" customClass="ClubClubsVC" customModule="ESR" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ClubListVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="1fd-gd-aa0" customClass="ClubListVC" customModule="ESR" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="odc-Xv-MI0">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -270,10 +270,10 @@
             </objects>
             <point key="canvasLocation" x="815.625" y="836.61971830985919"/>
         </scene>
-        <!--Club GroupVC-->
+        <!--Group ListVC-->
         <scene sceneID="ynM-aW-75Q">
             <objects>
-                <viewController storyboardIdentifier="ClubGroupVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="nJD-eO-hgX" customClass="ClubGroupVC" customModule="ESR" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="GroupListVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="nJD-eO-hgX" customClass="GroupListVC" customModule="ESR" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="S4w-Xo-Ipc">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -288,10 +288,10 @@
                                         <textInputTraits key="textInputTraits" autocorrectionType="no"/>
                                     </textField>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="search" translatesAutoresizingMaskIntoConstraints="NO" id="yss-XA-fwH">
-                                        <rect key="frame" x="20" y="12.5" width="25" height="25"/>
+                                        <rect key="frame" x="20" y="14" width="22" height="22"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="25" id="92A-MK-Fiv"/>
-                                            <constraint firstAttribute="width" constant="25" id="EH8-lw-QKu"/>
+                                            <constraint firstAttribute="height" constant="22" id="92A-MK-Fiv"/>
+                                            <constraint firstAttribute="width" constant="22" id="EH8-lw-QKu"/>
                                         </constraints>
                                     </imageView>
                                 </subviews>
@@ -335,10 +335,10 @@
             </objects>
             <point key="canvasLocation" x="1552.5" y="130.98591549295776"/>
         </scene>
-        <!--Club CategoryVC-->
+        <!--Category ListVC-->
         <scene sceneID="vqT-TE-i12">
             <objects>
-                <viewController storyboardIdentifier="ClubCategoryVC" id="goi-Vb-JmH" customClass="ClubCategoryVC" customModule="ESR" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="CategoryListVC" id="goi-Vb-JmH" customClass="CategoryListVC" customModule="ESR" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="qU4-Nh-HW6">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -360,10 +360,10 @@
                                         <textInputTraits key="textInputTraits" autocorrectionType="no"/>
                                     </textField>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="search" translatesAutoresizingMaskIntoConstraints="NO" id="6O6-TZ-cK0">
-                                        <rect key="frame" x="20" y="12.5" width="25" height="25"/>
+                                        <rect key="frame" x="20" y="14" width="22" height="22"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="25" id="2gr-Kb-Its"/>
-                                            <constraint firstAttribute="height" constant="25" id="Yrl-mt-Oju"/>
+                                            <constraint firstAttribute="width" constant="22" id="2gr-Kb-Its"/>
+                                            <constraint firstAttribute="height" constant="22" id="Yrl-mt-Oju"/>
                                         </constraints>
                                     </imageView>
                                 </subviews>

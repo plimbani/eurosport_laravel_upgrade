@@ -1,13 +1,13 @@
 //
-//  ClubClubsVC.swift
+//  ClubListVC.swift
 //  ESR
 //
-//  Created by Pratik Patel on 10/09/18.
+//  Created by Pratik Patel on 07/12/18.
 //
 
 import UIKit
 
-class ClubClubsVC: SuperViewController {
+class ClubListVC: SuperViewController {
 
     @IBOutlet var txtSearch: UITextField!
     @IBOutlet var table: UITableView!
@@ -68,7 +68,7 @@ class ClubClubsVC: SuperViewController {
         
         self.view.showProgressHUD()
         var parameters: [String: Any] = [:]
-
+        
         if let selectedTournament = ApplicationData.sharedInstance().getSelectedTournament() {
             parameters["tournament_id"] = selectedTournament.id
         }
@@ -94,13 +94,13 @@ class ClubClubsVC: SuperViewController {
     }
 }
 
-extension ClubClubsVC: UITextFieldDelegate {
+extension ClubListVC: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
         
     }
 }
 
-extension ClubClubsVC: UITableViewDataSource, UITableViewDelegate {
+extension ClubListVC: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if isSearch {

@@ -63,9 +63,12 @@ struct kViewController {
     static let TabFavouritesVC                  = "TabFavouritesVC"
     static let TabTournamentVC                  = "TabTournamentVC"
     static let TabTeamsVC                       = "TabTeamsVC"
-    static let ClubCategoryVC                   = "ClubCategoryVC"
-    static let ClubGroupVC                      = "ClubGroupVC"
-    static let ClubClubsVC                      = "ClubClubsVC"
+    // static let ClubCategoryVC                   = "ClubCategoryVC"
+    // static let ClubGroupVC                      = "ClubGroupVC"
+    // static let ClubClubsVC                      = "ClubClubsVC"
+    static let ClubListVC                       = "ClubListVC"
+    static let CategoryListVC                   = "CategoryListVC"
+    static let GroupListVC                      = "GroupListVC"
     static let TeamListingVC                    = "TeamListingVC"
     static let TabAgeCategoriesVC               = "TabAgeCategoriesVC"
     static let TabSettingsVC                    = "TabSettingsVC"
@@ -160,6 +163,7 @@ struct kNiB {
         static let LabelCell                    = "LabelCell"
         static let TextViewCell                 = "TextViewCell"
         static let FinalPlacingsCell            = "FinalPlacingsCell"
+        static let TabAgeCategoriesCell         = "TabAgeCategoriesCell"
     }
     
     struct View {

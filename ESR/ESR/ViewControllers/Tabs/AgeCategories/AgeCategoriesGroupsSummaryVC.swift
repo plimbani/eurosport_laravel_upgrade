@@ -72,14 +72,18 @@ class AgeCategoriesGroupsSummaryVC: SuperViewController {
         heightGroupSummaryMatchesCell = (cellOwner.cell as! GroupSummaryMatchesCell).getCellHeight()
         
         for group in ApplicationData.groupsList {
-            titleList.append((group as! NSDictionary).value(forKey: "name") as! String)
+            if let name = (group as! NSDictionary).value(forKey: "display_name") as? String {
+                titleList.append(name)
+            }
         }
         
         pickerHandlerView = getPickerView(titleList)
         pickerHandlerView.delegate = self
         self.view.addSubview(pickerHandlerView)
         
-        lblGroupName.text = dicGroup.value(forKey: "name") as! String
+        if let name = dicGroup.value(forKey: "display_name") as? String {
+            lblGroupName.text = name
+        }
         
         if headerGroupStandingView != nil {
             headerGroupStandingView.frame = CGRect(x: 0, y: 0, width: DEVICE_WIDTH, height: 60)
@@ -113,6 +117,10 @@ class AgeCategoriesGroupsSummaryVC: SuperViewController {
             UIDevice.current.setValue(UIInterfaceOrientation.portrait.rawValue, forKey: "orientation")
             self.tabBarController?.tabBar.isHidden = false
             rotateToPortrait = false
+            
+            if let mainTabViewController = self.parent!.parent as? MainTabViewController {
+                mainTabViewController.hideTabbar(flag: false)
+            }
         }
     }
     
@@ -145,6 +153,10 @@ class AgeCategoriesGroupsSummaryVC: SuperViewController {
     }
     
     @objc func onFooterGroupStandingView(sender : UITapGestureRecognizer) {
+        if let mainTabViewController = self.parent!.parent as? MainTabViewController {
+            mainTabViewController.hideTabbar()
+        }
+        
         let viewController = Storyboards.AgeCategories.instantiateGroupDetailsVC()
         viewController.groupStandingsList = self.groupStandingsList
         viewController.groupName = lblGroupName.text!

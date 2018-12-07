@@ -44,6 +44,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
+        updateToken()
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
@@ -52,5 +53,36 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    }
+    
+    func updateToken() {
+        if APPDELEGATE.reachability.connection == .none {
+            return
+        }
+        
+        var parameters: [String: Any] = [:]
+        
+        if let email = USERDEFAULTS.value(forKey: kUserDefaults.email) as? String,  let password = USERDEFAULTS.value(forKey: kUserDefaults.password) as? String {
+            parameters["email"] = email
+            parameters["password"] = password
+            
+            ApiManager().login(parameters, success: { result in
+                DispatchQueue.main.async {
+                    if let token = result.value(forKey: "token") as? String {
+                        USERDEFAULTS.set(token, forKey: kUserDefaults.token)
+                    }
+                }
+            }, failure: { result in
+                DispatchQueue.main.async {
+                    if result.allKeys.count == 0 {
+                        return
+                    }
+                    
+                    // if let error = result.value(forKey: "error") as? String {
+                        // self.showInfoAlertView(title: String.localize(key: "alert_title_error"), message: error)
+                    //}
+                }
+            })
+        }
     }
 }

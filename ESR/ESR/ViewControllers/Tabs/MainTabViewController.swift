@@ -15,11 +15,15 @@ class MainTabViewController: SuperViewController {
     @IBOutlet var tabButtonList: [UIButton]!
     @IBOutlet var tabLabelList: [UILabel]!
     @IBOutlet var contentView: UIView!
+    @IBOutlet var tabBarContainerView: UIView!
+    
     var selectedIndex = 0
     var previousIndex = 0
     var viewControllers: [UIViewController]!
     
     var delegate: MainTabViewControllerDelegate?
+    
+    @IBOutlet var heightConstraintTabbarContainerView: NSLayoutConstraint!
     
     var isFromLanding = false
     
@@ -45,45 +49,10 @@ class MainTabViewController: SuperViewController {
             // Checks if new app version is available or not
             sendAppversionRequest()
         }
-        
-        if !isFromLanding {
-            updateToken()
-        }
     }
     
-    func updateToken() {
-        if APPDELEGATE.reachability.connection == .none {
-            return
-        }
-        
-        self.view.showProgressHUD()
-        var parameters: [String: Any] = [:]
-        
-        if let email = USERDEFAULTS.value(forKey: kUserDefaults.email) as? String {
-            parameters["email"] = email
-        }
-        
-        if let password = USERDEFAULTS.value(forKey: kUserDefaults.password) as? String {
-            parameters["password"] = password
-        }
-        
-        ApiManager().login(parameters, success: { result in
-            DispatchQueue.main.async {
-                if let token = result.value(forKey: "token") as? String {
-                    USERDEFAULTS.set(token, forKey: kUserDefaults.token)
-                }
-            }
-        }, failure: { result in
-            DispatchQueue.main.async {
-                if result.allKeys.count == 0 {
-                    return
-                }
-                
-                if let error = result.value(forKey: "error") as? String {
-                    self.showInfoAlertView(title: String.localize(key: "alert_title_error"), message: error)
-                }
-            }
-        })
+    func hideTabbar(flag: Bool = true) {
+        heightConstraintTabbarContainerView.constant = flag ? 0 : 60
     }
     
     func sendAppversionRequest() {

@@ -215,7 +215,7 @@ class TabTournamentVC: SuperViewController {
     }
     
     @IBAction func onFinalPlacingPressed(_ sender: UIButton) {
-        let viewController = Storyboards.Teams.instantiateClubCategoryVC()
+        let viewController = Storyboards.Teams.instantiateCategoryListVC()
         viewController.isFromTournament = true
         self.navigationController?.pushViewController(viewController, animated: true)
     }

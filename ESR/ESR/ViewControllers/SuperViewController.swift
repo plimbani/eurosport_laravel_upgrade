@@ -43,7 +43,7 @@ class SuperViewController: UIViewController {
         view.addSubview(infoAlertView)
     }
     
-    func showInfoAlertView(title: String, message: String, buttonTitle: String = String.localize(key: "btn_ok"), requestCode: Int = -1) {
+    func showInfoAlertView(title: String, message: String, buttonTitle: String = String.localize(key: "btn_close"), requestCode: Int = -1) {
         if infoAlertView != nil {
             infoAlertView.setTitle(title, message: message, buttonTitle: buttonTitle, requestCode: requestCode)
             infoAlertView.show()

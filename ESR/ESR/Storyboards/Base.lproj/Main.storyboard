@@ -436,6 +436,8 @@
                     </view>
                     <connections>
                         <outlet property="contentView" destination="5xD-kt-gNH" id="ur3-95-PMK"/>
+                        <outlet property="heightConstraintTabbarContainerView" destination="CiJ-xP-hsF" id="Taj-y3-ZoY"/>
+                        <outlet property="tabBarContainerView" destination="KIg-Dj-zjp" id="VNj-3c-Sta"/>
                         <outletCollection property="tabButtonList" destination="zaR-Ic-UzP" collectionClass="NSMutableArray" id="ry6-Yi-31v"/>
                         <outletCollection property="tabButtonList" destination="7BN-Hq-556" collectionClass="NSMutableArray" id="1AP-P4-sET"/>
                         <outletCollection property="tabButtonList" destination="kBW-jV-fup" collectionClass="NSMutableArray" id="Upv-aW-QfC"/>
