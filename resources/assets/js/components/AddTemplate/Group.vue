@@ -31,11 +31,11 @@
 		                </div>
 		            </div>
 		        </div>
-		        <div class="row align-items-center mt-3" v-if="!(roundIndex === 0 && groupData.type === 'round_robin')" v-for="(match, matchIndex) in groupData.matches">
-		        	<div class="col-md-12 mb-3" v-if="matchIndex % 2 === 0 && groupData.type === 'placing_match'">
+		        <div class="row align-items-center mt-3" v-if="!(roundIndex === 0 && groupData.type === 'round_robin')" v-for="(team, teamIndex) in groupData.teams">
+		        	<div class="col-md-12 mb-3" v-if="teamIndex % 2 === 0 && groupData.type === 'placing_match'">
 		        		<div class="row">
 		        			<div class="col-md-3">
-				        		<strong>Match {{ matchIndex/2 + 1 }}</strong>
+				        		<strong>Match {{ teamIndex/2 + 1 }}</strong>
 				        	</div>
 				        	<div class="col-md-9">
 				        		<input type="checkbox" /> Final
@@ -46,29 +46,29 @@
 		        		<div class="row">
 				        	<div class="col-md-3">
 				        		<label class="mb-0">
-				        			{{ (groupData.type === 'round_robin' ? 'Team ' + (matchIndex + 1) : (matchIndex/2 === 0) ? 'Home' : 'Away' )  }}
+				        			{{ (groupData.type === 'round_robin' ? 'Team ' + (teamIndex + 1) : (teamIndex/2 === 0) ? 'Home' : 'Away' )  }}
 				        		</label>
 				        	</div>
 				        	<div class="col-md-9">
 				        		<div class="row">
 				        			<div class="col-md-4">
 				        				<div class="form-group mb-0">
-					        				<select class="form-control ls-select2" v-model="match.position_type" @change="onPositionTypeChange(matchIndex)">
+					        				<select class="form-control ls-select2" v-model="team.position_type" @change="onPositionTypeChange(teamIndex)">
 					        					<option :value="position.key" v-for="position in getPositionTypes()">{{ position.value }}</option>
 						                    </select>
 						                </div>
 				        			</div>
 				        			<div class="col-md-4">
 				        				<div class="form-group mb-0">
-					        				<select :disabled="(roundIndex === 0 && groupData.type === 'placing_match' && index === getFirstPlacingMatch())" class="form-control ls-select2" v-model="match.group" @change="onGroupChange(matchIndex)">
-					                    		<option v-for="group in getGroupsForSelection(matchIndex)" :value="group.value">{{ group.name }}</option>
+					        				<select :disabled="(roundIndex === 0 && groupData.type === 'placing_match' && index === getFirstPlacingMatch())" class="form-control ls-select2" v-model="team.group" @change="onGroupChange(teamIndex)">
+					                    		<option v-for="group in getGroupsForSelection(teamIndex)" :value="group.value">{{ group.name }}</option>
 					                    	</select>
 					                    </div>
 				        			</div>
 				        			<div class="col-md-4">
 				        				<div class="form-group mb-0">
-					        				<select class="form-control ls-select2 js-select-position" :id="'pos_'+(matchIndex+1)" @change="onAssignPosition(matchIndex+1)" v-model="match.position">
-					                    		<option :value="position.value" v-for="position in getPositionsForSelection(matchIndex, match.group)">{{ position.name }}</option>
+					        				<select class="form-control ls-select2 js-select-position" :id="'pos_'+(teamIndex+1)" @change="onAssignPosition(teamIndex+1)" v-model="team.position">
+					                    		<option :value="position.value" v-for="position in getPositionsForSelection(teamIndex, team.group)">{{ position.name }}</option>
 					                    	</select>
 					                    </div>
 				        			</div>
@@ -141,27 +141,29 @@
                 }
                 this.last_selected_teams = this.groupData.no_of_teams;
                 this.displayTeams();
-                this.setMatches();
+                if(this.roundIndex == 0 && this.groupData.type == "round_robin") {
+                	this.setMatches();
+                }
         	},
         	displayTeams() {
         		var i;
-        		var oldGroupTeamData = _.cloneDeep(this.groupData.matches);
-				this.groupData.matches = [];
+        		var oldGroupTeamData = _.cloneDeep(this.groupData.teams);
+				this.groupData.teams = [];
 				for (i = 0; i < this.groupData.no_of_teams; i++) {
 					if(_.has(oldGroupTeamData, i)) {
-						this.groupData.matches.push({position_type: oldGroupTeamData[i].position_type, group: oldGroupTeamData[i].group, position: oldGroupTeamData[i].position, teams: ''});
+						this.groupData.teams.push({position_type: oldGroupTeamData[i].position_type, group: oldGroupTeamData[i].group, position: oldGroupTeamData[i].position});
 						continue;
 					}
 					if(this.roundIndex === 0 && this.groupData.type === 'placing_match' && this.index === this.getFirstPlacingMatch()) {
-						this.groupData.matches.push({position_type: 'team', group: '', position: i, teams: ''});
+						this.groupData.teams.push({position_type: 'team', group: '', position: i});
 						continue;
 					}
 
 					if(this.roundIndex === 0 && this.groupData.type === 'placing_match' && this.index !== this.getFirstPlacingMatch()) {
-						this.groupData.matches.push({position_type: 'winner', group: '', position: '', teams: ''});
+						this.groupData.teams.push({position_type: 'winner', group: '', position: ''});
 						continue;
 					}
-				    this.groupData.matches.push({position_type: 'placed', group: '', position: '', teams: ''});
+				    this.groupData.teams.push({position_type: 'placed', group: '', position: ''});
 				}
         	},
 			getSuffixForPosition(d) {
@@ -179,8 +181,8 @@
 		    	this.$root.$emit('updateGroupCount');
 		    	this.updateTeamPositions();
 		    },
-		    getGroupsForSelection(matchIndex) {
-		    	let match = this.groupData.matches[matchIndex];
+		    getGroupsForSelection(teamIndex) {
+		    	let match = this.groupData.teams[teamIndex];
         		let groupsForSelection = [];
         		let roundRobinIndex = 0;
         		let placingMatchIndex = 0;
@@ -196,7 +198,7 @@
 							roundGroupCount += 1;
 
 							if(roundRobinIndex === 0 && match.group === '')
-								vm.groupData.matches[matchIndex].group = groupsForSelection[roundRobinIndex].value;
+								vm.groupData.teams[teamIndex].group = groupsForSelection[roundRobinIndex].value;
 
 							roundRobinIndex++;
 
@@ -208,7 +210,7 @@
 							groupsForSelection[placingMatchIndex] = {'name': 'PM ' + (placingGroupCount), 'value': roundIndex + ',' + groupIndex};
 
 							if(placingMatchIndex === 0 && (match.group === '' || typeof match.group === 'undefined')) {
-								vm.groupData.matches[matchIndex].group = groupsForSelection[placingMatchIndex].value;
+								vm.groupData.teams[teamIndex].group = groupsForSelection[placingMatchIndex].value;
 							}
 
 							placingMatchIndex++;
@@ -220,30 +222,30 @@
 				});
 				return groupsForSelection;
 		    },
-		    getPositionsForSelection(matchIndex, group) {
+		    getPositionsForSelection(teamIndex, group) {
 		    	let vm = this;
 			    var positionsForSelection = [];
 
 			    if(this.roundIndex === 0 && this.groupData.type === 'placing_match' && this.index === this.getFirstPlacingMatch()) {
-			    	_.forEach(this.groupData.matches, function(match, matchIndex) {
-		    			positionsForSelection.push({'name': vm.getSuffixForPosition(matchIndex + 1), 'value': matchIndex});
+			    	_.forEach(this.groupData.teams, function(match, teamIndex) {
+		    			positionsForSelection.push({'name': vm.getSuffixForPosition(teamIndex + 1), 'value': teamIndex});
 		    		});
 		    		return positionsForSelection;
 			    }
 
-		    	let match = this.groupData.matches[matchIndex];
+		    	let match = this.groupData.teams[teamIndex];
 		    	if(group) {
 			    	var currentRoundGroup = group.split(',');
-			    	var matches = this.templateFormDetail['steptwo'].rounds[currentRoundGroup[0]].groups[currentRoundGroup[1]].matches;			    	
+			    	var teams = this.templateFormDetail['steptwo'].rounds[currentRoundGroup[0]].groups[currentRoundGroup[1]].teams;			    	
 			    	var numberOfTeams = this.templateFormDetail['steptwo'].rounds[currentRoundGroup[0]].groups[currentRoundGroup[1]].no_of_teams;
 			    	var groupType = this.templateFormDetail['steptwo'].rounds[currentRoundGroup[0]].groups[currentRoundGroup[1]].type;
 			    	
 				    // for round robin
 			    	if(groupType === 'round_robin' && match.position_type === 'placed') {
-				    	if(this.groupData.matches[matchIndex].position === '' || typeof this.groupData.matches[matchIndex].position === 'undefined') {
-				    		this.groupData.matches[matchIndex].position = group + ',0';
+				    	if(this.groupData.teams[teamIndex].position === '' || typeof this.groupData.teams[teamIndex].position === 'undefined') {
+				    		this.groupData.teams[teamIndex].position = group + ',0';
 				    	}
-				    	_.forEach(matches, function(match, index) {
+				    	_.forEach(teams, function(match, index) {
 		    				positionsForSelection.push({'name': vm.getSuffixForPosition(index + 1), 'value': group + ',' + index});
 		    			});
 		    		}
@@ -251,7 +253,7 @@
 			    	// for placing
 					if(groupType === 'placing_match' && _.indexOf(['winner', 'loser'], match.position_type) > -1) {
 						let matches = numberOfTeams / 2;
-						this.groupData.matches[matchIndex].position = group + ',0';
+						this.groupData.teams[teamIndex].position = group + ',0';
 						for (var i = 1; i <= matches; i++) {
 							positionsForSelection.push({'name': 'Match' + i, 'value': group + ',' + (i - 1)});
 						}
@@ -260,12 +262,12 @@
 			    	return positionsForSelection;
 		    	}
 		    },
-		    onPositionTypeChange(matchIndex) {
-		    	this.groupData.matches[matchIndex].group = '';
-		    	this.groupData.matches[matchIndex].position = '';
+		    onPositionTypeChange(teamIndex) {
+		    	this.groupData.teams[teamIndex].group = '';
+		    	this.groupData.teams[teamIndex].position = '';
 		    },
-		    onGroupChange(matchIndex) {
-		    	this.groupData.matches[matchIndex].position = '';
+		    onGroupChange(teamIndex) {
+		    	this.groupData.teams[teamIndex].position = '';
 		    },
 		    getPositionTypes() {
 				let positionTypes = [];
@@ -287,9 +289,9 @@
 		    updateTeamPositions() {
 		    	let vm = this;
 		    	if(this.roundIndex === 0 && this.groupData.type === 'placing_match' && this.index === this.getFirstPlacingMatch()) {
-		    		_.forEach(this.groupData.matches, function(match, matchIndex) {
-		    			vm.groupData.matches[matchIndex].position = matchIndex;
-		    			vm.groupData.matches[matchIndex].position_type = 'team';
+		    		_.forEach(this.groupData.teams, function(match, teamIndex) {
+		    			vm.groupData.teams[teamIndex].position = teamIndex;
+		    			vm.groupData.teams[teamIndex].position_type = 'team';
 		    		});
 		    	}
 		    	if(this.roundIndex === 0 && this.groupData.type === 'placing_match' && this.index !== this.getFirstPlacingMatch()) {
@@ -303,20 +305,20 @@
 		    	return index;
 		    },
 		    setMatches() {
-		    	this.groupData.matches = [];
-        		if(this.roundIndex == 0 && this.groupData.type == "round_robin") {
-        			let times = this.groupData.teams_play_each_other;
-        			let noOfTeams = this.groupData.no_of_teams;
-        			let totalTimes = this.teamsPlayedEachOther[times];
-        			
-        			for(var i=0; i<totalTimes; i++){
-        				for(var j=1; j<=noOfTeams; j++) {        					
-        					for(var k=(j+1); k<=noOfTeams; k++) {
-        						this.groupData.matches.push({position_type: 'winner', group: '', position: '', teams: j + '-' + k});
-        					}
-        				}
-        			}
-        		}
+        		this.groupData.matches = [];
+
+    			let times = this.groupData.teams_play_each_other;
+    			let noOfTeams = this.groupData.no_of_teams;
+    			let totalTimes = this.teamsPlayedEachOther[times];
+    			
+    			let vm = this;
+    			for(var i=0; i<totalTimes; i++){
+    				for(var j=1; j<=noOfTeams; j++) {        					
+    					for(var k=(j+1); k<=noOfTeams; k++) {
+    						vm.groupData.matches.push({teams: j + '-' + k});
+    					}
+    				}
+    			}
 		    }
         }
     }

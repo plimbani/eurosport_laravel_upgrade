@@ -62,7 +62,8 @@
                                 type: "round_robin",
                                 no_of_teams: 2,
                                 teams_play_each_other: "once",
-                                matches: [{position_type: 'placed', group: '', position: '', teams: '1-2'}]
+                                teams: [{position_type: 'placed', group: '', position: ''}],
+                                matches: [{teams: '1-2'}],
                             }],
                             start_round_group_count: 0,
                             start_placing_group_count: 0,
