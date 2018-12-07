@@ -22,7 +22,7 @@
 		            <div class="col-md-6" v-if="groupData.type == 'round_robin'">
 		                <div class="form-group mb-0">
 		                    <label>Teams play each other</label>
-		                    <select class="form-control ls-select2" v-model="groupData.teams_play_each_other">
+		                    <select class="form-control ls-select2" v-model="groupData.teams_play_each_other" @change="setMatches()">
 		                        <option value="once">Once</option>
 		                        <option value="twice">Twice</option>
 		                        <option value="three_times">Three times</option>
@@ -88,6 +88,12 @@
         data() {
             return {
             	last_selected_teams: this.groupData.no_of_teams,
+            	teamsPlayedEachOther: {
+        			'once': '1',
+        			'twice': '2',
+        			'three_times': '3',
+        			'four_times': '4'
+        		}
             }
         },
         components: {
@@ -128,8 +134,14 @@
                     this.groupData.no_of_teams = this.last_selected_teams;
                     return false;
                 }
+                if(this.groupData.type == 'placing_match' && this.groupData.no_of_teams % 2 != 0) {
+                	toastr['error']('Group teams should be in even numbers.', 'Error');
+                	this.groupData.no_of_teams = this.last_selected_teams;
+                	return false;
+                }
                 this.last_selected_teams = this.groupData.no_of_teams;
                 this.displayTeams();
+                this.setMatches();
         	},
         	displayTeams() {
         		var i;
@@ -289,6 +301,22 @@
 		    getFirstPlacingMatch() {
 		    	let index = _.findIndex(this.roundData.groups, {'type': 'placing_match'});
 		    	return index;
+		    },
+		    setMatches() {
+		    	this.groupData.matches = [];
+        		if(this.roundIndex == 0 && this.groupData.type == "round_robin") {
+        			let times = this.groupData.teams_play_each_other;
+        			let noOfTeams = this.groupData.no_of_teams;
+        			let totalTimes = this.teamsPlayedEachOther[times];
+        			
+        			for(var i=0; i<totalTimes; i++){
+        				for(var j=1; j<=noOfTeams; j++) {        					
+        					for(var k=(j+1); k<=noOfTeams; k++) {
+        						this.groupData.matches.push({position_type: 'winner', group: '', position: '', teams: j + '-' + k});
+        					}
+        				}
+        			}
+        		}
 		    }
         }
     }

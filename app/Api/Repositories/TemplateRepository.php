@@ -81,7 +81,14 @@ class TemplateRepository
      */
     public function saveTemplateDetail($data)
     {
-        echo "<pre>";print_r($data);echo "</pre>";exit;
+        // echo "<pre>";print_r($data);echo "</pre>";exit;
+        $competitionType = '';
+        if($data['templateFormDetail']['stepone']['editor'] == 'simple_editor' && $data['templateFormDetail']['stepone']['competition_type']) {
+            $competitionType = $data['templateFormDetail']['stepone']['competition_type']; 
+        } else {
+            $competitionType = null;
+        }
+
         $finalArray = [];
         $finalArray['total_matches'] = 9;
         $finalArray['tournament_id'] = 15;
@@ -97,26 +104,41 @@ class TemplateRepository
         $finalArray['position_type'] = '';
         $finalArray['tournament_competation_format'] = [];
         $finalArray['tournament_competation_format']['format_name'] = [];
+        $finalArray['tournament_positions'] = [];
 
         $rounds = [];
         $groupCount = 0;
         foreach ($data['templateFormDetail']['steptwo']['rounds'] as $roundIndex => $round) {
             $finalArray['tournament_competation_format']['format_name'][$roundIndex]['name'] = 'Round '.($roundIndex+1);
             foreach ($round['groups'] as $groupIndex => $group) {
+                
+                $matches = [];
+                foreach ($group['matches'] as $key => $match) {
+                    array_push($matches, ['in_between' => $match['teams'], 'match_number' => '', 'display_match_number' => '', 'display_home_team_placeholder_name' => '', 'display_away_team_placeholder_name' => '']);
+                }
+                
                 $finalGroupCount = 65 + $groupCount + $groupIndex;
-                $grouplist = [
+                $matchTypeDetail = [
                     'name' => '',
                     'total_match' => $group['no_of_teams'],
                     'group_count' => count($round['groups']),
-                    'groups' => ['group_name' => 'Group-' .chr($finalGroupCount)]
+                    'groups' => ['group_name' => 'Group-' .chr($finalGroupCount), 'match' => $matches]
                 ];
 
-                $finalArray['tournament_competation_format']['format_name'][$roundIndex]['match_type'][] = $grouplist;
+                $tournamentsPositionsData = [
+                    'position' => '',
+                    'dependent_type' => '',
+                    'ranking' => ''
+                ];
+
+                $finalArray['tournament_competation_format']['format_name'][$roundIndex]['match_type'][] = $matchTypeDetail;
+                $finalArray['tournament_positions'][] = $tournamentsPositionsData;
             }
             $groupCount += count($round['groups']);
         }
 
-        file_put_contents(resource_path('templates') . '/' . 'template555.json', json_encode($finalArray));
+        echo "<pre>";print_r(json_encode($finalArray));echo "</pre>";exit;
+
 
         // storing template data
         $tournamentTemplate = new TournamentTemplates();
@@ -124,10 +146,14 @@ class TemplateRepository
         $tournamentTemplate->name = $data['templateFormDetail']['stepone']['templateName'];
         $tournamentTemplate->total_teams = $data['templateFormDetail']['stepone']['no_of_teams'];
         $tournamentTemplate->editor_type = $data['templateFormDetail']['stepone']['editor'];
-        $tournamentTemplate->competition_type = $data['templateFormDetail']['stepone']['competition_type'] ? $data['templateFormDetail']['stepone']['competition_type'] : null;
+        $tournamentTemplate->competition_type = $competitionType;
         $tournamentTemplate->created_by = Auth::user()->id;
         $tournamentTemplate->save();
-        echo "<pre>";print_r(json_encode($finalArray));echo "</pre>";exit;
+
+        // saving json file
+        file_put_contents(resource_path('templates') . '/' . 'template555.json', json_encode($finalArray));
+
+        // echo "<pre>";print_r(json_encode($finalArray));echo "</pre>";exit;
     }
 
     /*
