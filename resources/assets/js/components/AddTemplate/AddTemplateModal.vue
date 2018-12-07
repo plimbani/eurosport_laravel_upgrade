@@ -52,7 +52,7 @@
                     stepone: {
                         templateName: '',
                         no_of_teams: '',
-                        editor: 'advance_editor',
+                        editor: 'advance',
                         competition_type: 'league',
                     },
                     steptwo: {

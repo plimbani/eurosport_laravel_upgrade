@@ -81,9 +81,9 @@ class TemplateRepository
      */
     public function saveTemplateDetail($data)
     {
-        // echo "<pre>";print_r($data);echo "</pre>";exit;
+        echo "<pre>";print_r($data);echo "</pre>";exit;
         $competitionType = '';
-        if($data['templateFormDetail']['stepone']['editor'] == 'simple_editor' && $data['templateFormDetail']['stepone']['competition_type']) {
+        if($data['templateFormDetail']['stepone']['editor'] == 'simple' && $data['templateFormDetail']['stepone']['competition_type']) {
             $competitionType = $data['templateFormDetail']['stepone']['competition_type']; 
         } else {
             $competitionType = null;

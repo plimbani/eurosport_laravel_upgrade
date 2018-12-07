@@ -26,11 +26,11 @@
                             <div class="popover-body">Editor description</div>
                         </div>
                         <div class="radio">
-            				<label><input type="radio" name="editor" value="advance_editor" v-model="templateFormDetail.stepone.editor">Advance</label>
-            				<label><input type="radio" name="editor" value="simple_editor" v-model="templateFormDetail.stepone.editor">Simple</label>                            
+            				<label><input type="radio" name="editor" value="advance" v-model="templateFormDetail.stepone.editor">Advance</label>
+            				<label><input type="radio" name="editor" value="simple" v-model="templateFormDetail.stepone.editor">Simple</label>                            
             			</div>
             		</div>
-                    <div class="form-group" v-if="templateFormDetail.stepone.editor == 'simple_editor'">
+                    <div class="form-group" v-if="templateFormDetail.stepone.editor == 'simple'">
                         <label for="competition_type">Competition type</label>
                         <div class="radio">
                             <label><input type="radio" name="competition_type" value="league" v-model="templateFormDetail.stepone.competition_type"> League</label>

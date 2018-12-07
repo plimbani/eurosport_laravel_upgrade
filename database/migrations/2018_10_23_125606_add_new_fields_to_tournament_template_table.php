@@ -18,7 +18,7 @@ class AddNewFieldsToTournamentTemplateTable extends Migration
             $table->string('total_matches')->nullable()->after('avg_matches');
             $table->string('divisions')->nullable()->after('total_matches');
             $table->string('version')->nullable()->after('divisions');
-            $table->enum('editor_type', ['advance_editor', 'simple_editor'])->after('version');
+            $table->enum('editor_type', ['advance', 'simple'])->after('version');
             $table->enum('competition_type', ['league', 'knockout'])->nullable()->after('editor_type');
             $table->integer('created_by')->unsigned()->nullable()->after('competition_type');
             $table->foreign('created_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
