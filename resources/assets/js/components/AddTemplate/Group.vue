@@ -22,7 +22,7 @@
 		            <div class="col-md-6" v-if="groupData.type == 'round_robin'">
 		                <div class="form-group mb-0">
 		                    <label>Teams play each other</label>
-		                    <select class="form-control ls-select2" v-model="groupData.teams_play_each_other">
+		                    <select class="form-control ls-select2" v-model="groupData.teams_play_each_other" @change="setMatches()">
 		                        <option value="once">Once</option>
 		                        <option value="twice">Twice</option>
 		                        <option value="three_times">Three times</option>
@@ -305,13 +305,14 @@
 		    setMatches() {
 		    	this.groupData.matches = [];
         		if(this.roundIndex == 0 && this.groupData.type == "round_robin") {
-        			var times = this.groupData.teams_play_each_other;
-        			var noOfTeams = this.groupData.no_of_teams;
-
-        			for(this.teamsPlayedEachOther[times]=0; this.teamsPlayedEachOther[times]<1; this.teamsPlayedEachOther[times]++){
-        				for(var i=1; i<=noOfTeams; i++) {        					
-        					for(var j=(i+1); j<=noOfTeams; j++) {
-        						this.groupData.matches.push({position_type: 'winner', group: '', position: '', teams: i + '-' + j});
+        			let times = this.groupData.teams_play_each_other;
+        			let noOfTeams = this.groupData.no_of_teams;
+        			let totalTimes = this.teamsPlayedEachOther[times];
+        			
+        			for(var i=0; i<totalTimes; i++){
+        				for(var j=1; j<=noOfTeams; j++) {        					
+        					for(var k=(j+1); k<=noOfTeams; k++) {
+        						this.groupData.matches.push({position_type: 'winner', group: '', position: '', teams: j + '-' + k});
         					}
         				}
         			}
