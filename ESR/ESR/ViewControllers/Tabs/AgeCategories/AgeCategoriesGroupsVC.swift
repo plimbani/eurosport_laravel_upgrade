@@ -60,6 +60,7 @@ class AgeCategoriesGroupsVC: SuperViewController {
 
         if let selectedTournament = ApplicationData.sharedInstance().getSelectedTournament() {
             parameters["tournamentId"] = selectedTournament.id
+            parameters["competationFormatId"] = ageCategoryId
         }
         
         ApiManager().getAgeCategoriesGroups(parameters, success: { (result) in

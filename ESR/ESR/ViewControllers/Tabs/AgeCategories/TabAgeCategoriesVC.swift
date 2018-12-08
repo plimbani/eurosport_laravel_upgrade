@@ -114,6 +114,7 @@ extension TabAgeCategoriesVC: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let viewController = Storyboards.AgeCategories.instantiateAgeCategoriesGroupsVC()
+        viewController.ageCategoryId = (ageCategoriesList[indexPath.row] as! NSDictionary).value(forKey: "id") as! Int
         self.navigationController?.pushViewController(viewController, animated: true)
     }
 }

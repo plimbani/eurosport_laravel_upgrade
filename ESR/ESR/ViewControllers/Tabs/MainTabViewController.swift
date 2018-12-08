@@ -106,7 +106,7 @@ class MainTabViewController: SuperViewController {
     }
     
     func initTeamsVC() -> UINavigationController {
-        let tabTeamsVC = Storyboards.Teams.instantiateTeamsVC()
+        let tabTeamsVC = Storyboards.Teams.instantiateTabTeamsVC()
         return UINavigationController(rootViewController: tabTeamsVC)
     }
     

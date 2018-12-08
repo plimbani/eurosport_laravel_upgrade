@@ -141,7 +141,7 @@ struct Storyboards {
             return UIStoryboard(name: self.identifier, bundle: nil)
         }
         
-        static func instantiateTeamsVC() -> TabTeamsVC {
+        static func instantiateTabTeamsVC() -> TabTeamsVC {
             return self.storyboard.instantiateViewController(withIdentifier: kViewController.TabTeamsVC) as! TabTeamsVC
         }
         
@@ -159,6 +159,10 @@ struct Storyboards {
         
         static func instantiateTeamListingVC() -> TeamListingVC {
             return self.storyboard.instantiateViewController(withIdentifier: kViewController.TeamListingVC) as! TeamListingVC
+        }
+        
+        static func instantiateTeamVC() -> TeamVC {
+            return self.storyboard.instantiateViewController(withIdentifier: kViewController.TeamVC) as! TeamVC
         }
     }
     

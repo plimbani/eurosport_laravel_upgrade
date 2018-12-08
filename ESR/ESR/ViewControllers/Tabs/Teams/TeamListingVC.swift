@@ -29,10 +29,28 @@ class TeamListingVC: SuperViewController {
         titleNavigationBar.delegate = self
         titleNavigationBar.setBackgroundColor()
         
+        // Checks internet connectivity
+        setConstraintLblNoInternet(APPDELEGATE.reachability.connection == .none)
+        
+        // To show/hide internet view in Navigation bar
+        NotificationCenter.default.addObserver(self, selector: #selector(showHideNoInternetView(_:)), name: .internetConnectivity, object: nil)
+        
         _ = cellOwner.loadMyNibFile(nibName: "TournamentClubCell")
         heightTournamentClubCell = (cellOwner.cell as! TournamentClubCell).getCellHeight()
         
         sendGetTeamListRequest()
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: .internetConnectivity, object: nil)
+    }
+    
+    @objc func showHideNoInternetView(_ notification: NSNotification) {
+        if notification.userInfo != nil {
+            if let isShow = notification.userInfo![kNotification.isShow] as? Bool {
+                setConstraintLblNoInternet(isShow)
+            }
+        }
     }
     
     func sendGetTeamListRequest() {
@@ -111,6 +129,7 @@ extension TeamListingVC: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
         if isClubTeam {
             
         } else if isClubsCategoryTeam {
@@ -118,6 +137,10 @@ extension TeamListingVC: UITableViewDataSource, UITableViewDelegate {
         } else if isClubsGroupTeam {
             
         }
+        
+        let viewController = Storyboards.Teams.instantiateTeamVC()
+        viewController.dicTeam = teamList[indexPath.row] as! NSDictionary
+        self.navigationController?.pushViewController(viewController, animated: true)
     }
 }
 

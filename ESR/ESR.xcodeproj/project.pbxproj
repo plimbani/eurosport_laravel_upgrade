@@ -99,6 +99,9 @@
 		30AF116521BA53B600BE50F4 /* GroupListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30AF116421BA53B600BE50F4 /* GroupListVC.swift */; };
 		30AF116821BA596400BE50F4 /* TabAgeCategoriesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30AF116621BA596400BE50F4 /* TabAgeCategoriesCell.swift */; };
 		30AF116921BA596400BE50F4 /* TabAgeCategoriesCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30AF116721BA596400BE50F4 /* TabAgeCategoriesCell.xib */; };
+		30AF116B21BBA82000BE50F4 /* TeamVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30AF116A21BBA82000BE50F4 /* TeamVC.swift */; };
+		30AF116E21BBDD7000BE50F4 /* TeamListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30AF116C21BBDD7000BE50F4 /* TeamListCell.swift */; };
+		30AF116F21BBDD7000BE50F4 /* TeamListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30AF116D21BBDD7000BE50F4 /* TeamListCell.xib */; };
 		30FB3111212EB2B300ABA22A /* privacyContent.html in Resources */ = {isa = PBXBuildFile; fileRef = 30FB3110212EB2B300ABA22A /* privacyContent.html */; };
 		30FB3114212EEB0B00ABA22A /* FavouriteTournamentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FB3112212EEB0B00ABA22A /* FavouriteTournamentCell.swift */; };
 		30FB3115212EEB0B00ABA22A /* FavouriteTournamentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30FB3113212EEB0B00ABA22A /* FavouriteTournamentCell.xib */; };
@@ -213,6 +216,9 @@
 		30AF116421BA53B600BE50F4 /* GroupListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupListVC.swift; sourceTree = "<group>"; };
 		30AF116621BA596400BE50F4 /* TabAgeCategoriesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabAgeCategoriesCell.swift; sourceTree = "<group>"; };
 		30AF116721BA596400BE50F4 /* TabAgeCategoriesCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TabAgeCategoriesCell.xib; sourceTree = "<group>"; };
+		30AF116A21BBA82000BE50F4 /* TeamVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamVC.swift; sourceTree = "<group>"; };
+		30AF116C21BBDD7000BE50F4 /* TeamListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamListCell.swift; sourceTree = "<group>"; };
+		30AF116D21BBDD7000BE50F4 /* TeamListCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TeamListCell.xib; sourceTree = "<group>"; };
 		30FB3110212EB2B300ABA22A /* privacyContent.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = privacyContent.html; sourceTree = "<group>"; };
 		30FB3112212EEB0B00ABA22A /* FavouriteTournamentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouriteTournamentCell.swift; sourceTree = "<group>"; };
 		30FB3113212EEB0B00ABA22A /* FavouriteTournamentCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FavouriteTournamentCell.xib; sourceTree = "<group>"; };
@@ -405,6 +411,8 @@
 				307542B82174C9DD003715C7 /* FinalPlacingsCell.xib */,
 				30AF116621BA596400BE50F4 /* TabAgeCategoriesCell.swift */,
 				30AF116721BA596400BE50F4 /* TabAgeCategoriesCell.xib */,
+				30AF116C21BBDD7000BE50F4 /* TeamListCell.swift */,
+				30AF116D21BBDD7000BE50F4 /* TeamListCell.xib */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -496,6 +504,7 @@
 				30AF116021BA531900BE50F4 /* ClubListVC.swift */,
 				30AF116221BA53A300BE50F4 /* CategoryListVC.swift */,
 				30AF116421BA53B600BE50F4 /* GroupListVC.swift */,
+				30AF116A21BBA82000BE50F4 /* TeamVC.swift */,
 			);
 			path = Teams;
 			sourceTree = "<group>";
@@ -637,6 +646,7 @@
 				307542BA2174C9DD003715C7 /* FinalPlacingsCell.xib in Resources */,
 				30181D6B2126F4060067D65F /* PickerHandlerView.xib in Resources */,
 				30FB312321357A0800ABA22A /* GroupSummaryStandingsHeader.xib in Resources */,
+				30AF116F21BBDD7000BE50F4 /* TeamListCell.xib in Resources */,
 				307542B421747520003715C7 /* TournamentDetailsView.xib in Resources */,
 				30181CC9211D95B60067D65F /* Main.storyboard in Resources */,
 				30569404212C0251009790BA /* ProfileList.plist in Resources */,
@@ -737,6 +747,7 @@
 				30181CDF211D9DFF0067D65F /* ApplicationData.swift in Sources */,
 				307542AF21745D03003715C7 /* TextViewCell.swift in Sources */,
 				30FB3121213579FE00ABA22A /* GroupSummaryStandingsHeader.swift in Sources */,
+				30AF116E21BBDD7000BE50F4 /* TeamListCell.swift in Sources */,
 				30181D502126BB520067D65F /* ApiManager.swift in Sources */,
 				30181D08211DBA1B0067D65F /* TabTeamsVC.swift in Sources */,
 				30181CFA211DAFA80067D65F /* MainTabViewController.swift in Sources */,
@@ -749,6 +760,7 @@
 				306893F5214A813900BA543F /* TournamentClubCell.swift in Sources */,
 				30FB3114212EEB0B00ABA22A /* FavouriteTournamentCell.swift in Sources */,
 				3086BC84213D344A00810CC8 /* GroupStanding.swift in Sources */,
+				30AF116B21BBA82000BE50F4 /* TeamVC.swift in Sources */,
 				30569400212BEACC009790BA /* NotificationAndSoundVC.swift in Sources */,
 				30181D662126EB460067D65F /* ProgressView.swift in Sources */,
 				30181CD9211D98720067D65F /* SuperViewController.swift in Sources */,
