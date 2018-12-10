@@ -92,6 +92,9 @@
                     return false;
                 }
                 this.last_selected_teams = this.divisionData.no_of_teams;
+                if(this.templateFormDetail.steptwo.divisions[divisionIndex].rounds.length > 0) {
+                    this.templateFormDetail.steptwo.divisions[divisionIndex].rounds[0].no_of_teams = this.divisionData.no_of_teams;
+                }
                 this.displayTeams();
             },
             displayTeams() {
@@ -205,6 +208,9 @@
             },
             addNewDivisionRound(index) {
                 this.templateFormDetail.steptwo.divisions[index].rounds.push({no_of_teams: "", groups: [], startRoundGroupCount: this.templateFormDetail.steptwo.round_group_count, startPlacingGroupCount: this.templateFormDetail.steptwo.placing_group_count});
+                if(this.templateFormDetail.steptwo.divisions[index].rounds.length === 1) {
+                    this.templateFormDetail.steptwo.divisions[index].rounds[0].no_of_teams = this.divisionData.no_of_teams;
+                }
                 this.$root.$emit('updateRoundCount');
             },
         },
