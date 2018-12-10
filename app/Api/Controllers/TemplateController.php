@@ -54,4 +54,12 @@ class TemplateController extends BaseController
     {
         return $this->templateObj->deleteTemplate($id);
     }
+
+    /**
+     * Edit template
+     */
+    public function editTemplate(Request $request, $id)
+    {
+        return $this->templateObj->editTemplate($id);
+    }    
 }

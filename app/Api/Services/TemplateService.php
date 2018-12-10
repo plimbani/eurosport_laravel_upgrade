@@ -77,4 +77,16 @@ class TemplateService implements TemplateContract
             return ['status_code' => '200', 'message' => 'Data Successfully Deleted'];
         }
     }
+
+    /*
+     * Edit template
+     *
+     * @param  array $id
+     * @return response
+     */
+    public function editTemplate($id)
+    {
+        $data = $this->templateRepoObj->editTemplate($id);
+        return ['data' => $data, 'status_code' => '200'];
+    }
 }
