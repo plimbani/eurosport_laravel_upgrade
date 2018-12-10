@@ -13,26 +13,29 @@
 							<h6 class="font-weight-bold">My Custom Template &nbsp;<span class="small">(8 items)</span></h6>
 						</div>
 					</div>
-					<div class="card mb-3">
+
+		
+					
+					<div class="card mb-3" v-for="(round, roundIndex) in templateFormDetail.steptwo.rounds">
 						<div class="card-block">
 							<div class="row align-items-center">
 								<div class="col-12">
-									<h6 class="font-weight-bold">Round 1&nbsp;<span class="small">(8 items)</span></h6>
+									<h6 class="font-weight-bold">Round {{roundIndex + 1}}&nbsp;<span class="small">({{ round.no_of_teams }} items)</span></h6>
 								</div>
 							</div>
 							<div class="row">
-								<div class="col-6">
-									<h6 class="font-weight-bold">Group A</h6>
-									<p>Teams play eachother once</p>
+								<div class="col-6" v-for="(group, groupIndex) in round.groups">
+									<h6 class="font-weight-bold">Group {{ groupIndex + 1 }}</h6>
+									<p>Teams play eachother {{group.teams_play_each_other}}</p>
 								</div>
-								<div class="col-6">
+<!-- 								<div class="col-6">
 									<h6 class="font-weight-bold">Group B</h6>
 									<p>Teams play eachother once</p>
-								</div>
+								</div> -->
 							</div>
 						</div>
 					</div>
-					<div class="card mb-3">
+<!-- 					<div class="card mb-3">
 						<div class="card-block">
 							<div class="row align-items-center">
 								<div class="col-12">
@@ -69,7 +72,7 @@
 								</div>
 							</div>
 						</div>
-					</div>					
+					</div> -->					
 					<div class="card mb-3">
 						<div class="card-block">
 							<div class="row align-items-center">
@@ -124,6 +127,9 @@
         beforeCreate: function() {
             this.$root.$off('updateTemplateData');
         },
+        computed: {
+        	
+        },
         methods: {
         	saveTemplateDetail() {
         		var templateData = {'templateFormDetail': this.templateFormDetail};
@@ -141,7 +147,21 @@
         	},
         	setTemplateFontColor(color) {
         		this.templateFormDetail.stepfour.template_font_color = color;
-        	}
+        	},
+			getGroupName(group) {
+        		// console.log('group', group);
+		    	// let vm = this;
+
+		    	// if(this.group.type === 'round_robin') {
+		    	// 	let currentRoundGroupCount =  _.filter(this.templateFormDetail.steptwo.roundsroundData.groups, function(o, index) { return (o.type === 'round_robin' && index < vm.index); }).length;
+		    	// 	return 'Group ' + String.fromCharCode(65 + this.roundData.start_round_group_count + currentRoundGroupCount);
+		    	// }
+
+		    	// if(this.group.type === 'placing_match') {
+		    	// 	let currentPlacingGroupCount =  _.filter(this.roundData.groups, function(o, index) { return (o.type === 'placing_match' && index <= vm.index); }).length;
+		    	// 	return 'PM ' + (this.roundData.start_placing_group_count + currentPlacingGroupCount);
+		    	// }
+		    },        	
         }
     }
 </script>
