@@ -42,4 +42,12 @@ interface TemplateContract
      * @return response
      */
     public function deleteTemplate($id);
+
+    /*
+     * Edit template
+     *
+     * @param  $id
+     * @return response
+     */
+    public function editTemplate($id);    
 }

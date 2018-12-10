@@ -110,6 +110,7 @@
         <template-info-modal v-show="templateInfoModal" :templateDetail="templateDetail"></template-info-modal>
         <template-in-use-modal v-show="templateInUseModal"></template-in-use-modal>
         <add-template-modal></add-template-modal>
+        <edit-template-modal :editTemplateDetail="editTemplateDetail" v-if="isEdit"></edit-template-modal>
     </div>
 </template>
 <script type="text/babel">
@@ -121,10 +122,11 @@
     import TemplateInfoModal from '../../../components/TemplateInfoModal.vue'
     import TemplateInUseModal from '../../../components/TemplateInUseModal.vue'
     import AddTemplateModal from '../../../components/AddTemplate/AddTemplateModal.vue'
+    import EditTemplateModal from '../../../components/EditTemplate/EditTemplateModal.vue'
 
     export default {
         components: {
-          TemplateInfoModal, DeleteModal, TemplateInUseModal, AddTemplateModal
+          TemplateInfoModal, DeleteModal, TemplateInUseModal, AddTemplateModal, EditTemplateModal
         },
         data() {
             return {
@@ -140,6 +142,8 @@
                 templateInUseModal: false,
                 templateDetail: '',
                 deleteAction: '',
+                editTemplateDetail: '',
+                isEdit: false,
                 deleteConfirmMsg: 'Are you sure you would like to delete this template?',
             }
         },
@@ -179,9 +183,6 @@
               this.$root.$emit('getTemplateDetail');
             }, 500);
           },
-          editTemplate(templateId) {
-            return;
-          },
           deleteTournament(template) {
             Template.getTemplateDetail(template).then(
               (response)=> {
@@ -199,6 +200,19 @@
           },
           addTemplate() {
             $('#add_new_template_modal').modal('show');
+          },
+          editTemplate(templateId) {
+            Template.editTemplate(templateId).then(
+              (response)=> {
+                this.isEdit = true;
+                this.editTemplateDetail = response.data.data;
+                setTimeout(function() {
+                  $('#edit_template_modal').modal('show');
+                }, 100);
+              },
+              (error)=> {
+              }
+            )
           },
           clear() {
             this.teamSearch = '';

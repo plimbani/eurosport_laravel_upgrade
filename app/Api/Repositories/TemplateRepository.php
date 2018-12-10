@@ -81,7 +81,6 @@ class TemplateRepository
      */
     public function saveTemplateDetail($data)
     {
-        echo "<pre>";print_r($data);echo "</pre>";exit;
         $competitionType = '';
         if($data['templateFormDetail']['stepone']['editor'] == 'simple' && $data['templateFormDetail']['stepone']['competition_type']) {
             $competitionType = $data['templateFormDetail']['stepone']['competition_type']; 
@@ -137,7 +136,6 @@ class TemplateRepository
             $groupCount += count($round['groups']);
         }
 
-        echo "<pre>";print_r(json_encode($finalArray));echo "</pre>";exit;
 
 
         // storing template data
@@ -147,9 +145,11 @@ class TemplateRepository
         $tournamentTemplate->total_teams = $data['templateFormDetail']['stepone']['no_of_teams'];
         $tournamentTemplate->editor_type = $data['templateFormDetail']['stepone']['editor'];
         $tournamentTemplate->competition_type = $competitionType;
+        $tournamentTemplate->template_form_detail = json_encode($data['templateFormDetail']);
         $tournamentTemplate->created_by = Auth::user()->id;
         $tournamentTemplate->save();
 
+        echo "<pre>";print_r(json_encode($finalArray));echo "</pre>";exit;
         // saving json file
         file_put_contents(resource_path('templates') . '/' . 'template555.json', json_encode($finalArray));
 
@@ -165,5 +165,18 @@ class TemplateRepository
     public function deleteTemplate($id)
     {
         echo "<pre>";print_r($id);echo "</pre>";exit;
+    }
+
+    /*
+     * Edit template
+     *
+     * @param  array $id
+     * @return response
+     */
+    public function editTemplate($id)
+    {
+        $tournamentTemplate = TournamentTemplates::where('id', $id)->first();
+
+        return $tournamentTemplate;
     }
 }

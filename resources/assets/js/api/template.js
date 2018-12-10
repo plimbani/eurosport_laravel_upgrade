@@ -15,5 +15,8 @@ export default {
 	},
 	saveTemplateDetail(templateData) {
 		return api.post('saveTemplateDetail', templateData)
+	},
+	editTemplate(id) {
+		return api.get('template/edit/'+id)
 	}
 }
