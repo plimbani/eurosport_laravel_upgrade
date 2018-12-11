@@ -121,8 +121,8 @@
     import DeleteModal from '../../../components/DeleteModal.vue'
     import TemplateInfoModal from '../../../components/TemplateInfoModal.vue'
     import TemplateInUseModal from '../../../components/TemplateInUseModal.vue'
-    import AddTemplateModal from '../../../components/AddTemplate/AddTemplateModal.vue'
-    import EditTemplateModal from '../../../components/EditTemplate/EditTemplateModal.vue'
+    import AddTemplateModal from '../../../components/Template/AddTemplateModal.vue'
+    import EditTemplateModal from '../../../components/Template/EditTemplateModal.vue'
 
     export default {
         components: {
