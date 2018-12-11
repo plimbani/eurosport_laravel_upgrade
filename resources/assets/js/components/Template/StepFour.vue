@@ -27,7 +27,12 @@
 									<h6 class="font-weight-bold mb-0">{{ getGroupName(round, group, groupIndex) }}</h6>
 									<p class="text-muted small mb-0">Teams play eachother {{group.teams_play_each_other}}</p>
 									<ul class="list-unstyled mb-4">
-										<li v-for="(team, teamIndex) in group.teams"> Team {{ teamIndex + 1 }}</li>
+										<li v-for="(team, teamIndex) in group.teams">
+											<span v-if="roundIndex == 0">Team {{ teamIndex + 1 }}</span>
+											<span v-if="roundIndex == 1">
+												{{ getGroupsWithPosition(team) }}
+											</span>
+										</li>
 									</ul>
 								</div>
 							</div>
@@ -118,7 +123,12 @@
 		    		let currentPlacingGroupCount =  _.filter(round.groups, function(o, index) { return (o.type === 'placing_match' && index <= groupIndex); }).length;
 		    		return 'PM ' + (round.start_placing_group_count + currentPlacingGroupCount);
 		    	}
-		    },        	
+		    },
+		    getGroupsWithPosition(team) {
+		    	let position = team.position.split(',');
+		    	position = position[2] + 1;
+		    	return position;
+		    }
         }
     }
 </script>
