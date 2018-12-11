@@ -10,11 +10,9 @@
 					</div>
 					<div class="row">
 						<div class="col-12">
-							<h6 class="font-weight-bold">My Custom Template &nbsp;<span class="small">(8 items)</span></h6>
+							<h6 class="font-weight-bold">{{templateFormDetail.stepone.templateName}} &nbsp;<span class="small">({{templateFormDetail.stepone.no_of_teams}} items)</span></h6>
 						</div>
 					</div>
-
-		
 					
 					<div class="card mb-3" v-for="(round, roundIndex) in templateFormDetail.steptwo.rounds">
 						<div class="card-block">
@@ -25,54 +23,21 @@
 							</div>
 							<div class="row">
 								<div class="col-6" v-for="(group, groupIndex) in round.groups">
-									<h6 class="font-weight-bold">Group {{ groupIndex + 1 }}</h6>
-									<p>Teams play eachother {{group.teams_play_each_other}}</p>
-								</div>
-<!-- 								<div class="col-6">
-									<h6 class="font-weight-bold">Group B</h6>
-									<p>Teams play eachother once</p>
-								</div> -->
-							</div>
-						</div>
-					</div>
-<!-- 					<div class="card mb-3">
-						<div class="card-block">
-							<div class="row align-items-center">
-								<div class="col-12">
-									<h6 class="font-weight-bold">Round 2&nbsp;<span class="small">(8 items)</span></h6>
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-6">
-									<h6 class="font-weight-bold">Group C</h6>
-									<p>Teams play eachother once</p>
-								</div>
-								<div class="col-6">
-									<h6 class="font-weight-bold">Group D</h6>
-									<p>Teams play eachother once</p>
+									<!-- <h6 class="font-weight-bold mb-0">Group {{ groupIndex + 1 }}</h6> -->
+									<h6 class="font-weight-bold mb-0">{{ getGroupName(round, group, groupIndex) }}</h6>
+									<p class="text-muted small mb-0">Teams play eachother {{group.teams_play_each_other}}</p>
+									<ul class="list-unstyled mb-4">
+										<li v-for="(team, teamIndex) in group.teams">
+											<span v-if="roundIndex == 0">Team {{ teamIndex + 1 }}</span>
+											<span v-if="roundIndex == 1">
+												{{ getGroupsWithPosition(team) }}
+											</span>
+										</li>
+									</ul>
 								</div>
 							</div>
 						</div>
-					</div>
-					<div class="card mb-3">
-						<div class="card-block">
-							<div class="row align-items-center">
-								<div class="col-12">
-									<h6 class="font-weight-bold">Round 3&nbsp;<span class="small">(8 items)</span></h6>
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-12 mb-3">
-									<h6 class="font-weight-bold">Group A</h6>
-									<p>Teams play eachother once</p>
-								</div>
-								<div class="col-12">
-									<h6 class="font-weight-bold">Group A</h6>
-									<p>Teams play eachother once</p>
-								</div>
-							</div>
-						</div>
-					</div> -->					
+					</div>			
 					<div class="card mb-3">
 						<div class="card-block">
 							<div class="row align-items-center">
@@ -148,20 +113,22 @@
         	setTemplateFontColor(color) {
         		this.templateFormDetail.stepfour.template_font_color = color;
         	},
-			getGroupName(group) {
-        		// console.log('group', group);
-		    	// let vm = this;
+			getGroupName(round, group, groupIndex) {
+		    	if(group.type === 'round_robin') {
+		    		let currentRoundGroupCount =  _.filter(round.groups, function(o, index) { return (o.type === 'round_robin' && index < groupIndex); }).length;
+		    		return 'Group ' + String.fromCharCode(65 + round.start_round_group_count + currentRoundGroupCount);
+		    	}
 
-		    	// if(this.group.type === 'round_robin') {
-		    	// 	let currentRoundGroupCount =  _.filter(this.templateFormDetail.steptwo.roundsroundData.groups, function(o, index) { return (o.type === 'round_robin' && index < vm.index); }).length;
-		    	// 	return 'Group ' + String.fromCharCode(65 + this.roundData.start_round_group_count + currentRoundGroupCount);
-		    	// }
-
-		    	// if(this.group.type === 'placing_match') {
-		    	// 	let currentPlacingGroupCount =  _.filter(this.roundData.groups, function(o, index) { return (o.type === 'placing_match' && index <= vm.index); }).length;
-		    	// 	return 'PM ' + (this.roundData.start_placing_group_count + currentPlacingGroupCount);
-		    	// }
-		    },        	
+		    	if(group.type === 'placing_match') {
+		    		let currentPlacingGroupCount =  _.filter(round.groups, function(o, index) { return (o.type === 'placing_match' && index <= groupIndex); }).length;
+		    		return 'PM ' + (round.start_placing_group_count + currentPlacingGroupCount);
+		    	}
+		    },
+		    getGroupsWithPosition(team) {
+		    	let position = team.position.split(',');
+		    	position = position[2] + 1;
+		    	return position;
+		    }
         }
     }
 </script>
