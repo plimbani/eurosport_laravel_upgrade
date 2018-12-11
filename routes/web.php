@@ -17,14 +17,10 @@ Route::group(['domain' => config('app.domain')], function() {
 	Route::get('user/setpassword/{key}','\Laraspace\Api\Controllers\UserController@setPassword');
 
 	Route::get('pdf/footer', 'PDFController@getFooter')->name('pdf.footer');
-	/*registration*/
-	    Route::get('registration', function() {
-		return view('registration');
-	    });
 	Route::get('/{vue?}', function () {
 		return view('app');
 	})->where('vue', '[\/\w\.-]*')->name('home');
-	Route::post('register-user', '\Laraspace\Api\Controllers\Commercialisation\RegisterController@insert');
+	
 	Route::post('/passwordactivate', [
 		'as' => 'password', 'uses' => '\Laraspace\Api\Controllers\UserController@passwordActivate'
 	]);
