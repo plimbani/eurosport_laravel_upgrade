@@ -109,17 +109,7 @@
         },
         computed: {
 		    getGroupName() {
-		    	let vm = this;
-
-		    	if(this.groupData.type === 'round_robin') {
-		    		let currentRoundGroupCount =  _.filter(this.roundData.groups, function(o, index) { return (o.type === 'round_robin' && index < vm.index); }).length;
-		    		return 'Group ' + String.fromCharCode(65 + this.roundData.start_round_group_count + currentRoundGroupCount);
-		    	}
-
-		    	if(this.groupData.type === 'placing_match') {
-		    		let currentPlacingGroupCount =  _.filter(this.roundData.groups, function(o, index) { return (o.type === 'placing_match' && index <= vm.index); }).length;
-		    		return 'PM ' + (this.roundData.start_placing_group_count + currentPlacingGroupCount);
-		    	}
+		    	return this.getGroupNameByRoundAndGroupIndex(this.roundIndex, this.index);
 		    },
         },
         methods: {
@@ -155,7 +145,7 @@
 						continue;
 					}
 					if(this.roundIndex === 0 && this.groupData.type === 'placing_match' && this.index === this.getFirstPlacingMatch()) {
-						this.groupData.teams.push({position_type: 'team', group: '', position: i});
+						this.groupData.teams.push({	position_type: 'team', group: '', position: i});
 						continue;
 					}
 
@@ -232,8 +222,10 @@
 			    var positionsForSelection = [];
 
 			    if(this.divisionIndex !== -1 && this.roundIndex === 0) {
-			    	_.forEach(this.groupData.teams, function(team, teamIndex) {
-		    			positionsForSelection.push({'name': vm.getSuffixForPosition(teamIndex + 1), 'value': teamIndex});
+			    	_.forEach(vm.templateFormDetail.steptwo.divisions[vm.divisionIndex].teams, function(team, teamIndex) {
+			    		let position = team.position.split(',');
+			    		let roundData = vm.templateFormDetail['steptwo'].rounds[position[0]];
+		    			positionsForSelection.push({'name': (teamIndex + 1) + ' (#' + (parseInt(position[2]) + 1) + vm.getRoundRobinGroupName(roundData, position[1]) + ')' , 'value': teamIndex});
 		    		});
 		    		return positionsForSelection;
 			    }
@@ -325,13 +317,34 @@
     			
     			let vm = this;
     			for(var i=0; i<totalTimes; i++){
-    				for(var j=1; j<=noOfTeams; j++) {        					
+    				for(var j=1; j<=noOfTeams; j++) {
     					for(var k=(j+1); k<=noOfTeams; k++) {
     						vm.groupData.matches.push({teams: j + '-' + k});
     					}
     				}
     			}
-		    }
+		    },
+		    getGroupNameByRoundAndGroupIndex(roundIndex, groupIndex) {
+		    	let vm = this;
+		    	let roundData = this.templateFormDetail['steptwo'].rounds[roundIndex];
+		    	let groupData = this.templateFormDetail['steptwo'].rounds[roundIndex].groups[groupIndex];
+
+		    	if(groupData.type === 'round_robin') {
+		    		return 'Group ' + this.getRoundRobinGroupName(roundData, groupIndex);
+		    	}
+
+		    	if(groupData.type === 'placing_match') {
+		    		return 'PM ' + this.getPlacingMatchGroupName();
+		    	}
+		    },
+		    getRoundRobinGroupName(roundData, groupIndex) {
+		    	let currentRoundGroupCount =  _.filter(roundData.groups, function(o, index) { return (o.type === 'round_robin' && index < groupIndex); }).length;
+		    	return String.fromCharCode(65 + roundData.start_round_group_count + currentRoundGroupCount);
+		    },
+		    getPlacingMatchGroupName(roundData, groupIndex) {
+		    	let currentPlacingGroupCount =  _.filter(roundData.groups, function(o, index) { return (o.type === 'placing_match' && index <= groupIndex); }).length;
+		    	return (roundData.start_placing_group_count + currentPlacingGroupCount);
+		    },
         }
     }
 </script>
