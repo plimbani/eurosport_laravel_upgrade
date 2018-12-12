@@ -291,18 +291,19 @@
 		    getPositionTypes() {
 				let positionTypes = [];
 
-				if(!(this.roundIndex === 0 && this.groupData.type === 'placing_match')) {
+				if(this.roundIndex === 0 && ((this.groupData.type === 'placing_match' && this.index === this.getFirstPlacingMatch()) || this.divisionIndex !== -1)) {
+					positionTypes.push({'key': 'team', 'value': 'Team'});
+				}
+
+				if(!(this.roundIndex === 0 && (this.groupData.type === 'placing_match' || this.divisionIndex !== -1))) {
 					positionTypes.push({'key': 'placed', 'value': 'Placed'});
 				}
 
-				if(!(this.roundIndex === 0 && this.groupData.type === 'placing_match' && this.index === this.getFirstPlacingMatch())) {
+				if(!(this.roundIndex === 0 && ((this.groupData.type === 'placing_match' && this.index === this.getFirstPlacingMatch())  || this.divisionIndex !== -1))) {
 					positionTypes.push({'key': 'winner', 'value': 'Winner'});
 					positionTypes.push({'key': 'loser', 'value': 'Loser'});
 				}
 
-				if(this.roundIndex === 0 && this.groupData.type === 'placing_match' && this.index === this.getFirstPlacingMatch()) {
-					positionTypes.push({'key': 'team', 'value': 'Team'});
-				}
 				return positionTypes;
 		    },
 		    updateTeamPositions() {
