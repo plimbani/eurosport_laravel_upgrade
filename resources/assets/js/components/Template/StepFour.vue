@@ -29,9 +29,7 @@
 									<ul class="list-unstyled mb-4">
 										<li v-for="(team, teamIndex) in group.teams">
 											<span v-if="roundIndex == 0">Team {{ teamIndex + 1 }}</span>
-											<span v-if="roundIndex == 1">
-												{{ getGroupsWithPosition(team) }}
-											</span>
+											<span v-if="roundIndex == 1">{{ getGroupsWithPosition(team) }}</span>
 										</li>
 									</ul>
 								</div>
@@ -125,6 +123,7 @@
 		    	}
 		    },
 		    getGroupsWithPosition(team) {
+		    	console.log('team', team);
 		    	if(team.position) {
 		    		let position = team.position.split(',');
 		    		let group = team.group.split(',');
