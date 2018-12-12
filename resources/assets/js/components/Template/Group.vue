@@ -231,13 +231,15 @@
 			    		} else if(groupData.type === 'placing_match') {
 			    			let name = '';
 			    			name = (teamIndex + 1);
+			    			name += ' (PM' + vm.getPlacingMatchGroupName(roundData, position[1]);
 			    			if(team.position_type === 'winner') {
-			    				name += '(WR';
+			    				name += ' WR';
 			    			} else if(team.position_type === 'loser') {
-			    				name += '(LR';
+			    				name += ' LR';
 			    			}
 			    			
-			    			positionsForSelection.push({'name': (teamIndex + 1) + ' (#' + (parseInt(position[2]) + 1) + vm.getPlacingMatchGroupName(roundData, position[1]) + ')' , 'value': teamIndex});
+			    			name += ' Match ' + (parseInt(position[2]) + 1) + ')';
+			    			positionsForSelection.push({'name': name, 'value': teamIndex});
 			    		}
 		    		});
 		    		return positionsForSelection;
