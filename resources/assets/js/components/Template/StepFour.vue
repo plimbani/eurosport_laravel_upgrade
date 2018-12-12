@@ -150,7 +150,7 @@
 		    	}
 
 		    	if(groupData.type === 'placing_match') {
-		    		return 'PM ' + this.getPlacingMatchGroupName();
+		    		return 'PM ' + this.getPlacingMatchGroupName(roundData, groupIndex);
 		    	}
 		    },
 		    getRoundRobinGroupName(roundData, groupIndex) {

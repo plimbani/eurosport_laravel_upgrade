@@ -231,13 +231,15 @@
 			    		} else if(groupData.type === 'placing_match') {
 			    			let name = '';
 			    			name = (teamIndex + 1);
+			    			name += ' (PM' + vm.getPlacingMatchGroupName(roundData, position[1]);
 			    			if(team.position_type === 'winner') {
-			    				name += '(WR';
+			    				name += ' WR';
 			    			} else if(team.position_type === 'loser') {
-			    				name += '(LR';
+			    				name += ' LR';
 			    			}
 			    			
-			    			positionsForSelection.push({'name': (teamIndex + 1) + ' (#' + (parseInt(position[2]) + 1) + vm.getPlacingMatchGroupName(roundData, position[1]) + ')' , 'value': teamIndex});
+			    			name += ' Match ' + (parseInt(position[2]) + 1) + ')';
+			    			positionsForSelection.push({'name': name, 'value': teamIndex});
 			    		}
 		    		});
 		    		return positionsForSelection;
@@ -289,18 +291,19 @@
 		    getPositionTypes() {
 				let positionTypes = [];
 
-				if(!(this.roundIndex === 0 && this.groupData.type === 'placing_match')) {
+				if(this.roundIndex === 0 && ((this.groupData.type === 'placing_match' && this.index === this.getFirstPlacingMatch()) || this.divisionIndex !== -1)) {
+					positionTypes.push({'key': 'team', 'value': 'Team'});
+				}
+
+				if(!(this.roundIndex === 0 && (this.groupData.type === 'placing_match' || this.divisionIndex !== -1))) {
 					positionTypes.push({'key': 'placed', 'value': 'Placed'});
 				}
 
-				if(!(this.roundIndex === 0 && this.groupData.type === 'placing_match' && this.index === this.getFirstPlacingMatch())) {
+				if(!(this.roundIndex === 0 && ((this.groupData.type === 'placing_match' && this.index === this.getFirstPlacingMatch())  || this.divisionIndex !== -1))) {
 					positionTypes.push({'key': 'winner', 'value': 'Winner'});
 					positionTypes.push({'key': 'loser', 'value': 'Loser'});
 				}
 
-				if(this.roundIndex === 0 && this.groupData.type === 'placing_match' && this.index === this.getFirstPlacingMatch()) {
-					positionTypes.push({'key': 'team', 'value': 'Team'});
-				}
 				return positionTypes;
 		    },
 		    updateTeamPositions() {
