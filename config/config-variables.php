@@ -39,5 +39,6 @@ return [
         "#008E97" => "Teal",
         "#FFFFFF" => "White",
         "#FBE122" => "Yellow",
-    ]
+    ],
+    "current_layout" => env('CURRENT_LAYOUT'),
 ];
