@@ -3,7 +3,6 @@ import * as types from '../mutation-types';
 // state
 const state = {
   'googleMapKey': null,
-  'currentLayout': null,
 };
 
 // getters
@@ -19,9 +18,6 @@ const actions = {
 const mutations = {
 	[types.SET_MAP_KEY] (state, googleMapKey) {
 		state.googleMapKey = googleMapKey;
-	},
-	[types.SET_CURRENT_LAYOUT] (state, currentLayout) {
-		state.currentLayout = currentLayout;
 	},
 };
 
