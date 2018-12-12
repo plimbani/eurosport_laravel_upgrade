@@ -125,10 +125,45 @@
 		    	}
 		    },
 		    getGroupsWithPosition(team) {
-		    	let position = team.position.split(',');
-		    	position = position[2] + 1;
-		    	return position;
-		    }
+		    	if(team.position) {
+		    		let position = team.position.split(',');
+		    		let group = team.group.split(',');
+		    		let roundIndex = group[0];
+		    		let groupIndex = group[1];
+		    		position = parseInt(position[2]) + 1;
+		    		return this.getSuffixForPosition(position) + ' - ' +  this.getGroupNameByRoundAndGroupIndex(roundIndex, groupIndex);
+		    	}
+		    },
+		    getSuffixForPosition(d) {
+		      	if(d>=11 && d<=13) return d +'th';
+		      	switch (d % 10) {
+		            case 1:  return d +"st";
+		            case 2:  return d +"nd";
+		            case 3:  return d +"rd";
+		            default: return d +"th";
+		        }
+		    },
+		    getGroupNameByRoundAndGroupIndex(roundIndex, groupIndex) {
+		    	let vm = this;
+		    	let roundData = this.templateFormDetail['steptwo'].rounds[roundIndex];
+		    	let groupData = this.templateFormDetail['steptwo'].rounds[roundIndex].groups[groupIndex];
+
+		    	if(groupData.type === 'round_robin') {
+		    		return 'Group ' + this.getRoundRobinGroupName(roundData, groupIndex);
+		    	}
+
+		    	if(groupData.type === 'placing_match') {
+		    		return 'PM ' + this.getPlacingMatchGroupName();
+		    	}
+		    },
+		    getRoundRobinGroupName(roundData, groupIndex) {
+		    	let currentRoundGroupCount =  _.filter(roundData.groups, function(o, index) { return (o.type === 'round_robin' && index < groupIndex); }).length;
+		    	return String.fromCharCode(65 + roundData.start_round_group_count + currentRoundGroupCount);
+		    },
+		    getPlacingMatchGroupName(roundData, groupIndex) {
+		    	let currentPlacingGroupCount =  _.filter(roundData.groups, function(o, index) { return (o.type === 'placing_match' && index <= groupIndex); }).length;
+		    	return (roundData.start_placing_group_count + currentPlacingGroupCount);
+		    },		    
         }
     }
 </script>
