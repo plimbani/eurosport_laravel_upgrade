@@ -12,7 +12,7 @@ use Laraspace\Api\Repositories\UserRepository;
 use Laraspace\Api\Repositories\CountryRepository;
 
 class RegisterRepository
-{
+{   
     public function index() {
         $countries = $this->getAllCountries();
         return view('auth.register', ['countries'=>$countries]);
@@ -28,11 +28,14 @@ class RegisterRepository
         $newCustomer['primary_email']   = $data['email'];
         $newCustomer['address']        = $data['email'];
         
-        $result = (new PeopleRepository())->create($newCustomer);
+        $peopleRepository = new PeopleRepository();
+        $result = $peopleRepository->create($newCustomer);
+        
         unset($newCustomer);
+        unset($peopleRepository);
         
         if(true == $result) {
-             //Inserting Customer Data in User Table
+             //Inserting Customer Data in User Table with person_id
             $newUser                    = [];
             $newUser['person_id']       = $result['id'];
             $newUser['username']        = $data['email'];
@@ -43,6 +46,8 @@ class RegisterRepository
             $newUser['is_mobile_user']  = 0;
             $newUser['is_desktop_user'] = 1;
             $newUser['registered_from'] = 1;
+            $newUser['is_active']       = 1;
+            $newUser['is_verified']     = 1;
             
             //return (new UserRepository())->create($newUser);
             return User::create($newUser);
@@ -54,8 +59,13 @@ class RegisterRepository
     
     /* Check if a customer is already registered */
     public function isRegisteredCustomer( $email ){
-      $userCount    = (new UserRepository())->getUserByEmail( $email )->count();
-      $personCount  = (new PeopleRepository())->getPersonByEmail( $email )->count();
+      
+      $userRepository   = new UserRepository();
+      $peopleRepository = new PeopleRepository();
+      $userCount        = $userRepository->getUserByEmail( $email )->count();
+      $personCount      = $peopleRepository->getPersonByEmail( $email )->count();
+      unset($userRepository);
+      unset($peopleRepository);
       
       return ($userCount == 0 && $personCount == 0) ? FALSE : TRUE;
     }

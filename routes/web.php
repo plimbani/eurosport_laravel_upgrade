@@ -18,7 +18,7 @@ Route::group(['domain' => config('app.domain')], function() {
 
 	Route::get('pdf/footer', 'PDFController@getFooter')->name('pdf.footer');
 	Route::get('register','\Laraspace\Api\Controllers\Commercialisation\RegisterController@index');
-	Route::post('commercialisation/buylicense','\Laraspace\Api\Controllers\Commercialisation\RegisterController@register')->name("commerialisation.buylicense");
+	Route::post('commercialisation/thankyou','\Laraspace\Api\Controllers\Commercialisation\RegisterController@register')->name("commerialisation.thankyou");
 	Route::get('/{vue?}', function () {
 		return view('app');
 	})->where('vue', '[\/\w\.-]*')->name('home');

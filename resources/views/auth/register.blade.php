@@ -12,7 +12,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading">Register</div>
                 <div class="panel-body">
-                    <form class="js-register-form form-horizontal" role="form" method="POST" action="{{ route('commerialisation.buylicense') }}">
+                    <form class="js-register-form form-horizontal" role="form" method="POST" action="{{ route('commerialisation.thankyou') }}">
                         {{ csrf_field() }}
 
                         <div class="form-group{{ $errors->has('first_name') ? ' has-error' : '' }}">
