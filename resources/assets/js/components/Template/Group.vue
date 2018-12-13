@@ -109,7 +109,7 @@
         },
         computed: {
 		    getGroupName() {
-		    	return this.getGroupNameByRoundAndGroupIndex(this.roundIndex, this.index);
+		    	return this.getGroupNameByRoundAndGroupIndex(this.divisionIndex, this.roundIndex, this.index);
 		    },
         },
         methods: {
@@ -131,9 +131,6 @@
                 }
                 this.last_selected_teams = this.groupData.no_of_teams;
                 this.displayTeams();
-                if(this.roundIndex == 0 && this.groupData.type == "round_robin") {
-                	this.setMatches();
-                }
         	},
         	displayTeams() {
         		var i;
@@ -155,6 +152,7 @@
 					}
 				    this.groupData.teams.push({position_type: 'placed', group: '', position: ''});
 				}
+				this.setMatches();
         	},
 			getSuffixForPosition(d) {
 		      	if(d>=11 && d<=13) return d +'th';
@@ -189,7 +187,7 @@
 						if(roundIndex === vm.roundIndex && groupIndex >= vm.index) return false;
 
 						if(group.type === 'round_robin' && team.position_type === 'placed') {
-							groupsForSelection[roundRobinIndex] = {'name': 'Group ' + String.fromCharCode(65 +roundGroupCount), 'value': roundIndex + ',' + groupIndex};
+							groupsForSelection[roundRobinIndex] = {'name': 'Group ' + String.fromCharCode(65 +roundGroupCount), 'value': '-1,' + roundIndex + ',' + groupIndex};
 							roundGroupCount += 1;
 
 							if(roundRobinIndex === 0 && team.group === '')
@@ -202,7 +200,7 @@
 
 						if(group.type === 'placing_match' && _.indexOf(['winner', 'loser'], team.position_type) > -1) {
 							placingGroupCount += 1;
-							groupsForSelection[placingMatchIndex] = {'name': 'PM ' + (placingGroupCount), 'value': roundIndex + ',' + groupIndex};
+							groupsForSelection[placingMatchIndex] = {'name': 'PM ' + (placingGroupCount), 'value': '-1,' + roundIndex + ',' + groupIndex};
 
 							if(placingMatchIndex === 0 && (team.group === '' || typeof team.group === 'undefined')) {
 								vm.groupData.teams[teamIndex].group = groupsForSelection[placingMatchIndex].value;
@@ -214,6 +212,40 @@
 						}
 					});
 					if(roundIndex >= vm.roundIndex) return false;
+				});
+
+				_.forEach(this.templateFormDetail['steptwo'].divisions, function(division, divisionIndex) {
+					_.forEach(division.rounds, function(round, roundIndex) {
+						_.forEach(round.groups, function(group, groupIndex) {
+							if(divisionIndex === vm.divisionIndex && roundIndex === vm.roundIndex && groupIndex >= vm.index) return false;
+
+							if(group.type === 'round_robin' && team.position_type === 'placed') {
+								groupsForSelection[roundRobinIndex] = {'name': 'Group ' + String.fromCharCode(65 +roundGroupCount), 'value': divisionIndex + ',' + roundIndex + ',' + groupIndex};
+								roundGroupCount += 1;
+
+								if(roundRobinIndex === 0 && team.group === '')
+									vm.groupData.teams[teamIndex].group = groupsForSelection[roundRobinIndex].value;
+
+								roundRobinIndex++;
+
+								return true;
+							}
+
+							if(group.type === 'placing_match' && _.indexOf(['winner', 'loser'], team.position_type) > -1) {
+								placingGroupCount += 1;
+								groupsForSelection[placingMatchIndex] = {'name': 'PM ' + (placingGroupCount), 'value': divisionIndex + ',' + roundIndex + ',' + groupIndex};
+
+								if(placingMatchIndex === 0 && (team.group === '' || typeof team.group === 'undefined')) {
+									vm.groupData.teams[teamIndex].group = groupsForSelection[placingMatchIndex].value;
+								}
+
+								placingMatchIndex++;
+
+								return true;
+							}
+						});
+						if(divisionIndex === vm.divisionIndex && roundIndex >= vm.roundIndex) return false;
+					});
 				});
 				return groupsForSelection;
 		    },
@@ -254,10 +286,16 @@
 
 		    	let team = this.groupData.teams[teamIndex];
 		    	if(group) {
-			    	var currentRoundGroup = group.split(',');
-			    	var teams = this.templateFormDetail['steptwo'].rounds[currentRoundGroup[0]].groups[currentRoundGroup[1]].teams;			    	
-			    	var numberOfTeams = this.templateFormDetail['steptwo'].rounds[currentRoundGroup[0]].groups[currentRoundGroup[1]].no_of_teams;
-			    	var groupType = this.templateFormDetail['steptwo'].rounds[currentRoundGroup[0]].groups[currentRoundGroup[1]].type;
+			    	var currentDivisionRoundGroup = group.split(',');
+			    	var groupData = null;
+			    	if(currentDivisionRoundGroup[0] === '-1') {
+			    		groupData = this.templateFormDetail['steptwo'].rounds[currentDivisionRoundGroup[1]].groups[currentDivisionRoundGroup[2]];
+			    	} else {
+			    		groupData = this.templateFormDetail['steptwo'].divisions[currentDivisionRoundGroup[0]].rounds[currentDivisionRoundGroup[1]].groups[currentDivisionRoundGroup[2]];
+			    	}
+			    	var teams = groupData.teams;
+			    	var numberOfTeams = groupData.no_of_teams;
+			    	var groupType = groupData.type;
 			    	
 				    // for round robin
 			    	if(groupType === 'round_robin' && team.position_type === 'placed') {
@@ -327,23 +365,58 @@
 		    setMatches() {
         		this.groupData.matches = [];
 
-    			let times = this.groupData.teams_play_each_other;
-    			let noOfTeams = this.groupData.no_of_teams;
+        		let groupData = this.groupData;
+    			let times = groupData.teams_play_each_other;
+    			let noOfTeams = groupData.no_of_teams;
     			let totalTimes = this.teamsPlayedEachOther[times];
     			
     			let vm = this;
     			for(var i=0; i<totalTimes; i++){
     				for(var j=1; j<=noOfTeams; j++) {
     					for(var k=(j+1); k<=noOfTeams; k++) {
-    						vm.groupData.matches.push({teams: j + '-' + k});
+    						let inBetween = null;
+    						if(this.divisionIndex === -1) {
+    							if(this.roundIndex == 0 && groupData.type == "round_robin") {
+	    							inBetween = j + '-' + k;
+	    						}
+	    						// } else {
+	    						// 	console.log('j', j);
+	    						// 	console.log('k', k);
+	    						// 	let divisionRoundGroupPositionTeam1 = groupData.teams[j-1].position.split(',');
+	    						// 	let divisionRoundGroupPositionTeam2 = groupData.teams[k-1].position.split(',');
+	    						// 	let roundDataTeam1 = null;
+	    						// 	let roundDataTeam2 = null;
+	    						// 	if(divisionRoundGroupPositionTeam1[0] === '-1') {
+	    						// 		roundDataTeam1 = vm.templateFormDetail['steptwo'].rounds[divisionRoundGroupPositionTeam1[1]];
+	    						// 	} else {
+	    						// 		roundDataTeam1 = vm.templateFormDetail['steptwo'].divisions[divisionRoundGroupPositionTeam1[0]].rounds[divisionRoundGroupPositionTeam1[1]];
+	    						// 	}
+	    						// 	console.log('divisionRoundGroupPositionTeam2', divisionRoundGroupPositionTeam2);
+	    						// 	if(divisionRoundGroupPositionTeam2[0] === '-1') {
+	    						// 		roundDataTeam2 = vm.templateFormDetail['steptwo'].rounds[divisionRoundGroupPositionTeam2[1]];
+	    						// 	} else {
+	    						// 		roundDataTeam2 = vm.templateFormDetail['steptwo'].divisions[divisionRoundGroupPositionTeam2[0]].rounds[divisionRoundGroupPositionTeam2[1]];
+	    						// 	}
+	    						// 	let groupName1 = this.getRoundRobinGroupName(roundDataTeam1, parseInt(divisionRoundGroupPositionTeam1[2]));
+	    						// 	let groupName2 = this.getRoundRobinGroupName(roundDataTeam2, parseInt(divisionRoundGroupPositionTeam2[2]));
+	    						// 	inBetween = parseInt(divisionRoundGroupPositionTeam1[3] + 1) + groupName1 + '-' + parseInt(divisionRoundGroupPositionTeam2[3] + 1) + groupName2;
+	    						// }
+    						}
+    						
+    						vm.groupData.matches.push({in_between: inBetween});
     					}
     				}
     			}
 		    },
-		    getGroupNameByRoundAndGroupIndex(roundIndex, groupIndex) {
+		    getGroupNameByRoundAndGroupIndex(divisionIndex, roundIndex, groupIndex) {
 		    	let vm = this;
-		    	let roundData = this.templateFormDetail['steptwo'].rounds[roundIndex];
-		    	let groupData = this.templateFormDetail['steptwo'].rounds[roundIndex].groups[groupIndex];
+		    	let roundData = null;
+		    	if(divisionIndex === -1) {
+		    		roundData = this.templateFormDetail['steptwo'].rounds[roundIndex];
+		    	} else {
+		    		roundData = this.templateFormDetail['steptwo'].divisions[divisionIndex].rounds[roundIndex];
+		    	}
+		    	let groupData = roundData.groups[groupIndex];
 
 		    	if(groupData.type === 'round_robin') {
 		    		return 'Group ' + this.getRoundRobinGroupName(roundData, groupIndex);

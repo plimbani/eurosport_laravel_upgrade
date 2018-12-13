@@ -31,7 +31,7 @@
                 <step-three v-show="currentStep === 3" :templateFormDetail="templateFormDetail" @change-tab-index="changeTabIndex"></step-three>
                 
                 <!-- Step 4 -->
-                <step-four v-show="currentStep === 4" :templateFormDetail="templateFormDetail" @change-tab-index="changeTabIndex"></step-four>
+                <step-four v-if="currentStep === 4" :templateFormDetail="templateFormDetail" @change-tab-index="changeTabIndex"></step-four>
             </div>
         </div>
       </div>
