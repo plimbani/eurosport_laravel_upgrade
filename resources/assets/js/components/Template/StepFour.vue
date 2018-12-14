@@ -23,13 +23,12 @@
 							</div>
 							<div class="row">
 								<div class="col-6" v-for="(group, groupIndex) in round.groups">
-									<!-- <h6 class="font-weight-bold mb-0">Group {{ groupIndex + 1 }}</h6> -->
 									<h6 class="font-weight-bold mb-0">{{ getGroupName(round, group, groupIndex) }}</h6>
 									<p class="text-muted small mb-0">Teams play eachother {{group.teams_play_each_other}}</p>
 									<ul class="list-unstyled mb-4">
 										<li v-for="(team, teamIndex) in group.teams">
 											<span v-if="roundIndex == 0">Team {{ teamIndex + 1 }}</span>
-											<span v-if="roundIndex == 1">{{ getGroupsWithPosition(team) }}</span>
+											<span v-if="roundIndex == 1">{{ getGroupsWithPosition(team, group) }}</span>
 										</li>
 									</ul>
 								</div>
@@ -56,7 +55,7 @@
 							<input name="remarks" type="text" class="form-control" v-model="templateFormDetail.stepfour.remarks" placeholder="Remarks">
 						</div>
 						<div class="form-group row">
-							<label class="col-12 form-control-label">Template font color</label>
+							<label class="col-12 form-control-label">Colour</label>
 							<div class="col-12">
 								<div class="template-font-color-box pull-left mr-2" @click="setTemplateFontColor(color)" v-for="color in templateFontColors" :style="{'background-color': color}" :class="{ 'template-font-color-active' : templateFormDetail.stepfour.template_font_color == color }" ></div>
 							</div>
@@ -122,15 +121,14 @@
 		    		return 'PM ' + (round.start_placing_group_count + currentPlacingGroupCount);
 		    	}
 		    },
-		    getGroupsWithPosition(team) {
-		    	console.log('team', team);
+		    getGroupsWithPosition(team, group) {
 		    	if(team.position) {
 		    		let position = team.position.split(',');
+		    		position = parseInt(position[2]) + 1;
 		    		let group = team.group.split(',');
 		    		let roundIndex = group[0];
 		    		let groupIndex = group[1];
-		    		position = parseInt(position[2]) + 1;
-		    		return this.getSuffixForPosition(position) + ' - ' +  this.getGroupNameByRoundAndGroupIndex(roundIndex, groupIndex);
+		    		return this.getSuffixForPosition(position) + ' - ' +  this.getGroupNameByRoundAndGroupIndex(group[0], group[1]);
 		    	}
 		    },
 		    getSuffixForPosition(d) {
