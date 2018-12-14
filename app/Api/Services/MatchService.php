@@ -1187,6 +1187,11 @@ class MatchService implements MatchContract
                 $params[] = SORT_DESC;
               }
               
+              // if($rule['key'] == 'head_to_head') {
+              //   $params[] = 
+              //   $params[] = SORT_DESC;
+              // }
+
               if($rule['key'] == 'goal_difference') {
                 $params[] = $did;
                 $params[] = SORT_DESC;
