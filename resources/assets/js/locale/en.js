@@ -343,6 +343,7 @@ module.exports= {
   competation_modal_matches_average_matches: "Average matches per team:",
   competation_modal_time: "Total time required:",
   competation_modal_remark: "Remark:",
+  competation_modal_group_size_required: "Group size is required",
 
   pitch_modal_match_details: "Match Details",
   pitch_modal_match_card: "Match Card",
