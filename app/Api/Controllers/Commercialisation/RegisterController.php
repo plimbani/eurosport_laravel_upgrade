@@ -9,7 +9,7 @@ use Laraspace\Http\Requests\Commercialisation\Register\StoreRequest;
 // Need to Define Only Contracts
 use Laraspace\Api\Services\Commercialisation\RegisterService;
 
-//use Laraspace\Api\Contracts\Commercialisation\RegisterContract;
+use Laraspace\Api\Contracts\Commercialisation\RegisterContract;
 
 /**
  * Registration Description.
@@ -47,8 +47,7 @@ class RegisterController extends BaseController
 
     public function register(StoreRequest $request)
     {
-        $register = $this->registerObj->register($request->all());
-        dd($register);
+        $register = $this->registerObj->register($request->all());        
         if (FALSE !== $register) {
             return view('commercialisation.buylicense');
         } else {
