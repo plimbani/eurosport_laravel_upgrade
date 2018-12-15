@@ -18,6 +18,19 @@ export default {
             }
         });
     },
+
+    register(registerData){
+        console.log("register function call");
+        // need to change in the API in url and also in function
+        // return axios.post('/commercialisation/thankyou', registerData).then(response =>  {
+        //     console.log("response in register::",response); 
+        //     if (response.data.status_code == 422) {
+        //         toastr['error'](response.data.message, 'Error');
+        //     }
+        // }).catch(error => {
+        //     console.log("error in register::",error);
+        // });
+    },
     logout(){
         return axios.get('/api/auth/logout').then(response =>  {
             Ls.remove('auth.token')
