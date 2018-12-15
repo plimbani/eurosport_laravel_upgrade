@@ -10,7 +10,7 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">Buy License</div>
+                <div class="panel-heading">Thank You</div>
                 <div class="panel-body">
                     <form class="js-buy-license-form form-horizontal" role="form" method="POST" action="">
                         {{ csrf_field() }}
