@@ -346,3 +346,4 @@ $api->version('v1', function ($api) {
 
 //Front-end Register API call
 Route::post('/v1/commercialisation/thankyou','\Laraspace\Api\Controllers\Commercialisation\RegisterController@register')->name("commerialisation.thankyou");
+Route::post('/v1/country/list', '\Laraspace\Api\Controllers\Commercialisation\CountryController@getList')->name("country.list");
