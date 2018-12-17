@@ -8,7 +8,6 @@ use Laraspace\Http\Controllers\AuthController;
 use Laraspace\Http\Requests\Commercialisation\Register\StoreRequest;
 // Need to Define Only Contracts
 use Laraspace\Api\Services\Commercialisation\RegisterService;
-
 use Laraspace\Api\Contracts\Commercialisation\RegisterContract;
 
 /**
@@ -47,11 +46,17 @@ class RegisterController extends BaseController
 
     public function register(StoreRequest $request)
     {
-        $register = $this->registerObj->register($request->all());        
+        $register = $this->registerObj->register($request->all());
         if (FALSE !== $register) {
-            return view('commercialisation.buylicense');
+            return response()->json([
+                        'success' => true,
+                        'status' => Response::HTTP_OK,
+                        'data' => $register,
+                        'error' => [],
+                        'message' => 'Registration has been done successfully.'
+            ]);
         } else {
-            return response()->json(['status_code' => Response::HTTP_UNPROCESSABLE_ENTITY, 'message' => 'Seems that you are already registered with us.']);
+            return response()->json(['success' => false, 'status' => Response::HTTP_UNPROCESSABLE_ENTITY, 'data' => [], 'error' => [], 'message' => 'Seems that you are already registered with us.']);
         }
     }
 

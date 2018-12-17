@@ -86,10 +86,10 @@
                 // console.log("this.registerData:::",this.registerData);
                 if (!this.errors.any()) {
                     console.log("in if")
-                    // Auth.register(this.registerData).then((response) => {
-                    //     console.log("response:",response);
-                    //      // this.$router.push({'name':'welcome'})
-                    // })
+                     Auth.register(this.registerData).then((response) => {
+                         console.log("response:",response);
+                          // this.$router.push({'name':'welcome'})
+                     })
                 }else{
                     console.log("in elsee::",this.errors.items);
                     console.log("first element of errors::",this.errors.items[0]);

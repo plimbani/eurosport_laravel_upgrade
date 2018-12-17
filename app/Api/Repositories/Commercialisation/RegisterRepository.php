@@ -42,7 +42,7 @@ class RegisterRepository
                 'username' => $data['email'],
                 'name' => $data['first_name'] . " " . $data['last_name'],
                 'email' => $data['email'],
-                'organisation' => $data['organisation'],
+                'organisation' => !empty($data['organisation']) ? $data['organisation'] : '',
                 'password' => Hash::make($data['password']),
                 'is_mobile_user' => 0,
                 'is_desktop_user' => 1,
@@ -56,7 +56,7 @@ class RegisterRepository
             $user->roles()->attach(6); //Bind role with customer
             
             return [
-                'data' => $user,
+                'user' => $user,
                 'token' => $token = JWTAuth::attempt(['email' => $newUser['email'], 'password' => $data['password']])
             ];
         } else {
