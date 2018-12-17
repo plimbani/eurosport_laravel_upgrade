@@ -20,11 +20,13 @@ export default {
     },
 
     register(registerData){
-        console.log("register function call");
         // need to change in the API in url and also in function
          return axios.post('/api/v1/commercialisation/thankyou', registerData).then(response =>  {
-             console.log("response in register::",response); 
-             if (response.data.status_code == 422) {
+             // console.log("response in register::",response.data); 
+             if (response.data.success) {
+                Ls.set('auth.token',response.data.token)
+                Ls.set('email',registerData.email)
+             }else{
                  toastr['error'](response.data.message, 'Error');
              }
          }).catch(error => {
