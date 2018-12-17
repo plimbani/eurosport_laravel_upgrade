@@ -23,14 +23,18 @@ class RegisterRepository
 
     public function register($data)
     {
-
         //Inserting Customer Data in People Table
         $newCustomer = [
             'first_name' => $data['first_name'],
             'last_name' => $data['last_name'],
             'display_name' => $data['first_name'] . " " . $data['last_name'],
             'primary_email' => $data['email'],
-            'address' => $data['address']
+            'address' => $data['address'],
+            'address' => $data['address'],
+            'job_title' => $data['job_title'],
+            'city' => $data['city'],
+            'zip' => $data['zip'],
+            'country' => $data['country'],
         ];
         $result = (new PeopleRepository())->create($newCustomer);
         unset($newCustomer);
