@@ -124,22 +124,19 @@ class AgeGroupRepository
       $tournamentCompeationTemplate['draw_point']= $data['draw_point'];
       $tournamentCompeationTemplate['rules']= $data['selectedCategoryRule'];
 
-      $this->generateTemplateJson($data['total_teams']);
+      $tournamentCompeationTemplate['tournament_format']= $data['tournament_format'];
+      $tournamentCompeationTemplate['competition_type']= $data['competition_type'] ? $data['competition_type'] : null;
+      $tournamentCompeationTemplate['group_size']= $data['group_size'] ? $data['group_size'] : null;
 
       // Insert value in Database
       // here we check value for Edit as Well
 
       if(isset($data['competation_format_id']) && $data['competation_format_id'] != 0){
         $tournamentCompetitionTemplate = TournamentCompetationTemplates::where('id', $data['competation_format_id'])->first();
-
         // for normal mathches 
         $previousNormalMatchTotalTime = ($tournamentCompetitionTemplate->game_duration_RR * $tournamentCompetitionTemplate->halves_RR) + $tournamentCompetitionTemplate->halftime_break_RR + $tournamentCompetitionTemplate->match_interval_RR;
-
         $newNormalMatchTotalTime = ($tournamentCompeationTemplate['game_duration_RR'] * $tournamentCompeationTemplate['halves_RR']) + $tournamentCompeationTemplate['halftime_break_RR'] + $tournamentCompeationTemplate['match_interval_RR'];
-
         $diffInMinutesForNormalMatches = $previousNormalMatchTotalTime - $newNormalMatchTotalTime;
-
-
         if($previousNormalMatchTotalTime > $newNormalMatchTotalTime) {
             $tempFixtures = TempFixture::where('age_group_id', $data['competation_format_id'])
                                         ->where('is_scheduled', 1)
@@ -149,13 +146,10 @@ class AgeGroupRepository
                                         ->whereRaw('TIMESTAMPDIFF(MINUTE, match_datetime, match_endtime) > '.$newNormalMatchTotalTime.'')
                                         ->update(['match_endtime' => DB::raw('match_endtime - INTERVAL '.$diffInMinutesForNormalMatches.' Minute')]);
         }
-
         // for final matches
         $previousFinalMatchTotalTime = ($tournamentCompetitionTemplate->game_duration_FM * $tournamentCompetitionTemplate->halves_FM) + $tournamentCompetitionTemplate->halftime_break_FM + $tournamentCompetitionTemplate->match_interval_FM;
         $newFinalMatchTotalTime = ($tournamentCompeationTemplate['game_duration_FM'] * $tournamentCompeationTemplate['halves_FM']) + $tournamentCompeationTemplate['halftime_break_FM'] + $tournamentCompeationTemplate['match_interval_FM'];
-
         $diffInMinutesForFinalMatches = $previousFinalMatchTotalTime - $newFinalMatchTotalTime;
-
         if($previousFinalMatchTotalTime > $newFinalMatchTotalTime) {
           $tempFixture = TempFixture::where('age_group_id', $data['competation_format_id'])
                                       ->where('is_scheduled', 1)
@@ -172,14 +166,27 @@ class AgeGroupRepository
         $updataArr['newCatname'] = trim($data['ageCategory_name']."-".$data['category_age']);
         $this->updateAgeCatAndName($updataArr);
       // }
+      
+      // echo "<pre>";print_r($tournamentCompetitionTemplate->total_teams);echo "</pre>";
+      // echo "<pre>";print_r('-------');echo "</pre>";
+      // echo "<pre>";print_r($data['total_teams']);echo "</pre>";exit;
 
-        $tournamentCompeationTemplate['rules'] = json_encode($tournamentCompeationTemplate['rules']);
+      if($data['tournament_format'] == 'basic' && $data['competition_type'] == 'league') {
+        if($tournamentCompetitionTemplate->total_teams != $data['total_teams']) {
+          $templateJson = $this->generateTemplateJson($data['total_teams']);
+          $tournamentCompeationTemplate['template_json_data'] = json_encode($templateJson);
+        }
+      }
 
-        return  TournamentCompetationTemplates::where('id', $data['competation_format_id'])->update($tournamentCompeationTemplate);
+      return  TournamentCompetationTemplates::where('id', $data['competation_format_id'])->update($tournamentCompeationTemplate);
       } else {
       //TournamentCompetationTemplates::create($tournamentCompeationTemplate)->id;
       // Here also Save in competations table
-
+      
+      if($data['tournament_format'] == 'basic' && $data['competition_type'] == 'league') {
+        $templateJson = $this->generateTemplateJson($data['total_teams']);
+        $tournamentCompeationTemplate['template_json_data'] = json_encode($templateJson);
+      }
 
       return TournamentCompetationTemplates::create($tournamentCompeationTemplate)->id;
       }
@@ -219,7 +226,6 @@ class AgeGroupRepository
     public function getCompeationFormat($tournamentData) {
       if(count($tournamentData) > 1)
       {
-
           $ageGroupIdArray = [];
           $ageGroupIdArray[] = $tournamentData['cat_id'];
           $result= TournamentCompetationTemplates::
@@ -446,6 +452,64 @@ class AgeGroupRepository
 
     public function generateTemplateJson($totalTeams)
     {
-      
+        // set matches array
+        $matches = [];
+        $a = 1;
+        $times = 2;
+        for($i=0; $i<$times; $i++){
+          for($j=1; $j<=$totalTeams; $j++) {
+            for($k=($j+1); $k<=$totalTeams; $k++) {
+              $matches[] = ['in-between' => $j. '-' .$k, 'match_number' => "CAT.RR1.0$a.A$j-A$k", 
+              'display_match_number' => "CAT.1.$a.@HOME-@AWAY", 'display_home_team_placeholder_name' => "A$j",
+              'display_away_team_placeholder_name' => "A$k"];
+              $a++;
+            }
+          }
+        }
+
+        $totalMatchesCount = count($matches);
+        $averageMatches = $totalMatchesCount / ($totalTeams/2);
+
+        $finalArray = [];
+        $finalArray['total_matches'] = $totalMatchesCount;
+        $finalArray['tournament_id'] = '';
+        $finalArray['tournament_teams'] = $totalTeams;
+        $finalArray['remark'] = '';
+        $finalArray['template_font_color'] = '';
+        $finalArray['tournament_name'] = '';
+        $finalArray['competition_round'] = 'RR 1-' .$totalTeams;
+        $finalArray['competition_group_round'] = '1*' .$totalTeams;
+        $finalArray['competation_format'] = '';
+        $finalArray['tournament_min_match'] = '';
+        $finalArray['avg_game_team'] = $averageMatches;
+        $finalArray['position_type'] = 'group_ranking';
+
+        $finalArray['tournament_competition_ranking'] = [];
+        $finalArray['tournament_competition_ranking']['format_name'] = [];
+
+        $finalArray['tournament_competition_graphic_view'] = [];
+        $finalArray['tournament_competition_graphic_view']['format_name'] = [];
+
+        $finalArray['tournament_competation_format'] = [];
+        $finalArray['tournament_competation_format']['format_name'] = [];
+        
+        $finalArray['tournament_positions'] = [];
+
+        $matchTypeDetail = [
+          'name' => '',
+          'total_match' => '',
+          'group_count' => '',
+          'groups' => ['group_name' => 'Group-A', 'match' => $matches]
+        ];
+
+        $positions = [];
+        for ($i=1; $i <= $totalTeams; $i++) {
+          $positions[] = ['position' => $i, 'dependent_type' => 'match', 'match_number' => '', 'result_type' => ''];
+        }
+
+        $finalArray['tournament_competation_format']['format_name'][0]['match_type'][] = $matchTypeDetail;
+        $finalArray['tournament_positions'] = $positions;
+
+        return $finalArray;
     }
 }

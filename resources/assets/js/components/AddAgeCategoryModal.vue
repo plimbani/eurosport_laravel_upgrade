@@ -648,7 +648,7 @@ export default {
     },
     teamsToDisplay() {
       var totalTeams = [];
-      if(this.competation_format.tournament_format == 'advance') {
+      if(this.competation_format.tournament_format == 'advance' || this.competation_format.tournament_format == 'festival') {
           for (var n = 4; n <= 28; n++) {
               totalTeams.push(n);
           }
@@ -742,6 +742,7 @@ export default {
             // return false;
             let category_rules_info = response.data.category_rules_info;
             let resp = response.data.data[0]
+
             // here we set some of values for Edit Form
             this.competation_format = _.cloneDeep(resp);
             this.competation_format.ageCategory_name = resp.group_name;
@@ -823,6 +824,9 @@ export default {
                 value.description = category_rules_info[value.key]
             });
 
+            this.competation_format.tournament_format = resp.tournament_format;
+            this.competation_format.competition_type = resp.competition_type;
+            this.competation_format.group_size = resp.group_size;
           },
           (error) => {
           }
