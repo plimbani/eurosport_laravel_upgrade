@@ -63,6 +63,9 @@ import PitchPlanner from './views/admin/eurosport/PitchPlanner.vue'
 // UserManagement Layout
 import LayoutUserManagement from './views/layouts/LayoutUserManagement.vue'
 
+// Commercialisation Layout
+import LayoutCommercialisation from './views/layouts/LayoutCommercialisation.vue'
+
 //User Pages
 import UserList from './views/admin/users/List.vue'
 
@@ -77,6 +80,7 @@ import WebsiteStay from './views/admin/eurosport/WebsiteStay.vue';
 import WebsiteVisitors from './views/admin/eurosport/WebsiteVisitors.vue';
 import WebsiteMedia from './views/admin/eurosport/WebsiteMedia.vue';
 import WebsiteContact from './views/admin/eurosport/WebsiteContact.vue';
+import Test from './views/admin/eurosport/Test.vue';
 
 Vue.use(VueRouter)
 
@@ -284,6 +288,17 @@ const routes = [
             },
         ]
     },
+    {
+        path: '/', component: LayoutCommercialisation,
+        // meta: { requiresAuth: true },
+        children: [
+            {
+                path: '/test',
+                component: Test,
+                name: 'test'
+            }
+        ]
+    },    
 
     // DEFAULT ROUTE
     {   path: '*', component : NotFoundPage }
