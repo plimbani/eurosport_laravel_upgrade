@@ -25,8 +25,8 @@
         </div>
         <div class="form-group">
             <label>Organization or Company Name</label>
-            <input type="text" class="form-control form-control-danger" placeholder="Company Name" id="company_name" name="company_name"  v-model="registerData.company_name" v-validate="{ rules: { required: true } }">
-            <span class="help is-danger" v-show="errors.has('company_name')">The company name field is required.</span>
+            <input type="text" class="form-control form-control-danger" placeholder="Company Name" id="organisation" name="organisation"  v-model="registerData.organisation" v-validate="{ rules: { required: true } }">
+            <span class="help is-danger" v-show="errors.has('organisation')">The company name field is required.</span>
         </div>
         <div class="form-group">
             <label>Your Job Title</label>
@@ -55,6 +55,9 @@
                 <option>USA</option>
             </select>
         </div>
+        <div class="col-sm-6 text-sm-right">
+                <a href="javascript:void(0)" class="forgot-link" @click="redirectToLoginPage()">Already Have a Account? Login</a>
+            </div>
         <button class="btn btn-login btn-full">Register</button>
     </form>
 </template>
@@ -71,7 +74,7 @@
                     email: '',
                     password: '',
                     password_confirmation: '',
-                    company_name: '',
+                    organisation: '',
                     job_title: '',
                     address: '',
                     city: '',
@@ -83,17 +86,18 @@
         methods: {
             registerUser(e){
                 this.$validator.validateAll();
-                // console.log("this.registerData:::",this.registerData);
                 if (!this.errors.any()) {
-                    console.log("in if")
-                     Auth.register(this.registerData).then((response) => {
-                         console.log("response:",response);
-                          // this.$router.push({'name':'welcome'})
-                     })
+                    // console.log("in if")
+                    Auth.register(this.registerData).then((response) => {
+                        this.$router.push({'name':'thankyou'})
+                    })
                 }else{
-                    console.log("in elsee::",this.errors.items);
-                    console.log("first element of errors::",this.errors.items[0]);
+                    // console.log("in elsee::",this.errors.items);
+                    // console.log("first element of errors::",this.errors.items[0]);
                 }
+            },
+            redirectToLoginPage(){
+                this.$router.push({'name':'login'}) 
             } 
         },
     }

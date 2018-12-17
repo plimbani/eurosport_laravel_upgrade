@@ -19,7 +19,8 @@
         },
         methods: {
             redirectToPage(e){
-               console.log("redirectToPage");
+               // console.log("redirectToPage");
+               this.$router.push({'name':'welcome'}) 
             } 
         },
     }
