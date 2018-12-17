@@ -84,7 +84,7 @@
                 <div class="col-md-4">
                     <div class="checkbox">
                         <div class="c-input">
-                            <input class="euro-radio" type="radio" name="tournament_format" value="advance" id="radio_advance" v-model="tournament_format">
+                            <input class="euro-radio" type="radio" name="tournament_format" value="advance" id="radio_advance" v-model="competation_format.tournament_format">
                             <label for="radio_advance">Advance</label>
                         </div>
                     </div>
@@ -92,7 +92,7 @@
                 <div class="col-md-4">
                     <div class="checkbox">
                         <div class="c-input">
-                            <input class="euro-radio" type="radio" name="tournament_format" value="festival" id="radio_festival" v-model="tournament_format">
+                            <input class="euro-radio" type="radio" name="tournament_format" value="festival" id="radio_festival" v-model="competation_format.tournament_format">
                             <label for="radio_festival">Festival</label>
                         </div>
                     </div>
@@ -100,7 +100,7 @@
                 <div class="col-md-4">
                     <div class="checkbox">
                         <div class="c-input">
-                            <input class="euro-radio" type="radio" name="tournament_format" value="basic" id="radio_basic" v-model="tournament_format">
+                            <input class="euro-radio" type="radio" name="tournament_format" value="basic" id="radio_basic" v-model="competation_format.tournament_format">
                             <label for="radio_basic">Basic</label>
                         </div>
                     </div>
@@ -109,14 +109,14 @@
             </div>
           </div>
 
-          <div class="form-group row align-items-center" v-if="tournament_format == 'basic'">
+          <div class="form-group row align-items-center" v-if="competation_format.tournament_format == 'basic'">
             <div class="col-sm-4 form-control-label">Type</div>
             <div class="col-sm-8">
               <div class="row">
                 <div class="col-md-4">
                   <div class="checkbox">
                     <div class="c-input">
-                      <input class="euro-radio" type="radio" name="competition_type" value="league" id="radio_league" v-model="competition_type">
+                      <input class="euro-radio" type="radio" name="competition_type" value="league" id="radio_league" v-model="competation_format.competition_type">
                       <label for="radio_league">League</label>
                     </div>
                   </div>
@@ -124,7 +124,7 @@
                 <div class="col-md-4">
                   <div class="checkbox">
                     <div class="c-input">
-                      <input class="euro-radio" type="radio" name="competition_type" value="knockout" id="radio_knockout" v-model="competition_type">
+                      <input class="euro-radio" type="radio" name="competition_type" value="knockout" id="radio_knockout" v-model="competation_format.competition_type">
                       <label for="radio_knockout">Knockout</label>
                     </div>
                   </div>
@@ -151,10 +151,10 @@
             </div>
           </div>
 
-          <div class="form-group row align-items-center" :class="{'has-error': errors.has('group_size') }" v-if="competition_type == 'knockout'">
+          <div class="form-group row align-items-center" :class="{'has-error': errors.has('group_size') }" v-if="competation_format.competition_type == 'knockout'">
             <div class="col-sm-4 form-control-label">{{ $lang.add_template_modal_group_size }}</div>
             <div class="col-sm-8">
-                <select class="form-control ls-select2" name="group_size" v-model="group_size" v-validate="'required'" :class="{'is-danger': errors.has('group_size') }">
+                <select class="form-control ls-select2" name="group_size" v-model="competation_format.group_size" v-validate="'required'" :class="{'is-danger': errors.has('group_size') }">
                     <option value="">Select group size</option>
                     <option :value="sizeIndex" v-for="(size, sizeIndex) in getAllGroupSize"> {{ size }}</option>
                 </select>
@@ -519,9 +519,9 @@ export default {
       categoryAgeFontColorArr: {'U08/5' : '#000000','U09' : '#FFFFFF','U09/5' : '#000000','U09/7' : '#000000','U10' : '#000000','U10/5' : '#000000','U10/7' : '#000000','U10/9' : '#000000','U10/5A' : '#000000','U10/7A' : '#000000','U10/5B' : '#FFFFFF','U10/7B' : '#000000','U11' : '#000000','U11/11' : '#000000','U11/7' : '#FFFFFF','U11/7A' : '#000000','U11/7B' : '#FFFFFF','U12' : '#000000','U12/7' : '#FFFFFF','U12/8' : '#000000','U12/9' : '#000000','U12-A' : '#000000','U12/7A' : '#000000','U12/8A' : '#000000','U12-B' : '#000000','U12/7B' : '#000000','U12/8B' : '#000000','U13' : '#000000','U13/7' : '#000000','U13/8' : '#000000','U13/9' : '#000000','U13-A' : '#000000','U13/7A' : '#000000','U13/8A' : '#FFFFFF','U13/9A' : '#000000','U13-B' : '#000000','U13/8B' : '#000000','U13/9B' : '#000000','U14' : '#000000','U14/7' : '#FFFFFF','U14-A' : '#000000','U14-B' : '#000000','U15' : '#000000','U15/7' : '#FFFFFF','U15/8' : '#FFFFFF','U15-A' : '#000000','U15-B' : '#FFFFFF','U16' : '#000000','U16-A' : '#000000','U16-B' : '#000000','U17' : '#000000','U17-A' : '#000000','U17-B' : '#000000','U18' : '#000000','U19' : '#000000','U19-A' : '#000000','U19-B' : '#FFFFFF','U10-U9' : '#000000','G08/5' : '#000000','G09/5' : '#000000','G09/7' : '#000000','G10/5' : '#FFFFFF','G10/7' : '#000000','G10/7A' : '#FFFFFF','G10/7B' : '#000000','G11' : '#FFFFFF','G11/7' : '#000000','G12' : '#000000','G12/7' : '#FFFFFF','G12/8' : '#FFFFFF','G12/9' : '#FFFFFF','G12/7A' : '#FFFFFF','G12/7B' : '#FFFFFF','G13' : '#000000','G13/7' : '#FFFFFF','G13/8' : '#FFFFFF','G13/9' : '#000000','G13/7A' : '#000000','G13/7B' : '#000000','G14' : '#000000','G14/7' : '#000000','G14/8' : '#000000','G14-A' : '#000000','G14-B' : '#000000','G15' : '#000000','G15/7' : '#000000','G15/8' : '#000000','G15-A' : '#000000','G15-B' : '#000000','G16' : '#000000','G17' : '#000000','G17/7' : '#000000','G17-A' : '#000000','G17-B' : '#000000','G18' : '#000000','G18/7' : '#000000','G18-A' : '#000000','G18-B' : '#000000','G19' : '#000000','G19-A' : '#000000','G19-B' : '#000000','M-O' : '#000000','M-O/5' : '#000000','M-O/7' : '#000000','M32' : '#000000','M35' : '#FFFFFF','M35/7' : '#000000','W-O' : '#FFFFFF','W-O/7' : '#000000'
       },
       allCategoryRules: [],
-      tournament_format: 'advance',
-      competition_type: 'league',
-      group_size: '',
+      // tournament_format: 'advance',
+      // competition_type: 'league',
+      // group_size: '',
     }
   },
 
@@ -648,19 +648,19 @@ export default {
     },
     teamsToDisplay() {
       var totalTeams = [];
-      if(this.tournament_format == 'advance') {
+      if(this.competation_format.tournament_format == 'advance') {
           for (var n = 4; n <= 28; n++) {
               totalTeams.push(n);
           }
       }
-      if(this.tournament_format == 'basic' && this.competition_type == 'knockout') {
+      if(this.competation_format.tournament_format == 'basic' && this.competation_format.competition_type == 'knockout') {
           for (var n = 8; n <= 60; n++) {
               if(n % 4 == 0 || n % 5 == 0 || n % 6 == 0) {
                   totalTeams.push(n);
               }
           }
       }
-      if(this.tournament_format == 'basic' && this.competition_type == 'league') {
+      if(this.competation_format.tournament_format == 'basic' && this.competation_format.competition_type == 'league') {
           for (var n = 2; n <= 28; n++) {
               if(n % 2 == 0) {
                   totalTeams.push(n);
@@ -726,7 +726,7 @@ export default {
         halftime_break_RR:'5',halftime_break_FM:'5',match_interval_RR:'5',match_interval_FM:'5',tournamentTemplate:[],
         tournament_id: '', competation_format_id:'0',id:'',
         nwTemplate:[],game_duration_RR_other:'20',
-      game_duration_FM_other:'20',match_interval_RR_other:'20',match_interval_FM_other:'20',min_matches:'',team_interval:'40', win_point: '3', draw_point: '1', loss_point: '0', rules: rules, selectedCategoryRule: null,
+      game_duration_FM_other:'20',match_interval_RR_other:'20',match_interval_FM_other:'20',min_matches:'',team_interval:'40', win_point: '3', draw_point: '1', loss_point: '0', rules: rules, selectedCategoryRule: null,tournament_format: 'advance', competition_type: 'league', group_size: '',
       }
     },
     setEdit(id) {

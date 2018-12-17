@@ -17,6 +17,7 @@ class AddNewFieldsToTournamentCompetitionTemplateTable extends Migration
             $table->enum('tournament_format', ['advance', 'festival', 'basic'])->after('total_match');
             $table->enum('competition_type', ['league', 'knockout'])->nullable()->after('tournament_format');
             $table->integer('group_size')->nullable()->unsigned(10)->after('competition_type');
+            $table->text('template_json_data')->nullable()->after('group_size');
         });
     }
 
@@ -28,7 +29,7 @@ class AddNewFieldsToTournamentCompetitionTemplateTable extends Migration
     public function down()
     {
         Schema::table('tournament_competation_template', function (Blueprint $table) {
-            $table->dropColumn(['tournament_format', 'competition_type', 'group_size']);
+            $table->dropColumn(['tournament_format', 'competition_type', 'group_size', 'template_json_data']);
         });
     }
 }

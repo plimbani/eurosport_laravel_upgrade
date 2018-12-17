@@ -124,6 +124,8 @@ class AgeGroupRepository
       $tournamentCompeationTemplate['draw_point']= $data['draw_point'];
       $tournamentCompeationTemplate['rules']= $data['selectedCategoryRule'];
 
+      $this->generateTemplateJson($data['total_teams']);
+
       // Insert value in Database
       // here we check value for Edit as Well
 
@@ -440,5 +442,10 @@ class AgeGroupRepository
       }
 
       return $positionData;
+    }
+
+    public function generateTemplateJson($totalTeams)
+    {
+      
     }
 }
