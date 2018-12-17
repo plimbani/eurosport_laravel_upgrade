@@ -24,7 +24,8 @@ export default {
          return axios.post('/api/v1/commercialisation/thankyou', registerData).then(response =>  {
              // console.log("response in register::",response.data); 
              if (response.data.success) {
-                Ls.set('auth.token',response.data.token)
+                // console.log("inside settttt:::",response.data.data.token);
+                Ls.set('auth.token',response.data.data.token)
                 Ls.set('email',registerData.email)
              }else{
                  toastr['error'](response.data.message, 'Error');
