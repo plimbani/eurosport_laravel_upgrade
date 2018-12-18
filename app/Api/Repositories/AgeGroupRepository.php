@@ -36,10 +36,9 @@ class AgeGroupRepository
     {
         return AgeGroup::find($data['id'])->delete();
     }
+
     public function addCompetations($competation_data,$group_data)
     {
-      // Now here we have to For Loop to insert all data in competations table
-      //exit;
       $i=1;
       $competations=array();
       $age_group = $competation_data['age_group_name'];
@@ -47,7 +46,6 @@ class AgeGroupRepository
       $cntGroups = count($group_data);
       $competationIds = array();
       foreach($group_data as $groups){
-
        $competations['tournament_competation_template_id'] = $competation_data['tournament_competation_template_id'];
        $competations['tournament_id'] = $competation_data['tournament_id'];
        $comp_group = $groups['group_name'];
@@ -55,9 +53,6 @@ class AgeGroupRepository
        $competations['name'] = $age_group.'-'.$comp_group;
        $competations['actual_name'] = $age_group.'-'.$actual_comp_group;
        $competations['team_size'] = $groups['team_count'];
-       // here last group we consider as Final or Elimination Match
-       // Means Last one
-       // TODO : Change the code
        $matchType = explode('-',$groups['match_type']);
 
        if($matchType[0] == 'PM') {
@@ -89,6 +84,7 @@ class AgeGroupRepository
 
      return $competationIds;
     }
+
     public function createCompeationFormat($data){
       $tournamentCompeationTemplate = array();
       $tournamentCompeationTemplate['group_name'] = $data['ageCategory_name'];
@@ -112,9 +108,7 @@ class AgeGroupRepository
       $tournamentCompeationTemplate['halftime_break_FM']= $data['halftime_break_FM'];
       $tournamentCompeationTemplate['match_interval_RR']= $data['match_interval_RR'];
       $tournamentCompeationTemplate['match_interval_FM']= $data['match_interval_FM'];
-      // TODO: Add New Code For more Other Options
 
-      // TODO: Add total_teams and min_matches For particular Age Category
       $tournamentCompeationTemplate['total_teams'] = $data['total_teams'];
       $tournamentCompeationTemplate['min_matches'] = $data['min_matches'];
       $tournamentCompeationTemplate['team_interval'] = $data['team_interval'];
@@ -125,11 +119,10 @@ class AgeGroupRepository
       $tournamentCompeationTemplate['rules']= $data['selectedCategoryRule'];
 
       $tournamentCompeationTemplate['tournament_format']= $data['tournament_format'];
-      $tournamentCompeationTemplate['competition_type']= $data['competition_type'] ? $data['competition_type'] : null;
+      $tournamentCompeationTemplate['competition_type']= ($data['tournament_format'] == 'basic' && $data['competition_type']) ? $data['competition_type'] : null;
       $tournamentCompeationTemplate['group_size']= $data['group_size'] ? $data['group_size'] : null;
-
-      // Insert value in Database
-      // here we check value for Edit as Well
+      $tournamentCompeationTemplate['remarks']= $data['remarks'] ? $data['remarks'] : null;
+      $tournamentCompeationTemplate['template_font_color']= $data['template_font_color'] ? $data['template_font_color'] : null;
 
       if(isset($data['competation_format_id']) && $data['competation_format_id'] != 0){
         $tournamentCompetitionTemplate = TournamentCompetationTemplates::where('id', $data['competation_format_id'])->first();
@@ -165,30 +158,28 @@ class AgeGroupRepository
         $updataArr['age_cat_id'] = $data['competation_format_id'];
         $updataArr['newCatname'] = trim($data['ageCategory_name']."-".$data['category_age']);
         $this->updateAgeCatAndName($updataArr);
-      // }
       
-      // echo "<pre>";print_r($tournamentCompetitionTemplate->total_teams);echo "</pre>";
-      // echo "<pre>";print_r('-------');echo "</pre>";
-      // echo "<pre>";print_r($data['total_teams']);echo "</pre>";exit;
+        $tournamentCompeationTemplate['rules'] = json_encode($tournamentCompeationTemplate['rules']);
 
-      if($data['tournament_format'] == 'basic' && $data['competition_type'] == 'league') {
-        if($tournamentCompetitionTemplate->total_teams != $data['total_teams']) {
-          $templateJson = $this->generateTemplateJson($data['total_teams']);
-          $tournamentCompeationTemplate['template_json_data'] = json_encode($templateJson);
+        if($data['tournament_format'] == 'basic' && $data['competition_type'] == 'league') {
+          if($tournamentCompetitionTemplate->total_teams !== $data['total_teams']) {
+            $templateJson = $this->generateTemplateJsonForLeague($data['total_teams']);
+            $tournamentCompeationTemplate['template_json_data'] = json_encode($templateJson);
+          }
         }
-      }
 
-      return  TournamentCompetationTemplates::where('id', $data['competation_format_id'])->update($tournamentCompeationTemplate);
+        return  TournamentCompetationTemplates::where('id', $data['competation_format_id'])->update($tournamentCompeationTemplate);
       } else {
-      //TournamentCompetationTemplates::create($tournamentCompeationTemplate)->id;
-      // Here also Save in competations table
-      
-      if($data['tournament_format'] == 'basic' && $data['competition_type'] == 'league') {
-        $templateJson = $this->generateTemplateJson($data['total_teams']);
-        $tournamentCompeationTemplate['template_json_data'] = json_encode($templateJson);
-      }
+        if($data['tournament_format'] == 'basic' && $data['competition_type'] == 'league') {
+          $templateJsonForLeague = $this->generateTemplateJsonForLeague($data['total_teams']);
+          $tournamentCompeationTemplate['template_json_data'] = json_encode($templateJsonForLeague);
+        }
 
-      return TournamentCompetationTemplates::create($tournamentCompeationTemplate)->id;
+        if($data['tournament_format'] == 'basic' && $data['competition_type'] == 'knockout') {
+          $templateJsonForKnockout = $this->generateTemplateJsonForKnockout($data['total_teams'], $data['group_size']);
+          echo "<pre>";print_r(json_encode($templateJsonForKnockout));echo "</pre>";exit;
+        }
+        return TournamentCompetationTemplates::create($tournamentCompeationTemplate)->id;
       }
 
       // Now here we return the appropriate Data
@@ -199,19 +190,16 @@ class AgeGroupRepository
      */
     private function updateAgeCatAndName($updataArr)
     {
-      // First we call it from database
       $tournamenTemplateData = TournamentCompetationTemplates::where('id','=',$updataArr['age_cat_id'])->get();
       $dbCatname = trim($tournamenTemplateData[0]['group_name']."-".$tournamenTemplateData[0]['category_age']);
-      //echo 'name os'.$dbCatname;
       $newCatName =trim($updataArr['newCatname']);
 
-      // First Update in the competations Table
       DB::table('competitions')->where('tournament_competation_template_id','=',$updataArr['age_cat_id'])
       ->where('tournament_id','=',$updataArr['tournament_id'])
       ->update([
         'name'=> DB::raw("REPLACE(name, '".$dbCatname."', '".$newCatName."')")
         ]);
-      // Second update in Temp_fixtures Table
+
       DB::table('temp_fixtures')->where('age_group_id','=',$updataArr['age_cat_id'])
       ->where('tournament_id','=',$updataArr['tournament_id'])
       ->update([
@@ -219,6 +207,7 @@ class AgeGroupRepository
         ]);
 
     }
+
     /*
       This Function will Fetch Data For tournament_competation_table
       We pass tournamentId
@@ -259,74 +248,16 @@ class AgeGroupRepository
                  ->select('tournament_competation_template.*','tournament_template.name as template_name')
                 ->where('tournament_competation_template.'.$fieldName, $value)->get();
         }
-
       }
-
-      // TODO: here we call function to Display All Templates Related to
-      // compeation Format
-     /* $reportQuery = DB::table('tournament_competation_template')
-                ->leftjoin('tournament_template',
-                function($join) {
-                  $join->on('tournament_competation_template.total_teams','<=','tournament_template.total_teams');
-                  $join->on('tournament_competation_template.min_matches','<=','tournament_template.minimum_matches');
-                })
-                ->having(DB::raw('COUNT(`tournament_template`.`id`)'),'>=',1)
-                ->where('tournament_competation_template.tournament_id',$value)
-                ->groupBy('tournament_competation_template.id')
-                ->select('tournament_competation_template.*',
-                  DB::raw('COUNT(tournament_template.id) as cnt')
-                  )
-                ->get();
-     // Now here we find all Templates And Arrange it By id
-     $templData = TournamentTemplates::get();
-     $templatesArr = array();
-
-     foreach($reportQuery as $key=>$data) {
-
-        // here we check if count is greater than 2 then change it
-        if($data->cnt >= 2)  {
-          // We assign Multiple values and Iterate Loop
-          // For All templates
-          $templatesArr[$key]['id'] = $data->id;
-          for($i=0;$i<$data->cnt;$i++) {
-
-          $templatesArr[$key]['templates'][$i]['group_name'] = $data->group_name;
-          $templatesArr[$key]['templates'][$i]['disp_format_name'] =
-          'DISPFORMAT';
-          $templatesArr[$key]['templates'][$i]['total_match'] =
-          'TOTALMATCH';
-          $templatesArr[$key]['templates'][$i]['total_time'] =
-          'TOTALTIME';
-          }
-
-
-        } else {
-
-          // Its Single Value
-         $templatesArr[$key]['group_name'] = $data->group_name;
-          $templatesArr[$key]['disp_format_name'] = $data->disp_format_name;
-          $templatesArr[$key]['total_match'] = $data->total_match;
-          $templatesArr[$key]['total_time'] = $data->total_time;
-        }
-     }
-     return $templatesArr;
-     print_r($templatesArr);
-     exit;
-
-      return  $reportQuery;
-      print_r($data->toArray());exit;
-      return TournamentCompetationTemplates::where($fieldName, $value)->get();
-      */
     }
     /*
       This Function will Fetch Data For tournament_competation_table
       We pass tournamentId
      */
-    public function deleteCompeationFormat($tournamentCompetationTemplateId) {
-
+    public function deleteCompeationFormat($tournamentCompetationTemplateId)
+    {
       $tournamentCompetationTemplate = TournamentCompetationTemplates::find($tournamentCompetationTemplateId);
       $tournamentId = $tournamentCompetationTemplate->tournament_id;
-
       $tournamentReferees = Referee::where('tournament_id', $tournamentId)->get();
 
       foreach ($tournamentReferees as $tournamentReferee) {
@@ -346,23 +277,13 @@ class AgeGroupRepository
 
     public function deleteCompetationData($data)
     {
-
       return Competition::where('tournament_id',$data['tournament_id'])
              ->where('tournament_competation_template_id',$data['competation_format_id'])
              ->delete();
-
-      /*$competationId = array();
-      $competationId= Competition::where('tournament_id',$data['tournament_id'])
-             ->where('tournament_competation_template_id',$data['competation_format_id'])
-             ->select('id')
-             ->get()->toArray();*/
-
-     //        ->delete();
-      // Here we also Delete the Fixtures which related to it in temp_fixtures
-      //$query = DB::table('temp_fixtures')
-        //        ->where('')
     }
-    public function FindTemplate($id) {
+    
+    public function FindTemplate($id) 
+    {
      return  DB::table('tournament_template')->where('id',$id)->first();
     }
 
@@ -431,7 +352,8 @@ class AgeGroupRepository
       return true;
     }
 
-    public function getPlacingsData($data) {
+    public function getPlacingsData($data) 
+    {
       $positions = Position::with('team', 'team.country')->where('age_category_id', $data['ageCategoryId'])->get();
       
       $positionData = [];
@@ -450,7 +372,7 @@ class AgeGroupRepository
       return $positionData;
     }
 
-    public function generateTemplateJson($totalTeams)
+    public function generateTemplateJsonForLeague($totalTeams)
     {
         // set matches array
         $matches = [];
@@ -512,4 +434,71 @@ class AgeGroupRepository
 
         return $finalArray;
     }
+
+    public function generateTemplateJsonForKnockout($totalTeams, $groupSize)
+    {
+      echo "<pre>";print_r($groupSize);echo "</pre>";exit;
+      $matches = [];
+      $a = 1;
+      $times = 1;
+      for($i=0; $i<$times; $i++){
+        for($j=1; $j<=$totalTeams; $j++) {
+          for($k=($j+1); $k<=$totalTeams; $k++) {
+            $matches[] = ['in-between' => $j. '-' .$k, 'match_number' => "CAT.RR1.0$a.A$j-A$k", 
+            'display_match_number' => "CAT.1.$a.@HOME-@AWAY", 'display_home_team_placeholder_name' => "A$j",
+            'display_away_team_placeholder_name' => "A$k"];
+            $a++;
+          }
+        }
+      }
+
+      $totalGroups = $totalTeams / $groupSize;
+      $totalMatchesCount = count($matches);
+      $averageMatches = $totalMatchesCount / ($totalTeams/2);
+
+      $finalArray = [];
+      $finalArray['total_matches'] = $totalMatchesCount;
+      $finalArray['tournament_id'] = '';
+      $finalArray['tournament_teams'] = $totalTeams;
+      $finalArray['remark'] = '';
+      $finalArray['template_font_color'] = '';
+      $finalArray['tournament_name'] = '';
+      $finalArray['competition_round'] = 'RR 1-' .$totalTeams;
+      $finalArray['competition_group_round'] = '1*' .$totalTeams;
+      $finalArray['competation_format'] = '';
+      $finalArray['tournament_min_match'] = '';
+      $finalArray['avg_game_team'] = $averageMatches;
+      $finalArray['position_type'] = 'group_ranking';
+
+      $finalArray['tournament_competition_ranking'] = [];
+      $finalArray['tournament_competition_ranking']['format_name'] = [];
+
+      $finalArray['tournament_competition_graphic_view'] = [];
+      $finalArray['tournament_competition_graphic_view']['format_name'] = [];
+
+      $finalArray['tournament_competation_format'] = [];
+      $finalArray['tournament_competation_format']['format_name'] = [];
+      
+      $finalArray['tournament_positions'] = [];
+
+      for ($i=0; $i < $totalGroups; $i++) {
+        $matchTypeDetail = [
+          'name' => '',
+          'total_match' => '',
+          'group_count' => '',
+          'groups' => ['group_name' => 'Group-A', 'match' => $matches]
+        ];
+      }
+
+      $positions = [];
+      for ($i=1; $i <= $totalTeams; $i++) {
+        $positions[] = ['position' => $i, 'dependent_type' => 'match', 'match_number' => '', 'result_type' => ''];
+      }
+      $finalArray['tournament_competation_format']['format_name'][0]['name'] = 'Round 1';
+      $finalArray['tournament_competation_format']['format_name'][0]['match_type'][] = $matchTypeDetail;
+      $finalArray['tournament_positions'] = $positions;
+
+      return $finalArray;
+    }
+
 }
