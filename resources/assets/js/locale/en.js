@@ -689,6 +689,7 @@ module.exports= {
   pitch_planner_automatic_planning_total_final_matches_duration: "Total game duration for final",
   pitch_planner_automatic_planning_pitch_selection: "Pitch selection*",
   pitch_planner_automatic_planning_schedule_btn: "Plan",
+  pitch_planner_automatic_planning_message: 'Groups will not show in the competition dropdown if i) one or more games have been manually scheduled ii) the group has already been automatically planned.',
 
   pitch_detail_break_add: "Add break",
   pitch_detail_break_remove: "Delete break",
