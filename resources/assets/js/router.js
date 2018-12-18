@@ -48,6 +48,8 @@ import LayoutWebsite from './views/layouts/LayoutWebsite.vue'
 import LayoutThankyou from './views/layouts/LayoutThankyou.vue'
 import Thankyou from './views/thankyou/Thankyou.vue'
 
+import Buylicense from './views/buylicense/Buylicense.vue'
+
 // Full EuroSport Layout
 import FullLayoutTournament from './views/layouts/FullLayoutTournament.vue'
 import PrintPitchPlannerLayout from './views/layouts/PrintPitchPlannerLayout.vue'
@@ -129,12 +131,23 @@ const routes = [
 
     {
         path: '/thankyou', component: LayoutThankyou,
-        // meta: { requiresAuth: true },
+        meta: { requiresAuth: true },
         children: [
             {
                 path: '/',
                 component: Thankyou,
                 name: 'thankyou'
+            }
+        ]
+    },
+     {
+        path: '/buylicense', component: LayoutThankyou,
+        meta: { requiresAuth: true },
+        children: [
+            {
+                path: '/',
+                component: Buylicense,
+                name: 'buylicense'
             }
         ]
     },

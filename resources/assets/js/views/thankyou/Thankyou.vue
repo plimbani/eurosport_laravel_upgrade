@@ -20,7 +20,7 @@
         methods: {
             redirectToPage(e){
                // console.log("redirectToPage");
-               this.$router.push({'name':'welcome'}) 
+               this.$router.push({'name':'buylicense'}) 
             } 
         },
     }
