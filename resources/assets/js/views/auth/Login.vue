@@ -29,6 +29,9 @@
             <div class="col-sm-6 text-sm-right">
                 <a href="#" class="forgot-link" @click="forgotPasswordOpen()">{{$lang.login_forgotpassword_message}}</a>
             </div>
+            <div class="col-sm-6 text-sm-right">
+                <a href="javascript:void(0)" class="forgot-link" @click="redirectToRegisterPage()">New User? Register</a>
+            </div>
         </div>
         <button class="btn btn-login btn-full euro-button">{{$lang.login_button}}</button>
     </form>
@@ -88,6 +91,10 @@
             },
             backtologin() {
                  this.loginData.forgotpassword = 0
+            },
+
+            redirectToRegisterPage(){
+                 this.$router.push({'name':'register'}) 
             },
 
             sendResetLink() {

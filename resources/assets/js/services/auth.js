@@ -18,6 +18,22 @@ export default {
             }
         });
     },
+
+    register(registerData){
+        // need to change in the API in url and also in function
+         return axios.post('/api/v1/commercialisation/thankyou', registerData).then(response =>  {
+             // console.log("response in register::",response.data); 
+             if (response.data.success) {
+                // console.log("inside settttt:::",response.data.data.token);
+                Ls.set('auth.token',response.data.data.token)
+                Ls.set('email',registerData.email)
+             }else{
+                 toastr['error'](response.data.message, 'Error');
+             }
+         }).catch(error => {
+             console.log("error in register::",error);
+         });
+    },
     logout(){
         return axios.get('/api/auth/logout').then(response =>  {
             Ls.remove('auth.token')

@@ -20,4 +20,8 @@ class PeopleRepository
     {
         return Person::where('id', $peopleId)->update($data);
     }
+    
+    public function getPersonByEmail( $email ){
+        return Person::where( "primary_email", $email )->get();
+    }
 }

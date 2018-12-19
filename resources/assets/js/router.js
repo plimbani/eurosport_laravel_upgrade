@@ -44,6 +44,12 @@ import LayoutTournament from './views/layouts/LayoutTournament.vue'
 // Website Layout
 import LayoutWebsite from './views/layouts/LayoutWebsite.vue'
 
+// Thankyou Layout
+import LayoutThankyou from './views/layouts/LayoutThankyou.vue'
+import Thankyou from './views/thankyou/Thankyou.vue'
+
+import Buylicense from './views/buylicense/Buylicense.vue'
+
 // Full EuroSport Layout
 import FullLayoutTournament from './views/layouts/FullLayoutTournament.vue'
 import PrintPitchPlannerLayout from './views/layouts/PrintPitchPlannerLayout.vue'
@@ -123,8 +129,30 @@ const routes = [
         ]
     },*/
 
-    // Admin Backend Routes For Tournaments
     {
+        path: '/thankyou', component: LayoutThankyou,
+        meta: { requiresAuth: true },
+        children: [
+            {
+                path: '/',
+                component: Thankyou,
+                name: 'thankyou'
+            }
+        ]
+    },
+     {
+        path: '/buylicense', component: LayoutThankyou,
+        meta: { requiresAuth: true },
+        children: [
+            {
+                path: '/',
+                component: Buylicense,
+                name: 'buylicense'
+            }
+        ]
+    },
+    // Admin Backend Routes For Tournaments
+     {
         path: '/admin', component: LayoutHorizontal,
         meta: { requiresAuth: true },
         children: [
