@@ -35,8 +35,8 @@ class Person extends Model
         'settings',
         'job_title',
         'city',
-        'zip',
-        'country',
+        'zipcode',
+        'country_id',
     ];
 
     /**
