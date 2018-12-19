@@ -437,7 +437,6 @@ class AgeGroupRepository
 
     public function generateTemplateJsonForKnockout($totalTeams, $groupSize)
     {
-      echo "<pre>";print_r($groupSize);echo "</pre>";exit;
       $matches = [];
       $a = 1;
       $times = 1;
@@ -480,22 +479,32 @@ class AgeGroupRepository
       $finalArray['tournament_competation_format']['format_name'] = [];
       
       $finalArray['tournament_positions'] = [];
+      // $matchTypeDetail = [];
 
+      $finalArray['tournament_competation_format']['format_name'][0]['name'] = 'Round 1';
+      $groupCount = 0;
       for ($i=0; $i < $totalGroups; $i++) {
+        $finalGroupCount = 65 + $groupCount + $i;
+        // echo "<pre>";print_r($finalGroupCount);echo "</pre>";exit;
+        // echo "<pre>";print_r($i);echo "</pre>";exit;
         $matchTypeDetail = [
           'name' => '',
           'total_match' => '',
           'group_count' => '',
-          'groups' => ['group_name' => 'Group-A', 'match' => $matches]
+          'groups' => ['group_name' => 'Group-' .chr($finalGroupCount), 'match' => $matches]
         ];
+
+        $finalArray['tournament_competation_format']['format_name'][0]['match_type'][] = $matchTypeDetail;
+        $groupCount++;
       }
+
+      // echo "<pre>";print_r($matchTypeDetail);echo "</pre>";exit;
 
       $positions = [];
       for ($i=1; $i <= $totalTeams; $i++) {
         $positions[] = ['position' => $i, 'dependent_type' => 'match', 'match_number' => '', 'result_type' => ''];
       }
-      $finalArray['tournament_competation_format']['format_name'][0]['name'] = 'Round 1';
-      $finalArray['tournament_competation_format']['format_name'][0]['match_type'][] = $matchTypeDetail;
+
       $finalArray['tournament_positions'] = $positions;
 
       return $finalArray;
