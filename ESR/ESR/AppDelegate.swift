@@ -61,6 +61,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             return
         }
         
+        
         var parameters: [String: Any] = [:]
         
         if let email = USERDEFAULTS.value(forKey: kUserDefaults.email) as? String,  let password = USERDEFAULTS.value(forKey: kUserDefaults.password) as? String {
