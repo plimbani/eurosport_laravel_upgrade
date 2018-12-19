@@ -374,83 +374,68 @@ class AgeGroupRepository
 
     public function generateTemplateJsonForLeague($totalTeams)
     {
-        // set matches array
-        $matches = [];
-        $a = 1;
-        $times = 2;
-        for($i=0; $i<$times; $i++){
-          for($j=1; $j<=$totalTeams; $j++) {
-            for($k=($j+1); $k<=$totalTeams; $k++) {
-              $matches[] = ['in-between' => $j. '-' .$k, 'match_number' => "CAT.RR1.0$a.A$j-A$k", 
-              'display_match_number' => "CAT.1.$a.@HOME-@AWAY", 'display_home_team_placeholder_name' => "A$j",
-              'display_away_team_placeholder_name' => "A$k"];
-              $a++;
-            }
-          }
-        }
+      $matches = $this->setTemplateMatches($totalTeams, $timesPlayedEachOther = 2);
+      $totalMatchesCount = count($matches);
+      $averageMatches = $totalMatchesCount / ($totalTeams/2);
+      $totalRounds = 1;
+      $totalGroups = 1;
 
-        $totalMatchesCount = count($matches);
-        $averageMatches = $totalMatchesCount / ($totalTeams/2);
+      $finalArray = [];
+      $finalArray['total_matches'] = $totalMatchesCount;
+      $finalArray['tournament_id'] = '';
+      $finalArray['tournament_teams'] = $totalTeams;
+      $finalArray['remark'] = '';
+      $finalArray['template_font_color'] = '';
+      $finalArray['tournament_name'] = '';
+      $finalArray['competition_round'] = 'RR 1-' .$totalTeams;
+      $finalArray['competition_group_round'] = '1*' .$totalTeams;
+      $finalArray['competation_format'] = '';
+      $finalArray['tournament_min_match'] = '';
+      $finalArray['avg_game_team'] = $averageMatches;
+      $finalArray['position_type'] = 'group_ranking';
+      $finalArray['tournament_competition_ranking'] = [];
+      $finalArray['tournament_competition_ranking']['format_name'] = [];
+      $finalArray['tournament_competition_graphic_view'] = [];
+      $finalArray['tournament_competition_graphic_view']['format_name'] = [];
+      $finalArray['tournament_competation_format'] = [];
+      $finalArray['tournament_competation_format']['format_name'] = [];
+      $finalArray['tournament_positions'] = [];
 
-        $finalArray = [];
-        $finalArray['total_matches'] = $totalMatchesCount;
-        $finalArray['tournament_id'] = '';
-        $finalArray['tournament_teams'] = $totalTeams;
-        $finalArray['remark'] = '';
-        $finalArray['template_font_color'] = '';
-        $finalArray['tournament_name'] = '';
-        $finalArray['competition_round'] = 'RR 1-' .$totalTeams;
-        $finalArray['competition_group_round'] = '1*' .$totalTeams;
-        $finalArray['competation_format'] = '';
-        $finalArray['tournament_min_match'] = '';
-        $finalArray['avg_game_team'] = $averageMatches;
-        $finalArray['position_type'] = 'group_ranking';
+      // for rounds
+      for ($rounds = 0; $rounds < $totalRounds ; $rounds++) {
+        $finalArray['tournament_competation_format']['format_name'][$rounds]['name'] = 'Round ' .($rounds+1);
 
-        $finalArray['tournament_competition_ranking'] = [];
-        $finalArray['tournament_competition_ranking']['format_name'] = [];
+        // for groups
+        $groupCount = 0;
+        for ($groups = 0; $groups < $totalGroups; $groups++) {
+          $finalGroupCount = 65 + $groupCount + $groups;
+          $matchTypeDetail = [
+            'name' => '',
+            'total_match' => '',
+            'group_count' => '',
+            'groups' => ['group_name' => 'Group-' .chr($finalGroupCount), 'match' => $matches]
+          ];
 
-        $finalArray['tournament_competition_graphic_view'] = [];
-        $finalArray['tournament_competition_graphic_view']['format_name'] = [];
+          $finalArray['tournament_competation_format']['format_name'][$rounds]['match_type'][] = $matchTypeDetail;
+        }        
+        $groupCount++;
+      }
 
-        $finalArray['tournament_competation_format'] = [];
-        $finalArray['tournament_competation_format']['format_name'] = [];
-        
-        $finalArray['tournament_positions'] = [];
+      $positions = [];
+      for ($i=1; $i <= $totalTeams; $i++) {
+        $positions[] = ['position' => $i, 'dependent_type' => 'match', 'match_number' => '', 'result_type' => ''];
+      }
 
-        $matchTypeDetail = [
-          'name' => '',
-          'total_match' => '',
-          'group_count' => '',
-          'groups' => ['group_name' => 'Group-A', 'match' => $matches]
-        ];
+      $finalArray['tournament_positions'] = $positions;
 
-        $positions = [];
-        for ($i=1; $i <= $totalTeams; $i++) {
-          $positions[] = ['position' => $i, 'dependent_type' => 'match', 'match_number' => '', 'result_type' => ''];
-        }
-
-        $finalArray['tournament_competation_format']['format_name'][0]['match_type'][] = $matchTypeDetail;
-        $finalArray['tournament_positions'] = $positions;
-
-        return $finalArray;
+      return $finalArray;
     }
 
     public function generateTemplateJsonForKnockout($totalTeams, $groupSize)
     {
-      $matches = [];
-      $a = 1;
-      $times = 1;
-      for($i=0; $i<$times; $i++){
-        for($j=1; $j<=$totalTeams; $j++) {
-          for($k=($j+1); $k<=$totalTeams; $k++) {
-            $matches[] = ['in-between' => $j. '-' .$k, 'match_number' => "CAT.RR1.0$a.A$j-A$k", 
-            'display_match_number' => "CAT.1.$a.@HOME-@AWAY", 'display_home_team_placeholder_name' => "A$j",
-            'display_away_team_placeholder_name' => "A$k"];
-            $a++;
-          }
-        }
-      }
+      $matches = $this->setTemplateMatches($totalTeams, $timesPlayedEachOther = 1);
 
+      $totalRounds = 1;
       $totalGroups = $totalTeams / $groupSize;
       $totalMatchesCount = count($matches);
       $averageMatches = $totalMatchesCount / ($totalTeams/2);
@@ -468,37 +453,33 @@ class AgeGroupRepository
       $finalArray['tournament_min_match'] = '';
       $finalArray['avg_game_team'] = $averageMatches;
       $finalArray['position_type'] = 'group_ranking';
-
       $finalArray['tournament_competition_ranking'] = [];
       $finalArray['tournament_competition_ranking']['format_name'] = [];
-
       $finalArray['tournament_competition_graphic_view'] = [];
       $finalArray['tournament_competition_graphic_view']['format_name'] = [];
-
       $finalArray['tournament_competation_format'] = [];
       $finalArray['tournament_competation_format']['format_name'] = [];
-      
       $finalArray['tournament_positions'] = [];
-      // $matchTypeDetail = [];
 
-      $finalArray['tournament_competation_format']['format_name'][0]['name'] = 'Round 1';
-      $groupCount = 0;
-      for ($i=0; $i < $totalGroups; $i++) {
-        $finalGroupCount = 65 + $groupCount + $i;
-        // echo "<pre>";print_r($finalGroupCount);echo "</pre>";exit;
-        // echo "<pre>";print_r($i);echo "</pre>";exit;
-        $matchTypeDetail = [
-          'name' => '',
-          'total_match' => '',
-          'group_count' => '',
-          'groups' => ['group_name' => 'Group-' .chr($finalGroupCount), 'match' => $matches]
-        ];
+      // for rounds
+      for ($rounds = 0; $rounds < $totalRounds ; $rounds++) {
+        $finalArray['tournament_competation_format']['format_name'][$rounds]['name'] = 'Round ' .($rounds+1);
 
-        $finalArray['tournament_competation_format']['format_name'][0]['match_type'][] = $matchTypeDetail;
+        // for groups
+        $groupCount = 0;
+        for ($groups = 0; $groups < $totalGroups; $groups++) {
+          $finalGroupCount = 65 + $groupCount + $groups;
+          $matchTypeDetail = [
+            'name' => '',
+            'total_match' => '',
+            'group_count' => '',
+            'groups' => ['group_name' => 'Group-' .chr($finalGroupCount), 'match' => $matches]
+          ];
+
+          $finalArray['tournament_competation_format']['format_name'][$rounds]['match_type'][] = $matchTypeDetail;
+        }        
         $groupCount++;
       }
-
-      // echo "<pre>";print_r($matchTypeDetail);echo "</pre>";exit;
 
       $positions = [];
       for ($i=1; $i <= $totalTeams; $i++) {
@@ -508,6 +489,24 @@ class AgeGroupRepository
       $finalArray['tournament_positions'] = $positions;
 
       return $finalArray;
+    }
+
+    public function setTemplateMatches($totalTeams, $times)
+    {
+      $matches = [];
+      $a = 1;
+      for($i=0; $i<$times; $i++){
+        for($j=1; $j<=$totalTeams; $j++) {
+          for($k=($j+1); $k<=$totalTeams; $k++) {
+            $matches[] = ['in-between' => $j. '-' .$k, 'match_number' => "CAT.RR1.0$a.A$j-A$k", 
+            'display_match_number' => "CAT.1.$a.@HOME-@AWAY", 'display_home_team_placeholder_name' => "A$j",
+            'display_away_team_placeholder_name' => "A$k"];
+            $a++;
+          }
+        }
+      }
+
+      return $matches;
     }
 
 }

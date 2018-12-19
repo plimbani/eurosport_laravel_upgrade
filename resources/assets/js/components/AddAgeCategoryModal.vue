@@ -84,7 +84,7 @@
                   <div class="col-md-4">
                       <div class="checkbox">
                           <div class="c-input">
-                              <input class="euro-radio" type="radio" name="tournament_format" value="advance" id="radio_advance" v-model="competation_format.tournament_format">
+                              <input class="euro-radio" type="radio" name="tournament_format" value="advance" id="radio_advance" v-model="tournament_format">
                               <label for="radio_advance">Advance</label>
                           </div>
                       </div>
@@ -92,7 +92,7 @@
                   <div class="col-md-4">
                       <div class="checkbox">
                           <div class="c-input">
-                              <input class="euro-radio" type="radio" name="tournament_format" value="festival" id="radio_festival" v-model="competation_format.tournament_format">
+                              <input class="euro-radio" type="radio" name="tournament_format" value="festival" id="radio_festival" v-model="tournament_format">
                               <label for="radio_festival">Festival</label>
                           </div>
                       </div>
@@ -100,7 +100,7 @@
                   <div class="col-md-4">
                       <div class="checkbox">
                           <div class="c-input">
-                              <input class="euro-radio" type="radio" name="tournament_format" value="basic" id="radio_basic" v-model="competation_format.tournament_format">
+                              <input class="euro-radio" type="radio" name="tournament_format" value="basic" id="radio_basic" v-model="tournament_format">
                               <label for="radio_basic">Basic</label>
                           </div>
                       </div>
@@ -109,14 +109,14 @@
               </div>
             </div>
 
-            <div class="form-group row align-items-center" v-if="competation_format.tournament_format == 'basic'">
+            <div class="form-group row align-items-center" v-if="tournament_format == 'basic'">
               <div class="col-sm-4 form-control-label">Type</div>
               <div class="col-sm-8">
                 <div class="row">
                   <div class="col-md-4">
                     <div class="checkbox">
                       <div class="c-input">
-                        <input class="euro-radio" type="radio" name="competition_type" value="league" id="radio_league" v-model="competation_format.competition_type">
+                        <input class="euro-radio" type="radio" name="competition_type" value="league" id="radio_league" v-model="competition_type">
                         <label for="radio_league">League</label>
                       </div>
                     </div>
@@ -124,7 +124,7 @@
                   <div class="col-md-4">
                     <div class="checkbox">
                       <div class="c-input">
-                        <input class="euro-radio" type="radio" name="competition_type" value="knockout" id="radio_knockout" v-model="competation_format.competition_type">
+                        <input class="euro-radio" type="radio" name="competition_type" value="knockout" id="radio_knockout" v-model="competition_type">
                         <label for="radio_knockout">Knockout</label>
                       </div>
                     </div>
@@ -151,10 +151,10 @@
               </div>
             </div>
 
-            <div class="form-group row align-items-center" :class="{'has-error': errors.has('group_size') }" v-if="competation_format.competition_type == 'knockout'">
+            <div class="form-group row align-items-center" :class="{'has-error': errors.has('group_size') }" v-if="competition_type == 'knockout'">
               <div class="col-sm-4 form-control-label">{{ $lang.add_template_modal_group_size }}</div>
               <div class="col-sm-8">
-                  <select class="form-control ls-select2" name="group_size" v-model="competation_format.group_size" v-validate="'required'" :class="{'is-danger': errors.has('group_size') }">
+                  <select class="form-control ls-select2" name="group_size" v-model="group_size" v-validate="'required'" :class="{'is-danger': errors.has('group_size') }">
                       <option value="">Select group size</option>
                       <option :value="sizeIndex" v-for="(size, sizeIndex) in getAllGroupSize"> {{ size }}</option>
                   </select>
@@ -462,23 +462,23 @@
               </div>
             </div>
             
-            <div class="form-group row align-items-center" v-if="this.competation_format.tournament_format == 'basic'">
+            <div class="form-group row align-items-center" v-if="this.tournament_format == 'basic'">
               <div class="col-sm-4 form-control-label">Template font color</div>
               <div class="col-sm-8">
                 <div class="row align-items-center">
                   <div class="col-sm-12">
-                    <div class="template-font-color-box pull-left mr-2" @click="setTemplateFontColor(color)" v-for="color in templateFontColors" :style="{'background-color': color}" :class="{ 'template-font-color-active' :competation_format.template_font_color == color }"></div>
+                    <div class="template-font-color-box pull-left mr-2" @click="setTemplateFontColor(color)" v-for="color in templateFontColors" :style="{'background-color': color}" :class="{ 'template-font-color-active' :template_font_color == color }"></div>
                   </div>
                 </div>
               </div>
             </div>
             
-            <div class="form-group row align-items-center" v-if="this.competation_format.tournament_format == 'basic'">
+            <div class="form-group row align-items-center" v-if="this.tournament_format == 'basic'">
               <div class="col-sm-4 form-control-label">Remarks</div>
               <div class="col-sm-8">
                 <div class="row align-items-center">
                   <div class="col-sm-12">
-                    <textarea class="form-control" name="remarks" id="remarks" v-model="competation_format.remarks" maxlength="160"></textarea>
+                    <textarea class="form-control" name="remarks" id="remarks" v-model="remarks" maxlength="160"></textarea>
                   </div>
                 </div>
               </div>
@@ -539,9 +539,11 @@ export default {
       },
       allCategoryRules: [],
       templateFontColors: ['rgb(146,208,80)', 'rgb(255,192,0)', 'rgb(217,149,148)'],
-      // tournament_format: 'advance',
-      // competition_type: 'league',
-      // group_size: '',
+      tournament_format: 'advance',
+      competition_type: 'league',
+      group_size: '',
+      template_font_color:'',
+      remarks: '',
     }
   },
 
@@ -562,10 +564,12 @@ export default {
     minimum_matches: function(val){
       let tournamentData={'minimum_matches':val,'total_teams':this.number_teams}
 
-      if(val != '' && this.number_teams != '') {
+      // if(val != '' && this.number_teams != '') {
+      if(this.minimum_matches != '' && val != '' && (this.tournament_format == 'advance' || this.tournament_format == 'festival') ) {
         this.trempVal = true
         this.competation_format.minimum_matches = val
         this.competation_format.total_teams = this.number_teams
+        this.competation_format.tournament_format = this.tournament_format
 
         this.TournamentCompetationList(this.competation_format)
       } else {
@@ -576,16 +580,32 @@ export default {
     number_teams: function(val){
       let tournamentData={'minimum_matches':this.minimum_matches,'total_teams':val}
 
-      if(this.minimum_matches != '' && val != '') {
+      // if(this.minimum_matches != '' && val != '') {
+      if(this.minimum_matches != '' && val != '' && (this.tournament_format == 'advance' || this.tournament_format == 'festival') ) {
         this.trempVal = true
         this.competation_format.minimum_matches = this.minimum_matches
         this.competation_format.total_teams = this.number_teams
+        this.competation_format.tournament_format = this.tournament_format
 
         this.TournamentCompetationList(this.competation_format)
       } else {
         this.trempVal = false
       }
      // this.TournamentCompetationList(tournamentData)
+    },
+    tournament_format: function(val) {
+      let tournamentData={'minimum_matches':this.minimum_matches,'total_teams':val}
+
+      if(this.minimum_matches != '' && val != '' && (this.tournament_format == 'advance' || this.tournament_format == 'festival') ) {
+        this.trempVal = true
+        this.competation_format.minimum_matches = this.minimum_matches
+        this.competation_format.total_teams = this.number_teams
+        this.competation_format.tournament_format = this.tournament_format
+
+        this.TournamentCompetationList(this.competation_format)
+      } else {
+        this.trempVal = false
+      }
     }
 
   },
@@ -668,19 +688,19 @@ export default {
     },
     teamsToDisplay() {
       var totalTeams = [];
-      if(this.competation_format.tournament_format == 'advance' || this.competation_format.tournament_format == 'festival') {
+      if(this.tournament_format == 'advance' || this.tournament_format == 'festival') {
           for (var n = 4; n <= 28; n++) {
               totalTeams.push(n);
           }
       }
-      if(this.competation_format.tournament_format == 'basic' && this.competation_format.competition_type == 'knockout') {
+      if(this.tournament_format == 'basic' && this.competition_type == 'knockout') {
           for (var n = 8; n <= 60; n++) {
               if(n % 4 == 0 || n % 5 == 0 || n % 6 == 0) {
                   totalTeams.push(n);
               }
           }
       }
-      if(this.competation_format.tournament_format == 'basic' && this.competation_format.competition_type == 'league') {
+      if(this.tournament_format == 'basic' && this.competition_type == 'league') {
           for (var n = 2; n <= 28; n++) {
               if(n % 2 == 0) {
                   totalTeams.push(n);
@@ -746,7 +766,7 @@ export default {
         halftime_break_RR:'5',halftime_break_FM:'5',match_interval_RR:'5',match_interval_FM:'5',tournamentTemplate:[],
         tournament_id: '', competation_format_id:'0',id:'',
         nwTemplate:[],game_duration_RR_other:'20',
-      game_duration_FM_other:'20',match_interval_RR_other:'20',match_interval_FM_other:'20',min_matches:'',team_interval:'40', win_point: '3', draw_point: '1', loss_point: '0', rules: rules, selectedCategoryRule: null,tournament_format: 'advance', competition_type: 'league', group_size: '', template_font_color:'', remarks: '',
+      game_duration_FM_other:'20',match_interval_RR_other:'20',match_interval_FM_other:'20',min_matches:'',team_interval:'40', win_point: '3', draw_point: '1', loss_point: '0', rules: rules, selectedCategoryRule: null,
       }
     },
     setEdit(id) {
@@ -844,11 +864,11 @@ export default {
                 value.description = category_rules_info[value.key]
             });
 
-            this.competation_format.tournament_format = resp.tournament_format;
-            this.competation_format.competition_type = resp.competition_type;
-            this.competation_format.group_size = resp.group_size;
-            this.competation_format.remarks = resp.remarks;
-            this.competation_format.template_font_color = resp.template_font_color;
+            this.tournament_format = resp.tournament_format;
+            this.competition_type = resp.competition_type;
+            this.group_size = resp.group_size;
+            this.remarks = resp.remarks;
+            this.template_font_color = resp.template_font_color;
           },
           (error) => {
           }
@@ -902,6 +922,13 @@ export default {
      this.competation_format.total_teams = this.number_teams
      this.competation_format.selectedCategoryRule = _.cloneDeep(this.competation_format.rules);
 
+
+     this.competation_format.tournament_format = this.tournament_format;
+     this.competation_format.competition_type = this.tournament_format == 'basic' ? this.competition_type : '';
+     this.competation_format.group_size = (this.tournament_format == 'basic' && this.competition_type == 'knockout') ? this.group_size : '';
+     this.competation_format.template_font_color = this.template_font_color ? this.template_font_color : null;
+     this.competation_format.remarks = this.remarks ? this.remarks : null;
+
      this.$validator.validateAll().then(
           (response) => {
             if(this.dispTempl == true) {
@@ -928,6 +955,7 @@ export default {
               this.isSaveInProcess = true;
               Tournament.saveCompetationFormat(this.competation_format).then(
                 (response) => {
+                  console.log('hererere');
                   if(response.data.status_code == 200) {
                     if (comp_id==''){
                       toastr.success('Age category has been added successfully.', 'Add Age Category', {timeOut: 5000});
@@ -1077,7 +1105,7 @@ export default {
       return true;
     },
     setTemplateFontColor(color) {
-      this.competation_format.template_font_color = color;
+      this.template_font_color = color;
     },
   }
 }
