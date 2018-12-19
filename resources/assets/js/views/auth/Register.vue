@@ -19,29 +19,29 @@
         <div class="form-group">
             <label>Password</label>
             <input type="password" class="form-control form-control-danger" placeholder="Enter Password" name="password" id="password" v-model="registerData.password" v-validate="{ rules: { required: true } }" ref="password">
-            <span class="help is-danger" v-show="errors.has('password')">The Password field is required.</span>
+            <span class="help is-danger" v-show="errors.has('password')">The password field is required.</span>
             <input type="password" class="form-control form-control-danger" placeholder="Retype Password" name="password_confirmation" v-model="registerData.password_confirmation" v-validate="'required|confirmed:password'">
-            <span class="help is-danger" v-show="errors.has('password_confirmation')">The Confirm Password field is required.</span>
+            <span class="help is-danger" v-show="errors.has('password_confirmation')">The confirm password field is required.</span>
         </div>
         <div class="form-group">
             <label>Organization or Company Name</label>
             <input type="text" class="form-control form-control-danger" placeholder="Company Name" id="organisation" name="organisation"  v-model="registerData.organisation" v-validate="{ rules: { required: true } }">
-            <span class="help is-danger" v-show="errors.has('organisation')">The company name field is required.</span>
+            <span class="help is-danger" v-show="errors.has('organisation')">The organisation name field is required.</span>
         </div>
         <div class="form-group">
             <label>Your Job Title</label>
             <input type="text" class="form-control form-control-danger" placeholder="Job Title" id="job_title" name="job_title" v-model="registerData.job_title" v-validate="{ rules: { required: true } }">
-            <span class="help is-danger" v-show="errors.has('job_title')">The Job title field is required.</span>
+            <span class="help is-danger" v-show="errors.has('job_title')">The job title field is required.</span>
         </div>
         <div class="form-group">
             <label>Address</label>
             <input type="textarea" class="form-control form-control-danger" placeholder="Address" id="address" name="address" v-model="registerData.address" v-validate="{ rules: { required: true } }">
-             <span class="help is-danger" v-show="errors.has('job_title')">The Job title field is required.</span>
+             <span class="help is-danger" v-show="errors.has('address')">The address field is required.</span>
         </div>
         <div class="form-group">
             <label>Town or City</label>
             <input type="textarea" class="form-control form-control-danger" placeholder="City" id="city" name="city" v-model="registerData.city" v-validate="{ rules: { required: true } }">
-             <span class="help is-danger" v-show="errors.has('city')">The City title field is required.</span>
+             <span class="help is-danger" v-show="errors.has('city')">The city field is required.</span>
         </div>
         <div class="form-group">
             <label>Zip or Postal Code</label>
@@ -50,11 +50,10 @@
         </div>
         <div class="form-group">
             <label>Country</label>
-            <select>
-                <option>India</option>
-                <option>USA</option>
+            <select v-model="registerData.country" >
+                <option v-for="(value, key) in countries" :value="value">{{key}}</option>
             </select>
-        </div>
+        </div> 
         <div class="col-sm-6 text-sm-right">
                 <a href="javascript:void(0)" class="forgot-link" @click="redirectToLoginPage()">Already Have a Account? Login</a>
             </div>
@@ -63,6 +62,9 @@
 </template>
 <script type="text/babel">
     import Auth from '../../services/auth'
+    import Ls from '../../services/ls'
+    import Constant from '../../services/constant'
+
     // console.log("register  page");
     export default {
         data() {
@@ -79,8 +81,9 @@
                     address: '',
                     city: '',
                     zip: '',
-                    country: 'India'
-                }
+                    country: 1
+                },
+                countries:{}
             }
         },
         methods: {
@@ -88,17 +91,39 @@
                 this.$validator.validateAll();
                 if (!this.errors.any()) {
                     // console.log("in if")
-                    Auth.register(this.registerData).then((response) => {
-                        this.$router.push({'name':'thankyou'})
-                    })
+                    axios.post(Constant.apiBaseUrl+'commercialisation/thankyou', this.registerData).then(response =>  {
+                         // console.log("response in register::",response.data); 
+                         if (response.data.success) {
+                            // console.log("inside settttt:::",response.data.data.token);
+                            Ls.set('auth.token',response.data.data.token)
+                            Ls.set('email',this.registerData.email)
+                            this.$router.push({'name':'thankyou'})
+                         }else{
+                             toastr['error'](response.data.message, 'Error');
+                         }
+                     }).catch(error => {
+                         console.log("error in register::",error);
+                     });
+                     
                 }else{
                     // console.log("in elsee::",this.errors.items);
                     // console.log("first element of errors::",this.errors.items[0]);
                 }
             },
+
+            getCountries(){
+                axios.get(Constant.apiBaseUrl+'country/list').then(response =>  {
+                    if(response.data.success){
+                        this.countries = response.data.data;
+                    }
+                 })
+            },
             redirectToLoginPage(){
                 this.$router.push({'name':'login'}) 
             } 
         },
+        beforeMount(){
+            this.getCountries()
+        }
     }
 </script>

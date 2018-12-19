@@ -45,6 +45,10 @@ import LayoutTournament from './views/layouts/LayoutTournament.vue'
 import LayoutWebsite from './views/layouts/LayoutWebsite.vue'
 
 // Thankyou Layout
+import LayoutProfile from './views/layouts/LayoutProfile.vue'
+import Profile from './views/profile/Profile.vue'
+
+// Profile Layout
 import LayoutThankyou from './views/layouts/LayoutThankyou.vue'
 import Thankyou from './views/thankyou/Thankyou.vue'
 
@@ -140,6 +144,19 @@ const routes = [
             }
         ]
     },
+     {
+        path: '/profile/:id', component: LayoutLogin,
+        // path: '/profile', component: LayoutProfile,
+        meta: { requiresAuth: true },
+        children: [
+            {
+                path: '/',
+                component: Profile,
+                name: 'profile'
+            }
+        ]
+    },
+     
      {
         path: '/buylicense', component: LayoutThankyou,
         meta: { requiresAuth: true },
