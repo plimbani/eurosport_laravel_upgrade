@@ -36,8 +36,7 @@ class RegisterRepository
             'city' => $data['city'],
             'zipcode' => $data['zip'],
             'country_id' => $data['country'],
-        ];
-        dd($newCustomer);
+        ];        
         $result = (new PeopleRepository())->create($newCustomer);
         unset($newCustomer);
 
