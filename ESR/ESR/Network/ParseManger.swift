@@ -16,6 +16,10 @@ class ParseManager {
             groupStanding.id = id
         }
         
+        if let id = record.value(forKey: "team_id") as? Int {
+            groupStanding.teamId = id
+        }
+        
         if let tournamentId = record.value(forKey: "tournament_id") as? Int {
             groupStanding.tournamentId = tournamentId
         }

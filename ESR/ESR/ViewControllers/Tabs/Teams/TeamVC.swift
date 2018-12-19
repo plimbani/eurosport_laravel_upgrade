@@ -56,6 +56,7 @@ class TeamVC: SuperViewController {
             }
         }
     }
+    
     func initialize() {
         titleNavigationBar.lblTitle.text = String.localize(key: "title_team")
         titleNavigationBar.delegate = self
@@ -299,6 +300,13 @@ extension TeamVC: UITableViewDelegate, UITableViewDataSource {
                 
                 let dic = groupStandingsList[indexPath.row]
                 cell?.record = dic
+                
+                if let id = dicTeam.value(forKey: "id") as? Int {
+                    if dic.teamId == id {
+                        cell?.backgroundColor = UIColor.init(hexString: "#c5dba7")
+                    }
+                }
+                
                 cell?.reloadCell()
                 return cell!
             }
@@ -341,16 +349,26 @@ extension TeamVC: UITableViewDelegate, UITableViewDataSource {
                 self.navigationController?.pushViewController(viewController, animated: true)
             } else if indexPath.row == groupStandingsList.count + 1 {
                 // Match schedule click
-            } else {
+                let viewController = Storyboards.AgeCategories.instantiateAgeCategoriesGroupsVC()
                 
+                if let ageGroupId = dicTeam.value(forKey: "age_group_id") as? Int {
+                    viewController.ageCategoryId = ageGroupId
+                }
+                
+                self.navigationController?.pushViewController(viewController, animated: true)
             }
         } else {
             
             if indexPath.row == teamFixuteuresList.count {
                 // view all club match click
-                
+                let viewController = Storyboards.Teams.instantiateAllMatchesVC()
+                viewController.dicTeam = dicTeam
+                self.navigationController?.pushViewController(viewController, animated: true)
             } else {
-                // other match click
+                // Cell click
+                let viewController = Storyboards.AgeCategories.instantiateMatchInfoVC()
+                viewController.dicTeamFixture = self.teamFixuteuresList[indexPath.row]
+                self.navigationController?.pushViewController(viewController, animated: true)
             }
         }
     }

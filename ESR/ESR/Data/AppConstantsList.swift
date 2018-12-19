@@ -63,9 +63,8 @@ struct kViewController {
     static let TabFavouritesVC                  = "TabFavouritesVC"
     static let TabTournamentVC                  = "TabTournamentVC"
     static let TabTeamsVC                       = "TabTeamsVC"
-    // static let ClubCategoryVC                   = "ClubCategoryVC"
-    // static let ClubGroupVC                      = "ClubGroupVC"
-    // static let ClubClubsVC                      = "ClubClubsVC"
+    
+    static let AllMatchesVC                     = "AllMatchesVC"
     static let ClubListVC                       = "ClubListVC"
     static let CategoryListVC                   = "CategoryListVC"
     static let GroupListVC                      = "GroupListVC"

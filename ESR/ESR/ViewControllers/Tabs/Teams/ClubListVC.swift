@@ -12,8 +12,8 @@ class ClubListVC: SuperViewController {
     @IBOutlet var txtSearch: UITextField!
     @IBOutlet var table: UITableView!
     
-    var tournamentClubList = NSArray()
-    var tournamentClubFilterList = NSArray()
+    var tournamentClubList = NSMutableArray()
+    var tournamentClubFilterList = NSMutableArray()
     var heightTournamentClubCell: CGFloat = 0
     
     var isSearch = false
@@ -30,7 +30,6 @@ class ClubListVC: SuperViewController {
     func initialize() {
         txtSearch.placeholder = String.localize(key: "placeholder_search_tab_club")
         txtSearch.setLeftPaddingPoints(35)
-        txtSearch.delegate = self
         txtSearch.returnKeyType = .done
         txtSearch.layer.cornerRadius = (txtSearch.frame.size.height / 2)
         txtSearch.clipsToBounds = true
@@ -53,9 +52,10 @@ class ClubListVC: SuperViewController {
             
             isSearch = true
             
-            tournamentClubFilterList = tournamentClubList.filter({
-                (($0 as! NSDictionary).value(forKey: "clubName") as! String).contains(text)
-            }) as NSArray
+            tournamentClubFilterList = NSMutableArray.init(array: tournamentClubList.filter({
+                (($0 as! NSDictionary).value(forKey: "clubName") as! String).contains(text) ||
+                (($0 as! NSDictionary).value(forKey: "clubName") as! String).lowercased().contains(text)
+            }))
             
             table.reloadData()
         }
@@ -78,12 +78,11 @@ class ClubListVC: SuperViewController {
                 self.view.hideProgressHUD()
                 
                 if let data = result.value(forKey: "data") as? NSArray {
-                    self.tournamentClubList = data
+                    self.tournamentClubList = NSMutableArray.init(array: data)
                 }
                 
                 let descriptor: NSSortDescriptor = NSSortDescriptor(key: "clubName", ascending: true)
-                self.tournamentClubList = self.tournamentClubList.sortedArray(using: [descriptor]) as NSArray
-                
+                self.tournamentClubList = NSMutableArray.init(array: self.tournamentClubList.sortedArray(using: [descriptor]))
                 self.table.reloadData()
             }
         }) { (result) in
@@ -91,12 +90,6 @@ class ClubListVC: SuperViewController {
                 self.view.hideProgressHUD()
             }
         }
-    }
-}
-
-extension ClubListVC: UITextFieldDelegate {
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        
     }
 }
 
@@ -140,8 +133,7 @@ extension ClubListVC: UITableViewDataSource, UITableViewDelegate {
         }
         
         viewController.isClubTeam = true
+        self.view.endEditing(true)
         self.navigationController?.pushViewController(viewController, animated: true)
-        
-        txtSearch.text = NULL_STRING
     }
 }

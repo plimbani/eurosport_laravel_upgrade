@@ -17,10 +17,12 @@ class CategoryListVC: SuperViewController {
     @IBOutlet var heightConstraintSeachView: NSLayoutConstraint!
     @IBOutlet var heightConstraintTitleNavigationBar: NSLayoutConstraint!
     
-    var ageCategoriesList = NSArray()
+    var ageCategoriesList = NSMutableArray()
+    var ageCategoriesFilterList = NSMutableArray()
     var heightAgeCategoryCell: CGFloat = 0
     var isFromTournament = false
     var tournamentId = NULL_ID
+    var isSearch = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,6 +41,7 @@ class CategoryListVC: SuperViewController {
         txtSearch.layer.cornerRadius = (txtSearch.frame.size.height / 2)
         txtSearch.clipsToBounds = true
         txtSearch.font = UIFont(name: Font.HELVETICA_REGULAR, size: Font.Size.commonTextFieldTxt)
+        txtSearch.addTarget(self, action: #selector(textFieldDidChange(textField:)), for: .editingChanged)
         
         // Height for cell
         _ = cellOwner.loadMyNibFile(nibName: kNiB.Cell.AgeCategoryCell)
@@ -53,6 +56,25 @@ class CategoryListVC: SuperViewController {
             imgSearch.image = UIImage()
         } else {
             heightConstraintTitleNavigationBar.constant = 0
+        }
+    }
+    
+    @objc func textFieldDidChange(textField: UITextField) {
+        if let text = txtSearch.text {
+            if text.isEmpty {
+                isSearch = false
+                table.reloadData()
+                return
+            }
+            
+            isSearch = true
+            
+            ageCategoriesFilterList = NSMutableArray.init(array: ageCategoriesList.filter({
+                (($0 as! NSDictionary).value(forKey: "category_age") as! String).contains(text) ||
+                (($0 as! NSDictionary).value(forKey: "category_age") as! String).lowercased().contains(text)
+            }))
+            
+            table.reloadData()
         }
     }
     
@@ -73,7 +95,7 @@ class CategoryListVC: SuperViewController {
                 self.view.hideProgressHUD()
                 
                 if let data = result.value(forKey: "data") as? NSArray {
-                    self.ageCategoriesList = data
+                    self.ageCategoriesList = NSMutableArray.init(array: data)
                 }
                 
                 self.table.reloadData()
@@ -102,6 +124,11 @@ extension CategoryListVC: UITextFieldDelegate {
 extension CategoryListVC: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        if isSearch {
+            return ageCategoriesFilterList.count
+        }
+        
         return ageCategoriesList.count
     }
     
@@ -115,24 +142,38 @@ extension CategoryListVC: UITableViewDataSource, UITableViewDelegate {
             _ = cellOwner.loadMyNibFile(nibName: "AgeCategoryCell")
             cell = cellOwner.cell as? AgeCategoryCell
         }
-        cell?.record = ageCategoriesList[indexPath.row] as! NSDictionary
+        
+        if isSearch {
+            cell?.record = ageCategoriesFilterList[indexPath.row] as! NSDictionary
+        } else {
+            cell?.record = ageCategoriesList[indexPath.row] as! NSDictionary
+        }
+        
         cell?.reloadCell()
         return cell!
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
+        var dic: NSDictionary!
+        
+        if isSearch {
+            dic = (ageCategoriesFilterList[indexPath.row] as! NSDictionary)
+        } else {
+            dic = (ageCategoriesList[indexPath.row] as! NSDictionary)
+        }
+        
         if isFromTournament {
             let viewController = Storyboards.Tournament.instantiateFinalPlacingsVC()
-            viewController.ageCategoryId = (ageCategoriesList[indexPath.row] as! NSDictionary).value(forKey: "id") as! Int
+            viewController.ageCategoryId = dic.value(forKey: "id") as! Int
             self.navigationController?.pushViewController(viewController, animated: true)
             return
         }
         
         let viewController = Storyboards.Teams.instantiateTeamListingVC()
         viewController.isClubsCategoryTeam = true
-        viewController.dic = (ageCategoriesList[indexPath.row] as! NSDictionary)
+        viewController.dic = dic
+        self.view.endEditing(true)
         self.navigationController?.pushViewController(viewController, animated: true)
-        
     }
 }

@@ -13,7 +13,10 @@ class GroupListVC: SuperViewController {
     @IBOutlet var table: UITableView!
     
     var ageCategoriesGroupsList = NSMutableArray()
+    var ageCategoriesGroupsFilterList = NSMutableArray()
     var heightAgeCategoryCell: CGFloat = 0
+    
+    var isSearch = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,10 +35,30 @@ class GroupListVC: SuperViewController {
         txtSearch.layer.cornerRadius = (txtSearch.frame.size.height / 2)
         txtSearch.clipsToBounds = true
         txtSearch.font = UIFont(name: Font.HELVETICA_REGULAR, size: Font.Size.commonTextFieldTxt)
+        txtSearch.addTarget(self, action: #selector(textFieldDidChange(textField:)), for: .editingChanged)
         
         // Height for cell
         _ = cellOwner.loadMyNibFile(nibName: kNiB.Cell.AgeCategoryCell)
         heightAgeCategoryCell = (cellOwner.cell as! AgeCategoryCell).getCellHeight()
+    }
+    
+    @objc func textFieldDidChange(textField: UITextField) {
+        if let text = txtSearch.text {
+            if text.isEmpty {
+                isSearch = false
+                table.reloadData()
+                return
+            }
+            
+            isSearch = true
+            
+            ageCategoriesGroupsFilterList = NSMutableArray.init(array: ageCategoriesGroupsList.filter({
+                (($0 as! NSDictionary).value(forKey: "display_name") as! String).contains(text) ||
+                (($0 as! NSDictionary).value(forKey: "display_name") as! String).lowercased().contains(text)
+            }))
+            
+            table.reloadData()
+        }
     }
     
     func sendAgeCategoriesGroupRequest() {
@@ -80,6 +103,11 @@ extension GroupListVC: UITextFieldDelegate {
 extension GroupListVC: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        if isSearch {
+            return ageCategoriesGroupsFilterList.count
+        }
+        
         return ageCategoriesGroupsList.count
     }
     
@@ -94,7 +122,13 @@ extension GroupListVC: UITableViewDataSource, UITableViewDelegate {
             cell = cellOwner.cell as? AgeCategoryCell
             cell?.isAgeGroup = true
         }
-        cell?.record = ageCategoriesGroupsList[indexPath.row] as! NSDictionary
+        
+        if isSearch {
+            cell?.record = ageCategoriesGroupsFilterList[indexPath.row] as! NSDictionary
+        } else {
+            cell?.record = ageCategoriesGroupsList[indexPath.row] as! NSDictionary
+        }
+        
         cell?.reloadCell()
         return cell!
     }
@@ -102,7 +136,13 @@ extension GroupListVC: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let viewController = Storyboards.Teams.instantiateTeamListingVC()
         viewController.isClubsGroupTeam = true
-        viewController.dic = (ageCategoriesGroupsList[indexPath.row] as! NSDictionary)
+        
+        if isSearch {
+            viewController.dic = (ageCategoriesGroupsFilterList[indexPath.row] as! NSDictionary)
+        } else {
+            viewController.dic = (ageCategoriesGroupsList[indexPath.row] as! NSDictionary)
+        }
+        self.view.endEditing(true)
         self.navigationController?.pushViewController(viewController, animated: true)
     }
 }

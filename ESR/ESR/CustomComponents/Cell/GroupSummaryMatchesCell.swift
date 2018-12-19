@@ -48,7 +48,7 @@ class GroupSummaryMatchesCell: UITableViewCell {
             let nameOfMonth = dateFormatter.string(from: record.matchDatetimeObj!)
             dateFormatter.dateFormat = kDateFormat.dd
             let dateOfMonth = dateFormatter.string(from: record.matchDatetimeObj!)
-            lblDate.text = dateOfMonth + " " + nameOfMonth
+            lblDate.text = dateOfMonth + "\n" + nameOfMonth
         } else {
             lblDate.text = NULL_STRING
         }
