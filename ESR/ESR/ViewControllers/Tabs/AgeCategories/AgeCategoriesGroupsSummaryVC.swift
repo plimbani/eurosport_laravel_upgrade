@@ -120,7 +120,11 @@ class AgeCategoriesGroupsSummaryVC: SuperViewController {
             
             if let mainTabViewController = self.parent!.parent as? MainTabViewController {
                 mainTabViewController.hideTabbar(flag: false)
+                mainTabViewController.contentView.layoutIfNeeded()
+                mainTabViewController.contentView.updateConstraints()
             }
+            //view.layoutIfNeeded()
+            //view.updateConstraints()
         }
     }
     

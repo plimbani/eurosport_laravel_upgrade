@@ -71,6 +71,10 @@ extension GroupDetailsVC: TitleNavigationBarDelegate {
                 (viewController as! AgeCategoriesGroupsSummaryVC).rotateToPortrait = true
                 self.navigationController?.popToViewController(viewController, animated: true)
                 break
+            }else if viewController is TeamVC {
+                (viewController as! TeamVC).rotateToPortrait = true
+                self.navigationController?.popToViewController(viewController, animated: true)
+                break
             }
         }
     }

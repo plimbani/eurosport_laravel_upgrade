@@ -32,6 +32,8 @@ class TeamVC: SuperViewController {
     var dicTeam: NSDictionary!
     var dicTableData = NSMutableDictionary()
     
+    var rotateToPortrait = false
+    
     private enum SectionIndex: String {
         case group = "0"
         case match = "1"
@@ -41,7 +43,19 @@ class TeamVC: SuperViewController {
         super.viewDidLoad()
         initialize()
     }
-    
+    override func viewWillAppear(_ animated: Bool) {
+        if rotateToPortrait {
+            UIDevice.current.setValue(UIInterfaceOrientation.portrait.rawValue, forKey: "orientation")
+            self.tabBarController?.tabBar.isHidden = false
+            rotateToPortrait = false
+            
+            if let mainTabViewController = self.parent!.parent as? MainTabViewController {
+                mainTabViewController.hideTabbar(flag: false)
+                mainTabViewController.contentView.layoutIfNeeded()
+                mainTabViewController.contentView.updateConstraints()
+            }
+        }
+    }
     func initialize() {
         titleNavigationBar.lblTitle.text = String.localize(key: "title_team")
         titleNavigationBar.delegate = self
@@ -189,7 +203,7 @@ class TeamVC: SuperViewController {
             parameters["tournamentId"] = selectedTournament.id
         }
         
-        parameters["competitionId"] = dicTeam.value(forKey: "id") as! Int
+        parameters["competitionId"] = dicTeam.value(forKey: "GroupId") as! Int
         
         var serverTournamentData: [String: Any] = [:]
         serverTournamentData["tournamentData"] = parameters
@@ -316,18 +330,27 @@ extension TeamVC: UITableViewDelegate, UITableViewDataSource {
         if indexPath.section == Int(SectionIndex.group.rawValue) {
             
             if indexPath.row == groupStandingsList.count {
+                // Group details click
+                if let mainTabViewController = self.parent!.parent as? MainTabViewController {
+                    mainTabViewController.hideTabbar()
+                }
                 
+                let viewController = Storyboards.AgeCategories.instantiateGroupDetailsVC()
+                viewController.groupStandingsList = self.groupStandingsList
+                viewController.groupName = lblSectionGroupName.text!
+                self.navigationController?.pushViewController(viewController, animated: true)
             } else if indexPath.row == groupStandingsList.count + 1 {
-                
+                // Match schedule click
             } else {
                 
             }
         } else {
             
             if indexPath.row == teamFixuteuresList.count {
+                // view all club match click
                 
             } else {
-                
+                // other match click
             }
         }
     }

@@ -27,12 +27,44 @@ class LandingVC: SuperViewController {
         initInfoAlertViewTwoButton(self.view, self)
         
         if USERDEFAULTS.string(forKey: kUserDefaults.token) != nil {
-            let viewController = Storyboards.Main.instantiateMainVC()
-            viewController.isFromLanding = true
-            UIApplication.shared.keyWindow?.rootViewController = viewController
+            updateToken()
         } else {
             // Checks if new app version is available or not
             sendAppversionRequest()
+        }
+    }
+    
+    func updateToken() {
+        if APPDELEGATE.reachability.connection == .none {
+            return
+        }
+        
+        var parameters: [String: Any] = [:]
+        
+        if let email = USERDEFAULTS.value(forKey: kUserDefaults.email) as? String,  let password = USERDEFAULTS.value(forKey: kUserDefaults.password) as? String {
+            parameters["email"] = email
+            parameters["password"] = password
+            
+            ApiManager().login(parameters, success: { result in
+                DispatchQueue.main.async {
+                    if let token = result.value(forKey: "token") as? String {
+                        USERDEFAULTS.set(token, forKey: kUserDefaults.token)
+                    }
+                    
+                    let viewController = Storyboards.Main.instantiateMainVC()
+                    UIApplication.shared.keyWindow?.rootViewController = viewController
+                }
+            }, failure: { result in
+                DispatchQueue.main.async {
+                    if result.allKeys.count == 0 {
+                        return
+                    }
+                    
+                    // if let error = result.value(forKey: "error") as? String {
+                    // self.showInfoAlertView(title: String.localize(key: "alert_title_error"), message: error)
+                    //}
+                }
+            })
         }
     }
     

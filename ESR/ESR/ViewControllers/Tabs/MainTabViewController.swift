@@ -25,8 +25,6 @@ class MainTabViewController: SuperViewController {
     
     @IBOutlet var heightConstraintTabbarContainerView: NSLayoutConstraint!
     
-    var isFromLanding = false
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         initialize()
@@ -52,7 +50,7 @@ class MainTabViewController: SuperViewController {
     }
     
     func hideTabbar(flag: Bool = true) {
-        heightConstraintTabbarContainerView.constant = flag ? 0 : 60
+        tabBarContainerView.isHidden = flag ? true : false
     }
     
     func sendAppversionRequest() {

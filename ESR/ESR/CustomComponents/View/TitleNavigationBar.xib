@@ -52,15 +52,25 @@
                             </attributedString>
                             <nil key="highlightedColor"/>
                         </label>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tXp-uq-eDM">
+                            <rect key="frame" x="5" y="1" width="265" height="41.5"/>
+                            <connections>
+                                <action selector="backBtnPressed:" destination="-1" eventType="touchUpInside" id="WrT-f2-Xfp"/>
+                            </connections>
+                        </button>
                     </subviews>
                     <color key="backgroundColor" red="0.78039215689999997" green="0.039215686270000001" blue="0.12549019610000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
+                        <constraint firstItem="tXp-uq-eDM" firstAttribute="top" secondItem="hmG-Lf-1RH" secondAttribute="top" id="7GX-Rq-R5S"/>
                         <constraint firstItem="1ib-qi-axQ" firstAttribute="leading" secondItem="hmG-Lf-1RH" secondAttribute="trailing" constant="10" id="QBS-7i-D92"/>
+                        <constraint firstItem="tXp-uq-eDM" firstAttribute="leading" secondItem="hmG-Lf-1RH" secondAttribute="leading" id="SFR-Ew-JQy"/>
                         <constraint firstAttribute="trailing" secondItem="1ib-qi-axQ" secondAttribute="trailing" constant="50" id="ZOo-Nv-9wo"/>
+                        <constraint firstItem="tXp-uq-eDM" firstAttribute="bottom" secondItem="hmG-Lf-1RH" secondAttribute="bottom" id="av7-Gj-Yk6"/>
                         <constraint firstItem="hmG-Lf-1RH" firstAttribute="leading" secondItem="P4u-gV-UQm" secondAttribute="leading" constant="5" id="bcx-qb-nGy"/>
                         <constraint firstAttribute="bottom" secondItem="1ib-qi-axQ" secondAttribute="bottom" id="kgT-9p-b00"/>
                         <constraint firstItem="hmG-Lf-1RH" firstAttribute="centerY" secondItem="P4u-gV-UQm" secondAttribute="centerY" id="tTZ-mE-BaY"/>
                         <constraint firstAttribute="height" constant="44" id="uox-dX-60Z"/>
+                        <constraint firstItem="tXp-uq-eDM" firstAttribute="trailing" secondItem="1ib-qi-axQ" secondAttribute="trailing" id="wdo-q7-g4T"/>
                         <constraint firstItem="1ib-qi-axQ" firstAttribute="top" secondItem="P4u-gV-UQm" secondAttribute="top" id="zFC-Jp-Aeg"/>
                     </constraints>
                 </view>
