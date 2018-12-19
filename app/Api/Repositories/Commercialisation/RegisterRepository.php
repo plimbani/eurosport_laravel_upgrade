@@ -33,8 +33,8 @@ class RegisterRepository
             'address' => $data['address'],
             'job_title' => $data['job_title'],
             'city' => $data['city'],
-            'zip' => $data['zip'],
-            'country' => $data['country'],
+            'zipcode' => $data['zip'],
+            'country_id' => $data['country'],
         ];
         $result = (new PeopleRepository())->create($newCustomer);
         unset($newCustomer);
