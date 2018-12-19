@@ -13,7 +13,7 @@
 </head>
 <body>
     <center>
-      <img src="{{ asset('assets/img/logo-desk.svg')}}" alt="Euro-Sportring Logo" width="100px" height="50px"/>
+      <img src="{{ asset('assets/img/tmplogo.svg')}}" alt="Euro-Sportring Logo" width="100px" height="50px"/>
     </center>
     <div class="container">
         <div class="row">

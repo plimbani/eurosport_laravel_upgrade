@@ -47,7 +47,7 @@
             <div class="brand-main">
                 <a href="/admin">
                     <!-- <img src="http://www.euro-sportring.com/sites/default/files/euro-sportring_1.png" alt="Laraspace Logo"> -->
-                    <img src="/assets/img/logo-desk.svg" alt="Laraspace Logo">
+                    <img src="/assets/img/tmplogo.svg" alt="Laraspace Logo">
                 </a>
             </div>
             <div class="row">
@@ -93,8 +93,7 @@
                 </div>
             </div>
             <div class="page-copyright">
-                <p>Copyright 2017 Euro-Sportring. All rights reserved.</br>
-                Developed  by <a href="http://aecordigital.com" target="_blank">aecor </a></p>
+                <p>Copyright {{currentYear}} TMP Applications BV.</br>Developed  by <a style="text-decoration:underline; color: inherit;" href="http://aecordigital.com" target="_blank">aecor </a>.</p>
             </div>
         </div>
     </div>

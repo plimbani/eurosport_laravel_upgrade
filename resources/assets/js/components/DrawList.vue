@@ -30,18 +30,18 @@
       <table class="table table-hover table-bordered" v-if="groupsData.length > 0">
         <thead>
               <tr>
-                  <th class="text-center">{{$lang.summary_schedule_draws_categories}}</th>
-                  <th class="text-center">{{$lang.summary_schedule_type}}</th>
-                  <th class="text-center">{{$lang.summary_schedule_team}}</th>
+                  <th>{{$lang.summary_schedule_draws_categories}}</th>
+                  <th class="text-center" style="width:200px">{{$lang.summary_schedule_type}}</th>
+                  <th class="text-center" style="width:100px">{{$lang.summary_schedule_team}}</th>
               </tr>
           </thead>
           <tbody>
             <tr v-for="drawData in groupsData">
               <td>
                 <a class="pull-left text-left text-primary" @click.prevent="changeGroup(drawData)" href=""><u>{{ drawData.display_name }}</u> </a>
-                <a href="#" @click="openEditCompetitionNameModal(drawData)" class="pull-right"><i class="fa fa-edit"></i></a>
+                <a v-if="isUserDataExist" href="#" @click="openEditCompetitionNameModal(drawData)" class="pull-right text-primary"><i class="jv-icon jv-edit"></i></a>
               </td>
-              <td>{{ drawData.competation_type }}</td>
+              <td class="text-center">{{ drawData.competation_type }}</td>
               <td class="text-center">{{ drawData.team_size }}</td>
             </tr>
           </tbody>
@@ -70,7 +70,7 @@
       <div class="modal-dialog modal-md" role="document">
         <div class="modal-content">
           <div class="modal-header">
-             <h5 class="modal-title" id="competationmodalLabel">Edit Competition</h5>
+             <h5 class="modal-title" id="competationmodalLabel">Edit Name</h5>
              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
              <span aria-hidden="true">×</span>
              </button>
@@ -79,7 +79,7 @@
             <div class="row">
               <div class="col-md-12">
                 <div class="form-group row">
-                  <label class="col-sm-4 form-control-label">Competition name</label>
+                  <label class="col-sm-4 form-control-label">Name</label>
                   <div class="col-sm-8">
                     <input type="text" name="competition_display_name" v-model="competitionData.display_name" class="form-control">
                   </div>
@@ -130,7 +130,10 @@ export default {
     },
     currentAgeCategoryId() {
       return this.$store.state.currentAgeCategoryId
-    }
+    },
+    isUserDataExist() {
+      return this.$store.state.isAdmin;
+    },
   },
 	methods: {
 		/*changeTeam(Id, Name) {
@@ -183,14 +186,15 @@ export default {
       this.ageCatgeoryComments = competition.comments;
     },
     openEditCompetitionNameModal(drawData) {
-      this.competitionData = drawData;
-      this.competitionData.display_name = drawData.display_name;
+      this.competitionData = _.clone(drawData, true);
+      // this.competitionData.display_name = drawData.display_name;
       $('#editCompetitionNameModal').modal('show');
     },
     updateCompetitionName() {
       var data = {'competitionData': this.competitionData};
       Tournament.updateCompetitionDisplayName(data).then(
         (response) => {
+          this.groupsData = response.data.options.data;
           $('#editCompetitionNameModal').modal('hide');
           toastr.success(response.data.options.message, 'Competition Details', {timeOut: 5000});
         },
