@@ -1,6 +1,6 @@
 <?php
 
-namespace Laraspace\Api\Controllers\Commercialisation;
+namespace Laraspace\Api\Controllers;
 
 use Illuminate\Http\Response;
 use Laraspace\Models\Country;
