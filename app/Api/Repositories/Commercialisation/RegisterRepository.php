@@ -8,6 +8,7 @@ use JWTAuth;
 use Hash;
 use Laraspace\Models\Country;
 use Laraspace\Models\User;
+use Laraspace\Models\Role;
 use Laraspace\Api\Repositories\PeopleRepository;
 use Laraspace\Api\Repositories\UserRepository;
 use Laraspace\Api\Repositories\CountryRepository;
@@ -33,9 +34,9 @@ class RegisterRepository
             'address' => $data['address'],
             'job_title' => $data['job_title'],
             'city' => $data['city'],
-            'zip' => $data['zip'],
-            'country' => $data['country'],
-        ];
+            'zipcode' => $data['zip'],
+            'country_id' => $data['country'],
+        ];        
         $result = (new PeopleRepository())->create($newCustomer);
         unset($newCustomer);
 
@@ -57,7 +58,10 @@ class RegisterRepository
 
             //return (new UserRepository())->create($newUser);
             $user = User::create($newUser);
-            $user->roles()->attach(6); //Bind role with customer
+            
+            //Find role and attach with user
+            $role = Role::where('slug', '=', 'Customer')->first();
+            $user->roles()->attach($role->id); //Bind role with customer
             
             return [
                 'user' => $user,

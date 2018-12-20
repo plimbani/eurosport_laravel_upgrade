@@ -22,7 +22,7 @@ export default {
     register(registerData){
         // need to change in the API in url and also in function
          return axios.post('/api/v1/commercialisation/thankyou', registerData).then(response =>  {
-             // console.log("response in register::",response.data); 
+             console.log("response in register::",response.data); 
              if (response.data.success) {
                 // console.log("inside settttt:::",response.data.data.token);
                 Ls.set('auth.token',response.data.data.token)
