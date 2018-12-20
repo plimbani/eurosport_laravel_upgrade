@@ -84,7 +84,7 @@
                   <div class="col-md-4">
                       <div class="checkbox">
                           <div class="c-input">
-                              <input class="euro-radio" type="radio" name="tournament_format" value="advance" id="radio_advance" v-model="tournament_format">
+                              <input class="euro-radio" type="radio" name="tournament_format" value="advance" id="radio_advance" v-model="tournament_format" @change="changeTournamentFormat">
                               <label for="radio_advance">Advance</label>
                           </div>
                       </div>
@@ -92,7 +92,7 @@
                   <div class="col-md-4">
                       <div class="checkbox">
                           <div class="c-input">
-                              <input class="euro-radio" type="radio" name="tournament_format" value="festival" id="radio_festival" v-model="tournament_format">
+                              <input class="euro-radio" type="radio" name="tournament_format" value="festival" id="radio_festival" v-model="tournament_format" @change="changeTournamentFormat">
                               <label for="radio_festival">Festival</label>
                           </div>
                       </div>
@@ -100,7 +100,7 @@
                   <div class="col-md-4">
                       <div class="checkbox">
                           <div class="c-input">
-                              <input class="euro-radio" type="radio" name="tournament_format" value="basic" id="radio_basic" v-model="tournament_format">
+                              <input class="euro-radio" type="radio" name="tournament_format" value="basic" id="radio_basic" v-model="tournament_format" @change="changeTournamentFormat">
                               <label for="radio_basic">Basic</label>
                           </div>
                       </div>
@@ -206,7 +206,7 @@
                             <span v-if="option.id == competation_format.tournament_template_id">
                             <input type="radio" checked='checked' :value="option"
                             name="tournamentTemplate" class="ttmp"
-                            v-validate="'required'">
+                            v-validate="{ required: tournament_format != 'basic' ? true : false }">
                             </span>
                             <span v-else>
                             <input type="radio"
@@ -215,7 +215,7 @@
                                 :id="'tournament_template_'+option.id"
                                 name="tournamentTemplate"
                                 v-model="competation_format.tournamentTemplate"
-                                v-validate="'required'"
+                                v-validate="{ required: tournament_format != 'basic' ? true : false }"
                                 :class="{'is-danger': errors.has('tournamentTemplate') }"
                                 v-if="checkTemplate(option)">
                               </span>
@@ -732,12 +732,15 @@ export default {
       return true
     },
     checkTemplate(option){
+      this.dispTempl = false;
+      if ($('.ttmp').length == 0  && (this.tournament_format == 'advance' || this.tournament_format == 'festival')) {
+        this.dispTempl = true
+      }
       if ($('.ttmp').length > 0) {
        $('.dispTemplate').css('display','block')
-       this.dispTempl = false
+       
       } else {
        $('.dispTemplate').css('display','none')
-       this.dispTempl = true
       }
       if(option.minimum_matches ==  this.minimum_matches
         && option.total_teams == this.number_teams) {
@@ -922,15 +925,16 @@ export default {
      this.competation_format.total_teams = this.number_teams
      this.competation_format.selectedCategoryRule = _.cloneDeep(this.competation_format.rules);
 
-
      this.competation_format.tournament_format = this.tournament_format;
-     this.competation_format.competition_type = this.tournament_format == 'basic' ? this.competition_type : '';
-     this.competation_format.group_size = (this.tournament_format == 'basic' && this.competition_type == 'knockout') ? this.group_size : '';
+     this.competation_format.competition_type = this.tournament_format == 'basic' ? this.competition_type : null;
+     this.competation_format.group_size = (this.tournament_format == 'basic' && this.competition_type == 'knockout') ? this.group_size : null;
      this.competation_format.template_font_color = this.template_font_color ? this.template_font_color : null;
      this.competation_format.remarks = this.remarks ? this.remarks : null;
 
      this.$validator.validateAll().then(
           (response) => {
+            console.log('response', response);
+            console.log('in validation condition');
             if(this.dispTempl == true) {
               return false;
             }
@@ -945,13 +949,13 @@ export default {
                 //return true
               } else {
               //alert('3')
-          //return false
-        }
+                //return false
+              }
 
               if(!$('input[name="tournamentTemplate"]')  )  {
                // alert('No Template')
               }
-
+              console.log('competation_format', this.competation_format);
               this.isSaveInProcess = true;
               Tournament.saveCompetationFormat(this.competation_format).then(
                 (response) => {
@@ -1107,6 +1111,14 @@ export default {
     setTemplateFontColor(color) {
       this.template_font_color = color;
     },
+    changeTournamentFormat() {
+      if(this.tournament_format == 'advance' || this.tournament_format == 'festival') {
+        this.dispTempl = true;
+      }
+      if(this.tournament_format == 'basic') {
+        this.dispTempl = false;
+      }
+    }
   }
 }
 </script>
