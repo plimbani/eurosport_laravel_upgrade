@@ -265,4 +265,9 @@ class UserRepository {
       $user = User::find($id);
       return $user->websites()->pluck('id');
     }
+    
+    public function getUserByEmail( $email ){
+        return User::where( "email", $email )->get();
+    }
+    
 }

@@ -343,3 +343,8 @@ $api->version('v1', function ($api) {
 
     $api->post('tournament/getFilterDropDownData','Laraspace\Api\Controllers\TournamentController@getFilterDropDownData');
 });
+
+//Front-end Register API call
+Route::post('/v1/commercialisation/thankyou','\Laraspace\Api\Controllers\Commercialisation\RegisterController@register')->name("commerialisation.thankyou");
+Route::get('/v1/country/list', '\Laraspace\Api\Controllers\CountryController@getList')->name("country.list");
+Route::get('/v1/user/get-details/{userId}', '\Laraspace\Api\Controllers\UserController@getDetails')->name("user.details");

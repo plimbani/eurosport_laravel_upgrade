@@ -33,6 +33,10 @@ class Person extends Model
         'v_card',
         'extra_info',
         'settings',
+        'job_title',
+        'city',
+        'zipcode',
+        'country_id',
     ];
 
     /**
