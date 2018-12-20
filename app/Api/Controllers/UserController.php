@@ -7,7 +7,7 @@ use Illuminate\Http\Response;
 use Carbon\Carbon;
 use DB;
 // Need to Define Only Contracts
-use Laraspace\Http\Requests\Commercialisation\Register\StoreRequest as storeRegRequest;
+use Laraspace\Http\Requests\Commercialisation\Customer\UpdateRequest as UpdateCusRequest;
 use Laraspace\Models\User;
 use Laraspace\Models\Role;
 use Laraspace\Custom\Helper\Common;
@@ -323,7 +323,7 @@ class UserController extends BaseController
      * @param storeRegRequest $request
      * @return json
      */
-    public function updateUser(storeRegRequest $request)
+    public function updateUser(UpdateCusRequest $request)
     {
         try {
             $data = $request->all();

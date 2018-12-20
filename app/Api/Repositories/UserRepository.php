@@ -299,7 +299,6 @@ class UserRepository {
                 'name' => $data['first_name'] . " " . $data['last_name'],
                 'email' => $data['email'],
                 'organisation' => !empty($data['organisation']) ? $data['organisation'] : '',
-                'password' => Hash::make($data['password'])
             ];
             $user->update($userData);
 
@@ -308,7 +307,6 @@ class UserRepository {
                 'last_name' => $data['last_name'],
                 'display_name' => $data['first_name'] . " " . $data['last_name'],
                 'primary_email' => $data['email'],
-                'address' => $data['address'],
                 'address' => $data['address'],
                 'job_title' => $data['job_title'],
                 'city' => $data['city'],

@@ -31,7 +31,6 @@ class RegisterRepository
             'display_name' => $data['first_name'] . " " . $data['last_name'],
             'primary_email' => $data['email'],
             'address' => $data['address'],
-            'address' => $data['address'],
             'job_title' => $data['job_title'],
             'city' => $data['city'],
             'zipcode' => $data['zip'],
