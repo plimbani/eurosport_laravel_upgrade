@@ -348,3 +348,4 @@ $api->version('v1', function ($api) {
 Route::post('/v1/commercialisation/thankyou','\Laraspace\Api\Controllers\Commercialisation\RegisterController@register')->name("commerialisation.thankyou");
 Route::get('/v1/country/list', '\Laraspace\Api\Controllers\CountryController@getList')->name("country.list");
 Route::get('/v1/user/get-details/{userId}', '\Laraspace\Api\Controllers\UserController@getDetails')->name("user.details");
+Route::post('/v1/user/update/', '\Laraspace\Api\Controllers\UserController@updateUser')->name("user.update");

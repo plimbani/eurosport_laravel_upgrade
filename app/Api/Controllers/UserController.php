@@ -4,14 +4,10 @@ namespace Laraspace\Api\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Dingo\Api\Routing\Helpers;
-use Illuminate\Routing\Controller;
-use Brotzka\DotenvEditor\DotenvEditor;
+use Carbon\Carbon;
 use DB;
 // Need to Define Only Contracts
-use JWTAuth;
-use UrlSigner;
-use Carbon\Carbon;
+use Laraspace\Http\Requests\Commercialisation\Register\StoreRequest as storeRegRequest;
 use Laraspace\Models\User;
 use Laraspace\Models\Role;
 use Laraspace\Custom\Helper\Common;
@@ -36,6 +32,7 @@ use Laraspace\Http\Requests\User\GetUsetTournamentsRequest;
 use Laraspace\Http\Requests\User\SetDefaultFavouriteRequest;
 use Laraspace\Http\Requests\User\TournamentPermissionRequest;
 use Laraspace\Http\Requests\User\GetSignedUrlForUsersTableDataRequest;
+use UrlSigner;
 
 /**
  * Users Resource Description.
@@ -300,19 +297,14 @@ class UserController extends BaseController
     }
 
     /**
-     * Get user details
-     * @param Request $request
+     * Get user details     
      * @param int $userId user id
      * @return json
      */
-    public function getDetails(Request $request, $userId)
+    public function getDetails($userId)
     {
         try {
-            $user = User:: join('people', 'users.person_id', '=', 'people.id')
-                            ->where('users.id', $userId)
-                            ->select("users.*", 'people.*', DB::raw('CONCAT("' . $this->userImagePath . '", users.user_image) AS user_image'))
-                            ->get()->first();
-
+            $user = $this->userRepoObj->getUserById($userId);
             return response()->json([
                         'success' => true,
                         'status' => Response::HTTP_OK,
@@ -321,8 +313,27 @@ class UserController extends BaseController
                         'message' => 'Get details of user successfully.'
             ]);
         } catch (\Exception $ex) {
-            return response()->json(['success' => false, 'status' => Response::HTTP_NOT_FOUND, 'data' => [], 'error' => [], 
-                'message' => 'Somethind went wrong. Please try again letter.']);
+            return response()->json(['success' => false, 'status' => Response::HTTP_NOT_FOUND, 'data' => [], 'error' => [],
+                        'message' => 'Somethind went wrong. Please try again letter.']);
+        }
+    }
+
+    public function updateUser(storeRegRequest $request)
+    {
+        try {
+            $data = $request->all();
+            $this->userRepoObj->updateUser($data, $data['user_id']);
+            unset($data);
+            return response()->json([
+                        'success' => true,
+                        'status' => Response::HTTP_OK,
+                        'data' => [],
+                        'error' => [],
+                        'message' => 'User details has been updated successfully.'
+            ]);
+        } catch (\Exception $ex) {
+            return response()->json(['success' => false, 'status' => Response::HTTP_NOT_FOUND, 'data' => [], 'error' => [],
+                        'message' => 'Somethind went wrong. Please try again letter.']);
         }
     }
 }
