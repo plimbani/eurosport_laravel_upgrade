@@ -273,9 +273,13 @@ class UserRepository {
         return $user->websites()->pluck('id');
     }
 
-    public function getUserByEmail($email)
+    public function getUserByEmail($email, $userId = "")
     {
-        return User::where("email", $email)->get();
+        $user = User::where("email", $email);
+        if (!empty($userId)) {
+            $user->where('id', '<>', $userId);
+        }
+        return $user->get();
     }
 
     /**
@@ -287,29 +291,35 @@ class UserRepository {
     public function updateUser($data, $userId)
     {
         $user = User::findOrFail($userId);
-        $userData = [
-            'username' => $data['email'],
-            'name' => $data['first_name'] . " " . $data['last_name'],
-            'email' => $data['email'],
-            'organisation' => !empty($data['organisation']) ? $data['organisation'] : '',
-            'password' => Hash::make($data['password'])
-        ];
-        $user->update($userData);
-        
-        $personData = [
-            'first_name' => $data['first_name'],
-            'last_name' => $data['last_name'],
-            'display_name' => $data['first_name'] . " " . $data['last_name'],
-            'primary_email' => $data['email'],
-            'address' => $data['address'],
-            'address' => $data['address'],
-            'job_title' => $data['job_title'],
-            'city' => $data['city'],
-            'zipcode' => $data['zip'],
-            'country_id' => $data['country'],
-        ];
-        $user->profile->update($personData);
-        
-        return true;
+        $userEmailCount = $this->getUserByEmail($data['email'], $userId)->count();
+        $personEmailCount = (new PeopleRepository())->getPersonByEmail($data['email'], $user->person_id)->count();
+        if ($userEmailCount == 0 && $personEmailCount == 0) {
+            $userData = [
+                'username' => $data['email'],
+                'name' => $data['first_name'] . " " . $data['last_name'],
+                'email' => $data['email'],
+                'organisation' => !empty($data['organisation']) ? $data['organisation'] : '',
+                'password' => Hash::make($data['password'])
+            ];
+            $user->update($userData);
+
+            $personData = [
+                'first_name' => $data['first_name'],
+                'last_name' => $data['last_name'],
+                'display_name' => $data['first_name'] . " " . $data['last_name'],
+                'primary_email' => $data['email'],
+                'address' => $data['address'],
+                'address' => $data['address'],
+                'job_title' => $data['job_title'],
+                'city' => $data['city'],
+                'zipcode' => $data['zip'],
+                'country_id' => $data['country'],
+            ];
+            $user->profile->update($personData);
+
+            return true;
+        } else {
+            return false;
+        }
     }
 }

@@ -318,19 +318,28 @@ class UserController extends BaseController
         }
     }
 
+    /**
+     * Update customer details
+     * @param storeRegRequest $request
+     * @return json
+     */
     public function updateUser(storeRegRequest $request)
     {
         try {
             $data = $request->all();
-            $this->userRepoObj->updateUser($data, $data['user_id']);
+            $status = $this->userRepoObj->updateUser($data, $data['user_id']);
             unset($data);
-            return response()->json([
-                        'success' => true,
-                        'status' => Response::HTTP_OK,
-                        'data' => [],
-                        'error' => [],
-                        'message' => 'User details has been updated successfully.'
-            ]);
+            if ($status) {
+                return response()->json(['success' => true, 'status' => Response::HTTP_OK,
+                            'data' => [], 'error' => [],
+                            'message' => 'User details has been updated successfully.'
+                ]);
+            } else {
+                return response()->json(['success' => false, 'status' => Response::HTTP_FORBIDDEN,
+                            'data' => [], 'error' => [],
+                            'message' => 'This email address already exists.'
+                ]);
+            }
         } catch (\Exception $ex) {
             return response()->json(['success' => false, 'status' => Response::HTTP_NOT_FOUND, 'data' => [], 'error' => [],
                         'message' => 'Somethind went wrong. Please try again letter.']);
