@@ -113,9 +113,9 @@ class AgeGroupService implements AgeGroupContract
             $nwdata = (array) $this->ageGroupObj->FindTemplate($data['tournamentTemplate']);
             $data['tournamentTemplate'] = $nwdata;
           }
-          list($totalTime,$totalmatch,$dispFormatname) = $this->calculateTime($data['tournamentTemplate']['json_data']);  
+          list($totalTime,$totalmatch,$dispFormatname) = $this->calculateTime($data['tournamentTemplate']['json_data'], $data);
         } else if($data['tournament_format'] == 'basic') {
-          list($totalTime,$totalmatch,$dispFormatname) = $this->calculateTime(json_encode($data['template_json_data']));
+          list($totalTime,$totalmatch,$dispFormatname) = $this->calculateTime(json_encode($data['template_json_data']), $data);
         }
         
         $data['total_time'] = $totalTime;
@@ -285,12 +285,14 @@ class AgeGroupService implements AgeGroupContract
         $competation_array = array();
         $competation_array=$this->ageGroupObj->addCompetations($competationData,$group_name);
         // Now here we insert Fixtures
-
         $this->ageGroupObj->addFixturesIntoTemp($fixture_array,$competation_array,$fixture_match_detail_array, $categoryAge);
+
         //exit;
 
     }
-    private function calculateTime($json_data) {
+    private function calculateTime($json_data, $data) {
+        $json_data = json_decode($json_data);
+
         // $disp_format_name = $json_data->tournament_teams .' TEAMS,'. $json_data->competation_format;
         $disp_format_name = $json_data->tournament_teams .' teams: '.
         $json_data->competition_group_round.($json_data->competition_round != '' ? ' - '.$json_data->competition_round : '');
