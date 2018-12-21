@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Carbon\Carbon;
 use DB;
+use JWTAuth;
 // Need to Define Only Contracts
 use Laraspace\Http\Requests\Commercialisation\Customer\UpdateRequest as UpdateCusRequest;
 use Laraspace\Models\User;
@@ -301,10 +302,11 @@ class UserController extends BaseController
      * @param int $userId user id
      * @return json
      */
-    public function getDetails($userId)
+    public function getDetails()
     {
         try {
-            $user = $this->userRepoObj->getUserById($userId);
+            $authUser = JWTAuth::parseToken()->toUser();            
+            $user = $this->userRepoObj->getUserById($authUser->id);
             return response()->json([
                         'success' => true,
                         'status' => Response::HTTP_OK,
@@ -326,8 +328,12 @@ class UserController extends BaseController
     public function updateUser(UpdateCusRequest $request)
     {
         try {
+            $authUser = JWTAuth::parseToken()->toUser();            
+//            if ($authUser && $userObj->hasRole('tournament.administrator')) {
+//                $user = $userObj;
+//            }
             $data = $request->all();
-            $status = $this->userRepoObj->updateUser($data, $data['user_id']);
+            $status = $this->userRepoObj->updateUser($data, $authUser->id);
             unset($data);
             if ($status) {
                 return response()->json(['success' => true, 'status' => Response::HTTP_OK,
