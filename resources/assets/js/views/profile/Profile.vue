@@ -1,7 +1,7 @@
 <template>
     <form action="" id="profileUpdateForm" method="post" @submit.prevent="updateProfile">
         <!-- {{csrf_field()}} -->
-        <h3>Update Profile</h3>
+        <h3>Update Profile</h3> 
         <div :class="{'form-group' : true }">
             <label>Your Name</label>
             <input type="text" class="form-control form-control-danger" placeholder="First Name" id = "first_name" name="first_name" v-model="userProfileDetail.first_name" v-validate="{ rules: { required: true } }">
@@ -22,26 +22,26 @@
             <input type="text" class="form-control form-control-danger" placeholder="Company Name" id="organisation" name="organisation"  v-model="userProfileDetail.organisation" v-validate="{ rules: { required: true } }">
             <span class="help is-danger" v-show="errors.has('organisation')">The organisation name field is required.</span>
         </div>
-        <div class="form-group">
+        <div class="form-group" v-if="isCustomer">
             <label>Your Job Title</label>
             <input type="text" class="form-control form-control-danger" placeholder="Job Title" id="job_title" name="job_title" v-model="userProfileDetail.job_title" v-validate="{ rules: { required: true } }">
             <span class="help is-danger" v-show="errors.has('job_title')">The job title field is required.</span>
         </div>
-        <div class="form-group">
+        <div class="form-group" v-if="isCustomer">
             <label>Address</label>
             <input type="textarea" class="form-control form-control-danger" placeholder="Address" id="address" name="address" v-model="userProfileDetail.address" v-validate="{ rules: { required: true } }">
              <span class="help is-danger" v-show="errors.has('address')">The address field is required.</span>
         </div>
-        <div class="form-group">
+        <div class="form-group" v-if="isCustomer">
             <label>Town or City</label>
             <input type="textarea" class="form-control form-control-danger" placeholder="City" id="city" name="city" v-model="userProfileDetail.city" v-validate="{ rules: { required: true } }">
              <span class="help is-danger" v-show="errors.has('city')">The city field is required.</span>
         </div>
-        <div class="form-group">
+        <div class="form-group" v-if="isCustomer">
             <label>Zip or Postal Code</label>
             <input type="textarea" class="form-control form-control-danger" placeholder="Zip" id="zip" name="zip" v-model="userProfileDetail.zip"> 
         </div>
-        <div class="form-group">
+        <div class="form-group" v-if="isCustomer">
             <label>Country</label>
             <select v-model="userProfileDetail.country" >
                 <option v-for="(value, key) in countries" :value="value">{{key}}</option>
@@ -71,36 +71,42 @@
                     zip: '',
                     country: ''
                 },
-                countries:{}
+                countries:{},
+                isCustomer:false
             }
         },
         methods: {
             updateProfile(e){
                 this.$validator.validateAll();
-                if (!this.errors.any()) {
-                    // console.log("in if")
-                    // axios.post(Constant.apiBaseUrl+'commercialisation/thankyou', this.userProfileDetail).then(response =>  {
-                    //      console.log("response in profile upate::",response.data); 
-                    //      if (response.data.success) {
-                    //         toastr['error'](response.data.message, 'Success');
-                    //         this.$router.push({'name':'thankyou'})
-                    //      }else{
-                    //         toastr['error'](response.data.message, 'Error');
-                    //      }
-                    //  }).catch(error => {
-                    //      console.log("error in profile upate::",error);
-                    //  });
+                if (!this.errors.any()) { 
+                    axios.post(Constant.apiBaseUrl+'user/update',this.userProfileDetail).then(response =>  { 
+                        if(response.data.success){ 
+                             // toastr['error'](response.data.message, 'Success');
+                            this.$router.push({'name':'welcome'})
+                        }else{
+                         toastr['error'](response.data.message, 'Error');
+                        }
+                    }).catch(error => {
+                         console.log("error in profile upate::",error);
+                     });
                      
                 } 
             },
 
-            getUserDetail(){
-                 console.log("idd::",this.$route.params.id)
-                axios.get(Constant.apiBaseUrl+'user/get-details/'+this.$route.params.id).then(response =>  {
+            getUserDetail(){ 
+                axios.get(Constant.apiBaseUrl+'user/get-details/').then(response =>  {
                     if(response.data.success){ 
-                        this.userProfileDetail = response.data.data;
-                        this.userProfileDetail.country = response.data.data.country_id;
-                        this.userProfileDetail.zip = response.data.data.zipcode;
+
+                        let indxOfCustomer =  (response.data.data.roles).findIndex(item => item.slug == "customer") 
+                        if(indxOfCustomer > -1){
+                            this.isCustomer = true;
+                        } 
+                        this.userProfileDetail = response.data.data.person_detail;
+                        // this.userProfileDetail.user_id = response.data.data.id;
+                        this.userProfileDetail.email = response.data.data.email;
+                        this.userProfileDetail.organisation = response.data.data.organisation;
+                        this.userProfileDetail.country = response.data.data.person_detail.country_id;
+                        this.userProfileDetail.zip = response.data.data.person_detail.zipcode;  
                     }
                 }) 
             },

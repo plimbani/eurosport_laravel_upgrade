@@ -145,8 +145,8 @@ const routes = [
         ]
     },
      {
-        path: '/profile/:id', component: LayoutLogin,
-        // path: '/profile', component: LayoutProfile,
+        // path: '/profile/:id', component: LayoutLogin,
+        path: '/profile', component: LayoutHorizontal,
         meta: { requiresAuth: true },
         children: [
             {
