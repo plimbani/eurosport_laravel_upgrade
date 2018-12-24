@@ -337,7 +337,8 @@ Route::group(['middleware' => 'jwt.auth'], function() {
     Route::post('v1/user/update/', '\Laraspace\Api\Controllers\UserController@updateUser')->name("user.update");
 
 //    $api->post('tournament/details/add', 'Laraspace\Api\Controllers\TournamentController@addTournamentDetails');
-    Route::post('v1/buy-license', '\Laraspace\Api\Controllers\Commercialisation\BuyLicenseController@buyLicense');
+    Route::post('v1/add-tournament', '\Laraspace\Api\Controllers\Commercialisation\BuyLicenseController@addTournament');
+//    Route::post('v1/buy-license', '\Laraspace\Api\Controllers\Commercialisation\BuyLicenseController@buyLicense');
 });
 
 

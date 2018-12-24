@@ -30,7 +30,7 @@ class BuyLicenseController extends BaseController
      * Add tournament and buy license
      * @param StoreRequest $request
      */
-    public function buyLicense(AddRequest $request)
+    public function addTournament(AddRequest $request)
     {
         try {
             //Add tournament
