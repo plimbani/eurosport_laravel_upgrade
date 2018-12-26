@@ -1,0 +1,33 @@
+
+/* Class = "UILabel"; text = "P"; ObjectID = "JhS-NN-JRZ"; */
+"JhS-NN-JRZ.text" = "P";
+
+/* Class = "UILabel"; text = "G"; ObjectID = "ORB-F6-55w"; */
+"ORB-F6-55w.text" = "G";
+
+/* Class = "UILabel"; text = "CLUBS"; ObjectID = "Okt-1n-WnB"; */
+"Okt-1n-WnB.text" = "CLUBS";
+
+/* Class = "UILabel"; text = "CATEGORY"; ObjectID = "RhD-gf-d3F"; */
+"RhD-gf-d3F.text" = "CATEGORY";
+
+/* Class = "UILabel"; text = "The internet connection appears to be offline."; ObjectID = "TWv-MQ-Y3b"; */
+"TWv-MQ-Y3b.text" = "The internet connection appears to be offline.";
+
+/* Class = "UILabel"; text = "The internet connection appears to be offline."; ObjectID = "blv-83-zkQ"; */
+"blv-83-zkQ.text" = "The internet connection appears to be offline.";
+
+/* Class = "UILabel"; text = "Matches"; ObjectID = "fWM-ST-Er8"; */
+"fWM-ST-Er8.text" = "Matches";
+
+/* Class = "UILabel"; text = "The internet connection appears to be offline."; ObjectID = "pkq-q2-t8I"; */
+"pkq-q2-t8I.text" = "The internet connection appears to be offline.";
+
+/* Class = "UILabel"; text = "+/-"; ObjectID = "sgt-4y-ahU"; */
+"sgt-4y-ahU.text" = "+/-";
+
+/* Class = "UILabel"; text = "GROUPS"; ObjectID = "ueK-5b-P38"; */
+"ueK-5b-P38.text" = "GROUPS";
+
+/* Class = "UITextField"; placeholder = "Search clubs"; ObjectID = "ytN-a2-6d5"; */
+"ytN-a2-6d5.placeholder" = "Search clubs";

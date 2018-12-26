@@ -1,0 +1,27 @@
+
+/* Class = "UILabel"; text = "The internet connection appears to be offline."; ObjectID = "AA7-KW-qiw"; */
+"AA7-KW-qiw.text" = "The internet connection appears to be offline.";
+
+/* Class = "UILabel"; text = "The internet connection appears to be offline."; ObjectID = "GFd-Xy-ZsZ"; */
+"GFd-Xy-ZsZ.text" = "The internet connection appears to be offline.";
+
+/* Class = "UILabel"; text = "8 - 10 October 2018"; ObjectID = "J09-P3-CZO"; */
+"J09-P3-CZO.text" = "8 - 10 October 2018";
+
+/* Class = "UILabel"; text = "Minutes"; ObjectID = "Jjr-Rx-t9E"; */
+"Jjr-Rx-t9E.text" = "Minutes";
+
+/* Class = "UIButton"; normalTitle = "Final placings"; ObjectID = "TOF-og-g4f"; */
+"TOF-og-g4f.normalTitle" = "Final placings";
+
+/* Class = "UILabel"; text = "Days"; ObjectID = "czc-ft-iNj"; */
+"czc-ft-iNj.text" = "Days";
+
+/* Class = "UILabel"; text = "Hours"; ObjectID = "ln8-jQ-afl"; */
+"ln8-jQ-afl.text" = "Hours";
+
+/* Class = "UIButton"; normalTitle = "Teams"; ObjectID = "nEc-Yi-xRI"; */
+"nEc-Yi-xRI.normalTitle" = "Teams";
+
+/* Class = "UILabel"; text = "Seconds"; ObjectID = "xKb-cn-Xwc"; */
+"xKb-cn-Xwc.text" = "Seconds";

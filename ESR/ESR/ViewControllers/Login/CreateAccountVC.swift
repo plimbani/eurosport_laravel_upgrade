@@ -356,14 +356,19 @@ extension CreateAccountVC : UITableViewDataSource, UITableViewDelegate {
                             textFieldCell.txtField.delegate = self
                             if indexPath.row == 0 {
                                 txtFirstName = textFieldCell.txtField
+                                txtFirstName.placeholder = String.localize(key: "First name")
                             } else if indexPath.row == 1 {
                                 txtLastName = textFieldCell.txtField
+                                txtLastName.placeholder = String.localize(key: "Surname")
                             } else if indexPath.row == 2 {
                                 txtEmail = textFieldCell.txtField
+                                txtEmail.placeholder = String.localize(key: "Email address")
                             } else if indexPath.row == 3 {
                                 txtPassword = textFieldCell.txtField
+                                txtPassword.placeholder = String.localize(key: "Password")
                             } else if indexPath.row == 4 {
                                 txtConfirmPassword = textFieldCell.txtField
+                                txtConfirmPassword.placeholder = String.localize(key: "Confirm password")
                             }
                         case .LabelSelectionCell:
                             _ = cellOwner.loadMyNibFile(nibName: kNiB.Cell.LabelSelectionCell)

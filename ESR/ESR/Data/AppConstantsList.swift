@@ -49,6 +49,8 @@ struct API_ENDPOINT {
     static let TOURNAMENT_CLUBS = API_URL.BASE_URL + "tournaments/getTournamentClub"
     static let TEAM_FIXTURES = API_URL.BASE_URL + "match/getFixtures"
     static let GROUP_STANDING = API_URL.BASE_URL + "match/getStanding/yes"
+    
+    static let UPDATE_FCM = API_URL.BASE_URL + "users/updatefcm"
 }
 
 struct kViewController {
@@ -104,6 +106,8 @@ struct kUserDefaults {
     static let isVibration          = "isVibration"
     static let isSound              = "isSound"
     static let selectedTournament   = "selectedTournament"
+    // System reserved key
+    static let currentLanguageKey   = "i18n_language" // i18n_language currentLanguageKey
 }
 
 enum ViewBorderType: Int {
@@ -300,6 +304,21 @@ extension String {
     public static func localize(key: String, comment: String = "") -> String {
         return NSLocalizedString(key, comment: comment)
     }
+    
+    /*var localized: String {
+        if let _ = UserDefaults.standard.string(forKey: "i18n_language") {} else {
+            // we set a default, just in case
+            UserDefaults.standard.set("fr", forKey: "i18n_language")
+            UserDefaults.standard.synchronize()
+        }
+        
+        let lang = UserDefaults.standard.string(forKey: "i18n_language")
+        
+        let path = Bundle.main.path(forResource: lang, ofType: "lproj")
+        let bundle = Bundle(path: path!)
+        
+        return NSLocalizedString(self, tableName: nil, bundle: bundle!, value: "", comment: "")
+    }*/
     
     subscript (i: Int) -> Character {
         return self[index(startIndex, offsetBy: i)]

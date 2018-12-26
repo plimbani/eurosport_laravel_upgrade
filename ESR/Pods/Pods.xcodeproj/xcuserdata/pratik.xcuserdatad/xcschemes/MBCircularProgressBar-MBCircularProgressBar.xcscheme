@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "503CF64AFC41CF1265B112A7B220A15B"
+               BlueprintIdentifier = "7C13A0F3027740DEC5B652A5C45CD8E3"
                BuildableName = "MBCircularProgressBar.bundle"
                BlueprintName = "MBCircularProgressBar-MBCircularProgressBar"
                ReferencedContainer = "container:Pods.xcodeproj">
@@ -45,7 +45,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "503CF64AFC41CF1265B112A7B220A15B"
+            BlueprintIdentifier = "7C13A0F3027740DEC5B652A5C45CD8E3"
             BuildableName = "MBCircularProgressBar.bundle"
             BlueprintName = "MBCircularProgressBar-MBCircularProgressBar"
             ReferencedContainer = "container:Pods.xcodeproj">

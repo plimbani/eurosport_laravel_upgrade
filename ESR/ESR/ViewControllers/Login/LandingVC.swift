@@ -11,6 +11,9 @@ class LandingVC: SuperViewController {
 
     @IBOutlet var lblAppVersion: UILabel!
     
+    @IBOutlet var btnSignIn: UIButton!
+    @IBOutlet var btnCreateAccount: UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         initialize()
@@ -18,6 +21,10 @@ class LandingVC: SuperViewController {
     
     func initialize() {
         self.navigationController?.isNavigationBarHidden = true
+        
+        // Localization
+        btnSignIn.setTitle(String.localize(key: "Sign in"), for: .normal)
+        btnCreateAccount.setTitle(String.localize(key: "Create account"), for: .normal)
         
         // Sets app version
         if let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {

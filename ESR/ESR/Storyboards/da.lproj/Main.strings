@@ -1,0 +1,54 @@
+
+/* Class = "UIButton"; normalTitle = "Create account"; ObjectID = "58f-Q2-Gzf"; */
+"58f-Q2-Gzf.normalTitle" = "Create account";
+
+/* Class = "UILabel"; text = "Age categories"; ObjectID = "5Ay-rE-inc"; */
+"5Ay-rE-inc.text" = "Age categories";
+
+/* Class = "UILabel"; text = "The internet connection appears to be offline."; ObjectID = "6Pn-tg-Rye"; */
+"6Pn-tg-Rye.text" = "The internet connection appears to be offline.";
+
+/* Class = "UIButton"; normalTitle = "Sign in"; ObjectID = "76L-d2-oG0"; */
+"76L-d2-oG0.normalTitle" = "Sign in";
+
+/* Class = "UILabel"; text = "Tournament"; ObjectID = "7iX-Po-iVb"; */
+"7iX-Po-iVb.text" = "Tournament";
+
+/* Class = "UILabel"; text = "The internet connection appears to be offline."; ObjectID = "FBq-Re-5Vo"; */
+"FBq-Re-5Vo.text" = "The internet connection appears to be offline.";
+
+/* Class = "UITextField"; placeholder = "Email address"; ObjectID = "Gc3-VS-T3G"; */
+"Gc3-VS-T3G.placeholder" = "Email address";
+
+/* Class = "UILabel"; text = "Teams"; ObjectID = "Qxr-A8-S5i"; */
+"Qxr-A8-S5i.text" = "Teams";
+
+/* Class = "UITextField"; placeholder = "Password"; ObjectID = "YNZ-tS-Qbq"; */
+"YNZ-tS-Qbq.placeholder" = "Password";
+
+/* Class = "UITextField"; placeholder = "Email address"; ObjectID = "YPh-SE-uPc"; */
+"YPh-SE-uPc.placeholder" = "Email address";
+
+/* Class = "UILabel"; text = "Settings"; ObjectID = "eZ5-Np-J88"; */
+"eZ5-Np-J88.text" = "Settings";
+
+/* Class = "UILabel"; text = "Favourites"; ObjectID = "hsB-e1-Y4k"; */
+"hsB-e1-Y4k.text" = "Favourites";
+
+/* Class = "UIButton"; normalTitle = "Sign in"; ObjectID = "ii2-mt-sE8"; */
+"ii2-mt-sE8.normalTitle" = "Sign in";
+
+/* Class = "UIButton"; normalTitle = "Submit"; ObjectID = "kLz-Cm-VBY"; */
+"kLz-Cm-VBY.normalTitle" = "Submit";
+
+/* Class = "UILabel"; text = "The internet connection appears to be offline."; ObjectID = "klE-Kh-4iq"; */
+"klE-Kh-4iq.text" = "The internet connection appears to be offline.";
+
+/* Class = "UILabel"; text = "Enter your email address and we'll send you an email to reset your password."; ObjectID = "pkD-Bh-ro4"; */
+"pkD-Bh-ro4.text" = "Enter your email address and we'll send you an email to reset your password.";
+
+/* Class = "UIButton"; normalTitle = "Forgot password?"; ObjectID = "ub6-wN-Idc"; */
+"ub6-wN-Idc.normalTitle" = "Forgot password?";
+
+/* Class = "UILabel"; text = "Version 1.0"; ObjectID = "wDJ-cx-eJj"; */
+"wDJ-cx-eJj.text" = "Version 1.0";

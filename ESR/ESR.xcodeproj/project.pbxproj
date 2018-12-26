@@ -23,11 +23,6 @@
 		30181D08211DBA1B0067D65F /* TabTeamsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D07211DBA1B0067D65F /* TabTeamsVC.swift */; };
 		30181D0A211DBA3E0067D65F /* TabAgeCategoriesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D09211DBA3E0067D65F /* TabAgeCategoriesVC.swift */; };
 		30181D0C211DBA900067D65F /* TabSettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D0B211DBA900067D65F /* TabSettingsVC.swift */; };
-		30181D1121219EA00067D65F /* Favourites.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 30181D1021219EA00067D65F /* Favourites.storyboard */; };
-		30181D1321219F1A0067D65F /* Tournament.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 30181D1221219F1A0067D65F /* Tournament.storyboard */; };
-		30181D1721219F5B0067D65F /* Teams.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 30181D1621219F5B0067D65F /* Teams.storyboard */; };
-		30181D1921219F780067D65F /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 30181D1821219F780067D65F /* Settings.storyboard */; };
-		30181D1B2121A1B00067D65F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 30181D1A2121A1B00067D65F /* Localizable.strings */; };
 		30181D1D2121A8AB0067D65F /* ForgotPasswordVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D1C2121A8AB0067D65F /* ForgotPasswordVC.swift */; };
 		30181D1F2121A8BC0067D65F /* CreateAccountVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D1E2121A8BC0067D65F /* CreateAccountVC.swift */; };
 		30181D212121A8DD0067D65F /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D202121A8DD0067D65F /* LoginVC.swift */; };
@@ -103,6 +98,13 @@
 		30AF116B21BBA82000BE50F4 /* TeamVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30AF116A21BBA82000BE50F4 /* TeamVC.swift */; };
 		30AF116E21BBDD7000BE50F4 /* TeamListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30AF116C21BBDD7000BE50F4 /* TeamListCell.swift */; };
 		30AF116F21BBDD7000BE50F4 /* TeamListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30AF116D21BBDD7000BE50F4 /* TeamListCell.xib */; };
+		30C799B121CD045F00B0ECB4 /* Favourites.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 30C799B321CD045F00B0ECB4 /* Favourites.storyboard */; };
+		30C799B421CD046C00B0ECB4 /* Tournament.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 30C799B621CD046C00B0ECB4 /* Tournament.storyboard */; };
+		30C799B721CD047700B0ECB4 /* Teams.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 30C799B921CD047700B0ECB4 /* Teams.storyboard */; };
+		30C799BA21CD047E00B0ECB4 /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 30C799BC21CD047E00B0ECB4 /* Settings.storyboard */; };
+		30C799EE21CD05C800B0ECB4 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 30C799F021CD05C800B0ECB4 /* Localizable.strings */; };
+		30C799F921CD105100B0ECB4 /* BundleExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30C799F821CD105100B0ECB4 /* BundleExtension.swift */; };
+		30C799FB21D35E3B00B0ECB4 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 30C799FA21D35E3A00B0ECB4 /* GoogleService-Info.plist */; };
 		30FB3111212EB2B300ABA22A /* privacyContent.html in Resources */ = {isa = PBXBuildFile; fileRef = 30FB3110212EB2B300ABA22A /* privacyContent.html */; };
 		30FB3114212EEB0B00ABA22A /* FavouriteTournamentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FB3112212EEB0B00ABA22A /* FavouriteTournamentCell.swift */; };
 		30FB3115212EEB0B00ABA22A /* FavouriteTournamentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30FB3113212EEB0B00ABA22A /* FavouriteTournamentCell.xib */; };
@@ -140,11 +142,6 @@
 		30181D07211DBA1B0067D65F /* TabTeamsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabTeamsVC.swift; sourceTree = "<group>"; };
 		30181D09211DBA3E0067D65F /* TabAgeCategoriesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabAgeCategoriesVC.swift; sourceTree = "<group>"; };
 		30181D0B211DBA900067D65F /* TabSettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabSettingsVC.swift; sourceTree = "<group>"; };
-		30181D1021219EA00067D65F /* Favourites.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Favourites.storyboard; sourceTree = "<group>"; };
-		30181D1221219F1A0067D65F /* Tournament.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Tournament.storyboard; sourceTree = "<group>"; };
-		30181D1621219F5B0067D65F /* Teams.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Teams.storyboard; sourceTree = "<group>"; };
-		30181D1821219F780067D65F /* Settings.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Settings.storyboard; sourceTree = "<group>"; };
-		30181D1A2121A1B00067D65F /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		30181D1C2121A8AB0067D65F /* ForgotPasswordVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordVC.swift; sourceTree = "<group>"; };
 		30181D1E2121A8BC0067D65F /* CreateAccountVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateAccountVC.swift; sourceTree = "<group>"; };
 		30181D202121A8DD0067D65F /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
@@ -221,6 +218,69 @@
 		30AF116A21BBA82000BE50F4 /* TeamVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamVC.swift; sourceTree = "<group>"; };
 		30AF116C21BBDD7000BE50F4 /* TeamListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamListCell.swift; sourceTree = "<group>"; };
 		30AF116D21BBDD7000BE50F4 /* TeamListCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TeamListCell.xib; sourceTree = "<group>"; };
+		30C799B221CD045F00B0ECB4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Favourites.storyboard; sourceTree = "<group>"; };
+		30C799B521CD046C00B0ECB4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Tournament.storyboard; sourceTree = "<group>"; };
+		30C799B821CD047700B0ECB4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Teams.storyboard; sourceTree = "<group>"; };
+		30C799BB21CD047E00B0ECB4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Settings.storyboard; sourceTree = "<group>"; };
+		30C799BD21CD049B00B0ECB4 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Main.strings; sourceTree = "<group>"; };
+		30C799BE21CD049B00B0ECB4 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		30C799BF21CD049B00B0ECB4 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Favourites.strings; sourceTree = "<group>"; };
+		30C799C021CD049B00B0ECB4 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Tournament.strings; sourceTree = "<group>"; };
+		30C799C121CD049B00B0ECB4 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/AgeCategories.strings; sourceTree = "<group>"; };
+		30C799C221CD049B00B0ECB4 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Teams.strings; sourceTree = "<group>"; };
+		30C799C321CD049C00B0ECB4 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Settings.strings; sourceTree = "<group>"; };
+		30C799C421CD04B100B0ECB4 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Main.strings; sourceTree = "<group>"; };
+		30C799C521CD04B100B0ECB4 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		30C799C621CD04B100B0ECB4 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Favourites.strings; sourceTree = "<group>"; };
+		30C799C721CD04B100B0ECB4 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Tournament.strings; sourceTree = "<group>"; };
+		30C799C821CD04B100B0ECB4 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/AgeCategories.strings; sourceTree = "<group>"; };
+		30C799C921CD04B100B0ECB4 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Teams.strings; sourceTree = "<group>"; };
+		30C799CA21CD04B100B0ECB4 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Settings.strings; sourceTree = "<group>"; };
+		30C799CB21CD04BA00B0ECB4 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Main.strings; sourceTree = "<group>"; };
+		30C799CC21CD04BA00B0ECB4 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		30C799CD21CD04BA00B0ECB4 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Favourites.strings; sourceTree = "<group>"; };
+		30C799CE21CD04BA00B0ECB4 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Tournament.strings; sourceTree = "<group>"; };
+		30C799CF21CD04BA00B0ECB4 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/AgeCategories.strings; sourceTree = "<group>"; };
+		30C799D021CD04BA00B0ECB4 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Teams.strings; sourceTree = "<group>"; };
+		30C799D121CD04BB00B0ECB4 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Settings.strings; sourceTree = "<group>"; };
+		30C799D221CD04C300B0ECB4 /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/Main.strings; sourceTree = "<group>"; };
+		30C799D321CD04C400B0ECB4 /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		30C799D421CD04C400B0ECB4 /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/Favourites.strings; sourceTree = "<group>"; };
+		30C799D521CD04C400B0ECB4 /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/Tournament.strings; sourceTree = "<group>"; };
+		30C799D621CD04C400B0ECB4 /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/AgeCategories.strings; sourceTree = "<group>"; };
+		30C799D721CD04C400B0ECB4 /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/Teams.strings; sourceTree = "<group>"; };
+		30C799D821CD04C400B0ECB4 /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/Settings.strings; sourceTree = "<group>"; };
+		30C799D921CD04D000B0ECB4 /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/Main.strings; sourceTree = "<group>"; };
+		30C799DA21CD04D000B0ECB4 /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		30C799DB21CD04D000B0ECB4 /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/Favourites.strings; sourceTree = "<group>"; };
+		30C799DC21CD04D000B0ECB4 /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/Tournament.strings; sourceTree = "<group>"; };
+		30C799DD21CD04D000B0ECB4 /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/AgeCategories.strings; sourceTree = "<group>"; };
+		30C799DE21CD04D100B0ECB4 /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/Teams.strings; sourceTree = "<group>"; };
+		30C799DF21CD04D100B0ECB4 /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/Settings.strings; sourceTree = "<group>"; };
+		30C799E021CD04D800B0ECB4 /* da */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = da; path = da.lproj/Main.strings; sourceTree = "<group>"; };
+		30C799E121CD04D800B0ECB4 /* da */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = da; path = da.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		30C799E221CD04D800B0ECB4 /* da */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = da; path = da.lproj/Favourites.strings; sourceTree = "<group>"; };
+		30C799E321CD04D800B0ECB4 /* da */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = da; path = da.lproj/Tournament.strings; sourceTree = "<group>"; };
+		30C799E421CD04D800B0ECB4 /* da */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = da; path = da.lproj/AgeCategories.strings; sourceTree = "<group>"; };
+		30C799E521CD04D900B0ECB4 /* da */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = da; path = da.lproj/Teams.strings; sourceTree = "<group>"; };
+		30C799E621CD04D900B0ECB4 /* da */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = da; path = da.lproj/Settings.strings; sourceTree = "<group>"; };
+		30C799E721CD04E600B0ECB4 /* cs */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = cs; path = cs.lproj/Main.strings; sourceTree = "<group>"; };
+		30C799E821CD04E600B0ECB4 /* cs */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = cs; path = cs.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		30C799E921CD04E600B0ECB4 /* cs */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = cs; path = cs.lproj/Favourites.strings; sourceTree = "<group>"; };
+		30C799EA21CD04E600B0ECB4 /* cs */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = cs; path = cs.lproj/Tournament.strings; sourceTree = "<group>"; };
+		30C799EB21CD04E600B0ECB4 /* cs */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = cs; path = cs.lproj/AgeCategories.strings; sourceTree = "<group>"; };
+		30C799EC21CD04E700B0ECB4 /* cs */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = cs; path = cs.lproj/Teams.strings; sourceTree = "<group>"; };
+		30C799ED21CD04E700B0ECB4 /* cs */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = cs; path = cs.lproj/Settings.strings; sourceTree = "<group>"; };
+		30C799EF21CD05C800B0ECB4 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
+		30C799F121CD05CC00B0ECB4 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Localizable.strings; sourceTree = "<group>"; };
+		30C799F221CD05CD00B0ECB4 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
+		30C799F321CD05CF00B0ECB4 /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/Localizable.strings; sourceTree = "<group>"; };
+		30C799F421CD05D000B0ECB4 /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/Localizable.strings; sourceTree = "<group>"; };
+		30C799F521CD05D200B0ECB4 /* da */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = da; path = da.lproj/Localizable.strings; sourceTree = "<group>"; };
+		30C799F621CD05D300B0ECB4 /* cs */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = cs; path = cs.lproj/Localizable.strings; sourceTree = "<group>"; };
+		30C799F721CD05D500B0ECB4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		30C799F821CD105100B0ECB4 /* BundleExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BundleExtension.swift; sourceTree = "<group>"; };
+		30C799FA21D35E3A00B0ECB4 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		30FB3110212EB2B300ABA22A /* privacyContent.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = privacyContent.html; sourceTree = "<group>"; };
 		30FB3112212EEB0B00ABA22A /* FavouriteTournamentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouriteTournamentCell.swift; sourceTree = "<group>"; };
 		30FB3113212EEB0B00ABA22A /* FavouriteTournamentCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FavouriteTournamentCell.xib; sourceTree = "<group>"; };
@@ -238,8 +298,10 @@
 		30FB312C21366AA400ABA22A /* GroupSummaryStandingsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupSummaryStandingsCell.swift; sourceTree = "<group>"; };
 		30FB312D21366AA400ABA22A /* GroupSummaryStandingsCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GroupSummaryStandingsCell.xib; sourceTree = "<group>"; };
 		5669E6CBF27485D33013CE06 /* Pods-ESR.release ( production ).xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ESR.release ( production ).xcconfig"; path = "Pods/Target Support Files/Pods-ESR/Pods-ESR.release ( production ).xcconfig"; sourceTree = "<group>"; };
+		630685747FB2A6D0C5FED353 /* Pods-ESR.debug ( production ).xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ESR.debug ( production ).xcconfig"; path = "Pods/Target Support Files/Pods-ESR/Pods-ESR.debug ( production ).xcconfig"; sourceTree = "<group>"; };
 		9BD23A70543185FD0C23E807 /* Pods-ESR.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ESR.release.xcconfig"; path = "Pods/Target Support Files/Pods-ESR/Pods-ESR.release.xcconfig"; sourceTree = "<group>"; };
 		C883A75926EF01AE85CE5AFF /* Pods-ESR.release ( qa ).xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ESR.release ( qa ).xcconfig"; path = "Pods/Target Support Files/Pods-ESR/Pods-ESR.release ( qa ).xcconfig"; sourceTree = "<group>"; };
+		CF96AB0DA6247289BE57C1B2 /* Pods-ESR.debug ( qa ).xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ESR.debug ( qa ).xcconfig"; path = "Pods/Target Support Files/Pods-ESR/Pods-ESR.debug ( qa ).xcconfig"; sourceTree = "<group>"; };
 		EBD932D29D0473CA455A5CCA /* Pods_ESR.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ESR.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F228F3CC0440A2073912187A /* Pods-ESR.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ESR.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ESR/Pods-ESR.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -263,6 +325,8 @@
 				9BD23A70543185FD0C23E807 /* Pods-ESR.release.xcconfig */,
 				5669E6CBF27485D33013CE06 /* Pods-ESR.release ( production ).xcconfig */,
 				C883A75926EF01AE85CE5AFF /* Pods-ESR.release ( qa ).xcconfig */,
+				630685747FB2A6D0C5FED353 /* Pods-ESR.debug ( production ).xcconfig */,
+				CF96AB0DA6247289BE57C1B2 /* Pods-ESR.debug ( qa ).xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -311,7 +375,8 @@
 				30181CD5211D98000067D65F /* Storyboards */,
 				30181CC3211D95B60067D65F /* AppDelegate.swift */,
 				30181CCA211D95B80067D65F /* Assets.xcassets */,
-				30181D1A2121A1B00067D65F /* Localizable.strings */,
+				30C799F021CD05C800B0ECB4 /* Localizable.strings */,
+				30C799FA21D35E3A00B0ECB4 /* GoogleService-Info.plist */,
 				30181CCF211D95B80067D65F /* Info.plist */,
 				30181D5F2126D6930067D65F /* QA.plist */,
 				30181D602126D6930067D65F /* Production.plist */,
@@ -324,11 +389,11 @@
 			children = (
 				30181CC7211D95B60067D65F /* Main.storyboard */,
 				30181CCC211D95B80067D65F /* LaunchScreen.storyboard */,
-				30181D1021219EA00067D65F /* Favourites.storyboard */,
-				30181D1221219F1A0067D65F /* Tournament.storyboard */,
+				30C799B321CD045F00B0ECB4 /* Favourites.storyboard */,
+				30C799B621CD046C00B0ECB4 /* Tournament.storyboard */,
 				3086BC89213D3DB800810CC8 /* AgeCategories.storyboard */,
-				30181D1621219F5B0067D65F /* Teams.storyboard */,
-				30181D1821219F780067D65F /* Settings.storyboard */,
+				30C799B921CD047700B0ECB4 /* Teams.storyboard */,
+				30C799BC21CD047E00B0ECB4 /* Settings.storyboard */,
 			);
 			path = Storyboards;
 			sourceTree = "<group>";
@@ -454,6 +519,7 @@
 				30181D632126D7850067D65F /* Environments.swift */,
 				30181D672126EB830067D65F /* UIViewExtentions.swift */,
 				3086BC8F213E94B600810CC8 /* UIImageViewExtensions.swift */,
+				30C799F821CD105100B0ECB4 /* BundleExtension.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -613,6 +679,12 @@
 			knownRegions = (
 				en,
 				Base,
+				it,
+				de,
+				pl,
+				nl,
+				da,
+				cs,
 			);
 			mainGroup = 30181CB7211D95B60067D65F;
 			productRefGroup = 30181CC1211D95B60067D65F /* Products */;
@@ -629,20 +701,21 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				30181D1721219F5B0067D65F /* Teams.storyboard in Resources */,
+				30C799B721CD047700B0ECB4 /* Teams.storyboard in Resources */,
 				30181D81212AF0590067D65F /* SettingsList.plist in Resources */,
 				30181D622126D6930067D65F /* Production.plist in Resources */,
-				30181D1121219EA00067D65F /* Favourites.storyboard in Resources */,
+				30C799B121CD045F00B0ECB4 /* Favourites.storyboard in Resources */,
 				30181D282122A8FB0067D65F /* TitleNavigationBar.xib in Resources */,
 				3086BC92213EB09F00810CC8 /* VenueFieldList.plist in Resources */,
 				306893F6214A813900BA543F /* TournamentClubCell.xib in Resources */,
 				30181D7C212AD07C0067D65F /* CustomAlertViewTwoButton.xib in Resources */,
 				307949EE21395AB200DE23A3 /* GroupDetailsCell.xib in Resources */,
 				30181CCE211D95B80067D65F /* LaunchScreen.storyboard in Resources */,
+				30C799FB21D35E3B00B0ECB4 /* GoogleService-Info.plist in Resources */,
 				30FB311B21353CA000ABA22A /* AgeCategoryCell.xib in Resources */,
-				30181D1921219F780067D65F /* Settings.storyboard in Resources */,
+				30C799BA21CD047E00B0ECB4 /* Settings.storyboard in Resources */,
 				30FB3115212EEB0B00ABA22A /* FavouriteTournamentCell.xib in Resources */,
-				30181D1B2121A1B00067D65F /* Localizable.strings in Resources */,
+				30C799EE21CD05C800B0ECB4 /* Localizable.strings in Resources */,
 				30FB3111212EB2B300ABA22A /* privacyContent.html in Resources */,
 				30181CCB211D95B80067D65F /* Assets.xcassets in Resources */,
 				30181D5C2126CF9C0067D65F /* Dev.xcconfig in Resources */,
@@ -670,7 +743,7 @@
 				30181D612126D6930067D65F /* QA.plist in Resources */,
 				30FB31272136660900ABA22A /* GroupSummaryMatchesHeader.xib in Resources */,
 				3086BC87213D3DB800810CC8 /* AgeCategories.storyboard in Resources */,
-				30181D1321219F1A0067D65F /* Tournament.storyboard in Resources */,
+				30C799B421CD046C00B0ECB4 /* Tournament.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -701,7 +774,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-ESR/Pods-ESR-resources.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-ESR/Pods-ESR-resources.sh",
 				"${PODS_ROOT}/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Resources/GoogleMaps.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
@@ -710,7 +783,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ESR/Pods-ESR-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ESR/Pods-ESR-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		E184932913DBD4CF5F1782B9 /* [CP] Embed Pods Frameworks */ = {
@@ -719,20 +792,26 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-ESR/Pods-ESR-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-ESR/Pods-ESR-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
 				"${BUILT_PRODUCTS_DIR}/MBCircularProgressBar/MBCircularProgressBar.framework",
+				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MBCircularProgressBar.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ESR/Pods-ESR-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ESR/Pods-ESR-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -787,6 +866,7 @@
 				307542B2217474AD003715C7 /* TournamentDetailsView.swift in Sources */,
 				30FB3117212FEA4B00ABA22A /* Tournament.swift in Sources */,
 				30FB312A21366A6400ABA22A /* GroupSummaryMatchesCell.swift in Sources */,
+				30C799F921CD105100B0ECB4 /* BundleExtension.swift in Sources */,
 				30181D232121A8EA0067D65F /* LandingVC.swift in Sources */,
 				30181D3F212312EC0067D65F /* ButtonCell.swift in Sources */,
 				30181D2A2122B0CB0067D65F /* TabTournamentVC.swift in Sources */,
@@ -821,6 +901,13 @@
 			isa = PBXVariantGroup;
 			children = (
 				30181CC8211D95B60067D65F /* Base */,
+				30C799BD21CD049B00B0ECB4 /* fr */,
+				30C799C421CD04B100B0ECB4 /* it */,
+				30C799CB21CD04BA00B0ECB4 /* de */,
+				30C799D221CD04C300B0ECB4 /* pl */,
+				30C799D921CD04D000B0ECB4 /* nl */,
+				30C799E021CD04D800B0ECB4 /* da */,
+				30C799E721CD04E600B0ECB4 /* cs */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -829,6 +916,13 @@
 			isa = PBXVariantGroup;
 			children = (
 				30181CCD211D95B80067D65F /* Base */,
+				30C799BE21CD049B00B0ECB4 /* fr */,
+				30C799C521CD04B100B0ECB4 /* it */,
+				30C799CC21CD04BA00B0ECB4 /* de */,
+				30C799D321CD04C400B0ECB4 /* pl */,
+				30C799DA21CD04D000B0ECB4 /* nl */,
+				30C799E121CD04D800B0ECB4 /* da */,
+				30C799E821CD04E600B0ECB4 /* cs */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -837,8 +931,90 @@
 			isa = PBXVariantGroup;
 			children = (
 				3086BC8A213D3DC400810CC8 /* Base */,
+				30C799C121CD049B00B0ECB4 /* fr */,
+				30C799C821CD04B100B0ECB4 /* it */,
+				30C799CF21CD04BA00B0ECB4 /* de */,
+				30C799D621CD04C400B0ECB4 /* pl */,
+				30C799DD21CD04D000B0ECB4 /* nl */,
+				30C799E421CD04D800B0ECB4 /* da */,
+				30C799EB21CD04E600B0ECB4 /* cs */,
 			);
 			name = AgeCategories.storyboard;
+			sourceTree = "<group>";
+		};
+		30C799B321CD045F00B0ECB4 /* Favourites.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				30C799B221CD045F00B0ECB4 /* Base */,
+				30C799BF21CD049B00B0ECB4 /* fr */,
+				30C799C621CD04B100B0ECB4 /* it */,
+				30C799CD21CD04BA00B0ECB4 /* de */,
+				30C799D421CD04C400B0ECB4 /* pl */,
+				30C799DB21CD04D000B0ECB4 /* nl */,
+				30C799E221CD04D800B0ECB4 /* da */,
+				30C799E921CD04E600B0ECB4 /* cs */,
+			);
+			name = Favourites.storyboard;
+			sourceTree = "<group>";
+		};
+		30C799B621CD046C00B0ECB4 /* Tournament.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				30C799B521CD046C00B0ECB4 /* Base */,
+				30C799C021CD049B00B0ECB4 /* fr */,
+				30C799C721CD04B100B0ECB4 /* it */,
+				30C799CE21CD04BA00B0ECB4 /* de */,
+				30C799D521CD04C400B0ECB4 /* pl */,
+				30C799DC21CD04D000B0ECB4 /* nl */,
+				30C799E321CD04D800B0ECB4 /* da */,
+				30C799EA21CD04E600B0ECB4 /* cs */,
+			);
+			name = Tournament.storyboard;
+			sourceTree = "<group>";
+		};
+		30C799B921CD047700B0ECB4 /* Teams.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				30C799B821CD047700B0ECB4 /* Base */,
+				30C799C221CD049B00B0ECB4 /* fr */,
+				30C799C921CD04B100B0ECB4 /* it */,
+				30C799D021CD04BA00B0ECB4 /* de */,
+				30C799D721CD04C400B0ECB4 /* pl */,
+				30C799DE21CD04D100B0ECB4 /* nl */,
+				30C799E521CD04D900B0ECB4 /* da */,
+				30C799EC21CD04E700B0ECB4 /* cs */,
+			);
+			name = Teams.storyboard;
+			sourceTree = "<group>";
+		};
+		30C799BC21CD047E00B0ECB4 /* Settings.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				30C799BB21CD047E00B0ECB4 /* Base */,
+				30C799C321CD049C00B0ECB4 /* fr */,
+				30C799CA21CD04B100B0ECB4 /* it */,
+				30C799D121CD04BB00B0ECB4 /* de */,
+				30C799D821CD04C400B0ECB4 /* pl */,
+				30C799DF21CD04D100B0ECB4 /* nl */,
+				30C799E621CD04D900B0ECB4 /* da */,
+				30C799ED21CD04E700B0ECB4 /* cs */,
+			);
+			name = Settings.storyboard;
+			sourceTree = "<group>";
+		};
+		30C799F021CD05C800B0ECB4 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				30C799EF21CD05C800B0ECB4 /* fr */,
+				30C799F121CD05CC00B0ECB4 /* it */,
+				30C799F221CD05CD00B0ECB4 /* de */,
+				30C799F321CD05CF00B0ECB4 /* pl */,
+				30C799F421CD05D000B0ECB4 /* nl */,
+				30C799F521CD05D200B0ECB4 /* da */,
+				30C799F621CD05D300B0ECB4 /* cs */,
+				30C799F721CD05D500B0ECB4 /* en */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

@@ -146,6 +146,10 @@ class ApiManager {
         postRequest(API_ENDPOINT.SET_DEFAULT_FAVOURITE, parameters, success: success, failure: failure, true)
     }
     
+    func updateFCMTokem(_ parameters: [String: Any]?, success: @escaping (_ result: NSDictionary) -> (), failure: @escaping (_ result: NSDictionary) -> ()) {
+        postRequest(API_ENDPOINT.UPDATE_FCM, parameters, success: success, failure: failure, true)
+    }
+    
     func removeFavTournament(_ parameters: [String: Any]?, success: @escaping (_ result: NSDictionary) -> (), failure: @escaping (_ result: NSDictionary) -> ()) {
         postRequest(API_ENDPOINT.REMOVE_FAVOURITE, parameters, success: success, failure: failure, true)
     }

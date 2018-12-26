@@ -1,0 +1,12 @@
+
+/* Class = "UILabel"; text = "Sound"; ObjectID = "A89-TF-qpg"; */
+"A89-TF-qpg.text" = "Sound";
+
+/* Class = "UIButton"; normalTitle = "Update"; ObjectID = "MXO-d1-wwt"; */
+"MXO-d1-wwt.normalTitle" = "Update";
+
+/* Class = "UILabel"; text = "Notifications"; ObjectID = "Rz9-HW-hTX"; */
+"Rz9-HW-hTX.text" = "Notifications";
+
+/* Class = "UILabel"; text = "Vibration"; ObjectID = "dI0-dW-R5w"; */
+"dI0-dW-R5w.text" = "Vibration";

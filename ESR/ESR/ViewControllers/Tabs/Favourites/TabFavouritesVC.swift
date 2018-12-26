@@ -132,6 +132,7 @@ class TabFavouritesVC: SuperViewController {
             DispatchQueue.main.async {
                 tournament.isFavourite = true
                 self.sendGetFavTournamentsRequest()
+                self.showInfoAlertView(title: String.localize(key: "alert_title_success"), message: String.localize(key: "alert_default_tournament_update"))
             }
         }) { (result) in
             DispatchQueue.main.async {

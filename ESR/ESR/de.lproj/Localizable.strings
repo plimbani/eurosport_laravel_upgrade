@@ -1,0 +1,82 @@
+/*
+  Localizable.strings
+  StructureDemo
+ 
+  Created by Me on 24/03/18.
+*/
+// Tab titles
+"title_tab_fav"                             = "Favoriten";
+"title_tab_tournament"                      = "Turnier";
+"title_tab_teams"                           = "Teams";
+"title_tab_agecategories"                   = "Altersklassen";
+"title_tab_settings"                        = "Einstellungen";
+
+"First name" = "Vorname";
+"Surname" = "Nachname";
+"Email address" = "E-Mail-Adresse";
+"Password" = "Passwort";
+"Confirm password" = "Passwort bestätigen";
+"Select tournament" = "Turnier auswählen";
+
+"alert_default_tournament_update" = "Standard-Turnier wurde aktualisiert";
+"alert_title_success" = "Erfolgreich ausgeführt";
+"alert_title_error" = "Fehler";
+"alert_default_tournament_remove" = "Standard-Turnier kann nicht aus Favorit entfernt werden.";
+"alert_msg_logout" = "Sind Sie sicher, dass Sie sich abmelden möchten?";
+"alert_msg_forgot_password" = "Wir haben Ihnen einen Link zu Erstellung eines neuen Passworts an Ihre E-Mail-Adresse gesendet.";
+"alert_create_account_email" = "Bitte prüfen Sie Ihren E-Mail-Eingang, um Ihre E-Mail-Adresse zu verifizieren und Ihre Kontoanmeldung abzuschließen.";
+
+"string_league_table" = "Rangliste";
+"Matches" = "Spiele";
+"string_no_league_data" = "Keine Rangdaten gefunden";
+"string_no_match_data" = "Keine Spiele gefunden";
+
+"title_profile"                             = "PROFILE";
+"title_notification_sound"                  = "NOTIFICATIONS & SOUNDS";
+"title_privacy_terms"                       = "PRIVACY & TERMS";
+"title_age_categories"                      = "AGE CATEGORIES";
+"title_age_categories_groups"               = "GROUPS";
+"title_age_categories_groups_summary"       = "GROUP SUMMARY";
+"title_match_info"                          = "MATCH INFO";
+"title_venue"                               = "VENUE";
+"title_venue_map"                           = "VENUE MAP";
+"title_teams"                               = "TEAMS";
+"title_final_placing"                       = "FINAL PLACINGS";
+"title_team"                                = "TEAM";
+
+"alert_title_app_update"                =   "Update Available";
+"alert_title_comment"                   =   "Comments";
+"alert_msg_app_update"                  =   "An updated version of this app is now available to download.";
+"alert_msg_login_credentials"           =   "These credentials do not match our records.";
+"alert_msg_forgot_pass_invalid_email"   =   "The selected email is invalid.";
+"alert_msg_confirmation_code_send"      =   "A new code has been sent to your email address.";
+"alert_profile_update"                  =   "Profile updated successfully.";
+"alert_tournament_details"              =   "Euro-Sportring Contact";
+
+//Button titles
+"btn_ok"                                =   "Ok";
+"btn_no"                                =   "No";
+"btn_yes"                               =   "Yes";
+"btn_close"                             =   "Close";
+"btn_cancel"                            =   "Cancel";
+"btn_update"                            =   "Update";
+"btn_logout"                            =   "Log out";
+
+//Strings
+"string_no_internet"                    = "The internet connection appears to be offline.";
+"string_is_the_winner"                  = "is the winner";
+"string_match_id"                       = "Match ID:";
+"string_placing"                        = "Placing:";
+"string_na"                             = "N/A";
+"string_walkover_win"                   = "* Walkover, win awarded";
+"string_penalties_win"                  = "* Game won on penalties";
+"string_abandoned_win"                  = "* Abandoned, win awarded";
+"string_accept_terms_of_use"            = "By continuing you accept our Terms of Use";
+"string_contact_number"                 = "Contact number:";
+"string_placings"                       = "Placing %@";
+"string_app_version"                    = "Version %@";
+
+"placeholder_search_tab_club"           = "Search clubs";
+"placeholder_search_tab_category"       = "Search age category";
+"placeholder_search_tab_group"          = "Search groups";
+

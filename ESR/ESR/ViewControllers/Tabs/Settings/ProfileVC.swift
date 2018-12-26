@@ -143,6 +143,13 @@ class ProfileVC: SuperViewController {
                             userData.firstName = self.txtFirstName.text!
                             userData.surName = self.txtSurname.text!
                             ApplicationData.sharedInstance().saveUserData(userData)
+                            
+                            // Notifies app to change language
+                            Bundle.set(languageCode: userData.locale)
+                            
+                            if let mainTabViewController = self.parent!.parent as? MainTabViewController {
+                                mainTabViewController.refeshTabTitle()
+                            }
                         }
                     }
                 }
@@ -204,12 +211,7 @@ extension ProfileVC: PickerHandlerViewDelegate {
     func pickerCancelBtnPressed() {}
     
     func pickerDoneBtnPressed(_ title: String) {
-//        if isTournament {
-//            lblTournament.text = title
-//            lblTournament.textColor = .black
-//
-//            selectedTournamentId = tournamentList[pickerHandlerView.selectedPickerPosition].value(forKey: "id") as! Int
-//        } else {
+
             lblLanguage.text = title
             lblLanguage.textColor = .black
             

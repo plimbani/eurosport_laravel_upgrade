@@ -18,5 +18,9 @@ target 'ESR' do
   # Google map
   pod 'GoogleMaps'
   
+  # Firebase
+  pod 'Firebase/Core'
+  pod 'Firebase/Messaging'
+  
   pod "MBCircularProgressBar"
 end

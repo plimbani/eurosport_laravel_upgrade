@@ -9,6 +9,9 @@ import UIKit
 import Fabric
 import Crashlytics
 import GoogleMaps
+import UserNotifications
+import Firebase
+import FirebaseMessaging
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -21,6 +24,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
+        // Firebase
+        FirebaseApp.configure()
+        // APNS
+        registerForPushNotifications()
+        Messaging.messaging().delegate = self
+        
+        // Add observer for InstanceID token refresh callback.
+        NotificationCenter.default.addObserver(self,
+                                                         selector: #selector(self.tokenRefreshNotification),
+                                                         name: NSNotification.Name.InstanceIDTokenRefresh,
+                                                         object: nil)
+        
         updateToken()
         if let statusBar = UIApplication.shared.value(forKey: "statusBar") as? UIView {
             statusBar.backgroundColor = UIColor.AppColor()
@@ -30,7 +45,57 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         GMSServices.provideAPIKey(Environment().configuration(PlistKey.GoogleMapKey))
         // Fabric
         Fabric.with([Crashlytics.self])
+        
+        if let userData = ApplicationData.sharedInstance().getUserData() {
+           // Notifies app to change language
+            Bundle.set(languageCode: userData.locale)
+        }
         return true
+    }
+    
+    func registerForPushNotifications() {
+        UNUserNotificationCenter.current()
+            .requestAuthorization(options: [.alert, .sound, .badge]) {
+                [weak self] granted, error in
+                
+                print("Permission granted: \(granted)")
+                guard granted else { return }
+                self?.getNotificationSettings()
+        }
+        
+        UNUserNotificationCenter.current().delegate = self
+    }
+    
+    func getNotificationSettings() {
+        UNUserNotificationCenter.current().getNotificationSettings { settings in
+            print("Notification settings: \(settings)")
+            guard settings.authorizationStatus == .authorized else { return }
+            DispatchQueue.main.async {
+                UIApplication.shared.registerForRemoteNotifications()
+            }
+        }
+    }
+    
+    @objc func tokenRefreshNotification(notification: NSNotification) {
+        if let refreshedToken = InstanceID.instanceID().token() {
+            print("InstanceID token: \(refreshedToken)")
+            updateFCMToken(refreshedToken)
+        }
+        
+        // Connect to FCM since connection may have failed when attempted before having a token.
+        connectToFcm()
+    }
+    // [END refresh_token]
+    
+    // [START connect_to_fcm]
+    func connectToFcm() {
+        Messaging.messaging().connect { (error) in
+            if (error != nil) {
+                print("Unable to connect with FCM. \(error)")
+            } else {
+                print("Connected to FCM.")
+            }
+        }
     }
     
     func applicationWillResignActive(_ application: UIApplication) {
@@ -56,11 +121,35 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
     
-    func updateToken() {
+    func updateFCMToken(_ token: String) {
         if APPDELEGATE.reachability.connection == .none {
             return
         }
         
+        var parameters: [String: Any] = [:]
+        
+        if let email = USERDEFAULTS.value(forKey: kUserDefaults.email) as? String {
+            parameters["email"] = email
+            parameters["fcm_id"] = token
+            
+            ApiManager().updateFCMTokem(parameters, success: { result in
+                DispatchQueue.main.async {
+                    
+                }
+            }, failure: { result in
+                DispatchQueue.main.async {
+                    if result.allKeys.count == 0 {
+                        return
+                    }
+                }
+            })
+        }
+    }
+    
+    func updateToken() {
+        if APPDELEGATE.reachability.connection == .none {
+            return
+        }
         
         var parameters: [String: Any] = [:]
         
@@ -79,12 +168,53 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     if result.allKeys.count == 0 {
                         return
                     }
-                    
-                    // if let error = result.value(forKey: "error") as? String {
-                        // self.showInfoAlertView(title: String.localize(key: "alert_title_error"), message: error)
-                    //}
                 }
             })
+        }
+    }
+}
+
+extension AppDelegate: MessagingDelegate {
+    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String) {
+        print("Firebase registration token: \(fcmToken)")
+        updateFCMToken(fcmToken)
+        let dataDict:[String: String] = ["token": fcmToken]
+        NotificationCenter.default.post(name: Notification.Name("FCMToken"), object: nil, userInfo: dataDict)
+        // TODO: If necessary send token to application server.
+        // Note: This callback is fired at each app startup and whenever a new token is generated.
+    }
+    
+    
+}
+
+extension AppDelegate: UNUserNotificationCenterDelegate {
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        
+        print("Voila got first notification...!")
+    }
+    
+   func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+    
+        if let dic = userInfo["aps"] as? NSDictionary{
+            if let alertMessage = dic.value(forKey: "alert") as? String {
+                if application.applicationState == .active {
+                    let alert = UIAlertController(title: dic.value(forKey: "title") as! String, message: alertMessage, preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+                        switch action.style{
+                        case .default:
+                            print("default")
+                            
+                        case .cancel:
+                            print("cancel")
+                            
+                        case .destructive:
+                            print("destructive")
+                            
+                            
+                        }}))
+                    alert.show(alert, sender: self)
+                }
+            }
         }
     }
 }

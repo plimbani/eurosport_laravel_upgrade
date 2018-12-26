@@ -22,6 +22,12 @@ class TeamVC: SuperViewController {
     @IBOutlet var sectionGroupView: UIView!
     @IBOutlet var lblSectionGroupName: UILabel!
     
+    @IBOutlet var lblMatchViewNoLeagueData: UILabel!
+    @IBOutlet var lblGroupViewNoLeagueData: UILabel!
+    
+    var isMatchLeagueDataEmpty = false
+    var isGroupLeagueDataEmpty = false
+    
     var teamFixuteuresList = [TeamFixture]()
     var groupStandingsList = [GroupStanding]()
     
@@ -61,6 +67,9 @@ class TeamVC: SuperViewController {
         titleNavigationBar.lblTitle.text = String.localize(key: "title_team")
         titleNavigationBar.delegate = self
         titleNavigationBar.setBackgroundColor()
+        
+        lblMatchViewNoLeagueData.text = String.localize(key: "string_no_league_data")
+        lblGroupViewNoLeagueData.text = String.localize(key: "string_no_league_data")
         
         // Checks internet connectivity
         setConstraintLblNoInternet(APPDELEGATE.reachability.connection == .none)
@@ -182,6 +191,8 @@ class TeamVC: SuperViewController {
                     self.dicTableData[SectionIndex.match.rawValue] = self.teamFixuteuresList
                 }
                 
+                self.isMatchLeagueDataEmpty = (self.teamFixuteuresList.count == 0)
+                self.lblMatchViewNoLeagueData.isHidden = !(self.teamFixuteuresList.count == 0)
                 self.table.reloadData()
             }
         }, failure: { result in
@@ -222,6 +233,8 @@ class TeamVC: SuperViewController {
                 }
                 
                 self.dicTableData[SectionIndex.group.rawValue] = self.groupStandingsList
+                self.isGroupLeagueDataEmpty = (self.groupStandingsList.count == 0)
+                self.lblGroupViewNoLeagueData.isHidden = !(self.groupStandingsList.count == 0)
                 self.table.reloadData()
             }
         }, failure: { result in
@@ -382,6 +395,10 @@ extension TeamVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 50
+        if section == Int(SectionIndex.group.rawValue) {
+            return isGroupLeagueDataEmpty ? 100 : 50
+        }
+        
+        return isMatchLeagueDataEmpty ? 100 : 50
     }
 }

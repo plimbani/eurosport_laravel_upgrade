@@ -35,6 +35,8 @@ class MainTabViewController: SuperViewController {
             let button = tabButtonList[i]
             button.tag = i
             button.addTarget(self, action: #selector(onTabSelected(btn:)), for: .touchUpInside)
+            
+            refeshTabTitle()
         }
         
         setupTabs()
@@ -46,6 +48,14 @@ class MainTabViewController: SuperViewController {
         if !ApplicationData.isAppUpdateDispalyed {
             // Checks if new app version is available or not
             sendAppversionRequest()
+        }
+    }
+    
+    func refeshTabTitle() {
+        var tabTitleList = [String.localize(key: "title_tab_fav"), String.localize(key: "title_tab_tournament"), String.localize(key: "title_tab_teams"), String.localize(key: "title_tab_agecategories"), String.localize(key: "title_tab_settings")]
+        
+        for i in 0..<tabLabelList.count {
+            tabLabelList[i].text = tabTitleList[i]
         }
     }
     
