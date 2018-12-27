@@ -4,14 +4,11 @@ namespace Laraspace\Api\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Dingo\Api\Routing\Helpers;
-use Illuminate\Routing\Controller;
-use Brotzka\DotenvEditor\DotenvEditor;
-use DB;
-// Need to Define Only Contracts
-use JWTAuth;
-use UrlSigner;
 use Carbon\Carbon;
+use DB;
+use JWTAuth;
+// Need to Define Only Contracts
+use Laraspace\Http\Requests\Commercialisation\Customer\UpdateRequest as UpdateCusRequest;
 use Laraspace\Models\User;
 use Laraspace\Models\Role;
 use Laraspace\Custom\Helper\Common;
@@ -36,6 +33,7 @@ use Laraspace\Http\Requests\User\GetUsetTournamentsRequest;
 use Laraspace\Http\Requests\User\SetDefaultFavouriteRequest;
 use Laraspace\Http\Requests\User\TournamentPermissionRequest;
 use Laraspace\Http\Requests\User\GetSignedUrlForUsersTableDataRequest;
+use UrlSigner;
 
 /**
  * Users Resource Description.
@@ -300,19 +298,15 @@ class UserController extends BaseController
     }
 
     /**
-     * Get user details
-     * @param Request $request
+     * Get user details     
      * @param int $userId user id
      * @return json
      */
-    public function getDetails(Request $request, $userId)
+    public function getDetails()
     {
         try {
-            $user = User:: join('people', 'users.person_id', '=', 'people.id')
-                            ->where('users.id', $userId)
-                            ->select("users.*", 'people.*', DB::raw('CONCAT("' . $this->userImagePath . '", users.user_image) AS user_image'))
-                            ->get()->first();
-
+            $authUser = JWTAuth::parseToken()->toUser();            
+            $user = $this->userRepoObj->getUserById($authUser->id);
             return response()->json([
                         'success' => true,
                         'status' => Response::HTTP_OK,
@@ -321,8 +315,40 @@ class UserController extends BaseController
                         'message' => 'Get details of user successfully.'
             ]);
         } catch (\Exception $ex) {
-            return response()->json(['success' => false, 'status' => Response::HTTP_NOT_FOUND, 'data' => [], 'error' => [], 
-                'message' => 'Somethind went wrong. Please try again letter.']);
+            return response()->json(['success' => false, 'status' => Response::HTTP_NOT_FOUND, 'data' => [], 'error' => [],
+                        'message' => 'Somethind went wrong. Please try again letter.']);
+        }
+    }
+
+    /**
+     * Update customer details
+     * @param storeRegRequest $request
+     * @return json
+     */
+    public function updateUser(UpdateCusRequest $request)
+    {
+        try {
+            $authUser = JWTAuth::parseToken()->toUser();            
+//            if ($authUser && $userObj->hasRole('tournament.administrator')) {
+//                $user = $userObj;
+//            }
+            $data = $request->all();
+            $status = $this->userRepoObj->updateUser($data, $authUser->id);
+            unset($data);
+            if ($status) {
+                return response()->json(['success' => true, 'status' => Response::HTTP_OK,
+                            'data' => [], 'error' => [],
+                            'message' => 'User details has been updated successfully.'
+                ]);
+            } else {
+                return response()->json(['success' => false, 'status' => Response::HTTP_FORBIDDEN,
+                            'data' => [], 'error' => [],
+                            'message' => 'This email address already exists.'
+                ]);
+            }
+        } catch (\Exception $ex) {
+            return response()->json(['success' => false, 'status' => Response::HTTP_NOT_FOUND, 'data' => [], 'error' => [],
+                        'message' => 'Somethind went wrong. Please try again letter.']);
         }
     }
 }
