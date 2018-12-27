@@ -1,23 +1,25 @@
-.tabs-primary {
-    .nav-tabs {
-        border-bottom-color: $theme-color-primary;
+.commercialisation {
+    .tabs-primary {
+        .nav-tabs {
+            border-bottom-color: $theme-color-primary;
 
-        .nav-item {
-            margin-right: 2px;
-            @extend .mb-0;
-            @extend .font-weight-bold;
+            .nav-item {
+                margin-right: 2px;
+                @extend .mb-0;
+                @extend .font-weight-bold;
 
-            .nav-link {
-                font-size: 0.875rem;
-                color: $theme-color-primary;
-                background: lighten($ls-color-blue--light-gradient, 40%);
-                @extend .text-uppercase;
-                @extend .border-0;
+                .nav-link {
+                    font-size: 0.875rem;
+                    color: $theme-color-primary;
+                    background: lighten($ls-color-blue--light-gradient, 40%);
+                    @extend .text-uppercase;
+                    @extend .border-0;
 
-                &.active,
-                &:hover {
-                    @include gradient-directional($ls-color-blue--gradient, $ls-color-blue--light-gradient, 90deg);
-                    color: $white;
+                    &.active,
+                    &:hover {
+                        @include gradient-directional($ls-color-blue--gradient, $ls-color-blue--light-gradient, 90deg);
+                        color: $white;
+                    }
                 }
             }
         }

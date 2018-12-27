@@ -1,84 +1,86 @@
-// Login Section, Confirmation Section, Register Section
+.commercialisation {
+    // Login Section, Confirmation Section, Register Section
 
-.login-section,
-.confirmation-section,
-.register-section {
-    p {
-        a {
-            color: $theme-color-primary;
-            text-decoration: underline;
-        }
-    }
-}
-
-// Manage Tournament Section
-
-.manage-tournament {
-    .card {
-        background: $theme-color-gray;
-
-        .h7 {
-            color: $theme-color-primary;
-        }
-
-        ul {
-            &.tournament-information {
-
-                li,
-                a {
-                    color: $theme-color-primary;
-                }
-
-                a {
-                    text-decoration: underline;
-                }
-            }
-        }
-
-        .btn-group {
-            .btn-link {
-            	color: $theme-color-primary;
-                &:hover {
-                    text-decoration: none;
-                    background-color: $theme-color-primary;
-                    color: $white;
-                }
+    .login-section,
+    .confirmation-section,
+    .register-section {
+        p {
+            a {
+                color: $theme-color-primary;
+                text-decoration: underline;
             }
         }
     }
-}
 
-// Tournament Section
+    // Manage Tournament Section
 
-.tournament-section {
-    .sponsored-list {
-        img {
-            width: 80px;
+    .manage-tournament {
+        .card {
+            background: $theme-color-gray;
+
+            .h7 {
+                color: $theme-color-primary;
+            }
+
+            ul {
+                &.tournament-information {
+
+                    li,
+                    a {
+                        color: $theme-color-primary;
+                    }
+
+                    a {
+                        text-decoration: underline;
+                    }
+                }
+            }
+
+            .btn-group {
+                .btn-link {
+                	color: $theme-color-primary;
+                    &:hover {
+                        text-decoration: none;
+                        background-color: $theme-color-primary;
+                        color: $white;
+                    }
+                }
+            }
         }
     }
 
-    .bordered-div {
-        &:before {
-            content: '';
-            @extend .position-absolute;
-            border-left: 1px solid $theme-color-primary;
-            left: -40px;
-            @extend .h-100;
+    // Tournament Section
+
+    .tournament-section {
+        .sponsored-list {
+            img {
+                width: 80px;
+            }
         }
-    }
 
-    .app-code {
-        border: 1px dashed $black;
-
-        h3 {
-            color: $theme-color-dark-gray;
-            letter-spacing: 10px;
+        .bordered-div {
+            &:before {
+                content: '';
+                @extend .position-absolute;
+                border-left: 1px solid $theme-color-primary;
+                left: -40px;
+                @extend .h-100;
+            }
         }
-    }
 
-    .get-app {
-        img {
-            width: 130px;
+        .app-code {
+            border: 1px dashed $black;
+
+            h3 {
+                color: $theme-color-dark-gray;
+                letter-spacing: 10px;
+            }
+        }
+
+        .get-app {
+            img {
+                width: 130px;
+            }
         }
     }
 }

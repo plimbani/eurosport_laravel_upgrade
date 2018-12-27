@@ -1,8 +1,10 @@
-header {
-    @include gradient-directional(lighten($ls-color-blue--light-gradient,45%), $white, 90deg);
+.commercialisation {
+	header {
+	    @include gradient-directional(lighten($ls-color-blue--light-gradient,45%), $white, 90deg);
 
-    p,
-    a {
-        color: $theme-color-primary;
-    }
+	    p,
+	    a {
+	        color: $theme-color-primary;
+	    }
+	}
 }

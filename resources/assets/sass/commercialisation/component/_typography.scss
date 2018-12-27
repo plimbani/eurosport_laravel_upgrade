@@ -1,59 +1,61 @@
-.h1,
-h1 {
-    font-size: $font-size-base * 3; //48px
-    line-height: 50px;
-}
+.commercialisation {
+    .h1,
+    h1 {
+        font-size: $font-size-base * 3; //48px
+        line-height: 50px;
+    }
 
-.h2,
-h2 {
-    font-size: $font-size-base * 2.25; //36px
-    line-height: 43px;
-}
+    .h2,
+    h2 {
+        font-size: $font-size-base * 2.25; //36px
+        line-height: 43px;
+    }
 
-.h3,
-h3 {
-    font-size: $font-size-base * 1.5; //24px
-    line-height: 30px;
-}
+    .h3,
+    h3 {
+        font-size: $font-size-base * 1.5; //24px
+        line-height: 30px;
+    }
 
-.h4,
-h4 {
-    font-size: $font-size-base * 1.125; //18px
-    line-height: 30px;
-}
+    .h4,
+    h4 {
+        font-size: $font-size-base * 1.125; //18px
+        line-height: 30px;
+    }
 
-.h5,
-h5 {
-    font-size: $font-size-base; //16px
-    line-height: 24px;
-}
+    .h5,
+    h5 {
+        font-size: $font-size-base; //16px
+        line-height: 24px;
+    }
 
-.h6,
-h6 {
-    font-size: 0.875rem; //14px
-    line-height: 30px;
-}
+    .h6,
+    h6 {
+        font-size: 0.875rem; //14px
+        line-height: 30px;
+    }
 
-.h7 {
-    font-size: 0.75rem; //12px
-    line-height: 24px;
-}
+    .h7 {
+        font-size: 0.75rem; //12px
+        line-height: 24px;
+    }
 
-.h8 {
-    font-size: 0.6875rem; //11px
-}
+    .h8 {
+        font-size: 0.6875rem; //11px
+    }
 
-h1,
-.h1,
-h2,
-.h2,
-h3,
-.h3,
-h4,
-.h4,
-h5,
-.h5,
-h6,
-.h6 {
-    color: $headings-color;
+    h1,
+    .h1,
+    h2,
+    .h2,
+    h3,
+    .h3,
+    h4,
+    .h4,
+    h5,
+    .h5,
+    h6,
+    .h6 {
+        color: $headings-color;
+    }
 }

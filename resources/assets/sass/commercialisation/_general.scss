@@ -1,21 +1,23 @@
-.section-divider {
-    border-top: 1px solid $text-muted;
-}
+.commercialisation {
+	.section-divider {
+	    border-top: 1px solid $text-muted;
+	}
 
-.section-padding {
-    padding: 80px 0;
-}
+	.section-padding {
+	    padding: 80px 0;
+	}
 
-.block-component {
-    background-color: $white;
-}
+	.block-component {
+	    background-color: $white;
+	}
 
-body {
-    font-family: $secondary-font-family;
-    font-size: $font-size-base;
-    background: $white;
-}
+	body {
+	    font-family: $secondary-font-family;
+	    font-size: $font-size-base;
+	    background: $white;
+	}
 
-.divider {
-    border-top: 1px solid $theme-color-primary;
+	.divider {
+	    border-top: 1px solid $theme-color-primary;
+	}
 }
