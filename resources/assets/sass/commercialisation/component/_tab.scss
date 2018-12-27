@@ -1,20 +1,24 @@
 .tabs-primary {
-    .nav-item {
-        margin-right: 2px;
-        @extend .mb-0;
-        @extend .font-weight-bold;
+    .nav-tabs {
+        border-bottom-color: $theme-color-primary;
 
-        .nav-link {
-            font-size: 0.875rem;
-            color: $theme-color-primary;
-            background: lighten($ls-color-blue--light-gradient, 40%);
-            @extend .text-uppercase;
-            @extend .border-0;
+        .nav-item {
+            margin-right: 2px;
+            @extend .mb-0;
+            @extend .font-weight-bold;
 
-            &.active,
-            &:hover {
-                @include gradient-directional($ls-color-blue--gradient, $ls-color-blue--light-gradient, 90deg);
-                color: $white;
+            .nav-link {
+                font-size: 0.875rem;
+                color: $theme-color-primary;
+                background: lighten($ls-color-blue--light-gradient, 40%);
+                @extend .text-uppercase;
+                @extend .border-0;
+
+                &.active,
+                &:hover {
+                    @include gradient-directional($ls-color-blue--gradient, $ls-color-blue--light-gradient, 90deg);
+                    color: $white;
+                }
             }
         }
     }

@@ -7,3 +7,8 @@
         top: 7px;
     }
 }
+
+.euro-checkbox:checked+label:before {
+    border: $theme-color-primary;
+    background: $theme-color-primary;
+}

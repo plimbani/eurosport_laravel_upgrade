@@ -1,9 +1,9 @@
 .btn {
     font-size: 0.875rem;
     @extend .text-uppercase;
-    @extend .border-0;
     font-family: $secondary-font-family;
     @extend .font-weight-bold;
+    height: 40px;
 }
 
 .btn-primary,
@@ -19,6 +19,7 @@
 .btn-warning,
 .btn-secondary {
     box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.25);
+    @extend .border-0;
 
     &:hover,
     &:focus,
@@ -46,4 +47,17 @@
 
 .btn-warning {
     @include gradient-directional(darken($ls-color-yellow, 20%), $ls-color-yellow, 90deg);
+}
+
+.btn-outline {
+    background-color: transparent;
+    color: $theme-color-primary;
+    border-color: $theme-color-primary;
+    @extend .text-uppercase;
+    @extend .font-weight-bold;
+
+    &:hover {
+        background-color: $theme-color-primary;
+        color: $white;
+    }
 }

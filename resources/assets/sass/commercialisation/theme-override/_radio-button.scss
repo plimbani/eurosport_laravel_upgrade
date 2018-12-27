@@ -1,4 +1,14 @@
-input[type="radio"],
-.radio-inline {
-    @extend .mr-2;
+.euro-radio+label {
+    &:before {
+        top: 4px;
+    }
+
+    &:after {
+        top: 10px;
+        background: $theme-color-primary;
+    }
+}
+
+.euro-radio:checked+label:before {
+    border-color: $theme-color-primary;
 }
