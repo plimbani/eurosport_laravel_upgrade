@@ -1,11 +1,13 @@
-.card {
-    @extend .border-0;
+.commercialisation {
+	.card {
+	    @extend .border-0;
 
-    &-body {
-        @extend .p-4;
-    }
+	    &-body {
+	        @extend .p-4;
+	    }
 
-    &.shaded-card {
-        box-shadow: 0 20px 40px 0 rgba(0, 0, 0, 0.25);
-    }
+	    &.shaded-card {
+	        box-shadow: 0 20px 40px 0 rgba(0, 0, 0, 0.25);
+	    }
+	}
 }

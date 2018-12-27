@@ -1,14 +1,16 @@
-.euro-checkbox+label {
-    &:before {
-        top: 4px;
-    }
+.commercialisation {	
+	.euro-checkbox+label {
+	    &:before {
+	        top: 4px;
+	    }
 
-    &:after {
-        top: 7px;
-    }
-}
+	    &:after {
+	        top: 7px;
+	    }
+	}
 
-.euro-checkbox:checked+label:before {
-    border: $theme-color-primary;
-    background: $theme-color-primary;
+	.euro-checkbox:checked+label:before {
+	    border: $theme-color-primary;
+	    background: $theme-color-primary;
+	}
 }
