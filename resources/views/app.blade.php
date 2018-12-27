@@ -5,7 +5,7 @@
     <!--<link href='https://fonts.googleapis.com/css?family=Roboto:400,300,700' rel='stylesheet' type='text/css'>
     <link href="https://fonts.googleapis.com/css?family=PT+Sans:400,700" rel="stylesheet">
     -->
-    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900" rel="stylesheet">
+    {{-- <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900" rel="stylesheet"> --}}
     <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
     <script src="/assets/js/core/pace.js"></script>
     <link href="{{mix('assets/css/laraspace.css')}}" rel="stylesheet" type="text/css">
@@ -39,11 +39,11 @@
       }}
     </style>
 
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet"></link>
+    {{-- <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet"></link>
     <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet"></link>
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"></link>
     <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet"></link>
-    <link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet"></link>
+    <link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet"></link> --}}
 
     <style id="antiClickjack">body{display:none !important;}</style>
     <script>
