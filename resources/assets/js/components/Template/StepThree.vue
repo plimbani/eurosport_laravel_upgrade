@@ -18,31 +18,25 @@
 						        	<div class="row align-items-center">
 						        		<div class="col-md-4">
 					        				<div class="form-group mb-0">
-						        				<select class="form-control ls-select2" name="placing">
+						        				<select class="form-control ls-select2" v-model="placing.position_type" @change="onPositionTypeChange(placingIndex)">
 							                    	<option value="placed">Placed</option>
 							                    	<option value="winner">Winner</option>
 							                    	<option value="loser">Loser</option>
-							                    	<option value="team">Team</option>
 							                    </select>
 							                </div>
 						        		</div>
 						        		<div class="col-md-3">
 						        			<div class="form-group mb-0">
-							        			<select class="form-control ls-select2" v-model="placing.group" name="relevant_group">
-							                    	<!-- <option value="group">Group</option>
-							                    	<option value="pm">PM</option> -->
-							                    	<option v-for="group in getGroupsForSelection()" :value="group.value">{{ group.name }}
+							        			<select class="form-control ls-select2" v-model="placing.group">
+							                    	<option v-for="group in getGroupsForSelection(placingIndex)" :value="group.value">{{ group.name }}
 							                    	</option>
 							                    </select>
 							                </div>
 						        		</div>						        		
 						        		<div class="col-md-4">
 					        				<div class="form-group mb-0">
-						        				<select class="form-control ls-select2" name="placing">
-							                    	<option value="placed">Match 1</option>
-							                    	<option value="winner">Match 2</option>
-							                    	<option value="loser">Match 3</option>
-							                    	<option value="team">Match 4</option>
+						        				<select class="form-control ls-select2" v-model="placing.position">
+							                    	<option :value="position.value" v-for="position in getPositionsForSelection(placingIndex, placing.group)">{{ position.name }}</option>
 							                    </select>
 							                </div>
 						        		</div>
@@ -88,7 +82,7 @@
         },
         methods: {
         	addNewPlacing() {
-        		this.templateFormDetail.stepthree.placings.push({type: "winner", position_type: "PM1", teams_play_each_other: "Match 1"});
+        		this.templateFormDetail.stepthree.placings.push({position_type: 'placed', group: '', position: ''});
         	},
         	removePlacing(index) {
         		this.templateFormDetail.stepthree.placings.splice(index, 1);
@@ -111,7 +105,8 @@
 		    back() {
                 this.$emit('change-tab-index', 3, 2, 'stepthree', _.cloneDeep(this.templateFormDetail.stepthree));
             },
-            getGroupsForSelection() {
+            getGroupsForSelection(placingIndex) {
+        		let placing = this.templateFormDetail.stepthree.placings[placingIndex];
         		let groupsForSelection = [];
         		let roundRobinIndex = 0;
         		let placingMatchIndex = 0;
@@ -119,34 +114,119 @@
                 let placingGroupCount = 0;
                 let vm = this;
 
-                _.forEach(this.templateFormDetail['stepthree'].placings, function(placing, placingIndex) {
-                	if(placing.position_type === 'placed') {
-                		groupsForSelection[roundRobinIndex] = {'name': 'Group ' + String.fromCharCode(65 +roundGroupCount), 'value': placingIndex};
-						roundGroupCount += 1;
+        		_.forEach(this.templateFormDetail['steptwo'].rounds, function(round, roundIndex) {
+					_.forEach(round.groups, function(group, groupIndex) {
+						if(roundIndex === vm.roundIndex && groupIndex >= vm.index) return false;
 
-						if(roundRobinIndex === 0 && placing.group === '')
-							vm.templateFormDetail.stepthree.placings[placingIndex].group = groupsForSelection[roundRobinIndex].value;
-						roundRobinIndex++;
-						return true;
-                	}
+						if(group.type === 'round_robin' && placing.position_type === 'placed') {
+							groupsForSelection[roundRobinIndex] = {'name': 'Group ' + String.fromCharCode(65 +roundGroupCount), 'value': '-1,' + roundIndex + ',' + groupIndex};
+							roundGroupCount += 1;
 
-					if(_.indexOf(['winner', 'loser'], placing.position_type) > -1) {
-						placingGroupCount += 1;
-						groupsForSelection[placingMatchIndex] = {'name': 'PM ' + (placingGroupCount), 'value': placingIndex};
+							if(roundRobinIndex === 0 && (placing.group === '' || typeof placing.group === 'undefined'))
+								vm.templateFormDetail.stepthree.placings[placingIndex].group = groupsForSelection[roundRobinIndex].value;
 
-						if(placingMatchIndex === 0 && (placing.group === '' || typeof placing.group === 'undefined')) {
-							vm.templateFormDetail['stepthree'].placings[placingIndex].group = groupsForSelection[placingMatchIndex].value;
+							roundRobinIndex++;
+
+							return true;
 						}
-						placingMatchIndex++;
-						return true;
-					}
-                });
 
-                return groupsForSelection;
+						if(group.type === 'placing_match' && _.indexOf(['winner', 'loser'], placing.position_type) > -1) {
+							placingGroupCount += 1;
+							groupsForSelection[placingMatchIndex] = {'name': 'PM ' + (placingGroupCount), 'value': '-1,' + roundIndex + ',' + groupIndex};
+
+							if(placingMatchIndex === 0 && (placing.group === '' || typeof placing.group === 'undefined')) {
+								vm.templateFormDetail.stepthree.placings[placingIndex].group = groupsForSelection[placingMatchIndex].value;
+							}
+
+							placingMatchIndex++;
+
+							return true;
+						}
+					});
+				});
+
+				_.forEach(this.templateFormDetail['steptwo'].divisions, function(division, divisionIndex) {
+					_.forEach(division.rounds, function(round, roundIndex) {
+						_.forEach(round.groups, function(group, groupIndex) {
+							if(group.type === 'round_robin' && placing.position_type === 'placed') {
+								groupsForSelection[roundRobinIndex] = {'name': 'Group ' + String.fromCharCode(65 +roundGroupCount), 'value': divisionIndex + ',' + roundIndex + ',' + groupIndex};
+								roundGroupCount += 1;
+
+								if(roundRobinIndex === 0 && placing.group === '')
+									vm.templateFormDetail.stepthree.placings[placingIndex].group = groupsForSelection[roundRobinIndex].value;
+
+								roundRobinIndex++;
+
+								return true;
+							}
+
+							if(group.type === 'placing_match' && _.indexOf(['winner', 'loser'], placing.position_type) > -1) {
+								placingGroupCount += 1;
+								groupsForSelection[placingMatchIndex] = {'name': 'PM ' + (placingGroupCount), 'value': divisionIndex + ',' + roundIndex + ',' + groupIndex};
+
+								if(placingMatchIndex === 0 && (placing.group === '' || typeof placing.group === 'undefined')) {
+									vm.templateFormDetail.stepthree.placings[placingIndex].group = groupsForSelection[placingMatchIndex].value;
+								}
+
+								placingMatchIndex++;
+
+								return true;
+							}
+						});
+					});
+				});
+				return groupsForSelection;
             },
-            getPositionsForSelection() {
+            getPositionsForSelection(placingIndex, group) {
+            	let vm = this;
+			    var positionsForSelection = [];
 
-            }
+		    	let placing = this.templateFormDetail.stepthree.placings[placingIndex];
+		    	if(group) {
+			    	var currentDivisionRoundGroup = group.split(',');
+			    	var groupData = null;
+			    	if(currentDivisionRoundGroup[0] === '-1') {
+			    		groupData = this.templateFormDetail['steptwo'].rounds[currentDivisionRoundGroup[1]].groups[currentDivisionRoundGroup[2]];
+			    	} else {
+			    		groupData = this.templateFormDetail['steptwo'].divisions[currentDivisionRoundGroup[0]].rounds[currentDivisionRoundGroup[1]].groups[currentDivisionRoundGroup[2]];
+			    	}
+			    	var teams = groupData.teams;
+			    	var numberOfTeams = groupData.no_of_teams;
+			    	var groupType = groupData.type;
+			    	
+				    // for round robin
+			    	if(groupType === 'round_robin' && placing.position_type === 'placed') {
+				    	if(this.templateFormDetail.stepthree.placings[placingIndex].position === '' || typeof this.templateFormDetail.stepthree.placings[placingIndex].position === 'undefined') {
+				    		this.templateFormDetail.stepthree.placings[placingIndex].position = group + ',0';
+				    	}
+				    	_.forEach(teams, function(team, index) {
+		    				positionsForSelection.push({'name': vm.getSuffixForPosition(index + 1), 'value': group + ',' + index});
+		    			});
+		    		}
+
+			    	// for placing
+					if(groupType === 'placing_match' && _.indexOf(['winner', 'loser'], placing.position_type) > -1) {
+						let matches = numberOfTeams / 2;
+						if(this.templateFormDetail.stepthree.placings[placingIndex].position === '' || typeof this.templateFormDetail.stepthree.placings[placingIndex].position === 'undefined') {
+							this.templateFormDetail.stepthree.placings[placingIndex].position = group + ',0';
+						}
+						for (var i = 1; i <= matches; i++) {
+							positionsForSelection.push({'name': 'Match' + i, 'value': group + ',' + (i - 1)});
+						}
+					}
+
+			    	return positionsForSelection;
+		    	}
+            },
+            onPositionTypeChange(placingIndex) {
+            	let vm = this;
+		    	this.templateFormDetail.stepthree.placings[placingIndex].group = '';
+		    	this.templateFormDetail.stepthree.placings[placingIndex].position = '';
+            },
+            onGroupChange(teamIndex) {
+		    	let vm = this;
+		    	this.templateFormDetail.stepthree.placings[placingIndex].position = '';
+		    },
         }
 	}
 </script>

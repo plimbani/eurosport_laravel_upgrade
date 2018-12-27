@@ -64,7 +64,7 @@
                                 no_of_teams: 2,
                                 teams_play_each_other: "once",
                                 teams: [{position_type: 'placed', group: '', position: ''}],
-                                matches: [{teams: '1-2'}],
+                                matches: [{in_between: '1-2'}],
                             }],
                             start_round_group_count: 0,
                             start_placing_group_count: 0,

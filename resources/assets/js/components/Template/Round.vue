@@ -6,7 +6,7 @@
                 <label>Number of teams in round</label>
                 <select class="form-control ls-select2" v-model="roundData.no_of_teams" :disabled="isRoundDisabled" @change="onTeamChange()">
                     <option value="">Number of teams</option>
-                    <option v-for="n in 28" v-if="n >=4" :value="n">{{ n }}</option>
+                    <option v-for="n in 28" v-if="n >= 2" :value="n">{{ n }}</option>
                 </select>
             </div>
             
@@ -49,7 +49,7 @@
                 return 'Round ' + (this.templateFormDetail.steptwo.divisions[this.divisionIndex].start_round_count + this.index + 1);
             },
             isRoundDisabled() {
-                return (this.index === 0 && _.indexOf([-1, 0], this.divisionIndex) !== -1);
+                return (this.index === 0);
             },
         },
         methods: {

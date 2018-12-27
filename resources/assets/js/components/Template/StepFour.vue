@@ -10,7 +10,7 @@
 					</div>
 					<div class="row">
 						<div class="col-12">
-							<h6 class="font-weight-bold">{{templateFormDetail.stepone.templateName}} &nbsp;<span class="small">({{templateFormDetail.stepone.no_of_teams}} items)</span></h6>
+							<h6 class="font-weight-bold">{{templateFormDetail.stepone.templateName}} &nbsp;<span class="small">({{templateFormDetail.stepone.no_of_teams}} teams)</span></h6>
 						</div>
 					</div>
 					
@@ -18,17 +18,21 @@
 						<div class="card-block">
 							<div class="row align-items-center">
 								<div class="col-12">
-									<h6 class="font-weight-bold">Round {{roundIndex + 1}}&nbsp;<span class="small">({{ round.no_of_teams }} items)</span></h6>
+									<h6 class="font-weight-bold">{{ getRoundName(roundIndex, -1) }}&nbsp;<span class="small">({{ round.no_of_teams }} items)</span></h6>
 								</div>
 							</div>
 							<div class="row">
 								<div class="col-6" v-for="(group, groupIndex) in round.groups">
-									<h6 class="font-weight-bold mb-0">{{ getGroupName(round, group, groupIndex) }}</h6>
-									<p class="text-muted small mb-0">Teams play eachother {{group.teams_play_each_other}}</p>
+									<h6 class="font-weight-bold mb-0">{{ getGroupName(groupIndex, roundIndex, -1) }}</h6>
+									<p class="text-muted small mb-0">Teams play each other {{ group.teams_play_each_other }}</p>
 									<ul class="list-unstyled mb-4">
-										<li v-for="(team, teamIndex) in group.teams">
+										<li v-if="group.type === 'round_robin'" v-for="(team, teamIndex) in group.teams">
 											<span v-if="roundIndex == 0">Team {{ teamIndex + 1 }}</span>
-											<span v-if="roundIndex == 1">{{ getGroupsWithPosition(team, group) }}</span>
+											<span v-if="roundIndex > 0">{{ getGroupsWithPosition(team, group) }}</span>
+										</li>
+										<li v-if="group.type === 'placing_match'" v-for="(team, teamIndex) in group.teams">
+											<span v-if="roundIndex == 0">Team {{ teamIndex + 1 }}</span>
+											<span v-if="roundIndex > 0">{{ getGroupsWithPosition(team, group) }}</span>
 										</li>
 									</ul>
 								</div>
@@ -110,25 +114,17 @@
         	setTemplateFontColor(color) {
         		this.templateFormDetail.stepfour.template_font_color = color;
         	},
-			getGroupName(round, group, groupIndex) {
-		    	if(group.type === 'round_robin') {
-		    		let currentRoundGroupCount =  _.filter(round.groups, function(o, index) { return (o.type === 'round_robin' && index < groupIndex); }).length;
-		    		return 'Group ' + String.fromCharCode(65 + round.start_round_group_count + currentRoundGroupCount);
-		    	}
-
-		    	if(group.type === 'placing_match') {
-		    		let currentPlacingGroupCount =  _.filter(round.groups, function(o, index) { return (o.type === 'placing_match' && index <= groupIndex); }).length;
-		    		return 'PM ' + (round.start_placing_group_count + currentPlacingGroupCount);
-		    	}
+			getGroupName(groupIndex, roundIndex, divisionIndex) {
+				return this.getGroupNameByRoundAndGroupIndex(groupIndex, roundIndex, divisionIndex);
 		    },
 		    getGroupsWithPosition(team, group) {
 		    	if(team.position) {
-		    		let position = team.position.split(',');
-		    		position = parseInt(position[2]) + 1;
-		    		let group = team.group.split(',');
-		    		let roundIndex = group[0];
-		    		let groupIndex = group[1];
-		    		return this.getSuffixForPosition(position) + ' - ' +  this.getGroupNameByRoundAndGroupIndex(group[0], group[1]);
+		    		let divisionRoundGroupPosition = team.position.split(',');
+		    		let divisionIndex = parseInt(divisionRoundGroupPosition[0]);
+		    		let roundIndex = parseInt(divisionRoundGroupPosition[1]);
+		    		let groupIndex = parseInt(divisionRoundGroupPosition[2]);
+		    		let position = parseInt(divisionRoundGroupPosition[3]) + 1;
+		    		return this.getSuffixForPosition(position) + ' - ' +  this.getGroupNameByRoundAndGroupIndex(groupIndex, roundIndex, divisionIndex);
 		    	}
 		    },
 		    getSuffixForPosition(d) {
@@ -140,10 +136,15 @@
 		            default: return d +"th";
 		        }
 		    },
-		    getGroupNameByRoundAndGroupIndex(roundIndex, groupIndex) {
+		    getGroupNameByRoundAndGroupIndex(groupIndex, roundIndex, divisionIndex) {
 		    	let vm = this;
-		    	let roundData = this.templateFormDetail['steptwo'].rounds[roundIndex];
-		    	let groupData = this.templateFormDetail['steptwo'].rounds[roundIndex].groups[groupIndex];
+		    	let roundData = null;
+		    	if(divisionIndex === -1) {
+		    		roundData = this.templateFormDetail['steptwo'].rounds[roundIndex];
+		    	} else {
+		    		roundData = this.templateFormDetail['steptwo'].divisions[divisionIndex].rounds[roundIndex];
+		    	}
+		    	let groupData = roundData.groups[groupIndex];
 
 		    	if(groupData.type === 'round_robin') {
 		    		return 'Group ' + this.getRoundRobinGroupName(roundData, groupIndex);
@@ -160,7 +161,16 @@
 		    getPlacingMatchGroupName(roundData, groupIndex) {
 		    	let currentPlacingGroupCount =  _.filter(roundData.groups, function(o, index) { return (o.type === 'placing_match' && index <= groupIndex); }).length;
 		    	return (roundData.start_placing_group_count + currentPlacingGroupCount);
-		    },		    
+		    },
+		    getRoundName(roundIndex, divisionIndex) {
+                let vm = this;
+
+                if(divisionIndex === -1) {
+                    return 'Round ' + (this.templateFormDetail.steptwo.start_round_count + roundIndex + 1);
+                }
+
+                return 'Round ' + (this.templateFormDetail.steptwo.divisions[divisionIndex].start_round_count + roundIndex + 1);
+            },	    
         }
     }
 </script>
