@@ -160,18 +160,17 @@ class AgeGroupRepository
         $this->updateAgeCatAndName($updataArr);
 
         $tournamentCompeationTemplate['rules'] = json_encode($tournamentCompeationTemplate['rules']);
-
         if(($data['tournament_format'] == 'basic' && $data['competition_type'] == 'league') && ($tournamentCompetitionTemplate->total_teams !== $data['total_teams'])) {
-          $tournamentCompeationTemplate['template_json_data'] = json_encode($data['tournamentTemplate']['json_data']);
+          $tournamentCompeationTemplate['template_json_data'] = $data['tournamentTemplate']['json_data'];
         }
 
         if(($data['tournament_format'] == 'basic' && $data['competition_type'] == 'knockout') && ($tournamentCompetitionTemplate->total_teams !== $data['total_teams'] || $tournamentCompetitionTemplate->group_size !== $data['group_size'])) {
-          $tournamentCompeationTemplate['template_json_data'] = json_encode($data['tournamentTemplate']['json_data']);
+          $tournamentCompeationTemplate['template_json_data'] = $data['tournamentTemplate']['json_data'];
         }
 
         return TournamentCompetationTemplates::where('id', $data['competation_format_id'])->update($tournamentCompeationTemplate);
       } else {
-        $tournamentCompeationTemplate['template_json_data'] = json_encode($data['tournamentTemplate']['json_data']);
+        $tournamentCompeationTemplate['template_json_data'] = $data['tournamentTemplate']['json_data'];
         return TournamentCompetationTemplates::create($tournamentCompeationTemplate)->id;
       }
     }

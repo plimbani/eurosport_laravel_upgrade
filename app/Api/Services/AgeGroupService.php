@@ -73,9 +73,9 @@ class AgeGroupService implements AgeGroupContract
           return ['status_code' => '403', 'message' => 'Please add maximum teams limit on "Tournament details" page.'];
         }
 
-        if(($totalCheckTeams > $maximumTeams)) {
-          return ['status_code' => '403', 'message' => 'This category cannot be added as it exceeds the maximum teams set for this tournament.'];
-        }
+        // if(($totalCheckTeams > $maximumTeams)) {
+        //   return ['status_code' => '403', 'message' => 'This category cannot be added as it exceeds the maximum teams set for this tournament.'];
+        // }
 
         // TODO: Here we set the value for Other Data
         // Impliclityly Add 2 For Multiplication
@@ -116,7 +116,7 @@ class AgeGroupService implements AgeGroupContract
           }
           list($totalTime,$totalmatch,$dispFormatname) = $this->calculateTime($data['tournamentTemplate']['json_data'], $data);
         } else if($data['tournament_format'] == 'basic') {
-          list($totalTime,$totalmatch,$dispFormatname) = $this->calculateTime(json_encode($data['tournamentTemplate']['json_data']), $data);
+          list($totalTime,$totalmatch,$dispFormatname) = $this->calculateTime($data['tournamentTemplate']['json_data'], $data);
         }
         
         $data['total_time'] = $totalTime;
@@ -209,10 +209,6 @@ class AgeGroupService implements AgeGroupContract
     }
     private function addCompetationGroups($tournament_competation_template_id,
         $data){
-        // Here we set data
-       // $json_data = json_decode($jsonTemplateData);
-        // Below are Fixed Data
-
         $competationData['tournament_competation_template_id'] = $tournament_competation_template_id;
         $competationData['tournament_id'] = $data['tournament_id'];
         $competationData['age_group_name'] = $data['ageCategory_name'].'-'.$data['category_age'];
@@ -516,8 +512,8 @@ class AgeGroupService implements AgeGroupContract
       }
 
       $finalArray['tournament_positions'] = $positions;
-
-      return $finalArray;
+      // echo "<pre>";print_r($finalArray);echo "</pre>";exit;
+      return json_encode($finalArray);
     }
 
     public function generateTemplateJsonForKnockout($totalTeams, $groupSize)
@@ -585,7 +581,7 @@ class AgeGroupService implements AgeGroupContract
 
       $finalArray['tournament_positions'] = $positions;
 
-      return $finalArray;
+      return json_encode($finalArray);
     }
 
     public function setTemplateMatches($totalTeams, $times)
@@ -595,9 +591,12 @@ class AgeGroupService implements AgeGroupContract
       for($i=0; $i<$times; $i++){
         for($j=1; $j<=$totalTeams; $j++) {
           for($k=($j+1); $k<=$totalTeams; $k++) {
-            $matches[] = ['in-between' => $j. '-' .$k, 'match_number' => "CAT.RR1.0$a.A.$j-A.$k", 
-            'display_match_number' => "CAT.1.$a.@HOME-@AWAY", 'display_home_team_placeholder_name' => "A$j",
-            'display_away_team_placeholder_name' => "A$k"];
+            $matches[] = ['in-between' => $j. '-' .$k,
+                          'match_number' => ($a > 9 ? "CAT.RR1.$a.A$j-A$k" : "CAT.RR1.0$a.A$j-A$k"),
+                          'display_match_number' => "CAT.1.$a.@HOME-@AWAY",
+                          'display_home_team_placeholder_name' => "A$j",
+                          'display_away_team_placeholder_name' => "A$k"
+                        ];
             $a++;
           }
         }

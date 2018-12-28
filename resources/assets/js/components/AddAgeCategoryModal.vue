@@ -84,7 +84,7 @@
                   <div class="col-md-4">
                       <div class="checkbox">
                           <div class="c-input">
-                              <input class="euro-radio" type="radio" name="tournament_format" value="advance" id="radio_advance" v-model="tournament_format" @change="changeTournamentFormat">
+                              <input class="euro-radio" type="radio" name="tournament_format" value="advance" id="radio_advance" v-model="tournament_format" @change="validateTemplate()">
                               <label for="radio_advance">Advance</label>
                           </div>
                       </div>
@@ -92,7 +92,7 @@
                   <div class="col-md-4">
                       <div class="checkbox">
                           <div class="c-input">
-                              <input class="euro-radio" type="radio" name="tournament_format" value="festival" id="radio_festival" v-model="tournament_format" @change="changeTournamentFormat">
+                              <input class="euro-radio" type="radio" name="tournament_format" value="festival" id="radio_festival" v-model="tournament_format" @change="validateTemplate()">
                               <label for="radio_festival">Festival</label>
                           </div>
                       </div>
@@ -100,7 +100,7 @@
                   <div class="col-md-4">
                       <div class="checkbox">
                           <div class="c-input">
-                              <input class="euro-radio" type="radio" name="tournament_format" value="basic" id="radio_basic" v-model="tournament_format" @change="changeTournamentFormat">
+                              <input class="euro-radio" type="radio" name="tournament_format" value="basic" id="radio_basic" v-model="tournament_format" @change="validateTemplate()">
                               <label for="radio_basic">Basic</label>
                           </div>
                       </div>
@@ -206,7 +206,7 @@
                             <span v-if="option.id == competation_format.tournament_template_id">
                             <input type="radio" checked='checked' :value="option"
                             name="tournamentTemplate" class="ttmp"
-                            v-validate="{ required: tournament_format != 'basic' ? true : false }">
+                            v-validate="{ required: true }">
                             </span>
                             <span v-else>
                             <input type="radio"
@@ -215,7 +215,7 @@
                                 :id="'tournament_template_'+option.id"
                                 name="tournamentTemplate"
                                 v-model="competation_format.tournamentTemplate"
-                                v-validate="{ required: tournament_format != 'basic' ? true : false }"
+                                v-validate="{ required: true }"
                                 :class="{'is-danger': errors.has('tournamentTemplate') }"
                                 v-if="checkTemplate(option)">
                               </span>
@@ -906,6 +906,8 @@ export default {
             this.group_size = resp.group_size;
             this.remarks = resp.remarks;
             this.template_font_color = resp.template_font_color;
+
+            this.validateTemplate();
           },
           (error) => {
           }
@@ -967,8 +969,6 @@ export default {
 
      this.$validator.validateAll().then(
           (response) => {
-            console.log('response', response);
-            console.log('in validation condition');
             if(this.dispTempl == true) {
               return false;
             }
@@ -989,11 +989,9 @@ export default {
               if(!$('input[name="tournamentTemplate"]')  )  {
                // alert('No Template')
               }
-              console.log('competation_format', this.competation_format);
               this.isSaveInProcess = true;
               Tournament.saveCompetationFormat(this.competation_format).then(
                 (response) => {
-                  console.log('hererere');
                   if(response.data.status_code == 200) {
                     if (comp_id==''){
                       toastr.success('Age category has been added successfully.', 'Add Age Category', {timeOut: 5000});
@@ -1145,7 +1143,7 @@ export default {
     setTemplateFontColor(color) {
       this.template_font_color = color;
     },
-    changeTournamentFormat() {
+    validateTemplate() {
       if(this.tournament_format == 'advance' || this.tournament_format == 'festival') {
         this.dispTempl = true;
       }
