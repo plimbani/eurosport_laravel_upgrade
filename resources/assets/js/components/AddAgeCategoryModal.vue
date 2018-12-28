@@ -184,7 +184,7 @@
             </div>
 
             <div class="form-group row align-items-top"
-             :class="{'has-error': errors.has('tournamentTemplate') }">
+             :class="{'has-error': errors.has('tournamentTemplate') }" v-if="tournament_format != 'basic'">
               <div class="col-sm-4">{{$lang.competation_label_template}}</div>
               <div class="col-sm-8">
                 <div class="row align-items-center">
@@ -243,7 +243,41 @@
                   Template key: Green = preferred, Orange = second option, Red = last resort
                 </div>
               </div>
-            </div>          
+            </div>
+
+            <div class="form-group row align-items-top" v-if="(tournament_format == 'basic' && competition_type == 'knockout' && number_teams != '' && group_size != '')">
+              <div class="col-sm-4"></div>
+              <div class="col-sm-8">
+                <div class="row align-items-center">
+                  <div class="col-sm-12">
+                    <div class="card mb-1">
+                      <div class="card-block">
+                        <div class="row d-flex">
+                          <p>These options will create a <strong>{{competition_type}}</strong> competition with <strong>{{ number_teams }}</strong> teams. The first round will consist of <strong>{{group_size}}</strong> groups each with <strong>{{ number_teams/group_size }}</strong> teams. Following the group stage the competition will proceed to an elimination format.</p>
+                        </div>
+                      </div>
+                    </div>                    
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group row align-items-top" v-if="(tournament_format == 'basic' && competition_type == 'league' && number_teams != '')">
+              <div class="col-sm-4"></div>
+              <div class="col-sm-8">
+                <div class="row align-items-center">
+                  <div class="col-sm-12">
+                    <div class="card mb-1">
+                      <div class="card-block">
+                        <div class="row d-flex">
+                          <p>These options will create a <strong>{{competition_type}}</strong> competition with <strong>{{ number_teams }}</strong> teams.Here, it will create a competition with a single Round Robin group where each team plays each other twice and placings are based on final group position.</p>
+                        </div>
+                      </div>
+                    </div>                    
+                  </div>
+                </div>
+              </div>
+            </div>
 
             <div class="form-group row align-items-center">
               <div class="col-sm-4 form-control-label">{{$lang.competation_modal_game_duration}}</div>
