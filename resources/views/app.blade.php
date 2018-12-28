@@ -5,7 +5,9 @@
     <!--<link href='https://fonts.googleapis.com/css?family=Roboto:400,300,700' rel='stylesheet' type='text/css'>
     <link href="https://fonts.googleapis.com/css?family=PT+Sans:400,700" rel="stylesheet">
     -->
-    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900" rel="stylesheet">
+    @if(config('current_layout') === 'tmp')
+        <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900" rel="stylesheet">
+    @endif
     <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
     <script src="/assets/js/core/pace.js"></script>
     <link href="{{mix('assets/css/laraspace.css')}}" rel="stylesheet" type="text/css">
@@ -38,12 +40,14 @@
         }
       }}
     </style>
-
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet"></link>
-    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet"></link>
-    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"></link>
-    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet"></link>
-    <link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet"></link>
+    
+    @if(config('current_layout') === 'tmp')
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet"></link>
+        <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet"></link>
+        <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"></link>
+        <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet"></link>
+        <link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet"></link>
+    @endif
 
     <style id="antiClickjack">body{display:none !important;}</style>
     <script>
@@ -59,7 +63,7 @@
         }
     </script>
 </head>
-<body class="layout-default skin-default">
+<body class="layout-default skin-default {{ config('config-variables.current_layout') }}">
     <div class="loader js-loader d-none">
         <svg class="circular" height="50" width="50">
             <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="6" stroke-miterlimit="10" />
