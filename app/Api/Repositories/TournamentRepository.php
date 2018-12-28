@@ -18,6 +18,7 @@ use Laraspace\Models\TournamentContact;
 use Laraspace\Models\TournamentTemplates;
 use Laraspace\Models\UserFavourites;
 use Laraspace\Models\Venue;
+use Laraspace\Models\Website;
 
 class TournamentRepository
 {
@@ -450,6 +451,10 @@ class TournamentRepository
         $newdata           = array();
         $newdata['status'] = $tournamentData['status'];
         $tournamentId      = $tournamentData['tournamentId'];
+
+        if($tournamentData['status'] == "Unpublished") {
+            Website::where('linked_tournament',$tournamentId)->update(['linked_tournament' => NULL]);
+        }
         return Tournament::where('id', $tournamentId)->update($newdata);
     }
     public function tournamentFilter($tournamentData)
@@ -988,6 +993,10 @@ class TournamentRepository
                     ->where('tournament_id', $data['competitionData']['tournament_id'])
                     ->update(['display_name' => $data['competitionData']['display_name']]);
 
-        return ['data'=> $competition, 'status' => 'Success', 'message' => 'Competition name has been updated.'];
+        $competitionData = Competition::where('tournament_competation_template_id', $data['competitionData']['tournament_competation_template_id'])
+                                        ->where('tournament_id', $data['competitionData']['tournament_id'])
+                                        ->get();
+                                        
+        return ['data' => $competitionData, 'status' => 'Success', 'message' => 'Competition name has been updated.'];
     }
 }
