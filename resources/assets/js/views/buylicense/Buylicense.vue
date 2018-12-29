@@ -1,33 +1,81 @@
 <template>
-      <form action="" id="registerForm" method="post" @submit.prevent="buyALicence">
+      <form action=""  method="post" @submit.prevent="buyALicence">
         
-        <h2>Buy a Licence</h2>
+        <section class="buy-license-section section-padding">
+            <div class="container">
+                <div class="row justify-content-between">
+                    <div class="col-md-6">
+                        <h1 class="font-weight-bold">Buy a License</h1>
+                        <p class="mb-5">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris posuere vel mi ac sagittis. Quisque vel nulla at nibh finibus sodales. Nam efficitur sem a mi rhoncus. </p>
 
-        <div>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</div>
-        <!-- <router-link :to="{ name: 'bar', params: { id: 123 }}">bar</router-link> -->
-        <div>
-            <h3>NUMBER OF TEAMS COMPETING</h3>
-            <vue-slider v-model="tournamentData.tournament_max_teams"></vue-slider>
-            <!-- <vue-slider :min='2' :max='60' v-model="tournamentData.tournament_max_teams"></vue-slider> -->
+                        <h4 class="text-uppercase font-weight-bold">Number of teams competing</h4>
+
+                        <p><vue-slider :min='2' :max='60' v-model="tournamentData.tournament_max_teams"></vue-slider></p>
+
+                        <h4 class="text-uppercase font-weight-bold">When will the tournament run?</h4>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <datepicker  @selected="selectStartDate" id="startDate" :value="tournamentData.tournament_start_date" :disabled-dates="startDisabledDates" :format="customFormatter" v-validate="{ rules: { required: true } }"></datepicker>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <datepicker @selected="selectEndDate" id="endDate" :value="tournamentData.tournament_end_date" :disabled-dates="endDisabledDates" :format="customFormatter" v-validate="{ rules: { required: true } }"></datepicker>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="tournament-name">Name of your tournament</label>
+                            <input type="text" class="form-control form-control-danger" placeholder="Tournament Name" id = "tournament_name" name="tournament_name" v-model="tournamentData.tournament_name" v-validate="{ rules: { required: true } }">
+                            <span class="help is-danger" v-show="errors.has('tournament_name')">The tournament name field is required.</span> 
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="card shaded-card">
+                            <div class="card-body">
+                                <div class="card-title">
+                                    <div class="row align-items-center">
+                                        <div class="col-lg-7">
+                                            <h3 class="mb-0 text-uppercase font-weight-bold">Your Cart</h3>
+                                        </div>
+                                        <div class="col-lg-5">
+                                            <select class="form-control" id="gbp">
+                                                <option selected value="GBP">GBP</option>
+                                                <option value="EURO">EURO</option> 
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="divider my-3"></div>
+
+                                <div class="card-text">
+                                    <div class="row">
+                                        <div class="col-lg-7">
+                                            <p class="mb-0">32 team license for a 4 day tournament</p>
+                                        </div>
+                                        <div class="col-lg-5">
+                                            <p class="text-right mb-0">£100.00</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="divider my-3"></div>
+
+                                    <p class="text-right font-weight-bold">£100.00</p>
+                                </div>
+                                <div class="row justify-content-end">
+                                    <div class="col-lg-6">
+                                        <button class="btn btn-success btn-block">Buy your license</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-        <div>
-            <h3>Name of your Tournament</h3>
-            <input type="text" class="form-control form-control-danger" placeholder="Tournament Name" id = "tournament_name" name="tournament_name" v-model="tournamentData.tournament_name" v-validate="{ rules: { required: true } }">
-            <span class="help is-danger" v-show="errors.has('tournament_name')">The tournament name field is required.</span>
-        </div>
-
-        <div>
-            <h4>Start Date</h4>
-           <!--  <date-picker placeholder="Start Date" lang="en" v-model="tournamentData.tournament_start_date" :first-day-of-week="1"></date-picker> -->
-            <datepicker  @selected="selectStartDate" id="startDate" :value="tournamentData.tournament_start_date" :disabled-dates="startDisabledDates" :format="customFormatter" v-validate="{ rules: { required: true } }"></datepicker>
-        </div>
-        <div>
-            <h4>End Date</h4>
-            <!-- <date-picker placeholder="End Date" lang="en" v-model="tournamentData.tournament_end_date" :first-day-of-week="1"></date-picker> -->
-            <datepicker @selected="selectEndDate" id="endDate" :value="tournamentData.tournament_end_date" :disabled-dates="endDisabledDates" :format="customFormatter" v-validate="{ rules: { required: true } }"></datepicker>
-        </div>
-
-        <button class="btn btn-login">Buy Your Licence</button>
+            </div>
+        </section>
       </form>  
 </template>
 <script type="text/babel">
@@ -64,8 +112,11 @@
         },
         beforeRouteEnter(to, from, next) {
               if(Object.keys(to.query).length !== 0) { //if the url has query (?query)
-                next(vm => {
-                    vm.tournamentData.tournament_max_teams = to.query.teams;
+                next(vm => { 
+                    setTimeout(function(){ 
+                         vm.tournamentData.tournament_max_teams = to.query.teams; 
+                    }, 100);
+                   
                })
             }
             next()
