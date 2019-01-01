@@ -1,10 +1,11 @@
-<template>
-      <!-- <form action="https://ogone.test.v-psp.com/ncol/test/orderstandard_utf8.asp"  method="post" > -->
-      <form action=""  method="post" @submit.prevent="buyALicence">
+<template> 
+     
+    <form action="https://ogone.test.v-psp.com/ncol/test/orderstandard_utf8.asp"  method="post">    
+    <!-- <form action=""  method="post" @submit.prevent="buyALicence">     -->
 
-        <input type="hidden" name="PSPID" value="EasymatchmanagerQA">
+        <input type="hidden" name="PSPID" v-model="pspid">
 
-        <input type="hidden" name="ORDERID" value="ORD22">
+        <input type="hidden" name="ORDERID" v-model="orderId">
 
         <input type="hidden" name="AMOUNT" value="2000">
 
@@ -30,7 +31,7 @@
 
         <!-- check before the payment: see Security: Check before the payment -->
 
-        <input type="hidden" name="SHASIGN" v-model="hashKey">
+        <input type="hidden" name="SHASIGN" v-model="shaSignIn">
 
         <!-- layout information: see Look and feel of the payment page -->
 
@@ -52,6 +53,7 @@
 
         <input type="hidden" name="FONTTYPE" value="">
 
+        <input type="submit" id="paymentSubmit" ref="paymentSubmit" name="paymentSubmit" style="display:none">
         
         <section class="buy-license-section section-padding">
             <div class="container">
@@ -80,7 +82,7 @@
 
                         <div class="form-group">
                             <label for="tournament-name">Name of your tournament</label>
-                            <input type="text" class="form-control form-control-danger" placeholder="Tournament Name" id = "tournament_name" name="tournament_name" v-model="tournamentData.tournament_name" v-validate="{ rules: { required: true } }">
+                            <input type="text" class="form-control form-control-danger" placeholder="Tournament Name" id="tournament_name" name="tournament_name" v-model="tournamentData.tournament_name" v-validate="{ rules: { required: true } }">
                             <span class="help is-danger" v-show="errors.has('tournament_name')">The tournament name field is required.</span> 
                         </div>
                     </div>
@@ -119,9 +121,8 @@
                                 </div>
                                 <div class="row justify-content-end">
                                     <div class="col-lg-6">
-                                        <!-- <button class="btn btn-success btn-block" v-on:click="buyALicence()">Buy your license</button> -->
-                                        <button class="btn btn-success btn-block">Buy your license</button>
-                                        <!-- <input class="btn btn-success btn-block" type="submit" value="Buy your license" id="submit2" name="submit2"> -->
+                                        <p class="btn btn-success btn-block" v-on:click="buyALicence()">Buy your license</p>
+                                        <!-- <button class="btn btn-success btn-block">Buy your license</button> --> 
                                     </div>
                                 </div>
                             </div>
@@ -153,7 +154,7 @@
                 // tournament_end_date:"12/25/2018", 
                 tournament_start_date:new Date(),  
                 tournament_end_date:new Date(), 
-                total_amount:300, 
+                total_amount:100, 
               },
               startDisabledDates:{
                 to: new Date(Date.now() - 8640000),
@@ -163,7 +164,9 @@
                 // from: new Date(Date.now() - 8640000),
                 // from: new Date(this.tournamentData.tournament_start_date + 8640000),
               },
-              hashKey:"" 
+              shaSignIn:"", 
+              orderId:"", 
+              pspid:"", 
             }
         },
         beforeRouteEnter(to, from, next) {
@@ -192,12 +195,22 @@
                     this.tournamentData.tournament_end_date = moment(this.tournamentData.tournament_end_date).format('MM/DD/YYYY')
                     axios.post(Constant.apiBaseUrl+'buy-license', this.tournamentData).then(response =>  {
                          if (response.data.success) {
-                            this.$router.push({'name':'welcome'})
+                            // console.log("response.data::",response.data.payment_details);
+                            this.shaSignIn = response.data.payment_details.shaSignIn;
+                            this.orderId = response.data.payment_details.orderId;
+                            this.pspid = response.data.payment_details.pspid;
+                            
+                            let self = this;
+                            setTimeout(function(){
+                                // console.log("after timeout")
+                                self.$refs.paymentSubmit.click();
+                            },500)
+                            // this.$router.push({'name':'welcome'})
                          }else{
                              toastr['error'](response.data.message, 'Error');
                          }
                      }).catch(error => {
-                         console.log("error in register::",error);
+                         console.log("error in buyALicence::",error);
                      });
                     // this.$router.push({'name':'welcome'}) 
                 }
@@ -206,16 +219,16 @@
               return moment(date).format('MM/DD/YYYY');
             },
             getGenerateHashKey(){
-                axios.get(Constant.apiBaseUrl+'generateHashKey').then(response =>  {
-                    // console.log("response.data::",response.data.data);
-                    if(response.data.success){
-                          this.hashKey = response.data.data; 
-                    }
-                 })
+                // axios.get(Constant.apiBaseUrl+'generateHashKey').then(response =>  {
+                //     // console.log("response.data::",response.data.data);
+                //     if(response.data.success){
+                //           this.shaSignIn = response.data.data; 
+                //     }
+                //  })
             }, 
         },
         beforeMount(){ 
-            this.getGenerateHashKey(); 
+            // this.getGenerateHashKey(); 
         }
     }
 </script>
