@@ -60,6 +60,11 @@ class BuyLicenseController extends BaseController
         }
     }
 
+    /**
+     * Add payment response which is got from payment gateway
+     * @param Request $request
+     * @return void
+     */
     public function paymentResponse(Request $request)
     {
         try {
@@ -70,5 +75,22 @@ class BuyLicenseController extends BaseController
         } catch (\Exception $ex) {
             
         }
+    }
+
+    /**
+      @desc :static API created for haskey generate need to change once data come realtime
+     */
+    public function generateHashKey()
+    {
+        $string = 'AMOUNT=2000b709e0ae-ab5b-4a78-bfc7-0bd54612d622CURRENCY=EURb709e0ae-ab5b-4a78-bfc7-0bd54612d622ORDERID=ORD22b709e0ae-ab5b-4a78-bfc7-0bd54612d622PSPID=EasymatchmanagerQAb709e0ae-ab5b-4a78-bfc7-0bd54612d622';
+        $shaSign = hash('sha512', $string);
+
+        return response()->json([
+            'success' => true,
+            'status' => Response::HTTP_OK,
+            'data' => $shaSign,
+            'error' => [],
+            'message' => 'Hash Key Genreated successfully.'
+        ]);
     }
 }

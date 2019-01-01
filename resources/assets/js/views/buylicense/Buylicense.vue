@@ -1,5 +1,57 @@
 <template>
+      <!-- <form action="https://ogone.test.v-psp.com/ncol/test/orderstandard_utf8.asp"  method="post" > -->
       <form action=""  method="post" @submit.prevent="buyALicence">
+
+        <input type="hidden" name="PSPID" value="EasymatchmanagerQA">
+
+        <input type="hidden" name="ORDERID" value="ORD22">
+
+        <input type="hidden" name="AMOUNT" value="2000">
+
+        <input type="hidden" name="CURRENCY" value="EUR">
+
+        <input type="hidden" name="LANGUAGE" value="">
+
+        <input type="hidden" name="CN" value="">
+
+        <input type="hidden" name="EMAIL" value="">
+
+        <input type="hidden" name="OWNERZIP" value="">
+
+        <input type="hidden" name="OWNERADDRESS" value="">
+
+        <input type="hidden" name="OWNERCTY" value="">
+
+        <input type="hidden" name="OWNERTOWN" value="">
+
+        <input type="hidden" name="OWNERTELNO" value="">
+
+
+
+        <!-- check before the payment: see Security: Check before the payment -->
+
+        <input type="hidden" name="SHASIGN" v-model="hashKey">
+
+        <!-- layout information: see Look and feel of the payment page -->
+
+        <input type="hidden" name="TITLE" value="">
+
+        <input type="hidden" name="BGCOLOR" value="">
+
+        <input type="hidden" name="TXTCOLOR" value="">
+
+        <input type="hidden" name="TBLBGCOLOR" value="">
+
+        <input type="hidden" name="TBLTXTCOLOR" value="">
+
+        <input type="hidden" name="BUTTONBGCOLOR" value="">
+
+        <input type="hidden" name="BUTTONTXTCOLOR" value="">
+
+        <input type="hidden" name="LOGO" value="">
+
+        <input type="hidden" name="FONTTYPE" value="">
+
         
         <section class="buy-license-section section-padding">
             <div class="container">
@@ -67,7 +119,9 @@
                                 </div>
                                 <div class="row justify-content-end">
                                     <div class="col-lg-6">
+                                        <!-- <button class="btn btn-success btn-block" v-on:click="buyALicence()">Buy your license</button> -->
                                         <button class="btn btn-success btn-block">Buy your license</button>
+                                        <!-- <input class="btn btn-success btn-block" type="submit" value="Buy your license" id="submit2" name="submit2"> -->
                                     </div>
                                 </div>
                             </div>
@@ -84,6 +138,7 @@
     import vueSlider from 'vue-slider-component';
     import Datepicker from 'vuejs-datepicker';
     // console.log("register  page");
+    // $string = 'AMOUNT=2000b709e0ae-ab5b-4a78-bfc7-0bd54612d622CURRENCY=EURb709e0ae-ab5b-4a78-bfc7-0bd54612d622ORDERID=ORD22b709e0ae-ab5b-4a78-bfc7-0bd54612d622PSPID=EasymatchmanagerQAb709e0ae-ab5b-4a78-bfc7-0bd54612d622';
     export default {
         components: {
             vueSlider,
@@ -107,10 +162,12 @@
                  to: new Date(Date.now() - 8640000),
                 // from: new Date(Date.now() - 8640000),
                 // from: new Date(this.tournamentData.tournament_start_date + 8640000),
-              } 
+              },
+              hashKey:"" 
             }
         },
         beforeRouteEnter(to, from, next) {
+            // generateHashKey
               if(Object.keys(to.query).length !== 0) { //if the url has query (?query)
                 next(vm => { 
                     setTimeout(function(){ 
@@ -147,15 +204,18 @@
             },
             customFormatter(date) {
               return moment(date).format('MM/DD/YYYY');
-            } 
+            },
+            getGenerateHashKey(){
+                axios.get(Constant.apiBaseUrl+'generateHashKey').then(response =>  {
+                    // console.log("response.data::",response.data.data);
+                    if(response.data.success){
+                          this.hashKey = response.data.data; 
+                    }
+                 })
+            }, 
         },
-        mounted() {
-
-            // $('#startDate').on('change', () => { 
-            //     this.tournamentData.tournament_start_date = $('#startDate').val() 
-            //     console.log("ff::",this.tournamentData.tournament_start_date)
-            // }
-            // )
+        beforeMount(){ 
+            this.getGenerateHashKey(); 
         }
     }
 </script>
