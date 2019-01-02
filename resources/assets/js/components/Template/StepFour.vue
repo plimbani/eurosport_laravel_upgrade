@@ -24,21 +24,53 @@
 							<div class="row">
 								<div class="col-6" v-for="(group, groupIndex) in round.groups">
 									<h6 class="font-weight-bold mb-0">{{ getGroupName(groupIndex, roundIndex, -1) }}</h6>
-									<p class="text-muted small mb-0">Teams play each other {{ group.teams_play_each_other }}</p>
+									<p class="text-muted small mb-0" v-if="group.type === 'round_robin'">Teams play each other {{ group.teams_play_each_other }}</p>
 									<ul class="list-unstyled mb-4">
 										<li v-if="group.type === 'round_robin'" v-for="(team, teamIndex) in group.teams">
 											<span v-if="roundIndex == 0">Team {{ teamIndex + 1 }}</span>
-											<span v-if="roundIndex > 0">{{ getGroupsWithPosition(team, group) }}</span>
+											<span v-if="roundIndex > 0">{{ getMatchDetail(team.position, team.position_type) }}</span>
 										</li>
 										<li v-if="group.type === 'placing_match'" v-for="(team, teamIndex) in group.teams">
-											<span v-if="roundIndex == 0">Team {{ teamIndex + 1 }}</span>
-											<span v-if="roundIndex > 0">{{ getGroupsWithPosition(team, group) }}</span>
+											<div v-if="teamIndex % 2 === 0">
+												<span v-if="roundIndex == 0">Team {{ teamIndex + 1 }}</span>
+												<span v-if="roundIndex > 0">{{ getMatchDetail(team.position, team.position_type) + ' vs ' + getMatchDetail(group.teams[teamIndex + 1].position, group.teams[teamIndex + 1].position_type) }}</span>
+											</div>
 										</li>
 									</ul>
 								</div>
 							</div>
 						</div>
-					</div>			
+					</div>
+					
+					
+					<div class="card mb-3" v-for="(round, roundIndex) in templateFormDetail.steptwo.rounds">
+						<div class="card-block">
+							<div class="row align-items-center">
+								<div class="col-12">
+									<h6 class="font-weight-bold">{{ getRoundName(roundIndex, -1) }}&nbsp;<span class="small">({{ round.no_of_teams }} items)</span></h6>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-6" v-for="(group, groupIndex) in round.groups">
+									<h6 class="font-weight-bold mb-0">{{ getGroupName(groupIndex, roundIndex, -1) }}</h6>
+									<p class="text-muted small mb-0" v-if="group.type === 'round_robin'">Teams play each other {{ group.teams_play_each_other }}</p>
+									<ul class="list-unstyled mb-4">
+										<li v-if="group.type === 'round_robin'" v-for="(team, teamIndex) in group.teams">
+											<span v-if="roundIndex == 0">Team {{ teamIndex + 1 }}</span>
+											<span v-if="roundIndex > 0">{{ getMatchDetail(team.position, team.position_type) }}</span>
+										</li>
+										<li v-if="group.type === 'placing_match'" v-for="(team, teamIndex) in group.teams">
+											<div v-if="teamIndex % 2 === 0">
+												<span v-if="roundIndex == 0">Team {{ teamIndex + 1 }}</span>
+												<span v-if="roundIndex > 0">{{ getMatchDetail(team.position, team.position_type) + ' vs ' + getMatchDetail(group.teams[teamIndex + 1].position, group.teams[teamIndex + 1].position_type) }}</span>
+											</div>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+
 					<div class="card mb-3">
 						<div class="card-block">
 							<div class="row align-items-center">
@@ -48,7 +80,9 @@
 							</div>
 							<div class="row">
 								<div class="col-12">
-									<p>Teams play eachother once</p>
+									<ul class="list-unstyled mb-4" v-for="(placing, placingIndex) in templateFormDetail.stepthree.placings">
+										<li><span>{{ getSuffixForPosition((placingIndex + 1)) + ' ' + getMatchDetail(placing.position, placing.position_type) }}</span></li>
+									</ul>
 								</div>
 							</div>
 						</div>
@@ -117,16 +151,6 @@
 			getGroupName(groupIndex, roundIndex, divisionIndex) {
 				return this.getGroupNameByRoundAndGroupIndex(groupIndex, roundIndex, divisionIndex);
 		    },
-		    getGroupsWithPosition(team, group) {
-		    	if(team.position) {
-		    		let divisionRoundGroupPosition = team.position.split(',');
-		    		let divisionIndex = parseInt(divisionRoundGroupPosition[0]);
-		    		let roundIndex = parseInt(divisionRoundGroupPosition[1]);
-		    		let groupIndex = parseInt(divisionRoundGroupPosition[2]);
-		    		let position = parseInt(divisionRoundGroupPosition[3]) + 1;
-		    		return this.getSuffixForPosition(position) + ' - ' +  this.getGroupNameByRoundAndGroupIndex(groupIndex, roundIndex, divisionIndex);
-		    	}
-		    },
 		    getSuffixForPosition(d) {
 		      	if(d>=11 && d<=13) return d +'th';
 		      	switch (d % 10) {
@@ -170,7 +194,43 @@
                 }
 
                 return 'Round ' + (this.templateFormDetail.steptwo.divisions[divisionIndex].start_round_count + roundIndex + 1);
-            },	    
+            },
+            getMatchDetail(teamPosition, positionType) {
+            	if(teamPosition) {
+			    	let vm = this;
+
+			    	let divisionRoundGroupPosition = teamPosition.split(',');
+		    		let divisionIndex = parseInt(divisionRoundGroupPosition[0]);
+		    		let roundIndex = parseInt(divisionRoundGroupPosition[1]);
+		    		let groupIndex = parseInt(divisionRoundGroupPosition[2]);
+		    		let position = parseInt(divisionRoundGroupPosition[3]) + 1;
+
+		    		let groupName = null;
+			    	let roundData = null;
+			    	if(divisionIndex === -1) {
+			    		roundData = this.templateFormDetail['steptwo'].rounds[roundIndex];
+			    	} else {
+			    		roundData = this.templateFormDetail['steptwo'].divisions[divisionIndex].rounds[roundIndex];
+			    	}
+			    	let groupData = roundData.groups[groupIndex];
+
+			    	if(groupData.type === 'round_robin') {
+			    		groupName = 'Group ' + this.getRoundRobinGroupName(roundData, groupIndex);
+			    		return this.getSuffixForPosition(position) + ' - ' +  groupName;
+			    	}
+
+			    	if(groupData.type === 'placing_match') {
+			    		groupName = 'PM ' + this.getPlacingMatchGroupName(roundData, groupIndex);
+			    		return (positionType.charAt(0).toUpperCase() + positionType.slice(1)) + ' ' + groupName + ' Match ' + position;
+			    	}
+			    }
+		    },
+		    getDivisions() {
+		    	let divisions = new Array();
+		    	divisions[-1]['rounds'] = new Array();
+		    	divisions[-1]['rounds'] = this.templateFormDetail.steptwo.rounds;
+		    	divisions.push(this.templateFormDetail.steptwo.divisions);
+		    },
         }
     }
 </script>

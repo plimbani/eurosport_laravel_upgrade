@@ -46,7 +46,7 @@
 		        		<div class="row">
 				        	<div class="col-md-3">
 				        		<label class="mb-0">
-				        			{{ (groupData.type === 'round_robin' ? 'Team ' + (teamIndex + 1) : (teamIndex/2 === 0) ? 'Home' : 'Away' )  }}
+				        			{{ (groupData.type === 'round_robin' ? 'Team ' + (teamIndex + 1) : ((teamIndex/2 === 0) ? 'Home' : 'Away') )  }}
 				        		</label>
 				        	</div>
 				        	<div class="col-md-9">
@@ -567,19 +567,28 @@
 		    							let divisionRoundGroupPositionTeam2 = team2.position.split(',');
 		    							let roundDataTeam1 = null;
 		    							let roundDataTeam2 = null;
-		    							if(divisionRoundGroupPositionTeam1[0] === '-1') {
-		    								roundDataTeam1 = vm.templateFormDetail['steptwo'].rounds[divisionRoundGroupPositionTeam1[1]];
-		    							} else {
-		    								roundDataTeam1 = vm.templateFormDetail['steptwo'].divisions[divisionRoundGroupPositionTeam1[0]].rounds[divisionRoundGroupPositionTeam1[1]];
+
+		    							if(team1.position) {
+		    								if(divisionRoundGroupPositionTeam1[0] === '-1') {
+			    								roundDataTeam1 = vm.templateFormDetail['steptwo'].rounds[divisionRoundGroupPositionTeam1[1]];
+			    							} else {
+			    								roundDataTeam1 = vm.templateFormDetail['steptwo'].divisions[divisionRoundGroupPositionTeam1[0]].rounds[divisionRoundGroupPositionTeam1[1]];
+			    							}
 		    							}
-		    							if(divisionRoundGroupPositionTeam2[0] === '-1') {
-		    								roundDataTeam2 = vm.templateFormDetail['steptwo'].rounds[divisionRoundGroupPositionTeam2[1]];
-		    							} else {
-		    								roundDataTeam2 = vm.templateFormDetail['steptwo'].divisions[divisionRoundGroupPositionTeam2[0]].rounds[divisionRoundGroupPositionTeam2[1]];
-		    							}
-		    							let groupName1 = this.getRoundRobinGroupName(roundDataTeam1, parseInt(divisionRoundGroupPositionTeam1[2]));
-		    							let groupName2 = this.getRoundRobinGroupName(roundDataTeam2, parseInt(divisionRoundGroupPositionTeam2[2]));
-		    							inBetween = parseInt(divisionRoundGroupPositionTeam1[3] + 1) + groupName1 + '-' + parseInt(divisionRoundGroupPositionTeam2[3] + 1) + groupName2;
+		    							
+		    							if(team2.position) {
+			    							if(divisionRoundGroupPositionTeam2[0] === '-1') {
+			    								roundDataTeam2 = vm.templateFormDetail['steptwo'].rounds[divisionRoundGroupPositionTeam2[1]];
+			    							} else {
+			    								roundDataTeam2 = vm.templateFormDetail['steptwo'].divisions[divisionRoundGroupPositionTeam2[0]].rounds[divisionRoundGroupPositionTeam2[1]];
+			    							}
+			    						}
+
+			    						if(roundDataTeam1 && roundDataTeam2) {
+			    							let groupName1 = this.getRoundRobinGroupName(roundDataTeam1, parseInt(divisionRoundGroupPositionTeam1[2]));
+			    							let groupName2 = this.getRoundRobinGroupName(roundDataTeam2, parseInt(divisionRoundGroupPositionTeam2[2]));
+			    							inBetween = parseInt(divisionRoundGroupPositionTeam1[3] + 1) + groupName1 + '-' + parseInt(divisionRoundGroupPositionTeam2[3] + 1) + groupName2;
+			    						}
 		    						}
 	    						}
 	    						matchCount++;
