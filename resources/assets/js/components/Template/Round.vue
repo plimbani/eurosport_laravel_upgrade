@@ -6,7 +6,7 @@
                 <label>Number of teams in round</label>
                 <select class="form-control ls-select2" v-model="roundData.no_of_teams" :disabled="isRoundDisabled" @change="onTeamChange()">
                     <option value="">Number of teams</option>
-                    <option v-for="n in 28" v-if="n >= 2" :value="n">{{ n }}</option>
+                    <option v-for="n in 60" v-if="n >= 2" :value="n">{{ n }}</option>
                 </select>
             </div>
             
