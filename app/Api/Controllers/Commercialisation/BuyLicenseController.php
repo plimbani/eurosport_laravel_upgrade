@@ -71,7 +71,7 @@ class BuyLicenseController extends BaseController
                             'success' => true,
                             'status' => Response::HTTP_OK,
                             'data' => $transaction,
-                            'error' => null,
+                            'error' => [],
                             'message' => 'You payment has been done successfully.'
                 ]);
             }
