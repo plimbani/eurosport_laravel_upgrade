@@ -18,7 +18,7 @@
         methods: {
             getPaymentDetails(){
                 axios.post(Constant.apiBaseUrl+'payment/response', this.paymentObj).then(response =>  {
-                        console.log("response::",response)
+                        // console.log("response::",response)
                         if (response.data.success) {
 //                            // console.log("response.data::",response.data.payment_details);
                         
@@ -38,7 +38,7 @@
             for(let key in tempObj){ 
                 this.paymentObj[key] = tempObj[key];
             }  
-            console.log('Payment ',this.paymentObj)
+            // console.log('Payment ',this.paymentObj)
             this.getPaymentDetails(); 
         }
     }
