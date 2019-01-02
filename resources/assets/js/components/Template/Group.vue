@@ -46,7 +46,7 @@
 		        		<div class="row">
 				        	<div class="col-md-3">
 				        		<label class="mb-0">
-				        			{{ (groupData.type === 'round_robin' ? 'Team ' + (teamIndex + 1) : (teamIndex/2 === 0) ? 'Home' : 'Away' )  }}
+				        			{{ (groupData.type === 'round_robin' ? 'Team ' + (teamIndex + 1) : ((teamIndex/2 === 0) ? 'Home' : 'Away') )  }}
 				        		</label>
 				        	</div>
 				        	<div class="col-md-9">
