@@ -7,7 +7,7 @@
 
         <input type="hidden" name="ORDERID" v-model="orderId">
 
-        <input type="hidden" name="AMOUNT" value="2000">
+        <input type="hidden" name="AMOUNT" v-model="amount">
 
         <input type="hidden" name="CURRENCY" value="EUR">
 
@@ -167,6 +167,7 @@
               shaSignIn:"", 
               orderId:"", 
               pspid:"", 
+              amount:"",
             }
         },
         beforeRouteEnter(to, from, next) {
@@ -194,12 +195,13 @@
                     this.tournamentData.tournament_start_date = moment(this.tournamentData.tournament_start_date).format('MM/DD/YYYY')
                     this.tournamentData.tournament_end_date = moment(this.tournamentData.tournament_end_date).format('MM/DD/YYYY')
                     axios.post(Constant.apiBaseUrl+'buy-license', this.tournamentData).then(response =>  {
-                         if (response.data.success) {
-                            // console.log("response.data::",response.data.payment_details);
+                            if (response.data.success) {
+//                            // console.log("response.data::",response.data.payment_details);
                             this.shaSignIn = response.data.payment_details.shaSignIn;
                             this.orderId = response.data.payment_details.orderId;
                             this.pspid = response.data.payment_details.pspid;
-                            
+                            this.amount = this.tournamentData.total_amount;
+//                            
                             let self = this;
                             setTimeout(function(){
                                 // console.log("after timeout")

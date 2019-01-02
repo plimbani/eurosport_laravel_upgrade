@@ -84,7 +84,7 @@ class BuyLicenseController extends BaseController
     {
         $string = 'AMOUNT=2000b709e0ae-ab5b-4a78-bfc7-0bd54612d622CURRENCY=EURb709e0ae-ab5b-4a78-bfc7-0bd54612d622ORDERID=ORD22b709e0ae-ab5b-4a78-bfc7-0bd54612d622PSPID=EasymatchmanagerQAb709e0ae-ab5b-4a78-bfc7-0bd54612d622';
         $shaSign = hash('sha512', $string);
-
+        echo $shaSign;die;
         return response()->json([
             'success' => true,
             'status' => Response::HTTP_OK,
