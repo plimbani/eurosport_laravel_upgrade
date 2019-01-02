@@ -2,7 +2,7 @@
 
 namespace Laraspace\Api\Contracts\Commercialisation;
 
-interface BuyLicenseContract
+interface TransactionContract
 {
     /*
      * Buy license 
@@ -11,7 +11,7 @@ interface BuyLicenseContract
      * @return view
      */
 
-    public function buyLicense();
+    public function paymentResponse($data);
 }
 
 ?>

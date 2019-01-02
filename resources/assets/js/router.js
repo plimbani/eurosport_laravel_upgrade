@@ -135,43 +135,8 @@ const routes = [
                 name: 'welcome'
             },
         ]
-    },*/
-
-    {
-        path: '/thankyou', component: LayoutThankyou,
-        meta: { requiresAuth: true },
-        children: [
-            {
-                path: '/',
-                component: Thankyou,
-                name: 'thankyou'
-            }
-        ]
-    },
-     {
-        // path: '/profile/:id', component: LayoutLogin,
-        path: '/profile', component: LayoutHorizontal,
-        meta: { requiresAuth: true },
-        children: [
-            {
-                path: '/',
-                component: Profile,
-                name: 'profile'
-            }
-        ]
-    },
-     
-     {
-        path: '/buylicense', component: LayoutThankyou,
-        meta: { requiresAuth: true },
-        children: [
-            {
-                path: '/',
-                component: Buylicense,
-                name: 'buylicense'
-            }
-        ]
-    },
+    },*/ 
+    
     // Admin Backend Routes For Tournaments
      {
         path: '/admin', component: LayoutHorizontal,
@@ -319,7 +284,7 @@ const routes = [
     */
 
     {
-        path: '/', component: LayoutLogin,
+        path: '/', component: LayoutCommercialisation,
         children: [
             {
                 path: 'login/:status*',
@@ -344,6 +309,41 @@ const routes = [
             }
         ]
     },    
+    {
+        path: '/thankyou', component: LayoutCommercialisation,
+        meta: { requiresAuth: true },
+        children: [
+            {
+                path: '/',
+                component: Thankyou,
+                name: 'thankyou'
+            }
+        ]
+    },
+     {
+        // path: '/profile/:id', component: LayoutLogin,
+        path: '/profile', component: LayoutCommercialisation,
+        meta: { requiresAuth: true },
+        children: [
+            {
+                path: '/',
+                component: Profile,
+                name: 'profile'
+            }
+        ]
+    },
+     
+     {
+        path: '/buylicense', component: LayoutCommercialisation,
+        meta: { requiresAuth: true },
+        children: [
+            {
+                path: '/',
+                component: Buylicense,
+                name: 'buylicense'
+            }
+        ]
+    },
 
     // DEFAULT ROUTE
     {   path: '*', component : NotFoundPage }
