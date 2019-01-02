@@ -10,49 +10,53 @@
             @extend .font-weight-bold;
         }
     }
-
-    .input-group-addon {
-        border-color: $theme-input-border-color;
+    
+    @at-root {
+        .input-group-addon {
+            border-color: $theme-input-border-color;
+        }
     }
 
-    .form-control {
-        box-shadow: none;
-        border-color: $theme-input-border-color;
-        font-size: $font-size-base * 1.125;
-        padding: $theme-input-padding-y $theme-input-padding-x;
-        font-family: $secondary-font-family;
+    @at-root {
+        .form-control {
+            box-shadow: none;
+            border-color: $theme-input-border-color;
+            font-size: $font-size-base * 1.125;
+            padding: $theme-input-padding-y $theme-input-padding-x;
+            font-family: $secondary-font-family;
 
-        &::-webkit-input-placeholder {
-            color: $input-color;
-        }
-
-        &::-moz-placeholder {
-            color: $input-color;
-        }
-
-        &:-ms-input-placeholder {
-            color: $input-color;
-        }
-
-        &:-moz-placeholder {
-            color: $input-color;
-        }
-
-        &:focus {
             &::-webkit-input-placeholder {
-                color: transparent;
+                color: $input-color;
             }
 
             &::-moz-placeholder {
-                color: transparent;
+                color: $input-color;
             }
 
             &:-ms-input-placeholder {
-                color: transparent;
+                color: $input-color;
             }
 
             &:-moz-placeholder {
-                color: transparent;
+                color: $input-color;
+            }
+
+            &:focus {
+                &::-webkit-input-placeholder {
+                    color: transparent;
+                }
+
+                &::-moz-placeholder {
+                    color: transparent;
+                }
+
+                &:-ms-input-placeholder {
+                    color: transparent;
+                }
+
+                &:-moz-placeholder {
+                    color: transparent;
+                }
             }
         }
     }
