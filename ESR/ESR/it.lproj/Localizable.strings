@@ -31,6 +31,64 @@
 "string_no_league_data" = "Nessun dato serie disponibile";
 "string_no_match_data" = "Nessuna partita disponibile";
 
+"View full league table"="Vedi tabella serie completa";
+"View all club matches"="Vedi tutte le partite club";
+"is the winner"="è il vincitore";
+"Game information"="Informazioni gioco";
+"GROUP"="GRUPPO";
+"PLACING MATCHES SUMMARY"="SINTESI PARTITE PIAZZAMENTO";
+"Elimination"="Eliminazione";
+"Round Robin"="Round-robin";
+
+"Matches"="Partite";
+"Days"="Giorni";
+"Hours"="Ore";
+"Seconds"="Minuti";
+"Minutes"="Secondi";
+
+//Date and Time
+"January"="Gennaio";
+"February"="Febbraio";
+"March"="Marzo";
+"April"="Aprile";
+"May"="Maggio";
+"June"="Giugno";
+"July"="Luglio";
+"August"="Agosto";
+"September"="Settembre";
+"October"="Ottobre";
+"November"="Novembre";
+"December"="Dicembre";
+
+//Team Page
+"TEAMS"="TEAM";
+"CLUBS"="CLUB";
+"CATEGORY"="CATEGORIA";
+"GROUPS"="GRUPPI";
+"Search clubs"="Cerca club";
+"Search age category"="Cerca categoria d'età";
+"Search groups"="Cerca gruppi";
+
+//Team Listing
+"TEAM"="TEAM";
+
+//Settings
+"Profile"="Profilo";
+"Notifications & sounds"="Notifiche & suoni";
+"Help"="Aiuto";
+"Privacy & terms"="Privacy & termini";
+"Log out"="Logout";
+
+//Profile Page
+"English"="Inglese";
+"French"="Francese";
+"Italian"="Italiano";
+"German"="Tedesco";
+"Dutch"="Olandese";
+"Czech"="Ceco";
+"Danish"="Danese";
+"Polish"="Polacco";
+
 "title_profile"                             = "PROFILE";
 "title_notification_sound"                  = "NOTIFICATIONS & SOUNDS";
 "title_privacy_terms"                       = "PRIVACY & TERMS";

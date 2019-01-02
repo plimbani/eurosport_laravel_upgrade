@@ -31,6 +31,65 @@
 "string_no_league_data" = "Ingen ligadata fundet";
 "string_no_match_data" = "Ingen kampe fundet";
 
+"View full league table"="Se hele kampoversigten";
+"View all club matches"="Se alle klubkampe";
+"is the winner"="er vinder";
+"Game information"="Kampinformation";
+"GROUP"="GRUPPE";
+"PLACING MATCHES SUMMARY"="RESUMÉ KAMPADRESSER";
+"Elimination"="Elimination";
+"Round Robin"="Round Robin turnering";
+
+"Matches"="Kampe";
+"Days"="Dage";
+"Hours"="Timer";
+"Seconds"="Sekunder";
+"Minutes"="Minutter";
+
+//Date and Time
+"January"="Januar";
+"February"="Februar";
+"March"="Marts";
+"April"="April";
+"May"="Maj";
+"June"="Juni";
+"July"="Juli";
+"August"="August";
+"September"="September";
+"October"="Oktober";
+"November"="November";
+"December"="December";
+
+//Team Page
+"TEAMS"="HOLD";
+"CLUBS"="KLUBBER";
+"CATEGORY"="KATEGORI";
+"GROUPS"="GRUPPER";
+"Search clubs"="Søg klubber";
+"Search age category"="Søg aldersgrupper";
+"Search groups"="Søg grupper";
+
+//Team Listing
+"TEAM"="HOLD";
+
+//Settings
+"Profile"="Profil";
+"Notifications & sounds"="Meldinger og lyde";
+"Help"="Hjælp";
+"Privacy & terms"="Privacy & betingelser";
+"Log out"="Log ud";
+
+
+//Profile Page
+"English"="Engelsk";
+"French"="Fransk";
+"Italian"="Italiensk";
+"German"="Tysk";
+"Dutch"="Hollandsk";
+"Czech"="Tjekkisk";
+"Danish"="Dansk";
+"Polish"="Polsk";
+
 "title_profile"                             = "PROFILE";
 "title_notification_sound"                  = "NOTIFICATIONS & SOUNDS";
 "title_privacy_terms"                       = "PRIVACY & TERMS";

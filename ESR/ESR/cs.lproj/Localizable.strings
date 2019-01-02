@@ -31,6 +31,64 @@
 "string_no_league_data" = "Nejsou k dispozici data o lize";
 "string_no_match_data" = "Nejsou k dispozici žádné zápasy";
 
+"View full league table"="Zobrazit celou ligovou tabulku";
+"View all club matches"="Zobrazit všechny zápasy klubu";
+"is the winner"="je vítězem";
+"Game information"="Informace o hře";
+"GROUP"="SKUPINA";
+"PLACING MATCHES SUMMARY"="PŘEHLED ZÁPASŮ";
+"Elimination"="Eliminace";
+"Round Robin"="Round Robin";
+
+"Matches"="Zápasy";
+"Days"="Dny";
+"Hours"="Hodiny";
+"Seconds"="Sekundy";
+"Minutes"="Minuty";
+
+//Date and Time
+"January"="Leden";
+"February"="Únor";
+"March"="Březen";
+"April"="Duben";
+"May"="Květen";
+"June"="Červen";
+"July"="Červenec";
+"August"="Srpen";
+"September"="Září";
+"October"="Říjen";
+"November"="Listopad";
+"December"="Prosinec";
+
+//Team Page
+"TEAMS"="TÝMY";
+"CLUBS"="KLUBY";
+"CATEGORY"="KATEGORIE";
+"GROUPS"="SKUPINY";
+"Search clubs"="Hledat kluby";
+"Search age category"="Hledat věkovou kategorii";
+"Search groups"="Hledat skupiny";
+
+//Team Listing
+"TEAM"="TÝM";
+
+//Settings
+"Profile"="Profil";
+"Notifications & sounds"="Upozornění a zvuky";
+"Help"="Nápověda";
+"Privacy & terms"="Ochrana soukromí a podmínky";
+"Log out"="Odhlásit";
+
+//Profile Page
+"English"="Angličtina";
+"French"="Francouzština";
+"Italian"="Italština";
+"German"="Němčina";
+"Dutch"="Holandština";
+"Czech"="Čeština";
+"Danish"="Dánština";
+"Polish"="Polština";
+
 "title_profile"                             = "PROFILE";
 "title_notification_sound"                  = "NOTIFICATIONS & SOUNDS";
 "title_privacy_terms"                       = "PRIVACY & TERMS";
