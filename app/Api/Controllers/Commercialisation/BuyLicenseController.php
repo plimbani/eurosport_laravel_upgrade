@@ -25,9 +25,6 @@ class BuyLicenseController extends BaseController
     {
         $this->transactionObj = $transactionSerObj;
         $this->tournamentObj = new TournamentRepository();
-        $this->ingenicoShaPassPhrase = 'b709e0ae-ab5b-4a78-bfc7-0bd54612d622';
-        $this->ingenicoShaAlgo = 'sha512';
-        $this->ingenicoPspid = 'EasymatchmanagerQA';
     }
 
     /**
@@ -42,13 +39,13 @@ class BuyLicenseController extends BaseController
             $tournamentRes = $this->tournamentObj->addTournamentDetails($requestData, 'api');
             if (FALSE !== $tournamentRes) {
                 $orderId = 'ORDER-' . $tournamentRes->id . '-' . time();
-                $shaInString = 'AMOUNT=' . $requestData['total_amount'] . $this->ingenicoShaPassPhrase . 'CURRENCY=EUR' . $this->ingenicoShaPassPhrase . 'ORDERID=' . $orderId . $this->ingenicoShaPassPhrase . 'PSPID=' . $this->ingenicoPspid . $this->ingenicoShaPassPhrase;
-                $shaSign = hash('sha512', $shaInString);
+                $shaInString = 'AMOUNT=' . $requestData['total_amount'] . config('app.SHA_IN_PASS_PHRASE') . 'CURRENCY=EUR' . config('app.SHA_IN_PASS_PHRASE') . 'ORDERID=' . $orderId . config('app.SHA_IN_PASS_PHRASE') . 'PSPID=' . config('app.PSPID') . config('app.SHA_IN_PASS_PHRASE');
+                $shaSign = hash(config('app.SHA_ALGO'), $shaInString);
 
                 return response()->json([
                             'success' => true,
                             'status' => Response::HTTP_OK,
-                            'payment_details' => ['shaSignIn' => $shaSign, 'pspid' => $this->ingenicoPspid, 'orderId' => $orderId],
+                            'payment_details' => ['shaSignIn' => $shaSign, 'pspid' => config('app.PSPID'), 'orderId' => $orderId],
                             'data' => $tournamentRes,
                             'error' => [],
                             'message' => 'Tournament has been added successfully.',
