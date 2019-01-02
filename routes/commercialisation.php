@@ -25,8 +25,9 @@ Route::group(['middleware' => 'jwt.auth'], function() {
     Route::post('v1/buy-license', '\Laraspace\Api\Controllers\Commercialisation\BuyLicenseController@buyLicense');
     Route::get('v1/generateHashKey', '\Laraspace\Api\Controllers\Commercialisation\BuyLicenseController@generateHashKey');
 });
+
 //Payment response callback URL
-Route::get('payment/response', '\Laraspace\Api\Controllers\Commercialisation\BuyLicenseController@paymentResponse');
+Route::post('v1/payment/response', '\Laraspace\Api\Controllers\Commercialisation\BuyLicenseController@paymentResponse');
 
 
 
