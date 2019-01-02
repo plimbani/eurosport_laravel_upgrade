@@ -7,6 +7,7 @@ use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvi
 
 class RouteServiceProvider extends ServiceProvider
 {
+
     /**
      * This namespace is applied to your controller routes.
      *
@@ -23,7 +24,7 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        \Route::pattern('domain', '[a-z0-9.\-]+'); 
+        \Route::pattern('domain', '[a-z0-9.\-]+');
 
         parent::boot();
     }
@@ -37,9 +38,9 @@ class RouteServiceProvider extends ServiceProvider
     {
         $this->mapApiRoutes();
 
+        $this->mapCommercialisationApiRoutes();
+        
         $this->mapWebRoutes();
-
-        //
     }
 
     /**
@@ -52,8 +53,8 @@ class RouteServiceProvider extends ServiceProvider
     protected function mapWebRoutes()
     {
         Route::middleware('web')
-            ->namespace($this->namespace)
-            ->group(base_path('routes/web.php'));
+                ->namespace($this->namespace)
+                ->group(base_path('routes/web.php'));
     }
 
     /**
@@ -65,9 +66,24 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function mapApiRoutes()
     {
+        Route::prefix('api1')
+                ->middleware('api')
+                ->namespace($this->namespace)
+                ->group(base_path('routes/api.php'));
+    }
+
+    /**
+     * Define the "api" routes for Commercialisation.
+     *
+     * These routes are typically stateless.
+     *
+     * @return void
+     */
+    protected function mapCommercialisationApiRoutes()
+    {
         Route::prefix('api')
-            ->middleware('api')
-            ->namespace($this->namespace)
-            ->group(base_path('routes/api.php'));
+                ->middleware(['api'])
+                ->namespace($this->namespace)
+                ->group(base_path('routes/commercialisation.php'));
     }
 }
