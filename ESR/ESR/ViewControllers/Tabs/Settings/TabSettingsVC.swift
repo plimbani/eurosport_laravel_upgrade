@@ -19,6 +19,10 @@ class TabSettingsVC: SuperViewController {
         initialize()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        table.reloadData()
+    }
+    
     func initialize() {
         if let url = Bundle.main.url(forResource: "SettingsList", withExtension: "plist") {
             fieldList = NSMutableArray(contentsOf: url)!
@@ -76,6 +80,16 @@ extension TabSettingsVC: UITableViewDataSource, UITableViewDelegate {
             if let title = record.value(forKey: "title") as? String {
                 if !title.isEmpty {
                     cell!.textLabel!.text = title
+                    
+                    if indexPath.row == 0 {
+                        cell!.textLabel!.text = String.localize(key: "Profile")
+                    } else if indexPath.row == 1 {
+                        cell!.textLabel!.text = String.localize(key: "Notifications & sounds")
+                    } else if indexPath.row == 2 {
+                        cell!.textLabel!.text = String.localize(key: "Privacy & terms")
+                    } else if indexPath.row == 3 {
+                        cell!.textLabel!.text = String.localize(key: "Log out")
+                    }
                 }
             }
             

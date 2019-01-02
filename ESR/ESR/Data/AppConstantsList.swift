@@ -234,7 +234,7 @@ extension Date {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MMMM"
         let strMonth = dateFormatter.string(from: self)
-        return strMonth
+        return String.localize(key: strMonth)
     }
 }
 

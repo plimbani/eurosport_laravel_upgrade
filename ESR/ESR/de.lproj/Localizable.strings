@@ -33,7 +33,7 @@
 
 "View full league table"="Rangdaten anzeigen";
 "View all club matches"="Alle Vereinsspiele anzeigen";
-"is the winner"="ist der Sieger";
+"string_is_the_winner"="ist der Sieger";
 "Game information"="Spielinformationen";
 "GROUP"="GRUPPEN";
 "PLACING MATCHES SUMMARY"="ZUSAMMENFASSUNG DER PLATZIERUNGSSPIELE";
@@ -122,7 +122,7 @@
 
 //Strings
 "string_no_internet"                    = "The internet connection appears to be offline.";
-"string_is_the_winner"                  = "is the winner";
+
 "string_match_id"                       = "Match ID:";
 "string_placing"                        = "Placing:";
 "string_na"                             = "N/A";

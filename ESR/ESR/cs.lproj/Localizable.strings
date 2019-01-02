@@ -33,7 +33,7 @@
 
 "View full league table"="Zobrazit celou ligovou tabulku";
 "View all club matches"="Zobrazit všechny zápasy klubu";
-"is the winner"="je vítězem";
+"string_is_the_winner"="je vítězem";
 "Game information"="Informace o hře";
 "GROUP"="SKUPINA";
 "PLACING MATCHES SUMMARY"="PŘEHLED ZÁPASŮ";
@@ -122,7 +122,7 @@
 
 //Strings
 "string_no_internet"                    = "The internet connection appears to be offline.";
-"string_is_the_winner"                  = "is the winner";
+
 "string_match_id"                       = "Match ID:";
 "string_placing"                        = "Placing:";
 "string_na"                             = "N/A";

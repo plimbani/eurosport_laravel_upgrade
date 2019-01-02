@@ -32,6 +32,8 @@ class ProfileVC: SuperViewController {
     var selectedTournamentId = NULL_ID
     var selectedLocale = NULL_STRING
     
+    
+    
     // var isTournament = false
     
     override func viewDidLoad() {
@@ -189,6 +191,10 @@ class ProfileVC: SuperViewController {
         btnUpdate.backgroundColor = UIColor.btnYellow
     }
     
+    func getRefreshedLanguageList() -> [String] {
+        return [String.localize(key: "English"), String.localize(key: "French"), String.localize(key: "Italian"), String.localize(key: "German"), String.localize(key: "Dutch"), String.localize(key: "Czech"), String.localize(key: "Danish"), String.localize(key: "Polish")]
+    }
+    
     @objc func textFieldDidChange(textField: UITextField){
         updateUpdateBtn()
     }
@@ -214,9 +220,11 @@ extension ProfileVC: PickerHandlerViewDelegate {
 
             lblLanguage.text = title
             lblLanguage.textColor = .black
+        
+            let array = getRefreshedLanguageList()
             
-            for i in 0..<ApplicationData.languageList.count{
-                if title == ApplicationData.languageList[i] {
+            for i in 0..<array.count{
+                if title == array[i] {
                     selectedLocale = ApplicationData.localeKeyList[i]
                     break
                 }
@@ -311,24 +319,20 @@ extension ProfileVC : UITableViewDataSource, UITableViewDelegate {
                             labelSelectionCell.reloadCell()
                             cell = labelSelectionCell
                             cellList.add(cell)
+                            
+                            lblLanguage = labelSelectionCell.lblTitle
+                        lblLanguage.textColor = .black
+                            
+                            let localeValues = ApplicationData.sharedInstance().getSelectedLocale()
+                            
+                            if !localeValues.0.isEmpty {
+                                lblLanguage.text = localeValues.1
+                                selectedLocale = localeValues.1
+                            } else {
+                                lblLanguage.text = getRefreshedLanguageList()[0]
+                                selectedLocale = getRefreshedLanguageList()[0]
+                            }
                         
-                            /*if indexPath.row == 3 {
-                                lblTournament = labelSelectionCell.lblTitle
-                                lblTournament.textColor = .black
-                            } else if indexPath.row == 4 {*/
-                                lblLanguage = labelSelectionCell.lblTitle
-                                lblLanguage.textColor = .black
-                                
-                                let localeValues = ApplicationData.sharedInstance().getSelectedLocale()
-                                
-                                if !localeValues.0.isEmpty {
-                                    lblLanguage.text = localeValues.1
-                                    selectedLocale = localeValues.1
-                                } else {
-                                    lblLanguage.text = ApplicationData.languageList[0]
-                                    selectedLocale = ApplicationData.localeKeyList[0]
-                                }
-                           // }
                         default:
                             print("default")
                     }
@@ -347,14 +351,7 @@ extension ProfileVC : UITableViewDataSource, UITableViewDelegate {
                 if cellType == .LabelSelectionCell {
                     self.view.endEditing(true)
                     
-//                    if indexPath.row == 3 {
-//                        pickerHandlerView.titleList = tournamentTitleList
-//                        isTournament = true
-//                    } else {
-                        pickerHandlerView.titleList = ApplicationData.languageList
-                        // isTournament = false
-                    //}
-                    
+                    pickerHandlerView.titleList = getRefreshedLanguageList()
                     pickerHandlerView.reloadPickerView()
                     pickerHandlerView.show()
                 }

@@ -38,6 +38,11 @@ class TabTournamentVC: SuperViewController {
     
     var tournamentDetailsView: TournamentDetailsView!
     
+    @IBOutlet var lblDays: UILabel!
+    @IBOutlet var lblHours: UILabel!
+    @IBOutlet var lblMinutes: UILabel!
+    @IBOutlet var lblSeconds: UILabel!
+    
     var seconds = 60
     var timer: Timer?
     var isTimerRunning = false
@@ -71,6 +76,11 @@ class TabTournamentVC: SuperViewController {
     
     func initialize() {
         self.navigationController?.isNavigationBarHidden = true
+        
+        lblDays.text = String.localize(key: "Days")
+        lblHours.text = String.localize(key: "Hours")
+        lblMinutes.text = String.localize(key: "Minutes")
+        lblSeconds.text = String.localize(key: "Seconds")
         
         daysProgressView = getProgressView(maxValue: 30)
         hoursProgressView = getProgressView(maxValue: 24)

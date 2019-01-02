@@ -34,7 +34,7 @@
 
 "View full league table"="View full league table";
 "View all club matches"="View all club matches";
-"is the winner"="is the winner";
+"string_is_the_winner"="is the winner";
 "Game information"="Game information";
 "GROUP"="GROUP";
 "PLACING MATCHES SUMMARY"="PLACING MATCHES SUMMARY";
@@ -129,7 +129,7 @@
 //Strings
 "string_no_internet"                    = "The internet connection appears to be offline.";
 
-"string_is_the_winner"                  = "is the winner";
+
 "string_match_id"                       = "Match ID:";
 "string_placing"                        = "Placing:";
 "string_na"                             = "N/A";

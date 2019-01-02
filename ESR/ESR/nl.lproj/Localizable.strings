@@ -33,7 +33,7 @@
 
 "View full league table"="Bekijk volledige stand";
 "View all club matches"="Bekijk alle clubwedstrijden";
-"is the winner"="is de winnaar";
+"string_is_the_winner"="is de winnaar";
 "Game information"="Spelinformatie";
 "GROUP"="GROEP";
 "PLACING MATCHES SUMMARY"="SAMENVATTING PLAATSINGSWEDSTRIJDEN";
@@ -122,7 +122,7 @@
 
 //Strings
 "string_no_internet"                    = "The internet connection appears to be offline.";
-"string_is_the_winner"                  = "is the winner";
+
 "string_match_id"                       = "Match ID:";
 "string_placing"                        = "Placing:";
 "string_na"                             = "N/A";

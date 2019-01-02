@@ -365,6 +365,10 @@
                         <outlet property="heightConstraintLblNoInternet" destination="kEP-e1-G4j" id="cBS-4a-Jj8"/>
                         <outlet property="hoursProgressViewContainer" destination="s69-de-w6d" id="Eij-wn-k9t"/>
                         <outlet property="imageNavigationBar" destination="QPF-BZ-bk6" id="21R-hV-yg4"/>
+                        <outlet property="lblDays" destination="czc-ft-iNj" id="2Na-82-X0a"/>
+                        <outlet property="lblHours" destination="ln8-jQ-afl" id="Y0a-IN-klZ"/>
+                        <outlet property="lblMinutes" destination="Jjr-Rx-t9E" id="mpk-wB-tOa"/>
+                        <outlet property="lblSeconds" destination="xKb-cn-Xwc" id="f2O-6o-jsG"/>
                         <outlet property="lblSelectedTournamentName" destination="9gU-qw-U4Q" id="9Nn-UA-NCM"/>
                         <outlet property="lblTournamentDate" destination="J09-P3-CZO" id="MD6-LL-pg2"/>
                         <outlet property="lblTournamentName" destination="pBw-zu-nWs" id="rcm-ue-o8D"/>

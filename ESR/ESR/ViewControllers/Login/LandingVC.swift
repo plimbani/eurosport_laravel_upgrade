@@ -52,8 +52,11 @@ class LandingVC: SuperViewController {
             parameters["email"] = email
             parameters["password"] = password
             
+            self.view.showProgressHUD()
+            
             ApiManager().login(parameters, success: { result in
                 DispatchQueue.main.async {
+                    self.view.hideProgressHUD()
                     if let token = result.value(forKey: "token") as? String {
                         USERDEFAULTS.set(token, forKey: kUserDefaults.token)
                     }

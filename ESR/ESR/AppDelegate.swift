@@ -183,8 +183,6 @@ extension AppDelegate: MessagingDelegate {
         // TODO: If necessary send token to application server.
         // Note: This callback is fired at each app startup and whenever a new token is generated.
     }
-    
-    
 }
 
 extension AppDelegate: UNUserNotificationCenterDelegate {
@@ -195,24 +193,21 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     
    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
     
-        if let dic = userInfo["aps"] as? NSDictionary{
-            if let alertMessage = dic.value(forKey: "alert") as? String {
+        if let dic = userInfo["aps"] as? NSDictionary {
+            if let alertMessage = dic.value(forKey: "alert") as? NSDictionary {
                 if application.applicationState == .active {
-                    let alert = UIAlertController(title: dic.value(forKey: "title") as! String, message: alertMessage, preferredStyle: .alert)
+                    let alert = UIAlertController(title: alertMessage.value(forKey:"title") as? String, message: alertMessage.value(forKey: "body") as? String, preferredStyle: .alert)
                     alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
                         switch action.style{
-                        case .default:
-                            print("default")
-                            
-                        case .cancel:
-                            print("cancel")
-                            
-                        case .destructive:
-                            print("destructive")
-                            
-                            
+                            case .default:
+                                print("default")
+                            case .cancel:
+                                print("cancel")
+                            case .destructive:
+                                print("destructive")
                         }}))
-                    alert.show(alert, sender: self)
+                    
+                    self.window?.rootViewController?.present(alert, animated: true, completion: nil)
                 }
             }
         }
