@@ -327,24 +327,3 @@ $api->version('v1', function ($api) {
 
     $api->post('tournament/getFilterDropDownData', 'Laraspace\Api\Controllers\TournamentController@getFilterDropDownData');
 });
-
-//Front-end Register API call
-Route::post('/v1/commercialisation/thankyou', '\Laraspace\Api\Controllers\Commercialisation\RegisterController@register')->name("commerialisation.thankyou");
-Route::get('/v1/country/list', '\Laraspace\Api\Controllers\CountryController@getList')->name("country.list");
-
-Route::group(['middleware' => 'jwt.auth'], function() {
-    Route::get('v1/user/get-details/', '\Laraspace\Api\Controllers\UserController@getDetails')->name("user.details");
-    Route::post('v1/user/update/', '\Laraspace\Api\Controllers\UserController@updateUser')->name("user.update");
-
-//    $api->post('tournament/details/add', 'Laraspace\Api\Controllers\TournamentController@addTournamentDetails');
-    Route::post('v1/buy-license', '\Laraspace\Api\Controllers\Commercialisation\BuyLicenseController@buyLicense');
-    Route::get('v1/generateHashKey', '\Laraspace\Api\Controllers\Commercialisation\BuyLicenseController@generateHashKey');
-
-    //Payment response callback URL
-    Route::post('v1/payment/response', '\Laraspace\Api\Controllers\Commercialisation\BuyLicenseController@paymentResponse');
-});
-
-
-
-
-

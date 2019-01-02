@@ -67,10 +67,16 @@ class BuyLicenseController extends BaseController
         try {
             $transaction = $this->transactionObj->paymentResponse($request->all());
             if (FALSE !== $transaction) {
-                return redirect()->route('commerialisation.thankyou');
+                return response()->json([
+                            'success' => true,
+                            'status' => Response::HTTP_OK,
+                            'data' => $transaction,
+                            'error' => null,
+                            'message' => 'You payment has been done successfully.'
+                ]);
             }
         } catch (\Exception $ex) {
-            
+            return response()->json(['success' => false, 'status' => Response::HTTP_UNPROCESSABLE_ENTITY, 'data' => [], 'error' => [], 'message' => 'Something went wrong.']);
         }
     }
 
@@ -81,13 +87,14 @@ class BuyLicenseController extends BaseController
     {
         $string = 'AMOUNT=2000b709e0ae-ab5b-4a78-bfc7-0bd54612d622CURRENCY=EURb709e0ae-ab5b-4a78-bfc7-0bd54612d622ORDERID=ORD22b709e0ae-ab5b-4a78-bfc7-0bd54612d622PSPID=EasymatchmanagerQAb709e0ae-ab5b-4a78-bfc7-0bd54612d622';
         $shaSign = hash('sha512', $string);
-        echo $shaSign;die;
+        echo $shaSign;
+        die;
         return response()->json([
-            'success' => true,
-            'status' => Response::HTTP_OK,
-            'data' => $shaSign,
-            'error' => [],
-            'message' => 'Hash Key Genreated successfully.'
+                    'success' => true,
+                    'status' => Response::HTTP_OK,
+                    'data' => $shaSign,
+                    'error' => [],
+                    'message' => 'Hash Key Genreated successfully.'
         ]);
     }
 }
