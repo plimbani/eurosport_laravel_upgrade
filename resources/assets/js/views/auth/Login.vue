@@ -33,7 +33,7 @@
                         <div class="row">
                             <div class="col-lg-5 col-md-6">
                                 <div class="form-group">
-                                    <button class="btn btn-success btn-block">{{$lang.login_button}}</button>
+                                    <button class="btn btn-success btn-block" :disabled="disabled">{{$lang.login_button}}</button>
                                 </div>
                             </div>
                         </div>
@@ -72,6 +72,7 @@
 </template>
 <script type="text/babel">
     import Auth from '../../services/auth'
+     import Ls from '../../services/ls'
 
     export default {
         data() {
@@ -81,17 +82,41 @@
                     password: '',
                     remember: '',
                     forgotpassword: 0
-                }
+                },
+                disabled:false
             }
         },
         methods: {
             validateBeforeSubmit(e){
+
                 this.$validator.validateAll();
 
                 if (!this.errors.any()) {
-                    Auth.login(this.loginData).then(() => {
-                         this.$router.push({'name':'welcome'})
-                    })
+                    this.disabled = true;
+                    return axios.post('/api/auth/login', this.loginData).then(response =>  {
+                        this.disabled = false;
+                        Ls.set('auth.token',response.data.token)
+                        // We set Email Over here
+                        Ls.set('email',loginData.email)
+                        this.$router.push({'name':'welcome'})
+
+                    }).catch(error => {
+                        this.disabled = false;
+                        if (error.response.status == 401) {
+                            toastr['error']('Invalid credentials', 'Error');
+                            Ls.remove('auth.token')
+                            Ls.remove('email')
+                        }
+                        else {
+                            // Something happened in setting up the request that triggered an Error
+                        }
+                    });
+                    // Auth.login(this.loginData).then(() => {
+                        
+                    //      this.$router.push({'name':'welcome'})
+                    // })
+
+                    
                 }
             },
             forgotPasswordOpen() {
