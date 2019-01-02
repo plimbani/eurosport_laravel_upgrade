@@ -1,53 +1,88 @@
 <template>
     <form action="" id="profileUpdateForm" method="post" @submit.prevent="updateProfile">
-        <!-- {{csrf_field()}} -->
-        <h3>Update Profile</h3> 
-        <div :class="{'form-group' : true }">
-            <label>Your Name</label>
-            <input type="text" class="form-control form-control-danger" placeholder="First Name" id = "first_name" name="first_name" v-model="userProfileDetail.first_name" v-validate="{ rules: { required: true } }">
-             <span class="help is-danger" v-show="errors.has('first_name')">The first name field is required.</span>
-            <input type="text" class="form-control form-control-danger" placeholder="Sur Name" id = "last_name" name="last_name" v-model="userProfileDetail.last_name" v-validate="{ rules: { required: true } }">
-            <span class="help is-danger" v-show="errors.has('last_name')">The last name field is required.</span>
-        </div>
-        <div :class="{'form-group' : true , 'has-danger': errors.has('email') }">
-            <label>Email Address</label>
-             <input type="email" class="form-control form-control-danger" placeholder="Enter email" name="email"
-                   v-model="userProfileDetail.email" v-validate="{ rules: { required: true, email: true } }">
-            <span class="help is-danger" v-show="errors.has('email')">{{$lang.login_email_validation_message}}</span>
+        <section class="register-section section-padding">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h1 class="font-weight-bold">Register</h1>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris posuere vel mi ac sagittis. Quisque vel nulla at nibh finibus sodales. Nam efficitur sem a mi rhoncus. If you already have an account you can  <a href="#" @click="redirectToLoginPage()">login here</a>.</p>
 
-        </div> 
-        
-        <div class="form-group">
-            <label>Organization or Company Name</label>
-            <input type="text" class="form-control form-control-danger" placeholder="Company Name" id="organisation" name="organisation"  v-model="userProfileDetail.organisation" v-validate="{ rules: { required: true } }">
-            <span class="help is-danger" v-show="errors.has('organisation')">The organisation name field is required.</span>
-        </div>
-        <div class="form-group" v-if="isCustomer">
-            <label>Your Job Title</label>
-            <input type="text" class="form-control form-control-danger" placeholder="Job Title" id="job_title" name="job_title" v-model="userProfileDetail.job_title" v-validate="{ rules: { required: true } }">
-            <span class="help is-danger" v-show="errors.has('job_title')">The job title field is required.</span>
-        </div>
-        <div class="form-group" v-if="isCustomer">
-            <label>Address</label>
-            <input type="textarea" class="form-control form-control-danger" placeholder="Address" id="address" name="address" v-model="userProfileDetail.address" v-validate="{ rules: { required: true } }">
-             <span class="help is-danger" v-show="errors.has('address')">The address field is required.</span>
-        </div>
-        <div class="form-group" v-if="isCustomer">
-            <label>Town or City</label>
-            <input type="textarea" class="form-control form-control-danger" placeholder="City" id="city" name="city" v-model="userProfileDetail.city" v-validate="{ rules: { required: true } }">
-             <span class="help is-danger" v-show="errors.has('city')">The city field is required.</span>
-        </div>
-        <div class="form-group" v-if="isCustomer">
-            <label>Zip or Postal Code</label>
-            <input type="textarea" class="form-control form-control-danger" placeholder="Zip" id="zip" name="zip" v-model="userProfileDetail.zip"> 
-        </div>
-        <div class="form-group" v-if="isCustomer">
-            <label>Country</label>
-            <select v-model="userProfileDetail.country" >
-                <option v-for="(value, key) in countries" :value="value">{{key}}</option>
-            </select>
-        </div> 
-        <button class="btn btn-login btn-full">Update Profile</button>
+                        <h3 class="text-uppercase font-weight-bold mt-5">Your details</h3>
+
+                        <div class="divider mb-5"></div> 
+                        
+                        <div class="form-group">
+                            <label>Your Name</label> 
+                            <input type="text" class="form-control  mb-4" placeholder="First Name" id = "fname" name="first_name" v-model="userProfileDetail.first_name" v-validate="{ rules: { required: true } }">
+                             <span class="help is-danger" v-show="errors.has('first_name')">The first name field is required.</span>
+                            <input type="text" class="form-control" placeholder="Last Name" id = "lname" name="last_name" v-model="userProfileDetail.last_name" v-validate="{ rules: { required: true } }">
+                            <span class="help is-danger" v-show="errors.has('last_name')">The last name field is required.</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email-id">Email Address</label> 
+                            <input type="email" id="email-id" class="form-control " placeholder="e.g name@domain.com" name="email"
+                               v-model="userProfileDetail.email" v-validate="{ rules: { required: true, email: true } }">
+                            <span class="help is-danger" v-show="errors.has('email')">{{$lang.login_email_validation_message}}</span>
+                        </div> 
+                        <h3 class="text-uppercase font-weight-bold mt-5">Your organisation</h3>
+
+                        <div class="divider mb-5"></div>
+
+                        <div class="form-group">
+                            <label for="company-name">Organisation or Company name</label>
+                             <input type="text" class="form-control " placeholder="Company Name" id="company-name" name="organisation"  v-model="userProfileDetail.organisation" v-validate="{ rules: { required: true } }">
+                            <span class="help is-danger" v-show="errors.has('organisation')">The organisation name field is required.</span> 
+                        </div>
+
+                        <div class="form-group">
+                            <label for="job-title">Your Job title</label>
+                            <input type="text" class="form-control " placeholder="Job Title" id="job-title" name="job_title" v-model="userProfileDetail.job_title" v-validate="{ rules: { required: true } }">
+                            <span class="help is-danger" v-show="errors.has('job_title')">The job title field is required.</span>
+                        </div>
+
+                        <h3 class="text-uppercase font-weight-bold mt-5">Your address</h3>
+
+                        <div class="divider mb-5"></div>
+
+                        <div class="form-group">
+                            <label>Address</label>
+                            
+                             <input type="textarea" class="form-control  mb-4" placeholder="Address" id="address-line-1" name="address" v-model="userProfileDetail.address" v-validate="{ rules: { required: true } }">
+                            <span class="help is-danger" v-show="errors.has('address')">The address field is required.</span>
+                            <input type="text" class="form-control" id="address-line-2">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="city">Town or city</label>
+                              <input type="textarea" class="form-control form-control-danger" placeholder="City" id="city" name="city" v-model="userProfileDetail.city" v-validate="{ rules: { required: true } }">
+                             <span class="help is-danger" v-show="errors.has('city')">The city field is required.</span> 
+                        </div>
+
+                        <div class="form-group">
+                            <label for="zipcode">Zip or postcode</label>
+                             <input type="textarea" class="form-control form-control-danger" placeholder="Zip" id="zipcode" name="zip" v-model="userProfileDetail.zip" v-validate="{ rules: { required: true } }">
+                            <span class="help is-danger" v-show="errors.has('zip')">The zip field is required.</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="country">Country</label>
+                            <select class="form-control" id="country" v-model="userProfileDetail.country" >
+                                <option v-for="(value, key) in countries" :value="value">{{key}}</option>
+                            </select> 
+                        </div>
+
+                        <div class="row mt-5">
+                            <div class="col-lg-8">
+                                <div class="form-group">
+                                    <button class="btn btn-success">Update Profile</button>
+                                </div>
+                            </div>
+                        </div> 
+                    </div>
+                </div>
+            </div>
+        </section>
     </form>
 </template>
 <script type="text/babel">

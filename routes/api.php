@@ -338,7 +338,11 @@ Route::group(['middleware' => 'jwt.auth'], function() {
 
 //    $api->post('tournament/details/add', 'Laraspace\Api\Controllers\TournamentController@addTournamentDetails');
     Route::post('v1/buy-license', '\Laraspace\Api\Controllers\Commercialisation\BuyLicenseController@buyLicense');
+    Route::get('v1/generateHashKey', '\Laraspace\Api\Controllers\Commercialisation\BuyLicenseController@generateHashKey');
 });
+//Payment response callback URL
+Route::get('payment/response', '\Laraspace\Api\Controllers\Commercialisation\BuyLicenseController@paymentResponse');
+
 
 
 
