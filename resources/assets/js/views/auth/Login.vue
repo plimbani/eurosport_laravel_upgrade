@@ -92,29 +92,11 @@
                 this.$validator.validateAll();
 
                 if (!this.errors.any()) {
-                    this.disabled = true;
-                    return axios.post('/api/auth/login', this.loginData).then(response =>  {
+                    this.disabled = true; 
+                    Auth.login(this.loginData).then(() => {
                         this.disabled = false;
-                        Ls.set('auth.token',response.data.token)
-                        // We set Email Over here
-                        Ls.set('email',loginData.email)
                         this.$router.push({'name':'welcome'})
-
-                    }).catch(error => {
-                        this.disabled = false;
-                        if (error.response.status == 401) {
-                            toastr['error']('Invalid credentials', 'Error');
-                            Ls.remove('auth.token')
-                            Ls.remove('email')
-                        }
-                        else {
-                            // Something happened in setting up the request that triggered an Error
-                        }
-                    });
-                    // Auth.login(this.loginData).then(() => {
-                        
-                    //      this.$router.push({'name':'welcome'})
-                    // })
+                    })
 
                     
                 }
