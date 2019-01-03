@@ -109,14 +109,21 @@
 						</div>
 					</div>
 					<form>
-						<div class="form-group">
+						<div class="form-group" :class="{'has-error': errors.has('remarks') }">
 							<label for="remarks">Remarks</label>
-							<input name="remarks" type="text" class="form-control" v-model="templateFormDetail.stepfour.remarks" placeholder="Remarks">
+							<input name="remarks" type="text" class="form-control" v-model="templateFormDetail.stepfour.remarks" v-validate="'required'" :class="{'is-danger': errors.has('remarks') }" placeholder="Remarks">
+							<i v-show="errors.has('remarks')" class="fa fa-warning"></i>
+                        	<span class="help is-danger" v-show="errors.has('remarks')">{{ errors.first('remarks') }}</span>
 						</div>
 						<div class="form-group row">
 							<label class="col-12 form-control-label">Colour</label>
 							<div class="col-12">
 								<div class="template-font-color-box pull-left mr-2" @click="setTemplateFontColor(color)" v-for="color in templateFontColors" :style="{'background-color': color}" :class="{ 'template-font-color-active' : templateFormDetail.stepfour.template_font_color == color }" ></div>
+								<input type="hidden" name="template_font_color" v-model="templateFormDetail.stepfour.template_font_color" v-validate="'required'" :class="{'is-danger': errors.has('template_font_color') }" data-vv-as="Template font color">
+							</div>
+							<div class="col-12">
+								<i v-show="errors.has('template_font_color')" class="fa fa-warning"></i>
+    	                    	<span class="help is-danger" v-show="errors.has('template_font_color')">{{ errors.first('template_font_color') }}</span>						
 							</div>
 						</div>					
 						<div class="form-group row align-items-center mb-3">
@@ -154,14 +161,16 @@
         methods: {
         	saveTemplateDetail() {
         		var templateData = {'templateFormDetail': this.templateFormDetail};
-        		Template.saveTemplateDetail(templateData).then(
-        			(response) => {
+        		this.$validator.validateAll().then((response) => {
+	        		Template.saveTemplateDetail(templateData).then(
+	        			(response) => {
+	        			},
+	        			(error) => {
+	        			}
+	        		);
+                }).catch((errors) => {
 
-        			},
-        			(error) => {
-
-        			}
-        		);
+                });	        		
         	},
         	back() {
         		this.$emit('change-tab-index', 4, 3, 'stepfour', _.cloneDeep(this.templateFormDetail.stepfour));
