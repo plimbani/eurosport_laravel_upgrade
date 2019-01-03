@@ -1,7 +1,7 @@
 <template>
 
     <!-- Section Login Started -->
-        <!-- <section class="login-section section-padding">
+        <section class="login-section section-padding">
             <div class="container">
                 <div class="row">
                     <div class="col-md-6">
@@ -35,7 +35,7 @@
                     </div>
                 </div>
             </div>
-        </section> -->
+        </section>
     <!-- Section Login Ended -->
 
     <!-- Section Confirmation Started -->
@@ -236,7 +236,7 @@
     <!-- Section Register Ended -->
 
     <!-- Section Manage Tournament Started -->
-        <section class="manage-tournament section-padding">
+        <!-- <section class="manage-tournament section-padding">
             <div class="container">
                 <div class="row">
                     <div class="col-md-12">
@@ -334,7 +334,7 @@
                     </div>
                 </div>
             </div>
-        </section>
+        </section> -->
     <!-- Section Manage Tournament Ended -->
 
     <!-- Section Tournament Started -->

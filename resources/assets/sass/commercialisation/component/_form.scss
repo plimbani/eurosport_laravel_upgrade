@@ -9,54 +9,50 @@
             @extend .text-uppercase;
             @extend .font-weight-bold;
         }
+    }
 
-        @at-root {
-            .form-control {
-                box-shadow: none;
-                border-color: $theme-input-border-color;
-                font-size: $font-size-base * 1.125;
-                padding: $theme-input-padding-y $theme-input-padding-x;
-                font-family: $secondary-font-family;
+    .input-group-addon {
+        border-color: $theme-input-border-color;
+    }
 
-                &::-webkit-input-placeholder {
-                    color: $input-color;
-                }
+    .form-control {
+        box-shadow: none;
+        border-color: $theme-input-border-color;
+        font-size: $font-size-base * 1.125;
+        padding: $theme-input-padding-y $theme-input-padding-x;
+        font-family: $secondary-font-family;
 
-                &::-moz-placeholder {
-                    color: $input-color;
-                }
-
-                &:-ms-input-placeholder {
-                    color: $input-color;
-                }
-
-                &:-moz-placeholder {
-                    color: $input-color;
-                }
-
-                &:focus {
-                    &::-webkit-input-placeholder {
-                        color: transparent;
-                    }
-
-                    &::-moz-placeholder {
-                        color: transparent;
-                    }
-
-                    &:-ms-input-placeholder {
-                        color: transparent;
-                    }
-
-                    &:-moz-placeholder {
-                        color: transparent;
-                    }
-                }
-            }
+        &::-webkit-input-placeholder {
+            color: $input-color;
         }
 
-        @at-root {
-            .input-group-addon {
-                border-color: $theme-input-border-color;
+        &::-moz-placeholder {
+            color: $input-color;
+        }
+
+        &:-ms-input-placeholder {
+            color: $input-color;
+        }
+
+        &:-moz-placeholder {
+            color: $input-color;
+        }
+
+        &:focus {
+            &::-webkit-input-placeholder {
+                color: transparent;
+            }
+
+            &::-moz-placeholder {
+                color: transparent;
+            }
+
+            &:-ms-input-placeholder {
+                color: transparent;
+            }
+
+            &:-moz-placeholder {
+                color: transparent;
             }
         }
     }

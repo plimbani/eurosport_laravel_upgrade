@@ -1,11 +1,22 @@
 <template>
       <form action="" id="registerForm" method="post" @submit.prevent="redirectToPage">
-        <div>Registration Complete</div>
-        <h2>Thank you</h2>
+        <section class="confirmation-section section-padding">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6 class="text-uppercase mb-0">Registration Complete</h6>
+                        <h1 class="font-weight-bold">Thank You</h1>
+                        <p class="mb-5">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris posuere vel mi ac sagittis. Quisque vel nulla at nibh finibus sodales. Nam efficitur sem a mi rhoncus. If you have an immediate enquiry please call   <a href="tel:+44(0)1234 567 890">+44(0)1234 567 890</a></p>
 
-        <div>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</div>
-        <!-- <router-link :to="{ name: 'bar', params: { id: 123 }}">bar</router-link> -->
-        <button class="btn btn-login">Buy A Licence</button>
+                        <div class="row">
+                            <div class="col-lg-5 col-md-6">
+                                <button class="btn btn-success btn-block">Buy a License</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
       </form>  
 </template>
 <script type="text/babel">
