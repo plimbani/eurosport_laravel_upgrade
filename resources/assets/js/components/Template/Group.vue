@@ -119,7 +119,7 @@
         	},
         	onTeamChange() {
  				let groupTotalTeams = this.$parent.getGroupTotalTeams(this.roundIndex);
-                if(groupTotalTeams > this.roundData.no_of_teams) {
+                if(this.roundIndex === 0 && groupTotalTeams > this.roundData.no_of_teams) {
                     toastr['error']('Round team count get exceeds.', 'Error');
                     this.groupData.no_of_teams = this.last_selected_teams;
                     return false;
