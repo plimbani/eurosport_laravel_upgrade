@@ -273,21 +273,21 @@
 			    if(this.divisionIndex !== -1 && this.roundIndex === 0) {
 			    	_.forEach(vm.templateFormDetail.steptwo.divisions[vm.divisionIndex].teams, function(team, teamIndex) {
 			    		let position = team.position.split(',');
-			    		let roundData = vm.templateFormDetail['steptwo'].rounds[position[0]];
-			    		let groupData = vm.templateFormDetail['steptwo'].rounds[position[0]].groups[position[1]];
+			    		let roundData = vm.templateFormDetail['steptwo'].rounds[position[1]];
+			    		let groupData = roundData.groups[position[2]];
 			    		if(groupData.type === 'round_robin') {
-			    			positionsForSelection.push({'name': (teamIndex + 1) + ' (#' + (parseInt(position[2]) + 1) + vm.getRoundRobinGroupName(roundData, position[1]) + ')' , 'value': teamIndex});
+			    			positionsForSelection.push({'name': (teamIndex + 1) + ' (#' + (parseInt(position[3]) + 1) + vm.getRoundRobinGroupName(roundData, position[2]) + ')' , 'value': teamIndex});
 			    		} else if(groupData.type === 'placing_match') {
 			    			let name = '';
 			    			name = (teamIndex + 1);
-			    			name += ' (PM' + vm.getPlacingMatchGroupName(roundData, position[1]);
+			    			name += ' (PM' + vm.getPlacingMatchGroupName(roundData, position[2]);
 			    			if(team.position_type === 'winner') {
 			    				name += ' WR';
 			    			} else if(team.position_type === 'loser') {
 			    				name += ' LR';
 			    			}
 			    			
-			    			name += ' Match ' + (parseInt(position[2]) + 1) + ')';
+			    			name += ' Match ' + (parseInt(position[3]) + 1) + ')';
 			    			positionsForSelection.push({'name': name, 'value': teamIndex});
 			    		}
 		    		});
