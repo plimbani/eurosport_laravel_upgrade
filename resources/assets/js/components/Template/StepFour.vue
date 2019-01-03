@@ -42,30 +42,51 @@
 						</div>
 					</div>
 					
-					
-					<div class="card mb-3" v-for="(round, roundIndex) in templateFormDetail.steptwo.rounds">
+					<div class="card mb-3" v-for="(division, divisionIndex) in templateFormDetail.steptwo.divisions">
 						<div class="card-block">
 							<div class="row align-items-center">
 								<div class="col-12">
-									<h6 class="font-weight-bold">{{ getRoundName(roundIndex, -1) }}&nbsp;<span class="small">({{ round.no_of_teams }} items)</span></h6>
+									<h6 class="font-weight-bold">{{ 'Division ' + (divisionIndex + 1) }}&nbsp;<span class="small">({{ division.no_of_teams }} items)</span></h6>
+								</div>
+							</div>
+							<div class="row align-items-center">
+								<div class="col-12">
+									<ul class="list-unstyled mb-4">
+										<li v-for="(team, teamIndex) in division.teams">
+											<span>{{ (teamIndex + 1) + '.   ' + getMatchDetail(team.position, team.position_type) }}</span>
+										</li>
+									</ul>
 								</div>
 							</div>
 							<div class="row">
-								<div class="col-6" v-for="(group, groupIndex) in round.groups">
-									<h6 class="font-weight-bold mb-0">{{ getGroupName(groupIndex, roundIndex, -1) }}</h6>
-									<p class="text-muted small mb-0" v-if="group.type === 'round_robin'">Teams play each other {{ group.teams_play_each_other }}</p>
-									<ul class="list-unstyled mb-4">
-										<li v-if="group.type === 'round_robin'" v-for="(team, teamIndex) in group.teams">
-											<span v-if="roundIndex == 0">Team {{ teamIndex + 1 }}</span>
-											<span v-if="roundIndex > 0">{{ getMatchDetail(team.position, team.position_type) }}</span>
-										</li>
-										<li v-if="group.type === 'placing_match'" v-for="(team, teamIndex) in group.teams">
-											<div v-if="teamIndex % 2 === 0">
-												<span v-if="roundIndex == 0">Team {{ teamIndex + 1 }}</span>
-												<span v-if="roundIndex > 0">{{ getMatchDetail(team.position, team.position_type) + ' vs ' + getMatchDetail(group.teams[teamIndex + 1].position, group.teams[teamIndex + 1].position_type) }}</span>
+								<div class="col-12">
+									<div class="card mb-3" v-for="(round, roundIndex) in division.rounds">
+										<div class="card-block">
+											<div class="row align-items-center">
+												<div class="col-12">
+													<h6 class="font-weight-bold">{{ getRoundName(roundIndex, divisionIndex) }}&nbsp;<span class="small">({{ round.no_of_teams }} items)</span></h6>
+												</div>
 											</div>
-										</li>
-									</ul>
+											<div class="row">
+												<div class="col-6" v-for="(group, groupIndex) in round.groups">
+													<h6 class="font-weight-bold mb-0">{{ getGroupName(groupIndex, roundIndex, divisionIndex) }}</h6>
+													<p class="text-muted small mb-0" v-if="group.type === 'round_robin'">Teams play each other {{ group.teams_play_each_other }}</p>
+													<ul class="list-unstyled mb-4">
+														<li v-if="group.type === 'round_robin'" v-for="(team, teamIndex) in group.teams">
+															<span v-if="roundIndex == 0">Team {{ teamIndex + 1 }}</span>
+															<span v-if="roundIndex > 0">{{ getMatchDetail(team.position, team.position_type) }}</span>
+														</li>
+														<li v-if="group.type === 'placing_match'" v-for="(team, teamIndex) in group.teams">
+															<div v-if="teamIndex % 2 === 0">
+																<span v-if="roundIndex == 0">{{ 'Team ' + (parseInt(group.teams[teamIndex].position) + 1) + ' vs ' + 'Team ' + (parseInt(group.teams[teamIndex + 1].position) + 1) }}</span>
+																<span v-if="roundIndex > 0">{{ getMatchDetail(team.position, team.position_type) + ' vs ' + getMatchDetail(group.teams[teamIndex + 1].position, group.teams[teamIndex + 1].position_type) }}</span>
+															</div>
+														</li>
+													</ul>
+												</div>
+											</div>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -81,7 +102,7 @@
 							<div class="row">
 								<div class="col-12">
 									<ul class="list-unstyled mb-4" v-for="(placing, placingIndex) in templateFormDetail.stepthree.placings">
-										<li><span>{{ getSuffixForPosition((placingIndex + 1)) + ' ' + getMatchDetail(placing.position, placing.position_type) }}</span></li>
+										<li><span>{{ getSuffixForPosition((placingIndex + 1)) + '   ' + getMatchDetail(placing.position, placing.position_type) }}</span></li>
 									</ul>
 								</div>
 							</div>
@@ -197,6 +218,7 @@
             },
             getMatchDetail(teamPosition, positionType) {
             	if(teamPosition) {
+            		console.log('teamPosition', teamPosition);
 			    	let vm = this;
 
 			    	let divisionRoundGroupPosition = teamPosition.split(',');

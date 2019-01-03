@@ -137,10 +137,10 @@
                 _.forEach(this.templateFormDetail['steptwo'].rounds, function(round, roundIndex) {
                     _.forEach(round.groups, function(group, groupIndex) {
                         if(group.type === 'round_robin' && team.position_type === 'placed') {
-                            groupsForSelection[roundRobinIndex] = {'name': 'Group ' + String.fromCharCode(65 + roundGroupCount), 'value': roundIndex + ',' + groupIndex};
+                            groupsForSelection[roundRobinIndex] = {'name': 'Group ' + String.fromCharCode(65 + roundGroupCount), 'value': '-1,' + roundIndex + ',' + groupIndex};
                             roundGroupCount += 1;
 
-                            if(roundRobinIndex === 0 && team.group === '')
+                            if(roundRobinIndex === 0 && (team.group === '' || typeof team.group === 'undefined'))
                                 vm.divisionData.teams[teamIndex].group = groupsForSelection[roundRobinIndex].value;
 
                             roundRobinIndex++;
@@ -150,7 +150,7 @@
 
                         if(group.type === 'placing_match' && _.indexOf(['winner', 'loser'], team.position_type) > -1) {
                             placingGroupCount += 1;
-                            groupsForSelection[placingMatchIndex] = {'name': 'PM ' + (placingGroupCount), 'value': roundIndex + ',' + groupIndex};
+                            groupsForSelection[placingMatchIndex] = {'name': 'PM ' + (placingGroupCount), 'value': '-1,' + roundIndex + ',' + groupIndex};
 
                             if(placingMatchIndex === 0 && (team.group === '' || typeof team.group === 'undefined')) {
                                 vm.divisionData.teams[teamIndex].group = groupsForSelection[placingMatchIndex].value;
@@ -168,27 +168,35 @@
                 let vm = this;
                 var positionsForSelection = [];
 
-                let match = this.divisionData.teams[teamIndex];
+                let team = this.divisionData.teams[teamIndex];
                 if(group) {
-                    var currentRoundGroup = group.split(',');
-                    var teams = this.templateFormDetail['steptwo'].rounds[currentRoundGroup[0]].groups[currentRoundGroup[1]].teams;                 
-                    var numberOfTeams = this.templateFormDetail['steptwo'].rounds[currentRoundGroup[0]].groups[currentRoundGroup[1]].no_of_teams;
-                    var groupType = this.templateFormDetail['steptwo'].rounds[currentRoundGroup[0]].groups[currentRoundGroup[1]].type;
+                    var currentDivisionRoundGroup = group.split(',');
+                    var groupData = null;
+                    if(currentDivisionRoundGroup[0] === '-1') {
+                        groupData = this.templateFormDetail['steptwo'].rounds[currentDivisionRoundGroup[1]].groups[currentDivisionRoundGroup[2]];
+                    } else {
+                        groupData = this.templateFormDetail['steptwo'].divisions[currentDivisionRoundGroup[0]].rounds[currentDivisionRoundGroup[1]].groups[currentDivisionRoundGroup[2]];
+                    }
+                    var teams = groupData.teams;                 
+                    var numberOfTeams = groupData.no_of_teams;
+                    var groupType = groupData.type;
                     
                     // for round robin
-                    if(groupType === 'round_robin' && match.position_type === 'placed') {
+                    if(groupType === 'round_robin' && team.position_type === 'placed') {
                         if(this.divisionData.teams[teamIndex].position === '' || typeof this.divisionData.teams[teamIndex].position === 'undefined') {
                             this.divisionData.teams[teamIndex].position = group + ',0';
                         }
-                        _.forEach(teams, function(match, index) {
+                        _.forEach(teams, function(groupTeam, index) {
                             positionsForSelection.push({'name': vm.getSuffixForPosition(index + 1), 'value': group + ',' + index});
                         });
                     }
 
                     // for placing
-                    if(groupType === 'placing_match' && _.indexOf(['winner', 'loser'], match.position_type) > -1) {
+                    if(groupType === 'placing_match' && _.indexOf(['winner', 'loser'], team.position_type) > -1) {
                         let matches = numberOfTeams / 2;
-                        this.divisionData.teams[teamIndex].position = group + ',0';
+                        if(this.divisionData.teams[teamIndex].position === '' || typeof this.divisionData.teams[teamIndex].position === 'undefined') {
+                            this.divisionData.teams[teamIndex].position = group + ',0';
+                        }
                         for (var i = 1; i <= matches; i++) {
                             positionsForSelection.push({'name': 'Match' + i, 'value': group + ',' + (i - 1)});
                         }
