@@ -520,12 +520,6 @@ class AgeGroupService implements AgeGroupContract
     {
       $totalGroups = $totalTeams / $groupSize;
       $finalTeams = $totalTeams / $totalGroups;
-
-      // $d= 'A';
-      // foreach ($variable as $key => $value) {
-      //   $matches[0] = $this->setTemplateMatches($finalTeams, $timesPlayedEachOther = 1,$d); 
-      //   $d++; 
-      // }
   
       $matches = $this->setTemplateMatches($finalTeams, $timesPlayedEachOther = 1);
       
