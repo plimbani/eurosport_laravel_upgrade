@@ -32,7 +32,7 @@
 										</li>
 										<li v-if="group.type === 'placing_match'" v-for="(team, teamIndex) in group.teams">
 											<div v-if="teamIndex % 2 === 0">
-												<span v-if="roundIndex == 0">Team {{ teamIndex + 1 }}</span>
+												<span v-if="roundIndex == 0">{{ 'Team ' + (parseInt(group.teams[teamIndex].position) + 1) + ' vs ' + 'Team ' + (parseInt(group.teams[teamIndex + 1].position) + 1) }}</span>
 												<span v-if="roundIndex > 0">{{ getMatchDetail(team.position, team.position_type) + ' vs ' + getMatchDetail(group.teams[teamIndex + 1].position, group.teams[teamIndex + 1].position_type) }}</span>
 											</div>
 										</li>
@@ -53,7 +53,7 @@
 								<div class="col-12">
 									<ul class="list-unstyled mb-4">
 										<li v-for="(team, teamIndex) in division.teams">
-											<span>{{ (teamIndex + 1) + '.   ' + getMatchDetail(team.position, team.position_type) }}</span>
+											<span>{{ (teamIndex + 1) + '.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + getMatchDetail(team.position, team.position_type) }}</span>
 										</li>
 									</ul>
 								</div>
@@ -102,7 +102,7 @@
 							<div class="row">
 								<div class="col-12">
 									<ul class="list-unstyled mb-4" v-for="(placing, placingIndex) in templateFormDetail.stepthree.placings">
-										<li><span>{{ getSuffixForPosition((placingIndex + 1)) + '   ' + getMatchDetail(placing.position, placing.position_type) }}</span></li>
+										<li><span>{{ getSuffixForPosition((placingIndex + 1)) + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + getMatchDetail(placing.position, placing.position_type) }}</span></li>
 									</ul>
 								</div>
 							</div>
