@@ -1,25 +1,33 @@
-.commercialisation {
-    .tabs-primary {
-        .nav-tabs {
-            border-bottom-color: $theme-color-primary;
+.tabs-primary {
+    .nav-tabs {
+        border-bottom-color: $theme-color-primary;
 
-            .nav-item {
-                margin-right: 2px;
-                @extend .mb-0;
-                @extend .font-weight-bold;
+        @include media-breakpoint-down(xs) {
+            display: block;
+        }
 
-                .nav-link {
-                    font-size: 0.875rem;
-                    color: $theme-color-primary;
-                    background: lighten($ls-color-blue--light-gradient, 40%);
-                    @extend .text-uppercase;
-                    @extend .border-0;
+        .nav-item {
+            margin-right: 2px;
 
-                    &.active,
-                    &:hover {
-                        @include gradient-directional($ls-color-blue--gradient, $ls-color-blue--light-gradient, 90deg);
-                        color: $white;
-                    }
+            @include media-breakpoint-down(xs) {
+                margin-right: 0;
+                margin-bottom: 2px !important;
+            }
+
+            @extend .mb-0;
+            @extend .font-weight-bold;
+
+            .nav-link {
+                font-size: 0.875rem;
+                color: $theme-color-primary;
+                background: lighten($ls-color-blue--light-gradient, 40%);
+                @extend .text-uppercase;
+                @extend .border-0;
+
+                &.active,
+                &:hover {
+                    @include gradient-directional($ls-color-blue--gradient, $ls-color-blue--light-gradient, 90deg);
+                    color: $white;
                 }
             }
         }

@@ -1,27 +1,25 @@
-.commercialisation {
-    footer {
-        background: $ls-color-dark-blue;
+footer {
+    background: $ls-color-dark-blue;
 
-        ul {
-            li {
-                a {
-                    font-weight: $font-weight-light;
+    ul {
+        li {
+            a {
+                font-weight: $font-weight-light;
 
-                    &:hover {
-                        opacity: 0.7;
-                    }
-                }
-            }
-
-            &.policy-links {
-                a {
-                    text-decoration: $link-hover-decoration;
+                &:hover {
+                    opacity: 0.7;
                 }
             }
         }
 
-        p {
-            font-weight: $font-weight-light;
+        &.policy-links {
+            a {
+                text-decoration: $link-hover-decoration;
+            }
         }
+    }
+
+    p {
+        font-weight: $font-weight-light;
     }
 }

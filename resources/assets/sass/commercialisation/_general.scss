@@ -1,23 +1,25 @@
-.commercialisation {
-	.section-divider {
-	    border-top: 1px solid $text-muted;
-	}
-
-	.section-padding {
-	    padding: 80px 0;
-	}
-
-	.block-component {
-	    background-color: $white;
-	}
-
-	body {
-	    font-family: $secondary-font-family;
-	    font-size: $font-size-base;
-	    background: $white;
-	}
-
-	.divider {
-	    border-top: 1px solid $theme-color-primary;
-	}
+.section-divider {
+    border-top: 1px solid $text-muted;
 }
+
+.section-padding {
+    padding: 80px 0;
+}
+
+.block-component {
+    background-color: $white;
+}
+
+body {
+    font-family: $secondary-font-family;
+    font-size: $font-size-base;
+    background: $white;
+}
+
+.divider {
+    border-top: 1px solid $theme-color-primary;
+}
+
+// .main-sec {
+//     background: url(/images/sec-bg.svg);
+// }

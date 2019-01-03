@@ -134,7 +134,14 @@ return [
     'log_level' => env('APP_LOG_LEVEL', 'debug'),
 
     'app_scheme' => env('APP_SCHEME',''),
-
+    
+    //Ingenico Payment Gateway Credentials
+    'PSPID' => env('PSPID', 'EasymatchmanagerQA'),
+    
+    'SHA_IN_PASS_PHRASE' => env('SHA_IN_PASS_PHRASE', 'b709e0ae-ab5b-4a78-bfc7-0bd54612d622'),
+    
+    'SHA_ALGO' => env('SHA_ALGO', 'sha512'),
+    
     /*
     |--------------------------------------------------------------------------
     | Autoloaded Service Providers

@@ -7,7 +7,7 @@
 
         <input type="hidden" name="ORDERID" v-model="orderId">
 
-        <input type="hidden" name="AMOUNT" value="2000">
+        <input type="hidden" name="AMOUNT" v-model="amount">
 
         <input type="hidden" name="CURRENCY" value="EUR">
 
@@ -121,8 +121,8 @@
                                 </div>
                                 <div class="row justify-content-end">
                                     <div class="col-lg-6">
-                                        <p class="btn btn-success btn-block" v-on:click="buyALicence()">Buy your license</p>
-                                        <!-- <button class="btn btn-success btn-block">Buy your license</button> --> 
+                                        <p v-if ="!disabled" class="btn btn-success btn-block"  v-on:click="buyALicence()">Buy your license</p>
+                                        <button v-else="disabled" class="btn btn-success btn-block" disabled="true">Buy your license</button> 
                                     </div>
                                 </div>
                             </div>
@@ -167,6 +167,8 @@
               shaSignIn:"", 
               orderId:"", 
               pspid:"", 
+              amount:"",
+              disabled:false
             }
         },
         beforeRouteEnter(to, from, next) {
@@ -191,25 +193,31 @@
             buyALicence(e){
                 this.$validator.validateAll();
                 if (!this.errors.any()) {
+                    this.disabled = true;
+                    console.log("this.disabled::",this.disabled);
                     this.tournamentData.tournament_start_date = moment(this.tournamentData.tournament_start_date).format('MM/DD/YYYY')
                     this.tournamentData.tournament_end_date = moment(this.tournamentData.tournament_end_date).format('MM/DD/YYYY')
                     axios.post(Constant.apiBaseUrl+'buy-license', this.tournamentData).then(response =>  {
-                         if (response.data.success) {
-                            // console.log("response.data::",response.data.payment_details);
+                            if (response.data.success) {
+//                            // console.log("response.data::",response.data.payment_details);
                             this.shaSignIn = response.data.payment_details.shaSignIn;
                             this.orderId = response.data.payment_details.orderId;
                             this.pspid = response.data.payment_details.pspid;
-                            
+                            this.amount = this.tournamentData.total_amount;
+//                            
                             let self = this;
                             setTimeout(function(){
                                 // console.log("after timeout")
                                 self.$refs.paymentSubmit.click();
+                                self.disabled = false;
                             },500)
                             // this.$router.push({'name':'welcome'})
                          }else{
+                            this.disabled = true;
                              toastr['error'](response.data.message, 'Error');
                          }
                      }).catch(error => {
+                        this.disabled = true;
                          console.log("error in buyALicence::",error);
                      });
                     // this.$router.push({'name':'welcome'}) 

@@ -3,10 +3,7 @@
         <section class="register-section section-padding">
             <div class="container">
                 <div class="row">
-                    <div class="col-md-6">
-                        <h1 class="font-weight-bold">Register</h1>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris posuere vel mi ac sagittis. Quisque vel nulla at nibh finibus sodales. Nam efficitur sem a mi rhoncus. If you already have an account you can  <a href="#" @click="redirectToLoginPage()">login here</a>.</p>
-
+                    <div class="col-md-6">  
                         <h3 class="text-uppercase font-weight-bold mt-5">Your details</h3>
 
                         <div class="divider mb-5"></div> 
@@ -35,17 +32,17 @@
                             <span class="help is-danger" v-show="errors.has('organisation')">The organisation name field is required.</span> 
                         </div>
 
-                        <div class="form-group">
+                        <div v-if="isCustomer" class="form-group">
                             <label for="job-title">Your Job title</label>
                             <input type="text" class="form-control " placeholder="Job Title" id="job-title" name="job_title" v-model="userProfileDetail.job_title" v-validate="{ rules: { required: true } }">
                             <span class="help is-danger" v-show="errors.has('job_title')">The job title field is required.</span>
                         </div>
 
-                        <h3 class="text-uppercase font-weight-bold mt-5">Your address</h3>
+                        <h3 v-if="isCustomer" class="text-uppercase font-weight-bold mt-5">Your address</h3>
 
-                        <div class="divider mb-5"></div>
+                        <div v-if="isCustomer" class="divider mb-5"></div>
 
-                        <div class="form-group">
+                        <div v-if="isCustomer" class="form-group">
                             <label>Address</label>
                             
                              <input type="textarea" class="form-control  mb-4" placeholder="Address" id="address-line-1" name="address" v-model="userProfileDetail.address" v-validate="{ rules: { required: true } }">
@@ -53,19 +50,19 @@
                             <input type="text" class="form-control" id="address-line-2">
                         </div>
 
-                        <div class="form-group">
+                        <div v-if="isCustomer" class="form-group">
                             <label for="city">Town or city</label>
                               <input type="textarea" class="form-control form-control-danger" placeholder="City" id="city" name="city" v-model="userProfileDetail.city" v-validate="{ rules: { required: true } }">
                              <span class="help is-danger" v-show="errors.has('city')">The city field is required.</span> 
                         </div>
 
-                        <div class="form-group">
+                        <div v-if="isCustomer" class="form-group">
                             <label for="zipcode">Zip or postcode</label>
                              <input type="textarea" class="form-control form-control-danger" placeholder="Zip" id="zipcode" name="zip" v-model="userProfileDetail.zip" v-validate="{ rules: { required: true } }">
                             <span class="help is-danger" v-show="errors.has('zip')">The zip field is required.</span>
                         </div>
 
-                        <div class="form-group">
+                        <div v-if="isCustomer" class="form-group">
                             <label for="country">Country</label>
                             <select class="form-control" id="country" v-model="userProfileDetail.country" >
                                 <option v-for="(value, key) in countries" :value="value">{{key}}</option>
@@ -75,7 +72,7 @@
                         <div class="row mt-5">
                             <div class="col-lg-8">
                                 <div class="form-group">
-                                    <button class="btn btn-success">Update Profile</button>
+                                    <button class="btn btn-success" :disabled="disabled">Update Profile</button>
                                 </div>
                             </div>
                         </div> 
@@ -107,14 +104,17 @@
                     country: ''
                 },
                 countries:{},
-                isCustomer:false
+                isCustomer:false,
+                disabled:false
             }
         },
         methods: {
             updateProfile(e){
                 this.$validator.validateAll();
                 if (!this.errors.any()) { 
+                    this.disabled = true;
                     axios.post(Constant.apiBaseUrl+'user/update',this.userProfileDetail).then(response =>  { 
+                        // this.disabled = false;
                         if(response.data.success){ 
                              // toastr['error'](response.data.message, 'Success');
                             this.$router.push({'name':'welcome'})
@@ -122,6 +122,7 @@
                          toastr['error'](response.data.message, 'Error');
                         }
                     }).catch(error => {
+                        this.disabled = false;
                          console.log("error in profile upate::",error);
                      });
                      
@@ -131,11 +132,12 @@
             getUserDetail(){ 
                 axios.get(Constant.apiBaseUrl+'user/get-details/').then(response =>  {
                     if(response.data.success){ 
-
                         let indxOfCustomer =  (response.data.data.roles).findIndex(item => item.slug == "customer") 
+                        // console.log("indxOfCustomer::",indxOfCustomer);
                         if(indxOfCustomer > -1){
                             this.isCustomer = true;
                         } 
+                        // console.log("this.isCustomer::",this.isCustomer);
                         this.userProfileDetail = response.data.data.person_detail;
                         // this.userProfileDetail.user_id = response.data.data.id;
                         this.userProfileDetail.email = response.data.data.email;
