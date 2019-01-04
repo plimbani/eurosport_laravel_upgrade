@@ -15,7 +15,7 @@ class AddCountryIdAndCityAndJobTitleAndZipcodeColumsToPeopleTable extends Migrat
     public function up()
     {
         Schema::table('people', function (Blueprint $table) {
-            $table->integer('country_id')->nullable()->default(NULL)->after('gender');
+            $table->unsignedInteger('country_id')->nullable()->default(NULL)->after('gender');
             $table->string('city')->nullable()->default(NULL)->after('country_id');
             $table->string('job_title')->nullable()->default(NULL)->after('city');
             $table->integer('zipcode')->nullable()->default(NULL)->after('job_title');
