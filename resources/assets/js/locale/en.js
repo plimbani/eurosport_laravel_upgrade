@@ -18,6 +18,7 @@ module.exports= {
   welcome_manage_websites: "Manage Websites",
   welcome_create_website: 'Create website',
   welcome_manage_templates: 'Manage templates',
+  welcome_manage_templates_header: 'Manage Templates',
 
   siteheader_name: "Chris",
   siteheader_settings: "Settings",

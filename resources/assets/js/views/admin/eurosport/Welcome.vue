@@ -1,7 +1,7 @@
 <template>
   <div class="main-content container-fluid" id="dashboardPage">
     <div class="row home-content">
-      <div class="col-sm-4 d-flex mb-4">
+      <div class="d-flex mb-4" :class="[userDetails.role_name == 'Tournament administrator' ? 'col-sm-3' : 'col-sm-4']">
         <div class="card mb-0 w-100">
           <div class="card-header">
             <h5 class="text-center"><strong>{{$lang.welcome_manage_tournament}}</strong></h5>
@@ -22,7 +22,7 @@
           </div>
         </div>
       </div>
-      <div class="col-sm-4 d-flex mb-4">
+      <div class="d-flex mb-4" :class="[userDetails.role_name == 'Tournament administrator' ? 'col-sm-3' : 'col-sm-4']">
         <div class="card mb-0 w-100">
           <div class="card-header">
             <h5 class="text-center"
@@ -48,7 +48,7 @@
           </div>
         </div>
       </div>
-      <div class="col-sm-4 d-flex mb-4">
+      <div class="d-flex mb-4" :class="[userDetails.role_name == 'Tournament administrator' ? 'col-sm-3' : 'col-sm-4']">
         <div class="card mb-0 w-100">
           <div class="card-header">
             <h5 class="text-center"><strong>{{$lang.welcome_manage_websites}}</strong></h5>
@@ -59,6 +59,18 @@
             </div>
             <div class="form-group">
               <websiteDropDown></websiteDropDown>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="d-flex mb-4" :class="[userDetails.role_name == 'Tournament administrator' ? 'col-sm-3' : 'col-sm-4']" v-if="userDetails.role_name == 'Tournament administrator'">
+        <div class="card mb-0 w-100">
+          <div class="card-header">
+            <h5 class="text-center"><strong>{{$lang.welcome_manage_templates_header}}</strong></h5>
+          </div>
+          <div class="card-block text-center">
+            <div class="form-group">
+              <button type="button" class="btn btn-primary col-sm-10" @click="manageTemplate()">{{$lang.welcome_manage_templates}}</button>
             </div>
           </div>
         </div>
@@ -124,6 +136,9 @@ computed: {
       let tournamentAdd  = {name:'', 'currentPage':'Templates'}
       this.$store.dispatch('SetTournamentName', tournamentAdd)
       this.$router.push({ name: 'templates_list' });
+    },
+    manageTemplate() {
+      this.templateList();
     }
   }
 }
