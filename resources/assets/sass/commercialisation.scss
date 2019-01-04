@@ -108,6 +108,10 @@
 @import "commercialisation/component/card";
 @import "commercialisation/component/modal";
 
+@import "commercialisation/vendor/vue-slider";
+@import "commercialisation/vendor/vue-datepicker";
+// @import "commercialisation/vendor/jquery-datepicker";
+
 // pages
 // 
-@import "commercialisation/new-pages";
+@import "commercialisation/front-pages";

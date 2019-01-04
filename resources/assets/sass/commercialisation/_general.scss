@@ -11,15 +11,13 @@
 }
 
 body {
-    font-family: $secondary-font-family;
     font-size: $font-size-base;
-    background: $white;
 }
 
 .divider {
     border-top: 1px solid $theme-color-primary;
-}
 
-// .main-sec {
-//     background: url(/images/sec-bg.svg);
-// }
+    &.opacited {
+        opacity: 0.25;
+    }
+}

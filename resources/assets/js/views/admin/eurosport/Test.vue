@@ -1,5 +1,5 @@
 <template>
-  <section class="main-sec">
+  <section class="main-section">
     <!-- Section Login Started -->
         <div class="login-section section-padding">
             <div class="container">
@@ -485,7 +485,7 @@
     <!-- Section Schedule & Results Ended -->
 
     <!-- Section Components Started -->
-        <!-- <div class="block-component section-padding">
+        <div class="block-component section-padding">
             <div class="container">
                 <div class="row">
                     <div class="col-md-12">
@@ -657,7 +657,7 @@
                     </div>
                 </div>
             </div>
-        </div> -->
+        </div>
     <!-- Section Components Ended -->
   </section>
 </template>

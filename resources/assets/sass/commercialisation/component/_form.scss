@@ -1,12 +1,12 @@
 .form-group {
-    @extend .mb-4;
-
-    label {
-        font-size: $font-size-base * 1.125;
-        color: $theme-color-primary;
-        line-height: $theme-input-line-height;
-        @extend .text-uppercase;
-        @extend .font-weight-bold;
+    @at-root {
+        label {
+            font-size: $font-size-base * 1.125;
+            color: $theme-color-primary;
+            line-height: $theme-input-line-height;
+            @extend .text-uppercase;
+            @extend .font-weight-bold;
+        }
     }
 }
 
@@ -22,7 +22,7 @@
         border-color: $theme-input-border-color;
         font-size: $font-size-base * 1.125;
         padding: $theme-input-padding-y $theme-input-padding-x;
-        font-family: $secondary-font-family;
+        font-family: $base-font-family;
 
         &::-webkit-input-placeholder {
             color: $input-color;
