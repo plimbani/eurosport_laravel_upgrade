@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700');
 
-$secondary-font-family: 'Poppins', sans-serif;
+$base-font-family: 'Poppins', sans-serif;
 $font-weight-light: 300;
 $theme-color-primary: #0078AB;
 $theme-color-gray: #F6F6F5;
@@ -15,7 +15,7 @@ $ls-color-dark-blue: #030021;
 $enable-shadows:true;
 $enable-rounded: false;
 
-$font-family-base: $secondary-font-family;
+// $font-family-base: $base-font-family;
 
 // Input Variants
 
@@ -58,3 +58,7 @@ $headings-color : $theme-color-primary;
 
 // $custom-heading-h6: 0.875rem;
 // $h6-font-size: $custom-heading-h6;
+// 
+// Vue-Slider 
+
+$vue-slider-border-color: #D1D0EA;

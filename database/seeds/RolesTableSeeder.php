@@ -12,7 +12,8 @@ class RolesTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('roles')->delete();
+      DB::statement('SET FOREIGN_KEY_CHECKS=0');
+        DB::table('roles')->truncate();
         DB::table('roles')->insert([
           ['name' => 'Super administrator', 'slug' => 'Super.administrator', 'description' => 'The magician', 'level' => '1', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
           ['name' => 'Tournament administrator', 'slug' => 'tournament.administrator', 'description' => 'The GOD', 'level' => '1', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
@@ -21,5 +22,6 @@ class RolesTableSeeder extends Seeder
           ['name' => 'Mobile user', 'slug' => 'mobile.user', 'description' => 'Mobile User', 'level' => '1', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
           ['name' => 'Customer', 'slug' => 'customer', 'description' => 'Customer', 'level' => '1', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')]
         ]);
+        DB::statement('SET FOREIGN_KEY_CHECKS=1');
     }
 }

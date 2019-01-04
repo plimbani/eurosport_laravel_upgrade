@@ -1,16 +1,14 @@
-.commercialisation {
-    .modal {
-        &-header {
-            border-bottom-color: $theme-color-primary;
-        }
+.modal {
+    &-header {
+        border-bottom-color: $theme-color-primary;
+    }
 
-        &-title {
-            color: $theme-color-primary;
-            font-size: $font-size-base * 1.5;
-        }
+    &-title {
+        color: $theme-color-primary;
+        font-size: $font-size-base * 1.5;
+    }
 
-        &-footer {
-            border-top-color: $theme-color-primary;
-        }
+    &-footer {
+        border-top-color: $theme-color-primary;
     }
 }
