@@ -141,7 +141,7 @@
 <script type="text/javascript">
 	import Template from '../../api/template.js'
 	export default {
-		props: ['templateFormDetail'],
+		props: ['templateFormDetail', 'editedTemplateId'],
         data() {
             return {
             	templateFontColors: [

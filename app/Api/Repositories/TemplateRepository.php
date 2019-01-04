@@ -141,8 +141,6 @@ class TemplateRepository
         echo "<pre>";print_r(json_encode($finalArray));echo "</pre>";exit;
         // saving json file
         file_put_contents(resource_path('templates') . '/' . 'template555.json', json_encode($finalArray));
-
-        // echo "<pre>";print_r(json_encode($finalArray));echo "</pre>";exit;
     }
 
     /*
