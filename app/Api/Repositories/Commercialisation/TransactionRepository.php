@@ -10,19 +10,23 @@ use Laraspace\Models\Tournament;
 class TransactionRepository
 {
 
+    public function __construct()
+    {
+        $this->tournamentObj = new TournamentRepository();
+    }
+    
     /**
      * Add transaction response in db 
-     * @param array $data
+     * @param array $requestData
      * @return object
      */
     public function addDetails($requestData)
     {
-        $data = array_change_key_case($requestData, CASE_UPPER);
-        $tournamentId = explode('-', $data['ORDERID']);
-        $isTournament = Tournament::findOrFail($tournamentId[1]);
-
+        $tournamentRes = $this->tournamentObj->addTournamentDetails($requestData, 'api');
+        
+        $data = array_change_key_case($requestData, CASE_UPPER);        
         $transaction = [
-            'tournament_id' => $isTournament->id,
+            'tournament_id' => $tournamentRes->id,
             'transaction_key' => $data['PAYID'],
             'amount' => $data['AMOUNT'],
             'status' => $data['STATUS'],
