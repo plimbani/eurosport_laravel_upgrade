@@ -1,0 +1,29 @@
+.vdp-datepicker {
+    .vdp-datepicker__calendar {
+        .cell {
+            &.selected {
+                background: $theme-color-primary;
+                color: $white;
+                &:hover {
+                    background: $theme-color-primary;
+                }
+            }
+
+            &:not(.blank):not(.disabled) {
+
+                &.day,
+                &.month,
+                &.year {
+                    &:hover {
+                        border: 1px solid $theme-color-primary;
+                    }
+                }
+            }
+        }
+    }
+
+    .form-control[readonly]{
+    	border-color: $theme-input-border-color;
+    	background-color: $theme-color-gray;
+    }
+}

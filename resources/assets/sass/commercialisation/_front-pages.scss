@@ -3,6 +3,8 @@
 .login-section,
 .confirmation-section,
 .register-section {
+    background: $white;
+
     p {
         a {
             color: $theme-color-primary;
@@ -14,6 +16,8 @@
 // Manage Tournament Section
 
 .manage-tournament {
+    background: $white;
+
     .card {
         background: $theme-color-gray;
 
@@ -52,6 +56,8 @@
 // Tournament Section
 
 .tournament-section {
+    background: $white;
+
     .sponsored-list {
         img {
             width: 80px;
@@ -94,5 +100,22 @@
         img {
             width: 130px;
         }
+    }
+}
+
+.buy-license-section {
+    background: $white;
+}
+
+.main-section {
+    padding-top: 63px;
+    .card {
+        @extend .border-0;
+    }
+    .form-group {
+        @extend .mb-4;
+    }
+    .btn {
+        height: 40px;
     }
 }

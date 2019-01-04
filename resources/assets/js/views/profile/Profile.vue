@@ -132,13 +132,12 @@
             getUserDetail(){ 
                 axios.get(Constant.apiBaseUrl+'user/get-details/').then(response =>  {
                     if(response.data.success){ 
-                        console.log("response.data.data.roles::",response.data.data.roles);
                         let indxOfCustomer =  (response.data.data.roles).findIndex(item => item.slug == "customer") 
-                        console.log("indxOfCustomer::",indxOfCustomer);
+                        // console.log("indxOfCustomer::",indxOfCustomer);
                         if(indxOfCustomer > -1){
                             this.isCustomer = true;
                         } 
-                        console.log("this.isCustomer::",this.isCustomer);
+                        // console.log("this.isCustomer::",this.isCustomer);
                         this.userProfileDetail = response.data.data.person_detail;
                         // this.userProfileDetail.user_id = response.data.data.id;
                         this.userProfileDetail.email = response.data.data.email;
