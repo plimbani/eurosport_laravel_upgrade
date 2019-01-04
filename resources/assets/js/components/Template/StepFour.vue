@@ -119,7 +119,7 @@
 							<label class="col-12 form-control-label">Colour</label>
 							<div class="col-12">
 								<div class="template-font-color-box pull-left mr-2" @click="setTemplateFontColor(color)" v-for="color in templateFontColors" :style="{'background-color': color}" :class="{ 'template-font-color-active' : templateFormDetail.stepfour.template_font_color == color }" ></div>
-								<input type="hidden" name="template_font_color" v-model="templateFormDetail.stepfour.template_font_color" v-validate="'required'" :class="{'is-danger': errors.has('template_font_color') }" data-vv-as="Template font color">
+								<input type="hidden" name="template_font_color" v-model="templateFormDetail.stepfour.template_font_color" v-validate="'required'" :class="{'is-danger': errors.has('template_font_color') }" data-vv-as="template font color">
 							</div>
 							<div class="col-12">
 								<i v-show="errors.has('template_font_color')" class="fa fa-warning"></i>
@@ -162,12 +162,14 @@
         	saveTemplateDetail() {
         		var templateData = {'templateFormDetail': this.templateFormDetail};
         		this.$validator.validateAll().then((response) => {
-	        		Template.saveTemplateDetail(templateData).then(
-	        			(response) => {
-	        			},
-	        			(error) => {
-	        			}
-	        		);
+        			if(response) {
+        				Template.saveTemplateDetail(templateData).then(
+		        			(response) => {
+		        			},
+		        			(error) => {
+		        			}
+		        		);
+        			}
                 }).catch((errors) => {
 
                 });	        		
