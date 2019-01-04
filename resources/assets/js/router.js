@@ -44,15 +44,7 @@ import LayoutTournament from './views/layouts/LayoutTournament.vue'
 // Website Layout
 import LayoutWebsite from './views/layouts/LayoutWebsite.vue'
 
-// Thankyou Layout
-import LayoutProfile from './views/layouts/LayoutProfile.vue'
-import Profile from './views/profile/Profile.vue'
 
-// Profile Layout
-import LayoutThankyou from './views/layouts/LayoutThankyou.vue'
-import Thankyou from './views/thankyou/Thankyou.vue'
-
-import Buylicense from './views/buylicense/Buylicense.vue'
 
 // Full EuroSport Layout
 import FullLayoutTournament from './views/layouts/FullLayoutTournament.vue'
@@ -75,6 +67,18 @@ import LayoutUserManagement from './views/layouts/LayoutUserManagement.vue'
 
 // Commercialisation Layout
 import LayoutCommercialisation from './views/layouts/LayoutCommercialisation.vue'
+
+// Thankyou Layout
+import LayoutProfile from './views/layouts/LayoutProfile.vue'
+import Profile from './views/profile/Profile.vue'
+
+// Profile Layout
+import LayoutThankyou from './views/layouts/LayoutThankyou.vue'
+import Thankyou from './views/thankyou/Thankyou.vue'
+
+import Buylicense from './views/buylicense/Buylicense.vue'
+// payment view
+import payment from './views/payment/payment.vue'
 
 //User Pages
 import UserList from './views/admin/users/List.vue'
@@ -341,6 +345,17 @@ const routes = [
                 path: '/',
                 component: Buylicense,
                 name: 'buylicense'
+            }
+        ]
+    },
+    {
+        path: '/payment', component: LayoutCommercialisation,
+        meta: { requiresAuth: true },
+        children: [
+            {
+                path: '/',
+                component: payment,
+                name: 'payment'
             }
         ]
     },

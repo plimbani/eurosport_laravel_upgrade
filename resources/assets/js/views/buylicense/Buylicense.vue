@@ -7,7 +7,7 @@
 
         <input type="hidden" name="ORDERID" v-model="orderId">
 
-        <input type="hidden" name="AMOUNT" value="2000">
+        <input type="hidden" name="AMOUNT" v-model="amount">
 
         <input type="hidden" name="CURRENCY" value="EUR">
 
@@ -121,8 +121,8 @@
                                 </div>
                                 <div class="row justify-content-end">
                                     <div class="col-lg-6">
-                                        <p class="btn btn-success btn-block" v-on:click="buyALicence()">Buy your license</p>
-                                        <!-- <button class="btn btn-success btn-block">Buy your license</button> --> 
+                                        <p v-if ="!disabled" class="btn btn-success btn-block"  v-on:click="buyALicence()">Buy your license</p>
+                                        <button v-else="disabled" class="btn btn-success btn-block" disabled="true">Buy your license</button> 
                                     </div>
                                 </div>
                             </div>
@@ -147,36 +147,34 @@
         },
         data() {
             return {
-              tournamentData:{
-                tournament_max_teams: 2,  
-                tournament_name: "",
-                // tournament_start_date:"12/25/2018",  
-                // tournament_end_date:"12/25/2018", 
-                tournament_start_date:new Date(),  
-                tournament_end_date:new Date(), 
-                total_amount:100, 
-              },
-              startDisabledDates:{
-                to: new Date(Date.now() - 8640000),
-              },
-              endDisabledDates:{
-                 to: new Date(Date.now() - 8640000),
-                // from: new Date(Date.now() - 8640000),
-                // from: new Date(this.tournamentData.tournament_start_date + 8640000),
-              },
-              shaSignIn:"", 
-              orderId:"", 
-              pspid:"", 
+                tournamentData:{
+                    tournament_max_teams: 2,  
+                    tournament_name: "",
+                    // tournament_start_date:"12/25/2018",  
+                    // tournament_end_date:"12/25/2018", 
+                    tournament_start_date:new Date(),  
+                    tournament_end_date:new Date(), 
+                    total_amount:100, 
+                },
+                startDisabledDates:{
+                    to: new Date(Date.now() - 8640000),
+                },
+                endDisabledDates:{
+                    to: new Date(Date.now() - 8640000),
+                },
+                shaSignIn:"", 
+                orderId:"", 
+                pspid:"", 
+                amount:"",
+                disabled:false
             }
         },
-        beforeRouteEnter(to, from, next) {
-            // generateHashKey
+        beforeRouteEnter(to, from, next) { 
               if(Object.keys(to.query).length !== 0) { //if the url has query (?query)
                 next(vm => { 
                     setTimeout(function(){ 
                          vm.tournamentData.tournament_max_teams = to.query.teams; 
-                    }, 100);
-                   
+                    }, 100); 
                })
             }
             next()
@@ -191,44 +189,35 @@
             buyALicence(e){
                 this.$validator.validateAll();
                 if (!this.errors.any()) {
+                    this.disabled = true;
                     this.tournamentData.tournament_start_date = moment(this.tournamentData.tournament_start_date).format('MM/DD/YYYY')
                     this.tournamentData.tournament_end_date = moment(this.tournamentData.tournament_end_date).format('MM/DD/YYYY')
                     axios.post(Constant.apiBaseUrl+'buy-license', this.tournamentData).then(response =>  {
-                         if (response.data.success) {
-                            // console.log("response.data::",response.data.payment_details);
+                            if (response.data.success) {
                             this.shaSignIn = response.data.payment_details.shaSignIn;
                             this.orderId = response.data.payment_details.orderId;
                             this.pspid = response.data.payment_details.pspid;
-                            
+                            this.amount = this.tournamentData.total_amount; 
                             let self = this;
-                            setTimeout(function(){
-                                // console.log("after timeout")
+                            setTimeout(function(){ 
                                 self.$refs.paymentSubmit.click();
-                            },500)
-                            // this.$router.push({'name':'welcome'})
+                                self.disabled = false;
+                            },500) 
                          }else{
-                             toastr['error'](response.data.message, 'Error');
+                            this.disabled = true;
+                            toastr['error'](response.data.message, 'Error');
                          }
                      }).catch(error => {
+                        this.disabled = true;
                          console.log("error in buyALicence::",error);
-                     });
-                    // this.$router.push({'name':'welcome'}) 
+                     }); 
                 }
             },
             customFormatter(date) {
               return moment(date).format('MM/DD/YYYY');
-            },
-            getGenerateHashKey(){
-                // axios.get(Constant.apiBaseUrl+'generateHashKey').then(response =>  {
-                //     // console.log("response.data::",response.data.data);
-                //     if(response.data.success){
-                //           this.shaSignIn = response.data.data; 
-                //     }
-                //  })
             }, 
         },
-        beforeMount(){ 
-            // this.getGenerateHashKey(); 
+        beforeMount(){  
         }
     }
 </script>

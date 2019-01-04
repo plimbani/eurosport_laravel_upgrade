@@ -85,7 +85,7 @@
                         <div class="row mt-5">
                             <div class="col-lg-8">
                                 <div class="form-group">
-                                    <button class="btn btn-success">Register with Easy Match Manager</button>
+                                    <button class="btn btn-success" :disabled="disabled">Register with Easy Match Manager</button>
                                 </div>
                             </div>
                         </div> 
@@ -118,14 +118,17 @@
                     zip: '',
                     country: 1
                 },
-                countries:{}
+                countries:{},
+                disabled:false
             }
         },
         methods: {
             registerUser(e){
+               
                 // console.log("registerUser");
                 this.$validator.validateAll();
                 if (!this.errors.any()) {
+                     this.disabled = true;
                     // console.log("in if")
                     axios.post(Constant.apiBaseUrl+'commercialisation/thankyou', this.registerData).then(response =>  {
                          // console.log("response in register::",response.data); 
@@ -137,7 +140,9 @@
                          }else{
                              toastr['error'](response.data.message, 'Error');
                          }
+                        this.disabled = false;
                      }).catch(error => {
+                        this.disabled = false;
                          console.log("error in register::",error);
                      });
                      

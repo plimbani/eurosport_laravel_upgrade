@@ -28,12 +28,7 @@ class UpdateRequest extends FormRequest
             'first_name' => 'required',
             'last_name' => 'required',
             'email' => 'required',
-            'address' => 'required',
             'organisation' => 'required',
-            'job_title' => 'required',
-            'city' => 'required',
-            'zip' => 'required',
-            'country' => 'required',
         ];
     }
 }
