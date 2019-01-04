@@ -126,30 +126,31 @@
             registerUser(e){
                
                 // console.log("registerUser");
-                this.$validator.validateAll();
-                if (!this.errors.any()) {
-                     this.disabled = true;
-                    // console.log("in if")
-                    axios.post(Constant.apiBaseUrl+'commercialisation/thankyou', this.registerData).then(response =>  {
-                         // console.log("response in register::",response.data); 
-                         if (response.data.success) {
-                            // console.log("inside settttt:::",response.data.data.token);
-                            Ls.set('auth.token',response.data.data.token)
-                            Ls.set('email',this.registerData.email)
-                            this.$router.push({'name':'thankyou'})
-                         }else{
-                             toastr['error'](response.data.message, 'Error');
-                         }
-                        this.disabled = false;
-                     }).catch(error => {
-                        this.disabled = false;
-                         console.log("error in register::",error);
-                     });
-                     
-                }else{
-                    // console.log("in elsee::",this.errors.items);
-                    // console.log("first element of errors::",this.errors.items[0]);
-                }
+                this.$validator.validateAll().then((response) => {
+                    if(response) {
+                        if (!this.errors.any()) {
+                            this.disabled = true;
+                            // console.log("in if")
+                            axios.post(Constant.apiBaseUrl+'commercialisation/thankyou', this.registerData).then(response =>  {
+                                 // console.log("response in register::",response.data); 
+                                 if (response.data.success) {
+                                    // console.log("inside settttt:::",response.data.data.token);
+                                    Ls.set('auth.token',response.data.data.token)
+                                    Ls.set('email',this.registerData.email)
+                                    this.$router.push({'name':'thankyou'})
+                                 }else{
+                                     toastr['error'](response.data.message, 'Error');
+                                 }
+                                this.disabled = false;
+                             }).catch(error => {
+                                this.disabled = false;
+                                 console.log("error in register::",error);
+                             });
+                        }
+                    }
+                }).catch(() => {
+                    // fail stuff
+                });
             },
 
             getCountries(){
