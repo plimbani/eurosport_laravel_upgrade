@@ -61,5 +61,13 @@ class TemplateController extends BaseController
     public function editTemplate(Request $request, $id)
     {
         return $this->templateObj->editTemplate($id);
-    }    
+    }
+
+    /**
+     * Update template
+     */
+    public function updateTemplateDetail(Request $request)
+    {
+        return $this->templateObj->updateTemplateDetail($request->all());
+    }
 }

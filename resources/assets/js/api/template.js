@@ -18,5 +18,8 @@ export default {
 	},
 	editTemplate(id) {
 		return api.get('template/edit/'+id)
+	},
+	updateTemplateDetail(templateData) {
+		return api.post('updateTemplateDetail', templateData)	
 	}
 }

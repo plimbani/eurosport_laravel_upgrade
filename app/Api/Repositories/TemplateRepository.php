@@ -5,11 +5,14 @@ namespace Laraspace\Api\Repositories;
 use DB;
 use Auth;
 use Laraspace\Models\User;
+use Laraspace\Traits\AuthUserDetail;
 use Laraspace\Models\TournamentTemplates;
 use Laraspace\Models\TournamentCompetationTemplates;
 
 class TemplateRepository
 {
+    use AuthUserDetail;
+
     /*
      * Get all templates
      *
@@ -18,12 +21,17 @@ class TemplateRepository
      */
     public function getTemplates($data)
     {
+        $loggedInUser = $this->getCurrentLoggedInUserDetail();
         $templates = TournamentTemplates::leftjoin('users', 'tournament_template.created_by', '=', 'users.id');                                        
         if(isset($data['teamSearch']) && $data['teamSearch'] !== '') {
             $templates->where('total_teams', $data['teamSearch']);
         }
         if(isset($data['createdBySearch']) && $data['createdBySearch'] !== '') {
             $templates->where('created_by', $data['createdBySearch']);
+        }
+
+        if($loggedInUser->hasRole('tournament.administrator')) {
+            $templates->where('created_by', $loggedInUser->id);
         }
 
         $templates->whereNull('tournament_template.deleted_at');
@@ -81,6 +89,59 @@ class TemplateRepository
      */
     public function saveTemplateDetail($data)
     {
+        $templateJson = $this->generateTemplateJson($data);
+        $templateData = $this->insertTemplate($data, $templateJson);
+
+        return $templateData;
+    }
+
+    /*
+     * Edit template
+     *
+     * @param  array $id
+     * @return response
+     */
+    public function editTemplate($id)
+    {
+        $tournamentTemplate = TournamentTemplates::where('id', $id)->first();
+
+        return $tournamentTemplate;
+    }
+
+    /*
+     * Update template
+     *
+     * @param  array $id
+     * @return response
+     */
+    public function updateTemplateDetail($data)
+    {
+        $templateJson = $this->generateTemplateJson($data);
+        $tournamentCompetationTemplateCount = TournamentCompetationTemplates::where('tournament_template_id', $data['editedTemplateId'])->count();
+
+        $tournamentTemplate = TournamentTemplates::findOrFail($data['editedTemplateId']);
+        if($tournamentCompetationTemplateCount > 0) {
+            $tournamentTemplate->is_latest = 0;
+            $tournamentTemplate->save();
+
+            $data['version'] = $tournamentTemplate->version + 1;
+            $data['inherited_from'] = $tournamentTemplate->id;
+            return $this->insertTemplate($data, $templateJson);
+        }
+
+        $templateData = $this->updateTemplate($data, $templateJson);
+
+        return $templateData;
+    }
+
+    /*
+     * Genereate template JSON
+     *
+     * @param  array $id
+     * @return response
+     */
+    public function generateTemplateJson($data)
+    {
         $finalArray = [];
         $finalArray['total_matches'] = '';
         $finalArray['tournament_id'] = 15;
@@ -128,9 +189,43 @@ class TemplateRepository
             $groupCount += count($round['groups']);
         }
 
-        // storing template data
+        return json_encode($finalArray);
+    }
+
+    /*
+     * Insert template
+     *
+     * @param
+     * @return response
+     */
+    public function insertTemplate($data, $templateJson)
+    {
         $tournamentTemplate = new TournamentTemplates();
-        $tournamentTemplate->json_data = json_encode($finalArray);
+        $tournamentTemplate->json_data = $templateJson;
+        $tournamentTemplate->name = $data['templateFormDetail']['stepone']['templateName'];
+        $tournamentTemplate->total_teams = $data['templateFormDetail']['stepone']['no_of_teams'];
+        $tournamentTemplate->editor_type = $data['templateFormDetail']['stepone']['editor'];
+        $tournamentTemplate->template_form_detail = json_encode($data['templateFormDetail']);
+        $tournamentTemplate->version = array_get($data,'version', 1);
+        $tournamentTemplate->inherited_from = array_get($data,'inherited_from', NULL);
+        $tournamentTemplate->created_by = Auth::user()->id;
+        $tournamentTemplate->save();
+
+        // file_put_contents(resource_path('templates') . '/' . 'template555.json', $templateJson);
+
+        return $tournamentTemplate;
+    }
+
+    /*
+     * Update template
+     *
+     * @param  array $id
+     * @return response
+     */
+    public function updateTemplate($data, $templateJson)
+    {
+        $tournamentTemplate = TournamentTemplates::findOrFail($data['editedTemplateId']);
+        $tournamentTemplate->json_data = $templateJson;
         $tournamentTemplate->name = $data['templateFormDetail']['stepone']['templateName'];
         $tournamentTemplate->total_teams = $data['templateFormDetail']['stepone']['no_of_teams'];
         $tournamentTemplate->editor_type = $data['templateFormDetail']['stepone']['editor'];
@@ -138,9 +233,9 @@ class TemplateRepository
         $tournamentTemplate->created_by = Auth::user()->id;
         $tournamentTemplate->save();
 
-        echo "<pre>";print_r(json_encode($finalArray));echo "</pre>";exit;
-        // saving json file
-        file_put_contents(resource_path('templates') . '/' . 'template555.json', json_encode($finalArray));
+        // file_put_contents(resource_path('templates') . '/' . 'template555.json', $templateJson);
+
+        return $tournamentTemplate;
     }
 
     /*
@@ -151,19 +246,6 @@ class TemplateRepository
      */
     public function deleteTemplate($id)
     {
-        echo "<pre>";print_r($id);echo "</pre>";exit;
-    }
-
-    /*
-     * Edit template
-     *
-     * @param  array $id
-     * @return response
-     */
-    public function editTemplate($id)
-    {
-        $tournamentTemplate = TournamentTemplates::where('id', $id)->first();
-
-        return $tournamentTemplate;
-    }
+        return TournamentTemplates::find($id)->delete();
+    }    
 }

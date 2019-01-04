@@ -162,12 +162,23 @@
         	saveTemplateDetail() {
         		var templateData = {'templateFormDetail': this.templateFormDetail};
         		this.$validator.validateAll().then((response) => {
-	        		Template.saveTemplateDetail(templateData).then(
-	        			(response) => {
-	        			},
-	        			(error) => {
-	        			}
-	        		);
+        			if(this.editedTemplateId) {
+        				var templateData = {'templateFormDetail': this.templateFormDetail, 'editedTemplateId': this.editedTemplateId};
+        				Template.updateTemplateDetail(templateData).then(
+		        			(response) => {
+		        			},
+		        			(error) => {
+		        			}
+		        		);
+        			} else {
+        				var templateData = {'templateFormDetail': this.templateFormDetail};
+		        		Template.saveTemplateDetail(templateData).then(
+		        			(response) => {
+		        			},
+		        			(error) => {
+		        			}
+		        		);
+        			}
                 }).catch((errors) => {
 
                 });	        		
