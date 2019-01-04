@@ -221,7 +221,7 @@
                 $("body .js-loader").addClass('d-none');
                 $("#delete_modal").modal("hide");
                 toastr.success('Template has been deleted successfully.', 'Delete Template', {timeOut: 5000});
-
+                this.$parent.getTemplates();
               },
               (error)=> {
               }
