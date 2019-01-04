@@ -13,7 +13,7 @@
     @if(config('current_layout') === 'tmp')
         <link href="{{mix('assets/css/laraspace.css')}}" rel="stylesheet" type="text/css">
     @else
-        <link href="{{mix('assets/css/laraspace.css')}}" rel="stylesheet" type="text/css">
+        <link href="{{mix('assets/css/commercialisation.css')}}" rel="stylesheet" type="text/css">
     @endif
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <link rel="apple-touch-icon" sizes="57x57" href="/assets/img/favicons/apple-icon-57x57.png">

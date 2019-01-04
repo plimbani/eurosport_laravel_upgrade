@@ -1,50 +1,48 @@
-.commercialisation {
-    .page-header {
-        .breadcrumb {
-            background: lighten($ls-color-blue--light-gradient, 40%);
-            @extend .border-0;
-            @extend .font-weight-bold;
+.page-header {
+    .breadcrumb {
+        background: lighten($ls-color-blue--light-gradient, 40%);
+        @extend .border-0;
+        @extend .font-weight-bold;
 
-            li {
-                a {
-                    @include gradient-directional($ls-color-blue--gradient, $ls-color-blue--light-gradient, 90deg);
-                    font-size: 0.875rem;
-                    @extend .text-uppercase;
+        li {
+            a {
+                @include gradient-directional($ls-color-blue--gradient, $ls-color-blue--light-gradient, 90deg);
+                font-size: 0.875rem;
+                @extend .text-uppercase;
 
-                    &:after {
-                        border-left: 13px solid $ls-color-blue--light-gradient;
-                    }
+                &:after {
+                    border-left: 13px solid $ls-color-blue--light-gradient;
+                }
+
+                &:before {
+                    border-left-color: $ls-color-blue--light-gradient;
+                    right: -12px;
+                }
+
+                &:focus,
+                &:hover {
+                    background-color: darken($ls-color-primary, 5%);
+                    border-left-color: $ls-color-blue--light-gradient;
 
                     &:before {
                         border-left-color: $ls-color-blue--light-gradient;
-                        right: -12px;
                     }
+                }
 
-                    &:focus,
-                    &:hover {
-                        background-color: darken($ls-color-primary, 5%);
+                &:active {
+                    background-color: darken($ls-color-primary, 5%);
+
+                    &:after,
+                    &:before {
                         border-left-color: $ls-color-blue--light-gradient;
-
-                        &:before {
-                            border-left-color: $ls-color-blue--light-gradient;
-                        }
-                    }
-
-                    &:active {
-                        background-color: darken($ls-color-primary, 5%);
-
-                        &:after,
-                        &:before {
-                            border-left-color: $ls-color-blue--light-gradient;
-                        }
                     }
                 }
+            }
 
-                span {
-                    color: $theme-color-primary;
-                    font-size: 0.875rem;
-                    @extend .text-uppercase;
-                }
+            span {
+                color: $theme-color-primary;
+                font-size: 0.875rem;
+                @extend .text-uppercase;
             }
         }
     }
