@@ -142,6 +142,8 @@ return [
     
     'SHA_ALGO' => env('SHA_ALGO', 'sha512'),
     
+    'payment_status' => [0 => 'Invalid', 1 => 'Cancelled', 2 => 'Authorisation Refused', 4 => 'Order Stored', 5 => 'Authorised', 7 => 'Payment Deleted', 8 => 'Refund', 9 => 'Payment Requested'],
+    
     /*
     |--------------------------------------------------------------------------
     | Autoloaded Service Providers

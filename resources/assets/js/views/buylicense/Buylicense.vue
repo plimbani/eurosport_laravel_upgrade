@@ -1,142 +1,137 @@
 <template> 
-    <div class="main-section">
-        <form action="https://ogone.test.v-psp.com/ncol/test/orderstandard_utf8.asp"  method="post">    
-        <!-- <form action=""  method="post" @submit.prevent="buyALicence">     -->
+     
+    <form action="https://ogone.test.v-psp.com/ncol/test/orderstandard_utf8.asp"  method="post">    
+    <!-- <form action=""  method="post" @submit.prevent="buyALicence">     -->
 
-            <input type="hidden" name="PSPID" v-model="pspid">
+        <input type="hidden" name="PSPID" v-model="pspid">
 
-            <input type="hidden" name="ORDERID" v-model="orderId">
+        <input type="hidden" name="ORDERID" v-model="orderId">
 
-            <input type="hidden" name="AMOUNT" v-model="amount">
+        <input type="hidden" name="AMOUNT" v-model="amount">
 
-            <input type="hidden" name="CURRENCY" value="EUR">
+        <input type="hidden" name="CURRENCY" value="EUR">
 
-            <input type="hidden" name="LANGUAGE" value="">
+        <input type="hidden" name="LANGUAGE" value="">
 
-            <input type="hidden" name="CN" value="">
+        <input type="hidden" name="CN" value="">
 
-            <input type="hidden" name="EMAIL" value="">
+        <input type="hidden" name="EMAIL" value="">
 
-            <input type="hidden" name="OWNERZIP" value="">
+        <input type="hidden" name="OWNERZIP" value="">
 
-            <input type="hidden" name="OWNERADDRESS" value="">
+        <input type="hidden" name="OWNERADDRESS" value="">
 
-            <input type="hidden" name="OWNERCTY" value="">
+        <input type="hidden" name="OWNERCTY" value="">
 
-            <input type="hidden" name="OWNERTOWN" value="">
+        <input type="hidden" name="OWNERTOWN" value="">
 
-            <input type="hidden" name="OWNERTELNO" value="">
+        <input type="hidden" name="OWNERTELNO" value="">
 
 
 
-            <!-- check before the payment: see Security: Check before the payment -->
+        <!-- check before the payment: see Security: Check before the payment -->
 
-            <input type="hidden" name="SHASIGN" v-model="shaSignIn">
+        <input type="hidden" name="SHASIGN" v-model="shaSignIn">
 
-            <!-- layout information: see Look and feel of the payment page -->
+        <!-- layout information: see Look and feel of the payment page -->
 
-            <input type="hidden" name="TITLE" value="">
+        <input type="hidden" name="TITLE" value="">
 
-            <input type="hidden" name="BGCOLOR" value="">
+        <input type="hidden" name="BGCOLOR" value="">
 
-            <input type="hidden" name="TXTCOLOR" value="">
+        <input type="hidden" name="TXTCOLOR" value="">
 
-            <input type="hidden" name="TBLBGCOLOR" value="">
+        <input type="hidden" name="TBLBGCOLOR" value="">
 
-            <input type="hidden" name="TBLTXTCOLOR" value="">
+        <input type="hidden" name="TBLTXTCOLOR" value="">
 
-            <input type="hidden" name="BUTTONBGCOLOR" value="">
+        <input type="hidden" name="BUTTONBGCOLOR" value="">
 
-            <input type="hidden" name="BUTTONTXTCOLOR" value="">
+        <input type="hidden" name="BUTTONTXTCOLOR" value="">
 
-            <input type="hidden" name="LOGO" value="">
+        <input type="hidden" name="LOGO" value="">
 
-            <input type="hidden" name="FONTTYPE" value="">
+        <input type="hidden" name="FONTTYPE" value="">
 
-            <input type="submit" id="paymentSubmit" ref="paymentSubmit" name="paymentSubmit" style="display:none">
-            
-            <section class="buy-license-section section-padding">
-                <div class="container">
-                    <div class="row justify-content-between">
-                        <div class="col-lg-6">
-                            <h1 class="font-weight-bold">Buy a License</h1>
-                            <p class="mb-5">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris posuere vel mi ac sagittis. Quisque vel nulla at nibh finibus sodales. Nam efficitur sem a mi rhoncus. </p>
+        <input type="submit" id="paymentSubmit" ref="paymentSubmit" name="paymentSubmit" style="display:none">
+        
+        <section class="buy-license-section section-padding">
+            <div class="container">
+                <div class="row justify-content-between">
+                    <div class="col-md-6">
+                        <h1 class="font-weight-bold">Buy a License</h1>
+                        <p class="mb-5">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris posuere vel mi ac sagittis. Quisque vel nulla at nibh finibus sodales. Nam efficitur sem a mi rhoncus. </p>
 
-                            <label>Number of teams competing</label>
+                        <h4 class="text-uppercase font-weight-bold">Number of teams competing</h4>
 
-                            <div class="row my-4 my-lg-5">
-                                <div class="col-10 col-md-11 col-lg-12">
-                                    <vue-slider :min='2' :max='60' tooltip-dir='right' v-model="tournamentData.tournament_max_teams"></vue-slider>
+                        <p><vue-slider :min='2' :max='60' v-model="tournamentData.tournament_max_teams"></vue-slider></p>
+
+                        <h4 class="text-uppercase font-weight-bold">When will the tournament run?</h4>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <datepicker  @selected="selectStartDate" id="startDate" :value="tournamentData.tournament_start_date" :disabled-dates="startDisabledDates" :format="customFormatter" v-validate="{ rules: { required: true } }"></datepicker>
                                 </div>
                             </div>
-
-                            <label>When will the tournament run?</label>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <datepicker  @selected="selectStartDate" id="startDate" input-class="form-control" :value="tournamentData.tournament_start_date" :disabled-dates="startDisabledDates" :format="customFormatter" v-validate="{ rules: { required: true } }"></datepicker>
-                                    </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <datepicker @selected="selectEndDate" id="endDate" :value="tournamentData.tournament_end_date" :disabled-dates="endDisabledDates" :format="customFormatter" v-validate="{ rules: { required: true } }"></datepicker>
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <datepicker @selected="selectEndDate" id="endDate" input-class="form-control" :value="tournamentData.tournament_end_date" :disabled-dates="endDisabledDates" :format="customFormatter" v-validate="{ rules: { required: true } }"></datepicker>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <label>Name of your tournament</label>
-                            <div class="form-group">
-                                <input type="text" class="form-control form-control-danger" placeholder="Tournament Name" id="tournament_name" name="tournament_name" v-model="tournamentData.tournament_name" v-validate="{ rules: { required: true } }">
-                                <span class="help is-danger" v-show="errors.has('tournament_name')">The tournament name field is required.</span> 
                             </div>
                         </div>
-                        <div class="col-lg-5 mt-3 mt-lg-0">
-                            <div class="card shaded-card">
-                                <div class="card-block">
-                                    <div class="card-title">
-                                        <div class="row align-items-center">
-                                            <div class="col-md-6 col-lg-7">
-                                                <h3 class="mb-0 text-uppercase font-weight-bold">Your Cart</h3>
-                                            </div>
-                                            <div class="col-md-6 col-lg-5 mt-2 mt-md-0">
-                                                <select class="form-control" id="gbp">
-                                                    <option selected value="GBP">GBP</option>
-                                                    <option value="EURO">EURO</option> 
-                                                </select>
-                                            </div>
+
+                        <div class="form-group">
+                            <label for="tournament-name">Name of your tournament</label>
+                            <input type="text" class="form-control form-control-danger" placeholder="Tournament Name" id="tournament_name" name="tournament_name" v-model="tournamentData.tournament_name" v-validate="{ rules: { required: true } }">
+                            <span class="help is-danger" v-show="errors.has('tournament_name')">The tournament name field is required.</span> 
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="card shaded-card">
+                            <div class="card-body">
+                                <div class="card-title">
+                                    <div class="row align-items-center">
+                                        <div class="col-lg-7">
+                                            <h3 class="mb-0 text-uppercase font-weight-bold">Your Cart</h3>
+                                        </div>
+                                        <div class="col-lg-5">
+                                            <select class="form-control" id="gbp">
+                                                <option selected value="GBP">GBP</option>
+                                                <option value="EURO">EURO</option> 
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="divider my-3"></div>
+
+                                <div class="card-text">
+                                    <div class="row">
+                                        <div class="col-lg-7">
+                                            <p class="mb-0">32 team license for a 4 day tournament</p>
+                                        </div>
+                                        <div class="col-lg-5">
+                                            <p class="text-right mb-0">£100.00</p>
                                         </div>
                                     </div>
 
                                     <div class="divider my-3"></div>
 
-                                    <div class="card-text">
-                                        <div class="row">
-                                            <div class="col-sm-6 col-md-7 col-lg-7">
-                                                <p class="mb-0">32 team license for a 4 day tournament</p>
-                                            </div>
-                                            <div class="col-sm-6 col-md-5 col-lg-5">
-                                                <p class="text-sm-right mb-0 mt-3 mt-sm-0">£100.00</p>
-                                            </div>
-                                        </div>
-
-                                        <div class="divider my-3 opacited"></div>
-
-                                        <p class="text-sm-right font-weight-bold">£100.00</p>
-                                    </div>
-                                    <div class="row justify-content-end">
-                                        <div class="col-md-7 col-lg-7 col-xl-6">
-                                            <button v-if ="!disabled" class="btn btn-success btn-block"  v-on:click="buyALicence()">Buy your license</button>
-                                            <button v-else="disabled" class="btn btn-success btn-block" disabled="true">Buy your license</button> 
-                                        </div>
+                                    <p class="text-right font-weight-bold">£100.00</p>
+                                </div>
+                                <div class="row justify-content-end">
+                                    <div class="col-lg-6">
+                                        <p v-if ="!disabled" class="btn btn-success btn-block"  v-on:click="buyALicence()">Buy your license</p>
+                                        <button v-else="disabled" class="btn btn-success btn-block" disabled="true">Buy your license</button> 
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </section>
-        </form>  
-    </div>
+            </div>
+        </section>
+      </form>  
 </template>
 <script type="text/babel">
     import Auth from '../../services/auth'

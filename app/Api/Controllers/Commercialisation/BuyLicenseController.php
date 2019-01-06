@@ -23,7 +23,8 @@ class BuyLicenseController extends BaseController
     // public function __construct(RegisterContract $registerObj)
     public function __construct(TransactionService $transactionSerObj)
     {
-        $this->transactionObj = $transactionSerObj;        
+        $this->transactionObj = $transactionSerObj;
+        $this->tournamentObj = new TournamentRepository();
     }
 
     /**
@@ -32,7 +33,7 @@ class BuyLicenseController extends BaseController
      */
     public function buyLicense(AddRequest $request)
     {
-        try {
+        try {            
             $requestData = $request->all();
             //Add tournament
             $tournamentRes = $this->tournamentObj->addTournamentDetails($requestData, 'api');
@@ -51,6 +52,7 @@ class BuyLicenseController extends BaseController
                 ]);
             }
         } catch (\Exception $ex) {
+            dd($ex);
             return response()->json(['success' => false, 'status' => Response::HTTP_NOT_FOUND, 'data' => [], 'error' => [],
                         'message' => 'Somethind went wrong. Please try again letter.']);
         }

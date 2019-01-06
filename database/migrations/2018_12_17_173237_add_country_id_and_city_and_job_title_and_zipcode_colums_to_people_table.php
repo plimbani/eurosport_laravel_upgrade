@@ -18,7 +18,7 @@ class AddCountryIdAndCityAndJobTitleAndZipcodeColumsToPeopleTable extends Migrat
             $table->unsignedInteger('country_id')->nullable()->default(NULL)->after('gender');
             $table->string('city')->nullable()->default(NULL)->after('country_id');
             $table->string('job_title')->nullable()->default(NULL)->after('city');
-            $table->integer('zipcode')->nullable()->default(NULL)->after('job_title');
+            $table->string('zipcode')->nullable()->default(NULL)->after('job_title');
 
             $table->foreign('country_id')->references('id')->on('countries');            
         });
