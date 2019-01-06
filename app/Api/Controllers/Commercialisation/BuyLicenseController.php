@@ -52,7 +52,6 @@ class BuyLicenseController extends BaseController
                 ]);
             }
         } catch (\Exception $ex) {
-            dd($ex);
             return response()->json(['success' => false, 'status' => Response::HTTP_NOT_FOUND, 'data' => [], 'error' => [],
                         'message' => 'Somethind went wrong. Please try again letter.']);
         }
