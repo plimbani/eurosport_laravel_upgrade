@@ -87,11 +87,11 @@
                                 <div class="col-md-9 col-lg-6">
                                     <label>Address</label>
                                     <div class="form-group">
-                                        <input type="textarea" class="form-control" placeholder="Address" id="address-line-1" name="address" v-model="registerData.address" v-validate="{ rules: { required: true } }">
+                                        <input type="textarea" class="form-control" placeholder="Address" id="address-line-1" name="address" v-model="registerData.address_1" v-validate="{ rules: { required: true } }">
                                         <span class="help is-danger" v-show="errors.has('address')">The address field is required.</span>
                                     </div>
                                     <div class="form-group">
-                                        <input type="text" class="form-control" id="address-line-2">
+                                        <input type="text" class="form-control" id="address-line-2"  v-model="registerData.address_2">
                                     </div>
 
                                     <label>Town or city</label>
@@ -147,7 +147,8 @@
                     password_confirmation: '',
                     organisation: '',
                     job_title: '',
-                    address: '',
+                    address_1: '',
+                    address_2: '',
                     city: '',
                     zip: '',
                     country: 1
@@ -163,8 +164,7 @@
                 this.$validator.validateAll().then((response) => {
                     if(response) {
                         if (!this.errors.any()) {
-                            this.disabled = true;
-                            // console.log("in if")
+                            this.disabled = true; 
                             axios.post(Constant.apiBaseUrl+'commercialisation/thankyou', this.registerData).then(response =>  {
                                  // console.log("response in register::",response.data); 
                                  if (response.data.success) {
