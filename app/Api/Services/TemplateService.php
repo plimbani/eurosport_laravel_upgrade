@@ -89,4 +89,15 @@ class TemplateService implements TemplateContract
         $data = $this->templateRepoObj->editTemplate($id);
         return ['data' => $data, 'status_code' => '200'];
     }
+
+    /*
+     * Update template data
+     *
+     * @param  array $data
+     * @return response
+     */
+    public function updateTemplateDetail($data) {
+        $data = $this->templateRepoObj->updateTemplateDetail($data);
+        return ['data' => $data, 'status_code' => '200'];
+    }    
 }

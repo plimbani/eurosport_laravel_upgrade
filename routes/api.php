@@ -264,6 +264,7 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
     $api->get('template/edit/{id}', 'Laraspace\Api\Controllers\TemplateController@editTemplate');
 
     $api->post('saveTemplateDetail', 'Laraspace\Api\Controllers\TemplateController@saveTemplateDetail');
+    $api->post('updateTemplateDetail', 'Laraspace\Api\Controllers\TemplateController@updateTemplateDetail');
 });
 
 // Websites CMS routes

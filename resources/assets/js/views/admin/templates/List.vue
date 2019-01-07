@@ -69,7 +69,7 @@
                                           <i class="jv-icon jv-edit"></i>
                                         </a>
                                         <a href="javascript:void(0)"
-                                          @click="deleteTournament(template)">
+                                          @click="deleteTemplate(template)">
                                           <i class="jv-icon jv-dustbin"></i>
                                         </a>
                                     </td>
@@ -178,7 +178,7 @@
               this.$root.$emit('getTemplateDetail');
             }, 500);
           },
-          deleteTournament(template) {
+          deleteTemplate(template) {
             Template.getTemplateDetail(template).then(
               (response)=> {
                   if(response.data.data.length == 0) {
@@ -219,8 +219,9 @@
             Template.deleteTemplate(this.deleteAction).then(
               (response)=> {
                 $("body .js-loader").addClass('d-none');
-                //  $("#delete_modal").modal("hide");
-                // toastr.success('Template has been deleted successfully.', 'Delete Template', {timeOut: 5000});
+                $("#delete_modal").modal("hide");
+                toastr.success('Template has been deleted successfully.', 'Delete Template', {timeOut: 5000});
+                this.$parent.getTemplates();
               },
               (error)=> {
               }

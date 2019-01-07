@@ -141,7 +141,7 @@
 <script type="text/javascript">
 	import Template from '../../api/template.js'
 	export default {
-		props: ['templateFormDetail'],
+		props: ['templateFormDetail', 'editedTemplateId'],
         data() {
             return {
             	templateFontColors: [
@@ -162,16 +162,26 @@
         	saveTemplateDetail() {
         		var templateData = {'templateFormDetail': this.templateFormDetail};
         		this.$validator.validateAll().then((response) => {
-        			if(response) {
-        				Template.saveTemplateDetail(templateData).then(
-		        			(response) => {
-		        			},
-		        			(error) => {
-		        			}
-		        		);
-        			}
+	        		if(response) {
+	        			var templateData = { 'templateFormDetail': this.templateFormDetail };
+	        			if(this.editedTemplateId) {
+	        				templateData.editedTemplateId = this.editedTemplateId;
+	        				Template.updateTemplateDetail(templateData).then(
+			        			(response) => {
+			        			},
+			        			(error) => {
+			        			}
+			        		);
+	        			} else {
+			        		Template.saveTemplateDetail(templateData).then(
+			        			(response) => {
+			        			},
+			        			(error) => {
+			        			}
+			        		);
+	        			}
+	        		}
                 }).catch((errors) => {
-
                 });	        		
         	},
         	back() {

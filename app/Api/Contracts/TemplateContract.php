@@ -49,5 +49,13 @@ interface TemplateContract
      * @param  $id
      * @return response
      */
-    public function editTemplate($id);    
+    public function editTemplate($id);
+
+    /*
+     * Update template data
+     *
+     * @param  $data
+     * @return response
+     */
+    public function updateTemplateDetail($data);    
 }
