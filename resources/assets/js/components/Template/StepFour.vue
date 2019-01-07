@@ -80,6 +80,9 @@
 															<div v-if="teamIndex % 2 === 0">
 																<span v-if="roundIndex == 0">{{ 'Team ' + (parseInt(group.teams[teamIndex].position) + 1) + ' vs ' + 'Team ' + (parseInt(group.teams[teamIndex + 1].position) + 1) }}</span>
 																<span v-if="roundIndex > 0">{{ getMatchDetail(team.position, team.position_type) + ' vs ' + getMatchDetail(group.teams[teamIndex + 1].position, group.teams[teamIndex + 1].position_type) }}</span>
+																<span v-if="group.matches[teamIndex % 2].is_final === true">
+																	<i class="fa fa-igloo"></i> (final)
+																</span>
 															</div>
 														</li>
 													</ul>

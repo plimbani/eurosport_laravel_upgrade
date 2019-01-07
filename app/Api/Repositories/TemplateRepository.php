@@ -142,6 +142,7 @@ class TemplateRepository
      */
     public function generateTemplateJson($data)
     {
+        echo "<pre>";print_r($data);exit;
         $finalArray = [];
         $finalArray['total_matches'] = '';
         $finalArray['tournament_id'] = 15;
