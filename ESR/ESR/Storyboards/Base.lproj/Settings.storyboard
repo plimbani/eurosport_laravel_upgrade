@@ -157,33 +157,8 @@
                                     <constraint firstAttribute="height" constant="50" id="lHS-e4-k52"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wBv-PZ-a6Q">
-                                <rect key="frame" x="0.0" y="134" width="320" height="50"/>
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Vibration" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dI0-dW-R5w">
-                                        <rect key="frame" x="20" y="15" width="66" height="20"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5Kz-jd-4IP">
-                                        <rect key="frame" x="251" y="9.5" width="51" height="31"/>
-                                        <connections>
-                                            <action selector="onVibrationSwitchValueChanged:" destination="0t7-LM-bnG" eventType="valueChanged" id="OeB-WB-CLl"/>
-                                        </connections>
-                                    </switch>
-                                </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="5Kz-jd-4IP" secondAttribute="trailing" constant="20" id="OSm-1Y-0mW"/>
-                                    <constraint firstAttribute="height" constant="50" id="ZFk-8C-rot"/>
-                                    <constraint firstItem="5Kz-jd-4IP" firstAttribute="centerY" secondItem="wBv-PZ-a6Q" secondAttribute="centerY" id="deR-qX-la1"/>
-                                    <constraint firstItem="dI0-dW-R5w" firstAttribute="leading" secondItem="wBv-PZ-a6Q" secondAttribute="leading" constant="20" id="pRB-ic-AnW"/>
-                                    <constraint firstItem="dI0-dW-R5w" firstAttribute="centerY" secondItem="wBv-PZ-a6Q" secondAttribute="centerY" id="sq3-gO-gBE"/>
-                                </constraints>
-                            </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dxx-Oh-o3i">
-                                <rect key="frame" x="0.0" y="184" width="320" height="50"/>
+                                <rect key="frame" x="0.0" y="134" width="320" height="50"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Notifications" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rz9-HW-hTX">
                                         <rect key="frame" x="20" y="15" width="92" height="20"/>
@@ -209,11 +184,8 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="dxx-Oh-o3i" firstAttribute="top" secondItem="wBv-PZ-a6Q" secondAttribute="bottom" id="80i-tv-Kqa"/>
+                            <constraint firstItem="dxx-Oh-o3i" firstAttribute="top" secondItem="0WD-vx-IDQ" secondAttribute="bottom" id="CvS-CW-o8O"/>
                             <constraint firstItem="Jgs-Yv-Gns" firstAttribute="leading" secondItem="oWC-RQ-956" secondAttribute="leading" id="HgJ-DV-pLR"/>
-                            <constraint firstItem="wBv-PZ-a6Q" firstAttribute="leading" secondItem="oWC-RQ-956" secondAttribute="leading" id="Xuw-67-aOP"/>
-                            <constraint firstItem="oWC-RQ-956" firstAttribute="trailing" secondItem="wBv-PZ-a6Q" secondAttribute="trailing" id="aX1-uA-Uo6"/>
-                            <constraint firstItem="wBv-PZ-a6Q" firstAttribute="top" secondItem="0WD-vx-IDQ" secondAttribute="bottom" id="amR-hV-ozK"/>
                             <constraint firstItem="dxx-Oh-o3i" firstAttribute="leading" secondItem="oWC-RQ-956" secondAttribute="leading" id="eqJ-9p-LVq"/>
                             <constraint firstItem="oWC-RQ-956" firstAttribute="trailing" secondItem="0WD-vx-IDQ" secondAttribute="trailing" id="giM-jI-yQ5"/>
                             <constraint firstItem="Jgs-Yv-Gns" firstAttribute="top" secondItem="oWC-RQ-956" secondAttribute="top" id="kga-ba-FdU"/>
@@ -227,7 +199,6 @@
                     <connections>
                         <outlet property="switchNotifications" destination="f7D-od-eKr" id="zFR-iv-kTZ"/>
                         <outlet property="switchSound" destination="vNj-T7-GQG" id="MUc-we-sUZ"/>
-                        <outlet property="switchVibration" destination="5Kz-jd-4IP" id="UEY-sV-TBc"/>
                         <outlet property="titleNavigationBar" destination="Jgs-Yv-Gns" id="abA-Vx-6nf"/>
                     </connections>
                 </viewController>

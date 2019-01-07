@@ -35,6 +35,8 @@ class CreateAccountVC: SuperViewController {
     var titleList = [String]()
     var tournamentList = NSArray()
     
+    var paramTournamentId = -1
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         initialize()
@@ -141,8 +143,9 @@ class CreateAccountVC: SuperViewController {
                 if let tournamentList = result.value(forKey: "data") as? NSArray {
                     for tournament in tournamentList {
                         self.titleList.append((tournament as! NSDictionary).value(forKey: "name") as! String)
-                        self.tournamentList.adding(tournament)
                     }
+                    
+                    self.tournamentList = tournamentList
                 }
                 
                 self.pickerHandlerView.titleList = self.titleList
@@ -228,14 +231,17 @@ class CreateAccountVC: SuperViewController {
             }
         }
         
-        if let text = lblTournament.text {
-            if text.trimmingCharacters(in: .whitespaces).isEmpty {
-                return
-            }
+        if paramTournamentId == -1 {
+            return
         }
         
         btnCreateNewAccount.isEnabled = true
         btnCreateNewAccount.backgroundColor = UIColor.btnYellow
+    }
+    
+    
+    @objc func btnCreateAccountPressed(_ btn: UIButton) {
+        sendRegisterRequest()
     }
     
     func addUnderLineToAttributedString(_ attrString: NSMutableAttributedString, _ mainString: String, _ subString: String,_ underlineColor: UIColor,_ foregroundColor: UIColor) {
@@ -266,6 +272,7 @@ extension CreateAccountVC: PickerHandlerViewDelegate {
     func pickerDoneBtnPressed(_ title: String) {
         lblTournament.text = title
         lblTournament.textColor = .black
+        paramTournamentId = (self.tournamentList[pickerHandlerView.selectedPickerPosition] as! NSDictionary).value(forKey: "id") as! Int
         updateCreateAccountBtn()
     }
 }
@@ -383,6 +390,7 @@ extension CreateAccountVC : UITableViewDataSource, UITableViewDelegate {
                             let buttonCell = cellOwner.cell as! ButtonCell
                             buttonCell.record = field
                             buttonCell.reloadCell()
+                            buttonCell.btn.addTarget(self, action: #selector(btnCreateAccountPressed), for: .touchUpInside)
                             btnCreateNewAccount = buttonCell.btn
                             btnCreateNewAccount.isEnabled = true
                             cell = buttonCell
@@ -428,8 +436,6 @@ extension CreateAccountVC : UITableViewDataSource, UITableViewDelegate {
                 if cellType == .LabelSelectionCell {
                     self.view.endEditing(true)
                     pickerHandlerView.show()
-                } else if cellType == .ButtonCell {
-                    
                 }
             }
         }

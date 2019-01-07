@@ -20,7 +20,7 @@ class ApiManager {
     
     // MARK:- Common methods
     
-    func getHeaders(_ auth:Bool=false) -> HTTPHeaders {
+    func getHeaders(_ auth: Bool=false) -> HTTPHeaders {
         var headers = [
             "Content-Type": "application/json",
             "Accept": "application/json",
@@ -127,6 +127,10 @@ class ApiManager {
     
     func updateUserSettings(_ parameters: [String: Any]?, success: @escaping (_ result: NSDictionary) -> (), failure: @escaping (_ result: NSDictionary) -> ()) {
         postRequest(API_ENDPOINT.UPDATE_SETTINGS, parameters, success: success, failure: failure, true)
+    }
+    
+    func getUserSettings(_ parameters: [String: Any]?, success: @escaping (_ result: NSDictionary) -> (), failure: @escaping (_ result: NSDictionary) -> ()) {
+        postRequest(API_ENDPOINT.GET_SETTINGS, parameters, success: success, failure: failure, true)
     }
 
     // MARK:- Tournaments list

@@ -385,11 +385,7 @@ class ParseManager {
                         USERDEFAULTS.set(isNotification, forKey: kUserDefaults.isNotification)
                     }
                     
-                    if let isVibration = valueDic.value(forKey: "is_vibration") as? Bool {
-                        USERDEFAULTS.set(isVibration, forKey: kUserDefaults.isVibration)
-                    }
-                    
-                    if let isSound = valueDic.value(forKey: "is_sound") as? Bool {
+                   if let isSound = valueDic.value(forKey: "is_sound") as? Bool {
                         USERDEFAULTS.set(isSound, forKey: kUserDefaults.isSound)
                     }
                 }

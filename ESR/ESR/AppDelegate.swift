@@ -12,6 +12,7 @@ import GoogleMaps
 import UserNotifications
 import Firebase
 import FirebaseMessaging
+import AudioToolbox
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -79,6 +80,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     @objc func tokenRefreshNotification(notification: NSNotification) {
         if let refreshedToken = InstanceID.instanceID().token() {
             print("InstanceID token: \(refreshedToken)")
+            USERDEFAULTS.set(refreshedToken, forKey: kUserDefaults.fcmToken)
             updateFCMToken(refreshedToken)
         }
         
@@ -96,6 +98,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 print("Connected to FCM.")
             }
         }
+    }
+    
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        let deviceTokenString = deviceToken.reduce("", {$0 + String(format: "%02X", $1)})
+        print(deviceTokenString)
     }
     
     func applicationWillResignActive(_ application: UIApplication) {
@@ -177,6 +184,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 extension AppDelegate: MessagingDelegate {
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String) {
         print("Firebase registration token: \(fcmToken)")
+        USERDEFAULTS.set(fcmToken, forKey: kUserDefaults.fcmToken)
         updateFCMToken(fcmToken)
         let dataDict:[String: String] = ["token": fcmToken]
         NotificationCenter.default.post(name: Notification.Name("FCMToken"), object: nil, userInfo: dataDict)
@@ -196,6 +204,11 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         if let dic = userInfo["aps"] as? NSDictionary {
             if let alertMessage = dic.value(forKey: "alert") as? NSDictionary {
                 if application.applicationState == .active {
+                    
+                    if USERDEFAULTS.bool(forKey: kUserDefaults.isSound) {
+                       AudioServicesPlaySystemSound(1315)
+                    }
+                    
                     let alert = UIAlertController(title: alertMessage.value(forKey:"title") as? String, message: alertMessage.value(forKey: "body") as? String, preferredStyle: .alert)
                     alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
                         switch action.style{

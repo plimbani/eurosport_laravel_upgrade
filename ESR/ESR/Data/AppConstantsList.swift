@@ -98,12 +98,12 @@ enum TabIndex: Int {
 
 struct kUserDefaults {
     static let token                = "token"
+    static let fcmToken             = "fcmToken"
     static let email                = "email"
     static let password             = "password"
     static let locale               = "locale"
     static let userData             = "userData"
     static let isNotification       = "isNotification"
-    static let isVibration          = "isVibration"
     static let isSound              = "isSound"
     static let selectedTournament   = "selectedTournament"
     // System reserved key

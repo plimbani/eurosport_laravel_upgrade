@@ -148,7 +148,8 @@ class LoginVC: SuperViewController {
             return
         }
         
-        let parameters: [String: Any] = [:]
+        var parameters: [String: Any] = [:]
+        
         ApiManager().getUserDetails(parameters, success: { result in
             DispatchQueue.main.async {
                 self.view.hideProgressHUD()
@@ -156,6 +157,9 @@ class LoginVC: SuperViewController {
                 if let authenticated = result.value(forKey: "authenticated") as? Bool {
                     if authenticated {
                         ParseManager.parseLogin(result)
+                        if let fcmToken = USERDEFAULTS.string(forKey: kUserDefaults.fcmToken) {
+                            self.updateFCMToken(fcmToken)
+                        }
                         UIApplication.shared.keyWindow?.rootViewController = Storyboards.Main.instantiateMainVC()
                     } else {
                         if let message = result.value(forKey: "message") as? String {
@@ -177,6 +181,31 @@ class LoginVC: SuperViewController {
                 }
             }
         })
+    }
+    
+    
+    func updateFCMToken(_ token: String) {
+        if APPDELEGATE.reachability.connection == .none {
+            return
+        }
+        
+        var parameters: [String: Any] = [:]
+        
+        if let email = USERDEFAULTS.value(forKey: kUserDefaults.email) as? String {
+            parameters["email"] = email
+            parameters["fcm_id"] = token
+            
+            ApiManager().updateFCMTokem(parameters, success: { result in
+                DispatchQueue.main.async {
+                }
+            }, failure: { result in
+                DispatchQueue.main.async {
+                    if result.allKeys.count == 0 {
+                        return
+                    }
+                }
+            })
+        }
     }
     
     @IBAction func signInBtnPressed(_ sender: UIButton) {

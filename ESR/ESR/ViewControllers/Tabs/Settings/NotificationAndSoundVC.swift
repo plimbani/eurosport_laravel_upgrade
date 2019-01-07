@@ -10,7 +10,6 @@ import UIKit
 class NotificationAndSoundVC: SuperViewController {
 
     @IBOutlet var switchSound: UISwitch!
-    @IBOutlet var switchVibration: UISwitch!
     @IBOutlet var switchNotifications: UISwitch!
     
     override func viewDidLoad() {
@@ -24,7 +23,6 @@ class NotificationAndSoundVC: SuperViewController {
         titleNavigationBar.setBackgroundColor()
         
         switchSound.setOn(USERDEFAULTS.bool(forKey: kUserDefaults.isSound), animated: false)
-        switchVibration.setOn(USERDEFAULTS.bool(forKey: kUserDefaults.isVibration), animated: false)
         switchNotifications.setOn(USERDEFAULTS.bool(forKey: kUserDefaults.isNotification), animated: false)
     }
     
@@ -32,11 +30,7 @@ class NotificationAndSoundVC: SuperViewController {
         sendUpdateSettingsRequest()
     }
     
-    @IBAction func onVibrationSwitchValueChanged(_ sender: UISwitch) {
-        sendUpdateSettingsRequest()
-    }
-    
-    @IBAction func onNotificationsSwitchValueChanged(_ sender: UISwitch) {
+   @IBAction func onNotificationsSwitchValueChanged(_ sender: UISwitch) {
        sendUpdateSettingsRequest()
     }
     
@@ -50,7 +44,6 @@ class NotificationAndSoundVC: SuperViewController {
         var parameters: [String: Any] = [:]
         
         parameters["is_sound"] = switchSound.isOn
-        parameters["is_vibration"] = switchVibration.isOn
         parameters["is_notification"] = switchNotifications.isOn
         
         var serverUserSettings: [String: Any] = [:]
@@ -69,8 +62,14 @@ class NotificationAndSoundVC: SuperViewController {
                 
                 if let userData = ApplicationData.sharedInstance().getUserData() {
                     USERDEFAULTS.set(self.switchSound.isOn, forKey: kUserDefaults.isSound)
-                    USERDEFAULTS.set(self.switchVibration.isOn, forKey: kUserDefaults.isVibration)
                     USERDEFAULTS.set(self.switchNotifications.isOn, forKey: kUserDefaults.isNotification)
+                    
+                    if self.switchNotifications.isOn{
+                        UIApplication.shared.registerForRemoteNotifications()
+                    }
+                    else {
+                        UIApplication.shared.unregisterForRemoteNotifications()
+                    }
                     
                     ApplicationData.sharedInstance().saveUserData(userData)
                 }
