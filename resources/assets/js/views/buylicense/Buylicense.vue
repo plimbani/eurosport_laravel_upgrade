@@ -195,8 +195,7 @@
             selectEndDate(date){
                 this.tournamentData.tournament_end_date = date;
             },
-            buyALicence(e){
-                console.log("buyALicence");
+            buyALicence(e){ 
                 this.$validator.validateAll();
                 if (!this.errors.any()) {
                     this.disabled = true;
@@ -211,9 +210,14 @@
                                 this.shaSignIn = response.data.data.shaSignIn;
                                 this.orderId = response.data.data.orderId;
                                 this.pspid = response.data.data.pspid;
-                                this.pspid = response.data.data.total_amount;
+                                this.amount = response.data.data.total_amount;
                                 // this.amount = this.tournamentData.total_amount; 
-                                Ls.set('orderInfo',JSON.stringify(response.data.data))
+                                let orderInfo = this.tournamentData;
+                                orderInfo.shaSignIn = this.shaSignIn;
+                                orderInfo.orderId = this.orderId;
+                                orderInfo.pspid = this.pspid;
+                                orderInfo.total_amount = this.amount;
+                                Ls.set('orderInfo',JSON.stringify(orderInfo))
                                 let self = this;
                                 setTimeout(function(){ 
                                     self.$refs.paymentSubmit.click();

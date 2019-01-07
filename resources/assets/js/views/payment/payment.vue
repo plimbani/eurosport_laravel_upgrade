@@ -38,19 +38,24 @@
             return {
                 paymentObj:{
 
-                }
+                },
+                tournament:{}
             }
         },
         methods: {
             getPaymentDetails(){
-                axios.post(Constant.apiBaseUrl+'payment/response', this.paymentObj).then(response =>  {
+                let apiParams = {
+                    tournament:this.tournament,
+                    paymentResponse:this.paymentObj
+                } 
+                axios.post(Constant.apiBaseUrl+'payment/response', apiParams).then(response =>  {
                         if (response.data.success) {
                             this.paymentObj.amount = response.data.data.amount;
                             this.paymentObj.currency = response.data.data.currency;
                             let payment_response = JSON.parse(response.data.data.payment_response);
                             this.paymentObj.orderid = payment_response.orderID;
                            console.log("response.data::",this.paymentObj);
-                        
+                            
                         // this.$router.push({'name':'welcome'})
                      }else{
                          toastr['error'](response.data.message, 'Error');
@@ -63,12 +68,20 @@
             
         },
         beforeMount(){  
-            let tempObj = this.$route.query;
-            for(let key in tempObj){ 
-                this.paymentObj[key] = tempObj[key];
-            }  
-            // console.log('Payment ',this.paymentObj)
-            this.getPaymentDetails(); 
+            let tournament = Ls.get('orderInfo'); 
+            if(tournament != null && tournament != "null"){
+                this.tournament = JSON.parse(tournament);
+                this.tournament.total_amount = this.tournament.total_amount/100;   
+                let tempObj = this.$route.query;
+                Ls.remove('orderInfo');
+                for(let key in tempObj){ 
+                    this.paymentObj[key] = tempObj[key];
+                }  
+                // console.log('Payment ',this.paymentObj)
+                this.getPaymentDetails(); 
+            }else{
+                // console.log("else");
+            }
         }
     }
 </script>
