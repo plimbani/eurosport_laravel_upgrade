@@ -15,7 +15,7 @@ class ChangeStatusDatatypeToTransactionHistories extends Migration
     public function up()
     {
 
-        DB::statement("ALTER TABLE transaction_histories MODIFY status ENUM('Invalid','Cancelled','Authorisation Refused','Order Stored','Authorised','Payment Deleted','Refund','Payment Requested') NOT NULL");
+        DB::statement("ALTER TABLE transaction_histories MODIFY status ENUM('invalid','cancelled','authorisation_refused','order_stored','authorised','payment_deleted','refund','payment_requested') NOT NULL");
     }
 
     /**

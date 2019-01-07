@@ -24,7 +24,7 @@ class TransactionRepository
      */
     public function addDetails($requestData)
     {
-        $data = array_change_key_case($requestData, CASE_UPPER);
+        $data = array_change_key_case($requestData['paymentResponse'], CASE_UPPER);
         $authUser = JWTAuth::parseToken()->toUser();
         $userId = $authUser->id;
         if ($data['STATUS'] == 5 && !empty($requestData['tournament'])) {

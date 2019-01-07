@@ -142,7 +142,7 @@ return [
     
     'SHA_ALGO' => env('SHA_ALGO', 'sha512'),
     
-    'payment_status' => [0 => 'Invalid', 1 => 'Cancelled', 2 => 'Authorisation Refused', 4 => 'Order Stored', 5 => 'Authorised', 7 => 'Payment Deleted', 8 => 'Refund', 9 => 'Payment Requested'],
+    'payment_status' => [0 => 'invalid', 1 => 'cancelled', 2 => 'authorisation_refused', 4 => 'order_stored', 5 => 'authorised', 7 => 'payment_deleted', 8 => 'refund', 9 => 'payment_requested'],
     
     /*
     |--------------------------------------------------------------------------
