@@ -33,7 +33,7 @@ class BuyLicenseController extends BaseController
      */
     public function buyLicense(AddRequest $request)
     {
-        try {
+        try {            
             $requestData = $request->all();
             //Add tournament
             $tournamentRes = $this->tournamentObj->addTournamentDetails($requestData, 'api');
@@ -81,20 +81,20 @@ class BuyLicenseController extends BaseController
     }
 
     /**
-      @desc :static API created for haskey generate need to change once data come realtime
+     * @desc :API created for Haskey generate 
      */
-    public function generateHashKey()
+    public function generateHashKey(Request $request)
     {
-        $string = 'AMOUNT=2000b709e0ae-ab5b-4a78-bfc7-0bd54612d622CURRENCY=EURb709e0ae-ab5b-4a78-bfc7-0bd54612d622ORDERID=ORD22b709e0ae-ab5b-4a78-bfc7-0bd54612d622PSPID=EasymatchmanagerQAb709e0ae-ab5b-4a78-bfc7-0bd54612d622';
-        $shaSign = hash('sha512', $string);
-        echo $shaSign;
-        die;
+        $requestData = $request->all();
+        $orderId = 'ORDER-' . uniqid() . '-' . time();
+        $shaInString = 'AMOUNT=' . ($requestData['total_amount'] * 100) . config('app.SHA_IN_PASS_PHRASE') . 'CURRENCY=EUR' . config('app.SHA_IN_PASS_PHRASE') . 'ORDERID=' . $orderId . config('app.SHA_IN_PASS_PHRASE') . 'PSPID=' . config('app.PSPID') . config('app.SHA_IN_PASS_PHRASE');
+        $shaSign = hash(config('app.SHA_ALGO'), $shaInString);
         return response()->json([
                     'success' => true,
                     'status' => Response::HTTP_OK,
-                    'data' => $shaSign,
+                    'data' => ['shaSignIn' => $shaSign, 'total_amount' => ($requestData['total_amount'] * 100), 'pspid' => config('app.PSPID'), 'orderId' => $orderId],
                     'error' => [],
-                    'message' => 'Hash Key Genreated successfully.'
+                    'message' => 'Hash key genreated successfully.'
         ]);
     }
 }

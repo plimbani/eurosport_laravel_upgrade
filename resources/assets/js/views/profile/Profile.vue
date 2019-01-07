@@ -45,9 +45,9 @@
                         <div v-if="isCustomer" class="form-group">
                             <label>Address</label>
                             
-                             <input type="textarea" class="form-control  mb-4" placeholder="Address" id="address-line-1" name="address" v-model="userProfileDetail.address" v-validate="{ rules: { required: true } }">
+                             <input type="textarea" class="form-control  mb-4" placeholder="Address" id="address-line-1" name="address" v-model="userProfileDetail.address_1" v-validate="{ rules: { required: true } }">
                             <span class="help is-danger" v-show="errors.has('address')">The address field is required.</span>
-                            <input type="text" class="form-control" id="address-line-2">
+                            <input type="text" class="form-control" id="address-line-2" v-model="userProfileDetail.address_2">
                         </div>
 
                         <div v-if="isCustomer" class="form-group">
@@ -98,7 +98,8 @@
                     email: '',                     
                     organisation: '',
                     job_title: '',
-                    address: '',
+                    address_1: '',
+                    address_2: '',
                     city: '',
                     zip: '',
                     country: ''

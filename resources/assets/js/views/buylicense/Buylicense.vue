@@ -1,6 +1,7 @@
 <template> 
     <div class="main-section">
         <form action="https://ogone.test.v-psp.com/ncol/test/orderstandard_utf8.asp"  method="post">    
+        <!-- <form action=""  method="post">     -->
         <!-- <form action=""  method="post" @submit.prevent="buyALicence">     -->
 
             <input type="hidden" name="PSPID" v-model="pspid">
@@ -54,92 +55,95 @@
             <input type="hidden" name="FONTTYPE" value="">
 
             <input type="submit" id="paymentSubmit" ref="paymentSubmit" name="paymentSubmit" style="display:none">
-            
-            <section class="buy-license-section section-padding">
-                <div class="container">
-                    <div class="row justify-content-between">
-                        <div class="col-lg-6">
-                            <h1 class="font-weight-bold">Buy a License</h1>
-                            <p class="mb-5">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris posuere vel mi ac sagittis. Quisque vel nulla at nibh finibus sodales. Nam efficitur sem a mi rhoncus. </p>
+        </form>  
 
-                            <label>Number of teams competing</label>
+        <section class="buy-license-section section-padding">
+            <div class="container">
+                <div class="row justify-content-between">
+                    <div class="col-lg-6">
+                        <h1 class="font-weight-bold">Buy a License</h1>
+                        <p class="mb-5">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris posuere vel mi ac sagittis. Quisque vel nulla at nibh finibus sodales. Nam efficitur sem a mi rhoncus. </p>
 
-                            <div class="row my-4 my-lg-5">
-                                <div class="col-10 col-md-11 col-lg-12">
-                                    <vue-slider :min='2' :max='60' tooltip-dir='right' v-model="tournamentData.tournament_max_teams"></vue-slider>
-                                </div>
-                            </div>
+                        <label>Number of teams competing</label>
 
-                            <label>When will the tournament run?</label>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <datepicker  @selected="selectStartDate" id="startDate" input-class="form-control" :value="tournamentData.tournament_start_date" :disabled-dates="startDisabledDates" :format="customFormatter" v-validate="{ rules: { required: true } }"></datepicker>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <datepicker @selected="selectEndDate" id="endDate" input-class="form-control" :value="tournamentData.tournament_end_date" :disabled-dates="endDisabledDates" :format="customFormatter" v-validate="{ rules: { required: true } }"></datepicker>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <label>Name of your tournament</label>
-                            <div class="form-group">
-                                <input type="text" class="form-control form-control-danger" placeholder="Tournament Name" id="tournament_name" name="tournament_name" v-model="tournamentData.tournament_name" v-validate="{ rules: { required: true } }">
-                                <span class="help is-danger" v-show="errors.has('tournament_name')">The tournament name field is required.</span> 
+                        <div class="row my-4 my-lg-5">
+                            <div class="col-10 col-md-11 col-lg-12">
+                                <vue-slider :min='2' :max='60' tooltip-dir='right' v-model="tournamentData.tournament_max_teams"></vue-slider>
                             </div>
                         </div>
-                        <div class="col-lg-5 mt-3 mt-lg-0">
-                            <div class="card shaded-card">
-                                <div class="card-block">
-                                    <div class="card-title">
-                                        <div class="row align-items-center">
-                                            <div class="col-md-6 col-lg-7">
-                                                <h3 class="mb-0 text-uppercase font-weight-bold">Your Cart</h3>
-                                            </div>
-                                            <div class="col-md-6 col-lg-5 mt-2 mt-md-0">
-                                                <select class="form-control" id="gbp">
-                                                    <option selected value="GBP">GBP</option>
-                                                    <option value="EURO">EURO</option> 
-                                                </select>
-                                            </div>
+
+                        <label>When will the tournament run?</label>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                   <input type="text" class="form-control ls-datepicker" id="tournament_start_date">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    
+                                    <input type="text" class="form-control ls-datepicker" id="tournament_end_date">
+                                </div>
+                            </div>
+                        </div>
+
+                        <label>Name of your tournament</label>
+                        <div class="form-group">
+                            <input type="text" class="form-control form-control-danger" placeholder="Tournament Name" id="tournament_name" name="tournament_name" v-model="tournamentData.tournament_name" v-validate="{ rules: { required: true } }">
+                            <span class="help is-danger" v-show="errors.has('tournament_name')">The tournament name field is required.</span> 
+                        </div>
+                    </div>
+                    <div class="col-lg-5 mt-3 mt-lg-0">
+                        <div class="card shaded-card">
+                            <div class="card-block">
+                                <div class="card-title">
+                                    <div class="row align-items-center">
+                                        <div class="col-md-6 col-lg-7">
+                                            <h3 class="mb-0 text-uppercase font-weight-bold">Your Cart</h3>
+                                        </div>
+                                        <div class="col-md-6 col-lg-5 mt-2 mt-md-0">
+                                            <select class="form-control" id="gbp">
+                                                <option selected value="GBP">GBP</option>
+                                                <option value="EURO">EURO</option> 
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="divider my-3"></div>
+
+                                <div class="card-text">
+                                    <div class="row">
+                                        <div class="col-sm-6 col-md-7 col-lg-7">
+                                            <p class="mb-0">32 team license for a 4 day tournament</p>
+                                        </div>
+                                        <div class="col-sm-6 col-md-5 col-lg-5">
+                                            <p class="text-sm-right mb-0 mt-3 mt-sm-0">Â£100.00</p>
                                         </div>
                                     </div>
 
-                                    <div class="divider my-3"></div>
+                                    <div class="divider my-3 opacited"></div>
 
-                                    <div class="card-text">
-                                        <div class="row">
-                                            <div class="col-sm-6 col-md-7 col-lg-7">
-                                                <p class="mb-0">32 team license for a 4 day tournament</p>
-                                            </div>
-                                            <div class="col-sm-6 col-md-5 col-lg-5">
-                                                <p class="text-sm-right mb-0 mt-3 mt-sm-0">£100.00</p>
-                                            </div>
-                                        </div>
-
-                                        <div class="divider my-3 opacited"></div>
-
-                                        <p class="text-sm-right font-weight-bold">£100.00</p>
-                                    </div>
-                                    <div class="row justify-content-end">
-                                        <div class="col-md-7 col-lg-7 col-xl-6">
-                                            <button v-if ="!disabled" class="btn btn-success btn-block"  v-on:click="buyALicence()">Buy your license</button>
-                                            <button v-else="disabled" class="btn btn-success btn-block" disabled="true">Buy your license</button> 
-                                        </div>
+                                    <p class="text-sm-right font-weight-bold">Â£100.00</p>
+                                </div>
+                                <div class="row justify-content-end">
+                                    <div class="col-md-7 col-lg-7 col-xl-6">
+                                        <button v-if ="!disabled" class="btn btn-success btn-block"  v-on:click="buyALicence()">Buy your license</button>
+                                        <button v-else="disabled" class="btn btn-success btn-block" disabled="true">Buy your license</button> 
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </section>
-        </form>  
+            </div>
+        </section>
+          
     </div>
 </template>
 <script type="text/babel">
     import Auth from '../../services/auth'
+    import Ls from '../../services/ls';
     import Constant from '../../services/constant';
     import vueSlider from 'vue-slider-component';
     import Datepicker from 'vuejs-datepicker';
@@ -192,28 +196,35 @@
                 this.tournamentData.tournament_end_date = date;
             },
             buyALicence(e){
+                console.log("buyALicence");
                 this.$validator.validateAll();
                 if (!this.errors.any()) {
                     this.disabled = true;
-                    this.tournamentData.tournament_start_date = moment(this.tournamentData.tournament_start_date).format('MM/DD/YYYY')
-                    this.tournamentData.tournament_end_date = moment(this.tournamentData.tournament_end_date).format('MM/DD/YYYY')
-                    axios.post(Constant.apiBaseUrl+'buy-license', this.tournamentData).then(response =>  {
+                    // console.log("vvv::",document.getElementById('tournament_start_date').value)
+                    this.tournamentData.tournament_start_date = document.getElementById('tournament_start_date').value;
+                    this.tournamentData.tournament_end_date = document.getElementById('tournament_end_date').value;
+                    axios.post(Constant.apiBaseUrl+'generateHashKey', this.tournamentData).then(response =>  {
+                            // console.log("response::",response)
+                        // http://eurosport.local.com/api/v1/generateHashKey
                             if (response.data.success) {
-                            this.shaSignIn = response.data.payment_details.shaSignIn;
-                            this.orderId = response.data.payment_details.orderId;
-                            this.pspid = response.data.payment_details.pspid;
-                            this.amount = this.tournamentData.total_amount; 
-                            let self = this;
-                            setTimeout(function(){ 
-                                self.$refs.paymentSubmit.click();
-                                self.disabled = false;
-                            },500) 
-                         }else{
-                            this.disabled = true;
-                            toastr['error'](response.data.message, 'Error');
-                         }
+                                // console.log("response.data.data::",response.data.data);
+                                this.shaSignIn = response.data.data.shaSignIn;
+                                this.orderId = response.data.data.orderId;
+                                this.pspid = response.data.data.pspid;
+                                this.pspid = response.data.data.total_amount;
+                                // this.amount = this.tournamentData.total_amount; 
+                                Ls.set('orderInfo',JSON.stringify(response.data.data))
+                                let self = this;
+                                setTimeout(function(){ 
+                                    self.$refs.paymentSubmit.click();
+                                    self.disabled = false;
+                                },500) 
+                             }else{
+                                this.disabled = false;
+                                toastr['error'](response.data.message, 'Error');
+                             }
                      }).catch(error => {
-                        this.disabled = true;
+                        this.disabled = false;
                          console.log("error in buyALicence::",error);
                      }); 
                 }
@@ -223,6 +234,18 @@
             }, 
         },
         beforeMount(){  
+        },
+        mounted () {
+            var vm = this
+             $('#tournament_start_date').datepicker({
+                autoclose: true
+            });
+             $('#tournament_end_date').datepicker({
+                autoclose: true
+            });
+            $('#tournament_start_date').datepicker('setDate', moment().format('DD/MM/YYYY'))
+            $('#tournament_end_date').datepicker('setDate', moment().format('DD/MM/YYYY'))
+           
         }
     }
 </script>
