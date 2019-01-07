@@ -139,6 +139,8 @@
     <string name="danish">Danish</string>
     <string name="polish">Polish</string>
     <string name="placing">Placing: </string>
+    <string name="preview">Preview</string>
+    <string name="preview_message">This tournament is currently in preview status. More details about the tournament will be available nearer the start date.</string>
 
 
     <!--Month Name-->
