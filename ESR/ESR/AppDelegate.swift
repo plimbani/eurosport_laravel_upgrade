@@ -27,10 +27,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Firebase
         FirebaseApp.configure()
+        
+        Messaging.messaging().delegate = self
         // APNS
         registerForPushNotifications()
-        Messaging.messaging().delegate = self
-        
         // Add observer for InstanceID token refresh callback.
         NotificationCenter.default.addObserver(self,
                                                          selector: #selector(self.tokenRefreshNotification),
@@ -78,10 +78,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     @objc func tokenRefreshNotification(notification: NSNotification) {
+        /*
         if let refreshedToken = InstanceID.instanceID().token() {
             print("InstanceID token: \(refreshedToken)")
             USERDEFAULTS.set(refreshedToken, forKey: kUserDefaults.fcmToken)
             updateFCMToken(refreshedToken)
+        }*/
+        InstanceID.instanceID().instanceID { (result, error) in
+            if let error = error {
+                print("Error fetching remote instange ID: \(error)")
+            } else if let result = result {
+                print("Remote instance ID token: \(result.token)")
+                USERDEFAULTS.set(result.token, forKey: kUserDefaults.fcmToken)
+                self.updateFCMToken(result.token)
+            }
         }
         
         // Connect to FCM since connection may have failed when attempted before having a token.
@@ -103,6 +113,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         let deviceTokenString = deviceToken.reduce("", {$0 + String(format: "%02X", $1)})
         print(deviceTokenString)
+        Messaging.messaging().apnsToken = deviceToken
     }
     
     func applicationWillResignActive(_ application: UIApplication) {
@@ -185,7 +196,6 @@ extension AppDelegate: MessagingDelegate {
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String) {
         print("Firebase registration token: \(fcmToken)")
         USERDEFAULTS.set(fcmToken, forKey: kUserDefaults.fcmToken)
-        updateFCMToken(fcmToken)
         let dataDict:[String: String] = ["token": fcmToken]
         NotificationCenter.default.post(name: Notification.Name("FCMToken"), object: nil, userInfo: dataDict)
         // TODO: If necessary send token to application server.
@@ -194,9 +204,45 @@ extension AppDelegate: MessagingDelegate {
 }
 
 extension AppDelegate: UNUserNotificationCenterDelegate {
-    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        
-        print("Voila got first notification...!")
+//    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+//        
+//        print("Voila got first notification...!")
+//        completionHandler([.alert,.sound, .badge])
+//    }
+    
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any]) {
+        // If you are receiving a notification message while your app is in the background,
+        // this callback will not be fired till the user taps on the notification launching the application.
+        // TODO: Handle data of notification
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        if let userInfo = response.notification.request.content.userInfo as? [String : Any] {
+            if let dic = userInfo["aps"] as? NSDictionary {
+                if let alertMessage = dic.value(forKey: "alert") as? NSDictionary {
+                    
+                        
+                        if USERDEFAULTS.bool(forKey: kUserDefaults.isSound) {
+                            AudioServicesPlaySystemSound(1315)
+                        }
+                        
+                        let alert = UIAlertController(title: alertMessage.value(forKey:"title") as? String, message: alertMessage.value(forKey: "body") as? String, preferredStyle: .alert)
+                        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+                            switch action.style{
+                            case .default:
+                                print("default")
+                            case .cancel:
+                                print("cancel")
+                            case .destructive:
+                                print("destructive")
+                            }}))
+                        
+                        self.window?.rootViewController?.present(alert, animated: true, completion: nil)
+                    
+                }
+            }
+        }
+        completionHandler()
     }
     
    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {

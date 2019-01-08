@@ -42,9 +42,21 @@ class NotificationAndSoundVC: SuperViewController {
         self.view.showProgressHUD()
         
         var parameters: [String: Any] = [:]
+        if switchSound.isOn{
+            parameters["is_sound"] = "true"
+        }else{
+            parameters["is_sound"] = "false"
+        }
         
-        parameters["is_sound"] = switchSound.isOn
-        parameters["is_notification"] = switchNotifications.isOn
+        if switchNotifications.isOn {
+            parameters["is_notification"] = "true"
+        }else{
+            parameters["is_notification"] = "false"
+        }
+        parameters["is_vibration"] = "true"
+        
+//        parameters["is_sound"] = switchSound.isOn
+//        parameters["is_notification"] = switchNotifications.isOn
         
         var serverUserSettings: [String: Any] = [:]
         serverUserSettings["userSettings"] = parameters
