@@ -35,6 +35,7 @@ class TransactionRepository
         $transaction = [
             'tournament_id' => !empty($tournamentRes->id) ? $tournamentRes->id : null,
             'user_id' => $userId,
+            'order_id' => $data['ORDERID'],
             'transaction_key' => $data['PAYID'],
             'amount' => $data['AMOUNT'],
             'status' => $paymentStatus[$data['STATUS']],
@@ -63,8 +64,8 @@ class TransactionRepository
         $subject = 'Message from Eurosport';
         $email_templates = 'emails.frontend.payment_confirmed';
 
-//        Mail::to($authUser->email)
-//                ->send(new SendMail($response, $subject, $email_templates, NULL, NULL, NULL));
+        Mail::to($authUser->email)
+                ->send(new SendMail($requestData, $subject, $email_templates, NULL, NULL, NULL));
 
         return $response;
     }

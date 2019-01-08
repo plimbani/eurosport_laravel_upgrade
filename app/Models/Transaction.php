@@ -9,6 +9,7 @@ class Transaction extends Model
 
     protected $fillable = [
         'tournament_id',
+        'order_id',
         'transaction_key',
         'amount',
         'status',
