@@ -53,8 +53,6 @@
                         templateName: '',
                         no_of_teams: '',
                         editor: 'advance',
-                        competition_type: 'league',
-                        group_size: '',
                     },
                     steptwo: {
                         rounds: [{

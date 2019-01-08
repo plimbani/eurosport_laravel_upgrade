@@ -23,7 +23,7 @@ class AddNewFieldsToTournamentTemplateTable extends Migration
             $table->foreign('inherited_from')->references('id')->on('tournament_template')->onDelete('set null')->onUpdate('cascade');
             $table->enum('editor_type', ['advance', 'festival'])->after('inherited_from');
             $table->text('template_form_detail')->after('editor_type');
-            $table->integer('created_by')->unsigned()->nullable()->after('template_form_detail');
+            $table->integer('created_by')->unsigned()->nullable()->default(null)->after('template_form_detail');
             $table->foreign('created_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
         });
     }
@@ -36,7 +36,8 @@ class AddNewFieldsToTournamentTemplateTable extends Migration
     public function down()
     {
         Schema::table('tournament_template', function (Blueprint $table) {
-            $table->dropForeign(['tournament_template_created_by_foreign', 'tournament_template_inherited_from_foreign']);
+            $table->dropForeign('tournament_template_created_by_foreign');
+            $table->dropForeign('tournament_template_inherited_from_foreign');
             $table->dropColumn(['avg_matches', 'total_matches', 'divisions', 'version', 'is_latest', 'inherited_from', 'editor_type', 'template_form_detail', 'created_by']);
         });
     }
