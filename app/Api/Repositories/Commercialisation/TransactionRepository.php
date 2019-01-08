@@ -4,9 +4,10 @@ namespace Laraspace\Api\Repositories\Commercialisation;
 
 use Hash;
 use JWTAuth;
+use Illuminate\Support\Facades\Mail;
+use Laraspace\Mail\SendMail;
 use Laraspace\Models\Transaction;
 use Laraspace\Models\TransactionHistory;
-use Laraspace\Models\Tournament;
 use Laraspace\Api\Repositories\TournamentRepository;
 
 class TransactionRepository
@@ -57,6 +58,13 @@ class TransactionRepository
             'payment_response' => json_encode($data)
         ];
         TransactionHistory::create($transactionHistory);
+
+        //frontend.payment_confirmed
+        $subject = 'Message from Eurosport';
+        $email_templates = 'emails.frontend.payment_confirmed';
+
+//        Mail::to($authUser->email)
+//                ->send(new SendMail($response, $subject, $email_templates, NULL, NULL, NULL));
 
         return $response;
     }
