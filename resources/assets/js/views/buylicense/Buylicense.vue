@@ -237,6 +237,16 @@
             customFormatter(date) {
               return moment(date).format('MM/DD/YYYY');
             }, 
+
+            findDifferenceBetweenDates(){
+                let startDate = moment(document.getElementById('tournament_start_date').value);
+                let endDate = moment(document.getElementById('tournament_end_date').value);
+                // console.log("startDate::",startDate);
+                // console.log("endDaaate::",endDate);
+
+                let difference = endDate.diff(startDate, 'days')
+                // console.log("difference::",difference);
+            }
         },
         beforeMount(){  
         },
@@ -251,9 +261,17 @@
             $('#tournament_start_date').datepicker('setDate', moment().format('DD/MM/YYYY'))
             $('#tournament_end_date').datepicker('setDate', moment().add(1,'days').format('DD/MM/YYYY')) 
            
-            //  $("#tournament_start_date").on("change",function (){ 
-            //    console.log('inp changed');
-            // }   
+            
+
+            $("#tournament_start_date").on("change",function (value){ 
+               vm.findDifferenceBetweenDates();
+            })
+
+            $("#tournament_end_date").on("change",function (value){ 
+               vm.findDifferenceBetweenDates();
+            })   
+
+
         }
     }
 </script>
