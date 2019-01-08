@@ -8,7 +8,8 @@
                     <p>Thank you for purchase. Your order number is {{paymentObj.orderID}}</p>
                 </div>
                 <div class="col-md-12">
-                    <a href="javascript:void(0)">Print receipt</a>
+                    <button class="btn btn-success" @click="printReceipt()">Print receipt</button>
+                    <!-- <a href="javascript:void(0)">Print receipt</a> -->
                 </div>
             </div>
              <div class="row justify-content-between">
@@ -17,7 +18,7 @@
                 </div>
                 <hr>
                 <div class="col-md-12">
-                    32 Teams licence for a 4 day tournament price is {{paymentObj.amount}} {{paymentObj.currency}}
+                    {{tournament.tournament_max_teams}} Teams licence for a 4 day tournament price is {{paymentObj.amount}} {{paymentObj.currency}}
                 </div>
             </div>
 
@@ -64,6 +65,12 @@
                      console.log("error in buyALicence::",error);
                  });
             },
+
+            printReceipt(){
+                this.$nextTick(() => {
+                    window.print();
+                });
+            }
              
             
         },
