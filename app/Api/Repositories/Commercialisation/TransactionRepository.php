@@ -64,8 +64,8 @@ class TransactionRepository
         $subject = 'Message from Eurosport';
         $email_templates = 'emails.frontend.payment_confirmed';
 
-        Mail::to($authUser->email)
-                ->send(new SendMail($requestData, $subject, $email_templates, NULL, NULL, NULL));
+//        Mail::to($authUser->email)
+//                ->send(new SendMail($requestData, $subject, $email_templates, NULL, NULL, NULL));
 
         return $response;
     }

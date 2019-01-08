@@ -647,7 +647,9 @@ class TournamentRepository
         $tournament->start_date = $tournamentDetailData['tournament_start_date'];
         $tournament->end_date = $tournamentDetailData['tournament_end_date'];
         $tournament->status = 'Unpublished';
-
+        if($type == 'api') {
+            $tournament->access_code = Str::random(4);
+        }
         $status = $tournament->save();
         if ($type == 'api') {
             return $tournament;
