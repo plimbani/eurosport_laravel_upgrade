@@ -68,9 +68,8 @@
                                     </div>
 
                                     <label>Your Job title</label>
-                                    <div class="form-group">                                    
-                                        <input type="text" class="form-control " placeholder="Job Title" id="job-title" name="job_title" v-model="registerData.job_title" v-validate="{ rules: { required: true } }">
-                                        <span class="help is-danger" v-show="errors.has('job_title')">The job title field is required.</span>
+                                    <div class="form-group">           
+                                        <input type="text" class="form-control " placeholder="Job Title" id="job-title" name="job_title" v-model="registerData.job_title">
                                     </div>
 
                                     <h3 class="text-uppercase font-weight-bold mt-5">Your address</h3>
@@ -87,8 +86,7 @@
                                 <div class="col-md-9 col-lg-6">
                                     <label>Address</label>
                                     <div class="form-group">
-                                        <input type="textarea" class="form-control" placeholder="Address" id="address-line-1" name="address" v-model="registerData.address_1" v-validate="{ rules: { required: true } }">
-                                        <span class="help is-danger" v-show="errors.has('address')">The address field is required.</span>
+                                        <input type="textarea" class="form-control" placeholder="Address" id="address-line-1" name="address" v-model="registerData.address">
                                     </div>
                                     <div class="form-group">
                                         <input type="text" class="form-control" id="address-line-2"  v-model="registerData.address_2">
@@ -96,14 +94,12 @@
 
                                     <label>Town or city</label>
                                     <div class="form-group">
-                                        <input type="textarea" class="form-control form-control-danger" placeholder="City" id="city" name="city" v-model="registerData.city" v-validate="{ rules: { required: true } }">
-                                        <span class="help is-danger" v-show="errors.has('city')">The city field is required.</span> 
+                                        <input type="textarea" class="form-control form-control-danger" placeholder="City" id="city" name="city" v-model="registerData.city">
                                     </div>
 
                                     <label>Zip or postcode</label>
                                     <div class="form-group">
-                                        <input type="textarea" class="form-control form-control-danger" placeholder="Zip" id="zipcode" name="zip" v-model="registerData.zip" v-validate="{ rules: { required: true } }">
-                                        <span class="help is-danger" v-show="errors.has('zip')">The zip field is required.</span>
+                                        <input type="textarea" class="form-control form-control-danger" placeholder="Zip" id="zipcode" name="zip" v-model="registerData.zip">
                                     </div>
 
                                     <label>Country</label>
@@ -147,7 +143,7 @@
                     password_confirmation: '',
                     organisation: '',
                     job_title: '',
-                    address_1: '',
+                    address: '',
                     address_2: '',
                     city: '',
                     zip: '',

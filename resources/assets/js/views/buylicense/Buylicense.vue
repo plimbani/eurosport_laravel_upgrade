@@ -115,7 +115,7 @@
                                 <div class="card-text">
                                     <div class="row">
                                         <div class="col-sm-6 col-md-7 col-lg-7">
-                                            <p class="mb-0">32 team license for a 4 day tournament</p>
+                                            <p class="mb-0">{{tournamentData.tournament_max_teams}} team license for a {{dayDifference}} day(s) tournament</p>
                                         </div>
                                         <div class="col-sm-6 col-md-5 col-lg-5">
                                             <p class="text-sm-right mb-0 mt-3 mt-sm-0">Â£100.00</p>
@@ -175,7 +175,8 @@
                 orderId:"", 
                 pspid:"", 
                 amount:"",
-                disabled:false
+                disabled:false,
+                dayDifference:1
             }
         },
         beforeRouteEnter(to, from, next) { 
@@ -241,15 +242,18 @@
         },
         mounted () {
             var vm = this
-             $('#tournament_start_date').datepicker({
+            $('#tournament_start_date').datepicker({
                 autoclose: true
             });
              $('#tournament_end_date').datepicker({
                 autoclose: true
             });
             $('#tournament_start_date').datepicker('setDate', moment().format('DD/MM/YYYY'))
-            $('#tournament_end_date').datepicker('setDate', moment().format('DD/MM/YYYY'))
+            $('#tournament_end_date').datepicker('setDate', moment().add(1,'days').format('DD/MM/YYYY')) 
            
+            //  $("#tournament_start_date").on("change",function (){ 
+            //    console.log('inp changed');
+            // }   
         }
     }
 </script>

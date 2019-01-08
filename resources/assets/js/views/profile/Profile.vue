@@ -28,14 +28,12 @@
 
                         <div class="form-group">
                             <label for="company-name">Organisation or Company name</label>
-                             <input type="text" class="form-control " placeholder="Company Name" id="company-name" name="organisation"  v-model="userProfileDetail.organisation" v-validate="{ rules: { required: true } }">
-                            <span class="help is-danger" v-show="errors.has('organisation')">The organisation name field is required.</span> 
+                             <input type="text" class="form-control " placeholder="Company Name" id="company-name" name="organisation"  v-model="userProfileDetail.organisation">
                         </div>
 
                         <div v-if="isCustomer" class="form-group">
                             <label for="job-title">Your Job title</label>
-                            <input type="text" class="form-control " placeholder="Job Title" id="job-title" name="job_title" v-model="userProfileDetail.job_title" v-validate="{ rules: { required: true } }">
-                            <span class="help is-danger" v-show="errors.has('job_title')">The job title field is required.</span>
+                            <input type="text" class="form-control " placeholder="Job Title" id="job-title" name="job_title" v-model="userProfileDetail.job_title"> 
                         </div>
 
                         <h3 v-if="isCustomer" class="text-uppercase font-weight-bold mt-5">Your address</h3>
@@ -45,21 +43,18 @@
                         <div v-if="isCustomer" class="form-group">
                             <label>Address</label>
                             
-                             <input type="textarea" class="form-control  mb-4" placeholder="Address" id="address-line-1" name="address" v-model="userProfileDetail.address_1" v-validate="{ rules: { required: true } }">
-                            <span class="help is-danger" v-show="errors.has('address')">The address field is required.</span>
+                             <input type="textarea" class="form-control  mb-4" placeholder="Address" id="address-line-1" name="address" v-model="userProfileDetail.address"> 
                             <input type="text" class="form-control" id="address-line-2" v-model="userProfileDetail.address_2">
                         </div>
 
                         <div v-if="isCustomer" class="form-group">
                             <label for="city">Town or city</label>
-                              <input type="textarea" class="form-control form-control-danger" placeholder="City" id="city" name="city" v-model="userProfileDetail.city" v-validate="{ rules: { required: true } }">
-                             <span class="help is-danger" v-show="errors.has('city')">The city field is required.</span> 
+                              <input type="textarea" class="form-control form-control-danger" placeholder="City" id="city" name="city" v-model="userProfileDetail.city"> 
                         </div>
 
                         <div v-if="isCustomer" class="form-group">
                             <label for="zipcode">Zip or postcode</label>
-                             <input type="textarea" class="form-control form-control-danger" placeholder="Zip" id="zipcode" name="zip" v-model="userProfileDetail.zip" v-validate="{ rules: { required: true } }">
-                            <span class="help is-danger" v-show="errors.has('zip')">The zip field is required.</span>
+                             <input type="textarea" class="form-control form-control-danger" placeholder="Zip" id="zipcode" name="zip" v-model="userProfileDetail.zip"> 
                         </div>
 
                         <div v-if="isCustomer" class="form-group">
@@ -98,7 +93,7 @@
                     email: '',                     
                     organisation: '',
                     job_title: '',
-                    address_1: '',
+                    address: '',
                     address_2: '',
                     city: '',
                     zip: '',

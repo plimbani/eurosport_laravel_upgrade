@@ -96,6 +96,8 @@ import WebsiteMedia from './views/admin/eurosport/WebsiteMedia.vue';
 import WebsiteContact from './views/admin/eurosport/WebsiteContact.vue';
 import Test from './views/admin/eurosport/Test.vue';
 
+import Ls from './services/ls'
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -383,8 +385,7 @@ router.beforeEach((to, from, next) => {
     let websiteRoutes = ['website_add', 'website_homepage', 'website_teams', 'website_venue', 'website_tournament', 'website_program', 'website_stay', 'website_visitors', 'website_media', 'website_contact'];
     if (websiteRoutes.indexOf(to.name) === -1) {
         store.dispatch('ResetWebsiteDetail');
-    }
-
+    } 
     // If the next route is requires user to be Logged IN
     if (to.matched.some(m => m.meta.requiresAuth)){
         return AuthService.check(data).then((response) => {
@@ -397,6 +398,14 @@ router.beforeEach((to, from, next) => {
             store.dispatch('setScoreAutoUpdate',response.is_score_auto_update);
             return next()
         })
+    }else{
+        // logic for auth page if user is logged in then those will be redirected to admin page
+        let token = Ls.get('auth.token')
+        // console.log("login page",token)
+        if(typeof token != "undefined" && token != undefined && token != "null" && token != null){
+             return next({ path : '/admin'});
+        }
+
     }
 
     return next()
