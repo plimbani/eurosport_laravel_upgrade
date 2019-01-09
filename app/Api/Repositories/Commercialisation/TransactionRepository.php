@@ -30,7 +30,32 @@ class TransactionRepository
         $userId = $authUser->id;
         if ($data['STATUS'] == 5 && !empty($requestData['tournament'])) {
             $tournamentRes = $this->tournamentObj->addTournamentDetails($requestData['tournament'], 'api');
+        
+            $tournamentRes->users()->attach($userId);
         }
+        $response = $this->addTransaction($data, $tournamentRes, $userId);
+        
+        if ($data['STATUS'] == 5) {
+            //Send conformation mail to customer
+            $subject = 'Message from Eurosport';
+            $email_templates = 'emails.frontend.payment_confirmed';
+
+            Mail::to($authUser->email)
+                    ->send(new SendMail($requestData, $subject, $email_templates, NULL, NULL, NULL));
+        }
+        
+        return $response;
+    }
+
+    /**
+     * Add payment details into transaction
+     * @param array $data
+     * @param array $tournamentRes
+     * @param int $userId
+     * @return array
+     */
+    public function addTransaction($data, $tournamentRes, $userId)
+    {
         $paymentStatus = config('app.payment_status');
         $transaction = [
             'tournament_id' => !empty($tournamentRes->id) ? $tournamentRes->id : null,
@@ -59,15 +84,7 @@ class TransactionRepository
             'payment_response' => json_encode($data)
         ];
         TransactionHistory::create($transactionHistory);
-
-        //frontend.payment_confirmed
-        $subject = 'Message from Eurosport';
-        $email_templates = 'emails.frontend.payment_confirmed';
-
-//        Mail::to($authUser->email)
-//                ->send(new SendMail($requestData, $subject, $email_templates, NULL, NULL, NULL));
-
+        
         return $response;
     }
-
 }
