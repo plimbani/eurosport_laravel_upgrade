@@ -11,7 +11,7 @@
         data() {
             return {
                 selected:'',
-                options: ['Published','Unpublished','Preview']
+                options: ['Preview','Published','Unpublished']
             }
         },
         mounted () {
