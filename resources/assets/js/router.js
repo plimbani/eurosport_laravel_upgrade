@@ -63,6 +63,9 @@ import PitchPlanner from './views/admin/eurosport/PitchPlanner.vue'
 // UserManagement Layout
 import LayoutUserManagement from './views/layouts/LayoutUserManagement.vue'
 
+// Template management Layout
+import LayoutTemplateManagement from './views/layouts/LayoutTemplateManagement.vue'
+
 //User Pages
 import UserList from './views/admin/users/List.vue'
 
@@ -202,6 +205,12 @@ const routes = [
         component: LayoutUserManagement,
         meta: { requiresAuth: true },
         name: 'users_list'
+    },
+    {
+        path: '/templates',
+        component: LayoutTemplateManagement,
+        meta: { requiresAuth: true },
+        name: 'templates_list'
     },
 
     // Web site routes

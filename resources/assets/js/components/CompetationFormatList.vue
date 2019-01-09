@@ -85,7 +85,7 @@ export default {
   data() {
     return {
       competationList : {}, TournamentId: 0, competation_id: '',setTime:'',
-      tournamentTemplateId: '', totalTime:'',
+      tournamentTemplateId: null, totalTime:'',
       deleteConfirmMsg: 'Are you sure you would like to delete this age category?',deleteAction: '',
       templateData:[],
       totalTime: '',
