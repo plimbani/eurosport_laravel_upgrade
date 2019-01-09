@@ -238,14 +238,15 @@
               return moment(date).format('MM/DD/YYYY');
             }, 
 
-            findDifferenceBetweenDates(){
-                let startDate = moment(document.getElementById('tournament_start_date').value);
-                let endDate = moment(document.getElementById('tournament_end_date').value);
+            findDifferenceBetweenDates(){ 
                 // console.log("startDate::",startDate);
-                // console.log("endDaaate::",endDate);
-
-                let difference = endDate.diff(startDate, 'days')
-                // console.log("difference::",difference);
+                let startDateArr = (document.getElementById('tournament_start_date').value).split("/");
+                let endDateArr = (document.getElementById('tournament_end_date').value).split("/"); 
+                let startDate = moment([startDateArr[2], startDateArr[1], startDateArr[0]]);
+                let endDate = moment([endDateArr[2], endDateArr[1], endDateArr[0]]);
+                this.dayDifference = endDate.diff(startDate, 'days');
+                // console.log("this.dayDifference::",this.dayDifference);
+                
             }
         },
         beforeMount(){  
@@ -253,10 +254,19 @@
         mounted () {
             var vm = this
             $('#tournament_start_date').datepicker({
-                autoclose: true
+                autoclose: true,
+                minDate: 0,
+                onSelect: function( selectedDate ) {
+                    console.log("startDate");
+                    $( "#totournament_end_date" ).datepicker( "option", "minDate", selectedDate );
+                }
             });
              $('#tournament_end_date').datepicker({
-                autoclose: true
+                autoclose: true,
+                minDate: 0,
+                onSelect: function( selectedDate ) {
+                    $( "#tournament_start_date" ).datepicker( "option", "maxDate", selectedDate );
+                }
             });
             $('#tournament_start_date').datepicker('setDate', moment().format('DD/MM/YYYY'))
             $('#tournament_end_date').datepicker('setDate', moment().add(1,'days').format('DD/MM/YYYY')) 
