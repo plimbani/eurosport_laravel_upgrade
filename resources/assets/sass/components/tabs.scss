@@ -27,24 +27,15 @@
 }
 
 .tabs-primary {
-
-    .nav-link.active {
-        background-color: $ls-color-primary;
-        color: $white;
-        border-bottom: 1px solid $ls-color-primary;
-
-        &:hover, &:active, &:focus {
-            background-color: $ls-color-primary;
+    .nav-link{
+        &.active {
+            background-color: $ls-color-blue;
             color: $white;
+            border-bottom: 3px solid $ls-color-primary;
         }
     }
-
-    .nav-link:hover {
-        border: 1px solid $ls-color-primary;
-    }
-
     .nav-tabs {
-        border-bottom: 1px solid $ls-color-primary;
+        border-bottom: 3px solid rgba(81, 173, 246,0.05);
     }
 }
 
