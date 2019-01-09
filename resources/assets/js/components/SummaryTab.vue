@@ -15,10 +15,18 @@
 			</div>
 			<div class="col-md-6">
 				<div class="row d-flex flex-row align-items-center">
-				<div class="col-sm-4"><div style="line-height:1">{{$lang.summary_status}}: {{tournamentStatus}}</div>
-
-				</div>
-				<div class="col-md-4">
+				<label for="status_rules" class="mb-0">{{$lang.summary_status}}:
+					<span class="pr-2 pl-0 text-primary" data-toggle="popover" data-animation="false" data-placement="bottom" :data-popover-content="'#status_rules'"><i class="fa fa-info-circle"></i>
+					</span>
+					<div v-bind:id="'status_rules'" style="display:none;">
+                		<div class="popover-body">
+                			Preview = publish key details of the tournament only to the app<br /><br />
+                			Published = publish all details of the tournament to the app<br /><br />
+                			Unpublished = no information about the tournament is published to the app
+                		</div>
+					</div>
+                </label>
+				<div class="col-md-6 mr-0 ml-0 pr-0 pl-0">
 					<TournamentStatus :tournamentStatus='tournamentStatus'></TournamentStatus>
 				</div>
 
@@ -132,6 +140,18 @@
 	    mounted() {
 	       // First Set Menu and ActiveTab
 	       this.getSummaryData()
+			$("[data-toggle=popover]").popover({
+			    html : true,
+			    trigger: 'hover',
+			    content: function() {
+			        var content = $(this).attr("data-popover-content");
+			        return $(content).children(".popover-body").html();
+			    },
+			    title: function() {
+			        var title = $(this).attr("data-popover-content");
+			        return $(title).children(".popover-heading").html();
+			    }
+			});
 	    },
 	    created: function() {
        		this.$root.$on('StatusUpdate', this.updateStatus);
@@ -175,7 +195,6 @@
 	    		}
 	    		);
 
-	    		//$('#publish_modal,#unpublish_modal,#preview_modal').attr('data-dismiss','modal')
 	    	}
 	      },
         redirectToHomePage(){
