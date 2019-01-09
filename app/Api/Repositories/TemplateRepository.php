@@ -143,9 +143,17 @@ class TemplateRepository
     public function generateTemplateJson($data)
     {
         echo "<pre>";print_r($data);exit;
+
+        $teamsPlayedEachOther = [
+                                'once' => '1',
+                                'twice' => '2',
+                                'three_times' => '3',
+                                'four_times' => '4'
+                            ];
+
         $finalArray = [];
         $finalArray['total_matches'] = '';
-        $finalArray['tournament_id'] = 15;
+        // $finalArray['tournament_id'] = 15;
         $finalArray['tournament_teams'] = $data['templateFormDetail']['stepone']['no_of_teams'];
         $finalArray['remark'] = $data['templateFormDetail']['stepfour']['remarks'];
         $finalArray['template_font_color'] = $data['templateFormDetail']['stepfour']['template_font_color'];
@@ -164,11 +172,146 @@ class TemplateRepository
         $groupCount = 0;
         foreach ($data['templateFormDetail']['steptwo']['rounds'] as $roundIndex => $round) {
             $finalArray['tournament_competation_format']['format_name'][$roundIndex]['name'] = 'Round '.($roundIndex+1);
+
+            $firstPlacingMatchIndex = array_search('placing_match', array_column($round['groups'], 'type'));
             foreach ($round['groups'] as $groupIndex => $group) {
                 $matches = [];
-                foreach ($group['matches'] as $match) {
-                    array_push($matches, ['in_between' => $match['in_between'], 'match_number' => $match['match_number'], 'display_match_number' => $match['display_match_number'], 'display_home_team_placeholder_name' => $match['display_home_team_placeholder_name'], 'display_away_team_placeholder_name' => $match['display_away_team_placeholder_name']]);
+
+                $groupData = $group;
+                $times = $groupData['teams_play_each_other'];
+                $noOfTeams = $groupData['no_of_teams'];
+                $totalTimes = $teamsPlayedEachOther['times'];
+                $groupName = null;
+
+                if($roundIndex === 0 && $group['type'] === 'round_robin') {
+                    foreach ($group['matches'] as $match) {
+                        array_push($matches, ['in_between' => $match['in_between'], 'match_number' => $match['match_number'], 'display_match_number' => $match['display_match_number'], 'display_home_team_placeholder_name' => $match['display_home_team_placeholder_name'], 'display_away_team_placeholder_name' => $match['display_away_team_placeholder_name']]);
+                    }
                 }
+
+                $matchCount = 1;
+                if($roundIndex === 0 && $groupIndex === $firstPlacingMatchIndex && $group['type'] === 'placing_match') {
+                    for($i=1; $i<=$noOfTeams; $i=$i+2) {
+                        $home = $i;
+                        $away = $i + 1;
+                        $inBetween = $home . "-" . $away;
+                        $matchNumber = "CAT.PM" + ($roundIndex+1) + ".G" + $matchCount + "." + $home + "-" + $away;
+                        $displayMatchNumber = "CAT." + ($roundIndex+1) + "." + $matchCount + ".@HOME-@AWAY";
+                        $displayHomeTeamPlaceholderName = $home;
+                        $displayAwayTeamPlaceholderName = $away;
+
+                        array_push($matches, ['in_between' => $inBetween, 'match_number' => $matchNumber, 'display_match_number' => $displayMatchNumber, 'display_home_team_placeholder_name' => $displayHomeTeamPlaceholderName, 'display_away_team_placeholder_name' => $displayAwayTeamPlaceholderName]);
+
+                        $matchCount++;
+                    }
+                }
+
+                if($roundIndex === 0 && $groupIndex !== $firstPlacingMatchIndex && $group['type'] === 'placing_match') {
+                    $teams = $group['teams'];
+                    
+                    $totalPlacingMatches = 0;
+                    $allPlacingMatches = [];
+                    $prevPlacingMatchesCount = 0;
+
+                    foreach($round['groups'] as $index => $o) {
+                        if($o['type'] === 'placing_match' && $index < $groupIndex) {
+                            $totalPlacingMatches += count($o['matches']);
+                            $allPlacingMatches = array_merge($allPlacingMatches, $o['matches']);
+                        }
+                        if(($index+1) < $groupIndex) {
+                            $prevPlacingMatchesCount += count($o['matches']);
+                        }
+                    }
+
+                    for($i=0; $i<$noOfTeams; $i=$i+2) {
+                        if($teams[$i]['position'] !== '' && $teams[$i+1]['position'] !== '') {
+                         // let divisionRoundGroupPosition1 = teams[i].position.split(',');
+                         // let divisionRoundGroupPosition2 = teams[i+1].position.split(',');
+                         // let team1 = null;
+                         // let team2 = null;
+
+                         // if(divisionRoundGroupPosition1[0] === -1) {
+                         //  team1 = this.templateFormDetail.stepTwo.rounds[divisionRoundGroupPosition1[1]].groups[divisionRoundGroupPosition1[2]].teams[divisionRoundGroupPosition1[3]];
+                         // } else {
+                         //  team1 = this.templateFormDetail.stepTwo.divisions[divisionRoundGroupPosition1[0]].rounds[divisionRoundGroupPosition1[1]].groups[divisionRoundGroupPosition1[2]].teams[divisionRoundGroupPosition1[3]];
+                         // }
+
+                         // if(divisionRoundGroupPosition2[0] === -1) {
+                         //  team2 = this.templateFormDetail.stepTwo.rounds[divisionRoundGroupPosition2[1]].groups[divisionRoundGroupPosition2[2]].teams[divisionRoundGroupPosition2[3]];
+                         // } else {
+                         //  team2 = this.templateFormDetail.stepTwo.divisions[divisionRoundGroupPosition2[0]].rounds[divisionRoundGroupPosition2[1]].groups[divisionRoundGroupPosition2[2]].teams[divisionRoundGroupPosition2[3]];
+                         // }
+
+                        $divisionRoundGroupPosition1 = explode(',', $teams[$i]['position']);
+                        $divisionRoundGroupPosition2 = explode(',', $teams[$i+1]['position']);
+
+                        $position1 = $divisionRoundGroupPosition1[3];
+                        $position2 = $divisionRoundGroupPosition2[3];
+
+                        $prevPlacingMatchesCount1 = 0;
+                        $prevPlacingMatchesCount2 = 0;
+
+                        foreach($round['groups'] as $index => $o) {
+                            if($index < intval($divisionRoundGroupPosition1[2])) {
+                                $prevPlacingMatchesCount1 += count($o['matches']);
+                            }
+                            if($index < intval($divisionRoundGroupPosition2[2])) {
+                                $prevPlacingMatchesCount2 += count($o['matches']);
+                            }
+                        }
+
+                        $positionType1 = $this->getPositionTypeCode($teams[$i]['position_type']);
+                        $positionType2 = $this->getPositionTypeCode($teams[$i+1]['position_type']);
+
+                        $homePlaceholder = "CAT.PM" + ($roundIndex + 1) + ".G" + ($prevPlacingMatchesCount1 + intval($position1) + 1);
+                        $awayPlaceholder = "CAT.PM" + ($roundIndex + 1) + ".G" + ($prevPlacingMatchesCount2 + intval($position2) + 1);
+
+                        // $homePlacingMatch = _.head(_.filter(allPlacingMatches, function(o, index) { return (o.match_number.indexOf(homePlaceholder)) !== -1; }));
+                        // $awayPlacingMatch = _.head(_.filter(allPlacingMatches, function(o, index) { return (o.match_number.indexOf(awayPlaceholder)) !== -1; }));
+
+                        // if(typeof homePlacingMatch !== 'undefined' && typeof awayPlacingMatch !== 'undefined') {
+                        //      let home = null;
+                        //      let away = null;
+
+                        //      let teamMatchNumber1 = homePlacingMatch.match_number.split('.');
+                        //      let teamMatchNumber2 = awayPlacingMatch.match_number.split('.');
+
+                        //      if(teamMatchNumber1[teamMatchNumber1.length - 1].indexOf('WR') !== -1 || teamMatchNumber1[teamMatchNumber1.length - 1].indexOf('LR') !== -1) {
+                        //          home = "(" + teamMatchNumber1[1] + "_" + teamMatchNumber1[2] + '_' + positionType1 + ")";
+                        //      } else {
+                        //          home = homePlacingMatch.in_between.replace('-', '_') + '_' + positionType1;
+                        //      }
+
+                        //      if(teamMatchNumber2[teamMatchNumber2.length - 1].indexOf('WR') !== -1 || teamMatchNumber2[teamMatchNumber2.length - 1].indexOf('LR') !== -1) {
+                        //          away = "(" + teamMatchNumber2[1] + "_" + teamMatchNumber2[2] + '_' + positionType2 + ")";
+                        //      } else {
+                        //          away = awayPlacingMatch.in_between.replace('-', '_') + '_' + positionType2;
+                        //      }
+                                
+                        //      let inBetween =  homePlaceholder + positionType1 + "-" + awayPlaceholder + positionType2;
+                        //      let matchNumber = "CAT.PM" + (this.roundIndex + 1) + ".G" + (totalPlacingMatches + matchCount) + "." + home + "-" + away;
+                        //      let displayMatchNumber = null;
+                        //      if(positionType1 === positionType2 && positionType1 === 'WR') {
+                        //          displayMatchNumber = "CAT." + (this.roundIndex+1) + "." + (totalPlacingMatches + matchCount) + ".wrs.(@HOME-@AWAY)";
+                        //      } else if(positionType1 === positionType2 && positionType1 === 'LR') {
+                        //          displayMatchNumber = "CAT." + (this.roundIndex+1) + "." + (totalPlacingMatches + matchCount) + ".lrs.(@HOME-@AWAY)";
+                        //      }
+
+                        //      let displayHomeTeamPlaceholderName = (this.roundIndex + 1) + "." + (prevPlacingMatchesCount1 + parseInt(position1) + 1);
+                        //      let displayAwayTeamPlaceholderName = (this.roundIndex + 1) + "." + (prevPlacingMatchesCount2 + parseInt(position2) + 1);
+
+                        //      vm.groupData.matches.push({
+                        //          in_between: inBetween,
+                        //          match_number: matchNumber,
+                        //          display_match_number: displayMatchNumber,
+                        //          display_home_team_placeholder_name: displayHomeTeamPlaceholderName,
+                        //          display_away_team_placeholder_name: displayAwayTeamPlaceholderName,
+                        //      });
+                        //      matchCount++;
+                         }
+                     }
+                 }
+                
                 
                 $finalGroupCount = 65 + $groupCount + $groupIndex;
                 $matchTypeDetail = [
@@ -248,5 +391,16 @@ class TemplateRepository
     public function deleteTemplate($id)
     {
         return TournamentTemplates::find($id)->delete();
-    }    
+    }
+
+    /*
+     * Get position type code
+     *
+     * @param  array $position
+     * @return response
+     */
+    public function getPositionTypeCode()
+    {
+
+    }
 }

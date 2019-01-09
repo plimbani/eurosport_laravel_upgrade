@@ -101,12 +101,14 @@ class AgeGroupService implements AgeGroupContract
         $data['tournamentTemplate'] = $data['nwTemplate'];
         unset($data['nwTemplate']);
 
-        $data['tournamentTemplate'] = [];
-        $data['tournamentTemplate']['id'] = null;
-        if($data['competition_type'] === 'league') {
-          $data['tournamentTemplate']['json_data'] = $this->generateTemplateJsonForLeague($data['total_teams']);
-        } else if($data['competition_type'] === 'knockout') {
-          $data['tournamentTemplate']['json_data'] = $this->generateTemplateJsonForKnockout($data['total_teams'], $data['group_size']);
+        if($data['competition_type'] === 'league' || $data['competition_type'] === 'knockout') {
+          $data['tournamentTemplate'] = [];
+          $data['tournamentTemplate']['id'] = null;
+          if($data['competition_type'] === 'league') {
+            $data['tournamentTemplate']['json_data'] = $this->generateTemplateJsonForLeague($data['total_teams']);
+          } else if($data['competition_type'] === 'knockout') {
+            $data['tournamentTemplate']['json_data'] = $this->generateTemplateJsonForKnockout($data['total_teams'], $data['group_size']);
+          }
         }
 
         if($data['tournament_format'] === 'advance' || $data['tournament_format'] === 'festival') {
