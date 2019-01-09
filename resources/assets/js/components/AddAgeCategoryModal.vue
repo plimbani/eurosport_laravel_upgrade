@@ -151,7 +151,7 @@
               </div>
             </div>
 
-            <div class="form-group row align-items-center" :class="{'has-error': errors.has('group_size') }" v-if="competition_type == 'knockout'">
+            <div class="form-group row align-items-center" :class="{'has-error': errors.has('group_size') }" v-if="competition_type == 'knockout' && tournament_format == 'basic'">
               <div class="col-sm-4 form-control-label">{{ $lang.add_template_modal_group_size }}</div>
               <div class="col-sm-8">
                   <select class="form-control ls-select2" name="group_size" v-model="group_size" v-validate="'required'" :class="{'is-danger': errors.has('group_size') }">
