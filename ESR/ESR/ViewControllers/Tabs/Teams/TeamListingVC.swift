@@ -10,7 +10,7 @@ import UIKit
 class TeamListingVC: SuperViewController {
 
     @IBOutlet var table: UITableView!
-    var teamList = NSArray()
+    var teamList = NSMutableArray()
     
     var heightTournamentClubCell: CGFloat = 0
     
@@ -84,9 +84,11 @@ class TeamListingVC: SuperViewController {
                 self.view.hideProgressHUD()
                 
                 if let data = result.value(forKey: "data") as? NSArray {
-                    self.teamList = data
+                    self.teamList = NSMutableArray.init(array: data)
                 }
                 
+                let descriptor: NSSortDescriptor = NSSortDescriptor(key: "name", ascending: true)
+                self.teamList = NSMutableArray.init(array: self.teamList.sortedArray(using: [descriptor]))
                 self.table.reloadData()
             }
         }) { (result) in

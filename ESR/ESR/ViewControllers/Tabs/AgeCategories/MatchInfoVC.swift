@@ -9,6 +9,7 @@ import UIKit
 
 class MatchInfoVC: SuperViewController {
 
+    @IBOutlet var stackViewTshirt: UIStackView!
     @IBOutlet var stackviewTop: UIStackView!
     @IBOutlet var stackviewMiddle: UIStackView!
     // Team 1
@@ -74,6 +75,8 @@ class MatchInfoVC: SuperViewController {
         ApplicationData.setBorder(stackviewTop, Color: .gray, thickness: 1.0, type: ViewBorderType.right)
         ApplicationData.setBorder(stackviewMiddle, Color: .gray, thickness: 1.0, type: ViewBorderType.left)
         ApplicationData.setBorder(stackviewMiddle, Color: .gray, thickness: 1.0, type: ViewBorderType.right)
+        ApplicationData.setBorder(stackViewTshirt, Color: .gray, thickness: 1.0, type: ViewBorderType.left)
+        ApplicationData.setBorder(stackViewTshirt, Color: .gray, thickness: 1.0, type: ViewBorderType.right)
     }
     
     @objc func onVenueViewPressed(sender : UITapGestureRecognizer) {
@@ -343,6 +346,14 @@ class MatchInfoVC: SuperViewController {
         if dicTeamFixture.awayTeamShortsColor != NULL_STRING && dicTeamFixture.awayTeamShortsColor != "#FFFFFF" {
             imgViewTeam2Short.setImageColor(color: UIColor.init(hexString: dicTeamFixture.awayTeamShortsColor))
         }
+        
+        if dicTeamFixture.homeTeamShirtColor == NULL_STRING &&
+           dicTeamFixture.homeTeamShortsColor == NULL_STRING &&
+           dicTeamFixture.awayTeamShirtColor == NULL_STRING &&
+            dicTeamFixture.awayTeamShortsColor == NULL_STRING {
+            stackViewTshirt.isHidden = true
+        }
+        
     }
     
     deinit {

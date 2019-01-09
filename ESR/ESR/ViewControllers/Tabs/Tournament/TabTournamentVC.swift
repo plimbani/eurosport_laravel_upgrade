@@ -142,7 +142,7 @@ class TabTournamentVC: SuperViewController {
         progressBarView.value = 0
         // Fonts
         progressBarView.valueFontName = Font.HELVETICA_BOLD
-        progressBarView.valueFontSize = 18
+        progressBarView.valueFontSize = 21
         progressBarView.fontColor = .AppColor()
         // Unit
         progressBarView.unitString = NULL_STRING

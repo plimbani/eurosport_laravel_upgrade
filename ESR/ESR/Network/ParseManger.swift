@@ -332,6 +332,10 @@ class ParseManager {
         if let text = record.value(forKey: "name") as? String {
             tournamentObj.name = text
         }
+        
+        if let text = record.value(forKey: "tournamentLogo") as? String {
+            tournamentObj.tournamentLogo = text
+        }
 
         if let text = record.value(forKey: "start_date") as? String {
             tournamentObj.startDate = text
@@ -381,11 +385,11 @@ class ParseManager {
                 if let value = settingsDic.value(forKey: "value") as? String {
                     let valueDic = Utils.convertToDictionary(value)! as NSDictionary
                     
-                    if let isNotification = valueDic.value(forKey: "is_notification") as? Bool {
+                    if let isNotification = valueDic.value(forKey: "is_notification") as? String {
                         USERDEFAULTS.set(isNotification, forKey: kUserDefaults.isNotification)
                     }
                     
-                   if let isSound = valueDic.value(forKey: "is_sound") as? Bool {
+                   if let isSound = valueDic.value(forKey: "is_sound") as? String {
                         USERDEFAULTS.set(isSound, forKey: kUserDefaults.isSound)
                     }
                 }

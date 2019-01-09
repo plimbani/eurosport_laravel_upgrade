@@ -22,8 +22,13 @@ class NotificationAndSoundVC: SuperViewController {
         titleNavigationBar.delegate = self
         titleNavigationBar.setBackgroundColor()
         
-        switchSound.setOn(USERDEFAULTS.bool(forKey: kUserDefaults.isSound), animated: false)
-        switchNotifications.setOn(USERDEFAULTS.bool(forKey: kUserDefaults.isNotification), animated: false)
+        if let isSound = USERDEFAULTS.string(forKey: kUserDefaults.isSound) {
+            switchSound.setOn(Bool(isSound) ?? false, animated: false)
+        }
+        
+        if let isNotification = USERDEFAULTS.string(forKey: kUserDefaults.isNotification) {
+            switchNotifications.setOn(Bool(isNotification) ?? false, animated: false)
+        }
     }
     
     @IBAction func onSoundSwitchValueChanged(_ sender: UISwitch) {
@@ -73,8 +78,8 @@ class NotificationAndSoundVC: SuperViewController {
                 self.view.hideProgressHUD()
                 
                 if let userData = ApplicationData.sharedInstance().getUserData() {
-                    USERDEFAULTS.set(self.switchSound.isOn, forKey: kUserDefaults.isSound)
-                    USERDEFAULTS.set(self.switchNotifications.isOn, forKey: kUserDefaults.isNotification)
+                    USERDEFAULTS.set("\(self.switchSound.isOn)", forKey: kUserDefaults.isSound)
+                    USERDEFAULTS.set("\(self.switchNotifications.isOn)", forKey: kUserDefaults.isNotification)
                     
                     if self.switchNotifications.isOn{
                         UIApplication.shared.registerForRemoteNotifications()

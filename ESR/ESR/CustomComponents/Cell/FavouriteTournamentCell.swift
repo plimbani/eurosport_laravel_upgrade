@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 protocol FavouriteTournamentCellDelegate {
     func favTournamentCellFavBtnPressed(_ indexPath: IndexPath)
@@ -18,6 +19,7 @@ class FavouriteTournamentCell: UITableViewCell {
     @IBOutlet var lblDate: UILabel!
     @IBOutlet var btnFavourite: UIButton!
     @IBOutlet var btnSelectDefaultTournament: UIButton!
+    @IBOutlet var imgView: UIImageView!
     
     var record = Tournament()
     var delegate: FavouriteTournamentCellDelegate?
@@ -25,6 +27,7 @@ class FavouriteTournamentCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        imgView.contentMode = .scaleAspectFit
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -34,6 +37,10 @@ class FavouriteTournamentCell: UITableViewCell {
     func reloadCell() {
         lblTournamentName.text = record.name
         lblDate.text = record.startDate + " - " + record.endDate
+        
+        if let url = URL(string: record.tournamentLogo) {
+            imgView.sd_setImage(with: url, completed: nil)
+        }
         
         btnFavourite.setImage(UIImage(named: "fav")?.withRenderingMode(.alwaysTemplate), for: .normal)
         btnSelectDefaultTournament.setImage(UIImage(named: "selected_default_tournament")?.withRenderingMode(.alwaysTemplate), for: .normal)

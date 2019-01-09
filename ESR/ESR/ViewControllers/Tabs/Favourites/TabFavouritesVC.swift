@@ -250,14 +250,10 @@ extension TabFavouritesVC : UITableViewDataSource, UITableViewDelegate {
             _ = cellOwner.loadMyNibFile(nibName: "FavouriteTournamentCell")
             cell = cellOwner.cell as? FavouriteTournamentCell
             cell?.delegate = self
-            cell?.indexPath = indexPath
         }
+        cell?.indexPath = indexPath
         cell?.record = tournamentList[indexPath.row]
         cell?.reloadCell()
         return cell!
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
     }
 }
