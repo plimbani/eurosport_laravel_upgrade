@@ -77,6 +77,7 @@ import LayoutThankyou from './views/layouts/LayoutThankyou.vue'
 import Thankyou from './views/thankyou/Thankyou.vue'
 
 import Buylicense from './views/buylicense/Buylicense.vue'
+import Checkout from './views/checkout/Checkout.vue'
 // payment view
 import payment from './views/payment/payment.vue'
 
@@ -326,6 +327,17 @@ const routes = [
             }
         ]
     },
+    {
+        path: '/checkout', component: LayoutCommercialisation,
+        meta: { requiresAuth: true },
+        children: [
+            {
+                path: '/',
+                component: Checkout,
+                name: 'checkout'
+            }
+        ]
+    },
      {
         // path: '/profile/:id', component: LayoutLogin,
         path: '/profile', component: LayoutCommercialisation,
@@ -341,7 +353,7 @@ const routes = [
      
      {
         path: '/buylicense', component: LayoutCommercialisation,
-        meta: { requiresAuth: true },
+        // meta: { requiresAuth: true },
         children: [
             {
                 path: '/',
@@ -400,10 +412,12 @@ router.beforeEach((to, from, next) => {
         })
     }else{
         // logic for auth page if user is logged in then those will be redirected to admin page
-        let token = Ls.get('auth.token')
-        // console.log("login page",token)
-        if(typeof token != "undefined" && token != undefined && token != "null" && token != null){
-             return next({ path : '/admin'});
+        if(to.name != "buylicense"){
+            let token = Ls.get('auth.token')
+            // console.log("login page",token)
+            if(typeof token != "undefined" && token != undefined && token != "null" && token != null){
+                 return next({ path : '/admin'});
+            }
         }
 
     }

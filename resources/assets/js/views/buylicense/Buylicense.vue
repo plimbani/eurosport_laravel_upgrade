@@ -198,21 +198,18 @@
             },
             buyALicence(e){ 
                 this.$validator.validateAll();
-                if (!this.errors.any()) {
+                if (this.tournamentData.tournament_name) {
                     this.disabled = true;
                     // console.log("vvv::",document.getElementById('tournament_start_date').value)
                     this.tournamentData.tournament_start_date = document.getElementById('tournament_start_date').value;
                     this.tournamentData.tournament_end_date = document.getElementById('tournament_end_date').value;
-                    axios.post(Constant.apiBaseUrl+'generateHashKey', this.tournamentData).then(response =>  {
-                            // console.log("response::",response)
-                        // http://eurosport.local.com/api/v1/generateHashKey
-                            if (response.data.success) {
-                                // console.log("response.data.data::",response.data.data);
+                    axios.post(Constant.apiBaseUrl+'generateHashKey', this.tournamentData).then(response =>  {  
+                            if (response.data.success) { 
                                 this.shaSignIn = response.data.data.shaSignIn;
                                 this.orderId = response.data.data.orderId;
                                 this.pspid = response.data.data.pspid;
-                                this.amount = response.data.data.total_amount;
-                                // this.amount = this.tournamentData.total_amount; 
+                                this.amount = response.data.data.total_amount; 
+
                                 let orderInfo = this.tournamentData;
                                 orderInfo.shaSignIn = this.shaSignIn;
                                 orderInfo.orderId = this.orderId;
@@ -232,7 +229,7 @@
                         this.disabled = false;
                          console.log("error in buyALicence::",error);
                      }); 
-                }
+                } 
             },
             customFormatter(date) {
               return moment(date).format('MM/DD/YYYY');
