@@ -58,7 +58,7 @@ export default {
       this.canUploadRefereeFile = true;
       var extensionsplit = event.target.files[0].name.split(".");
       var extension = extensionsplit[extensionsplit.length - 1];
-      if(extension != 'xls' && extension != 'xlsx') {
+      if(extension != 'xls' &&  extension != 'xlsx' && extension != 'csv') {
         this.canUploadRefereeFile = false;
       }
       var filename = $('#fileUpload').val();

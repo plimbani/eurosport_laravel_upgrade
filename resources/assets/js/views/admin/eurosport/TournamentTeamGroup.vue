@@ -139,7 +139,7 @@
   		</div>
   	</div>
      <team-modal v-if="teamId!=''" :teamId="teamId" :countries="countries" :clubs="clubs" :teamColors="teamColors"></team-modal>
-    <div class="modal fade" id="reset_modal" tabindex="-1" role="dialog" 
+    <div class="modal fade" id="reset_modal" tabindex="-1" role="dialog"
     aria-labelledby="resetModalLabel">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -149,19 +149,19 @@
                 </div>
                 <div class="modal-body text-left">
                     <p>
-                        Are you sure you would like to reset this age category? This will delete 
+                        Are you sure you would like to reset this age category? This will delete
                         <b>ALL</b> team information associated with this age category including team names, fixtures and results.
                     </p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-dismiss="modal">{{$lang.summary_tab_popup_publish_cancel_button}}</button>
                     <button type="submit" class="btn btn-primary" @click="resetAllTeams()">{{$lang.summary_tab_popup_publish_confirm_button}}</button>
-                </div>    
+                </div>
         </div>
       </div>
     </div>
   </div>
-  
+
 </template>
 
 <script type="text/babel">
@@ -271,7 +271,7 @@
       // this.$root.$on('beforeChange', this.beforeChange);
     },
     beforeCreate: function() {
-      // Remove custom event listener 
+      // Remove custom event listener
       this.$root.$off('getTeamsByTournamentFilter');
       this.$root.$off('updateTeamList');
     },
@@ -333,7 +333,7 @@
         this.canUploadTeamFile = true;
         var extensionsplit = event.target.files[0].name.split(".");
         var extension = extensionsplit[extensionsplit.length - 1];
-        if(extension != 'xls' && extension != 'xlsx') {
+        if(extension != 'xls' && extension != 'xlsx' && extension != 'csv') {
           this.canUploadTeamFile = false;
         }
         var filename = $('#fileUpload').val();
@@ -682,7 +682,7 @@
         Tournament.getResetTeams(ageCategoryId).then(
           (response) => {
             this.$root.$emit('updateTeamList');
-            
+
             $("#reset_modal").modal("hide");
             toastr['success']('All teams are deleted successfully', 'Success');
           },
@@ -702,7 +702,7 @@
       downloadTeamsSpreadsheetSample() {
         Tournament.getSignedUrlForTeamsSpreadsheetSampleDownload().then(
           (response) => {
-            window.location.href = response.data;         
+            window.location.href = response.data;
           },
           (error) => {
         });
