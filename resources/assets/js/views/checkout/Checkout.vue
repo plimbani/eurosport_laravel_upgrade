@@ -58,7 +58,21 @@
         </form>  
 
         <section class="buy-license-section section-padding">
-             Checkout page
+            Please Wait While we redirect your to Payment page
+            <div class="card-text">
+                <div class="row">
+                    <div class="col-sm-6 col-md-7 col-lg-7">
+                        <p class="mb-0">{{tournamentData.tournament_max_teams}} team license for a {{dayDifference}} day(s) tournament</p>
+                    </div>
+                    <div class="col-sm-6 col-md-5 col-lg-5">
+                        <p class="text-sm-right mb-0 mt-3 mt-sm-0">Â£100.00</p>
+                    </div>
+                </div>
+
+                <div class="divider my-3 opacited"></div>
+
+                <p class="text-sm-right font-weight-bold">Â£100.00</p>
+            </div>
         </section>
           
     </div>
@@ -79,20 +93,9 @@
         data() {
             return {
                 tournamentData:{
-                    tournament_max_teams: 2,  
-                    tournament_name: "",
-                    // tournament_start_date:"12/25/2018",  
-                    // tournament_end_date:"12/25/2018", 
-                    tournament_start_date:new Date(),  
-                    tournament_end_date:new Date(), 
-                    total_amount:100, 
+                 
                 },
-                startDisabledDates:{
-                    to: new Date(Date.now() - 8640000),
-                },
-                endDisabledDates:{
-                    to: new Date(Date.now() - 8640000),
-                },
+               
                 shaSignIn:"", 
                 orderId:"", 
                 pspid:"", 
@@ -107,41 +110,48 @@
         },
         methods: { 
             generateHashKey(e){  
-                    // axios.post(Constant.apiBaseUrl+'generateHashKey', this.tournamentData).then(response =>  {  
-                    //         if (response.data.success) { 
-                    //             this.shaSignIn = response.data.data.shaSignIn;
-                    //             this.orderId = response.data.data.orderId;
-                    //             this.pspid = response.data.data.pspid;
-                    //             this.amount = response.data.data.total_amount; 
+                axios.post(Constant.apiBaseUrl+'generateHashKey', this.tournamentData).then(response =>  {  
+                        if (response.data.success) { 
+                            this.shaSignIn = response.data.data.shaSignIn;
+                            this.orderId = response.data.data.orderId;
+                            this.pspid = response.data.data.pspid;
+                            this.amount = response.data.data.total_amount; 
 
-                    //             let orderInfo = this.tournamentData;
-                    //             orderInfo.shaSignIn = this.shaSignIn;
-                    //             orderInfo.orderId = this.orderId;
-                    //             orderInfo.pspid = this.pspid;
-                    //             orderInfo.total_amount = this.amount;
-                    //             Ls.set('orderInfo',JSON.stringify(orderInfo))
-                    //             // let self = this;
-                    //             // setTimeout(function(){ 
-                    //             //     self.$refs.paymentSubmit.click();
-                    //             //     self.disabled = false;
-                    //             // },500) 
-                    //          }else{
-                    //             this.disabled = false;
-                    //             toastr['error'](response.data.message, 'Error');
-                    //          }
-                    //  }).catch(error => {
-                    //     this.disabled = false;
-                    //      console.log("error in buyALicence::",error);
-                    //  }); 
-                 
+                            let orderInfo = this.tournamentData;
+                            orderInfo.shaSignIn = this.shaSignIn;
+                            orderInfo.orderId = this.orderId;
+                            orderInfo.pspid = this.pspid;
+                            orderInfo.total_amount = this.amount;
+                            Ls.set('orderInfo',JSON.stringify(orderInfo))
+                            let self = this;
+                            setTimeout(function(){ 
+                                self.$refs.paymentSubmit.click();
+                                self.disabled = false;
+                            },500) 
+                         }else{
+                            this.disabled = false;
+                            toastr['error'](response.data.message, 'Error');
+                         }
+                 }).catch(error => {
+                    this.disabled = false;
+                     console.log("error in buyALicence::",error);
+                 });  
             },
              
         },
         beforeMount(){  
+            let tournamentDetails = Ls.get('tournamentDetails')
+            if(typeof tournamentDetails != "undefined" && tournamentDetails != undefined && tournamentDetails != "null" && tournamentDetails != null){
+                console.log("tournamentDetails::",tournamentDetails);
+                this.tournamentData = JSON.parse(tournamentDetails);
+                
+            }else{
+                this.$router.push({name: 'login'});
+            }
         },
-        mounted () {
-            
-
+        mounted () { 
+            Ls.remove('tournamentDetails');
+            this.generateHashKey();
         }
     }
 </script>
