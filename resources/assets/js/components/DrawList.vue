@@ -27,8 +27,13 @@
       role="tab" aria-expanded="true"
       class="btn btn-primary mb-2">
       <i aria-hidden="true" class="fa fa-angle-double-left"></i>Back to category list</a>
-      <table class="table table-hover table-bordered" v-if="groupsData.length > 0">
-        <thead>
+
+      <div v-for="(drawData,index) in groupsFilter">
+        <h6 class="mt-2">
+          <strong>{{ index }}</strong>
+        </h6>
+        <table class="table table-hover table-bordered" v-if="groupsData.length > 0">
+          <thead>
               <tr>
                   <th>{{$lang.summary_schedule_draws_categories}}</th>
                   <th class="text-center" style="width:200px">{{$lang.summary_schedule_type}}</th>
@@ -36,16 +41,17 @@
               </tr>
           </thead>
           <tbody>
-            <tr v-for="drawData in groupsData">
-              <td>
-                <a class="pull-left text-left text-primary" @click.prevent="changeGroup(drawData)" href=""><u>{{ drawData.display_name }}</u> </a>
-                <a v-if="isUserDataExist" href="#" @click="openEditCompetitionNameModal(drawData)" class="pull-right text-primary"><i class="jv-icon jv-edit"></i></a>
-              </td>
-              <td class="text-center">{{ drawData.competation_type }}</td>
-              <td class="text-center">{{ drawData.team_size }}</td>
+            <tr v-for="draw in drawData">
+                <td>
+                  <a class="pull-left text-left text-primary" @click.prevent="changeGroup(draw)" href=""><u>{{ draw.display_name }}</u> </a>
+                  <a v-if="isUserDataExist" href="#" @click="openEditCompetitionNameModal(draw)" class="pull-right text-primary"><i class="jv-icon jv-edit"></i></a>
+                </td>
+                <td class="text-center">{{ draw.competation_type }}</td>
+                <td class="text-center">{{ draw.team_size }}</td>
             </tr>
           </tbody>
-      </table>
+        </table>
+      </div>
     </div>
     <div class="modal" id="commentmodal" tabindex="-1" role="dialog" aria-labelledby="commentmodalLabel" style="display: none;" aria-hidden="true" data-animation="false">
       <div class="modal-dialog modal-md" role="document">
@@ -102,6 +108,7 @@ import Tournament from '../api/tournament.js'
 import TeamDetails from './TeamDetails.vue'
 import TeamList from './TeamList.vue'
 import DrawDetails from './DrawDetails.vue'
+import _ from 'lodash'
 
 export default {
   data() {
@@ -110,7 +117,8 @@ export default {
       showTable: 'category',
       groupsData:[],
       ageCatgeoryComments: '',
-      competitionData: {}
+      competitionData: {},
+      groupsFilter: {}
     }
   },
   mounted() {
@@ -167,10 +175,13 @@ export default {
       this.$store.dispatch('setCurrentScheduleViewAgeCategory','drawList')
       this.$store.dispatch('setcurrentAgeCategoryId',ageGroupId)
 
-
       let tournamentData = {'ageGroupId': ageGroupId}
       Tournament.getCategoryCompetitions(tournamentData).then(
         (response) => {
+          let filterData = response.data.competitions;
+          let filter = _.groupBy(filterData, 'competation_round_no');
+          this.groupsFilter = _.groupBy(filterData, 'competation_round_no');
+
           this.groupsData = response.data.competitions
           this.showTable = "groups"
         },
@@ -194,6 +205,10 @@ export default {
       var data = {'competitionData': this.competitionData};
       Tournament.updateCompetitionDisplayName(data).then(
         (response) => {
+          let filterData = response.data.options.data;
+          let filter = _.groupBy(filterData, 'competation_round_no');
+          this.groupsFilter = _.groupBy(filterData, 'competation_round_no');
+
           this.groupsData = response.data.options.data;
           $('#editCompetitionNameModal').modal('hide');
           toastr.success(response.data.options.message, 'Competition Details', {timeOut: 5000});
