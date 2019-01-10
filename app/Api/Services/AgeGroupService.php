@@ -550,6 +550,7 @@ class AgeGroupService implements AgeGroupContract
       $finalArray['tournament_positions'] = [];
 
       // for rounds
+      // for 1st round
       $totalRounds = 1;
       for ($rounds = 0; $rounds < $totalRounds ; $rounds++) {
         $finalArray['tournament_competation_format']['format_name'][$rounds]['name'] = 'Round ' .($rounds+1);
@@ -569,6 +570,11 @@ class AgeGroupService implements AgeGroupContract
         }        
         $groupCount++;
       }
+
+      // for second round
+      // $knockoutRoundSizeArray = config('config-variables.knockout_round_two_size');
+      // $roundSizeData = $knockoutRoundSizeArray[$groupSize][$totalTeams];
+      // $finalRounds = log($roundSizeData, 2);
 
       $positions = [];
       for ($i=1; $i <= $totalTeams; $i++) {

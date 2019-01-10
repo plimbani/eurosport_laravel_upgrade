@@ -1,0 +1,34 @@
+<?php
+
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
+
+class AlterTournamentTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::table('tournament_template', function (Blueprint $table) {
+            DB::statement('ALTER TABLE tournament_template CHANGE divisions no_of_divisions INT(10)');
+            $table->integer('no_of_rounds')->unsigned()->nullable()->after('no_of_divisions');
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::table('tournament_template', function (Blueprint $table) {
+            DB::statement('ALTER TABLE tournament_template CHANGE no_of_divisions divisions VARCHAR(255)');
+            $table->dropColumn(['no_of_rounds']);
+        });
+    }
+}
