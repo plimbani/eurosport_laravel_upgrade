@@ -6,7 +6,7 @@
           <div class="tabs tabs-primary">
             <ul class="nav nav-tabs edit-tournament-tab" role="tablist">
                 <li class="nav-item">
-                    <a :class="[activePath == 'tournament_add' ? 'active' : '', 'nav-link']" data-toggle="tab"  href="#tournament_add" role="tab" @click="GetSelectComponent('tournament_add')">
+                    <a :class="[activePath == 'tournament_add' ? 'active' : '', 'nav-link','doc-filled']" data-toggle="tab"  href="#tournament_add" role="tab" @click="GetSelectComponent('tournament_add')">
                         <span class="icon-football-block"><i class="fas fa-futbol"></i></span>
 
                         {{$lang.tournament_label}}
@@ -18,7 +18,7 @@
                 </li>
 
                 <li class="nav-item">                    
-                    <a :class="[activePath == 'competation_format' ? 'active' : '', 'nav-link']" data-toggle="tab" href="#competation_format" role="tab" @click="GetSelectComponent('competation_format')">
+                    <a :class="[(activePath == 'competation_format' ? 'active' : '', 'nav-link'), (competitionList.length > 0 ? 'doc-filled' : '')]" data-toggle="tab" href="#competation_format" role="tab" @click="GetSelectComponent('competation_format')">
                         <span class="icon-football-block"><i class="fas fa-futbol"></i></span>
 
                         {{$lang.competation_label}}
@@ -30,7 +30,7 @@
                 </li>
 
                 <li class="nav-item">                    
-                    <a :class="[activePath == 'pitch_capacity' ? 'active' : '', 'nav-link']" data-toggle="tab" href="#pitch_capacity" role="tab" @click="GetSelectComponent('pitch_capacity')">
+                    <a :class="[(activePath == 'pitch_capacity' ? 'active' : '', 'nav-link'), (pitches !== undefined ? 'doc-filled' : '')]" data-toggle="tab" href="#pitch_capacity" role="tab" @click="GetSelectComponent('pitch_capacity')">
                         <span class="icon-football-block"><i class="fas fa-futbol"></i></span>
 
                         {{$lang.pitch_capacity_label}}
@@ -42,7 +42,7 @@
                 </li>
 
                 <li class="nav-item">                    
-                    <a :class="[activePath == 'teams_groups' ? 'active' : '', 'nav-link']" data-toggle="tab" href="#teams_groups" role="tab"  @click="GetSelectComponent('teams_groups')">
+                    <a :class="[(activePath == 'teams_groups' ? 'active' : '', 'nav-link'),(teamsCount.length > 0 ? 'doc-filled' : '')]" data-toggle="tab" href="#teams_groups" role="tab"  @click="GetSelectComponent('teams_groups')">
                         <span class="icon-football-block"><i class="fas fa-futbol"></i></span>
 
                         {{$lang.teams_groups_label}}
@@ -54,7 +54,7 @@
                 </li>
 
                 <li class="nav-item">                    
-                    <a :class="[activePath == 'pitch_planner' ? 'active' : '', 'nav-link']" data-toggle="tab" href="#pitch_planner" role="tab" @click="GetSelectComponent('pitch_planner')">
+                    <a :class="[(activePath == 'pitch_planner' ? 'active' : '', 'nav-link'), (isMatchScheduled ? 'doc-filled' : '')]" data-toggle="tab" href="#pitch_planner" role="tab" @click="GetSelectComponent('pitch_planner')">
                         <span class="icon-football-block"><i class="fas fa-futbol"></i></span>
 
                         {{$lang.pitch_planner_label}}
@@ -66,7 +66,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a :class="[activePath == 'tournaments_summary_details' ? 'active' : '', 'nav-link']" data-toggle="tab" href="#home3" role="tab" @click="GetSelectComponent('tournaments_summary_details')">
+                    <a :class="[(activePath == 'tournaments_summary_details' ? 'active' : '', 'nav-link'), (isScoreUpdated ? 'doc-filled' : '')]" data-toggle="tab" href="#home3" role="tab" @click="GetSelectComponent('tournaments_summary_details')">
                         <span class="icon-football-block"><i class="fas fa-futbol"></i></span>
                     
                         {{$lang.summary_label}}
@@ -85,6 +85,8 @@
   </div>
 </template>
 <script type="text/babel">
+import _ from 'lodash'
+import Tournament from '../../../api/tournament.js'
 export default {
   data() {
     return {
@@ -95,9 +97,44 @@ export default {
   computed: {
     activePath() {
       return this.$store.state.activePath
+    },
+    isScoreUpdated() {
+      let isScoreUpdated = false;
+      _.forEach(this.$store.state.Tournament.matches , function(o, index) {
+        if(o.homeScore != null || o.AwayScore != null) {
+          isScoreUpdated = true;
+        }
+      })
+      return isScoreUpdated;
+    },
+    isMatchScheduled() {
+      let isMatchScheduled = false;
+      _.forEach(this.$store.state.Tournament.matches , function(o, index) {
+          if(o.is_scheduled = 1) {
+            isMatchScheduled = true;
+          }
+        })
+      return isMatchScheduled;
+    },
+    teamsCount()
+    {
+      return this.$store.state.Tournament.teams
+    },
+    competitionList()
+    {
+      return this.$store.state.Tournament.competationList
+    },
+    pitches()
+    {
+      return this.$store.state.Pitch.pitches
     }
   },
   mounted() {
+    this.displayTournamentCompetationList();
+    this.$store.dispatch('SetTeams',this.$store.state.Tournament.tournamentId);
+    this.$store.dispatch('SetPitches',this.$store.state.Tournament.tournamentId);
+    this.$store.dispatch('setMatches');
+       
     this.$store.dispatch('ResetPitchPlannerFromEnlargeMode');
     if(this.tournamentId == '' ) {
       //this.$router.push({name: 'welcome'})
@@ -136,6 +173,21 @@ export default {
       },2000 )
       }
 
+    },
+    displayTournamentCompetationList () {
+    // Only called if valid tournament id is Present
+      if (!isNaN(this.$store.state.Tournament.tournamentId)) {
+        // here we add data for
+        let TournamentData = {'tournament_id': this.$store.state.Tournament.tournamentId}
+        Tournament.getCompetationFormat(TournamentData).then(
+        (response) => {
+          this.competationList = response.data.data
+          this.$store.dispatch('setCompetationList',this.competationList)
+        },
+        (error) => {
+        }
+        )
+      }
     }
   },
 }

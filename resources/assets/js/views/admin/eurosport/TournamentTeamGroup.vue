@@ -406,6 +406,7 @@
         Tournament.getTeams(teamData).then(
           (response) => {
             this.teams = response.data.data
+            this.$store.dispatch('SetTeams',this.tournament_id);
             let that = this
             setTimeout(function(){
               $('.selTeams').each(function( index ) {
