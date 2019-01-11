@@ -461,7 +461,7 @@ class AgeGroupService implements AgeGroupContract
 
     public function generateTemplateJsonForLeague($totalTeams)
     {
-      $matches = $this->setTemplateMatches($totalTeams, $timesPlayedEachOther = 2);
+      $matches = $this->setTemplateMatches($totalTeams, $timesPlayedEachOther = 2, A);
       $totalMatchesCount = count($matches);
       $averageMatches = $totalMatchesCount / ($totalTeams/2);
       $totalRounds = 1;
@@ -522,14 +522,10 @@ class AgeGroupService implements AgeGroupContract
     {
       $totalGroups = $totalTeams / $groupSize;
       $finalTeams = $totalTeams / $totalGroups;
-  
-      $matches = $this->setTemplateMatches($finalTeams, $timesPlayedEachOther = 1);
-      
-      $totalMatchesCount = count($matches) * $totalGroups;
-      $averageMatches = $totalMatchesCount / ($totalTeams/2);
+      $teamsPerGroup = $totalTeams / $totalGroups;
 
       $finalArray = [];
-      $finalArray['total_matches'] = $totalMatchesCount;
+      // $finalArray['total_matches'] = $totalMatchesCount;
       $finalArray['tournament_id'] = '';
       $finalArray['tournament_teams'] = $totalTeams;
       $finalArray['remark'] = '';
@@ -539,7 +535,7 @@ class AgeGroupService implements AgeGroupContract
       $finalArray['competition_group_round'] = '1*' .$totalTeams;
       $finalArray['competation_format'] = '';
       $finalArray['tournament_min_match'] = '';
-      $finalArray['avg_game_team'] = $averageMatches;
+      // $finalArray['avg_game_team'] = $averageMatches;
       $finalArray['position_type'] = 'group_ranking';
       $finalArray['tournament_competition_ranking'] = [];
       $finalArray['tournament_competition_ranking']['format_name'] = [];
@@ -548,33 +544,67 @@ class AgeGroupService implements AgeGroupContract
       $finalArray['tournament_competation_format'] = [];
       $finalArray['tournament_competation_format']['format_name'] = [];
       $finalArray['tournament_positions'] = [];
+      $finalMatches = 0;
 
       // for rounds
       // for 1st round
       $totalRounds = 1;
-      for ($rounds = 0; $rounds < $totalRounds ; $rounds++) {
-        $finalArray['tournament_competation_format']['format_name'][$rounds]['name'] = 'Round ' .($rounds+1);
+      for ($round = 0; $round < $totalRounds ; $round++) {
+        $finalArray['tournament_competation_format']['format_name'][$round]['name'] = 'Round ' .($round+1);
 
         // for groups
         $groupCount = 0;
-        for ($groups = 0; $groups < $totalGroups; $groups++) {
-          $finalGroupCount = 65 + $groupCount + $groups;
+        for ($group = 0; $group < $totalGroups; $group++) {
+          $finalGroupCount = chr(65 + $groupCount + $group);
+          $matches = $this->setTemplateMatches($finalTeams, $timesPlayedEachOther = 1, $finalGroupCount);
           $matchTypeDetail = [
             'name' => '',
             'total_match' => '',
             'group_count' => '',
-            'groups' => ['group_name' => 'Group-' .chr($finalGroupCount), 'match' => $matches]
+            'groups' => ['group_name' => 'Group-' .$finalGroupCount, 'match' => $matches]
           ];
 
-          $finalArray['tournament_competation_format']['format_name'][$rounds]['match_type'][] = $matchTypeDetail;
-        }        
+          $finalArray['tournament_competation_format']['format_name'][$round]['match_type'][] = $matchTypeDetail;
+        }
         $groupCount++;
+
+        $finalMatches = count($matches) + $finalMatches;
+
+
+        $knockoutRoundSizeArray = config('config-variables.knockout_round_two_size');
+        $roundSizeData = $knockoutRoundSizeArray[$groupSize][$totalTeams];
+        $finalRounds = log($roundSizeData, 2);
+
+        // prepare teams array for round 2
+        $teamsForRoundTwo = [];
+        for ($group=0; $group <$totalGroups ; $group++) {
+          $key = 0;
+          for ($i=1; $i < $teamsPerGroup ; $i++) {
+            if($key < 2) {
+              $teamsForRoundTwo[] = $i .chr(65 + $group);
+              $key++;
+            }
+          }
+        }
+
+        if($roundSizeData > sizeof($teamsForRoundTwo)) {
+          $remainingTeams = $roundSizeData - sizeof($teamsForRoundTwo);
+          for ($group=0; $group <$totalGroups ; $group++) {
+            for ($i=3; $i < $teamsPerGroup ; $i++) {
+              if($remainingTeams > 0) {
+                $teamsForRoundTwo[] = $i .chr(65 + $group);
+                $remainingTeams--;
+              }
+            }
+          }
+        }
+        echo "<pre>";print_r($teamsForRoundTwo);echo "</pre>";exit();
       }
 
-      // for second round
-      // $knockoutRoundSizeArray = config('config-variables.knockout_round_two_size');
-      // $roundSizeData = $knockoutRoundSizeArray[$groupSize][$totalTeams];
-      // $finalRounds = log($roundSizeData, 2);
+      $totalMatchesCount = $finalMatches * $totalGroups;
+      $averageMatches = $totalMatchesCount / ($totalTeams/2);
+      $finalArray['total_matches'] = $totalMatchesCount;
+      $finalArray['avg_game_team'] = $averageMatches;
 
       $positions = [];
       for ($i=1; $i <= $totalTeams; $i++) {
@@ -586,7 +616,7 @@ class AgeGroupService implements AgeGroupContract
       return json_encode($finalArray);
     }
 
-    public function setTemplateMatches($totalTeams, $times)
+    public function setTemplateMatches($totalTeams, $times, $currentGroup)
     {
       $a = 1;
       $matches = [];
@@ -594,10 +624,10 @@ class AgeGroupService implements AgeGroupContract
         for($j=1; $j<=$totalTeams; $j++) {
           for($k=($j+1); $k<=$totalTeams; $k++) {
             $matches[] = ['in-between' => $j. '-' .$k,
-                          'match_number' => ($a > 9 ? "CAT.RR1.$a.A$j-A$k" : "CAT.RR1.0$a.A$j-A$k"),
+                          'match_number' => ($a > 9 ? "CAT.RR1.$a.$currentGroup$j-$currentGroup$k" : "CAT.RR1.0$a.$currentGroup$j-$currentGroup$k"),
                           'display_match_number' => "CAT.1.$a.@HOME-@AWAY",
-                          'display_home_team_placeholder_name' => "A$j",
-                          'display_away_team_placeholder_name' => "A$k"
+                          'display_home_team_placeholder_name' => "$currentGroup$j",
+                          'display_away_team_placeholder_name' => "$currentGroup$k"
                         ];
             $a++;
           }
