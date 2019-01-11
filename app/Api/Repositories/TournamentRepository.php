@@ -19,6 +19,7 @@ use Laraspace\Models\TournamentTemplates;
 use Laraspace\Models\UserFavourites;
 use Laraspace\Models\Venue;
 use Laraspace\Models\Website;
+use Laraspace\Models\AgeCategoryDivision;
 
 class TournamentRepository
 {
@@ -998,5 +999,17 @@ class TournamentRepository
                                         ->get();
                                         
         return ['data' => $competitionData, 'status' => 'Success', 'message' => 'Competition name has been updated.'];
+    }
+
+    /**
+    * Update category division display name.
+    */
+    public function updateCategoryDivisionName($data)
+    {
+        return AgeCategoryDivision::where('tournament_id', $data['tournamentData']
+                                    ['tournament_id'])->where('tournament_competition_template_id', 
+                                    $data['tournamentData']['currentAgeCategoryId'])
+                                    ->update(['name' => $data['tournamentData']['categoryDivisionName']]);
+
     }
 }

@@ -252,4 +252,11 @@ class TournamentController extends BaseController
     {
         return $this->tournamentObj->updateCompetitionDisplayName($request->all());
     }
+    /**
+     * Update category division display name.
+    */
+    public function updateCategoryDivisionName(Request $request)
+    {
+        return $this->tournamentObj->updateCategoryDivisionName($request->all());
+    }
 }

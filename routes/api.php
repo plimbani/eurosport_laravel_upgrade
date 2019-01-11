@@ -93,6 +93,8 @@ $api->version('v1', function ($api) {
 
     $api->post('tournament/updateCompetitionDisplayName', 'Laraspace\Api\Controllers\TournamentController@updateCompetitionDisplayName');
 
+    $api->post('tournament/updateCategoryDivisionName', 'Laraspace\Api\Controllers\TournamentController@updateCategoryDivisionName');
+
 });
 
 $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {

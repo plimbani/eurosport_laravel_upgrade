@@ -52,7 +52,22 @@
           </tbody>
         </table>
       </div>
+      <table class="table table-hover table-bordered">
+      <thead>
+          <tr>
+            <td>
+                <a class="text-center" href="javascript:void(0)" @click="openEditCategoryDivisionNameModal()">Haderslev<i class="jv-icon jv-edit"></i></a>
+            </td>
+          </tr>
+      </thead>
+      <tbody>
+        <tr>
+            <td class="text-center"></td>
+        </tr>
+      </tbody>
+    </table>
     </div>
+    
     <div class="modal" id="commentmodal" tabindex="-1" role="dialog" aria-labelledby="commentmodalLabel" style="display: none;" aria-hidden="true" data-animation="false">
       <div class="modal-dialog modal-md" role="document">
         <div class="modal-content">
@@ -99,7 +114,8 @@
           </div>
          </div>
       </div>
-    </div>    
+    </div> 
+    <edit-category-division-name-modal></edit-category-division-name-modal>
   </div>
 </template>
 <script type="text/babel">
@@ -108,6 +124,7 @@ import Tournament from '../api/tournament.js'
 import TeamDetails from './TeamDetails.vue'
 import TeamList from './TeamList.vue'
 import DrawDetails from './DrawDetails.vue'
+import EditCategoryDivisionNameModal from './EditCategoryDivisionNameModal.vue'
 import _ from 'lodash'
 
 export default {
@@ -118,7 +135,7 @@ export default {
       groupsData:[],
       ageCatgeoryComments: '',
       competitionData: {},
-      groupsFilter: {}
+      groupsFilter: {},
     }
   },
   mounted() {
@@ -130,7 +147,7 @@ export default {
   },
 	// props:['matchData'],
 	components: {
-		TeamDetails, DrawDetails
+		TeamDetails, DrawDetails, EditCategoryDivisionNameModal
 	},
   computed: {
     currentView() {
@@ -201,6 +218,10 @@ export default {
       // this.competitionData.display_name = drawData.display_name;
       $('#editCompetitionNameModal').modal('show');
     },
+    openEditCategoryDivisionNameModal() {      
+      $('#editDivisionNameModal').modal('show');
+    },
+
     updateCompetitionName() {
       var data = {'competitionData': this.competitionData};
       Tournament.updateCompetitionDisplayName(data).then(

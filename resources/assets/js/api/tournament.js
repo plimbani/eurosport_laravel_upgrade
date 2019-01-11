@@ -258,4 +258,7 @@ export default {
   updateCompetitionDisplayName(data) {
     return api.post('tournament/updateCompetitionDisplayName', data);
   },
+  updateCategoryDivisionName(tournamentId) {
+    return api.post('tournament/updateCategoryDivisionName', {'tournamentData':tournamentId});
+  },
 }
