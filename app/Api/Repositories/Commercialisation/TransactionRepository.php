@@ -4,9 +4,10 @@ namespace Laraspace\Api\Repositories\Commercialisation;
 
 use Hash;
 use JWTAuth;
+use Illuminate\Support\Facades\Mail;
+use Laraspace\Mail\SendMail;
 use Laraspace\Models\Transaction;
 use Laraspace\Models\TransactionHistory;
-use Laraspace\Models\Tournament;
 use Laraspace\Api\Repositories\TournamentRepository;
 
 class TransactionRepository
@@ -29,11 +30,37 @@ class TransactionRepository
         $userId = $authUser->id;
         if ($data['STATUS'] == 5 && !empty($requestData['tournament'])) {
             $tournamentRes = $this->tournamentObj->addTournamentDetails($requestData['tournament'], 'api');
+        
+            $tournamentRes->users()->attach($userId);
         }
+        $response = $this->addTransaction($data, $tournamentRes, $userId);
+        
+        if ($data['STATUS'] == 5) {
+            //Send conformation mail to customer
+            $subject = 'Message from Eurosport';
+            $email_templates = 'emails.frontend.payment_confirmed';
+
+            Mail::to($authUser->email)
+                    ->send(new SendMail($requestData, $subject, $email_templates, NULL, NULL, NULL));
+        }
+        
+        return $response;
+    }
+
+    /**
+     * Add payment details into transaction
+     * @param array $data
+     * @param array $tournamentRes
+     * @param int $userId
+     * @return array
+     */
+    public function addTransaction($data, $tournamentRes, $userId)
+    {
         $paymentStatus = config('app.payment_status');
         $transaction = [
             'tournament_id' => !empty($tournamentRes->id) ? $tournamentRes->id : null,
             'user_id' => $userId,
+            'order_id' => $data['ORDERID'],
             'transaction_key' => $data['PAYID'],
             'amount' => $data['AMOUNT'],
             'status' => $paymentStatus[$data['STATUS']],
@@ -57,8 +84,7 @@ class TransactionRepository
             'payment_response' => json_encode($data)
         ];
         TransactionHistory::create($transactionHistory);
-
+        
         return $response;
     }
-
 }

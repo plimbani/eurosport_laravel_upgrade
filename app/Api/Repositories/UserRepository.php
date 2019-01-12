@@ -307,7 +307,7 @@ class UserRepository {
                 'last_name' => $data['last_name'],
                 'display_name' => $data['first_name'] . " " . $data['last_name'],
                 'primary_email' => $data['email'],
-                'address_1' => $data['address_1'],
+                'address' => $data['address'],
                 'address_2' => $data['address_2'],
                 'job_title' => $data['job_title'],
                 'city' => $data['city'],

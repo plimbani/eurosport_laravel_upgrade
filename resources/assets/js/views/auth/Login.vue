@@ -94,7 +94,14 @@
                     this.disabled = true; 
                     Auth.login(this.loginData).then(() => {
                         this.disabled = false;
-                        this.$router.push({'name':'welcome'})
+                        let tournamentDetails = Ls.get('tournamentDetails')
+                        if(typeof tournamentDetails != "undefined" && tournamentDetails != undefined && tournamentDetails != "null" && tournamentDetails != null){
+                            console.log("tournamentDetails::",tournamentDetails);
+                            this.$router.push({'name':'checkout'})
+                        }else{
+                            this.$router.push({'name':'welcome'})
+                        }
+                        
                     })
 
                     

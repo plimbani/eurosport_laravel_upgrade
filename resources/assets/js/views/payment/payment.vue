@@ -8,7 +8,8 @@
                     <p>Thank you for purchase. Your order number is {{paymentObj.orderID}}</p>
                 </div>
                 <div class="col-md-12">
-                    <button class="btn btn-success" @click="printReceipt()">Print receipt</button>
+                   <!--  <button class="btn btn-success" @click="printReceipt()">Print receipt</button> -->
+                    <button class="btn btn-success" @click="createPDF()">Print receipt</button>
                     <!-- <a href="javascript:void(0)">Print receipt</a> -->
                 </div>
             </div>
@@ -17,7 +18,7 @@
                     Receipt
                 </div>
                 <hr>
-                <div class="col-md-12">
+                <div class="col-md-12" id="reeiptDetails">
                     {{tournament.tournament_max_teams}} Teams licence for a 4 day tournament price is {{paymentObj.amount}} {{paymentObj.currency}}
                 </div>
             </div>
@@ -32,6 +33,7 @@
     import Auth from '../../services/auth'
     import Ls from '../../services/ls'
     import Constant from '../../services/constant'
+    import jsPDF from 'jspdf' 
 
     // console.log("register  page");
     export default {
@@ -44,6 +46,13 @@
             }
         },
         methods: {
+            createPDF () {
+                let pdfName = 'receipt'; 
+                var doc = new jsPDF();
+                let content = $("#reeiptDetails").text();
+                doc.text(content, 10, 10);
+                doc.save(pdfName + '.pdf');
+            },
             getPaymentDetails(){
                 let apiParams = {
                     tournament:this.tournament,
@@ -55,12 +64,9 @@
                             this.paymentObj.currency = response.data.data.currency;
                             let payment_response = JSON.parse(response.data.data.payment_response);
                             this.paymentObj.orderid = payment_response.orderID;
-                           console.log("response.data::",this.paymentObj);
-                            
-                        // this.$router.push({'name':'welcome'})
-                     }else{
-                         toastr['error'](response.data.message, 'Error');
-                     }
+                         }else{
+                             toastr['error'](response.data.message, 'Error');
+                         }
                  }).catch(error => {
                      console.log("error in buyALicence::",error);
                  });

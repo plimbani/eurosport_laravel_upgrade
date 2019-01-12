@@ -33,6 +33,10 @@ class Tournament extends Model
     {
         return $this->belongsTo('Laraspace\Models\User', 'user_id');
     }
+    public function users()
+    {
+        return $this->belongsToMany('Laraspace\Models\User', 'tournament_user', 'tournament_id', 'user_id');
+    }
 
     public function getStartDateAttribute($value)
     {

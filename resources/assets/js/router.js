@@ -77,6 +77,7 @@ import LayoutThankyou from './views/layouts/LayoutThankyou.vue'
 import Thankyou from './views/thankyou/Thankyou.vue'
 
 import Buylicense from './views/buylicense/Buylicense.vue'
+import Checkout from './views/checkout/Checkout.vue'
 // payment view
 import payment from './views/payment/payment.vue'
 
@@ -95,6 +96,8 @@ import WebsiteVisitors from './views/admin/eurosport/WebsiteVisitors.vue';
 import WebsiteMedia from './views/admin/eurosport/WebsiteMedia.vue';
 import WebsiteContact from './views/admin/eurosport/WebsiteContact.vue';
 import Test from './views/admin/eurosport/Test.vue';
+
+import Ls from './services/ls'
 
 Vue.use(VueRouter)
 
@@ -324,6 +327,17 @@ const routes = [
             }
         ]
     },
+    {
+        path: '/checkout', component: LayoutCommercialisation,
+        meta: { requiresAuth: true },
+        children: [
+            {
+                path: '/',
+                component: Checkout,
+                name: 'checkout'
+            }
+        ]
+    },
      {
         // path: '/profile/:id', component: LayoutLogin,
         path: '/profile', component: LayoutCommercialisation,
@@ -339,7 +353,7 @@ const routes = [
      
      {
         path: '/buylicense', component: LayoutCommercialisation,
-        meta: { requiresAuth: true },
+        // meta: { requiresAuth: true },
         children: [
             {
                 path: '/',
@@ -383,8 +397,7 @@ router.beforeEach((to, from, next) => {
     let websiteRoutes = ['website_add', 'website_homepage', 'website_teams', 'website_venue', 'website_tournament', 'website_program', 'website_stay', 'website_visitors', 'website_media', 'website_contact'];
     if (websiteRoutes.indexOf(to.name) === -1) {
         store.dispatch('ResetWebsiteDetail');
-    }
-
+    } 
     // If the next route is requires user to be Logged IN
     if (to.matched.some(m => m.meta.requiresAuth)){
         return AuthService.check(data).then((response) => {
@@ -397,6 +410,16 @@ router.beforeEach((to, from, next) => {
             store.dispatch('setScoreAutoUpdate',response.is_score_auto_update);
             return next()
         })
+    }else{
+        // logic for auth page if user is logged in then those will be redirected to admin page
+        if(to.name != "buylicense"){
+            let token = Ls.get('auth.token')
+            // console.log("login page",token)
+            if(typeof token != "undefined" && token != undefined && token != "null" && token != null){
+                 return next({ path : '/admin'});
+            }
+        }
+
     }
 
     return next()

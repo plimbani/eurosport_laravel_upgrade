@@ -1,62 +1,5 @@
 <template> 
-    <div class="main-section">
-        <form action="https://ogone.test.v-psp.com/ncol/test/orderstandard_utf8.asp"  method="post">    
-        <!-- <form action=""  method="post">     -->
-        <!-- <form action=""  method="post" @submit.prevent="buyALicence">     -->
-
-            <input type="hidden" name="PSPID" v-model="pspid">
-
-            <input type="hidden" name="ORDERID" v-model="orderId">
-
-            <input type="hidden" name="AMOUNT" v-model="amount">
-
-            <input type="hidden" name="CURRENCY" value="EUR">
-
-            <input type="hidden" name="LANGUAGE" value="">
-
-            <input type="hidden" name="CN" value="">
-
-            <input type="hidden" name="EMAIL" value="">
-
-            <input type="hidden" name="OWNERZIP" value="">
-
-            <input type="hidden" name="OWNERADDRESS" value="">
-
-            <input type="hidden" name="OWNERCTY" value="">
-
-            <input type="hidden" name="OWNERTOWN" value="">
-
-            <input type="hidden" name="OWNERTELNO" value="">
-
-
-
-            <!-- check before the payment: see Security: Check before the payment -->
-
-            <input type="hidden" name="SHASIGN" v-model="shaSignIn">
-
-            <!-- layout information: see Look and feel of the payment page -->
-
-            <input type="hidden" name="TITLE" value="">
-
-            <input type="hidden" name="BGCOLOR" value="">
-
-            <input type="hidden" name="TXTCOLOR" value="">
-
-            <input type="hidden" name="TBLBGCOLOR" value="">
-
-            <input type="hidden" name="TBLTXTCOLOR" value="">
-
-            <input type="hidden" name="BUTTONBGCOLOR" value="">
-
-            <input type="hidden" name="BUTTONTXTCOLOR" value="">
-
-            <input type="hidden" name="LOGO" value="">
-
-            <input type="hidden" name="FONTTYPE" value="">
-
-            <input type="submit" id="paymentSubmit" ref="paymentSubmit" name="paymentSubmit" style="display:none">
-        </form>  
-
+    <div class="main-section"> 
         <section class="buy-license-section section-padding">
             <div class="container">
                 <div class="row justify-content-between">
@@ -115,7 +58,7 @@
                                 <div class="card-text">
                                     <div class="row">
                                         <div class="col-sm-6 col-md-7 col-lg-7">
-                                            <p class="mb-0">32 team license for a 4 day tournament</p>
+                                            <p class="mb-0">{{tournamentData.tournament_max_teams}} team license for a {{dayDifference}} day(s) tournament</p>
                                         </div>
                                         <div class="col-sm-6 col-md-5 col-lg-5">
                                             <p class="text-sm-right mb-0 mt-3 mt-sm-0">Â£100.00</p>
@@ -158,24 +101,18 @@
             return {
                 tournamentData:{
                     tournament_max_teams: 2,  
-                    tournament_name: "",
-                    // tournament_start_date:"12/25/2018",  
-                    // tournament_end_date:"12/25/2018", 
+                    tournament_name: "", 
                     tournament_start_date:new Date(),  
                     tournament_end_date:new Date(), 
                     total_amount:100, 
                 },
-                startDisabledDates:{
-                    to: new Date(Date.now() - 8640000),
-                },
-                endDisabledDates:{
-                    to: new Date(Date.now() - 8640000),
-                },
+                
                 shaSignIn:"", 
                 orderId:"", 
                 pspid:"", 
                 amount:"",
-                disabled:false
+                disabled:false,
+                dayDifference:1
             }
         },
         beforeRouteEnter(to, from, next) { 
@@ -189,67 +126,73 @@
             next()
         },
         methods: {
-            selectStartDate(date){
-                this.tournamentData.tournament_start_date = date;
-            },
-            selectEndDate(date){
-                this.tournamentData.tournament_end_date = date;
-            },
+           
             buyALicence(e){ 
                 this.$validator.validateAll();
-                if (!this.errors.any()) {
-                    this.disabled = true;
+                if (this.tournamentData.tournament_name) {
+                    // this.disabled = true;
                     // console.log("vvv::",document.getElementById('tournament_start_date').value)
                     this.tournamentData.tournament_start_date = document.getElementById('tournament_start_date').value;
                     this.tournamentData.tournament_end_date = document.getElementById('tournament_end_date').value;
-                    axios.post(Constant.apiBaseUrl+'generateHashKey', this.tournamentData).then(response =>  {
-                            // console.log("response::",response)
-                        // http://eurosport.local.com/api/v1/generateHashKey
-                            if (response.data.success) {
-                                // console.log("response.data.data::",response.data.data);
-                                this.shaSignIn = response.data.data.shaSignIn;
-                                this.orderId = response.data.data.orderId;
-                                this.pspid = response.data.data.pspid;
-                                this.amount = response.data.data.total_amount;
-                                // this.amount = this.tournamentData.total_amount; 
-                                let orderInfo = this.tournamentData;
-                                orderInfo.shaSignIn = this.shaSignIn;
-                                orderInfo.orderId = this.orderId;
-                                orderInfo.pspid = this.pspid;
-                                orderInfo.total_amount = this.amount;
-                                Ls.set('orderInfo',JSON.stringify(orderInfo))
-                                let self = this;
-                                setTimeout(function(){ 
-                                    self.$refs.paymentSubmit.click();
-                                    self.disabled = false;
-                                },500) 
-                             }else{
-                                this.disabled = false;
-                                toastr['error'](response.data.message, 'Error');
-                             }
-                     }).catch(error => {
-                        this.disabled = false;
-                         console.log("error in buyALicence::",error);
-                     }); 
-                }
+                    
+                    Ls.set("tournamentDetails",JSON.stringify(this.tournamentData)); 
+                    
+                    let token = Ls.get('auth.token')
+                    if(typeof token != "undefined" && token != undefined && token != "null" && token != null){ 
+                        this.$router.push({name: 'checkout'});
+                    }else{
+                        this.$router.push({name: 'login'});
+                    } 
+                } 
             },
             customFormatter(date) {
               return moment(date).format('MM/DD/YYYY');
             }, 
+
+            findDifferenceBetweenDates(){ 
+                // console.log("startDate::",startDate);
+                let startDateArr = (document.getElementById('tournament_start_date').value).split("/");
+                let endDateArr = (document.getElementById('tournament_end_date').value).split("/"); 
+                let startDate = moment([startDateArr[2], startDateArr[1], startDateArr[0]]);
+                let endDate = moment([endDateArr[2], endDateArr[1], endDateArr[0]]);
+                this.dayDifference = endDate.diff(startDate, 'days');
+                // console.log("this.dayDifference::",this.dayDifference);
+                
+            }
         },
         beforeMount(){  
         },
         mounted () {
             var vm = this
-             $('#tournament_start_date').datepicker({
-                autoclose: true
+            $('#tournament_start_date').datepicker({
+                autoclose: true,
+                minDate: 0,
+                onSelect: function( selectedDate ) {
+                    console.log("startDate");
+                    $( "#totournament_end_date" ).datepicker( "option", "minDate", selectedDate );
+                }
             });
              $('#tournament_end_date').datepicker({
-                autoclose: true
+                autoclose: true,
+                minDate: 0,
+                onSelect: function( selectedDate ) {
+                    $( "#tournament_start_date" ).datepicker( "option", "maxDate", selectedDate );
+                }
             });
             $('#tournament_start_date').datepicker('setDate', moment().format('DD/MM/YYYY'))
-            $('#tournament_end_date').datepicker('setDate', moment().format('DD/MM/YYYY'))
+            $('#tournament_end_date').datepicker('setDate', moment().add(1,'days').format('DD/MM/YYYY')) 
            
+            
+
+            $("#tournament_start_date").on("change",function (value){ 
+               vm.findDifferenceBetweenDates();
+            })
+
+            $("#tournament_end_date").on("change",function (value){ 
+               vm.findDifferenceBetweenDates();
+            })   
+
+
         }
     }
 </script>

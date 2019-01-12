@@ -18,6 +18,7 @@ class CreateTransactionsTable extends Migration
             $table->increments('id')->unsigned(10);
             $table->integer('tournament_id')->unsigned()->index()->nullable()->default(NULL);
             $table->foreign('tournament_id')->references('id')->on('tournaments');
+            $table->integer('order_id')->unsigned()->index()->nullable()->default(NULL);
             $table->integer('user_id')->unsigned()->index();
             $table->foreign('user_id')->references('id')->on('users');
             $table->string('transaction_key')->comment = "Transaction id from payment response";

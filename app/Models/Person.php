@@ -20,7 +20,7 @@ class Person extends Model
         'first_name',
         'last_name',
         'display_name',
-        'address_1',
+        'address',
         'address_2',
         'dob',
         'bio',
