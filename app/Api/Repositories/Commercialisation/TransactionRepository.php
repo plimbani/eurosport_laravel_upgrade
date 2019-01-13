@@ -39,9 +39,9 @@ class TransactionRepository
             //Send conformation mail to customer
             $subject = 'Message from Eurosport';
             $email_templates = 'emails.frontend.payment_confirmed';
-
+            $emailData = ['paymentResponse' => $requestData['paymentResponse'], 'tournament' => $requestData['tournament'], 'user' => $authUser->profile];
             Mail::to($authUser->email)
-                    ->send(new SendMail($requestData, $subject, $email_templates, NULL, NULL, NULL));
+                    ->send(new SendMail($emailData, $subject, $email_templates, NULL, NULL, NULL));
         }
         
         return $response;
