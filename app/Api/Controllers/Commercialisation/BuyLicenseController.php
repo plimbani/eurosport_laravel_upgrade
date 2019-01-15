@@ -64,4 +64,13 @@ class BuyLicenseController extends BaseController
                     'message' => 'Hash key genreated successfully.'
         ]);
     }
+    
+    /**
+     * Generate PDF for payment receipt
+     * @param Request $request
+     */
+    public function generatePaymentReceipt(Request $request)
+    {
+        $transaction = $this->transactionObj->generatePaymentReceipt($request->all());
+    }
 }
