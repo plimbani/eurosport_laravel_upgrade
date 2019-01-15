@@ -63,10 +63,10 @@ class ResetPasswordController extends Controller
         //     throw new NotFoundHttpException;
         // }
         $email = '';
-        // dd($email);
+        
         // return view('auth.reset')->with('token', $token)->with('email', $email);
         return view('auth.passwords.reset')->with(
-            ['token' => $token, 'email' => $email]
+            ['token' => $token, 'email' => $email, 'currentYear' => date('Y')]
         );
     }
 
