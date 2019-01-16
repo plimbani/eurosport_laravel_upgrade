@@ -9,6 +9,7 @@ use Laraspace\Models\TournamentTemplates;
 use Laraspace\Models\Competition;
 use Laraspace\Models\Position;
 use Laraspace\Models\TempFixture;
+use Laraspace\Models\AgeCategoryDivision;
 use DB;
 use Carbon\Carbon;
 
@@ -91,6 +92,7 @@ class AgeGroupRepository
      return $competationIds;
     }
     public function createCompeationFormat($data){
+      
       $tournamentCompeationTemplate = array();
       $tournamentCompeationTemplate['group_name'] = $data['ageCategory_name'];
       $tournamentCompeationTemplate['comments'] = $data['comments'] != '' ? $data['comments'] : null;
@@ -127,6 +129,17 @@ class AgeGroupRepository
 
       // Insert value in Database
       // here we check value for Edit as Well
+       
+      if(isset($data['divisions'])) {
+        foreach ($data['divisions'] as $division) {
+          $templateDivision = AgeCategoryDivision::create([
+            'name' => $division['name'],
+            'order' => $division['display_order'],
+            'tournament_id' => $data['tournament_id'],
+          ]);
+        }  
+      }
+      
 
       if(isset($data['competation_format_id']) && $data['competation_format_id'] != 0){
         $tournamentCompetitionTemplate = TournamentCompetationTemplates::where('id', $data['competation_format_id'])->first();
@@ -178,11 +191,8 @@ class AgeGroupRepository
       } else {
       //TournamentCompetationTemplates::create($tournamentCompeationTemplate)->id;
       // Here also Save in competations table
-
-
       return TournamentCompetationTemplates::create($tournamentCompeationTemplate)->id;
       }
-
       // Now here we return the appropriate Data
     }
     /**

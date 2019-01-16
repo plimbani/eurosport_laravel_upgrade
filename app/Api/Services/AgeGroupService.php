@@ -53,7 +53,6 @@ class AgeGroupService implements AgeGroupContract
         // Now here we set and Calculate and Save Data in
         //  tournament_competation_template Table
         $data = $data['compeationFormatData'];
-
         // Check if maximum team exceeds
         $totalCheckTeams = 0;
 
@@ -75,6 +74,19 @@ class AgeGroupService implements AgeGroupContract
 
         if(($totalCheckTeams > $maximumTeams)) {
           return ['status_code' => '403', 'message' => 'This category cannot be added as it exceeds the maximum teams set for this tournament.'];
+        }
+
+        $tournamentTemplateDivisions = json_decode($data['tournamentTemplate']['json_data']);
+        $divisions = [];
+        
+        if(isset($tournamentTemplateDivisions->tournament_competation_format->divisions)) {
+          $i = 1;
+          foreach ($tournamentTemplateDivisions->tournament_competation_format->divisions as $division) {
+            $divisions[$i]['name'] = $division->name;
+            $divisions[$i]['display_order'] = $i;
+            $i++;
+          } 
+          $data['divisions'] = $divisions;
         }
 
         // TODO: Here we set the value for Other Data
@@ -182,6 +194,7 @@ class AgeGroupService implements AgeGroupContract
         }
 
 
+        
         //$competationData['tournament_competation_template_id'] = $data;
         //$competationData['tournament_id'] = $data['tournament_id'];
         //$competationData['name'] = $data['ageCategory_name'].'-'.$group_name;
