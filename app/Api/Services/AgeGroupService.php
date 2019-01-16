@@ -592,7 +592,7 @@ class AgeGroupService implements AgeGroupContract
           for ($group=0; $group <$totalGroups ; $group++) {
             for ($i=3; $i < $teamsPerGroup ; $i++) {
               if($remainingTeams > 0) {
-                $teamsForRoundTwo[] = $i .chr(65 + $group);
+                $teamsForRoundTwo[] = ($group+1). '#' .$i;
                 $remainingTeams--;
               }
             }
