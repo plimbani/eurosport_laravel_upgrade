@@ -79,6 +79,7 @@ class AgeGroupRepository
         $competations['competation_type'] = $competaon_type;
         $competations['actual_competition_type'] = $actualCompetitionType;
         $competations['competation_round_no'] = $groups['comp_roundd'];
+
         $competationIds[$i]['id'] = Competition::create($competations)->id;
         $competationIds[$i]['name'] = $comp_group;
         $competationIds[$i]['tournamentId'] = $competation_data['tournament_id'];
@@ -92,8 +93,7 @@ class AgeGroupRepository
      return $competationIds;
     }
     public function createCompeationFormat($data){
-      
-      $tournamentCompeationTemplate = array();
+      $tournamentCompeationTemplate = array();  
       $tournamentCompeationTemplate['group_name'] = $data['ageCategory_name'];
       $tournamentCompeationTemplate['comments'] = $data['comments'] != '' ? $data['comments'] : null;
       $tournamentCompeationTemplate['tournament_id'] = $data['tournament_id'];
@@ -129,20 +129,9 @@ class AgeGroupRepository
 
       // Insert value in Database
       // here we check value for Edit as Well
-       
-      if(isset($data['divisions'])) {
-        foreach ($data['divisions'] as $division) {
-          $templateDivision = AgeCategoryDivision::create([
-            'name' => $division['name'],
-            'order' => $division['display_order'],
-            'tournament_id' => $data['tournament_id'],
-          ]);
-        }  
-      }
       
-
       if(isset($data['competation_format_id']) && $data['competation_format_id'] != 0){
-        $tournamentCompetitionTemplate = TournamentCompetationTemplates::where('id', $data['competation_format_id'])->first();
+          $tournamentCompetitionTemplate = TournamentCompetationTemplates::where('id', $data['competation_format_id'])->first();
 
         // for normal mathches 
         $previousNormalMatchTotalTime = ($tournamentCompetitionTemplate->game_duration_RR * $tournamentCompetitionTemplate->halves_RR) + $tournamentCompetitionTemplate->halftime_break_RR + $tournamentCompetitionTemplate->match_interval_RR;
@@ -187,12 +176,32 @@ class AgeGroupRepository
 
         $tournamentCompeationTemplate['rules'] = json_encode($tournamentCompeationTemplate['rules']);
 
-        return  TournamentCompetationTemplates::where('id', $data['competation_format_id'])->update($tournamentCompeationTemplate);
+
+        $tournamentTemplateId =  TournamentCompetationTemplates::where('id', $data['competation_format_id'])->update($tournamentCompeationTemplate);
+         return $tournamentTemplateId;
       } else {
       //TournamentCompetationTemplates::create($tournamentCompeationTemplate)->id;
       // Here also Save in competations table
-      return TournamentCompetationTemplates::create($tournamentCompeationTemplate)->id;
+      $tournamentTemplateId = TournamentCompetationTemplates::create($tournamentCompeationTemplate)->id;
+      
+      // Add TournamentTemplate Division Entry
+      if(isset($data['divisions'])) {
+        foreach ($data['divisions'] as $division) {
+          $templateDivision = AgeCategoryDivision::create([
+            'name' => $division['name'],
+            'order' => $division['display_order'],
+            'tournament_id' => $data['tournament_id'],
+            'tournament_competition_template_id' => $tournamentTemplateId,
+          ]);
+        }  
+      }  
+      
+      
+      return $tournamentTemplateId;
+
       }
+      
+      
       // Now here we return the appropriate Data
     }
     /**

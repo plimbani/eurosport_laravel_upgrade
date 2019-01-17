@@ -13,6 +13,7 @@ use Laraspace\Models\TournamentTemplates;
 use Laraspace\Traits\TournamentAccess;
 use Laraspace\Models\Referee;
 use Laraspace\Models\Competition;
+use Laraspace\Models\AgeCategoryDivision;
 
 class AgeGroupService implements AgeGroupContract
 {
@@ -120,11 +121,13 @@ class AgeGroupService implements AgeGroupContract
         $data['total_time'] = $totalTime;
         $data['total_match'] = $totalmatch;
         $data['disp_format_name'] = $dispFormatname;
+        //$data['competation_format_id'] = 585;
 
         if(isset($data['competation_format_id']) && $data['competation_format_id'] != 0){
             $tournamentTemplateObj = TournamentCompetationTemplates::where('id', '=', $data['competation_format_id'])->first();
             $mininterval = $tournamentTemplateObj->team_interval;
         }
+        
 
         $id = $this->ageGroupObj->createCompeationFormat($data);
 
@@ -187,14 +190,64 @@ class AgeGroupService implements AgeGroupContract
             }
 
         } else {
-            $this->addCompetationGroups($id,$data);
-
+            // $this->addCompetationGroups($id,$data);
             // Add positions to template
-            $this->insertPositions($id, $data['tournamentTemplate']);
+            $tournamenTemplateDivisionsData = AgeCategoryDivision::where('tournament_id', $data['tournament_id'])->where('tournament_competition_template_id', $id)->orderBy('order', 'asc')->pluck('id')->toArray();
+            // echo "<pre>";print_r($tournamenTemplateDivisionsData);echo "</pre>";exit;
+
+            $i=0;
+            foreach ($tournamentTemplateDivisions->tournament_competation_format->divisions as $division) {
+
+                foreach ($division->format_name as $matchType) {
+echo "<pre>";print_r($matchType->match_type);echo "</pre>";
+                  $dataDivision = [];
+
+                  $dataDivision['tournament_competation_template_id'] = $id;
+                  $dataDivision['tournament_id'] = $data['tournament_id'];
+                  $dataDivision['name'] = $data['ageCategory_name'].'-'.$data['category_age']. '-'.$matchType->match_type->groups->group_name;
+
+
+      //             =======================
+
+      //                   $age_group = $competation_data['age_group_name'];
+
+      // $cntGroups = count($group_data);
+      // $competationIds = array();
+      // foreach($group_data as $groups){
+
+      //  $competations['tournament_competation_template_id'] = $competation_data['tournament_competation_template_id'];
+      //  $competations['tournament_id'] = $competation_data['tournament_id'];
+      //  $comp_group = $groups['group_name'];
+
+      //             ====================
+                  $dataDivision['divisionId'] = $tournamenTemplateDivisionsData[$i];
+
+                  $dataDivision['display_name'] = $data['ageCategory_name'].'-'.$data['category_age'];
+                  $dataDivision['actual_name'] = $data['ageCategory_name'].'-'.$data['category_age'];
+                  $dataDivision['team_size'] = sizeof($division->teams);
+                  $dataDivision['competation_type'] = 'Elimination';
+                  $dataDivision['actual_competition_type'] = 'Elimination';
+                  $dataDivision['competation_round_no'] = $matchType->name;
+                  
+
+                  $competationIds = Competition::create($dataDivision)->id;
+
+                  foreach ($matchType->match_type as $key => $match) {
+                   $matchType->match_type[$key]->divisionId = $tournamenTemplateDivisionsData[$i];
+                   // $dataDivision 
+                   // $this->addCompetationGroups($id, $da);
+                    // echo "<pre>";print_r($matchType->match_type);echo "</pre>";exit;
+                  }
+                  
+                }
+
+                $i++;
+              } 
+              exit;
+                              
+            // $this->insertPositions($id, $data['tournamentTemplate']);
         }
 
-
-        
         //$competationData['tournament_competation_template_id'] = $data;
         //$competationData['tournament_id'] = $data['tournament_id'];
         //$competationData['name'] = $data['ageCategory_name'].'-'.$group_name;
@@ -284,10 +337,9 @@ class AgeGroupService implements AgeGroupContract
         }
         $competation_array = array();
         $competation_array=$this->ageGroupObj->addCompetations($competationData,$group_name);
-        // Now here we insert Fixtures
 
+        // Now here we insert Fixtures
         $this->ageGroupObj->addFixturesIntoTemp($fixture_array,$competation_array,$fixture_match_detail_array, $categoryAge);
-        //exit;
 
     }
     private function calculateTime($data) {
