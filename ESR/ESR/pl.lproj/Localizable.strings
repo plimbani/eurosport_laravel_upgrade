@@ -25,6 +25,7 @@
 "alert_msg_logout" = "Czy na pewno chcesz się wylogować?";
 "alert_msg_forgot_password" = "Na Twój adres e-mail została wysłana wiadomość z linkiem do zresetowania hasła.";
 "alert_create_account_email" = "Sprawdź swoją skrzynkę mailową, aby zweryfikować adres e-mail i dokończyć rejestrację.";
+"alert_preview_tournament" = "This tournament is currently in preview status. More details about the tournament will be available nearer the start date.";
 
 "string_league_table" = "tabela ligowa";
 "Matches" = "Mecze";

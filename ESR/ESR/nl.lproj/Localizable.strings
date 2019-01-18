@@ -25,6 +25,7 @@
 "alert_msg_logout" = "Weet je zeker dat je wilt uitloggen?";
 "alert_msg_forgot_password" = "We hebben een link voor het aanmaken van een nieuw wachtwoord naar je e-mailadres gestuurd.";
 "alert_create_account_email" = "Kijk in je inbox om je e-mailadres te bevestigen en je accountregistratie af te ronden.";
+"alert_preview_tournament" = "This tournament is currently in preview status. More details about the tournament will be available nearer the start date.";
 
 "string_league_table" = "league table";
 "Matches" = "Wedstrijden";

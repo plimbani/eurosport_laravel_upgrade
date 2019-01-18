@@ -48,10 +48,10 @@ class PickerHandlerView: UIView {
         UIView.commitAnimations()
     }
     
-    func hide() {
-        UIView.animate(withDuration: 0.5, delay: 0.1, options: .curveEaseOut, animations: {
+    func hide(flag isAnimate: Bool = false) {
+        UIView.animate(withDuration: isAnimate ? 0.5 : 0, delay: 0.1, options: .curveEaseOut, animations: {
             UIView.beginAnimations(nil, context: nil)
-            UIView.setAnimationDuration(0.35)
+            UIView.setAnimationDuration(isAnimate ? 0.35 : 0)
             self.alpha = 0.0
             UIView.commitAnimations()
         }, completion: { (finished: Bool) in

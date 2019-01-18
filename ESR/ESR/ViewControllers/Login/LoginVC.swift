@@ -24,8 +24,8 @@ class LoginVC: SuperViewController {
         ApplicationData.setTextFieldAttributes(txtEmail)
         ApplicationData.setTextFieldAttributes(txtPassword)
         
-        // txtEmail.text = "rstenson@aecordigital.com"
-        // txtPassword.text = "password"
+        txtEmail.text = "asoni@aecordigital.com"
+        txtPassword.text = "password"
         
         txtEmail.addTarget(self, action: #selector(textFieldDidChange(textField:)), for: .editingChanged)
         txtPassword.addTarget(self, action: #selector(textFieldDidChange(textField:)), for: .editingChanged)

@@ -10,7 +10,6 @@ import UIKit
 class TabFavouritesVC: SuperViewController {
     
     @IBOutlet var table: UITableView!
-    @IBOutlet var lblNoInternet: UILabel!
     
     var tournamentList = [Tournament]()
     

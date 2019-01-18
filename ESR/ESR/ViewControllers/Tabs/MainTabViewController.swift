@@ -40,6 +40,7 @@ class MainTabViewController: SuperViewController {
         }
         
         setupTabs()
+        initInfoAlertView(self.view)
         initInfoAlertViewTwoButton(self.view, self)
         
         mainTabViewControllerSelectTab(TabIndex.tabTournament.rawValue)
@@ -129,6 +130,14 @@ class MainTabViewController: SuperViewController {
     }
     
     func addViewControllerToContentView(_ flag: Bool) {
+        
+        if let selectedTournament = ApplicationData.sharedInstance().getSelectedTournament() {
+            if selectedTournament.status.trimmingCharacters(in: .whitespacesAndNewlines) == "Preview" {
+                self.showInfoAlertView(title: String.localize(key: "alert_title_error"), message: String.localize(key: "alert_preview_tournament"))
+                return
+            }
+        }
+        
         tabButtonList[selectedIndex].isSelected = true
         
         if flag {

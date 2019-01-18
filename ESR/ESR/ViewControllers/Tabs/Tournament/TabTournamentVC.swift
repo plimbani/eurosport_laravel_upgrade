@@ -76,6 +76,7 @@ class TabTournamentVC: SuperViewController {
     
     func initialize() {
         self.navigationController?.isNavigationBarHidden = true
+        self.navigationController?.setNeedsStatusBarAppearanceUpdate()
         
         lblDays.text = String.localize(key: "Days")
         lblHours.text = String.localize(key: "Hours")
@@ -107,11 +108,14 @@ class TabTournamentVC: SuperViewController {
         
         _ = cellOwner.loadMyNibFile(nibName: "TournamentDetailsView")
         tournamentDetailsView = cellOwner.view as! TournamentDetailsView
-        tournamentDetailsView.frame = CGRect(x: 0, y: 0, width: DEVICE_WIDTH, height: DEVICE_HEIGHT)
         tournamentDetailsView!.hide()
-        self.view.addSubview(tournamentDetailsView!)
+        UIApplication.shared.keyWindow!.addSubview(tournamentDetailsView)
         
         sendRequestGetTournaments()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        tournamentDetailsView.frame = CGRect(x: 0, y: 0, width: DEVICE_WIDTH, height: DEVICE_HEIGHT)
     }
     
     func runTimer() {
@@ -231,6 +235,13 @@ class TabTournamentVC: SuperViewController {
     }
     
     @IBAction func onTeamPressed(_ sender: UIButton) {
+        if let selectedTournament = ApplicationData.sharedInstance().getSelectedTournament() {
+            if selectedTournament.status.trimmingCharacters(in: .whitespacesAndNewlines) == "Preview" {
+                self.showInfoAlertView(title: String.localize(key: "alert_title_error"), message: String.localize(key: "alert_preview_tournament"))
+                return
+            }
+        }
+        
         delegate!.mainTabViewControllerSelectTab(TabIndex.tabTeams.rawValue)
     }
     

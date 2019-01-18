@@ -25,6 +25,7 @@
 "alert_msg_logout" = "Opravdu se chcete odhlásit?";
 "alert_msg_forgot_password" = "Zaslali jsme na vaši e-mailovou adresu odkaz pro resetování hesla.";
 "alert_create_account_email" = "Zkontrolujte svoji e-mailovou schránku, potvrďte e-mailovou adresu a dokončete tak registraci účtu";
+"alert_preview_tournament" = "This tournament is currently in preview status. More details about the tournament will be available nearer the start date.";
 
 "string_league_table" = "ligová tabulka";
 "Matches" = "Zápasy";
