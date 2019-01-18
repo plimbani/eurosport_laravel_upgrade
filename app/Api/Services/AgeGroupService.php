@@ -68,7 +68,6 @@ class AgeGroupService implements AgeGroupContract
 
         $tournamentTotalTeamSum = $tournamentTotalTeamSumObj->pluck('total_teams')->sum();
         $totalCheckTeams = $data['total_teams'] + $tournamentTotalTeamSum;
-
         if($maximumTeams == null) {
           return ['status_code' => '403', 'message' => 'Please add maximum teams limit on "Tournament details" page.'];
         }
@@ -78,17 +77,6 @@ class AgeGroupService implements AgeGroupContract
         }
 
         $tournamentTemplateDivisions = json_decode($data['tournamentTemplate']['json_data']);
-        $divisions = [];
-        
-        if(isset($tournamentTemplateDivisions->tournament_competation_format->divisions)) {
-          $i = 1;
-          foreach ($tournamentTemplateDivisions->tournament_competation_format->divisions as $division) {
-            $divisions[$i]['name'] = $division->name;
-            $divisions[$i]['display_order'] = $i;
-            $i++;
-          } 
-          $data['divisions'] = $divisions;
-        }
 
         // TODO: Here we set the value for Other Data
         // Impliclityly Add 2 For Multiplication
@@ -190,62 +178,9 @@ class AgeGroupService implements AgeGroupContract
             }
 
         } else {
-            // $this->addCompetationGroups($id,$data);
-            // Add positions to template
-            $tournamenTemplateDivisionsData = AgeCategoryDivision::where('tournament_id', $data['tournament_id'])->where('tournament_competition_template_id', $id)->orderBy('order', 'asc')->pluck('id')->toArray();
-            // echo "<pre>";print_r($tournamenTemplateDivisionsData);echo "</pre>";exit;
-
-            $i=0;
-            foreach ($tournamentTemplateDivisions->tournament_competation_format->divisions as $division) {
-
-                foreach ($division->format_name as $matchType) {
-echo "<pre>";print_r($matchType->match_type);echo "</pre>";
-                  $dataDivision = [];
-
-                  $dataDivision['tournament_competation_template_id'] = $id;
-                  $dataDivision['tournament_id'] = $data['tournament_id'];
-                  $dataDivision['name'] = $data['ageCategory_name'].'-'.$data['category_age']. '-'.$matchType->match_type->groups->group_name;
-
-
-      //             =======================
-
-      //                   $age_group = $competation_data['age_group_name'];
-
-      // $cntGroups = count($group_data);
-      // $competationIds = array();
-      // foreach($group_data as $groups){
-
-      //  $competations['tournament_competation_template_id'] = $competation_data['tournament_competation_template_id'];
-      //  $competations['tournament_id'] = $competation_data['tournament_id'];
-      //  $comp_group = $groups['group_name'];
-
-      //             ====================
-                  $dataDivision['divisionId'] = $tournamenTemplateDivisionsData[$i];
-
-                  $dataDivision['display_name'] = $data['ageCategory_name'].'-'.$data['category_age'];
-                  $dataDivision['actual_name'] = $data['ageCategory_name'].'-'.$data['category_age'];
-                  $dataDivision['team_size'] = sizeof($division->teams);
-                  $dataDivision['competation_type'] = 'Elimination';
-                  $dataDivision['actual_competition_type'] = 'Elimination';
-                  $dataDivision['competation_round_no'] = $matchType->name;
-                  
-
-                  $competationIds = Competition::create($dataDivision)->id;
-
-                  foreach ($matchType->match_type as $key => $match) {
-                   $matchType->match_type[$key]->divisionId = $tournamenTemplateDivisionsData[$i];
-                   // $dataDivision 
-                   // $this->addCompetationGroups($id, $da);
-                    // echo "<pre>";print_r($matchType->match_type);echo "</pre>";exit;
-                  }
-                  
-                }
-
-                $i++;
-              } 
-              exit;
-                              
-            // $this->insertPositions($id, $data['tournamentTemplate']);
+          $this->addCompetationGroups($id,$data);
+            // Add positions to template                 
+          $this->insertPositions($id, $data['tournamentTemplate']);
         }
 
         //$competationData['tournament_competation_template_id'] = $data;
@@ -335,11 +270,96 @@ echo "<pre>";print_r($matchType->match_type);echo "</pre>";
               $roundIndex++;
             }
         }
-        $competation_array = array();
+        $competation_array = array(); 
         $competation_array=$this->ageGroupObj->addCompetations($competationData,$group_name);
 
-        // Now here we insert Fixtures
         $this->ageGroupObj->addFixturesIntoTemp($fixture_array,$competation_array,$fixture_match_detail_array, $categoryAge);
+        
+        // Insert competition for new added division
+        $div_display_order = 1;
+        foreach ($json_data->tournament_competation_format->divisions as $division) {
+          // Add division into age_category_divisions table
+
+          $latest_div_id = AgeCategoryDivision::create([
+            'name' => $division->name,
+            'order' => $div_display_order,
+            'tournament_id' => $data['tournament_id'],
+            'tournament_competition_template_id' => $tournament_competation_template_id,
+          ]);
+
+          $divtotalRound = count($division->format_name);
+          $divgroup_name=array();
+          $divfixture_array = array();
+          $divfixture_match_detail_array = array();
+
+          for($i=0;$i<$divtotalRound;$i++){
+              // Now here we calculate followng fields
+              $rounds = $division->format_name[$i]->match_type;
+              $roundIndex = 0;
+              foreach($rounds as $key=>$round) {
+                  $val = $key.'-'.$i;
+                  $divgroup_name[$val]['group_name']=$round->groups->group_name;
+                  $divgroup_name[$val]['age_category_division_id']= $latest_div_id->id;
+
+                  if(isset($round->groups->actual_group_name)) {
+                    $divgroup_name[$val]['actual_group_name']=$round->groups->actual_group_name;
+                  } else {
+                    $divgroup_name[$val]['actual_group_name']=$round->groups->group_name;
+                  }
+                  
+                  $divgroup_name[$val]['team_count']=$round->group_count;
+                  $divgroup_name[$val]['match_type']=$round->name;
+
+                  if(isset($round->actual_name)) {
+                    $divgroup_name[$val]['actual_name'] = $round->actual_name;
+                  } else {
+                    $divgroup_name[$val]['actual_name'] = $round->name;
+                  }
+
+                  $divgroup_name[$val]['comp_roundd']= $division->format_name[$i]->name;
+                  // Now here For Loop for create Fixture array
+                  foreach($round->groups->match as $key1=>$matches) {
+                      $newVal = $val.'|'.$divgroup_name[$val]['group_name'].'|'.$key1;
+                      $divfixture_array[$newVal] = $matches->match_number;
+
+                      $divfixture_match_detail_array[$newVal] = [
+                        'display_match_number' => (isset($matches->display_match_number) ? $matches->display_match_number : null),
+                        'display_home_team_placeholder_name' => (isset($matches->display_home_team_placeholder_name) ? $matches->display_home_team_placeholder_name : null),
+                        'display_away_team_placeholder_name' => (isset($matches->display_away_team_placeholder_name) ? $matches->display_away_team_placeholder_name : null),
+                        'is_final_match' => (isset($matches->is_final_match) ? $matches->is_final_match : 0),
+                        'position' => (isset($matches->position) ? $matches->position : null)
+                      ];
+                  }
+
+                  if(isset($round->dependent_groups)) {
+                    foreach($round->dependent_groups as $key=>$group) {
+                      foreach($group->groups->match as $key1=>$matches) {
+                        $newVal = $val.'|'.$divgroup_name[$val]['group_name'].'|'.$key.$key1;
+                        $divfixture_array[$newVal] = $matches->match_number;
+                        $divfixture_match_detail_array[$newVal] = [
+                          'display_match_number' => (isset($matches->display_match_number) ? $matches->display_match_number : null),
+                          'display_home_team_placeholder_name' => (isset($matches->display_home_team_placeholder_name) ? $matches->display_home_team_placeholder_name : null),
+                          'display_away_team_placeholder_name' => (isset($matches->display_away_team_placeholder_name) ? $matches->display_away_team_placeholder_name : null),
+                          'is_final_match' => (isset($matches->is_final_match) ? $matches->is_final_match : 0),
+                          'position' => (isset($matches->position) ? $matches->position : null)
+                        ];
+                      }
+                    }
+                  }
+
+                $roundIndex++;
+              }
+          }
+          $divcompetation_array = array();
+
+          $divcompetation_array=$this->ageGroupObj->addCompetations($competationData,$divgroup_name);
+          $this->ageGroupObj->addFixturesIntoTemp($divfixture_array,$divcompetation_array,$divfixture_match_detail_array, $categoryAge);
+
+          $div_display_order++;
+        }
+        // End insert competition for new added division
+
+        // Now here we insert Fixtures
 
     }
     private function calculateTime($data) {

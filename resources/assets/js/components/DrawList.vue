@@ -27,7 +27,6 @@
       role="tab" aria-expanded="true"
       class="btn btn-primary mb-2">
       <i aria-hidden="true" class="fa fa-angle-double-left"></i>Back to category list</a>
-
       <div v-for="(drawData,index) in groupsFilter">
         <h6 class="mt-2">
           <strong>{{ index }}</strong>
@@ -51,6 +50,38 @@
             </tr>
           </tbody>
         </table>
+      </div>
+
+
+      <div v-for="(divData,index) in divFilter">
+        <h6 class="mt-2">
+          <strong><a class="text-center" href="javascript:void(0)" @click="openEditCategoryDivisionNameModal()">{{ index }}<i class="jv-icon jv-edit"></i></a></strong>
+        </h6>
+        <div v-for="(draw1,index1) in divData">
+          <h6 class="mt-2">
+            <strong>{{ index1 }}</strong>
+          </h6>
+
+          <table class="table table-hover table-bordered">
+            <thead>
+                <tr>
+                    <th>{{$lang.summary_schedule_draws_categories}}</th>
+                    <th class="text-center" style="width:200px">{{$lang.summary_schedule_type}}</th>
+                    <th class="text-center" style="width:100px">{{$lang.summary_schedule_team}}</th>
+                </tr>
+            </thead>
+            <tbody>
+              <tr> <!--  v-for="draw1 in drawData1" -->
+                  <td>
+                    <a class="pull-left text-left text-primary" @click.prevent="changeGroup(draw1)" href=""><u>{{ draw1.display_name }}</u> </a>
+                    <a v-if="isUserDataExist" href="#" @click="openEditCompetitionNameModal(draw1)" class="pull-right text-primary"><i class="jv-icon jv-edit"></i></a>
+                  </td>
+                  <td class="text-center">{{ draw1.competation_type }}</td>
+                  <td class="text-center">{{ draw1.team_size }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
       <table class="table table-hover table-bordered">
       <thead>
@@ -101,9 +132,9 @@
               <div class="col-md-12">
                 <div class="form-group row">
                   <label class="col-sm-4 form-control-label">Name</label>
-                  <div class="col-sm-8">
+                  <!-- <div class="col-sm-8">
                     <input type="text" name="competition_display_name" v-model="competitionData.display_name" class="form-control">
-                  </div>
+                  </div> -->
                 </div>
               </div>
             </div>    
@@ -136,6 +167,7 @@ export default {
       ageCatgeoryComments: '',
       competitionData: {},
       groupsFilter: {},
+      divFilter: {},
     }
   },
   mounted() {
@@ -195,12 +227,14 @@ export default {
       let tournamentData = {'ageGroupId': ageGroupId}
       Tournament.getCategoryCompetitions(tournamentData).then(
         (response) => {
-          let filterData = response.data.competitions;
+
+          let filterData = response.data.competitions.round_robin;
           let filter = _.groupBy(filterData, 'competation_round_no');
           this.groupsFilter = _.groupBy(filterData, 'competation_round_no');
-
-          this.groupsData = response.data.competitions
+          this.groupsData = response.data.competitions.round_robin;
           this.showTable = "groups"
+
+          this.divFilter = response.data.competitions.division;
         },
         (error) => {
         }

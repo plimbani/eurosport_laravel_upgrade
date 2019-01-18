@@ -53,6 +53,12 @@ class AgeGroupRepository
        $competations['tournament_id'] = $competation_data['tournament_id'];
        $comp_group = $groups['group_name'];
        $actual_comp_group = $groups['actual_group_name'];
+
+      if ( array_key_exists('age_category_division_id', $groups) )
+      {
+        $competations['age_category_division_id'] = $groups['age_category_division_id'];
+      }
+
        $competations['name'] = $age_group.'-'.$comp_group;
        $competations['display_name'] = $age_group.'-'.$comp_group;
        $competations['actual_name'] = $age_group.'-'.$actual_comp_group;
@@ -185,16 +191,16 @@ class AgeGroupRepository
       $tournamentTemplateId = TournamentCompetationTemplates::create($tournamentCompeationTemplate)->id;
       
       // Add TournamentTemplate Division Entry
-      if(isset($data['divisions'])) {
-        foreach ($data['divisions'] as $division) {
-          $templateDivision = AgeCategoryDivision::create([
-            'name' => $division['name'],
-            'order' => $division['display_order'],
-            'tournament_id' => $data['tournament_id'],
-            'tournament_competition_template_id' => $tournamentTemplateId,
-          ]);
-        }  
-      }  
+      // if(isset($data['divisions'])) {
+      //   foreach ($data['divisions'] as $division) {
+      //     $templateDivision = AgeCategoryDivision::create([
+      //       'name' => $division['name'],
+      //       'order' => $division['display_order'],
+      //       'tournament_id' => $data['tournament_id'],
+      //       'tournament_competition_template_id' => $tournamentTemplateId,
+      //     ]);
+      //   }  
+      // }  
       
       
       return $tournamentTemplateId;
