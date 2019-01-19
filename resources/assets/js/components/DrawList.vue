@@ -55,7 +55,7 @@
 
       <div v-for="(divData,index) in divFilter">
         <h6 class="mt-2">
-          <strong><a class="text-center" href="javascript:void(0)" @click="openEditCategoryDivisionNameModal()">{{ index }}<i class="jv-icon jv-edit"></i></a></strong>
+          <strong><a class="text-center" href="javascript:void(0)" @click="openEditCategoryDivisionNameModal(index)">{{ index | getDivName}}<i class="jv-icon jv-edit"></i></a></strong>
         </h6>
         <div v-for="(draw1,index1) in divData">
           <h6 class="mt-2">
@@ -71,32 +71,18 @@
                 </tr>
             </thead>
             <tbody>
-              <tr> <!--  v-for="draw1 in drawData1" -->
+              <tr  v-for="draw in draw1"> <!--  -->
                   <td>
-                    <a class="pull-left text-left text-primary" @click.prevent="changeGroup(draw1)" href=""><u>{{ draw1.display_name }}</u> </a>
+                    <a class="pull-left text-left text-primary" @click.prevent="changeGroup(draw1)" href=""><u>{{ draw.display_name }}</u> </a>
                     <a v-if="isUserDataExist" href="#" @click="openEditCompetitionNameModal(draw1)" class="pull-right text-primary"><i class="jv-icon jv-edit"></i></a>
                   </td>
-                  <td class="text-center">{{ draw1.competation_type }}</td>
-                  <td class="text-center">{{ draw1.team_size }}</td>
+                  <td class="text-center">{{ draw.competation_type }}</td>
+                  <td class="text-center">{{ draw.team_size }}</td>
               </tr>
             </tbody>
           </table>
         </div>
       </div>
-      <table class="table table-hover table-bordered">
-      <thead>
-          <tr>
-            <td>
-                <a class="text-center" href="javascript:void(0)" @click="openEditCategoryDivisionNameModal()">Haderslev<i class="jv-icon jv-edit"></i></a>
-            </td>
-          </tr>
-      </thead>
-      <tbody>
-        <tr>
-            <td class="text-center"></td>
-        </tr>
-      </tbody>
-    </table>
     </div>
     
     <div class="modal" id="commentmodal" tabindex="-1" role="dialog" aria-labelledby="commentmodalLabel" style="display: none;" aria-hidden="true" data-animation="false">
@@ -132,9 +118,9 @@
               <div class="col-md-12">
                 <div class="form-group row">
                   <label class="col-sm-4 form-control-label">Name</label>
-                  <!-- <div class="col-sm-8">
+                  <div class="col-sm-8">
                     <input type="text" name="competition_display_name" v-model="competitionData.display_name" class="form-control">
-                  </div> -->
+                  </div>
                 </div>
               </div>
             </div>    
@@ -146,7 +132,40 @@
          </div>
       </div>
     </div> 
-    <edit-category-division-name-modal></edit-category-division-name-modal>
+    
+
+    <div class="modal" id="editDivisionNameModal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true" data-animation="false">
+      <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+             <h5 class="modal-title">Rename</h5>
+             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+             <span aria-hidden="true">×</span>
+             </button>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group row">
+                  <label class="col-sm-4 form-control-label">Name</label>
+                  <div class="col-sm-8">
+                    <input type="text" name="name" v-validate="'required'" :class="{'is-danger': errors.has('name') }" v-model="divisionName" class="form-control">
+                    <i v-show="errors.has('name')" class="fa fa-warning"></i>
+                  <span class="help is-danger" v-show="errors.has('name')">{{ 
+                    errors.first('name') }}<br>
+                  </span>
+                  </span>
+                  </div>
+                </div>
+              </div>
+            </div>    
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" @click="updateCategoryDivisionName()">Save</button>
+          </div>
+         </div>
+      </div>
+    </div>
   </div>
 </template>
 <script type="text/babel">
@@ -155,7 +174,7 @@ import Tournament from '../api/tournament.js'
 import TeamDetails from './TeamDetails.vue'
 import TeamList from './TeamList.vue'
 import DrawDetails from './DrawDetails.vue'
-import EditCategoryDivisionNameModal from './EditCategoryDivisionNameModal.vue'
+//import EditCategoryDivisionNameModal from './EditCategoryDivisionNameModal.vue'
 import _ from 'lodash'
 
 export default {
@@ -166,6 +185,8 @@ export default {
       groupsData:[],
       ageCatgeoryComments: '',
       competitionData: {},
+      divisionName:'',
+      divisionId:'',
       groupsFilter: {},
       divFilter: {},
     }
@@ -179,7 +200,7 @@ export default {
   },
 	// props:['matchData'],
 	components: {
-		TeamDetails, DrawDetails, EditCategoryDivisionNameModal
+		TeamDetails, DrawDetails
 	},
   computed: {
     currentView() {
@@ -252,7 +273,12 @@ export default {
       // this.competitionData.display_name = drawData.display_name;
       $('#editCompetitionNameModal').modal('show');
     },
-    openEditCategoryDivisionNameModal() {      
+    openEditCategoryDivisionNameModal(divData) {
+      let divName =  _.clone(divData, true);
+
+      this.divisionName = divName.split("|")[1];
+      this.divisionId = divName.split("|")[0];
+
       $('#editDivisionNameModal').modal('show');
     },
 
@@ -260,17 +286,37 @@ export default {
       var data = {'competitionData': this.competitionData};
       Tournament.updateCompetitionDisplayName(data).then(
         (response) => {
-          let filterData = response.data.options.data;
+          /*let filterData = response.data.options.data;
           let filter = _.groupBy(filterData, 'competation_round_no');
           this.groupsFilter = _.groupBy(filterData, 'competation_round_no');
 
-          this.groupsData = response.data.options.data;
+          this.groupsData = response.data.options.data;*/
           $('#editCompetitionNameModal').modal('hide');
           toastr.success(response.data.options.message, 'Competition Details', {timeOut: 5000});
+          this.showGroups(this.currentAgeCategoryId);
         },
         (error) => {
         }
       )
+    },
+    updateCategoryDivisionName() {
+      this.$validator.validateAll().then(() => {
+        let tournamentId = this.$store.state.Tournament.tournamentId
+        let ageCategoryId = this.$store.state.currentAgeCategoryId
+        console.log(this.divisionId);
+        let TournamentData = {'tournament_id':tournamentId, 'currentAgeCategoryId':ageCategoryId,'divisionId':this.divisionId,'categoryDivisionName': this.divisionName}
+        Tournament.updateCategoryDivisionName(TournamentData).then(
+          (response) => {
+            $('#editDivisionNameModal').modal('hide');
+            toastr.success('Division name has been update successfully.', 'Division Name', {timeOut: 5000});
+            this.showGroups(this.currentAgeCategoryId);
+          },
+          (error) => {
+          }
+        )
+       }).catch(() => {
+          // toastr['error']('Invalid Credentials', 'Error')
+       });
     },
     closeModal() {
       $('#editCompetitionNameModal').modal('hide');
@@ -286,7 +332,17 @@ export default {
       } else {
          return value
       }
+    },
+    getDivName: function (value) {
+      if (!value) return ''
+      return value.split("|")[1];
+    },
+    getDivId: function (value) {
+      if (!value) return ''
+      return value.split("|")[0];
     }
   },
+
 }
 </script>
+

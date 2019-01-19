@@ -68,15 +68,21 @@ class AgeGroupRepository
        // TODO : Change the code
        $matchType = explode('-',$groups['match_type']);
 
-       if($matchType[0] == 'PM') {
+       if($matchType[0] == 'PM' && array_key_exists('age_category_division_id', $groups)) {
+        $competaon_type = 'Placing Match';
+       }
+       else if ( $matchType[0] == 'PM' ) {
         $competaon_type = 'Elimination';
-       } else {
+       }
+       else {
         $competaon_type = 'Round Robin';
        }
 
        $actualName = explode('-', $groups['actual_name']);
-       
-       if($actualName[0] == 'PM') {
+       if($actualName[0] == 'PM' && array_key_exists('age_category_division_id', $groups)) {
+         $actualCompetitionType = 'Placing Match';
+       }
+       else if($actualName[0] == 'PM') {
          $actualCompetitionType = 'Elimination';
        } else {
          $actualCompetitionType = 'Round Robin';

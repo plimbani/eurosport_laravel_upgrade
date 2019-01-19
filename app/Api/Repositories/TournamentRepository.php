@@ -675,7 +675,7 @@ class TournamentRepository
         foreach ($categoryCompetitions as $key => $value) {
             if ( $value['age_category_division'] != '')
             {
-                $divisionsData[$value['age_category_division_id'].'|'.$value['age_category_division']['name']][$value['competation_round_no']] = $value;
+                $divisionsData[$value['age_category_division_id'].'|'.$value['age_category_division']['name']][$value['competation_round_no']][] = $value;
 
                 unset($categoryCompetitions[$key]);  
             }
@@ -1022,8 +1022,10 @@ class TournamentRepository
     public function updateCategoryDivisionName($data)
     {
         return AgeCategoryDivision::where('tournament_id', $data['tournamentData']
-                                    ['tournament_id'])->where('tournament_competition_template_id', 
+                                    ['tournament_id'])
+                                    ->where('tournament_competition_template_id', 
                                     $data['tournamentData']['currentAgeCategoryId'])
+                                    ->where('id', $data['tournamentData']['divisionId'])
                                     ->update(['name' => $data['tournamentData']['categoryDivisionName']]);
 
     }
