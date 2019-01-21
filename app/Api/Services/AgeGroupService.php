@@ -523,6 +523,7 @@ class AgeGroupService implements AgeGroupContract
       $totalGroups = $totalTeams / $groupSize;
       $finalTeams = $totalTeams / $totalGroups;
       $teamsPerGroup = $totalTeams / $totalGroups;
+      $teamsForRoundTwo = [];
 
       $finalArray = [];
       // $finalArray['total_matches'] = $totalMatchesCount;
@@ -546,7 +547,6 @@ class AgeGroupService implements AgeGroupContract
       $finalArray['tournament_positions'] = [];
       $finalMatches = 0;
 
-      // for rounds
       // for 1st round
       $totalRounds = 1;
       for ($round = 0; $round < $totalRounds ; $round++) {
@@ -570,13 +570,11 @@ class AgeGroupService implements AgeGroupContract
 
         $finalMatches = count($matches) + $finalMatches;
 
-
         $knockoutRoundSizeArray = config('config-variables.knockout_round_two_size');
         $roundSizeData = $knockoutRoundSizeArray[$groupSize][$totalTeams];
-        $finalRounds = log($roundSizeData, 2);
+        $finalRounds = log($roundSizeData, 2);  
 
-        // prepare teams array for round 2
-        $teamsForRoundTwo = [];
+        // prepare teams array for round 2        
         for ($group=0; $group <$totalGroups ; $group++) {
           $key = 0;
           for ($i=1; $i < $teamsPerGroup ; $i++) {
@@ -598,7 +596,28 @@ class AgeGroupService implements AgeGroupContract
             }
           }
         }
-        echo "<pre>";print_r($teamsForRoundTwo);echo "</pre>";exit();
+      }
+
+
+      // for other rounds
+      for ($otherRound = 1; $otherRound < $finalRounds; $otherRound++) {
+        $finalArray['tournament_competation_format']['format_name'][$round]['name'] = 'Round ' .($round+1);
+        // for groups
+        $otherGroupCount = 0;
+        for ($otherGroup = 0; $otherGroup < $totalGroups; $otherGroup++) {
+          $otherGroupCount = chr(65 + $otherGroupCount + $otherGroup);
+
+          $matchesForOtherRound = $this->setTemplateMatchesForOtherRounds($teamsForRoundTwo, $finalRounds);
+          echo "<pre>";print_r($matchesForOtherRound);echo "</pre>";exit;
+          $matchTypeDetailForOtherRound = [
+            'name' => '',
+            'total_match' => '',
+            'group_count' => '',
+            'groups' => ['group_name' => 'Group-' .$finalGroupCount, 'match' => $matchesForOtherRound]
+          ];
+          $finalArray['tournament_competation_format']['format_name'][$round]['match_type'][] = $matchTypeDetailForOtherRound;
+        }
+        $otherGroupCount++;
       }
 
       $totalMatchesCount = $finalMatches * $totalGroups;
@@ -612,6 +631,8 @@ class AgeGroupService implements AgeGroupContract
       }
 
       $finalArray['tournament_positions'] = $positions;
+
+      echo "<pre>";print_r(json_encode($finalArray));echo "</pre>";exit;
 
       return json_encode($finalArray);
     }
@@ -635,5 +656,59 @@ class AgeGroupService implements AgeGroupContract
       }
 
       return $matches;
+    }
+
+    public function setTemplateMatchesForOtherRounds($teamsInGroups, $finalRounds) 
+    {
+      $matches = [];
+      for($k=1;$k<=$finalRounds;$k++)
+      {
+        if ($k != 1)
+        {
+          $teamsInGroups = $matches[$k-1];
+        }
+
+        list($group1, $group2) = array_chunk($teamsInGroups, ceil(count($teamsInGroups) / 2));
+
+        foreach ($group1 as $key => $value) {
+          if ( sizeof($group1) == 1 || sizeof($group1) == 2)
+          {
+            if ($k != 1)
+            {
+              $matches[$k][] = "Round ".($k-1)." match ".array_search($group1[$key], $matches[$k-1])." winner VS Round ".($k-1)." match ".array_search($group2[$key], $matches[$k-1])." winner";
+            }
+            else
+            {
+              $matches[$k][] = $group1[$key]. ' VS '. $group2[$key];
+            }
+          }
+          else
+          {
+           if ( $key % 2 == 0 )
+           {
+              if ( $k != 1)
+              {
+                $matches[$k][] = "Round ".($k-1)." match ".array_search($group1[$key], $matches[$k-1])." winner VS Round ".($k-1)." match ".array_search($group2[$key+1], $matches[$k-1])." winner";
+              }
+              else
+              {
+                $matches[$k][] = $group1[$key]. ' VS '. $group2[$key+1];
+              }
+           }
+           else
+           {    
+            if ( $k != 1)
+            {
+              $matches[$k][] = "Round ".($k-1)." match ".array_search($group1[$key], $matches[$k-1])." winner VS Round ".($k-1)." match ".array_search($group2[$key-1], $matches[$k-1])." winner";
+            }
+            else
+            {
+              $matches[$k][] = $group1[$key]. ' VS '. $group2[$key-1];
+            }
+           }
+          }
+        }
+      }
+      echo "<pre>";print_r($matches);echo "</pre>";exit;
     }
 }
