@@ -69,6 +69,30 @@
                     </div>
                 </div>
                 <div class="form-group row">
+                    <label class="col-sm-5 form-control-label">{{$lang.user_management_role}}</label>
+                    <div class="col-sm-6">
+                      <select v-validate="'required'":class="{'is-danger': errors.has('role') }" class="form-control ls-select2" name="role" v-model="formValues.role">
+                          <option value="">Select</option>
+                          <option v-for="role in roleOptions" :value="role">
+                            {{ role }}
+                          </option>
+                      </select>
+                      <span class="help is-danger" v-show="errors.has('role')">{{$lang.user_management_default_app_tournament_required}}</span>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-sm-5 form-control-label">{{$lang.user_management_country}}</label>
+                    <div class="col-sm-6">
+                          <option value="">Select your country</option>
+                          <option v-for="country in this.allCountries" :value="country.id">
+                            {{ country.name }}
+                          </option>
+                      </select>
+                      <span class="help is-danger" v-show="errors.has('country_id')">{{$lang.user_management_default_app_tournament_required}}</span>
+                    </div>
+                </div>
+                <div class="form-group row">
                     <label class="col-sm-5 form-control-label">{{$lang.user_management_default_app_tournament}}</label>
                     <div class="col-sm-6">
                       <select v-validate="'required'":class="{'is-danger': errors.has('tournament_id') }" class="form-control ls-select2" name="tournament_id" v-model="formValues.tournament_id">
@@ -107,8 +131,10 @@ import { ErrorBag } from 'vee-validate';
                     userEmailData1: this.userEmailData,
                     userEmail2: '',
                     tournament_id: '',
+                    role: '',
+                    country_id: '',
                 },
-
+                allCountries: '',
                 userRolesOptions: [],
                 userModalTitle: 'Add User',
                 deleteConfirmMsg: 'Are you sure you would like to delete this user record?',
@@ -119,6 +145,7 @@ import { ErrorBag } from 'vee-validate';
                 existEmail: false,
                 showOrganisation: false,
                 initialUserType: null,
+                roleOptions: ['Player', 'Coach/Manager/Trainer', 'Other'],
                 errorMessages: {
                   en: {
                     custom: {
@@ -155,8 +182,8 @@ import { ErrorBag } from 'vee-validate';
                 this.editUser(this.userId)
             }
             this.userRolesOptions =  this.userRoles
-
             this.$validator.updateDictionary(this.errorMessages);
+            this.getCountryData();
         },
         props:['userId','userRoles','userEmailData','publishedTournaments','isMasterAdmin'],
         methods: {
@@ -167,10 +194,9 @@ import { ErrorBag } from 'vee-validate';
                 this.formValues.emailAddress= '',
                 this.formValues.organisation= '',
                 this.formValues.userType= '',
-                 this.formValues.resendEmail= ''
+                this.formValues.resendEmail= ''
             },
            editUser(id) {
-
                 //TODO: refactor the Code For Move to Api User
                 User.getEditUser(id).then(
                   (response)=> {
@@ -184,6 +210,16 @@ import { ErrorBag } from 'vee-validate';
                   }
                 )
 
+            },
+
+            getCountryData() {
+              User.getAllCountries().then(
+                (response)=> {
+                  this.allCountries = response.data.countries;
+                },
+                (error)=> {
+                }
+              )
             },
 
             createImage(file) {

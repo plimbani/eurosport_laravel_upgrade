@@ -6,6 +6,7 @@ use Laraspace\Models\User;
 use Laraspace\Models\Role;
 use Laraspace\Models\UserFavourites;
 use Laraspace\Models\Settings;
+use Laraspace\Models\Country;
 use DB;
 use Hash;
 
@@ -33,12 +34,12 @@ class UserRepository {
                   DB::raw('CONCAT("'.$this->userImagePath.'", users.user_image) AS user_image')
                   )
                 ->get();
+
         return $user;
     }
 
     public function getUsersByRegisterType($data)
     {
-        // echo "<pre>";print_r($data);echo "</pre>";exit;
          $user = User::join('role_user', 'users.id', '=', 'role_user.user_id')
                 ->join('roles', 'roles.id', '=', 'role_user.role_id')
                 ->join('people', 'people.id', '=', 'users.person_id');
@@ -56,7 +57,7 @@ class UserRepository {
             $user = $user->where('roles.slug', '=', $data['userType']);
         }
 
-        $user = $user->select('users.id as id', 'people.first_name as first_name', 'people.last_name as last_name', 'users.email as email', 'roles.id as role_id', 'roles.name as role_name', 'roles.slug as role_slug', 'users.is_verified as is_verified', 'users.is_mobile_user as is_mobile_user', 'users.is_desktop_user as is_desktop_user', 'users.organisation as organisation', 'users.locale as locale');
+        $user = $user->select('users.id as id', 'people.first_name as first_name', 'people.last_name as last_name', 'users.email as email', 'roles.id as role_id', 'roles.name as role_name', 'roles.slug as role_slug', 'users.is_verified as is_verified', 'users.is_mobile_user as is_mobile_user', 'users.is_desktop_user as is_desktop_user', 'users.organisation as organisation', 'users.locale as locale', 'users.role as role', 'users.country_id as country_id');
 
         $user->orderBy('people.last_name','asc');
 
@@ -119,17 +120,20 @@ class UserRepository {
         'is_mobile_user' => $data['is_mobile_user'] ? 1 : 0,
         'is_desktop_user' => $data['is_desktop_user'] ? 1 : 0,
         'registered_from' => $data['registered_from'] ? 1 : 0,
-        'user_image'=>(isset($data['user_image']) && $data['user_image']!='') ?  $data['user_image'] : ''
+        'user_image'=>(isset($data['user_image']) && $data['user_image']!='') ?  $data['user_image'] : '',
+        'role' => $data['role'],
+        'country_id' => $data['country'],
         ];
+      
         $deletedUser = User::onlyTrashed()->where('email',$data['email'])->first();
         // if($deletedUser){
         //     $user = $deletedUser->restore();
         // }
          // $deletedUser;
+
         try {
             if($deletedUser){
                 $deletedUser->restore();
-
                 $userData = User::find($deletedUser['id'])->update($userData);
 
                 // $userData->roles()->detatch();
@@ -141,6 +145,7 @@ class UserRepository {
 
                  // return  $deletedUser->attachRole($data['userType']);
             }else{
+              
                     $user = User::create($userData);
                     $user->attachRole($data['userType']);
                     return ['status'=>'created','user'=>$user];
@@ -174,7 +179,7 @@ class UserRepository {
             ->join('role_user', 'users.id', '=', 'role_user.user_id')
             ->select("users.id as id", "users.email as emailAddress",
                DB::raw('IF(users.user_image is not null,CONCAT("'.$this->userImagePath.'", users.user_image),"" ) as image'),
-             "users.organisation as organisation", "people.first_name as name", "people.last_name as surname", "role_user.role_id as userType")
+             "users.organisation as organisation", "people.first_name as name", "people.last_name as surname", "role_user.role_id as userType", "users.role as role", "users.country_id as country_id")
             ->where("users.id", "=", $userId)
             ->first();
 
@@ -264,5 +269,9 @@ class UserRepository {
     public function getUserWebsites($id) {
       $user = User::find($id);
       return $user->websites()->pluck('id');
+    }
+
+    public function getAllCountries() {
+      return $contries = Country::orderBy('name')->get();
     }
 }

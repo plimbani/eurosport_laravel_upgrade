@@ -35,6 +35,7 @@ use Laraspace\Http\Requests\User\GetUsetTournamentsRequest;
 use Laraspace\Http\Requests\User\SetDefaultFavouriteRequest;
 use Laraspace\Http\Requests\User\TournamentPermissionRequest;
 use Laraspace\Http\Requests\User\GetSignedUrlForUsersTableDataRequest;
+use Laraspace\Http\Requests\User\AllCountriesRequest;   
 
 /**
  * Users Resource Description.
@@ -144,7 +145,7 @@ class UserController extends BaseController
     }
 
 
-      public function setPassword($key, Request $request)
+    public function setPassword($key, Request $request)
     {
       $usersPasswords = User::where(['token'=>$key])->get();
 
@@ -284,5 +285,9 @@ class UserController extends BaseController
         $signedUrl = UrlSigner::sign(url('api/users/getUserTableData?' . $reportData), Carbon::now()->addMinutes(config('config-variables.signed_url_interval')));
 
         return $signedUrl;
+    }
+
+    public function getAllCountries(AllCountriesRequest $request) {
+        return $this->userObj->getAllCountries();
     }
 }

@@ -54,5 +54,8 @@ export default {
   },
   getSignedUrlForUsersTableData(userData) {
     return api.post('getSignedUrlForUsersTableData?' +userData);
+  },
+  getAllCountries() {
+    return api.get('getAllCountries');
   }
 }

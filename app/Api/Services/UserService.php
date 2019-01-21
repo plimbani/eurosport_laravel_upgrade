@@ -11,6 +11,7 @@ use Laraspace\Custom\Helper\Common;
 use Illuminate\Mail\Message;
 use Laraspace\Models\User;
 use Laraspace\Models\Role;
+use Laraspace\Models\Club;
 use Hash;
 use Laraspace\Traits\AuthUserDetail;
 use App\Mail\SendMail;
@@ -56,12 +57,11 @@ class UserService implements UserContract
      */
     public function create($data)
     {
-      // dd($data);
-
         // Data Initilization
         $data = $data->all();
-        $mobileUserRoleId = Role::where('slug', 'mobile.user')->first()->id;
 
+        $mobileUserRoleId = Role::where('slug', 'mobile.user')->first()->id;
+        
         \Log::info('User Create Method Called');
         $userData=array();
         $userData['people']=array();
@@ -106,6 +106,8 @@ class UserService implements UserContract
           $data['tournament_id']=$data['tournament_id'];
           \Log::info('password after encrypt '.$userPassword);
 
+          $userData['user']['role'] = $data['role'];
+          $userData['user']['country'] = $data['country'];
           $userData['user']['registered_from'] = false;
 
          // $token = 1;
@@ -122,7 +124,8 @@ class UserService implements UserContract
         $userData['user']['email']=$data['emailAddress'];
         $userData['user']['organisation']=$data['organisation'];
         $userData['user']['userType']=$data['userType'];
-
+        $userData['user']['role'] = $data['role'];
+        $userData['user']['country'] = $data['country'];
         // $userData['user']['password'] = Hash::make('password');
         // // dd($userData['user']);
         // $userObj = $this->userRepoObj->create($userData['user']);
@@ -274,10 +277,12 @@ class UserService implements UserContract
     public function update($data, $userId)
     {
         $data = $data->all();
+
         $mobileUserRoleId = Role::where('slug', 'mobile.user')->first()->id;
         $userData=array();
         $userData['people']=array();
         $userData['user']=array();
+
         $userObj = User::findOrFail($userId);
 
         if(isset($data['emailAddress'])) {
@@ -293,9 +298,10 @@ class UserService implements UserContract
         if($isMobileUsers != '') {
           // here we change the data variable
           \Log::info('Update in User table');
-
+          
           $data['name'] = $data['first_name'];
           $data['surname'] = $data['last_name'];
+          $data['role'] = $data['role'];
          // \Log::info('Update in password'.$data['password']);
          // $userData['user']['password'] = Hash::make(trim($data['password']));
           $data['emailAddress'] = '';
@@ -324,6 +330,8 @@ class UserService implements UserContract
         $userData['user']['name']=$data['name']." ".$data['surname'];
         ($data['emailAddress']!= '') ? $userData['user']['email']=$data['emailAddress'] : '';
         $userData['user']['organisation']=$data['organisation'];
+        $userData['user']['role'] = $data['role'];
+        
         (isset($data['locale']) && $data['locale']!='') ? $userData['user']['locale'] = $data['locale'] : '';
         
         $this->userRepoObj->update($userData['user'], $userId);
@@ -339,6 +347,7 @@ class UserService implements UserContract
 
         $userData['people']['first_name']=$data['name'];
         $userData['people']['last_name']=$data['surname'];
+        // $userData['people']['role']=$data['role'];
         $peopleObj = $this->peopleRepoObj->edit($userData['people'], $userObj->person_id);
 
         if ($data) {
@@ -543,4 +552,10 @@ class UserService implements UserContract
     public function getUserWebsites($id) {
       return $this->userRepoObj->getUserWebsites($id); 
     }
+
+    public function getAllCountries() {
+        return $this->userRepoObj->getAllCountries();
+    }
+
+
 }

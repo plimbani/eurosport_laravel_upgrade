@@ -48,6 +48,7 @@
                                         <th>{{$lang.user_desktop_surname}}</th>
                                         <th>{{$lang.user_desktop_email}}</th>
                                         <th>{{$lang.user_desktop_usertype}}</th>
+                                        <th>{{$lang.use_desktop_role}}</th>
                                         <th>{{$lang.user_desktop_status}}</th>
                                         <th class="text-center">{{$lang.user_desktop}}</th>
                                         <th class="text-center">{{$lang.user_mobile}}</th>
@@ -60,6 +61,7 @@
                                     <td>{{ user.last_name }}</td>
                                     <td>{{ user.email }}</td>
                                     <td>{{ user.role_name }}</td>
+                                    <td>{{ user.role }}</td>
                                     <td v-if="user.is_verified == 1">Verified</td>
                                     <td v-else>
                                       <a href="#"  @click="resendModalOpen(user.email)"><u>Re-send</u></a>

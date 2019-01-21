@@ -45,7 +45,9 @@ class User extends Authenticatable implements HasRoleAndPermissionContract, CanR
         'is_desktop_user',
         'registered_from',
         'locale',
-        'fcm_id'
+        'fcm_id',
+        'role',
+        'country_id',
     ];
 
     /**

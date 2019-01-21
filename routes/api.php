@@ -190,6 +190,8 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
     $api->post('user/update/{id}', 'Laraspace\Api\Controllers\UserController@update')->name('update.users');
     $api->post('user/delete/{id}', 'Laraspace\Api\Controllers\UserController@deleteUser')->name('delete.users');
 
+    $api->get('getAllCountries', 'Laraspace\Api\Controllers\UserController@getAllCountries');
+
     $api->post('user/status', 'Laraspace\Api\Controllers\UserController@changeUserStatus');
 
     $api->post('users/updatefcm','Laraspace\Api\Controllers\UserController@updatefcm');
