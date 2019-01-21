@@ -8,7 +8,7 @@
                     <p>Thank you for purchase. Your order number is {{paymentObj.orderID}}</p>
                 </div>
                 <div class="col-md-12">
-                   <!--  <button class="btn btn-success" @click="printReceipt()">Print receipt</button> -->
+                    <!-- <button class="btn btn-success" @click="printReceipt()">Print receipt</button> -->
                     <button class="btn btn-success" @click="createPDF()">Print receipt</button>
                     <!-- <a href="javascript:void(0)">Print receipt</a> -->
                 </div>
@@ -60,6 +60,7 @@
                 } 
                 axios.post(Constant.apiBaseUrl+'payment/response', apiParams).then(response =>  {
                         if (response.data.success) {
+                            console.log("response.data::",response.data.data)
                             this.paymentObj.amount = response.data.data.amount;
                             this.paymentObj.currency = response.data.data.currency;
                             let payment_response = JSON.parse(response.data.data.payment_response);
@@ -73,6 +74,26 @@
             },
 
             printReceipt(){
+                // ORDER-5c45fa8daa010-1548089997
+                // if(typeof this.paymentObj.orderid != "undefined"){
+                //     let url = Constant.apiBaseUrl+'generate/receipt?tournament_id='+this.paymentObj.orderid;
+                 
+                //     let params = { 
+                //         tournament_id:this.paymentObj.orderid
+                //     }
+                    
+                //     axios.post(url, params).then(response =>  {
+                //         if (response.data.success) {
+                //             console.log("receipt::",response.data.data)
+                           
+                //          }else{
+                //              toastr['error'](response.data.message, 'Error');
+                //          }
+                //      }).catch(error => {
+                //          console.log("error in buyALicence::",error);
+                //      });
+                // }
+                
                 this.$nextTick(() => {
                     window.print();
                 });
