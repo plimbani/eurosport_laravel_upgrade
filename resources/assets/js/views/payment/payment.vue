@@ -81,14 +81,17 @@
                     // let url = Constant.apiBaseUrl+'generate/receipt?tournament_id=154';
                     let url = Constant.apiBaseUrl+'generate/receipt?tournament_id='+this.tournament_id;
                  
-                    let params = { 
-                        tournament_id:this.tournament_id
-                    }
+                    let params = {}
                     
                     axios.post(url, params).then(response =>  {
                         if (response.data.success) {
                             console.log("receipt::",response.data.data)
-                           
+                            const url = window.URL.createObjectURL(new Blob(["link of file"]));
+                            const link = document.createElement('a');
+                            link.href = url;
+                            link.setAttribute('download', 'receipt.pdf'); 
+                            document.body.appendChild(link);
+                            link.click(); 
                          }else{
                              toastr['error'](response.data.message, 'Error');
                          }
