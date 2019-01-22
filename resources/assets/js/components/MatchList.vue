@@ -97,8 +97,8 @@
     </tbody>
   </table>
     <div class="col-md-12" v-if="matchData.length > 0 && isDivExist == 1" v-for="(matches,index) in isDivExistData">
-      <label class="mb-0"><h6 class="mb-2">{{index}}</h6></label><br>
-      <label class="mb-0"><h6 class="mb-2">{{matches[0]['competation_name']}} matches</h6></label>
+      <label class="mb-0"><h4 class="mb-2">{{index}}</h4></label><br>
+      <label class="mb-0"><h5 class="mb-2">{{matches[0]['competation_name']}} matches</h5></label>
       <table id="matchSchedule" class="table table-hover table-bordered table-sm">
         <thead>
           <th class="text-center">{{$lang.summary_schedule_date_time}}</th>
