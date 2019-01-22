@@ -77,7 +77,7 @@
 
             printReceipt(){
                 // ORDER-5c45fa8daa010-1548089997
-                // if(this.tournament_id != ""){
+                if(this.tournament_id != ""){
                     // let url = Constant.apiBaseUrl+'generate/receipt?tournament_id=154';
                     let url = Constant.apiBaseUrl+'generate/receipt?tournament_id='+this.tournament_id;
                  
@@ -95,7 +95,7 @@
                      }).catch(error => {
                          console.log("error in buyALicence::",error);
                      });
-                // }
+                }
                 
                 // this.$nextTick(() => {
                 //     window.print();
