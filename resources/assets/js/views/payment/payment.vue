@@ -85,8 +85,8 @@
                     
                     axios.post(url, params).then(response =>  {
                         if (response.data.success) {
-                            console.log("receipt::",response.data.data)
-                            const url = window.URL.createObjectURL(new Blob(["link of file"]));
+                            // console.log("receipt::",response.data.data)
+                            const url = window.URL.createObjectURL(new Blob([response.data.data.pdf_url]));
                             const link = document.createElement('a');
                             link.href = url;
                             link.setAttribute('download', 'receipt.pdf'); 
