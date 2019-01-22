@@ -6,6 +6,7 @@ use JWTAuth;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Laraspace\Api\Repositories\TournamentRepository;
+use Laraspace\Http\Requests\Tournament\TournamentSummary;
 use Laraspace\Models\User;
 
 /**
@@ -48,12 +49,30 @@ class TournamentController extends BaseController
             return response()->json(['success' => false, 'status' => Response::HTTP_UNPROCESSABLE_ENTITY, 'data' => [], 'error' => [], 'message' => 'Something went wrong.']);
         }
     }
-    
+
+    public function tournamentSummary(TournamentSummary $request)
+    {
+        try {
+            $data = $request->all();
+            $response = $this->tournamentRepoObj->tournamentSummary($data['tournamentId']);
+            return response()->json([
+                        'success' => true,
+                        'status' => Response::HTTP_OK,
+                        'data' => $response,
+                        'error' => [],
+                        'message' => 'Tournament list.'
+            ]);
+            
+        } catch (\Exception $ex) {
+            return response()->json(['success' => false, 'status' => Response::HTTP_UNPROCESSABLE_ENTITY, 'data' => [], 'error' => [], 'message' => 'Something went wrong.']);
+        }
+    }
+
     /**
      * Edit tournament
      * @return array
      */
-    public function edit(Request $request)
+    public function update(Request $request)
     {
         try {
             $data = $request->all();
