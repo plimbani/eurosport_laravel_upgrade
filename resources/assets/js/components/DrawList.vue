@@ -53,9 +53,9 @@
       </div>
 
 
-      <div v-for="(divData,index) in divFilter">
+      <div class="col-md-6" v-for="(divData,index) in divFilter">
         <h6 class="mt-2">
-          <strong><a class="text-center" href="javascript:void(0)" @click="openEditCategoryDivisionNameModal(index)">{{ index | getDivName}}<i class="jv-icon jv-edit"></i></a></strong>
+          <strong><a class="text-center" href="javascript:void(0)" @click="openEditCategoryDivisionNameModal(index)">{{ index | getDivName}}<i class="jv-icon jv-edit ml-2"></i></a></strong>
         </h6>
         <div v-for="(draw1,index1) in divData">
           <h6 class="mt-2">
@@ -73,8 +73,8 @@
             <tbody>
               <tr  v-for="draw in draw1"> <!--  -->
                   <td>
-                    <a class="pull-left text-left text-primary" @click.prevent="changeGroup(draw1)" href=""><u>{{ draw.display_name }}</u> </a>
-                    <a v-if="isUserDataExist" href="#" @click="openEditCompetitionNameModal(draw1)" class="pull-right text-primary"><i class="jv-icon jv-edit"></i></a>
+                    <a class="pull-left text-left text-primary" @click.prevent="changeGroup(draw)" href=""><u>{{ draw.display_name }}</u> </a>
+                    <a v-if="isUserDataExist" href="#" @click="openEditCompetitionNameModal(draw)" class="pull-right text-primary"><i class="jv-icon jv-edit"></i></a>
                   </td>
                   <td class="text-center">{{ draw.competation_type }}</td>
                   <td class="text-center">{{ draw.team_size }}</td>
