@@ -40,8 +40,10 @@ class SuperViewController: UIViewController {
             infoAlertView.delegate = delegate
         }
         infoAlertView.hide()
-        // view.addSubview(infoAlertView)
-        UIApplication.shared.keyWindow!.addSubview(infoAlertView)
+        view.addSubview(infoAlertView)
+        
+       // let modalWindow = UIApplication.shared.keyWindow!
+       // modalWindow.addSubview(infoAlertView)
     }
     
     func showInfoAlertView(title: String, message: String, buttonTitle: String = String.localize(key: "btn_close"), requestCode: Int = -1) {
@@ -58,7 +60,9 @@ class SuperViewController: UIViewController {
         infoAlertViewTwoButton.frame = CGRect(x: 0, y: 0, width: DEVICE_WIDTH, height: DEVICE_HEIGHT)
         infoAlertViewTwoButton.hide()
         // view.addSubview(infoAlertViewTwoButton)
-        UIApplication.shared.keyWindow!.addSubview(infoAlertViewTwoButton)
+        
+        let modalWindow = UIApplication.shared.keyWindow!
+        modalWindow.addSubview(infoAlertViewTwoButton)
     }
     
     func showInfoAlertViewTwoButton(title: String = NULL_STRING, message: String = NULL_STRING, buttonYesTitle: String = String.localize(key: "btn_yes"), buttonNoTitle: String = String.localize(key: "btn_no"), requestCode: Int = -1) {

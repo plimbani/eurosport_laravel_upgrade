@@ -319,6 +319,10 @@ class ParseManager {
             tournamentObj.logo = logo;
         }
         
+        if let status = record.value(forKey: "status") as? String {
+            tournamentObj.status = status;
+        }
+        
         return tournamentObj
     }
     

@@ -30,7 +30,14 @@ class MainTabViewController: SuperViewController {
         initialize()
     }
     
+    override var prefersStatusBarHidden: Bool {
+        get {
+            return false
+        }
+    }
+    
     func initialize(){
+        
         for i in 0..<tabButtonList.count{
             let button = tabButtonList[i]
             button.tag = i
@@ -131,15 +138,6 @@ class MainTabViewController: SuperViewController {
     
     func addViewControllerToContentView(_ flag: Bool) {
         
-        if let selectedTournament = ApplicationData.sharedInstance().getSelectedTournament() {
-            if selectedTournament.status.trimmingCharacters(in: .whitespacesAndNewlines) == "Preview" {
-                self.showInfoAlertView(title: String.localize(key: "alert_title_error"), message: String.localize(key: "alert_preview_tournament"))
-                return
-            }
-        }
-        
-        tabButtonList[selectedIndex].isSelected = true
-        
         if flag {
             if selectedIndex == 0 {
                 viewControllers[selectedIndex] = initFavouritesVC()
@@ -154,6 +152,17 @@ class MainTabViewController: SuperViewController {
             }
         }
         
+        if selectedIndex == 2 || selectedIndex == 3 {
+            if let selectedTournament = ApplicationData.sharedInstance().getSelectedTournament() {
+             if selectedTournament.status.trimmingCharacters(in: .whitespacesAndNewlines) == "Preview" {
+                self.showInfoAlertView(title: String.localize(key: "alert_title_error"), message: String.localize(key: "alert_preview_tournament"))
+                return
+                }
+             }
+        }
+        
+        tabButtonList[selectedIndex].isSelected = true
+        
         let vc = viewControllers[selectedIndex]
         
         addChildViewController(vc)
@@ -163,6 +172,7 @@ class MainTabViewController: SuperViewController {
     }
     
     @objc func onTabSelected(btn: UIButton) {
+        
         if selectedIndex != btn.tag {
             selectedIndex = btn.tag
             

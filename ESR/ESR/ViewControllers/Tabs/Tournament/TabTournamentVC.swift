@@ -47,6 +47,8 @@ class TabTournamentVC: SuperViewController {
     var timer: Timer?
     var isTimerRunning = false
     
+    let modalWindow = UIApplication.shared.keyWindow!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         initialize()
@@ -76,7 +78,6 @@ class TabTournamentVC: SuperViewController {
     
     func initialize() {
         self.navigationController?.isNavigationBarHidden = true
-        self.navigationController?.setNeedsStatusBarAppearanceUpdate()
         
         lblDays.text = String.localize(key: "Days")
         lblHours.text = String.localize(key: "Hours")
@@ -106,10 +107,12 @@ class TabTournamentVC: SuperViewController {
         pickerHandlerView.delegate = self
         self.view.addSubview(pickerHandlerView)
         
+        initInfoAlertView(self.view)
+        
         _ = cellOwner.loadMyNibFile(nibName: "TournamentDetailsView")
         tournamentDetailsView = cellOwner.view as! TournamentDetailsView
         tournamentDetailsView!.hide()
-        UIApplication.shared.keyWindow!.addSubview(tournamentDetailsView)
+        modalWindow.addSubview(tournamentDetailsView)
         
         sendRequestGetTournaments()
     }
