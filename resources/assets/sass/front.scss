@@ -613,7 +613,7 @@ input[type=number] {
 }
 
 .fc-view-container .fc-view {
-    overflow: scroll;
+    overflow: scroll hidden;
     height: 594px !important;
 }
 
@@ -626,8 +626,8 @@ input[type=number] {
 }
 
 .fc-time-grid-container {
-    height: 100% !important;
-    overflow-y: hidden !important;
+    // height: 100% !important;
+    // overflow-y: hidden !important;
 }
 .fc-timeline .fc-body .fc-scroller {
     height: 594px !important;
@@ -1083,4 +1083,7 @@ gmap-map {
 a.aecor-anchor {
     text-decoration: underline;
     color: #757575;
+}
+.fc-view.fc-agendaDay-view.fc-agenda-view table{
+   width:100% !important;
 }

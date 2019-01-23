@@ -215,6 +215,7 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
         'Laraspace\Api\Controllers\TournamentController@getTournamentClub');
 
     $api->post('teams/getTeamsList','Laraspace\Api\Controllers\TeamController@getTeamsList');
+    $api->post('teams/getAllTournamentTeams', 'Laraspace\Api\Controllers\TeamController@getAllTournamentTeams');
 
     $api->post('users/postSetting','Laraspace\Api\Controllers\UserController@postSetting');
     $api->post('users/getSetting','Laraspace\Api\Controllers\UserController@getSetting');

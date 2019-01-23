@@ -130,7 +130,7 @@
                                 </div>
                                 <div class="col-md-6">
                                   <paginate-links for="userpagination"
-                                    :show-step-links="true" :async="true" class="mb-0">
+                                    :show-step-links="true" :async="true" :limit="2" class="mb-0">
                                   </paginate-links>
                                 </div>
                               </div>
@@ -221,7 +221,7 @@
             },
             isMasterAdmin() {
               return this.$store.state.Users.userDetails.role_slug == 'Master.administrator';
-            }            
+            }
         },
         filters: {
             formatDate: function(date) {
@@ -367,7 +367,7 @@
               $('#confirm_privilege_modal').modal('hide');
             },
             exportTableReport() {
-                let userData = this.reportQuery              
+                let userData = this.reportQuery
                 let userSearch = '';
                 let userSlugType = '';
                 userSearch = 'userData='+this.userListSearch;
@@ -377,10 +377,10 @@
 
                 User.getSignedUrlForUsersTableData(userData).then(
                   (response) => {
-                    window.location.href = response.data;         
+                    window.location.href = response.data;
                    },
                   (error) => {
-                  }                  
+                  }
                 )
 
                 // window.location.href = "/api/users/getUserTableData?report_download=yes&"+userSearch+"&"+userSlugType;
