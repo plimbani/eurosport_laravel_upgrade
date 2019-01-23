@@ -101,7 +101,7 @@ public class ProfileActivity extends BaseAppCompactActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            AppLogger.LogE(TAG, "***** Profile update request *****" + requestJson.toString());
+             AppLogger.LogE(TAG, "***** Profile update request *****" + requestJson.toString());
             final RequestQueue mQueue = VolleySingeltone.getInstance(mContext).getRequestQueue();
             final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(mContext, Request.Method
                     .POST, url,
