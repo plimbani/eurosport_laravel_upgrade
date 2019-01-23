@@ -30,6 +30,7 @@ const getters = {
 const actions = {
 
   SetPitches ({commit,dispatch},tournamentId) {
+    commit(types.SET_ALL_PITCHES, [])
     Pitch.getAllPitches(tournamentId).then (
       (response) => {
         let pitches =  response.data.pitches
