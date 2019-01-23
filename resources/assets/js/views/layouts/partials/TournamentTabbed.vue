@@ -110,7 +110,7 @@ export default {
     isMatchScheduled() {
       let isMatchScheduled = false;
       _.forEach(this.$store.state.Tournament.matches , function(o, index) {
-          if(o.is_scheduled = 1) {
+          if(o.is_scheduled == 1) {
             isMatchScheduled = true;
           }
         })
@@ -130,11 +130,7 @@ export default {
     }
   },
   mounted() {
-    this.displayTournamentCompetationList();
-    this.$store.dispatch('SetTeams',this.$store.state.Tournament.tournamentId);
-    this.$store.dispatch('SetPitches',this.$store.state.Tournament.tournamentId);
-    this.$store.dispatch('setMatches');
-       
+    this.updateTabStateData();
     this.$store.dispatch('ResetPitchPlannerFromEnlargeMode');
     if(this.tournamentId == '' ) {
       //this.$router.push({name: 'welcome'})
@@ -172,7 +168,7 @@ export default {
 
       },2000 )
       }
-
+      this.updateTabStateData();
     },
     displayTournamentCompetationList () {
     // Only called if valid tournament id is Present
@@ -188,6 +184,12 @@ export default {
         }
         )
       }
+    },
+    updateTabStateData() {
+      this.displayTournamentCompetationList();
+      this.$store.dispatch('SetTeams',this.$store.state.Tournament.tournamentId);
+      this.$store.dispatch('SetPitches',this.$store.state.Tournament.tournamentId);
+      this.$store.dispatch('setMatches');
     }
   },
 }
