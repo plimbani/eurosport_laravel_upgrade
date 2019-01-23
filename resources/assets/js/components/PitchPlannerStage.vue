@@ -91,9 +91,6 @@ import _ from 'lodash'
                 })
             });
 
-            var timeGridContainerHeight = $('.fc-time-grid-container').height();
-            $('.fc-time-grid-container').css('height', timeGridContainerHeight);
-
             let cal = this.$el;
             let vm = this
             vm.initComponent()
