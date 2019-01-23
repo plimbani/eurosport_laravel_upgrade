@@ -57,7 +57,9 @@ class TransactionService implements TransactionContract {
                 ->setOption('header-right', $date->format('H:i d M Y'))
                 ->setOption('margin-top', 20)
                 ->setOption('margin-bottom', 20);
-//        return $pdf->save(public_path('images') . DS. 'payment-receipt.pdf');
+
+//        $pdf->save(public_path('images') . DS . 'payment-receipt-' . $date . '.pdf');
+
         return env('APP_URL') . '/images/test.pdf';
     }
 }
