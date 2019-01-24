@@ -6,7 +6,7 @@
                     <h3 class="text-uppercase font-weight-bold mb-4">Manage Tournaments</h3>
 
                     <div class="row">
-                        <div class="col-md-6 col-lg-12 d-flex">
+                        <div class="col-md-6 col-lg-12 d-flex" v-for="tournament of tournaments">
                             <div class="card w-100">
                                 <div class="card-block">
                                     <div class="row align-items-center">
@@ -14,19 +14,19 @@
                                             <p class="h7 text-uppercase mb-0">License: #000987</p>
                                             <div class="row align-items-center mb-2">
                                                 <div class="col-lg-7">
-                                                    <h3 class="font-weight-bold mb-0">Brighton Champions Cup</h3>
+                                                    <h3 class="font-weight-bold mb-0">{{tournament.name}}</h3>
                                                 </div>
                                                 <div class="col-lg-5">
                                                     <ul class="list-unstyled mb-0 tournament-information">
-                                                        <li class="d-inline h7 text-uppercase font-weight-bold pr-2"><span><i class="fa fa-globe"></i></span>&nbsp; <a href="#">View public website</a></li>
+                                                        <li class="d-inline h7 text-uppercase font-weight-bold pr-2"><span><i class="fa fa-globe"></i></span>&nbsp; <a target="_blank" v-bind:href="tournament.website">View public website</a></li>
                                                         <li class="d-inline h7 text-uppercase font-weight-bold"><span><i class="fa fa-share-alt"></i></span>&nbsp; <a href="#">Share</a></li>
                                                     </ul>
                                                 </div>
                                             </div>
                                             <ul class="list-unstyled mb-0">
-                                                <li class="d-block d-lg-inline pb-1 pb-sm-0 pr-sm-2"><i class="fa fa-list-ul" aria-hidden="true"></i> &nbsp;32 Teams</li>
-                                                <li class="d-block d-lg-inline pb-1 pb-sm-0 pr-sm-2"><i class="fa fa-futbol-o" aria-hidden="true"></i> &nbsp;48 Matches</li>
-                                                <li class="d-block d-lg-inline"><i class="fa fa-calendar" aria-hidden="true"></i> &nbsp;19th - 22nd October 2018</li>
+                                                <li class="d-block d-lg-inline pb-1 pb-sm-0 pr-sm-2"><i class="fa fa-list-ul" aria-hidden="true"></i> &nbsp;{{tournament.maximum_teams}} Teams</li>
+                                                <li class="d-block d-lg-inline pb-1 pb-sm-0 pr-sm-2"><i class="fa fa-futbol-o" aria-hidden="true"></i> &nbsp;{{tournament.no_of_match_per_day_pitch}} Matches</li>
+                                                <li class="d-block d-lg-inline"><i class="fa fa-calendar" aria-hidden="true"></i> &nbsp;{{tournament.start_date}} - {{tournament.end_date}}</li>
                                             </ul>
                                         </div>
                                         <div class="col-xl-5 mt-3 mt-lg-0 text-lg-right">
@@ -38,41 +38,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="col-md-6 col-lg-12 d-flex">
-                            <div class="card w-100">
-                                <div class="card-block">
-                                    <div class="row align-items-center">
-                                        <div class="col-xl-7">
-                                            <p class="h7 text-uppercase mb-0">License: #000987</p>
-                                            <div class="row align-items-center mb-2">
-                                                <div class="col-lg-7">
-                                                    <h3 class="font-weight-bold mb-0">Brighton Champions Cup</h3>
-                                                </div>
-                                                <div class="col-lg-5">
-                                                    <ul class="list-unstyled mb-0 tournament-information">
-                                                        <li class="d-inline h7 text-uppercase font-weight-bold pr-2"><span><i class="fa fa-globe"></i></span>&nbsp; <a href="#">View public website</a></li>
-                                                        <li class="d-inline h7 text-uppercase font-weight-bold"><span><i class="fa fa-share-alt"></i></span>&nbsp; <a href="#">Share</a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <ul class="list-unstyled mb-0">
-                                                <li class="d-block d-lg-inline pb-1 pb-sm-0 pr-sm-2"><i class="fa fa-list-ul" aria-hidden="true"></i> &nbsp;32 Teams</li>
-                                                <li class="d-block d-lg-inline pb-1 pb-sm-0 pr-sm-2"><i class="fa fa-futbol-o" aria-hidden="true"></i> &nbsp;48 Matches</li>
-                                                <li class="d-block d-lg-inline"><i class="fa fa-calendar" aria-hidden="true"></i> &nbsp;19th - 22nd October 2018</li>
-                                            </ul>
-                                        </div>
-                                        <div class="col-xl-5 mt-3 mt-lg-0 text-lg-right">
-                                            <div class="btn-group">
-                                                <button class="btn btn-outline"><span><i class="fa fa-pencil" aria-hidden="true"></i></span>&nbsp; Edit</button>
-                                                <button class="btn btn-outline ml-2">Manage License</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        </div> 
                     </div>
 
                     <button class="btn btn-success">Add Tournament</button>
@@ -127,7 +93,7 @@
                 axios.get(Constant.apiBaseUrl+'tournaments/list', {}).then(response =>  {  
                         if (response.data.success) { 
                              this.tournaments = response.data.data;
-                             // console.log("tournaments::",this.tournaments)
+                             console.log("tournaments::",this.tournaments)
                          }else{
                             
                             toastr['error'](response.data.message, 'Error');
