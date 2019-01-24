@@ -14,7 +14,7 @@ class AddRoletypeToUsertable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->enum('role', array('Player', 'Coach/Manager/Trainer', 'Other'));
+            $table->enum('role', array('Player', 'Coach/Manager/Trainer', 'Other'))->nullable()->default(NULL);
         });
     }
 

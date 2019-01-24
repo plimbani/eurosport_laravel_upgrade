@@ -35,7 +35,6 @@ use Laraspace\Http\Requests\User\GetUsetTournamentsRequest;
 use Laraspace\Http\Requests\User\SetDefaultFavouriteRequest;
 use Laraspace\Http\Requests\User\TournamentPermissionRequest;
 use Laraspace\Http\Requests\User\GetSignedUrlForUsersTableDataRequest;
-use Laraspace\Http\Requests\User\AllCountriesRequest;   
 
 /**
  * Users Resource Description.
@@ -287,7 +286,11 @@ class UserController extends BaseController
         return $signedUrl;
     }
 
-    public function getAllCountries(AllCountriesRequest $request) {
+    public function getAllCountries(Request $request) {
         return $this->userObj->getAllCountries();
+    }
+
+    public function getAllLanguages(Request $request) {
+        return $this->userObj->getAllLanguages();
     }
 }

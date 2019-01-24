@@ -28,15 +28,26 @@
                   <div class="form-group row">
                       <label class="col-sm-4 form-control-label">{{$lang.user_management_role}}</label>
                       <div class="col-sm-7">
-                        <select v-validate="'required'":class="{'is-danger': errors.has('role') }" class="form-control ls-select2" name="role" v-model="userData.role">
+                        <select  class="form-control ls-select2" name="role" v-model="userData.role">
                             <option value="">Select</option>
                             <option v-for="role in roleOptions" :value="role">
                               {{ role }}
                             </option>
                         </select>
-                        <span class="help is-danger" v-show="errors.has('role')">{{$lang.user_management_default_app_tournament_required}}</span>
                       </div>
                   </div>
+                  <div class="form-group row">
+                      <label class="col-sm-4 form-control-label">{{$lang.user_management_country}}</label>
+                      <div class="col-sm-7">
+                        <select class="form-control ls-select2" name="countrie" v-model="userData.country_id">
+                            <option value="">Select</option>
+                            <option v-for="country in this.allCountries" :value="country.id">
+                              {{ country.name }}
+                            </option>
+                        </select>
+                      </div>
+                  </div>
+
                   <div class="form-group row">
                     <label class="col-sm-4 form-control-label">{{$lang.user_management_email}}</label>
                     <div class="col-sm-7">
@@ -65,9 +76,11 @@
         'userId': 1,
         'name': '',
         roleOptions: ['Player', 'Coach/Manager/Trainer', 'Other'],
+        allCountries: '',
         }
     },
     mounted(){
+      this.getCountryData();
     },
 
     props: ['userData', 'emailExist'],
@@ -110,6 +123,16 @@
 
         hideEmailExistMessage() {
           this.$emit('hideEmailExists');
+        },
+
+        getCountryData() {
+          User.getAllCountries().then(
+            (response)=> {
+              this.allCountries = response.data.countries;
+            },
+            (error)=> {
+            }
+          )
         },
    }
 }

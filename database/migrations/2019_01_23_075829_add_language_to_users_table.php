@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddCountryIdToUserTable extends Migration
+class AddLanguageToUsersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,10 +14,9 @@ class AddCountryIdToUserTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->integer('country_id')->nullable()->unsigned()->index();
-            $table->foreign('country_id')->references('id')->on('countries');
+            DB::statement("ALTER TABLE users CHANGE locale locale ENUM('en', 'fr', 'it', 'de', 'nl', 'cs', 'da', 'pl') NOT NULL DEFAULT 'en' ");
         });
-        
+
     }
 
     /**
@@ -28,8 +27,7 @@ class AddCountryIdToUserTable extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropForeign('users_country_id_foreign');
-            $table->dropColumn('country_id');
+            DB::statement("ALTER TABLE users CHANGE locale locale varchar(255)");
         });
     }
 }

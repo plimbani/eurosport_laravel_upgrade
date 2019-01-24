@@ -59,7 +59,7 @@ class UserService implements UserContract
     {
         // Data Initilization
         $data = $data->all();
-
+        
         $mobileUserRoleId = Role::where('slug', 'mobile.user')->first()->id;
         
         \Log::info('User Create Method Called');
@@ -78,7 +78,6 @@ class UserService implements UserContract
         $userData['user']['is_mobile_user'] = true;
         $userData['user']['is_desktop_user'] = true;
         $userData['user']['registered_from'] = true;
-
         // $data['is_mobile_user'] = false;
         // if($isMobileUsers != '' ) {
         //   $data['is_mobile_user'] = true;
@@ -94,6 +93,7 @@ class UserService implements UserContract
         // }
         // here we check that if userType is
 
+
         if(isset($isMobileUsers) && $isMobileUsers == true)
         {
           $data['name'] = $data['first_name'];
@@ -106,26 +106,25 @@ class UserService implements UserContract
           $data['tournament_id']=$data['tournament_id'];
           \Log::info('password after encrypt '.$userPassword);
 
-          $userData['user']['role'] = $data['role'];
-          $userData['user']['country'] = $data['country'];
+          
           $userData['user']['registered_from'] = false;
 
          // $token = 1;
         }
-
         $userData['people']['first_name']=$data['name'];
         $userData['people']['last_name']=$data['surname'];
         \Log::info('Insert in PeopleTable');
         $peopleObj = $this->peopleRepoObj->create($userData['people']);
-
         $userData['user']['person_id']=$peopleObj->id;
         $userData['user']['username']=$data['emailAddress'];
         $userData['user']['name']=$data['name']." ".$data['surname'];
         $userData['user']['email']=$data['emailAddress'];
         $userData['user']['organisation']=$data['organisation'];
         $userData['user']['userType']=$data['userType'];
-        $userData['user']['role'] = $data['role'];
-        $userData['user']['country'] = $data['country'];
+        if(isset($data['role'])){
+           $userData['user']['role'] = 'Player';
+        }
+
         // $userData['user']['password'] = Hash::make('password');
         // // dd($userData['user']);
         // $userObj = $this->userRepoObj->create($userData['user']);
@@ -139,6 +138,7 @@ class UserService implements UserContract
           $userData['user']['is_desktop_user'] = false;
         }
 
+        
         $userData['user']['token'] = $token;
         \Log::info($userData);
         \Log::info('Insert in UserTable');
@@ -165,6 +165,7 @@ class UserService implements UserContract
           $this->userRepoObj->createUserFavourites($userFavouriteData);
         //  return ['status_code' => '200', 'message' => 'Mobile Data Sucessfully Inserted'];
         }
+        
         // Also Add settings Data
         $userSettings['user_id'] = $user_id;
         $userSettings['value'] = '{"is_sound":"true","is_vibration":"true","is_notification":"true"}';
@@ -302,6 +303,7 @@ class UserService implements UserContract
           $data['name'] = $data['first_name'];
           $data['surname'] = $data['last_name'];
           $data['role'] = $data['role'];
+          $data['country_id'] = $data['country_id'];
          // \Log::info('Update in password'.$data['password']);
          // $userData['user']['password'] = Hash::make(trim($data['password']));
           $data['emailAddress'] = '';
@@ -326,12 +328,12 @@ class UserService implements UserContract
             $data['organisation'] = NULL;
           }
         }
-
         $userData['user']['name']=$data['name']." ".$data['surname'];
         ($data['emailAddress']!= '') ? $userData['user']['email']=$data['emailAddress'] : '';
         $userData['user']['organisation']=$data['organisation'];
         $userData['user']['role'] = $data['role'];
-        
+        $userData['user']['country_id'] = $data['country_id'];
+
         (isset($data['locale']) && $data['locale']!='') ? $userData['user']['locale'] = $data['locale'] : '';
         
         $this->userRepoObj->update($userData['user'], $userId);
@@ -557,5 +559,8 @@ class UserService implements UserContract
         return $this->userRepoObj->getAllCountries();
     }
 
+    public function getAllLanguages() {
+        return $this->userRepoObj->getAllLanguages();
+    }
 
 }

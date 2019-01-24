@@ -42,7 +42,8 @@ class UserRepository {
     {
          $user = User::join('role_user', 'users.id', '=', 'role_user.user_id')
                 ->join('roles', 'roles.id', '=', 'role_user.role_id')
-                ->join('people', 'people.id', '=', 'users.person_id');
+                ->join('people', 'people.id', '=', 'users.person_id')
+                ->leftjoin('countries', 'countries.id', '=', 'users.country_id');
 
         if(isset($data['userData']) && $data['userData'] !== '') {
 
@@ -57,7 +58,7 @@ class UserRepository {
             $user = $user->where('roles.slug', '=', $data['userType']);
         }
 
-        $user = $user->select('users.id as id', 'people.first_name as first_name', 'people.last_name as last_name', 'users.email as email', 'roles.id as role_id', 'roles.name as role_name', 'roles.slug as role_slug', 'users.is_verified as is_verified', 'users.is_mobile_user as is_mobile_user', 'users.is_desktop_user as is_desktop_user', 'users.organisation as organisation', 'users.locale as locale', 'users.role as role', 'users.country_id as country_id');
+        $user = $user->select('users.id as id', 'people.first_name as first_name', 'people.last_name as last_name', 'users.email as email', 'roles.id as role_id', 'roles.name as role_name', 'roles.slug as role_slug', 'users.is_verified as is_verified', 'users.is_mobile_user as is_mobile_user', 'users.is_desktop_user as is_desktop_user', 'users.organisation as organisation', 'users.locale as locale', 'users.role as role','countries.name as country');
 
         $user->orderBy('people.last_name','asc');
 
@@ -121,8 +122,8 @@ class UserRepository {
         'is_desktop_user' => $data['is_desktop_user'] ? 1 : 0,
         'registered_from' => $data['registered_from'] ? 1 : 0,
         'user_image'=>(isset($data['user_image']) && $data['user_image']!='') ?  $data['user_image'] : '',
-        'role' => $data['role'],
-        'country_id' => $data['country'],
+        'role' => (isset($data['role']) && $data['role']!='') ?  $data['role'] : '',
+        
         ];
       
         $deletedUser = User::onlyTrashed()->where('email',$data['email'])->first();
@@ -179,7 +180,7 @@ class UserRepository {
             ->join('role_user', 'users.id', '=', 'role_user.user_id')
             ->select("users.id as id", "users.email as emailAddress",
                DB::raw('IF(users.user_image is not null,CONCAT("'.$this->userImagePath.'", users.user_image),"" ) as image'),
-             "users.organisation as organisation", "people.first_name as name", "people.last_name as surname", "role_user.role_id as userType", "users.role as role", "users.country_id as country_id")
+             "users.organisation as organisation", "people.first_name as name", "people.last_name as surname", "role_user.role_id as userType", "users.role as role", "users.country_id as country_id", "users.locale as locale")
             ->where("users.id", "=", $userId)
             ->first();
 
@@ -273,5 +274,9 @@ class UserRepository {
 
     public function getAllCountries() {
       return $contries = Country::orderBy('name')->get();
+    }
+
+    public function getAllLanguages() {
+       return $languages = config('wot.languages');
     }
 }
