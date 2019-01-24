@@ -32,6 +32,7 @@ import org.json.JSONObject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.internal.Utils;
 
 public class SignInActivity extends BaseActivity {
     private final String TAG = SignInActivity.class.getSimpleName();
@@ -165,6 +166,15 @@ public class SignInActivity extends BaseActivity {
                             mAppSharedPref.setString(AppConstants.PREF_USER_ID, jsonObject.getString("user_id"));
                             mAppSharedPref.setString(AppConstants.PREF_TOURNAMENT_ID, jsonObject.getString("tournament_id"));
                             mAppSharedPref.setString(AppConstants.PREF_IMAGE_URL, jsonObject.getString("profile_image_url"));
+
+                            if (jsonObject.has("role")) {
+                                mAppSharedPref.setString(AppConstants.PREF_ROLE, jsonObject.getString("role"));
+                            }
+                            if (jsonObject.has("country_id")) {
+                                mAppSharedPref.setString(AppConstants.PREF_COUNTRY_ID, jsonObject.getString("country_id"));
+                            }
+
+
                             if (jsonObject.has("locale") && !Utility.isNullOrEmpty(jsonObject.getString("locale"))) {
                                 mAppSharedPref.setString(AppConstants.PREF_USER_LOCALE, jsonObject.getString("locale"));
                                 mAppSharedPref.setString(AppConstants.LANGUAGE_SELECTION, jsonObject.getString("locale"));
@@ -235,7 +245,12 @@ public class SignInActivity extends BaseActivity {
     }
 
     private void launchHome() {
-        startActivity(new Intent(mContext, HomeActivity.class));
+        if (Utility.isNullOrEmpty(mAppSharedPref.getString(AppConstants.PREF_COUNTRY_ID))) {
+            startActivity(new Intent(mContext, ProfileActivity.class));
+        }else{
+            startActivity(new Intent(mContext, HomeActivity.class));
+
+        }
         finish();
     }
 

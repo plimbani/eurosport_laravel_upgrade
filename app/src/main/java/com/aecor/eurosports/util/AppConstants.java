@@ -35,6 +35,8 @@ public class AppConstants {
     public static final String PREF_USER_ID = "user_id";
     public static final String PREF_TOURNAMENT_ID = "tournament_id";
     public static final String PREF_IMAGE_URL = "image_url";
+    public static final String PREF_ROLE = "role";
+    public static final String PREF_COUNTRY_ID = "country_id";
     public static final String PREF_USER_LOCALE = "user_locale";
     public static final String PREF_SESSION_TOURNAMENT_ID = "session_tournament_id";
     public static final String PREF_SESSION_TOURNAMENT_STATUS = "session_tournament_status";
