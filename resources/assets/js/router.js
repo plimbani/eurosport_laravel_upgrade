@@ -80,6 +80,7 @@ import Buylicense from './views/buylicense/Buylicense.vue'
 import Checkout from './views/checkout/Checkout.vue'
 // payment view
 import payment from './views/payment/payment.vue'
+import dashboard from './views/dashboard/dashboard.vue'
 
 //User Pages
 import UserList from './views/admin/users/List.vue'
@@ -370,6 +371,17 @@ const routes = [
                 path: '/',
                 component: payment,
                 name: 'payment'
+            }
+        ]
+    },
+    {
+        path: '/dashboard', component: LayoutCommercialisation,
+        meta: { requiresAuth: true },
+        children: [
+            {
+                path: '/',
+                component: dashboard,
+                name: 'dashboard'
             }
         ]
     },
