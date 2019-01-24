@@ -121,22 +121,27 @@
                 tournaments:[]
             }
         },
-        methods: {
-             
-             
+        methods: { 
 
-            printReceipt(){
-                 
+            getTournamentList(){ 
+                axios.get(Constant.apiBaseUrl+'tournaments/list', {}).then(response =>  {  
+                        if (response.data.success) { 
+                             this.tournaments = response.data.data;
+                             // console.log("tournaments::",this.tournaments)
+                         }else{
+                            
+                            toastr['error'](response.data.message, 'Error');
+                         }
+                 }).catch(error => {
+                     
+                 }); 
                 
-                // this.$nextTick(() => {
-                //     window.print();
-                // });
             }
              
             
         },
         beforeMount(){  
-             
+             this.getTournamentList();
         }
     }
 </script>
