@@ -46,6 +46,16 @@
             android:inputType="textCapWords"
             android:padding="8dp" />
 
+        <Spinner
+            android:id="@+id/sp_role"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/spinner_bg_image_signup"
+            android:drawSelectorOnTop="true"
+            android:entries="@array/role_array"
+            android:prompt="@string/role" />
+
         <EditText
             android:id="@+id/register_email_address"
             style="@style/app_edittext"

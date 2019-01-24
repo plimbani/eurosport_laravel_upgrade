@@ -13,9 +13,12 @@ import android.text.Spanned;
 import android.text.TextWatcher;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -71,6 +74,9 @@ public class RegisterActivity extends BaseAppCompactActivity {
     protected LinearLayout ll_main_layout;
     @BindView(R.id.tv_privacy_terms)
     protected TextView tv_privacy_terms;
+    @BindView(R.id.sp_role)
+    protected Spinner sp_role;
+    private String[] roleArray;
 
     @Override
     public void initView() {
@@ -100,7 +106,7 @@ public class RegisterActivity extends BaseAppCompactActivity {
         getTournamentList();
         enabledDisableRegisterButton(false);
         setListener();
-
+        setRoleAdapter();
         showBackButton("");
     }
 
@@ -126,6 +132,50 @@ public class RegisterActivity extends BaseAppCompactActivity {
                 checkValidation();
             }
         });
+    }
+
+    private void setRoleAdapter() {
+        roleArray = mContext.getResources().getStringArray(R.array.role_array);
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this, R.layout.row_spinner_item, R.id.tv_spinner, roleArray) {
+
+            @Override
+            public boolean isEnabled(int position) {
+                return position != 0;
+            }
+
+            @Override
+            public boolean areAllItemsEnabled() {
+                return false;
+            }
+
+            @Override
+            public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                View v = convertView;
+                if (v == null) {
+                    Context mContext = this.getContext();
+                    LayoutInflater vi = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                    v = vi.inflate(R.layout.row_spinner_item, null);
+                }
+
+                TextView tv = (TextView) v.findViewById(R.id.tv_spinner);
+                tv.setText(roleArray[position]);
+
+                switch (position) {
+                    case 0:
+                        tv.setTextColor(Color.GRAY);
+                        break;
+
+                    default:
+                        tv.setTextColor(Color.BLACK);
+                        break;
+                }
+                return v;
+            }
+        };
+
+        sp_role.setAdapter(spinnerAdapter);
+        sp_role.setSelection(0);
+
     }
 
     @OnClick(R.id.iv_header_logo)
@@ -165,6 +215,9 @@ public class RegisterActivity extends BaseAppCompactActivity {
                 requestJson.put("first_name", fname.getText().toString().trim());
                 requestJson.put("sur_name", sname.getText().toString().trim());
                 requestJson.put("tournament_id", tournament_id);
+                if (!sp_role.getSelectedItem().toString().equalsIgnoreCase(getString(R.string.role)))
+                    requestJson.put("role", sp_role.getSelectedItem().toString());
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }
