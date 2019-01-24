@@ -6,6 +6,7 @@ use JWTAuth;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Laraspace\Api\Repositories\TournamentRepository;
+use Laraspace\Http\Requests\Tournament\StoreUpdateRequest;
 use Laraspace\Http\Requests\Tournament\TournamentSummary;
 use Laraspace\Models\User;
 
@@ -50,6 +51,11 @@ class TournamentController extends BaseController
         }
     }
 
+    /**
+     * Get tournament details
+     * @param TournamentSummary $request
+     * @return string
+     */
     public function tournamentSummary(TournamentSummary $request)
     {
         try {
@@ -63,32 +69,6 @@ class TournamentController extends BaseController
                         'message' => 'Tournament list.'
             ]);
             
-        } catch (\Exception $ex) {
-            return response()->json(['success' => false, 'status' => Response::HTTP_UNPROCESSABLE_ENTITY, 'data' => [], 'error' => [], 'message' => 'Something went wrong.']);
-        }
-    }
-
-    /**
-     * Edit tournament
-     * @return array
-     */
-    public function update(Request $request)
-    {
-        try {
-            $data = $request->all();
-            dd($data);
-            $authUser = JWTAuth::parseToken()->toUser();
-            $user = User::find($authUser->id);
-            $tournament['id'] = $data['tournamentId'];
-            $data = $this->tournamentRepoObj->edit($tournament);
-
-            return response()->json([
-                        'success' => true,
-                        'status' => Response::HTTP_OK,
-                        'data' => $data,
-                        'error' => [],
-                        'message' => 'Tournament edit.'
-            ]);
         } catch (\Exception $ex) {
             return response()->json(['success' => false, 'status' => Response::HTTP_UNPROCESSABLE_ENTITY, 'data' => [], 'error' => [], 'message' => 'Something went wrong.']);
         }
