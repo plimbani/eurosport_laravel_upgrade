@@ -162,7 +162,7 @@
                           {{option.name}}<br>{{option.disp_format}}<br>{{option.total_match}} matches<br>{{option.total_time | formatTime}}
                           <br>
                           <span v-if="option.remark != ''">Remark: {{option.remark}} </span>
-                          <span v-else>Remark: Not applicable </span>
+                          <span v-else>Remark: None </span>
                           <br>
                           <span v-if="option.avg_game_team != ''">Avg games per team: {{option.avg_game_team}} </span>
                           <span v-else>Avg games per team: Not applicable </span>

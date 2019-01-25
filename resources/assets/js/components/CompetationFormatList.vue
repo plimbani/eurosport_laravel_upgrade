@@ -11,7 +11,6 @@
                   <th class="text-center">{{$lang.competation_competation_format}}</th>
                   <th class="text-center">{{$lang.competation_total_matches}}</th>
                   <th class="text-center" width="90px">{{$lang.competation_total_time}}</th>
-                  <th class="text-center">{{$lang.competation_match_schedule}}</th>
                   <th class="text-center" width="79px">{{$lang.competation_manage}}</th>
               </tr>
           </thead>
@@ -20,12 +19,9 @@
               <td class="text-left">{{competation.group_name}} </td>
               <td class="text-left">{{competation.category_age}}</td>
               <td class="text-left">{{competation.template_name}}</td>
-              <td class="text-left">{{competation.disp_format_name}}</td>
+              <td class="text-left">{{competation.disp_format_name}} <a href="#"  @click="viewCompFormat(competation.tournament_template_id,competation.total_time)" class="btn btn-primary btn-sm">View</a></td>
               <td class="text-center">{{competation.total_match}}</td>
               <td>{{competation.total_time | formatTime}}
-              </td>
-              <td class="text-center">
-                  <a href="#"  @click="viewCompFormat(competation.tournament_template_id,competation.total_time)" class="btn btn-primary btn-sm">View</a>
               </td>
               <td class="text-center">
                 <span class="align-middle">
