@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_main_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    android:orientation="vertical">
+
+    <include layout="@layout/toolbar_header" />
+
+
+    <ImageView
+        android:id="@+id/iv_header_logo"
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:layout_marginLeft="@dimen/paddingleft_landing_page"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="@dimen/paddingleft_landing_page"
+        android:layout_marginBottom="5dp"
+        android:adjustViewBounds="true"
+        android:src="@drawable/splash_screen_image" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/paddingleft_landing_page"
+        android:layout_marginRight="@dimen/paddingleft_landing_page"
+        android:layout_weight="1"
+        android:gravity="center|bottom"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/firstname"
+            style="@style/app_edittext"
+            android:layout_width="match_parent"
+            android:background="@drawable/edittext_border"
+            android:hint="@string/firstname"
+            android:imeOptions="actionNext"
+            android:inputType="textCapWords"
+            android:padding="8dp" />
+
+        <EditText
+            android:id="@+id/surname"
+            style="@style/app_edittext"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/edittext_border"
+            android:hint="@string/surname"
+            android:imeOptions="actionNext"
+            android:inputType="textCapWords"
+            android:padding="8dp" />
+
+        <EditText
+            android:id="@+id/register_email_address"
+            style="@style/app_edittext"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/edittext_border"
+            android:hint="@string/email_address"
+            android:imeOptions="actionNext"
+            android:inputType="textEmailAddress"
+            android:padding="8dp" />
+
+        <EditText
+            android:id="@+id/register_password"
+            style="@style/app_edittext"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/edittext_border"
+            android:hint="@string/password"
+            android:imeOptions="actionNext"
+            android:inputType="textPassword"
+            android:padding="8dp" />
+
+        <EditText
+            android:id="@+id/register_confirm_password"
+            style="@style/app_edittext"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/edittext_border"
+            android:hint="@string/confirm_password"
+            android:imeOptions="actionDone"
+            android:inputType="textPassword"
+            android:padding="8dp" />
+
+        <Spinner
+            android:id="@+id/sp_tournament"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/spinner_bg_image_signup"
+            android:drawSelectorOnTop="true"
+            android:prompt="@string/select_tournament" />
+
+        <TextView
+            android:id="@+id/tv_privacy_terms"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
+            android:gravity="center"
+            android:text="@string/terms_of_use"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/register"
+        style="@style/text_black_title"
+        android:layout_marginLeft="@dimen/paddingleft_landing_page"
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="@dimen/paddingleft_landing_page"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/btn_yellow"
+        android:text="@string/create_new_account" />
+
+    <include
+        layout="@layout/layout_footer"
+        android:visibility="gone" />
+</LinearLayout>
+
+
