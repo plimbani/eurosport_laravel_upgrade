@@ -39,6 +39,7 @@
             android:id="@+id/et_email"
             style="@style/app_edittext"
             android:hint="@string/email_address"
+            android:imeOptions="actionNext"
             android:inputType="textEmailAddress" />
 
         <EditText
@@ -46,6 +47,7 @@
             style="@style/app_edittext"
             android:layout_marginTop="10dp"
             android:hint="@string/password"
+            android:imeOptions="actionDone"
             android:inputType="textPassword" />
 
         <CheckBox

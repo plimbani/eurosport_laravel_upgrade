@@ -19,7 +19,7 @@ repositories {
 android {
 
     compileSdkVersion 26
-    buildToolsVersion '28.0.2'
+    buildToolsVersion '28.0.3'
     defaultConfig {
         applicationId "com.aecor.eurosports"
         minSdkVersion 15
@@ -40,12 +40,20 @@ android {
     dexOptions {
         javaMaxHeapSize "4g"
     }
+    flavorDimensions "version"
     productFlavors {
+        esr {
+            dimension "version"
+            applicationIdSuffix ""
+            buildConfigField "boolean", "isEasyMatchManager", "false"
+        }
+        easymatchmanager {
+            dimension "version"
+            applicationIdSuffix ".easymatchmanager"
+            buildConfigField "boolean", "isEasyMatchManager", "true"
+        }
     }
     sourceSets { main { assets.srcDirs = ['src/main/assets', 'src/main/assets/fonts'] } }
-
-
-
 }
 
 

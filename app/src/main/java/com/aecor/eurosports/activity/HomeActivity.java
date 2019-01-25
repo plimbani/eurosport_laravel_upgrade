@@ -110,7 +110,6 @@ public class HomeActivity extends BaseAppCompactActivity {
                     tournamentPosition = position;
                     AppLogger.LogE(TAG, "Tournament Position -> " + tournamentPosition);
                     mPreference.setString(AppConstants.PREF_SESSION_TOURNAMENT_ID, mTournamentList.get(position).getTournament_id());
-                    mPreference.setString(AppConstants.PREF_SESSION_TOURNAMENT_STATUS, mTournamentList.get(position).getStatus());
                     if (!Utility.isNullOrEmpty(mTournamentList.get(position).getName())) {
                         tv_tournamentName.setText(mTournamentList.get(position).getName().replace(" ", "\n"));
                     } else {
@@ -388,20 +387,10 @@ public class HomeActivity extends BaseAppCompactActivity {
     @OnClick(R.id.btn_teams)
     protected void onTeamsClick() {
         selectedTabName = AppConstants.SCREEN_CONSTANT_CLUBS;
-        if (!Utility.isNullOrEmpty(mPreference.getString(AppConstants.PREF_SESSION_TOURNAMENT_STATUS)) &&
-                mPreference.getString(AppConstants.PREF_SESSION_TOURNAMENT_STATUS).equalsIgnoreCase("Preview")) {
-            ViewDialog.showSingleButtonDialog(this, getString(R.string.preview), getString(R.string.preview_message), getString(R.string.button_ok), new ViewDialog.CustomDialogInterface() {
-                @Override
-                public void onPositiveButtonClicked() {
-
-                }
-            });
-        } else {
-            Intent mClubs = new Intent(mContext, ClubsActivity.class);
-            mClubs.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(mClubs);
-            changeBottomTabAccordingToFlag();
-        }
+        Intent mClubs = new Intent(mContext, ClubsActivity.class);
+        mClubs.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(mClubs);
+        changeBottomTabAccordingToFlag();
     }
 
     private List<TournamentModel> moveItemToTop(List<TournamentModel> lists, int positionOfItem) {
@@ -509,20 +498,9 @@ public class HomeActivity extends BaseAppCompactActivity {
 
     @OnClick(R.id.btn_final_placings)
     protected void onFinalPlacingsClicked() {
-        if (!Utility.isNullOrEmpty(mPreference.getString(AppConstants.PREF_SESSION_TOURNAMENT_STATUS)) &&
-                mPreference.getString(AppConstants.PREF_SESSION_TOURNAMENT_STATUS).equalsIgnoreCase("Preview")) {
-            ViewDialog.showSingleButtonDialog(this, getString(R.string.preview), getString(R.string.preview_message), getString(R.string.button_ok), new ViewDialog.CustomDialogInterface() {
-                @Override
-                public void onPositiveButtonClicked() {
-
-                }
-            });
-        } else {
-
-            Intent mAgeCategories = new Intent(mContext, AgeCategoriesActivity.class);
-            mAgeCategories.putExtra(AppConstants.KEY_SCREEN_TITLE, getString(R.string.final_placings_title));
-            startActivity(mAgeCategories);
-        }
+        Intent mAgeCategories = new Intent(mContext, AgeCategoriesActivity.class);
+        mAgeCategories.putExtra(AppConstants.KEY_SCREEN_TITLE, getString(R.string.final_placings_title));
+        startActivity(mAgeCategories);
     }
 
 
