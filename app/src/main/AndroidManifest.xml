@@ -51,6 +51,7 @@
         <activity
             android:name=".activity.FavouritesActivity"
             android:label="@string/title_activity_favourites"
+            android:windowSoftInputMode="adjustPan"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity

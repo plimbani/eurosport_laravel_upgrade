@@ -53,16 +53,6 @@
 
 
             <Spinner
-                android:id="@+id/sp_role"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/spinner_bg_image_gray"
-                android:drawSelectorOnTop="true"
-                android:entries="@array/role_array"
-                android:prompt="@string/role" />
-
-            <Spinner
                 android:id="@+id/profile_language_selection"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -70,15 +60,6 @@
                 android:background="@drawable/spinner_bg_image_gray"
                 android:drawSelectorOnTop="true"
                 android:prompt="@string/select_language" />
-
-            <Spinner
-                android:id="@+id/sp_country"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/spinner_bg_image_gray"
-                android:drawSelectorOnTop="true"
-                android:prompt="@string/select_your_country" />
         </LinearLayout>
 
     </LinearLayout>
