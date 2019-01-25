@@ -31,7 +31,7 @@
                             <tbody>
                                 <tr v-for="pitch in pitches">
                                     <td class="text-left">{{pitch.pitch_number}}</td>
-                                    <td></td>
+                                    <td class="text-left">{{ pitch.venue.name }}</td>
                                     <td class="text-left">{{pitch.size}}</td>
                                     <td class="text-left" style="text-transform: capitalize;">{{pitch.type}}</td>
                                     <td>
