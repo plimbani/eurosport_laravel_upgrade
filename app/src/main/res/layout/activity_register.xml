@@ -36,7 +36,6 @@
             android:layout_width="match_parent"
             android:hint="@string/firstname"
             android:inputType="textCapWords"
-            android:imeOptions="actionNext"
             android:padding="8dp" />
 
         <EditText
@@ -45,8 +44,17 @@
             android:layout_marginTop="8dp"
             android:hint="@string/surname"
             android:inputType="textCapWords"
-            android:imeOptions="actionNext"
             android:padding="8dp" />
+
+        <Spinner
+            android:id="@+id/sp_role"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/spinner_bg_image_signup"
+            android:drawSelectorOnTop="true"
+            android:entries="@array/role_array"
+            android:prompt="@string/role" />
 
         <EditText
             android:id="@+id/register_email_address"
@@ -54,7 +62,6 @@
             android:layout_marginTop="8dp"
             android:hint="@string/email_address"
             android:inputType="textEmailAddress"
-            android:imeOptions="actionNext"
             android:padding="8dp" />
 
         <EditText
@@ -63,7 +70,6 @@
             android:layout_marginTop="8dp"
             android:hint="@string/password"
             android:inputType="textPassword"
-            android:imeOptions="actionNext"
             android:padding="8dp" />
 
         <EditText
@@ -72,7 +78,6 @@
             android:layout_marginTop="8dp"
             android:hint="@string/confirm_password"
             android:inputType="textPassword"
-            android:imeOptions="actionDone"
             android:padding="8dp" />
 
         <Spinner

@@ -1,14 +1,17 @@
 package com.aecor.eurosports.activity;
 
+import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -19,6 +22,7 @@ import android.widget.TextView;
 
 import com.aecor.eurosports.R;
 import com.aecor.eurosports.application.ApplicationClass;
+import com.aecor.eurosports.ui.ViewDialog;
 import com.aecor.eurosports.util.AppConstants;
 import com.aecor.eurosports.util.AppPreference;
 import com.aecor.eurosports.util.ConnectivityChangeReceiver;
@@ -237,21 +241,41 @@ public abstract class BaseAppCompactActivity extends AppCompatActivity implement
                     break;
 
                 case R.id.lv_clubs:
-                    selectedTabName = AppConstants.SCREEN_CONSTANT_CLUBS;
-                    Intent mClubs = new Intent(mContext, ClubsActivity.class);
-                    mClubs.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(mClubs);
-                    changeBottomTabAccordingToFlag();
+
+                    if (!Utility.isNullOrEmpty(mPref.getString(AppConstants.PREF_SESSION_TOURNAMENT_STATUS)) &&
+                            mPref.getString(AppConstants.PREF_SESSION_TOURNAMENT_STATUS).equalsIgnoreCase("Preview")) {
+                        ViewDialog.showSingleButtonDialog((Activity) mContext, getString(R.string.preview), getString(R.string.preview_message), getString(R.string.button_ok), new ViewDialog.CustomDialogInterface() {
+                            @Override
+                            public void onPositiveButtonClicked() {
+
+                            }
+                        });
+                    } else {
+                        selectedTabName = AppConstants.SCREEN_CONSTANT_CLUBS;
+                        Intent mClubs = new Intent(mContext, ClubsActivity.class);
+                        mClubs.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(mClubs);
+                        changeBottomTabAccordingToFlag();
+                    }
                     break;
 
                 case R.id.lv_age_categories:
-                    selectedTabName = AppConstants.SCREEN_CONSTANT_AGE_CATEGORIES;
-                    Intent mAgeCategories = new Intent(mContext, AgeCategoriesActivity.class);
-                    mAgeCategories.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(mAgeCategories);
-                    changeBottomTabAccordingToFlag();
-                    break;
+                    if (!Utility.isNullOrEmpty(mPref.getString(AppConstants.PREF_SESSION_TOURNAMENT_STATUS)) &&
+                            mPref.getString(AppConstants.PREF_SESSION_TOURNAMENT_STATUS).equalsIgnoreCase("Preview")) {
+                        ViewDialog.showSingleButtonDialog((Activity) mContext, getString(R.string.preview), getString(R.string.preview_message), getString(R.string.button_ok), new ViewDialog.CustomDialogInterface() {
+                            @Override
+                            public void onPositiveButtonClicked() {
 
+                            }
+                        });
+                    } else {
+                        selectedTabName = AppConstants.SCREEN_CONSTANT_AGE_CATEGORIES;
+                        Intent mAgeCategories = new Intent(mContext, AgeCategoriesActivity.class);
+                        mAgeCategories.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(mAgeCategories);
+                        changeBottomTabAccordingToFlag();
+                    }
+                    break;
                 case R.id.lv_tournament:
                     selectedTabName = AppConstants.SCREEN_CONSTANT_TOURNAMENT;
                     Intent mTournament = new Intent(mContext, HomeActivity.class);
@@ -281,6 +305,11 @@ public abstract class BaseAppCompactActivity extends AppCompatActivity implement
         }
 
     }
+
+    protected void makeToolBarBackgroundTransparent() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setBackgroundColor(ContextCompat.getColor(mContext, android.R.color.transparent));
+     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
