@@ -93,6 +93,10 @@ $api->version('v1', function ($api) {
 
     $api->post('tournament/updateCompetitionDisplayName', 'Laraspace\Api\Controllers\TournamentController@updateCompetitionDisplayName');
 
+    $api->get('getCountries', 'Laraspace\Api\Controllers\UserController@getAllCountries');
+
+    $api->get('getAllLanguages', 'Laraspace\Api\Controllers\UserController@getAllLanguages');
+
 });
 
 $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
