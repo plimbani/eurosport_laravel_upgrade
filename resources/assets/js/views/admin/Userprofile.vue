@@ -9,32 +9,55 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div class="form-group row">
-                        <label class="col-sm-4 form-control-label">{{$lang.user_management_add_name}}</label>
-                        <div class="col-sm-7">
-                            <input  v-validate="'required|alpha'" v-model="userData.name" :class="{'is-danger': errors.has('name') }" name="name" type="text" class="form-control" placeholder="Your name">
-                            <i v-show="errors.has('name')" class="fa fa-warning"></i>
-                            <span class="help is-danger" v-show="errors.has('name')">{{ errors.first('name') }}</span>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-4 form-control-label">{{$lang.user_desktop_surname}}</label>
-                        <div class="col-sm-7">
-                            <input  v-validate="'required|alpha'" v-model="userData.surname" :class="{'is-danger': errors.has('surname') }" name="surname" type="text" class="form-control" placeholder="Enter second name">
-                            <i v-show="errors.has('surname')" class="fa fa-warning"></i>
-                            <span class="help is-danger" v-show="errors.has('surname')">{{ errors.first('surname') }}</span>
-                        </div>
-                    </div>
-                     <div class="form-group row">
-                        <label class="col-sm-4 form-control-label">{{$lang.user_management_email}}</label>
-                        <div class="col-sm-7">
+                  <div class="form-group row">
+                      <label class="col-sm-4 form-control-label">{{$lang.user_management_add_name}}</label>
+                      <div class="col-sm-7">
+                          <input  v-validate="'required|alpha'" v-model="userData.name" :class="{'is-danger': errors.has('name') }" name="name" type="text" class="form-control" placeholder="Your name">
+                          <i v-show="errors.has('name')" class="fa fa-warning"></i>
+                          <span class="help is-danger" v-show="errors.has('name')">{{ errors.first('name') }}</span>
+                      </div>
+                  </div>
+                  <div class="form-group row">
+                      <label class="col-sm-4 form-control-label">{{$lang.user_desktop_surname}}</label>
+                      <div class="col-sm-7">
+                          <input  v-validate="'required|alpha'" v-model="userData.surname" :class="{'is-danger': errors.has('surname') }" name="surname" type="text" class="form-control" placeholder="Enter second name">
+                          <i v-show="errors.has('surname')" class="fa fa-warning"></i>
+                          <span class="help is-danger" v-show="errors.has('surname')">{{ errors.first('surname') }}</span>
+                      </div>
+                  </div>
+                  <div class="form-group row">
+                      <label class="col-sm-4 form-control-label">{{$lang.user_management_role}}</label>
+                      <div class="col-sm-7">
+                        <select  class="form-control ls-select2" name="role" v-model="userData.role">
+                            <option value="">Select</option>
+                            <option v-for="role in roleOptions" :value="role">
+                              {{ role }}
+                            </option>
+                        </select>
+                      </div>
+                  </div>
+                  <div class="form-group row">
+                      <label class="col-sm-4 form-control-label">{{$lang.user_management_country}}</label>
+                      <div class="col-sm-7">
+                        <select class="form-control ls-select2" name="countrie" v-model="userData.country_id">
+                            <option value="">Select</option>
+                            <option v-for="country in this.allCountries" :value="country.id">
+                              {{ country.name }}
+                            </option>
+                        </select>
+                      </div>
+                  </div>
 
-                            <input v-model="userData.emailAddress" v-validate="'required|email'" :class="{'is-danger': errors.has('email') }" name="email" type="email" class="form-control" placeholder="Enter email address" @change="hideEmailExistMessage()">
-                            <i v-show="errors.has('email')" class="fa fa-warning"></i>
-                            <span class="help is-danger" v-show="errors.has('email')">{{ errors.first('email') }}</span>
-                            <span class="help is-danger" v-if="emailExist == true">Email already exist</span>
-                        </div>
+                  <div class="form-group row">
+                    <label class="col-sm-4 form-control-label">{{$lang.user_management_email}}</label>
+                    <div class="col-sm-7">
+
+                        <input v-model="userData.emailAddress" v-validate="'required|email'" :class="{'is-danger': errors.has('email') }" name="email" type="email" class="form-control" placeholder="Enter email address" @change="hideEmailExistMessage()">
+                        <i v-show="errors.has('email')" class="fa fa-warning"></i>
+                        <span class="help is-danger" v-show="errors.has('email')">{{ errors.first('email') }}</span>
+                        <span class="help is-danger" v-if="emailExist == true">Email already exist</span>
                     </div>
+                  </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" @click="updateUser()">
@@ -52,9 +75,12 @@
         return {
         'userId': 1,
         'name': '',
+        roleOptions: ['Player', 'Coach/Manager/Trainer', 'Other'],
+        allCountries: '',
         }
     },
     mounted(){
+      this.getCountryData();
     },
 
     props: ['userData', 'emailExist'],
@@ -97,6 +123,16 @@
 
         hideEmailExistMessage() {
           this.$emit('hideEmailExists');
+        },
+
+        getCountryData() {
+          User.getAllCountries().then(
+            (response)=> {
+              this.allCountries = response.data.countries;
+            },
+            (error)=> {
+            }
+          )
         },
    }
 }

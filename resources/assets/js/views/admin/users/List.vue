@@ -48,6 +48,9 @@
                                         <th>{{$lang.user_desktop_surname}}</th>
                                         <th>{{$lang.user_desktop_email}}</th>
                                         <th>{{$lang.user_desktop_usertype}}</th>
+                                        <th>{{$lang.use_desktop_role}}</th>
+                                        <th>{{$lang.use_desktop_country}}</th>
+                                        <th>{{$lang.use_desktop_language}}</th>
                                         <th>{{$lang.user_desktop_status}}</th>
                                         <th class="text-center">{{$lang.user_desktop}}</th>
                                         <th class="text-center">{{$lang.user_mobile}}</th>
@@ -60,6 +63,9 @@
                                     <td>{{ user.last_name }}</td>
                                     <td>{{ user.email }}</td>
                                     <td>{{ user.role_name }}</td>
+                                    <td>{{ user.role }}</td>
+                                    <td>{{ user.country }}</td>
+                                    <td>{{ user.locale }}</td>
                                     <td v-if="user.is_verified == 1">Verified</td>
                                     <td v-else>
                                       <a href="#"  @click="resendModalOpen(user.email)"><u>Re-send</u></a>
@@ -205,7 +211,8 @@
                 shown: false,
                 no_of_records: 20,
                 recordCounts: [5,10,20,50,100],
-                currentUserInTournamentPermission: null
+                currentUserInTournamentPermission: null,
+                allLanguages: [],
             }
         },
 
@@ -244,6 +251,7 @@
           },2000 )
           this.getRolesWithData();
           this.getPublishedTournaments();
+          this.getLanguageData();
 
          setTimeout(() => {
             this.shown = true
@@ -395,6 +403,17 @@
             },
             showChangePrivilegeModal() {
               $('#confirm_privilege_modal').modal('show');
+            },
+
+            getLanguageData() {
+              User.getAllLanguages().then(
+                (response)=> {
+                  console.log(response.data);
+                  this.allLanguages = response.data;
+                },
+                (error)=> {
+                }
+              )
             },
         }
     }
