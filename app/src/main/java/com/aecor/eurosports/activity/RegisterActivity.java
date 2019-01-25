@@ -106,6 +106,7 @@ public class RegisterActivity extends BaseAppCompactActivity {
         setListener();
         setRoleAdapter();
         showBackButton("");
+        makeToolBarBackgroundTransparent();
     }
 
     @Override

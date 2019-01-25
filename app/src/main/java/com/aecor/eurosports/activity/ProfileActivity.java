@@ -80,6 +80,7 @@ public class ProfileActivity extends BaseAppCompactActivity {
     private String mSelectedCountryId;
     private List<CountriesModel> mCountryList;
     private String[] roleArray;
+    private String mSelectedRole = "";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -129,7 +130,7 @@ public class ProfileActivity extends BaseAppCompactActivity {
         };
 
         sp_role.setAdapter(spinnerAdapter);
-        sp_role.setSelection(0);
+//        sp_role.setSelection(0);
 
     }
 
@@ -151,14 +152,14 @@ public class ProfileActivity extends BaseAppCompactActivity {
                 mAppPref.setString(AppConstants.PREF_USER_LOCALE, selectedLocale);
                 mAppPref.setString(AppConstants.LANGUAGE_SELECTION, selectedLocale);
                 mAppPref.setString(AppConstants.PREF_COUNTRY_ID, mSelectedCountryId);
-                mAppPref.setString(AppConstants.PREF_ROLE, sp_role.getSelectedItem().toString());
+                mAppPref.setString(AppConstants.PREF_ROLE, mSelectedRole);
 
                 requestJson.put("first_name", input_first_name.getText().toString().trim());
                 requestJson.put("last_name", input_last_name.getText().toString().trim());
                 requestJson.put("locale", selectedLocale);
                 requestJson.put("user_id", user_id);
-                if (!sp_role.getSelectedItem().toString().equalsIgnoreCase(getString(R.string.role))) {
-                    requestJson.put("role", sp_role.getSelectedItem().toString());
+                if (!Utility.isNullOrEmpty(mSelectedRole)) {
+                    requestJson.put("role", mSelectedRole);
                 }
                 if (!Utility.isNullOrEmpty(mSelectedCountryId)) {
                     requestJson.put("country_id", mSelectedCountryId);
@@ -266,6 +267,7 @@ public class ProfileActivity extends BaseAppCompactActivity {
         } else {
             for (int i = 0; i < roleArray.length; i++) {
                 if (roleArray[i].equalsIgnoreCase(mAppPref.getString(AppConstants.PREF_ROLE))) {
+                    mSelectedRole = roleArray[i];
                     sp_role.setSelection(i);
                     break;
                 }
@@ -313,6 +315,9 @@ public class ProfileActivity extends BaseAppCompactActivity {
         sp_role.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position > 0) {
+                    mSelectedRole = sp_role.getSelectedItem().toString();
+                }
                 checkValidation();
             }
 
@@ -391,6 +396,7 @@ public class ProfileActivity extends BaseAppCompactActivity {
         } else {
             for (int i = 1; i < mCountryList.size(); i++) {
                 if (mCountryList.get(i).getId().equalsIgnoreCase(mAppPref.getString(AppConstants.PREF_COUNTRY_ID))) {
+                    mSelectedCountryId = mCountryList.get(i).getId();
                     sp_country.setSelection(i);
                     break;
                 }
@@ -408,8 +414,13 @@ public class ProfileActivity extends BaseAppCompactActivity {
         if (Utility.isNullOrEmpty(mSelectedCountryId)) {
             return false;
         }
+        if (Utility.isNullOrEmpty(mSelectedRole)) {
+            return false;
+        }
+
+        AppLogger.LogE(TAG, "" + sp_role.getSelectedItem().toString());
         if (Utility.isNullOrEmpty(sp_role.getSelectedItem().toString())
-                && !sp_role.getSelectedItem().toString().equalsIgnoreCase(getString(R.string.role))) {
+                || sp_role.getSelectedItem().toString().equalsIgnoreCase(getString(R.string.role))) {
             return false;
         }
 
