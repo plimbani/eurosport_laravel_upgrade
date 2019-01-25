@@ -3,9 +3,7 @@ package com.aecor.eurosports.activity;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.Button;
@@ -112,6 +110,7 @@ public class SignInActivity extends BaseActivity {
     }
 
     public boolean validate() {
+
         String emailOrPhone = email_address.getText().toString();
         String password = sign_in_password.getText().toString();
 
@@ -120,6 +119,7 @@ public class SignInActivity extends BaseActivity {
         }
 
         return !(password.isEmpty() || password.length() < 5);
+
     }
 
     @SuppressLint("NewApi")
@@ -127,12 +127,9 @@ public class SignInActivity extends BaseActivity {
         if (isEnable) {
             log_in.setEnabled(true);
             log_in.setBackground(getResources().getDrawable(R.drawable.btn_yellow));
-            log_in.setTextColor(ContextCompat.getColor(mContext, R.color.btn_active_text_color));
         } else {
             log_in.setEnabled(false);
             log_in.setBackground(getResources().getDrawable(R.drawable.btn_disable));
-            log_in.setTextColor(Color.BLACK);
-
         }
     }
 
@@ -142,13 +139,15 @@ public class SignInActivity extends BaseActivity {
     }
 
     private void validate_user() {
+
+
         if (Utility.isInternetAvailable(mContext)) {
             Utility.startProgress(mContext);
             String url = ApiConstants.CHECK_USER;
             final JSONObject requestJson1 = new JSONObject();
             final RequestQueue mQueue = VolleySingeltone.getInstance(mContext).getRequestQueue();
-            final VolleyJsonObjectRequest jsonRequest1 = new VolleyJsonObjectRequest(mContext, Request.Method.POST,
-                    url,
+            final VolleyJsonObjectRequest jsonRequest1 = new VolleyJsonObjectRequest(mContext, Request.Method
+                    .POST, url,
                     requestJson1, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
@@ -166,6 +165,15 @@ public class SignInActivity extends BaseActivity {
                             mAppSharedPref.setString(AppConstants.PREF_USER_ID, jsonObject.getString("user_id"));
                             mAppSharedPref.setString(AppConstants.PREF_TOURNAMENT_ID, jsonObject.getString("tournament_id"));
                             mAppSharedPref.setString(AppConstants.PREF_IMAGE_URL, jsonObject.getString("profile_image_url"));
+
+                            if (jsonObject.has("role")) {
+                                mAppSharedPref.setString(AppConstants.PREF_ROLE, jsonObject.getString("role"));
+                            }
+                            if (jsonObject.has("country_id")) {
+                                mAppSharedPref.setString(AppConstants.PREF_COUNTRY_ID, jsonObject.getString("country_id"));
+                            }
+
+
                             if (jsonObject.has("locale") && !Utility.isNullOrEmpty(jsonObject.getString("locale"))) {
                                 mAppSharedPref.setString(AppConstants.PREF_USER_LOCALE, jsonObject.getString("locale"));
                                 mAppSharedPref.setString(AppConstants.LANGUAGE_SELECTION, jsonObject.getString("locale"));
@@ -213,6 +221,7 @@ public class SignInActivity extends BaseActivity {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
+
                 }
             });
             mQueue.add(jsonRequest1);
@@ -230,17 +239,25 @@ public class SignInActivity extends BaseActivity {
             } else {
                 launchHome();
             }
+
         }
     }
 
     private void launchHome() {
-        startActivity(new Intent(mContext, HomeActivity.class));
+        if (Utility.isNullOrEmpty(mAppSharedPref.getString(AppConstants.PREF_COUNTRY_ID))) {
+            startActivity(new Intent(mContext, ProfileActivity.class));
+        }else{
+            startActivity(new Intent(mContext, HomeActivity.class));
+
+        }
         finish();
     }
 
     private void postTokenOnServer(String mFcmToken) {
         String email = mAppSharedPref.getString(AppConstants.PREF_EMAIL);
         if (!Utility.isNullOrEmpty(email)) {
+
+
             if (Utility.isInternetAvailable(mContext)) {
                 String url = ApiConstants.POST_FCM_TOKEN;
                 final JSONObject requestJson = new JSONObject();
@@ -252,9 +269,8 @@ public class SignInActivity extends BaseActivity {
                 }
                 AppLogger.LogE(TAG, "***** Post FCM Token request *****" + requestJson.toString());
                 final RequestQueue mQueue = VolleySingeltone.getInstance(mContext).getRequestQueue();
-                final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(mContext,
-                        Request.Method.POST,
-                        url,
+                final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(mContext, Request.Method
+                        .POST, url,
                         requestJson, new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -306,8 +322,8 @@ public class SignInActivity extends BaseActivity {
             }
             AppLogger.LogE(TAG, "***** Sign in request *****" + requestJson.toString());
             final RequestQueue mQueue = VolleySingeltone.getInstance(mContext).getRequestQueue();
-            final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(mContext, Request.Method.POST,
-                    url,
+            final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(mContext, Request.Method
+                    .POST, url,
                     requestJson, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
