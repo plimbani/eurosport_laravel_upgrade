@@ -138,6 +138,10 @@ class ApiManager {
         getRequest(API_ENDPOINT.TOURNAMENTS, success: success, failure: failure)
     }
     
+    func getCountriesList(success: @escaping (_ result: NSDictionary) -> (), failure: @escaping (_ result: NSDictionary) -> ()) {
+        getRequest(API_ENDPOINT.COUNTRIES_LIST, success: success, failure: failure)
+    }
+    
     func getFavTournaments(_ parameters: [String: Any]?, success: @escaping (_ result: NSDictionary) -> (), failure: @escaping (_ result: NSDictionary) -> ()) {
         postRequest(API_ENDPOINT.GET_FAVOURITE, parameters, success: success, failure: failure, true)
     }

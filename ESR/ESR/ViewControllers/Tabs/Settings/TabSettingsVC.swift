@@ -31,8 +31,15 @@ class TabSettingsVC: SuperViewController {
         table.separatorColor = .black
         table.tableFooterView = UIView()
         
+        // Register to receive notification
+        NotificationCenter.default.addObserver(self, selector: #selector(goToSelectCountry), name: .selectCountry, object: nil)
+        
         // Alertview
         initInfoAlertViewTwoButton(self.view, self)
+    }
+    
+    @objc func goToSelectCountry() {
+        self.navigationController?.pushViewController(Storyboards.Settings.instantiateProfileVC(), animated: true)
     }
 }
 
@@ -45,6 +52,8 @@ extension TabSettingsVC: CustomAlertViewTwoButtonDelegate {
             USERDEFAULTS.set(nil, forKey: kUserDefaults.token)
             USERDEFAULTS.set(nil, forKey: kUserDefaults.selectedTournament)
             USERDEFAULTS.set(nil, forKey: kUserDefaults.userData)
+            USERDEFAULTS.set(nil, forKey: kUserDefaults.email)
+            USERDEFAULTS.set(nil, forKey: kUserDefaults.password)
             UIApplication.shared.keyWindow?.rootViewController = UINavigationController(rootViewController: Storyboards.Main.instantiateLandingVC())
         }
     }

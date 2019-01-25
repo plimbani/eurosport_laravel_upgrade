@@ -379,6 +379,12 @@ class ParseManager {
             if let tournamentId = userDataDic.value(forKey: "tournament_id") as? Int {
                 userData.tournamentId = tournamentId
             }
+            if let countryId = userDataDic.value(forKey: "country_id") as? Int {
+                userData.countryId = countryId
+            }
+            if let role = userDataDic.value(forKey: "role") as? String {
+                userData.role = role
+            }
             if let id = userDataDic.value(forKey: "user_id") {
                 if id is Int {
                     userData.id = id as! Int

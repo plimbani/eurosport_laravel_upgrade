@@ -26,6 +26,7 @@ let APPSTORE_APP_URL = "itms-apps://itunes.apple.com/app/id1437488944"
 
 struct API_ENDPOINT {
     
+    static let COUNTRIES_LIST = API_URL.BASE_URL + "getCountries"
     static let TOURNAMENTS = API_URL.BASE_URL + "tournaments"
     static let APP_VERSION = API_URL.BASE_URL + "appversion"
     static let LOGIN = API_URL.BASE_URL + "auth/login"
@@ -135,6 +136,7 @@ enum ResponseCode: Int {
 
 extension Notification.Name {
     static let internetConnectivity = Notification.Name("internetConnectivity")
+    static let selectCountry = Notification.Name("selectCountry")
 }
 
 struct kNotification {

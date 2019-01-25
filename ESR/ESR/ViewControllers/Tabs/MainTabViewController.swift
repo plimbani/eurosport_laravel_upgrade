@@ -57,6 +57,17 @@ class MainTabViewController: SuperViewController {
             // Checks if new app version is available or not
             sendAppversionRequest()
         }
+        
+        if let userDetails = ApplicationData.sharedInstance().getUserData() {
+            if userDetails.countryId == NULL_ID {
+                
+                onTabSelected(btn: tabButtonList[TabIndex.tabsettings.rawValue])
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    NotificationCenter.default.post(name: .selectCountry, object: nil)
+                }
+            }
+        }
     }
     
     func refeshTabTitle() {

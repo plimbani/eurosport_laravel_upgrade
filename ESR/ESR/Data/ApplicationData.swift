@@ -17,11 +17,12 @@ class ApplicationData: NSObject {
     static let languageList: [String] = ["English", "French", "Italian", "German", "Dutch", "Czech", "Danish", "Polish"]
     static let localeKeyList: [String] = ["en", "fr", "it", "de", "nl", "cs", "da", "pl"]
     
+    static let rolesList = ["Player", "Coach/Manager/Trainer", "Other"]
+    
     static var groupsList = NSArray()
+    static var countriesList = NSArray()
     
     static var isAppUpdateDispalyed = false
-    
-    // static var selectedTournament: Tournament?
     
     static func sharedInstance() -> ApplicationData {
         if (applicationData == nil) {

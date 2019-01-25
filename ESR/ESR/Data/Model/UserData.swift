@@ -17,12 +17,15 @@ class UserData: NSObject, NSCoding {
     var tournamentId:Int = NULL_ID
     var locale:String = NULL_STRING
     var imageURL:String = NULL_STRING
+    var role:String = NULL_STRING
+    var countryId:Int = NULL_ID
     
     override init() {}
     
     required init(coder aDecoder: NSCoder) {
         self.id = aDecoder.decodeInteger(forKey: "id")
         self.tournamentId = aDecoder.decodeInteger(forKey: "tournamentId")
+        self.countryId = aDecoder.decodeInteger(forKey: "countryId")
         
         if let firstName = aDecoder.decodeObject(forKey: "firstName") as? String {
             self.firstName = firstName
@@ -43,15 +46,21 @@ class UserData: NSObject, NSCoding {
         if let imageURL = aDecoder.decodeObject(forKey: "imageURL") as? String {
             self.imageURL = imageURL
         }
+        
+        if let role = aDecoder.decodeObject(forKey: "role") as? String {
+            self.role = role
+        }
     }
     
     func encode(with aCoder: NSCoder) {
         aCoder.encode(id, forKey: "id")
         aCoder.encode(tournamentId, forKey: "tournamentId")
+        aCoder.encode(countryId, forKey: "countryId")
         aCoder.encode(firstName, forKey: "firstName")
         aCoder.encode(surName, forKey: "surName")
         aCoder.encode(email, forKey: "email")
         aCoder.encode(locale, forKey: "locale")
         aCoder.encode(imageURL, forKey: "imageURL")
+        aCoder.encode(role, forKey: "role")
     }
 }

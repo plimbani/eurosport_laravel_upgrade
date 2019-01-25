@@ -34,6 +34,14 @@
         </dict>
         <dict>
             <key>cellType</key>
+            <integer>2</integer>
+            <key>title</key>
+            <string>Select role</string>
+            <key>identifier</key>
+            <string>role</string>
+        </dict>
+        <dict>
+            <key>cellType</key>
             <integer>1</integer>
             <key>placeholder</key>
             <string>Email address</string>

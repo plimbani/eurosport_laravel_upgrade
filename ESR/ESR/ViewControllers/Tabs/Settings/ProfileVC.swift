@@ -17,6 +17,8 @@ class ProfileVC: SuperViewController {
     var txtSurname: UITextField!
     var lblTournament: UILabel!
     var lblLanguage: UILabel!
+    var lblRole: UILabel!
+    var lblCountry: UILabel!
     
     var fieldList = NSArray()
     var cellList = NSMutableArray()
@@ -28,13 +30,25 @@ class ProfileVC: SuperViewController {
     var pickerHandlerView: PickerHandlerView!
     var tournamentTitleList = [String]()
     
+    var countryTitleList = [String]()
+    
     var tournamentList = [NSDictionary]()
     var selectedTournamentId = NULL_ID
+    var selectedCountryId = NULL_ID
     var selectedLocale = NULL_STRING
+    var selectedRole = NULL_STRING
     
+    var isRole = false
+    var isCountry = false
     
-    
-    // var isTournament = false
+    enum SettingsList: Int {
+        case email = 0
+        case firstname = 1
+        case surname = 2
+        case role = 3
+        case language = 4
+        case country = 5
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -66,8 +80,13 @@ class ProfileVC: SuperViewController {
         
         initInfoAlertView(self.view, self)
         
+        btnUpdate.isEnabled = false
+        btnUpdate.backgroundColor = UIColor.btnDisable
+        
         if let userData = ApplicationData.sharedInstance().getUserData() {
             selectedTournamentId = userData.tournamentId
+            selectedRole = userData.role
+            selectedCountryId = userData.countryId
         }
     }
     
@@ -84,7 +103,6 @@ class ProfileVC: SuperViewController {
         self.view.showProgressHUD()
         ApiManager().getTournaments(success: { result in
             DispatchQueue.main.async {
-                self.view.hideProgressHUD()
                 
                 if let tournamentList = result.value(forKey: "data") as? NSArray {
                     for tournament in tournamentList {
@@ -107,6 +125,16 @@ class ProfileVC: SuperViewController {
                         self.lblTournament.text = self.tournamentTitleList[0]
                     }
                 }
+                
+                // Sets user role
+                if let userDetails = ApplicationData.sharedInstance().getUserData() {
+                    if userDetails.role != NULL_STRING {
+                        self.lblRole.text = userDetails.role
+                    }
+                }
+                
+                // Gets countries list
+                self.sendRequestForGetCountries()
             }
             
         }, failure: { result in
@@ -114,6 +142,55 @@ class ProfileVC: SuperViewController {
                 self.view.hideProgressHUD()
             }
         })
+    }
+    
+    func sendRequestForGetCountries() {
+        if APPDELEGATE.reachability.connection == .none {
+            self.view.hideProgressHUD()
+            return
+        }
+        
+        if ApplicationData.countriesList.count > 0 {
+            self.view.hideProgressHUD()
+            self.fillCountriesName()
+            return
+        }
+        
+        ApiManager().getCountriesList(success: { result in
+            DispatchQueue.main.async {
+                self.view.hideProgressHUD()
+                
+                if let countriesList = result.value(forKey: "countries") as? NSArray {
+                    ApplicationData.countriesList = countriesList
+                    self.fillCountriesName()
+                }
+            }
+        }, failure: { result in
+            DispatchQueue.main.async {
+                self.view.hideProgressHUD()
+            }
+        })
+    }
+    
+    func fillCountriesName() {
+        countryTitleList.removeAll()
+        for country in ApplicationData.countriesList {
+            let dic = country as! NSDictionary
+            
+            var countryName = NULL_STRING
+            
+            if let name = dic.value(forKey: "name") as? String {
+                countryName = name
+                countryTitleList.append(name)
+            }
+            
+            if let userDetails = ApplicationData.sharedInstance().getUserData() {
+                if userDetails.countryId != NULL_ID && userDetails.countryId == dic.value(forKey: "id") as! Int {
+                    selectedCountryId = userDetails.countryId
+                    lblCountry.text = countryName
+                }
+            }
+        }
     }
     
     func sendUpdateProfileRequest() {
@@ -127,6 +204,8 @@ class ProfileVC: SuperViewController {
         parameters["first_name"] = txtFirstName.text!
         parameters["last_name"] = txtSurname.text!
         parameters["tournament_id"] = selectedTournamentId
+        parameters["country_id"] = selectedCountryId
+        parameters["role"] = selectedRole
         parameters["locale"] = selectedLocale
         
         if let userData = ApplicationData.sharedInstance().getUserData() {
@@ -144,6 +223,8 @@ class ProfileVC: SuperViewController {
                             userData.locale = self.selectedLocale
                             userData.firstName = self.txtFirstName.text!
                             userData.surName = self.txtSurname.text!
+                            userData.role = self.selectedRole
+                            userData.countryId = self.selectedCountryId
                             ApplicationData.sharedInstance().saveUserData(userData)
                             
                             // Notifies app to change language
@@ -187,6 +268,14 @@ class ProfileVC: SuperViewController {
             }
         }
         
+        if selectedRole == NULL_STRING {
+            return
+        }
+        
+        if selectedCountryId == NULL_ID {
+            return
+        }
+        
         btnUpdate.isEnabled = true
         btnUpdate.backgroundColor = UIColor.btnYellow
     }
@@ -218,18 +307,40 @@ extension ProfileVC: PickerHandlerViewDelegate {
     
     func pickerDoneBtnPressed(_ title: String) {
 
+        if isRole {
+            isRole = false
+            
+            lblRole.text = title
+            selectedRole = title
+            lblRole.textColor = .black
+        } else if isCountry {
+            isCountry = false
+            
+            lblCountry.text = title
+            lblCountry.textColor = .black
+            
+            if countryTitleList.count > 0 {
+                let dic =  ApplicationData.countriesList[pickerHandlerView.selectedPickerPosition] as! NSDictionary
+                
+                if let countryId = dic.value(forKey: "id") as? Int {
+                    selectedCountryId = countryId
+                }
+            }
+        } else {
             lblLanguage.text = title
             lblLanguage.textColor = .black
-        
+            
             let array = getRefreshedLanguageList()
             
-            for i in 0..<array.count{
+            for i in 0..<array.count {
                 if title == array[i] {
                     selectedLocale = ApplicationData.localeKeyList[i]
                     break
                 }
             }
-       // }
+        }
+        
+        updateUpdateBtn()
     }
 }
 
@@ -288,13 +399,13 @@ extension ProfileVC : UITableViewDataSource, UITableViewDelegate {
                             cellList.add(cell)
                             textFieldCell.txtField.addTarget(self, action: #selector(textFieldDidChange(textField:)), for: .editingChanged)
                             //textFieldCell.txtField.delegate = self
-                            if indexPath.row == 0 {
+                            if indexPath.row == SettingsList.email.rawValue {
                                 textFieldCell.txtField.isEnabled = false
                                 txtEmail = textFieldCell.txtField
                                 txtEmail.textColor = UIColor.txtPlaceholderTxt
-                            } else if indexPath.row == 1 {
+                            } else if indexPath.row == SettingsList.firstname.rawValue {
                                 txtFirstName = textFieldCell.txtField
-                            } else if indexPath.row == 2 {
+                            } else if indexPath.row == SettingsList.surname.rawValue {
                                 txtSurname = textFieldCell.txtField
                             }
                             
@@ -320,18 +431,28 @@ extension ProfileVC : UITableViewDataSource, UITableViewDelegate {
                             cell = labelSelectionCell
                             cellList.add(cell)
                             
-                            lblLanguage = labelSelectionCell.lblTitle
-                        lblLanguage.textColor = .black
-                            
-                            let localeValues = ApplicationData.sharedInstance().getSelectedLocale()
-                            
-                            if !localeValues.0.isEmpty {
-                                lblLanguage.text = localeValues.1
-                                selectedLocale = localeValues.1
-                            } else {
-                                lblLanguage.text = getRefreshedLanguageList()[0]
-                                selectedLocale = getRefreshedLanguageList()[0]
+                            if indexPath.row == SettingsList.role.rawValue {
+                                lblRole = labelSelectionCell.lblTitle
+                                lblRole.textColor = .black
+                            } else if indexPath.row == SettingsList.country.rawValue {
+                                lblCountry = labelSelectionCell.lblTitle
+                                lblCountry.textColor = .black
+                            } else if indexPath.row == SettingsList.language.rawValue {
+                                lblLanguage = labelSelectionCell.lblTitle
+                                
+                                let localeValues = ApplicationData.sharedInstance().getSelectedLocale()
+                                
+                                if !localeValues.0.isEmpty {
+                                    lblLanguage.text = localeValues.1
+                                    selectedLocale = localeValues.1
+                                } else {
+                                    lblLanguage.text = getRefreshedLanguageList()[0]
+                                    selectedLocale = getRefreshedLanguageList()[0]
+                                }
+                                
+                                lblLanguage.textColor = .black
                             }
+                            
                         
                         default:
                             print("default")
@@ -345,18 +466,20 @@ extension ProfileVC : UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let field = fieldList[indexPath.row] as! NSDictionary
-        if let rawValue = field.value(forKey: "cellType") as? Int {
-            if let cellType = CellType(rawValue: rawValue) {
-                if cellType == .LabelSelectionCell {
-                    self.view.endEditing(true)
-                    
-                    pickerHandlerView.titleList = getRefreshedLanguageList()
-                    pickerHandlerView.reloadPickerView()
-                    pickerHandlerView.show()
-                }
-            }
+         self.view.endEditing(true)
+        
+         if indexPath.row == SettingsList.role.rawValue {
+            isRole = true
+            pickerHandlerView.titleList = ApplicationData.rolesList
+         } else if indexPath.row == SettingsList.country.rawValue {
+            isCountry = true
+            pickerHandlerView.titleList = countryTitleList
+         } else if indexPath.row == SettingsList.language.rawValue {
+            pickerHandlerView.titleList = getRefreshedLanguageList()
         }
+        
+         pickerHandlerView.reloadPickerView()
+         pickerHandlerView.show()
     }
 }
 

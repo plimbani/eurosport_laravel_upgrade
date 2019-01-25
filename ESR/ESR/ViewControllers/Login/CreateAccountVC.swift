@@ -19,6 +19,7 @@ class CreateAccountVC: SuperViewController {
     var txtConfirmPassword: UITextField!
     
     var lblTournament: UILabel!
+    var lblRole: UILabel!
     var btnCreateNewAccount: UIButton!
     
     var fieldList = NSArray()
@@ -32,10 +33,24 @@ class CreateAccountVC: SuperViewController {
     
     // PickerHandlerView
     var pickerHandlerView: PickerHandlerView!
-    var titleList = [String]()
+    var tournamentTitleList = [String]()
     var tournamentList = NSArray()
     
     var paramTournamentId = -1
+    
+    var isRole = false
+    var selectedRole = NULL_STRING
+    
+    enum CreateAccountList: Int {
+        case firstname = 0
+        case surname = 1
+        case role = 2
+        case email = 3
+        case pass = 4
+        case confirmPass = 5
+        case selectTournament = 6
+        case createAccount = 8
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -104,6 +119,7 @@ class CreateAccountVC: SuperViewController {
         parameters["password"] = txtPassword.text!
         parameters["first_name"] = txtFirstName.text!
         parameters["sur_name"] = txtLastName.text!
+        parameters["role"] = selectedRole
         
         if self.tournamentList.count > 0 {
             parameters["tournament_id"] = (self.tournamentList[pickerHandlerView.selectedPickerPosition] as! NSDictionary).value(forKey: "id")
@@ -142,13 +158,13 @@ class CreateAccountVC: SuperViewController {
                 
                 if let tournamentList = result.value(forKey: "data") as? NSArray {
                     for tournament in tournamentList {
-                        self.titleList.append((tournament as! NSDictionary).value(forKey: "name") as! String)
+                        self.tournamentTitleList.append((tournament as! NSDictionary).value(forKey: "name") as! String)
                     }
                     
                     self.tournamentList = tournamentList
                 }
                 
-                self.pickerHandlerView.titleList = self.titleList
+                self.pickerHandlerView.titleList = self.tournamentTitleList
                 self.pickerHandlerView.reloadPickerView()
             }
             
@@ -270,9 +286,15 @@ extension CreateAccountVC: PickerHandlerViewDelegate {
     func pickerCancelBtnPressed() {}
     
     func pickerDoneBtnPressed(_ title: String) {
-        lblTournament.text = title
-        lblTournament.textColor = .black
-        paramTournamentId = (self.tournamentList[pickerHandlerView.selectedPickerPosition] as! NSDictionary).value(forKey: "id") as! Int
+        
+        if isRole {
+            isRole = false
+            lblRole.text = title
+        } else {
+            lblTournament.text = title
+            paramTournamentId = (self.tournamentList[pickerHandlerView.selectedPickerPosition] as! NSDictionary).value(forKey: "id") as! Int
+        }
+        
         updateCreateAccountBtn()
     }
 }
@@ -361,19 +383,19 @@ extension CreateAccountVC : UITableViewDataSource, UITableViewDelegate {
                             cellList.add(cell)
                             textFieldCell.txtField.addTarget(self, action: #selector(textFieldDidChange(textField:)), for: .editingChanged)
                             textFieldCell.txtField.delegate = self
-                            if indexPath.row == 0 {
+                            if indexPath.row == CreateAccountList.firstname.rawValue {
                                 txtFirstName = textFieldCell.txtField
                                 txtFirstName.placeholder = String.localize(key: "First name")
-                            } else if indexPath.row == 1 {
+                            } else if indexPath.row == CreateAccountList.surname.rawValue {
                                 txtLastName = textFieldCell.txtField
                                 txtLastName.placeholder = String.localize(key: "Surname")
-                            } else if indexPath.row == 2 {
+                            } else if indexPath.row == CreateAccountList.email.rawValue {
                                 txtEmail = textFieldCell.txtField
                                 txtEmail.placeholder = String.localize(key: "Email address")
-                            } else if indexPath.row == 3 {
+                            } else if indexPath.row == CreateAccountList.pass.rawValue {
                                 txtPassword = textFieldCell.txtField
                                 txtPassword.placeholder = String.localize(key: "Password")
-                            } else if indexPath.row == 4 {
+                            } else if indexPath.row == CreateAccountList.confirmPass.rawValue {
                                 txtConfirmPassword = textFieldCell.txtField
                                 txtConfirmPassword.placeholder = String.localize(key: "Confirm password")
                             }
@@ -382,7 +404,14 @@ extension CreateAccountVC : UITableViewDataSource, UITableViewDelegate {
                             let labelSelectionCell = cellOwner.cell as! LabelSelectionCell
                             labelSelectionCell.record = field
                             labelSelectionCell.reloadCell()
-                            lblTournament = labelSelectionCell.lblTitle
+                            labelSelectionCell.lblTitle.textColor = .black
+                            
+                            if indexPath.row == CreateAccountList.selectTournament.rawValue {
+                                lblTournament = labelSelectionCell.lblTitle
+                            } else if indexPath.row == CreateAccountList.role.rawValue {
+                                lblRole = labelSelectionCell.lblTitle
+                            }
+                            
                             cell = labelSelectionCell
                             cellList.add(cell)
                         case .ButtonCell:
@@ -430,14 +459,16 @@ extension CreateAccountVC : UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let field = fieldList[indexPath.row] as! NSDictionary
-        if let rawValue = field.value(forKey: "cellType") as? Int {
-            if let cellType = CellType(rawValue: rawValue) {
-                if cellType == .LabelSelectionCell {
-                    self.view.endEditing(true)
-                    pickerHandlerView.show()
-                }
-            }
+        self.view.endEditing(true)
+                   
+        if indexPath.row == CreateAccountList.selectTournament.rawValue {
+            pickerHandlerView.titleList = tournamentTitleList
+        } else if indexPath.row == CreateAccountList.role.rawValue {
+            pickerHandlerView.titleList = ApplicationData.rolesList
+            isRole = true
         }
+        
+        pickerHandlerView.reloadPickerView()
+        pickerHandlerView.show()
     }
 }
