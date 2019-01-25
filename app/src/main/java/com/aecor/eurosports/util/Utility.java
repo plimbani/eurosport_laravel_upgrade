@@ -12,6 +12,7 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Rect;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
@@ -60,6 +61,25 @@ public class Utility {
         Toast.makeText(mContext, message, Toast.LENGTH_LONG).show();
     }
 
+    public static boolean isSoftKeyBoardOpen(View mParentLayout) {
+        Rect r = new Rect();
+        mParentLayout.getWindowVisibleDisplayFrame(r);
+        int screenHeight = mParentLayout.getRootView().getHeight();
+
+        // r.bottom is the position above soft keypad or device button.
+        // if keypad is shown, the r.bottom is smaller than that before.
+        int keypadHeight = screenHeight - r.bottom;
+
+
+        if (keypadHeight > screenHeight * 0.15) { // 0.15 ratio is perhaps enough to determine keypad height.
+            // keyboard is opened
+            return true;
+        } else {
+            // keyboard is closed
+            return false;
+        }
+
+    }
     public static void startProgress(@NonNull Context context) {
         try {
             mProgressHUD = ProgressHUD.show(context, "Loading", new DialogInterface.OnCancelListener() {
