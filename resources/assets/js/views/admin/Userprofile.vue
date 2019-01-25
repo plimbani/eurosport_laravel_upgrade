@@ -28,23 +28,27 @@
                   <div class="form-group row">
                       <label class="col-sm-4 form-control-label">{{$lang.user_management_role}}</label>
                       <div class="col-sm-7">
-                        <select  class="form-control ls-select2" name="role" v-model="userData.role">
+                        <select v-validate="'required'":class="{'is-danger': errors.has('role') }" class="form-control ls-select2" name="role" v-model="userData.role">
                             <option value="">Select</option>
                             <option v-for="role in roleOptions" :value="role">
                               {{ role }}
                             </option>
                         </select>
+                        <i v-show="errors.has('role')" class="fa fa-warning"></i>
+                          <span class="help is-danger" v-show="errors.has('role')">{{ errors.first('role') }}</span>
                       </div>
                   </div>
                   <div class="form-group row">
                       <label class="col-sm-4 form-control-label">{{$lang.user_management_country}}</label>
                       <div class="col-sm-7">
-                        <select class="form-control ls-select2" name="countrie" v-model="userData.country_id">
+                        <select v-validate="'required'":class="{'is-danger': errors.has('country') }" class="form-control ls-select2" name="country" v-model="userData.country_id">
                             <option value="">Select</option>
                             <option v-for="country in this.allCountries" :value="country.id">
                               {{ country.name }}
                             </option>
                         </select>
+                        <i v-show="errors.has('country')" class="fa fa-warning"></i>
+                          <span class="help is-danger" v-show="errors.has('country')">{{ errors.first('country') }}</span>
                       </div>
                   </div>
 
@@ -86,27 +90,33 @@
     props: ['userData', 'emailExist'],
     methods : {
         updateUser(){
-        this.userId = this.userData.id
-        let that = this;
+        this.$validator.validateAll().then((response) => {
+          if(response) {
+              this.userId = this.userData.id
+              let that = this;
 
-        User.updateUser(this.userId,this.userData).then(
-          (response)=> {
-            if(response.data.status_code == 500) {
-              this.$emit('showEmailExists');
-              return;
-            }
-            toastr.success('User has been updated successfully.', 'Update User', {timeOut: 5000});
-                $("#user_profile").modal("hide");
-                // setTimeout(Plugin.reloadPage, 2000);
-          },
-          (error)=> {
-          }
-        )
-           /*  axios.post("/api/user/update/"+this.userId,this.userData).then((response) => {
-                toastr.success('User has been updated successfully.', 'Update User', {timeOut: 5000});
-                $("#user_profile").modal("hide");
-                 setTimeout(Plugin.reloadPage, 2000);
-            }); */
+              User.updateUser(this.userId,this.userData).then(
+                (response)=> {
+                  if(response.data.status_code == 500) {
+                    this.$emit('showEmailExists');
+                    return;
+                  }
+                  toastr.success('User has been updated successfully.', 'Update User', {timeOut: 5000});
+                      $("#user_profile").modal("hide");
+                      // setTimeout(Plugin.reloadPage, 2000);
+                },
+                (error)=> {
+                }
+              )
+                 /*  axios.post("/api/user/update/"+this.userId,this.userData).then((response) => {
+                      toastr.success('User has been updated successfully.', 'Update User', {timeOut: 5000});
+                      $("#user_profile").modal("hide");
+                       setTimeout(Plugin.reloadPage, 2000);
+                  }); */
+              }
+            }).catch((errors) => {
+                  // toastr['error']('Please fill all required fields ', 'Error')
+            });
         },
 
         createImage(file) {

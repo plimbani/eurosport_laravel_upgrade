@@ -169,8 +169,6 @@ import { ErrorBag } from 'vee-validate';
             }
             this.userRolesOptions =  this.userRoles
             this.$validator.updateDictionary(this.errorMessages);
-            // this.getCountryData();
-            // this.getLanguageData();
         },
         props:['userId','userRoles','userEmailData','publishedTournaments','isMasterAdmin'],
         methods: {

@@ -1087,8 +1087,12 @@ a.aecor-anchor {
 .fc-view.fc-agendaDay-view.fc-agenda-view table{
    width:100% !important;
 }
-.add-category-table tr td:nth-child(3), table.table.add-category-table tr th:nth-child(3)
-.add-category-table tr td:nth-child(4), table.table.add-category-table tr th:nth-child(4) {
+.add-category-table tr td:nth-child(3), .add-category-table tr th:nth-child(3),
+.add-category-table tr td:nth-child(4), .add-category-table tr th:nth-child(4) {
     width: 10%;
+}
 
+.add-category-table tr td,
+.add-category-table tr th{
+    padding: 0.5rem;
 }

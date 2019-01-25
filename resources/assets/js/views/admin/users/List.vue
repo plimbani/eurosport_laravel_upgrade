@@ -65,7 +65,7 @@
                                     <td>{{ user.role_name }}</td>
                                     <td>{{ user.role }}</td>
                                     <td>{{ user.country }}</td>
-                                    <td>{{ user.locale }}</td>
+                                    <td>{{ allLanguages[user.locale] }}</td>
                                     <td v-if="user.is_verified == 1">Verified</td>
                                     <td v-else>
                                       <a href="#"  @click="resendModalOpen(user.email)"><u>Re-send</u></a>
