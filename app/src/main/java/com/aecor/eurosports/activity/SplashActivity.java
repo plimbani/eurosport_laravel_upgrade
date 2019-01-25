@@ -11,10 +11,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.RequiresApi;
 
-import com.aecor.eurosports.BuildConfig;
 import com.aecor.eurosports.R;
+import com.aecor.eurosports.gson.GsonConverter;
 import com.aecor.eurosports.http.VolleyJsonObjectRequest;
 import com.aecor.eurosports.http.VolleySingeltone;
+import com.aecor.eurosports.model.ProfileModel;
 import com.aecor.eurosports.ui.ViewDialog;
 import com.aecor.eurosports.util.ApiConstants;
 import com.aecor.eurosports.util.AppConstants;
@@ -44,6 +45,7 @@ public class SplashActivity extends BaseActivity {
     @Override
     public void initView() {
         mAppSharedPref = AppPreference.getInstance(mContext);
+
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -65,13 +67,17 @@ public class SplashActivity extends BaseActivity {
         setContentView(R.layout.activity_splash_screen);
         ButterKnife.bind(this);
         initView();
+
     }
 
     private void isUserLogin() {
         checkStoreCredentials();
+
+
     }
 
     private void checkuser() {
+
         if (Utility.isInternetAvailable(mContext)) {
             String email = mAppSharedPref.getString(AppConstants.PREF_EMAIL);
             String password = mAppSharedPref.getString(AppConstants.PREF_PASSWORD);
@@ -97,8 +103,7 @@ public class SplashActivity extends BaseActivity {
                         AppLogger.LogE(TAG, "***** Splash Screen response *****" + response.toString());
                         String token = response.get(AppConstants.PREF_TOKEN).toString();
                         mAppSharedPref.setString(AppConstants.PREF_TOKEN, token);
-                        startActivity(new Intent(mContext, HomeActivity.class));
-                        finish();
+                        validate_user();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -129,14 +134,103 @@ public class SplashActivity extends BaseActivity {
         }
     }
 
+    private void validate_user() {
+
+
+        if (Utility.isInternetAvailable(mContext)) {
+            String url = ApiConstants.CHECK_USER;
+            final JSONObject requestJson1 = new JSONObject();
+            final RequestQueue mQueue = VolleySingeltone.getInstance(mContext).getRequestQueue();
+            final VolleyJsonObjectRequest jsonRequest1 = new VolleyJsonObjectRequest(mContext, Request.Method
+                    .POST, url,
+                    requestJson1, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    try {
+                        AppLogger.LogE(TAG, "***** Sign in response *****" + response.toString());
+
+                        startActivity(new Intent(mContext, HomeActivity.class));
+                        finish();
+                        if (response.getString("authenticated").equalsIgnoreCase("true")) {
+                            ProfileModel profileModel = GsonConverter.getInstance().decodeFromJsonString(response.get("userData").toString(), ProfileModel.class);
+                            String profile = GsonConverter.getInstance().encodeToJsonString(profileModel);
+                            JSONObject jsonObject = new JSONObject(response.get("userData").toString());
+                            mAppSharedPref.setString(AppConstants.PREF_PROFILE, profile);
+                            mAppSharedPref.setString(AppConstants.PREF_USER_ID, jsonObject.getString("user_id"));
+                            mAppSharedPref.setString(AppConstants.PREF_TOURNAMENT_ID, jsonObject.getString("tournament_id"));
+                            mAppSharedPref.setString(AppConstants.PREF_IMAGE_URL, jsonObject.getString("profile_image_url"));
+                            if (jsonObject.has("role")) {
+                                mAppSharedPref.setString(AppConstants.PREF_ROLE, jsonObject.getString("role"));
+                            }
+                            if (jsonObject.has("country_id")) {
+                                mAppSharedPref.setString(AppConstants.PREF_COUNTRY_ID, jsonObject.getString("country_id"));
+                            }
+                            if (jsonObject.has("locale") && !Utility.isNullOrEmpty(jsonObject.getString("locale"))) {
+                                mAppSharedPref.setString(AppConstants.PREF_USER_LOCALE, jsonObject.getString("locale"));
+                                mAppSharedPref.setString(AppConstants.LANGUAGE_SELECTION, jsonObject.getString("locale"));
+                                Utility.setLocale(mContext, jsonObject.getString("locale"));
+                            }
+                            if (jsonObject.has("settings")) {
+                                JSONObject mSettingsJson = jsonObject.getJSONObject("settings");
+                                if (mSettingsJson.has("value") && !Utility.isNullOrEmpty(mSettingsJson.getString("value"))) {
+                                    JSONObject mValue = new JSONObject(mSettingsJson.getString("value"));
+                                    if (mValue.has("is_sound") && !Utility.isNullOrEmpty(mValue.getString("is_sound")) && mValue.getString("is_sound").equalsIgnoreCase("true")) {
+                                        mAppSharedPref.setBoolean(AppConstants.KEY_IS_SOUND, true);
+                                    } else {
+                                        mAppSharedPref.setBoolean(AppConstants.KEY_IS_SOUND, false);
+                                    }
+
+                                    if (mValue.has("is_vibration") && !Utility.isNullOrEmpty(mValue.getString("is_vibration")) && mValue.getString("is_vibration").equalsIgnoreCase("true")) {
+                                        mAppSharedPref.setBoolean(AppConstants.KEY_IS_VIBRATION, true);
+                                    } else {
+                                        mAppSharedPref.setBoolean(AppConstants.KEY_IS_VIBRATION, false);
+                                    }
+                                    if (mValue.has("is_notification") && !Utility.isNullOrEmpty(mValue.getString("is_notification")) && mValue.getString("is_notification").equalsIgnoreCase("true")) {
+                                        mAppSharedPref.setBoolean(AppConstants.KEY_IS_NOTIFICATION, true);
+                                    } else {
+                                        mAppSharedPref.setBoolean(AppConstants.KEY_IS_NOTIFICATION, false);
+                                    }
+                                }
+                            }
+
+                        } else {
+//                            {"authenticated":false,"message":"Account de-activated please contact your administrator."}
+                            if (response.has("message") && !Utility.isNullOrEmpty(response.getString("message"))) {
+                            }
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    try {
+                        Utility.StopProgress();
+                        Intent launcherIntent = new Intent(mContext,
+                                SignInActivity.class);
+                        launcherIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        mContext.startActivity(launcherIntent);
+                        ((Activity) mContext).finish();
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            });
+            mQueue.add(jsonRequest1);
+        }
+    }
+
     private void checkAppVersion() {
         if (Utility.isInternetAvailable(mContext)) {
             String url = ApiConstants.APP_VERSION;
             final JSONObject requestJson = new JSONObject();
 
             final RequestQueue mQueue = VolleySingeltone.getInstance(mContext).getRequestQueue();
-            final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(mContext, Request.Method.POST,
-                    url,
+            final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(mContext, Request.Method
+                    .POST, url,
                     requestJson, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
@@ -209,20 +303,26 @@ public class SplashActivity extends BaseActivity {
                     @Override
                     public void onPositiveButtonClicked() {
 
-                        final String my_package_name = getApplicationContext().getPackageName(); // <- HERE YOUR PACKAGE NAME!!
+                        final String my_package_name = getApplicationContext()
+                                .getPackageName(); // <- HERE YOUR PACKAGE NAME!!
                         String url = "";
 
                         try {
                             // Check whether Google Play store is installed or not:
-                            getPackageManager().getPackageInfo("com.android.vending", 0);
+                            getPackageManager().getPackageInfo(
+                                    "com.android.vending", 0);
+
                             url = "market://details?id=" + my_package_name;
                         } catch (final Exception e) {
-                            url = "https://play.google.com/store/apps/details?id=" + my_package_name;
+                            url = "https://play.google.com/store/apps/details?id="
+                                    + my_package_name;
                         }
 
                         // Open the app page in Google Play store:
-                        final Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        final Intent intent = new Intent(Intent.ACTION_VIEW,
+                                Uri.parse(url));
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                                | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
                     }
 
@@ -235,23 +335,23 @@ public class SplashActivity extends BaseActivity {
 //                        finish();
 //                        System.exit(0);
                         checkStoreCredentials();
+
+
                     }
                 });
     }
 
     private void checkStoreCredentials() {
         if (Utility.isInternetAvailable(mContext)) {
+
             String email = mAppSharedPref.getString(AppConstants.PREF_EMAIL);
             String password = mAppSharedPref.getString(AppConstants.PREF_PASSWORD);
-            if (!BuildConfig.isEasyMatchManager) {
-                if (Utility.isNullOrEmpty(email) && Utility.isNullOrEmpty(password)) {
-                    startActivity(new Intent(mContext, LandingActivity.class));
-                    finish();
-                } else {
-                    checkuser();
-                }
+
+            if (Utility.isNullOrEmpty(email) && Utility.isNullOrEmpty(password)) {
+                startActivity(new Intent(mContext, LandingActivity.class));
+                finish();
             } else {
-                AppLogger.LogE(TAG, "***** In Easy match manager variant *****");
+                checkuser();
             }
         } else {
             ViewDialog.showSingleButtonDialog((Activity) mContext, mContext.getString(R.string.no_internet), mContext.getString(R.string.internet_message), mContext.getString(R.string.button_ok), new ViewDialog.CustomDialogInterface() {

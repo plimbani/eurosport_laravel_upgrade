@@ -37,6 +37,8 @@ public class AppConstants {
     public static final String PREF_IMAGE_URL = "image_url";
     public static final String PREF_USER_LOCALE = "user_locale";
     public static final String PREF_SESSION_TOURNAMENT_ID = "session_tournament_id";
+    public static final String PREF_SESSION_TOURNAMENT_STATUS = "session_tournament_status";
+
     public static final String ARG_CLUB_ID = "club_id";
     public static final String ARG_GROUP_ID = "group_id";
     public static final String ARG_AGE_GROUP_ID = "age_id";
@@ -70,4 +72,7 @@ public class AppConstants {
     public static final String KEY_HOME = "@HOME";
     public static final String KEY_AWAY = "@AWAY";
     public static final String KEY_SCREEN_TITLE = "screen_title";
+    public static final String PREF_ROLE = "role";
+    public static final String PREF_COUNTRY_ID = "country_id";
+
 }
