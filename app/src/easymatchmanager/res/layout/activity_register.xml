@@ -17,7 +17,6 @@
         android:layout_marginLeft="@dimen/paddingleft_landing_page"
         android:layout_marginTop="10dp"
         android:layout_marginRight="@dimen/paddingleft_landing_page"
-        android:layout_marginBottom="5dp"
         android:adjustViewBounds="true"
         android:src="@drawable/splash_screen_image" />
 
@@ -37,7 +36,6 @@
             android:layout_width="match_parent"
             android:background="@drawable/edittext_border"
             android:hint="@string/firstname"
-            android:imeOptions="actionNext"
             android:inputType="textCapWords"
             android:padding="8dp" />
 
@@ -47,9 +45,18 @@
             android:layout_marginTop="8dp"
             android:background="@drawable/edittext_border"
             android:hint="@string/surname"
-            android:imeOptions="actionNext"
             android:inputType="textCapWords"
             android:padding="8dp" />
+
+        <Spinner
+            android:id="@+id/sp_role"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/spinner_bg_image_signup_border"
+            android:drawSelectorOnTop="true"
+            android:entries="@array/role_array"
+            android:prompt="@string/role" />
 
         <EditText
             android:id="@+id/register_email_address"
@@ -57,7 +64,6 @@
             android:layout_marginTop="8dp"
             android:background="@drawable/edittext_border"
             android:hint="@string/email_address"
-            android:imeOptions="actionNext"
             android:inputType="textEmailAddress"
             android:padding="8dp" />
 
@@ -67,7 +73,6 @@
             android:layout_marginTop="8dp"
             android:background="@drawable/edittext_border"
             android:hint="@string/password"
-            android:imeOptions="actionNext"
             android:inputType="textPassword"
             android:padding="8dp" />
 
@@ -77,16 +82,16 @@
             android:layout_marginTop="8dp"
             android:background="@drawable/edittext_border"
             android:hint="@string/confirm_password"
-            android:imeOptions="actionDone"
             android:inputType="textPassword"
             android:padding="8dp" />
+
 
         <Spinner
             android:id="@+id/sp_tournament"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:background="@drawable/spinner_bg_image_signup"
+            android:background="@drawable/spinner_bg_image_signup_border"
             android:drawSelectorOnTop="true"
             android:prompt="@string/select_tournament" />
 

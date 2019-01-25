@@ -18,6 +18,7 @@
     <color name="traffic_light">#27e833</color>
     <color name="light_green">#c5dba7</color>
     <color name="btn_active_text_color">#000000</color>
+    <color name="error_red">#FF0000</color>
 
 </resources>
 

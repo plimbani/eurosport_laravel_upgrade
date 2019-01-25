@@ -11,6 +11,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.aecor.eurosports.BuildConfig;
 import com.aecor.eurosports.R;
 import com.aecor.eurosports.gson.GsonConverter;
 import com.aecor.eurosports.http.VolleyJsonObjectRequest;
@@ -85,88 +86,133 @@ public class FavouriteListAdapter extends BaseAdapter {
     private View rowView(View convertView, final int position) {
 
         AppLogger.LogE(TAG, "pos" + position);
-        final ViewHolder holder;
+        final BaseViewHolder holder;
         View rowview = convertView;
         if (rowview == null) {
-            rowview = inflater.inflate(R.layout.layout_favourite_textview, null);
-            holder = new ViewHolder(rowview);
-            rowview.setTag(holder);
+            if (BuildConfig.isEasyMatchManager) {
+                rowview = inflater.inflate(R.layout.layout_favourrite_textview_commer, null);
+                holder = new ViewHolderCommerci(rowview);
+                rowview.setTag(holder);
+            } else {
+                rowview = inflater.inflate(R.layout.layout_favourite_textview, null);
+                holder = new ViewHolder(rowview);
+                rowview.setTag(holder);
+            }
         } else {
-            holder = (ViewHolder) rowview.getTag();
+            if (BuildConfig.isEasyMatchManager) {
+                holder = (ViewHolderCommerci) rowview.getTag();
+            } else {
+                holder = (ViewHolder) rowview.getTag();
+            }
         }
         final TournamentModel rowItem = getItem(position);
+        if (BuildConfig.isEasyMatchManager) {
 
-        if (!Utility.isNullOrEmpty(rowItem.getName())) {
-            holder.favourite_tournament.setText(rowItem.getName());
-        }
+            if (!Utility.isNullOrEmpty(rowItem.getName())) {
+                ((ViewHolderCommerci) holder).tv_tournamentName.setText(rowItem.getName());
+            }
+            if (!Utility.isNullOrEmpty(rowItem.getName()) && checkDefault(rowItem)) {
+                ((ViewHolderCommerci) holder).iv_is_default.setVisibility(View.VISIBLE);
+             } else {
+                ((ViewHolderCommerci) holder).iv_is_default.setVisibility(View.GONE);
+            }
 
-        if (!Utility.isNullOrEmpty(rowItem.getStart_date()) && !Utility.isNullOrEmpty(rowItem.getEnd_date())) {
-            holder.favourite_date.setText(rowItem.getStart_date() + " - " + rowItem.getEnd_date());
-        }
 
-        if (checkFav(rowItem.getId())) {
-            holder.favourite_imageview.setImageDrawable(mContext.getResources().getDrawable(R.drawable.fav_add));
+
+            if (!Utility.isNullOrEmpty(rowItem.getTournamentLogo())) {
+                Glide.with(mContext)
+                        .load(rowItem.getTournamentLogo())
+                        .asBitmap().diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .skipMemoryCache(true)
+                        .into(new SimpleTarget<Bitmap>() {
+                            @Override
+                            public void onLoadFailed(Exception e, Drawable errorDrawable) {
+                                super.onLoadFailed(e, errorDrawable);
+                                ((ViewHolderCommerci) holder).iv_tournament_logo.setImageResource(R.drawable.globe);
+                            }
+
+                            @Override
+                            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                                ((ViewHolderCommerci) holder).iv_tournament_logo.setImageBitmap(Utility.scaleBitmap(resource, AppConstants.MAX_IMAGE_WIDTH_1, AppConstants.MAX_IMAGE_HEIGHT_1));
+                            }
+                        });
+            } else {
+                ((ViewHolderCommerci) holder).iv_tournament_logo.setImageResource(R.drawable.globe);
+            }
+
         } else {
-            holder.favourite_imageview.setImageDrawable(mContext.getResources().getDrawable(R.drawable.fav_default));
-        }
 
-        if (!Utility.isNullOrEmpty(rowItem.getTournamentLogo())) {
-            Glide.with(mContext)
-                    .load(rowItem.getTournamentLogo())
-                    .asBitmap().diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .skipMemoryCache(true)
-                    .into(new SimpleTarget<Bitmap>() {
-                        @Override
-                        public void onLoadFailed(Exception e, Drawable errorDrawable) {
-                            super.onLoadFailed(e, errorDrawable);
-                            holder.favourite_logo.setImageResource(R.drawable.globe);
-                        }
+            if (!Utility.isNullOrEmpty(rowItem.getName())) {
+                ((ViewHolder) holder).favourite_tournament.setText(rowItem.getName());
+            }
 
-                        @Override
-                        public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                            holder.favourite_logo.setImageBitmap(Utility.scaleBitmap(resource, AppConstants.MAX_IMAGE_WIDTH_1, AppConstants.MAX_IMAGE_HEIGHT_1));
-                        }
-                    });
-        } else {
-            holder.favourite_logo.setImageResource(R.drawable.globe);
-        }
+            if (!Utility.isNullOrEmpty(rowItem.getStart_date()) && !Utility.isNullOrEmpty(rowItem.getEnd_date())) {
+                ((ViewHolder) holder).favourite_date.setText(rowItem.getStart_date() + " - " + rowItem.getEnd_date());
+            }
 
-        if (!Utility.isNullOrEmpty(rowItem.getName()) && checkDefault(rowItem)) {
-            holder.default_imageview.setImageDrawable(mContext.getResources().getDrawable(R.drawable.selected_default_tournament));
-//            holder.favourite_imageview.setEnabled(false);
-            holder.favourite_imageview.setImageDrawable(mContext.getResources().getDrawable(R.drawable.fav_add));
-            holder.default_imageview.setEnabled(false);
-        } else {
-            holder.default_imageview.setImageDrawable(mContext.getResources().getDrawable(R.drawable.default_tournament));
-            holder.default_imageview.setEnabled(true);
-            holder.favourite_imageview.setEnabled(true);
-        }
+            if (checkFav(rowItem.getId())) {
+                ((ViewHolder) holder).favourite_imageview.setImageDrawable(mContext.getResources().getDrawable(R.drawable.fav_add));
+            } else {
+                ((ViewHolder) holder).favourite_imageview.setImageDrawable(mContext.getResources().getDrawable(R.drawable.fav_default));
+            }
 
-        holder.favourite_imageview.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (checkDefault(rowItem)) {
-                    Utility.showToast(mContext, mContext.getString(R.string.deafult_tournament_cannot_be_removed_from_favourite));
-                } else {
-                    if (!checkFav(rowItem.getId())) {
-                        holder.favourite_imageview.setImageDrawable(mContext.getResources().getDrawable(R.drawable.fav_add));
-                        makeTournamenetFavourite(mTournamentList.get(position));
+            if (!Utility.isNullOrEmpty(rowItem.getTournamentLogo())) {
+                Glide.with(mContext)
+                        .load(rowItem.getTournamentLogo())
+                        .asBitmap().diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .skipMemoryCache(true)
+                        .into(new SimpleTarget<Bitmap>() {
+                            @Override
+                            public void onLoadFailed(Exception e, Drawable errorDrawable) {
+                                super.onLoadFailed(e, errorDrawable);
+                                ((ViewHolder) holder).favourite_logo.setImageResource(R.drawable.globe);
+                            }
+
+                            @Override
+                            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                                ((ViewHolder) holder).favourite_logo.setImageBitmap(Utility.scaleBitmap(resource, AppConstants.MAX_IMAGE_WIDTH_1, AppConstants.MAX_IMAGE_HEIGHT_1));
+                            }
+                        });
+            } else {
+                ((ViewHolder) holder).favourite_logo.setImageResource(R.drawable.globe);
+            }
+
+            if (!Utility.isNullOrEmpty(rowItem.getName()) && checkDefault(rowItem)) {
+                ((ViewHolder) holder).default_imageview.setImageDrawable(mContext.getResources().getDrawable(R.drawable.selected_default_tournament));
+                ((ViewHolder) holder).favourite_imageview.setImageDrawable(mContext.getResources().getDrawable(R.drawable.fav_add));
+                ((ViewHolder) holder).default_imageview.setEnabled(false);
+            } else {
+                ((ViewHolder) holder).default_imageview.setImageDrawable(mContext.getResources().getDrawable(R.drawable.default_tournament));
+                ((ViewHolder) holder).default_imageview.setEnabled(true);
+                ((ViewHolder) holder).favourite_imageview.setEnabled(true);
+            }
+
+            ((ViewHolder) holder).favourite_imageview.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (checkDefault(rowItem)) {
+                        Utility.showToast(mContext, mContext.getString(R.string.deafult_tournament_cannot_be_removed_from_favourite));
                     } else {
-                        holder.favourite_imageview.setImageDrawable(mContext.getResources().getDrawable(R.drawable.fav_default));
-                        removeTournamenetFromFavourite(mTournamentList.get(position));
+                        if (!checkFav(rowItem.getId())) {
+                            ((ViewHolder) holder).favourite_imageview.setImageDrawable(mContext.getResources().getDrawable(R.drawable.fav_add));
+                            makeTournamenetFavourite(mTournamentList.get(position));
+                        } else {
+                            ((ViewHolder) holder).favourite_imageview.setImageDrawable(mContext.getResources().getDrawable(R.drawable.fav_default));
+                            removeTournamenetFromFavourite(mTournamentList.get(position));
+                        }
                     }
                 }
-            }
-        });
+            });
 
-        holder.default_imageview.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!checkDefault(rowItem)) {
-                    setDefaultTournament(rowItem.getId());
+            ((ViewHolder) holder).default_imageview.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (!checkDefault(rowItem)) {
+                        setDefaultTournament(rowItem.getId());
+                    }
                 }
-            }
-        });
+            });
+        }
         return rowview;
     }
 
@@ -180,18 +226,15 @@ public class FavouriteListAdapter extends BaseAdapter {
     }
 
     private boolean checkDefault(TournamentModel tournamentModal) {
-//        for (int i = 0; i < mFavTournamentList.size(); i++) {
-//            if (mFavTournamentList.get(i).getTournament_id().equalsIgnoreCase(tournamentModal.getId()) && mFavTournamentList.get(i).getIs_default() == 1) {
-//                mPreference.setString(AppConstants.PREF_TOURNAMENT_ID);
-//                return true;
-//            }
-//        }
-//        return false;
-////
+
         return tournamentModal.getId().equalsIgnoreCase(mPreference.getString(AppConstants.PREF_TOURNAMENT_ID));
     }
 
-    protected class ViewHolder {
+    protected class BaseViewHolder {
+
+    }
+
+    protected class ViewHolder extends BaseViewHolder {
         @BindView(R.id.favourite_logo)
         protected ImageView favourite_logo;
         @BindView(R.id.favourite_imageview)
@@ -204,6 +247,19 @@ public class FavouriteListAdapter extends BaseAdapter {
         protected ImageView default_imageview;
 
         public ViewHolder(View rowView) {
+            ButterKnife.bind(this, rowView);
+        }
+    }
+
+    protected class ViewHolderCommerci extends BaseViewHolder {
+        @BindView(R.id.tv_tournamentName)
+        protected TextView tv_tournamentName;
+        @BindView(R.id.iv_is_default)
+        protected ImageView iv_is_default;
+        @BindView(R.id.iv_tournament_logo)
+        protected ImageView iv_tournament_logo;
+
+        public ViewHolderCommerci(View rowView) {
             ButterKnife.bind(this, rowView);
         }
     }
