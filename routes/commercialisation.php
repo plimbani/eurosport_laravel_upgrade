@@ -22,7 +22,7 @@ Route::group(['middleware' => 'jwt.auth'], function() {
     Route::post('v1/user/update/', '\Laraspace\Api\Controllers\UserController@updateUser')->name("user.update");
     Route::post('v1/buy-license', '\Laraspace\Api\Controllers\Commercialisation\BuyLicenseController@buyLicense');    
     Route::get('v1/tournaments/list', '\Laraspace\Api\Controllers\Commercialisation\TournamentController@getList');
-    Route::post('v1/get-tournament', '\Laraspace\Api\Controllers\Commercialisation\TournamentController@tournamentSummary');
+    Route::get('v1/get-tournament', '\Laraspace\Api\Controllers\Commercialisation\TournamentController@tournamentSummary');
     Route::post('v1/tournaments/update', '\Laraspace\Api\Controllers\Commercialisation\TournamentController@update');
 });
 
