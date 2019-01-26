@@ -360,6 +360,12 @@ const routes = [
                 path: '/',
                 component: Buylicense,
                 name: 'buylicense'
+            },
+             {
+                path: ':id',
+                // path: 'renew/:id',
+                component: Buylicense,
+                name: 'buylicense'
             }
         ]
     },

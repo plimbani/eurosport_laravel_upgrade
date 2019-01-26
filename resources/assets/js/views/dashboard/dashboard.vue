@@ -107,14 +107,14 @@
                 
             },
              isTournamentExpired(expireDate){
-                console.log("expireDate::",expireDate)
+                // console.log("expireDate::",expireDate)
                 let expireDateArr = expireDate.split("/");
                 let currentDateArr = moment().format("DD/MM/YYYY").split("/");
                 // let currentDateArr = moment().add('days',1).format("DD/MM/YYYY").split("/");
                 let startDate = moment([expireDateArr[2], expireDateArr[1], expireDateArr[0]]);
                 let endDate = moment([currentDateArr[2], currentDateArr[1], currentDateArr[0]]);
                 let dayDifference = endDate.diff(startDate, 'days');
-                console.log("dayDifference::",dayDifference)
+                // console.log("dayDifference::",dayDifference)
                 if(dayDifference >= 2){
                     return true;
                 }else{

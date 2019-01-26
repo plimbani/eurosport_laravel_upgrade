@@ -161,6 +161,12 @@
             }
         },
         beforeMount(){  
+            if(typeof this.$route.params.id != "undefined"){
+                // console.log("iddd::",this.$route.params.id)
+                this.tournamentData.id = this.$route.params.id;
+            }else{
+                // console.log("eksee")
+            }
         },
         mounted () {
             var vm = this
@@ -168,7 +174,7 @@
                 autoclose: true,
                 minDate: 0,
                 onSelect: function( selectedDate ) {
-                    console.log("startDate");
+                    // console.log("startDate");
                     $( "#totournament_end_date" ).datepicker( "option", "minDate", selectedDate );
                 }
             });
