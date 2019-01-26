@@ -112,14 +112,24 @@
                 pspid:"", 
                 amount:"",
                 disabled:false,
-                dayDifference:1
+                dayDifference:1,
+                id:""
             }
         },
         beforeRouteEnter(to, from, next) { 
               if(Object.keys(to.query).length !== 0) { //if the url has query (?query)
-                next(vm => { 
+                next(vm => {  
+                    
                     setTimeout(function(){ 
-                         vm.tournamentData.tournament_max_teams = to.query.teams; 
+                        vm.tournamentData.tournament_max_teams = to.query.teams; 
+                        if(typeof to.query.teams == "undefined"){
+                            vm.tournamentData.tournament_max_teams = 2;
+                        }
+                        if(typeof to.query.id != "undefined"){
+                            vm.id = to.query.id;
+                            // console
+                            vm.getTournamentDetail();
+                        }
                     }, 100); 
                })
             }
@@ -158,15 +168,27 @@
                 this.dayDifference = endDate.diff(startDate, 'days');
                 // console.log("this.dayDifference::",this.dayDifference);
                 
+            },
+
+            getTournamentDetail(){
+                // console.log("to.query.id ",this.id)
+                axios.get(Constant.apiBaseUrl+'get-tournament?tournamentId='+this.id, {}).then(response =>  {  
+                        if (response.data.success) { 
+                             // this.tournaments = response.data.data;
+                             // console.log("tournament details::",response.data.data)
+                             for(let eachKey in response.data.data){
+                                this.tournamentData[eachKey] = response.data.data[eachKey]
+                             }
+                         }else{ 
+                            toastr['error'](response.data.message, 'Error');
+                         }
+                 }).catch(error => {
+                     
+                 }); 
             }
         },
-        beforeMount(){  
-            if(typeof this.$route.params.id != "undefined"){
-                // console.log("iddd::",this.$route.params.id)
-                this.tournamentData.id = this.$route.params.id;
-            }else{
-                // console.log("eksee")
-            }
+        beforeMount(){   
+            
         },
         mounted () {
             var vm = this

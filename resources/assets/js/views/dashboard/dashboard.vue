@@ -20,7 +20,7 @@
                                                 <div class="col-lg-5">
                                                     <ul class="list-unstyled mb-0 tournament-information">
                                                         <li class="d-inline h7 text-uppercase font-weight-bold pr-2"><span><i class="fa fa-globe"></i></span>&nbsp; <a target="_blank" v-bind:href="tournament.website">View public website</a></li>
-                                                        <li class="d-inline h7 text-uppercase font-weight-bold"><span><i class="fa fa-share-alt"></i></span>&nbsp; <a href="#">Share</a></li>
+                                                        <li id="open-share-popup" @click="openSharePopup(tournament)" class="d-inline h7 text-uppercase font-weight-bold"><span><i class="fa fa-share-alt"></i></span>&nbsp; <a href="#">Share</a></li>
                                                     </ul>
                                                 </div>
                                             </div>
@@ -36,7 +36,7 @@
                                                 <button class="btn btn-outline ml-2">Manage License</button>
                                             </div>
                                             <div class="btn-group" v-if="isTournamentExpired(tournament.end_date)">
-                                                <button class="btn btn-outline ml-2">Renew License</button>
+                                                <button class="btn btn-outline ml-2" v-on:click="redirectToRenewTournament(tournament)">Renew License</button>
                                             </div>
                                         </div>
                                     </div>
@@ -44,6 +44,14 @@
                             </div>
                         </div> 
                     </div>
+                    <modal name="open-share-popup" @before-open="getAccessCode">
+                      <div class="example-modal-content">
+                        <h4>Share Tournment</h4> 
+                        <p>You can invite anyone to follow your tournament online and in the app. Simply share your following URL by email, SMS or any other social Media.</p>
+                        <p  v-on:click="copyAccessCode()">{{ access_code_popup }}</p>
+                        <input type="hidden" id="access_code_popup" :value="access_code_popup">
+                      </div>
+                    </modal>
 
                     <button class="btn btn-success" v-on:click="redirectToAddTournament()">Add Tournament</button>
 
@@ -88,7 +96,9 @@
     export default {
         data() {
             return { 
-                tournaments:[]
+                tournaments:[],
+                access_code_popup:"",
+                url:"app.tournament-planner.com/t/"
             }
         },
         methods: { 
@@ -146,9 +156,44 @@
                 this.$router.push({name:'tournament_add'});
             },
 
+            openSharePopup(tournament){
+                console.log("openSharePopup::",tournament.access_code)
+                this.access_code_popup = this.url + tournament.access_code;
+                this.$modal.show('open-share-popup', 
+                    { 
+                        access_code_popup: tournament.access_code ,
+                        title: 'Alert!',
+                    });
+            },
+
+            getAccessCode (event) {
+                // console.log(event.params.access_code);
+            },
+            copyAccessCode () {
+              let testingCodeToCopy = document.querySelector('#access_code_popup')
+              testingCodeToCopy.setAttribute('type', 'text')    
+              testingCodeToCopy.select()
+
+              try {
+                var successful = document.execCommand('copy');
+                var msg = successful ? 'successful' : 'unsuccessful';
+                alert('Testing code was copied ' + msg);
+              } catch (err) {
+                alert('Oops, unable to copy');
+              }
+
+              /* unselect the range */
+              testingCodeToCopy.setAttribute('type', 'hidden')
+              window.getSelection().removeAllRanges()
+            },
             redirectToAddTournament(){
                 this.$router.push({name: 'buylicense'});
-            }
+            },
+
+            redirectToRenewTournament(tournament){
+                console.log("id:::",tournament.id)
+                this.$router.push({name: 'buylicense', query: {id:tournament.id}});   
+            },
              
             
         },
