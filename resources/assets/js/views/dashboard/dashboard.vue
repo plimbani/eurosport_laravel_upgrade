@@ -16,6 +16,7 @@
                                                 <div class="col-lg-7">
                                                     <h3 class="font-weight-bold mb-0">{{tournament.name}}</h3>
                                                 </div>
+                                                
                                                 <div class="col-lg-5">
                                                     <ul class="list-unstyled mb-0 tournament-information">
                                                         <li class="d-inline h7 text-uppercase font-weight-bold pr-2"><span><i class="fa fa-globe"></i></span>&nbsp; <a target="_blank" v-bind:href="tournament.website">View public website</a></li>
@@ -30,9 +31,12 @@
                                             </ul>
                                         </div>
                                         <div class="col-xl-5 mt-3 mt-lg-0 text-lg-right">
-                                            <div class="btn-group">
-                                                <button class="btn btn-outline"><span><i class="fa fa-pencil" aria-hidden="true"></i></span>&nbsp; Edit</button>
+                                            <div class="btn-group" v-if="isTournamentExpired(tournament.end_date)">
+                                                <button class="btn btn-outline" v-on:click="redirectToTournamentDetailPage(tournament)"><span><i class="fa fa-pencil" aria-hidden="true"></i></span>&nbsp; Edit</button>
                                                 <button class="btn btn-outline ml-2">Manage License</button>
+                                            </div>
+                                            <div class="btn-group" v-if="!isTournamentExpired(tournament.end_date)">
+                                                <button class="btn btn-outline ml-2">Renew License</button>
                                             </div>
                                         </div>
                                     </div>
@@ -41,7 +45,7 @@
                         </div> 
                     </div>
 
-                    <button class="btn btn-success">Add Tournament</button>
+                    <button class="btn btn-success" v-on:click="redirectToAddTournament()">Add Tournament</button>
 
                     <h3 class="text-uppercase font-weight-bold mb-4 mt-5">Manage Templates</h3>
                     <div class="row">
@@ -93,15 +97,57 @@
                 axios.get(Constant.apiBaseUrl+'tournaments/list', {}).then(response =>  {  
                         if (response.data.success) { 
                              this.tournaments = response.data.data;
-                             console.log("tournaments::",this.tournaments)
-                         }else{
-                            
+                             console.log("tournaments::",this.tournaments[0].end_date)
+                         }else{ 
                             toastr['error'](response.data.message, 'Error');
                          }
                  }).catch(error => {
                      
                  }); 
                 
+            },
+             isTournamentExpired(expireDate){
+                console.log("expireDate::",expireDate)
+                let expireDateArr = expireDate.split("/");
+                let currentDateArr = moment().format("DD/MM/YYYY").split("/");
+                // let currentDateArr = moment().add('days',1).format("DD/MM/YYYY").split("/");
+                let startDate = moment([expireDateArr[2], expireDateArr[1], expireDateArr[0]]);
+                let endDate = moment([currentDateArr[2], currentDateArr[1], currentDateArr[0]]);
+                let dayDifference = endDate.diff(startDate, 'days');
+                console.log("dayDifference::",dayDifference)
+                if(dayDifference >= 2){
+                    return true;
+                }else{
+                    return false;
+                }
+
+            }, 
+
+            redirectToTournamentDetailPage(selectedTournament){ 
+                let name = selectedTournament.name
+                let id = selectedTournament.id
+                let tournamentDays = Plugin.setTournamentDays(selectedTournament.start_date, selectedTournament.end_date)
+                let tournamentSel  = {
+                    name:name,
+                    id:id,
+                    maximum_teams:selectedTournament.maximum_teams,
+                    tournamentDays: tournamentDays,
+                    tournamentLogo: selectedTournament.tournamentLogo,
+                    tournamentStatus:selectedTournament.status,
+                    tournamentStartDate:selectedTournament.start_date,
+                    tournamentEndDate:selectedTournament.end_date,
+                    facebook:selectedTournament.facebook,
+                    website:selectedTournament.website,
+                    twitter:selectedTournament.twitter
+                }
+                this.$store.dispatch('SetTournamentName', tournamentSel);
+                let currentNavigationData = {activeTab:'tournament_add', currentPage: 'Tournament details'};
+                this.$store.dispatch('setActiveTab', currentNavigationData);
+                this.$router.push({name:'tournament_add'});
+            },
+
+            redirectToAddTournament(){
+                this.$router.push({name: 'buylicense'});
             }
              
             
