@@ -998,4 +998,14 @@ class TournamentRepository
 
         return ['data' => $competitionData, 'status' => 'Success', 'message' => 'Competition name has been updated.'];
     }
+    
+    /**
+     * Get tournament details by access code
+     * @param string $accessCode
+     * @return array
+     */
+    public function getTournamentByAccessCode($accessCode)
+    {
+        return Tournament::where('access_code', $accessCode)->first();
+    }
 }
