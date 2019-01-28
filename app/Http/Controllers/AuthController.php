@@ -24,7 +24,7 @@ class AuthController extends Controller
             return response()->json(['error' => 'could_not_create_token'], 500);
         }
         $authUser = JWTAuth::authenticate($token);
-        $role = $authUser->roles()->first();
+        $role = [$authUser->roles()->first()];
         
         // all good so return the token
         //return response()->json(compact('token'));
