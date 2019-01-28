@@ -20,23 +20,10 @@
             {{ exceedTeamLimitMessage }}
           </div>
         </div>
-        <div class="form-group row align-items-center" :class="{'has-error': errors.has('competation_format.ageCategory_name') }">
-          <div class="col-sm-4 form-control-label">{{$lang.competation_label_name_category}}</div>
-            <div class="col-sm-8">
-              <div class="row">
-                <div class="col-sm-12">
-                  <input type="text" class="form-control"
-                  placeholder="e.g. U11, U16-A"  v-validate="{ rules: { required : true, regex: /^[a-zA-Z0-9\/ ]*$/ } }" :class="{'is-danger': errors.has('ageCategory_name') }" v-model="competation_format.ageCategory_name" name="ageCategory_name">
-                  <i v-show="errors.has('ageCategory_name')" class="fa fa-warning"></i>
-                  <span class="help is-danger" v-show="errors.has('ageCategory_name')">{{$lang.competation_modal_name_category_required}}</span>
-                </div>
-              </div>
-            </div>
-        </div>
 
-       <div class="form-group row align-items-center">
+        <div class="form-group row align-items-center">
           <div class="col-sm-4 form-control-label">{{$lang.competation_label_age_category_name}}</div>
-            <div class="col-sm-8">
+          <div class="col-sm-8">
             <div class="row">
               <div class="col-sm-12">
                <multiselect  name="category_age" id="category_age"
@@ -57,10 +44,27 @@
                <span class="help is-danger" v-show="isInvalid">{{$lang.competation_modal_age_category_required}}</span>
               </div>
             </div>
-            </div>
-            <input type="hidden" v-model="competation_format.category_age_color">
-            <input type="hidden" v-model="competation_format.category_age_font_color">
           </div>
+          <input type="hidden" v-model="competation_format.category_age_color">
+          <input type="hidden" v-model="competation_format.category_age_font_color">
+        </div>
+
+        <div class="form-group row align-items-center" :class="{'has-error': errors.has('competation_format.ageCategory_name') }">
+          <div class="col-sm-4 form-control-label">
+            {{$lang.competation_label_name_category}}
+            <span class="pr-2 pl-2 text-primary" data-toggle="popover" data-animation="false" data-placement="right" data-content="Enter an additional name for the category"><i class="fa fa-info-circle"></i></span>
+          </div>
+            <div class="col-sm-8">
+              <div class="row">
+                <div class="col-sm-12">
+                  <input type="text" class="form-control"
+                  placeholder="e.g. U11, U16-A"  v-validate="{ rules: { required : true, regex: /^[a-zA-Z0-9\/ ]*$/ } }" :class="{'is-danger': errors.has('ageCategory_name') }" v-model="competation_format.ageCategory_name" name="ageCategory_name">
+                  <i v-show="errors.has('ageCategory_name')" class="fa fa-warning"></i>
+                  <span class="help is-danger" v-show="errors.has('ageCategory_name')">{{$lang.competation_modal_name_category_required}}</span>
+                </div>
+              </div>
+            </div>
+        </div>
 
           <div class="form-group row align-items-center">
             <label class="col-sm-4 form-control-label">Pitch size*</label>
@@ -309,7 +313,7 @@
 
           <div class="form-group row align-items-center"> 
             <div class="col-sm-4 form-control-label">
-              Points structure*
+              Ranking structure*
               <span class="pr-2 pl-2 text-primary" data-toggle="popover" data-animation="false" data-placement="right" data-content="Enter the number of points for a win, draw or loss"><i class="fa fa-info-circle"></i></span>
             </div>
             <div class="col-sm-8">
@@ -388,7 +392,7 @@
           </div>
 
           <div class="form-group row align-items-center">
-            <div class="col-sm-4 form-control-label">Info for teams</div>
+            <div class="col-sm-4 form-control-label">Message to teams</div>
             <div class="col-sm-8">
               <div class="row align-items-center">
                 <div class="col-sm-12">
