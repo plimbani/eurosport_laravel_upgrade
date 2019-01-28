@@ -23,12 +23,13 @@ class AuthController extends Controller
             // something went wrong whilst attempting to encode the token
             return response()->json(['error' => 'could_not_create_token'], 500);
         }
-
+        $authUser = JWTAuth::authenticate($token);
+        $roleId = $authUser->roles()->first()->id;
         // all good so return the token
         //return response()->json(compact('token'));
         //$token = response()->json(compact('token'));
        // $token = compact('token');
-        return response()->json(compact('token'));
+        return response()->json(compact('token', 'roleId'));
 
     }
 

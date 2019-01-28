@@ -30,11 +30,11 @@ class TransactionRepository
         $userId = $authUser->id;
         if ($data['STATUS'] == 5 && !empty($requestData['tournament'])) {
             $tournamentRes = $this->tournamentObj->addTournamentDetails($requestData['tournament'], 'api');
-        
+
             $tournamentRes->users()->attach($userId);
         }
         $response = $this->addTransaction($data, $tournamentRes, $userId);
-        
+
         if ($data['STATUS'] == 5) {
             //Send conformation mail to customer
             $subject = 'Message from Eurosport';
@@ -43,7 +43,7 @@ class TransactionRepository
             Mail::to($authUser->email)
                     ->send(new SendMail($emailData, $subject, $email_templates, NULL, NULL, NULL));
         }
-        
+
         return $response;
     }
 
@@ -78,13 +78,58 @@ class TransactionRepository
         //Add in transaction history
         $transactionHistory = [
             'transaction_id' => $response->id,
+            'tournament_id' => !empty($tournamentRes->id) ? $tournamentRes->id : null,
+            'user_id' => $userId,
+            'order_id' => $data['ORDERID'],
             'transaction_key' => $data['PAYID'],
             'amount' => $data['AMOUNT'],
             'status' => $paymentStatus[$data['STATUS']],
+            'currency' => $data['CURRENCY'],
+            'card_type' => $data['PM'],
+            'card_holder_name' => $data['CN'],
+            'card_number' => $data['CARDNO'],
+            'card_validity' => $data['ED'],
+            'transaction_date' => $data['TRXDATE'],
+            'brand' => $data['BRAND'],
             'payment_response' => json_encode($data)
         ];
         TransactionHistory::create($transactionHistory);
-        
+
         return $response;
+    }
+
+    /**
+     * Update transaction if customer update tournament from manage tournament
+     * @param array $data
+     * @param int $tournamentId
+     */
+    public function updateTransaction($data, $tournamentId)
+    {
+        $authUser = JWTAuth::parseToken()->toUser();
+        $userId = $authUser->id;
+        $paymentStatus = config('app.payment_status');
+        $existsTransaction = Transaction::where('tournament_id', $tournamentId)->where('user_id', $userId)->first();
+        
+        $transaction = [
+            'user_id' => $userId,
+            'order_id' => $data['ORDERID'],
+            'transaction_key' => $data['PAYID'],
+            'amount' => $data['AMOUNT'] + $existsTransaction['amount'],
+            'status' => $paymentStatus[$data['STATUS']],
+            'currency' => $data['CURRENCY'],
+            'card_type' => $data['PM'],
+            'card_holder_name' => $data['CN'],
+            'card_number' => $data['CARDNO'],
+            'card_validity' => $data['ED'],
+            'transaction_date' => $data['TRXDATE'],
+            'brand' => $data['BRAND'],
+            'payment_response' => json_encode($data)
+        ];
+        $result = Transaction::where('tournament_id', $tournamentId)->where('user_id', $userId)
+                ->update($transaction);
+        if($result) {
+            //Send invoice in email
+        }
+        return $result;
     }
 }
