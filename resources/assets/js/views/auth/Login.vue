@@ -94,6 +94,7 @@
                     this.disabled = true; 
 
                     axios.post('/api/auth/login', this.loginData).then(response =>  {
+                        // console.log("response.data::",response.data)
                         Ls.set('auth.token',response.data.token)
                         // We set Email Over here
                         Ls.set('email',this.loginData.email)
@@ -103,11 +104,12 @@
                             // console.log("tournamentDetails::",tournamentDetails);
                             this.$router.push({'name':'checkout'})
                         }else{
-                            let roles = [{slug:'customer1'},{slug:'admin'}]
-                            let indxOfCustomer = (roles).findIndex(item => item.slug == "customer");
+                            // let roles = [{slug:'customer1'},{slug:'admin'}]
+                            // let indxOfCustomer = (roles).findIndex(item => item.slug == "customer");
                             // let indxOfCustomer =  (response.data.data.roles).findIndex(item => item.slug == "customer") 
                         
-                            if(indxOfCustomer > -1){
+                            // if(indxOfCustomer > -1){
+                            if(response.data.role.slug == "customer"){
                                 this.$router.push({'name':'dashboard'})
                             }else{
                                 this.$router.push({'name':'welcome'})
