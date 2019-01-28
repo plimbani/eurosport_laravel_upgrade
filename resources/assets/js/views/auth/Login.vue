@@ -92,17 +92,40 @@
 
                 if (!this.errors.any()) {
                     this.disabled = true; 
-                    Auth.login(this.loginData).then(() => {
+
+                    axios.post('/api/auth/login', this.loginData).then(response =>  {
+                        Ls.set('auth.token',response.data.token)
+                        // We set Email Over here
+                        Ls.set('email',this.loginData.email)
                         this.disabled = false;
                         let tournamentDetails = Ls.get('tournamentDetails')
                         if(typeof tournamentDetails != "undefined" && tournamentDetails != undefined && tournamentDetails != "null" && tournamentDetails != null){
-                            console.log("tournamentDetails::",tournamentDetails);
+                            // console.log("tournamentDetails::",tournamentDetails);
                             this.$router.push({'name':'checkout'})
                         }else{
-                            this.$router.push({'name':'welcome'})
-                        }
+                            let roles = [{slug:'customer1'},{slug:'admin'}]
+                            let indxOfCustomer = (roles).findIndex(item => item.slug == "customer");
+                            // let indxOfCustomer =  (response.data.data.roles).findIndex(item => item.slug == "customer") 
                         
-                    })
+                            if(indxOfCustomer > -1){
+                                this.$router.push({'name':'dashboard'})
+                            }else{
+                                this.$router.push({'name':'welcome'})
+                            }
+                        }
+
+                    }).catch(error => {
+                        this.disabled = false;
+                        if (error.response.status == 401) {
+                            toastr['error']('Invalid credentials', 'Error');
+                            Ls.remove('auth.token')
+                            Ls.remove('email')
+                        }
+                        else {
+                            // Something happened in setting up the request that triggered an Error
+                        }
+                    });
+                     
 
                     
                 }
