@@ -86,6 +86,7 @@ class AuthController extends Controller
              $userDetails['locale'] = $userData->locale;
              $userSettings = Settings::where('user_id','=',$userData->id)->first();
              $userDetails['settings'] = $userSettings ? $userSettings->toArray() : null;
+             $userDetails['role_id'] = $userData->roles()->first()->id;
 
              $tournament_id = array();
              return response(['authenticated' => true,'userData'=> $userDetails, 'is_score_auto_update' =>config('config-variables.is_score_auto_update')]);
