@@ -341,20 +341,20 @@ class TemplateRepository
                                         }
 
                                         if($roundDataTeam1 && $roundDataTeam2) {
-                                            $groupName1 = this.getRoundRobinGroupName(roundDataTeam1, parseInt(divisionRoundGroupPositionTeam1[2]));
-                                            $groupName2 = this.getRoundRobinGroupName(roundDataTeam2, parseInt(divisionRoundGroupPositionTeam2[2]));
-                                            inBetween = parseInt(divisionRoundGroupPositionTeam1[3] + 1) + groupName1 + '-' + parseInt(divisionRoundGroupPositionTeam2[3] + 1) + groupName2;
+                                            $groupName1 = this.getRoundRobinGroupName($roundDataTeam1, parseInt($divisionRoundGroupPositionTeam1[2]));
+                                            $groupName2 = this.getRoundRobinGroupName($roundDataTeam2, parseInt($divisionRoundGroupPositionTeam2[2]));
+                                            $inBetween = parseInt($divisionRoundGroupPositionTeam1[3] + 1) + $groupName1 + '-' + parseInt($divisionRoundGroupPositionTeam2[3] + 1) + $groupName2;
                                         }
                                     }
                                 }
-                                matchCount++;
-                                vm.groupData.matches.push({
-                                    in_between: inBetween,
-                                    match_number: matchNumber,
-                                    display_match_number: displayMatchNumber,
-                                    display_home_team_placeholder_name: displayHomeTeamPlaceholderName,
-                                    display_away_team_placeholder_name: displayAwayTeamPlaceholderName,
-                                });
+                                // matchCount++;
+                                // vm.groupData.matches.push({
+                                //     in_between: inBetween,
+                                //     match_number: matchNumber,
+                                //     display_match_number: displayMatchNumber,
+                                //     display_home_team_placeholder_name: displayHomeTeamPlaceholderName,
+                                //     display_away_team_placeholder_name: displayAwayTeamPlaceholderName,
+                                // });
                             }
                         }
                     }

@@ -607,8 +607,8 @@ class AgeGroupService implements AgeGroupContract
         for ($otherGroup = 0; $otherGroup < $totalGroups; $otherGroup++) {
           $otherGroupCount = chr(65 + $otherGroupCount + $otherGroup);
 
-          $matchesForOtherRound = $this->setTemplateMatchesForOtherRounds($teamsForRoundTwo, $finalRounds);
-          echo "<pre>";print_r($matchesForOtherRound);echo "</pre>";exit;
+          $matchesForOtherRound = $this->setTemplateMatchesForOtherRounds($teamsForRoundTwo, $finalRounds, $finalGroupCount);
+          // echo "<pre>";print_r($matchesForOtherRound);echo "</pre>";exit;
           $matchTypeDetailForOtherRound = [
             'name' => '',
             'total_match' => '',
@@ -645,7 +645,7 @@ class AgeGroupService implements AgeGroupContract
         for($j=1; $j<=$totalTeams; $j++) {
           for($k=($j+1); $k<=$totalTeams; $k++) {
             $matches[] = ['in-between' => $j. '-' .$k,
-                          'match_number' => ($a > 9 ? "CAT.RR1.$a.$currentGroup$j-$currentGroup$k" : "CAT.RR1.0$a.$currentGroup$j-$currentGroup$k"),
+                          'match_number' => ($a > 9 ? "CAT.PM2.$a.$currentGroup$j-$currentGroup$k" : "CAT.PM2.0$a.$currentGroup$j-$currentGroup$k"),
                           'display_match_number' => "CAT.1.$a.@HOME-@AWAY",
                           'display_home_team_placeholder_name' => "$currentGroup$j",
                           'display_away_team_placeholder_name' => "$currentGroup$k"
@@ -658,11 +658,15 @@ class AgeGroupService implements AgeGroupContract
       return $matches;
     }
 
-    public function setTemplateMatchesForOtherRounds($teamsInGroups, $finalRounds) 
+    public function setTemplateMatchesForOtherRounds($teamsInGroups, $finalRounds, $currentGroup) 
     {
       $matches = [];
       for($k=1;$k<=$finalRounds;$k++)
       {
+        $currentMatch = 1;
+        $currentRound = $k + 1;
+        $previousRound= $k - 1;
+
         if ($k != 1)
         {
           $teamsInGroups = $matches[$k-1];
@@ -671,11 +675,32 @@ class AgeGroupService implements AgeGroupContract
         list($group1, $group2) = array_chunk($teamsInGroups, ceil(count($teamsInGroups) / 2));
 
         foreach ($group1 as $key => $value) {
-          if ( sizeof($group1) == 1 || sizeof($group1) == 2)
+          $incKey = $key + 1;
+          $decKey = $key - 1;
+
+          if (sizeof($group1) == 1 || sizeof($group1) == 2)
           {
             if ($k != 1)
             {
-              $matches[$k][] = "Round ".($k-1)." match ".array_search($group1[$key], $matches[$k-1])." winner VS Round ".($k-1)." match ".array_search($group2[$key], $matches[$k-1])." winner";
+              // $matches[$k][] = "Round ".($k-1)." match ".array_search($group1[$key], $matches[$k-1])." winner VS Round ".($k-1)." match ".array_search($group2[$key], $matches[$k-1])." winner";
+              
+              $previousRoundHomeTeam = $matches[$k-1][$key]['display_home_team_placeholder_name'];
+              $previousRoundAwayTeam = $matches[$k-1][$key]['display_away_team_placeholder_name'];
+
+              $previousRoundHomeTeam1 = $matches[$k-1][$key + 2]['display_home_team_placeholder_name'];
+              $previousRoundAwayTeam1 = $matches[$k-1][$key + 2]['display_away_team_placeholder_name'];
+            
+              $matches[$k][] = [
+                'in-between' => "CAT.PM$previousRound.G$currentMatch.WR '-' .CAT.PM$previousRound.G".($currentMatch+2). "WR",
+                'match_number' => "CAT.PM".$k.".G".$currentMatch.".".$previousRoundHomeTeam."_".$previousRoundAwayTeam."_WR".
+                                  '-' .$previousRoundHomeTeam1."_".$previousRoundAwayTeam1."_WR",
+                'display_match_number' => "CAT.$currentRound.$currentMatch.wrs.@HOME-@AWAY",
+                'display_home_team_placeholder_name' => $previousRoundHomeTeam,
+                'display_away_team_placeholder_name' => $previousRoundAwayTeam
+              ];
+
+              echo "<pre>";print_r($matches);echo "</pre>";exit;
+              $currentMatch++;
             }
             else
             {
@@ -684,31 +709,48 @@ class AgeGroupService implements AgeGroupContract
           }
           else
           {
-           if ( $key % 2 == 0 )
+           if ($key % 2 == 0)
            {
-              if ( $k != 1)
+              if ($k != 1)
               {
                 $matches[$k][] = "Round ".($k-1)." match ".array_search($group1[$key], $matches[$k-1])." winner VS Round ".($k-1)." match ".array_search($group2[$key+1], $matches[$k-1])." winner";
               }
               else
               {
-                $matches[$k][] = $group1[$key]. ' VS '. $group2[$key+1];
+                // $matches[$k][] = $group1[$key]. ' VS '. $group2[$key+1];
+                $matches[$k][] = [
+                              'in-between' => $group1[$key]. '-' .$group2[$incKey],
+                              'match_number' => "CAT.PM$k.G$currentMatch.$group1[$key]-$group2[$incKey]",
+                              'display_match_number' => "CAT.$currentRound.$currentMatch.@HOME-@AWAY",
+                              'display_home_team_placeholder_name' => "$group1[$key]",
+                              'display_away_team_placeholder_name' => "$group2[$incKey]"
+                            ];
+                $currentMatch++;
               }
            }
            else
            {    
-            if ( $k != 1)
+            if ($k != 1)
             {
               $matches[$k][] = "Round ".($k-1)." match ".array_search($group1[$key], $matches[$k-1])." winner VS Round ".($k-1)." match ".array_search($group2[$key-1], $matches[$k-1])." winner";
             }
             else
             {
-              $matches[$k][] = $group1[$key]. ' VS '. $group2[$key-1];
+              // $matches[$k][] = $group1[$key]. ' VS '. $group2[$key-1];
+              $matches[$k][] = [
+                            'in-between' => $group1[$key]. '-' .$group2[$decKey],
+                            'match_number' => "CAT.PM$k.G$currentMatch.$group1[$key]-$group2[$decKey]",
+                            'display_match_number' => "CAT.$currentRound.$currentMatch.@HOME-@AWAY",
+                            'display_home_team_placeholder_name' => "$group1[$key]",
+                            'display_away_team_placeholder_name' => "$group2[$decKey]"
+                          ];
+              $currentMatch++;
             }
            }
           }
         }
+
+        $currentRound++;
       }
-      echo "<pre>";print_r($matches);echo "</pre>";exit;
     }
 }
