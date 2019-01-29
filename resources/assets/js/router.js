@@ -81,7 +81,11 @@ import Buylicense from './views/buylicense/Buylicense.vue'
 import Checkout from './views/checkout/Checkout.vue'
 // payment view
 import payment from './views/payment/payment.vue'
-import dashboard from './views/dashboard/dashboard.vue'
+import dashboard from './views/dashboard/dashboard.vue' 
+
+
+import EnterTournamentAccessCode from './views/tournament/EnterTournamentAccessCode.vue'
+import TournamentDetail from './views/tournament/TournamentDetail.vue'
 
 //User Pages
 import UserList from './views/admin/users/List.vue'
@@ -366,6 +370,26 @@ const routes = [
             }
         ]
     },
+     {
+        path: '/enter-tournament', component: LayoutCommercialisation, 
+        children: [
+            {
+                path: '/',
+                component: EnterTournamentAccessCode,
+                name: 'EnterTournamentAccessCode'
+            }
+        ]
+    },
+    {
+        path: '/tournament-detail', component: LayoutCommercialisation, 
+        children: [
+            {
+                path: '/',
+                component: TournamentDetail,
+                name: 'TournamentDetail'
+            }
+        ]
+    },
     {
         path: '/payment', component: LayoutCommercialisation,
         meta: { requiresAuth: true },
@@ -427,7 +451,11 @@ router.beforeEach((to, from, next) => {
         })
     }else{
         // logic for auth page if user is logged in then those will be redirected to admin page
-        if(to.name != "buylicense"){
+        // enter-tournament
+        // tournament-detail
+        // 
+        // console.log("to.name::",to.name)
+        if(to.name != "buylicense" && to.name != "EnterTournamentAccessCode" && to.name != "TournamentDetail"){
             let token = Ls.get('auth.token')
             // console.log("login page",token)
             if(typeof token != "undefined" && token != undefined && token != "null" && token != null){
