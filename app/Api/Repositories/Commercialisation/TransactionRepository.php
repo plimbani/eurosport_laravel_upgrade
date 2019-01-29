@@ -100,36 +100,60 @@ class TransactionRepository
 
     /**
      * Update transaction if customer update tournament from manage tournament
+     * @param array $tournament
      * @param array $data
-     * @param int $tournamentId
      */
-    public function updateTransaction($data, $tournamentId)
+    public function updateTransaction($requestData)
     {
+        $data = array_change_key_case($requestData['paymentResponse'], CASE_UPPER);
+        $tournament = $requestData['tournament'];
         $authUser = JWTAuth::parseToken()->toUser();
         $userId = $authUser->id;
         $paymentStatus = config('app.payment_status');
-        $existsTransaction = Transaction::where('tournament_id', $tournamentId)->where('user_id', $userId)->first();
-        
-        $transaction = [
-            'user_id' => $userId,
-            'order_id' => $data['ORDERID'],
-            'transaction_key' => $data['PAYID'],
-            'amount' => $data['AMOUNT'] + $existsTransaction['amount'],
-            'status' => $paymentStatus[$data['STATUS']],
-            'currency' => $data['CURRENCY'],
-            'card_type' => $data['PM'],
-            'card_holder_name' => $data['CN'],
-            'card_number' => $data['CARDNO'],
-            'card_validity' => $data['ED'],
-            'transaction_date' => $data['TRXDATE'],
-            'brand' => $data['BRAND'],
-            'payment_response' => json_encode($data)
-        ];
-        $result = Transaction::where('tournament_id', $tournamentId)->where('user_id', $userId)
-                ->update($transaction);
-        if($result) {
-            //Send invoice in email
+        $existsTransaction = Transaction::where('tournament_id', $tournament['id'])
+                        ->where('user_id', $userId)->first();
+
+        if (empty($tournament['amount'])) {
+            $transaction = [
+                'user_id' => $userId,
+                'amount' => $tournament['amount'],
+                'updated_at' => date('Y-m-d H:i:s')
+            ];
+        } else {
+            $transaction = [
+                'user_id' => $userId,
+                'order_id' => $data['ORDERID'],
+                'transaction_key' => $data['PAYID'],
+                'amount' => $data['AMOUNT'] + $existsTransaction['amount'],
+                'status' => $paymentStatus[$data['STATUS']],
+                'currency' => $data['CURRENCY'],
+                'card_type' => $data['PM'],
+                'card_holder_name' => $data['CN'],
+                'card_number' => $data['CARDNO'],
+                'card_validity' => $data['ED'],
+                'transaction_date' => $data['TRXDATE'],
+                'brand' => $data['BRAND'],
+                'payment_response' => json_encode($data),
+                'updated_at' => date('Y-m-d H:i:s')
+            ];
         }
+
+        $result = Transaction::where('tournament_id', $tournament['id'])->where('user_id', $userId)
+                ->update($transaction);
+
+        if (!empty($data)) {
+            $transaction['transaction_id'] = $existsTransaction['id'];
+            TransactionHistory::create($transaction);
+        }
+        if ($data['STATUS'] == 5) {
+            //Send conformation mail to customer
+            $subject = 'Message from Eurosport';
+            $email_templates = 'emails.frontend.payment_confirmed';
+            $emailData = ['paymentResponse' => $requestData['paymentResponse'], 'tournament' => $requestData['tournament'], 'user' => $authUser->profile];
+            Mail::to($authUser->email)
+                    ->send(new SendMail($emailData, $subject, $email_templates, NULL, NULL, NULL));
+        }
+
         return $result;
     }
 }
