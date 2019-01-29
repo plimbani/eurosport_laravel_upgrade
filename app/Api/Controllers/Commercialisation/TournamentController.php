@@ -106,18 +106,18 @@ class TournamentController extends BaseController
             $requestData = $request->all();
             if (!empty($requestData['paymentResponse'])) {
                 //Update payment details
-                $transactionRes = $this->transactionRepoObj->updateTransaction($requestData['paymentResponse'], $requestData['tournament']['id']);
+                $response = $this->transactionRepoObj->updateTransaction($requestData);
             }
             if (!empty($requestData['tournament'])) {
                 $requestData['tournament']['start_date'] = Carbon::createFromFormat('d/m/Y', $requestData['tournament']['start_date']);
                 $requestData['tournament']['end_date'] = Carbon::createFromFormat('d/m/Y', $requestData['tournament']['end_date']);
 
-                $tournamentRes = $this->tournamentRepoObj->edit($requestData['tournament']);
+                $response = $this->tournamentRepoObj->edit($requestData['tournament']);
             }
             return response()->json([
                         'success' => true,
                         'status' => Response::HTTP_OK,
-                        'data' => $tournamentRes,
+                        'data' => $response,
                         'error' => [],
                         'message' => 'Tournament details updated successfully.'
             ]);
