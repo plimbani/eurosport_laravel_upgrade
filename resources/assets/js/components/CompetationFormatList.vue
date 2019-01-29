@@ -29,6 +29,10 @@
                   @click="editCompFormat(competation.id)"><i class="jv-icon jv-edit"></i></a>
                 </span>
                 <span class="align-middle">
+                  <a class="text-primary" href="#"
+                  @click="copyCompFormat(competation.id)"><i class="jv-icon jv-doc"></i></a>
+                </span>                
+                <span class="align-middle">
                   <a href="javascript:void(0)"
                   data-confirm-msg="Are you sure you would like to delete this user record?"
                   data-toggle="modal"
@@ -42,6 +46,7 @@
           <AddAgeCateogryModel v-if="categoryStatus" :categoryRules="categoryRules"></AddAgeCateogryModel>
           <delete-modal :deleteConfirmMsg="deleteConfirmMsg" @confirmed="deleteConfirmed()"></delete-modal>
           <competationModal :templateData="templateData" :totalTime="totalTime" :templateImage="templateImage"></competationModal>
+          <CopyAgeCategoryModal v-if="copyCategoryStatus" :copiedAgeCategoryId="copiedAgeCategoryId"></CopyAgeCategoryModal>
           <!-- <div class="modal fade p-0" id="template-image-modal" tabindex="-1" role="dialog" aria-labelledby="template-image-modal" aria-hidden="true">
             <div class="modal-dialog modal-full" role="document">
               <div class="modal-content">
@@ -76,6 +81,7 @@ import Tournament from '../api/tournament.js'
 import DeleteModal from './DeleteModal.vue'
 import CompetationModal from './CompetationModal.vue'
 import AddAgeCateogryModel from './AddAgeCategoryModal.vue'
+import CopyAgeCategoryModal from './CopyAgeCategoryModal.vue'
 
 export default {
   data() {
@@ -87,11 +93,13 @@ export default {
       totalTime: '',
       templateImage: '',
       categoryStatus: false,
-      categoryRules: []
+      categoryRules: [],
+      copyCategoryStatus: false,
+      copiedAgeCategoryId: ''
     }
   },
   components: {
-    DeleteModal,CompetationModal,AddAgeCateogryModel
+    DeleteModal,CompetationModal,AddAgeCateogryModel, CopyAgeCategoryModal
   },
   mounted () {
     let that = this
@@ -151,7 +159,7 @@ export default {
     prepareDeleteResource(Id) {
        this.deleteAction=Id;
     },
-     deleteConfirmed() {
+    deleteConfirmed() {
       Tournament.deleteCompetation(this.deleteAction).then(
         (response) => {
           if(response.data.status_code==200){
@@ -166,35 +174,35 @@ export default {
       )
     },
     displayTournamentCompetationList () {
-    this.TournamentId = parseInt(this.$store.state.Tournament.tournamentId)
-    // Only called if valid tournament id is Present
-    if (!isNaN(this.TournamentId)) {
-      // here we add data for
-      let TournamentData = {'tournament_id': this.TournamentId}
-      Tournament.getCompetationFormat(TournamentData).then(
-      (response) => {
-        let category_rules_info = response.data.category_rules_info;
-        this.categoryRules = _.map(response.data.category_rules, (value, key) => {
-          return {
-            'key': key,
-            'description': category_rules_info[key],
-            'title': value,
-            'checked': false,
-          };
-        });
-        this.competationList = response.data.data
-        let time_sum= 0;
-        this.competationList.reduce(function (a,b) {
-          time_sum += b['total_time']
-        },0);
-       this.$store.dispatch('SetTournamentTotalTime', time_sum);
-      },
-      (error) => {
+      this.TournamentId = parseInt(this.$store.state.Tournament.tournamentId)
+      // Only called if valid tournament id is Present
+      if (!isNaN(this.TournamentId)) {
+        // here we add data for
+        let TournamentData = {'tournament_id': this.TournamentId}
+        Tournament.getCompetationFormat(TournamentData).then(
+        (response) => {
+          let category_rules_info = response.data.category_rules_info;
+          this.categoryRules = _.map(response.data.category_rules, (value, key) => {
+            return {
+              'key': key,
+              'description': category_rules_info[key],
+              'title': value,
+              'checked': false,
+            };
+          });
+          this.competationList = response.data.data
+          let time_sum= 0;
+          this.competationList.reduce(function (a,b) {
+            time_sum += b['total_time']
+          },0);
+         this.$store.dispatch('SetTournamentTotalTime', time_sum);
+        },
+        (error) => {
+        }
+        )
+      } else {
+        this.TournamentId = 0;
       }
-      )
-    } else {
-      this.TournamentId = 0;
-    }
     },
     next() {
       let time_sum= 0;
@@ -227,6 +235,16 @@ export default {
        // this.$store.dispatch('SetTemplate', tournamentData);
       }*/
       this.$router.push({name: 'pitch_capacity'});
+    },
+    copyCompFormat(id) {
+      this.copyCategoryStatus = true;
+      this.copiedAgeCategoryId = id;
+      setTimeout(function(){
+        $('#copyAgeCategoryModal').modal('show');
+        $("#copyAgeCategoryModal").on('hidden.bs.modal', function () {
+            this.copyCategoryStatus = false;
+        });
+      },500)      
     }
   },
   created: function() {
