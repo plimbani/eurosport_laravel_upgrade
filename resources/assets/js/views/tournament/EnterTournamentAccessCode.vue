@@ -4,12 +4,13 @@
             <div class="row">
                 <div class="col-md-6">
                     <h6 class="text-uppercase mb-0">Access Your Tournament</h6>
-                    <p class="mb-5">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris posuere vel mi ac sagittis. Quisque vel nulla at nibh finibus sodales. Nam efficitur sem a mi rhoncus. If you have an immediate enquiry please call </p>
+                    <p class="mb-5">If you have been given four digit code please enter it below to access your tournament </p>
 
                     <div class="row">
-                        <div class="col-lg-5 col-md-6">
-                            <button class="btn btn-success btn-block">Access Your Tournament</button>
-                        </div>
+                        <!-- <div class="col-lg-5 col-md-6"> -->
+                            <input type="text" class="form-control" placeholder="Enter your code" id = "code" name="code" v-model="code">
+                            <button class="btn btn-success btn-block" v-on:click="redirectTournamentDetail()">Access Your Tournament</button>
+                        <!-- </div> -->
                     </div>
                 </div>
             </div>
@@ -21,12 +22,18 @@
     export default {
         data() {
             return {
-                
+                code:""
             }
         },
         methods: {
-            redirectTournamentDetail(e){
-               console.log("redirectTournamentDetail");
+            redirectTournamentDetail(){
+               // console.log("redirectTournamentDetail:",this.code,this.code.length);
+                if(this.code.length == 4){
+                    this.$router.push({ path: 'tournament-detail', query: { code: this.code }})
+                    // this.$router.push({ path: 'tournament-detail', query: { code: '1u9E' }})
+                }else{
+                    toastr['error']("Please enter valid tournament code", 'Error');
+                }
                // this.$router.push({'name':'buylicense'}) 
             } 
         },

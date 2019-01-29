@@ -11,7 +11,7 @@
                                 <div class="card-block">
                                     <div class="row align-items-center">
                                         <div class="col-xl-7">
-                                            <p class="h7 text-uppercase mb-0">License: #000987</p>
+                                            <p class="h7 text-uppercase mb-0">License: #{{tournament.access_code}}</p>
                                             <div class="row align-items-center mb-2">
                                                 <div class="col-lg-7">
                                                     <h3 class="font-weight-bold mb-0">{{tournament.name}}</h3>
@@ -157,7 +157,7 @@
             },
 
             openSharePopup(tournament){
-                console.log("openSharePopup::",tournament.access_code)
+                // console.log("openSharePopup::",tournament.access_code)
                 this.access_code_popup = this.url + tournament.access_code;
                 this.$modal.show('open-share-popup', 
                     { 
@@ -191,7 +191,7 @@
             },
 
             redirectToRenewTournament(tournament){
-                console.log("id:::",tournament.id)
+                // console.log("id:::",tournament.id)
                 this.$router.push({name: 'buylicense', query: {id:tournament.id}});   
             },
              
