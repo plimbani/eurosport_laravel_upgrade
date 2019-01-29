@@ -122,7 +122,7 @@ class TeamService implements TeamContract
             $data['country_id'] = '1';
         }
         $data['age_group_id'] = 0;
-        $ageCategory = trim($data['event']) ;
+        $ageCategory = trim($data['agecategory']) ;
 
         if($ageCategory!= ''){
             \Log::info($ageCategory);
