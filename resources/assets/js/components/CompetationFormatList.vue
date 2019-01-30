@@ -241,9 +241,6 @@ export default {
       this.copiedAgeCategoryId = id;
       setTimeout(function(){
         $('#copyAgeCategoryModal').modal('show');
-        $("#copyAgeCategoryModal").on('hidden.bs.modal', function () {
-            this.copyCategoryStatus = false;
-        });
       },500)      
     }
   },

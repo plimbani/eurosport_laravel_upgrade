@@ -72,7 +72,7 @@
 			    </form>
 	       	</div>
 	      	<div class="modal-footer">
-	          <button type="button" class="btn btn-danger" data-dismiss="modal">{{$lang.competation_modal_button_cancle}}</button>
+	          <button type="button" class="btn btn-danger" @click="closeModal()">{{$lang.competation_modal_button_cancle}}</button>
 	          <button type="button" class="btn button btn-primary" @click="copyAgeCategory" :disabled="isSaveInProcess" v-bind:class="{ 'is-loading' : isSaveInProcess }">{{$lang.competation_modal_button_save}}</button>
 	      	</div>
 	    </div>
@@ -157,6 +157,11 @@
  		    	this.competition_format.category_age_color = '';
 		    	this.competition_format.category_age_font_color = '';
 		    	this.clearErrorMsgs();
+		    },
+		    closeModal() {
+		    	$('#copyAgeCategoryModal').modal('hide');
+		    	this.isInvalid = false;
+		    	this.resetForm();
 		    }
 		}
 	}
