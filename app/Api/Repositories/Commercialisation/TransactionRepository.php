@@ -113,10 +113,10 @@ class TransactionRepository
         $existsTransaction = Transaction::where('tournament_id', $tournament['id'])
                         ->where('user_id', $userId)->first();
 
-        if (empty($tournament['amount'])) {
+        if (empty($tournament['total_amount'])) {
             $transaction = [
                 'user_id' => $userId,
-                'amount' => $tournament['amount'],
+                'amount' => $tournament['total_amount'],
                 'updated_at' => date('Y-m-d H:i:s')
             ];
         } else {

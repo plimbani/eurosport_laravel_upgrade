@@ -109,9 +109,12 @@ class TournamentController extends BaseController
                 $response = $this->transactionRepoObj->updateTransaction($requestData);
             }
             if (!empty($requestData['tournament'])) {
-                $requestData['tournament']['start_date'] = Carbon::createFromFormat('d/m/Y', $requestData['tournament']['start_date']);
-                $requestData['tournament']['end_date'] = Carbon::createFromFormat('d/m/Y', $requestData['tournament']['end_date']);
-
+                $requestData['tournament'] = [
+                    'name' => $requestData['tournament']['tournament_name'],                    
+                    'start_date' => Carbon::createFromFormat('d/m/Y', $requestData['tournament']['tournament_start_date']),
+                    'end_date' => Carbon::createFromFormat('d/m/Y', $requestData['tournament']['tournament_end_date']),
+                    'maximum_teams' => $requestData['tournament']['tournament_max_teams'],
+                ];
                 $response = $this->tournamentRepoObj->edit($requestData['tournament']);
             }
             return response()->json([
