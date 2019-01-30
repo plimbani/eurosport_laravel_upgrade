@@ -161,8 +161,7 @@
         </div>
       </div>
     </div>
-    <div class="modal team-preview" id="teams_groups_preview_modal" tabindex="-1" role="dialog" aria-labelledby="  
-      teams_groups_preview_modal" style="display: none;" aria-hidden="true" data-animation="false">
+    <div class="modal team-preview" id="teams_groups_preview_modal" tabindex="-1" role="dialog" aria-labelledby="teams_groups_preview_modal" style="display: none;" aria-hidden="true" data-animation="false">
       <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
           <div class="modal-header">

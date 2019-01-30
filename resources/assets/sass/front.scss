@@ -667,8 +667,15 @@ label.error {
     right: 10px;
     top: 5px;
     z-index: 99;
-    padding: 7px;
+    width: 1.5rem;
+    height: 1.5rem;
+    padding: 0.7rem;
+    font-size: 1rem;
+    // text-align: center;
+    // line-height: 1.3rem;
     border-radius: 50%;
+    align-items: center;
+    justify-content: center;
     color: red;
     background: #fff;
     border: 1px solid rgba(0, 0, 0, .1);
