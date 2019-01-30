@@ -800,5 +800,6 @@ module.exports= {
   add_history_year_error_message: "Please enter a 4 digit numerical value",
 
   copy_age_category_modal_header: "Copy Category",
-  copy_age_category_modal_note: "Please complete the fields below for the new category you are creating",
+  copy_age_category_modal_note: "Please complete the fields below for the new category you are creating.",
+  copy_age_category_modal_validation_message: "This field is required",
 }

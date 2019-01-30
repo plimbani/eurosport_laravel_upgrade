@@ -613,8 +613,8 @@ input[type=number] {
 }
 
 .fc-view-container .fc-view {
-    overflow: scroll hidden;
-    height: 594px !important;
+    overflow: inherit;
+    // height: 594px !important;
 }
 
 .fc-view-container .fc-no-overlap.fc-view.fc-timelineDay-view {
@@ -1084,10 +1084,6 @@ a.aecor-anchor {
     text-decoration: underline;
     color: #757575;
 }
-.fc-view.fc-agendaDay-view.fc-agenda-view table{
-   width:100% !important;
-}
-
 .add-category-table tr td,
 .add-category-table tr th{
     padding: 0.5rem;

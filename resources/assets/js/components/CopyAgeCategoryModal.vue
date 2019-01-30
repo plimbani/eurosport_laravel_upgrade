@@ -30,7 +30,7 @@
 			                  :value="categoryAge">{{categoryAge}}
 			                  </option>
 			                </multiselect>
-			               <span class="help is-danger" v-show="isInvalid">{{$lang.competation_modal_age_category_required}}</span>
+			               <span class="help is-danger" v-show="isInvalid">{{$lang.copy_age_category_modal_validation_message}}</span>
 			              </div>
 			            </div>
 			          </div>
@@ -49,7 +49,7 @@
 			                  <input type="text" class="form-control"
 			                  placeholder="e.g. U11, U16-A"  v-validate="{ rules: { required : true, regex: /^[a-zA-Z0-9\/ ]*$/ } }" :class="{'is-danger': errors.has('ageCategory_name') }" v-model="competition_format.age_category_name" name="ageCategory_name">
 			                  <i v-show="errors.has('ageCategory_name')" class="fa fa-warning"></i>
-			                  <span class="help is-danger" v-show="errors.has('ageCategory_name')">{{$lang.competation_modal_name_category_required}}</span>
+			                  <span class="help is-danger" v-show="errors.has('ageCategory_name')">{{$lang.copy_age_category_modal_validation_message}}</span>
 			                </div>
 			              </div>
 			            </div>
@@ -66,14 +66,14 @@
 			                    <option value="9-a-side">{{$lang.pitch_modal_details_size_side_three}}</option>
 			                    <option value="11-a-side">{{$lang.pitch_modal_details_size_side_four}}</option>
 			              </select>
-			              <span class="help is-danger" v-show="errors.has('pitch_size')">{{$lang.pitch_modal_details_size_required}}</span>
+			              <span class="help is-danger" v-show="errors.has('pitch_size')">{{$lang.copy_age_category_modal_validation_message}}</span>
 			            </div>
 			        </div>
 			    </form>
 	       	</div>
 	      	<div class="modal-footer">
 	          <button type="button" class="btn btn-danger" data-dismiss="modal">{{$lang.competation_modal_button_cancle}}</button>
-	          <button type="button" class="btn button btn-primary" @click="copyAgeCategory">{{$lang.competation_modal_button_save}}</button>
+	          <button type="button" class="btn button btn-primary" @click="copyAgeCategory" :disabled="isSaveInProcess" v-bind:class="{ 'is-loading' : isSaveInProcess }">{{$lang.competation_modal_button_save}}</button>
 	      	</div>
 	    </div>
 	  </div>
@@ -88,6 +88,7 @@
 	    	return  {
 	    		value: [],
 	    		isInvalid: false,
+	    		isSaveInProcess: false,
 	    		competition_format: {
 		    		age_category_name: '',
 		    		category_age: '',
@@ -114,6 +115,7 @@
 					if(this.isInvalid == true) {
               			return false;
         			}
+        			this.isSaveInProcess = true;
 					let ageCategoryData = { 'competition_format': this.competition_format, 'copiedAgeCategoryId': this.copiedAgeCategoryId}
 					Tournament.copyAgeCategory(ageCategoryData).then(
 						(response) => {
@@ -122,6 +124,7 @@
 								$('#copyAgeCategoryModal').modal('hide');
 								this.$root.$emit('displayCompetationList');
 								this.resetForm();
+								this.isSaveInProcess = false;
 							}
 						},
 	                    (error) => {
