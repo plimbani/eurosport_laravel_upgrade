@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -361,6 +361,8 @@
                     </view>
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <connections>
+                        <outlet property="btnFinalPlacings" destination="TOF-og-g4f" id="EYh-cW-N3J"/>
+                        <outlet property="btnTeams" destination="nEc-Yi-xRI" id="IWp-rZ-RTY"/>
                         <outlet property="containerViewTop" destination="KRY-rY-3Rn" id="kPy-pP-vGp"/>
                         <outlet property="daysProgressViewContainer" destination="X8Q-qa-h8b" id="F1r-X3-WMe"/>
                         <outlet property="heightConstraintLblNoInternet" destination="kEP-e1-G4j" id="cBS-4a-Jj8"/>
@@ -445,7 +447,7 @@
     </scenes>
     <resources>
         <image name="down_arrow_black" width="68" height="38"/>
-        <image name="globe" width="50" height="50"/>
+        <image name="globe" width="25" height="28.75"/>
         <image name="tournament_details" width="107" height="78"/>
     </resources>
 </document>

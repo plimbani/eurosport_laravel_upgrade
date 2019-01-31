@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -28,7 +29,7 @@
                     <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hmG-Lf-1RH">
-                            <rect key="frame" x="5" y="1" width="30" height="41.5"/>
+                            <rect key="frame" x="5" y="1.5" width="30" height="41"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="41" id="ZSa-jT-bmO"/>
                                 <constraint firstAttribute="width" constant="30" id="cf5-Pc-tc3"/>
@@ -53,13 +54,13 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tXp-uq-eDM">
-                            <rect key="frame" x="5" y="1" width="265" height="41.5"/>
+                            <rect key="frame" x="5" y="1.5" width="265" height="41"/>
                             <connections>
                                 <action selector="backBtnPressed:" destination="-1" eventType="touchUpInside" id="WrT-f2-Xfp"/>
                             </connections>
                         </button>
                     </subviews>
-                    <color key="backgroundColor" red="0.78039215689999997" green="0.039215686270000001" blue="0.12549019610000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <color key="backgroundColor" name="navigationbarcolor"/>
                     <constraints>
                         <constraint firstItem="tXp-uq-eDM" firstAttribute="top" secondItem="hmG-Lf-1RH" secondAttribute="top" id="7GX-Rq-R5S"/>
                         <constraint firstItem="1ib-qi-axQ" firstAttribute="leading" secondItem="hmG-Lf-1RH" secondAttribute="trailing" constant="10" id="QBS-7i-D92"/>
@@ -90,5 +91,8 @@
     </objects>
     <resources>
         <image name="back_white" width="25" height="41"/>
+        <namedColor name="navigationbarcolor">
+            <color red="0.20399999618530273" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
     </resources>
 </document>

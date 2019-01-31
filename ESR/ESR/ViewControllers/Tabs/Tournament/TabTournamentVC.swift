@@ -24,6 +24,9 @@ class TabTournamentVC: SuperViewController {
     @IBOutlet var minutesProgressViewContainer: UIView!
     @IBOutlet var secondsProgressViewContainer: UIView!
     
+    @IBOutlet var btnFinalPlacings: UIButton!
+    @IBOutlet var btnTeams: UIButton!
+    
     var daysProgressView: MBCircularProgressBarView!
     var hoursProgressView: MBCircularProgressBarView!
     var minutesProgressView: MBCircularProgressBarView!
@@ -93,6 +96,13 @@ class TabTournamentVC: SuperViewController {
         hoursProgressViewContainer.addSubview(hoursProgressView)
         minutesProgressViewContainer.addSubview(minutesProgressView)
         secondsProgressViewContainer.addSubview(secondsProgressView)
+        
+        if ApplicationData.currentTarget == ApplicationData.CurrentTargetList.EasyMM.rawValue {
+            btnFinalPlacings.setBackgroundImage(UIImage.init(named: "btn_yellow"), for: .normal)
+            btnTeams.setBackgroundImage(UIImage.init(named: "btn_yellow"), for: .normal)
+            btnFinalPlacings.setTitleColor(.white, for: .normal)
+            btnTeams.setTitleColor(.white, for: .normal)
+        }
         
         // Checks internet connectivity
         setConstraintLblNoInternet(APPDELEGATE.reachability.connection == .none)

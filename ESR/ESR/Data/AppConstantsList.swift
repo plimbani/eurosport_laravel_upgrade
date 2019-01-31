@@ -283,12 +283,14 @@ extension UIColor {
     }
     
     static func AppColor() -> UIColor {
-        return UIColor(R: 199, G: 10, B: 32)
+        return UIColor(named: "navigationbarcolor") ?? UIColor(R: 199, G: 10, B: 32)
     }
     
     static let tournamentDetailYellow = UIColor(R: 255, G: 182, B: 39)
     static let teamTabLblDefault = UIColor(R: 221, G: 170, B: 171)
+    static let teamTabLblDefaultBlue = UIColor(R: 159, G: 213, B: 238)
     static let teamTabOrange = UIColor(R: 213, G: 143, B: 40)
+    static let teamTabBlue = UIColor(R: 7, G: 76, B: 132)
     static let favDefaultSelected = UIColor(R: 0, G: 147, B: 0)
     static let favUnfav = UIColor(R: 187, G: 190, B: 195)
     static let favDefaultText = UIColor(R: 117, G: 117, B: 117)

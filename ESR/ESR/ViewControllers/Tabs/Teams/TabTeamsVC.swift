@@ -76,10 +76,10 @@ class TabTeamsVC: SuperViewController {
                 selectedIndex = viewValue.tag
                 
                 tabLabelList[selectedIndex].textColor = .white
-                tabLineViewList[selectedIndex].backgroundColor = .teamTabOrange
+                tabLineViewList[selectedIndex].backgroundColor = UIColor.init(named: "teamtabssepcolor")
                 
                 if selectedIndex != previousIndex {
-                    tabLabelList[previousIndex].textColor = .teamTabLblDefault
+                    tabLabelList[previousIndex].textColor = UIColor.init(named: "teamtabstextcolor")
                     tabLineViewList[previousIndex].backgroundColor = .clear
                     previousIndex = selectedIndex
                 }

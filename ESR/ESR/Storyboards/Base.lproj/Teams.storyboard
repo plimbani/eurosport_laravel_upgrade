@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -37,18 +38,18 @@
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="CLUBS" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Okt-1n-WnB">
                                                         <rect key="frame" x="29.5" y="14" width="47.5" height="17"/>
                                                         <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="14"/>
-                                                        <color key="textColor" red="0.8666666666666667" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gch-vR-mPQ">
                                                         <rect key="frame" x="0.0" y="40" width="106.5" height="5"/>
-                                                        <color key="backgroundColor" red="0.92941176469999998" green="0.61960784310000006" blue="0.1764705882" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        <color key="backgroundColor" name="teamtabssepcolor"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="5" id="dDF-sI-STC"/>
                                                         </constraints>
                                                     </view>
                                                 </subviews>
-                                                <color key="backgroundColor" red="0.78039215689999997" green="0.039215686270000001" blue="0.12549019610000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <color key="backgroundColor" name="navigationbarcolor"/>
                                                 <constraints>
                                                     <constraint firstItem="Okt-1n-WnB" firstAttribute="centerY" secondItem="OhS-IC-6Cz" secondAttribute="centerY" id="4oa-vz-2bi"/>
                                                     <constraint firstAttribute="bottom" secondItem="Gch-vR-mPQ" secondAttribute="bottom" id="6Lk-eq-Igo"/>
@@ -63,7 +64,7 @@
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="CATEGORY" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RhD-gf-d3F">
                                                         <rect key="frame" x="16" y="14" width="75" height="17"/>
                                                         <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="14"/>
-                                                        <color key="textColor" red="0.86274509803921573" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <color key="textColor" name="teamtabstextcolor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Mcq-Tu-gzq">
@@ -74,7 +75,7 @@
                                                         </constraints>
                                                     </view>
                                                 </subviews>
-                                                <color key="backgroundColor" red="0.78039215689999997" green="0.039215686270000001" blue="0.12549019610000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <color key="backgroundColor" name="navigationbarcolor"/>
                                                 <constraints>
                                                     <constraint firstItem="RhD-gf-d3F" firstAttribute="centerY" secondItem="T5S-qX-bNQ" secondAttribute="centerY" id="G4L-eH-DY2"/>
                                                     <constraint firstItem="Mcq-Tu-gzq" firstAttribute="leading" secondItem="T5S-qX-bNQ" secondAttribute="leading" id="XRp-3n-1OF"/>
@@ -89,7 +90,7 @@
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="GROUPS" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ueK-5b-P38">
                                                         <rect key="frame" x="23" y="14" width="60" height="17"/>
                                                         <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="14"/>
-                                                        <color key="textColor" red="0.86666666670000003" green="0.66666666669999997" blue="0.66666666669999997" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <color key="textColor" name="teamtabstextcolor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ocz-XE-2aI">
@@ -100,7 +101,7 @@
                                                         </constraints>
                                                     </view>
                                                 </subviews>
-                                                <color key="backgroundColor" red="0.78039215689999997" green="0.039215686270000001" blue="0.12549019610000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <color key="backgroundColor" name="navigationbarcolor"/>
                                                 <constraints>
                                                     <constraint firstItem="Ocz-XE-2aI" firstAttribute="leading" secondItem="qvn-1q-dbd" secondAttribute="leading" id="90s-nW-7TF"/>
                                                     <constraint firstAttribute="bottom" secondItem="Ocz-XE-2aI" secondAttribute="bottom" id="B21-mA-fuS"/>
@@ -110,10 +111,10 @@
                                                 </constraints>
                                             </view>
                                         </subviews>
-                                        <color key="backgroundColor" red="0.78039215689999997" green="0.039215686270000001" blue="0.12549019610000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="backgroundColor" name="navigationbarcolor"/>
                                     </stackView>
                                 </subviews>
-                                <color key="backgroundColor" red="0.78039215689999997" green="0.039215686270000001" blue="0.12549019610000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" name="navigationbarcolor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="45" id="CvI-Ft-LYJ"/>
                                     <constraint firstAttribute="trailing" secondItem="AIN-hA-3hD" secondAttribute="trailing" id="VYT-5h-DFx"/>
@@ -178,7 +179,7 @@
                                         <textInputTraits key="textInputTraits" autocorrectionType="no"/>
                                     </textField>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="search" translatesAutoresizingMaskIntoConstraints="NO" id="WFk-3Z-n3P">
-                                        <rect key="frame" x="20" y="14.5" width="22" height="22"/>
+                                        <rect key="frame" x="20" y="14" width="22" height="22"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="22" id="Bvd-y5-qer"/>
                                             <constraint firstAttribute="height" constant="22" id="lKh-Gi-DMs"/>
@@ -443,7 +444,7 @@
                             <rect key="frame" x="0.0" y="50" width="320" height="150"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No league data available" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NtS-B1-oJJ">
-                                    <rect key="frame" x="72.5" y="65" width="176" height="19"/>
+                                    <rect key="frame" x="72" y="65.5" width="176" height="19"/>
                                     <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="16"/>
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
@@ -540,7 +541,7 @@
                                     </constraints>
                                 </view>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No league data available" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="M6O-Jc-0jr">
-                                    <rect key="frame" x="72.5" y="65" width="176" height="19"/>
+                                    <rect key="frame" x="72" y="65.5" width="176" height="19"/>
                                     <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="16"/>
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
@@ -779,5 +780,14 @@
     </scenes>
     <resources>
         <image name="search" width="81" height="81"/>
+        <namedColor name="navigationbarcolor">
+            <color red="0.0" green="0.5725490196078431" blue="0.83921568627450982" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="teamtabssepcolor">
+            <color red="0.92941176470588238" green="0.61960784313725492" blue="0.17647058823529413" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="teamtabstextcolor">
+            <color red="0.8666666666666667" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
     </resources>
 </document>

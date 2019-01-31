@@ -24,6 +24,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var infoAlertViewTwoButton: CustomAlertViewTwoButton!
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        _ = ApplicationData.sharedInstance()
         
         // Firebase
         FirebaseApp.configure()
@@ -42,7 +43,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             statusBar.backgroundColor = UIColor.AppColor()
         }
         
-        _ = ApplicationData.sharedInstance()
         GMSServices.provideAPIKey(Environment().configuration(PlistKey.GoogleMapKey))
         // Fabric
         Fabric.with([Crashlytics.self])

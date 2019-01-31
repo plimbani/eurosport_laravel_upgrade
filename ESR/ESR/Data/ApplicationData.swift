@@ -24,6 +24,13 @@ class ApplicationData: NSObject {
     
     static var isAppUpdateDispalyed = false
     
+    // For maintaining targets
+    enum CurrentTargetList: String {
+        case ESR
+        case EasyMM
+    }
+    static var currentTarget = CurrentTargetList.ESR.rawValue
+        
     static func sharedInstance() -> ApplicationData {
         if (applicationData == nil) {
             applicationData = ApplicationData()
@@ -33,6 +40,14 @@ class ApplicationData: NSObject {
     
     override init() {
         API_URL.BASE_URL = Environment().configuration(PlistKey.BaseURL)
+        
+        if let bundleID = Bundle.main.bundleIdentifier {
+            if bundleID == "com.aecordigital.eurosporting.easymatchmanager" {
+                ApplicationData.currentTarget = CurrentTargetList.EasyMM.rawValue
+            } else if bundleID == "com.aecordigital.eurosporting" {
+                ApplicationData.currentTarget = CurrentTargetList.ESR.rawValue
+            }
+        }
         
         // Network connectivity check
         reachability.whenReachable = { reachability in
