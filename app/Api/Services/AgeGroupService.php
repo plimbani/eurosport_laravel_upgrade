@@ -450,4 +450,12 @@ class AgeGroupService implements AgeGroupContract
         $this->matchServiceObj->updateGroupRankingPositions($tournamentCompetationTemplate, $rankingPositions);
       }
     }
+
+    public function copyAgeCategory($data)
+    {
+      $data = $this->ageGroupObj->copyAgeCategory($data);
+      if ($data) {
+        return ['status_code' => '200', 'message' => 'Data Sucessfully Inserted'];
+      }
+    }
 }

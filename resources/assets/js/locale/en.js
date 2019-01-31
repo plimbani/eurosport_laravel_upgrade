@@ -149,10 +149,10 @@ module.exports= {
   tournament_telephone: "Telephone",
   // tournament_image_size: "Maximum size of 1 MB.",
   // tournament_image_dimensions: "Image dimensions 250 x 250.",
-  tournament_location_button: "Add location",
-  tournament_remove_location: "Remove location",
-  tournament_location: "Location",
-  tournament_venue: "Venue",
+  tournament_location_button: "Add venue",
+  tournament_remove_location: "Remove venue",
+  tournament_location: "Venues",
+  tournament_venue: "Sport park",
   tournamemt_validation_venue: "Venue required",
   tournament_logo: "Tournament logo",
   social_sharing_graphic: "Social sharing graphic",
@@ -180,7 +180,7 @@ module.exports= {
   tournament_button_next: "Save/Next",
   tournament_filter_age_category: "Category name",
   tournament_filter_age_category_match: "Category",
-  tournament_label: "Tournament details",
+  tournament_label: "Tournament data",
   teams_groups_label: "Teams and groups",
 
 
@@ -256,7 +256,7 @@ module.exports= {
   competation_manage: "Edit",
   compeattion_template: "Template name",
   competation_label: "Competition formats",
-  competation_modal_team_interval: "Team interval*",
+  competation_modal_team_interval: "Team match interval*",
   competation_modal_points_structure: "Points structure*",
   competation_modal_category_rules: "Category rules*",
   competation_modal_team_interval_minutes: "minutes",
@@ -406,7 +406,7 @@ module.exports= {
   pitch_modal_details_size_side_indoor: "Indoor",
   pitch_modal_button_next: "Next",
 
-  pitch_modal_details_name: "Pitch name*",
+  pitch_modal_details_name: "Pitch name",
   pitch_modal_availability: "Pitch availability",
   pitch_modal_action: "Actions",
   pitch_modal_availability_stage: "Day",
@@ -415,13 +415,15 @@ module.exports= {
   pitch_modal_availability_capacity: "Capacity",
   pitch_modal_availability_button_addstage: "Add day",
   pitch_modal_availability_button_add: "Add day",
+  pitch_capacity_location: "Location",
+
 
   pitch_modal_edit_pitch_button: "Delete",
   pitch_modal_edit_pitch_cancel_button: "Cancel",
   pitch_modal_availability_button_close: "Cancel",
   pitch_modal_availability_button_save: "Save",
   pitch_capacity_label: "Pitch capacity",
-  pitch_planner_label: "Pitch planner",
+  pitch_planner_label: "Match Planner",
   pitch_planner_text: "*Add pitches.",
   pitch_planner_no_games: "All games scheduled",
   pitch_planner_horizontal: "Horizontal",
@@ -657,11 +659,11 @@ module.exports= {
 
   summary_message_compose_message: "Compose your message",
   summary_message_button_send: "Send",
-  summary_label: "Summary",
+  summary_label: "Administration",
 
-  summary_label_summary: "Dashboard",
+  summary_label_summary: "Summary",
   summary_label_reports: "Reports",
-  summary_label_schedule: "Result administration",
+  summary_label_schedule: "Match results",
   summary_label_message: "App message",
 
   summary_schedule_matches_time: "Time",
@@ -796,4 +798,8 @@ module.exports= {
   offline_redirect_url_error_message: "The offline redirect url is not a valid URL.",
 
   add_history_year_error_message: "Please enter a 4 digit numerical value",
+
+  copy_age_category_modal_header: "Copy Category",
+  copy_age_category_modal_note: "Please complete the fields below for the new category you are creating.",
+  copy_age_category_modal_validation_message: "This field is required",
 }

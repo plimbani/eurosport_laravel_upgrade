@@ -124,7 +124,7 @@
                                 Break Start
                             </div> -->
                             <div class="col-md-3">
-                            <input type="checkbox" :name="'stage_break_chk'+day" class="mr-1 stage_break_chk"  :id="'stage_break_chk_'+day" >Check to add a break
+                            <input type="checkbox" :name="'stage_break_chk'+day" class="mr-1 stage_break_chk"  :id="'stage_break_chk_'+day" >Add break
                             </div>
                             <!-- <div class="col-md-3"> -->
                                 <!-- <div class="d-flex flex-nowrap justify-content-between align-items-center"> -->
@@ -278,10 +278,10 @@
                                 <input type="hidden" class="stage_capacity_all" :name="'stage_capacity_min'+day" :id="'stage_capacity_min'+day" value="0">
                             </div>
                           </div>
-                             </div>
+                        </div>
 
-                        <div class="card-footer text-right">
-                            <a href="#" class="btn btn-danger"  @click="stageRemove(day)">{{$lang.pitch_detail_delete_stage}}</a>
+                        <div class="card-footer text-right py-1">
+                            <a href="#" class="text-danger delete-day-link"  @click="stageRemove(day)">{{$lang.pitch_detail_delete_stage}}</a>
                         </div>
                       </div>
                     </div>

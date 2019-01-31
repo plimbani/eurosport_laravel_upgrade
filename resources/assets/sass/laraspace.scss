@@ -63,6 +63,8 @@
 @import 'partials/footer';
 
 // Components
+@import 'mixins/bg-color';
+@import 'components/bg-varient';
 @import 'components/forms';
 @import 'components/euro-checkbox';
 @import 'components/buttons';

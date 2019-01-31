@@ -21,6 +21,7 @@
                             <thead>
                                 <tr>
                                     <th class="text-center">{{$lang.pitch_modal_details_name}}</th>
+                                    <th class="text-center">{{$lang.pitch_capacity_location}}</th>
                                     <th class="text-center">{{$lang.pitch_modal_details_size}}</th>
                                     <th class="text-center">{{$lang.pitch_modal_details_type}}</th>
                                     <th class="text-center">{{$lang.pitch_modal_availability_stage}}</th>
@@ -30,6 +31,7 @@
                             <tbody>
                                 <tr v-for="pitch in pitches">
                                     <td class="text-left">{{pitch.pitch_number}}</td>
+                                    <td class="text-left">{{ pitch.venue.name }}</td>
                                     <td class="text-left">{{pitch.size}}</td>
                                     <td class="text-left" style="text-transform: capitalize;">{{pitch.type}}</td>
                                     <td>
