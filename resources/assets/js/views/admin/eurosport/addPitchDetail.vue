@@ -297,7 +297,7 @@
                                   </div>
                                 </div>
                               </div>
-                              <div class="card-footer text-center">
+                              <div class="card-footer text-right py-1">
                                   <a href="#" class="text-danger delete-day-link"  @click="stageRemove(day)">{{$lang.pitch_detail_delete_stage}}</a>
                               </div>
                             </div>
