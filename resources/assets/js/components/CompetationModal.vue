@@ -26,7 +26,12 @@
                 </div>
               </div>
             </div> -->
-            <div class="row">
+            <div class="row" v-if="templateImage !== null">
+              <div class="col-md-12 text-center">
+                <img :src="'/assets/img/template_images/'+templateImage">
+              </div>
+            </div>
+            <div class="row" v-else>
               <div class="col-md-6">
                 <div class="jumbotron h-100 mb-0 px-4 py-4">
                   <p class="row">

@@ -146,7 +146,15 @@ export default {
           (response) => {
           if(response.data.status_code==200){
             this.templateData = JSON.parse(response.data.data.json_data)
-            this.templateImage = response.data.data.image
+            if ( this.templateData.tournament_name == 'T.8.6')
+            {
+              this.templateImage = this.templateData.tournament_name+'.png';
+            }
+            else
+            {
+              this.templateImage = response.data.data.image
+            }
+
             this.totalTime = tTime
              $("#competationmodal").modal("show");
           }
