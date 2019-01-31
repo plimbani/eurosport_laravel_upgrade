@@ -407,7 +407,7 @@ module.exports= {
   pitch_modal_button_next: "Next",
 
   pitch_modal_details_name: "Pitch name",
-  pitch_modal_availability: "Pitch details",
+  pitch_modal_availability: "Pitch availability",
   pitch_modal_action: "Actions",
   pitch_modal_availability_stage: "Day",
   pitch_modal_availability_date: "Date",
