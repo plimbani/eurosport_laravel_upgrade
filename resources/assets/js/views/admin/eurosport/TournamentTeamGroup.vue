@@ -121,7 +121,7 @@
                           <td class="text-center">
                             <a class="text-primary" href="javascript:void(0)"
                              @click="editTeam(team.id)">
-                              <i class="jv-icon jv-edit"></i>
+                              <i class="fa fa-pencil"></i>
                             </a>
                           </td>
                         </tr>

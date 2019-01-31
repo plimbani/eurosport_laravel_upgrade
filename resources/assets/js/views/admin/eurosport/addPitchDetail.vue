@@ -137,9 +137,16 @@
                                   <!-- <div class="col-md-3">
                                      {{$lang.pitch_capacity_break_start}}
                                   </div> -->
+                                   
                                   <div class="col-md-3">
                                   <!-- <input type="checkbox" name="stage_chk_active">Check to add a break -->
-                                  <input type="checkbox" :name="'stage_break_chk'+day" class="mr-1 stage_break_chk"  :id="'stage_break_chk_'+day" >Add break
+                                  <div class="checkbox">
+                                    <div class="c-input">
+                                        <input type="checkbox" class="euro-checkbox stage_break_chk" :name="'stage_break_chk'+day" :id="'stage_break_chk_'+day">
+                                        <label :for="'stage_break_chk_'+day">Add break</label>
+                                    </div>
+                                  </div> 
+                                  <!-- <input type="checkbox" :name="'stage_break_chk'+day" class="mr-1 stage_break_chk"  :id="'stage_break_chk_'+day" >Add break -->
                                   </div>
                                   <!-- <div class="col-md-3">
                                     <div class="d-flex flex-nowrap justify-content-between align-items-center">

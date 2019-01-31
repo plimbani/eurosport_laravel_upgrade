@@ -22,7 +22,7 @@
                   <td class="text-center" v-if="message.status == 'queued' ">Draft</td>
                   <td class="text-center" v-else>Sent</td>
                   <td class="text-center">
-                    <a href="#" @click="messageDetails(index)" class="text-primary"><i class="jv-icon jv-find-doc text-decoration icon-big"></i></a>
+                    <a href="#" @click="messageDetails(index)" class="text-primary"><i class="fa fa-copy text-decoration icon-big"></i></a>
                   </td>
               </tr>
           </tbody>

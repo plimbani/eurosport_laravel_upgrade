@@ -26,11 +26,11 @@
               <td class="text-center">
                 <span class="align-middle">
                   <a class="text-primary" href="#"
-                  @click="editCompFormat(competation.id)"><i class="jv-icon jv-edit"></i></a>
+                  @click="editCompFormat(competation.id)"><i class="fa fa-pencil"></i></a>
                 </span>
                 <span class="align-middle">
                   <a class="text-primary" href="#"
-                  @click="copyCompFormat(competation.id)"><i class="jv-icon jv-doc"></i></a>
+                  @click="copyCompFormat(competation.id)"><i class="fa fa-copy"></i></a>
                 </span>                
                 <span class="align-middle">
                   <a href="javascript:void(0)"
@@ -38,7 +38,7 @@
                   data-toggle="modal"
                   data-target="#delete_modal"
                   @click="prepareDeleteResource(competation.id)">
-                  <i class="jv-icon jv-dustbin"></i></a>
+                  <i class="fa fa-trash text-danger"></i></a>
                 </span>
               </td>
             </tr>
