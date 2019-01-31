@@ -5,7 +5,8 @@
       		<h6><strong>{{$lang.teams_terms_groups}}</strong></h6>
             <div class="row">
               <div class="col-sm-12 mb-2">
-                Spreadsheet <a href="javascript:void(0)" @click="downloadTeamsSpreadsheetSample()" class="text-primary"><u>click here</u></a>
+                Team list spreadsheet <a href="javascript:void(0)" @click="downloadTeamsSpreadsheetSample()" class="text-primary"><u>click here.</u></a>  View
+                <a href="javascript:void(0)" @click="previewSpredsheetSample()" class="text-primary"><u> example</u></a>
               </div>
             </div>
             <div class="form-group row">
@@ -138,30 +139,44 @@
     			</div>
   		</div>
   	</div>
-     <team-modal v-if="teamId!=''" :teamId="teamId" :countries="countries" :clubs="clubs" :teamColors="teamColors"></team-modal>
+    <team-modal v-if="teamId!=''" :teamId="teamId" :countries="countries" :clubs="clubs" :teamColors="teamColors"></team-modal>
     <div class="modal fade" id="reset_modal" tabindex="-1" role="dialog"
-    aria-labelledby="resetModalLabel">
+      aria-labelledby="resetModalLabel">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="myModalLabel">Confirmation</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                </div>
-                <div class="modal-body text-left">
-                    <p>
-                        Are you sure you would like to reset this age category? This will delete
-                        <b>ALL</b> team information associated with this age category including team names, fixtures and results.
-                    </p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">{{$lang.summary_tab_popup_publish_cancel_button}}</button>
-                    <button type="submit" class="btn btn-primary" @click="resetAllTeams()">{{$lang.summary_tab_popup_publish_confirm_button}}</button>
-                </div>
+          <div class="modal-header">
+              <h5 class="modal-title" id="myModalLabel">Confirmation</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          </div>
+          <div class="modal-body text-left">
+              <p>
+                  Are you sure you would like to reset this age category? This will delete
+                  <b>ALL</b> team information associated with this age category including team names, fixtures and results.
+              </p>
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-danger" data-dismiss="modal">{{$lang.summary_tab_popup_publish_cancel_button}}</button>
+              <button type="submit" class="btn btn-primary" @click="resetAllTeams()">{{$lang.summary_tab_popup_publish_confirm_button}}</button>
+          </div>
         </div>
       </div>
     </div>
+    <div class="modal team-preview" id="teams_groups_preview_modal" tabindex="-1" role="dialog" aria-labelledby="teams_groups_preview_modal" style="display: none;" aria-hidden="true" data-animation="false">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+             <h5 class="modal-title" id="teams_groups_preview_modal">Preview</h5>
+             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+             <span aria-hidden="true">×</span>
+             </button>
+          </div>
+          <div class="modal-body">
+            <img src="../../../../../../public/assets/img/teams_groups_preview/TeamsGroupsPreview.png" class="img-fluid">
+          </div>
+         </div>
+      </div>
+    </div>
   </div>
-
 </template>
 
 <script type="text/babel">
@@ -215,7 +230,7 @@
     components: {
       TournamentFilter,
       teamSelect,
-      TeamModal
+      TeamModal,
     },
     computed: {
        tournamentFilter: function() {
@@ -708,6 +723,10 @@
           (error) => {
         });
       },
+      previewSpredsheetSample() {
+        $('#teams_groups_preview_modal').modal('show');
+      },
+
     }
   }
 </script>
