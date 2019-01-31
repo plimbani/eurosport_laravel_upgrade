@@ -262,4 +262,7 @@ export default {
   updateCompetitionDisplayName(data) {
     return api.post('tournament/updateCompetitionDisplayName', data);
   },
+  copyAgeCategory(ageCategoryData) {
+    return api.post('age_group/copyAgeCategory', {'ageCategoryData': ageCategoryData})
+  }
 }

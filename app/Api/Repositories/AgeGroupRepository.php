@@ -442,4 +442,20 @@ class AgeGroupRepository
 
       return $positionData;
     }
+
+    public function copyAgeCategory($data) {
+      $copiedAgeCategory = TournamentCompetationTemplates::where('id', $data['ageCategoryData']['copiedAgeCategoryId'])->first();
+
+      $newCopiedAgeCategory = $copiedAgeCategory->replicate();
+      $newCopiedAgeCategory->group_name = $data['ageCategoryData']['competition_format']['age_category_name'];
+      $newCopiedAgeCategory->category_age = $data['ageCategoryData']['competition_format']['category_age'];
+      $newCopiedAgeCategory->pitch_size = $data['ageCategoryData']['competition_format']['pitch_size'];
+      $newCopiedAgeCategory->category_age_color = $data['ageCategoryData']['competition_format']['category_age_color'];
+      $newCopiedAgeCategory->category_age_font_color = $data['ageCategoryData']['competition_format']['category_age_font_color'];
+      $newCopiedAgeCategory->save();
+
+      return $newCopiedAgeCategory;
+
+    }
+
 }

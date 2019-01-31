@@ -106,4 +106,8 @@ class AgeGroupController extends BaseController
         return $this->ageGroupObj->getPlacingsData($request->all());
     }
 
+    public function copyAgeCategory(Request $request) {
+        return $this->ageGroupObj->copyAgeCategory($request->all());
+    }
+
 }
