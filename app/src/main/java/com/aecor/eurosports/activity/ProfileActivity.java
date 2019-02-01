@@ -22,13 +22,12 @@ import android.widget.TextView;
 
 import com.aecor.eurosports.R;
 import com.aecor.eurosports.adapter.CountrySpinnerAdapter;
-import com.aecor.eurosports.adapter.TournamentSpinnerAdapter;
+import com.aecor.eurosports.adapter.RoleSpinnerAdapter;
 import com.aecor.eurosports.gson.GsonConverter;
 import com.aecor.eurosports.http.VolleyJsonObjectRequest;
 import com.aecor.eurosports.http.VolleySingeltone;
 import com.aecor.eurosports.model.CountriesModel;
 import com.aecor.eurosports.model.ProfileModel;
-import com.aecor.eurosports.model.TournamentModel;
 import com.aecor.eurosports.util.ApiConstants;
 import com.aecor.eurosports.util.AppConstants;
 import com.aecor.eurosports.util.AppLogger;
@@ -86,6 +85,7 @@ public class ProfileActivity extends BaseAppCompactActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         setContentView(R.layout.profile);
+        selectedTabName = AppConstants.SCREEN_CONSTANT_USER_SETTINGS;
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
         initView();
@@ -93,44 +93,8 @@ public class ProfileActivity extends BaseAppCompactActivity {
 
     private void setRoleAdapter() {
         roleArray = mContext.getResources().getStringArray(R.array.role_array);
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this, R.layout.row_spinner_item, R.id.tv_spinner, roleArray) {
-
-            @Override
-            public boolean isEnabled(int position) {
-                return position != 0;
-            }
-
-            @Override
-            public boolean areAllItemsEnabled() {
-                return false;
-            }
-
-            @Override
-            public View getDropDownView(int position, View convertView, ViewGroup parent) {
-                View v = convertView;
-                if (v == null) {
-                    Context mContext = this.getContext();
-                    LayoutInflater vi = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                    v = vi.inflate(R.layout.row_spinner_item, null);
-                }
-
-                TextView tv = (TextView) v.findViewById(R.id.tv_spinner);
-                tv.setText(roleArray[position]);
-
-                switch (position) {
-                    case 0:
-                        tv.setTextColor(Color.GRAY);
-                        break;
-
-                    default:
-                        tv.setTextColor(Color.BLACK);
-                        break;
-                }
-                return v;
-            }
-        };
-
-        sp_role.setAdapter(spinnerAdapter);
+        RoleSpinnerAdapter mSpinnerAdapter = new RoleSpinnerAdapter(this, roleArray);
+        sp_role.setAdapter(mSpinnerAdapter);
         sp_role.setSelection(0);
 
     }
@@ -403,22 +367,55 @@ public class ProfileActivity extends BaseAppCompactActivity {
     private boolean validate() {
         String fname = input_first_name.getText().toString().trim();
         String sname = input_last_name.getText().toString().trim();
-
+        addOrRemoveBorder();
         if (Utility.isNullOrEmpty(fname)) {
-            return false;
-        }
-        if (Utility.isNullOrEmpty(mSelectedCountryId)) {
-            return false;
-        }
-        if (Utility.isNullOrEmpty(sp_role.getSelectedItem().toString())
-                && !sp_role.getSelectedItem().toString().equalsIgnoreCase(getString(R.string.role))) {
             return false;
         }
 
         if (Utility.isNullOrEmpty(sname)) {
             return false;
         }
+
+        if (Utility.isNullOrEmpty(mSelectedCountryId)) {
+            return false;
+        }
+        if (Utility.isNullOrEmpty(sp_role.getSelectedItem().toString())
+                && sp_role.getSelectedItem().toString().equalsIgnoreCase(getString(R.string.role))) {
+
+            return false;
+        }
+
+
         return true;
+    }
+
+    private void addOrRemoveBorder() {
+        String fname = input_first_name.getText().toString().trim();
+        String sname = input_last_name.getText().toString().trim();
+
+        if (Utility.isNullOrEmpty(fname)) {
+            input_first_name.setBackgroundResource(R.drawable.edittext_border_red);
+        } else {
+            input_first_name.setBackgroundResource(R.drawable.edittext_border);
+        }
+
+        if (Utility.isNullOrEmpty(sname)) {
+            input_last_name.setBackgroundResource(R.drawable.edittext_border_red);
+        } else {
+            input_last_name.setBackgroundResource(R.drawable.edittext_border);
+        }
+
+        if (Utility.isNullOrEmpty(mSelectedCountryId)) {
+            sp_country.setBackgroundResource(R.drawable.spinner_bg_image_gray_error);
+        } else {
+            sp_country.setBackgroundResource(R.drawable.spinner_bg_image_gray);
+        }
+        if (sp_role.getSelectedItem().toString().equalsIgnoreCase(getString(R.string.role))) {
+            sp_role.setBackgroundResource(R.drawable.spinner_bg_image_gray_error);
+
+        } else {
+            sp_role.setBackgroundResource(R.drawable.spinner_bg_image_gray);
+        }
     }
 
     private void checkValidation() {
