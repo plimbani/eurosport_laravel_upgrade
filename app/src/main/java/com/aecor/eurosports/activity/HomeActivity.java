@@ -412,8 +412,7 @@ public class HomeActivity extends BaseAppCompactActivity {
 
         TournamentModel mTournamentModel = lists.get(positionOfItem);
         lists.remove(positionOfItem);
-        lists.add(0 , mTournamentModel);
-
+        lists.add(0, mTournamentModel);
 
 
         return lists;
@@ -423,19 +422,32 @@ public class HomeActivity extends BaseAppCompactActivity {
         List<TournamentModel> list = new ArrayList<>();
         list.addAll(Arrays.asList(mTournamentList));
         Collections.reverse(list);
-        Collections.sort(list, new Comparator<TournamentModel>() {
+
+        for (int i = 0; i < list.size(); i++) {
             DateFormat f = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+            DateFormat targetFormat = new SimpleDateFormat("dd/MM/yyyy");
+            Date date = null;
+            try {
+                date = f.parse(list.get(i).getStart_date());
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            list.get(i).setmTempStartDate(targetFormat.format(date));
+
+        }
+        Collections.sort(list, new Comparator<TournamentModel>() {
+            DateFormat f = new SimpleDateFormat("dd/MM/yyyy");
 
             public int compare(TournamentModel o1, TournamentModel o2) {
-                if (o1.getStart_date() == null) {
-                    return (o2.getStart_date() == null) ? 0 : -1;
+                if (o1.getmTempStartDate() == null) {
+                    return (o2.getmTempStartDate() == null) ? 0 : -1;
                 }
-                if (o2.getStart_date() == null) {
+                if (o2.getmTempStartDate() == null) {
                     return 1;
                 }
 
                 try {
-                    return f.parse(o2.getStart_date()).compareTo(f.parse(o1.getStart_date()));
+                    return f.parse(o2.getmTempStartDate()).compareTo(f.parse(o1.getmTempStartDate()));
                 } catch (ParseException e) {
                     throw new IllegalArgumentException(e);
                 }
