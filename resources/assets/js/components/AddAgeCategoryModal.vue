@@ -1,10 +1,10 @@
 <template>
-<div class="modal" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true"  data-animation="false">
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="display: none;">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">{{$lang.competation_modal_age_category}}</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close" @click="closeExampleModal()">
             <span aria-hidden="true">×</span>
         </button>
       </div>
@@ -122,7 +122,6 @@
               </div>
             </div>
           </div>
-
           <div class="form-group row align-items-top"
            :class="{'has-error': errors.has('tournamentTemplate') }">
             <div class="col-sm-4">{{$lang.competation_label_template}}</div>
@@ -160,7 +159,7 @@
                               v-if="checkTemplate(option)">
                             </span>
                         </div>
-                        <div class="col-sm-10 align-self-center">
+                        <div class="col-sm-8 align-self-center">
                           <span for="one"
                           v-if="checkTemplate(option)"  :style="'color:'+option.template_font_color">
                           {{option.name}}<br>{{option.disp_format}}<br>{{option.total_match}} matches<br>{{option.total_time | formatTime}}
@@ -172,6 +171,11 @@
                           <span v-else>Avg games per team: Not applicable </span>
                           </span>
                         </div>
+                        <div class="col align-self-center text-center">
+                          <a href="#" @click="viewGraphicalPreview(option.name)" class="text-primary" v-if="isExist(option.name)"><u>Preview</u></a>
+                        </div>
+                        <displaygraphic :templateImage="templateImage"></displaygraphic>
+
                       </div>
                     </div>
                   </div>
@@ -416,13 +420,14 @@
 </template>
 <script type="text/babel">
 import Tournament from '../api/tournament.js'
+import displaygraphic from './DisplayGraphicalStructure.vue'
 import Multiselect from 'vue-multiselect'
 import _ from 'lodash'
 import draggable from 'vuedraggable';
 
 export default {
   props: ['categoryRules'],
-  components: { draggable, Multiselect },
+  components: { draggable, Multiselect, displaygraphic },
   data() {
     return  {
       competation_format: this.initialState(),
@@ -458,7 +463,17 @@ export default {
       },
       categoryAgeFontColorArr: {'U08/5' : '#000000','U09' : '#FFFFFF','U09/5' : '#000000','U09/7' : '#000000','U10' : '#000000','U10/5' : '#000000','U10/7' : '#000000','U10/9' : '#000000','U10/5A' : '#000000','U10/7A' : '#000000','U10/5B' : '#FFFFFF','U10/7B' : '#000000','U11' : '#000000','U11/11' : '#000000','U11/7' : '#FFFFFF','U11/7A' : '#000000','U11/7B' : '#FFFFFF','U12' : '#000000','U12/7' : '#FFFFFF','U12/8' : '#000000','U12/9' : '#000000','U12-A' : '#000000','U12/7A' : '#000000','U12/8A' : '#000000','U12-B' : '#000000','U12/7B' : '#000000','U12/8B' : '#000000','U13' : '#000000','U13/7' : '#000000','U13/8' : '#000000','U13/9' : '#000000','U13-A' : '#000000','U13/7A' : '#000000','U13/8A' : '#FFFFFF','U13/9A' : '#000000','U13-B' : '#000000','U13/8B' : '#000000','U13/9B' : '#000000','U14' : '#000000','U14/7' : '#FFFFFF','U14-A' : '#000000','U14-B' : '#000000','U15' : '#000000','U15/7' : '#FFFFFF','U15/8' : '#FFFFFF','U15-A' : '#000000','U15-B' : '#FFFFFF','U16' : '#000000','U16-A' : '#000000','U16-B' : '#000000','U17' : '#000000','U17-A' : '#000000','U17-B' : '#000000','U18' : '#000000','U19' : '#000000','U19-A' : '#000000','U19-B' : '#FFFFFF','U10-U9' : '#000000','G08/5' : '#000000','G09/5' : '#000000','G09/7' : '#000000','G10/5' : '#FFFFFF','G10/7' : '#000000','G10/7A' : '#FFFFFF','G10/7B' : '#000000','G11' : '#FFFFFF','G11/7' : '#000000','G12' : '#000000','G12/7' : '#FFFFFF','G12/8' : '#FFFFFF','G12/9' : '#FFFFFF','G12/7A' : '#FFFFFF','G12/7B' : '#FFFFFF','G13' : '#000000','G13/7' : '#FFFFFF','G13/8' : '#FFFFFF','G13/9' : '#000000','G13/7A' : '#000000','G13/7B' : '#000000','G14' : '#000000','G14/7' : '#000000','G14/8' : '#000000','G14-A' : '#000000','G14-B' : '#000000','G15' : '#000000','G15/7' : '#000000','G15/8' : '#000000','G15-A' : '#000000','G15-B' : '#000000','G16' : '#000000','G17' : '#000000','G17/7' : '#000000','G17-A' : '#000000','G17-B' : '#000000','G18' : '#000000','G18/7' : '#000000','G18-A' : '#000000','G18-B' : '#000000','G19' : '#000000','G19-A' : '#000000','G19-B' : '#000000','M-O' : '#000000','M-O/5' : '#000000','M-O/7' : '#000000','M32' : '#000000','M35' : '#FFFFFF','M35/7' : '#000000','W-O' : '#FFFFFF','W-O/7' : '#000000'
       },
-      allCategoryRules: []
+      allCategoryRules: [],
+      templateImage: '',
+      graphicTemplates:[
+        { name:'T.8.6'},
+        { name:'T.8.5'},
+        { name:'T.8.5 (v1)'},
+        { name:'T.8.3 (v1)'},
+        { name:'T.8.3 (v2)'},
+        { name:'T.8.4'},
+        { name:'T.8.5 (v2)'}
+      ]
     }
   },
 
@@ -950,6 +965,23 @@ export default {
       }
       return true;
     },
+    isExist : function(templateName){
+      for(var i=0; i < this.graphicTemplates.length; i++){
+        if( this.graphicTemplates[i].name == templateName){
+          return true
+        }
+      }
+      return false
+    },
+    viewGraphicalPreview : function(imageName){
+      $('#displaygraphic').modal('show');
+      this.templateImage = imageName;
+
+    },
+    closeExampleModal : function()
+    {
+      $('#exampleModal').modal('hide');
+    }
   }
 }
 </script>

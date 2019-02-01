@@ -146,7 +146,7 @@ export default {
           (response) => {
           if(response.data.status_code==200){
             this.templateData = JSON.parse(response.data.data.json_data)
-            if ( this.templateData.tournament_name == 'T.8.6')
+            if ( this.templateData.tournament_name == 'T.8.6' || this.templateData.tournament_name == 'T.8.5 (v1)' || this.templateData.tournament_name == 'T.8.5' || this.templateData.tournament_name == 'T.8.3 (v1)' || this.templateData.tournament_name == 'T.8.3 (v2)' || this.templateData.tournament_name == 'T.8.4' || this.templateData.tournament_name == 'T.8.5 (v2)')
             {
               this.templateImage = this.templateData.tournament_name+'.png';
             }

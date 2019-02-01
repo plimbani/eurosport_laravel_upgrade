@@ -14,6 +14,10 @@
             <td>
               <a class="text-primary" href="" @click.prevent="showGroups(competation.id)"><u>{{ competation.group_name }} ({{ competation.category_age }})</u></a>
               <a href="#" data-toggle="modal" data-target="#commentmodal" class="text-primary" @click.prevent="showComment(competation)"><i class="fa fa-info-circle" v-if="competation.comments != null"></i></a>
+              <a href="#" @click="viewGraphicalPreview(competation.template_name)"class="btn btn-primary btn-sm ml-2 text-left" v-if="isExist(competation.template_name)">Preiew</a>
+
+              <displaygraphic :templateImage="templateImage"></displaygraphic>
+              
             </td>
             <td class="text-center">{{ competation.total_teams }}</td>
           </tr>
@@ -102,6 +106,7 @@ import Tournament from '../api/tournament.js'
 import TeamDetails from './TeamDetails.vue'
 import TeamList from './TeamList.vue'
 import DrawDetails from './DrawDetails.vue'
+import displaygraphic from './DisplayGraphicalStructure.vue'
 
 export default {
   data() {
@@ -110,7 +115,17 @@ export default {
       showTable: 'category',
       groupsData:[],
       ageCatgeoryComments: '',
-      competitionData: {}
+      competitionData: {},
+      templateImage: '',
+      graphicTemplates:[
+        { name:'T.8.6'},
+        { name:'T.8.5'},
+        { name:'T.8.5 (v1)'},
+        { name:'T.8.3 (v1)'},
+        { name:'T.8.3 (v2)'},
+        { name:'T.8.4'},
+        { name:'T.8.5 (v2)'}
+      ]
     }
   },
   mounted() {
@@ -122,7 +137,7 @@ export default {
   },
 	// props:['matchData'],
 	components: {
-		TeamDetails, DrawDetails
+		TeamDetails, DrawDetails, displaygraphic
 	},
   computed: {
     currentView() {
@@ -204,6 +219,19 @@ export default {
     },
     closeModal() {
       $('#editCompetitionNameModal').modal('hide');
+    },
+    isExist : function(templateName){
+      for(var i=0; i < this.graphicTemplates.length; i++){
+        if( this.graphicTemplates[i].name == templateName){
+          return true
+        }
+      }
+      return false
+    },
+    viewGraphicalPreview : function(imageName){
+      $('#displaygraphic').modal('show');
+      this.templateImage = imageName;
+
     }
 	},
 	filters: {
