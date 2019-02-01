@@ -33,7 +33,7 @@ public class TournamentModel {
     private String first_name;
     private String last_name;
     private String telephone;
-
+private String mTempStartDate;
     public String getTournamentStartTime() {
         return TournamentStartTime;
     }
@@ -248,5 +248,13 @@ public class TournamentModel {
 
     public void setTelephone(String telephone) {
         this.telephone = telephone;
+    }
+
+    public String getmTempStartDate() {
+        return mTempStartDate;
+    }
+
+    public void setmTempStartDate(String mTempStartDate) {
+        this.mTempStartDate = mTempStartDate;
     }
 }
