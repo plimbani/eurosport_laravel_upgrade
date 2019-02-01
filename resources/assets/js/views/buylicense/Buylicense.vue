@@ -161,8 +161,17 @@
 
             findDifferenceBetweenDates(){ 
                 // console.log("startDate::",startDate);
-                let startDateArr = (document.getElementById('tournament_start_date').value).split("/");
-                let endDateArr = (document.getElementById('tournament_end_date').value).split("/"); 
+                let startDateFromId = document.getElementById('tournament_start_date').value;
+                let endDateFromId = document.getElementById('tournament_end_date').value;
+
+                // need to work on it for min and max date management
+                // manage min and max Date
+                $( "#tournament_start_date" ).datepicker("option","maxDate",endDateFromId);
+                $( "#totournament_end_date" ).datepicker("option","minDate",startDateFromId);
+
+
+                let startDateArr = startDateFromId.split("/");
+                let endDateArr = endDateFromId.split("/"); 
                 let startDate = moment([startDateArr[2], startDateArr[1], startDateArr[0]]);
                 let endDate = moment([endDateArr[2], endDateArr[1], endDateArr[0]]);
                 this.dayDifference = endDate.diff(startDate, 'days');
@@ -170,15 +179,15 @@
                 
             },
 
-            getTournamentDetail(){
-                // console.log("to.query.id ",this.id)
+            getTournamentDetail(){ 
                 axios.get(Constant.apiBaseUrl+'get-tournament?tournamentId='+this.id, {}).then(response =>  {  
                         if (response.data.success) { 
                              // this.tournaments = response.data.data;
                              // console.log("tournament details::",response.data.data)
                              for(let eachKey in response.data.data){
                                 this.tournamentData[eachKey] = response.data.data[eachKey]
-                             }
+                             } 
+                            this.tournamentData['id'] = this.id;
                          }else{ 
                             toastr['error'](response.data.message, 'Error');
                          }
