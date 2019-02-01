@@ -25,6 +25,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.aecor.eurosports.R;
+import com.aecor.eurosports.adapter.RoleSpinnerAdapter;
 import com.aecor.eurosports.adapter.TournamentSpinnerAdapter;
 import com.aecor.eurosports.gson.GsonConverter;
 import com.aecor.eurosports.http.VolleyJsonObjectRequest;
@@ -135,44 +136,8 @@ public class RegisterActivity extends BaseAppCompactActivity {
 
     private void setRoleAdapter() {
         roleArray = mContext.getResources().getStringArray(R.array.role_array);
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this, R.layout.row_spinner_item, R.id.tv_spinner, roleArray) {
-
-            @Override
-            public boolean isEnabled(int position) {
-                return position != 0;
-            }
-
-            @Override
-            public boolean areAllItemsEnabled() {
-                return false;
-            }
-
-            @Override
-            public View getDropDownView(int position, View convertView, ViewGroup parent) {
-                View v = convertView;
-                if (v == null) {
-                    Context mContext = this.getContext();
-                    LayoutInflater vi = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                    v = vi.inflate(R.layout.row_spinner_item, null);
-                }
-
-                TextView tv = (TextView) v.findViewById(R.id.tv_spinner);
-                tv.setText(roleArray[position]);
-
-                switch (position) {
-                    case 0:
-                        tv.setTextColor(Color.GRAY);
-                        break;
-
-                    default:
-                        tv.setTextColor(Color.BLACK);
-                        break;
-                }
-                return v;
-            }
-        };
-
-        sp_role.setAdapter(spinnerAdapter);
+        RoleSpinnerAdapter mSpinnerAdapter = new RoleSpinnerAdapter(this, roleArray);
+        sp_role.setAdapter(mSpinnerAdapter);
         sp_role.setSelection(0);
 
     }
@@ -315,7 +280,7 @@ public class RegisterActivity extends BaseAppCompactActivity {
     }
 
     private void checkValidation() {
-        if (!validate() || !validate_spinner()) {
+        if (!validate()) {
             enabledDisableRegisterButton(false);
         } else {
             enabledDisableRegisterButton(true);
@@ -331,25 +296,45 @@ public class RegisterActivity extends BaseAppCompactActivity {
         String surname = sname.getText().toString().trim();
 
         if (firstname.isEmpty()) {
+            fname.setBackgroundResource(R.drawable.edittext_border_red);
             return false;
+        } else {
+            fname.setBackgroundResource(R.drawable.edittext_border);
         }
 
         if (surname.isEmpty()) {
+            sname.setBackgroundResource(R.drawable.edittext_border_red);
             return false;
+        } else {
+            sname.setBackgroundResource(R.drawable.edittext_border);
         }
-
         if (emailOrPhone.isEmpty() || !Utility.isValidEmail(emailOrPhone)) {
+            email.setBackgroundResource(R.drawable.edittext_border_red);
             return false;
+        } else {
+            email.setBackgroundResource(R.drawable.edittext_border);
         }
 
         if (password.isEmpty()) {
+            register_password.setBackgroundResource(R.drawable.edittext_border_red);
             return false;
+        } else {
+            register_password.setBackgroundResource(R.drawable.edittext_border);
         }
         if (confirmPassword.isEmpty()) {
+            confirm_password.setBackgroundResource(R.drawable.edittext_border_red);
             return false;
+        } else {
+            confirm_password.setBackgroundResource(R.drawable.edittext_border);
         }
 
+        if (!validate_spinner()) {
+            sp_tournament.setBackgroundResource(R.drawable.spinner_bg_image_gray_error);
+            return false;
+        } else {
+            sp_tournament.setBackgroundResource(R.drawable.spinner_bg_image_gray);
 
+        }
         return true;
 
     }
@@ -361,10 +346,10 @@ public class RegisterActivity extends BaseAppCompactActivity {
     private void enabledDisableRegisterButton(boolean isEnable) {
         if (isEnable) {
             register.setEnabled(true);
-            register.setBackground(getResources().getDrawable(R.drawable.btn_yellow));
+            register.setBackgroundResource(R.drawable.btn_yellow);
         } else {
             register.setEnabled(false);
-            register.setBackground(getResources().getDrawable(R.drawable.btn_disable));
+            register.setBackgroundResource(R.drawable.btn_disable);
         }
     }
 
