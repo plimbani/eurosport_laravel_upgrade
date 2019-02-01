@@ -171,7 +171,7 @@
              </button>
           </div>
           <div class="modal-body">
-            <img src="../../../../../../public/assets/img/teams_groups_preview/TeamsGroupsPreview.png" class="img-fluid">
+            <img src="/assets/img/teams_groups_preview/TeamsGroupsPreview.png" class="img-fluid">
           </div>
          </div>
       </div>
