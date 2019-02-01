@@ -107,6 +107,8 @@ struct kUserDefaults {
     static let isNotification       = "isNotification"
     static let isSound              = "isSound"
     static let selectedTournament   = "selectedTournament"
+    static let isRememberLogin      = "isRememberLogin"
+    static let isLogin              = "isLogin"
     // System reserved key
     static let currentLanguageKey   = "i18n_language" // i18n_language currentLanguageKey
 }

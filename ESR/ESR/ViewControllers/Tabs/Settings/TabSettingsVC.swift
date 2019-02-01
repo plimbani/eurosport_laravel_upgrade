@@ -52,8 +52,9 @@ extension TabSettingsVC: CustomAlertViewTwoButtonDelegate {
             USERDEFAULTS.set(nil, forKey: kUserDefaults.token)
             USERDEFAULTS.set(nil, forKey: kUserDefaults.selectedTournament)
             USERDEFAULTS.set(nil, forKey: kUserDefaults.userData)
-            USERDEFAULTS.set(nil, forKey: kUserDefaults.email)
-            USERDEFAULTS.set(nil, forKey: kUserDefaults.password)
+            //USERDEFAULTS.set(nil, forKey: kUserDefaults.email)
+            //USERDEFAULTS.set(nil, forKey: kUserDefaults.password)
+            USERDEFAULTS.set(false, forKey: kUserDefaults.isLogin)
             UIApplication.shared.keyWindow?.rootViewController = UINavigationController(rootViewController: Storyboards.Main.instantiateLandingVC())
         }
     }

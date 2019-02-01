@@ -12,6 +12,8 @@ class ForgotPasswordVC: SuperViewController {
     @IBOutlet var txtEmail: UITextField!
     @IBOutlet var btnSubmit: UIButton!
     @IBOutlet var lblNoInternet: UILabel!
+    @IBOutlet var lblMessage: UILabel!
+    @IBOutlet var btnBack: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,11 +21,21 @@ class ForgotPasswordVC: SuperViewController {
     }
     
     func initialize() {
-        titleNavigationBar.delegate = self
+        
         ApplicationData.setTextFieldAttributes(txtEmail)
+        
+        if ApplicationData.currentTarget == ApplicationData.CurrentTargetList.EasyMM.rawValue {
+            btnBack.setImageColor(color: UIColor.AppColor(), image: UIImage.init(named: "back_white")!, state: .normal)
+        }
         
         // Checks internet connectivity
         setConstraintLblNoInternet(APPDELEGATE.reachability.connection == .none)
+        
+        if ApplicationData.currentTarget == ApplicationData.CurrentTargetList.EasyMM.rawValue {
+            btnSubmit.setTitleColor(.white, for: .normal)
+            ApplicationData.setBorder(view: txtEmail, Color: .gray, CornerRadius: 0.0, Thickness: 1.0)
+            lblMessage.textColor = .AppColor()
+        }
         
         btnSubmit.isEnabled = false
         txtEmail.addTarget(self, action: #selector(textFieldDidChange(textField:)), for: .editingChanged)
@@ -42,6 +54,10 @@ class ForgotPasswordVC: SuperViewController {
         NotificationCenter.default.removeObserver(self, name: .internetConnectivity, object: nil)
     }
     
+    @IBAction func btnBackPressed(_ sender: UIButton) {
+        self.navigationController?.popViewController(animated: true)
+    }
+    
     @objc func showHideNoInternetView(_ notification: NSNotification) {
         if notification.userInfo != nil {
             if let isShow = notification.userInfo![kNotification.isShow] as? Bool {
@@ -53,6 +69,10 @@ class ForgotPasswordVC: SuperViewController {
     @objc func textFieldDidChange(textField: UITextField){
         btnSubmit.isEnabled = false
         btnSubmit.backgroundColor = UIColor.btnDisable
+        
+        if ApplicationData.currentTarget == ApplicationData.CurrentTargetList.EasyMM.rawValue {
+            btnSubmit.setBackgroundImage(nil, for: .normal)
+        }
         
         if let text = txtEmail.text {
             if text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
@@ -66,6 +86,10 @@ class ForgotPasswordVC: SuperViewController {
         
         btnSubmit.isEnabled = true
         btnSubmit.backgroundColor = UIColor.btnYellow
+        
+        if ApplicationData.currentTarget == ApplicationData.CurrentTargetList.EasyMM.rawValue {
+            btnSubmit.setBackgroundImage(UIImage.init(named: "btn_yellow"), for: .normal)
+        }
     }
     
     func sendForgotPasswordRequest() {
@@ -97,7 +121,7 @@ class ForgotPasswordVC: SuperViewController {
     }
     
     @IBAction func onSubmitBtnPressed(_ sender: UIButton) {
-        
+        sendForgotPasswordRequest()
     }
 }
 
@@ -109,8 +133,3 @@ extension ForgotPasswordVC : CustomAlertViewDelegate {
     }
 }
 
-extension ForgotPasswordVC : TitleNavigationBarDelegate {
-    func titleNavBarBackBtnPressed() {
-        self.navigationController?.popViewController(animated: true)
-    }
-}

@@ -13,6 +13,10 @@ class LoginVC: SuperViewController {
     @IBOutlet var txtPassword: UITextField!
     @IBOutlet var lblNoInternet: UILabel!
     @IBOutlet var btnLogin: UIButton!
+    @IBOutlet var btnRememberMe: UIButton!
+    @IBOutlet var btnForgotPass: UIButton!
+    @IBOutlet var btnBack: UIButton!
+    var isRememberMe = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,9 +24,32 @@ class LoginVC: SuperViewController {
     }
     
     func initialize() {
-        titleNavigationBar.delegate = self
+        
         ApplicationData.setTextFieldAttributes(txtEmail)
         ApplicationData.setTextFieldAttributes(txtPassword)
+        
+        isRememberMe = USERDEFAULTS.bool(forKey: kUserDefaults.isRememberLogin)
+        if isRememberMe {
+            if let email = USERDEFAULTS.string(forKey: kUserDefaults.email),
+                let password = USERDEFAULTS.string(forKey: kUserDefaults.password) {
+                txtEmail.text = email
+                txtPassword.text = password
+            }
+            
+            btnRememberMe.setImage(isRememberMe ? UIImage.init(named: "icon_check") : UIImage.init(named: "icon_uncheck"), for: .normal)
+        }
+        updateLoginBtn()
+        
+        if ApplicationData.currentTarget == ApplicationData.CurrentTargetList.EasyMM.rawValue {
+            btnBack.setImageColor(color: UIColor.AppColor(), image: UIImage.init(named: "back_white")!, state: .normal)
+            btnLogin.setTitleColor(.white, for: .normal)
+            
+            ApplicationData.setBorder(view: txtEmail, Color: .gray, CornerRadius: 0.0, Thickness: 1.0)
+            ApplicationData.setBorder(view: txtPassword, Color: .gray, CornerRadius: 0.0, Thickness: 1.0)
+            
+            btnRememberMe.setTitleColor(.AppColor(), for: .normal)
+            btnForgotPass.setTitleColor(.AppColor(), for: .normal)
+        }
         
         // txtEmail.text = "asoni@aecordigital.com"
         // txtPassword.text = "password"
@@ -82,6 +109,10 @@ class LoginVC: SuperViewController {
         btnLogin.isEnabled = false
         btnLogin.backgroundColor = UIColor.btnDisable
         
+        if ApplicationData.currentTarget == ApplicationData.CurrentTargetList.EasyMM.rawValue {
+            btnLogin.setBackgroundImage(nil, for: .normal)
+        }
+        
         if let text = txtEmail.text {
             if text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                 return
@@ -100,6 +131,10 @@ class LoginVC: SuperViewController {
             if text.count < 6 {
                 return
             }
+        }
+        
+        if ApplicationData.currentTarget == ApplicationData.CurrentTargetList.EasyMM.rawValue {
+            btnLogin.setBackgroundImage(UIImage.init(named: "btn_yellow"), for: .normal)
         }
         
         btnLogin.isEnabled = true
@@ -123,6 +158,15 @@ class LoginVC: SuperViewController {
                     USERDEFAULTS.set(token, forKey: kUserDefaults.token)
                     USERDEFAULTS.set(self.txtEmail.text!, forKey: kUserDefaults.email)
                     USERDEFAULTS.set(self.txtPassword.text!, forKey: kUserDefaults.password)
+                    
+                    if self.isRememberMe {
+                        USERDEFAULTS.set(true, forKey: kUserDefaults.isRememberLogin)
+                    } else {
+                        USERDEFAULTS.set(false, forKey: kUserDefaults.isRememberLogin)
+                    }
+                    
+                    USERDEFAULTS.set(true, forKey: kUserDefaults.isLogin)
+                    
                     self.sendGetUserDetailsRequest()
                 } else {
                     self.view.hideProgressHUD()
@@ -208,6 +252,15 @@ class LoginVC: SuperViewController {
         }
     }
     
+    @IBAction func btnBackPressed(_ sender: UIButton) {
+        self.navigationController?.popViewController(animated: true)
+    }
+    
+    @IBAction func rememberMeBtnPressed(_ sender: UIButton) {
+        isRememberMe = !isRememberMe
+        btnRememberMe.setImage(isRememberMe ? UIImage.init(named: "icon_check") : UIImage.init(named: "icon_uncheck"), for: .normal)
+    }
+    
     @IBAction func signInBtnPressed(_ sender: UIButton) {
         sendLoginRequest()
     }
@@ -223,8 +276,3 @@ extension LoginVC: CustomAlertViewDelegate {
     }
 }
 
-extension LoginVC: TitleNavigationBarDelegate {
-    func titleNavBarBackBtnPressed() {
-        self.navigationController?.popViewController(animated: true)
-    }
-}

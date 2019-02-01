@@ -32,6 +32,12 @@ class FavouriteTournamentCell: UITableViewCell {
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
+        
+        if ApplicationData.currentTarget == ApplicationData.CurrentTargetList.EasyMM.rawValue {
+            if let modifiedImage = UIImage(named: "fav")?.withRenderingMode(.alwaysTemplate) {
+                btnFavourite.setImageColor(color: UIColor.AppColor(), image: modifiedImage, state: .selected)
+            }
+        }
     }
     
     func reloadCell() {

@@ -59,10 +59,10 @@ class SuperViewController: UIViewController {
         infoAlertViewTwoButton.delegate = delegate
         infoAlertViewTwoButton.frame = CGRect(x: 0, y: 0, width: DEVICE_WIDTH, height: DEVICE_HEIGHT)
         infoAlertViewTwoButton.hide()
-        // view.addSubview(infoAlertViewTwoButton)
+        view.addSubview(infoAlertViewTwoButton)
         
-        let modalWindow = UIApplication.shared.keyWindow!
-        modalWindow.addSubview(infoAlertViewTwoButton)
+        //let modalWindow = UIApplication.shared.keyWindow!
+        //modalWindow.addSubview(infoAlertViewTwoButton)
     }
     
     func showInfoAlertViewTwoButton(title: String = NULL_STRING, message: String = NULL_STRING, buttonYesTitle: String = String.localize(key: "btn_yes"), buttonNoTitle: String = String.localize(key: "btn_no"), requestCode: Int = -1) {

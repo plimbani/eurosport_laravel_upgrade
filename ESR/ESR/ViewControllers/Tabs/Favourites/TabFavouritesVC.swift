@@ -10,9 +10,9 @@ import UIKit
 class TabFavouritesVC: SuperViewController {
     
     @IBOutlet var table: UITableView!
+    @IBOutlet var btnFav: UIButton!
     
     var tournamentList = [Tournament]()
-    
     var heightFavTournamentCell: CGFloat = 0
     
     override func viewDidLoad() {
@@ -31,6 +31,12 @@ class TabFavouritesVC: SuperViewController {
         // Height for cell
         _ = cellOwner.loadMyNibFile(nibName: kNiB.Cell.FavouriteTournamentCell)
         heightFavTournamentCell = (cellOwner.cell as! FavouriteTournamentCell).getCellHeight()
+        
+        if ApplicationData.currentTarget == ApplicationData.CurrentTargetList.EasyMM.rawValue {
+            if let modifiedImage = UIImage(named: "fav_small")?.withRenderingMode(.alwaysTemplate) {
+                btnFav.setImageColor(color: UIColor.AppColor(), image: modifiedImage, state: .normal)
+            }
+        }
         
         // Alert view
         initInfoAlertView(self.view)    

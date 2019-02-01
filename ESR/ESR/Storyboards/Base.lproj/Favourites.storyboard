@@ -123,6 +123,7 @@
                         <viewLayoutGuide key="safeArea" id="ocv-EC-zL7"/>
                     </view>
                     <connections>
+                        <outlet property="btnFav" destination="jrl-V9-YaM" id="7ce-Oq-wZe"/>
                         <outlet property="heightConstraintLblNoInternet" destination="2iz-KC-vhd" id="NeA-gH-Fnh"/>
                         <outlet property="imageNavigationBar" destination="Ym0-IN-r4x" id="55j-fa-bJy"/>
                         <outlet property="table" destination="2bJ-BY-OFT" id="Ji4-72-2Hf"/>

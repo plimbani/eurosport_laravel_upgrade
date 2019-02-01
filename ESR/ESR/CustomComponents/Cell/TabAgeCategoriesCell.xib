@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -24,24 +24,25 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="049-ah-tHA">
-                        <rect key="frame" x="15" y="21" width="0.0" height="0.0"/>
+                        <rect key="frame" x="15" y="22" width="0.0" height="0.0"/>
                         <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ahb-dy-qdH">
-                        <rect key="frame" x="25" y="13" width="20" height="16"/>
+                        <rect key="frame" x="25" y="9.5" width="25" height="25"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="20" id="1dK-N4-1AZ"/>
-                            <constraint firstAttribute="height" constant="16" id="dKE-s5-bcP"/>
+                            <constraint firstAttribute="width" constant="25" id="1dK-N4-1AZ"/>
+                            <constraint firstAttribute="height" constant="25" id="dKE-s5-bcP"/>
                         </constraints>
+                        <inset key="imageEdgeInsets" minX="2" minY="5" maxX="3" maxY="5"/>
                         <state key="normal" image="icon_info"/>
                         <connections>
                             <action selector="btnInfoPressed:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="Dkh-c3-OMx"/>
                         </connections>
                     </button>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="arrow_right_green_agecat" translatesAutoresizingMaskIntoConstraints="NO" id="PJX-32-lkC">
-                        <rect key="frame" x="290" y="12" width="12" height="18"/>
+                        <rect key="frame" x="290" y="13" width="12" height="18"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="12" id="bWA-H9-EbB"/>
                             <constraint firstAttribute="height" constant="18" id="vWo-1N-yQi"/>

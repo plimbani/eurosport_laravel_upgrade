@@ -11,6 +11,7 @@ class CreateAccountVC: SuperViewController {
 
     @IBOutlet var table: UITableView!
     @IBOutlet var lblNoInternet: UILabel!
+    @IBOutlet var btnBack: UIButton!
     
     var txtFirstName: UITextField!
     var txtLastName: UITextField!
@@ -58,7 +59,10 @@ class CreateAccountVC: SuperViewController {
     }
     
     func initialize(){
-        titleNavigationBar.delegate = self
+        
+        if ApplicationData.currentTarget == ApplicationData.CurrentTargetList.EasyMM.rawValue {
+            btnBack.setImageColor(color: UIColor.AppColor(), image: UIImage.init(named: "back_white")!, state: .normal)
+        }
         
         // Checks internet connectivity
         setConstraintLblNoInternet(APPDELEGATE.reachability.connection == .none)
@@ -89,7 +93,7 @@ class CreateAccountVC: SuperViewController {
         self.view.addSubview(pickerHandlerView)
         
         // Events when keyboard shows and hides
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        // NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         // To show/hide internet view in Navigation bar
         NotificationCenter.default.addObserver(self, selector: #selector(showHideNoInternetView(_:)), name: .internetConnectivity, object: nil)
         
@@ -183,13 +187,13 @@ class CreateAccountVC: SuperViewController {
         }
     }
     
-    @objc func keyboardWillShow(notification: NSNotification) {
+    /*@objc func keyboardWillShow(notification: NSNotification) {
         if let newFrame = (notification.userInfo?[ UIKeyboardFrameEndUserInfoKey ] as? NSValue)?.cgRectValue {
             let insets = UIEdgeInsetsMake( 0, 0, newFrame.height, 0 )
             table.contentInset = insets
             table.scrollIndicatorInsets = insets
         }
-    }
+    }*/
     
     @objc func termsNPolicyPressed(gestureRecognizer: UITapGestureRecognizer) {
         if let txtViewTermsNPrivacy = gestureRecognizer.view as? UITextView {
@@ -212,6 +216,10 @@ class CreateAccountVC: SuperViewController {
     func updateCreateAccountBtn() {
         btnCreateNewAccount.isEnabled = false
         btnCreateNewAccount.backgroundColor = UIColor.btnDisable
+        
+        if ApplicationData.currentTarget == ApplicationData.CurrentTargetList.EasyMM.rawValue {
+            btnCreateNewAccount.setBackgroundImage(nil, for: .normal)
+        }
         
         if let text = txtFirstName.text {
             if text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
@@ -253,8 +261,16 @@ class CreateAccountVC: SuperViewController {
         
         btnCreateNewAccount.isEnabled = true
         btnCreateNewAccount.backgroundColor = UIColor.btnYellow
+        
+        if ApplicationData.currentTarget == ApplicationData.CurrentTargetList.EasyMM.rawValue {
+            btnCreateNewAccount.setBackgroundImage(UIImage.init(named: "btn_yellow"), for: .normal)
+        }
     }
     
+    
+    @IBAction func btnBackPressed(_ sender: UIButton) {
+            self.navigationController?.popViewController(animated: true)
+    }
     
     @objc func btnCreateAccountPressed(_ btn: UIButton) {
         sendRegisterRequest()
@@ -290,9 +306,11 @@ extension CreateAccountVC: PickerHandlerViewDelegate {
         if isRole {
             isRole = false
             lblRole.text = title
+            lblRole.textColor = .black
         } else {
             lblTournament.text = title
             paramTournamentId = (self.tournamentList[pickerHandlerView.selectedPickerPosition] as! NSDictionary).value(forKey: "id") as! Int
+            lblTournament.textColor = .black
         }
         
         updateCreateAccountBtn()
@@ -302,12 +320,6 @@ extension CreateAccountVC: PickerHandlerViewDelegate {
 extension CreateAccountVC: UITextViewDelegate {
     func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
         return false
-    }
-}
-
-extension CreateAccountVC : TitleNavigationBarDelegate {
-    func titleNavBarBackBtnPressed() {
-        self.navigationController?.popViewController(animated: true)
     }
 }
 
@@ -383,6 +395,11 @@ extension CreateAccountVC : UITableViewDataSource, UITableViewDelegate {
                             cellList.add(cell)
                             textFieldCell.txtField.addTarget(self, action: #selector(textFieldDidChange(textField:)), for: .editingChanged)
                             textFieldCell.txtField.delegate = self
+                            
+                            if ApplicationData.currentTarget == ApplicationData.CurrentTargetList.EasyMM.rawValue {
+                                ApplicationData.setBorder(view: textFieldCell.txtField, Color: .gray, CornerRadius: 0.0, Thickness: 1.0)
+                            }
+                            
                             if indexPath.row == CreateAccountList.firstname.rawValue {
                                 txtFirstName = textFieldCell.txtField
                                 txtFirstName.placeholder = String.localize(key: "First name")
@@ -404,7 +421,10 @@ extension CreateAccountVC : UITableViewDataSource, UITableViewDelegate {
                             let labelSelectionCell = cellOwner.cell as! LabelSelectionCell
                             labelSelectionCell.record = field
                             labelSelectionCell.reloadCell()
-                            labelSelectionCell.lblTitle.textColor = .black
+                            
+                            if ApplicationData.currentTarget == ApplicationData.CurrentTargetList.EasyMM.rawValue {
+                                ApplicationData.setBorder(view: labelSelectionCell.containerView, Color: .gray, CornerRadius: 0.0, Thickness: 1.0)
+                            }
                             
                             if indexPath.row == CreateAccountList.selectTournament.rawValue {
                                 lblTournament = labelSelectionCell.lblTitle
@@ -436,8 +456,13 @@ extension CreateAccountVC : UITableViewDataSource, UITableViewDelegate {
                             let attrString = NSMutableAttributedString.init(string: mainString)
                             let nsRange = NSString(string: mainString).range(of: mainString, options: String.CompareOptions.caseInsensitive)
                         
-                            attrString.addAttribute(NSAttributedStringKey.foregroundColor, value: UIColor.black, range: nsRange)
-                            attrString.addAttribute(NSAttributedStringKey.font, value: UIFont(name: Font.HELVETICA_REGULAR, size: 15.0)!, range: NSRange.init(location: 0, length: mainString.count))
+                            if ApplicationData.currentTarget == ApplicationData.CurrentTargetList.EasyMM.rawValue {
+                                attrString.addAttribute(NSAttributedStringKey.foregroundColor, value: UIColor.AppColor(), range: nsRange)
+                            } else {
+                                attrString.addAttribute(NSAttributedStringKey.foregroundColor, value: UIColor.black, range: nsRange)
+                            }
+                            
+                            attrString.addAttribute(NSAttributedStringKey.font, value: UIFont(name: Font.HELVETICA_REGULAR, size: 13.0)!, range: NSRange.init(location: 0, length: mainString.count))
                         
                             addUnderLineToAttributedString(attrString, mainString, "Terms of Use", UIColor.btnYellow, UIColor.btnYellow)
                         
@@ -445,7 +470,8 @@ extension CreateAccountVC : UITableViewDataSource, UITableViewDelegate {
                             tapGesture.delegate = self
                             textViewCell.textView.attributedText = attrString
                             textViewCell.textView.delegate = self
-                            textViewCell.textView.textAlignment = .left
+                            textViewCell.textView.textAlignment = .center
+                            textViewCell.textView.contentInset = UIEdgeInsetsMake(-6.0,0.0,0,0.0);
                             textViewCell.textView.addGestureRecognizer(tapGesture)
                         default:
                             print("Default")
@@ -463,12 +489,17 @@ extension CreateAccountVC : UITableViewDataSource, UITableViewDelegate {
                    
         if indexPath.row == CreateAccountList.selectTournament.rawValue {
             pickerHandlerView.titleList = tournamentTitleList
+            
+            pickerHandlerView.reloadPickerView()
+            pickerHandlerView.show()
         } else if indexPath.row == CreateAccountList.role.rawValue {
             pickerHandlerView.titleList = ApplicationData.rolesList
             isRole = true
+            
+            pickerHandlerView.reloadPickerView()
+            pickerHandlerView.show()
         }
         
-        pickerHandlerView.reloadPickerView()
-        pickerHandlerView.show()
+        
     }
 }

@@ -22,6 +22,13 @@ class LandingVC: SuperViewController {
     func initialize() {
         self.navigationController?.isNavigationBarHidden = true
         
+        if ApplicationData.currentTarget == ApplicationData.CurrentTargetList.EasyMM.rawValue {
+            btnSignIn.setBackgroundImage(UIImage.init(named: "btn_yellow"), for: .normal)
+            btnCreateAccount.setBackgroundImage(UIImage.init(named: "btn_yellow"), for: .normal)
+            btnSignIn.setTitleColor(.white, for: .normal)
+            btnCreateAccount.setTitleColor(.white, for: .normal)
+        }
+        
         // Localization
         btnSignIn.setTitle(String.localize(key: "Sign in"), for: .normal)
         btnCreateAccount.setTitle(String.localize(key: "Create account"), for: .normal)
@@ -43,6 +50,10 @@ class LandingVC: SuperViewController {
     
     func updateToken() {
         if APPDELEGATE.reachability.connection == .none {
+            return
+        }
+        
+        if !USERDEFAULTS.bool(forKey: kUserDefaults.isLogin) {
             return
         }
         

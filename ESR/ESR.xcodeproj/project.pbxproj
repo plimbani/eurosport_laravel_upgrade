@@ -12,7 +12,6 @@
 		30181CC4211D95B60067D65F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181CC3211D95B60067D65F /* AppDelegate.swift */; };
 		30181CC9211D95B60067D65F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 30181CC7211D95B60067D65F /* Main.storyboard */; };
 		30181CCB211D95B80067D65F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 30181CCA211D95B80067D65F /* Assets.xcassets */; };
-		30181CCE211D95B80067D65F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 30181CCC211D95B80067D65F /* LaunchScreen.storyboard */; };
 		30181CD9211D98720067D65F /* SuperViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181CD8211D98720067D65F /* SuperViewController.swift */; };
 		30181CDD211D99F50067D65F /* AppConstantsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181CDC211D99F50067D65F /* AppConstantsList.swift */; };
 		30181CDF211D9DFF0067D65F /* ApplicationData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181CDE211D9DFF0067D65F /* ApplicationData.swift */; };
@@ -58,6 +57,8 @@
 		30181D7C212AD07C0067D65F /* CustomAlertViewTwoButton.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30181D7A212AD07C0067D65F /* CustomAlertViewTwoButton.xib */; };
 		30181D7D212AD07C0067D65F /* CustomAlertViewTwoButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D7B212AD07C0067D65F /* CustomAlertViewTwoButton.swift */; };
 		30181D81212AF0590067D65F /* SettingsList.plist in Resources */ = {isa = PBXBuildFile; fileRef = 30181D80212AF0590067D65F /* SettingsList.plist */; };
+		30371E09220450A50000814A /* AppExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30371E08220450A50000814A /* AppExtensions.swift */; };
+		30371E0A220450A50000814A /* AppExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30371E08220450A50000814A /* AppExtensions.swift */; };
 		305693FE212BEABC009790BA /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 305693FD212BEABC009790BA /* ProfileVC.swift */; };
 		30569400212BEACC009790BA /* NotificationAndSoundVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 305693FF212BEACC009790BA /* NotificationAndSoundVC.swift */; };
 		30569402212BEADC009790BA /* PrivacyAndTermsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30569401212BEADC009790BA /* PrivacyAndTermsVC.swift */; };
@@ -125,7 +126,6 @@
 		30790D2A2202D457000EE4A5 /* TabTournamentVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D292122B0CB0067D65F /* TabTournamentVC.swift */; };
 		30790D2B2202D457000EE4A5 /* UIViewExtentions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D672126EB830067D65F /* UIViewExtentions.swift */; };
 		30790D2C2202D457000EE4A5 /* TeamListingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307542BD2178A157003715C7 /* TeamListingVC.swift */; };
-		30790D2D2202D457000EE4A5 /* UIImageViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3086BC8F213E94B600810CC8 /* UIImageViewExtensions.swift */; };
 		30790D2E2202D457000EE4A5 /* AllMatchesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3009A35F21CA56A8002769CF /* AllMatchesVC.swift */; };
 		30790D2F2202D457000EE4A5 /* GroupListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30AF116421BA53B600BE50F4 /* GroupListVC.swift */; };
 		30790D302202D457000EE4A5 /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D76212AB9CE0067D65F /* UserData.swift */; };
@@ -154,7 +154,6 @@
 		30790D492202D457000EE4A5 /* TournamentClubCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 306893F4214A813900BA543F /* TournamentClubCell.xib */; };
 		30790D4A2202D457000EE4A5 /* CustomAlertViewTwoButton.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30181D7A212AD07C0067D65F /* CustomAlertViewTwoButton.xib */; };
 		30790D4B2202D457000EE4A5 /* GroupDetailsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 307949EC21395AB200DE23A3 /* GroupDetailsCell.xib */; };
-		30790D4C2202D457000EE4A5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 30181CCC211D95B80067D65F /* LaunchScreen.storyboard */; };
 		30790D4D2202D457000EE4A5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 30C799FA21D35E3A00B0ECB4 /* GoogleService-Info.plist */; };
 		30790D4E2202D457000EE4A5 /* AgeCategoryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30FB311921353CA000ABA22A /* AgeCategoryCell.xib */; };
 		30790D4F2202D457000EE4A5 /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 30C799BC21CD047E00B0ECB4 /* Settings.storyboard */; };
@@ -184,7 +183,9 @@
 		30790D682202D457000EE4A5 /* GroupSummaryMatchesHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30FB31262136660900ABA22A /* GroupSummaryMatchesHeader.xib */; };
 		30790D692202D457000EE4A5 /* AgeCategories.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3086BC89213D3DB800810CC8 /* AgeCategories.storyboard */; };
 		30790D6A2202D457000EE4A5 /* Tournament.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 30C799B621CD046C00B0ECB4 /* Tournament.storyboard */; };
-		30790D772202EF80000EE4A5 /* Asset - Easymm.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 30790D752202EEA6000EE4A5 /* Asset - Easymm.xcassets */; };
+		30790D7822041EE8000EE4A5 /* Asset - Easymm.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 30790D752202EEA6000EE4A5 /* Asset - Easymm.xcassets */; };
+		30790D7B2204209A000EE4A5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 30181CCC211D95B80067D65F /* LaunchScreen.storyboard */; };
+		30790D7C220420AA000EE4A5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 30181CCC211D95B80067D65F /* LaunchScreen.storyboard */; };
 		307949DF2137F78100DE23A3 /* TeamFixture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307949DE2137F78100DE23A3 /* TeamFixture.swift */; };
 		307949E621394C6800DE23A3 /* GroupDetailsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307949E521394C6800DE23A3 /* GroupDetailsVC.swift */; };
 		307949ED21395AB200DE23A3 /* GroupDetailsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307949EB21395AB200DE23A3 /* GroupDetailsCell.swift */; };
@@ -193,7 +194,6 @@
 		3086BC87213D3DB800810CC8 /* AgeCategories.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3086BC89213D3DB800810CC8 /* AgeCategories.storyboard */; };
 		3086BC8C213D4FA600810CC8 /* MatchInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3086BC8B213D4FA600810CC8 /* MatchInfoVC.swift */; };
 		3086BC8E213D503A00810CC8 /* VenueVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3086BC8D213D503A00810CC8 /* VenueVC.swift */; };
-		3086BC90213E94B600810CC8 /* UIImageViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3086BC8F213E94B600810CC8 /* UIImageViewExtensions.swift */; };
 		3086BC92213EB09F00810CC8 /* VenueFieldList.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3086BC91213EB09F00810CC8 /* VenueFieldList.plist */; };
 		3086BC95213EB11A00810CC8 /* TwoLabelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3086BC93213EB11A00810CC8 /* TwoLabelCell.swift */; };
 		3086BC96213EB11A00810CC8 /* TwoLabelCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3086BC94213EB11A00810CC8 /* TwoLabelCell.xib */; };
@@ -286,6 +286,7 @@
 		30181D7B212AD07C0067D65F /* CustomAlertViewTwoButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomAlertViewTwoButton.swift; sourceTree = "<group>"; };
 		30181D80212AF0590067D65F /* SettingsList.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = SettingsList.plist; sourceTree = "<group>"; };
 		3033AE99216E062600C19FCD /* MBCircularProgressBar.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MBCircularProgressBar.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		30371E08220450A50000814A /* AppExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppExtensions.swift; sourceTree = "<group>"; };
 		305693FD212BEABC009790BA /* ProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVC.swift; sourceTree = "<group>"; };
 		305693FF212BEACC009790BA /* NotificationAndSoundVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationAndSoundVC.swift; sourceTree = "<group>"; };
 		30569401212BEADC009790BA /* PrivacyAndTermsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyAndTermsVC.swift; sourceTree = "<group>"; };
@@ -313,7 +314,6 @@
 		3086BC8A213D3DC400810CC8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/AgeCategories.storyboard; sourceTree = "<group>"; };
 		3086BC8B213D4FA600810CC8 /* MatchInfoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchInfoVC.swift; sourceTree = "<group>"; };
 		3086BC8D213D503A00810CC8 /* VenueVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VenueVC.swift; sourceTree = "<group>"; };
-		3086BC8F213E94B600810CC8 /* UIImageViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageViewExtensions.swift; sourceTree = "<group>"; };
 		3086BC91213EB09F00810CC8 /* VenueFieldList.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = VenueFieldList.plist; sourceTree = "<group>"; };
 		3086BC93213EB11A00810CC8 /* TwoLabelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoLabelCell.swift; sourceTree = "<group>"; };
 		3086BC94213EB11A00810CC8 /* TwoLabelCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TwoLabelCell.xib; sourceTree = "<group>"; };
@@ -634,8 +634,8 @@
 				30181D41212558900067D65F /* Utils.swift */,
 				30181D632126D7850067D65F /* Environments.swift */,
 				30181D672126EB830067D65F /* UIViewExtentions.swift */,
-				3086BC8F213E94B600810CC8 /* UIImageViewExtensions.swift */,
 				30C799F821CD105100B0ECB4 /* BundleExtension.swift */,
+				30371E08220450A50000814A /* AppExtensions.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -847,7 +847,6 @@
 				306893F6214A813900BA543F /* TournamentClubCell.xib in Resources */,
 				30181D7C212AD07C0067D65F /* CustomAlertViewTwoButton.xib in Resources */,
 				307949EE21395AB200DE23A3 /* GroupDetailsCell.xib in Resources */,
-				30181CCE211D95B80067D65F /* LaunchScreen.storyboard in Resources */,
 				30C799FB21D35E3B00B0ECB4 /* GoogleService-Info.plist in Resources */,
 				30FB311B21353CA000ABA22A /* AgeCategoryCell.xib in Resources */,
 				30C799BA21CD047E00B0ECB4 /* Settings.storyboard in Resources */,
@@ -872,6 +871,7 @@
 				30FB312B21366A6400ABA22A /* GroupSummaryMatchesCell.xib in Resources */,
 				30181D40212312EC0067D65F /* ButtonCell.xib in Resources */,
 				30181D4E212590EC0067D65F /* ImageNavigationBar.xib in Resources */,
+				30790D7C220420AA000EE4A5 /* LaunchScreen.storyboard in Resources */,
 				30AF116921BA596400BE50F4 /* TabAgeCategoriesCell.xib in Resources */,
 				30181D6F212AA3400067D65F /* CustomAlertView.xib in Resources */,
 				30181D612126D6930067D65F /* QA.plist in Resources */,
@@ -894,7 +894,6 @@
 				30790D492202D457000EE4A5 /* TournamentClubCell.xib in Resources */,
 				30790D4A2202D457000EE4A5 /* CustomAlertViewTwoButton.xib in Resources */,
 				30790D4B2202D457000EE4A5 /* GroupDetailsCell.xib in Resources */,
-				30790D4C2202D457000EE4A5 /* LaunchScreen.storyboard in Resources */,
 				30790D4D2202D457000EE4A5 /* GoogleService-Info.plist in Resources */,
 				30790D4E2202D457000EE4A5 /* AgeCategoryCell.xib in Resources */,
 				30790D4F2202D457000EE4A5 /* Settings.storyboard in Resources */,
@@ -905,7 +904,7 @@
 				30790D552202D457000EE4A5 /* PickerHandlerView.xib in Resources */,
 				30790D562202D457000EE4A5 /* GroupSummaryStandingsHeader.xib in Resources */,
 				30790D572202D457000EE4A5 /* TeamListCell.xib in Resources */,
-				30790D772202EF80000EE4A5 /* Asset - Easymm.xcassets in Resources */,
+				30790D7822041EE8000EE4A5 /* Asset - Easymm.xcassets in Resources */,
 				30790D582202D457000EE4A5 /* TournamentDetailsView.xib in Resources */,
 				30790D592202D457000EE4A5 /* Main.storyboard in Resources */,
 				30790D5A2202D457000EE4A5 /* ProfileList.plist in Resources */,
@@ -919,6 +918,7 @@
 				30790D622202D457000EE4A5 /* GroupSummaryMatchesCell.xib in Resources */,
 				30790D632202D457000EE4A5 /* ButtonCell.xib in Resources */,
 				30790D642202D457000EE4A5 /* ImageNavigationBar.xib in Resources */,
+				30790D7B2204209A000EE4A5 /* LaunchScreen.storyboard in Resources */,
 				30790D652202D457000EE4A5 /* TabAgeCategoriesCell.xib in Resources */,
 				30790D662202D457000EE4A5 /* CustomAlertView.xib in Resources */,
 				30790D672202D457000EE4A5 /* QA.plist in Resources */,
@@ -1098,6 +1098,7 @@
 				30FB3125213665FE00ABA22A /* GroupSummaryMatchesHeader.swift in Sources */,
 				305693FE212BEABC009790BA /* ProfileVC.swift in Sources */,
 				30181D1F2121A8BC0067D65F /* CreateAccountVC.swift in Sources */,
+				30371E09220450A50000814A /* AppExtensions.swift in Sources */,
 				30181D1D2121A8AB0067D65F /* ForgotPasswordVC.swift in Sources */,
 				30181D212121A8DD0067D65F /* LoginVC.swift in Sources */,
 				30181CDD211D99F50067D65F /* AppConstantsList.swift in Sources */,
@@ -1117,7 +1118,6 @@
 				30181D2A2122B0CB0067D65F /* TabTournamentVC.swift in Sources */,
 				30181D682126EB830067D65F /* UIViewExtentions.swift in Sources */,
 				307542BE2178A157003715C7 /* TeamListingVC.swift in Sources */,
-				3086BC90213E94B600810CC8 /* UIImageViewExtensions.swift in Sources */,
 				3009A36021CA56A8002769CF /* AllMatchesVC.swift in Sources */,
 				30AF116521BA53B600BE50F4 /* GroupListVC.swift in Sources */,
 				30181D77212AB9CE0067D65F /* UserData.swift in Sources */,
@@ -1175,6 +1175,7 @@
 				30790D172202D457000EE4A5 /* GroupSummaryMatchesHeader.swift in Sources */,
 				30790D182202D457000EE4A5 /* ProfileVC.swift in Sources */,
 				30790D192202D457000EE4A5 /* CreateAccountVC.swift in Sources */,
+				30371E0A220450A50000814A /* AppExtensions.swift in Sources */,
 				30790D1A2202D457000EE4A5 /* ForgotPasswordVC.swift in Sources */,
 				30790D1B2202D457000EE4A5 /* LoginVC.swift in Sources */,
 				30790D1C2202D457000EE4A5 /* AppConstantsList.swift in Sources */,
@@ -1194,7 +1195,6 @@
 				30790D2A2202D457000EE4A5 /* TabTournamentVC.swift in Sources */,
 				30790D2B2202D457000EE4A5 /* UIViewExtentions.swift in Sources */,
 				30790D2C2202D457000EE4A5 /* TeamListingVC.swift in Sources */,
-				30790D2D2202D457000EE4A5 /* UIImageViewExtensions.swift in Sources */,
 				30790D2E2202D457000EE4A5 /* AllMatchesVC.swift in Sources */,
 				30790D2F2202D457000EE4A5 /* GroupListVC.swift in Sources */,
 				30790D302202D457000EE4A5 /* UserData.swift in Sources */,

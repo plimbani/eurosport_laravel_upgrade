@@ -25,12 +25,14 @@ class TabAgeCategoriesCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         widthConstraintBtnInfo.constant = 0
+        btnInfo.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         lblTitle.font = UIFont.init(name: Font.HELVETICA_REGULAR, size: Font.Size.commonLblSize)
         lblTitle.textColor = UIColor.txtDefaultTxt
     }
     
     func showInfoButton() {
-        widthConstraintBtnInfo.constant = 20
+        widthConstraintBtnInfo.constant = 25
+        btnInfo.imageEdgeInsets = UIEdgeInsets(top: 5, left: 2, bottom: 5, right: 3)
     }
     
     @IBAction func btnInfoPressed(_ sender: Any) {

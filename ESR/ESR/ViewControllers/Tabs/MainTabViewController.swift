@@ -44,6 +44,25 @@ class MainTabViewController: SuperViewController {
             button.addTarget(self, action: #selector(onTabSelected(btn:)), for: .touchUpInside)
             
             refeshTabTitle()
+            
+            if ApplicationData.currentTarget == ApplicationData.CurrentTargetList.EasyMM.rawValue {
+                
+                var image = UIImage(named: "tab_favorites")
+                
+                if i == TabIndex.tabTournament.rawValue {
+                    image = UIImage(named: "tab_tournament")
+                } else if i == TabIndex.tabTeams.rawValue {
+                    image = UIImage(named: "tab_teams")
+                } else if i == TabIndex.tabAgeCategories.rawValue {
+                    image = UIImage(named: "tab_age_categories")
+                } else if i == TabIndex.tabsettings.rawValue {
+                    image = UIImage(named: "tab_settings")
+                }
+                
+                if let modifiedImage = image?.withRenderingMode(.alwaysTemplate) {
+                    button.setImageColor(color: UIColor.AppColor(), image: modifiedImage, state: .selected)
+                }
+            }
         }
         
         setupTabs()

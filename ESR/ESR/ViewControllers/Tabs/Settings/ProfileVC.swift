@@ -60,6 +60,10 @@ class ProfileVC: SuperViewController {
         titleNavigationBar.lblTitle.text = String.localize(key: "title_profile")
         titleNavigationBar.setBackgroundColor()
         
+        if ApplicationData.currentTarget == ApplicationData.CurrentTargetList.EasyMM.rawValue {
+            btnUpdate.setTitleColor(.white, for: .normal)
+        }
+        
         // Fieldlist
         if let url = Bundle.main.url(forResource: "ProfileList", withExtension: "plist") {
             fieldList = NSArray(contentsOf: url)!
@@ -256,6 +260,10 @@ class ProfileVC: SuperViewController {
         btnUpdate.isEnabled = false
         btnUpdate.backgroundColor = UIColor.btnDisable
         
+        if ApplicationData.currentTarget == ApplicationData.CurrentTargetList.EasyMM.rawValue {
+            btnUpdate.setBackgroundImage(nil, for: .normal)
+        }
+        
         if let text = txtFirstName.text {
             if text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                 return
@@ -278,6 +286,10 @@ class ProfileVC: SuperViewController {
         
         btnUpdate.isEnabled = true
         btnUpdate.backgroundColor = UIColor.btnYellow
+        
+        if ApplicationData.currentTarget == ApplicationData.CurrentTargetList.EasyMM.rawValue {
+            btnUpdate.setBackgroundImage(UIImage.init(named: "btn_yellow"), for: .normal)
+        }
     }
     
     func getRefreshedLanguageList() -> [String] {
