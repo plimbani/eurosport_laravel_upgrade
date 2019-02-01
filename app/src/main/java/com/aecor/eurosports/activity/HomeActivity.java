@@ -405,26 +405,24 @@ public class HomeActivity extends BaseAppCompactActivity {
     }
 
     private List<TournamentModel> moveItemToTop(List<TournamentModel> lists, int positionOfItem) {
+
         if (lists == null || positionOfItem < 0 || positionOfItem >= lists.size()) {
             return lists;
         }
 
-        ArrayList<TournamentModel> sortedList = new ArrayList<TournamentModel>();
-        //add the item to the top
-        sortedList.add(lists.get(positionOfItem));
+        TournamentModel mTournamentModel = lists.get(positionOfItem);
+        lists.remove(positionOfItem);
+        lists.add(0 , mTournamentModel);
 
-        for (int i = 0; i < lists.size(); i++) {
-            if (i != positionOfItem) {
-                sortedList.add(lists.get(i));
-            }
-        }
 
-        return sortedList;
+
+        return lists;
     }
 
     private void setTournamnetSpinnerAdapter(TournamentModel mTournamentList[]) {
         List<TournamentModel> list = new ArrayList<>();
         list.addAll(Arrays.asList(mTournamentList));
+        Collections.reverse(list);
         Collections.sort(list, new Comparator<TournamentModel>() {
             DateFormat f = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 
@@ -443,7 +441,6 @@ public class HomeActivity extends BaseAppCompactActivity {
                 }
             }
         });
-
         for (int i = 0; i < list.size(); i++) {
             if (list.get(i).getIs_default() == 1) {
                 mPreference.setString(AppConstants.PREF_TOURNAMENT_ID, list.get(i).getTournament_id());
@@ -469,7 +466,7 @@ public class HomeActivity extends BaseAppCompactActivity {
         sp_tournament.setAdapter(adapter);
 
         // Sets selected tournament
-
+//
 
         sp_tournament.setSelection(0);
 
