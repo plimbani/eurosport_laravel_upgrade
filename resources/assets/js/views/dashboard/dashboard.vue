@@ -33,7 +33,7 @@
                                         <div class="col-xl-5 mt-3 mt-lg-0 text-lg-right">
                                             <div class="btn-group" v-if="!isTournamentExpired(tournament.end_date)">
                                                 <button class="btn btn-outline" v-on:click="redirectToTournamentDetailPage(tournament)"><span><i class="fa fa-pencil" aria-hidden="true"></i></span>&nbsp; Edit</button>
-                                                <button class="btn btn-outline ml-2">Manage License</button>
+                                                <button class="btn btn-outline ml-2" v-on:click="redirectToManageTournament(tournament)">Manage License</button>
                                             </div>
                                             <div class="btn-group" v-if="isTournamentExpired(tournament.end_date)">
                                                 <button class="btn btn-outline ml-2" v-on:click="redirectToRenewTournament(tournament)">Renew License</button>
@@ -191,6 +191,10 @@
             },
 
             redirectToRenewTournament(tournament){
+                // console.log("id:::",tournament.id)
+                this.$router.push({name: 'buylicense', query: {id:tournament.id}});   
+            },
+            redirectToManageTournament(tournament){
                 // console.log("id:::",tournament.id)
                 this.$router.push({name: 'buylicense', query: {id:tournament.id}});   
             },

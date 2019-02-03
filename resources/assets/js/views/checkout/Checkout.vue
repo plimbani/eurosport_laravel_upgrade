@@ -150,7 +150,7 @@
         beforeMount(){  
             let tournamentDetails = Ls.get('tournamentDetails')
             if(typeof tournamentDetails != "undefined" && tournamentDetails != undefined && tournamentDetails != "null" && tournamentDetails != null){
-                console.log("tournamentDetails::",tournamentDetails);
+                // console.log("tournamentDetails::",tournamentDetails);
                 this.tournamentData = JSON.parse(tournamentDetails);
                 
             }else{
