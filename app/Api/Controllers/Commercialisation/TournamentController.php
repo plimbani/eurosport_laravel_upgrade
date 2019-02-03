@@ -58,11 +58,12 @@ class TournamentController extends BaseController
      * @param TournamentSummary $request
      * @return string
      */
-    public function tournamentSummary(TournamentSummary $request)
+    public function getTournament(TournamentSummary $request)
     {
         try {
             $data = $request->all();
-            $response = $this->tournamentRepoObj->tournamentSummary($data['tournamentId']);
+//            $response = $this->tournamentRepoObj->tournamentSummary($data['tournamentId']);
+            $response = $this->tournamentRepoObj->getTournamentDetails($data['tournamentId']);
             return response()->json([
                         'success' => true,
                         'status' => Response::HTTP_OK,
@@ -111,7 +112,7 @@ class TournamentController extends BaseController
             }
             if (!empty($requestData['tournament'])) {
                 $requestData['tournament'] = [
-                    'name' => $requestData['tournament']['tournament_name'],                    
+                    'name' => $requestData['tournament']['tournament_name'],
                     'start_date' => Carbon::createFromFormat('d/m/Y', $requestData['tournament']['tournament_start_date']),
                     'end_date' => Carbon::createFromFormat('d/m/Y', $requestData['tournament']['tournament_end_date']),
                     'maximum_teams' => $requestData['tournament']['tournament_max_teams'],
@@ -129,7 +130,7 @@ class TournamentController extends BaseController
             return response()->json(['success' => false, 'status' => Response::HTTP_UNPROCESSABLE_ENTITY, 'data' => [], 'error' => [], 'message' => 'Something went wrong.']);
         }
     }
-    
+
     /**
      * Get list of tournaments of customer for admin
      * @return array

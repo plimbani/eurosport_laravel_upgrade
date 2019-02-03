@@ -1000,6 +1000,16 @@ class TournamentRepository
     }
     
     /**
+     * Get tournament details by tournament id
+     * @param int id
+     * @return array
+     */
+    public function getTournamentDetails($id)
+    {
+        return Tournament::where('id', $id)->first();
+    }
+    
+    /**
      * Get tournament details by access code
      * @param string $accessCode
      * @return array
