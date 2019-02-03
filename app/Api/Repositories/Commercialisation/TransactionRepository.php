@@ -62,6 +62,7 @@ class TransactionRepository
             'user_id' => $userId,
             'order_id' => $data['ORDERID'],
             'transaction_key' => $data['PAYID'],
+            'team_size' => $tournamentRes->maximum_teams,
             'amount' => $data['AMOUNT'],
             'status' => $paymentStatus[$data['STATUS']],
             'currency' => $data['CURRENCY'],
@@ -79,9 +80,9 @@ class TransactionRepository
         $transactionHistory = [
             'transaction_id' => $response->id,
             'tournament_id' => !empty($tournamentRes->id) ? $tournamentRes->id : null,
-            'user_id' => $userId,
             'order_id' => $data['ORDERID'],
             'transaction_key' => $data['PAYID'],
+            'team_size' => $tournamentRes->maximum_teams,
             'amount' => $data['AMOUNT'],
             'status' => $paymentStatus[$data['STATUS']],
             'currency' => $data['CURRENCY'],
@@ -155,5 +156,16 @@ class TransactionRepository
         }
 
         return $result;
+    }
+
+    /**
+     * Get transaction list
+     * @param int $tournamentId
+     * @return object
+     */
+    public function getList($tournamentId)
+    {
+        return TransactionHistory::select('id', 'transaction_id', 'tournament_id', 'order_id', 'transaction_key', 'team_size', 'currency', 'created_at')
+                        ->where('tournament_id', $tournamentId)->get();
     }
 }

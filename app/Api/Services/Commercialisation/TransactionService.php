@@ -23,6 +23,11 @@ class TransactionService implements TransactionContract {
     {
         return $this->transactionRepo->addDetails($data);
     }
+    
+    public function customerTransactions($data)
+    {
+        return $this->transactionRepo->getList($data);
+    }
 
     /**
      * Generate PDF

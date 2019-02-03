@@ -12,6 +12,7 @@ class Transaction extends Model
         'order_id',
         'transaction_key',
         'amount',
+        'team_size',
         'status',
         'currency',
         'card_type',

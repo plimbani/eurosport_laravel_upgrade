@@ -6,6 +6,7 @@ namespace Laraspace\Api\Controllers\Commercialisation;
 use Laraspace\Api\Services\Commercialisation\TransactionService;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
+use Laraspace\Http\Requests\Commercialisation\BuyLicense\CustomerTransactionsRequest;
 
 /**
  * Buy License Description.
@@ -86,8 +87,24 @@ class BuyLicenseController extends BaseController
         }
     }
     
-    public function getCustomerTransactions()
+    /**
+     * Get list of customer's transaction
+     */
+    public function getCustomerTransactions(CustomerTransactionsRequest $request)
     {
-        
+        try {
+            $reqData = $request->all();
+            $data = $this->transactionObj->customerTransactions($reqData['tournament_id']);
+
+            return response()->json([
+                        'success' => true,
+                        'status' => Response::HTTP_OK,
+                        'data' => $data,
+                        'error' => [],
+                        'message' => 'PDF generated successfully.'
+            ]);
+        } catch (\Exception $ex) {
+            return response()->json(['success' => false, 'status' => Response::HTTP_UNPROCESSABLE_ENTITY, 'data' => [], 'error' => [], 'message' => 'Something went wrong.']);
+        }
     }
 }

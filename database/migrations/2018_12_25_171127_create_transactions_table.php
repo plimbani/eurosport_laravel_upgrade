@@ -20,6 +20,7 @@ class CreateTransactionsTable extends Migration
             $table->foreign('tournament_id')->references('id')->on('tournaments');
             $table->string('order_id')->nullable()->default(NULL);
             $table->string('transaction_key')->comment = "Transaction id from payment response";
+            $table->integer('team_size');
             $table->double('amount', 15, 8);
             $table->tinyInteger('status')->comment = "0-failed, 1=success";
             $table->string('payment_response');
