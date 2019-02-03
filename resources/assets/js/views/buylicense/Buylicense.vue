@@ -184,10 +184,17 @@
                         if (response.data.success) { 
                              // this.tournaments = response.data.data;
                              // console.log("tournament details::",response.data.data)
-                             for(let eachKey in response.data.data){
-                                this.tournamentData[eachKey] = response.data.data[eachKey]
-                             } 
+                             // for(let eachKey in response.data.data){
+                             //    this.tournamentData[eachKey] = response.data.data[eachKey]
+                             // } 
                             this.tournamentData['id'] = this.id;
+                            this.tournamentData['tournament_name'] = response.data.data.name;
+                            this.tournamentData['tournament_max_teams'] = response.data.data.maximum_teams;
+                            this.tournamentData['tournament_start_date'] = response.data.data.start_date;
+                            this.tournamentData['tournament_end_date'] = response.data.data.end_date;
+                            // console.log("this.tournamentData:",this.tournamentData);
+                    //         tournament_start_date:new Date(),  
+                    // tournament_end_date:new Date(),
                          }else{ 
                             toastr['error'](response.data.message, 'Error');
                          }
