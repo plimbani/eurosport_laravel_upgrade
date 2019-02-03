@@ -187,11 +187,13 @@
                              // for(let eachKey in response.data.data){
                              //    this.tournamentData[eachKey] = response.data.data[eachKey]
                              // } 
+                             var start_date = new Date(moment(response.data.data.start_date, 'DD/MM/YYYY').format('MM/DD/YYYY'));
+                            var end_date = new Date(moment(response.data.data.end_date, 'DD/MM/YYYY').format('MM/DD/YYYY'));
                             this.tournamentData['id'] = this.id;
                             this.tournamentData['tournament_name'] = response.data.data.name;
-                            this.tournamentData['tournament_max_teams'] = response.data.data.maximum_teams;
-                            this.tournamentData['tournament_start_date'] = response.data.data.start_date;
-                            this.tournamentData['tournament_end_date'] = response.data.data.end_date;
+                            this.tournamentData['tournament_max_teams'] = response.data.data.maximum_teams;                            
+                            this.tournamentData['tournament_start_date'] = start_date.getMonth()+ 1 + '/'+start_date.getDate()+'/'+start_date.getFullYear();
+                            this.tournamentData['tournament_end_date'] = end_date.getMonth()+ 1 + '/'+end_date.getDate()+'/'+end_date.getFullYear();;
                             console.log("this.tournamentData:",this.tournamentData);
                     //         tournament_start_date:new Date(),  
                     // tournament_end_date:new Date(),

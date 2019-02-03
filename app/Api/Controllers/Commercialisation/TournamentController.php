@@ -62,7 +62,6 @@ class TournamentController extends BaseController
     {
         try {
             $data = $request->all();
-//            $response = $this->tournamentRepoObj->tournamentSummary($data['tournamentId']);
             $response = $this->tournamentRepoObj->getTournamentDetails($data['tournamentId']);
             return response()->json([
                         'success' => true,
