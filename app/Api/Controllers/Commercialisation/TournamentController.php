@@ -9,6 +9,7 @@ use Illuminate\Http\Response;
 use Laraspace\Api\Repositories\TournamentRepository;
 use Laraspace\Api\Repositories\Commercialisation\TransactionRepository;
 use Laraspace\Http\Requests\Tournament\TournamentSummary;
+use Laraspace\Http\Requests\Commercialisation\Tournament\TournamentByCustomerRequest;
 use Laraspace\Models\User;
 
 /**
@@ -123,6 +124,29 @@ class TournamentController extends BaseController
                         'data' => $response,
                         'error' => [],
                         'message' => 'Tournament details updated successfully.'
+            ]);
+        } catch (\Exception $ex) {
+            return response()->json(['success' => false, 'status' => Response::HTTP_UNPROCESSABLE_ENTITY, 'data' => [], 'error' => [], 'message' => 'Something went wrong.']);
+        }
+    }
+    
+    /**
+     * Get list of tournaments of customer for admin
+     * @return array
+     */
+    public function getTournamentByCustomer(TournamentByCustomerRequest $request)
+    {
+        try {
+            $requestData = $request->all();
+            $user = User::find($requestData['customer_id']);
+            $data = $this->tournamentRepoObj->getAll('', $user);
+
+            return response()->json([
+                        'success' => true,
+                        'status' => Response::HTTP_OK,
+                        'data' => $data,
+                        'error' => [],
+                        'message' => 'Tournament list.'
             ]);
         } catch (\Exception $ex) {
             return response()->json(['success' => false, 'status' => Response::HTTP_UNPROCESSABLE_ENTITY, 'data' => [], 'error' => [], 'message' => 'Something went wrong.']);

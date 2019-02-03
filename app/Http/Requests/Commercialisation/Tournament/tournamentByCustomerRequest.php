@@ -1,10 +1,10 @@
 <?php
 
-namespace Laraspace\Http\Requests\Commercialisation\BuyLicense;
+namespace Laraspace\Http\Requests\Commercialisation\Tournament;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class EditRequest extends FormRequest
+class TournamentByCustomerRequest extends FormRequest
 {
 
     /**
@@ -25,10 +25,7 @@ class EditRequest extends FormRequest
     public function rules()
     {
         return [
-            'tournament_name' => 'required',
-            'tournament_max_teams' => 'required',
-            'tournament_start_date' => 'required',
-            'tournament_end_date' => 'required',
+            'customer_id' => 'required',
         ];
     }
 }
