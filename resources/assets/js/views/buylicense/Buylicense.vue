@@ -192,7 +192,7 @@
                             this.tournamentData['tournament_max_teams'] = response.data.data.maximum_teams;
                             this.tournamentData['tournament_start_date'] = response.data.data.start_date;
                             this.tournamentData['tournament_end_date'] = response.data.data.end_date;
-                            // console.log("this.tournamentData:",this.tournamentData);
+                            console.log("this.tournamentData:",this.tournamentData);
                     //         tournament_start_date:new Date(),  
                     // tournament_end_date:new Date(),
                          }else{ 
