@@ -18,8 +18,8 @@
                       </div>
                     </a> 
                 </li>
-                <li class="nav-item">       
-                    <a :class="[(activePath == 'competation_format' ? 'active' : '', 'nav-link'), (competitionList.length > 0 ? 'doc-filled' : '')]" data-toggle="tab" href="#competation_format" role="tab" @click="GetSelectComponent('competation_format')">
+                <li class="nav-item">      
+                    <a :class="[(activePath == 'competition_format' ? 'active' : ''), (competitionList.length > 0 ? 'doc-filled' : ''), 'nav-link']" data-toggle="tab" href="#competition_format" role="tab" @click="GetSelectComponent('competition_format')">
                       <div class="wrapper-tab">
                         <span class="icon-football-block"><i class="fas fa-futbol"></i></span>
 
@@ -33,7 +33,7 @@
                 </li>
 
                 <li class="nav-item">                    
-                    <a :class="[(activePath == 'pitch_capacity' ? 'active' : '', 'nav-link'), (pitches !== undefined ? 'doc-filled' : '')]" data-toggle="tab" href="#pitch_capacity" role="tab" @click="GetSelectComponent('pitch_capacity')">
+                    <a :class="[(activePath == 'pitch_capacity' ? 'active' : ''), (pitches !== undefined ? 'doc-filled' : ''), 'nav-link']" data-toggle="tab" href="#pitch_capacity" role="tab" @click="GetSelectComponent('pitch_capacity')">
                       <div class="wrapper-tab">
                         <span class="icon-football-block"><i class="fas fa-futbol"></i></span>
 
@@ -47,7 +47,7 @@
                 </li>
 
                 <li class="nav-item">                    
-                    <a :class="[(activePath == 'teams_groups' ? 'active' : '', 'nav-link'),(teamsCount.length > 0 ? 'doc-filled' : '')]" data-toggle="tab" href="#teams_groups" role="tab"  @click="GetSelectComponent('teams_groups')">
+                    <a :class="[(activePath == 'teams_groups' ? 'active' : ''),(teamsCount.length > 0 ? 'doc-filled' : ''), 'nav-link']" data-toggle="tab" href="#teams_groups" role="tab"  @click="GetSelectComponent('teams_groups')">
                       <div class="wrapper-tab">
                         <span class="icon-football-block"><i class="fas fa-futbol"></i></span>
 
@@ -60,7 +60,7 @@
                     </a>                    
                 </li>
                 <li class="nav-item">                    
-                    <a :class="[(activePath == 'pitch_planner' ? 'active' : '', 'nav-link'), (isMatchScheduled ? 'doc-filled' : '')]" data-toggle="tab" href="#pitch_planner" role="tab" @click="GetSelectComponent('pitch_planner')">
+                    <a :class="[(activePath == 'pitch_planner' ? 'active' : ''), (isMatchScheduled ? 'doc-filled' : ''), 'nav-link']" data-toggle="tab" href="#pitch_planner" role="tab" @click="GetSelectComponent('pitch_planner')">
                       <div class="wrapper-tab">
                         <span class="icon-football-block"><i class="fas fa-futbol"></i></span>
 
@@ -74,7 +74,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a :class="[(activePath == 'tournaments_summary_details' ? 'active' : '', 'nav-link'), (isScoreUpdated ? 'doc-filled' : '')]" data-toggle="tab" href="#home3" role="tab" @click="GetSelectComponent('tournaments_summary_details')">
+                    <a :class="[(activePath == 'tournaments_summary_details' ? 'active' : ''), (isScoreUpdated ? 'doc-filled' : ''), 'nav-link']" data-toggle="tab" href="#home3" role="tab" @click="GetSelectComponent('tournaments_summary_details')">
                       <div class="wrapper-tab">
                         <span class="icon-football-block"><i class="fas fa-futbol"></i></span>
                     
@@ -106,7 +106,7 @@ export default {
   },
   computed: {
     activePath() {
-      return this.$store.state.activePath
+      return this.$store.state.activePath;
     },
     isScoreUpdated() {
       let isScoreUpdated = false;
@@ -165,7 +165,7 @@ export default {
     GetSelectComponent(componentName) {
       // here we check for Tournament Add
        this.$router.push({name: componentName})
-      if(componentName != 'competation_format' || componentName != 'pitch_planner' ||  componentName != 'tournament_add' ) {
+      if(componentName != 'competition_format' || componentName != 'pitch_planner' ||  componentName != 'tournament_add' ) {
         setTimeout( function(){
           if ($(document).height() > $(window).height()) {
             $('.site-footer').removeClass('sticky');

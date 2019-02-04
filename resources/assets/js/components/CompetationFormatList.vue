@@ -24,11 +24,11 @@
               <td>{{competation.total_time | formatTime}}
               </td>
               <td class="text-center">
-                <span class="align-middle">
+                <span class="align-middle pr-1">
                   <a class="text-primary" href="#"
                   @click="editCompFormat(competation.id)"><i class="fa fa-pencil"></i></a>
                 </span>
-                <span class="align-middle">
+                <span class="align-middle pr-1">
                   <a class="text-primary" href="#"
                   @click="copyCompFormat(competation.id)"><i class="fa fa-copy"></i></a>
                 </span>                
