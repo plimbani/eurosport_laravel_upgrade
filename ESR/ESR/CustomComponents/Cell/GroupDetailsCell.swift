@@ -49,12 +49,12 @@ class GroupDetailsCell: UITableViewCell {
             imgView.sd_setImage(with: URL(string: record.teamFlag), placeholderImage:nil)
         }
         
-        if record.points != NULL_ID {
-            lblG.text = "\(record.points)"
+        if record.played != NULL_ID {
+            lblG.text = "\(record.played)"
         }
         
-        if record.played != NULL_ID {
-            lblP.text = "\(record.played)"
+        if record.points != NULL_ID {
+            lblP.text = "\(record.points)"
         }
         
         if record.won != NULL_ID {

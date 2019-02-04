@@ -31,6 +31,9 @@ class GroupSummaryStandingsCell: UITableViewCell {
     }
     
     func reloadCell() {
+        lblPoints.text = NULL_STRING
+        lblGames.text = NULL_STRING
+        lblGoalDifference.text = NULL_STRING
         
         if record.name != NULL_STRING {
            lblGroupname.text = record.name

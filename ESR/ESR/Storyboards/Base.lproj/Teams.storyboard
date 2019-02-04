@@ -487,27 +487,27 @@
                             <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KZ5-id-0fd">
-                                    <rect key="frame" x="15" y="25" width="160" height="0.0"/>
+                                    <rect key="frame" x="15" y="25" width="140" height="0.0"/>
                                     <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="17"/>
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="G" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ORB-F6-55w">
-                                    <rect key="frame" x="190" y="15" width="25" height="20"/>
+                                    <rect key="frame" x="170" y="15" width="35" height="20"/>
                                     <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="17"/>
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="+/-" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sgt-4y-ahU">
-                                    <rect key="frame" x="230" y="15" width="25" height="20"/>
+                                    <rect key="frame" x="220" y="15" width="35" height="20"/>
                                     <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="17"/>
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="P" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JhS-NN-JRZ">
-                                    <rect key="frame" x="280" y="15" width="25" height="20"/>
+                                    <rect key="frame" x="270" y="15" width="35" height="20"/>
                                     <constraints>
-                                        <constraint firstAttribute="width" constant="25" id="20x-E4-cFJ"/>
+                                        <constraint firstAttribute="width" constant="35" id="20x-E4-cFJ"/>
                                     </constraints>
                                     <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="17"/>
                                     <nil key="textColor"/>
@@ -522,7 +522,7 @@
                                 <constraint firstAttribute="height" constant="50" id="RGu-WN-mqk"/>
                                 <constraint firstItem="sgt-4y-ahU" firstAttribute="centerY" secondItem="JhS-NN-JRZ" secondAttribute="centerY" id="Sdw-bZ-G8x"/>
                                 <constraint firstItem="ORB-F6-55w" firstAttribute="centerY" secondItem="sgt-4y-ahU" secondAttribute="centerY" id="Ver-uY-ckC"/>
-                                <constraint firstItem="JhS-NN-JRZ" firstAttribute="leading" secondItem="sgt-4y-ahU" secondAttribute="trailing" constant="25" id="bfa-Pd-Plw"/>
+                                <constraint firstItem="JhS-NN-JRZ" firstAttribute="leading" secondItem="sgt-4y-ahU" secondAttribute="trailing" constant="15" id="bfa-Pd-Plw"/>
                                 <constraint firstItem="ORB-F6-55w" firstAttribute="width" secondItem="JhS-NN-JRZ" secondAttribute="width" id="fAa-h7-AUs"/>
                                 <constraint firstAttribute="trailing" secondItem="JhS-NN-JRZ" secondAttribute="trailing" constant="15" id="hV0-JA-UtU"/>
                                 <constraint firstItem="sgt-4y-ahU" firstAttribute="leading" secondItem="ORB-F6-55w" secondAttribute="trailing" constant="15" id="kId-2i-twh"/>

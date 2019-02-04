@@ -35,9 +35,21 @@ class MapVC: SuperViewController {
                     let marker = GMSMarker()
                     marker.position = locationValue
                     marker.map = mapView
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                        self.zoomInToMarker(locationValue, zoom: 14)
+                    }
+                    
+                    
                 }
             }
         }
+    }
+    
+    func zoomInToMarker(_ location: CLLocationCoordinate2D, zoom: Float = 8) {
+        let camera = GMSCameraPosition.camera(withLatitude: location.latitude, longitude: location.longitude, zoom: zoom)
+        // mapView.camera = camera
+        mapView.animate(to: camera)
     }
 }
 

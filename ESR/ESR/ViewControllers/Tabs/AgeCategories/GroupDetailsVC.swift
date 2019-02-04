@@ -34,13 +34,15 @@ class GroupDetailsVC: SuperViewController {
         
         lblGroupName.text = groupName
         
-        let value = UIInterfaceOrientation.landscapeLeft.rawValue
-        UIDevice.current.setValue(value, forKey: "orientation")
-        
         _ = cellOwner.loadMyNibFile(nibName: "GroupDetailsCell")
         heightGroupDetailCell = (cellOwner.cell as! GroupDetailsCell).getCellHeight()
         
         headerView.frame = CGRect(x: 0, y: 0, width: DEVICE_WIDTH, height: 60)
+        
+       APPDELEGATE.deviceOrientation = .landscapeLeft
+       let valueOrientation = UIInterfaceOrientation.landscapeLeft.rawValue
+       UIDevice.current.setValue(valueOrientation, forKey: "orientation")
+       UIViewController.attemptRotationToDeviceOrientation()
     }
     
     deinit {
@@ -55,10 +57,6 @@ class GroupDetailsVC: SuperViewController {
         }
     }
 
-    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-        return .landscapeRight
-    }
-    
     override var shouldAutorotate: Bool {
         return true
     }
@@ -71,7 +69,7 @@ extension GroupDetailsVC: TitleNavigationBarDelegate {
                 (viewController as! AgeCategoriesGroupsSummaryVC).rotateToPortrait = true
                 self.navigationController?.popToViewController(viewController, animated: true)
                 break
-            }else if viewController is TeamVC {
+            } else if viewController is TeamVC {
                 (viewController as! TeamVC).rotateToPortrait = true
                 self.navigationController?.popToViewController(viewController, animated: true)
                 break

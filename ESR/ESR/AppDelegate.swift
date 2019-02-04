@@ -23,6 +23,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let cellOwner = TableCellOwner()
     var infoAlertViewTwoButton: CustomAlertViewTwoButton!
     
+    var deviceOrientation = UIInterfaceOrientationMask.portrait
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         _ = ApplicationData.sharedInstance()
         
@@ -52,6 +54,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             Bundle.set(languageCode: userData.locale)
         }
         return true
+    }
+    
+    func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
+        
+//        if let vc =  UIApplication.shared.visibleViewController {
+//            for chidVC in vc.childViewControllers {
+//                for innerChildVC in chidVC.childViewControllers {
+//                    if innerChildVC is GroupDetailsVC {
+//                        return UIInterfaceOrientationMask.landscapeLeft
+//                    }
+//                }
+//            }
+//        }
+        
+        return deviceOrientation
     }
     
     func registerForPushNotifications() {
@@ -272,3 +289,5 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         }
     }
 }
+
+

@@ -49,9 +49,13 @@ class TeamVC: SuperViewController {
         super.viewDidLoad()
         initialize()
     }
+    
     override func viewWillAppear(_ animated: Bool) {
         if rotateToPortrait {
-            UIDevice.current.setValue(UIInterfaceOrientation.portrait.rawValue, forKey: "orientation")
+            APPDELEGATE.deviceOrientation = .portrait
+            let valueOrientation = UIInterfaceOrientation.portrait.rawValue
+            UIDevice.current.setValue(valueOrientation, forKey: "orientation")
+            UIViewController.attemptRotationToDeviceOrientation()
             self.tabBarController?.tabBar.isHidden = false
             rotateToPortrait = false
             

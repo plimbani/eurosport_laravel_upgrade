@@ -242,17 +242,20 @@ class TabTournamentVC: SuperViewController {
     }
     
     @IBAction func onFinalPlacingPressed(_ sender: UIButton) {
+        if ApplicationData.sharedInstance().isTournamentInPreview() {
+            self.showInfoAlertView(title: String.localize(key: "alert_title_error"), message: String.localize(key: "alert_preview_tournament"))
+            return
+        }
+        
         let viewController = Storyboards.Teams.instantiateCategoryListVC()
         viewController.isFromTournament = true
         self.navigationController?.pushViewController(viewController, animated: true)
     }
     
     @IBAction func onTeamPressed(_ sender: UIButton) {
-        if let selectedTournament = ApplicationData.sharedInstance().getSelectedTournament() {
-            if selectedTournament.status.trimmingCharacters(in: .whitespacesAndNewlines) == "Preview" {
-                self.showInfoAlertView(title: String.localize(key: "alert_title_error"), message: String.localize(key: "alert_preview_tournament"))
-                return
-            }
+        if ApplicationData.sharedInstance().isTournamentInPreview() {
+            self.showInfoAlertView(title: String.localize(key: "alert_title_error"), message: String.localize(key: "alert_preview_tournament"))
+            return
         }
         
         delegate!.mainTabViewControllerSelectTab(TabIndex.tabTeams.rawValue)

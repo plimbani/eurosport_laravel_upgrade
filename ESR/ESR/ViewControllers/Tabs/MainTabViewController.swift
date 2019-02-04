@@ -19,6 +19,7 @@ class MainTabViewController: SuperViewController {
     
     var selectedIndex = 0
     var previousIndex = 0
+    
     var viewControllers: [UIViewController]!
     
     var delegate: MainTabViewControllerDelegate?
@@ -99,6 +100,8 @@ class MainTabViewController: SuperViewController {
     
     func hideTabbar(flag: Bool = true) {
         tabBarContainerView.isHidden = flag ? true : false
+        heightConstraintTabbarContainerView.constant = flag ? 0 : 60
+        self.updateViewConstraints()
     }
     
     func sendAppversionRequest() {
@@ -182,14 +185,12 @@ class MainTabViewController: SuperViewController {
             }
         }
         
-        if selectedIndex == 2 || selectedIndex == 3 {
-            if let selectedTournament = ApplicationData.sharedInstance().getSelectedTournament() {
-             if selectedTournament.status.trimmingCharacters(in: .whitespacesAndNewlines) == "Preview" {
+        /*if selectedIndex == 2 || selectedIndex == 3 {
+            if ApplicationData.sharedInstance().isTournamentInPreview() {
                 self.showInfoAlertView(title: String.localize(key: "alert_title_error"), message: String.localize(key: "alert_preview_tournament"))
                 return
-                }
-             }
-        }
+            }
+        }*/
         
         tabButtonList[selectedIndex].isSelected = true
         
@@ -205,6 +206,13 @@ class MainTabViewController: SuperViewController {
         
         if selectedIndex != btn.tag {
             selectedIndex = btn.tag
+            
+            if selectedIndex == 2 || selectedIndex == 3 {
+                if ApplicationData.sharedInstance().isTournamentInPreview() {
+                    self.showInfoAlertView(title: String.localize(key: "alert_title_error"), message: String.localize(key: "alert_preview_tournament"))
+                    return
+                }
+            }
             
             if selectedIndex != previousIndex {
                 tabButtonList[previousIndex].isSelected = false

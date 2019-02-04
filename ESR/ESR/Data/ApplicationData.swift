@@ -71,6 +71,16 @@ class ApplicationData: NSObject {
         }
     }
     
+    func isTournamentInPreview() -> Bool {
+        if let selectedTournament = ApplicationData.sharedInstance().getSelectedTournament() {
+            if selectedTournament.status.trimmingCharacters(in: .whitespacesAndNewlines) == "Preview" {
+                return true
+            }
+        }
+        
+        return false
+    }
+    
     static func setTextFieldAttributes(_ textField: UITextField) {
         textField.setLeftPaddingPoints(10)
         
