@@ -106,7 +106,6 @@ export default {
   },
   computed: {
     activePath() {
-      console.log('activePath', this.$store.state.activePath);
       return this.$store.state.activePath;
     },
     isScoreUpdated() {
