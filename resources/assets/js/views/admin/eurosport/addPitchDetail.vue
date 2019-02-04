@@ -12,10 +12,10 @@
         <div class="modal-body">
           <ul class="nav nav-tabs col-md-12" role="tablist">
               <li class="nav-item col-md-6 padding0">
-                  <a data-toggle="tab" href="#pitch" role="tab" class="nav-link active text-center">{{$lang.pitch_details}}</a>
+                  <a data-toggle="tab" href="#pitch" role="tab" class="nav-link active text-center"><div class="wrapper-tab">{{$lang.pitch_details}}</div></a>
               </li>
               <li class="nav-item col-md-6 padding0">
-                  <a data-toggle="tab" href="#availability" role="tab" class="nav-link text-center">{{$lang.pitch_modal_availability}}</a>
+                  <a data-toggle="tab" href="#availability" role="tab" class="nav-link text-center"><div class="wrapper-tab">{{$lang.pitch_modal_availability}}</div></a>
               </li>
           </ul>
           <div class="tab-content">

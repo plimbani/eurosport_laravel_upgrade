@@ -5,8 +5,8 @@
       		<h6><strong>{{$lang.teams_terms_groups}}</strong></h6>
             <div class="row">
               <div class="col-sm-12 mb-2">
-                Team list spreadsheet <a href="javascript:void(0)" @click="downloadTeamsSpreadsheetSample()" class="text-primary"><u>click here.</u></a>  View
-                <a href="javascript:void(0)" @click="previewSpredsheetSample()" class="text-primary"><u> example</u></a>
+                Team list spreadsheet <a href="javascript:void(0)" @click="downloadTeamsSpreadsheetSample()" class="text-primary"><u>click here</u>.</a>  View
+                <a href="javascript:void(0)" @click="previewSpredsheetSample()" class="text-primary"><u> example</u>.</a>
               </div>
             </div>
             <div class="form-group row">

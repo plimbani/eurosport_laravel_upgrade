@@ -657,12 +657,11 @@ textarea {
                     color: $ls-color-blue;
                 }
 
-                border-bottom-color: $ls-color-blue;
+                border-bottom-color: $ls-color-green;
             }
 
             &:hover {
-                background-color: rgba(81, 173, 246, 0.3);
-                border-bottom-color: rgba(81, 173, 246, 0);
+                // border-bottom-color: rgba(81, 173, 246, 0);
                 color: $ls-color-blue;
 
                 .icon-football-block {
@@ -674,12 +673,22 @@ textarea {
                 .text-tooltip {
                     color: $ls-color-blue;
                 }
+                .wrapper-tab{
+                    background-color: rgba(81, 173, 246, 0.3);
+                }
             }
         }
     }
     .tabs-primary{
         .nav-tabs {
             border-bottom-color:$ls-color-blue;
+        }
+    }
+    .nav-tabs {
+        .nav-link{
+            &.active{
+                background-color:transparent;
+            }
         }
     }
 }

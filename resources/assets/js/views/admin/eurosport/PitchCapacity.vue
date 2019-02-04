@@ -96,7 +96,7 @@
                 <div v-for="(locationDetail, locationId) in locationSizeWiseSummaryArray">
                     <div class="row my-3">
                       <div class="col-3 align-self-center">
-                          <h6 class="mb-0"><strong>Location - {{ locationDetail.name }}</strong></h6>
+                          <h6 class="mb-0"><strong>Venue - {{ locationDetail.name }}</strong></h6>
                       </div>
                     </div>
                     <div class="row">

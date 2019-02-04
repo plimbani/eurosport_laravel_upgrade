@@ -630,7 +630,7 @@ class TournamentService implements TournamentContract
             ];
 
             $lableArray = [
-              'Date and time','Age category' ,'Location', 'Pitch','Referee','Match Code','Team','Team','Placing'
+              'Date and time','Age category' ,'Venue', 'Pitch','Referee','Match Code','Team','Team','Placing'
             ];
             //Total Stakes, Total Revenue, Amount & Balance fields are set as Number statically.
             \Laraspace\Custom\Helper\Common::toExcel($lableArray,$dataArray,$otherParams,'xlsx','yes');
