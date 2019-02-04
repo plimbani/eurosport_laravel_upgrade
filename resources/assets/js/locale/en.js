@@ -423,7 +423,7 @@ module.exports= {
   pitch_modal_availability_button_close: "Cancel",
   pitch_modal_availability_button_save: "Save",
   pitch_capacity_label: "Pitch capacity",
-  pitch_planner_label: "Match Planner",
+  pitch_planner_label: "Match planner",
   pitch_planner_text: "*Add pitches.",
   pitch_planner_no_games: "All games scheduled",
   pitch_planner_horizontal: "Horizontal",

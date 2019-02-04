@@ -121,7 +121,7 @@
                           <td class="text-center">
                             <a class="text-primary" href="javascript:void(0)"
                              @click="editTeam(team.id)">
-                              <i class="jv-icon jv-edit"></i>
+                              <i class="fa fa-pencil"></i>
                             </a>
                           </td>
                         </tr>
@@ -171,7 +171,7 @@
              </button>
           </div>
           <div class="modal-body">
-            <img src="../../../../../../public/assets/img/teams_groups_preview/TeamsGroupsPreview.png" class="img-fluid">
+            <img src="/assets/img/teams_groups_preview/TeamsGroupsPreview.png" class="img-fluid">
           </div>
          </div>
       </div>
