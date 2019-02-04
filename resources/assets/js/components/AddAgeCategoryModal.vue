@@ -1,5 +1,5 @@
 <template>
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="display: none;">
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -980,7 +980,11 @@ export default {
     },
     closeExampleModal : function()
     {
-      $('#exampleModal').modal('hide');
+      $('#exampleModal').modal('hide');  
+      setTimeout(function() {
+        $(".modal-backdrop").remove();
+      }, 100);
+      
     }
   }
 }
