@@ -552,7 +552,7 @@ this.$validator.validateAll().then(
 redirectCompetation() {
   let currentNavigationData = {activeTab:'competition_format', currentPage: 'Competition Format'}
   this.$store.dispatch('setActiveTab', currentNavigationData)
-  this.$router.push({name:'competation_format'})
+  this.$router.push({name:'competition_format'})
 },
 backward() {
 this.$router.push({name:'welcome'})

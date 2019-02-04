@@ -19,7 +19,7 @@
                     </a> 
                 </li>
                 <li class="nav-item">      
-                    <a :class="[(activePath == 'competation_format' ? 'active' : ''), (competitionList.length > 0 ? 'doc-filled' : ''), 'nav-link']" data-toggle="tab" href="#competation_format" role="tab" @click="GetSelectComponent('competation_format')">
+                    <a :class="[(activePath == 'competition_format' ? 'active' : ''), (competitionList.length > 0 ? 'doc-filled' : ''), 'nav-link']" data-toggle="tab" href="#competition_format" role="tab" @click="GetSelectComponent('competition_format')">
                       <div class="wrapper-tab">
                         <span class="icon-football-block"><i class="fas fa-futbol"></i></span>
 
@@ -165,7 +165,7 @@ export default {
     GetSelectComponent(componentName) {
       // here we check for Tournament Add
        this.$router.push({name: componentName})
-      if(componentName != 'competation_format' || componentName != 'pitch_planner' ||  componentName != 'tournament_add' ) {
+      if(componentName != 'competition_format' || componentName != 'pitch_planner' ||  componentName != 'tournament_add' ) {
         setTimeout( function(){
           if ($(document).height() > $(window).height()) {
             $('.site-footer').removeClass('sticky');
