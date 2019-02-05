@@ -59,7 +59,13 @@
                     tournament:this.tournament,
                     paymentResponse:this.paymentObj
                 } 
-                axios.post(Constant.apiBaseUrl+'payment/response', apiParams).then(response =>  {
+                var url = "payment/response";
+                // console.log("this.tournament.id::",this.tournament.id);
+                if(typeof this.tournament.id != "undefined" && this.tournament.id != undefined){
+                    // console.log("inside");
+                    url = "manage-tournament";
+                }
+                axios.post(Constant.apiBaseUrl+url, apiParams).then(response =>  {
                         if (response.data.success) {
                             console.log("response.data::",response.data.data)
                             this.paymentObj.amount = response.data.data.amount;
