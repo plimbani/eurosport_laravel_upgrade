@@ -110,4 +110,8 @@ class AgeGroupController extends BaseController
         return $this->ageGroupObj->copyAgeCategory($request->all());
     }
 
+    public function viewGraphicImage(Request $request) {
+        return $this->ageGroupObj->viewGraphicImage($request->all());
+    }
+
 }
