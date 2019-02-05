@@ -245,7 +245,6 @@ class AgeGroupRepository
                   'tournament_competation_template.tournament_template_id')
                  ->leftJoin('tournaments','tournaments.id','=','tournament_competation_template.tournament_id')
                  ->select('tournament_competation_template.*','tournament_template.name as template_name',
-                  'tournament_template.graphic_image as graphic_image',
                    \DB::raw('CONCAT("'.$this->tournamentLogoUrl.'", tournaments.logo) AS tournamentLogo'), 
                    \DB::raw('CONCAT("'.getenv('S3_URL').'", tournament_template.graphic_image) AS graphicImage'))
                 ->where($fieldName, $value)->get();

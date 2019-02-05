@@ -172,7 +172,7 @@
                           </span>
                         </div>
                         <div class="col align-self-center text-center">
-                          <a href="#" @click="viewGraphicalPreview(option.name)" class="text-primary" v-if="isExist(option.name)"><u>Preview</u></a>
+                          <a href="#" @click="viewGraphicalPreview(option.name)" class="text-primary" v-if="isExist(option.name)"><u>View graphic</u></a>
                         </div>
                         <displaygraphic :templateImage="templateImage" :viewGraphicImagePath="option.graphic_image" :viewGraphicImageName="option.name"></displaygraphic>
                       </div>
