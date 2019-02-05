@@ -425,6 +425,14 @@ public class Utility {
         return sb.toString();
     }
 
+    public static int getScreenWidth() {
+        return Resources.getSystem().getDisplayMetrics().widthPixels;
+    }
+
+    public static int getScreenHeight() {
+        return Resources.getSystem().getDisplayMetrics().heightPixels;
+    }
+
     public static boolean compare(String v1, String v2) {
         boolean returnFlag = false;
         String s1 = normalisedVersion(v1);

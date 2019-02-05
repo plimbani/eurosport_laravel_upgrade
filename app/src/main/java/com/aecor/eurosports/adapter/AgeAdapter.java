@@ -17,6 +17,7 @@ import com.aecor.eurosports.R;
 import com.aecor.eurosports.activity.AgeCategoriesActivity;
 import com.aecor.eurosports.activity.AgeGroupActivity;
 import com.aecor.eurosports.activity.FinalPlacingMatchesActivity;
+import com.aecor.eurosports.activity.FullScreenImageActivity;
 import com.aecor.eurosports.activity.TeamListingActivity;
 import com.aecor.eurosports.model.AgeCategoriesModel;
 import com.aecor.eurosports.ui.ViewDialog;
@@ -39,12 +40,14 @@ public class AgeAdapter extends RecyclerView.Adapter<AgeAdapter.ViewHolder> impl
     private List<AgeCategoriesModel> mOriginalList;
     private AgeFilter ageFilter;
     private boolean isShowFinalPlacing;
+    private boolean isShowViewGraphic;
 
-    public AgeAdapter(Activity context, List<AgeCategoriesModel> list, boolean isShowFinalPlacing) {
+    public AgeAdapter(Activity context, List<AgeCategoriesModel> list, boolean isShowFinalPlacing, boolean isShowViewGraphic) {
         mContext = context;
         this.mAgeCategoriesList = list;
         this.mOriginalList = list;
         this.isShowFinalPlacing = isShowFinalPlacing;
+        this.isShowViewGraphic = isShowViewGraphic;
     }
 
 
@@ -102,7 +105,25 @@ public class AgeAdapter extends RecyclerView.Adapter<AgeAdapter.ViewHolder> impl
         } else {
             holder.individual_list_item.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
         }
+        if (isShowViewGraphic && !Utility.isNullOrEmpty(ageModel.getGraphicImage())) {
+            holder.tv_view_graphic.setVisibility(View.VISIBLE);
+            holder.tv_view_graphic.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (Utility.isInternetAvailable(mContext)) {
+                        Intent mFullScreenImageIntent = new Intent(mContext, FullScreenImageActivity.class);
+                        mFullScreenImageIntent.putExtra(AppConstants.KEY_IMAGE_URL, ageModel.getGraphicImage() + "");
+                        mContext.startActivity(mFullScreenImageIntent);
+                    } else {
+                        Utility.showToast(mContext, mContext.getString(R.string.no_internet));
+                    }
+                }
+            });
 
+        } else {
+            holder.tv_view_graphic.setVisibility(View.GONE);
+
+        }
 
     }
 
@@ -141,6 +162,8 @@ public class AgeAdapter extends RecyclerView.Adapter<AgeAdapter.ViewHolder> impl
     public class ViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.individual_list_item)
         protected TextView individual_list_item;
+        @BindView(R.id.tv_view_graphic)
+        protected TextView tv_view_graphic;
         @BindView(R.id.ll_list_parent)
         protected LinearLayout ll_list_parent;
 
@@ -148,6 +171,7 @@ public class AgeAdapter extends RecyclerView.Adapter<AgeAdapter.ViewHolder> impl
         public ViewHolder(View rowView) {
             super(rowView);
             ButterKnife.bind(this, rowView);
+            tv_view_graphic.setVisibility(View.GONE);
             rowView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
