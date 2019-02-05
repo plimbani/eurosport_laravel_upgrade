@@ -155,9 +155,9 @@ const routes = [
                 name: 'tournament_add'
             },
             {
-                path: 'competation_format',
+                path: 'competition_format',
                 component: CompetationFormat,
-                name: 'competation_format'
+                name: 'competition_format'
             },
             {
                 path: 'pitch_capacity',
@@ -299,7 +299,7 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-    let routesName = ['tournament_add', 'competation_format', 'pitch_capacity', 'teams_groups', 'pitch_planner', 'enlarge_pitch_planner', 'tournaments_summary_details'];
+    let routesName = ['tournament_add', 'competition_format', 'pitch_capacity', 'teams_groups', 'pitch_planner', 'enlarge_pitch_planner', 'tournaments_summary_details'];
     let data = {};
     if (routesName.indexOf(to.name) >= 0) {
         data.tournamentId = store.state.Tournament.tournamentId;

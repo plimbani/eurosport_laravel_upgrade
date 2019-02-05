@@ -77,7 +77,7 @@
             </span>
             <span v-else>
               <a class="text-primary js-edit-match" href="javascript:void(0);"  v-bind:data-id="match.fid"
-              @click="openPitchModal(match,match.fid)"><i class="jv-icon jv-edit"></i>
+              @click="openPitchModal(match,match.fid)"><i class="fa fa-pencil"></i>
               </a>
               <a v-if="match.matchRemarks" class="text-primary" href="javascript:void(0);" @click="openPitchModal(match, match.fid)"><i class="jv-icon jv-comment"></i></a>
             </span>

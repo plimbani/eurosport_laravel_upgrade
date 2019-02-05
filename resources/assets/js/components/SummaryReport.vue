@@ -3,10 +3,14 @@
 		<div class="tabs tabs-primary">
 			<ul class="nav nav-tabs" role="tablist">
 	            <li class="nav-item">
-	              <a data-toggle="tab" class="nav-link active" href="#matches_tab" role="tab">Matches</a>
+	              <a data-toggle="tab" class="nav-link active" href="#matches_tab" role="tab">
+	              	<div class="wrapper-tab">Matches</div>
+	              </a>
 	            </li>
 	            <li class="nav-item">
-	              <a data-toggle="tab" class="nav-link" href="#fair_play_tab" role="tab">Fair play</a>
+	              <a data-toggle="tab" class="nav-link" href="#fair_play_tab" role="tab">
+	              	<div class="wrapper-tab">Fair play</div>
+	              </a>
 	            </li>
 	        </ul>
 			

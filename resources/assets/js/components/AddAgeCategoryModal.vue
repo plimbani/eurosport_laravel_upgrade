@@ -823,7 +823,7 @@ export default {
                     }else{
                       toastr.success('Age category has been edited successfully.', 'Edit Age Category', {timeOut: 5000});
                     }
-                    //this.$router.push({name: 'competation_format'})
+                    //this.$router.push({name: 'competition_format'})
 
                     $('#exampleModal').modal('hide')
                     // $("#ageCategoryName")[0].reset();

@@ -5,8 +5,8 @@
       		<h6><strong>{{$lang.teams_terms_groups}}</strong></h6>
             <div class="row">
               <div class="col-sm-12 mb-2">
-                Team list spreadsheet <a href="javascript:void(0)" @click="downloadTeamsSpreadsheetSample()" class="text-primary"><u>click here.</u></a>  View
-                <a href="javascript:void(0)" @click="previewSpredsheetSample()" class="text-primary"><u> example</u></a>
+                Team list spreadsheet <a href="javascript:void(0)" @click="downloadTeamsSpreadsheetSample()" class="text-primary"><u>click here</u>.</a>  View
+                <a href="javascript:void(0)" @click="previewSpredsheetSample()" class="text-primary"><u> example</u>.</a>
               </div>
             </div>
             <div class="form-group row">
@@ -121,7 +121,7 @@
                           <td class="text-center">
                             <a class="text-primary" href="javascript:void(0)"
                              @click="editTeam(team.id)">
-                              <i class="jv-icon jv-edit"></i>
+                              <i class="fa fa-pencil"></i>
                             </a>
                           </td>
                         </tr>
@@ -171,7 +171,7 @@
              </button>
           </div>
           <div class="modal-body">
-            <img src="../../../../../../public/assets/img/teams_groups_preview/TeamsGroupsPreview.png" class="img-fluid">
+            <img src="/assets/img/teams_groups_preview/TeamsGroupsPreview.png" class="img-fluid">
           </div>
          </div>
       </div>
