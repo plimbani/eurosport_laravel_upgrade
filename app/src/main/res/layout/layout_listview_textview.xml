@@ -29,12 +29,28 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_weight="1"
             android:ellipsize="end"
             android:gravity="center|left"
             android:maxLines="2"
             android:padding="10dp"
             android:textColor="@color/gray_text"
             android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/tv_view_graphic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|right"
+            android:ellipsize="end"
+            android:gravity="center|left"
+            android:maxLines="2"
+            android:padding="10dp"
+            android:text="@string/view_graphic"
+            android:textColor="@color/link"
+            android:textSize="18sp"
+            android:visibility="gone" />
+
     </LinearLayout>
 
     <ImageView
