@@ -111,6 +111,7 @@ class TournamentController extends BaseController
             }
             if (!empty($requestData['tournament'])) {
                 $requestData['tournament'] = [
+                    'id' => $requestData['tournament']['id'],
                     'name' => $requestData['tournament']['tournament_name'],
                     'start_date' => Carbon::createFromFormat('d/m/Y', $requestData['tournament']['tournament_start_date']),
                     'end_date' => Carbon::createFromFormat('d/m/Y', $requestData['tournament']['tournament_end_date']),
@@ -121,11 +122,12 @@ class TournamentController extends BaseController
             return response()->json([
                         'success' => true,
                         'status' => Response::HTTP_OK,
-                        'data' => $response,
+                        'data' => $requestData,
                         'error' => [],
                         'message' => 'Tournament details updated successfully.'
             ]);
         } catch (\Exception $ex) {
+            dd($ex->getMessage());
             return response()->json(['success' => false, 'status' => Response::HTTP_UNPROCESSABLE_ENTITY, 'data' => [], 'error' => [], 'message' => 'Something went wrong.']);
         }
     }

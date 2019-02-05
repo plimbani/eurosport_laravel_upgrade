@@ -35,6 +35,10 @@ class TransactionRepository
         }
         $response = $this->addTransaction($data, $tournamentRes, $userId);
 
+        //If renew license then duplicate age category if team size same
+        if (!empty($requestData['is_renew'])) {
+            
+        }
         if ($data['STATUS'] == 5) {
             //Send conformation mail to customer
             $subject = 'Message from Eurosport';
@@ -59,7 +63,6 @@ class TransactionRepository
         $paymentStatus = config('app.payment_status');
         $transaction = [
             'tournament_id' => !empty($tournamentRes->id) ? $tournamentRes->id : null,
-            'user_id' => $userId,
             'order_id' => $data['ORDERID'],
             'transaction_key' => $data['PAYID'],
             'team_size' => $tournamentRes->maximum_teams,
@@ -111,8 +114,7 @@ class TransactionRepository
         $authUser = JWTAuth::parseToken()->toUser();
         $userId = $authUser->id;
         $paymentStatus = config('app.payment_status');
-        $existsTransaction = Transaction::where('tournament_id', $tournament['id'])
-                        ->where('user_id', $userId)->first();
+        $existsTransaction = Transaction::where('tournament_id', $tournament['id'])->first();
 
         if (empty($tournament['total_amount'])) {
             $transaction = [
@@ -122,9 +124,9 @@ class TransactionRepository
             ];
         } else {
             $transaction = [
-                'user_id' => $userId,
                 'order_id' => $data['ORDERID'],
                 'transaction_key' => $data['PAYID'],
+                'team_size' => $tournament['tournament_max_teams'],
                 'amount' => $data['AMOUNT'] + $existsTransaction['amount'],
                 'status' => $paymentStatus[$data['STATUS']],
                 'currency' => $data['CURRENCY'],
@@ -139,11 +141,11 @@ class TransactionRepository
             ];
         }
 
-        $result = Transaction::where('tournament_id', $tournament['id'])->where('user_id', $userId)
-                ->update($transaction);
+        $result = Transaction::where('tournament_id', $tournament['id'])->update($transaction);
 
         if (!empty($data)) {
             $transaction['transaction_id'] = $existsTransaction['id'];
+            $transaction['tournament_id'] = $tournament['id'];
             TransactionHistory::create($transaction);
         }
         if ($data['STATUS'] == 5) {
