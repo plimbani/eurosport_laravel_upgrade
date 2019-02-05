@@ -43,7 +43,7 @@
             <tr v-for="drawData in groupsData">
               <td>
                 <a class="pull-left text-left text-primary" @click.prevent="changeGroup(drawData)" href=""><u>{{ drawData.display_name }}</u> </a>
-                <a v-if="isUserDataExist" href="#" @click="openEditCompetitionNameModal(drawData)" class="pull-right text-primary"><i class="jv-icon jv-edit"></i></a>
+                <a v-if="isUserDataExist" href="#" @click="openEditCompetitionNameModal(drawData)" class="pull-right text-primary"><i class="fa fa-pencil"></i></a>
               </td>
               <td class="text-center">{{ drawData.competation_type }}</td>
               <td class="text-center">{{ drawData.team_size }}</td>

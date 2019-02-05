@@ -42,13 +42,13 @@
                                     </td>
                                     <td class="text-center">
                                         <span class="align-middle">
-                                             <a href="#" @click="generatePitchMatchReport(pitch.id)" title="Pitch match schedule" class="text-primary" style="font-size:1.1em"><i class="fa fa-print"></i></a>
+                                            <a class="text-primary" href="javascript:void(0)" @click="editPitch(pitch.id)"><i class="fa fa-pencil"></i></a>
                                         </span>
                                         <span class="align-middle">
-                                            <a class="text-primary mx-1" href="javascript:void(0)" @click="editPitch(pitch.id)"><i class="jv-icon jv-edit"></i></a>
+                                             <a href="#" @click="generatePitchMatchReport(pitch.id)" title="Pitch match schedule" class="text-primary mx-1" style="font-size:1.1em"><i class="fa fa-download"></i></a>
                                         </span>
                                         <span class="align-middle">
-                                             <a href="javascript:void(0)" data-confirm-msg="Are you sure you would like to delete this pitch record?" data- data-toggle="modal" data-target="#delete_modal" @click="deletePitch(pitch.id)"><i class="jv-icon jv-dustbin"></i></a>
+                                             <a href="javascript:void(0)" data-confirm-msg="Are you sure you would like to delete this pitch record?" data- data-toggle="modal" data-target="#delete_modal" @click="deletePitch(pitch.id)"><i class="fa fa-trash text-danger"></i></a>
                                         </span>
                                     </td>
                                 </tr>
@@ -96,7 +96,7 @@
                 <div v-for="(locationDetail, locationId) in locationSizeWiseSummaryArray">
                     <div class="row my-3">
                       <div class="col-3 align-self-center">
-                          <h6 class="mb-0"><strong>Location - {{ locationDetail.name }}</strong></h6>
+                          <h6 class="mb-0"><strong>Venue - {{ locationDetail.name }}</strong></h6>
                       </div>
                     </div>
                     <div class="row">

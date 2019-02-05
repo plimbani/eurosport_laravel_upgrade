@@ -19,18 +19,18 @@
               <td class="text-left">{{competation.group_name}} </td>
               <td class="text-left">{{competation.category_age}}</td>
               <td class="text-left">{{competation.template_name}}</td>
-              <td class="text-left">{{competation.disp_format_name}} <a href="#"  @click="viewCompFormat(competation.tournament_template_id,competation.total_time)" class="btn btn-primary btn-sm ml-1">View</a></td>
+              <td class="text-left">{{competation.disp_format_name}} <a href="#"  @click="viewCompFormat(competation.tournament_template_id,competation.total_time)" class="btn btn-primary btn-sm ml-1 float-right">View</a></td>
               <td class="text-center">{{competation.total_match}}</td>
               <td>{{competation.total_time | formatTime}}
               </td>
               <td class="text-center">
-                <span class="align-middle">
+                <span class="align-middle pr-1">
                   <a class="text-primary" href="#"
-                  @click="editCompFormat(competation.id)"><i class="jv-icon jv-edit"></i></a>
+                  @click="editCompFormat(competation.id)"><i class="fa fa-pencil"></i></a>
                 </span>
-                <span class="align-middle">
+                <span class="align-middle pr-1">
                   <a class="text-primary" href="#"
-                  @click="copyCompFormat(competation.id)"><i class="jv-icon jv-doc"></i></a>
+                  @click="copyCompFormat(competation.id)"><i class="fa fa-copy"></i></a>
                 </span>                
                 <span class="align-middle">
                   <a href="javascript:void(0)"
@@ -38,7 +38,7 @@
                   data-toggle="modal"
                   data-target="#delete_modal"
                   @click="prepareDeleteResource(competation.id)">
-                  <i class="jv-icon jv-dustbin"></i></a>
+                  <i class="fa fa-trash text-danger"></i></a>
                 </span>
               </td>
             </tr>

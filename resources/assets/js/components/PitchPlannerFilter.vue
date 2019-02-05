@@ -15,7 +15,7 @@
     <div class="form-group" v-show="filterBy != ''">
       <select class="form-control ls-select2 m-w-130" v-model="dropDown" @change="setFilterValue()">
         <option value="" v-if="filterBy == 'age_category'">Select category</option>
-        <option value="" v-if="filterBy == 'location'">Select location</option>
+        <option value="" v-if="filterBy == 'location'">Select venue</option>
         <option :value="option.id"
         v-for="option in options"
         v-bind:value="option">

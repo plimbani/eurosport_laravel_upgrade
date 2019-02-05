@@ -33,14 +33,15 @@
                     <div class="tabs tabs-primary">
                         <ul class="nav nav-tabs" role="tablist">
                             <li class="nav-item">
-                                <a class="text-center" :class="[currentView == 'gamesTab' ? 'active' : '', 'nav-link px-3']"
+                                <a class="text-center" :class="[currentView == 'gamesTab' ? 'active' : '', 'nav-link']"
                                 @click="setCurrentTab('gamesTab')"
-                                data-toggle="tab" role="tab" href="#game-list">Games <span>({{totalMatchCount}})</span></a>
+                                data-toggle="tab" role="tab" href="#game-list">
+                                <div class="wrapper-tab">Games <span>({{totalMatchCount}})</span></div></a>
                             </li>
                             <li class="nav-item">
-                                <a class="text-center" :class="[currentView == 'refereeTab' ? 'active' : '', 'nav-link px-3']"
+                                <a class="text-center" :class="[currentView == 'refereeTab' ? 'active' : '', 'nav-link']"
                                 @click="setCurrentTab('refereeTab')"
-                                data-toggle="tab" role="tab" href="#referee-list">Referees <span>({{totalRefereeCount}})</span></a>
+                                data-toggle="tab" role="tab" href="#referee-list"><div class="wrapper-tab">Referees <span>({{totalRefereeCount}})</span></div></a>
                             </li>
                         </ul>
                          <div class="tab-content">
