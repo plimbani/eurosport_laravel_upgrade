@@ -14,15 +14,16 @@
           </div>
           <div class="modal-body" id="pitch_model_body">
             <div class="tabs tabs-primary">
-              <ul class="nav nav-tabs" role="tablist">
+              <ul class="nav nav-tabs nav-justified" role="tablist">
                 <li class="nav-item">
-                  <a data-toggle="tab" class="nav-link active" href="#general_tab" role="tab">General</a>
+                  <a data-toggle="tab" class="nav-link active" href="#general_tab" role="tab">
+                    <div class="wrapper-tab">General</div></a>
                 </li>
                 <li class="nav-item">
-                  <a data-toggle="tab" class="nav-link" href="#results_tab" role="tab">Result</a>
+                  <a data-toggle="tab" class="nav-link" href="#results_tab" role="tab"><div class="wrapper-tab">Result</div></a>
                 </li>
                 <li class="nav-item">
-                  <a data-toggle="tab" class="nav-link" href="#colors_tab" role="tab">Colours</a>
+                  <a data-toggle="tab" class="nav-link" href="#colors_tab" role="tab"><div class="wrapper-tab">Colours</div></a>
                 </li>                                    
               </ul>
 

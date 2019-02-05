@@ -10,7 +10,7 @@
           </button>
         </div>
         <div class="modal-body">
-          <ul class="nav nav-tabs col-md-12" role="tablist">
+          <ul class="nav nav-tabs nav-justified col-md-12" role="tablist">
             <li class="nav-item col-md-6 padding0">
                 <a data-toggle="tab" href="#pitch" role="tab" class="nav-link active text-center"><div class="wrapper-tab">{{$lang.pitch_details}}</div></a>
             </li>

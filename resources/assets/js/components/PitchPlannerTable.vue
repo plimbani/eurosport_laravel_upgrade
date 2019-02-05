@@ -31,7 +31,7 @@
             <div class="" id="outerGame" v-bind:class="[isPitchPlannerInEnlargeMode == 0 ? 'col-md-3' : 'col-md-2']" v-if="isPrintPitchPlanner == 0">
                 <div class="grey_bg" id="gameReferee">
                     <div class="tabs tabs-primary">
-                        <ul class="nav nav-tabs" role="tablist">
+                        <ul class="nav nav-tabs nav-justified" role="tablist">
                             <li class="nav-item">
                                 <a class="text-center" :class="[currentView == 'gamesTab' ? 'active' : '', 'nav-link']"
                                 @click="setCurrentTab('gamesTab')"
