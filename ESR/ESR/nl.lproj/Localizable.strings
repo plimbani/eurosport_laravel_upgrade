@@ -20,6 +20,7 @@
 
 "alert_default_tournament_update" = "Standaardtoernooi is geüpdatet";
 "alert_title_success" = "Gelukt";
+"alert_title_preview" = "Preview";
 "alert_title_error" = "Fout";
 "alert_default_tournament_remove" = "Standaardtoernooi kan niet worden verwijderd uit favorieten.";
 "alert_msg_logout" = "Weet je zeker dat je wilt uitloggen?";
@@ -130,7 +131,7 @@
 "string_walkover_win"                   = "* Walkover, win awarded";
 "string_penalties_win"                  = "* Game won on penalties";
 "string_abandoned_win"                  = "* Abandoned, win awarded";
-"string_accept_terms_of_use"            = "By continuing you accept our Terms of Use";
+"string_accept_terms_of_use"            = "By continuing you accept our Terms of Use.";
 "string_contact_number"                 = "Contact number:";
 "string_placings"                       = "Placing %@";
 "string_app_version"                    = "Version %@";

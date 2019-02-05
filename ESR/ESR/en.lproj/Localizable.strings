@@ -20,6 +20,7 @@
 
 "alert_default_tournament_update" = "Default tournament updated successfully.";
 "alert_title_success" = "Success";
+"alert_title_preview" = "Preview";
 "alert_title_error" = "Error";
 "alert_default_tournament_remove" = "Default tournament cannot be removed from favourite.";
 "alert_profile_update" = "Profile updated successfully.";
@@ -137,7 +138,7 @@
 "string_walkover_win"                   = "* Walkover, win awarded";
 "string_penalties_win"                  = "* Game won on penalties";
 "string_abandoned_win"                  = "* Abandoned, win awarded";
-"string_accept_terms_of_use"            = "By continuing you accept our Terms of Use";
+"string_accept_terms_of_use"            = "By continuing you accept our Terms of Use.";
 "string_contact_number"                 = "Contact number:";
 "string_placings"                       = "Placing %@";
 "string_app_version"                    = "Version %@";

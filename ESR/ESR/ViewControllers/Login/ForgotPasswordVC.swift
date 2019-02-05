@@ -99,10 +99,10 @@ class ForgotPasswordVC: SuperViewController {
         
         var parameters: [String: Any] = [:]
         parameters["email"] = txtEmail.text!
+        self.view.showProgressHUD()
         ApiManager().forgotPassword(parameters, success: { result in
             DispatchQueue.main.async {
                 self.view.hideProgressHUD()
-                
                 self.showInfoAlertView(title: String.localize(key: "alert_title_success"), message: String.localize(key: "alert_msg_forgot_password"), requestCode: AlertRequestCode.forgotPass.rawValue)
             }
         }, failure: { result in

@@ -209,7 +209,7 @@ class MainTabViewController: SuperViewController {
             
             if selectedIndex == 2 || selectedIndex == 3 {
                 if ApplicationData.sharedInstance().isTournamentInPreview() {
-                    self.showInfoAlertView(title: String.localize(key: "alert_title_error"), message: String.localize(key: "alert_preview_tournament"))
+                    self.showInfoAlertView(title: String.localize(key: "alert_title_preview"), message: String.localize(key: "alert_preview_tournament"))
                     return
                 }
             }

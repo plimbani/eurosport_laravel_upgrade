@@ -243,7 +243,7 @@ class TabTournamentVC: SuperViewController {
     
     @IBAction func onFinalPlacingPressed(_ sender: UIButton) {
         if ApplicationData.sharedInstance().isTournamentInPreview() {
-            self.showInfoAlertView(title: String.localize(key: "alert_title_error"), message: String.localize(key: "alert_preview_tournament"))
+            self.showInfoAlertView(title: String.localize(key: "alert_title_preview"), message: String.localize(key: "alert_preview_tournament"))
             return
         }
         
@@ -254,7 +254,7 @@ class TabTournamentVC: SuperViewController {
     
     @IBAction func onTeamPressed(_ sender: UIButton) {
         if ApplicationData.sharedInstance().isTournamentInPreview() {
-            self.showInfoAlertView(title: String.localize(key: "alert_title_error"), message: String.localize(key: "alert_preview_tournament"))
+            self.showInfoAlertView(title: String.localize(key: "alert_title_preview"), message: String.localize(key: "alert_preview_tournament"))
             return
         }
         

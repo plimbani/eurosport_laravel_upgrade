@@ -20,6 +20,9 @@ class ProfileVC: SuperViewController {
     var lblRole: UILabel!
     var lblCountry: UILabel!
     
+    var lblRoleContainerView: UIView!
+    var lblCountryContainerView: UIView!
+    
     var fieldList = NSArray()
     var cellList = NSMutableArray()
     
@@ -220,7 +223,7 @@ class ProfileVC: SuperViewController {
                     self.view.hideProgressHUD()
                     
                     if let message = result.value(forKey: "message") as? String {
-                        self.showInfoAlertView(title: String.localize(key: "alert_title_error"), message: message, requestCode: AlertRequestCode.profileUpdate.rawValue)
+                        self.showInfoAlertView(title: String.localize(key: "alert_title_success"), message: message, requestCode: AlertRequestCode.profileUpdate.rawValue)
                         
                         if let userData = ApplicationData.sharedInstance().getUserData() {
                             userData.tournamentId = self.selectedTournamentId
@@ -325,6 +328,8 @@ extension ProfileVC: PickerHandlerViewDelegate {
             lblRole.text = title
             selectedRole = title
             lblRole.textColor = .black
+            
+            ApplicationData.setBorder(view: lblRoleContainerView, Color: .clear, CornerRadius: 0, Thickness: 1.0)
         } else if isCountry {
             isCountry = false
             
@@ -338,6 +343,8 @@ extension ProfileVC: PickerHandlerViewDelegate {
                     selectedCountryId = countryId
                 }
             }
+            
+            ApplicationData.setBorder(view: lblCountryContainerView, Color: .clear, CornerRadius: 0, Thickness: 1.0)
         } else {
             lblLanguage.text = title
             lblLanguage.textColor = .black
@@ -446,9 +453,21 @@ extension ProfileVC : UITableViewDataSource, UITableViewDelegate {
                             if indexPath.row == SettingsList.role.rawValue {
                                 lblRole = labelSelectionCell.lblTitle
                                 lblRole.textColor = .black
+                                lblRoleContainerView = labelSelectionCell.containerView
+                                
+                                if selectedRole == NULL_STRING {
+                                    ApplicationData.setBorder(view: lblRoleContainerView, Color: .red, CornerRadius: 0, Thickness: 1.0)
+                                }
+                                
                             } else if indexPath.row == SettingsList.country.rawValue {
                                 lblCountry = labelSelectionCell.lblTitle
                                 lblCountry.textColor = .black
+                                lblCountryContainerView = labelSelectionCell.containerView
+                                
+                                if selectedCountryId == NULL_ID {
+                                    ApplicationData.setBorder(view: lblCountryContainerView, Color: .red, CornerRadius: 0, Thickness: 1.0)
+                                }
+                                
                             } else if indexPath.row == SettingsList.language.rawValue {
                                 lblLanguage = labelSelectionCell.lblTitle
                                 

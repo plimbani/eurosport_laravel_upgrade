@@ -13,7 +13,6 @@ extension UIView {
     }
     
     func hideProgressHUD() {
-        ProgressView.shared.hideProgressView()
+        ProgressView.shared.hideProgressView(self)
     }
-
 }

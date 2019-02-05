@@ -42,7 +42,7 @@ class TabFavouritesVC: SuperViewController {
         initInfoAlertView(self.view)    
         
         // Get tournaments API request
-        sendGetTournamentsRequest()
+        sendGetTournamentsRequest(true)
     }
     
     deinit {
@@ -58,16 +58,17 @@ class TabFavouritesVC: SuperViewController {
     }
     
     //MARK:- Request Methods
-    func sendGetTournamentsRequest() {
+    func sendGetTournamentsRequest(_ flag: Bool = false) {
         if APPDELEGATE.reachability.connection == .none {
             return
         }
         
-        self.view.showProgressHUD()
+        if flag {
+            self.view.showProgressHUD()
+        }
+        
         ApiManager().getTournaments(success: { result in
             DispatchQueue.main.async {
-                self.view.hideProgressHUD()
-                
                 if let tournamentList = result.value(forKey: "data") as? NSArray {
                     for tournament in tournamentList {
                         self.tournamentList.append(ParseManager.parseTournament(tournament as! NSDictionary))
@@ -106,10 +107,11 @@ class TabFavouritesVC: SuperViewController {
                 if let userData = ApplicationData.sharedInstance().getUserData() {
                     userData.tournamentId = tournament.id
                     ApplicationData.sharedInstance().saveUserData(userData)
+                    ApplicationData.sharedInstance().saveSelectedTournament(tournament)
                 }
                 
                 if !tournament.isFavourite {
-                    self.sendSetFavTournamentRequest(tournament)
+                    self.sendAddFavTournamentRequest(tournament)
                 } else {
                     self.sendGetFavTournamentsRequest()
                 }
@@ -121,12 +123,15 @@ class TabFavouritesVC: SuperViewController {
         }
     }
     
-    func sendSetFavTournamentRequest(_ tournament: Tournament) {
+    func sendAddFavTournamentRequest(_ tournament: Tournament, flag: Bool = false) {
         if APPDELEGATE.reachability.connection == .none {
             return
         }
         
-        self.view.showProgressHUD()
+        if flag {
+            self.view.showProgressHUD()
+        }
+        
         var parameters: [String: Any] = [:]
         if let userData = ApplicationData.sharedInstance().getUserData() {
             parameters["user_id"] = userData.id
@@ -172,10 +177,10 @@ class TabFavouritesVC: SuperViewController {
     
     func sendGetFavTournamentsRequest() {
         if APPDELEGATE.reachability.connection == .none {
+            self.view.hideProgressHUD()
             return
         }
         
-        self.view.showProgressHUD()
         var parameters: [String: Any] = [:]
         if let userData = ApplicationData.sharedInstance().getUserData() {
              parameters["user_id"] = userData.id
@@ -225,7 +230,7 @@ extension TabFavouritesVC: FavouriteTournamentCellDelegate {
             if tournament.isFavourite {
                 sendRemoveFavTournamentRequest(tournament)
             } else {
-                sendSetFavTournamentRequest(tournament)
+                sendAddFavTournamentRequest(tournament, flag: true)
             }
         }
     }

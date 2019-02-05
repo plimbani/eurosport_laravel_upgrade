@@ -187,14 +187,6 @@ class CreateAccountVC: SuperViewController {
         }
     }
     
-    /*@objc func keyboardWillShow(notification: NSNotification) {
-        if let newFrame = (notification.userInfo?[ UIKeyboardFrameEndUserInfoKey ] as? NSValue)?.cgRectValue {
-            let insets = UIEdgeInsetsMake( 0, 0, newFrame.height, 0 )
-            table.contentInset = insets
-            table.scrollIndicatorInsets = insets
-        }
-    }*/
-    
     @objc func termsNPolicyPressed(gestureRecognizer: UITapGestureRecognizer) {
         if let txtViewTermsNPrivacy = gestureRecognizer.view as? UITextView {
             let location: CGPoint = gestureRecognizer.location(in: txtViewTermsNPrivacy)
@@ -307,6 +299,7 @@ extension CreateAccountVC: PickerHandlerViewDelegate {
             isRole = false
             lblRole.text = title
             lblRole.textColor = .black
+            selectedRole = title
         } else {
             lblTournament.text = title
             paramTournamentId = (self.tournamentList[pickerHandlerView.selectedPickerPosition] as! NSDictionary).value(forKey: "id") as! Int
@@ -459,12 +452,12 @@ extension CreateAccountVC : UITableViewDataSource, UITableViewDelegate {
                             if ApplicationData.currentTarget == ApplicationData.CurrentTargetList.EasyMM.rawValue {
                                 attrString.addAttribute(NSAttributedStringKey.foregroundColor, value: UIColor.AppColor(), range: nsRange)
                             } else {
-                                attrString.addAttribute(NSAttributedStringKey.foregroundColor, value: UIColor.black, range: nsRange)
+                                attrString.addAttribute(NSAttributedStringKey.foregroundColor, value: UIColor.white, range: nsRange)
                             }
                             
                             attrString.addAttribute(NSAttributedStringKey.font, value: UIFont(name: Font.HELVETICA_REGULAR, size: 13.0)!, range: NSRange.init(location: 0, length: mainString.count))
                         
-                            addUnderLineToAttributedString(attrString, mainString, "Terms of Use", UIColor.btnYellow, UIColor.btnYellow)
+                            addUnderLineToAttributedString(attrString, mainString, "Terms of Use.", UIColor.btnYellow, UIColor.btnYellow)
                         
                             let tapGesture = UITapGestureRecognizer(target: self, action: #selector(termsNPolicyPressed))
                             tapGesture.delegate = self

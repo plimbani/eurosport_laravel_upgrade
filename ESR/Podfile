@@ -23,4 +23,6 @@ target 'ESR' do
   pod 'Firebase/Messaging'
   
   pod "MBCircularProgressBar"
+  
+  pod 'MBProgressHUD', '~> 1.1.0'
 end
