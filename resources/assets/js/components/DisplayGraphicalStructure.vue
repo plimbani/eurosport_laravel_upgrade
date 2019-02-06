@@ -1,10 +1,10 @@
 <template>
-  <div class="modal fade bg-modal-color" id="displaygraphic" tabindex="-1" role="dialog" aria-labelledby="displaygraphicLabel">
+  <div class="modal fade bg-modal-color" id="displayGraphicImage" tabindex="-1" role="dialog" aria-labelledby="displaygraphicLabel">
     <div class="modal-dialog modal-lg" role="document">
       <div class="modal-content">
         <div class="modal-header">
            <h5 class="modal-title" id="displaygraphicLabel">{{$lang.competation_modal_age_category}} {{templateGraphicImageName}}</h5>
-           <button type="button" class="close js-close-btn" @click="hideCurrentModal()" aria-label="Close">
+           <button type="button" class="close js-close-btn" @click="closeViewGraphicImage()">
            <span>×</span>
            </button>
         </div>
@@ -24,19 +24,17 @@
 <script type="text/babel">
    export default {
     props: ['templateGraphicImageName','viewGraphicImagePath','sectionGraphicImage'],
-    methods:
-    {
-      hideCurrentModal()
-      {
-        if(this.sectionGraphicImage != 'addAgecategory') {
-
-        $('#displaygraphic').modal('hide');
-        } else {
-        $('#displaygraphic').remove();
-        $('#displaygraphic').modal('hide');
-
+    mounted() {
+      var sectionGraphicImage = this.sectionGraphicImage;
+      $('#displayGraphicImage').on('hidden.bs.modal', function () {
+        if(sectionGraphicImage === 'AgeCategoryModal') {
+          $('body').addClass('modal-open');
         }
-        
+      })
+    },
+    methods: {
+      closeViewGraphicImage() {
+        $('#displayGraphicImage').modal('hide');
       }
     }
  }
