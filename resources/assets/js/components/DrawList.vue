@@ -21,7 +21,7 @@
             </td>
             <td class="text-center">{{ competation.total_teams }}</td>
           </tr>
-          <displaygraphic :templateGraphicImageName="templateGraphicImageName" :viewGraphicImagePath="templateGraphicImagePath" :sectionGraphicImage="drawList"></displaygraphic>
+          <displaygraphic :templateGraphicImageName="templateGraphicImageName" :viewGraphicImagePath="templateGraphicImagePath" :sectionGraphicImage="'DrawList'"></displaygraphic>
         </tbody>
       </table>
       <span v-else>No information available</span>
@@ -119,7 +119,6 @@ export default {
       competitionData: {},
       templateGraphicImageName: '',
       templateGraphicImagePath: '',
-      drawList: 'drawList',
     }
   },
   mounted() {
