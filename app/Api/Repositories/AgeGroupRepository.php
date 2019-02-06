@@ -91,6 +91,15 @@ class AgeGroupRepository
      return $competationIds;
     }
     public function createCompeationFormat($data){
+      $tournamentCompetitionTemplateData = TournamentCompetationTemplates::where('tournament_id', $data['tournament_id'])
+                                                            ->orderBy('id','desc')->first();
+
+      if($tournamentCompetitionTemplateData) {
+        
+      } else {
+
+      }
+
       $tournamentCompeationTemplate = array();
       $tournamentCompeationTemplate['group_name'] = $data['ageCategory_name'];
       $tournamentCompeationTemplate['comments'] = $data['comments'] != '' ? $data['comments'] : null;
