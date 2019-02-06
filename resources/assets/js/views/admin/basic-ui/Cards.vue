@@ -52,7 +52,7 @@
                     <div class="col-sm-6">
                         <div class="card">
                             <div class="card-header">
-                                <h6><i class="fa fa-star"></i> Card With Icon</h6>
+                                <h6><i class="fas fa-star"></i> Card With Icon</h6>
                             </div>
                             <div class="card-block">
                                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
@@ -71,8 +71,8 @@
                                     <h6>Card with Button Actions</h6>
                                 </div>
                                 <div class="actions">
-                                    <button class="btn btn-primary btn-sm"> <i class="fa fa-plus"></i> Add New</button>
-                                    <button class="btn btn-danger btn-sm"> <i class="fa fa-trash"></i> Delete</button>
+                                    <button class="btn btn-primary btn-sm"> <i class="fas fa-plus"></i> Add New</button>
+                                    <button class="btn btn-danger btn-sm"> <i class="fas fa-trash"></i> Delete</button>
                                 </div>
                             </div>
                             <div class="card-block">
@@ -110,7 +110,7 @@
                     <div class="col-sm-6">
                         <div class="card">
                             <div class="card-header bg-primary">
-                                <h6><i class="fa fa-star"></i> Primary</h6>
+                                <h6><i class="fas fa-star"></i> Primary</h6>
                             </div>
                             <div class="card-block">
                                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
@@ -122,7 +122,7 @@
                     <div class="col-sm-6">
                         <div class="card">
                             <div class="card-header bg-info">
-                                <h6><i class="fa fa-info"></i> Info</h6>
+                                <h6><i class="fas fa-info"></i> Info</h6>
                             </div>
                             <div class="card-block">
                                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
@@ -134,7 +134,7 @@
                     <div class="col-sm-6">
                         <div class="card">
                             <div class="card-header bg-danger">
-                                <h6><i class="fa fa-ambulance"></i> Danger</h6>
+                                <h6><i class="fas fa-ambulance"></i> Danger</h6>
                             </div>
                             <div class="card-block">
                                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
@@ -146,7 +146,7 @@
                     <div class="col-sm-6">
                         <div class="card">
                             <div class="card-header bg-warning">
-                                <h6><i class="fa fa-warning"></i> Warning</h6>
+                                <h6><i class="fas fa-warning"></i> Warning</h6>
                             </div>
                             <div class="card-block">
                                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
@@ -158,7 +158,7 @@
                     <div class="col-sm-6">
                         <div class="card">
                             <div class="card-header bg-success">
-                                <h6><i class="fa fa-check"></i> Success</h6>
+                                <h6><i class="fas fa-check"></i> Success</h6>
                             </div>
                             <div class="card-block">
                                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
@@ -170,7 +170,7 @@
                     <div class="col-sm-6">
                         <div class="card">
                             <div class="card-header bg-dark">
-                                <h6><i class="fa fa-cube"></i> Dark</h6>
+                                <h6><i class="fas fa-cube"></i> Dark</h6>
                             </div>
                             <div class="card-block">
                                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.

@@ -13,7 +13,7 @@
                         {{$lang.tournament_label}}
 
                         <span class="text-tooltip" data-toggle="popover" data-animation="false" data-placement="top" data-content="Add and edit tournament dates and specify venue and contact details">
-                            <i class="fa fa-info-circle"></i>
+                            <i class="fas fa-info-circle"></i>
                         </span>
                       </div>
                     </a> 
@@ -26,7 +26,7 @@
                         {{$lang.competation_label}}
 
                         <span class="text-tooltip" data-toggle="popover" data-animation="false" data-placement="top" data-content="Create and edit age categories, competition structures, game duration details and set the rules">
-                            <i class="fa fa-info-circle"></i>
+                            <i class="fas fa-info-circle"></i>
                         </span>
                       </div>
                     </a>                    
@@ -40,7 +40,7 @@
                         {{$lang.pitch_capacity_label}}
 
                         <span class="text-tooltip" data-toggle="popover" data-animation="false" data-placement="top" data-content="Add pitches, specify pitch size, type and confirm pitch availability">
-                            <i class="fa fa-info-circle"></i>
+                            <i class="fas fa-info-circle"></i>
                         </span>
                       </div>
                     </a>                    
@@ -54,7 +54,7 @@
                         {{$lang.teams_groups_label}}
 
                         <span class="text-tooltip" data-toggle="popover" data-animation="false" data-placement="top" data-content="Upload your teams, allocate teams to age categories and edit team colours">
-                            <i class="fa fa-info-circle"></i>
+                            <i class="fas fa-info-circle"></i>
                         </span>
                       </div>
                     </a>                    
@@ -67,7 +67,7 @@
                         {{$lang.pitch_planner_label}}
         
                         <span class="text-tooltip" data-toggle="popover" data-animation="false" data-placement="top" data-content="Manually or automatically schedule games and allocate referees">
-                            <i class="fa fa-info-circle"></i>
+                            <i class="fas fa-info-circle"></i>
                         </span>
                       </div>
                     </a>                    
@@ -81,7 +81,7 @@
                         {{$lang.summary_label}}
 
                         <span class="text-tooltip" data-toggle="popover" data-animation="false" data-placement="left" data-content="Edit and view results, access reports and send messages to your tournament participants">
-                            <i class="fa fa-info-circle"></i>
+                            <i class="fas fa-info-circle"></i>
                         </span>
                       </div>
                     </a>                    

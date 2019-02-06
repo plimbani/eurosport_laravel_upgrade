@@ -16,7 +16,7 @@
 			<div class="col-md-6">
 				<div class="row d-flex flex-row align-items-center">
 				<label for="status_rules" class="mb-0">{{$lang.summary_status}}:
-					<span class="pr-2 pl-0 text-primary" data-toggle="popover" data-animation="false" data-placement="bottom" :data-popover-content="'#status_rules'"><i class="fa fa-info-circle"></i>
+					<span class="pr-2 pl-0 text-primary" data-toggle="popover" data-animation="false" data-placement="bottom" :data-popover-content="'#status_rules'"><i class="fas fa-info-circle"></i>
 					</span>
 					<div v-bind:id="'status_rules'" style="display:none;">
                 		<div class="popover-body">

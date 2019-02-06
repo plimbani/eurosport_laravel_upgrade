@@ -4,7 +4,12 @@
 			<div class="card-block pb-0">
           <div class="row align-items-center justify-content-start">
             <div class="col-3 align-self-center">
-              <h6 class="m-0" v-if="isPitchPlannerInEnlargeMode == 0"><strong>{{$lang.pitch_planner_label}}</strong></h6>
+              <h6 class="m-0" v-if="isPitchPlannerInEnlargeMode == 0"><strong>{{$lang.pitch_planner_label}}</strong>
+                <span class="match-planner-view">
+                  (<a href="javascript:void(0)" class="horizontal js-horizontal-view" :class="{ 'active-view': isHorizontal }"  @click="setView('timelineDay')">{{$lang.pitch_planner_horizontal}}</a> /
+                   <a href="javascript:void(0)" class="vertical" :class="{ 'active-view': isVertical }"  @click="setView('agendaDay')">{{$lang.pitch_planner_vertical}}</a>)
+                 </span>
+              </h6>
             </div>
             <div class="col-9 align-self-center">
               <pitchPlannerFilter :section="section"></pitchPlannerFilter>
@@ -31,7 +36,9 @@ var moment = require('moment');
     data() {
        return {
          'tournamentId': this.$store.state.Tournament.tournamentId,
-         'section':'pitchPlanner'
+         'section':'pitchPlanner',
+         'isVertical': true,
+         'isHorizontal': false,
        }
     },
 
@@ -77,6 +84,17 @@ var moment = require('moment');
     },
     methods: {
       setFilter() {
+      },
+      setView(view) {
+        if(view == 'timelineDay') {
+          this.isVertical = false;
+          this.isHorizontal = true;
+        }
+        if(view == 'agendaDay') {
+          this.isHorizontal = false;
+          this.isVertical = true; 
+        }
+        this.$root.$emit('setView', view);
       }
     },
     components: {

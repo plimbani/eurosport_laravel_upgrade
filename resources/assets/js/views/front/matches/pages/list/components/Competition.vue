@@ -1,13 +1,13 @@
 <template>
   <div>
     <button v-if="fromView == 'Matches'" @click="showMatchListView()" class="btn btn-primary">
-        <i aria-hidden="true" class="fa fa-angle-double-left"></i> {{ $t('matches.back_to_match_list') }}
+        <i aria-hidden="true" class="fas fa-angle-double-left"></i> {{ $t('matches.back_to_match_list') }}
     </button>
     <button v-if="fromView == 'Categories'" @click="showCompetitionListView()" class="btn btn-primary">
-        <i aria-hidden="true" class="fa fa-angle-double-left"></i> Back to competition list
+        <i aria-hidden="true" class="fas fa-angle-double-left"></i> Back to competition list
     </button>
     <button v-if="fromView == 'Teams'" @click="showTeamListView()" class="btn btn-primary">
-        <i aria-hidden="true" class="fa fa-angle-double-left"></i> Back to team list
+        <i aria-hidden="true" class="fas fa-angle-double-left"></i> Back to team list
     </button>
     <div>
         <div class="row align-items-center my-4">

@@ -192,7 +192,7 @@
                     <div class="col-sm-3 align-self-center">
                       <input type="text" min="0" name="home_yellow_cards"
                       v-model="matchDetail.home_yellow_cards" id="home_yellow_cards" class="form-control" v-validate="{ rules: { regex: /^[0-9]*$/ } }" :class="{'is-danger': errors.has('home_yellow_cards') }">
-                      <i v-show="errors.has('home_yellow_cards')" class="fa fa-warning"></i>
+                      <i v-show="errors.has('home_yellow_cards')" class="fas fa-warning"></i>
                       <span class="help is-danger" v-show="errors.has('home_yellow_cards')">Only numbers accepted</span>
                     </div>
                     <div class="col-sm-6 align-self-center">                      
@@ -205,7 +205,7 @@
                     <div class="col-sm-3 align-self-center">
                       <input type="text" min="0" name="away_yellow_cards"
                       v-model="matchDetail.away_yellow_cards" id="away_yellow_cards" class="form-control" v-validate="{ rules: { regex: /^[0-9]*$/ } }" :class="{'is-danger': errors.has('away_yellow_cards') }">
-                      <i v-show="errors.has('away_yellow_cards')" class="fa fa-warning"></i>
+                      <i v-show="errors.has('away_yellow_cards')" class="fas fa-warning"></i>
                       <span class="help is-danger" v-show="errors.has('away_yellow_cards')">Only numbers accepted</span>
                     </div>                    
                     <div class="col-sm-6 align-self-center">
@@ -221,7 +221,7 @@
                     <div class="col-sm-3 align-self-center">
                       <input type="text" min="0" name="home_red_cards"
                       v-model="matchDetail.home_red_cards" id="home_red_cards" class="form-control" v-validate="{ rules: { regex: /^[0-9]*$/ } }" :class="{'is-danger': errors.has('home_red_cards') }">
-                      <i v-show="errors.has('home_red_cards')" class="fa fa-warning"></i>
+                      <i v-show="errors.has('home_red_cards')" class="fas fa-warning"></i>
                       <span class="help is-danger" v-show="errors.has('home_red_cards')">Only numbers accepted</span>
                     </div>
                     <div class="col-sm-6 align-self-center">
@@ -233,7 +233,7 @@
                     </label>
                     <div class="col-sm-3 align-self-center">
                       <input type="text" min="0" name="away_red_cards" v-model="matchDetail.away_red_cards" id="away_red_cards" class="form-control" v-validate="{ rules: { regex: /^[0-9]*$/ } }" :class="{'is-danger': errors.has('away_red_cards') }">
-                      <i v-show="errors.has('away_red_cards')" class="fa fa-warning"></i>
+                      <i v-show="errors.has('away_red_cards')" class="fas fa-warning"></i>
                       <span class="help is-danger" v-show="errors.has('away_red_cards')">Only numbers accepted</span>
                     </div>                    
                     <div class="col-sm-6 align-self-center">
@@ -265,7 +265,7 @@
           </div>
           <div class="modal-footer justify-content-between">
             <div class="">
-              <button type="button" class="btn btn-danger pull-left" @click="matchUnschedule()"><i class="fa fa-undo" aria-hidden="true"></i>{{$lang.pitch_modal_unschedule}}</button>
+              <button type="button" class="btn btn-danger pull-left" @click="matchUnschedule()"><i class="fas fa-undo" aria-hidden="true"></i>{{$lang.pitch_modal_unschedule}}</button>
             </div>
             <div class="">
               <button type="button" class="btn btn-danger" data-dismiss="modal" @click="closeModal()">{{$lang.pitch_modal_cancel}}</button>

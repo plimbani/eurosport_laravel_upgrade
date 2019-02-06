@@ -1052,7 +1052,8 @@ gmap-map {
     width:120px !important;
 }
 
-.jv-icon.jv-dustbin{
+.jv-icon.jv-dustbin,
+.fas.fa-trash {
     color:#ff0000;
 }
 .last-updated-time{
@@ -1101,4 +1102,10 @@ a.aecor-anchor {
 
 .team-preview .modal-lg{
     max-width: 1000px;
+}
+
+a.active-view,
+a.active-view:hover {
+    text-decoration: underline;
+    @extend .text-primary;
 }
