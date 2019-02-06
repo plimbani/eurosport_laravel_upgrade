@@ -23,12 +23,14 @@ class AuthController extends Controller
             // something went wrong whilst attempting to encode the token
             return response()->json(['error' => 'could_not_create_token'], 500);
         }
-
+        $authUser = JWTAuth::authenticate($token);
+        $role = [$authUser->roles()->first()];
+        
         // all good so return the token
         //return response()->json(compact('token'));
         //$token = response()->json(compact('token'));
        // $token = compact('token');
-        return response()->json(compact('token'));
+        return response()->json(compact('token', 'role'));
 
     }
 
@@ -86,6 +88,7 @@ class AuthController extends Controller
              $userDetails['locale'] = $userData->locale;
              $userSettings = Settings::where('user_id','=',$userData->id)->first();
              $userDetails['settings'] = $userSettings ? $userSettings->toArray() : null;
+             $userDetails['role_id'] = $userData->roles()->first()->id;
 
              $tournament_id = array();
              return response(['authenticated' => true,'userData'=> $userDetails, 'is_score_auto_update' =>config('config-variables.is_score_auto_update')]);

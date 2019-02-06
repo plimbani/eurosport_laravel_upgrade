@@ -40,7 +40,6 @@ class UserRepository {
 
     public function getUsersByRegisterType($data)
     {
-        // echo "<pre>";print_r($data);echo "</pre>";exit;
         $user = User::join('role_user', 'users.id', '=', 'role_user.user_id')
                 ->join('roles', 'roles.id', '=', 'role_user.role_id')
                 ->join('people', 'people.id', '=', 'users.person_id');
@@ -63,7 +62,7 @@ class UserRepository {
         $user->orderBy('people.last_name', 'asc');
 
 
-        $userData = $user->get();
+        $userData = $user->withCount('tournaments')->get();
 
         $dataArray = array();
 
@@ -101,7 +100,8 @@ class UserRepository {
             \Laraspace\Custom\Helper\Common::toExcel($lableArray, $dataArray, $otherParams, 'xlsx', 'yes');
         }
 
-        return $user->get();
+//        return $user->get();
+        return $userData;
     }
 
     public function create($data)

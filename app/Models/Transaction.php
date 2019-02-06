@@ -12,6 +12,7 @@ class Transaction extends Model
         'order_id',
         'transaction_key',
         'amount',
+        'team_size',
         'status',
         'currency',
         'card_type',
@@ -25,4 +26,8 @@ class Transaction extends Model
         'updated_at',
         'deleted_at',
     ];
+    
+    public function tournament() {
+        return $this->belongsTo('Laraspace\Models\Tournament', 'tournament_id');
+    }
 }

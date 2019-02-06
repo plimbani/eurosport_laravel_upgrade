@@ -22,6 +22,8 @@ class AddFieldsToTransactions extends Migration
             $table->dateTime('transaction_date')->nullable()->default(NULL)->after('card_validity');
             $table->string('brand')->nullable()->default(NULL)->after('transaction_date');
             $table->string('currency')->nullable()->default(NULL)->after('brand');
+            $table->string('user_id')->unsigned()->index()->after('tournament_id');
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 

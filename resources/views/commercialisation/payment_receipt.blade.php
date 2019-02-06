@@ -1,24 +1,4 @@
-<?php
-$fdate = str_replace('/', '-', $email_details['tournament']['tournament_start_date']);
-$tdate = str_replace('/', '-', $email_details['tournament']['tournament_end_date']);
-$datetime1 = new DateTime($fdate);
-$datetime2 = new DateTime($tdate);
-$interval = $datetime1->diff($datetime2);
-$days = $interval->format('%a');
-?>
-<!doctype html>
-<!--<html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
-    <body style="background: #eee;">
-        <p>
-            Confirmation
-            Thank you for purchase. Your order number is <?php echo $email_details['paymentResponse']['orderID']; ?>
-        </p>
-        <p><?php echo $email_details['tournament']['tournament_max_teams']; ?> Teams licence for a <?php echo $days; ?> days tournament price is <?php echo $email_details['tournament']['total_amount']; ?> EUR</p>
-    </body>
-</html>-->
-<!doctype html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
-
     <head>
         <title>Euro Sporting</title>
         <!--[if !mso]><!-- -->
@@ -171,8 +151,8 @@ $days = $interval->format('%a');
                                                         <tr>
                                                             <td align="right" style="text-align: right; font-size: 0px; padding: 10px 25px; word-break: break-word;">
                                                                 <div style="font-family:Roboto, Helvetica, Arial, sans-serif;font-size:16px;font-weight:300;line-height:24px;text-align:left;color:#555;">
-                                                                    <p>Hello <?php echo (!empty($email_details['user']->first_name)) ? $email_details['user']->first_name. " ". $email_details['user']->last_name : 'There';?>,</p>
-                                                                    <p>Thank you for the purchase. Your order number is #<?php echo $email_details['paymentResponse']['orderID']; ?>.</p>
+                                                                    <p>Hello There,</p>
+                                                                    <p>Thank you for the purchase. Your order number is #<?php echo $data['orderNumber']; ?>.</p>
                                                                     <p>
                                                                         <!--<a href="#" style="color: #2196F3; text-decoration: none;">Print receipt</a>-->
                                                                     </p>
@@ -203,15 +183,15 @@ $days = $interval->format('%a');
                                                                     </thead>
                                                                     <tbody>
                                                                         <tr>
-                                                                            <th style="text-align: left; font-weight: normal; padding: 10px;" align="left"><?php echo $email_details['tournament']['tournament_max_teams']; ?> Team license for a <?php echo $days; ?> day tournament
+                                                                            <th style="text-align: left; font-weight: normal; padding: 10px;" align="left"><?php echo $data['maximumTeams']; ?> Team license for a <?php echo $data['days']; ?> day tournament
                                                                             </th>
-                                                                            <td style="text-align: right; padding: 10px;" align="right">$<?php echo $email_details['tournament']['total_amount']; ?></td>
+                                                                            <td style="text-align: right; padding: 10px;" align="right">$<?php echo $data['amount']; ?></td>
                                                                         </tr>
                                                                     </tbody>
                                                                     <thead class="footer">
                                                                         <tr>
                                                                             <th colspan="2" style="border-bottom: 0px solid #57697E; background-color: rgba(33, 150, 243,0.1); text-align: right; font-size: 16px; padding: 10px;" bgcolor="rgba(33, 150, 243,0.1)" align="right">
-                                                                                $<?php echo $email_details['tournament']['total_amount']; ?>
+                                                                                $<?php echo $data['amount']; ?>
                                                                             </th>
                                                                         </tr>
                                                                     </thead>

@@ -112,14 +112,24 @@
                 pspid:"", 
                 amount:"",
                 disabled:false,
-                dayDifference:1
+                dayDifference:1,
+                id:""
             }
         },
         beforeRouteEnter(to, from, next) { 
               if(Object.keys(to.query).length !== 0) { //if the url has query (?query)
-                next(vm => { 
+                next(vm => {  
+                    
                     setTimeout(function(){ 
-                         vm.tournamentData.tournament_max_teams = to.query.teams; 
+                        vm.tournamentData.tournament_max_teams = to.query.teams; 
+                        if(typeof to.query.teams == "undefined"){
+                            vm.tournamentData.tournament_max_teams = 2;
+                        }
+                        if(typeof to.query.id != "undefined"){
+                            vm.id = to.query.id;
+                            // console
+                            vm.getTournamentDetail();
+                        }
                     }, 100); 
                })
             }
@@ -151,16 +161,52 @@
 
             findDifferenceBetweenDates(){ 
                 // console.log("startDate::",startDate);
-                let startDateArr = (document.getElementById('tournament_start_date').value).split("/");
-                let endDateArr = (document.getElementById('tournament_end_date').value).split("/"); 
+                let startDateFromId = document.getElementById('tournament_start_date').value;
+                let endDateFromId = document.getElementById('tournament_end_date').value;
+
+                // need to work on it for min and max date management
+                // manage min and max Date
+                $( "#tournament_start_date" ).datepicker("option","maxDate",endDateFromId);
+                $( "#totournament_end_date" ).datepicker("option","minDate",startDateFromId);
+
+
+                let startDateArr = startDateFromId.split("/");
+                let endDateArr = endDateFromId.split("/"); 
                 let startDate = moment([startDateArr[2], startDateArr[1], startDateArr[0]]);
                 let endDate = moment([endDateArr[2], endDateArr[1], endDateArr[0]]);
                 this.dayDifference = endDate.diff(startDate, 'days');
                 // console.log("this.dayDifference::",this.dayDifference);
                 
+            },
+
+            getTournamentDetail(){ 
+                axios.get(Constant.apiBaseUrl+'get-tournament?tournamentId='+this.id, {}).then(response =>  {  
+                        if (response.data.success) { 
+                             // this.tournaments = response.data.data;
+                             // console.log("tournament details::",response.data.data)
+                             // for(let eachKey in response.data.data){
+                             //    this.tournamentData[eachKey] = response.data.data[eachKey]
+                             // } 
+                             var start_date = new Date(moment(response.data.data.start_date, 'DD/MM/YYYY').format('MM/DD/YYYY'));
+                            var end_date = new Date(moment(response.data.data.end_date, 'DD/MM/YYYY').format('MM/DD/YYYY'));
+                            this.tournamentData['id'] = this.id;
+                            this.tournamentData['tournament_name'] = response.data.data.name;
+                            this.tournamentData['tournament_max_teams'] = response.data.data.maximum_teams;                            
+                            this.tournamentData['tournament_start_date'] = start_date.getMonth()+ 1 + '/'+start_date.getDate()+'/'+start_date.getFullYear();
+                            this.tournamentData['tournament_end_date'] = end_date.getMonth()+ 1 + '/'+end_date.getDate()+'/'+end_date.getFullYear();;
+                            console.log("this.tournamentData:",this.tournamentData);
+                    //         tournament_start_date:new Date(),  
+                    // tournament_end_date:new Date(),
+                         }else{ 
+                            toastr['error'](response.data.message, 'Error');
+                         }
+                 }).catch(error => {
+                     
+                 }); 
             }
         },
-        beforeMount(){  
+        beforeMount(){   
+            
         },
         mounted () {
             var vm = this
@@ -168,7 +214,7 @@
                 autoclose: true,
                 minDate: 0,
                 onSelect: function( selectedDate ) {
-                    console.log("startDate");
+                    // console.log("startDate");
                     $( "#totournament_end_date" ).datepicker( "option", "minDate", selectedDate );
                 }
             });

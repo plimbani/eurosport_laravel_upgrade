@@ -72,6 +72,10 @@
                 <div class="divider my-3 opacited"></div>
 
                 <p class="text-sm-right font-weight-bold">Â£100.00</p>
+
+                <div class="row justify-content-between">
+                    <button class="btn btn-success" v-on:click="makePaymentButton()">Checkout</button>
+                </div>
             </div>
         </section>
           
@@ -125,9 +129,9 @@
                             Ls.set('orderInfo',JSON.stringify(orderInfo))
                             let self = this;
                             setTimeout(function(){ 
-                                self.$refs.paymentSubmit.click();
-                                self.disabled = false;
+                                // self.$refs.paymentSubmit.click();
                             },500) 
+                            self.disabled = false;
                          }else{
                             this.disabled = false;
                             toastr['error'](response.data.message, 'Error');
@@ -137,12 +141,16 @@
                      console.log("error in buyALicence::",error);
                  });  
             },
-             
+            
+            makePaymentButton(){
+                 this.$refs.paymentSubmit.click();
+            }
+
         },
         beforeMount(){  
             let tournamentDetails = Ls.get('tournamentDetails')
             if(typeof tournamentDetails != "undefined" && tournamentDetails != undefined && tournamentDetails != "null" && tournamentDetails != null){
-                console.log("tournamentDetails::",tournamentDetails);
+                // console.log("tournamentDetails::",tournamentDetails);
                 this.tournamentData = JSON.parse(tournamentDetails);
                 
             }else{
