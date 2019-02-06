@@ -170,15 +170,14 @@
                           <span v-if="option.avg_game_team != ''">Avg games per team: {{option.avg_game_team}} </span>
                           <span v-else>Avg games per team: Not applicable </span>
                           </span>
+                          <br>
+                          <a href="#" @click="viewGraphicalPreview(option.name, option.graphic_image)" class="text-primary" v-if="option.graphic_image"><u>View graphic</u></a>
                         </div>
-                        <div class="col align-self-center text-center">
-                          <a href="#" @click="viewGraphicalPreview(option.name)" class="text-primary" v-if="isExist(option.name)"><u>View graphic</u></a>
-                        </div>
-                        <displaygraphic :templateImage="templateImage" :viewGraphicImagePath="option.graphic_image" :viewGraphicImageName="option.name"></displaygraphic>
                       </div>
                     </div>
                   </div>
                 </div>
+                <displaygraphic :templateGraphicImageName="templateGraphicImageName" :viewGraphicImagePath="templateGraphicImagePath" :sectionGraphicImage="addAgecategory"></displaygraphic>
               </div>
             </div>
             <div class="col-sm-12 form-control-label dispTemplate" style="display:none">
@@ -463,16 +462,9 @@ export default {
       categoryAgeFontColorArr: {'U08/5' : '#000000','U09' : '#FFFFFF','U09/5' : '#000000','U09/7' : '#000000','U10' : '#000000','U10/5' : '#000000','U10/7' : '#000000','U10/9' : '#000000','U10/5A' : '#000000','U10/7A' : '#000000','U10/5B' : '#FFFFFF','U10/7B' : '#000000','U11' : '#000000','U11/11' : '#000000','U11/7' : '#FFFFFF','U11/7A' : '#000000','U11/7B' : '#FFFFFF','U12' : '#000000','U12/7' : '#FFFFFF','U12/8' : '#000000','U12/9' : '#000000','U12-A' : '#000000','U12/7A' : '#000000','U12/8A' : '#000000','U12-B' : '#000000','U12/7B' : '#000000','U12/8B' : '#000000','U13' : '#000000','U13/7' : '#000000','U13/8' : '#000000','U13/9' : '#000000','U13-A' : '#000000','U13/7A' : '#000000','U13/8A' : '#FFFFFF','U13/9A' : '#000000','U13-B' : '#000000','U13/8B' : '#000000','U13/9B' : '#000000','U14' : '#000000','U14/7' : '#FFFFFF','U14-A' : '#000000','U14-B' : '#000000','U15' : '#000000','U15/7' : '#FFFFFF','U15/8' : '#FFFFFF','U15-A' : '#000000','U15-B' : '#FFFFFF','U16' : '#000000','U16-A' : '#000000','U16-B' : '#000000','U17' : '#000000','U17-A' : '#000000','U17-B' : '#000000','U18' : '#000000','U19' : '#000000','U19-A' : '#000000','U19-B' : '#FFFFFF','U10-U9' : '#000000','G08/5' : '#000000','G09/5' : '#000000','G09/7' : '#000000','G10/5' : '#FFFFFF','G10/7' : '#000000','G10/7A' : '#FFFFFF','G10/7B' : '#000000','G11' : '#FFFFFF','G11/7' : '#000000','G12' : '#000000','G12/7' : '#FFFFFF','G12/8' : '#FFFFFF','G12/9' : '#FFFFFF','G12/7A' : '#FFFFFF','G12/7B' : '#FFFFFF','G13' : '#000000','G13/7' : '#FFFFFF','G13/8' : '#FFFFFF','G13/9' : '#000000','G13/7A' : '#000000','G13/7B' : '#000000','G14' : '#000000','G14/7' : '#000000','G14/8' : '#000000','G14-A' : '#000000','G14-B' : '#000000','G15' : '#000000','G15/7' : '#000000','G15/8' : '#000000','G15-A' : '#000000','G15-B' : '#000000','G16' : '#000000','G17' : '#000000','G17/7' : '#000000','G17-A' : '#000000','G17-B' : '#000000','G18' : '#000000','G18/7' : '#000000','G18-A' : '#000000','G18-B' : '#000000','G19' : '#000000','G19-A' : '#000000','G19-B' : '#000000','M-O' : '#000000','M-O/5' : '#000000','M-O/7' : '#000000','M32' : '#000000','M35' : '#FFFFFF','M35/7' : '#000000','W-O' : '#FFFFFF','W-O/7' : '#000000'
       },
       allCategoryRules: [],
-      templateImage: '',
-      graphicTemplates:[
-        { name:'T.8.6'},
-        { name:'T.8.5'},
-        { name:'T.8.5 (v1)'},
-        { name:'T.8.3 (v1)'},
-        { name:'T.8.3 (v2)'},
-        { name:'T.8.4'},
-        { name:'T.8.5 (v2)'}
-      ]
+      addAgecategory: "addAgecategory",
+      templateGraphicImageName: '',
+      templateGraphicImagePath: '',
     }
   },
 
@@ -972,9 +964,10 @@ export default {
       }
       return false
     },
-    viewGraphicalPreview : function(imageName){
+    viewGraphicalPreview : function(imageName, imagePath){
       $('#displaygraphic').modal('show');
-      this.templateImage = imageName;
+      this.templateGraphicImageName = imageName;
+      this.templateGraphicImagePath = imagePath;
 
     },
     closeExampleModal : function()

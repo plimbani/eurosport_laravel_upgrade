@@ -45,7 +45,7 @@
           </tbody>
           <AddAgeCateogryModel v-if="categoryStatus" :categoryRules="categoryRules"></AddAgeCateogryModel>
           <delete-modal :deleteConfirmMsg="deleteConfirmMsg" @confirmed="deleteConfirmed()"></delete-modal>
-          <competationModal :templateData="templateData" :totalTime="totalTime" :templateImage="templateImage"></competationModal>
+          <competationModal :templateData="templateData" :totalTime="totalTime" :templateGraphicViewImage="templateGraphicViewImage"></competationModal>
           <CopyAgeCategoryModal v-if="copyCategoryStatus" :copiedAgeCategoryId="copiedAgeCategoryId"></CopyAgeCategoryModal>
           <!-- <div class="modal fade p-0" id="template-image-modal" tabindex="-1" role="dialog" aria-labelledby="template-image-modal" aria-hidden="true">
             <div class="modal-dialog modal-full" role="document">
@@ -59,7 +59,7 @@
                 <div class="modal-body">
                   <div class="d-flex align-items-center justify-content-centers">
                     <div class="d-block mx-auto">
-                      <img v-bind:src="'/'+templateImage">
+                      <img v-bind:src="'/'+templateGraphicViewImage">
                     </div>
                   </div>
                 </div>  
@@ -91,7 +91,7 @@ export default {
       deleteConfirmMsg: 'Are you sure you would like to delete this age category?',deleteAction: '',
       templateData:[],
       totalTime: '',
-      templateImage: '',
+      templateGraphicViewImage: '',
       categoryStatus: false,
       categoryRules: [],
       copyCategoryStatus: false,
@@ -146,15 +146,7 @@ export default {
           (response) => {
           if(response.data.status_code==200){
             this.templateData = JSON.parse(response.data.data.json_data)
-            if ( this.templateData.tournament_name == 'T.8.6' || this.templateData.tournament_name == 'T.8.5 (v1)' || this.templateData.tournament_name == 'T.8.5' || this.templateData.tournament_name == 'T.8.3 (v1)' || this.templateData.tournament_name == 'T.8.3 (v2)' || this.templateData.tournament_name == 'T.8.4' || this.templateData.tournament_name == 'T.8.5 (v2)')
-            {
-              this.templateImage = this.templateData.tournament_name+'.png';
-            }
-            else
-            {
-              this.templateImage = response.data.data.image
-            }
-
+            this.templateGraphicViewImage = response.data.data.graphic_image
             this.totalTime = tTime
              $("#competationmodal").modal("show");
           }

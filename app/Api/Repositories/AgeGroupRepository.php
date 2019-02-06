@@ -228,7 +228,7 @@ class AgeGroupRepository
                  ->leftJoin('tournaments','tournaments.id','=','tournament_competation_template.tournament_id')
                  ->select('tournament_competation_template.*','tournament_template.name as template_name', 
                    \DB::raw('CONCAT("'.$this->tournamentLogoUrl.'", tournaments.logo) AS tournamentLogo'),
-                   \DB::raw('CONCAT("'.getenv('S3_URL').'", tournament_template.graphic_image) AS graphicImage'))
+                   \DB::raw('CONCAT("'.getenv('S3_URL').'", tournament_template.graphic_image) AS graphic_image'))
                   ->where('tournament_id', $tournamentData['tournament_id']);
                   if(isset($tournamentData['cat_id']))
                   {
@@ -246,7 +246,7 @@ class AgeGroupRepository
                  ->leftJoin('tournaments','tournaments.id','=','tournament_competation_template.tournament_id')
                  ->select('tournament_competation_template.*','tournament_template.name as template_name',
                    \DB::raw('CONCAT("'.$this->tournamentLogoUrl.'", tournaments.logo) AS tournamentLogo'), 
-                   \DB::raw('CONCAT("'.getenv('S3_URL').'", tournament_template.graphic_image) AS graphicImage'))
+                   \DB::raw('CONCAT("'.getenv('S3_URL').'", tournament_template.graphic_image) AS graphic_image'))
                 ->where($fieldName, $value)->get();
         } else {
           return TournamentCompetationTemplates::
@@ -461,11 +461,11 @@ class AgeGroupRepository
 
     }
 
-    public function viewGraphicImage($data)
+    public function viewTemplateGraphicImage($data)
     {
       $viewGraphicImageData = TournamentCompetationTemplates::where('id', $data['age_category'])->with('TournamentTemplate')->first();
-      
-       return $viewGraphicImageData->TournamentTemplate->graphic_image ? getenv('S3_URL').$viewGraphicImageData->TournamentTemplate->graphic_image : 'null';
+
+      return $viewGraphicImageData->TournamentTemplate->graphic_image ? getenv('S3_URL').$viewGraphicImageData->TournamentTemplate->graphic_image : null;
     }
 
 }

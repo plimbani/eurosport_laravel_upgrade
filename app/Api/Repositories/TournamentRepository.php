@@ -93,7 +93,8 @@ class TournamentRepository
         $tournamentTemplate                  = TournamentTemplates::find($tournamentTemplateId);
         $tournamentTemplateData['json_data'] = $tournamentTemplate->json_data;
         $tournamentTemplateData['image']     = $tournamentTemplate->image;
-        $tournamentTemplateData['graphic_image']     = $tournamentTemplate->graphic_image;
+        $tournamentTemplateData['graphic_image']     = $tournamentTemplate->graphic_image ? getenv('S3_URL').$tournamentTemplate->graphic_image : null;
+
         return $tournamentTemplateData;
     }
     public function getAllTemplates($data = array())

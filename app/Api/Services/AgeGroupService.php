@@ -459,8 +459,8 @@ class AgeGroupService implements AgeGroupContract
       }
     }
 
-    public function viewGraphicImage($data)
+    public function viewTemplateGraphicImage($data)
     {
-        return $this->ageGroupObj->viewGraphicImage($data);
+        return $this->ageGroupObj->viewTemplateGraphicImage($data);
     }
 }

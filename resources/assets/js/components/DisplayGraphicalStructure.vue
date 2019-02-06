@@ -3,7 +3,7 @@
     <div class="modal-dialog modal-lg" role="document">
       <div class="modal-content">
         <div class="modal-header">
-           <h5 class="modal-title" id="displaygraphicLabel">{{$lang.competation_modal_age_category}} {{viewGraphicImageName}}</h5>
+           <h5 class="modal-title" id="displaygraphicLabel">{{$lang.competation_modal_age_category}} {{templateGraphicImageName}}</h5>
            <button type="button" class="close js-close-btn" @click="hideCurrentModal()" aria-label="Close">
            <span>×</span>
            </button>
@@ -23,12 +23,19 @@
 </template>
 <script type="text/babel">
    export default {
-    props: ['templateImage','templateName','viewGraphicImagePath','viewGraphicImageName'],
+    props: ['templateGraphicImageName','viewGraphicImagePath','sectionGraphicImage'],
     methods:
     {
       hideCurrentModal()
       {
+        if(this.sectionGraphicImage != 'addAgecategory') {
+
         $('#displaygraphic').modal('hide');
+        } else {
+        $('#displaygraphic').remove();
+        $('#displaygraphic').modal('hide');
+
+        }
         
       }
     }

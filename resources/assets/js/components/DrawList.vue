@@ -14,13 +14,14 @@
             <td>
               <a class="text-primary" href="" @click.prevent="showGroups(competation.id)"><u>{{ competation.group_name }} ({{ competation.category_age }})</u></a>
               <a href="#" data-toggle="modal" data-target="#commentmodal" class="text-primary" @click.prevent="showComment(competation)"><i class="fa fa-info-circle" v-if="competation.comments != null"></i></a>
-              <a href="#" @click="viewGraphicImage(competation.template_name)"class="btn btn-primary btn-sm ml-2 text-left" v-if="isExist(competation.template_name)">View graphic</a>
+              <a href="#" @click="viewGraphicImage(competation.template_name, competation.graphic_image)"class="text-primary ml-2 text-left" v-if="competation.graphic_image"><u>View graphic</u></a>
 
-              <displaygraphic :templateImage="templateImage" :viewGraphicImagePath="competation.graphicImage" :viewGraphicImageName="competation.template_name"></displaygraphic>
+
               
             </td>
             <td class="text-center">{{ competation.total_teams }}</td>
           </tr>
+          <displaygraphic :templateGraphicImageName="templateGraphicImageName" :viewGraphicImagePath="templateGraphicImagePath" :sectionGraphicImage="drawList"></displaygraphic>
         </tbody>
       </table>
       <span v-else>No information available</span>
@@ -116,16 +117,9 @@ export default {
       groupsData:[],
       ageCatgeoryComments: '',
       competitionData: {},
-      templateImage: '',
-      graphicTemplates:[
-        { name:'T.8.6'},
-        { name:'T.8.5'},
-        { name:'T.8.5 (v1)'},
-        { name:'T.8.3 (v1)'},
-        { name:'T.8.3 (v2)'},
-        { name:'T.8.4'},
-        { name:'T.8.5 (v2)'}
-      ]
+      templateGraphicImageName: '',
+      templateGraphicImagePath: '',
+      drawList: 'drawList',
     }
   },
   mounted() {
@@ -220,17 +214,10 @@ export default {
     closeModal() {
       $('#editCompetitionNameModal').modal('hide');
     },
-    isExist : function(templateName){
-      for(var i=0; i < this.graphicTemplates.length; i++){
-        if( this.graphicTemplates[i].name == templateName){
-          return true
-        }
-      }
-      return false
-    },
-    viewGraphicImage : function(imageName){
-      $('#displaygraphic').modal('show');
-      this.templateImage = imageName;
+    viewGraphicImage : function(imageName, imagePath){
+      $('#displayGraphicImage').modal('show');
+      this.templateGraphicImageName = imageName;
+      this.templateGraphicImagePath = imagePath;
     }
 	},
 	filters: {
