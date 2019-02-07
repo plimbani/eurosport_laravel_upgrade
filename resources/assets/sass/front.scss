@@ -751,6 +751,10 @@ img {
     pointer-events: none;
 }
 
+.vue-map img {
+    pointer-events: auto;
+}
+
 .report-table th, .report-table td {
     white-space: nowrap;
 }
