@@ -6,8 +6,8 @@
                     <div>
                         <button v-if="isPitchPlannerInEnlargeMode == 0" class="btn btn-primary btn-md vertical" @click="enlargePitchPlanner()">Enlarge</button>
                         <button class="btn btn-primary btn-md" @click="openAutomaticPitchPlanningModal()">{{$lang.pitch_planner_automatic_planning}}</button>
-                        <button class="btn btn-primary btn-md btn-secondary" id="unscheduleFixtures" @click="unscheduleFixtures()">{{$lang.pitch_planner_unschedule_fixtures}}</button>
-                        <button class="btn btn-danger btn-md cancle-match-unscheduling d-none">{{$lang.pitch_planner_cancel_unscheduling}}</button>
+                        <button class="btn btn-primary btn-md btn-secondary" id="unschedule_fixtures" @click="unscheduleFixtures()">{{$lang.pitch_planner_unschedule_fixtures}}</button>
+                        <button class="btn btn-danger btn-md cancle-match-unscheduling d-none" id="cancle_unscheduling" @click="cancleUnscheduleFixtures()">{{$lang.pitch_planner_cancel_unscheduling}}</button>
                     </div>
                     <div>
                         <button class="btn btn-default btn-md vertical" @click="printPitchPlanner()"><i class="fas fa-print text-primary"></i></button>
@@ -479,10 +479,10 @@
           },
           unscheduleFixtures() {
             var manageClass = false;
-            if($("#unscheduleFixtures").hasClass('btn-secondary')) {
-                $("#unscheduleFixtures").removeClass('btn-secondary');
+            if($("#unschedule_fixtures").hasClass('btn-secondary')) {
+                $("#unschedule_fixtures").removeClass('btn-secondary');
             } else {
-                 $("#unscheduleFixtures").addClass('btn-secondary');
+                 $("#unschedule_fixtures").addClass('btn-secondary');
                  manageClass = true; 
             }
             $(".match-unschedule-checkbox").each(function( index ) {
@@ -492,6 +492,12 @@
                     $(this).removeClass('d-none')   
                 }
             }); 
+          },
+          cancleUnscheduleFixtures() {
+            $('#unschedule_fixtures').html('Unschedule fixture').removeClass('btn btn-success');
+            $("#unschedule_fixtures").addClass('btn btn-primary btn-md btn-secondary');
+            $(".match-unschedule-checkbox").addClass('d-none');
+            $("#cancle_unscheduling").hide();
           }
         }
     }
