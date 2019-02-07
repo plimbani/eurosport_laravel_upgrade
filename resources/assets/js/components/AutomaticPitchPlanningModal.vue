@@ -106,20 +106,20 @@
                               </div>
                               <div class="col-md-3">
                                 <input :name="'start_time_'+pitch.id+'_'+day.stage_no"  v-validate="'required'" :class="[errors.has('start_time_'+pitch.id+'_'+day.stage_no) ? 'is-danger': '', 'form-control ls-timepicker start_time start-time-' + pitch.id + '-' + day.stage_no]" :id="'start_time_'+pitch.id+'_'+day.stage_no" type="text">
-                                <i v-show="errors.has('start_time_'+pitch.id+'_'+day.stage_no)" class="fa fa-warning text-danger" data-placement="top" title="Start time is required"></i>
+                                <i v-show="errors.has('start_time_'+pitch.id+'_'+day.stage_no)" class="fas fa-warning text-danger" data-placement="top" title="Start time is required"></i>
                               </div>
                               <div class="col-md-3 text-right">
                                 <span>End time:</span>
                               </div>
                               <div class="col-md-3">
                                 <input :name="'end_time_'+pitch.id+'_'+day.stage_no"  v-validate="'required'" :class="[errors.has('end_time_'+pitch.id+'_'+day.stage_no)?'is-danger': '', 'form-control ls-timepicker end_time end-time-' + pitch.id + '-' + day.stage_no]" :id="'end_time_'+pitch.id+'_'+day.stage_no" type="text">
-                                <i v-show="errors.has('end_time_'+pitch.id+'_'+day.stage_no)" class="fa fa-warning text-danger" data-placement="top" title="End time is required"></i>
+                                <i v-show="errors.has('end_time_'+pitch.id+'_'+day.stage_no)" class="fas fa-warning text-danger" data-placement="top" title="End time is required"></i>
                               </div>
 
                             </div>
                           </div>
                           <div class="col-sm-1 text-right">
-                            <a href="javascript:void(0);" class="text-danger" @click="removePitchDay(pitch, index)"><i class="fa fa-times"></i></a>
+                            <a href="javascript:void(0);" class="text-danger" @click="removePitchDay(pitch, index)"><i class="fas fa-times"></i></a>
                           </div>
                         </div>
                       </li>

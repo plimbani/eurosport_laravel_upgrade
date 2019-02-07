@@ -28,7 +28,7 @@
                 :class="{'is-danger': errors.has('caption') }"
                 name="caption" type="text"
                 class="form-control" placeholder="Enter caption">
-                <i v-show="errors.has('caption')" class="fa fa-warning"></i>
+                <i v-show="errors.has('caption')" class="fas fa-warning"></i>
                 <span class="help is-danger" v-show="errors.has('caption')">{{ errors.first('caption') }}
                 </span>
             </div>

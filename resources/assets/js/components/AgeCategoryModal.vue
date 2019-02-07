@@ -13,7 +13,7 @@
             <label class="col-sm-5 form-control-label">{{ $lang.category }}*</label>
             <div class="col-sm-6">
                 <input v-model="formValues.name" v-validate="{'required':true}" :class="{'is-danger': errors.has('name') }" name="name" type="text" class="form-control" data-vv-as="category" :placeholder="$lang.category">
-                <i v-show="errors.has('name')" class="fa fa-warning"></i>
+                <i v-show="errors.has('name')" class="fas fa-warning"></i>
                 <span class="help is-danger" v-show="errors.has('name')">{{ errors.first('name') }}<br>
                 </span>
             </div>

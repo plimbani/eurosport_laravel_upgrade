@@ -52,14 +52,14 @@
         <div class="form-group row align-items-center" :class="{'has-error': errors.has('competation_format.ageCategory_name') }">
           <div class="col-sm-4 form-control-label">
             {{$lang.competation_label_name_category}}
-            <span class="pr-2 pl-2 text-primary" data-toggle="popover" data-animation="false" data-placement="right" data-content="Enter an additional name for the category"><i class="fa fa-info-circle"></i></span>
+            <span class="pr-2 pl-2 text-primary" data-toggle="popover" data-animation="false" data-placement="right" data-content="Enter an additional name for the category"><i class="fas fa-info-circle"></i></span>
           </div>
             <div class="col-sm-8">
               <div class="row">
                 <div class="col-sm-12">
                   <input type="text" class="form-control"
                   placeholder="e.g. U11, U16-A"  v-validate="{ rules: { required : true, regex: /^[a-zA-Z0-9\/ ]*$/ } }" :class="{'is-danger': errors.has('ageCategory_name') }" v-model="competation_format.ageCategory_name" name="ageCategory_name">
-                  <i v-show="errors.has('ageCategory_name')" class="fa fa-warning"></i>
+                  <i v-show="errors.has('ageCategory_name')" class="fas fa-warning"></i>
                   <span class="help is-danger" v-show="errors.has('ageCategory_name')">{{$lang.competation_modal_name_category_required}}</span>
                 </div>
               </div>
@@ -240,7 +240,7 @@
               <div class="row">
                 <div class="col-sm-4">
                   <input type="number" class="form-control" name="half_time_break" v-validate="'required'" placeholder="" v-model="competation_format.halftime_break_RR" min="0" @change="updateMatchTime()">
-                  <i v-show="errors.has('half_time_break')" class="fa fa-warning"></i>
+                  <i v-show="errors.has('half_time_break')" class="fas fa-warning"></i>
                 </div>
                 <span class="col-md-2 minutes-div">{{$lang.competation_modal_half_time_break_minutes}}</span>
               </div>
@@ -253,7 +253,7 @@
              <div class="row">
               <div class="col-sm-4">
                   <input type="number" class="form-control" name="half_time_break_final" v-validate="'required'" placeholder="" v-model="competation_format.halftime_break_FM" min="0" @input="updateMatchTime()">
-                   <i v-show="errors.has('half_time_break_final')" class="fa fa-warning"></i>
+                   <i v-show="errors.has('half_time_break_final')" class="fas fa-warning"></i>
                 </div>
                 <span class="col-md-2 minutes-div">{{$lang.competation_modal_half_time_break_final_minutes}}</span>
                 </div>
@@ -302,7 +302,7 @@
                 <div class="col-sm-4">
                     <input type="number" placeholder="" v-validate="'required'"  name="team_interval"  v-model="competation_format.team_interval"
                    min="0" class="form-control">
-                    <i v-show="errors.has('team_interval')" class="fa fa-warning"></i>
+                    <i v-show="errors.has('team_interval')" class="fas fa-warning"></i>
                  
                 </div>
                 <span class="col-sm-4">{{$lang.competation_modal_team_interval_minutes}}</span>
@@ -314,7 +314,7 @@
           <div class="form-group row align-items-center"> 
             <div class="col-sm-4 form-control-label">
               Ranking structure*
-              <span class="pr-2 pl-2 text-primary" data-toggle="popover" data-animation="false" data-placement="right" data-content="Enter the number of points for a win, draw or loss"><i class="fa fa-info-circle"></i></span>
+              <span class="pr-2 pl-2 text-primary" data-toggle="popover" data-animation="false" data-placement="right" data-content="Enter the number of points for a win, draw or loss"><i class="fas fa-info-circle"></i></span>
             </div>
             <div class="col-sm-8">
               <div class="row align-items-center">
@@ -368,7 +368,7 @@
                             <div class="checkbox">
                               <div class="c-input">
                                 <input type="checkbox" class="euro-checkbox" :value="rule.key" :id="rule.key" :checked="rule.checked" @change="changeCheckedStatus(index, $event)" :disabled="rule.key == 'match_points'">
-                                <label :for="rule.key" class="mb-0">{{ rule.title }} <span class="pr-2 pl-2 text-primary" data-toggle="popover" data-animation="false" data-placement="right" :data-popover-content="'#category_rules'+index"><i class="fa fa-info-circle"></i></span>
+                                <label :for="rule.key" class="mb-0">{{ rule.title }} <span class="pr-2 pl-2 text-primary" data-toggle="popover" data-animation="false" data-placement="right" :data-popover-content="'#category_rules'+index"><i class="fas fa-info-circle"></i></span>
                                   <div v-bind:id="'category_rules'+index" style="display:none;">
                                     <div class="popover-body">{{ rule.description }}</div>
                                   </div>
@@ -379,8 +379,8 @@
                         </div>
                         <div class="draggable--section-card-header-icons" v-if="rule.key != 'match_points'">
                           <a class="text-primary rules-handle draggable-handle" href="javascript:void(0)">
-                            <i class="fa fa-arrow-up" v-if="index > 1 && index < competation_format.rules.length"></i>
-                            <i class="fa fa-arrow-down" v-if="index >= 1 && index < competation_format.rules.length - 1"></i>
+                            <i class="fas fa-arrow-up" v-if="index > 1 && index < competation_format.rules.length"></i>
+                            <i class="fas fa-arrow-down" v-if="index >= 1 && index < competation_format.rules.length - 1"></i>
                           </a>
                         </div>
                       </div>

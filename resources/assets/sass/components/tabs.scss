@@ -11,7 +11,9 @@
         color: $ls-color-primary;
         border-bottom: 1px solid $ls-color-primary;
 
-        &:hover, &:active, &:focus {
+        &:hover,
+        &:active,
+        &:focus {
             background-color: $ls-color-primary;
             color: $ls-color-primary;
         }
@@ -27,25 +29,40 @@
 }
 
 .tabs-primary {
-    .nav-link{
+    .nav-link {
         &.active {
             color: $white;
             border-bottom: 3px solid $ls-color-primary;
-            .wrapper-tab{
-            background-color: $ls-color-blue;
+
+            .wrapper-tab {
+                background-color: $ls-color-blue;
             }
         }
+
         // padding: 0.75em;
         padding: 0;
-        .wrapper-tab{
+
+        .wrapper-tab {
             padding: 0.75em;
             margin-bottom: 3px;
             border-top-right-radius: 0.25rem;
             border-top-left-radius: 0.25rem;
         }
     }
+
     .nav-tabs {
-        border-bottom: 3px solid rgba(81, 173, 246,0.05);
+        border-bottom: 3px solid rgba(81, 173, 246, 0.05);
+    }
+
+    .nav-justified {
+        padding:0;
+        .nav-item {
+            &:last-child {
+                .nav-link {
+                    margin-right: 0;
+                }
+            }
+        }
     }
 }
 
@@ -57,7 +74,9 @@
         border-radius: 0;
         color: $ls-color-black--light;
 
-        &:hover, &:active, &:focus {
+        &:hover,
+        &:active,
+        &:focus {
             border-bottom: 3px solid $ls-color-primary;
             border-color: lighten($ls-color-primary, 30%);
         }
@@ -67,7 +86,9 @@
             border-bottom: 3px solid $ls-color-primary;
             color: $ls-color-black;
 
-            &:hover, &:active, &:focus {
+            &:hover,
+            &:active,
+            &:focus {
                 border-bottom: 3px solid $ls-color-primary;
                 border-color: $ls-color-primary;
                 color: $ls-color-black;
@@ -87,7 +108,7 @@
         border-bottom: none;
         overflow: hidden;
         margin-right: 1.2rem;
-        display : block;
+        display: block;
 
         li {
             float: none;
@@ -103,7 +124,9 @@
             border-color: transparent;
             border-right-color: $ls-color-primary;
 
-            &:hover, &:active, &:focus {
+            &:hover,
+            &:active,
+            &:focus {
                 background-color: $white;
                 border-color: $ls-color-primary;
             }
@@ -112,7 +135,9 @@
                 background-color: $ls-color-primary;
                 color: $ls-color-primary;
 
-                &:hover, &:active, &:focus {
+                &:hover,
+                &:active,
+                &:focus {
                     background-color: $ls-color-primary;
                     color: $ls-color-primary;
                 }
@@ -126,7 +151,9 @@
         li a {
             border-right-color: $ls-color-primary;
 
-            &:hover, &:active, &:focus {
+            &:hover,
+            &:active,
+            &:focus {
                 background-color: $white;
                 border-color: $ls-color-primary;
             }
@@ -135,7 +162,9 @@
                 background-color: $ls-color-primary;
                 color: $white;
 
-                &:hover, &:active, &:focus {
+                &:hover,
+                &:active,
+                &:focus {
                     background-color: $ls-color-primary;
                     color: $white;
                 }
@@ -162,7 +191,9 @@
                 background: transparent;
             }
 
-            &:hover, &:active, &:focus {
+            &:hover,
+            &:active,
+            &:focus {
                 background-color: transparent;
                 border-right: 3px solid $ls-color-primary;
                 border-bottom: 0;
@@ -192,6 +223,6 @@
     }
 }
 
-.panel-group .panel + .panel {
+.panel-group .panel+.panel {
     margin-top: 10px;
 }

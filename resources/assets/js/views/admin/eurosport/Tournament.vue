@@ -30,7 +30,7 @@
                   </li>
              <!--      <div class="col display-flex align-items-center justify-content-end padding-right-zero" v-show="currentView=='messages'">
                     <button type="button" class="btn btn-primary"
-                         @click="addMessage()"><small><i class="jv-icon jv-plus"></i></small>&nbsp;{{$lang.summary_message_button}}</button>
+                         @click="addMessage()"><small><i class="fas fa-plus"></i></small>&nbsp;{{$lang.summary_message_button}}</button>
                   </div> -->
                  <AddMessageModel v-if="messageStatus"></AddMessageModel>
                 </ul>
