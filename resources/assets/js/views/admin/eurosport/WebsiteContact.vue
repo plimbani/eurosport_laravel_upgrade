@@ -29,7 +29,7 @@
                 <div class="col-sm-4">
                   <input type="text" class="form-control" :placeholder="$lang.contact_email_address"
                     v-model="contact.email_address" name="contact_email_address" data-vv-as="email address" v-validate="'email'" :class="{'is-danger': errors.has('contact_email_address') }">
-                  <i v-show="errors.has('contact_email_address')" class="fa fa-warning"></i>
+                  <i v-show="errors.has('contact_email_address')" class="fas fa-warning"></i>
                   <span class="help is-danger" v-show="errors.has('contact_email_address')">{{ errors.first('contact_email_address') }}</span>
                 </div>
               </div>
@@ -50,10 +50,10 @@
 		<div class="row">
 	    <div class="col-md-12">
 	      <div class="pull-left">
-	        <button class="btn btn-primary" @click="redirectToBackward()"><i class="fa fa-angle-double-left" aria-hidden="true"></i>{{$lang.website_back_button}}</button>
+	        <button class="btn btn-primary" @click="redirectToBackward()"><i class="fas fa-angle-double-left" aria-hidden="true"></i>{{$lang.website_back_button}}</button>
 	      </div>
 	      <div class="pull-right">
-	        <button class="btn btn-primary" @click="saveContactDetails()">{{$lang.website_save_button}}&nbsp;&nbsp;&nbsp;<i class="fa fa-angle-double-right" aria-hidden="true"></i></button>
+	        <button class="btn btn-primary" @click="saveContactDetails()">{{$lang.website_save_button}}&nbsp;&nbsp;&nbsp;<i class="fas fa-angle-double-right" aria-hidden="true"></i></button>
 	      </div>
 	    </div>
 	  </div>

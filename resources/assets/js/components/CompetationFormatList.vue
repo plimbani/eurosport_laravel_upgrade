@@ -26,11 +26,11 @@
               <td class="text-center">
                 <span class="align-middle pr-1">
                   <a class="text-primary" href="#"
-                  @click="editCompFormat(competation.id)"><i class="fa fa-pencil"></i></a>
+                  @click="editCompFormat(competation.id)"><i class="fas fa-pencil"></i></a>
                 </span>
                 <span class="align-middle pr-1">
                   <a class="text-primary" href="#"
-                  @click="copyCompFormat(competation.id)"><i class="fa fa-copy"></i></a>
+                  @click="copyCompFormat(competation.id)"><i class="fas fa-copy"></i></a>
                 </span>                
                 <span class="align-middle">
                   <a href="javascript:void(0)"
@@ -38,7 +38,7 @@
                   data-toggle="modal"
                   data-target="#delete_modal"
                   @click="prepareDeleteResource(competation.id)">
-                  <i class="fa fa-trash text-danger"></i></a>
+                  <i class="fas fa-trash text-danger"></i></a>
                 </span>
               </td>
             </tr>
@@ -71,7 +71,7 @@
     </div>
     <div class="row">
       <div class="col-md-12">
-       <button type="button" class="btn btn-primary" @click="addCategory()"><small><i class="jv-icon jv-plus"></i></small>&nbsp;{{$lang.competation_add_age_category}}</button>
+       <button type="button" class="btn btn-primary" @click="addCategory()"><small><i class="fas fa-plus"></i></small>&nbsp;{{$lang.competation_add_age_category}}</button>
       </div>
     </div>
   </div>

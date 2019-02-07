@@ -10,7 +10,7 @@
           </button>
         </div>
         <div class="modal-body">
-          <ul class="nav nav-tabs col-md-12" role="tablist">
+          <ul class="nav nav-tabs nav-justified col-md-12" role="tablist">
             <li class="nav-item col-md-6 padding0">
                 <a data-toggle="tab" href="#pitch" role="tab" class="nav-link active text-center"><div class="wrapper-tab">{{$lang.pitch_details}}</div></a>
             </li>
@@ -37,7 +37,7 @@
                         <label class="col-sm-6 form-control-label">{{$lang.pitch_modal_details_name}}</label>
                         <div class="col-sm-6">
                             <input type="text" v-validate="'required'" :class="{'is-danger': errors.has('pitch_number') }" name="pitch_number" id="pitch_number" class="form-control">
-                                <i v-show="errors.has('pitch_number')" class="fa fa-warning"></i>
+                                <i v-show="errors.has('pitch_number')" class="fas fa-warning"></i>
                             <span class="help is-danger" v-show="errors.has('pitch_number')">{{ $lang.pitch_modal_details_name_required }}</span>
                         </div>
                       </div>
@@ -109,11 +109,11 @@
                                     <div class="col-md-3">
                                       <div class="input-group">
                                           <span class="input-group-addon">
-                                              <i class="fa fa-calendar"></i>
+                                              <i class="fas fa-calendar"></i>
                                           </span>
                                           <input type="hidden" :name="'totalBreaksForStage'+day" :id="'totalBreaksForStage'+day" v-model="stage_break[day]">
                                           <input type="text" :name="'stage_start_date'+day" :id="'stage_start_date'+day" value="" :class="[ errors.has('stage_start_date'+day)?'is-danger':'','form-control datestage'+day] " readonly="readonly">
-                                               <!-- <i v-show="errors.has('stage_start_date'+day)" class="fa fa-warning"></i>
+                                               <!-- <i v-show="errors.has('stage_start_date'+day)" class="fas fa-warning"></i>
                                                <span class="help is-danger" v-show="errors.has('stage_start_date'+day)">{{ errors.first('stage_start_date'+day) }}</span> -->
                                           <!-- <input v-model="formValues.name" v-validate="'required|alpha'" :class="{'is-danger': errors.has('name') }" name="name" type="text" class="form-control" placeholder="Your name"> -->
                                       </div>
@@ -124,7 +124,7 @@
                                               <input :name="'stage_start_time'+day" v-validate="'required'" :class="[errors.has('stage_start_time'+day)?'is-danger': '', 'form-control ls-timepicker stage_start_time']"  :id="'stage_start_time'+day"  type="text" >
                                           </div>
                                           <div class="align-self-center p-1">
-                                              <i v-show="errors.has('stage_start_time'+day)" class="fa fa-warning text-danger" data-placement="top" title="Start time is required"></i>
+                                              <i v-show="errors.has('stage_start_time'+day)" class="fas fa-warning text-danger" data-placement="top" title="Start time is required"></i>
                                           </div>
                                           <!-- <span class="help is-danger" v-show="errors.has('stage_start_time'+day)">"Start time is required"</span> -->
                                       </div>
@@ -152,7 +152,7 @@
                                               <input type="text" :name="'stage_break_start'+day" v-validate="'required'" :class="[errors.has('stage_break_start'+day)?'is-danger': '', 'form-control ls-timepicker stage_chk_active'+day]" :id="'stage_break_start'+day" >
                                           </div>
                                           <div class="align-self-center p-1">
-                                              <i v-show="errors.has('stage_break_start'+day)" class="fa fa-warning text-danger" data-placement="top" title="Break start time is required"></i>
+                                              <i v-show="errors.has('stage_break_start'+day)" class="fas fa-warning text-danger" data-placement="top" title="Break start time is required"></i>
                                           </div>
 
                                       </div>
@@ -172,7 +172,7 @@
                                               <input type="text" :name="'stage_break_start'+day" v-validate="'required'" :class="[errors.has('stage_break_start'+day)?'is-danger': '', 'form-control ls-timepicker stage_chk_active'+day ]" :id="'stage_break_start'+day" >
                                           </div>
                                           <div class="align-self-center p-1">
-                                              <i v-show="errors.has('stage_break_start'+day)" class="fa fa-warning text-danger" data-placement="top" title="Break start time is required"></i>
+                                              <i v-show="errors.has('stage_break_start'+day)" class="fas fa-warning text-danger" data-placement="top" title="Break start time is required"></i>
                                           </div>
 
                                       </div>
@@ -183,7 +183,7 @@
                                             <input type="text" :name="'stage_continue_time'+day" v-validate="'required'" :class="[errors.has('stage_continue_time'+day)?'is-danger': '', 'form-control ls-timepicker stage_chk_active'+day]"  :id="'stage_continue_time'+day">
                                         </div>
                                         <div class="align-self-center p-1">
-                                            <i v-show="errors.has('stage_continue_time'+day)" class="fa fa-warning text-danger" data-placement="top" title="Continue time is required"></i>
+                                            <i v-show="errors.has('stage_continue_time'+day)" class="fas fa-warning text-danger" data-placement="top" title="Continue time is required"></i>
                                         </div>
 
                                       </div>
@@ -201,7 +201,7 @@
                                         <div class="col-md-3">
                                           <div class="input-group">
                                               <span class="input-group-addon">
-                                                  <i class="fa fa-calendar"></i>
+                                                  <i class="fas fa-calendar"></i>
                                               </span>
                                               <input type="text" :name="'stage_break_start'+day" :id="'stage_break_start'+day" disabled="disabled" readonly="" :class="['form-control ls-datepicker datestage'+ day]">
                                           </div>
@@ -210,7 +210,7 @@
                                                   <input type="text" :name="'stage_break_start'+day+'-'+n" v-validate="'required'" :class="[errors.has('stage_break_start'+day+'-'+n)?'is-danger': '', 'form-control ls-timepicker stage_break_start stage_chk_active'+day]"  :id="'stage_break_start'+day+'-'+n" >
                                               </div>
                                               <div class="align-self-center p-1">
-                                                  <i v-show="errors.has('stage_break_start'+day+'-'+n)" class="fa fa-warning text-danger" data-placement="top" title="Break start time is required"></i>
+                                                  <i v-show="errors.has('stage_break_start'+day+'-'+n)" class="fas fa-warning text-danger" data-placement="top" title="Break start time is required"></i>
                                               </div>
 
                                           </div> -->
@@ -221,7 +221,7 @@
                                                 <input type="text" :name="'stage_break_start'+day+'-'+n" v-validate="'required'" :class="[errors.has('stage_break_start'+day+'-'+n)?'is-danger': '', 'form-control ls-timepicker stage_break_start stage_chk_active'+day]"  :id="'stage_break_start'+day+'-'+n" >
                                             </div>
                                             <div class="align-self-center p-1">
-                                                <i v-show="errors.has('stage_break_start'+day+'-'+n)" class="fa fa-warning text-danger" data-placement="top" title="Break start time is required"></i>
+                                                <i v-show="errors.has('stage_break_start'+day+'-'+n)" class="fas fa-warning text-danger" data-placement="top" title="Break start time is required"></i>
                                             </div>
                                           </div>
                                         </div>
@@ -235,7 +235,7 @@
                                       <div class="col-md-3">
                                         <div class="input-group">
                                           <span class="input-group-addon">
-                                              <i class="fa fa-calendar"></i>
+                                              <i class="fas fa-calendar"></i>
                                           </span>
                                           <input type="text" :name="'stage_end_date'+day" :id="'stage_end_date'+day" disabled="disabled" readonly="" :class="['form-control ls-datepicker datestage'+ day]">
                                         </div>
@@ -248,7 +248,7 @@
                                               <input type="text" :name="'stage_continue_time'+day+'-'+n" v-validate="'required'" :class="[errors.has('stage_continue_time'+day+'-'+n)?'is-danger': '', 'form-control ls-timepicker stage_continue_time stage_chk_active'+day]"  :id="'stage_continue_time'+day+'-'+n">
                                           </div>
                                           <div class="align-self-center p-1">
-                                              <i v-show="errors.has('stage_continue_time'+day+'-'+n)" class="fa fa-warning text-danger" data-placement="top" title="Continue time is required"></i>
+                                              <i v-show="errors.has('stage_continue_time'+day+'-'+n)" class="fas fa-warning text-danger" data-placement="top" title="Continue time is required"></i>
                                           </div>
                                             <!-- <span class="help is-danger" v-show="errors.has('stage_start_time'+day)">"Start time is required"</span> -->
                                         </div>
@@ -275,7 +275,7 @@
                                   <div class="col-md-3">
                                     <div class="input-group">
                                         <span class="input-group-addon">
-                                            <i class="fa fa-calendar"></i>
+                                            <i class="fas fa-calendar"></i>
                                         </span>
                                         <input type="text" :name="'stage_end_date'+day" :id="'stage_end_date'+day" readonly="" :class="['form-control datestage'+ day]">
                                     </div>
@@ -286,7 +286,7 @@
                                             <input :name="'stage_end_time'+day" :id="'stage_end_time'+day" type="text"  v-validate="'required'" :class="[errors.has('stage_end_time'+day)?'is-danger': '', 'form-control ls-timepicker']">
                                         </div>
                                         <div class="align-self-center p-1">
-                                            <i v-show="errors.has('stage_end_time'+day)" class="fa fa-warning text-danger" data-placement="top" title="Day end time is required"></i>
+                                            <i v-show="errors.has('stage_end_time'+day)" class="fas fa-warning text-danger" data-placement="top" title="Day end time is required"></i>
                                         </div>
                                         <!-- <span class="help is-danger" v-show="errors.has('stage_start_time'+day)">"Start time is required"</span> -->
                                     </div>
