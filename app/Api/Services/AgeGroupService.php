@@ -327,10 +327,10 @@ class AgeGroupService implements AgeGroupContract
         return array($total_time,$total_matches,$disp_format_name);
     }
     public function GetCompetationFormat($data) {
-
       $isMobileUsers = \Request::header('IsMobileUser');
       if( $isMobileUsers != '') {
         $data = $data->all();
+        
         $tournament_arr = array('tournament_id'=>$data['tournament_id']);
         $data = $this->ageGroupObj->getCompeationFormat($tournament_arr);
       }
@@ -457,5 +457,10 @@ class AgeGroupService implements AgeGroupContract
       if ($data) {
         return ['status_code' => '200', 'message' => 'Data Sucessfully Inserted'];
       }
+    }
+
+    public function viewTemplateGraphicImage($data)
+    {
+        return $this->ageGroupObj->viewTemplateGraphicImage($data);
     }
 }
