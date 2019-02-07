@@ -1,5 +1,5 @@
 <template>
-  <div class="modal fade bg-modal-color" id="displayGraphicImage" tabindex="-1" role="dialog" aria-labelledby="displaygraphicLabel">
+  <div class="modal fade bg-modal-color displayGraphicImage" id="displayGraphicImage" tabindex="-1" role="dialog" aria-labelledby="displaygraphicLabel">
     <div class="modal-dialog modal-lg" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -12,7 +12,7 @@
           <form name="ageCategoryName">
             <div class="row">
               <div class="w-100 text-center">
-                <img class="text-center" :src="viewGraphicImagePath">
+                <img class="text-center img-fluid" :src="viewGraphicImagePath">
               </div>
             </div>
           </form>

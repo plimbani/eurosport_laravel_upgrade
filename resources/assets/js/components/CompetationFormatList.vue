@@ -51,7 +51,7 @@
             <div class="modal-dialog modal-full" role="document">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">Template {{templateData.tournament_name}}</h5>
+                  <h5 class="modal-title" id="AgeCategoryModalLabel">Template {{templateData.tournament_name}}</h5>
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
@@ -103,7 +103,7 @@ export default {
   },
   mounted () {
     let that = this
-     $("#exampleModal").on('hidden.bs.modal', function () {
+     $("#AgeCategoryModal").on('hidden.bs.modal', function () {
                that.displayTournamentCompetationList()
             });
     // here we load the Competation Format data Based on tournament Id
@@ -123,7 +123,7 @@ export default {
       this.categoryStatus = true
         setTimeout(function(){
           vm.$root.$emit('setCompetationFormatData',  Id)
-          $("#exampleModal").on('hidden.bs.modal', function () {
+          $("#AgeCategoryModal").on('hidden.bs.modal', function () {
             vm.categoryStatus = false
         });
         },1000)
@@ -133,8 +133,8 @@ export default {
       this.categoryStatus = true
       this.type='add'
       setTimeout(function(){
-        $('#exampleModal').modal('show')
-          $("#exampleModal").on('hidden.bs.modal', function () {
+        $('#AgeCategoryModal').modal('show')
+          $("#AgeCategoryModal").on('hidden.bs.modal', function () {
             vm.categoryStatus = false
         });
       },500)
