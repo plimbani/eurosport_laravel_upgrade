@@ -64,12 +64,15 @@
                 </div>
             </div>
         </div>
+        <delete-modal :deleteConfirmMsg="deleteConfirmMsg" @confirmed="confirmUnschedulingFixtures()">
+        </delete-modal>
         <AutomaticPitchPlanning></AutomaticPitchPlanning>
         <AddRefereesModel :formValues="formValues" :competationList="competationList" :tournamentId="tournamentId" :refereeId="refereeId" ></AddRefereesModel>
         <UploadRefereesModel :tournamentId="tournamentId"></UploadRefereesModel>
+        
     </div>
 </template>
-<script>
+<script type="text/babel">
     import moment from 'moment'
     import GamesTab from './GamesTab.vue'
     import RefereesTab from './RefereesTab.vue'
@@ -78,10 +81,11 @@
     import UploadRefereesModel from './UploadRefereesModel.vue'
     import Tournament from '../api/tournament.js'
     import AutomaticPitchPlanning from './AutomaticPitchPlanningModal.vue'
+    import DeleteModal from './DeleteModal.vue'
 
     export default  {
         components: {
-            GamesTab, RefereesTab, PitchPlannerStage, AddRefereesModel, UploadRefereesModel, AutomaticPitchPlanning
+            GamesTab, RefereesTab, PitchPlannerStage, AddRefereesModel, UploadRefereesModel, AutomaticPitchPlanning, DeleteModal
         },
         computed: {
             GameActiveTab () {
@@ -166,6 +170,7 @@
                 'competationList': [],
                 'isCompetitionCallProcessed': false,
                 'formValues': this.initialState(),
+                'deleteConfirmMsg': 'Are you sure you would like to unschedule the selected fixtures?',
             };
         },
         props: {
@@ -479,6 +484,9 @@
           },
           unscheduleFixtures() {
             var manageClass = false;
+            if($("#unschedule_fixtures").hasClass('btn-success')) {
+                $("#delete_modal").modal('show');
+            }
             if($("#unschedule_fixtures").hasClass('btn-secondary')) {
                 $("#unschedule_fixtures").removeClass('btn-secondary');
             } else {
@@ -494,11 +502,20 @@
             }); 
           },
           cancleUnscheduleFixtures() {
-            $('#unschedule_fixtures').html('Unschedule fixture').removeClass('btn btn-success');
+            $("#unschedule_fixtures").html('Unschedule fixture').removeClass('btn btn-success');
             $("#unschedule_fixtures").addClass('btn btn-primary btn-md btn-secondary');
             $(".match-unschedule-checkbox").addClass('d-none');
             $("#cancle_unscheduling").hide();
-          }
+          },
+
+          confirmUnschedulingFixtures() {
+            alert('hi');
+            Tournament.matchConfirmUnscheduling().then(
+                (response) => {
+                  console.log('inmatch');
+
+                })
+            }
         }
     }
 </script>
