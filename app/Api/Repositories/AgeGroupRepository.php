@@ -46,40 +46,31 @@ class AgeGroupRepository
       $competationIds = array();
       foreach($group_data as $groups){
 
-       $competations['tournament_competation_template_id'] = $competation_data['tournament_competation_template_id'];
-       $competations['tournament_id'] = $competation_data['tournament_id'];
-       // $competations['color_code'] = $competation_data['color_code'];
-       $comp_group = $groups['group_name'];
-       $actual_comp_group = $groups['actual_group_name'];
-       $competations['name'] = $age_group.'-'.$comp_group;
-       $competations['display_name'] = $age_group.'-'.$comp_group;
-       $competations['actual_name'] = $age_group.'-'.$actual_comp_group;
-       $competations['team_size'] = $groups['team_count'];
+      $competations['tournament_competation_template_id'] = $competation_data['tournament_competation_template_id'];
+      $competations['tournament_id'] = $competation_data['tournament_id'];
+      $comp_group = $groups['group_name'];
+      $actual_comp_group = $groups['actual_group_name'];
+      $competations['name'] = $age_group.'-'.$comp_group;
+      $competations['display_name'] = $age_group.'-'.$comp_group;
+      $competations['actual_name'] = $age_group.'-'.$actual_comp_group;
+      $competations['team_size'] = $groups['team_count'];
 
-        // to save competition color code
-        $competitionData = Competition::where('tournament_id', $competation_data['tournament_id'])->orderBy('id','desc')->first();
-        $predefinedAgeCategoryColorsArray = config('config-variables.age_category_color');
-        $colorIndex = 0;
-        
-        if($competitionData && ($competitionData->color_code != '')) {
-          $previousCompetitionColor = $competitionData->color_code;
-          $previousCompetitionColorIndex = array_search($previousCompetitionColor, $predefinedAgeCategoryColorsArray);
-          $nextCompetitionColorIndex = $previousCompetitionColorIndex - 1;
-          if(array_key_exists($nextCompetitionColorIndex, $predefinedAgeCategoryColorsArray)) {
-            $colorIndex = $nextCompetitionColorIndex;
-          }
+      $competitionData = Competition::where('tournament_id', $competation_data['tournament_id'])->orderBy('id','desc')->first();
+      $predefinedAgeCategoryColorsArray = config('config-variables.age_category_color');
+      $colorIndex = count($predefinedAgeCategoryColorsArray) - 1;
+              
+      if($competitionData && $competitionData->color_code) {
+        $previousCompetitionColor = $competitionData->color_code;
+        $previousCompetitionColorIndex = array_search($previousCompetitionColor, $predefinedAgeCategoryColorsArray);
+        $previousCompetitionColorIndex = $previousCompetitionColorIndex - 1;
+        if($previousCompetitionColorIndex >= 0) {
+          $colorIndex = $previousCompetitionColorIndex;
         }
+      }
 
-        if($colorIndex <= 0) {
-          $predefinedAgeCategoryColorsArrayKeys = array_keys($predefinedAgeCategoryColorsArray);
-          $lastColorIndex = end($predefinedAgeCategoryColorsArrayKeys);
-          $colorIndex = $lastColorIndex;
-        }
+      $competations['color_code'] = $predefinedAgeCategoryColorsArray[$colorIndex];
 
-        $competations['color_code'] = $predefinedAgeCategoryColorsArray[$colorIndex];
-        // end
-
-       $matchType = explode('-',$groups['match_type']);
+      $matchType = explode('-',$groups['match_type']);
 
        if($matchType[0] == 'PM') {
         $competaon_type = 'Elimination';
@@ -119,8 +110,6 @@ class AgeGroupRepository
       $tournamentCompeationTemplate['total_match'] = $data['total_match'];
       $tournamentCompeationTemplate['category_age'] = $data['category_age'];
       $tournamentCompeationTemplate['pitch_size'] = $data['pitch_size'];
-      $tournamentCompeationTemplate['category_age_color'] = $data['category_age_color'];
-      $tournamentCompeationTemplate['category_age_font_color'] = $data['category_age_font_color'];
       $tournamentCompeationTemplate['disp_format_name'] =$data['disp_format_name'];
       $tournamentCompeationTemplate['total_time'] =$data['total_time'];
 
@@ -198,25 +187,21 @@ class AgeGroupRepository
       } else {
         $tournamentCompetitionTemplateData = TournamentCompetationTemplates::where('tournament_id', $data['tournament_id'])
                                                               ->orderBy('id','desc')->first();
+        $colorIndex = 0;
         $predefinedAgeCategoryColorsArray = config('config-variables.age_category_color');
         $predefinedAgeCategoryFontColorsArray = config('config-variables.age_category_font_color');
-        $colorIndex = 0;
 
-        if($tournamentCompetitionTemplateData) {
+        if($tournamentCompetitionTemplateData && $tournamentCompetitionTemplateData->category_age_color) {
           $previousAgeCategoryColor = $tournamentCompetitionTemplateData->category_age_color;
           $previousAgeCategoryColorIndex = array_search($previousAgeCategoryColor, $predefinedAgeCategoryColorsArray);        
           $nextCategoryAgeColorIndex = $previousAgeCategoryColorIndex + 1;
-
-          if(array_key_exists($nextCategoryAgeColorIndex, $predefinedAgeCategoryColorsArray)) {
+          if($nextCategoryAgeColorIndex < count($predefinedAgeCategoryColorsArray)) {
             $colorIndex = $nextCategoryAgeColorIndex;
           }
         }
 
-        $ageCategoryColor = $predefinedAgeCategoryColorsArray[$colorIndex];
-        $ageCategoryFontColor = $predefinedAgeCategoryFontColorsArray[$colorIndex];
-
-        $tournamentCompeationTemplate['category_age_color'] = $ageCategoryColor;
-        $tournamentCompeationTemplate['category_age_font_color'] = $ageCategoryFontColor;
+        $tournamentCompeationTemplate['category_age_color'] = $predefinedAgeCategoryColorsArray[$colorIndex];
+        $tournamentCompeationTemplate['category_age_font_color'] = $predefinedAgeCategoryFontColorsArray[$colorIndex];
 
         return TournamentCompetationTemplates::create($tournamentCompeationTemplate)->id;
       }
@@ -486,8 +471,6 @@ class AgeGroupRepository
       $newCopiedAgeCategory->group_name = $data['ageCategoryData']['competition_format']['age_category_name'];
       $newCopiedAgeCategory->category_age = $data['ageCategoryData']['competition_format']['category_age'];
       $newCopiedAgeCategory->pitch_size = $data['ageCategoryData']['competition_format']['pitch_size'];
-      $newCopiedAgeCategory->category_age_color = $data['ageCategoryData']['competition_format']['category_age_color'];
-      $newCopiedAgeCategory->category_age_font_color = $data['ageCategoryData']['competition_format']['category_age_font_color'];
       $newCopiedAgeCategory->save();
 
       return $newCopiedAgeCategory;
