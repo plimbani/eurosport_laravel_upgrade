@@ -1,13 +1,17 @@
 <template>
     <div>
         <div class="row">
-            <div class="col-md-12 mb-3">
-                <button class="btn btn-secondary btn-md js-pitch-planner-bt horizontal js-horizontal-view"  @click="setView('timelineDay')">{{$lang.pitch_planner_horizontal}}</button>
-                <button class="btn btn-primary btn-md js-pitch-planner-bt vertical"  @click="setView('agendaDay')">{{$lang.pitch_planner_vertical}}</button>
-                <button v-if="isPitchPlannerInEnlargeMode == 0" class="btn btn-primary btn-md vertical" @click="enlargePitchPlanner()">Enlarge</button>
-                <button class="btn btn-primary btn-md vertical" @click="printPitchPlanner()">Print</button>
-                <button class="btn btn-primary btn-md vertical" @click="exportPitchPlanner()">Export</button>
-                <button class="btn btn-primary btn-md" @click="openAutomaticPitchPlanningModal()">{{$lang.pitch_planner_automatic_planning}}</button>
+            <div class="col-md-9 mb-3">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <button v-if="isPitchPlannerInEnlargeMode == 0" class="btn btn-primary btn-md vertical" @click="enlargePitchPlanner()">Enlarge</button>
+                        <button class="btn btn-primary btn-md" @click="openAutomaticPitchPlanningModal()">{{$lang.pitch_planner_automatic_planning}}</button>
+                    </div>
+                    <div>
+                        <button class="btn btn-default btn-md vertical" @click="printPitchPlanner()"><i class="fas fa-print text-primary"></i></button>
+                        <button class="btn btn-default btn-md vertical" @click="exportPitchPlanner()"><i class="fas fa-download text-primary"></i></button>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -31,7 +35,7 @@
             <div class="" id="outerGame" v-bind:class="[isPitchPlannerInEnlargeMode == 0 ? 'col-md-3' : 'col-md-2']" v-if="isPrintPitchPlanner == 0">
                 <div class="grey_bg" id="gameReferee">
                     <div class="tabs tabs-primary">
-                        <ul class="nav nav-tabs" role="tablist">
+                        <ul class="nav nav-tabs nav-justified" role="tablist">
                             <li class="nav-item">
                                 <a class="text-center" :class="[currentView == 'gamesTab' ? 'active' : '', 'nav-link']"
                                 @click="setCurrentTab('gamesTab')"
@@ -128,6 +132,7 @@
 
             this.$root.$on('editReferee', this.editReferee);
             this.$root.$on('displayTournamentCompetationList', this.displayTournamentCompetationList);
+            this.$root.$on('setView', this.setView);
         },
         beforeCreate: function() {
             // Remove custom event listener
@@ -141,6 +146,7 @@
             this.$root.$off('getAllReferee');
             this.$root.$off('editReferee');
             this.$root.$off('displayTournamentCompetationList');
+            this.$root.$off('setView');
         },
         data() {
             return {

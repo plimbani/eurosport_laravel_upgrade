@@ -14,9 +14,11 @@
             <td>
               <a class="text-primary" href="" @click.prevent="showGroups(competation.id)"><u>{{ competation.group_name }} ({{ competation.category_age }})</u></a>
               <a href="#" data-toggle="modal" data-target="#commentmodal" class="text-primary" @click.prevent="showComment(competation)"><i class="fa fa-info-circle" v-if="competation.comments != null"></i></a>
+              <a href="#" @click="viewGraphicImage(competation.template_name, competation.graphic_image)"class="text-primary ml-2 float-right" v-if="competation.graphic_image"><u>View graphic</u></a>
             </td>
             <td class="text-center">{{ competation.total_teams }}</td>
           </tr>
+          <displaygraphic :templateGraphicImageName="templateGraphicImageName" :viewGraphicImagePath="templateGraphicImagePath" :sectionGraphicImage="'DrawList'"></displaygraphic>
         </tbody>
       </table>
       <span v-else>No information available</span>
@@ -26,7 +28,7 @@
       <a @click="changeTable()" data-toggle="tab" href="javascript:void(0)"
       role="tab" aria-expanded="true"
       class="btn btn-primary mb-2">
-      <i aria-hidden="true" class="fa fa-angle-double-left"></i>Back to category list</a>
+      <i aria-hidden="true" class="fas fa-angle-double-left"></i>Back to category list</a>
       <table class="table table-hover table-bordered" v-if="groupsData.length > 0">
         <thead>
               <tr>
@@ -39,7 +41,7 @@
             <tr v-for="drawData in groupsData">
               <td>
                 <a class="pull-left text-left text-primary" @click.prevent="changeGroup(drawData)" href=""><u>{{ drawData.display_name }}</u> </a>
-                <a v-if="isUserDataExist" href="#" @click="openEditCompetitionNameModal(drawData)" class="pull-right text-primary"><i class="fa fa-pencil"></i></a>
+                <a v-if="isUserDataExist" href="#" @click="openEditCompetitionNameModal(drawData)" class="pull-right text-primary"><i class="fas fa-pencil"></i></a>
               </td>
               <td class="text-center">{{ drawData.competation_type }}</td>
               <td class="text-center">{{ drawData.team_size }}</td>
@@ -102,6 +104,7 @@ import Tournament from '../api/tournament.js'
 import TeamDetails from './TeamDetails.vue'
 import TeamList from './TeamList.vue'
 import DrawDetails from './DrawDetails.vue'
+import displaygraphic from './DisplayGraphicalStructure.vue'
 
 export default {
   data() {
@@ -110,7 +113,9 @@ export default {
       showTable: 'category',
       groupsData:[],
       ageCatgeoryComments: '',
-      competitionData: {}
+      competitionData: {},
+      templateGraphicImageName: '',
+      templateGraphicImagePath: '',
     }
   },
   mounted() {
@@ -122,7 +127,7 @@ export default {
   },
 	// props:['matchData'],
 	components: {
-		TeamDetails, DrawDetails
+		TeamDetails, DrawDetails, displaygraphic
 	},
   computed: {
     currentView() {
@@ -204,6 +209,11 @@ export default {
     },
     closeModal() {
       $('#editCompetitionNameModal').modal('hide');
+    },
+    viewGraphicImage : function(imageName, imagePath){
+      $('#displayGraphicImage').modal('show');
+      this.templateGraphicImageName = imageName;
+      this.templateGraphicImagePath = imagePath;
     }
 	},
 	filters: {

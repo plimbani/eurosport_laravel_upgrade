@@ -17,7 +17,7 @@
 			                      :class="{'is-danger': errors.has('teamID') }"
 			                      name="teamID" type="text"
 			                      class="form-control">
-			                    <i v-show="errors.has('teamID')" class="fa fa-warning"></i>
+			                    <i v-show="errors.has('teamID')" class="fas fa-warning"></i>
 			                    <span class="help is-danger" v-show="errors.has('teamID')">{{ errors.first('teamID') }}
 			                    </span>
 			                    <span class="help is-danger" v-show="formValues.team_id!='' && teamEsrReferenceAvailable==true">Such teamID already exists.
@@ -39,7 +39,7 @@
 		                    <label class="col-sm-5 form-control-label">{{$lang.team_edit_team_name}}</label>
 		                    <div class="col-sm-6">
 		                        <input v-model="formValues.team_name" v-validate="'required'" :class="{'is-danger': errors.has('team') }" name="team" type="text" class="form-control">
-		                        <i v-show="errors.has('team')" class="fa fa-warning"></i>
+		                        <i v-show="errors.has('team')" class="fas fa-warning"></i>
 		                        <span class="help is-danger" v-show="errors.has('team')">{{ errors.first('team') }}</span>
 		                    </div>
 		                </div>
@@ -69,7 +69,7 @@
 		                       	 <input v-model="formValues.club_name" v-validate="'required'" 
 		                       	 :class="{'is-danger': errors.has('club') }" name="club" 
 		                       	 type="text" class="form-control">
-		                       	 <i v-show="errors.has('club')" class="fa fa-warning"></i>
+		                       	 <i v-show="errors.has('club')" class="fas fa-warning"></i>
 		                      	 <span class="help is-danger" 
 		                      	 v-show="errors.has('club')">{{ errors.first('club') }}
 		                      </span>	
@@ -79,7 +79,7 @@
 		                    <label class="col-sm-5 form-control-label">{{$lang.team_edit_team_place}}</label>
 		                    <div class="col-sm-6">
 		                        <input v-model="formValues.team_place" v-validate="'required'" :class="{'is-danger': errors.has('place') }" name="place" type="text" class="form-control">
-		                        <i v-show="errors.has('place')" class="fa fa-warning"></i>
+		                        <i v-show="errors.has('place')" class="fas fa-warning"></i>
 		                        <span class="help is-danger" v-show="errors.has('place')">{{ errors.first('place') }}</span>
 		                    </div>
 		                </div>

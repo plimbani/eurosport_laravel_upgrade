@@ -13,7 +13,7 @@
                       <label class="col-sm-4 form-control-label">{{$lang.user_management_add_name}}</label>
                       <div class="col-sm-7">
                           <input  v-validate="'required|alpha'" v-model="userData.name" :class="{'is-danger': errors.has('name') }" name="name" type="text" class="form-control" placeholder="Your name">
-                          <i v-show="errors.has('name')" class="fa fa-warning"></i>
+                          <i v-show="errors.has('name')" class="fas fa-warning"></i>
                           <span class="help is-danger" v-show="errors.has('name')">{{ errors.first('name') }}</span>
                       </div>
                   </div>
@@ -21,7 +21,7 @@
                       <label class="col-sm-4 form-control-label">{{$lang.user_desktop_surname}}</label>
                       <div class="col-sm-7">
                           <input  v-validate="'required|alpha'" v-model="userData.surname" :class="{'is-danger': errors.has('surname') }" name="surname" type="text" class="form-control" placeholder="Enter second name">
-                          <i v-show="errors.has('surname')" class="fa fa-warning"></i>
+                          <i v-show="errors.has('surname')" class="fas fa-warning"></i>
                           <span class="help is-danger" v-show="errors.has('surname')">{{ errors.first('surname') }}</span>
                       </div>
                   </div>
@@ -34,7 +34,7 @@
                               {{ role }}
                             </option>
                         </select>
-                        <i v-show="errors.has('role')" class="fa fa-warning"></i>
+                        <i v-show="errors.has('role')" class="fas fa-warning"></i>
                           <span class="help is-danger" v-show="errors.has('role')">{{ errors.first('role') }}</span>
                       </div>
                   </div>
@@ -47,7 +47,7 @@
                               {{ country.name }}
                             </option>
                         </select>
-                        <i v-show="errors.has('country')" class="fa fa-warning"></i>
+                        <i v-show="errors.has('country')" class="fas fa-warning"></i>
                           <span class="help is-danger" v-show="errors.has('country')">{{ errors.first('country') }}</span>
                       </div>
                   </div>
@@ -57,7 +57,7 @@
                     <div class="col-sm-7">
 
                         <input v-model="userData.emailAddress" v-validate="'required|email'" :class="{'is-danger': errors.has('email') }" name="email" type="email" class="form-control" placeholder="Enter email address" @change="hideEmailExistMessage()">
-                        <i v-show="errors.has('email')" class="fa fa-warning"></i>
+                        <i v-show="errors.has('email')" class="fas fa-warning"></i>
                         <span class="help is-danger" v-show="errors.has('email')">{{ errors.first('email') }}</span>
                         <span class="help is-danger" v-if="emailExist == true">Email already exist</span>
                     </div>
