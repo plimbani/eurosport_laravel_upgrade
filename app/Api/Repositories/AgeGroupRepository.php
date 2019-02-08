@@ -60,7 +60,7 @@ class AgeGroupRepository
         $competitionData = Competition::where('tournament_id', $competation_data['tournament_id'])->orderBy('id','desc')->first();
         $predefinedAgeCategoryColorsArray = config('config-variables.age_category_color');
         $colorIndex = 0;
-
+        
         if($competitionData && ($competitionData->color_code != '')) {
           $previousCompetitionColor = $competitionData->color_code;
           $previousCompetitionColorIndex = array_search($previousCompetitionColor, $predefinedAgeCategoryColorsArray);
@@ -68,12 +68,7 @@ class AgeGroupRepository
           if(array_key_exists($nextCompetitionColorIndex, $predefinedAgeCategoryColorsArray)) {
             $colorIndex = $nextCompetitionColorIndex;
           }
-        } 
-        // else {
-        //   $predefinedAgeCategoryColorsArrayKeys = array_keys($predefinedAgeCategoryColorsArray);
-        //   $lastColorIndex = end($predefinedAgeCategoryColorsArrayKeys);
-        //   $colorIndex = $lastColorIndex;
-        // }
+        }
 
         if($colorIndex <= 0) {
           $predefinedAgeCategoryColorsArrayKeys = array_keys($predefinedAgeCategoryColorsArray);
