@@ -8382,7 +8382,7 @@ TimeGrid.mixin({
 							'</div>' :
 							''
 							) +
-						'<div class="checkbox"><div class="c-input"><input type="checkbox" name="matchUnscheduleCheck[]" class="match-unschedule-checkbox d-none" id="'+ event.matchId+'"></div></div>'+
+						'<div class="checkbox"><div class="c-input"><input type="checkbox" name="match_unschedule_check[]" class="match-unschedule-checkbox d-none" id="'+ event.matchId+'"></div></div>'+
 						((event.homeScore !== null) && (event.awayScore !== null) && (typeof event.awayScore !== 'undefined') && (typeof event.awayScore !== 'undefined') ? 
 							'<div class="fc-score">' +
 								((event.isResultOverride == 1 && (event.matchStatus == 'Walk-over' || event.matchStatus == 'Abandoned') && event.matchWinner == event.homeTeam) ? '*' : '') +

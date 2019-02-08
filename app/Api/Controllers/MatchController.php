@@ -881,4 +881,13 @@ class MatchController extends BaseController
 
         return response()->download(base_path('resources/sample_uploads/TeamsUploadSpreadsheet.xls'), 'TeamsUploadSpreadsheet.xls', $headers);
     }
+
+    /**
+     * Match unschedule fixtures
+    */
+
+    public function matchUnscheduledFixtures(Request $request)
+    {
+        return $this->matchObj->matchUnscheduledFixtures($request->all());
+    }
 }

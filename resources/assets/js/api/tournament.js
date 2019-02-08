@@ -265,7 +265,7 @@ export default {
   copyAgeCategory(ageCategoryData) {
     return api.post('age_group/copyAgeCategory', {'ageCategoryData': ageCategoryData})
   },
-  matchConfirmUnscheduling(matchData) {
-    return api.post('match/fixturesUnschedule',{'matchData': matchData})
+  matchUnscheduledFixtures(matchData) {
+    return api.post('match/fixtureUnschedule',{'matchData': matchData})
   }
 }

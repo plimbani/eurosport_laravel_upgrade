@@ -1270,4 +1270,8 @@ class MatchRepository
       // $competition = Competition::find($competitionId);
 
     }
+
+    public function matchUnscheduledFixtures($matchId)
+    {
+    }
 }

@@ -171,6 +171,7 @@
                 'isCompetitionCallProcessed': false,
                 'formValues': this.initialState(),
                 'deleteConfirmMsg': 'Are you sure you would like to unschedule the selected fixtures?',
+                'matchId': null,
             };
         },
         props: {
@@ -509,11 +510,17 @@
           },
 
           confirmUnschedulingFixtures() {
-            alert('hi');
-            Tournament.matchConfirmUnscheduling().then(
+            var fixturesCheckArray = [];
+            $(".match-unschedule-checkbox").each(function( index ) {
+                var checked = $(this).is(':checked');
+                if(checked) {
+                    fixturesCheckArray.push($(this).attr('id'));
+                }
+            }); 
+            // console.log(fixturesCheckArray);
+            Tournament.matchUnscheduledFixtures(fixturesCheckArray).then(
                 (response) => {
-                  console.log('inmatch');
-
+                  alert(fixturesCheckArray)
                 })
             }
         }
