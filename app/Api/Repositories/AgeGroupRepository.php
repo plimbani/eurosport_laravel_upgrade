@@ -38,8 +38,6 @@ class AgeGroupRepository
     }
     public function addCompetations($competation_data,$group_data)
     {
-      // Now here we have to For Loop to insert all data in competations table
-      //exit;
       $i=1;
       $competations=array();
       $age_group = $competation_data['age_group_name'];
@@ -48,18 +46,31 @@ class AgeGroupRepository
       $competationIds = array();
       foreach($group_data as $groups){
 
-       $competations['tournament_competation_template_id'] = $competation_data['tournament_competation_template_id'];
-       $competations['tournament_id'] = $competation_data['tournament_id'];
-       $comp_group = $groups['group_name'];
-       $actual_comp_group = $groups['actual_group_name'];
-       $competations['name'] = $age_group.'-'.$comp_group;
-       $competations['display_name'] = $age_group.'-'.$comp_group;
-       $competations['actual_name'] = $age_group.'-'.$actual_comp_group;
-       $competations['team_size'] = $groups['team_count'];
-       // here last group we consider as Final or Elimination Match
-       // Means Last one
-       // TODO : Change the code
-       $matchType = explode('-',$groups['match_type']);
+      $competations['tournament_competation_template_id'] = $competation_data['tournament_competation_template_id'];
+      $competations['tournament_id'] = $competation_data['tournament_id'];
+      $comp_group = $groups['group_name'];
+      $actual_comp_group = $groups['actual_group_name'];
+      $competations['name'] = $age_group.'-'.$comp_group;
+      $competations['display_name'] = $age_group.'-'.$comp_group;
+      $competations['actual_name'] = $age_group.'-'.$actual_comp_group;
+      $competations['team_size'] = $groups['team_count'];
+
+      $competitionData = Competition::where('tournament_id', $competation_data['tournament_id'])->orderBy('id','desc')->first();
+      $predefinedAgeCategoryColorsArray = config('config-variables.age_category_color');
+      $colorIndex = count($predefinedAgeCategoryColorsArray) - 1;
+              
+      if($competitionData && $competitionData->color_code) {
+        $previousCompetitionColor = $competitionData->color_code;
+        $previousCompetitionColorIndex = array_search($previousCompetitionColor, $predefinedAgeCategoryColorsArray);
+        $previousCompetitionColorIndex = $previousCompetitionColorIndex - 1;
+        if($previousCompetitionColorIndex >= 0) {
+          $colorIndex = $previousCompetitionColorIndex;
+        }
+      }
+
+      $competations['color_code'] = $predefinedAgeCategoryColorsArray[$colorIndex];
+
+      $matchType = explode('-',$groups['match_type']);
 
        if($matchType[0] == 'PM') {
         $competaon_type = 'Elimination';
@@ -99,8 +110,6 @@ class AgeGroupRepository
       $tournamentCompeationTemplate['total_match'] = $data['total_match'];
       $tournamentCompeationTemplate['category_age'] = $data['category_age'];
       $tournamentCompeationTemplate['pitch_size'] = $data['pitch_size'];
-      $tournamentCompeationTemplate['category_age_color'] = $data['category_age_color'];
-      $tournamentCompeationTemplate['category_age_font_color'] = $data['category_age_font_color'];
       $tournamentCompeationTemplate['disp_format_name'] =$data['disp_format_name'];
       $tournamentCompeationTemplate['total_time'] =$data['total_time'];
 
@@ -176,14 +185,26 @@ class AgeGroupRepository
 
         return  TournamentCompetationTemplates::where('id', $data['competation_format_id'])->update($tournamentCompeationTemplate);
       } else {
-      //TournamentCompetationTemplates::create($tournamentCompeationTemplate)->id;
-      // Here also Save in competations table
+        $tournamentCompetitionTemplateData = TournamentCompetationTemplates::where('tournament_id', $data['tournament_id'])
+                                                              ->orderBy('id','desc')->first();
+        $colorIndex = 0;
+        $predefinedAgeCategoryColorsArray = config('config-variables.age_category_color');
+        $predefinedAgeCategoryFontColorsArray = config('config-variables.age_category_font_color');
 
+        if($tournamentCompetitionTemplateData && $tournamentCompetitionTemplateData->category_age_color) {
+          $previousAgeCategoryColor = $tournamentCompetitionTemplateData->category_age_color;
+          $previousAgeCategoryColorIndex = array_search($previousAgeCategoryColor, $predefinedAgeCategoryColorsArray);        
+          $nextCategoryAgeColorIndex = $previousAgeCategoryColorIndex + 1;
+          if($nextCategoryAgeColorIndex < count($predefinedAgeCategoryColorsArray)) {
+            $colorIndex = $nextCategoryAgeColorIndex;
+          }
+        }
 
-      return TournamentCompetationTemplates::create($tournamentCompeationTemplate)->id;
+        $tournamentCompeationTemplate['category_age_color'] = $predefinedAgeCategoryColorsArray[$colorIndex];
+        $tournamentCompeationTemplate['category_age_font_color'] = $predefinedAgeCategoryFontColorsArray[$colorIndex];
+
+        return TournamentCompetationTemplates::create($tournamentCompeationTemplate)->id;
       }
-
-      // Now here we return the appropriate Data
     }
     /**
      *   This Function Used for Update the competaions and temp_fixtures
@@ -453,8 +474,6 @@ class AgeGroupRepository
       $newCopiedAgeCategory->group_name = $data['ageCategoryData']['competition_format']['age_category_name'];
       $newCopiedAgeCategory->category_age = $data['ageCategoryData']['competition_format']['category_age'];
       $newCopiedAgeCategory->pitch_size = $data['ageCategoryData']['competition_format']['pitch_size'];
-      $newCopiedAgeCategory->category_age_color = $data['ageCategoryData']['competition_format']['category_age_color'];
-      $newCopiedAgeCategory->category_age_font_color = $data['ageCategoryData']['competition_format']['category_age_font_color'];
       $newCopiedAgeCategory->save();
 
       return $newCopiedAgeCategory;
