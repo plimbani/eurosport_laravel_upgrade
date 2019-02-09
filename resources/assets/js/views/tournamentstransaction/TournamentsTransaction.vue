@@ -26,8 +26,8 @@
     export default {
         data() {
             return {
-                usersTourmanents:{},
-                code:""
+                tournamentsTransactions:[],
+                tournament_id:160 // currently static
             }
         },
         beforeRouteEnter(to, from, next) { 
@@ -37,7 +37,7 @@
                         if(typeof to.query.code != "undefined"){
                             vm.code = to.query.code;
                             // console
-                            vm.getTournamentListOfUser();
+                            vm.getTournamentTractions();
                         }
                     }, 100); 
                })
@@ -45,12 +45,23 @@
             next()
         },
         methods: {
-            getTournamentListOfUser(){
-               
+            getTournamentTractions(){
+               let params = {
+                    tournament_id:this.tournament_id, // currently static
+                }
+                // console.log("params::",params)
+                axios.post(Constant.apiBaseUrl+'customer-transactions',params).then(response =>  { 
+                    // this.disabled = false;
+                     console.log("response: transactions:",response.data.data);
+                     this.tournamentsTransactions = response.data.data;
+                }).catch(error => {
+                    this.disabled = false;
+                     console.log("error in getTournamentListOfUser::",error);
+                });  
             } 
         },
         beforeMount(){  
-            // this.getTournamentListOfUser();
+            this.getTournamentTractions();
         }
     }
 </script>

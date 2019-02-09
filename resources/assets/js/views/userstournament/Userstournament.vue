@@ -26,31 +26,42 @@
     export default {
         data() {
             return {
-                usersTourmanents:{},
-                code:""
+                usersTourmanents:[],
+                customer_id:3, // currently static
             }
         },
         beforeRouteEnter(to, from, next) { 
-              if(Object.keys(to.query).length !== 0) { //if the url has query (?query)
-                next(vm => {    
-                    setTimeout(function(){   
-                        if(typeof to.query.code != "undefined"){
-                            vm.code = to.query.code;
-                            // console
-                            vm.getTournamentListOfUser();
-                        }
-                    }, 100); 
-               })
-            }
+            //   if(Object.keys(to.query).length !== 0) { //if the url has query (?query)
+            //     next(vm => {    
+            //         setTimeout(function(){   
+            //             if(typeof to.query.code != "undefined"){
+            //                 vm.code = to.query.code;
+            //                 // console
+            //                 vm.getTournamentListOfUser();
+            //             }
+            //         }, 100); 
+            //    })
+            // }
             next()
         },
         methods: {
             getTournamentListOfUser(){
-               
+                let params = {
+                    customer_id:this.customer_id, // currently static
+                }
+                // console.log("params::",params)
+                axios.post(Constant.apiBaseUrl+'customer-tournament',params).then(response =>  { 
+                    // this.disabled = false;
+                     // console.log("response::",response.data.data);
+                     this.usersTourmanents = response.data.data;
+                }).catch(error => {
+                    this.disabled = false;
+                     console.log("error in getTournamentListOfUser::",error);
+                });  
             } 
         },
         beforeMount(){  
-            // this.getTournamentListOfUser();
+            this.getTournamentListOfUser();
         }
     }
 </script>
