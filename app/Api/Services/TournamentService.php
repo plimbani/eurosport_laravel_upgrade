@@ -126,7 +126,7 @@ class TournamentService implements TournamentContract
     {
         // Here we send Status Code and Messages
         $data1 = $this->tournamentRepoObj->getAllTemplatesFromMatches($data);
-
+        
         if ($data1) {
           //TODO: here we Add Some Extra Fields For merge with TemplateData
           $newData=array();
@@ -146,7 +146,9 @@ class TournamentService implements TournamentContract
             $newData[$key]['template_font_color'] = $template_font_color;
             $newData[$key]['remark'] = $remark;
             $newData[$key]['avg_game_team'] = $avg_game_team;
+            $newData[$key]['graphic_image']     =  $value->graphic_image ? getenv('S3_URL'). $value->graphic_image : null;
           }
+          
 
 
           //exit;

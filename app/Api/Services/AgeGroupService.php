@@ -50,8 +50,6 @@ class AgeGroupService implements AgeGroupContract
      */
     public function createCompetationFomat($data)
     {
-        // Now here we set and Calculate and Save Data in
-        //  tournament_competation_template Table
         $data = $data['compeationFormatData'];
 
         // Check if maximum team exceeds
@@ -131,13 +129,8 @@ class AgeGroupService implements AgeGroupContract
         // First we check if its Edit or Update
         if(isset($data['competation_format_id']) && $data['competation_format_id'] != 0)
         {
-            // here we check if template data is changed if changed
-            // delete all data and insert new one
-            // TODO: Here we check if there is change then and then change Data
             if($data['tournament_template_id'] != $data['tournamentTemplate']['id'] ) {
-                // Delete Competation Data
                 $this->ageGroupObj->deleteCompetationData($data);
-                // Delete temp_fixtures Data
 
                 $id = $data['competation_format_id'];
                 $this->addCompetationGroups($id,$data);
@@ -193,18 +186,12 @@ class AgeGroupService implements AgeGroupContract
             return ['status_code' => '200', 'message' => 'Data Sucessfully Inserted'];
         }
     }
-    private function addCompetationGroups($tournament_competation_template_id,
-        $data){
-        // Here we set data
-       // $json_data = json_decode($jsonTemplateData);
-        // Below are Fixed Data
-
+    private function addCompetationGroups($tournament_competation_template_id, $data){
         $competationData['tournament_competation_template_id'] = $tournament_competation_template_id;
         $competationData['tournament_id'] = $data['tournament_id'];
         $competationData['age_group_name'] = $data['ageCategory_name'].'-'.$data['category_age'];
         $categoryAge = $data['category_age'];
         $json_data = json_decode($data['tournamentTemplate']['json_data']);
-
 
         //$competationData['name'] = $data['ageCategory_name'].'-'.$group_name;
         $totalRound = count($json_data->tournament_competation_format->format_name);
@@ -327,10 +314,10 @@ class AgeGroupService implements AgeGroupContract
         return array($total_time,$total_matches,$disp_format_name);
     }
     public function GetCompetationFormat($data) {
-
       $isMobileUsers = \Request::header('IsMobileUser');
       if( $isMobileUsers != '') {
         $data = $data->all();
+        
         $tournament_arr = array('tournament_id'=>$data['tournament_id']);
         $data = $this->ageGroupObj->getCompeationFormat($tournament_arr);
       }
@@ -457,5 +444,10 @@ class AgeGroupService implements AgeGroupContract
       if ($data) {
         return ['status_code' => '200', 'message' => 'Data Sucessfully Inserted'];
       }
+    }
+
+    public function viewTemplateGraphicImage($data)
+    {
+        return $this->ageGroupObj->viewTemplateGraphicImage($data);
     }
 }
