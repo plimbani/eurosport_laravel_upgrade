@@ -38,6 +38,14 @@
                                 </thead>
                                 <tbody>
                                   <tr class="" v-for="transction in tournamentsTransactions">
+                                        <td>TBA</td>
+                                        <td>TBA</td>
+                                        <td>TBA</td>
+                                        <td>TBA</td>
+                                        <td>TBA</td>
+                                        <td>TBA</td>
+                                        <td>TBA</td>
+                                        <td>TBA</td>
                                    <!--  <td>{{ transction.name }}</td>
                                     <td>{{ transction.start_date }}</td>
                                     <td>{{ transction.end_date }}</td>
@@ -78,7 +86,7 @@
                     vm.$router.push({name: 'users_list'});
                 }else{
                     if(typeof to.query.id != "undefined"){
-                        console.log("in detailss",to.query.id);
+                        // console.log("in detailss",to.query.id);
                         vm.tournament_id = to.query.id; 
                         vm.getTournamentTransactions();
                     }else{  
