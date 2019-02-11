@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class='pitchPlanner' :id="'pitchPlanner'+stage.stageNumber"></div>
-        <!-- <pitch-modal :matchFixture="matchFixture" :section="section" v-if="setPitchModal"></pitch-modal> -->
+        <pitch-modal :matchFixture="matchFixture" :section="section" v-if="setPitchModal"></pitch-modal>
         <delete-modal1 :deleteConfirmMsg="deleteConfirmMsg"  @confirmedBlock="deleteConfirmedBlock()"></delete-modal1>
     </div>
 </template>
