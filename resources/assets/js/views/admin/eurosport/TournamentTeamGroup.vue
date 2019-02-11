@@ -58,6 +58,9 @@
                     <div class="card-content">
                        <span class="card-title text-primary"><strong>
                        {{ getGroupName(group) }}</strong></span>
+                       <div v-for="n in group['group_count']" ondrop="javascript:void(0)" @ondragover="allowDrop($event)">
+                         {{ getGroupPlaceHolderName(group, n).fullName }}
+                       </div>
                         <p class="text-primary left" v-for="n in group['group_count']"><strong><span :class="groupFlag(group,n)" ></span>
                         {{groupName(group,n) | truncate(20)}}</strong></p>
                     </div>
@@ -95,7 +98,7 @@
                           <td width="150px">{{team.esr_reference}}</td>
                           <td class="team-edit-section">
                             <div class="custom-d-flex align-items-center justify-content-between" v-show="!(team.id in teamsInEdit)">
-                              <span>{{team.name}}</span>
+                              <span draggable="true">{{team.name}}</span>
                               <span class="pull-right"><a href="javascript:void(0);" v-on:click="editTeamName($event, team.id, team.name)"><i class="fas fa-pencil" aria-hidden="true"></i></a></span>
                             </div>
                             <div v-show="(team.id in teamsInEdit)">
@@ -319,7 +322,19 @@
         return displayName
       },
        groupName(group,no){
-        let vm =this
+        let vm =this;
+        let groupName = this.getGroupPlaceHolderName(group, no);
+        let displayName = groupName.fullName;
+        let actualFullName = groupName.actualFullName;
+
+        _.find(this.teams, function(team) {
+          if(team.age_group_id == vm.age_category.id && actualFullName == team.group_name){
+            displayName =  team.name
+          } ;
+        });
+        return displayName
+      },
+      getGroupPlaceHolderName(group, no) {
         let fullName = null
         let actualFullName = null
         if(typeof group['groups']['actual_group_name'] != "undefined") {
@@ -329,15 +344,10 @@
         } else {
           fullName = actualFullName = group['groups']['group_name']+no;
         }
-
-        let displayName = fullName
-
-        _.find(this.teams, function(team) {
-          if(team.age_group_id == vm.age_category.id && actualFullName == team.group_name){
-            displayName =  team.name
-          } ;
-        });
-        return displayName
+        let groupName = {};
+        groupName.fullName = fullName;
+        groupName.actualFullName = actualFullName;
+        return groupName;
       },
       initialfunc(id){
         if($('#sel_'+id).find('option:selected').text()!=''){
@@ -726,7 +736,9 @@
       previewSpredsheetSample() {
         $('#teams_groups_preview_modal').modal('show');
       },
-
+      allowDrop(ev) {
+        ev.preventDefault();
+      },
     }
   }
 </script>
