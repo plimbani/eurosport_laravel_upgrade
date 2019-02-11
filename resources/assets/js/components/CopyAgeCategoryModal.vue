@@ -36,7 +36,7 @@
 			          </div>
 			        </div>
 
-			        <div class="form-group row align-items-center" :class="{'has-error': errors.has('competition_format.age_category_name') }">
+			        <div class="form-group row align-items-center" :class="{'has-error': errors.has('competition_format.ageCategory_name') }">
 			          <div class="col-sm-4 form-control-label">
 			            {{$lang.competation_label_name_category}}
 			            <span class="pr-2 pl-2 text-primary" data-toggle="popover" data-animation="false" data-placement="right" data-content="Enter an additional name for the category"><i class="fas fa-info-circle"></i></span>
@@ -45,7 +45,7 @@
 			              <div class="row">
 			                <div class="col-sm-12">
 			                  <input type="text" class="form-control"
-			                  placeholder="e.g. U11, U16-A"  v-validate="{ rules: { required : true, regex: /^[a-zA-Z0-9\/ ]*$/ } }" :class="{'is-danger': errors.has('ageCategory_name') }" v-model="competition_format.age_category_name" name="ageCategory_name">
+			                  placeholder="e.g. U11, U16-A"  v-validate="{ rules: { required : true, regex: /^[a-zA-Z0-9\/ ]*$/ } }" :class="{'is-danger': errors.has('ageCategory_name') }" v-model="competition_format.ageCategory_name" name="ageCategory_name">
 			                  <i v-show="errors.has('ageCategory_name')" class="fas fa-warning"></i>
 			                  <span class="help is-danger" v-show="errors.has('ageCategory_name')">{{$lang.copy_age_category_modal_validation_message}}</span>
 			                </div>
@@ -88,7 +88,7 @@
 	    		isInvalid: false,
 	    		isSaveInProcess: false,
 	    		competition_format: {
-		    		age_category_name: '',
+		    		ageCategory_name: '',
 		    		category_age: '',
 		    		pitch_size: '',
 	    		},
@@ -148,7 +148,7 @@
 		      this.isTouched = true
 		    },
 		    resetForm() {
-		    	this.competition_format.age_category_name = '';
+		    	this.competition_format.ageCategory_name = '';
 		    	this.competition_format.category_age = '';
 		    	this.competition_format.pitch_size = '';
 		    	this.clearErrorMsgs();
