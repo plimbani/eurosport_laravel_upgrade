@@ -90,6 +90,7 @@
 	    		isInvalid: false,
 	    		isSaveInProcess: false,
 	    		competition_format: {
+	    			tournament_id: this.$store.state.Tournament.tournamentId,
 		    		age_category_name: '',
 		    		category_age: '',
 		    		pitch_size: '',
