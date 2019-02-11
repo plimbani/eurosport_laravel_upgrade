@@ -1,7 +1,7 @@
 <template>
   <div>
     <div id="gmap_place_input">
-      <gmap-place-input :select-first-on-enter="true" @place_changed="updatePlace($event)"></gmap-place-input>
+      <gmap-place-input :placeholder="'Enter a location or right click on the map'" :select-first-on-enter="true" @place_changed="updatePlace($event)"></gmap-place-input>
     </div>
     <gmap-map :center="center" :zoom="zoom" class="map-panel" @rightclick="mapRclicked" @zoom_changed="update('zoom', $event)" @center_changed="update('reportedCenter', $event)" @maptypeid_changed="update('mapType', $event)" @bounds_changed="update('bounds', $event)" ref="venuemap" style="width: 100%; height: 400px; display: block;">
       <gmap-marker :key="index" v-for="(m, index) in activeMarkers" :position="m.position" :clickable="true" :draggable="true" @click="updateInfoWindow(m,index)" :zIndex="zIndex" @position_changed="updateChild(m, 'position', $event)"></gmap-marker>
