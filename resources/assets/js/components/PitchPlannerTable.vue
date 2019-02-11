@@ -495,8 +495,8 @@
                      $("#unschedule_fixtures").addClass('btn-secondary');
                      manageClass = true; 
                 }
-                
-                $(".match-unschedule-checkbox").each(function( index ) {
+
+                $(".checkbox").each(function( index ) {
                     if(manageClass) {
                         $(this).addClass('d-none')                  
                     } else {
@@ -508,31 +508,32 @@
             cancleUnscheduleFixtures() {
                 $("#unschedule_fixtures").html('Unschedule fixture').removeClass('btn btn-success');
                 $("#unschedule_fixtures").addClass('btn btn-primary btn-md btn-secondary');
-                $(".match-unschedule-checkbox").addClass('d-none');
+                $(".checkbox").addClass('d-none');
                 $("#cancle_unscheduling_fixtures").hide();
+                $(".match-unschedule-checkbox" ).prop( "checked", false);
             },
 
             confirmUnschedulingFixtures() {
-                var unscheduledFixturesCheckArray = [];
+                var matchId = [];
                 $(".match-unschedule-checkbox").each(function( index ) {
                     var checkboxChecked = $(this).is(':checked');
                     if(checkboxChecked) {
-                        unscheduledFixturesCheckArray.push($(this).attr('id'));
+                        matchId.push($(this).attr('id'));
                     }
                 });
 
-                Tournament.matchUnscheduledFixtures(unscheduledFixturesCheckArray).then(
+                Tournament.matchUnscheduledFixtures(matchId).then(
                 (response) => {
-                  $('#bulk_unscheduled_fixtures').modal('hide')
+                    $('#bulk_unscheduled_fixtures').modal('hide')
                     setTimeout(function(){
-                        _.forEach(unscheduledFixturesCheckArray, function(value, key) {
+                        _.forEach(matchId, function(value, key) {
                             $('div.fc-unthemed').fullCalendar( 'removeEvents', [value] );
                         });
                     },200)
                     toastr.success('Fixtures unscheduled successfully', 'Fixtures Unscheduled', {timeOut: 5000});
                     $("#unschedule_fixtures").html('Unschedule fixture').removeClass('btn btn-success');
                     $("#unschedule_fixtures").addClass('btn btn-primary btn-md btn-secondary');
-                    $(".match-unschedule-checkbox").addClass('d-none');
+                    $(".checkbox").addClass('d-none');
                     $("#cancle_unscheduling_fixtures").hide();
                 })
             }

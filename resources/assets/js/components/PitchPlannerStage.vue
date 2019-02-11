@@ -100,7 +100,7 @@ import _ from 'lodash'
                     } else {
                         $("#unschedule_fixtures").html('Unschedule fixture').removeClass('btn btn-success');
                         $("#unschedule_fixtures").addClass('btn btn-primary btn-md btn-secondary');
-                        $(".match-unschedule-checkbox").addClass('d-none');
+                        $(".checkbox").addClass('d-none');
                         $("#cancle_unscheduling_fixtures").hide();
                     }
                    

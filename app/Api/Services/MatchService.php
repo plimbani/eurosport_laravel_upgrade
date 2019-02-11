@@ -2486,8 +2486,8 @@ class MatchService implements MatchContract
       }
     }
 
-    public function matchUnscheduledFixtures($matchData)
+    public function matchUnscheduledFixtures($matchId)
     {
-        return $this->matchRepoObj->matchUnscheduledFixtures($matchData);
+        return $this->matchRepoObj->matchUnscheduledFixtures($matchId);
     }
 }
