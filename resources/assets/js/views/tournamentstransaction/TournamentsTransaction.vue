@@ -1,24 +1,66 @@
 <template>
-    <section class="confirmation-section section-padding">
-        <div class="tournament-section section-padding">
-            <div class="container">
-                <div class="row">
-                    <div class="col-xl-8">
-                        <div class="row">
-                            <div class="col-sm-4 col-md-3">
-                                <img src='/images/dummy.png' class="img-fluid tournament-image">
+     <div> 
+        <div class="tab-content">
+            <div class="card">
+                <div class="card-block">
+                    <div class="row d-flex flex-row align-items-center mb-3 ">
+                      <div class="col-md-5">
+                            <p class="mb-0">{{$lang.user_management_all_users_sentence}}</p>
+                      </div>
+                      <div class="col-md-7">
+                        <div class="row align-items-center justify-content-end">
+                          <div class="col-12">
+                            <div class="row">
+                              <div class="col-md-5">
+                               
+                              </div>
+                              
                             </div>
-                            <div class="col-sm-8 col-md-9">
-                                 Users Tournaments  Transactions
-                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row d-flex flex-row align-items-center">
+                        <div class="col-md-12">
+                            <table class="table add-category-table">
+                                <thead>
+                                    <tr>
+                                        <th>OrderId</th>
+                                        <th>Transaction ID</th>
+                                        <th>Teams</th>
+                                        <th>App</th>
+                                        <th>Duration</th>
+                                        <th>Purchase Date</th>
+                                        <th>Currency</th>
+                                        <th>Total</th>
+                                        
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                  <tr class="" v-for="transction in tournamentsTransactions">
+                                   <!--  <td>{{ transction.name }}</td>
+                                    <td>{{ transction.start_date }}</td>
+                                    <td>{{ transction.end_date }}</td>
+                                    <td>{{ transction.maximum_teams }}</td>
+                                    <td>TEA</td>
+                                    <td>{{ transction.created_at }}</td>
+                                    <td>Edit</td> -->
+                                    
+                                  </tr>
+                                  <tr><td colspan="8"></td></tr>
+                                </tbody>
+                            </table>
+                            
+                        </div>
+                        <div v-if="tournamentsTransactions.length == 0" class="col-md-12">
+                            <h6 class="block text-center">No record found</h6>
                         </div>
                     </div>
-                    
                 </div>
-              
             </div>
         </div>
-    </section>
+        
+    </div>
 </template>
 <script type="text/babel">
     // console.log("register  page");
@@ -30,22 +72,24 @@
                 tournament_id:160 // currently static
             }
         },
-        beforeRouteEnter(to, from, next) { 
-              if(Object.keys(to.query).length !== 0) { //if the url has query (?query)
-                next(vm => {    
-                    setTimeout(function(){   
-                        if(typeof to.query.code != "undefined"){
-                            vm.code = to.query.code;
-                            // console
-                            vm.getTournamentTractions();
-                        }
-                    }, 100); 
-               })
-            }
-            next()
+        beforeRouteEnter(to, from, next) {  
+            next(vm =>{
+                if(Object.keys(to.query).length === 0) {
+                    vm.$router.push({name: 'users_list'});
+                }else{
+                    if(typeof to.query.id != "undefined"){
+                        console.log("in detailss",to.query.id);
+                        vm.tournament_id = to.query.id; 
+                        vm.getTournamentTransactions();
+                    }else{  
+                        vm.$router.push({name: 'users_list'});
+                    }
+                }
+                
+            })
         },
         methods: {
-            getTournamentTractions(){
+            getTournamentTransactions(){
                let params = {
                     tournament_id:this.tournament_id, // currently static
                 }
@@ -61,7 +105,7 @@
             } 
         },
         beforeMount(){  
-            this.getTournamentTractions();
+            // this.getTournamentTransactions();
         }
     }
 </script>

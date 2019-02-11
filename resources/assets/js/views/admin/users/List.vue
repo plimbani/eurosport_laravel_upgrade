@@ -398,12 +398,8 @@
             showChangePrivilegeModal() {
               $('#confirm_privilege_modal').modal('show');
             },
-            redirectToTournamentList(user){
-              console.log("user:::",user);
-                // this.$store.dispatch('userid', tournamentSel); 
-                // let currentNavigationData = {activeTab:'tournament_add', currentPage: 'Tournament details'};
-                // this.$store.dispatch('setActiveTab', currentNavigationData);
-                // this.$router.push({name:'tournament_add'});
+            redirectToTournamentList(user){ 
+                this.$router.push({name: 'userstourmanent', query: {id:user.id}});    
             }
         }
     }
