@@ -31,8 +31,11 @@ class AddCountryIdAndCityAndJobTitleAndZipcodeColumsToPeopleTable extends Migrat
      */
     public function down()
     {
-        Schema::table('people', function (Blueprint $table) {
+		Schema::disableForeignKeyConstraints();
+        Schema::table('people', function (Blueprint $table) {	
+			$table->dropForeign('people_country_id_foreign');
             $table->dropColumn(['country_id', 'city', 'job_title', 'zipcode']);
         });
+		Schema::enableForeignKeyConstraints();
     }
 }

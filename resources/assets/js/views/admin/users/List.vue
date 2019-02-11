@@ -49,6 +49,7 @@
                                         <th>{{$lang.user_desktop_email}}</th>
                                         <th>{{$lang.user_desktop_usertype}}</th>
                                         <th>{{$lang.user_desktop_status}}</th>
+                                        <th>{{$lang.user_desktop_tournment}}</th>
                                         <th class="text-center">{{$lang.user_desktop}}</th>
                                         <th class="text-center">{{$lang.user_mobile}}</th>
                                         <th>{{$lang.user_desktop_action}}</th>
@@ -64,6 +65,7 @@
                                     <td v-else>
                                       <a href="#"  @click="resendModalOpen(user.email)"><u>Re-send</u></a>
                                     </td>
+                                    <td @click="redirectToTournamentList(user)"><a href="javascript:void(0)" class="centered">{{ user.tournaments_count }}</a></td>
                                     <td class="text-center">
                                       <i class="jv-icon jv-checked-arrow text-success"
                                         v-if="user.is_desktop_user == true"></i>
@@ -396,6 +398,13 @@
             showChangePrivilegeModal() {
               $('#confirm_privilege_modal').modal('show');
             },
+            redirectToTournamentList(user){
+              console.log("user:::",user);
+                // this.$store.dispatch('userid', tournamentSel); 
+                // let currentNavigationData = {activeTab:'tournament_add', currentPage: 'Tournament details'};
+                // this.$store.dispatch('setActiveTab', currentNavigationData);
+                // this.$router.push({name:'tournament_add'});
+            }
         }
     }
 </script>

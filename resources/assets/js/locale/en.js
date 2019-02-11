@@ -51,6 +51,7 @@ module.exports= {
   user_desktop_usertype: "User type",
   user_desktop_action: "Action",
   user_desktop_status: "Status",
+  user_desktop_tournment: "Tournaments",
   user_desktop: "Desktop",
   user_mobile: "Mobile",
 

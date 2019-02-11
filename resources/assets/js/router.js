@@ -86,6 +86,8 @@ import dashboard from './views/dashboard/dashboard.vue'
 
 import EnterTournamentAccessCode from './views/tournament/EnterTournamentAccessCode.vue'
 import TournamentDetail from './views/tournament/TournamentDetail.vue'
+import UsersTournament from './views/userstournament/UsersTournament.vue'
+import TournamentsTransaction from './views/tournamentstransaction/TournamentsTransaction.vue'
 
 //User Pages
 import UserList from './views/admin/users/List.vue'
@@ -398,6 +400,27 @@ const routes = [
                 path: '/',
                 component: payment,
                 name: 'payment'
+            }
+        ]
+    },
+     {
+        path: '/userstourmanents', component: LayoutCommercialisation,
+        meta: { requiresAuth: true },
+        children: [
+            {
+                path: '/',
+                component: UsersTournament,
+                name: 'userstourmanent'
+            }
+        ]
+    },  {
+        path: '/tournamentstransaction', component: LayoutCommercialisation,
+        meta: { requiresAuth: true },
+        children: [
+            {
+                path: '/',
+                component: TournamentsTransaction,
+                name: 'tournamentstransaction'
             }
         ]
     },
