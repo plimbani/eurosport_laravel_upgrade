@@ -7,7 +7,7 @@
                         <button v-if="isPitchPlannerInEnlargeMode == 0" class="btn btn-primary btn-md vertical" @click="enlargePitchPlanner()">Enlarge</button>
                         <button class="btn btn-primary btn-md" @click="openAutomaticPitchPlanningModal()">{{$lang.pitch_planner_automatic_planning}}</button>
                         <button class="btn btn-primary btn-md btn-secondary" id="unschedule_fixtures" @click="unscheduleFixtures()">{{$lang.pitch_planner_unschedule_fixtures}}</button>
-                        <button class="btn btn-danger btn-md cancle-match-unscheduling d-none" id="cancle_unscheduling" @click="cancleUnscheduleFixtures()">{{$lang.pitch_planner_cancel_unscheduling}}</button>
+                        <button class="btn btn-danger btn-md cancle-match-unscheduling d-none" id="cancle_unscheduling_fixtures" @click="cancleUnscheduleFixtures()">{{$lang.pitch_planner_cancel_unscheduling}}</button>
                     </div>
                     <div>
                         <button class="btn btn-default btn-md vertical" @click="printPitchPlanner()"><i class="fas fa-print text-primary"></i></button>
@@ -64,12 +64,11 @@
                 </div>
             </div>
         </div>
-        <delete-modal :deleteConfirmMsg="deleteConfirmMsg" @confirmed="confirmUnschedulingFixtures()">
-        </delete-modal>
+        <BulkUnscheduledfixtureModal :unscheduleFixture="unscheduleFixture" 
+            @confirmed="confirmUnschedulingFixtures()"></BulkUnscheduledfixtureModal>
         <AutomaticPitchPlanning></AutomaticPitchPlanning>
         <AddRefereesModel :formValues="formValues" :competationList="competationList" :tournamentId="tournamentId" :refereeId="refereeId" ></AddRefereesModel>
         <UploadRefereesModel :tournamentId="tournamentId"></UploadRefereesModel>
-        
     </div>
 </template>
 <script type="text/babel">
@@ -81,11 +80,11 @@
     import UploadRefereesModel from './UploadRefereesModel.vue'
     import Tournament from '../api/tournament.js'
     import AutomaticPitchPlanning from './AutomaticPitchPlanningModal.vue'
-    import DeleteModal from './DeleteModal.vue'
+    import BulkUnscheduledfixtureModal from './BulkUnscheduledfixtureModal.vue'
 
     export default  {
         components: {
-            GamesTab, RefereesTab, PitchPlannerStage, AddRefereesModel, UploadRefereesModel, AutomaticPitchPlanning, DeleteModal
+            GamesTab, RefereesTab, PitchPlannerStage, AddRefereesModel, UploadRefereesModel, AutomaticPitchPlanning, BulkUnscheduledfixtureModal
         },
         computed: {
             GameActiveTab () {
@@ -170,7 +169,7 @@
                 'competationList': [],
                 'isCompetitionCallProcessed': false,
                 'formValues': this.initialState(),
-                'deleteConfirmMsg': 'Are you sure you would like to unschedule the selected fixtures?',
+                'unscheduleFixture': 'Are you sure you would like to unschedule the selected fixtures?',
                 'matchId': null,
             };
         },
@@ -398,7 +397,7 @@
                     vm.tournamentStages = stages
                 });
             },
-          gameReset() {
+            gameReset() {
 
             // let vm =this
             //  vm.GameStatus = false
@@ -410,8 +409,8 @@
 
             //         $('.nav-tabs a[href="#game-list"]').tab('show');
             //   },500)
-          },
-          refereeReset() {
+            },
+            refereeReset() {
             // let vm =this
             //  vm.GameStatus = false
             //  vm.refereeStatus = false
@@ -421,106 +420,120 @@
             //         vm.GameStatus = true
             //         $('.nav-tabs a[href="#referee-list"]').tab('show');
             //     },500)
-          },
-          dispDate(date) {
-            var date1 = moment(date, 'DD/MM/YYYY')
-            return date1.format('ddd DD MMM YYYY')
-          },
-          openAutomaticPitchPlanningModal() {
-            $('#automatic_pitch_planning_modal').modal('show');
-          },
-          enlargePitchPlanner() {
-            this.$router.push({name: 'enlarge_pitch_planner'})
-          },
-          htmlEncodeDecode() {
-            (function(window){
-                window.htmlentities = {
-                    /**
-                     * Converts a string to its html characters completely.
-                     *
-                     * @param {String} str String with unescaped HTML characters
-                     **/
-                    encode : function(str) {
-                        var buf = [];
-                        
-                        for (var i=str.length-1;i>=0;i--) {
-                            buf.unshift(['&#', str[i].charCodeAt(), ';'].join(''));
+            },
+            dispDate(date) {
+                var date1 = moment(date, 'DD/MM/YYYY')
+                return date1.format('ddd DD MMM YYYY')
+            },
+            openAutomaticPitchPlanningModal() {
+                $('#automatic_pitch_planning_modal').modal('show');
+            },
+            enlargePitchPlanner() {
+                 this.$router.push({name: 'enlarge_pitch_planner'})
+            },
+            htmlEncodeDecode() {
+                (function(window){
+                    window.htmlentities = {
+                        /**
+                         * Converts a string to its html characters completely.
+                         *
+                         * @param {String} str String with unescaped HTML characters
+                         **/
+                        encode : function(str) {
+                            var buf = [];
+                            
+                            for (var i=str.length-1;i>=0;i--) {
+                                buf.unshift(['&#', str[i].charCodeAt(), ';'].join(''));
+                            }
+                            
+                            return buf.join('');
+                        },
+                        /**
+                         * Converts an html characterSet into its original character.
+                         *
+                         * @param {String} str htmlSet entities
+                         **/
+                        decode : function(str) {
+                            return str.replace(/&#(\d+);/g, function(match, dec) {
+                                return String.fromCharCode(dec);
+                            });
                         }
-                        
-                        return buf.join('');
-                    },
-                    /**
-                     * Converts an html characterSet into its original character.
-                     *
-                     * @param {String} str htmlSet entities
-                     **/
-                    decode : function(str) {
-                        return str.replace(/&#(\d+);/g, function(match, dec) {
-                            return String.fromCharCode(dec);
-                        });
-                    }
-                };
-            })(window);
-          },
-          printPitchPlanner() {
-            var pitchPlannerPrintWindow = window.open('', '_blank');
-            Tournament.getSignedUrlForPitchPlannerPrint(this.tournamentId).then(
-              (response) => {
-                pitchPlannerPrintWindow.location = response.data;
-              },
-              (error) => {
+                    };
+                })(window);
+             },
+            printPitchPlanner() {
+                var pitchPlannerPrintWindow = window.open('', '_blank');
+                Tournament.getSignedUrlForPitchPlannerPrint(this.tournamentId).then(
+                  (response) => {
+                    pitchPlannerPrintWindow.location = response.data;
+                  },
+                  (error) => {
 
-              }
-            );
-          },
-          exportPitchPlanner() {
-            Tournament.getSignedUrlForPitchPlannerExport(this.tournamentId).then(
-              (response) => {
-                window.location.href = response.data;
-              },
-              (error) => {
+                  }
+                );
+            },
 
-              }
-            );
-          },
-          unscheduleFixtures() {
-            var manageClass = false;
-            if($("#unschedule_fixtures").hasClass('btn-success')) {
-                $("#delete_modal").modal('show');
-            }
-            if($("#unschedule_fixtures").hasClass('btn-secondary')) {
-                $("#unschedule_fixtures").removeClass('btn-secondary');
-            } else {
-                 $("#unschedule_fixtures").addClass('btn-secondary');
-                 manageClass = true; 
-            }
-            $(".match-unschedule-checkbox").each(function( index ) {
-                if(manageClass) {
-                    $(this).addClass('d-none')                  
+            exportPitchPlanner() {
+                Tournament.getSignedUrlForPitchPlannerExport(this.tournamentId).then(
+                  (response) => {
+                    window.location.href = response.data;
+                  },
+                  (error) => {
+
+                  }
+                );
+            },
+            unscheduleFixtures() {
+                var manageClass = false;
+                if($("#unschedule_fixtures").hasClass('btn-success')) {
+                    $("#bulk_unscheduled_fixtures").modal('show');
+                }
+
+                if($("#unschedule_fixtures").hasClass('btn-secondary')) {
+                    $("#unschedule_fixtures").removeClass('btn-secondary');
                 } else {
-                    $(this).removeClass('d-none')   
+                     $("#unschedule_fixtures").addClass('btn-secondary');
+                     manageClass = true; 
                 }
-            }); 
-          },
-          cancleUnscheduleFixtures() {
-            $("#unschedule_fixtures").html('Unschedule fixture').removeClass('btn btn-success');
-            $("#unschedule_fixtures").addClass('btn btn-primary btn-md btn-secondary');
-            $(".match-unschedule-checkbox").addClass('d-none');
-            $("#cancle_unscheduling").hide();
-          },
+                
+                $(".match-unschedule-checkbox").each(function( index ) {
+                    if(manageClass) {
+                        $(this).addClass('d-none')                  
+                    } else {
+                        $(this).removeClass('d-none')   
+                    }
+                }); 
+            },
 
-          confirmUnschedulingFixtures() {
-            var fixturesCheckArray = [];
-            $(".match-unschedule-checkbox").each(function( index ) {
-                var checked = $(this).is(':checked');
-                if(checked) {
-                    fixturesCheckArray.push($(this).attr('id'));
-                }
-            }); 
-            // console.log(fixturesCheckArray);
-            Tournament.matchUnscheduledFixtures(fixturesCheckArray).then(
+            cancleUnscheduleFixtures() {
+                $("#unschedule_fixtures").html('Unschedule fixture').removeClass('btn btn-success');
+                $("#unschedule_fixtures").addClass('btn btn-primary btn-md btn-secondary');
+                $(".match-unschedule-checkbox").addClass('d-none');
+                $("#cancle_unscheduling_fixtures").hide();
+            },
+
+            confirmUnschedulingFixtures() {
+                var unscheduledFixturesCheckArray = [];
+                $(".match-unschedule-checkbox").each(function( index ) {
+                    var checkboxChecked = $(this).is(':checked');
+                    if(checkboxChecked) {
+                        unscheduledFixturesCheckArray.push($(this).attr('id'));
+                    }
+                });
+
+                Tournament.matchUnscheduledFixtures(unscheduledFixturesCheckArray).then(
                 (response) => {
-                  alert(fixturesCheckArray)
+                  $('#bulk_unscheduled_fixtures').modal('hide')
+                    setTimeout(function(){
+                        _.forEach(unscheduledFixturesCheckArray, function(value, key) {
+                            $('div.fc-unthemed').fullCalendar( 'removeEvents', [value] );
+                        });
+                    },200)
+                    toastr.success('Fixtures unscheduled successfully', 'Fixtures Unscheduled', {timeOut: 5000});
+                    $("#unschedule_fixtures").html('Unschedule fixture').removeClass('btn btn-success');
+                    $("#unschedule_fixtures").addClass('btn btn-primary btn-md btn-secondary');
+                    $(".match-unschedule-checkbox").addClass('d-none');
+                    $("#cancle_unscheduling_fixtures").hide();
                 })
             }
         }

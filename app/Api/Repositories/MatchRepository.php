@@ -1273,5 +1273,19 @@ class MatchRepository
 
     public function matchUnscheduledFixtures($matchId)
     {
+      $updateData = [
+        'is_scheduled' => 0,
+        'pitch_id' => 0,
+        'referee_id' => NULL,
+        'hometeam_score' => NULL,
+        'awayteam_score' => NULL,
+        'match_datetime' => NULL,
+        'match_endtime' => NULL,
+        'venue_id' => 0,
+
+      ];
+
+      $updateResult =  TempFixture::whereIn('id', $matchId)->update($updateData);
+       
     }
 }
