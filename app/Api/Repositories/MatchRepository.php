@@ -513,26 +513,9 @@ class MatchRepository
           $reportQuery = $reportQuery->orderBy('match_standing.manual_order','asc');
           $head_to_head = false;
           $check_head_to_head_with_key = '';
-          $sorting_after_head_to_head = '';
           foreach($rules as $key => $rule) {
 
             if($rule['checked'] == false || ( $rule['key'] != 'head_to_head' && $head_to_head == true)) {
-
-              if ( $rule['checked'] == true && ($rule['key'] != 'head_to_head' && $head_to_head == true ))
-              {
-                if($rule['key'] == 'goal_difference') {
-                  $sorting_after_head_to_head .= '|GoalDifference';
-                }
-                if($rule['key'] == 'goals_for') {
-                  $sorting_after_head_to_head .= '|goal_for';
-                }
-                if($rule['key'] == 'matches_won') {
-                  $sorting_after_head_to_head .= '|won';
-                }
-                if($rule['key'] == 'goal_ratio') {
-                  $sorting_after_head_to_head .= '|GoalRatio';
-                } 
-              }
               continue;
             }
 
@@ -575,11 +558,6 @@ class MatchRepository
           if ( !empty($check_head_to_head_with_key) )
           {
             $check_head_to_head_with_key = ltrim($check_head_to_head_with_key,'|');
-          }
-
-          if ( !empty($sorting_after_head_to_head) )
-          {
-            $sorting_after_head_to_head = ltrim($sorting_after_head_to_head,'|');
           }
 
           $reportQuery = $reportQuery->orderBy('match_standing.team_id','asc');
