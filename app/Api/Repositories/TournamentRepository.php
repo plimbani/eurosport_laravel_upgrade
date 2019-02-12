@@ -1005,4 +1005,47 @@ class TournamentRepository
                                         
         return ['data' => $competitionData, 'status' => 'Success', 'message' => 'Competition name has been updated.'];
     }
+
+    public function duplicateTournament($data)
+    {
+        $existingTournament = Tournament::findOrFail($data['copy_tournament_id']);
+        $existingTournamentAgeCategories = TournamentCompetationTemplates::where('tournament_id', $data['copy_tournament_id'])->get();
+        $existingTournamentCompetitions = Competition::where('tournament_id', $data['copy_tournament_id'])->get();
+        $existingTournamentFixtures = TempFixture::where('tournament_id', $data['copy_tournament_id'])->get();
+
+        // saving tournament
+        $newCopiedTournament = $existingTournament->replicate();
+        $newCopiedTournament->name = $data['tournament_name'];
+        $newCopiedTournament->slug = $this->generateSlug($data['tournament_name'] . Carbon::createFromFormat('d/m/Y', $existingTournament->start_date)->year);
+        $newCopiedTournament->save();
+
+        // saving tournament age categories        
+        if($existingTournamentAgeCategories) {
+            foreach ($existingTournamentAgeCategories as $ageCategory) {
+                $copiedAgeCategory = $ageCategory->replicate();
+                $copiedAgeCategory->tournament_id = $newCopiedTournament->id;
+                $copiedAgeCategory->save();
+            }
+        }
+
+        // saving tournament competitions
+        if($existingTournamentCompetitions) {
+            foreach ($existingTournamentCompetitions as $competition) {
+                $copiedCompetition = $competition->replicate();
+                $copiedCompetition->tournament_id = $newCopiedTournament->id;
+                $copiedCompetition->save();
+            }
+        }
+
+        // saving tournament fixtures
+        if($existingTournamentFixtures) {
+            foreach ($existingTournamentFixtures as $fixture) {
+                $copiedFixture = $fixture->replicate();
+                $copiedFixture->tournament_id = $newCopiedTournament->id;
+                $copiedFixture->save();
+            }
+        }
+
+        return ['data' => $newCopiedTournament, 'status' => 'Success', 'message' => 'Tournament has been copied successfully.'];
+    }
 }
