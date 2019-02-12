@@ -46,29 +46,45 @@ class AgeGroupRepository
       $cntGroups = count($group_data);
       $competationIds = array();
       foreach($group_data as $groups){
-       $competations['tournament_competation_template_id'] = $competation_data['tournament_competation_template_id'];
-       $competations['tournament_id'] = $competation_data['tournament_id'];
-       $comp_group = $groups['group_name'];
-       $actual_comp_group = $groups['actual_group_name'];
-       $competations['name'] = $age_group.'-'.$comp_group;
-       $competations['display_name'] = $age_group.'-'.$comp_group;
-       $competations['actual_name'] = $age_group.'-'.$actual_comp_group;
-       $competations['team_size'] = $groups['team_count'];
-       $matchType = explode('-',$groups['match_type']);
+        $competations['tournament_competation_template_id'] = $competation_data['tournament_competation_template_id'];
+        $competations['tournament_id'] = $competation_data['tournament_id'];
+        $comp_group = $groups['group_name'];
+        $actual_comp_group = $groups['actual_group_name'];
+        $competations['name'] = $age_group.'-'.$comp_group;
+        $competations['display_name'] = $age_group.'-'.$comp_group;
+        $competations['actual_name'] = $age_group.'-'.$actual_comp_group;
+        $competations['team_size'] = $groups['team_count'];
 
-       if($matchType[0] == 'PM') {
-        $competaon_type = 'Elimination';
-       } else {
-        $competaon_type = 'Round Robin';
-       }
+        $competitionData = Competition::where('tournament_id', $competation_data['tournament_id'])->orderBy('id','desc')->first();
+        $predefinedAgeCategoryColorsArray = config('config-variables.age_category_color');
+        $colorIndex = count($predefinedAgeCategoryColorsArray) - 1;
+                
+        if($competitionData && $competitionData->color_code) {
+          $previousCompetitionColor = $competitionData->color_code;
+          $previousCompetitionColorIndex = array_search($previousCompetitionColor, $predefinedAgeCategoryColorsArray);
+          $previousCompetitionColorIndex = $previousCompetitionColorIndex - 1;
+          if($previousCompetitionColorIndex >= 0) {
+            $colorIndex = $previousCompetitionColorIndex;
+          }
+        }
 
-       $actualName = explode('-', $groups['actual_name']);
-       
-       if($actualName[0] == 'PM') {
-         $actualCompetitionType = 'Elimination';
-       } else {
-         $actualCompetitionType = 'Round Robin';
-       }
+        $competations['color_code'] = $predefinedAgeCategoryColorsArray[$colorIndex];
+
+        $matchType = explode('-',$groups['match_type']);
+
+        if($matchType[0] == 'PM') {
+          $competaon_type = 'Elimination';
+        } else {
+          $competaon_type = 'Round Robin';
+        }
+
+        $actualName = explode('-', $groups['actual_name']);
+         
+        if($actualName[0] == 'PM') {
+          $actualCompetitionType = 'Elimination';
+        } else {
+          $actualCompetitionType = 'Round Robin';
+        }
 
         $competations['competation_type'] = $competaon_type;
         $competations['actual_competition_type'] = $actualCompetitionType;
@@ -83,7 +99,7 @@ class AgeGroupRepository
        $i++;
       }
 
-     return $competationIds;
+      return $competationIds;
     }
 
     public function createCompeationFormat($data){
@@ -95,8 +111,6 @@ class AgeGroupRepository
       $tournamentCompeationTemplate['total_match'] = $data['total_match'];
       $tournamentCompeationTemplate['category_age'] = $data['category_age'];
       $tournamentCompeationTemplate['pitch_size'] = $data['pitch_size'];
-      $tournamentCompeationTemplate['category_age_color'] = $data['category_age_color'];
-      $tournamentCompeationTemplate['category_age_font_color'] = $data['category_age_font_color'];
       $tournamentCompeationTemplate['disp_format_name'] =$data['disp_format_name'];
       $tournamentCompeationTemplate['total_time'] =$data['total_time'];
 
@@ -196,7 +210,6 @@ class AgeGroupRepository
       ->update([
         'match_number'=> DB::raw("REPLACE(match_number, '".$dbCatname."', '".$newCatName."')")
         ]);
-
     }
 
     /*
@@ -212,8 +225,9 @@ class AgeGroupRepository
                  leftjoin('tournament_template', 'tournament_template.id', '=',
                   'tournament_competation_template.tournament_template_id')
                  ->leftJoin('tournaments','tournaments.id','=','tournament_competation_template.tournament_id')
-                 ->select('tournament_competation_template.*','tournament_template.name as template_name',
-                   \DB::raw('CONCAT("'.$this->tournamentLogoUrl.'", tournaments.logo) AS tournamentLogo'))
+                 ->select('tournament_competation_template.*','tournament_template.name as template_name', 
+                   \DB::raw('CONCAT("'.$this->tournamentLogoUrl.'", tournaments.logo) AS tournamentLogo'),
+                   \DB::raw('CONCAT("'.getenv('S3_URL').'", tournament_template.graphic_image) AS graphic_image'))
                   ->where('tournament_id', $tournamentData['tournament_id']);
                   if(isset($tournamentData['cat_id']))
                   {
@@ -230,7 +244,8 @@ class AgeGroupRepository
                   'tournament_competation_template.tournament_template_id')
                  ->leftJoin('tournaments','tournaments.id','=','tournament_competation_template.tournament_id')
                  ->select('tournament_competation_template.*','tournament_template.name as template_name',
-                   \DB::raw('CONCAT("'.$this->tournamentLogoUrl.'", tournaments.logo) AS tournamentLogo'))
+                   \DB::raw('CONCAT("'.$this->tournamentLogoUrl.'", tournaments.logo) AS tournamentLogo'), 
+                   \DB::raw('CONCAT("'.getenv('S3_URL').'", tournament_template.graphic_image) AS graphic_image'))
                 ->where($fieldName, $value)->get();
         } else {
           return TournamentCompetationTemplates::
@@ -241,6 +256,7 @@ class AgeGroupRepository
         }
       }
     }
+
     /*
       This Function will Fetch Data For tournament_competation_table
       We pass tournamentId
@@ -281,8 +297,6 @@ class AgeGroupRepository
     public function addFixturesIntoTemp($fixtureArray,$competationArr,$fixtureMatchDetailArray, $categoryAge)
     {
       foreach($fixtureArray as $key=>$fixture) {
-        // echo '1'."<br>";
-
           $groupArr = explode('|',$key);
           $groupName = $groupArr[1];
           foreach($competationArr as $group) {
@@ -362,4 +376,12 @@ class AgeGroupRepository
 
       return $positionData;
     }
+
+    public function viewTemplateGraphicImage($data)
+    {
+      $viewGraphicImageData = TournamentCompetationTemplates::where('id', $data['age_category'])->with('TournamentTemplate')->first();
+
+      return $viewGraphicImageData->TournamentTemplate->graphic_image ? getenv('S3_URL').$viewGraphicImageData->TournamentTemplate->graphic_image : null;
+    }
+
 }

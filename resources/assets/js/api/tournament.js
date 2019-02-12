@@ -7,6 +7,10 @@ export default {
   getAllVenues(tournamentId) {
    return api.get('venues/getAll/'+tournamentId)
   },
+  getAllTeams(tournamentData) {
+   return api.post('teams/getAllTournamentTeams', {'tournamentData': tournamentData})
+  },
+  
   saveTournament(tournamentData) {
   	return api.post('tournament/create', {'tournamentData': tournamentData})
   },
@@ -258,4 +262,7 @@ export default {
   updateCompetitionDisplayName(data) {
     return api.post('tournament/updateCompetitionDisplayName', data);
   },
+  copyAgeCategory(ageCategoryData) {
+    return api.post('age_group/copyAgeCategory', {'ageCategoryData': ageCategoryData})
+  }
 }

@@ -93,6 +93,10 @@ $api->version('v1', function ($api) {
 
     $api->post('tournament/updateCompetitionDisplayName', 'Laraspace\Api\Controllers\TournamentController@updateCompetitionDisplayName');
 
+    $api->get('getCountries', 'Laraspace\Api\Controllers\UserController@getAllCountries');
+
+    $api->get('getAllLanguages', 'Laraspace\Api\Controllers\UserController@getAllLanguages');
+
 });
 
 $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
@@ -215,6 +219,7 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
         'Laraspace\Api\Controllers\TournamentController@getTournamentClub');
 
     $api->post('teams/getTeamsList','Laraspace\Api\Controllers\TeamController@getTeamsList');
+    $api->post('teams/getAllTournamentTeams', 'Laraspace\Api\Controllers\TeamController@getAllTournamentTeams');
 
     $api->post('users/postSetting','Laraspace\Api\Controllers\UserController@postSetting');
     $api->post('users/getSetting','Laraspace\Api\Controllers\UserController@getSetting');
@@ -256,15 +261,16 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
     $api->post('getSignedUrlForRefereeSampleDownload', 'Laraspace\Api\Controllers\RefereeController@getSignedUrlForRefereeSampleDownload');
     $api->post('getSignedUrlForTeamsSpreadsheetSampleDownload', 'Laraspace\Api\Controllers\MatchController@getSignedUrlForTeamsSpreadsheetSampleDownload');
 
-
     $api->post('getTemplates', 'Laraspace\Api\Controllers\TemplateController@getTemplates');
     $api->post('getTemplateDetail', 'Laraspace\Api\Controllers\TemplateController@getTemplateDetail');
     $api->get('templates/getUsersForFilter', 'Laraspace\Api\Controllers\TemplateController@getUsersForFilter');
     $api->post('template/delete/{id}', 'Laraspace\Api\Controllers\TemplateController@deleteTemplate');
     $api->get('template/edit/{id}', 'Laraspace\Api\Controllers\TemplateController@editTemplate');
-
     $api->post('saveTemplateDetail', 'Laraspace\Api\Controllers\TemplateController@saveTemplateDetail');
     $api->post('updateTemplateDetail', 'Laraspace\Api\Controllers\TemplateController@updateTemplateDetail');
+    
+    $api->post('age_group/copyAgeCategory','Laraspace\Api\Controllers\AgeGroupController@copyAgeCategory');
+    $api->post('viewGraphicImage','Laraspace\Api\Controllers\AgeGroupController@viewTemplateGraphicImage');
 });
 
 // Websites CMS routes

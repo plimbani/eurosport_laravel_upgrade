@@ -83,6 +83,8 @@ import WebsiteDropDown from '../../../components/WebsiteDropDown.vue'
 import TournamentDropDown from '../../../components/TournamentDropDown.vue'
 import AddTournamentDetailsModal  from  '../../../components/AddTournamentDetailsModal.vue'
 import Ls from '../../../services/ls'
+import Tournament from '../../../api/tournament.js'
+
 export default {
   components : {
     WebsiteDropDown,
@@ -113,6 +115,11 @@ computed: {
 
       this.$store.dispatch('SetTournamentName', tournamentAdd)
       this.$router.push({name: 'tournament_add'})
+      
+      this.$store.dispatch('setCompetationList','');
+      this.$store.dispatch('SetTeams','');
+      this.$store.dispatch('SetPitches','');
+      this.$store.dispatch('setMatches','');
     },
     userList() {
       let currentNavigationData = {activeTab:'tournament_add', currentPage:

@@ -22,9 +22,9 @@
 							<select class="form-control ls-select2"
 								v-on:change="onChangeAllMatchScore"
 								v-model="matchScoreFilter">
-								<option value="all">All matches</option>
-								<option value="played">Played</option>
-								<option value="to_be_played">To be played</option>
+								<option value="all">Show all matches</option>
+								<option value="to_be_played">Show to be played</option>
+								<option value="played">Show played</option>
 							</select>
 						</div>
 					</div>

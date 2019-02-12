@@ -44,7 +44,7 @@ class TournamentRepository
                 select('tournaments.*',
                 \DB::raw('IF(tournaments.logo is not null,CONCAT("' . $this->tournamentLogo . '", tournaments.logo),"" ) as tournamentLogo'));
         } else {
-            $data = Tournament::where('status', '=', 'Published')
+            $data = Tournament::whereIn('tournaments.status', array('Published','Preview'))
                 ->select('tournaments.*',
                     \DB::raw('IF(tournaments.logo is not null,CONCAT("' . $this->tournamentLogo . '", tournaments.logo),"" ) as tournamentLogo'));
 
@@ -72,7 +72,7 @@ class TournamentRepository
                 \DB::raw('IF(tournaments.logo is not null,CONCAT("' . $this->tournamentLogo . '", tournaments.logo),"" ) as tournamentLogo'))
                 ->get();
         } else {
-            $data = Tournament::where('status', '=', 'Published')
+            $data = Tournament::whereIn('tournaments.status', array('Published','Preview'))
                 ->select('tournaments.*',
                     \DB::raw('IF(tournaments.logo is not null,CONCAT("' . $this->tournamentLogo . '", tournaments.logo),"" ) as tournamentLogo')
                 )
@@ -93,6 +93,8 @@ class TournamentRepository
         $tournamentTemplate                  = TournamentTemplates::find($tournamentTemplateId);
         $tournamentTemplateData['json_data'] = $tournamentTemplate->json_data;
         $tournamentTemplateData['image']     = $tournamentTemplate->image;
+        $tournamentTemplateData['graphic_image']     = $tournamentTemplate->graphic_image ? getenv('S3_URL').$tournamentTemplate->graphic_image : null;
+
         return $tournamentTemplateData;
     }
     public function getAllTemplates($data = array())
@@ -574,7 +576,8 @@ class TournamentRepository
         //$url = getenv('S3_URL').'/assets/img/tournament_logo/';
         // Now here we attach the tournament Start Date Seperately for check the first started match
         $userData = UserFavourites::where('users_favourite.user_id', '=', $data['user_id'])
-            ->where('tournaments.status', '=', 'Published')
+            ->whereIn('tournaments.status', array('Published','Preview'))
+            //->where('tournaments.status', '=', 'Published')
             ->where('tournaments.deleted_at', '=', NULL)
             ->leftJoin('tournaments', 'tournaments.id', '=', 'users_favourite.tournament_id')
             ->leftJoin('tournament_contact', 'tournaments.id', '=', 'tournament_contact.tournament_id')

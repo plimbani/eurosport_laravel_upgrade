@@ -23,8 +23,8 @@
                     {{referee.last_name}}, {{referee.first_name}}
                 </div>
                 <div>
-                    <a href="#" @click="generateRefereeReport()" title="Referee report card" class="text-primary" style="font-size:1.1em"><i class="fa fa-print"></i></a>&nbsp;&nbsp;
-                    <a href="#" @click="editReferee()" title="Edit referee" class="text-primary mr-2"><i class="jv-icon jv-edit"></i></a>     
+                    <a href="#" @click="generateRefereeReport()" title="Referee report card" class="text-primary" style="font-size:1.1em"><i class="fas fa-print"></i></a>&nbsp;&nbsp;
+                    <a href="#" @click="editReferee()" title="Edit referee" class="text-primary mr-2"><i class="fas fa-pencil"></i></a>     
                 </div>
             </div>  
         </div> 

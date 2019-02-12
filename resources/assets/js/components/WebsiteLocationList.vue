@@ -11,14 +11,14 @@
 			  			<div class="draggable--section-card-header-icons">
 					        <a class="text-primary" href="javascript:void(0)"
 					        	@click="deleteLocation(index)">
-					        	<i class="jv-icon jv-dustbin"></i>
+					        	<i class="fas fa-trash"></i>
 					        </a>
 					        <a class="text-primary" href="javascript:void(0)"
 					        	@click="editLocation(location, index)">
-					        	<i class="jv-icon jv-edit"></i>
+					        	<i class="fas fa-pencil"></i>
 					        </a>
 					        <a class="text-primary location-handle draggable-handle" href="javascript:void(0)">
-					        	<i class="fa fa-bars"></i>
+					        	<i class="fas fa-bars"></i>
 					        </a>
 					    </div>
 		  			</div>
