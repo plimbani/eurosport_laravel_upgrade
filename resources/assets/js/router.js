@@ -63,6 +63,9 @@ import PitchPlanner from './views/admin/eurosport/PitchPlanner.vue'
 // UserManagement Layout
 import LayoutUserManagement from './views/layouts/LayoutUserManagement.vue'
 
+// Duplicate Tournament Layout
+import LayoutDuplicateTournament from './views/layouts/LayoutDuplicateTournament.vue'
+
 //User Pages
 import UserList from './views/admin/users/List.vue'
 
@@ -202,6 +205,13 @@ const routes = [
         component: LayoutUserManagement,
         meta: { requiresAuth: true },
         name: 'users_list'
+    },
+
+    {
+        path: '/tournaments',
+        component: LayoutDuplicateTournament,
+        meta: { requiresAuth: true },
+        name: 'copy_duplicate_tournament'
     },
 
     // Web site routes

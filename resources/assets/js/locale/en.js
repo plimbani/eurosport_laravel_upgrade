@@ -17,6 +17,7 @@ module.exports= {
   welcome_add_button_tournament_details: 'Add tournament details only',
   welcome_manage_websites: "Manage Websites",
   welcome_create_website: 'Create website',
+  welcome_create_duplicate_tournament: 'Duplicate tournament',
 
   siteheader_name: "Chris",
   siteheader_settings: "Settings",
@@ -56,6 +57,14 @@ module.exports= {
   user_desktop_status: "Status",
   user_desktop: "Desktop",
   user_mobile: "Mobile",
+
+  duplicate_tournament: "Tournaments",
+  duplicate_tournamet_tournament_name: "Tournament name",
+  duplicate_tournamet_tournament_start_date: "Tournament start date", 
+  duplicate_tournamet_tournament_end_date: "Tournament end date",
+  duplicate_tournamet_maximum_teams: "Maximum teams",
+  duplicate_tournamet_action: "Action",
+
 
   user_management_add_new_user: "Add new user",
   // user_management_edit_user: "Edit User",
