@@ -53,12 +53,12 @@
             </div>
             <div class="block-bg age-category mb-4">
               <div class="d-flex flex-row flex-wrap justify-content-center" v-if="grpsView.length != 0">
-                <div class="col-sm-3 my-2"  v-for="(group, index) in grpsView">
+                <div class="col-sm-3 my-2" v-for="(group, index) in grpsView">
                   <div class="m_card hoverable h-100 m-0">
                     <div class="card-content">
                        <span class="card-title text-primary"><strong>
                        {{ getGroupName(group) }}</strong></span>
-                       <div v-for="n in group['group_count']" ondrop="javascript:void(0)" @ondragover="allowDrop($event)">
+                       <div :id="'group_' + index + '_' + pindex" v-for="(n, pindex) in group['group_count']" @drop="onTeamDrop($event)" @dragover="allowDrop($event)">
                          {{ getGroupPlaceHolderName(group, n).fullName }}
                        </div>
                         <p class="text-primary left" v-for="n in group['group_count']"><strong><span :class="groupFlag(group,n)" ></span>
@@ -98,7 +98,7 @@
                           <td width="150px">{{team.esr_reference}}</td>
                           <td class="team-edit-section">
                             <div class="custom-d-flex align-items-center justify-content-between" v-show="!(team.id in teamsInEdit)">
-                              <span draggable="true">{{team.name}}</span>
+                              <span draggable="true" :data-select-id="'sel_' + team.id" :id="'team_' + index" @dragstart="onTeamDrag($event)">{{team.name}}</span>
                               <span class="pull-right"><a href="javascript:void(0);" v-on:click="editTeamName($event, team.id, team.name)"><i class="fas fa-pencil" aria-hidden="true"></i></a></span>
                             </div>
                             <div v-show="(team.id in teamsInEdit)">
@@ -739,6 +739,17 @@
       allowDrop(ev) {
         ev.preventDefault();
       },
+      onTeamDrop(ev) {
+        ev.preventDefault();
+        var id = ev.dataTransfer.getData("id");
+        $('#' + ev.target.id).html($('#' + id).html());
+        $('#' + id).prop('draggable', false);
+        $('#' + id).unbind('draggable');
+        $('#' + ev.target.id).$off('drop', 'dragover');
+      },
+      onTeamDrag(ev) {
+        ev.dataTransfer.setData("id", ev.target.id);
+      }
     }
   }
 </script>
