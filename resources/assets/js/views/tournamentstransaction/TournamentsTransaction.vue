@@ -38,13 +38,13 @@
                                 </thead>
                                 <tbody>
                                   <tr class="" v-for="transction in tournamentsTransactions">
+                                        <td>{{transction.order_id}}</td>
+                                        <td>{{transction.transaction_id}}</td>
+                                        <td>{{transction.team_size}}</td>
                                         <td>TBA</td>
                                         <td>TBA</td>
-                                        <td>TBA</td>
-                                        <td>TBA</td>
-                                        <td>TBA</td>
-                                        <td>TBA</td>
-                                        <td>TBA</td>
+                                        <td>{{transction.transaction_id}}</td>
+                                        <td>{{transction.currency}}</td>
                                         <td>TBA</td>
                                    <!--  <td>{{ transction.name }}</td>
                                     <td>{{ transction.start_date }}</td>
@@ -104,7 +104,7 @@
                 // console.log("params::",params)
                 axios.post(Constant.apiBaseUrl+'customer-transactions',params).then(response =>  { 
                     // this.disabled = false;
-                     console.log("response: transactions:",response.data.data);
+                     // console.log("response: transactions:",response.data.data);
                      this.tournamentsTransactions = response.data.data;
                 }).catch(error => {
                     this.disabled = false;

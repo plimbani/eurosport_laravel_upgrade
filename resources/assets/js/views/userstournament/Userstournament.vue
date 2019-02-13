@@ -127,7 +127,7 @@
             } 
         },
         beforeMount(){  
-            console.log("userstourmanent");
+            // console.log("userstourmanent");
             // this.getTournamentListOfUser();
         }
     }
