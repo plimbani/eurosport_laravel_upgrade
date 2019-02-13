@@ -392,7 +392,13 @@ class MatchRepository
           if(isset($tournamentData['filterKey']) && $tournamentData['filterKey'] !='') {
             switch($tournamentData['filterKey']) {
               case 'location':
-                $reportQuery =  $reportQuery->where('temp_fixtures.venue_id','=',$tournamentData['filterValue']);
+                // $reportQuery =  $reportQuery->where('temp_fixtures.venue_id','=',$tournamentData['filterValue']);
+                $reportQuery = $reportQuery->where(function ($query) use($tournamentData)
+                   {
+                     $query->where('temp_fixtures.venue_id',$tournamentData['filterValue'])
+                           ->orWhere('temp_fixtures.is_scheduled', 0);
+                   }
+                 );
                 break;
               case 'age_category':
                 $reportQuery =  $reportQuery->where('tournament_competation_template.id','=',$tournamentData['filterValue']);

@@ -12,7 +12,7 @@
                 <div class="input-group">
                     <input type="text" class="form-control" placeholder="Enter the name of your tournament" v-model="tournament.name" name="tournament_name"  v-validate="'required'" v-if="userRole == 'Tournament administrator'" readonly="readonly" :class="{'is-danger': errors.has('tournament_name') }">
                     <input type="text" class="form-control" placeholder="Enter the name of your tournament" v-model="tournament.name" name="tournament_name" v-else  v-validate="'required'" :class="{'is-danger': errors.has('tournament_name') }">
-                    <i v-show="errors.has('tournament_name')" class="fa fa-warning"></i>
+                    <i v-show="errors.has('tournament_name')" class="fas fa-warning"></i>
                 </div>
                 <span class="help is-danger" v-show="errors.has('tournament_name')">Tournament name required</span>
             </div>
@@ -23,7 +23,7 @@
               <div class="input-group">
                  <input type="number" class="form-control" v-model="tournament.maximum_teams" name="maximum_teams" v-validate="'required'" v-if="userRole == 'Tournament administrator'"  readonly="readonly" :class="{'is-danger': errors.has('maximum_teams') }">
                  <input type="number" class="form-control" v-model="tournament.maximum_teams" name="maximum_teams" v-validate="'required'" v-else   :class="{'is-danger': errors.has('maximum_teams') }">
-                 <i v-show="errors.has('tournament_name')" class="fa fa-warning"></i>
+                 <i v-show="errors.has('tournament_name')" class="fas fa-warning"></i>
               </div>
              <span class="help is-danger" v-show="errors.has('maximum_teams')">Maximum teams required</span>
             </div>
@@ -35,7 +35,7 @@
               <label for="tournament_end_date">{{$lang. tournament_start_date}}*</label>
               <div class="input-group">
                   <span class="input-group-addon">
-                      <i class="jv-icon jv-calendar"></i>
+                      <i class="fas fa-calendar"></i>
                   </span>
                   <input type="text" class="form-control ls-datepicker" v-if="userRole == 'Tournament administrator'"  disabled="disabled" id="tournament_start_date">
                   <input type="text" class="form-control ls-datepicker" v-else id="tournament_start_date">
@@ -47,7 +47,7 @@
               <label for="tournament_end_date">{{$lang. tournament_end_date}}*</label>
               <div class="input-group">
                   <span class="input-group-addon">
-                      <i class="jv-icon jv-calendar"></i>
+                      <i class="fas fa-calendar"></i>
                   </span>
                   <input type="text" class="form-control ls-datepicker" v-if="((tournamentId != 0 ) || userRole == 'Tournament administrator')"  disabled="disabled" id="tournament_end_date">
                   <input type="text" class="form-control ls-datepicker" v-else id="tournament_end_date">
@@ -58,7 +58,7 @@
         <div class="card">
           <div class="card-block p-3" role="tab" id="headingOne">
               <a data-toggle="collapse" data-parent="#headingOne" href="#collapseOne" aria-controls="collapseOne" class="panel-title">
-                  <i id="opt_icon"  class="fa fa-plus"></i> {{$lang.tournament_show_optional_details}}
+                  <i id="opt_icon"  class="fas fa-plus"></i> {{$lang.tournament_show_optional_details}}
               </a>
           </div>
           <div id="collapseOne" class="collapse" role="tabpanel" aria-labelledby="headingOne">
@@ -114,7 +114,7 @@
             v-model="tournament.tournament_contact_first_name"
             v-validate="'required'" :class="{'is-danger': errors.has('tournament_contact_first_name') }"
             >
-            <i v-show="errors.has('tournament_contact_first_name')" class="fa fa-warning"></i>
+            <i v-show="errors.has('tournament_contact_first_name')" class="fas fa-warning"></i>
             <span class="help is-danger" v-show="errors.has('tournament_contact_first_name')">{{$lang.tournament_validation_first_name}}</span>
           </div>
         </div>
@@ -125,7 +125,7 @@
               v-validate="'required'" :class="{'is-danger': errors.has('tournament_contact_last_name') }"
               v-model="tournament.tournament_contact_last_name"
               >
-              <i v-show="errors.has('tournament_contact_first_name')" class="fa fa-warning"></i>
+              <i v-show="errors.has('tournament_contact_first_name')" class="fas fa-warning"></i>
               <span class="help is-danger" v-show="errors.has('tournament_contact_first_name')">{{$lang.tournament_validation_last_name}}</span>
           </div>
         </div>
@@ -148,7 +148,7 @@
               :name="'tournament_validation_venue'+index"
                v-model="location.tournament_venue_name" v-validate="'required'"
                :class="{'is-danger':errors.has('tournament_validation_venue'+index) }">
-               <i v-show="errors.has('tournament_validation_venue'+index)" class="fa fa-warning">
+               <i v-show="errors.has('tournament_validation_venue'+index)" class="fas fa-warning">
                </i>
                <span class="help is-danger"
                v-show="errors.has('tournament_validation_venue'+index)">{{$lang.tournamemt_validation_venue}}
@@ -162,7 +162,7 @@
                 v-model="location.touranment_venue_address"
                 v-validate="'required'" :class="{'is-danger': errors.has('touranment_venue_address'+index) }"
                 >
-                <i v-show="errors.has('touranment_venue_address'+index)" class="fa fa-warning"></i>
+                <i v-show="errors.has('touranment_venue_address'+index)" class="fas fa-warning"></i>
                 <span class="help is-danger" v-show="errors.has('touranment_venue_address'+index)">{{$lang.tournament_validation_venue_address}}</span>
             </div>
           </div>
@@ -173,7 +173,7 @@
               v-model="location.tournament_venue_city"
               v-validate="'required'" :class="{'is-danger': errors.has('tournament_venue_city'+index) }"
               placeholder="">
-              <i v-show="errors.has('tournament_venue_city'+index)" class="fa fa-warning"></i>
+              <i v-show="errors.has('tournament_venue_city'+index)" class="fas fa-warning"></i>
               <span class="help is-danger" v-show="errors.has('tournament_venue_city'+index)">{{$lang.tournament_validation_venue_city}}</span>
             </div>
           </div>
@@ -184,7 +184,7 @@
               v-model="location.tournament_venue_postcode"
               v-validate="'required'" :class="{'is-danger': errors.has('tournament_venue_postcode'+index) }"
               placeholder="">
-              <i v-show="errors.has('tournament_venue_postcode'+index)" class="fa fa-warning"></i>
+              <i v-show="errors.has('tournament_venue_postcode'+index)" class="fas fa-warning"></i>
               <span class="help is-danger" v-show="errors.has('tournament_venue_postcode'+index)">{{$lang.tournament_validation_postcode}}</span>
             </div>
           </div>
@@ -195,7 +195,7 @@
               v-model="location.tournament_venue_state"
               v-validate="'required'" :class="{'is-danger': errors.has('tournament_venue_state'+index) }"
               placeholder="">
-              <i v-show="errors.has('tournament_venue_state'+index)" class="fa fa-warning"></i>
+              <i v-show="errors.has('tournament_venue_state'+index)" class="fas fa-warning"></i>
               <span class="help is-danger" v-show="errors.has('tournament_venue_state'+index)">{{$lang.tournament_validation_state}}</span>
             </div>
           </div> -->
@@ -261,7 +261,7 @@
                   <option value="Wales">Wales</option>
                   <option value="United Kingdom">United Kingdom</option>
                 </select>
-                <i v-show="errors.has('tournament_venue_country'+index)" class="fa fa-warning"></i>
+                <i v-show="errors.has('tournament_venue_country'+index)" class="fas fa-warning"></i>
                 <span class="help is-danger" v-show="errors.has('tournament_venue_country'+index)">{{$lang.tournament_validation_country}}</span>
               </div>
             </div>
@@ -280,7 +280,7 @@
           </div>
          <div class="row">
           <div class="col-sm-3">
-            <button class="btn btn-success w-75" @click.prevent="addLocationClick"><small><i class="jv-icon jv-plus"></i></small>&nbsp;{{$lang.tournament_location_button}}</button>
+            <button class="btn btn-success w-75" @click.prevent="addLocationClick"><small><i class="fas fa-plus"></i></small>&nbsp;{{$lang.tournament_location_button}}</button>
           </div>
         </div>
       </form>
@@ -290,10 +290,10 @@
   <div class="row">
     <div class="col-md-12">
       <div class="pull-left">
-          <button class="btn btn-primary" @click="backward()"><i class="fa fa-angle-double-left" aria-hidden="true"></i>{{$lang.tournament_button_home}}</button>
+          <button class="btn btn-primary" @click="backward()"><i class="fas fa-angle-double-left" aria-hidden="true"></i>{{$lang.tournament_button_home}}</button>
       </div>
       <div class="pull-right">
-          <button class="btn btn-primary" @click="next()">{{$lang.tournament_button_next}}&nbsp;&nbsp;&nbsp;<i class="fa fa-angle-double-right" aria-hidden="true"></i></button>
+          <button class="btn btn-primary" @click="next()">{{$lang.tournament_button_next}}&nbsp;&nbsp;&nbsp;<i class="fas fa-angle-double-right" aria-hidden="true"></i></button>
       </div>
     </div>
   </div>
@@ -550,9 +550,9 @@ this.$validator.validateAll().then(
 )
 },
 redirectCompetation() {
-let currentNavigationData = {activeTab:'competition_format', currentPage: 'Competition Format'}
-this.$store.dispatch('setActiveTab', currentNavigationData)
-this.$router.push({name:'competation_format'})
+  let currentNavigationData = {activeTab:'competition_format', currentPage: 'Competition Format'}
+  this.$store.dispatch('setActiveTab', currentNavigationData)
+  this.$router.push({name:'competition_format'})
 },
 backward() {
 this.$router.push({name:'welcome'})

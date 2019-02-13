@@ -91,6 +91,9 @@ import _ from 'lodash'
                 })
             });
 
+            var timeGridContainerHeight = $('.fc-time-grid-container').height();
+            $('.fc-time-grid-container').css('height', timeGridContainerHeight);
+
             let cal = this.$el;
             let vm = this
             vm.initComponent()
@@ -569,7 +572,7 @@ import _ from 'lodash'
                                     'fixtureStripColor': fixtureStripColor,
                                     'homeScore': match.homeScore,
                                     'awayScore': match.AwayScore,
-                                    'displayFlag': match.min_interval_flag == 1 ? 'block' : '',
+                                    'displayFlag': match.min_interval_flag == 1 ? 'flex' : '',
                                     'homeTeam': match.Home_id,
                                     'awayTeam': match.Away_id,
                                     'matchStatus': match.match_status,

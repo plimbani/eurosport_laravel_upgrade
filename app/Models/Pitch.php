@@ -20,4 +20,9 @@ class Pitch extends Model
     {
          return $this->hasMany('Laraspace\Models\PitchAvailable');
     }
+
+    public function venue()
+    {
+         return $this->belongsTo('Laraspace\Models\Venue', 'venue_id');
+    }
 }

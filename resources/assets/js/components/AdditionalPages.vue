@@ -15,14 +15,14 @@
 				  			<div class="draggable--section-card-header-icons">
 										<a v-if="isAdmin" class="text-primary" href="javascript:void(0)"
 						        	@click="deletePage(index)">
-						        	<i class="jv-icon jv-dustbin"></i>
+						        	<i class="fas fa-trash"></i>
 						        </a>
 						        <a class="text-primary" href="javascript:void(0)"
 						        	@click="editPage(page, index)">
-						        	<i class="jv-icon jv-edit"></i>
+						        	<i class="fas fa-pencil"></i>
 						        </a>
 						        <a v-if="isAdmin" class="text-primary additional-page-handle draggable-handle" href="javascript:void(0)">
-						        	<i class="fa fa-bars"></i>
+						        	<i class="fas fa-bars"></i>
 						        </a>
 				  			</div>
 							</div>
@@ -37,7 +37,7 @@
 		  	<label class="col-sm-12 pt-0 form-control-label">{{$lang.page_title}}*</label>
 		  	<div class="col-sm-12">
 		  		<input type="text" class="form-control" v-model="additional_page.title" name="additional_page_title" data-vv-as="page title" v-validate="'required'" :class="{'is-danger': errors.has('tournament_name') }">
-					<i v-show="errors.has('additional_page_title')" class="fa fa-warning"></i>
+					<i v-show="errors.has('additional_page_title')" class="fas fa-warning"></i>
 					<span class="help is-danger" v-show="errors.has('additional_page_title')">{{ errors.first('additional_page_title') }}</span>
 		  	</div>
 	  	</div>

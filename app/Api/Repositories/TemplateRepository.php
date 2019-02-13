@@ -339,24 +339,20 @@ class TemplateRepository
                                         }
 
                                         if($roundDataTeam1 && $roundDataTeam2) {
-                                            $currentRoundGroupCount = count(array_filter($roundDataTeam1, function($o, $index) { return ($o['type'] === 'round_robin' && $index < intval($divisionRoundGroupPositionTeam1[2])); }));
-                                            $groupName1 = chr(65 + $roundData['start_round_group_count'] + $currentRoundGroupCount);
-
-                                            $currentRoundGroupCount = count(array_filter($roundDataTeam2, function($o, $index) { return ($o['type'] === 'round_robin' && $index < intval($divisionRoundGroupPositionTeam2[2])); }));
-                                            $groupName2 = chr(65 + $roundData['start_round_group_count'] + $currentRoundGroupCount);
-
-                                            $inBetween = intval($divisionRoundGroupPositionTeam1[3] + 1) . $groupName1 + '-' + intval($divisionRoundGroupPositionTeam2[3] + 1) . $groupName2;
+                                            $groupName1 = this.getRoundRobinGroupName($roundDataTeam1, parseInt($divisionRoundGroupPositionTeam1[2]));
+                                            $groupName2 = this.getRoundRobinGroupName($roundDataTeam2, parseInt($divisionRoundGroupPositionTeam2[2]));
+                                            $inBetween = parseInt($divisionRoundGroupPositionTeam1[3] + 1) + $groupName1 + '-' + parseInt($divisionRoundGroupPositionTeam2[3] + 1) + $groupName2;
                                         }
                                     }
                                 // }
-                                $matchCount++;
-                                array_push($matches, [
-                                    'in_between' => $inBetween,
-                                    'match_number' => $matchNumber,
-                                    'display_match_number' => $displayMatchNumber,
-                                    'display_home_team_placeholder_name' => $displayHomeTeamPlaceholderName,
-                                    'display_away_team_placeholder_name' => $displayAwayTeamPlaceholderName,
-                                ]);
+                                // matchCount++;
+                                // vm.groupData.matches.push({
+                                //     in_between: inBetween,
+                                //     match_number: matchNumber,
+                                //     display_match_number: displayMatchNumber,
+                                //     display_home_team_placeholder_name: displayHomeTeamPlaceholderName,
+                                //     display_away_team_placeholder_name: displayAwayTeamPlaceholderName,
+                                // });
                             }
                         }
                     }

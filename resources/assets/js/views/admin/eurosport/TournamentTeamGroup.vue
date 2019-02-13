@@ -5,7 +5,8 @@
       		<h6><strong>{{$lang.teams_terms_groups}}</strong></h6>
             <div class="row">
               <div class="col-sm-12 mb-2">
-                Spreadsheet <a href="javascript:void(0)" @click="downloadTeamsSpreadsheetSample()" class="text-primary"><u>click here</u></a>
+                Team list spreadsheet <a href="javascript:void(0)" @click="downloadTeamsSpreadsheetSample()" class="text-primary"><u>click here</u>.</a>  View
+                <a href="javascript:void(0)" @click="previewSpredsheetSample()" class="text-primary"><u> example</u>.</a>
               </div>
             </div>
             <div class="form-group row">
@@ -44,7 +45,7 @@
                       </select>
                     </div>
                   </div>
-                  <div class="col-sm-3" v-show="this.age_category != ''" v-if="this.role_slug == 'Super.administrator'">
+                  <div class="col-sm-3" v-show="this.age_category != ''" v-if="this.role_slug != 'mobile.user'">
                     <button type="button" data-toggle="modal" data-target="#reset_modal" class="btn btn-primary w-100">Delete teams</button>
                   </div>
                 </div>
@@ -95,13 +96,13 @@
                           <td class="team-edit-section">
                             <div class="custom-d-flex align-items-center justify-content-between" v-show="!(team.id in teamsInEdit)">
                               <span>{{team.name}}</span>
-                              <span class="pull-right"><a href="javascript:void(0);" v-on:click="editTeamName($event, team.id, team.name)"><i class="fa fa-pencil" aria-hidden="true"></i></a></span>
+                              <span class="pull-right"><a href="javascript:void(0);" v-on:click="editTeamName($event, team.id, team.name)"><i class="fas fa-pencil" aria-hidden="true"></i></a></span>
                             </div>
                             <div v-show="(team.id in teamsInEdit)">
                               <div class="btn-group btn-group-sm w-100" role="group">
                                 <input type="text" class="form-control" v-model="team.name" />
-                                <a href="javascript:void(0);" v-on:click="cancelTeamNameChange(team.id)" class="btn btn-secondary d-inline-flex align-items-center"><i class="fa fa-times text-center text-danger" aria-hidden="true"></i></a>
-                                <a href="javascript:void(0);" v-on:click="saveTeamNameChanges($event, team.id, team.name)" class="btn btn-secondary d-inline-flex align-items-center"><i class="fa fa-check text-center text-primary" aria-hidden="true"></i></a>
+                                <a href="javascript:void(0);" v-on:click="cancelTeamNameChange(team.id)" class="btn btn-secondary d-inline-flex align-items-center"><i class="fas fa-times text-center text-danger" aria-hidden="true"></i></a>
+                                <a href="javascript:void(0);" v-on:click="saveTeamNameChanges($event, team.id, team.name)" class="btn btn-secondary d-inline-flex align-items-center"><i class="fas fa-check text-center text-primary" aria-hidden="true"></i></a>
                               </div>
                             </div>
                           </td>
@@ -120,7 +121,7 @@
                           <td class="text-center">
                             <a class="text-primary" href="javascript:void(0)"
                              @click="editTeam(team.id)">
-                              <i class="jv-icon jv-edit"></i>
+                              <i class="fas fa-pencil"></i>
                             </a>
                           </td>
                         </tr>
@@ -138,30 +139,44 @@
     			</div>
   		</div>
   	</div>
-     <team-modal v-if="teamId!=''" :teamId="teamId" :countries="countries" :clubs="clubs" :teamColors="teamColors"></team-modal>
+    <team-modal v-if="teamId!=''" :teamId="teamId" :countries="countries" :clubs="clubs" :teamColors="teamColors"></team-modal>
     <div class="modal fade" id="reset_modal" tabindex="-1" role="dialog"
-    aria-labelledby="resetModalLabel">
+      aria-labelledby="resetModalLabel">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="myModalLabel">Confirmation</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                </div>
-                <div class="modal-body text-left">
-                    <p>
-                        Are you sure you would like to reset this age category? This will delete
-                        <b>ALL</b> team information associated with this age category including team names, fixtures and results.
-                    </p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">{{$lang.summary_tab_popup_publish_cancel_button}}</button>
-                    <button type="submit" class="btn btn-primary" @click="resetAllTeams()">{{$lang.summary_tab_popup_publish_confirm_button}}</button>
-                </div>
+          <div class="modal-header">
+              <h5 class="modal-title" id="myModalLabel">Confirmation</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          </div>
+          <div class="modal-body text-left">
+              <p>
+                  Are you sure you would like to reset this age category? This will delete
+                  <b>ALL</b> team information associated with this age category including team names, fixtures and results.
+              </p>
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-danger" data-dismiss="modal">{{$lang.summary_tab_popup_publish_cancel_button}}</button>
+              <button type="submit" class="btn btn-primary" @click="resetAllTeams()">{{$lang.summary_tab_popup_publish_confirm_button}}</button>
+          </div>
         </div>
       </div>
     </div>
+    <div class="modal team-preview" id="teams_groups_preview_modal" tabindex="-1" role="dialog" aria-labelledby="teams_groups_preview_modal" style="display: none;" aria-hidden="true" data-animation="false">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+             <h5 class="modal-title" id="teams_groups_preview_modal">Preview</h5>
+             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+             <span aria-hidden="true">×</span>
+             </button>
+          </div>
+          <div class="modal-body">
+            <img src="/assets/img/teams_groups_preview/TeamsGroupsPreview.png" class="img-fluid">
+          </div>
+         </div>
+      </div>
+    </div>
   </div>
-
 </template>
 
 <script type="text/babel">
@@ -215,7 +230,7 @@
     components: {
       TournamentFilter,
       teamSelect,
-      TeamModal
+      TeamModal,
     },
     computed: {
        tournamentFilter: function() {
@@ -406,6 +421,7 @@
         Tournament.getTeams(teamData).then(
           (response) => {
             this.teams = response.data.data
+            this.$store.dispatch('SetTeams',this.tournament_id);
             let that = this
             setTimeout(function(){
               $('.selTeams').each(function( index ) {
@@ -707,6 +723,10 @@
           (error) => {
         });
       },
+      previewSpredsheetSample() {
+        $('#teams_groups_preview_modal').modal('show');
+      },
+
     }
   }
 </script>

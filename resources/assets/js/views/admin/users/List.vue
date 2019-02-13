@@ -48,6 +48,9 @@
                                         <th>{{$lang.user_desktop_surname}}</th>
                                         <th>{{$lang.user_desktop_email}}</th>
                                         <th>{{$lang.user_desktop_usertype}}</th>
+                                        <th>{{$lang.use_desktop_role}}</th>
+                                        <th>{{$lang.use_desktop_country}}</th>
+                                        <th>{{$lang.use_desktop_language}}</th>
                                         <th>{{$lang.user_desktop_status}}</th>
                                         <th class="text-center">{{$lang.user_desktop}}</th>
                                         <th class="text-center">{{$lang.user_mobile}}</th>
@@ -60,38 +63,41 @@
                                     <td>{{ user.last_name }}</td>
                                     <td>{{ user.email }}</td>
                                     <td>{{ user.role_name }}</td>
+                                    <td>{{ user.role }}</td>
+                                    <td>{{ user.country }}</td>
+                                    <td>{{ allLanguages[user.locale] }}</td>
                                     <td v-if="user.is_verified == 1">Verified</td>
                                     <td v-else>
                                       <a href="#"  @click="resendModalOpen(user.email)"><u>Re-send</u></a>
                                     </td>
                                     <td class="text-center">
-                                      <i class="jv-icon jv-checked-arrow text-success"
+                                      <i class="fas fa-check text-success"
                                         v-if="user.is_desktop_user == true"></i>
-                                      <i class="jv-icon jv-close text-danger"
+                                      <i class="fas fa-times text-danger"
                                         v-else></i>
                                     </td>
                                     <td class="text-center">
-                                      <i class="jv-icon jv-checked-arrow text-success"
+                                      <i class="fas fa-check text-success"
                                         v-if="user.is_mobile_user == true"></i>
-                                      <i class="jv-icon jv-close text-danger"
+                                      <i class="fas fa-times text-danger"
                                         v-else></i>
                                     </td>
                                     <td>
                                         <a class="text-primary" href="javascript:void(0)"
                                          @click="editUser(user.id)" v-if="!(isMasterAdmin == true && user.role_slug == 'Super.administrator')">
-                                        <i class="jv-icon jv-edit"></i>
+                                        <i class="fas fa-pencil"></i>
                                         </a>
                                         &nbsp;
                                         <a href="javascript:void(0)"
                                         data-confirm-msg="Are you sure you would like to delete
                                         this user record?" data-toggle="modal" data-target="#delete_modal"
                                         @click="prepareDeleteResource(user.id)" v-if="!(isMasterAdmin == true && user.role_slug == 'Super.administrator')">
-                                        <i class="jv-icon jv-dustbin"></i>
+                                        <i class="fas fa-trash"></i>
                                         </a>
                                         &nbsp;
                                         <a v-if="user.role_slug == 'tournament.administrator'" class="text-primary icon-size-1-2" href="javascript:void(0)"
                                         @click="editTournamentPermission(user)">
-                                        <i class="fa fa-eye fa-1x"></i>
+                                        <i class="fas fa-eye fa-1x"></i>
                                         </a>
                                         &nbsp;
                                         <!--<a v-if="IsSuperAdmin == true"
@@ -103,9 +109,9 @@
                                         data-target="#active_modal"
                                         @click="prepareDisableResource(user.id,user.is_active)"
                                         >
-                                        <i class="jv-icon jv-checked-arrow text-success"
+                                        <i class="fas fa-check text-success"
                                         v-if="user.is_active == true"></i>
-                                        <i class="jv-icon jv-close text-danger"
+                                        <i class="fas fa-times text-danger"
                                         v-else></i>
                                         </a>-->
                                     </td>
@@ -130,7 +136,7 @@
                                 </div>
                                 <div class="col-md-6">
                                   <paginate-links for="userpagination"
-                                    :show-step-links="true" :async="true" class="mb-0">
+                                    :show-step-links="true" :async="true" :limit="2" class="mb-0">
                                   </paginate-links>
                                 </div>
                               </div>
@@ -205,7 +211,8 @@
                 shown: false,
                 no_of_records: 20,
                 recordCounts: [5,10,20,50,100],
-                currentUserInTournamentPermission: null
+                currentUserInTournamentPermission: null,
+                allLanguages: [],
             }
         },
 
@@ -221,7 +228,7 @@
             },
             isMasterAdmin() {
               return this.$store.state.Users.userDetails.role_slug == 'Master.administrator';
-            }            
+            }
         },
         filters: {
             formatDate: function(date) {
@@ -244,6 +251,7 @@
           },2000 )
           this.getRolesWithData();
           this.getPublishedTournaments();
+          this.getLanguageData();
 
          setTimeout(() => {
             this.shown = true
@@ -367,7 +375,7 @@
               $('#confirm_privilege_modal').modal('hide');
             },
             exportTableReport() {
-                let userData = this.reportQuery              
+                let userData = this.reportQuery
                 let userSearch = '';
                 let userSlugType = '';
                 userSearch = 'userData='+this.userListSearch;
@@ -377,10 +385,10 @@
 
                 User.getSignedUrlForUsersTableData(userData).then(
                   (response) => {
-                    window.location.href = response.data;         
+                    window.location.href = response.data;
                    },
                   (error) => {
-                  }                  
+                  }
                 )
 
                 // window.location.href = "/api/users/getUserTableData?report_download=yes&"+userSearch+"&"+userSlugType;
@@ -395,6 +403,17 @@
             },
             showChangePrivilegeModal() {
               $('#confirm_privilege_modal').modal('show');
+            },
+
+            getLanguageData() {
+              User.getAllLanguages().then(
+                (response)=> {
+                  console.log(response.data);
+                  this.allLanguages = response.data;
+                },
+                (error)=> {
+                }
+              )
             },
         }
     }
