@@ -933,4 +933,10 @@ class TournamentService implements TournamentContract
       $data = $this->tournamentRepoObj->updateCompetitionDisplayName($data);
       return ['options' => $data];
     }
+
+    public function duplicateTournament($data)
+    {
+      $data = $this->tournamentRepoObj->duplicateTournament($data);
+      return ['data' => $data, 'status_code' => '200']; 
+    }
 }
