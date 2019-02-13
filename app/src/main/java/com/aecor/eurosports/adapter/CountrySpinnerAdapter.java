@@ -62,7 +62,11 @@ public class CountrySpinnerAdapter extends ArrayAdapter<CountriesModel> {
         }
         CountriesModel rowItem = getItem(position);
         if (!Utility.isNullOrEmpty(rowItem.getName())) {
-            holder.tv_spinner.setText(capitalize(rowItem.getName().toLowerCase()));
+            if (position == 0 && !(mContext instanceof HomeActivity)) {
+                holder.tv_spinner.setText(rowItem.getName());
+            } else {
+                holder.tv_spinner.setText(capitalize(rowItem.getName().toLowerCase()));
+            }
 
         }
         if (position == 0 && !(mContext instanceof HomeActivity)) {

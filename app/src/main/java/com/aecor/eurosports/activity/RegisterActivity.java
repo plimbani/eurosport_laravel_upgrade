@@ -12,12 +12,9 @@ import android.text.Spanned;
 import android.text.TextWatcher;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -296,44 +293,25 @@ public class RegisterActivity extends BaseAppCompactActivity {
         String surname = sname.getText().toString().trim();
 
         if (firstname.isEmpty()) {
-            fname.setBackgroundResource(R.drawable.edittext_border_red);
             return false;
-        } else {
-            fname.setBackgroundResource(R.drawable.edittext_border);
         }
 
         if (surname.isEmpty()) {
-            sname.setBackgroundResource(R.drawable.edittext_border_red);
             return false;
-        } else {
-            sname.setBackgroundResource(R.drawable.edittext_border);
         }
         if (emailOrPhone.isEmpty() || !Utility.isValidEmail(emailOrPhone)) {
-            email.setBackgroundResource(R.drawable.edittext_border_red);
             return false;
-        } else {
-            email.setBackgroundResource(R.drawable.edittext_border);
         }
 
         if (password.isEmpty()) {
-            register_password.setBackgroundResource(R.drawable.edittext_border_red);
             return false;
-        } else {
-            register_password.setBackgroundResource(R.drawable.edittext_border);
         }
         if (confirmPassword.isEmpty()) {
-            confirm_password.setBackgroundResource(R.drawable.edittext_border_red);
             return false;
-        } else {
-            confirm_password.setBackgroundResource(R.drawable.edittext_border);
         }
 
         if (!validate_spinner()) {
-            sp_tournament.setBackgroundResource(R.drawable.spinner_bg_image_gray_error);
             return false;
-        } else {
-            sp_tournament.setBackgroundResource(R.drawable.spinner_bg_image_gray);
-
         }
         return true;
 
