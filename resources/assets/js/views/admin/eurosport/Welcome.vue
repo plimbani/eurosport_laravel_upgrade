@@ -128,6 +128,9 @@ computed: {
       this.$router.push({name: 'website_add'})
     },
     copyDuplicateTournament() {
+      let currentNavigationData = {currentPage:'Tournaments'}
+      this.$store.dispatch('setActiveTab', currentNavigationData)
+      
       this.$router.push({ name: 'copy_duplicate_tournament' })
     }
   }
