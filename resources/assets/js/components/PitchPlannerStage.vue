@@ -88,7 +88,23 @@ import _ from 'lodash'
                         var canvasWidth = $(this).find('.fc-unselectable .fc-scroller-canvas').width();
                         $(this).find('.fc-view-container table').attr('style', 'width: ' + parseInt(canvasWidth + 107) + 'px');
                     });
+
                 })
+
+                //  Unschedule fixtures checkbox check uncheck
+                $(document).on('change','.match-unschedule-checkbox', function (){
+                    if($('.match-unschedule-checkbox').is(':checked')) {
+                        $('#unschedule_fixtures').html('Confirm unscheduling').addClass('btn btn-success');
+                        $("#cancle_unscheduling_fixtures").show();
+                        $('.cancle-match-unscheduling').removeClass('d-none');
+                    } else {
+                        $("#unschedule_fixtures").html('Unschedule fixture').removeClass('btn btn-success');
+                        $("#unschedule_fixtures").addClass('btn btn-primary btn-md btn-secondary');
+                        $(".checkbox").addClass('d-none');
+                        $("#cancle_unscheduling_fixtures").hide();
+                    }
+                   
+                });
             });
 
             var timeGridContainerHeight = $('.fc-time-grid-container').height();
@@ -104,6 +120,9 @@ import _ from 'lodash'
                     setGameAndRefereeTabHeight();
                 }
             });
+
+
+
         },
         methods: {
             initComponent(){
