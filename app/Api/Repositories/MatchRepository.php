@@ -532,7 +532,6 @@ class MatchRepository
               else
               {
                 $head_to_head = true;
-                //$check_head_to_head_with_key = $rules[$key-1]['key'];
               }
             }
             
@@ -665,15 +664,15 @@ class MatchRepository
 
           $holdingTeamStandings = collect($allStandingDataArray);
           $competitionStandings = $reportQuery->get();
-
           if ( $head_to_head == true )
           {
+            $competitionStandings = json_decode(json_encode($competitionStandings), True);
             list($competitionStandings,$sort_head_to_head) = $this->sortByHeadtoHead($competitionStandings,$check_head_to_head_with_key,$tournamentData['tournamentId'],$tournamentData['competitionId'],$tournamentCompetationTemplatesRecord);
 
             if ( $sort_head_to_head == '1') {
               $head_to_head_position_sorting = array();           
               foreach ($competitionStandings as $comp_stand_key => $comp_stand_value) {
-                $head_to_head_position_sorting[$comp_stand_key] = (int)$comp_stand_value->head_to_head_position;
+                $head_to_head_position_sorting[$comp_stand_key] = (int)$comp_stand_value['head_to_head_position'];
               }
 
               array_multisort($head_to_head_position_sorting, SORT_ASC,$competitionStandings);
@@ -691,7 +690,16 @@ class MatchRepository
 
     public function sortByHeadtoHead($standingData,$keyConflict,$tournamentId,$compId,$tournamentCompetationTemplatesRecord)
     {
-      $standingArray = $standingData->toArray();
+
+      if ( gettype($standingData) != 'array')
+      {
+        $standingArray = $standingData->toArray();
+      }
+      else
+      {
+        $standingArray = $standingData;
+      }
+
       $standingCopyArray = $standingArray;
       $prepareArrayForh2h = [];
 
@@ -701,14 +709,13 @@ class MatchRepository
         // make key unique base on admin sorting selection
         $finalKey = '';
         foreach ($keyConflictArray as $cflictkey => $cflictvalue) {
-          $finalKey .= '|'.$value->$cflictvalue;
+          $finalKey .= '|'.$value[$cflictvalue];
         }
 
         if ( !empty($finalKey) )
         {
           $finalKey = ltrim($finalKey,'|');
         }
-
         $prepareArrayForh2h[$finalKey][$key] = $value;
       }
 
@@ -722,8 +729,8 @@ class MatchRepository
           $conflictedTeamArray[$key] = $preparedArray;
           foreach ($preparedArray as $key1 => $value) {
             //unset($standingArray[$key1]);
-            $standingArray[$key1]->check_head_to_head = true;
-            $conflictedTeamids[$key][$key1] = $value->team_id;
+            $standingArray[$key1]['check_head_to_head'] = true;
+            $conflictedTeamids[$key][$key1] = ( isset($value['teamid']) ) ? $value['teamid'] : $value['team_id'];
           }
         }
       }
@@ -741,20 +748,24 @@ class MatchRepository
       // make new sorted array
       if ( !empty($virtual_lt_sorted) )
       {
-        $sortedStandingArray = array();
-        $outerpos = 0;
         $pos = 1;
         foreach ($standingArray as $v_l_key => $v_l_value) {
           // Fetch team_id and find position
-          if ( !empty($v_l_value->check_head_to_head) && $v_l_value->check_head_to_head == 1)
+          if ( !empty($v_l_value['check_head_to_head']) && $v_l_value['check_head_to_head']== 1)
           {
             $flag = false;
             foreach ($virtual_lt_sorted as $vt_key => $vt_value) {
               $total_group_count = count($vt_value);
               foreach ($vt_value as $vt_key1 => $vt_value1) {
-                if ( $vt_value1['team_id'] == $v_l_value->team_id && $flag == false)
+
+                if ( !array_key_exists('team_id', $v_l_value) )
                 {
-                  $v_l_value->head_to_head_position = $pos + $vt_key1 ;
+                  $v_l_value['team_id'] = $v_l_value['teamid'];
+                }
+
+                if ( $vt_value1['team_id'] == $v_l_value['team_id'] && $flag == false)
+                {
+                  $standingArray[$v_l_key]['head_to_head_position'] = $pos + $vt_key1 ;
                   $flag = true;
                   $virtual_lt_sorted_details[$vt_key]['remaining'] = $virtual_lt_sorted_details[$vt_key]['remaining'] - 1;
 
@@ -764,7 +775,8 @@ class MatchRepository
                   }
 
                 }
-                else{
+                else
+                {
                   continue;
                 }
               }
@@ -772,10 +784,11 @@ class MatchRepository
           }
           else
           {
-            $v_l_value->head_to_head_position = $pos;
+            $standingArray[$v_l_key]['head_to_head_position'] = $pos;
             $pos++;
           }
         }
+
         return array($standingArray,'1');
       }
       else
@@ -788,7 +801,6 @@ class MatchRepository
     public function headToHeadVirtualLeagueTable($conflictedTeamids,$cta,$ctv,$tournamentId,$compId,$tournamentCompetationTemplatesRecord)
     {
       //merge conflicted teams
-      //$teamids = implode(',',$conflictedTeamids[$cta]);
       $teamids = $conflictedTeamids[$cta];
 
       // Fetch fixture from DB and make virtual league table for above teams
