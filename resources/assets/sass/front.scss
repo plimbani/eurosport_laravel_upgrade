@@ -1113,3 +1113,7 @@ a.active-view:hover {
     text-decoration: underline;
     @extend .text-primary;
 }
+
+.displayGraphicImage .modal-dialog{
+    max-width: 900px;
+}
