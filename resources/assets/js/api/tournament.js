@@ -264,5 +264,8 @@ export default {
   },
   copyAgeCategory(ageCategoryData) {
     return api.post('age_group/copyAgeCategory', {'ageCategoryData': ageCategoryData})
-  }
+  },
+  duplicateTournament(copyTournamentData) {
+    return api.post('duplicateTournament', copyTournamentData)
+  },
 }

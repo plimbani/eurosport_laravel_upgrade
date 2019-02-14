@@ -18,53 +18,90 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                  <tr class="" v-for="option in options">
-                                    <td>{{ option.name }}</td>
-                                    <td>{{ option.start_date }}</td>
-                                    <td>{{ option.end_date }}</td>
-                                    <td>{{ option.maximum_teams }}</td>
-                                    <td>  
-                                      <a class="text-primary" href="javascript:void(0)" @click="duplicateTournamanet(option.id)">
+                                  <tr class="" v-for="tournament in paginated('tournamentpagination')">
+                                    <td>{{ tournament.name }}</td>
+                                    <td>{{ tournament.start_date }}</td>
+                                    <td>{{ tournament.end_date }}</td>
+                                    <td>{{ tournament.maximum_teams }}</td>
+                                    <td>
+                                      <a class="text-primary" href="javascript:void(0)" @click="duplicateTournament(tournament.id, tournament.name)">
                                         <i class="fas fa-copy"></i>
                                       </a>
                                     </td>
                                   </tr>
                                 </tbody>
                             </table>
+                            <paginate name="tournamentpagination"
+                             :list="tournamentList.tournamentData" ref="paginator" :per="no_of_records"  class="paginate-list">
+                            </paginate>
+                            <div class="row d-flex flex-row align-items-center">
+                              <div class="col page-dropdown">
+                                <select class="form-control ls-select2" name="no_of_records" v-model="no_of_records">
+                                  <option v-for="recordCount in recordCounts" v-bind:value="recordCount">
+                                      {{ recordCount }}
+                                  </option>
+                                </select>
+                              </div>
+                              <div class="col">
+                                <span v-if="$refs.paginator">
+                                  Viewing {{ $refs.paginator.pageItemsCount }} results
+                                </span>
+                              </div>
+                              <div class="col-md-6">
+                                <paginate-links for="tournamentpagination"
+                                  :show-step-links="true" :async="true" :limit="2" class="mb-0">
+                                </paginate-links>
+                              </div>
+                            </div>
+                        </div>
+                        <div v-if="tournamentList.tournamentDataCount == 0" class="col-md-12">
+                            <h6 class="block text-center">No record found</h6>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <DuplicateTournamentModal></DuplicateTournamentModal>
+        <DuplicateTournamentModal :copyTournamentId="copyTournamentId" :copyTournamentName="copyTournamentName"></DuplicateTournamentModal>
     </div>
 </template>
 <script type="text/babel">
     import Tournament from '../../../api/tournament.js'
     import DuplicateTournamentModal from '../../admin/tournaments/DuplicateTournamentModal.vue'
-    export default {
+    import VuePaginate from 'vue-paginate'
+   export default {
         data() {
             return {
-                options: []
+                copyTournamentId: '',
+                copyTournamentName: '',
+                paginate: ['tournamentpagination'],
+                no_of_records: 20,
+                recordCounts: [5,10,20,50,100],
             }
         },
+
+        props: {
+            tournamentList: Object,
+        },
+        filters: {
+            formatDate: function(date) {
+              if (date!= null) {
+                return moment(date).format("DD MMM YYYY");
+              } else {
+                return "";
+              }
+            },
+        },
+
         components: {
             DuplicateTournamentModal
         },
         mounted() {
-          Tournament.getAllTournaments().then(
-            (response) => {
-              this.options = response.data.data
-            },
-            (error) => {
-            }
-          )
         },
         methods: {
-          duplicateTournamanet(id) {
-            console.log(id);
+          duplicateTournament(id, name) {
+            this.copyTournamentId = id;
+            this.copyTournamentName = name;
             $('#duplicateTournament').modal('show')
-             
           },
         }
     }
