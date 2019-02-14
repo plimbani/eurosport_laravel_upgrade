@@ -106,7 +106,7 @@
                         }else{
                             // let roles = [{slug:'customer1'},{slug:'admin'}]
                             // let indxOfCustomer = (roles).findIndex(item => item.slug == "customer");
-                            let indxOfCustomer =  (response.data.role).findIndex(item => item.slug == "customer") 
+                            let indxOfCustomer =  (response.data.role).findIndex(item => item.slug.toLowerCase() == "customer") 
                             // console.log('fff::',response.data);
                             if(indxOfCustomer > -1){
                             // if(response.data.role.slug == "customer"){

@@ -292,6 +292,27 @@ const routes = [
             }
         ]
     },
+     {
+        path: '/userstourmanents', component: LayoutCommercialisation,
+        meta: { requiresAuth: true },
+        children: [
+            {
+                path: '/',
+                component: UsersTournament,
+                name: 'userstourmanent'
+            }
+        ]
+    },  {
+        path: '/tournamentstransaction', component: LayoutCommercialisation,
+        meta: { requiresAuth: true },
+        children: [
+            {
+                path: '/',
+                component: TournamentsTransaction,
+                name: 'tournamentstransaction'
+            }
+        ]
+    },
 
 
      /*
@@ -403,27 +424,7 @@ const routes = [
             }
         ]
     },
-     {
-        path: '/userstourmanents', component: LayoutCommercialisation,
-        meta: { requiresAuth: true },
-        children: [
-            {
-                path: '/',
-                component: UsersTournament,
-                name: 'userstourmanent'
-            }
-        ]
-    },  {
-        path: '/tournamentstransaction', component: LayoutCommercialisation,
-        meta: { requiresAuth: true },
-        children: [
-            {
-                path: '/',
-                component: TournamentsTransaction,
-                name: 'tournamentstransaction'
-            }
-        ]
-    },
+    
     {
         path: '/dashboard', component: LayoutCommercialisation,
         meta: { requiresAuth: true },
