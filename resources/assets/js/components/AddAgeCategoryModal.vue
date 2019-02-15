@@ -174,7 +174,7 @@
                               </span>
                             </div>
                             <div class="col-sm-3 align-self-center text-center">
-                              <a href="#" @click="viewGraphicalPreview(option.name, option.graphic_image)" class="text-primary" v-if="option.graphic_image"><u>View graphic</u></a>
+                              <a href="#" @click="viewGraphicalPreview(option.name, option.graphic_image)" class="text-primary" v-if="option.graphic_image"><u>View schedule</u></a>
                             </div>
                           </div>
                         </div>
