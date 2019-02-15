@@ -62,11 +62,9 @@ class TransactionService implements TransactionContract {
                 ->setOption('header-right', $date->format('H:i d M Y'))
                 ->setOption('margin-top', 20)
                 ->setOption('margin-bottom', 20);
-
         $pdfFile = 'payment-receipt-' . $date->format('Y-m-d H:i:s') . '.pdf';
-        $pdf->generate(storage_path() . 'app' . DS . 'public' . DS . $pdfFile);
-//        return $pdf->download('Summaryreport.pdf');
-        return env('APP_URL') . '/images/test.pdf';
+
+        return $pdf->download($pdfFile);
     }
 }
 ?>

@@ -32,7 +32,7 @@ Route::post('v1/generateHashKey', '\Laraspace\Api\Controllers\Commercialisation\
 
 //Payment response callback URL
 Route::post('v1/payment/response', '\Laraspace\Api\Controllers\Commercialisation\BuyLicenseController@paymentResponse');
-Route::post('v1/generate/receipt', '\Laraspace\Api\Controllers\Commercialisation\BuyLicenseController@generatePaymentReceipt');
+Route::get('v1/generate/receipt', '\Laraspace\Api\Controllers\Commercialisation\BuyLicenseController@generatePaymentReceipt');
 Route::get('v1/tournament-by-code', '\Laraspace\Api\Controllers\Commercialisation\TournamentController@getTournamentByCode');
 
 

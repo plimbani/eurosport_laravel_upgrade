@@ -74,21 +74,12 @@ class BuyLicenseController extends BaseController
     public function generatePaymentReceipt(Request $request)
     {
         try {
-            $url = $this->transactionObj->generatePaymentReceipt($request->all());
-
-            return response()->json([
-                        'success' => true,
-                        'status' => Response::HTTP_OK,
-                        'data' => ['pdf_url' => $url],
-                        'error' => [],
-                        'message' => 'PDF generated successfully.'
-            ]);
+            return $this->transactionObj->generatePaymentReceipt($request->all());
         } catch (\Exception $ex) {
-//            return response()->json(['success' => false, 'status' => Response::HTTP_UNPROCESSABLE_ENTITY, 'data' => [], 'error' => [], 'message' => 'Something went wrong.']);
-            return response()->json(['success' => false, 'status' => Response::HTTP_UNPROCESSABLE_ENTITY, 'data' => [], 'error' => [], 'message' => $ex->getMessage()]);
+            return response()->json(['success' => false, 'status' => Response::HTTP_UNPROCESSABLE_ENTITY, 'data' => [], 'error' => [], 'message' => 'Something went wrong.']);
         }
     }
-    
+
     /**
      * Get list of customer's transaction
      */
