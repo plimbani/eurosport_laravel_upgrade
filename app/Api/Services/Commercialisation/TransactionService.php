@@ -23,7 +23,7 @@ class TransactionService implements TransactionContract {
     {
         return $this->transactionRepo->addDetails($data);
     }
-    
+
     public function customerTransactions($data)
     {
         return $this->transactionRepo->getList($data);
@@ -63,8 +63,9 @@ class TransactionService implements TransactionContract {
                 ->setOption('margin-top', 20)
                 ->setOption('margin-bottom', 20);
 
-//        $pdf->save(public_path('images') . DS . 'payment-receipt-' . $date . '.pdf');
-
+        $pdfFile = 'payment-receipt-' . $date->format('Y-m-d H:i:s') . '.pdf';
+        $pdf->generate(storage_path() . 'app' . DS . 'public' . DS . $pdfFile);
+//        return $pdf->download('Summaryreport.pdf');
         return env('APP_URL') . '/images/test.pdf';
     }
 }
