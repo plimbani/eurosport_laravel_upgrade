@@ -88,6 +88,8 @@ $api->version('v1', function ($api) {
     $api->post('/getAllPitchesWithDays/{pitchId}', 'Laraspace\Api\Controllers\TournamentController@getAllPitchesWithDays');
 
     $api->post('tournament/updateCompetitionDisplayName', 'Laraspace\Api\Controllers\TournamentController@updateCompetitionDisplayName');
+
+    $api->get('match/getAllCategoriesReport/{tournamentId}', 'Laraspace\Api\Controllers\MatchController@getAllCategoriesReport');
 });
 
 $api->version('v1', ['middleware' => 'jwt.auth'], function ($api) {
