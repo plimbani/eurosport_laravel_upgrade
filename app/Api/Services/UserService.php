@@ -121,9 +121,7 @@ class UserService implements UserContract
         $userData['user']['email']=$data['emailAddress'];
         $userData['user']['organisation']=$data['organisation'];
         $userData['user']['userType']=$data['userType'];
-        if(isset($data['role'])){
-           $userData['user']['role'] = 'Player';
-        }
+        $userData['user']['role']=$data['role'];
 
         // $userData['user']['password'] = Hash::make('password');
         // // dd($userData['user']);
