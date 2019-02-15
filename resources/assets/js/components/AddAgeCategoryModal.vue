@@ -10,51 +10,51 @@
             </button>
           </div>
           <div class="modal-body">
-          <form name="ageCategoryName" id="ageCategoryName">
-            <div class="form-group row">
-              <div class="col-sm-12">
-                <strong>Once saved if you want to change the age category you will need to delete and re-create the age category.</strong>
-              </div>
-            </div>
-            <div class="form-group row" v-show="exceedTeamLimit">
-              <div class="col-sm-12 help is-danger">
-                {{ exceedTeamLimitMessage }}
-              </div>
-            </div>
-
-            <div class="form-group row align-items-center">
-              <div class="col-sm-4 form-control-label">{{$lang.competation_label_age_category_name}}</div>
-              <div class="col-sm-8">
-                <div class="row">
-                  <div class="col-sm-12">
-                   <multiselect  name="category_age" id="category_age"
-                    v-model="competation_format.category_age" :options="categoryAgeArr" :multiple="false"
-                     :hide-selected="false" :ShowLabels="false" :value="value" track-by="id"
-                     :clear-on-select="false" :Searchable="true" @input="onChange" @close="onTouch"
-                     @select="onSelect" :disabled="isAgeCategoryDisabled">
-                       <!-- <option v-if="n > 4" v-for="n in (21)"
-                        :value="'Under '+ n + 's'">
-                       Under {{n}}s
-                      </option>
-                      <option>Men open age</option>
-                      <option>Women open age</option> -->
-                      <option v-for="categoryAge in categoryAgeArr"
-                      :value="categoryAge">{{categoryAge}}
-                      </option>
-                    </multiselect>
-                   <span class="help is-danger" v-show="isInvalid">{{$lang.competation_modal_age_category_required}}</span>
-                  </div>
+            <form name="ageCategoryName" id="ageCategoryName">
+              <div class="form-group row">
+                <div class="col-sm-12">
+                  <strong>Once saved if you want to change the age category you will need to delete and re-create the age category.</strong>
                 </div>
               </div>
-              <input type="hidden" v-model="competation_format.category_age_color">
-              <input type="hidden" v-model="competation_format.category_age_font_color">
-            </div>
-
-            <div class="form-group row align-items-center" :class="{'has-error': errors.has('competation_format.ageCategory_name') }">
-              <div class="col-sm-4 form-control-label">
-                {{$lang.competation_label_name_category}}
-                <span class="pr-2 pl-2 text-primary" data-toggle="popover" data-animation="false" data-placement="right" data-content="Enter an additional name for the category"><i class="fas fa-info-circle"></i></span>
+              <div class="form-group row" v-show="exceedTeamLimit">
+                <div class="col-sm-12 help is-danger">
+                  {{ exceedTeamLimitMessage }}
+                </div>
               </div>
+
+              <div class="form-group row align-items-center">
+                <div class="col-sm-4 form-control-label">{{$lang.competation_label_age_category_name}}</div>
+                <div class="col-sm-8">
+                  <div class="row">
+                    <div class="col-sm-12">
+                     <multiselect  name="category_age" id="category_age"
+                      v-model="competation_format.category_age" :options="categoryAgeArr" :multiple="false"
+                       :hide-selected="false" :ShowLabels="false" :value="value" track-by="id"
+                       :clear-on-select="false" :Searchable="true" @input="onChange" @close="onTouch"
+                       @select="onSelect" :disabled="isAgeCategoryDisabled">
+                         <!-- <option v-if="n > 4" v-for="n in (21)"
+                          :value="'Under '+ n + 's'">
+                         Under {{n}}s
+                        </option>
+                        <option>Men open age</option>
+                        <option>Women open age</option> -->
+                        <option v-for="categoryAge in categoryAgeArr"
+                        :value="categoryAge">{{categoryAge}}
+                        </option>
+                      </multiselect>
+                     <span class="help is-danger" v-show="isInvalid">{{$lang.competation_modal_age_category_required}}</span>
+                    </div>
+                  </div>
+                </div>
+                <input type="hidden" v-model="competation_format.category_age_color">
+                <input type="hidden" v-model="competation_format.category_age_font_color">
+              </div>
+
+              <div class="form-group row align-items-center" :class="{'has-error': errors.has('competation_format.ageCategory_name') }">
+                <div class="col-sm-4 form-control-label">
+                  {{$lang.competation_label_name_category}}
+                  <span class="pr-2 pl-2 text-primary" data-toggle="popover" data-animation="false" data-placement="right" data-content="Enter an additional name for the category"><i class="fas fa-info-circle"></i></span>
+                </div>
                 <div class="col-sm-8">
                   <div class="row">
                     <div class="col-sm-12">
@@ -65,7 +65,7 @@
                     </div>
                   </div>
                 </div>
-            </div>
+              </div>
 
               <div class="form-group row align-items-center">
                 <label class="col-sm-4 form-control-label">Pitch size*</label>
@@ -142,24 +142,32 @@
                     <div class="col-sm-12" v-for="option in options">
                       <div class="card mb-1" v-if="checkTemplate(option)" :id="option.id">
                         <div class="card-block">
-                          <div class="row d-flex">
+                          <div class="row d-flex gutters-tiny">
                             <div class="col-sm-1 align-self-center text-center">
                               <span v-if="option.id == competation_format.tournament_template_id">
-                              <input type="radio" checked='checked' :value="option"
-                              name="tournamentTemplate" class="ttmp"
-                              v-validate="'required'">
+                                <div class="checkbox">
+                                  <div class="c-input">
+                                      <input type="radio" class="euro-radio ttmp" name="tournamentTemplate" checked="checked" :value="option" v-validate="'required'" id="template_option">
+                                      <label for="template_option"></label>
+                                  </div>
+                                </div> 
                               </span>
                               <span v-else>
-                              <input type="radio"
-                                  :value="option"
-                                  class="ttmp"
-                                  :id="'tournament_template_'+option.id"
-                                  name="tournamentTemplate"
-                                  v-model="competation_format.tournamentTemplate"
-                                  v-validate="'required'"
-                                  :class="{'is-danger': errors.has('tournamentTemplate') }"
-                                  v-if="checkTemplate(option)">
-                                </span>
+                                <div class="checkbox">
+                                  <div class="c-input">                                
+                                    <input type="radio"
+                                        :value="option"
+                                        class="ttmp euro-radio"
+                                        :id="'tournament_template_'+option.id"
+                                        name="tournamentTemplate"
+                                        v-model="competation_format.tournamentTemplate"
+                                        v-validate="'required'"
+                                        :class="{'is-danger': errors.has('tournamentTemplate') }"
+                                        v-if="checkTemplate(option)">
+                                        <label :for="'tournament_template_'+option.id"></label>
+                                  </div>
+                                </div>
+                              </span>
                             </div>
                             <div class="col-sm-8 align-self-center">
                               <span for="one"
@@ -174,7 +182,7 @@
                               </span>
                             </div>
                             <div class="col-sm-3 align-self-center text-center">
-                              <a href="#" @click="viewGraphicalPreview(option.name, option.graphic_image)" class="text-primary" v-if="option.graphic_image"><u>View graphic</u></a>
+                              <a href="#" @click="viewGraphicalPreview(option.name, option.graphic_image)" class="btn btn-outline-primary btn-sm" v-if="option.graphic_image">View schedule</a>
                             </div>
                           </div>
                         </div>
@@ -408,7 +416,7 @@
                   <span class="help-block text-muted pull-right">{{ 160 - messageLength }} characters remaining<br/>Maximum characters 160</span>
                 </div>
               </div>
-              </form>
+            </form>
             </div>
           <div class="modal-footer">
               <button type="button" class="btn btn-danger" data-dismiss="modal">{{$lang.competation_modal_button_cancle}}</button>
