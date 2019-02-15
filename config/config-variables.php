@@ -10,6 +10,7 @@ return [
     "preview_url_expire_time" => env('PREVIEW_URL_EXPIRE_TIME'),
     "category_rules" => [
 	    "match_points" => "Match points",
+        "head_to_head" => "Head to head",
 	    "goal_difference" => "Goal difference",
 	    "goals_for" => "Goals for",
 	    "goal_ratio" => "Goal ratio",
@@ -17,6 +18,7 @@ return [
 	  ],
       "category_rules_info" => [
         "match_points" => "The points total for games won, drawn or lost",
+        "head_to_head" => "Head to head",
         "goal_difference" => "Number of goals scored minus goals conceded",
         "goals_for" => "Number of goals scored",
         "goal_ratio" => "Number of goals scored divided by the number of games played",
