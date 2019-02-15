@@ -1081,7 +1081,7 @@ class TournamentRepository
             foreach ($existingTournamentPitches as $pitch) {
                 $copiedPitch = $pitch->replicate();
                 $copiedPitch->tournament_id = $newCopiedTournament->id;
-                $copiedPitch->venue_id = $pitch->venue_id ? $venuesMappingArray[$pitch->venue_id] : null;
+                $copiedPitch->venue_id = isset($venuesMappingArray[$pitch->venue_id]) ? $venuesMappingArray[$pitch->venue_id] : null;
                 $copiedPitch->save();
                 $pitchesMappingArray[$pitch->id] = $copiedPitch->id;
             }
@@ -1090,22 +1090,33 @@ class TournamentRepository
         // saving tournament pitch availability
         if($existingTournamentAvailablePitches) {
             foreach ($existingTournamentAvailablePitches as $availablePitch) {
-                $copiedAvailablePitch = $availablePitch->replicate();
-                $copiedAvailablePitch->tournament_id = $newCopiedTournament->id;
-                $copiedAvailablePitch->pitch_id = $availablePitch->pitch_id ? $pitchesMappingArray[$availablePitch->pitch_id] : null;
-                $copiedAvailablePitch->save();
+                $pitch1 = Pitch::where('id', $availablePitch->pitch_id)->get();
+                if($pitch1->deleted_at == null) {
+                    $copiedAvailablePitch = $availablePitch->replicate();
+                    $copiedAvailablePitch->tournament_id = $newCopiedTournament->id;
+                    $copiedAvailablePitch->pitch_id = $pitchesMappingArray[$availablePitch->pitch_id];
+                    $copiedAvailablePitch->save();
+                }
             }
         }
 
         // saving tournament pitch unavailability
         if($existingTournamentUnAvailablePitches) {
             foreach ($existingTournamentUnAvailablePitches as $unAvailablePitch) {
-                $copiedUnAvailablePitch = $unAvailablePitch->replicate();
-                $copiedUnAvailablePitch->tournament_id = $newCopiedTournament->id;
-                $copiedUnAvailablePitch->pitch_id = $unAvailablePitch->pitch_id ? $pitchesMappingArray[$unAvailablePitch->pitch_id] : null;
-                $copiedUnAvailablePitch->save();
+                $pitch2 = Pitch::where('id', $availablePitch->pitch_id)->get();
+                if($pitch2->deleted_at == null) {
+                    $copiedUnAvailablePitch = $unAvailablePitch->replicate();
+                    $copiedUnAvailablePitch->tournament_id = $newCopiedTournament->id;
+                    $copiedUnAvailablePitch->pitch_id = $pitchesMappingArray[$unAvailablePitch->pitch_id];
+                    $copiedUnAvailablePitch->save();
+                }
             }
         }
+
+        \Log::info('competitionsMappingArray', $competitionsMappingArray);
+        \Log::info('pitchesMappingArray', $pitchesMappingArray);
+        
+        echo "<pre>";print_r('here');echo "</pre>";exit;        
 
         // saving tournament referees
         if($existingTournamentReferees) {
@@ -1123,10 +1134,10 @@ class TournamentRepository
                 $copiedFixture = $fixture->replicate();
                 $copiedFixture->tournament_id = $newCopiedTournament->id;
                 $copiedFixture->competition_id = $competitionsMappingArray[$fixture->competition_id];
-                $copiedFixture->venue_id = $fixture->venue_id ? $venuesMappingArray[$fixture->venue_id] : null;
-                $copiedFixture->age_group_id = $fixture->age_group_id ? $ageCategoriesMappingArray[$fixture->age_group_id] : null;
-                $copiedFixture->referee_id = $fixture->referee_id ? $refereesMappingArray[$fixture->referee_id] : null;
-                $copiedFixture->pitch_id = $fixture->pitch_id ? $pitchesMappingArray[$fixture->pitch_id] : null;
+                $copiedFixture->venue_id = isset($venuesMappingArray[$fixture->venue_id]) ? $venuesMappingArray[$fixture->venue_id] : null;
+                $copiedFixture->age_group_id = isset($ageCategoriesMappingArray[$fixture->age_group_id]) ? $ageCategoriesMappingArray[$fixture->age_group_id] : null;
+                $copiedFixture->referee_id = isset($refereesMappingArray[$fixture->referee_id]) ? $refereesMappingArray[$fixture->referee_id] : null;
+                $copiedFixture->pitch_id = isset($pitchesMappingArray[$fixture->pitch_id]) ? $pitchesMappingArray[$fixture->pitch_id] : null;
                 $copiedFixture->save();
             }
         }
@@ -1136,8 +1147,8 @@ class TournamentRepository
             foreach ($existingTournamentTeams as $team) {
                 $copiedTeam = $team->replicate();
                 $copiedTeam->tournament_id = $newCopiedTournament->id;
-                $copiedTeam->competation_id = $team->competation_id ? $competitionsMappingArray[$team->competation_id] : null;
-                $copiedTeam->age_group_id = $team->age_group_id ? $ageCategoriesMappingArray[$team->age_group_id] : null;
+                $copiedTeam->competation_id = isset($competitionsMappingArray[$team->competation_id]) ? $competitionsMappingArray[$team->competation_id] : null;
+                $copiedTeam->age_group_id = isset($ageCategoriesMappingArray[$team->age_group_id]) ? $ageCategoriesMappingArray[$team->age_group_id] : null;
                 $copiedTeam->save();
                 $teamsMappingArray[$team->id] = $copiedTeam->id;
             }
@@ -1148,8 +1159,8 @@ class TournamentRepository
             foreach ($existingTournamentTeamsManualRankings as $teamManualRanking) {
                 $copiedTeamManualRanking = $teamManualRanking->replicate();
                 $copiedTeamManualRanking->tournament_id = $newCopiedTournament->id;
-                $copiedTeamManualRanking->competation_id = $competitionsMappingArray[$teamManualRanking->competation_id];
-                $copiedTeamManualRanking->team_id = $teamsMappingArray[$teamManualRanking->team_id];
+                $copiedTeamManualRanking->competation_id = isset($competitionsMappingArray[$teamManualRanking->competation_id]) ? $competitionsMappingArray[$teamManualRanking->competation_id] : null;
+                $copiedTeamManualRanking->team_id = isset($teamsMappingArray[$teamManualRanking->team_id]) ? $teamsMappingArray[$teamManualRanking->team_id] : null;
                 $copiedTeamManualRanking->save();
             }
         }
@@ -1168,8 +1179,8 @@ class TournamentRepository
             foreach ($existingTournamentMatchStandings as $matchStanding) {
                 $copiedTournamentMatchStanding = $matchStanding->replicate();
                 $copiedTournamentMatchStanding->tournament_id = $newCopiedTournament->id;
-                $copiedTournamentMatchStanding->competition_id = $competitionsMappingArray[$matchStanding->competition_id];
-                $copiedTournamentMatchStanding->team_id = $teamsMappingArray[$matchStanding->team_id];
+                $copiedTournamentMatchStanding->competition_id = isset($competitionsMappingArray[$matchStanding->competition_id]) ? $competitionsMappingArray[$matchStanding->competition_id] : null;
+                $copiedTournamentMatchStanding->team_id = isset($teamsMappingArray[$matchStanding->team_id]) ? $teamsMappingArray[$matchStanding->team_id] : null;
                 $copiedTournamentMatchStanding->save();
             }
         }
