@@ -10,9 +10,9 @@
                             
                       </div>
                       <div class="col-md-7">
-                        <div class="row align-items-center justify-content-end">
+                        <div class="row align-items-center">
                           <div class="col-12">
-                            <div class="row">
+                            <div class="row justify-content-end">
                               <div class="col-md-5">
                                 <input type="text" class="form-control"
                                       v-on:keyup="searchTournamentData" v-model="tournamentListSearch"
@@ -89,7 +89,7 @@
     import Tournament from '../../../api/tournament.js'
     import DuplicateTournamentModal from '../../admin/tournaments/DuplicateTournamentModal.vue'
     import VuePaginate from 'vue-paginate'
-   export default {
+    export default {
         data() {
             return {
                 copyTournamentId: '',
@@ -101,19 +101,8 @@
             }
         },
 
-        props: {
-            tournamentList: Object,
-        },
-        filters: {
-            formatDate: function(date) {
-              if (date!= null) {
-                return moment(date).format("DD MMM YYYY");
-              } else {
-                return "";
-              }
-            },
-        },
-
+        props: ['tournamentList'],
+        
         components: {
             DuplicateTournamentModal
         },
@@ -127,11 +116,10 @@
           },
           searchTournamentData() {
             this.$root.$emit('setSearch', this.tournamentListSearch);
-         },
+          },
           searchTypeData() {
             this.searchTournamentData();
           },
-
           duplicateTournament(id, name) {
             this.copyTournamentId = id;
             this.copyTournamentName = name;

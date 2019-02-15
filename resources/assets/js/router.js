@@ -207,11 +207,13 @@ const routes = [
         name: 'users_list'
     },
 
+
+    // Duplicate tournament copy routes
     {
         path: '/tournaments',
         component: LayoutDuplicateTournament,
         meta: { requiresAuth: true },
-        name: 'copy_duplicate_tournament'
+        name: 'duplicate_tournament_copy'
     },
 
     // Web site routes

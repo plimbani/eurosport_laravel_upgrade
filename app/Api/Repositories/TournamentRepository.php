@@ -1090,14 +1090,12 @@ class TournamentRepository
         // saving tournament pitch availability
         if($existingTournamentAvailablePitches) {
             foreach ($existingTournamentAvailablePitches as $availablePitch) {
-                // echo "<pre>";print_r($availablePitch);echo "</pre>";
                 $copiedAvailablePitch = $availablePitch->replicate();
                 $copiedAvailablePitch->tournament_id = $newCopiedTournament->id;
                 $copiedAvailablePitch->pitch_id = $availablePitch->pitch_id ? $pitchesMappingArray[$availablePitch->pitch_id] : null;
                 $copiedAvailablePitch->save();
             }
         }
-// exit;
         // saving tournament pitch unavailability
         if($existingTournamentUnAvailablePitches) {
             foreach ($existingTournamentUnAvailablePitches as $unAvailablePitch) {
