@@ -1090,8 +1090,7 @@ class TournamentRepository
         // saving tournament pitch availability
         if($existingTournamentAvailablePitches) {
             foreach ($existingTournamentAvailablePitches as $availablePitch) {
-                $pitch1 = Pitch::where('id', $availablePitch->pitch_id)->get();
-                if($pitch1->deleted_at == null) {
+                if(isset($pitchesMappingArray[$availablePitch->pitch_id])) {
                     $copiedAvailablePitch = $availablePitch->replicate();
                     $copiedAvailablePitch->tournament_id = $newCopiedTournament->id;
                     $copiedAvailablePitch->pitch_id = $pitchesMappingArray[$availablePitch->pitch_id];
@@ -1103,8 +1102,7 @@ class TournamentRepository
         // saving tournament pitch unavailability
         if($existingTournamentUnAvailablePitches) {
             foreach ($existingTournamentUnAvailablePitches as $unAvailablePitch) {
-                $pitch2 = Pitch::where('id', $availablePitch->pitch_id)->get();
-                if($pitch2->deleted_at == null) {
+                if(isset($pitchesMappingArray[$unAvailablePitch->pitch_id])) {
                     $copiedUnAvailablePitch = $unAvailablePitch->replicate();
                     $copiedUnAvailablePitch->tournament_id = $newCopiedTournament->id;
                     $copiedUnAvailablePitch->pitch_id = $pitchesMappingArray[$unAvailablePitch->pitch_id];
