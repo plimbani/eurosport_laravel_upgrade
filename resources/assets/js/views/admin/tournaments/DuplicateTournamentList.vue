@@ -19,7 +19,7 @@
                                       placeholder="Search tournament name">
                               </div>
                               <div class="col-md-2">
-                                <button type="button" class="btn btn-primary w-100" @click='clear()'>{{$lang.user_management_clear_button}}</button>
+                                <button type="button" class="btn btn-primary w-100" @click='clear()'>{{$lang.duplicate_tournament_copy_clear_button}}</button>
                               </div>
                             </div>
                           </div>
@@ -102,7 +102,7 @@
         },
 
         props: ['tournamentList'],
-        
+
         components: {
             DuplicateTournamentModal
         },

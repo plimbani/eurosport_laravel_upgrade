@@ -325,10 +325,11 @@ module.exports= {
   competation_modal_time: "Total time required:",
   competation_modal_remark: "Remark:",
 
-  duplicate_tournament_modal: "Duplicate Tournament",
-  duplicate_tournament_name: "Tournament name*",
-  duplicate_tournament_cancle_button: "Cancel",
-  duplicate_tournament_duplicate_button: "Duplicate",
+  duplicate_tournament_copy_modal: "Duplicate Tournament",
+  duplicate_tournament_copy_name: "Tournament name*",
+  duplicate_tournament_copy_cancle_button: "Cancel",
+  duplicate_tournament_copy_duplicate_button: "Duplicate",
+  duplicate_tournament_copy_clear_button: "Clear",
 
   pitch_modal_match_details: "Match Details",
   pitch_modal_match_card: "Match Card",

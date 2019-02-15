@@ -4,7 +4,7 @@
       <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="duplicateTournamentLabel">{{$lang.duplicate_tournament_modal}}</h5>
+            <h5 class="modal-title" id="duplicateTournamentLabel">{{$lang.duplicate_tournament_copy_modal}}</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">×</span>
             </button>
@@ -12,7 +12,7 @@
           <div class="modal-body">
           <form name="copyTournament" id="copyTournament">
             <div class="form-group row align-items-center">
-                <div class="col-sm-4 form-control-label">{{$lang.duplicate_tournament_name}}</div>
+                <div class="col-sm-4 form-control-label">{{$lang.duplicate_tournament_copy_name}}</div>
                 <div class="col-sm-8">
                   <div class="row">
                     <div class="col-sm-12">
@@ -29,8 +29,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-danger" data-dismiss="modal" @click="closeModal()">{{$lang.duplicate_tournament_cancle_button}}</button>
-              <button type="button" class="btn button btn-primary" @click="duplicateTournament()" :disabled="isSaveInProcess" v-bind:class="{ 'is-loading' : isSaveInProcess }">{{$lang.duplicate_tournament_duplicate_button}}</button>
+              <button type="button" class="btn btn-danger" data-dismiss="modal" @click="closeModal()">{{$lang.duplicate_tournament_copy_cancle_button}}</button>
+              <button type="button" class="btn button btn-primary" @click="duplicateTournament()" :disabled="isSaveInProcess" v-bind:class="{ 'is-loading' : isSaveInProcess }">{{$lang.duplicate_tournament_copy_duplicate_button}}</button>
             </div>
           </form>
           </div>
