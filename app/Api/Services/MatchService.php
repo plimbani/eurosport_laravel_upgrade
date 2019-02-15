@@ -1042,8 +1042,8 @@ class MatchService implements MatchContract
     {
       // dd($data);
         $compId = $data['home']['competition_id'];
-
         $competition = Competition::find($compId);
+        $tournament_id =  $competition->tournament_id;
 
         $cupId = $compId;
 
@@ -1110,6 +1110,7 @@ class MatchService implements MatchContract
                     $total = ( ( (int)$teamExist->won * $winPoints ) + ( (int)$teamExist->draws * $drawPoints) )  + ( (int)$teamExist->lost * $losePoints);
 
                     $goal_difference = ( (int)$teamExist->goal_for  - (int)$teamExist->goal_against );
+                    $calculatedArray[$compId][$gvalue->id]['goal_ratio']  = $teamExist->played > 0 ? $teamExist->goal_for / $teamExist->played : 0;
                     $calculatedArray[$compId][$gvalue->id]['goal_difference'] = $goal_difference;
                     $calculatedArray[$compId][$gvalue->id]['Total'] = $total;
                     $calculatedArray[$compId][$gvalue->id]['manual_order'] = $teamExist->manual_order;
@@ -1153,10 +1154,9 @@ class MatchService implements MatchContract
        // echo 'Before Sort';
 
       //  echo 'After Sort';
-
         $for_override_condition = array();
         foreach ($calculatedArray as $ckey => $cvalue) {
-            $manual_order = $mid = $cid = $did = $eid = $overrride = $group_winner = $matchesWon = $goalRatio = $headToHead = array();
+            $manual_order = $mid = $cid = $did = $eid = $overrride = $group_winner = $matchesWon = $goalRatio = $headToHead = $teamName = array();
             
             foreach ($cvalue as $cckey => $ccvalue) {
                $manual_order[$cckey]  = (int)$ccvalue['manual_order'];
@@ -1167,53 +1167,105 @@ class MatchService implements MatchContract
                $eid[$cckey]  = (int)$ccvalue['home_goal'];
                $matchesWon[$cckey]  = (int)$ccvalue['Won'];
                $goalRatio[$cckey]  = $ccvalue['Played'] > 0 ? $ccvalue['home_goal'] / $ccvalue['Played'] : 0;
+               $teamName[$cckey] =  $ccvalue['teamName'];
               // $overrride[$cckey]  = (int)$ccvalue['manual_override'];
               // $group_winner[$cckey]  = (int)$ccvalue['group_winner'];
               // $for_override_condition[$ckey][$cckey] = (int)$ccvalue['manual_override'];
             }
 
+            $checkResultEntered = DB::table('temp_fixtures')
+            ->where('tournament_id',$tournament_id)
+            ->where('competition_id',$compId)->where('round','Round Robin')
+            ->where(function ($query) {
+                $query->whereNull('hometeam_score')
+                      ->orWhereNull('awayteam_score');
+            })->count();
+
             $params = [];
             $rules = $tournamentCompetationTemplatesRecord->rules;
+
+            $head_to_head = false;
+            $check_head_to_head_with_key = '';
 
             for($i=0; $i<count($rules); $i++) {
               $rule = $rules[$i];
 
-              if($rule['checked'] == false) {
+              if($rule['checked'] == false || ( $rule['key'] != 'head_to_head' && $head_to_head == true)) {
                 continue;
               }
               
               if($rule['key'] == 'match_points') {
                 $params[] = $mid;
                 $params[] = SORT_DESC;
+                $check_head_to_head_with_key .= '|Total';
               }
               
+              if($rule['key'] == 'head_to_head') {
+                if($checkResultEntered > 0)
+                {
+                  $params[] = $teamName;
+                  $params[] = SORT_ASC;
+                  $check_head_to_head_with_key .= '|teamName';
+                }
+                else
+                {
+                  $head_to_head = true;
+                }
+               
+              }
+
               if($rule['key'] == 'goal_difference') {
                 $params[] = $did;
                 $params[] = SORT_DESC;
+                $check_head_to_head_with_key .= '|goal_difference';
               }
               if($rule['key'] == 'goals_for') {
                 $params[] = $eid;
                 $params[] = SORT_DESC;
+                $check_head_to_head_with_key .= '|home_goal';
               }
               if($rule['key'] == 'matches_won') {
                 $params[] = $matchesWon;
                 $params[] = SORT_DESC;
+                $check_head_to_head_with_key .= '|Won';
               }
               if($rule['key'] == 'goal_ratio') {
                 $params[] = $goalRatio;
                 $params[] = SORT_DESC;
+                $check_head_to_head_with_key .= '|goal_ratio';
               }
             }
 
-            $params[] = &$cvalue;
+            if ( !empty($check_head_to_head_with_key) )
+            {
+              $check_head_to_head_with_key = ltrim($check_head_to_head_with_key,'|');
+            }
 
+            $params[] = &$cvalue;
             if($competition->is_manual_override_standing == 1) {
               $params = array_merge(array($manual_order, SORT_ASC), $params);
             }
 
             array_multisort(...$params);
-            
             $calculatedArray[$ckey] = $cvalue;
+        }
+
+
+        if ( $head_to_head )
+        {
+
+          $calculatedArray = array_shift($calculatedArray);
+          list($calculatedArray,$sort_head_to_head) = $this->matchRepoObj->sortByHeadtoHead($calculatedArray,$check_head_to_head_with_key,$tournament_id,$compId,$tournamentCompetationTemplatesRecord);
+
+          if ( $sort_head_to_head == '1') {
+            $head_to_head_position_sorting = array();           
+            foreach ($calculatedArray as $comp_stand_key => $comp_stand_value) {
+              $head_to_head_position_sorting[$comp_stand_key] = (int)$comp_stand_value['head_to_head_position'];
+            }
+            array_multisort($head_to_head_position_sorting, SORT_ASC,$calculatedArray);
+          }
+          $setCalculatedArray[$cupId] = $calculatedArray;
+          $calculatedArray = $setCalculatedArray;
         }
         
         $i=1;
@@ -1888,6 +1940,7 @@ class MatchService implements MatchContract
           $sendData['away'] = $data2;
 
       }
+
       $this->TeamPMAssignKp($sendData);
     }
 
@@ -2484,5 +2537,10 @@ class MatchService implements MatchContract
       foreach ($groupFixture as $key => $value) {
         $this->calculateCupLeagueTable($value->id, 1);
       }
+    }
+
+    public function matchUnscheduledFixtures($matchId)
+    {
+        return $this->matchRepoObj->matchUnscheduledFixtures($matchId);
     }
 }
