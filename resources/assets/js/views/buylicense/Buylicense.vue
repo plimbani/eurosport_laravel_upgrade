@@ -45,7 +45,7 @@
                                             <h3 class="mb-0 text-uppercase font-weight-bold">Your Cart</h3>
                                         </div>
                                         <div class="col-md-6 col-lg-5 mt-2 mt-md-0"> 
-                                            <select class="form-control" v-model="tournamentData.currencyType" id="currencyType" @change="changeCurrencyType($event)">
+                                            <select class="form-control" v-model="tournamentData.currency_type" id="currency_type" @change="changeCurrencyType($event)">
                                                 <option selected value="EURO">EURO</option> 
                                                 <option value="GBP">GBP</option>
                                             </select>
@@ -62,8 +62,8 @@
                                         </div>
                                         <div class="col-sm-6 col-md-5 col-lg-5">
                                             <p class="text-sm-right mb-0 mt-3 mt-sm-0">
-                                             <span v-if="tournamentData.currencyType == 'GBP'">GBP</span>   
-                                             <span v-if="tournamentData.currencyType == 'EURO'">EURO</span>   
+                                             <span v-if="tournamentData.currency_type == 'GBP'">GBP</span>   
+                                             <span v-if="tournamentData.currency_type == 'EURO'">EURO</span>   
                                             £100.00</p>
                                         </div>
                                     </div>
@@ -71,8 +71,8 @@
                                     <div class="divider my-3 opacited"></div>
 
                                     <p class="text-sm-right font-weight-bold">
-                                        <span v-if="tournamentData.currencyType == 'GBP'">GBP</span> 
-                                        <span v-if="tournamentData.currencyType == 'EURO'">EURO</span>  £100.00</p>
+                                        <span v-if="tournamentData.currency_type == 'GBP'">GBP</span> 
+                                        <span v-if="tournamentData.currency_type == 'EURO'">EURO</span>  £100.00</p>
                                 </div>
                                 <div class="row justify-content-end">
                                     <div class="col-md-7 col-lg-7 col-xl-6">
@@ -110,7 +110,7 @@
                     tournament_start_date:new Date(),  
                     tournament_end_date:new Date(), 
                     total_amount:100, 
-                    currencyType:"EURO"
+                    currency_type:"EURO"
                 },
                 
                 shaSignIn:"", 
@@ -214,7 +214,7 @@
 
             changeCurrencyType(event){
                 console.log(event.target.value);
-                this.tournamentData.currencyType = event.target.value;
+                this.tournamentData.currency_type = event.target.value;
             }
         },
         beforeMount(){   
