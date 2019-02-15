@@ -64,7 +64,7 @@ export default {
           if(this.isInvalid == true) {
                     return false;
           }
-            this.isSaveInProcess = true;
+          this.isSaveInProcess = true;
           if(response) {
             let copyTournamentData = {'copy_tournament_id':this.copyTournamentId, 'tournament_name':
               this.formValues.name}

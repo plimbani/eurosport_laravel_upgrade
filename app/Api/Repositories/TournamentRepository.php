@@ -1090,13 +1090,14 @@ class TournamentRepository
         // saving tournament pitch availability
         if($existingTournamentAvailablePitches) {
             foreach ($existingTournamentAvailablePitches as $availablePitch) {
+                // echo "<pre>";print_r($availablePitch);echo "</pre>";
                 $copiedAvailablePitch = $availablePitch->replicate();
                 $copiedAvailablePitch->tournament_id = $newCopiedTournament->id;
                 $copiedAvailablePitch->pitch_id = $availablePitch->pitch_id ? $pitchesMappingArray[$availablePitch->pitch_id] : null;
                 $copiedAvailablePitch->save();
             }
         }
-
+// exit;
         // saving tournament pitch unavailability
         if($existingTournamentUnAvailablePitches) {
             foreach ($existingTournamentUnAvailablePitches as $unAvailablePitch) {
@@ -1175,5 +1176,15 @@ class TournamentRepository
         }
         
         return ['data' => $newCopiedTournament, 'status' => 'Success', 'message' => 'Tournament has been copied successfully.'];
+    }
+
+    public function duplicateTournamentList($data)
+    {   
+        if(isset($data['tournamentNameSearch']) && $data['tournamentNameSearch'] !== '') {
+            $tournamentName =  Tournament::where('tournaments.name', 'like', "%" . $data['tournamentNameSearch'] . "%");
+            return $tournamentName->orderBy('name', 'asc')->get();
+        } else {
+            return  Tournament::orderBy('name', 'asc')->get();
+        }
     }
 }

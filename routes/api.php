@@ -265,6 +265,9 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
     $api->post('viewGraphicImage','Laraspace\Api\Controllers\AgeGroupController@viewTemplateGraphicImage');
 
     $api->post('duplicateTournament','Laraspace\Api\Controllers\TournamentController@duplicateTournament');
+    
+    $api->post('duplicateTournamentList','Laraspace\Api\Controllers\TournamentController@duplicateTournamentList');
+
 });
 
 // Websites CMS routes

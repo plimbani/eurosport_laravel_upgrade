@@ -5,6 +5,27 @@
         <div class="tab-content">
             <div class="card">
                 <div class="card-block">
+                    <div class="row d-flex flex-row align-items-center mb-3 ">
+                      <div class="col-md-5">
+                            
+                      </div>
+                      <div class="col-md-7">
+                        <div class="row align-items-center justify-content-end">
+                          <div class="col-12">
+                            <div class="row">
+                              <div class="col-md-5">
+                                <input type="text" class="form-control"
+                                      v-on:keyup="searchTournamentData" v-model="tournamentListSearch"
+                                      placeholder="Search tournament name">
+                              </div>
+                              <div class="col-md-2">
+                                <button type="button" class="btn btn-primary w-100" @click='clear()'>{{$lang.user_management_clear_button}}</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                     <div class="row d-flex flex-row align-items-center">
                         <div class="col-md-12">
                             <table class="table add-category-table">
@@ -73,6 +94,7 @@
             return {
                 copyTournamentId: '',
                 copyTournamentName: '',
+                tournamentListSearch: '',
                 paginate: ['tournamentpagination'],
                 no_of_records: 20,
                 recordCounts: [5,10,20,50,100],
@@ -98,6 +120,18 @@
         mounted() {
         },
         methods: {
+          clear() {
+            this.tournamentListSearch = ''
+            //call method for refresh
+            this.$root.$emit('clearSearch')
+          },
+          searchTournamentData() {
+            this.$root.$emit('setSearch', this.tournamentListSearch);
+         },
+          searchTypeData() {
+            this.searchTournamentData();
+          },
+
           duplicateTournament(id, name) {
             this.copyTournamentId = id;
             this.copyTournamentName = name;

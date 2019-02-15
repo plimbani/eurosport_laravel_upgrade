@@ -36,11 +36,22 @@ export default {
 	},
 	created() {
 		this.getAllTournaments();
+		this.$root.$on('setSearch', this.getAllTournaments);
+	    this.$root.$on('clearSearch', this.clearSearch);
 	},
 	
 	methods: {
-	    getAllTournaments() {
-            Tournament.getAllTournaments().then(
+		clearSearch() {
+		    this.getAllTournaments()
+		},
+
+	    getAllTournaments(tournamentNameSearch='') {
+	    	let tournamentData = {}
+
+			if(tournamentNameSearch != '') {
+			  	tournamentData.tournamentNameSearch = tournamentNameSearch;
+			}
+            Tournament.duplicateTournamentList(tournamentData).then(
               (response) => {
                 this.tournamentList.tournamentData = response.data.data;
                 this.tournamentList.tournamentDataCount = response.data.data.length;

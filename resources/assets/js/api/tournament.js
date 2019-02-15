@@ -268,4 +268,7 @@ export default {
   duplicateTournament(copyTournamentData) {
     return api.post('duplicateTournament', copyTournamentData)
   },
+  duplicateTournamentList(tournamentData) {
+    return api.post('duplicateTournamentList', tournamentData)
+  },
 }
