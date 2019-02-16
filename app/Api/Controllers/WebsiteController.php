@@ -262,4 +262,27 @@ class WebsiteController extends BaseController
             return response()->json(['success' => false, 'status' => Response::HTTP_UNPROCESSABLE_ENTITY, 'data' => [], 'error' => [], 'message' => 'Something went wrong.']);
         }
     }
+    
+    /**
+     * Get website settings
+     * @param Request $request
+     * @return string
+     */
+    public function getSettings(Request $request)
+    {
+        try {
+            $data = $request->all();
+            $settings = $this->websiteRepo->getSettings($data['type']);
+            
+            return response()->json([
+                        'success' => true,
+                        'status' => Response::HTTP_OK,
+                        'data' => $settings,
+                        'error' => [],
+                        'message' => 'Settings has been fetched successfully.'
+            ]);
+        } catch (\Exception $ex) {
+            return response()->json(['success' => false, 'status' => Response::HTTP_UNPROCESSABLE_ENTITY, 'data' => [], 'error' => [], 'message' => 'Something went wrong.']);
+        }
+    }
 }

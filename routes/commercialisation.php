@@ -27,6 +27,7 @@ Route::group(['middleware' => 'jwt.auth'], function() {
     Route::post('v1/customer-tournament', '\Laraspace\Api\Controllers\Commercialisation\TournamentController@getTournamentByCustomer');
     Route::post('v1/customer-transactions', '\Laraspace\Api\Controllers\Commercialisation\BuyLicenseController@getCustomerTransactions');
     Route::post('v1/website-settings/save', '\Laraspace\Api\Controllers\WebsiteController@saveSettings');
+    Route::get('v1/get-website-settings', '\Laraspace\Api\Controllers\WebsiteController@getSettings');
 });
 
 Route::post('v1/generateHashKey', '\Laraspace\Api\Controllers\Commercialisation\BuyLicenseController@generateHashKey');
