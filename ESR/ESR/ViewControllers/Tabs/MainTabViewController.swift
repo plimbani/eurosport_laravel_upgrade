@@ -39,6 +39,8 @@ class MainTabViewController: SuperViewController {
     
     func initialize(){
         
+        APPDELEGATE.mainTabVC = self
+        
         for i in 0..<tabButtonList.count{
             let button = tabButtonList[i]
             button.tag = i
@@ -87,6 +89,12 @@ class MainTabViewController: SuperViewController {
                     NotificationCenter.default.post(name: .selectCountry, object: nil)
                 }
             }
+        }
+    }
+    
+    func addViewAsSubView(subView: UIView){
+        if !subView.isDescendant(of: self.view) {
+            self.view.addSubview(subView)
         }
     }
     

@@ -50,8 +50,6 @@ class TabTournamentVC: SuperViewController {
     var timer: Timer?
     var isTimerRunning = false
     
-    let modalWindow = UIApplication.shared.keyWindow!
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         initialize()
@@ -76,6 +74,10 @@ class TabTournamentVC: SuperViewController {
         if timer != nil {
             timer!.invalidate()
             timer = nil
+        }
+        
+        if tournamentDetailsView != nil {
+            tournamentDetailsView.removeFromSuperview()
         }
     }
     
@@ -122,7 +124,7 @@ class TabTournamentVC: SuperViewController {
         _ = cellOwner.loadMyNibFile(nibName: "TournamentDetailsView")
         tournamentDetailsView = cellOwner.view as! TournamentDetailsView
         tournamentDetailsView!.hide()
-        modalWindow.addSubview(tournamentDetailsView)
+        APPDELEGATE.mainTabVC?.addViewAsSubView(subView: tournamentDetailsView)
         
         sendRequestGetTournaments()
     }

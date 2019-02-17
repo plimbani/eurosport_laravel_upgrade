@@ -395,12 +395,14 @@ extension CreateAccountVC : UITableViewDataSource, UITableViewDelegate {
                             
                             if indexPath.row == CreateAccountList.firstname.rawValue {
                                 txtFirstName = textFieldCell.txtField
+                                
                                 txtFirstName.placeholder = String.localize(key: "First name")
                             } else if indexPath.row == CreateAccountList.surname.rawValue {
                                 txtLastName = textFieldCell.txtField
                                 txtLastName.placeholder = String.localize(key: "Surname")
                             } else if indexPath.row == CreateAccountList.email.rawValue {
                                 txtEmail = textFieldCell.txtField
+                                txtEmail.autocapitalizationType = .none
                                 txtEmail.placeholder = String.localize(key: "Email address")
                             } else if indexPath.row == CreateAccountList.pass.rawValue {
                                 txtPassword = textFieldCell.txtField

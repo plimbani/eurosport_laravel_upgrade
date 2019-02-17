@@ -25,6 +25,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var deviceOrientation = UIInterfaceOrientationMask.portrait
     
+    var mainTabVC: MainTabViewController?
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         _ = ApplicationData.sharedInstance()
         
