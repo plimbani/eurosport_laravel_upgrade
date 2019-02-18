@@ -29,11 +29,6 @@
             },
             hideModal() {
                 $('#bulk_unscheduled_fixtures').modal('hide')
-                $("#unschedule_fixtures").html('Unschedule fixture').removeClass('btn btn-success');
-                $("#unschedule_fixtures").addClass('btn btn-primary btn-md btn-secondary');
-                $(".checkbox").addClass('d-none');
-                $("#cancle_unscheduling_fixtures").hide();
-                $(".match-unschedule-checkbox" ).prop( "checked", false);
                 return false
             }
         }
