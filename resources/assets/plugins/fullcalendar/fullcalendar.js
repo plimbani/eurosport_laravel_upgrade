@@ -8382,7 +8382,6 @@ TimeGrid.mixin({
 							'</div>' :
 							''
 							) +
-						' <div class="checkbox d-none"><div class="c-input"><input type="checkbox" class="euro-checkbox match-unschedule-checkbox " name="match_unschedule_check[]" id="'+ event.matchId+'"><label for="'+ event.matchId+'"></label></div></div>'+
 						((event.homeScore !== null) && (event.awayScore !== null) && (typeof event.awayScore !== 'undefined') && (typeof event.awayScore !== 'undefined') ? 
 							'<div class="fc-score">' +
 								((event.isResultOverride == 1 && (event.matchStatus == 'Walk-over' || event.matchStatus == 'Abandoned') && event.matchWinner == event.homeTeam) ? '*' : '') +
@@ -8407,6 +8406,7 @@ TimeGrid.mixin({
 					'<div class="scheduled-match-content-strip" style="background: ' + event.fixtureStripColor + '"></div>' :
 						''
 						) +
+					'<div class="checkbox d-none match-unschedule-checkbox-div"><div class="c-input"><input type="checkbox" class="euro-checkbox match-unschedule-checkbox" name="match_unschedule_check[]" id="'+ event.matchId+'"><label for="'+ event.matchId+'"></label></div></div>'+
 					(event.remarks ?
 					'<div class="' + matchRemarkClasses + '"><i class="fas fa-comment-dots"></i></div>' : ''
 						) +

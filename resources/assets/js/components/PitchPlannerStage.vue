@@ -82,6 +82,8 @@ import _ from 'lodash'
             this.$root.$off('arrangeLeftColumn');
         },
         mounted() {
+            let vm = this;
+
             $( document ).ready(function() {
                 $(document).on('click','.js-horizontal-view', function (){
                     $('.pitch-planner-wrapper .pitch-planner-item').each(function(index){
@@ -92,7 +94,7 @@ import _ from 'lodash'
                 })
 
                 //  Unschedule fixtures checkbox check uncheck
-                $(document).on('change','.match-unschedule-checkbox', function (){
+                $(document).on('change','.match-unschedule-checkbox', function (e){
                     if($('.match-unschedule-checkbox').is(':checked')) {
                         $('#unschedule_fixtures').html('Confirm unscheduling').addClass('btn btn-success');
                         $("#cancle_unscheduling_fixtures").show();
@@ -100,10 +102,9 @@ import _ from 'lodash'
                     } else {
                         $("#unschedule_fixtures").html('Unschedule fixture').removeClass('btn btn-success');
                         $("#unschedule_fixtures").addClass('btn btn-primary btn-md btn-secondary');
-                        $(".checkbox").addClass('d-none');
+                        $(".match-unschedule-checkbox-div").addClass('d-none');
                         $("#cancle_unscheduling_fixtures").hide();
                     }
-                   
                 });
             });
 
@@ -111,7 +112,6 @@ import _ from 'lodash'
             $('.fc-time-grid-container').css('height', timeGridContainerHeight);
 
             let cal = this.$el;
-            let vm = this
             vm.initComponent()
             $(this.$el).fullCalendar('changeView', 'agendaDay');
 
@@ -377,6 +377,12 @@ import _ from 'lodash'
                         }
                     },
                     eventClick: function(calEvent, jsEvent, view) {
+                        if($('.match-unschedule-checkbox-div').has(jsEvent.target).length) {
+                            return true;
+                        }
+
+                        vm.$root.$emit('cancelUnscheduleFixtures');
+
                         var posX = $(this).offset().left, posY = $(this).offset().top;
                         var eventPositionLeft = (jsEvent.pageX - posX);
                         var matchBlockWidth = $(this).width();

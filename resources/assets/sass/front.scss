@@ -423,6 +423,14 @@ table#Competition-modal-table {
     height: 100%;
 }
 
+.match-unschedule-checkbox-div {
+    position: absolute;
+    bottom: 3px;
+    width: 23px;
+    left: 3px;
+    height: 23px;
+}
+
 .scheduled-match-content {
     height: 100%;
     position: relative;
@@ -1112,4 +1120,8 @@ a.active-view,
 a.active-view:hover {
     text-decoration: underline;
     @extend .text-primary;
+}
+
+.displayGraphicImage .modal-dialog{
+    max-width: 900px;
 }

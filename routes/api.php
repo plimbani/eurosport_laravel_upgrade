@@ -263,6 +263,7 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
     $api->post('getSignedUrlForTeamsSpreadsheetSampleDownload', 'Laraspace\Api\Controllers\MatchController@getSignedUrlForTeamsSpreadsheetSampleDownload');
 
     $api->post('age_group/copyAgeCategory','Laraspace\Api\Controllers\AgeGroupController@copyAgeCategory');
+    $api->post('viewGraphicImage','Laraspace\Api\Controllers\AgeGroupController@viewTemplateGraphicImage');
 });
 
 // Websites CMS routes

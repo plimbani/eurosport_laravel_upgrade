@@ -34,7 +34,7 @@
       </select>
     </div>
     <div class="form-group">
-      <a href="javascript:void(0)" class="btn btn-secondary btn-md"  @click="clearFilter()">{{$lang.teams_clear}}</a>
+      <button type="button" class="btn btn-primary btn-md" @click="clearFilter()">{{$lang.teams_clear}}</button>
     </div>
   </form>
 </template>

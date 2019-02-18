@@ -1,13 +1,13 @@
 <template>
     <div>
         <div class="row">
-            <div class="col-md-12 mb-3">
+            <div class="col-md-9 mb-3">
                 <div class="d-flex justify-content-between">
                     <div>
                         <button v-if="isPitchPlannerInEnlargeMode == 0" class="btn btn-primary btn-md vertical" @click="enlargePitchPlanner()">Enlarge</button>
                         <button class="btn btn-primary btn-md" @click="openAutomaticPitchPlanningModal()">{{$lang.pitch_planner_automatic_planning}}</button>
                         <button class="btn btn-primary btn-md btn-secondary" id="unschedule_fixtures" @click="unscheduleFixtures()">{{$lang.pitch_planner_unschedule_fixtures}}</button>
-                        <button class="btn btn-danger btn-md cancle-match-unscheduling d-none" id="cancle_unscheduling_fixtures" @click="cancleUnscheduleFixtures()">{{$lang.pitch_planner_cancel_unscheduling}}</button>
+                        <button class="btn btn-danger btn-md cancle-match-unscheduling d-none" id="cancle_unscheduling_fixtures" @click="cancelUnscheduleFixtures()">{{$lang.pitch_planner_cancel_unscheduling}}</button>
                     </div>
                     <div>
                         <button class="btn btn-default btn-md vertical" @click="printPitchPlanner()"><i class="fas fa-print text-primary"></i></button>
@@ -138,6 +138,7 @@
             this.$root.$on('editReferee', this.editReferee);
             this.$root.$on('displayTournamentCompetationList', this.displayTournamentCompetationList);
             this.$root.$on('setView', this.setView);
+            this.$root.$on('cancelUnscheduleFixtures', this.cancelUnscheduleFixtures);
         },
         beforeCreate: function() {
             // Remove custom event listener
@@ -491,29 +492,20 @@
 
                 if($("#unschedule_fixtures").hasClass('btn-secondary')) {
                     $("#unschedule_fixtures").removeClass('btn-secondary');
-                } else {
-                     $("#unschedule_fixtures").addClass('btn-secondary');
-                     manageClass = true; 
-                }
-
-                $(".checkbox").each(function( index ) {
-                    if(manageClass) {
-                        $(this).addClass('d-none')                  
-                    } else {
-                        $(this).removeClass('d-none')   
-                    }
-                }); 
+                    $(".match-unschedule-checkbox-div").removeClass('d-none');
+                } 
             },
 
-            cancleUnscheduleFixtures() {
+            cancelUnscheduleFixtures() {
                 $("#unschedule_fixtures").html('Unschedule fixture').removeClass('btn btn-success');
                 $("#unschedule_fixtures").addClass('btn btn-primary btn-md btn-secondary');
-                $(".checkbox").addClass('d-none');
+                $(".match-unschedule-checkbox-div").addClass('d-none');
                 $("#cancle_unscheduling_fixtures").hide();
-                $(".match-unschedule-checkbox" ).prop( "checked", false);
+                $(".match-unschedule-checkbox").prop( "checked", false);
             },
 
             confirmUnschedulingFixtures() {
+                let vm = this;
                 var matchId = [];
                 $(".match-unschedule-checkbox").each(function( index ) {
                     var checkboxChecked = $(this).is(':checked');
@@ -533,8 +525,12 @@
                     toastr.success('Fixtures unscheduled successfully', 'Fixtures Unscheduled', {timeOut: 5000});
                     $("#unschedule_fixtures").html('Unschedule fixture').removeClass('btn btn-success');
                     $("#unschedule_fixtures").addClass('btn btn-primary btn-md btn-secondary');
-                    $(".checkbox").addClass('d-none');
+                    $(".match-unschedule-checkbox-div").addClass('d-none');
                     $("#cancle_unscheduling_fixtures").hide();
+
+                    vm.$store.dispatch('setMatches');
+                    vm.$store.dispatch('SetScheduledMatches');
+                    vm.$root.$emit('reloadAllEvents')
                 })
             }
         }
