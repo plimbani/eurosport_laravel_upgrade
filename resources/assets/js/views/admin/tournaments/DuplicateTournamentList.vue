@@ -6,8 +6,7 @@
             <div class="card">
                 <div class="card-block">
                     <div class="row d-flex flex-row align-items-center mb-3 ">
-                      <div class="col-md-5">
-                            
+                      <div class="col-md-5">                            
                       </div>
                       <div class="col-md-7">
                         <div class="row align-items-center">
@@ -90,41 +89,47 @@
     import DuplicateTournamentModal from '../../admin/tournaments/DuplicateTournamentModal.vue'
     import VuePaginate from 'vue-paginate'
     export default {
-        data() {
-            return {
-                copyTournamentId: '',
-                copyTournamentName: '',
-                tournamentListSearch: '',
-                paginate: ['tournamentpagination'],
-                no_of_records: 20,
-                recordCounts: [5,10,20,50,100],
-            }
+      data() {
+          return {
+              copyTournamentId: '',
+              copyTournamentName: '',
+              tournamentListSearch: '',
+              paginate: ['tournamentpagination'],
+              no_of_records: 20,
+              recordCounts: [5,10,20,50,100],
+          }
+      },
+      props: ['tournamentList'],
+      components: {
+          DuplicateTournamentModal
+      },
+      mounted() {
+      },
+      created: function() {
+         this.$root.$on('displayTournamentList', this.displayTournamentList);
+      },
+      beforeCreate: function() {
+        this.$root.$off('displayTournamentList');
+      },
+      methods: {
+        clear() {
+          this.tournamentListSearch = ''
+          this.$root.$emit('clearSearch')
         },
-
-        props: ['tournamentList'],
-
-        components: {
-            DuplicateTournamentModal
+        searchTournamentData() {
+          this.$root.$emit('setSearch', this.tournamentListSearch);
         },
-        mounted() {
+        searchTypeData() {
+          this.searchTournamentData();
         },
-        methods: {
-          clear() {
-            this.tournamentListSearch = ''
-            //call method for refresh
-            this.$root.$emit('clearSearch')
-          },
-          searchTournamentData() {
-            this.$root.$emit('setSearch', this.tournamentListSearch);
-          },
-          searchTypeData() {
-            this.searchTournamentData();
-          },
-          duplicateTournament(id, name) {
-            this.copyTournamentId = id;
-            this.copyTournamentName = name;
-            $('#duplicateTournament').modal('show')
-          },
+        duplicateTournament(id, name) {
+          this.copyTournamentId = id;
+          this.copyTournamentName = name;
+          $('#duplicateTournament').modal('show')
+        },
+        displayTournamentList() {
+          this.searchTournamentData();
         }
+      }
     }
 </script>

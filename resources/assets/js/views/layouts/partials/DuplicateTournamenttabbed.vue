@@ -38,16 +38,14 @@ export default {
 		this.getAllTournaments();
 		this.$root.$on('setSearch', this.getAllTournaments);
 	    this.$root.$on('clearSearch', this.clearSearch);
+	    this.$root.$on('displayUpdatedTournaments', this.clearSearch);	    
 	},
-	
 	methods: {
 		clearSearch() {
 		    this.getAllTournaments()
 		},
-
 	    getAllTournaments(tournamentNameSearch='') {
 	    	let tournamentData = {}
-
 			if(tournamentNameSearch != '') {
 			  	tournamentData.tournamentNameSearch = tournamentNameSearch;
 			}
@@ -55,7 +53,6 @@ export default {
               (response) => {
                 this.tournamentList.tournamentData = response.data.data;
                 this.tournamentList.tournamentDataCount = response.data.data.length;
-
               },
               (error) => {
               }

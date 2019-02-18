@@ -1110,11 +1110,6 @@ class TournamentRepository
             }
         }
 
-        \Log::info('competitionsMappingArray', $competitionsMappingArray);
-        \Log::info('pitchesMappingArray', $pitchesMappingArray);
-        
-        echo "<pre>";print_r('here');echo "</pre>";exit;        
-
         // saving tournament referees
         if($existingTournamentReferees) {
             foreach ($existingTournamentReferees as $referee) {
@@ -1162,6 +1157,7 @@ class TournamentRepository
             }
         }
 
+
         // saving tournament contacts
         if($existingTournamentContacts) {
             foreach ($existingTournamentContacts as $tournamentContact) {
@@ -1182,7 +1178,7 @@ class TournamentRepository
             }
         }
         
-        return ['data' => $newCopiedTournament, 'status' => 'Success', 'message' => 'Tournament has been copied successfully.'];
+        return $newCopiedTournament;
     }
 
     public function duplicateTournamentList($data)
