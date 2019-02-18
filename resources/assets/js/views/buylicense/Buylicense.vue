@@ -201,7 +201,7 @@
                             this.tournamentData['tournament_max_teams'] = response.data.data.maximum_teams;                            
                             this.tournamentData['tournament_start_date'] = start_date.getMonth()+ 1 + '/'+start_date.getDate()+'/'+start_date.getFullYear();
                             this.tournamentData['tournament_end_date'] = end_date.getMonth()+ 1 + '/'+end_date.getDate()+'/'+end_date.getFullYear();;
-                            console.log("this.tournamentData:",this.tournamentData);
+                            // console.log("this.tournamentData:",this.tournamentData);
                     //         tournament_start_date:new Date(),  
                     // tournament_end_date:new Date(),
                          }else{ 
@@ -213,7 +213,7 @@
             },
 
             changeCurrencyType(event){
-                console.log(event.target.value);
+                // console.log(event.target.value);
                 this.tournamentData.currency_type = event.target.value;
             }
         },
