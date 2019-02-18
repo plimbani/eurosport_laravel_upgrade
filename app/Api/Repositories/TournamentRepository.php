@@ -1098,7 +1098,6 @@ class TournamentRepository
                 }
             }
         }
-
         // saving tournament pitch unavailability
         if($existingTournamentUnAvailablePitches) {
             foreach ($existingTournamentUnAvailablePitches as $unAvailablePitch) {
@@ -1184,5 +1183,15 @@ class TournamentRepository
         }
         
         return ['data' => $newCopiedTournament, 'status' => 'Success', 'message' => 'Tournament has been copied successfully.'];
+    }
+
+    public function duplicateTournamentList($data)
+    {   
+        if(isset($data['tournamentNameSearch']) && $data['tournamentNameSearch'] !== '') {
+            $tournamentName =  Tournament::where('tournaments.name', 'like', "%" . $data['tournamentNameSearch'] . "%");
+            return $tournamentName->orderBy('name', 'asc')->get();
+        } else {
+            return  Tournament::orderBy('name', 'asc')->get();
+        }
     }
 }
