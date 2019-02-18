@@ -2538,4 +2538,9 @@ class MatchService implements MatchContract
         $this->calculateCupLeagueTable($value->id, 1);
       }
     }
+
+    public function matchUnscheduledFixtures($matchId)
+    {
+        return $this->matchRepoObj->matchUnscheduledFixtures($matchId);
+    }
 }

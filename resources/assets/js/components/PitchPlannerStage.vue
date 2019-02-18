@@ -82,20 +82,36 @@ import _ from 'lodash'
             this.$root.$off('arrangeLeftColumn');
         },
         mounted() {
+            let vm = this;
+
             $( document ).ready(function() {
                 $(document).on('click','.js-horizontal-view', function (){
                     $('.pitch-planner-wrapper .pitch-planner-item').each(function(index){
                         var canvasWidth = $(this).find('.fc-unselectable .fc-scroller-canvas').width();
                         $(this).find('.fc-view-container table').attr('style', 'width: ' + parseInt(canvasWidth + 107) + 'px');
                     });
+
                 })
+
+                //  Unschedule fixtures checkbox check uncheck
+                $(document).on('change','.match-unschedule-checkbox', function (e){
+                    if($('.match-unschedule-checkbox').is(':checked')) {
+                        $('#unschedule_fixtures').html('Confirm unscheduling').addClass('btn btn-success');
+                        $("#cancle_unscheduling_fixtures").show();
+                        $('.cancle-match-unscheduling').removeClass('d-none');
+                    } else {
+                        $("#unschedule_fixtures").html('Unschedule fixture').removeClass('btn btn-success');
+                        $("#unschedule_fixtures").addClass('btn btn-primary btn-md btn-secondary');
+                        $(".match-unschedule-checkbox-div").addClass('d-none');
+                        $("#cancle_unscheduling_fixtures").hide();
+                    }
+                });
             });
 
             var timeGridContainerHeight = $('.fc-time-grid-container').height();
             $('.fc-time-grid-container').css('height', timeGridContainerHeight);
 
             let cal = this.$el;
-            let vm = this
             vm.initComponent()
             $(this.$el).fullCalendar('changeView', 'agendaDay');
 
@@ -104,6 +120,9 @@ import _ from 'lodash'
                     setGameAndRefereeTabHeight();
                 }
             });
+
+
+
         },
         methods: {
             initComponent(){
@@ -358,6 +377,12 @@ import _ from 'lodash'
                         }
                     },
                     eventClick: function(calEvent, jsEvent, view) {
+                        if($('.match-unschedule-checkbox-div').has(jsEvent.target).length) {
+                            return true;
+                        }
+
+                        vm.$root.$emit('cancelUnscheduleFixtures');
+
                         var posX = $(this).offset().left, posY = $(this).offset().top;
                         var eventPositionLeft = (jsEvent.pageX - posX);
                         var matchBlockWidth = $(this).width();
