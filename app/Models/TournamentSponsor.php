@@ -12,4 +12,11 @@ class TournamentSponsor extends Model
      * @var string
     */
     protected $table = 'tournament_sponsors';
+
+    /**
+    * The attributes that aren't mass assignable.
+    *
+    * @var array
+    */
+    protected $guarded = ['id'];
 }

@@ -20,6 +20,7 @@ use Laraspace\Models\TournamentTemplates;
 use Laraspace\Models\UserFavourites;
 use Laraspace\Models\Venue;
 use Laraspace\Models\Website;
+use Laraspace\Models\TournamentSponsor;
 
 class TournamentRepository
 {
@@ -134,6 +135,7 @@ class TournamentRepository
 
     public function create($data)
     {
+        
         // Save Tournament Data
         $newdata = array();
         $newdata['name'] = $data['name'];
@@ -150,6 +152,13 @@ class TournamentRepository
             $newdata['logo'] = $data['image_logo'];
         } else {
             $newdata['logo'] = null;
+        }
+
+
+        if ($data['sponsor_logo'] != '') {
+            $newdata['tournament_sponser_image'] = $data['sponsor_logo'];
+        } else {
+            $newdata['tournament_sponser_image'] = null;
         }
         // Now here we Save it For Tournament
         $imageChanged = true;
@@ -292,6 +301,15 @@ class TournamentRepository
             'website' => $data['website'],
             'maximum_teams' => $data['maximum_teams'],
         );
+        
+
+        // Tournament sponcer data
+        $tournamentSponcreData = [
+            'tournament_id' => $tournamentId,
+            'logo' => $data['sponsor_logo'],
+        ];
+
+        $createTournamentSponcre = TournamentSponsor::create($tournamentSponcreData)->id;
 
         return $tournamentData;
     }
