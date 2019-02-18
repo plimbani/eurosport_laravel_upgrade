@@ -76,7 +76,7 @@
             </div>
             <div class="row">
               <div class="col-md-12 text-center">
-                <img :src="templateGraphicViewImage">
+                <img class="img-fluid" :src="templateGraphicViewImage">
               </div>
             </div>
           </form>
