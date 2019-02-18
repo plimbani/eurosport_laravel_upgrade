@@ -102,6 +102,34 @@
                 </div>
               </div>
             </div>
+            <div class="card-block">
+              <div class="form">
+                <div class="row">
+                  <div class="col-md-6">
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group row">
+                      <label class="col-md-4 control-label">{{$lang.tournament_sponsor_logo}}</label>
+                      <div class="pull-right">
+                        <div v-if="!image">
+                            <img src="/assets/img/noimage.png" class="thumb-size" />
+                            <!--<button type="button" name="btnSelect" id="btnSelect">-->
+                            <button type="button" class="btn btn-default" name="btnSelect" id="btnSelect">{{$lang.tournament_sponsor_choose_button}}</button>
+                            <input type="file" id="selectFileT" style="display:none;" @change="onFileChangeT">
+                            <p class="help-block">Maximum size of 1 MB.<br/>
+                            Image dimensions 250 x 250.</p>
+                        </div>
+                        <div v-else>
+                            <img :src="imagePath + image"
+                             class="thumb-size" />
+                            <button class="btn btn-default" @click="removeImage">{{$lang.tournament_sponsor_remove_button}}</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
         <div class="">
