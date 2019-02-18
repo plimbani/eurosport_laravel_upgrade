@@ -11,6 +11,7 @@ class TwoLabelCell: UITableViewCell {
 
     @IBOutlet var lblStaticTitle: UILabel!
     @IBOutlet var lblTitle: UILabel!
+    @IBOutlet var bottomView: UIView!
     var record = NSDictionary()
     
     override func awakeFromNib() {

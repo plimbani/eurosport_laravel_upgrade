@@ -28,8 +28,13 @@
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L0N-co-rEj">
+<<<<<<< Updated upstream
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L0N-co-rEj">
                         <rect key="frame" x="262" y="7" width="0.0" height="30"/>
+=======
+                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L0N-co-rEj">
+                        <rect key="frame" x="194" y="7" width="96" height="30"/>
+>>>>>>> Stashed changes
                         <constraints>
                             <constraint firstAttribute="width" id="5HL-xo-B0z"/>
                         </constraints>

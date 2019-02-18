@@ -14,10 +14,14 @@ class ForgotPasswordVC: SuperViewController {
     @IBOutlet var lblNoInternet: UILabel!
     @IBOutlet var lblMessage: UILabel!
     @IBOutlet var btnBack: UIButton!
+    @IBOutlet var logoImg: UIImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         initialize()
+        let tap = UITapGestureRecognizer(target: self, action: #selector(onLogoImageClick(_:)))
+        logoImg.isUserInteractionEnabled = true
+        logoImg.addGestureRecognizer(tap)
     }
     
     func initialize() {
@@ -103,7 +107,14 @@ class ForgotPasswordVC: SuperViewController {
         ApiManager().forgotPassword(parameters, success: { result in
             DispatchQueue.main.async {
                 self.view.hideProgressHUD()
-                self.showInfoAlertView(title: String.localize(key: "alert_title_success"), message: String.localize(key: "alert_msg_forgot_password"), requestCode: AlertRequestCode.forgotPass.rawValue)
+                if let message = result.value(forKey: "message") as? String{
+                    if message == "Success"{
+                        self.showInfoAlertView(title: String.localize(key: "alert_title_success"), message: String.localize(key: "alert_msg_forgot_password"), requestCode: AlertRequestCode.forgotPass.rawValue)
+                    }else{
+                        self.showInfoAlertView(title: String.localize(key: "alert_title_error"), message: message, requestCode: AlertRequestCode.forgotPass.rawValue)
+                    }
+                }
+                
             }
         }, failure: { result in
             DispatchQueue.main.async {
@@ -122,6 +133,9 @@ class ForgotPasswordVC: SuperViewController {
     
     @IBAction func onSubmitBtnPressed(_ sender: UIButton) {
         sendForgotPasswordRequest()
+    }
+    @objc func onLogoImageClick(_ sender : UITapGestureRecognizer) {
+        self.navigationController?.popToRootViewController(animated: true)
     }
 }
 

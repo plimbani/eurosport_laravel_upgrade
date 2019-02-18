@@ -16,7 +16,7 @@ extension UIImageView {
 }
 
 extension UIButton {
-    func setImageColor(color: UIColor, image: UIImage, state: UIControl.State) {
+    func setImageColor(color: UIColor, image: UIImage, state: UIControlState) {
         let templateImage = image.withRenderingMode(UIImageRenderingMode.alwaysTemplate)
         self.setImage(templateImage, for: state)
         self.tintColor = color

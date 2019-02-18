@@ -12,6 +12,7 @@ class CreateAccountVC: SuperViewController {
     @IBOutlet var table: UITableView!
     @IBOutlet var lblNoInternet: UILabel!
     @IBOutlet var btnBack: UIButton!
+    @IBOutlet var logoImg: UIImageView!
     
     var txtFirstName: UITextField!
     var txtLastName: UITextField!
@@ -56,6 +57,9 @@ class CreateAccountVC: SuperViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         initialize()
+        let tap = UITapGestureRecognizer(target: self, action: #selector(onLogoImageClick(_:)))
+        logoImg.isUserInteractionEnabled = true
+        logoImg.addGestureRecognizer(tap)
     }
     
     func initialize(){
@@ -205,6 +209,9 @@ class CreateAccountVC: SuperViewController {
         }
     }
     
+    @objc func onLogoImageClick(_ sender : UITapGestureRecognizer) {
+        self.navigationController?.popToRootViewController(animated: true)
+    }
     func updateCreateAccountBtn() {
         btnCreateNewAccount.isEnabled = false
         btnCreateNewAccount.backgroundColor = UIColor.btnDisable

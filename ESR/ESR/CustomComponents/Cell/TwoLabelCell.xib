@@ -4,7 +4,6 @@
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -16,15 +15,15 @@
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" id="KGk-i7-Jjw" customClass="TwoLabelCell" customModule="ESR" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="60" id="KGk-i7-Jjw" customClass="TwoLabelCell" customModule="ESR" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="59.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Location" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Pa-9Q-D8U">
-                        <rect key="frame" x="16" y="12" width="100" height="19"/>
+                        <rect key="frame" x="16" y="20.5" width="100" height="19"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="100" id="8Fs-3Q-d1F"/>
                         </constraints>
@@ -33,23 +32,34 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WQv-D8-CVa">
-                        <rect key="frame" x="126" y="8" width="184" height="27.5"/>
+                        <rect key="frame" x="126" y="15" width="184" height="29.5"/>
                         <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="16"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UqB-ig-3UA">
+                        <rect key="frame" x="0.0" y="57.5" width="320" height="2"/>
+                        <color key="backgroundColor" red="0.78848494299614602" green="0.79798476158646103" blue="0.79798476158646103" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="2" id="M6w-a8-ORq"/>
+                        </constraints>
+                    </view>
                 </subviews>
                 <constraints>
                     <constraint firstItem="WQv-D8-CVa" firstAttribute="leading" secondItem="7Pa-9Q-D8U" secondAttribute="trailing" constant="10" id="8bp-K6-AeO"/>
+                    <constraint firstAttribute="bottom" secondItem="UqB-ig-3UA" secondAttribute="bottom" id="9Z0-S3-ZEH"/>
                     <constraint firstItem="7Pa-9Q-D8U" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="A8R-AK-BIm"/>
                     <constraint firstAttribute="trailing" secondItem="WQv-D8-CVa" secondAttribute="trailing" constant="10" id="RBe-Mm-Bqw"/>
                     <constraint firstItem="7Pa-9Q-D8U" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="SE7-jV-yEN"/>
-                    <constraint firstItem="WQv-D8-CVa" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="8" id="lvn-oW-d6Z"/>
-                    <constraint firstAttribute="bottom" secondItem="WQv-D8-CVa" secondAttribute="bottom" constant="8" id="nyc-v1-Uym"/>
+                    <constraint firstAttribute="trailing" secondItem="UqB-ig-3UA" secondAttribute="trailing" id="g62-73-KMk"/>
+                    <constraint firstItem="WQv-D8-CVa" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="15" id="lvn-oW-d6Z"/>
+                    <constraint firstAttribute="bottom" secondItem="WQv-D8-CVa" secondAttribute="bottom" constant="15" id="nyc-v1-Uym"/>
+                    <constraint firstItem="UqB-ig-3UA" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="vk3-TA-rBk"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
+                <outlet property="bottomView" destination="UqB-ig-3UA" id="87P-mU-Jh4"/>
                 <outlet property="lblStaticTitle" destination="7Pa-9Q-D8U" id="Syq-M2-V3c"/>
                 <outlet property="lblTitle" destination="WQv-D8-CVa" id="2rC-wA-Fmx"/>
             </connections>

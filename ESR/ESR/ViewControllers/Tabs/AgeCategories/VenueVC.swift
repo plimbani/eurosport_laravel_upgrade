@@ -32,7 +32,7 @@ class VenueVC: SuperViewController {
         titleNavigationBar.lblTitle.text = String.localize(key: "title_venue")
         
         table.tableFooterView = UIView()
-        table.separatorColor = UIColor.labelSlectionBg
+        table.separatorColor = UIColor.clear
         
         // Checks internet connectivity
         setConstraintLblNoInternet(APPDELEGATE.reachability.connection == .none)
@@ -49,6 +49,7 @@ class VenueVC: SuperViewController {
     @IBAction func viewOnMapBtnPressed(_ sender: UIButton) {
         let viewController = Storyboards.Main.instantiateMapVC()
         viewController.strLocation = dicTeamFixture.venueCoordinates
+        viewController.strVenueName = dicTeamFixture.venueName
         self.navigationController?.pushViewController(viewController, animated: true)
     }
     
@@ -93,6 +94,7 @@ extension VenueVC : UITableViewDataSource, UITableViewDelegate {
                         _ = cellOwner.loadMyNibFile(nibName: kNiB.Cell.TwoLabelCell)
                         let textFieldCell = cellOwner.cell as! TwoLabelCell
                         textFieldCell.record = field
+                        textFieldCell.bottomView.isHidden = false
                         textFieldCell.reloadCell()
                         cell = textFieldCell
                         

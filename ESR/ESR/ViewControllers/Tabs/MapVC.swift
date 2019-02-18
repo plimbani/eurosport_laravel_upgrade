@@ -13,6 +13,7 @@ class MapVC: SuperViewController {
     @IBOutlet var mapView: GMSMapView!
     
     var strLocation: String!
+    var strVenueName:String!
     var location: CLLocationCoordinate2D?
     
     override func viewDidLoad() {
@@ -35,9 +36,9 @@ class MapVC: SuperViewController {
                     let marker = GMSMarker()
                     marker.position = locationValue
                     marker.map = mapView
-                    
+                    marker.snippet = strVenueName
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                        self.zoomInToMarker(locationValue, zoom: 14)
+                        self.zoomInToMarker(locationValue, zoom: 18)
                     }
                     
                     

@@ -16,11 +16,17 @@ class LoginVC: SuperViewController {
     @IBOutlet var btnRememberMe: UIButton!
     @IBOutlet var btnForgotPass: UIButton!
     @IBOutlet var btnBack: UIButton!
+    @IBOutlet var logoImg: UIImageView!
+    
+    
     var isRememberMe = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
         initialize()
+        let tap = UITapGestureRecognizer(target: self, action: #selector(onLogoImageClick(_:)))
+        logoImg.isUserInteractionEnabled = true
+        logoImg.addGestureRecognizer(tap)
     }
     
     func initialize() {
@@ -267,6 +273,9 @@ class LoginVC: SuperViewController {
     
     @IBAction func forgotPassBtnPressed(_ sender: UIButton) {
         self.navigationController?.pushViewController(Storyboards.Main.instantiateForgotPasswordVC(), animated: true)
+    }
+    @objc func onLogoImageClick(_ sender : UITapGestureRecognizer) {
+        self.navigationController?.popToRootViewController(animated: true)
     }
 }
 

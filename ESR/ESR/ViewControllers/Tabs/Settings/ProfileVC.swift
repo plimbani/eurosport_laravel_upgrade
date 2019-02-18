@@ -318,7 +318,10 @@ extension ProfileVC: CustomAlertViewDelegate {
 
 extension ProfileVC: PickerHandlerViewDelegate {
     
-    func pickerCancelBtnPressed() {}
+    func pickerCancelBtnPressed() {
+        isRole = false
+        isCountry = false
+    }
     
     func pickerDoneBtnPressed(_ title: String) {
 
@@ -474,11 +477,11 @@ extension ProfileVC : UITableViewDataSource, UITableViewDelegate {
                                 let localeValues = ApplicationData.sharedInstance().getSelectedLocale()
                                 
                                 if !localeValues.0.isEmpty {
-                                    lblLanguage.text = localeValues.1
+                                    lblLanguage.text = String.localize(key: localeValues.1)
                                     selectedLocale = localeValues.1
                                 } else {
                                     lblLanguage.text = getRefreshedLanguageList()[0]
-                                    selectedLocale = getRefreshedLanguageList()[0]
+                                    selectedLocale = ApplicationData.localeKeyList[0]
                                 }
                                 
                                 lblLanguage.textColor = .black

@@ -39,6 +39,7 @@ class PickerHandlerView: UIView {
     
     @objc func handleTap(_ sender: UITapGestureRecognizer? = nil) {
         hide()
+        delegate?.pickerCancelBtnPressed()
     }
     
     func show() {
