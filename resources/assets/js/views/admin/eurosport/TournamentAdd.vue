@@ -114,8 +114,8 @@
                         <div v-if="!image">
                             <img src="/assets/img/noimage.png" class="thumb-size" />
                             <!--<button type="button" name="btnSelect" id="btnSelect">-->
-                            <button type="button" class="btn btn-default" name="btnSelect" id="btnSelect">{{$lang.tournament_sponsor_choose_button}}</button>
-                            <input type="file" id="selectFileT" style="display:none;" @change="onFileChangeT">
+                            <button type="button" class="btn btn-default" name="sponsorImage" id="sponsorImage">{{$lang.tournament_sponsor_choose_button}}</button>
+                            <input type="file" id="sponsorImageFile" style="display:none;" @change="addSponsorImage">
                             <p class="help-block">Maximum size of 1 MB.<br/>
                             Image dimensions 250 x 250.</p>
                         </div>
@@ -369,6 +369,12 @@ $('#btnSelect').on('click',function(){
   $('#selectFileT').trigger('click')
 })
 
+$('#sponsorImage').on('click',function(){
+  console.log('sponsor');
+  $('#sponsorImageFile').trigger('click')
+})
+
+
 let tId = this.$store.state.Tournament.tournamentId
 
 if(tId.length != 0) {
@@ -509,6 +515,7 @@ if(Plugin.ValidateImageSize(files) == true) {
   this.createImage(files[0]);
 }
 },
+
 createImage(file) {
 this.imagePath='';
 var image = new Image();
@@ -520,11 +527,36 @@ vm.image = e.target.result;
 
 reader.readAsDataURL(file);
 },
+
 removeImage: function (e) {
 this.image = '';
 this.imagePath='';
 e.preventDefault();
 },
+
+addSponsorImage(e) {
+  var files = e.target.files || e.dataTransfer.files;
+  if (!files.length)
+  return;
+  if(Plugin.ValidateImageSize(files) == true) {
+    this.createSponsorImage(files[0]);
+  }
+},
+
+createSponsorImage(file) {
+    this.imagePath='';
+    var image = new Image();
+    var reader = new FileReader();
+    var vm = this;
+    reader.onload = (e) => {
+    vm.image = e.target.result;
+  };
+    reader.readAsDataURL(file);
+},
+
+
+
+
 removeLocation (index){
 // here first we get the location id of it
 this.tournament.del_location = this.locations[index].tournament_location_id
