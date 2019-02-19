@@ -65,102 +65,71 @@
             <div class="card-block">
               <div class="form">
                 <div class="row">
-                  <div class="col-md-6">
-                    <div class="form-group row">
-                        <label class="col-md-4 control-label">{{$lang.tournament_website}}</label>
-                        <input type="text" class="col-md-7 form-control" v-model="tournament.website">
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label class="col-md-4 control-label">{{$lang.tournament_website}}</label>
+                            <input type="text" class="col-md-7 form-control" v-model="tournament.website">
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-4 control-label">{{$lang. tournament_facebook}}</label>
+                            <input type="text" class="col-md-7 form-control" v-model="tournament.facebook">
+                        </div>
+                        <div class="form-group row mb-0">
+                            <label class="col-md-4 control-label">{{$lang. tournament_twitter}}</label>
+                            <input type="text" v-model="tournament.twitter" class="col-md-7 form-control">
+                        </div>
                     </div>
-                    <div class="form-group row">
-                        <label class="col-md-4 control-label">{{$lang. tournament_facebook}}</label>
-                        <input type="text" class="col-md-7 form-control" v-model="tournament.facebook">
-                    </div>
-                    <div class="form-group row mb-0">
-                        <label class="col-md-4 control-label">{{$lang. tournament_twitter}}</label>
-                        <input type="text" v-model="tournament.twitter" class="col-md-7 form-control">
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-group row">
-                      <label class="col-md-4 control-label">{{$lang.tournament_tournament_logo}}</label>
-
-                      <div class="col-md-8">
-                        <div v-if="!image">
-                            <div class="row align-items-center">
-                              <div class="col-md-4">
-                                <img src="/assets/img/noimage.png" class="thumb-size" />
-                                <!--<button type="button" name="btnSelect" id="btnSelect">-->
-                              </div>
-                              <div class="col-md-8">
-                                <button type="button" class="btn btn-default" name="btnSelect" id="btnSelect">{{$lang.tournament_tournament_choose_button}}</button>
-                                <input type="file" id="selectFileT" style="display:none;" @change="onFileChangeT">
-                              </div>
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                        <label class="col-md-4 control-label">{{$lang.tournament_tournament_logo}}</label>
+                            <div class="col-md-8">
+                                <div v-if="!image">
+                                    <div class="row align-items-center">
+                                        <div class="col-md-4">
+                                        <img src="/assets/img/noimage.png" class="thumb-size" />
+                                        <!--<button type="button" name="btnSelect" id="btnSelect">-->
+                                    </div>
+                                    <div class="col-md-8">
+                                        <button type="button" class="btn btn-default" name="btnSelect" id="btnSelect">{{$lang.tournament_tournament_choose_button}}</button>
+                                        <input type="file" id="selectFileT" style="display:none;" @change="onFileChangeT">
+                                     </div>
+                                </div>
+                                <p class="help-block">Maximum size of 1 MB.<br/>
+                                    Image dimensions 250 x 250.</p>
                             </div>
-                            <p class="help-block">Maximum size of 1 MB.<br/>
-                                Image dimensions 250 x 250.</p>
+                            <div v-else>
+                                <div class="row align-items-center">
+                                    <div class="col-md-4">
+                                        <img :src="imagePath + image"
+                                         class="thumb-size" />
+                                    </div>
+                                    <div class="col-md-8">
+                                        <button class="btn btn-default" @click="removeImage">{{$lang.tournament_tournament_remove_button}}</button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div v-else>
-                            <div class="row align-items-center">
-                          <div class="col-md-4">
-                            <img :src="imagePath + image"
-                             class="thumb-size" />
-                          </div>
-                          <div class="col-md-8">
-                            <button class="btn btn-default" @click="removeImage">{{$lang.tournament_tournament_remove_button}}</button>
-                          </div>
-                      </div>
-                        </div>
-                      </div>
                     </div>
 
                     <div class="form-group row">
                        <label class="col-md-4 form-control-label">{{$lang.tournament_sponsor_logo}}</label>
                        <div class="col-md-8">
-                            <div class="row align-items-center">
-                               <div class="col-md-4">
-                                 <transition-image v-if="tournament_sponsor_logo != ''" 
-                                      :image_url="tournament_sponsor_logo" :image_class="'img-fluid'"></transition-image>
-                                      <img v-if="tournament_sponsor_logo == ''" src="/assets/img/noimage.png" class="img-fluid thumb-size" />
-                               </div>
-                               <div class="col-md-8">
-                                  <button v-if="tournament_sponsor_logo != '' && is_sponsor_logo_uploading == false" class="btn btn-default" @click="removeTournamentSponserImage($event)">{{$lang.tournament_tournament_remove_button}}</button>
-                                      <button v-else :disabled="is_sponsor_logo_uploading" type="button" class="btn btn-default" name="btnSelect" @click="selectTournamentSponsorLogo()">{{is_sponsor_logo_uploading ? $lang.uploading : $lang.tournament_tournament_choose_button}}</button>
-                                      <input type="file" id="select_tournament_image" style="display:none;" @change="onSponsorLogoChange($event)">
-                               </div>
+                            <div class="row align-items-center" v-for="(sponsor, index) in sponsorImage">
+                                <div class="col-md-4">
+                                    <transition-image v-if="tournament_sponsor_logo != ''" 
+                                      :image_url="tournament_sponsor_logo" :image_class="'img-fluid'">
+                                    </transition-image>
+                                    <img v-if="tournament_sponsor_logo == ''" src="/assets/img/noimage.png" class="img-fluid thumb-size" />
+                                </div>
+                                <div class="col-md-8">
+                                    <button v-if="tournament_sponsor_logo != '' && is_sponsor_logo_uploading  == false" class="btn btn-default" @click="removeTournamentSponserImage($event)">{{$lang.tournament_tournament_remove_button}}</button>
+                                    <button v-else :disabled="is_sponsor_logo_uploading" type="button" class="btn btn-default" name="btnSelect" @click="selectTournamentSponsorLogo()">{{is_sponsor_logo_uploading ? $lang.uploading : $lang.tournament_tournament_choose_button}}</button>
+                                    <input type="file" class="" :id="'select_tournament_image'+index" :name="'tournament_sponsor_image'+index" @change="onSponsorLogoChange($event)">
+                                </div>
+                                <p class="help-block text-muted pb-0 mb-0 mb-3">Required image dimensions: 180px × 180px (jpg, png or gif)</p>
                             </div>
-
-                            <p class="help-block text-muted pb-0 mb-0 mb-3">Required image dimensions: 180px × 180px (jpg, png or gif)</p>
-
                             <button class="btn btn-primary" @click.prevent="addTournamentSponsorImage">Add sponsor</button>
                         </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="card-block">
-              <div class="form">
-                <div class="row">
-                  <div class="col-md-6">
-                    <div class="form-group row">
-                     <label class="col-sm-12 form-control-label">{{$lang.tournament_sponsor_logo}}</label>
-                      <div class="col-sm-12">
-                        <div class="row align-items-center">
-                          <div class="col-sm-3">
-                            <transition-image v-if="tournament_sponsor_logo != ''" 
-                            :image_url="tournament_sponsor_logo" :image_class="'img-fluid'"></transition-image>
-                            <img v-if="tournament_sponsor_logo == ''" src="/assets/img/noimage.png" class="img-fluid" />
-                          </div>
-                          <div class="col-sm-9">
-                            <button v-if="tournament_sponsor_logo != '' && is_sponsor_logo_uploading == false" class="btn btn-default" @click="removeTournamentSponserImage($event)">{{$lang.tournament_tournament_remove_button}}</button>
-                            <button v-else :disabled="is_sponsor_logo_uploading" type="button" class="btn btn-default" name="btnSelect" @click="selectTournamentSponsorLogo()">{{is_sponsor_logo_uploading ? $lang.uploading : $lang.tournament_tournament_choose_button}}</button>
-                            <input type="file" id="select_tournament_image" style="display:none;" @change="onSponsorLogoChange($event)">
-                          </div>
-                          <div class="col-sm-12">
-                            <p class="help-block text-muted pb-0 mb-0">Required image dimensions: 180px × 180px (jpg, png or gif)</p>
-                          </div>
-                        </div>
-                      </div>
-                      <button class="btn btn-primary" @click.prevent="addTournamentSponsorImage">Add sponsor</button>
                     </div>
                   </div>
                 </div>
@@ -390,6 +359,7 @@ data() {
     sponsorImage: [{
       tournament_sponsor_image: ""
     }],
+
     image:'',
     customCount:0,
     tournamentId: 0,
@@ -668,9 +638,8 @@ methods: {
           formData.append('image', files[0]);
           axios.post('/api/tournament/uploadSponsorLogo', formData).then(
             (response)=> {
-              console.log('response', response);
-              vm.tournament_sponsor_logo = response.data;
-              vm.is_sponsor_logo_uploading = false;
+                vm.tournament_sponsor_logo = response.data;
+                vm.is_sponsor_logo_uploading = false;
             },
             (error)=>{
             }
@@ -681,12 +650,13 @@ methods: {
     },
 
     selectTournamentSponsorLogo() {
-      $('#select_tournament_image').trigger('click');
+        console.log('');
+      $('.select-tournament-sponsor-image').trigger('click');
     },
 
     removeTournamentSponserImage: function (e) {
       this.tournament_sponsor_logo = '';
-      $('#select_tournament_image').val('');
+      $('.select-tournament-sponsor-image').val('');
       e.preventDefault();
     },
 
