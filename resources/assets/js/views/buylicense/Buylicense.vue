@@ -228,7 +228,7 @@
                 axios.get(Constant.apiBaseUrl+'get-website-settings?type=currency').then(response =>  { 
                     if (response.data.success) { 
                         this.gpbConvertValue = response.data.data.gbp;
-                        console.log("this.gpbConvertValue::",this.gpbConvertValue);
+                        // console.log("this.gpbConvertValue::",this.gpbConvertValue);
                      }else{ 
                         toastr['error'](response.data.message, 'Error');
                      }
