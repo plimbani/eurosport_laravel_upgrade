@@ -51,7 +51,7 @@
                 </div>
               </div>
             </div>
-            <div class="block-bg age-category mb-4">
+            <div class="block-bg age-category" id="fixme">
               <div class="d-flex flex-row flex-wrap justify-content-center" v-if="grpsView.length != 0">
                 <div class="col-sm-3 my-2" v-for="(group, index) in grpsView">
                   <div class="m_card hoverable h-100 m-0">
@@ -281,6 +281,21 @@
       this.fetchAllCountries();
       this.fetchAllClubs();
       this.fetchAllTeamColors();
+      var fixmeTop = $('#fixme').offset().top;
+      var HeaderHeight = $('.site-header').height();
+      var fixmeTopOffset = fixmeTop - 60;
+      $(window).scroll(function() {
+        var currentScroll = $(window).scrollTop();
+        console.log(currentScroll);
+        if (currentScroll >= fixmeTopOffset) {
+          $('#fixme').addClass("is-fixed");
+          var FixmeHeight= ($('#fixme').height() + 49 );
+          $("#fixme").next().css({"padding-top": FixmeHeight});
+        } else {
+          $('#fixme').removeClass("is-fixed");
+          $("#fixme").next().css({"padding-top": 0});
+        }
+      });
     },
     created: function() {
       this.$root.$on('getTeamsByTournamentFilter', this.setFilter);
