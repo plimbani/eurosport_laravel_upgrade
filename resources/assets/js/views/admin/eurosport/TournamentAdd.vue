@@ -82,21 +82,56 @@
                   <div class="col-md-6">
                     <div class="form-group row">
                       <label class="col-md-4 control-label">{{$lang.tournament_tournament_logo}}</label>
-                      <div class="pull-right">
+
+                      <div class="col-md-8">
                         <div v-if="!image">
-                            <img src="/assets/img/noimage.png" class="thumb-size" />
-                            <!--<button type="button" name="btnSelect" id="btnSelect">-->
-                            <button type="button" class="btn btn-default" name="btnSelect" id="btnSelect">{{$lang.tournament_tournament_choose_button}}</button>
-                            <input type="file" id="selectFileT" style="display:none;" @change="onFileChangeT">
+                            <div class="row align-items-center">
+                              <div class="col-md-4">
+                                <img src="/assets/img/noimage.png" class="thumb-size" />
+                                <!--<button type="button" name="btnSelect" id="btnSelect">-->
+                              </div>
+                              <div class="col-md-8">
+                                <button type="button" class="btn btn-default" name="btnSelect" id="btnSelect">{{$lang.tournament_tournament_choose_button}}</button>
+                                <input type="file" id="selectFileT" style="display:none;" @change="onFileChangeT">
+                              </div>
+                            </div>
                             <p class="help-block">Maximum size of 1 MB.<br/>
-                            Image dimensions 250 x 250.</p>
+                                Image dimensions 250 x 250.</p>
                         </div>
                         <div v-else>
+                            <div class="row align-items-center">
+                          <div class="col-md-4">
                             <img :src="imagePath + image"
                              class="thumb-size" />
+                          </div>
+                          <div class="col-md-8">
                             <button class="btn btn-default" @click="removeImage">{{$lang.tournament_tournament_remove_button}}</button>
+                          </div>
+                      </div>
                         </div>
                       </div>
+                    </div>
+
+                    <div class="form-group row">
+                       <label class="col-md-4 form-control-label">{{$lang.tournament_sponsor_logo}}</label>
+                       <div class="col-md-8">
+                            <div class="row align-items-center">
+                               <div class="col-md-4">
+                                 <transition-image v-if="tournament_sponsor_logo != ''" 
+                                      :image_url="tournament_sponsor_logo" :image_class="'img-fluid'"></transition-image>
+                                      <img v-if="tournament_sponsor_logo == ''" src="/assets/img/noimage.png" class="img-fluid thumb-size" />
+                               </div>
+                               <div class="col-md-8">
+                                  <button v-if="tournament_sponsor_logo != '' && is_sponsor_logo_uploading == false" class="btn btn-default" @click="removeTournamentSponserImage($event)">{{$lang.tournament_tournament_remove_button}}</button>
+                                      <button v-else :disabled="is_sponsor_logo_uploading" type="button" class="btn btn-default" name="btnSelect" @click="selectTournamentSponsorLogo()">{{is_sponsor_logo_uploading ? $lang.uploading : $lang.tournament_tournament_choose_button}}</button>
+                                      <input type="file" id="select_tournament_image" style="display:none;" @change="onSponsorLogoChange($event)">
+                               </div>
+                            </div>
+
+                            <p class="help-block text-muted pb-0 mb-0 mb-3">Required image dimensions: 180px × 180px (jpg, png or gif)</p>
+
+                            <button class="btn btn-primary" @click.prevent="addTournamentSponsorImage">Add sponsor</button>
+                        </div>
                     </div>
                   </div>
                 </div>
@@ -105,8 +140,6 @@
             <div class="card-block">
               <div class="form">
                 <div class="row">
-                  <div class="col-md-6">
-                  </div>
                   <div class="col-md-6">
                     <div class="form-group row">
                      <label class="col-sm-12 form-control-label">{{$lang.tournament_sponsor_logo}}</label>
@@ -127,6 +160,7 @@
                           </div>
                         </div>
                       </div>
+                      <button class="btn btn-primary" @click.prevent="addTournamentSponsorImage">Add sponsor</button>
                     </div>
                   </div>
                 </div>
@@ -352,6 +386,7 @@ data() {
         tournament_location_id:0,
         tournament_venue_organiser: "",
     }],
+
     sponsorImage: [{
       tournament_sponsor_image: ""
     }],
@@ -523,12 +558,9 @@ methods: {
     });
   },
 
-  addMultipleSponsorImage() {
-    this.sponsorImage.push ({
-      tournament_sponsor_image: ''
+  addTournamentSponsorImage() {
+    this.sponsorImage.push({
     });
-
-    console.log(this.sponsorImage);
   },
 
   onFileChangeT(e) {

@@ -952,7 +952,7 @@ class TournamentService implements TournamentContract
     {
       $image = $request->image;
       $filename = md5(microtime(true) . rand(10,99)) . '.' . $image->getClientOriginalExtension();
-      $s3path = $this->imagePath['tournament_sponser'].$filename;
+      $s3path = $this->imagePath['tournament_sponsor'].$filename;
       $disk = Storage::disk('s3');
       $disk->put($s3path, file_get_contents($image), 'public');
       return $this->getAWSUrl . $s3path;

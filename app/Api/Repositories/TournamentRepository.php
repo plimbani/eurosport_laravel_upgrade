@@ -282,17 +282,17 @@ class TournamentRepository
         $tournamentData = array();
         $tournamentDays = $this->getTournamentDays($data['start_date'], $data['end_date']);
 
-        // Tournament sponcer data
-        $tournamentSponcreData = [
-            'tournament_id' => $tournamentId,
-            'logo' => $data['tournament_sponsor'],
 
-        ];
+        // Tournament sponcer data
 
         $tournament_sponsor = $data['tournament_sponsor'];
         $data['tournament_sponsor'] = basename(parse_url($tournament_sponsor)['path']);
         
-        $createTournamentSponcre = TournamentSponsor::create($tournamentSponcreData)->id;
+        $tournamentSponsorData = [
+            'tournament_id' => $tournamentId,
+            'logo' => $data['tournament_sponsor'],
+        ];
+        $createTournamentSponsor = TournamentSponsor::create($tournamentSponsorData)->id;
 
         $tournamentData = array(
             'id' => $tournamentId,
