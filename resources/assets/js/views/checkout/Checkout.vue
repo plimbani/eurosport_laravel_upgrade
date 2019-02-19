@@ -10,7 +10,7 @@
 
             <input type="hidden" name="AMOUNT" v-model="amount">
 
-            <input type="hidden" name="CURRENCY" value="EUR">
+            <input type="hidden" name="CURRENCY" v-model="tournamentData.currency_type">
 
             <input type="hidden" name="LANGUAGE" value="">
 
@@ -53,6 +53,9 @@
             <input type="hidden" name="LOGO" value="">
 
             <input type="hidden" name="FONTTYPE" value="">
+
+            <input type="hidden" name="PMLIST" value="VISA;MasterCard"> <input
+            type="hidden" name="PMLISTTYPE" value="1">
 
             <input type="submit" id="paymentSubmit" ref="paymentSubmit" name="paymentSubmit" style="display:none">
         </form>  
@@ -114,6 +117,8 @@
         },
         methods: { 
             generateHashKey(e){  
+                this.tournamentData['PMLIST'] = 'VISA;MasterCard';
+                this.tournamentData['PMLISTTYPE'] = 1;
                 axios.post(Constant.apiBaseUrl+'generateHashKey', this.tournamentData).then(response =>  {  
                         if (response.data.success) { 
                             this.shaSignIn = response.data.data.shaSignIn;
