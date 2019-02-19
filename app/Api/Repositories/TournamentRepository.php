@@ -22,6 +22,7 @@ use Laraspace\Models\Website;
 use Laraspace\Models\Position;
 use Laraspace\Models\MatchStanding;
 use Laraspace\Models\TeamManualRanking;
+use Laraspace\Jobs\DuplicateTournament;
 
 class TournamentRepository
 {
@@ -1011,6 +1012,23 @@ class TournamentRepository
 
     public function duplicateTournament($data)
     {
+        // DuplicateTournament::dispatch($data);
+        $tournamentData = $this->queriesForDuplicateTournament($data);
+        return $tournamentData;
+    }
+
+    public function duplicateTournamentList($data)
+    {   
+        if(isset($data['tournamentNameSearch']) && $data['tournamentNameSearch'] !== '') {
+            $tournamentName =  Tournament::where('tournaments.name', 'like', "%" . $data['tournamentNameSearch'] . "%");
+            return $tournamentName->orderBy('name', 'asc')->get();
+        } else {
+            return  Tournament::orderBy('name', 'asc')->get();
+        }
+    }
+
+    public function queriesForDuplicateTournament($data)
+    {
         $existingTournament = Tournament::findOrFail($data['copy_tournament_id']);
         $existingTournamentAgeCategories = TournamentCompetationTemplates::where('tournament_id', $data['copy_tournament_id'])->get();
         $existingTournamentCompetitions = Competition::where('tournament_id', $data['copy_tournament_id'])->get();
@@ -1177,17 +1195,7 @@ class TournamentRepository
                 $copiedTournamentMatchStanding->save();
             }
         }
-        
-        return $newCopiedTournament;
-    }
 
-    public function duplicateTournamentList($data)
-    {   
-        if(isset($data['tournamentNameSearch']) && $data['tournamentNameSearch'] !== '') {
-            $tournamentName =  Tournament::where('tournaments.name', 'like', "%" . $data['tournamentNameSearch'] . "%");
-            return $tournamentName->orderBy('name', 'asc')->get();
-        } else {
-            return  Tournament::orderBy('name', 'asc')->get();
-        }
+        return $newCopiedTournament;
     }
 }
