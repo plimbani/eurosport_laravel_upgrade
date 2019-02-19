@@ -252,4 +252,14 @@ class TournamentController extends BaseController
     {
         return $this->tournamentObj->updateCompetitionDisplayName($request->all());
     }
+
+    /*
+    * Upload tournament sponser image
+    *
+    * @return response
+    */
+      
+    public function uploadSponsorLogo(Request $request) {
+        return $this->tournamentObj->uploadSponsorLogo($request);
+    }
 }

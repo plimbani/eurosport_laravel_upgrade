@@ -154,12 +154,6 @@ class TournamentRepository
             $newdata['logo'] = null;
         }
 
-
-        if ($data['sponsor_logo'] != '') {
-            $newdata['tournament_sponser_image'] = $data['sponsor_logo'];
-        } else {
-            $newdata['tournament_sponser_image'] = null;
-        }
         // Now here we Save it For Tournament
         $imageChanged = true;
         if (isset($data['tournamentId']) && $data['tournamentId'] != 0) {
@@ -288,6 +282,18 @@ class TournamentRepository
         $tournamentData = array();
         $tournamentDays = $this->getTournamentDays($data['start_date'], $data['end_date']);
 
+        // Tournament sponcer data
+        $tournamentSponcreData = [
+            'tournament_id' => $tournamentId,
+            'logo' => $data['tournament_sponsor'],
+
+        ];
+
+        $tournament_sponsor = $data['tournament_sponsor'];
+        $data['tournament_sponsor'] = basename(parse_url($tournament_sponsor)['path']);
+        
+        $createTournamentSponcre = TournamentSponsor::create($tournamentSponcreData)->id;
+
         $tournamentData = array(
             'id' => $tournamentId,
             'name' => $data['name'],
@@ -300,17 +306,9 @@ class TournamentRepository
             'twitter' => $data['twitter'],
             'website' => $data['website'],
             'maximum_teams' => $data['maximum_teams'],
+            
         );
         
-
-        // Tournament sponcer data
-        $tournamentSponcreData = [
-            'tournament_id' => $tournamentId,
-            'logo' => $data['sponsor_logo'],
-        ];
-
-        $createTournamentSponcre = TournamentSponsor::create($tournamentSponcreData)->id;
-
         return $tournamentData;
     }
 
