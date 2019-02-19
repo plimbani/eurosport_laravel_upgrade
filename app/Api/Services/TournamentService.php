@@ -933,4 +933,13 @@ class TournamentService implements TournamentContract
       $data = $this->tournamentRepoObj->updateCompetitionDisplayName($data);
       return ['options' => $data];
     }
+
+    /**
+    * Update category division display name.
+    */
+    public function updateCategoryDivisionName($data)
+    {
+      $data = $this->tournamentRepoObj->updateCategoryDivisionName($data);
+      return $data;
+    }
 }

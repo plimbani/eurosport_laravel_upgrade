@@ -356,13 +356,6 @@ class MatchRepository
               ->orWhere('temp_fixtures.away_team',$tournamentData['teamId']);
         }
 
-
-        if(isset($tournamentData['competitionId']) && $tournamentData['competitionId'] !== '')
-        {
-
-          $reportQuery = $reportQuery->where('temp_fixtures.competition_id',
-              $tournamentData['competitionId']);
-        }
         if(isset($tournamentData['is_scheduled']) && $tournamentData['is_scheduled'] !== '')
         {
           // TODO: add constraint to only Show which are Scheduled
@@ -385,6 +378,22 @@ class MatchRepository
                                 $query->where('temp_fixtures.hometeam_score', NULL)
                                 ->orWhere('temp_fixtures.awayteam_score', NULL);
                             });
+        }
+
+        // Check all rounds matches are placing matches or not
+        $compDiv = DB::table('competitions')->where('competitions.id', $tournamentData['competitionId'])->pluck('competitions.age_category_division_id')->toArray();
+        $roundQuery = 0;
+        if ( $compDiv[0] != '')
+        {
+          $getAllCompetitionID = DB::table('competitions')->where('competitions.age_category_division_id',$compDiv[0])->pluck('competitions.id')->toArray();
+          // All rounds are pm or round robin
+           $countForRRElem = DB::table('temp_fixtures')->whereIn('temp_fixtures.competition_id',$getAllCompetitionID)
+           ->whereIn('round',['Round Robin','Elimination'])->count(); //,'Elimination'
+
+           if ( $countForRRElem == 0)
+          {
+            $roundQuery = 1;
+          }
         }
 
         // Todo Added Condition For Filtering Purpose on Pitch Planner
@@ -424,12 +433,28 @@ class MatchRepository
             }
           }
         }
+
+
+        if ( $roundQuery )
+        {
+          $reportQuery =  $reportQuery->whereIn('temp_fixtures.competition_id',$getAllCompetitionID);
+        }
+        else
+        {
+          if(isset($tournamentData['competitionId']) && $tournamentData['competitionId'] !== '')
+          {
+
+            $reportQuery = $reportQuery->where('temp_fixtures.competition_id',
+                $tournamentData['competitionId']);
+          }
+        }
+
       $resultData = $reportQuery->get();
       $updatedArray =[];
 
       foreach($resultData as $key=>$res) {
           $updatedArray[$key] = $res;
-          // echo "<pre>"; print_r($res); echo "</pre>"; exit;
+          $updatedArray[$key]->isDivExist = $roundQuery;
           if($res->Home_id == 0 ) {
             $preset = '';
               if(strpos($res->displayHomeTeamPlaceholderName,"." ) != false) {

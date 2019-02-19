@@ -14,7 +14,9 @@ class Competition extends Model
      * @var array
      */
     protected $primaryKey = 'id';
-    protected $fillable = ['id', 'tournament_id','tournament_competation_template_id','name', 'display_name', 'actual_name','team_size','competation_type','actual_competition_type', 'competation_round_no', 'color_code', 'created_at','updated_at','deleted_at'];
+
+    protected $fillable = ['id', 'tournament_id', 'tournament_competation_template_id', 'name', 'display_name', 'actual_name', 'team_size',
+                            'competation_type', 'actual_competition_type', 'competation_round_no', 'color_code', 'created_at', 'updated_at', 'deleted_at', 'age_category_division_id'];
 
     public function TournamentCompetationTemplates()
     {
@@ -24,5 +26,10 @@ class Competition extends Model
     public function scheduledFixtures()
     {
         return $this->hasMany('Laraspace\Models\TempFixture', 'competition_id')->where('is_scheduled', '=', 1);
+    }
+
+    public function AgeCategoryDivision()
+    {
+        return $this->belongsTo('Laraspace\Models\AgeCategoryDivision','age_category_division_id');
     }
 }

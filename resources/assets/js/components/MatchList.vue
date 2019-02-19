@@ -1,8 +1,18 @@
 <template>
 <div class="row">
   <div class="col-md-12">
-  <button type="button" name="save" class="btn btn-primary pull-right mb-3" @click="saveMatchScore()" v-if="getCurrentScheduleView == 'matchList' && isUserDataExist && matchData.length > 0">Save</button>  
-  <table id="matchSchedule" class="table table-hover table-bordered table-sm" v-if="matchData.length > 0">
+  <button type="button" name="save" class="btn btn-primary pull-right mb-3" @click="saveMatchScore()" v-if="getCurrentScheduleView == 'matchList' && isUserDataExist && matchData.length > 0">Save</button> 
+  <div class="row align-items-center mb-3" v-if="isDivExist == 0">
+    <div class="col-md-10">
+      <label class="mb-0">
+        <h6 class="mb-0">{{otherData.DrawName}} matches</h6>
+      </label>
+    </div>
+    <div class="col-md-2">
+      <button type="button" name="save" class="btn btn-primary pull-right" @click="saveMatchScore()" v-if="otherData.DrawType == 'Elimination' && isUserDataExist">Save</button>
+    </div>
+  </div>
+  <table id="matchSchedule" class="table table-hover table-bordered table-sm" v-if="matchData.length > 0 && isDivExist == 0">
     <thead>
       <th class="text-center">{{$lang.summary_schedule_date_time}}</th>
       <th class="text-center">{{$lang.summary_schedule_matches_categories}}</th>
@@ -86,7 +96,94 @@
       </tr>
     </tbody>
   </table>
-  
+    <div class="col-md-12" v-if="matchData.length > 0 && isDivExist == 1" v-for="(matches,index) in isDivExistData">
+      <label class="mb-0"><h4 class="mb-2">{{index}}</h4></label><br>
+      <label class="mb-0"><h5 class="mb-2">{{matches[0]['competation_name']}} matches</h5></label>
+      <table id="matchSchedule" class="table table-hover table-bordered table-sm">
+        <thead>
+          <th class="text-center">{{$lang.summary_schedule_date_time}}</th>
+          <th class="text-center">{{$lang.summary_schedule_matches_categories}}</th>
+          <th class="text-center">Match codes</th>
+          <th class="text-center">{{$lang.summary_schedule_matches_team}}</th>
+          <th class="text-center">{{$lang.summary_schedule_matches_team}}</th>
+          <th class="text-center" style="min-width:75px">{{$lang.summary_schedule_matches_score}}</th>
+          <th class="text-center" v-if="showPlacingForMatch()">{{$lang.summary_schedule_matches_placing}}</th>
+          <th class="text-center" v-if="isHideLocation !=  false">{{$lang.summary_schedule_matches_location}}</th>
+          <th class="text-center" v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails'">Details</th>
+        </thead>
+
+        <tbody>
+          <tr v-for="(match,index1) in matches">
+            <td class="text-center">{{match.match_datetime | formatDate}}</td>
+            <td class="text-center">
+              <a class="pull-left text-left text-primary" href=""
+              v-if="getCurrentScheduleView != 'drawDetails'"
+              @click.prevent="changeDrawDetails(match)"><u>{{match.competation_name | formatGroup}}</u>
+              </a>
+              <span v-else>{{match.competation_name | formatGroup(match.round)}}</span>
+            </td>
+            <td class="text-center">{{displayMatch(match.displayMatchNumber)}}</td>
+            <td align="right">
+              <div class="matchteam-details flex-row-reverse">
+                <span :class="'flag-icon flag-icon-'+match.HomeCountryFlag" class="line-height-initial matchteam-flag"></span>
+                <div class="matchteam-dress" v-if="match.HomeTeamShortsColor && match.HomeTeamShirtColor">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64.4 62"><g><polygon class="cls-1" v-bind:fill="match.HomeTeamShortsColor" points="13.79 39.72 13.79 61.04 30.26 61.04 32.2 55.22 34.14 61.04 50.61 61.04 50.61 39.72 13.79 39.72"/></g><path class="cls-2" v-bind:fill="match.HomeTeamShirtColor" d="M62.83,11.44,50.61,1H38A6.29,6.29,0,0,1,32.2,4.84,6.29,6.29,0,0,1,26.39,1H13.79L1.57,11.44a1.65,1.65,0,0,0-.09,2.41L8,20.34l5.81-3.87V39.72H50.61V16.47l5.81,3.87,6.5-6.49A1.65,1.65,0,0,0,62.83,11.44Z"/></svg>
+                </div>
+                <span class="text-center matchteam-name" v-if="(match.Home_id == '0' )">{{ getHoldingName(match.competition_actual_name, match.displayHomeTeamPlaceholderName) }}</span>
+                <span class="text-center matchteam-name" v-else><a class="text-primary" href="javascript:void(0)" @click.prevent="changeTeam(match.Home_id, match.HomeTeam)">{{ match.HomeTeam }}</a></span>
+              </div>
+            </td>
+            <td align="left">
+              <div class="matchteam-details">
+                <span :class="'flag-icon flag-icon-'+match.AwayCountryFlag" class="line-height-initial matchteam-flag"></span>
+                <div class="matchteam-dress" v-if="match.AwayTeamShortsColor && match.AwayTeamShirtColor">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64.4 62"><g><polygon class="cls-1" v-bind:fill="match.AwayTeamShortsColor" points="13.79 39.72 13.79 61.04 30.26 61.04 32.2 55.22 34.14 61.04 50.61 61.04 50.61 39.72 13.79 39.72"/></g><path class="cls-2" v-bind:fill="match.AwayTeamShirtColor" d="M62.83,11.44,50.61,1H38A6.29,6.29,0,0,1,32.2,4.84,6.29,6.29,0,0,1,26.39,1H13.79L1.57,11.44a1.65,1.65,0,0,0-.09,2.41L8,20.34l5.81-3.87V39.72H50.61V16.47l5.81,3.87,6.5-6.49A1.65,1.65,0,0,0,62.83,11.44Z"/></svg>
+                </div>
+                <span class="text-center matchteam-name" v-if="(match.Away_id == '0' )">{{ getHoldingName(match.competition_actual_name, match.displayAwayTeamPlaceholderName) }}</span>
+                <span class="text-center matchteam-name" v-else><a class="text-primary" href="javascript:void(0)" @click.prevent="changeTeam(match.Away_id, match.AwayTeam)">{{ match.AwayTeam }}</a></span>
+              </div>
+            </td>
+            <td class="text-center js-match-list">
+                <div class="d-inline-flex position-relative">
+                  <input type="text" v-model="match.homeScore" :name="'home_score['+match.fid+']'" style="width: 25px; text-align: center;" v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails'" :readonly="(match.is_scheduled == '0') || (match.isResultOverride == '1' && (match.match_status == 'Walk-over' || match.match_status == 'Abandoned'))" @change="updateScore(match,index1)">
+
+                  <span v-else>{{match.homeScore}}</span>
+
+                  <span class="circle-badge" :class="{'left-input': (isUserDataExist && getCurrentScheduleView != 'teamDetails'), 'left-text': (!isUserDataExist || getCurrentScheduleView == 'teamDetails') }" v-if="(match.isResultOverride == '1' && match.match_winner == match.Home_id)"><a data-toggle="popover" :class="'result-override-home-popover-' + match.fid" href="#" data-placement="top" data-trigger="hover" :data-content="match.result_override_popover" data-animation="false"><i class="fa fa-asterisk text-white" aria-hidden="true"></i></a></span>
+                </div> -
+                <div class="d-inline-flex position-relative">
+                  <input type="text" v-model="match.AwayScore" :name="'away_score['+match.fid+']'" style="width: 25px; text-align: center;"  v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails'" :readonly="(match.is_scheduled == '0') || (match.isResultOverride == '1' && (match.match_status == 'Walk-over' || match.match_status == 'Abandoned'))" @change="updateScore(match,index1)">
+
+                  <span class="circle-badge" :class="{'right-input': (isUserDataExist && getCurrentScheduleView != 'teamDetails'), 'right-text': (!isUserDataExist || getCurrentScheduleView == 'teamDetails') }" v-if="(match.isResultOverride == '1' && match.match_winner == match.Away_id)"><a :class="'result-override-away-popover-' + match.fid" href="#" data-toggle="popover" data-placement="top" data-trigger="hover" :data-content="match.result_override_popover" data-animation="false"><i class="fa fa-asterisk text-white" aria-hidden="true"></i></a></span>
+
+                  <span v-if="(!isUserDataExist || getCurrentScheduleView == 'teamDetails')">{{match.AwayScore}}</span>
+                </div>
+            </td>
+
+            <td class="text-center" v-if="showPlacingForMatch()">
+              {{ match.position != null ? match.position : 'N/A' }}
+            </td>
+            <td v-if="isHideLocation !=  false">
+              <a class="pull-left text-left">
+              {{ match.is_scheduled == 1 ? (match.venue_name + '-' + match.pitch_number) : '-' }}
+              </a>
+            </td>
+            <td class="text-center" v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails'">
+              <span class="align-middle">
+                <span v-if="match.is_scheduled == '0'">-
+                </span>
+                <span v-else>
+                  <a class="text-primary js-edit-match" href="javascript:void(0);"  v-bind:data-id="match.fid"
+                  @click="openPitchModal(match,match.fid)"><i class="jv-icon jv-edit"></i>
+                  </a>
+                  <a v-if="match.matchRemarks" class="text-primary" href="javascript:void(0);" @click="openPitchModal(match, match.fid)"><i class="jv-icon jv-comment"></i></a>
+                </span>
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
     <paginate v-if="getCurrentScheduleView != 'teamDetails' && getCurrentScheduleView != 'drawDetails' && matchData.length > 0" name="matchlist" :list="matchData" ref="paginator" :per="no_of_records"  class="paginate-list">
     </paginate>
     <div v-if="getCurrentScheduleView != 'teamDetails' && getCurrentScheduleView != 'drawDetails' && matchData.length > 0" class="row d-flex flex-row align-items-center mb-3">
@@ -126,7 +223,7 @@ import DeleteModal1 from '../components/DeleteModalBlock.vue'
 import VuePaginate from 'vue-paginate'
 
 export default {
-  props: ['matchData1', 'DrawName'],
+  props: ['matchData1', 'DrawName', 'otherData'],
   components: {
             PitchModal,
             DeleteModal1,
@@ -144,6 +241,8 @@ export default {
       paginate: (this.getCurrentScheduleView != 'teamDetails' && this.getCurrentScheduleView != 'drawDetails') ? ['matchlist'] : null,
       shown: false,
       isMatchListInitialized: false,
+      isDivExist: false,
+      isDivExistData: [],
       no_of_records: 20,
       recordCounts: [5,10,20,50,100]
     }
@@ -184,7 +283,7 @@ export default {
     },
     getCurrentScheduleView() {
       return this.$store.state.currentScheduleView
-    }
+    },
   },
   components: {
     PitchModal,
@@ -230,6 +329,16 @@ export default {
             vm.getResultOverridePopover(value);
           });
         });
+        if ( this.matchData[0]['isDivExist'] == 1 )
+        {
+          this.isDivExist = this.matchData[0]['isDivExist'];
+          this.isDivExistData = _.groupBy(this.matchData, 'competation_round_no'); 
+        }
+        else
+        {
+          this.isDivExist = false;
+          this.isDivExistData = [];
+        }
       },
       deep: true,
     },
@@ -434,7 +543,16 @@ export default {
       if(this.getCurrentScheduleView != 'teamDetails' && this.getCurrentScheduleView != 'drawDetails') {
         return this.paginated('matchlist');
       } else {
-        return this.matchData;
+        if ( this.matchData[0]['isDivExist'] == 1 )
+        {
+          this.isDivExist = this.matchData[0]['isDivExist'];
+          this.isDivExistData = _.groupBy(this.matchData, 'competation_round_no');
+          return this.matchData;  
+        }
+        else
+        {
+          return this.matchData;  
+        }
       }
     },
     showPlacingForMatch() {

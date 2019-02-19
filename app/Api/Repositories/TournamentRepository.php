@@ -19,6 +19,7 @@ use Laraspace\Models\TournamentTemplates;
 use Laraspace\Models\UserFavourites;
 use Laraspace\Models\Venue;
 use Laraspace\Models\Website;
+use Laraspace\Models\AgeCategoryDivision;
 
 class TournamentRepository
 {
@@ -663,15 +664,30 @@ class TournamentRepository
 
     public function getCategoryCompetitions($data)
     {
-        $categoryCompetitions = Competition::where('tournament_competation_template_id', $data['ageGroupId']);
+        $categoryCompetitions = Competition::with('AgeCategoryDivision')->where('tournament_competation_template_id', $data['ageGroupId']);
+        //->groupBy(['competation_round_no','age_category_division_id']);
         if (isset($data['competationType'])) {
             $categoryCompetitions = $categoryCompetitions->where('competation_type', $data['competationType']);
         }
         if (isset($data['competationRoundNo'])) {
             $categoryCompetitions = $categoryCompetitions->where('competation_round_no', $data['competationRoundNo']);
         }
-        $categoryCompetitions = $categoryCompetitions->get();
-        return $categoryCompetitions;
+        $categoryCompetitions = $categoryCompetitions->get()->toArray();
+        $divisionsData = [];
+        $data = [];
+        foreach ($categoryCompetitions as $key => $value) {
+            if ( $value['age_category_division'] != '')
+            {
+                $divisionsData[$value['age_category_division_id'].'|'.$value['age_category_division']['name']][$value['competation_round_no']][] = $value;
+
+                unset($categoryCompetitions[$key]);  
+            }
+        }
+
+        $data['round_robin'] = $categoryCompetitions;
+        $data['division'] = $divisionsData;
+        
+        return $data;
     }
 
     public function getAllPublishedTournaments($data)
@@ -1004,5 +1020,19 @@ class TournamentRepository
                                         ->get();
                                         
         return ['data' => $competitionData, 'status' => 'Success', 'message' => 'Competition name has been updated.'];
+    }
+
+    /**
+    * Update category division display name.
+    */
+    public function updateCategoryDivisionName($data)
+    {
+        return AgeCategoryDivision::where('tournament_id', $data['tournamentData']
+                                    ['tournament_id'])
+                                    ->where('tournament_competition_template_id', 
+                                    $data['tournamentData']['currentAgeCategoryId'])
+                                    ->where('id', $data['tournamentData']['divisionId'])
+                                    ->update(['name' => $data['tournamentData']['categoryDivisionName']]);
+
     }
 }
