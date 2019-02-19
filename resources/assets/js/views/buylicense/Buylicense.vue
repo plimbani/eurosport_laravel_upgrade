@@ -64,7 +64,7 @@
                                             <p class="text-sm-right mb-0 mt-3 mt-sm-0">
                                              <span v-if="tournamentData.currency_type == 'GBP'">GBP</span>   
                                              <span v-if="tournamentData.currency_type == 'EURO'">EURO</span>   
-                                            £100.00</p>
+                                            £ {{returnFormatedNumber(tournamentData.total_amount)}}</p>
                                         </div>
                                     </div>
 
@@ -72,7 +72,7 @@
 
                                     <p class="text-sm-right font-weight-bold">
                                         <span v-if="tournamentData.currency_type == 'GBP'">GBP</span> 
-                                        <span v-if="tournamentData.currency_type == 'EURO'">EURO</span>  £100.00</p>
+                                        <span v-if="tournamentData.currency_type == 'EURO'">EURO</span>  £ {{returnFormatedNumber(tournamentData.total_amount)}}</p>
                                 </div>
                                 <div class="row justify-content-end">
                                     <div class="col-md-7 col-lg-7 col-xl-6">
@@ -120,6 +120,7 @@
                 disabled:false,
                 dayDifference:1,
                 id:"",
+                gpbConvertValue:1
                 
             }
         },
@@ -215,6 +216,29 @@
             changeCurrencyType(event){
                 // console.log(event.target.value);
                 this.tournamentData.currency_type = event.target.value;
+                if((this.tournamentData.currency_type).toLowerCase() == "gbp"){
+                    this.tournamentData.total_amount = (this.tournamentData.total_amount)*this.gpbConvertValue;
+                    // total_amount
+                }else{
+                    this.tournamentData.total_amount = this.tournamentData.total_amount/this.gpbConvertValue;
+                }
+            },
+
+            getCurrencyValue(){ 
+                axios.get(Constant.apiBaseUrl+'get-website-settings?type=currency').then(response =>  { 
+                    if (response.data.success) { 
+                        this.gpbConvertValue = response.data.data.gbp;
+                        console.log("this.gpbConvertValue::",this.gpbConvertValue);
+                     }else{ 
+                        toastr['error'](response.data.message, 'Error');
+                     }
+                }).catch(error => {
+                     
+                }); 
+            },
+
+            returnFormatedNumber(value){
+                return Number(value).toFixed(2);  
             }
         },
         beforeMount(){   
@@ -249,7 +273,7 @@
             $("#tournament_end_date").on("change",function (value){ 
                vm.findDifferenceBetweenDates();
             })   
-
+            this.getCurrencyValue();
 
         }
     }
