@@ -23,6 +23,7 @@ use Laraspace\Models\Position;
 use Laraspace\Models\MatchStanding;
 use Laraspace\Models\TeamManualRanking;
 use Laraspace\Models\TournamentClub;
+use Laraspace\Models\TournamentUser;
 
 class TournamentRepository
 {
@@ -1026,6 +1027,7 @@ class TournamentRepository
         $existingTournamentContacts = TournamentContact::where('tournament_id', $data['copy_tournament_id'])->get();
         $existingTournamentReferees = Referee::where('tournament_id', $data['copy_tournament_id'])->get();
         $tournamentClubs = TournamentClub::where('tournament_id', $data['copy_tournament_id'])->get();
+        $tournamentUsers = TournamentUser::where('tournament_id', $data['copy_tournament_id'])->get();
 
         $teamsMappingArray = [];
         $venuesMappingArray = [];
@@ -1098,7 +1100,7 @@ class TournamentRepository
                     $copiedAvailablePitch->pitch_id = $pitchesMappingArray[$availablePitch->pitch_id];
                     $copiedAvailablePitch->save();
                 }
-                
+
                 $pitchBreak = PitchBreaks::where('pitch_id', $availablePitch->pitch_id)->first();
                 if($pitchBreak) {
                     $copiedPitchBreak = $pitchBreak->replicate();
@@ -1191,10 +1193,18 @@ class TournamentRepository
 
         // saving tournament club
         if($tournamentClubs) {
-            foreach ($tournamentClubs as $key => $tournamentClub) {
+            foreach ($tournamentClubs as $tournamentClub) {
                 $copiedTournamentClub = $tournamentClub->replicate();
                 $copiedTournamentClub->tournament_id = $newCopiedTournament->id;
                 $copiedTournamentClub->save();
+            }
+        }
+
+        if($tournamentUsers) {
+            foreach ($tournamentUsers as $tournamentUser) {
+                $copiedTournamentUser = $tournamentUser->replicate();
+                $copiedTournamentUser->tournament_id = $newCopiedTournament->id;
+                $copiedTournamentUser->save();
             }
         }
 
