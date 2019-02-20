@@ -22,7 +22,7 @@ use Laraspace\Models\Website;
 use Laraspace\Models\Position;
 use Laraspace\Models\MatchStanding;
 use Laraspace\Models\TeamManualRanking;
-use Laraspace\Jobs\DuplicateTournament;
+use Laraspace\Models\TournamentClub;
 
 class TournamentRepository
 {
@@ -1012,23 +1012,6 @@ class TournamentRepository
 
     public function duplicateTournament($data)
     {
-        // DuplicateTournament::dispatch($data);
-        $tournamentData = $this->queriesForDuplicateTournament($data);
-        return $tournamentData;
-    }
-
-    public function duplicateTournamentList($data)
-    {   
-        if(isset($data['tournamentNameSearch']) && $data['tournamentNameSearch'] !== '') {
-            $tournamentName =  Tournament::where('tournaments.name', 'like', "%" . $data['tournamentNameSearch'] . "%");
-            return $tournamentName->orderBy('name', 'asc')->get();
-        } else {
-            return  Tournament::orderBy('name', 'asc')->get();
-        }
-    }
-
-    public function queriesForDuplicateTournament($data)
-    {
         $existingTournament = Tournament::findOrFail($data['copy_tournament_id']);
         $existingTournamentAgeCategories = TournamentCompetationTemplates::where('tournament_id', $data['copy_tournament_id'])->get();
         $existingTournamentCompetitions = Competition::where('tournament_id', $data['copy_tournament_id'])->get();
@@ -1042,6 +1025,7 @@ class TournamentRepository
         $existingTournamentTeamsManualRankings = TeamManualRanking::where('tournament_id', $data['copy_tournament_id'])->get();
         $existingTournamentContacts = TournamentContact::where('tournament_id', $data['copy_tournament_id'])->get();
         $existingTournamentReferees = Referee::where('tournament_id', $data['copy_tournament_id'])->get();
+        $tournamentClubs = TournamentClub::where('tournament_id', $data['copy_tournament_id'])->get();
 
         $teamsMappingArray = [];
         $venuesMappingArray = [];
@@ -1114,8 +1098,17 @@ class TournamentRepository
                     $copiedAvailablePitch->pitch_id = $pitchesMappingArray[$availablePitch->pitch_id];
                     $copiedAvailablePitch->save();
                 }
+                
+                $pitchBreak = PitchBreaks::where('pitch_id', $availablePitch->pitch_id)->first();
+                if($pitchBreak) {
+                    $copiedPitchBreak = $pitchBreak->replicate();
+                    $copiedPitchBreak->pitch_id = $pitchesMappingArray[$availablePitch->pitch_id];
+                    $copiedPitchBreak->availability_id = $copiedAvailablePitch->id;
+                    $copiedPitchBreak->save();
+                }
             }
         }
+
         // saving tournament pitch unavailability
         if($existingTournamentUnAvailablePitches) {
             foreach ($existingTournamentUnAvailablePitches as $unAvailablePitch) {
@@ -1196,6 +1189,26 @@ class TournamentRepository
             }
         }
 
+        // saving tournament club
+        if($tournamentClubs) {
+            foreach ($tournamentClubs as $key => $tournamentClub) {
+                $copiedTournamentClub = $tournamentClub->replicate();
+                $copiedTournamentClub->tournament_id = $newCopiedTournament->id;
+                $copiedTournamentClub->save();
+            }
+        }
+
+
         return $newCopiedTournament;
+    }
+
+    public function duplicateTournamentList($data)
+    {   
+        if(isset($data['tournamentNameSearch']) && $data['tournamentNameSearch'] !== '') {
+            $tournamentName =  Tournament::where('tournaments.name', 'like', "%" . $data['tournamentNameSearch'] . "%");
+            return $tournamentName->orderBy('name', 'asc')->get();
+        } else {
+            return  Tournament::orderBy('name', 'asc')->get();
+        }
     }
 }
