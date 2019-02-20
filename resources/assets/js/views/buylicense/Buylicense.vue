@@ -110,7 +110,8 @@
                     tournament_start_date:new Date(),  
                     tournament_end_date:new Date(), 
                     total_amount:100, 
-                    currency_type:"EURO"
+                    currency_type:"EURO",
+                    payment_currency:"EUR"
                 },
                 
                 shaSignIn:"", 
@@ -217,10 +218,12 @@
                 // console.log(event.target.value);
                 this.tournamentData.currency_type = event.target.value;
                 if((this.tournamentData.currency_type).toLowerCase() == "gbp"){
+                    this.tournamentData.payment_currency = this.tournamentData.currency_type;
                     this.tournamentData.total_amount = (this.tournamentData.total_amount)*this.gpbConvertValue;
                     // total_amount
                 }else{
                     this.tournamentData.total_amount = this.tournamentData.total_amount/this.gpbConvertValue;
+                    this.tournamentData.payment_currency = "EUR";
                 }
             },
 

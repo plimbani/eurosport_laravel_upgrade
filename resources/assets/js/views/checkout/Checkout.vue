@@ -11,6 +11,7 @@
             <input type="hidden" name="AMOUNT" v-model="amount">
 
             <input type="hidden" name="CURRENCY" value="EUR">
+            <!-- <input type="hidden" name="CURRENCY" v-model="tournamentData.payment_currency"> -->
 
             <input type="hidden" name="LANGUAGE" value="">
 
