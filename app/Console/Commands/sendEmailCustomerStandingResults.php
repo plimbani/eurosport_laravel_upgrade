@@ -66,7 +66,7 @@ class sendEmailCustomerStandingResults extends Command
 
                 // Add 8 hours in date end time
                 $finalDate = Carbon::parse($lastMatchEndTime->match_endtime);
-                $finalDate->addHours(17); 
+                $finalDate->addHours(8); 
 
                 list($dbDate,$dbHour) = explode(' ',$finalDate);
                 $dbHour = date('H',strtotime($dbHour));
