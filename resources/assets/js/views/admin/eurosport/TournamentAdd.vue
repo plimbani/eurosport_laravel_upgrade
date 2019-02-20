@@ -21,7 +21,8 @@
             <div class="form-group" :class="{'has-error': errors.has('tournament.maximum_teams') }">
               <label>{{$lang.maximum_teams}}*</label>
               <div class="input-group">
-                 <input type="number" class="form-control" v-model="tournament.maximum_teams" name="maximum_teams" v-validate="'required'" v-if="userRole == 'Tournament administrator'"  readonly="readonly" :class="{'is-danger': errors.has('maximum_teams') }">
+                 <input type="number" class="form-control" v-model="tournament.maximum_teams" name="maximum_teams" v-validate="'required'" v-if="((tournamentId != 0 ) || userRole == 'Tournament administrator')"  disabled="disabled" :class="{'is-danger': errors.has('maximum_teams') }">
+
                  <input type="number" class="form-control" v-model="tournament.maximum_teams" name="maximum_teams" v-validate="'required'" v-else   :class="{'is-danger': errors.has('maximum_teams') }">
                  <i v-show="errors.has('tournament_name')" class="fa fa-warning"></i>
               </div>
@@ -37,7 +38,7 @@
                   <span class="input-group-addon">
                       <i class="jv-icon jv-calendar"></i>
                   </span>
-                  <input type="text" class="form-control ls-datepicker" v-if="userRole == 'Tournament administrator'"  disabled="disabled" id="tournament_start_date">
+                  <input type="text" class="form-control ls-datepicker" v-if="((tournamentId != 0 ) || userRole == 'Tournament administrator')"  disabled="disabled" id="tournament_start_date">
                   <input type="text" class="form-control ls-datepicker" v-else id="tournament_start_date">
               </div>
             </div>
@@ -115,18 +116,20 @@
                        <label class="col-md-4 form-control-label">{{$lang.tournament_sponsor_logo}}</label>
                        <div class="col-md-8">
                             <div class="row align-items-center" v-for="(sponsor, index) in sponsorImage">
+                        {{ sponsorImage }}
                                 <div class="col-md-4">
-                                    <transition-image v-if="tournament_sponsor_logo != ''" 
-                                      :image_url="tournament_sponsor_logo" :image_class="'img-fluid'">
+                                    <transition-image v-if="sponsor != ''" 
+                                      :image_url="sponsor" :image_class="'img-fluid'">
                                     </transition-image>
-                                    <img v-if="tournament_sponsor_logo == ''" src="/assets/img/noimage.png" class="img-fluid thumb-size" />
+                                    <img v-if="sponsor == ''" src="/assets/img/noimage.png" class="img-fluid thumb-size" />
                                 </div>
                                 <div class="col-md-8">
-                                    <button v-if="tournament_sponsor_logo != '' && is_sponsor_logo_uploading  == false" class="btn btn-default" @click="removeTournamentSponserImage($event)">{{$lang.tournament_tournament_remove_button}}</button>
-                                    <button v-else :disabled="is_sponsor_logo_uploading" type="button" class="btn btn-default" name="btnSelect" @click="selectTournamentSponsorLogo()">{{is_sponsor_logo_uploading ? $lang.uploading : $lang.tournament_tournament_choose_button}}</button>
-                                    <input type="file" class="" :id="'select_tournament_image'+index" :name="'tournament_sponsor_image'+index" @change="onSponsorLogoChange($event)">
+                                    <button v-if="sponsor != '' && is_sponsor_logo_uploading  == false" class="btn btn-default" @click="removeTournamentSponserImage($event,index)">{{$lang.tournament_tournament_remove_button}}</button>
+                                    <button v-else :disabled="is_sponsor_logo_uploading" type="button" class="btn btn-default tournament-sponsor-image" name="tournamentSponsorImage" id="tournamentSponsorImage">{{is_sponsor_logo_uploading ? $lang.uploading : $lang.tournament_tournament_choose_button}}</button>
+                                    <input type="file" class="select-tournament-sponsor-image" :id="'select_tournament_image'+index" :name="'tournament_sponsor_image'+index" style="display:none;" @change="onSponsorLogoChange($event,index)">
                                 </div>
-                                <p class="help-block text-muted pb-0 mb-0 mb-3">Required image dimensions: 180px × 180px (jpg, png or gif)</p>
+                                <p class="help-block">Maximum size of 1 MB.<br/>
+                                    Image dimensions 250 x 250.</p>
                             </div>
                             <button class="btn btn-primary" @click.prevent="addTournamentSponsorImage">Add sponsor</button>
                         </div>
@@ -342,7 +345,7 @@ export default {
 data() {
   return {
     tournament: {name:'',website:'',facebook:'',twitter:'',tournament_contact_first_name:'',tournament_contact_last_name:'',tournament_contact_home_phone:'',
-      image_logo:'',test_value:'',del_location:'0',maximum_teams:'', tournament_sponsor:'',
+      image_logo:'',test_value:'',del_location:'0',maximum_teams:'', tournament_sponsor:[],
     },
     userRole:this.$store.state.Users.userDetails.role_name,
     locations: [{
@@ -356,15 +359,12 @@ data() {
         tournament_venue_organiser: "",
     }],
 
-    sponsorImage: [{
-      tournament_sponsor_image: ""
-    }],
+    sponsorImage: [],
 
     image:'',
     customCount:0,
     tournamentId: 0,
     imagePath :'',
-    tournament_sponsor_logo:'',
     is_sponsor_logo_uploading: false,
     tournamentDateDiff: 0
   }
@@ -380,10 +380,10 @@ mounted(){
       $('#selectFileT').trigger('click')
     })
 
-    $('.tournament-sponsor-image').on('click',function(){
-      $(this).closest('div').find('#sponsorImageFile').trigger('click')
-    })
 
+    $('body').on('click','.tournament-sponsor-image', function(){
+      $(this).closest('div').find('.select-tournament-sponsor-image').trigger('click')
+    })
 
     let tId = this.$store.state.Tournament.tournamentId
 
@@ -530,6 +530,7 @@ methods: {
 
   addTournamentSponsorImage() {
     this.sponsorImage.push({
+        tournament_sponsor_logo: ""
     });
   },
 
@@ -579,7 +580,6 @@ methods: {
           this.tournament.end_date = document.getElementById('tournament_end_date').value
 
           this.tournament.image_logo = this.image
-          this.tournament.tournament_sponsor = this.tournament_sponsor_logo
 
           this.tournament.locations = this.locations
           // here we check if tournament id is Set then
@@ -617,47 +617,51 @@ methods: {
       )
     },
 
-    onSponsorLogoChange(e) {
-      var vm = this;
-      var files = e.target.files || e.dataTransfer.files;
-      if (!files.length)
+    onSponsorLogoChange(e,i) {
+        var vm = this;
+        var files = e.target.files || e.dataTransfer.files;
+        if (!files.length)
         return;
-      if(Plugin.ValidateImageType(files[0]) == false) {
-        toastr['error']('Social sharing graphic is not a valid image', 'Error');
-        return;
-      }
-      var reader = new FileReader();
-      reader.onload = (r) => {
+        if(Plugin.ValidateImageType(files[0]) == false) {
+            toastr['error']('Social sharing graphic is not a valid image', 'Error');
+            return;
+        }
+        var reader = new FileReader();
+        reader.onload = (r) => {
         var image = new Image();
         image.src = r.target.result;
-        //Validate the File Height and Width.
+        
         image.onload = function () {
-          vm.tournament_sponsor_logo = r.target.result;
-          vm.is_sponsor_logo_uploading = true;
-          var formData = new FormData();
-          formData.append('image', files[0]);
-          axios.post('/api/tournament/uploadSponsorLogo', formData).then(
-            (response)=> {
-                vm.tournament_sponsor_logo = response.data;
-                vm.is_sponsor_logo_uploading = false;
-            },
-            (error)=>{
-            }
-          );
+            // if(Plugin.ValidateImageDimension(this, 250, 250) == false) {
+            //     toastr['error']('Sponsor image size should be 250x250', 'Error');
+            // } else {
+                vm.sponsorImage = r.target.result;
+                vm.is_sponsor_logo_uploading = true;
+         
+            var formData = new FormData();
+            formData.append('image', files[0]);
+
+            axios.post('/api/tournament/uploadSponsorLogo', formData).then(
+                (response)=> {
+                    let tournamentSponsorImage = response.data;
+                    vm.sponsorImage[i] = tournamentSponsorImage
+                        // tournament_sponsor_logo: img 
+                    
+                    // vm.tournament_sponsor_logo = response.data;
+                     vm.is_sponsor_logo_uploading = false;
+                },
+                (error)=>{
+                }
+              );
+            // }  
         };
       };
       reader.readAsDataURL(files[0]);
     },
-
-    selectTournamentSponsorLogo() {
-        console.log('');
-      $('.select-tournament-sponsor-image').trigger('click');
-    },
-
-    removeTournamentSponserImage: function (e) {
-      this.tournament_sponsor_logo = '';
-      $('.select-tournament-sponsor-image').val('');
-      e.preventDefault();
+  
+    removeTournamentSponserImage: function (e,i) {
+        this.sponsorImage.splice(i,1)
+        e.preventDefault();
     },
 
     redirectCompetation() {
