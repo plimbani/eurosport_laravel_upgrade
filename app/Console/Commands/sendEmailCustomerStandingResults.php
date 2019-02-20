@@ -64,16 +64,16 @@ class sendEmailCustomerStandingResults extends Command
                 if ( !empty( $lastMatchEndTime->match_endtime ))
                 {
 
-                // Add 8 hours in date end time
-                $finalDate = Carbon::parse($lastMatchEndTime->match_endtime);
-                $finalDate->addHours(8); 
+                    // Add 8 hours in date end time
+                    $finalDate = Carbon::parse($lastMatchEndTime->match_endtime);
+                    $finalDate->addHours(17); 
 
-                list($dbDate,$dbHour) = explode(' ',$finalDate);
-                $dbHour = date('H',strtotime($dbHour));
+                    list($dbDate,$dbHour) = explode(' ',$finalDate);
+                    $dbHour = date('H',strtotime($dbHour));
 
-                $currDate = date('Y-m-d');
-                $currHour = date('H');
-                // Compare current date and time with Db match end time
+                    $currDate = date('Y-m-d');
+                    $currHour = date('H');
+                    // Compare current date and time with Db match end time
                     if ( $dbDate == $currDate && $dbHour == $currHour )
                     {
                         $file = $this->matchObj->getAllCategoriesReport($tournamentId);
@@ -85,10 +85,9 @@ class sendEmailCustomerStandingResults extends Command
                         Mail::to($customerEmail)
                         ->send(new SendMail($email_details,$subject,$emailTemplate, null, null, null, $file));
 
+                        unlink($file);
                     }
-
                 }
-
             }
         }
     }
