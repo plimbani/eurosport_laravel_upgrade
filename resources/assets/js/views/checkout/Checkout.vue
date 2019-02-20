@@ -54,8 +54,8 @@
 
             <input type="hidden" name="FONTTYPE" value="">
 
-<!--            <input type="hidden" name="PMLIST" value="VISA;MasterCard">
-            <input type="hidden" name="PMLISTTYPE" value="1">-->
+            <input type="hidden" name="PMLIST" value="VISA;MasterCard">
+            <input type="hidden" name="PMLISTTYPE" value="1">
 
             <input type="submit" id="paymentSubmit" ref="paymentSubmit" name="paymentSubmit" style="display:none">
         </form>  
