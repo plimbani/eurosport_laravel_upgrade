@@ -55,7 +55,8 @@
 
             <input type="hidden" name="FONTTYPE" value="">
 
-            <input type="hidden" name="PMLIST" value="VISA;MasterCard">
+            <!-- <input type="hidden" name="PMLIST" value="VISA;MasterCard"> -->
+            <input type="hidden" name="PMLIST" v-model="PMLIST">
             <input type="hidden" name="PMLISTTYPE" value="1">
 
             <input type="submit" id="paymentSubmit" ref="paymentSubmit" name="paymentSubmit" style="display:none">
@@ -109,7 +110,11 @@
                 pspid:"", 
                 amount:"",
                 disabled:false,
-                dayDifference:1
+                dayDifference:1,
+                currentCountry:"",
+                countryCardList:[],
+                countries:{},
+                PMLIST:'VISA;MasterCard'
             }
         },
         beforeRouteEnter(to, from, next) { 
@@ -118,8 +123,8 @@
         },
         methods: { 
             generateHashKey(e){  
-                this.tournamentData['PMLIST'] = 'VISA;MasterCard';
-                this.tournamentData['PMLISTTYPE'] = 1;
+                // this.tournamentData['PMLIST'] = 'VISA;MasterCard';
+                // this.tournamentData['PMLISTTYPE'] = 1;
                 axios.post(Constant.apiBaseUrl+'generateHashKey', this.tournamentData).then(response =>  {  
                         if (response.data.success) { 
                             this.shaSignIn = response.data.data.shaSignIn;
@@ -150,11 +155,39 @@
             
             makePaymentButton(){
                  this.$refs.paymentSubmit.click();
-            }
+            },
+            setCoutryWiseCards(){ 
+                this.countryList = [
+                    {id:'37',name:'NETHERLANDS',cardType:'IDeal'},
+                    {id:'5',name:'BELGIUM',cardType:'Bancontact;KBC/CBC;Belfius;ING Homepay'},
+                    {id:'19',name:'GERMANY',cardType:'Sofort;Giropay'},
+                    {id:'2',name:'AUSTRIA',cardType:'Sofort'},
+                    {id:'54',name:'SWITZERLAND',cardType:'Sofort'},
+                ];
+                let usercountry = Ls.get('usercountry');
+                // console.log("usercountry::",usercountry);
+                if(usercountry != undefined && usercountry != "null" && usercountry != null){
+                    let idx = (this.countryList).findIndex(country => {return country.id == usercountry});
+                    if(idx > 0){
+                        this.PMLIST = this.countryList[idx].cardType;
+                    }
+                    // console.log("idx::",idx);
+                }
+
+            },
+            getCountries(){
+                axios.get(Constant.apiBaseUrl+'country/list').then(response =>  {
+                    if(response.data.success){
+                        this.countries = response.data.data;
+                        // console.log("this.countries::",this.countries);
+                        // this.setCoutryWiseCards();
+                    }
+                 })
+            },
 
         },
         beforeMount(){  
-            let tournamentDetails = Ls.get('tournamentDetails')
+            let tournamentDetails = Ls.get('tournamentDetails');
             if(typeof tournamentDetails != "undefined" && tournamentDetails != undefined && tournamentDetails != "null" && tournamentDetails != null){
                 // console.log("tournamentDetails::",tournamentDetails);
                 this.tournamentData = JSON.parse(tournamentDetails);
@@ -164,8 +197,12 @@
             }
         },
         mounted () { 
+
             Ls.remove('tournamentDetails');
             this.generateHashKey();
+            // this.getCountries();
+            this.setCoutryWiseCards();
+            
         }
     }
 </script>
