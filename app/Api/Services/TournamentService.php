@@ -958,4 +958,27 @@ class TournamentService implements TournamentContract
       return $this->getAWSUrl . $s3path;
     }
 
+    /*
+    * Result administrator display message
+    *
+    * @return response
+    */
+
+    public function resultAdministratorDisplayMessage($data)
+    {
+      $data = $this->tournamentRepoObj->resultAdministratorDisplayMessage($data['tournamentData']);
+      return $data;
+    }
+
+    /*
+    * Result administrator display message
+    *
+    * @return response
+    */
+    public function editTournamentMessage($data)
+    {
+      $data = $this->tournamentRepoObj->editTournamentMessage($data['tournamentData']);
+      return $data;
+    }
+
 }

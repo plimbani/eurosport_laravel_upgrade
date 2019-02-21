@@ -1034,4 +1034,20 @@ class TournamentRepository
     {
         return Tournament::where('access_code', $accessCode)->first();
     }
+
+
+    public function resultAdministratorDisplayMessage($tournamentData)
+    {
+        return Tournament::where('id', $tournamentData['tournament_id'])->pluck('start_date')->first();
+        // $setDateFormat = Carbon::createFromFormat('d/m/Y', $tournamentDisplayMessage)->format('d m Y');
+        // echo "<pre>";print_r($setDateFormat);echo "</pre>";exit;
+        // return $setDateFormat;
+    }
+
+
+    public function editTournamentMessage($tournamentData)
+    {
+       return TempFixture::where('tournament_id', $tournamentData['tournament_id'])->orderBy('match_datetime','desc')->pluck('match_endtime')->first();
+
+    }
 }

@@ -6,8 +6,9 @@
 					<!-- <div class="card-block"> -->
 						<div class="row align-items-center last-updated-row-text">
 							<div class="col-md-7">
-								<p class="mb-0 last-updated-time"><small class="text-muted">{{$lang.summary_schedule_last_update}}
-							        : {{lastUpdatedDateValue}}</small> </p>
+							     <p class="mb-0 last-updated-time" v-if="currentDateTime == tournamentDisplayMessage"><small class="text-muted">Result
+							     	administration will be available from 
+							        : {{ tournamentDisplayMessage }}</small> </p>  
 							</div>
 							<div class="col-md-5" v-if="currentView != 'teamListing' && currentView != 'matchListing'">
 								<div class="align-items-center d-flex justify-content-end">
@@ -78,9 +79,22 @@ export default {
 			competationList : {},
 			ageCategory: '',
 			currentView: '',
-			lastUpdatedDateValue: ''
+			lastUpdatedDateValue: '',
+			tournamentDisplayMessage: '',
+			currentDateTime: moment('DD/MM/YYYY'),
 		}
 	},
+
+
+	filters: {
+	    formatDate: function(date) {
+	      if(date != null ) {
+	        return moment(date).format("HH:mm Do MMM YYYY");
+	      } else {
+	        return  '-';
+	      }
+	    }
+	  },
 	mounted(){
 		// here we set drawsListing as currentView
 	this.currentView = 'drawsListing'
@@ -96,6 +110,7 @@ export default {
     	this.$root.$on('lastUpdateDate',this.lastUpdatedDate);
     	this.$root.$on('setCurrentView',this.setCurrentView);
     	this.getAgeCategory();
+    	this.tournamentDisplyMessage();
 
   	},
   beforeCreate: function() {
@@ -171,7 +186,24 @@ export default {
 			} else {
     			toastr['error']('Please select age category.', 'Error');
 			}
+		},
+
+		tournamentDisplyMessage() {
+			this.TournamentId = this.$store.state.Tournament.tournamentId
+
+			let TournamentData = {'tournament_id': this.TournamentId}
+
+			Tournament.resultAdministratorDisplayMessage(TournamentData).then(
+			  	(response) => {
+			 		this.tournamentDisplayMessage = response.data;
+		  		},
+			    (error) => {
+			  	}
+			)
+
 		}
+
+
 	}
 }
 </script>

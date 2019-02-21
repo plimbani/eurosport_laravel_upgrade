@@ -1,5 +1,6 @@
 <template>
   <div class="card">
+    <p>Please note: You will no longer be able to enter results or edit your tournament after {{ displayMessage | formatDate }} </p>
     <div class="card-block">
       <div class="row">
         <div class="col-lg-12">
@@ -33,11 +34,23 @@
   </div>
 </template>
 <script type="text/babel">
+import Tournament from '../../../api/tournament.js'
 export default {
   data() {
     return {
       'header' : 'header',
       'tournamentId' : this.$store.state.Tournament.tournamentId,
+      displayMessage: '',
+      currentDateTime: moment('YYYY-MM-DD HH:mm'),
+    }
+  },
+  filters: {
+    formatDate: function(date) {
+      if(date != null ) {
+        return moment(date).format("HH:mm Do MMM YYYY");
+      } else {
+        return  '-';
+      }
     }
   },
   computed: {
@@ -47,6 +60,7 @@ export default {
   },
   mounted() {
     this.$store.dispatch('ResetPitchPlannerFromEnlargeMode');
+    this.editTournamentMessage();
     if(this.tournamentId == '' ) {
       //this.$router.push({name: 'welcome'})
       }
@@ -71,7 +85,23 @@ export default {
       },2000 )
       }
 
+    },
+
+    editTournamentMessage() {
+
+      this.TournamentId = this.$store.state.Tournament.tournamentId
+
+      let TournamentData = {'tournament_id': this.TournamentId}
+
+      Tournament.editTournamentMessage(TournamentData).then(
+          (response) => {
+            this.displayMessage = response.data
+            console.log(response);
+          },
+          (error) => {
+          }
+      )
     }
-  },
+  }
 }
 </script>
