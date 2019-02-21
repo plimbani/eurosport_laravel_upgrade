@@ -8,15 +8,17 @@
   </div>
   <div class="form-group row">
     <div class="col-md-3">
-      <select class="form-control ls-select2"
-        v-on:change="onChangeDrawDetails"
-        v-model="DrawName">
+      <select class="form-control" v-on:change="onChangeDrawDetails" v-model="DrawName">
         <!-- <option value="">Select</option> -->
-        <option
-        v-for="option in drawList"
-        v-bind:value="option"
-        >{{option.name}}
-        </option>
+        <optgroup :label="key" v-for="(round, key) in drawList.round_robin">
+          <option v-bind:value="group" v-for="group in round">{{group.display_name}}</option>
+        </optgroup>
+
+        <optgroup :label="index" v-for="(division, index) in drawList.divisions">
+          <optgroup :label="roundIndex" v-for="(divRound, roundIndex) in division">
+            <option v-bind:value="divGroup" v-for="divGroup in divRound">{{divGroup.display_name}}</option>
+          </optgroup>
+        </optgroup>
       </select>
     </div>
   </div>
@@ -122,6 +124,7 @@ export default {
             matchStatus: true,
             teamList: [],
             teamCount: 0,
+            testArray: ['1', '2', '3', '5'],
         }
     },
     created: function() {
@@ -149,10 +152,10 @@ export default {
             vm.drawList.map(function(value, key) {
               if(value.actual_competition_type == 'Elimination') {
                 value.name = _.replace(value.name, '-Group', '');
-
                 return value;
               }
             })
+
 
             var uniqueArray = response.data.data.filter(function(item, pos) {
 
@@ -178,6 +181,8 @@ export default {
       // Call child class Method
       // this.$children[1].getData(this.currentCompetationId)
       // console.log(this.$children[1].getData())
+
+    $('.ls-select2').select2();
  },
   filters: {
     formatDate: function(date) {

@@ -53,22 +53,23 @@ class MatchRepository
       }
       $reportQuery->where('competitions.tournament_id', $tournamentId);
       $reportQuery->select('competitions.*','tournament_competation_template.group_name', 'age_category_divisions.name as divisionName');
-      // $reportQuery = $reportQuery->get();
+      $reportQuery = $reportQuery->get();
 
-      // $divisionsData = [];
-      // $finalData = [];
-      // foreach ($reportQuery as $data) {
-      //   if($data->age_category_division_id != '') {
-      //     $divisionsData[$data->divisionName][$data->competation_round_no][] = $data;
-      //   }
-      // }
+      $divisionsData = [];
+      $roundRobinData = [];
+      $finalData = [];
+      foreach ($reportQuery as $data) {
+        if($data->age_category_division_id != '') {
+          $divisionsData[$data->divisionName][$data->competation_round_no][] = $data;
+        } else {
+          $roundRobinData[$data->competation_round_no][] = $data; 
+        }
+      }
 
-      // $finalData['divisions'] = $divisionsData;
-      // $finalData['roun_robin'] = $reportQuery;
+      $finalData['round_robin'] = $roundRobinData;
+      $finalData['divisions'] = $divisionsData;
 
-      // echo "<pre>";print_r($divisionsData);echo "</pre>";exit;
-
-      return $reportQuery->get();
+      return $finalData;
     }
     public function getFixtures($tournamentData) {
 
