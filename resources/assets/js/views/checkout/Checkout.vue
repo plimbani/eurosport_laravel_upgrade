@@ -123,8 +123,8 @@
         },
         methods: { 
             generateHashKey(e){  
-                // this.tournamentData['PMLIST'] = 'VISA;MasterCard';
-                // this.tournamentData['PMLISTTYPE'] = 1;
+                this.tournamentData['PMLIST'] = this.PMLIST;
+                this.tournamentData['PMLISTTYPE'] = 1;
                 axios.post(Constant.apiBaseUrl+'generateHashKey', this.tournamentData).then(response =>  {  
                         if (response.data.success) { 
                             this.shaSignIn = response.data.data.shaSignIn;
