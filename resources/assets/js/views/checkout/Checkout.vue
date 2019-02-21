@@ -1,8 +1,8 @@
 <template> 
     <div class="main-section">
         <form action="https://ogone.test.v-psp.com/ncol/test/orderstandard_utf8.asp"  method="post">    
-        <!-- <form action=""  method="post">     -->
-        <!-- <form action=""  method="post" @submit.prevent="buyALicence">     -->
+            <!-- <form action=""  method="post">     -->
+            <!-- <form action=""  method="post" @submit.prevent="buyALicence">     -->
 
             <input type="hidden" name="PSPID" v-model="pspid">
 
@@ -10,8 +10,8 @@
 
             <input type="hidden" name="AMOUNT" v-model="amount">
 
-            <input type="hidden" name="CURRENCY" value="EUR">
-            <!-- <input type="hidden" name="CURRENCY" v-model="tournamentData.payment_currency"> -->
+            <!--<input type="hidden" name="CURRENCY" value="EUR">-->
+            <input type="hidden" name="CURRENCY" v-model="tournamentData.payment_currency"> 
 
             <input type="hidden" name="LANGUAGE" value="">
 
@@ -83,12 +83,12 @@
                 </div>
             </div>
         </section>
-          
+
     </div>
 </template>
 <script type="text/babel">
     import Auth from '../../services/auth'
-    import Ls from '../../services/ls';
+            import Ls from '../../services/ls';
     import Constant from '../../services/constant';
     import vueSlider from 'vue-slider-component';
     import Datepicker from 'vuejs-datepicker';
@@ -97,112 +97,116 @@
     export default {
         components: {
             vueSlider,
-            Datepicker 
+            Datepicker
         },
         data() {
             return {
-                tournamentData:{
-                 
+                tournamentData: {
+
                 },
-               
-                shaSignIn:"", 
-                orderId:"", 
-                pspid:"", 
-                amount:"",
-                disabled:false,
-                dayDifference:1,
-                currentCountry:"",
-                countryCardList:[],
-                countries:{},
-                PMLIST:'VISA;MasterCard'
+
+                shaSignIn: "",
+                orderId: "",
+                pspid: "",
+                amount: "",
+                disabled: false,
+                dayDifference: 1,
+                currentCountry: "",
+                countryCardList: [],
+                countries: {},
+                PMLIST: 'VISA;MasterCard'
             }
         },
-        beforeRouteEnter(to, from, next) { 
-               
+        beforeRouteEnter(to, from, next) {
+
             next()
         },
-        methods: { 
-            generateHashKey(e){  
+        methods: {
+            generateHashKey(e) {
                 this.tournamentData['PMLIST'] = this.PMLIST;
                 this.tournamentData['PMLISTTYPE'] = 1;
-                axios.post(Constant.apiBaseUrl+'generateHashKey', this.tournamentData).then(response =>  {  
-                        if (response.data.success) { 
-                            this.shaSignIn = response.data.data.shaSignIn;
-                            this.orderId = response.data.data.orderId;
-                            this.pspid = response.data.data.pspid;
-                            this.amount = response.data.data.total_amount; 
+                axios.post(Constant.apiBaseUrl + 'generateHashKey', this.tournamentData).then(response => {
+                    if (response.data.success) {
+                        this.shaSignIn = response.data.data.shaSignIn;
+                        this.orderId = response.data.data.orderId;
+                        this.pspid = response.data.data.pspid;
+                        this.amount = response.data.data.total_amount;
 
-                            let orderInfo = this.tournamentData;
-                            orderInfo.shaSignIn = this.shaSignIn;
-                            orderInfo.orderId = this.orderId;
-                            orderInfo.pspid = this.pspid;
-                            orderInfo.total_amount = this.amount;
-                            Ls.set('orderInfo',JSON.stringify(orderInfo))
-                            let self = this;
-                            setTimeout(function(){ 
-                                // self.$refs.paymentSubmit.click();
-                            },500) 
-                            self.disabled = false;
-                         }else{
-                            this.disabled = false;
-                            toastr['error'](response.data.message, 'Error');
-                         }
-                 }).catch(error => {
+                        let orderInfo = this.tournamentData;
+                        orderInfo.shaSignIn = this.shaSignIn;
+                        orderInfo.orderId = this.orderId;
+                        orderInfo.pspid = this.pspid;
+                        orderInfo.total_amount = this.amount;
+                        Ls.set('orderInfo', JSON.stringify(orderInfo))
+                        let self = this;
+                        setTimeout(function () {
+                            // self.$refs.paymentSubmit.click();
+                        }, 500)
+                        self.disabled = false;
+                    } else {
+                        this.disabled = false;
+                        toastr['error'](response.data.message, 'Error');
+                    }
+                }).catch(error => {
                     this.disabled = false;
-                     console.log("error in buyALicence::",error);
-                 });  
+                    console.log("error in buyALicence::", error);
+                });
             },
-            
-            makePaymentButton(){
-                 this.$refs.paymentSubmit.click();
+
+            makePaymentButton() {
+                this.$refs.paymentSubmit.click();
             },
-            setCoutryWiseCards(){ 
+            setCoutryWiseCards() {
                 this.countryList = [
-                    {id:'37',name:'NETHERLANDS',cardType:'IDeal'},
-                    {id:'5',name:'BELGIUM',cardType:'Bancontact;KBC/CBC;Belfius;ING Homepay'},
-                    {id:'19',name:'GERMANY',cardType:'Sofort;Giropay'},
-                    {id:'2',name:'AUSTRIA',cardType:'Sofort'},
-                    {id:'54',name:'SWITZERLAND',cardType:'Sofort'},
+                    {id: '37', name: 'NETHERLANDS', cardType: 'iDEAL'},
+                    {id: '5', name: 'BELGIUM', cardType: 'KBC;CBC;Belfius;ING Homepay'},
+                    {id: '19', name: 'GERMANY', cardType: 'SOFORT;Giropay'},
+                    {id: '2', name: 'AUSTRIA', cardType: 'SOFORT'},
+                    {id: '54', name: 'SWITZERLAND', cardType: 'SOFORT'},
                 ];
                 let usercountry = Ls.get('usercountry');
-                // console.log("usercountry::",usercountry);
-                if(usercountry != undefined && usercountry != "null" && usercountry != null){
-                    let idx = (this.countryList).findIndex(country => {return country.id == usercountry});
-                    if(idx > 0){
+//                console.log("usercountry::", usercountry);
+                if (usercountry != undefined && usercountry != "null" && usercountry != null) {
+                    let idx = (this.countryList).findIndex(country => {
+                        return country.id == usercountry
+                    });
+                    if (idx > -1) {
                         this.PMLIST = this.countryList[idx].cardType;
                     }
-                    // console.log("idx::",idx);
+                    this.generateHashKey();
+                } else {
+                    this.generateHashKey();
                 }
 
             },
-            getCountries(){
-                axios.get(Constant.apiBaseUrl+'country/list').then(response =>  {
-                    if(response.data.success){
+            getCountries() {
+                axios.get(Constant.apiBaseUrl + 'country/list').then(response => {
+                    if (response.data.success) {
                         this.countries = response.data.data;
                         // console.log("this.countries::",this.countries);
                         // this.setCoutryWiseCards();
                     }
-                 })
+                })
             },
 
         },
-        beforeMount(){  
+        beforeMount() {
             let tournamentDetails = Ls.get('tournamentDetails');
-            if(typeof tournamentDetails != "undefined" && tournamentDetails != undefined && tournamentDetails != "null" && tournamentDetails != null){
+            if (typeof tournamentDetails != "undefined" && tournamentDetails != undefined && tournamentDetails != "null" && tournamentDetails != null) {
                 // console.log("tournamentDetails::",tournamentDetails);
                 this.tournamentData = JSON.parse(tournamentDetails);
-                
-            }else{
+
+            } else {
                 this.$router.push({name: 'login'});
             }
         },
-        mounted () { 
+        mounted() {
 
             Ls.remove('tournamentDetails');
-            this.generateHashKey();
+//            this.generateHashKey();
             // this.getCountries();
             this.setCoutryWiseCards();
-            
+
         }
     }
 </script>
