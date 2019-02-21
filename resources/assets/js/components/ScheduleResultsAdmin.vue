@@ -5,10 +5,10 @@
 				<!-- <div class="card"> -->
 					<!-- <div class="card-block"> -->
 						<div class="row align-items-center last-updated-row-text">
-							<div class="col-md-7">
-							     <p class="mb-0 last-updated-time" v-if="currentDateTime == tournamentDisplayMessage"><small class="text-muted">Result
+							<div class="col-md-7" v-if="currentView != 'teamListing' && currentView != 'finalPlacings' && currentView != 'drawsListing'">
+							     <p class="mb-0 last-updated-time" v-if="tournamentDisplayDate <= 1"><small class="text-muted">Result
 							     	administration will be available from 
-							        : {{ tournamentDisplayMessage }}</small> </p>  
+							        : {{ tournamentDisplayDate | formatDate }}</small> </p>  
 							</div>
 							<div class="col-md-5" v-if="currentView != 'teamListing' && currentView != 'matchListing'">
 								<div class="align-items-center d-flex justify-content-end">
@@ -80,8 +80,7 @@ export default {
 			ageCategory: '',
 			currentView: '',
 			lastUpdatedDateValue: '',
-			tournamentDisplayMessage: '',
-			currentDateTime: moment('DD/MM/YYYY'),
+			tournamentDisplayDate: '',
 		}
 	},
 
@@ -89,7 +88,7 @@ export default {
 	filters: {
 	    formatDate: function(date) {
 	      if(date != null ) {
-	        return moment(date).format("HH:mm Do MMM YYYY");
+	        return moment(date).format("Do MMM YYYY");
 	      } else {
 	        return  '-';
 	      }
@@ -195,7 +194,7 @@ export default {
 
 			Tournament.resultAdministratorDisplayMessage(TournamentData).then(
 			  	(response) => {
-			 		this.tournamentDisplayMessage = response.data;
+			 		this.tournamentDisplayDate = response.data;
 		  		},
 			    (error) => {
 			  	}

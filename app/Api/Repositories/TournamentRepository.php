@@ -1038,12 +1038,13 @@ class TournamentRepository
 
     public function resultAdministratorDisplayMessage($tournamentData)
     {
-        return Tournament::where('id', $tournamentData['tournament_id'])->pluck('start_date')->first();
-        // $setDateFormat = Carbon::createFromFormat('d/m/Y', $tournamentDisplayMessage)->format('d m Y');
-        // echo "<pre>";print_r($setDateFormat);echo "</pre>";exit;
-        // return $setDateFormat;
-    }
+        $tournamentStartDate = Tournament::where('id', $tournamentData['tournament_id'])->pluck('start_date')->first();
+        $setDateCarbon = Carbon::createFromFormat('d/m/Y', $tournamentStartDate);
+        $setTournamentBeforeDate = Carbon::parse($setDateCarbon)->modify('-1 days')->format('Y-m-d');
 
+        return $setTournamentBeforeDate;
+       
+    }
 
     public function editTournamentMessage($tournamentData)
     {

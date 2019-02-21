@@ -1,6 +1,6 @@
 <template>
   <div class="card">
-    <p>Please note: You will no longer be able to enter results or edit your tournament after {{ displayMessage | formatDate }} </p>
+    <p v-if="addTournamentEndDateTime">Please note: You will no longer be able to enter results or edit your tournament after {{ displayTournamentEndDate | formatDate }} </p>
     <div class="card-block">
       <div class="row">
         <div class="col-lg-12">
@@ -40,7 +40,7 @@ export default {
     return {
       'header' : 'header',
       'tournamentId' : this.$store.state.Tournament.tournamentId,
-      displayMessage: '',
+      displayTournamentEndDate: '',
       currentDateTime: moment('YYYY-MM-DD HH:mm'),
     }
   },
@@ -56,7 +56,15 @@ export default {
   computed: {
     activePath() {
       return this.$store.state.activePath
+    },
+
+    addTournamentEndDateTime() {
+      let expireTime = moment(this.displayTournamentEndDate).format('HH:mm:ss');
+      let test = moment(expireTime).add(8, 'hours');
+      console.log('expireTime', test);
+      return true;
     }
+
   },
   mounted() {
     this.$store.dispatch('ResetPitchPlannerFromEnlargeMode');
@@ -95,8 +103,7 @@ export default {
 
       Tournament.editTournamentMessage(TournamentData).then(
           (response) => {
-            this.displayMessage = response.data
-            console.log(response);
+            this.displayTournamentEndDate = response.data
           },
           (error) => {
           }
