@@ -2539,7 +2539,7 @@ class MatchService implements MatchContract
               ->setOption('margin-bottom', 20);
 
       $currentDateTime = Carbon::now('Europe/London');
-      $file = storage_path('report/'.$tournamentId.'_allcategory_'.$currentDateTime->format('dMY_His').'.pdf');
+      $file = storage_path($tournamentId.'_allcategory_'.$currentDateTime->format('dMY_His').'.pdf');
       $pdf->save($file);
       return $file;
     }

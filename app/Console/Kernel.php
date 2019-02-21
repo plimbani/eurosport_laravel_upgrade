@@ -39,6 +39,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('activity:notification')->everyThirtyMinutes();
         $schedule->command('setup:removeDanglingImages')->dailyAt('03:00');
         $schedule->command('setup:removePreviewUrl')->everyFiveMinutes();
+        $schedule->command('setup:sendEmailCustomerStandingResults')->hourly();
     }
 
     /**
