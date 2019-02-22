@@ -5,10 +5,14 @@
 				<!-- <div class="card"> -->
 					<!-- <div class="card-block"> -->
 						<div class="row align-items-center last-updated-row-text">
-							<div class="col-md-7" v-if="currentView != 'teamListing' && currentView != 'finalPlacings' && currentView != 'drawsListing'">
-							     <p class="mb-0 last-updated-time" v-if="tournamentStartDataDisplay"><small class="text-muted">Result
+							<p class="mb-0 last-updated-time"><small class="text-muted">{{$lang.summary_schedule_last_update}}
+							        : {{lastUpdatedDateValue}}</small> 
+							</p>
+							<div class="col-md-7" v-if="currentView == 'matchListing'">
+							    <p class="mb-0 last-updated-time" v-if="tournamentStartDataDisplay"><small class="text-muted">Result
 							     	administration will be available from 
-							        : {{ tournamentStartDate | formatDate }}</small> </p>  
+							        : {{ tournamentStartDate | formatDate }}</small> 
+							    </p>  
 							</div>
 							<div class="col-md-5" v-if="currentView != 'teamListing' && currentView != 'matchListing'">
 								<div class="align-items-center d-flex justify-content-end">

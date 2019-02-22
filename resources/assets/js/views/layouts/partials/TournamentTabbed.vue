@@ -60,8 +60,8 @@ export default {
 
     addTournamentEndDateTime() {
       let expireTime = moment(this.displayTournamentEndDate).add(8, 'hours').format('YYYY-MM-DD HH:mm:ss');
-      let currentDateTime = this.currentDateTime ;
-
+      let currentDateTime = this.currentDateTime;
+      
       if(currentDateTime == expireTime) {
          return true;
       } else {
