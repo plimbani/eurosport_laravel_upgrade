@@ -489,11 +489,23 @@
                 if($("#unschedule_fixtures").hasClass('btn-success')) {
                     $("#bulk_unscheduled_fixtures").modal('show');
                 }
-
                 if($("#unschedule_fixtures").hasClass('btn-secondary')) {
                     $("#unschedule_fixtures").removeClass('btn-secondary');
-                    $(".match-unschedule-checkbox-div").removeClass('d-none');
-                } 
+                     manageClass = false; 
+                } else {
+                    $("#unschedule_fixtures").addClass('btn-secondary');
+                    if(manageClass != ''){
+                        manageClass = true; 
+                    }
+                }
+                $(".checkbox").each(function( index ) {
+                    if(manageClass) {
+                        $(this).addClass('d-none')                  
+                    } else {
+                        $(this).removeClass('d-none')   
+                    }
+                });  
+                
             },
 
             cancelUnscheduleFixtures() {

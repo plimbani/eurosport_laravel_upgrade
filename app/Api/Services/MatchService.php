@@ -1186,11 +1186,28 @@ class MatchService implements MatchContract
 
             $head_to_head = false;
             $check_head_to_head_with_key = '';
-
+            $remain_head_to_head_with_key = '';
             for($i=0; $i<count($rules); $i++) {
               $rule = $rules[$i];
 
               if($rule['checked'] == false || ( $rule['key'] != 'head_to_head' && $head_to_head == true)) {
+
+                if (  $rule['checked'] == true && ( $rule['key'] != 'head_to_head' && $head_to_head == true )  )
+                {
+                  if($rule['key'] == 'goal_difference') {
+                    $remain_head_to_head_with_key .= '|goal_difference';
+                  }
+                  if($rule['key'] == 'goals_for') {
+                    $remain_head_to_head_with_key .= '|home_goal';
+                  }
+                  if($rule['key'] == 'matches_won') {
+                    $remain_head_to_head_with_key .= '|Won';
+                  }
+                  if($rule['key'] == 'goal_ratio') {
+                    $remain_head_to_head_with_key .= '|goal_ratio';
+                  }
+                }
+
                 continue;
               }
               
@@ -1241,6 +1258,11 @@ class MatchService implements MatchContract
               $check_head_to_head_with_key = ltrim($check_head_to_head_with_key,'|');
             }
 
+            if ( !empty($remain_head_to_head_with_key) )
+            {
+              $remain_head_to_head_with_key = ltrim($remain_head_to_head_with_key,'|');
+            }
+
             $params[] = &$cvalue;
             if($competition->is_manual_override_standing == 1) {
               $params = array_merge(array($manual_order, SORT_ASC), $params);
@@ -1257,13 +1279,37 @@ class MatchService implements MatchContract
           $calculatedArray = array_shift($calculatedArray);
           list($calculatedArray,$sort_head_to_head) = $this->matchRepoObj->sortByHeadtoHead($calculatedArray,$check_head_to_head_with_key,$tournament_id,$compId,$tournamentCompetationTemplatesRecord);
 
+          if ( !empty($remain_head_to_head_with_key) )
+          {
+            $remain_head_to_head_with_key = explode('|',$remain_head_to_head_with_key);
+          }
+
           if ( $sort_head_to_head == '1') {
-            $head_to_head_position_sorting = array();           
+            $head_to_head_position_sorting = array();    
+            $internal_head_to_head_position_sorting = array();         
             foreach ($calculatedArray as $comp_stand_key => $comp_stand_value) {
               $head_to_head_position_sorting[$comp_stand_key] = (int)$comp_stand_value['head_to_head_position'];
+              $internal_head_to_head_position_sorting[$comp_stand_key] = (int)$comp_stand_value['internal_head_to_head_position'];
             }
-            array_multisort($head_to_head_position_sorting, SORT_ASC,$calculatedArray);
+            array_multisort($internal_head_to_head_position_sorting,SORT_ASC,$calculatedArray);
+
+            $sortArray[] = &$head_to_head_position_sorting; 
+            $sortArray[] = SORT_ASC;
+
+            $remainingSorting = array();
+            foreach ($remain_head_to_head_with_key as $rkey => $rvalue) {
+              foreach ($calculatedArray as $comp_stand_key => $comp_stand_value) {
+                $remainingSorting[$rvalue][$comp_stand_key] = (int)$comp_stand_value[$rvalue];
+              }
+
+              $sortArray[] = &$remainingSorting[$rvalue];
+              $sortArray[] = SORT_DESC;
+            }
+
+            $sortArray[] = &$calculatedArray;
+            call_user_func_array('array_multisort', $sortArray);
           }
+
           $setCalculatedArray[$cupId] = $calculatedArray;
           $calculatedArray = $setCalculatedArray;
         }
