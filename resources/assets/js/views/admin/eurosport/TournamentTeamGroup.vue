@@ -80,7 +80,10 @@
                 </div>
               </div>
             </div>
-    			<div class="row mt-4">
+    			<div class="row mt-4 team-table">
+            <div class="col-md-12 text-muted">
+              <p>Drag and drop the team name directly in the category structure above. Alternatively, select a value in the 'Allocate' column.</p>
+            </div>
     				<div class="col-md-12">
               <form name="frmTeamAssign" id="frmTeamAssign" class="frm-team-assign">
       					<table class="table table-hover table-bordered">
@@ -286,18 +289,31 @@
       this.fetchAllCountries();
       this.fetchAllClubs();
       this.fetchAllTeamColors();
-      var fixmeTop = $('#fixme').offset().top;
-      var HeaderHeight = $('.site-header').height();
-      var fixmeTopOffset = fixmeTop - 60;
+      let fixmeTop = $('#fixme').offset().top;
+      let HeaderHeight = $('.site-header').height();
+      let fixmeTopOffset = fixmeTop - 60;
       $(window).scroll(function() {
-        var currentScroll = $(window).scrollTop();
-        if (currentScroll >= fixmeTopOffset) {
-          $('#fixme').addClass("is-fixed");
-          var FixmeHeight= ($('#fixme').height() + 49 );
-          $("#fixme").next().css({"padding-top": FixmeHeight});
+        let categoryDivHeight = $('#fixme').height();
+        let teamTableHeight = $(window).height() - (fixmeTop);
+        let currentScroll = $(window).scrollTop();
+        console.log('teamTableHeight', teamTableHeight);
+        console.log('team-table', $('.team-table').height());
+        console.log('currentScroll1', currentScroll);
+        console.log('fixmeTopOffset', fixmeTopOffset);
+        if ($('.team-table').height() > teamTableHeight) {
+          console.log('currentScroll', currentScroll);
+          if((currentScroll) < fixmeTopOffset) {
+            $('#fixme').removeClass("is-fixed");
+            $('.team-table').css({"padding-top": 0});
+          } else {
+            $('#fixme').addClass("is-fixed");
+            let FixmeHeight= ($('#fixme').height());
+            $('.team-table').css({"padding-top": FixmeHeight});
+          }
+          console.log('currentScroll2', currentScroll);
         } else {
           $('#fixme').removeClass("is-fixed");
-          $("#fixme").next().css({"padding-top": 0});
+          $('.team-table').css({"padding-top": 0});
         }
       });
     },
