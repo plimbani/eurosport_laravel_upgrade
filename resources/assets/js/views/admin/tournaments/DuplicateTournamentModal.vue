@@ -54,10 +54,10 @@ export default {
   props: [ 'copyTournamentId', 'copyTournamentName' ],
   methods: {
     duplicateTournament() {
-        $("body .js-loader").removeClass('d-none');
         this.$validator.validateAll().then((response) => {
           this.isSaveInProcess = true;
           let copyTournamentData = {'copy_tournament_id': this.copyTournamentId, 'tournament_name': this.formValues.name}
+          $("body .js-loader").removeClass('d-none');
           Tournament.duplicateTournament(copyTournamentData).then(
             (response)=> {
               if(response.data.status_code == 200) {
