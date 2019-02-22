@@ -53,16 +53,21 @@
             </div>
             <div class="block-bg age-category" id="fixme">
               <div class="d-flex flex-row flex-wrap justify-content-center" v-if="grpsView.length != 0">
-                <div class="col-sm-3 my-2" v-for="(group, index) in grpsView">
+                <div class="col-sm-2 my-2" v-for="(group, index) in grpsView">
                   <div class="m_card hoverable h-100 m-0">
                     <div class="card-content">
                        <span class="card-title text-primary"><strong>
                        {{ getGroupName(group) }}</strong></span>
-                       <div :id="'group_' + index + '_' + pindex" v-for="(n, pindex) in group['group_count']" @drop="onTeamDrop($event)" @dragover="allowDrop($event)">
-                         {{ getGroupPlaceHolderName(group, n).fullName }}
+                       <div v-for="(n, pindex) in group['group_count']">
+                        <p class="text-primary left">
+                          <strong>
+                            <span :class="groupFlag(group,n)"></span>
+                            <span :data-group-name="groupName(group, n).displayName" :id="'group_' + index + '_' + pindex" @drop="groupName(group, n).isHolderName === true ? onTeamDrop($event) : null" @dragover="groupName(group, n).isHolderName === true ? allowDrop($event) : null">{{ groupName(group, n).displayName | truncate(20) }}</span>
+                          </strong>
+                        </p>
                        </div>
-                        <p class="text-primary left" v-for="n in group['group_count']"><strong><span :class="groupFlag(group,n)" ></span>
-                        {{groupName(group,n) | truncate(20)}}</strong></p>
+                        <!-- <p class="text-primary left" v-for="n in group['group_count']"><strong><span :class="groupFlag(group,n)" ></span>
+                        {{groupName(group,n) | truncate(20)}}</strong></p> -->
                     </div>
                   </div>
                 </div>
@@ -98,7 +103,7 @@
                           <td width="150px">{{team.esr_reference}}</td>
                           <td class="team-edit-section">
                             <div class="custom-d-flex align-items-center justify-content-between" v-show="!(team.id in teamsInEdit)">
-                              <span draggable="true" :data-select-id="'sel_' + team.id" :id="'team_' + index" @dragstart="onTeamDrag($event)">{{team.name}}</span>
+                              <span draggable="true" :data-select-id="team.id" :id="'team_' + index" @dragstart="onTeamDrag($event)">{{team.name}}</span>
                               <span class="pull-right"><a href="javascript:void(0);" v-on:click="editTeamName($event, team.id, team.name)"><i class="fas fa-pencil" aria-hidden="true"></i></a></span>
                             </div>
                             <div v-show="(team.id in teamsInEdit)">
@@ -286,7 +291,6 @@
       var fixmeTopOffset = fixmeTop - 60;
       $(window).scroll(function() {
         var currentScroll = $(window).scrollTop();
-        console.log(currentScroll);
         if (currentScroll >= fixmeTopOffset) {
           $('#fixme').addClass("is-fixed");
           var FixmeHeight= ($('#fixme').height() + 49 );
@@ -341,13 +345,15 @@
         let groupName = this.getGroupPlaceHolderName(group, no);
         let displayName = groupName.fullName;
         let actualFullName = groupName.actualFullName;
+        let isHolderName = true;
 
         _.find(this.teams, function(team) {
           if(team.age_group_id == vm.age_category.id && actualFullName == team.group_name){
             displayName =  team.name
+            isHolderName = false;
           } ;
         });
-        return displayName
+        return {'displayName': displayName, 'isHolderName': isHolderName}
       },
       getGroupPlaceHolderName(group, no) {
         let fullName = null
@@ -442,7 +448,6 @@
         this.teams = ''
         let ageCategoryId = this.age_category !== '' ? this.age_category.id : '';
         let teamData = {'tournamentId':this.tournament_id, 'ageCategoryId' : ageCategoryId, 'filterKey':'age_category', 'filterValue': ageCategoryId};
-        // console.log(teamData,'td')
         Tournament.getTeams(teamData).then(
           (response) => {
             this.teams = response.data.data
@@ -756,14 +761,16 @@
       },
       onTeamDrop(ev) {
         ev.preventDefault();
-        var id = ev.dataTransfer.getData("id");
-        $('#' + ev.target.id).html($('#' + id).html());
-        $('#' + id).prop('draggable', false);
-        $('#' + id).unbind('draggable');
-        $('#' + ev.target.id).$off('drop', 'dragover');
+        let teamId = ev.dataTransfer.getData("id");
+        let teamSelectId = $('#' + teamId).data('select-id');
+        $('#sel_' + teamSelectId).val($('#' + ev.target.id).data('group-name'));
+        $('#sel_' + teamSelectId).trigger('select2:select');
+        this.assignTeamGroupName(teamSelectId, $('#sel_' + teamSelectId).val());
+        this.onAssignGroup($('#' + teamId).data('select-id'));
       },
       onTeamDrag(ev) {
         ev.dataTransfer.setData("id", ev.target.id);
+        this.beforeChange($('#' + ev.target.id).data('select-id'));
       }
     }
   }
