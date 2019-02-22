@@ -51,7 +51,7 @@
                 </div>
               </div>
             </div>
-            <div class="block-bg age-category" id="fixme">
+            <div class="block-bg age-category" id="age_category_block">
               <div class="d-flex flex-row flex-wrap justify-content-center" v-if="grpsView.length != 0">
                 <div class="col-sm-2 my-2" v-for="(group, index) in grpsView">
                   <div class="m_card hoverable h-100 m-0">
@@ -289,24 +289,24 @@
       this.fetchAllCountries();
       this.fetchAllClubs();
       this.fetchAllTeamColors();
-      let fixmeTop = $('#fixme').offset().top;
+      let fixmeTop = $('#age_category_block').offset().top;
       let HeaderHeight = $('.site-header').height();
       let fixmeTopOffset = fixmeTop - 60;
       $(window).scroll(function() {
-        let categoryDivHeight = $('#fixme').height();
+        let categoryDivHeight = $('#age_category_block').height();
         let teamTableHeight = $(window).height() - (fixmeTop);
         let currentScroll = $(window).scrollTop();
         if ($('.team-table').height() > teamTableHeight) {
           if((currentScroll) < fixmeTopOffset) {
-            $('#fixme').removeClass("is-fixed");
+            $('#age_category_block').removeClass("is-fixed");
             $('.team-table').css({"padding-top": 0});
           } else {
-            let FixmeHeight= ($('#fixme').height() + 49);
-            $('.team-table').css({"padding-top": FixmeHeight});
-            $('#fixme').addClass("is-fixed");
+            let fixmeHeight= ($('#age_category_block').height() + 49);
+            $('.team-table').css({"padding-top": fixmeHeight});
+            $('#age_category_block').addClass("is-fixed");
           }
         } else {
-          $('#fixme').removeClass("is-fixed");
+          $('#age_category_block').removeClass("is-fixed");
           $('.team-table').css({"padding-top": 0});
         }
       });
