@@ -1121,6 +1121,18 @@ a.active-view:hover {
     @extend .text-primary;
 }
 
+#age_category_block {
+    position: relative;
+    &.is-fixed {
+        position: fixed;
+        top: 60px;
+        z-index: 99;
+        width: auto;
+        left: 57px;
+        right: 57px;
+    }
+}
+
 .displayGraphicImage .modal-dialog{
     max-width: 900px;
 }
