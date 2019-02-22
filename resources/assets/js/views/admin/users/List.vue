@@ -408,7 +408,6 @@
             getLanguageData() {
               User.getAllLanguages().then(
                 (response)=> {
-                  console.log(response.data);
                   this.allLanguages = response.data;
                 },
                 (error)=> {

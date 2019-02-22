@@ -440,10 +440,23 @@ class AgeGroupService implements AgeGroupContract
 
     public function copyAgeCategory($data)
     {
-      $data = $this->ageGroupObj->copyAgeCategory($data);
-      if ($data) {
-        return ['status_code' => '200', 'message' => 'Data Sucessfully Inserted'];
-      }
+      $copiedAgeCategory = TournamentCompetationTemplates::where('id', $data['ageCategoryData']['copiedAgeCategoryId'])->first();
+
+      $newCopiedAgeCategory = $copiedAgeCategory->replicate();
+      $newCopiedAgeCategory->group_name = $data['ageCategoryData']['competition_format']['ageCategory_name'];
+      $newCopiedAgeCategory->category_age = $data['ageCategoryData']['competition_format']['category_age'];
+      $newCopiedAgeCategory->pitch_size = $data['ageCategoryData']['competition_format']['pitch_size'];
+      $newCopiedAgeCategory->save();
+
+      $newCopiedAgeCategoryDataArray = $newCopiedAgeCategory->toArray();
+      $templateData = (array) $this->ageGroupObj->FindTemplate($newCopiedAgeCategoryDataArray['tournament_template_id']);
+      $newCopiedAgeCategoryDataArray['ageCategory_name'] = $data['ageCategoryData']['competition_format']['ageCategory_name'];
+      $newCopiedAgeCategoryDataArray['tournamentTemplate'] = $templateData;
+
+      $this->addCompetationGroups($newCopiedAgeCategory->id, $newCopiedAgeCategoryDataArray);
+      $this->insertPositions($newCopiedAgeCategory->id, $newCopiedAgeCategoryDataArray['tournamentTemplate']);
+      
+      return ['status_code' => '200', 'data' => $newCopiedAgeCategory, 'message' => 'Data Sucessfully Inserted'];
     }
 
     public function viewTemplateGraphicImage($data)
