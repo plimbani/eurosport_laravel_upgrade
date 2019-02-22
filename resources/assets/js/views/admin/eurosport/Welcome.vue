@@ -16,6 +16,10 @@
               @click="addNewTournament()" v-if="(userDetails.role_name != 'Tournament administrator' &&  userDetails.role_name != 'Internal administrator')">
               {{$lang.welcome_add_button_new_edition}}</button>
             </div>
+             <div class= "form-group">
+              <button class="btn btn-primary col-sm-10 btn-theme" @click="duplicateTournament()" v-if="( userDetails.role_name == 'Internal administrator' || userDetails.role_name == 'Master administrator' || userDetails.role_name == 'Super administrator')">
+              {{$lang.welcome_create_duplicate_tournament}}</button>
+            </div>
             <div class="form-group">
               <tournamentDropDown></tournamentDropDown>
             </div>
@@ -122,6 +126,12 @@ computed: {
       'Create Website'}
       this.$store.dispatch('setActiveTab', currentNavigationData)
       this.$router.push({name: 'website_add'})
+    },
+    duplicateTournament() {
+      let currentNavigationData = {currentPage:'Tournaments'}
+      this.$store.dispatch('setActiveTab', currentNavigationData)
+      
+      this.$router.push({ name: 'duplicate_tournament_copy' })
     }
   }
 }
