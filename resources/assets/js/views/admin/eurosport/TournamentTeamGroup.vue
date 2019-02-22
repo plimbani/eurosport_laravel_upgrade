@@ -66,8 +66,6 @@
                           </strong>
                         </p>
                        </div>
-                        <!-- <p class="text-primary left" v-for="n in group['group_count']"><strong><span :class="groupFlag(group,n)" ></span>
-                        {{groupName(group,n) | truncate(20)}}</strong></p> -->
                     </div>
                   </div>
                 </div>
