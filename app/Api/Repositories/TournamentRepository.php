@@ -1039,16 +1039,20 @@ class TournamentRepository
     public function resultAdministratorDisplayMessage($tournamentData)
     {
         $tournamentStartDate = Tournament::where('id', $tournamentData['tournament_id'])->pluck('start_date')->first();
-        $setDateCarbon = Carbon::createFromFormat('d/m/Y', $tournamentStartDate);
-        $setTournamentBeforeDate = Carbon::parse($setDateCarbon)->modify('-1 days')->format('Y-m-d');
 
-        return $setTournamentBeforeDate;
+        $tournamentDateFormat = Carbon::createFromFormat('d/m/Y', $tournamentStartDate);
+        $tournamentDisplayDate = Carbon::parse($tournamentDateFormat)->format('Y-m-d');
+
+        return $tournamentDisplayDate;
        
     }
 
     public function editTournamentMessage($tournamentData)
     {
-       return TempFixture::where('tournament_id', $tournamentData['tournament_id'])->orderBy('match_datetime','desc')->pluck('match_endtime')->first();
-
+        if(isset($tournamentData['tournament_id'])) {
+            return TempFixture::where('tournament_id', $tournamentData['tournament_id'])->orderBy('match_datetime','desc')->pluck('match_endtime')->first();
+        } else {
+            return '';
+        }
     }
 }

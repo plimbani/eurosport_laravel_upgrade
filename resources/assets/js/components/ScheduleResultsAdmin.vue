@@ -6,9 +6,9 @@
 					<!-- <div class="card-block"> -->
 						<div class="row align-items-center last-updated-row-text">
 							<div class="col-md-7" v-if="currentView != 'teamListing' && currentView != 'finalPlacings' && currentView != 'drawsListing'">
-							     <p class="mb-0 last-updated-time" v-if="tournamentDisplayDate <= 1"><small class="text-muted">Result
+							     <p class="mb-0 last-updated-time" v-if="tournamentStartDataDisplay"><small class="text-muted">Result
 							     	administration will be available from 
-							        : {{ tournamentDisplayDate | formatDate }}</small> </p>  
+							        : {{ tournamentStartDate | formatDate }}</small> </p>  
 							</div>
 							<div class="col-md-5" v-if="currentView != 'teamListing' && currentView != 'matchListing'">
 								<div class="align-items-center d-flex justify-content-end">
@@ -41,7 +41,7 @@
 											</li>											
 										</ul>
 										<div class="tab-content summary-content">
-										<component :is="currentView" :currentView="currentView"></component>
+										<component :is="currentView" :tournamentStartDate ="this.tournamentStartDate" :currentView="currentView"></component>
 											<!--<div class="card">
 												<div class="card-block">
 													<component :is="currentView" :currentView="currentView"></component>
@@ -80,9 +80,23 @@ export default {
 			ageCategory: '',
 			currentView: '',
 			lastUpdatedDateValue: '',
-			tournamentDisplayDate: '',
+			tournamentStartDate: '',
+			currentDate: moment().format('YYYY-MM-DD'),
 		}
 	},
+
+
+	computed: {
+    	tournamentStartDataDisplay() {
+	     	let startDate = this.tournamentStartDate;
+	     	let currentDate = this.currentDate;
+	     	if(startDate > currentDate){
+	     		return true
+	     	} else {
+	     		return false
+	     	}
+	    }
+  	},
 
 
 	filters: {
@@ -109,7 +123,7 @@ export default {
     	this.$root.$on('lastUpdateDate',this.lastUpdatedDate);
     	this.$root.$on('setCurrentView',this.setCurrentView);
     	this.getAgeCategory();
-    	this.tournamentDisplyMessage();
+    	this.tournamentEndDateDisplyMessage();
 
   	},
   beforeCreate: function() {
@@ -187,22 +201,19 @@ export default {
 			}
 		},
 
-		tournamentDisplyMessage() {
+		tournamentEndDateDisplyMessage() {
 			this.TournamentId = this.$store.state.Tournament.tournamentId
 
 			let TournamentData = {'tournament_id': this.TournamentId}
 
 			Tournament.resultAdministratorDisplayMessage(TournamentData).then(
 			  	(response) => {
-			 		this.tournamentDisplayDate = response.data;
+			 		this.tournamentStartDate = response.data;
 		  		},
 			    (error) => {
 			  	}
 			)
-
 		}
-
-
 	}
 }
 </script>

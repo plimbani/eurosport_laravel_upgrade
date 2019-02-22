@@ -41,7 +41,7 @@ export default {
       'header' : 'header',
       'tournamentId' : this.$store.state.Tournament.tournamentId,
       displayTournamentEndDate: '',
-      currentDateTime: moment('YYYY-MM-DD HH:mm'),
+      currentDateTime: moment().format('YYYY-MM-DD HH:mm'),
     }
   },
   filters: {
@@ -59,10 +59,14 @@ export default {
     },
 
     addTournamentEndDateTime() {
-      let expireTime = moment(this.displayTournamentEndDate).format('HH:mm:ss');
-      let test = moment(expireTime).add(8, 'hours');
-      console.log('expireTime', test);
-      return true;
+      let expireTime = moment(this.displayTournamentEndDate).add(8, 'hours').format('YYYY-MM-DD HH:mm:ss');
+      let currentDateTime = this.currentDateTime ;
+
+      if(currentDateTime == expireTime) {
+         return true;
+      } else {
+        return false;
+      }
     }
 
   },
