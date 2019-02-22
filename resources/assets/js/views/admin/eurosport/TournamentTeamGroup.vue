@@ -296,21 +296,15 @@
         let categoryDivHeight = $('#fixme').height();
         let teamTableHeight = $(window).height() - (fixmeTop);
         let currentScroll = $(window).scrollTop();
-        console.log('teamTableHeight', teamTableHeight);
-        console.log('team-table', $('.team-table').height());
-        console.log('currentScroll1', currentScroll);
-        console.log('fixmeTopOffset', fixmeTopOffset);
         if ($('.team-table').height() > teamTableHeight) {
-          console.log('currentScroll', currentScroll);
           if((currentScroll) < fixmeTopOffset) {
             $('#fixme').removeClass("is-fixed");
             $('.team-table').css({"padding-top": 0});
           } else {
-            $('#fixme').addClass("is-fixed");
-            let FixmeHeight= ($('#fixme').height());
+            let FixmeHeight= ($('#fixme').height() + 49);
             $('.team-table').css({"padding-top": FixmeHeight});
+            $('#fixme').addClass("is-fixed");
           }
-          console.log('currentScroll2', currentScroll);
         } else {
           $('#fixme').removeClass("is-fixed");
           $('.team-table').css({"padding-top": 0});
