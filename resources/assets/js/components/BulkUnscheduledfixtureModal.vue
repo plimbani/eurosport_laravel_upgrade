@@ -28,7 +28,7 @@
                 this.$emit('confirmed');
             },
             hideModal() {
-                $('#bulk_unscheduled_fixtures').modal('hide')
+                $('#bulk_unscheduled_fixtures').modal('hide');
                 return false
             }
         }
