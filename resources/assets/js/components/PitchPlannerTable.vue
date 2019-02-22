@@ -490,7 +490,6 @@
                     $("#bulk_unscheduled_fixtures").modal('show');
                     return true;
                 }
-
                 if($("#unschedule_fixtures").hasClass('btn-secondary')) {
                     $("#unschedule_fixtures").removeClass('btn-secondary').addClass('btn-primary');
                     $(".match-unschedule-checkbox-div").removeClass('d-none');
@@ -501,9 +500,8 @@
                     $("#unschedule_fixtures").removeClass('btn-primary').addClass('btn-secondary');
                     $(".match-unschedule-checkbox-div").addClass('d-none');
                     return true;
-                } 
+                }
             },
-
             cancelUnscheduleFixtures() {
                 $("#unschedule_fixtures").html('Unschedule fixture').removeClass('btn btn-success');
                 $("#unschedule_fixtures").addClass('btn btn-primary btn-md btn-secondary');
