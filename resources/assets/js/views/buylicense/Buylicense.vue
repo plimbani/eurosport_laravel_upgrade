@@ -62,9 +62,9 @@
                                         </div>
                                         <div class="col-sm-6 col-md-5 col-lg-5">
                                             <p class="text-sm-right mb-0 mt-3 mt-sm-0">
-                                             <span v-if="tournamentData.currency_type == 'GBP'">GBP</span>   
-                                             <span v-if="tournamentData.currency_type == 'EURO'">EURO</span>   
-                                            £ {{returnFormatedNumber(tournamentData.total_amount)}}</p>
+                                             <span v-if="tournamentData.currency_type == 'GBP'">&#163;</span>   
+                                             <span v-if="tournamentData.currency_type == 'EURO'">&#128;</span>   
+                                            {{returnFormatedNumber(tournamentData.total_amount)}}</p>
                                         </div>
                                     </div>
 
