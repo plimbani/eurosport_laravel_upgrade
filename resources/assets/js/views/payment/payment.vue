@@ -67,7 +67,7 @@
                 }
                 axios.post(Constant.apiBaseUrl+url, apiParams).then(response =>  {
                         if (response.data.success) {
-                            console.log("response.data::",response.data.data)
+                            // console.log("response.data::",response.data.data)
                             this.paymentObj.amount = response.data.data.amount;
                             this.paymentObj.currency = response.data.data.currency;
                             let payment_response = JSON.parse(response.data.data.payment_response);
