@@ -93,6 +93,7 @@
     import Auth from '../../../services/auth'
     import User from '../../../views/admin/Userprofile.vue'
     import Ls from '../../../services/ls'
+    import Constant from '../../../services/constant'
     import UserApi from '../../../api/users.js';
     import Website from '../../../api/website.js';
 
@@ -255,12 +256,43 @@
                 this.emailExist = false;
                 $("#user_profile").modal('show');
             },
-            showSettingModal(){
-                // console.log("showSettingModal");
-                $("#admin_setting").modal('show');
+            showSettingModal(){ 
+                $("#admin_setting").modal('show'); 
+                let params = {
+                    type:'currency'
+                }
+                axios.get(Constant.apiBaseUrl+'get-website-settings?type=currency', params).then(response =>  { 
+                    if (response.data.success) { 
+                        this.adminsetting.currencyvalue = response.data.data.gbp;
+                     }else{ 
+                        toastr['error'](response.data.message, 'Error');
+                     }
+                 }).catch(error => {
+                     
+                 }); 
             },
             saveUserSetting(){
-                // console.log("saveUserSetting");
+                
+                let obj = {
+                    key_field:'currency',
+                    value_field:{
+                        eur:1,
+                        gbp:this.adminsetting.currencyvalue
+                    } 
+                }
+                let params = {
+                    setting_fields : obj
+                }
+                axios.post(Constant.apiBaseUrl+'website-settings/save', params).then(response =>  { 
+                    // console.log("response::",response); 
+                    if (response.data.success) { 
+                         $('#modal').modal('hide');
+                     }else{ 
+                        toastr['error'](response.data.message, 'Error');
+                     }
+                 }).catch(error => {
+                     
+                 }); 
             },
             showEmailExists() {
                 this.emailExist = true;

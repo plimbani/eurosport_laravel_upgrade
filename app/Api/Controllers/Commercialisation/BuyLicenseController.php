@@ -56,7 +56,11 @@ class BuyLicenseController extends BaseController
     {
         $requestData = $request->all();
         $orderId = 'ORDER-' . uniqid() . '-' . time();
-        $shaInString = 'AMOUNT=' . ($requestData['total_amount'] * 100) . config('app.SHA_IN_PASS_PHRASE') . 'CURRENCY=EUR' . config('app.SHA_IN_PASS_PHRASE') . 'ORDERID=' . $orderId . config('app.SHA_IN_PASS_PHRASE') . 'PSPID=' . config('app.PSPID') . config('app.SHA_IN_PASS_PHRASE');
+        $shaInString = 'AMOUNT=' . ($requestData['total_amount'] * 100) . config('app.SHA_IN_PASS_PHRASE') .
+                'CURRENCY=' . substr($requestData['currency_type'], 0, 3) . config('app.SHA_IN_PASS_PHRASE') . 'ORDERID=' . $orderId . config('app.SHA_IN_PASS_PHRASE') .
+                'PMLIST=' . $requestData['PMLIST'] . config('app.SHA_IN_PASS_PHRASE') . 'PMLISTTYPE=' . $requestData['PMLISTTYPE'] . config('app.SHA_IN_PASS_PHRASE') .
+                'PSPID=' . config('app.PSPID') . config('app.SHA_IN_PASS_PHRASE');
+//        $shaInString = 'AMOUNT=' . ($requestData['total_amount'] * 100) . config('app.SHA_IN_PASS_PHRASE') . 'CURRENCY=EUR' . config('app.SHA_IN_PASS_PHRASE') . 'ORDERID=' . $orderId . config('app.SHA_IN_PASS_PHRASE') . 'PSPID=' . config('app.PSPID') . config('app.SHA_IN_PASS_PHRASE');
         $shaSign = hash(config('app.SHA_ALGO'), $shaInString);
         return response()->json([
                     'success' => true,
@@ -74,20 +78,12 @@ class BuyLicenseController extends BaseController
     public function generatePaymentReceipt(Request $request)
     {
         try {
-            $url = $this->transactionObj->generatePaymentReceipt($request->all());
-
-            return response()->json([
-                        'success' => true,
-                        'status' => Response::HTTP_OK,
-                        'data' => ['pdf_url' => $url],
-                        'error' => [],
-                        'message' => 'PDF generated successfully.'
-            ]);
+            return $this->transactionObj->generatePaymentReceipt($request->all());
         } catch (\Exception $ex) {
             return response()->json(['success' => false, 'status' => Response::HTTP_UNPROCESSABLE_ENTITY, 'data' => [], 'error' => [], 'message' => 'Something went wrong.']);
         }
     }
-    
+
     /**
      * Get list of customer's transaction
      */
@@ -102,7 +98,7 @@ class BuyLicenseController extends BaseController
                         'status' => Response::HTTP_OK,
                         'data' => $data,
                         'error' => [],
-                        'message' => 'PDF generated successfully.'
+                        'message' => 'Transaction list get successfully.'
             ]);
         } catch (\Exception $ex) {
             return response()->json(['success' => false, 'status' => Response::HTTP_UNPROCESSABLE_ENTITY, 'data' => [], 'error' => [], 'message' => 'Something went wrong.']);
