@@ -45,7 +45,7 @@
                                             <h3 class="mb-0 text-uppercase font-weight-bold">Your Cart</h3>
                                         </div>
                                         <div class="col-md-6 col-lg-5 mt-2 mt-md-0"> 
-                                            <select class="form-control" v-model="tournamentData.currencyType" id="currencyType" @change="changeCurrencyType($event)">
+                                            <select class="form-control" v-model="tournamentData.currency_type" id="currency_type" @change="changeCurrencyType($event)">
                                                 <option selected value="EURO">EURO</option> 
                                                 <option value="GBP">GBP</option>
                                             </select>
@@ -62,17 +62,17 @@
                                         </div>
                                         <div class="col-sm-6 col-md-5 col-lg-5">
                                             <p class="text-sm-right mb-0 mt-3 mt-sm-0">
-                                             <span v-if="tournamentData.currencyType == 'GBP'">GBP</span>   
-                                             <span v-if="tournamentData.currencyType == 'EURO'">EURO</span>   
-                                            £100.00</p>
+                                             <span v-if="tournamentData.currency_type == 'GBP'">GBP</span>   
+                                             <span v-if="tournamentData.currency_type == 'EURO'">EURO</span>   
+                                            £ {{returnFormatedNumber(tournamentData.total_amount)}}</p>
                                         </div>
                                     </div>
 
                                     <div class="divider my-3 opacited"></div>
 
                                     <p class="text-sm-right font-weight-bold">
-                                        <span v-if="tournamentData.currencyType == 'GBP'">GBP</span> 
-                                        <span v-if="tournamentData.currencyType == 'EURO'">EURO</span>  £100.00</p>
+                                        <span v-if="tournamentData.currency_type == 'GBP'">GBP</span> 
+                                        <span v-if="tournamentData.currency_type == 'EURO'">EURO</span>  £ {{returnFormatedNumber(tournamentData.total_amount)}}</p>
                                 </div>
                                 <div class="row justify-content-end">
                                     <div class="col-md-7 col-lg-7 col-xl-6">
@@ -110,7 +110,8 @@
                     tournament_start_date:new Date(),  
                     tournament_end_date:new Date(), 
                     total_amount:100, 
-                    currencyType:"EURO"
+                    currency_type:"EURO",
+                    payment_currency:"EUR"
                 },
                 
                 shaSignIn:"", 
@@ -120,6 +121,7 @@
                 disabled:false,
                 dayDifference:1,
                 id:"",
+                gpbConvertValue:1
                 
             }
         },
@@ -188,22 +190,18 @@
 
             getTournamentDetail(){ 
                 axios.get(Constant.apiBaseUrl+'get-tournament?tournamentId='+this.id, {}).then(response =>  {  
-                        if (response.data.success) { 
-                             // this.tournaments = response.data.data;
-                             // console.log("tournament details::",response.data.data)
-                             // for(let eachKey in response.data.data){
-                             //    this.tournamentData[eachKey] = response.data.data[eachKey]
-                             // } 
-                             var start_date = new Date(moment(response.data.data.start_date, 'DD/MM/YYYY').format('MM/DD/YYYY'));
-                            var end_date = new Date(moment(response.data.data.end_date, 'DD/MM/YYYY').format('MM/DD/YYYY'));
+                        if (response.data.success) {  
+                            var start_date = new Date(moment(response.data.data.start_date, 'DD/MM/YYYY').format('MM/DD/YYYY'));
+                            var end_date = new Date(moment(response.data.data.end_date, 'DD/MM/YYYY').format('MM/DD/YYYY')); 
                             this.tournamentData['id'] = this.id;
                             this.tournamentData['tournament_name'] = response.data.data.name;
-                            this.tournamentData['tournament_max_teams'] = response.data.data.maximum_teams;                            
-                            this.tournamentData['tournament_start_date'] = start_date.getMonth()+ 1 + '/'+start_date.getDate()+'/'+start_date.getFullYear();
-                            this.tournamentData['tournament_end_date'] = end_date.getMonth()+ 1 + '/'+end_date.getDate()+'/'+end_date.getFullYear();;
-                            console.log("this.tournamentData:",this.tournamentData);
-                    //         tournament_start_date:new Date(),  
-                    // tournament_end_date:new Date(),
+                            this.tournamentData['tournament_max_teams'] = response.data.data.maximum_teams;   
+                            let startMonth = start_date.getMonth()+1;                         
+                            let endMonth = end_date.getMonth()+1;                         
+                            this.tournamentData['tournament_start_date'] = start_date.getDate()+'/'+startMonth + '/'+start_date.getFullYear();
+                            this.tournamentData['tournament_end_date'] = end_date.getDate()+'/'+endMonth + '/'+end_date.getFullYear(); 
+                            $('#tournament_start_date').datepicker('setDate', this.tournamentData['tournament_start_date'])
+                             $('#tournament_end_date').datepicker('setDate', this.tournamentData['tournament_end_date'])  
                          }else{ 
                             toastr['error'](response.data.message, 'Error');
                          }
@@ -213,8 +211,33 @@
             },
 
             changeCurrencyType(event){
-                console.log(event.target.value);
-                this.tournamentData.currencyType = event.target.value;
+                // console.log(event.target.value);
+                this.tournamentData.currency_type = event.target.value;
+                if((this.tournamentData.currency_type).toLowerCase() == "gbp"){
+                    this.tournamentData.payment_currency = this.tournamentData.currency_type;
+                    this.tournamentData.total_amount = (this.tournamentData.total_amount)*this.gpbConvertValue;
+                    // total_amount
+                }else{
+                    this.tournamentData.total_amount = this.tournamentData.total_amount/this.gpbConvertValue;
+                    this.tournamentData.payment_currency = "EUR";
+                }
+            },
+
+            getCurrencyValue(){ 
+                axios.get(Constant.apiBaseUrl+'get-website-settings?type=currency').then(response =>  { 
+                    if (response.data.success) { 
+                        this.gpbConvertValue = response.data.data.gbp;
+                        // console.log("this.gpbConvertValue::",this.gpbConvertValue);
+                     }else{ 
+                        toastr['error'](response.data.message, 'Error');
+                     }
+                }).catch(error => {
+                     
+                }); 
+            },
+
+            returnFormatedNumber(value){
+                return Number(value).toFixed(2);  
             }
         },
         beforeMount(){   
@@ -249,7 +272,7 @@
             $("#tournament_end_date").on("change",function (value){ 
                vm.findDifferenceBetweenDates();
             })   
-
+            this.getCurrencyValue();
 
         }
     }

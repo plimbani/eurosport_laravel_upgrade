@@ -98,6 +98,7 @@
                         Ls.set('auth.token',response.data.token)
                         // We set Email Over here
                         Ls.set('email',this.loginData.email)
+                        Ls.set('usercountry',response.data.country)
                         this.disabled = false;
                         let tournamentDetails = Ls.get('tournamentDetails')
                         if(typeof tournamentDetails != "undefined" && tournamentDetails != undefined && tournamentDetails != "null" && tournamentDetails != null){
