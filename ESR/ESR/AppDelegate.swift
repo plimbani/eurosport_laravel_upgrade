@@ -18,13 +18,9 @@ import AudioToolbox
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    // Tab controller global instance
     let reachability = Reachability()!
     let cellOwner = TableCellOwner()
-    var infoAlertViewTwoButton: CustomAlertViewTwoButton!
-    
     var deviceOrientation = UIInterfaceOrientationMask.portrait
-    
     var mainTabVC: MainTabViewController?
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
@@ -59,17 +55,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
-        
-//        if let vc =  UIApplication.shared.visibleViewController {
-//            for chidVC in vc.childViewControllers {
-//                for innerChildVC in chidVC.childViewControllers {
-//                    if innerChildVC is GroupDetailsVC {
-//                        return UIInterfaceOrientationMask.landscapeLeft
-//                    }
-//                }
-//            }
-//        }
-        
         return deviceOrientation
     }
     
@@ -97,12 +82,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     @objc func tokenRefreshNotification(notification: NSNotification) {
-        /*
-        if let refreshedToken = InstanceID.instanceID().token() {
-            print("InstanceID token: \(refreshedToken)")
-            USERDEFAULTS.set(refreshedToken, forKey: kUserDefaults.fcmToken)
-            updateFCMToken(refreshedToken)
-        }*/
         InstanceID.instanceID().instanceID { (result, error) in
             if let error = error {
                 print("Error fetching remote instange ID: \(error)")

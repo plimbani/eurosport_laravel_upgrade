@@ -38,7 +38,7 @@ class LandingVC: SuperViewController {
             lblAppVersion.text = String.init(format: String.localize(key: "string_app_version"), arguments: [version])
         }
         
-        initInfoAlertViewTwoButton(self.view, self)
+        // initInfoAlertViewTwoButton(self.view, self)
         
         if USERDEFAULTS.string(forKey: kUserDefaults.token) != nil {
             updateToken()
@@ -104,7 +104,9 @@ class LandingVC: SuperViewController {
                     
                     // 1 - left version is greater than right version
                     if Utils.compareVersion(serverVersion, appVersion) == 1 {
-                        self.showInfoAlertViewTwoButton(title: String.localize(key: "alert_title_app_update"), message: String.localize(key: "alert_msg_app_update"), buttonYesTitle: String.localize(key: "btn_update"), buttonNoTitle: String.localize(key: "btn_cancel"), requestCode: AlertRequestCode.appUpgrade.rawValue)
+                        // self.showInfoAlertViewTwoButton(title: String.localize(key: "alert_title_app_update"), message: String.localize(key: "alert_msg_app_update"), buttonYesTitle: String.localize(key: "btn_update"), buttonNoTitle: String.localize(key: "btn_cancel"), requestCode: AlertRequestCode.appUpgrade.rawValue)
+                        
+                        self.showCustomAlertTwoBtnVC(title: String.localize(key: "alert_title_app_update"), message: String.localize(key: "alert_msg_app_update"), buttonYesTitle: String.localize(key: "btn_update"), buttonNoTitle: String.localize(key: "btn_cancel"), requestCode: AlertRequestCode.appUpgrade.rawValue, delegate: self)
                         
                         ApplicationData.isAppUpdateDispalyed = true
                     }
@@ -119,7 +121,8 @@ class LandingVC: SuperViewController {
                 }
                 
                 if let error = result.value(forKey: "error") as? String {
-                    self.showInfoAlertView(title: String.localize(key: "alert_title_error"), message: error)
+                    // self.showInfoAlertView(title: String.localize(key: "alert_title_error"), message: error)
+                    self.showCustomAlertVC(title: String.localize(key: "alert_title_error"), message: error)
                 }
             }
         })
@@ -134,7 +137,24 @@ class LandingVC: SuperViewController {
     }
 }
 
-extension LandingVC: CustomAlertViewTwoButtonDelegate {
+extension LandingVC: CustomAlertTwoBtnVCDelegate {
+    func customAlertTwoBtnVCNoBtnPressed(requestCode: Int) {}
+    
+    func customAlertTwoBtnVCYesBtnPressed(requestCode: Int) {
+        if requestCode == AlertRequestCode.appUpgrade.rawValue {
+            if let url = URL(string: APPSTORE_APP_URL),
+                UIApplication.shared.canOpenURL(url){
+                if #available(iOS 10.0, *) {
+                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                } else {
+                    UIApplication.shared.openURL(url)
+                }
+            }
+        }
+    }
+}
+
+/*extension LandingVC: CustomAlertViewTwoButtonDelegate {
     func customAlertViewTwoButtonNoBtnPressed(requestCode: Int) {}
     
     func customAlertViewTwoButtonYesBtnPressed(requestCode: Int) {
@@ -149,4 +169,4 @@ extension LandingVC: CustomAlertViewTwoButtonDelegate {
             }
         }
     }
-}
+}*/

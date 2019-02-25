@@ -72,6 +72,16 @@ struct Storyboards {
         static func instantiateCreateAccountVC() -> CreateAccountVC {
             return self.storyboard.instantiateViewController(withIdentifier: kViewController.CreateAccountVC) as! CreateAccountVC
         }
+        
+        static func instantiateCustomAlertVC() -> CustomAlertVC {
+            return self.storyboard.instantiateViewController(withIdentifier: kViewController.CustomAlertVC) as! CustomAlertVC
+        }
+        
+        static func instantiateCustomAlertTwoBtnVC() -> CustomAlertTwoBtnVC {
+            return self.storyboard.instantiateViewController(withIdentifier: kViewController.CustomAlertTwoBtnVC) as! CustomAlertTwoBtnVC
+        }
+        
+        
     }
     
     struct Favourites: Storyboard {

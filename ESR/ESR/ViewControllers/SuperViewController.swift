@@ -11,16 +11,11 @@ class SuperViewController: UIViewController {
 
     @IBOutlet var titleNavigationBar: TitleNavigationBar!
     @IBOutlet var imageNavigationBar: ImageNavigationBar!
+    @IBOutlet var heightConstraintLblNoInternet: NSLayoutConstraint!
     
     var button: UIButton?
     
-    // AlertView
-    var infoAlertView: CustomAlertView!
-    // AlertView two button
-    var infoAlertViewTwoButton: CustomAlertViewTwoButton!
-    
     let cellOwner = TableCellOwner()
-    @IBOutlet var heightConstraintLblNoInternet: NSLayoutConstraint!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,44 +27,37 @@ class SuperViewController: UIViewController {
         }
     }
     
-    func initInfoAlertView(_ view: UIView, _ delegate: CustomAlertViewDelegate? = nil) {
-        _ = cellOwner.loadMyNibFile(nibName: "CustomAlertView")
-        infoAlertView = cellOwner.view as! CustomAlertView
-        infoAlertView.frame = CGRect(x: 0, y: 0, width: DEVICE_WIDTH, height: DEVICE_HEIGHT)
+    func showCustomAlertVC(title: String, message: String, buttonTitle: String = String.localize(key: "btn_close"), requestCode: Int = -1, delegate: CustomAlertVCDelegate? = nil) {
+        let customAlert = Storyboards.Main.instantiateCustomAlertVC()
+        customAlert.providesPresentationContextTransitionStyle = true
+        customAlert.definesPresentationContext = true
+        customAlert.modalPresentationStyle = UIModalPresentationStyle.overFullScreen
+        customAlert.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
         if delegate != nil {
-            infoAlertView.delegate = delegate
+            customAlert.delegate = delegate
         }
-        infoAlertView.hide()
-        view.addSubview(infoAlertView)
-        
-       // let modalWindow = UIApplication.shared.keyWindow!
-       // modalWindow.addSubview(infoAlertView)
+        customAlert.requestCode = requestCode
+        customAlert.titleString = title
+        customAlert.messageString = message
+        customAlert.btnOkString  = buttonTitle
+        self.present(customAlert, animated: true, completion: nil)
     }
     
-    func showInfoAlertView(title: String, message: String, buttonTitle: String = String.localize(key: "btn_close"), requestCode: Int = -1) {
-        if infoAlertView != nil {
-            infoAlertView.setTitle(title, message: message, buttonTitle: buttonTitle, requestCode: requestCode)
-            infoAlertView.show()
+    func showCustomAlertTwoBtnVC(title: String, message: String, buttonYesTitle: String = String.localize(key: "btn_yes"), buttonNoTitle: String = String.localize(key: "btn_no"), requestCode: Int = -1, delegate: CustomAlertTwoBtnVCDelegate? = nil) {
+        let customAlert = Storyboards.Main.instantiateCustomAlertTwoBtnVC()
+        customAlert.providesPresentationContextTransitionStyle = true
+        customAlert.definesPresentationContext = true
+        customAlert.modalPresentationStyle = UIModalPresentationStyle.overFullScreen
+        customAlert.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
+        if delegate != nil {
+            customAlert.delegate = delegate
         }
-    }
-    
-    func initInfoAlertViewTwoButton(_ view: UIView, _ delegate: CustomAlertViewTwoButtonDelegate) {
-        _ = cellOwner.loadMyNibFile(nibName: "CustomAlertViewTwoButton")
-        infoAlertViewTwoButton = cellOwner.view as! CustomAlertViewTwoButton
-        infoAlertViewTwoButton.delegate = delegate
-        infoAlertViewTwoButton.frame = CGRect(x: 0, y: 0, width: DEVICE_WIDTH, height: DEVICE_HEIGHT)
-        infoAlertViewTwoButton.hide()
-        view.addSubview(infoAlertViewTwoButton)
-        
-        //let modalWindow = UIApplication.shared.keyWindow!
-        //modalWindow.addSubview(infoAlertViewTwoButton)
-    }
-    
-    func showInfoAlertViewTwoButton(title: String = NULL_STRING, message: String = NULL_STRING, buttonYesTitle: String = String.localize(key: "btn_yes"), buttonNoTitle: String = String.localize(key: "btn_no"), requestCode: Int = -1) {
-        if infoAlertViewTwoButton != nil {
-            infoAlertViewTwoButton.setTitle(title: title, message: message, buttonYesTitle: buttonYesTitle, buttonNoTitle: buttonNoTitle, requestCode: requestCode)
-            infoAlertViewTwoButton.show()
-        }
+        customAlert.requestCode = requestCode
+        customAlert.titleString = title
+        customAlert.messageString = message
+        customAlert.btnYesString  = buttonYesTitle
+        customAlert.btnNoString  = buttonNoTitle
+        self.present(customAlert, animated: true, completion: nil)
     }
 }
 

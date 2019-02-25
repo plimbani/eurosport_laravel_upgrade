@@ -75,10 +75,6 @@ class TabTournamentVC: SuperViewController {
             timer!.invalidate()
             timer = nil
         }
-        
-        if tournamentDetailsView != nil {
-            tournamentDetailsView.removeFromSuperview()
-        }
     }
     
     func initialize() {
@@ -119,18 +115,11 @@ class TabTournamentVC: SuperViewController {
         pickerHandlerView.delegate = self
         self.view.addSubview(pickerHandlerView)
         
-        initInfoAlertView(self.view)
+        // initInfoAlertView(self.view)
         
-        _ = cellOwner.loadMyNibFile(nibName: "TournamentDetailsView")
-        tournamentDetailsView = cellOwner.view as! TournamentDetailsView
-        tournamentDetailsView!.hide()
-        APPDELEGATE.mainTabVC?.addViewAsSubView(subView: tournamentDetailsView)
+        tournamentDetailsView = APPDELEGATE.mainTabVC?.tournamentDetailsView
         
         sendRequestGetTournaments()
-    }
-    
-    override func viewDidLayoutSubviews() {
-        tournamentDetailsView.frame = CGRect(x: 0, y: 0, width: DEVICE_WIDTH, height: DEVICE_HEIGHT)
     }
     
     func runTimer() {
@@ -245,7 +234,7 @@ class TabTournamentVC: SuperViewController {
     
     @IBAction func onFinalPlacingPressed(_ sender: UIButton) {
         if ApplicationData.sharedInstance().isTournamentInPreview() {
-            self.showInfoAlertView(title: String.localize(key: "alert_title_preview"), message: String.localize(key: "alert_preview_tournament"))
+            showCustomAlertVC(title: String.localize(key: "alert_title_preview"), message: String.localize(key: "alert_preview_tournament"), requestCode: 100, delegate: self)
             return
         }
         
@@ -256,7 +245,7 @@ class TabTournamentVC: SuperViewController {
     
     @IBAction func onTeamPressed(_ sender: UIButton) {
         if ApplicationData.sharedInstance().isTournamentInPreview() {
-            self.showInfoAlertView(title: String.localize(key: "alert_title_preview"), message: String.localize(key: "alert_preview_tournament"))
+            showCustomAlertVC(title: String.localize(key: "alert_title_preview"), message: String.localize(key: "alert_preview_tournament"), requestCode: 102, delegate: self)
             return
         }
         
@@ -381,6 +370,12 @@ class TabTournamentVC: SuperViewController {
                 self.view.hideProgressHUD()
             }
         })
+    }
+}
+
+extension TabTournamentVC: CustomAlertVCDelegate {
+    func customAlertVCOkBtnPressed(requestCode: Int) {
+        print("REQ CODE: \(requestCode)")
     }
 }
 

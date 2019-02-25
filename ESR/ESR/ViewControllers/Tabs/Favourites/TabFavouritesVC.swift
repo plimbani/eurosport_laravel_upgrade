@@ -39,7 +39,7 @@ class TabFavouritesVC: SuperViewController {
         }
         
         // Alert view
-        initInfoAlertView(self.view)    
+        // initInfoAlertView(self.view)
         
         // Get tournaments API request
         sendGetTournamentsRequest(true)
@@ -142,7 +142,9 @@ class TabFavouritesVC: SuperViewController {
             DispatchQueue.main.async {
                 tournament.isFavourite = true
                 self.sendGetFavTournamentsRequest()
-                self.showInfoAlertView(title: String.localize(key: "alert_title_success"), message: String.localize(key: "alert_default_tournament_update"))
+                // self.showInfoAlertView(title: String.localize(key: "alert_title_success"), message: String.localize(key: "alert_default_tournament_update"))
+                
+                self.showCustomAlertVC(title: String.localize(key: "alert_title_success"), message: String.localize(key: "alert_default_tournament_update"))
             }
         }) { (result) in
             DispatchQueue.main.async {
@@ -225,7 +227,8 @@ extension TabFavouritesVC: FavouriteTournamentCellDelegate {
         let tournament = tournamentList[indexPath.row]
         
         if tournament.isDefault == 1 {
-            showInfoAlertView(title: String.localize(key: "alert_title_error"), message: String.localize(key: "alert_default_tournament_remove"))
+            // showInfoAlertView(title: String.localize(key: "alert_title_error"), message: String.localize(key: "alert_default_tournament_remove"))
+            self.showCustomAlertVC(title: String.localize(key: "alert_title_error"), message: String.localize(key: "alert_default_tournament_remove"))
         } else {
             if tournament.isFavourite {
                 sendRemoveFavTournamentRequest(tournament)

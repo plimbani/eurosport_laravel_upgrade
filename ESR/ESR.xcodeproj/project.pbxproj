@@ -50,13 +50,11 @@
 		30181D682126EB830067D65F /* UIViewExtentions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D672126EB830067D65F /* UIViewExtentions.swift */; };
 		30181D6B2126F4060067D65F /* PickerHandlerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30181D692126F4050067D65F /* PickerHandlerView.xib */; };
 		30181D6C2126F4060067D65F /* PickerHandlerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D6A2126F4050067D65F /* PickerHandlerView.swift */; };
-		30181D6F212AA3400067D65F /* CustomAlertView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30181D6D212AA33F0067D65F /* CustomAlertView.xib */; };
-		30181D70212AA3400067D65F /* CustomAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D6E212AA33F0067D65F /* CustomAlertView.swift */; };
 		30181D77212AB9CE0067D65F /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D76212AB9CE0067D65F /* UserData.swift */; };
 		30181D79212ABB5A0067D65F /* ParseManger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D78212ABB5A0067D65F /* ParseManger.swift */; };
-		30181D7C212AD07C0067D65F /* CustomAlertViewTwoButton.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30181D7A212AD07C0067D65F /* CustomAlertViewTwoButton.xib */; };
-		30181D7D212AD07C0067D65F /* CustomAlertViewTwoButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D7B212AD07C0067D65F /* CustomAlertViewTwoButton.swift */; };
 		30181D81212AF0590067D65F /* SettingsList.plist in Resources */ = {isa = PBXBuildFile; fileRef = 30181D80212AF0590067D65F /* SettingsList.plist */; };
+		301D9C02222407A400EF8E76 /* CustomAlertVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301D9C01222407A400EF8E76 /* CustomAlertVC.swift */; };
+		301D9C042224184A00EF8E76 /* CustomAlertTwoBtnVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301D9C032224184A00EF8E76 /* CustomAlertTwoBtnVC.swift */; };
 		30371E09220450A50000814A /* AppExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30371E08220450A50000814A /* AppExtensions.swift */; };
 		30371E0A220450A50000814A /* AppExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30371E08220450A50000814A /* AppExtensions.swift */; };
 		305693FE212BEABC009790BA /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 305693FD212BEABC009790BA /* ProfileVC.swift */; };
@@ -75,7 +73,6 @@
 		307542B92174C9DD003715C7 /* FinalPlacingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307542B72174C9DD003715C7 /* FinalPlacingsCell.swift */; };
 		307542BA2174C9DD003715C7 /* FinalPlacingsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 307542B82174C9DD003715C7 /* FinalPlacingsCell.xib */; };
 		307542BE2178A157003715C7 /* TeamListingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307542BD2178A157003715C7 /* TeamListingVC.swift */; };
-		30790CFA2202D457000EE4A5 /* CustomAlertViewTwoButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D7B212AD07C0067D65F /* CustomAlertViewTwoButton.swift */; };
 		30790CFB2202D457000EE4A5 /* GroupDetailsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307949E521394C6800DE23A3 /* GroupDetailsVC.swift */; };
 		30790CFC2202D457000EE4A5 /* AgeCategoriesGroupsSummaryVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FB311E2135523B00ABA22A /* AgeCategoriesGroupsSummaryVC.swift */; };
 		30790CFD2202D457000EE4A5 /* AgeCategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FB311821353CA000ABA22A /* AgeCategoryCell.swift */; };
@@ -138,7 +135,6 @@
 		30790D372202D457000EE4A5 /* StoryboardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181CFB211DB6E30067D65F /* StoryboardManager.swift */; };
 		30790D382202D457000EE4A5 /* TabAgeCategoriesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D09211DBA3E0067D65F /* TabAgeCategoriesVC.swift */; };
 		30790D392202D457000EE4A5 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D49212588340067D65F /* Reachability.swift */; };
-		30790D3A2202D457000EE4A5 /* CustomAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D6E212AA33F0067D65F /* CustomAlertView.swift */; };
 		30790D3B2202D457000EE4A5 /* MapVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3086BC99213FB54E00810CC8 /* MapVC.swift */; };
 		30790D3C2202D457000EE4A5 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D41212558900067D65F /* Utils.swift */; };
 		30790D3D2202D457000EE4A5 /* LabelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307542A92170BE03003715C7 /* LabelCell.swift */; };
@@ -151,7 +147,6 @@
 		30790D472202D457000EE4A5 /* TitleNavigationBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30181D272122A8FB0067D65F /* TitleNavigationBar.xib */; };
 		30790D482202D457000EE4A5 /* VenueFieldList.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3086BC91213EB09F00810CC8 /* VenueFieldList.plist */; };
 		30790D492202D457000EE4A5 /* TournamentClubCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 306893F4214A813900BA543F /* TournamentClubCell.xib */; };
-		30790D4A2202D457000EE4A5 /* CustomAlertViewTwoButton.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30181D7A212AD07C0067D65F /* CustomAlertViewTwoButton.xib */; };
 		30790D4B2202D457000EE4A5 /* GroupDetailsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 307949EC21395AB200DE23A3 /* GroupDetailsCell.xib */; };
 		30790D4D2202D457000EE4A5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 30C799FA21D35E3A00B0ECB4 /* GoogleService-Info.plist */; };
 		30790D4E2202D457000EE4A5 /* AgeCategoryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30FB311921353CA000ABA22A /* AgeCategoryCell.xib */; };
@@ -177,7 +172,6 @@
 		30790D632202D457000EE4A5 /* ButtonCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30181D3E212312EC0067D65F /* ButtonCell.xib */; };
 		30790D642202D457000EE4A5 /* ImageNavigationBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30181D4D212590EC0067D65F /* ImageNavigationBar.xib */; };
 		30790D652202D457000EE4A5 /* TabAgeCategoriesCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30AF116721BA596400BE50F4 /* TabAgeCategoriesCell.xib */; };
-		30790D662202D457000EE4A5 /* CustomAlertView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30181D6D212AA33F0067D65F /* CustomAlertView.xib */; };
 		30790D672202D457000EE4A5 /* QA.plist in Resources */ = {isa = PBXBuildFile; fileRef = 30181D5F2126D6930067D65F /* QA.plist */; };
 		30790D682202D457000EE4A5 /* GroupSummaryMatchesHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30FB31262136660900ABA22A /* GroupSummaryMatchesHeader.xib */; };
 		30790D692202D457000EE4A5 /* AgeCategories.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3086BC89213D3DB800810CC8 /* AgeCategories.storyboard */; };
@@ -279,13 +273,11 @@
 		30181D672126EB830067D65F /* UIViewExtentions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtentions.swift; sourceTree = "<group>"; };
 		30181D692126F4050067D65F /* PickerHandlerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PickerHandlerView.xib; sourceTree = "<group>"; };
 		30181D6A2126F4050067D65F /* PickerHandlerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PickerHandlerView.swift; sourceTree = "<group>"; };
-		30181D6D212AA33F0067D65F /* CustomAlertView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomAlertView.xib; sourceTree = "<group>"; };
-		30181D6E212AA33F0067D65F /* CustomAlertView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomAlertView.swift; sourceTree = "<group>"; };
 		30181D76212AB9CE0067D65F /* UserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
 		30181D78212ABB5A0067D65F /* ParseManger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseManger.swift; sourceTree = "<group>"; };
-		30181D7A212AD07C0067D65F /* CustomAlertViewTwoButton.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomAlertViewTwoButton.xib; sourceTree = "<group>"; };
-		30181D7B212AD07C0067D65F /* CustomAlertViewTwoButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomAlertViewTwoButton.swift; sourceTree = "<group>"; };
 		30181D80212AF0590067D65F /* SettingsList.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = SettingsList.plist; sourceTree = "<group>"; };
+		301D9C01222407A400EF8E76 /* CustomAlertVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlertVC.swift; sourceTree = "<group>"; };
+		301D9C032224184A00EF8E76 /* CustomAlertTwoBtnVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlertTwoBtnVC.swift; sourceTree = "<group>"; };
 		3033AE99216E062600C19FCD /* MBCircularProgressBar.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MBCircularProgressBar.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		30371E08220450A50000814A /* AppExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppExtensions.swift; sourceTree = "<group>"; };
 		305693FD212BEABC009790BA /* ProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVC.swift; sourceTree = "<group>"; };
@@ -518,6 +510,8 @@
 			isa = PBXGroup;
 			children = (
 				30181CD8211D98720067D65F /* SuperViewController.swift */,
+				301D9C01222407A400EF8E76 /* CustomAlertVC.swift */,
+				301D9C032224184A00EF8E76 /* CustomAlertTwoBtnVC.swift */,
 				30181D242121A91A0067D65F /* Login */,
 				30181CFD211DB8840067D65F /* Tabs */,
 			);
@@ -610,10 +604,6 @@
 				30181D4D212590EC0067D65F /* ImageNavigationBar.xib */,
 				30181D6A2126F4050067D65F /* PickerHandlerView.swift */,
 				30181D692126F4050067D65F /* PickerHandlerView.xib */,
-				30181D6E212AA33F0067D65F /* CustomAlertView.swift */,
-				30181D6D212AA33F0067D65F /* CustomAlertView.xib */,
-				30181D7B212AD07C0067D65F /* CustomAlertViewTwoButton.swift */,
-				30181D7A212AD07C0067D65F /* CustomAlertViewTwoButton.xib */,
 				30FB3120213579FE00ABA22A /* GroupSummaryStandingsHeader.swift */,
 				30FB312221357A0800ABA22A /* GroupSummaryStandingsHeader.xib */,
 				30FB3124213665FE00ABA22A /* GroupSummaryMatchesHeader.swift */,
@@ -842,7 +832,6 @@
 				30181D282122A8FB0067D65F /* TitleNavigationBar.xib in Resources */,
 				3086BC92213EB09F00810CC8 /* VenueFieldList.plist in Resources */,
 				306893F6214A813900BA543F /* TournamentClubCell.xib in Resources */,
-				30181D7C212AD07C0067D65F /* CustomAlertViewTwoButton.xib in Resources */,
 				307949EE21395AB200DE23A3 /* GroupDetailsCell.xib in Resources */,
 				30C799FB21D35E3B00B0ECB4 /* GoogleService-Info.plist in Resources */,
 				30FB311B21353CA000ABA22A /* AgeCategoryCell.xib in Resources */,
@@ -870,7 +859,6 @@
 				30181D4E212590EC0067D65F /* ImageNavigationBar.xib in Resources */,
 				30790D7C220420AA000EE4A5 /* LaunchScreen.storyboard in Resources */,
 				30AF116921BA596400BE50F4 /* TabAgeCategoriesCell.xib in Resources */,
-				30181D6F212AA3400067D65F /* CustomAlertView.xib in Resources */,
 				30181D612126D6930067D65F /* QA.plist in Resources */,
 				30FB31272136660900ABA22A /* GroupSummaryMatchesHeader.xib in Resources */,
 				3086BC87213D3DB800810CC8 /* AgeCategories.storyboard in Resources */,
@@ -889,7 +877,6 @@
 				30790D472202D457000EE4A5 /* TitleNavigationBar.xib in Resources */,
 				30790D482202D457000EE4A5 /* VenueFieldList.plist in Resources */,
 				30790D492202D457000EE4A5 /* TournamentClubCell.xib in Resources */,
-				30790D4A2202D457000EE4A5 /* CustomAlertViewTwoButton.xib in Resources */,
 				30790D4B2202D457000EE4A5 /* GroupDetailsCell.xib in Resources */,
 				30790D4D2202D457000EE4A5 /* GoogleService-Info.plist in Resources */,
 				30790D4E2202D457000EE4A5 /* AgeCategoryCell.xib in Resources */,
@@ -917,7 +904,6 @@
 				30790D642202D457000EE4A5 /* ImageNavigationBar.xib in Resources */,
 				30790D7B2204209A000EE4A5 /* LaunchScreen.storyboard in Resources */,
 				30790D652202D457000EE4A5 /* TabAgeCategoriesCell.xib in Resources */,
-				30790D662202D457000EE4A5 /* CustomAlertView.xib in Resources */,
 				30790D672202D457000EE4A5 /* QA.plist in Resources */,
 				30790D682202D457000EE4A5 /* GroupSummaryMatchesHeader.xib in Resources */,
 				30790D692202D457000EE4A5 /* AgeCategories.storyboard in Resources */,
@@ -1001,7 +987,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				30181D7D212AD07C0067D65F /* CustomAlertViewTwoButton.swift in Sources */,
 				307949E621394C6800DE23A3 /* GroupDetailsVC.swift in Sources */,
 				30FB311F2135523B00ABA22A /* AgeCategoriesGroupsSummaryVC.swift in Sources */,
 				30FB311A21353CA000ABA22A /* AgeCategoryCell.swift in Sources */,
@@ -1040,6 +1025,7 @@
 				307949DF2137F78100DE23A3 /* TeamFixture.swift in Sources */,
 				307949ED21395AB200DE23A3 /* GroupDetailsCell.swift in Sources */,
 				30181D0C211DBA900067D65F /* TabSettingsVC.swift in Sources */,
+				301D9C02222407A400EF8E76 /* CustomAlertVC.swift in Sources */,
 				30181D79212ABB5A0067D65F /* ParseManger.swift in Sources */,
 				30AF116321BA53A300BE50F4 /* CategoryListVC.swift in Sources */,
 				30181D4C212590E30067D65F /* ImageNavigationBar.swift in Sources */,
@@ -1054,6 +1040,7 @@
 				30181D682126EB830067D65F /* UIViewExtentions.swift in Sources */,
 				307542BE2178A157003715C7 /* TeamListingVC.swift in Sources */,
 				3009A36021CA56A8002769CF /* AllMatchesVC.swift in Sources */,
+				301D9C042224184A00EF8E76 /* CustomAlertTwoBtnVC.swift in Sources */,
 				30AF116521BA53B600BE50F4 /* GroupListVC.swift in Sources */,
 				30181D77212AB9CE0067D65F /* UserData.swift in Sources */,
 				30181D332122C0370067D65F /* LabelSelectionCell.swift in Sources */,
@@ -1065,7 +1052,6 @@
 				30181CFC211DB6E30067D65F /* StoryboardManager.swift in Sources */,
 				30181D0A211DBA3E0067D65F /* TabAgeCategoriesVC.swift in Sources */,
 				30181D4A212588340067D65F /* Reachability.swift in Sources */,
-				30181D70212AA3400067D65F /* CustomAlertView.swift in Sources */,
 				3086BC9A213FB54E00810CC8 /* MapVC.swift in Sources */,
 				30181D42212558900067D65F /* Utils.swift in Sources */,
 				307542AB2170BE03003715C7 /* LabelCell.swift in Sources */,
@@ -1078,7 +1064,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				30790CFA2202D457000EE4A5 /* CustomAlertViewTwoButton.swift in Sources */,
 				30790CFB2202D457000EE4A5 /* GroupDetailsVC.swift in Sources */,
 				30790CFC2202D457000EE4A5 /* AgeCategoriesGroupsSummaryVC.swift in Sources */,
 				30790CFD2202D457000EE4A5 /* AgeCategoryCell.swift in Sources */,
@@ -1142,7 +1127,6 @@
 				30790D372202D457000EE4A5 /* StoryboardManager.swift in Sources */,
 				30790D382202D457000EE4A5 /* TabAgeCategoriesVC.swift in Sources */,
 				30790D392202D457000EE4A5 /* Reachability.swift in Sources */,
-				30790D3A2202D457000EE4A5 /* CustomAlertView.swift in Sources */,
 				30790D3B2202D457000EE4A5 /* MapVC.swift in Sources */,
 				30790D3C2202D457000EE4A5 /* Utils.swift in Sources */,
 				30790D3D2202D457000EE4A5 /* LabelCell.swift in Sources */,

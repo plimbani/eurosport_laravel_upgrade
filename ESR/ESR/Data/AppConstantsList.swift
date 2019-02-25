@@ -87,6 +87,8 @@ struct kViewController {
     static let VenueVC                          = "VenueVC"
     
     static let MapVC                            = "MapVC"
+    static let CustomAlertVC                    = "CustomAlertVC"
+    static let CustomAlertTwoBtnVC              = "CustomAlertTwoBtnVC"
 }
 
 enum TabIndex: Int {

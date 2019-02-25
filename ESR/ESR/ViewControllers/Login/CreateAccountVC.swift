@@ -102,7 +102,7 @@ class CreateAccountVC: SuperViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(showHideNoInternetView(_:)), name: .internetConnectivity, object: nil)
         
         // AlertView
-        initInfoAlertView(self.view, self)
+        // initInfoAlertView(self.view, self)
         
         // Hides keyboard if tap outside of view
         hideKeyboardWhenTappedAround()
@@ -136,7 +136,9 @@ class CreateAccountVC: SuperViewController {
         ApiManager().register(parameters, success: { result in
             DispatchQueue.main.async {
                 self.view.hideProgressHUD()
-                self.showInfoAlertView(title: String.localize(key: "alert_title_success"), message: String.localize(key: "alert_create_account_email"))
+                // self.showInfoAlertView(title: String.localize(key: "alert_title_success"), message: String.localize(key: "alert_create_account_email"))
+                
+                self.showCustomAlertVC(title: String.localize(key: "alert_title_success"), message: String.localize(key: "alert_create_account_email"), delegate: self)
             }
         }, failure: { result in
             DispatchQueue.main.async {
@@ -147,7 +149,8 @@ class CreateAccountVC: SuperViewController {
                 }
                 
                 if let error = result.value(forKey: "error") as? String {
-                    self.showInfoAlertView(title: String.localize(key: "alert_title_error"), message: error)
+                    // self.showInfoAlertView(title: String.localize(key: "alert_title_error"), message: error)
+                    self.showCustomAlertVC(title: String.localize(key: "alert_title_error"), message: error)
                 }
             }
         })
@@ -290,8 +293,8 @@ extension CreateAccountVC: UIGestureRecognizerDelegate {
     }
 }
 
-extension CreateAccountVC: CustomAlertViewDelegate {
-    func customAlertViewOkBtnPressed(requestCode: Int) {
+extension CreateAccountVC: CustomAlertVCDelegate {
+    func customAlertVCOkBtnPressed(requestCode: Int) {
         self.navigationController?.popViewController(animated: true)
     }
 }

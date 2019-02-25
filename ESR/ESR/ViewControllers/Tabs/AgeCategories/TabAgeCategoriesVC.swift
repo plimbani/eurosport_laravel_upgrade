@@ -35,7 +35,7 @@ class TabAgeCategoriesVC: SuperViewController {
         _ = cellOwner.loadMyNibFile(nibName: kNiB.Cell.TabAgeCategoriesCell)
         heightAgeCategoriesCell = (cellOwner.cell as! TabAgeCategoriesCell).getCellHeight()
         
-        initInfoAlertView(self.view)
+        // initInfoAlertView(self.view)
         
         sendAgeCategoriesRequest()
     }
@@ -84,7 +84,9 @@ class TabAgeCategoriesVC: SuperViewController {
 extension TabAgeCategoriesVC: TabAgeCategoriesCellDelegate {
     func tabAgeCategoriesCellBtnInfoPressed(_ indexPath: IndexPath) {
         if let comment = (ageCategoriesList[indexPath.row] as! NSDictionary).value(forKey: "comments") as? String {
-            showInfoAlertView(title: String.localize(key: "alert_title_comment"), message: comment, buttonTitle: String.localize(key: "btn_close"))
+           // showInfoAlertView(title: String.localize(key: "alert_title_comment"), message: comment, buttonTitle: String.localize(key: "btn_close"))
+            
+            self.showCustomAlertVC(title: String.localize(key: "alert_title_success"), message: comment)
         }
     }
 }

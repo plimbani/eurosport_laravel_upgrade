@@ -73,7 +73,7 @@ class LoginVC: SuperViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(showHideNoInternetView(_:)), name: .internetConnectivity, object: nil)
         
         // Alert view
-        initInfoAlertView(self.view, self)
+        // initInfoAlertView(self.view, self)
         
         // Hides keyboard if tap outside of view
         hideKeyboardWhenTappedAround()
@@ -187,7 +187,8 @@ class LoginVC: SuperViewController {
                 }
                 
                 if let error = result.value(forKey: "error") as? String {
-                    self.showInfoAlertView(title: String.localize(key: "alert_title_error"), message: error)
+                    // self.showInfoAlertView(title: String.localize(key: "alert_title_error"), message: error)
+                    self.showCustomAlertVC(title: String.localize(key: "alert_title_error"), message: error)
                 }
             }
         })
@@ -213,7 +214,9 @@ class LoginVC: SuperViewController {
                         UIApplication.shared.keyWindow?.rootViewController = Storyboards.Main.instantiateMainVC()
                     } else {
                         if let message = result.value(forKey: "message") as? String {
-                            self.showInfoAlertView(title: String.localize(key: "alert_title_error"), message: message)
+                            // self.showInfoAlertView(title: String.localize(key: "alert_title_error"), message: message)
+                            
+                            self.showCustomAlertVC(title: String.localize(key: "alert_title_error"), message: message)
                         }
                     }
                 }
@@ -227,7 +230,9 @@ class LoginVC: SuperViewController {
                 }
                 
                 if let error = result.value(forKey: "error") as? String {
-                    self.showInfoAlertView(title: String.localize(key: "alert_title_error"), message: error)
+                    // self.showInfoAlertView(title: String.localize(key: "alert_title_error"), message: error)
+                    
+                    self.showCustomAlertVC(title: String.localize(key: "alert_title_error"), message: error)
                 }
             }
         })
@@ -279,9 +284,4 @@ class LoginVC: SuperViewController {
     }
 }
 
-extension LoginVC: CustomAlertViewDelegate {
-    func customAlertViewOkBtnPressed(requestCode: Int) {
-        
-    }
-}
 

@@ -24,11 +24,17 @@ class MainTabViewController: SuperViewController {
     
     var delegate: MainTabViewControllerDelegate?
     
+    var tournamentDetailsView: TournamentDetailsView!
+    
     @IBOutlet var heightConstraintTabbarContainerView: NSLayoutConstraint!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         initialize()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        tournamentDetailsView.frame = CGRect(x: 0, y: 0, width: DEVICE_WIDTH, height: DEVICE_HEIGHT)
     }
     
     override var prefersStatusBarHidden: Bool {
@@ -69,8 +75,8 @@ class MainTabViewController: SuperViewController {
         }
         
         setupTabs()
-        initInfoAlertView(self.view)
-        initInfoAlertViewTwoButton(self.view, self)
+        // initInfoAlertView(self.view)
+        // initInfoAlertViewTwoButton(self.view, self)
         
         mainTabViewControllerSelectTab(TabIndex.tabTournament.rawValue)
         
@@ -90,13 +96,18 @@ class MainTabViewController: SuperViewController {
                 }
             }
         }
+        
+        _ = cellOwner.loadMyNibFile(nibName: "TournamentDetailsView")
+        tournamentDetailsView = cellOwner.view as! TournamentDetailsView
+        tournamentDetailsView!.hide()
+        self.view.addSubview(tournamentDetailsView)
     }
     
-    func addViewAsSubView(subView: UIView){
+    /*func addViewAsSubView(subView: UIView){
         if !subView.isDescendant(of: self.view) {
             self.view.addSubview(subView)
         }
-    }
+    }*/
     
     func refeshTabTitle() {
         var tabTitleList = [String.localize(key: "title_tab_fav"), String.localize(key: "title_tab_tournament"), String.localize(key: "title_tab_teams"), String.localize(key: "title_tab_agecategories"), String.localize(key: "title_tab_settings")]
@@ -127,7 +138,9 @@ class MainTabViewController: SuperViewController {
                     
                     // 1 - left version is greater than right version
                     if Utils.compareVersion(serverVersion, appVersion) == 1 {
-                        self.showInfoAlertViewTwoButton(title: String.localize(key: "alert_title_app_update"), message: String.localize(key: "alert_msg_app_update"), buttonYesTitle: String.localize(key: "btn_update"), buttonNoTitle: String.localize(key: "btn_cancel"), requestCode: AlertRequestCode.appUpgrade.rawValue)
+                        // self.showInfoAlertViewTwoButton(title: String.localize(key: "alert_title_app_update"), message: String.localize(key: "alert_msg_app_update"), buttonYesTitle: String.localize(key: "btn_update"), buttonNoTitle: String.localize(key: "btn_cancel"), requestCode: AlertRequestCode.appUpgrade.rawValue)
+                        
+                        self.showCustomAlertTwoBtnVC(title: String.localize(key: "alert_title_app_update"), message: String.localize(key: "alert_msg_app_update"), buttonYesTitle: String.localize(key: "btn_update"), buttonNoTitle: String.localize(key: "btn_cancel"), requestCode: AlertRequestCode.appUpgrade.rawValue, delegate: self)
                     }
                 }
             }
@@ -140,7 +153,9 @@ class MainTabViewController: SuperViewController {
                 }
                 
                 if let error = result.value(forKey: "error") as? String {
-                    self.showInfoAlertView(title: String.localize(key: "alert_title_error"), message: error)
+                    // self.showInfoAlertView(title: String.localize(key: "alert_title_error"), message: error)
+                    
+                    self.showCustomAlertVC(title: String.localize(key: "alert_title_error"), message: error)
                 }
             }
         })
@@ -217,7 +232,9 @@ class MainTabViewController: SuperViewController {
             
             if selectedIndex == 2 || selectedIndex == 3 {
                 if ApplicationData.sharedInstance().isTournamentInPreview() {
-                    self.showInfoAlertView(title: String.localize(key: "alert_title_preview"), message: String.localize(key: "alert_preview_tournament"))
+                    // self.showInfoAlertView(title: String.localize(key: "alert_title_preview"), message: String.localize(key: "alert_preview_tournament"))
+                    
+                    self.showCustomAlertVC(title: String.localize(key: "alert_title_preview"), message: String.localize(key: "alert_preview_tournament"))
                     return
                 }
             }
@@ -244,10 +261,10 @@ extension MainTabViewController: MainTabViewControllerDelegate {
     }
 }
 
-extension MainTabViewController: CustomAlertViewTwoButtonDelegate {
-    func customAlertViewTwoButtonNoBtnPressed(requestCode: Int) {}
+extension MainTabViewController: CustomAlertTwoBtnVCDelegate {
+    func customAlertTwoBtnVCNoBtnPressed(requestCode: Int) {}
     
-    func customAlertViewTwoButtonYesBtnPressed(requestCode: Int) {
+    func customAlertTwoBtnVCYesBtnPressed(requestCode: Int) {
         if requestCode == AlertRequestCode.appUpgrade.rawValue {
             if let url = URL(string: APPSTORE_APP_URL),
                 UIApplication.shared.canOpenURL(url){
@@ -260,3 +277,4 @@ extension MainTabViewController: CustomAlertViewTwoButtonDelegate {
         }
     }
 }
+

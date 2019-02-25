@@ -100,7 +100,8 @@ class NotificationAndSoundVC: SuperViewController {
                 }
                 
                 if let error = result.value(forKey: "error") as? String {
-                    self.showInfoAlertView(title: String.localize(key: "alert_title_error"), message: error)
+                    // self.showInfoAlertView(title: String.localize(key: "alert_title_error"), message: error)
+                    self.showCustomAlertVC(title: String.localize(key: "alert_title_error"), message: error)
                 }
             }
         })

@@ -85,7 +85,7 @@ class ProfileVC: SuperViewController {
         pickerHandlerView.delegate = self
         self.view.addSubview(pickerHandlerView)
         
-        initInfoAlertView(self.view, self)
+        // initInfoAlertView(self.view, self)
         
         btnUpdate.isEnabled = false
         btnUpdate.backgroundColor = UIColor.btnDisable
@@ -223,7 +223,9 @@ class ProfileVC: SuperViewController {
                     self.view.hideProgressHUD()
                     
                     if let message = result.value(forKey: "message") as? String {
-                        self.showInfoAlertView(title: String.localize(key: "alert_title_success"), message: message, requestCode: AlertRequestCode.profileUpdate.rawValue)
+                        // self.showInfoAlertView(title: String.localize(key: "alert_title_success"), message: message, requestCode: AlertRequestCode.profileUpdate.rawValue)
+                        
+                        self.showCustomAlertVC(title: String.localize(key: "alert_title_success"), message: message, requestCode: AlertRequestCode.profileUpdate.rawValue, delegate: self)
                         
                         if let userData = ApplicationData.sharedInstance().getUserData() {
                             userData.tournamentId = self.selectedTournamentId
@@ -252,7 +254,9 @@ class ProfileVC: SuperViewController {
                     }
                     
                     if let error = result.value(forKey: "error") as? String {
-                        self.showInfoAlertView(title: String.localize(key: "alert_title_error"), message: error)
+                        // self.showInfoAlertView(title: String.localize(key: "alert_title_error"), message: error)
+                        
+                        self.showCustomAlertVC(title: String.localize(key: "alert_title_error"), message: error)
                     }
                 }
             })
@@ -308,13 +312,21 @@ class ProfileVC: SuperViewController {
     }
 }
 
-extension ProfileVC: CustomAlertViewDelegate {
-    func customAlertViewOkBtnPressed(requestCode: Int) {
+extension ProfileVC: CustomAlertVCDelegate {
+    func customAlertVCOkBtnPressed(requestCode: Int) {
         if requestCode == AlertRequestCode.profileUpdate.rawValue {
             self.navigationController?.popViewController(animated: true)
         }
     }
 }
+
+/*extension ProfileVC: CustomAlertViewDelegate {
+    func customAlertViewOkBtnPressed(requestCode: Int) {
+        if requestCode == AlertRequestCode.profileUpdate.rawValue {
+            self.navigationController?.popViewController(animated: true)
+        }
+    }
+}*/
 
 extension ProfileVC: PickerHandlerViewDelegate {
     

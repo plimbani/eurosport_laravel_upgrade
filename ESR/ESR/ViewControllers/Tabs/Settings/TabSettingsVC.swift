@@ -35,7 +35,7 @@ class TabSettingsVC: SuperViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(goToSelectCountry), name: .selectCountry, object: nil)
         
         // Alertview
-        initInfoAlertViewTwoButton(self.view, self)
+        // initInfoAlertViewTwoButton(self.view, self)
     }
     
     @objc func goToSelectCountry() {
@@ -43,11 +43,27 @@ class TabSettingsVC: SuperViewController {
     }
 }
 
-extension TabSettingsVC: CustomAlertViewTwoButtonDelegate {
+/*extension TabSettingsVC: CustomAlertViewTwoButtonDelegate {
     
     func customAlertViewTwoButtonNoBtnPressed(requestCode: Int) {}
     
     func customAlertViewTwoButtonYesBtnPressed(requestCode: Int) {
+        if requestCode == AlertRequestCode.logOut.rawValue {
+            USERDEFAULTS.set(nil, forKey: kUserDefaults.token)
+            USERDEFAULTS.set(nil, forKey: kUserDefaults.selectedTournament)
+            USERDEFAULTS.set(nil, forKey: kUserDefaults.userData)
+            //USERDEFAULTS.set(nil, forKey: kUserDefaults.email)
+            //USERDEFAULTS.set(nil, forKey: kUserDefaults.password)
+            USERDEFAULTS.set(false, forKey: kUserDefaults.isLogin)
+            UIApplication.shared.keyWindow?.rootViewController = UINavigationController(rootViewController: Storyboards.Main.instantiateLandingVC())
+        }
+    }
+}*/
+
+extension TabSettingsVC: CustomAlertTwoBtnVCDelegate {
+    func customAlertTwoBtnVCNoBtnPressed(requestCode: Int) {}
+    
+    func customAlertTwoBtnVCYesBtnPressed(requestCode: Int) {
         if requestCode == AlertRequestCode.logOut.rawValue {
             USERDEFAULTS.set(nil, forKey: kUserDefaults.token)
             USERDEFAULTS.set(nil, forKey: kUserDefaults.selectedTournament)
@@ -126,7 +142,9 @@ extension TabSettingsVC: UITableViewDataSource, UITableViewDelegate {
                     } else if identifier == "PrivacyAndTermsVC" {
                         self.navigationController?.pushViewController(Storyboards.Settings.instantiatePrivacyAndTermsVC(), animated: true)
                     } else if identifier == "Logout" {
-                        self.showInfoAlertViewTwoButton(title: "Confirm", message: String.localize(key: "alert_msg_logout"), buttonYesTitle: String.localize(key: "btn_logout"), buttonNoTitle: String.localize(key: "btn_cancel"), requestCode: AlertRequestCode.logOut.rawValue)
+                        // self.showInfoAlertViewTwoButton(title: "Confirm", message: String.localize(key: "alert_msg_logout"), buttonYesTitle: String.localize(key: "btn_logout"), buttonNoTitle: String.localize(key: "btn_cancel"), requestCode: AlertRequestCode.logOut.rawValue)
+                        
+                        self.showCustomAlertTwoBtnVC(title: "Confirm", message: String.localize(key: "alert_msg_logout"), buttonYesTitle: String.localize(key: "btn_logout"), buttonNoTitle: String.localize(key: "btn_cancel"), requestCode: AlertRequestCode.logOut.rawValue, delegate: self)
                     }
                 }
             }
