@@ -67,7 +67,7 @@
                 }
                 axios.post(Constant.apiBaseUrl+url, apiParams).then(response =>  {
                         if (response.data.success) {
-                            console.log("response.data::",response.data.data)
+                            // console.log("response.data::",response.data.data)
                             this.paymentObj.amount = response.data.data.amount;
                             this.paymentObj.currency = response.data.data.currency;
                             let payment_response = JSON.parse(response.data.data.payment_response);
@@ -82,28 +82,11 @@
             },
 
             printReceipt(){
+
                 // ORDER-5c45fa8daa010-1548089997
-                if(this.tournament_id != ""){
-                    // let url = Constant.apiBaseUrl+'generate/receipt?tournament_id=154';
+                if(this.tournament_id != ""){                    
                     let url = Constant.apiBaseUrl+'generate/receipt?tournament_id='+this.tournament_id;
-                 
-                    let params = {}
-                    
-                    axios.post(url, params).then(response =>  {
-                        if (response.data.success) {
-                            // console.log("receipt::",response.data.data)
-                            const url = window.URL.createObjectURL(new Blob([response.data.data.pdf_url]));
-                            const link = document.createElement('a');
-                            link.href = url;
-                            link.setAttribute('download', 'receipt.pdf'); 
-                            document.body.appendChild(link);
-                            link.click(); 
-                         }else{
-                             toastr['error'](response.data.message, 'Error');
-                         }
-                     }).catch(error => {
-                         console.log("error in buyALicence::",error);
-                     });
+                    window.open(url,'_blank');
                 }
                 
                 // this.$nextTick(() => {

@@ -28,7 +28,7 @@
                                         <th>OrderId</th>
                                         <th>Transaction ID</th>
                                         <th>Teams</th>
-                                        <th>App</th>
+                                        <!-- <th>App</th> -->
                                         <th>Duration</th>
                                         <th>Purchase Date</th>
                                         <th>Currency</th>
@@ -41,7 +41,7 @@
                                         <td>{{transction.order_id}}</td>
                                         <td>{{transction.transaction_id}}</td>
                                         <td>{{transction.team_size}}</td>
-                                        <td>TBA</td>
+                                        <!-- <td>TBA</td> -->
                                         <td>TBA</td>
                                         <td>{{transction.transaction_id}}</td>
                                         <td>{{transction.currency}}</td>
