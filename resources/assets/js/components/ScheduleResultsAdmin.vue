@@ -4,15 +4,21 @@
 	    	<div class="col-sm-12">
 				<!-- <div class="card"> -->
 					<!-- <div class="card-block"> -->
-						<div class="row align-items-center last-updated-row-text">
-							<p class="mb-0 last-updated-time"><small class="text-muted">{{$lang.summary_schedule_last_update}}
-							        : {{lastUpdatedDateValue}}</small> 
-							</p>
-							<div class="col-md-7" v-if="currentView == 'matchListing'">
-							    <p class="mb-0 last-updated-time" v-if="tournamentStartDataDisplay"><small class="text-muted">Result
+
+						<div class="row">
+							<div class="col-md-12" v-if="currentView == 'matchListing'">
+							    <p v-if="tournamentStartDataDisplay" class="result-administration-date">
+							    	<small class="text-muted">Result
 							     	administration will be available from 
 							        : {{ tournamentStartDate | formatDate }}</small> 
 							    </p>  
+							</div>
+						</div>
+						<div class="row align-items-center last-updated-row-text">
+							<div class="col-md-7">
+								<p class="mb-0 last-updated-time"><small class="text-muted">{{$lang.summary_schedule_last_update}}
+								        : {{lastUpdatedDateValue}}</small> 
+								</p>
 							</div>
 							<div class="col-md-5" v-if="currentView != 'teamListing' && currentView != 'matchListing'">
 								<div class="align-items-center d-flex justify-content-end">
