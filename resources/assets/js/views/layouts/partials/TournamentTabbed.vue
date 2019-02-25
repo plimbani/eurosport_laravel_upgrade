@@ -70,7 +70,7 @@ export default {
       let currentDateTime = this.currentDateTime;
       let tournamentStartDate = this.$store.state.Tournament.tournamentStartDate;
       
-      if(tournamentStartDate && expireTime < currentTime) {
+      if(tournamentStartDate && expireTime < currentDateTime) {
          return true;
       }
     }
