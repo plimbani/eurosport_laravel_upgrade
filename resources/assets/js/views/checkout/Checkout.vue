@@ -63,23 +63,26 @@
         </form>  
 
         <section class="buy-license-section section-padding">
-            Please Wait While we redirect your to Payment page
-            <div class="card-text">
+            <div class="container">
                 <div class="row">
-                    <div class="col-sm-6 col-md-7 col-lg-7">
-                        <p class="mb-0">{{tournamentData.tournament_max_teams}} team license for a {{dayDifference}} day(s) tournament</p>
+                    <div class="col-md-12">
+                        <h3 class="text-uppercase font-weight-bold mb-4">Checkout</h3>
+                        <p class="font-weight-bold mb-0">Please Wait While we redirect your to Payment page</p>
+                        <div class="divider my-3"></div>
+                        <div class="row">
+                            <div class="col-sm-6 col-md-7 col-lg-7">
+                                <p class="mb-0">{{tournamentData.tournament_max_teams}} team license for a {{dayDifference}} day(s) tournament</p>
+                            </div>
+                            <div class="col-sm-6 col-md-5 col-lg-5">
+                                <p class="text-sm-right mb-0 mt-3 mt-sm-0">£100.00</p>
+                            </div>
+                        </div>
+
+                        <div class="divider my-3 opacited"></div>
+
+                        <p class="text-sm-right font-weight-bold">£100.00</p>
+                        <button class="btn btn-success" v-on:click="makePaymentButton()">Checkout</button>
                     </div>
-                    <div class="col-sm-6 col-md-5 col-lg-5">
-                        <p class="text-sm-right mb-0 mt-3 mt-sm-0">Â£100.00</p>
-                    </div>
-                </div>
-
-                <div class="divider my-3 opacited"></div>
-
-                <p class="text-sm-right font-weight-bold">Â£100.00</p>
-
-                <div class="row justify-content-between">
-                    <button class="btn btn-success" v-on:click="makePaymentButton()">Checkout</button>
                 </div>
             </div>
         </section>
