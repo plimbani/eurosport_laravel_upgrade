@@ -30,8 +30,7 @@
         "t1st3/php-json-minify": "^0.6.2",
         "toin0u/geocoder-laravel": "1.x-dev",
         "toin0u/geotools-laravel": "~1.0",
-        "tymon/jwt-auth": "0.5.*",
-        "wemersonjanuario/wkhtmltopdf-windows": "0.12.2.3"
+        "tymon/jwt-auth": "0.5.*"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.1",

@@ -90,6 +90,11 @@ $api->version('v1', function ($api) {
     $api->post('tournament/updateCompetitionDisplayName', 'Laraspace\Api\Controllers\TournamentController@updateCompetitionDisplayName');
 
     $api->get('match/getAllCategoriesReport/{tournamentId}', 'Laraspace\Api\Controllers\MatchController@getAllCategoriesReport');
+    $api->post('tournament/uploadSponsorLogo', 'Laraspace\Api\Controllers\TournamentController@uploadSponsorLogo');
+
+    $api->post('tournament/resultAdministratorDisplayMessage', 'Laraspace\Api\Controllers\TournamentController@resultAdministratorDisplayMessage');
+
+    $api->post('tournament/editTournamentMessage', 'Laraspace\Api\Controllers\TournamentController@editTournamentMessage');
 });
 
 $api->version('v1', ['middleware' => 'jwt.auth'], function ($api) {

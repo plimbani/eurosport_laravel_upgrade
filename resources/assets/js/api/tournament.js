@@ -258,4 +258,10 @@ export default {
   updateCompetitionDisplayName(data) {
     return api.post('tournament/updateCompetitionDisplayName', data);
   },
+  resultAdministratorDisplayMessage(tournamentData) {
+    return api.post('tournament/resultAdministratorDisplayMessage', {'tournamentData': tournamentData})
+  },
+  editTournamentMessage(tournamentData) {
+    return api.post('tournament/editTournamentMessage', {'tournamentData': tournamentData})
+  }
 }
