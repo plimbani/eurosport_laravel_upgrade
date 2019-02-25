@@ -3,6 +3,7 @@
 namespace Laraspace\Api\Repositories;
 
 use Laraspace\Models\Referee;
+use Laraspace\Models\TournamentCompetationTemplates;
 use DB;
 
 class RefereeRepository
@@ -27,6 +28,7 @@ class RefereeRepository
 
     public function createReferee($refereeData)
     {
+        
         return Referee::create([
             'tournament_id' => $refereeData['tournament_id'],
             'first_name' => $refereeData['first_name'],
@@ -34,7 +36,8 @@ class RefereeRepository
             'telephone' => $refereeData['telephone'],
             'email' => $refereeData['email'],
             'comments' => $refereeData['comments'],
-            'age_group_id' =>  $refereeData['age_category']
+            'age_group_id' =>  $refereeData['age_category'],
+            'is_all_age_categories_selected' => $refereeData['is_all_age_categories_selected'],
 
         ]);
         // return Referee::create($refereeData);
@@ -49,7 +52,8 @@ class RefereeRepository
             'telephone' => $refereeData['telephone'],
             'email' => $refereeData['email'],
             'comments' => $refereeData['comments'],
-            'age_group_id' =>  $refereeData['age_category']
+            'age_group_id' =>  $refereeData['age_category'],
+            'is_all_age_categories_selected' => $refereeData['is_all_age_categories_selected'],
 
         ]);
     }
@@ -58,5 +62,28 @@ class RefereeRepository
     {
         // dd(Referee::find($refereeId));
         return Referee::find($refereeId);
+    }
+
+    /*
+    * Upload referees
+    *
+    * @return response
+    */
+    public function uploadRefereesExcel($data)
+    {
+        $ageGroups = TournamentCompetationTemplates::where('tournament_id', $data->refereeData['tournamentId'])->pluck('id')->toArray();
+        $ageGroupsIds = implode(',', $ageGroups);
+        if ($data['firstname'] && $data['lastname']) {
+            return Referee::create([
+                'tournament_id' => $data->refereeData['tournamentId'],
+                'first_name' => $data['firstname'],
+                'last_name' => $data['lastname'],
+                'telephone' => array_get($data, 'telephone', NULL),
+                'email' => array_get($data, 'email', NULL),
+                'comments' => array_get($data, 'availability', NULL),
+                'age_group_id' => $ageGroupsIds,
+                'is_all_age_categories_selected' => true
+            ]);
+        }
     }
 }

@@ -4,10 +4,6 @@ export default {
   getAllTournaments() {
   	return axios.get('/api/tournaments')
   },
-  getAllClubs(tournamentData) {
-    // alert('helll')
-    return api.post('clubs/getAll',{'tournamentData': tournamentData})
-  },
   getAllVenues(tournamentId) {
    return api.get('venues/getAll/'+tournamentId)
   },
@@ -20,7 +16,7 @@ export default {
   getAllTeamsFromCompetitionId(tournamentData){
     return api.post('teams/getTeamsListByCompetition', {'tournamentData': tournamentData})
   },
-  
+
   saveCompetationFormat(compeationFormatData) {
   	return api.post('age_group/createCompetationFomat', {'compeationFormatData': compeationFormatData})
   },
@@ -44,6 +40,10 @@ export default {
   getTeams(teamData) {
     return api.post('teams',{'teamData':teamData})
   },
+  getResetTeams(ageCategoryId) {
+     return api.post('resetAllTeams',{'ageCategoryId':ageCategoryId})
+  },
+
   getTeamsGroup (teamData) {
     return api.post('teams/availableGroup',{'teamData':teamData})
   },
@@ -98,7 +98,9 @@ export default {
   getTournamentByStatus(tournamentData) {
     return api.post('tournaments/getTournamentByStatus',{'tournamentData': tournamentData})
   },
-
+  getTournamentBySlug(tournamentData) {
+    return api.get('tournaments/getTournamentBySlug/'+tournamentData.slug)
+  },
   getRefereeDetail(refereeId) {
     return api.post('referee/refereeDetail',{'refereeId': refereeId})
   },
@@ -132,6 +134,9 @@ export default {
   saveMatchResult(matchData) {
     return api.post('match/saveResult',{'matchData': matchData})
   },
+  saveAllMatchResults(matchData) {
+    return api.post('match/saveAllResults',{'matchData': matchData})
+  },
   setUnavailableBlock(matchData) {
     return api.post('match/saveUnavailableBlock',{'matchData': matchData})
   },
@@ -149,30 +154,114 @@ export default {
      return api.post('tournament/allCategory',{'tournamentData':tournamentId})
   },
   getClubsTeams(tournamentData) {
-  return api.post('team/getClubsTeams',{'tournamentData': tournamentData})
- },
- sendMessage(messageData){
-  return api.post('users/sendNotification',{'messageData': messageData})
- },
- getTournamentMessages(messageData) {
-  return api.post('users/getMessage',{'messageData': messageData})
- },
- changeTeamName(teamData) {
-  return api.post('teams/changeTeamName', {'teamData': teamData})
- },
- saveStandingsManually(data) {
-  return api.post('match/saveStandingsManually', {data})
- },
- addTournamentDetail(tournamentDetailData) {
-  return axios.post('/api/tournament/details/add', {'tournamentDetailData': tournamentDetailData})
- },
- getCategoryCompetitions(data) {
-  return api.post('tournament/getCategoryCompetitions', data)
- },
- saveCategoryCompetitionColor(data) {
-  return api.post('tournament/saveCategoryCompetitionColor', {competitionsColorData:  data})
- },
- getAllCompetitionTeamsFromFixture(tournamentData){
-  return api.post('teams/getAllCompetitionTeamsFromFixture', {'tournamentData': tournamentData})
- }
+    return api.post('team/getClubsTeams',{'tournamentData': tournamentData})
+  },
+  sendMessage(messageData){
+    return api.post('users/sendNotification',{'messageData': messageData})
+  },
+  getTournamentMessages(messageData) {
+    return api.post('users/getMessage',{'messageData': messageData})
+  },
+  changeTeamName(teamData) {
+    return api.post('teams/changeTeamName', {'teamData': teamData})
+  },
+  saveStandingsManually(data) {
+    return api.post('match/saveStandingsManually', {data})
+  },
+  addTournamentDetail(tournamentDetailData) {
+    return axios.post('/api/tournament/details/add', {'tournamentDetailData': tournamentDetailData})
+  },
+  getCategoryCompetitions(data) {
+    return api.post('tournament/getCategoryCompetitions', data)
+  },
+  getAllCompetitionTeamsFromFixture(tournamentData){
+    return api.post('teams/getAllCompetitionTeamsFromFixture', {'tournamentData': tournamentData})
+  },
+  checkTeamIntervalforMatches(matchData){
+    return api.post('match/checkTeamIntervalforMatches', matchData)
+  },
+  getAllPublishedTournaments() {
+    return api.get('/getAllPublishedTournaments')
+  },
+  getEditTeamDetails(id) {
+    return api.post('editTeamDetails/'+id)
+  },
+  getAllCountries() {
+    return api.get('getAllCountries');
+  },
+  getAllClubs() {
+    return api.get('getAllClubs');
+  },
+  getAllTeamColors() {
+    return api.get('getAllTeamColors');
+  },
+  updateTeamDetails(teamId, formData) {
+    return api.post('updateTeamDetails/'+teamId, formData);
+  },
+  checkTeamExist(teamData) {
+    return api.post('team/checkTeamExist', {teamData})
+  },
+  getPlacingsData(placingsData) {
+    return api.post('age_group/getPlacingsData', placingsData)
+  },
+  getSignedUrlForMatchReport(ageCategoryData) {
+    return api.post('getSignedUrlForMatchReport/'+ageCategoryData)
+  },
+  getSignedUrlForTournamentReport(reportData) {
+    return api.post('getSignedUrlForTournamentReport?'+reportData);
+  },
+  getSignedUrlForTournamentReportExport(reportData) {
+    return api.post('getSignedUrlForTournamentReportExport?' + reportData);
+  },
+  getSignedUrlForMatchPrint(reportData) {
+    return api.post('getSignedUrlForMatchPrint?'+reportData);
+  },
+  getSignedUrlForRefereeReport(refereeId) {
+    return api.post('getSignedUrlForRefereeReport/' +refereeId);
+  },
+  getSignedUrlForPitchMatchReport(pitchId) {
+    return api.post('getSignedUrlForPitchMatchReport/' +pitchId);
+  },
+  getClubsByTournamentId(tournamentId) {
+    return api.post('getClubsByTournamentId/' +tournamentId);
+  },
+  getCompetitionAndPitchDetail(data) {
+    return api.post('tournament/getCompetitionAndPitchDetail', data);
+  },
+  scheduleAutomaticPitchPlanning(data) {
+    return api.post('tournament/scheduleAutomaticPitchPlanning', data);
+  },
+  getTeamsFairPlayData(teamData) {
+    return api.get('getTeamsFairPlayData?' +teamData);
+  },
+  getSignedUrlForTeamsFairPlayReportExport(reportData) {
+    return api.post('getSignedUrlForTeamsFairPlayReportExport?' + reportData);
+  },
+  getSignedUrlForFairPlayReportPrint(reportData) {
+    return api.post('getSignedUrlForFairPlayReportPrint?' + reportData);
+  },
+  getAllPitchesWithDays(pitchId) {
+    return api.post('getAllPitchesWithDays/' + pitchId);
+  },
+  getSignedUrlForPitchPlannerPrint(tournamentId) {
+    return api.post('getSignedUrlForPitchPlannerPrint/' + tournamentId);
+  },
+  getSignedUrlForRefereeSampleDownload() {
+    return api.post('getSignedUrlForRefereeSampleDownload');
+  },
+  getSignedUrlForTeamsSpreadsheetSampleDownload() {
+    return api.post('getSignedUrlForTeamsSpreadsheetSampleDownload');
+  },
+  getSignedUrlForPitchPlannerExport(tournamentId) {
+    return api.post('getSignedUrlForPitchPlannerExport/' + tournamentId);
+  },
+  updateCompetitionDisplayName(data) {
+    return api.post('tournament/updateCompetitionDisplayName', data);
+  },
+  resultAdministratorDisplayMessage(tournamentData) {
+    return api.post('tournament/resultAdministratorDisplayMessage', {'tournamentData': tournamentData})
+  },
+  editTournamentMessage(tournamentData) {
+    return api.post('tournament/editTournamentMessage', {'tournamentData': tournamentData})
+  }
 }

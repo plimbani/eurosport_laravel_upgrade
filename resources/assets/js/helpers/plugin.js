@@ -37,16 +37,29 @@ export default {
         }
       }
     },
-    ValidateImageDimension(fdata) {
-      // Function used for Check image Dimensions
-      let width = fdata.width
-      let height = fdata.height
-      alert('Wiodt'+width+'Height'+height)
+    ValidateImageDimension(image, requiredWidth, requiredHeight) {
+      var height = image.height;
+      var width = image.width;
+      if (height != requiredHeight || width != requiredWidth) {
+        return false;
+      }
+      return true;
+    },
+    ValidateImageType(file) {
+      if(file.type != '') {
+        var extension = file.type.split('/')[1].toLowerCase();
+        return (/(jpg|jpeg|png|gif)$/.test(extension));
+      }
+      return false;
     },
     Select2(){
         $(".ls-select2").select2();
     },
-
+    Select2withoutSearch(){
+        $(".ls-select2").select2({
+            minimumResultsForSearch: Infinity
+        });
+    },
     BootstrapSelect(){
         $(".ls-bootstrap-select").selectpicker({
             iconBase: 'fa',
@@ -70,9 +83,9 @@ export default {
     },
 
     TimePickers(){
-        $('.ls-clockpicker').clockpicker({
-            donetext: 'Done'
-        });
+        // $('.ls-clockpicker').clockpicker({
+        //     donetext: 'Done'
+        // });
 
 
         var elems = $('.ls-timepicker');
@@ -143,5 +156,30 @@ export default {
         diffDays = diffDays + 1
         return diffDays
 // return Math.floor(( Date.parse(date2) - Date.parse(date1) ) / 86400000);
+    },
+    ValidateDocumentType(file) {
+      if(file) {
+        var extensionsplit = file.name.split(".");
+        var extension = extensionsplit[extensionsplit.length - 1];
+
+        return (/(pdf|xlsx|xls|doc|docx|jpg|jpeg|png|gif)$/.test(extension));
+      }
+      return false;
+    },
+    ValidateDocumentSize(file, size) {
+      if(file.size > size) {
+        return false;
+      }
+      return true;
+    },
+    HexToRgb(hex, opacity){
+        var hex = hex.replace('#','');
+        var r = parseInt(hex.substring(0,2), 16);
+        var g = parseInt(hex.substring(2,4), 16);
+        var b = parseInt(hex.substring(4,6), 16);
+
+        var result = 'rgba('+r+','+g+','+b+','+opacity/100+')';
+        return result;
     }
+
 }

@@ -21,6 +21,7 @@ class Person extends Model
         'last_name',
         'display_name',
         'address',
+        'address_2',
         'dob',
         'bio',
         'avatar',
@@ -33,6 +34,10 @@ class Person extends Model
         'v_card',
         'extra_info',
         'settings',
+        'job_title',
+        'city',
+        'zipcode',
+        'country_id',
     ];
 
     /**

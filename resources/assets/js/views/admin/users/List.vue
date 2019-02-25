@@ -1,49 +1,43 @@
 <template>
     <div>
-        <div class="add_user_btn">
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#user_form_modal" @click="addUser()">{{$lang.user_management_add_new_user}}</button>
+        <div class="add_user_btn d-flex align-items-center justify-content-end">
+          <button type="button" class="btn btn-primary mr-1" @click='exportTableReport()'>{{$lang.summary_button_download}}</button>
+          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#user_form_modal" @click="addUser()">{{$lang.user_management_add_new_user}}</button>
         </div>
         <div class="tab-content">
             <div class="card">
                 <div class="card-block">
                     <div class="row d-flex flex-row align-items-center mb-3 ">
-                        <div class="col-md-6">
+                      <div class="col-md-5">
                             <p class="mb-0">{{$lang.user_management_all_users_sentence}}</p>
-                        </div>
-                        <div class="col-md-6">
-                          <div class="row justify-content-end align-items-center">
-                              <div class="col">
-                                <form class="form-inline">
-                                  <div class="form-group">
-                                     <input type="text" class="form-control"
-                                          v-on:keyup="searchUserData" v-model="userListSearch"
-                                          placeholder="Search for a user">
-                                  </div>
-                                  <button type="button" class="btn btn-primary" @click='clear()'>{{$lang.user_management_clear_button}}</button>
-                                </form>
-                                 <!-- <div class="form-group">
-                                      <div>
-                                          <input type="text" class="form-control"
-                                          v-on:keyup="searchUserData" v-model="userListSearch"
-                                          placeholder="Search for a user">
-                                      </div>
-                                  </div> -->
+                      </div>
+                      <div class="col-md-7">
+                        <div class="row align-items-center justify-content-end">
+                          <div class="col-12">
+                            <div class="row">
+                              <div class="col-md-5">
+                                <input type="text" class="form-control"
+                                      v-on:keyup="searchUserData" v-model="userListSearch"
+                                      placeholder="Search for a user">
                               </div>
-                              <div class="col-4">
-                                <button type="button" class="btn btn-primary pull-right" @click='exportTableReport()'>{{$lang.summary_button_download}}</button>
+                              <div class="col-md-5">
+                                <select class="form-control ls-select2" v-on:change="searchTypeData"
+                                    v-model="userTypeSearch" name="user_type" id="user_type">
+                                    <option value="">Filter by user type</option>
+                                    <option value="Internal.administrator">Internal administrator</option>
+                                    <option value="Master.administrator">Master administrator</option>
+                                    <option value="mobile.user">Mobile user</option>
+                                    <option value="Super.administrator">Super administrator</option>
+                                    <option value="tournament.administrator">Tournament administrator</option>
+                                </select>
                               </div>
-                             <!--  <div class="col-md-3">
-                                  <div class="form-group">
-                                      <button type="button" class="btn btn-primary w-100" @click='clear()'>{{$lang.user_management_clear_button}}</button>
-                                  </div>
-                              </div> -->
-                              <!-- <div class="col-md-3">
-                                  <div class="form-group mb-0">
-                                      <button type="button" class="btn btn-primary w-100" @click='exportTableReport()'>{{$lang.summary_button_download}}</button>
-                                  </div>
-                              </div> -->
+                              <div class="col-md-2">
+                                <button type="button" class="btn btn-primary w-100" @click='clear()'>{{$lang.user_management_clear_button}}</button>
+                              </div>
+                            </div>
                           </div>
                         </div>
+                      </div>
                     </div>
                     <div class="row d-flex flex-row align-items-center">
                         <div class="col-md-12">
@@ -55,6 +49,7 @@
                                         <th>{{$lang.user_desktop_email}}</th>
                                         <th>{{$lang.user_desktop_usertype}}</th>
                                         <th>{{$lang.user_desktop_status}}</th>
+                                        <th>{{$lang.user_desktop_tournment}}</th>
                                         <th class="text-center">{{$lang.user_desktop}}</th>
                                         <th class="text-center">{{$lang.user_mobile}}</th>
                                         <th>{{$lang.user_desktop_action}}</th>
@@ -70,6 +65,7 @@
                                     <td v-else>
                                       <a href="#"  @click="resendModalOpen(user.email)"><u>Re-send</u></a>
                                     </td>
+                                    <td @click="redirectToTournamentList(user)"><a href="javascript:void(0)" class="centered">{{ user.tournaments_count }}</a></td>
                                     <td class="text-center">
                                       <i class="jv-icon jv-checked-arrow text-success"
                                         v-if="user.is_desktop_user == true"></i>
@@ -84,14 +80,14 @@
                                     </td>
                                     <td>
                                         <a class="text-primary" href="javascript:void(0)"
-                                         @click="editUser(user.id)">
+                                         @click="editUser(user.id)" v-if="!(isMasterAdmin == true && user.role_slug == 'Super.administrator')">
                                         <i class="jv-icon jv-edit"></i>
                                         </a>
                                         &nbsp;
                                         <a href="javascript:void(0)"
                                         data-confirm-msg="Are you sure you would like to delete
                                         this user record?" data-toggle="modal" data-target="#delete_modal"
-                                        @click="prepareDeleteResource(user.id)">
+                                        @click="prepareDeleteResource(user.id)" v-if="!(isMasterAdmin == true && user.role_slug == 'Super.administrator')">
                                         <i class="jv-icon jv-dustbin"></i>
                                         </a>
                                         &nbsp;
@@ -149,7 +145,7 @@
             </div>
         </div>
         <user-modal v-if="userStatus" :userId="userId"
-        :userRoles="userRoles" :userEmailData="userEmailData" :publishedTournaments="publishedTournaments"></user-modal>
+        :userRoles="userRoles" :userEmailData="userEmailData" :publishedTournaments="publishedTournaments" :isMasterAdmin="isMasterAdmin" @showChangePrivilegeModal="showChangePrivilegeModal()"></user-modal>
         <delete-modal :deleteConfirmMsg="deleteConfirmMsg" @confirmed="deleteConfirmed()"></delete-modal>
         <resend-modal :resendConfirm="resendConfirm" @confirmed="resendConfirmed()"></resend-modal>
         <active-modal
@@ -158,7 +154,9 @@
            @confirmed="activeConfirmed()"
            @closeModal="closeConfirm()">
          </active-modal>
-         <tournament-permission-modal :user="currentUserInTournamentPermission"></tournament-permission-modal>
+         <!-- <tournament-permission-modal :user="currentUserInTournamentPermission"></tournament-permission-modal> -->
+         <permission-modal :user="currentUserInTournamentPermission"></permission-modal>
+         <confirm-privilege-change-modal @confirmed="privilegeChangeConfirmed()"></confirm-privilege-change-modal>
     </div>
 </template>
 <script type="text/babel">
@@ -167,6 +165,8 @@
     import UserModal  from  '../../../components/UserModal.vue'
     import ActiveModal  from  '../../../components/ActiveModal.vue'
     import TournamentPermissionModal from '../../../components/TournamentPermissionModal.vue'
+    import PermissionModal from '../../../components/PermissionModal.vue'
+    import ConfirmPrivilegeChangeModal from '../../../components/ConfirmPrivilegeChangeModal.vue'
     import User from '../../../api/users.js'
     import Tournament from '../../../api/tournament.js'
     import VuePaginate from 'vue-paginate'
@@ -178,7 +178,9 @@
             ResendModal,
             UserModal,
             ActiveModal,
-            TournamentPermissionModal
+            TournamentPermissionModal,
+            PermissionModal,
+            ConfirmPrivilegeChangeModal,
         },
         data() {
             return {
@@ -189,8 +191,10 @@
                 deleteAction: '',
                 image: '',
                 userData: '',
+                userType: '',
                 page: '',
                 userListSearch: '',
+                userTypeSearch: '',
                 userStatus: false,
                 userId: '',
                 uStatusData:'',
@@ -216,7 +220,10 @@
             },
             uData(){
               return this.uStatusData
-            }
+            },
+            isMasterAdmin() {
+              return this.$store.state.Users.userDetails.role_slug == 'Master.administrator';
+            }            
         },
         filters: {
             formatDate: function(date) {
@@ -247,28 +254,28 @@
         methods: {
           clear() {
             this.userListSearch = ''
+            this.userTypeSearch = ''
             //call method for refresh
             this.$root.$emit('clearSearch')
           },
           searchUserData() {
-            // console.log(this.userListSearch);
-            this.$root.$emit('setSearch',this.userListSearch);
+            this.$root.$emit('setSearch', this.userListSearch,this.userTypeSearch);
             var first_name = $("#user_first_name").val();
             var last_name = $("#user_last_name").val();
             var email = $("#user_email").val();
             var searchdata = "&first_name="+ first_name + "&last_name=" + last_name + "&email=" + email;
          },
+          searchTypeData() {
+            this.searchUserData();
+          },
           getRolesWithData() {
-            User.getRolesWithData().then(
-              (response)=> {
-                this.userRoles = response.data.roles;
-              },
-              (error)=> {
-              }
-            )
-           // axios.get("/api/roles-for-select").then((response) => {
-             //       this.userRoles = response.data;
-               // });
+              User.getRolesWithData().then(
+                (response)=> {
+                  this.userRoles = response.data.roles;
+                },
+                (error)=> {
+                }
+              )
             },
             getPublishedTournaments() {
               let data = { 'status' : 'Published' }
@@ -320,10 +327,6 @@
 
                   }
                 )
-               /* axios.post("/api/user/resendEmail",{'email':emailData}).then((response) => {
-                    $("#resend_modal").modal("hide");
-                     toastr.success('The invite email has been re-sent successfully.', 'Mail Sent', {timeOut: 5000});
-                }); */
             },
             resendModalOpen(data) {
                 this.resendEmail = data
@@ -347,14 +350,6 @@
                   }
                 }
               )
-              /*axios.post("/api/user/status",{'userData':this.uStatusData}).then((response) => {
-                  $("#active_modal").modal("hide");
-                  if(response.data.status_code == 200) {
-                      toastr.success(response.data.message,{timeOut: 3000});
-                      setTimeout(Plugin.reloadPage, 500);
-                  }
-
-                }); */
             },
             deleteConfirmed() {
                 User.deleteUser(this.deleteAction).then(
@@ -368,35 +363,43 @@
 
                   }
                 )
-               /* axios.post(this.deleteAction).then((response) => {
-                    $("#delete_modal").modal("hide");
-                     setTimeout(Plugin.reloadPage, 500);
-                    toastr.success('User has been deleted successfully.', 'Delete User', {timeOut: 5000});
-                    this.updateUserList();
-                }); */
+            },
+            privilegeChangeConfirmed() {
+              this.$root.$emit('privilegeChangeConfirmed');
+              $('#confirm_privilege_modal').modal('hide');
             },
             exportTableReport() {
-                let userData = this.reportQuery
+                let userData = this.reportQuery              
                 let userSearch = '';
-                // console.log(userData);
-                // console.log(ReportData)
-                // let newdata = $.parseHTML( ReportData )
-                // let newdata =  $(ReportData).parse();
-                // let newdata = $('#frmReport').serialize();
-                  if(this.userListSearch!=''){
-                      userSearch = 'userData='+this.userListSearch
-                  }
-                   window.location.href = "/api/users/getUserTableData?report_download=yes&"+userSearch;
-                   // userData += '&report_download=yes'
-                   // window.location.href = "/api/users/getUserTableData?=report_download=yes&registerType=desktop&userData=";
+                let userSlugType = '';
+                userSearch = 'userData='+this.userListSearch;
+                userSlugType = 'userType='+this.userTypeSearch;
 
+                userData += 'report_download=yes&' + userSearch + '&' + userSlugType;
+
+                User.getSignedUrlForUsersTableData(userData).then(
+                  (response) => {
+                    window.location.href = response.data;         
+                   },
+                  (error) => {
+                  }                  
+                )
+
+                // window.location.href = "/api/users/getUserTableData?report_download=yes&"+userSearch+"&"+userSlugType;
              },
             editTournamentPermission(user) {
               this.currentUserInTournamentPermission = user;
-              console.log('user', user);
               this.$root.$emit('getUserTournaments', user);
-              $('#tournament_permission_modal').modal('show')
+              this.$root.$emit('getUserWebsites', user);
+              $('#permission_modal').modal('show');
+              $('#permission_modal ul.nav-tabs a').first().trigger('click');
 
+            },
+            showChangePrivilegeModal() {
+              $('#confirm_privilege_modal').modal('show');
+            },
+            redirectToTournamentList(user){ 
+                this.$router.push({name: 'userstourmanent', query: {id:user.id}});    
             }
         }
     }

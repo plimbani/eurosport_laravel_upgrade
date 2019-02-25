@@ -1,5 +1,16 @@
 {
-  "/assets/js/app.js": "/assets/js/app.60a3d26ed90edac0edcf.js",
-  "/assets/css/laraspace.css": "/assets/css/laraspace.c82eb7caf4d710a19beb.css",
-  "/assets/js/core/plugins.js": "/assets/js/core/plugins.js"
+  "/assets/js/app.js": "/assets/js/app.c690356aa3400d85a59a.js",
+  "/assets/css/laraspace.css": "/assets/css/laraspace.b500bf109ab406bd92cd.css",
+  "/frontend/css/main.css": "/frontend/css/main.b500bf109ab406bd92cd.css",
+  "/frontend/css/theme-1.css": "/frontend/css/theme-1.b500bf109ab406bd92cd.css",
+  "/frontend/css/theme-2.css": "/frontend/css/theme-2.b500bf109ab406bd92cd.css",
+  "/frontend/css/theme-3.css": "/frontend/css/theme-3.b500bf109ab406bd92cd.css",
+  "/frontend/css/theme-4.css": "/frontend/css/theme-4.b500bf109ab406bd92cd.css",
+  "/frontend/css/theme-5.css": "/frontend/css/theme-5.b500bf109ab406bd92cd.css",
+  "/frontend/css/theme-6.css": "/frontend/css/theme-6.b500bf109ab406bd92cd.css",
+  "/frontend/js/scheduleresults.js": "/frontend/js/scheduleresults.efcb0dfbb038d5838797.js",
+  "/frontend/js/tournamenthistory.js": "/frontend/js/tournamenthistory.27854b8167231fc28e6a.js",
+  "/frontend/js/app-messages.js": "/frontend/js/app-messages.c7cb2fa7898136956f0d.js",
+  "/assets/js/core/plugins.js": "/assets/js/core/plugins.js",
+  "/assets/js/core/matches-plugins.js": "/assets/js/core/matches-plugins.js"
 }

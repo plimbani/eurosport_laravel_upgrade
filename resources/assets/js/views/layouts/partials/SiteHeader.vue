@@ -1,10 +1,10 @@
 <template>
 <div>
     <header class="site-header">
-        <div class="container">
+        <div class="container-fluid w-100">
             <a href="#" class="brand-main" @click="home">
-                <img src="/assets/img/logo-desk.svg" id="logo-desk" alt="Laraspace Logo" class="hidden-sm-down">
-                <img src="/assets/img/logo-mobile.svg" id="logo-mobile" alt="Laraspace Logo" class="hidden-md-up">
+                <img src="/assets/img/tmplogo.svg" id="logo-desk" alt="Laraspace Logo" class="hidden-sm-down">
+                <img src="/assets/img/tmplogo.svg" id="logo-mobile" alt="Laraspace Logo" class="hidden-md-up">
             </a>
             <a href="#" class="nav-toggle" @click="onNavToggle">
                 <div class="hamburger hamburger--htla">
@@ -26,6 +26,7 @@
                     <div class="dropdown-menu dropdown-menu-right notification-dropdown">
                         <!-- <router-link class="dropdown-item" to="/admin/settings"><i class="fa fa-cogs"></i>{{$lang.siteheader_settings}}</router-link> -->
                          <a href="javascript:void(0)" class="dropdown-item" @click="showEditProfileModal()"><i class="fa fa-user"></i>{{$lang.siteheader_userprofile}}</a>
+                         <a href="javascript:void(0)" class="dropdown-item" @click="showSettingModal()"><i class="fa fa-sign-out"></i>Setting</a>
                         <a href="#" class="dropdown-item" @click.prevent="logout"><i class="fa fa-sign-out"></i>{{$lang.siteheader_logout}}</a>
                     </div>
                 </li>
@@ -55,6 +56,32 @@
             </ul>
         </div>
     </header>
+    <div class="modal fade" id="admin_setting">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Setting</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group row">
+                        <label class="col-sm-4 form-control-label">1 EURO :</label>
+                        <div class="col-sm-7">
+                             <input v-model="adminsetting.currencyvalue" placeholder="for ex. 1.1"> GBP
+                        </div>
+                    </div>
+                     
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" @click="saveUserSetting()">
+                        {{$lang.user_management_user_save}}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
      <user :userData="userData" :emailExist="emailExist" @showEmailExists="showEmailExists" @hideEmailExists="hideEmailExists"></user>
 </div>
 </template>
@@ -66,7 +93,8 @@
     import Auth from '../../../services/auth'
     import User from '../../../views/admin/Userprofile.vue'
     import Ls from '../../../services/ls'
-    import UserApi from '../../../api/users.js'
+    import UserApi from '../../../api/users.js';
+    import Website from '../../../api/website.js';
 
     export default {
     components: {
@@ -82,6 +110,9 @@
                 'image': '',
                 'userData':[],
                 'emailExist': false,
+                adminsetting:{
+                    currencyvalue:1
+                }
             }
         },
         // computed: {
@@ -100,7 +131,9 @@
         let email = Ls.get('email');
         // Here we call Function to get User Details
         let userData = {'email':email}
-        this.getUserDetails(userData)
+        this.getUserDetails(userData);
+        this.getConfigurationDetail();
+        this.getWebsiteDetails();
 
 
          },
@@ -131,32 +164,36 @@
                   (error)=> {
                   }
                 );
-
-              /*  axios.post("/api/user/getDetails",{'userData':emailData}).then((response) => {
-                      this.userData = response.data.data;
-                      //console.log('InuserDetails')
-                      //console.log(this.userData[0])
-                      Ls.set('userData',JSON.stringify(this.userData[0]))
-                      this.id = this.userData[0].id
-                      let Id = this.id
-                      let this1 = this
-                      setInterval(function(){this1.clock() },1000)
-                        let that = this
-                        if(Id!=''){
-                            that.editUser(Id)
-                            //setTimeout(function(){
-                              //  that.editUser(Id)
-                            //},1000)
-                        }
-
-                        let UserData  = JSON.parse(Ls.get('userData'))
-                       //console.log(UserData)
-                       this.$store.dispatch('getUserDetails', UserData);
-
-                    });
-                    */
-
-
+            },
+            getConfigurationDetail() {
+                Website.getConfigurationDetail().then(
+                  (response)=> {
+                    this.$store.dispatch('setConfigurationDetail', response.data);
+                  },
+                  (error)=> {
+                  }
+                );
+            },
+            getWebsiteDetails() {
+              if(this.getWebsiteId !== null) {
+                Website.getWebsiteDetails(this.getWebsiteId).then(
+                  (response)=> {
+                    var websiteDetail = response.data.data;
+                    let website  = {
+                      id: websiteDetail.id,
+                      tournament_name: websiteDetail.tournament_name,
+                      tournament_dates: websiteDetail.tournament_dates,
+                      tournament_location: websiteDetail.tournament_location,
+                      pages: websiteDetail.pages,
+                      preview_domain: websiteDetail.preview_domain,
+                      preview_domain_generated_at: websiteDetail.preview_domain_generated_at
+                    };
+                    this.$store.dispatch('SetWebsite', website);
+                  },
+                  (error)=> {
+                  }
+                );
+              }
             },
             initialState() {
                 return {
@@ -218,6 +255,13 @@
                 this.emailExist = false;
                 $("#user_profile").modal('show');
             },
+            showSettingModal(){
+                // console.log("showSettingModal");
+                $("#admin_setting").modal('show');
+            },
+            saveUserSetting(){
+                // console.log("saveUserSetting");
+            },
             showEmailExists() {
                 this.emailExist = true;
             },
@@ -231,6 +275,9 @@
             },
             userId() {
                 return this.$store.state.Users.userDetails.id
+            },
+            getWebsiteId() {
+              return this.$store.state.Website.id;
             },
             // userData() {
             //     return this.$store.state.Users.userDetails

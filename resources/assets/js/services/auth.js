@@ -1,7 +1,6 @@
 import Ls from './ls'
 
 export default {
-
     login(loginData){
         return axios.post('/api/auth/login', loginData).then(response =>  {
             Ls.set('auth.token',response.data.token)
@@ -18,9 +17,23 @@ export default {
                 // Something happened in setting up the request that triggered an Error
             }
         });
-
     },
 
+    register(registerData){
+        // need to change in the API in url and also in function
+         return axios.post('/api/v1/commercialisation/thankyou', registerData).then(response =>  {
+             console.log("response in register::",response.data); 
+             if (response.data.success) {
+                // console.log("inside settttt:::",response.data.data.token);
+                Ls.set('auth.token',response.data.data.token)
+                Ls.set('email',registerData.email)
+             }else{
+                 toastr['error'](response.data.message, 'Error');
+             }
+         }).catch(error => {
+             console.log("error in register::",error);
+         });
+    },
     logout(){
         return axios.get('/api/auth/logout').then(response =>  {
             Ls.remove('auth.token')
@@ -34,17 +47,15 @@ export default {
         });
         // Reload
     },
-    check(){
-        return axios.get('/api/auth/check').then(response =>  {
+    check(data){
+        return axios.post('/api/auth/check', data).then(response =>  {
             if(response.data.authenticated == false) {
-
               if(response.data.message != undefined) {
                 toastr['error'](response.data.message, 'Error');
               }
             }
-            return !!response.data.authenticated;
+            return response.data;
         }).catch(error => {
         });
     },
-
 }

@@ -1,10 +1,12 @@
 <template>
     <div class="template-container 13113">
-        <site-header></site-header>        
+        <site-header v-if="getCurrentLayout === 'tmp'"></site-header>
+        <site-commercialisation-header v-if="getCurrentLayout === 'commercialisation'"></site-commercialisation-header>    
         <!--<site-header-bottom></site-header-bottom>-->
         <router-view></router-view>
         <!-- <div class="horizontal_line"></div> -->
-        <site-footer></site-footer>
+        <site-footer v-if="getCurrentLayout === 'tmp'"></site-footer>
+        <site-commercialisation-footer v-if="getCurrentLayout === 'commercialisation'"></site-commercialisation-footer>
     </div>
 </template>
 
@@ -12,7 +14,9 @@
 
     import SiteHeader from './partials/SiteHeader.vue'
     import SiteFooter from './partials/SiteFooter.vue'
-    import SiteHeaderBottom from './partials/SiteHeaderBottom.vue'
+
+    import SiteCommercialisationHeader from './partials/Commercialisation/SiteHeader.vue'
+    import SiteCommercialisationFooter from './partials/Commercialisation/SiteFooter.vue'
 
     import Layout from '../../helpers/layout'
 
@@ -23,10 +27,15 @@
             }
         },
         components : {
-            SiteHeader , SiteHeaderBottom , SiteFooter
+            SiteHeader, SiteFooter, SiteCommercialisationHeader, SiteCommercialisationFooter
         },
         mounted() {
             Layout.set('layout-horizontal')
+        },
+        computed: {
+            getCurrentLayout() {
+                return this.$store.state.Configuration.currentLayout;
+            }
         }
     }
 </script>

@@ -1,5 +1,6 @@
 <template>
   <div class="card">
+    <p v-if="addTournamentEndDateTime">Please note: You will no longer be able to enter results or edit your tournament after {{ displayTournamentEndDate | formatDate }} </p>
     <div class="card-block">
       <div class="row">
         <div class="col-lg-12">
@@ -33,20 +34,45 @@
   </div>
 </template>
 <script type="text/babel">
+import Tournament from '../../../api/tournament.js'
 export default {
   data() {
     return {
       'header' : 'header',
       'tournamentId' : this.$store.state.Tournament.tournamentId,
+      displayTournamentEndDate: '',
+      currentDateTime: moment().format('YYYY-MM-DD HH:mm'),
+    }
+  },
+  filters: {
+    formatDate: function(date) {
+      if(date != null ) {
+        return moment(date).format("HH:mm Do MMM YYYY");
+      } else {
+        return  '-';
+      }
     }
   },
   computed: {
     activePath() {
       return this.$store.state.activePath
+    },
+
+    addTournamentEndDateTime() {
+      let expireTime = moment(this.displayTournamentEndDate).add(8, 'hours').format('YYYY-MM-DD HH:mm:ss');
+      let currentDateTime = this.currentDateTime;
+      
+      if(currentDateTime == expireTime) {
+         return true;
+      } else {
+        return false;
+      }
     }
+
   },
   mounted() {
-
+    this.$store.dispatch('ResetPitchPlannerFromEnlargeMode');
+    this.editTournamentMessage();
     if(this.tournamentId == '' ) {
       //this.$router.push({name: 'welcome'})
       }
@@ -71,7 +97,22 @@ export default {
       },2000 )
       }
 
+    },
+
+    editTournamentMessage() {
+
+      this.TournamentId = this.$store.state.Tournament.tournamentId
+
+      let TournamentData = {'tournament_id': this.TournamentId}
+
+      Tournament.editTournamentMessage(TournamentData).then(
+          (response) => {
+            this.displayTournamentEndDate = response.data
+          },
+          (error) => {
+          }
+      )
     }
-  },
+  }
 }
 </script>

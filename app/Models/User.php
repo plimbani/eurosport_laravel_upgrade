@@ -54,7 +54,7 @@ class User extends Authenticatable implements HasRoleAndPermissionContract, CanR
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 'remember_token', 'token', 'fcm_id',
     ];
 
     /**
@@ -156,7 +156,7 @@ class User extends Authenticatable implements HasRoleAndPermissionContract, CanR
         $send_otp='';
         $subject = 'Euro-Sportring Tournament Planner - Reset password';
         // Set OTP
-        if($this->roles()->first()->id == $mobileUserRoleId) {
+        if(!empty($this->roles()->first()) && ($this->roles()->first()->id == $mobileUserRoleId)) {
             $subject = 'Euro-Sportring - Password Reset';
             // $send_otp = str_random(4);
             // $encoded_otp = base64_encode($this->id."|".$send_otp);
@@ -183,8 +183,18 @@ class User extends Authenticatable implements HasRoleAndPermissionContract, CanR
         return $this->hasMany('Laraspace\Models\UserFavourites', 'user_id')->where('is_default', 1);
     }
 
+    public function favouriteTournaments()
+    {
+        return $this->hasMany('Laraspace\Models\UserFavourites', 'user_id');
+    }
+
     public function tournaments()
     {
         return $this->belongsToMany('Laraspace\Models\Tournament', 'tournament_user', 'user_id','tournament_id');
+    }
+
+    public function websites()
+    {
+        return $this->belongsToMany('Laraspace\Models\Website', 'website_user', 'user_id','website_id');
     }
 }

@@ -15,18 +15,22 @@ class SendMail extends Mailable
    public $view_name;
    public $from_email;
    public $subject = "Eurosport | Support";
+   public $reply_to_email;
+   public $reply_to_name;
 
    /**
     * Create a new message instance.
     *
     * @return void
     */
-   public function __construct($email_details, $subject, $view_name, $from_email = null)
+   public function __construct($email_details, $subject, $view_name, $from_email = null, $reply_to_email = null, $reply_to_name = null)
    {
        $this->subject = $subject;
        $this->view_name = $view_name;
        $this->email_details = $email_details;
        $this->from_email = $from_email;
+       $this->reply_to_email = $reply_to_email;
+       $this->reply_to_name = $reply_to_name;
    }
 
    /**
@@ -36,9 +40,12 @@ class SendMail extends Mailable
     */
    public function build()
    {
-       if (!empty($this->from_email)) {
-           return $this->from($this->from_email)->view($this->view_name);
-       }
-       return $this->view($this->view_name);
+        if (!empty($this->from_email)) {
+            $this->from($this->from_email);
+        }
+        if (!empty($this->reply_to_email)) {
+            $this->replyTo($this->reply_to_email, $this->reply_to_name);
+        }
+        return $this->view($this->view_name);
    }
 }

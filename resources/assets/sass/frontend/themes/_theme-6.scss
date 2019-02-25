@@ -1,0 +1,20 @@
+// Variables
+//
+// Variables should follow the `$component-state-property-size` formula for
+// consistent naming. Ex: $nav-link-disabled-color and $modal-content-box-shadow-xs.
+
+
+//
+// Color system
+//
+
+// stylelint-disable
+$primary: #9013FE;
+$theme-colors: (
+  "primary"				: $primary,
+  "primary-light"		: rgba($primary,0.5),
+  "primary-extralight"	: rgba($primary,0.1),
+  "tint-20"				: tint($primary, 80%),
+  "tint-10"				: tint($primary, 90%),
+  "shade-50"			: shade($primary, 50%)
+);
