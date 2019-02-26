@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -113,11 +114,12 @@ public class FullScreenImageActivity extends Activity {
     }
 
     private void addImageView(final String url) {
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         layoutParams.gravity = Gravity.CENTER;
         final FrameLayout mImageLayout = new FrameLayout(mContext);
         mImageLayout.setLayoutParams(layoutParams);
         mImageLayout.setForegroundGravity(Gravity.CENTER);
+        mImageLayout.setBackgroundColor(Color.WHITE);
         final ImageView iv = new ImageView(mContext);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         iv.setLayoutParams(params);
