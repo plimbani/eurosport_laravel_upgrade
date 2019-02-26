@@ -72,7 +72,9 @@
                 </div>
                  <div class="row justify-content-between">
                     <div class="col-md-12">
-                        <p class="text-sm-right font-weight-bold">Â£100.00</p>
+                        <p class="text-sm-right font-weight-bold">
+                            <span v-if="tournamentData.currency_type == 'GBP'">&#163;</span>   
+                            <span v-if="tournamentData.currency_type == 'EURO'">&#128;</span>{{returnFormatedNumber(tournamentData.total_amount/100)}}</p>
                     </div>
                     <hr>
                     <div class="col-md-12" id="reeiptDetails">
@@ -157,6 +159,9 @@
 
             makePaymentButton() {
                 this.$refs.paymentSubmit.click();
+            },
+            returnFormatedNumber(value){
+                return Number(value).toFixed(2);  
             },
             setCoutryWiseCards() {
                 this.countryList = [

@@ -77,7 +77,8 @@
                                 </div>
                                 <div class="row justify-content-end">
                                     <div class="col-md-7 col-lg-7 col-xl-6">
-                                        <button v-if ="!disabled" class="btn btn-success btn-block"  v-on:click="buyALicence()">Buy your license</button>
+                                        
+                                        <button v-if ="!disabled" class="btn btn-success btn-block"  v-on:click="buyALicence()"><span v-if='id == ""'>Buy your license</span><span v-if='id != ""'>Update your license</span></button>
                                         <button v-else="disabled" class="btn btn-success btn-block" disabled="true">Buy your license</button> 
                                     </div>
                                 </div>
