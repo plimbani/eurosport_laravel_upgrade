@@ -123,9 +123,9 @@
                                     <img v-if="sponsor.tournament_sponsor_logo == ''" src="/assets/img/noimage.png" class="img-fluid thumb-size" />
                                 </div>
                                 <div class="col-md-8">
-                                    <button v-if="sponsor.tournament_sponsor_logo != ''" class="btn btn-default" @click="removeTournamentSponserImage($event,index)">{{$lang.tournament_tournament_remove_button}}</button>
-                                    <button v-else :disabled="is_sponsor_logo_uploading" type="button" class="btn btn-default tournament-sponsor-image" name="tournamentSponsorImage" id="tournamentSponsorImage">{{is_sponsor_logo_uploading ? $lang.uploading : $lang.tournament_tournament_choose_button}}</button>
-                                    <input type="file" class="select-tournament-sponsor-image" :id="'select_tournament_image'+index" :name="'tournament_sponsor_image'+index" style="display:none;" @change="onSponsorLogoChange($event,index)">
+                                    <button type="button" v-if="sponsor.tournament_sponsor_logo != ''" class="btn btn-default" @click="removeTournamentSponserImage($event,index)">{{$lang.tournament_tournament_remove_button}}</button>
+                                    <button v-else :disabled="is_sponsor_logo_uploading" type="button" class="btn btn-default js-tournament-sponsor-image" :data-index="index">{{is_sponsor_logo_uploading ? $lang.uploading : $lang.tournament_tournament_choose_button}}</button>
+                                    <input type="file" class="select-tournament-sponsor-image" :id="'tournament_sponsor_image'+index" :name="'tournament_sponsor_image'+index" style="display:none;" @change="onSponsorLogoChange($event,index)">
                                 </div>
                                 <p class="help-block">Maximum size of 1 MB.<br/>
                                     Image dimensions 250 x 250.</p>
@@ -377,11 +377,10 @@ mounted(){
     // First we check that if tournament id is Set then dont dispatch it
     $('#btnSelect').on('click',function(){
       $('#selectFileT').trigger('click')
-    })
+    });
 
-
-    $('body').on('click','.tournament-sponsor-image', function(){
-      $(this).closest('div').find('.select-tournament-sponsor-image').trigger('click')
+    $(document).on('click', '.js-tournament-sponsor-image', function(){
+      $("#tournament_sponsor_image" + $(this).data('index')).trigger('click');
     })
 
     let tId = this.$store.state.Tournament.tournamentId
@@ -394,7 +393,6 @@ mounted(){
       Tournament.tournamentSummaryData(this.tournamentId).then(
       (response) => {
         if(response.data.status_code == 200) {
-          console.log(response.data.data);
           if(response.data.data.tournament_contact != undefined || response.data.data.tournament_contact != null )
           {
           this.tournament.tournament_contact_first_name = response.data.data.tournament_contact.first_name
@@ -422,8 +420,8 @@ mounted(){
           }
 
           let tournamentSponsors = response.data.data.sponsors
-          console.log(tournamentSponsors);
-          if(tournamentSponsors != undefined || tournamentSponsors != null )
+          var vm = this;
+          if( Object.keys(tournamentSponsors).length > 0 )
           {
               // Initially Set with Zero
               this.sponsorImage = []
@@ -431,8 +429,6 @@ mounted(){
               $.each(tournamentSponsors, function(key, value ) {
                 vm.sponsorImage.push({tournament_sponsor_logo: value.imageUrl,id:key});
               });
-
-              console.log(vm.sponsorImage);
 
               // for(let i=0;i< Object.keys(tournamentSponsors).length;i++){
               //   console.log(tournamentSponsors[i]);
@@ -446,11 +442,7 @@ mounted(){
           }
           else
           {
-            console.log("else");
-            this.sponsorImage.push({
-                tournament_sponsor_logo: '',
-                id:0
-            });
+            vm.sponsorImage.push({tournament_sponsor_logo: '',id:0});
           }
             // this.tournamentSummary = response.data.data;
             // fetch data and set it
@@ -562,7 +554,7 @@ methods: {
 
   addTournamentSponsorImage() {
     this.sponsorImage.push({
-        tournament_sponsor_logo: ""
+        tournament_sponsor_logo: "",id:0
     });
   },
 
@@ -669,7 +661,7 @@ methods: {
             //     toastr['error']('Sponsor image size should be 250x250', 'Error');
             // } else {
                 // vm.sponsorImage = r.target.result;
-                // vm.is_sponsor_logo_uploading = true;
+            vm.is_sponsor_logo_uploading = true;
          
             var formData = new FormData();
             formData.append('image', files[0]);
@@ -681,7 +673,7 @@ methods: {
                         // tournament_sponsor_logo: img 
                     
                     // vm.tournament_sponsor_logo = response.data;
-                    //vm.is_sponsor_logo_uploading = false;
+                    vm.is_sponsor_logo_uploading = false;
                 },
                 (error)=>{
                 }
@@ -693,8 +685,9 @@ methods: {
     },
   
     removeTournamentSponserImage: function (e,i) {
-        this.sponsorImage.splice(i,1)
-        e.preventDefault();
+      this.sponsorImage.splice(i, 1);
+
+      console.log(this.sponsorImage.length);
     },
 
     redirectCompetation() {
