@@ -71,8 +71,9 @@
                                     <div class="divider my-3 opacited"></div>
 
                                     <p class="text-sm-right font-weight-bold">
-                                        <span v-if="tournamentData.currency_type == 'GBP'">GBP</span> 
-                                        <span v-if="tournamentData.currency_type == 'EURO'">EURO</span>  £ {{returnFormatedNumber(tournamentData.total_amount)}}</p>
+                                        <span v-if="tournamentData.currency_type == 'GBP'">&#163;</span>   
+                                        <span v-if="tournamentData.currency_type == 'EURO'">&#128;</span>  
+                                        {{returnFormatedNumber(tournamentData.total_amount)}}</p>
                                 </div>
                                 <div class="row justify-content-end">
                                     <div class="col-md-7 col-lg-7 col-xl-6">
