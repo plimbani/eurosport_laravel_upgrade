@@ -32,7 +32,7 @@
 
                         <label>Name of your tournament</label>
                         <div class="form-group">
-                            <input type="text" class="form-control form-control-danger" placeholder="Tournament Name" id="tournament_name" name="tournament_name" v-model="tournamentData.tournament_name" v-validate="{ rules: { required: true } }">
+                            <input type="text" class="form-control form-control-danger" placeholder="Tournament name" id="tournament_name" name="tournament_name" v-model="tournamentData.tournament_name" v-validate="{ rules: { required: true } }">
                             <span class="help is-danger" v-show="errors.has('tournament_name')">The tournament name field is required.</span> 
                         </div>
                     </div>

@@ -286,13 +286,14 @@
                 axios.post(Constant.apiBaseUrl+'website-settings/save', params).then(response =>  { 
                     // console.log("response::",response); 
                     if (response.data.success) { 
-                         $('#modal').modal('hide');
+                         $('#admin_setting').modal('hide');
                      }else{ 
                         toastr['error'](response.data.message, 'Error');
                      }
                  }).catch(error => {
                      
                  }); 
+                 
             },
             showEmailExists() {
                 this.emailExist = true;

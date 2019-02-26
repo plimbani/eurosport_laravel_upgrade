@@ -63,7 +63,6 @@
         </form>  
 
         <section class="buy-license-section section-padding">
-            Please Wait While we redirect your to Payment page
             <div class="card-text">
                 <div class="row">
                     <div class="col-sm-6 col-md-7 col-lg-7">
