@@ -34,7 +34,7 @@
                                         <th>{{$lang.duplicate_tournamet_tournament_start_date}}</th>
                                         <th>{{$lang.duplicate_tournamet_tournament_end_date}}</th>
                                         <th>{{$lang.duplicate_tournamet_maximum_teams}}</th>
-                                        <th>{{$lang.duplicate_tournamet_action}}</th>
+                                        <th style="text-align: center;">{{$lang.duplicate_tournamet_action}}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -43,7 +43,7 @@
                                     <td>{{ tournament.start_date }}</td>
                                     <td>{{ tournament.end_date }}</td>
                                     <td>{{ tournament.maximum_teams }}</td>
-                                    <td>
+                                    <td align="center">
                                       <a class="text-primary" href="javascript:void(0)" @click="duplicateTournament(tournament.id, tournament.name)">
                                         <i class="fas fa-copy"></i>
                                       </a>
