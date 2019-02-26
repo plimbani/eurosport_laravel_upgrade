@@ -11,9 +11,9 @@ public class ApiConstants {
 
 //            public static final String BASE_URL = "https://www.esrtmp.com/api/"; // ESR Live
     public static final String BASE_URL = "https://qa.wot.esrtmp.com/api/"; // ESR QA
-
-//         public static final String BASE_URL = "http://usama-eurosport.dev.aecortech.com/api/"; // Local Test
-//    public static final String BASE_URL = "http://sunny-eurosport.dev.aecortech.com/api/"; // Local Test
+//
+//         public static final String BASE_URL = "http://rishab-eurosport.dev.aecortech.com/api/"; // Local Test
+//    public static final String BASE_URL = "http://mukesh-wot.dev.aecortech.com/api/"; // Local Test
 
     public static final String GET_TOURNAMENTS = BASE_URL + "tournaments";
     public static final String APP_VERSION = BASE_URL + "appversion";
@@ -22,6 +22,7 @@ public class ApiConstants {
     public static final String FORGOT_PASSWORD = BASE_URL + "password/email";
     public static final String CHECK_USER = BASE_URL + "auth/check";
     public static final String GET_ALL_COUNTRY = BASE_URL + "getCountries";
+    public static final String GET_GRAPHIC_IMAGE_URL= BASE_URL + "viewGraphicImage";
 
     public static final String GET_SETTINGS_ATTRIBUTE = BASE_URL + "users/getSetting";
     public static final String UPDATE_USER_SETTINGS = BASE_URL + "users/postSetting";

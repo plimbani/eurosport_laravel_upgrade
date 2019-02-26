@@ -176,7 +176,7 @@ public class AgeCategoriesActivity extends BaseAppCompactActivity {
     private void setAgeAdapter(AgeCategoriesModel mTournamentList[]) {
         List<AgeCategoriesModel> list = new ArrayList<>();
         list.addAll(Arrays.asList(mTournamentList));
-        adapter = new AgeAdapter((Activity) mContext, list,isShowFinalPlacing);
+        adapter = new AgeAdapter((Activity) mContext, list,isShowFinalPlacing , true);
         rv_ageList.setAdapter(adapter);
         rv_ageList.setVisibility(View.VISIBLE);
 

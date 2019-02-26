@@ -1,9 +1,7 @@
 package com.aecor.eurosports.adapter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
-import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,27 +10,27 @@ import android.widget.TextView;
 
 import com.aecor.eurosports.R;
 import com.aecor.eurosports.activity.HomeActivity;
-import com.aecor.eurosports.model.CountriesModel;
 import com.aecor.eurosports.util.AppLogger;
 import com.aecor.eurosports.util.Utility;
-
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class CountrySpinnerAdapter extends ArrayAdapter<CountriesModel> {
-    private final String TAG = TournamentSpinnerAdapter.class.getSimpleName();
-    private LayoutInflater inflater;
-    private Context mContext;
+public class RoleSpinnerAdapter extends ArrayAdapter<String> {
+    private final String TAG = RoleSpinnerAdapter.class.getSimpleName();
 
-    public CountrySpinnerAdapter(Activity context, List<CountriesModel> list) {
-        super(context, R.layout.row_spinner_item, R.id.title, list);
+    private Context mContext;
+    private String[] data = null;
+    private LayoutInflater inflater;
+
+    public RoleSpinnerAdapter(Context context, String[] _data) {
+        super(context, R.layout.row_spinner_item, R.id.title, _data);
         this.mContext = context;
+        this.data = _data;
         inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
     }
+
 
     @Override
     public boolean isEnabled(int position) {
@@ -60,14 +58,9 @@ public class CountrySpinnerAdapter extends ArrayAdapter<CountriesModel> {
         } else {
             holder = (ViewHolder) rowview.getTag();
         }
-        CountriesModel rowItem = getItem(position);
-        if (!Utility.isNullOrEmpty(rowItem.getName())) {
-            if (position == 0 && !(mContext instanceof HomeActivity)) {
-                holder.tv_spinner.setText(rowItem.getName());
-            } else {
-                holder.tv_spinner.setText(capitalize(rowItem.getName().toLowerCase()));
-            }
 
+        if (!Utility.isNullOrEmpty(data[position])) {
+            holder.tv_spinner.setText(data[position]);
         }
         if (position == 0 && !(mContext instanceof HomeActivity)) {
             holder.tv_spinner.setTextColor(Color.GRAY);
@@ -75,23 +68,6 @@ public class CountrySpinnerAdapter extends ArrayAdapter<CountriesModel> {
             holder.tv_spinner.setTextColor(Color.BLACK);
         }
         return rowview;
-    }
-
-    public static String capitalize(@NonNull String input) {
-
-        String[] words = input.toLowerCase().split(" ");
-        StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < words.length; i++) {
-            String word = words[i];
-
-            if (i > 0 && word.length() > 0) {
-                builder.append(" ");
-            }
-
-            String cap = word.substring(0, 1).toUpperCase() + word.substring(1);
-            builder.append(cap);
-        }
-        return builder.toString();
     }
 
     protected class ViewHolder {
