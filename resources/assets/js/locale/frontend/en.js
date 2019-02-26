@@ -55,4 +55,12 @@ module.exports= {
     'no_team_found': 'No teams found.',
     'current_placings': 'Current placings',
   },
+  'scheduleresult' : {
+    'categories': 'Categories',
+    'teams': 'Teams',
+    'matches': 'Matches',
+    'final_placings': 'Final placings',
+    'categories': 'Categories',
+    'no_categories_found': 'No categories found.',
+  },
 };
