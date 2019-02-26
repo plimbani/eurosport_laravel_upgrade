@@ -26,7 +26,7 @@ class WebsiteSettingRepository
         $websiteSettings->value_field = json_encode($settings['value_field']);
         $websiteSettings->save();
     }
-    
+
     /**
      * Fetch settings
      * @param string $type
@@ -34,8 +34,11 @@ class WebsiteSettingRepository
      */
     public function getSettings($type)
     {
-        $websiteSettings = WebsiteSetting::select('value_field')->where(['key_field' => $type])->first();
-        
+        $websiteSettings = WebsiteSetting::select('value_field')
+                        ->where(['key_field' => $type])->first();
+        if (empty($websiteSettings->value_field)) {
+            throw new \Exception('Settings for currency not found.');
+        }
         return json_decode($websiteSettings->value_field);
     }
 }
