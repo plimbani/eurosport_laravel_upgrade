@@ -120,27 +120,27 @@
                                 </tbody>
                             </table>
                             <paginate v-if="shown" name="userpagination" :list="userList.userData" ref="paginator" :per="no_of_records"  class="paginate-list">
-                              </paginate>
-                              <div class="row d-flex flex-row align-items-center">
-                                <div class="col page-dropdown">
-                                  <select class="form-control ls-select2" name="no_of_records" v-model="no_of_records">
-                                    <option v-for="recordCount in recordCounts" v-bind:value="recordCount">
-                                        {{ recordCount }}
-                                    </option>
-                                  </select>
-                                </div>
-                                <div class="col">
-                                  <span v-if="$refs.paginator">
-                                    Viewing {{ $refs.paginator.pageItemsCount }} results
-                                  </span>
-                                </div>
-                                <div class="col-md-6">
-                                  <paginate-links for="userpagination"
-                                    :show-step-links="true" :async="true" :limit="2" class="mb-0">
-                                  </paginate-links>
-                                </div>
+                            </paginate>
+                            <div class="row d-flex flex-row align-items-center">
+                              <div class="col page-dropdown">
+                                <select class="form-control ls-select2" name="no_of_records" v-model="no_of_records">
+                                  <option v-for="recordCount in recordCounts" v-bind:value="recordCount">
+                                      {{ recordCount }}
+                                  </option>
+                                </select>
                               </div>
-                        </div>
+                              <div class="col">
+                                <span v-if="$refs.paginator">
+                                  Viewing {{ $refs.paginator.pageItemsCount }} results
+                                </span>
+                              </div>
+                              <div class="col-md-6">
+                                <paginate-links for="userpagination"
+                                  :show-step-links="true" :async="true" :limit="2" class="mb-0">
+                                </paginate-links>
+                              </div>
+                            </div>
+                          </div>
                         <div v-if="userList.userCount == 0" class="col-md-12">
                             <h6 class="block text-center">No record found</h6>
                         </div>
@@ -408,7 +408,6 @@
             getLanguageData() {
               User.getAllLanguages().then(
                 (response)=> {
-                  console.log(response.data);
                   this.allLanguages = response.data;
                 },
                 (error)=> {

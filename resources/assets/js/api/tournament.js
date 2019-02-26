@@ -264,5 +264,14 @@ export default {
   },
   copyAgeCategory(ageCategoryData) {
     return api.post('age_group/copyAgeCategory', {'ageCategoryData': ageCategoryData})
-  }
+  },
+  matchUnscheduledFixtures(matchId) {
+    return api.post('match/fixtureUnschedule',{'matchId': matchId})
+  },
+  duplicateTournament(copyTournamentData) {
+    return api.post('duplicateTournament', copyTournamentData)
+  },
+  duplicateTournamentList(tournamentData) {
+    return api.post('duplicateTournamentList', tournamentData)
+  },
 }

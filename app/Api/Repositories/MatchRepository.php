@@ -475,6 +475,14 @@ class MatchRepository
       $rules = $tournamentCompetationTemplatesRecord->rules;
 
 
+      // Check all results are declared or not
+      $checkResultEntered = DB::table('temp_fixtures')->where('tournament_id',$tournamentData['tournamentId'])
+        ->where('competition_id',$tournamentData['competitionId'])->where('round','Round Robin')
+        ->where(function ($query) {
+            $query->whereNull('hometeam_score')
+                  ->orWhereNull('awayteam_score');
+        })->count();
+
         $reportQuery = DB::table('match_standing')
           ->leftjoin('teams', 'match_standing.team_id', '=', 'teams.id')
           ->leftjoin('countries', 'teams.country_id', '=', 'countries.id')
@@ -503,28 +511,74 @@ class MatchRepository
           }
 
           $reportQuery = $reportQuery->orderBy('match_standing.manual_order','asc');
+          $head_to_head = false;
+          $check_head_to_head_with_key = '';
+          $remain_head_to_head_with_key = '';
+          foreach($rules as $key => $rule) {
 
-          foreach($rules as $rule) {
-            if($rule['checked'] == false) {
+            if($rule['checked'] == false || ( $rule['key'] != 'head_to_head' && $head_to_head == true)) {
+
+              if (  $rule['checked'] == true && ( $rule['key'] != 'head_to_head' && $head_to_head == true )  )
+              {
+                if($rule['key'] == 'goal_difference') {
+                  $remain_head_to_head_with_key .= '|GoalDifference';
+                }
+                if($rule['key'] == 'goals_for') {
+                  $remain_head_to_head_with_key .= '|goal_for';
+                }
+                if($rule['key'] == 'matches_won') {
+                  $remain_head_to_head_with_key .= '|won';
+                }
+                if($rule['key'] == 'goal_ratio') {
+                  $remain_head_to_head_with_key .= '|GoalRatio';
+                }
+              }
               continue;
             }
 
             if($rule['key'] == 'match_points') {
               $reportQuery = $reportQuery->orderBy('match_standing.points','desc');
+              $check_head_to_head_with_key .= '|points';
+            }
+
+            if($rule['key'] == 'head_to_head') {
+              if($checkResultEntered > 0)
+              {
+                $reportQuery = $reportQuery->orderBy('teams.name','asc');
+              }
+              else
+              {
+                $head_to_head = true;
+              }
             }
             
             if($rule['key'] == 'goal_difference') {
               $reportQuery = $reportQuery->orderBy('GoalDifference','desc');
+              $check_head_to_head_with_key .= '|GoalDifference';
             }
             if($rule['key'] == 'goals_for') {
               $reportQuery = $reportQuery->orderBy('match_standing.goal_for','desc');
+              $check_head_to_head_with_key .= '|goal_for';
             }
             if($rule['key'] == 'matches_won') {
               $reportQuery = $reportQuery->orderBy('match_standing.won','desc');
+              $check_head_to_head_with_key .= '|won';
             }
             if($rule['key'] == 'goal_ratio') {
               $reportQuery = $reportQuery->orderBy('GoalRatio','desc');
+              $check_head_to_head_with_key .= '|GoalRatio';
             }
+          }
+
+
+          if ( !empty($check_head_to_head_with_key) )
+          {
+            $check_head_to_head_with_key = ltrim($check_head_to_head_with_key,'|');
+          }
+
+          if ( !empty($remain_head_to_head_with_key) )
+          {
+            $remain_head_to_head_with_key = ltrim($remain_head_to_head_with_key,'|');
           }
 
           $reportQuery = $reportQuery->orderBy('match_standing.team_id','asc');
@@ -632,12 +686,286 @@ class MatchRepository
 
           $holdingTeamStandings = collect($allStandingDataArray);
           $competitionStandings = $reportQuery->get();
+          if ( $head_to_head == true )
+          {
+            $competitionStandings = json_decode(json_encode($competitionStandings), True);
+            list($competitionStandings,$sort_head_to_head) = $this->sortByHeadtoHead($competitionStandings,$check_head_to_head_with_key,$tournamentData['tournamentId'],$tournamentData['competitionId'],$tournamentCompetationTemplatesRecord);
+
+            if ( !empty($remain_head_to_head_with_key) )
+            {
+              $remain_head_to_head_with_key = explode('|',$remain_head_to_head_with_key);
+            }
+
+            if ( $sort_head_to_head == '1') {
+              $head_to_head_position_sorting = array();           
+              $internal_head_to_head_position_sorting = array();  
+              foreach ($competitionStandings as $comp_stand_key => $comp_stand_value) {
+                $head_to_head_position_sorting[$comp_stand_key] = (int)$comp_stand_value['head_to_head_position'];
+                $internal_head_to_head_position_sorting[$comp_stand_key] = (int)$comp_stand_value['internal_head_to_head_position'];
+                
+              }
+              
+              array_multisort($internal_head_to_head_position_sorting,SORT_ASC,$competitionStandings);
+
+              $sortArray[] = &$head_to_head_position_sorting; 
+              $sortArray[] = SORT_ASC;
+
+              $remainingSorting = array();
+              foreach ($remain_head_to_head_with_key as $rkey => $rvalue) {
+                foreach ($competitionStandings as $comp_stand_key => $comp_stand_value) {
+                  $remainingSorting[$rvalue][$comp_stand_key] = (int)$comp_stand_value[$rvalue];
+                }
+
+                $sortArray[] = &$remainingSorting[$rvalue];
+                $sortArray[] = SORT_DESC;
+              }
+
+              $sortArray[] = &$competitionStandings;
+              call_user_func_array('array_multisort', $sortArray);
+
+            }
+
+            $competitionStandings = collect($competitionStandings);
+
+          }
           // dd($competitionStandings);
           $mergedStandings = $competitionStandings->merge($holdingTeamStandings);
 
           // end
           return $mergedStandings;
     }
+
+    public function sortByHeadtoHead($standingData,$keyConflict,$tournamentId,$compId,$tournamentCompetationTemplatesRecord)
+    {
+
+      if ( gettype($standingData) != 'array')
+      {
+        $standingArray = $standingData->toArray();
+      }
+      else
+      {
+        $standingArray = $standingData;
+      }
+
+      $standingCopyArray = $standingArray;
+      $prepareArrayForh2h = [];
+
+      //preparing array to check conflicted team with 
+      $keyConflictArray = explode('|', $keyConflict);
+      foreach ($standingArray as $key => $value) {
+        // make key unique base on admin sorting selection
+        $finalKey = '';
+        foreach ($keyConflictArray as $cflictkey => $cflictvalue) {
+          $finalKey .= '|'.$value[$cflictvalue];
+        }
+
+        if ( !empty($finalKey) )
+        {
+          $finalKey = ltrim($finalKey,'|');
+        }
+        $prepareArrayForh2h[$finalKey][$key] = $value;
+      }
+
+      $conflictedTeamArray = [];
+      $conflictedTeamids = [];
+
+      //remove conflicted team from main array and send seprate array further for processing
+      foreach ($prepareArrayForh2h as $key => $preparedArray) {
+        if ( sizeof($preparedArray) > 1)
+        {
+          $conflictedTeamArray[$key] = $preparedArray;
+          foreach ($preparedArray as $key1 => $value) {
+            //unset($standingArray[$key1]);
+            $standingArray[$key1]['check_head_to_head'] = true;
+            $conflictedTeamids[$key][$key1] = ( isset($value['teamid']) ) ? $value['teamid'] : $value['team_id'];
+          }
+        }
+      }
+
+      //make virtual league table for head to head functionality
+      $virtual_lt_sorted = array();
+      $virtual_lt_sorted_details = array();
+      foreach ($conflictedTeamArray as $cta => $ctv) {
+        $virtual_lt_sorted[$cta] = $this->headToHeadVirtualLeagueTable($conflictedTeamids,$cta,$ctv,$tournamentId,$compId,$tournamentCompetationTemplatesRecord);
+
+        $virtual_lt_sorted_details[$cta]['total_teams'] = count($virtual_lt_sorted[$cta]);
+        $virtual_lt_sorted_details[$cta]['remaining'] = count($virtual_lt_sorted[$cta]);
+      }
+
+      // make new sorted array
+      if ( !empty($virtual_lt_sorted) )
+      {
+        $pos = 1;
+        foreach ($standingArray as $v_l_key => $v_l_value) {
+          // Fetch team_id and find position
+          if ( !empty($v_l_value['check_head_to_head']) && $v_l_value['check_head_to_head']== 1)
+          {
+            $flag = false;
+            foreach ($virtual_lt_sorted as $vt_key => $vt_value) {
+              $total_group_count = count($vt_value);
+              foreach ($vt_value as $vt_key1 => $vt_value1) {
+
+                if ( !array_key_exists('team_id', $v_l_value) )
+                {
+                  $v_l_value['team_id'] = $v_l_value['teamid'];
+                }
+
+                if ( $vt_value1['team_id'] == $v_l_value['team_id'] && $flag == false)
+                {
+                  //$standingArray[$v_l_key]['head_to_head_position'] = $pos + $vt_key1 ;
+
+                  $standingArray[$v_l_key]['head_to_head_position'] = $pos;
+                  $standingArray[$v_l_key]['internal_head_to_head_position'] = $pos + $vt_key1 ;
+
+                  $flag = true;
+                  $virtual_lt_sorted_details[$vt_key]['remaining'] = $virtual_lt_sorted_details[$vt_key]['remaining'] - 1;
+
+                  if ( $virtual_lt_sorted_details[$vt_key]['remaining'] == 0)
+                  {
+                    $pos = $pos + $virtual_lt_sorted_details[$vt_key]['total_teams'];
+                  }
+
+                }
+                else
+                {
+                  continue;
+                }
+              }
+            }
+          }
+          else
+          {
+            $standingArray[$v_l_key]['head_to_head_position'] = $pos;
+            $standingArray[$v_l_key]['internal_head_to_head_position'] = $pos;
+            $pos++;
+          }
+        }
+
+        return array($standingArray,'1');
+      }
+      else
+      {
+        return array($standingArray,'0');
+      }
+
+    }
+
+    public function headToHeadVirtualLeagueTable($conflictedTeamids,$cta,$ctv,$tournamentId,$compId,$tournamentCompetationTemplatesRecord)
+    {
+      //merge conflicted teams
+      $teamids = $conflictedTeamids[$cta];
+
+      // Fetch fixture from DB and make virtual league table for above teams
+      $virtualLegaueTable = [];
+      $fixturesOfConflictedTeams = DB::table('temp_fixtures')->where('tournament_id',$tournamentId)
+        ->where('competition_id',$compId)->where('round','Round Robin')
+        ->whereIn('home_team',$teamids)->whereIn('away_team',$teamids)
+        ->get();
+
+
+      foreach ($fixturesOfConflictedTeams as $fkey => $fvalue) {
+        $homeTeam = $fvalue->home_team;
+        $awayTeam = $fvalue->away_team;
+
+        if ( !array_key_exists($homeTeam, $virtualLegaueTable))
+        {
+          $virtualLegaueTable[$homeTeam]['team_id'] =  $homeTeam;
+          $virtualLegaueTable[$homeTeam]['played'] =  0;
+          $virtualLegaueTable[$homeTeam]['won'] =  0;
+          $virtualLegaueTable[$homeTeam]['draws'] =  0;
+          $virtualLegaueTable[$homeTeam]['lost'] =  0;
+          $virtualLegaueTable[$homeTeam]['goal_for'] =  0;
+          $virtualLegaueTable[$homeTeam]['goal_against'] =  0;
+          $virtualLegaueTable[$homeTeam]['team_name'] = $fvalue->home_team_name;
+
+        }
+
+        if ( !array_key_exists($awayTeam, $virtualLegaueTable))
+        {
+          $virtualLegaueTable[$awayTeam]['team_id'] =  $awayTeam;
+          $virtualLegaueTable[$awayTeam]['played'] =  0;
+          $virtualLegaueTable[$awayTeam]['won'] =  0;
+          $virtualLegaueTable[$awayTeam]['draws'] =  0;
+          $virtualLegaueTable[$awayTeam]['lost'] =  0;
+          $virtualLegaueTable[$awayTeam]['goal_for'] =  0;
+          $virtualLegaueTable[$awayTeam]['goal_against'] =  0;
+          $virtualLegaueTable[$awayTeam]['team_name'] = $fvalue->away_team_name;
+        }
+
+        // Find winner
+        $virtualLegaueTable[$homeTeam]['played'] = $virtualLegaueTable[$homeTeam]['played']+1;
+        $virtualLegaueTable[$awayTeam]['played'] = $virtualLegaueTable[$awayTeam]['played']+1;
+
+        // if home team won then set below data
+        if ( $fvalue->hometeam_score > $fvalue->awayteam_score )
+        {
+          // set Home team data
+          $virtualLegaueTable[$homeTeam]['won'] = $virtualLegaueTable[$homeTeam]['won']+1;
+          $virtualLegaueTable[$homeTeam]['goal_for'] = $virtualLegaueTable[$homeTeam]['goal_for']+$fvalue->hometeam_score;
+          $virtualLegaueTable[$homeTeam]['goal_against'] = $virtualLegaueTable[$homeTeam]['goal_against']+$fvalue->awayteam_score;
+
+
+          //set Away team data
+          $virtualLegaueTable[$awayTeam]['lost'] = $virtualLegaueTable[$awayTeam]['lost']+1;
+          $virtualLegaueTable[$awayTeam]['goal_for'] = $virtualLegaueTable[$awayTeam]['goal_for']+$fvalue->awayteam_score;
+          $virtualLegaueTable[$awayTeam]['goal_against'] = $virtualLegaueTable[$awayTeam]['goal_against']+$fvalue->hometeam_score;
+        }
+
+        // if away team won then set below data
+        if ( $fvalue->awayteam_score > $fvalue->hometeam_score )
+        {
+          // set Home team data
+          $virtualLegaueTable[$homeTeam]['lost'] = $virtualLegaueTable[$homeTeam]['lost']+1;
+          $virtualLegaueTable[$homeTeam]['goal_for'] = $virtualLegaueTable[$homeTeam]['goal_for']+$fvalue->hometeam_score;
+          $virtualLegaueTable[$homeTeam]['goal_against'] = $virtualLegaueTable[$homeTeam]['goal_against']+$fvalue->awayteam_score;
+
+
+          //set Away team data
+          $virtualLegaueTable[$awayTeam]['won'] = $virtualLegaueTable[$awayTeam]['won']+1;
+          $virtualLegaueTable[$awayTeam]['goal_for'] = $virtualLegaueTable[$awayTeam]['goal_for']+$fvalue->awayteam_score;
+          $virtualLegaueTable[$awayTeam]['goal_against'] = $virtualLegaueTable[$awayTeam]['goal_against']+$fvalue->hometeam_score;
+        }
+
+        // if match draw then set below data
+        if ( $fvalue->awayteam_score == $fvalue->hometeam_score )
+        {
+          // set Home team data
+          $virtualLegaueTable[$homeTeam]['draws'] = $virtualLegaueTable[$homeTeam]['draws']+1;
+          $virtualLegaueTable[$homeTeam]['goal_for'] = $virtualLegaueTable[$homeTeam]['goal_for']+$fvalue->hometeam_score;
+          $virtualLegaueTable[$homeTeam]['goal_against'] = $virtualLegaueTable[$homeTeam]['goal_against']+$fvalue->awayteam_score;
+
+
+          //set Away team data
+          $virtualLegaueTable[$awayTeam]['draws'] = $virtualLegaueTable[$awayTeam]['draws']+1;
+          $virtualLegaueTable[$awayTeam]['goal_for'] = $virtualLegaueTable[$awayTeam]['goal_for']+$fvalue->awayteam_score;
+          $virtualLegaueTable[$awayTeam]['goal_against'] = $virtualLegaueTable[$awayTeam]['goal_against']+$fvalue->hometeam_score;
+        }
+      }
+
+      // calculate goal difference and points and sorting virtual league table base on points,goal difference,goals for, team name
+      $points_array = $goal_difference = $goal_for = $teamName = array();
+      foreach ($virtualLegaueTable as $vkey => $vvalue) {
+        $virtualLegaueTable[$vkey]['GoalDifference'] = $vvalue['goal_for'] - $vvalue['goal_against'];
+
+        $won_point = $tournamentCompetationTemplatesRecord->win_point;
+        $loss_point = $tournamentCompetationTemplatesRecord->loss_point;
+        $draw_point = $tournamentCompetationTemplatesRecord->draw_point;
+
+        $virtualLegaueTable[$vkey]['points'] = ($won_point*$vvalue['won']) + ($draw_point*$vvalue['draws']) + ($loss_point*$vvalue['lost']);
+
+        $points_array[$vkey] = (int)$virtualLegaueTable[$vkey]['points'];
+        $goal_difference[$vkey] = (int)$virtualLegaueTable[$vkey]['GoalDifference'];
+        $goal_for[$vkey] = (int)$vvalue['goal_for'];
+        $teamName[$vkey] = $vvalue['team_name'];
+
+      }
+
+      array_multisort($points_array, SORT_DESC,$goal_difference, SORT_DESC,$goal_for,SORT_DESC,$teamName, SORT_ASC,$virtualLegaueTable);
+
+
+      return $virtualLegaueTable;
+    }
+
     public function getDrawTable($tournamentData){
 
        $isMatchExist = false;
@@ -1269,5 +1597,21 @@ class MatchRepository
       }
       // $competition = Competition::find($competitionId);
 
+    }
+
+    public function matchUnscheduledFixtures($matchId)
+    {
+      $updateMatchUnscheduledRecord = [
+        'is_scheduled' => 0,
+        'pitch_id' => 0,
+        'referee_id' => NULL,
+        'hometeam_score' => NULL,
+        'awayteam_score' => NULL,
+        'match_datetime' => NULL,
+        'match_endtime' => NULL,
+        'venue_id' => 0,
+      ];
+
+        $updateMacthFixtures = TempFixture::whereIn('id', $matchId['matchId'])->update($updateMatchUnscheduledRecord);
     }
 }

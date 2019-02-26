@@ -66,6 +66,9 @@ import LayoutUserManagement from './views/layouts/LayoutUserManagement.vue'
 // Template management Layout
 import LayoutTemplateManagement from './views/layouts/LayoutTemplateManagement.vue'
 
+// Duplicate Tournament Layout
+import LayoutDuplicateTournament from './views/layouts/LayoutDuplicateTournament.vue'
+
 //User Pages
 import UserList from './views/admin/users/List.vue'
 
@@ -211,6 +214,15 @@ const routes = [
         component: LayoutTemplateManagement,
         meta: { requiresAuth: true },
         name: 'templates_list'
+    },
+
+
+    // Duplicate tournament copy routes
+    {
+        path: '/tournaments',
+        component: LayoutDuplicateTournament,
+        meta: { requiresAuth: true },
+        name: 'duplicate_tournament_copy'
     },
 
     // Web site routes

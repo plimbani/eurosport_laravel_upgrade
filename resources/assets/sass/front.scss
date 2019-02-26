@@ -423,6 +423,14 @@ table#Competition-modal-table {
     height: 100%;
 }
 
+.match-unschedule-checkbox-div {
+    position: absolute;
+    bottom: 3px;
+    width: 23px;
+    left: 3px;
+    height: 23px;
+}
+
 .scheduled-match-content {
     height: 100%;
     position: relative;
@@ -1150,9 +1158,8 @@ a.aecor-anchor {
     text-decoration: underline;
     color: #757575;
 }
-.add-category-table tr td,
-.add-category-table tr th{
-    padding: 0.5rem;
+.add-category-table tr td, .add-category-table tr th {
+    padding: 0.5rem 0.2rem;
 }
 .delete-day-link,.delete-day-link:hover{
     text-decoration:underline;
@@ -1166,6 +1173,18 @@ a.active-view,
 a.active-view:hover {
     text-decoration: underline;
     @extend .text-primary;
+}
+
+#age_category_block {
+    position: relative;
+    &.is-fixed {
+        position: fixed;
+        top: 60px;
+        z-index: 99;
+        width: auto;
+        left: 57px;
+        right: 57px;
+    }
 }
 
 .displayGraphicImage .modal-dialog{

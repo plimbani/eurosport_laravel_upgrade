@@ -133,6 +133,7 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
     //MatchResult api
     $api->post('match/schedule', 'Laraspace\Api\Controllers\MatchController@scheduleMatch');
     $api->post('match/unschedule', 'Laraspace\Api\Controllers\MatchController@unscheduleMatch');
+    $api->post('match/fixtureUnschedule', 'Laraspace\Api\Controllers\MatchController@matchUnscheduledFixtures');
 
     $api->post('match/detail', 'Laraspace\Api\Controllers\MatchController@getMatchDetail');
     $api->post('match/removeAssignedReferee', 'Laraspace\Api\Controllers\MatchController@removeAssignedReferee');
@@ -271,6 +272,11 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
     
     $api->post('age_group/copyAgeCategory','Laraspace\Api\Controllers\AgeGroupController@copyAgeCategory');
     $api->post('viewGraphicImage','Laraspace\Api\Controllers\AgeGroupController@viewTemplateGraphicImage');
+
+    $api->post('duplicateTournament','Laraspace\Api\Controllers\TournamentController@duplicateTournament');
+    
+    $api->post('duplicateTournamentList','Laraspace\Api\Controllers\TournamentController@duplicateTournamentList');
+
 });
 
 // Websites CMS routes
