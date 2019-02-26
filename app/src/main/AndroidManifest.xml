@@ -51,9 +51,9 @@
         <activity
             android:name=".activity.FavouritesActivity"
             android:label="@string/title_activity_favourites"
-            android:windowSoftInputMode="adjustPan"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".activity.LandingActivity"
             android:screenOrientation="portrait" />
@@ -77,7 +77,7 @@
             android:screenOrientation="portrait"
             android:taskAffinity=""
             android:theme="@android:style/Theme.Dialog"
-            android:windowSoftInputMode="adjustPan"  />
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".activity.ForgotPasswordActivity"
             android:screenOrientation="portrait" />
@@ -134,8 +134,12 @@
         <activity
             android:name=".activity.VenueMapActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.FinalPlacingMatchesActivity" 
-		    android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.FinalPlacingMatchesActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.FullScreenImageActivity"
+            android:screenOrientation="landscape" />
 
         <service android:name=".MyFirebaseInstanceIdService">
             <intent-filter>

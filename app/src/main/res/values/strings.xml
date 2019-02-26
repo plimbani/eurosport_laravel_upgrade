@@ -25,6 +25,8 @@
     <string name="confirm_password">Confirm password</string>
     <string name="surname">Surname</string>
     <string name="firstname">First name</string>
+
+    <string name="role">Select role</string>
     <string name="error">Error</string>
     <string name="button_ok">Ok</string>
     <string name="select_tournament">Select tournament</string>
@@ -144,7 +146,7 @@
     <string name="placing">Placing: </string>
     <string name="preview">Preview</string>
     <string name="preview_message">This tournament is currently in preview status. More details about the tournament will be available nearer the start date.</string>
-    <string name="role">Role</string>
+    <string name="select_role">Role</string>
     <string name="select_your_country">Select your country</string>
 
     <string-array name="role_array">
@@ -167,6 +169,7 @@
     <string name="october">October</string>
     <string name="november">November</string>
     <string name="december">December</string>
+    <string name="view_graphic"><u>View schedule</u></string>
 
     <string name="jan">Jan</string>
     <string name="feb">Feb</string>
@@ -239,16 +242,14 @@
         <item>@string/nov</item>
         <item>@string/dec</item>
     </string-array>
-	
-	
-	    <string name="enter_tournament_code_to_start">Enter a tournament code to get started</string>
+
+
+    <string name="enter_tournament_code_to_start">Enter a tournament code to get started</string>
     <string name="enter_code_to_follow_another_tournament">Enter a code to follow another tournament</string>
     <string name="tournament_code">Tournament code</string>
     <string name="submit">Submit</string>
     <string name="tournament_not_available">This tournament is no longer available</string>
     <string name="tournament_code_not_recognised">The tournament code was not recognised</string>
 
-	
-	
-	
+
 </resources>

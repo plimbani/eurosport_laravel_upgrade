@@ -22,6 +22,7 @@ import android.widget.TextView;
 
 import com.aecor.eurosports.R;
 import com.aecor.eurosports.adapter.CountrySpinnerAdapter;
+import com.aecor.eurosports.adapter.RoleSpinnerAdapter;
 import com.aecor.eurosports.gson.GsonConverter;
 import com.aecor.eurosports.http.VolleyJsonObjectRequest;
 import com.aecor.eurosports.http.VolleySingeltone;
@@ -80,11 +81,11 @@ public class ProfileActivity extends BaseAppCompactActivity {
     private String mSelectedCountryId;
     private List<CountriesModel> mCountryList;
     private String[] roleArray;
-    private String mSelectedRole = "";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         setContentView(R.layout.profile);
+        selectedTabName = AppConstants.SCREEN_CONSTANT_USER_SETTINGS;
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
         initView();
@@ -92,45 +93,9 @@ public class ProfileActivity extends BaseAppCompactActivity {
 
     private void setRoleAdapter() {
         roleArray = mContext.getResources().getStringArray(R.array.role_array);
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this, R.layout.row_spinner_item, R.id.tv_spinner, roleArray) {
-
-            @Override
-            public boolean isEnabled(int position) {
-                return position != 0;
-            }
-
-            @Override
-            public boolean areAllItemsEnabled() {
-                return false;
-            }
-
-            @Override
-            public View getDropDownView(int position, View convertView, ViewGroup parent) {
-                View v = convertView;
-                if (v == null) {
-                    Context mContext = this.getContext();
-                    LayoutInflater vi = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                    v = vi.inflate(R.layout.row_spinner_item, null);
-                }
-
-                TextView tv = (TextView) v.findViewById(R.id.tv_spinner);
-                tv.setText(roleArray[position]);
-
-                switch (position) {
-                    case 0:
-                        tv.setTextColor(Color.GRAY);
-                        break;
-
-                    default:
-                        tv.setTextColor(Color.BLACK);
-                        break;
-                }
-                return v;
-            }
-        };
-
-        sp_role.setAdapter(spinnerAdapter);
-//        sp_role.setSelection(0);
+        RoleSpinnerAdapter mSpinnerAdapter = new RoleSpinnerAdapter(this, roleArray);
+        sp_role.setAdapter(mSpinnerAdapter);
+        sp_role.setSelection(0);
 
     }
 
@@ -152,14 +117,14 @@ public class ProfileActivity extends BaseAppCompactActivity {
                 mAppPref.setString(AppConstants.PREF_USER_LOCALE, selectedLocale);
                 mAppPref.setString(AppConstants.LANGUAGE_SELECTION, selectedLocale);
                 mAppPref.setString(AppConstants.PREF_COUNTRY_ID, mSelectedCountryId);
-                mAppPref.setString(AppConstants.PREF_ROLE, mSelectedRole);
+                mAppPref.setString(AppConstants.PREF_ROLE, sp_role.getSelectedItem().toString());
 
                 requestJson.put("first_name", input_first_name.getText().toString().trim());
                 requestJson.put("last_name", input_last_name.getText().toString().trim());
                 requestJson.put("locale", selectedLocale);
                 requestJson.put("user_id", user_id);
-                if (!Utility.isNullOrEmpty(mSelectedRole)) {
-                    requestJson.put("role", mSelectedRole);
+                if (!sp_role.getSelectedItem().toString().equalsIgnoreCase(getString(R.string.role))) {
+                    requestJson.put("role", sp_role.getSelectedItem().toString());
                 }
                 if (!Utility.isNullOrEmpty(mSelectedCountryId)) {
                     requestJson.put("country_id", mSelectedCountryId);
@@ -267,7 +232,6 @@ public class ProfileActivity extends BaseAppCompactActivity {
         } else {
             for (int i = 0; i < roleArray.length; i++) {
                 if (roleArray[i].equalsIgnoreCase(mAppPref.getString(AppConstants.PREF_ROLE))) {
-                    mSelectedRole = roleArray[i];
                     sp_role.setSelection(i);
                     break;
                 }
@@ -315,9 +279,6 @@ public class ProfileActivity extends BaseAppCompactActivity {
         sp_role.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position > 0) {
-                    mSelectedRole = sp_role.getSelectedItem().toString();
-                }
                 checkValidation();
             }
 
@@ -396,7 +357,6 @@ public class ProfileActivity extends BaseAppCompactActivity {
         } else {
             for (int i = 1; i < mCountryList.size(); i++) {
                 if (mCountryList.get(i).getId().equalsIgnoreCase(mAppPref.getString(AppConstants.PREF_COUNTRY_ID))) {
-                    mSelectedCountryId = mCountryList.get(i).getId();
                     sp_country.setSelection(i);
                     break;
                 }
@@ -407,27 +367,55 @@ public class ProfileActivity extends BaseAppCompactActivity {
     private boolean validate() {
         String fname = input_first_name.getText().toString().trim();
         String sname = input_last_name.getText().toString().trim();
-
+        addOrRemoveBorder();
         if (Utility.isNullOrEmpty(fname)) {
-            return false;
-        }
-        if (Utility.isNullOrEmpty(mSelectedCountryId)) {
-            return false;
-        }
-        if (Utility.isNullOrEmpty(mSelectedRole)) {
-            return false;
-        }
-
-        AppLogger.LogE(TAG, "" + sp_role.getSelectedItem().toString());
-        if (Utility.isNullOrEmpty(sp_role.getSelectedItem().toString())
-                || sp_role.getSelectedItem().toString().equalsIgnoreCase(getString(R.string.role))) {
             return false;
         }
 
         if (Utility.isNullOrEmpty(sname)) {
             return false;
         }
+
+        if (Utility.isNullOrEmpty(mSelectedCountryId)) {
+            return false;
+        }
+        if (Utility.isNullOrEmpty(sp_role.getSelectedItem().toString())
+                && sp_role.getSelectedItem().toString().equalsIgnoreCase(getString(R.string.role))) {
+
+            return false;
+        }
+
+
         return true;
+    }
+
+    private void addOrRemoveBorder() {
+        String fname = input_first_name.getText().toString().trim();
+        String sname = input_last_name.getText().toString().trim();
+
+        if (Utility.isNullOrEmpty(fname)) {
+            input_first_name.setBackgroundResource(R.drawable.edittext_border_red);
+        } else {
+            input_first_name.setBackgroundResource(R.drawable.edittext_border);
+        }
+
+        if (Utility.isNullOrEmpty(sname)) {
+            input_last_name.setBackgroundResource(R.drawable.edittext_border_red);
+        } else {
+            input_last_name.setBackgroundResource(R.drawable.edittext_border);
+        }
+
+        if (Utility.isNullOrEmpty(mSelectedCountryId)) {
+            sp_country.setBackgroundResource(R.drawable.spinner_bg_image_gray_error);
+        } else {
+            sp_country.setBackgroundResource(R.drawable.spinner_bg_image_gray);
+        }
+        if (sp_role.getSelectedItem().toString().equalsIgnoreCase(getString(R.string.role))) {
+            sp_role.setBackgroundResource(R.drawable.spinner_bg_image_gray_error);
+
+        } else {
+            sp_role.setBackgroundResource(R.drawable.spinner_bg_image_gray);
+        }
     }
 
     private void checkValidation() {
