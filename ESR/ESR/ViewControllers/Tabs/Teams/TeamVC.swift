@@ -17,6 +17,8 @@ class TeamVC: SuperViewController {
     @IBOutlet var lblCountry: UILabel!
     @IBOutlet var imgCountry: UIImageView!
     @IBOutlet var lblGroup: UILabel!
+    @IBOutlet var btnViewSchedule: UIButton!
+    @IBOutlet var heightConstraintBtnViewSchedule: NSLayoutConstraint!
     
     @IBOutlet var sectionMatchView: UIView!
     @IBOutlet var sectionGroupView: UIView!
@@ -39,6 +41,12 @@ class TeamVC: SuperViewController {
     var dicTableData = NSMutableDictionary()
     
     var rotateToPortrait = false
+    var viewGraphicImgURL = NULL_STRING
+    
+    let btnViewScheduleAttributes : [NSAttributedStringKey: Any] = [
+        NSAttributedStringKey.font : UIFont.init(name: Font.HELVETICA_REGULAR, size: 15.0),
+        NSAttributedStringKey.foregroundColor : UIColor.viewScheduleBlue,
+        NSAttributedStringKey.underlineStyle : NSUnderlineStyle.styleSingle.rawValue]
     
     private enum SectionIndex: String {
         case group = "0"
@@ -75,6 +83,9 @@ class TeamVC: SuperViewController {
         lblMatchViewNoLeagueData.text = String.localize(key: "string_no_league_data")
         lblGroupViewNoLeagueData.text = String.localize(key: "string_no_league_data")
         
+        btnViewSchedule.setAttributedTitle(NSMutableAttributedString(string: "View schedule",
+                                                                     attributes: btnViewScheduleAttributes), for: .normal)
+        
         // Checks internet connectivity
         setConstraintLblNoInternet(APPDELEGATE.reachability.connection == .none)
         
@@ -92,6 +103,7 @@ class TeamVC: SuperViewController {
         heightTeamListCell = (cellOwner.cell as! TeamListCell).getCellHeight()
         
         ApplicationData.setBorder(view: tableViewHeaderInnerContiner, Color: .btnDisable, CornerRadius: 0.0, Thickness: 1.0)
+        tableViewHeader.frame.size = CGSize(width:table.frame.width, height: 120)
         table.tableHeaderView = tableViewHeader
         setHeaderValues()
         
@@ -104,6 +116,12 @@ class TeamVC: SuperViewController {
     
     deinit {
         NotificationCenter.default.removeObserver(self, name: .internetConnectivity, object: nil)
+    }
+    
+    @IBAction func btnViewSchedulePressed(_ sender: UIButton) {
+        let viewController = Storyboards.Main.instantiateViewScheduleImageVC()
+        viewController.imgURL = viewGraphicImgURL
+        self.navigationController?.pushViewController(viewController, animated: true)
     }
     
     @objc func showHideNoInternetView(_ notification: NSNotification) {
@@ -146,7 +164,33 @@ class TeamVC: SuperViewController {
             }
         }
         
+        if let text = dicTeam.value(forKey: "age_group_id") as? Int {
+            sendGetViewGraphicImageRequest(ageGroupId: text)
+        }
+        
         lblTeamName.text = name
+    }
+    
+    func sendGetViewGraphicImageRequest(ageGroupId: Int) {
+        if APPDELEGATE.reachability.connection == .none {
+            return
+        }
+        
+        var parameters: [String: Any] = [:]
+        parameters["age_category"] = "\(ageGroupId)"
+        
+        ApiManager().getViewGraphicImage(parameters, success: { result in
+            DispatchQueue.main.async {
+                if let imgURL = result as? String {
+                    self.heightConstraintBtnViewSchedule.constant = 30
+                    self.viewGraphicImgURL = imgURL
+                    self.tableViewHeader.frame.size = CGSize(width: self.table.frame.width, height: 155)
+                    self.table.tableHeaderView?.layoutIfNeeded()
+                } else {
+                    self.heightConstraintBtnViewSchedule.constant = 0
+                }
+            }
+        }, failure: { result in })
     }
     
     func sendGetFixturesRequest() {

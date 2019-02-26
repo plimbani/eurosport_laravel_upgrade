@@ -40,6 +40,8 @@ class ClubListVC: SuperViewController {
         // Height for cell
         _ = cellOwner.loadMyNibFile(nibName: kNiB.Cell.TournamentClubCell)
         heightTournamentClubCell = (cellOwner.cell as! TournamentClubCell).getCellHeight()
+        
+        hideKeyboardWhenTappedAround()
     }
     
     @objc func textFieldDidChange(textField: UITextField) {

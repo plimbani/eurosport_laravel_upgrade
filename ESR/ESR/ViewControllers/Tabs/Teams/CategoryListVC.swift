@@ -57,6 +57,8 @@ class CategoryListVC: SuperViewController {
         } else {
             heightConstraintTitleNavigationBar.constant = 0
         }
+        
+        hideKeyboardWhenTappedAround()
     }
     
     @objc func textFieldDidChange(textField: UITextField) {

@@ -132,14 +132,6 @@ extension TeamListingVC: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        if isClubTeam {
-            
-        } else if isClubsCategoryTeam {
-            
-        } else if isClubsGroupTeam {
-            
-        }
-        
         let viewController = Storyboards.Teams.instantiateTeamVC()
         viewController.dicTeam = teamList[indexPath.row] as! NSDictionary
         self.navigationController?.pushViewController(viewController, animated: true)

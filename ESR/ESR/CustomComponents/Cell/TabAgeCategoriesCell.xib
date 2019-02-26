@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -22,22 +23,33 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="748" text="long text text long long long" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="049-ah-tHA">
-                        <rect key="frame" x="15" y="12" width="212" height="20"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="748" text="long text text long long" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="049-ah-tHA">
+                        <rect key="frame" x="15" y="12" width="140" height="20"/>
                         <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L0N-co-rEj">
-                        <rect key="frame" x="262" y="7" width="0.0" height="30"/>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="L0N-co-rEj">
+                        <rect key="frame" x="190" y="8.5" width="95" height="27"/>
                         <constraints>
-                            <constraint firstAttribute="width" id="5HL-xo-B0z"/>
+                            <constraint firstAttribute="width" constant="95" id="cXP-5e-oPj"/>
                         </constraints>
-                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
                         <inset key="titleEdgeInsets" minX="1" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        <state key="normal">
+                            <attributedString key="attributedTitle">
+                                <fragment content="View schedule">
+                                    <attributes>
+                                        <font key="NSFont" size="13" name="HelveticaNeue"/>
+                                    </attributes>
+                                </fragment>
+                            </attributedString>
+                        </state>
+                        <connections>
+                            <action selector="btnViewSchedulePressed:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="giX-Au-DdF"/>
+                        </connections>
                     </button>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ahb-dy-qdH">
-                        <rect key="frame" x="237" y="9.5" width="25" height="25"/>
+                        <rect key="frame" x="165" y="9.5" width="25" height="25"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="25" id="1dK-N4-1AZ"/>
                             <constraint firstAttribute="height" constant="25" id="dKE-s5-bcP"/>
@@ -66,7 +78,7 @@
                 <constraints>
                     <constraint firstItem="L0N-co-rEj" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="1UA-gG-2Vd"/>
                     <constraint firstAttribute="trailing" secondItem="UAR-yq-2kq" secondAttribute="trailing" id="7pA-aD-cpT"/>
-                    <constraint firstItem="UAR-yq-2kq" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="L0N-co-rEj" secondAttribute="trailing" constant="30" id="Fvd-Yz-H16"/>
+                    <constraint firstItem="UAR-yq-2kq" firstAttribute="trailing" secondItem="L0N-co-rEj" secondAttribute="trailing" constant="35" id="Fvd-Yz-H16"/>
                     <constraint firstAttribute="bottom" secondItem="UAR-yq-2kq" secondAttribute="bottom" id="HgD-1D-MOZ"/>
                     <constraint firstItem="L0N-co-rEj" firstAttribute="leading" secondItem="ahb-dy-qdH" secondAttribute="trailing" id="PYE-Dy-eDc"/>
                     <constraint firstItem="UAR-yq-2kq" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="Ub4-lK-6b2"/>
@@ -81,8 +93,10 @@
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
                 <outlet property="btnInfo" destination="ahb-dy-qdH" id="jP9-jc-M6t"/>
+                <outlet property="btnViewSchedule" destination="L0N-co-rEj" id="qsC-29-P63"/>
                 <outlet property="lblTitle" destination="049-ah-tHA" id="htO-Q4-w0h"/>
                 <outlet property="widthConstraintBtnInfo" destination="1dK-N4-1AZ" id="3v0-n0-204"/>
+                <outlet property="widthConstraintBtnViewSchedule" destination="cXP-5e-oPj" id="EjT-BD-ViA"/>
             </connections>
         </tableViewCell>
     </objects>

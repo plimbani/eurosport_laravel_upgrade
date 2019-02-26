@@ -55,6 +55,7 @@
 		30181D81212AF0590067D65F /* SettingsList.plist in Resources */ = {isa = PBXBuildFile; fileRef = 30181D80212AF0590067D65F /* SettingsList.plist */; };
 		301D9C02222407A400EF8E76 /* CustomAlertVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301D9C01222407A400EF8E76 /* CustomAlertVC.swift */; };
 		301D9C042224184A00EF8E76 /* CustomAlertTwoBtnVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301D9C032224184A00EF8E76 /* CustomAlertTwoBtnVC.swift */; };
+		301D9C062225228D00EF8E76 /* ViewScheduleImageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301D9C052225228D00EF8E76 /* ViewScheduleImageVC.swift */; };
 		30371E09220450A50000814A /* AppExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30371E08220450A50000814A /* AppExtensions.swift */; };
 		30371E0A220450A50000814A /* AppExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30371E08220450A50000814A /* AppExtensions.swift */; };
 		305693FE212BEABC009790BA /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 305693FD212BEABC009790BA /* ProfileVC.swift */; };
@@ -278,6 +279,7 @@
 		30181D80212AF0590067D65F /* SettingsList.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = SettingsList.plist; sourceTree = "<group>"; };
 		301D9C01222407A400EF8E76 /* CustomAlertVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlertVC.swift; sourceTree = "<group>"; };
 		301D9C032224184A00EF8E76 /* CustomAlertTwoBtnVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlertTwoBtnVC.swift; sourceTree = "<group>"; };
+		301D9C052225228D00EF8E76 /* ViewScheduleImageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewScheduleImageVC.swift; sourceTree = "<group>"; };
 		3033AE99216E062600C19FCD /* MBCircularProgressBar.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MBCircularProgressBar.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		30371E08220450A50000814A /* AppExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppExtensions.swift; sourceTree = "<group>"; };
 		305693FD212BEABC009790BA /* ProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVC.swift; sourceTree = "<group>"; };
@@ -512,6 +514,7 @@
 				30181CD8211D98720067D65F /* SuperViewController.swift */,
 				301D9C01222407A400EF8E76 /* CustomAlertVC.swift */,
 				301D9C032224184A00EF8E76 /* CustomAlertTwoBtnVC.swift */,
+				301D9C052225228D00EF8E76 /* ViewScheduleImageVC.swift */,
 				30181D242121A91A0067D65F /* Login */,
 				30181CFD211DB8840067D65F /* Tabs */,
 			);
@@ -994,6 +997,7 @@
 				30181CDF211D9DFF0067D65F /* ApplicationData.swift in Sources */,
 				307542AF21745D03003715C7 /* TextViewCell.swift in Sources */,
 				30FB3121213579FE00ABA22A /* GroupSummaryStandingsHeader.swift in Sources */,
+				301D9C062225228D00EF8E76 /* ViewScheduleImageVC.swift in Sources */,
 				30AF116E21BBDD7000BE50F4 /* TeamListCell.swift in Sources */,
 				30181D502126BB520067D65F /* ApiManager.swift in Sources */,
 				30181D08211DBA1B0067D65F /* TabTeamsVC.swift in Sources */,

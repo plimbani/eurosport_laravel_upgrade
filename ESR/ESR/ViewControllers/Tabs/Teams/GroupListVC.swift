@@ -40,6 +40,8 @@ class GroupListVC: SuperViewController {
         // Height for cell
         _ = cellOwner.loadMyNibFile(nibName: kNiB.Cell.AgeCategoryCell)
         heightAgeCategoryCell = (cellOwner.cell as! AgeCategoryCell).getCellHeight()
+        
+        hideKeyboardWhenTappedAround()
     }
     
     @objc func textFieldDidChange(textField: UITextField) {

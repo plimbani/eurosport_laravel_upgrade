@@ -81,7 +81,9 @@ struct Storyboards {
             return self.storyboard.instantiateViewController(withIdentifier: kViewController.CustomAlertTwoBtnVC) as! CustomAlertTwoBtnVC
         }
         
-        
+        static func instantiateViewScheduleImageVC() -> ViewScheduleImageVC {
+            return self.storyboard.instantiateViewController(withIdentifier: kViewController.ViewScheduleImageVC) as! ViewScheduleImageVC
+        }
     }
     
     struct Favourites: Storyboard {

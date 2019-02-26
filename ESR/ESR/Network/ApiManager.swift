@@ -189,4 +189,22 @@ class ApiManager {
     func getMatchFixtures(_ parameters: [String: Any]?, success: @escaping (_ result: NSDictionary) -> (), failure: @escaping (_ result: NSDictionary) -> ()) {
         postRequest(API_ENDPOINT.TEAM_FIXTURES, parameters, success: success, failure: failure, true)
     }
+    
+    func getViewGraphicImage(_ parameters: [String: Any]?, success: @escaping (_ result: Any) -> (), failure: @escaping (_ result: NSDictionary) -> ()) {
+        // postRequest(API_ENDPOINT.VIEW_GRAPHIC, parameters, success: success, failure: failure, true)
+        
+        Alamofire.request(API_ENDPOINT.VIEW_GRAPHIC, method: .post, parameters: parameters,encoding: JSONEncoding.default, headers: getHeaders(true)).validate(statusCode: 200..<300).responseString { response in
+             switch(response.result) {
+                case .success(_):
+                    if let data = response.result.value{
+                        success(data)
+                    }
+                case .failure(_):
+                    if let data = response.data {
+                        failure(self.getErrorResult(data))
+                    }
+                    break
+                }
+        }
+    }
 }

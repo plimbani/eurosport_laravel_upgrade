@@ -14,9 +14,26 @@ class TabAgeCategoriesVC: SuperViewController {
     var ageCategoriesList = NSArray()
     var heightAgeCategoriesCell: CGFloat = 0
     
+    var rotateToPortrait = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         initialize()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        if rotateToPortrait {
+            APPDELEGATE.deviceOrientation = .portrait
+            let valueOrientation = UIInterfaceOrientation.portrait.rawValue
+            UIDevice.current.setValue(valueOrientation, forKey: "orientation")
+            UIViewController.attemptRotationToDeviceOrientation()
+            self.tabBarController?.tabBar.isHidden = false
+            rotateToPortrait = false
+            
+            if let mainTabViewController = self.parent!.parent as? MainTabViewController {
+                mainTabViewController.hideTabbar(flag: false)
+            }
+        }
     }
     
     func initialize() {
@@ -84,10 +101,18 @@ class TabAgeCategoriesVC: SuperViewController {
 extension TabAgeCategoriesVC: TabAgeCategoriesCellDelegate {
     func tabAgeCategoriesCellBtnInfoPressed(_ indexPath: IndexPath) {
         if let comment = (ageCategoriesList[indexPath.row] as! NSDictionary).value(forKey: "comments") as? String {
-           // showInfoAlertView(title: String.localize(key: "alert_title_comment"), message: comment, buttonTitle: String.localize(key: "btn_close"))
-            
-            self.showCustomAlertVC(title: String.localize(key: "alert_title_success"), message: comment)
+           self.showCustomAlertVC(title: String.localize(key: "alert_title_success"), message: comment)
         }
+    }
+    
+    func tabAgeCategoriesCellBtnViewSchedulePressed(_ indexPath: IndexPath) {
+        let viewController = Storyboards.Main.instantiateViewScheduleImageVC()
+        
+        if let imgURLValue = (ageCategoriesList[indexPath.row] as! NSDictionary).value(forKey: "graphic_image") as? String {
+            viewController.imgURL = imgURLValue
+        }
+        
+        self.navigationController?.pushViewController(viewController, animated: true)
     }
 }
 

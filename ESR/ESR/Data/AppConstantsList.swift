@@ -52,6 +52,8 @@ struct API_ENDPOINT {
     static let GROUP_STANDING = API_URL.BASE_URL + "match/getStanding/yes"
     
     static let UPDATE_FCM = API_URL.BASE_URL + "users/updatefcm"
+    
+    static let VIEW_GRAPHIC = API_URL.BASE_URL + "viewGraphicImage"
 }
 
 struct kViewController {
@@ -89,6 +91,7 @@ struct kViewController {
     static let MapVC                            = "MapVC"
     static let CustomAlertVC                    = "CustomAlertVC"
     static let CustomAlertTwoBtnVC              = "CustomAlertTwoBtnVC"
+    static let ViewScheduleImageVC              = "ViewScheduleImageVC"
 }
 
 enum TabIndex: Int {
@@ -306,6 +309,7 @@ extension UIColor {
     static let txtPlaceholderDisable = UIColor(R: 246, G: 246, B: 246)
     static let txtDefaultTxt = UIColor(R: 81, G: 82, B: 88)
     static let settingsGreenArrow = UIColor(R: 109, G: 167, B: 33)
+    static let viewScheduleBlue = UIColor(R: 45, G: 145, B: 199)
 }
 
 extension String {
