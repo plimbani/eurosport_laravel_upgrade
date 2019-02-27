@@ -203,15 +203,16 @@
             let tournamentDetails = Ls.get('tournamentDetails');
             if (typeof tournamentDetails != "undefined" && tournamentDetails != undefined && tournamentDetails != "null" && tournamentDetails != null) {
                 // console.log("tournamentDetails::",tournamentDetails);
-                this.tournamentData = JSON.parse(tournamentDetails);
-                // console.log("this.tournamentData:",this.tournamentData);
-
+                this.tournamentData = JSON.parse(tournamentDetails); 
+ 
                 let startDateArr = (this.tournamentData.tournament_start_date).split("/");
                 let endDateArr = (this.tournamentData.tournament_end_date).split("/"); 
-                let startDate = moment([startDateArr[2], startDateArr[1], startDateArr[0]]);
-                let endDate = moment([endDateArr[2], endDateArr[1], endDateArr[0]]);
-                this.dayDifference = endDate.diff(startDate, 'days');
-                // console.log("this.dayDifference::",this.dayDifference);
+                let startDateFormat = startDateArr[2]+"/"+startDateArr[1]+"/"+startDateArr[0];
+                let endDateFormat = endDateArr[2]+"/"+endDateArr[1]+"/"+endDateArr[0]; 
+                let startDate = moment(startDateFormat);
+                let endDate = moment(endDateFormat);
+                
+                this.dayDifference = endDate.diff(startDate, 'days'); 
 
             } else {
                 this.$router.push({name: 'login'});
