@@ -101,10 +101,6 @@
 		},
     props: ['tournamentData'],
 
-		mounted() {			
-			// this.getAllCategoriesData();
-		},
-
     watch: {
       tournamentData: function () {
         this.getAllCategoriesData();

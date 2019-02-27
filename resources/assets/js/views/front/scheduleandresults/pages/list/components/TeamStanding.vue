@@ -63,17 +63,11 @@
 		beforeCreate() {
 			this.$root.$off('setStandingData');
 		},
-		// mounted() {
-		// 	this.getStandingData(this.currentCompetitionId);
-		// },
-
 		watch: {
 	      tournamentData: function () {
 	        this.getStandingData(this.currentCompetitionId);
 	      }
 	    },
-
-		
 		methods: {
 			getStandingData(currentCompetitionId) {
 				if(currentCompetitionId != 0) {

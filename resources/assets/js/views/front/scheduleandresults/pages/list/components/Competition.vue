@@ -102,14 +102,12 @@
       this.currentCompetitionId = this.competitionDetail.id;
       
     },
-
     watch: {
       tournamentData: function () {
         this.getCompetitions();
         this.generateDrawTable();
       }
     },
-
 
     filters: {
       formatDate: function(date) {
