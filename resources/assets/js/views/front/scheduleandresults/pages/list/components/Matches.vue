@@ -5,14 +5,14 @@
         <table id="matchSchedule" class="table" v-if="matchData.length > 0">
           <thead class="no-border">
             <tr>
-              <th scope="col">{{ $t('matches.date_and_time') }}</th>
-              <th scope="col">{{ $t('matches.categories') }}</th>
-              <th scope="col">{{ $t('matches.match_codes') }}</th>
-              <th scope="col">{{ $t('matches.team') }}</th>
-              <th scope="col">{{ $t('matches.team') }}</th>
-              <th scope="col">{{ $t('matches.score') }}</th>
-              <th scope="col" v-if="showPlacingForMatch()">{{ $t('matches.placing') }}</th>
-              <th scope="col">{{ $t('matches.location') }}</th>
+              <th scope="col">Date and time</th>
+              <th scope="col">Categories</th>
+              <th scope="col">Match codes</th>
+              <th scope="col">Teams</th>
+              <th scope="col">Teams</th>
+              <th scope="col">Score</th>
+              <th scope="col" v-if="showPlacingForMatch()">Placing</th>
+              <th scope="col">Location</th>
             </tr>
           </thead>
           <tbody>
@@ -61,7 +61,7 @@
         </table>
       </div>
 
-      <div class="no-data h6 text-muted" v-if="matchData.length == 0">{{ $t('matches.no_matches_found') }}</div>
+      <div class="no-data h6 text-muted" v-if="matchData.length == 0">No matches found.</div>
       <paginate v-if="currentView != 'Competition'" name="matchlist" :list="matchData" ref="paginator" :per="noOfRecords" class="paginate-list"></paginate>
       <div v-if="currentView != 'Competition'">
         <!-- <div v-if="matchData.length > 0">

@@ -102,8 +102,14 @@
     props: ['tournamentData'],
 
 		mounted() {			
-			this.getAllCategoriesData();
+			// this.getAllCategoriesData();
 		},
+
+    watch: {
+      tournamentData: function () {
+        this.getAllCategoriesData();
+      }
+    },
     created() {
       this.$root.$on('showCategoryGroups', this.showCategoryGroups);
       this.$root.$on('showCompetitionViewFromCategory', this.showCompetitionViewFromCategory);
@@ -116,7 +122,6 @@
     methods: {
     	getAllCategoriesData() {
     	  let data = {'tournament_id': this.tournamentData.id};
-        console.log(this.tournamentData);
         CategoryList.getAllCategoriesData(data).then(
         (response)=> {
         	this.categories = response.data.data;

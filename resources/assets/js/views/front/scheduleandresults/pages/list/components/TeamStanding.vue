@@ -5,14 +5,14 @@
 				<thead class="no-border">
 					<tr>
 						<th></th>
-						<th class="text-center" scope="col">{{ $t('matches.played') }}</th>
-						<th class="text-center" scope="col">{{ $t('matches.won') }}</th>
-						<th class="text-center" scope="col">{{ $t('matches.draws') }}</th>
-						<th class="text-center" scope="col">{{ $t('matches.lost') }}</th>
-						<th class="text-center" scope="col">{{ $t('matches.for') }}</th>
-						<th class="text-center" scope="col">{{ $t('matches.against') }}</th>
-				    	<th class="text-center" scope="col">{{ $t('matches.difference') }}</th>
-				    	<th class="text-center" scope="col">{{ $t('matches.points') }}</th>
+						<th class="text-center" scope="col">Played</th>
+						<th class="text-center" scope="col">Won</th>
+						<th class="text-center" scope="col">Draws</th>
+						<th class="text-center" scope="col">Lost</th>
+						<th class="text-center" scope="col">For</th>
+						<th class="text-center" scope="col">Against</th>
+				    	<th class="text-center" scope="col">Difference</th>
+				    	<th class="text-center" scope="col">Points</th>
 				    </tr>
 				</thead>
 				<tbody>
@@ -38,7 +38,7 @@
 				</tbody>
 			</table>
 		</div>
-		<span v-if="standingData.length == 0 && competitionType != 'Elimination'">{{ $t('matches.no_information_available') }}</span>
+		<span v-if="standingData.length == 0 && competitionType != 'Elimination'">No information available.</span>
 	</div>
 </template>
 
@@ -63,9 +63,17 @@
 		beforeCreate() {
 			this.$root.$off('setStandingData');
 		},
-		mounted() {
-			this.getStandingData(this.currentCompetitionId);
-		},
+		// mounted() {
+		// 	this.getStandingData(this.currentCompetitionId);
+		// },
+
+		watch: {
+	      tournamentData: function () {
+	        this.getStandingData(this.currentCompetitionId);
+	      }
+	    },
+
+		
 		methods: {
 			getStandingData(currentCompetitionId) {
 				if(currentCompetitionId != 0) {

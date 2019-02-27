@@ -1,7 +1,7 @@
 <template>
   <div>
     <button v-if="fromView == 'Matches'" @click="showMatchListView()" class="btn btn-primary">
-        <i aria-hidden="true" class="fa fa-angle-double-left"></i> {{ $t('matches.back_to_match_list') }}
+        <i aria-hidden="true" class="fa fa-angle-double-left"></i> Back to match list
     </button>
     <button v-if="fromView == 'Categories'" @click="showCompetitionListView()" class="btn btn-primary">
         <i aria-hidden="true" class="fa fa-angle-double-left"></i> Back to competition list
@@ -14,7 +14,7 @@
           <div class="col-10 col-sm-6 col-md-4 col-lg-3 col-xl-3">
             <label class="custom_select_box d-block mb-0" for="match_overview">
               <select v-on:change="onCompetitionChange()"
-          v-model="currentCompetition" id="competition-overview" class="border-0" name="competition-options">
+                v-model="currentCompetition" id="competition-overview" class="border-0" name="competition-options">
                   <option v-for="competition in competitionList"
                   v-bind:value="competition">
                   {{ competition.name }}
@@ -24,9 +24,9 @@
           </div>
         </div>
         <div v-if="competitionDetail.type != 'Elimination'">
-          <h6 class="mt-3 font-weight-bold">{{ competitionDetail.name }} {{ $t('matches.results_grid') }}</h6>
+          <h6 class="mt-3 font-weight-bold">{{ competitionDetail.name }} results grid</h6>
         </div>
-        <span v-if="matchesGrid.length == 0 && competitionDetail.type != 'Elimination'">{{ $t('matches.no_information_available') }}</span>
+        <span v-if="matchesGrid.length == 0 && competitionDetail.type != 'Elimination'">No information available.</span>
     </div>
 
     <div class="table-responsive">
@@ -71,7 +71,7 @@
       </h6>
       <teamStanding :currentCompetitionId="currentCompetitionId" :competitionType="competitionDetail.type" v-if="currentCompetitionId != 0">
       </teamStanding>
-      <div v-if="currentCompetitionId == 0 && competitionDetail.type != 'Elimination'">{{ $t('matches.no_information_available') }}
+      <div v-if="currentCompetitionId == 0 && competitionDetail.type != 'Elimination'">No information available.
       </div>
     </div>
 
@@ -100,9 +100,17 @@
     },
     mounted() {
       this.currentCompetitionId = this.competitionDetail.id;
-      this.getCompetitions();
-      this.generateDrawTable();
+      
     },
+
+    watch: {
+      tournamentData: function () {
+        this.getCompetitions();
+        this.generateDrawTable();
+      }
+    },
+
+
     filters: {
       formatDate: function(date) {
         if (date != null) {
