@@ -51,7 +51,7 @@
                 <span v-if="(match.isResultOverride == '1' && (match.match_status == 'Walk-over' || match.match_status == 'Abandoned') &&match.match_winner == match.Away_id)">*</span>
               </td>
               <td v-if="showPlacingForMatch()">
-                {{ match.position != null ? match.position : N/A }}
+                {{ match.position != null ? match.position : 'N/A' }}
               </td>
               <td>
                 {{ match.venue_name }} - {{ match.pitch_number }}
