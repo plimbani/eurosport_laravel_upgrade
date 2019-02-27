@@ -86,7 +86,7 @@ import dashboard from './views/dashboard/dashboard.vue'
 
 import EnterTournamentAccessCode from './views/tournament/EnterTournamentAccessCode.vue'
 import TournamentDetail from './views/tournament/TournamentDetail.vue'
-//import UsersTournament from './views/userstournament/UsersTournament.vue'
+// import UsersTournament from './views/userstournament/UsersTournament.vue'
 import TournamentsTransaction from './views/tournamentstransaction/TournamentsTransaction.vue'
 
 //User Pages
