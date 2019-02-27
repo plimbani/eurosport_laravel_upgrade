@@ -50,7 +50,8 @@
     </div>
   
     <!-- Competition detail page -->
-    <competition v-if="showView == 'competition'" :matches="matches" :competitionDetail="competitionDetail" :currentView="'Competition'" :fromView="'Categories'" :categoryId="currentCategoryId"></competition>
+    <competition v-if="showView == 'competition'" :matches="matches" :competitionDetail="competitionDetail" :currentView="'Competition'" :fromView="'Categories'" :categoryId="currentCategoryId" 
+    :tournamentData="tournamentData"></competition>
     
     <!-- Category comment modal -->
     <div class="modal" id="commentmodal" tabindex="-1" role="dialog" aria-labelledby="commentmodalLabel" style="display: none;" aria-hidden="true" data-animation="false">

@@ -77,7 +77,7 @@
     </div>
 
     <h6 class="mt-3 font-weight-bold">{{ competitionDetail.name }} matches</h6>
-    <matches :matches="matches" :competitionDetail="currentCompetition" :currentView="currentView" :fromView="'Competition'"></matches>
+    <matches :matches="matches" :competitionDetail="currentCompetition" :currentView="currentView" :fromView="'Competition'" :tournamentData="tournamentData"></matches>
   </div>
 </template>
 
@@ -125,6 +125,7 @@
         var vm = this;
         var currentCompetition;
         var competitionRound;
+
         MatchList.getAllDraws(vm.tournamentData.id).then(
           (response)=> {
             if(response.data.status_code == 200) {
@@ -175,7 +176,7 @@
         if(this.currentCompetitionId !== undefined){
           competitionId = this.currentCompetitionId;
         }
-        let data = {'tournamentId': tournamentData.id, 'competitionId': competitionId};
+        let data = {'tournamentId': this.tournamentData.id, 'competitionId': competitionId};
         MatchList.refreshStanding(data).then(
           (response)=> {
             if(response.data.status_code == 200){
