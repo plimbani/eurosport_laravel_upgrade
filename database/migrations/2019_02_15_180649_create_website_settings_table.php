@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddMaximumTeamsToTournamentsTable extends Migration
+class CreateWebsiteSettingsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,10 @@ class AddMaximumTeamsToTournamentsTable extends Migration
      */
     public function up()
     {
-        Schema::table('tournaments', function($table) {
-            $table->integer('maximum_teams')->after('name')->nullable();            
+        Schema::create('website_settings', function (Blueprint $table) {
+            $table->increments('id')->unsigned(10);
+            $table->string('key_field');
+            $table->text('value_field')->nullable();
         });
     }
 
@@ -25,8 +27,6 @@ class AddMaximumTeamsToTournamentsTable extends Migration
      */
     public function down()
     {
-        Schema::table('tournaments', function($table) {
-            $table->dropColumn(['maximum_teams']);
-        });
+        Schema::dropIfExists('website_settings');
     }
 }

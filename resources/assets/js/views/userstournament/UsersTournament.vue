@@ -12,7 +12,7 @@
                           <div class="col-12">
                             <div class="row">
                               <div class="col-md-5">
-                               
+                                <!-- UsersTournament -->
                               </div>
                               
                             </div>
@@ -29,7 +29,7 @@
                                         <th>Start</th>
                                         <th>End</th>
                                         <th>Teams</th>
-                                        <th>App</th>
+                                        <!-- <th>App</th> -->
                                         <th>Purchase Date</th>
                                         <th>Action</th>
                                         
@@ -41,7 +41,7 @@
                                     <td>{{ tournament.start_date }}</td>
                                     <td>{{ tournament.end_date }}</td>
                                     <td>{{ tournament.maximum_teams }}</td>
-                                    <td>TEA</td>
+                                    <!-- <td>TEA</td> -->
                                     <td v-on:click="redirectToTransactionListPage(tournament)" >{{ tournament.created_at }}</td>
                                     <td>Edit</td>
                                     

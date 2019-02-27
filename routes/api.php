@@ -95,6 +95,8 @@ $api->version('v1', function ($api) {
     $api->post('tournament/resultAdministratorDisplayMessage', 'Laraspace\Api\Controllers\TournamentController@resultAdministratorDisplayMessage');
 
     $api->post('tournament/editTournamentMessage', 'Laraspace\Api\Controllers\TournamentController@editTournamentMessage');
+
+    $api->get('match/getAllCategoriesReport/{tournamentId}', 'Laraspace\Api\Controllers\MatchController@getAllCategoriesReport');
 });
 
 $api->version('v1', ['middleware' => 'jwt.auth'], function ($api) {

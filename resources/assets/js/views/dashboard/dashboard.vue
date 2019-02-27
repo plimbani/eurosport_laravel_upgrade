@@ -20,7 +20,7 @@
                                                 <div class="col-lg-5">
                                                     <ul class="list-unstyled mb-0 tournament-information">
                                                         <li class="d-inline h7 text-uppercase font-weight-bold pr-2"><span><i class="fa fa-globe"></i></span>&nbsp; <a target="_blank" v-bind:href="tournament.website">View public website</a></li>
-                                                        <li id="open-share-popup" @click="openSharePopup(tournament)" class="d-inline h7 text-uppercase font-weight-bold"><span><i class="fa fa-share-alt"></i></span>&nbsp; <a href="#">Share</a></li>
+                                                        <li v-if="tournament.access_code" id="open-share-popup" @click="openSharePopup(tournament)" class="d-inline h7 text-uppercase font-weight-bold"><span><i class="fa fa-share-alt"></i></span>&nbsp; <a href="#">Share</a></li>
                                                     </ul>
                                                 </div>
                                             </div>
@@ -45,10 +45,10 @@
                         </div> 
                     </div>
                     <modal name="open-share-popup" @before-open="getAccessCode">
-                      <div class="example-modal-content">
-                        <h4>Share Tournment</h4> 
+                      <div class="example-modal-content p-4">
+                        <h4>Share Tournment <span class="pull-right"><i class="fa fa-times"></i></span></h4> 
                         <p>You can invite anyone to follow your tournament online and in the app. Simply share your following URL by email, SMS or any other social Media.</p>
-                        <p  v-on:click="copyAccessCode()">{{ access_code_popup }}</p>
+                        <p class="popup-access-code mb-0 text-center py-4 px-1 font-weight-bold" v-on:click="copyAccessCode()">{{ access_code_popup }}</p>
                         <input type="hidden" id="access_code_popup" :value="access_code_popup">
                       </div>
                     </modal>
@@ -177,7 +177,8 @@
               try {
                 var successful = document.execCommand('copy');
                 var msg = successful ? 'successful' : 'unsuccessful';
-                alert('Testing code was copied ' + msg);
+                // alert('Testing code was copied ' + msg);
+                alert('Testing code was copied successful');
               } catch (err) {
                 alert('Oops, unable to copy');
               }
