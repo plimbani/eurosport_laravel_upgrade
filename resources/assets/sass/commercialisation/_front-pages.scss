@@ -83,7 +83,7 @@
     }
 
     .app-code {
-        border: 1px dashed $black;
+        border: 2px dashed $base-font-color;
 
         @include media-breakpoint-down(lg) {
             width: 50%;
@@ -109,13 +109,22 @@
 
 .main-section {
     padding-top: 63px;
+
     .card {
         @extend .border-0;
     }
+
     .form-group {
         @extend .mb-4;
     }
+
     .btn {
         height: 40px;
     }
+}
+
+.popup-access-code {
+    border: 2px dashed $base-font-color;
+    margin-top: 40px;
+    cursor: pointer;
 }
