@@ -32,7 +32,7 @@
 
                         <label>Name of your tournament</label>
                         <div class="form-group">
-                            <input type="text" class="form-control form-control-danger" placeholder="Tournament Name" id="tournament_name" name="tournament_name" v-model="tournamentData.tournament_name" v-validate="{ rules: { required: true } }">
+                            <input type="text" class="form-control form-control-danger" placeholder="Tournament name" id="tournament_name" name="tournament_name" v-model="tournamentData.tournament_name" v-validate="{ rules: { required: true } }">
                             <span class="help is-danger" v-show="errors.has('tournament_name')">The tournament name field is required.</span> 
                         </div>
                     </div>
@@ -62,21 +62,23 @@
                                         </div>
                                         <div class="col-sm-6 col-md-5 col-lg-5">
                                             <p class="text-sm-right mb-0 mt-3 mt-sm-0">
-                                             <span v-if="tournamentData.currency_type == 'GBP'">GBP</span>   
-                                             <span v-if="tournamentData.currency_type == 'EURO'">EURO</span>   
-                                            £ {{returnFormatedNumber(tournamentData.total_amount)}}</p>
+                                             <span v-if="tournamentData.currency_type == 'GBP'">&#163;</span>   
+                                             <span v-if="tournamentData.currency_type == 'EURO'">&#128;</span>   
+                                            {{returnFormatedNumber(tournamentData.total_amount)}}</p>
                                         </div>
                                     </div>
 
                                     <div class="divider my-3 opacited"></div>
 
                                     <p class="text-sm-right font-weight-bold">
-                                        <span v-if="tournamentData.currency_type == 'GBP'">GBP</span> 
-                                        <span v-if="tournamentData.currency_type == 'EURO'">EURO</span>  £ {{returnFormatedNumber(tournamentData.total_amount)}}</p>
+                                        <span v-if="tournamentData.currency_type == 'GBP'">&#163;</span>   
+                                        <span v-if="tournamentData.currency_type == 'EURO'">&#128;</span>  
+                                        {{returnFormatedNumber(tournamentData.total_amount)}}</p>
                                 </div>
                                 <div class="row justify-content-end">
                                     <div class="col-md-7 col-lg-7 col-xl-6">
-                                        <button v-if ="!disabled" class="btn btn-success btn-block"  v-on:click="buyALicence()">Buy your license</button>
+                                        
+                                        <button v-if ="!disabled" class="btn btn-success btn-block"  v-on:click="buyALicence()"><span v-if='id == ""'>Buy your license</span><span v-if='id != ""'>Update your license</span></button>
                                         <button v-else="disabled" class="btn btn-success btn-block" disabled="true">Buy your license</button> 
                                     </div>
                                 </div>

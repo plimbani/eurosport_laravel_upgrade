@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddMaximumTeamsToTournamentsTable extends Migration
+class AddAddress2ToPeopleTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddMaximumTeamsToTournamentsTable extends Migration
      */
     public function up()
     {
-        Schema::table('tournaments', function($table) {
-            $table->integer('maximum_teams')->after('name')->nullable();            
+        Schema::table('people', function (Blueprint $table) {
+            $table->text('address_2')->after('address')->nullable();
         });
     }
 
@@ -25,8 +25,8 @@ class AddMaximumTeamsToTournamentsTable extends Migration
      */
     public function down()
     {
-        Schema::table('tournaments', function($table) {
-            $table->dropColumn(['maximum_teams']);
+        Schema::table('people', function (Blueprint $table) {
+            $table->dropColumn(['address_2']);
         });
     }
 }
