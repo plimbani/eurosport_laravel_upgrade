@@ -501,7 +501,7 @@ mounted(){
     }
   
 
-    let vm = this
+    let vm = this;
     let startDate = moment($('#tournament_start_date').val(), 'DD/MM/YYYY')
     let endDate = moment($('#tournament_end_date').val(), 'DD/MM/YYYY')
         this.tournamentDateDiff = endDate.diff(startDate, 'days')
@@ -661,23 +661,23 @@ methods: {
             //     toastr['error']('Sponsor image size should be 250x250', 'Error');
             // } else {
                 // vm.sponsorImage = r.target.result;
-            vm.is_sponsor_logo_uploading = true;
-         
-            var formData = new FormData();
-            formData.append('image', files[0]);
+              vm.is_sponsor_logo_uploading = true;
+           
+              var formData = new FormData();
+              formData.append('image', files[0]);
 
-            axios.post('/api/tournament/uploadSponsorLogo', formData).then(
-                (response)=> {
-                    let tournamentSponsorImage = response.data;
-                    vm.sponsorImage[i]['tournament_sponsor_logo'] = tournamentSponsorImage
-                        // tournament_sponsor_logo: img 
-                    
-                    // vm.tournament_sponsor_logo = response.data;
-                    vm.is_sponsor_logo_uploading = false;
-                },
-                (error)=>{
-                }
-              );
+              axios.post('/api/tournament/uploadSponsorLogo', formData).then(
+                  (response)=> {
+                      let tournamentSponsorImage = response.data;
+                      vm.sponsorImage[i]['tournament_sponsor_logo'] = tournamentSponsorImage
+                          // tournament_sponsor_logo: img 
+                      
+                      // vm.tournament_sponsor_logo = response.data;
+                      vm.is_sponsor_logo_uploading = false;
+                  },
+                  (error)=>{
+                  }
+                );
             // }  
         };
       };
@@ -686,8 +686,15 @@ methods: {
   
     removeTournamentSponserImage: function (e,i) {
       this.sponsorImage.splice(i, 1);
+      let vm = this;
 
-      console.log(this.sponsorImage.length);
+      if ( vm.sponsorImage.length == 0)
+      {
+        setTimeout(function(){
+          vm.addTournamentSponsorImage();
+        },200);
+      }
+     
     },
 
     redirectCompetation() {
