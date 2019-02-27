@@ -46,7 +46,7 @@
 	import MatchList from '../../../../../../api/frontend/matchlist.js';
 
 	export default {
-		props: ['currentCompetitionId', 'competitionType'],
+		props: ['currentCompetitionId', 'competitionType', 'tournamentData'],
 		data() {
 			return {
 				standingData: [],
@@ -63,15 +63,13 @@
 		beforeCreate() {
 			this.$root.$off('setStandingData');
 		},
-		watch: {
-	      tournamentData: function () {
-	        this.getStandingData(this.currentCompetitionId);
-	      }
-	    },
+		mounted() {
+			this.getStandingData(this.currentCompetitionId);
+		},
 		methods: {
 			getStandingData(currentCompetitionId) {
 				if(currentCompetitionId != 0) {
-					let tournamentId = tournamentData.id;
+					let tournamentId = this.tournamentData.id;
 					let data = {'tournamentId': tournamentId, 'competitionId': currentCompetitionId};
 
 					MatchList.refreshStanding(data).then(

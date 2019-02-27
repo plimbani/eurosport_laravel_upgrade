@@ -69,7 +69,8 @@
       <h6 class="mt-3 font-weight-bold" v-if="competitionDetail.type != 'Elimination'">
         {{ competitionDetail.name }} standings
       </h6>
-      <teamStanding :currentCompetitionId="currentCompetitionId" :competitionType="competitionDetail.type" v-if="currentCompetitionId != 0">
+      <teamStanding :currentCompetitionId="currentCompetitionId" :competitionType="competitionDetail.type"
+       :tournamentData="tournamentData" v-if="currentCompetitionId != 0">
       </teamStanding>
       <div v-if="currentCompetitionId == 0 && competitionDetail.type != 'Elimination'">No information available.
       </div>
@@ -86,7 +87,7 @@
   import MatchList from '../../../../../../api/frontend/matchlist.js';
 
   export default {
-    props: ['matches', 'competitionDetail', 'currentView', 'fromView', 'categoryId'],
+    props: ['matches', 'competitionDetail', 'currentView', 'fromView', 'categoryId', 'tournamentData'],
     data() {
       return {
         currentCompetition: {},
@@ -100,13 +101,8 @@
     },
     mounted() {
       this.currentCompetitionId = this.competitionDetail.id;
-      
-    },
-    watch: {
-      tournamentData: function () {
-        this.getCompetitions();
-        this.generateDrawTable();
-      }
+      this.getCompetitions();
+      this.generateDrawTable();
     },
 
     filters: {
@@ -129,7 +125,7 @@
         var vm = this;
         var currentCompetition;
         var competitionRound;
-        MatchList.getAllDraws(tournamentData.id).then(
+        MatchList.getAllDraws(vm.tournamentData.id).then(
           (response)=> {
             if(response.data.status_code == 200) {
               vm.competitionList = response.data.data;
@@ -153,7 +149,7 @@
       },
       generateDrawTable() {
         if(this.currentCompetitionId != undefined) {
-          let tournamentId = tournamentData.id;
+          let tournamentId = this.tournamentData.id;
           let data = {'tournamentId': tournamentId, 'competationId': this.currentCompetitionId};
           MatchList.getDrawTable(data).then(
           (response)=> {

@@ -14,7 +14,7 @@
 				</div>
 				<div class="row">
 					<div class="col-md-12">
-						<matches :matches="teamMatches" :competitionDetail="'{}'" :currentView="currentView" :fromView="'Teams'"></matches>
+						<matches :tournamentData="tournamentData" :matches="teamMatches" :competitionDetail="'{}'" :currentView="currentView" :fromView="'Teams'"></matches>
 					</div>
 				</div>
 			</div>
@@ -26,7 +26,7 @@
   	import Matches from './../../list/components/Matches.vue';
 
 	export default {
-		props: ['teamMatches','currentView', 'currentSelectedTeamName', 'fromView'],
+		props: ['teamMatches','currentView', 'currentSelectedTeamName', 'fromView', 'tournamentData'],
 		data() {
 			return {
 				teamView: 'matchList'

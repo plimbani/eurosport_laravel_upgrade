@@ -23,9 +23,9 @@
 					</ul>
 					<div class="tab-content">
 						<!-- <component :is="currentView" :currentView="currentView"></component> -->
-						<match-listing v-if="currentView == 'matchListing'"></match-listing>
+						<match-listing :tournamentData="tournamentData" v-if="currentView == 'matchListing'"></match-listing>
 						<category-listing :tournamentData="tournamentData" v-if="currentView == 'drawsListing'"></category-listing>	
-						<team-listing v-if="currentView == 'teamListing'"></team-listing>
+						<team-listing :tournamentData="tournamentData" v-if="currentView == 'teamListing'"></team-listing>
 						<finalPlacings v-if="currentView == 'finalPlacings'"></finalPlacings>
 					</div>
 				</div>
