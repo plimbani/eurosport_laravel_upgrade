@@ -45,10 +45,10 @@
                         </div> 
                     </div>
                     <modal name="open-share-popup" @before-open="getAccessCode">
-                      <div class="example-modal-content">
-                        <h4>Share Tournment</h4> 
+                      <div class="example-modal-content p-4">
+                        <h4>Share Tournment <span class="pull-right"><i class="fa fa-times"></i></span></h4> 
                         <p>You can invite anyone to follow your tournament online and in the app. Simply share your following URL by email, SMS or any other social Media.</p>
-                        <p  v-on:click="copyAccessCode()">{{ access_code_popup }}</p>
+                        <p class="popup-access-code mb-0 text-center py-4 px-1 font-weight-bold" v-on:click="copyAccessCode()">{{ access_code_popup }}</p>
                         <input type="hidden" id="access_code_popup" :value="access_code_popup">
                       </div>
                     </modal>

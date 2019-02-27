@@ -46,17 +46,23 @@
                 </div>
             </div>
         </div>
+        <schedule-and-result :tournamentData="tournamentData"></schedule-and-result>
     </section>
 </template>
 <script type="text/babel">
     // console.log("register  page");
-    import Constant from '../../services/constant'
+    import Constant from '../../services/constant';
+    import ScheduleAndResult from '../front/scheduleandresults/pages/ScheduleAndResults.vue';
     export default {
         data() {
             return {
                 tournamentInfo:{},
+                tournamentData:{},
                 code:""
             }
+        },
+        components: {
+            ScheduleAndResult,
         },
         beforeRouteEnter(to, from, next) { 
               if(Object.keys(to.query).length !== 0) { //if the url has query (?query)
@@ -78,6 +84,7 @@
                  axios.get(Constant.apiBaseUrl+'tournament-by-code?tournament='+this.code, {}).then(response =>  {  
                         if (response.data.success) { 
                              this.tournamentInfo = response.data.data;
+                             this.tournamentData = response.data.data;
                              // console.log("tournaments::",this.tournamentInfo)
                          }else{ 
                             toastr['error'](response.data.message, 'Error');
