@@ -157,7 +157,8 @@
                 disabled:false,
                 dayDifference:1,
                 id:"",
-                gpbConvertValue:1
+                gpbConvertValue:1,
+                tournament_old_teams:2
                 
             }
         },
@@ -181,7 +182,9 @@
             next()
         },
         methods: {
-           
+            changeTeams(){
+                console.log("changeTeams");
+            },
             buyALicence(e){ 
                 this.$validator.validateAll();
                 if (this.tournamentData.tournament_name) {
@@ -205,6 +208,7 @@
             }, 
 
             findDifferenceBetweenDates(){ 
+                console.log("tournament_old_teams::",this.tournament_old_teams);
                 // console.log("startDate::",startDate);
                 let startDateFromId = document.getElementById('tournament_start_date').value;
                 let endDateFromId = document.getElementById('tournament_end_date').value;
@@ -235,6 +239,7 @@
                             this.tournamentData['id'] = this.id;
                             this.tournamentData['tournament_name'] = response.data.data.name;
                             this.tournamentData['tournament_max_teams'] = response.data.data.maximum_teams;   
+                            this.tournament_old_teams = response.data.data.maximum_teams;   
                             this.tournamentData['access_code'] = response.data.data.access_code;   
                             let startMonth = start_date.getMonth()+1;                         
                             let endMonth = end_date.getMonth()+1;                         
