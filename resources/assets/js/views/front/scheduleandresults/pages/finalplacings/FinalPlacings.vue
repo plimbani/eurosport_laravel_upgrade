@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="table-responsive">
-      <table class="table table-hover table-bordered">
+      <table class="table table-hover table-bordered" v-if="competitionList.length > 0">
         <thead class="no-border">
           <tr>
             <th scope="col">Category name</th>
