@@ -4,8 +4,10 @@
             <div class="container">
                 <div class="row justify-content-between">
                     <div class="col-lg-6">
-                        <h1 class="font-weight-bold">Buy a License</h1>
-                        <p class="mb-5">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris posuere vel mi ac sagittis. Quisque vel nulla at nibh finibus sodales. Nam efficitur sem a mi rhoncus. </p>
+                        <h1 class="font-weight-bold" v-if="!id">Buy a License</h1>
+                        <h1 class="font-weight-bold" v-if="id">Update License for a {{tournamentData.tournament_name}}<span v-if="tournamentData.access_code">(#{{tournamentData.access_code}})</span></h1>
+                        <p class="mb-5" v-if="id == ''">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris posuere vel mi ac sagittis. Quisque vel nulla at nibh finibus sodales. Nam efficitur sem a mi rhoncus. </p>
+                        <p class="mb-5" v-if="id != ''">You can add more teams and extend the duration of your tournament. </p>
 
                         <label>Number of teams competing</label>
 
@@ -55,7 +57,7 @@
 
                                 <div class="divider my-3"></div>
 
-                                <div class="card-text">
+                                <div class="card-text" v-if="!id">
                                     <div class="row">
                                         <div class="col-sm-6 col-md-7 col-lg-7">
                                             <p class="mb-0">{{tournamentData.tournament_max_teams}} team license for a {{dayDifference}} day(s) tournament</p>
@@ -75,10 +77,41 @@
                                         <span v-if="tournamentData.currency_type == 'EURO'">&#128;</span>  
                                         {{returnFormatedNumber(tournamentData.total_amount)}}</p>
                                 </div>
+                                <div class="card-text" v-if="id">
+                                    <div class="row">
+                                        <div class="col-sm-6 col-md-7 col-lg-7">
+                                            <p class="mb-0">Addition 32 teams</p>
+                                        </div>
+                                        <div class="col-sm-6 col-md-5 col-lg-5">
+                                            <p class="text-sm-right mb-0 mt-3 mt-sm-0">
+                                             <span v-if="tournamentData.currency_type == 'GBP'">&#163;</span>   
+                                             <span v-if="tournamentData.currency_type == 'EURO'">&#128;</span>   
+                                            100</p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-6 col-md-7 col-lg-7">
+                                            <p class="mb-0">Addition days</p>
+                                        </div>
+                                        <div class="col-sm-6 col-md-5 col-lg-5">
+                                            <p class="text-sm-right mb-0 mt-3 mt-sm-0">
+                                             <span v-if="tournamentData.currency_type == 'GBP'">&#163;</span>   
+                                             <span v-if="tournamentData.currency_type == 'EURO'">&#128;</span>   
+                                            100</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="divider my-3 opacited"></div>
+
+                                    <p class="text-sm-right font-weight-bold">
+                                        <span v-if="tournamentData.currency_type == 'GBP'">&#163;</span>   
+                                        <span v-if="tournamentData.currency_type == 'EURO'">&#128;</span>  
+                                        {{returnFormatedNumber(tournamentData.total_amount)}}</p>
+                                </div>
                                 <div class="row justify-content-end">
                                     <div class="col-md-7 col-lg-7 col-xl-6">
                                         
-                                        <button v-if ="!disabled" class="btn btn-success btn-block"  v-on:click="buyALicence()"><span v-if='id == ""'>Buy your license</span><span v-if='id != ""'>Update your license</span></button>
+                                        <button v-if ="!disabled" class="btn btn-success btn-block"  v-on:click="buyALicence()"><span v-if='!id'>Buy your license</span><span v-if='id'>Update your license</span></button>
                                         <button v-else="disabled" class="btn btn-success btn-block" disabled="true">Buy your license</button> 
                                     </div>
                                 </div>
@@ -112,6 +145,7 @@
                     tournament_start_date:new Date(),  
                     tournament_end_date:new Date(), 
                     total_amount:100, 
+                    access_code:"", 
                     currency_type:"EURO",
                     payment_currency:"EUR"
                 },
@@ -197,15 +231,18 @@
                         if (response.data.success) {  
                             var start_date = new Date(moment(response.data.data.start_date, 'DD/MM/YYYY').format('MM/DD/YYYY'));
                             var end_date = new Date(moment(response.data.data.end_date, 'DD/MM/YYYY').format('MM/DD/YYYY')); 
+                            // console.log("response.data.data::",response.data.data)
                             this.tournamentData['id'] = this.id;
                             this.tournamentData['tournament_name'] = response.data.data.name;
                             this.tournamentData['tournament_max_teams'] = response.data.data.maximum_teams;   
+                            this.tournamentData['access_code'] = response.data.data.access_code;   
                             let startMonth = start_date.getMonth()+1;                         
                             let endMonth = end_date.getMonth()+1;                         
                             this.tournamentData['tournament_start_date'] = start_date.getDate()+'/'+startMonth + '/'+start_date.getFullYear();
                             this.tournamentData['tournament_end_date'] = end_date.getDate()+'/'+endMonth + '/'+end_date.getFullYear(); 
                             $('#tournament_start_date').datepicker('setDate', this.tournamentData['tournament_start_date'])
                              $('#tournament_end_date').datepicker('setDate', this.tournamentData['tournament_end_date'])  
+                             // console.log("this.tournamentData::",this.tournamentData);
                          }else{ 
                             toastr['error'](response.data.message, 'Error');
                          }
