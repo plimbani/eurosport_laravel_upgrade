@@ -1033,6 +1033,8 @@ class TournamentRepository
     public function getTournamentByAccessCode($accessCode)
     {
         $tournament = Tournament::where('access_code', $accessCode)->first();
+        $tournament->contacts[0];
+        $tournament->sponsors;
                 
         return $tournament;
     }
