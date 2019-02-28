@@ -64,14 +64,15 @@ export default {
     activePath() {
       return this.$store.state.activePath
     },
-
     tournamentEndDateTimeDisplayMessage() {
-      let expireTime = moment(this.displayTournamentEndDate).add(8, 'hours').format('DD/MM/YYYY HH:mm:ss');
       let currentDateTime = this.currentDateTime;
+      let expireTime = moment(this.displayTournamentEndDate).add(8, 'hours').format('DD/MM/YYYY HH:mm:ss');
       let tournamentStartDate = this.$store.state.Tournament.tournamentStartDate;
       
-      if(tournamentStartDate && expireTime < currentDateTime) {
+      if(tournamentStartDate >= currentDateTime  && expireTime <= currentDateTime) {
          return true;
+      } else {
+        return false;
       }
     }
 
