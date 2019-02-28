@@ -183,10 +183,12 @@
 
                 let startDateArr = startDateFromId.split("/");
                 let endDateArr = endDateFromId.split("/"); 
-                let startDate = moment([startDateArr[2], startDateArr[1], startDateArr[0]]);
-                let endDate = moment([endDateArr[2], endDateArr[1], endDateArr[0]]);
-                this.dayDifference = endDate.diff(startDate, 'days');
-                // console.log("this.dayDifference::",this.dayDifference);
+                let startDateFormat = startDateArr[2]+"/"+startDateArr[1]+"/"+startDateArr[0];
+                let endDateFormat = endDateArr[2]+"/"+endDateArr[1]+"/"+endDateArr[0]; 
+                let startDate = moment(startDateFormat);
+                let endDate = moment(endDateFormat);
+                
+                this.dayDifference = endDate.diff(startDate, 'days'); 
                 
             },
 

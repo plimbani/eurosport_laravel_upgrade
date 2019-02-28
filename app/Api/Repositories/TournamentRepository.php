@@ -20,6 +20,7 @@ use Laraspace\Models\TournamentTemplates;
 use Laraspace\Models\UserFavourites;
 use Laraspace\Models\Venue;
 use Laraspace\Models\Website;
+use Laraspace\Models\TournamentSponsor;
 
 class TournamentRepository
 {
@@ -134,6 +135,7 @@ class TournamentRepository
 
     public function create($data)
     {
+        
         // Save Tournament Data
         $newdata = array();
         $newdata['name'] = $data['name'];
@@ -151,6 +153,7 @@ class TournamentRepository
         } else {
             $newdata['logo'] = null;
         }
+
         // Now here we Save it For Tournament
         $imageChanged = true;
         if (isset($data['tournamentId']) && $data['tournamentId'] != 0) {
@@ -279,6 +282,18 @@ class TournamentRepository
         $tournamentData = array();
         $tournamentDays = $this->getTournamentDays($data['start_date'], $data['end_date']);
 
+
+        // Tournament sponcer data
+
+        // $tournament_sponsor = $data['tournament_sponsor'];
+        // $data['tournament_sponsor'] = basename(parse_url($tournament_sponsor)['path']);
+        
+        // $tournamentSponsorData = [
+        //     'tournament_id' => $tournamentId,
+        //     'logo' => $data['tournament_sponsor'],
+        // ];
+        // $createTournamentSponsor = TournamentSponsor::create($tournamentSponsorData)->id;
+
         $tournamentData = array(
             'id' => $tournamentId,
             'name' => $data['name'],
@@ -291,8 +306,9 @@ class TournamentRepository
             'twitter' => $data['twitter'],
             'website' => $data['website'],
             'maximum_teams' => $data['maximum_teams'],
+            
         );
-
+        
         return $tournamentData;
     }
 
@@ -1017,5 +1033,26 @@ class TournamentRepository
     public function getTournamentByAccessCode($accessCode)
     {
         return Tournament::where('access_code', $accessCode)->first();
+    }
+
+
+    public function resultAdministratorDisplayMessage($tournamentData)
+    {
+        $tournamentStartDate = Tournament::where('id', $tournamentData['tournament_id'])->pluck('start_date')->first();
+
+        $tournamentDateFormat = Carbon::createFromFormat('d/m/Y', $tournamentStartDate);
+        $tournamentDisplayDate = Carbon::parse($tournamentDateFormat)->format('Y-m-d');
+
+        return $tournamentDisplayDate;
+       
+    }
+
+    public function editTournamentMessage($tournamentData)
+    {
+        if(isset($tournamentData['tournament_id'])) {
+            return TempFixture::where('tournament_id', $tournamentData['tournament_id'])->orderBy('match_datetime','desc')->pluck('match_endtime')->first();
+        } else {
+            return '';
+        }
     }
 }

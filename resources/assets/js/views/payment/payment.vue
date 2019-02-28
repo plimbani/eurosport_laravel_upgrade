@@ -1,6 +1,5 @@
 <template>
     <section class="buy-license-section section-padding">
-        <div>Payment Success Page</div>
         <div class="container">
             <div class="row justify-content-between">
                 <div class="col-md-12">
@@ -13,7 +12,32 @@
                     <!-- <a href="javascript:void(0)">Print receipt</a> -->
                 </div>
             </div>
-             <div class="row justify-content-between">
+
+            <div class="row mt-5">
+                <div class="col-md-12">
+                    <h3 class="mb-0 text-uppercase font-weight-bold">Receipt</h3>
+
+                    <div class="divider my-3"></div>
+
+                    <div class="row">
+                        <div class="col-sm-6 col-md-7 col-lg-7">
+                            <p class="mb-0" id="reeiptDetails">{{tournament.tournament_max_teams}} Teams licence for a 4 day tournament price is {{paymentObj.amount}} {{paymentObj.currency}}</p>
+                        </div>
+                        <div class="col-sm-6 col-md-5 col-lg-5">
+                            <p class="text-sm-right mb-0 mt-3 mt-sm-0">£100.00</p>
+                        </div>
+                    </div>
+
+                    <div class="divider my-3 opacited"></div>
+
+                    <p class="text-sm-right font-weight-bold">£100.00</p>
+
+                    <p class="py-3">You may now proceed to your dashboard and begin adding your tournament details.</p>
+                    <button class="btn btn-success">Get Started</button>
+                </div>
+            </div>
+
+            <!-- <div class="row justify-content-between">
                 <div class="col-md-12">
                     Receipt
                 </div>
@@ -25,7 +49,7 @@
 
             <div class="row justify-content-between">
                 <button class="btn btn-success">Get Started</button>
-            </div>
+            </div> -->
         </div>
     </section>
 </template>

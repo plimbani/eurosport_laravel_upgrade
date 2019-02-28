@@ -88,6 +88,14 @@ $api->version('v1', function ($api) {
     $api->post('/getAllPitchesWithDays/{pitchId}', 'Laraspace\Api\Controllers\TournamentController@getAllPitchesWithDays');
 
     $api->post('tournament/updateCompetitionDisplayName', 'Laraspace\Api\Controllers\TournamentController@updateCompetitionDisplayName');
+
+    $api->post('tournament/uploadSponsorLogo', 'Laraspace\Api\Controllers\TournamentController@uploadSponsorLogo');
+
+    $api->post('tournament/resultAdministratorDisplayMessage', 'Laraspace\Api\Controllers\TournamentController@resultAdministratorDisplayMessage');
+
+    $api->post('tournament/editTournamentMessage', 'Laraspace\Api\Controllers\TournamentController@editTournamentMessage');
+
+    $api->get('match/getAllCategoriesReport/{tournamentId}', 'Laraspace\Api\Controllers\MatchController@getAllCategoriesReport');
 });
 
 $api->version('v1', ['middleware' => 'jwt.auth'], function ($api) {
