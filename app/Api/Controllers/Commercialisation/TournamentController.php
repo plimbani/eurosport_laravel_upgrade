@@ -93,7 +93,7 @@ class TournamentController extends BaseController
                         'message' => 'Tournament list.'
             ]);
         } catch (\Exception $ex) {
-            return response()->json(['success' => false, 'status' => Response::HTTP_UNPROCESSABLE_ENTITY, 'data' => [], 'error' => [], 'message' => 'Something went wrong.']);
+            return response()->json(['success' => false, 'status' => Response::HTTP_UNPROCESSABLE_ENTITY, 'data' => [], 'error' => [], 'message' => $ex->getMessage()]);
         }
     }
 

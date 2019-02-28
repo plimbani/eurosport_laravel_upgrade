@@ -1036,8 +1036,8 @@ class TournamentRepository
         $tournament->contacts[0];
         $response = [
             'tournament_details' => $tournament,
-            'contact_details' => $tournament->contacts,
-            'tournament_sponsor' => $tournament->sponsors
+            'contact_details' => !empty($tournament->contacts) ? $tournament->contacts : [],
+            'tournament_sponsor' => !empty($tournament->sponsors) ? $tournament->sponsors : []
         ];
         
         return $response;
