@@ -36,6 +36,8 @@ class AgeCategoriesGroupsSummaryVC: SuperViewController {
     var selectedTab = 0
     var rotateToPortrait = false
     
+    @IBOutlet var stackViewTab: UIStackView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         initialize()
@@ -52,17 +54,10 @@ class AgeCategoriesGroupsSummaryVC: SuperViewController {
         // To show/hide internet view in Navigation bar
         NotificationCenter.default.addObserver(self, selector: #selector(showHideNoInternetView(_:)), name: .internetConnectivity, object: nil)
         
-        var gesture = UITapGestureRecognizer(target: self, action:  #selector(self.onTabStandingViewPressed))
-        self.tabStandingView.addGestureRecognizer(gesture)
-        
-        gesture = UITapGestureRecognizer(target: self, action:  #selector(self.onTabMatchViewPressed))
-        self.tabMatchView.addGestureRecognizer(gesture)
-        
-        gesture = UITapGestureRecognizer(target: self, action:  #selector(self.onGroupViewPressed))
-        self.groupSelectionView.addGestureRecognizer(gesture)
-        
-        gesture = UITapGestureRecognizer(target: self, action:  #selector(self.onFooterGroupStandingView))
-        self.footerGroupStandingView.addGestureRecognizer(gesture)
+        self.tabStandingView.addGestureRecognizer(UITapGestureRecognizer(target: self, action:  #selector(self.onTabStandingViewPressed)))
+        self.tabMatchView.addGestureRecognizer(UITapGestureRecognizer(target: self, action:  #selector(self.onTabMatchViewPressed)))
+        self.groupSelectionView.addGestureRecognizer(UITapGestureRecognizer(target: self, action:  #selector(self.onGroupViewPressed)))
+        self.footerGroupStandingView.addGestureRecognizer(UITapGestureRecognizer(target: self, action:  #selector(self.onFooterGroupStandingView)))
         
         // Height for cell
         _ = cellOwner.loadMyNibFile(nibName: kNiB.Cell.GroupSummaryStandingsCell)
@@ -100,18 +95,6 @@ class AgeCategoriesGroupsSummaryVC: SuperViewController {
         refreshListByGroup(false)
     }
     
-    deinit {
-        NotificationCenter.default.removeObserver(self, name: .internetConnectivity, object: nil)
-    }
-    
-    @objc func showHideNoInternetView(_ notification: NSNotification) {
-        if notification.userInfo != nil {
-            if let isShow = notification.userInfo![kNotification.isShow] as? Bool {
-                setConstraintLblNoInternet(isShow)
-            }
-        }
-    }
-    
     override func viewWillAppear(_ animated: Bool) {
         if rotateToPortrait {
             APPDELEGATE.deviceOrientation = .portrait
@@ -123,6 +106,18 @@ class AgeCategoriesGroupsSummaryVC: SuperViewController {
             
             if let mainTabViewController = self.parent!.parent as? MainTabViewController {
                 mainTabViewController.hideTabbar(flag: false)
+            }
+        }
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: .internetConnectivity, object: nil)
+    }
+    
+    @objc func showHideNoInternetView(_ notification: NSNotification) {
+        if notification.userInfo != nil {
+            if let isShow = notification.userInfo![kNotification.isShow] as? Bool {
+                setConstraintLblNoInternet(isShow)
             }
         }
     }
@@ -153,6 +148,7 @@ class AgeCategoriesGroupsSummaryVC: SuperViewController {
     
     @objc func onGroupViewPressed(sender : UITapGestureRecognizer) {
         pickerHandlerView.show()
+        pickerHandlerView.picker_view.selectRow(pickerHandlerView.selectedPickerPosition, inComponent: 0, animated: true)
     }
     
     @objc func onFooterGroupStandingView(sender : UITapGestureRecognizer) {
@@ -279,16 +275,20 @@ class AgeCategoriesGroupsSummaryVC: SuperViewController {
         
         if let type = groupDic.value(forKey: "competation_type") as? String {
             if type == "Elimination" {
-                tabStandingsSeparator.backgroundColor = UIColor.clear
-                tabStandingView.backgroundColor = UIColor.gray
+                tabStandingsSeparator.backgroundColor = .clear
+                tabStandingView.backgroundColor = .gray
                 tabStandingView.isUserInteractionEnabled = false
-                tabMatchesSeparator.backgroundColor = UIColor.AppColor()
+                tabMatchesSeparator.backgroundColor = .AppColor()
+                
+                self.view.layoutIfNeeded()
                 
                 selectedTab = 1
                 sendGetFixturesRequest()
             } else {
-                tabStandingView.backgroundColor = UIColor.white
+                tabStandingView.backgroundColor = .white
                 tabStandingView.isUserInteractionEnabled = true
+                tabStandingsSeparator.backgroundColor = .AppColor()
+                tabMatchesSeparator.backgroundColor = .clear
                 
                 sendGetFixturesRequest()
                 sendGetGroupStadingsRequest()

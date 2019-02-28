@@ -40,12 +40,29 @@ class MatchInfoVC: SuperViewController {
     
     @IBOutlet var heightConstraintViewWinnerStatus: NSLayoutConstraint!
     
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: .internetConnectivity, object: nil)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         initialize()
         setData()
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        ApplicationData.setBorder(viewVenue, Color: .gray, thickness: 1.0, type: ViewBorderType.left)
+        ApplicationData.setBorder(viewVenue, Color: .gray, thickness: 1.0, type: ViewBorderType.bottom)
+        ApplicationData.setBorder(viewVenue, Color: .gray, thickness: 1.0, type: ViewBorderType.right)
+        ApplicationData.setBorder(stackviewTop, Color: .gray, thickness: 1.0, type: ViewBorderType.top)
+        ApplicationData.setBorder(stackviewTop, Color: .gray, thickness: 1.0, type: ViewBorderType.left)
+        ApplicationData.setBorder(stackviewTop, Color: .gray, thickness: 1.0, type: ViewBorderType.right)
+        ApplicationData.setBorder(stackviewMiddle, Color: .gray, thickness: 1.0, type: ViewBorderType.left)
+        ApplicationData.setBorder(stackviewMiddle, Color: .gray, thickness: 1.0, type: ViewBorderType.right)
+        ApplicationData.setBorder(stackViewTshirt, Color: .gray, thickness: 1.0, type: ViewBorderType.left)
+        ApplicationData.setBorder(stackViewTshirt, Color: .gray, thickness: 1.0, type: ViewBorderType.right)
+    }
+    
     func initialize() {
         titleNavigationBar.delegate = self
         titleNavigationBar.setBackgroundColor()
@@ -62,21 +79,7 @@ class MatchInfoVC: SuperViewController {
         subView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         stackviewMiddle.insertSubview(subView, at: 0)
         
-        var gesture = UITapGestureRecognizer(target: self, action:  #selector(self.onVenueViewPressed))
-        self.viewVenue.addGestureRecognizer(gesture)
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        ApplicationData.setBorder(viewVenue, Color: .gray, thickness: 1.0, type: ViewBorderType.left)
-        ApplicationData.setBorder(viewVenue, Color: .gray, thickness: 1.0, type: ViewBorderType.bottom)
-        ApplicationData.setBorder(viewVenue, Color: .gray, thickness: 1.0, type: ViewBorderType.right)
-        ApplicationData.setBorder(stackviewTop, Color: .gray, thickness: 1.0, type: ViewBorderType.top)
-        ApplicationData.setBorder(stackviewTop, Color: .gray, thickness: 1.0, type: ViewBorderType.left)
-        ApplicationData.setBorder(stackviewTop, Color: .gray, thickness: 1.0, type: ViewBorderType.right)
-        ApplicationData.setBorder(stackviewMiddle, Color: .gray, thickness: 1.0, type: ViewBorderType.left)
-        ApplicationData.setBorder(stackviewMiddle, Color: .gray, thickness: 1.0, type: ViewBorderType.right)
-        ApplicationData.setBorder(stackViewTshirt, Color: .gray, thickness: 1.0, type: ViewBorderType.left)
-        ApplicationData.setBorder(stackViewTshirt, Color: .gray, thickness: 1.0, type: ViewBorderType.right)
+        self.viewVenue.addGestureRecognizer(UITapGestureRecognizer(target: self, action:  #selector(self.onVenueViewPressed)))
     }
     
     @objc func onVenueViewPressed(sender : UITapGestureRecognizer) {
@@ -356,9 +359,6 @@ class MatchInfoVC: SuperViewController {
         
     }
     
-    deinit {
-        NotificationCenter.default.removeObserver(self, name: .internetConnectivity, object: nil)
-    }
     
     @objc func showHideNoInternetView(_ notification: NSNotification) {
         if notification.userInfo != nil {

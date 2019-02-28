@@ -1347,7 +1347,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = DEV_ESR_8_jan_2019;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;
-				base_url = "http:/$()/rishab-eurosport.dev.aecortech.com/api/";
+				base_url = "http:/$()/sunny-eurosport.dev.aecortech.com/api/";
 				google_map_key = AIzaSyA48POKxVvdyLfu_pRE_5fVw5XLd8E7s40;
 			};
 			name = Debug;

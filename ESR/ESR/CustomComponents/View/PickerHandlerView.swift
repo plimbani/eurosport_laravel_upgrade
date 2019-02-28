@@ -23,7 +23,7 @@ class PickerHandlerView: UIView {
     var delegate: PickerHandlerViewDelegate?
     var titleList = [String]()
     var selectedTitle = NULL_STRING
-    var selectedPickerPosition = NULL_ID
+    var selectedPickerPosition = 0
     
     override func awakeFromNib() {
         btnDone.setTitleTextAttributes([NSAttributedStringKey(rawValue: NSAttributedStringKey.font.rawValue): UIFont(name: Font.HELVETICA_REGULAR, size: Font.Size.commonBtnSize)], for: .normal)

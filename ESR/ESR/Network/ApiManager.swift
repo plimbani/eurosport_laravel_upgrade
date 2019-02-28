@@ -190,6 +190,10 @@ class ApiManager {
         postRequest(API_ENDPOINT.TEAM_FIXTURES, parameters, success: success, failure: failure, true)
     }
     
+    func resendEmail(_ parameters: [String: Any]?, success: @escaping (_ result: NSDictionary) -> (), failure: @escaping (_ result: NSDictionary) -> ()) {
+        postRequest(API_ENDPOINT.RESEND_EMAIL, parameters, success: success, failure: failure, true)
+    }
+    
     func getViewGraphicImage(_ parameters: [String: Any]?, success: @escaping (_ result: Any) -> (), failure: @escaping (_ result: NSDictionary) -> ()) {
         // postRequest(API_ENDPOINT.VIEW_GRAPHIC, parameters, success: success, failure: failure, true)
         

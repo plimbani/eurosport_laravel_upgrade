@@ -21,6 +21,7 @@
 "alert_default_tournament_update" = "Standard-Turnier wurde aktualisiert";
 "alert_title_success" = "Erfolgreich ausgeführt";
 "alert_title_preview" = "Preview";
+"alert_title_email_verification" = "Email Verification";
 "alert_title_error" = "Fehler";
 "alert_default_tournament_remove" = "Standard-Turnier kann nicht aus Favorit entfernt werden.";
 "alert_msg_logout" = "Sind Sie sicher, dass Sie sich abmelden möchten?";
@@ -121,6 +122,7 @@
 "btn_cancel"                            =   "Cancel";
 "btn_update"                            =   "Update";
 "btn_logout"                            =   "Log out";
+"btn_resend"                            =   "Re-send email";
 
 //Strings
 "string_no_internet"                    = "The internet connection appears to be offline.";

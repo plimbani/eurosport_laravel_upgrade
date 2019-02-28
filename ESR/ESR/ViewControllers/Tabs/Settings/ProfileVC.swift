@@ -188,13 +188,13 @@ class ProfileVC: SuperViewController {
             
             if let name = dic.value(forKey: "name") as? String {
                 countryName = name
-                countryTitleList.append(name)
+                countryTitleList.append(name.capitalizingFirstLetter())
             }
             
             if let userDetails = ApplicationData.sharedInstance().getUserData() {
                 if userDetails.countryId != NULL_ID && userDetails.countryId == dic.value(forKey: "id") as! Int {
                     selectedCountryId = userDetails.countryId
-                    lblCountry.text = countryName
+                    lblCountry.text = countryName.capitalizingFirstLetter()
                 }
             }
         }

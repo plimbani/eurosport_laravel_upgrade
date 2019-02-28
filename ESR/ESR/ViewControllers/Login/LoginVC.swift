@@ -214,9 +214,8 @@ class LoginVC: SuperViewController {
                         UIApplication.shared.keyWindow?.rootViewController = Storyboards.Main.instantiateMainVC()
                     } else {
                         if let message = result.value(forKey: "message") as? String {
-                            // self.showInfoAlertView(title: String.localize(key: "alert_title_error"), message: message)
-                            
-                            self.showCustomAlertVC(title: String.localize(key: "alert_title_error"), message: message)
+                            USERDEFAULTS.set(nil, forKey: kUserDefaults.token)
+                            self.showCustomAlertVC(title: String.localize(key: "alert_title_email_verification"), message: message, buttonTitle: String.localize(key: "btn_resend"),  requestCode: AlertRequestCode.resendEmail.rawValue, delegate: self)
                         }
                     }
                 }
@@ -230,8 +229,6 @@ class LoginVC: SuperViewController {
                 }
                 
                 if let error = result.value(forKey: "error") as? String {
-                    // self.showInfoAlertView(title: String.localize(key: "alert_title_error"), message: error)
-                    
                     self.showCustomAlertVC(title: String.localize(key: "alert_title_error"), message: error)
                 }
             }
@@ -263,6 +260,35 @@ class LoginVC: SuperViewController {
         }
     }
     
+    func resendEmail(email: String) {
+        if APPDELEGATE.reachability.connection == .none {
+            return
+        }
+        
+        self.view.showProgressHUD()
+        var parameters: [String: Any] = [:]
+        
+        if let email = USERDEFAULTS.value(forKey: kUserDefaults.email) as? String {
+            parameters["email"] = email
+            
+            ApiManager().resendEmail(parameters, success: { result in
+                DispatchQueue.main.async {
+                    self.view.hideProgressHUD()
+                    if let message = result.value(forKey: "message") as? String {
+                        self.showCustomAlertVC(title: String.localize(key: "alert_title_success"), message: message)
+                    }
+                }
+            }, failure: { result in
+                DispatchQueue.main.async {
+                    self.view.hideProgressHUD()
+                    if result.allKeys.count == 0 {
+                        return
+                    }
+                }
+            })
+        }
+    }
+    
     @IBAction func btnBackPressed(_ sender: UIButton) {
         self.navigationController?.popViewController(animated: true)
     }
@@ -281,6 +307,14 @@ class LoginVC: SuperViewController {
     }
     @objc func onLogoImageClick(_ sender : UITapGestureRecognizer) {
         self.navigationController?.popToRootViewController(animated: true)
+    }
+}
+
+extension LoginVC: CustomAlertVCDelegate {
+    func customAlertVCOkBtnPressed(requestCode: Int) {
+        if requestCode == AlertRequestCode.resendEmail.rawValue {
+            resendEmail(email: txtEmail.text!)
+        }
     }
 }
 

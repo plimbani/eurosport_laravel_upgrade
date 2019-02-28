@@ -54,6 +54,7 @@ struct API_ENDPOINT {
     static let UPDATE_FCM = API_URL.BASE_URL + "users/updatefcm"
     
     static let VIEW_GRAPHIC = API_URL.BASE_URL + "viewGraphicImage"
+    static let RESEND_EMAIL = API_URL.BASE_URL + "userResendEmail"
 }
 
 struct kViewController {
@@ -130,6 +131,7 @@ enum AlertRequestCode: Int {
     case forgotPass = 101
     case logOut = 102
     case profileUpdate = 103
+    case resendEmail = 104
 }
 
 enum ResponseCode: Int {
@@ -317,20 +319,13 @@ extension String {
         return NSLocalizedString(key, comment: comment)
     }
     
-    /*var localized: String {
-        if let _ = UserDefaults.standard.string(forKey: "i18n_language") {} else {
-            // we set a default, just in case
-            UserDefaults.standard.set("fr", forKey: "i18n_language")
-            UserDefaults.standard.synchronize()
-        }
-        
-        let lang = UserDefaults.standard.string(forKey: "i18n_language")
-        
-        let path = Bundle.main.path(forResource: lang, ofType: "lproj")
-        let bundle = Bundle(path: path!)
-        
-        return NSLocalizedString(self, tableName: nil, bundle: bundle!, value: "", comment: "")
-    }*/
+    func capitalizingFirstLetter() -> String {
+        return prefix(1).uppercased() + self.lowercased().dropFirst()
+    }
+    
+    mutating func capitalizeFirstLetter() {
+        self = self.capitalizingFirstLetter()
+    }
     
     subscript (i: Int) -> Character {
         return self[index(startIndex, offsetBy: i)]
