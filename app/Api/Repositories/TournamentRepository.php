@@ -1036,7 +1036,7 @@ class TournamentRepository
         $tournament->contacts[0];
         $response = [
             'tournament_details' => $tournament,
-            'contact_details' => $tournament->contacts[0],
+            'contact_details' => $tournament->contacts,
             'tournament_sponsor' => $tournament->sponsors
         ];
         
