@@ -1033,7 +1033,6 @@ class TournamentRepository
     public function getTournamentByAccessCode($accessCode)
     {
         $tournament = Tournament::where('access_code', $accessCode)->first();
-        $tournament->contacts[0];
         $response = [
             'tournament_details' => $tournament,
             'contact_details' => !empty($tournament->contacts) ? $tournament->contacts : [],
