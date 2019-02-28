@@ -75,7 +75,7 @@ export default {
 			Tournament.getMatchLastUpdatedDate(data).then(
 	        (response)=> {
 	        	let matchLastUpdateDate = response.data
-	        	this.lastMatchUpdatedDate = moment(this.matchLastUpdateDate).format("Do MMM YYYY HH:mm");
+	        	this.lastMatchUpdatedDate =  moment(matchLastUpdateDate).format("Do MMM YYYY HH:mm");
 	        },
 	        (error) => {
 	          alert('Error in Getting Draws')

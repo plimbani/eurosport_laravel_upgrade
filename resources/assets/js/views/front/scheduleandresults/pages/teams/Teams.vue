@@ -84,7 +84,6 @@
 
 
     mounted() {
-    	console.log('mountedgg');
     	this.getAllTournamentTeams();
     },
     created() {

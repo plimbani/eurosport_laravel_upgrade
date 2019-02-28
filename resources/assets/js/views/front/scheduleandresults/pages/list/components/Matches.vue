@@ -125,14 +125,6 @@
     },
     created() {
     },
-    // watch: {
-    //   matches: {
-    //     handler: function (val, oldVal) {
-    //       this.matchData = _.sortBy(_.cloneDeep(val), ['match_datetime']);
-    //     },
-    //     deep: true,
-    //   },
-    // },
     methods: {
       showPlacingForMatch() {
         if(this.currentView == 'Competition') {

@@ -140,7 +140,6 @@
               currentCompetition = _.find(response.data.data, function(o) { return o.id == vm.currentCompetitionId; });
               vm.currentCompetition = currentCompetition;
               vm.competitionRound = currentCompetition.competation_type;
-              // vm.refreshStanding();
             }
           },
           (error) => {
@@ -160,11 +159,6 @@
             if(response.data.status_code == 300){
               this.matchesGrid = [];
             }
-            // this.teamStatus = false;
-            // let vm = this;
-            // setTimeout(function(){
-            //   vm.teamStatus = true;
-            // }, 500);
           },
           (error)=> {}
           )

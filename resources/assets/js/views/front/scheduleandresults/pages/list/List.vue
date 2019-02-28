@@ -203,10 +203,6 @@
       },
       setFilterOptions() {
         var matchFilterKey = this.filterBy;
-
-        // var tournamentFilter = {'filterKey': this.filterBy, 'filterValue': this.selectedOption}
-        // this.$store.dispatch('setTournamentFilter', tournamentFilter);
-
         if(this.filterBy === 'category_and_competition') {
           if(this.selectedOption == '') {
             matchFilterKey = '';
