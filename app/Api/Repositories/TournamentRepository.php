@@ -1034,9 +1034,13 @@ class TournamentRepository
     {
         $tournament = Tournament::where('access_code', $accessCode)->first();
         $tournament->contacts[0];
-        $tournament->sponsors;
-                
-        return $tournament;
+        $response = [
+            'tournament_details' => $tournament,
+            'contact_details' => $tournament->contacts[0],
+            'tournament_sponsor' => $tournament->sponsors
+        ];
+        
+        return $response;
     }
 
 
