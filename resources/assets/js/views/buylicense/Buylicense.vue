@@ -6,8 +6,8 @@
                     <div class="col-lg-6">
                         <h1 class="font-weight-bold" v-if="!id">Buy a License</h1>
                         <h1 class="font-weight-bold" v-if="id">Update License for a {{tournamentData.tournament_name}}<span v-if="tournamentData.access_code">(#{{tournamentData.access_code}})</span></h1>
-                        <p class="mb-5" v-if="id == ''">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris posuere vel mi ac sagittis. Quisque vel nulla at nibh finibus sodales. Nam efficitur sem a mi rhoncus. </p>
-                        <p class="mb-5" v-if="id != ''">You can add more teams and extend the duration of your tournament. </p>
+                        <p class="mb-5" v-if="!id">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris posuere vel mi ac sagittis. Quisque vel nulla at nibh finibus sodales. Nam efficitur sem a mi rhoncus. </p>
+                        <p class="mb-5" v-if="id">You can add more teams and extend the duration of your tournament. </p>
 
                         <label>Number of teams competing</label>
 
@@ -32,8 +32,8 @@
                             </div>
                         </div>
 
-                        <label>Name of your tournament</label>
-                        <div class="form-group">
+                        <label v-if="!id">Name of your tournament</label>
+                        <div v-if="!id" class="form-group">
                             <input type="text" class="form-control form-control-danger" placeholder="Tournament name" id="tournament_name" name="tournament_name" v-model="tournamentData.tournament_name" v-validate="{ rules: { required: true } }">
                             <span class="help is-danger" v-show="errors.has('tournament_name')">The tournament name field is required.</span> 
                         </div>
