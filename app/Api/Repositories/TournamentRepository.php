@@ -1032,7 +1032,9 @@ class TournamentRepository
      */
     public function getTournamentByAccessCode($accessCode)
     {
-        return Tournament::where('access_code', $accessCode)->first();
+        $tournament = Tournament::where('access_code', $accessCode)->first();
+                
+        return $tournament;
     }
 
 

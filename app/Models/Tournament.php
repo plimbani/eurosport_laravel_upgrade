@@ -38,6 +38,16 @@ class Tournament extends Model
         return $this->belongsToMany('Laraspace\Models\User', 'tournament_user', 'tournament_id', 'user_id');
     }
 
+    public function contacts()
+    {
+        return $this->hasMany('Laraspace\Models\TournamentContact');
+    }
+    
+    public function sponsors()
+    {
+        return $this->hasMany('Laraspace\Models\TournamentSponsor');
+    }
+    
     public function getStartDateAttribute($value)
     {
          return Carbon::parse($value)->format('d/m/Y');
