@@ -4,7 +4,7 @@
 			<div class="col-sm-12">
 				<h3 class="text-uppercase font-weight-bold">Schedule & Results</h3>
                 <h6 class="text-uppercase font-weight-bold mb-0">Last Updated</h6>
-                <p class="mb-4">19th October 2018, 09:43</p>
+                <p class="mb-4">{{ lastMatchUpdatedDate }}</p>
 
                 <div class="tabs tabs-primary">
 					<ul class="nav nav-tabs mb-4">
@@ -34,7 +34,8 @@
 	</div>
 </template>
 <script type="text/babel">
-
+var moment = require('moment');
+import Tournament from '../../../../api/tournament.js'
 import MatchListing from './list/List.vue';
 import TeamListing from './teams/Teams.vue';
 import CategoryListing from './categories/Categories.vue';
@@ -44,6 +45,7 @@ export default {
 	data() {
 		return {
 			currentView: '',
+			lastMatchUpdatedDate: '',
 		}
 	},
 	props: ['tournamentData'],
@@ -55,12 +57,30 @@ export default {
 		this.currentView = 'drawsListing';
 		this.$store.dispatch('setCurrentView', this.currentView);
 	},
+	watch: {
+		tournamentData: function () {
+	        this.getMatchLastUpdatedDate();
+	    }
+	},
 	methods: {
 		setCurrentView(currentView) {
 			if(currentView != this.currentView) {
 				this.currentView = currentView;
 	    		this.$store.dispatch('setCurrentView', this.currentView);
 	    	}
+		},
+		getMatchLastUpdatedDate($updateDate) {
+			let data = {'tournamentId': this.tournamentData.id};
+
+			Tournament.getMatchLastUpdatedDate(data).then(
+	        (response)=> {
+	        	let matchLastUpdateDate = response.data
+	        	this.lastMatchUpdatedDate = moment(this.matchLastUpdateDate).format("Do MMM YYYY HH:mm");
+	        },
+	        (error) => {
+	          alert('Error in Getting Draws')
+	        }
+	      )
 		}
 	}
 }

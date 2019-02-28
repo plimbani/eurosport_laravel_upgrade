@@ -263,5 +263,9 @@ export default {
   },
   editTournamentMessage(tournamentData) {
     return api.post('tournament/editTournamentMessage', {'tournamentData': tournamentData})
+  },
+  getMatchLastUpdatedDate(tournamentData) {
+    return api.post('match/getMatchLastUpdateValue',{'tournamentData': tournamentData})
   }
+
 }

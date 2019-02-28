@@ -2485,4 +2485,11 @@ class MatchService implements MatchContract
         $this->calculateCupLeagueTable($value->id, 1);
       }
     }
+
+    public function getLastUpdateValue($data)
+    {
+        return $this->matchRepoObj->getLastUpdateValue($data['tournamentData']);
+    }
+
+
 }
