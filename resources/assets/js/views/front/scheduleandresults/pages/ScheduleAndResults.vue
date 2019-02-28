@@ -26,7 +26,7 @@
 						<match-listing :tournamentData="tournamentData" v-if="currentView == 'matchListing'"></match-listing>
 						<category-listing :tournamentData="tournamentData" v-if="currentView == 'drawsListing'"></category-listing>	
 						<team-listing :tournamentData="tournamentData" v-if="currentView == 'teamListing'"></team-listing>
-						<finalPlacings v-if="currentView == 'finalPlacings'"></finalPlacings>
+						<finalPlacings :tournamentData="tournamentData" v-if="currentView == 'finalPlacings'"></finalPlacings>
 					</div>
 				</div>
 			</div>
