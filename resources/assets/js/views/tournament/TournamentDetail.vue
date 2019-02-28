@@ -13,13 +13,16 @@
                                 <h2 class="font-weight-bold mb-0">{{tournamentInfo.name}}</h2>
                                 <h4 class="text-uppercase font-weight-bold mb-4">{{tournamentInfo.start_date}} - {{tournamentInfo.end_date}}</h4>
 
-                                <h6 class="text-uppercase mb-0 font-weight-bold">Main Contact</h6>
-                                <p class="mb-4">Ben Grout <a href="tel:+44 7557 123 456">+44 7557 123 456</a></p>
+                                <h6 v-if="contactData"  class="text-uppercase mb-0 font-weight-bold">Main Contact</h6>
+                                <p class="mb-4"  v-for="item in contactData" >{{item.first_name}} {{item.last_name}} <a :href="'tel:' + item.telephone">{{item.telephone}}</a></p>
 
-                                <h6 class="text-uppercase font-weight-bold">Sponsored by</h6>
+                                 <h6 v-if="tournamentSponsers"  class="text-uppercase font-weight-bold">Sponsored by</h6>
 
                                 <ul class="list-unstyled sponsored-list mb-0">
-                                    <li class="d-inline"><img src="/images/macd-logo.png" alt="sponsored"></li>
+                                    <li class="d-inline" v-for="sponser in tournamentSponsers">
+                                        <!-- <img src="/images/macd-logo.png" alt="sponsored"> -->
+                                        <img :src="sponser.logo" alt="sponsored">
+                                    </li>
                                 </ul>
                             </div>
                         </div>
@@ -58,6 +61,8 @@
             return {
                 tournamentInfo:{},
                 tournamentData:{},
+                contactData:[],
+                tournamentSponsers:[],
                 code:""
             }
         },
@@ -83,8 +88,10 @@
                // console.log("tournamentDetail::",this.code);
                  axios.get(Constant.apiBaseUrl+'tournament-by-code?tournament='+this.code, {}).then(response =>  {  
                         if (response.data.success) { 
-                             this.tournamentInfo = response.data.data;
-                             this.tournamentData = response.data.data;
+                             this.tournamentInfo = response.data.data.tournament_details;
+                             this.tournamentData = response.data.data.tournament_details;
+                             this.contactData = response.data.data.contacr_details;
+                             this.tournamentSponsers = response.data.data.tournament_sponser;
                              // console.log("tournaments::",this.tournamentInfo)
                          }else{ 
                             toastr['error'](response.data.message, 'Error');
