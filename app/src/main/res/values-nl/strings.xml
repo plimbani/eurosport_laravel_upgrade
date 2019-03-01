@@ -120,4 +120,6 @@
     <string name="first_name">Voornaam</string>
     <string name="get_otp">voorleggen</string>
 
+    <string name="email_verification">email verificatie</string>
+    <string name="resend_email">Email opnieuw verzenden</string>
 </resources>
