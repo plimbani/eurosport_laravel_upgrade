@@ -90,8 +90,8 @@
                         if (response.data.success) { 
                              this.tournamentInfo = response.data.data.tournament_details;
                              this.tournamentData = response.data.data.tournament_details;
-                             this.contactData = response.data.data.contacr_details;
-                             this.tournamentSponsers = response.data.data.tournament_sponser;
+                             this.contactData = response.data.data.contact_details;
+                             this.tournamentSponsers = response.data.data.tournament_sponsor;
                              // console.log("tournaments::",this.tournamentInfo)
                          }else{ 
                             toastr['error'](response.data.message, 'Error');
