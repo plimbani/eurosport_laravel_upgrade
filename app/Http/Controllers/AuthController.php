@@ -51,7 +51,7 @@ class AuthController extends Controller
           }
 
           if( $userData->is_verified == 0 ) {
-            return response(['authenticated' => false, 'message'=>'Account is not verified.']);
+            return response(['authenticated' => false, 'message'=>'This email account still requires verification.']);
           }
 
           if( ($userData->is_mobile_user == 0 && $isMobileUsers == true) || ($userData->is_desktop_user == 0 && $isMobileUsers != true) ) {
