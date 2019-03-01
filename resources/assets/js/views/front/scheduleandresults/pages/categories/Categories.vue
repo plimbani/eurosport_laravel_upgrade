@@ -110,11 +110,6 @@
       }, 500);
           
     },
-    // watch: {
-    //   tournamentData: function () {
-    //     this.getAllCategoriesData();
-    //   }
-    // },
     created() {
       this.$root.$on('showCategoryGroups', this.showCategoryGroups);
       this.$root.$on('showCompetitionViewFromCategory', this.showCompetitionViewFromCategory);
