@@ -117,4 +117,6 @@
     <string name="get_otp">einreichen</string>
 
 
+    <string name="email_verification">E-Mail-Verifizierung</string>
+    <string name="resend_email">E-Mail zurücksenden</string>
 </resources>
