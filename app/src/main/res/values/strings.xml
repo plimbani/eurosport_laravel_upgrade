@@ -28,6 +28,7 @@
 
     <string name="role">Select role</string>
     <string name="error">Error</string>
+    <string name="email_verification">Email Verification</string>
     <string name="button_ok">Ok</string>
     <string name="select_tournament">Select tournament</string>
     <string name="select_default_tournament">Select default tournament</string>
@@ -252,4 +253,5 @@
     <string name="tournament_code_not_recognised">The tournament code was not recognised</string>
 
 
+    <string name="resend_email">Re-send email</string>
 </resources>
