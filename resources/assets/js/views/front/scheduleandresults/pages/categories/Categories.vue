@@ -4,7 +4,7 @@
 			<table id="categoriesTable" class="table table-hover table-bordered">
 				<thead class="no-border">
 					<tr>
-						<th>Categories</th>
+						<th>Category</th>
 						<th>Teams</th>
 					</tr>
 				</thead>
