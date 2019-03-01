@@ -14,7 +14,7 @@
           <div class="col-10 col-sm-6 col-md-4 col-lg-3 col-xl-3">
             <label class="custom_select_box d-block mb-0" for="match_overview">
               <select v-on:change="onCompetitionChange()"
-                v-model="currentCompetition" id="competition-overview" class="border-0" name="competition-options">
+                v-model="currentCompetition" id="competition-overview" class="form-control" name="competition-options">
                   <option v-for="competition in competitionList"
                   v-bind:value="competition">
                   {{ competition.name }}
@@ -29,8 +29,8 @@
         <span v-if="matchesGrid.length == 0 && competitionDetail.type != 'Elimination'">No information available.</span>
     </div>
 
-    <div class="table-responsive">
-      <table class="table" v-if="matchesGrid.length > 0 && competitionDetail.type != 'Elimination'">
+    <div class="table-responsive custom-table">
+      <table class="table table-sm" v-if="matchesGrid.length > 0 && competitionDetail.type != 'Elimination'">
         <thead class="no-border">
           <tr>
             <th></th>

@@ -1,8 +1,8 @@
 <template>
     <div>
       <!-- <hr class="hr m-0"> -->
-      <div class="table-responsive">
-        <table id="matchSchedule" class="table" v-if="matchData.length > 0">
+      <div class="table-responsive custom-table">
+        <table id="matchSchedule" class="table table-sm" v-if="matchData.length > 0">
           <thead class="no-border">
             <tr>
               <th scope="col">Date and time</th>
@@ -20,7 +20,7 @@
               <td>{{ match.match_datetime | formatDate }}</td>
               <td>
                 <a href="" v-if="currentView != 'Competition'" @click.prevent="showCompetitionData(match)">
-                  <u>{{ match.competation_name | formatGroup }}</u>
+                  {{ match.competation_name | formatGroup }}
                 </a>
                 <span v-else>{{ match.competation_name | formatGroup(match.round) }}</span>
               </td>

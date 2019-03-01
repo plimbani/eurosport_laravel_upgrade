@@ -1,7 +1,7 @@
 <template>
 	<div>
-		<div class="table-responsive">
-			<table class="table" v-if="standingData.length > 0">
+		<div class="table-responsive custom-table">
+			<table class="table table-sm" v-if="standingData.length > 0">
 				<thead class="no-border">
 					<tr>
 						<th></th>

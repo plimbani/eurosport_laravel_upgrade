@@ -1,5 +1,5 @@
 <template>
-    <section class="confirmation-section section-padding">
+    <section class="confirmation-section section-padding pb-0">
         <div class="tournament-section section-padding">
             <div class="container">
                 <div class="row" v-if="tournamentInfo">
