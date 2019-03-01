@@ -881,4 +881,12 @@ class MatchController extends BaseController
 
         return response()->download(base_path('resources/sample_uploads/TeamsUploadSpreadsheet.xls'), 'TeamsUploadSpreadsheet.xls', $headers);
     }
+
+    /**
+     * Matchlast updateed time
+    */
+    public function getMatchLastUpdatedDate(Request $request)
+    {
+        return $this->matchObj->getLastUpdateValue($request->all());
+    }
 }
