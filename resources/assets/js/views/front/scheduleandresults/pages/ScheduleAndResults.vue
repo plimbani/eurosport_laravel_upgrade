@@ -19,7 +19,7 @@
 								<a :class="[currentView == 'teamListing' ? 'active' : '']" href="javascript:void(0)" class="nav-link">Teams</a>
 							</li>
 							<li @click="setCurrentView('finalPlacings')" class="nav-item">
-								<a :class="[currentView == 'finalPlacings' ? 'active' : '']" href="javascript:void(0)" class="nav-link">Final placings</a>
+								<a :class="[currentView == 'finalPlacings' ? 'active' : '']" href="javascript:void(0)" class="nav-link">Final placing</a>
 							</li>
 						</ul>
 						<div class="tab-content">
