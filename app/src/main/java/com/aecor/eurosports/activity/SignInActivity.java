@@ -1,6 +1,7 @@
 package com.aecor.eurosports.activity;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import com.aecor.eurosports.gson.GsonConverter;
 import com.aecor.eurosports.http.VolleyJsonObjectRequest;
 import com.aecor.eurosports.http.VolleySingeltone;
 import com.aecor.eurosports.model.ProfileModel;
+import com.aecor.eurosports.ui.ViewDialog;
 import com.aecor.eurosports.util.ApiConstants;
 import com.aecor.eurosports.util.AppConstants;
 import com.aecor.eurosports.util.AppLogger;
@@ -205,7 +207,61 @@ public class SignInActivity extends BaseActivity {
                         } else {
 //                            {"authenticated":false,"message":"Account de-activated please contact your administrator."}
                             if (response.has("message") && !Utility.isNullOrEmpty(response.getString("message"))) {
-                                Utility.showToast(mContext, response.getString("message"));
+//                                Utility.showToast(mContext, response.getString("message"));
+                                ViewDialog.showSingleButtonDialog((Activity) mContext, mContext.getString(R.string.email_verification), response.getString("message"), mContext.getString(R.string.resend_email), new ViewDialog.CustomDialogInterface() {
+                                    @Override
+                                    public void onPositiveButtonClicked() {
+                                        resendEmail();
+                                    }
+
+                                });
+                            }
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    try {
+                        Utility.StopProgress();
+                        Utility.parseVolleyError(mContext, error);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            });
+            mQueue.add(jsonRequest1);
+        } else {
+            checkConnection();
+        }
+    }
+
+    private void resendEmail() {
+        if (Utility.isInternetAvailable(mContext)) {
+            Utility.startProgress(mContext);
+            String url = ApiConstants.RESEND_EMAIL;
+            final JSONObject requestJson1 = new JSONObject();
+            try {
+                requestJson1.put("email", email_address.getText().toString().trim());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            final RequestQueue mQueue = VolleySingeltone.getInstance(mContext).getRequestQueue();
+            final VolleyJsonObjectRequest jsonRequest1 = new VolleyJsonObjectRequest(mContext, Request.Method
+                    .POST, url,
+                    requestJson1, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    Utility.StopProgress();
+                    try {
+                        AppLogger.LogE(TAG, "***** Resend email response *****" + response.toString());
+                        if (response.has("status_code") && !Utility.isNullOrEmpty(response.getString("status_code")) && response.getString("status_code").equalsIgnoreCase("200")) {
+                            if (response.has("message") && !Utility.isNullOrEmpty(response.getString("message"))) {
+                                String messgae = response.getString("message");
+                                Utility.showToast(mContext, messgae);
                             }
                         }
                     } catch (Exception e) {
@@ -246,7 +302,7 @@ public class SignInActivity extends BaseActivity {
     private void launchHome() {
         if (Utility.isNullOrEmpty(mAppSharedPref.getString(AppConstants.PREF_COUNTRY_ID))) {
             startActivity(new Intent(mContext, ProfileActivity.class));
-        }else{
+        } else {
             startActivity(new Intent(mContext, HomeActivity.class));
 
         }
