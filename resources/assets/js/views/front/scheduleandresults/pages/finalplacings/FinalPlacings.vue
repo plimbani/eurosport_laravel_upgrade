@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="table-responsive">
+    <div class="table-responsive custom-table">
       <table class="table table-hover table-bordered" v-if="competitionList.length > 0">
         <thead class="no-border">
           <tr>
@@ -15,7 +15,7 @@
             <td>{{ competition.category_age }}</td>
             <td>
               <a @click="getAgeCategoryDetail(competition.id)" href="#" data-toggle="modal" data-target="#final_placing_modal">
-                <u>View placings</u>
+                View placings
               </a>
             </td>
           </tr>
@@ -36,10 +36,10 @@
           <div class="modal-body modal-fixed-height">
               <div class="form-group row mb-0" v-for="position in positionData">
                 <div class="col-sm-3 form-control-label border-0">
-                  <h6 class="font-weight-bold">Placing {{ position.pos }}</h6>
+                  <h6 class="font-weight-bold mb-0">Placing {{ position.pos }}</h6>
                 </div>
                 <div class="col-sm-9 form-control-label">                   
-                  <h6 class="d-flex">
+                  <h6 class="d-flex mb-0">
                     <span :class="'flag-icon flag-icon-' + position.team_flag"></span>
                     <span class="ml-1">{{ position.team_name }}</span>
                   </h6>

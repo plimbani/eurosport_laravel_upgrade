@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<div class="table-responsive" v-if="showView == 'category'">
+		<div class="table-responsive custom-table" v-if="showView == 'category'">
 			<table id="categoriesTable" class="table table-hover table-bordered">
 				<thead class="no-border">
 					<tr>
@@ -12,7 +12,7 @@
 					<tr v-for="category in categories">
 						<td>
 							<a class="text-primary" href="#" @click.prevent="showCategoryGroups(category.id)">
-								<u>{{ category.group_name }} ({{ category.category_age }})</u>
+								{{ category.group_name }} ({{ category.category_age }})
 							</a>
               <a href="#" data-toggle="modal" data-target="#commentmodal" class="text-primary" @click.prevent="showComment(category)"><i class="fa fa-info-circle" v-if="category.comments != null"></i></a>
 						</td>
@@ -27,7 +27,7 @@
 		<div class="" v-if="showView == 'groups'">
       <a @click="changeTable()" href="javascript:void(0)" aria-expanded="true" class="btn btn-primary mb-2 text-white">
       <i aria-hidden="true" class="fa fa-angle-double-left"></i> Back to category list</a>
-      <div class="table-responsive" v-if="groupsData.length > 0">
+      <div class="table-responsive custom-table" v-if="groupsData.length > 0">
         <table class="table table-hover table-bordered mt-2">
           <thead class="no-border">
                 <tr>
@@ -39,7 +39,7 @@
             <tbody>
               <tr v-for="group in groupsData">
                 <td>
-                  <a class="pull-left text-left text-primary" href="javascript:void(0)" @click.prevent="showCompetitionDetail(group)"><u>{{ group.name }}</u> </a>
+                  <a class="pull-left text-left text-primary" href="javascript:void(0)" @click.prevent="showCompetitionDetail(group)">{{ group.name }} </a>
                 </td>
                 <td>{{ group.competation_type }}</td>
                 <td class="text-center">{{ group.team_size }}</td>

@@ -2,29 +2,32 @@
   <div>
     <div>
         <div class="row align-items-end custom_radio_btn matches-filter" v-if="currentView == 'Matches'">
-            <div class="col-xl-6">
+            <div class="col-sm-6 col-xl-6">
+              <div class="form-group">
                 <div class="row align-items-center justify-content-between">
-                    <div class="col-md-6 col-lg-5 col-xl-12">
-                        <label class="label-of-input font-weight-bold mb-0">Match overview:</label>
+                    <div class="col-xl-12">
+                        <label class="label-of-input">Match overview:</label>
                     </div>
-                    <div class="col-sm-12 col-md-5 col-lg-5 col-xl-12">
-                        <label class="custom_select_box d-block mb-0" for="match_overview">
-                            <select id="match_overview" class="border-0" v-on:change="onMatchDateChange()" v-model="matchDate">
+                    <div class="col-xl-12">
+                        <label class="custom_select_box d-block" for="match_overview">
+                            <select id="match_overview" class="form-control" v-on:change="onMatchDateChange()" v-model="matchDate">
                                 <option value=""> All dates</option>
                                 <option v-for="date in tournamentDates" v-bind:value="date">{{ date | formatDate }}</option>
                             </select>
                         </label>
                     </div>
                 </div>
+              </div>
             </div>
-            <div class="col-xl-6">
+            <div class="col-sm-6 col-xl-6">
+              <div class="form-group">
                 <div class="row align-items-center justify-content-between">
-                    <div class="col-md-6 col-lg-5 col-xl-12">
-                        <label class="label-of-input font-weight-bold mb-0">Score:</label>
+                    <div class="col-xl-12">
+                        <label class="label-of-input">Score:</label>
                     </div>
-                    <div class="col-sm-12 col-md-5 col-lg-5 col-xl-12">
-                        <label class="custom_select_box d-block mb-0" for="match_score">
-                            <select id="match_score"  class="border-0" v-on:change="onChangeAllMatchScore" v-model="matchScoreFilter">
+                    <div class="col-xl-12">
+                        <label class="custom_select_box d-block" for="match_score">
+                            <select id="match_score"  class="form-control" v-on:change="onChangeAllMatchScore" v-model="matchScoreFilter">
                               <option value="all">All matches</option>
                               <option value="scored">Scored</option>
                               <option value="notscored">Not scored</option>
@@ -32,15 +35,16 @@
                         </label>
                     </div>
                 </div>
+              </div>
             </div>
-            <div class="col-xl-12 mt-4 mt-xl-0">
+            <div class="col-xl-12 mt-4 mt-xl-0 mb-5">
                 <div class="row">
                   <div class="col-12">
-                    <label class="label-of-input font-weight-bold mb-0">Filter by:</label>
+                    <label class="label-of-input">Filter by:</label>
                   </div>
                 </div>
                 <div class="row">
-                  <div class="col-md-8 col-lg-7 mb-3 mb-md-0">
+                  <div class="col-md-8 col-lg-6 mb-3 mb-md-0">
                     <div class="row align-items-center h-100">
                       <div class="col-md-4">
                         <div class="radio d-inline-block pl-0">
@@ -70,7 +74,7 @@
                   </div>
                   <div class="col-md-4 col-lg-3 select2_override"  v-show="filterBy != 'category_and_competition'">
                     <label class="custom_select_box d-block mb-0" for="location_team_filter">
-                      <select id="location_team_filter" class="border-0" v-model="selectedOption" @change="setFilterOptions()">
+                      <select id="location_team_filter" class="form-control" v-model="selectedOption" @change="setFilterOptions()">
                         <option value="">Select</option>
                         <option :value="option.id" v-for="option in filterOptions" v-bind:value="option">{{ option.name }}</option>
                       </select>

@@ -1,4 +1,5 @@
-.main-section {
+.main-section,
+.custom-table {
     table {
         @extend .border-0;
 
@@ -18,6 +19,17 @@
                 a {
                     color: $theme-color-primary;
                 }
+            }
+        }
+    }
+}
+
+.custom-table {
+    table {
+        &.table-sm {
+
+            tr {
+                font-size: 0.875rem;
             }
         }
     }

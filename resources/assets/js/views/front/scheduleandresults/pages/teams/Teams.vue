@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<div v-if="showView == 'teams'">
-			<div class="table-responsive">
+			<div class="table-responsive custom-table">
 				<table id="teamsTable" class="table table-hover table-bordered">
 					<thead class="no-border">
 						<tr>
@@ -21,8 +21,7 @@
 								</div>
 							</td>
 							<td>
-								<a href="javascript:void(0)" @click.prevent="showCompetitionDetail(team)" class="text-primary pull-left text-left">
-								<u>{{team.competationName}}</u></a>
+								<a href="javascript:void(0)" @click.prevent="showCompetitionDetail(team)" class="text-primary pull-left text-left">{{team.competationName}}</a>
 							</td>
 						</tr>
 					</tbody>
