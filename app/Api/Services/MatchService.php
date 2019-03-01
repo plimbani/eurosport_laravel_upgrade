@@ -1277,7 +1277,7 @@ class MatchService implements MatchContract
         {
 
           $calculatedArray = array_shift($calculatedArray);
-          list($calculatedArray,$sort_head_to_head) = $this->matchRepoObj->sortByHeadtoHead($calculatedArray,$check_head_to_head_with_key,$tournament_id,$compId,$tournamentCompetationTemplatesRecord);
+          list($calculatedArray,$sort_head_to_head) = $this->matchRepoObj->sortByHeadtoHead($calculatedArray,$check_head_to_head_with_key,$tournament_id,$compId,$tournamentCompetationTemplatesRecord,$remain_head_to_head_with_key);
 
           if ( !empty($remain_head_to_head_with_key) )
           {
@@ -1293,7 +1293,7 @@ class MatchService implements MatchContract
             }
             array_multisort($internal_head_to_head_position_sorting,SORT_ASC,$calculatedArray);
 
-            $sortArray[] = &$head_to_head_position_sorting; 
+            /*$sortArray[] = &$head_to_head_position_sorting; 
             $sortArray[] = SORT_ASC;
 
             $remainingSorting = array();
@@ -1307,7 +1307,7 @@ class MatchService implements MatchContract
             }
 
             $sortArray[] = &$calculatedArray;
-            call_user_func_array('array_multisort', $sortArray);
+            call_user_func_array('array_multisort', $sortArray);*/
           }
 
           $setCalculatedArray[$cupId] = $calculatedArray;
