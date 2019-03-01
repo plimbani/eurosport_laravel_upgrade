@@ -751,8 +751,12 @@ class AgeGroupService implements AgeGroupContract
 
       $roundTwoTeams = [];
       $nextRoundTeams = [];
+      $group1 = [];
+      $group2 = [];      
+      
       for ($round = 0; $round < $allRounds; $round++) {
-        $finalArray['tournament_competation_format']['format_name'][$round]['name'] = 'Round ' .($round+1)
+        $matches = [];
+        $finalArray['tournament_competation_format']['format_name'][$round]['name'] = 'Round ' .($round+1);
         if($round == 0) {
           $groupCount = 0;
           for ($group=0; $group<$totalGroups; $group++) {
@@ -762,8 +766,6 @@ class AgeGroupService implements AgeGroupContract
           }
           $nextRoundTeams = $this->teamsForRoundTwo($totalGroups, $teamsPerGroup, $roundSizeData);
         } else {
-          $group1 = [];
-          $group2 = [];
           $dividedRoundMatches = sizeof($nextRoundTeams) / 2;
 
           for ($i=0; $i<$dividedRoundMatches; $i++) {
@@ -772,6 +774,16 @@ class AgeGroupService implements AgeGroupContract
           }
 
           $reversedGroupTwoArray = array_reverse($group2);
+
+          for ($i=0; $i < sizeof($group1); $i++) {
+            $matches[$i] = $group1[$i]. "-" .$group2[$i];
+          }
+
+          $nextRoundTeams = $matches;
+
+          for ($i=0; $i < sizeof($matches); $i++) {
+            $nextRoundTeams = 'wrs(' .$matches[$i]. ')';
+          }
         }
       }
     }
@@ -779,20 +791,17 @@ class AgeGroupService implements AgeGroupContract
     public function teamsForRoundTwo($totalGroups, $teamsPerGroup, $roundSizeData)
     {
       $predefinedTeamsCount = $totalGroups * 2;
-      $key = 0;
       $teams = 1;
-      for($i=0; $i < $teamsPerGroup; $i++) {
-        for($j=1; $j <= $totalGroups; $j++) {
+      for($i=1; $i <= $teamsPerGroup; $i++) {
+        for($j=0; $j < $totalGroups; $j++) {
           if($predefinedTeamsCount < $roundSizeData) {
             if($teams <= $predefinedTeamsCount) {
-              $teamsForRoundTwo[] = $j .chr(65 + ($i));
-              $key++;
+              $teamsForRoundTwo[] = $i .chr(65 + $j);
               $teams++;
             }
           } else {
             if($teams <= $roundSizeData) {
-              $teamsForRoundTwo[] = $j .chr(65 + ($i));
-              $key++;
+              $teamsForRoundTwo[] = $i .chr(65 + $j);
               $teams++;
             }
           }
@@ -810,7 +819,7 @@ class AgeGroupService implements AgeGroupContract
             }
           }
         }
-      }
+      }      
 
       return $teamsForRoundTwo;
     }
