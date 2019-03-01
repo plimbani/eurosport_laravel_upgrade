@@ -97,6 +97,7 @@ $api->version('v1', function ($api) {
 
     $api->get('getAllLanguages', 'Laraspace\Api\Controllers\UserController@getAllLanguages');
 
+    $api->post('/userResendEmail', '\Laraspace\Api\Controllers\UserController@userResendEmail');
 });
 
 $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
