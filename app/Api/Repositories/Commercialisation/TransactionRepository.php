@@ -122,6 +122,8 @@ class TransactionRepository
                 'amount' => $tournament['total_amount'],
                 'updated_at' => date('Y-m-d H:i:s')
             ];
+        } elseif ($tournament['total_amount'] == 0) {
+            
         } else {
             $transaction = [
                 'order_id' => $data['ORDERID'],
