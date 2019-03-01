@@ -69,7 +69,7 @@ export default {
       let expireTime = moment(this.displayTournamentEndDate).add(8, 'hours').format('DD/MM/YYYY HH:mm:ss');
       let tournamentStartDate = this.$store.state.Tournament.tournamentStartDate;
       
-      if(tournamentStartDate >= currentDateTime  && expireTime <= currentDateTime) {
+      if(tournamentStartDate && expireTime >= currentDateTime) {
          return true;
       } else {
         return false;

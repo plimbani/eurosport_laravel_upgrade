@@ -23,7 +23,8 @@ class MatchService implements MatchContract
 
     public function __construct()
     {
-        $this->matchRepoObj = new \Laraspace\Api\Repositories\MatchRepository();
+      $this->tournamentLogo = getenv('S3_URL') . '/assets/img/tournament_logo/';
+      $this->matchRepoObj = new \Laraspace\Api\Repositories\MatchRepository();
     }
 
     public function getAllMatches()
@@ -236,7 +237,7 @@ class MatchService implements MatchContract
       return $pdf->inline('Pitch.pdf');
     }
 
-    public function generateCategoryReport($ageGroupId)
+    public function generateCategoryReport($ageGroupId,$allCategory = false)
     {
       $competitions = Competition::where('tournament_competation_template_id',$ageGroupId)->get();
       $date = new \DateTime(date('H:i d M Y'));
@@ -281,17 +282,25 @@ class MatchService implements MatchContract
 
       // dd($pdfData);
 
-      $pdf = PDF::loadView('age_category.summary_report',['data' => $pdfData])
-            ->setPaper('a4')
-            ->setOption('header-spacing', '5')
-            ->setOption('header-font-size', 7)
-            ->setOption('header-font-name', 'Open Sans')
-            ->setOrientation('portrait')
-            ->setOption('footer-right', 'Page [page] of [toPage]')
-            ->setOption('header-right', $date->format('H:i d M Y'))
-            ->setOption('margin-top', 20)
-            ->setOption('margin-bottom', 20);
-        return $pdf->download('Summary report.pdf');
+      if ( $allCategory )
+      {
+        return $pdfData;
+      }
+      else
+      {
+
+        $pdf = PDF::loadView('age_category.summary_report',['data' => $pdfData])
+              ->setPaper('a4')
+              ->setOption('header-spacing', '5')
+              ->setOption('header-font-size', 7)
+              ->setOption('header-font-name', 'Open Sans')
+              ->setOrientation('portrait')
+              ->setOption('footer-right', 'Page [page] of [toPage]')
+              ->setOption('header-right', $date->format('H:i d M Y'))
+              ->setOption('margin-top', 20)
+              ->setOption('margin-bottom', 20);
+          return $pdf->download('Summary report.pdf');
+      }
     }
 
     public function getMatchDetail($matchData) {
@@ -2491,5 +2500,47 @@ class MatchService implements MatchContract
         return $this->matchRepoObj->getLastUpdateValue($data['tournamentData']);
     }
 
+    /**
+      * get all age category data of tournaments
+      *
+      * @param array $data
+    */
+    public function getAllCategoriesReport($tournamentId)
+    {
 
+      $ageCategories =  DB::table('tournament_competation_template')
+                            ->where('tournament_id','=',$tournamentId)
+                            ->get();
+      $pdfData = array();
+      $date = new \DateTime(date('H:i d M Y'));
+      // Fetch tournament logo
+      $tournamentLogo =  DB::table('tournaments')
+                            ->where('id','=',$tournamentId)
+                            ->select('logo')
+                            ->first();
+
+      $pdfData['tournamentLogo'] = '';
+      
+      foreach ($ageCategories as $ageKey => $ageValue) {
+        $pdfData['age_group'][$ageValue->id] = $this->generateCategoryReport($ageValue->id,true);
+        $pdfData['age_group'][$ageValue->id]['ageCategoryName'] = $ageValue->group_name.' ('.$ageValue->category_age.')';
+      }
+
+      if ( !empty($tournamentLogo->logo) )
+      {
+        $pdfData['tournamentLogo'] = $this->tournamentLogo.$tournamentLogo->logo;
+      }
+
+      $pdf = PDF::loadView('age_category.all_summary_report',['data' => $pdfData])
+              ->setPaper('a4')
+              ->setOption('header-spacing', '5')
+              ->setOption('header-font-size', 7)
+              ->setOption('header-font-name', 'Open Sans')
+              ->setOrientation('portrait')
+              ->setOption('footer-right', 'Page [page] of [toPage]')
+              ->setOption('header-right', $date->format('H:i d M Y'))
+              ->setOption('margin-top', 20)
+              ->setOption('margin-bottom', 20);
+          return $pdf->download('All agegroup summary report.pdf');
+    }
 }

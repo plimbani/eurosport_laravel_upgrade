@@ -889,4 +889,12 @@ class MatchController extends BaseController
     {
         return $this->matchObj->getLastUpdateValue($request->all());
     }
+
+    /**
+     * Get all age categories of tournament
+     */
+    public function getAllCategoriesReport($tournamentId)
+    {
+        return $this->matchObj->getAllCategoriesReport($tournamentId);
+    }
 }

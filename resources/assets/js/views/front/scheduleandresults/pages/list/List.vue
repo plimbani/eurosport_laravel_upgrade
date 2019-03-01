@@ -86,7 +86,7 @@
                 </div>
             </div>
         </div>
-        <div class="text-center view-full-information" v-if="showGroupInfo"  v-on:click.capture="showCompetitionDetailPage()">Please <a href="javascript: void(0);">click here</a> to view full standings, results and schedule for {{ selectedOption.data.name }}'</div>
+        <div class="text-center view-full-information" v-if="showGroupInfo"  v-on:click.capture="showCompetitionDetailPage()">Please <a href="javascript: void(0);">click here</a> to view full standings, results and schedule for {{ selectedOption.data.name }} </div>
     </div>
     <component :is="currentView" :matches="matches" :competitionDetail="competitionDetail" :currentView="currentView" :fromView="'Matches'" :categoryId="currentCategoryId" :tournamentData="tournamentData"></component>
   </div>

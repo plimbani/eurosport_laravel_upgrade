@@ -102,11 +102,19 @@
 		},
     props: ['tournamentData'],
 
-    watch: {
-      tournamentData: function () {
-        this.getAllCategoriesData();
-      }
+
+    mounted() {
+      let vm = this;
+      setTimeout(function(){ 
+        vm.getAllCategoriesData(); 
+      }, 500);
+          
     },
+    // watch: {
+    //   tournamentData: function () {
+    //     this.getAllCategoriesData();
+    //   }
+    // },
     created() {
       this.$root.$on('showCategoryGroups', this.showCategoryGroups);
       this.$root.$on('showCompetitionViewFromCategory', this.showCompetitionViewFromCategory);
