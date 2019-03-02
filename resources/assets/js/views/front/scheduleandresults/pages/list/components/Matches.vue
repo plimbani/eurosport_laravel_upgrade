@@ -1,18 +1,18 @@
 <template>
     <div>
       <!-- <hr class="hr m-0"> -->
-      <div class="table-responsive">
-        <table id="matchSchedule" class="table" v-if="matchData.length > 0">
+      <div class="table-responsive custom-table">
+        <table id="matchSchedule" class="table table-sm" v-if="matchData.length > 0">
           <thead class="no-border">
             <tr>
-              <th scope="col">{{ $t('matches.date_and_time') }}</th>
-              <th scope="col">{{ $t('matches.categories') }}</th>
-              <th scope="col">{{ $t('matches.match_codes') }}</th>
-              <th scope="col">{{ $t('matches.team') }}</th>
-              <th scope="col">{{ $t('matches.team') }}</th>
-              <th scope="col">{{ $t('matches.score') }}</th>
-              <th scope="col" v-if="showPlacingForMatch()">{{ $t('matches.placing') }}</th>
-              <th scope="col">{{ $t('matches.location') }}</th>
+              <th scope="col">Date and time</th>
+              <th scope="col">Categories</th>
+              <th scope="col">Match codes</th>
+              <th scope="col">Team</th>
+              <th scope="col">Team</th>
+              <th scope="col">Score</th>
+              <th scope="col" v-if="showPlacingForMatch()">Placing</th>
+              <th scope="col">Location</th>
             </tr>
           </thead>
           <tbody>
@@ -20,7 +20,7 @@
               <td>{{ match.match_datetime | formatDate }}</td>
               <td>
                 <a href="" v-if="currentView != 'Competition'" @click.prevent="showCompetitionData(match)">
-                  <u>{{ match.competation_name | formatGroup }}</u>
+                  {{ match.competation_name | formatGroup }}
                 </a>
                 <span v-else>{{ match.competation_name | formatGroup(match.round) }}</span>
               </td>
@@ -51,7 +51,7 @@
                 <span v-if="(match.isResultOverride == '1' && (match.match_status == 'Walk-over' || match.match_status == 'Abandoned') &&match.match_winner == match.Away_id)">*</span>
               </td>
               <td v-if="showPlacingForMatch()">
-                {{ match.position != null ? match.position : $t('matches.n_a') }}
+                {{ match.position != null ? match.position : 'N/A' }}
               </td>
               <td>
                 {{ match.venue_name }} - {{ match.pitch_number }}
@@ -61,24 +61,12 @@
         </table>
       </div>
 
-      <div class="no-data h6 text-muted" v-if="matchData.length == 0">{{ $t('matches.no_matches_found') }}</div>
+      <div class="no-data h6 text-muted" v-if="matchData.length == 0">No matches found.</div>
       <paginate v-if="currentView != 'Competition'" name="matchlist" :list="matchData" ref="paginator" :per="noOfRecords" class="paginate-list"></paginate>
       <div v-if="currentView != 'Competition'">
-        <!-- <div v-if="matchData.length > 0">
-            <select class="form-control ls-select2" name="noOfRecords" v-model="noOfRecords">
-                <option v-for="recordCount in recordCounts" v-bind:value="recordCount">
-                    {{ recordCount }}
-                </option>
-            </select>
-        </div> -->
-        <!-- <div v-if="matchData.length > 0">
-          <span v-if="$refs.paginator">
-            {{ $t('matches.view_match_result', {'countFrom': getRecordCountFrom, 'countTo': getRecordCountTo, 'totalCount': matchData.length}) }}
-          </span>
-        </div> -->
-        <div class="match-pagination-list" v-if="matchData.length > 0">
-          <paginate-links for="matchlist" :show-step-links="true" :limit="2" :async="true"></paginate-links>
-        </div>
+      <div class="match-pagination-list" v-if="matchData.length > 0">
+        <paginate-links for="matchlist" :show-step-links="true" :limit="2" :async="true"></paginate-links>
+      </div>
       </div>
     </div>
 </template>
@@ -137,14 +125,6 @@
     },
     created() {
     },
-    // watch: {
-    //   matches: {
-    //     handler: function (val, oldVal) {
-    //       this.matchData = _.sortBy(_.cloneDeep(val), ['match_datetime']);
-    //     },
-    //     deep: true,
-    //   },
-    // },
     methods: {
       showPlacingForMatch() {
         if(this.currentView == 'Competition') {

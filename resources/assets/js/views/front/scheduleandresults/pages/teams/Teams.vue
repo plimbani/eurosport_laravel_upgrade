@@ -1,12 +1,12 @@
 <template>
 	<div>
 		<div v-if="showView == 'teams'">
-			<div class="table-responsive">
+			<div class="table-responsive custom-table">
 				<table id="teamsTable" class="table table-hover table-bordered">
 					<thead class="no-border">
 						<tr>
-							<th>{{ $t('matches.team') }}</th>
-							<th>{{ $t('matches.categories') }}</th>
+							<th>Team</th>
+							<th>Categories</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -21,15 +21,14 @@
 								</div>
 							</td>
 							<td>
-								<a href="javascript:void(0)" @click.prevent="showCompetitionDetail(team)" class="text-primary pull-left text-left">
-								<u>{{team.competationName}}</u></a>
+								<a href="javascript:void(0)" @click.prevent="showCompetitionDetail(team)" class="text-primary pull-left text-left">{{team.competationName}}</a>
 							</td>
 						</tr>
 					</tbody>
 				</table>
 			</div>
 
-			<div class="no-data h6 text-muted" v-if="teams.length == 0">{{ $t('matches.no_teams_found') }}</div>
+			<div class="no-data h6 text-muted" v-if="teams.length == 0">No teams found.</div>
 			<paginate name="teams" :list="teams" ref="paginator" :per="noOfRecords" class="paginate-list"></paginate>
 			
 			<div>
@@ -40,10 +39,11 @@
 	    </div>
 		
 		<!-- Competition detail page -->
-      	<competition v-if="showView == 'competition'" :matches="matches" :competitionDetail="competitionDetail" :currentView="'Competition'" :fromView="'Teams'" :categoryId="currentCategoryId"></competition>
+      	<competition v-if="showView == 'competition'" :matches="matches" :competitionDetail="competitionDetail" :currentView="'Competition'" :fromView="'Teams'" :categoryId="currentCategoryId" :tournamentData="tournamentData" ></competition>
 
       	<!-- Team detail page -->
-      	<team-details v-if="showView == 'teamdetail'" :teamMatches="teamMatches" :currentView="'TeamDetail'" :currentSelectedTeamName="currentSelectedTeamName" :fromView="'Teams'"></team-details>
+      	<team-details v-if="showView == 'teamdetail'" :teamMatches="teamMatches" :currentView="'TeamDetail'" :tournamentData="tournamentData" 
+      	:currentSelectedTeamName="currentSelectedTeamName" :fromView="'Teams'"></team-details>
 	</div>
 </template>
 
@@ -60,7 +60,6 @@
         teams: [],
         matches: [],
         showView: 'teams',
-        tournamentData: tournamentData,
         paginate: ['teams'],
         noOfRecords: 20,
         recordCounts: [5, 10, 20, 50, 100],
@@ -80,6 +79,9 @@
     	Competition,
     	TeamDetails,
     },
+    props: ['tournamentData'],
+
+
     mounted() {
     	this.getAllTournamentTeams();
     },
@@ -94,7 +96,7 @@
     },
     methods: {
 	    getAllTournamentTeams() {
-	      let data = {'tournamentId': tournamentData.id};
+	      let data = {'tournamentId': this.tournamentData.id};
 	      TeamList.getTournamentTeams(data).then(
 	        (response)=> {
 	          if(response.data.status_code == 200) {
@@ -107,7 +109,7 @@
 	      )
 	    },
 	    getSelectedCompetitionDetails(competitionId, competitionName, competitionType) {
-	        var tournamentId = tournamentData.id;
+	        var tournamentId = this.tournamentData.id;
 	        var data = {'tournamentId': tournamentId, 'competitionId': competitionId};
 	        var vm = this;
 

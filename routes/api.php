@@ -96,6 +96,8 @@ $api->version('v1', function ($api) {
 
     $api->post('tournament/editTournamentMessage', 'Laraspace\Api\Controllers\TournamentController@editTournamentMessage');
 
+    $api->post('match/getMatchLastUpdateValue', 'Laraspace\Api\Controllers\MatchController@getMatchLastUpdatedDate');
+
     $api->get('match/getAllCategoriesReport/{tournamentId}', 'Laraspace\Api\Controllers\MatchController@getAllCategoriesReport');
 });
 

@@ -2496,11 +2496,16 @@ class MatchService implements MatchContract
       }
     }
 
+    public function getLastUpdateValue($data)
+    {
+        return $this->matchRepoObj->getLastUpdateValue($data['tournamentData']);
+    }
+
     /**
       * get all age category data of tournaments
       *
       * @param array $data
-      */
+    */
     public function getAllCategoriesReport($tournamentId)
     {
 
