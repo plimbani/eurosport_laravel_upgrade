@@ -1,17 +1,17 @@
 <template>
-    <section class="confirmation-section section-padding">
+    <section class="confirmation-section section-padding pb-0">
         <div class="tournament-section section-padding">
             <div class="container">
-                <div class="row" v-if="tournamentInfo">
+                <div class="row" v-if="tournamentData">
                     <div class="col-xl-8">
                         <div class="row">
                             <div class="col-sm-4 col-md-3">
                                 <img src='/images/dummy.png' class="img-fluid tournament-image">
                             </div>
                             <div class="col-sm-8 col-md-9">
-                                <h6 class="text-uppercase mb-0 mt-4 mt-sm-0">License: #{{tournamentInfo.access_code}}</h6>
-                                <h2 class="font-weight-bold mb-0">{{tournamentInfo.name}}</h2>
-                                <h4 class="text-uppercase font-weight-bold mb-4">{{tournamentInfo.start_date}} - {{tournamentInfo.end_date}}</h4>
+                                <h6 class="text-uppercase mb-0 mt-4 mt-sm-0">License: #{{tournamentData.access_code}}</h6>
+                                <h2 class="font-weight-bold mb-0">{{tournamentData.name}}</h2>
+                                <h4 class="text-uppercase font-weight-bold mb-4">{{tournamentData.start_date}} - {{tournamentData.end_date}}</h4>
 
                                 <h6 v-if="contactData"  class="text-uppercase mb-0 font-weight-bold">Main Contact</h6>
                                 <p class="mb-4"  v-for="item in contactData" >{{item.first_name}} {{item.last_name}} <a :href="'tel:' + item.telephone">{{item.telephone}}</a></p>
@@ -32,7 +32,7 @@
                         <p class="mb-4">Download and open the tournament planner app and enter the following code to follow Brighton Champions Cup.</p>
 
                         <div class="app-code text-center py-3">
-                            <h3 class="font-weight-bold m-0">{{tournamentInfo.access_code}}</h3>
+                            <h3 class="font-weight-bold m-0">{{tournamentData.access_code}}</h3>
                         </div>
 
                         <ul class="list-unstyled get-app mb-0 text-xl-center mt-4">
@@ -41,7 +41,7 @@
                         </ul>
                     </div>
                 </div>
-                <div class="row" v-if="!tournamentInfo">
+                <div class="row" v-if="!tournamentData">
                     <div class="col-xl-12">
                         Tournament details not found
                         
@@ -59,7 +59,6 @@
     export default {
         data() {
             return {
-                tournamentInfo:{},
                 tournamentData:{},
                 contactData:[],
                 tournamentSponsers:[],

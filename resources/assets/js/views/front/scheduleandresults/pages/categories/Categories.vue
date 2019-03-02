@@ -1,10 +1,10 @@
 <template>
 	<div>
-		<div class="table-responsive" v-if="showView == 'category'">
+		<div class="table-responsive custom-table" v-if="showView == 'category'">
 			<table id="categoriesTable" class="table table-hover table-bordered">
 				<thead class="no-border">
 					<tr>
-						<th>Categories</th>
+						<th>Category</th>
 						<th>Teams</th>
 					</tr>
 				</thead>
@@ -27,7 +27,7 @@
 		<div class="" v-if="showView == 'groups'">
       <a @click="changeTable()" href="javascript:void(0)" aria-expanded="true" class="btn btn-primary mb-2 text-white">
       <i aria-hidden="true" class="fa fa-angle-double-left"></i> Back to category list</a>
-      <div class="table-responsive" v-if="groupsData.length > 0">
+      <div class="table-responsive custom-table" v-if="groupsData.length > 0">
         <table class="table table-hover table-bordered mt-2">
           <thead class="no-border">
                 <tr>
@@ -39,7 +39,7 @@
             <tbody>
               <tr v-for="group in groupsData">
                 <td>
-                  <a class="pull-left text-left text-primary" href="javascript:void(0)" @click.prevent="showCompetitionDetail(group)"><u>{{ group.name }}</u> </a>
+                  <a class="pull-left text-left text-primary" href="javascript:void(0)" @click.prevent="showCompetitionDetail(group)">{{ group.name }} </a>
                 </td>
                 <td>{{ group.competation_type }}</td>
                 <td class="text-center">{{ group.team_size }}</td>
@@ -50,7 +50,8 @@
     </div>
   
     <!-- Competition detail page -->
-    <competition v-if="showView == 'competition'" :matches="matches" :competitionDetail="competitionDetail" :currentView="'Competition'" :fromView="'Categories'" :categoryId="currentCategoryId"></competition>
+    <competition v-if="showView == 'competition'" :matches="matches" :competitionDetail="competitionDetail" :currentView="'Competition'" :fromView="'Categories'" :categoryId="currentCategoryId" 
+    :tournamentData="tournamentData"></competition>
     
     <!-- Category comment modal -->
     <div class="modal" id="commentmodal" tabindex="-1" role="dialog" aria-labelledby="commentmodalLabel" style="display: none;" aria-hidden="true" data-animation="false">
@@ -101,9 +102,14 @@
 		},
     props: ['tournamentData'],
 
-		mounted() {			
-			this.getAllCategoriesData();
-		},
+
+    mounted() {
+      let vm = this;
+      setTimeout(function(){ 
+        vm.getAllCategoriesData(); 
+      }, 500);
+          
+    },
     created() {
       this.$root.$on('showCategoryGroups', this.showCategoryGroups);
       this.$root.$on('showCompetitionViewFromCategory', this.showCompetitionViewFromCategory);
@@ -116,7 +122,6 @@
     methods: {
     	getAllCategoriesData() {
     	  let data = {'tournament_id': this.tournamentData.id};
-        console.log(this.tournamentData);
         CategoryList.getAllCategoriesData(data).then(
         (response)=> {
         	this.categories = response.data.data;

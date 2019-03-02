@@ -1,12 +1,12 @@
 <template>
   <div>
-    <div class="table-responsive" v-if="competitionList.length > 0">
-      <table class="table table-hover table-bordered">
+    <div class="table-responsive custom-table">
+      <table class="table table-hover table-bordered" v-if="competitionList.length > 0">
         <thead class="no-border">
           <tr>
-            <th scope="col">{{ $t('tournament.category_name') }}</th>
-            <th scope="col">{{ $t('tournament.age_category') }}</th>
-            <th scope="col">{{ $t('tournament.placings') }}</th>
+            <th scope="col">Category name</th>
+            <th scope="col">Age category</th>
+            <th scope="col">Placings</th>
           </tr>
         </thead>
         <tbody>
@@ -15,7 +15,7 @@
             <td>{{ competition.category_age }}</td>
             <td>
               <a @click="getAgeCategoryDetail(competition.id)" href="#" data-toggle="modal" data-target="#final_placing_modal">
-                <u>{{ $t('tournament.view_placings') }}</u>
+                View placings
               </a>
             </td>
           </tr>
@@ -28,18 +28,18 @@
       <div class="modal-dialog modal-md" role="document">
         <div class="modal-content">
           <div class="modal-header">
-             <h5 class="modal-title font-weight-bold">{{ $t('tournament.final_placings') }}</h5>
-             <button type="button" class="close" data-dismiss="modal" :aria-label="$t('tournament.close')">
+             <h5 class="modal-title font-weight-bold">Final placings</h5>
+             <button type="button" class="close" data-dismiss="modal">
              <span aria-hidden="true">×</span>
              </button>
           </div>
           <div class="modal-body modal-fixed-height">
               <div class="form-group row mb-0" v-for="position in positionData">
                 <div class="col-sm-3 form-control-label border-0">
-                  <h6 class="font-weight-bold">{{ $t('tournament.placing') }} {{ position.pos }}</h6>
+                  <h6 class="font-weight-bold mb-0">Placing {{ position.pos }}</h6>
                 </div>
                 <div class="col-sm-9 form-control-label">                   
-                  <h6 class="d-flex">
+                  <h6 class="d-flex mb-0">
                     <span :class="'flag-icon flag-icon-' + position.team_flag"></span>
                     <span class="ml-1">{{ position.team_name }}</span>
                   </h6>
@@ -47,7 +47,7 @@
               </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-primary" @click="closeModal()">{{ $t('tournament.cancel') }}</button>
+            <button type="button" class="btn btn-primary" @click="closeModal()">Cancel</button>
           </div>
          </div>
       </div>
@@ -61,11 +61,13 @@
   export default {
     data() {
       return {
-        competitionList: competitionList,
         positionData: [],
+        competitionList: [],
       }
     },
+    props: ['tournamentData'],
     mounted() {
+      this.getAllCategoriesData();
     },
     methods: {
       getAgeCategoryDetail(ageCategoryId) {
@@ -77,6 +79,15 @@
           },
           (error) => {
           }
+        )
+      },
+      getAllCategoriesData() {
+        let data = {'tournament_id': this.tournamentData.id};
+        Tournament.getAllCategoriesData(data).then(
+        (response)=> {
+          this.competitionList = response.data.data;
+        },
+        (error)=> {}
         )
       },
       closeModal() {

@@ -3,6 +3,7 @@
 namespace Laraspace\Api\Repositories;
 
 use Carbon\Carbon;
+use DB;
 use Illuminate\Support\Str;
 use JWTAuth;
 use Laraspace\Models\Competition;
@@ -21,15 +22,28 @@ use Laraspace\Models\UserFavourites;
 use Laraspace\Models\Venue;
 use Laraspace\Models\Website;
 use Laraspace\Models\TournamentSponsor;
+use Illuminate\Support\Facades\Storage;
 
 class TournamentRepository
 {
 
     public $slug;
 
+    /**
+    * @var disk
+    */
+    protected $disk;
+
+    /**
+    * @var diskName
+    */
+    protected $diskName;
+
     public function __construct()
     {
         $this->tournamentLogo = getenv('S3_URL') . '/assets/img/tournament_logo/';
+        $this->diskName = config('filesystems.disks.s3.driver');
+        $this->disk = Storage::disk($this->diskName);
     }
 
     public function getTournamentsByStatus($tournamentData)
@@ -283,16 +297,49 @@ class TournamentRepository
         $tournamentDays = $this->getTournamentDays($data['start_date'], $data['end_date']);
 
 
-        // Tournament sponcer data
+        // Tournament sponser data
+        // get sponsor Image data
+        $DbSponsorData = TournamentSponsor::where('tournament_id', $tournamentId)->pluck('logo','id');
+        if ( isset($DbSponsorData) )
+        {
+            $DbSponsorData = $DbSponsorData->toArray();
+        }
 
-        // $tournament_sponsor = $data['tournament_sponsor'];
-        // $data['tournament_sponsor'] = basename(parse_url($tournament_sponsor)['path']);
+        foreach ($data['tournament_sponsor'] as $tournamentSponsor) {
+            $tournamentSponsorData = [];
+            if ( !empty($tournamentSponsor['tournament_sponsor_logo']) && $tournamentSponsor['id'] == '0' )
+            {
+                $data['tournament_sponsor'] = basename(parse_url($tournamentSponsor['tournament_sponsor_logo'])['path']);
+                
+                $tournamentSponsorData = [
+                    'tournament_id' => $tournamentId,
+                    'logo' => $data['tournament_sponsor'],
+                ];
+
+                $createTournamentSponsor = TournamentSponsor::create($tournamentSponsorData)->id;
+            }
+            else
+            {
+                if ( array_key_exists($tournamentSponsor['id'], $DbSponsorData))
+                {
+                    //$keyOfarray = array_search($tournamentSponsor['id'],$DbSponsorDataId);
+                    unset($DbSponsorData[$tournamentSponsor['id']]);
+                }
+            }
+
+        }
         
-        // $tournamentSponsorData = [
-        //     'tournament_id' => $tournamentId,
-        //     'logo' => $data['tournament_sponsor'],
-        // ];
-        // $createTournamentSponsor = TournamentSponsor::create($tournamentSponsorData)->id;
+        // Delete sponsor from db and s3 which is deleted by admin
+        foreach ($DbSponsorData as $dbkey => $dbvalue) {
+            $tournamentsponsorLogoPath = config('wot.imagePath.tournament_sponsor');
+            $filename = $DbSponsorData[$dbkey];
+            if ( $this->disk->exists($tournamentsponsorLogoPath . $filename) ) {
+                $this->disk->delete($tournamentsponsorLogoPath . $filename);
+            }
+
+            DB::table('tournament_sponsors')->where('id',$dbkey)->delete();
+        }
+
 
         $tournamentData = array(
             'id' => $tournamentId,
@@ -372,6 +419,21 @@ class TournamentRepository
 
             $summaryData['locations'] = $tempData['locationData'];
         }
+
+        // get sponsor Image data
+        $sponsorData = TournamentSponsor::where('tournament_id', $tournamentId)->get();
+
+        $sponsortempData = array();
+        $summaryData['sponsors'] = array();
+        if (count($sponsorData) > 0) {
+            foreach ($sponsorData as $key => $sponsor) {
+                $sponsortempData['sponsorData'][$sponsor['id']]['imageUrl'] = getenv('S3_URL') . '/assets/img/tournament_sponsor/'.$sponsor['logo'];
+                 $sponsortempData['sponsorData'][$sponsor['id']]['id'] = $sponsor['id'];
+            }
+
+            $summaryData['sponsors'] = $sponsortempData['sponsorData'];
+        }
+
         $tournamentCompetaionTemplateData = TournamentCompetationTemplates::where('tournament_id', $tournamentId)->get();
 
         $summaryData['tournament_teams'] = 0;
@@ -443,7 +505,6 @@ class TournamentRepository
 
             $summaryData['tournament_countries'] = implode(' , ', array_unique($tempData['tournament_countries']));
         }
-
         //$locationData = Venue::find();
         return $summaryData;
     }

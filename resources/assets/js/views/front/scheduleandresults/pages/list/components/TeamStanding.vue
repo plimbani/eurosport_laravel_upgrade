@@ -1,18 +1,18 @@
 <template>
 	<div>
-		<div class="table-responsive">
-			<table class="table" v-if="standingData.length > 0">
+		<div class="table-responsive custom-table">
+			<table class="table table-sm" v-if="standingData.length > 0">
 				<thead class="no-border">
 					<tr>
 						<th></th>
-						<th class="text-center" scope="col">{{ $t('matches.played') }}</th>
-						<th class="text-center" scope="col">{{ $t('matches.won') }}</th>
-						<th class="text-center" scope="col">{{ $t('matches.draws') }}</th>
-						<th class="text-center" scope="col">{{ $t('matches.lost') }}</th>
-						<th class="text-center" scope="col">{{ $t('matches.for') }}</th>
-						<th class="text-center" scope="col">{{ $t('matches.against') }}</th>
-				    	<th class="text-center" scope="col">{{ $t('matches.difference') }}</th>
-				    	<th class="text-center" scope="col">{{ $t('matches.points') }}</th>
+						<th class="text-center" scope="col">Played</th>
+						<th class="text-center" scope="col">Won</th>
+						<th class="text-center" scope="col">Draws</th>
+						<th class="text-center" scope="col">Lost</th>
+						<th class="text-center" scope="col">For</th>
+						<th class="text-center" scope="col">Against</th>
+				    	<th class="text-center" scope="col">Difference</th>
+				    	<th class="text-center" scope="col">Points</th>
 				    </tr>
 				</thead>
 				<tbody>
@@ -38,7 +38,7 @@
 				</tbody>
 			</table>
 		</div>
-		<span v-if="standingData.length == 0 && competitionType != 'Elimination'">{{ $t('matches.no_information_available') }}</span>
+		<span v-if="standingData.length == 0 && competitionType != 'Elimination'">No information available.</span>
 	</div>
 </template>
 
@@ -46,7 +46,7 @@
 	import MatchList from '../../../../../../api/frontend/matchlist.js';
 
 	export default {
-		props: ['currentCompetitionId', 'competitionType'],
+		props: ['currentCompetitionId', 'competitionType', 'tournamentData'],
 		data() {
 			return {
 				standingData: [],
@@ -69,7 +69,7 @@
 		methods: {
 			getStandingData(currentCompetitionId) {
 				if(currentCompetitionId != 0) {
-					let tournamentId = tournamentData.id;
+					let tournamentId = this.tournamentData.id;
 					let data = {'tournamentId': tournamentId, 'competitionId': currentCompetitionId};
 
 					MatchList.refreshStanding(data).then(

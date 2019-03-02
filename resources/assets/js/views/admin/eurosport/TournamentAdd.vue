@@ -115,21 +115,18 @@
                     <div class="form-group row">
                        <label class="col-md-4 form-control-label">{{$lang.tournament_sponsor_logo}}</label>
                        <div class="col-md-8">
-                            <div class="row align-items-center" v-for="(sponsor, index) in sponsorImage">
-                        {{ sponsorImage }}
+                            <div class="row align-items-center mb-4" v-for="(sponsor, index) in sponsorImage">
                                 <div class="col-md-4">
-                                    <transition-image v-if="sponsor != ''" 
-                                      :image_url="sponsor" :image_class="'img-fluid'">
+                                    <transition-image v-if="sponsor.tournament_sponsor_logo != ''" 
+                                      :image_url="sponsor.tournament_sponsor_logo" :image_class="'img-fluid'">
                                     </transition-image>
-                                    <img v-if="sponsor == ''" src="/assets/img/noimage.png" class="img-fluid thumb-size" />
+                                    <img v-if="sponsor.tournament_sponsor_logo == ''" src="/assets/img/noimage.png" class="img-fluid thumb-size" />
                                 </div>
                                 <div class="col-md-8">
-                                    <button v-if="sponsor != '' && is_sponsor_logo_uploading  == false" class="btn btn-default" @click="removeTournamentSponserImage($event,index)">{{$lang.tournament_tournament_remove_button}}</button>
-                                    <button v-else :disabled="is_sponsor_logo_uploading" type="button" class="btn btn-default tournament-sponsor-image" name="tournamentSponsorImage" id="tournamentSponsorImage">{{is_sponsor_logo_uploading ? $lang.uploading : $lang.tournament_tournament_choose_button}}</button>
-                                    <input type="file" class="select-tournament-sponsor-image" :id="'select_tournament_image'+index" :name="'tournament_sponsor_image'+index" style="display:none;" @change="onSponsorLogoChange($event,index)">
+                                    <button type="button" v-if="sponsor.tournament_sponsor_logo != ''" class="btn btn-default" @click="removeTournamentSponserImage($event,index)">{{$lang.tournament_tournament_remove_button}}</button>
+                                    <button v-else :disabled="is_sponsor_logo_uploading && is_sponsor_logo_uploading_index == index" type="button" class="btn btn-default js-tournament-sponsor-image" :data-index="index">{{ is_sponsor_logo_uploading && is_sponsor_logo_uploading_index == index ? $lang.uploading : $lang.tournament_tournament_choose_button}}</button>
+                                    <input type="file" class="select-tournament-sponsor-image" :id="'tournament_sponsor_image'+index" :name="'tournament_sponsor_image'+index" style="display:none;" @change="onSponsorLogoChange($event,index)">
                                 </div>
-                                <p class="help-block">Maximum size of 1 MB.<br/>
-                                    Image dimensions 250 x 250.</p>
                             </div>
                             <button class="btn btn-primary" @click.prevent="addTournamentSponsorImage">Add sponsor</button>
                         </div>
@@ -329,13 +326,18 @@
           <button class="btn btn-primary" @click="backward()"><i class="fa fa-angle-double-left" aria-hidden="true"></i>{{$lang.tournament_button_home}}</button>
       </div>
       <div class="pull-right">
-          <button class="btn btn-primary" @click="next()">{{$lang.tournament_button_next}}&nbsp;&nbsp;&nbsp;<i class="fa fa-angle-double-right" aria-hidden="true"></i></button>
+          <button class="btn btn-primary" :disabled="is_sponsor_logo_uploading" @click="next()">{{$lang.tournament_button_next}}&nbsp;&nbsp;&nbsp;<i class="fa fa-angle-double-right" aria-hidden="true"></i></button>
       </div>
     </div>
   </div>
 </div>
 </template>
 <script >
+
+$(document).on('click', '.js-tournament-sponsor-image', function(e){
+  $("#tournament_sponsor_image" + $(this).data('index')).trigger('click');
+});
+
 var moment = require('moment');
 import location from '../../../components/Location.vue'
 import Tournament from '../../../api/tournament.js'
@@ -366,24 +368,21 @@ data() {
     tournamentId: 0,
     imagePath :'',
     is_sponsor_logo_uploading: false,
+    is_sponsor_logo_uploading_index: 0,
+
     tournamentDateDiff: 0
   }
 },
   components: {
     location: location, TransitionImage
   },
-mounted(){
+  mounted(){
     Plugin.initPlugins(['Select2','TimePickers','MultiSelect','DatePicker','setCurrentDate'])
     // here we dispatch methods
     // First we check that if tournament id is Set then dont dispatch it
     $('#btnSelect').on('click',function(){
       $('#selectFileT').trigger('click')
-    })
-
-
-    $('body').on('click','.tournament-sponsor-image', function(){
-      $(this).closest('div').find('.select-tournament-sponsor-image').trigger('click')
-    })
+    });
 
     let tId = this.$store.state.Tournament.tournamentId
 
@@ -419,6 +418,32 @@ mounted(){
                     tournament_venue_organiser: locations[i]['organiser'],
                 });
               }
+          }
+
+          let tournamentSponsors = response.data.data.sponsors
+          var vm = this;
+          if( Object.keys(tournamentSponsors).length > 0 )
+          {
+              // Initially Set with Zero
+              this.sponsorImage = []
+              var vm = this;
+              $.each(tournamentSponsors, function(key, value ) {
+                vm.sponsorImage.push({tournament_sponsor_logo: value.imageUrl,id:key});
+              });
+
+              // for(let i=0;i< Object.keys(tournamentSponsors).length;i++){
+              //   console.log(tournamentSponsors[i]);
+              //   // this.sponsorImage.push({
+              //   //     tournament_sponsor_logo: tournamentSponsors[i].imageUrl,
+              //   //     id:tournamentSponsors[i].id
+              //   // });
+
+              //   console.log(this.sponsorImage);
+              // }
+          }
+          else
+          {
+            vm.sponsorImage.push({tournament_sponsor_logo: '',id:0});
           }
             // this.tournamentSummary = response.data.data;
             // fetch data and set it
@@ -477,7 +502,7 @@ mounted(){
     }
   
 
-    let vm = this
+    let vm = this;
     let startDate = moment($('#tournament_start_date').val(), 'DD/MM/YYYY')
     let endDate = moment($('#tournament_end_date').val(), 'DD/MM/YYYY')
         this.tournamentDateDiff = endDate.diff(startDate, 'days')
@@ -530,7 +555,7 @@ methods: {
 
   addTournamentSponsorImage() {
     this.sponsorImage.push({
-        tournament_sponsor_logo: ""
+        tournament_sponsor_logo: "",id:0
     });
   },
 
@@ -580,13 +605,14 @@ methods: {
           this.tournament.end_date = document.getElementById('tournament_end_date').value
 
           this.tournament.image_logo = this.image
+          this.tournament.tournament_sponsor = this.sponsorImage
 
           this.tournament.locations = this.locations
           // here we check if tournament id is Set then
           this.tournament.tournamentId = this.tournamentId
           // we can take length of how much we have to move for loop
           this.tournament.locationCount = this.customCount;
-          this.tournament.user_id = JSON.parse(Ls.get('userData')).id;
+          //this.tournament.user_id = JSON.parse(Ls.get('userData')).id;
           let msg=''
           
           if(this.tournament.tournamentId == 0){
@@ -635,24 +661,26 @@ methods: {
             // if(Plugin.ValidateImageDimension(this, 250, 250) == false) {
             //     toastr['error']('Sponsor image size should be 250x250', 'Error');
             // } else {
-                vm.sponsorImage = r.target.result;
-                vm.is_sponsor_logo_uploading = true;
-         
-            var formData = new FormData();
-            formData.append('image', files[0]);
+                // vm.sponsorImage = r.target.result;
+              vm.is_sponsor_logo_uploading = true;
+              vm.is_sponsor_logo_uploading_index = i;
+           
+              var formData = new FormData();
+              formData.append('image', files[0]);
 
-            axios.post('/api/tournament/uploadSponsorLogo', formData).then(
-                (response)=> {
-                    let tournamentSponsorImage = response.data;
-                    vm.sponsorImage[i] = tournamentSponsorImage
-                        // tournament_sponsor_logo: img 
-                    
-                    // vm.tournament_sponsor_logo = response.data;
-                     vm.is_sponsor_logo_uploading = false;
-                },
-                (error)=>{
-                }
-              );
+              axios.post('/api/tournament/uploadSponsorLogo', formData).then(
+                  (response)=> {
+                      let tournamentSponsorImage = response.data;
+                      vm.sponsorImage[i]['tournament_sponsor_logo'] = tournamentSponsorImage
+                          // tournament_sponsor_logo: img 
+                      
+                      // vm.tournament_sponsor_logo = response.data;
+                      vm.is_sponsor_logo_uploading = false;
+                      vm.is_sponsor_logo_uploading_index = 0;
+                  },
+                  (error)=>{
+                  }
+                );
             // }  
         };
       };
@@ -660,8 +688,16 @@ methods: {
     },
   
     removeTournamentSponserImage: function (e,i) {
-        this.sponsorImage.splice(i,1)
-        e.preventDefault();
+      this.sponsorImage.splice(i, 1);
+      let vm = this;
+
+      if ( vm.sponsorImage.length == 0)
+      {
+        setTimeout(function(){
+          vm.addTournamentSponsorImage();
+        },200);
+      }
+     
     },
 
     redirectCompetation() {
