@@ -1,7 +1,7 @@
 <template>
   <div>
     <button v-if="fromView == 'Matches'" @click="showMatchListView()" class="btn btn-primary">
-        <i aria-hidden="true" class="fa fa-angle-double-left"></i> {{ $t('matches.back_to_match_list') }}
+        <i aria-hidden="true" class="fa fa-angle-double-left"></i> Back to match list
     </button>
     <button v-if="fromView == 'Categories'" @click="showCompetitionListView()" class="btn btn-primary">
         <i aria-hidden="true" class="fa fa-angle-double-left"></i> Back to competition list
@@ -14,7 +14,7 @@
           <div class="col-10 col-sm-6 col-md-4 col-lg-3 col-xl-3">
             <label class="custom_select_box d-block mb-0" for="match_overview">
               <select v-on:change="onCompetitionChange()"
-          v-model="currentCompetition" id="competition-overview" class="border-0" name="competition-options">
+                v-model="currentCompetition" id="competition-overview" class="form-control" name="competition-options">
                   <option v-for="competition in competitionList"
                   v-bind:value="competition">
                   {{ competition.name }}
@@ -24,13 +24,13 @@
           </div>
         </div>
         <div v-if="competitionDetail.type != 'Elimination'">
-          <h6 class="mt-3 font-weight-bold">{{ competitionDetail.name }} {{ $t('matches.results_grid') }}</h6>
+          <h6 class="mt-3 font-weight-bold">{{ competitionDetail.name }} results grid</h6>
         </div>
-        <span v-if="matchesGrid.length == 0 && competitionDetail.type != 'Elimination'">{{ $t('matches.no_information_available') }}</span>
+        <span v-if="matchesGrid.length == 0 && competitionDetail.type != 'Elimination'">No information available.</span>
     </div>
 
-    <div class="table-responsive">
-      <table class="table" v-if="matchesGrid.length > 0 && competitionDetail.type != 'Elimination'">
+    <div class="table-responsive custom-table">
+      <table class="table table-sm" v-if="matchesGrid.length > 0 && competitionDetail.type != 'Elimination'">
         <thead class="no-border">
           <tr>
             <th></th>
@@ -69,14 +69,15 @@
       <h6 class="mt-3 font-weight-bold" v-if="competitionDetail.type != 'Elimination'">
         {{ competitionDetail.name }} standings
       </h6>
-      <teamStanding :currentCompetitionId="currentCompetitionId" :competitionType="competitionDetail.type" v-if="currentCompetitionId != 0">
+      <teamStanding :currentCompetitionId="currentCompetitionId" :competitionType="competitionDetail.type"
+       :tournamentData="tournamentData" v-if="currentCompetitionId != 0">
       </teamStanding>
-      <div v-if="currentCompetitionId == 0 && competitionDetail.type != 'Elimination'">{{ $t('matches.no_information_available') }}
+      <div v-if="currentCompetitionId == 0 && competitionDetail.type != 'Elimination'">No information available.
       </div>
     </div>
 
     <h6 class="mt-3 font-weight-bold">{{ competitionDetail.name }} matches</h6>
-    <matches :matches="matches" :competitionDetail="currentCompetition" :currentView="currentView" :fromView="'Competition'"></matches>
+    <matches :matches="matches" :competitionDetail="currentCompetition" :currentView="currentView" :fromView="'Competition'" :tournamentData="tournamentData"></matches>
   </div>
 </template>
 
@@ -86,7 +87,7 @@
   import MatchList from '../../../../../../api/frontend/matchlist.js';
 
   export default {
-    props: ['matches', 'competitionDetail', 'currentView', 'fromView', 'categoryId'],
+    props: ['matches', 'competitionDetail', 'currentView', 'fromView', 'categoryId', 'tournamentData'],
     data() {
       return {
         currentCompetition: {},
@@ -103,6 +104,7 @@
       this.getCompetitions();
       this.generateDrawTable();
     },
+
     filters: {
       formatDate: function(date) {
         if (date != null) {
@@ -123,7 +125,8 @@
         var vm = this;
         var currentCompetition;
         var competitionRound;
-        MatchList.getAllDraws(tournamentData.id).then(
+
+        MatchList.getAllDraws(vm.tournamentData.id).then(
           (response)=> {
             if(response.data.status_code == 200) {
               vm.competitionList = response.data.data;
@@ -137,7 +140,6 @@
               currentCompetition = _.find(response.data.data, function(o) { return o.id == vm.currentCompetitionId; });
               vm.currentCompetition = currentCompetition;
               vm.competitionRound = currentCompetition.competation_type;
-              // vm.refreshStanding();
             }
           },
           (error) => {
@@ -147,7 +149,7 @@
       },
       generateDrawTable() {
         if(this.currentCompetitionId != undefined) {
-          let tournamentId = tournamentData.id;
+          let tournamentId = this.tournamentData.id;
           let data = {'tournamentId': tournamentId, 'competationId': this.currentCompetitionId};
           MatchList.getDrawTable(data).then(
           (response)=> {
@@ -157,11 +159,6 @@
             if(response.data.status_code == 300){
               this.matchesGrid = [];
             }
-            // this.teamStatus = false;
-            // let vm = this;
-            // setTimeout(function(){
-            //   vm.teamStatus = true;
-            // }, 500);
           },
           (error)=> {}
           )
@@ -173,7 +170,7 @@
         if(this.currentCompetitionId !== undefined){
           competitionId = this.currentCompetitionId;
         }
-        let data = {'tournamentId': tournamentData.id, 'competitionId': competitionId};
+        let data = {'tournamentId': this.tournamentData.id, 'competitionId': competitionId};
         MatchList.refreshStanding(data).then(
           (response)=> {
             if(response.data.status_code == 200){
