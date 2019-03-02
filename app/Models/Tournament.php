@@ -26,6 +26,7 @@ class Tournament extends Model
 
     protected $dates = ['end_date', 'start_date', 'created_at', 'updated_at', 'pos_dispatched', 'deleted_at'];
 
+    public $preventDateAttrSet = false;
     /**
      * Get the user that belongs to the tournament.
      */
@@ -50,7 +51,10 @@ class Tournament extends Model
     
     public function getStartDateAttribute($value)
     {
-         return Carbon::parse($value)->format('d/m/Y');
+        if ($this->preventDateAttrSet) {
+            return $value;
+        }
+        return Carbon::parse($value)->format('d/m/Y');
     }
      public function setStartDateAttribute($value)
     {
@@ -60,6 +64,9 @@ class Tournament extends Model
     }
     public function getEndDateAttribute($value)
     {
+        if ($this->preventDateAttrSet) {
+            return $value;
+        }
         return Carbon::parse($value)->format('d/m/Y');
     }
 
