@@ -2,6 +2,7 @@
 
 namespace Laraspace\Api\Services;
 
+use Carbon\Carbon;
 use DB;
 use File;
 use Storage;
@@ -2536,6 +2537,10 @@ class MatchService implements MatchContract
               ->setOption('header-right', $date->format('H:i d M Y'))
               ->setOption('margin-top', 20)
               ->setOption('margin-bottom', 20);
-          return $pdf->download('All agegroup summary report.pdf');
+
+      $currentDateTime = Carbon::now('Europe/London');
+      $file = storage_path($tournamentId.'_allcategory_'.$currentDateTime->format('dMY_His').'.pdf');
+      $pdf->save($file);
+      return $file;
     }
 }
