@@ -13,7 +13,7 @@
 
                         <div class="row my-4 my-lg-5">
                             <div class="col-10 col-md-11 col-lg-12">
-                                <vue-slider :min='2' :max='60' tooltip-dir='right' v-model="tournamentData.tournament_max_teams"></vue-slider>
+                                <vue-slider @callback='changeTeams' :min='2' :max='60' tooltip-dir='right' v-model="tournamentData.tournament_max_teams"></vue-slider>
                             </div>
                         </div>
 
@@ -57,7 +57,7 @@
 
                                 <div class="divider my-3"></div>
 
-                                <div class="card-text" v-if="!id">
+                                <div class="card-text" v-if="!id"> 
                                     <div class="row">
                                         <div class="col-sm-6 col-md-7 col-lg-7">
                                             <p class="mb-0">{{tournamentData.tournament_max_teams}} team license for a {{dayDifference}} day(s) tournament</p>
@@ -78,32 +78,40 @@
                                         {{returnFormatedNumber(tournamentData.total_amount)}}</p>
                                 </div>
                                 <div class="card-text" v-if="id">
-                                    <div class="row">
+                                    
+                                    <div class="row" v-if="new_added_teams > 0">
                                         <div class="col-sm-6 col-md-7 col-lg-7">
-                                            <p class="mb-0">Addition 32 teams</p>
+                                            <p class="mb-0">Addition {{new_added_teams}} teams</p> 
                                         </div>
                                         <div class="col-sm-6 col-md-5 col-lg-5">
-                                            <p class="text-sm-right mb-0 mt-3 mt-sm-0">
+                                            <p class="text-sm-right mb-0 mt-3 mt-sm-0" >
                                              <span v-if="tournamentData.currency_type == 'GBP'">&#163;</span>   
                                              <span v-if="tournamentData.currency_type == 'EURO'">&#128;</span>   
                                             100</p>
                                         </div>
                                     </div>
-                                    <div class="row">
+                                    <!-- v-if="new_added_teams > 0" -->
+                                    <div class="row" v-if="newDaysAdded > 0">
                                         <div class="col-sm-6 col-md-7 col-lg-7">
-                                            <p class="mb-0">Addition days</p>
+                                            <p class="mb-0">Addition {{newDaysAdded}} days</p>
                                         </div>
                                         <div class="col-sm-6 col-md-5 col-lg-5">
                                             <p class="text-sm-right mb-0 mt-3 mt-sm-0">
                                              <span v-if="tournamentData.currency_type == 'GBP'">&#163;</span>   
                                              <span v-if="tournamentData.currency_type == 'EURO'">&#128;</span>   
-                                            100</p>
+                                            30</p>
                                         </div>
+                                    </div>
+                                    <div class="row" v-if="newDaysAdded <= 0 && new_added_teams <= 0">
+                                        <div class="col-sm-6 col-md-7 col-lg-7">
+                                            <p class="mb-0">No change</p>
+                                        </div>
+                                        
                                     </div>
 
                                     <div class="divider my-3 opacited"></div>
 
-                                    <p class="text-sm-right font-weight-bold">
+                                    <p class="text-sm-right font-weight-bold" v-if="newDaysAdded > 0 || new_added_teams > 0">
                                         <span v-if="tournamentData.currency_type == 'GBP'">&#163;</span>   
                                         <span v-if="tournamentData.currency_type == 'EURO'">&#128;</span>  
                                         {{returnFormatedNumber(tournamentData.total_amount)}}</p>
@@ -156,9 +164,12 @@
                 amount:"",
                 disabled:false,
                 dayDifference:1,
+                oldDaysDifference:1,
+                newDaysAdded:0,
                 id:"",
                 gpbConvertValue:1,
-                tournament_old_teams:2
+                tournament_old_teams:2,
+                new_added_teams:0
                 
             }
         },
@@ -182,8 +193,15 @@
             next()
         },
         methods: {
-            changeTeams(){
-                console.log("changeTeams");
+            changeTeams(){ 
+                this.new_added_teams = this.tournamentData.tournament_max_teams - this.tournament_old_teams; 
+            },
+            changeDays(){
+                this.newDaysAdded = this.dayDifference - this.oldDaysDifference; 
+            },
+            setOldDays(){
+                this.oldDaysDifference = this.dayDifference;
+                this.changeDays();  
             },
             buyALicence(e){ 
                 this.$validator.validateAll();
@@ -208,7 +226,6 @@
             }, 
 
             findDifferenceBetweenDates(){ 
-                console.log("tournament_old_teams::",this.tournament_old_teams);
                 // console.log("startDate::",startDate);
                 let startDateFromId = document.getElementById('tournament_start_date').value;
                 let endDateFromId = document.getElementById('tournament_end_date').value;
@@ -227,6 +244,7 @@
                 let endDate = moment(endDateFormat);
                 
                 this.dayDifference = endDate.diff(startDate, 'days'); 
+                this.changeDays();
                 
             },
 
@@ -319,6 +337,9 @@
                vm.findDifferenceBetweenDates();
             })   
             this.getCurrencyValue();
+            setTimeout(function(){
+                vm.setOldDays()
+            },4000)
 
         }
     }
