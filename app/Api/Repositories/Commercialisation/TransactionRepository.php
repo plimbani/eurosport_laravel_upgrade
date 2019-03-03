@@ -175,7 +175,7 @@ class TransactionRepository
      */
     public function getList($tournamentId)
     {
-        return TransactionHistory::select('id', 'transaction_id', 'tournament_id', 'order_id', 'transaction_key', 'team_size', 'days', 'currency', 'created_at')
+        return TransactionHistory::select('id', 'transaction_id', 'tournament_id', 'order_id', 'transaction_key', 'amount', 'team_size', 'days', 'currency', 'created_at')
                         ->where('tournament_id', $tournamentId)->get();
     }
 
