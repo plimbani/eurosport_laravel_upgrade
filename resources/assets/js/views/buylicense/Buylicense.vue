@@ -118,9 +118,15 @@
                                 </div>
                                 <div class="row justify-content-end">
                                     <div class="col-md-7 col-lg-7 col-xl-6">
-                                        
-                                        <button v-if ="!disabled" class="btn btn-success btn-block"  v-on:click="buyALicence()"><span v-if='!id'>Buy your license</span><span v-if='id'>Update your license</span></button>
-                                        <button v-else="disabled" class="btn btn-success btn-block" disabled="true">Buy your license</button> 
+                                        <!-- newDaysAdded <= 0 && new_added_teams <= 0 -->
+                                        <button v-if ="!disabled && !id" class="btn btn-success btn-block"  v-on:click="buyALicence()">Buy your license</button>                                       
+                                       
+                                        <button v-if="disabled && !id" class="btn btn-success btn-block" disabled="true">Buy your license</button>
+
+                                         <button v-if ="!disabled && id && newDaysAdded <= 0 && new_added_teams <= 0" class="btn btn-success btn-block"  v-on:click="updateALicence()">
+                                        Update Details </button>
+                                         <button v-if ="!disabled && id && (newDaysAdded > 0 || new_added_teams > 0)" class="btn btn-success btn-block"  v-on:click="buyALicence()">
+                                        Make Payment</button>
                                     </div>
                                 </div>
                             </div>
@@ -221,6 +227,9 @@
                     } 
                 } 
             },
+            updateALicence(){
+                // console.log("updateALicence")
+            },
             customFormatter(date) {
               return moment(date).format('MM/DD/YYYY');
             }, 
@@ -249,6 +258,7 @@
             },
 
             getTournamentDetail(){ 
+                // this.disabled = true;
                 axios.get(Constant.apiBaseUrl+'get-tournament?tournamentId='+this.id, {}).then(response =>  {  
                         if (response.data.success) {  
                             var start_date = new Date(moment(response.data.data.start_date, 'DD/MM/YYYY').format('MM/DD/YYYY'));

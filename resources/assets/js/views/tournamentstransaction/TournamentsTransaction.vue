@@ -42,7 +42,7 @@
                                         <td>{{transction.transaction_id}}</td>
                                         <td>{{transction.team_size}}</td>
                                         <!-- <td>TBA</td> -->
-                                        <td>TBA</td>
+                                        <td>{{transction.days}}</td>
                                         <td>{{transction.transaction_id}}</td>
                                         <td>{{transction.currency}}</td>
                                         <td>TBA</td>
