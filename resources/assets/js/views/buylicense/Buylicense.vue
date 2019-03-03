@@ -228,6 +228,22 @@
                 } 
             },
             updateALicence(){
+                this.tournamentData.tournament_start_date = document.getElementById('tournament_start_date').value;
+                this.tournamentData.tournament_end_date = document.getElementById('tournament_end_date').value;
+                let apiParams = {
+                    tournament:this.tournamentData,
+                    // paymentResponse:this.paymentObj
+                } 
+                var url = "manage-tournament";
+                axios.post(Constant.apiBaseUrl+url, apiParams).then(response =>  {
+                    if (response.data.success) {
+                        this.$router.push({name: 'dashboard'});
+                     }else{
+                         toastr['error'](response.data.message, 'Error');
+                     }
+             }).catch(error => {
+                 console.log("error in updateALicence::",error);
+             });
                 // console.log("updateALicence")
             },
             customFormatter(date) {
