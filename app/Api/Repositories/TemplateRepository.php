@@ -404,8 +404,6 @@ class TemplateRepository
         $tournamentTemplate->created_by = Auth::user()->id;
         $tournamentTemplate->save();
 
-        // file_put_contents(resource_path('templates') . '/' . 'template555.json', $templateJson);
-
         return $tournamentTemplate;
     }
 
@@ -424,9 +422,7 @@ class TemplateRepository
         $tournamentTemplate->editor_type = $data['templateFormDetail']['stepone']['editor'];
         $tournamentTemplate->template_form_detail = json_encode($data['templateFormDetail']);
         $tournamentTemplate->created_by = Auth::user()->id;
-        $tournamentTemplate->save();
-
-        // file_put_contents(resource_path('templates') . '/' . 'template555.json', $templateJson);
+        $tournamentTemplate->save();        
 
         return $tournamentTemplate;
     }

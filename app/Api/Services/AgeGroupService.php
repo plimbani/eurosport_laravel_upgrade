@@ -496,7 +496,7 @@ class AgeGroupService implements AgeGroupContract
           ];
 
           $finalArray['tournament_competation_format']['format_name'][$rounds]['match_type'][] = $matchTypeDetail;
-        }        
+        }
         $groupCount++;
       }
 
@@ -506,7 +506,7 @@ class AgeGroupService implements AgeGroupContract
       }
 
       $finalArray['tournament_positions'] = $positions;
-      // echo "<pre>";print_r($finalArray);echo "</pre>";exit;
+
       return json_encode($finalArray);
     }
 
@@ -518,7 +518,6 @@ class AgeGroupService implements AgeGroupContract
       $teamsForRoundTwo = [];
 
       $finalArray = [];
-      // $finalArray['total_matches'] = $totalMatchesCount;
       $finalArray['tournament_id'] = '';
       $finalArray['tournament_teams'] = $totalTeams;
       $finalArray['remark'] = '';
@@ -528,7 +527,6 @@ class AgeGroupService implements AgeGroupContract
       $finalArray['competition_group_round'] = '1*' .$totalTeams;
       $finalArray['competation_format'] = '';
       $finalArray['tournament_min_match'] = '';
-      // $finalArray['avg_game_team'] = $averageMatches;
       $finalArray['position_type'] = 'group_ranking';
       $finalArray['tournament_competition_ranking'] = [];
       $finalArray['tournament_competition_ranking']['format_name'] = [];
@@ -539,81 +537,9 @@ class AgeGroupService implements AgeGroupContract
       $finalArray['tournament_positions'] = [];
       $finalMatches = 0;
 
-      $allRounds = [];
+      $roundMatches = $this->setRoundMatches($totalTeams, $groupSize, $finalArray);
 
-      $round2Matches = $this->setRoundMatches($totalTeams, $groupSize, $finalArray);
-
-
-
-      exit();
-      // for 1st round
-      $totalRounds = 1;
-      for ($round = 0; $round < $totalRounds ; $round++) {
-        $finalArray['tournament_competation_format']['format_name'][$round]['name'] = 'Round ' .($round+1);
-
-        // for groups
-        $groupCount = 0;
-        for ($group = 0; $group < $totalGroups; $group++) {
-          $finalGroupCount = chr(65 + $groupCount + $group);
-          $matches = $this->setTemplateMatches($finalTeams, $timesPlayedEachOther = 1, $finalGroupCount);
-          $matchTypeDetail = [
-            'name' => '',
-            'total_match' => '',
-            'group_count' => '',
-            'groups' => ['group_name' => 'Group-' .$finalGroupCount, 'match' => $matches]
-          ];
-
-          $finalArray['tournament_competation_format']['format_name'][$round]['match_type'][] = $matchTypeDetail;
-        }
-        $groupCount++;
-      }
-      $allRounds[] = $matches;
-
-      $finalMatches = count($matches) + $finalMatches;
-      $knockoutRoundSizeArray = config('config-variables.knockout_round_two_size');
-      $roundSizeData = $knockoutRoundSizeArray[$groupSize][$totalTeams];
-      $finalRounds = log($roundSizeData, 2);
-
-      // prepare teams array for round
-        $predefinedTeamsCount = $totalGroups * 2;
-        $key = 0;
-        $teams = 1;
-        for($i=0; $i < $teamsPerGroup; $i++) {
-          for($j=1; $j <= $totalGroups; $j++) {
-            if($predefinedTeamsCount < $roundSizeData) {
-              if($teams <= $predefinedTeamsCount) {
-                $teamsForRoundTwo[] = $j .chr(65 + ($i));
-                $key++;
-                $teams++;
-              }
-            } else {
-              if($teams <= $roundSizeData) {
-                $teamsForRoundTwo[] = $j .chr(65 + ($i));
-                $key++;
-                $teams++;
-              }
-            }
-          }
-        }
-
-      // picking best remaining teams
-      if($roundSizeData > sizeof($teamsForRoundTwo)) {
-        $remainingTeams = $roundSizeData - sizeof($teamsForRoundTwo);
-        for ($i=3; $i <= $teamsPerGroup; $i++) {
-          for($j=1; $j <= $totalGroups; $j++) {
-            if($remainingTeams > 0) {
-              $teamsForRoundTwo[] = $j. '#' .$i;
-              $remainingTeams--;
-            }
-          }
-        }
-      }
-
-      $matchesForOtherRound = $this->setTemplateMatchesForOtherRounds($teamsForRoundTwo, $teamsPerGroup, $finalRounds, $finalGroupCount, $allRounds);
-      $allRounds = $matchesForOtherRound;
-
-      echo "<pre>";print_r($allRounds);echo "</pre>";exit;
-
+      $finalMatches = count($roundMatches) + $finalMatches;
       $totalMatchesCount = $finalMatches * $totalGroups;
       $averageMatches = $totalMatchesCount / ($totalTeams/2);
       $finalArray['total_matches'] = $totalMatchesCount;
@@ -626,7 +552,7 @@ class AgeGroupService implements AgeGroupContract
 
       $finalArray['tournament_positions'] = $positions;
 
-      echo "<pre>";print_r(json_encode($finalArray));echo "</pre>";exit;
+      echo "<pre>";print_r($finalArray);echo "</pre>";exit;
 
       return json_encode($finalArray);
     }
@@ -652,65 +578,6 @@ class AgeGroupService implements AgeGroupContract
       return $matches;
     }
 
-    public function setTemplateMatchesForOtherRounds($teamsInGroups, $teamsPerGroup, $finalRounds, $currentGroup, $allRounds)
-    {
-      $group1 = [];
-      $group2 = [];
-      $round2Matches = [];
-      $round3Matches = [];
-
-      $otherRounds = [];
-      for($round=1; $round<=$finalRounds; $round++) {
-        if($round == 1) {
-          for ($i=0; $i<sizeof($teamsInGroups); $i++) {
-            if($i % 2 == 0) {
-              $group1[] = $teamsInGroups[$i];
-            } else {
-              $group2[] = $teamsInGroups[$i];
-            }
-          }
-
-          $teamsPerGroup = sizeof($group1);
-          if(sizeof($group1) == 2 || sizeof($group1) == 1) {
-            for ($i=0; $i<$teamsPerGroup; $i++) {
-              if($i % 2 == 0) {
-                $otherRounds[$round+1][$i] = $group1[$i]. "-" .$group2[$i];
-              } else {
-                $otherRounds[$round+1][$i] = $group1[$i]. "-" .$group2[$i];
-              }
-            }
-          } else {
-            for ($i=0; $i<$teamsPerGroup; $i++) {
-              if($i % 2 == 0) {
-                $otherRounds[$round+1][$i] = $group1[$i]. "-" .$group2[$i + 1];
-              } else {
-                $otherRounds[$round+1][$i] = $group1[$i]. "-" .$group2[$i - 1];
-              }
-            }
-          }
-        } else {
-          $furtherRoundMatches = $teamsPerGroup = sizeof($otherRounds[$round]) / 2;
-          if($furtherRoundMatches == 2 || $furtherRoundMatches == 1) {
-            for ($i=0; $i <$furtherRoundMatches; $i++) {
-              $otherRounds[$round+1][$i] = 'wrs(' .$otherRounds[$round][$i]. ')'. '-'. 'wrs(' .$otherRounds[$round][$furtherRoundMatches + $i]. ')';
-            }
-          } else {
-            list($group1, $group2) = array_chunk($otherRounds[$round], ceil(count($otherRounds[$round]) / 2));
-            for ($i=0; $i<$teamsPerGroup; $i++) {
-              if($i % 2 == 0) {
-                $otherRounds[$round+1][$i] ='wrs(' . $group1[$i]. ')'. "-" .'wrs(' .$group2[$i + 1]. ')';
-              } else {
-                $otherRounds[$round+1][$i] = 'wrs(' . $group1[$i]. ')'. "-" .'wrs(' .$group2[$i - 1]. ')';
-              }
-            }
-          }
-        }
-        $allRounds[$round + 1] = $otherRounds[$round+1];
-      }
-
-      return $allRounds;
-    }
-
     public function copyAgeCategory($data)
     {
       $copiedAgeCategory = TournamentCompetationTemplates::where('id', $data['ageCategoryData']['copiedAgeCategoryId'])->first();
@@ -734,7 +601,7 @@ class AgeGroupService implements AgeGroupContract
 
     public function viewTemplateGraphicImage($data)
     {
-        return $this->ageGroupObj->viewTemplateGraphicImage($data);
+      return $this->ageGroupObj->viewTemplateGraphicImage($data);
     }
 
     public function setRoundMatches($totalTeams, $groupSize, &$finalArray)
@@ -749,43 +616,52 @@ class AgeGroupService implements AgeGroupContract
 
       $allRounds = $finalRounds + 1;
 
-      $roundTwoTeams = [];
       $nextRoundTeams = [];
-      $group1 = [];
-      $group2 = [];      
-      
+
+      $matches = [];
       for ($round = 0; $round < $allRounds; $round++) {
-        $matches = [];
+        $group1 = [];
+        $group2 = [];
         $finalArray['tournament_competation_format']['format_name'][$round]['name'] = 'Round ' .($round+1);
         if($round == 0) {
-          $groupCount = 0;
-          for ($group=0; $group<$totalGroups; $group++) {
-            $finalGroupCount = chr(65 + $groupCount + $group);
-            $firstRoundMatches = $this->setTemplateMatches($finalTeams, $timesPlayedEachOther = 1, $finalGroupCount);
-            $roundTwoTeams[] = $firstRoundMatches;
-          }
+          // $groupCount = 0;
+          // for ($group=0; $group<$totalGroups; $group++) {
+            // $finalGroupCount = chr(65 + $groupCount + $group);
+          $matches[$round] = $this->setTemplateMatches($finalTeams, $timesPlayedEachOther = 1, $finalGroupCount = 'A');
+          // }
           $nextRoundTeams = $this->teamsForRoundTwo($totalGroups, $teamsPerGroup, $roundSizeData);
-        } else {
+        }
+        else {
           $dividedRoundMatches = sizeof($nextRoundTeams) / 2;
-
           for ($i=0; $i<$dividedRoundMatches; $i++) {
             $group1[] = $nextRoundTeams[$i];
             $group2[] = $nextRoundTeams[$dividedRoundMatches + $i];
           }
-
+          
           $reversedGroupTwoArray = array_reverse($group2);
 
+          $matchesCount = count($matches);
           for ($i=0; $i < sizeof($group1); $i++) {
-            $matches[$i] = $group1[$i]. "-" .$group2[$i];
+            $matches[$round][$i] = $group1[$i]. "-" .$group2[$i];
           }
 
-          $nextRoundTeams = $matches;
-
-          for ($i=0; $i < sizeof($matches); $i++) {
-            $nextRoundTeams = 'wrs(' .$matches[$i]. ')';
+          $nextRoundTeams = [];
+          for ($i=0; $i < sizeof($matches[$round]); $i++) {
+            $nextRoundTeams[] = 'wrs(' .$matches[$round][$i]. ')';
           }
         }
+      
+        $matchTypeDetail = [
+          'name' => '',
+          'total_match' => '',
+          'group_count' => '',
+          'groups' => ['group_name' => 'Group-' .$finalGroupCount, 'match' => $matches[$round]]
+        ];
+
+        $finalArray['tournament_competation_format']['format_name'][$round]['match_type'][] = $matchTypeDetail;
       }
+
+      return $finalArray;      
     }
 
     public function teamsForRoundTwo($totalGroups, $teamsPerGroup, $roundSizeData)
