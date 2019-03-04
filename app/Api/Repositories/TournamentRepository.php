@@ -1057,9 +1057,9 @@ class TournamentRepository
         if($tournamentAccessCode) {
            $tournamentEndDateFormat = Carbon::createFromFormat('d/m/Y', $tournamentAccessCode['end_date'])->addMonths(1);
            
-           $endDateAddMonth = Carbon::parse($tournamentEndDateFormat)->format('Y-m-d');
-
-           $currentDateFormat = Carbon::now()->format('Y-m-d');
+            $endDateAddMonth = Carbon::parse($tournamentEndDateFormat)->format('Y-m-d');
+            
+            $currentDateFormat = Carbon::now()->format('Y-m-d');
 
                 if($endDateAddMonth > $currentDateFormat) {
                     return $tournamentAccessCode; 
