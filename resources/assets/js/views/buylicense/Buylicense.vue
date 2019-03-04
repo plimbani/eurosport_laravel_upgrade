@@ -119,12 +119,14 @@
                                 <div class="row justify-content-end">
                                     <div class="col-md-7 col-lg-7 col-xl-6">
                                         <!-- newDaysAdded <= 0 && new_added_teams <= 0 -->
-                                        <button v-if ="!disabled && !id" class="btn btn-success btn-block"  v-on:click="buyALicence()">Buy your license</button>                                       
-                                       
+                                        <button v-if ="!disabled && !id" class="btn btn-success btn-block"  v-on:click="buyALicence()">
+                                            <span v-if ="!tournamentData.is_renew">Buy your license</span>
+                                            <span v-if ="tournamentData.is_renew">Renew your licence</span> 
+                                        </button>      
                                         <button v-if="disabled && !id" class="btn btn-success btn-block" disabled="true">Buy your license</button>
 
                                          <button v-if ="!disabled && id && newDaysAdded <= 0 && new_added_teams <= 0" class="btn btn-success btn-block"  v-on:click="updateALicence()">
-                                        Update Details </button>
+                                        Confirm Details </button>
                                          <button v-if ="!disabled && id && (newDaysAdded > 0 || new_added_teams > 0)" class="btn btn-success btn-block"  v-on:click="buyALicence()">
                                         Make Payment</button>
                                     </div>
@@ -161,7 +163,8 @@
                     total_amount:100, 
                     access_code:"", 
                     currency_type:"EURO",
-                    payment_currency:"EUR"
+                    payment_currency:"EUR",
+                    is_renew:0
                 },
                 
                 shaSignIn:"", 
@@ -279,6 +282,12 @@
                         if (response.data.success) {  
                             var start_date = new Date(moment(response.data.data.start_date, 'DD/MM/YYYY').format('MM/DD/YYYY'));
                             var end_date = new Date(moment(response.data.data.end_date, 'DD/MM/YYYY').format('MM/DD/YYYY')); 
+                            // console.log("response.data.data.end_date::",end_date.getTime())
+                            let today = new Date();
+                            if(today.getTime() > end_date.getTime()){
+                                this.id = "";
+                                this.tournamentData['is_renew'] = 1;
+                            }
                             // console.log("response.data.data::",response.data.data)
                             this.tournamentData['id'] = this.id;
                             this.tournamentData['tournament_name'] = response.data.data.name;

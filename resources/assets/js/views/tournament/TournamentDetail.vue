@@ -13,10 +13,10 @@
                                 <h2 class="font-weight-bold mb-0">{{tournamentData.name}}</h2>
                                 <h4 class="text-uppercase font-weight-bold mb-4">{{tournamentData.start_date}} - {{tournamentData.end_date}}</h4>
 
-                                <h6 v-if="contactData"  class="text-uppercase mb-0 font-weight-bold">Main Contact</h6>
+                                <h6 v-if="contactData.length > 0"  class="text-uppercase mb-0 font-weight-bold">Main Contact</h6>
                                 <p class="mb-4"  v-for="item in contactData" >{{item.first_name}} {{item.last_name}} <a :href="'tel:' + item.telephone">{{item.telephone}}</a></p>
 
-                                 <h6 v-if="tournamentSponsers"  class="text-uppercase font-weight-bold">Sponsored by</h6>
+                                 <h6 v-if="tournamentSponsers.length > 0"  class="text-uppercase font-weight-bold">Sponsored by</h6>
 
                                 <ul class="list-unstyled sponsored-list mb-0">
                                     <li class="d-inline" v-for="sponser in tournamentSponsers">
@@ -91,7 +91,8 @@
                              this.tournamentData = response.data.data.tournament_details;
                              this.contactData = response.data.data.contact_details;
                              this.tournamentSponsers = response.data.data.tournament_sponsor;
-                             // console.log("tournaments::",this.tournamentInfo)
+                             // console.log("this.contactData::",this.contactData)
+                             // console.log("this.tournamentSponsers:;:",this.tournamentSponsers);
                          }else{ 
                             toastr['error'](response.data.message, 'Error');
                          }

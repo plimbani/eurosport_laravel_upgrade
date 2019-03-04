@@ -85,10 +85,11 @@
                 } 
                 var url = "payment/response";
                 // console.log("this.tournament.id::",this.tournament.id);
-                if(typeof this.tournament.id != "undefined" && this.tournament.id != undefined){
+                if(typeof this.tournament.id != "undefined" && this.tournament.id != undefined && !this.tournament.is_renew){
                     // console.log("inside");
                     url = "manage-tournament";
                 }
+                // console.log("after last")
                 axios.post(Constant.apiBaseUrl+url, apiParams).then(response =>  {
                         if (response.data.success) {
                             // console.log("response.data::",response.data.data)
