@@ -281,6 +281,14 @@ class TournamentController extends BaseController
         return $this->tournamentObj->editTournamentMessage($request->all());
     }
 
+    /*
+    * Get tournament access code
+    *
+    * @return response
+    */
+    public function getTournamentByAccessCode(Request $request) {
+        return $this->tournamentObj->getTournamentByAccessCode($request->all());  
+    }
 
 
 }

@@ -98,6 +98,9 @@ $api->version('v1', function ($api) {
     $api->post('match/getMatchLastUpdateValue', 'Laraspace\Api\Controllers\MatchController@getMatchLastUpdatedDate');
 
     $api->get('match/getAllCategoriesReport/{tournamentId}', 'Laraspace\Api\Controllers\MatchController@getAllCategoriesReport');
+
+    $api->post('tournament/access_code', 'Laraspace\Api\Controllers\TournamentController@getTournamentByAccessCode');
+
 });
 
 $api->version('v1', ['middleware' => 'jwt.auth'], function ($api) {

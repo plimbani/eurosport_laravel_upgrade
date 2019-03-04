@@ -1024,17 +1024,6 @@ class TournamentRepository
     {
         return Tournament::where('id', $id)->first();
     }
-    
-    /**
-     * Get tournament details by access code
-     * @param string $accessCode
-     * @return array
-     */
-    public function getTournamentByAccessCode($accessCode)
-    {
-        return Tournament::where('access_code', $accessCode)->first();
-    }
-
 
     public function resultAdministratorDisplayMessage($tournamentData)
     {
@@ -1055,4 +1044,31 @@ class TournamentRepository
             return '';
         }
     }
+
+    /**
+     * Get tournament details by access code
+     * @param string $tournamentAccessCode
+     * @return array
+    */
+    public function getTournamentByAccessCode($data)
+    {
+        $tournamentAccessCode = Tournament::where('access_code', $data['accessCode'])->first();
+
+        if($tournamentAccessCode) {
+           $tournamentEndDateFormat = Carbon::createFromFormat('d/m/Y', $tournamentAccessCode['end_date'])->addMonths(1);
+           
+           $endDateAddMonth = Carbon::parse($tournamentEndDateFormat)->format('Y-m-d');
+
+           $currentDateFormat = Carbon::now()->format('Y-m-d');
+
+                if($endDateAddMonth > $currentDateFormat) {
+                    return $tournamentAccessCode; 
+                } else {
+                    return 'This tournament is no longer available';
+                }
+        }   else {
+                return 'The tournament code was not recognised';
+        }    
+    }
+        
 }
