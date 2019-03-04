@@ -689,15 +689,10 @@ class MatchRepository
           $competitionStandings = $reportQuery->get();
           if ( $head_to_head == true )
           {
-            $competitionStandings = json_decode(json_encode($competitionStandings), True);
+            $competitionStandings = json_decode(json_encode($competitionStandings), true);
+
             list($competitionStandings,$sort_head_to_head) = $this->sortByHeadtoHead($competitionStandings,$check_head_to_head_with_key,$tournamentData['tournamentId'],$tournamentData['competitionId'],$tournamentCompetationTemplatesRecord,$remain_head_to_head_with_key);
 
-            /*if ( !empty($remain_head_to_head_with_key) )
-            {
-              $remain_head_to_head_with_key = explode('|',$remain_head_to_head_with_key);
-            }
-            */
-            //echo "heeeeer<pre>";print_r($competitionStandings); exit();
             if ( $sort_head_to_head == '1') {
               $head_to_head_position_sorting = array();           
               $internal_head_to_head_position_sorting = array();  
@@ -708,26 +703,6 @@ class MatchRepository
               }
               
               array_multisort($internal_head_to_head_position_sorting,SORT_ASC,$competitionStandings);
-
-              //echo "<pre>after internal";print_r($competitionStandings);exit();
-
-              /*$sortArray[] = &$head_to_head_position_sorting; 
-              $sortArray[] = SORT_ASC;
-
-              $remainingSorting = array();
-              foreach ($remain_head_to_head_with_key as $rkey => $rvalue) {
-                foreach ($competitionStandings as $comp_stand_key => $comp_stand_value) {
-                  $remainingSorting[$rvalue][$comp_stand_key] = (int)$comp_stand_value[$rvalue];
-                }
-
-                $sortArray[] = &$remainingSorting[$rvalue];
-                $sortArray[] = SORT_DESC;
-              }
-
-              $sortArray[] = &$competitionStandings;
-
-              //echo "<pre>";print_r($sortArray);exit();
-              call_user_func_array('array_multisort', $sortArray);*/
 
             }
 
@@ -971,7 +946,6 @@ class MatchRepository
 
       //check point, gd, goal for still same 
       $sort_virtual_leaguetable = array();
-
       foreach ($virtualLegaueTable as $vtakey => $vlvalue) {
         $key_for_check =  $vlvalue['points'].'|'.$vlvalue['GoalDifference'].'|'.$vlvalue['goal_for'];
         $sort_virtual_leaguetable[$key_for_check][] = $vlvalue;
@@ -982,16 +956,25 @@ class MatchRepository
 
       foreach ($sort_virtual_leaguetable as $skey => $svalue) {
         if(sizeof($svalue) > 1 && !empty($remain_head_to_head_with_key) ){
-
-          if ( !empty($remain_head_to_head_with_key) )
+          if ( !empty($remain_head_to_head_with_key) && gettype($remain_head_to_head_with_key) == 'string')
           {
             $remain_head_to_head_with_key = explode('|',$remain_head_to_head_with_key);
           }
 
           foreach ($remain_head_to_head_with_key as $rkey => $rvalue) {
               foreach ($svalue as $sskey => $svvalue) {
-                $team_id = $svvalue['team_id'];
-                $standKey = array_search($team_id, array_column($standingData, 'teamid'));
+
+                if ( array_key_exists('team_id', $svvalue) )
+                {
+                  $team_id = $svvalue['team_id'];
+                  $standKey = array_search($team_id, array_column($standingData, 'team_id'));
+                }
+                else
+                {
+                  $team_id = $svvalue['teamid'];
+                  $standKey = array_search($team_id, array_column($standingData, 'teamid'));
+                }
+                
                 $svalue[$sskey]['outer_'.$rvalue] = $standingData[$standKey][$rvalue];
                 $remainingSorting['outer_'.$rvalue][$sskey] = (int)$standingData[$standKey][$rvalue];
               }
