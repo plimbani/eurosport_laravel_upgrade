@@ -8,16 +8,16 @@
   </div>
   <div class="form-group row">
     <div class="col-md-3">
-      <select class="form-control" v-on:change="onChangeDrawDetails" v-model="DrawName">
+      <select class="form-control" id="drawName" v-on:change="onChangeDrawDetails" v-model="DrawName">
         <!-- <option value="">Select</option> -->
         <optgroup :label="key" v-for="(round, key) in drawList.round_robin">
           <option v-bind:value="group" v-for="group in round">{{group.display_name}}</option>
         </optgroup>
 
-        <optgroup :label="index" v-for="(division, index) in drawList.divisions">
-          <optgroup :label="roundIndex" v-for="(divRound, roundIndex) in division">
-            <option v-bind:value="divGroup" v-for="divGroup in divRound">{{divGroup.display_name}}</option>
-          </optgroup>
+        <optgroup :label="index" class="division" v-for="(division, index) in drawList.divisions">
+          <option class="rounds" disabled="true" :rel="roundIndex" :label="roundIndex" v-for="(divRound, roundIndex) in division">
+          <option v-bind:value="divGroup.id" class="placingMatches" :label="divGroup.display_name" v-for="divGroup in divRound">&nbsp;&nbsp;&nbsp;&nbsp;{{ divGroup.display_name }}</option>
+          </option>
         </optgroup>
       </select>
     </div>
@@ -182,6 +182,29 @@ export default {
       // this.$children[1].getData(this.currentCompetationId)
       // console.log(this.$children[1].getData())
 
+    setTimeout(function(){
+      $('#drawName optgroup .rounds').each(function() {
+        var insideOptions = $(this).html();
+        $(this).html('');
+        $(insideOptions).insertAfter($(this));
+
+        $(this).html($(this).attr('rel'));
+      });
+
+      $("#drawName").select2({
+        templateResult: function (data, container) {
+          if (data.element) {
+            $(container).addClass($(data.element).attr("class"));
+          }
+          return data.text;
+        }
+      })
+      .on('change', function () {
+        vm.DrawName.id = $(this).val();
+        vm.onChangeDrawDetails();
+      });
+    },500);
+
     $('.ls-select2').select2();
  },
   filters: {
@@ -290,6 +313,8 @@ export default {
            )
         },
         onChangeDrawDetails() {
+          // alert("oh here change");
+          // alert(this.DrawName.id);
           this.$store.dispatch('setCurrentScheduleView','drawDetails')
           let Id = this.DrawName.id
           let Name = this.DrawName.name
