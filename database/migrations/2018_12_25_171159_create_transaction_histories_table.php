@@ -16,9 +16,7 @@ class CreateTransactionHistoriesTable extends Migration
         Schema::create('transaction_histories', function (Blueprint $table) {
             $table->increments('id')->unsigned(10);
             $table->integer('transaction_id')->unsigned()->index();
-            $table->foreign('transaction_id')->references('id')->on('transactions');
-            $table->integer('tournament_id')->unsigned()->index()->nullable()->default(NULL);
-            $table->foreign('tournament_id')->references('id')->on('tournaments');
+            $table->foreign('transaction_id')->references('id')->on('transactions');            
             $table->string('order_id')->nullable()->default(NULL);
             $table->string('transaction_key')->comment = "Transaction id from payment response";
             $table->integer('team_size');

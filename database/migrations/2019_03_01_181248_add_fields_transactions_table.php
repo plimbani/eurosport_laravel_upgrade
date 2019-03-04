@@ -12,11 +12,7 @@ class AddFieldsTransactionsTable extends Migration
      * @return void
      */
     public function up()
-    {
-        Schema::table('transactions', function($table) {
-            $table->string('days')->nullable()->default(NULL)->after('status');
-        });
-        
+    {        
         Schema::table('transaction_histories', function($table) {
             $table->string('days')->nullable()->default(NULL)->after('status');
         });
@@ -29,10 +25,6 @@ class AddFieldsTransactionsTable extends Migration
      */
     public function down()
     {
-        Schema::table('transactions', function($table) {
-            $table->dropColumn(['days']);
-        });
-        
         Schema::table('transaction_histories', function($table) {
             $table->dropColumn(['days']);
         });
