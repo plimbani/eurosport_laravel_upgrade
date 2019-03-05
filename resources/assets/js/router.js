@@ -427,6 +427,16 @@ const routes = [
         ]
     },
     {
+        path: '/mtournament-detail', component: LayoutCommercialisation, 
+        children: [
+            {
+                path: '/',
+                component: TournamentDetail,
+                name: 'TournamentDetail'
+            }
+        ]
+    },
+    {
         path: '/payment', component: LayoutCommercialisation,
         meta: { requiresAuth: true },
         children: [
