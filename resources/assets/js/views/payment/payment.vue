@@ -97,6 +97,7 @@
                             this.paymentObj.currency = response.data.data.currency;
                             this.tournament_id = response.data.data.tournament_id;
                             let payment_response = JSON.parse(response.data.data.payment_response);
+                            // let payment_response = response.data.data.paymentResponse;
                             this.paymentObj.orderid = payment_response.orderID;
                          }else{
                              toastr['error'](response.data.message, 'Error');
@@ -130,7 +131,7 @@
             let tournament = Ls.get('orderInfo'); 
             if(tournament != null && tournament != "null"){
                 this.tournament = JSON.parse(tournament);
-                console.log("this.tournament:",this.tournament);
+                // console.log("this.tournament:",this.tournament);
                 this.tournament.total_amount = this.tournament.total_amount/100;   
                 let tempObj = this.$route.query;
                 Ls.remove('orderInfo');
