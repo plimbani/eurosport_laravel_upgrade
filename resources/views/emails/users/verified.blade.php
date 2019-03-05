@@ -54,14 +54,14 @@
                                     <div class="panel-body">
                                     @if(session('reset') && session('reset') == 'reset password')
                                     <div class="alert alert-success my-3">
-                                            <i class="jv-icon jv-checked-arrow text-success"
+                                            <i class="fas fa-check text-success"
                                             >
                                             </i>
                             Your password has been updated.
                                         </div>
                                     @else
                                      <div class="alert alert-success my-3 d-inline-flex align-items-start">
-                                            <i class="jv-icon jv-checked-arrow text-success mr-2">
+                                            <i class="fas fa-check text-success mr-2">
                                             </i>
     <p class="mb-1">Your account registration is complete. You can now login to the mobile app.</p>
                                         </div>

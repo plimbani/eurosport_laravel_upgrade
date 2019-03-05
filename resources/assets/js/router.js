@@ -89,6 +89,9 @@ import TournamentDetail from './views/tournament/TournamentDetail.vue'
 // import UsersTournament from './views/userstournament/UsersTournament.vue'
 import TournamentsTransaction from './views/tournamentstransaction/TournamentsTransaction.vue'
 
+// Duplicate Tournament Layout
+import LayoutDuplicateTournament from './views/layouts/LayoutDuplicateTournament.vue'
+
 //User Pages
 import UserList from './views/admin/users/List.vue'
 
@@ -186,9 +189,9 @@ const routes = [
                 name: 'tournament_add'
             },
             {
-                path: 'competation_format',
+                path: 'competition_format',
                 component: CompetationFormat,
-                name: 'competation_format'
+                name: 'competition_format'
             },
             {
                 path: 'pitch_capacity',
@@ -233,6 +236,15 @@ const routes = [
         component: LayoutUserManagement,
         meta: { requiresAuth: true },
         name: 'users_list'
+    },
+
+
+    // Duplicate tournament copy routes
+    {
+        path: '/tournaments',
+        component: LayoutDuplicateTournament,
+        meta: { requiresAuth: true },
+        name: 'duplicate_tournament_copy'
     },
 
     // Web site routes
@@ -452,7 +464,7 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-    let routesName = ['tournament_add', 'competation_format', 'pitch_capacity', 'teams_groups', 'pitch_planner', 'enlarge_pitch_planner', 'tournaments_summary_details'];
+    let routesName = ['tournament_add', 'competition_format', 'pitch_capacity', 'teams_groups', 'pitch_planner', 'enlarge_pitch_planner', 'tournaments_summary_details'];
     let data = {};
     if (routesName.indexOf(to.name) >= 0) {
         data.tournamentId = store.state.Tournament.tournamentId;

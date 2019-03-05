@@ -11,7 +11,7 @@
                     </div>
                 </div>
                 <div class="mt-4">
-                    <button type="button" class="btn btn-primary" @click="addReferee()"><i class="fa fa-plus" ></i> {{$lang.pitch_planner_referee}}</button>
+                    <button type="button" class="btn btn-primary" @click="addReferee()"><i class="fas fa-plus" ></i> {{$lang.pitch_planner_referee}}</button>
                 </div>
                 <addReferee></addReferee>
 
