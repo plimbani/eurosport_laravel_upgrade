@@ -93,12 +93,20 @@
                 axios.post(Constant.apiBaseUrl+url, apiParams).then(response =>  {
                         if (response.data.success) {
                             // console.log("response.data::",response.data.data)
-                            this.paymentObj.amount = response.data.data.amount;
-                            this.paymentObj.currency = response.data.data.currency;
-                            this.tournament_id = response.data.data.tournament_id;
-                            let payment_response = JSON.parse(response.data.data.payment_response);
-                            // let payment_response = response.data.data.paymentResponse;
-                            this.paymentObj.orderid = payment_response.orderID;
+                            if(url == "payment/response"){
+                                this.paymentObj.amount = response.data.data.amount;
+                                this.paymentObj.currency = response.data.data.currency;
+                                this.tournament_id = response.data.data.tournament_id;
+                                let payment_response = JSON.parse(response.data.data.payment_response);
+                                // let payment_response = response.data.data.paymentResponse;
+                                this.paymentObj.orderid = payment_response.orderID;
+                            }else{
+                                this.tournament_id = response.data.data.tournament.id;
+                                this.paymentObj.orderid = response.data.data.paymentResponse.orderID;
+                                this.paymentObj.amount = response.data.data.paymentResponse.amount;
+                                this.paymentObj.currency = response.data.data.paymentResponse.currency;
+                            }
+                            
                          }else{
                              toastr['error'](response.data.message, 'Error');
                          }
