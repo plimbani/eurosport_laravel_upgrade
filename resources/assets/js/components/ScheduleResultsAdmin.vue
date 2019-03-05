@@ -10,7 +10,7 @@
 							    <p v-if="tournamentStartDataDisplay" class="result-administration-date">
 							    	<small class="text-muted">Result
 							     	administration will be available from 
-							        : {{ tournamentStartDate | formatDate }}</small> 
+							        {{ tournamentStartDate | formatDate }}</small> 
 							    </p>  
 							</div>
 						</div>
