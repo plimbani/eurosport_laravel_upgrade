@@ -36,7 +36,7 @@ class TransactionRepository
         $response = $this->addTransaction($data, $tournamentRes, $userId);
 
         //If renew license then duplicate age category if team size same
-        if (!empty($requestData['is_renew'])) {
+        if (!empty($requestData['tournament']['is_renew'])) {
             
         }
         if ($data['STATUS'] == 5) {
@@ -85,9 +85,7 @@ class TransactionRepository
             'brand' => $data['BRAND'],
             'payment_response' => json_encode($data)
         ];
-        TransactionHistory::create($transactionHistory);
-
-        return $response;
+        return TransactionHistory::create($transactionHistory);
     }
 
     /**
@@ -136,10 +134,11 @@ class TransactionRepository
                 'updated_at' => date('Y-m-d H:i:s')
             ];
         }
-        $result = Transaction::where('tournament_id', $tournament['id'])
+        Transaction::where('tournament_id', $tournament['id'])
                 ->update($mainTransaction);
+        $result = '';
         if (!empty($data)) {
-            TransactionHistory::create($transaction);
+            $result = TransactionHistory::create($transaction);
         }
         if ($data['STATUS'] == 5) {
             //Send conformation mail to customer
