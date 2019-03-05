@@ -64,7 +64,7 @@ public class FavouritesActivity extends BaseAppCompactActivity {
     @Override
     protected void initView() {
         Utility.setupUI(mContext, ll_main_layout);
-        
+
         favouriteList.addFooterView(new View(mContext));
 
         FavouriteListAdapter adapter = new FavouriteListAdapter((Activity) mContext, new ArrayList<TournamentModel>(), new ArrayList<TournamentModel>());

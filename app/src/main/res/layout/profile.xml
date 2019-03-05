@@ -86,7 +86,9 @@
     <Button
         android:id="@+id/btn_update"
         style="@style/text_black_title"
-        android:layout_margin="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="20dp"
         android:background="@drawable/btn_disable"
         android:text="@string/update" />
 
