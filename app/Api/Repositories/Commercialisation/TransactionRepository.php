@@ -70,7 +70,6 @@ class TransactionRepository
         //Add in transaction history
         $transactionHistory = [
             'transaction_id' => $response->id,
-            'tournament_id' => !empty($tournamentRes->id) ? $tournamentRes->id : null,
             'order_id' => $data['ORDERID'],
             'transaction_key' => $data['PAYID'],
             'team_size' => $tournamentRes->maximum_teams,

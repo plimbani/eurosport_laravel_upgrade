@@ -13,7 +13,7 @@ class AlterTournamentsStatus extends Migration
      */
     public function up()
     {
-        DB::statement("ALTER TABLE tournaments CHANGE status status ENUM('Published','Unpublished','Closed','Preview')");
+//        DB::statement("ALTER TABLE tournaments CHANGE status status ENUM('Published','Unpublished','Closed','Preview')");
     }
 
     /**
@@ -23,6 +23,6 @@ class AlterTournamentsStatus extends Migration
      */
     public function down()
     {
-        DB::statement("ALTER TABLE tournaments CHANGE status status ENUM('Published','Unpublished','Closed')");
+//        DB::statement("ALTER TABLE tournaments CHANGE status status ENUM('Published','Unpublished','Closed')");
     }
 }
