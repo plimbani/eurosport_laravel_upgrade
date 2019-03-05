@@ -329,4 +329,14 @@ return [
     'PT Sans' => 'font-pt-sans',
     'Helvetica' => 'font-helvetica',
   ],
+  'languages' => [
+      "en" => "English",
+      "fr" => "French",
+      "it" => "Italian",
+      "de" => "German",
+      "nl" => "Dutch",
+      "cs" => "Czech",
+      "da" => "Danish",
+      "pl" => "Polish",
+  ],
 ];

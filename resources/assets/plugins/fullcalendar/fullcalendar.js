@@ -8363,7 +8363,7 @@ TimeGrid.mixin({
 				) +
 			'>' +
 				'<div class="scheduled-match-content">' +
-					'<div class="badge badge-custom " style="display: ' + event.displayFlag + '"><i class="fa fa-exclamation-triangle"></i></div>'+
+					'<div class="badge badge-custom " style="display: ' + event.displayFlag + '"><i class="fas fa-exclamation-triangle"></i></div>'+
 					'<div class="fc-content">' +
 						(timeText ?
 							'<span class="fc-referee referee_'+event.refereeId+'" id="'+ event.refereeId+'">'+ event.refereeText+'</span>' +
@@ -8406,8 +8406,9 @@ TimeGrid.mixin({
 					'<div class="scheduled-match-content-strip" style="background: ' + event.fixtureStripColor + '"></div>' :
 						''
 						) +
+					((event.matchId !== '' && event.matchId !== -1) ? '<div class="checkbox d-none match-unschedule-checkbox-div"><div class="c-input"><input type="checkbox" class="euro-checkbox match-unschedule-checkbox" name="match_unschedule_check[]" id="'+ event.matchId+'"><label for="'+ event.matchId+'"></label></div></div>' : '') +
 					(event.remarks ?
-					'<div class="' + matchRemarkClasses + '"><i class="jv-icon jv-comment"></i></div>' : ''
+					'<div class="' + matchRemarkClasses + '"><i class="fas fa-comment-dots"></i></div>' : ''
 						) +
 				'</div>' +
 			'</a>';

@@ -6,6 +6,9 @@
 // Plugins
 @import '../plugins/bootstrap/scss/bootstrap';
 @import '../plugins/fontawesome/font-awesome';
+@import '../plugins/fontawesome-5/fontawesome';
+@import '../plugins/fontawesome-5/solid';
+
 @import '../plugins/flag-icon-css-master/sass/flag-icon';
 @import '../plugins/customfonts/style';
 @import '../plugins/ladda/ladda.scss';
@@ -61,6 +64,9 @@
 @import 'partials/footer';
 
 // Components
+@import 'mixins/bg-color';
+@import 'components/grid';
+@import 'components/bg-varient';
 @import 'components/forms';
 @import 'components/euro-checkbox';
 @import 'components/buttons';

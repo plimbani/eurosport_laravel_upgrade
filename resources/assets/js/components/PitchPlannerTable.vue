@@ -1,13 +1,19 @@
 <template>
     <div>
         <div class="row">
-            <div class="col-md-12 mb-3">
-                <button class="btn btn-secondary btn-md js-pitch-planner-bt horizontal js-horizontal-view"  @click="setView('timelineDay')">{{$lang.pitch_planner_horizontal}}</button>
-                <button class="btn btn-primary btn-md js-pitch-planner-bt vertical"  @click="setView('agendaDay')">{{$lang.pitch_planner_vertical}}</button>
-                <button v-if="isPitchPlannerInEnlargeMode == 0" class="btn btn-primary btn-md vertical" @click="enlargePitchPlanner()">Enlarge</button>
-                <button class="btn btn-primary btn-md vertical" @click="printPitchPlanner()">Print</button>
-                <button class="btn btn-primary btn-md vertical" @click="exportPitchPlanner()">Export</button>
-                <button class="btn btn-primary btn-md" @click="openAutomaticPitchPlanningModal()">{{$lang.pitch_planner_automatic_planning}}</button>
+            <div class="col-md-9 mb-3">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <button v-if="isPitchPlannerInEnlargeMode == 0" class="btn btn-primary btn-md vertical" @click="enlargePitchPlanner()">Enlarge</button>
+                        <button class="btn btn-primary btn-md" @click="openAutomaticPitchPlanningModal()">{{$lang.pitch_planner_automatic_planning}}</button>
+                        <button class="btn btn-md btn-secondary" id="unschedule_fixtures" @click="unscheduleFixtures()">{{$lang.pitch_planner_unschedule_fixtures}}</button>
+                        <button class="btn btn-danger btn-md cancle-match-unscheduling d-none" id="cancle_unscheduling_fixtures" @click="cancelUnscheduleFixtures()">{{$lang.pitch_planner_cancel_unscheduling}}</button>
+                    </div>
+                    <div>
+                        <button class="btn btn-default btn-md vertical" @click="printPitchPlanner()"><i class="fas fa-print text-primary"></i></button>
+                        <button class="btn btn-default btn-md vertical" @click="exportPitchPlanner()"><i class="fas fa-download text-primary"></i></button>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -31,16 +37,17 @@
             <div class="" id="outerGame" v-bind:class="[isPitchPlannerInEnlargeMode == 0 ? 'col-md-3' : 'col-md-2']" v-if="isPrintPitchPlanner == 0">
                 <div class="grey_bg" id="gameReferee">
                     <div class="tabs tabs-primary">
-                        <ul class="nav nav-tabs" role="tablist">
+                        <ul class="nav nav-tabs nav-justified" role="tablist">
                             <li class="nav-item">
-                                <a class="text-center" :class="[currentView == 'gamesTab' ? 'active' : '', 'nav-link px-3']"
+                                <a class="text-center" :class="[currentView == 'gamesTab' ? 'active' : '', 'nav-link']"
                                 @click="setCurrentTab('gamesTab')"
-                                data-toggle="tab" role="tab" href="#game-list">Games <span>({{totalMatchCount}})</span></a>
+                                data-toggle="tab" role="tab" href="#game-list">
+                                <div class="wrapper-tab">Games <span>({{totalMatchCount}})</span></div></a>
                             </li>
                             <li class="nav-item">
-                                <a class="text-center" :class="[currentView == 'refereeTab' ? 'active' : '', 'nav-link px-3']"
+                                <a class="text-center" :class="[currentView == 'refereeTab' ? 'active' : '', 'nav-link']"
                                 @click="setCurrentTab('refereeTab')"
-                                data-toggle="tab" role="tab" href="#referee-list">Referees <span>({{totalRefereeCount}})</span></a>
+                                data-toggle="tab" role="tab" href="#referee-list"><div class="wrapper-tab">Referees <span>({{totalRefereeCount}})</span></div></a>
                             </li>
                         </ul>
                          <div class="tab-content">
@@ -57,12 +64,14 @@
                 </div>
             </div>
         </div>
+        <BulkUnscheduledfixtureModal :unscheduleFixture="unscheduleFixture" 
+            @confirmed="confirmUnschedulingFixtures()"></BulkUnscheduledfixtureModal>
         <AutomaticPitchPlanning></AutomaticPitchPlanning>
         <AddRefereesModel :formValues="formValues" :competationList="competationList" :tournamentId="tournamentId" :refereeId="refereeId" ></AddRefereesModel>
         <UploadRefereesModel :tournamentId="tournamentId"></UploadRefereesModel>
     </div>
 </template>
-<script>
+<script type="text/babel">
     import moment from 'moment'
     import GamesTab from './GamesTab.vue'
     import RefereesTab from './RefereesTab.vue'
@@ -71,10 +80,11 @@
     import UploadRefereesModel from './UploadRefereesModel.vue'
     import Tournament from '../api/tournament.js'
     import AutomaticPitchPlanning from './AutomaticPitchPlanningModal.vue'
+    import BulkUnscheduledfixtureModal from './BulkUnscheduledfixtureModal.vue'
 
     export default  {
         components: {
-            GamesTab, RefereesTab, PitchPlannerStage, AddRefereesModel, UploadRefereesModel, AutomaticPitchPlanning
+            GamesTab, RefereesTab, PitchPlannerStage, AddRefereesModel, UploadRefereesModel, AutomaticPitchPlanning, BulkUnscheduledfixtureModal
         },
         computed: {
             GameActiveTab () {
@@ -127,6 +137,8 @@
 
             this.$root.$on('editReferee', this.editReferee);
             this.$root.$on('displayTournamentCompetationList', this.displayTournamentCompetationList);
+            this.$root.$on('setView', this.setView);
+            this.$root.$on('cancelUnscheduleFixtures', this.cancelUnscheduleFixtures);
         },
         beforeCreate: function() {
             // Remove custom event listener
@@ -140,6 +152,7 @@
             this.$root.$off('getAllReferee');
             this.$root.$off('editReferee');
             this.$root.$off('displayTournamentCompetationList');
+            this.$root.$off('setView');
         },
         data() {
             return {
@@ -157,6 +170,8 @@
                 'competationList': [],
                 'isCompetitionCallProcessed': false,
                 'formValues': this.initialState(),
+                'unscheduleFixture': 'Are you sure you would like to unschedule the selected fixtures?',
+                'matchId': null,
             };
         },
         props: {
@@ -383,7 +398,7 @@
                     vm.tournamentStages = stages
                 });
             },
-          gameReset() {
+            gameReset() {
 
             // let vm =this
             //  vm.GameStatus = false
@@ -395,8 +410,8 @@
 
             //         $('.nav-tabs a[href="#game-list"]').tab('show');
             //   },500)
-          },
-          refereeReset() {
+            },
+            refereeReset() {
             // let vm =this
             //  vm.GameStatus = false
             //  vm.refereeStatus = false
@@ -406,68 +421,124 @@
             //         vm.GameStatus = true
             //         $('.nav-tabs a[href="#referee-list"]').tab('show');
             //     },500)
-          },
-          dispDate(date) {
-            var date1 = moment(date, 'DD/MM/YYYY')
-            return date1.format('ddd DD MMM YYYY')
-          },
-          openAutomaticPitchPlanningModal() {
-            $('#automatic_pitch_planning_modal').modal('show');
-          },
-          enlargePitchPlanner() {
-            this.$router.push({name: 'enlarge_pitch_planner'})
-          },
-          htmlEncodeDecode() {
-            (function(window){
-                window.htmlentities = {
-                    /**
-                     * Converts a string to its html characters completely.
-                     *
-                     * @param {String} str String with unescaped HTML characters
-                     **/
-                    encode : function(str) {
-                        var buf = [];
-                        
-                        for (var i=str.length-1;i>=0;i--) {
-                            buf.unshift(['&#', str[i].charCodeAt(), ';'].join(''));
+            },
+            dispDate(date) {
+                var date1 = moment(date, 'DD/MM/YYYY')
+                return date1.format('ddd DD MMM YYYY')
+            },
+            openAutomaticPitchPlanningModal() {
+                $('#automatic_pitch_planning_modal').modal('show');
+            },
+            enlargePitchPlanner() {
+                 this.$router.push({name: 'enlarge_pitch_planner'})
+            },
+            htmlEncodeDecode() {
+                (function(window){
+                    window.htmlentities = {
+                        /**
+                         * Converts a string to its html characters completely.
+                         *
+                         * @param {String} str String with unescaped HTML characters
+                         **/
+                        encode : function(str) {
+                            var buf = [];
+                            
+                            for (var i=str.length-1;i>=0;i--) {
+                                buf.unshift(['&#', str[i].charCodeAt(), ';'].join(''));
+                            }
+                            
+                            return buf.join('');
+                        },
+                        /**
+                         * Converts an html characterSet into its original character.
+                         *
+                         * @param {String} str htmlSet entities
+                         **/
+                        decode : function(str) {
+                            return str.replace(/&#(\d+);/g, function(match, dec) {
+                                return String.fromCharCode(dec);
+                            });
                         }
-                        
-                        return buf.join('');
-                    },
-                    /**
-                     * Converts an html characterSet into its original character.
-                     *
-                     * @param {String} str htmlSet entities
-                     **/
-                    decode : function(str) {
-                        return str.replace(/&#(\d+);/g, function(match, dec) {
-                            return String.fromCharCode(dec);
-                        });
+                    };
+                })(window);
+             },
+            printPitchPlanner() {
+                var pitchPlannerPrintWindow = window.open('', '_blank');
+                Tournament.getSignedUrlForPitchPlannerPrint(this.tournamentId).then(
+                  (response) => {
+                    pitchPlannerPrintWindow.location = response.data;
+                  },
+                  (error) => {
+
+                  }
+                );
+            },
+
+            exportPitchPlanner() {
+                Tournament.getSignedUrlForPitchPlannerExport(this.tournamentId).then(
+                  (response) => {
+                    window.location.href = response.data;
+                  },
+                  (error) => {
+
+                  }
+                );
+            },
+            unscheduleFixtures() {
+                var manageClass = false;
+                if($("#unschedule_fixtures").hasClass('btn-success')) {
+                    $("#bulk_unscheduled_fixtures").modal('show');
+                    return true;
+                }
+                if($("#unschedule_fixtures").hasClass('btn-secondary')) {
+                    $("#unschedule_fixtures").removeClass('btn-secondary').addClass('btn-primary');
+                    $(".match-unschedule-checkbox-div").removeClass('d-none');
+                    return true;
+                }
+
+                if($("#unschedule_fixtures").hasClass('btn-primary')) {
+                    $("#unschedule_fixtures").removeClass('btn-primary').addClass('btn-secondary');
+                    $(".match-unschedule-checkbox-div").addClass('d-none');
+                    return true;
+                }
+            },
+            cancelUnscheduleFixtures() {
+                $("#unschedule_fixtures").html('Unschedule fixture').removeClass('btn btn-success');
+                $("#unschedule_fixtures").addClass('btn btn-primary btn-md btn-secondary');
+                $(".match-unschedule-checkbox-div").addClass('d-none');
+                $("#cancle_unscheduling_fixtures").hide();
+                $(".match-unschedule-checkbox").prop( "checked", false);
+            },
+
+            confirmUnschedulingFixtures() {
+                let vm = this;
+                var matchId = [];
+                $(".match-unschedule-checkbox").each(function( index ) {
+                    var checkboxChecked = $(this).is(':checked');
+                    if(checkboxChecked) {
+                        matchId.push($(this).attr('id'));
                     }
-                };
-            })(window);
-          },
-          printPitchPlanner() {
-            var pitchPlannerPrintWindow = window.open('', '_blank');
-            Tournament.getSignedUrlForPitchPlannerPrint(this.tournamentId).then(
-              (response) => {
-                pitchPlannerPrintWindow.location = response.data;
-              },
-              (error) => {
+                });
 
-              }
-            );
-          },
-          exportPitchPlanner() {
-            Tournament.getSignedUrlForPitchPlannerExport(this.tournamentId).then(
-              (response) => {
-                window.location.href = response.data;
-              },
-              (error) => {
+                Tournament.matchUnscheduledFixtures(matchId).then(
+                (response) => {
+                    $('#bulk_unscheduled_fixtures').modal('hide')
+                    setTimeout(function(){
+                        _.forEach(matchId, function(value, key) {
+                            $('div.fc-unthemed').fullCalendar( 'removeEvents', [value] );
+                        });
+                    },200)
+                    toastr.success('Fixtures unscheduled successfully', 'Fixtures Unscheduled', {timeOut: 5000});
+                    $("#unschedule_fixtures").html('Unschedule fixture').removeClass('btn btn-success');
+                    $("#unschedule_fixtures").addClass('btn btn-primary btn-md btn-secondary');
+                    $(".match-unschedule-checkbox-div").addClass('d-none');
+                    $("#cancle_unscheduling_fixtures").hide();
 
-              }
-            );
-          }
+                    vm.$store.dispatch('setMatches');
+                    vm.$store.dispatch('SetScheduledMatches');
+                    vm.$root.$emit('reloadAllEvents')
+                })
+            }
         }
     }
 </script>

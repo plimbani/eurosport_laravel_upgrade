@@ -136,7 +136,7 @@ class TournamentService implements TournamentContract
     {
         // Here we send Status Code and Messages
         $data1 = $this->tournamentRepoObj->getAllTemplatesFromMatches($data);
-
+        
         if ($data1) {
           //TODO: here we Add Some Extra Fields For merge with TemplateData
           $newData=array();
@@ -156,7 +156,9 @@ class TournamentService implements TournamentContract
             $newData[$key]['template_font_color'] = $template_font_color;
             $newData[$key]['remark'] = $remark;
             $newData[$key]['avg_game_team'] = $avg_game_team;
+            $newData[$key]['graphic_image']     =  $value->graphic_image ? getenv('S3_URL'). $value->graphic_image : null;
           }
+          
 
 
           //exit;
@@ -640,7 +642,7 @@ class TournamentService implements TournamentContract
             ];
 
             $lableArray = [
-              'Date and time','Age category' ,'Location', 'Pitch','Referee','Match Code','Team','Team','Placing'
+              'Date and time','Age category' ,'Venue', 'Pitch','Referee','Match Code','Team','Team','Placing'
             ];
             //Total Stakes, Total Revenue, Amount & Balance fields are set as Number statically.
             \Laraspace\Custom\Helper\Common::toExcel($lableArray,$dataArray,$otherParams,'xlsx','yes');
@@ -942,7 +944,6 @@ class TournamentService implements TournamentContract
       return ['options' => $data];
     }
 
-
     /*
     * Save tournament sposer logo
     *
@@ -980,5 +981,22 @@ class TournamentService implements TournamentContract
       $data = $this->tournamentRepoObj->editTournamentMessage($data['tournamentData']);
       return $data;
     }
+ 
+    public function getTournamentAccessCodeDetail($data)
+    {
+      $data = $this->tournamentRepoObj->getTournamentAccessCodeDetail($data);
+      return $data;
+    }
 
+    public function duplicateTournament($data)
+    {
+      $data = $this->tournamentRepoObj->duplicateTournament($data);
+      return ['data' => $data, 'status_code' => '200']; 
+    }
+
+    public function duplicateTournamentList($data)
+    {
+      $data = $this->tournamentRepoObj->duplicateTournamentList($data);
+      return ['data' => $data, 'status_code' => '200']; 
+    }
 }

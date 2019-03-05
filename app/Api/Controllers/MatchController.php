@@ -897,4 +897,12 @@ class MatchController extends BaseController
     {
         return $this->matchObj->getAllCategoriesReport($tournamentId);
     }
+
+    /**
+     * Match unschedule fixtures
+    */
+    public function matchUnscheduledFixtures(Request $request)
+    {
+        return $this->matchObj->matchUnscheduledFixtures($request->all());
+    }
 }

@@ -22,7 +22,7 @@
                   <td class="text-center" v-if="message.status == 'queued' ">Draft</td>
                   <td class="text-center" v-else>Sent</td>
                   <td class="text-center">
-                    <a href="#" @click="messageDetails(index)" class="text-primary"><i class="jv-icon jv-find-doc text-decoration icon-big"></i></a>
+                    <a href="#" @click="messageDetails(index)" class="text-primary"><i class="fas fa-copy text-decoration icon-big"></i></a>
                   </td>
               </tr>
           </tbody>
@@ -37,7 +37,7 @@
     <div class="row">
           <div class="col-md-12">
            <button type="button" class="btn btn-primary"
-           @click="addMessage()"><small><i class="jv-icon jv-plus"></i></small>&nbsp;{{$lang.summary_message_button}}</button>
+           @click="addMessage()"><small><i class="fas fa-plus"></i></small>&nbsp;{{$lang.summary_message_button}}</button>
           </div>
     </div>
   </div>

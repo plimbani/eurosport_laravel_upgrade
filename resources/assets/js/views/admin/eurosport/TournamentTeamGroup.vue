@@ -5,7 +5,8 @@
       		<h6><strong>{{$lang.teams_terms_groups}}</strong></h6>
             <div class="row">
               <div class="col-sm-12 mb-2">
-                Spreadsheet <a href="javascript:void(0)" @click="downloadTeamsSpreadsheetSample()" class="text-primary"><u>click here</u></a>
+                Team list spreadsheet <a href="javascript:void(0)" @click="downloadTeamsSpreadsheetSample()" class="text-primary"><u>click here</u>.</a>  View
+                <a href="javascript:void(0)" @click="previewSpredsheetSample()" class="text-primary"><u> example</u>.</a>
               </div>
             </div>
             <div class="form-group row">
@@ -44,21 +45,27 @@
                       </select>
                     </div>
                   </div>
-                  <div class="col-sm-3" v-show="this.age_category != ''" v-if="this.role_slug == 'Super.administrator'">
+                  <div class="col-sm-3" v-show="this.age_category != ''" v-if="this.role_slug != 'mobile.user'">
                     <button type="button" data-toggle="modal" data-target="#reset_modal" class="btn btn-primary w-100">Delete teams</button>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="block-bg age-category mb-4">
+            <div class="block-bg age-category" id="age_category_block">
               <div class="d-flex flex-row flex-wrap justify-content-center" v-if="grpsView.length != 0">
-                <div class="col-sm-3 my-2"  v-for="(group, index) in grpsView">
+                <div class="col-sm-2 my-2" v-for="(group, index) in grpsView">
                   <div class="m_card hoverable h-100 m-0">
                     <div class="card-content">
                        <span class="card-title text-primary"><strong>
                        {{ getGroupName(group) }}</strong></span>
-                        <p class="text-primary left" v-for="n in group['group_count']"><strong><span :class="groupFlag(group,n)" ></span>
-                        {{groupName(group,n) | truncate(20)}}</strong></p>
+                       <div v-for="(n, pindex) in group['group_count']">
+                        <p class="text-primary left">
+                          <strong>
+                            <span :class="groupFlag(group,n)"></span>
+                            <span :data-group-name="groupName(group, n).displayName" :id="'group_' + index + '_' + pindex" @drop="groupName(group, n).isHolderName === true ? onTeamDrop($event) : null" @dragover="groupName(group, n).isHolderName === true ? allowDrop($event) : null">{{ groupName(group, n).displayName | truncate(20) }}</span>
+                          </strong>
+                        </p>
+                       </div>
                     </div>
                   </div>
                 </div>
@@ -71,7 +78,10 @@
                 </div>
               </div>
             </div>
-    			<div class="row mt-4">
+    			<div class="row mt-4 team-table">
+            <div class="col-md-12 text-muted">
+              <p>Drag and drop the team name directly in the category structure above. Alternatively, select a value in the 'Allocate' column.</p>
+            </div>
     				<div class="col-md-12">
               <form name="frmTeamAssign" id="frmTeamAssign" class="frm-team-assign">
       					<table class="table table-hover table-bordered">
@@ -94,14 +104,14 @@
                           <td width="150px">{{team.esr_reference}}</td>
                           <td class="team-edit-section">
                             <div class="custom-d-flex align-items-center justify-content-between" v-show="!(team.id in teamsInEdit)">
-                              <span>{{team.name}}</span>
-                              <span class="pull-right"><a href="javascript:void(0);" v-on:click="editTeamName($event, team.id, team.name)"><i class="fa fa-pencil" aria-hidden="true"></i></a></span>
+                              <span draggable="true" :data-select-id="team.id" :id="'team_' + index" @dragstart="onTeamDrag($event)">{{team.name}}</span>
+                              <span class="pull-right"><a href="javascript:void(0);" v-on:click="editTeamName($event, team.id, team.name)"><i class="fas fa-pencil" aria-hidden="true"></i></a></span>
                             </div>
                             <div v-show="(team.id in teamsInEdit)">
                               <div class="btn-group btn-group-sm w-100" role="group">
                                 <input type="text" class="form-control" v-model="team.name" />
-                                <a href="javascript:void(0);" v-on:click="cancelTeamNameChange(team.id)" class="btn btn-secondary d-inline-flex align-items-center"><i class="fa fa-times text-center text-danger" aria-hidden="true"></i></a>
-                                <a href="javascript:void(0);" v-on:click="saveTeamNameChanges($event, team.id, team.name)" class="btn btn-secondary d-inline-flex align-items-center"><i class="fa fa-check text-center text-primary" aria-hidden="true"></i></a>
+                                <a href="javascript:void(0);" v-on:click="cancelTeamNameChange(team.id)" class="btn btn-secondary d-inline-flex align-items-center"><i class="fas fa-times text-center text-danger" aria-hidden="true"></i></a>
+                                <a href="javascript:void(0);" v-on:click="saveTeamNameChanges($event, team.id, team.name)" class="btn btn-secondary d-inline-flex align-items-center"><i class="fas fa-check text-center text-primary" aria-hidden="true"></i></a>
                               </div>
                             </div>
                           </td>
@@ -120,7 +130,7 @@
                           <td class="text-center">
                             <a class="text-primary" href="javascript:void(0)"
                              @click="editTeam(team.id)">
-                              <i class="jv-icon jv-edit"></i>
+                              <i class="fas fa-pencil"></i>
                             </a>
                           </td>
                         </tr>
@@ -138,30 +148,44 @@
     			</div>
   		</div>
   	</div>
-     <team-modal v-if="teamId!=''" :teamId="teamId" :countries="countries" :clubs="clubs" :teamColors="teamColors"></team-modal>
-    <div class="modal fade" id="reset_modal" tabindex="-1" role="dialog" 
-    aria-labelledby="resetModalLabel">
+    <team-modal v-if="teamId!=''" :teamId="teamId" :countries="countries" :clubs="clubs" :teamColors="teamColors"></team-modal>
+    <div class="modal fade" id="reset_modal" tabindex="-1" role="dialog"
+      aria-labelledby="resetModalLabel">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="myModalLabel">Confirmation</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                </div>
-                <div class="modal-body text-left">
-                    <p>
-                        Are you sure you would like to reset this age category? This will delete 
-                        <b>ALL</b> team information associated with this age category including team names, fixtures and results.
-                    </p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">{{$lang.summary_tab_popup_publish_cancel_button}}</button>
-                    <button type="submit" class="btn btn-primary" @click="resetAllTeams()">{{$lang.summary_tab_popup_publish_confirm_button}}</button>
-                </div>    
+          <div class="modal-header">
+              <h5 class="modal-title" id="myModalLabel">Confirmation</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          </div>
+          <div class="modal-body text-left">
+              <p>
+                  Are you sure you would like to reset this age category? This will delete
+                  <b>ALL</b> team information associated with this age category including team names, fixtures and results.
+              </p>
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-danger" data-dismiss="modal">{{$lang.summary_tab_popup_publish_cancel_button}}</button>
+              <button type="submit" class="btn btn-primary" @click="resetAllTeams()">{{$lang.summary_tab_popup_publish_confirm_button}}</button>
+          </div>
         </div>
       </div>
     </div>
+    <div class="modal team-preview" id="teams_groups_preview_modal" tabindex="-1" role="dialog" aria-labelledby="teams_groups_preview_modal" style="display: none;" aria-hidden="true" data-animation="false">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+             <h5 class="modal-title" id="teams_groups_preview_modal">Preview</h5>
+             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+             <span aria-hidden="true">×</span>
+             </button>
+          </div>
+          <div class="modal-body">
+            <img src="/assets/img/teams_groups_preview/TeamsGroupsPreview.png" class="img-fluid">
+          </div>
+         </div>
+      </div>
+    </div>
   </div>
-  
 </template>
 
 <script type="text/babel">
@@ -215,7 +239,7 @@
     components: {
       TournamentFilter,
       teamSelect,
-      TeamModal
+      TeamModal,
     },
     computed: {
        tournamentFilter: function() {
@@ -263,6 +287,27 @@
       this.fetchAllCountries();
       this.fetchAllClubs();
       this.fetchAllTeamColors();
+      let fixmeTop = $('#age_category_block').offset().top;
+      let HeaderHeight = $('.site-header').height();
+      let fixmeTopOffset = fixmeTop - 60;
+      $(window).scroll(function() {
+        let categoryDivHeight = $('#age_category_block').height();
+        let teamTableHeight = $(window).height() - (fixmeTop);
+        let currentScroll = $(window).scrollTop();
+        if ($('.team-table').height() > teamTableHeight) {
+          if((currentScroll) < fixmeTopOffset) {
+            $('#age_category_block').removeClass("is-fixed");
+            $('.team-table').css({"padding-top": 0});
+          } else {
+            let fixmeHeight= ($('#age_category_block').height() + 49);
+            $('.team-table').css({"padding-top": fixmeHeight});
+            $('#age_category_block').addClass("is-fixed");
+          }
+        } else {
+          $('#age_category_block').removeClass("is-fixed");
+          $('.team-table').css({"padding-top": 0});
+        }
+      });
     },
     created: function() {
       this.$root.$on('getTeamsByTournamentFilter', this.setFilter);
@@ -271,7 +316,7 @@
       // this.$root.$on('beforeChange', this.beforeChange);
     },
     beforeCreate: function() {
-      // Remove custom event listener 
+      // Remove custom event listener
       this.$root.$off('getTeamsByTournamentFilter');
       this.$root.$off('updateTeamList');
     },
@@ -304,7 +349,21 @@
         return displayName
       },
        groupName(group,no){
-        let vm =this
+        let vm =this;
+        let groupName = this.getGroupPlaceHolderName(group, no);
+        let displayName = groupName.fullName;
+        let actualFullName = groupName.actualFullName;
+        let isHolderName = true;
+
+        _.find(this.teams, function(team) {
+          if(team.age_group_id == vm.age_category.id && actualFullName == team.group_name){
+            displayName =  team.name
+            isHolderName = false;
+          } ;
+        });
+        return {'displayName': displayName, 'isHolderName': isHolderName}
+      },
+      getGroupPlaceHolderName(group, no) {
         let fullName = null
         let actualFullName = null
         if(typeof group['groups']['actual_group_name'] != "undefined") {
@@ -314,15 +373,10 @@
         } else {
           fullName = actualFullName = group['groups']['group_name']+no;
         }
-
-        let displayName = fullName
-
-        _.find(this.teams, function(team) {
-          if(team.age_group_id == vm.age_category.id && actualFullName == team.group_name){
-            displayName =  team.name
-          } ;
-        });
-        return displayName
+        let groupName = {};
+        groupName.fullName = fullName;
+        groupName.actualFullName = actualFullName;
+        return groupName;
       },
       initialfunc(id){
         if($('#sel_'+id).find('option:selected').text()!=''){
@@ -333,7 +387,7 @@
         this.canUploadTeamFile = true;
         var extensionsplit = event.target.files[0].name.split(".");
         var extension = extensionsplit[extensionsplit.length - 1];
-        if(extension != 'xls' && extension != 'xlsx') {
+        if(extension != 'xls' && extension != 'xlsx' && extension != 'csv') {
           this.canUploadTeamFile = false;
         }
         var filename = $('#fileUpload').val();
@@ -402,10 +456,10 @@
         this.teams = ''
         let ageCategoryId = this.age_category !== '' ? this.age_category.id : '';
         let teamData = {'tournamentId':this.tournament_id, 'ageCategoryId' : ageCategoryId, 'filterKey':'age_category', 'filterValue': ageCategoryId};
-        // console.log(teamData,'td')
         Tournament.getTeams(teamData).then(
           (response) => {
             this.teams = response.data.data
+            this.$store.dispatch('SetTeams',this.tournament_id);
             let that = this
             setTimeout(function(){
               $('.selTeams').each(function( index ) {
@@ -682,7 +736,7 @@
         Tournament.getResetTeams(ageCategoryId).then(
           (response) => {
             this.$root.$emit('updateTeamList');
-            
+
             $("#reset_modal").modal("hide");
             toastr['success']('All teams are deleted successfully', 'Success');
           },
@@ -702,11 +756,30 @@
       downloadTeamsSpreadsheetSample() {
         Tournament.getSignedUrlForTeamsSpreadsheetSampleDownload().then(
           (response) => {
-            window.location.href = response.data;         
+            window.location.href = response.data;
           },
           (error) => {
         });
       },
+      previewSpredsheetSample() {
+        $('#teams_groups_preview_modal').modal('show');
+      },
+      allowDrop(ev) {
+        ev.preventDefault();
+      },
+      onTeamDrop(ev) {
+        ev.preventDefault();
+        let teamId = ev.dataTransfer.getData("id");
+        let teamSelectId = $('#' + teamId).data('select-id');
+        $('#sel_' + teamSelectId).val($('#' + ev.target.id).data('group-name'));
+        $('#sel_' + teamSelectId).trigger('select2:select');
+        this.assignTeamGroupName(teamSelectId, $('#sel_' + teamSelectId).val());
+        this.onAssignGroup($('#' + teamId).data('select-id'));
+      },
+      onTeamDrag(ev) {
+        ev.dataTransfer.setData("id", ev.target.id);
+        this.beforeChange($('#' + ev.target.id).data('select-id'));
+      }
     }
   }
 </script>

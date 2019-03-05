@@ -19,7 +19,7 @@
 				    <label class="col-sm-5 form-control-label">{{ $lang.program_itinerary_time }}*</label>
 				    <div class="col-sm-6">
 				        <input v-model="formValues.time" v-validate="{'required':true}" :class="{'is-danger': errors.has('time') }" name="time" type="text" class="form-control">
-				        <i v-show="errors.has('time')" class="fa fa-warning"></i>
+				        <i v-show="errors.has('time')" class="fas fa-warning"></i>
 				        <span class="help is-danger" v-show="errors.has('time')">{{ errors.first('time') }}<br>
 				        </span>                
 				    </div>
@@ -28,7 +28,7 @@
 				    <label class="col-sm-5 form-control-label">{{ $lang.program_itinerary_item }}*</label>
 				    <div class="col-sm-6">
 				        <input v-model="formValues.item" v-validate="{'required':true}" :class="{'is-danger': errors.has('item') }" name="item" type="text" class="form-control">
-				        <i v-show="errors.has('item')" class="fa fa-warning"></i>
+				        <i v-show="errors.has('item')" class="fas fa-warning"></i>
 				        <span class="help is-danger" v-show="errors.has('item')">{{ errors.first('item') }}<br>
 				        </span>                
 				    </div>

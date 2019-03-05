@@ -1,14 +1,14 @@
 <template>
   <div>
     <div id="gmap_place_input">
-      <gmap-place-input :select-first-on-enter="true" @place_changed="updatePlace($event)"></gmap-place-input>
+      <gmap-place-input :placeholder="'Enter a location or right click on the map'" :select-first-on-enter="true" @place_changed="updatePlace($event)"></gmap-place-input>
     </div>
     <gmap-map :center="center" :zoom="zoom" class="map-panel" @rightclick="mapRclicked" @zoom_changed="update('zoom', $event)" @center_changed="update('reportedCenter', $event)" @maptypeid_changed="update('mapType', $event)" @bounds_changed="update('bounds', $event)" ref="venuemap" style="width: 100%; height: 400px; display: block;">
       <gmap-marker :key="index" v-for="(m, index) in activeMarkers" :position="m.position" :clickable="true" :draggable="true" @click="updateInfoWindow(m,index)" :zIndex="zIndex" @position_changed="updateChild(m, 'position', $event)"></gmap-marker>
       <gmap-info-window :options="infoOptions" :position="infoWindowPos" :opened="infoWinOpen" @closeclick="infoWinOpen=false">
         <div class="form-group mb-0">
           <textarea v-model="infoContent" class="form-control mb-2" name="infoWindowText" id="infoWindowText" rows="5" v-validate="{'required':true}" data-vv-as="information" placeholder="Marker information"></textarea>
-          <i v-show="errors.has('infoWindowText')" class="fa fa-warning"></i>
+          <i v-show="errors.has('infoWindowText')" class="fas fa-warning"></i>
           <span class="help is-danger" v-show="errors.has('infoWindowText')">{{ errors.first('infoWindowText') }}<br>
           </span>
           <button type="button" class="btn btn-sm btn-primary mt-2" @click="deleteMarker()">Delete</button>

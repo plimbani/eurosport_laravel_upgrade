@@ -13,7 +13,7 @@
             <label class="col-sm-5 form-control-label">{{ $lang.homepage_statistic }}*</label>
             <div class="col-sm-6">
                 <input v-model="formValues.statistic" v-validate="{'required':true, 'max': 25}" :class="{'is-danger': errors.has('statistic') }" name="statistic" type="text" class="form-control" :placeholder="$lang.homepage_statistic_model_placeholder" maxlength="25">
-                <i v-show="errors.has('statistic')" class="fa fa-warning"></i>
+                <i v-show="errors.has('statistic')" class="fas fa-warning"></i>
                 <span class="help is-danger" v-show="errors.has('statistic')">{{ errors.first('statistic') }}<br>
                 </span>
                 <p class='help-block text-muted' v-bind:class="{'text-danger': hasError }">{{remainingCount}}/{{maxCount}} remaining characters</p>

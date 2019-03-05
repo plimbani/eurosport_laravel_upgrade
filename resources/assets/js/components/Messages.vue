@@ -11,7 +11,7 @@
 	            </div>
 	        	<div class="col-9">
                     <button type="button" class="btn btn-primary pull-right"
-                       @click="addMessage()"><small><i class="jv-icon jv-plus"></i>
+                       @click="addMessage()"><small><i class="fas fa-plus"></i>
                        </small>&nbsp;{{$lang.summary_message_button}}
                     </button>
                 </div>

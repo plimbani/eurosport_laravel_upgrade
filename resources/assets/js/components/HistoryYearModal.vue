@@ -13,7 +13,7 @@
             <label class="col-sm-5 form-control-label">{{ $lang.year }}*</label>
             <div class="col-sm-6">
                 <input maxlength="4" v-model="formValues.year" v-validate="{'required':true, 'digits':4}" :class="{'is-danger': errors.has('year') }" name="year" type="text" class="form-control" :placeholder="$lang.year">
-                <i v-show="errors.has('year')" class="fa fa-warning"></i>
+                <i v-show="errors.has('year')" class="fas fa-warning"></i>
                 <span class="help is-danger" v-show="errors.has('year')">{{ $lang.add_history_year_error_message }}<br>
                 </span>
             </div>
