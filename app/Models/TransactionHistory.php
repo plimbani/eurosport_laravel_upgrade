@@ -3,6 +3,7 @@
 namespace Laraspace\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class TransactionHistory extends Model
 {
@@ -28,4 +29,13 @@ class TransactionHistory extends Model
         'updated_at',
         'deleted_at',
     ];
+    
+    public function transaction() {
+        return $this->belongsTo('Laraspace\Models\Transaction', 'transaction_id');
+    }
+    
+//    public function getCreatedAtAttribute($value)
+//    {
+//        return Carbon::parse($value)->format('Y-m-d H:i:s');
+//    }
 }
