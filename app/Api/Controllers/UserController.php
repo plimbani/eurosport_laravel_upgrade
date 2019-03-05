@@ -195,37 +195,6 @@ class UserController extends BaseController
         return ($result == 'Mobile') ? redirect('/mlogin') : redirect('/login/verified');
     }
 
-    public function resendEmail(ResendEmailRequest $request)
-    {
-        $userData = User::where(['email' => $request->email])->first();
-        $email_details = [];
-        // dd($userData->name);
-        $email_details['name'] = $userData->personDetail->first_name;
-        $email_details['token'] = $userData->token;
-        $email_details['is_mobile_user'] = 0;
-        $recipient = $userData->email;
-        $email_templates = null;
-        $email_msg = null;
-
-        if ($userData->registered_from === 0) {
-            $email_templates = 'emails.users.mobile_user';
-            $email_msg = 'Euro-Sportring - Email Verification';
-        } else {
-            $mobileUserRoleId = Role::where('slug', 'mobile.user')->first()->id;
-            if ($userData->roles[0]->id == $mobileUserRoleId) {
-                $email_templates = 'emails.users.mobile_user_registered_from_desktop';
-                $email_msg = 'Euro-Sportring - Set password';
-            } else {
-                $email_templates = 'emails.users.desktop_user';
-                $email_msg = 'Euro-Sportring Tournament Planner - Set password';
-            }
-        }
-
-        // dd($email_details,$recipient);
-        Common::sendMail($email_details, $recipient, $email_msg, $email_templates);
-        // return redirect('/login');
-    }
-
     // for desktop - resend email verification
     public function resendEmail(ResendEmailRequest $request)
     {
