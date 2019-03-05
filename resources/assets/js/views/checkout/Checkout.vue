@@ -85,7 +85,9 @@
 
                         <p class="text-sm-right font-weight-bold"><span v-if="tournamentData.currency_type == 'GBP'">&#163;</span>   
                         <span v-if="tournamentData.currency_type == 'EURO'">&#128;</span>100.00</p>
-                        <button class="btn btn-success" v-on:click="makePaymentButton()">Checkout</button>
+                        
+                        <button v-if="shaSignIn"  class="btn btn-success" v-on:click="makePaymentButton()">Checkout</button> 
+                        <button v-if="!shaSignIn" class="btn btn-success" disabled="true">Get Checkout</button>
                     </div>
                 </div>
             </div>

@@ -7,7 +7,8 @@
                     <p>Thank you for purchase. Your order number is {{paymentObj.orderID}}</p>
                 </div>
                 <div class="col-md-12">
-                    <button class="btn btn-success" @click="printReceipt()">Print receipt</button>
+                    <button v-if="tournament_id" class="btn btn-success" @click="printReceipt()">Print receipt</button>
+                     <button v-if="!tournament_id" class="btn btn-success" disabled="true">Print receipt</button>
                     <!-- <button class="btn btn-success" @click="createPDF()">Print receipt</button> -->
                     <!-- <a href="javascript:void(0)">Print receipt</a> -->
                 </div>
@@ -33,7 +34,9 @@
                     <p class="text-sm-right font-weight-bold">£100.00</p>
 
                     <p class="py-3">You may now proceed to your dashboard and begin adding your tournament details.</p>
-                    <button class="btn btn-success" v-on:click="redirectToDashboardPage()">Get Started</button>
+                    <button v-if="tournament_id" class="btn btn-success" v-on:click="redirectToDashboardPage()">Get Started</button>
+                    <button v-if="!tournament_id" class="btn btn-success" disabled="true">Get Started</button>
+                    
                 </div>
             </div>
 
@@ -96,7 +99,7 @@
                             if(url == "payment/response"){
                                 this.paymentObj.amount = response.data.data.amount;
                                 this.paymentObj.currency = response.data.data.currency;
-                                this.tournament_id = response.data.data.tournament_id;
+                                this.tournament_id = response.data.data.id;
                                 let payment_response = JSON.parse(response.data.data.payment_response);
                                 // let payment_response = response.data.data.paymentResponse;
                                 this.paymentObj.orderid = payment_response.orderID;
@@ -106,6 +109,7 @@
                                 this.paymentObj.amount = response.data.data.paymentResponse.amount;
                                 this.paymentObj.currency = response.data.data.paymentResponse.currency;
                             }
+                            // console.log("this.tournament_id::",this.tournament_id);
                             
                          }else{
                              toastr['error'](response.data.message, 'Error');
