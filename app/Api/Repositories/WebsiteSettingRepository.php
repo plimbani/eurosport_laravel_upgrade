@@ -39,6 +39,7 @@ class WebsiteSettingRepository
         if (empty($websiteSettings->value_field)) {
             throw new \Exception('Settings for currency not found.');
         }
+        
         return json_decode($websiteSettings->value_field);
     }
 }

@@ -24,7 +24,7 @@
             <tr>
                 <th align="center">Date and time</th>
                 <th align="center">Age category</th>
-                <th align="center">Location</th>
+                <th align="center">Venue</th>
                 <th align="center">Pitch</th>
                 <th align="center">Referee</th>
                 <th align="center">Match Code</th>

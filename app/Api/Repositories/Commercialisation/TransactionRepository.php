@@ -61,6 +61,7 @@ class TransactionRepository
     public function addTransaction($data, $tournamentRes, $userId)
     {
         $paymentStatus = config('app.payment_status');
+        $days = $this->getTournamentDays($tournamentRes->start_date, $tournamentRes->end_date);
         $transaction = [
             'tournament_id' => !empty($tournamentRes->id) ? $tournamentRes->id : null,
             'order_id' => $data['ORDERID'],
@@ -68,6 +69,7 @@ class TransactionRepository
             'team_size' => $tournamentRes->maximum_teams,
             'amount' => $data['AMOUNT'],
             'status' => $paymentStatus[$data['STATUS']],
+            'days' => $days,
             'currency' => $data['CURRENCY'],
             'card_type' => $data['PM'],
             'card_holder_name' => $data['CN'],
@@ -88,6 +90,7 @@ class TransactionRepository
             'team_size' => $tournamentRes->maximum_teams,
             'amount' => $data['AMOUNT'],
             'status' => $paymentStatus[$data['STATUS']],
+            'days' => $days,
             'currency' => $data['CURRENCY'],
             'card_type' => $data['PM'],
             'card_holder_name' => $data['CN'],
@@ -115,6 +118,7 @@ class TransactionRepository
         $userId = $authUser->id;
         $paymentStatus = config('app.payment_status');
         $existsTransaction = Transaction::where('tournament_id', $tournament['id'])->first();
+        $existsTransaction->tournament->preventDateAttrSet = true;
 
         if (empty($tournament['total_amount'])) {
             $transaction = [
@@ -122,13 +126,17 @@ class TransactionRepository
                 'amount' => $tournament['total_amount'],
                 'updated_at' => date('Y-m-d H:i:s')
             ];
+        } elseif ($tournament['total_amount'] == 0) {
+            
         } else {
+            $days = $this->getTournamentDays($tournament['tournament_start_date'], $tournament['tournament_end_date'], $existsTransaction);
             $transaction = [
                 'order_id' => $data['ORDERID'],
                 'transaction_key' => $data['PAYID'],
                 'team_size' => $tournament['tournament_max_teams'],
                 'amount' => $data['AMOUNT'] + $existsTransaction['amount'],
                 'status' => $paymentStatus[$data['STATUS']],
+                'days' => $days,
                 'currency' => $data['CURRENCY'],
                 'card_type' => $data['PM'],
                 'card_holder_name' => $data['CN'],
@@ -167,7 +175,27 @@ class TransactionRepository
      */
     public function getList($tournamentId)
     {
-        return TransactionHistory::select('id', 'transaction_id', 'tournament_id', 'order_id', 'transaction_key', 'team_size', 'currency', 'created_at')
+        return TransactionHistory::select('id', 'transaction_id', 'tournament_id', 'order_id', 'transaction_key', 'team_size', 'days', 'currency', 'created_at')
                         ->where('tournament_id', $tournamentId)->get();
+    }
+
+    /**
+     * Get tournament days
+     * @param array $tournament
+     * @param object $existsTransaction     
+     * @return string
+     */
+    private function getTournamentDays($tNewSDate, $tNewEDate, $existsTransaction = null)
+    {
+//        $earlier = new \DateTime(date('Y-m-d', strtotime($existsTransaction->tournament->start_date)));
+//        $later = new \DateTime(date('Y-m-d', strtotime($existsTransaction->tournament->end_date)));
+//        $preDiff = $later->diff($earlier)->days;
+
+        $sDate = new \DateTime(date('Y-m-d', strtotime(str_replace('/', '-', $tNewSDate))));
+        $eDate = new \DateTime(date('Y/m/d', strtotime(str_replace('/', '-', $tNewEDate))));
+        $newDiff = $eDate->diff($sDate)->days;
+
+//        return $newDiff - $preDiff;
+        return $newDiff;
     }
 }

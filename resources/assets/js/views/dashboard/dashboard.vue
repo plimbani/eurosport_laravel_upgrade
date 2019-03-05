@@ -46,7 +46,7 @@
                     </div>
                     <modal name="open-share-popup" @before-open="getAccessCode">
                       <div class="example-modal-content p-4">
-                        <h4>Share Tournment <span class="pull-right"><i class="fa fa-times"></i></span></h4> 
+                        <h4>Share Tournment <span v-on:click="closeSharePopup()" class="pull-right"><i class="fa fa-times"></i></span></h4> 
                         <p>You can invite anyone to follow your tournament online and in the app. Simply share your following URL by email, SMS or any other social Media.</p>
                         <p class="popup-access-code mb-0 text-center py-4 px-1 font-weight-bold" v-on:click="copyAccessCode()">{{ access_code_popup }}</p>
                         <input type="hidden" id="access_code_popup" :value="access_code_popup">
@@ -156,6 +156,10 @@
                 this.$router.push({name:'tournament_add'});
             },
 
+            closeSharePopup(){
+                this.$modal.hide('open-share-popup');
+            },
+
             openSharePopup(tournament){
                 // console.log("openSharePopup::",tournament.access_code)
                 this.access_code_popup = this.url + tournament.access_code;
@@ -178,9 +182,11 @@
                 var successful = document.execCommand('copy');
                 var msg = successful ? 'successful' : 'unsuccessful';
                 // alert('Testing code was copied ' + msg);
-                alert('Testing code was copied successful');
+                // alert('');
+                toastr['success']('Tournament url has been copied successfully.', 'Success');
               } catch (err) {
-                alert('Oops, unable to copy');
+                toastr['error']('Oops, unable to copy.', 'Error');
+                // alert('');
               }
 
               /* unselect the range */

@@ -31,7 +31,7 @@ export default {
       this.$router.push({name: 'welcome'});
     } else {
       // Means Set Here
-      let currentNavigationData = {activeTab:'competation_format', currentPage: 'Competition Format'}
+      let currentNavigationData = {activeTab:'competition_format', currentPage: 'Competition Format'}
       this.$store.dispatch('setActiveTab', currentNavigationData)
       this.$store.dispatch('SetPitches',tournamentId);
       this.$store.dispatch('SetVenues',tournamentId);

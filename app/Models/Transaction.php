@@ -14,6 +14,7 @@ class Transaction extends Model
         'amount',
         'team_size',
         'status',
+        'days',
         'currency',
         'card_type',
         'card_holder_name',

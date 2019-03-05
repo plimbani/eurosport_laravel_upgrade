@@ -67,7 +67,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <h3 class="text-uppercase font-weight-bold mb-4">Confirmation</h3>
-                        <p class="font-weight-bold mb-0">Thank you for purchase. Please check details as follows</p>
+                        <p class="font-weight-bold mb-0">Please Confirm your tournament purchase details as follows</p>
                         <div class="divider my-3"></div>
                         <div class="row">
                             <div class="col-sm-6 col-md-7 col-lg-7">
@@ -83,7 +83,8 @@
 
                         <div class="divider my-3 opacited"></div>
 
-                        <p class="text-sm-right font-weight-bold">£100.00</p>
+                        <p class="text-sm-right font-weight-bold"><span v-if="tournamentData.currency_type == 'GBP'">&#163;</span>   
+                        <span v-if="tournamentData.currency_type == 'EURO'">&#128;</span>100.00</p>
                         <button class="btn btn-success" v-on:click="makePaymentButton()">Checkout</button>
                     </div>
                 </div>
@@ -203,15 +204,16 @@
             let tournamentDetails = Ls.get('tournamentDetails');
             if (typeof tournamentDetails != "undefined" && tournamentDetails != undefined && tournamentDetails != "null" && tournamentDetails != null) {
                 // console.log("tournamentDetails::",tournamentDetails);
-                this.tournamentData = JSON.parse(tournamentDetails);
-                // console.log("this.tournamentData:",this.tournamentData);
-
+                this.tournamentData = JSON.parse(tournamentDetails); 
+ 
                 let startDateArr = (this.tournamentData.tournament_start_date).split("/");
                 let endDateArr = (this.tournamentData.tournament_end_date).split("/"); 
-                let startDate = moment([startDateArr[2], startDateArr[1], startDateArr[0]]);
-                let endDate = moment([endDateArr[2], endDateArr[1], endDateArr[0]]);
-                this.dayDifference = endDate.diff(startDate, 'days');
-                // console.log("this.dayDifference::",this.dayDifference);
+                let startDateFormat = startDateArr[2]+"/"+startDateArr[1]+"/"+startDateArr[0];
+                let endDateFormat = endDateArr[2]+"/"+endDateArr[1]+"/"+endDateArr[0]; 
+                let startDate = moment(startDateFormat);
+                let endDate = moment(endDateFormat);
+                
+                this.dayDifference = endDate.diff(startDate, 'days'); 
 
             } else {
                 this.$router.push({name: 'login'});

@@ -15,6 +15,7 @@ class TransactionHistory extends Model
         'team_size',
         'amount',
         'status',
+        'days',
         'currency',
         'card_type',
         'card_holder_name',

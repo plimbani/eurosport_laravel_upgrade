@@ -11,7 +11,6 @@
                   <th class="text-center">{{$lang.competation_competation_format}}</th>
                   <th class="text-center">{{$lang.competation_total_matches}}</th>
                   <th class="text-center" width="90px">{{$lang.competation_total_time}}</th>
-                  <th class="text-center">{{$lang.competation_match_schedule}}</th>
                   <th class="text-center" width="79px">{{$lang.competation_manage}}</th>
               </tr>
           </thead>
@@ -20,37 +19,39 @@
               <td class="text-left">{{competation.group_name}} </td>
               <td class="text-left">{{competation.category_age}}</td>
               <td class="text-left">{{competation.template_name}}</td>
-              <td class="text-left">{{competation.disp_format_name}}</td>
+              <td class="text-left">{{competation.disp_format_name}} <a href="#"  @click="viewCompFormat(competation.tournament_template_id,competation.total_time)" class="btn btn-primary btn-sm ml-1 float-right">View</a></td>
               <td class="text-center">{{competation.total_match}}</td>
               <td>{{competation.total_time | formatTime}}
               </td>
               <td class="text-center">
-                  <a href="#"  @click="viewCompFormat(competation.tournament_template_id,competation.total_time)" class="btn btn-primary btn-sm">View</a>
-              </td>
-              <td class="text-center">
-                <span class="align-middle">
+                <span class="align-middle pr-1">
                   <a class="text-primary" href="#"
-                  @click="editCompFormat(competation.id)"><i class="jv-icon jv-edit"></i></a>
+                  @click="editCompFormat(competation.id)"><i class="fas fa-pencil"></i></a>
                 </span>
+                <span class="align-middle pr-1">
+                  <a class="text-primary" href="#"
+                  @click="copyCompFormat(competation.id)"><i class="fas fa-copy"></i></a>
+                </span>                
                 <span class="align-middle">
                   <a href="javascript:void(0)"
                   data-confirm-msg="Are you sure you would like to delete this user record?"
                   data-toggle="modal"
                   data-target="#delete_modal"
                   @click="prepareDeleteResource(competation.id)">
-                  <i class="jv-icon jv-dustbin"></i></a>
+                  <i class="fas fa-trash text-danger"></i></a>
                 </span>
               </td>
             </tr>
           </tbody>
           <AddAgeCateogryModel v-if="categoryStatus" :categoryRules="categoryRules"></AddAgeCateogryModel>
           <delete-modal :deleteConfirmMsg="deleteConfirmMsg" @confirmed="deleteConfirmed()"></delete-modal>
-          <competationModal :templateData="templateData" :totalTime="totalTime" :templateImage="templateImage"></competationModal>
+          <competationModal :templateData="templateData" :totalTime="totalTime" :templateGraphicViewImage="templateGraphicViewImage"></competationModal>
+          <CopyAgeCategoryModal v-if="copyCategoryStatus" :copiedAgeCategoryId="copiedAgeCategoryId"></CopyAgeCategoryModal>
           <!-- <div class="modal fade p-0" id="template-image-modal" tabindex="-1" role="dialog" aria-labelledby="template-image-modal" aria-hidden="true">
             <div class="modal-dialog modal-full" role="document">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">Template {{templateData.tournament_name}}</h5>
+                  <h5 class="modal-title" id="AgeCategoryModalLabel">Template {{templateData.tournament_name}}</h5>
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
@@ -58,7 +59,7 @@
                 <div class="modal-body">
                   <div class="d-flex align-items-center justify-content-centers">
                     <div class="d-block mx-auto">
-                      <img v-bind:src="'/'+templateImage">
+                      <img v-bind:src="'/'+templateGraphicViewImage">
                     </div>
                   </div>
                 </div>  
@@ -70,7 +71,7 @@
     </div>
     <div class="row">
       <div class="col-md-12">
-       <button type="button" class="btn btn-primary" @click="addCategory()"><small><i class="jv-icon jv-plus"></i></small>&nbsp;{{$lang.competation_add_age_category}}</button>
+       <button type="button" class="btn btn-primary" @click="addCategory()"><small><i class="fas fa-plus"></i></small>&nbsp;{{$lang.competation_add_age_category}}</button>
       </div>
     </div>
   </div>
@@ -80,6 +81,7 @@ import Tournament from '../api/tournament.js'
 import DeleteModal from './DeleteModal.vue'
 import CompetationModal from './CompetationModal.vue'
 import AddAgeCateogryModel from './AddAgeCategoryModal.vue'
+import CopyAgeCategoryModal from './CopyAgeCategoryModal.vue'
 
 export default {
   data() {
@@ -89,17 +91,19 @@ export default {
       deleteConfirmMsg: 'Are you sure you would like to delete this age category?',deleteAction: '',
       templateData:[],
       totalTime: '',
-      templateImage: '',
+      templateGraphicViewImage: '',
       categoryStatus: false,
-      categoryRules: []
+      categoryRules: [],
+      copyCategoryStatus: false,
+      copiedAgeCategoryId: ''
     }
   },
   components: {
-    DeleteModal,CompetationModal,AddAgeCateogryModel
+    DeleteModal,CompetationModal,AddAgeCateogryModel, CopyAgeCategoryModal
   },
   mounted () {
     let that = this
-     $("#exampleModal").on('hidden.bs.modal', function () {
+     $("#AgeCategoryModal").on('hidden.bs.modal', function () {
                that.displayTournamentCompetationList()
             });
     // here we load the Competation Format data Based on tournament Id
@@ -119,7 +123,7 @@ export default {
       this.categoryStatus = true
         setTimeout(function(){
           vm.$root.$emit('setCompetationFormatData',  Id)
-          $("#exampleModal").on('hidden.bs.modal', function () {
+          $("#AgeCategoryModal").on('hidden.bs.modal', function () {
             vm.categoryStatus = false
         });
         },1000)
@@ -129,8 +133,8 @@ export default {
       this.categoryStatus = true
       this.type='add'
       setTimeout(function(){
-        $('#exampleModal').modal('show')
-          $("#exampleModal").on('hidden.bs.modal', function () {
+        $('#AgeCategoryModal').modal('show')
+          $("#AgeCategoryModal").on('hidden.bs.modal', function () {
             vm.categoryStatus = false
         });
       },500)
@@ -142,7 +146,7 @@ export default {
           (response) => {
           if(response.data.status_code==200){
             this.templateData = JSON.parse(response.data.data.json_data)
-            this.templateImage = response.data.data.image
+            this.templateGraphicViewImage = response.data.data.graphic_image
             this.totalTime = tTime
              $("#competationmodal").modal("show");
           }
@@ -155,7 +159,7 @@ export default {
     prepareDeleteResource(Id) {
        this.deleteAction=Id;
     },
-     deleteConfirmed() {
+    deleteConfirmed() {
       Tournament.deleteCompetation(this.deleteAction).then(
         (response) => {
           if(response.data.status_code==200){
@@ -170,35 +174,35 @@ export default {
       )
     },
     displayTournamentCompetationList () {
-    this.TournamentId = parseInt(this.$store.state.Tournament.tournamentId)
-    // Only called if valid tournament id is Present
-    if (!isNaN(this.TournamentId)) {
-      // here we add data for
-      let TournamentData = {'tournament_id': this.TournamentId}
-      Tournament.getCompetationFormat(TournamentData).then(
-      (response) => {
-        let category_rules_info = response.data.category_rules_info;
-        this.categoryRules = _.map(response.data.category_rules, (value, key) => {
-          return {
-            'key': key,
-            'description': category_rules_info[key],
-            'title': value,
-            'checked': false,
-          };
-        });
-        this.competationList = response.data.data
-        let time_sum= 0;
-        this.competationList.reduce(function (a,b) {
-          time_sum += b['total_time']
-        },0);
-       this.$store.dispatch('SetTournamentTotalTime', time_sum);
-      },
-      (error) => {
+      this.TournamentId = parseInt(this.$store.state.Tournament.tournamentId)
+      // Only called if valid tournament id is Present
+      if (!isNaN(this.TournamentId)) {
+        // here we add data for
+        let TournamentData = {'tournament_id': this.TournamentId}
+        Tournament.getCompetationFormat(TournamentData).then(
+        (response) => {
+          let category_rules_info = response.data.category_rules_info;
+          this.categoryRules = _.map(response.data.category_rules, (value, key) => {
+            return {
+              'key': key,
+              'description': category_rules_info[key],
+              'title': value,
+              'checked': false,
+            };
+          });
+          this.competationList = response.data.data
+          let time_sum= 0;
+          this.competationList.reduce(function (a,b) {
+            time_sum += b['total_time']
+          },0);
+         this.$store.dispatch('SetTournamentTotalTime', time_sum);
+        },
+        (error) => {
+        }
+        )
+      } else {
+        this.TournamentId = 0;
       }
-      )
-    } else {
-      this.TournamentId = 0;
-    }
     },
     next() {
       let time_sum= 0;
@@ -231,6 +235,13 @@ export default {
        // this.$store.dispatch('SetTemplate', tournamentData);
       }*/
       this.$router.push({name: 'pitch_capacity'});
+    },
+    copyCompFormat(id) {
+      this.copyCategoryStatus = true;
+      this.copiedAgeCategoryId = id;
+      setTimeout(function(){
+        $('#copyAgeCategoryModal').modal('show');
+      },500)      
     }
   },
   created: function() {
