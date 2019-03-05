@@ -120,9 +120,13 @@
                 // console.log("expireDate::",expireDate)
                 let expireDateArr = expireDate.split("/");
                 let currentDateArr = moment().format("DD/MM/YYYY").split("/");
+
+                let startDateFormat = expireDateArr[2]+"/"+expireDateArr[1]+"/"+expireDateArr[0];
+                let endDateFormat = currentDateArr[2]+"/"+currentDateArr[1]+"/"+currentDateArr[0]; 
+
                 // let currentDateArr = moment().add('days',1).format("DD/MM/YYYY").split("/");
-                let startDate = moment([expireDateArr[2], expireDateArr[1], expireDateArr[0]]);
-                let endDate = moment([currentDateArr[2], currentDateArr[1], currentDateArr[0]]);
+                let startDate = moment(startDateFormat);
+                let endDate = moment(endDateFormat);
                 let dayDifference = endDate.diff(startDate, 'days');
                 // console.log("dayDifference::",dayDifference)
                 if(dayDifference >= 2){
