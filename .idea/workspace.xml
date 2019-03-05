@@ -11,7 +11,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f7e54537-3a96-43b7-966b-eae3020df760" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/activity/FavouritesActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/activity/FavouritesActivity.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -52,13 +52,13 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="java" value="115" />
+          <entry key="java" value="116" />
           <entry key="xml" value="68" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="115" />
+          <entry key="JAVA" value="116" />
           <entry key="XML" value="68" />
         </counts>
       </usages-collector>
@@ -69,8 +69,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/activity/FavouritesActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="489">
-              <caret line="84" column="4" selection-start-line="84" selection-start-column="4" selection-end-line="84" selection-end-column="4" />
+            <state relative-caret-position="181">
+              <caret line="66" column="8" selection-start-line="66" selection-start-column="8" selection-end-line="66" selection-end-column="8" />
               <folding>
                 <element signature="method#setListener#0;class#FavouritesActivity#0" />
                 <element signature="method#onBackPressed#0;class#FavouritesActivity#0" />
@@ -273,6 +273,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="Captures" order="0" side_tool="true" weight="0.25" />
       <window_info active="true" content_ui="combo" id="Project" order="1" sideWeight="0.49388754" visible="true" weight="0.26399395" />
@@ -364,67 +365,67 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/activity/FavouritesActivity.java</url>
-          <line>248</line>
+          <line>242</line>
           <properties />
           <option name="timeStamp" value="6" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/activity/FavouritesActivity.java</url>
-          <line>249</line>
+          <line>243</line>
           <properties />
           <option name="timeStamp" value="7" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/activity/FavouritesActivity.java</url>
-          <line>250</line>
+          <line>244</line>
           <properties />
           <option name="timeStamp" value="8" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/activity/FavouritesActivity.java</url>
-          <line>251</line>
+          <line>245</line>
           <properties />
           <option name="timeStamp" value="9" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/activity/FavouritesActivity.java</url>
-          <line>257</line>
+          <line>251</line>
           <properties />
           <option name="timeStamp" value="10" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/activity/FavouritesActivity.java</url>
-          <line>194</line>
+          <line>188</line>
           <properties />
           <option name="timeStamp" value="11" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/activity/FavouritesActivity.java</url>
-          <line>195</line>
+          <line>189</line>
           <properties />
           <option name="timeStamp" value="12" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/activity/FavouritesActivity.java</url>
-          <line>196</line>
+          <line>190</line>
           <properties />
           <option name="timeStamp" value="13" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/activity/FavouritesActivity.java</url>
-          <line>178</line>
+          <line>172</line>
           <properties />
           <option name="timeStamp" value="14" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/activity/FavouritesActivity.java</url>
-          <line>191</line>
+          <line>185</line>
           <properties />
           <option name="timeStamp" value="15" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/activity/FavouritesActivity.java</url>
-          <line>212</line>
+          <line>206</line>
           <properties />
           <option name="timeStamp" value="16" />
         </line-breakpoint>
@@ -658,8 +659,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/activity/FavouritesActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="489">
-          <caret line="84" column="4" selection-start-line="84" selection-start-column="4" selection-end-line="84" selection-end-column="4" />
+        <state relative-caret-position="181">
+          <caret line="66" column="8" selection-start-line="66" selection-start-column="8" selection-end-line="66" selection-end-column="8" />
           <folding>
             <element signature="method#setListener#0;class#FavouritesActivity#0" />
             <element signature="method#onBackPressed#0;class#FavouritesActivity#0" />
