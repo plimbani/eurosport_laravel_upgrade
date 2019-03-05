@@ -37,15 +37,15 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                  <tr class="" v-for="transction in tournamentsTransactions">
+                                  <tr class="" v-for="(transction,index) in tournamentsTransactions">
                                         <td>{{transction.order_id}}</td>
                                         <td>{{transction.transaction_id}}</td>
                                         <td>{{transction.team_size}}</td>
                                         <!-- <td>TBA</td> -->
-                                        <td>TBA</td>
+                                        <td><span v-if='index >= 1'>+</span>{{transction.days}} day<span v-if='transction.days >= 1'>s</span></td>
                                         <td>{{transction.transaction_id}}</td>
                                         <td>{{transction.currency}}</td>
-                                        <td>TBA</td>
+                                        <td>{{transction.amount}}</td>
                                    <!--  <td>{{ transction.name }}</td>
                                     <td>{{ transction.start_date }}</td>
                                     <td>{{ transction.end_date }}</td>

@@ -107,7 +107,7 @@
                 axios.get(Constant.apiBaseUrl+'tournaments/list', {}).then(response =>  {  
                         if (response.data.success) { 
                              this.tournaments = response.data.data;
-                             console.log("tournaments::",this.tournaments[0].end_date)
+                             // console.log("tournaments::",this.tournaments[0].end_date)
                          }else{ 
                             toastr['error'](response.data.message, 'Error');
                          }

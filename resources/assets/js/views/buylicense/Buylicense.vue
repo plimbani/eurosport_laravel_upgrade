@@ -118,9 +118,17 @@
                                 </div>
                                 <div class="row justify-content-end">
                                     <div class="col-md-7 col-lg-7 col-xl-6">
-                                        
-                                        <button v-if ="!disabled" class="btn btn-success btn-block"  v-on:click="buyALicence()"><span v-if='!id'>Buy your license</span><span v-if='id'>Update your license</span></button>
-                                        <button v-else="disabled" class="btn btn-success btn-block" disabled="true">Buy your license</button> 
+                                        <!-- newDaysAdded <= 0 && new_added_teams <= 0 -->
+                                        <button v-if ="!disabled && !id" class="btn btn-success btn-block"  v-on:click="buyALicence()">
+                                            <span v-if ="!tournamentData.is_renew">Buy your license</span>
+                                            <span v-if ="tournamentData.is_renew">Renew your licence</span> 
+                                        </button>      
+                                        <button v-if="disabled && !id" class="btn btn-success btn-block" disabled="true">Buy your license</button>
+
+                                         <button v-if ="!disabled && id && newDaysAdded <= 0 && new_added_teams <= 0" class="btn btn-success btn-block"  v-on:click="updateALicence()">
+                                        Confirm Details </button>
+                                         <button v-if ="!disabled && id && (newDaysAdded > 0 || new_added_teams > 0)" class="btn btn-success btn-block"  v-on:click="buyALicence()">
+                                        Make Payment</button>
                                     </div>
                                 </div>
                             </div>
@@ -155,7 +163,8 @@
                     total_amount:100, 
                     access_code:"", 
                     currency_type:"EURO",
-                    payment_currency:"EUR"
+                    payment_currency:"EUR",
+                    is_renew:0
                 },
                 
                 shaSignIn:"", 
@@ -221,6 +230,25 @@
                     } 
                 } 
             },
+            updateALicence(){
+                this.tournamentData.tournament_start_date = document.getElementById('tournament_start_date').value;
+                this.tournamentData.tournament_end_date = document.getElementById('tournament_end_date').value;
+                let apiParams = {
+                    tournament:this.tournamentData,
+                    // paymentResponse:this.paymentObj
+                } 
+                var url = "manage-tournament";
+                axios.post(Constant.apiBaseUrl+url, apiParams).then(response =>  {
+                    if (response.data.success) {
+                        this.$router.push({name: 'dashboard'});
+                     }else{
+                         toastr['error'](response.data.message, 'Error');
+                     }
+             }).catch(error => {
+                 console.log("error in updateALicence::",error);
+             });
+                // console.log("updateALicence")
+            },
             customFormatter(date) {
               return moment(date).format('MM/DD/YYYY');
             }, 
@@ -249,10 +277,17 @@
             },
 
             getTournamentDetail(){ 
+                // this.disabled = true;
                 axios.get(Constant.apiBaseUrl+'get-tournament?tournamentId='+this.id, {}).then(response =>  {  
                         if (response.data.success) {  
                             var start_date = new Date(moment(response.data.data.start_date, 'DD/MM/YYYY').format('MM/DD/YYYY'));
                             var end_date = new Date(moment(response.data.data.end_date, 'DD/MM/YYYY').format('MM/DD/YYYY')); 
+                            // console.log("response.data.data.end_date::",end_date.getTime())
+                            let today = new Date();
+                            if(today.getTime() > end_date.getTime()){
+                                this.id = "";
+                                this.tournamentData['is_renew'] = 1;
+                            }
                             // console.log("response.data.data::",response.data.data)
                             this.tournamentData['id'] = this.id;
                             this.tournamentData['tournament_name'] = response.data.data.name;
