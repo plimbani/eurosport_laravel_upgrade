@@ -130,7 +130,6 @@ class MatchService implements MatchContract
         $tournamentData = $data['tournamentData'];
 
         $standingResData = $this->matchRepoObj->getStanding($tournamentData);
-
         if($refreshStanding && $refreshStanding == 'yes' && isset($tournamentData['competitionId']) && $tournamentData['competitionId'] != '')
         {
             $competition = Competition::find($tournamentData['competitionId']);
@@ -1277,12 +1276,7 @@ class MatchService implements MatchContract
         {
 
           $calculatedArray = array_shift($calculatedArray);
-          list($calculatedArray,$sort_head_to_head) = $this->matchRepoObj->sortByHeadtoHead($calculatedArray,$check_head_to_head_with_key,$tournament_id,$compId,$tournamentCompetationTemplatesRecord);
-
-          if ( !empty($remain_head_to_head_with_key) )
-          {
-            $remain_head_to_head_with_key = explode('|',$remain_head_to_head_with_key);
-          }
+          list($calculatedArray,$sort_head_to_head) = $this->matchRepoObj->sortByHeadtoHead($calculatedArray,$check_head_to_head_with_key,$tournament_id,$compId,$tournamentCompetationTemplatesRecord,$remain_head_to_head_with_key);
 
           if ( $sort_head_to_head == '1') {
             $head_to_head_position_sorting = array();    
@@ -1292,22 +1286,6 @@ class MatchService implements MatchContract
               $internal_head_to_head_position_sorting[$comp_stand_key] = (int)$comp_stand_value['internal_head_to_head_position'];
             }
             array_multisort($internal_head_to_head_position_sorting,SORT_ASC,$calculatedArray);
-
-            $sortArray[] = &$head_to_head_position_sorting; 
-            $sortArray[] = SORT_ASC;
-
-            $remainingSorting = array();
-            foreach ($remain_head_to_head_with_key as $rkey => $rvalue) {
-              foreach ($calculatedArray as $comp_stand_key => $comp_stand_value) {
-                $remainingSorting[$rvalue][$comp_stand_key] = (int)$comp_stand_value[$rvalue];
-              }
-
-              $sortArray[] = &$remainingSorting[$rvalue];
-              $sortArray[] = SORT_DESC;
-            }
-
-            $sortArray[] = &$calculatedArray;
-            call_user_func_array('array_multisort', $sortArray);
           }
 
           $setCalculatedArray[$cupId] = $calculatedArray;
