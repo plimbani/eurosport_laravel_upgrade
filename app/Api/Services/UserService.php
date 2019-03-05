@@ -432,7 +432,6 @@ class UserService implements UserContract
     {
        $user_id = $data['user_id'];
        $tournament_id = $data['tournament_id'];
-
        // Make it default for that record
        $userFavouriteData = UserFavourites::where('user_id','=',$user_id)
               ->where('tournament_id','=',$tournament_id)->get();
@@ -443,7 +442,6 @@ class UserService implements UserContract
         // Insert value and set default
          // $userData = UserFavourites::where('user_id','=',$user_id)
          //      ->get();
-
         $userFavouriteData = array();
         $userFavouriteData['user_id'] =  $user_id;
         $userFavouriteData['tournament_id']  = $tournament_id;
@@ -556,9 +554,7 @@ class UserService implements UserContract
     public function getAllCountries() {
         return $this->userRepoObj->getAllCountries();
     }
-
     public function getAllLanguages() {
         return $this->userRepoObj->getAllLanguages();
     }
-
 }

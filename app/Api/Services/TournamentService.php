@@ -3,6 +3,7 @@ namespace Laraspace\Api\Services;
 
 use Laraspace\Api\Contracts\TournamentContract;
 use Laraspace\Api\Repositories\TournamentRepository;
+// use Laraspace\Api\Services\UserService;
 use DB;
 use Carbon\Carbon;
 use PDF;
@@ -30,6 +31,8 @@ class TournamentService implements TournamentContract
       */
       protected $imagePath;
 
+      protected $userService;
+
     /**
      *  Messages To Display.
      */
@@ -42,6 +45,9 @@ class TournamentService implements TournamentContract
         $this->getAWSUrl = getenv('S3_URL');
         $this->tournamentLogo =  getenv('S3_URL').'/assets/img/tournament_logo/';
         $this->imagePath = Config::get('wot.imagePath');
+        
+        $this->userService = new UserService;
+        
     }
 
      /*
@@ -984,8 +990,23 @@ class TournamentService implements TournamentContract
  
     public function getTournamentAccessCodeDetail($data)
     {
-      $data = $this->tournamentRepoObj->getTournamentAccessCodeDetail($data);
-      return $data;
+      $authUser = JWTAuth::parseToken()->toUser();
+      $tournament = $this->tournamentRepoObj->getTournamentAccessCodeDetail($data);
+      if($tournament) {
+         $tournamentEndDateFormat = Carbon::createFromFormat('d/m/Y', $tournament['end_date'])->addMonths(1);
+         
+          $endDateAddMonth = Carbon::parse($tournamentEndDateFormat)->format('Y-m-d');
+          
+          $currentDateFormat = Carbon::now()->format('Y-m-d');
+          if($endDateAddMonth <= $currentDateFormat) {
+              return response()->json(['message' => 'This tournament is no longer available'], 500);
+          }
+      }   else {
+          return response()->json(['message' => 'The tournament code was not recognised'], 500);
+      } 
+      $favouriteTournament = ['user_id' => $authUser->id, 'tournament_id' => $tournament['id']];
+      $this->userService->setDefaultFavourite($favouriteTournament);
+      return response()->json(['data' => $tournament]);
     }
 
     public function duplicateTournament($data)
