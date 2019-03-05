@@ -119,4 +119,7 @@
     <string name="euro_sportring_contact">Contatto Euro-Sportring</string>
     <string name="name">Nome:</string>
     <string name="get_otp">Sottoscrivi</string>
+
+    <string name="email_verification">verifica email</string>
+    <string name="resend_email">Rinvia l\'e-mail</string>
 </resources>
