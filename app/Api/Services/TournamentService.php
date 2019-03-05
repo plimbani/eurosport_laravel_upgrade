@@ -981,6 +981,12 @@ class TournamentService implements TournamentContract
       $data = $this->tournamentRepoObj->editTournamentMessage($data['tournamentData']);
       return $data;
     }
+ 
+    public function getTournamentAccessCodeDetail($data)
+    {
+      $data = $this->tournamentRepoObj->getTournamentAccessCodeDetail($data);
+      return $data;
+    }
 
     public function duplicateTournament($data)
     {

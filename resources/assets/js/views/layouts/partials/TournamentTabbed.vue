@@ -129,13 +129,16 @@ export default {
     },
     tournamentEndDateTimeDisplayMessage() {
       let currentDateTime = this.currentDateTime;
-      let expireTime = moment(this.displayTournamentEndDate).add(8, 'hours').format('DD/MM/YYYY HH:mm:ss');
+      let displayTournamentEndDate = this.displayTournamentEndDate;
+      let expireTime = moment(displayTournamentEndDate).add(8, 'hours').format('DD/MM/YYYY HH:mm:ss');
       let tournamentStartDate = this.$store.state.Tournament.tournamentStartDate;
       
-      if(tournamentStartDate && expireTime >= currentDateTime) {
-         return true;
-      } else {
-        return false;
+      if(displayTournamentEndDate) {
+        if(tournamentStartDate && expireTime >= currentDateTime) {
+           return true;
+        } else {
+          return false;
+        }
       }
       return this.$store.state.activePath;
     },

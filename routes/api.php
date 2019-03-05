@@ -100,6 +100,8 @@ $api->version('v1', function ($api) {
 
     $api->get('match/getAllCategoriesReport/{tournamentId}', 'Laraspace\Api\Controllers\MatchController@getAllCategoriesReport');
 
+    $api->post('tournament/access_code', 'Laraspace\Api\Controllers\TournamentController@getTournamentAccessCodeDetail');
+
     $api->get('getCountries', 'Laraspace\Api\Controllers\UserController@getAllCountries');
 
     $api->get('getAllLanguages', 'Laraspace\Api\Controllers\UserController@getAllLanguages');

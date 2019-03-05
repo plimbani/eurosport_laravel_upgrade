@@ -408,7 +408,7 @@
             },
             redirectToTournamentList(user){ 
                 this.$router.push({name: 'userstourmanent', query: {id:user.id}});    
-            }
+            },
             getLanguageData() {
               User.getAllLanguages().then(
                 (response)=> {
@@ -417,7 +417,7 @@
                 (error)=> {
                 }
               )
-            },
+            }
         }
     }
 </script>

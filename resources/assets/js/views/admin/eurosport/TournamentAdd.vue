@@ -566,7 +566,7 @@ methods: {
     if(Plugin.ValidateImageSize(files) == true) {
       this.createImage(files[0]);
     }
-<<<<<<< HEAD
+
   },
 
   createImage(file) {
@@ -708,24 +708,16 @@ methods: {
     },
     backward() {
         this.$router.push({name:'welcome'})
+    },
+    redirectCompetation() {
+      let currentNavigationData = {activeTab:'competition_format', currentPage: 'Competition Format'}
+      this.$store.dispatch('setActiveTab', currentNavigationData)
+      this.$router.push({name:'competition_format'})
+    },
+    backward() {
+    this.$router.push({name:'welcome'})
     }
-  }
-=======
-  );
-},
-(error) => {
 }
-)
-},
-redirectCompetation() {
-  let currentNavigationData = {activeTab:'competition_format', currentPage: 'Competition Format'}
-  this.$store.dispatch('setActiveTab', currentNavigationData)
-  this.$router.push({name:'competition_format'})
-},
-backward() {
-this.$router.push({name:'welcome'})
-}
-}
->>>>>>> 4ae594b35be91c7740444dde6f2eddc50a2b0952
+
 }
 </script>
