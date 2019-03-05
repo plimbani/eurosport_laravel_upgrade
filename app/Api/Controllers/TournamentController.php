@@ -286,7 +286,7 @@ class TournamentController extends BaseController
     *
     * @return response
     */
-    public function getTournamentAccessCode(Request $request) {
+    public function getTournamentAccessCodeDetail(Request $request) {
         return $this->tournamentObj->getTournamentAccessCode($request->all());  
     }
 

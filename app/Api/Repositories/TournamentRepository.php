@@ -1359,7 +1359,7 @@ class TournamentRepository
      * @param string $tournamentAccessCode
      * @return array
     */
-    public function getTournamentAccessCode($data)
+    public function getTournamentAccessCodeDetail($data)
     {
         $tournamentAccessCode = Tournament::where('access_code', $data['accessCode'])->first();
 

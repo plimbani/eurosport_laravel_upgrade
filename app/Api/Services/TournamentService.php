@@ -982,9 +982,9 @@ class TournamentService implements TournamentContract
       return $data;
     }
  
-    public function getTournamentAccessCode($data)
+    public function getTournamentAccessCodeDetail($data)
     {
-      $data = $this->tournamentRepoObj->getTournamentAccessCode($data);
+      $data = $this->tournamentRepoObj->getTournamentAccessCodeDetail($data);
       return $data;
     }
 
