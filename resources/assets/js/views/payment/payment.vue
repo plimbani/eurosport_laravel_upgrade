@@ -21,7 +21,7 @@
 
                     <div class="row">
                         <div class="col-sm-6 col-md-7 col-lg-7">
-                            <p class="mb-0" id="reeiptDetails">{{tournament.tournament_max_teams}} Teams licence for a 4 day tournament price is {{paymentObj.amount}} {{paymentObj.currency}}</p>
+                            <p class="mb-0" id="reeiptDetails">{{tournament.tournament_max_teams}} Teams licence for a {{tournament.dayDifference}} day tournament price is {{paymentObj.amount}} {{paymentObj.currency}}</p>
                         </div>
                         <div class="col-sm-6 col-md-5 col-lg-5">
                             <p class="text-sm-right mb-0 mt-3 mt-sm-0">£100.00</p>
@@ -33,7 +33,7 @@
                     <p class="text-sm-right font-weight-bold">£100.00</p>
 
                     <p class="py-3">You may now proceed to your dashboard and begin adding your tournament details.</p>
-                    <button class="btn btn-success">Get Started</button>
+                    <button class="btn btn-success" v-on:click="redirectToDashboardPage()">Get Started</button>
                 </div>
             </div>
 
@@ -95,9 +95,9 @@
                             // console.log("response.data::",response.data.data)
                             this.paymentObj.amount = response.data.data.amount;
                             this.paymentObj.currency = response.data.data.currency;
+                            this.tournament_id = response.data.data.tournament_id;
                             let payment_response = JSON.parse(response.data.data.payment_response);
                             this.paymentObj.orderid = payment_response.orderID;
-                            this.tournament_id = response.data.data.tournament_id;
                          }else{
                              toastr['error'](response.data.message, 'Error');
                          }
@@ -117,6 +117,11 @@
                 // this.$nextTick(() => {
                 //     window.print();
                 // });
+            },
+            redirectToDashboardPage(){
+                if(this.tournament_id != ""){
+                    this.$router.push({name: 'dashboard'});
+                }
             }
              
             
@@ -125,6 +130,7 @@
             let tournament = Ls.get('orderInfo'); 
             if(tournament != null && tournament != "null"){
                 this.tournament = JSON.parse(tournament);
+                console.log("this.tournament:",this.tournament);
                 this.tournament.total_amount = this.tournament.total_amount/100;   
                 let tempObj = this.$route.query;
                 Ls.remove('orderInfo');

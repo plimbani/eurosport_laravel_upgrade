@@ -219,7 +219,12 @@
                     // console.log("vvv::",document.getElementById('tournament_start_date').value)
                     this.tournamentData.tournament_start_date = document.getElementById('tournament_start_date').value;
                     this.tournamentData.tournament_end_date = document.getElementById('tournament_end_date').value;
-                    
+                    if(this.id){
+                        this.tournamentData.dayDifference =  this.newDaysAdded; 
+                    }else{
+                        this.tournamentData.dayDifference = this.dayDifference;
+                    }
+                    // newDaysAdded
                     Ls.set("tournamentDetails",JSON.stringify(this.tournamentData)); 
                     
                     let token = Ls.get('auth.token')
