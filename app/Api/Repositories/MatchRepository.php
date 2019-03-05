@@ -13,6 +13,7 @@ use Laraspace\Models\Referee;
 use Laraspace\Models\TournamentCompetationTemplates;
 use DB;
 use Carbon\Carbon;
+use Illuminate\Support\Arr;
 
 class MatchRepository
 {
@@ -688,13 +689,9 @@ class MatchRepository
           $competitionStandings = $reportQuery->get();
           if ( $head_to_head == true )
           {
-            $competitionStandings = json_decode(json_encode($competitionStandings), True);
-            list($competitionStandings,$sort_head_to_head) = $this->sortByHeadtoHead($competitionStandings,$check_head_to_head_with_key,$tournamentData['tournamentId'],$tournamentData['competitionId'],$tournamentCompetationTemplatesRecord);
+            $competitionStandings = json_decode(json_encode($competitionStandings), true);
 
-            if ( !empty($remain_head_to_head_with_key) )
-            {
-              $remain_head_to_head_with_key = explode('|',$remain_head_to_head_with_key);
-            }
+            list($competitionStandings,$sort_head_to_head) = $this->sortByHeadtoHead($competitionStandings,$check_head_to_head_with_key,$tournamentData['tournamentId'],$tournamentData['competitionId'],$tournamentCompetationTemplatesRecord,$remain_head_to_head_with_key);
 
             if ( $sort_head_to_head == '1') {
               $head_to_head_position_sorting = array();           
@@ -707,25 +704,10 @@ class MatchRepository
               
               array_multisort($internal_head_to_head_position_sorting,SORT_ASC,$competitionStandings);
 
-              $sortArray[] = &$head_to_head_position_sorting; 
-              $sortArray[] = SORT_ASC;
-
-              $remainingSorting = array();
-              foreach ($remain_head_to_head_with_key as $rkey => $rvalue) {
-                foreach ($competitionStandings as $comp_stand_key => $comp_stand_value) {
-                  $remainingSorting[$rvalue][$comp_stand_key] = (int)$comp_stand_value[$rvalue];
-                }
-
-                $sortArray[] = &$remainingSorting[$rvalue];
-                $sortArray[] = SORT_DESC;
-              }
-
-              $sortArray[] = &$competitionStandings;
-              call_user_func_array('array_multisort', $sortArray);
-
             }
 
             $competitionStandings = collect($competitionStandings);
+              
 
           }
           // dd($competitionStandings);
@@ -735,7 +717,7 @@ class MatchRepository
           return $mergedStandings;
     }
 
-    public function sortByHeadtoHead($standingData,$keyConflict,$tournamentId,$compId,$tournamentCompetationTemplatesRecord)
+    public function sortByHeadtoHead($standingData,$keyConflict,$tournamentId,$compId,$tournamentCompetationTemplatesRecord,$remain_head_to_head_with_key)
     {
 
       if ( gettype($standingData) != 'array')
@@ -786,7 +768,7 @@ class MatchRepository
       $virtual_lt_sorted = array();
       $virtual_lt_sorted_details = array();
       foreach ($conflictedTeamArray as $cta => $ctv) {
-        $virtual_lt_sorted[$cta] = $this->headToHeadVirtualLeagueTable($conflictedTeamids,$cta,$ctv,$tournamentId,$compId,$tournamentCompetationTemplatesRecord);
+        $virtual_lt_sorted[$cta] = $this->headToHeadVirtualLeagueTable($conflictedTeamids,$cta,$ctv,$tournamentId,$compId,$tournamentCompetationTemplatesRecord,$remain_head_to_head_with_key,$standingData);
 
         $virtual_lt_sorted_details[$cta]['total_teams'] = count($virtual_lt_sorted[$cta]);
         $virtual_lt_sorted_details[$cta]['remaining'] = count($virtual_lt_sorted[$cta]);
@@ -850,7 +832,7 @@ class MatchRepository
 
     }
 
-    public function headToHeadVirtualLeagueTable($conflictedTeamids,$cta,$ctv,$tournamentId,$compId,$tournamentCompetationTemplatesRecord)
+    public function headToHeadVirtualLeagueTable($conflictedTeamids,$cta,$ctv,$tournamentId,$compId,$tournamentCompetationTemplatesRecord,$remain_head_to_head_with_key,$standingData)
     {
       //merge conflicted teams
       $teamids = $conflictedTeamids[$cta];
@@ -962,8 +944,53 @@ class MatchRepository
 
       array_multisort($points_array, SORT_DESC,$goal_difference, SORT_DESC,$goal_for,SORT_DESC,$teamName, SORT_ASC,$virtualLegaueTable);
 
+      //check point, gd, goal for still same 
+      $sort_virtual_leaguetable = array();
+      foreach ($virtualLegaueTable as $vtakey => $vlvalue) {
+        $key_for_check =  $vlvalue['points'].'|'.$vlvalue['GoalDifference'].'|'.$vlvalue['goal_for'];
+        $sort_virtual_leaguetable[$key_for_check][] = $vlvalue;
+      }
 
-      return $virtualLegaueTable;
+      $conflict_still_in_internal_leaguetable_array = array();
+      $remainingSorting = array();
+
+      foreach ($sort_virtual_leaguetable as $skey => $svalue) {
+        if(sizeof($svalue) > 1 && !empty($remain_head_to_head_with_key) ){
+          if ( !empty($remain_head_to_head_with_key) && gettype($remain_head_to_head_with_key) == 'string')
+          {
+            $remain_head_to_head_with_key = explode('|',$remain_head_to_head_with_key);
+          }
+
+          foreach ($remain_head_to_head_with_key as $rkey => $rvalue) {
+              foreach ($svalue as $sskey => $svvalue) {
+
+                if ( array_key_exists('team_id', $svvalue) )
+                {
+                  $team_id = $svvalue['team_id'];
+                  $standKey = array_search($team_id, array_column($standingData, 'team_id'));
+                }
+                else
+                {
+                  $team_id = $svvalue['teamid'];
+                  $standKey = array_search($team_id, array_column($standingData, 'teamid'));
+                }
+                
+                $svalue[$sskey]['outer_'.$rvalue] = $standingData[$standKey][$rvalue];
+                $remainingSorting['outer_'.$rvalue][$sskey] = (int)$standingData[$standKey][$rvalue];
+              }
+              $sort_virtual_leaguetable[$skey] = $svalue;
+
+            $sortArray[] = &$remainingSorting['outer_'.$rvalue];
+            $sortArray[] = SORT_DESC;
+          }
+          $sortArray[] = &$svalue;
+
+          call_user_func_array('array_multisort', $sortArray);
+          }
+        $sort_virtual_leaguetable[$skey] = $svalue;
+      }
+
+      return Arr::collapse($sort_virtual_leaguetable);
     }
 
     public function getDrawTable($tournamentData){
