@@ -1140,6 +1140,7 @@ class TournamentRepository
             return TempFixture::where('tournament_id', $tournamentData['tournament_id'])->orderBy('match_datetime','desc')->pluck('match_endtime')->first();
         } else {
             return '';
+        }
     }
 
     public function duplicateTournament($data)
@@ -1358,7 +1359,7 @@ class TournamentRepository
      * @param string $tournamentAccessCode
      * @return array
     */
-    public function getTournamentByAccessCode($data)
+    public function getTournamentAccessCode($data)
     {
         $tournamentAccessCode = Tournament::where('access_code', $data['accessCode'])->first();
 
