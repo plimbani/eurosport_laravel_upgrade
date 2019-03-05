@@ -64,6 +64,59 @@ public class FavouritesActivity extends BaseAppCompactActivity {
     @Override
     protected void initView() {
         Utility.setupUI(mContext, ll_main_layout);
+
+
+
+
+
+
+
+        favouriteList.addFooterView(new View(mContext));
+
+        FavouriteListAdapter adapter = new FavouriteListAdapter((Activity) mContext, new ArrayList<TournamentModel>(), new ArrayList<TournamentModel>());
+        favouriteList.setAdapter(adapter);
+
+        if (BuildConfig.isEasyMatchManager) {
+            View footerView = ((LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.row_follow_another_tournament, null, false);
+            favouriteList.addFooterView(footerView);
+
+            final Button btn_submit = (Button) footerView.findViewById(R.id.btn_submit);
+            final EditText et_enter_access_code = (EditText) footerView.findViewById(R.id.et_enter_access_code);
+            et_enter_access_code.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    if (et_enter_access_code.getText().toString().trim().length() > 0) {
+                        btn_submit.setEnabled(true);
+                        btn_submit.setBackgroundResource(R.drawable.btn_yellow);
+                        btn_submit.setTextColor(ContextCompat.getColor(mContext, R.color.btn_active_text_color));
+                    } else {
+                        btn_submit.setEnabled(false);
+                        btn_submit.setBackgroundResource(R.drawable.btn_disable);
+                        btn_submit.setTextColor(Color.BLACK);
+                    }
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+
+                }
+            });
+
+        }
+
+
+
+
+
+
+
+
+
         getTournamentList();
         ll_main_layout.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
