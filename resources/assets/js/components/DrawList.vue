@@ -308,7 +308,6 @@ export default {
       this.$validator.validateAll().then(() => {
         let tournamentId = this.$store.state.Tournament.tournamentId
         let ageCategoryId = this.$store.state.currentAgeCategoryId
-        console.log(this.divisionId);
         let TournamentData = {'tournament_id':tournamentId, 'currentAgeCategoryId':ageCategoryId,'divisionId':this.divisionId,'categoryDivisionName': this.divisionName}
         Tournament.updateCategoryDivisionName(TournamentData).then(
           (response) => {
