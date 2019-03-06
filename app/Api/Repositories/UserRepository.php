@@ -60,7 +60,7 @@ class UserRepository {
             $user = $user->where('roles.slug', '=', $data['userType']);
         }
 
-        $user = $user->select('users.id as id', 'people.first_name as first_name', 'people.last_name as last_name', 'users.email as email', 'roles.id as role_id', 'roles.name as role_name', 'roles.slug as role_slug', 'users.is_verified as is_verified', 'users.is_mobile_user as is_mobile_user', 'users.is_desktop_user as is_desktop_user', 'users.organisation as organisation', 'users.locale as locale', 'users.role as role','countries.name as country');
+        $user = $user->select('users.id as id', 'people.first_name as first_name', 'people.last_name as last_name', 'users.email as email', 'roles.id as role_id', 'roles.name as role_name', 'roles.slug as role_slug', 'users.is_verified as is_verified', 'users.is_mobile_user as is_mobile_user', 'users.is_desktop_user as is_desktop_user', 'users.organisation as organisation', 'users.locale as locale', 'users.role as role', 'countries.name as country');
 
         $user->orderBy('people.last_name', 'asc');
 
@@ -110,26 +110,25 @@ class UserRepository {
     public function create($data)
     {
         $userData = [
-        'person_id' => $data['person_id'],
-        'username' => $data['username'],
-        'name' => $data['name'],
-        'email' => $data['email'],
-        'organisation' => $data['organisation'],
-        'password' => $data['password'],
-        'token' => $data['token'],
-        'is_verified' => 0,
-        'is_online' => 0,
-        'is_active' => (isset($data['is_mobile_user'])) ? 0 : 1,
-        'is_blocked' => 0 ,
-        'is_mobile_user' => $data['is_mobile_user'] ? 1 : 0,
-        'is_desktop_user' => $data['is_desktop_user'] ? 1 : 0,
-        'registered_from' => $data['registered_from'] ? 1 : 0,
-        'user_image'=>(isset($data['user_image']) && $data['user_image']!='') ?  $data['user_image'] : '',
-        'role' => (isset($data['role']) && $data['role']!='') ?  $data['role'] : '',
-        
+            'person_id' => $data['person_id'],
+            'username' => $data['username'],
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'organisation' => $data['organisation'],
+            'password' => $data['password'],
+            'token' => $data['token'],
+            'is_verified' => 0,
+            'is_online' => 0,
+            'is_active' => (isset($data['is_mobile_user'])) ? 0 : 1,
+            'is_blocked' => 0,
+            'is_mobile_user' => $data['is_mobile_user'] ? 1 : 0,
+            'is_desktop_user' => $data['is_desktop_user'] ? 1 : 0,
+            'registered_from' => $data['registered_from'] ? 1 : 0,
+            'user_image' => (isset($data['user_image']) && $data['user_image'] != '') ? $data['user_image'] : '',
+            'role' => (isset($data['role']) && $data['role'] != '') ? $data['role'] : '',
         ];
-      
-        $deletedUser = User::onlyTrashed()->where('email',$data['email'])->first();
+
+        $deletedUser = User::onlyTrashed()->where('email', $data['email'])->first();
         try {
             if ($deletedUser) {
                 $deletedUser->restore();
@@ -167,14 +166,12 @@ class UserRepository {
 
     public function edit($userId)
     {
-       $user=DB::table('users')
-            ->join('people', 'users.person_id', '=', 'people.id')
-            ->join('role_user', 'users.id', '=', 'role_user.user_id')
-            ->select("users.id as id", "users.email as emailAddress",
-               DB::raw('IF(users.user_image is not null,CONCAT("'.$this->userImagePath.'", users.user_image),"" ) as image'),
-             "users.organisation as organisation", "people.first_name as name", "people.last_name as surname", "role_user.role_id as userType", "users.role as role", "users.country_id as country_id", "users.locale as locale")
-            ->where("users.id", "=", $userId)
-            ->first();
+        $user = DB::table('users')
+                ->join('people', 'users.person_id', '=', 'people.id')
+                ->join('role_user', 'users.id', '=', 'role_user.user_id')
+                ->select("users.id as id", "users.email as emailAddress", DB::raw('IF(users.user_image is not null,CONCAT("' . $this->userImagePath . '", users.user_image),"" ) as image'), "users.organisation as organisation", "people.first_name as name", "people.last_name as surname", "role_user.role_id as userType", "users.role as role", "users.country_id as country_id", "users.locale as locale")
+                ->where("users.id", "=", $userId)
+                ->first();
 
         $defaultFavouriteTournament = DB::table('users_favourite')->where('user_id', $user->id)->where('is_default', 1)->first();
 
@@ -297,6 +294,7 @@ class UserRepository {
                 'name' => $data['first_name'] . " " . $data['last_name'],
                 'email' => $data['email'],
                 'organisation' => !empty($data['organisation']) ? $data['organisation'] : '',
+                'is_active' => !empty($data['user_status']) ? $data['user_status'] : $user->is_active
             ];
             $user->update($userData);
 
@@ -314,17 +312,24 @@ class UserRepository {
             ];
             $user->profile->update($personData);
 
+            if (!empty($data['user_type'])) {
+                $user->detachAllRoles();
+                $user->attachRole($data['user_type']);
+            }
+
             return true;
         } else {
             return false;
         }
     }
 
-    public function getAllCountries() {
-      return $contries = Country::orderBy('name')->get();
+    public function getAllCountries()
+    {
+        return $contries = Country::orderBy('name')->get();
     }
 
-    public function getAllLanguages() {
-       return $languages = config('wot.languages');
+    public function getAllLanguages()
+    {
+        return $languages = config('wot.languages');
     }
 }
