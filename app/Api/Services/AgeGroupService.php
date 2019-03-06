@@ -557,15 +557,16 @@ class AgeGroupService implements AgeGroupContract
       return json_encode($finalArray);
     }
 
-    public function setTemplateMatches($totalTeams, $times, $currentGroup)
+    public function setTemplateMatches($totalTeams, $times, $currentGroup, $round="")
     {
       $a = 1;
+      $currentRound = $round + 1;
       $matches = [];
       for($i=0; $i<$times; $i++){
         for($j=1; $j<=$totalTeams; $j++) {
           for($k=($j+1); $k<=$totalTeams; $k++) {
             $matches[] = ['in-between' => $j. '-' .$k,
-                          'match_number' => ($a > 9 ? "CAT.PM2.$a.$currentGroup$j-$currentGroup$k" : "CAT.PM2.0$a.$currentGroup$j-$currentGroup$k"),
+                          'match_number' => ($a > 9 ? "CAT.RR$currentRound.$a.$currentGroup$j-$currentGroup$k" : "CAT.RR$currentRound.0$a.$currentGroup$j-$currentGroup$k"),
                           'display_match_number' => "CAT.1.$a.@HOME-@AWAY",
                           'display_home_team_placeholder_name' => "$currentGroup$j",
                           'display_away_team_placeholder_name' => "$currentGroup$k"
@@ -624,11 +625,11 @@ class AgeGroupService implements AgeGroupContract
         $group2 = [];
         $finalArray['tournament_competation_format']['format_name'][$round]['name'] = 'Round ' .($round+1);
         if($round == 0) {
-          // $groupCount = 0;
-          // for ($group=0; $group<$totalGroups; $group++) {
-            // $finalGroupCount = chr(65 + $groupCount + $group);
-          $matches[$round] = $this->setTemplateMatches($finalTeams, $timesPlayedEachOther = 1, $finalGroupCount = 'A');
-          // }
+          $groupCount = 0;
+          for ($group=0; $group<$totalGroups; $group++) {
+            $finalGroupCount = chr(65 + $groupCount + $group);
+            $matches[$round][$group] = $this->setTemplateMatches($finalTeams, $timesPlayedEachOther = 1, $finalGroupCount, $round);
+          }
           $nextRoundTeams = $this->teamsForRoundTwo($totalGroups, $teamsPerGroup, $roundSizeData);
         }
         else {
@@ -651,28 +652,40 @@ class AgeGroupService implements AgeGroupContract
           }
         }
       
-        $matchTypeDetail = [
-          'name' => '',
-          'total_match' => '',
-          'group_count' => '',
-          'groups' => ['group_name' => 'Group-' .$finalGroupCount, 'match' => $matches[$round]]
-        ];
+        if($round == 0) {
+          foreach ($matches[$round] as $key => $value) {
+            $finalGroupCountForFirstRound = chr(65 + $key);
+            $matchTypeDetail[] = [
+              'name' => '',
+              'total_match' => sizeof($value),
+              'group_count' => '',
+              'groups' => ['group_name' => 'Group-' .$finalGroupCountForFirstRound, 'match' => $value]
+            ];
+          }
+        } else {
+          $matchTypeDetail = [
+            'name' => '',
+            'total_match' => '',
+            'group_count' => '',
+            'groups' => ['group_name' => 'Group-' .$finalGroupCount, 'match' => $matches[$round]]
+          ];
+        }
 
         $finalArray['tournament_competation_format']['format_name'][$round]['match_type'][] = $matchTypeDetail;
       }
 
-      $lastRoundMatches = end($matches);
+      // $lastRoundMatches = end($matches);
 
-      $positions = [];
-      for ($i=1; $i <= 2; $i++) {
-        $positions[] = ['position' => $i, 'dependent_type' => 'match', 'match_number' => '', 'result_type' => ''];
-      }
+      // $positions = [];
+      // for ($i=1; $i <= 2; $i++) {
+      //   $positions[] = ['position' => $i, 'dependent_type' => 'match', 'match_number' => '', 'result_type' => ''];
+      // }
 
-      $finalArray['tournament_positions'] = $positions;
+      // $finalArray['tournament_positions'] = $positions;
 
-      echo "<pre>";print_r($finalArray);echo "</pre>";exit;
+      echo "<pre>";print_r(json_encode($finalArray));echo "</pre>";exit;
 
-      return $finalArray;      
+      return $finalArray;
     }
 
     public function teamsForRoundTwo($totalGroups, $teamsPerGroup, $roundSizeData)
