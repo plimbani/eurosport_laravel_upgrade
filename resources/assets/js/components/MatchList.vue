@@ -329,15 +329,16 @@ export default {
             vm.getResultOverridePopover(value);
           });
         });
-        if ( this.matchData[0]['isDivExist'] == 1 )
+
+        if ( vm.matchData.length > 0 && vm.matchData[0]['isDivExist'] == 1 )
         {
-          this.isDivExist = this.matchData[0]['isDivExist'];
-          this.isDivExistData = _.groupBy(this.matchData, 'competation_round_no'); 
+          vm.isDivExist = vm.matchData[0]['isDivExist'];
+          vm.isDivExistData = _.groupBy(vm.matchData, 'competation_round_no'); 
         }
         else
         {
-          this.isDivExist = false;
-          this.isDivExistData = [];
+          vm.isDivExist = false;
+          vm.isDivExistData = [];
         }
       },
       deep: true,

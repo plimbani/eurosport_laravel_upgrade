@@ -58,6 +58,7 @@ class MatchRepository
       $divisionsData = [];
       $roundRobinData = [];
       $finalData = [];
+      $ageCategoryData = []; 
       foreach ($reportQuery as $data) {
         if($data->age_category_division_id != '') {
           $divisionsData[$data->divisionName][$data->competation_round_no][] = $data;
@@ -69,7 +70,10 @@ class MatchRepository
       $finalData['round_robin'] = $roundRobinData;
       $finalData['divisions'] = $divisionsData;
 
-      return $finalData;
+      $ageCategoryData['ageCategoryData'] = $finalData;
+      $ageCategoryData['mainData'] = $reportQuery;
+
+      return $ageCategoryData;
     }
     public function getFixtures($tournamentData) {
 

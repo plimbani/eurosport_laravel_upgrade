@@ -8,15 +8,15 @@
   </div>
   <div class="form-group row">
     <div class="col-md-3">
-      <select class="form-control" id="drawName" v-on:change="onChangeDrawDetails" v-model="DrawName">
+      <select class="form-control" id="drawName" v-on:change="onChangeDrawDetails">
         <!-- <option value="">Select</option> -->
-        <optgroup :label="key" v-for="(round, key) in drawList.round_robin">
-          <option v-bind:value="group" v-for="group in round">{{group.display_name}}</option>
+        <optgroup :label="key" v-for="(round, key) in dropdownDrawName.round_robin">
+          <option v-bind:value="group.id" :label="group.display_name" :rel="group.actual_competition_type" v-for="group in round">{{group.display_name}}</option>
         </optgroup>
 
-        <optgroup :label="index" class="division" v-for="(division, index) in drawList.divisions">
+        <optgroup :label="index" class="division" v-for="(division, index) in dropdownDrawName.divisions">
           <option class="rounds" disabled="true" :rel="roundIndex" :label="roundIndex" v-for="(divRound, roundIndex) in division">
-          <option v-bind:value="divGroup.id" class="placingMatches" :label="divGroup.display_name" v-for="divGroup in divRound">&nbsp;&nbsp;&nbsp;&nbsp;{{ divGroup.display_name }}</option>
+          <option v-bind:value="divGroup.id" class="placingMatches" :label="divGroup.display_name" :rel="divGroup.actual_competition_type" v-for="divGroup in divRound">&nbsp;&nbsp;&nbsp;&nbsp;{{ divGroup.display_name }}</option>
           </option>
         </optgroup>
       </select>
@@ -125,6 +125,7 @@ export default {
             teamList: [],
             teamCount: 0,
             testArray: ['1', '2', '3', '5'],
+            dropdownDrawName:[]
         }
     },
     created: function() {
@@ -146,9 +147,10 @@ export default {
       Tournament.getAllDraws(TournamentId).then(
         (response)=> {
           if(response.data.status_code == 200) {
-            this.drawList = response.data.data
+            this.drawList = response.data.data.mainData
 
-            vm.drawList = response.data.data
+            vm.drawList = response.data.data.mainData;
+            vm.dropdownDrawName = response.data.data.ageCategoryData;
             vm.drawList.map(function(value, key) {
               if(value.actual_competition_type == 'Elimination') {
                 value.name = _.replace(value.name, '-Group', '');
@@ -157,7 +159,7 @@ export default {
             })
 
 
-            var uniqueArray = response.data.data.filter(function(item, pos) {
+            var uniqueArray = response.data.data.mainData.filter(function(item, pos) {
 
               if(item['id'] == currDId)
               {
@@ -200,9 +202,20 @@ export default {
         }
       })
       .on('change', function () {
-        vm.DrawName.id = $(this).val();
+        //vm.DrawName.id = $(this).val();
+        let curreId = $(this).val();
+        let drawnameChange = [];
+        vm.drawList.map(function(value, key) {
+          if(value.id == curreId) {
+            // drawnameChange.push(value);
+            vm.DrawName = value;
+          }
+        });
+        
         vm.onChangeDrawDetails();
       });
+
+      $("#drawName").val(currDId).trigger('change');
     },500);
 
     $('.ls-select2').select2();
