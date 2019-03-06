@@ -100,9 +100,8 @@
                  }); 
                // this.$router.push({'name':'buylicense'}) 
             },
-           tournamentDetailAppStoreLink(){
-                if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))
-                {
+            tournamentDetailAppStoreLink(){
+                if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
                     this.$router.push({ path: 'mtournament-detail', query: { code: this.code }})
                 } 
 
@@ -115,14 +114,13 @@
             tournamentDetailGoogleStoreLink() {
                 if(/Android/i.test(navigator.userAgent)){ 
                     this.$router.push({ path: 'mtournament-detail', query: { code: this.code }})
-                    window.location = "http://rishab-eurosport.dev.aecortech.com/api/tournament/openApp";  
+                    window.location = "http://rishab-eurosport.dev.aecortech.com/api/tournament/openApp";
                 }
 
                 if (!navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/)) {
                     this.$router.push({ path: 'tournament-detail', query: { code: this.code }})
                     window.location.href = 'https://play.google.com/store/apps/details?id=com.aecor.eurosports.easymatchmanager';  
                 }
-
             }
         }
     }
