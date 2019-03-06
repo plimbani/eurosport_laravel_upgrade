@@ -661,6 +661,17 @@ class AgeGroupService implements AgeGroupContract
         $finalArray['tournament_competation_format']['format_name'][$round]['match_type'][] = $matchTypeDetail;
       }
 
+      $lastRoundMatches = end($matches);
+
+      $positions = [];
+      for ($i=1; $i <= 2; $i++) {
+        $positions[] = ['position' => $i, 'dependent_type' => 'match', 'match_number' => '', 'result_type' => ''];
+      }
+
+      $finalArray['tournament_positions'] = $positions;
+
+      echo "<pre>";print_r($finalArray);echo "</pre>";exit;
+
       return $finalArray;      
     }
 
