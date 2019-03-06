@@ -233,12 +233,14 @@ class MatchInfoVC: SuperViewController {
         if dicTeamFixture.homeFlagLogo != NULL_STRING {
             imgViewTeam1Flag.sd_setImage(with: URL(string: dicTeamFixture.homeFlagLogo), placeholderImage:nil)
         } else {
+            imgViewTeam1Flag.contentMode = .scaleAspectFit
             imgViewTeam1Flag.image = UIImage.init(named: "globe")
         }
         
         if dicTeamFixture.awayFlagLogo != NULL_STRING {
             imgViewTeam2Flag.sd_setImage(with: URL(string: dicTeamFixture.awayFlagLogo), placeholderImage:nil)
         } else {
+            imgViewTeam2Flag.contentMode = .scaleAspectFit
             imgViewTeam2Flag.image = UIImage.init(named: "globe")
         }
         

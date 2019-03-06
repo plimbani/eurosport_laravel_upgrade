@@ -48,8 +48,6 @@
 		30181D642126D7850067D65F /* Environments.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D632126D7850067D65F /* Environments.swift */; };
 		30181D662126EB460067D65F /* ProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D652126EB460067D65F /* ProgressView.swift */; };
 		30181D682126EB830067D65F /* UIViewExtentions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D672126EB830067D65F /* UIViewExtentions.swift */; };
-		30181D6B2126F4060067D65F /* PickerHandlerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30181D692126F4050067D65F /* PickerHandlerView.xib */; };
-		30181D6C2126F4060067D65F /* PickerHandlerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D6A2126F4050067D65F /* PickerHandlerView.swift */; };
 		30181D77212AB9CE0067D65F /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D76212AB9CE0067D65F /* UserData.swift */; };
 		30181D79212ABB5A0067D65F /* ParseManger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D78212ABB5A0067D65F /* ParseManger.swift */; };
 		30181D81212AF0590067D65F /* SettingsList.plist in Resources */ = {isa = PBXBuildFile; fileRef = 30181D80212AF0590067D65F /* SettingsList.plist */; };
@@ -98,7 +96,6 @@
 		30790D102202D457000EE4A5 /* NotificationAndSoundVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 305693FF212BEACC009790BA /* NotificationAndSoundVC.swift */; };
 		30790D112202D457000EE4A5 /* ProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D652126EB460067D65F /* ProgressView.swift */; };
 		30790D122202D457000EE4A5 /* SuperViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181CD8211D98720067D65F /* SuperViewController.swift */; };
-		30790D132202D457000EE4A5 /* PickerHandlerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D6A2126F4050067D65F /* PickerHandlerView.swift */; };
 		30790D142202D457000EE4A5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181CC3211D95B60067D65F /* AppDelegate.swift */; };
 		30790D152202D457000EE4A5 /* TwoLabelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3086BC93213EB11A00810CC8 /* TwoLabelCell.swift */; };
 		30790D162202D457000EE4A5 /* TableCellOwner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181CE5211DA1BF0067D65F /* TableCellOwner.swift */; };
@@ -156,7 +153,6 @@
 		30790D512202D457000EE4A5 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 30C799F021CD05C800B0ECB4 /* Localizable.strings */; };
 		30790D522202D457000EE4A5 /* privacyContent.html in Resources */ = {isa = PBXBuildFile; fileRef = 30FB3110212EB2B300ABA22A /* privacyContent.html */; };
 		30790D542202D457000EE4A5 /* FinalPlacingsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 307542B82174C9DD003715C7 /* FinalPlacingsCell.xib */; };
-		30790D552202D457000EE4A5 /* PickerHandlerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30181D692126F4050067D65F /* PickerHandlerView.xib */; };
 		30790D562202D457000EE4A5 /* GroupSummaryStandingsHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30FB312221357A0800ABA22A /* GroupSummaryStandingsHeader.xib */; };
 		30790D572202D457000EE4A5 /* TeamListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30AF116D21BBDD7000BE50F4 /* TeamListCell.xib */; };
 		30790D582202D457000EE4A5 /* TournamentDetailsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 307542B321747520003715C7 /* TournamentDetailsView.xib */; };
@@ -192,6 +188,7 @@
 		3086BC95213EB11A00810CC8 /* TwoLabelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3086BC93213EB11A00810CC8 /* TwoLabelCell.swift */; };
 		3086BC96213EB11A00810CC8 /* TwoLabelCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3086BC94213EB11A00810CC8 /* TwoLabelCell.xib */; };
 		3086BC9A213FB54E00810CC8 /* MapVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3086BC99213FB54E00810CC8 /* MapVC.swift */; };
+		30A7FF42222EA92900056A90 /* PickerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A7FF41222EA92900056A90 /* PickerVC.swift */; };
 		30AF116121BA531900BE50F4 /* ClubListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30AF116021BA531900BE50F4 /* ClubListVC.swift */; };
 		30AF116321BA53A300BE50F4 /* CategoryListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30AF116221BA53A300BE50F4 /* CategoryListVC.swift */; };
 		30AF116521BA53B600BE50F4 /* GroupListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30AF116421BA53B600BE50F4 /* GroupListVC.swift */; };
@@ -272,8 +269,6 @@
 		30181D632126D7850067D65F /* Environments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Environments.swift; sourceTree = "<group>"; };
 		30181D652126EB460067D65F /* ProgressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressView.swift; sourceTree = "<group>"; };
 		30181D672126EB830067D65F /* UIViewExtentions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtentions.swift; sourceTree = "<group>"; };
-		30181D692126F4050067D65F /* PickerHandlerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PickerHandlerView.xib; sourceTree = "<group>"; };
-		30181D6A2126F4050067D65F /* PickerHandlerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PickerHandlerView.swift; sourceTree = "<group>"; };
 		30181D76212AB9CE0067D65F /* UserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
 		30181D78212ABB5A0067D65F /* ParseManger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseManger.swift; sourceTree = "<group>"; };
 		30181D80212AF0590067D65F /* SettingsList.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = SettingsList.plist; sourceTree = "<group>"; };
@@ -313,6 +308,7 @@
 		3086BC93213EB11A00810CC8 /* TwoLabelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoLabelCell.swift; sourceTree = "<group>"; };
 		3086BC94213EB11A00810CC8 /* TwoLabelCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TwoLabelCell.xib; sourceTree = "<group>"; };
 		3086BC99213FB54E00810CC8 /* MapVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapVC.swift; sourceTree = "<group>"; };
+		30A7FF41222EA92900056A90 /* PickerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerVC.swift; sourceTree = "<group>"; };
 		30AF116021BA531900BE50F4 /* ClubListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClubListVC.swift; sourceTree = "<group>"; };
 		30AF116221BA53A300BE50F4 /* CategoryListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryListVC.swift; sourceTree = "<group>"; };
 		30AF116421BA53B600BE50F4 /* GroupListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupListVC.swift; sourceTree = "<group>"; };
@@ -517,6 +513,7 @@
 				301D9C052225228D00EF8E76 /* ViewScheduleImageVC.swift */,
 				30181D242121A91A0067D65F /* Login */,
 				30181CFD211DB8840067D65F /* Tabs */,
+				30A7FF41222EA92900056A90 /* PickerVC.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -605,8 +602,6 @@
 				30181D272122A8FB0067D65F /* TitleNavigationBar.xib */,
 				30181D4B212590E30067D65F /* ImageNavigationBar.swift */,
 				30181D4D212590EC0067D65F /* ImageNavigationBar.xib */,
-				30181D6A2126F4050067D65F /* PickerHandlerView.swift */,
-				30181D692126F4050067D65F /* PickerHandlerView.xib */,
 				30FB3120213579FE00ABA22A /* GroupSummaryStandingsHeader.swift */,
 				30FB312221357A0800ABA22A /* GroupSummaryStandingsHeader.xib */,
 				30FB3124213665FE00ABA22A /* GroupSummaryMatchesHeader.swift */,
@@ -794,6 +789,9 @@
 							com.apple.Push = {
 								enabled = 1;
 							};
+							com.apple.SafariKeychain = {
+								enabled = 1;
+							};
 						};
 					};
 				};
@@ -844,7 +842,6 @@
 				30FB3111212EB2B300ABA22A /* privacyContent.html in Resources */,
 				30181CCB211D95B80067D65F /* Assets.xcassets in Resources */,
 				307542BA2174C9DD003715C7 /* FinalPlacingsCell.xib in Resources */,
-				30181D6B2126F4060067D65F /* PickerHandlerView.xib in Resources */,
 				30FB312321357A0800ABA22A /* GroupSummaryStandingsHeader.xib in Resources */,
 				30AF116F21BBDD7000BE50F4 /* TeamListCell.xib in Resources */,
 				307542B421747520003715C7 /* TournamentDetailsView.xib in Resources */,
@@ -888,7 +885,6 @@
 				30790D512202D457000EE4A5 /* Localizable.strings in Resources */,
 				30790D522202D457000EE4A5 /* privacyContent.html in Resources */,
 				30790D542202D457000EE4A5 /* FinalPlacingsCell.xib in Resources */,
-				30790D552202D457000EE4A5 /* PickerHandlerView.xib in Resources */,
 				30790D562202D457000EE4A5 /* GroupSummaryStandingsHeader.xib in Resources */,
 				30790D572202D457000EE4A5 /* TeamListCell.xib in Resources */,
 				30790D7822041EE8000EE4A5 /* Asset - Easymm.xcassets in Resources */,
@@ -1015,7 +1011,6 @@
 				30569400212BEACC009790BA /* NotificationAndSoundVC.swift in Sources */,
 				30181D662126EB460067D65F /* ProgressView.swift in Sources */,
 				30181CD9211D98720067D65F /* SuperViewController.swift in Sources */,
-				30181D6C2126F4060067D65F /* PickerHandlerView.swift in Sources */,
 				30181CC4211D95B60067D65F /* AppDelegate.swift in Sources */,
 				3086BC95213EB11A00810CC8 /* TwoLabelCell.swift in Sources */,
 				30181CE6211DA1BF0067D65F /* TableCellOwner.swift in Sources */,
@@ -1038,6 +1033,7 @@
 				30FB3117212FEA4B00ABA22A /* Tournament.swift in Sources */,
 				30FB312A21366A6400ABA22A /* GroupSummaryMatchesCell.swift in Sources */,
 				30C799F921CD105100B0ECB4 /* BundleExtension.swift in Sources */,
+				30A7FF42222EA92900056A90 /* PickerVC.swift in Sources */,
 				30181D232121A8EA0067D65F /* LandingVC.swift in Sources */,
 				30181D3F212312EC0067D65F /* ButtonCell.swift in Sources */,
 				30181D2A2122B0CB0067D65F /* TabTournamentVC.swift in Sources */,
@@ -1092,7 +1088,6 @@
 				30790D102202D457000EE4A5 /* NotificationAndSoundVC.swift in Sources */,
 				30790D112202D457000EE4A5 /* ProgressView.swift in Sources */,
 				30790D122202D457000EE4A5 /* SuperViewController.swift in Sources */,
-				30790D132202D457000EE4A5 /* PickerHandlerView.swift in Sources */,
 				30790D142202D457000EE4A5 /* AppDelegate.swift in Sources */,
 				30790D152202D457000EE4A5 /* TwoLabelCell.swift in Sources */,
 				30790D162202D457000EE4A5 /* TableCellOwner.swift in Sources */,
@@ -1344,7 +1339,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.aecordigital.eurosporting;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "7c7bf2a5-55f5-49db-8a8e-5b27791520ca";
-				PROVISIONING_PROFILE_SPECIFIER = DEV_ESR_8_jan_2019;
+				PROVISIONING_PROFILE_SPECIFIER = DEV_ESR_5_mar_2019;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;
 				base_url = "http:/$()/sunny-eurosport.dev.aecortech.com/api/";
@@ -1431,7 +1426,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.aecordigital.eurosporting;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "7c7bf2a5-55f5-49db-8a8e-5b27791520ca";
-				PROVISIONING_PROFILE_SPECIFIER = DEV_ESR_8_jan_2019;
+				PROVISIONING_PROFILE_SPECIFIER = DEV_ESR_5_mar_2019;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;
 				base_url = "https:/$()/qa.wot.esrtmp.com/api/";
@@ -1518,7 +1513,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.aecordigital.eurosporting;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "0a6cfb2e-d6c1-45ad-ada8-4edab1532aea";
-				PROVISIONING_PROFILE_SPECIFIER = ADHOC_ESR_8_jan_2019;
+				PROVISIONING_PROFILE_SPECIFIER = PROD_ESR_5_mar_2019;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;
 				base_url = "https:/$()/qa.wot.esrtmp.com/api/";

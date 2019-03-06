@@ -156,7 +156,8 @@ extension CategoryListVC: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        self.view.endEditing(true)
+        txtSearch.resignFirstResponder()
         var dic: NSDictionary!
         
         if isSearch {
@@ -175,7 +176,6 @@ extension CategoryListVC: UITableViewDataSource, UITableViewDelegate {
         let viewController = Storyboards.Teams.instantiateTeamListingVC()
         viewController.isClubsCategoryTeam = true
         viewController.dic = dic
-        self.view.endEditing(true)
         self.navigationController?.pushViewController(viewController, animated: true)
     }
 }

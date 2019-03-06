@@ -51,6 +51,10 @@ class Tournament: NSObject, NSCoding {
             self.status = status
         }
         
+        if let telephone = aDecoder.decodeObject(forKey: "telephone") as? String {
+            self.telephone = telephone
+        }
+        
         if let firstName = aDecoder.decodeObject(forKey: "firstName") as? String {
             self.firstName = firstName
         }
@@ -91,6 +95,7 @@ class Tournament: NSObject, NSCoding {
     func encode(with aCoder: NSCoder) {
         aCoder.encode(id, forKey: "id")
         aCoder.encode(status, forKey: "status")
+        aCoder.encode(telephone, forKey: "telephone")
         aCoder.encode(name, forKey: "name")
         aCoder.encode(firstName, forKey: "firstName")
         aCoder.encode(lastName, forKey: "lastName")

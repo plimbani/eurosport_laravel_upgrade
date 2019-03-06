@@ -59,5 +59,21 @@ class SuperViewController: UIViewController {
         customAlert.btnNoString  = buttonNoTitle
         self.present(customAlert, animated: true, completion: nil)
     }
+    
+    func showPickerVC(selectedPosition: Int = 0, titleList: [String] = [], delegate: PickerVCDelegate? = nil) {
+        let pickerVC = Storyboards.Main.instantiateViewPickerVC()
+        pickerVC.providesPresentationContextTransitionStyle = true
+        pickerVC.definesPresentationContext = true
+        pickerVC.modalPresentationStyle = UIModalPresentationStyle.overFullScreen
+        pickerVC.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
+        pickerVC.titleList = titleList
+        pickerVC.selectedPickerPosition = selectedPosition
+        
+        if delegate != nil {
+            pickerVC.delegate = delegate
+        }
+        
+        self.present(pickerVC, animated: true, completion: nil)
+    }
 }
 

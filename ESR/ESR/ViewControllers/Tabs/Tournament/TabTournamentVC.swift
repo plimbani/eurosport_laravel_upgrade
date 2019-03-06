@@ -33,10 +33,8 @@ class TabTournamentVC: SuperViewController {
     var secondsProgressView: MBCircularProgressBarView!
     
     var tournamentList = [Tournament]()
-    // var selectedTournament = Tournament()
     var titleList = [String]()
     
-    var pickerHandlerView: PickerHandlerView!
     var delegate: MainTabViewControllerDelegate?
     
     var tournamentDetailsView: TournamentDetailsView!
@@ -49,6 +47,8 @@ class TabTournamentVC: SuperViewController {
     var seconds = 60
     var timer: Timer?
     var isTimerRunning = false
+    
+    var selectedPosition = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -111,14 +111,7 @@ class TabTournamentVC: SuperViewController {
         // To show/hide internet view in Navigation bar
         NotificationCenter.default.addObserver(self, selector: #selector(showHideNoInternetView(_:)), name: .internetConnectivity, object: nil)
         
-        pickerHandlerView = getPickerView()
-        pickerHandlerView.delegate = self
-        self.view.addSubview(pickerHandlerView)
-        
-        // initInfoAlertView(self.view)
-        
         tournamentDetailsView = APPDELEGATE.mainTabVC?.tournamentDetailsView
-        
         sendRequestGetTournaments()
     }
     
@@ -131,7 +124,8 @@ class TabTournamentVC: SuperViewController {
     }
     
     @objc func onSelectTournament(_ sender : UITapGestureRecognizer) {
-        pickerHandlerView.show()
+        // pickerHandlerView.show()
+        showPickerVC(selectedPosition: selectedPosition, titleList: titleList, delegate: self)
     }
     
     func getProgressView(maxValue: CGFloat) -> MBCircularProgressBarView {
@@ -290,9 +284,6 @@ class TabTournamentVC: SuperViewController {
         for tournament in self.tournamentList {
             self.titleList.append(tournament.name)
         }
-        
-        pickerHandlerView.titleList = titleList
-        pickerHandlerView.reloadPickerView()
     }
     
     func sendRequestGetTournaments() {
@@ -360,8 +351,6 @@ class TabTournamentVC: SuperViewController {
                         self.titleList.append(tournament.name)
                     }
                     
-                    self.pickerHandlerView.titleList = self.titleList
-                    self.pickerHandlerView.reloadPickerView()
                     self.updateTournamentDetails()
                 }
             }
@@ -379,17 +368,19 @@ extension TabTournamentVC: CustomAlertVCDelegate {
     }
 }
 
-extension TabTournamentVC: PickerHandlerViewDelegate {
-    
-    func pickerCancelBtnPressed() {}
-    
-    func pickerDoneBtnPressed(_ title: String) {
+extension TabTournamentVC: PickerVCDelegate {
+    func pickerVCDoneBtnPressed(title: String, lastPosition: Int) {
         lblSelectedTournamentName.text = title
+        selectedPosition = lastPosition
         
-        let selectedPosition = pickerHandlerView.selectedPickerPosition
-        let dicSelectedTournament = self.tournamentList[selectedPosition]
+        let dicSelectedTournament = self.tournamentList[lastPosition]
         ApplicationData.sharedInstance().saveSelectedTournament(dicSelectedTournament)
         updateTournamentDetails()
-        refreshTournamentPosition()
+        // refreshTournamentPosition()
+    }
+    
+    func pickerVCCancelBtnPressed() {
+        
     }
 }
+

@@ -29,10 +29,7 @@ class ProfileVC: SuperViewController {
     var heightLabelSelectionCell: CGFloat = 0
     var heightTextFieldCell: CGFloat = 0
     
-    // PickerHandlerView
-    var pickerHandlerView: PickerHandlerView!
     var tournamentTitleList = [String]()
-    
     var countryTitleList = [String]()
     
     var tournamentList = [NSDictionary]()
@@ -43,6 +40,10 @@ class ProfileVC: SuperViewController {
     
     var isRole = false
     var isCountry = false
+    
+    var selectedCountryPosition = 0
+    var selectedLanguagePosition = 0
+    var selectedRolePosition = 0
     
     enum SettingsList: Int {
         case email = 0
@@ -80,12 +81,6 @@ class ProfileVC: SuperViewController {
         
         _ = cellOwner.loadMyNibFile(nibName: kNiB.Cell.TextFieldCell)
         heightTextFieldCell = (cellOwner.cell as! TextFieldCell).getCellHeight()
-        
-        pickerHandlerView = getPickerView()
-        pickerHandlerView.delegate = self
-        self.view.addSubview(pickerHandlerView)
-        
-        // initInfoAlertView(self.view, self)
         
         btnUpdate.isEnabled = false
         btnUpdate.backgroundColor = UIColor.btnDisable
@@ -181,20 +176,21 @@ class ProfileVC: SuperViewController {
     
     func fillCountriesName() {
         countryTitleList.removeAll()
-        for country in ApplicationData.countriesList {
-            let dic = country as! NSDictionary
+        for i in 0..<ApplicationData.countriesList.count {
+            let dic = ApplicationData.countriesList[i] as! NSDictionary
             
             var countryName = NULL_STRING
             
             if let name = dic.value(forKey: "name") as? String {
                 countryName = name
-                countryTitleList.append(name.capitalizingFirstLetter())
+                countryTitleList.append(name.capitalized)
             }
             
             if let userDetails = ApplicationData.sharedInstance().getUserData() {
                 if userDetails.countryId != NULL_ID && userDetails.countryId == dic.value(forKey: "id") as! Int {
                     selectedCountryId = userDetails.countryId
-                    lblCountry.text = countryName.capitalizingFirstLetter()
+                    lblCountry.text = countryName.capitalized
+                    selectedCountryPosition = i
                 }
             }
         }
@@ -223,8 +219,6 @@ class ProfileVC: SuperViewController {
                     self.view.hideProgressHUD()
                     
                     if let message = result.value(forKey: "message") as? String {
-                        // self.showInfoAlertView(title: String.localize(key: "alert_title_success"), message: message, requestCode: AlertRequestCode.profileUpdate.rawValue)
-                        
                         self.showCustomAlertVC(title: String.localize(key: "alert_title_success"), message: message, requestCode: AlertRequestCode.profileUpdate.rawValue, delegate: self)
                         
                         if let userData = ApplicationData.sharedInstance().getUserData() {
@@ -254,8 +248,6 @@ class ProfileVC: SuperViewController {
                     }
                     
                     if let error = result.value(forKey: "error") as? String {
-                        // self.showInfoAlertView(title: String.localize(key: "alert_title_error"), message: error)
-                        
                         self.showCustomAlertVC(title: String.localize(key: "alert_title_error"), message: error)
                     }
                 }
@@ -320,29 +312,15 @@ extension ProfileVC: CustomAlertVCDelegate {
     }
 }
 
-/*extension ProfileVC: CustomAlertViewDelegate {
-    func customAlertViewOkBtnPressed(requestCode: Int) {
-        if requestCode == AlertRequestCode.profileUpdate.rawValue {
-            self.navigationController?.popViewController(animated: true)
-        }
-    }
-}*/
-
-extension ProfileVC: PickerHandlerViewDelegate {
-    
-    func pickerCancelBtnPressed() {
-        isRole = false
-        isCountry = false
-    }
-    
-    func pickerDoneBtnPressed(_ title: String) {
-
+extension ProfileVC: PickerVCDelegate {
+    func pickerVCDoneBtnPressed(title: String, lastPosition: Int) {
         if isRole {
             isRole = false
             
             lblRole.text = title
             selectedRole = title
             lblRole.textColor = .black
+            selectedRolePosition = lastPosition
             
             ApplicationData.setBorder(view: lblRoleContainerView, Color: .clear, CornerRadius: 0, Thickness: 1.0)
         } else if isCountry {
@@ -350,9 +328,10 @@ extension ProfileVC: PickerHandlerViewDelegate {
             
             lblCountry.text = title
             lblCountry.textColor = .black
+            selectedCountryPosition = lastPosition
             
             if countryTitleList.count > 0 {
-                let dic =  ApplicationData.countriesList[pickerHandlerView.selectedPickerPosition] as! NSDictionary
+                let dic =  ApplicationData.countriesList[selectedCountryPosition] as! NSDictionary
                 
                 if let countryId = dic.value(forKey: "id") as? Int {
                     selectedCountryId = countryId
@@ -363,6 +342,7 @@ extension ProfileVC: PickerHandlerViewDelegate {
         } else {
             lblLanguage.text = title
             lblLanguage.textColor = .black
+            selectedLanguagePosition = lastPosition
             
             let array = getRefreshedLanguageList()
             
@@ -375,6 +355,11 @@ extension ProfileVC: PickerHandlerViewDelegate {
         }
         
         updateUpdateBtn()
+    }
+    
+    func pickerVCCancelBtnPressed() {
+        isRole = false
+        isCountry = false
     }
 }
 
@@ -432,7 +417,7 @@ extension ProfileVC : UITableViewDataSource, UITableViewDelegate {
                             cell = textFieldCell
                             cellList.add(cell)
                             textFieldCell.txtField.addTarget(self, action: #selector(textFieldDidChange(textField:)), for: .editingChanged)
-                            //textFieldCell.txtField.delegate = self
+                            
                             if indexPath.row == SettingsList.email.rawValue {
                                 textFieldCell.txtField.isEnabled = false
                                 txtEmail = textFieldCell.txtField
@@ -472,8 +457,16 @@ extension ProfileVC : UITableViewDataSource, UITableViewDelegate {
                                 
                                 if selectedRole == NULL_STRING {
                                     ApplicationData.setBorder(view: lblRoleContainerView, Color: .red, CornerRadius: 0, Thickness: 1.0)
+                                } else {
+                                    if let userData = ApplicationData.sharedInstance().getUserData() {
+                                        for i in 0..<ApplicationData.rolesList.count {
+                                            if userData.role == ApplicationData.rolesList[i] {
+                                                selectedRolePosition = i
+                                                break
+                                            }
+                                        }
+                                    }
                                 }
-                                
                             } else if indexPath.row == SettingsList.country.rawValue {
                                 lblCountry = labelSelectionCell.lblTitle
                                 lblCountry.textColor = .black
@@ -490,7 +483,8 @@ extension ProfileVC : UITableViewDataSource, UITableViewDelegate {
                                 
                                 if !localeValues.0.isEmpty {
                                     lblLanguage.text = String.localize(key: localeValues.1)
-                                    selectedLocale = localeValues.1
+                                    selectedLocale = localeValues.0
+                                    selectedLanguagePosition = localeValues.2
                                 } else {
                                     lblLanguage.text = getRefreshedLanguageList()[0]
                                     selectedLocale = ApplicationData.localeKeyList[0]
@@ -516,16 +510,13 @@ extension ProfileVC : UITableViewDataSource, UITableViewDelegate {
         
          if indexPath.row == SettingsList.role.rawValue {
             isRole = true
-            pickerHandlerView.titleList = ApplicationData.rolesList
+            showPickerVC(selectedPosition: selectedRolePosition, titleList: ApplicationData.rolesList, delegate: self)
          } else if indexPath.row == SettingsList.country.rawValue {
             isCountry = true
-            pickerHandlerView.titleList = countryTitleList
+            showPickerVC(selectedPosition: selectedCountryPosition, titleList: countryTitleList, delegate: self)
          } else if indexPath.row == SettingsList.language.rawValue {
-            pickerHandlerView.titleList = getRefreshedLanguageList()
+            showPickerVC(selectedPosition: selectedLanguagePosition, titleList: getRefreshedLanguageList(), delegate: self)
         }
-        
-         pickerHandlerView.reloadPickerView()
-         pickerHandlerView.show()
     }
 }
 

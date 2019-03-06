@@ -170,22 +170,24 @@ class ApplicationData: NSObject {
         return nil
     }
     
-    func getSelectedLocale() -> (String, String){
+    func getSelectedLocale() -> (String, String, Int){
         var selectedLocale = NULL_STRING
         var selectedLanguage = NULL_STRING
+        var selectedPosition = 0
         if let userData = getUserData() {
             if !userData.locale.isEmpty {
                 for i in 0..<ApplicationData.localeKeyList.count{
                     if userData.locale == ApplicationData.localeKeyList[i] {
                         selectedLocale = userData.locale
                         selectedLanguage = ApplicationData.languageList[i]
+                        selectedPosition = i
                         break
                     }
                 }
             }
         }
         
-        return (selectedLocale, selectedLanguage)
+        return (selectedLocale, selectedLanguage, selectedPosition)
     }
     
     static func convertDateFromDateString(dateString: String, dateFormat: String) -> Date {

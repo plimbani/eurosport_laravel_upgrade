@@ -84,6 +84,10 @@ struct Storyboards {
         static func instantiateViewScheduleImageVC() -> ViewScheduleImageVC {
             return self.storyboard.instantiateViewController(withIdentifier: kViewController.ViewScheduleImageVC) as! ViewScheduleImageVC
         }
+        
+        static func instantiateViewPickerVC() -> PickerVC {
+            return self.storyboard.instantiateViewController(withIdentifier: kViewController.PickerVC) as! PickerVC
+        }
     }
     
     struct Favourites: Storyboard {

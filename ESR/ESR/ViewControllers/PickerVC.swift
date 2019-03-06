@@ -1,90 +1,61 @@
 //
-//  PickerHandlerView.swift
-//  Marketti
+//  PickerVC.swift
+//  ESR
 //
-//  Created by My on 04/04/18.
-//  Copyright © 2018 Aecor. All rights reserved.
+//  Created by Pratik Patel on 05/03/19.
 //
 
 import UIKit
 
-protocol PickerHandlerViewDelegate {
-    func pickerCancelBtnPressed()
-    func pickerDoneBtnPressed(_ title:String)
+protocol PickerVCDelegate {
+    func pickerVCDoneBtnPressed(title: String, lastPosition: Int)
+    func pickerVCCancelBtnPressed()
 }
 
-class PickerHandlerView: UIView {
-    
+class PickerVC: UIViewController {
+
     @IBOutlet var btnCancel: UIBarButtonItem!
     @IBOutlet var btnDone: UIBarButtonItem!
     @IBOutlet var picker_view: UIPickerView!
     @IBOutlet var mainView: UIView!
     
-    var delegate: PickerHandlerViewDelegate?
+    var delegate: PickerVCDelegate?
     var titleList = [String]()
     var selectedTitle = NULL_STRING
     var selectedPickerPosition = 0
     
-    override func awakeFromNib() {
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
         btnDone.setTitleTextAttributes([NSAttributedStringKey(rawValue: NSAttributedStringKey.font.rawValue): UIFont(name: Font.HELVETICA_REGULAR, size: Font.Size.commonBtnSize)], for: .normal)
         btnCancel.setTitleTextAttributes([NSAttributedStringKey(rawValue: NSAttributedStringKey.font.rawValue): UIFont(name: Font.HELVETICA_REGULAR, size: Font.Size.commonBtnSize)], for: .normal)
         
-        if titleList.count > 0 {
-            picker_view.selectRow(0, inComponent: 0, animated: false)
-        }
-        
         let tap = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
         mainView.addGestureRecognizer(tap)
+        
+        if titleList.count > 0 {
+            picker_view.reloadAllComponents()
+            picker_view.selectRow(selectedPickerPosition, inComponent: 0, animated: false)
+        }
     }
     
     @objc func handleTap(_ sender: UITapGestureRecognizer? = nil) {
-        hide()
-        delegate?.pickerCancelBtnPressed()
-    }
-    
-    func show() {
-        UIView.beginAnimations(nil, context: nil)
-        UIView.setAnimationDuration(0.35)
-        self.alpha = 1.0
-        UIView.commitAnimations()
-    }
-    
-    func hide(flag isAnimate: Bool = false) {
-        UIView.animate(withDuration: isAnimate ? 0.5 : 0, delay: 0.1, options: .curveEaseOut, animations: {
-            UIView.beginAnimations(nil, context: nil)
-            UIView.setAnimationDuration(isAnimate ? 0.35 : 0)
-            self.alpha = 0.0
-            UIView.commitAnimations()
-        }, completion: { (finished: Bool) in
-        })
-    }
-    
-    func reloadPickerView() {
-        if titleList.count > 0 {
-            selectedTitle = titleList[0]
-            selectedPickerPosition = 0
-        }
-        picker_view.reloadAllComponents()
-        if titleList.count > 0 {
-            picker_view.selectRow(0, inComponent: 0, animated: false)
-        }
+        self.dismiss(animated: true, completion: nil)
+        delegate?.pickerVCCancelBtnPressed()
     }
     
     @IBAction func cancelButtonPressed(_ sender: UIBarButtonItem) {
-        delegate?.pickerCancelBtnPressed()
-        hide()
+        self.dismiss(animated: true, completion: nil)
+        delegate?.pickerVCCancelBtnPressed()
     }
     
     @IBAction func doneButtonPressed(_ sender: UIBarButtonItem) {
-        if selectedTitle.isEmpty && titleList.count > 0 {
-            selectedTitle = titleList[0]
-        }
-        delegate?.pickerDoneBtnPressed(selectedTitle)
-        hide()
+        delegate?.pickerVCDoneBtnPressed(title: titleList[selectedPickerPosition], lastPosition: selectedPickerPosition)
+        self.dismiss(animated: true, completion: nil)
     }
 }
 
-extension PickerHandlerView: UIPickerViewDataSource, UIPickerViewDelegate {
+extension PickerVC: UIPickerViewDataSource, UIPickerViewDelegate {
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1;
     }

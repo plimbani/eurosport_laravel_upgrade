@@ -136,6 +136,8 @@ extension GroupListVC: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        self.view.endEditing(true)
+        txtSearch.resignFirstResponder()
         let viewController = Storyboards.Teams.instantiateTeamListingVC()
         viewController.isClubsGroupTeam = true
         
@@ -144,7 +146,7 @@ extension GroupListVC: UITableViewDataSource, UITableViewDelegate {
         } else {
             viewController.dic = (ageCategoriesGroupsList[indexPath.row] as! NSDictionary)
         }
-        self.view.endEditing(true)
+        
         self.navigationController?.pushViewController(viewController, animated: true)
     }
 }

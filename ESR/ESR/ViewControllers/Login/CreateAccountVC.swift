@@ -33,8 +33,6 @@ class CreateAccountVC: SuperViewController {
     var heightLabelCell: CGFloat = 0
     var heightTextViewCell: CGFloat = 0
     
-    // PickerHandlerView
-    var pickerHandlerView: PickerHandlerView!
     var tournamentTitleList = [String]()
     var tournamentList = NSArray()
     
@@ -42,6 +40,9 @@ class CreateAccountVC: SuperViewController {
     
     var isRole = false
     var selectedRole = NULL_STRING
+    
+    var selectedRolePosition = 0
+    var selectedTournamentPosition = 0
     
     enum CreateAccountList: Int {
         case firstname = 0
@@ -92,17 +93,8 @@ class CreateAccountVC: SuperViewController {
         _ = cellOwner.loadMyNibFile(nibName: kNiB.Cell.TextViewCell)
         heightTextViewCell = (cellOwner.cell as! TextViewCell).getCellHeight()
         
-        pickerHandlerView = getPickerView()
-        pickerHandlerView.delegate = self
-        self.view.addSubview(pickerHandlerView)
-        
-        // Events when keyboard shows and hides
-        // NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         // To show/hide internet view in Navigation bar
         NotificationCenter.default.addObserver(self, selector: #selector(showHideNoInternetView(_:)), name: .internetConnectivity, object: nil)
-        
-        // AlertView
-        // initInfoAlertView(self.view, self)
         
         // Hides keyboard if tap outside of view
         hideKeyboardWhenTappedAround()
@@ -130,7 +122,7 @@ class CreateAccountVC: SuperViewController {
         parameters["role"] = selectedRole
         
         if self.tournamentList.count > 0 {
-            parameters["tournament_id"] = (self.tournamentList[pickerHandlerView.selectedPickerPosition] as! NSDictionary).value(forKey: "id")
+            parameters["tournament_id"] = (self.tournamentList[selectedTournamentPosition] as! NSDictionary).value(forKey: "id")
         }
         
         ApiManager().register(parameters, success: { result in
@@ -149,7 +141,6 @@ class CreateAccountVC: SuperViewController {
                 }
                 
                 if let error = result.value(forKey: "error") as? String {
-                    // self.showInfoAlertView(title: String.localize(key: "alert_title_error"), message: error)
                     self.showCustomAlertVC(title: String.localize(key: "alert_title_error"), message: error)
                 }
             }
@@ -174,11 +165,7 @@ class CreateAccountVC: SuperViewController {
                     
                     self.tournamentList = tournamentList
                 }
-                
-                self.pickerHandlerView.titleList = self.tournamentTitleList
-                self.pickerHandlerView.reloadPickerView()
             }
-            
         }, failure: { result in
             DispatchQueue.main.async {
                 self.view.hideProgressHUD()
@@ -299,24 +286,26 @@ extension CreateAccountVC: CustomAlertVCDelegate {
     }
 }
 
-extension CreateAccountVC: PickerHandlerViewDelegate {
-    
-    func pickerCancelBtnPressed() {}
-    
-    func pickerDoneBtnPressed(_ title: String) {
-        
+extension CreateAccountVC: PickerVCDelegate {
+    func pickerVCDoneBtnPressed(title: String, lastPosition: Int) {
         if isRole {
             isRole = false
             lblRole.text = title
             lblRole.textColor = .black
             selectedRole = title
+            selectedRolePosition = lastPosition
         } else {
             lblTournament.text = title
-            paramTournamentId = (self.tournamentList[pickerHandlerView.selectedPickerPosition] as! NSDictionary).value(forKey: "id") as! Int
+            paramTournamentId = (self.tournamentList[lastPosition] as! NSDictionary).value(forKey: "id") as! Int
             lblTournament.textColor = .black
+            selectedTournamentPosition = lastPosition
         }
         
         updateCreateAccountBtn()
+    }
+    
+    func pickerVCCancelBtnPressed() {
+        isRole = false
     }
 }
 
@@ -493,18 +482,10 @@ extension CreateAccountVC : UITableViewDataSource, UITableViewDelegate {
         self.view.endEditing(true)
                    
         if indexPath.row == CreateAccountList.selectTournament.rawValue {
-            pickerHandlerView.titleList = tournamentTitleList
-            
-            pickerHandlerView.reloadPickerView()
-            pickerHandlerView.show()
+            showPickerVC(selectedPosition: selectedTournamentPosition, titleList: tournamentTitleList, delegate: self)
         } else if indexPath.row == CreateAccountList.role.rawValue {
-            pickerHandlerView.titleList = ApplicationData.rolesList
             isRole = true
-            
-            pickerHandlerView.reloadPickerView()
-            pickerHandlerView.show()
+            showPickerVC(selectedPosition: selectedRolePosition, titleList: ApplicationData.rolesList, delegate: self)
         }
-        
-        
     }
 }

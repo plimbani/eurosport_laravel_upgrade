@@ -54,11 +54,15 @@ class TournamentDetailsView: UIView {
         addAttributedString()
         
         if contactString == NULL_STRING {
-            stackView.removeArrangedSubview(contactNoView)
-            contactNoView.removeFromSuperview()
+            //stackView.removeArrangedSubview(contactNoView)
+            //contactNoView.removeFromSuperview()
+            contactNoView.isHidden = true
+        } else {
+            contactNoView.isHidden = false
         }
         
         lblName.text = "Name: " + nameString
+        layoutIfNeeded()
     }
     
     func addAttributedString(){

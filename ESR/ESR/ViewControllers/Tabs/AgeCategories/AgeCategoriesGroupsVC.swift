@@ -113,6 +113,7 @@ extension AgeCategoriesGroupsVC : UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let viewController = Storyboards.AgeCategories.instantiateAgeCategoriesGroupsSummaryVC()
         viewController.dicGroup = (ageCategoriesGroupsList[indexPath.row] as! NSDictionary)
+        viewController.selectedPickerPosition = indexPath.row
         self.navigationController?.pushViewController(viewController, animated: true)
     }
 }

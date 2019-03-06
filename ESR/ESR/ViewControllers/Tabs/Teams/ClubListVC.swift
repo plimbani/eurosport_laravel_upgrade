@@ -126,6 +126,8 @@ extension ClubListVC: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        self.view.endEditing(true)
+        txtSearch.resignFirstResponder()
         let viewController = Storyboards.Teams.instantiateTeamListingVC()
         
         if isSearch {

@@ -30,11 +30,12 @@ class AgeCategoriesGroupsSummaryVC: SuperViewController {
     var teamFixuteuresList = [TeamFixture]()
     var groupStandingsList = [GroupStanding]()
     
-    var pickerHandlerView: PickerHandlerView!
     var titleList = [String]()
     
     var selectedTab = 0
     var rotateToPortrait = false
+    
+    var selectedPickerPosition = -1
     
     @IBOutlet var stackViewTab: UIStackView!
     
@@ -71,10 +72,6 @@ class AgeCategoriesGroupsSummaryVC: SuperViewController {
                 titleList.append(name)
             }
         }
-        
-        pickerHandlerView = getPickerView(titleList)
-        pickerHandlerView.delegate = self
-        self.view.addSubview(pickerHandlerView)
         
         if let name = dicGroup.value(forKey: "display_name") as? String {
             lblGroupName.text = name
@@ -147,8 +144,7 @@ class AgeCategoriesGroupsSummaryVC: SuperViewController {
     }
     
     @objc func onGroupViewPressed(sender : UITapGestureRecognizer) {
-        pickerHandlerView.show()
-        pickerHandlerView.picker_view.selectRow(pickerHandlerView.selectedPickerPosition, inComponent: 0, animated: true)
+        showPickerVC(selectedPosition: selectedPickerPosition, titleList: titleList, delegate: self)
     }
     
     @objc func onFooterGroupStandingView(sender : UITapGestureRecognizer) {
@@ -266,7 +262,7 @@ class AgeCategoriesGroupsSummaryVC: SuperViewController {
         var groupDic = NSDictionary()
         
         if flag {
-            groupDic = ApplicationData.groupsList[pickerHandlerView.selectedPickerPosition] as! NSDictionary
+            groupDic = ApplicationData.groupsList[selectedPickerPosition] as! NSDictionary
         } else {
             groupDic = dicGroup
         }
@@ -282,13 +278,17 @@ class AgeCategoriesGroupsSummaryVC: SuperViewController {
                 
                 self.view.layoutIfNeeded()
                 
+                // Selects tab 1
                 selectedTab = 1
                 sendGetFixturesRequest()
             } else {
                 tabStandingView.backgroundColor = .white
                 tabStandingView.isUserInteractionEnabled = true
-                tabStandingsSeparator.backgroundColor = .AppColor()
-                tabMatchesSeparator.backgroundColor = .clear
+                
+                if selectedTab == 0 {
+                    tabStandingsSeparator.backgroundColor = .AppColor()
+                    tabMatchesSeparator.backgroundColor = .clear
+                }
                 
                 sendGetFixturesRequest()
                 sendGetGroupStadingsRequest()
@@ -297,14 +297,14 @@ class AgeCategoriesGroupsSummaryVC: SuperViewController {
     }
 }
 
-extension AgeCategoriesGroupsSummaryVC: PickerHandlerViewDelegate {
-    
-    func pickerCancelBtnPressed() {}
-    
-    func pickerDoneBtnPressed(_ title: String) {
+extension AgeCategoriesGroupsSummaryVC: PickerVCDelegate {
+    func pickerVCDoneBtnPressed(title: String, lastPosition: Int) {
+        selectedPickerPosition = lastPosition
         lblGroupName.text = title
         refreshListByGroup(true)
     }
+    
+    func pickerVCCancelBtnPressed() {}
 }
 
 extension AgeCategoriesGroupsSummaryVC : TitleNavigationBarDelegate {
