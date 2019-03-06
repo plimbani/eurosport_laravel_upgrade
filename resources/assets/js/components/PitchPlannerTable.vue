@@ -24,11 +24,15 @@
                         <div class="card">
                             <div class="btn pnl" :id="stage.stageNumber">
                                 Day {{ stage.stageNumber }}: {{dispDate(stage.tournamentStartDate)}}
-                                <a data-toggle="collapse" v-bind:data-target="'#demo'+stage.stageNumber" :id="'pitch_stage_open_close_'+stage.stageNumber" href="javascript:void(0)" data-status="open" @click="toggleStage(stage.stageNumber)" class="pull-right open-close-link">Close</a>
+                                <a data-toggle="collapse" v-bind:data-target="'#stage_div'+stage.stageNumber" :id="'pitch_stage_open_close_'+stage.stageNumber" href="javascript:void(0)" data-status="open" @click="toggleStage(stage.stageNumber)" class="pull-right open-close-link">Close</a>
                             </div>
-                            
-                            <div :id="'demo'+stage.stageNumber" class="stages collapse in show" aria-expanded="true">
-                                <pitch-planner-stage :stage="stage"  :defaultView="defaultView"></pitch-planner-stage>
+                            <div :id="'stage_div'+stage.stageNumber" class="stages collapse in show" aria-expanded="true">
+                                <div :class="'stage-top-horizontal-scroll js-stage-top-horizontal-scroll'+stage.stageNumber" :data-stage-number="stage.stageNumber" style="width: calc(100% - 41px);  min-height:10px; overflow: scroll; margin-left: 41px;">
+                                    <div style="min-height:1px"></div>
+                                </div>
+                                <div :id="'stage_outer_div'+stage.stageNumber" :data-stage-number="stage.stageNumber" class="js-stage-outer-div">
+                                    <pitch-planner-stage :stage="stage"  :defaultView="defaultView"></pitch-planner-stage>
+                                </div>
                             </div>
                         </div>
                     </div>
