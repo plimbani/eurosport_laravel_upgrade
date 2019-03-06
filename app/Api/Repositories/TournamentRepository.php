@@ -1114,6 +1114,12 @@ class TournamentRepository
     public function getTournamentByAccessCode($accessCode)
     {
         $tournament = Tournament::where('access_code', $accessCode)->first();
+        
+        if(!empty($tournament->sponsors)) {
+            foreach ($tournament->sponsors as &$sponsor) {
+                $sponsor['logo'] = getenv('S3_URL') . '/assets/img/tournament_sponsor/'. $sponsor['logo'];
+            }
+        }
         $response = [
             'tournament_details' => $tournament,
             'contact_details' => !empty($tournament->contacts) ? $tournament->contacts : [],
