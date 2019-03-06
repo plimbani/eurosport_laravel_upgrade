@@ -141,10 +141,12 @@ export default {
     // here call method to get All Draws
     let TournamentId = this.$store.state.Tournament.tournamentId
     let currDId = this.currentCompetationId
+    let currentAgeCategoryId =  this.$store.state.currentAgeCategoryId;
     let round = 'Round Robin'
     let drawname1 = []
+    
     let vm = this
-      Tournament.getAllDraws(TournamentId).then(
+      Tournament.getAllDraws([TournamentId,currentAgeCategoryId]).then(
         (response)=> {
           if(response.data.status_code == 200) {
             this.drawList = response.data.data.mainData
@@ -211,7 +213,7 @@ export default {
             vm.DrawName = value;
           }
         });
-        
+
         vm.onChangeDrawDetails();
       });
 

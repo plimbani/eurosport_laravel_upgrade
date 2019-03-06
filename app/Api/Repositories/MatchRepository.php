@@ -43,14 +43,27 @@ class MatchRepository
     }
 
     public function getDraws($tournamentData) {
-      $tournamentId = $tournamentData['tournamentId'];
+      //dd($tournamentData);
+      if ( gettype($tournamentData['tournamentId']) == 'array')
+      {
+        $tournamentId = $tournamentData['tournamentId'][0];
+        $competationFormatId = $tournamentData['tournamentId'][1];
+      }
+      else
+      {
+        $tournamentId = $tournamentData['tournamentId'];
+        $competationFormatId = '';
+      }
+
       $reportQuery = DB::table('competitions')
                      ->leftjoin('tournament_competation_template','tournament_competation_template.id', '=', 'competitions.tournament_competation_template_id')
                      ->leftjoin('age_category_divisions', 'competitions.age_category_division_id', '=', 'age_category_divisions.id');
-      if(isset($tournamentData['competationFormatId']) && $tournamentData['competationFormatId'] != '') {
+
+      if($competationFormatId != '') {
         $reportQuery->where('competitions.tournament_competation_template_id','=',
-          $tournamentData['competationFormatId']);
+          $competationFormatId);
       }
+
       $reportQuery->where('competitions.tournament_id', $tournamentId);
       $reportQuery->select('competitions.*','tournament_competation_template.group_name', 'age_category_divisions.name as divisionName');
       $reportQuery = $reportQuery->get();
@@ -408,7 +421,7 @@ class MatchRepository
             $getAllCompetitionID = DB::table('competitions')->where('competitions.age_category_division_id',$compDiv[0])->pluck('competitions.id')->toArray();
             // All rounds are pm or round robin
              $countForRRElem = DB::table('temp_fixtures')->whereIn('temp_fixtures.competition_id',$getAllCompetitionID)
-             ->whereIn('round',['Round Robin','Elimination'])->count(); //,'Elimination'
+             ->whereIn('round',['Round Robin'])->count(); //,'Elimination'
              
              if ($countForRRElem == 0){
               $roundQuery = 1;
