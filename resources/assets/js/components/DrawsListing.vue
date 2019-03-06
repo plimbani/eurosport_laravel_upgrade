@@ -85,7 +85,7 @@ export default {
   			Tournament.getAllDraws(TournamentId).then(
   				(response)=> {
   					if(response.data.status_code == 200) {
-  						vm.matchData = response.data.data
+  						vm.matchData = response.data.data.mainData
   						vm.matchData.map(function(value, key) {
 							if(value.actual_competition_type == 'Elimination') {
 								value.name = _.replace(value.name, '-Group', '');

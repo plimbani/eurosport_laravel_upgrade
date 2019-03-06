@@ -126,7 +126,7 @@
         MatchList.getAllDraws(tournamentData.id).then(
           (response)=> {
             if(response.data.status_code == 200) {
-              vm.competitionList = response.data.data;
+              vm.competitionList = response.data.data.mainData;
               vm.competitionList.map(function(competition, key) {
                 if(competition.actual_competition_type == 'Elimination') {
                   competition.name = _.replace(competition.name, '-Group', '');
@@ -134,7 +134,7 @@
                 }
               });
 
-              currentCompetition = _.find(response.data.data, function(o) { return o.id == vm.currentCompetitionId; });
+              currentCompetition = _.find(response.data.data.mainData, function(o) { return o.id == vm.currentCompetitionId; });
               vm.currentCompetition = currentCompetition;
               vm.competitionRound = currentCompetition.competation_type;
               // vm.refreshStanding();
