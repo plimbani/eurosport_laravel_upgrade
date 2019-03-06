@@ -3,7 +3,6 @@ namespace Laraspace\Api\Services;
 
 use Laraspace\Api\Contracts\TournamentContract;
 use Laraspace\Api\Repositories\TournamentRepository;
-// use Laraspace\Api\Services\UserService;
 use DB;
 use Carbon\Carbon;
 use PDF;
@@ -993,8 +992,7 @@ class TournamentService implements TournamentContract
       $authUser = JWTAuth::parseToken()->toUser();
       $tournament = $this->tournamentRepoObj->getTournamentAccessCodeDetail($data);
       if($tournament) {
-         $tournamentEndDateFormat = Carbon::createFromFormat('d/m/Y', $tournament['end_date'])->addMonths(1);
-         
+         $tournamentEndDateFormat = Carbon::createFromFormat('d/m/Y', $tournament['end_date'])->addDays(28);
           $endDateAddMonth = Carbon::parse($tournamentEndDateFormat)->format('Y-m-d');
           
           $currentDateFormat = Carbon::now()->format('Y-m-d');
