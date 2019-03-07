@@ -334,6 +334,16 @@ class UserService implements UserContract
 
         (isset($data['locale']) && $data['locale']!='') ? $userData['user']['locale'] = $data['locale'] : '';
         
+        if('customer' == strtolower($userObj->roles()->first()->slug)) {
+            $userData['user'] = [
+                'username' => $data['email'],
+                'name' => $data['first_name'] . " " . $data['surname'],
+                'email' => $data['email'],
+                'organisation' => !empty($data['organisation']) ? $data['organisation'] : '',
+                'password' => Hash::make($data['password']),
+                'is_active' => !empty($data['status']) ? $data['status'] : $userObj->is_active,
+            ];
+        }
         $this->userRepoObj->update($userData['user'], $userId);
 
         if(isset($data['tournament_id'])) {
@@ -348,6 +358,20 @@ class UserService implements UserContract
         $userData['people']['first_name']=$data['name'];
         $userData['people']['last_name']=$data['surname'];
         // $userData['people']['role']=$data['role'];
+        if('customer' == strtolower($userObj->roles()->first()->slug)) {            
+            $userData['people'] = [
+                'first_name' => $data['name'],
+                'last_name' => $data['surname'],
+                'display_name' => $data['first_name'] . " " . $data['surname'],
+                'primary_email' => $data['email'],
+                'address' => $data['address'],
+                'address_2' => $data['address_2'],
+                'job_title' => $data['job_title'],
+                'city' => $data['city'],
+                'zipcode' => $data['zip'],
+                'country_id' => $data['country'],
+            ];
+        }
         $peopleObj = $this->peopleRepoObj->edit($userData['people'], $userObj->person_id);
 
         if ($data) {
