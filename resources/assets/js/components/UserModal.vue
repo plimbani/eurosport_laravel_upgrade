@@ -91,6 +91,29 @@
                       <span class="help is-danger" v-show="errors.has('tournament_id')">{{$lang.user_management_default_app_tournament_required}}</span>
                     </div>
                 </div>
+
+                 <div v-if="isCustomer" class="form-group row">
+                    <label class="col-sm-5 form-control-label">Status</label>
+                     <div class="col-sm-6">
+                        <select class="form-control" id="country" v-model="formValues.status">
+                            <option value="1">Active</option>
+                            <option value="0">In Active</option>
+                        </select> 
+                     </div>
+                </div>
+                <div v-if="isCustomer" class="form-group row">
+                    <label class="col-sm-5 form-control-label">Password</label>
+                    <div class="col-sm-6">
+                        <input id="pwd" type="password" class="form-control" placeholder="Enter Password" name="password" v-model="formValues.password" ref="password">
+                    </div> 
+                </div>
+                <div v-if="isCustomer" class="form-group row">
+                    <label class="col-sm-5 form-control-label">Confirm Password</label>
+                    <div class="col-sm-6">
+                        <input id="cpwd" type="password" class="form-control" placeholder="Confirm Password"  :class="{'is-danger': errors.has('password_confirmation') }" name="password_confirmation" v-model="formValues.password_confirmation" v-validate="'confirmed:password'">
+                        <span class="help is-danger" v-show="errors.has('password_confirmation')">Password and confirm password must be same.</span>
+                    </div> 
+                </div>
                 <div v-if="isCustomer" class="form-group row">
                     <label class="col-sm-5 form-control-label">
                       Job Title
@@ -237,7 +260,8 @@ import { ErrorBag } from 'vee-validate';
                     this.initialUserType = response.data.userType;
                     this.$data.formValues.userEmail2 = this.$data.formValues.emailAddress;
                     console.log("response.data.role_slug::",response.data.role_slug);
-                    if(response.data.role_slug == "customer"){
+                    // if((response.data.role_slug).toLowerCase() == "mobile.user"){
+                    if((response.data.role_slug).toLowerCase() == "customer"){
                       this.isCustomer = true;
                     }else{
                       this.isCustomer = false;
