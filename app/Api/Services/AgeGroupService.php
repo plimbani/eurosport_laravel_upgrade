@@ -649,8 +649,7 @@ class AgeGroupService implements AgeGroupContract
             $matches[$round][$group] = $this->setTemplateMatches($finalTeams, $timesPlayedEachOther = 1, $finalGroupCount, $round);
           }
           $nextRoundTeams = $this->teamsForRoundTwo($totalGroups, $teamsPerGroup, $roundSizeData);
-        }
-        else {          
+        } else {
           $dividedRoundMatches = sizeof($nextRoundTeams) / 2;
           for ($i=0; $i<$dividedRoundMatches; $i++) {
             $group1[] = $nextRoundTeams[$i];
@@ -660,12 +659,12 @@ class AgeGroupService implements AgeGroupContract
           $reversedGroupTwoArray = array_reverse($group2);
 
           $matches[$round] = $this->setTemplateMatchesForSecondRound($group1, $group2, $round);
-
           $nextRoundTeams = [];
-          for ($i=0; $i < sizeof($matches[$round]); $i++) {
-            $nextRoundTeams[] = 'wrs(' .$matches[$round][$i]. ')';
+          for ($i=0; $i < sizeof($matches[$round]); $i++) { 
+            $nextRoundTeams[] = 'wrs(' .$matches[$round][$i]['in_between']. ')';
           }
         }
+
         // setting up match detail array
         if($round == 0) {
           foreach ($matches[$round] as $key => $value) {
