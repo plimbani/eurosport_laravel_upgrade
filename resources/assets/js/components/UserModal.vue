@@ -93,7 +93,7 @@
                 </div>
 
                  <div v-if="isCustomer" class="form-group row">
-                    <label class="col-sm-5 form-control-label">Status</label>
+                    <label class="col-sm-5 form-control-label"> {{$lang.user_management_status}}</label>
                      <div class="col-sm-6">
                         <select class="form-control" id="country" v-model="formValues.status">
                             <option value="1">Active</option>
@@ -108,7 +108,7 @@
                     </div> 
                 </div>
                 <div v-if="isCustomer" class="form-group row">
-                    <label class="col-sm-5 form-control-label">Confirm Password</label>
+                    <label class="col-sm-5 form-control-label">{{$lang.user_management_confirm_password}}</label>
                     <div class="col-sm-6">
                         <input id="cpwd" type="password" class="form-control" placeholder="Confirm Password"  :class="{'is-danger': errors.has('password_confirmation') }" name="password_confirmation" v-model="formValues.password_confirmation" v-validate="'confirmed:password'">
                         <span class="help is-danger" v-show="errors.has('password_confirmation')">Password and confirm password must be same.</span>
@@ -116,7 +116,7 @@
                 </div>
                 <div v-if="isCustomer" class="form-group row">
                     <label class="col-sm-5 form-control-label">
-                      Job Title
+                      {{$lang.user_management_job_title}}
                       <!-- {{$lang.user_management_add_surname}} -->
                     </label>
                     <div class="col-sm-6">
@@ -126,7 +126,7 @@
                     </div>
                 </div>
                 <div v-if="isCustomer" class="form-group row">
-                     <label class="col-sm-5 form-control-label">Address</label> 
+                     <label class="col-sm-5 form-control-label">{{$lang.user_management_address}}</label> 
                      <div class="col-sm-6">
                         <input type="textarea" class="form-control  mb-4" placeholder="Address" id="address-line-1" name="address" v-model="formValues.address"> 
                         <input type="text" class="form-control" placeholder="Address Line 2 " id="address-line-2" v-model="formValues.address_2">  
@@ -134,21 +134,21 @@
                      
                 </div>
                 <div v-if="isCustomer" class="form-group row">
-                    <label class="col-sm-5 form-control-label">Town or city</label>
+                    <label class="col-sm-5 form-control-label">{{$lang.user_management_city}}</label>
                     <div class="col-sm-6">
                         <input type="textarea" class="form-control form-control-danger" placeholder="City" id="city" name="city" v-model="formValues.city">
                     </div> 
                 </div>
 
                 <div v-if="isCustomer" class="form-group row">
-                    <label class="col-sm-5 form-control-label">Zip or postcode</label>
+                    <label class="col-sm-5 form-control-label">{{$lang.user_management_zipcode}}</label>
                      <div class="col-sm-6">                       
                         <input type="textarea" class="form-control form-control-danger" placeholder="Zip" id="zipcode" name="zip" v-model="formValues.zip"> 
                      </div>
                 </div>
 
                 <div v-if="isCustomer" class="form-group row">
-                    <label class="col-sm-5 form-control-label">Country</label>
+                    <label class="col-sm-5 form-control-label">{{$lang.user_management_country}}</label>
                      <div class="col-sm-6">
                         <select class="form-control" id="country" v-model="formValues.country" >
                             <option v-for="(value, key) in countries" :value="value">{{key}}</option>
