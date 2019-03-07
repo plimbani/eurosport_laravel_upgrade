@@ -100,12 +100,10 @@ class LandingVC: SuperViewController {
             DispatchQueue.main.async {
                 self.view.hideProgressHUD()
                 if let serverVersion = result.value(forKey: "ios_app_version") as? String {
-                    let appVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as! String
+                    let appVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
                     
                     // 1 - left version is greater than right version
                     if Utils.compareVersion(serverVersion, appVersion) == 1 {
-                        // self.showInfoAlertViewTwoButton(title: String.localize(key: "alert_title_app_update"), message: String.localize(key: "alert_msg_app_update"), buttonYesTitle: String.localize(key: "btn_update"), buttonNoTitle: String.localize(key: "btn_cancel"), requestCode: AlertRequestCode.appUpgrade.rawValue)
-                        
                         self.showCustomAlertTwoBtnVC(title: String.localize(key: "alert_title_app_update"), message: String.localize(key: "alert_msg_app_update"), buttonYesTitle: String.localize(key: "btn_update"), buttonNoTitle: String.localize(key: "btn_cancel"), requestCode: AlertRequestCode.appUpgrade.rawValue, delegate: self)
                         
                         ApplicationData.isAppUpdateDispalyed = true
@@ -121,7 +119,6 @@ class LandingVC: SuperViewController {
                 }
                 
                 if let error = result.value(forKey: "error") as? String {
-                    // self.showInfoAlertView(title: String.localize(key: "alert_title_error"), message: error)
                     self.showCustomAlertVC(title: String.localize(key: "alert_title_error"), message: error)
                 }
             }
