@@ -869,7 +869,8 @@ import _ from 'lodash'
     function arrangeLeftColumn() {        
         var scrollableBodys = document.querySelectorAll('.fc-content-skeleton');        
         var index = 1;
-        var plannerwidth = $('.pitch_planner_section').width()/8;        
+        var plannerwidth = $('.pitch_planner_section').width()/8;
+        $('.stage-top-horizontal-scroll').hide();      
         [].forEach.call(scrollableBodys, function(scrollableBody) {
             var totalPitches = document.querySelectorAll('.pitch-planner-item:nth-child('+index+') .fc-head-container > .fc-row > table > thead > tr > th').length - 1;
             if(totalPitches>7){
@@ -881,6 +882,7 @@ import _ from 'lodash'
                 var scrollableHeader = document.querySelector('.pitch-planner-item:nth-child('+index+') .fc-head-container > .fc-row');
                 var scrollableHeaderTable = document.querySelector('.pitch-planner-item:nth-child('+index+') .fc-head-container > .fc-row > table');
                 scrollableHeaderTable.style.width = (width-40)+'px';
+
                 var scrollableBg = document.querySelector('.pitch-planner-item:nth-child('+index+') .fc-bg');
                 var scrollableBgTable = document.querySelector('.pitch-planner-item:nth-child('+index+') .fc-bg > table');
                 scrollableBgTable.style.width = width+'px';
@@ -890,9 +892,16 @@ import _ from 'lodash'
                 var fcsktable2 = document.querySelector('.pitch-planner-item:nth-child('+index+') .fc-agenda-view > table');
                 fcsktable2.style.width = '100%';
 
+                // Top Horizontal Scroll
+                document.querySelector('.pitch-planner-item:nth-child('+index+') .stage-top-horizontal-scroll').style.display = 'block';
+                var topHorizontalScroll = document.querySelector('.pitch-planner-item:nth-child('+index+') .stage-top-horizontal-scroll div');
+                topHorizontalScroll.style.width = (width-40)+'px';
+
                 scrollableBody.addEventListener('scroll', () => {
                     scrollableHeader.scrollTo(scrollableBody.scrollLeft, 0);
                     scrollableBg.scrollTo(scrollableBody.scrollLeft, 0);
+                    let stageNo = $(scrollableBody).closest('.js-stage-outer-div').data('stage-number');
+                    $(".js-stage-top-horizontal-scroll" + stageNo).scrollLeft($(scrollableBody).scrollLeft());
                 });
             } else {
                 $(scrollableBody).closest('table').css('width', ($('.pitch_planner_section').width() - 20) + 'px');
@@ -904,5 +913,10 @@ import _ from 'lodash'
         setTimeout(function() {
             arrangeLeftColumn();
         }, 5000);
+
+        $('.stage-top-horizontal-scroll').on('scroll', function (e){
+            let stageNo = $(this).data('stage-number');
+            $("#stage_outer_div" + stageNo).find('.fc-content-skeleton').first().scrollLeft($(this).scrollLeft());
+        });
     });
 </script>
