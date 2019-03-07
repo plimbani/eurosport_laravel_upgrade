@@ -640,7 +640,7 @@ class AgeGroupService implements AgeGroupContract
       $matches = [];
       for ($round = 0; $round < $allRounds; $round++) {
         $group1 = [];
-        $group2 = [];
+        $group2 = [];        
         $finalArray['tournament_competation_format']['format_name'][$round]['name'] = 'Round ' .($round+1);
         if($round == 0) {
           $groupCount = 0;
@@ -650,7 +650,7 @@ class AgeGroupService implements AgeGroupContract
           }
           $nextRoundTeams = $this->teamsForRoundTwo($totalGroups, $teamsPerGroup, $roundSizeData);
         }
-        else {
+        else {          
           $dividedRoundMatches = sizeof($nextRoundTeams) / 2;
           for ($i=0; $i<$dividedRoundMatches; $i++) {
             $group1[] = $nextRoundTeams[$i];
@@ -661,24 +661,17 @@ class AgeGroupService implements AgeGroupContract
 
           $matches[$round] = $this->setTemplateMatchesForSecondRound($group1, $group2, $round);
 
-          // for ($i=0; $i < sizeof($group1); $i++) {
-          //   // $matches[$round][$i] = $group1[$i]. "-" .$group2[$i];
-
-          //   $currentMatch = $group1[$i]. "-" .$group2[$i];
-          //   $matches[$round] = $this->setTemplateMatchesForSecondRound($currentMatch, $round);
-          // }
-
           $nextRoundTeams = [];
           for ($i=0; $i < sizeof($matches[$round]); $i++) {
             $nextRoundTeams[] = 'wrs(' .$matches[$round][$i]. ')';
           }
-        }          
+        }
         // setting up match detail array
         if($round == 0) {
           foreach ($matches[$round] as $key => $value) {
             $finalGroupCountForFirstRound = chr(65 + $key);
             $matchTypeDetail[] = [
-              'name' => '',
+              'name' => 'RR',
               'total_match' => sizeof($value),
               'group_count' => '',
               'groups' => ['group_name' => 'Group-' .$finalGroupCountForFirstRound, 'match' => $value]
@@ -688,10 +681,10 @@ class AgeGroupService implements AgeGroupContract
           }
         } else {
           $matchTypeDetail = [
-            'name' => '',
+            'name' => 'PM',
             'total_match' => sizeof($matches[$round]),
             'group_count' => '',
-            'groups' => ['group_name' => 'Group-' .$finalGroupCount, 'match' => $matches[$round]]
+            'groups' => ['group_name' => 'Group-PM' .$round, 'match' => $matches[$round]]
           ];
         }
 
