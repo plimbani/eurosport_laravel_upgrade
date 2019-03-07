@@ -48,7 +48,7 @@
                         <span class="help is-danger" v-show="errors.has('pass')">{</span>
                     </div>
                 </div> -->
-                <div class="form-group row">
+                <div v-if="!isCustomer" class="form-group row">
                     <label class="col-sm-5 form-control-label">{{$lang.user_management_user_type}}</label>
                     <div class="col-sm-6">
                       <select v-validate="'required'":class="{'is-danger': errors.has('user_type') }" class="form-control ls-select2" name="user_type" v-model="formValues.userType" @change="userTypeChanged()">
@@ -68,7 +68,7 @@
                         <span class="help is-danger" v-show="errors.has('organisation')">{{$lang.user_management_organisation_required}}</span>
                     </div>
                 </div>
-                <div class="form-group row">
+                <div v-if="!isCustomer" class="form-group row">
                     <label class="col-sm-5 form-control-label">{{$lang.user_management_role}}</label>
                     <div class="col-sm-6">
                       <select class="form-control ls-select2" name="role" v-model="formValues.role">
@@ -79,7 +79,7 @@
                       </select>
                     </div>
                 </div>
-                <div class="form-group row">
+                <div v-if="!isCustomer" class="form-group row">
                     <label class="col-sm-5 form-control-label">{{$lang.user_management_default_app_tournament}}</label>
                     <div class="col-sm-6">
                       <select v-validate="'required'":class="{'is-danger': errors.has('tournament_id') }" class="form-control ls-select2" name="tournament_id" v-model="formValues.tournament_id">
