@@ -908,15 +908,14 @@ import _ from 'lodash'
             }
             index++;
         });
+        $('.stage-top-horizontal-scroll').on('scroll', function (e){
+            let stageNo = $(this).data('stage-number');
+            $("#stage_outer_div" + stageNo).find('.fc-content-skeleton').first().scrollLeft($(this).scrollLeft());
+        });
     }
     $(window).load(function(){
         setTimeout(function() {
             arrangeLeftColumn();
         }, 5000);
-
-        $('.stage-top-horizontal-scroll').on('scroll', function (e){
-            let stageNo = $(this).data('stage-number');
-            $("#stage_outer_div" + stageNo).find('.fc-content-skeleton').first().scrollLeft($(this).scrollLeft());
-        });
     });
 </script>
