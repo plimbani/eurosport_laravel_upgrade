@@ -579,6 +579,24 @@ class AgeGroupService implements AgeGroupContract
       return $matches;
     }
 
+    public function setTemplateMatchesForSecondRound($group1, $group2, $currentRound)
+    {
+      $currentRound = $currentRound + 1;
+      $secondRoundMatches = [];
+      for ($i=0; $i < sizeof($group1); $i++) {
+        $currentMatchIndex = $i + 1;
+        $secondRoundMatches[] = [
+          'in_between' => $group1[$i]. "-" .$group2[$i],
+          'match_number' => "CAT.PM$currentRound.G$currentMatchIndex.$group1[$i]-$group2[$i]",
+          'display_match_number' => "CAT.$currentRound.$currentMatchIndex.@HOME-@AWAY",
+          'display_home_team_placeholder_name' => "#$group1[$i]",
+          'display_away_team_placeholder_name' => "#$group2[$i]",
+        ];
+      }
+
+      return $secondRoundMatches;
+    }
+
     public function copyAgeCategory($data)
     {
       $copiedAgeCategory = TournamentCompetationTemplates::where('id', $data['ageCategoryData']['copiedAgeCategoryId'])->first();
@@ -641,17 +659,21 @@ class AgeGroupService implements AgeGroupContract
           
           $reversedGroupTwoArray = array_reverse($group2);
 
-          $matchesCount = count($matches);
-          for ($i=0; $i < sizeof($group1); $i++) {
-            $matches[$round][$i] = $group1[$i]. "-" .$group2[$i];
-          }
+          $matches[$round] = $this->setTemplateMatchesForSecondRound($group1, $group2, $round);
+
+          // for ($i=0; $i < sizeof($group1); $i++) {
+          //   // $matches[$round][$i] = $group1[$i]. "-" .$group2[$i];
+
+          //   $currentMatch = $group1[$i]. "-" .$group2[$i];
+          //   $matches[$round] = $this->setTemplateMatchesForSecondRound($currentMatch, $round);
+          // }
 
           $nextRoundTeams = [];
           for ($i=0; $i < sizeof($matches[$round]); $i++) {
             $nextRoundTeams[] = 'wrs(' .$matches[$round][$i]. ')';
           }
-        }
-      
+        }          
+        // setting up match detail array
         if($round == 0) {
           foreach ($matches[$round] as $key => $value) {
             $finalGroupCountForFirstRound = chr(65 + $key);
@@ -661,17 +683,21 @@ class AgeGroupService implements AgeGroupContract
               'group_count' => '',
               'groups' => ['group_name' => 'Group-' .$finalGroupCountForFirstRound, 'match' => $value]
             ];
+
+            $finalArray['tournament_competation_format']['format_name'][$round]['match_type'] = $matchTypeDetail;
           }
         } else {
           $matchTypeDetail = [
             'name' => '',
-            'total_match' => '',
+            'total_match' => sizeof($matches[$round]),
             'group_count' => '',
             'groups' => ['group_name' => 'Group-' .$finalGroupCount, 'match' => $matches[$round]]
           ];
         }
 
-        $finalArray['tournament_competation_format']['format_name'][$round]['match_type'][] = $matchTypeDetail;
+        if($round > 0) {
+          $finalArray['tournament_competation_format']['format_name'][$round]['match_type'][] = $matchTypeDetail;
+        }
       }
 
       // $lastRoundMatches = end($matches);
@@ -683,7 +709,7 @@ class AgeGroupService implements AgeGroupContract
 
       // $finalArray['tournament_positions'] = $positions;
 
-      echo "<pre>";print_r(json_encode($finalArray));echo "</pre>";exit;
+      print_r(json_encode($finalArray));exit();
 
       return $finalArray;
     }
