@@ -8363,7 +8363,7 @@ TimeGrid.mixin({
 				) +
 			'>' +
 				'<div class="scheduled-match-content">' +
-					'<span class="match-planner-warning"><i class="fas fa-exclamation-triangle"></i></span>'+
+					((event.matchId !== -1 && event.matchId !== '') ? '<span class="match-planner-warning"><i class="fas fa-exclamation-triangle"></i></span>' : '')+
 					'<div class="fc-content">' +
 						(timeText ?
 							'<span class="fc-referee referee_'+event.refereeId+'" id="'+ event.refereeId+'">'+ event.refereeText+'</span>' +
