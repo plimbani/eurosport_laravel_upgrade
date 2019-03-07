@@ -1136,3 +1136,13 @@ a.active-view:hover {
 .displayGraphicImage .modal-dialog{
     max-width: 900px;
 }
+
+.stage-top-horizontal-scroll {
+    width: calc(100% - 41px);
+    min-height:10px;
+    overflow: scroll;
+    margin-left: 41px;
+    > div {
+        min-height: 1px;
+    }
+}
