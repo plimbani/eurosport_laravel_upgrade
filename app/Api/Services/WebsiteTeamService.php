@@ -92,15 +92,16 @@ class WebsiteTeamService implements WebsiteTeamContract
         if(isset($row->age_category) && isset($row->team_name) && isset($row->country)) {
           $country = isset($countries[$row->country]) ? $countries[$row->country] : null;
           if($country !== null) {
-            if(!in_array($row->age_category, $processedAgeCategories)) {
-              $processedAgeCategories[] = $row->age_category;
+            $ageCategory = trim($row->age_category);
+            if(!in_array($ageCategory, $processedAgeCategories)) {
+              $processedAgeCategories[] = $ageCategory;
               $ageCategories[count($processedAgeCategories) - 1] = [
                 'id' => '',
-                'name' => $row->age_category,
+                'name' => $ageCategory,
                 'teams' => [],
               ];
             }
-            $ageCategoryKey = array_search($row->age_category, $processedAgeCategories);
+            $ageCategoryKey = array_search($ageCategory, $processedAgeCategories);
             $teamRow = [
               'id' => '',
               'name' => $row->team_name,
