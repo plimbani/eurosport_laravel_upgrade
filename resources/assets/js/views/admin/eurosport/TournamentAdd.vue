@@ -123,9 +123,9 @@
                                     <img v-if="sponsor.tournament_sponsor_logo == ''" src="/assets/img/noimage.png" class="img-fluid thumb-size" />
                                 </div>
                                 <div class="col-md-8">
-                                    <button type="button" v-if="sponsor.tournament_sponsor_logo != ''" class="btn btn-default" @click="removeTournamentSponserImage($event,index)">{{$lang.tournament_tournament_remove_button}}</button>
+                                    <button type="button" :disabled="is_sponsor_logo_uploading" v-if="sponsor.tournament_sponsor_logo != ''" class="btn btn-default" @click="removeTournamentSponserImage($event,index)">{{$lang.tournament_tournament_remove_button}}</button>
                                     <button v-else :disabled="is_sponsor_logo_uploading && is_sponsor_logo_uploading_index == index" type="button" class="btn btn-default js-tournament-sponsor-image" :data-index="index">{{ is_sponsor_logo_uploading && is_sponsor_logo_uploading_index == index ? $lang.uploading : $lang.tournament_tournament_choose_button}}</button>
-                                    <input type="file" class="select-tournament-sponsor-image" :id="'tournament_sponsor_image'+index" :name="'tournament_sponsor_image'+index" style="display:none;" @change="onSponsorLogoChange($event,index)">
+                                    <input type="file" :disabled="is_sponsor_logo_uploading && is_sponsor_logo_uploading_index == index" class="select-tournament-sponsor-image" :id="'tournament_sponsor_image'+index" :name="'tournament_sponsor_image'+index" style="display:none;" @change="onSponsorLogoChange($event,index)">
                                 </div>
                             </div>
                             <button class="btn btn-primary" @click.prevent="addTournamentSponsorImage">Add sponsor</button>
@@ -335,6 +335,7 @@
 <script >
 
 $(document).on('click', '.js-tournament-sponsor-image', function(e){
+  console.log($(this).data('index'));
   $("#tournament_sponsor_image" + $(this).data('index')).trigger('click');
 });
 
@@ -671,13 +672,23 @@ methods: {
 
               axios.post('/api/tournament/uploadSponsorLogo', formData).then(
                   (response)=> {
-                      let tournamentSponsorImage = response.data;
-                      vm.sponsorImage[i]['tournament_sponsor_logo'] = tournamentSponsorImage
-                          // tournament_sponsor_logo: img 
-                      
-                      // vm.tournament_sponsor_logo = response.data;
-                      vm.is_sponsor_logo_uploading = false;
-                      vm.is_sponsor_logo_uploading_index = 0;
+
+                      if ( vm.sponsorImage.length > i)
+                      {
+                        //let tournamentSponsorImage = response.data;
+                        vm.sponsorImage[i]['tournament_sponsor_logo'] = response.data;
+                            // tournament_sponsor_logo: img 
+                        
+                        // vm.tournament_sponsor_logo = response.data;
+                        vm.is_sponsor_logo_uploading = false;
+                        vm.is_sponsor_logo_uploading_index = 0;
+                      }
+                      else
+                      {
+                        vm.is_sponsor_logo_uploading = false;
+                        vm.is_sponsor_logo_uploading_index = 0;
+                      }
+
                   },
                   (error)=>{
                   }
