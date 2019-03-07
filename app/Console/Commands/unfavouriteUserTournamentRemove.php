@@ -5,6 +5,7 @@ namespace Laraspace\Console\Commands;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Laraspace\Models\Tournament;
+use Laraspace\Models\UserFavourites;
 
 class unfavouriteUserTournamentRemove extends Command
 {
@@ -39,6 +40,11 @@ class unfavouriteUserTournamentRemove extends Command
      */
     public function handle()
     {
-        //
+        $createdDateBeforeOneMonth = Carbon::now()->subDays(28)->format('Y-m-d');
+        $allTournaments = Tournament::whereDate('end_date','>=', $createdDateBeforeOneMonth)->pluck('id')->toArray();
+        foreach ($allTournaments as $tournament) {
+            $tournamentId = UserFavourites::where('tournament_id', $tournament)->delete();
+        }
+        $this->info('Script executed.');
     }
 }
