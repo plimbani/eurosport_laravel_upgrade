@@ -91,6 +91,47 @@
                       <span class="help is-danger" v-show="errors.has('tournament_id')">{{$lang.user_management_default_app_tournament_required}}</span>
                     </div>
                 </div>
+                <div v-if="isCustomer" class="form-group row">
+                    <label class="col-sm-5 form-control-label">
+                      Job Title
+                      <!-- {{$lang.user_management_add_surname}} -->
+                    </label>
+                    <div class="col-sm-6">
+                        <input v-model="formValues.job_title" v-validate="'required|alpha_spaces'" :class="{'is-danger': errors.has('job_title') }" name="job_title" type="text" class="form-control" placeholder="Enter Job Title">
+                        <i v-show="errors.has('job_title')" class="fas fa-warning"></i>
+                        <span class="help is-danger" v-show="errors.has('job_title')">{{ errors.first('job_title') }}</span>
+                    </div>
+                </div>
+                <div v-if="isCustomer" class="form-group row">
+                     <label class="col-sm-5 form-control-label">Address</label> 
+                     <div class="col-sm-6">
+                        <input type="textarea" class="form-control  mb-4" placeholder="Address" id="address-line-1" name="address" v-model="formValues.address"> 
+                        <input type="text" class="form-control" placeholder="Address Line 2 " id="address-line-2" v-model="formValues.address_2">  
+                     </div>
+                     
+                </div>
+                <div v-if="isCustomer" class="form-group row">
+                    <label class="col-sm-5 form-control-label">Town or city</label>
+                    <div class="col-sm-6">
+                        <input type="textarea" class="form-control form-control-danger" placeholder="City" id="city" name="city" v-model="formValues.city">
+                    </div> 
+                </div>
+
+                <div v-if="isCustomer" class="form-group row">
+                    <label class="col-sm-5 form-control-label">Zip or postcode</label>
+                     <div class="col-sm-6">                       
+                        <input type="textarea" class="form-control form-control-danger" placeholder="Zip" id="zipcode" name="zip" v-model="formValues.zip"> 
+                     </div>
+                </div>
+
+                <div v-if="isCustomer" class="form-group row">
+                    <label class="col-sm-5 form-control-label">Country</label>
+                     <div class="col-sm-6">
+                        <select class="form-control" id="country" v-model="formValues.country" >
+                            <option v-for="(value, key) in countries" :value="value">{{key}}</option>
+                        </select> 
+                     </div>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">{{$lang.user_management_user_cancle}}</button>
@@ -102,7 +143,8 @@
   </div>
 </template>
 <script type="text/javascript">
-import User from '../api/users.js'
+import User from '../api/users.js';
+import Constant from '../services/constant';
 import { ErrorBag } from 'vee-validate';
     export default {
         data() {
@@ -120,6 +162,8 @@ import { ErrorBag } from 'vee-validate';
                     tournament_id: '',
                     role: '',
                 },
+                countries:{},
+                isCustomer:false,
                 userRolesOptions: [],
                 userModalTitle: 'Add User',
                 deleteConfirmMsg: 'Are you sure you would like to delete this user record?',
@@ -167,8 +211,10 @@ import { ErrorBag } from 'vee-validate';
             if(this.userId!=''){
                 this.editUser(this.userId)
             }
+            this.getCountries();
             this.userRolesOptions =  this.userRoles
             this.$validator.updateDictionary(this.errorMessages);
+
         },
         props:['userId','userRoles','userEmailData','publishedTournaments','isMasterAdmin'],
         methods: {
@@ -185,10 +231,17 @@ import { ErrorBag } from 'vee-validate';
                 //TODO: refactor the Code For Move to Api User
                 User.getEditUser(id).then(
                   (response)=> {
+                    
                     this.userModalTitle="Edit User";
                     this.$data.formValues = response.data;
                     this.initialUserType = response.data.userType;
                     this.$data.formValues.userEmail2 = this.$data.formValues.emailAddress;
+                    console.log("response.data.role_slug::",response.data.role_slug);
+                    if(response.data.role_slug == "customer"){
+                      this.isCustomer = true;
+                    }else{
+                      this.isCustomer = false;
+                    }
                     this.userTypeChanged();
                   },
                   (error)=> {
@@ -341,6 +394,13 @@ import { ErrorBag } from 'vee-validate';
 
                   )
               },1000)
+            },
+            getCountries(){
+                axios.get(Constant.apiBaseUrl+'country/list').then(response =>  {
+                    if(response.data.success){
+                        this.countries = response.data.data;
+                    }
+                 })
             },
         }
     }
