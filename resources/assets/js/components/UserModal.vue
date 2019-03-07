@@ -259,7 +259,7 @@ import { ErrorBag } from 'vee-validate';
                     this.$data.formValues = response.data;
                     this.initialUserType = response.data.userType;
                     this.$data.formValues.userEmail2 = this.$data.formValues.emailAddress;
-                    console.log("response.data.role_slug::",response.data.role_slug);
+                    // console.log("response.data.role_slug::",response.data.role_slug);
                     // if((response.data.role_slug).toLowerCase() == "mobile.user"){
                     if((response.data.role_slug).toLowerCase() == "customer"){
                       this.isCustomer = true;
