@@ -364,12 +364,12 @@ class UserService implements UserContract
                 'last_name' => $data['surname'],
                 'display_name' => $data['name'] . " " . $data['surname'],
                 'primary_email' => $data['emailAddress'],
-                'address' => $data['address'],
-                'address_2' => $data['address_2'],
-                'job_title' => $data['job_title'],
-                'city' => $data['city'],
-                'zipcode' => $data['zip'],
-                'country_id' => $data['country'],
+                'address' => !empty($data['address']) ? $data['address'] : $userObj->profile->address,
+                'address_2' => !empty($data['address_2']) ? $data['address_2'] : $userObj->profile->address_2,
+                'job_title' => !empty($data['job_title']) ? $data['job_title'] : $userObj->profile->job_title,
+                'city' => !empty($data['city']) ? $data['city'] : $userObj->profile->city,
+                'zipcode' => !empty($data['zip']) ? $data['zip'] : $userObj->profile->zip,
+                'country_id' => !empty($data['country']) ? $data['country'] : $userObj->profile->country,
             ];
         }
         $peopleObj = $this->peopleRepoObj->edit($userData['people'], $userObj->person_id);
