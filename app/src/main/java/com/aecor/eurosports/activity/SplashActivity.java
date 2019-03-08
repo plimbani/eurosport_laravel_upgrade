@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.RequiresApi;
 
+import com.aecor.eurosports.BuildConfig;
 import com.aecor.eurosports.R;
 import com.aecor.eurosports.gson.GsonConverter;
 import com.aecor.eurosports.http.VolleyJsonObjectRequest;
@@ -149,15 +150,14 @@ public class SplashActivity extends BaseActivity {
                     try {
                         AppLogger.LogE(TAG, "***** Sign in response *****" + response.toString());
 
-                        startActivity(new Intent(mContext, HomeActivity.class));
-                        finish();
                         if (response.getString("authenticated").equalsIgnoreCase("true")) {
                             ProfileModel profileModel = GsonConverter.getInstance().decodeFromJsonString(response.get("userData").toString(), ProfileModel.class);
                             String profile = GsonConverter.getInstance().encodeToJsonString(profileModel);
                             JSONObject jsonObject = new JSONObject(response.get("userData").toString());
                             mAppSharedPref.setString(AppConstants.PREF_PROFILE, profile);
                             mAppSharedPref.setString(AppConstants.PREF_USER_ID, jsonObject.getString("user_id"));
-                            mAppSharedPref.setString(AppConstants.PREF_TOURNAMENT_ID, jsonObject.getString("tournament_id"));
+                            if (!BuildConfig.isEasyMatchManager)
+                                mAppSharedPref.setString(AppConstants.PREF_TOURNAMENT_ID, jsonObject.getString("tournament_id"));
                             mAppSharedPref.setString(AppConstants.PREF_IMAGE_URL, jsonObject.getString("profile_image_url"));
                             if (jsonObject.has("role")) {
                                 mAppSharedPref.setString(AppConstants.PREF_ROLE, jsonObject.getString("role"));
@@ -192,6 +192,10 @@ public class SplashActivity extends BaseActivity {
                                     }
                                 }
                             }
+
+                            startActivity(new Intent(mContext, HomeActivity.class));
+                            finish();
+
 
                         } else {
 //                            {"authenticated":false,"message":"Account de-activated please contact your administrator."}
