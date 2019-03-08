@@ -340,8 +340,8 @@ class UserService implements UserContract
                 'name' => $data['name'] . " " . $data['surname'],
                 'email' => $data['emailAddress'],
                 'organisation' => !empty($data['organisation']) ? $data['organisation'] : '',
-                'password' => Hash::make($data['password']),
-                'is_active' => !empty($data['status']) ? $data['status'] : $userObj->is_active,
+                'password' => !empty($data['password']) ? Hash::make($data['password']) : $userObj->password,
+                'is_active' => isset($data['status']) ? $data['status'] : $userObj->is_active,
             ];
         }
         $this->userRepoObj->update($userData['user'], $userId);
