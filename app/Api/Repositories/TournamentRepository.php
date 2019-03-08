@@ -1027,7 +1027,6 @@ class TournamentRepository
         return ['data' => $competitionData, 'status' => 'Success', 'message' => 'Competition name has been updated.'];
     }
 
-<<<<<<< HEAD
     /**
     * Update category division display name.
     */
@@ -1039,8 +1038,8 @@ class TournamentRepository
                                     $data['tournamentData']['currentAgeCategoryId'])
                                     ->where('id', $data['tournamentData']['divisionId'])
                                     ->update(['name' => $data['tournamentData']['categoryDivisionName']]);
+    }
 
-=======
     public function duplicateTournament($data)
     {
         $existingTournament = Tournament::findOrFail($data['copy_tournament_id']);
@@ -1250,6 +1249,5 @@ class TournamentRepository
         } else {
             return  Tournament::orderBy('name', 'asc')->get();
         }
->>>>>>> mtesr/ticket511
     }
 }
