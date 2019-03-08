@@ -257,6 +257,16 @@ import { ErrorBag } from 'vee-validate';
                     
                     this.userModalTitle="Edit User";
                     this.$data.formValues = response.data;
+                    // console.log("response.data.is_active::",response.data.is_active);
+                    if(response.data.is_active){
+                      // console.log("inside");
+                      this.$data.formValues.status = "1";
+                    }else{
+                      this.$data.formValues.status = "0";
+                    }
+                    this.$data.formValues.zip = response.data.zipcode;
+                    this.$data.formValues.country = response.data.country_id;
+                    // this.$data.formValues = response.data;
                     this.initialUserType = response.data.userType;
                     this.$data.formValues.userEmail2 = this.$data.formValues.emailAddress;
                     // console.log("response.data.role_slug::",response.data.role_slug);
