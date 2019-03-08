@@ -571,9 +571,26 @@ class MatchRepository
           $reportQuery = $reportQuery->orderBy('match_standing.manual_order','asc');
           $head_to_head = false;
           $check_head_to_head_with_key = '';
+          $remain_head_to_head_with_key = '';
           foreach($rules as $key => $rule) {
 
             if($rule['checked'] == false || ( $rule['key'] != 'head_to_head' && $head_to_head == true)) {
+
+              if (  $rule['checked'] == true && ( $rule['key'] != 'head_to_head' && $head_to_head == true )  )
+              {
+                if($rule['key'] == 'goal_difference') {
+                  $remain_head_to_head_with_key .= '|GoalDifference';
+                }
+                if($rule['key'] == 'goals_for') {
+                  $remain_head_to_head_with_key .= '|goal_for';
+                }
+                if($rule['key'] == 'matches_won') {
+                  $remain_head_to_head_with_key .= '|won';
+                }
+                if($rule['key'] == 'goal_ratio') {
+                  $remain_head_to_head_with_key .= '|GoalRatio';
+                }
+              }
               continue;
             }
 
@@ -615,6 +632,11 @@ class MatchRepository
           if ( !empty($check_head_to_head_with_key) )
           {
             $check_head_to_head_with_key = ltrim($check_head_to_head_with_key,'|');
+          }
+
+          if ( !empty($remain_head_to_head_with_key) )
+          {
+            $remain_head_to_head_with_key = ltrim($remain_head_to_head_with_key,'|');
           }
 
           $reportQuery = $reportQuery->orderBy('match_standing.team_id','asc');
@@ -727,13 +749,38 @@ class MatchRepository
             $competitionStandings = json_decode(json_encode($competitionStandings), True);
             list($competitionStandings,$sort_head_to_head) = $this->sortByHeadtoHead($competitionStandings,$check_head_to_head_with_key,$tournamentData['tournamentId'],$tournamentData['competitionId'],$tournamentCompetationTemplatesRecord);
 
+            if ( !empty($remain_head_to_head_with_key) )
+            {
+              $remain_head_to_head_with_key = explode('|',$remain_head_to_head_with_key);
+            }
+
             if ( $sort_head_to_head == '1') {
               $head_to_head_position_sorting = array();           
+              $internal_head_to_head_position_sorting = array();  
               foreach ($competitionStandings as $comp_stand_key => $comp_stand_value) {
                 $head_to_head_position_sorting[$comp_stand_key] = (int)$comp_stand_value['head_to_head_position'];
+                $internal_head_to_head_position_sorting[$comp_stand_key] = (int)$comp_stand_value['internal_head_to_head_position'];
+                
+              }
+              
+              array_multisort($internal_head_to_head_position_sorting,SORT_ASC,$competitionStandings);
+
+              $sortArray[] = &$head_to_head_position_sorting; 
+              $sortArray[] = SORT_ASC;
+
+              $remainingSorting = array();
+              foreach ($remain_head_to_head_with_key as $rkey => $rvalue) {
+                foreach ($competitionStandings as $comp_stand_key => $comp_stand_value) {
+                  $remainingSorting[$rvalue][$comp_stand_key] = (int)$comp_stand_value[$rvalue];
+                }
+
+                $sortArray[] = &$remainingSorting[$rvalue];
+                $sortArray[] = SORT_DESC;
               }
 
-              array_multisort($head_to_head_position_sorting, SORT_ASC,$competitionStandings);
+              $sortArray[] = &$competitionStandings;
+              call_user_func_array('array_multisort', $sortArray);
+
             }
 
             $competitionStandings = collect($competitionStandings);
@@ -823,7 +870,11 @@ class MatchRepository
 
                 if ( $vt_value1['team_id'] == $v_l_value['team_id'] && $flag == false)
                 {
-                  $standingArray[$v_l_key]['head_to_head_position'] = $pos + $vt_key1 ;
+                  //$standingArray[$v_l_key]['head_to_head_position'] = $pos + $vt_key1 ;
+
+                  $standingArray[$v_l_key]['head_to_head_position'] = $pos;
+                  $standingArray[$v_l_key]['internal_head_to_head_position'] = $pos + $vt_key1 ;
+
                   $flag = true;
                   $virtual_lt_sorted_details[$vt_key]['remaining'] = $virtual_lt_sorted_details[$vt_key]['remaining'] - 1;
 
@@ -843,6 +894,7 @@ class MatchRepository
           else
           {
             $standingArray[$v_l_key]['head_to_head_position'] = $pos;
+            $standingArray[$v_l_key]['internal_head_to_head_position'] = $pos;
             $pos++;
           }
         }

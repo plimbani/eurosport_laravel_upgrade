@@ -95,8 +95,8 @@ $api->version('v1', function ($api) {
 
     $api->get('getCountries', 'Laraspace\Api\Controllers\UserController@getAllCountries');
     $api->get('getAllLanguages', 'Laraspace\Api\Controllers\UserController@getAllLanguages');
-    
     $api->post('tournament/updateCategoryDivisionName', 'Laraspace\Api\Controllers\TournamentController@updateCategoryDivisionName');
+    $api->post('/userResendEmail', '\Laraspace\Api\Controllers\UserController@userResendEmail');
 });
 
 $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
@@ -262,8 +262,21 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
     $api->post('getSignedUrlForRefereeSampleDownload', 'Laraspace\Api\Controllers\RefereeController@getSignedUrlForRefereeSampleDownload');
     $api->post('getSignedUrlForTeamsSpreadsheetSampleDownload', 'Laraspace\Api\Controllers\MatchController@getSignedUrlForTeamsSpreadsheetSampleDownload');
 
+    $api->post('getTemplates', 'Laraspace\Api\Controllers\TemplateController@getTemplates');
+    $api->post('getTemplateDetail', 'Laraspace\Api\Controllers\TemplateController@getTemplateDetail');
+    $api->get('templates/getUsersForFilter', 'Laraspace\Api\Controllers\TemplateController@getUsersForFilter');
+    $api->post('template/delete/{id}', 'Laraspace\Api\Controllers\TemplateController@deleteTemplate');
+    $api->get('template/edit/{id}', 'Laraspace\Api\Controllers\TemplateController@editTemplate');
+    $api->post('saveTemplateDetail', 'Laraspace\Api\Controllers\TemplateController@saveTemplateDetail');
+    $api->post('updateTemplateDetail', 'Laraspace\Api\Controllers\TemplateController@updateTemplateDetail');
+    
     $api->post('age_group/copyAgeCategory','Laraspace\Api\Controllers\AgeGroupController@copyAgeCategory');
     $api->post('viewGraphicImage','Laraspace\Api\Controllers\AgeGroupController@viewTemplateGraphicImage');
+
+    $api->post('duplicateTournament','Laraspace\Api\Controllers\TournamentController@duplicateTournament');
+    
+    $api->post('duplicateTournamentList','Laraspace\Api\Controllers\TournamentController@duplicateTournamentList');
+
 });
 
 // Websites CMS routes

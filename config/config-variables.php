@@ -1,6 +1,5 @@
 <?php
 
-
 return [
     "is_score_auto_update" => env('SCORE_AUTO_UPDATE'),
     "is_automate_match_schedule_enabled" => env('AUTOMATE_MATCH_SCHEDULING_ENABLED'),
@@ -10,20 +9,20 @@ return [
     "preview_url_expire_time" => env('PREVIEW_URL_EXPIRE_TIME'),
     "category_rules" => [
 	    "match_points" => "Match points",
-        "head_to_head" => "Head to head",
 	    "goal_difference" => "Goal difference",
 	    "goals_for" => "Goals for",
+        "head_to_head" => "Head to head",
 	    "goal_ratio" => "Goal ratio",
 	    "matches_won" => "Matches won"
-	  ],
-      "category_rules_info" => [
+	],
+    "category_rules_info" => [
         "match_points" => "The points total for games won, drawn or lost",
-        "head_to_head" => "Head to head",
         "goal_difference" => "Number of goals scored minus goals conceded",
         "goals_for" => "Number of goals scored",
+        "head_to_head" => "When teams are tied on the same points league table positions are determined by the outcome of games played against each other",
         "goal_ratio" => "Number of goals scored divided by the number of games played",
         "matches_won" => "Number of matches won"
-      ],
+    ],
     "team_colors" => [
         "#000000" => "Black",
         "#034694" => "Blue",
@@ -41,6 +40,48 @@ return [
         "#008E97" => "Teal",
         "#FFFFFF" => "White",
         "#FBE122" => "Yellow",
+    ],
+    "knockout_round_two_size" => [
+        "4" => [
+            "8" => "4",
+            "12" => "8",
+            "16" => "8",
+            "20" => "16",
+            "24" => "16",
+            "28" => "16",
+            "32" => "16",
+            "36" => "16",
+            "40" => "16",
+            "44" => "32",
+            "48" => "16",
+            "52" => "32",
+            "56" => "32",
+            "60" => "32"
+        ],
+        "5" => [
+            "10" => "4",
+            "15" => "8",
+            "20" => "8",
+            "25" => "16",
+            "30" => "16",
+            "35" => "16",
+            "40" => "16",
+            "45" => "16",
+            "50" => "32",
+            "55" => "32",
+            "60" => "32"
+        ],
+        "6" => [
+            "12" => "4",
+            "18" => "8",
+            "24" => "8",
+            "30" => "16",
+            "36" => "16",
+            "42" => "16",
+            "48" => "16",
+            "54" => "32",
+            "60" => "32"
+        ] 
     ],
     "age_category_color" => [
         '#C2B182', '#b0e0e6', '#DCB8D4', '#ffe4e1', '#0099cc', '#ffa500', '#6dc066', '#ffff00','#d3ffce',

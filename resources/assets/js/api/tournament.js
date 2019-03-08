@@ -271,4 +271,10 @@ export default {
   updateCategoryDivisionName(tournamentId) {
     return api.post('tournament/updateCategoryDivisionName', {'tournamentData':tournamentId});
   },
+  duplicateTournament(copyTournamentData) {
+    return api.post('duplicateTournament', copyTournamentData)
+  },
+  duplicateTournamentList(tournamentData) {
+    return api.post('duplicateTournamentList', tournamentData)
+  },
 }
