@@ -57,7 +57,7 @@
       <div class="row">
         <div v-for="(divData,index) in divFilter" class="col-md-6">
           <h6 class="mt-2">
-            <strong><a class="text-center" href="javascript:void(0)" @click="openEditCategoryDivisionNameModal(index)">{{ index | getDivName}}<i class="jv-icon jv-edit ml-2"></i></a></strong>
+            <strong><a class="text-center" href="javascript:void(0)" @click="openEditCategoryDivisionNameModal(index)">{{ index | getDivName}}<i v-if="isUserDataExist" class="jv-icon jv-edit ml-2"></i></a></strong>
           </h6>
           <div v-for="(draw1,index1) in divData">
             <h6 class="mt-2">
