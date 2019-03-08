@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -68,6 +69,7 @@ public class FavouritesActivity extends BaseAppCompactActivity {
     private FavouriteListAdapter adapter;
     private EasyMatchManagerFavAdapter easyMatchManagerFavAdapter;
     private AppPreference mAppSharedPref;
+    private EditText et_enter_access_code;
 
     @Override
     protected void initView() {
@@ -85,7 +87,7 @@ public class FavouritesActivity extends BaseAppCompactActivity {
             favouriteList.addFooterView(footerView);
 
             final Button btn_submit = (Button) footerView.findViewById(R.id.btn_submit);
-            final EditText et_enter_access_code = (EditText) footerView.findViewById(R.id.et_enter_access_code);
+            et_enter_access_code = (EditText) footerView.findViewById(R.id.et_enter_access_code);
             et_enter_access_code.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -185,8 +187,13 @@ public class FavouritesActivity extends BaseAppCompactActivity {
                         AppLogger.LogE(TAG, "access code response" + response.toString());
                         if (response.has("data") && !Utility.isNullOrEmpty(response.getString("data"))) {
                             TournamentModel mTempFavTournament = GsonConverter.getInstance().decodeFromJsonString(response.getString("data"), TournamentModel.class);
-                            if (mTempFavTournament.getTournament_id() != null)
+                            if (mTempFavTournament.getId() != null) {
                                 mAppSharedPref.setString(AppConstants.PREF_TOURNAMENT_ID, mTempFavTournament.getId());
+                                mAppSharedPref.setString(AppConstants.PREF_SESSION_TOURNAMENT_ID, mTempFavTournament.getId());
+                            }
+                        }
+                        if (et_enter_access_code != null) {
+                            et_enter_access_code.setText("");
                         }
 //                        if (response.has("status_code") && !Utility.isNullOrEmpty(response.getString("status_code")) && response.getString("status_code").equalsIgnoreCase("200")) {
                         if (!getIntent().getBooleanExtra("isFirstTime", false)) {
