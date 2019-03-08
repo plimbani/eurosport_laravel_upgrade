@@ -425,9 +425,9 @@ table#Competition-modal-table {
 
 .match-unschedule-checkbox-div {
     position: absolute;
-    bottom: 3px;
+    bottom: 2px;
     width: 23px;
-    left: 3px;
+    right: 15px;
     height: 23px;
 }
 
@@ -1189,4 +1189,26 @@ a.active-view:hover {
 
 .displayGraphicImage .modal-dialog{
     max-width: 900px;
+}
+
+.stage-top-horizontal-scroll {
+    width: calc(100% - 41px);
+    min-height:15px;
+    overflow: scroll;
+    margin-left: 41px;
+    > div {
+        min-height: 1px;
+    }
+}
+
+.fc-time-grid-event .fc-content {
+    padding-right: 10px;
+}
+.match-planner-warning {
+    position: absolute;
+    right: 18px;
+    top: 2px;
+}
+.match-fixture-comment {
+    margin-left: 4px;
 }

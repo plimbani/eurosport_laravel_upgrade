@@ -83,38 +83,36 @@ class WebsiteTeamService implements WebsiteTeamContract
     $countries = $this->websiteTeamRepo->getCountriesKeyByCode();
     $isErrorInSheet = false;
 
-    Excel::load($file->getRealPath(), function($reader) use(&$ageCategories, $countries, &$processedAgeCategories, &$isErrorInSheet) {
+    Excel::selectSheetsByIndex(0)->load($file->getRealPath(), function($reader) use(&$ageCategories, $countries, &$processedAgeCategories, &$isErrorInSheet) {
       // Select
       $reader->select(array('age_category', 'team_name', 'country'))->get();
 
-      // Loop through all sheets
-      $reader->each(function($sheet) use(&$ageCategories, $countries, &$processedAgeCategories, &$isErrorInSheet) {
-        // Loop through all rows
-        $sheet->each(function($row) use(&$ageCategories, $countries, &$processedAgeCategories, &$isErrorInSheet) {
-          if(isset($row->age_category) && isset($row->team_name) && isset($row->country)) {
-            $country = isset($countries[$row->country]) ? $countries[$row->country] : null;
-            if($country !== null) {
-              if(!in_array($row->age_category, $processedAgeCategories)) {
-                $processedAgeCategories[] = $row->age_category;
-                $ageCategories[count($processedAgeCategories) - 1] = [
-                  'id' => '',
-                  'name' => $row->age_category,
-                  'teams' => [],
-                ];
-              }
-              $ageCategoryKey = array_search($row->age_category, $processedAgeCategories);
-              $teamRow = [
+      // Loop through all rows
+      $reader->each(function($row) use(&$ageCategories, $countries, &$processedAgeCategories, &$isErrorInSheet) {
+        if(isset($row->age_category) && isset($row->team_name) && isset($row->country)) {
+          $country = isset($countries[$row->country]) ? $countries[$row->country] : null;
+          if($country !== null) {
+            $ageCategory = trim($row->age_category);
+            if(!in_array($ageCategory, $processedAgeCategories)) {
+              $processedAgeCategories[] = $ageCategory;
+              $ageCategories[count($processedAgeCategories) - 1] = [
                 'id' => '',
-                'name' => $row->team_name,
-                'country' => $country,
+                'name' => $ageCategory,
+                'teams' => [],
               ];
-              $ageCategories[$ageCategoryKey]['teams'][] = $teamRow;
             }
-          } else {
-            $isErrorInSheet = true;
+            $ageCategoryKey = array_search($ageCategory, $processedAgeCategories);
+            $teamRow = [
+              'id' => '',
+              'name' => $row->team_name,
+              'country' => $country,
+            ];
+            $ageCategories[$ageCategoryKey]['teams'][] = $teamRow;
           }
-        });
-      });
+        } else {
+          $isErrorInSheet = true;
+        }
+      });      
     }, 'ISO-8859-1');
 
     if($isErrorInSheet) {
