@@ -34,6 +34,7 @@
             android:background="@color/view_line" />
 
         <LinearLayout
+            android:id="@+id/viewFavDefault"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
