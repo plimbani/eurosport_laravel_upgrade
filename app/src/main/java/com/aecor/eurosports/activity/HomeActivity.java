@@ -352,6 +352,10 @@ public class HomeActivity extends BaseAppCompactActivity {
                                 TournamentModel mTournamentList[] = GsonConverter.getInstance().decodeFromJsonString(response.getString("data"), TournamentModel[].class);
                                 if (mTournamentList != null && mTournamentList.length > 0) {
                                     setTournamnetSpinnerAdapter(mTournamentList);
+                                } else {
+                                    Intent intent = new Intent(HomeActivity.this, FavouritesActivity.class);
+                                    intent.putExtra("isFirstTime",true);
+                                    startActivity(intent);
                                 }
                             } else {
                                 TournamentModel mEmptyTournamentModel = new TournamentModel();
@@ -359,6 +363,9 @@ public class HomeActivity extends BaseAppCompactActivity {
                                 TournamentModel[] mTournamentList = new TournamentModel[1];
                                 mTournamentList[0] = mEmptyTournamentModel;
                                 setEmptyTournamentAdapter(mTournamentList);
+                                Intent intent = new Intent(HomeActivity.this, FavouritesActivity.class);
+                                intent.putExtra("isFirstTime",true);
+                                startActivity(intent);
                             }
                         }
 
