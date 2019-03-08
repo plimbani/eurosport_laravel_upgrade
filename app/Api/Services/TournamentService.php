@@ -981,9 +981,9 @@ class TournamentService implements TournamentContract
     *
     * @return response
     */
-    public function displayTournamentEndDateMessage($data)
+    public function editTournamentMessage($data)
     {
-      $data = $this->tournamentRepoObj->displayTournamentEndDateMessage($data['tournamentData']);
+      $data = $this->tournamentRepoObj->editTournamentMessage($data['tournamentData']);
       return $data;
     }
  

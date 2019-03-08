@@ -94,7 +94,7 @@ $api->version('v1', function ($api) {
 
     $api->post('tournament/resultAdministratorDisplayMessage', 'Laraspace\Api\Controllers\TournamentController@resultAdministratorDisplayMessage');
 
-    $api->post('tournament/displayTournamentEndDateMessage', 'Laraspace\Api\Controllers\TournamentController@displayTournamentEndDateMessage');
+    $api->post('tournament/editTournamentMessage', 'Laraspace\Api\Controllers\TournamentController@editTournamentMessage');
 
     $api->post('match/getMatchLastUpdateValue', 'Laraspace\Api\Controllers\MatchController@getMatchLastUpdatedDate');
 

@@ -177,7 +177,7 @@ export default {
   mounted() {
     this.updateTabStateData();
     this.$store.dispatch('ResetPitchPlannerFromEnlargeMode');
-    this.displayTournamentEndDateMessage();
+    this.editTournamentMessage();
     if(this.tournamentId == '' ) {
       //this.$router.push({name: 'welcome'})
       }
@@ -212,10 +212,10 @@ export default {
       }
     },
 
-    displayTournamentEndDateMessage() {
+    editTournamentMessage() {
       this.TournamentId = this.$store.state.Tournament.tournamentId
       let TournamentData = {'tournament_id': this.TournamentId}
-      Tournament.displayTournamentEndDateMessage(TournamentData).then(
+      Tournament.editTournamentMessage(TournamentData).then(
           (response) => {
               this.displayTournamentEndDate = response.data
           },

@@ -277,8 +277,8 @@ class TournamentController extends BaseController
     *
     * @return response
     */
-    public function displayTournamentEndDateMessage(Request $request) {
-        return $this->tournamentObj->displayTournamentEndDateMessage($request->all());
+    public function editTournamentMessage(Request $request) {
+        return $this->tournamentObj->editTournamentMessage($request->all());
     }
 
     /*

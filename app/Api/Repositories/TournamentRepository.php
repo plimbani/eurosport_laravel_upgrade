@@ -1136,7 +1136,7 @@ class TournamentRepository
        
     }
 
-    public function displayTournamentEndDateMessage($tournamentData)
+    public function editTournamentMessage($tournamentData)
     {
         if(isset($tournamentData['tournament_id'])) {
             return TempFixture::where('tournament_id', $tournamentData['tournament_id'])->orderBy('match_datetime','desc')->pluck('match_endtime')->first();
