@@ -34,7 +34,7 @@
                         <div class="app-code text-center py-3">
                             <h3 class="font-weight-bold m-0">{{tournamentData.access_code}}</h3>
                         </div>
-
+                        
                         <ul class="list-unstyled get-app mb-0 text-xl-center mt-4">
                             <li class="d-inline pr-2"><a href="javascript:void(0);" @click="tournamentDetailAppStoreLink()"><img src="/images/app-store.png"></a></li>
                             <li class="d-inline"><a href="javascript:void(0);" @click="tournamentDetailGoogleStoreLink()"><img src="/images/google-play.png"></a></li>
@@ -62,7 +62,8 @@
                 tournamentData:{},
                 contactData:[],
                 tournamentSponsers:[],
-                code:""
+                code:"",
+                baseUrl:"",
             }
         },
         components: {
@@ -90,6 +91,7 @@
                              this.tournamentData = response.data.data.tournament_details;
                              this.contactData = response.data.data.contact_details;
                              this.tournamentSponsers = response.data.data.tournament_sponsor;
+                             this.baseUrl = response.data.data.baseUrl;
                              // console.log("this.contactData::",this.contactData)
                              // console.log("this.tournamentSponsers:;:",this.tournamentSponsers);
                          }else{ 
@@ -114,7 +116,7 @@
             tournamentDetailGoogleStoreLink() {
                 if(/Android/i.test(navigator.userAgent)){ 
                     this.$router.push({ path: 'mtournament-detail', query: { code: this.code }})
-                    window.location = "http://rishab-eurosport.dev.aecortech.com/api/tournament/openApp";
+                    window.location.href = this.baseUrl+'/tournament/openApp';
                 }
 
                 if (!navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/)) {

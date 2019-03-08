@@ -109,7 +109,7 @@ export default {
     return {
       'header' : 'header',
       'tournamentId' : this.$store.state.Tournament.tournamentId,
-      displayTournamentEndDate: '',
+      displayTournamentEndDate:"",
       currentDateTime: moment().format('DD/MM/YYYY HH:mm:ss'),
 
     }
@@ -132,9 +132,9 @@ export default {
       let displayTournamentEndDate = this.displayTournamentEndDate;
       let expireTime = moment(displayTournamentEndDate).add(8, 'hours').format('DD/MM/YYYY HH:mm:ss');
       let tournamentStartDate = this.$store.state.Tournament.tournamentStartDate;
-      
+
       if(displayTournamentEndDate) {
-        if(tournamentStartDate && expireTime >= currentDateTime) {
+        if(tournamentStartDate >= currentDateTime  && expireTime <= currentDateTime) {
            return true;
         } else {
           return false;
@@ -177,7 +177,7 @@ export default {
   mounted() {
     this.updateTabStateData();
     this.$store.dispatch('ResetPitchPlannerFromEnlargeMode');
-    this.editTournamentMessage();
+    this.displayTournamentEndDateMessage();
     if(this.tournamentId == '' ) {
       //this.$router.push({name: 'welcome'})
       }
@@ -212,15 +212,12 @@ export default {
       }
     },
 
-    editTournamentMessage() {
-
+    displayTournamentEndDateMessage() {
       this.TournamentId = this.$store.state.Tournament.tournamentId
-
       let TournamentData = {'tournament_id': this.TournamentId}
-
-      Tournament.editTournamentMessage(TournamentData).then(
+      Tournament.displayTournamentEndDateMessage(TournamentData).then(
           (response) => {
-            this.displayTournamentEndDate = response.data
+              this.displayTournamentEndDate = response.data
           },
           (error) => {
           }

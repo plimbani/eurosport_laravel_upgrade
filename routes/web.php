@@ -6,6 +6,7 @@
 |--------------------------------------------------------------------------
 |
 */
+Route::get('tournament/openApp', '\Laraspace\Http\Controllers\HomeController@openAppDeepLink');
 
 Route::group(['domain' => config('app.domain')], function() {
 	Route::get('tournament/report/reportExport','\Laraspace\Api\Controllers\TournamentController@generateReport');
@@ -57,4 +58,3 @@ Route::group(['domain' => '{domain}', 'middleware' => ['verify.website', 'locale
 	
 });
 
-Route::get('tournament/openApp', '\Laraspace\Http\Controllers\HomeController@openAppDeepLink');

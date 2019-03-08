@@ -41,6 +41,6 @@ class HomeController extends Controller
 
     public function openAppDeepLink()
     {
-        return view('app_open_deep_link.blade');
+        return view('app_open_deep_link');
     }    
 }

@@ -1113,11 +1113,13 @@ class TournamentRepository
      */
     public function getTournamentByAccessCode($accessCode)
     {
+        $baseUrl = getenv('APP_URL');
         $tournament = Tournament::where('access_code', $accessCode)->first();
         $response = [
             'tournament_details' => $tournament,
             'contact_details' => !empty($tournament->contacts) ? $tournament->contacts : [],
-            'tournament_sponsor' => !empty($tournament->sponsors) ? $tournament->sponsors : []
+            'tournament_sponsor' => !empty($tournament->sponsors) ? $tournament->sponsors : [],
+            'baseUrl' => $baseUrl,
         ];
         
         return $response;
@@ -1134,7 +1136,7 @@ class TournamentRepository
        
     }
 
-    public function editTournamentMessage($tournamentData)
+    public function displayTournamentEndDateMessage($tournamentData)
     {
         if(isset($tournamentData['tournament_id'])) {
             return TempFixture::where('tournament_id', $tournamentData['tournament_id'])->orderBy('match_datetime','desc')->pluck('match_endtime')->first();
@@ -1363,6 +1365,5 @@ class TournamentRepository
     {
         $tournament = Tournament::where('access_code', $data['accessCode'])->first();
         return $tournament;   
-    }
-        
+    }  
 }
