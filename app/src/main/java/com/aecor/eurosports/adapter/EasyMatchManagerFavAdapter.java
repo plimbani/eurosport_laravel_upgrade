@@ -45,18 +45,16 @@ import butterknife.ButterKnife;
  * Created by karan on 6/22/2017.
  */
 
-public class FavouriteListAdapter extends BaseAdapter {
-    private final String TAG = FavouriteListAdapter.class.getSimpleName();
+public class EasyMatchManagerFavAdapter extends BaseAdapter {
+    private final String TAG = EasyMatchManagerFavAdapter.class.getSimpleName();
     private LayoutInflater inflater;
     private Context mContext;
-    private List<TournamentModel> mTournamentList;
     private List<TournamentModel> mFavTournamentList;
     private AppPreference mPreference;
 
-    public FavouriteListAdapter(Activity context, List<TournamentModel> list, List<TournamentModel> favlist) {
+    public EasyMatchManagerFavAdapter(Activity context, List<TournamentModel> favlist) {
         mContext = context;
 
-        this.mTournamentList = list;
         inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mFavTournamentList = favlist;
@@ -65,12 +63,12 @@ public class FavouriteListAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return mTournamentList.size();
+        return mFavTournamentList.size();
     }
 
     @Override
     public TournamentModel getItem(int i) {
-        return mTournamentList.get(i);
+        return mFavTournamentList.get(i);
     }
 
     @Override
@@ -194,10 +192,10 @@ public class FavouriteListAdapter extends BaseAdapter {
                     } else {
                         if (!checkFav(rowItem.getId())) {
                             ((ViewHolder) holder).favourite_imageview.setImageDrawable(mContext.getResources().getDrawable(R.drawable.fav_add));
-                            makeTournamenetFavourite(mTournamentList.get(position));
+                            makeTournamenetFavourite(mFavTournamentList.get(position));
                         } else {
                             ((ViewHolder) holder).favourite_imageview.setImageDrawable(mContext.getResources().getDrawable(R.drawable.fav_default));
-                            removeTournamenetFromFavourite(mTournamentList.get(position));
+                            removeTournamenetFromFavourite(mFavTournamentList.get(position));
                         }
                     }
                 }
@@ -225,14 +223,12 @@ public class FavouriteListAdapter extends BaseAdapter {
     }
 
     private boolean checkDefault(TournamentModel tournamentModal) {
-
-        return tournamentModal.getId().equalsIgnoreCase(mPreference.getString(AppConstants.PREF_TOURNAMENT_ID));
+        String id = mPreference.getString(AppConstants.PREF_TOURNAMENT_ID);
+        return tournamentModal.getTournament_id().equalsIgnoreCase(mPreference.getString(AppConstants.PREF_TOURNAMENT_ID));
     }
 
-    public void updateList(List<TournamentModel> list, List<TournamentModel> favList) {
-        mTournamentList = new ArrayList<>();
+    public void updateList(List<TournamentModel> favList) {
         mFavTournamentList = new ArrayList<>();
-        mTournamentList = list;
         mFavTournamentList = favList;
         notifyDataSetChanged();
     }
@@ -351,7 +347,10 @@ public class FavouriteListAdapter extends BaseAdapter {
                             } else {
                                 Utility.showToast(mContext, mContext.getResources().getString(R.string.default_tournament));
                             }
+
+
                             mPreference.setString(AppConstants.PREF_TOURNAMENT_ID, tournamentId);
+
                             notifyDataSetChanged();
                             updateLoggedInUserFavouriteList();
                         }

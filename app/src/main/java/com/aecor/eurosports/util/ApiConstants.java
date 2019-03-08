@@ -16,6 +16,7 @@ public class ApiConstants {
          public static final String BASE_URL = "http://rishab-eurosport.dev.aecortech.com/api/"; // Local Test
 //    public static final String BASE_URL = "http://mukesh-wot.dev.aecortech.com/api/"; // Local Test
 
+    public static final String ACCESS_CODE = BASE_URL + "tournament/access_code";
     public static final String GET_TOURNAMENTS = BASE_URL + "tournaments";
     public static final String APP_VERSION = BASE_URL + "appversion";
     public static final String SIGN_IN = BASE_URL + "auth/login";

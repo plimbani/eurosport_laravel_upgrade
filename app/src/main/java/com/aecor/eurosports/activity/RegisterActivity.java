@@ -21,6 +21,7 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.aecor.eurosports.BuildConfig;
 import com.aecor.eurosports.R;
 import com.aecor.eurosports.adapter.RoleSpinnerAdapter;
 import com.aecor.eurosports.adapter.TournamentSpinnerAdapter;
@@ -105,6 +106,12 @@ public class RegisterActivity extends BaseAppCompactActivity {
         setRoleAdapter();
         showBackButton("");
         makeToolBarBackgroundTransparent();
+
+        if (BuildConfig.isEasyMatchManager) {
+            sp_tournament.setVisibility(View.GONE);
+        } else {
+            sp_tournament.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -310,7 +317,7 @@ public class RegisterActivity extends BaseAppCompactActivity {
             return false;
         }
 
-        if (!validate_spinner()) {
+        if (!BuildConfig.isEasyMatchManager && !validate_spinner()) {
             return false;
         }
         return true;

@@ -19,6 +19,7 @@ import android.widget.ListView;
 
 import com.aecor.eurosports.BuildConfig;
 import com.aecor.eurosports.R;
+import com.aecor.eurosports.adapter.EasyMatchManagerFavAdapter;
 import com.aecor.eurosports.adapter.FavouriteListAdapter;
 import com.aecor.eurosports.gson.GsonConverter;
 import com.aecor.eurosports.http.VolleyJsonObjectRequest;
@@ -28,12 +29,14 @@ import com.aecor.eurosports.ui.ProgressHUD;
 import com.aecor.eurosports.util.ApiConstants;
 import com.aecor.eurosports.util.AppConstants;
 import com.aecor.eurosports.util.AppLogger;
+import com.aecor.eurosports.util.AppPreference;
 import com.aecor.eurosports.util.Utility;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.DateFormat;
@@ -60,17 +63,24 @@ public class FavouritesActivity extends BaseAppCompactActivity {
     protected LinearLayout ll_main_layout;
     @BindView(R.id.ll_footer)
     protected LinearLayout ll_footer;
+    @BindView(R.id.viewFavDefault)
+    protected LinearLayout viewFavDefault;
+    private FavouriteListAdapter adapter;
+    private EasyMatchManagerFavAdapter easyMatchManagerFavAdapter;
+    private AppPreference mAppSharedPref;
 
     @Override
     protected void initView() {
         Utility.setupUI(mContext, ll_main_layout);
 
+        mAppSharedPref = AppPreference.getInstance(mContext);
+
         favouriteList.addFooterView(new View(mContext));
 
-        FavouriteListAdapter adapter = new FavouriteListAdapter((Activity) mContext, new ArrayList<TournamentModel>(), new ArrayList<TournamentModel>());
-        favouriteList.setAdapter(adapter);
-
         if (BuildConfig.isEasyMatchManager) {
+            easyMatchManagerFavAdapter = new EasyMatchManagerFavAdapter((Activity) mContext, new ArrayList<TournamentModel>());
+            favouriteList.setAdapter(easyMatchManagerFavAdapter);
+            viewFavDefault.setVisibility(View.GONE);
             View footerView = ((LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.row_follow_another_tournament, null, false);
             favouriteList.addFooterView(footerView);
 
@@ -101,17 +111,21 @@ public class FavouritesActivity extends BaseAppCompactActivity {
                 }
             });
 
+            btn_submit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    callAccessCodeApi(et_enter_access_code.getText().toString().trim());
+                }
+            });
+            getLoggedInUserFavouriteTournamentList();
+        } else {
+            adapter = new FavouriteListAdapter((Activity) mContext, new ArrayList<TournamentModel>(), new ArrayList<TournamentModel>());
+            favouriteList.setAdapter(adapter);
+            viewFavDefault.setVisibility(View.VISIBLE);
+            getTournamentList();
         }
 
 
-
-
-
-
-
-
-
-        getTournamentList();
         ll_main_layout.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
@@ -142,6 +156,71 @@ public class FavouritesActivity extends BaseAppCompactActivity {
 
             }
         });
+
+
+    }
+
+    private void callAccessCodeApi(String accessCode) {
+
+        if (Utility.isInternetAvailable(mContext)) {
+            final ProgressHUD mProgressDialog = Utility.getProgressDialog(mContext);
+            String url = ApiConstants.ACCESS_CODE;
+            final JSONObject requestJson = new JSONObject();
+            try {
+                requestJson.put("accessCode", accessCode);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            RequestQueue mQueue = VolleySingeltone.getInstance(mContext)
+                    .getRequestQueue();
+
+            final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(mContext, Request.Method
+                    .POST, url,
+                    requestJson, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    Utility.StopProgress(mProgressDialog);
+                    try {
+
+                        AppLogger.LogE(TAG, "access code response" + response.toString());
+                        if (response.has("data") && !Utility.isNullOrEmpty(response.getString("data"))) {
+                            TournamentModel mTempFavTournament = GsonConverter.getInstance().decodeFromJsonString(response.getString("data"), TournamentModel.class);
+                            if (mTempFavTournament.getTournament_id() != null)
+                                mAppSharedPref.setString(AppConstants.PREF_TOURNAMENT_ID, mTempFavTournament.getId());
+                        }
+//                        if (response.has("status_code") && !Utility.isNullOrEmpty(response.getString("status_code")) && response.getString("status_code").equalsIgnoreCase("200")) {
+                        if (!getIntent().getBooleanExtra("isFirstTime", false)) {
+                            startActivity(new Intent(FavouritesActivity.this, HomeActivity.class));
+                        } else {
+                            getLoggedInUserFavouriteTournamentList();
+                        }
+//                        } else {
+//                            if (response.has("message") && !Utility.isNullOrEmpty(response.getString("message"))) {
+//                                Utility.showToast(FavouritesActivity.this, response.getString("message"));
+//                            }
+//                        }
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    try {
+                        Utility.StopProgress(mProgressDialog);
+                        Utility.parseVolleyError(mContext, error);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            });
+            mQueue.add(jsonRequest);
+        } else {
+            checkConnection();
+        }
 
 
     }
@@ -281,7 +360,9 @@ public class FavouritesActivity extends BaseAppCompactActivity {
     private void setTournamnetAdapter(TournamentModel mTournamentList[], TournamentModel mFavTournamentList[]) {
         List<TournamentModel> list = new ArrayList<>();
         List<TournamentModel> favList = new ArrayList<>();
-        list.addAll(Arrays.asList(mTournamentList));
+        if (mTournamentList != null) {
+            list.addAll(Arrays.asList(mTournamentList));
+        }
         if (mFavTournamentList != null) {
             favList.addAll(Arrays.asList(mFavTournamentList));
         }
@@ -316,10 +397,13 @@ public class FavouritesActivity extends BaseAppCompactActivity {
                 }
             }
         });
-        FavouriteListAdapter adapter = new FavouriteListAdapter((Activity) mContext, list, favList);
-        favouriteList.setAdapter(adapter);
-
         if (BuildConfig.isEasyMatchManager) {
+            easyMatchManagerFavAdapter.updateList(favList);
+        } else {
+            adapter.updateList(list, favList);
+        }
+
+/*        if (BuildConfig.isEasyMatchManager) {
             View footerView = ((LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.row_follow_another_tournament, null, false);
             favouriteList.addFooterView(footerView);
 
@@ -350,7 +434,7 @@ public class FavouritesActivity extends BaseAppCompactActivity {
                 }
             });
 
-        }
+        }*/
 
     }
 }
