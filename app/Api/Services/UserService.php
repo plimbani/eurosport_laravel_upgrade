@@ -334,6 +334,16 @@ class UserService implements UserContract
 
         (isset($data['locale']) && $data['locale']!='') ? $userData['user']['locale'] = $data['locale'] : '';
         
+        if('customer' == strtolower($userObj->roles()->first()->slug)) {
+            $userData['user'] = [
+                'username' => $data['emailAddress'],
+                'name' => $data['name'] . " " . $data['surname'],
+                'email' => $data['emailAddress'],
+                'organisation' => !empty($data['organisation']) ? $data['organisation'] : '',
+                'password' => !empty($data['password']) ? Hash::make($data['password']) : $userObj->password,
+                'is_active' => isset($data['status']) ? $data['status'] : $userObj->is_active,
+            ];
+        }
         $this->userRepoObj->update($userData['user'], $userId);
 
         if(isset($data['tournament_id'])) {
@@ -348,6 +358,20 @@ class UserService implements UserContract
         $userData['people']['first_name']=$data['name'];
         $userData['people']['last_name']=$data['surname'];
         // $userData['people']['role']=$data['role'];
+        if('customer' == strtolower($userObj->roles()->first()->slug)) {            
+            $userData['people'] = [
+                'first_name' => $data['name'],
+                'last_name' => $data['surname'],
+                'display_name' => $data['name'] . " " . $data['surname'],
+                'primary_email' => $data['emailAddress'],
+                'address' => !empty($data['address']) ? $data['address'] : $userObj->profile->address,
+                'address_2' => !empty($data['address_2']) ? $data['address_2'] : $userObj->profile->address_2,
+                'job_title' => !empty($data['job_title']) ? $data['job_title'] : $userObj->profile->job_title,
+                'city' => !empty($data['city']) ? $data['city'] : $userObj->profile->city,
+                'zipcode' => !empty($data['zip']) ? $data['zip'] : $userObj->profile->zip,
+                'country_id' => !empty($data['country']) ? $data['country'] : $userObj->profile->country,
+            ];
+        }
         $peopleObj = $this->peopleRepoObj->edit($userData['people'], $userObj->person_id);
 
         if ($data) {
