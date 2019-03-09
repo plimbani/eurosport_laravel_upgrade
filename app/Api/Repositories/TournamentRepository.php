@@ -1113,6 +1113,7 @@ class TournamentRepository
      */
     public function getTournamentByAccessCode($accessCode)
     {
+        $baseUrl = getenv('APP_URL');
         $tournament = Tournament::where('access_code', $accessCode)->first();
         
         if(!empty($tournament->sponsors)) {
@@ -1123,7 +1124,8 @@ class TournamentRepository
         $response = [
             'tournament_details' => $tournament,
             'contact_details' => !empty($tournament->contacts) ? $tournament->contacts : [],
-            'tournament_sponsor' => !empty($tournament->sponsors) ? $tournament->sponsors : []
+            'tournament_sponsor' => !empty($tournament->sponsors) ? $tournament->sponsors : [],
+            'baseUrl' => $baseUrl,
         ];
         
         return $response;
@@ -1367,23 +1369,7 @@ class TournamentRepository
     */
     public function getTournamentAccessCodeDetail($data)
     {
-        $tournamentAccessCode = Tournament::where('access_code', $data['accessCode'])->first();
-
-        if($tournamentAccessCode) {
-           $tournamentEndDateFormat = Carbon::createFromFormat('d/m/Y', $tournamentAccessCode['end_date'])->addMonths(1);
-           
-            $endDateAddMonth = Carbon::parse($tournamentEndDateFormat)->format('Y-m-d');
-            
-            $currentDateFormat = Carbon::now()->format('Y-m-d');
-
-                if($endDateAddMonth > $currentDateFormat) {
-                    return $tournamentAccessCode; 
-                } else {
-                    return 'This tournament is no longer available';
-                }
-        }   else {
-                return 'The tournament code was not recognised';
-        }    
-    }
-        
+        $tournament = Tournament::where('access_code', $data['accessCode'])->first();
+        return $tournament;   
+    }  
 }

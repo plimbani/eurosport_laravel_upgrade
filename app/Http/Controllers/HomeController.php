@@ -38,4 +38,9 @@ class HomeController extends Controller
 
         return view('home.index1');
     }
+
+    public function openAppDeepLink()
+    {
+        return view('app_open_deep_link');
+    }    
 }
