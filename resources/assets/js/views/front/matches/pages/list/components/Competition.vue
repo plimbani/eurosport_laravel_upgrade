@@ -94,6 +94,8 @@
         competitionRound: 'Round Robin',
         currentCompetitionId: 0,
         matchesGrid: [],
+        isDivExist: false,
+        isDivExistData: [],
       };
     },
     created() {
@@ -102,6 +104,12 @@
       this.currentCompetitionId = this.competitionDetail.id;
       this.getCompetitions();
       this.generateDrawTable();
+
+      if ( this.matches.length > 0 && this.matches[0]['isDivExist'] == 1 )
+      {
+        this.isDivExist = this.matches[0]['isDivExist'];
+        this.isDivExistData = _.groupBy(this.matches, 'competation_round_no');
+      }
     },
     filters: {
       formatDate: function(date) {
