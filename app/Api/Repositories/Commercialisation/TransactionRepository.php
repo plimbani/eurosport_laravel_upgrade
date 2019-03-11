@@ -33,6 +33,7 @@ class TransactionRepository
      */
     public function addDetails($requestData)
     {
+
         $data = array_change_key_case($requestData['paymentResponse'], CASE_UPPER);
         $authUser = JWTAuth::parseToken()->toUser();
         $userId = $authUser->id;
@@ -45,7 +46,70 @@ class TransactionRepository
 
         //If renew license then duplicate age category if team size same
         if (!empty($requestData['tournament']['is_renew'])) {
+            $oldTournamentRecord = Tournament::findOrFail($requestData['tournament']['old_tournament_id']);
+    
+            $oldTournamentCompetitions = Competition::where('tournament_id', $requestData['tournament']['old_tournament_id'])->get();
+
+            $oldTournamentAgeCategories = TournamentCompetationTemplates::where('tournament_id', $requestData['tournament']['old_tournament_id'])->get();
+        
+            $oldTournamentFixtures = TempFixture::where('tournament_id',  $requestData['tournament']['old_tournament_id'])->get();
+        
+            $oldTournamentVenues = Venue::where('tournament_id', $requestData['tournament']['old_tournament_id'])->get();
             
+            $oldTournamentPitches = Pitch::where('tournament_id', $requestData['tournament']['old_tournament_id'])->get();
+
+            $oldTournamentReferees = Referee::where('tournament_id', $requestData['tournament']['old_tournament_id'])->get();
+
+            $venuesMappingArray = [];
+            $pitchesMappingArray = [];
+            $refereesMappingArray = [];
+            $competitionsMappingArray = [];
+            $ageCategoriesMappingArray = [];
+
+            $newCopiedTournament = $oldTournamentRecord->replicate();
+            $newCopiedTournament->save();
+
+
+            if($oldTournamentAgeCategories) {
+                foreach ($oldTournamentAgeCategories as $ageCategory) {
+                    $oldCopiedAgeCategory = $ageCategory->replicate();
+                    $oldCopiedAgeCategory->tournament_id = $newCopiedTournament->id;
+                    $oldCopiedAgeCategory->save();
+                    $ageCategoriesMappingArray[$ageCategory->id] = $oldCopiedAgeCategory->id;
+
+                    $positions = Position::where('age_category_id', $ageCategory->id)->get();
+                    foreach ($positions as $position) {
+                        $oldCopiedPositions = $position->replicate();
+                        $oldCopiedPositions->age_category_id = $ageCategoriesMappingArray[$position->age_category_id];
+                        $oldCopiedPositions->save();
+                    }
+                }
+            }
+
+            if($oldTournamentCompetitions) {
+                foreach ($oldTournamentCompetitions as $competition) {
+                    $oldCopiedCompetition = $competition->replicate();
+                    $oldCopiedCompetition->tournament_competation_template_id = $ageCategoriesMappingArray[$competition->tournament_competation_template_id];
+                    $oldCopiedCompetition->tournament_id = $newCopiedTournament->id;
+                    $oldCopiedCompetition->save();
+                    $competitionsMappingArray[$competition->id] = $oldCopiedCompetition->id;
+                }
+            }
+
+
+            if($oldTournamentFixtures) {
+                foreach ($oldTournamentFixtures as $fixture) {
+                    $oldCopiedFixture = $fixture->replicate();
+                    $oldCopiedFixture->tournament_id = $newCopiedTournament->id;
+                    $oldCopiedFixture->competition_id = $competitionsMappingArray[$fixture->competition_id];
+                    $oldCopiedFixture->venue_id = isset($venuesMappingArray[$fixture->venue_id]) ? $venuesMappingArray[$fixture->venue_id] : null;
+                    $oldCopiedFixture->age_group_id = isset($ageCategoriesMappingArray[$fixture->age_group_id]) ? $ageCategoriesMappingArray[$fixture->age_group_id] : null;
+                    $oldCopiedFixture->referee_id = isset($refereesMappingArray[$fixture->referee_id]) ? $refereesMappingArray[$fixture->referee_id] : null;
+                    $oldCopiedFixture->pitch_id = isset($pitchesMappingArray[$fixture->pitch_id]) ? $pitchesMappingArray[$fixture->pitch_id] : null;
+                    $oldCopiedFixture->is_scheduled = isset($fixture->is_schedule) ? $fixture->is_schedule : 0;
+                    $oldCopiedFixture->save();
+                }
+            }
         }
 
         if ($data['STATUS'] == 5) {
@@ -84,7 +148,7 @@ class TransactionRepository
             'team_size' => $tournamentRes->maximum_teams,
             'amount' => $data['AMOUNT'],
             'status' => $paymentStatus[$data['STATUS']],
-            'days' => $days,
+            // 'days' => $days,
             'currency' => $data['CURRENCY'],
             'card_type' => $data['PM'],
             'card_holder_name' => $data['CN'],
