@@ -1122,7 +1122,7 @@ class TournamentRepository
         }
         $response = [];
         if(!empty($tournament)){
-            $tournament->logo = getenv('S3_URL'). '/assets/img/tournament_logo/'. $tournament->logo;
+            $tournament->logo = !empty($tournament->logo) ? getenv('S3_URL'). '/assets/img/tournament_logo/'. $tournament->logo : '';
             $response = [
                 'tournament_details' => $tournament,
                 'contact_details' => !empty($tournament->contacts) ? $tournament->contacts : [],
