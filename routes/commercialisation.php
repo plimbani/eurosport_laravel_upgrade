@@ -18,15 +18,17 @@ Route::post('/v1/commercialisation/thankyou', '\Laraspace\Api\Controllers\Commer
 Route::get('/v1/country/list', '\Laraspace\Api\Controllers\CountryController@getList')->name("country.list");
 
 Route::group(['middleware' => 'jwt.auth'], function() {
-    Route::get('v1/user/get-details/', '\Laraspace\Api\Controllers\UserController@getDetails')->name("user.details");
-    Route::post('v1/user/update/', '\Laraspace\Api\Controllers\UserController@updateUser')->name("user.update");
+    Route::get('v1/user/get-details/', '\Laraspace\Api\Controllers\Commercialisation\UserController@getDetails')->name("user.details");
+    Route::post('v1/user/update/', '\Laraspace\Api\Controllers\Commercialisation\UserController@updateUser')->name("user.update");
     Route::post('v1/buy-license', '\Laraspace\Api\Controllers\Commercialisation\BuyLicenseController@buyLicense');    
     Route::get('v1/tournaments/list', '\Laraspace\Api\Controllers\Commercialisation\TournamentController@getList');
     Route::get('v1/get-tournament', '\Laraspace\Api\Controllers\Commercialisation\TournamentController@getTournament');
     Route::post('v1/manage-tournament', '\Laraspace\Api\Controllers\Commercialisation\TournamentController@manageTournament');
     Route::post('v1/customer-tournament', '\Laraspace\Api\Controllers\Commercialisation\TournamentController@getTournamentByCustomer');
     Route::post('v1/customer-transactions', '\Laraspace\Api\Controllers\Commercialisation\BuyLicenseController@getCustomerTransactions');
-    Route::post('v1/website-settings/save', '\Laraspace\Api\Controllers\Commercialisation\WebsiteSettingsController@saveSettings');    
+    Route::post('v1/website-settings/save', '\Laraspace\Api\Controllers\Commercialisation\WebsiteSettingsController@saveSettings');
+    Route::post('v1/admin/customer/update', '\Laraspace\Api\Controllers\Commercialisation\UserController@updateUserByAdmin');
+    
 });
 
 Route::post('v1/generateHashKey', '\Laraspace\Api\Controllers\Commercialisation\BuyLicenseController@generateHashKey');
