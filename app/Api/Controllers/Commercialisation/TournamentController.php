@@ -107,7 +107,7 @@ class TournamentController extends BaseController
             $requestData = $request->all();
             if (!empty($requestData['paymentResponse'])) {
                 //Update payment details
-                $response = $this->transactionRepoObj->updateTransaction($requestData);
+                $this->transactionRepoObj->updateTransaction($requestData);
             }
             if (!empty($requestData['tournament'])) {
                 $requestData['tournament'] = [
@@ -117,7 +117,7 @@ class TournamentController extends BaseController
                     'end_date' => Carbon::createFromFormat('d/m/Y', $requestData['tournament']['tournament_end_date']),
                     'maximum_teams' => $requestData['tournament']['tournament_max_teams'],
                 ];
-                $response = $this->tournamentRepoObj->edit($requestData['tournament']);
+                $this->tournamentRepoObj->edit($requestData['tournament']);
             }
             return response()->json([
                         'success' => true,
