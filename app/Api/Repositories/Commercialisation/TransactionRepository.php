@@ -6,9 +6,17 @@ use Hash;
 use JWTAuth;
 use Illuminate\Support\Facades\Mail;
 use Laraspace\Mail\SendMail;
+use Laraspace\Models\Competition;
 use Laraspace\Models\Transaction;
+use Laraspace\Models\Tournament;
+use Laraspace\Models\TempFixture;
+use Laraspace\Models\Position;
+use Laraspace\Models\Referee;
+use Laraspace\Models\Venue;
+use Laraspace\Models\Pitch;
 use Laraspace\Models\TransactionHistory;
 use Laraspace\Api\Repositories\TournamentRepository;
+use Laraspace\Models\TournamentCompetationTemplates;
 
 class TransactionRepository
 {
@@ -39,6 +47,7 @@ class TransactionRepository
         if (!empty($requestData['is_renew'])) {
             
         }
+
         if ($data['STATUS'] == 5) {
             //Send conformation mail to customer
             $subject = 'Message from Eurosport';

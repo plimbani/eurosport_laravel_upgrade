@@ -290,6 +290,7 @@
                             }
                             // console.log("response.data.data::",response.data.data)
                             this.tournamentData['id'] = this.id;
+                            this.tournamentData['old_tournament_id'] = response.data.data.id;
                             this.tournamentData['tournament_name'] = response.data.data.name;
                             this.tournamentData['tournament_max_teams'] = response.data.data.maximum_teams;   
                             this.tournament_old_teams = response.data.data.maximum_teams;   
