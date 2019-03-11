@@ -2,11 +2,12 @@
     <section class="confirmation-section section-padding pb-0">
         <div class="tournament-section section-padding">
             <div class="container">
-                <div class="row" v-if="tournamentData">
+                <div class="row" v-if="tournamentData.id">
                     <div class="col-xl-8">
                         <div class="row">
                             <div class="col-sm-4 col-md-3">
-                                <img src='/images/dummy.png' class="img-fluid tournament-image">
+                                <img v-if="tournamentData.logo" :src='tournamentData.logo' class="img-fluid tournament-image">
+                                <!-- <img v-if="!tournamentData.logo" src='/images/dummy.png' class="img-fluid tournament-image"> -->
                             </div>
                             <div class="col-sm-8 col-md-9">
                                 <h6 class="text-uppercase mb-0 mt-4 mt-sm-0">License: #{{tournamentData.access_code}}</h6>
@@ -41,7 +42,7 @@
                         </ul>
                     </div>
                 </div>
-                <div class="row" v-if="!tournamentData">
+                <div class="row" v-if="!tournamentData.id">
                     <div class="col-xl-12">
                         Tournament details not found
                         
@@ -87,17 +88,22 @@
                // console.log("tournamentDetail::",this.code);
                  axios.get(Constant.apiBaseUrl+'tournament-by-code?tournament='+this.code, {}).then(response =>  {  
                         if (response.data.success) { 
-                             this.tournamentInfo = response.data.data.tournament_details;
+                             // this.tournamentInfo = response.data.data.tournament_details;
                              this.tournamentData = response.data.data.tournament_details;
                              this.contactData = response.data.data.contact_details;
                              this.tournamentSponsers = response.data.data.tournament_sponsor;
                              // console.log("this.contactData::",this.contactData)
                              // console.log("this.tournamentSponsers:;:",this.tournamentSponsers);
                          }else{ 
+                            this.tournamentData = {};
+                            this.contactData= [];
+                            this.tournamentSponsers= [];
                             toastr['error'](response.data.message, 'Error');
                          }
                  }).catch(error => {
-                     
+                    this.tournamentData = {};
+                    this.contactData= [];
+                    this.tournamentSponsers= [];
                  }); 
                // this.$router.push({'name':'buylicense'}) 
             } 
