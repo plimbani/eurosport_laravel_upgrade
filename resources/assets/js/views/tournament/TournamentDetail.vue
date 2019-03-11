@@ -7,7 +7,7 @@
                         <div class="row">
                             <div class="col-sm-4 col-md-3">
                                 <img v-if="tournamentData.logo" :src='tournamentData.logo' class="img-fluid tournament-image">
-                                <img v-if="!tournamentData.logo" src='/images/dummy.png' class="img-fluid tournament-image">
+                                <!-- <img v-if="!tournamentData.logo" src='/images/dummy.png' class="img-fluid tournament-image"> -->
                             </div>
                             <div class="col-sm-8 col-md-9">
                                 <h6 class="text-uppercase mb-0 mt-4 mt-sm-0">License: #{{tournamentData.access_code}}</h6>
