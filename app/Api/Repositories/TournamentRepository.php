@@ -1120,6 +1120,7 @@ class TournamentRepository
                 $sponsor['logo'] = getenv('S3_URL') . '/assets/img/tournament_sponsor/'. $sponsor['logo'];
             }
         }
+        $tournament->logo = getenv('S3_URL'). '/assets/img/tournament_logo/'. $tournament->logo;
         $response = [
             'tournament_details' => $tournament,
             'contact_details' => !empty($tournament->contacts) ? $tournament->contacts : [],
