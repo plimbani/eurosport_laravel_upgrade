@@ -1,6 +1,6 @@
 {
     "total_matches": 36,
-    "tournament_id": "0036",
+    "tournament_id": "0151",
     "tournament_teams": 12,
     "tournament_name": "T.12.5 (v3)",
     "template_font_color": "rgb(148,208,80)",
@@ -598,6 +598,6 @@
             "dependent_type": "match",
             "match_number": "CAT.PM3.G6.3F-3G",
             "result_type": "looser"
-        },
+        }
     ]
 }

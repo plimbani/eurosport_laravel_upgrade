@@ -381,7 +381,7 @@ class TournamentsTemplateTableSeeder extends Seeder
 
           ['name' => 'T.16.6 (v1)',
           'json_data' => jsonMin::minify(file_get_contents(base_path('resources/templates/template0059.json'))), 
-          'graphic_image' => '/assets/img/template_graphic_image/TT16.6.jpg', 'total_teams' => '16', 
+          'graphic_image' => '/assets/img/template_graphic_image/TT16.6_v1.jpg', 'total_teams' => '16', 
           'minimum_matches' => '6','position_type' => 'final','created_at' => Carbon::now()->format('Y-m-d H:i:s'), 'deleted_at' => null],
 
           [ 'name' => 'T.17.3',
@@ -584,23 +584,22 @@ class TournamentsTemplateTableSeeder extends Seeder
           [ 'name' => 'T.16.6 (v2)',
           'json_data' => jsonMin::minify(file_get_contents(base_path('resources/templates/template0147.json'))), 
           'graphic_image' => '/assets/img/template_graphic_image/TT16.6_v2.jpg', 'total_teams' => '16', 
-          'minimum_matches' => '5', 'position_type' => 'group_ranking', 'created_at' => Carbon::now()->format('Y-m-d H:i:s'), 'deleted_at' => null],
+          'minimum_matches' => '6', 'position_type' => 'group_ranking', 'created_at' => Carbon::now()->format('Y-m-d H:i:s'), 'deleted_at' => null],
 
           [ 'name' => 'T.20.7 (v1)',
           'json_data' => jsonMin::minify(file_get_contents(base_path('resources/templates/template0148.json'))),
           'graphic_image' => '/assets/img/template_graphic_image/TT20.7_v1.jpg', 'total_teams' => '20', 
-          'minimum_matches' => '5', 'position_type' => 'group_ranking', 'created_at' => Carbon::now()->format('Y-m-d H:i:s'), 'deleted_at' => null],
+          'minimum_matches' => '7', 'position_type' => 'group_ranking', 'created_at' => Carbon::now()->format('Y-m-d H:i:s'), 'deleted_at' => null],
 
           [ 'name' => 'T.16.7',
           'json_data' => jsonMin::minify(file_get_contents(base_path('resources/templates/template0150.json'))), 
-          'graphic_image' => '/assets/img/template_graphic_image/TT16.7.jpg', 'total_teams' => '20', 
+          'graphic_image' => '/assets/img/template_graphic_image/TT16.7.jpg', 'total_teams' => '16', 
           'minimum_matches' => '7', 'position_type' => 'final', 'created_at' => Carbon::now()->format('Y-m-d H:i:s'), 'deleted_at' => null],
 
           [ 'name' => 'T.12.5 (v3)',
           'json_data' => jsonMin::minify(file_get_contents(base_path('resources/templates/template0151.json'))), 
           'graphic_image' => '/assets/img/template_graphic_image/TT12.5_v3.jpg', 'total_teams' => '12',
-          'minimum_matches' => '5', 'position_type' => 'final', 'created_at' => Carbon::now()->format('Y-m-d H:i:s'), 'deleted_at' => null],                                        
-
+          'minimum_matches' => '5', 'position_type' => 'final', 'created_at' => Carbon::now()->format('Y-m-d H:i:s'), 'deleted_at' => null],
         ]);
 DB::statement('SET FOREIGN_KEY_CHECKS=1');
     }

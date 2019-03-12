@@ -1,7 +1,7 @@
 {
     "total_matches": 56,
     "tournament_id": "0150",
-    "tournament_teams": 20,
+    "tournament_teams": 16,
     "tournament_name": "T.16.7",
     "template_font_color": "rgb(148,208,80)",
     "competition_round": "(2x4) (2x4) - PM1-2/3-5/5-6/7-8/9-10/11-12/13-14/15-16",
@@ -633,7 +633,7 @@
                                 }
                             ]
                         }
-                    },
+                    }
                 ]
             },
             {
@@ -709,7 +709,7 @@
                                     "display_home_team_placeholder_name": "#4G",
                                     "display_away_team_placeholder_name": "#4H",
                                     "position": "15-16"
-                                },
+                                }
                             ]
                         }
                     }
@@ -813,6 +813,6 @@
             "dependent_type": "match",
             "match_number": "CAT.PM3.G8.4G-4H",
             "result_type": "looser"
-        },        
+        }
     ]
 }

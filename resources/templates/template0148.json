@@ -1,13 +1,13 @@
 {
     "total_matches": 70,
-    "tournament_id": "0014",
+    "tournament_id": "0148",
     "template_font_color": "rgb(146,208,80)",
     "tournament_teams": 20,
     "tournament_name": "T.20.7 (v1)",
     "competition_round": "RR1-4/5-8/9-12/13-16/17-20",
     "competition_group_round": "4x5",
     "competation_format": "RR/RR",
-    "tournament_min_match": 5,
+    "tournament_min_match": 7,
     "avg_game_team": 7,
     "position_type": "group_ranking",
     "tournament_competition_ranking": {
@@ -122,104 +122,6 @@
                                 "team": "5D"
                             }                            
                         ]
-                    },
-                ]
-            }
-        ]
-    },
-    "tournament_competition_graphic_view": {
-        "format_name": [
-            {
-                "name": "Round 1",
-                "groups": [
-                    {
-                        "group_name": "Group A",
-                        "match": [
-                            {
-                                "match_number": "1A",
-                                "color": "rgb(255, 255, 0)"
-                            },
-                            {
-                                "match_number": "2A",
-                                "color": "rgb(255, 255, 0)"
-                            },
-                            {
-                                "match_number": "3A",
-                                "color": "rgb(178, 161, 199)"
-                            },
-                            {
-                                "match_number": "4A",
-                                "color": "rgb(178, 161, 199)"
-                            }
-                        ]
-                    },
-                    {
-                        "group_name": "Group B",
-                        "match": [
-                            {
-                                "match_number": "1B",
-                                "color": "rgb(255, 255, 0)"
-                            },
-                            {
-                                "match_number": "2B",
-                                "color": "rgb(255, 255, 0)"
-                            },
-                            {
-                                "match_number": "3B",
-                                "color": "rgb(178, 161, 199)"
-                            },
-                            {
-                                "match_number": "4B",
-                                "color": "rgb(178, 161, 199)"
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                "name": "Round 2",
-                "groups": [
-                    {
-                        "group_name": "RR1-4/Group C",
-                        "match": [
-                            {
-                                "match_number": "1C > 1st",
-                                "color": "rgb(255, 255, 0)"
-                            },
-                            {
-                                "match_number": "2C > 2nd",
-                                "color": "rgb(255, 255, 0)"
-                            },
-                            {
-                                "match_number": "3C > 3rd",
-                                "color": "rgb(255, 255, 0)"
-                            },
-                            {
-                                "match_number": "4C > 4th",
-                                "color": "rgb(255, 255, 0)"
-                            }
-                        ]
-                    },
-                    {
-                        "group_name": "RR 5-8/Group D",
-                        "match": [
-                            {
-                                "match_number": "1D > 5th",
-                                "color": "rgb(178, 161, 199)"
-                            },
-                            {
-                                "match_number": "2D > 6th",
-                                "color": "rgb(178, 161, 199)"
-                            },
-                            {
-                                "match_number": "3D > 7th",
-                                "color": "rgb(178, 161, 199)"
-                            },
-                            {
-                                "match_number": "4D > 8th",
-                                "color": "rgb(178, 161, 199)"
-                            }
-                        ]
                     }
                 ]
             }
@@ -306,7 +208,7 @@
                                     "display_match_number": "CAT.1.5.@HOME-@AWAY",
                                     "display_home_team_placeholder_name": "A4",
                                     "display_away_team_placeholder_name": "A5"
-                                },
+                                }
                             ]
                         }
                     },
@@ -386,7 +288,7 @@
                                     "display_match_number": "CAT.1.5.@HOME-@AWAY",
                                     "display_home_team_placeholder_name": "B4",
                                     "display_away_team_placeholder_name": "B5"
-                                },
+                                }
                             ]
                         }
                     },
@@ -466,7 +368,7 @@
                                     "display_match_number": "CAT.1.5.@HOME-@AWAY",
                                     "display_home_team_placeholder_name": "C4",
                                     "display_away_team_placeholder_name": "C5"
-                                },
+                                }
                             ]
                         }
                     },
@@ -546,10 +448,10 @@
                                     "display_match_number": "CAT.1.5.@HOME-@AWAY",
                                     "display_home_team_placeholder_name": "D4",
                                     "display_away_team_placeholder_name": "D5"
-                                },
+                                }
                             ]
                         }
-                    },                  
+                    }
                 ]
             },
             {
@@ -919,6 +821,6 @@
             "position": 20,
             "dependent_type": "ranking",
             "ranking": "4I"
-        },
+        }
     ]
 }
