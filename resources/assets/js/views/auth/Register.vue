@@ -162,12 +162,20 @@
                         if (!this.errors.any()) {
                             this.disabled = true; 
                             axios.post(Constant.apiBaseUrl+'commercialisation/thankyou', this.registerData).then(response =>  {
-                                 // console.log("response in register::",response.data); 
+                                 // this.$store.dispatch('SetTournamentName', tournamentSel);
                                  if (response.data.success) {
                                     // console.log("inside settttt:::",response.data.data.token);
                                     Ls.set('auth.token',response.data.data.token)
                                     Ls.set('email',this.registerData.email)
                                     Ls.set('usercountry',this.registerData.country)
+
+                                    let indxOfCustomer =  (response.data.data.role).findIndex(item => item.slug.toLowerCase() == "customer") 
+                            
+                                    if(indxOfCustomer > -1){
+                                        Ls.set('user_role','customer')
+                                    }
+
+
                                     let tournamentDetails = Ls.get('tournamentDetails')
                                     if(typeof tournamentDetails != "undefined" && tournamentDetails != undefined && tournamentDetails != "null" && tournamentDetails != null){
                                         this.$router.push({'name':'checkout'})
@@ -175,6 +183,8 @@
                                         this.$router.push({'name':'thankyou'})
                                     }
                                     
+
+
                                  }else{
                                      toastr['error'](response.data.message, 'Error');
                                  }

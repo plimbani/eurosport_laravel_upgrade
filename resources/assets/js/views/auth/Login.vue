@@ -110,6 +110,7 @@
                             let indxOfCustomer =  (response.data.role).findIndex(item => item.slug.toLowerCase() == "customer") 
                             // console.log('fff::',response.data);
                             if(indxOfCustomer > -1){
+                                Ls.set('user_role','customer')
                             // if(response.data.role.slug == "customer"){
                                 this.$router.push({'name':'dashboard'})
                             }else{
