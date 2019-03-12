@@ -65,7 +65,7 @@ class RegisterRepository
             
             return [
                 'user' => $user,
-                'role' => $user->roles()->first(),
+                'role' => [$user->roles()->first()],
                 'token' => JWTAuth::attempt(['email' => $newUser['email'], 'password' => $data['password']])
             ];
         } else {
