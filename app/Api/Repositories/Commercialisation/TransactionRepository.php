@@ -16,6 +16,7 @@ use Laraspace\Models\Venue;
 use Laraspace\Models\Pitch;
 use Laraspace\Models\TransactionHistory;
 use Laraspace\Api\Repositories\TournamentRepository;
+use Laraspace\Api\Repositories\MatchRepository;
 use Laraspace\Models\TournamentCompetationTemplates;
 
 class TransactionRepository
@@ -24,6 +25,8 @@ class TransactionRepository
     public function __construct()
     {
         $this->tournamentObj = new TournamentRepository();
+        $this->matchRepoObj = new  MatchRepository();
+
     }
 
     /**
@@ -33,7 +36,6 @@ class TransactionRepository
      */
     public function addDetails($requestData)
     {
-
         $data = array_change_key_case($requestData['paymentResponse'], CASE_UPPER);
         $authUser = JWTAuth::parseToken()->toUser();
         $userId = $authUser->id;
@@ -46,18 +48,12 @@ class TransactionRepository
 
         //If renew license then duplicate age category if team size same
         if (!empty($requestData['tournament']['is_renew'])) {
-            $oldTournamentRecord = Tournament::findOrFail($requestData['tournament']['old_tournament_id']);
-    
+           $oldTournamentRecord = Tournament::findOrFail($requestData['tournament']['old_tournament_id']);
             $oldTournamentCompetitions = Competition::where('tournament_id', $requestData['tournament']['old_tournament_id'])->get();
-
             $oldTournamentAgeCategories = TournamentCompetationTemplates::where('tournament_id', $requestData['tournament']['old_tournament_id'])->get();
-        
             $oldTournamentFixtures = TempFixture::where('tournament_id',  $requestData['tournament']['old_tournament_id'])->get();
-        
             $oldTournamentVenues = Venue::where('tournament_id', $requestData['tournament']['old_tournament_id'])->get();
-            
             $oldTournamentPitches = Pitch::where('tournament_id', $requestData['tournament']['old_tournament_id'])->get();
-
             $oldTournamentReferees = Referee::where('tournament_id', $requestData['tournament']['old_tournament_id'])->get();
 
             $venuesMappingArray = [];
@@ -95,8 +91,7 @@ class TransactionRepository
                     $competitionsMappingArray[$competition->id] = $oldCopiedCompetition->id;
                 }
             }
-
-
+            
             if($oldTournamentFixtures) {
                 foreach ($oldTournamentFixtures as $fixture) {
                     $oldCopiedFixture = $fixture->replicate();
@@ -106,7 +101,24 @@ class TransactionRepository
                     $oldCopiedFixture->age_group_id = isset($ageCategoriesMappingArray[$fixture->age_group_id]) ? $ageCategoriesMappingArray[$fixture->age_group_id] : null;
                     $oldCopiedFixture->referee_id = isset($refereesMappingArray[$fixture->referee_id]) ? $refereesMappingArray[$fixture->referee_id] : null;
                     $oldCopiedFixture->pitch_id = isset($pitchesMappingArray[$fixture->pitch_id]) ? $pitchesMappingArray[$fixture->pitch_id] : null;
-                    $oldCopiedFixture->is_scheduled = isset($fixture->is_schedule) ? $fixture->is_schedule : 0;
+                    $oldCopiedFixture->is_scheduled = $fixture->is_schedule = 0;
+                    $oldCopiedFixture->match_datetime = $fixture->match_datetime = null;
+                    $oldCopiedFixture->match_endtime = $fixture->match_endtime = null;
+                    $oldCopiedFixture->minimum_team_interval_flag = $fixture->minimum_team_interval_flag =  0;
+                    $oldCopiedFixture->home_team = $fixture->home_team = 0;
+                    $oldCopiedFixture->away_team = $fixture->away_team = 0;
+                    $oldCopiedFixture->hometeam_score = $fixture->hometeam_score = null;
+                    $oldCopiedFixture->awayteam_score = $fixture->awayteam_score = null;
+                    $oldCopiedFixture->hometeam_point = $fixture->hometeam_point = null;
+                    $oldCopiedFixture->awayteam_point = $fixture->awayteam_point = null;
+                    $oldCopiedFixture->home_yellow_cards = $fixture->home_yellow_cards = null;
+                    $oldCopiedFixture->away_yellow_cards = $fixture->away_yellow_cards = null;
+                    $oldCopiedFixture->home_red_cards = $fixture->home_red_cards = null;
+                    $oldCopiedFixture->away_red_cards = $fixture->away_red_cards = null;
+                    $oldCopiedFixture->age_category_color = $fixture->age_category_color = null;
+                    $oldCopiedFixture->group_color = $fixture->group_color = null;
+                    $oldCopiedFixture->bracket_json = $fixture->bracket_json = null;
+
                     $oldCopiedFixture->save();
                 }
             }
