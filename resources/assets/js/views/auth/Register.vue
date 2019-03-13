@@ -208,6 +208,7 @@
                  })
             },
             redirectToLoginPage(){
+                this.errors.clear();
                 this.$router.push({'name':'login'}) 
             } 
         },

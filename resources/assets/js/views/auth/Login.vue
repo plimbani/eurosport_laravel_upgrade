@@ -135,14 +135,17 @@
                 }
             },
             forgotPasswordOpen() {
+                this.errors.clear();
                 this.loginData.forgotpassword = 1
             },
             backtologin() {
-                 this.loginData.forgotpassword = 0
+                this.errors.clear();
+                this.loginData.forgotpassword = 0
             },
 
             redirectToRegisterPage(){
-                 this.$router.push({'name':'register'}) 
+                this.errors.clear();
+                this.$router.push({'name':'register'}) 
             },
 
             sendResetLink() {
