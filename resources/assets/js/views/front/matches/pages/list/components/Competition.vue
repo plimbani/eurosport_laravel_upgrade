@@ -1,5 +1,6 @@
 <template>
   <div>
+    {{ updateDivExistData }}
     <button v-if="fromView == 'Matches'" @click="showMatchListView()" class="btn btn-primary">
         <i aria-hidden="true" class="fas fa-angle-double-left"></i> {{ $t('matches.back_to_match_list') }}
     </button>
@@ -76,7 +77,7 @@
     </div>
 
     <h6 class="mt-3 font-weight-bold">{{ competitionDetail.name }} matches</h6>
-    <matches :matches="matches" :competitionDetail="currentCompetition" :currentView="currentView" :fromView="'Competition'"></matches>
+    <matches :matches="matches" :competitionDetail="currentCompetition" :currentView="currentView" :fromView="'Competition'" :isDivExist="isDivExist" :isDivExistData="isDivExistData"></matches>
   </div>
 </template>
 
@@ -101,15 +102,11 @@
     created() {
     },
     mounted() {
+
       this.currentCompetitionId = this.competitionDetail.id;
       this.getCompetitions();
       this.generateDrawTable();
 
-      if ( this.matches.length > 0 && this.matches[0]['isDivExist'] == 1 )
-      {
-        this.isDivExist = this.matches[0]['isDivExist'];
-        this.isDivExistData = _.groupBy(this.matches, 'competation_round_no');
-      }
     },
     filters: {
       formatDate: function(date) {
@@ -121,6 +118,13 @@
       },
     },
     computed: {
+      updateDivExistData:function(){
+        if ( this.matches.length > 0 && this.matches[0]['isDivExist'] == 1 )
+        {
+          this.isDivExist = this.matches[0]['isDivExist'];
+          this.isDivExistData = _.groupBy(this.matches, 'competation_round_no');
+        }
+      }
     },
     components: {
       Matches,
