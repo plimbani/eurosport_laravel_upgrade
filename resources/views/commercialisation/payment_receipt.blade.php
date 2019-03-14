@@ -183,7 +183,7 @@
                                                                     </thead>
                                                                     <tbody>
                                                                         <tr>
-                                                                            <th style="text-align: left; font-weight: normal; padding: 10px;" align="left"><?php echo $data['maximumTeams']; ?> Team license for a <?php echo $data['days']; ?> day tournament
+                                                                            <th style="text-align: left; font-weight: normal; padding: 10px;" align="left"><?php echo $data['maximumTeams']; ?> Team license for a <?php echo $data['days']; ?> day(s) tournament
                                                                             </th>
                                                                             <td style="text-align: right; padding: 10px;" align="right">$<?php echo $data['amount']; ?></td>
                                                                         </tr>

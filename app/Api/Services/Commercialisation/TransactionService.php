@@ -36,10 +36,16 @@ class TransactionService implements TransactionContract {
      */
     public function generatePaymentReceipt($data)
     {
-        $transaction = Transaction::where('tournament_id', '=', $data['tournament_id'])->first();
-
-        $fdate = str_replace('/', '-', $transaction->tournament->start_date);
-        $tdate = str_replace('/', '-', $transaction->tournament->end_date);
+        $transaction = \DB::table('transactions')
+                ->select('transaction_histories.amount', 'transaction_histories.order_id', 'tournaments.start_date', 'tournaments.end_date', 'tournaments.maximum_teams')
+                ->join('transaction_histories', 'transaction_histories.transaction_id', '=', 'transactions.id')
+                ->join('tournaments', 'tournaments.id', '=', 'transactions.tournament_id')
+                ->where(['transactions.tournament_id' => $data['tournament_id']])
+                ->orderBy('transaction_histories.id', 'desc')
+                ->first();
+        
+        $fdate = str_replace('/', '-', $transaction->start_date);
+        $tdate = str_replace('/', '-', $transaction->end_date);
         $datetime1 = new \DateTime($fdate);
         $datetime2 = new \DateTime($tdate);
         $interval = $datetime1->diff($datetime2);
@@ -47,7 +53,7 @@ class TransactionService implements TransactionContract {
 
         $pdfData = [
             'days' => $days,
-            'maximumTeams' => $transaction->tournament->maximum_teams,
+            'maximumTeams' => $transaction->maximum_teams,
             'amount' => $transaction->amount,
             'orderNumber' => $transaction->order_id
         ];
