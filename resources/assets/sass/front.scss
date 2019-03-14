@@ -1144,6 +1144,16 @@ a.active-view:hover {
     max-width: 900px;
 }
 
+.stage-top-horizontal-scroll {
+    width: calc(100% - 41px);
+    min-height:15px;
+    overflow: scroll;
+    margin-left: 41px;
+    > div {
+        min-height: 1px;
+    }
+}
+
 .fc-time-grid-event .fc-content {
     padding-right: 10px;
 }
@@ -1151,4 +1161,7 @@ a.active-view:hover {
     position: absolute;
     right: 18px;
     top: 2px;
+}
+.match-fixture-comment {
+    margin-left: 4px;
 }
