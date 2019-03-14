@@ -39,16 +39,19 @@ class TransactionRepository
         $data = array_change_key_case($requestData['paymentResponse'], CASE_UPPER);
         $authUser = JWTAuth::parseToken()->toUser();
         $userId = $authUser->id;
+
+        $oldTournamentRecord = Tournament::findOrFail($requestData['tournament']['old_tournament_id']);
         if ($data['STATUS'] == 5 && !empty($requestData['tournament'])) {
             $tournamentRes = $this->tournamentObj->addTournamentDetails($requestData['tournament'], 'api');
 
             $tournamentRes->users()->attach($userId);
-        }
+        } 
         $response = $this->addTransaction($data, $tournamentRes, $userId);
 
-        //If renew license then duplicate age category if team size same
-        if (!empty($requestData['tournament']['is_renew'])) {
-           $oldTournamentRecord = Tournament::findOrFail($requestData['tournament']['old_tournament_id']);
+        if($requestData['tournament']['tournament_max_teams'] == $oldTournamentRecord['maximum_teams']) {
+           
+            $oldTournamentRecord = Tournament::orderBy('id','desc')->first();
+
             $oldTournamentCompetitions = Competition::where('tournament_id', $requestData['tournament']['old_tournament_id'])->get();
             $oldTournamentAgeCategories = TournamentCompetationTemplates::where('tournament_id', $requestData['tournament']['old_tournament_id'])->get();
             $oldTournamentFixtures = TempFixture::where('tournament_id',  $requestData['tournament']['old_tournament_id'])->get();
@@ -62,14 +65,10 @@ class TransactionRepository
             $competitionsMappingArray = [];
             $ageCategoriesMappingArray = [];
 
-            $newCopiedTournament = $oldTournamentRecord->replicate();
-            $newCopiedTournament->save();
-
-
             if($oldTournamentAgeCategories) {
                 foreach ($oldTournamentAgeCategories as $ageCategory) {
                     $oldCopiedAgeCategory = $ageCategory->replicate();
-                    $oldCopiedAgeCategory->tournament_id = $newCopiedTournament->id;
+                    $oldCopiedAgeCategory->tournament_id = $oldTournamentRecord->id;
                     $oldCopiedAgeCategory->save();
                     $ageCategoriesMappingArray[$ageCategory->id] = $oldCopiedAgeCategory->id;
 
@@ -86,16 +85,16 @@ class TransactionRepository
                 foreach ($oldTournamentCompetitions as $competition) {
                     $oldCopiedCompetition = $competition->replicate();
                     $oldCopiedCompetition->tournament_competation_template_id = $ageCategoriesMappingArray[$competition->tournament_competation_template_id];
-                    $oldCopiedCompetition->tournament_id = $newCopiedTournament->id;
+                    $oldCopiedCompetition->tournament_id = $oldTournamentRecord->id;
                     $oldCopiedCompetition->save();
                     $competitionsMappingArray[$competition->id] = $oldCopiedCompetition->id;
                 }
             }
-            
+        
             if($oldTournamentFixtures) {
                 foreach ($oldTournamentFixtures as $fixture) {
                     $oldCopiedFixture = $fixture->replicate();
-                    $oldCopiedFixture->tournament_id = $newCopiedTournament->id;
+                    $oldCopiedFixture->tournament_id = $oldTournamentRecord->id;
                     $oldCopiedFixture->competition_id = $competitionsMappingArray[$fixture->competition_id];
                     $oldCopiedFixture->venue_id = isset($venuesMappingArray[$fixture->venue_id]) ? $venuesMappingArray[$fixture->venue_id] : null;
                     $oldCopiedFixture->age_group_id = isset($ageCategoriesMappingArray[$fixture->age_group_id]) ? $ageCategoriesMappingArray[$fixture->age_group_id] : null;
@@ -122,6 +121,11 @@ class TransactionRepository
                     $oldCopiedFixture->save();
                 }
             }
+        }
+        
+        //If renew license then duplicate age category if team size same
+        if (!empty($requestData['tournament']['is_renew'])) {
+           
         }
 
         if ($data['STATUS'] == 5) {

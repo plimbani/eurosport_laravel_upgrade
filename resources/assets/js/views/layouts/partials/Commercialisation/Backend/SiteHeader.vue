@@ -133,7 +133,6 @@
         // Here we call Function to get User Details
         let userData = {'email':email}
         this.getUserDetails(userData);
-        this.getConfigurationDetail();
         this.getWebsiteDetails();
 
 
@@ -161,15 +160,6 @@
                         let UserData  = JSON.parse(Ls.get('userData'))
                        //console.log(UserData)
                        this.$store.dispatch('getUserDetails', UserData);
-                  },
-                  (error)=> {
-                  }
-                );
-            },
-            getConfigurationDetail() {
-                Website.getConfigurationDetail().then(
-                  (response)=> {
-                    this.$store.dispatch('setConfigurationDetail', response.data);
                   },
                   (error)=> {
                   }
