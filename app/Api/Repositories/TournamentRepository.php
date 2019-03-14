@@ -1121,13 +1121,15 @@ class TournamentRepository
                 $sponsor['logo'] = getenv('S3_URL') . '/assets/img/tournament_sponsor/'. $sponsor['logo'];
             }
         }
-        $response = [
-            'tournament_details' => $tournament,
-            'contact_details' => !empty($tournament->contacts) ? $tournament->contacts : [],
-            'tournament_sponsor' => !empty($tournament->sponsors) ? $tournament->sponsors : [],
-            'baseUrl' => $baseUrl,
-        ];
-        
+        $response = [];
+        if(!empty($tournament)){
+            $tournament->logo = !empty($tournament->logo) ? getenv('S3_URL'). '/assets/img/tournament_logo/'. $tournament->logo : '';
+            $response = [
+                'tournament_details' => $tournament,
+                'contact_details' => !empty($tournament->contacts) ? $tournament->contacts : [],
+                'tournament_sponsor' => !empty($tournament->sponsors) ? $tournament->sponsors : []
+            ];
+        }
         return $response;
     }
 
