@@ -184,7 +184,7 @@ class UserRepository {
 
     public function update($data, $userId)
     {
-        return User::where('id', $userId)->update($data)->associate('profile');
+        return User::where('id', $userId)->update($data);
     }
 
     public function getUserById($userId)

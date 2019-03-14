@@ -1,11 +1,13 @@
 <template>
     <div class="template-container">
-        <site-header></site-header>
+        <site-header v-if="getCurrentLayout === 'tmp'"></site-header>
+        <site-commercialisation-header v-if="getCurrentLayout === 'commercialisation'"></site-commercialisation-header>    
         <div class="main-content container-fluid" id="dashboardPage">
             <breadCrum></breadCrum>
             <UserManagementabbed></UserManagementabbed>                 
         </div>       
-        <site-footer></site-footer>
+        <site-footer v-if="getCurrentLayout === 'tmp'"></site-footer>
+        <site-commercialisation-footer v-if="getCurrentLayout === 'commercialisation'"></site-commercialisation-footer>
     </div>
 </template>
 
@@ -19,6 +21,8 @@
     import BreadCrum from '../../components/BreadCrum.vue'
     import UserManagementabbed from './partials/UserManagementabbed.vue'
 
+    import SiteCommercialisationHeader from './partials/Commercialisation/Frontend/SiteHeader.vue'
+    import SiteCommercialisationFooter from './partials/Commercialisation/Frontend/SiteFooter.vue'
     export default {
         data() {
             return {
@@ -26,10 +30,15 @@
             }
         },
         components : {
-            SiteHeader , SiteHeaderBottom , SiteFooter, BreadCrum, UserManagementabbed
+            SiteHeader , SiteHeaderBottom , SiteFooter, BreadCrum, UserManagementabbed, SiteCommercialisationHeader, SiteCommercialisationFooter
         },
         mounted() {
             Layout.set('layout-horizontal')
+        },
+        computed: {
+            getCurrentLayout() {
+                return this.$store.state.Configuration.currentLayout;
+            }
         }
     }
 </script>
