@@ -730,7 +730,6 @@ class AgeGroupService implements AgeGroupContract
 
       // $finalArray['tournament_positions'] = $positions;
 
-
       print_r(json_encode($finalArray));exit();
 
       return $finalArray;
@@ -774,6 +773,35 @@ class AgeGroupService implements AgeGroupContract
 
     public function getNextRoundMatches($group1, $group2, $previousRoundMatches, $currentRound)
     {
-      
+      $currentRound = $currentRound + 1;
+      $previousRound = $currentRound - 1;
+      $nextRoundMatches = [];
+
+      for ($i=0; $i <sizeof($group1) ; $i++) {
+        $currentMatch = $i + 1;
+        $previousRoundMatch = $previousRoundMatches[$i];
+
+        if (strpos($previousRoundMatch['match_number'], 'WR') || strpos($previousRoundMatch['match_number'], 'LR')) {
+          echo "<pre>";print_r($previousRoundMatch);echo "</pre>";exit;
+        } else {
+          $homeMatchArray = $previousRoundMatches[$i];
+          $homeMatchNumber = explode(".", $homeMatchArray['match_number']);
+          $homeMatch = str_replace("-", "_", end($homeMatchNumber));
+
+          $awayMatchArray = $previousRoundMatches[$group2[$i]];
+          $awayMatchNumber = explode(".", $awayMatchArray['match_number']);
+          $awayMatch = str_replace("-", "_", end($awayMatchNumber));
+
+          $nextRoundMatches[] = [
+            'in_between' => 'CAT.PM' .$previousRound. '.G' .$currentMatch. 'WR-CAT.PM' .$previousRound. '.G' .$group2[$i]. 'WR',
+            'match_number' => 'CAT.PM' .$currentRound. '.G' .$currentMatch. '.' .$homeMatch. '_WR-' .$awayMatch. '_WR',
+            'display_match_number' => 'CAT.' .$currentRound. '.' .$currentMatch. '.wrs.(@HOME-@AWAY)',
+            'display_home_team_placeholder_name' => "$previousRound.$currentMatch",
+            'display_away_team_placeholder_name' => "$previousRound.$group2[$i]",
+          ];
+        }
+      }
+
+      return $nextRoundMatches;
     }
 }
