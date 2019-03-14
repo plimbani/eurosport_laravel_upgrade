@@ -6,6 +6,8 @@ use Carbon\Carbon;
 use JWTAuth;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Laraspace\Models\Tournament;
+use Laraspace\Models\TempFixture;
 use Laraspace\Api\Repositories\TournamentRepository;
 use Laraspace\Api\Repositories\Commercialisation\TransactionRepository;
 use Laraspace\Http\Requests\Tournament\TournamentSummary;
@@ -109,14 +111,25 @@ class TournamentController extends BaseController
                 //Update payment details
                 $this->transactionRepoObj->updateTransaction($requestData);
             }
+        
+
+            $tournament = Tournament::findOrFail($requestData['tournament']['old_tournament_id']);
+
+            $tournamentDateFormat = Carbon::createFromFormat('d/m/Y', $tournament['start_date']);
+            $dateFormat = Carbon::parse($tournamentDateFormat)->format('Y-m-d');
+            
+            $tournamentFixture = TempFixture::where('tournament_id', $requestData['tournament']['old_tournament_id'])->whereDate('match_datetime', $dateFormat)->count();
+
             if (!empty($requestData['tournament'])) {
-                $requestData['tournament'] = [
-                    'id' => $requestData['tournament']['id'],
-                    'name' => $requestData['tournament']['tournament_name'],
-                    'start_date' => Carbon::createFromFormat('d/m/Y', $requestData['tournament']['tournament_start_date']),
-                    'end_date' => Carbon::createFromFormat('d/m/Y', $requestData['tournament']['tournament_end_date']),
-                    'maximum_teams' => $requestData['tournament']['tournament_max_teams'],
-                ];
+                if($tournament['start_date'] >= $requestData['tournament']['tournament_start_date'] && $tournamentFixture == 0){
+                    $requestData['tournament'] = [
+                        'id' => $requestData['tournament']['id'],
+                        'name' => $requestData['tournament']['tournament_name'],
+                        'start_date' => Carbon::createFromFormat('d/m/Y', $requestData['tournament']['tournament_start_date']),
+                        'end_date' => Carbon::createFromFormat('d/m/Y', $requestData['tournament']['tournament_end_date']),
+                        'maximum_teams' => $requestData['tournament']['tournament_max_teams'],
+                    ];
+                }
                 $this->tournamentRepoObj->edit($requestData['tournament']);
             }
             return response()->json([
