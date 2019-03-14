@@ -690,7 +690,7 @@ class AgeGroupService implements AgeGroupContract
 
           $nextRoundTeams = [];
           for ($i=0; $i < sizeof($matches[$round]); $i++) {
-            $nextRoundTeams[] = $i;
+            $nextRoundTeams[] = $i + 1;
           }
         }
 
@@ -776,13 +776,24 @@ class AgeGroupService implements AgeGroupContract
       $currentRound = $currentRound + 1;
       $previousRound = $currentRound - 1;
       $nextRoundMatches = [];
-
+      
       for ($i=0; $i <sizeof($group1) ; $i++) {
-        $currentMatch = $i + 1;
-        $previousRoundMatch = $previousRoundMatches[$i];
+        $previousRoundHomeMatch = $previousRoundMatches[$i];
+        $previousRoundAwayMatch = $previousRoundMatches[$group2[$i]];
 
-        if (strpos($previousRoundMatch['match_number'], 'WR') || strpos($previousRoundMatch['match_number'], 'LR')) {
-          echo "<pre>";print_r($previousRoundMatch);echo "</pre>";exit;
+        if (strpos($previousRoundHomeMatch['match_number'], 'WR') || strpos($previousRoundHomeMatch['match_number'], 'LR')) {
+          $explodedPreviousRoundHomeMatchNumberArray = explode(".", $previousRoundHomeMatch['match_number']);
+          $explodedPreviousRoundAwayMatchNumberArray = explode(".", $previousRoundAwayMatch['match_number']);
+
+          $nextRoundMatches[] = [
+            'in_between' => 'CAT.PM' .$previousRound. '.' .$explodedPreviousRoundHomeMatchNumberArray[2]. 'WR-CAT.PM' .$previousRound. '.' .$explodedPreviousRoundAwayMatchNumberArray[2]. 'WR',
+            'match_number' => 'CAT.PM' .$currentRound. '.G' .$currentMatch. '.(' .$explodedPreviousRoundHomeMatchNumberArray[1]. '_'. $explodedPreviousRoundHomeMatchNumberArray[2] .'_WR)-(' .$explodedPreviousRoundAwayMatchNumberArray[1]. '_'. $explodedPreviousRoundAwayMatchNumberArray[2]. '_WR)',
+            'display_match_number' => 'CAT.' .$currentRound. '.' .$currentMatch. '.wrs.(@HOME-@AWAY)',
+            'display_home_team_placeholder_name' => "$previousRound.$currentMatch",
+            'display_away_team_placeholder_name' => "$previousRound.$group2[$i]",
+          ];
+
+          // echo "<pre>";print_r($nextRoundMatches);echo "</pre>";exit;
         } else {
           $homeMatchArray = $previousRoundMatches[$i];
           $homeMatchNumber = explode(".", $homeMatchArray['match_number']);
