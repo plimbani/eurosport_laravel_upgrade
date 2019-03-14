@@ -181,6 +181,7 @@
         var vm = this;
         var currentCompetition;
         var competitionRound;
+        //let currentAgeCategoryId =  this.$store.state.currentAgeCategoryId;
         MatchList.getAllDraws(tournamentData.id).then(
           (response)=> {
             if(response.data.status_code == 200) {
