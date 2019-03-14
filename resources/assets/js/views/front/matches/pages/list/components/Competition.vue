@@ -14,7 +14,7 @@
         <div class="row align-items-center my-4">
           <div class="col-10 col-sm-6 col-md-4 col-lg-3 col-xl-3">
             <label class="custom_select_box d-block mb-0" for="match_overview">
-              <select v-on:change="onCompetitionChange()" id="competition-overview" class="border-0" name="competition-options">
+              <select v-on:change="onCompetitionChange" id="competition-overview" class="border-0" name="competition-options">
                   <optgroup :label="key" v-for="(round, key) in dropdownDrawName.round_robin">
                     <option v-bind:value="group.id" :label="group.display_name" :rel="group.actual_competition_type" v-for="group in round">{{group.display_name}}</option>
                   </optgroup>
@@ -81,7 +81,7 @@
     </div>
 
     <h6 class="mt-3 font-weight-bold" v-if="matches.length > 0 && isDivExist == 0">{{ competitionDetail.name }} matches</h6>
-    <matches :matches="matches" :competitionDetail="currentCompetition" :currentView="currentView" :fromView="'Competition'" :isDivExist="isDivExist" :isDivExistData="isDivExistData"></matches>
+    <matches :matches="matches" :competitionDetail="currentCompetition" :currentView="currentView" :fromView="'Competition'" :isDivExist="isDivExist" :isDivExistData="isDivExistData" :categoryId="categoryId"></matches>
   </div>
 </template>
 
@@ -112,7 +112,8 @@
       this.getCompetitions();
       this.generateDrawTable();
 
-      var currentComp = this.currentCompetitionId
+      var currentComp = this.currentCompetitionId;
+      var vm = this;
       setTimeout(function(){
         $('#competition-overview optgroup .rounds').each(function() {
           var insideOptions = $(this).html();
@@ -122,9 +123,8 @@
           $(this).html($(this).attr('rel'));
         });
 
-        //$('#competition-overview').val(this.currentCompetitionId);
 
-        /*$("#competition-overview").select2({
+        $("#competition-overview").select2({
           templateResult: function (data, container) {
             if (data.element) {
               $(container).addClass($(data.element).attr("class"));
@@ -133,20 +133,16 @@
           }
         }) 
         .on('change', function () {
-          //vm.DrawName.id = $(this).val();
           let curreId = $(this).val();
-          this.competitionList.map(function(value, key) {
+          vm.competitionList.map(function(value, key) {
             if(value.id == curreId) {
-              // drawnameChange.push(value);
-              this.currentCompetition = value;
-              this.currentCompetitionId = curreId;
+              vm.currentCompetition = value;
+              vm.currentCompetitionId = curreId;
             }
           });
-
-          this.onCompetitionChange();
-
-        });*/
-        $("#competition-overview").val(currentComp);
+          vm.onCompetitionChange();
+        });
+        $("#competition-overview").val(currentComp).trigger('change');
       },500);
     },
     filters: {
@@ -181,8 +177,8 @@
         var vm = this;
         var currentCompetition;
         var competitionRound;
-        //let currentAgeCategoryId =  this.$store.state.currentAgeCategoryId;
-        MatchList.getAllDraws(tournamentData.id).then(
+        let currentAgeCategoryId =  this.categoryId;
+        MatchList.getAllDraws([tournamentData.id,currentAgeCategoryId]).then(
           (response)=> {
             if(response.data.status_code == 200) {
               vm.competitionList = response.data.data.mainData;
@@ -244,15 +240,10 @@
         )
       },
       onCompetitionChange() {
-        var curreId = $('#competition-overview').val();
-        var currentCompetition = _.find(this.competitionList, function(o) { return o.id == curreId });
 
-        this.currentCompetition = currentCompetition;
-        this.competitionRound = currentCompetition.competation_type;
-
-        var competitionId = currentCompetition.id;
-        var competitionName = currentCompetition.name;
-        var competitionType = currentCompetition.competation_type;
+        var competitionId = this.currentCompetition.id;
+        var competitionName = this.currentCompetition.name;
+        var competitionType = this.currentCompetition.competation_type;
 
         if(this.fromView == 'Matches') {
           this.$root.$emit('showCompetitionData', competitionId, competitionName, competitionType);
