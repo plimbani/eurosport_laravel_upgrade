@@ -36,20 +36,38 @@ class TransactionService implements TransactionContract {
      */
     public function generatePaymentReceipt($data)
     {
-        $transaction = Transaction::where('tournament_id', '=', $data['tournament_id'])->first();
+//        $transaction = Transaction::where('tournament_id', '=', $data['tournament_id'])->first();
+//        $transaction = Transaction::with('transactionHistories')
+//                        ->where('tournament_id', $data['tournament_id'])->first();
+        $transaction = \DB::table('transaction_histories')
+                ->select('transaction_histories.id', 'transaction_histories.amount', 'transaction_histories.order_id', 'transaction_histories.team_size', 'tournaments.start_date', 'tournaments.end_date')
+                ->join('transactions', 'transaction_histories.transaction_id', '=', 'transactions.id')
+                ->join('tournaments', 'tournaments.id', '=', 'transactions.tournament_id')
+                ->where(['transactions.tournament_id' => $data['tournament_id']])
+                ->orderBy('transaction_histories.id', 'desc')
+                ->limit(2)
+                ->get();
 
-        $fdate = str_replace('/', '-', $transaction->tournament->start_date);
-        $tdate = str_replace('/', '-', $transaction->tournament->end_date);
+        $fdate = str_replace('/', '-', $transaction[0]->start_date);
+        $tdate = str_replace('/', '-', $transaction[0]->end_date);
         $datetime1 = new \DateTime($fdate);
         $datetime2 = new \DateTime($tdate);
         $interval = $datetime1->diff($datetime2);
         $days = $interval->format('%a');
 
+        if (count($transaction) > 1) {
+            $amount = $transaction[0]->amount - $transaction[1]->amount;
+            $maxTeam = '+' . ($transaction[0]->team_size - $transaction[1]->team_size);
+        } else {
+            $amount = $transaction[0]->amount;
+            $maxTeam = $transaction[0]->team_size;
+        }
+
         $pdfData = [
             'days' => $days,
-            'maximumTeams' => $transaction->tournament->maximum_teams,
-            'amount' => $transaction->amount,
-            'orderNumber' => $transaction->order_id
+            'maximumTeams' => $maxTeam,
+            'amount' => $amount,
+            'orderNumber' => $transaction[0]->order_id
         ];
         $date = new \DateTime(date('H:i d M Y'));
         $pdf = PDF::loadView('commercialisation.payment_receipt', ['data' => $pdfData])
