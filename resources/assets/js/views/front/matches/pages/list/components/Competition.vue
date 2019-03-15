@@ -13,7 +13,7 @@
     <div>
         <div class="row align-items-center my-4">
           <div class="col-10 col-sm-6 col-md-4 col-lg-3 col-xl-3">
-            <label class="custom_select_box d-block mb-0" for="match_overview">
+            <label class="d-block mb-0" for="match_overview">
               <select v-on:change="onCompetitionChange" id="competition-overview" class="border-0" name="competition-options">
                   <optgroup :label="key" v-for="(round, key) in dropdownDrawName.round_robin">
                     <option v-bind:value="group.id" :label="group.display_name" :rel="group.actual_competition_type" v-for="group in round">{{group.display_name}}</option>
