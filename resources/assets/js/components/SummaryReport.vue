@@ -254,7 +254,7 @@
 					</div>
 					</div>
 					<div  v-if="!isShowReport">	
-						Reports will be available from {{startDateFormat}}.
+						Reports will be available from {{dateBeForTwoDaysFormat}}.
 					</div>
 				</div>
 				<div id="fair_play_tab" class="tab-pane">
@@ -338,7 +338,7 @@
 							</div>
 					</div>
 					<div  v-if="!isShowReport">	
-						Reports will be available from {{startDateFormat}}.
+						Reports will be available from {{dateBeForTwoDaysFormat}}.
 					</div>
 				</div>
 			</div>
@@ -374,7 +374,8 @@ export default {
         sortBy: 'asc',
         reverse: false,
         isShowReport:true,
-        startDateFormat:""
+        startDateFormat:"",
+        dateBeForTwoDaysFormat:""
        	}
     },
     computed: {
@@ -883,7 +884,10 @@ export default {
       	let startDateArr = tournamentStartDate.split("/");
       	
         let startDateFormat = startDateArr[2]+"/"+startDateArr[1]+"/"+startDateArr[0];
+        // console.log("startDateFormat::")
         let startDate = moment(startDateFormat).startOf('day');
+        this.dateBeForTwoDaysFormat = moment(startDateFormat).startOf('day').subtract(2,'days').format('Do MMMM YYYY');
+        // console.log("this.dateBeForTwoDaysFormat::",this.dateBeForTwoDaysFormat);
         let endDate = moment().startOf('day');
         this.startDateFormat = startDate.format('Do MMMM YYYY');
         // console.log("startDate::",startDate)
