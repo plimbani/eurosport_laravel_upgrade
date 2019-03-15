@@ -18,8 +18,8 @@
     import SiteHeader from './partials/SiteHeader.vue'
     import SiteFooter from './partials/SiteFooter.vue'
 
-    import SiteCommercialisationHeader from './partials/Commercialisation/SiteHeader.vue'
-    import SiteCommercialisationFooter from './partials/Commercialisation/SiteFooter.vue'
+    import SiteCommercialisationHeader from './partials/Commercialisation/Frontend/SiteHeader.vue'
+    import SiteCommercialisationFooter from './partials/Commercialisation/Frontend/SiteFooter.vue'
 
     import Layout from '../../helpers/layout'
     import BreadCrum from '../../components/BreadCrum.vue'

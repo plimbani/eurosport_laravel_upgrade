@@ -110,6 +110,7 @@
                             let indxOfCustomer =  (response.data.role).findIndex(item => item.slug.toLowerCase() == "customer") 
                             // console.log('fff::',response.data);
                             if(indxOfCustomer > -1){
+                                Ls.set('user_role','customer')
                             // if(response.data.role.slug == "customer"){
                                 this.$router.push({'name':'dashboard'})
                             }else{
@@ -134,14 +135,17 @@
                 }
             },
             forgotPasswordOpen() {
+                this.errors.clear();
                 this.loginData.forgotpassword = 1
             },
             backtologin() {
-                 this.loginData.forgotpassword = 0
+                this.errors.clear();
+                this.loginData.forgotpassword = 0
             },
 
             redirectToRegisterPage(){
-                 this.$router.push({'name':'register'}) 
+                this.errors.clear();
+                this.$router.push({'name':'register'}) 
             },
 
             sendResetLink() {
