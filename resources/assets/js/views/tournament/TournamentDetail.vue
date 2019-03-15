@@ -14,8 +14,8 @@
                                 <h2 class="font-weight-bold mb-0">{{tournamentData.name}}</h2>
                                 <h4 class="text-uppercase font-weight-bold mb-4">{{tournamentData.start_date}} - {{tournamentData.end_date}}</h4>
 
-                                <h6 v-if="contactData[0].first_name || contactData[0].telephone"  class="text-uppercase mb-0 font-weight-bold">Main Contact</h6>
-                                <p class="mb-4">{{contactData[0].first_name}} {{contactData[0].last_name}} <a :href="'tel:' + contactData[0].telephone">{{contactData[0].telephone}}</a></p>
+                                <h6 v-if="contactDetail.first_name || contactDetail.telephone"  class="text-uppercase mb-0 font-weight-bold">Main Contact</h6>
+                                <p class="mb-4">{{contactDetail.first_name}} {{contactDetail.last_name}} <a :href="'tel:' + contactDetail.telephone">{{contactDetail.telephone}}</a></p>
 
                                  <h6 v-if="tournamentSponsers.length > 0"  class="text-uppercase font-weight-bold">Sponsored by</h6>
 
@@ -65,6 +65,11 @@
                 tournamentSponsers:[],
                 code:"",
                 baseUrl:"",
+                contactDetail:{
+                    first_name:"",
+                    last_name:"",
+                    telephone:""
+                }
             }
         },
         components: {
@@ -91,6 +96,11 @@
                         if (response.data.success) {
                              this.tournamentData = response.data.data.tournament_details;
                              this.contactData = response.data.data.contact_details;
+                             if((this.contactData).length > 0){
+                                this.contactDetail.first_name = this.contactData[0].first_name;
+                                this.contactDetail.last_name = this.contactData[0].last_name;
+                                this.contactDetail.telephone = this.contactData[0]telephonee;
+                             }
                              this.tournamentSponsers = response.data.data.tournament_sponsor;
                              this.baseUrl = response.data.data.baseUrl;
                              // console.log("this.contactData::",this.contactData)
