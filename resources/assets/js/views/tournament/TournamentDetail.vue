@@ -14,8 +14,8 @@
                                 <h2 class="font-weight-bold mb-0">{{tournamentData.name}}</h2>
                                 <h4 class="text-uppercase font-weight-bold mb-4">{{tournamentData.start_date}} - {{tournamentData.end_date}}</h4>
 
-                                <h6 v-if="contactData.length > 0"  class="text-uppercase mb-0 font-weight-bold">Main Contact</h6>
-                                <p class="mb-4"  v-for="item in contactData" >{{item.first_name}} {{item.last_name}} <a :href="'tel:' + item.telephone">{{item.telephone}}</a></p>
+                                <h6 v-if="contactData[0].first_name || contactData[0].telephone"  class="text-uppercase mb-0 font-weight-bold">Main Contact</h6>
+                                <p class="mb-4">{{contactData[0].first_name}} {{contactData[0].last_name}} <a :href="'tel:' + contactData[0].telephone">{{contactData[0].telephone}}</a></p>
 
                                  <h6 v-if="tournamentSponsers.length > 0"  class="text-uppercase font-weight-bold">Sponsored by</h6>
 
