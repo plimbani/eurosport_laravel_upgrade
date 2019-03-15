@@ -1127,7 +1127,8 @@ class TournamentRepository
             $response = [
                 'tournament_details' => $tournament,
                 'contact_details' => !empty($tournament->contacts) ? $tournament->contacts : [],
-                'tournament_sponsor' => !empty($tournament->sponsors) ? $tournament->sponsors : []
+                'tournament_sponsor' => !empty($tournament->sponsors) ? $tournament->sponsors : [],
+                'baseUrl' => $baseUrl
             ];
         }
         return $response;

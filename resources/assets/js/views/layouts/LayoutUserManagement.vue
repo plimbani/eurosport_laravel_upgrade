@@ -21,8 +21,8 @@
     import BreadCrum from '../../components/BreadCrum.vue'
     import UserManagementabbed from './partials/UserManagementabbed.vue'
 
-    import SiteCommercialisationHeader from './partials/Commercialisation/Frontend/SiteHeader.vue'
-    import SiteCommercialisationFooter from './partials/Commercialisation/Frontend/SiteFooter.vue'
+    import SiteCommercialisationHeader from './partials/Commercialisation/Backend/SiteHeader.vue'
+    import SiteCommercialisationFooter from './partials/Commercialisation/Backend/SiteFooter.vue'
     export default {
         data() {
             return {
