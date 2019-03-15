@@ -93,13 +93,13 @@
             getTournamentDetail(){
                // console.log("tournamentDetail::",this.code);
                  axios.get(Constant.apiBaseUrl+'tournament-by-code?tournament='+this.code, {}).then(response =>  {  
-                        if (response.data.success) {
+                        if (response.data.success && typeof response.data.data != "undefined" && typeof response.data.data.tournament_details != "undefined") {
                              this.tournamentData = response.data.data.tournament_details;
                              this.contactData = response.data.data.contact_details;
                              if((this.contactData).length > 0){
                                 this.contactDetail.first_name = this.contactData[0].first_name;
                                 this.contactDetail.last_name = this.contactData[0].last_name;
-                                this.contactDetail.telephone = this.contactData[0]telephonee;
+                                this.contactDetail.telephone = this.contactData[0].telephonee;
                              }
                              this.tournamentSponsers = response.data.data.tournament_sponsor;
                              this.baseUrl = response.data.data.baseUrl;
@@ -109,7 +109,7 @@
                             this.tournamentData = {};
                             this.contactData= [];
                             this.tournamentSponsers= [];
-                            toastr['error'](response.data.message, 'Error');
+                            toastr['error']("Tournament detail not found.", 'Error');
                          }
                  }).catch(error => {
                     this.tournamentData = {};
