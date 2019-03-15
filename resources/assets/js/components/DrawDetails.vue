@@ -8,15 +8,17 @@
   </div>
   <div class="form-group row">
     <div class="col-md-3">
-      <select class="form-control ls-select2"
-        v-on:change="onChangeDrawDetails"
-        v-model="DrawName">
+      <select class="form-control" id="drawName" v-on:change="onChangeDrawDetails">
         <!-- <option value="">Select</option> -->
-        <option
-        v-for="option in drawList"
-        v-bind:value="option"
-        >{{option.name}}
-        </option>
+        <optgroup :label="key" v-for="(round, key) in dropdownDrawName.round_robin">
+          <option v-bind:value="group.id" :label="group.display_name" :rel="group.actual_competition_type" v-for="group in round">{{group.display_name}}</option>
+        </optgroup>
+
+        <optgroup :label="index" class="division" v-for="(division, index) in dropdownDrawName.divisions">
+          <option class="rounds" disabled="true" :rel="roundIndex" :label="roundIndex" v-for="(divRound, roundIndex) in division">
+          <option v-bind:value="divGroup.id" class="placingMatches" :label="divGroup.display_name" :rel="divGroup.actual_competition_type" v-for="divGroup in divRound">&nbsp;&nbsp;&nbsp;&nbsp;{{ divGroup.display_name }}</option>
+          </option>
+        </optgroup>
       </select>
     </div>
   </div>
@@ -91,18 +93,8 @@
     <div v-if="currentCompetationId == 0 && otherData.DrawType != 'Elimination'">No information available
     </div>
   </div>
-
-  <div class="row align-items-center mb-3">
-    <div class="col-md-10">
-      <label class="mb-0">
-        <h6 class="mb-0">{{otherData.DrawName}} matches</h6>
-      </label>
-    </div>
-    <div class="col-md-2">
-      <button type="button" name="save" class="btn btn-primary pull-right" @click="saveMatchScore()" v-if="otherData.DrawType == 'Elimination' && isUserDataExist">Save</button>
-    </div>
-  </div>
-  <matchList :matchData1="matchData" :DrawName="DrawName"></matchList>
+  
+  <matchList :matchData1="matchData" :DrawName="DrawName" :otherData="otherData"></matchList>
   <manualRanking :competitionId="currentCompetationId" :teamList="teamList" :teamCount="teamCount" :isManualOverrideStanding="DrawName.is_manual_override_standing" @refreshStanding="refreshManualStanding()" @competitionAsManualStanding="competitionAsManualStanding"></manualRanking>
 </div>
 </template>
@@ -132,6 +124,8 @@ export default {
             matchStatus: true,
             teamList: [],
             teamCount: 0,
+            testArray: ['1', '2', '3', '5'],
+            dropdownDrawName:[]
         }
     },
     created: function() {
@@ -147,24 +141,27 @@ export default {
     // here call method to get All Draws
     let TournamentId = this.$store.state.Tournament.tournamentId
     let currDId = this.currentCompetationId
+    let currentAgeCategoryId =  this.$store.state.currentAgeCategoryId;
     let round = 'Round Robin'
     let drawname1 = []
+    
     let vm = this
-      Tournament.getAllDraws(TournamentId).then(
+      Tournament.getAllDraws([TournamentId,currentAgeCategoryId]).then(
         (response)=> {
           if(response.data.status_code == 200) {
-            this.drawList = response.data.data
+            this.drawList = response.data.data.mainData
 
-            vm.drawList = response.data.data
+            vm.drawList = response.data.data.mainData;
+            vm.dropdownDrawName = response.data.data.ageCategoryData;
             vm.drawList.map(function(value, key) {
               if(value.actual_competition_type == 'Elimination') {
                 value.name = _.replace(value.name, '-Group', '');
-
                 return value;
               }
             })
 
-            var uniqueArray = response.data.data.filter(function(item, pos) {
+
+            var uniqueArray = response.data.data.mainData.filter(function(item, pos) {
 
               if(item['id'] == currDId)
               {
@@ -188,6 +185,42 @@ export default {
       // Call child class Method
       // this.$children[1].getData(this.currentCompetationId)
       // console.log(this.$children[1].getData())
+
+    setTimeout(function(){
+      $('#drawName optgroup .rounds').each(function() {
+        var insideOptions = $(this).html();
+        $(this).html('');
+        $(insideOptions).insertAfter($(this));
+
+        $(this).html($(this).attr('rel'));
+      });
+
+      $("#drawName").select2({
+        templateResult: function (data, container) {
+          if (data.element) {
+            $(container).addClass($(data.element).attr("class"));
+          }
+          return data.text;
+        }
+      })
+      .on('change', function () {
+        //vm.DrawName.id = $(this).val();
+        let curreId = $(this).val();
+        let drawnameChange = [];
+        vm.drawList.map(function(value, key) {
+          if(value.id == curreId) {
+            // drawnameChange.push(value);
+            vm.DrawName = value;
+          }
+        });
+
+        vm.onChangeDrawDetails();
+      });
+
+      $("#drawName").val(currDId).trigger('change');
+    },500);
+
+    $('.ls-select2').select2();
  },
   filters: {
     formatDate: function(date) {
@@ -295,6 +328,8 @@ export default {
            )
         },
         onChangeDrawDetails() {
+          // alert("oh here change");
+          // alert(this.DrawName.id);
           this.$store.dispatch('setCurrentScheduleView','drawDetails')
           let Id = this.DrawName.id
           let Name = this.DrawName.name

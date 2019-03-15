@@ -277,6 +277,9 @@ export default {
   matchUnscheduledFixtures(matchId) {
     return api.post('match/fixtureUnschedule',{'matchId': matchId})
   },
+  updateCategoryDivisionName(tournamentId) {
+    return api.post('tournament/updateCategoryDivisionName', {'tournamentData':tournamentId});
+  },
   duplicateTournament(copyTournamentData) {
     return api.post('duplicateTournament', copyTournamentData)
   },

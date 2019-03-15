@@ -949,6 +949,7 @@ class TournamentService implements TournamentContract
       return ['options' => $data];
     }
 
+<<<<<<< HEAD
     /*
     * Save tournament sposer logo
     *
@@ -1007,6 +1008,16 @@ class TournamentService implements TournamentContract
       return response()->json(['data' => $tournament]);
     }
 
+=======
+    /**
+    * Update category division display name.
+    */
+    public function updateCategoryDivisionName($data)
+    {
+      $data = $this->tournamentRepoObj->updateCategoryDivisionName($data);
+      return $data;
+    }
+>>>>>>> origin/ticket463
     public function duplicateTournament($data)
     {
       $data = $this->tournamentRepoObj->duplicateTournament($data);
