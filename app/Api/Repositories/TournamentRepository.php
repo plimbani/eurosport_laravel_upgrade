@@ -1113,13 +1113,23 @@ class TournamentRepository
      */
     public function getTournamentByAccessCode($accessCode)
     {
+        $baseUrl = getenv('APP_URL');
         $tournament = Tournament::where('access_code', $accessCode)->first();
-        $response = [
-            'tournament_details' => $tournament,
-            'contact_details' => !empty($tournament->contacts) ? $tournament->contacts : [],
-            'tournament_sponsor' => !empty($tournament->sponsors) ? $tournament->sponsors : []
-        ];
         
+        if(!empty($tournament->sponsors)) {
+            foreach ($tournament->sponsors as &$sponsor) {
+                $sponsor['logo'] = getenv('S3_URL') . '/assets/img/tournament_sponsor/'. $sponsor['logo'];
+            }
+        }
+        $response = [];
+        if(!empty($tournament)){
+            $tournament->logo = !empty($tournament->logo) ? getenv('S3_URL'). '/assets/img/tournament_logo/'. $tournament->logo : '';
+            $response = [
+                'tournament_details' => $tournament,
+                'contact_details' => !empty($tournament->contacts) ? $tournament->contacts : [],
+                'tournament_sponsor' => !empty($tournament->sponsors) ? $tournament->sponsors : []
+            ];
+        }
         return $response;
     }
 
@@ -1363,6 +1373,5 @@ class TournamentRepository
     {
         $tournament = Tournament::where('access_code', $data['accessCode'])->first();
         return $tournament;   
-    }
-        
+    }  
 }

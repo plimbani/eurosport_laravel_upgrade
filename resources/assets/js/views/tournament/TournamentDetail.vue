@@ -2,19 +2,20 @@
     <section class="confirmation-section section-padding pb-0">
         <div class="tournament-section section-padding">
             <div class="container">
-                <div class="row" v-if="tournamentData">
+                <div class="row" v-if="tournamentData.id">
                     <div class="col-xl-8">
                         <div class="row">
                             <div class="col-sm-4 col-md-3">
-                                <img src='/images/dummy.png' class="img-fluid tournament-image">
+                                <img v-if="tournamentData.logo" :src='tournamentData.logo' class="img-fluid tournament-image">
+                                <!-- <img v-if="!tournamentData.logo" src='/images/dummy.png' class="img-fluid tournament-image"> -->
                             </div>
                             <div class="col-sm-8 col-md-9">
                                 <h6 class="text-uppercase mb-0 mt-4 mt-sm-0">License: #{{tournamentData.access_code}}</h6>
                                 <h2 class="font-weight-bold mb-0">{{tournamentData.name}}</h2>
                                 <h4 class="text-uppercase font-weight-bold mb-4">{{tournamentData.start_date}} - {{tournamentData.end_date}}</h4>
 
-                                <h6 v-if="contactData.length > 0"  class="text-uppercase mb-0 font-weight-bold">Main Contact</h6>
-                                <p class="mb-4"  v-for="item in contactData" >{{item.first_name}} {{item.last_name}} <a :href="'tel:' + item.telephone">{{item.telephone}}</a></p>
+                                <h6 v-if="contactData[0].first_name || contactData[0].telephone"  class="text-uppercase mb-0 font-weight-bold">Main Contact</h6>
+                                <p class="mb-4">{{contactData[0].first_name}} {{contactData[0].last_name}} <a :href="'tel:' + contactData[0].telephone">{{contactData[0].telephone}}</a></p>
 
                                  <h6 v-if="tournamentSponsers.length > 0"  class="text-uppercase font-weight-bold">Sponsored by</h6>
 
@@ -34,14 +35,14 @@
                         <div class="app-code text-center py-3">
                             <h3 class="font-weight-bold m-0">{{tournamentData.access_code}}</h3>
                         </div>
-
+                        
                         <ul class="list-unstyled get-app mb-0 text-xl-center mt-4">
-                            <li class="d-inline pr-2"><a href="#"><img src="/images/app-store.png"></a></li>
-                            <li class="d-inline"><a href="#"><img src="/images/google-play.png"></a></li>
+                            <li class="d-inline pr-2"><a href="javascript:void(0);" @click="tournamentDetailAppStoreLink()"><img src="/images/app-store.png"></a></li>
+                            <li class="d-inline"><a href="javascript:void(0);" @click="tournamentDetailGoogleStoreLink()"><img src="/images/google-play.png"></a></li>
                         </ul>
                     </div>
                 </div>
-                <div class="row" v-if="!tournamentData">
+                <div class="row" v-if="!tournamentData.id">
                     <div class="col-xl-12">
                         Tournament details not found
                         
@@ -62,7 +63,8 @@
                 tournamentData:{},
                 contactData:[],
                 tournamentSponsers:[],
-                code:""
+                code:"",
+                baseUrl:"",
             }
         },
         components: {
@@ -86,24 +88,48 @@
             getTournamentDetail(){
                // console.log("tournamentDetail::",this.code);
                  axios.get(Constant.apiBaseUrl+'tournament-by-code?tournament='+this.code, {}).then(response =>  {  
-                        if (response.data.success) { 
-                             this.tournamentInfo = response.data.data.tournament_details;
+                        if (response.data.success) {
                              this.tournamentData = response.data.data.tournament_details;
                              this.contactData = response.data.data.contact_details;
                              this.tournamentSponsers = response.data.data.tournament_sponsor;
+                             this.baseUrl = response.data.data.baseUrl;
                              // console.log("this.contactData::",this.contactData)
                              // console.log("this.tournamentSponsers:;:",this.tournamentSponsers);
                          }else{ 
+                            this.tournamentData = {};
+                            this.contactData= [];
+                            this.tournamentSponsers= [];
                             toastr['error'](response.data.message, 'Error');
                          }
                  }).catch(error => {
-                     
+                    this.tournamentData = {};
+                    this.contactData= [];
+                    this.tournamentSponsers= [];
                  }); 
                // this.$router.push({'name':'buylicense'}) 
-            } 
-        },
-        beforeMount(){  
-            // this.getTournamentDetail();
+            },
+            tournamentDetailAppStoreLink(){
+                if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                    this.$router.push({ path: 'mtournament-detail', query: { code: this.code }})
+                } 
+
+                if(!/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                    this.$router.push({ path: 'tournament-detail', query: { code: this.code }})
+                    window.location.href = 'https://play.google.com/store?hl=en';  
+                }
+            },
+
+            tournamentDetailGoogleStoreLink() {
+                if(/Android/i.test(navigator.userAgent)){ 
+                    this.$router.push({ path: 'mtournament-detail', query: { code: this.code }})
+                    window.location.href = this.baseUrl+'/tournament/openApp';
+                }
+
+                if (!navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/)) {
+                    this.$router.push({ path: 'tournament-detail', query: { code: this.code }})
+                    window.location.href = 'https://play.google.com/store/apps/details?id=com.aecor.eurosports.easymatchmanager';  
+                }
+            }
         }
     }
 </script>

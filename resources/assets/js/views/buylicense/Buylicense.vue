@@ -219,7 +219,12 @@
                     // console.log("vvv::",document.getElementById('tournament_start_date').value)
                     this.tournamentData.tournament_start_date = document.getElementById('tournament_start_date').value;
                     this.tournamentData.tournament_end_date = document.getElementById('tournament_end_date').value;
-                    
+                    if(this.id){
+                        this.tournamentData.dayDifference =  this.newDaysAdded; 
+                    }else{
+                        this.tournamentData.dayDifference = this.dayDifference;
+                    }
+                    // newDaysAdded
                     Ls.set("tournamentDetails",JSON.stringify(this.tournamentData)); 
                     
                     let token = Ls.get('auth.token')
@@ -290,6 +295,7 @@
                             }
                             // console.log("response.data.data::",response.data.data)
                             this.tournamentData['id'] = this.id;
+                            this.tournamentData['old_tournament_id'] = response.data.data.id;
                             this.tournamentData['tournament_name'] = response.data.data.name;
                             this.tournamentData['tournament_max_teams'] = response.data.data.maximum_teams;   
                             this.tournament_old_teams = response.data.data.maximum_teams;   
