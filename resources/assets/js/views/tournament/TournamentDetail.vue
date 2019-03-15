@@ -35,10 +35,10 @@
                         <div class="app-code text-center py-3">
                             <h3 class="font-weight-bold m-0">{{tournamentData.access_code}}</h3>
                         </div>
-
+                        
                         <ul class="list-unstyled get-app mb-0 text-xl-center mt-4">
-                            <li class="d-inline pr-2"><a href="#"><img src="/images/app-store.png"></a></li>
-                            <li class="d-inline"><a href="#"><img src="/images/google-play.png"></a></li>
+                            <li class="d-inline pr-2"><a href="javascript:void(0);" @click="tournamentDetailAppStoreLink()"><img src="/images/app-store.png"></a></li>
+                            <li class="d-inline"><a href="javascript:void(0);" @click="tournamentDetailGoogleStoreLink()"><img src="/images/google-play.png"></a></li>
                         </ul>
                     </div>
                 </div>
@@ -63,7 +63,8 @@
                 tournamentData:{},
                 contactData:[],
                 tournamentSponsers:[],
-                code:""
+                code:"",
+                baseUrl:"",
             }
         },
         components: {
@@ -87,11 +88,11 @@
             getTournamentDetail(){
                // console.log("tournamentDetail::",this.code);
                  axios.get(Constant.apiBaseUrl+'tournament-by-code?tournament='+this.code, {}).then(response =>  {  
-                        if (response.data.success) { 
-                             // this.tournamentInfo = response.data.data.tournament_details;
+                        if (response.data.success) {
                              this.tournamentData = response.data.data.tournament_details;
                              this.contactData = response.data.data.contact_details;
                              this.tournamentSponsers = response.data.data.tournament_sponsor;
+                             this.baseUrl = response.data.data.baseUrl;
                              // console.log("this.contactData::",this.contactData)
                              // console.log("this.tournamentSponsers:;:",this.tournamentSponsers);
                          }else{ 
@@ -106,10 +107,29 @@
                     this.tournamentSponsers= [];
                  }); 
                // this.$router.push({'name':'buylicense'}) 
-            } 
-        },
-        beforeMount(){  
-            // this.getTournamentDetail();
+            },
+            tournamentDetailAppStoreLink(){
+                if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                    this.$router.push({ path: 'mtournament-detail', query: { code: this.code }})
+                } 
+
+                if(!/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                    this.$router.push({ path: 'tournament-detail', query: { code: this.code }})
+                    window.location.href = 'https://play.google.com/store?hl=en';  
+                }
+            },
+
+            tournamentDetailGoogleStoreLink() {
+                if(/Android/i.test(navigator.userAgent)){ 
+                    this.$router.push({ path: 'mtournament-detail', query: { code: this.code }})
+                    window.location.href = this.baseUrl+'/tournament/openApp';
+                }
+
+                if (!navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/)) {
+                    this.$router.push({ path: 'tournament-detail', query: { code: this.code }})
+                    window.location.href = 'https://play.google.com/store/apps/details?id=com.aecor.eurosports.easymatchmanager';  
+                }
+            }
         }
     }
 </script>
