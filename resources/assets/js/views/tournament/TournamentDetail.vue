@@ -76,16 +76,29 @@
             ScheduleAndResult,
         },
         beforeRouteEnter(to, from, next) { 
-              if(Object.keys(to.query).length !== 0) { //if the url has query (?query)
+            
+            if(Object.keys(to.query).length !== 0) { //if the url has query (?query)
                 next(vm => {    
                     setTimeout(function(){   
                         if(typeof to.query.code != "undefined"){
                             vm.code = to.query.code;
                             // console
                             vm.getTournamentDetail();
+                        }else{
+                            // console.log("herer");
+                            vm.$router.push({ path: 'enter-tournament'})
+                            
                         }
                     }, 100); 
                })
+            }else{
+                next(vm => {    
+                    setTimeout(function(){   
+                    // console.log("Testttttttt");
+                        vm.$router.push({ path: 'enter-tournament'})
+                    },200)
+               })
+                // this.$router.push({ path: 'EnterTournamentAccessCode'})
             }
             next()
         },
