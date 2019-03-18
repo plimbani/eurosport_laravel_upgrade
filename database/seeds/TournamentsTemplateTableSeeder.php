@@ -596,10 +596,10 @@ class TournamentsTemplateTableSeeder extends Seeder
           'graphic_image' => '/assets/img/template_graphic_image/TT16.7.jpg', 'total_teams' => '16', 
           'minimum_matches' => '7', 'position_type' => 'final', 'created_at' => Carbon::now()->format('Y-m-d H:i:s'), 'deleted_at' => null],
 
-          [ 'name' => 'T.12.5 (v3)',
+          [ 'name' => 'T.12.6 (v3)',
           'json_data' => jsonMin::minify(file_get_contents(base_path('resources/templates/template0151.json'))), 
-          'graphic_image' => '/assets/img/template_graphic_image/TT12.5_v3.jpg', 'total_teams' => '12',
-          'minimum_matches' => '5', 'position_type' => 'final', 'created_at' => Carbon::now()->format('Y-m-d H:i:s'), 'deleted_at' => null],
+          'graphic_image' => '/assets/img/template_graphic_image/TT12.6_v3.jpg', 'total_teams' => '12',
+          'minimum_matches' => '6', 'position_type' => 'final', 'created_at' => Carbon::now()->format('Y-m-d H:i:s'), 'deleted_at' => null],
         ]);
 DB::statement('SET FOREIGN_KEY_CHECKS=1');
     }
