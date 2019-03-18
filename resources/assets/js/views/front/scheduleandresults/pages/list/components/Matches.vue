@@ -1,8 +1,8 @@
 <template>
     <div>
       <!-- <hr class="hr m-0"> -->
-      <div class="table-responsive custom-table">
-        <table id="matchSchedule" class="table table-sm" v-if="matchData.length > 0">
+      <div class="table-responsive custom-table" v-if="matchData.length > 0 && isDivExist == 0">
+        <table id="matchSchedule" class="table table-sm" v-if="matchData.length > 0 && isDivExist == 0">
           <thead class="no-border">
             <tr>
               <th scope="col">Date and time</th>
@@ -61,6 +61,68 @@
         </table>
       </div>
 
+      <div class="table-responsive" v-for="(matches,index) in isDivExistData" v-if="matchData.length > 0 && isDivExist == 1" >
+        <label class="mb-0"><h4 class="mb-2">{{index}}</h4></label><br>
+        <label class="mb-0"><h5 class="mb-2">{{matches[0]['competation_name']}} matches</h5></label>
+        <table id="matchSchedule" class="table table-sm" v-if="matchData.length > 0 && isDivExist == 1">
+          <thead class="no-border">
+            <tr>
+              <th scope="col">Date and time</th>
+              <th scope="col">Categories</th>
+              <th scope="col">Match codes</th>
+              <th scope="col">Team</th>
+              <th scope="col">Team</th>
+              <th scope="col">Score</th>
+              <th scope="col" v-if="showPlacingForMatch()">Placing</th>
+              <th scope="col">Location</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="match in matches">
+              <td>{{ match.match_datetime | formatDate }}</td>
+              <td>
+                <a href="" v-if="currentView != 'Competition'" @click.prevent="showCompetitionData(match)">
+                  {{ match.competation_name | formatGroup }}
+                </a>
+                <span v-else>{{ match.competation_name | formatGroup(match.round) }}</span>
+              </td>
+              <td>{{displayMatch(match.displayMatchNumber)}}</td>
+              <td class="match-teams-details">
+                <div class="matchteam-details">                  
+                  <span class="matchteam-flag" v-if="(match.Home_id != 0 )" :class="'flag-icon flag-icon-' + match.HomeCountryFlag"></span>
+                  <div class="matchteam-dress" v-if="match.HomeTeamShortsColor && match.HomeTeamShirtColor">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64.4 62"><g><polygon class="cls-1" v-bind:fill="match.HomeTeamShortsColor" points="13.79 39.72 13.79 61.04 30.26 61.04 32.2 55.22 34.14 61.04 50.61 61.04 50.61 39.72 13.79 39.72"/></g><path class="cls-2" v-bind:fill="match.HomeTeamShirtColor" d="M62.83,11.44,50.61,1H38A6.29,6.29,0,0,1,32.2,4.84,6.29,6.29,0,0,1,26.39,1H13.79L1.57,11.44a1.65,1.65,0,0,0-.09,2.41L8,20.34l5.81-3.87V39.72H50.61V16.47l5.81,3.87,6.5-6.49A1.65,1.65,0,0,0,62.83,11.44Z"/></svg>
+                  </div>
+                  <span class="text-center matchteam-name" v-if="(match.Home_id == 0 )">{{ getHoldingName(match.competition_actual_name, match.displayHomeTeamPlaceholderName) }}</span>
+                  <span class="text-center matchteam-name" v-else>{{ match.HomeTeam }}</span>
+                </div>
+              </td>
+              <td class="match-teams-details">
+                <div class="matchteam-details">                  
+                  <span class="matchteam-flag" v-if="(match.Away_id != 0 )" :class="'flag-icon flag-icon-' + match.AwayCountryFlag"></span>
+                  <div class="matchteam-dress" v-if="match.AwayTeamShortsColor && match.AwayTeamShirtColor">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64.4 62"><g><polygon class="cls-1" v-bind:fill="match.AwayTeamShortsColor" points="13.79 39.72 13.79 61.04 30.26 61.04 32.2 55.22 34.14 61.04 50.61 61.04 50.61 39.72 13.79 39.72"/></g><path class="cls-2" v-bind:fill="match.AwayTeamShirtColor" d="M62.83,11.44,50.61,1H38A6.29,6.29,0,0,1,32.2,4.84,6.29,6.29,0,0,1,26.39,1H13.79L1.57,11.44a1.65,1.65,0,0,0-.09,2.41L8,20.34l5.81-3.87V39.72H50.61V16.47l5.81,3.87,6.5-6.49A1.65,1.65,0,0,0,62.83,11.44Z"/></svg>
+                  </div>
+                  <span class="text-center matchteam-name" v-if="(match.Away_id == '0' )">{{ getHoldingName(match.competition_actual_name, match.displayAwayTeamPlaceholderName) }}</span>
+                  <span class="text-center matchteam-name" v-else>{{ match.AwayTeam }}</span>
+                </div>
+              </td>
+              <td>
+                <span v-if="(match.isResultOverride == '1' && (match.match_status == 'Walk-over' || match.match_status == 'Abandoned') && match.match_winner == match.Home_id)">*</span>
+                {{ (match.homeScore !== null && match.AwayScore !== null ? (match.homeScore + '-' + match.AwayScore) : '-') }}
+                <span v-if="(match.isResultOverride == '1' && (match.match_status == 'Walk-over' || match.match_status == 'Abandoned') &&match.match_winner == match.Away_id)">*</span>
+              </td>
+              <td v-if="showPlacingForMatch()">
+                {{ match.position != null ? match.position : 'N/A' }}
+              </td>
+              <td>
+                {{ match.venue_name }} - {{ match.pitch_number }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
       <div class="no-data h6 text-muted" v-if="matchData.length == 0">No matches found.</div>
       <paginate v-if="currentView != 'Competition'" name="matchlist" :list="matchData" ref="paginator" :per="noOfRecords" class="paginate-list"></paginate>
       <div v-if="currentView != 'Competition'">
@@ -75,7 +137,7 @@
   import VuePaginate from 'vue-paginate';
 
   export default {
-    props: ['matches', 'competitionDetail', 'currentView', 'fromView'],
+    props: ['matches', 'competitionDetail', 'currentView', 'fromView', 'isDivExist','isDivExistData','categoryId'],
     data() {
       return {
         matchData: [],

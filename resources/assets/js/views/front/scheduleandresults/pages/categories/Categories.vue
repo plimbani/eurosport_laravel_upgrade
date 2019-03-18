@@ -46,6 +46,37 @@
               </tr>
             </tbody>
         </table>
+        <div class="row col-md-12">
+          <div v-for="(roundData,index) in divData" class="col-md-6">
+            <h6 class="mt-2">
+              <strong>{{ index | getDivName}}</strong>
+            </h6>
+            <div v-for="(draw1,index1) in roundData">
+              <h6 class="mt-2">
+                <strong>{{ index1 }}</strong>
+              </h6>
+
+              <table class="table table-hover table-bordered mt-2">
+                <thead class="no-border">
+                    <tr>
+                      <th>Categories</th>
+                      <th>Type</th>
+                      <th>Teams</th>
+                    </tr>
+                </thead>
+                <tbody>
+                  <tr  v-for="draw in draw1"> <!--  -->
+                      <td>
+                        <a class="pull-left text-left text-primary" href="javascript:void(0)" @click.prevent="showCompetitionDetail(draw)">{{ draw.name }} </a>
+                      </td>
+                      <td>{{ draw.competation_type }}</td>
+                      <td class="text-center">{{ draw.team_size }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   
@@ -95,6 +126,8 @@
           type: '',
         },
         currentCategoryId: '',
+        divData: [],
+        isUserDataExist:false,
       };
   	},
    	components: {
@@ -134,7 +167,8 @@
         this.currentCategoryId = ageGroupId;
 		    CategoryList.getCategoryCompetitions(tournamentData).then(
 	        (response) => {
-	          this.groupsData = response.data.competitions;
+	          this.groupsData = response.data.competitions.round_robin;;
+            this.divData = response.data.competitions.division;
 	          this.showView = 'groups';
 	        },
 	        (error) => {
@@ -178,6 +212,16 @@
         this.showView = 'competition';
         this.getSelectedCompetitionDetails(id, competitionName, competitionType);
       },
-    }
+    },
+    filters: {
+      getDivName: function (value) {
+        if (!value) return ''
+        return value.split("|")[1];
+      },
+      getDivId: function (value) {
+        if (!value) return ''
+        return value.split("|")[0];
+      }
+    },
 	}
 </script>
