@@ -690,7 +690,7 @@ class AgeGroupService implements AgeGroupContract
 
           $nextRoundTeams = [];
           for ($i=0; $i < sizeof($matches[$round]); $i++) {
-            $nextRoundTeams[] = $i + 1;
+            $nextRoundTeams[] = $i;
           }
         }
 
@@ -735,38 +735,35 @@ class AgeGroupService implements AgeGroupContract
       return $finalArray;
     }
 
+
     public function teamsForRoundTwo($totalGroups, $teamsPerGroup, $roundSizeData)
     {
-      $predefinedTeamsCount = $totalGroups * 2;
-      $teams = 1;
-      for($i=1; $i <= $teamsPerGroup; $i++) {
-        for($j=0; $j < $totalGroups; $j++) {
-          if($predefinedTeamsCount < $roundSizeData) {
-            if($teams <= $predefinedTeamsCount) {
-              $teamsForRoundTwo[] = $i .chr(65 + $j);
-              $teams++;
-            }
-          } else {
-            if($teams <= $roundSizeData) {
-              $teamsForRoundTwo[] = $i .chr(65 + $j);
-              $teams++;
-            }
-          }
-        }
+      $teamsForRoundTwo = [];
+      $totalTeams = 0;
+      for($i = 0; $i<$totalGroups; $i++){
+        $teamsForRoundTwo[] = '1' .chr(65 + $i);
+        $totalTeams++;
       }
 
-      // picking best remaining teams
-      if($roundSizeData > sizeof($teamsForRoundTwo)) {
-        $remainingTeams = $roundSizeData - sizeof($teamsForRoundTwo);
-        for ($i=3; $i <= $teamsPerGroup; $i++) {
-          for($j=1; $j <= $totalGroups; $j++) {
-            if($remainingTeams > 0) {
+      for($i = 2; $i<=$teamsPerGroup; $i++) {
+        if(($totalTeams + $totalGroups) > $roundSizeData) {
+          for($j=1; $j<=$totalGroups; $j++) {
+            if($totalTeams < $roundSizeData) {
               $teamsForRoundTwo[] = $j. '#' .$i;
-              $remainingTeams--;
+              $totalTeams++;
             }
           }
+        } else {
+          for($j=0; $j<$totalGroups; $j++) {
+            $teamsForRoundTwo[] = $i .chr(65 + $j);
+            $totalTeams++;
+          }
         }
-      }      
+
+        if($totalTeams === $roundSizeData) {
+          break;
+        }
+      }
 
       return $teamsForRoundTwo;
     }
@@ -776,8 +773,9 @@ class AgeGroupService implements AgeGroupContract
       $currentRound = $currentRound + 1;
       $previousRound = $currentRound - 1;
       $nextRoundMatches = [];
-      
-      for ($i=0; $i <sizeof($group1) ; $i++) {
+
+      for ($i=0; $i < sizeof($group1) ; $i++) {
+        $currentMatch = $i + 1;
         $previousRoundHomeMatch = $previousRoundMatches[$i];
         $previousRoundAwayMatch = $previousRoundMatches[$group2[$i]];
 
@@ -792,8 +790,6 @@ class AgeGroupService implements AgeGroupContract
             'display_home_team_placeholder_name' => "$previousRound.$currentMatch",
             'display_away_team_placeholder_name' => "$previousRound.$group2[$i]",
           ];
-
-          // echo "<pre>";print_r($nextRoundMatches);echo "</pre>";exit;
         } else {
           $homeMatchArray = $previousRoundMatches[$i];
           $homeMatchNumber = explode(".", $homeMatchArray['match_number']);
