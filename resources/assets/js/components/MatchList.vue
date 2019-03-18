@@ -58,14 +58,14 @@
         </td>
         <td class="text-center js-match-list">
             <div class="d-inline-flex position-relative">
-              <input type="text" v-model="match.homeScore" :name="'home_score['+match.fid+']'" style="width: 25px; text-align: center;" v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails'" :readonly="((match.is_scheduled == '0') || (match.isResultOverride == '1' && (match.match_status == 'Walk-over' || match.match_status == 'Abandoned'))) || this.tournamentStartDate >= this.currentDate" @change="updateScore(match,index1)">
+              <input type="text" v-model="match.homeScore" :name="'home_score['+match.fid+']'" style="width: 25px; text-align: center;" v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails'" :readonly="((match.is_scheduled == '0') || (match.isResultOverride == '1' && (match.match_status == 'Walk-over' || match.match_status == 'Abandoned'))) || checkDateScoreInput" @change="updateScore(match,index1)">
 
               <span v-else>{{match.homeScore}}</span>
 
               <span class="circle-badge" :class="{'left-input': (isUserDataExist && getCurrentScheduleView != 'teamDetails'), 'left-text': (!isUserDataExist || getCurrentScheduleView == 'teamDetails') }" v-if="(match.isResultOverride == '1' && match.match_winner == match.Home_id)"><a data-toggle="popover" :class="'result-override-home-popover-' + match.fid" href="#" data-placement="top" data-trigger="hover" :data-content="match.result_override_popover" data-animation="false"><i class="fas fa-asterisk text-white" aria-hidden="true"></i></a></span>
             </div> -
             <div class="d-inline-flex position-relative">
-              <input type="text" v-model="match.AwayScore" :name="'away_score['+match.fid+']'" style="width: 25px; text-align: center;"  v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails'" :readonly="((match.is_scheduled == '0') || (match.isResultOverride == '1' && (match.match_status == 'Walk-over' || match.match_status == 'Abandoned'))) || this.tournamentStartDate >= this.currentDate" @change="updateScore(match,index1)">
+              <input type="text" v-model="match.AwayScore" :name="'away_score['+match.fid+']'" style="width: 25px; text-align: center;"  v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails'" :readonly="((match.is_scheduled == '0') || (match.isResultOverride == '1' && (match.match_status == 'Walk-over' || match.match_status == 'Abandoned'))) || checkDateScoreInput" @change="updateScore(match,index1)">
 
               <span class="circle-badge" :class="{'right-input': (isUserDataExist && getCurrentScheduleView != 'teamDetails'), 'right-text': (!isUserDataExist || getCurrentScheduleView == 'teamDetails') }" v-if="(match.isResultOverride == '1' && match.match_winner == match.Away_id)"><a :class="'result-override-away-popover-' + match.fid" href="#" data-toggle="popover" data-placement="top" data-trigger="hover" :data-content="match.result_override_popover" data-animation="false"><i class="fas fa-asterisk text-white" aria-hidden="true"></i></a></span>
 
@@ -286,6 +286,16 @@ export default {
     getCurrentScheduleView() {
       return this.$store.state.currentScheduleView
     },
+    checkDateScoreInput() {
+      let tournamentDate = this.$store.state.Tournament.tournamentStartDate;
+      let currentDate = moment().format('DD/MM/YYYY');
+      
+      if(this.tournamentStartDate <= this.currentDate) {
+         return false
+      } else {
+        return true
+      }
+    }
   },
   components: {
     PitchModal,

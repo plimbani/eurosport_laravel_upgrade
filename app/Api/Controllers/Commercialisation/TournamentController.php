@@ -6,11 +6,15 @@ use Carbon\Carbon;
 use JWTAuth;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Laraspace\Models\Tournament;
+use Laraspace\Models\TempFixture;
+use Laraspace\Models\TournamentCompetationTemplates;
 use Laraspace\Api\Repositories\TournamentRepository;
 use Laraspace\Api\Repositories\Commercialisation\TransactionRepository;
 use Laraspace\Http\Requests\Tournament\TournamentSummary;
 use Laraspace\Http\Requests\Commercialisation\Tournament\TournamentByCustomerRequest;
 use Laraspace\Models\User;
+use Laraspace\Models\PitchAvailable;
 
 /**
  * Tournament Resource Description.
@@ -109,14 +113,36 @@ class TournamentController extends BaseController
                 //Update payment details
                 $this->transactionRepoObj->updateTransaction($requestData);
             }
+        
+            $tournament = Tournament::findOrFail($requestData['tournament']['old_tournament_id']);
+            $tournamentStartDate = $tournament['start_date'];
+            $requestTournamentStartDate = $requestData['tournament']['tournament_start_date'];
+            $tournamentMaximumTeam = $requestData['tournament']['tournament_max_teams'];
+
+            $tournamentDateFormat = Carbon::createFromFormat('d/m/Y', $tournament['start_date']);
+            $tournamentStartDateFormat = Carbon::parse($tournamentDateFormat)->format('Y-m-d');
+            
+            $tournamentFixture = TempFixture::where('tournament_id', $requestData['tournament']['old_tournament_id'])->whereDate('match_datetime', $tournamentStartDateFormat)->count();
+            $tournamentPitch = PitchAvailable::where('tournament_id', $requestData['tournament']['old_tournament_id'])->whereDate('stage_start_date', $tournamentStartDateFormat)->count();    
+
+            $tournamentCompetationTemplates = TournamentCompetationTemplates::where('tournament_id', $requestData['tournament']['old_tournament_id'])->pluck('total_teams')->sum();
+
             if (!empty($requestData['tournament'])) {
-                $requestData['tournament'] = [
-                    'id' => $requestData['tournament']['id'],
-                    'name' => $requestData['tournament']['tournament_name'],
-                    'start_date' => Carbon::createFromFormat('d/m/Y', $requestData['tournament']['tournament_start_date']),
-                    'end_date' => Carbon::createFromFormat('d/m/Y', $requestData['tournament']['tournament_end_date']),
-                    'maximum_teams' => $requestData['tournament']['tournament_max_teams'],
-                ];
+                if($tournamentStartDate >= $requestTournamentStartDate && $tournamentFixture == 0){
+                    if($tournamentStartDate >= $requestTournamentStartDate && $tournamentPitch == 0){
+                        if($tournamentStartDate >= $requestTournamentStartDate && $tournamentCompetationTemplates >= $tournamentMaximumTeam){
+                            $requestData['tournament'] = [
+                                'id' => $requestData['tournament']['id'],
+                                'name' => $requestData['tournament']['tournament_name'],
+                                'start_date' => Carbon::createFromFormat('d/m/Y', $requestData['tournament']['tournament_start_date']),
+                                'end_date' => Carbon::createFromFormat('d/m/Y', $requestData['tournament']['tournament_end_date']),
+                                'maximum_teams' => $requestData['tournament']['tournament_max_teams'],
+                            ];
+                        }
+                    }   
+                }
+                return response()->json(['status' => 'error', 'message' => 'Please unschedule matches before shortening the length of our tournament.']);
+                
                 $this->tournamentRepoObj->edit($requestData['tournament']);
             }
             return response()->json([

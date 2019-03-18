@@ -292,6 +292,13 @@
                             if(today.getTime() > end_date.getTime()){
                                 this.id = "";
                                 this.tournamentData['is_renew'] = 1;
+                            }else{
+                                let startMonth = start_date.getMonth()+1;                         
+                                let endMonth = end_date.getMonth()+1;                         
+                                this.tournamentData['tournament_start_date'] = start_date.getDate()+'/'+startMonth + '/'+start_date.getFullYear();
+                                this.tournamentData['tournament_end_date'] = end_date.getDate()+'/'+endMonth + '/'+end_date.getFullYear(); 
+                                $('#tournament_start_date').datepicker('setDate', this.tournamentData['tournament_start_date'])
+                                 $('#tournament_end_date').datepicker('setDate', this.tournamentData['tournament_end_date'])  
                             }
                             // console.log("response.data.data::",response.data.data)
                             this.tournamentData['id'] = this.id;
@@ -300,12 +307,7 @@
                             this.tournamentData['tournament_max_teams'] = response.data.data.maximum_teams;   
                             this.tournament_old_teams = response.data.data.maximum_teams;   
                             this.tournamentData['access_code'] = response.data.data.access_code;   
-                            let startMonth = start_date.getMonth()+1;                         
-                            let endMonth = end_date.getMonth()+1;                         
-                            this.tournamentData['tournament_start_date'] = start_date.getDate()+'/'+startMonth + '/'+start_date.getFullYear();
-                            this.tournamentData['tournament_end_date'] = end_date.getDate()+'/'+endMonth + '/'+end_date.getFullYear(); 
-                            $('#tournament_start_date').datepicker('setDate', this.tournamentData['tournament_start_date'])
-                             $('#tournament_end_date').datepicker('setDate', this.tournamentData['tournament_end_date'])  
+                           
                              // console.log("this.tournamentData::",this.tournamentData);
                          }else{ 
                             toastr['error'](response.data.message, 'Error');
