@@ -18,6 +18,7 @@
     </section>
 </template>
 <script type="text/babel">
+import Constant from '../../services/constant';
     // console.log("register  page");
     export default {
         data() {
@@ -26,10 +27,22 @@
             }
         },
         methods: {
+
             redirectTournamentDetail(){
                // console.log("redirectTournamentDetail:",this.code,this.code.length);
                 if(this.code.length == 4){
-                    this.$router.push({ path: 'tournament-detail', query: { code: this.code }})
+                    axios.get(Constant.apiBaseUrl+'tournament-by-code?tournament='+this.code, {}).then(response =>  {
+                    // console.log("response.data::",response.data.success,typeof response.data.data,typeof response.data.data.tournament_details);  
+                            if (response.data.success && typeof response.data.data != "undefined" && typeof response.data.data.tournament_details != "undefined") {
+
+                                 this.$router.push({ path: 'tournament-detail', query: { code: this.code }})
+                             }else{ 
+                                toastr['error']("Please enter valid tournament code", 'Error');
+                             }
+                     }).catch(error => {
+                        toastr['error']("Please enter valid tournament code", 'Error');    
+                     });
+                    
                     // this.$router.push({ path: 'tournament-detail', query: { code: '1u9E' }})
                 }else{
                     toastr['error']("Please enter valid tournament code", 'Error');
