@@ -1,5 +1,6 @@
 <template>
   <div>
+    {{ updateDivExistData }}
     <div>
         <div class="row align-items-end custom_radio_btn matches-filter" v-if="currentView == 'Matches'">
             <div class="col-xl-6">
@@ -84,7 +85,7 @@
         </div>
         <div class="text-center view-full-information" v-if="showGroupInfo" v-html="$t('matches.view_match_info_message', {'competitionName': selectedOption.data.name})" v-on:click.capture="showCompetitionDetailPage()"></div>
     </div>
-    <component :is="currentView" :matches="matches" :competitionDetail="competitionDetail" :currentView="currentView" :fromView="'Matches'" :categoryId="currentCategoryId"></component>
+    <component :is="currentView" :matches="matches" :competitionDetail="competitionDetail" :currentView="currentView" :fromView="'Matches'" :categoryId="currentCategoryId" :isDivExist="isDivExist" :isDivExistData="isDivExistData"></component>
   </div>
 </template>
 
@@ -111,6 +112,9 @@
         filterBy: 'category_and_competition',
         currentCategoryId: '',
         matchScoreFilter: 'all',
+        isDivExist: false,
+        isDivExistData: [],
+        dropdownDrawName:[],
       };
     },
     filters: {
@@ -130,6 +134,18 @@
     computed: {
       showGroupInfo() {
         return (this.currentView == 'Matches' && this.filterBy == 'category_and_competition' && this.selectedOption != '' && this.selectedOption.class == 'competition');
+      },
+      updateDivExistData:function(){
+        if ( this.matches.length > 0 && this.matches[0]['isDivExist'] == 1 )
+        {
+          this.isDivExist = this.matches[0]['isDivExist'];
+          this.isDivExistData = _.groupBy(this.matches, 'competation_round_no');
+        }
+        else
+        {
+          this.isDivExist = 0;
+          this.isDivExistData = [];
+        }
       }
     },
     components: {
