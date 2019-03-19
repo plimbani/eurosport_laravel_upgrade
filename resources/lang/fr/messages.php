@@ -33,7 +33,7 @@
 		'404_page_title' => 'Erreur 404 - page non trouvée',
 		'404_page_message' => "Peut-être avez-vous fait une faute dans l'adresse web, ou la page que vous recherchez a été déplacée, mise à jour ou supprimée. <a href=':url'>Cliquez ici</a> pour retourner à la page d'accueil.",
 		'contact_form_send_btn' => 'Envoyer une demande',
-		'match_schedule_message' => 'Le programme des matchs sera disponible 2-3 jours avant le début du tournoi.',
+		'match_schedule_message' => 'Le programme des matchs sera disponible 5-7 jours avant le début du tournoi.',
 		'no_location_found' => 'Aucun lieu trouvé.',
 		'no_photos_found' => 'Aucune photo trouvée.',
 		'recaptcha_error_message' => 'Veuillez valider reCAPTCHA',
