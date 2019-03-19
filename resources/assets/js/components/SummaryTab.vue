@@ -14,9 +14,9 @@
 			 </div>
 			</div>
 			<div class="col-md-6">
-				<div class="row d-flex flex-row align-items-center">
-				<label for="status_rules" class="mb-0">{{$lang.summary_status}}:
-					<span class="pr-2 pl-0 text-primary" data-toggle="popover" data-animation="false" data-placement="bottom" :data-popover-content="'#status_rules'"><i class="fas fa-info-circle"></i>
+				<div class="row gutters-tiny align-items-center justify-content-end">
+				<label for="status_rules" class="col-md-2 text-right mb-0">{{$lang.summary_status}}:
+					<span class="text-primary" data-toggle="popover" data-animation="false" data-placement="bottom" :data-popover-content="'#status_rules'"><i class="fas fa-info-circle"></i>
 					</span>
 					<div v-bind:id="'status_rules'" style="display:none;">
                 		<div class="popover-body">
@@ -26,7 +26,7 @@
                 		</div>
 					</div>
                 </label>
-				<div class="col-md-6 mr-0 ml-0 pr-0 pl-0">
+				<div class="col-md-6">
 					<TournamentStatus :tournamentStatus='tournamentStatus'></TournamentStatus>
 				</div>
 
