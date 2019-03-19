@@ -39,14 +39,14 @@
  				<PreviewTournament>
 				</PreviewTournament>
 
-				<div class="col-sm-4">
-				<button type="button" data-toggle="modal"
-				data-confirm-msg="Are you sure you would like to delete this user record?"
-				data-target="#delete_modal"
-				class="btn btn-danger w-100" 
-				v-if="(userDetails.role_name == 'Super administrator' || userDetails.role_name == 'Internal administrator' || userDetails.role_name == 'Master administrator')">{{$lang.summary_button_delete}}</button>
-				<delete-modal :deleteConfirmMsg="deleteConfirmMsg" @confirmed="deleteConfirmed()"></delete-modal>
-				<!--<DeleteTournament></DeleteTournament>-->
+				<div class="col-sm-4" v-if="(userDetails.role_name == 'Super administrator' || userDetails.role_name == 'Internal administrator' || userDetails.role_name == 'Master administrator')">
+					<button type="button" data-toggle="modal"
+					data-confirm-msg="Are you sure you would like to delete this user record?"
+					data-target="#delete_modal"
+					class="btn btn-danger w-100" 
+					>{{$lang.summary_button_delete}}</button>
+					<delete-modal :deleteConfirmMsg="deleteConfirmMsg" @confirmed="deleteConfirmed()"></delete-modal>
+					<!--<DeleteTournament></DeleteTournament>-->
 				</div>
 				</div>
 			</div>
