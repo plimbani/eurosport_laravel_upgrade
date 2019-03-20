@@ -544,7 +544,7 @@ export default {
       if(this.getCurrentScheduleView != 'teamDetails' && this.getCurrentScheduleView != 'drawDetails') {
         return this.paginated('matchlist');
       } else {
-        if ( this.matchData[0]['isDivExist'] == 1 )
+        if ( this.matchData.length > 0 && this.matchData[0]['isDivExist'] == 1 )
         {
           this.isDivExist = this.matchData[0]['isDivExist'];
           this.isDivExistData = _.groupBy(this.matchData, 'competation_round_no');
@@ -552,6 +552,8 @@ export default {
         }
         else
         {
+          this.isDivExist = false;
+          this.isDivExistData = [];
           return this.matchData;  
         }
       }
