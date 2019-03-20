@@ -63,8 +63,8 @@
 
 
       <div class="table-responsive" v-for="(matches,index) in isDivExistData" v-if="matchData.length > 0 && isDivExist == 1" >
-        <label class="mb-0"><h4 class="mb-2">{{index}}</h4></label><br>
-        <label class="mb-0"><h5 class="mb-2">{{matches[0]['competation_name']}} matches</h5></label>
+        <label class="mb-0"><h5 class="mb-2">{{index}}</h5></label><br>
+        <label class="mb-0"><h6 class="mb-2">{{ getCompetitionName(matches) }} matches</h6></label>
         <table class="table">
           <thead class="no-border">
             <tr>
@@ -209,6 +209,16 @@
     //   },
     // },
     methods: {
+      getCompetitionName(matches) {
+        var getFirstMatch = _.head(matches);
+        if ( typeof(getFirstMatch) != 'undefined')
+        {
+          return getFirstMatch.competation_name;
+        }
+        else{
+          return '';
+        }
+      },
       showPlacingForMatch() {
         if(this.currentView == 'Competition') {
           if(this.competitionDetail.actual_competition_type == 'Elimination') {

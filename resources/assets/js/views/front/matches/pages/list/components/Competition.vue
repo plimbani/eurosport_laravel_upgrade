@@ -13,8 +13,8 @@
     <div>
         <div class="row align-items-center my-4">
           <div class="col-10 col-sm-6 col-md-4 col-lg-3 col-xl-3">
-            <label class="d-block mb-0" for="match_overview">
-              <select v-on:change="onCompetitionChange" id="competition-overview" class="border-0" name="competition-options">
+            <label class="d-block mb-0 select2_override" for="match_overview">
+              <select v-on:change="onCompetitionChange" id="competition-overview" class="border-0 form-control" name="competition-options">
                   <optgroup :label="key" v-for="(round, key) in dropdownDrawName.round_robin">
                     <option v-bind:value="group.id" :label="group.display_name" :rel="group.actual_competition_type" v-for="group in round">{{group.display_name}}</option>
                   </optgroup>
@@ -156,9 +156,10 @@
     },
     computed: {
       updateDivExistData:function(){
-        if ( this.matches.length > 0 && this.matches[0]['isDivExist'] == 1 )
+        var getFirstMatch = _.head(this.matches);
+        if ( typeof(getFirstMatch) != 'undefined' && getFirstMatch.isDivExist == 1 )
         {
-          this.isDivExist = this.matches[0]['isDivExist'];
+          this.isDivExist = getFirstMatch.isDivExist;
           this.isDivExistData = _.groupBy(this.matches, 'competation_round_no');
         }
         else
