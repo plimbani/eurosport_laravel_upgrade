@@ -1158,3 +1158,8 @@ a.active-view:hover {
 .match-fixture-comment {
     margin-left: 4px;
 }
+
+.tbl-drawdetails th,
+.tbl-drawdetails td{
+    word-break: break-word;
+}
