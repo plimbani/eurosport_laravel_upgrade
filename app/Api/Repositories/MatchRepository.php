@@ -412,8 +412,6 @@ class MatchRepository
                             });
         }
 
-        // echo "<pre>"; print_r($tournamentData); exit();
-
         // Check all rounds matches are placing matches or not
         $roundQuery = 0;
         if(isset($tournamentData['competitionId'])) {

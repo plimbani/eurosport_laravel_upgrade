@@ -124,7 +124,6 @@ export default {
             matchStatus: true,
             teamList: [],
             teamCount: 0,
-            testArray: ['1', '2', '3', '5'],
             dropdownDrawName:[]
         }
     },
@@ -204,12 +203,10 @@ export default {
         }
       })
       .on('change', function () {
-        //vm.DrawName.id = $(this).val();
         let curreId = $(this).val();
         let drawnameChange = [];
         vm.drawList.map(function(value, key) {
           if(value.id == curreId) {
-            // drawnameChange.push(value);
             vm.DrawName = value;
           }
         });
@@ -328,8 +325,7 @@ export default {
            )
         },
         onChangeDrawDetails() {
-          // alert("oh here change");
-          // alert(this.DrawName.id);
+
           this.$store.dispatch('setCurrentScheduleView','drawDetails')
           let Id = this.DrawName.id
           let Name = this.DrawName.name

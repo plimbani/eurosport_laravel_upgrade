@@ -70,9 +70,9 @@ class AgeGroupService implements AgeGroupContract
           return ['status_code' => '403', 'message' => 'Please add maximum teams limit on "Tournament details" page.'];
         }
 
-        // if(($totalCheckTeams > $maximumTeams)) {
-        //   return ['status_code' => '403', 'message' => 'This category cannot be added as it exceeds the maximum teams set for this tournament.'];
-        // }
+        if(($totalCheckTeams > $maximumTeams)) {
+          return ['status_code' => '403', 'message' => 'This category cannot be added as it exceeds the maximum teams set for this tournament.'];
+        }
 
         $tournamentTemplateDivisions = json_decode($data['tournamentTemplate']['json_data']);
 
@@ -123,7 +123,6 @@ class AgeGroupService implements AgeGroupContract
         $data['total_time'] = $totalTime;
         $data['total_match'] = $totalmatch;
         $data['disp_format_name'] = $dispFormatname;
-        //$data['competation_format_id'] = 585;
 
         if(isset($data['competation_format_id']) && $data['competation_format_id'] != 0){
             $tournamentTemplateObj = TournamentCompetationTemplates::where('id', '=', $data['competation_format_id'])->first();

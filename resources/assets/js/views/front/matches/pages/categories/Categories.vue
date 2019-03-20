@@ -70,7 +70,6 @@
                 <tr  v-for="draw in draw1"> <!--  -->
                     <td>
                       <a class="pull-left text-left text-primary" @click.prevent="showCompetitionDetail(draw)" href=""><u>{{ draw.display_name }}</u> </a>
-                      <a v-if="isUserDataExist" href="#" @click="openEditCompetitionNameModal(draw)" class="pull-right text-primary"><i class="jv-icon jv-edit"></i></a>
                     </td>
                     <td class="text-center">{{ draw.competation_type }}</td>
                     <td class="text-center">{{ draw.team_size }}</td>
@@ -129,7 +128,6 @@
         },
         currentCategoryId: '',
         divData: [],
-        isUserDataExist:false,
       };
   	},
   	computed: {

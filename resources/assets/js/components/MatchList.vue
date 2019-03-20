@@ -97,8 +97,8 @@
     </tbody>
   </table>
     <div class="col-md-12" v-if="matchData.length > 0 && isDivExist == 1" v-for="(matches,index) in isDivExistData">
-      <label class="mb-0"><h4 class="mb-2">{{index}}</h4></label><br>
-      <label class="mb-0"><h5 class="mb-2">{{matches[0]['competation_name']}} matches</h5></label>
+      <label class="mb-0"><h5 class="mb-2">{{index}}</h5></label><br>
+      <label class="mb-0"><h6 class="mb-2">{{ getCompetitionName(matches) }} matches</h6></label>
       <table id="matchSchedule" class="table table-hover table-bordered table-sm">
         <thead>
           <th class="text-center">{{$lang.summary_schedule_date_time}}</th>
@@ -342,9 +342,10 @@ export default {
           });
         });
 
-        if ( vm.matchData.length > 0 && vm.matchData[0]['isDivExist'] == 1 )
+        var getFirstMatch = _.head(vm.matchData);
+        if ( typeof(getFirstMatch) != 'undefined' && getFirstMatch.isDivExist == 1 )
         {
-          vm.isDivExist = vm.matchData[0]['isDivExist'];
+          vm.isDivExist = getFirstMatch.isDivExist;
           vm.isDivExistData = _.groupBy(vm.matchData, 'competation_round_no'); 
         }
         else
@@ -556,14 +557,17 @@ export default {
       if(this.getCurrentScheduleView != 'teamDetails' && this.getCurrentScheduleView != 'drawDetails') {
         return this.paginated('matchlist');
       } else {
-        if ( this.matchData[0]['isDivExist'] == 1 )
+        var getFirstMatch = _.head(this.matchData);
+        if ( typeof(getFirstMatch) != 'undefined' && getFirstMatch.isDivExist == 1 )
         {
-          this.isDivExist = this.matchData[0]['isDivExist'];
+          this.isDivExist = getFirstMatch.isDivExist;
           this.isDivExistData = _.groupBy(this.matchData, 'competation_round_no');
           return this.matchData;  
         }
         else
         {
+          this.isDivExist = false;
+          this.isDivExistData = [];
           return this.matchData;  
         }
       }
@@ -653,6 +657,16 @@ export default {
         match.result_override_popover = "* Walkover, win awarded";
       } else if(match.match_status == 'Abandoned') {
         match.result_override_popover = "* Abandoned, win awarded";
+      }
+    },
+    getCompetitionName(matches) {
+      var getFirstMatch = _.head(matches);
+      if ( typeof(getFirstMatch) != 'undefined')
+      {
+        return getFirstMatch.competation_name;
+      }
+      else{
+        return '';
       }
     },
   },

@@ -755,7 +755,7 @@ class TournamentRepository
     public function getCategoryCompetitions($data)
     {
         $categoryCompetitions = Competition::with('AgeCategoryDivision')->where('tournament_competation_template_id', $data['ageGroupId']);
-        //->groupBy(['competation_round_no','age_category_division_id']);
+
         if (isset($data['competationType'])) {
             $categoryCompetitions = $categoryCompetitions->where('competation_type', $data['competationType']);
         }
@@ -766,7 +766,7 @@ class TournamentRepository
         $divisionsData = [];
         $data = [];
         foreach ($categoryCompetitions as $key => $value) {
-            if ( $value['age_category_division'] != '')
+            if ( isset($value['age_category_division']) )
             {
                 $divisionsData[$value['age_category_division_id'].'|'.$value['age_category_division']['name']][$value['competation_round_no']][] = $value;
 

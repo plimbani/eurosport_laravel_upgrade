@@ -7,3 +7,12 @@
     background: $yellow-extralight;
     margin-bottom: $spacer * 2.5;
 }
+
+.select2-container--default .select2-results__option.rounds[aria-disabled=true] {
+    color: #000;
+    font-weight: bold;
+}
+
+.select2-container--default .select2-results__option.rounds[aria-disabled=true]:before{
+    display:none;
+}

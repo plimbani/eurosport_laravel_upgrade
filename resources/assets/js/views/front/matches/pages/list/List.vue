@@ -136,9 +136,10 @@
         return (this.currentView == 'Matches' && this.filterBy == 'category_and_competition' && this.selectedOption != '' && this.selectedOption.class == 'competition');
       },
       updateDivExistData:function(){
-        if ( this.matches.length > 0 && this.matches[0]['isDivExist'] == 1 )
+        var getFirstMatch = _.head(this.matches);
+        if ( typeof(getFirstMatch) != 'undefined' && getFirstMatch.isDivExist == 1 )
         {
-          this.isDivExist = this.matches[0]['isDivExist'];
+          this.isDivExist = getFirstMatch.isDivExist;
           this.isDivExistData = _.groupBy(this.matches, 'competation_round_no');
         }
         else

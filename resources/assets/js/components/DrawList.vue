@@ -178,7 +178,6 @@ import TeamDetails from './TeamDetails.vue'
 import TeamList from './TeamList.vue'
 import DrawDetails from './DrawDetails.vue'
 import displaygraphic from './DisplayGraphicalStructure.vue'
-//import EditCategoryDivisionNameModal from './EditCategoryDivisionNameModal.vue'
 import _ from 'lodash'
 
 export default {
@@ -292,11 +291,6 @@ export default {
       var data = {'competitionData': this.competitionData};
       Tournament.updateCompetitionDisplayName(data).then(
         (response) => {
-          /*let filterData = response.data.options.data;
-          let filter = _.groupBy(filterData, 'competation_round_no');
-          this.groupsFilter = _.groupBy(filterData, 'competation_round_no');
-
-          this.groupsData = response.data.options.data;*/
           $('#editCompetitionNameModal').modal('hide');
           toastr.success(response.data.options.message, 'Competition Details', {timeOut: 5000});
           this.showGroups(this.currentAgeCategoryId);
