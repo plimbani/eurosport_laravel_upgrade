@@ -63,7 +63,7 @@
 
       <div class="table-responsive" v-for="(matches,index) in isDivExistData" v-if="matchData.length > 0 && isDivExist == 1" >
         <label class="mb-0"><h4 class="mb-2">{{index}}</h4></label><br>
-        <label class="mb-0"><h5 class="mb-2">{{matches[0]['competation_name']}} matches</h5></label>
+        <label class="mb-0"><h5 class="mb-2">{{ getCompetitionName(matches) }} matches</h5></label>
         <table id="matchSchedule" class="table table-sm" v-if="matchData.length > 0 && isDivExist == 1">
           <thead class="no-border">
             <tr>
@@ -241,7 +241,17 @@
           }
         }
         return displayMatchText[1] + '.' + displayMatchText[2];
-      } 
-    }
+      },
+      getCompetitionName(matches) {
+        var getFirstMatch = _.head(matches);
+        if ( typeof(getFirstMatch) != 'undefined')
+        {
+          return getFirstMatch.competation_name;
+        }
+        else{
+          return '';
+        }
+      }, 
+    },
   };
 </script>
