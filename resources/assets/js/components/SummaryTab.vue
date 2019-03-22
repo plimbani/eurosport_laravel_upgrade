@@ -43,7 +43,8 @@
 				<button type="button" data-toggle="modal"
 				data-confirm-msg="Are you sure you would like to delete this user record?"
 				data-target="#delete_modal"
-				class="btn btn-danger w-100">{{$lang.summary_button_delete}}</button>
+				class="btn btn-danger w-100" 
+				v-if="(userDetails.role_name == 'Super administrator' || userDetails.role_name == 'Internal administrator' || userDetails.role_name == 'Master administrator')">{{$lang.summary_button_delete}}</button>
 				<delete-modal :deleteConfirmMsg="deleteConfirmMsg" @confirmed="deleteConfirmed()"></delete-modal>
 				<!--<DeleteTournament></DeleteTournament>-->
 				</div>
@@ -152,6 +153,11 @@
 			        return $(title).children(".popover-heading").html();
 			    }
 			});
+	    },
+	    computed: {
+		    userDetails: function() {
+		      return this.$store.state.Users.userDetails
+		    },
 	    },
 	    created: function() {
        		this.$root.$on('StatusUpdate', this.updateStatus);

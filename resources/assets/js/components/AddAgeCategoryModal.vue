@@ -21,6 +21,7 @@
                   {{ exceedTeamLimitMessage }}
                 </div>
               </div>
+
               <div class="form-group row align-items-center">
                 <div class="col-sm-4 form-control-label">{{$lang.competation_label_age_category_name}}</div>
                 <div class="col-sm-8">
@@ -48,6 +49,7 @@
                 <input type="hidden" v-model="competation_format.category_age_color">
                 <input type="hidden" v-model="competation_format.category_age_font_color">
               </div>
+
               <div class="form-group row align-items-center" :class="{'has-error': errors.has('competation_format.ageCategory_name') }">
                 <div class="col-sm-4 form-control-label">
                   {{$lang.competation_label_name_category}}
@@ -64,6 +66,7 @@
                   </div>
                 </div>
               </div>
+
               <div class="form-group row align-items-center">
                   <label class="col-sm-4 form-control-label">Pitch size*</label>
                   <div class="col-sm-8">
@@ -196,24 +199,32 @@
                     <div class="col-sm-12" v-for="option in options">
                       <div class="card mb-1" v-if="checkTemplate(option)" :id="option.id">
                         <div class="card-block">
-                          <div class="row d-flex">
-                            <div class="col align-self-center text-center">
+                          <div class="row d-flex gutters-tiny">
+                            <div class="col-sm-1 align-self-center text-center">
                               <span v-if="option.id == competation_format.tournament_template_id">
-                              <input type="radio" checked='checked' :value="option"
-                              name="tournamentTemplate" class="ttmp"
-                              v-validate="'required'">
+                                <div class="checkbox">
+                                  <div class="c-input">
+                                      <input type="radio" class="euro-radio ttmp" name="tournamentTemplate" checked="checked" :value="option" v-validate="'required'" id="template_option">
+                                      <label for="template_option"></label>
+                                  </div>
+                                </div> 
                               </span>
                               <span v-else>
-                              <input type="radio"
-                                  :value="option"
-                                  class="ttmp"
-                                  :id="'tournament_template_'+option.id"
-                                  name="tournamentTemplate"
-                                  v-model="competation_format.tournamentTemplate"
-                                  v-validate="'required'"
-                                  :class="{'is-danger': errors.has('tournamentTemplate') }"
-                                  v-if="checkTemplate(option)">
-                                </span>
+                                <div class="checkbox">
+                                  <div class="c-input">                                
+                                    <input type="radio"
+                                        :value="option"
+                                        class="ttmp euro-radio"
+                                        :id="'tournament_template_'+option.id"
+                                        name="tournamentTemplate"
+                                        v-model="competation_format.tournamentTemplate"
+                                        v-validate="'required'"
+                                        :class="{'is-danger': errors.has('tournamentTemplate') }"
+                                        v-if="checkTemplate(option)">
+                                        <label :for="'tournament_template_'+option.id"></label>
+                                  </div>
+                                </div>
+                              </span>
                             </div>
                             <div class="col-sm-10 align-self-center">
                               <span for="one"
@@ -226,6 +237,9 @@
                               <span v-if="option.avg_game_team != ''">Avg games per team: {{option.avg_game_team}} </span>
                               <span v-else>Avg games per team: Not applicable </span>
                               </span>
+                            </div>
+                            <div class="col-sm-3 align-self-center text-center">
+                              <a href="#" @click="viewGraphicalPreview(option.name, option.graphic_image)" class="btn btn-outline-primary btn-sm" v-if="option.graphic_image">View schedule</a>
                             </div>
                           </div>
                         </div>

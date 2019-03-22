@@ -82,20 +82,36 @@ import _ from 'lodash'
             this.$root.$off('arrangeLeftColumn');
         },
         mounted() {
+            let vm = this;
+
             $( document ).ready(function() {
                 $(document).on('click','.js-horizontal-view', function (){
                     $('.pitch-planner-wrapper .pitch-planner-item').each(function(index){
                         var canvasWidth = $(this).find('.fc-unselectable .fc-scroller-canvas').width();
                         $(this).find('.fc-view-container table').attr('style', 'width: ' + parseInt(canvasWidth + 107) + 'px');
                     });
+
                 })
+
+                //  Unschedule fixtures checkbox check uncheck
+                $(document).on('change','.match-unschedule-checkbox', function (e){
+                    if($('.match-unschedule-checkbox').is(':checked')) {
+                        $('#unschedule_fixtures').html('Confirm unscheduling').addClass('btn btn-success');
+                        $("#cancle_unscheduling_fixtures").show();
+                        $('.cancle-match-unscheduling').removeClass('d-none');
+                    } else {
+                        $("#unschedule_fixtures").html('Unschedule fixture').removeClass('btn btn-success');
+                        $("#unschedule_fixtures").addClass('btn btn-primary btn-md btn-secondary');
+                        $(".match-unschedule-checkbox-div").addClass('d-none');
+                        $("#cancle_unscheduling_fixtures").hide();
+                    }
+                });
             });
 
             var timeGridContainerHeight = $('.fc-time-grid-container').height();
             $('.fc-time-grid-container').css('height', timeGridContainerHeight);
 
             let cal = this.$el;
-            let vm = this
             vm.initComponent()
             $(this.$el).fullCalendar('changeView', 'agendaDay');
 
@@ -104,6 +120,9 @@ import _ from 'lodash'
                     setGameAndRefereeTabHeight();
                 }
             });
+
+
+
         },
         methods: {
             initComponent(){
@@ -358,6 +377,12 @@ import _ from 'lodash'
                         }
                     },
                     eventClick: function(calEvent, jsEvent, view) {
+                        if($('.match-unschedule-checkbox-div').has(jsEvent.target).length) {
+                            return true;
+                        }
+
+                        vm.$root.$emit('cancelUnscheduleFixtures');
+
                         var posX = $(this).offset().left, posY = $(this).offset().top;
                         var eventPositionLeft = (jsEvent.pageX - posX);
                         var matchBlockWidth = $(this).width();
@@ -572,7 +597,7 @@ import _ from 'lodash'
                                     'fixtureStripColor': fixtureStripColor,
                                     'homeScore': match.homeScore,
                                     'awayScore': match.AwayScore,
-                                    'displayFlag': match.min_interval_flag == 1 ? 'flex' : '',
+                                    'displayFlag': match.min_interval_flag == 1 ? 'block' : 'none',
                                     'homeTeam': match.Home_id,
                                     'awayTeam': match.Away_id,
                                     'matchStatus': match.match_status,
@@ -608,7 +633,7 @@ import _ from 'lodash'
                                         'fixtureStripColor': '',
                                         'homeScore': null,
                                         'awayScore': null,
-                                        'displayFlag':'',
+                                        'displayFlag':'none',
                                         'homeTeam': null,
                                         'awayTeam': null,
                                         'matchStatus': null,
@@ -639,7 +664,7 @@ import _ from 'lodash'
                                         'fixtureStripColor': '',
                                         'homeScore': null,
                                         'awayScore': null,
-                                        'displayFlag':'',
+                                        'displayFlag':'none',
                                         'homeTeam': null,
                                         'awayTeam': null,
                                         'matchStatus': null,
@@ -671,7 +696,7 @@ import _ from 'lodash'
                                             'fixtureStripColor': '',
                                             'homeScore': null,
                                             'awayScore': null,
-                                            'displayFlag': '',
+                                            'displayFlag': 'none',
                                             'homeTeam': null,
                                             'awayTeam': null,
                                             'matchStatus': null,
@@ -723,11 +748,11 @@ import _ from 'lodash'
                     'title': '',
                     'color': 'grey',
                     'textColor': '#FFFFFF',
-                    'matchId': '111212',
+                    'matchId': -1,
                     'matchAgeGroupId':'',
                     'homeScore': null,
                     'awayScore': null,
-                    'displayFlag':'',
+                    'displayFlag':'none',
                     'homeTeam': null,
                     'awayTeam': null,
                     'matchStatus': null,
@@ -762,7 +787,7 @@ import _ from 'lodash'
                             'matchAgeGroupId':'',
                             'homeScore': null,
                             'awayScore': null,
-                            'displayFlag': '',
+                            'displayFlag': 'none',
                             'remarks': null,
                         }
                         this.scheduledMatches.push(mData2)
@@ -844,7 +869,8 @@ import _ from 'lodash'
     function arrangeLeftColumn() {        
         var scrollableBodys = document.querySelectorAll('.fc-content-skeleton');        
         var index = 1;
-        var plannerwidth = $('.pitch_planner_section').width()/8;        
+        var plannerwidth = $('.pitch_planner_section').width()/8;
+        $('.stage-top-horizontal-scroll').hide();      
         [].forEach.call(scrollableBodys, function(scrollableBody) {
             var totalPitches = document.querySelectorAll('.pitch-planner-item:nth-child('+index+') .fc-head-container > .fc-row > table > thead > tr > th').length - 1;
             if(totalPitches>7){
@@ -856,6 +882,7 @@ import _ from 'lodash'
                 var scrollableHeader = document.querySelector('.pitch-planner-item:nth-child('+index+') .fc-head-container > .fc-row');
                 var scrollableHeaderTable = document.querySelector('.pitch-planner-item:nth-child('+index+') .fc-head-container > .fc-row > table');
                 scrollableHeaderTable.style.width = (width-40)+'px';
+
                 var scrollableBg = document.querySelector('.pitch-planner-item:nth-child('+index+') .fc-bg');
                 var scrollableBgTable = document.querySelector('.pitch-planner-item:nth-child('+index+') .fc-bg > table');
                 scrollableBgTable.style.width = width+'px';
@@ -865,14 +892,25 @@ import _ from 'lodash'
                 var fcsktable2 = document.querySelector('.pitch-planner-item:nth-child('+index+') .fc-agenda-view > table');
                 fcsktable2.style.width = '100%';
 
+                // Top Horizontal Scroll
+                document.querySelector('.pitch-planner-item:nth-child('+index+') .stage-top-horizontal-scroll').style.display = 'block';
+                var topHorizontalScroll = document.querySelector('.pitch-planner-item:nth-child('+index+') .stage-top-horizontal-scroll div');
+                topHorizontalScroll.style.width = (width-40)+'px';
+
                 scrollableBody.addEventListener('scroll', () => {
                     scrollableHeader.scrollTo(scrollableBody.scrollLeft, 0);
                     scrollableBg.scrollTo(scrollableBody.scrollLeft, 0);
+                    let stageNo = $(scrollableBody).closest('.js-stage-outer-div').data('stage-number');
+                    $(".js-stage-top-horizontal-scroll" + stageNo).scrollLeft($(scrollableBody).scrollLeft());
                 });
             } else {
                 $(scrollableBody).closest('table').css('width', ($('.pitch_planner_section').width() - 20) + 'px');
             }
             index++;
+        });
+        $('.stage-top-horizontal-scroll').on('scroll', function (e){
+            let stageNo = $(this).data('stage-number');
+            $("#stage_outer_div" + stageNo).find('.fc-content-skeleton').first().scrollLeft($(this).scrollLeft());
         });
     }
     $(window).load(function(){

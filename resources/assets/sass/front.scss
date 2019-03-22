@@ -423,6 +423,14 @@ table#Competition-modal-table {
     height: 100%;
 }
 
+.match-unschedule-checkbox-div {
+    position: absolute;
+    bottom: 2px;
+    width: 23px;
+    right: 15px;
+    height: 23px;
+}
+
 .scheduled-match-content {
     height: 100%;
     position: relative;
@@ -1150,9 +1158,8 @@ a.aecor-anchor {
     text-decoration: underline;
     color: #757575;
 }
-.add-category-table tr td,
-.add-category-table tr th{
-    padding: 0.5rem;
+.add-category-table tr td, .add-category-table tr th {
+    padding: 0.5rem 0.2rem;
 }
 .delete-day-link,.delete-day-link:hover{
     text-decoration:underline;
@@ -1168,6 +1175,45 @@ a.active-view:hover {
     @extend .text-primary;
 }
 
+#age_category_block {
+    position: relative;
+    &.is-fixed {
+        position: fixed;
+        top: 60px;
+        z-index: 99;
+        width: auto;
+        left: 57px;
+        right: 57px;
+    }
+}
+
 .displayGraphicImage .modal-dialog{
     max-width: 900px;
+}
+
+.stage-top-horizontal-scroll {
+    width: calc(100% - 41px);
+    min-height:15px;
+    overflow: scroll;
+    margin-left: 41px;
+    > div {
+        min-height: 1px;
+    }
+}
+
+.fc-time-grid-event .fc-content {
+    padding-right: 10px;
+}
+.match-planner-warning {
+    position: absolute;
+    right: 18px;
+    top: 2px;
+}
+.match-fixture-comment {
+    margin-left: 4px;
+}
+
+.tbl-drawdetails th,
+.tbl-drawdetails td{
+    word-break: break-word;
 }

@@ -19,6 +19,7 @@ module.exports= {
   welcome_create_website: 'Create website',
   welcome_manage_templates: 'Manage templates',
   welcome_manage_templates_header: 'Manage Templates',
+  welcome_create_duplicate_tournament: 'Duplicate tournament',
 
   siteheader_name: "Chris",
   siteheader_settings: "Settings",
@@ -92,6 +93,13 @@ module.exports= {
   add_template_modal_step3_header: "Step 3 : Placings",
   add_template_modal_step4_header: "Step 4 : Review",
   
+  duplicate_tournament: "Tournaments",
+  duplicate_tournamet_tournament_name: "Tournament name",
+  duplicate_tournamet_tournament_start_date: "Tournament start date", 
+  duplicate_tournamet_tournament_end_date: "Tournament end date",
+  duplicate_tournamet_maximum_teams: "Maximum teams",
+  duplicate_tournamet_action: "Action",
+
   user_management_add_new_user: "Add new user",
   // user_management_edit_user: "Edit User",
   user_management_sentence: "Add, edit and remove Euro-Sportring Tournament Planner users.",
@@ -351,6 +359,12 @@ module.exports= {
   competation_modal_time: "Total time required:",
   competation_modal_remark: "Remark:",
   competation_modal_group_size_required: "Group size is required",
+
+  duplicate_tournament_copy_modal: "Duplicate Tournament",
+  duplicate_tournament_copy_name: "Tournament name*",
+  duplicate_tournament_copy_cancle_button: "Cancel",
+  duplicate_tournament_copy_duplicate_button: "Duplicate",
+  duplicate_tournament_copy_clear_button: "Clear",
 
   pitch_modal_match_details: "Match Details",
   pitch_modal_match_card: "Match Card",
@@ -739,6 +753,8 @@ module.exports= {
   pitch_planner_automatic_planning_total_final_matches_duration: "Total game duration for final",
   pitch_planner_automatic_planning_pitch_selection: "Pitch selection*",
   pitch_planner_automatic_planning_schedule_btn: "Plan",
+  pitch_planner_unschedule_fixtures: "Unschedule fixtures",
+  pitch_planner_cancel_unscheduling: "Cancel unscheduling",
   pitch_planner_automatic_planning_message: 'Groups will not show in the competition dropdown if i) one or more games have been manually scheduled ii) the group has already been automatically planned.',
 
   pitch_detail_break_add: "Add break",
