@@ -61,7 +61,7 @@ class UserService implements UserContract
         \Log::info($data);
         // Data Initilization
         $data = $data->all();
-        
+        $currentLayout = config('config-variables.current_layout');
         $mobileUserRoleId = Role::where('slug', 'mobile.user')->first()->id;
         
         \Log::info('User Create Method Called');
@@ -157,11 +157,18 @@ class UserService implements UserContract
         {
           \Log::info('Insert in User Favourite table');
           $user_id = $userObj->id;
-          $userFavouriteData['user_id']=$user_id;
-          if($data['tournament_id'] == '' || $data['tournament_id'] == 0)
-                $data['tournament_id'] = 1;
-          $userFavouriteData['tournament_id'] = $data['tournament_id'];
-          $userFavouriteData['is_default']= 1;
+
+          if($currentLayout == "tmp") {
+            $userFavouriteData['user_id']=$user_id;
+            $data['tournament_id'] = 1;
+            $userFavouriteData['tournament_id'] = $data['tournament_id'];
+            $userFavouriteData['is_default']= 1;  
+          }
+
+          // if($data['tournament_id'] == '' || $data['tournament_id'] == 0)
+          // $data['tournament_id'] = 1;
+          // $userFavouriteData['tournament_id'] = $data['tournament_id'];
+          // $userFavouriteData['is_default']= 1;
           $this->userRepoObj->createUserFavourites($userFavouriteData);
         //  return ['status_code' => '200', 'message' => 'Mobile Data Sucessfully Inserted'];
         }
