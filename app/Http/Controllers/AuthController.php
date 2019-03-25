@@ -55,7 +55,7 @@ class AuthController extends Controller
           }
 
           if( $userData->is_verified == 0 ) {
-            return response(['authenticated' => false, 'message'=>'Account is not verified.']);
+            return response(['authenticated' => false, 'message'=>'This email account still requires verification.']);
           }
 
           if( ($userData->is_mobile_user == 0 && $isMobileUsers == true) || ($userData->is_desktop_user == 0 && $isMobileUsers != true) ) {
@@ -69,14 +69,18 @@ class AuthController extends Controller
             $userDataQuery = \Laraspace\Models\User::where('users.id',$userData->id)
                               ->leftJoin('users_favourite','users_favourite.user_id','=','users.id')
                               ->leftJoin('people','people.id','=','users.person_id')
+                              ->leftjoin('countries', 'countries.id', '=', 'users.country_id')
+                              ->join('role_user', 'users.id', '=', 'role_user.user_id')
+                              ->join('roles', 'roles.id', '=', 'role_user.role_id')
                               ->select('users.id',
                                 'users.locale',
                                 'people.first_name',
                                 'people.last_name','users.email',
                                 'users.user_image',
                                 \DB::raw('IF(users.user_image is not null,CONCAT("'.$path.'", users.user_image),"" ) as userImage'),
-                                'users_favourite.tournament_id')
+                                'users_favourite.tournament_id','users.role as role','countries.id as country_id')
                               ->get();
+                              
             $userDetails = array();
             if(isset($userDataQuery)) {
              $userData = $userDataQuery[0];
@@ -91,7 +95,9 @@ class AuthController extends Controller
              $userSettings = Settings::where('user_id','=',$userData->id)->first();
              $userDetails['settings'] = $userSettings ? $userSettings->toArray() : null;
              $userDetails['role_id'] = $userData->roles()->first()->id;
-
+             $userDetails['role'] = $userData->role;
+             $userDetails['locale'] = $userData->locale;
+             $userDetails['country_id'] = $userData->country_id;
              $tournament_id = array();
              return response(['authenticated' => true,'userData'=> $userDetails, 'is_score_auto_update' =>config('config-variables.is_score_auto_update')]);
             }

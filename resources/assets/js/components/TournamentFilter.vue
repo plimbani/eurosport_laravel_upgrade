@@ -1,9 +1,9 @@
 <template>
   <div class="row justify-content-end">
-    <div class="col-sm-10">
+    <div class="col-sm-12">
       <h6 class="font-weight-bold">{{$lang.teams_filter}}</h6>
     </div>
-    <div class="col-sm-10">
+    <div class="col-sm-12">
       <div class="row">
         <div class="col-md-10">
           <div class="row align-items-center">
@@ -11,35 +11,56 @@
               <form  class="form-inline summary-matches-filter">
                 <div class="form-group" v-if="section!='scheduleResult'">
                   <label class="radio-inline control-label">
-                      <input type="radio" id="age_category" name="filter" value="age_category"
-                       @click="getDropDownData('age_category')" class="mr-2">{{$lang.tournament_filter_age_category}}
+                    <div class="checkbox">
+                      <div class="c-input">
+                          <input type="radio" id="age_category" name="filter" value="age_category"
+                          @click="getDropDownData('age_category')" class="euro-radio mr-2">
+                          <label for="age_category">{{$lang.tournament_filter_age_category}}</label>
+                      </div>
+                    </div>
                   </label>
                 </div>
-
                 <div class="form-group" v-if="section =='scheduleResult'">
                   <label class="radio-inline control-label">
-                      <input type="radio" id="competation_group" name="filter" value="competation_group"
-                       @click="getDropDownData('competation_group')" class="mr-2">{{$lang.tournament_filter_age_category_match}}
+                      <div class="checkbox">
+                        <div class="c-input">
+                          <input type="radio" id="competation_group" name="filter" value="competation_group"
+                          @click="getDropDownData('competation_group')" class="euro-radio mr-2">
+                          <label for="competation_group">{{$lang.tournament_filter_age_category_match}}</label>
+                        </div>
+                      </div>
                   </label>
                 </div>
-
                 <div class="form-group" v-if="section=='pitchPlanner' || section=='scheduleResult'">
                   <label class="radio-inline control-label">
-                    <input type="radio" id="location" name="filter" value="location"
-                    @click="getDropDownData('location')" class="mr-2">{{$lang.teams_location}}
+                      <div class="checkbox">
+                        <div class="c-input">
+                          <input type="radio" id="location" name="filter" value="location"
+                             @click="getDropDownData('location')" class="euro-radio mr-2">
+                          <label for="location">{{$lang.teams_location}}</label>
+                        </div>
+                      </div>
                   </label>
                 </div>
-
                 <div class="form-group" v-if="section == 'scheduleResult' || section =='teams'">
                   <label class="radio-inline control-label">
-                    <input type="radio" id="team" name="filter" value="team"
-                    @click="getDropDownData('team')" class="mr-2">{{$lang.teams_team}}
+                      <div class="checkbox">
+                        <div class="c-input">
+                          <input type="radio" id="team" name="filter" value="team"
+                            @click="getDropDownData('team')" class="euro-radio mr-2">
+                          <label for="team">{{$lang.teams_team}}</label>
+                        </div>
+                      </div>
                   </label>
                 </div>
-
                 <div class="form-group" v-if="section=='teams'">
                   <label class="radio-inline control-label">
-                      <input type="radio" id="country" name="filter" value="country" @click="getDropDownData('country')" class="mr-2">{{$lang.teams_country}}
+                      <div class="checkbox">
+                        <div class="c-input">
+                          <input type="radio" id="country" name="filter" value="country" @click="getDropDownData('country')" class="euro-radio mr-2">
+                          <label for="country">{{$lang.teams_country}}</label>
+                        </div>
+                      </div>                      
                   </label>
                 </div>
               </form>

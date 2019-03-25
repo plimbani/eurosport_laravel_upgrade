@@ -106,25 +106,25 @@
 
                                 <div class="form-group">
                                     <button class="btn btn-theme">
-                                        <i class="fa fa-plane"></i> Theme
+                                        <i class="fas fa-plane"></i> Theme
                                     </button>
                                     <button class="btn btn-primary">
-                                        <i class="fa fa-star"></i> Primary
+                                        <i class="fas fa-star"></i> Primary
                                     </button>
                                     <button class="btn btn-secondary">
-                                        <i class="fa fa-map-marker"></i> Mark
+                                        <i class="fas fa-map-marker"></i> Mark
                                     </button>
                                     <button class="btn btn-info">
-                                        <i class="fa fa-envelope"></i> Notify
+                                        <i class="fas fa-envelope"></i> Notify
                                     </button>
                                     <button class="btn btn-danger">
-                                        <i class="fa fa-trash"></i> Delete
+                                        <i class="fas fa-trash"></i> Delete
                                     </button>
                                     <button class="btn btn-success">
-                                        <i class="fa fa-user"></i> Login
+                                        <i class="fas fa-user"></i> Login
                                     </button>
                                     <button class="btn btn-warning">
-                                        <i class="fa fa-warning"></i> Warn
+                                        <i class="fas fa-warning"></i> Warn
                                     </button>
                                 </div>
                             </div>
@@ -133,7 +133,7 @@
 
                                 <div class="form-group">
                                     <button class="btn btn-theme btn-pressable">
-                                        <i class="fa fa-plane"></i> Theme
+                                        <i class="fas fa-plane"></i> Theme
                                     </button>
                                     <button class="btn btn-primary btn-pressable">
                                         Primary
@@ -238,29 +238,29 @@
                                     <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
                                         <div class="btn-group mr-2" role="group" aria-label="First group">
                                             <button type="button" class="btn btn-icon btn-info"><i
-                                                    class="fa fa-align-left"></i></button>
+                                                    class="fas fa-align-left"></i></button>
                                             <button type="button" class="btn btn-icon btn-info"><i
-                                                    class="fa fa-align-center"></i></button>
+                                                    class="fas fa-align-center"></i></button>
                                             <button type="button" class="btn btn-icon btn-info"><i
-                                                    class="fa fa-align-right"></i></button>
+                                                    class="fas fa-align-right"></i></button>
                                         </div>
                                         <div class="btn-group mr-2" role="group" aria-label="First group">
                                             <button type="button" class="btn btn-icon btn-info"><i
-                                                    class="fa fa-bold"></i>
+                                                    class="fas fa-bold"></i>
                                             </button>
                                             <button type="button" class="btn btn-icon btn-info"><i
-                                                    class="fa fa-italic"></i>
+                                                    class="fas fa-italic"></i>
                                             </button>
                                             <button type="button" class="btn btn-icon btn-info"><i
-                                                    class="fa fa-underline"></i></button>
+                                                    class="fas fa-underline"></i></button>
                                         </div>
                                         <div class="btn-group mr-2" role="group" aria-label="First group">
                                             <button type="button" class="btn btn-icon btn-outline-info"><i
-                                                    class="fa fa-file-image-o"></i></button>
+                                                    class="fas fa-file-image-o"></i></button>
                                             <button type="button" class="btn btn-icon btn-outline-info"><i
-                                                    class="fa fa-folder"></i></button>
+                                                    class="fas fa-folder"></i></button>
                                             <button type="button" class="btn btn-icon btn-outline-info"><i
-                                                    class="fa fa-pencil"></i></button>
+                                                    class="fas fa-pencil"></i></button>
                                         </div>
                                     </div>
 
@@ -291,11 +291,11 @@
                                 <div class="btn-group-vertical" role="group"
                                      aria-label="Button group with nested dropdown">
                                     <button type="button" class="btn btn-icon btn-outline-primary"><i
-                                            class="fa fa-file"></i></button>
+                                            class="fas fa-file"></i></button>
                                     <button type="button" class="btn btn-icon btn-outline-primary"><i
-                                            class="fa fa-pencil"></i></button>
+                                            class="fas fa-pencil"></i></button>
                                     <button type="button" class="btn btn-icon btn-outline-primary"><i
-                                            class="fa fa-image"></i></button>
+                                            class="fas fa-image"></i></button>
                                 </div>
                             </div>
                             <div class="col-sm-6">
@@ -304,7 +304,7 @@
                                 <div class="btn-group btn-group-justified">
                                     <div class="btn-group" role="group">
                                         <button type="button" class="btn btn-primary">
-                                            <i class="fa fa-list" aria-hidden="true"></i>
+                                            <i class="fas fa-list" aria-hidden="true"></i>
                                             <br>
                                             <span class="text-uppercase hidden-xs">Listing</span>
                                         </button>
@@ -312,7 +312,7 @@
 
                                     <div class="btn-group" role="group">
                                         <button type="button" class="btn btn-info">
-                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fas fa-star" aria-hidden="true"></i>
                                             <br>
                                             <span class="text-uppercase hidden-xs">Review</span>
                                         </button>
@@ -320,7 +320,7 @@
 
                                     <div class="btn-group" role="group">
                                         <button type="button" class="btn btn-success">
-                                            <i class="fa fa-rocket" aria-hidden="true"></i>
+                                            <i class="fas fa-rocket" aria-hidden="true"></i>
                                             <br>
                                             <span class="text-uppercase hidden-xs">Details</span>
                                         </button>

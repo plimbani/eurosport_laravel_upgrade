@@ -14,32 +14,39 @@
 			 </div>
 			</div>
 			<div class="col-md-6">
-				<div class="row d-flex flex-row align-items-center">
-				<div class="col-sm-4"><div style="line-height:1">{{$lang.summary_status}}: {{tournamentStatus}}</div></div>
-
-				<div class="col-md-4" v-if="tournamentStatus == 'Published'">
-				   <button type="button" data-toggle="modal"
-				data-target="#publish_modal"
-				class="btn btn-primary w-100">
-				{{$lang.summary_button_unpublish}}</button>
-				<UnPublishedTournament>
-				</UnPublishedTournament>
+				<div class="row gutters-tiny align-items-center justify-content-end">
+				<label for="status_rules" class="col-md-2 text-right mb-0">{{$lang.summary_status}}:
+					<span class="text-primary" data-toggle="popover" data-animation="false" data-placement="bottom" :data-popover-content="'#status_rules'"><i class="fas fa-info-circle"></i>
+					</span>
+					<div v-bind:id="'status_rules'" style="display:none;">
+                		<div class="popover-body">
+                			Preview = publish key details of the tournament only to the app<br /><br />
+                			Published = publish all details of the tournament to the app<br /><br />
+                			Unpublished = no information about the tournament is published to the app
+                		</div>
+					</div>
+                </label>
+				<div class="col-md-6">
+					<TournamentStatus :tournamentStatus='tournamentStatus'></TournamentStatus>
 				</div>
-				<div class="col-sm-4" v-else>
-				  <button type="button" data-toggle="modal"
-				data-target="#publish_modal"
-				class="btn btn-primary w-100">
-				{{$lang.summary_button_publish}}</button>
+
+ 				<UnPublishedTournament>
+				</UnPublishedTournament>
+
 				<PublishTournament :tournamentStatus='tournamentStatus'>
 				</PublishTournament>
-				</div>
-				<div class="col-sm-4">
-				<button type="button" data-toggle="modal"
-				data-confirm-msg="Are you sure you would like to delete this user record?"
-				data-target="#delete_modal"
-				class="btn btn-danger w-100">{{$lang.summary_button_delete}}</button>
-				<delete-modal :deleteConfirmMsg="deleteConfirmMsg" @confirmed="deleteConfirmed()"></delete-modal>
-				<!--<DeleteTournament></DeleteTournament>-->
+
+ 				<PreviewTournament>
+				</PreviewTournament>
+
+				<div class="col-sm-4" v-if="(userDetails.role_name == 'Super administrator' || userDetails.role_name == 'Internal administrator' || userDetails.role_name == 'Master administrator')">
+					<button type="button" data-toggle="modal"
+					data-confirm-msg="Are you sure you would like to delete this user record?"
+					data-target="#delete_modal"
+					class="btn btn-danger w-100" 
+					>{{$lang.summary_button_delete}}</button>
+					<delete-modal :deleteConfirmMsg="deleteConfirmMsg" @confirmed="deleteConfirmed()"></delete-modal>
+					<!--<DeleteTournament></DeleteTournament>-->
 				</div>
 				</div>
 			</div>
@@ -111,6 +118,9 @@
 
 	import PublishTournament from './PublishTournament.vue'
 	import UnPublishedTournament from './UnPublishedTournament.vue'
+	import PreviewTournament from './PreviewTournament.vue'
+	import TournamentStatus from './TournamentStatus.vue'
+
 
 	import DeleteModal from './DeleteModal.vue'
 	import Tournament from '../api/tournament.js'
@@ -119,18 +129,35 @@
 	    data(){
 	    	return {
 	    		tournamentSummary:{tournament_logo:'', name: '', locations: '',tournament_dates: '', tournament_status: '',tournament_teams:'0',tournament_age_categories:'0',tournament_matches:'0',tournament_pitches:'0',tournament_referees:'0',tournament_days:'',tournament_groups:'-',tournament_countries:'-',tournament_contact:'-'},
-	    		tournamentName:'',tournamentStatus:'',tournamentDates:'',tournamentDays:0,tournamentId:'',tournamentLogo:'',
+	    		tournamentName:'',tournamentStatus:'',tournamentDates:'',tournamentDays:0,tournamentId:'',tournamentLogo:'',tournamentStatus:'',
 
 	    		deleteConfirmMsg: 'Are you sure you would like to delete this tournament?',
                 deleteAction: ''
 	    	}
 	    },
 	    components: {
-	        PublishTournament, DeleteModal,UnPublishedTournament
+	        PublishTournament, DeleteModal,UnPublishedTournament,TournamentStatus,PreviewTournament
 	    },
 	    mounted() {
 	       // First Set Menu and ActiveTab
 	       this.getSummaryData()
+			$("[data-toggle=popover]").popover({
+			    html : true,
+			    trigger: 'hover',
+			    content: function() {
+			        var content = $(this).attr("data-popover-content");
+			        return $(content).children(".popover-body").html();
+			    },
+			    title: function() {
+			        var title = $(this).attr("data-popover-content");
+			        return $(title).children(".popover-heading").html();
+			    }
+			});
+	    },
+	    computed: {
+		    userDetails: function() {
+		      return this.$store.state.Users.userDetails
+		    },
 	    },
 	    created: function() {
        		this.$root.$on('StatusUpdate', this.updateStatus);
@@ -146,12 +173,27 @@
 	    		(response) => {
 	    			if(response.data.status_code == 200) {
 
-              $("#publish_modal").modal("hide");
+	    			if ( status == 'Published')
+	    			{
+	    				var modal = "publish_modal";
+	    			}
+
+	    			if ( status == 'Unpublished')
+	    			{
+	    				var modal = "unpublish_modal";
+	    			}
+
+	    			if ( status == 'Preview')
+	    			{
+	    				var modal = "preview_modal";
+	    			}
+	    			
+              		$("#"+modal).modal("hide");
 	    				this.tournamentStatus = status
 	    				toastr['success']('This tournament has been '+status, 'Success');
 	    				let tournamentField = {'tournamentStatus': status}
 	    				this.$store.dispatch('setTournamentStatus',tournamentField)
-              setTimeout(this.redirectToHomePage, 3000);
+                //setTimeout(this.redirectToHomePage, 3000);
 
             }
 	    		},
@@ -159,7 +201,6 @@
 	    		}
 	    		);
 
-	    		$('#publish_modal').attr('data-dismiss','modal')
 	    	}
 	      },
         redirectToHomePage(){
@@ -184,11 +225,11 @@
 	    			if(response.data.data.locations != undefined || response.data.data.locations != null )
               {
     	    			response.data.data.locations.reduce(function (a,b) {
-    			        locations += b.name + ' (' +b.country +')'+','
+    			        locations += b.name + ' (' +b.country +')'+', '
                   },0);
                 // remove last comma
                 if(locations.length > 0)
-                    locations = locations.substring(0,locations.length-1)
+                    locations = locations.substring(0,locations.length - 2)
     	    			this.tournamentSummary.locations = locations
 	    		   }
 

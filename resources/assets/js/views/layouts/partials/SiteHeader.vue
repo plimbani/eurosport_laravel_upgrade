@@ -14,10 +14,10 @@
             <!-- <span class="offset-1"> {{TournamentName}} </span> -->
             <ul class="action-list">
                 <li>
-                    <i class="jv-icon jv-clock"></i>&nbsp;<span id="timer">{{curTime}}</span>
+                    <i class="fas fa-clock"></i>&nbsp;<span id="timer">{{curTime}}</span>
                 </li>
                 <li>
-                    <i class="jv-icon jv-calendar"></i>&nbsp;<span id="date">{{date}}</span>
+                    <i class="fas fa-calendar"></i>&nbsp;<span id="date">{{date}}</span>
                 </li>
                 <li>
                     <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" aria-haspopup="true" data-close-others="true" aria-expanded="true">
@@ -36,20 +36,20 @@
 
                 <!--
                 <li>
-                    <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-plus"></i></a>
+                    <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-plus"></i></a>
                     <div class="dropdown-menu dropdown-menu-right">
-                        <a class="dropdown-item" href="#"><i class="fa fa-edit"></i> New Post</a>
-                        <a class="dropdown-item" href="#"><i class="fa fa-tag"></i> New Category</a>
+                        <a class="dropdown-item" href="#"><i class="fas fa-edit"></i> New Post</a>
+                        <a class="dropdown-item" href="#"><i class="fas fa-tag"></i> New Category</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#"><i class="fa fa-star"></i> Separated link</a>
+                        <a class="dropdown-item" href="#"><i class="fas fa-star"></i> Separated link</a>
                     </div>
                 </li>
                 <li>
-                    <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-bell"></i></a>
+                    <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-bell"></i></a>
                     <div class="dropdown-menu dropdown-menu-right notification-dropdown">
                         <h6 class="dropdown-header">Notifications</h6>
-                        <a class="dropdown-item" href="#"><i class="fa fa-user"></i> New User was Registered</a>
-                        <a class="dropdown-item" href="#"><i class="fa fa-comment"></i> A Comment has been posted.</a>
+                        <a class="dropdown-item" href="#"><i class="fas fa-user"></i> New User was Registered</a>
+                        <a class="dropdown-item" href="#"><i class="fas fa-comment"></i> A Comment has been posted.</a>
                     </div>
                 </li>
                 -->

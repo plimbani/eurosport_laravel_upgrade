@@ -2,7 +2,7 @@
 	<div>
 		<div class="form-group">
 	       	<button @click="backToTeamList()" class="btn btn-primary">
-		        <i aria-hidden="true" class="fa fa-angle-double-left"></i> Back to team list
+		        <i aria-hidden="true" class="fas fa-angle-double-left"></i> Back to team list
 		    </button>
 		</div>
 		<div class="row">

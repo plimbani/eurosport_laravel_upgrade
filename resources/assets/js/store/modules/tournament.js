@@ -14,6 +14,7 @@ const state = {
   currentTotalTime: '',
   tournamentDays: '',
   venues: [],
+  teams:[],
   tournamentStatus: '',
   tournamentLogo: '',
   facebook:'facebook',
@@ -104,9 +105,6 @@ const actions = {
     });
 
   },
-
-
-
   SetVenues ({commit},tournamentId) {
 	Tournament.getAllVenues(tournamentId).then (
 	  (response) => {
@@ -115,6 +113,16 @@ const actions = {
 	  (error) => {
 	  }
 	)
+  },
+  SetTeams ({commit},tournamentId) {
+    let tournamentData = { 'tournamentId': tournamentId };
+    Tournament.getAllTeams(tournamentData).then (
+      (response) => {
+        commit(types.SET_TEAMS, response.data.data)
+      },
+      (error) => {
+      }
+    ) 
   },
   SetTemplate ({commit}, tournamentData) {
 	Tournament.getTemplate(tournamentData).then (
@@ -237,7 +245,11 @@ const mutations = {
  [types.SET_VENUES] (state, venueData) {
 	state.venues = venueData;
   },
-   [types.TOTAL_MATCHES] (state, totalMatch) {
+ [types.SET_TEAMS] (state, teamData) {
+  state.teams = [];
+  state.teams = teamData;
+  },
+  [types.TOTAL_MATCHES] (state, totalMatch) {
 	state.totalMatch = totalMatch;
   },
   [types.TOTAL_REFEREES] (state, totalReferees) {

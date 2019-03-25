@@ -6,34 +6,54 @@
           	<div class="tabs tabs-primary">
           		<ul class="nav nav-tabs" role="tablist">
           			<li class="nav-item">
-          				<a :class="[activePath == 'website_add' ? 'active' : '', 'nav-link']" data-toggle="tab" href="#website_add" role="tab" @click="GetSelectComponent('website_add')">{{$lang.website_label}}</a>
+          				<a :class="[activePath == 'website_add' ? 'active' : '', 'nav-link']" data-toggle="tab" href="#website_add" role="tab" @click="GetSelectComponent('website_add')">
+                    <div class="wrapper-tab">{{$lang.website_label}}</div>
+                  </a>
           			</li>
           			<li class="nav-item" v-if="isPageEnabled('home')">
-                  <a data-toggle="tab" :class="[isNewWebsite ? 'is-disabled' : '', activePath == 'website_homepage' ? 'active' : '', 'nav-link']" href="#website_homepage" role="tab" @click="GetSelectComponent('website_homepage')">{{$lang.website_homepage}}</a>
+                  <a data-toggle="tab" :class="[isNewWebsite ? 'is-disabled' : '', activePath == 'website_homepage' ? 'active' : '', 'nav-link']" href="#website_homepage" role="tab" @click="GetSelectComponent('website_homepage')">
+                    <div class="wrapper-tab">{{$lang.website_homepage}}</div>
+                  </a>
                 </li>
                 <li class="nav-item" v-if="isPageEnabled('teams')">
-                  <a data-toggle="tab" :class="[isNewWebsite ? 'is-disabled' : '', activePath == 'website_teams' ? 'active' : '', 'nav-link']" href="#website_teams" role="tab" @click="GetSelectComponent('website_teams')">{{$lang.website_teams}}</a>
+                  <a data-toggle="tab" :class="[isNewWebsite ? 'is-disabled' : '', activePath == 'website_teams' ? 'active' : '', 'nav-link']" href="#website_teams" role="tab" @click="GetSelectComponent('website_teams')">
+                    <div class="wrapper-tab">{{$lang.website_teams}}</div>
+                  </a>
                 </li>
                 <li class="nav-item" v-if="isPageEnabled('venue')">
-                  <a data-toggle="tab" :class="[isNewWebsite ? 'is-disabled' : '', activePath == 'website_venue' ? 'active' : '', 'nav-link']" href="#website_venue" role="tab" @click="GetSelectComponent('website_venue')">{{$lang.website_venue}}</a>
+                  <a data-toggle="tab" :class="[isNewWebsite ? 'is-disabled' : '', activePath == 'website_venue' ? 'active' : '', 'nav-link']" href="#website_venue" role="tab" @click="GetSelectComponent('website_venue')">
+                    <div class="wrapper-tab">{{$lang.website_venue}}</div>
+                  </a>
                 </li>
                 <li class="nav-item" v-if="isPageEnabled('tournament')">
-                  <a data-toggle="tab" :class="[isNewWebsite ? 'is-disabled' : '', activePath == 'website_tournament' ? 'active' : '', 'nav-link']" href="#website_tournament" role="tab" @click="GetSelectComponent('website_tournament')">{{$lang.website_tournament}}</a>
+                  <a data-toggle="tab" :class="[isNewWebsite ? 'is-disabled' : '', activePath == 'website_tournament' ? 'active' : '', 'nav-link']" href="#website_tournament" role="tab" @click="GetSelectComponent('website_tournament')">
+                    <div class="wrapper-tab">{{$lang.website_tournament}}</div>
+                  </a>
                 </li>
                 <li class="nav-item" v-if="isPageEnabled('program')">
-                  <a data-toggle="tab" :class="[isNewWebsite ? 'is-disabled' : '', activePath == 'website_program' ? 'active' : '', 'nav-link']" href="#website_program" role="tab" @click="GetSelectComponent('website_program')">{{$lang.website_program}}</a>
+                  <a data-toggle="tab" :class="[isNewWebsite ? 'is-disabled' : '', activePath == 'website_program' ? 'active' : '', 'nav-link']" href="#website_program" role="tab" @click="GetSelectComponent('website_program')">
+                    <div class="wrapper-tab">{{$lang.website_program}}</div>
+                  </a>
                 </li>
                 <li class="nav-item" v-if="isPageEnabled('stay')">
-                  <a data-toggle="tab" :class="[isNewWebsite ? 'is-disabled' : '', activePath == 'website_stay' ? 'active' : '', 'nav-link']" href="#website_stay" role="tab" @click="GetSelectComponent('website_stay')">{{$lang.website_stay}}</a>
+                  <a data-toggle="tab" :class="[isNewWebsite ? 'is-disabled' : '', activePath == 'website_stay' ? 'active' : '', 'nav-link']" href="#website_stay" role="tab" @click="GetSelectComponent('website_stay')">
+                    <div class="wrapper-tab">{{$lang.website_stay}}</div>
+                  </a>
                 </li>
                 <li class="nav-item" v-if="isPageEnabled('visitors')">
-                  <a data-toggle="tab" :class="[isNewWebsite ? 'is-disabled' : '', activePath == 'website_visitors' ? 'active' : '', 'nav-link']" href="#website_visitors" role="tab" @click="GetSelectComponent('website_visitors')">{{$lang.website_visitors}}</a>
+                  <a data-toggle="tab" :class="[isNewWebsite ? 'is-disabled' : '', activePath == 'website_visitors' ? 'active' : '', 'nav-link']" href="#website_visitors" role="tab" @click="GetSelectComponent('website_visitors')">
+                    <div class="wrapper-tab">{{$lang.website_visitors}}</div>
+                  </a>
                 </li>
                 <li class="nav-item" v-if="isPageEnabled('media')">
-                  <a data-toggle="tab" :class="[isNewWebsite ? 'is-disabled' : '', activePath == 'website_media' ? 'active' : '', 'nav-link']" href="#website_media" role="tab" @click="GetSelectComponent('website_media')">{{$lang.website_media}}</a>
+                  <a data-toggle="tab" :class="[isNewWebsite ? 'is-disabled' : '', activePath == 'website_media' ? 'active' : '', 'nav-link']" href="#website_media" role="tab" @click="GetSelectComponent('website_media')">
+                    <div class="wrapper-tab">{{$lang.website_media}}</div>
+                  </a>
                 </li>
                 <li class="nav-item" v-if="isPageEnabled('contact')">
-                  <a data-toggle="tab" :class="[isNewWebsite ? 'is-disabled' : '', activePath == 'website_contact' ? 'active' : '', 'nav-link']" href="#website_contact" role="tab" @click="GetSelectComponent('website_contact')">{{$lang.website_contact}}</a>
+                  <a data-toggle="tab" :class="[isNewWebsite ? 'is-disabled' : '', activePath == 'website_contact' ? 'active' : '', 'nav-link']" href="#website_contact" role="tab" @click="GetSelectComponent('website_contact')">
+                    <div class="wrapper-tab">{{$lang.website_contact}}</div>
+                  </a>
                 </li>
           		</ul>
               <div class="row" v-if="( $store.state.Website.preview_domain != null )">

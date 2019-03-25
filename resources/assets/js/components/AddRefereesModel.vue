@@ -14,7 +14,7 @@
               <label class="col-sm-5 form-control-label">{{$lang.add_refree_modal_first_name}}</label>
               <div class="col-sm-6">
                 <input type="text" name="first_name" id="first_name"  v-validate="'required'" v-model="formValues.first_name" class="form-control"  :class="{'is-danger': errors.has('ageCategory_name') }" >
-                <i v-show="errors.has('first_name')" class="fa fa-warning"> </i>
+                <i v-show="errors.has('first_name')" class="fas fa-warning"> </i>
 
                <span class="help is-danger" v-show="errors.has('first_name')">{{$lang.add_refree_modal_validation}}</span>
               </div>
@@ -23,7 +23,7 @@
               <label class="col-sm-5 form-control-label">{{$lang.add_refree_modal_last_name}}</label>
               <div class="col-sm-6">
                 <input type="text" name="last_name" id="last_name"  v-validate="'required'" v-model="formValues.last_name"  class="form-control" >
-                <i v-show="errors.has('last_name')" class="fa fa-warning"> </i>
+                <i v-show="errors.has('last_name')" class="fas fa-warning"> </i>
                 <span class="help is-danger" v-show="errors.has('last_name')">{{$lang.add_refree_modal_validation}}</span>
                </div>
             </div>

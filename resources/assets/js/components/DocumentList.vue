@@ -12,21 +12,21 @@
 			        	<span v-show="checkForUploadedDocument(document)">
 									<v-popover class="d-inline-flex copy-link">
 		  							<a class="text-primary" href="javascript:void(0)" @click="initializeDocumentLink(document, index)">
-						        	<i class="fa fa-link"></i>
+						        	<i class="fas fa-link"></i>
 						        </a>
 									  <template slot="popover">
 									  	<input class="tooltip-content" :class="`js-popover-content-${index}`" type="text" v-model="documentLink" />
-									  	<span><i class="fa fa-check"></i> Link copied to clipboard</span>
+									  	<span><i class="fas fa-check"></i> Link copied to clipboard</span>
 									  </template>
 									</v-popover>
 								</span>
 				        <a class="text-primary" href="javascript:void(0)"
 				        	@click="deleteDocument(index)">
-				        	<i class="jv-icon jv-dustbin"></i>
+				        	<i class="fas fa-trash"></i>
 				        </a>
 				        <a class="text-primary" href="javascript:void(0)"
 				        	@click="editDocument(document, index)">
-				        	<i class="jv-icon jv-edit"></i>
+				        	<i class="fas fa-pencil"></i>
 				        </a>
 				      </div>
 			      </div>
