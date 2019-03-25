@@ -15,7 +15,7 @@
 
 <table id="matchSchedule" class="table table-hover table-bordered table-sm" v-if="matchData.length > 0 && isDivExist == 0">
     <MatchListTableHead :isHideLocation="isHideLocation" :isUserDataExist="isUserDataExist" :getCurrentScheduleView="getCurrentScheduleView" :showPlacingForMatch="showPlacingForMatch()"></MatchListTableHead>
-    <MatchListTable :getCurrentScheduleView="getCurrentScheduleView" :showPlacingForMatch="showPlacingForMatch()" :isHideLocation="isHideLocation" :isUserDataExist="isUserDataExist" :matchData="matchData" :isDivExist="isDivExist" @openPitchModal="openPitchModal" @changeDrawDetails="changeDrawDetails" @getHoldingName="getHoldingName" @displayMatch="displayMatch" @getCompetitionName="getCompetitionName"></MatchListTable>
+    <MatchListTableBody :getCurrentScheduleView="getCurrentScheduleView" :showPlacingForMatch="showPlacingForMatch()" :isHideLocation="isHideLocation" :isUserDataExist="isUserDataExist" :matchData="matchData" :isDivExist="isDivExist" @openPitchModal="openPitchModal" @changeDrawDetails="changeDrawDetails" @getHoldingName="getHoldingName" @displayMatch="displayMatch" @getCompetitionName="getCompetitionName"></MatchListTableBody>
 </table>
 
 <div class="col-md-12" v-for="(matches,index) in isDivExistData" v-if="matchData.length > 0 && isDivExist == 1">
@@ -26,7 +26,7 @@
 
         <MatchListTableHead :isHideLocation="isHideLocation" :isUserDataExist="isUserDataExist" :getCurrentScheduleView="getCurrentScheduleView" :showPlacingForMatch="showPlacingForMatch()"></MatchListTableHead>
 
-        <MatchListTable :getCurrentScheduleView="getCurrentScheduleView" :showPlacingForMatch="showPlacingForMatch()" :isHideLocation="isHideLocation" :isUserDataExist="isUserDataExist" :matchData="matches" :isDivExist="isDivExist" @openPitchModal="openPitchModal" @changeDrawDetails="changeDrawDetails" @getHoldingName="getHoldingName" @displayMatch="displayMatch"  @getCompetitionName="getCompetitionName"></MatchListTable> 
+        <MatchListTableBody :getCurrentScheduleView="getCurrentScheduleView" :showPlacingForMatch="showPlacingForMatch()" :isHideLocation="isHideLocation" :isUserDataExist="isUserDataExist" :matchData="matches" :isDivExist="isDivExist" @openPitchModal="openPitchModal" @changeDrawDetails="changeDrawDetails" @getHoldingName="getHoldingName" @displayMatch="displayMatch"  @getCompetitionName="getCompetitionName"></MatchListTableBody> 
 
       </table>
     </div>
@@ -65,9 +65,8 @@
 <script>
 import Tournament from '../api/tournament.js'
 import PitchModal from '../components/PitchModal.vue';
-import MatchListTable from '../components/MatchListTable.vue';
+import MatchListTableBody from '../components/MatchListTableBody.vue';
 import MatchListTableHead from '../components/MatchListTableHead.vue';
-//import MatchListTableDivision from '../components/MatchListTableDivision.vue';
 import DeleteModal1 from '../components/DeleteModalBlock.vue'
 import VuePaginate from 'vue-paginate'
 
@@ -76,7 +75,7 @@ export default {
   components: {
             PitchModal,
             DeleteModal1,
-            MatchListTable,
+            MatchListTableBody,
             MatchListTableHead
   },
   data() {
@@ -139,7 +138,7 @@ export default {
   components: {
     PitchModal,
     DeleteModal1,
-    MatchListTable,
+    MatchListTableBody,
     MatchListTableHead,
   },
   mounted() {

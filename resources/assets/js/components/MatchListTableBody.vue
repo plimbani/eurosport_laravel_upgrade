@@ -75,12 +75,6 @@ import Tournament from '../api/tournament.js'
 
 export default {
   props: ['getCurrentScheduleView', 'showPlacingForMatch','isHideLocation','isUserDataExist','matchData','isDivExist'],
-  components: {
-  },
-  data() {
-    return {
-    }
-  },
   filters: {
     formatDate: function(date) {
       if(date != null ) {
@@ -101,18 +95,6 @@ export default {
         }
       }
     }
-  },
-  computed: {
-  },
-  components: {
-  },
-  mounted() {
-  },
-  created: function() {
-  },
-  beforeCreate: function() {
-  },
-  watch: {
   },
   methods: {
     openPitchModal(match,matchId) {
