@@ -1161,9 +1161,5 @@ a.active-view:hover {
 
 .tbl-drawdetails th,
 .tbl-drawdetails td{
-    width: 20%;
-}
-
-.tbl-standing .flag-icon-null{
-    width: 0;
+    word-break: break-word;
 }
