@@ -57,6 +57,8 @@ class UserService implements UserContract
      */
     public function create($data)
     {
+        \Log::info('dataaaaa');
+        \Log::info($data);
         // Data Initilization
         $data = $data->all();
         
@@ -103,7 +105,7 @@ class UserService implements UserContract
           $data['userType'] = $mobileUserRoleId;
           \Log::info('passwod b4 encrupt '.$data['password']);
           $userPassword = Hash::make(trim($data['password']));
-          $data['tournament_id']=$data['tournament_id'];
+          $data['tournament_id']=isset($data['tournament_id']) ? $data['tournament_id'] : null;
           \Log::info('password after encrypt '.$userPassword);
 
           

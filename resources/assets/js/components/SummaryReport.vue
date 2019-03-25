@@ -1,7 +1,12 @@
 <template>
+	
 	<div class="tab-content summary-report-content">
+			
 		<div class="tabs tabs-primary">
-			<ul class="nav nav-tabs" role="tablist">
+			<div class="result-administration-date" v-if="!isShowReport">	
+				Reports will be available from {{dateBeForTwoDaysFormat}}.
+			</div>
+			<ul class="nav nav-tabs" role="tablist" v-if="isShowReport">
 	            <li class="nav-item">
 	              <a data-toggle="tab" class="nav-link active" href="#matches_tab" role="tab">
 	              	<div class="wrapper-tab">Matches</div>
@@ -253,92 +258,84 @@
 						</div>
 					</div>
 					</div>
-					<div  v-if="!isShowReport">	
-						Reports will be available from {{dateBeForTwoDaysFormat}}.
-					</div>
 				</div>
 				<div id="fair_play_tab" class="tab-pane">
-					<div  v-if="isShowReport">	
-						
-					
-						  <div class="row align-items-center">
-								<div class="col-md-6">
-									<span>{{$lang.summary_message}}</span>
-								</div>
-								<div class="col-md-6">
-									<div class="d-flex align-items-center justify-content-end">
-										<button class="btn btn-primary mr-1" @click='exportTeamsFairPlayReport()'>{{$lang.summary_button_download}}</button>
-										<button class="btn btn-primary"  @click="generateTeamsFairPlayPrint()">{{$lang.summary_button_print}}</button>
-									</div>
+					<div v-if="isShowReport">	
+						<div class="row align-items-center">
+							<div class="col-md-6">
+								<span>{{$lang.summary_message}}</span>
+							</div>
+							<div class="col-md-6">
+								<div class="d-flex align-items-center justify-content-end">
+									<button class="btn btn-primary mr-1" @click='exportTeamsFairPlayReport()'>{{$lang.summary_button_download}}</button>
+									<button class="btn btn-primary"  @click="generateTeamsFairPlayPrint()">{{$lang.summary_button_print}}</button>
 								</div>
 							</div>
-							<div class="block-bg mt-4">
-								<form name="frmFairPlayReport" id="frmFairPlayReport" class="fair_play_report_form">
-									<div class="form-group text-left mb-0">
-										<div class="row align-items-center">
-											<div class="col-md-6">
-												<div class="row align-items-center">
-													<div class="col-md-3">
-														<label class="mb-0"><strong>{{$lang.summary_reports_age_catrgory}}</strong></label>
-													</div>
-													<div class="col-md-5">
-				         						<select name="sel_ageCategory" id="sel_ageCategory"
-				                      class="form-control ls-select2">
-				          						<option value="">{{$lang.summary_age_category_select}}</option>
-				            					<option v-for="(competation, index) in competationList"
-				            						:value="competation.id">{{competation.group_name}}</option>
-				           					</select>							
-													</div>
+						</div>
+						<div class="block-bg mt-4">
+							<form name="frmFairPlayReport" id="frmFairPlayReport" class="fair_play_report_form">
+								<div class="form-group text-left mb-0">
+									<div class="row align-items-center">
+										<div class="col-md-6">
+											<div class="row align-items-center">
+												<div class="col-md-3">
+													<label class="mb-0"><strong>{{$lang.summary_reports_age_catrgory}}</strong></label>
+												</div>
+												<div class="col-md-5">
+			         						<select name="sel_ageCategory" id="sel_ageCategory"
+			                      class="form-control ls-select2">
+			          						<option value="">{{$lang.summary_age_category_select}}</option>
+			            					<option v-for="(competation, index) in competationList"
+			            						:value="competation.id">{{competation.group_name}}</option>
+			           					</select>							
 												</div>
 											</div>
 										</div>
 									</div>
-								</form>
-							</div>
-							<div class="row align-items-center mt-4">
-								<div class="col-md-12">
-									<div class="d-flex align-items-center justify-content-end">
-										<button type="button" name="clearFairPlayButton" id="clearButton" class="btn btn-primary mr-1" @click="clearFairPlayForm()">{{$lang.summary_button_clear}}</button>
-										<button type="button" name="generateFairPlayReport" id="generateReport" class="btn btn-primary" @click="generateFairPlayReport()">{{$lang.summary_button_generate}}</button>
-									</div>
+								</div>
+							</form>
+						</div>
+						<div class="row align-items-center mt-4">
+							<div class="col-md-12">
+								<div class="d-flex align-items-center justify-content-end">
+									<button type="button" name="clearFairPlayButton" id="clearButton" class="btn btn-primary mr-1" @click="clearFairPlayForm()">{{$lang.summary_button_clear}}</button>
+									<button type="button" name="generateFairPlayReport" id="generateReport" class="btn btn-primary" @click="generateFairPlayReport()">{{$lang.summary_button_generate}}</button>
 								</div>
 							</div>
-							<div class="row mt-4" id="summary_fair_play_report_table">
-								<div class="col-md-12">
-									<div class="table-responsive">
-									 	<table class="table table-hover table-bordered report-table" v-bind:class="{ 'display_table' : teams.length == 0, 'display_block' : teams.length > 0 }" id="fair_play_report_print" border="1" cellpadding="0" cellspacing="0" width="100%">
-											<thead>
-										      	<tr>
-													<th class="text-center" @click="sortFairPlayReport('team_id')">{{$lang.summary_fair_play_reports_team_id}}&nbsp;<i class="fas fa-sort"></i></th>
-								                    <th class="text-center" @click="sortFairPlayReport('name')">{{$lang.summary_fair_play_reports_team}}&nbsp;<i class="fas fa-sort"></i></th>
-								                    <th class="text-center" @click="sortFairPlayReport('club_name')">{{$lang.summary_fair_play_reports_club}}&nbsp;<i class="fas fa-sort"></i></th>
-								                    <th class="text-center" @click="sortFairPlayReport('country_name')">{{$lang.summary_fair_play_reports_country}}&nbsp;<i class="fas fa-sort"></i></th>
-								                    <th class="text-center" @click="sortFairPlayReport('age_name')">{{$lang.summary_fair_play_reports_age_category}}&nbsp;<i class="fas fa-sort"></i></th>
-								                    <th class="text-center" @click="sortFairPlayReport('total_yellow_cards')">{{$lang.summary_fair_play_reports_yellow_cards}}&nbsp;<i class="fas fa-sort"></i></th>
-								                    <th class="text-center" @click="sortFairPlayReport('total_red_cards')">{{$lang.summary_fair_play_reports_red_cards}}&nbsp;<i class="fas fa-sort"></i></th>
-									            </tr>
-						          			</thead>
-			                				<tbody>
-							                	<tr v-for="team in teamsFairPlayData">
-							                		<td>{{ team.team_id }}</td>
-							                		<td>{{ team.name }}</td>
-							                		<td>{{ team.club_name }}</td>
-							                		<td>{{ team.country_name }}</td>
-							                		<td>{{ team.age_name }}</td>
-							                		<td align="center">{{ team.total_yellow_cards == null ? 0 : team.total_yellow_cards }}</td>
-							                		<td align="center">{{ team.total_red_cards == null ? 0 : team.total_red_cards }}</td>
-							                	</tr>
-			                				</tbody>
-			              				</table>
-					    			</div>
-								    <span v-if="teams.length == 0">
-						         		No information available
-						    		</span>
-								</div>
+						</div>
+						<div class="row mt-4" id="summary_fair_play_report_table">
+							<div class="col-md-12">
+								<div class="table-responsive">
+								 	<table class="table table-hover table-bordered report-table" v-bind:class="{ 'display_table' : teams.length == 0, 'display_block' : teams.length > 0 }" id="fair_play_report_print" border="1" cellpadding="0" cellspacing="0" width="100%">
+										<thead>
+									      	<tr>
+												<th class="text-center" @click="sortFairPlayReport('team_id')">{{$lang.summary_fair_play_reports_team_id}}&nbsp;<i class="fas fa-sort"></i></th>
+							                    <th class="text-center" @click="sortFairPlayReport('name')">{{$lang.summary_fair_play_reports_team}}&nbsp;<i class="fas fa-sort"></i></th>
+							                    <th class="text-center" @click="sortFairPlayReport('club_name')">{{$lang.summary_fair_play_reports_club}}&nbsp;<i class="fas fa-sort"></i></th>
+							                    <th class="text-center" @click="sortFairPlayReport('country_name')">{{$lang.summary_fair_play_reports_country}}&nbsp;<i class="fas fa-sort"></i></th>
+							                    <th class="text-center" @click="sortFairPlayReport('age_name')">{{$lang.summary_fair_play_reports_age_category}}&nbsp;<i class="fas fa-sort"></i></th>
+							                    <th class="text-center" @click="sortFairPlayReport('total_yellow_cards')">{{$lang.summary_fair_play_reports_yellow_cards}}&nbsp;<i class="fas fa-sort"></i></th>
+							                    <th class="text-center" @click="sortFairPlayReport('total_red_cards')">{{$lang.summary_fair_play_reports_red_cards}}&nbsp;<i class="fas fa-sort"></i></th>
+								            </tr>
+					          			</thead>
+		                				<tbody>
+						                	<tr v-for="team in teamsFairPlayData">
+						                		<td>{{ team.team_id }}</td>
+						                		<td>{{ team.name }}</td>
+						                		<td>{{ team.club_name }}</td>
+						                		<td>{{ team.country_name }}</td>
+						                		<td>{{ team.age_name }}</td>
+						                		<td align="center">{{ team.total_yellow_cards == null ? 0 : team.total_yellow_cards }}</td>
+						                		<td align="center">{{ team.total_red_cards == null ? 0 : team.total_red_cards }}</td>
+						                	</tr>
+		                				</tbody>
+		              				</table>
+				    			</div>
+							    <span v-if="teams.length == 0">
+					         		No information available
+					    		</span>
 							</div>
-					</div>
-					<div  v-if="!isShowReport">	
-						Reports will be available from {{dateBeForTwoDaysFormat}}.
+						</div>
 					</div>
 				</div>
 			</div>
