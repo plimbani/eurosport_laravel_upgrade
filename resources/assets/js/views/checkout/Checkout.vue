@@ -175,6 +175,7 @@
                     {id: '19', name: 'GERMANY', cardType: 'SOFORT;Giropay'},
                     {id: '2', name: 'AUSTRIA', cardType: 'SOFORT'},
                     {id: '54', name: 'SWITZERLAND', cardType: 'SOFORT'},
+                    {id: '18', name: 'FRANCE', cardType: 'CarteBancaire'},
                 ];
                 let usercountry = Ls.get('usercountry');
 //                console.log("usercountry::", usercountry);
