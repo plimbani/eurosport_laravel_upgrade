@@ -86,7 +86,7 @@ import dashboard from './views/dashboard/dashboard.vue'
 
 import EnterTournamentAccessCode from './views/tournament/EnterTournamentAccessCode.vue'
 import TournamentDetail from './views/tournament/TournamentDetail.vue'
-// import UsersTournament from './views/userstournament/UsersTournament.vue'
+import UsersTournament from './views/userstournament/UsersTournament.vue'
 import TournamentsTransaction from './views/tournamentstransaction/TournamentsTransaction.vue'
 
 // Duplicate Tournament Layout
@@ -304,17 +304,17 @@ const routes = [
             }
         ]
     },
-    //  {
-    //     path: '/userstourmanents', component: LayoutCommercialisation,
-    //     meta: { requiresAuth: true },
-    //     children: [
-    //         {
-    //             path: '/',
-    //             component: UsersTournament,
-    //             name: 'userstourmanent'
-    //         }
-    //     ]
-    // }, 
+     {
+        path: '/userstourmanents', component: LayoutCommercialisation,
+        meta: { requiresAuth: true },
+        children: [
+            {
+                path: '/',
+                component: UsersTournament,
+                name: 'userstourmanent'
+            }
+        ]
+    }, 
      {
         path: '/tournamentstransaction', component: LayoutCommercialisation,
         meta: { requiresAuth: true },
@@ -418,6 +418,16 @@ const routes = [
     },
     {
         path: '/tournament-detail', component: LayoutCommercialisation, 
+        children: [
+            {
+                path: '/',
+                component: TournamentDetail,
+                name: 'TournamentDetail'
+            }
+        ]
+    },
+    {
+        path: '/mtournament-detail', component: LayoutCommercialisation, 
         children: [
             {
                 path: '/',

@@ -14,8 +14,7 @@ class AddMaximumTeamsToTournamentsTable extends Migration
     public function up()
     {
         Schema::table('tournaments', function($table) {
-            $table->integer('maximum_teams')->after('name')->nullable();
-            $table->string('access_code')->after('maximum_teams')->nullable();
+            $table->integer('maximum_teams')->after('name')->nullable();            
         });
     }
 
@@ -27,7 +26,7 @@ class AddMaximumTeamsToTournamentsTable extends Migration
     public function down()
     {
         Schema::table('tournaments', function($table) {
-            $table->dropColumn(['maximum_teams', 'access_code']);
+            $table->dropColumn(['maximum_teams']);
         });
     }
 }

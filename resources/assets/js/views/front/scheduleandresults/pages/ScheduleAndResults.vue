@@ -10,16 +10,16 @@
 	                <div class="tabs tabs-primary">
 						<ul class="nav nav-tabs mb-4">
 							<li @click="setCurrentView('drawsListing')" class="nav-item">
-								<a :class="[currentView == 'drawsListing' ? 'active' : '']" href="javascript:void(0)" class="nav-link">Categories</a>
+								<a :class="[currentView == 'drawsListing' ? 'active' : '']" href="javascript:void(0)" class="nav-link"><div class="wrapper-tab">Categories</div></a>
 							</li>
 							<li @click="setCurrentView('matchListing')" class="nav-item">
-								<a :class="[currentView == 'matchListing' ? 'active' : '']" href="javascript:void(0)" class="nav-link">Matches</a>
+								<a :class="[currentView == 'matchListing' ? 'active' : '']" href="javascript:void(0)" class="nav-link"><div class="wrapper-tab">Matches</div></a>
 							</li>
 							<li @click="setCurrentView('teamListing')" class="nav-item">
-								<a :class="[currentView == 'teamListing' ? 'active' : '']" href="javascript:void(0)" class="nav-link">Teams</a>
+								<a :class="[currentView == 'teamListing' ? 'active' : '']" href="javascript:void(0)" class="nav-link"><div class="wrapper-tab">Teams</div></a>
 							</li>
 							<li @click="setCurrentView('finalPlacings')" class="nav-item">
-								<a :class="[currentView == 'finalPlacings' ? 'active' : '']" href="javascript:void(0)" class="nav-link">Final placings</a>
+								<a :class="[currentView == 'finalPlacings' ? 'active' : '']" href="javascript:void(0)" class="nav-link"><div class="wrapper-tab">Final placing</div></a>
 							</li>
 						</ul>
 						<div class="tab-content">

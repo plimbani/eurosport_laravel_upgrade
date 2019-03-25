@@ -20,7 +20,7 @@
                                                 <div class="col-lg-5">
                                                     <ul class="list-unstyled mb-0 tournament-information">
                                                         <li class="d-inline h7 text-uppercase font-weight-bold pr-2"><span><i class="fa fa-globe"></i></span>&nbsp; <a target="_blank" v-bind:href="tournament.website">View public website</a></li>
-                                                        <li id="open-share-popup" @click="openSharePopup(tournament)" class="d-inline h7 text-uppercase font-weight-bold"><span><i class="fa fa-share-alt"></i></span>&nbsp; <a href="#">Share</a></li>
+                                                        <li v-if="tournament.access_code" id="open-share-popup" @click="openSharePopup(tournament)" class="d-inline h7 text-uppercase font-weight-bold"><span><i class="fa fa-share-alt"></i></span>&nbsp; <a href="#">Share</a></li>
                                                     </ul>
                                                 </div>
                                             </div>
@@ -46,7 +46,7 @@
                     </div>
                     <modal name="open-share-popup" @before-open="getAccessCode">
                       <div class="example-modal-content p-4">
-                        <h4>Share Tournment <span class="pull-right"><i class="fa fa-times"></i></span></h4> 
+                        <h4>Share Tournment <span v-on:click="closeSharePopup()" class="pull-right"><i class="fa fa-times"></i></span></h4> 
                         <p>You can invite anyone to follow your tournament online and in the app. Simply share your following URL by email, SMS or any other social Media.</p>
                         <p class="popup-access-code mb-0 text-center py-4 px-1 font-weight-bold" v-on:click="copyAccessCode()">{{ access_code_popup }}</p>
                         <input type="hidden" id="access_code_popup" :value="access_code_popup">
@@ -107,7 +107,7 @@
                 axios.get(Constant.apiBaseUrl+'tournaments/list', {}).then(response =>  {  
                         if (response.data.success) { 
                              this.tournaments = response.data.data;
-                             console.log("tournaments::",this.tournaments[0].end_date)
+                             // console.log("tournaments::",this.tournaments[0].end_date)
                          }else{ 
                             toastr['error'](response.data.message, 'Error');
                          }
@@ -120,9 +120,13 @@
                 // console.log("expireDate::",expireDate)
                 let expireDateArr = expireDate.split("/");
                 let currentDateArr = moment().format("DD/MM/YYYY").split("/");
+
+                let startDateFormat = expireDateArr[2]+"/"+expireDateArr[1]+"/"+expireDateArr[0];
+                let endDateFormat = currentDateArr[2]+"/"+currentDateArr[1]+"/"+currentDateArr[0]; 
+
                 // let currentDateArr = moment().add('days',1).format("DD/MM/YYYY").split("/");
-                let startDate = moment([expireDateArr[2], expireDateArr[1], expireDateArr[0]]);
-                let endDate = moment([currentDateArr[2], currentDateArr[1], currentDateArr[0]]);
+                let startDate = moment(startDateFormat);
+                let endDate = moment(endDateFormat);
                 let dayDifference = endDate.diff(startDate, 'days');
                 // console.log("dayDifference::",dayDifference)
                 if(dayDifference >= 2){
@@ -156,6 +160,10 @@
                 this.$router.push({name:'tournament_add'});
             },
 
+            closeSharePopup(){
+                this.$modal.hide('open-share-popup');
+            },
+
             openSharePopup(tournament){
                 // console.log("openSharePopup::",tournament.access_code)
                 this.access_code_popup = this.url + tournament.access_code;
@@ -177,9 +185,12 @@
               try {
                 var successful = document.execCommand('copy');
                 var msg = successful ? 'successful' : 'unsuccessful';
-                alert('Testing code was copied ' + msg);
+                // alert('Testing code was copied ' + msg);
+                // alert('');
+                toastr['success']('Tournament url has been copied successfully.', 'Success');
               } catch (err) {
-                alert('Oops, unable to copy');
+                toastr['error']('Oops, unable to copy.', 'Error');
+                // alert('');
               }
 
               /* unselect the range */

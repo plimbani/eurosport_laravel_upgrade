@@ -881,13 +881,23 @@ class MatchController extends BaseController
 
         return response()->download(base_path('resources/sample_uploads/TeamsUploadSpreadsheet.xls'), 'TeamsUploadSpreadsheet.xls', $headers);
     }
-    /* * Matchlast updateed time
+    /**
+    * Matchlast updateed time
     */
     public function getMatchLastUpdatedDate(Request $request)
     {
         return $this->matchObj->getLastUpdateValue($request->all());
     }
-    /* * Match unschedule fixtures
+    /**
+     * Get all age categories of tournament
+     */
+    public function getAllCategoriesReport($tournamentId)
+    {
+        return $this->matchObj->getAllCategoriesReport($tournamentId);
+    }
+
+    /**
+    * Match unschedule fixtures
     */
     public function matchUnscheduledFixtures(Request $request)
     {

@@ -20,10 +20,8 @@ use Laraspace\Http\Requests\Website\GetWebsiteCustomisationRequest;
 use Laraspace\Http\Requests\Website\GetUserAccessibleWebsitesRequest;
 use Laraspace\Http\Requests\Website\GetWebsiteConfigurationDetailRequest;
 use Laraspace\Api\Repositories\WebsiteSettingRepository;
-
 // Need to define only contracts
 use Laraspace\Api\Contracts\WebsiteContract;
-
 
 /**
  * Website Description.
@@ -47,8 +45,6 @@ class WebsiteController extends BaseController
     public function __construct(WebsiteContract $websiteContract)
     {
         $this->websiteContract = $websiteContract;
-        $this->websiteRepo = new WebsiteSettingRepository();
-        
     }
 
     /**
@@ -239,50 +235,5 @@ class WebsiteController extends BaseController
     public function generatePreviewUrl(Request $request, $websiteId)
     {
         return $this->websiteContract->generatePreviewUrl($websiteId);
-    }
-
-    /**
-     * Save website settings
-     * @param Request $request
-     */
-    public function saveSettings(Request $request)
-    {
-        try {
-            $data = $request->all();
-            $this->websiteRepo->saveSettings($data['setting_fields']);
-            
-            return response()->json([
-                        'success' => true,
-                        'status' => Response::HTTP_OK,
-                        'data' => [],
-                        'error' => [],
-                        'message' => 'Settings saved successfully.'
-            ]);
-        } catch (\Exception $ex) {
-            return response()->json(['success' => false, 'status' => Response::HTTP_UNPROCESSABLE_ENTITY, 'data' => [], 'error' => [], 'message' => $ex->getMessage()]);
-        }
-    }
-    
-    /**
-     * Get website settings
-     * @param Request $request
-     * @return string
-     */
-    public function getSettings(Request $request)
-    {
-        try {
-            $data = $request->all();
-            $settings = $this->websiteRepo->getSettings($data['type']);
-            
-            return response()->json([
-                        'success' => true,
-                        'status' => Response::HTTP_OK,
-                        'data' => $settings,
-                        'error' => [],
-                        'message' => 'Settings has been fetched successfully.'
-            ]);
-        } catch (\Exception $ex) {
-            return response()->json(['success' => false, 'status' => Response::HTTP_UNPROCESSABLE_ENTITY, 'data' => [], 'error' => [], 'message' => 'Something went wrong.']);
-        }
     }
 }

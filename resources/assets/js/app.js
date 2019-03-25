@@ -21,14 +21,27 @@ require('./mixins');
  */
 
 import Plugin from './helpers/plugin'
+import Website from './api/website.js';
 window.Plugin = Plugin
 
 const app = new Vue({
     router,
     store,
+    mounted() {
+    	this.getConfigurationDetail();
+    },
     methods : {
         onOverlayClick(){
             Layout.toggleSidebar()
+        },
+        getConfigurationDetail() {
+        	Website.getConfigurationDetail().then(
+              (response)=> {
+                this.$store.dispatch('setConfigurationDetail', response.data);
+              },
+              (error)=> {
+              }
+            );
         }
     }
 }).$mount('#app')

@@ -40,6 +40,10 @@ export default {
             Ls.remove('email')
             Ls.remove('vuex')
             Ls.remove('userData')
+            Ls.remove('user_role')
+            Ls.remove('usercountry')
+            Ls.remove('tournamentDetails')
+            Ls.remove('orderInfo')
             // here we have to reload the page
             toastr['success']('Logged out!', 'Success');
             setTimeout(Plugin.reloadPage, 1000);

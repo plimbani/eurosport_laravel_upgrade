@@ -30,11 +30,11 @@
       <div class="table-responsive" v-if="groupsData.length > 0">
         <table class="table table-hover table-bordered mt-2">
           <thead class="no-border">
-                <tr>
-                    <th>{{ $t('matches.categories') }}</th>
-                    <th>{{ $t('matches.type') }}</th>
-                    <th>{{ $t('matches.teams') }}</th>
-                </tr>
+              <tr>
+                <th>{{ $t('matches.categories') }}</th>
+                <th>{{ $t('matches.type') }}</th>
+                <th>{{ $t('matches.teams') }}</th>
+              </tr>
             </thead>
             <tbody>
               <tr v-for="group in groupsData">

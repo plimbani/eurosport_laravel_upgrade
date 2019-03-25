@@ -4,7 +4,7 @@
 			<table id="categoriesTable" class="table table-hover table-bordered">
 				<thead class="no-border">
 					<tr>
-						<th>Categories</th>
+						<th>Category</th>
 						<th>Teams</th>
 					</tr>
 				</thead>
@@ -12,7 +12,7 @@
 					<tr v-for="category in categories">
 						<td>
 							<a class="text-primary" href="#" @click.prevent="showCategoryGroups(category.id)">
-								{{ category.group_name }} ({{ category.category_age }})
+								<u>{{ category.group_name }} ({{ category.category_age }})</u>
 							</a>
               <a href="#" data-toggle="modal" data-target="#commentmodal" class="text-primary" @click.prevent="showComment(category)"><i class="fa fa-info-circle" v-if="category.comments != null"></i></a>
 						</td>
@@ -102,10 +102,13 @@
 		},
     props: ['tournamentData'],
 
-    watch: {
-      tournamentData: function () {
-        this.getAllCategoriesData();
-      }
+
+    mounted() {
+      let vm = this;
+      setTimeout(function(){ 
+        vm.getAllCategoriesData(); 
+      }, 500);
+          
     },
     created() {
       this.$root.$on('showCategoryGroups', this.showCategoryGroups);

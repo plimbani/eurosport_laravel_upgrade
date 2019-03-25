@@ -89,6 +89,8 @@ $api->version('v1', function ($api) {
 
     $api->post('tournament/updateCompetitionDisplayName', 'Laraspace\Api\Controllers\TournamentController@updateCompetitionDisplayName');
 
+    $api->get('match/getAllCategoriesReport/{tournamentId}', 'Laraspace\Api\Controllers\MatchController@getAllCategoriesReport');
+
     $api->post('tournament/uploadSponsorLogo', 'Laraspace\Api\Controllers\TournamentController@uploadSponsorLogo');
 
     $api->post('tournament/resultAdministratorDisplayMessage', 'Laraspace\Api\Controllers\TournamentController@resultAdministratorDisplayMessage');
@@ -215,8 +217,8 @@ $api->version('v1', ['middleware' => 'jwt.auth'], function ($api) {
 
     $api->post('users/getLoginUserFavouriteTournament', 'Laraspace\Api\Controllers\TournamentController@getUserLoginFavouriteTournament');
     $api->post('tournaments/getTournamentClub', 'Laraspace\Api\Controllers\TournamentController@getTournamentClub');
-    
-    $api->post('teams/getTeamsList','Laraspace\Api\Controllers\TeamController@getTeamsList');
+
+    $api->post('teams/getTeamsList', 'Laraspace\Api\Controllers\TeamController@getTeamsList');
     $api->post('teams/getAllTournamentTeams', 'Laraspace\Api\Controllers\TeamController@getAllTournamentTeams');
 
     $api->post('users/postSetting', 'Laraspace\Api\Controllers\UserController@postSetting');
@@ -263,6 +265,8 @@ $api->version('v1', ['middleware' => 'jwt.auth'], function ($api) {
     $api->post('duplicateTournament','Laraspace\Api\Controllers\TournamentController@duplicateTournament');
     
     $api->post('duplicateTournamentList','Laraspace\Api\Controllers\TournamentController@duplicateTournamentList');
+
+    $api->post('tournament/access_code', 'Laraspace\Api\Controllers\TournamentController@getTournamentAccessCodeDetail');
 
 });
 

@@ -282,5 +282,5 @@ export default {
   },
   duplicateTournamentList(tournamentData) {
     return api.post('duplicateTournamentList', tournamentData)
-  }
+  },
 }

@@ -25,9 +25,9 @@
                     </a>
                     <div class="dropdown-menu dropdown-menu-right notification-dropdown">
                         <!-- <router-link class="dropdown-item" to="/admin/settings"><i class="fa fa-cogs"></i>{{$lang.siteheader_settings}}</router-link> -->
-                         <a href="javascript:void(0)" class="dropdown-item" @click="showEditProfileModal()"><i class="fa fa-user"></i>{{$lang.siteheader_userprofile}}</a>
-                         <a href="javascript:void(0)" class="dropdown-item" @click="showSettingModal()"><i class="fa fa-sign-out"></i>Setting</a>
-                        <a href="#" class="dropdown-item" @click.prevent="logout"><i class="fa fa-sign-out"></i>{{$lang.siteheader_logout}}</a>
+                         <a href="javascript:void(0)" class="dropdown-item" @click="showEditProfileModal()"><i class="fas fa-user"></i>{{$lang.siteheader_userprofile}}</a>
+                         <a href="javascript:void(0)" class="dropdown-item" @click="showSettingModal()"><i class="fas fa-sign-out"></i>Setting</a>
+                        <a href="#" class="dropdown-item" @click.prevent="logout"><i class="fas fa-sign-out"></i>{{$lang.siteheader_logout}}</a>
                     </div>
                 </li>
               <!--   <li> <a href="#">{{$lang.siteheader_help}}</a> </li>
@@ -133,7 +133,6 @@
         // Here we call Function to get User Details
         let userData = {'email':email}
         this.getUserDetails(userData);
-        this.getConfigurationDetail();
         this.getWebsiteDetails();
 
 
@@ -161,15 +160,6 @@
                         let UserData  = JSON.parse(Ls.get('userData'))
                        //console.log(UserData)
                        this.$store.dispatch('getUserDetails', UserData);
-                  },
-                  (error)=> {
-                  }
-                );
-            },
-            getConfigurationDetail() {
-                Website.getConfigurationDetail().then(
-                  (response)=> {
-                    this.$store.dispatch('setConfigurationDetail', response.data);
                   },
                   (error)=> {
                   }
@@ -286,13 +276,14 @@
                 axios.post(Constant.apiBaseUrl+'website-settings/save', params).then(response =>  { 
                     // console.log("response::",response); 
                     if (response.data.success) { 
-                         $('#modal').modal('hide');
+                         $('#admin_setting').modal('hide');
                      }else{ 
                         toastr['error'](response.data.message, 'Error');
                      }
                  }).catch(error => {
                      
                  }); 
+                 
             },
             showEmailExists() {
                 this.emailExist = true;
