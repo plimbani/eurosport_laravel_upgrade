@@ -27,7 +27,7 @@
       </label>
     </div>
     <div class="col-md-2">
-      <button type="button" name="save" class="btn btn-primary pull-right" @click="saveMatchScore()" v-if="otherData.DrawType != 'Elimination' && isUserDataExist">Save</button>
+      <button type="button" name="save" class="btn btn-primary float-right" @click="saveMatchScore()" v-if="otherData.DrawType != 'Elimination' && isUserDataExist">Save</button>
     </div>
   </div>
   <div>

@@ -15,7 +15,7 @@
 			</div>
 			<div class="col-md-6">
 				<div class="row gutters-tiny align-items-center justify-content-end">
-				<label for="status_rules" class="col-md-2 text-right mb-0">{{$lang.summary_status}}:
+				<label for="status_rules" class="col-md-3 text-right mb-0">{{$lang.summary_status}}:
 					<span class="text-primary" data-toggle="popover" data-animation="false" data-placement="bottom" :data-popover-content="'#status_rules'"><i class="fas fa-info-circle"></i>
 					</span>
 					<div v-bind:id="'status_rules'" style="display:none;">

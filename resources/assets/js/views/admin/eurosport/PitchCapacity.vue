@@ -7,7 +7,7 @@
                       <h6 class="mb-0"><strong>{{$lang.pitch_capacity}}</strong></h6>
                   </div>
                   <div class="col-9 align-self-center">
-                    <button type="button" class="btn btn-primary pull-right" @click="addPitch()"><small><i class="fas fa-plus"></i></small>&nbsp;{{$lang.pitch_add}}</button>
+                    <button type="button" class="btn btn-primary float-right" @click="addPitch()"><small><i class="fas fa-plus"></i></small>&nbsp;{{$lang.pitch_add}}</button>
                   </div>
                 </div>
 

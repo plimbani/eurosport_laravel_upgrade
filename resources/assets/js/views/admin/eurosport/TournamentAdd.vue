@@ -322,10 +322,10 @@
 </div>
   <div class="row">
     <div class="col-md-12">
-      <div class="pull-left">
+      <div class="float-left">
           <button class="btn btn-primary" @click="backward()"><i class="fas fa-angle-double-left" aria-hidden="true"></i>{{$lang.tournament_button_home}}</button>
       </div>
-      <div class="pull-right">
+      <div class="float-right">
           <button class="btn btn-primary" :disabled="is_sponsor_logo_uploading" @click="next()">{{$lang.tournament_button_next}}&nbsp;&nbsp;&nbsp;<i class="fas fa-angle-double-right" aria-hidden="true"></i></button>
       </div>
     </div>
