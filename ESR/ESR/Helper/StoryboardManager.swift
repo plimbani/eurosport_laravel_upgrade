@@ -100,6 +100,14 @@ struct Storyboards {
         static func instantiateFavouritesVC() -> TabFavouritesVC {
             return self.storyboard.instantiateViewController(withIdentifier: kViewController.TabFavouritesVC) as! TabFavouritesVC
         }
+        
+        static func instantiateFollowVC() -> TabFollowVC {
+            return self.storyboard.instantiateViewController(withIdentifier: kViewController.TabFollowVC) as! TabFollowVC
+        }
+        
+        static func instantiateGetStartedTournamentVC() -> GetStartedTournamentVC {
+            return self.storyboard.instantiateViewController(withIdentifier: kViewController.GetStartedTournamentVC) as! GetStartedTournamentVC
+        }
     }
     
     struct Tournament: Storyboard {

@@ -6,6 +6,7 @@
 */
 // Tab titles
 "title_tab_fav"                             = "Favourites";
+"title_tab_follow"                          = "Follow";
 "title_tab_tournament"                      = "Tournament";
 "title_tab_teams"                           = "Teams";
 "title_tab_agecategories"                   = "Age categories";

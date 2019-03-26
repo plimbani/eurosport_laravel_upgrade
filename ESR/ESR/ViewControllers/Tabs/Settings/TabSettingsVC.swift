@@ -142,8 +142,6 @@ extension TabSettingsVC: UITableViewDataSource, UITableViewDelegate {
                     } else if identifier == "PrivacyAndTermsVC" {
                         self.navigationController?.pushViewController(Storyboards.Settings.instantiatePrivacyAndTermsVC(), animated: true)
                     } else if identifier == "Logout" {
-                        // self.showInfoAlertViewTwoButton(title: "Confirm", message: String.localize(key: "alert_msg_logout"), buttonYesTitle: String.localize(key: "btn_logout"), buttonNoTitle: String.localize(key: "btn_cancel"), requestCode: AlertRequestCode.logOut.rawValue)
-                        
                         self.showCustomAlertTwoBtnVC(title: "Confirm", message: String.localize(key: "alert_msg_logout"), buttonYesTitle: String.localize(key: "btn_logout"), buttonNoTitle: String.localize(key: "btn_cancel"), requestCode: AlertRequestCode.logOut.rawValue, delegate: self)
                     }
                 }

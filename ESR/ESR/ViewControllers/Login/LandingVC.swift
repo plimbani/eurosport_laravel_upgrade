@@ -38,8 +38,6 @@ class LandingVC: SuperViewController {
             lblAppVersion.text = String.init(format: String.localize(key: "string_app_version"), arguments: [version])
         }
         
-        // initInfoAlertViewTwoButton(self.view, self)
-        
         if USERDEFAULTS.string(forKey: kUserDefaults.token) != nil {
             updateToken()
         } else {
@@ -80,10 +78,6 @@ class LandingVC: SuperViewController {
                     if result.allKeys.count == 0 {
                         return
                     }
-                    
-                    // if let error = result.value(forKey: "error") as? String {
-                    // self.showInfoAlertView(title: String.localize(key: "alert_title_error"), message: error)
-                    //}
                 }
             })
         }
@@ -151,19 +145,3 @@ extension LandingVC: CustomAlertTwoBtnVCDelegate {
     }
 }
 
-/*extension LandingVC: CustomAlertViewTwoButtonDelegate {
-    func customAlertViewTwoButtonNoBtnPressed(requestCode: Int) {}
-    
-    func customAlertViewTwoButtonYesBtnPressed(requestCode: Int) {
-        if requestCode == AlertRequestCode.appUpgrade.rawValue {
-            if let url = URL(string: APPSTORE_APP_URL),
-                UIApplication.shared.canOpenURL(url){
-                if #available(iOS 10.0, *) {
-                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
-                } else {
-                    UIApplication.shared.openURL(url)
-                }
-            }
-        }
-    }
-}*/

@@ -108,6 +108,45 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
     
+    func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([Any]?) -> Void) -> Bool {
+        
+        guard userActivity.activityType == NSUserActivityTypeBrowsingWeb,
+            let incomingURL = userActivity.webpageURL,
+            let components = NSURLComponents(url: incomingURL, resolvingAgainstBaseURL: true),
+            let path = components.path else {
+                return false
+        }
+        
+        print("path = \(path)")
+        
+        let arrayString = path.split(separator: "/")
+        let delay = UIApplication.shared.applicationState == .inactive ? 1 : 0.5
+        
+        if arrayString.count > 0 {
+            /*if arrayString[0] == "traders" {
+                APPDELEGATE.tabBarController?.selectedIndex = TabIndex.tabMarket.rawValue
+                DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
+                    NotificationCenter.default.post(name: .universalLinkNavTradersDetails, object: nil, userInfo: ["slug" : arrayString[1]])
+                }
+                
+            } else if arrayString[0] == "trader" {
+                
+            } else if arrayString[0] == "events" {
+                APPDELEGATE.tabBarController?.selectedIndex = TabIndex.tabOffer.rawValue
+                DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
+                    NotificationCenter.default.post(name: .universalLinkNavEventsDetails, object: nil, userInfo: ["slug" : arrayString[1]])
+                }
+            } else if arrayString[0] == "products" {
+                APPDELEGATE.tabBarController?.selectedIndex = TabIndex.tabOffer.rawValue
+                DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
+                    NotificationCenter.default.post(name: .universalLinkNavProductsDetails, object: nil, userInfo: ["slug" : arrayString[1]])
+                }
+            }*/
+        }
+        
+        return false
+    }
+    
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         let deviceTokenString = deviceToken.reduce("", {$0 + String(format: "%02X", $1)})
         print(deviceTokenString)

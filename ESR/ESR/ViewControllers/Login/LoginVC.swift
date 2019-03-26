@@ -18,7 +18,6 @@ class LoginVC: SuperViewController {
     @IBOutlet var btnBack: UIButton!
     @IBOutlet var logoImg: UIImageView!
     
-    
     var isRememberMe = false
     
     override func viewDidLoad() {
@@ -57,9 +56,6 @@ class LoginVC: SuperViewController {
             btnForgotPass.setTitleColor(.AppColor(), for: .normal)
         }
         
-        // txtEmail.text = "asoni@aecordigital.com"
-        // txtPassword.text = "password"
-        
         txtEmail.addTarget(self, action: #selector(textFieldDidChange(textField:)), for: .editingChanged)
         txtPassword.addTarget(self, action: #selector(textFieldDidChange(textField:)), for: .editingChanged)
         
@@ -67,13 +63,10 @@ class LoginVC: SuperViewController {
         setConstraintLblNoInternet(APPDELEGATE.reachability.connection == .none)
             
         // Events when keyboard shows and hides
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        //NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        //NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         // To show/hide internet view in Navigation bar
         NotificationCenter.default.addObserver(self, selector: #selector(showHideNoInternetView(_:)), name: .internetConnectivity, object: nil)
-        
-        // Alert view
-        // initInfoAlertView(self.view, self)
         
         // Hides keyboard if tap outside of view
         hideKeyboardWhenTappedAround()
@@ -91,7 +84,7 @@ class LoginVC: SuperViewController {
         }
     }
     
-    @objc func keyboardWillShow(notification: NSNotification) {
+    /*@objc func keyboardWillShow(notification: NSNotification) {
         if ((notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue) != nil {
             if self.view.frame.origin.y == 0{
                 self.view.frame.origin.y -= 50
@@ -105,7 +98,7 @@ class LoginVC: SuperViewController {
                 self.view.frame.origin.y += 50
             }
         }
-    }
+    }*/
     
     @objc func textFieldDidChange(textField: UITextField){
         updateLoginBtn()
@@ -187,7 +180,6 @@ class LoginVC: SuperViewController {
                 }
                 
                 if let error = result.value(forKey: "error") as? String {
-                    // self.showInfoAlertView(title: String.localize(key: "alert_title_error"), message: error)
                     self.showCustomAlertVC(title: String.localize(key: "alert_title_error"), message: error)
                 }
             }

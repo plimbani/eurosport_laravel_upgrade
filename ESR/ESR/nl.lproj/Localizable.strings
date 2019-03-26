@@ -6,6 +6,7 @@
 */
 // Tab titles
 "title_tab_fav"                             = "Favorieten";
+"title_tab_follow"                          = "volgen";
 "title_tab_tournament"                      = "Toernooi";
 "title_tab_teams"                           = "Teams";
 "title_tab_agecategories"                   = "Leeftijdscategorieën";

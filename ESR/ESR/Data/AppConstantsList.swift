@@ -55,6 +55,8 @@ struct API_ENDPOINT {
     
     static let VIEW_GRAPHIC = API_URL.BASE_URL + "viewGraphicImage"
     static let RESEND_EMAIL = API_URL.BASE_URL + "userResendEmail"
+    
+    static let ACCESS_CODE = API_URL.BASE_URL + "tournament/access_code";
 }
 
 struct kViewController {
@@ -69,6 +71,7 @@ struct kViewController {
     static let TabFavouritesVC                  = "TabFavouritesVC"
     static let TabTournamentVC                  = "TabTournamentVC"
     static let TabTeamsVC                       = "TabTeamsVC"
+    static let TabFollowVC                      = "TabFollowVC"
     
     static let AllMatchesVC                     = "AllMatchesVC"
     static let ClubListVC                       = "ClubListVC"
@@ -94,6 +97,7 @@ struct kViewController {
     static let CustomAlertTwoBtnVC              = "CustomAlertTwoBtnVC"
     static let ViewScheduleImageVC              = "ViewScheduleImageVC"
     static let PickerVC                         = "PickerVC"
+    static let GetStartedTournamentVC           = "GetStartedTournamentVC"
 }
 
 enum TabIndex: Int {
@@ -172,6 +176,7 @@ struct kNiB {
         static let LabelSelectionCell           = "LabelSelectionCell"
         static let ButtonCell                   = "ButtonCell"
         static let FavouriteTournamentCell      = "FavouriteTournamentCell"
+        static let FollowTournamentCell         = "FollowTournamentCell"
         static let AgeCategoryCell              = "AgeCategoryCell"
         static let TeamListCell                 = "TeamListCell"
         static let GroupSummaryMatchesCell      = "GroupSummaryMatchesCell"

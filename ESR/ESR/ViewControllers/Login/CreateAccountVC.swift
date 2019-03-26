@@ -24,7 +24,7 @@ class CreateAccountVC: SuperViewController {
     var lblRole: UILabel!
     var btnCreateNewAccount: UIButton!
     
-    var fieldList = NSArray()
+    var fieldList = NSMutableArray()
     var cellList = NSMutableArray()
     
     var heightLabelSelectionCell: CGFloat = 0
@@ -74,7 +74,7 @@ class CreateAccountVC: SuperViewController {
         
         // Fieldlist
         if let url = Bundle.main.url(forResource: "CreateAccountFieldList", withExtension: "plist") {
-            fieldList = NSArray(contentsOf: url)!
+            fieldList = NSMutableArray.init(array: NSArray(contentsOf: url)!)
         }
         
         // Heights for cell
@@ -99,8 +99,24 @@ class CreateAccountVC: SuperViewController {
         // Hides keyboard if tap outside of view
         hideKeyboardWhenTappedAround()
         
-        // Get tournaments API request
-        sendGetTournamentsRequest()
+        if ApplicationData.currentTarget != ApplicationData.CurrentTargetList.EasyMM.rawValue {
+            // Get tournaments API request
+            sendGetTournamentsRequest()
+        } else {
+            // Removes select tournament field
+            var position = -1
+            
+            for i in 0..<fieldList.count {
+                let dic = fieldList[i] as! NSDictionary
+                if let identifier = dic.value(forKey: "identifier") as? String {
+                    if identifier == "select_tournament" {
+                        position = i
+                    }
+                }
+            }
+            
+            fieldList.removeObject(at: position)
+        }
     }
     
     deinit {
@@ -128,8 +144,6 @@ class CreateAccountVC: SuperViewController {
         ApiManager().register(parameters, success: { result in
             DispatchQueue.main.async {
                 self.view.hideProgressHUD()
-                // self.showInfoAlertView(title: String.localize(key: "alert_title_success"), message: String.localize(key: "alert_create_account_email"))
-                
                 self.showCustomAlertVC(title: String.localize(key: "alert_title_success"), message: String.localize(key: "alert_create_account_email"), delegate: self)
             }
         }, failure: { result in
@@ -244,8 +258,10 @@ class CreateAccountVC: SuperViewController {
             }
         }
         
-        if paramTournamentId == -1 {
-            return
+        if ApplicationData.currentTarget != ApplicationData.CurrentTargetList.EasyMM.rawValue {
+            if paramTournamentId == -1 {
+                return
+            }
         }
         
         btnCreateNewAccount.isEnabled = true

@@ -75,10 +75,11 @@ class MainTabViewController: SuperViewController {
         }
         
         setupTabs()
-        // initInfoAlertView(self.view)
-        // initInfoAlertViewTwoButton(self.view, self)
-        
-        mainTabViewControllerSelectTab(TabIndex.tabTournament.rawValue)
+        if ApplicationData.currentTarget == ApplicationData.CurrentTargetList.EasyMM.rawValue {
+            mainTabViewControllerSelectTab(TabIndex.tabFav.rawValue)
+        } else {
+            mainTabViewControllerSelectTab(TabIndex.tabTournament.rawValue)
+        }
         
         // If it is displayed before then it won't display again
         if !ApplicationData.isAppUpdateDispalyed {
@@ -103,14 +104,11 @@ class MainTabViewController: SuperViewController {
         self.view.addSubview(tournamentDetailsView)
     }
     
-    /*func addViewAsSubView(subView: UIView){
-        if !subView.isDescendant(of: self.view) {
-            self.view.addSubview(subView)
-        }
-    }*/
-    
     func refeshTabTitle() {
-        var tabTitleList = [String.localize(key: "title_tab_fav"), String.localize(key: "title_tab_tournament"), String.localize(key: "title_tab_teams"), String.localize(key: "title_tab_agecategories"), String.localize(key: "title_tab_settings")]
+        
+        let tabFavString = (ApplicationData.currentTarget == ApplicationData.CurrentTargetList.EasyMM.rawValue) ? String.localize(key: "title_tab_follow") : String.localize(key: "title_tab_fav")
+        
+        var tabTitleList = [tabFavString, String.localize(key: "title_tab_tournament"), String.localize(key: "title_tab_teams"), String.localize(key: "title_tab_agecategories"), String.localize(key: "title_tab_settings")]
         
         for i in 0..<tabLabelList.count {
             tabLabelList[i].text = tabTitleList[i]
@@ -167,6 +165,12 @@ class MainTabViewController: SuperViewController {
         return UINavigationController(rootViewController: tabFavoritesVC)
     }
     
+    func initFollowVC() -> UINavigationController {
+        let tabFollowVC = Storyboards.Favourites.instantiateFollowVC()
+        tabFollowVC.delegate = self
+        return UINavigationController(rootViewController: tabFollowVC)
+    }
+    
     func initTournamentVC() -> UINavigationController {
         let tabTournamentVC = Storyboards.Tournament.instantiateTournamentVC()
         tabTournamentVC.delegate = self
@@ -192,7 +196,11 @@ class MainTabViewController: SuperViewController {
         
         if flag {
             if selectedIndex == 0 {
-                viewControllers[selectedIndex] = initFavouritesVC()
+                if ApplicationData.currentTarget == ApplicationData.CurrentTargetList.EasyMM.rawValue {
+                    viewControllers[selectedIndex] = initFollowVC()
+                } else {
+                    viewControllers[selectedIndex] = initFavouritesVC()
+                }
             } else if selectedIndex == 1 {
                 viewControllers[selectedIndex] = initTournamentVC()
             } else if selectedIndex == 2 {
@@ -203,13 +211,6 @@ class MainTabViewController: SuperViewController {
                 viewControllers[selectedIndex] = initSettingsVC()
             }
         }
-        
-        /*if selectedIndex == 2 || selectedIndex == 3 {
-            if ApplicationData.sharedInstance().isTournamentInPreview() {
-                self.showInfoAlertView(title: String.localize(key: "alert_title_error"), message: String.localize(key: "alert_preview_tournament"))
-                return
-            }
-        }*/
         
         tabButtonList[selectedIndex].isSelected = true
         
@@ -228,8 +229,6 @@ class MainTabViewController: SuperViewController {
             
             if selectedIndex == 2 || selectedIndex == 3 {
                 if ApplicationData.sharedInstance().isTournamentInPreview() {
-                    // self.showInfoAlertView(title: String.localize(key: "alert_title_preview"), message: String.localize(key: "alert_preview_tournament"))
-                    
                     self.showCustomAlertVC(title: String.localize(key: "alert_title_preview"), message: String.localize(key: "alert_preview_tournament"))
                     return
                 }

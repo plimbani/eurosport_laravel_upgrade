@@ -43,19 +43,134 @@
 		30181D4C212590E30067D65F /* ImageNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D4B212590E30067D65F /* ImageNavigationBar.swift */; };
 		30181D4E212590EC0067D65F /* ImageNavigationBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30181D4D212590EC0067D65F /* ImageNavigationBar.xib */; };
 		30181D502126BB520067D65F /* ApiManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D4F2126BB520067D65F /* ApiManager.swift */; };
-		30181D612126D6930067D65F /* QA.plist in Resources */ = {isa = PBXBuildFile; fileRef = 30181D5F2126D6930067D65F /* QA.plist */; };
-		30181D622126D6930067D65F /* Production.plist in Resources */ = {isa = PBXBuildFile; fileRef = 30181D602126D6930067D65F /* Production.plist */; };
 		30181D642126D7850067D65F /* Environments.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D632126D7850067D65F /* Environments.swift */; };
 		30181D662126EB460067D65F /* ProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D652126EB460067D65F /* ProgressView.swift */; };
 		30181D682126EB830067D65F /* UIViewExtentions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D672126EB830067D65F /* UIViewExtentions.swift */; };
 		30181D77212AB9CE0067D65F /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D76212AB9CE0067D65F /* UserData.swift */; };
 		30181D79212ABB5A0067D65F /* ParseManger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D78212ABB5A0067D65F /* ParseManger.swift */; };
 		30181D81212AF0590067D65F /* SettingsList.plist in Resources */ = {isa = PBXBuildFile; fileRef = 30181D80212AF0590067D65F /* SettingsList.plist */; };
+		3018B2D72240F9A700EC76F4 /* GroupDetailsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307949E521394C6800DE23A3 /* GroupDetailsVC.swift */; };
+		3018B2D82240F9A700EC76F4 /* AgeCategoriesGroupsSummaryVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FB311E2135523B00ABA22A /* AgeCategoriesGroupsSummaryVC.swift */; };
+		3018B2D92240F9A700EC76F4 /* AgeCategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FB311821353CA000ABA22A /* AgeCategoryCell.swift */; };
+		3018B2DA2240F9A700EC76F4 /* AgeCategoriesGroupsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FB311C213550C600ABA22A /* AgeCategoriesGroupsVC.swift */; };
+		3018B2DB2240F9A700EC76F4 /* ApplicationData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181CDE211D9DFF0067D65F /* ApplicationData.swift */; };
+		3018B2DC2240F9A700EC76F4 /* TextViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307542AD21745D03003715C7 /* TextViewCell.swift */; };
+		3018B2DD2240F9A700EC76F4 /* GroupSummaryStandingsHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FB3120213579FE00ABA22A /* GroupSummaryStandingsHeader.swift */; };
+		3018B2DE2240F9A700EC76F4 /* ViewScheduleImageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301D9C052225228D00EF8E76 /* ViewScheduleImageVC.swift */; };
+		3018B2DF2240F9A700EC76F4 /* TeamListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30AF116C21BBDD7000BE50F4 /* TeamListCell.swift */; };
+		3018B2E02240F9A700EC76F4 /* ApiManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D4F2126BB520067D65F /* ApiManager.swift */; };
+		3018B2E12240F9A700EC76F4 /* TabTeamsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D07211DBA1B0067D65F /* TabTeamsVC.swift */; };
+		3018B2E22240F9A700EC76F4 /* MainTabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181CF9211DAFA80067D65F /* MainTabViewController.swift */; };
+		3018B2E32240F9A700EC76F4 /* TabAgeCategoriesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30AF116621BA596400BE50F4 /* TabAgeCategoriesCell.swift */; };
+		3018B2E42240F9A700EC76F4 /* GroupSummaryStandingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FB312C21366AA400ABA22A /* GroupSummaryStandingsCell.swift */; };
+		3018B2E52240F9A700EC76F4 /* UITextFieldExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D372122D1A00067D65F /* UITextFieldExtensions.swift */; };
+		3018B2E62240F9A700EC76F4 /* FinalPlacingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307542B72174C9DD003715C7 /* FinalPlacingsCell.swift */; };
+		3018B2E72240F9A700EC76F4 /* FinalPlacingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307542B52174BCED003715C7 /* FinalPlacingsVC.swift */; };
+		3018B2E82240F9A700EC76F4 /* Environments.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D632126D7850067D65F /* Environments.swift */; };
+		3018B2E92240F9A700EC76F4 /* TournamentClubCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306893F3214A813900BA543F /* TournamentClubCell.swift */; };
+		3018B2EA2240F9A700EC76F4 /* FavouriteTournamentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FB3112212EEB0B00ABA22A /* FavouriteTournamentCell.swift */; };
+		3018B2EB2240F9A700EC76F4 /* GroupStanding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3086BC83213D344A00810CC8 /* GroupStanding.swift */; };
+		3018B2EC2240F9A700EC76F4 /* TeamVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30AF116A21BBA82000BE50F4 /* TeamVC.swift */; };
+		3018B2ED2240F9A700EC76F4 /* NotificationAndSoundVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 305693FF212BEACC009790BA /* NotificationAndSoundVC.swift */; };
+		3018B2EE2240F9A700EC76F4 /* ProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D652126EB460067D65F /* ProgressView.swift */; };
+		3018B2EF2240F9A700EC76F4 /* SuperViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181CD8211D98720067D65F /* SuperViewController.swift */; };
+		3018B2F02240F9A700EC76F4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181CC3211D95B60067D65F /* AppDelegate.swift */; };
+		3018B2F12240F9A700EC76F4 /* TwoLabelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3086BC93213EB11A00810CC8 /* TwoLabelCell.swift */; };
+		3018B2F22240F9A700EC76F4 /* TableCellOwner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181CE5211DA1BF0067D65F /* TableCellOwner.swift */; };
+		3018B2F32240F9A700EC76F4 /* GroupSummaryMatchesHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FB3124213665FE00ABA22A /* GroupSummaryMatchesHeader.swift */; };
+		3018B2F42240F9A700EC76F4 /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 305693FD212BEABC009790BA /* ProfileVC.swift */; };
+		3018B2F52240F9A700EC76F4 /* CreateAccountVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D1E2121A8BC0067D65F /* CreateAccountVC.swift */; };
+		3018B2F62240F9A700EC76F4 /* TabFollowVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3044DE5A223F9E99005E8C86 /* TabFollowVC.swift */; };
+		3018B2F72240F9A700EC76F4 /* AppExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30371E08220450A50000814A /* AppExtensions.swift */; };
+		3018B2F82240F9A700EC76F4 /* ForgotPasswordVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D1C2121A8AB0067D65F /* ForgotPasswordVC.swift */; };
+		3018B2F92240F9A700EC76F4 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D202121A8DD0067D65F /* LoginVC.swift */; };
+		3018B2FA2240F9A700EC76F4 /* AppConstantsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181CDC211D99F50067D65F /* AppConstantsList.swift */; };
+		3018B2FB2240F9A700EC76F4 /* TeamFixture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307949DE2137F78100DE23A3 /* TeamFixture.swift */; };
+		3018B2FC2240F9A700EC76F4 /* GroupDetailsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307949EB21395AB200DE23A3 /* GroupDetailsCell.swift */; };
+		3018B2FD2240F9A700EC76F4 /* TabSettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D0B211DBA900067D65F /* TabSettingsVC.swift */; };
+		3018B2FE2240F9A700EC76F4 /* CustomAlertVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301D9C01222407A400EF8E76 /* CustomAlertVC.swift */; };
+		3018B2FF2240F9A700EC76F4 /* ParseManger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D78212ABB5A0067D65F /* ParseManger.swift */; };
+		3018B3002240F9A700EC76F4 /* CategoryListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30AF116221BA53A300BE50F4 /* CategoryListVC.swift */; };
+		3018B3012240F9A700EC76F4 /* ImageNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D4B212590E30067D65F /* ImageNavigationBar.swift */; };
+		3018B3022240F9A700EC76F4 /* TextFieldCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D3921230ABF0067D65F /* TextFieldCell.swift */; };
+		3018B3032240F9A700EC76F4 /* TournamentDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307542B1217474AD003715C7 /* TournamentDetailsView.swift */; };
+		3018B3042240F9A700EC76F4 /* Tournament.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FB3116212FEA4B00ABA22A /* Tournament.swift */; };
+		3018B3052240F9A700EC76F4 /* GroupSummaryMatchesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FB312821366A6400ABA22A /* GroupSummaryMatchesCell.swift */; };
+		3018B3062240F9A700EC76F4 /* BundleExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30C799F821CD105100B0ECB4 /* BundleExtension.swift */; };
+		3018B3072240F9A700EC76F4 /* PickerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A7FF41222EA92900056A90 /* PickerVC.swift */; };
+		3018B3082240F9A700EC76F4 /* LandingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D222121A8EA0067D65F /* LandingVC.swift */; };
+		3018B3092240F9A700EC76F4 /* FollowTournamentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3044DE5C2240CFF9005E8C86 /* FollowTournamentCell.swift */; };
+		3018B30A2240F9A700EC76F4 /* ButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D3D212312EC0067D65F /* ButtonCell.swift */; };
+		3018B30B2240F9A700EC76F4 /* TabTournamentVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D292122B0CB0067D65F /* TabTournamentVC.swift */; };
+		3018B30C2240F9A700EC76F4 /* UIViewExtentions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D672126EB830067D65F /* UIViewExtentions.swift */; };
+		3018B30D2240F9A700EC76F4 /* TeamListingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307542BD2178A157003715C7 /* TeamListingVC.swift */; };
+		3018B30E2240F9A700EC76F4 /* AllMatchesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3009A35F21CA56A8002769CF /* AllMatchesVC.swift */; };
+		3018B30F2240F9A700EC76F4 /* CustomAlertTwoBtnVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301D9C032224184A00EF8E76 /* CustomAlertTwoBtnVC.swift */; };
+		3018B3102240F9A700EC76F4 /* GroupListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30AF116421BA53B600BE50F4 /* GroupListVC.swift */; };
+		3018B3112240F9A700EC76F4 /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D76212AB9CE0067D65F /* UserData.swift */; };
+		3018B3122240F9A700EC76F4 /* LabelSelectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D312122C0370067D65F /* LabelSelectionCell.swift */; };
+		3018B3132240F9A700EC76F4 /* VenueVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3086BC8D213D503A00810CC8 /* VenueVC.swift */; };
+		3018B3142240F9A700EC76F4 /* MatchInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3086BC8B213D4FA600810CC8 /* MatchInfoVC.swift */; };
+		3018B3152240F9A700EC76F4 /* UIViewControllerExtentions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D2B2122B9B20067D65F /* UIViewControllerExtentions.swift */; };
+		3018B3162240F9A700EC76F4 /* TitleNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D252122A8F10067D65F /* TitleNavigationBar.swift */; };
+		3018B3172240F9A700EC76F4 /* TabFavouritesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D03211DB9E70067D65F /* TabFavouritesVC.swift */; };
+		3018B3182240F9A700EC76F4 /* StoryboardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181CFB211DB6E30067D65F /* StoryboardManager.swift */; };
+		3018B3192240F9A700EC76F4 /* TabAgeCategoriesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D09211DBA3E0067D65F /* TabAgeCategoriesVC.swift */; };
+		3018B31A2240F9A700EC76F4 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D49212588340067D65F /* Reachability.swift */; };
+		3018B31B2240F9A700EC76F4 /* MapVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3086BC99213FB54E00810CC8 /* MapVC.swift */; };
+		3018B31C2240F9A700EC76F4 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D41212558900067D65F /* Utils.swift */; };
+		3018B31D2240F9A700EC76F4 /* LabelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307542A92170BE03003715C7 /* LabelCell.swift */; };
+		3018B31E2240F9A700EC76F4 /* ClubListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30AF116021BA531900BE50F4 /* ClubListVC.swift */; };
+		3018B31F2240F9A700EC76F4 /* PrivacyAndTermsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30569401212BEADC009790BA /* PrivacyAndTermsVC.swift */; };
+		3018B3212240F9A700EC76F4 /* Pods_ESR.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EBD932D29D0473CA455A5CCA /* Pods_ESR.framework */; };
+		3018B3222240F9A700EC76F4 /* Pods_ESR.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EBD932D29D0473CA455A5CCA /* Pods_ESR.framework */; };
+		3018B3242240F9A700EC76F4 /* Teams.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 30C799B921CD047700B0ECB4 /* Teams.storyboard */; };
+		3018B3252240F9A700EC76F4 /* SettingsList.plist in Resources */ = {isa = PBXBuildFile; fileRef = 30181D80212AF0590067D65F /* SettingsList.plist */; };
+		3018B3272240F9A700EC76F4 /* Favourites.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 30C799B321CD045F00B0ECB4 /* Favourites.storyboard */; };
+		3018B3282240F9A700EC76F4 /* TitleNavigationBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30181D272122A8FB0067D65F /* TitleNavigationBar.xib */; };
+		3018B3292240F9A700EC76F4 /* FollowTournamentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3044DE5D2240CFF9005E8C86 /* FollowTournamentCell.xib */; };
+		3018B32A2240F9A700EC76F4 /* VenueFieldList.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3086BC91213EB09F00810CC8 /* VenueFieldList.plist */; };
+		3018B32B2240F9A700EC76F4 /* TournamentClubCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 306893F4214A813900BA543F /* TournamentClubCell.xib */; };
+		3018B32C2240F9A700EC76F4 /* GroupDetailsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 307949EC21395AB200DE23A3 /* GroupDetailsCell.xib */; };
+		3018B32D2240F9A700EC76F4 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 30C799FA21D35E3A00B0ECB4 /* GoogleService-Info.plist */; };
+		3018B32E2240F9A700EC76F4 /* AgeCategoryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30FB311921353CA000ABA22A /* AgeCategoryCell.xib */; };
+		3018B32F2240F9A700EC76F4 /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 30C799BC21CD047E00B0ECB4 /* Settings.storyboard */; };
+		3018B3302240F9A700EC76F4 /* FavouriteTournamentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30FB3113212EEB0B00ABA22A /* FavouriteTournamentCell.xib */; };
+		3018B3312240F9A700EC76F4 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 30C799F021CD05C800B0ECB4 /* Localizable.strings */; };
+		3018B3322240F9A700EC76F4 /* privacyContent.html in Resources */ = {isa = PBXBuildFile; fileRef = 30FB3110212EB2B300ABA22A /* privacyContent.html */; };
+		3018B3342240F9A700EC76F4 /* FinalPlacingsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 307542B82174C9DD003715C7 /* FinalPlacingsCell.xib */; };
+		3018B3352240F9A700EC76F4 /* GroupSummaryStandingsHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30FB312221357A0800ABA22A /* GroupSummaryStandingsHeader.xib */; };
+		3018B3362240F9A700EC76F4 /* TeamListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30AF116D21BBDD7000BE50F4 /* TeamListCell.xib */; };
+		3018B3372240F9A700EC76F4 /* TournamentDetailsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 307542B321747520003715C7 /* TournamentDetailsView.xib */; };
+		3018B3382240F9A700EC76F4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 30181CC7211D95B60067D65F /* Main.storyboard */; };
+		3018B3392240F9A700EC76F4 /* ProfileList.plist in Resources */ = {isa = PBXBuildFile; fileRef = 30569403212C0251009790BA /* ProfileList.plist */; };
+		3018B33A2240F9A700EC76F4 /* CreateAccountFieldList.plist in Resources */ = {isa = PBXBuildFile; fileRef = 30181D352122C6590067D65F /* CreateAccountFieldList.plist */; };
+		3018B33B2240F9A700EC76F4 /* TextFieldCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30181D3A21230ABF0067D65F /* TextFieldCell.xib */; };
+		3018B33C2240F9A700EC76F4 /* TextViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 307542AE21745D03003715C7 /* TextViewCell.xib */; };
+		3018B33D2240F9A700EC76F4 /* GroupSummaryStandingsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30FB312D21366AA400ABA22A /* GroupSummaryStandingsCell.xib */; };
+		3018B33E2240F9A700EC76F4 /* LabelCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 307542AA2170BE03003715C7 /* LabelCell.xib */; };
+		3018B33F2240F9A700EC76F4 /* TwoLabelCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3086BC94213EB11A00810CC8 /* TwoLabelCell.xib */; };
+		3018B3402240F9A700EC76F4 /* LabelSelectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30181D322122C0370067D65F /* LabelSelectionCell.xib */; };
+		3018B3412240F9A700EC76F4 /* GroupSummaryMatchesCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30FB312921366A6400ABA22A /* GroupSummaryMatchesCell.xib */; };
+		3018B3422240F9A700EC76F4 /* ButtonCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30181D3E212312EC0067D65F /* ButtonCell.xib */; };
+		3018B3432240F9A700EC76F4 /* ImageNavigationBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30181D4D212590EC0067D65F /* ImageNavigationBar.xib */; };
+		3018B3442240F9A700EC76F4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 30181CCC211D95B80067D65F /* LaunchScreen.storyboard */; };
+		3018B3452240F9A700EC76F4 /* TabAgeCategoriesCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30AF116721BA596400BE50F4 /* TabAgeCategoriesCell.xib */; };
+		3018B3472240F9A700EC76F4 /* GroupSummaryMatchesHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30FB31262136660900ABA22A /* GroupSummaryMatchesHeader.xib */; };
+		3018B3482240F9A700EC76F4 /* AgeCategories.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3086BC89213D3DB800810CC8 /* AgeCategories.storyboard */; };
+		3018B3492240F9A700EC76F4 /* Tournament.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 30C799B621CD046C00B0ECB4 /* Tournament.storyboard */; };
+		3018B3522240FA2000EC76F4 /* Asset - Easymm.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 30790D752202EEA6000EE4A5 /* Asset - Easymm.xcassets */; };
+		3018B35622423C4A00EC76F4 /* easymm.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3018B35522423C4900EC76F4 /* easymm.plist */; };
+		3018B35722423C4A00EC76F4 /* easymm.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3018B35522423C4900EC76F4 /* easymm.plist */; };
+		3018B35922423D7B00EC76F4 /* GetStartedTournamentVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3018B35822423D7B00EC76F4 /* GetStartedTournamentVC.swift */; };
+		3018B35A22423D7B00EC76F4 /* GetStartedTournamentVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3018B35822423D7B00EC76F4 /* GetStartedTournamentVC.swift */; };
 		301D9C02222407A400EF8E76 /* CustomAlertVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301D9C01222407A400EF8E76 /* CustomAlertVC.swift */; };
 		301D9C042224184A00EF8E76 /* CustomAlertTwoBtnVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301D9C032224184A00EF8E76 /* CustomAlertTwoBtnVC.swift */; };
 		301D9C062225228D00EF8E76 /* ViewScheduleImageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301D9C052225228D00EF8E76 /* ViewScheduleImageVC.swift */; };
 		30371E09220450A50000814A /* AppExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30371E08220450A50000814A /* AppExtensions.swift */; };
-		30371E0A220450A50000814A /* AppExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30371E08220450A50000814A /* AppExtensions.swift */; };
+		3044DE5B223F9E99005E8C86 /* TabFollowVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3044DE5A223F9E99005E8C86 /* TabFollowVC.swift */; };
+		3044DE5E2240CFF9005E8C86 /* FollowTournamentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3044DE5C2240CFF9005E8C86 /* FollowTournamentCell.swift */; };
+		3044DE5F2240CFF9005E8C86 /* FollowTournamentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3044DE5D2240CFF9005E8C86 /* FollowTournamentCell.xib */; };
 		305693FE212BEABC009790BA /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 305693FD212BEABC009790BA /* ProfileVC.swift */; };
 		30569400212BEACC009790BA /* NotificationAndSoundVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 305693FF212BEACC009790BA /* NotificationAndSoundVC.swift */; };
 		30569402212BEADC009790BA /* PrivacyAndTermsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30569401212BEADC009790BA /* PrivacyAndTermsVC.swift */; };
@@ -72,109 +187,6 @@
 		307542B92174C9DD003715C7 /* FinalPlacingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307542B72174C9DD003715C7 /* FinalPlacingsCell.swift */; };
 		307542BA2174C9DD003715C7 /* FinalPlacingsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 307542B82174C9DD003715C7 /* FinalPlacingsCell.xib */; };
 		307542BE2178A157003715C7 /* TeamListingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307542BD2178A157003715C7 /* TeamListingVC.swift */; };
-		30790CFB2202D457000EE4A5 /* GroupDetailsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307949E521394C6800DE23A3 /* GroupDetailsVC.swift */; };
-		30790CFC2202D457000EE4A5 /* AgeCategoriesGroupsSummaryVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FB311E2135523B00ABA22A /* AgeCategoriesGroupsSummaryVC.swift */; };
-		30790CFD2202D457000EE4A5 /* AgeCategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FB311821353CA000ABA22A /* AgeCategoryCell.swift */; };
-		30790CFE2202D457000EE4A5 /* AgeCategoriesGroupsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FB311C213550C600ABA22A /* AgeCategoriesGroupsVC.swift */; };
-		30790CFF2202D457000EE4A5 /* ApplicationData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181CDE211D9DFF0067D65F /* ApplicationData.swift */; };
-		30790D002202D457000EE4A5 /* TextViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307542AD21745D03003715C7 /* TextViewCell.swift */; };
-		30790D012202D457000EE4A5 /* GroupSummaryStandingsHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FB3120213579FE00ABA22A /* GroupSummaryStandingsHeader.swift */; };
-		30790D022202D457000EE4A5 /* TeamListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30AF116C21BBDD7000BE50F4 /* TeamListCell.swift */; };
-		30790D032202D457000EE4A5 /* ApiManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D4F2126BB520067D65F /* ApiManager.swift */; };
-		30790D042202D457000EE4A5 /* TabTeamsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D07211DBA1B0067D65F /* TabTeamsVC.swift */; };
-		30790D052202D457000EE4A5 /* MainTabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181CF9211DAFA80067D65F /* MainTabViewController.swift */; };
-		30790D062202D457000EE4A5 /* TabAgeCategoriesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30AF116621BA596400BE50F4 /* TabAgeCategoriesCell.swift */; };
-		30790D072202D457000EE4A5 /* GroupSummaryStandingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FB312C21366AA400ABA22A /* GroupSummaryStandingsCell.swift */; };
-		30790D082202D457000EE4A5 /* UITextFieldExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D372122D1A00067D65F /* UITextFieldExtensions.swift */; };
-		30790D092202D457000EE4A5 /* FinalPlacingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307542B72174C9DD003715C7 /* FinalPlacingsCell.swift */; };
-		30790D0A2202D457000EE4A5 /* FinalPlacingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307542B52174BCED003715C7 /* FinalPlacingsVC.swift */; };
-		30790D0B2202D457000EE4A5 /* Environments.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D632126D7850067D65F /* Environments.swift */; };
-		30790D0C2202D457000EE4A5 /* TournamentClubCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306893F3214A813900BA543F /* TournamentClubCell.swift */; };
-		30790D0D2202D457000EE4A5 /* FavouriteTournamentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FB3112212EEB0B00ABA22A /* FavouriteTournamentCell.swift */; };
-		30790D0E2202D457000EE4A5 /* GroupStanding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3086BC83213D344A00810CC8 /* GroupStanding.swift */; };
-		30790D0F2202D457000EE4A5 /* TeamVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30AF116A21BBA82000BE50F4 /* TeamVC.swift */; };
-		30790D102202D457000EE4A5 /* NotificationAndSoundVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 305693FF212BEACC009790BA /* NotificationAndSoundVC.swift */; };
-		30790D112202D457000EE4A5 /* ProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D652126EB460067D65F /* ProgressView.swift */; };
-		30790D122202D457000EE4A5 /* SuperViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181CD8211D98720067D65F /* SuperViewController.swift */; };
-		30790D142202D457000EE4A5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181CC3211D95B60067D65F /* AppDelegate.swift */; };
-		30790D152202D457000EE4A5 /* TwoLabelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3086BC93213EB11A00810CC8 /* TwoLabelCell.swift */; };
-		30790D162202D457000EE4A5 /* TableCellOwner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181CE5211DA1BF0067D65F /* TableCellOwner.swift */; };
-		30790D172202D457000EE4A5 /* GroupSummaryMatchesHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FB3124213665FE00ABA22A /* GroupSummaryMatchesHeader.swift */; };
-		30790D182202D457000EE4A5 /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 305693FD212BEABC009790BA /* ProfileVC.swift */; };
-		30790D192202D457000EE4A5 /* CreateAccountVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D1E2121A8BC0067D65F /* CreateAccountVC.swift */; };
-		30790D1A2202D457000EE4A5 /* ForgotPasswordVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D1C2121A8AB0067D65F /* ForgotPasswordVC.swift */; };
-		30790D1B2202D457000EE4A5 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D202121A8DD0067D65F /* LoginVC.swift */; };
-		30790D1C2202D457000EE4A5 /* AppConstantsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181CDC211D99F50067D65F /* AppConstantsList.swift */; };
-		30790D1D2202D457000EE4A5 /* TeamFixture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307949DE2137F78100DE23A3 /* TeamFixture.swift */; };
-		30790D1E2202D457000EE4A5 /* GroupDetailsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307949EB21395AB200DE23A3 /* GroupDetailsCell.swift */; };
-		30790D1F2202D457000EE4A5 /* TabSettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D0B211DBA900067D65F /* TabSettingsVC.swift */; };
-		30790D202202D457000EE4A5 /* ParseManger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D78212ABB5A0067D65F /* ParseManger.swift */; };
-		30790D212202D457000EE4A5 /* CategoryListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30AF116221BA53A300BE50F4 /* CategoryListVC.swift */; };
-		30790D222202D457000EE4A5 /* ImageNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D4B212590E30067D65F /* ImageNavigationBar.swift */; };
-		30790D232202D457000EE4A5 /* TextFieldCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D3921230ABF0067D65F /* TextFieldCell.swift */; };
-		30790D242202D457000EE4A5 /* TournamentDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307542B1217474AD003715C7 /* TournamentDetailsView.swift */; };
-		30790D252202D457000EE4A5 /* Tournament.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FB3116212FEA4B00ABA22A /* Tournament.swift */; };
-		30790D262202D457000EE4A5 /* GroupSummaryMatchesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FB312821366A6400ABA22A /* GroupSummaryMatchesCell.swift */; };
-		30790D272202D457000EE4A5 /* BundleExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30C799F821CD105100B0ECB4 /* BundleExtension.swift */; };
-		30790D282202D457000EE4A5 /* LandingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D222121A8EA0067D65F /* LandingVC.swift */; };
-		30790D292202D457000EE4A5 /* ButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D3D212312EC0067D65F /* ButtonCell.swift */; };
-		30790D2A2202D457000EE4A5 /* TabTournamentVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D292122B0CB0067D65F /* TabTournamentVC.swift */; };
-		30790D2B2202D457000EE4A5 /* UIViewExtentions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D672126EB830067D65F /* UIViewExtentions.swift */; };
-		30790D2C2202D457000EE4A5 /* TeamListingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307542BD2178A157003715C7 /* TeamListingVC.swift */; };
-		30790D2E2202D457000EE4A5 /* AllMatchesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3009A35F21CA56A8002769CF /* AllMatchesVC.swift */; };
-		30790D2F2202D457000EE4A5 /* GroupListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30AF116421BA53B600BE50F4 /* GroupListVC.swift */; };
-		30790D302202D457000EE4A5 /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D76212AB9CE0067D65F /* UserData.swift */; };
-		30790D312202D457000EE4A5 /* LabelSelectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D312122C0370067D65F /* LabelSelectionCell.swift */; };
-		30790D322202D457000EE4A5 /* VenueVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3086BC8D213D503A00810CC8 /* VenueVC.swift */; };
-		30790D332202D457000EE4A5 /* MatchInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3086BC8B213D4FA600810CC8 /* MatchInfoVC.swift */; };
-		30790D342202D457000EE4A5 /* UIViewControllerExtentions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D2B2122B9B20067D65F /* UIViewControllerExtentions.swift */; };
-		30790D352202D457000EE4A5 /* TitleNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D252122A8F10067D65F /* TitleNavigationBar.swift */; };
-		30790D362202D457000EE4A5 /* TabFavouritesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D03211DB9E70067D65F /* TabFavouritesVC.swift */; };
-		30790D372202D457000EE4A5 /* StoryboardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181CFB211DB6E30067D65F /* StoryboardManager.swift */; };
-		30790D382202D457000EE4A5 /* TabAgeCategoriesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D09211DBA3E0067D65F /* TabAgeCategoriesVC.swift */; };
-		30790D392202D457000EE4A5 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D49212588340067D65F /* Reachability.swift */; };
-		30790D3B2202D457000EE4A5 /* MapVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3086BC99213FB54E00810CC8 /* MapVC.swift */; };
-		30790D3C2202D457000EE4A5 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181D41212558900067D65F /* Utils.swift */; };
-		30790D3D2202D457000EE4A5 /* LabelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307542A92170BE03003715C7 /* LabelCell.swift */; };
-		30790D3E2202D457000EE4A5 /* ClubListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30AF116021BA531900BE50F4 /* ClubListVC.swift */; };
-		30790D3F2202D457000EE4A5 /* PrivacyAndTermsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30569401212BEADC009790BA /* PrivacyAndTermsVC.swift */; };
-		30790D432202D457000EE4A5 /* Teams.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 30C799B921CD047700B0ECB4 /* Teams.storyboard */; };
-		30790D442202D457000EE4A5 /* SettingsList.plist in Resources */ = {isa = PBXBuildFile; fileRef = 30181D80212AF0590067D65F /* SettingsList.plist */; };
-		30790D452202D457000EE4A5 /* Production.plist in Resources */ = {isa = PBXBuildFile; fileRef = 30181D602126D6930067D65F /* Production.plist */; };
-		30790D462202D457000EE4A5 /* Favourites.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 30C799B321CD045F00B0ECB4 /* Favourites.storyboard */; };
-		30790D472202D457000EE4A5 /* TitleNavigationBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30181D272122A8FB0067D65F /* TitleNavigationBar.xib */; };
-		30790D482202D457000EE4A5 /* VenueFieldList.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3086BC91213EB09F00810CC8 /* VenueFieldList.plist */; };
-		30790D492202D457000EE4A5 /* TournamentClubCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 306893F4214A813900BA543F /* TournamentClubCell.xib */; };
-		30790D4B2202D457000EE4A5 /* GroupDetailsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 307949EC21395AB200DE23A3 /* GroupDetailsCell.xib */; };
-		30790D4D2202D457000EE4A5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 30C799FA21D35E3A00B0ECB4 /* GoogleService-Info.plist */; };
-		30790D4E2202D457000EE4A5 /* AgeCategoryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30FB311921353CA000ABA22A /* AgeCategoryCell.xib */; };
-		30790D4F2202D457000EE4A5 /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 30C799BC21CD047E00B0ECB4 /* Settings.storyboard */; };
-		30790D502202D457000EE4A5 /* FavouriteTournamentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30FB3113212EEB0B00ABA22A /* FavouriteTournamentCell.xib */; };
-		30790D512202D457000EE4A5 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 30C799F021CD05C800B0ECB4 /* Localizable.strings */; };
-		30790D522202D457000EE4A5 /* privacyContent.html in Resources */ = {isa = PBXBuildFile; fileRef = 30FB3110212EB2B300ABA22A /* privacyContent.html */; };
-		30790D542202D457000EE4A5 /* FinalPlacingsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 307542B82174C9DD003715C7 /* FinalPlacingsCell.xib */; };
-		30790D562202D457000EE4A5 /* GroupSummaryStandingsHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30FB312221357A0800ABA22A /* GroupSummaryStandingsHeader.xib */; };
-		30790D572202D457000EE4A5 /* TeamListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30AF116D21BBDD7000BE50F4 /* TeamListCell.xib */; };
-		30790D582202D457000EE4A5 /* TournamentDetailsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 307542B321747520003715C7 /* TournamentDetailsView.xib */; };
-		30790D592202D457000EE4A5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 30181CC7211D95B60067D65F /* Main.storyboard */; };
-		30790D5A2202D457000EE4A5 /* ProfileList.plist in Resources */ = {isa = PBXBuildFile; fileRef = 30569403212C0251009790BA /* ProfileList.plist */; };
-		30790D5B2202D457000EE4A5 /* CreateAccountFieldList.plist in Resources */ = {isa = PBXBuildFile; fileRef = 30181D352122C6590067D65F /* CreateAccountFieldList.plist */; };
-		30790D5C2202D457000EE4A5 /* TextFieldCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30181D3A21230ABF0067D65F /* TextFieldCell.xib */; };
-		30790D5D2202D457000EE4A5 /* TextViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 307542AE21745D03003715C7 /* TextViewCell.xib */; };
-		30790D5E2202D457000EE4A5 /* GroupSummaryStandingsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30FB312D21366AA400ABA22A /* GroupSummaryStandingsCell.xib */; };
-		30790D5F2202D457000EE4A5 /* LabelCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 307542AA2170BE03003715C7 /* LabelCell.xib */; };
-		30790D602202D457000EE4A5 /* TwoLabelCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3086BC94213EB11A00810CC8 /* TwoLabelCell.xib */; };
-		30790D612202D457000EE4A5 /* LabelSelectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30181D322122C0370067D65F /* LabelSelectionCell.xib */; };
-		30790D622202D457000EE4A5 /* GroupSummaryMatchesCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30FB312921366A6400ABA22A /* GroupSummaryMatchesCell.xib */; };
-		30790D632202D457000EE4A5 /* ButtonCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30181D3E212312EC0067D65F /* ButtonCell.xib */; };
-		30790D642202D457000EE4A5 /* ImageNavigationBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30181D4D212590EC0067D65F /* ImageNavigationBar.xib */; };
-		30790D652202D457000EE4A5 /* TabAgeCategoriesCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30AF116721BA596400BE50F4 /* TabAgeCategoriesCell.xib */; };
-		30790D672202D457000EE4A5 /* QA.plist in Resources */ = {isa = PBXBuildFile; fileRef = 30181D5F2126D6930067D65F /* QA.plist */; };
-		30790D682202D457000EE4A5 /* GroupSummaryMatchesHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30FB31262136660900ABA22A /* GroupSummaryMatchesHeader.xib */; };
-		30790D692202D457000EE4A5 /* AgeCategories.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3086BC89213D3DB800810CC8 /* AgeCategories.storyboard */; };
-		30790D6A2202D457000EE4A5 /* Tournament.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 30C799B621CD046C00B0ECB4 /* Tournament.storyboard */; };
-		30790D7822041EE8000EE4A5 /* Asset - Easymm.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 30790D752202EEA6000EE4A5 /* Asset - Easymm.xcassets */; };
-		30790D7B2204209A000EE4A5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 30181CCC211D95B80067D65F /* LaunchScreen.storyboard */; };
 		30790D7C220420AA000EE4A5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 30181CCC211D95B80067D65F /* LaunchScreen.storyboard */; };
 		307949DF2137F78100DE23A3 /* TeamFixture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307949DE2137F78100DE23A3 /* TeamFixture.swift */; };
 		307949E621394C6800DE23A3 /* GroupDetailsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307949E521394C6800DE23A3 /* GroupDetailsVC.swift */; };
@@ -224,7 +236,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		1B970722AE68BCA0575D1202 /* Pods-ESR.debug ( qa ).xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ESR.debug ( qa ).xcconfig"; path = "Pods/Target Support Files/Pods-ESR/Pods-ESR.debug ( qa ).xcconfig"; sourceTree = "<group>"; };
 		3009A35F21CA56A8002769CF /* AllMatchesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllMatchesVC.swift; sourceTree = "<group>"; };
 		30181CC0211D95B60067D65F /* ESR.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ESR.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		30181CC3211D95B60067D65F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -264,19 +275,24 @@
 		30181D4B212590E30067D65F /* ImageNavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageNavigationBar.swift; sourceTree = "<group>"; };
 		30181D4D212590EC0067D65F /* ImageNavigationBar.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ImageNavigationBar.xib; sourceTree = "<group>"; };
 		30181D4F2126BB520067D65F /* ApiManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiManager.swift; sourceTree = "<group>"; };
-		30181D5F2126D6930067D65F /* QA.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = QA.plist; sourceTree = "<group>"; };
-		30181D602126D6930067D65F /* Production.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Production.plist; sourceTree = "<group>"; };
 		30181D632126D7850067D65F /* Environments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Environments.swift; sourceTree = "<group>"; };
 		30181D652126EB460067D65F /* ProgressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressView.swift; sourceTree = "<group>"; };
 		30181D672126EB830067D65F /* UIViewExtentions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtentions.swift; sourceTree = "<group>"; };
 		30181D76212AB9CE0067D65F /* UserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
 		30181D78212ABB5A0067D65F /* ParseManger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseManger.swift; sourceTree = "<group>"; };
 		30181D80212AF0590067D65F /* SettingsList.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = SettingsList.plist; sourceTree = "<group>"; };
+		3018B3502240F9A700EC76F4 /* ESR copy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ESR copy.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3018B35522423C4900EC76F4 /* easymm.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = easymm.plist; sourceTree = "<group>"; };
+		3018B35822423D7B00EC76F4 /* GetStartedTournamentVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetStartedTournamentVC.swift; sourceTree = "<group>"; };
 		301D9C01222407A400EF8E76 /* CustomAlertVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlertVC.swift; sourceTree = "<group>"; };
 		301D9C032224184A00EF8E76 /* CustomAlertTwoBtnVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlertTwoBtnVC.swift; sourceTree = "<group>"; };
 		301D9C052225228D00EF8E76 /* ViewScheduleImageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewScheduleImageVC.swift; sourceTree = "<group>"; };
 		3033AE99216E062600C19FCD /* MBCircularProgressBar.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MBCircularProgressBar.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		30371E08220450A50000814A /* AppExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppExtensions.swift; sourceTree = "<group>"; };
+		3044DE5A223F9E99005E8C86 /* TabFollowVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabFollowVC.swift; sourceTree = "<group>"; };
+		3044DE5C2240CFF9005E8C86 /* FollowTournamentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowTournamentCell.swift; sourceTree = "<group>"; };
+		3044DE5D2240CFF9005E8C86 /* FollowTournamentCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FollowTournamentCell.xib; sourceTree = "<group>"; };
+		3044DE602240F5F1005E8C86 /* Pods_ESR.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Pods_ESR.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		305693FD212BEABC009790BA /* ProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVC.swift; sourceTree = "<group>"; };
 		305693FF212BEACC009790BA /* NotificationAndSoundVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationAndSoundVC.swift; sourceTree = "<group>"; };
 		30569401212BEADC009790BA /* PrivacyAndTermsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyAndTermsVC.swift; sourceTree = "<group>"; };
@@ -293,8 +309,6 @@
 		307542B72174C9DD003715C7 /* FinalPlacingsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinalPlacingsCell.swift; sourceTree = "<group>"; };
 		307542B82174C9DD003715C7 /* FinalPlacingsCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FinalPlacingsCell.xib; sourceTree = "<group>"; };
 		307542BD2178A157003715C7 /* TeamListingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamListingVC.swift; sourceTree = "<group>"; };
-		30790D712202D457000EE4A5 /* ESR Easymm.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ESR Easymm.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		30790D722202D457000EE4A5 /* ESR copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "ESR copy-Info.plist"; path = "/Users/pratik/Documents/WS_ios/eurosport-swift/ESR/ESR copy-Info.plist"; sourceTree = "<absolute>"; };
 		30790D752202EEA6000EE4A5 /* Asset - Easymm.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Asset - Easymm.xcassets"; sourceTree = "<group>"; };
 		307949DE2137F78100DE23A3 /* TeamFixture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamFixture.swift; sourceTree = "<group>"; };
 		307949E521394C6800DE23A3 /* GroupDetailsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupDetailsVC.swift; sourceTree = "<group>"; };
@@ -396,11 +410,12 @@
 		30FB312921366A6400ABA22A /* GroupSummaryMatchesCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GroupSummaryMatchesCell.xib; sourceTree = "<group>"; };
 		30FB312C21366AA400ABA22A /* GroupSummaryStandingsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupSummaryStandingsCell.swift; sourceTree = "<group>"; };
 		30FB312D21366AA400ABA22A /* GroupSummaryStandingsCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GroupSummaryStandingsCell.xib; sourceTree = "<group>"; };
+		4A928A3F726468DA324C8C33 /* Pods-ESR.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ESR.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ESR/Pods-ESR.debug.xcconfig"; sourceTree = "<group>"; };
 		5669E6CBF27485D33013CE06 /* Pods-ESR.release ( production ).xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ESR.release ( production ).xcconfig"; path = "Pods/Target Support Files/Pods-ESR/Pods-ESR.release ( production ).xcconfig"; sourceTree = "<group>"; };
+		832F9684806320C56A6FD722 /* Pods-ESR.debug ( production ).xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ESR.debug ( production ).xcconfig"; path = "Pods/Target Support Files/Pods-ESR/Pods-ESR.debug ( production ).xcconfig"; sourceTree = "<group>"; };
 		9BD23A70543185FD0C23E807 /* Pods-ESR.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ESR.release.xcconfig"; path = "Pods/Target Support Files/Pods-ESR/Pods-ESR.release.xcconfig"; sourceTree = "<group>"; };
-		C41AAEA10B10B52FFB84B6E8 /* Pods-ESR.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ESR.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ESR/Pods-ESR.debug.xcconfig"; sourceTree = "<group>"; };
 		C883A75926EF01AE85CE5AFF /* Pods-ESR.release ( qa ).xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ESR.release ( qa ).xcconfig"; path = "Pods/Target Support Files/Pods-ESR/Pods-ESR.release ( qa ).xcconfig"; sourceTree = "<group>"; };
-		D3B02AD81D642C4C2D93C714 /* Pods-ESR.debug ( production ).xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ESR.debug ( production ).xcconfig"; path = "Pods/Target Support Files/Pods-ESR/Pods-ESR.debug ( production ).xcconfig"; sourceTree = "<group>"; };
+		DDBA051FA95CE4F2F2858387 /* Pods-ESR.debug ( qa ).xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ESR.debug ( qa ).xcconfig"; path = "Pods/Target Support Files/Pods-ESR/Pods-ESR.debug ( qa ).xcconfig"; sourceTree = "<group>"; };
 		EBD932D29D0473CA455A5CCA /* Pods_ESR.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ESR.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -414,10 +429,12 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		30790D402202D457000EE4A5 /* Frameworks */ = {
+		3018B3202240F9A700EC76F4 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3018B3212240F9A700EC76F4 /* Pods_ESR.framework in Frameworks */,
+				3018B3222240F9A700EC76F4 /* Pods_ESR.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -430,9 +447,9 @@
 				9BD23A70543185FD0C23E807 /* Pods-ESR.release.xcconfig */,
 				5669E6CBF27485D33013CE06 /* Pods-ESR.release ( production ).xcconfig */,
 				C883A75926EF01AE85CE5AFF /* Pods-ESR.release ( qa ).xcconfig */,
-				C41AAEA10B10B52FFB84B6E8 /* Pods-ESR.debug.xcconfig */,
-				D3B02AD81D642C4C2D93C714 /* Pods-ESR.debug ( production ).xcconfig */,
-				1B970722AE68BCA0575D1202 /* Pods-ESR.debug ( qa ).xcconfig */,
+				4A928A3F726468DA324C8C33 /* Pods-ESR.debug.xcconfig */,
+				832F9684806320C56A6FD722 /* Pods-ESR.debug ( production ).xcconfig */,
+				DDBA051FA95CE4F2F2858387 /* Pods-ESR.debug ( qa ).xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -440,6 +457,7 @@
 		2BDEF858AB329BF64FB52540 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3044DE602240F5F1005E8C86 /* Pods_ESR.framework */,
 				3033AE99216E062600C19FCD /* MBCircularProgressBar.framework */,
 				EBD932D29D0473CA455A5CCA /* Pods_ESR.framework */,
 			);
@@ -453,7 +471,6 @@
 				30181CC1211D95B60067D65F /* Products */,
 				023496BC20B01812C3B358A9 /* Pods */,
 				2BDEF858AB329BF64FB52540 /* Frameworks */,
-				30790D722202D457000EE4A5 /* ESR copy-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -461,7 +478,7 @@
 			isa = PBXGroup;
 			children = (
 				30181CC0211D95B60067D65F /* ESR.app */,
-				30790D712202D457000EE4A5 /* ESR Easymm.app */,
+				3018B3502240F9A700EC76F4 /* ESR copy.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -484,8 +501,7 @@
 				30C799F021CD05C800B0ECB4 /* Localizable.strings */,
 				30C799FA21D35E3A00B0ECB4 /* GoogleService-Info.plist */,
 				30181CCF211D95B80067D65F /* Info.plist */,
-				30181D5F2126D6930067D65F /* QA.plist */,
-				30181D602126D6930067D65F /* Production.plist */,
+				3018B35522423C4900EC76F4 /* easymm.plist */,
 			);
 			path = ESR;
 			sourceTree = "<group>";
@@ -534,7 +550,6 @@
 			children = (
 				30181CE2211D9F360067D65F /* View */,
 				30181CE1211D9F300067D65F /* Cell */,
-				30181CE0211D9F290067D65F /* CollectionCell */,
 				30181CE5211DA1BF0067D65F /* TableCellOwner.swift */,
 			);
 			path = CustomComponents;
@@ -548,13 +563,6 @@
 				30181CDE211D9DFF0067D65F /* ApplicationData.swift */,
 			);
 			path = Data;
-			sourceTree = "<group>";
-		};
-		30181CE0211D9F290067D65F /* CollectionCell */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = CollectionCell;
 			sourceTree = "<group>";
 		};
 		30181CE1211D9F300067D65F /* Cell */ = {
@@ -590,6 +598,8 @@
 				30AF116721BA596400BE50F4 /* TabAgeCategoriesCell.xib */,
 				30AF116C21BBDD7000BE50F4 /* TeamListCell.swift */,
 				30AF116D21BBDD7000BE50F4 /* TeamListCell.xib */,
+				3044DE5C2240CFF9005E8C86 /* FollowTournamentCell.swift */,
+				3044DE5D2240CFF9005E8C86 /* FollowTournamentCell.xib */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -655,6 +665,8 @@
 			isa = PBXGroup;
 			children = (
 				30181D03211DB9E70067D65F /* TabFavouritesVC.swift */,
+				3044DE5A223F9E99005E8C86 /* TabFollowVC.swift */,
+				3018B35822423D7B00EC76F4 /* GetStartedTournamentVC.swift */,
 			);
 			path = Favourites;
 			sourceTree = "<group>";
@@ -751,21 +763,24 @@
 			productReference = 30181CC0211D95B60067D65F /* ESR.app */;
 			productType = "com.apple.product-type.application";
 		};
-		30790CF72202D457000EE4A5 /* ESR Easymm */ = {
+		3018B2D42240F9A700EC76F4 /* ESR copy */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 30790D6D2202D457000EE4A5 /* Build configuration list for PBXNativeTarget "ESR Easymm" */;
+			buildConfigurationList = 3018B34C2240F9A700EC76F4 /* Build configuration list for PBXNativeTarget "ESR copy" */;
 			buildPhases = (
-				30790CF92202D457000EE4A5 /* Sources */,
-				30790D402202D457000EE4A5 /* Frameworks */,
-				30790D422202D457000EE4A5 /* Resources */,
+				3018B2D52240F9A700EC76F4 /* [CP] Check Pods Manifest.lock */,
+				3018B2D62240F9A700EC76F4 /* Sources */,
+				3018B3202240F9A700EC76F4 /* Frameworks */,
+				3018B3232240F9A700EC76F4 /* Resources */,
+				3018B34A2240F9A700EC76F4 /* [CP] Embed Pods Frameworks */,
+				3018B34B2240F9A700EC76F4 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = "ESR Easymm";
+			name = "ESR copy";
 			productName = ESR;
-			productReference = 30790D712202D457000EE4A5 /* ESR Easymm.app */;
+			productReference = 3018B3502240F9A700EC76F4 /* ESR copy.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -816,7 +831,7 @@
 			projectRoot = "";
 			targets = (
 				30181CBF211D95B60067D65F /* ESR */,
-				30790CF72202D457000EE4A5 /* ESR Easymm */,
+				3018B2D42240F9A700EC76F4 /* ESR copy */,
 			);
 		};
 /* End PBXProject section */
@@ -828,9 +843,9 @@
 			files = (
 				30C799B721CD047700B0ECB4 /* Teams.storyboard in Resources */,
 				30181D81212AF0590067D65F /* SettingsList.plist in Resources */,
-				30181D622126D6930067D65F /* Production.plist in Resources */,
 				30C799B121CD045F00B0ECB4 /* Favourites.storyboard in Resources */,
 				30181D282122A8FB0067D65F /* TitleNavigationBar.xib in Resources */,
+				3044DE5F2240CFF9005E8C86 /* FollowTournamentCell.xib in Resources */,
 				3086BC92213EB09F00810CC8 /* VenueFieldList.plist in Resources */,
 				306893F6214A813900BA543F /* TournamentClubCell.xib in Resources */,
 				307949EE21395AB200DE23A3 /* GroupDetailsCell.xib in Resources */,
@@ -847,6 +862,7 @@
 				307542B421747520003715C7 /* TournamentDetailsView.xib in Resources */,
 				30181CC9211D95B60067D65F /* Main.storyboard in Resources */,
 				30569404212C0251009790BA /* ProfileList.plist in Resources */,
+				3018B35622423C4A00EC76F4 /* easymm.plist in Resources */,
 				30181D362122C6590067D65F /* CreateAccountFieldList.plist in Resources */,
 				30181D3C21230ABF0067D65F /* TextFieldCell.xib in Resources */,
 				307542B021745D03003715C7 /* TextViewCell.xib in Resources */,
@@ -859,60 +875,125 @@
 				30181D4E212590EC0067D65F /* ImageNavigationBar.xib in Resources */,
 				30790D7C220420AA000EE4A5 /* LaunchScreen.storyboard in Resources */,
 				30AF116921BA596400BE50F4 /* TabAgeCategoriesCell.xib in Resources */,
-				30181D612126D6930067D65F /* QA.plist in Resources */,
 				30FB31272136660900ABA22A /* GroupSummaryMatchesHeader.xib in Resources */,
 				3086BC87213D3DB800810CC8 /* AgeCategories.storyboard in Resources */,
 				30C799B421CD046C00B0ECB4 /* Tournament.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		30790D422202D457000EE4A5 /* Resources */ = {
+		3018B3232240F9A700EC76F4 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				30790D432202D457000EE4A5 /* Teams.storyboard in Resources */,
-				30790D442202D457000EE4A5 /* SettingsList.plist in Resources */,
-				30790D452202D457000EE4A5 /* Production.plist in Resources */,
-				30790D462202D457000EE4A5 /* Favourites.storyboard in Resources */,
-				30790D472202D457000EE4A5 /* TitleNavigationBar.xib in Resources */,
-				30790D482202D457000EE4A5 /* VenueFieldList.plist in Resources */,
-				30790D492202D457000EE4A5 /* TournamentClubCell.xib in Resources */,
-				30790D4B2202D457000EE4A5 /* GroupDetailsCell.xib in Resources */,
-				30790D4D2202D457000EE4A5 /* GoogleService-Info.plist in Resources */,
-				30790D4E2202D457000EE4A5 /* AgeCategoryCell.xib in Resources */,
-				30790D4F2202D457000EE4A5 /* Settings.storyboard in Resources */,
-				30790D502202D457000EE4A5 /* FavouriteTournamentCell.xib in Resources */,
-				30790D512202D457000EE4A5 /* Localizable.strings in Resources */,
-				30790D522202D457000EE4A5 /* privacyContent.html in Resources */,
-				30790D542202D457000EE4A5 /* FinalPlacingsCell.xib in Resources */,
-				30790D562202D457000EE4A5 /* GroupSummaryStandingsHeader.xib in Resources */,
-				30790D572202D457000EE4A5 /* TeamListCell.xib in Resources */,
-				30790D7822041EE8000EE4A5 /* Asset - Easymm.xcassets in Resources */,
-				30790D582202D457000EE4A5 /* TournamentDetailsView.xib in Resources */,
-				30790D592202D457000EE4A5 /* Main.storyboard in Resources */,
-				30790D5A2202D457000EE4A5 /* ProfileList.plist in Resources */,
-				30790D5B2202D457000EE4A5 /* CreateAccountFieldList.plist in Resources */,
-				30790D5C2202D457000EE4A5 /* TextFieldCell.xib in Resources */,
-				30790D5D2202D457000EE4A5 /* TextViewCell.xib in Resources */,
-				30790D5E2202D457000EE4A5 /* GroupSummaryStandingsCell.xib in Resources */,
-				30790D5F2202D457000EE4A5 /* LabelCell.xib in Resources */,
-				30790D602202D457000EE4A5 /* TwoLabelCell.xib in Resources */,
-				30790D612202D457000EE4A5 /* LabelSelectionCell.xib in Resources */,
-				30790D622202D457000EE4A5 /* GroupSummaryMatchesCell.xib in Resources */,
-				30790D632202D457000EE4A5 /* ButtonCell.xib in Resources */,
-				30790D642202D457000EE4A5 /* ImageNavigationBar.xib in Resources */,
-				30790D7B2204209A000EE4A5 /* LaunchScreen.storyboard in Resources */,
-				30790D652202D457000EE4A5 /* TabAgeCategoriesCell.xib in Resources */,
-				30790D672202D457000EE4A5 /* QA.plist in Resources */,
-				30790D682202D457000EE4A5 /* GroupSummaryMatchesHeader.xib in Resources */,
-				30790D692202D457000EE4A5 /* AgeCategories.storyboard in Resources */,
-				30790D6A2202D457000EE4A5 /* Tournament.storyboard in Resources */,
+				3018B3242240F9A700EC76F4 /* Teams.storyboard in Resources */,
+				3018B3252240F9A700EC76F4 /* SettingsList.plist in Resources */,
+				3018B3272240F9A700EC76F4 /* Favourites.storyboard in Resources */,
+				3018B3282240F9A700EC76F4 /* TitleNavigationBar.xib in Resources */,
+				3018B3292240F9A700EC76F4 /* FollowTournamentCell.xib in Resources */,
+				3018B3522240FA2000EC76F4 /* Asset - Easymm.xcassets in Resources */,
+				3018B32A2240F9A700EC76F4 /* VenueFieldList.plist in Resources */,
+				3018B32B2240F9A700EC76F4 /* TournamentClubCell.xib in Resources */,
+				3018B32C2240F9A700EC76F4 /* GroupDetailsCell.xib in Resources */,
+				3018B32D2240F9A700EC76F4 /* GoogleService-Info.plist in Resources */,
+				3018B32E2240F9A700EC76F4 /* AgeCategoryCell.xib in Resources */,
+				3018B32F2240F9A700EC76F4 /* Settings.storyboard in Resources */,
+				3018B3302240F9A700EC76F4 /* FavouriteTournamentCell.xib in Resources */,
+				3018B3312240F9A700EC76F4 /* Localizable.strings in Resources */,
+				3018B3322240F9A700EC76F4 /* privacyContent.html in Resources */,
+				3018B3342240F9A700EC76F4 /* FinalPlacingsCell.xib in Resources */,
+				3018B3352240F9A700EC76F4 /* GroupSummaryStandingsHeader.xib in Resources */,
+				3018B3362240F9A700EC76F4 /* TeamListCell.xib in Resources */,
+				3018B3372240F9A700EC76F4 /* TournamentDetailsView.xib in Resources */,
+				3018B3382240F9A700EC76F4 /* Main.storyboard in Resources */,
+				3018B3392240F9A700EC76F4 /* ProfileList.plist in Resources */,
+				3018B35722423C4A00EC76F4 /* easymm.plist in Resources */,
+				3018B33A2240F9A700EC76F4 /* CreateAccountFieldList.plist in Resources */,
+				3018B33B2240F9A700EC76F4 /* TextFieldCell.xib in Resources */,
+				3018B33C2240F9A700EC76F4 /* TextViewCell.xib in Resources */,
+				3018B33D2240F9A700EC76F4 /* GroupSummaryStandingsCell.xib in Resources */,
+				3018B33E2240F9A700EC76F4 /* LabelCell.xib in Resources */,
+				3018B33F2240F9A700EC76F4 /* TwoLabelCell.xib in Resources */,
+				3018B3402240F9A700EC76F4 /* LabelSelectionCell.xib in Resources */,
+				3018B3412240F9A700EC76F4 /* GroupSummaryMatchesCell.xib in Resources */,
+				3018B3422240F9A700EC76F4 /* ButtonCell.xib in Resources */,
+				3018B3432240F9A700EC76F4 /* ImageNavigationBar.xib in Resources */,
+				3018B3442240F9A700EC76F4 /* LaunchScreen.storyboard in Resources */,
+				3018B3452240F9A700EC76F4 /* TabAgeCategoriesCell.xib in Resources */,
+				3018B3472240F9A700EC76F4 /* GroupSummaryMatchesHeader.xib in Resources */,
+				3018B3482240F9A700EC76F4 /* AgeCategories.storyboard in Resources */,
+				3018B3492240F9A700EC76F4 /* Tournament.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		3018B2D52240F9A700EC76F4 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-ESR-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		3018B34A2240F9A700EC76F4 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ESR/Pods-ESR-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
+				"${BUILT_PRODUCTS_DIR}/MBCircularProgressBar/MBCircularProgressBar.framework",
+				"${BUILT_PRODUCTS_DIR}/MBProgressHUD/MBProgressHUD.framework",
+				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
+				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MBCircularProgressBar.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MBProgressHUD.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ESR/Pods-ESR-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		3018B34B2240F9A700EC76F4 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ESR/Pods-ESR-resources.sh",
+				"${PODS_ROOT}/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Resources/GoogleMaps.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleMaps.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ESR/Pods-ESR-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		79101FD271C8B392453E283B /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1017,6 +1098,7 @@
 				30FB3125213665FE00ABA22A /* GroupSummaryMatchesHeader.swift in Sources */,
 				305693FE212BEABC009790BA /* ProfileVC.swift in Sources */,
 				30181D1F2121A8BC0067D65F /* CreateAccountVC.swift in Sources */,
+				3044DE5B223F9E99005E8C86 /* TabFollowVC.swift in Sources */,
 				30371E09220450A50000814A /* AppExtensions.swift in Sources */,
 				30181D1D2121A8AB0067D65F /* ForgotPasswordVC.swift in Sources */,
 				30181D212121A8DD0067D65F /* LoginVC.swift in Sources */,
@@ -1035,6 +1117,7 @@
 				30C799F921CD105100B0ECB4 /* BundleExtension.swift in Sources */,
 				30A7FF42222EA92900056A90 /* PickerVC.swift in Sources */,
 				30181D232121A8EA0067D65F /* LandingVC.swift in Sources */,
+				3044DE5E2240CFF9005E8C86 /* FollowTournamentCell.swift in Sources */,
 				30181D3F212312EC0067D65F /* ButtonCell.swift in Sources */,
 				30181D2A2122B0CB0067D65F /* TabTournamentVC.swift in Sources */,
 				30181D682126EB830067D65F /* UIViewExtentions.swift in Sources */,
@@ -1052,6 +1135,7 @@
 				30181CFC211DB6E30067D65F /* StoryboardManager.swift in Sources */,
 				30181D0A211DBA3E0067D65F /* TabAgeCategoriesVC.swift in Sources */,
 				30181D4A212588340067D65F /* Reachability.swift in Sources */,
+				3018B35922423D7B00EC76F4 /* GetStartedTournamentVC.swift in Sources */,
 				3086BC9A213FB54E00810CC8 /* MapVC.swift in Sources */,
 				30181D42212558900067D65F /* Utils.swift in Sources */,
 				307542AB2170BE03003715C7 /* LabelCell.swift in Sources */,
@@ -1060,77 +1144,84 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		30790CF92202D457000EE4A5 /* Sources */ = {
+		3018B2D62240F9A700EC76F4 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				30790CFB2202D457000EE4A5 /* GroupDetailsVC.swift in Sources */,
-				30790CFC2202D457000EE4A5 /* AgeCategoriesGroupsSummaryVC.swift in Sources */,
-				30790CFD2202D457000EE4A5 /* AgeCategoryCell.swift in Sources */,
-				30790CFE2202D457000EE4A5 /* AgeCategoriesGroupsVC.swift in Sources */,
-				30790CFF2202D457000EE4A5 /* ApplicationData.swift in Sources */,
-				30790D002202D457000EE4A5 /* TextViewCell.swift in Sources */,
-				30790D012202D457000EE4A5 /* GroupSummaryStandingsHeader.swift in Sources */,
-				30790D022202D457000EE4A5 /* TeamListCell.swift in Sources */,
-				30790D032202D457000EE4A5 /* ApiManager.swift in Sources */,
-				30790D042202D457000EE4A5 /* TabTeamsVC.swift in Sources */,
-				30790D052202D457000EE4A5 /* MainTabViewController.swift in Sources */,
-				30790D062202D457000EE4A5 /* TabAgeCategoriesCell.swift in Sources */,
-				30790D072202D457000EE4A5 /* GroupSummaryStandingsCell.swift in Sources */,
-				30790D082202D457000EE4A5 /* UITextFieldExtensions.swift in Sources */,
-				30790D092202D457000EE4A5 /* FinalPlacingsCell.swift in Sources */,
-				30790D0A2202D457000EE4A5 /* FinalPlacingsVC.swift in Sources */,
-				30790D0B2202D457000EE4A5 /* Environments.swift in Sources */,
-				30790D0C2202D457000EE4A5 /* TournamentClubCell.swift in Sources */,
-				30790D0D2202D457000EE4A5 /* FavouriteTournamentCell.swift in Sources */,
-				30790D0E2202D457000EE4A5 /* GroupStanding.swift in Sources */,
-				30790D0F2202D457000EE4A5 /* TeamVC.swift in Sources */,
-				30790D102202D457000EE4A5 /* NotificationAndSoundVC.swift in Sources */,
-				30790D112202D457000EE4A5 /* ProgressView.swift in Sources */,
-				30790D122202D457000EE4A5 /* SuperViewController.swift in Sources */,
-				30790D142202D457000EE4A5 /* AppDelegate.swift in Sources */,
-				30790D152202D457000EE4A5 /* TwoLabelCell.swift in Sources */,
-				30790D162202D457000EE4A5 /* TableCellOwner.swift in Sources */,
-				30790D172202D457000EE4A5 /* GroupSummaryMatchesHeader.swift in Sources */,
-				30790D182202D457000EE4A5 /* ProfileVC.swift in Sources */,
-				30790D192202D457000EE4A5 /* CreateAccountVC.swift in Sources */,
-				30371E0A220450A50000814A /* AppExtensions.swift in Sources */,
-				30790D1A2202D457000EE4A5 /* ForgotPasswordVC.swift in Sources */,
-				30790D1B2202D457000EE4A5 /* LoginVC.swift in Sources */,
-				30790D1C2202D457000EE4A5 /* AppConstantsList.swift in Sources */,
-				30790D1D2202D457000EE4A5 /* TeamFixture.swift in Sources */,
-				30790D1E2202D457000EE4A5 /* GroupDetailsCell.swift in Sources */,
-				30790D1F2202D457000EE4A5 /* TabSettingsVC.swift in Sources */,
-				30790D202202D457000EE4A5 /* ParseManger.swift in Sources */,
-				30790D212202D457000EE4A5 /* CategoryListVC.swift in Sources */,
-				30790D222202D457000EE4A5 /* ImageNavigationBar.swift in Sources */,
-				30790D232202D457000EE4A5 /* TextFieldCell.swift in Sources */,
-				30790D242202D457000EE4A5 /* TournamentDetailsView.swift in Sources */,
-				30790D252202D457000EE4A5 /* Tournament.swift in Sources */,
-				30790D262202D457000EE4A5 /* GroupSummaryMatchesCell.swift in Sources */,
-				30790D272202D457000EE4A5 /* BundleExtension.swift in Sources */,
-				30790D282202D457000EE4A5 /* LandingVC.swift in Sources */,
-				30790D292202D457000EE4A5 /* ButtonCell.swift in Sources */,
-				30790D2A2202D457000EE4A5 /* TabTournamentVC.swift in Sources */,
-				30790D2B2202D457000EE4A5 /* UIViewExtentions.swift in Sources */,
-				30790D2C2202D457000EE4A5 /* TeamListingVC.swift in Sources */,
-				30790D2E2202D457000EE4A5 /* AllMatchesVC.swift in Sources */,
-				30790D2F2202D457000EE4A5 /* GroupListVC.swift in Sources */,
-				30790D302202D457000EE4A5 /* UserData.swift in Sources */,
-				30790D312202D457000EE4A5 /* LabelSelectionCell.swift in Sources */,
-				30790D322202D457000EE4A5 /* VenueVC.swift in Sources */,
-				30790D332202D457000EE4A5 /* MatchInfoVC.swift in Sources */,
-				30790D342202D457000EE4A5 /* UIViewControllerExtentions.swift in Sources */,
-				30790D352202D457000EE4A5 /* TitleNavigationBar.swift in Sources */,
-				30790D362202D457000EE4A5 /* TabFavouritesVC.swift in Sources */,
-				30790D372202D457000EE4A5 /* StoryboardManager.swift in Sources */,
-				30790D382202D457000EE4A5 /* TabAgeCategoriesVC.swift in Sources */,
-				30790D392202D457000EE4A5 /* Reachability.swift in Sources */,
-				30790D3B2202D457000EE4A5 /* MapVC.swift in Sources */,
-				30790D3C2202D457000EE4A5 /* Utils.swift in Sources */,
-				30790D3D2202D457000EE4A5 /* LabelCell.swift in Sources */,
-				30790D3E2202D457000EE4A5 /* ClubListVC.swift in Sources */,
-				30790D3F2202D457000EE4A5 /* PrivacyAndTermsVC.swift in Sources */,
+				3018B2D72240F9A700EC76F4 /* GroupDetailsVC.swift in Sources */,
+				3018B2D82240F9A700EC76F4 /* AgeCategoriesGroupsSummaryVC.swift in Sources */,
+				3018B2D92240F9A700EC76F4 /* AgeCategoryCell.swift in Sources */,
+				3018B2DA2240F9A700EC76F4 /* AgeCategoriesGroupsVC.swift in Sources */,
+				3018B2DB2240F9A700EC76F4 /* ApplicationData.swift in Sources */,
+				3018B2DC2240F9A700EC76F4 /* TextViewCell.swift in Sources */,
+				3018B2DD2240F9A700EC76F4 /* GroupSummaryStandingsHeader.swift in Sources */,
+				3018B2DE2240F9A700EC76F4 /* ViewScheduleImageVC.swift in Sources */,
+				3018B2DF2240F9A700EC76F4 /* TeamListCell.swift in Sources */,
+				3018B2E02240F9A700EC76F4 /* ApiManager.swift in Sources */,
+				3018B2E12240F9A700EC76F4 /* TabTeamsVC.swift in Sources */,
+				3018B2E22240F9A700EC76F4 /* MainTabViewController.swift in Sources */,
+				3018B2E32240F9A700EC76F4 /* TabAgeCategoriesCell.swift in Sources */,
+				3018B2E42240F9A700EC76F4 /* GroupSummaryStandingsCell.swift in Sources */,
+				3018B2E52240F9A700EC76F4 /* UITextFieldExtensions.swift in Sources */,
+				3018B2E62240F9A700EC76F4 /* FinalPlacingsCell.swift in Sources */,
+				3018B2E72240F9A700EC76F4 /* FinalPlacingsVC.swift in Sources */,
+				3018B2E82240F9A700EC76F4 /* Environments.swift in Sources */,
+				3018B2E92240F9A700EC76F4 /* TournamentClubCell.swift in Sources */,
+				3018B2EA2240F9A700EC76F4 /* FavouriteTournamentCell.swift in Sources */,
+				3018B2EB2240F9A700EC76F4 /* GroupStanding.swift in Sources */,
+				3018B2EC2240F9A700EC76F4 /* TeamVC.swift in Sources */,
+				3018B2ED2240F9A700EC76F4 /* NotificationAndSoundVC.swift in Sources */,
+				3018B2EE2240F9A700EC76F4 /* ProgressView.swift in Sources */,
+				3018B2EF2240F9A700EC76F4 /* SuperViewController.swift in Sources */,
+				3018B2F02240F9A700EC76F4 /* AppDelegate.swift in Sources */,
+				3018B2F12240F9A700EC76F4 /* TwoLabelCell.swift in Sources */,
+				3018B2F22240F9A700EC76F4 /* TableCellOwner.swift in Sources */,
+				3018B2F32240F9A700EC76F4 /* GroupSummaryMatchesHeader.swift in Sources */,
+				3018B2F42240F9A700EC76F4 /* ProfileVC.swift in Sources */,
+				3018B2F52240F9A700EC76F4 /* CreateAccountVC.swift in Sources */,
+				3018B2F62240F9A700EC76F4 /* TabFollowVC.swift in Sources */,
+				3018B2F72240F9A700EC76F4 /* AppExtensions.swift in Sources */,
+				3018B2F82240F9A700EC76F4 /* ForgotPasswordVC.swift in Sources */,
+				3018B2F92240F9A700EC76F4 /* LoginVC.swift in Sources */,
+				3018B2FA2240F9A700EC76F4 /* AppConstantsList.swift in Sources */,
+				3018B2FB2240F9A700EC76F4 /* TeamFixture.swift in Sources */,
+				3018B2FC2240F9A700EC76F4 /* GroupDetailsCell.swift in Sources */,
+				3018B2FD2240F9A700EC76F4 /* TabSettingsVC.swift in Sources */,
+				3018B2FE2240F9A700EC76F4 /* CustomAlertVC.swift in Sources */,
+				3018B2FF2240F9A700EC76F4 /* ParseManger.swift in Sources */,
+				3018B3002240F9A700EC76F4 /* CategoryListVC.swift in Sources */,
+				3018B3012240F9A700EC76F4 /* ImageNavigationBar.swift in Sources */,
+				3018B3022240F9A700EC76F4 /* TextFieldCell.swift in Sources */,
+				3018B3032240F9A700EC76F4 /* TournamentDetailsView.swift in Sources */,
+				3018B3042240F9A700EC76F4 /* Tournament.swift in Sources */,
+				3018B3052240F9A700EC76F4 /* GroupSummaryMatchesCell.swift in Sources */,
+				3018B3062240F9A700EC76F4 /* BundleExtension.swift in Sources */,
+				3018B3072240F9A700EC76F4 /* PickerVC.swift in Sources */,
+				3018B3082240F9A700EC76F4 /* LandingVC.swift in Sources */,
+				3018B3092240F9A700EC76F4 /* FollowTournamentCell.swift in Sources */,
+				3018B30A2240F9A700EC76F4 /* ButtonCell.swift in Sources */,
+				3018B30B2240F9A700EC76F4 /* TabTournamentVC.swift in Sources */,
+				3018B30C2240F9A700EC76F4 /* UIViewExtentions.swift in Sources */,
+				3018B30D2240F9A700EC76F4 /* TeamListingVC.swift in Sources */,
+				3018B30E2240F9A700EC76F4 /* AllMatchesVC.swift in Sources */,
+				3018B30F2240F9A700EC76F4 /* CustomAlertTwoBtnVC.swift in Sources */,
+				3018B3102240F9A700EC76F4 /* GroupListVC.swift in Sources */,
+				3018B3112240F9A700EC76F4 /* UserData.swift in Sources */,
+				3018B3122240F9A700EC76F4 /* LabelSelectionCell.swift in Sources */,
+				3018B3132240F9A700EC76F4 /* VenueVC.swift in Sources */,
+				3018B3142240F9A700EC76F4 /* MatchInfoVC.swift in Sources */,
+				3018B3152240F9A700EC76F4 /* UIViewControllerExtentions.swift in Sources */,
+				3018B3162240F9A700EC76F4 /* TitleNavigationBar.swift in Sources */,
+				3018B3172240F9A700EC76F4 /* TabFavouritesVC.swift in Sources */,
+				3018B3182240F9A700EC76F4 /* StoryboardManager.swift in Sources */,
+				3018B3192240F9A700EC76F4 /* TabAgeCategoriesVC.swift in Sources */,
+				3018B31A2240F9A700EC76F4 /* Reachability.swift in Sources */,
+				3018B35A22423D7B00EC76F4 /* GetStartedTournamentVC.swift in Sources */,
+				3018B31B2240F9A700EC76F4 /* MapVC.swift in Sources */,
+				3018B31C2240F9A700EC76F4 /* Utils.swift in Sources */,
+				3018B31D2240F9A700EC76F4 /* LabelCell.swift in Sources */,
+				3018B31E2240F9A700EC76F4 /* ClubListVC.swift in Sources */,
+				3018B31F2240F9A700EC76F4 /* PrivacyAndTermsVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1262,6 +1353,7 @@
 /* Begin XCBuildConfiguration section */
 		30181CD0211D95B80067D65F /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4A928A3F726468DA324C8C33 /* Pods-ESR.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
@@ -1323,7 +1415,7 @@
 		};
 		30181CD3211D95B80067D65F /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C41AAEA10B10B52FFB84B6E8 /* Pods-ESR.debug.xcconfig */;
+			baseConfigurationReference = 4A928A3F726468DA324C8C33 /* Pods-ESR.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = ESR/ESR.entitlements;
@@ -1342,13 +1434,14 @@
 				PROVISIONING_PROFILE_SPECIFIER = DEV_ESR_5_mar_2019;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				base_url = "http:/$()/sunny-eurosport.dev.aecortech.com/api/";
+				base_url = "http:/$()/rishab-eurosport.dev.aecortech.com/api/";
 				google_map_key = AIzaSyA48POKxVvdyLfu_pRE_5fVw5XLd8E7s40;
 			};
 			name = Debug;
 		};
 		30181D512126CEED0067D65F /* Debug ( QA ) */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DDBA051FA95CE4F2F2858387 /* Pods-ESR.debug ( qa ).xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
@@ -1410,7 +1503,7 @@
 		};
 		30181D522126CEED0067D65F /* Debug ( QA ) */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1B970722AE68BCA0575D1202 /* Pods-ESR.debug ( qa ).xcconfig */;
+			baseConfigurationReference = DDBA051FA95CE4F2F2858387 /* Pods-ESR.debug ( qa ).xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = ESR/ESR.entitlements;
@@ -1436,6 +1529,7 @@
 		};
 		30181D532126CEF70067D65F /* Debug ( Production ) */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 832F9684806320C56A6FD722 /* Pods-ESR.debug ( production ).xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
@@ -1497,7 +1591,7 @@
 		};
 		30181D542126CEF70067D65F /* Debug ( Production ) */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D3B02AD81D642C4C2D93C714 /* Pods-ESR.debug ( production ).xcconfig */;
+			baseConfigurationReference = 832F9684806320C56A6FD722 /* Pods-ESR.debug ( production ).xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = ESR/ESR.entitlements;
@@ -1521,15 +1615,16 @@
 			};
 			name = "Debug ( Production )";
 		};
-		30790D6E2202D457000EE4A5 /* Debug */ = {
+		3018B34D2240F9A700EC76F4 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4A928A3F726468DA324C8C33 /* Pods-ESR.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = ESR/ESR.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = BSDM4Q267C;
-				INFOPLIST_FILE = "ESR copy-Info.plist";
+				INFOPLIST_FILE = ESR/easymm.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1538,23 +1633,24 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.aecordigital.eurosporting.easymatchmanager;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "7c7bf2a5-55f5-49db-8a8e-5b27791520ca";
-				PROVISIONING_PROFILE_SPECIFIER = "ESR - Easymm - Dev";
+				PROVISIONING_PROFILE_SPECIFIER = ESR_Easymm_Dev_18_mar;
 				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = 1;
-				base_url = "http:/$()/usama-eurosport.dev.aecortech.com/api/";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				base_url = "https:/$()/rishab-eurosport.dev.aecortech.com/api/";
 				google_map_key = AIzaSyA48POKxVvdyLfu_pRE_5fVw5XLd8E7s40;
 			};
 			name = Debug;
 		};
-		30790D6F2202D457000EE4A5 /* Debug ( Production ) */ = {
+		3018B34E2240F9A700EC76F4 /* Debug ( Production ) */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 832F9684806320C56A6FD722 /* Pods-ESR.debug ( production ).xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = ESR/ESR.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = BSDM4Q267C;
-				INFOPLIST_FILE = "ESR copy-Info.plist";
+				INFOPLIST_FILE = ESR/easymm.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1563,23 +1659,24 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.aecordigital.eurosporting.easymatchmanager;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "0a6cfb2e-d6c1-45ad-ada8-4edab1532aea";
-				PROVISIONING_PROFILE_SPECIFIER = "ESR - Easymm - Production";
+				PROVISIONING_PROFILE_SPECIFIER = ESR_Easymm_Production_18_mar;
 				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = 1;
-				base_url = "https:/$()/qa.wot.esrtmp.com/api/";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				base_url = "https:/$()/www.esrtmp.com/api/";
 				google_map_key = AIzaSyA48POKxVvdyLfu_pRE_5fVw5XLd8E7s40;
 			};
 			name = "Debug ( Production )";
 		};
-		30790D702202D457000EE4A5 /* Debug ( QA ) */ = {
+		3018B34F2240F9A700EC76F4 /* Debug ( QA ) */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DDBA051FA95CE4F2F2858387 /* Pods-ESR.debug ( qa ).xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = ESR/ESR.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = BSDM4Q267C;
-				INFOPLIST_FILE = "ESR copy-Info.plist";
+				INFOPLIST_FILE = ESR/easymm.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1588,9 +1685,9 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.aecordigital.eurosporting.easymatchmanager;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "7c7bf2a5-55f5-49db-8a8e-5b27791520ca";
-				PROVISIONING_PROFILE_SPECIFIER = "ESR - Easymm - Dev";
+				PROVISIONING_PROFILE_SPECIFIER = ESR_Easymm_Dev_18_mar;
 				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				base_url = "https:/$()/qa.wot.esrtmp.com/api/";
 				google_map_key = AIzaSyA48POKxVvdyLfu_pRE_5fVw5XLd8E7s40;
 			};
@@ -1619,12 +1716,12 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
-		30790D6D2202D457000EE4A5 /* Build configuration list for PBXNativeTarget "ESR Easymm" */ = {
+		3018B34C2240F9A700EC76F4 /* Build configuration list for PBXNativeTarget "ESR copy" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				30790D6E2202D457000EE4A5 /* Debug */,
-				30790D6F2202D457000EE4A5 /* Debug ( Production ) */,
-				30790D702202D457000EE4A5 /* Debug ( QA ) */,
+				3018B34D2240F9A700EC76F4 /* Debug */,
+				3018B34E2240F9A700EC76F4 /* Debug ( Production ) */,
+				3018B34F2240F9A700EC76F4 /* Debug ( QA ) */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;

@@ -79,6 +79,8 @@
             <integer>2</integer>
             <key>title</key>
             <string>Select tournament</string>
+            <key>identifier</key>
+            <string>select_tournament</string>
         </dict>
         <dict>
             <key>cellType</key>

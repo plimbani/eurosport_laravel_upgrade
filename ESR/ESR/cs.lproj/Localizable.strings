@@ -6,6 +6,7 @@
 */
 // Tab titles
 "title_tab_fav"                             = "Oblíbené";
+"title_tab_follow"                          = "následovat";
 "title_tab_tournament"                      = "Turnaj";
 "title_tab_teams"                           = "Týmy";
 "title_tab_agecategories"                   = "Věkové kategorie";

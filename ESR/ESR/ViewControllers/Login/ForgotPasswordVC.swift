@@ -109,11 +109,8 @@ class ForgotPasswordVC: SuperViewController {
                 self.view.hideProgressHUD()
                 if let message = result.value(forKey: "message") as? String{
                     if message == "Success"{
-                        // self.showInfoAlertView(title: String.localize(key: "alert_title_success"), message: String.localize(key: "alert_msg_forgot_password"), requestCode: AlertRequestCode.forgotPass.rawValue)
                         self.showCustomAlertVC(title: String.localize(key: "alert_title_success"), message: String.localize(key: "alert_msg_forgot_password"), requestCode: AlertRequestCode.forgotPass.rawValue, delegate: self)
                     }else{
-                        // self.showInfoAlertView(title: String.localize(key: "alert_title_error"), message: message, requestCode: AlertRequestCode.forgotPass.rawValue)
-                        
                         self.showCustomAlertVC(title: String.localize(key: "alert_title_error"), message: message, requestCode: AlertRequestCode.forgotPass.rawValue, delegate: self)
                     }
                 }
@@ -128,7 +125,6 @@ class ForgotPasswordVC: SuperViewController {
                 }
                 
                 if let error = result.value(forKey: "error") as? String {
-                    // self.showInfoAlertView(title: String.localize(key: "alert_title_error"), message: error)
                     self.showCustomAlertVC(title: String.localize(key: "alert_title_error"), message: error)
                 }
             }

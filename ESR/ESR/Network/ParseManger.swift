@@ -326,6 +326,24 @@ class ParseManager {
         return tournamentObj
     }
     
+    static func parseFollowTournament(_ record: NSDictionary) -> Tournament {
+        let tournamentObj = Tournament()
+        
+        if let id = record.value(forKey: "tournament_id") as? Int {
+            tournamentObj.id = id
+        }
+        
+        if let text = record.value(forKey: "name") as? String {
+            tournamentObj.name = text
+        }
+        
+        if let text = record.value(forKey: "tournamentLogo") as? String {
+            tournamentObj.tournamentLogo = text
+        }
+        
+        return tournamentObj
+    }
+    
     static func parseTournament(_ record: NSDictionary) -> Tournament {
         let tournamentObj = Tournament()
         
