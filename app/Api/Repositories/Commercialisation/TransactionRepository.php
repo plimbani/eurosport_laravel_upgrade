@@ -163,7 +163,7 @@ class TransactionRepository
             'team_size' => $tournamentRes->maximum_teams,
             'amount' => $data['AMOUNT'],
             'status' => $paymentStatus[$data['STATUS']],
-            // 'days' => $days,
+            'days' => $days,
             'currency' => $data['CURRENCY'],
             'card_type' => $data['PM'],
             'card_holder_name' => $data['CN'],
