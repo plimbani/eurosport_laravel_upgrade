@@ -41,7 +41,8 @@ class HomeController extends Controller
 
     public function openAppDeepLink()
     {
-        return view('app_open_deep_link');
+        $googleStoreOpenDeepLink = config('config-variables.google_store_open_deep_link');
+        return view('app_open_deep_link', compact('googleStoreOpenDeepLink'));
     }    
 
     public function iosJson()
