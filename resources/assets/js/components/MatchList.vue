@@ -15,7 +15,8 @@
 
 <table id="matchSchedule" class="table table-hover table-bordered table-sm" v-if="matchData.length > 0 && isDivExist == 0">
     <MatchListTableHead :isHideLocation="isHideLocation" :isUserDataExist="isUserDataExist" :getCurrentScheduleView="getCurrentScheduleView" :showPlacingForMatch="showPlacingForMatch()"></MatchListTableHead>
-    <MatchListTableBody :getCurrentScheduleView="getCurrentScheduleView" :showPlacingForMatch="showPlacingForMatch()" :isHideLocation="isHideLocation" :isUserDataExist="isUserDataExist" :matchData="matchData" :isDivExist="isDivExist" @openPitchModal="openPitchModal" @changeDrawDetails="changeDrawDetails" @getHoldingName="getHoldingName" @displayMatch="displayMatch" @getCompetitionName="getCompetitionName"></MatchListTableBody>
+    
+    <MatchListTableBody :getCurrentScheduleView="getCurrentScheduleView" :showPlacingForMatch="showPlacingForMatch()" :isHideLocation="isHideLocation" :isUserDataExist="isUserDataExist" :matchData="matchData" :isDivExist="isDivExist" @openPitchModal="openPitchModal" @changeDrawDetails="changeDrawDetails"></MatchListTableBody>
 </table>
 
 <div class="col-md-12" v-for="(matches,index) in isDivExistData" v-if="matchData.length > 0 && isDivExist == 1">
@@ -26,7 +27,7 @@
 
         <MatchListTableHead :isHideLocation="isHideLocation" :isUserDataExist="isUserDataExist" :getCurrentScheduleView="getCurrentScheduleView" :showPlacingForMatch="showPlacingForMatch()"></MatchListTableHead>
 
-        <MatchListTableBody :getCurrentScheduleView="getCurrentScheduleView" :showPlacingForMatch="showPlacingForMatch()" :isHideLocation="isHideLocation" :isUserDataExist="isUserDataExist" :matchData="matches" :isDivExist="isDivExist" @openPitchModal="openPitchModal" @changeDrawDetails="changeDrawDetails" @getHoldingName="getHoldingName" @displayMatch="displayMatch"  @getCompetitionName="getCompetitionName"></MatchListTableBody> 
+        <MatchListTableBody :getCurrentScheduleView="getCurrentScheduleView" :showPlacingForMatch="showPlacingForMatch()" :isHideLocation="isHideLocation" :isUserDataExist="isUserDataExist" :matchData="matches" :isDivExist="isDivExist" @openPitchModal="openPitchModal" @changeDrawDetails="changeDrawDetails"></MatchListTableBody> 
 
       </table>
     </div>
@@ -73,10 +74,10 @@ import VuePaginate from 'vue-paginate'
 export default {
   props: ['matchData1', 'DrawName', 'otherData'],
   components: {
-            PitchModal,
-            DeleteModal1,
-            MatchListTableBody,
-            MatchListTableHead
+    PitchModal,
+    DeleteModal1,
+    MatchListTableBody,
+    MatchListTableHead
   },
   data() {
     return {
@@ -95,28 +96,6 @@ export default {
       isDivExistData: [],
       no_of_records: 20,
       recordCounts: [5,10,20,50,100]
-    }
-  },
-
-  filters: {
-    formatDate: function(date) {
-      if(date != null ) {
-        return moment(date).format("Do MMM YYYY HH:mm");
-      } else {
-        return  '-';
-      }
-    },
-    formatGroup:function (value,round) {
-      if(round == 'Round Robin') {
-        return value
-      }
-      if(value) {
-        if(!isNaN(value.slice(-1))) {
-          return value.substring(0,value.length-1)
-        } else {
-          return value
-        }
-      }
     }
   },
   computed: {
@@ -452,18 +431,6 @@ export default {
         return this.matchData;
       }
     },
-    displayMatch(displayMatchNumber) {
-      var displayMatchText = displayMatchNumber.split('.');
-
-      if(displayMatchNumber.indexOf("wrs") > 0 || displayMatchNumber.indexOf("lrs") > 0) {
-        if(displayMatchText[3] == 'wrs' || displayMatchText[3] == 'lrs') {
-          if(displayMatchNumber.indexOf('(@HOME-@AWAY)') > 0) {
-            return displayMatchText[1] + '.' + displayMatchText[2] + '.' + displayMatchText[3];
-          }
-        }
-      }
-      return displayMatchText[1] + '.' + displayMatchText[2];
-    },
     getResultOverridePopover(match) {
       $('[data-toggle="popover"]').popover();
       if(match.match_status == 'Penalties') {
@@ -482,16 +449,6 @@ export default {
       }
       else{
         return '';
-      }
-    },
-    getHoldingName(competitionActualName, placeholder) {
-      if(competitionActualName.indexOf('Group') !== -1){
-        return placeholder;
-      } else if(competitionActualName.indexOf('Pos') !== -1){
-        if(placeholder.indexOf('wrs.') !== -1 || placeholder.indexOf('lrs.') !== -1) {
-          return placeholder;
-        }
-        return 'Pos-' + placeholder;
       }
     },
   },

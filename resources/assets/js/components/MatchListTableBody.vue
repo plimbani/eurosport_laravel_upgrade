@@ -1,8 +1,8 @@
 <template>
 	<tbody>
         <tr v-for="(match,index1) in matchData">
-			<td class="text-center">{{match.match_datetime | formatDate}}</td>
-			<td class="text-center">
+    			<td class="text-center">{{match.match_datetime | formatDate}}</td>
+    			<td class="text-center">
 	          <a class="pull-left text-left text-primary" href=""
 	          v-if="getCurrentScheduleView != 'drawDetails'"
 	          @click.prevent="changeDrawDetails(match)"><u>{{match.competation_name | formatGroup}}</u>
@@ -71,8 +71,6 @@
 </template>
 <script>
 
-import Tournament from '../api/tournament.js'
-
 export default {
   props: ['getCurrentScheduleView', 'showPlacingForMatch','isHideLocation','isUserDataExist','matchData','isDivExist'],
   filters: {
@@ -132,37 +130,20 @@ export default {
 
     },
     displayMatch(displayMatchNumber) {
-      var displayMatchText = displayMatchNumber.split('.');
-
-      if(displayMatchNumber.indexOf("wrs") > 0 || displayMatchNumber.indexOf("lrs") > 0) {
-        if(displayMatchText[3] == 'wrs' || displayMatchText[3] == 'lrs') {
-          if(displayMatchNumber.indexOf('(@HOME-@AWAY)') > 0) {
-            return displayMatchText[1] + '.' + displayMatchText[2] + '.' + displayMatchText[3];
+      if ( typeof displayMatchNumber !== 'undefined' )
+      {
+        var displayMatchText = displayMatchNumber.split('.');
+        if(displayMatchNumber.indexOf("wrs") > 0 || displayMatchNumber.indexOf("lrs") > 0) {
+          if(displayMatchText[3] == 'wrs' || displayMatchText[3] == 'lrs') {
+            if(displayMatchNumber.indexOf('(@HOME-@AWAY)') > 0) {
+              return displayMatchText[1] + '.' + displayMatchText[2] + '.' + displayMatchText[3];
+            }
           }
         }
+        return displayMatchText[1] + '.' + displayMatchText[2];
       }
-      return displayMatchText[1] + '.' + displayMatchText[2];
-    },
-    getResultOverridePopover(match) {
-      $('[data-toggle="popover"]').popover();
-      if(match.match_status == 'Penalties') {
-        match.result_override_popover = "* Game won on penalties";
-      } else if(match.match_status == 'Walk-over') {
-        match.result_override_popover = "* Walkover, win awarded";
-      } else if(match.match_status == 'Abandoned') {
-        match.result_override_popover = "* Abandoned, win awarded";
-      }
-    },
-    getCompetitionName(matches) {
-      var getFirstMatch = _.head(matches);
-      if ( typeof(getFirstMatch) != 'undefined')
-      {
-        return getFirstMatch.competation_name;
-      }
-      else{
-        return '';
-      }
-    },
+      return displayMatchNumber;
+    }
   },
 }
 </script>
