@@ -39,7 +39,7 @@
 			</div> -->
 				<div class="row">
 					<div class="col-md-12">
-						<component :is="teamView"  :matchData1="matchData"></component>
+						<component :is="teamView"  :matchData1="matchData" :otherData="otherData"></component>
 					</div>
 				</div>
 				<!--<matchList :matchData="matchData"></matchList>-->
