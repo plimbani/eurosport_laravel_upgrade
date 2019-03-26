@@ -113,10 +113,12 @@ class TournamentController extends BaseController
                 //Update payment details
                 $this->transactionRepoObj->updateTransaction($requestData);
             }
-        
             $tournament = Tournament::findOrFail($requestData['tournament']['old_tournament_id']);
             $tournamentStartDate = $tournament['start_date'];
+
             $requestTournamentStartDate = $requestData['tournament']['tournament_start_date'];
+            $requestTournamentEndDate = $requestData['tournament']['tournament_end_date'];
+
             $tournamentMaximumTeam = $requestData['tournament']['tournament_max_teams'];
 
             $tournamentDateFormat = Carbon::createFromFormat('d/m/Y', $tournament['start_date']);
@@ -128,18 +130,20 @@ class TournamentController extends BaseController
             $tournamentCompetationTemplates = TournamentCompetationTemplates::where('tournament_id', $requestData['tournament']['old_tournament_id'])->pluck('total_teams')->sum();
 
             if (!empty($requestData['tournament'])) {
-                if($tournamentStartDate >= $requestTournamentStartDate && $tournamentFixture == 0){
-                    if($tournamentStartDate >= $requestTournamentStartDate && $tournamentPitch == 0){
-                        if($tournamentStartDate >= $requestTournamentStartDate && $tournamentCompetationTemplates >= $tournamentMaximumTeam){
-                            $requestData['tournament'] = [
-                                'id' => $requestData['tournament']['id'],
-                                'name' => $requestData['tournament']['tournament_name'],
-                                'start_date' => Carbon::createFromFormat('d/m/Y', $requestData['tournament']['tournament_start_date']),
-                                'end_date' => Carbon::createFromFormat('d/m/Y', $requestData['tournament']['tournament_end_date']),
-                                'maximum_teams' => $requestData['tournament']['tournament_max_teams'],
-                            ];
-                        }
-                    }   
+                if($requestTournamentStartDate == $requestTournamentEndDate){
+                    if($tournamentStartDate >= $requestTournamentStartDate && $tournamentFixture == 0){
+                        if($tournamentStartDate >= $requestTournamentStartDate && $tournamentPitch == 0){
+                            if($tournamentStartDate >= $requestTournamentStartDate && $tournamentCompetationTemplates >= $tournamentMaximumTeam){
+                                $requestData['tournament'] = [
+                                    'id' => $requestData['tournament']['id'],
+                                    'name' => $requestData['tournament']['tournament_name'],
+                                    'start_date' => Carbon::createFromFormat('d/m/Y', $requestData['tournament']['tournament_start_date']),
+                                    'end_date' => Carbon::createFromFormat('d/m/Y', $requestData['tournament']['tournament_end_date']),
+                                    'maximum_teams' => $requestData['tournament']['tournament_max_teams'],
+                                ];
+                            }
+                        }   
+                    }
                 }
                 return response()->json(['status' => 'error', 'message' => 'Please unschedule matches before shortening the length of our tournament.']);
                 
