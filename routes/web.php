@@ -7,6 +7,7 @@
 |
 */
 Route::get('tournament/openApp', '\Laraspace\Http\Controllers\HomeController@openAppDeepLink');
+Route::get('apple-app-site-association', '\Laraspace\Http\Controllers\HomeController@iosjson');
 
 Route::group(['domain' => config('app.domain')], function() {
 	Route::get('tournament/report/reportExport','\Laraspace\Api\Controllers\TournamentController@generateReport');

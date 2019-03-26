@@ -43,4 +43,12 @@ class HomeController extends Controller
     {
         return view('app_open_deep_link');
     }    
+
+    public function iosJson()
+    {
+        $data = file_get_contents(resource_path('ios/apple-app-site-association'));
+
+        return response($data, 200)
+                  ->header('Content-Type', 'application/json');
+    }
 }
