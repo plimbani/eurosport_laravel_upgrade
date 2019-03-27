@@ -160,7 +160,7 @@ class TransactionRepository
             'order_id' => $data['ORDERID'],
             'transaction_key' => $data['PAYID'],
             'team_size' => $tournamentRes->maximum_teams,
-            'amount' => $data['AMOUNT'],
+            'amount' => number_format($data['AMOUNT'], 2, '.', ''),
             'status' => $paymentStatus[$data['STATUS']],
             'days' => $days,
             'currency' => $data['CURRENCY'],
@@ -168,7 +168,7 @@ class TransactionRepository
             'card_holder_name' => $data['CN'],
             'card_number' => $data['CARDNO'],
             'card_validity' => $data['ED'],
-            'transaction_date' => $data['TRXDATE'],
+            'transaction_date' => date('Y-m-d', strtotime($data['TRXDATE'])),
             'brand' => $data['BRAND'],
             'payment_response' => json_encode($data)
         ];
@@ -215,7 +215,7 @@ class TransactionRepository
                 'card_holder_name' => $data['CN'],
                 'card_number' => $data['CARDNO'],
                 'card_validity' => $data['ED'],
-                'transaction_date' => $data['TRXDATE'],
+                'transaction_date' => date('Y-m-d', strtotime($data['TRXDATE'])),
                 'brand' => $data['BRAND'],
                 'payment_response' => json_encode($data),
                 'updated_at' => date('Y-m-d H:i:s')

@@ -20,7 +20,7 @@ class CreateTransactionHistoriesTable extends Migration
             $table->string('order_id')->nullable()->default(NULL);
             $table->string('transaction_key')->comment = "Transaction id from payment response";
             $table->integer('team_size');
-            $table->double('amount', 15, 8);
+            $table->double('amount', 15, 2);
             $table->tinyInteger('status');
             $table->string('card_type')->nullable()->default(NULL);
             $table->string('card_holder_name')->nullable()->default(NULL);
