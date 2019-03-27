@@ -55,7 +55,7 @@
 
             <input type="hidden" name="FONTTYPE" value="">
 
-            <!-- <input type="hidden" name="PMLIST" value="VISA;MasterCard"> -->
+            
             <input type="hidden" name="PMLIST" v-model="PMLIST">
             <input type="hidden" name="PMLISTTYPE" value="1">
 
@@ -101,8 +101,7 @@
     import Constant from '../../services/constant';
     import vueSlider from 'vue-slider-component';
     import Datepicker from 'vuejs-datepicker';
-    // console.log("register  page");
-    // $string = 'AMOUNT=2000b709e0ae-ab5b-4a78-bfc7-0bd54612d622CURRENCY=EURb709e0ae-ab5b-4a78-bfc7-0bd54612d622ORDERID=ORD22b709e0ae-ab5b-4a78-bfc7-0bd54612d622PSPID=EasymatchmanagerQAb709e0ae-ab5b-4a78-bfc7-0bd54612d622';
+    
     export default {
         components: {
             vueSlider,
@@ -149,7 +148,7 @@
                         Ls.set('orderInfo', JSON.stringify(orderInfo))
                         let self = this;
                         setTimeout(function () {
-                            // self.$refs.paymentSubmit.click();
+                            
                         }, 500)
                         self.disabled = false;
                     } else {
@@ -178,7 +177,7 @@
                     {id: '18', name: 'FRANCE', cardType: 'CarteBancaire'},
                 ];
                 let usercountry = Ls.get('usercountry');
-//                console.log("usercountry::", usercountry);
+
                 if (usercountry != undefined && usercountry != "null" && usercountry != null) {
                     let idx = (this.countryList).findIndex(country => {
                         return country.id == usercountry
@@ -196,8 +195,7 @@
                 axios.get(Constant.apiBaseUrl + 'country/list').then(response => {
                     if (response.data.success) {
                         this.countries = response.data.data;
-                        // console.log("this.countries::",this.countries);
-                        // this.setCoutryWiseCards();
+                        
                     }
                 })
             },
@@ -206,7 +204,7 @@
         beforeMount() {
             let tournamentDetails = Ls.get('tournamentDetails');
             if (typeof tournamentDetails != "undefined" && tournamentDetails != undefined && tournamentDetails != "null" && tournamentDetails != null) {
-                // console.log("tournamentDetails::",tournamentDetails);
+                
                 this.tournamentData = JSON.parse(tournamentDetails); 
  
                 let startDateArr = (this.tournamentData.tournament_start_date).split("/");
@@ -225,8 +223,7 @@
         mounted() {
 
             Ls.remove('tournamentDetails');
-//            this.generateHashKey();
-            // this.getCountries();
+
             this.setCoutryWiseCards();
 
         }

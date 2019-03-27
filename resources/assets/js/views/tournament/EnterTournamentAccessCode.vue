@@ -7,10 +7,10 @@
                     <p class="mb-5">If you have been given four digit code please enter it below to access your tournament </p>
 
                     <div class="row">
-                        <!-- <div class="col-lg-5 col-md-6"> -->
+                        
                             <input type="text" class="form-control" placeholder="Enter your code" id = "code" name="code" v-model="code">
                             <button class="btn btn-success btn-block" v-on:click="redirectTournamentDetail()">Access Your Tournament</button>
-                        <!-- </div> -->
+                        
                     </div>
                 </div>
             </div>
@@ -19,7 +19,7 @@
 </template>
 <script type="text/babel">
 import Constant from '../../services/constant';
-    // console.log("register  page");
+   
     export default {
         data() {
             return {
@@ -29,10 +29,10 @@ import Constant from '../../services/constant';
         methods: {
 
             redirectTournamentDetail(){
-               // console.log("redirectTournamentDetail:",this.code,this.code.length);
+               
                 if(this.code.length == 4){
                     axios.get(Constant.apiBaseUrl+'tournament-by-code?tournament='+this.code, {}).then(response =>  {
-                    // console.log("response.data::",response.data.success,typeof response.data.data,typeof response.data.data.tournament_details);  
+                    
                             if (response.data.success && typeof response.data.data != "undefined" && typeof response.data.data.tournament_details != "undefined") {
 
                                  this.$router.push({ path: 'tournament-detail', query: { code: this.code }})
@@ -43,11 +43,11 @@ import Constant from '../../services/constant';
                         toastr['error']("Please enter valid tournament code", 'Error');    
                      });
                     
-                    // this.$router.push({ path: 'tournament-detail', query: { code: '1u9E' }})
+                    
                 }else{
                     toastr['error']("Please enter valid tournament code", 'Error');
                 }
-               // this.$router.push({'name':'buylicense'}) 
+               
             } 
         },
     }

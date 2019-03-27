@@ -29,7 +29,7 @@
                                         <th>Start</th>
                                         <th>End</th>
                                         <th>Teams</th>
-                                        <!-- <th>App</th> -->
+                                        
                                         <th>Purchase Date</th>
                                         <th>Action</th>
                                         
@@ -62,7 +62,7 @@
     </div>
 </template>
 <script type="text/babel">
-    // console.log("register  page");
+    
     import Constant from '../../services/constant'
     export default {
         data() {
@@ -91,7 +91,7 @@
                 let params = {
                     customer_id:this.customer_id, // currently static
                 }
-                // console.log("params::",params)
+                
                 axios.post(Constant.apiBaseUrl+'customer-tournament',params).then(response =>  {  
                      this.usersTourmanents = response.data.data;
                 }).catch(error => {
@@ -127,8 +127,7 @@
             } 
         },
         beforeMount(){  
-            // console.log("userstourmanent");
-            // this.getTournamentListOfUser();
+            
         }
     }
 </script>
