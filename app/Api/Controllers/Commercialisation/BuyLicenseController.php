@@ -19,7 +19,7 @@ class BuyLicenseController extends BaseController
      * @param object $buyLicenseObj
      * @return void
      */
-    // public function __construct(RegisterContract $registerObj)
+    
     public function __construct(TransactionService $transactionSerObj)
     {
         $this->transactionObj = $transactionSerObj;
@@ -44,7 +44,6 @@ class BuyLicenseController extends BaseController
                 ]);
             }
         } catch (\Exception $ex) {
-//            return response()->json(['success' => false, 'status' => Response::HTTP_UNPROCESSABLE_ENTITY, 'data' => [], 'error' => [], 'message' => 'Something went wrong.']);
             return response()->json(['success' => false, 'status' => Response::HTTP_UNPROCESSABLE_ENTITY, 'data' => [], 'error' => [], 'message' => $ex->getMessage()]);
         }
     }
@@ -60,7 +59,7 @@ class BuyLicenseController extends BaseController
                 'CURRENCY=' . substr($requestData['currency_type'], 0, 3) . config('app.SHA_IN_PASS_PHRASE') . 'ORDERID=' . $orderId . config('app.SHA_IN_PASS_PHRASE') .
                 'PMLIST=' . $requestData['PMLIST'] . config('app.SHA_IN_PASS_PHRASE') . 'PMLISTTYPE=' . $requestData['PMLISTTYPE'] . config('app.SHA_IN_PASS_PHRASE') .
                 'PSPID=' . config('app.PSPID') . config('app.SHA_IN_PASS_PHRASE');
-//        $shaInString = 'AMOUNT=' . ($requestData['total_amount'] * 100) . config('app.SHA_IN_PASS_PHRASE') . 'CURRENCY=EUR' . config('app.SHA_IN_PASS_PHRASE') . 'ORDERID=' . $orderId . config('app.SHA_IN_PASS_PHRASE') . 'PSPID=' . config('app.PSPID') . config('app.SHA_IN_PASS_PHRASE');
+
         $shaSign = hash(config('app.SHA_ALGO'), $shaInString);
         return response()->json([
                     'success' => true,

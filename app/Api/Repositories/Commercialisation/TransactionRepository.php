@@ -276,15 +276,9 @@ class TransactionRepository
      */
     private function getTournamentDays($tNewSDate, $tNewEDate, $existsTransaction = null)
     {
-//        $earlier = new \DateTime(date('Y-m-d', strtotime($existsTransaction->tournament->start_date)));
-//        $later = new \DateTime(date('Y-m-d', strtotime($existsTransaction->tournament->end_date)));
-//        $preDiff = $later->diff($earlier)->days;
-
         $sDate = new \DateTime(date('Y-m-d', strtotime(str_replace('/', '-', $tNewSDate))));
         $eDate = new \DateTime(date('Y/m/d', strtotime(str_replace('/', '-', $tNewEDate))));
         $newDiff = $eDate->diff($sDate)->days;
-
-//        return $newDiff - $preDiff;
         return $newDiff;
     }
 }

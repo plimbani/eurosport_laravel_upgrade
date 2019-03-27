@@ -9,8 +9,7 @@
                 <div class="col-md-12">
                     <button v-if="tournament_id" class="btn btn-success" @click="printReceipt()">Print receipt</button>
                      <button v-if="!tournament_id" class="btn btn-success" disabled="true">Print receipt</button>
-                    <!-- <button class="btn btn-success" @click="createPDF()">Print receipt</button> -->
-                    <!-- <a href="javascript:void(0)">Print receipt</a> -->
+                    
                 </div>
             </div>
 
@@ -40,19 +39,7 @@
                 </div>
             </div>
 
-            <!-- <div class="row justify-content-between">
-                <div class="col-md-12">
-                    Receipt
-                </div>
-                <hr>
-                <div class="col-md-12" id="reeiptDetails">
-                    {{tournament.tournament_max_teams}} Teams licence for a 4 day tournament price is {{paymentObj.amount}} {{paymentObj.currency}}
-                </div>
-            </div>
-
-            <div class="row justify-content-between">
-                <button class="btn btn-success">Get Started</button>
-            </div> -->
+            
         </div>
     </section>
 </template>
@@ -62,7 +49,7 @@
     import Constant from '../../services/constant'
     import jsPDF from 'jspdf' 
 
-    // console.log("register  page");
+    
     export default {
         data() {
             return {
@@ -87,21 +74,21 @@
                     paymentResponse:this.paymentObj
                 } 
                 var url = "payment/response";
-                // console.log("this.tournament.id::",this.tournament.id);
+                
                 if(typeof this.tournament.id != "undefined" && this.tournament.id != undefined && !this.tournament.is_renew){
-                    // console.log("inside");
+                    
                     url = "manage-tournament";
                 }
-                // console.log("after last")
+                
                 axios.post(Constant.apiBaseUrl+url, apiParams).then(response =>  {
                         if (response.data.success) {
-                            // console.log("response.data::",response.data.data)
+                            
                             if(url == "payment/response"){
                                 this.paymentObj.amount = response.data.data.amount;
                                 this.paymentObj.currency = response.data.data.currency;
                                 this.tournament_id = response.data.data.id;
                                 let payment_response = JSON.parse(response.data.data.payment_response);
-                                // let payment_response = response.data.data.paymentResponse;
+                                
                                 this.paymentObj.orderid = payment_response.orderID;
                             }else{
                                 this.tournament_id = response.data.data.tournament.id;
@@ -109,7 +96,7 @@
                                 this.paymentObj.amount = response.data.data.paymentResponse.amount;
                                 this.paymentObj.currency = response.data.data.paymentResponse.currency;
                             }
-                            // console.log("this.tournament_id::",this.tournament_id);
+                            
                             
                          }else{
                              toastr['error'](response.data.message, 'Error');
@@ -121,15 +108,13 @@
 
             printReceipt(){
 
-                // ORDER-5c45fa8daa010-1548089997
+                
                 if(this.tournament_id != ""){                    
                     let url = Constant.apiBaseUrl+'generate/receipt?tournament_id='+this.tournament_id;
                     window.open(url,'_blank');
                 }
                 
-                // this.$nextTick(() => {
-                //     window.print();
-                // });
+                
             },
             redirectToDashboardPage(){
                 if(this.tournament_id != ""){
@@ -143,17 +128,17 @@
             let tournament = Ls.get('orderInfo'); 
             if(tournament != null && tournament != "null"){
                 this.tournament = JSON.parse(tournament);
-                // console.log("this.tournament:",this.tournament);
+                
                 this.tournament.total_amount = this.tournament.total_amount/100;   
                 let tempObj = this.$route.query;
                 Ls.remove('orderInfo');
                 for(let key in tempObj){ 
                     this.paymentObj[key] = tempObj[key];
                 }  
-                // console.log('Payment ',this.paymentObj)
+                
                 this.getPaymentDetails(); 
             }else{
-                // console.log("else");
+                
             }
         }
     }

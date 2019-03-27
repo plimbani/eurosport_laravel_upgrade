@@ -92,7 +92,7 @@
     import Ls from '../../services/ls'
     import Constant from '../../services/constant'
 
-    // console.log("register  page");
+    
     export default {
         data() {
             return { 
@@ -107,7 +107,7 @@
                 axios.get(Constant.apiBaseUrl+'tournaments/list', {}).then(response =>  {  
                         if (response.data.success) { 
                              this.tournaments = response.data.data;
-                             // console.log("tournaments::",this.tournaments[0].end_date)
+                             
                          }else{ 
                             toastr['error'](response.data.message, 'Error');
                          }
@@ -117,18 +117,18 @@
                 
             },
              isTournamentExpired(expireDate){
-                // console.log("expireDate::",expireDate)
+                
                 let expireDateArr = expireDate.split("/");
                 let currentDateArr = moment().format("DD/MM/YYYY").split("/");
 
                 let startDateFormat = expireDateArr[2]+"/"+expireDateArr[1]+"/"+expireDateArr[0];
                 let endDateFormat = currentDateArr[2]+"/"+currentDateArr[1]+"/"+currentDateArr[0]; 
 
-                // let currentDateArr = moment().add('days',1).format("DD/MM/YYYY").split("/");
+                
                 let startDate = moment(startDateFormat);
                 let endDate = moment(endDateFormat);
                 let dayDifference = endDate.diff(startDate, 'days');
-                // console.log("dayDifference::",dayDifference)
+                
                 if(dayDifference >= 2){
                     return true;
                 }else{
@@ -165,7 +165,7 @@
             },
 
             openSharePopup(tournament){
-                // console.log("openSharePopup::",tournament.access_code)
+                
                 this.access_code_popup = this.url + tournament.access_code;
                 this.$modal.show('open-share-popup', 
                     { 
@@ -175,7 +175,7 @@
             },
 
             getAccessCode (event) {
-                // console.log(event.params.access_code);
+                
             },
             copyAccessCode () {
               let testingCodeToCopy = document.querySelector('#access_code_popup')
@@ -185,12 +185,11 @@
               try {
                 var successful = document.execCommand('copy');
                 var msg = successful ? 'successful' : 'unsuccessful';
-                // alert('Testing code was copied ' + msg);
-                // alert('');
+                
                 toastr['success']('Tournament url has been copied successfully.', 'Success');
               } catch (err) {
                 toastr['error']('Oops, unable to copy.', 'Error');
-                // alert('');
+                
               }
 
               /* unselect the range */
@@ -202,11 +201,11 @@
             },
 
             redirectToRenewTournament(tournament){
-                // console.log("id:::",tournament.id)
+                
                 this.$router.push({name: 'buylicense', query: {id:tournament.id}});   
             },
             redirectToManageTournament(tournament){
-                // console.log("id:::",tournament.id)
+                
                 this.$router.push({name: 'buylicense', query: {id:tournament.id}});   
             },
              

@@ -25,7 +25,6 @@ class RegisterController extends BaseController
      * @param object $registerObj
      * @return void
      */
-    // public function __construct(RegisterContract $registerObj)
     public function __construct(RegisterService $registerObj)
     {
         $this->registerObj = $registerObj;
