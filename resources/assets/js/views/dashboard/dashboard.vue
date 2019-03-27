@@ -44,14 +44,24 @@
                             </div>
                         </div> 
                     </div>
-                    <modal name="open-share-popup" @before-open="getAccessCode">
-                      <div class="example-modal-content p-4">
-                        <h4>Share Tournment <span v-on:click="closeSharePopup()" class="pull-right"><i class="fa fa-times"></i></span></h4> 
-                        <p>You can invite anyone to follow your tournament online and in the app. Simply share your following URL by email, SMS or any other social Media.</p>
-                        <p class="popup-access-code mb-0 text-center py-4 px-1 font-weight-bold" v-on:click="copyAccessCode()">{{ access_code_popup }}</p>
-                        <input type="hidden" id="access_code_popup" :value="access_code_popup">
-                      </div>
-                    </modal>
+
+                    <div class="modal fade" id="open_share_popup">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Share Tournment</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">×</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>You can invite anyone to follow your tournament online and in the app. Simply share your following URL by email, SMS or any other social Media.</p>
+                                    <p class="popup-access-code mb-0 text-center py-4 px-1 font-weight-bold" v-on:click="copyAccessCode()">{{ access_code_popup }}</p>
+                                    <input type="hidden" id="access_code_popup" :value="access_code_popup">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
                     <button class="btn btn-success" v-on:click="redirectToAddTournament()">Add Tournament</button>
 
@@ -160,18 +170,11 @@
                 this.$router.push({name:'tournament_add'});
             },
 
-            closeSharePopup(){
-                this.$modal.hide('open-share-popup');
-            },
+            
 
             openSharePopup(tournament){
-                
                 this.access_code_popup = this.url + tournament.access_code;
-                this.$modal.show('open-share-popup', 
-                    { 
-                        access_code_popup: tournament.access_code ,
-                        title: 'Alert!',
-                    });
+                $("#open_share_popup").modal('show'); 
             },
 
             getAccessCode (event) {

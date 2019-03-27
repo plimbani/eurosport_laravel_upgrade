@@ -47,8 +47,6 @@
     import Auth from '../../services/auth'
     import Ls from '../../services/ls'
     import Constant from '../../services/constant'
-    import jsPDF from 'jspdf' 
-
     
     export default {
         data() {
@@ -61,13 +59,6 @@
             }
         },
         methods: {
-            createPDF () {
-                let pdfName = 'receipt'; 
-                var doc = new jsPDF();
-                let content = $("#reeiptDetails").text();
-                doc.text(content, 10, 10);
-                doc.save(pdfName + '.pdf');
-            },
             getPaymentDetails(){
                 let apiParams = {
                     tournament:this.tournament,
