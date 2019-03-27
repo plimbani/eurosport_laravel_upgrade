@@ -90,6 +90,7 @@ $api->version('v1', function ($api) {
     $api->post('tournament/updateCompetitionDisplayName', 'Laraspace\Api\Controllers\TournamentController@updateCompetitionDisplayName');
 
     $api->get('match/getAllCategoriesReport/{tournamentId}', 'Laraspace\Api\Controllers\MatchController@getAllCategoriesReport');
+
     $api->post('tournament/uploadSponsorLogo', 'Laraspace\Api\Controllers\TournamentController@uploadSponsorLogo');
 
     $api->post('tournament/resultAdministratorDisplayMessage', 'Laraspace\Api\Controllers\TournamentController@resultAdministratorDisplayMessage');
@@ -97,8 +98,6 @@ $api->version('v1', function ($api) {
     $api->post('tournament/editTournamentMessage', 'Laraspace\Api\Controllers\TournamentController@editTournamentMessage');
 
     $api->post('match/getMatchLastUpdateValue', 'Laraspace\Api\Controllers\MatchController@getMatchLastUpdatedDate');
-
-    $api->get('match/getAllCategoriesReport/{tournamentId}', 'Laraspace\Api\Controllers\MatchController@getAllCategoriesReport');
 
     $api->get('getCountries', 'Laraspace\Api\Controllers\UserController@getAllCountries');
 

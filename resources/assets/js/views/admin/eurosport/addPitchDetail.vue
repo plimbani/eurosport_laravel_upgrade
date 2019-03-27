@@ -86,13 +86,13 @@
                         <div class="col-md-3">
                             <span>{{$lang.pitch_modal_availability_stage}}</span>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <span>{{$lang.pitch_modal_availability_date}}</span>
                         </div>
                         <div class="col-md-3">
                             <span>{{$lang.pitch_modal_availability_time}}</span>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <span>{{$lang.pitch_modal_availability_capacity}}</span>
                         </div>
                       </div>
@@ -106,7 +106,7 @@
                                     <div class="col-md-3">
                                         Day {{day}} start
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-4">
                                       <div class="input-group">
                                           <span class="input-group-addon">
                                               <i class="fas fa-calendar"></i>
@@ -129,7 +129,7 @@
                                           <!-- <span class="help is-danger" v-show="errors.has('stage_start_time'+day)">"Start time is required"</span> -->
                                       </div>
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-2">
                                     </div>
                                   </div>
                                   <div class="row align-items-center mb-3">
@@ -143,7 +143,7 @@
                                             <input type="checkbox" class="euro-checkbox stage_break_chk" :name="'stage_break_chk'+day" :id="'stage_break_chk_'+day">
                                             <label :for="'stage_break_chk_'+day">Add break</label>
                                         </div>
-                                      </div> 
+                                      </div>
                                     <!-- <input type="checkbox" :name="'stage_break_chk'+day" class="mr-1 stage_break_chk"  :id="'stage_break_chk_'+day" >Add break -->
                                     </div>
                                     <!-- <div class="col-md-3">
@@ -198,7 +198,7 @@
                                         <div class="col-md-3">
                                           Break {{n}} start
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-md-4">
                                           <div class="input-group">
                                               <span class="input-group-addon">
                                                   <i class="fas fa-calendar"></i>
@@ -225,14 +225,14 @@
                                             </div>
                                           </div>
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-md-2">
                                       </div>
                                     </div>
                                     <div class="row align-items-center mb-3" >
                                       <div class="col-md-3">
                                         Break {{n}}  end
                                       </div>
-                                      <div class="col-md-3">
+                                      <div class="col-md-4">
                                         <div class="input-group">
                                           <span class="input-group-addon">
                                               <i class="fas fa-calendar"></i>
@@ -253,7 +253,7 @@
                                             <!-- <span class="help is-danger" v-show="errors.has('stage_start_time'+day)">"Start time is required"</span> -->
                                         </div>
                                       </div>
-                                      <div class="col-md-3">
+                                      <div class="col-md-2">
                                       </div>
                                     </div>
                                   </div>
@@ -272,7 +272,7 @@
                                   <div class="col-md-3">
                                       Day {{day}} end
                                   </div>
-                                  <div class="col-md-3">
+                                  <div class="col-md-4">
                                     <div class="input-group">
                                         <span class="input-group-addon">
                                             <i class="fas fa-calendar"></i>
@@ -291,7 +291,7 @@
                                         <!-- <span class="help is-danger" v-show="errors.has('stage_start_time'+day)">"Start time is required"</span> -->
                                     </div>
                                   </div>
-                                  <div class="col-md-3"><span :id="'stage_capacity1_span'+day"  class="badge badge-pill pitch-badge-info">0.00 hrs</span>
+                                  <div class="col-md-2"><span :id="'stage_capacity1_span'+day"  class="badge badge-pill pitch-badge-info">0.00 hrs</span>
                                     <input type="hidden" :name="'stage_capacity'+day" :id="'stage_capacity'+day" value="0.00">
                                     <input type="hidden" class="stage_capacity_all" :name="'stage_capacity_min'+day" :id="'stage_capacity_min'+day" value="0">
                                   </div>

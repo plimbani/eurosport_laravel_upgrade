@@ -110,22 +110,23 @@ class UserRepository {
     public function create($data)
     {
         $userData = [
-            'person_id' => $data['person_id'],
-            'username' => $data['username'],
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'organisation' => $data['organisation'],
-            'password' => $data['password'],
-            'token' => $data['token'],
-            'is_verified' => 0,
-            'is_online' => 0,
-            'is_active' => (isset($data['is_mobile_user'])) ? 0 : 1,
-            'is_blocked' => 0,
-            'is_mobile_user' => $data['is_mobile_user'] ? 1 : 0,
-            'is_desktop_user' => $data['is_desktop_user'] ? 1 : 0,
-            'registered_from' => $data['registered_from'] ? 1 : 0,
-            'user_image' => (isset($data['user_image']) && $data['user_image'] != '') ? $data['user_image'] : '',
-            'role' => (isset($data['role']) && $data['role'] != '') ? $data['role'] : '',
+        'person_id' => $data['person_id'],
+        'username' => $data['username'],
+        'name' => $data['name'],
+        'email' => $data['email'],
+        'organisation' => $data['organisation'],
+        'password' => $data['password'],
+        'token' => $data['token'],
+        'is_verified' => 0,
+        'is_online' => 0,
+        'is_active' => (isset($data['is_mobile_user'])) ? 0 : 1,
+        'is_blocked' => 0 ,
+        'is_mobile_user' => $data['is_mobile_user'] ? 1 : 0,
+        'is_desktop_user' => $data['is_desktop_user'] ? 1 : 0,
+        'registered_from' => $data['registered_from'] ? 1 : 0,
+        'user_image'=>(isset($data['user_image']) && $data['user_image']!='') ?  $data['user_image'] : '',
+        'role' => (isset($data['role']) && $data['role']!='') ?  $data['role'] : '',
+        
         ];
 
         $deletedUser = User::onlyTrashed()->where('email', $data['email'])->first();
@@ -174,7 +175,6 @@ class UserRepository {
                         'users.is_active', 'roles.slug as role_slug', 'people.address', 'people.address_2', 'people.country_id', 'people.city', 'people.job_title', 'people.zipcode')
                 ->where("users.id", "=", $userId)
                 ->first();
-        
         $defaultFavouriteTournament = DB::table('users_favourite')->where('user_id', $user->id)->where('is_default', 1)->first();
 
         $user->tournament_id = $defaultFavouriteTournament ? $defaultFavouriteTournament->tournament_id : null;

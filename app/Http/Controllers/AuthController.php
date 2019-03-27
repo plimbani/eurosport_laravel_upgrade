@@ -98,7 +98,6 @@ class AuthController extends Controller
              $userDetails['role'] = $userData->role;
              $userDetails['locale'] = $userData->locale;
              $userDetails['country_id'] = $userData->country_id;
-
              $tournament_id = array();
              return response(['authenticated' => true,'userData'=> $userDetails, 'is_score_auto_update' =>config('config-variables.is_score_auto_update')]);
             }
