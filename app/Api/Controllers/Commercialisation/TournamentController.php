@@ -130,6 +130,8 @@ class TournamentController extends BaseController
 
             $tournamentCompetationTemplates = TournamentCompetationTemplates::where('tournament_id', $requestData['tournament']['old_tournament_id'])->pluck('total_teams')->sum();
 
+
+            // Tournament update license 
             if (!empty($requestData['tournament'])) {
                 if(($tournamentStartDate == $requestTournamentStartDate) && ($tournamentEndDate == $requestTournamentEndDate)){
                     if($tournamentStartDate >= $requestTournamentStartDate && $tournamentFixture == 0){
