@@ -22,6 +22,15 @@ class GetStandingRequest extends FormRequest
         if(!$token || (isset($this->headers->all()['ismobileuser'])) && $this->headers->all()['ismobileuser'] == true) {            
             $data = $this->all()['tournamentData'];
             $tournament_id = $data['tournamentId'];
+
+            $currentLayout = config('config-variables.current_layout');
+            if($currentLayout == 'commercialisation'){
+                $checkForTournamentAccess = $this->checkForTournamentAccess($tournament_id);
+                if(!$checkForTournamentAccess) {
+                    return false;
+                } 
+            }    
+
             $tournament = Tournament::where('id',$tournament_id)->first();
             $isTournamentPublished = $this->isTournamentPublished($tournament);
             if(!$isTournamentPublished) {

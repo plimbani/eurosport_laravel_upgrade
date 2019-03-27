@@ -65,6 +65,7 @@
                 tournamentSponsers:[],
                 code:"",
                 baseUrl:"",
+                googleAppStoreLink:"", 
                 contactDetail:{
                     first_name:"",
                     last_name:"",
@@ -116,6 +117,7 @@
                              }
                              this.tournamentSponsers = response.data.data.tournament_sponsor;
                              this.baseUrl = response.data.data.baseUrl;
+                             this.googleAppStoreLink = response.data.data.googleAppStoreLink;
                              // console.log("this.contactData::",this.contactData)
                              // console.log("this.tournamentSponsers:;:",this.tournamentSponsers);
                          }else{ 
@@ -150,7 +152,7 @@
 
                 if (!navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/)) {
                     this.$router.push({ path: 'tournament-detail', query: { code: this.code }})
-                    window.location.href = 'https://play.google.com/store/apps/details?id=com.aecor.eurosports.easymatchmanager';  
+                    window.location.href = this.googleAppStoreLink;  
                 }
             }
         }
