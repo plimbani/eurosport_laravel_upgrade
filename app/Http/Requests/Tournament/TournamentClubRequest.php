@@ -8,7 +8,7 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class TournamentClubRequest extends FormRequest
 {
-    use TournamentAccess;
+  use TournamentAccess;
 
     /**
      * Determine if the user is authorized to make this request.
@@ -19,24 +19,29 @@ class TournamentClubRequest extends FormRequest
     {
         $data = $this->all();
         $token = JWTAuth::getToken();
-        if (isset($data['tournament_id'])) {
-            if(!$token || (isset($this->headers->all()['ismobileuser'])) && $this->headers->all()['ismobileuser'] == true) {
-                
-                $currentLayout = config('config-variables.current_layout');
-                if($currentLayout == 'commercialisation'){
-                    $tournament_id = $data['tournament_id'];
-                    $checkForTournamentAccess = $this->checkForTournamentAccess($tournament_id);
-                    if(!$checkForTournamentAccess) {
-                        return false;
-                    } 
-                }
-                
-                $isTournamentAccessible = $this->checkForTournamentReadAccess($data['tournament_id']);
-                if(!$isTournamentAccessible) {
-                  return false;
-                }
-                return true;
-            }
+        if(isset($data['tournament_id'])) {
+          if(isset($this->headers->all()['ismobileuser'])) && $this->headers->all()['ismobileuser'] == true) {
+              if(!$token || (isset($this->headers->all()['ismobileuser'])) && $this->headers->all()['ismobileuser'] == true) {
+                  
+                  $currentLayout = config('config-variables.current_layout');
+                  if($currentLayout == 'commercialisation'){
+                      $tournament_id = $data['tournament_id'];
+
+                      $user = $this->getCurrentLoggedInUserDetail();
+                      $checkForTournamentAccess = $this->isTournamentAccessible($user, $tournament_id);
+                      \Log::info($checkForTournamentAccess);
+                      if(!$checkForTournamentAccess) {
+                          return false;
+                      } 
+                  }
+                  
+                  $isTournamentAccessible = $this->checkForTournamentReadAccess($data['tournament_id']);
+                  if(!$isTournamentAccessible) {
+                    return false;
+                  }
+                  return true;
+              }
+          }
         }
         return true;
     }

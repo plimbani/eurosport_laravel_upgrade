@@ -19,20 +19,24 @@ class GetDrawsRequest extends FormRequest
     public function authorize()
     {
         $token = JWTAuth::getToken();
-        if(!$token || (isset($this->headers->all()['ismobileuser'])) && $this->headers->all()['ismobileuser'] == true) {            
-            $tournament_id = $this->all()['tournamentId'];
-            
-            $currentLayout = config('config-variables.current_layout');
-            if($currentLayout == 'commercialisation'){
-                $checkForTournamentAccess = $this->checkForTournamentAccess($tournament_id);
-                if(!$checkForTournamentAccess) {
+
+        if(isset($this->headers->all()['ismobileuser'])) && $this->headers->all()['ismobileuser'] == true) {
+            if(!$token || (isset($this->headers->all()['ismobileuser'])) && $this->headers->all()['ismobileuser'] == true) {           
+             
+                $currentLayout = config('config-variables.current_layout');
+                if($currentLayout == 'commercialisation'){
+                    $tournament_id = $this->all()['tournamentId'];
+                    $user = $this->getCurrentLoggedInUserDetail();
+                    $checkForTournamentAccess = $this->isTournamentAccessible($user, $tournament_id);
+                    if(!$checkForTournamentAccess) {
+                        return false;
+                    } 
+                }   
+                $tournament = Tournament::where('id',$tournament_id)->first();
+                $isTournamentPublished = $this->isTournamentPublished($tournament);
+                if(!$isTournamentPublished) {
                     return false;
-                } 
-            }   
-            $tournament = Tournament::where('id',$tournament_id)->first();
-            $isTournamentPublished = $this->isTournamentPublished($tournament);
-            if(!$isTournamentPublished) {
-                return false;
+                }
             }
         }
         return true;
