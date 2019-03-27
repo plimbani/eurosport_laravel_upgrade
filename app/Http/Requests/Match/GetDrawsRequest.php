@@ -20,7 +20,7 @@ class GetDrawsRequest extends FormRequest
     {
         $token = JWTAuth::getToken();
 
-        if(isset($this->headers->all()['ismobileuser'])) && $this->headers->all()['ismobileuser'] == true) {
+        if(isset($this->headers->all()['ismobileuser']) && $this->headers->all()['ismobileuser'] == true) {
             if(!$token || (isset($this->headers->all()['ismobileuser'])) && $this->headers->all()['ismobileuser'] == true) {           
              
                 $currentLayout = config('config-variables.current_layout');

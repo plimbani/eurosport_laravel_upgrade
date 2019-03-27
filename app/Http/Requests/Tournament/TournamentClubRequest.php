@@ -20,7 +20,7 @@ class TournamentClubRequest extends FormRequest
         $data = $this->all();
         $token = JWTAuth::getToken();
         if(isset($data['tournament_id'])) {
-          if(isset($this->headers->all()['ismobileuser'])) && $this->headers->all()['ismobileuser'] == true) {
+          if(isset($this->headers->all()['ismobileuser']) && $this->headers->all()['ismobileuser'] == true) {
               if(!$token || (isset($this->headers->all()['ismobileuser'])) && $this->headers->all()['ismobileuser'] == true) {
                   
                   $currentLayout = config('config-variables.current_layout');
