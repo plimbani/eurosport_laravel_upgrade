@@ -699,21 +699,22 @@ class TemplateRepository
     {
         $teamGroupTypeMatchNumber = explode(".", $teamGroupType['match_number']);
         $groupName = str_replace("-", "_", end($teamGroupTypeMatchNumber));
-        $teamPlaceholderIndex = $divisionRoundGroupPosition[3] + 1;
+        $teamPlaceholderIndex = intval($divisionRoundGroupPosition[3]) + 1;
 
-        if($isSamePositionType === true) {
-            $teamInBetween = 'CAT.PM' .($divisionRoundGroupPosition[1] + 1). '.G' . $teamPlaceholderIndex. ($positionType == 'winner' ? 'WR' : 'LR');    
-        }
-        if($isSamePositionType === false) {
-            $teamInBetween = 'CAT.PM' .($divisionRoundGroupPosition[1] + 1). '.G' . $teamPlaceholderIndex. ($positionType == 'winner' ? 'WR' : 'LR');    
-        }
-        
+        $teamInBetween = $this->getTeamInBetween($divisionRoundGroupPosition, $teamPlaceholderIndex, $positionType, $groupName);    
         $teamMatchNumber = $groupName . ($positionType == 'winner' ? '_WR' : '_LR');
-        $teamMatchNumber = $groupName . ($positionType == 'winner' ? '_WR' : '_LR');
-        $displayTeamPlaceholderName = ($divisionRoundGroupPosition[1] + 1) . '.' . $teamPlaceholderIndex;
+        $teamDisplayMatchNumber =  $this->getTeamDisplayMatchNumber($teamType, $isSamePositionType, $positionType);
+        $teamDisplayPlaceholderName = ($divisionRoundGroupPosition[1] + 1) . '.' . $teamPlaceholderIndex;
+
+        return [
+            'teamInBetween' => $teamInBetween,
+            'teamMatchNumber' => $teamMatchNumber,
+            'teamDisplayMatchNumber' => $teamDisplayMatchNumber,
+            'teamDisplayPlaceholderName' => $teamDisplayPlaceholderName
+        ];
     }
 
-    public function getDisplayMatchNumber($teamType, $isSamePositionType, $positionType)
+    public function getTeamDisplayMatchNumber($teamType, $isSamePositionType, $positionType)
     {
         $displayMatchNumber = '';
         if($teamType === 'home' && (($isSamePositionType === true) || ($isSamePositionType === false && $positionType === 'placed'))) {
@@ -728,6 +729,19 @@ class TemplateRepository
         if($teamType === 'away' && $isSamePositionType === false && ($positionType === 'winner' || $positionType === 'loser')) {
             $displayMatchNumber = ($positionType == 'winner' ? 'wrs.' : 'lrs.') . '.(@AWAY)';
         }
+
+        return $displayMatchNumber;
+    }
+
+    public function getTeamInBetween($divisionRoundGroupPosition, $teamPlaceholderIndex, $positionType, $groupName)
+    {
+        if($positionType === 'winner' || $positionType === 'loser') {
+            $teamInBetween = 'CAT.PM' .($divisionRoundGroupPosition[1] + 1). '.G' . $teamPlaceholderIndex. ($positionType == 'winner' ? 'WR' : 'LR');    
+        }
+        if($positionType === 'placed') {
+            $teamInBetween = $teamPlaceholderIndex . $groupName;    
+        }
+
         return $displayMatchNumber;
     }
 }
