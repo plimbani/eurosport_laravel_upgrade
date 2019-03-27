@@ -724,9 +724,6 @@ methods: {
       let currentNavigationData = {activeTab:'competition_format', currentPage: 'Competition Format'}
       this.$store.dispatch('setActiveTab', currentNavigationData)
       this.$router.push({name:'competition_format'})
-    },
-    backward() {
-    this.$router.push({name:'welcome'})
     }
 }
 

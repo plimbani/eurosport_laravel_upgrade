@@ -14,8 +14,8 @@
                                 <h2 class="font-weight-bold mb-0">{{tournamentData.name}}</h2>
                                 <h4 class="text-uppercase font-weight-bold mb-4">{{tournamentData.start_date}} - {{tournamentData.end_date}}</h4>
 
-                                <h6 v-if="contactData[0].first_name || contactData[0].telephone"  class="text-uppercase mb-0 font-weight-bold">Main Contact</h6>
-                                <p class="mb-4">{{contactData[0].first_name}} {{contactData[0].last_name}} <a :href="'tel:' + contactData[0].telephone">{{contactData[0].telephone}}</a></p>
+                                <h6 v-if="contactDetail.first_name || contactDetail.telephone"  class="text-uppercase mb-0 font-weight-bold">Main Contact</h6>
+                                <p class="mb-4">{{contactDetail.first_name}} {{contactDetail.last_name}} <a :href="'tel:' + contactDetail.telephone">{{contactDetail.telephone}}</a></p>
 
                                  <h6 v-if="tournamentSponsers.length > 0"  class="text-uppercase font-weight-bold">Sponsored by</h6>
 
@@ -65,22 +65,41 @@
                 tournamentSponsers:[],
                 code:"",
                 baseUrl:"",
+                googleAppStoreLink:"", 
+                contactDetail:{
+                    first_name:"",
+                    last_name:"",
+                    telephone:""
+                }
             }
         },
         components: {
             ScheduleAndResult,
         },
         beforeRouteEnter(to, from, next) { 
-              if(Object.keys(to.query).length !== 0) { //if the url has query (?query)
+            
+            if(Object.keys(to.query).length !== 0) { //if the url has query (?query)
                 next(vm => {    
                     setTimeout(function(){   
                         if(typeof to.query.code != "undefined"){
                             vm.code = to.query.code;
                             // console
                             vm.getTournamentDetail();
+                        }else{
+                            // console.log("herer");
+                            vm.$router.push({ path: 'enter-tournament'})
+                            
                         }
                     }, 100); 
                })
+            }else{
+                next(vm => {    
+                    setTimeout(function(){   
+                    // console.log("Testttttttt");
+                        vm.$router.push({ path: 'enter-tournament'})
+                    },200)
+               })
+                // this.$router.push({ path: 'EnterTournamentAccessCode'})
             }
             next()
         },
@@ -88,18 +107,24 @@
             getTournamentDetail(){
                // console.log("tournamentDetail::",this.code);
                  axios.get(Constant.apiBaseUrl+'tournament-by-code?tournament='+this.code, {}).then(response =>  {  
-                        if (response.data.success) {
+                        if (response.data.success && typeof response.data.data != "undefined" && typeof response.data.data.tournament_details != "undefined") {
                              this.tournamentData = response.data.data.tournament_details;
                              this.contactData = response.data.data.contact_details;
+                             if((this.contactData).length > 0){
+                                this.contactDetail.first_name = this.contactData[0].first_name;
+                                this.contactDetail.last_name = this.contactData[0].last_name;
+                                this.contactDetail.telephone = this.contactData[0].telephonee;
+                             }
                              this.tournamentSponsers = response.data.data.tournament_sponsor;
                              this.baseUrl = response.data.data.baseUrl;
+                             this.googleAppStoreLink = response.data.data.googleAppStoreLink;
                              // console.log("this.contactData::",this.contactData)
                              // console.log("this.tournamentSponsers:;:",this.tournamentSponsers);
                          }else{ 
                             this.tournamentData = {};
                             this.contactData= [];
                             this.tournamentSponsers= [];
-                            toastr['error'](response.data.message, 'Error');
+                            toastr['error']("Tournament detail not found.", 'Error');
                          }
                  }).catch(error => {
                     this.tournamentData = {};
@@ -127,7 +152,7 @@
 
                 if (!navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/)) {
                     this.$router.push({ path: 'tournament-detail', query: { code: this.code }})
-                    window.location.href = 'https://play.google.com/store/apps/details?id=com.aecor.eurosports.easymatchmanager';  
+                    window.location.href = this.googleAppStoreLink;  
                 }
             }
         }

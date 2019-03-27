@@ -2,6 +2,7 @@
 
 namespace Laraspace\Http\Requests\Team;
 
+use JWTAuth;
 use Laraspace\Traits\TournamentAccess;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -17,12 +18,25 @@ class TeamsListRequest extends FormRequest
     public function authorize()
     {
         $data = $this->all();
+        $token = JWTAuth::getToken();
         if (isset($data['tournament_id'])) {
-            $isTournamentAccessible = $this->checkForTournamentReadAccess($data['tournament_id']);
-            if(!$isTournamentAccessible) {
-              return false;
+            if(!$token || (isset($this->headers->all()['ismobileuser'])) && $this->headers->all()['ismobileuser'] == true) {
+                $tournament_id = $data['tournament_id'];
+
+                $currentLayout = config('config-variables.current_layout');
+                if($currentLayout == 'commercialisation'){
+                    $checkForTournamentAccess = $this->checkForTournamentAccess($tournament_id);
+                    if(!$checkForTournamentAccess) {
+                        return false;
+                    } 
+                }    
+
+                $isTournamentAccessible = $this->checkForTournamentReadAccess($data['tournament_id']);
+                if(!$isTournamentAccessible) {
+                  return false;
+                }
+                return true;
             }
-            return true;
         }
         return true;
     }

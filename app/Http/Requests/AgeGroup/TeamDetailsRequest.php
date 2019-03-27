@@ -24,6 +24,15 @@ class TeamDetailsRequest extends FormRequest
             $ageCategoryId = $this->all()['ageCategoryId'];
             $ageCategory = TournamentCompetationTemplates::findOrFail($ageCategoryId);
             $tournament_id = $ageCategory->tournament_id;
+
+            $currentLayout = config('config-variables.current_layout');
+            if($currentLayout == 'commercialisation'){
+                $checkForTournamentAccess = $this->checkForTournamentAccess($tournament_id);
+                if(!$checkForTournamentAccess) {
+                    return false;
+                } 
+            }    
+
             $tournament = Tournament::where('id',$tournament_id)->first();
             $isTournamentPublished = $this->isTournamentPublished($tournament);
             if(!$isTournamentPublished) {
