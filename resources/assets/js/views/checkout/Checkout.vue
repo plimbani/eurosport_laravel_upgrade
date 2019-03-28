@@ -99,13 +99,12 @@
     import Auth from '../../services/auth'
             import Ls from '../../services/ls';
     import Constant from '../../services/constant';
-    import vueSlider from 'vue-slider-component';
-    import Datepicker from 'vuejs-datepicker';
+    import vueSlider from 'vue-slider-component';    
     
     export default {
         components: {
             vueSlider,
-            Datepicker
+            
         },
         data() {
             return {

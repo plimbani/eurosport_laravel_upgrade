@@ -145,13 +145,11 @@
     import Ls from '../../services/ls';
     import Constant from '../../services/constant';
     import vueSlider from 'vue-slider-component';
-    import Datepicker from 'vuejs-datepicker';
    
    
     export default {
         components: {
-            vueSlider,
-            Datepicker 
+            vueSlider 
         },
         data() {
             return {
