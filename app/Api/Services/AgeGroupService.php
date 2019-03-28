@@ -542,56 +542,20 @@ class AgeGroupService implements AgeGroupContract
       $finalArray['total_matches'] = $totalMatchesCount;
       $finalArray['avg_game_team'] = $averageMatches;
 
-      print_r(json_encode($finalArray));exit;
-
       return json_encode($finalArray);
     }
 
     public function setTemplateMatchesForKnockout($totalTeams, $times, $currentGroup, $round="")
     {
-      $currentRound = $round + 1;
-      $matches = [];
       $fetchRoundMatches = $this->generateRoundFixturesBaseOnTeam($totalTeams);
-      for($i=0; $i<$times; $i++){
-        foreach ($fetchRoundMatches as $key => $week) {
-          foreach ($week as $wkey => $match) {
-            $weekNumber = $i*count($fetchRoundMatches) + $key;
-            list($home,$away) = explode('-',$match);
-
-            $matches[] = ['in-between' => $match,
-                            'match_number' => "CAT.RR$currentRound.".sprintf('%02d',$weekNumber).".$currentGroup$home-$currentGroup$away",
-                            'display_match_number' => "CAT.1.$weekNumber.@HOME-@AWAY",
-                            'display_home_team_placeholder_name' => "$currentGroup$home",
-                            'display_away_team_placeholder_name' => "$currentGroup$away"
-                          ];
-
-          }
-        }
-      }
+      $matches = $this->leagueKnockoutJsonMatches($fetchRoundMatches,$round,$currentGroup,$times);
       return $matches;
     }
 
     public function setTemplateMatchesForLeague($totalTeams, $times, $currentGroup, $currentRound)
     {
-      $currentRound = $currentRound + 1;
-      $matches = [];
       $fetchRoundMatches = $this->generateRoundFixturesBaseOnTeam($totalTeams);
-      for($i=0; $i<$times; $i++){
-        foreach ($fetchRoundMatches as $key => $week) {
-          foreach ($week as $wkey => $match) {
-            $weekNumber = $i*count($fetchRoundMatches) + $key;
-            list($home,$away) = explode('-',$match);
-
-            $matches[] = ['in-between' => $match,
-                            'match_number' => "CAT.RR$currentRound.".sprintf('%02d',$weekNumber).".$currentGroup$home-$currentGroup$away",
-                            'display_match_number' => "CAT.1.$weekNumber.@HOME-@AWAY",
-                            'display_home_team_placeholder_name' => "$currentGroup$home",
-                            'display_away_team_placeholder_name' => "$currentGroup$away"
-                          ];
-
-          }
-        }
-      }
+      $matches = $this->leagueKnockoutJsonMatches($fetchRoundMatches,$currentRound,$currentGroup,$times);
       return $matches;
     }    
 
@@ -831,5 +795,29 @@ class AgeGroupService implements AgeGroupContract
       }
 
       return $weekRoundMatches;
+    }
+
+    public function leagueKnockoutJsonMatches($fetchRoundMatches,$round,$currentGroup,$times)
+    {
+      $currentRound = $round + 1;
+      $matches = [];
+
+      for($i=0; $i<$times; $i++){
+        foreach ($fetchRoundMatches as $key => $week) {
+          foreach ($week as $wkey => $match) {
+            $weekNumber = $i*count($fetchRoundMatches) + $key;
+            list($home,$away) = explode('-',$match);
+
+            $matches[] = ['in-between' => $match,
+                            'match_number' => "CAT.RR$currentRound.".sprintf('%02d',$weekNumber).".$currentGroup$home-$currentGroup$away",
+                            'display_match_number' => "CAT.1.$weekNumber.@HOME-@AWAY",
+                            'display_home_team_placeholder_name' => "$currentGroup$home",
+                            'display_away_team_placeholder_name' => "$currentGroup$away"
+                          ];
+          }
+        }
+      }
+
+      return $matches;
     }
 }
