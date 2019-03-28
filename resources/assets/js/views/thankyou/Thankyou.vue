@@ -21,7 +21,7 @@
 </template>
 <script type="text/babel">
     import Auth from '../../services/auth'
-    // console.log("register  page");
+    
     export default {
         data() {
             return {
@@ -30,7 +30,7 @@
         },
         methods: {
             redirectToPage(e){
-               // console.log("redirectToPage");
+               
                this.$router.push({'name':'buylicense'}) 
             } 
         },

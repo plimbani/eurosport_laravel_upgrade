@@ -90,7 +90,7 @@
                                             100</p>
                                         </div>
                                     </div>
-                                    <!-- v-if="new_added_teams > 0" -->
+                                    
                                     <div class="row" v-if="newDaysAdded > 0">
                                         <div class="col-sm-6 col-md-7 col-lg-7">
                                             <p class="mb-0">Addition {{newDaysAdded}} days</p>
@@ -118,7 +118,7 @@
                                 </div>
                                 <div class="row justify-content-end">
                                     <div class="col-md-7 col-lg-7 col-xl-6">
-                                        <!-- newDaysAdded <= 0 && new_added_teams <= 0 -->
+                                        
                                         <button v-if ="!disabled && !id" class="btn btn-success btn-block"  v-on:click="buyALicence()">
                                             <span v-if ="!tournamentData.is_renew">Buy your license</span>
                                             <span v-if ="tournamentData.is_renew">Renew your licence</span> 
@@ -145,13 +145,11 @@
     import Ls from '../../services/ls';
     import Constant from '../../services/constant';
     import vueSlider from 'vue-slider-component';
-    import Datepicker from 'vuejs-datepicker';
-    // console.log("register  page");
-    // $string = 'AMOUNT=2000b709e0ae-ab5b-4a78-bfc7-0bd54612d622CURRENCY=EURb709e0ae-ab5b-4a78-bfc7-0bd54612d622ORDERID=ORD22b709e0ae-ab5b-4a78-bfc7-0bd54612d622PSPID=EasymatchmanagerQAb709e0ae-ab5b-4a78-bfc7-0bd54612d622';
+   
+   
     export default {
         components: {
-            vueSlider,
-            Datepicker 
+            vueSlider 
         },
         data() {
             return {
@@ -193,7 +191,7 @@
                         }
                         if(typeof to.query.id != "undefined"){
                             vm.id = to.query.id;
-                            // console
+                            
                             vm.getTournamentDetail();
                         }
                     }, 100); 
@@ -215,8 +213,7 @@
             buyALicence(e){ 
                 this.$validator.validateAll();
                 if (this.tournamentData.tournament_name) {
-                    // this.disabled = true;
-                    // console.log("vvv::",document.getElementById('tournament_start_date').value)
+                    
                     this.tournamentData.tournament_start_date = document.getElementById('tournament_start_date').value;
                     this.tournamentData.tournament_end_date = document.getElementById('tournament_end_date').value;
                     if(this.id){
@@ -240,7 +237,7 @@
                 this.tournamentData.tournament_end_date = document.getElementById('tournament_end_date').value;
                 let apiParams = {
                     tournament:this.tournamentData,
-                    // paymentResponse:this.paymentObj
+                    
                 } 
                 var url = "manage-tournament";
                 axios.post(Constant.apiBaseUrl+url, apiParams).then(response =>  {
@@ -252,14 +249,14 @@
              }).catch(error => {
                  console.log("error in updateALicence::",error);
              });
-                // console.log("updateALicence")
+                
             },
             customFormatter(date) {
               return moment(date).format('MM/DD/YYYY');
             }, 
 
             findDifferenceBetweenDates(){ 
-                // console.log("startDate::",startDate);
+                
                 let startDateFromId = document.getElementById('tournament_start_date').value;
                 let endDateFromId = document.getElementById('tournament_end_date').value;
 
@@ -282,31 +279,33 @@
             },
 
             getTournamentDetail(){ 
-                // this.disabled = true;
+                
                 axios.get(Constant.apiBaseUrl+'get-tournament?tournamentId='+this.id, {}).then(response =>  {  
                         if (response.data.success) {  
                             var start_date = new Date(moment(response.data.data.start_date, 'DD/MM/YYYY').format('MM/DD/YYYY'));
                             var end_date = new Date(moment(response.data.data.end_date, 'DD/MM/YYYY').format('MM/DD/YYYY')); 
-                            // console.log("response.data.data.end_date::",end_date.getTime())
+                            
                             let today = new Date();
                             if(today.getTime() > end_date.getTime()){
                                 this.id = "";
                                 this.tournamentData['is_renew'] = 1;
+                            }else{
+                                let startMonth = start_date.getMonth()+1;                         
+                                let endMonth = end_date.getMonth()+1;                         
+                                this.tournamentData['tournament_start_date'] = start_date.getDate()+'/'+startMonth + '/'+start_date.getFullYear();
+                                this.tournamentData['tournament_end_date'] = end_date.getDate()+'/'+endMonth + '/'+end_date.getFullYear(); 
+                                $('#tournament_start_date').datepicker('setDate', this.tournamentData['tournament_start_date'])
+                                 $('#tournament_end_date').datepicker('setDate', this.tournamentData['tournament_end_date'])  
                             }
-                            // console.log("response.data.data::",response.data.data)
+                            
                             this.tournamentData['id'] = this.id;
                             this.tournamentData['old_tournament_id'] = response.data.data.id;
                             this.tournamentData['tournament_name'] = response.data.data.name;
                             this.tournamentData['tournament_max_teams'] = response.data.data.maximum_teams;   
                             this.tournament_old_teams = response.data.data.maximum_teams;   
                             this.tournamentData['access_code'] = response.data.data.access_code;   
-                            let startMonth = start_date.getMonth()+1;                         
-                            let endMonth = end_date.getMonth()+1;                         
-                            this.tournamentData['tournament_start_date'] = start_date.getDate()+'/'+startMonth + '/'+start_date.getFullYear();
-                            this.tournamentData['tournament_end_date'] = end_date.getDate()+'/'+endMonth + '/'+end_date.getFullYear(); 
-                            $('#tournament_start_date').datepicker('setDate', this.tournamentData['tournament_start_date'])
-                             $('#tournament_end_date').datepicker('setDate', this.tournamentData['tournament_end_date'])  
-                             // console.log("this.tournamentData::",this.tournamentData);
+                           
+                
                          }else{ 
                             toastr['error'](response.data.message, 'Error');
                          }
@@ -316,12 +315,12 @@
             },
 
             changeCurrencyType(event){
-                // console.log(event.target.value);
+                
                 this.tournamentData.currency_type = event.target.value;
                 if((this.tournamentData.currency_type).toLowerCase() == "gbp"){
                     this.tournamentData.payment_currency = this.tournamentData.currency_type;
                     this.tournamentData.total_amount = (this.tournamentData.total_amount)*this.gpbConvertValue;
-                    // total_amount
+                    
                 }else{
                     this.tournamentData.total_amount = this.tournamentData.total_amount/this.gpbConvertValue;
                     this.tournamentData.payment_currency = "EUR";
@@ -332,7 +331,7 @@
                 axios.get(Constant.apiBaseUrl+'get-website-settings?type=currency').then(response =>  { 
                     if (response.data.success) { 
                         this.gpbConvertValue = response.data.data.gbp;
-                        // console.log("this.gpbConvertValue::",this.gpbConvertValue);
+                        
                      }else{ 
                         toastr['error'](response.data.message, 'Error');
                      }
@@ -354,7 +353,7 @@
                 autoclose: true,
                 minDate: 0,
                 onSelect: function( selectedDate ) {
-                    // console.log("startDate");
+                    
                     $( "#totournament_end_date" ).datepicker( "option", "minDate", selectedDate );
                 }
             });

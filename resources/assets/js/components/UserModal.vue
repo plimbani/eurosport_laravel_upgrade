@@ -79,7 +79,7 @@
                       </select>
                     </div>
                 </div>
-                <div v-if="!isCustomer" class="form-group row">
+                <div v-if="defaultAppTournament != 'commercialisation'" class="form-group row">
                     <label class="col-sm-5 form-control-label">{{$lang.user_management_default_app_tournament}}</label>
                     <div class="col-sm-6">
                       <select v-validate="'required'":class="{'is-danger': errors.has('tournament_id') }" class="form-control ls-select2" name="tournament_id" v-model="formValues.tournament_id">
@@ -198,7 +198,7 @@ import { ErrorBag } from 'vee-validate';
                 showOrganisation: false,
                 initialUserType: null,
                 roleOptions: ['Player', 'Coach/Manager/Trainer', 'Other'],
-              
+                defaultAppTournament: this.$store.state.Configuration.currentLayout,
                 errorMessages: {
                   en: {
                     custom: {

@@ -7,6 +7,7 @@
 |
 */
 Route::get('tournament/openApp', '\Laraspace\Http\Controllers\HomeController@openAppDeepLink');
+Route::get('apple-app-site-association', '\Laraspace\Http\Controllers\HomeController@iosjson');
 
 Route::group(['domain' => config('app.domain')], function() {
 	Route::get('tournament/report/reportExport','\Laraspace\Api\Controllers\TournamentController@generateReport');
@@ -18,8 +19,7 @@ Route::group(['domain' => config('app.domain')], function() {
 	Route::get('user/setpassword/{key}','\Laraspace\Api\Controllers\UserController@setPassword');
 
 	Route::get('pdf/footer', 'PDFController@getFooter')->name('pdf.footer');
-	// Route::get('register','\Laraspace\Api\Controllers\Commercialisation\RegisterController@index');
-//	Route::post('commercialisation/thankyou','\Laraspace\Api\Controllers\Commercialisation\RegisterController@register')->name("commerialisation.thankyou");
+	
 	Route::get('/{vue?}', function () {
 		return view('app');
 	})->where('vue', '[\/\w\.-]*')->name('home');

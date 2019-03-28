@@ -28,7 +28,7 @@
                                         <th>OrderId</th>
                                         <th>Transaction ID</th>
                                         <th>Teams</th>
-                                        <!-- <th>App</th> -->
+                                        
                                         <th>Duration</th>
                                         <th>Purchase Date</th>
                                         <th>Currency</th>
@@ -41,18 +41,12 @@
                                         <td>{{transction.order_id}}</td>
                                         <td>{{transction.transaction_id}}</td>
                                         <td>{{transction.team_size}}</td>
-                                        <!-- <td>TBA</td> -->
+                                        
                                         <td><span v-if='index >= 1'>+</span>{{transction.days}} day<span v-if='transction.days >= 1'>s</span></td>
                                         <td>{{transction.transaction_id}}</td>
                                         <td>{{transction.currency}}</td>
                                         <td>{{transction.amount}}</td>
-                                   <!--  <td>{{ transction.name }}</td>
-                                    <td>{{ transction.start_date }}</td>
-                                    <td>{{ transction.end_date }}</td>
-                                    <td>{{ transction.maximum_teams }}</td>
-                                    <td>TEA</td>
-                                    <td>{{ transction.created_at }}</td>
-                                    <td>Edit</td> -->
+                                   
                                     
                                   </tr>
                                   <tr><td colspan="8"></td></tr>
@@ -71,7 +65,7 @@
     </div>
 </template>
 <script type="text/babel">
-    // console.log("register  page");
+    
     import Constant from '../../services/constant'
     export default {
         data() {
@@ -86,7 +80,7 @@
                     vm.$router.push({name: 'users_list'});
                 }else{
                     if(typeof to.query.id != "undefined"){
-                        // console.log("in detailss",to.query.id);
+                        
                         vm.tournament_id = to.query.id; 
                         vm.getTournamentTransactions();
                     }else{  
@@ -101,10 +95,9 @@
                let params = {
                     tournament_id:this.tournament_id, // currently static
                 }
-                // console.log("params::",params)
+                
                 axios.post(Constant.apiBaseUrl+'customer-transactions',params).then(response =>  { 
-                    // this.disabled = false;
-                     // console.log("response: transactions:",response.data.data);
+                    
                      this.tournamentsTransactions = response.data.data;
                 }).catch(error => {
                     this.disabled = false;
@@ -113,7 +106,7 @@
             } 
         },
         beforeMount(){  
-            // this.getTournamentTransactions();
+            
         }
     }
 </script>

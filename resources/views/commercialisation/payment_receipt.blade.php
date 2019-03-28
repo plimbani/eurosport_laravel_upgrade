@@ -154,7 +154,7 @@
                                                                     <p>Hello There,</p>
                                                                     <p>Thank you for the purchase. Your order number is #<?php echo $data['orderNumber']; ?>.</p>
                                                                     <p>
-                                                                        <!--<a href="#" style="color: #2196F3; text-decoration: none;">Print receipt</a>-->
+                                                                        
                                                                     </p>
                                                                 </div>
                                                             </td>

@@ -56,7 +56,6 @@ class RegisterRepository
                 'is_verified' => 1,
             ];
 
-            //return (new UserRepository())->create($newUser);
             $user = User::create($newUser);
             
             //Find role and attach with user
