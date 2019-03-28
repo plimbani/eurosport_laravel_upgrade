@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import store from './store'
 import VueRouter from 'vue-router'
-import VModal from 'vue-js-modal'
 
 import AuthService from './services/auth'
 
@@ -111,8 +110,6 @@ import Test from './views/admin/eurosport/Test.vue';
 import Ls from './services/ls'
 
 Vue.use(VueRouter)
-// Vue.use(window["vue-js-modal"].default)
-Vue.use(VModal)
 
 const routes = [
 

@@ -117,7 +117,7 @@
                        <div class="col-md-8">
                             <div class="row align-items-center mb-4" v-for="(sponsor, index) in sponsorImage">
                                 <div class="col-md-4">
-                                    <transition-image v-if="sponsor.tournament_sponsor_logo != ''" 
+                                    <transition-image v-if="sponsor.tournament_sponsor_logo != ''"
                                       :image_url="sponsor.tournament_sponsor_logo" :image_class="'img-fluid'">
                                     </transition-image>
                                     <img v-if="sponsor.tournament_sponsor_logo == ''" src="/assets/img/noimage.png" class="img-fluid thumb-size" />
@@ -322,10 +322,10 @@
 </div>
   <div class="row">
     <div class="col-md-12">
-      <div class="pull-left">
+      <div class="float-left">
           <button class="btn btn-primary" @click="backward()"><i class="fas fa-angle-double-left" aria-hidden="true"></i>{{$lang.tournament_button_home}}</button>
       </div>
-      <div class="pull-right">
+      <div class="float-right">
           <button class="btn btn-primary" :disabled="is_sponsor_logo_uploading" @click="next()">{{$lang.tournament_button_next}}&nbsp;&nbsp;&nbsp;<i class="fas fa-angle-double-right" aria-hidden="true"></i></button>
       </div>
     </div>
@@ -478,7 +478,7 @@ data() {
     let currentNavigationData = {activeTab:'tournament_add', currentPage:'Edit Tournament'}
 
       this.$store.dispatch('setActiveTab', currentNavigationData)
-    
+
     } else {
       let tournamentAdd  = {name:'Your Tournament',
       currentPage:'TournamentAdd'}
@@ -488,11 +488,11 @@ data() {
     // Plugin.setCurrentDate()
     }
     // $('#tournament_start_date').val()
-    
+
     if(start_date != ''){
       $('#tournament_start_date').datepicker('setDate', start_date)
     }
-    
+
 
     let tEndDate = ''
     if(this.$store.state.Tournament.tournamentEndDate!= undefined){
@@ -501,7 +501,7 @@ data() {
     } else {
       $('#tournament_end_date').datepicker('setDate', moment().format('DD/MM/YYYY'))
     }
-  
+
 
     let vm = this;
     let startDate = moment($('#tournament_start_date').val(), 'DD/MM/YYYY')
@@ -529,7 +529,7 @@ data() {
         $('#opt_icon').removeClass('fa-minus')
       }
     });
-    
+
     if ($(document).height() > $(window).height()) {
             $('.site-footer').removeClass('sticky');
         } else {
@@ -592,7 +592,7 @@ methods: {
     this.tournament.del_location = this.locations[index].tournament_location_id
     this.locations.splice(index,1)
   },
-  
+
 
   next() {
           let vm = this;
@@ -616,7 +616,7 @@ methods: {
           this.tournament.locationCount = this.customCount;
           //this.tournament.user_id = JSON.parse(Ls.get('userData')).id;
           let msg=''
-          
+
           if(this.tournament.tournamentId == 0){
             msg = 'Tournament details added successfully.'
           } else {
@@ -658,7 +658,7 @@ methods: {
         reader.onload = (r) => {
         var image = new Image();
         image.src = r.target.result;
-        
+
         image.onload = function () {
             // if(Plugin.ValidateImageDimension(this, 250, 250) == false) {
             //     toastr['error']('Sponsor image size should be 250x250', 'Error');
@@ -666,13 +666,12 @@ methods: {
                 // vm.sponsorImage = r.target.result;
               vm.is_sponsor_logo_uploading = true;
               vm.is_sponsor_logo_uploading_index = i;
-           
+
               var formData = new FormData();
               formData.append('image', files[0]);
 
               axios.post('/api/tournament/uploadSponsorLogo', formData).then(
                   (response)=> {
-
                       if ( vm.sponsorImage.length > i)
                       {
                         //let tournamentSponsorImage = response.data;
@@ -688,17 +687,16 @@ methods: {
                         vm.is_sponsor_logo_uploading = false;
                         vm.is_sponsor_logo_uploading_index = 0;
                       }
-
                   },
                   (error)=>{
                   }
                 );
-            // }  
+            // }
         };
       };
       reader.readAsDataURL(files[0]);
     },
-  
+
     removeTournamentSponserImage: function (e,i) {
       this.sponsorImage.splice(i, 1);
       let vm = this;
@@ -709,7 +707,7 @@ methods: {
           vm.addTournamentSponsorImage();
         },200);
       }
-     
+
     },
 
     redirectCompetation() {
@@ -725,7 +723,6 @@ methods: {
       this.$store.dispatch('setActiveTab', currentNavigationData)
       this.$router.push({name:'competition_format'})
     }
-}
-
+  }
 }
 </script>

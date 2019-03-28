@@ -1,7 +1,7 @@
 <template>
 <div class="row">
   <div class="col-md-12">
-  <button type="button" name="save" class="btn btn-primary pull-right mb-3" @click="saveMatchScore()" v-if="getCurrentScheduleView == 'matchList' && isUserDataExist && matchData.length > 0">Save</button>  
+  <button type="button" name="save" class="btn btn-primary float-right mb-3" @click="saveMatchScore()" v-if="getCurrentScheduleView == 'matchList' && isUserDataExist && matchData.length > 0">Save</button>  
   <table id="matchSchedule" class="table table-hover table-bordered table-sm" v-if="matchData.length > 0">
     <thead>
       <th class="text-center">{{$lang.summary_schedule_date_time}}</th>
@@ -110,7 +110,7 @@
     </div>
     <div class="row d-flex align-items-center" v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails' && matchData.length > 0">
       <div class="col-12">
-        <button type="button" name="save" class="btn btn-primary pull-right" @click="saveMatchScore()">Save</button>  
+        <button type="button" name="save" class="btn btn-primary float-right" @click="saveMatchScore()">Save</button>  
       </div>
     </div>
   <!--<span v-else>No information available</span>-->

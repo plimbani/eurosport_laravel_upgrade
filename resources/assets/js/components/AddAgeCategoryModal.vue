@@ -169,7 +169,7 @@
                                 </div>
                               </span>
                             </div>
-                            <div class="col-sm-8 align-self-center">
+                            <div class="col-sm-7 align-self-center">
                               <span for="one"
                               v-if="checkTemplate(option)"  :style="'color:'+option.template_font_color">
                               {{option.name}}<br>{{option.disp_format}}<br>{{option.total_match}} matches<br>{{option.total_time | formatTime}}
@@ -181,7 +181,7 @@
                               <span v-else>Avg games per team: Not applicable </span>
                               </span>
                             </div>
-                            <div class="col-sm-3 align-self-center text-center">
+                            <div class="col-sm-4 align-self-center text-center">
                               <a href="#" @click="viewGraphicalPreview(option.name, option.graphic_image)" class="btn btn-outline-primary btn-sm" v-if="option.graphic_image">View schedule</a>
                             </div>
                           </div>

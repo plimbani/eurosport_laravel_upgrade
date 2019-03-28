@@ -44,6 +44,7 @@ return [
         "#FFFFFF" => "White",
         "#FBE122" => "Yellow",
     ],
+
     "current_layout" => env('CURRENT_LAYOUT'),
     "google_app_store_link" => env('GOOGLE_APP_STORE_LINK'),
     "google_store_open_deep_link" =>env('GOOGLE_STORE_OPEN_DEEP_LINK'),

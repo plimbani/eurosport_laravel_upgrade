@@ -7,7 +7,7 @@
                         <div class="row">
                             <div class="col-sm-4 col-md-3">
                                 <img v-if="tournamentData.logo" :src='tournamentData.logo' class="img-fluid tournament-image">
-                                <!-- <img v-if="!tournamentData.logo" src='/images/dummy.png' class="img-fluid tournament-image"> -->
+                                
                             </div>
                             <div class="col-sm-8 col-md-9">
                                 <h6 class="text-uppercase mb-0 mt-4 mt-sm-0">License: #{{tournamentData.access_code}}</h6>
@@ -21,7 +21,7 @@
 
                                 <ul class="list-unstyled sponsored-list mb-0">
                                     <li class="d-inline" v-for="sponser in tournamentSponsers">
-                                        <!-- <img src="/images/macd-logo.png" alt="sponsored"> -->
+                                        
                                         <img :src="sponser.logo" alt="sponsored">
                                     </li>
                                 </ul>
@@ -83,10 +83,10 @@
                     setTimeout(function(){   
                         if(typeof to.query.code != "undefined"){
                             vm.code = to.query.code;
-                            // console
+                           
                             vm.getTournamentDetail();
                         }else{
-                            // console.log("herer");
+                           
                             vm.$router.push({ path: 'enter-tournament'})
                             
                         }
@@ -95,17 +95,17 @@
             }else{
                 next(vm => {    
                     setTimeout(function(){   
-                    // console.log("Testttttttt");
+                    
                         vm.$router.push({ path: 'enter-tournament'})
                     },200)
                })
-                // this.$router.push({ path: 'EnterTournamentAccessCode'})
+
             }
             next()
         },
         methods: {
             getTournamentDetail(){
-               // console.log("tournamentDetail::",this.code);
+               
                  axios.get(Constant.apiBaseUrl+'tournament-by-code?tournament='+this.code, {}).then(response =>  {  
                         if (response.data.success && typeof response.data.data != "undefined" && typeof response.data.data.tournament_details != "undefined") {
                              this.tournamentData = response.data.data.tournament_details;
@@ -118,8 +118,7 @@
                              this.tournamentSponsers = response.data.data.tournament_sponsor;
                              this.baseUrl = response.data.data.baseUrl;
                              this.googleAppStoreLink = response.data.data.googleAppStoreLink;
-                             // console.log("this.contactData::",this.contactData)
-                             // console.log("this.tournamentSponsers:;:",this.tournamentSponsers);
+                             
                          }else{ 
                             this.tournamentData = {};
                             this.contactData= [];
@@ -131,7 +130,7 @@
                     this.contactData= [];
                     this.tournamentSponsers= [];
                  }); 
-               // this.$router.push({'name':'buylicense'}) 
+               
             },
             tournamentDetailAppStoreLink(){
                 if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {

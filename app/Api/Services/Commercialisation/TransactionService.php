@@ -36,9 +36,6 @@ class TransactionService implements TransactionContract {
      */
     public function generatePaymentReceipt($data)
     {
-//        $transaction = Transaction::where('tournament_id', '=', $data['tournament_id'])->first();
-//        $transaction = Transaction::with('transactionHistories')
-//                        ->where('tournament_id', $data['tournament_id'])->first();
         $transaction = \DB::table('transaction_histories')
                 ->select('transaction_histories.id', 'transaction_histories.amount', 'transaction_histories.order_id', 'transaction_histories.team_size', 'tournaments.start_date', 'tournaments.end_date')
                 ->join('transactions', 'transaction_histories.transaction_id', '=', 'transactions.id')
