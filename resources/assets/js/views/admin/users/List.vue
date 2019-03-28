@@ -406,8 +406,8 @@
             showChangePrivilegeModal() {
               $('#confirm_privilege_modal').modal('show');
             },
-            redirectToTournamentList(user){ 
-                this.$router.push({name: 'userstourmanent', query: {id:user.id}});    
+            redirectToTournamentList(user){
+                this.$router.push({name: 'userstourmanent', query: {id:user.id}});
             },
             getLanguageData() {
               User.getAllLanguages().then(

@@ -13,18 +13,27 @@ trait TournamentAccess
 	 * Check for tournament access to user
 	 *
 	 * @return response
-	 */
+	*/
 	protected function checkForTournamentAccess($id)
 	{
 		$user = $this->getCurrentLoggedInUserDetail();		
 		if($user->hasRole('tournament.administrator')) {
-			$tournamentsIds = $user->tournaments()->pluck('id')->toArray();
-			if (in_array($id, $tournamentsIds)) {
-				return true;
-			}
-			return false;
+			$this->isTournamentAccessible($user, $id);
 		}
 		return true;
+	}
+
+	/*
+	 * Check for tournament access
+	 *
+	 * @return response
+	*/
+	public function isTournamentAccessible($user, $id){
+		$tournamentsIds = $user->tournaments()->pluck('id')->toArray();
+		if (in_array($id, $tournamentsIds)) {
+			return true;
+		}
+		return false;
 	}
 
 	/*
