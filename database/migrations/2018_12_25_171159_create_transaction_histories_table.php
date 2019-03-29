@@ -21,7 +21,7 @@ class CreateTransactionHistoriesTable extends Migration
             $table->string('transaction_key')->comment = "Transaction id from payment response";
             $table->integer('team_size');
             $table->double('amount', 15, 2);
-            $table->tinyInteger('status');
+            $table->enum('status', ['invalid','cancelled','authorisation_refused','order_stored','authorised','payment_deleted','refund','payment_requested']);
             $table->string('card_type')->nullable()->default(NULL);
             $table->string('card_holder_name')->nullable()->default(NULL);
             $table->string('card_number')->nullable()->default(NULL);
