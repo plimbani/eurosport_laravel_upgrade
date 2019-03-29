@@ -38,13 +38,19 @@
         mounted() {
             this.manageDataOnRouteChangeAndOnLoad();
         },
+        watch: {
+            '$route': {
+                deep: true,
+                handler: function (refreshPage) {
+                    this.manageDataOnRouteChangeAndOnLoad();
+                }
+            }
+        },
         methods : {
             redirectToDashboardPage(){
-                // this.isDashboarPage = true;
                 this.$router.push({'name':'dashboard'})
             },
             redirectToProfilePage(){
-                // this.isProfilePage = true;
                 this.$router.push({name: 'profile'});
             },
             logout(){
@@ -59,12 +65,14 @@
                 if(token){
                     this.isUserLoggedIn = true;
                 }
-                // if(this.$router.currentRoute.path == "/profile"){
-                //     this.isProfilePage = true;
-                // }
-                // if(this.$router.currentRoute.path == "/dashboard"){
-                //     this.isDashboarPage = true;
-                // }    
+                this.isDashboarPage = false;
+                this.isProfilePage = false;
+                if((this.$router.currentRoute.path).indexOf("/profile") > -1){
+                    this.isProfilePage = true;
+                }
+                if((this.$router.currentRoute.path).indexOf("/dashboard") > -1){
+                    this.isDashboarPage = true;
+                }    
             }
             
         },
