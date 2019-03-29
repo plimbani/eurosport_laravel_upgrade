@@ -8,7 +8,7 @@
                             <div class="row">
                                 <div class="col-md-9 col-lg-6">
                                     <h1 class="font-weight-bold">Register</h1>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris posuere vel mi ac sagittis. Quisque vel nulla at nibh finibus sodales. Nam efficitur sem a mi rhoncus. If you already have an account you can  <a href="#" @click="redirectToLoginPage()">login here</a>.</p>
+                                    <p>If you already have an account you can  <a href="#" @click="redirectToLoginPage()">login here</a>.</p>
 
                                     <h3 class="text-uppercase font-weight-bold mt-5">Your details</h3>
                                 </div>

@@ -101,23 +101,11 @@
                         </select> 
                      </div>
                 </div>
-                <div v-if="isCustomer" class="form-group row">
-                    <label class="col-sm-5 form-control-label">Password</label>
-                    <div class="col-sm-6">
-                        <input id="pwd" type="password" class="form-control" placeholder="Enter Password" name="password" v-model="formValues.password" ref="password">
-                    </div> 
-                </div>
-                <div v-if="isCustomer" class="form-group row">
-                    <label class="col-sm-5 form-control-label">{{$lang.user_management_confirm_password}}</label>
-                    <div class="col-sm-6">
-                        <input id="cpwd" type="password" class="form-control" placeholder="Confirm Password"  :class="{'is-danger': errors.has('password_confirmation') }" name="password_confirmation" v-model="formValues.password_confirmation" v-validate="'confirmed:password'">
-                        <span class="help is-danger" v-show="errors.has('password_confirmation')">Password and confirm password must be same.</span>
-                    </div> 
-                </div>
+                
                 <div v-if="isCustomer" class="form-group row">
                     <label class="col-sm-5 form-control-label">
                       {{$lang.user_management_job_title}}
-                      <!-- {{$lang.user_management_add_surname}} -->
+                      
                     </label>
                     <div class="col-sm-6">
                         <input v-model="formValues.job_title" v-validate="'required|alpha_spaces'" :class="{'is-danger': errors.has('job_title') }" name="job_title" type="text" class="form-control" placeholder="Enter Job Title">
@@ -416,7 +404,7 @@ import { ErrorBag } from 'vee-validate';
             },
             updateUser() {
               let that = this;
-              setTimeout(function(){
+			  setTimeout(function(){
                 User.updateUser(that.formValues.id,that.formValues).then(
                     (response)=> {
                     toastr.success('User has been updated successfully.', 'Update User', {timeOut: 5000});
