@@ -42,7 +42,7 @@
                                         <td>{{transction.transaction_id}}</td>
                                         <td>{{transction.team_size}}</td>
                                         
-                                        <td><span v-if='index >= 1'>+</span>{{transction.days}} day<span v-if='transction.days >= 1'>s</span></td>
+                                        <td><span v-if='index >= 1'>+</span>{{getDayDifferences(transction.start_date,transction.end_date)}} day<span v-if='getDayDifferences(transction.start_date,transction.end_date) >= 1'>s</span></td>
                                         <td>{{transction.transaction_id}}</td>
                                         <td>{{transction.currency}}</td>
                                         <td>{{transction.amount}}</td>
@@ -103,10 +103,26 @@
                     this.disabled = false;
                      console.log("error in getTournamentListOfUser::",error);
                 });  
+            },
+
+            getDayDifferences(start,end){
+                // "04/04/2019" and "20/03/2019"
+                // start = "20/03/2019";
+                // end = "04/04/2019";
+                let startDateArr = start.split("/");
+                let endDateArr = end.split("/"); 
+                let startDateFormat = startDateArr[2]+"/"+startDateArr[1]+"/"+startDateArr[0];
+                let endDateFormat = endDateArr[2]+"/"+endDateArr[1]+"/"+endDateArr[0]; 
+                let startDate = moment(startDateFormat);
+                let endDate = moment(endDateFormat);
+                
+                let dayDiff = endDate.diff(startDate, 'days');
+                console.log("dayDiff::",dayDiff); 
+                return dayDiff;
             } 
         },
         beforeMount(){  
-            
+            this.getDayDifferences(1,2);
         }
     }
 </script>
