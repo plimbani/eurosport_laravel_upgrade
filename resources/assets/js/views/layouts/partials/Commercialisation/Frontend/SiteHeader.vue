@@ -64,6 +64,8 @@
                 let token = Ls.get('auth.token');
                 if(token){
                     this.isUserLoggedIn = true;
+                }else{
+                    this.isUserLoggedIn = false;
                 }
                 this.isDashboarPage = false;
                 this.isProfilePage = false;
