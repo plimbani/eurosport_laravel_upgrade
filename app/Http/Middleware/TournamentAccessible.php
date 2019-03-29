@@ -31,7 +31,7 @@ class TournamentAccessible
                     $user = $this->getCurrentLoggedInUserDetail();
                     $checkForTournamentAccess = $this->isTournamentAccessible($user, $tournament_id);
                     if(!$checkForTournamentAccess) {
-                        return ['status_code' => 200, 'tournament_expired' => 'Selected tournament has expired'];
+                        return ['status_code' => 500, 'tournament_expired' => 'Selected tournament has expired'];
                     } 
                 }  
             } 
