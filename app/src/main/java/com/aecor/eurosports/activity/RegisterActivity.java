@@ -165,6 +165,8 @@ public class RegisterActivity extends BaseAppCompactActivity {
     public void register() {
         if (!confirm_password.getText().toString().equals(register_password.getText().toString().trim())) {
             Utility.showToast(mContext, getString(R.string.password_do_not_match));
+        } else if (confirm_password.length() <= 4 && register_password.length() <= 4) {
+            Utility.showToast(mContext, getString(R.string.password_must_be_at_least_5_char_long));
         } else {
             register_user();
         }
@@ -320,6 +322,7 @@ public class RegisterActivity extends BaseAppCompactActivity {
         if (!BuildConfig.isEasyMatchManager && !validate_spinner()) {
             return false;
         }
+
         return true;
 
     }
