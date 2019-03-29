@@ -36,7 +36,8 @@
                                     <div class="form-group">
                                         <input type="email" id="email-id" class="form-control " placeholder="e.g name@domain.com" name="email"
                                            v-model="registerData.email" v-validate="{ rules: { required: true, email: true } }">
-                                        <span class="help is-danger" v-show="errors.has('email')">{{$lang.login_email_validation_message}}</span>
+					<span class="help is-danger" v-show="errors.has('email') && errors.first('email') == 'The email field must be a valid email.'">{{$lang.login_email_invalid_validation_message}}</span>
+                                        <span class="help is-danger" v-show="errors.has('email') && errors.first('email') == 'The email field is required.'">{{$lang.login_email_validation_message}}</span>
                                     </div>
 
                                     <label>Password</label>
