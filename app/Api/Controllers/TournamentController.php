@@ -263,4 +263,8 @@ class TournamentController extends BaseController
         return $this->tournamentObj->duplicateTournamentList($request->all());
     }
 
+    public function duplicateExistingTournament(Request $request)
+    {
+        
+    }
 }
