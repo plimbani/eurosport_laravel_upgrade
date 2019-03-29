@@ -18,7 +18,11 @@ trait TournamentAccess
 	{
 		$user = $this->getCurrentLoggedInUserDetail();		
 		if($user->hasRole('tournament.administrator')) {
-			$this->isTournamentAccessible($user, $id);
+			$tournamentsIds = $user->tournaments()->pluck('id')->toArray();
+			if (in_array($id, $tournamentsIds)) {
+				return true;
+			}
+			return false;
 		}
 		return true;
 	}
@@ -28,8 +32,8 @@ trait TournamentAccess
 	 *
 	 * @return response
 	*/
-	public function isTournamentAccessible($user, $id){
-		$tournamentsIds = $user->tournaments()->pluck('id')->toArray();
+	public function isTournamentFavourite($user, $id){
+		$tournamentsIds = $user->favouriteTournaments()->pluck('tournament_id')->toArray();
 		if (in_array($id, $tournamentsIds)) {
 			return true;
 		}
