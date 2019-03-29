@@ -2,146 +2,189 @@
   <div class="tab-content">
   	<div class="card">
   		<div class="card-block">
-  			<h6><strong>{{$lang.teams_terms_groups}}</strong></h6>
-  			<form>
-        <div class="form-group row">
-          <label class="col-sm-2 form-control-label">Import teams</label>
-         <div class="col-sm-10">
-            <form method="post" name="frmCsvImport" id="frmCsvImport" enctype="multipart/form-data">
+      		<h6><strong>{{$lang.teams_terms_groups}}</strong></h6>
             <div class="row">
-              <div class="col align-self-center">
+              <div class="col-sm-12 mb-2">
+                Team list spreadsheet <a href="javascript:void(0)" @click="downloadTeamsSpreadsheetSample()" class="text-primary"><u>click here</u>.</a>  View
+                <a href="javascript:void(0)" @click="previewSpredsheetSample()" class="text-primary"><u> example</u>.</a>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-2 form-control-label">Import file</label>
+              <div class="col-sm-10">
+                <form method="post" name="frmCsvImport" id="frmCsvImport" enctype="multipart/form-data">
+                  <div class="row">
+                    <div class="col align-self-center">
+                      <div class="row align-items-center">
+                        <div class="col-sm-4">
+                          <button type="button" class="btn btn-default w-100 btn-color-black--light" id="profile_image_file">Select file (excel files only)</button>
+                        </div>
+                        <div class="col-sm-3">
+                          <button type="button" @click="csvImport()"  class="btn btn-primary w-100">Upload teams
+                          </button>
+                        </div>
+                        <div class="col"><span id="filename"></span></div>
+                      </div>
+                      <input type="file" name="fileUpload" @change="setFileName(this,$event)"  id="fileUpload" style="display:none;" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel,application/excel,application/vnd.ms-excel,application/vnd.msexcel,text/anytext,application/txt">
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+      		  <div class="form-group row">
+              <div class="col-sm-12 mb-2 text-muted">Choose an age category to allocate teams to groups.</div>
+              <label class="col-sm-2 form-control-label">Select age category</label>
+              <div class="col-sm-10">
                 <div class="row">
                   <div class="col-sm-4">
-                    <button type="button" class="btn btn-default w-100 btn-color-black--light" id="profile_image_file">Select list (excel files only)</button>
+                    <div class="form-group">
+                      <select class="form-control" v-model="age_category" v-on:change="onSelectAgeCategory('view')">
+                        <option value="">{{$lang.teams_all_age_category}}</option>
+                        <option v-for="option in options"
+                         v-bind:value="option"> {{option.group_name}} ({{option.category_age}})</option>
+                      </select>
+                    </div>
                   </div>
-                  <div class="col">
-                    <span id="filename"></span>
-                    <button type="button" @click="csvImport()"  class="btn btn-primary ml-4">Upload teams
-                    </button>
-                  </div>
-                </div>
-                  <input type="file" name="fileUpload" @change="setFileName(this,$event)"  id="fileUpload" style="display:none;" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel,application/excel,application/vnd.ms-excel,application/vnd.msexcel,text/anytext,application/txt">
-              </div>
-            </div>
-          </form>
-          </div>
-        </div>
-  				<div class="form-group row">
-            <label class="col-sm-2 form-control-label">Filter by age category</label>
-            <div class="col-sm-10">
-              <div class="row">
-                <div class="col-4">
-                  <div class="form-group">
-                    <select class="form-control ls-select2" v-model="age_category" v-on:change="onSelectAgeCategory('view')">
-                      <option value="">{{$lang.teams_all_age_category}}</option>
-                      <option v-for="option in options"
-                       v-bind:value="option"> {{option.group_name}} ({{option.category_age}})</option>
-                    </select>
+                  <div class="col-sm-3" v-show="this.age_category != ''" v-if="this.role_slug != 'mobile.user'">
+                    <button type="button" data-toggle="modal" data-target="#reset_modal" class="btn btn-primary w-100">Delete teams</button>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-  			</form>
-        <div class="block-bg age-category mb-4">
-          <div class="d-flex flex-row flex-wrap justify-content-center" v-if="grpsView.length != 0">
-            <div class="col-sm-3 my-2"  v-for="(group, index) in grpsView">
-              <div class="m_card hoverable h-100 m-0">
-                <div class="card-content">
-                   <span class="card-title text-primary"><strong>
-                   {{group['groups']['group_name'] }}</strong></span>
-                    <p class="text-primary left" v-for="n in group['group_count']"><strong><span :class="groupFlag(group['groups']['group_name'],n)" ></span>
-                    {{groupName(group['groups']['group_name'],n) | truncate(20)}}</strong></p>
+            <div class="block-bg age-category" id="age_category_block">
+              <div class="d-flex flex-row flex-wrap justify-content-center" v-if="grpsView.length != 0">
+                <div class="col-sm-2 my-2" v-for="(group, index) in grpsView">
+                  <div class="m_card hoverable h-100 m-0">
+                    <div class="card-content">
+                       <span class="card-title text-primary"><strong>
+                       {{ getGroupName(group) }}</strong></span>
+                       <div v-for="(n, pindex) in group['group_count']">
+                        <p class="text-primary left">
+                          <strong>
+                            <span :class="groupFlag(group,n)"></span>
+                            <span :data-group-name="groupName(group, n).displayName" :id="'group_' + index + '_' + pindex" @drop="groupName(group, n).isHolderName === true ? onTeamDrop($event) : null" @dragover="groupName(group, n).isHolderName === true ? allowDrop($event) : null">{{ groupName(group, n).displayName | truncate(20) }}</span>
+                          </strong>
+                        </p>
+                       </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div v-else class="d-flex justify-content-center">
+                <div class="col-sm-9  m-8">
+                    <div class="card-content">
+                       <span class="card-title"> {{ $lang.teams_name_select }}</span>
+                    </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div v-else class="d-flex justify-content-center">
-            <div class="col-sm-9  m-8">
-                <div class="card-content">
-                   <span class="card-title"> {{ $lang.teams_name_select }}</span>
-                </div>
+    			<div class="row mt-4 team-table">
+            <div class="col-md-12 text-muted">
+              <p>Drag and drop the team name directly in the category structure above. Alternatively, select a value in the 'Allocate' column.</p>
             </div>
-          </div>
-        </div>
-<!--
-          <div class="row align-items-center">
-            <div class="col-sm-3">
-              <h6 class="m-0"><strong>{{$lang.teams_team_list}}</strong></h6>
-            </div>
-            <div class="col-sm-12">
-              <tournamentFilter v-if="filterStatus" :section="section"></tournamentFilter>
-            </div>
-          </div>
-          <div class="row">
+    				<div class="col-md-12">
+              <form name="frmTeamAssign" id="frmTeamAssign" class="frm-team-assign">
+      					<table class="table table-hover table-bordered">
+                  <thead>
+                      <tr>
+                          <th width="150px" class="text-center">{{$lang.teams_reference}}</th>
+                          <th class="text-center">{{$lang.teams_name}}</th>
+                          <th class="text-center">{{$lang.teams_country}}</th>
+                          <th class="text-center">{{$lang.teams_place}}</th>
+                          <th class="text-center">{{$lang.teams_age_category}}</th>
+                          <th  class="text-center">{{$lang.teams_name_category}}</th>
 
-  			</div> -->
-  			<div class="row mt-4">
-  				<div class="col-md-12">
-          <form name="frmTeamAssign" id="frmTeamAssign">
-  					<table class="table table-hover table-bordered">
-              <thead>
-                  <tr>
-                      <th width="150px" class="text-center">{{$lang.teams_reference}}</th>
-                      <th class="text-center">{{$lang.teams_name}}</th>
-                      <th class="text-center">{{$lang.teams_country}}</th>
-                      <th class="text-center">{{$lang.teams_place}}</th>
-                      <th class="text-center">{{$lang.teams_age_category}}</th>
-                      <th  class="text-center">{{$lang.teams_name_category}}</th>
+                          <th class="text-center" v-if="tournamentFilter.filterKey == 'age_category' && tournamentFilter.filterValue != '' ">{{$lang.teams_age_category_allocate}}</th>
+                          <th width="130px" class="text-center" v-else>{{$lang.teams_age_category_allocate}}</th>
+                          <th class="text-center">Edit</th>
+                      </tr>
+                  </thead>
+                    <tbody v-if="teams.length!=0">
+                        <tr v-for="(team, index) in teams">
+                          <td width="150px">{{team.esr_reference}}</td>
+                          <td class="team-edit-section">
+                            <div class="custom-d-flex align-items-center justify-content-between" v-show="!(team.id in teamsInEdit)">
+                              <span draggable="true" :data-select-id="team.id" :id="'team_' + index" @dragstart="onTeamDrag($event)">{{team.name}}</span>
+                              <span class="pull-right"><a href="javascript:void(0);" v-on:click="editTeamName($event, team.id, team.name)"><i class="fas fa-pencil" aria-hidden="true"></i></a></span>
+                            </div>
+                            <div v-show="(team.id in teamsInEdit)">
+                              <div class="btn-group btn-group-sm w-100" role="group">
+                                <input type="text" class="form-control" v-model="team.name" />
+                                <a href="javascript:void(0);" v-on:click="cancelTeamNameChange(team.id)" class="btn btn-secondary d-inline-flex align-items-center"><i class="fas fa-times text-center text-danger" aria-hidden="true"></i></a>
+                                <a href="javascript:void(0);" v-on:click="saveTeamNameChanges($event, team.id, team.name)" class="btn btn-secondary d-inline-flex align-items-center"><i class="fas fa-check text-center text-primary" aria-hidden="true"></i></a>
+                              </div>
+                            </div>
+                          </td>
+                          <td>
+                          	<!-- <img :src="team.logo" width="20"> {{team.country_name}} -->
+                              <span :class="'flag-icon flag-icon-'+team.country_flag"></span> {{team.country_name}}
+                          </td>
+                          <td>{{team.place}} </td>
+                          <td>{{team.category_age}} </td>
+                          <td>{{team.age_name}} </td>
 
-                      <th class="text-center" v-if="tournamentFilter.filterKey == 'age_category' && tournamentFilter.filterValue != '' ">{{$lang.teams_group}}</th>
-                      <th width="130px" class="text-center" v-else>{{$lang.teams_age_category_group}}</th>
-                  </tr>
-              </thead>
-                <tbody v-if="teams.length!=0">
-                    <tr v-for="(team, index) in teams">
-                      <td width="150px">{{team.esr_reference}}</td>
-                      <td class="team-edit-section">
-                        <div class="custom-d-flex align-items-center justify-content-between" v-show="!(team.id in teamsInEdit)">
-                          <span>{{team.name}}</span>
-                          <span class="pull-right"><a href="javascript:void(0);" v-on:click="editTeamName($event, team.id, team.name)"><i class="fa fa-pencil" aria-hidden="true"></i></a></span>
-                        </div>
-                        <div v-show="(team.id in teamsInEdit)">
-                          <div class="btn-group btn-group-sm w-100" role="group">
-                            <input type="text" class="form-control" v-model="team.name" />
-                            <a href="javascript:void(0);" v-on:click="cancelTeamNameChange(team.id)" class="btn btn-secondary d-inline-flex align-items-center"><i class="fa fa-times text-center text-danger" aria-hidden="true"></i></a>
-                            <a href="javascript:void(0);" v-on:click="saveTeamNameChanges($event, team.id, team.name)" class="btn btn-secondary d-inline-flex align-items-center"><i class="fa fa-check text-center text-primary" aria-hidden="true"></i></a>
-                          </div>
-                        </div>
-                      </td>
-                      <td>
-                      	<!-- <img :src="team.logo" width="20"> {{team.country_name}} -->
-                          <span :class="'flag-icon flag-icon-'+team.country_flag"></span> {{team.country_name}}
-                      </td>
-                      <td>{{team.place}} </td>
-                      <td>{{team.category_age}} </td>
-                      <td>{{team.age_name}} </td>
+                          <td width="130px" v-if="age_category != ''" style="position: relative">
+                            <teamSelect :team="team" :grps="grps" @onAssignGroup="onAssignGroup" @beforeChange="beforeChange" @assignTeamGroupName="assignTeamGroupName"></teamSelect>
+                          </td>
+                          <td width="130px" v-else>{{ getModifiedDisplayGroupName(team.group_name) }}</td>
+                          <td class="text-center">
+                            <a class="text-primary" href="javascript:void(0)"
+                             @click="editTeam(team.id)">
+                              <i class="fas fa-pencil"></i>
+                            </a>
+                          </td>
+                        </tr>
 
-                      <td width="130px" v-if="age_category != ''">
-                        <select  v-bind:data-id="team.id" v-model="team.group_name" v-on:click="beforeChange(team.id)" v-on:change="onAssignGroup(team.id)"  :name="'sel_'+team.id" :id="'sel_'+team.id" class="form-control ls-select2 selTeams">
-                          <option value="" class="blnk">{{seleTeam}}</option>
-                          <optgroup :label="group.groups.group_name"
-                          v-for="group in grps">
-                            <option :class="'sel_'+team.id" v-for="(n,index) in group['group_count']" :disabled="isSelected(group['groups']['group_name'],n)"  :value="group['groups']['group_name']+n" >{{group['groups']['group_name']}}{{n}} </option>
-                          </optgroup>
-                        </select>
-                      </td>
-                      <td width="130px" v-else>{{team.group_name}}</td>
-                    </tr>
-
-                </tbody>
-                <tbody v-else>
-                  <tr>
-                    <td colspan="7"> No teams available</td>
-                    </tr>
-                </tbody>
-            </table>
-            <button type="button"  v-if="tournamentFilter.filterKey == 'age_category'" @click="groupUpdate()" class="btn btn-primary pull-right">{{$lang.teams_button_updategroups}}</button>
-          </form>
-  				</div>
-  			</div>
+                    </tbody>
+                    <tbody v-else>
+                      <tr>
+                        <td colspan="8"> No teams available</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button type="button" v-if="age_category != ''" @click="groupUpdate()" class="btn btn-primary pull-right">{{$lang.teams_button_updategroups}}</button>
+              </form>
+    				</div>
+    			</div>
   		</div>
   	</div>
+    <team-modal v-if="teamId!=''" :teamId="teamId" :countries="countries" :clubs="clubs" :teamColors="teamColors"></team-modal>
+    <div class="modal fade" id="reset_modal" tabindex="-1" role="dialog"
+      aria-labelledby="resetModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="myModalLabel">Confirmation</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          </div>
+          <div class="modal-body text-left">
+              <p>
+                  Are you sure you would like to reset this age category? This will delete
+                  <b>ALL</b> team information associated with this age category including team names, fixtures and results.
+              </p>
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-danger" data-dismiss="modal">{{$lang.summary_tab_popup_publish_cancel_button}}</button>
+              <button type="submit" class="btn btn-primary" @click="resetAllTeams()">{{$lang.summary_tab_popup_publish_confirm_button}}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal team-preview" id="teams_groups_preview_modal" tabindex="-1" role="dialog" aria-labelledby="teams_groups_preview_modal" style="display: none;" aria-hidden="true" data-animation="false">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+             <h5 class="modal-title" id="teams_groups_preview_modal">Preview</h5>
+             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+             <span aria-hidden="true">×</span>
+             </button>
+          </div>
+          <div class="modal-body">
+            <img src="/assets/img/teams_groups_preview/TeamsGroupsPreview.png" class="img-fluid">
+          </div>
+         </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -149,6 +192,9 @@
    import Tournament from '../../../api/tournament.js'
    import _ from 'lodash'
    import TournamentFilter from '../../../components/TournamentFilter.vue'
+   import teamSelect from '../../../components/teamSelect/teamSelect.vue'
+   import TeamModal  from  '../../../components/teamSelect/TeamModal.vue'
+
    import Vue from 'vue'
 
    // Vue.filter('groupName', function (value) {
@@ -157,17 +203,19 @@
 	export default {
     data() {
     return {
+        'teamId': '',
         'teamSize': 5,
         'teams': [],
         // 'teamsIdList': '',
         'tournament_id': this.$store.state.Tournament.tournamentId,
+        'role_slug': this.$store.state.Users.userDetails.role_slug,
         'age_category': '',
         'age_category_filter': '',
         'selected': null,
         'value': '',
         'options': [],
-        'grpsView': '',
-        'grps': '',
+        'grpsView': [],
+        'grps': [],
         'fileUpload' : '',
         'availableGroupsTeam': [],
         'selectedGroupsTeam': [],
@@ -177,6 +225,9 @@
         'seleTeam':'De-select',
         'canUploadTeamFile': true,
         'teamsInEdit': {},
+        'countries': [],
+        'clubs': [],
+        'teamColors': []
         // 'tournamentFilter':{
         //   'filterKey':'team',
         //   'filterValue': ''
@@ -186,7 +237,9 @@
     },
 
     components: {
-      TournamentFilter
+      TournamentFilter,
+      teamSelect,
+      TeamModal,
     },
     computed: {
        tournamentFilter: function() {
@@ -231,12 +284,42 @@
         })
 
       this.getTeams()
-
+      this.fetchAllCountries();
+      this.fetchAllClubs();
+      this.fetchAllTeamColors();
+      let fixmeTop = $('#age_category_block').offset().top;
+      let HeaderHeight = $('.site-header').height();
+      let fixmeTopOffset = fixmeTop - 60;
+      $(window).scroll(function() {
+        let categoryDivHeight = $('#age_category_block').height();
+        let teamTableHeight = $(window).height() - (fixmeTop);
+        let currentScroll = $(window).scrollTop();
+        if ($('.team-table').height() > teamTableHeight) {
+          if((currentScroll) < fixmeTopOffset) {
+            $('#age_category_block').removeClass("is-fixed");
+            $('.team-table').css({"padding-top": 0});
+          } else {
+            let fixmeHeight= ($('#age_category_block').height() + 49);
+            $('.team-table').css({"padding-top": fixmeHeight});
+            $('#age_category_block').addClass("is-fixed");
+          }
+        } else {
+          $('#age_category_block').removeClass("is-fixed");
+          $('.team-table').css({"padding-top": 0});
+        }
+      });
     },
     created: function() {
       this.$root.$on('getTeamsByTournamentFilter', this.setFilter);
+      this.$root.$on('updateTeamList', this.getTeams);
+      // this.$root.$on('onAssignGroup', this.onAssignGroup);
+      // this.$root.$on('beforeChange', this.beforeChange);
     },
-
+    beforeCreate: function() {
+      // Remove custom event listener
+      this.$root.$off('getTeamsByTournamentFilter');
+      this.$root.$off('updateTeamList');
+    },
     // watch: {
     // // whenever question changes, this function will run
     //     selectedGroupsTeam: function (newQuestion) {
@@ -246,9 +329,17 @@
     // },
 
     methods: {
-      groupFlag(grpName,no){
+      groupFlag(group,no){
         let vm =this
-        let fullName = grpName+no
+
+        let fullName = null
+        if(typeof group['groups']['actual_group_name'] != "undefined") {
+          let actualGroupName = group['groups']['actual_group_name'];
+          fullName = actualGroupName + '-' + no;
+        } else {
+          fullName = group['groups']['group_name']+no;
+        }
+
         let displayName = fullName
          _.find(this.teams, function(team) {
           if(team.age_group_id == vm.age_category.id && fullName == team.group_name){
@@ -257,21 +348,35 @@
         });
         return displayName
       },
-       groupName(grpName,no){
-        let vm =this
-        let fullName = grpName+no
-        let displayName = fullName
-         _.find(this.teams, function(team) {
-          if(team.age_group_id == vm.age_category.id && fullName == team.group_name){
+       groupName(group,no){
+        let vm =this;
+        let groupName = this.getGroupPlaceHolderName(group, no);
+        let displayName = groupName.fullName;
+        let actualFullName = groupName.actualFullName;
+        let isHolderName = true;
+
+        _.find(this.teams, function(team) {
+          if(team.age_group_id == vm.age_category.id && actualFullName == team.group_name){
             displayName =  team.name
+            isHolderName = false;
           } ;
         });
-        return displayName
+        return {'displayName': displayName, 'isHolderName': isHolderName}
       },
-
-      isSelected(grp,index){
-        return false
-
+      getGroupPlaceHolderName(group, no) {
+        let fullName = null
+        let actualFullName = null
+        if(typeof group['groups']['actual_group_name'] != "undefined") {
+          actualFullName = group['groups']['actual_group_name'] + '-' + no;
+          let actualGroupName = group['groups']['actual_group_name'].split('-');
+          fullName = actualGroupName[0] + '-' + no;
+        } else {
+          fullName = actualFullName = group['groups']['group_name']+no;
+        }
+        let groupName = {};
+        groupName.fullName = fullName;
+        groupName.actualFullName = actualFullName;
+        return groupName;
       },
       initialfunc(id){
         if($('#sel_'+id).find('option:selected').text()!=''){
@@ -282,7 +387,7 @@
         this.canUploadTeamFile = true;
         var extensionsplit = event.target.files[0].name.split(".");
         var extension = extensionsplit[extensionsplit.length - 1];
-        if(extension != 'xls' && extension != 'xlsx') {
+        if(extension != 'xls' && extension != 'xlsx' && extension != 'csv') {
           this.canUploadTeamFile = false;
         }
         var filename = $('#fileUpload').val();
@@ -313,19 +418,17 @@
         this.beforeChangeGroupName =  gdata;
       },
       onAssignGroup(id) {
-
+        $('.selTeams').prop("disabled", true);
         let groupValue = $('#sel_'+id).find('option:selected').val()
         if(groupValue == '') {
           //this.seleTeam = ''
           $('#sel_'+id+' .blnk').html('')
         }
         if(groupValue!='' && groupValue!= undefined ){
-
-          $('.selTeams').prop("disabled", true);
-            $(".selTeams option:contains("+$('#sel_'+id).val()+")").not( $('.sel_'+id)).attr("disabled","disabled");
+            $(".selTeams option").filter('[value='+ $('#sel_'+id).val() +']').not($('.sel_'+id)).prop("disabled",true);
         }
         if(this.beforeChangeGroupName!=''){
-          $(".selTeams option:contains("+this.beforeChangeGroupName+")").removeAttr("disabled");
+          $(".selTeams option").filter('[value='+ this.beforeChangeGroupName +']').prop("disabled", false);
         }
         if(groupValue != null && groupValue != '')  {
           this.selectedGroupsTeam.push(groupValue)
@@ -334,7 +437,16 @@
         if (index > -1) {
           this.availableGroupsTeam.splice(index, 1);
         }
+        document.activeElement.blur();
         $('.selTeams').prop("disabled", false);
+        $('.selTeams').select2({ minimumResultsForSearch: Infinity });
+      },
+      assignTeamGroupName(id,val) {
+        _.map(this.teams, function(team){
+          if (id == team.id) {
+            team.group_name = val;
+          }
+        });
       },
       getTeams() {
         // if(this.age_category === '') {
@@ -344,18 +456,19 @@
         this.teams = ''
         let ageCategoryId = this.age_category !== '' ? this.age_category.id : '';
         let teamData = {'tournamentId':this.tournament_id, 'ageCategoryId' : ageCategoryId, 'filterKey':'age_category', 'filterValue': ageCategoryId};
-        // console.log(teamData,'td')
         Tournament.getTeams(teamData).then(
           (response) => {
             this.teams = response.data.data
-
-            let vm = this;
-            _.forEach(response.data.data, function(team, key) {
-
-            });
+            this.$store.dispatch('SetTeams',this.tournament_id);
+            let that = this
+            setTimeout(function(){
+              $('.selTeams').each(function( index ) {
+                that.initialfunc($(this).data('id'))
+              })
+            },1000)
           },
-        (error) => {
-        }
+          (error) => {
+          }
         )
         //  Tournament.getTeamsGroup(teamData).then(
         //   (response) => {
@@ -392,12 +505,19 @@
 
         });
         let teamData = {'teamdata': teamAssign1,'group' : grpMain ,'tournament_id':this.tournament_id, 'age_group':this.age_category.id }
+        $("body .js-loader").removeClass('d-none');
         if(error == false){
           Tournament.assignGroups(teamData).then(
           (response) => {
-            toastr['success']('Groups are assigned successfully', 'Success');
+            if(response.data.status_code == '200') {
+              toastr['success']('Teams are allocated successfully', 'Success');
+            } else {
+              toastr.error(response.data.message, 'Error', {timeOut: 2000});
+            }
+            $("body .js-loader").addClass('d-none');
           },
           (error) => {
+            $("body .js-loader").addClass('d-none');
           }
         )
         }
@@ -427,12 +547,12 @@
         }else{
            templateId = tId
         }
-        let tournamentFilter = {'filterKey': 'age_category', 'filterValue':this.age_category }
-      this.$store.dispatch('setTournamentFilter', tournamentFilter);
+        let tournamentFilter = {'filterKey': 'age_category', 'filterValue':this.age_category, 'filterDependentKey': '', 'filterDependentValue': '' }
+        this.$store.dispatch('setTournamentFilter', tournamentFilter);
         if(type == 'view'){
           if(this.age_category == ''){
             this.teams = [];
-            this.grpsView = ''
+            this.grpsView = []
             // return false;
           }
           tournamentTemplateId = this.age_category.tournament_template_id
@@ -449,19 +569,36 @@
             (response) => {
               //var JsonTemplateData = JSON.stringify(eval("(" + response.data.data + ")"));
 
-              let jsonObj = JSON.parse(response.data.data)
+              let jsonObj = JSON.parse(response.data.data.json_data)
               //let JsonTemplateData  = response.data.data
               // Now here we put data over there as per group
                let jsonCompetationFormatDataFirstRound = jsonObj['tournament_competation_format']['format_name'][0]['match_type']
                let availGroupTeam = []
+               let vm = this;
                // if(type == 'filter'){
-                  this.grps = jsonCompetationFormatDataFirstRound
-                  this.grpsView = jsonCompetationFormatDataFirstRound
-                  _.forEach(this.grps, function(group) {
-                    for(var i = 1; i <= group.group_count; i++ ){
-                      // let gname = group.groups.group_name+i
-                      availGroupTeam.push(group.groups.group_name+i)
+                  this.grps = []
+                  this.grpsView = []
+                  _.forEach(jsonCompetationFormatDataFirstRound, function(group) {
+                    let splitGroupName = group.name.split('-');
+                    let competitionType = splitGroupName[0];
+
+                    if(competitionType == 'PM' && typeof group.consider_in_team_assignment == "undefined") {
+                      return;
                     }
+
+                    let groupName = null;
+                    if(competitionType == 'PM' && group.consider_in_team_assignment == 1) {
+                      groupName = group.groups.actual_group_name + '-';
+                    } else {
+                      groupName = group.groups.group_name;
+                    }
+
+                    for(var i = 1; i <= group.group_count; i++ ){
+                      availGroupTeam.push(groupName+i)
+                    }
+
+                    vm.grpsView.push(group);
+                    vm.grps.push(group);
 
                   });
                // }else{
@@ -478,15 +615,6 @@
 
               this.availableGroupsTeam = availGroupTeam
               this.teamSize = jsonObj.tournament_teams
-
-              let that = this
-
-
-              setTimeout(function(){
-                $('.selTeams').each(function( index ) {
-                  that.initialfunc($(this).data('id'))
-                })
-              },1000)
             },
             (error)=> {
               toastr['error']('error in getting json data.', 'Error');
@@ -494,6 +622,7 @@
             }
            )
         }
+        this.beforeChangeGroupName = ''
         this.getTeams()
       },
       csvImport() {
@@ -554,6 +683,103 @@
           }
         )
       },
+      getGroupName(group) {
+        let splitGroupName = group['name'].split('-');
+        let competitionType = splitGroupName[0];
+        if( competitionType == 'PM' ) {
+          return group['groups']['group_name'].replace('Group-', '')
+        }
+        return group['groups']['group_name']
+      },
+      getModifiedDisplayGroupName(groupName) {
+        if(groupName != null && groupName.indexOf('Pos') !== -1) {
+          let name = groupName.split('-');
+          return name[0] + '-' + name[2]
+        }
+        if(groupName != null) {
+          return groupName.replace('Group-','');
+        }
+        return groupName;
+      },
+      editTeam(id) {
+        this.teamId = id
+        let vm = this
+        setTimeout(function(){
+            $('#team_form_modal').modal('show');
+            $("#team_form_modal").on('hidden.bs.modal', function () {
+
+            });
+        },1000)
+        vm.$root.$emit('editTeamData',  id)
+      },
+      fetchAllCountries() {
+        Tournament.getAllCountries().then(
+          (response) => {
+            this.countries = response.data.countries
+          },
+            (error)=> {
+            }
+          );
+      },
+      fetchAllClubs() {
+        Tournament.getAllClubs().then(
+          (response) => {
+            this.clubs = response.data.clubs
+          },
+          (error) => {
+
+          }
+        )
+      },
+      resetAllTeams() {
+        let ageCategoryId = {'ageCategoryId':this.age_category.id,'tournamentId':this.tournament_id};
+        Tournament.getResetTeams(ageCategoryId).then(
+          (response) => {
+            this.$root.$emit('updateTeamList');
+
+            $("#reset_modal").modal("hide");
+            toastr['success']('All teams are deleted successfully', 'Success');
+          },
+          (error) => {
+          }
+        )
+      },
+      fetchAllTeamColors() {
+        Tournament.getAllTeamColors().then(
+          (response) => {
+            this.teamColors = response.data
+          },
+            (error)=> {
+            }
+          );
+      },
+      downloadTeamsSpreadsheetSample() {
+        Tournament.getSignedUrlForTeamsSpreadsheetSampleDownload().then(
+          (response) => {
+            window.location.href = response.data;
+          },
+          (error) => {
+        });
+      },
+      previewSpredsheetSample() {
+        $('#teams_groups_preview_modal').modal('show');
+      },
+      allowDrop(ev) {
+        ev.preventDefault();
+      },
+      onTeamDrop(ev) {
+        ev.preventDefault();
+        let teamId = ev.dataTransfer.getData("id");
+        let teamSelectId = $('#' + teamId).data('select-id');
+        $('#sel_' + teamSelectId).val($('#' + ev.target.id).data('group-name'));
+        $('#sel_' + teamSelectId).trigger('select2:select');
+        this.assignTeamGroupName(teamSelectId, $('#sel_' + teamSelectId).val());
+        this.onAssignGroup($('#' + teamId).data('select-id'));
+      },
+      onTeamDrag(ev) {
+        ev.dataTransfer.setData("id", ev.target.id);
+        this.beforeChange($('#' + ev.target.id).data('select-id'));
+      }
     }
   }
 </script>

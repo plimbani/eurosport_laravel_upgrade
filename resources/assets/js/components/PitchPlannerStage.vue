@@ -23,7 +23,7 @@ import _ from 'lodash'
                 'matchFixture': {},
                 'pitchBreak':{},
                 'minDatePitch': '08:00:00',
-                'maxDatePitch': '20:05:00',
+                'maxDatePitch': '23:05:00',
                 'tournamentFilter': this.$store.state.Tournament.tournamentFiler,
                 'deleteConfirmMsg': 'Are you sure you would like to delete this block?',
                 'remBlock_id': 0,
@@ -38,6 +38,22 @@ import _ from 'lodash'
         },
         computed: {
             pitchesData() {
+
+                if(this.tournamentFilter.filterKey == 'location' && this.tournamentFilter.filterValue != ''){
+                    var pitches = _.remove(this.stage.pitches, (pitch) => {
+                        let assign = false;
+                        pitch.title = pitch.pitch_number+' ('+pitch.size+')';
+                        pitch.resourceAreaWidth = '500px';
+                        if(this.tournamentFilter.filterValue.id == pitch.venue_id){
+                            assign = true;
+                        }
+
+                        return assign;
+                    });
+                    
+                    return pitches;
+                }
+
                 return _.forEach(this.stage.pitches, (pitch) => {
                     pitch.title = pitch.pitch_number+' ('+pitch.size+')';
                     pitch.resourceAreaWidth = '500px';
@@ -57,14 +73,45 @@ import _ from 'lodash'
 
         },
         created: function() {
-            // this.$root.$on('getTeamsByTournamentFilter', this.setPitchPlannerFilter);
-            // this.$root.$on('getPitchesByTournamentFilter', this.resetPitch);
-            // this.$root.$on('matchSchedulerChange', this.matchSchedulerChange);
-
+            this.$root.$on('reloadAllEvents', this.reloadAllEvents);
+            this.$root.$on('arrangeLeftColumn', this.arrangeLeftColumn);
+        },
+        beforeCreate: function() {
+            // Remove custom event listener
+            this.$root.$off('reloadAllEvents');
+            this.$root.$off('arrangeLeftColumn');
         },
         mounted() {
+            let vm = this;
+
+            $( document ).ready(function() {
+                $(document).on('click','.js-horizontal-view', function (){
+                    $('.pitch-planner-wrapper .pitch-planner-item').each(function(index){
+                        var canvasWidth = $(this).find('.fc-unselectable .fc-scroller-canvas').width();
+                        $(this).find('.fc-view-container table').attr('style', 'width: ' + parseInt(canvasWidth + 107) + 'px');
+                    });
+
+                })
+
+                //  Unschedule fixtures checkbox check uncheck
+                $(document).on('change','.match-unschedule-checkbox', function (e){
+                    if($('.match-unschedule-checkbox').is(':checked')) {
+                        $('#unschedule_fixtures').html('Confirm unscheduling').addClass('btn btn-success');
+                        $("#cancle_unscheduling_fixtures").show();
+                        $('.cancle-match-unscheduling').removeClass('d-none');
+                    } else {
+                        $("#unschedule_fixtures").html('Unschedule fixture').removeClass('btn btn-success');
+                        $("#unschedule_fixtures").addClass('btn btn-primary btn-md btn-secondary');
+                        $(".match-unschedule-checkbox-div").addClass('d-none');
+                        $("#cancle_unscheduling_fixtures").hide();
+                    }
+                });
+            });
+
+            var timeGridContainerHeight = $('.fc-time-grid-container').height();
+            $('.fc-time-grid-container').css('height', timeGridContainerHeight);
+
             let cal = this.$el;
-            let vm = this
             vm.initComponent()
             $(this.$el).fullCalendar('changeView', 'agendaDay');
 
@@ -73,22 +120,23 @@ import _ from 'lodash'
                     setGameAndRefereeTabHeight();
                 }
             });
-            // this.getScheduledMatch()
+
+
+
         },
         methods: {
             initComponent(){
                 let vm = this
                 $("body .js-loader").removeClass('d-none');
                 // setTimeout(function(){
-                    vm.getScheduledMatch(vm.tournamentFilter.filterKey,vm.tournamentFilter.filterValue)
+                    vm.getScheduledMatch(vm.tournamentFilter.filterKey,vm.tournamentFilter.filterValue,vm.tournamentFilter.filterDependentKey,vm.tournamentFilter.filterDependentValue)
                     if($(".pitch_planner_section").length > 0) {
                         setGameAndRefereeTabHeight();
                     }
                     // vm.getUnavailablePitch()
                 // },500)
-            
+
             setTimeout(function(){
-                
                 if($(".pitch_planner_section").length > 0) {
                     setGameAndRefereeTabHeight();
                 }
@@ -99,19 +147,22 @@ import _ from 'lodash'
                 return this.$store.getters.scheduledMatches
             },
             pitchBreakAdd() {
-                let sPitch = []
+                
+                let sPitch = [];
                 _.forEach(this.stage.pitches, (pitch) => {
                     _.forEach(pitch.pitch_availability, (availability) => {
-                    sPitch.push({
+                        _.forEach(availability.pitch_breaks, (pitchBreak) => {
+                        sPitch.push({
                             'id': '',
-                            'resourceId': availability.id,
-                            'start':moment.utc(availability.stage_start_date+' '+availability.break_start_time,'DD/MM/YYYY hh:mm:ss'),
-                            'end': moment.utc(availability.stage_start_date+' '+availability.break_end_time,'DD/MM/YYYY hh:mm:ss'),
+                            'resourceId': pitch.id,
+                            'start':moment.utc(availability.stage_start_date+' '+pitchBreak.break_start,'DD/MM/YYYY hh:mm:ss'),
+                            'end': moment.utc(availability.stage_start_date+' '+pitchBreak.break_end,'DD/MM/YYYY hh:mm:ss'),
                             'refereeId': -1,
                             'refereeText': '',
-                            'title':'Pitch is not available',
+                            'title':'Pitch',
                             'matchId':''
-                        })
+                            })
+                        });
                     });
                 });
                 this.pitchBreak = sPitch
@@ -125,6 +176,7 @@ import _ from 'lodash'
                     eventDurationEditable: false,
                     eventOverlap:vm.currentView == 'refereeTab',
                     droppable: true,
+                    defaultTimedEventDuration: '00:00',
                     width:'100px',
                     defaultView: vm.defaultView,
                     defaultDate: vm.stageDate,
@@ -141,7 +193,7 @@ import _ from 'lodash'
                             name:'timeView',
                             buttonText: 'Time view',
                             minTime:  vm.minDatePitch?vm.minDatePitch:'08:00:00',
-                            maxTime:  vm.maxDatePitch?vm.maxDatePitch:'20:00:00',
+                            maxTime:  vm.maxDatePitch?vm.maxDatePitch:'23:00:00',
                             slotDuration: '00:05',
                             slotLabelInterval: '00:15',
                             slotLabelFormat:"HH:mm",
@@ -155,7 +207,7 @@ import _ from 'lodash'
                             name:'agendaView',
                             buttonText: 'Agenda view',
                             minTime:  vm.minDatePitch?vm.minDatePitch:'08:00:00',
-                            maxTime:  vm.maxDatePitch?vm.maxDatePitch:'20:00:00',
+                            maxTime:  vm.maxDatePitch?vm.maxDatePitch:'23:00:00',
                             slotDuration: '00:05',
                             slotLabelInterval: '00:15',
                             slotLabelFormat:"HH:mm",
@@ -192,8 +244,8 @@ import _ from 'lodash'
                                     if(response.data.status_code == 200 && response.data.data.status == true){
                                          toastr.success('Referee has been assigned successfully', 'Assigned Referee ', {timeOut: 5000});
                                         vm.$store.dispatch('getAllReferee',vm.tournamentId);
-                                        vm.getScheduledMatch(vm.tournamentFilter.filterKey,vm.tournamentFilter.filterValue)
-                                       vm.reloadAllEvents()
+                                        vm.getScheduledMatch(vm.tournamentFilter.filterKey,vm.tournamentFilter.filterValue,vm.tournamentFilter.filterDependentKey,vm.tournamentFilter.filterDependentValue)
+                                        vm.reloadAllEvents()
 
                                     }else{
                                         let errorMsg = updatedMatch.data;
@@ -238,14 +290,16 @@ import _ from 'lodash'
                             Tournament.setMatchSchedule(matchData).then(
                                 (response) => {
                                     if(response.data.status_code == 200 ){
-                                        if(response.data.data != -1){
+                                        if(response.data.data != -1 && response.data.data != -2){
                                             vm.$store.dispatch('setMatches');
                                              toastr.success(response.data.message, 'Schedule Match', {timeOut: 5000});
-                                        }else{
+                                             vm.getScheduledMatch(vm.tournamentFilter.filterKey,vm.tournamentFilter.filterValue,vm.tournamentFilter.filterDependentKey,vm.tournamentFilter.filterDependentValue)
+                                             vm.reloadAllEvents()
+                                        } else {
                                             $('.fc.fc-unthemed').fullCalendar( 'removeEvents', [event._id] )
                                             vm.$store.dispatch('setMatches');
                                             vm.matchFixture = {}
-                                            vm.getScheduledMatch('age_category','')
+                                            vm.getScheduledMatch()
                                             toastr.error(response.data.message, 'Schedule Match', {timeOut: 5000});
                                         }
                                     }
@@ -257,12 +311,27 @@ import _ from 'lodash'
                         }
                     },
                     eventAfterAllRender: function(view ){
+                        $('[data-toggle="tooltip"]').tooltip();
+                        $('[data-toggle="tooltip"]').each(function() {
+                            let tt = $(this);
+                            let fixtureStripColor = tt.data('fixture-strip-color');
+                            let categoryColor = tt.data('category-color');
+
+                            tt.on('shown.bs.tooltip', function() {
+                                var tooltipId = $(this).attr('aria-describedby');
+                                
+                                $('#' + tooltipId + ' .tooltip-inner').css('background-color', categoryColor);
+
+                                $('<style>#' + tooltipId + ' .tooltip-inner::before { border-top-color: '+ fixtureStripColor +'; }</style>' ).appendTo( 'head');
+                            });
+                        });
+
                          $('#add_referee').prop('disabled', false);
                          // Code for horizontal scroll bar
-                         let totalPitches = vm.stage.pitches.length;
-                         if(totalPitches > 8) {
-                            $(vm.$el).find('.fc-view-container .fc-view > table').css('width', (totalPitches * 95) + 'px');
-                         }
+                        let totalPitches = vm.stage.pitches.length;
+                        if(totalPitches > 8) {
+                            $(vm.$el).find('.fc-view-container .fc-view > table').css('width', (totalPitches * ($('.pitch_planner_section').width()/8)) + 'px');
+                        }
                     },
                     eventDrop: function(event, delta, revertFunc, jsEvent, ui, view) { // called when an event (already on the calendar) is moved
                         // update api call
@@ -274,7 +343,7 @@ import _ from 'lodash'
                         let ed = $(this)
                         if(event.refereeId == -1 || event.refereeId == -2){
                             revertFunc();
-                            
+
                         }else{
                             let matchId = event.id ? event.id : event.matchId
                             let matchData = {
@@ -286,14 +355,21 @@ import _ from 'lodash'
                             };
                             Tournament.setMatchSchedule(matchData).then(
                                 (response) => {
-                                    if(response.data.data != -1){
+                                    if(response.data.data != -1 && response.data.data != -2){
                                             toastr.success('Match schedule has been updated successfully', 'Schedule Match', {timeOut: 5000});
-                                            
+                                            let matchScheduleChk =new Promise((resolve, reject) => {
+                                                resolve(vm.getScheduledMatch(vm.tournamentFilter.filterKey,vm.tournamentFilter.filterValue,vm.tournamentFilter.filterDependentKey,vm.tournamentFilter.filterDependentValue));
+                                            });
+
+                                            matchScheduleChk.then((successMessage) => {
+                                              vm.reloadAllEvents();
+                                            });
+                                            // vm.reloadAllEvents()
                                         }else{
                                             revertFunc();
                                             toastr.error(response.data.message, 'Schedule Match', {timeOut: 5000});
                                         }
-                                    
+
                                 },
                                 (error) => {
                                 }
@@ -301,9 +377,16 @@ import _ from 'lodash'
                         }
                     },
                     eventClick: function(calEvent, jsEvent, view) {
+                        if($('.match-unschedule-checkbox-div').has(jsEvent.target).length) {
+                            return true;
+                        }
 
-                        // $('div.fc-unthemed').fullCalendar('updateEvent', calEvent);
-                       // return false;
+                        vm.$root.$emit('cancelUnscheduleFixtures');
+
+                        var posX = $(this).offset().left, posY = $(this).offset().top;
+                        var eventPositionLeft = (jsEvent.pageX - posX);
+                        var matchBlockWidth = $(this).width();
+
                         if(calEvent.refereeId == -1){
                             return false
                         } else if(calEvent.refereeId == -2) {
@@ -316,15 +399,17 @@ import _ from 'lodash'
                             vm.setPitchModal = 1
                             vm.matchFixture = calEvent
                              setTimeout(function() {
-                                $('#matchScheduleModal').modal('show')
+                                $('#matchScheduleModal').modal('show');
+                                if((matchBlockWidth - eventPositionLeft) <= 15) {
+                                    $("#matchScheduleModal #pitch_model_body .tabs li a").removeClass('active');
+                                    $("#matchScheduleModal #pitch_model_body .tabs li.nav-item:last-child a").tab('show');
+                                }
                                 $("#matchScheduleModal").on('hidden.bs.modal', function () {
                                     vm.setPitchModal = 0
-                                    // setTimeout(function(){
                                     vm.matchFixture = {}
                                     vm.$store.dispatch('setCompetationWithGames');
-                                    vm.getScheduledMatch('age_category','')
-                                    // },500)
-                                    
+                                    vm.getScheduledMatch()
+                                    vm.reloadAllEvents();
                                 });
                              },100);
                         }
@@ -335,11 +420,12 @@ import _ from 'lodash'
                     //schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
                     schedulerLicenseKey: '0097912839-fcs-1497264705',
                 });
+                arrangeLeftColumn();
             },
             handleEventClick(calEvent, jsEvent, view) {
                 // console.log(calEvent);
             },
-            
+
             deleteConfirmedBlock() {
 
                 Tournament.removeUnavailableBlock(this.remBlock_id).then(
@@ -355,19 +441,20 @@ import _ from 'lodash'
 
             },
             reloadAllEvents(){
-                let vm = this
-                 $('.fc.fc-unthemed').fullCalendar( 'removeEvents' )
-
+                let vm = this;
+                let ev = this.$el;
+                $(ev).fullCalendar( 'removeEvents' )
                 setTimeout(function(){
-                    $('div.fc-unthemed').fullCalendar('addEventSource', vm.scheduledMatches);
-                },1000)
+                    $(ev).fullCalendar('addEventSource', vm.scheduledMatches);
+                    arrangeLeftColumn();
+                },2100)
             },
-            getScheduledMatch(filterKey='',filterValue='') {
+            getScheduledMatch(filterKey='',filterValue='',filterDependentKey='',filterDependentValue='') {
                 // this.$store.dispatch('SetScheduledMatches');
                 let tournamentData= [];
                 let fixtureDate = moment(this.stageDate).format('YYYY-MM-DD');
                 if(filterKey != '' && filterValue != '') {
-                    tournamentData ={'tournamentId':this.tournamentId ,'filterKey':filterKey,'filterValue':filterValue.id,'is_scheduled':true,'fixture_date':fixtureDate}
+                    tournamentData ={'tournamentId':this.tournamentId ,'filterKey':filterKey,'filterValue':filterValue.id,'filterDependentKey':filterDependentKey,'filterDependentValue':filterDependentValue,'is_scheduled':true,'fixture_date':fixtureDate}
                 } else {
                     tournamentData ={'tournamentId':this.tournamentId,'is_scheduled':true,'fixture_date':fixtureDate}
                 }
@@ -381,8 +468,14 @@ import _ from 'lodash'
 
                         _.forEach(rdata, function(match) {
                             let scheduleBlock = false
+                            let locationCheckFlag = true;
                             let refereeId = ''
                             let matchTitle = ''
+
+                            let displayMatchNumber = match.displayMatchNumber
+                            let displayHomeTeamPlaceholder = match.displayHomeTeamPlaceholderName
+                            let displayAwayTeamPlaceholder = match.displayAwayTeamPlaceholderName
+                            let displayMatchName = displayMatchNumber;
 
                             let mtchNumber = match.match_number
                             let mtchNumber1 = mtchNumber.split(".")
@@ -395,30 +488,73 @@ import _ from 'lodash'
                             let Placeawayteam =  teams[1]
 
                             if(match.Home_id != 0){
-                            Placehometeam = match.HomeTeam
+                                Placehometeam = displayHomeTeamPlaceholder = match.HomeTeam
+                            } else if(match.Home_id == 0 && match.homeTeamName == '@^^@') {
+                                if(match.competition_actual_name.indexOf('Group') !== -1) {
+                                    Placehometeam = displayHomeTeamPlaceholder = match.homePlaceholder
+                                } else if(match.competition_actual_name.indexOf('Pos') !== -1){
+                                    Placehometeam = displayHomeTeamPlaceholder = 'Pos-' + match.homePlaceholder
+                                }
                             }
+
                             if(match.Away_id != 0){
-                            Placeawayteam = match.AwayTeam
+                                Placeawayteam = displayAwayTeamPlaceholder = match.AwayTeam
+                            } else if(match.Away_id == 0 && match.awayTeamName == '@^^@') {
+                                if(match.competition_actual_name.indexOf('Group') !== -1) {
+                                    Placeawayteam = displayAwayTeamPlaceholder = match.awayPlaceholder
+                                } else if(match.competition_actual_name.indexOf('Pos') !== -1){
+                                    Placeawayteam = displayAwayTeamPlaceholder = 'Pos-' + match.awayPlaceholder
+                                }
                             }
+
                             let mtc = ''
                             mtc = mtchNum+'.'+Placehometeam+'-'+Placeawayteam
                             match.match_number = mtc
+
+                            displayMatchName = displayMatchName.replace('@HOME', displayHomeTeamPlaceholder).replace('@AWAY', displayAwayTeamPlaceholder)
+                            
                             if(match.is_scheduled == 1){
                                 if(filterKey == 'age_category'){
                                     if( filterValue != '' && filterValue.id != match.tid){
                                         scheduleBlock = true
                                     }
-                                }else if(filterKey == 'location'){
-                                    if( filterValue != '' && filterValue.id != match.venueId){
+                                    if(filterDependentKey != '' && filterDependentValue != ''  && filterDependentValue != match.competitionId) {
                                         scheduleBlock = true
                                     }
+                                } else if(filterKey == 'location'){
+                                    if( filterValue != '' && filterValue.id != match.venueId){
+                                        scheduleBlock = true;
+                                        locationCheckFlag = false;
+                                    }
                                 }
+                                
                               let colorVal = match.category_age_color;
-                              let borderColorVal = match.category_age_color;
+                              var isBright = (parseInt(vm.getBrightness(match.category_age_color)) > 160);
+                              let borderColorVal;
+                              
+                              let textColorVal = match.category_age_font_color;
                               let fixtureStripColor = match.competation_color_code != null ? match.competation_color_code : '#FFFFFF';
+
+                              let ageCategoryColor = match.age_category_color;
+                              let groupColor = match.group_color;
+
+                              if(ageCategoryColor != null) {
+                                colorVal = ageCategoryColor;
+                              }
+
+                              if(groupColor != null) {
+                                fixtureStripColor = groupColor;
+                              }
+
+                              if(isBright) {
+                                borderColorVal = vm.LightenDarkenColor(colorVal, -40);
+                              } else {
+                                borderColorVal = vm.LightenDarkenColor(colorVal, 40);
+                              }
 
                               if(scheduleBlock){
                                 colorVal = 'grey'
+                                textColorVal = '#FFFFFF'
                                 borderColorVal = 'grey'
                                 fixtureStripColor = 'grey'
                               }
@@ -431,11 +567,20 @@ import _ from 'lodash'
                               }
                               if(scheduleBlock){
                                 refereeId = -1
-                                matchTitle = 'Match scheduled - '+match.match_number
+                                matchTitle = 'Match scheduled - '+displayMatchName
                               }else{
                                 refereeId = match.referee_id?match.referee_id:0
-                                 matchTitle = match.match_number
+                                 matchTitle = displayMatchName
                               }
+
+                              if(ageCategoryColor != null) {
+                                colorVal = ageCategoryColor;
+                              }
+                              
+                              if(groupColor != null) {
+                                fixtureStripColor = groupColor;
+                              }
+
                                 let mData =  {
                                     'id': match.fid,
                                     'resourceId': match.pitchId,
@@ -445,40 +590,32 @@ import _ from 'lodash'
                                     'refereeText': refereeName,
                                     'title':matchTitle,
                                     'color': colorVal,
+                                    'textColor': textColorVal,
                                     'borderColor': borderColorVal,
                                     'matchId':match.fid,
                                     'matchAgeGroupId':match.age_group_id,
-                                    'fixtureStripColor': fixtureStripColor
+                                    'fixtureStripColor': fixtureStripColor,
+                                    'homeScore': match.homeScore,
+                                    'awayScore': match.AwayScore,
+                                    'displayFlag': match.min_interval_flag == 1 ? 'block' : 'none',
+                                    'homeTeam': match.Home_id,
+                                    'awayTeam': match.Away_id,
+                                    'matchStatus': match.match_status,
+                                    'matchWinner': match.match_winner,
+                                    'isResultOverride': match.isResultOverride,
+                                    'homeTeamPlaceHolder': displayHomeTeamPlaceholder,
+                                    'awayTeamPlaceHolder': displayAwayTeamPlaceholder,
+                                    'remarks': match.matchRemarks,
+                                    'locationCheckFlag': locationCheckFlag
                                 }
                             sMatches.push(mData)
                             }
                         });
-                        let minTimePitchAvail = []
-                        let maxTimePitchAvail = []
+
                         let sPitch = []
+
                         _.forEach(this.stage.pitches, (pitch) => {
                             _.forEach(pitch.pitch_availability, (availability) => {
-                                if(availability.stage_start_time != '08:00:00' ){
-                                    minTimePitchAvail.push(moment.utc(availability.stage_start_date+' '+availability.stage_start_time,'DD/MM/YYYY hh:mm:ss'))
-                                }
-                                if(availability.stage_start_time != '20:00:00' ){
-                                    maxTimePitchAvail.push(moment.utc(availability.stage_start_date+' '+availability.stage_end_time,'DD/MM/YYYY hh:mm:ss'))
-                                }
-                                let mData = {
-                                    'id': counter,
-                                    'resourceId': pitch.id,
-                                    'start':moment(availability.stage_start_date+' '+availability.break_start_time,'DD/MM/YYYY hh:mm:ss'),
-                                    'end': moment.utc(availability.stage_start_date+' '+availability.break_end_time,'DD/MM/YYYY hh:mm:ss'),
-                                    'refereeId': -1,
-                                    'refereeText': 'R',
-                                    'title':'Pitch is not available',
-                                    'color': 'grey',
-                                    'borderColor': 'grey',
-                                    'matchId':-1,
-                                    'matchAgeGroupId':'',
-                                    'fixtureStripColor': ''
-                                }
-
                                 if(availability.stage_start_time != '08:00'){
                                     let mData1 = {
                                         'id': 'start_'+counter,
@@ -487,39 +624,98 @@ import _ from 'lodash'
                                         'end': moment.utc(availability.stage_start_date+' '+availability.stage_start_time,'DD/MM/YYYY hh:mm:ss'),
                                         'refereeId': -1,
                                         'refereeText': 'R',
-                                        'title': 'Pitch is not available',
+                                        'title': '',
                                         'color': 'grey',
+                                        'textColor': '#FFFFFF',
                                         'borderColor': 'grey',
                                         'matchId':-1,
                                         'matchAgeGroupId':'',
-                                        'fixtureStripColor': ''
+                                        'fixtureStripColor': '',
+                                        'homeScore': null,
+                                        'awayScore': null,
+                                        'displayFlag':'none',
+                                        'homeTeam': null,
+                                        'awayTeam': null,
+                                        'matchStatus': null,
+                                        'matchWinner': null,
+                                        'isResultOverride': null,
+                                        'homeTeamPlaceHolder': null,
+                                        'awayTeamPlaceHolder': null,
+                                        'remarks': null,
+                                        'locationCheckFlag': null
                                     }
                                     sMatches.push(mData1)
+                                    counter = counter+1;
                                 }
-                                if(availability.stage_end_time != '20:00'){
+                                if(availability.stage_end_time != '23:00'){
                                     let mData2 = {
-                                        'id': 'end_'+counter,
+                                        'id': 'end_'+counter,   
                                         'resourceId': pitch.id,
                                         'start':moment.utc(availability.stage_start_date+' '+availability.stage_end_time,'DD/MM/YYYY hh:mm:ss'),
-                                        'end': moment.utc(availability.stage_start_date+' '+'20:00:00','DD/MM/YYYY HH:mm:ss'),
+                                        'end': moment.utc(availability.stage_start_date+' '+'23:00:00','DD/MM/YYYY HH:mm:ss'),
                                         'refereeId': -1,
                                         'refereeText': 'R',
-                                        'title':'Pitch is not available',
+                                        'title':'',
                                         'color': 'grey',
+                                        'textColor': '#FFFFFF',
                                         'borderColor': 'grey',
                                         'matchId': -1,
                                         'matchAgeGroupId':'',
-                                        'fixtureStripColor': ''
+                                        'fixtureStripColor': '',
+                                        'homeScore': null,
+                                        'awayScore': null,
+                                        'displayFlag':'none',
+                                        'homeTeam': null,
+                                        'awayTeam': null,
+                                        'matchStatus': null,
+                                        'matchWinner': null,
+                                        'isResultOverride': null,
+                                        'homeTeamPlaceHolder': null,
+                                        'awayTeamPlaceHolder': null,
+                                        'remarks': null,
+                                        'locationCheckFlag': null
                                     }
-                                sMatches.push(mData2)
-                                }
-
-                                sMatches.push(mData)
+                                    sMatches.push(mData2)
                                     counter = counter+1;
+                                }
+                                _.forEach(availability.pitch_breaks, (pitchBreak) => {
+                                    if(pitchBreak.break_start != pitchBreak.break_end) {
+                                        let mData = {
+                                            'id': counter,
+                                            'resourceId': pitch.id,
+                                            'start':moment.utc(availability.stage_start_date+' '+pitchBreak.break_start,'DD/MM/YYYY hh:mm:ss'),
+                                            'end': moment.utc(availability.stage_start_date+' '+pitchBreak.break_end,'DD/MM/YYYY hh:mm:ss'),
+                                            'refereeId': -1,
+                                            'refereeText': 'R',
+                                            'title':'',
+                                            'color': 'grey',
+                                            'textColor': '#FFFFFF',
+                                            'borderColor': 'grey',
+                                            'matchId':-1,
+                                            'matchAgeGroupId':'',
+                                            'fixtureStripColor': '',
+                                            'homeScore': null,
+                                            'awayScore': null,
+                                            'displayFlag': 'none',
+                                            'homeTeam': null,
+                                            'awayTeam': null,
+                                            'matchStatus': null,
+                                            'matchWinner': null,
+                                            'isResultOverride': null,
+                                            'homeTeamPlaceHolder': null,
+                                            'awayTeamPlaceHolder': null,
+                                            'remarks': null,
+                                            'locationCheckFlag': null
+                                        }
+
+                                        sMatches.push(mData)
+                                        counter = counter+1;
+                                    }
                                 });
                             });
+                        });
                         this.scheduledMatches =sMatches
-                        
+
                         this.stageWithoutPitch()
                         this.getUnavailablePitch()
 
@@ -528,8 +724,11 @@ import _ from 'lodash'
                                 $(this).closest('.fc-event').addClass('bg-grey');
                             }
                         })
+
                     }
+
                 )
+              return "Finish";
             },
             stageWithoutPitch() {
 
@@ -537,7 +736,7 @@ import _ from 'lodash'
 
               if(this.stage.pitches.length == 0) {
                 let start_date = this.stage.tournamentStartDate + '08:00:00'
-                let end_date = this.stage.tournamentStartDate + '20:00:00'
+                let end_date = this.stage.tournamentStartDate + '23:00:00'
 
                 let mData21 = {
                     'id': '111212',
@@ -546,15 +745,25 @@ import _ from 'lodash'
                     'end': moment.utc(end_date,'DD/MM/YYYY HH:mm:ss'),
                     'refereeId': -2,
                     'refereeText': '',
-                    'title': 'Pitch is not available',
+                    'title': '',
                     'color': 'grey',
-                    'matchId': '111212',
-                    'matchAgeGroupId':''
+                    'textColor': '#FFFFFF',
+                    'matchId': -1,
+                    'matchAgeGroupId':'',
+                    'homeScore': null,
+                    'awayScore': null,
+                    'displayFlag':'none',
+                    'homeTeam': null,
+                    'awayTeam': null,
+                    'matchStatus': null,
+                    'matchWinner': null,
+                    'isResultOverride': null
+
               }
                this.scheduledMatches.push(mData21)
                // Also Add for Resources as well
-                let resources = {'id':'111213','eventColor':'grey'}
-               this.pitchesData = resources
+                //let resources = {'id':'111213','eventColor':'grey'}
+               //this.pitchesData = resources
              }
 
             },
@@ -571,10 +780,15 @@ import _ from 'lodash'
                             'end': moment.utc(block.match_end_datetime,'YYYY/MM/DD HH:mm:ss'),
                             'refereeId': -2,
                             'refereeText': '',
-                            'title': 'Unavailable',
+                            'title': '',
                             'color': 'grey',
-                            'matchId': 'block_'+block.id,
-                            'matchAgeGroupId':''
+                            'textColor': '#FFFFFF',
+                            'matchId': -1,
+                            'matchAgeGroupId':'',
+                            'homeScore': null,
+                            'awayScore': null,
+                            'displayFlag': 'none',
+                            'remarks': null,
                         }
                         this.scheduledMatches.push(mData2)
                         this.unavailableBlock.push(mData2)
@@ -585,6 +799,52 @@ import _ from 'lodash'
                         vm1.initScheduler();
                     }
                 )
+            },
+            LightenDarkenColor(colorCode, amount) {
+                var usePound = false;
+
+                if (colorCode[0] == "#") {
+                    colorCode = colorCode.slice(1);
+                    usePound = true;
+                }
+
+                var num = parseInt(colorCode, 16);
+
+                var r = (num >> 16) + amount;
+
+                if (r > 255) {
+                    r = 255;
+                } else if (r < 0) {
+                    r = 0;
+                }
+
+                var b = ((num >> 8) & 0x00FF) + amount;
+
+                if (b > 255) {
+                    b = 255;
+                } else if (b < 0) {
+                    b = 0;
+                }
+
+                var g = (num & 0x0000FF) + amount;
+
+                if (g > 255) {
+                    g = 255;
+                } else if (g < 0) {
+                    g = 0;
+                }
+
+                return (usePound ? "#" : "") + (g | (b << 8) | (r << 16)).toString(16);
+            },
+            getBrightness(hexCode) {
+              hexCode = hexCode.replace('#', '');
+              var c_r = parseInt(hexCode.substr(0, 2),16);
+              var c_g = parseInt(hexCode.substr(2, 2),16);
+              var c_b = parseInt(hexCode.substr(4, 2),16);
+              return ((c_r * 299) + (c_g * 587) + (c_b * 114)) / 1000;
+            },
+            arrangeLeftColumn() {
+                arrangeLeftColumn();
             }
         }
     };
@@ -597,11 +857,65 @@ import _ from 'lodash'
         H   = $(window).height(),
         r   = $el[0].getBoundingClientRect(), t=r.top, b=r.bottom;
         var considerHeaderHeight = 0;
-        if(($(window).scrollTop() + $("header").height()) > $el.offset().top) {
-            considerHeaderHeight = $("header").height();
-        }              
+        var headerHeight = $("header").length > 0 ? $("header").height() : 0;
+        if(($(window).scrollTop() + headerHeight) > $el.offset().top) {
+            considerHeaderHeight = headerHeight;
+        }
         var leftViewHeight = Math.max(0, t>0? Math.min(elH, H-t) : (b<H?b:H)) - $("#gameReferee .nav.nav-tabs").height() - parseInt($("#gameReferee .tab-content").css('margin-top').replace('px', '')) - considerHeaderHeight - 10;
         $("#game-list").css('height', leftViewHeight + 'px');
         $("#referee-list").css('height', leftViewHeight + 'px');
     }
+
+    function arrangeLeftColumn() {        
+        var scrollableBodys = document.querySelectorAll('.fc-content-skeleton');        
+        var index = 1;
+        var plannerwidth = $('.pitch_planner_section').width()/8;
+        $('.stage-top-horizontal-scroll').hide();      
+        [].forEach.call(scrollableBodys, function(scrollableBody) {
+            var totalPitches = document.querySelectorAll('.pitch-planner-item:nth-child('+index+') .fc-head-container > .fc-row > table > thead > tr > th').length - 1;
+            if(totalPitches>7){
+                var pitchplanneritem = document.querySelectorAll('.pitch-planner-item:nth-child('+index+')');
+                pitchplanneritem[0].classList.add("ppitem");
+                var width = (plannerwidth*(totalPitches+2));
+                var width2 = (plannerwidth*(totalPitches));
+
+                var scrollableHeader = document.querySelector('.pitch-planner-item:nth-child('+index+') .fc-head-container > .fc-row');
+                var scrollableHeaderTable = document.querySelector('.pitch-planner-item:nth-child('+index+') .fc-head-container > .fc-row > table');
+                scrollableHeaderTable.style.width = (width-40)+'px';
+
+                var scrollableBg = document.querySelector('.pitch-planner-item:nth-child('+index+') .fc-bg');
+                var scrollableBgTable = document.querySelector('.pitch-planner-item:nth-child('+index+') .fc-bg > table');
+                scrollableBgTable.style.width = width+'px';
+                var fcsktable = document.querySelector('.pitch-planner-item:nth-child('+index+') .fc-time-grid .fc-content-skeleton > table');
+                fcsktable.style.width = (width-40)+'px';
+
+                var fcsktable2 = document.querySelector('.pitch-planner-item:nth-child('+index+') .fc-agenda-view > table');
+                fcsktable2.style.width = '100%';
+
+                // Top Horizontal Scroll
+                document.querySelector('.pitch-planner-item:nth-child('+index+') .stage-top-horizontal-scroll').style.display = 'block';
+                var topHorizontalScroll = document.querySelector('.pitch-planner-item:nth-child('+index+') .stage-top-horizontal-scroll div');
+                topHorizontalScroll.style.width = (width-40)+'px';
+
+                scrollableBody.addEventListener('scroll', () => {
+                    scrollableHeader.scrollTo(scrollableBody.scrollLeft, 0);
+                    scrollableBg.scrollTo(scrollableBody.scrollLeft, 0);
+                    let stageNo = $(scrollableBody).closest('.js-stage-outer-div').data('stage-number');
+                    $(".js-stage-top-horizontal-scroll" + stageNo).scrollLeft($(scrollableBody).scrollLeft());
+                });
+            } else {
+                $(scrollableBody).closest('table').css('width', ($('.pitch_planner_section').width() - 20) + 'px');
+            }
+            index++;
+        });
+        $('.stage-top-horizontal-scroll').on('scroll', function (e){
+            let stageNo = $(this).data('stage-number');
+            $("#stage_outer_div" + stageNo).find('.fc-content-skeleton').first().scrollLeft($(this).scrollLeft());
+        });
+    }
+    $(window).load(function(){
+        setTimeout(function() {
+            arrangeLeftColumn();
+        }, 5000);
+    });
 </script>

@@ -1,5 +1,5 @@
 <template>
-<div class="container">
+<div class="container-fluid">
 	<div class="row">
     	<div class="col-sm-12">
         	<div class="page-header">
@@ -24,13 +24,16 @@
 								<div class="tabs tabs-primary">
 									<ul class="nav nav-tabs">
 										<li @click="setCurrentView('drawsListing')" class="nav-item">
-											<a :class="[currentView == 'drawsListing' ? 'active' : '']" class="nav-link">{{$lang.summary_schedule_draws}}</a>
+											<a :class="[currentView == 'drawsListing' ? 'active' : '']" class="nav-link" href="javascript:void(0)"><div class="wrapper-tab">{{$lang.summary_schedule_categories}}</div></a>
 										</li>
 										<li @click="setCurrentView('matchListing')" class="nav-item">
-											<a :class="[currentView == 'matchListing' ? 'active' : '']" class="nav-link">{{$lang.summary_schedule_matches}}</a>
+											<a :class="[currentView == 'matchListing' ? 'active' : '']" class="nav-link" href="javascript:void(0)"><div class="wrapper-tab">{{$lang.summary_schedule_matches}}</div></a>
 										</li>
 										<li @click="setCurrentView('teamListing')" class="nav-item">
-											<a :class="[currentView == 'teamListing' ? 'active' : '']" class="nav-link">{{$lang.summary_schedule_teams}}</a>
+											<a :class="[currentView == 'teamListing' ? 'active' : '']" class="nav-link" href="javascript:void(0)"> <div class="wrapper-tab">{{$lang.summary_schedule_teams}}</div></a>
+										</li>
+										<li @click="setCurrentView('finalPlacings')" class="nav-item">
+											<a :class="[currentView == 'finalPlacings' ? 'active' : '']" class="nav-link" href="javascript:void(0)"><div class="wrapper-tab">{{$lang.summary_schedule_final_placings}}</div></a>
 										</li>
 									</ul>
 									<div class="tab-content">
@@ -56,6 +59,8 @@ import DrawsListing from './DrawsListing.vue'
 import MatchListing from './MatchListing.vue'
 import TeamListing from './TeamListing.vue'
 import DrawDetails from './DrawDetails.vue'
+import Tournament from '../api/tournament.js'
+import FinalPlacings from './FinalPlacings.vue'
 
 export default {
 	props: ['currentScheduleView'],
@@ -66,19 +71,50 @@ export default {
 		}
 	},
 	mounted(){
-		// here we set drawsListing as currentView
-		this.currentView = 'drawsListing';
-    this.$store.dispatch('setCurrentView',this.currentView)
-    // here we set the value of users to null
-    this.$store.dispatch('isAdmin',false);
+		let vm = this;
+		let TournamentData = {'slug':this.$route.params.tournamentslug}
+	    Tournament.getTournamentBySlug(TournamentData).then(
+	      (response) => {
+		    let tournamentSel  = {
+		        name: response.data.data['name'],
+		        id: response.data.data['id'],
+		        tournamentSlug: response.data.data['slug'],
+		        tournamentLogo: response.data.data['logo'],
+		        tournamentStatus:response.data.data['status'],
+		        tournamentStartDate:response.data.data['start_date'],
+		        tournamentEndDate:response.data.data['end_date']
+		    }
+		    vm.$store.dispatch('SetTournamentName', tournamentSel)
+
+		    Vue.nextTick().then(function () {
+		    	// here we set drawsListing as currentView
+				vm.currentView = 'drawsListing';
+			    vm.$store.dispatch('setCurrentView', vm.currentView)
+
+			    vm.$root.$emit('getAllDraws', response.data.data['id'])
+			    vm.$root.$emit('getAllMatches')
+			    vm.$root.$emit('getAllTournamentTeams');
+			});
+	      },
+	      (error) => {
+	      }
+	    )
+	    // here we set the value of users to null
+	    this.$store.dispatch('isAdmin',false);
 	},
 	components: {
-		DrawsListing, MatchListing, TeamListing,DrawDetails
+		DrawsListing, MatchListing, TeamListing,DrawDetails,FinalPlacings
 	},
 	created: function() {
-       this.$root.$on('changeComp1', this.setMatchData1);
-       this.$root.$on('lastUpdateDate',this.lastUpdatedDate);
-       this.$root.$on('setCurrentView',this.setCurrentView);
+    	this.$root.$on('changeComp1', this.setMatchData1);
+    	this.$root.$on('lastUpdateDate',this.lastUpdatedDate);
+    	this.$root.$on('setCurrentView',this.setCurrentView);
+  },
+  beforeCreate: function() {
+  	// Remove custom event listener
+	this.$root.$off('changeComp1');
+    this.$root.$off('lastUpdateDate');
+    this.$root.$off('setCurrentView');
   },
   computed: {
     TournamentName() {

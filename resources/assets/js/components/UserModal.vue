@@ -17,7 +17,7 @@
                       :class="{'is-danger': errors.has('name') }"
                       name="name" type="text"
                       class="form-control" placeholder="Enter first name">
-                      <i v-show="errors.has('name')" class="fa fa-warning"></i>
+                      <i v-show="errors.has('name')" class="fas fa-warning"></i>
                       <span class="help is-danger" v-show="errors.has('name')">{{ errors.first('name') }}
                       </span>
                   </div>
@@ -26,7 +26,7 @@
                     <label class="col-sm-5 form-control-label">{{$lang.user_management_add_surname}}</label>
                     <div class="col-sm-6">
                         <input v-model="formValues.surname" v-validate="'required|alpha_spaces'" :class="{'is-danger': errors.has('surname') }" name="surname" type="text" class="form-control" placeholder="Enter second name">
-                        <i v-show="errors.has('surname')" class="fa fa-warning"></i>
+                        <i v-show="errors.has('surname')" class="fas fa-warning"></i>
                         <span class="help is-danger" v-show="errors.has('surname')">{{ errors.first('surname') }}</span>
                     </div>
                 </div>
@@ -34,7 +34,7 @@
                     <label class="col-sm-5 form-control-label">{{$lang.user_management_email}}</label>
                     <div class="col-sm-6">
                         <input v-model="formValues.emailAddress" v-validate="'required|email'" :class="{'is-danger': errors.has('email_address') }" name="email_address" type="email" class="form-control" placeholder="Enter email address">
-                        <i v-show="errors.has('email_address')" class="fa fa-warning"></i>
+                        <i v-show="errors.has('email_address')" class="fas fa-warning"></i>
                         <span class="help is-danger" v-show="errors.has('email_address')">{{$lang.user_management_email_required}}</span>
                        <span class="help is-danger" v-if="existEmail == true">Email already exist</span>
                     </div>
@@ -44,7 +44,7 @@
                     <label class="col-sm-5 form-control-label">{{$lang.user_management_password}}</label>
                     <div class="col-sm-6">
                         <input v-model="formValues.password" v-validate="'required'" :class="{'is-danger': errors.has('pass') }" name="pass" type="password" class="form-control" placeholder="Enter password">
-                        <i v-show="errors.has('pass')" class="fa fa-warning"></i>
+                        <i v-show="errors.has('pass')" class="fas fa-warning"></i>
                         <span class="help is-danger" v-show="errors.has('pass')">{</span>
                     </div>
                 </div> -->
@@ -53,7 +53,7 @@
                     <div class="col-sm-6">
                       <select v-validate="'required'":class="{'is-danger': errors.has('user_type') }" class="form-control ls-select2" name="user_type" v-model="formValues.userType" @change="userTypeChanged()">
                         <option value="">Select</option>
-                        <option v-for="role in userRolesOptions" v-bind:value="role.id">
+                        <option v-for="role in userRolesOptions" v-bind:value="role.id" v-if="(!(isMasterAdmin == true && role.slug == 'Super.administrator'))">
                             {{ role.name }}
                         </option>
                       </select>
@@ -64,8 +64,19 @@
                     <label class="col-sm-5 form-control-label">{{$lang.user_management_organisation}}</label>
                     <div class="col-sm-6">
                         <input v-model="formValues.organisation" v-validate="{ rules: { required: showOrganisation } }" :class="{'is-danger': errors.has('organisation') }" name="organisation" type="text" class="form-control" placeholder="Enter organisation name">
-                        <i v-show="errors.has('organisation')" class="fa fa-warning"></i>
+                        <i v-show="errors.has('organisation')" class="fas fa-warning"></i>
                         <span class="help is-danger" v-show="errors.has('organisation')">{{$lang.user_management_organisation_required}}</span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-5 form-control-label">{{$lang.user_management_role}}</label>
+                    <div class="col-sm-6">
+                      <select class="form-control ls-select2" name="role" v-model="formValues.role">
+                          <option value="">Select</option>
+                          <option v-for="role in roleOptions" :value="role">
+                            {{ role }}
+                          </option>
+                      </select>
                     </div>
                 </div>
                 <div class="form-group row">
@@ -107,8 +118,8 @@ import { ErrorBag } from 'vee-validate';
                     userEmailData1: this.userEmailData,
                     userEmail2: '',
                     tournament_id: '',
+                    role: '',
                 },
-
                 userRolesOptions: [],
                 userModalTitle: 'Add User',
                 deleteConfirmMsg: 'Are you sure you would like to delete this user record?',
@@ -118,6 +129,9 @@ import { ErrorBag } from 'vee-validate';
                 emailData:[],
                 existEmail: false,
                 showOrganisation: false,
+                initialUserType: null,
+                roleOptions: ['Player', 'Coach/Manager/Trainer', 'Other'],
+              
                 errorMessages: {
                   en: {
                     custom: {
@@ -147,16 +161,16 @@ import { ErrorBag } from 'vee-validate';
             }
         },
         created() {
+          this.$root.$on('privilegeChangeConfirmed', this.updateUser);
         },
         mounted(){
             if(this.userId!=''){
                 this.editUser(this.userId)
             }
             this.userRolesOptions =  this.userRoles
-
             this.$validator.updateDictionary(this.errorMessages);
         },
-        props:['userId','userRoles','userEmailData','publishedTournaments'],
+        props:['userId','userRoles','userEmailData','publishedTournaments','isMasterAdmin'],
         methods: {
             initialState() {
                 this.$data.formValues.id = '',
@@ -165,15 +179,15 @@ import { ErrorBag } from 'vee-validate';
                 this.formValues.emailAddress= '',
                 this.formValues.organisation= '',
                 this.formValues.userType= '',
-                 this.formValues.resendEmail= ''
+                this.formValues.resendEmail= ''
             },
            editUser(id) {
-
                 //TODO: refactor the Code For Move to Api User
                 User.getEditUser(id).then(
                   (response)=> {
                     this.userModalTitle="Edit User";
                     this.$data.formValues = response.data;
+                    this.initialUserType = response.data.userType;
                     this.$data.formValues.userEmail2 = this.$data.formValues.emailAddress;
                     this.userTypeChanged();
                   },
@@ -182,7 +196,6 @@ import { ErrorBag } from 'vee-validate';
                 )
 
             },
-
             createImage(file) {
               var image = new Image();
               var reader = new FileReader();
@@ -230,7 +243,8 @@ import { ErrorBag } from 'vee-validate';
                 }); */
             },
             validateBeforeSubmit1() {
-                this.$validator.validateAll().then(() => {
+                this.$validator.validateAll().then((response) => {
+                  if(response) {
                     if(this.$data.formValues.id=="") {
                     var a = this.userEmailData.emaildata.indexOf(this.$data.formValues.emailAddress)
 
@@ -281,33 +295,21 @@ import { ErrorBag } from 'vee-validate';
 
                     }
 
+                    let initailUserType = this.initialUserType;
+                    let initialRole = _.head(_.filter(this.userRolesOptions, function(o) { return initailUserType == o.id; }));
+                    
+                    let selectedUserType = this.formValues.userType;
+                    let selectedRole = _.head(_.filter(this.userRolesOptions, function(o) { return selectedUserType == o.id; }));
 
+                    if(initialRole.slug == 'Super.administrator' && selectedRole.slug != 'Super.administrator') {
+                      this.$emit('showChangePrivilegeModal');
+                      return false;
+                    }
 
-                    let that = this
-                    setTimeout(function(){
-                      User.updateUser(that.formValues.id,that.formValues).then(
-                          (response)=> {
-                          toastr.success('User has been updated successfully.', 'Update User', {timeOut: 5000});
-                            $("#user_form_modal").modal("hide");
-                            setTimeout(Plugin.reloadPage, 500);
-                            // that.$data.formValues = that.initialState();
-                            // that.updateUserList();
-                          },
-                          (error)=>{
-                          }
-
-                        )
-
-                        /*axios.post("/api/user/update/"+that.formValues.id, that.formValues).then((response) => {
-                            toastr.success('User has been updated successfully.', 'Update User', {timeOut: 5000});
-                            $("#user_form_modal").modal("hide");
-                             setTimeout(Plugin.reloadPage, 500);
-                            that.$data.formValues = that.initialState();
-                            that.updateUserList();
-                        }); */
-                    },1000)
+                    this.updateUser();
 
                     }
+                  }
                 }).catch((errors) => {
                     // toastr['error']('Please fill all required fields ', 'Error')
                  });
@@ -324,6 +326,21 @@ import { ErrorBag } from 'vee-validate';
               if(roleData && roleData.slug !== 'mobile.user') {
                 this.showOrganisation = true;
               }
+            },
+            updateUser() {
+              let that = this;
+              setTimeout(function(){
+                User.updateUser(that.formValues.id,that.formValues).then(
+                    (response)=> {
+                    toastr.success('User has been updated successfully.', 'Update User', {timeOut: 5000});
+                      $("#user_form_modal").modal("hide");
+                      setTimeout(Plugin.reloadPage, 500);
+                    },
+                    (error)=>{
+                    }
+
+                  )
+              },1000)
             },
         }
     }

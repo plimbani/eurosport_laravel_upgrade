@@ -7,7 +7,7 @@
 						<ul class="nav nav-tabs" role="tablist">
 							<li class="nav-item">
 								<a class="nav-link active" data-toggle="tab"
-								href="javascript:void(0)" role="tab">{{$lang.user_management_user}}</a>
+								href="javascript:void(0)" role="tab"><div class="wrapper-tab">{{$lang.user_management_user}}</div></a>
 							</li>
 						</ul>
 						<UserList :userList="userList"></UserList>
@@ -30,36 +30,42 @@ export default {
 				'userCount': 0,
 				'listStatus': 1,
       			'emaildata':[]
-			}
+      		}
 		}
 	},
 	components: {
 		UserList
 	},
 	created() {
-	  this.getSelectComponent();
-	  this.$root.$on('setSearch', this.getSelectComponent);
-    this.$root.$on('clearSearch', this.clearSearch);
+		this.getSelectComponent();
+		this.$root.$on('setSearch', this.getSelectComponent);
+	    this.$root.$on('clearSearch', this.clearSearch);
 	},
+
 	methods: {
-  clearSearch() {
-    this.getSelectComponent()
-  },
-	getSelectComponent(userData='') {
+	  clearSearch() {
+	    this.getSelectComponent()
+	},		
+	getSelectComponent(userSearh='', userType='') {
 	  let emaildata = []
-	  let user1Data = {}
-	  if(userData != '') {
-	  	  user1Data = {'userData': userData}
-	  } else {
-	      user1Data = {}
+	  let userData = {}
+
+	  if(userSearh != '') {
+	  	  userData.userData = userSearh;
 	  }
-      User.getUsersByRegisterType(user1Data).then(
+
+	  if(userType != '') {
+	  	  userData.userType = userType;
+	  }
+
+      User.getUsersByRegisterType(userData).then(
         (response)=> {
+
           if('users' in response.data) {
             for(var val1 in response.data.users) {
               for(var val2 in response.data.users[val1]) {
                 emaildata.push(response.data.users[val1]['email'])
-                //emaildata=response.data.users[val1]['email']
+               //emaildata=response.data.users[val1]['email']
               }
             }
 
@@ -67,8 +73,7 @@ export default {
                 return index == self.indexOf(elem);
             })
 
-            this.userList.emaildata = unique
-
+            this.userList.emaildata = unique;
             this.userList.userData = response.data.users;
             this.userList.userCount = response.data.users.length;
           } else {

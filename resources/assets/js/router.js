@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import store from './store'
 import VueRouter from 'vue-router'
 
 import AuthService from './services/auth'
@@ -40,6 +41,13 @@ import FrontSchedule from './views/front/FrontScheduleResults.vue'
 // EuroSport Layout
 import LayoutTournament from './views/layouts/LayoutTournament.vue'
 
+// Website Layout
+import LayoutWebsite from './views/layouts/LayoutWebsite.vue'
+
+// Full EuroSport Layout
+import FullLayoutTournament from './views/layouts/FullLayoutTournament.vue'
+import PrintPitchPlannerLayout from './views/layouts/PrintPitchPlannerLayout.vue'
+
 //EuroSport Pages
 import Welcome from './views/admin/eurosport/Welcome.vue'
 import TournamentSummaryDetails from './views/admin/eurosport/Tournament.vue'
@@ -52,20 +60,32 @@ import PitchCapacity from './views/admin/eurosport/PitchCapacity.vue'
 
 import PitchPlanner from './views/admin/eurosport/PitchPlanner.vue'
 
-//import Referee from './views/admin/eurosport/Referee.vue'
-
-
 // UserManagement Layout
 import LayoutUserManagement from './views/layouts/LayoutUserManagement.vue'
+
+// Duplicate Tournament Layout
+import LayoutDuplicateTournament from './views/layouts/LayoutDuplicateTournament.vue'
 
 //User Pages
 import UserList from './views/admin/users/List.vue'
 
+// Website pages
+import WebsiteAdd from './views/admin/eurosport/WebsiteAdd.vue';
+import WebsiteHomepage from './views/admin/eurosport/WebsiteHomepage.vue';
+import WebsiteTeams from './views/admin/eurosport/WebsiteTeams.vue';
+import WebsiteVenue from './views/admin/eurosport/WebsiteVenue.vue';
+import WebsiteTournament from './views/admin/eurosport/WebsiteTournament.vue';
+import WebsiteProgram from './views/admin/eurosport/WebsiteProgram.vue';
+import WebsiteStay from './views/admin/eurosport/WebsiteStay.vue';
+import WebsiteVisitors from './views/admin/eurosport/WebsiteVisitors.vue';
+import WebsiteMedia from './views/admin/eurosport/WebsiteMedia.vue';
+import WebsiteContact from './views/admin/eurosport/WebsiteContact.vue';
+
 Vue.use(VueRouter)
 
 const routes = [
-   
-    
+
+
     /*
      |--------------------------------------------------------------------------
      | EuroSport Route File
@@ -86,11 +106,11 @@ const routes = [
                 name: 'home'
             },
             {
-                path: '/schedule_results',
+                path: '/schedule_results/:tournamentslug',
                 component: FrontSchedule,
                 name: 'front_schedule'
             },
-               
+
         ]
     },
 
@@ -102,46 +122,46 @@ const routes = [
                 path: '/',
                 component: Welcome,
                 name: 'welcome'
-            },                     
+            },
         ]
     },*/
 
     // Admin Backend Routes For Tournaments
     {
         path: '/admin', component: LayoutHorizontal,
-        meta: { requiresAuth: true }, 
+        meta: { requiresAuth: true },
         children: [
             {
                 path: '/',
                 component: Welcome,
-                name: 'welcome'       
+                name: 'welcome'
             }
         ]
-    },    
+    },
     {
         path: '/admin', component: LayoutTournament,
-        meta: { requiresAuth: true },   
+        meta: { requiresAuth: true },
         children: [
             {
                 path: 'tournaments_summary_details',
                 component: TournamentSummaryDetails,
                 name: 'tournaments_summary_details'
-            }, 
+            },
             {
                 path: 'teams_groups',
                 component: TournamentTeamGroup,
                 name: 'teams_groups'
-            }, 
+            },
             {
                 path: 'tournament_add',
                 component: TournamentAdd,
                 name: 'tournament_add'
             },
             {
-                path: 'competation_format',
+                path: 'competition_format',
                 component: CompetationFormat,
-                name: 'competation_format'
-            }, 
+                name: 'competition_format'
+            },
             {
                 path: 'pitch_capacity',
                 component: PitchCapacity,
@@ -152,25 +172,109 @@ const routes = [
                 component: PitchPlanner,
                 name: 'pitch_planner'
 
-            } 
-             
+            }
+
         ]
     },
+    {
+        path: '/admin', component: FullLayoutTournament,
+        meta: { requiresAuth: true },
+        children: [
+            {
+                path: 'enlarge_pitch_planner',
+                component: PitchPlanner,
+                name: 'enlarge_pitch_planner'
+
+            }
+        ]
+    },
+    {
+        path: '/admin', component: PrintPitchPlannerLayout,
+        meta: { requiresAuth: true },
+        children: [
+            {
+                path: 'print_pitch_planner',
+                component: PitchPlanner,
+                name: 'print_pitch_planner'
+
+            }
+        ]
+    },    
     {
         path: '/users',
         component: LayoutUserManagement,
         meta: { requiresAuth: true },
         name: 'users_list'
-        // children: [
-        //     {
-        //         path: '/',
-        //         component: UserList,
-        //         name: 'users_list'
-        //     }
-        // ]
     },
 
-   
+
+    // Duplicate tournament copy routes
+    {
+        path: '/tournaments',
+        component: LayoutDuplicateTournament,
+        meta: { requiresAuth: true },
+        name: 'duplicate_tournament_copy'
+    },
+
+    // Web site routes
+    {
+        path: '/admin', component: LayoutWebsite,
+        meta: { requiresAuth: true },
+        children: [
+            {
+                path: 'website_add',
+                component: WebsiteAdd,
+                name: 'website_add'
+            },
+            {
+                path: 'website_homepage',
+                component: WebsiteHomepage,
+                name: 'website_homepage'
+            },
+            {
+                path: 'website_teams',
+                component: WebsiteTeams,
+                name: 'website_teams'
+            },
+            {
+                path: 'website_venue',
+                component: WebsiteVenue,
+                name: 'website_venue'
+            },
+            {
+                path: 'website_tournament',
+                component: WebsiteTournament,
+                name: 'website_tournament'
+            },
+            {
+                path: 'website_program',
+                component: WebsiteProgram,
+                name: 'website_program'
+            },
+            {
+                path: 'website_stay',
+                component: WebsiteStay,
+                name: 'website_stay'
+            },
+            {
+                path: 'website_visitors',
+                component: WebsiteVisitors,
+                name: 'website_visitors'
+            },
+            {
+                path: 'website_media',
+                component: WebsiteMedia,
+                name: 'website_media'
+            },
+            {
+                path: 'website_contact',
+                component: WebsiteContact,
+                name: 'website_contact'
+            }
+        ]
+    },
+
+
      /*
      |--------------------------------------------------------------------------
      | Auth & Registration Routes
@@ -191,7 +295,7 @@ const routes = [
                 name: 'register'
             },
         ]
-    }, 
+    },
 
     // DEFAULT ROUTE
     {   path: '*', component : NotFoundPage }
@@ -200,19 +304,34 @@ const routes = [
 const router = new VueRouter({
     routes,
     mode: 'history',
-    linkActiveClass: 'active'
+    linkActiveClass: 'active',
+    scrollBehavior (to, from, savedPosition) {
+      return { x: 0, y: 0 }
+    }
 })
 
 router.beforeEach((to, from, next) => {
+    let routesName = ['tournament_add', 'competition_format', 'pitch_capacity', 'teams_groups', 'pitch_planner', 'enlarge_pitch_planner', 'tournaments_summary_details'];
+    let data = {};
+    if (routesName.indexOf(to.name) >= 0) {
+        data.tournamentId = store.state.Tournament.tournamentId;
+    }
+
+    let websiteRoutes = ['website_add', 'website_homepage', 'website_teams', 'website_venue', 'website_tournament', 'website_program', 'website_stay', 'website_visitors', 'website_media', 'website_contact'];
+    if (websiteRoutes.indexOf(to.name) === -1) {
+        store.dispatch('ResetWebsiteDetail');
+    }
 
     // If the next route is requires user to be Logged IN
     if (to.matched.some(m => m.meta.requiresAuth)){
-
-        return AuthService.check().then(authenticated => {
-            if(!authenticated){
+        return AuthService.check(data).then((response) => {
+            if(!response.authenticated){
                 return next({ path : '/login'})
             }
-
+            if(response.authenticated && typeof response.hasAccess !== 'undefined' && response.hasAccess == false){
+                return next({ path : '/admin'});
+            }
+            store.dispatch('setScoreAutoUpdate',response.is_score_auto_update);
             return next()
         })
     }

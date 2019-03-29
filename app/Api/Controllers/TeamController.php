@@ -2,9 +2,28 @@
 
 namespace Laraspace\Api\Controllers;
 
+use UrlSigner;
+use Carbon\Carbon;
 use Brotzka\DotenvEditor\DotenvEditor;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
+use Laraspace\Http\Requests\Team\StoreRequest;
+use Laraspace\Http\Requests\Team\UpdateRequest;
+use Laraspace\Http\Requests\Team\AllClubsRequest;
+use Laraspace\Http\Requests\Team\GetTeamsRequest;
+use Laraspace\Http\Requests\Team\TeamsListRequest;
+use Laraspace\Http\Requests\Team\ClubsTeamsRequest;
+use Laraspace\Http\Requests\Team\AssignTeamRequest;
+use Laraspace\Http\Requests\Team\TeamDetailsRequest;
+use Laraspace\Http\Requests\Team\AllCountriesRequest;
+use Laraspace\Http\Requests\Team\AllTeamColorsRequest;
+use Laraspace\Http\Requests\Team\ResetAllTeamsRequest;
+use Laraspace\Http\Requests\Team\ChangeTeamNameRequest;
+use Laraspace\Http\Requests\Team\CheckTeamExistRequest;
+use Laraspace\Http\Requests\Team\GetAllTournamentTeamsRequest;
+use Laraspace\Http\Requests\Team\GetAllCompetitionTeamsFromFixtureRequest;
+use Laraspace\Http\Requests\Team\GetSignedUrlForTeamsFairPlayReportPrint;
+use Laraspace\Http\Requests\Team\GetSignedUrlForTeamsFairPlayReportExport;
 
 
 // Need to Define Only Contracts
@@ -34,10 +53,9 @@ class TeamController extends BaseController
      * @Versions({"v1"})
      * @Response(200, body={"id": 10, "club_id": "foo"})
      */
-    public function getTeams(Request $request)
+    public function getTeams(GetTeamsRequest $request)
     {
-        // dd($request->all());
-        return $this->teamObj->getTeams($request);
+       return  $result = $this->teamObj->getTeams($request);
     }
 
     public function getClubs(Request $request)
@@ -45,12 +63,12 @@ class TeamController extends BaseController
         return $this->teamObj->getClubs($request->all());
     }
 
-    public function getClubTeams(Request $request)
+    public function getClubTeams(ClubsTeamsRequest $request)
     {
         return $this->teamObj->getClubTeams($request->all());
     }
 
-    public function getAllTournamentTeams(Request $request)
+    public function getAllTournamentTeams(GetAllTournamentTeamsRequest $request)
     {
       return $this->teamObj->getAllTournamentTeams($request->all());
     }
@@ -71,7 +89,7 @@ class TeamController extends BaseController
      * @Request("name=test", contentType="application/x-www-form-urlencoded")
      */
 
-    public function createTeam(Request $request)
+    public function createTeam(StoreRequest $request)
     {
         $teamData = $request->all();
         // dd($teamData);
@@ -81,12 +99,13 @@ class TeamController extends BaseController
        // $rows = \Excel::load($file->getRealPath(), null, 'ISO-8859-1')->get();
         //print_r($rows);
         //exit;
-        \Excel::load($file->getRealPath(), function($reader) {
+        \Excel::selectSheetsByIndex(0)->load($file->getRealPath(), function($reader) {
             // dd($reader->getTotalRowsOfFile() - 1);
             $this->data['totalSize']  = $reader->getTotalRowsOfFile() - 1;
-
+            // dd($this->data['totalSize']);
             // $reader->limit($this->data['teamSize']);
             $reader->each(function($sheet) {
+                // dd($sheet);
             // Loop through all rows
                 // $sheet->each(function($row) {
                     // dd($sheet);
@@ -96,15 +115,11 @@ class TeamController extends BaseController
                 // });
             });
         }, 'ISO-8859-1');
-        // if($this->data['totalSize'] > $this->data['teamSize'] ){
-        //     return ['bigFileSize' =>  true];
-        // }else{
             return ['bigFileSize' =>  false];
-        // }
+     
     }
-    public function assignTeam(Request $request) {
-        // dd($request->all());
-         $this->teamObj->assignTeams($request->all());
+    public function assignTeam(AssignTeamRequest $request) {        
+        return $this->teamObj->assignTeams($request->all());
     }
     public function getAllTeamsGroup(Request $request) {
         $this->teamObj->getAllTeamsGroup($request->all());
@@ -140,18 +155,95 @@ class TeamController extends BaseController
         return $this->teamObj->delete($request);
     }
 
-    public function getTeamsList(Request $request)
+    public function getTeamsList(TeamsListRequest $request)
     {
       return $this->teamObj->getTeamsList($request->all());
     }
 
-    public function changeTeamName(Request $request)
+    public function changeTeamName(ChangeTeamNameRequest $request)
     {
         return $this->teamObj->changeTeamName($request->all());
     }
 
-    public function getAllCompetitionTeamsFromFixture(Request $request)
+    public function getAllCompetitionTeamsFromFixture(GetAllCompetitionTeamsFromFixtureRequest $request)
     {
       return $this->teamObj->getAllCompetitionTeamsFromFixture($request->all());
+    }
+
+    public function editTeamDetails(TeamDetailsRequest $request, $teamId) 
+    {
+        return $this->teamObj->editTeamDetails($teamId);
+    }
+
+    public function getAllTeamColors(AllTeamColorsRequest $request)
+    {
+        return $this->teamObj->getAllTeamColors();
+    }
+
+    public function getAllCountries(AllCountriesRequest $request)
+    {
+        return $this->teamObj->getAllCountries();
+    }
+
+    public function getAllClubs(AllClubsRequest $request)
+    {
+        return $this->teamObj->getAllClubs();
+    }
+
+    public function updateTeamDetails(UpdateRequest $request, $teamId)
+    {
+        return $this->teamObj->updateTeamDetails($request, $teamId);
+    }
+
+    public function checkTeamExist(CheckTeamExistRequest $request)
+    {
+        return $this->teamObj->checkTeamExist($request);
+    }
+
+    public function resetAllTeams(ResetAllTeamsRequest $request)
+    {
+        return $this->teamObj->resetAllTeams($request);
+    }
+
+    public function getClubsByTournamentId(Request $request, $tournamentId)
+    {
+        return $this->teamObj->getClubsByTournamentId($tournamentId);
+    }
+
+    public function getTeamsFairPlayData(Request $request)
+    {
+        return $this->teamObj->getTeamsFairPlayData($request->all());   
+    }
+
+    public function getSignedUrlForTeamsFairPlayReportExport(GetSignedUrlForTeamsFairPlayReportExport $request)
+    {
+        $reportData = $request->all();
+        ksort($reportData);
+        $reportData  = http_build_query($reportData);
+
+        $signedUrl = UrlSigner::sign(url('api/teams/getTeamsFairPlayData/report/reportExport?' . $reportData), Carbon::now()->addMinutes(config('config-variables.signed_url_interval')));
+
+        return $signedUrl;
+    }
+
+    public function getSignedUrlForFairPlayReportPrint(GetSignedUrlForTeamsFairPlayReportPrint $request)
+    {
+        $reportData = $request->all();
+        ksort($reportData);
+        $reportData  = http_build_query($reportData);
+
+        $signedUrl = UrlSigner::sign(url('api/teams/getTeamsFairPlayData/report/print?' . $reportData), Carbon::now()->addMinutes(config('config-variables.signed_url_interval')));
+
+        return $signedUrl;
+    }
+
+    public function exportTeamFairPlayReport(Request $request)
+    {
+        return $this->teamObj->exportTeamFairPlayReport($request->all());
+    }
+
+    public function printTeamFairPlayReport(Request $request)
+    {
+        return $this->teamObj->printTeamFairPlayReport($request->all());   
     }
 }
