@@ -106,9 +106,6 @@
             },
 
             getDayDifferences(start,end){
-                // "04/04/2019" and "20/03/2019"
-                // start = "20/03/2019";
-                // end = "04/04/2019";
                 let startDateArr = start.split("/");
                 let endDateArr = end.split("/"); 
                 let startDateFormat = startDateArr[2]+"/"+startDateArr[1]+"/"+startDateArr[0];
@@ -117,12 +114,10 @@
                 let endDate = moment(endDateFormat);
                 
                 let dayDiff = endDate.diff(startDate, 'days');
-                console.log("dayDiff::",dayDiff); 
                 return dayDiff;
             } 
         },
         beforeMount(){  
-            this.getDayDifferences(1,2);
         }
     }
 </script>
