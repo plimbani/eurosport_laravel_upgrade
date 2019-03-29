@@ -6,7 +6,6 @@
     				<a href="#"><img src="/images/logo-emm.png" class="" alt="Easy Match Manager"></a>
     			</div>
     			<div class="col-7 col-md-8 text-right">
-                    <!-- <p class="text-uppercase mb-0"> <a href="tel:+44(0)1234 567 890" class="font-weight-bold ml-3">Logout</a></p> -->
                     <div v-if="isUserLoggedIn && userRole == 'customer'">
                         <a href="#" class="dropdown-item" @click.prevent="logout"><i class="fas fa-sign-out"></i>{{$lang.siteheader_logout}}</a>
                         <a href="#"  v-if="!isProfilePage" class="dropdown-item" @click.prevent="redirectToProfilePage"><i class="fas fa-user"></i>Profile</a>
