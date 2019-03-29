@@ -40,14 +40,6 @@
                     </div>
                 </div>
 
-                <!-- <div class="form-group row" v-if="formValues.id === ''">
-                    <label class="col-sm-5 form-control-label">{{$lang.user_management_password}}</label>
-                    <div class="col-sm-6">
-                        <input v-model="formValues.password" v-validate="'required'" :class="{'is-danger': errors.has('pass') }" name="pass" type="password" class="form-control" placeholder="Enter password">
-                        <i v-show="errors.has('pass')" class="fas fa-warning"></i>
-                        <span class="help is-danger" v-show="errors.has('pass')">{</span>
-                    </div>
-                </div> -->
                 <div v-if="!isCustomer" class="form-group row">
                     <label class="col-sm-5 form-control-label">{{$lang.user_management_user_type}}</label>
                     <div class="col-sm-6">
@@ -286,9 +278,6 @@ import { ErrorBag } from 'vee-validate';
             },
             updateUserList() {
               let data = {}
-              //if(this.$route.params.registerType == '' || this.$route.params.registerType == null)
-                //  registerType = this.registerType
-              //  alert('hello called')
               User.getUsersByRegisterType(data).then(
                 (response)=> {
                    if('users' in response.data) {
@@ -386,7 +375,6 @@ import { ErrorBag } from 'vee-validate';
                     }
                   }
                 }).catch((errors) => {
-                    // toastr['error']('Please fill all required fields ', 'Error')
                  });
             },
             userTypeChanged() {
