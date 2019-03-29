@@ -192,11 +192,31 @@ public class SplashActivity extends BaseActivity {
                                     }
                                 }
                             }
-
-                            startActivity(new Intent(mContext, HomeActivity.class));
+                            if (BuildConfig.isEasyMatchManager) {
+                                if (jsonObject.has("tournament_id") && !Utility.isNullOrEmpty(jsonObject.getString("tournament_id"))) {
+                                    mAppSharedPref.setString(AppConstants.PREF_TOURNAMENT_ID, jsonObject.getString("tournament_id"));
+//                                    mAppSharedPref.setString(AppConstants.PREF_SESSION_TOURNAMENT_ID, jsonObject.getString("tournament_id"));
+                                    if (mAppSharedPref.getString(AppConstants.PREF_COUNTRY_ID) == null) {
+                                        //profile screen
+                                        startActivity(new Intent(mContext, ProfileActivity.class));
+                                    } else {
+                                        // home screen
+                                        startActivity(new Intent(mContext, HomeActivity.class));
+                                    }
+                                } else {
+                                    // get started screen
+                                    startActivity(new Intent(mContext, GetStartedActivity.class));
+                                }
+                            } else {
+                                if (mAppSharedPref.getString(AppConstants.PREF_COUNTRY_ID) == null) {
+                                    //profile screen
+                                    startActivity(new Intent(mContext, ProfileActivity.class));
+                                } else {
+                                    // home screen
+                                    startActivity(new Intent(mContext, HomeActivity.class));
+                                }
+                            }
                             finish();
-
-
                         } else {
 //                            {"authenticated":false,"message":"Account de-activated please contact your administrator."}
                             if (response.has("message") && !Utility.isNullOrEmpty(response.getString("message"))) {

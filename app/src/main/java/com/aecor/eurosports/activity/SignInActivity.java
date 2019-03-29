@@ -205,6 +205,10 @@ public class SignInActivity extends BaseActivity {
                                     }
                                 }
                             }
+                            if (jsonObject.has("tournament_id") && !Utility.isNullOrEmpty(jsonObject.getString("tournament_id"))) {
+                                mAppSharedPref.setString(AppConstants.PREF_TOURNAMENT_ID, jsonObject.getString("tournament_id"));
+//                                mAppSharedPref.setString(AppConstants.PREF_SESSION_TOURNAMENT_ID, jsonObject.getString("tournament_id"));
+                            }
                             checkIfNewTokenIsAvailable();
                         } else {
 //                            {"authenticated":false,"message":"Account de-activated please contact your administrator."}
@@ -302,10 +306,23 @@ public class SignInActivity extends BaseActivity {
     }
 
     private void launchHome() {
-        if (Utility.isNullOrEmpty(mAppSharedPref.getString(AppConstants.PREF_COUNTRY_ID))) {
-            startActivity(new Intent(mContext, ProfileActivity.class));
+        if (BuildConfig.isEasyMatchManager) {
+            if (Utility.isNullOrEmpty(mAppSharedPref.getString(AppConstants.PREF_TOURNAMENT_ID))) {
+                //get started screen
+                startActivity(new Intent(mContext, GetStartedActivity.class));
+            } else {
+                if (Utility.isNullOrEmpty(mAppSharedPref.getString(AppConstants.PREF_COUNTRY_ID))) {
+                    startActivity(new Intent(mContext, ProfileActivity.class));
+                } else {
+                    startActivity(new Intent(mContext, HomeActivity.class));
+                }
+            }
         } else {
-            startActivity(new Intent(mContext, HomeActivity.class));
+            if (Utility.isNullOrEmpty(mAppSharedPref.getString(AppConstants.PREF_COUNTRY_ID))) {
+                startActivity(new Intent(mContext, ProfileActivity.class));
+            } else {
+                startActivity(new Intent(mContext, HomeActivity.class));
+            }
         }
         finish();
     }
