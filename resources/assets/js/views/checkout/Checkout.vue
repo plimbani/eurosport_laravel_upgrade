@@ -67,7 +67,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <h3 class="text-uppercase font-weight-bold mb-4">Confirmation</h3>
-                        <p class="font-weight-bold mb-0">Please Confirm your tournament purchase details as follows</p>
+                        <p class="font-weight-bold mb-0">Please confirm your tournament purchase details as follows</p>
                         <div class="divider my-3"></div>
                         <div class="row">
                             <div class="col-sm-6 col-md-7 col-lg-7">
