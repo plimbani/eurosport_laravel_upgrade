@@ -20,7 +20,8 @@
                             <label for="email-id">Email Address</label> 
                             <input type="email" id="email-id" class="form-control " placeholder="e.g name@domain.com" name="email"
                                v-model="userProfileDetail.email" v-validate="{ rules: { required: true, email: true } }">
-                            <span class="help is-danger" v-show="errors.has('email')">{{$lang.login_email_validation_message}}</span>
+                            <span class="help is-danger" v-show="errors.has('email') && errors.first('email') == 'The email field must be a valid email.'">{{$lang.login_email_invalid_validation_message}}</span>
+                            <span class="help is-danger" v-show="errors.has('email') && errors.first('email') == 'The email field is required.'">{{$lang.login_email_validation_message}}</span>
                         </div> 
                         <h3 class="text-uppercase font-weight-bold mt-5">Your organisation</h3>
 
@@ -110,10 +111,8 @@
                 if (!this.errors.any()) { 
                     this.disabled = true;
                     axios.post(Constant.apiBaseUrl+'user/update',this.userProfileDetail).then(response =>  { 
-                        // this.disabled = false;
                         if(response.data.success){ 
-                             // toastr['error'](response.data.message, 'Success');
-                            this.$router.push({'name':'welcome'})
+                            this.$router.push({'name':'dashboard'})
                         }else{
                          toastr['error'](response.data.message, 'Error');
                         }
@@ -129,13 +128,10 @@
                 axios.get(Constant.apiBaseUrl+'user/get-details/').then(response =>  {
                     if(response.data.success){ 
                         let indxOfCustomer =  (response.data.data.roles).findIndex(item => item.slug == "customer") 
-                        // console.log("indxOfCustomer::",indxOfCustomer);
                         if(indxOfCustomer > -1){
                             this.isCustomer = true;
                         } 
-                        // console.log("this.isCustomer::",this.isCustomer);
                         this.userProfileDetail = response.data.data.person_detail;
-                        // this.userProfileDetail.user_id = response.data.data.id;
                         this.userProfileDetail.email = response.data.data.email;
                         this.userProfileDetail.organisation = response.data.data.organisation;
                         this.userProfileDetail.country = response.data.data.person_detail.country_id;
