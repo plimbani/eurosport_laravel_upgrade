@@ -84,10 +84,10 @@
                         <div class="divider my-3 opacited"></div>
 
                         <p class="text-sm-right font-weight-bold"><span v-if="tournamentData.currency_type == 'GBP'">&#163;</span>   
-                        <span v-if="tournamentData.currency_type == 'EURO'">&#128;</span>100.00</p>
+                        <span v-if="tournamentData.currency_type == 'EURO'">&#128;</span>{{returnFormatedNumber(tournamentData.total_amount/100)}}</p>
                         
                         <button v-if="shaSignIn"  class="btn btn-success" v-on:click="makePaymentButton()">Checkout</button> 
-                        <button v-if="!shaSignIn" class="btn btn-success" disabled="true">Get Checkout</button>
+                        <button v-if="!shaSignIn" class="btn btn-success" disabled="true">Get checkout</button>
                     </div>
                 </div>
             </div>
