@@ -1,5 +1,6 @@
 package com.aecor.eurosports.activity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -7,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.text.Html;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
@@ -22,7 +24,9 @@ import com.aecor.eurosports.http.VolleySingeltone;
 import com.aecor.eurosports.model.LeagueModel;
 import com.aecor.eurosports.model.TeamDetailModel;
 import com.aecor.eurosports.model.TeamFixturesModel;
+import com.aecor.eurosports.model.TournamentModel;
 import com.aecor.eurosports.ui.ProgressHUD;
+import com.aecor.eurosports.ui.ViewDialog;
 import com.aecor.eurosports.util.ApiConstants;
 import com.aecor.eurosports.util.AppConstants;
 import com.aecor.eurosports.util.AppLogger;
@@ -53,9 +57,7 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.internal.Utils;
 
-import static com.android.volley.Request.Method.GET;
 import static com.android.volley.Request.Method.POST;
 
 public class TeamActivity extends BaseAppCompactActivity {
@@ -119,10 +121,10 @@ public class TeamActivity extends BaseAppCompactActivity {
                             Utility.StopProgress(mProgressHUD);
 
                             AppLogger.LogE(TAG, "Success  Image " + response);
-                            if (!Utility.isNullOrEmpty(response)){
+                            if (!Utility.isNullOrEmpty(response)) {
                                 mImageUrl = response;
                                 tv_view_graphic.setVisibility(View.VISIBLE);
-                            }else{
+                            } else {
                                 tv_view_graphic.setVisibility(View.GONE);
                             }
                         }
@@ -310,6 +312,21 @@ public class TeamActivity extends BaseAppCompactActivity {
                                 }
 
                             }
+                        } else if (response.has("status_code") && !Utility.isNullOrEmpty(response.getString("status_code")) && response.getString("status_code").equalsIgnoreCase("500")) {
+                            String msg = "Selected tournament has expired";
+                            if (response.has("message")) {
+                                msg = response.getString("message");
+                            }
+                            ViewDialog.showSingleButtonDialog((Activity) mContext, mContext.getString(R.string.error), msg, mContext.getString(R.string.button_ok), new ViewDialog.CustomDialogInterface() {
+                                @Override
+                                public void onPositiveButtonClicked() {
+                                    Intent intent = new Intent(mContext, HomeActivity.class);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    mContext.startActivity(intent);
+                                    ((Activity) mContext).finish();
+                                }
+
+                            });
                         }
 
                     } catch (Exception e) {
@@ -631,6 +648,9 @@ public class TeamActivity extends BaseAppCompactActivity {
                     Utility.StopProgress(mProgressHUD);
                     try {
                         AppLogger.LogE(TAG, "getTeamFixtures Response" + response.toString());
+                        if(response.has("status_code")){
+                            Log.e("status code",response.getString("status_code"));
+                        }
                         if (response.has("status_code") && !Utility.isNullOrEmpty(response.getString("status_code")) && response.getString("status_code").equalsIgnoreCase("200")) {
                             if (response.has("data") && !Utility.isNullOrEmpty(response.getString("data"))) {
                                 TeamFixturesModel mTeamFixtureData[] = GsonConverter.getInstance().decodeFromJsonString(response.getString("data"), TeamFixturesModel[].class);
@@ -657,6 +677,21 @@ public class TeamActivity extends BaseAppCompactActivity {
                                 }
 
                             }
+                        } else if (response.has("status_code") && !Utility.isNullOrEmpty(response.getString("status_code")) && response.getString("status_code").equalsIgnoreCase("500")) {
+                            String msg = "Selected tournament has expired";
+                            if (response.has("message")) {
+                                msg = response.getString("message");
+                            }
+                            ViewDialog.showSingleButtonDialog((Activity) mContext, mContext.getString(R.string.error), msg, mContext.getString(R.string.button_ok), new ViewDialog.CustomDialogInterface() {
+                                @Override
+                                public void onPositiveButtonClicked() {
+                                    Intent intent = new Intent(mContext, HomeActivity.class);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    mContext.startActivity(intent);
+                                    ((Activity) mContext).finish();
+                                }
+
+                            });
                         }
 
                     } catch (Exception e) {
