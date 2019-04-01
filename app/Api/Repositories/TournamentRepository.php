@@ -1123,12 +1123,21 @@ class TournamentRepository
         }
 
         // saving tournament referees
+        $refereeNewAgeCategoriesArray = [];
         if($existingTournamentReferees) {
             foreach ($existingTournamentReferees as $referee) {
+                if($referee->age_group_id != null) {
+                    $explodedExistingRefereeAgeCategories = explode(",", $referee->age_group_id);
+                    foreach ($explodedExistingRefereeAgeCategories as $key => $ageCategory) {
+                        $refereeNewAgeCategoriesArray[] = $ageCategoriesMappingArray[$ageCategory];
+                    }
+                }
+
                 $copiedTournamentReferee = $referee->replicate();
                 $copiedTournamentReferee->tournament_id = $newCopiedTournament->id;
-                $copiedTournamentReferee->age_group_id = implode(",", $ageCategoriesMappingArray);
+                $copiedTournamentReferee->age_group_id = ($referee->age_group_id != null) ? implode(",", $refereeNewAgeCategoriesArray) : null;
                 $copiedTournamentReferee->save();
+                
                 $refereesMappingArray[$referee->id] = $copiedTournamentReferee->id;
             }
         }
