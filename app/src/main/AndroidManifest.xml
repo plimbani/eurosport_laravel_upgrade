@@ -191,6 +191,7 @@
                     android:scheme="http" />
             </intent-filter>
 
+
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -202,24 +203,6 @@
                     android:pathPrefix="/mtournament/openApp"
                     android:scheme="http" />
             </intent-filter>
- <!---->
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.VIEW" />-->
-
-                <!--<category android:name="android.intent.category.DEFAULT" />-->
-                <!--<category android:name="android.intent.category.BROWSABLE" />-->
-
-                <!--<data-->
-                    <!--android:scheme="http"-->
-                    <!--android:host="rishab-eurosport.dev.aecortech.com"-->
-                    <!--android:pathPrefix="/api/tournament/openApp/" />-->
-
-                <!--<data-->
-                    <!--android:scheme="http"-->
-                    <!--android:host="www.rishab-eurosport.dev.aecortech.com"-->
-                    <!--android:pathPrefix="/api/tournament/openApp/" />-->
-
-            <!--</intent-filter>-->
         </activity>
     </application>
 

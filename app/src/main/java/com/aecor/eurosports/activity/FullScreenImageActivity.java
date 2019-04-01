@@ -32,7 +32,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
-import com.google.android.gms.tasks.OnFailureListener;
+import com.ortiz.touchview.TouchImageView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -114,13 +114,13 @@ public class FullScreenImageActivity extends Activity {
     }
 
     private void addImageView(final String url) {
-         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         layoutParams.gravity = Gravity.CENTER;
         final FrameLayout mImageLayout = new FrameLayout(mContext);
         mImageLayout.setLayoutParams(layoutParams);
         mImageLayout.setForegroundGravity(Gravity.CENTER);
         mImageLayout.setBackgroundColor(Color.WHITE);
-        final ImageView iv = new ImageView(mContext);
+        final TouchImageView iv = new TouchImageView(mContext);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         iv.setLayoutParams(params);
 
@@ -139,7 +139,7 @@ public class FullScreenImageActivity extends Activity {
                     @Override
                     public void onLoadFailed(Exception e, Drawable errorDrawable) {
                         super.onLoadFailed(e, errorDrawable);
-                     }
+                    }
                 });
         mImageLayout.addView(iv);
         ImageView mCloseImage = new ImageView(mContext);

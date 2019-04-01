@@ -13,7 +13,8 @@ public class ApiConstants {
 //    public static final String BASE_URL = "https://qa.wot.esrtmp.com/api/"; // ESR QA
 //    public static final String BASE_URL = "http://sunny-eurosport.dev.aecortech.com/api/"; // ESR QA
 //
-         public static final String BASE_URL = "https://rishab-eurosport.dev.aecortech.com/api/"; // Local Test
+         public static final String BASE_URL = "http://rishab-fanslive.dev.aecortech.com/api/"; // Local Test
+//         public static final String BASE_URL = "https://rishab-eurosport.dev.aecortech.com/api/"; // Local Test
 //    public static final String BASE_URL = "http://mukesh-wot.dev.aecortech.com/api/"; // Local Test
 
     public static final String ACCESS_CODE = BASE_URL + "tournament/access_code";
