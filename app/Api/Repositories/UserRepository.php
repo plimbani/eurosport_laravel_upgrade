@@ -278,4 +278,7 @@ class UserRepository {
     public function getAllLanguages() {
        return $languages = config('wot.languages');
     }
+
+    public function deviceVersion() {
+    }
 }

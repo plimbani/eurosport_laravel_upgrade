@@ -270,6 +270,8 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
     
     $api->post('duplicateTournamentList','Laraspace\Api\Controllers\TournamentController@duplicateTournamentList');
 
+    $api->post('deviceVersion','Laraspace\Api\Controllers\UserController@deviceVersion');    
+
 });
 
 // Websites CMS routes
