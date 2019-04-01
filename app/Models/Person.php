@@ -49,7 +49,7 @@ class Person extends Model
         'first_name' => 'string',
         'last_name' => 'string',
         'display_name' => 'string',
-        'address' => 'array',
+        'address' => 'string',
         'dob' => 'datetime',
         'bio' => 'string',
         'avatar' => 'string',

@@ -8,7 +8,7 @@
                             <div class="row">
                                 <div class="col-md-9 col-lg-6">
                                     <h1 class="font-weight-bold">Register</h1>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris posuere vel mi ac sagittis. Quisque vel nulla at nibh finibus sodales. Nam efficitur sem a mi rhoncus. If you already have an account you can  <a href="#" @click="redirectToLoginPage()">login here</a>.</p>
+                                    <p>If you already have an account you can  <a href="#" @click="redirectToLoginPage()">login here</a>.</p>
 
                                     <h3 class="text-uppercase font-weight-bold mt-5">Your details</h3>
                                 </div>
@@ -36,7 +36,8 @@
                                     <div class="form-group">
                                         <input type="email" id="email-id" class="form-control " placeholder="e.g name@domain.com" name="email"
                                            v-model="registerData.email" v-validate="{ rules: { required: true, email: true } }">
-                                        <span class="help is-danger" v-show="errors.has('email')">{{$lang.login_email_validation_message}}</span>
+					<span class="help is-danger" v-show="errors.has('email') && errors.first('email') == 'The email field must be a valid email.'">{{$lang.login_email_invalid_validation_message}}</span>
+                                        <span class="help is-danger" v-show="errors.has('email') && errors.first('email') == 'The email field is required.'">{{$lang.login_email_validation_message}}</span>
                                     </div>
 
                                     <label>Password</label>

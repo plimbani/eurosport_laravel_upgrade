@@ -40,14 +40,6 @@
                     </div>
                 </div>
 
-                <!-- <div class="form-group row" v-if="formValues.id === ''">
-                    <label class="col-sm-5 form-control-label">{{$lang.user_management_password}}</label>
-                    <div class="col-sm-6">
-                        <input v-model="formValues.password" v-validate="'required'" :class="{'is-danger': errors.has('pass') }" name="pass" type="password" class="form-control" placeholder="Enter password">
-                        <i v-show="errors.has('pass')" class="fas fa-warning"></i>
-                        <span class="help is-danger" v-show="errors.has('pass')">{</span>
-                    </div>
-                </div> -->
                 <div v-if="!isCustomer" class="form-group row">
                     <label class="col-sm-5 form-control-label">{{$lang.user_management_user_type}}</label>
                     <div class="col-sm-6">
@@ -101,23 +93,11 @@
                         </select> 
                      </div>
                 </div>
-                <div v-if="isCustomer" class="form-group row">
-                    <label class="col-sm-5 form-control-label">Password</label>
-                    <div class="col-sm-6">
-                        <input id="pwd" type="password" class="form-control" placeholder="Enter Password" name="password" v-model="formValues.password" ref="password">
-                    </div> 
-                </div>
-                <div v-if="isCustomer" class="form-group row">
-                    <label class="col-sm-5 form-control-label">{{$lang.user_management_confirm_password}}</label>
-                    <div class="col-sm-6">
-                        <input id="cpwd" type="password" class="form-control" placeholder="Confirm Password"  :class="{'is-danger': errors.has('password_confirmation') }" name="password_confirmation" v-model="formValues.password_confirmation" v-validate="'confirmed:password'">
-                        <span class="help is-danger" v-show="errors.has('password_confirmation')">Password and confirm password must be same.</span>
-                    </div> 
-                </div>
+                
                 <div v-if="isCustomer" class="form-group row">
                     <label class="col-sm-5 form-control-label">
                       {{$lang.user_management_job_title}}
-                      <!-- {{$lang.user_management_add_surname}} -->
+                      
                     </label>
                     <div class="col-sm-6">
                         <input v-model="formValues.job_title" v-validate="'required|alpha_spaces'" :class="{'is-danger': errors.has('job_title') }" name="job_title" type="text" class="form-control" placeholder="Enter Job Title">
@@ -298,9 +278,6 @@ import { ErrorBag } from 'vee-validate';
             },
             updateUserList() {
               let data = {}
-              //if(this.$route.params.registerType == '' || this.$route.params.registerType == null)
-                //  registerType = this.registerType
-              //  alert('hello called')
               User.getUsersByRegisterType(data).then(
                 (response)=> {
                    if('users' in response.data) {
@@ -398,7 +375,6 @@ import { ErrorBag } from 'vee-validate';
                     }
                   }
                 }).catch((errors) => {
-                    // toastr['error']('Please fill all required fields ', 'Error')
                  });
             },
             userTypeChanged() {
@@ -416,7 +392,7 @@ import { ErrorBag } from 'vee-validate';
             },
             updateUser() {
               let that = this;
-              setTimeout(function(){
+			  setTimeout(function(){
                 User.updateUser(that.formValues.id,that.formValues).then(
                     (response)=> {
                     toastr.success('User has been updated successfully.', 'Update User', {timeOut: 5000});

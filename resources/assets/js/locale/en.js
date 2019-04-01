@@ -31,6 +31,7 @@ module.exports= {
   sitefooter_message: "Copyright",
 
   login_email_validation_message: "This field is required.",
+  login_email_invalid_validation_message: "The email field must be a valid email.",
   login_password_validation_message: "This field is required.",
   login_remember_message: "Remember me",
   login_forgotpassword_message: "Forgot password?",
