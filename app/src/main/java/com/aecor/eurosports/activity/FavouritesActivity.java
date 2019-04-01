@@ -189,7 +189,7 @@ public class FavouritesActivity extends BaseAppCompactActivity {
                             TournamentModel mTempFavTournament = GsonConverter.getInstance().decodeFromJsonString(response.getString("data"), TournamentModel.class);
                             if (mTempFavTournament.getId() != null) {
                                 mAppSharedPref.setString(AppConstants.PREF_TOURNAMENT_ID, mTempFavTournament.getId());
-                                mAppSharedPref.setString(AppConstants.PREF_SESSION_TOURNAMENT_ID, mTempFavTournament.getId());
+//                                mAppSharedPref.setString(AppConstants.PREF_SESSION_TOURNAMENT_ID, mTempFavTournament.getId());
                             }
                         }
                         if (et_enter_access_code != null) {
@@ -336,10 +336,14 @@ public class FavouritesActivity extends BaseAppCompactActivity {
                                 }
                             } else {
                                 setTournamnetAdapter(mAllTournamentList, null);
-
                             }
                         }
-
+                        /*if (BuildConfig.isEasyMatchManager && (mAllTournamentList == null || mAllTournamentList.length == 0)) {
+                            Intent intent = new Intent(FavouritesActivity.this, GetStartedActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(intent);
+                            finish();
+                        }*/
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

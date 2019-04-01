@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.aecor.eurosports.BuildConfig;
 import com.aecor.eurosports.R;
 import com.aecor.eurosports.adapter.TournamentSpinnerAdapter;
 import com.aecor.eurosports.gson.GsonConverter;
@@ -109,8 +110,10 @@ public class HomeActivity extends BaseAppCompactActivity {
                 if (mTournamentList != null && mTournamentList.get(position) != null && !Utility.isNullOrEmpty(mTournamentList.get(position).getName())) {
                     tournamentPosition = position;
                     AppLogger.LogE(TAG, "Tournament Position -> " + tournamentPosition);
-                    mPreference.setString(AppConstants.PREF_SESSION_TOURNAMENT_ID, mTournamentList.get(position).getTournament_id());
-                    mPreference.setString(AppConstants.PREF_SESSION_TOURNAMENT_STATUS, mTournamentList.get(position).getStatus());
+                    if (!Utility.isNullOrEmpty(mTournamentList.get(position).getId()) && !Utility.isNullOrEmpty(mTournamentList.get(position).getTournament_id())) {
+                        mPreference.setString(AppConstants.PREF_SESSION_TOURNAMENT_ID, mTournamentList.get(position).getTournament_id());
+                        mPreference.setString(AppConstants.PREF_SESSION_TOURNAMENT_STATUS, mTournamentList.get(position).getStatus());
+                    }
                     if (!Utility.isNullOrEmpty(mTournamentList.get(position).getName())) {
                         tv_tournamentName.setText(mTournamentList.get(position).getName().replace(" ", "\n"));
                     } else {
@@ -353,9 +356,12 @@ public class HomeActivity extends BaseAppCompactActivity {
                                 if (mTournamentList != null && mTournamentList.length > 0) {
                                     setTournamnetSpinnerAdapter(mTournamentList);
                                 } else {
-                                    Intent intent = new Intent(HomeActivity.this, FavouritesActivity.class);
-                                    intent.putExtra("isFirstTime",true);
-                                    startActivity(intent);
+                                    if (BuildConfig.isEasyMatchManager) {
+                                        Intent intent = new Intent(HomeActivity.this, GetStartedActivity.class);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                        startActivity(intent);
+                                        finish();
+                                    }
                                 }
                             } else {
                                 TournamentModel mEmptyTournamentModel = new TournamentModel();
@@ -363,9 +369,12 @@ public class HomeActivity extends BaseAppCompactActivity {
                                 TournamentModel[] mTournamentList = new TournamentModel[1];
                                 mTournamentList[0] = mEmptyTournamentModel;
                                 setEmptyTournamentAdapter(mTournamentList);
-                                Intent intent = new Intent(HomeActivity.this, FavouritesActivity.class);
-                                intent.putExtra("isFirstTime",true);
-                                startActivity(intent);
+                                if (BuildConfig.isEasyMatchManager) {
+                                    Intent intent = new Intent(HomeActivity.this, GetStartedActivity.class);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    startActivity(intent);
+                                    finish();
+                                }
                             }
                         }
 
