@@ -113,6 +113,7 @@
     <string name="privacy_terms_text_2">- Your first name and surname\n- Your preferred tournament details\n- Your e-mail address\n- Your IP address</string>
     <string name="why_app_needs_data">WHY EURO-SPORTRING NEEDS DATA</string>
     <string name="privacy_terms_text_3">Euro-Sportring processes your personal data so that it is able to contact you in writing by email when you ask it to.\n\nEuro-Sportring may also use your personal data as part of its performance of an agreement to provide services: usually involving the organisation and sale of international tournaments.</string>
+    <string name="password_must_be_at_least_5_char_long">Your password must be at least 5 characters long</string>
     <string name="remember_me">Remember me</string>
 
     <string name="how_long_retains_data">HOW LONG EURO-SPORTRING RETAINS DATA</string>
