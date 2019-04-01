@@ -57,6 +57,8 @@ module.exports= {
   user_desktop_status: "Status",
   user_desktop: "Desktop",
   user_mobile: "Mobile",
+  user_device: "Device",
+  user_app_version: "App Version",
 
   duplicate_tournament: "Tournaments",
   duplicate_tournamet_tournament_name: "Tournament name",

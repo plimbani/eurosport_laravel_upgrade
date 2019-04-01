@@ -561,8 +561,8 @@ class UserService implements UserContract
         return $this->userRepoObj->getAllLanguages();
     }
 
-    public function deviceVersion() {
-       return $this->userRepoObj->deviceVersion();
+    public function updateAppDeviceVersion($data) {
+       return $this->userRepoObj->updateAppDeviceVersion($data);
     }
 
 }
