@@ -49,7 +49,7 @@ class RegisterRepository
                 'email' => $data['email'],
                 'organisation' => !empty($data['organisation']) ? $data['organisation'] : '',
                 'password' => Hash::make($data['password']),
-                'is_mobile_user' => 0,
+                'is_mobile_user' => 1,
                 'is_desktop_user' => 1,
                 'registered_from' => 1,
                 'is_active' => 1,
