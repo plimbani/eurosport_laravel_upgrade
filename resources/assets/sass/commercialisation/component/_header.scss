@@ -8,4 +8,17 @@
     a {
         color: $theme-color-primary;
     }
+
+    .header-list {
+        li {
+            @extend .mr-3;
+            font-size: 0.875rem;
+            font-family: $base-font-family;
+            @extend .font-weight-bold;
+
+            i {
+                @extend .ml-1;
+            }
+        }
+    }
 }

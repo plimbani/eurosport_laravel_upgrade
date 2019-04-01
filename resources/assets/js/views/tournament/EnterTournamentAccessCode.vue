@@ -1,21 +1,23 @@
 <template>
-    <section class="confirmation-section section-padding">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6">
-                    <h6 class="text-uppercase mb-0">Access Your Tournament</h6>
-                    <p class="mb-5">If you have been given four digit code please enter it below to access your tournament </p>
+    <div class="main-section">
+        <section class="confirmation-section section-padding">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6 class="text-uppercase mb-0">Access Your Tournament</h6>
+                        <p class="mb-5">If you have been given four digit code please enter it below to access your tournament </p>
 
-                    <div class="row">
-                        
-                            <input type="text" class="form-control" placeholder="Enter your code" id = "code" name="code" v-model="code">
-                            <button class="btn btn-success btn-block" v-on:click="redirectTournamentDetail()">Access Your Tournament</button>
-                        
+                        <div class="row">
+                            
+                                <input type="text" class="form-control" placeholder="Enter your code" id = "code" name="code" v-model="code">
+                                <button class="btn btn-success btn-block" v-on:click="redirectTournamentDetail()">Access Your Tournament</button>
+                            
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+    </div>
 </template>
 <script type="text/babel">
 import Constant from '../../services/constant';

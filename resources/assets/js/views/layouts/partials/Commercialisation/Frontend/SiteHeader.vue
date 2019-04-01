@@ -7,9 +7,17 @@
     			</div>
     			<div class="col-7 col-md-8 text-right">
                     <div v-if="isUserLoggedIn && userRole == 'customer'">
-                        <a href="#" class="dropdown-item" @click.prevent="logout"><i class="fas fa-sign-out"></i>{{$lang.siteheader_logout}}</a>
-                        <a href="#"  v-if="!isProfilePage" class="dropdown-item" @click.prevent="redirectToProfilePage"><i class="fas fa-user"></i>Profile</a>
-                        <a href="#" v-if="!isDashboarPage" class="dropdown-item" @click.prevent="redirectToDashboardPage"><i class="fas fa-tachometer"></i>Dashoard</a>
+                        <ul class="header-list list-unstyled mb-0 text-uppercase">
+                            <li class="d-inline">
+                                <a href="#"  v-if="!isProfilePage" @click.prevent="redirectToProfilePage">User Profile <i class="fas fa-user"></i></a>
+                            </li>
+                            <li class="d-inline">
+                                <a href="#" @click.prevent="logout">{{$lang.siteheader_logout}} <i class="fas fa-sign-out"></i></a>
+                            </li>
+                            <li class="d-inline">
+                                <a href="#" v-if="!isDashboarPage" @click.prevent="redirectToDashboardPage">Dashoard <i class="fas fa-tachometer"></i></a>
+                            </li>
+                        </ul>
                     </div>
                     
     				<p v-if="!isUserLoggedIn" class="text-uppercase mb-0">For help call <a href="tel:+44(0)1234 567 890" class="font-weight-bold ml-3">+44(0)1234 567 890</a></p>

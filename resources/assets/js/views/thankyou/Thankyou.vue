@@ -1,4 +1,5 @@
 <template>
+    <div class="main-section">
       <form action="" id="registerForm" method="post" @submit.prevent="redirectToPage">
         <section class="confirmation-section section-padding">
             <div class="container">
@@ -18,6 +19,7 @@
             </div>
         </section>
       </form>  
+    </div>
 </template>
 <script type="text/babel">
     import Auth from '../../services/auth'
