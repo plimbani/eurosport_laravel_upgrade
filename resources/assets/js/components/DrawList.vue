@@ -14,7 +14,7 @@
             <td>
               <a class="text-primary" href="" @click.prevent="showGroups(competation.id)"><u>{{ competation.group_name }} ({{ competation.category_age }})</u></a>
               <a href="#" data-toggle="modal" data-target="#commentmodal" class="text-primary" @click.prevent="showComment(competation)"><i class="fa fa-info-circle" v-if="competation.comments != null"></i></a>
-              <a href="#" @click="viewGraphicImage(competation.template_name, competation.graphic_image)"class="btn btn-outline-primary btn-sm ml-2 float-right" v-if="competation.graphic_image">View schedule</a>
+              <a href="#" @click="viewGraphicImage(competation.template_name, competation.graphic_image)"class="btn btn-outline-primary btn-sm ml-2 float-right text-primary" v-if="competation.graphic_image">View schedule123</a>
             </td>
             <td class="text-center">{{ competation.total_teams }}</td>
           </tr>
