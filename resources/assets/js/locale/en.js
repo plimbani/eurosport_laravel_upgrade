@@ -136,6 +136,7 @@ module.exports= {
   user_management_user_save:"Save",
   user_management_de_activate: "Are you sure you would like to de-activate this user?",
   user_management_re_activate: "Are you sure you would like to re-activate this user?",
+  user_management_ok: "Ok",
 
   tournament_manage_edition: "Select an existing tournament",
   tournament_select_website: "Select an existing website",
