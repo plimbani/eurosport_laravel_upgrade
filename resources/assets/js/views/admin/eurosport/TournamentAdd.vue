@@ -304,6 +304,7 @@ var moment = require('moment');
 import location from '../../../components/Location.vue'
 import Tournament from '../../../api/tournament.js'
 import Ls from './../../../services/ls'
+import _ from 'lodash'
 export default {
 data() {
 return {
