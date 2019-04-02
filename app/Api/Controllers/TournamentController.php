@@ -278,7 +278,6 @@ class TournamentController extends BaseController
         $ageCategoriesMappingArray = [];
         $refereeNewAgeCategoriesArray = [];
 
-        // $duplicateTournaments = Tournament::whereIn('id', [$newTournamentId, 254])->get();
         $duplicateTournaments = Tournament::where('id', $newTournamentId)->get();
 
         $existingTeams = Team::where('tournament_id', $oldTournamentId)->get();
