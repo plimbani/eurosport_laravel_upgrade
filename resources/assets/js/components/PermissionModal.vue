@@ -15,7 +15,7 @@
                         <li class="nav-item active">
                             <a data-toggle="tab" role="tab" href="#tournament-list" class="text-center nav-link" id="tournamentTab"><div class="wrapper-tab">{{$lang.user_management_permission_tournament_tab}}</div></a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item" v-if="isPermisionModalActive">
                             <a data-toggle="tab" role="tab" href="#website-list" class="text-center nav-link"><div class="wrapper-tab">{{$lang.user_management_permission_website_tab}}</div></a>
                         </li>
                     </ul>
@@ -86,6 +86,17 @@
             }
           )
 
+        },
+        computed: {
+          isPermisionModalActive() {
+            if(this.user) {
+              if(this.user.role_slug == "Results.administrator") {
+                return false;
+              }
+            }
+
+            return true;
+          }
         },
         methods: {
           submitPermissions() {
