@@ -35,6 +35,7 @@ const state = {
   competitionWithGames: {},
   tournamentStages: {},
   scheduledMatches: [],
+  unsaveMatchData:[],
 }
 // getters
 const getters = {
@@ -194,7 +195,10 @@ const actions = {
         tournamentData ={'tournamentId':state.tournamentId }
     }
 
-  }
+  },
+  UnsaveMatchData({commit},matchData) {
+    commit(types.SET_UNSAVEMATCH_DATA, matchData)
+  },
 }
 
 // mutations
@@ -371,6 +375,10 @@ const mutations = {
         state.totalMatch = matchCountDisplay
         state.competitionWithGames = state.competationList
       }
+  },
+  [types.SET_UNSAVEMATCH_DATA] (state, matchData) {
+    state.unsaveMatchData = [];
+    state.unsaveMatchData = matchData;
   },
 
 }

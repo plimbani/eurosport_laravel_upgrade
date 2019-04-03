@@ -48,14 +48,14 @@
         </td>
         <td class="text-center js-match-list">
             <div class="d-inline-flex position-relative">
-              <input type="text" class="scoreUpdate" v-model="match.homeScore" :name="'home_score['+match.fid+']'" style="width: 25px; text-align: center;" v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails'" :readonly="(match.is_scheduled == '0') || (match.isResultOverride == '1' && (match.match_status == 'Walk-over' || match.match_status == 'Abandoned'))" @change="updateScore(match,index1)">
+              <input type="text" class="scoreUpdate" v-model="match.homeScore" :name="'home_score['+match.fid+']'" style="width: 25px; text-align: center;" v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails'" :readonly="(match.is_scheduled == '0') || (match.isResultOverride == '1' && (match.match_status == 'Walk-over' || match.match_status == 'Abandoned'))" @keyup="updateScore(match,index1)">
 
               <span v-else>{{match.homeScore}}</span>
 
               <span class="circle-badge" :class="{'left-input': (isUserDataExist && getCurrentScheduleView != 'teamDetails'), 'left-text': (!isUserDataExist || getCurrentScheduleView == 'teamDetails') }" v-if="(match.isResultOverride == '1' && match.match_winner == match.Home_id)"><a data-toggle="popover" :class="'result-override-home-popover-' + match.fid" href="#" data-placement="top" data-trigger="hover" :data-content="match.result_override_popover" data-animation="false"><i class="fas fa-asterisk text-white" aria-hidden="true"></i></a></span>
             </div> -
             <div class="d-inline-flex position-relative">
-              <input type="text" class="scoreUpdate" v-model="match.AwayScore" :name="'away_score['+match.fid+']'" style="width: 25px; text-align: center;"  v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails'" :readonly="(match.is_scheduled == '0') || (match.isResultOverride == '1' && (match.match_status == 'Walk-over' || match.match_status == 'Abandoned'))" @change="updateScore(match,index1)">
+              <input type="text" class="scoreUpdate" v-model="match.AwayScore" :name="'away_score['+match.fid+']'" style="width: 25px; text-align: center;"  v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails'" :readonly="(match.is_scheduled == '0') || (match.isResultOverride == '1' && (match.match_status == 'Walk-over' || match.match_status == 'Abandoned'))" @keyup="updateScore(match,index1)">
 
               <span class="circle-badge" :class="{'right-input': (isUserDataExist && getCurrentScheduleView != 'teamDetails'), 'right-text': (!isUserDataExist || getCurrentScheduleView == 'teamDetails') }" v-if="(match.isResultOverride == '1' && match.match_winner == match.Away_id)"><a :class="'result-override-away-popover-' + match.fid" href="#" data-toggle="popover" data-placement="top" data-trigger="hover" :data-content="match.result_override_popover" data-animation="false"><i class="fas fa-asterisk text-white" aria-hidden="true"></i></a></span>
 
@@ -143,6 +143,7 @@ export default {
       'currentMatchId': 0,
       'matchInterval':'',
       'matchIdleTimeInterval':null,
+      'resultChange': false,
       paginate: (this.getCurrentScheduleView != 'teamDetails' && this.getCurrentScheduleView != 'drawDetails') ? ['matchlist'] : null,
       shown: false,
       isMatchListInitialized: false,
@@ -150,7 +151,6 @@ export default {
       recordCounts: [5,10,20,50,100]
     }
   },
-
   filters: {
     formatDate: function(date) {
       if(date != null ) {
@@ -235,10 +235,26 @@ export default {
   },
   beforeDestroy: function() {
     clearInterval(this.matchInterval);
+    console.log("result chnage"+this.resultChange);
+    console.log("result chnage"+this.matchData);
+    this.$store.dispatch('UnsaveMatchData',this.matchData);
+    if ( this.resultChange )
+    {
+     $('#exampleModal').modal('show');
+    }
   },
   watch: {
     matchData1: {
       handler: function (val, oldVal) {
+
+      var unsaveResult = this.checkScoreChangeOrnot();
+      console.log(unsaveResult);
+      if ( unsaveResult )
+      {
+        alert("open modal");
+        //preventDefault();
+      }
+
         this.matchData = _.sortBy(_.cloneDeep(val), ['match_datetime']);
         let vm = this;
         Vue.nextTick()
@@ -387,6 +403,10 @@ export default {
       this.$store.dispatch('setCurrentScheduleView','teamDetails')
     },
     updateScore(match,index) {
+
+      var resultChange = this.checkScoreChangeOrnot();
+      this.resultChange = resultChange;
+
       let matchId = match.fid;
       if(match.Home_id == 0 || match.Away_id == 0) {
         toastr.error('Both home and away teams should be there for score update.');
