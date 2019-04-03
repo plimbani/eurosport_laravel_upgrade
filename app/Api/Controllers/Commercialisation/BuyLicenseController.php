@@ -79,7 +79,7 @@ class BuyLicenseController extends BaseController
         try {
             return $this->transactionObj->generatePaymentReceipt($request->all());
         } catch (\Exception $ex) {
-            return response()->json(['success' => false, 'status' => Response::HTTP_UNPROCESSABLE_ENTITY, 'data' => [], 'error' => [], 'message' => 'Something went wrong.']);
+            return response()->json(['success' => false, 'status' => Response::HTTP_UNPROCESSABLE_ENTITY, 'data' => [], 'error' => [], 'message' => $ex->getMessage()]);
         }
     }
 
