@@ -1573,7 +1573,11 @@ class MatchRepository
       $val = TempFixture::where('tournament_id','=',$tournamentId)
               ->select('id','updated_at')
               ->orderBy('updated_at','desc')->first();
-      return (isset($val['updated_at']) && $val['updated_at'] != '') ? $val['updated_at'] :new \DateTime();
+
+      $currentDateTime = new \DateTime();
+      $formatCurrentTime = $currentDateTime->format('Y-m-d H:i:s');
+
+      return (isset($val['updated_at']) && $val['updated_at'] != '') ? $val['updated_at'] : $formatCurrentTime;
     }
 
     public function setUnavailableBlock($matchData)

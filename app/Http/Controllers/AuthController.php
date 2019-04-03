@@ -96,6 +96,7 @@ class AuthController extends Controller
              $userDetails['settings'] = $userSettings ? $userSettings->toArray() : null;
              $userDetails['role_id'] = $userData->roles()->first()->id;
              $userDetails['role'] = $userData->role;
+             $userDetails['role_name'] = $userData->roles()->first()->slug;
              $userDetails['locale'] = $userData->locale;
              $userDetails['country_id'] = $userData->country_id;
              $tournament_id = array();
