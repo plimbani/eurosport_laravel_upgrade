@@ -502,9 +502,9 @@ this.imagePath='';
 e.preventDefault();
 },
 removeLocation (index,location){
-  let pitch = this.$store.state.Pitch.pitches;
-  if(pitch) {
-      let removeVenue = _.find(pitch, ['venue_id', location.tournament_location_id]); 
+  let pitches = this.$store.state.Pitch.pitches;
+  if(pitches) {
+      let removeVenue = _.find(pitches, ['venue_id', location.tournament_location_id]); 
       if(removeVenue) {
         $("#remove_venue").modal('show');
       }  else {
