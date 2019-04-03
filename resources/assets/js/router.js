@@ -302,7 +302,7 @@ const routes = [
         ]
     },
      {
-        path: '/userstourmanents', component: LayoutCommercialisation,
+        path: '/userstourmanents', component: LayoutTournament,
         meta: { requiresAuth: true },
         children: [
             {
