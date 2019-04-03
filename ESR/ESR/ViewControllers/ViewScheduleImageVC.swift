@@ -12,11 +12,15 @@ class ViewScheduleImageVC: UIViewController {
 
     @IBOutlet var imgView: UIImageView!
     @IBOutlet var btnClose: UIButton!
-    
+    @IBOutlet var scrollView: UIScrollView!
     var imgURL = NULL_STRING
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        scrollView.delegate = self
+        scrollView.minimumZoomScale = 1.0
+        scrollView.maximumZoomScale = 10.0
         
         imgView.sd_setImage(with: URL(string: imgURL), completed: nil)
         
@@ -46,5 +50,11 @@ class ViewScheduleImageVC: UIViewController {
                 break
             }
         }
+    }
+}
+
+extension ViewScheduleImageVC: UIScrollViewDelegate {
+    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
+        return imgView
     }
 }

@@ -212,6 +212,10 @@ class ApiManager {
         }
     }
     
+    func updateAppVersion(_ parameters: [String: Any]?, success: @escaping (_ result: NSDictionary) -> (), failure: @escaping (_ result: NSDictionary) -> ()) {
+        postRequest(API_ENDPOINT.UPDATE_APP_VERSION, parameters, success: success, failure: failure, true)
+    }
+    
     // MARK: Easy match manager APIS
     
     func accessCode(_ parameters: [String: Any]?, success: @escaping (_ result: NSDictionary) -> (), failure: @escaping (_ result: NSDictionary) -> ()) {

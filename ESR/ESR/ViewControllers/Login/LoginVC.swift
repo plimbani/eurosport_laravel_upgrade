@@ -62,10 +62,6 @@ class LoginVC: SuperViewController {
         // Checks internet connectivity
         setConstraintLblNoInternet(APPDELEGATE.reachability.connection == .none)
             
-        // Events when keyboard shows and hides
-        //NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        //NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
-        // To show/hide internet view in Navigation bar
         NotificationCenter.default.addObserver(self, selector: #selector(showHideNoInternetView(_:)), name: .internetConnectivity, object: nil)
         
         // Hides keyboard if tap outside of view
@@ -83,22 +79,6 @@ class LoginVC: SuperViewController {
             }
         }
     }
-    
-    /*@objc func keyboardWillShow(notification: NSNotification) {
-        if ((notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue) != nil {
-            if self.view.frame.origin.y == 0{
-                self.view.frame.origin.y -= 50
-            }
-        }
-    }
-    
-    @objc func keyboardWillHide(notification: NSNotification) {
-        if ((notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue) != nil {
-            if self.view.frame.origin.y != 0{
-                self.view.frame.origin.y += 50
-            }
-        }
-    }*/
     
     @objc func textFieldDidChange(textField: UITextField){
         updateLoginBtn()
@@ -127,7 +107,7 @@ class LoginVC: SuperViewController {
                 return
             }
             
-            if text.count < 6 {
+            if text.count < 5 {
                 return
             }
         }
@@ -226,7 +206,6 @@ class LoginVC: SuperViewController {
             }
         })
     }
-    
     
     func updateFCMToken(_ token: String) {
         if APPDELEGATE.reachability.connection == .none {

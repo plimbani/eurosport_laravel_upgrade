@@ -250,12 +250,20 @@ class CreateAccountVC: SuperViewController {
             if text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                 return
             }
+            
+        
         }
         
         if let text = txtConfirmPassword.text {
             if text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                 return
             }
+            
+        
+        }
+        
+        if txtPassword.text! != txtConfirmPassword.text! {
+            return
         }
         
         if ApplicationData.currentTarget != ApplicationData.CurrentTargetList.EasyMM.rawValue {
@@ -278,6 +286,12 @@ class CreateAccountVC: SuperViewController {
     }
     
     @objc func btnCreateAccountPressed(_ btn: UIButton) {
+        
+        if txtPassword.text!.trimmingCharacters(in: .whitespacesAndNewlines).count < 5 {
+            showCustomAlertVC(title: String.localize(key: "alert_title_error"), message: String.localize(key: "alert_msg_password_length"))
+            return
+        }
+        
         sendRegisterRequest()
     }
     

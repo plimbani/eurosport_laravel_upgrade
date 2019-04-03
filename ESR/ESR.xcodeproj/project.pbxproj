@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0FA6BE16FF4F17C6A64E937E /* Pods_ESR.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3044DE602240F5F1005E8C86 /* Pods_ESR.framework */; };
 		10EA25F1696796FDDB9B648E /* Pods_ESR.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EBD932D29D0473CA455A5CCA /* Pods_ESR.framework */; };
 		3009A36021CA56A8002769CF /* AllMatchesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3009A35F21CA56A8002769CF /* AllMatchesVC.swift */; };
 		30181CC4211D95B60067D65F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30181CC3211D95B60067D65F /* AppDelegate.swift */; };
@@ -122,8 +123,6 @@
 		3018B31D2240F9A700EC76F4 /* LabelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307542A92170BE03003715C7 /* LabelCell.swift */; };
 		3018B31E2240F9A700EC76F4 /* ClubListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30AF116021BA531900BE50F4 /* ClubListVC.swift */; };
 		3018B31F2240F9A700EC76F4 /* PrivacyAndTermsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30569401212BEADC009790BA /* PrivacyAndTermsVC.swift */; };
-		3018B3212240F9A700EC76F4 /* Pods_ESR.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EBD932D29D0473CA455A5CCA /* Pods_ESR.framework */; };
-		3018B3222240F9A700EC76F4 /* Pods_ESR.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EBD932D29D0473CA455A5CCA /* Pods_ESR.framework */; };
 		3018B3242240F9A700EC76F4 /* Teams.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 30C799B921CD047700B0ECB4 /* Teams.storyboard */; };
 		3018B3252240F9A700EC76F4 /* SettingsList.plist in Resources */ = {isa = PBXBuildFile; fileRef = 30181D80212AF0590067D65F /* SettingsList.plist */; };
 		3018B3272240F9A700EC76F4 /* Favourites.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 30C799B321CD045F00B0ECB4 /* Favourites.storyboard */; };
@@ -410,12 +409,12 @@
 		30FB312921366A6400ABA22A /* GroupSummaryMatchesCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GroupSummaryMatchesCell.xib; sourceTree = "<group>"; };
 		30FB312C21366AA400ABA22A /* GroupSummaryStandingsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupSummaryStandingsCell.swift; sourceTree = "<group>"; };
 		30FB312D21366AA400ABA22A /* GroupSummaryStandingsCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GroupSummaryStandingsCell.xib; sourceTree = "<group>"; };
-		4A928A3F726468DA324C8C33 /* Pods-ESR.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ESR.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ESR/Pods-ESR.debug.xcconfig"; sourceTree = "<group>"; };
+		50A1041147E1D53908EDDAD4 /* Pods-ESR.debug ( qa ).xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ESR.debug ( qa ).xcconfig"; path = "Pods/Target Support Files/Pods-ESR/Pods-ESR.debug ( qa ).xcconfig"; sourceTree = "<group>"; };
 		5669E6CBF27485D33013CE06 /* Pods-ESR.release ( production ).xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ESR.release ( production ).xcconfig"; path = "Pods/Target Support Files/Pods-ESR/Pods-ESR.release ( production ).xcconfig"; sourceTree = "<group>"; };
-		832F9684806320C56A6FD722 /* Pods-ESR.debug ( production ).xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ESR.debug ( production ).xcconfig"; path = "Pods/Target Support Files/Pods-ESR/Pods-ESR.debug ( production ).xcconfig"; sourceTree = "<group>"; };
 		9BD23A70543185FD0C23E807 /* Pods-ESR.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ESR.release.xcconfig"; path = "Pods/Target Support Files/Pods-ESR/Pods-ESR.release.xcconfig"; sourceTree = "<group>"; };
+		B43386A380AC6C4C7EDBDF54 /* Pods-ESR.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ESR.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ESR/Pods-ESR.debug.xcconfig"; sourceTree = "<group>"; };
+		C421551A904443D53CD29B7D /* Pods-ESR.debug ( production ).xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ESR.debug ( production ).xcconfig"; path = "Pods/Target Support Files/Pods-ESR/Pods-ESR.debug ( production ).xcconfig"; sourceTree = "<group>"; };
 		C883A75926EF01AE85CE5AFF /* Pods-ESR.release ( qa ).xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ESR.release ( qa ).xcconfig"; path = "Pods/Target Support Files/Pods-ESR/Pods-ESR.release ( qa ).xcconfig"; sourceTree = "<group>"; };
-		DDBA051FA95CE4F2F2858387 /* Pods-ESR.debug ( qa ).xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ESR.debug ( qa ).xcconfig"; path = "Pods/Target Support Files/Pods-ESR/Pods-ESR.debug ( qa ).xcconfig"; sourceTree = "<group>"; };
 		EBD932D29D0473CA455A5CCA /* Pods_ESR.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ESR.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -426,6 +425,7 @@
 			files = (
 				10EA25F1696796FDDB9B648E /* Pods_ESR.framework in Frameworks */,
 				CC32EB70AC2E6224EC0E10F0 /* Pods_ESR.framework in Frameworks */,
+				0FA6BE16FF4F17C6A64E937E /* Pods_ESR.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -433,8 +433,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3018B3212240F9A700EC76F4 /* Pods_ESR.framework in Frameworks */,
-				3018B3222240F9A700EC76F4 /* Pods_ESR.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -447,9 +445,9 @@
 				9BD23A70543185FD0C23E807 /* Pods-ESR.release.xcconfig */,
 				5669E6CBF27485D33013CE06 /* Pods-ESR.release ( production ).xcconfig */,
 				C883A75926EF01AE85CE5AFF /* Pods-ESR.release ( qa ).xcconfig */,
-				4A928A3F726468DA324C8C33 /* Pods-ESR.debug.xcconfig */,
-				832F9684806320C56A6FD722 /* Pods-ESR.debug ( production ).xcconfig */,
-				DDBA051FA95CE4F2F2858387 /* Pods-ESR.debug ( qa ).xcconfig */,
+				B43386A380AC6C4C7EDBDF54 /* Pods-ESR.debug.xcconfig */,
+				C421551A904443D53CD29B7D /* Pods-ESR.debug ( production ).xcconfig */,
+				50A1041147E1D53908EDDAD4 /* Pods-ESR.debug ( qa ).xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -767,12 +765,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3018B34C2240F9A700EC76F4 /* Build configuration list for PBXNativeTarget "ESR copy" */;
 			buildPhases = (
-				3018B2D52240F9A700EC76F4 /* [CP] Check Pods Manifest.lock */,
 				3018B2D62240F9A700EC76F4 /* Sources */,
 				3018B3202240F9A700EC76F4 /* Frameworks */,
 				3018B3232240F9A700EC76F4 /* Resources */,
-				3018B34A2240F9A700EC76F4 /* [CP] Embed Pods Frameworks */,
-				3018B34B2240F9A700EC76F4 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -928,72 +923,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		3018B2D52240F9A700EC76F4 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-ESR-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		3018B34A2240F9A700EC76F4 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-ESR/Pods-ESR-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
-				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
-				"${BUILT_PRODUCTS_DIR}/MBCircularProgressBar/MBCircularProgressBar.framework",
-				"${BUILT_PRODUCTS_DIR}/MBProgressHUD/MBProgressHUD.framework",
-				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
-				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
-				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MBCircularProgressBar.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MBProgressHUD.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ESR/Pods-ESR-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		3018B34B2240F9A700EC76F4 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-ESR/Pods-ESR-resources.sh",
-				"${PODS_ROOT}/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Resources/GoogleMaps.bundle",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleMaps.bundle",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ESR/Pods-ESR-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		79101FD271C8B392453E283B /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1039,6 +968,7 @@
 				"${PODS_ROOT}/Target Support Files/Pods-ESR/Pods-ESR-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
+				"${BUILT_PRODUCTS_DIR}/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/MBCircularProgressBar/MBCircularProgressBar.framework",
 				"${BUILT_PRODUCTS_DIR}/MBProgressHUD/MBProgressHUD.framework",
 				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
@@ -1049,6 +979,7 @@
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IQKeyboardManagerSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MBCircularProgressBar.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MBProgressHUD.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
@@ -1353,7 +1284,6 @@
 /* Begin XCBuildConfiguration section */
 		30181CD0211D95B80067D65F /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4A928A3F726468DA324C8C33 /* Pods-ESR.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
@@ -1415,7 +1345,7 @@
 		};
 		30181CD3211D95B80067D65F /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4A928A3F726468DA324C8C33 /* Pods-ESR.debug.xcconfig */;
+			baseConfigurationReference = B43386A380AC6C4C7EDBDF54 /* Pods-ESR.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = ESR/ESR.entitlements;
@@ -1434,14 +1364,13 @@
 				PROVISIONING_PROFILE_SPECIFIER = DEV_ESR_5_mar_2019;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				base_url = "http:/$()/rishab-eurosport.dev.aecortech.com/api/";
+				base_url = "https:/$()/rishab-eurosport.dev.aecortech.com/api/";
 				google_map_key = AIzaSyA48POKxVvdyLfu_pRE_5fVw5XLd8E7s40;
 			};
 			name = Debug;
 		};
 		30181D512126CEED0067D65F /* Debug ( QA ) */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DDBA051FA95CE4F2F2858387 /* Pods-ESR.debug ( qa ).xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
@@ -1503,7 +1432,7 @@
 		};
 		30181D522126CEED0067D65F /* Debug ( QA ) */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DDBA051FA95CE4F2F2858387 /* Pods-ESR.debug ( qa ).xcconfig */;
+			baseConfigurationReference = 50A1041147E1D53908EDDAD4 /* Pods-ESR.debug ( qa ).xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = ESR/ESR.entitlements;
@@ -1529,7 +1458,6 @@
 		};
 		30181D532126CEF70067D65F /* Debug ( Production ) */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 832F9684806320C56A6FD722 /* Pods-ESR.debug ( production ).xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
@@ -1591,7 +1519,7 @@
 		};
 		30181D542126CEF70067D65F /* Debug ( Production ) */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 832F9684806320C56A6FD722 /* Pods-ESR.debug ( production ).xcconfig */;
+			baseConfigurationReference = C421551A904443D53CD29B7D /* Pods-ESR.debug ( production ).xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = ESR/ESR.entitlements;
@@ -1617,7 +1545,6 @@
 		};
 		3018B34D2240F9A700EC76F4 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4A928A3F726468DA324C8C33 /* Pods-ESR.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = ESR/ESR.entitlements;
@@ -1643,7 +1570,6 @@
 		};
 		3018B34E2240F9A700EC76F4 /* Debug ( Production ) */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 832F9684806320C56A6FD722 /* Pods-ESR.debug ( production ).xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = ESR/ESR.entitlements;
@@ -1669,7 +1595,6 @@
 		};
 		3018B34F2240F9A700EC76F4 /* Debug ( QA ) */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DDBA051FA95CE4F2F2858387 /* Pods-ESR.debug ( qa ).xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = ESR/ESR.entitlements;

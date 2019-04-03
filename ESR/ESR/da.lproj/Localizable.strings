@@ -29,6 +29,7 @@
 "alert_msg_forgot_password" = "Vi har sendt et link til oprettelse af et nyt password til e-mail-adressen.";
 "alert_create_account_email" = "Se i din indbakke for at bekræfte din e-mail-adresse og afslutte din kontooprettelse.";
 "alert_preview_tournament" = "This tournament is currently in preview status. More details about the tournament will be available nearer the start date.";
+"alert_msg_password_length" = "Dit kodeord skal være mindst 5 tegn langt.";
 
 "string_league_table" = "Klassement";
 "Matches" = "Kampe";

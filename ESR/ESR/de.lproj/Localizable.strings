@@ -29,6 +29,7 @@
 "alert_msg_forgot_password" = "Wir haben Ihnen einen Link zu Erstellung eines neuen Passworts an Ihre E-Mail-Adresse gesendet.";
 "alert_create_account_email" = "Bitte prüfen Sie Ihren E-Mail-Eingang, um Ihre E-Mail-Adresse zu verifizieren und Ihre Kontoanmeldung abzuschließen.";
 "alert_preview_tournament" = "This tournament is currently in preview status. More details about the tournament will be available nearer the start date.";
+"alert_msg_password_length" = "Ihr Passwort muss mindestens 5 Zeichen lang sein";
 
 "string_league_table" = "Rangliste";
 "Matches" = "Spiele";

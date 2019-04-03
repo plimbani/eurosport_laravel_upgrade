@@ -194,7 +194,7 @@ class AgeCategoriesGroupsSummaryVC: SuperViewController {
                             self.teamFixuteuresList.sort(by: { (t1, t2) -> Bool in
                                 
                                 if let date1 = t1.matchDatetimeObj {
-                                    if let date2 = t1.matchDatetimeObj {
+                                    if let date2 = t2.matchDatetimeObj {
                                         return (date1.timeIntervalSinceNow < date2.timeIntervalSinceNow)
                                     } else {
                                         return true

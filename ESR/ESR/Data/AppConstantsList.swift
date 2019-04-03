@@ -57,6 +57,8 @@ struct API_ENDPOINT {
     static let RESEND_EMAIL = API_URL.BASE_URL + "userResendEmail"
     
     static let ACCESS_CODE = API_URL.BASE_URL + "tournament/access_code";
+    
+    static let UPDATE_APP_VERSION = API_URL.BASE_URL + "updateAppDeviceVersion";
 }
 
 struct kViewController {

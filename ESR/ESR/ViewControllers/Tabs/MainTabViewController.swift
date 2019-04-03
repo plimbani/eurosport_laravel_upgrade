@@ -102,6 +102,41 @@ class MainTabViewController: SuperViewController {
         tournamentDetailsView = cellOwner.view as! TournamentDetailsView
         tournamentDetailsView!.hide()
         self.view.addSubview(tournamentDetailsView)
+        
+        updateAppVersionAPI()
+    }
+    
+    func updateAppVersionAPI() {
+        if APPDELEGATE.reachability.connection == .none {
+            return
+        }
+        
+        self.view.showProgressHUD()
+        
+        var parameters: [String: Any] = [:]
+        parameters["device"] = "\(UIDevice.current.name)"
+        parameters["app_version"] = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
+        parameters["os_version"] = "\(UIDevice.current.systemVersion)"
+        
+        if let user = ApplicationData.sharedInstance().getUserData() {
+            parameters["user_id"] = user.id
+        }
+        
+        ApiManager().updateAppVersion(parameters, success: { result in
+            DispatchQueue.main.async {}
+        }, failure: { result in
+            DispatchQueue.main.async {
+                self.view.hideProgressHUD()
+                
+                if result.allKeys.count == 0 {
+                    return
+                }
+                
+                if let error = result.value(forKey: "error") as? String {
+                    // self.showCustomAlertVC(title: String.localize(key: "alert_title_error"), message: error)
+                }
+            }
+        })
     }
     
     func refeshTabTitle() {
