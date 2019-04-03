@@ -141,6 +141,8 @@ export default {
       'index':'',
       'matchData': [],
       'currentMatchId': 0,
+      'matchInterval':'',
+      'matchIdleTimeInterval':null,
       paginate: (this.getCurrentScheduleView != 'teamDetails' && this.getCurrentScheduleView != 'drawDetails') ? ['matchlist'] : null,
       shown: false,
       isMatchListInitialized: false,
@@ -209,15 +211,17 @@ export default {
     });
     this.matchData = _.sortBy(_.cloneDeep(this.matchData1),['match_datetime'] );
 
-
+    var vm = this;
     setTimeout(function() {
-      $('.scoreUpdate').each(function(){
-        if (!$(this).attr('readonly'))
-        {
-          $(this).attr('rel',$(this).val());
-        }
-      });
+      vm.updateMatchScoreToRel();
     },300);
+
+    this.matchIdleTimeInterval = parseInt(this.$store.state.Configuration.matchIdleTime) * 1000;
+    if ( this.matchIdleTimeInterval !== 0)
+    {
+      clearInterval(this.matchInterval);
+      this.matchInterval = setInterval(this.updateMatchScoreIdleStat,this.matchIdleTimeInterval);
+    }
   },
   created: function() {
     this.$root.$on('reloadMatchList', this.setScore);
@@ -230,7 +234,7 @@ export default {
     this.$root.$off('saveMatchScore');
   },
   beforeDestroy: function() {
-    alert("before destroy");
+    clearInterval(this.matchInterval);
   },
   watch: {
     matchData1: {
@@ -242,6 +246,12 @@ export default {
           $.each(vm.matchData, function (index,value){
             vm.getResultOverridePopover(value);
           });
+          vm.updateMatchScoreToRel();
+          if ( vm.matchIdleTimeInterval !== 0)
+          {
+            clearInterval(vm.matchInterval);
+            vm.matchInterval = setInterval(vm.updateMatchScoreIdleStat,vm.matchIdleTimeInterval);
+          }
         });
       },
       deep: true,
@@ -537,6 +547,38 @@ export default {
         match.result_override_popover = "* Abandoned, win awarded";
       }
     },
+    updateMatchScoreToRel()
+    {
+      $('.scoreUpdate').each(function(){
+        //if (!$(this).attr('readonly'))
+        //{
+          $(this).attr('rel',$(this).val());
+        //}
+      });
+    },
+    checkScoreChangeOrnot()
+    {
+      var unsaveResult = false;
+      if ( $('#matchSchedule .scoreUpdate').length )
+      {
+        $('#matchSchedule .scoreUpdate').each(function(){
+          if ( !unsaveResult && !$(this).attr('readonly') && $(this).val() !== $(this).attr('rel') )
+          {
+            unsaveResult = true;
+          }
+
+        });
+      }
+      return unsaveResult;
+    },
+    updateMatchScoreIdleStat(){
+      var unsaveResult = this.checkScoreChangeOrnot();
+      if ( unsaveResult )
+      {
+        this.saveMatchScore();
+        this.updateMatchScoreToRel();
+      }
+    }
   },
 }
 </script>

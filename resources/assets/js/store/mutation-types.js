@@ -40,6 +40,8 @@ export const RESET_PRINT_PITCH_PLANNER = 'RESET_PRINT_PITCH_PLANNER'
 // Image path
 export const SET_IMAGE_PATH = 'SET_IMAGE_PATH';
 export const SET_MAP_KEY = 'SET_MAP_KEY';
+export const SET_MATCH_IDLETIME = 'SET_MATCH_IDLETIME';
+
 
 // Website Mutations
 export const CURRENT_WEBSITE = 'CURRENT_WEBSITE';
