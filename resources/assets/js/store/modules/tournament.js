@@ -36,6 +36,7 @@ const state = {
   tournamentStages: {},
   scheduledMatches: [],
   unsaveMatchData:[],
+  matchResultChange:false,
 }
 // getters
 const getters = {
@@ -197,8 +198,14 @@ const actions = {
 
   },
   UnsaveMatchData({commit},matchData) {
-    commit(types.SET_UNSAVEMATCH_DATA, matchData)
+    commit(types.SET_UNSAVEMATCH_DATA,matchData)
   },
+  UnsaveMatchStatus({commit},resultChange) {
+    commit(types.SET_UNSAVEMATCH_STATUS,resultChange)
+  },
+
+
+  
 }
 
 // mutations
@@ -376,9 +383,13 @@ const mutations = {
         state.competitionWithGames = state.competationList
       }
   },
-  [types.SET_UNSAVEMATCH_DATA] (state, matchData) {
+  [types.SET_UNSAVEMATCH_DATA] (state, matchData,resultChange) {
     state.unsaveMatchData = [];
     state.unsaveMatchData = matchData;
+    state.matchResultChange = resultChange;
+  },
+  [types.SET_UNSAVEMATCH_STATUS] (state, unSaveMatchStatus) {
+    state.matchResultChange = unSaveMatchStatus;
   },
 
 }

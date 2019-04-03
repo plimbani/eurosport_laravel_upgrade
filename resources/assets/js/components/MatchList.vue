@@ -237,9 +237,11 @@ export default {
     clearInterval(this.matchInterval);
     console.log("result chnage"+this.resultChange);
     console.log("result chnage"+this.matchData);
-    this.$store.dispatch('UnsaveMatchData',this.matchData);
+   
     if ( this.resultChange )
     {
+      this.$store.dispatch('UnsaveMatchData',this.matchData);
+      this.$store.dispatch('UnsaveMatchStatus',this.resultChange);
      $('#exampleModal').modal('show');
     }
   },
