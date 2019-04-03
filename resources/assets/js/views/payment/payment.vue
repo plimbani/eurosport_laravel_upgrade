@@ -21,20 +21,20 @@
 
                     <div class="row">
                         <div class="col-sm-6 col-md-7 col-lg-7">
-                            <p class="mb-0" id="reeiptDetails">{{tournament.tournament_max_teams}} Teams licence for a {{tournament.dayDifference}} day tournament price is {{paymentObj.amount}} {{paymentObj.currency}}</p>
+                            <p class="mb-0" id="reeiptDetails">{{tournament.tournament_max_teams}} Team licence for a {{tournament.dayDifference}} day</p>
                         </div>
                         <div class="col-sm-6 col-md-5 col-lg-5">
-                            <p class="text-sm-right mb-0 mt-3 mt-sm-0">£100.00</p>
+                            <p class="text-sm-right mb-0 mt-3 mt-sm-0">{{paymentObj.amount}} {{paymentObj.currency}}</p>
                         </div>
                     </div>
 
                     <div class="divider my-3 opacited"></div>
 
-                    <p class="text-sm-right font-weight-bold">£100.00</p>
+                    <p class="text-sm-right font-weight-bold">{{paymentObj.amount}} {{paymentObj.currency}}</p>
 
                     <p class="py-3">You may now proceed to your dashboard and begin adding your tournament details.</p>
-                    <button v-if="tournament_id" class="btn btn-success" v-on:click="redirectToDashboardPage()">Get Started</button>
-                    <button v-if="!tournament_id" class="btn btn-success" disabled="true">Get Started</button>
+                    <button v-if="tournament_id" class="btn btn-success" v-on:click="redirectToDashboardPage()">Get started</button>
+                    <button v-if="!tournament_id" class="btn btn-success" disabled="true">Get started</button>
                     
                 </div>
             </div>
