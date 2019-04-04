@@ -72,6 +72,7 @@ class AuthController extends Controller
                               ->leftjoin('countries', 'countries.id', '=', 'users.country_id')
                               ->join('role_user', 'users.id', '=', 'role_user.user_id')
                               ->join('roles', 'roles.id', '=', 'role_user.role_id')
+                              ->where('users_favourite.deleted_at', '=', NULL)
                               ->select('users.id',
                                 'users.locale',
                                 'people.first_name',
