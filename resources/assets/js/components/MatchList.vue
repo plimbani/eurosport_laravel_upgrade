@@ -235,27 +235,21 @@ export default {
   },
   beforeDestroy: function() {
     clearInterval(this.matchInterval);
-    console.log("result chnage"+this.resultChange);
-    console.log("result chnage"+this.matchData);
-   
     if ( this.resultChange )
     {
-      this.$store.dispatch('UnsaveMatchData',this.matchData);
-      this.$store.dispatch('UnsaveMatchStatus',this.resultChange);
-     $('#exampleModal').modal('show');
+      this.resetStoreUnsaveMatch();
     }
   },
   watch: {
     matchData1: {
       handler: function (val, oldVal) {
+        var resultChange = this.checkScoreChangeOrnot();
+        this.resultChange = resultChange;
 
-      var unsaveResult = this.checkScoreChangeOrnot();
-      console.log(unsaveResult);
-      if ( unsaveResult )
-      {
-        alert("open modal");
-        //preventDefault();
-      }
+        if ( this.resultChange )
+        {
+          this.resetStoreUnsaveMatch();
+        }
 
         this.matchData = _.sortBy(_.cloneDeep(val), ['match_datetime']);
         let vm = this;
@@ -264,6 +258,7 @@ export default {
           $.each(vm.matchData, function (index,value){
             vm.getResultOverridePopover(value);
           });
+
           vm.updateMatchScoreToRel();
           if ( vm.matchIdleTimeInterval !== 0)
           {
@@ -600,6 +595,18 @@ export default {
         this.saveMatchScore();
         this.updateMatchScoreToRel();
       }
+    },
+    resetStoreUnsaveMatch()
+    {
+      this.$store.dispatch('UnsaveMatchData',this.matchData);
+      this.$store.dispatch('UnsaveMatchStatus',this.resultChange);
+      $('#unSaveMatchModal').modal('show');
+
+      let vm = this;
+      $("#unSaveMatchModal").on('hidden.bs.modal', function () {
+        vm.$store.dispatch('UnsaveMatchData',[]);
+        vm.$store.dispatch('UnsaveMatchStatus',false);
+      });
     }
   },
 }

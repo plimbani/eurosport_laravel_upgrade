@@ -383,10 +383,8 @@ const mutations = {
         state.competitionWithGames = state.competationList
       }
   },
-  [types.SET_UNSAVEMATCH_DATA] (state, matchData,resultChange) {
-    state.unsaveMatchData = [];
+  [types.SET_UNSAVEMATCH_DATA] (state, matchData) {
     state.unsaveMatchData = matchData;
-    state.matchResultChange = resultChange;
   },
   [types.SET_UNSAVEMATCH_STATUS] (state, unSaveMatchStatus) {
     state.matchResultChange = unSaveMatchStatus;
