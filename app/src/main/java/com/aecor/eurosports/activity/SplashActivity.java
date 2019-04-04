@@ -195,28 +195,9 @@ public class SplashActivity extends BaseActivity {
                             if (BuildConfig.isEasyMatchManager) {
                                 if (jsonObject.has("tournament_id") && !Utility.isNullOrEmpty(jsonObject.getString("tournament_id"))) {
                                     mAppSharedPref.setString(AppConstants.PREF_TOURNAMENT_ID, jsonObject.getString("tournament_id"));
-//                                    mAppSharedPref.setString(AppConstants.PREF_SESSION_TOURNAMENT_ID, jsonObject.getString("tournament_id"));
-                                    if (mAppSharedPref.getString(AppConstants.PREF_COUNTRY_ID) == null) {
-                                        //profile screen
-                                        startActivity(new Intent(mContext, ProfileActivity.class));
-                                    } else {
-                                        // home screen
-                                        startActivity(new Intent(mContext, HomeActivity.class));
-                                    }
-                                } else {
-                                    // get started screen
-                                    startActivity(new Intent(mContext, GetStartedActivity.class));
-                                }
-                            } else {
-                                if (mAppSharedPref.getString(AppConstants.PREF_COUNTRY_ID) == null) {
-                                    //profile screen
-                                    startActivity(new Intent(mContext, ProfileActivity.class));
-                                } else {
-                                    // home screen
-                                    startActivity(new Intent(mContext, HomeActivity.class));
                                 }
                             }
-                            finish();
+                            postUserDeviceDetails(mContext);
                         } else {
 //                            {"authenticated":false,"message":"Account de-activated please contact your administrator."}
                             if (response.has("message") && !Utility.isNullOrEmpty(response.getString("message"))) {
@@ -245,6 +226,32 @@ public class SplashActivity extends BaseActivity {
             });
             mQueue.add(jsonRequest1);
         }
+    }
+
+    private void launchHome() {
+        if (BuildConfig.isEasyMatchManager) {
+            if (!Utility.isNullOrEmpty(mAppSharedPref.getString(AppConstants.PREF_TOURNAMENT_ID))) {
+                if (mAppSharedPref.getString(AppConstants.PREF_COUNTRY_ID) == null) {
+                    //profile screen
+                    startActivity(new Intent(mContext, ProfileActivity.class));
+                } else {
+                    // home screen
+                    startActivity(new Intent(mContext, HomeActivity.class));
+                }
+            } else {
+                // get started screen
+                startActivity(new Intent(mContext, GetStartedActivity.class));
+            }
+        } else {
+            if (mAppSharedPref.getString(AppConstants.PREF_COUNTRY_ID) == null) {
+                //profile screen
+                startActivity(new Intent(mContext, ProfileActivity.class));
+            } else {
+                // home screen
+                startActivity(new Intent(mContext, HomeActivity.class));
+            }
+        }
+        finish();
     }
 
     private void checkAppVersion() {
@@ -391,5 +398,58 @@ public class SplashActivity extends BaseActivity {
         }
     }
 
+    private void postUserDeviceDetails(final Context mContext) {
+
+        if (Utility.isInternetAvailable(mContext)) {
+            PackageManager manager = mContext.getPackageManager();
+            PackageInfo info;
+            String installedAppVersion = "";
+            try {
+                info = manager.getPackageInfo(mContext.getPackageName(), 0);
+                installedAppVersion = info.versionName;
+            } catch (PackageManager.NameNotFoundException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            Utility.startProgress(mContext);
+            String url = ApiConstants.POST_USER_DETAILS;
+            final JSONObject requestJson = new JSONObject();
+            try {
+                requestJson.put("device", "Android");
+                requestJson.put("app_version", installedAppVersion);
+                requestJson.put("os_version", Utility.getOsVersion(mContext));
+                requestJson.put("user_id", mAppSharedPref.getString(AppConstants.PREF_USER_ID));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            final RequestQueue mQueue = VolleySingeltone.getInstance(mContext).getRequestQueue();
+            final VolleyJsonObjectRequest jsonRequest1 = new VolleyJsonObjectRequest(mContext, Request.Method
+                    .POST, url,
+                    requestJson, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    Utility.StopProgress();
+                    try {
+                        AppLogger.LogE("TAG", "***** Post User details response *****" + response.toString());
+
+                        launchHome();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    try {
+                        Utility.StopProgress();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            });
+            mQueue.add(jsonRequest1);
+        }
+    }
 
 }
