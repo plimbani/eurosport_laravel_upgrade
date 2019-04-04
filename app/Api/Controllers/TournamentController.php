@@ -338,7 +338,5 @@ class TournamentController extends BaseController
                 }
             }
         }
-
-        echo "<pre>";print_r('done');echo "</pre>";exit;
     }
 }
