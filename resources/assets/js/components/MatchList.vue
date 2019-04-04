@@ -567,10 +567,7 @@ export default {
     updateMatchScoreToRel()
     {
       $('.scoreUpdate').each(function(){
-        //if (!$(this).attr('readonly'))
-        //{
-          $(this).attr('rel',$(this).val());
-        //}
+        $(this).attr('rel',$(this).val());
       });
     },
     checkScoreChangeOrnot()
