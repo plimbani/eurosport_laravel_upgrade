@@ -1151,7 +1151,7 @@ class MatchRepository
         foreach($teamData as $Tdata) {
           //$numTeamsArray[]=$Tdata->TeamId;
           $teamDetails[$Tdata->TeamId]['TeamName']=$Tdata->TeamName;
-          $teamDetails[$Tdata->TeamId]['TeamFlag']=$Tdata->TeamLogo;
+          $teamDetails[$Tdata->TeamId]['TeamFlag']=$this->getAWSUrl.$Tdata->TeamLogo;
           $teamDetails[$Tdata->TeamId]['TeamCountryFlag']=$Tdata->TeamCountryFlag;
           $teamDetails[$Tdata->TeamId]['ShirtColor']=$Tdata->ShirtColor;
           $teamDetails[$Tdata->TeamId]['ShortsColor']=$Tdata->ShortsColor;
