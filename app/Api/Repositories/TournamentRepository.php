@@ -1129,7 +1129,9 @@ class TournamentRepository
                 if($referee->age_group_id != null) {
                     $explodedExistingRefereeAgeCategories = explode(",", $referee->age_group_id);
                     foreach ($explodedExistingRefereeAgeCategories as $key => $ageCategory) {
-                        $refereeNewAgeCategoriesArray[] = $ageCategoriesMappingArray[$ageCategory];
+                        if(isset($ageCategoriesMappingArray[$ageCategory])) {
+                            $refereeNewAgeCategoriesArray[] = $ageCategoriesMappingArray[$ageCategory];
+                        }
                     }
                 }
 
