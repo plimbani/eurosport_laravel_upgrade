@@ -274,7 +274,7 @@
           </div>
           <div class="form-group row">
             <div class="col-sm-3">
-              <button class="btn btn-danger w-75" @click.prevent="removeLocation(index)" v-if="index > 0">&#8212; {{$lang.tournament_remove_location}}</button>
+              <button class="btn btn-danger w-75" @click.prevent="removeLocation(index,location)" v-if="index > 0">&#8212; {{$lang.tournament_remove_location}}</button>
             </div>
           </div>
           </div>
@@ -297,13 +297,16 @@
       </div>
     </div>
   </div>
+  <RemoveVenueModal :removeVenue="removeVenue"></RemoveVenueModal>
 </div>
 </template>
 <script >
 var moment = require('moment');
 import location from '../../../components/Location.vue'
+import RemoveVenueModal from '../../../components/RemoveVenueModal.vue'
 import Tournament from '../../../api/tournament.js'
 import Ls from './../../../services/ls'
+import _ from 'lodash'
 export default {
 data() {
 return {
@@ -327,11 +330,12 @@ image:'',
 customCount:0,
 tournamentId: 0,
 imagePath :'',
-tournamentDateDiff: 0
+tournamentDateDiff: 0,
+'removeVenue': 'Before this venue can be deleted all pitches associated with it must be re-allocated to an alternative venue.',
 }
 },
 components: {
-location: location
+location: location, RemoveVenueModal
 },
 mounted(){
 Plugin.initPlugins(['Select2','TimePickers','MultiSelect','DatePicker','setCurrentDate'])
@@ -497,10 +501,22 @@ this.image = '';
 this.imagePath='';
 e.preventDefault();
 },
-removeLocation (index){
-// here first we get the location id of it
-this.tournament.del_location = this.locations[index].tournament_location_id
-this.locations.splice(index,1)
+removeLocation (index,location){
+  let pitches = this.$store.state.Pitch.pitches;
+  if(pitches) {
+      let removeVenue = _.find(pitches, ['venue_id', location.tournament_location_id]); 
+      if(removeVenue) {
+        $("#remove_venue").modal('show');
+      }  else {
+            // here first we get the location id of it
+            this.tournament.del_location = this.locations[index].tournament_location_id
+            this.locations.splice(index,1)  
+      }
+  } else {
+            // here first we get the location id of it
+            this.tournament.del_location = this.locations[index].tournament_location_id
+            this.locations.splice(index,1)  
+  }
 },
 next() {
 let vm = this;
