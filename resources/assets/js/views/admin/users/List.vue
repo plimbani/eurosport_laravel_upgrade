@@ -24,6 +24,7 @@
                                 <select class="form-control ls-select2" v-on:change="searchTypeData"
                                     v-model="userTypeSearch" name="user_type" id="user_type">
                                     <option value="">Filter by user type</option>
+                                    <option value="customer">Customer</option>
                                     <option value="Internal.administrator">Internal administrator</option>
                                     <option value="Master.administrator">Master administrator</option>
                                     <option value="mobile.user">Mobile user</option>
@@ -71,7 +72,10 @@
                                     <td v-else>
                                       <a href="#"  @click="resendModalOpen(user.email)"><u>Re-send</u></a>
                                     </td>
-                                    <td @click="redirectToTournamentList(user)"><a href="javascript:void(0)" class="centered">{{ user.tournaments_count }}</a></td>
+                                    <td class="text-center" @click="redirectToTournamentList(user)">
+                                      <a href="javascript:void(0)" class="centered text-primary" v-if="user.role_slug == 'customer'"><u>{{ user.tournaments_count }}</u></a>
+                                      <a href="javascript:void(0)" class="centered" v-else>-</a>
+                                    </td>
                                     <td class="text-center">
                                       <i class="fas fa-check text-success"
                                         v-if="user.is_desktop_user == true"></i>
