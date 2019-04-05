@@ -26,6 +26,7 @@ class Tournament extends Model
 
     protected $dates = ['end_date', 'start_date', 'created_at', 'updated_at', 'pos_dispatched', 'deleted_at'];
 
+    public $preventDateAttrSet = false;
     /**
      * Get the user that belongs to the tournament.
      */
@@ -33,10 +34,27 @@ class Tournament extends Model
     {
         return $this->belongsTo('Laraspace\Models\User', 'user_id');
     }
+    public function users()
+    {
+        return $this->belongsToMany('Laraspace\Models\User', 'tournament_user', 'tournament_id', 'user_id');
+    }
 
+    public function contacts()
+    {
+        return $this->hasMany('Laraspace\Models\TournamentContact');
+    }
+    
+    public function sponsors()
+    {
+        return $this->hasMany('Laraspace\Models\TournamentSponsor');
+    }
+    
     public function getStartDateAttribute($value)
     {
-         return Carbon::parse($value)->format('d/m/Y');
+        if ($this->preventDateAttrSet) {
+            return $value;
+        }
+        return Carbon::parse($value)->format('d/m/Y');
     }
      public function setStartDateAttribute($value)
     {
@@ -46,6 +64,9 @@ class Tournament extends Model
     }
     public function getEndDateAttribute($value)
     {
+        if ($this->preventDateAttrSet) {
+            return $value;
+        }
         return Carbon::parse($value)->format('d/m/Y');
     }
 

@@ -3722,7 +3722,7 @@ TimelineGrid = (function(superClass) {
         '</div>';
       }
       if(event.remarks) {
-        tootipHtml += '<div class="tootltip-bubble"><i class="jv-icon jv-comment"></i></div>';
+        tootipHtml += '<div class="tootltip-bubble"><i class="fas fa-comment-dots"></i></div>';
       }
       tootipHtml += "</div>";
     }

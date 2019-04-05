@@ -1,0 +1,36 @@
+.main-section,
+.custom-table {
+    table {
+        @extend .border-0;
+
+        tr {
+            border-bottom: 1px solid $theme-color-primary;
+            font-size: $font-size-base;
+
+            th {
+                color: $theme-color-primary;
+                @extend .font-weight-bold;
+                @extend .border-0;
+            }
+
+            td {
+                @extend .border-0;
+
+                a {
+                    color: $theme-color-primary;
+                }
+            }
+        }
+    }
+}
+
+.custom-table {
+    table {
+        &.table-sm {
+
+            tr {
+                font-size: 0.875rem;
+            }
+        }
+    }
+}

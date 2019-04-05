@@ -7,7 +7,7 @@
 						<ul class="nav nav-tabs" role="tablist">
 							<li class="nav-item">
 								<a class="nav-link active" data-toggle="tab"
-								href="javascript:void(0)" role="tab">{{$lang.user_management_user}}</a>
+								href="javascript:void(0)" role="tab"><div class="wrapper-tab">{{$lang.user_management_user}}</div></a>
 							</li>
 						</ul>
 						<UserList :userList="userList"></UserList>

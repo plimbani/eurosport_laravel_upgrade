@@ -1,0 +1,119 @@
+// Laraspace.scss - Bootstraps all the sass files into one
+
+
+@import 'variables';
+@import 'commercialisation/variables';
+// Plugins
+@import '../plugins/bootstrap/scss/bootstrap';
+// @import '../plugins/fontawesome/font-awesome';
+@import '../plugins/fontawesome-5/solid';
+@import '../plugins/fontawesome-5/fontawesome';
+@import '../plugins/flag-icon-css-master/sass/flag-icon';
+@import '../plugins/customfonts/style';
+@import '../plugins/ladda/ladda.scss';
+@import '../plugins/customScrollBar/customScrollBar.scss';
+@import '../plugins/toastr/toastr.scss';
+// @import '../plugins/notie/notie.scss';
+// @import "../plugins/switchery/switchery.scss";
+@import "../plugins/select2/select2.scss";
+@import "../plugins/select2/select2-bootstrap.scss";
+// @import "../plugins/bootstrapSelect/bootstrap-select.scss";
+// @import "../plugins/clockpicker/clockpicker.scss";
+@import "../plugins/datatables/datatables.scss";
+@import "../plugins/multiselect/multiselect.scss";
+@import "../plugins/bootstrap-datepicker/bootstrap-datepicker.scss";
+@import "../plugins/timepicker/timepicker";
+// @import "../plugins/summernote/summernote.scss";
+// @import "../plugins/simplemde/simplemde.scss";
+@import "../plugins/pace/pace.scss";
+// @import "../plugins/alertify/alertify.scss";
+// @import "../plugins/easypiecharts/easypiecharts.scss";
+// @import "../plugins/metisMenu/metisMenu.scss";
+@import "../plugins/fullcalendar/fullcalendar.css";
+// @import "../plugins/fullcalendar-scheduler/scheduler.css";
+@import "../plugins/vue-multiselect/vue-multiselect.min.css";
+
+
+@import "../plugins/fullcalendar-scheduler/lib/fullcalendar.min.css";
+@import "../plugins/fullcalendar-scheduler/scheduler.css";
+
+@import "../plugins/jquery-minicolors/jquery.minicolors.css";
+
+// Option Skin.
+@import 'skins/skin-tyrell';
+@import 'skins/skin-arryn';
+@import 'skins/skin-targaryen';
+@import 'skins/skin-lannister';
+@import 'skins/skin-stark';
+
+// Color
+@import 'components/colors';
+
+// Content Styles
+@import 'base';
+
+// Layouts
+@import 'layouts/layout';
+@import "layouts/layout-icon-sidebar";
+@import "layouts/layout-horizontal";
+
+//Partials
+@import 'partials/header';
+@import 'partials/sidebar';
+@import 'partials/footer';
+
+// Components
+@import 'components/forms';
+@import 'components/euro-checkbox';
+@import 'components/buttons';
+@import 'components/cards';
+@import 'components/tabs';
+@import 'components/tables';
+@import 'components/modal';
+@import 'components/hamburgers';
+@import "components/transitions";
+@import "components/draggable-card";
+@import "components/tooltip-popover";
+@import "components/website-preview";
+
+//Pages
+@import 'pages/dashboard';
+@import 'pages/login';
+@import 'pages/user-profile';
+@import 'pages/404';
+
+// Custom css
+@import 'pages/home';
+@import 'pages/tab';
+@import 'pages/modal';
+@import 'pages/user-management';
+
+//Front
+@import "front";
+@import "backend";
+@import "demo";
+
+
+//commercialisation
+@import "commercialisation/theme-override/select";
+@import "commercialisation/theme-override/radio-button";
+@import "commercialisation/theme-override/checkbox";
+@import "commercialisation/general";
+@import "commercialisation/component/header";
+@import "commercialisation/component/footer";
+@import "commercialisation/component/buttons";
+@import "commercialisation/component/breadcrumb";
+@import "commercialisation/component/tab";
+@import "commercialisation/component/table";
+@import "commercialisation/component/typography";
+@import "commercialisation/component/form";
+@import "commercialisation/component/card";
+@import "commercialisation/component/modal";
+
+@import "commercialisation/vendor/vue-slider";
+@import "commercialisation/vendor/vue-datepicker";
+// @import "commercialisation/vendor/jquery-datepicker";
+
+// pages
+// 
+@import "commercialisation/front-pages";

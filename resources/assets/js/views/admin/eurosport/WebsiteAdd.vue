@@ -11,7 +11,7 @@
 								<div class="col-sm-8">
 										<input type="text" class="form-control" placeholder="Enter the name of your tournament"
 										v-model="website.tournament_name" name="tournament_name" data-vv-as="tournament name" v-validate="'required'" :class="{'is-danger': errors.has('tournament_name') }">
-										<i v-show="errors.has('tournament_name')" class="fa fa-warning"></i>
+										<i v-show="errors.has('tournament_name')" class="fas fa-warning"></i>
 										<span class="help is-danger" v-show="errors.has('tournament_name')">{{ errors.first('tournament_name') }}</span>
 								</div>
 							</div>
@@ -20,7 +20,7 @@
 								<div class="col-sm-8">
 										<input type="text" class="form-control" placeholder="Enter the tournament date"
 										v-model="website.tournament_date" name="tournament_date" data-vv-as="tournament dates" v-validate="'required'" :class="{'is-danger': errors.has('tournament_date') }">
-										<i v-show="errors.has('tournament_date')" class="fa fa-warning"></i>
+										<i v-show="errors.has('tournament_date')" class="fas fa-warning"></i>
 										<span class="help is-danger" v-show="errors.has('tournament_date')">{{ errors.first('tournament_date') }}</span>
 								</div>
 							</div>
@@ -29,7 +29,7 @@
 								<div class="col-sm-8">
 										<input type="text" class="form-control" placeholder="Enter the location"
 										v-model="website.tournament_location" name="tournament_location" data-vv-as="tournament location" v-validate="'required'" :class="{'is-danger': errors.has('tournament_location') }">
-										<i v-show="errors.has('tournament_location')" class="fa fa-warning"></i>
+										<i v-show="errors.has('tournament_location')" class="fas fa-warning"></i>
 										<span class="help is-danger" v-show="errors.has('tournament_location')">{{ errors.first('tournament_location') }}</span>
 								</div>
 							</div>
@@ -230,16 +230,16 @@
 												<div class="col-9">
 													<ul class="nav align-items-center h-100">
 														<li class="nav-item">
-															<a class="nav-link" :style="{color: getPreviewColor}" href="javascript:void(0)">Match Schedule <span class="ml-2"><i class="fa fa-calendar"></i></span></a>
+															<a class="nav-link" :style="{color: getPreviewColor}" href="javascript:void(0)">Match Schedule <span class="ml-2"><i class="fas fa-calendar"></i></span></a>
 														</li>
 														<li class="nav-item">
-															<a class="nav-link" :style="{color: getPreviewColor}" href="javascript:void(0)">The Teams <span class="ml-2"><i class="fa fa-shield"></i></span></a>
+															<a class="nav-link" :style="{color: getPreviewColor}" href="javascript:void(0)">The Teams <span class="ml-2"><i class="fas fa-shield"></i></span></a>
 														</li>
 														<li class="nav-item">
-															<a class="nav-link" :style="{color: getPreviewColor}" href="javascript:void(0)">The Venue <span class="ml-2"><i class="fa fa-map-marker"></i></span></a>
+															<a class="nav-link" :style="{color: getPreviewColor}" href="javascript:void(0)">The Venue <span class="ml-2"><i class="fas fa-map-marker"></i></span></a>
 														</li>
 														<li class="nav-item">
-															<a class="nav-link" :style="{color: getPreviewColor}" href="javascript:void(0)">Travel & Accommodation <span class="ml-2"><i class="fa fa-suitcase"></i></span></a>
+															<a class="nav-link" :style="{color: getPreviewColor}" href="javascript:void(0)">Travel & Accommodation <span class="ml-2"><i class="fas fa-suitcase"></i></span></a>
 														</li>
 													</ul>
 												</div>
@@ -344,7 +344,7 @@
 		<div class="row">
 			<div class="col-md-12">
 				<div class="pull-right">
-					<button :disabled="isImageUploading" class="btn btn-primary" @click="next()">{{$lang.tournament_button_next}}&nbsp;&nbsp;&nbsp;<i class="fa fa-angle-double-right" aria-hidden="true"></i></button>
+					<button :disabled="isImageUploading" class="btn btn-primary" @click="next()">{{$lang.tournament_button_next}}&nbsp;&nbsp;&nbsp;<i class="fas fa-angle-double-right" aria-hidden="true"></i></button>
 				</div>
 			</div>
 		</div>

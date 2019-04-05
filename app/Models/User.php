@@ -45,7 +45,10 @@ class User extends Authenticatable implements HasRoleAndPermissionContract, CanR
         'is_desktop_user',
         'registered_from',
         'locale',
-        'fcm_id'
+        'fcm_id',
+        'role',
+        'country_id',
+        'locale',
     ];
 
     /**
@@ -156,7 +159,7 @@ class User extends Authenticatable implements HasRoleAndPermissionContract, CanR
         $send_otp='';
         $subject = 'Euro-Sportring Tournament Planner - Reset password';
         // Set OTP
-        if($this->roles()->first()->id == $mobileUserRoleId) {
+        if(!empty($this->roles()->first()) && ($this->roles()->first()->id == $mobileUserRoleId)) {
             $subject = 'Euro-Sportring - Password Reset';
             // $send_otp = str_random(4);
             // $encoded_otp = base64_encode($this->id."|".$send_otp);

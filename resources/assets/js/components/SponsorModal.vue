@@ -28,7 +28,7 @@
                 :class="{'is-danger': errors.has('name') }"
                 name="name" type="text"
                 class="form-control" placeholder="Enter name">
-                <i v-show="errors.has('name')" class="fa fa-warning"></i>
+                <i v-show="errors.has('name')" class="fas fa-warning"></i>
                 <span class="help is-danger" v-show="errors.has('name')">{{ errors.first('name') }}
                 </span>
             </div>
@@ -40,7 +40,7 @@
                 :class="{'is-danger': errors.has('website') }"
                 name="website" type="text"
                 class="form-control" :placeholder="$lang.website_sponsor_website">
-                <i v-show="errors.has('website')" class="fa fa-warning"></i>
+                <i v-show="errors.has('website')" class="fas fa-warning"></i>
                 <span class="help is-danger" v-show="errors.has('website')">{{ errors.first('website') }}
                 </span>
             </div>
@@ -119,23 +119,23 @@
 				if (!files.length)
 					return;
 
-		    if(Plugin.ValidateImageType(files[0]) == false) {
-	        toastr['error']('Sponsor logo is not a valid image', 'Error');
-	        return;
-	      }
+		    	if(Plugin.ValidateImageType(files[0]) == false) {
+	        		toastr['error']('Sponsor logo is not a valid image', 'Error');
+	       			return;
+	      		}
 
 				vm.isSponsorImageUploading = true;
-	      var formData = new FormData();
-	      formData.append('image', files[0]);
-	      axios.post('/api/websites/uploadSponsorImage', formData).then(
-		      (response)=> {
-		      	vm.formValues.logo = response.data;
-		      	vm.isSponsorImageUploading = false;
-		      	this.isLoad = false;
-		      },
-		      (error)=>{
-		      }
-	      );
+			    var formData = new FormData();
+			    formData.append('image', files[0]);
+			    axios.post('/api/websites/uploadSponsorImage', formData).then(
+			      	(response)=> {
+			      	vm.formValues.logo = response.data;
+			      	vm.isSponsorImageUploading = false;
+			      	this.isLoad = false;
+			      	},
+			     	(error)=>{
+			      	}
+			    );
 			},
 		},
 	};

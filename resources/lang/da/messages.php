@@ -33,7 +33,7 @@
 		'404_page_title' => 'Fejl 404 - siden findes ikke',
 		'404_page_message' => 'Fejl 404 - Fejl på siden',
 		'contact_form_send_btn' => 'Send forespørgsel',
-		'match_schedule_message' => 'Kampprogrammet vil være klar 2-3 dage før turneringen starter',
+		'match_schedule_message' => 'Kampprogrammet vil være klar 5-7 dage før turneringen starter',
 		'no_location_found' => 'Ingen side fundet',
 		'no_photos_found' => 'Ingen fotos fundet',
 		'recaptcha_error_message' => 'Please validate reCAPTCHA',

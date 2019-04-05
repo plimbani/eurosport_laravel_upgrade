@@ -74,7 +74,6 @@ class TeamService implements TeamContract
     {
 
       // Here we send Status Code and Messages
-
         $data = $this->teamRepoObj->getAllTournamentTeams($data['tournamentData']['tournamentId']);
         if ($data) {
             return ['status_code' => '200', 'data' => $data];
@@ -123,7 +122,7 @@ class TeamService implements TeamContract
             $data['country_id'] = '1';
         }
         $data['age_group_id'] = 0;
-        $ageCategory = trim($data['event']) ;
+        $ageCategory = trim($data['agecategory']) ;
 
         if($ageCategory!= ''){
             \Log::info($ageCategory);

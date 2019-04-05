@@ -1,0 +1,14 @@
+.modal {
+    &-header {
+        border-bottom-color: $theme-color-primary;
+    }
+
+    &-title {
+        color: $theme-color-primary;
+        font-size: $font-size-base * 1.5;
+    }
+
+    &-footer {
+        border-top-color: $theme-color-primary;
+    }
+}

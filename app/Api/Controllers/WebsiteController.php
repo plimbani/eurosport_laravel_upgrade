@@ -3,6 +3,7 @@
 namespace Laraspace\Api\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Laraspace\Http\Requests\Website\SummaryRequest;
 use Laraspace\Http\Requests\Website\GetSponsorsRequest;
 use Laraspace\Http\Requests\Website\StoreUpdateRequest;
@@ -18,7 +19,7 @@ use Laraspace\Http\Requests\Website\GetWebsiteDefaultPagesRequest;
 use Laraspace\Http\Requests\Website\GetWebsiteCustomisationRequest;
 use Laraspace\Http\Requests\Website\GetUserAccessibleWebsitesRequest;
 use Laraspace\Http\Requests\Website\GetWebsiteConfigurationDetailRequest;
-
+use Laraspace\Api\Repositories\WebsiteSettingRepository;
 // Need to define only contracts
 use Laraspace\Api\Contracts\WebsiteContract;
 
@@ -30,20 +31,21 @@ use Laraspace\Api\Contracts\WebsiteContract;
  */
 class WebsiteController extends BaseController
 {
-	/**
-   * @var WebsiteContract
-   */
-  protected $websiteContract;
 
-  /**
-   * Create a new controller instance.
-   *
-   * @param WebsiteContract $websiteContract
-   */
-  public function __construct(WebsiteContract $websiteContract)
-  {
-  	$this->websiteContract = $websiteContract;
-  }
+    /**
+     * @var WebsiteContract
+     */
+    protected $websiteContract;
+
+    /**
+     * Create a new controller instance.
+     *
+     * @param WebsiteContract $websiteContract
+     */
+    public function __construct(WebsiteContract $websiteContract)
+    {
+        $this->websiteContract = $websiteContract;
+    }
 
     /**
      * Show all website details.
@@ -59,159 +61,179 @@ class WebsiteController extends BaseController
         return $this->websiteContract->index();
     }
 
-  /**
-   * Get all user websites
-   *
-   * Get a JSON representation of all the user websites.
-   *
-   * @Get("/getUserAccessibleWebsites")
-   * @Versions({"v1"})
-   * @Response(200, body={})
-   */
-  public function getUserAccessibleWebsites(GetUserAccessibleWebsitesRequest $request)
-  {
-  	return $this->websiteContract->getUserAccessibleWebsites();
-  }
+    /**
+     * Get all user websites
+     *
+     * Get a JSON representation of all the user websites.
+     *
+     * @Get("/getUserAccessibleWebsites")
+     * @Versions({"v1"})
+     * @Response(200, body={})
+     */
+    public function getUserAccessibleWebsites(GetUserAccessibleWebsitesRequest $request)
+    {
+        return $this->websiteContract->getUserAccessibleWebsites();
+    }
 
-  /*
-   * Save website data
-   *
-   * @return response
-   */
-  public function saveWebsiteData(StoreUpdateRequest $request)
-  {
-    return $this->websiteContract->saveWebsiteData($request->all());
-  }
+    /*
+     * Save website data
+     *
+     * @return response
+     */
 
-  /*
-   * Get website details
-   *
-   * @return response
-   */
-  public function websiteSummary(SummaryRequest $request)
-  {
-    return $this->websiteContract->websiteSummary($request);
-  }
+    public function saveWebsiteData(StoreUpdateRequest $request)
+    {
+        return $this->websiteContract->saveWebsiteData($request->all());
+    }
 
-  /*
-   * Get customisation option
-   *
-   * @return response
-   */
-  public function getWebsiteCustomisationOptions(GetWebsiteCustomisationRequest $request) {
-    return $this->websiteContract->getWebsiteCustomisationOptions();
-  }
+    /*
+     * Get website details
+     *
+     * @return response
+     */
 
-  /*
-   * Get image path
-   *
-   * @return response
-   */
-  public function getConfigurationDetail(GetWebsiteConfigurationDetailRequest $request) {
-    return $this->websiteContract->getConfigurationDetail();
-  }
+    public function websiteSummary(SummaryRequest $request)
+    {
+        return $this->websiteContract->websiteSummary($request);
+    }
 
-  /*
-   * Get website default pages
-   *
-   * @return response
-   */
-  public function getWebsiteDefaultPages(GetWebsiteDefaultPagesRequest $request) {
-    return $this->websiteContract->getWebsiteDefaultPages();
-  }
+    /*
+     * Get customisation option
+     *
+     * @return response
+     */
 
-  /**
-   * Get all sponsors
-   *
-   * Get a JSON representation of all the sponsors
-   *
-   * @Get("/getSponsors")
-   * @Versions({"v1"})
-   * @Response(200, body={})
-   */
-  public function getSponsors(GetSponsorsRequest $request, $websiteId)
-  {
-    return $this->websiteContract->getSponsors($websiteId);
-  }
+    public function getWebsiteCustomisationOptions(GetWebsiteCustomisationRequest $request)
+    {
+        return $this->websiteContract->getWebsiteCustomisationOptions();
+    }
 
-  /*
-   * Upload website tournament logo
-   *
-   * @return response
-   */
-  public function uploadTournamentLogo(UploadTournamentLogoRequest $request) {
-    return $this->websiteContract->uploadTournamentLogo($request);
-  }
+    /*
+     * Get image path
+     *
+     * @return response
+     */
 
-  /*
-   * Upload website social graphic
-   *
-   * @return response
-   */
-  public function uploadSocialGraphic(UploadSocialGraphicRequest $request) {
-    return $this->websiteContract->uploadSocialGraphic($request);
-  }
+    public function getConfigurationDetail(GetWebsiteConfigurationDetailRequest $request)
+    {
+        return $this->websiteContract->getConfigurationDetail();
+    }
 
-  /*
-   * Upload website sponsor upload image
-   *
-   * @return response
-   */
-  public function uploadSponsorImage(UploadSponsorImageRequest $request) {
-    return $this->websiteContract->uploadSponsorImage($request);
-  }
+    /*
+     * Get website default pages
+     *
+     * @return response
+     */
 
-  /*
-   * Upload website hero image
-   *
-   * @return response
-   */
-  public function uploadHeroImage(UploadHeroImageRequest $request) {
-    return $this->websiteContract->uploadHeroImage($request);
-  }
+    public function getWebsiteDefaultPages(GetWebsiteDefaultPagesRequest $request)
+    {
+        return $this->websiteContract->getWebsiteDefaultPages();
+    }
 
-  /*
-   * Upload welcome image
-   *
-   * @return response
-   */
-  public function uploadWelcomeImage(UploadWelcomeImageRequest $request) {
-    return $this->websiteContract->uploadWelcomeImage($request);
-  }
+    /**
+     * Get all sponsors
+     *
+     * Get a JSON representation of all the sponsors
+     *
+     * @Get("/getSponsors")
+     * @Versions({"v1"})
+     * @Response(200, body={})
+     */
+    public function getSponsors(GetSponsorsRequest $request, $websiteId)
+    {
+        return $this->websiteContract->getSponsors($websiteId);
+    }
 
-  /*
-   * Upload organiser image
-   *
-   * @return response
-   */
-  public function uploadOrganiserLogo(UploadOrganiserLogoRequest $request) {
-    return $this->websiteContract->uploadOrganiserLogo($request);
-  }
-  
-  /**
-   * Get website details
-   *
-   * Get a JSON representation of all the website
-   *
-   * @Get("/getWebsiteDetails")
-   * @Versions({"v1"})
-   * @Response(200, body={})
-   */
-  public function getWebsiteDetails(GetWebsiteDataRequest $request, $websiteId)
-  {
-    return $this->websiteContract->getWebsiteDetails($websiteId);
-  }
+    /*
+     * Upload website tournament logo
+     *
+     * @return response
+     */
 
-  /**
-   * Generate preview URL
-   *
-   *
-   * @Post("/generatePreviewUrl")
-   * @Versions({"v1"})
-   * @Response(200, body={})
-   */
-  public function generatePreviewUrl(Request $request, $websiteId)
-  {
-    return $this->websiteContract->generatePreviewUrl($websiteId);
-  }
+    public function uploadTournamentLogo(UploadTournamentLogoRequest $request)
+    {
+        return $this->websiteContract->uploadTournamentLogo($request);
+    }
+
+    /*
+     * Upload website social graphic
+     *
+     * @return response
+     */
+
+    public function uploadSocialGraphic(UploadSocialGraphicRequest $request)
+    {
+        return $this->websiteContract->uploadSocialGraphic($request);
+    }
+
+    /*
+     * Upload website sponsor upload image
+     *
+     * @return response
+     */
+
+    public function uploadSponsorImage(UploadSponsorImageRequest $request)
+    {
+        return $this->websiteContract->uploadSponsorImage($request);
+    }
+
+    /*
+     * Upload website hero image
+     *
+     * @return response
+     */
+
+    public function uploadHeroImage(UploadHeroImageRequest $request)
+    {
+        return $this->websiteContract->uploadHeroImage($request);
+    }
+
+    /*
+     * Upload welcome image
+     *
+     * @return response
+     */
+
+    public function uploadWelcomeImage(UploadWelcomeImageRequest $request)
+    {
+        return $this->websiteContract->uploadWelcomeImage($request);
+    }
+
+    /*
+     * Upload organiser image
+     *
+     * @return response
+     */
+
+    public function uploadOrganiserLogo(UploadOrganiserLogoRequest $request)
+    {
+        return $this->websiteContract->uploadOrganiserLogo($request);
+    }
+
+    /**
+     * Get website details
+     *
+     * Get a JSON representation of all the website
+     *
+     * @Get("/getWebsiteDetails")
+     * @Versions({"v1"})
+     * @Response(200, body={})
+     */
+    public function getWebsiteDetails(GetWebsiteDataRequest $request, $websiteId)
+    {
+        return $this->websiteContract->getWebsiteDetails($websiteId);
+    }
+
+    /**
+     * Generate preview URL
+     *
+     *
+     * @Post("/generatePreviewUrl")
+     * @Versions({"v1"})
+     * @Response(200, body={})
+     */
+    public function generatePreviewUrl(Request $request, $websiteId)
+    {
+        return $this->websiteContract->generatePreviewUrl($websiteId);
+    }
 }

@@ -2,6 +2,7 @@
 
 namespace Laraspace\Api\Services;
 
+use Carbon\Carbon;
 use DB;
 use File;
 use Storage;
@@ -23,7 +24,8 @@ class MatchService implements MatchContract
 
     public function __construct()
     {
-        $this->matchRepoObj = new \Laraspace\Api\Repositories\MatchRepository();
+      $this->tournamentLogo = getenv('S3_URL') . '/assets/img/tournament_logo/';
+      $this->matchRepoObj = new \Laraspace\Api\Repositories\MatchRepository();
     }
 
     public function getAllMatches()
@@ -130,7 +132,6 @@ class MatchService implements MatchContract
         $tournamentData = $data['tournamentData'];
 
         $standingResData = $this->matchRepoObj->getStanding($tournamentData);
-
         if($refreshStanding && $refreshStanding == 'yes' && isset($tournamentData['competitionId']) && $tournamentData['competitionId'] != '')
         {
             $competition = Competition::find($tournamentData['competitionId']);
@@ -236,7 +237,7 @@ class MatchService implements MatchContract
       return $pdf->inline('Pitch.pdf');
     }
 
-    public function generateCategoryReport($ageGroupId)
+    public function generateCategoryReport($ageGroupId,$allCategory = false)
     {
       $competitions = Competition::where('tournament_competation_template_id',$ageGroupId)->get();
       $date = new \DateTime(date('H:i d M Y'));
@@ -281,17 +282,25 @@ class MatchService implements MatchContract
 
       // dd($pdfData);
 
-      $pdf = PDF::loadView('age_category.summary_report',['data' => $pdfData])
-            ->setPaper('a4')
-            ->setOption('header-spacing', '5')
-            ->setOption('header-font-size', 7)
-            ->setOption('header-font-name', 'Open Sans')
-            ->setOrientation('portrait')
-            ->setOption('footer-right', 'Page [page] of [toPage]')
-            ->setOption('header-right', $date->format('H:i d M Y'))
-            ->setOption('margin-top', 20)
-            ->setOption('margin-bottom', 20);
-        return $pdf->download('Summary report.pdf');
+      if ( $allCategory )
+      {
+        return $pdfData;
+      }
+      else
+      {
+
+        $pdf = PDF::loadView('age_category.summary_report',['data' => $pdfData])
+              ->setPaper('a4')
+              ->setOption('header-spacing', '5')
+              ->setOption('header-font-size', 7)
+              ->setOption('header-font-name', 'Open Sans')
+              ->setOrientation('portrait')
+              ->setOption('footer-right', 'Page [page] of [toPage]')
+              ->setOption('header-right', $date->format('H:i d M Y'))
+              ->setOption('margin-top', 20)
+              ->setOption('margin-bottom', 20);
+          return $pdf->download('Summary report.pdf');
+      }
     }
 
     public function getMatchDetail($matchData) {
@@ -1042,8 +1051,8 @@ class MatchService implements MatchContract
     {
       // dd($data);
         $compId = $data['home']['competition_id'];
-
         $competition = Competition::find($compId);
+        $tournament_id =  $competition->tournament_id;
 
         $cupId = $compId;
 
@@ -1110,6 +1119,7 @@ class MatchService implements MatchContract
                     $total = ( ( (int)$teamExist->won * $winPoints ) + ( (int)$teamExist->draws * $drawPoints) )  + ( (int)$teamExist->lost * $losePoints);
 
                     $goal_difference = ( (int)$teamExist->goal_for  - (int)$teamExist->goal_against );
+                    $calculatedArray[$compId][$gvalue->id]['goal_ratio']  = $teamExist->played > 0 ? $teamExist->goal_for / $teamExist->played : 0;
                     $calculatedArray[$compId][$gvalue->id]['goal_difference'] = $goal_difference;
                     $calculatedArray[$compId][$gvalue->id]['Total'] = $total;
                     $calculatedArray[$compId][$gvalue->id]['manual_order'] = $teamExist->manual_order;
@@ -1153,10 +1163,9 @@ class MatchService implements MatchContract
        // echo 'Before Sort';
 
       //  echo 'After Sort';
-
         $for_override_condition = array();
         foreach ($calculatedArray as $ckey => $cvalue) {
-            $manual_order = $mid = $cid = $did = $eid = $overrride = $group_winner = $matchesWon = $goalRatio = $headToHead = array();
+            $manual_order = $mid = $cid = $did = $eid = $overrride = $group_winner = $matchesWon = $goalRatio = $headToHead = $teamName = array();
             
             foreach ($cvalue as $cckey => $ccvalue) {
                $manual_order[$cckey]  = (int)$ccvalue['manual_order'];
@@ -1167,53 +1176,130 @@ class MatchService implements MatchContract
                $eid[$cckey]  = (int)$ccvalue['home_goal'];
                $matchesWon[$cckey]  = (int)$ccvalue['Won'];
                $goalRatio[$cckey]  = $ccvalue['Played'] > 0 ? $ccvalue['home_goal'] / $ccvalue['Played'] : 0;
+               $teamName[$cckey] =  $ccvalue['teamName'];
               // $overrride[$cckey]  = (int)$ccvalue['manual_override'];
               // $group_winner[$cckey]  = (int)$ccvalue['group_winner'];
               // $for_override_condition[$ckey][$cckey] = (int)$ccvalue['manual_override'];
             }
 
+            $checkResultEntered = DB::table('temp_fixtures')
+            ->where('tournament_id',$tournament_id)
+            ->where('competition_id',$compId)->where('round','Round Robin')
+            ->where(function ($query) {
+                $query->whereNull('hometeam_score')
+                      ->orWhereNull('awayteam_score');
+            })->count();
+
             $params = [];
             $rules = $tournamentCompetationTemplatesRecord->rules;
 
+            $head_to_head = false;
+            $check_head_to_head_with_key = '';
+            $remain_head_to_head_with_key = '';
             for($i=0; $i<count($rules); $i++) {
               $rule = $rules[$i];
 
-              if($rule['checked'] == false) {
+              if($rule['checked'] == false || ( $rule['key'] != 'head_to_head' && $head_to_head == true)) {
+
+                if (  $rule['checked'] == true && ( $rule['key'] != 'head_to_head' && $head_to_head == true )  )
+                {
+                  if($rule['key'] == 'goal_difference') {
+                    $remain_head_to_head_with_key .= '|goal_difference';
+                  }
+                  if($rule['key'] == 'goals_for') {
+                    $remain_head_to_head_with_key .= '|home_goal';
+                  }
+                  if($rule['key'] == 'matches_won') {
+                    $remain_head_to_head_with_key .= '|Won';
+                  }
+                  if($rule['key'] == 'goal_ratio') {
+                    $remain_head_to_head_with_key .= '|goal_ratio';
+                  }
+                }
+
                 continue;
               }
               
               if($rule['key'] == 'match_points') {
                 $params[] = $mid;
                 $params[] = SORT_DESC;
+                $check_head_to_head_with_key .= '|Total';
               }
               
+              if($rule['key'] == 'head_to_head') {
+                if($checkResultEntered > 0)
+                {
+                  $params[] = $teamName;
+                  $params[] = SORT_ASC;
+                  $check_head_to_head_with_key .= '|teamName';
+                }
+                else
+                {
+                  $head_to_head = true;
+                }
+               
+              }
+
               if($rule['key'] == 'goal_difference') {
                 $params[] = $did;
                 $params[] = SORT_DESC;
+                $check_head_to_head_with_key .= '|goal_difference';
               }
               if($rule['key'] == 'goals_for') {
                 $params[] = $eid;
                 $params[] = SORT_DESC;
+                $check_head_to_head_with_key .= '|home_goal';
               }
               if($rule['key'] == 'matches_won') {
                 $params[] = $matchesWon;
                 $params[] = SORT_DESC;
+                $check_head_to_head_with_key .= '|Won';
               }
               if($rule['key'] == 'goal_ratio') {
                 $params[] = $goalRatio;
                 $params[] = SORT_DESC;
+                $check_head_to_head_with_key .= '|goal_ratio';
               }
             }
 
-            $params[] = &$cvalue;
+            if ( !empty($check_head_to_head_with_key) )
+            {
+              $check_head_to_head_with_key = ltrim($check_head_to_head_with_key,'|');
+            }
 
+            if ( !empty($remain_head_to_head_with_key) )
+            {
+              $remain_head_to_head_with_key = ltrim($remain_head_to_head_with_key,'|');
+            }
+
+            $params[] = &$cvalue;
             if($competition->is_manual_override_standing == 1) {
               $params = array_merge(array($manual_order, SORT_ASC), $params);
             }
 
             array_multisort(...$params);
-            
             $calculatedArray[$ckey] = $cvalue;
+        }
+
+
+        if ( $head_to_head )
+        {
+
+          $calculatedArray = array_shift($calculatedArray);
+          list($calculatedArray,$sort_head_to_head) = $this->matchRepoObj->sortByHeadtoHead($calculatedArray,$check_head_to_head_with_key,$tournament_id,$compId,$tournamentCompetationTemplatesRecord,$remain_head_to_head_with_key);
+
+          if ( $sort_head_to_head == '1') {
+            $head_to_head_position_sorting = array();    
+            $internal_head_to_head_position_sorting = array();         
+            foreach ($calculatedArray as $comp_stand_key => $comp_stand_value) {
+              $head_to_head_position_sorting[$comp_stand_key] = (int)$comp_stand_value['head_to_head_position'];
+              $internal_head_to_head_position_sorting[$comp_stand_key] = (int)$comp_stand_value['internal_head_to_head_position'];
+            }
+            array_multisort($internal_head_to_head_position_sorting,SORT_ASC,$calculatedArray);
+          }
+
+          $setCalculatedArray[$cupId] = $calculatedArray;
+          $calculatedArray = $setCalculatedArray;
         }
         
         $i=1;
@@ -1888,6 +1974,7 @@ class MatchService implements MatchContract
           $sendData['away'] = $data2;
 
       }
+
       $this->TeamPMAssignKp($sendData);
     }
 
@@ -2484,5 +2571,62 @@ class MatchService implements MatchContract
       foreach ($groupFixture as $key => $value) {
         $this->calculateCupLeagueTable($value->id, 1);
       }
+    }
+    public function getLastUpdateValue($data)
+    {
+        return $this->matchRepoObj->getLastUpdateValue($data['tournamentData']);
+    }
+
+    /**
+      * get all age category data of tournaments
+      *
+      * @param array $data
+    */
+    public function getAllCategoriesReport($tournamentId)
+    {
+
+      $ageCategories =  DB::table('tournament_competation_template')
+                            ->where('tournament_id','=',$tournamentId)
+                            ->get();
+      $pdfData = array();
+      $date = new \DateTime(date('H:i d M Y'));
+      // Fetch tournament logo
+      $tournamentLogo =  DB::table('tournaments')
+                            ->where('id','=',$tournamentId)
+                            ->select('logo')
+                            ->first();
+
+      $pdfData['tournamentLogo'] = '';
+      
+      foreach ($ageCategories as $ageKey => $ageValue) {
+        $pdfData['age_group'][$ageValue->id] = $this->generateCategoryReport($ageValue->id,true);
+        $pdfData['age_group'][$ageValue->id]['ageCategoryName'] = $ageValue->group_name.' ('.$ageValue->category_age.')';
+      }
+
+      if ( !empty($tournamentLogo->logo) )
+      {
+        $pdfData['tournamentLogo'] = $this->tournamentLogo.$tournamentLogo->logo;
+      }
+
+      $pdf = PDF::loadView('age_category.all_summary_report',['data' => $pdfData])
+              ->setPaper('a4')
+              ->setOption('header-spacing', '5')
+              ->setOption('header-font-size', 7)
+              ->setOption('header-font-name', 'Open Sans')
+              ->setOrientation('portrait')
+              ->setOption('footer-right', 'Page [page] of [toPage]')
+              ->setOption('header-right', $date->format('H:i d M Y'))
+              ->setOption('margin-top', 20)
+              ->setOption('margin-bottom', 20);
+
+      $currentDateTime = Carbon::now('Europe/London');
+      $file = storage_path($tournamentId.'_allcategory_'.$currentDateTime->format('dMY_His').'.pdf');
+      $pdf->save($file);
+      return $file;
+    }
+    
+    public function matchUnscheduledFixtures($matchId)
+    {
+        return $this->matchRepoObj->matchUnscheduledFixtures($matchId);
     }
 }

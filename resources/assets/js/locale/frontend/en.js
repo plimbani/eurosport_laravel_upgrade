@@ -54,5 +54,5 @@ module.exports= {
     'no_age_category_found': 'No age categories found.',
     'no_team_found': 'No teams found.',
     'current_placings': 'Current placings',
-  },
+  }
 };

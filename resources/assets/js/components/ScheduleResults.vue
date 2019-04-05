@@ -24,16 +24,16 @@
 								<div class="tabs tabs-primary">
 									<ul class="nav nav-tabs">
 										<li @click="setCurrentView('drawsListing')" class="nav-item">
-											<a :class="[currentView == 'drawsListing' ? 'active' : '']" class="nav-link">{{$lang.summary_schedule_categories}}</a>
+											<a :class="[currentView == 'drawsListing' ? 'active' : '']" class="nav-link" href="javascript:void(0)"><div class="wrapper-tab">{{$lang.summary_schedule_categories}}</div></a>
 										</li>
 										<li @click="setCurrentView('matchListing')" class="nav-item">
-											<a :class="[currentView == 'matchListing' ? 'active' : '']" class="nav-link">{{$lang.summary_schedule_matches}}</a>
+											<a :class="[currentView == 'matchListing' ? 'active' : '']" class="nav-link" href="javascript:void(0)"><div class="wrapper-tab">{{$lang.summary_schedule_matches}}</div></a>
 										</li>
 										<li @click="setCurrentView('teamListing')" class="nav-item">
-											<a :class="[currentView == 'teamListing' ? 'active' : '']" class="nav-link">{{$lang.summary_schedule_teams}}</a>
+											<a :class="[currentView == 'teamListing' ? 'active' : '']" class="nav-link" href="javascript:void(0)"> <div class="wrapper-tab">{{$lang.summary_schedule_teams}}</div></a>
 										</li>
 										<li @click="setCurrentView('finalPlacings')" class="nav-item">
-											<a :class="[currentView == 'finalPlacings' ? 'active' : '']" class="nav-link" href="javascript:void(0)">{{$lang.summary_schedule_final_placings}}</a>
+											<a :class="[currentView == 'finalPlacings' ? 'active' : '']" class="nav-link" href="javascript:void(0)"><div class="wrapper-tab">{{$lang.summary_schedule_final_placings}}</div></a>
 										</li>
 									</ul>
 									<div class="tab-content">

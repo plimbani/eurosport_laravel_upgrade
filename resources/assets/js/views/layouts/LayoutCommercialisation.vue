@@ -7,8 +7,8 @@
 </template>
 
 <script type="text/babel">
-	import SiteCommercialisationHeader from './partials/Commercialisation/SiteHeader.vue'
-    import SiteCommercialisationFooter from './partials/Commercialisation/SiteFooter.vue'
+	import SiteCommercialisationHeader from './partials/Commercialisation/Frontend/SiteHeader.vue'
+    import SiteCommercialisationFooter from './partials/Commercialisation/Frontend/SiteFooter.vue'
     export default {
     	data() {
             return {

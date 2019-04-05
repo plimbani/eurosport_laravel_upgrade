@@ -6,6 +6,8 @@
 |--------------------------------------------------------------------------
 |
 */
+Route::get('tournament/openApp', '\Laraspace\Http\Controllers\HomeController@openAppDeepLink');
+Route::get('apple-app-site-association', '\Laraspace\Http\Controllers\HomeController@iosjson');
 
 Route::group(['domain' => config('app.domain')], function() {
 	Route::get('tournament/report/reportExport','\Laraspace\Api\Controllers\TournamentController@generateReport');
@@ -17,15 +19,18 @@ Route::group(['domain' => config('app.domain')], function() {
 	Route::get('user/setpassword/{key}','\Laraspace\Api\Controllers\UserController@setPassword');
 
 	Route::get('pdf/footer', 'PDFController@getFooter')->name('pdf.footer');
-
+	
 	Route::get('/{vue?}', function () {
 		return view('app');
 	})->where('vue', '[\/\w\.-]*')->name('home');
-
+	
 	Route::post('/passwordactivate', [
 		'as' => 'password', 'uses' => '\Laraspace\Api\Controllers\UserController@passwordActivate'
 	]);
+
+	
 });
+
 
 Route::group(['domain' => '{domain}', 'middleware' => ['verify.website', 'localeSessionRedirect', 'localizationRedirect', 'localeViewPath'], 'prefix' => LaravelLocalization::setLocale(), 'namespace' => 'Frontend'], function() {
 	Route::get('/', 'HomeController@getHomePageDetails')->name('home.page.details');
@@ -50,4 +55,6 @@ Route::group(['domain' => '{domain}', 'middleware' => ['verify.website', 'locale
 
 	Route::get('/tips', 'VisitorController@getTipsPageDetails')->name('tips.page.details');
 	Route::get('/public-transport', 'VisitorController@getPublicTransportPageDetails')->name('public.transport.page.details');
+	
 });
+

@@ -14,7 +14,7 @@
 							<a class="text-primary" href="#" @click.prevent="showCategoryGroups(category.id)">
 								<u>{{ category.group_name }} ({{ category.category_age }})</u>
 							</a>
-              <a href="#" data-toggle="modal" data-target="#commentmodal" class="text-primary" @click.prevent="showComment(category)"><i class="fa fa-info-circle" v-if="category.comments != null"></i></a>
+              <a href="#" data-toggle="modal" data-target="#commentmodal" class="text-primary" @click.prevent="showComment(category)"><i class="fas fa-info-circle" v-if="category.comments != null"></i></a>
 						</td>
 						<td>{{ category.total_teams }}</td>
 					</tr>
@@ -26,15 +26,15 @@
 		<!-- For category groups -->
 		<div class="" v-if="showView == 'groups'">
       <a @click="changeTable()" href="javascript:void(0)" aria-expanded="true" class="btn btn-primary mb-2 text-white">
-      <i aria-hidden="true" class="fa fa-angle-double-left"></i> Back to category list</a>
+      <i aria-hidden="true" class="fas fa-angle-double-left"></i> Back to category list</a>
       <div class="table-responsive" v-if="groupsData.length > 0">
         <table class="table table-hover table-bordered mt-2">
           <thead class="no-border">
-                <tr>
-                    <th>{{ $t('matches.categories') }}</th>
-                    <th>{{ $t('matches.type') }}</th>
-                    <th>{{ $t('matches.teams') }}</th>
-                </tr>
+              <tr>
+                <th>{{ $t('matches.categories') }}</th>
+                <th>{{ $t('matches.type') }}</th>
+                <th>{{ $t('matches.teams') }}</th>
+              </tr>
             </thead>
             <tbody>
               <tr v-for="group in groupsData">
