@@ -212,9 +212,10 @@ export default {
     this.matchData = _.sortBy(_.cloneDeep(this.matchData1),['match_datetime'] );
 
     var vm = this;
-    setTimeout(function() {
+
+    Vue.nextTick(() =>{
       vm.updateMatchScoreToRel();
-    },300);
+    });
 
     this.matchIdleTimeInterval = parseInt(this.$store.state.Configuration.matchIdleTime) * 1000;
     if ( this.matchIdleTimeInterval !== 0)
@@ -403,6 +404,9 @@ export default {
 
       var resultChange = this.checkScoreChangeOrnot();
       this.resultChange = resultChange;
+
+      clearInterval(this.matchInterval);
+      this.matchInterval = setInterval(this.updateMatchScoreIdleStat,this.matchIdleTimeInterval);
 
       let matchId = match.fid;
       if(match.Home_id == 0 || match.Away_id == 0) {
