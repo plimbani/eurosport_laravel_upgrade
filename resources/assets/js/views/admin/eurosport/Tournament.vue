@@ -23,8 +23,7 @@
                                               <div class="wrapper-tab">{{$lang.summary_label_schedule}}</div>
                                             </a>
                                         </li>
-                                        <li 
-                                          v-if="!isResultAdmin">
+                                        <li class="nav-item" v-if="!isResultAdmin">
                                             <a class="nav-link" data-toggle="tab" href="javascript:void(0)" role="tab" @click="currentView='messages'">
                                               <div class="wrapper-tab">{{$lang.summary_label_message}}</div>
                                             </a>
