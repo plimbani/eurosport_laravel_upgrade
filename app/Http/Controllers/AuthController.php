@@ -74,7 +74,7 @@ class AuthController extends Controller
                                 'people.last_name','users.email',
                                 'users.user_image',
                                 \DB::raw('IF(users.user_image is not null,CONCAT("'.$path.'", users.user_image),"" ) as userImage'),
-                                'users_favourite.tournament_id','users.role as role','countries.id as country_id')
+                                'users_favourite.tournament_id','users.role as role', 'roles.slug as roleSlug', 'countries.id as country_id')
                               ->get();
                               
             $userDetails = array();
@@ -91,6 +91,7 @@ class AuthController extends Controller
              $userSettings = Settings::where('user_id','=',$userData->id)->first();
              $userDetails['settings'] = $userSettings ? $userSettings->toArray() : null;
              $userDetails['role'] = $userData->role;
+             $userDetails['role_slug'] = $userData->roleSlug;
              $userDetails['locale'] = $userData->locale;
              $userDetails['country_id'] = $userData->country_id;
 
