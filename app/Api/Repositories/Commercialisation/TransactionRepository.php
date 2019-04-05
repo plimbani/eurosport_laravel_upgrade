@@ -170,7 +170,10 @@ class TransactionRepository
             'brand' => $data['BRAND'],
             'payment_response' => json_encode($data)
         ];
-        return TransactionHistory::create($transactionHistory);
+        TransactionHistory::create($transactionHistory);       
+        $responseData = array_merge($transactionHistory, $transaction);
+
+        return $responseData;
     }
 
     /**
