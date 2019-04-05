@@ -38,6 +38,7 @@
                                 </div>
                             </div>
 							<component :is="currentView"> </component>
+                            <UnsaveMatchScoreModel></UnsaveMatchScoreModel>
 						</div>
 					</div>
 				</div>
@@ -53,6 +54,7 @@ import SummaryReport from '../../../components/SummaryReport.vue'
 import ScheduleResultsAdmin from '../../../components/ScheduleResultsAdmin.vue'
 import Messages from '../../../components/Messages.vue'
 import AddMessageModel from '../../../components/AddMessageModel.vue'
+import UnsaveMatchScoreModel from '../../../components/UnsaveMatchScoreModel.vue'
 
 
 export default {
@@ -63,7 +65,7 @@ export default {
         }
     },
     components: {
-      SummaryTab, SummaryReport, ScheduleResultsAdmin, Messages, AddMessageModel
+        SummaryTab, SummaryReport, ScheduleResultsAdmin, Messages, AddMessageModel, UnsaveMatchScoreModel
     },
     mounted() {
         if(this.isResultAdmin) {

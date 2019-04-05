@@ -48,14 +48,14 @@
         </td>
         <td class="text-center js-match-list">
             <div class="d-inline-flex position-relative">
-              <input type="text" v-model="match.homeScore" :name="'home_score['+match.fid+']'" style="width: 25px; text-align: center;" v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails'" :readonly="(match.is_scheduled == '0') || (match.isResultOverride == '1' && (match.match_status == 'Walk-over' || match.match_status == 'Abandoned'))" @change="updateScore(match,index1)">
+              <input type="text" class="scoreUpdate" v-model="match.homeScore" :name="'home_score['+match.fid+']'" style="width: 25px; text-align: center;" v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails'" :readonly="(match.is_scheduled == '0') || (match.isResultOverride == '1' && (match.match_status == 'Walk-over' || match.match_status == 'Abandoned'))" @keyup="updateScore(match,index1)">
 
               <span v-else>{{match.homeScore}}</span>
 
               <span class="circle-badge" :class="{'left-input': (isUserDataExist && getCurrentScheduleView != 'teamDetails'), 'left-text': (!isUserDataExist || getCurrentScheduleView == 'teamDetails') }" v-if="(match.isResultOverride == '1' && match.match_winner == match.Home_id)"><a data-toggle="popover" :class="'result-override-home-popover-' + match.fid" href="#" data-placement="top" data-trigger="hover" :data-content="match.result_override_popover" data-animation="false"><i class="fas fa-asterisk text-white" aria-hidden="true"></i></a></span>
             </div> -
             <div class="d-inline-flex position-relative">
-              <input type="text" v-model="match.AwayScore" :name="'away_score['+match.fid+']'" style="width: 25px; text-align: center;"  v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails'" :readonly="(match.is_scheduled == '0') || (match.isResultOverride == '1' && (match.match_status == 'Walk-over' || match.match_status == 'Abandoned'))" @change="updateScore(match,index1)">
+              <input type="text" class="scoreUpdate" v-model="match.AwayScore" :name="'away_score['+match.fid+']'" style="width: 25px; text-align: center;"  v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails'" :readonly="(match.is_scheduled == '0') || (match.isResultOverride == '1' && (match.match_status == 'Walk-over' || match.match_status == 'Abandoned'))" @keyup="updateScore(match,index1)">
 
               <span class="circle-badge" :class="{'right-input': (isUserDataExist && getCurrentScheduleView != 'teamDetails'), 'right-text': (!isUserDataExist || getCurrentScheduleView == 'teamDetails') }" v-if="(match.isResultOverride == '1' && match.match_winner == match.Away_id)"><a :class="'result-override-away-popover-' + match.fid" href="#" data-toggle="popover" data-placement="top" data-trigger="hover" :data-content="match.result_override_popover" data-animation="false"><i class="fas fa-asterisk text-white" aria-hidden="true"></i></a></span>
 
@@ -141,6 +141,9 @@ export default {
       'index':'',
       'matchData': [],
       'currentMatchId': 0,
+      'matchInterval':'',
+      'matchIdleTimeInterval':null,
+      'resultChange': false,
       paginate: (this.getCurrentScheduleView != 'teamDetails' && this.getCurrentScheduleView != 'drawDetails') ? ['matchlist'] : null,
       shown: false,
       isMatchListInitialized: false,
@@ -148,7 +151,6 @@ export default {
       recordCounts: [5,10,20,50,100]
     }
   },
-
   filters: {
     formatDate: function(date) {
       if(date != null ) {
@@ -208,6 +210,18 @@ export default {
         }
     });
     this.matchData = _.sortBy(_.cloneDeep(this.matchData1),['match_datetime'] );
+
+    var vm = this;
+    setTimeout(function() {
+      vm.updateMatchScoreToRel();
+    },300);
+
+    this.matchIdleTimeInterval = parseInt(this.$store.state.Configuration.matchIdleTime) * 1000;
+    if ( this.matchIdleTimeInterval !== 0)
+    {
+      clearInterval(this.matchInterval);
+      this.matchInterval = setInterval(this.updateMatchScoreIdleStat,this.matchIdleTimeInterval);
+    }
   },
   created: function() {
     this.$root.$on('reloadMatchList', this.setScore);
@@ -219,9 +233,24 @@ export default {
     this.$root.$off('reloadMatchList');
     this.$root.$off('saveMatchScore');
   },
+  beforeDestroy: function() {
+    clearInterval(this.matchInterval);
+    if ( this.resultChange )
+    {
+      this.resetStoreUnsaveMatch();
+    }
+  },
   watch: {
     matchData1: {
       handler: function (val, oldVal) {
+        var resultChange = this.checkScoreChangeOrnot();
+        this.resultChange = resultChange;
+
+        if ( this.resultChange )
+        {
+          this.resetStoreUnsaveMatch();
+        }
+
         this.matchData = _.sortBy(_.cloneDeep(val), ['match_datetime']);
         let vm = this;
         Vue.nextTick()
@@ -229,6 +258,13 @@ export default {
           $.each(vm.matchData, function (index,value){
             vm.getResultOverridePopover(value);
           });
+
+          vm.updateMatchScoreToRel();
+          if ( vm.matchIdleTimeInterval !== 0)
+          {
+            clearInterval(vm.matchInterval);
+            vm.matchInterval = setInterval(vm.updateMatchScoreIdleStat,vm.matchIdleTimeInterval);
+          }
         });
       },
       deep: true,
@@ -364,6 +400,10 @@ export default {
       this.$store.dispatch('setCurrentScheduleView','teamDetails')
     },
     updateScore(match,index) {
+
+      var resultChange = this.checkScoreChangeOrnot();
+      this.resultChange = resultChange;
+
       let matchId = match.fid;
       if(match.Home_id == 0 || match.Away_id == 0) {
         toastr.error('Both home and away teams should be there for score update.');
@@ -524,6 +564,47 @@ export default {
         match.result_override_popover = "* Abandoned, win awarded";
       }
     },
+    updateMatchScoreToRel()
+    {
+      $('.scoreUpdate').each(function(){
+        $(this).attr('rel',$(this).val());
+      });
+    },
+    checkScoreChangeOrnot()
+    {
+      var unsaveResult = false;
+      if ( $('#matchSchedule .scoreUpdate').length )
+      {
+        $('#matchSchedule .scoreUpdate').each(function(){
+          if ( !unsaveResult && !$(this).attr('readonly') && $(this).val() !== $(this).attr('rel') )
+          {
+            unsaveResult = true;
+          }
+
+        });
+      }
+      return unsaveResult;
+    },
+    updateMatchScoreIdleStat(){
+      var unsaveResult = this.checkScoreChangeOrnot();
+      if ( unsaveResult )
+      {
+        this.saveMatchScore();
+        this.updateMatchScoreToRel();
+      }
+    },
+    resetStoreUnsaveMatch()
+    {
+      this.$store.dispatch('UnsaveMatchData',this.matchData);
+      this.$store.dispatch('UnsaveMatchStatus',this.resultChange);
+      $('#unSaveMatchModal').modal('show');
+
+      let vm = this;
+      $("#unSaveMatchModal").on('hidden.bs.modal', function () {
+        vm.$store.dispatch('UnsaveMatchData',[]);
+        vm.$store.dispatch('UnsaveMatchStatus',false);
+      });
+    }
   },
 }
 </script>
