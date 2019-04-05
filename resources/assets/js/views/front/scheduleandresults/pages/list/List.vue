@@ -66,7 +66,7 @@
                       </div>
                     </div>
                   </div>
-                  <div class="col-md-4 col-lg-3 select2_override" v-show="filterBy == 'category_and_competition'">
+                  <div class="col-md-4 col-lg-4 select2_override" v-show="filterBy == 'category_and_competition'">
                     <select class="form-control js-category-and-competition category-and-competition-filter">
                         <option value="">Select</option>
                         <option v-for="option in filterOptions" v-bind:data-val="setFilterOption(option)" v-bind:id="option.id" v-bind:value="setFilterOption(option)" :class="option.class">{{ option.name }}</option>
