@@ -72,7 +72,7 @@
 </template>
 <script type="text/babel">
     import Auth from '../../services/auth'
-     import Ls from '../../services/ls'
+    import Ls from '../../services/ls'
 
     export default {
         data() {
