@@ -22,7 +22,7 @@
                 <li class="nav-item">
                   <a data-toggle="tab" class="nav-link" href="#results_tab" role="tab"><div class="wrapper-tab">Result</div></a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" v-if="!isResultAdmin">
                   <a data-toggle="tab" class="nav-link" href="#colors_tab" role="tab"><div class="wrapper-tab">Colours</div></a>
                 </li>                                    
               </ul>
@@ -243,7 +243,7 @@
                   </div>                  
                 </div>
 
-                <div id="colors_tab" class="tab-pane">                  
+                <div id="colors_tab" class="tab-pane" v-if="!isResultAdmin">                  
                   <div class="form-group row">
                     <div class="col-sm-3 form-control-label">{{ $lang.pitch_modal_age_category_color }} ({{ matchDetail.category_age.category_age }})*</div>
                     <div class="col-sm-6">
@@ -284,7 +284,7 @@ import _ from 'lodash';
 var moment = require('moment');
   export default {
     data() {
-       return {
+        return {
          'tournamentId': this.$store.state.Tournament.tournamentId,
          'matchDetail':{
             'competition': {
@@ -305,7 +305,6 @@ var moment = require('moment');
          'updatedMatchData': null,
        }
     },
-
     props: ['matchFixture','section'],
     mounted() {
       let vm = this;
@@ -326,8 +325,13 @@ var moment = require('moment');
           })
         this.matchFixtureDetail();
       }
-  },
-  methods: {
+    },
+    computed: {
+        isResultAdmin() {
+          return this.$store.state.Users.userDetails.role_slug == 'Results.administrator';
+        },
+    },
+    methods: {
     initialState() {
       return {
         "homeTeam":1,
@@ -627,6 +631,6 @@ var moment = require('moment');
         return splittedGroupName[splittedGroupName.length - 1];
       }      
     }
-  }
+    }
 }
 </script>
