@@ -425,6 +425,13 @@ class MatchRepository
             }
           }
         }
+
+
+        if(isset($tournamentData['matchOrderReport']) && $tournamentData['matchOrderReport'] == 1)
+        {
+          $reportQuery = $reportQuery->orderBy(DB::raw('match_datetime IS NULL, match_datetime'), 'asc');
+        }
+
       $resultData = $reportQuery->get();
       $updatedArray =[];
 
