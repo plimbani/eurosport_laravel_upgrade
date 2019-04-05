@@ -1,8 +1,12 @@
 <template>
 <div>
-  <div class="modal" id="unSaveMatchModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true"  data-animation="false">
+  <div class="modal" id="unSaveMatchModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true"  data-animation="false" data-backdrop="static">
     <div class="modal-dialog modal-md" role="document">
       <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="myModalLabel">{{$lang.user_management_confirmation}}</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          </div>
           <div class="modal-body">
             <div class="col-md-12">
               There is unsaved data on this page. Would you like to save this information before navigating away from this page?
