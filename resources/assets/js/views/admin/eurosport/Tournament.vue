@@ -55,7 +55,6 @@ import Messages from '../../../components/Messages.vue'
 import AddMessageModel from '../../../components/AddMessageModel.vue'
 import UnsaveMatchScoreModel from '../../../components/UnsaveMatchScoreModel.vue'
 
-
 export default {
 
     data() {
@@ -66,6 +65,27 @@ export default {
     },
     components: {
         SummaryTab, SummaryReport, ScheduleResultsAdmin, Messages, AddMessageModel, UnsaveMatchScoreModel
+    },
+    beforeRouteLeave(to, from, next) {
+      let redirectName = to.name; 
+      let matchResultChange = this.$store.state.Tournament.matchResultChange;
+      let currentSection = from.name;
+      if ( matchResultChange && currentSection == 'tournaments_summary_details')
+      { 
+        $('#unSaveMatchModal').modal('show');
+
+        let vm = this;
+        $("#unSaveMatchModal").on('hidden.bs.modal', function () {
+
+          vm.$store.dispatch('UnsaveMatchData',[]);
+          vm.$store.dispatch('UnsaveMatchStatus',false);
+
+          vm.$router.push({'name':redirectName});
+        });
+      }
+      else{
+        next();
+      }
     },
     mounted() {
     	let tournamentId = this.$store.state.Tournament.tournamentId

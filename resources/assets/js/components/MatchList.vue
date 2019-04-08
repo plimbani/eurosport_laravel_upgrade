@@ -124,6 +124,7 @@ import Tournament from '../api/tournament.js'
 import PitchModal from '../components/PitchModal.vue';
 import DeleteModal1 from '../components/DeleteModalBlock.vue'
 import VuePaginate from 'vue-paginate'
+import Vue from 'vue'
 
 export default {
   props: ['matchData1', 'DrawName'],
@@ -212,7 +213,6 @@ export default {
     this.matchData = _.sortBy(_.cloneDeep(this.matchData1),['match_datetime'] );
 
     var vm = this;
-
     Vue.nextTick(() =>{
       vm.updateMatchScoreToRel();
     });
@@ -234,7 +234,7 @@ export default {
     this.$root.$off('reloadMatchList');
     this.$root.$off('saveMatchScore');
   },
-  beforeDestroy: function() {
+  beforeDestroy: function(event) {
     clearInterval(this.matchInterval);
     if ( this.resultChange )
     {
@@ -244,6 +244,8 @@ export default {
   watch: {
     matchData1: {
       handler: function (val, oldVal) {
+
+        this.updateMatchScoreToRel();
         var resultChange = this.checkScoreChangeOrnot();
         this.resultChange = resultChange;
 
@@ -260,7 +262,7 @@ export default {
             vm.getResultOverridePopover(value);
           });
 
-          vm.updateMatchScoreToRel();
+          //vm.updateMatchScoreToRel();
           if ( vm.matchIdleTimeInterval !== 0)
           {
             clearInterval(vm.matchInterval);
@@ -405,6 +407,9 @@ export default {
       var resultChange = this.checkScoreChangeOrnot();
       this.resultChange = resultChange;
 
+      this.$store.dispatch('UnsaveMatchStatus',_.cloneDeep(this.resultChange));
+      this.$store.dispatch('UnsaveMatchData', _.cloneDeep(this.matchData));
+
       clearInterval(this.matchInterval);
       this.matchInterval = setInterval(this.updateMatchScoreIdleStat,this.matchIdleTimeInterval);
 
@@ -520,6 +525,11 @@ export default {
         matchPostData.matchDataArray = matchDataArray;
         Tournament.saveAllMatchResults(matchPostData).then(
           (response) => {
+
+            this.resultChange = false;
+            this.$store.dispatch('UnsaveMatchData',[]);
+            this.$store.dispatch('UnsaveMatchStatus',false);
+
             $("body .js-loader").addClass('d-none');
             if(this.$store.state.currentScheduleView == 'drawDetails') {
               let Id = this.DrawName.id
@@ -533,10 +543,11 @@ export default {
             if(this.$store.state.currentScheduleView == 'matchList') {
               this.$root.$emit('getMatchesByFilter');
             }
-            toastr.success('Scores has been updated successfully', 'Score Updated', {timeOut: 5000});
+            toastr.success('Scores has been updated successfully', 'Score Updated', {timeOut: 1000});
           }
         )
       }
+
     },
     setMatchDataOfMatchList(matchData) {
       this.matchData = _.sortBy(_.cloneDeep(matchData),['match_datetime'] );
@@ -604,9 +615,11 @@ export default {
       $('#unSaveMatchModal').modal('show');
 
       let vm = this;
-      $("#unSaveMatchModal").on('hidden.bs.modal', function () {
+      $("#unSaveMatchModal").on('hidden.bs.modal', function (e) {
+        e.preventDefault();
         vm.$store.dispatch('UnsaveMatchData',[]);
         vm.$store.dispatch('UnsaveMatchStatus',false);
+        Vue.forceUpdate();
       });
     }
   },

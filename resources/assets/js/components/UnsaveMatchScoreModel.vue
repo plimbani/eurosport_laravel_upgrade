@@ -62,7 +62,7 @@ export default {
           matchPostData.matchDataArray = matchDataArray;
           Tournament.saveAllMatchResults(matchPostData).then(
             (response) => {
-              toastr.success('Scores has been updated successfully', 'Score Updated', {timeOut: 5000});
+              toastr.success('Scores have been updated successfully', 'Score Updated', {timeOut: 1000});
               $('#unSaveMatchModal').modal('hide');
             }
           )

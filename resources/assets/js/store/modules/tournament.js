@@ -37,6 +37,7 @@ const state = {
   scheduledMatches: [],
   unsaveMatchData:[],
   matchResultChange:false,
+  setRedirectPage:'',
 }
 // getters
 const getters = {
@@ -202,10 +203,7 @@ const actions = {
   },
   UnsaveMatchStatus({commit},resultChange) {
     commit(types.SET_UNSAVEMATCH_STATUS,resultChange)
-  },
-
-
-  
+  }, 
 }
 
 // mutations
@@ -389,7 +387,6 @@ const mutations = {
   [types.SET_UNSAVEMATCH_STATUS] (state, unSaveMatchStatus) {
     state.matchResultChange = unSaveMatchStatus;
   },
-
 }
 
 export default {
