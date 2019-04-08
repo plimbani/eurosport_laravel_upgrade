@@ -27,6 +27,7 @@
                         <!-- <router-link class="dropdown-item" to="/admin/settings"><i class="fa fa-cogs"></i>{{$lang.siteheader_settings}}</router-link> -->
                          <a href="javascript:void(0)" class="dropdown-item" @click="showEditProfileModal()"><i class="fas fa-user"></i>{{$lang.siteheader_userprofile}}</a>
                          <a href="javascript:void(0)" class="dropdown-item" @click="showSettingModal()"><i class="fas fa-sign-out"></i>Setting</a>
+                         <a href="javascript:void(0)" class="dropdown-item" @click="showSettingModal()"><i class="fas fa-sign-out"></i>Pricing</a>
                         <a href="#" class="dropdown-item" @click.prevent="logout"><i class="fas fa-sign-out"></i>{{$lang.siteheader_logout}}</a>
                     </div>
                 </li>
