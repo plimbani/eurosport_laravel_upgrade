@@ -71,9 +71,9 @@ public class AutoLoginUtils {
                                 && !serverVersion.equals("")
                                 && Utility.compare(installedAppVersion, serverVersion)) {
                             showUpdateDialog(ApplicationClass.getInstance().getmActivity().get());
-                        } else {
-                            checkStoreCredentials(mContext);
                         }
+                        checkStoreCredentials(mContext);
+
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -112,7 +112,6 @@ public class AutoLoginUtils {
             String password = mAppSharedPref.getString(AppConstants.PREF_PASSWORD);
 
             if (Utility.isNullOrEmpty(email) && Utility.isNullOrEmpty(password)) {
-
                 checkuser(mContext);
             }
         } else {
@@ -288,7 +287,7 @@ public class AutoLoginUtils {
                                     }
                                 }
                             }
-
+                            postUserDeviceDetails(mContext);
                         } else {
 //                            {"authenticated":false,"message":"Account de-activated please contact your administrator."}
                             if (response.has("message") && !Utility.isNullOrEmpty(response.getString("message"))) {
@@ -309,6 +308,60 @@ public class AutoLoginUtils {
                         mContext.startActivity(launcherIntent);
                         ((Activity) mContext).finish();
 
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            });
+            mQueue.add(jsonRequest1);
+        }
+    }
+
+    private static void postUserDeviceDetails(final Context mContext) {
+
+        if (Utility.isInternetAvailable(mContext)) {
+            PackageManager manager = mContext.getPackageManager();
+            PackageInfo info;
+            String installedAppVersion = "";
+            try {
+                info = manager.getPackageInfo(mContext.getPackageName(), 0);
+                installedAppVersion = info.versionName;
+            } catch (PackageManager.NameNotFoundException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            Utility.startProgress(mContext);
+            String url = ApiConstants.POST_USER_DETAILS;
+            final JSONObject requestJson = new JSONObject();
+            try {
+                requestJson.put("device", "Android");
+                requestJson.put("app_version", installedAppVersion);
+                requestJson.put("os_version", Utility.getOsVersion(mContext));
+                requestJson.put("user_id", mAppSharedPref.getString(AppConstants.PREF_USER_ID));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            final RequestQueue mQueue = VolleySingeltone.getInstance(mContext).getRequestQueue();
+            final VolleyJsonObjectRequest jsonRequest1 = new VolleyJsonObjectRequest(mContext, Request.Method
+                    .POST, url,
+                    requestJson, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    Utility.StopProgress();
+                    try {
+                        AppLogger.LogE(TAG, "***** Post User details response *****" + response.toString());
+
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    try {
+                        Utility.StopProgress();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
