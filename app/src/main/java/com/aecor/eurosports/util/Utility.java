@@ -28,6 +28,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.aecor.eurosports.R;
+import com.aecor.eurosports.activity.FavouritesActivity;
 import com.aecor.eurosports.activity.LandingActivity;
 import com.aecor.eurosports.activity.SplashActivity;
 import com.aecor.eurosports.ui.ProgressHUD;
@@ -80,6 +81,7 @@ public class Utility {
         }
 
     }
+
     public static void startProgress(@NonNull Context context) {
         try {
             mProgressHUD = ProgressHUD.show(context, "Loading", new DialogInterface.OnCancelListener() {
@@ -139,21 +141,35 @@ public class Utility {
                 message = data.getString("error");
 
             }
-            if (!isNullOrEmpty(message)) {
-
+            if (data.has("tournament_expired")) {
+                message = data.getString("tournament_expired");
                 ViewDialog.showSingleButtonDialog((Activity) mContext, mContext.getString(R.string.error), message, mContext.getString(R.string.button_ok), new ViewDialog.CustomDialogInterface() {
                     @Override
                     public void onPositiveButtonClicked() {
-                        if (mContext instanceof SplashActivity) {
-                            Intent mLandingPageIntent = new Intent(mContext, LandingActivity.class);
-                            mContext.startActivity(mLandingPageIntent);
-                            ((Activity) mContext).finish();
-                        }
+                        Intent mFavourites = new Intent(mContext, GetStartedActivity.class);
+                        mFavourites.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        mContext.startActivity(mFavourites);
                     }
 
                 });
-            }
 
+
+            } else {
+                if (!isNullOrEmpty(message)) {
+
+                    ViewDialog.showSingleButtonDialog((Activity) mContext, mContext.getString(R.string.error), message, mContext.getString(R.string.button_ok), new ViewDialog.CustomDialogInterface() {
+                        @Override
+                        public void onPositiveButtonClicked() {
+                            if (mContext instanceof SplashActivity) {
+                                Intent mLandingPageIntent = new Intent(mContext, LandingActivity.class);
+                                mContext.startActivity(mLandingPageIntent);
+                                ((Activity) mContext).finish();
+                            }
+                        }
+
+                    });
+                }
+            }
         } catch (@NonNull JSONException e) {
             e.printStackTrace();
         }
@@ -338,7 +354,7 @@ public class Utility {
         myCal.setTime(d);
         String curTime = String.format("%02d:%02d", myCal.get(Calendar.HOUR_OF_DAY), myCal.get(Calendar.MINUTE));
 
-        String formattedDate = curTime + " " +( myCal.get(Calendar.DAY_OF_MONTH) <10?("0"+ myCal.get(Calendar.DAY_OF_MONTH) ):( myCal.get(Calendar.DAY_OF_MONTH) )) + " " + mContext.getResources().getStringArray(R.array.month_names)[myCal.get(Calendar.MONTH)] + " " + myCal.get(Calendar.YEAR);
+        String formattedDate = curTime + " " + (myCal.get(Calendar.DAY_OF_MONTH) < 10 ? ("0" + myCal.get(Calendar.DAY_OF_MONTH)) : (myCal.get(Calendar.DAY_OF_MONTH))) + " " + mContext.getResources().getStringArray(R.array.month_names)[myCal.get(Calendar.MONTH)] + " " + myCal.get(Calendar.YEAR);
 
         AppLogger.LogE(TAG, "df.format(d)" + df.format(d));
         return formattedDate;
