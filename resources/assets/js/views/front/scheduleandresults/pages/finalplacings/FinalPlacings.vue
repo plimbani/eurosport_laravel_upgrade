@@ -34,7 +34,7 @@
              </button>
           </div>
           <div class="modal-body modal-fixed-height">
-              <div class="form-group row mb-0" v-for="position in positionData">
+              <div class="row" v-for="position in positionData">
                 <div class="col-sm-3 form-control-label border-0">
                   <h6 class="font-weight-bold mb-0">Placing {{ position.pos }}</h6>
                 </div>

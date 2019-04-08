@@ -19,26 +19,16 @@ class GetFixturesRequest extends FormRequest
     public function authorize()
     {
         $token = JWTAuth::getToken();
-        if(isset($this->headers->all()['ismobileuser']) && $this->headers->all()['ismobileuser'] == true) {
-            if(!$token || (isset($this->headers->all()['ismobileuser'])) && $this->headers->all()['ismobileuser'] == true) {
-                if (isset($this->all()['tournamentData'])) {
-                    $currentLayout = config('config-variables.current_layout');
-                    if($currentLayout == 'commercialisation'){
-                        $data = $this->all()['tournamentData'];
-                        $user = $this->getCurrentLoggedInUserDetail();
-                        $checkForTournamentAccess = $this->isTournamentAccessible($user, $tournament_id);
-                        if(!$checkForTournamentAccess) {
-                            return false;
-                        } 
-                    }    
-
-                    $tournament = Tournament::where('id',$tournament_id)->first();
-                    $isTournamentPublished = $this->isTournamentPublished($tournament);
-                    if(!$isTournamentPublished) {
-                        return false;
-                    }
+        if(!$token || (isset($this->headers->all()['ismobileuser'])) && $this->headers->all()['ismobileuser'] == true) {
+            if (isset($this->all()['tournamentData'])) {
+                $data = $this->all()['tournamentData'];
+                $tournament_id = $data['tournament_id'];
+                $tournament = Tournament::where('id',$tournament_id)->first();
+                $isTournamentPublished = $this->isTournamentPublished($tournament);
+                if(!$isTournamentPublished) {
+                    return false;
                 }
-            } 
+            }
         }       
         return true;
     }

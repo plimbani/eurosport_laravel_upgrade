@@ -130,13 +130,12 @@ class TournamentController extends BaseController
 
             $tournamentCompetationTemplates = TournamentCompetationTemplates::where('tournament_id', $requestData['tournament']['old_tournament_id'])->pluck('total_teams')->sum();
 
-
             // Tournament update license 
             if (!empty($requestData['tournament'])) {
                 if(($tournamentStartDate == $requestTournamentStartDate) && ($tournamentEndDate == $requestTournamentEndDate)){
                     if($tournamentStartDate >= $requestTournamentStartDate && $tournamentFixture == 0){
                         if($tournamentStartDate >= $requestTournamentStartDate && $tournamentPitch == 0){
-                            if($tournamentStartDate >= $requestTournamentStartDate && $tournamentCompetationTemplates >= $tournamentMaximumTeam){
+                            if($tournamentStartDate >= $requestTournamentStartDate && $tournamentCompetationTemplates <= $tournamentMaximumTeam){
                                 $requestData['tournament'] = [
                                     'id' => $requestData['tournament']['id'],
                                     'name' => $requestData['tournament']['tournament_name'],
@@ -147,8 +146,9 @@ class TournamentController extends BaseController
                             }
                         }   
                     }
+                } else {
+                    return response()->json(['status' => 'error', 'message' => 'Please unschedule matches before shortening the length of our tournament.']);
                 }
-                return response()->json(['status' => 'error', 'message' => 'Please unschedule matches before shortening the length of our tournament.']);
                 
                 $this->tournamentRepoObj->edit($requestData['tournament']);
             }
