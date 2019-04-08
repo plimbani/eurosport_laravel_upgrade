@@ -1,21 +1,26 @@
 <template>
-    <section class="confirmation-section section-padding">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6">
-                    <h6 class="text-uppercase mb-0">Access Your Tournament</h6>
-                    <p class="mb-5">If you have been given four digit code please enter it below to access your tournament </p>
-
-                    <div class="row">
-                        
+    <div class="main-section">
+        <section class="confirmation-section section-padding">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6 col-md-8">
+                        <label>Access Your Tournament</label>
+                        <p class="mb-5">If you have been given four digit code please enter it below to access your tournament </p>
+                            
+                                <!-- <input type="text" class="form-control" placeholder="Enter your code" id = "code" name="code" v-model="code">
+                                <button class="btn btn-success btn-block" v-on:click="redirectTournamentDetail()">Access Your Tournament</button> -->
+                            
+                        <div class="input-group">
                             <input type="text" class="form-control" placeholder="Enter your code" id = "code" name="code" v-model="code">
-                            <button class="btn btn-success btn-block" v-on:click="redirectTournamentDetail()">Access Your Tournament</button>
-                        
+                            <span class="input-group-addon p-0 ml-2">
+                                <button class="btn btn-success" v-on:click="redirectTournamentDetail()">Access Your Tournament</button>
+                            </span>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+    </div>
 </template>
 <script type="text/babel">
 import Constant from '../../services/constant';
