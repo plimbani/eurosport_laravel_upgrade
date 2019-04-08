@@ -13,10 +13,8 @@ public class ApiConstants {
 //    public static final String BASE_URL = "https://qa.wot.esrtmp.com/api/"; // ESR QA
 //    public static final String BASE_URL = "http://sunny-eurosport.dev.aecortech.com/api/"; // ESR QA
 //
-
+//         public static final String BASE_URL = "http://rishab-fanslive.dev.aecortech.com/api/"; // Local Test
          public static final String BASE_URL = "https://rishab-eurosport.dev.aecortech.com/api/"; // Local Test
-
-
 //         public static final String BASE_URL = "https://rishab-eurosport.dev.aecortech.com/api/"; // Local Test
 //    public static final String BASE_URL = "http://mukesh-wot.dev.aecortech.com/api/"; // Local Test
 
@@ -46,5 +44,5 @@ public class ApiConstants {
     public static final String GET_TEAM_FIXTURES = BASE_URL + "match/getFixtures";
     public static final String GET_GROUP_STANDING = BASE_URL + "match/getStanding/yes";
     public static final String POST_FCM_TOKEN = BASE_URL + "users/updatefcm";
- }
+}
     
