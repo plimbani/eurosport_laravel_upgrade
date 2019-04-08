@@ -4,6 +4,8 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -143,7 +145,6 @@ public class SignInActivity extends BaseActivity {
 
     private void validate_user() {
 
-
         if (Utility.isInternetAvailable(mContext)) {
             Utility.startProgress(mContext);
             String url = ApiConstants.CHECK_USER;
@@ -166,7 +167,7 @@ public class SignInActivity extends BaseActivity {
                             mAppSharedPref.setString(AppConstants.PREF_PASSWORD, sign_in_password.getText().toString());
                             mAppSharedPref.setString(AppConstants.PREF_PROFILE, profile);
                             mAppSharedPref.setString(AppConstants.PREF_USER_ID, jsonObject.getString("user_id"));
-                            if (!BuildConfig.isEasyMatchManager)
+//                            if (!BuildConfig.isEasyMatchManager)
                                 mAppSharedPref.setString(AppConstants.PREF_TOURNAMENT_ID, jsonObject.getString("tournament_id"));
                             mAppSharedPref.setString(AppConstants.PREF_IMAGE_URL, jsonObject.getString("profile_image_url"));
 
@@ -244,6 +245,7 @@ public class SignInActivity extends BaseActivity {
             checkConnection();
         }
     }
+
 
     private void resendEmail() {
         if (Utility.isInternetAvailable(mContext)) {
