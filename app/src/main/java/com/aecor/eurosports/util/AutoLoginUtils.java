@@ -71,9 +71,9 @@ public class AutoLoginUtils {
                                 && !serverVersion.equals("")
                                 && Utility.compare(installedAppVersion, serverVersion)) {
                             showUpdateDialog(ApplicationClass.getInstance().getmActivity().get());
-                        } else {
-                            checkStoreCredentials(mContext);
                         }
+                        checkStoreCredentials(mContext);
+
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -112,7 +112,6 @@ public class AutoLoginUtils {
             String password = mAppSharedPref.getString(AppConstants.PREF_PASSWORD);
 
             if (Utility.isNullOrEmpty(email) && Utility.isNullOrEmpty(password)) {
-
                 checkuser(mContext);
             }
         } else {
@@ -288,8 +287,7 @@ public class AutoLoginUtils {
                                     }
                                 }
                             }
-
-                        } else {
+                         } else {
 //                            {"authenticated":false,"message":"Account de-activated please contact your administrator."}
                             if (response.has("message") && !Utility.isNullOrEmpty(response.getString("message"))) {
                             }
@@ -318,5 +316,6 @@ public class AutoLoginUtils {
             mQueue.add(jsonRequest1);
         }
     }
+
 
 }

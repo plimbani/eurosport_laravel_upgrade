@@ -79,6 +79,7 @@ public class ClubsAgeFragment extends Fragment {
     protected LinearLayout ll_main_layout;
     @BindView(R.id.iv_close)
     protected ImageView iv_close;
+     protected boolean isVisible;
 
     protected void initView() {
         Utility.setupUI(mContext, ll_main_layout);
@@ -87,14 +88,27 @@ public class ClubsAgeFragment extends Fragment {
         age_list.setLayoutManager(mLayoutManager);
         age_list.setItemAnimator(new DefaultItemAnimator());
         age_list.addItemDecoration(new SimpleDividerItemDecoration(mContext));
-
-        getAgeCategories();
+        if (isVisible) {
+            getAgeCategories();
+        }
         setListener();
         ll_no_item_view.setVisibility(View.GONE);
         tv_no_item.setVisibility(View.GONE);
         rl_search.setVisibility(View.GONE);
         iv_close.setVisibility(View.GONE);
         et_age_search.setHint(getString(R.string.hint_search_age_category));
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+            // load data here
+            isVisible = true;
+        } else {
+            // fragment is no longer visible
+            isVisible = false;
+        }
     }
 
     protected void setListener() {
@@ -154,10 +168,10 @@ public class ClubsAgeFragment extends Fragment {
                                 ViewDialog.showSingleButtonDialog((Activity) mContext, mContext.getString(R.string.error), msg, mContext.getString(R.string.button_ok), new ViewDialog.CustomDialogInterface() {
                                     @Override
                                     public void onPositiveButtonClicked() {
-                                            Intent intent = new Intent(mContext, HomeActivity.class);
-                                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                            mContext.startActivity(intent);
-                                            ((Activity) mContext).finish();
+                                        Intent intent = new Intent(mContext, HomeActivity.class);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                        mContext.startActivity(intent);
+                                        ((Activity) mContext).finish();
                                     }
 
                                 });

@@ -137,7 +137,6 @@ public class SplashActivity extends BaseActivity {
 
     private void validate_user() {
 
-
         if (Utility.isInternetAvailable(mContext)) {
             String url = ApiConstants.CHECK_USER;
             final JSONObject requestJson1 = new JSONObject();
@@ -246,6 +245,7 @@ public class SplashActivity extends BaseActivity {
             mQueue.add(jsonRequest1);
         }
     }
+
 
     private void checkAppVersion() {
         if (Utility.isInternetAvailable(mContext)) {
