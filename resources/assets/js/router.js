@@ -107,6 +107,10 @@ import WebsiteMedia from './views/admin/eurosport/WebsiteMedia.vue';
 import WebsiteContact from './views/admin/eurosport/WebsiteContact.vue';
 import Test from './views/admin/eurosport/Test.vue';
 
+// commercialisation pricing pages
+import ManagePricing from './components/Pricing/ManagePricing.vue'
+
+
 import Ls from './services/ls'
 
 Vue.use(VueRouter)
@@ -234,7 +238,6 @@ const routes = [
         meta: { requiresAuth: true },
         name: 'users_list'
     },
-
 
     // Duplicate tournament copy routes
     {
@@ -456,6 +459,14 @@ const routes = [
             }
         ]
     },
+
+    {
+        path: '/manage_pricing',
+        component: ManagePricing,
+        meta: { requiresAuth: true },
+        name: 'manage_pricing'
+    },
+
 
     // DEFAULT ROUTE
     {   path: '*', component : NotFoundPage }

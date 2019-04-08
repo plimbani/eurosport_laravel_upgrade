@@ -15,11 +15,11 @@ class CreateTournamentPricingsTable extends Migration
     {
         Schema::create('tournament_pricings', function (Blueprint $table) {
             $table->increments('id');
-            $table->enum('type', array('cup', 'league'))->nullable()->default(null);
-            $table->integer('min_teams')->nullable()->default(null);
-            $table->integer('max_teams')->nullable()->default(null);
-            $table->float('price', 10, 2)->nullable()->default(null);
-            $table->float('advanced_price', 10, 2)->nullable()->default(null);
+            $table->enum('type', array('cup', 'league'))->nullable();
+            $table->integer('min_teams')->nullable();
+            $table->integer('max_teams')->nullable();
+            $table->float('price', 8, 2)->nullable();
+            $table->float('advanced_price', 8, 2)->nullable()->default(null);
             $table->integer('created_by')->unsigned()->nullable();
             $table->foreign('created_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
             $table->integer('updated_by')->unsigned()->nullable();
