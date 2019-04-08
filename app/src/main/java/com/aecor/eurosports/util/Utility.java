@@ -19,6 +19,7 @@ import android.os.Build;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
@@ -28,6 +29,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.aecor.eurosports.R;
+import com.aecor.eurosports.activity.FavouritesActivity;
 import com.aecor.eurosports.activity.LandingActivity;
 import com.aecor.eurosports.activity.SplashActivity;
 import com.aecor.eurosports.ui.ProgressHUD;
@@ -80,6 +82,7 @@ public class Utility {
         }
 
     }
+
     public static void startProgress(@NonNull Context context) {
         try {
             mProgressHUD = ProgressHUD.show(context, "Loading", new DialogInterface.OnCancelListener() {
@@ -139,21 +142,35 @@ public class Utility {
                 message = data.getString("error");
 
             }
-            if (!isNullOrEmpty(message)) {
-
+            if (data.has("tournament_expired")) {
+                message = data.getString("tournament_expired");
                 ViewDialog.showSingleButtonDialog((Activity) mContext, mContext.getString(R.string.error), message, mContext.getString(R.string.button_ok), new ViewDialog.CustomDialogInterface() {
                     @Override
                     public void onPositiveButtonClicked() {
-                        if (mContext instanceof SplashActivity) {
-                            Intent mLandingPageIntent = new Intent(mContext, LandingActivity.class);
-                            mContext.startActivity(mLandingPageIntent);
-                            ((Activity) mContext).finish();
-                        }
+                        Intent mFavourites = new Intent(mContext, GetStartedActivity.class);
+                        mFavourites.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        mContext.startActivity(mFavourites);
                     }
 
                 });
-            }
 
+
+            } else {
+                if (!isNullOrEmpty(message)) {
+
+                    ViewDialog.showSingleButtonDialog((Activity) mContext, mContext.getString(R.string.error), message, mContext.getString(R.string.button_ok), new ViewDialog.CustomDialogInterface() {
+                        @Override
+                        public void onPositiveButtonClicked() {
+                            if (mContext instanceof SplashActivity) {
+                                Intent mLandingPageIntent = new Intent(mContext, LandingActivity.class);
+                                mContext.startActivity(mLandingPageIntent);
+                                ((Activity) mContext).finish();
+                            }
+                        }
+
+                    });
+                }
+            }
         } catch (@NonNull JSONException e) {
             e.printStackTrace();
         }
@@ -259,6 +276,32 @@ public class Utility {
         return false;
     }
 
+    public static String getDeviceInformation(Context mContext) {
+        Log.i("TAG", "SERIAL: " + Build.SERIAL);
+        Log.i("TAG", "MODEL: " + Build.MODEL);
+        Log.i("TAG", "ID: " + Build.ID);
+        Log.i("TAG", "Manufacture: " + Build.MANUFACTURER);
+        Log.i("TAG", "brand: " + Build.BRAND);
+        Log.i("TAG", "type: " + Build.TYPE);
+        Log.i("TAG", "user: " + Build.USER);
+        Log.i("TAG", "BASE: " + Build.VERSION_CODES.BASE);
+        Log.i("TAG", "INCREMENTAL " + Build.VERSION.INCREMENTAL);
+        Log.i("TAG", "SDK  " + Build.VERSION.SDK);
+        Log.i("TAG", "BOARD: " + Build.BOARD);
+        Log.i("TAG", "BRAND " + Build.BRAND);
+        Log.i("TAG", "HOST " + Build.HOST);
+        Log.i("TAG", "FINGERPRINT: " + Build.FINGERPRINT);
+        Log.i("TAG", "Version Code: " + Build.VERSION.RELEASE);
+        return Build.MODEL + Build.MANUFACTURER + Build.BRAND;
+
+    }
+
+    public static String getOsVersion(Context mContext) {
+
+        return android.os.Build.VERSION.RELEASE + "";
+
+    }
+
     public static boolean isValidEmail(CharSequence target) {
         return !TextUtils.isEmpty(target) && android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
     }
@@ -338,7 +381,7 @@ public class Utility {
         myCal.setTime(d);
         String curTime = String.format("%02d:%02d", myCal.get(Calendar.HOUR_OF_DAY), myCal.get(Calendar.MINUTE));
 
-        String formattedDate = curTime + " " +( myCal.get(Calendar.DAY_OF_MONTH) <10?("0"+ myCal.get(Calendar.DAY_OF_MONTH) ):( myCal.get(Calendar.DAY_OF_MONTH) )) + " " + mContext.getResources().getStringArray(R.array.month_names)[myCal.get(Calendar.MONTH)] + " " + myCal.get(Calendar.YEAR);
+        String formattedDate = curTime + " " + (myCal.get(Calendar.DAY_OF_MONTH) < 10 ? ("0" + myCal.get(Calendar.DAY_OF_MONTH)) : (myCal.get(Calendar.DAY_OF_MONTH))) + " " + mContext.getResources().getStringArray(R.array.month_names)[myCal.get(Calendar.MONTH)] + " " + myCal.get(Calendar.YEAR);
 
         AppLogger.LogE(TAG, "df.format(d)" + df.format(d));
         return formattedDate;
