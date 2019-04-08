@@ -46,6 +46,5 @@ public class ApiConstants {
     public static final String GET_TEAM_FIXTURES = BASE_URL + "match/getFixtures";
     public static final String GET_GROUP_STANDING = BASE_URL + "match/getStanding/yes";
     public static final String POST_FCM_TOKEN = BASE_URL + "users/updatefcm";
-    public static final String POST_USER_DETAILS = BASE_URL + "updateAppDeviceVersion";
-}
+ }
     
