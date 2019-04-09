@@ -124,7 +124,6 @@ import Tournament from '../api/tournament.js'
 import PitchModal from '../components/PitchModal.vue';
 import DeleteModal1 from '../components/DeleteModalBlock.vue'
 import VuePaginate from 'vue-paginate'
-import Vue from 'vue'
 
 export default {
   props: ['matchData1', 'DrawName'],
@@ -238,7 +237,7 @@ export default {
     clearInterval(this.matchInterval);
     if ( this.resultChange )
     {
-      this.resetStoreUnsaveMatch();
+      this.resetStoreUnsaveMatch(0);
     }
   },
   watch: {
@@ -251,7 +250,7 @@ export default {
 
         if ( this.resultChange )
         {
-          this.resetStoreUnsaveMatch();
+          this.resetStoreUnsaveMatch(1);
         }
 
         this.matchData = _.sortBy(_.cloneDeep(val), ['match_datetime']);
@@ -608,18 +607,50 @@ export default {
         this.updateMatchScoreToRel();
       }
     },
-    resetStoreUnsaveMatch()
+    resetStoreUnsaveMatch(sectionVal)
     {
+
+      console.log(sectionVal);
       this.$store.dispatch('UnsaveMatchData',this.matchData);
       this.$store.dispatch('UnsaveMatchStatus',this.resultChange);
       $('#unSaveMatchModal').modal('show');
 
-      let vm = this;
-      $("#unSaveMatchModal").on('hidden.bs.modal', function (e) {
-        e.preventDefault();
+      var getCurrentScheduleView = this.$store.state.currentScheduleView;
+      var currentView = this.$store.state.setCurrentView;
+      var liIndex = 0;
+      $(".scheduleResultTab .nav-item").each(function(index) {
+        if($(this).find($('a')).hasClass('active')) {
+          liIndex = index;
+          console.log('inside index'+index);
+        } 
+      });
+
+      var vm = this;
+      Vue.nextTick(() =>{
+        vm.$store.dispatch('ModalOpenStatus',false);
+        //vm.$store.dispatch('setCurrentScheduleView','');
+        //vm.$store.dispatch('setCurrentScheduleView','');
+        //vm.$store.dispatch('setCurrentView','')
+      });
+
+      $("#unSaveMatchModal").on('hidden.bs.modal', function () {
         vm.$store.dispatch('UnsaveMatchData',[]);
         vm.$store.dispatch('UnsaveMatchStatus',false);
-        Vue.forceUpdate();
+        vm.$store.dispatch('setCurrentView','');
+
+        $('.summary-content ul.nav-tabs li.d-none').trigger('click');
+        //$('.summary-content ul.nav-tabs li a.active').closest('li').trigger('click');
+
+
+        console.log(liIndex);
+        Vue.nextTick(() =>{
+          $('.summary-content ul.nav-tabs li:eq('+liIndex+')').trigger('click');
+        });
+        //activeli.closest('li').trigger('click');
+        //vm.$store.dispatch('ModalOpenStatus',false);
+        // vm.$store.dispatch('setCurrentScheduleView','matchList');
+        //vm.$store.dispatch('setCurrentView','');*/
+        //vm.$store.dispatch('setCurrentScheduleView',getCurrentView);
       });
     }
   },

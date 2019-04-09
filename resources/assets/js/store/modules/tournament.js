@@ -38,6 +38,7 @@ const state = {
   unsaveMatchData:[],
   matchResultChange:false,
   setRedirectPage:'',
+  modalOpen:false,
 }
 // getters
 const getters = {
@@ -203,7 +204,11 @@ const actions = {
   },
   UnsaveMatchStatus({commit},resultChange) {
     commit(types.SET_UNSAVEMATCH_STATUS,resultChange)
-  }, 
+  },
+  ModalOpenStatus({commit},modalStatus) {
+    commit(types.SET_MODAL_OPEN,modalStatus)
+  },
+   
 }
 
 // mutations
@@ -386,6 +391,9 @@ const mutations = {
   },
   [types.SET_UNSAVEMATCH_STATUS] (state, unSaveMatchStatus) {
     state.matchResultChange = unSaveMatchStatus;
+  },
+  [types.SET_MODAL_OPEN] (state, modalOpen) {
+    state.modalOpen = modalOpen;
   },
 }
 
