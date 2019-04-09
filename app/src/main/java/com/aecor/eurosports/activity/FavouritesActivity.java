@@ -333,9 +333,21 @@ public class FavouritesActivity extends BaseAppCompactActivity {
                                     setTournamnetAdapter(mAllTournamentList, mFavTournamentList);
                                 } else {
                                     setTournamnetAdapter(mAllTournamentList, null);
+                                    if (BuildConfig.isEasyMatchManager) {
+                                        Intent intent = new Intent(FavouritesActivity.this, GetStartedActivity.class);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                        startActivity(intent);
+                                        finish();
+                                    }
                                 }
                             } else {
                                 setTournamnetAdapter(mAllTournamentList, null);
+                                if (BuildConfig.isEasyMatchManager) {
+                                    Intent intent = new Intent(FavouritesActivity.this, GetStartedActivity.class);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    startActivity(intent);
+                                    finish();
+                                }
                             }
                         }
                         /*if (BuildConfig.isEasyMatchManager && (mAllTournamentList == null || mAllTournamentList.length == 0)) {
