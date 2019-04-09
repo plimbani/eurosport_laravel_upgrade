@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Laraspace\Models\Settings;
+use Laraspace\Models\UserFavourites;
 
 class AuthController extends Controller
 {
@@ -72,7 +73,7 @@ class AuthController extends Controller
                               ->leftjoin('countries', 'countries.id', '=', 'users.country_id')
                               ->join('role_user', 'users.id', '=', 'role_user.user_id')
                               ->join('roles', 'roles.id', '=', 'role_user.role_id')
-                              ->where('users_favourite.deleted_at', '=', NULL)
+                              ->where('users_favourite.deleted_at', '=', NUll)
                               ->select('users.id',
                                 'users.locale',
                                 'people.first_name',
@@ -81,16 +82,23 @@ class AuthController extends Controller
                                 \DB::raw('IF(users.user_image is not null,CONCAT("'.$path.'", users.user_image),"" ) as userImage'),
                                 'users_favourite.tournament_id','users.role as role','countries.id as country_id')
                               ->get();
-                              
+
+            $userFavourites = UserFavourites::where('user_id', $userData->id)->where('is_default', '=', 1)->where('deleted_at', '=', NUll)->first();
+            $userFavouriteTournamentId = '';
+
+            if($userFavourites) {
+              $userFavouriteTournamentId = UserFavourites::where('tournament_id', $userFavourites->tournament_id)->first()->tournament_id;
+            }
+
+
             $userDetails = array();
             if(isset($userDataQuery)) {
              $userData = $userDataQuery[0];
-
              $userDetails['first_name'] = $userData->first_name;
              $userDetails['sur_name'] = $userData->last_name;
              $userDetails['email'] = $userData->email;
              $userDetails['profile_image_url'] = $userData->userImage;
-             $userDetails['tournament_id'] = $userData->tournament_id;
+             $userDetails['tournament_id'] = $userFavouriteTournamentId ? $userFavouriteTournamentId : null;
              $userDetails['user_id'] = $userData->id;
              $userDetails['locale'] = $userData->locale;
              $userSettings = Settings::where('user_id','=',$userData->id)->first();
