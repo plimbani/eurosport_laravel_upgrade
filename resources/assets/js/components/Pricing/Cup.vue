@@ -26,7 +26,7 @@
             <pricingBand :tournamentType="'cup'" :bands="cupPricingBands"></pricingBand>
 
             <p><a href="javascript:void(0)" class="text-primary" @click="addCupPricingBand()"><u>Add pricing band</u></a></p>
-            <button type="submit" class="btn btn-primary" @click="savePricingData()">Save</button>
+            <a href="javascript:void(0)" class="btn btn-primary" @click="savePricingData()">Save</a>
         </form>
 	</div>
 </template>

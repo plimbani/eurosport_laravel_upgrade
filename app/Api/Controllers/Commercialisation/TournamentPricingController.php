@@ -11,13 +11,15 @@ class TournamentPricingController extends BaseController
 
     public function __construct(TournamentPricingContract $tournamentPricingObj)
     {
-    
         $this->tournamentPricingObj = $tournamentPricingObj;
         $this->tournamentPricingRepoObj = new TournamentPricingRepository();
     }
 
-    
     public function getTournamentPricingBands() {
         return $this->tournamentPricingRepoObj->getTournamentPricingBands();
+    }
+
+    public function saveTournamentPricingDetail(Request $request) {
+    	return $this->tournamentPricingRepoObj->saveTournamentPricingDetail($request->all());
     }
 }
