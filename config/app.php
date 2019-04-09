@@ -244,10 +244,11 @@ return [
         Laraspace\Api\Providers\WebsiteVenueServiceProvider::class,
         Laraspace\Api\Providers\ContactServiceProvider::class,
         Laraspace\Api\Providers\UploadMediaServiceProvider::class,
-	Laraspace\Api\Providers\Commercialisation\RegisterServiceProvider::class,
+	    Laraspace\Api\Providers\Commercialisation\RegisterServiceProvider::class,
         Laraspace\Providers\ComposerServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
         Spatie\UrlSigner\Laravel\UrlSignerServiceProvider::class,
+        Laraspace\Api\Providers\Commercialisation\TournamentPricingService::class,
     ],
 
     /*
