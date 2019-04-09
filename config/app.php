@@ -248,7 +248,7 @@ return [
         Laraspace\Providers\ComposerServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
         Spatie\UrlSigner\Laravel\UrlSignerServiceProvider::class,
-        Laraspace\Api\Providers\Commercialisation\TournamentPricingService::class,
+        Laraspace\Api\Providers\Commercialisation\TournamentPricingServiceProvider::class,
     ],
 
     /*

@@ -20,4 +20,9 @@ class TournamentRepository
         $tournamentPricingsCup['league']['bands'] = $tournamentPricingBandsLeague;
         return json_encode($tournamentPricingsCup);
     }
+
+    public function saveTournamentPricingDetail($data)
+    {
+        echo "<pre>";print_r($data);echo "</pre>";exit;
+    }    
 }
