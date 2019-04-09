@@ -23,7 +23,7 @@
             <pricingBand :tournamentType="'league'" :bands="leaguePricingBands"></pricingBand>
 
             <p><a href="javascript:void(0)" class="text-primary" @click="addLeaguePricingBand()"><u>Add pricing band</u></a></p>
-            <button type="submit" class="btn btn-primary" @click="savePricingData()">Save</button>
+            <button type="button" class="btn btn-primary" @click="savePricingData()">Save</button>
         </form>
     </div>
 </template>
@@ -41,16 +41,27 @@
         components : {
         	PricingBand
         },
+        mounted() {
+            this.getLeaguePricingData();
+        },
         methods: {
         	 addLeaguePricingBand() {
         		this.leaguePricingBands.push({
-        			min_teams: '', max_teams: '', basic_price: '',
+        			type: 'league', min_teams: '', max_teams: '', basic_price: '',
         		});
         	},
             savePricingData() {
-                Commercialisation.saveTournamentPricingDetail().then(
+                Commercialisation.saveTournamentPricingDetail(this.leaguePricingBands).then(
                     (response)=> {
-                        
+                    },
+                    (error)=>{
+                    }
+                )
+            },
+            getLeaguePricingData() {
+                Commercialisation.getTournamentPricingDetail().then(
+                    (response)=> {
+                        this.leaguePricingBands = JSON.parse(response.data.data).league.bands;
                     },
                     (error)=>{
                     }

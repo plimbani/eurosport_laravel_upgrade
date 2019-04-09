@@ -3,7 +3,7 @@
 		<div class="row align-items-center" v-for="(band, bandIndex) in bands">
             <div class="col-sm-4 col-md-2 col-lg-2 col-xl-2">
                 <div class="form-group">
-                    <input type="text" class="form-control" id="min-team" aria-describedby="min-team" placeholder="e.g. 1" v-model="band.min_teams">
+                    <input type="text" class="form-control" id="min-team" placeholder="e.g. 1" v-model="band.min_teams">
                 </div>
             </div>
             <div class="col-sm-4 col-md-1 col-lg-1 col-xl-1 text-center">
@@ -13,17 +13,17 @@
             </div>
             <div class="col-sm-4 col-md-2 col-lg-2 col-xl-2">
                 <div class="form-group">
-                    <input type="text" class="form-control" id="max-team" aria-describedby="max-team" placeholder="e.g. 5" v-model="band.max_teams">
+                    <input type="text" class="form-control" id="max-team" placeholder="e.g. 5" v-model="band.max_teams">
                 </div>
             </div>
             <div class="col-sm-4 col-md-2 col-lg-2 col-xl-2">
                 <div class="form-group">
-                    <input type="text" class="form-control" id="basic-price" aria-describedby="basic-price" placeholder="e.g. 100" v-model="band.basic_price">
+                    <input type="text" class="form-control" id="basic-price" placeholder="e.g. 100" v-model="band.price">
                 </div>
             </div>
             <div class="col-sm-6 col-md-3 col-lg-3 col-xl-2" v-if="tournamentType == 'cup'">
                 <div class="form-group">
-                    <input type="text" class="form-control" id="advanced-price" aria-describedby="advanced-price" placeholder="e.g. 100" v-model="band.advanced_price">
+                    <input type="text" class="form-control" id="advanced-price" placeholder="e.g. 100" v-model="band.advanced_price">
                 </div>
             </div>
 

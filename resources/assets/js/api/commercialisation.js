@@ -5,6 +5,6 @@ export default {
   		return api.post('v1/saveTournamentPricingDetail', {'tournamentPricingData': tournamentPricingData});
   	},
   	getTournamentPricingDetail() {
-  		return axios.get('v1/tournament-pricing-bands');
+  		return api.get('v1/tournament-pricing-bands');
   	}
 }
