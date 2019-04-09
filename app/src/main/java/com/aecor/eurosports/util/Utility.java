@@ -30,6 +30,7 @@ import android.widget.Toast;
 
 import com.aecor.eurosports.R;
 import com.aecor.eurosports.activity.FavouritesActivity;
+import com.aecor.eurosports.activity.GetStartedActivity;
 import com.aecor.eurosports.activity.LandingActivity;
 import com.aecor.eurosports.activity.SplashActivity;
 import com.aecor.eurosports.ui.ProgressHUD;
