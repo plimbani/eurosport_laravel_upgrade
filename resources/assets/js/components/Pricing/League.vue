@@ -23,13 +23,15 @@
             <pricingBand :tournamentType="'league'" :bands="leaguePricingBands"></pricingBand>
 
             <p><a href="javascript:void(0)" class="text-primary" @click="addLeaguePricingBand()"><u>Add pricing band</u></a></p>
-            <button type="submit" class="btn btn-primary">Save</button>
+            <button type="submit" class="btn btn-primary" @click="savePricingData()">Save</button>
         </form>
     </div>
 </template>
 
 <script type="text/babel">
 	import PricingBand from '../../components/Pricing/PricingBand.vue'
+    import Commercialisation from '../../api/commercialisation.js'
+
 	export default {
 		data() {
             return {
@@ -44,7 +46,16 @@
         		this.leaguePricingBands.push({
         			min_teams: '', max_teams: '', basic_price: '',
         		});
-        	}
+        	},
+            savePricingData() {
+                Commercialisation.saveTournamentPricingDetail().then(
+                    (response)=> {
+                        
+                    },
+                    (error)=>{
+                    }
+                )
+            }            
         }
 	}
 </script>

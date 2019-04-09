@@ -110,6 +110,9 @@ import Test from './views/admin/eurosport/Test.vue';
 // commercialisation pricing pages
 import ManagePricing from './components/Pricing/ManagePricing.vue'
 
+// Commercialisation backend Layout
+import LayoutTournamentPricingForBackend from './views/layouts/LayoutTournamentPricing.vue'
+
 
 import Ls from './services/ls'
 
@@ -304,7 +307,7 @@ const routes = [
             }
         ]
     },
-     {
+    {
         path: '/userstourmanents', component: LayoutTournament,
         meta: { requiresAuth: true },
         children: [
@@ -315,7 +318,7 @@ const routes = [
             }
         ]
     }, 
-     {
+    {
         path: '/tournamentstransaction', component: LayoutCommercialisation,
         meta: { requiresAuth: true },
         children: [
@@ -347,6 +350,7 @@ const routes = [
                 component: Register,
                 name: 'register'
             },
+
         ]
     },
     {
@@ -382,7 +386,7 @@ const routes = [
             }
         ]
     },
-     {
+    {
         // path: '/profile/:id', component: LayoutLogin,
         path: '/profile', component: LayoutCommercialisation,
         meta: { requiresAuth: true },
@@ -394,8 +398,7 @@ const routes = [
             }
         ]
     },
-     
-     {
+    {
         path: '/buylicense', component: LayoutCommercialisation,
         // meta: { requiresAuth: true },
         children: [
@@ -406,7 +409,7 @@ const routes = [
             }
         ]
     },
-     {
+    {
         path: '/enter-tournament', component: LayoutCommercialisation, 
         children: [
             {
@@ -447,7 +450,6 @@ const routes = [
             }
         ]
     },
-    
     {
         path: '/dashboard', component: LayoutCommercialisation,
         meta: { requiresAuth: true },
@@ -459,14 +461,17 @@ const routes = [
             }
         ]
     },
-
     {
-        path: '/manage_pricing',
-        component: ManagePricing,
+        path: '/manage_pricing', component: LayoutTournamentPricingForBackend,
         meta: { requiresAuth: true },
-        name: 'manage_pricing'
-    },
-
+        children: [
+            {
+                path: '/admin/manage_pricing',
+                component: ManagePricing,
+                name: 'manage_pricing'
+            }
+        ]
+    },    
 
     // DEFAULT ROUTE
     {   path: '*', component : NotFoundPage }

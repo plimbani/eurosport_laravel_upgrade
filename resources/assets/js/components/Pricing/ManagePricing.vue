@@ -53,6 +53,6 @@
             getCurrentLayout() {
                 return this.$store.state.Configuration.currentLayout;
             }
-        }        
+        }
 	}
 </script>
