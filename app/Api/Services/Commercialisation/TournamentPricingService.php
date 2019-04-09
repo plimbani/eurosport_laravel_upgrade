@@ -12,6 +12,11 @@ class TournamentPricingService implements TournamentPricingContract {
         $this->tournamentPricingRepoObj = $tournamentPricingRepoObj;
     }
 
+    public function getTournamentPricingBands() {
+        $data = $this->tournamentPricingRepoObj->getTournamentPricingBands();
+        return ['data' => $data, 'status_code' => '200']; 
+    }
+
     public function saveTournamentPricingDetail($data)
     {
     	$data = $this->tournamentPricingRepoObj->saveTournamentPricingDetail($data);

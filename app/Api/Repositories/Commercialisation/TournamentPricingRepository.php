@@ -2,10 +2,13 @@
 
 namespace Laraspace\Api\Repositories\Commercialisation;
 
+use Laraspace\Traits\AuthUserDetail;
 use Laraspace\Models\TournamentPricing;
 
-class TournamentRepository
+class TournamentPricingRepository
 {
+    use AuthUserDetail;
+
     /**
      * Get tournament pricing bands
      * @return array
@@ -18,11 +21,22 @@ class TournamentRepository
          
         $tournamentPricingsCup['cup']['bands'] = $tournamentPricingBandsCup;
         $tournamentPricingsCup['league']['bands'] = $tournamentPricingBandsLeague;
-        return json_encode($tournamentPricingsCup);
+
+        // echo "<pre>";print_r($tournamentPricingsCup);echo "</pre>";exit;
+        return $tournamentPricingsCup;
     }
 
-    public function saveTournamentPricingDetail($data)
+    public function saveTournamentPricingDetail($tournamentPricingData)
     {
-        echo "<pre>";print_r($data);echo "</pre>";exit;
+        foreach ($tournamentPricingData['tournamentPricingData'] as $data) {
+            $tournamentPricing = new TournamentPricing();
+            $tournamentPricing->type = $data['type'];
+            $tournamentPricing->min_teams = $data['min_teams'];
+            $tournamentPricing->max_teams = $data['max_teams'];
+            $tournamentPricing->price = $data['basic_price'];
+            $tournamentPricing->advanced_price = isset($data['advanced_price']) ? $data['advanced_price'] : null;
+            $tournamentPricing->created_by = $this->getCurrentLoggedInUserId();
+            $tournamentPricing->save();
+        }
     }    
 }

@@ -44,16 +44,31 @@
         components : {
         	PricingBand
         },
+        computed: {
+
+        },
+        mounted() {
+            this.getCupPricingData();
+        },
         methods: {
         	addCupPricingBand() {
         		this.cupPricingBands.push({
-        			min_teams: '', max_teams: '', basic_price: '', advanced_price: ''
+        			type: 'cup', min_teams: '', max_teams: '', basic_price: '', advanced_price: ''
         		});
         	},
             savePricingData() {
-                Commercialisation.saveTournamentPricingDetail().then(
+                Commercialisation.saveTournamentPricingDetail(this.cupPricingBands).then(
                     (response)=> {
                         
+                    },
+                    (error)=>{
+                    }
+                )
+            },
+            getCupPricingData() {
+                Commercialisation.getTournamentPricingDetail().then(
+                    (response)=> {
+                        console.log('response', response);
                     },
                     (error)=>{
                     }
