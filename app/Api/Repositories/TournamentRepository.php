@@ -1100,12 +1100,14 @@ class TournamentRepository
                     $copiedAvailablePitch->save();
                 }
 
-                $pitchBreak = PitchBreaks::where('pitch_id', $availablePitch->pitch_id)->first();
-                if($pitchBreak) {
-                    $copiedPitchBreak = $pitchBreak->replicate();
-                    $copiedPitchBreak->pitch_id = $pitchesMappingArray[$availablePitch->pitch_id];
-                    $copiedPitchBreak->availability_id = $copiedAvailablePitch->id;
-                    $copiedPitchBreak->save();
+                if(isset($pitchesMappingArray[$availablePitch->pitch_id])) {
+                    $pitchBreak = PitchBreaks::where('pitch_id', $availablePitch->pitch_id)->first();
+                    if($pitchBreak) {
+                        $copiedPitchBreak = $pitchBreak->replicate();
+                        $copiedPitchBreak->pitch_id = $pitchesMappingArray[$availablePitch->pitch_id];
+                        $copiedPitchBreak->availability_id = $copiedAvailablePitch->id;
+                        $copiedPitchBreak->save();
+                    }
                 }
             }
         }
