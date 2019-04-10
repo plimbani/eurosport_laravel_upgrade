@@ -77,7 +77,7 @@
                             if(url == "payment/response"){
                                 this.paymentObj.amount = response.data.data.amount;
                                 this.paymentObj.currency = response.data.data.currency;
-                                this.tournament_id = response.data.data.id;
+                                this.tournament_id = response.data.data.tournament_id;
                                 let payment_response = JSON.parse(response.data.data.payment_response);
                                 
                                 this.paymentObj.orderid = payment_response.orderID;

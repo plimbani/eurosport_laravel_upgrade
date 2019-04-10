@@ -45,7 +45,11 @@ class MatchRepository
 
     public function getDraws($tournamentData) {
          //$data = Competition::where('tournament_id',$tournamentId)->get();
-      $tournamentId = $tournamentData['tournamentId'];
+      if(isset($tournamentData['tournamentId'])) {
+          $tournamentId = $tournamentData['tournamentId'];
+      } else {
+          $tournamentId = $tournamentData['tournament_id'];
+      }
       //$tournamentId = $tournamentData['tournament_id'];
       $reportQuery = DB::table('competitions')
                      ->leftjoin('tournament_competation_template','tournament_competation_template.id', '=', 'competitions.tournament_competation_template_id');

@@ -1,0 +1,19 @@
+{
+  "applinks": {
+    "apps": [
+      
+    ],
+    "details": [
+      {
+        "appID": "BSDM4Q267C.com.aecordigital.eurosporting.easymatchmanager",
+        "paths": ["*"]
+        
+      },
+      {
+        "appID": "BSDM4Q267C.com.aecordigital.eurosporting",
+        "paths": ["*"]
+        
+      }
+    ]
+  }
+}

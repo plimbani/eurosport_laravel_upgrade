@@ -3,11 +3,10 @@
 namespace Laraspace\Api\Providers\Commercialisation;
 
 use Illuminate\Support\ServiceProvider;
-use Laraspace\Api\Services\Commercialisation\RegisterService;
-use Laraspace\Api\Repositories\Commercialisation\RegisterRepository;
 use Laraspace\Api\Services\Commercialisation\TournamentPricingService;
+use Laraspace\Api\Repositories\Commercialisation\TournamentPricingRepository;
 
-class RegisterServiceProvider extends ServiceProvider
+class TournamentPricingServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap the application services.
@@ -16,7 +15,7 @@ class RegisterServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        
     }
 
     /**
@@ -26,11 +25,11 @@ class RegisterServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind('Laraspace\Api\Contracts\Commercialisation\RegisterContract', function ($app) {
-            return new RegisterService(new RegisterRepository());
-        });
+        $this->app->bind('Laraspace\Api\Contracts\Commercialisation\TournamentPricingContract', function ($app) {
+            return new TournamentPricingService(new TournamentPricingRepository());
+        });        
     }
-    
+
     /**
      * Get the services provided by the provider.
      *
@@ -38,6 +37,6 @@ class RegisterServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return ['Laraspace\Api\Contracts\Commercialisation\RegisterContract'];
-    }
+        return ['Laraspace\Contracts\Commercialisation\TournamentPricingContract'];
+    }    
 }
