@@ -9,48 +9,48 @@
                         <p class="mb-5" v-if="!id">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris posuere vel mi ac sagittis. Quisque vel nulla at nibh finibus sodales. Nam efficitur sem a mi rhoncus. </p>
                         <p class="mb-5" v-if="id">You can add more teams and extend the duration of your tournament. </p>
                         <label> What kind of tournament are you organising?</label>
-                        <div class="form-group">
-                            <label class="radio-inline control-label">
-                                <div class="checkbox checked">
-                                    <div class="c-input">
-                                      <input type="radio" id="cup" name="tournament_type" value="cup" class="euro-radio mr-2"  v-model="tournamentData.tournament_type" @click="tournamentOrganising()"> 
-                                      <label for="cup">Cup</label>
-                                    </div>
-                                </div>
-                            </label>
-                        </div>
-                        <div class="form-group">
-                            <label class="radio-inline control-label">
-                                <div class="checkbox">
-                                    <div class="c-input">
-                                      <input type="radio" id="league" name="tournament_type" value="league" class="euro-radio mr-2" v-model="tournamentData.tournament_type">
-                                      <label for="league">League</label>
-                                    </div>
-                                </div>
-                            </label>
-                        </div>
-
-                        <div v-if="tournamentData.tournament_type != 'league'">
-                        <label>Do you want to create custom tournament formats?</label>
+                        
+                        <div class="tournament-details">
                             <div class="form-group">
-                                <label class="radio-inline control-label">
+                                <label class="radio-inline control-label d-inline-flex align-items-center mr-3">
                                     <div class="checkbox checked">
                                         <div class="c-input">
-                                          <input type="radio" id="no" name="custom_tournament_format" value="0" class="euro-radio mr-2"  v-model="tournamentData.custom_tournament_format">
-                                          <label for="no">No</label>
+                                          <input type="radio" id="cup" name="tournament_type" value="cup" class="euro-radio mr-2"  v-model="tournamentData.tournament_type" @click="tournamentOrganising()"> 
+                                          <label for="cup">Cup</label>
+                                        </div>
+                                    </div>
+                                </label>
+
+                                <label class="radio-inline control-label d-inline-flex align-items-center">
+                                    <div class="checkbox">
+                                        <div class="c-input">
+                                          <input type="radio" id="league" name="tournament_type" value="league" class="euro-radio mr-2" v-model="tournamentData.tournament_type">
+                                          <label for="league">League</label>
                                         </div>
                                     </div>
                                 </label>
                             </div>
-                            <div class="form-group">
-                                <label class="radio-inline control-label">
-                                    <div class="checkbox">
-                                        <div class="c-input">
-                                          <input type="radio" id="yes" name="custom_tournament_format" value="1" class="euro-radio mr-2"  v-model="tournamentData.custom_tournament_format">
-                                          <label for="yes">Yes</label>
+
+                            <div v-if="tournamentData.tournament_type != 'league'">
+                            <label>Do you want to create custom tournament formats?</label>
+                                <div class="form-group">
+                                    <label class="radio-inline control-label d-inline-flex align-items-center mr-3">
+                                        <div class="checkbox checked">
+                                            <div class="c-input">
+                                              <input type="radio" id="no" name="custom_tournament_format" value="0" class="euro-radio mr-2"  v-model="tournamentData.custom_tournament_format">
+                                              <label for="no">No <span>£ INCLUDED</span></label>
+                                            </div>
                                         </div>
-                                    </div>
-                                </label>
+                                    </label>
+                                    <label class="radio-inline control-label d-inline-flex align-items-center">
+                                        <div class="checkbox">
+                                            <div class="c-input">
+                                              <input type="radio" id="yes" name="custom_tournament_format" value="1" class="euro-radio mr-2"  v-model="tournamentData.custom_tournament_format">
+                                              <label for="yes">Yes <span>+£100</span></label>
+                                            </div>
+                                        </div>
+                                    </label>
+                                </div>
                             </div>
                         </div>
 
