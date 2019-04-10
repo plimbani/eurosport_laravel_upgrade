@@ -60,7 +60,10 @@ const getters = {
     },
     scheduledMatches: state => {
       return state.scheduledMatches
-    }
+    },
+    getTournamentName: state => {
+      return state.tournamentName
+    },
 
 }
 // actions

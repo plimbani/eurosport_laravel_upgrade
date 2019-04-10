@@ -311,7 +311,7 @@ export default {
 data() {
 return {
 tournament: {name:'',website:'',facebook:'',twitter:'',tournament_contact_first_name:'',tournament_contact_last_name:'',tournament_contact_home_phone:'',
-image_logo:'',test_value:'',del_location:'0',maximum_teams:''
+image_logo:'',test_value:'',del_location:[],maximum_teams:''
 },
 userRole:this.$store.state.Users.userDetails.role_name,
 locations: [
@@ -322,7 +322,7 @@ tournament_venue_city: "",
 tournament_venue_postcode: "",
 tournament_venue_state: "",
 tournament_venue_country: "",
-tournament_location_id:0,
+tournament_location_id:"",
 tournament_venue_organiser: "",
 }
 ],
@@ -509,12 +509,16 @@ removeLocation (index,location){
         $("#remove_venue").modal('show');
       }  else {
             // here first we get the location id of it
-            this.tournament.del_location = this.locations[index].tournament_location_id
+            if(this.locations[index].tournament_location_id != '') {
+              this.tournament.del_location.push(this.locations[index].tournament_location_id)
+            }
             this.locations.splice(index,1)  
       }
   } else {
             // here first we get the location id of it
-            this.tournament.del_location = this.locations[index].tournament_location_id
+            if(this.locations[index].tournament_location_id != '') {
+              this.tournament.del_location.push(this.locations[index].tournament_location_id)
+            }
             this.locations.splice(index,1)  
   }
 },
@@ -526,40 +530,42 @@ let vm = this;
 
 this.$validator.validateAll().then(
 (response) => {
-  // if its return true then proceed
- this.tournament.start_date = document.getElementById('tournament_start_date').value
-  this.tournament.end_date = document.getElementById('tournament_end_date').value
+  if(response) {
+    // if its return true then proceed
+   this.tournament.start_date = document.getElementById('tournament_start_date').value
+    this.tournament.end_date = document.getElementById('tournament_end_date').value
 
-  this.tournament.image_logo = this.image
-  this.tournament.locations = this.locations
-  // here we check if tournament id is Set then
-  this.tournament.tournamentId = this.tournamentId
-  // we can take length of how much we have to move for loop
-  this.tournament.locationCount = this.customCount;
-  this.tournament.user_id = JSON.parse(Ls.get('userData')).id;
-  let msg=''
-  if(this.tournament.tournamentId == 0){
-    msg = 'Tournament details added successfully.'
-  } else {
-    msg = 'Tournament details edited successfully.'
-  }
-
-  $("body .js-loader").removeClass('d-none');
-
-  Tournament.saveTournament(vm.tournament).then(
-    (response) => {
-      if(response.data.status_code == 200) {
-        toastr['success'](msg, 'Success');
-        vm.$store.dispatch('SaveTournamentDetails', response.data.data);
-        $("body .js-loader").addClass('d-none');
-        vm.redirectCompetation();
-      } else {
-        alert('Error Occured');
-      }
-    },
-    (error) => {
+    this.tournament.image_logo = this.image
+    this.tournament.locations = this.locations
+    // here we check if tournament id is Set then
+    this.tournament.tournamentId = this.tournamentId
+    // we can take length of how much we have to move for loop
+    this.tournament.locationCount = this.customCount;
+    this.tournament.user_id = JSON.parse(Ls.get('userData')).id;
+    let msg=''
+    if(this.tournament.tournamentId == 0){
+      msg = 'Tournament details added successfully.'
+    } else {
+      msg = 'Tournament details edited successfully.'
     }
-  );
+
+    $("body .js-loader").removeClass('d-none');
+
+    Tournament.saveTournament(vm.tournament).then(
+      (response) => {
+        if(response.data.status_code == 200) {
+          toastr['success'](msg, 'Success');
+          vm.$store.dispatch('SaveTournamentDetails', response.data.data);
+          $("body .js-loader").addClass('d-none');
+          vm.redirectCompetation();
+        } else {
+          alert('Error Occured');
+        }
+      },
+      (error) => {
+      }
+    );
+  }
 },
 (error) => {
 }
