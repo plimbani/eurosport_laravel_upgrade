@@ -8,12 +8,57 @@
                         <h1 class="font-weight-bold" v-if="id">Update License for a {{tournamentData.tournament_name}}<span v-if="tournamentData.access_code">(#{{tournamentData.access_code}})</span></h1>
                         <p class="mb-5" v-if="!id">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris posuere vel mi ac sagittis. Quisque vel nulla at nibh finibus sodales. Nam efficitur sem a mi rhoncus. </p>
                         <p class="mb-5" v-if="id">You can add more teams and extend the duration of your tournament. </p>
+                        <label> What kind of tournament are you organising?</label>
+                        
+                        <div class="tournament-details">
+                            <div class="form-group">
+                                <label class="radio-inline control-label d-inline-flex align-items-center mr-3">
+                                    <div class="checkbox checked">
+                                        <div class="c-input">
+                                          <input type="radio" id="cup" name="tournament_type" value="cup" class="euro-radio mr-2"  v-model="tournamentData.tournament_type" @click="tournamentOrganising()" @input="onChange"> 
+                                          <label for="cup">Cup</label>
+                                        </div>
+                                    </div>
+                                </label>
+
+                                <label class="radio-inline control-label d-inline-flex align-items-center">
+                                    <div class="checkbox">
+                                        <div class="c-input">
+                                          <input type="radio" id="league" name="tournament_type" value="league" class="euro-radio mr-2" v-model="tournamentData.tournament_type">
+                                          <label for="league">League</label>
+                                        </div>
+                                    </div>
+                                </label>
+                            </div>
+
+                            <div v-if="tournamentData.tournament_type != 'league'">
+                            <label>Do you want to create custom tournament formats?</label>
+                                <div class="form-group">
+                                    <label class="radio-inline control-label d-inline-flex align-items-center mr-3">
+                                        <div class="checkbox checked">
+                                            <div class="c-input">
+                                              <input type="radio" id="no" name="custom_tournament_format" value="0" class="euro-radio mr-2"  v-model="tournamentData.custom_tournament_format" @input="onChange">
+                                              <label for="no">No <span>£ INCLUDED</span></label>
+                                            </div>
+                                        </div>
+                                    </label>
+                                    <label class="radio-inline control-label d-inline-flex align-items-center">
+                                        <div class="checkbox">
+                                            <div class="c-input">
+                                              <input type="radio" id="yes" name="custom_tournament_format" value="1" class="euro-radio mr-2"  v-model="tournamentData.custom_tournament_format" @input="onChange">
+                                              <label for="yes">Yes <span>+£100</span></label>
+                                            </div>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
 
                         <label>Number of teams competing</label>
 
                         <div class="row my-4 my-lg-5">
                             <div class="col-10 col-md-11 col-lg-12">
-                                <vue-slider @callback='changeTeams' :min='2' :max='60' tooltip-dir='right' v-model="tournamentData.tournament_max_teams"></vue-slider>
+                                <vue-slider @callback='changeTeams' :min='2' :max='60' tooltip-dir='right' v-model="tournamentData.tournament_max_teams" @input="onChange"></vue-slider>
                             </div>
                         </div>
 
@@ -145,7 +190,7 @@
     import Ls from '../../services/ls';
     import Constant from '../../services/constant';
     import vueSlider from 'vue-slider-component';
-   
+    import Commercialisation from '../../api/commercialisation.js'
    
     export default {
         components: {
@@ -162,7 +207,10 @@
                     access_code:"", 
                     currency_type:"EURO",
                     payment_currency:"EUR",
-                    is_renew:0
+                    is_renew:0,
+                    tournament_type: "cup",
+                    custom_tournament_format: 0,
+
                 },
                 
                 shaSignIn:"", 
@@ -213,7 +261,6 @@
             buyALicence(e){ 
                 this.$validator.validateAll();
                 if (this.tournamentData.tournament_name) {
-                    
                     this.tournamentData.tournament_start_date = document.getElementById('tournament_start_date').value;
                     this.tournamentData.tournament_end_date = document.getElementById('tournament_end_date').value;
                     if(this.id){
@@ -279,8 +326,8 @@
             },
 
             getTournamentDetail(){ 
-                
                 axios.get(Constant.apiBaseUrl+'get-tournament?tournamentId='+this.id, {}).then(response =>  {  
+                        
                         if (response.data.success) {  
                             var start_date = new Date(moment(response.data.data.start_date, 'DD/MM/YYYY').format('MM/DD/YYYY'));
                             var end_date = new Date(moment(response.data.data.end_date, 'DD/MM/YYYY').format('MM/DD/YYYY')); 
@@ -303,7 +350,9 @@
                             this.tournamentData['tournament_name'] = response.data.data.name;
                             this.tournamentData['tournament_max_teams'] = response.data.data.maximum_teams;   
                             this.tournament_old_teams = response.data.data.maximum_teams;   
-                            this.tournamentData['access_code'] = response.data.data.access_code;   
+                            this.tournamentData['access_code'] = response.data.data.access_code;
+                            this.tournamentData['custom_tournament_format'] = response.data.data.custom_tournament_format;
+                            this.tournamentData['tournament_type'] = response.data.data.tournament_type;   
                            
                 
                          }else{ 
@@ -342,6 +391,18 @@
 
             returnFormatedNumber(value){
                 return Number(value).toFixed(2);  
+            },
+
+            tournamentOrganising() {
+                $('#no').prop("checked",true)
+            },
+
+            onChange() {
+                Commercialisation.getTournamentPricingDetail().then(
+                (response) => {
+                  alert();
+                })
+
             }
         },
         beforeMount(){   
@@ -367,8 +428,6 @@
             $('#tournament_start_date').datepicker('setDate', moment().format('DD/MM/YYYY'))
             $('#tournament_end_date').datepicker('setDate', moment().add(1,'days').format('DD/MM/YYYY')) 
            
-            
-
             $("#tournament_start_date").on("change",function (value){ 
                vm.findDifferenceBetweenDates();
             })
@@ -381,6 +440,11 @@
                 vm.setOldDays()
             },4000)
 
+
+            this.getTournamentAdvancedPrices();
+
+            $('#cup').prop("checked",true)
+            $('#no').prop("checked",true)
         }
     }
 </script>
