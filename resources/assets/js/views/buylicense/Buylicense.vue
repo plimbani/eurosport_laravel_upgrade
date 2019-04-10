@@ -15,7 +15,7 @@
                                 <label class="radio-inline control-label d-inline-flex align-items-center mr-3">
                                     <div class="checkbox checked">
                                         <div class="c-input">
-                                          <input type="radio" id="cup" name="tournament_type" value="cup" class="euro-radio mr-2"  v-model="tournamentData.tournament_type" @click="tournamentOrganising()"> 
+                                          <input type="radio" id="cup" name="tournament_type" value="cup" class="euro-radio mr-2"  v-model="tournamentData.tournament_type" @click="tournamentOrganising()" @input="onChange"> 
                                           <label for="cup">Cup</label>
                                         </div>
                                     </div>
@@ -37,7 +37,7 @@
                                     <label class="radio-inline control-label d-inline-flex align-items-center mr-3">
                                         <div class="checkbox checked">
                                             <div class="c-input">
-                                              <input type="radio" id="no" name="custom_tournament_format" value="0" class="euro-radio mr-2"  v-model="tournamentData.custom_tournament_format">
+                                              <input type="radio" id="no" name="custom_tournament_format" value="0" class="euro-radio mr-2"  v-model="tournamentData.custom_tournament_format" @input="onChange">
                                               <label for="no">No <span>£ INCLUDED</span></label>
                                             </div>
                                         </div>
@@ -45,7 +45,7 @@
                                     <label class="radio-inline control-label d-inline-flex align-items-center">
                                         <div class="checkbox">
                                             <div class="c-input">
-                                              <input type="radio" id="yes" name="custom_tournament_format" value="1" class="euro-radio mr-2"  v-model="tournamentData.custom_tournament_format">
+                                              <input type="radio" id="yes" name="custom_tournament_format" value="1" class="euro-radio mr-2"  v-model="tournamentData.custom_tournament_format" @input="onChange">
                                               <label for="yes">Yes <span>+£100</span></label>
                                             </div>
                                         </div>
@@ -58,7 +58,7 @@
 
                         <div class="row my-4 my-lg-5">
                             <div class="col-10 col-md-11 col-lg-12">
-                                <vue-slider @callback='changeTeams' :min='2' :max='60' tooltip-dir='right' v-model="tournamentData.tournament_max_teams"></vue-slider>
+                                <vue-slider @callback='changeTeams' :min='2' :max='60' tooltip-dir='right' v-model="tournamentData.tournament_max_teams" @input="onChange"></vue-slider>
                             </div>
                         </div>
 
@@ -190,7 +190,7 @@
     import Ls from '../../services/ls';
     import Constant from '../../services/constant';
     import vueSlider from 'vue-slider-component';
-   
+    import Commercialisation from '../../api/commercialisation.js'
    
     export default {
         components: {
@@ -261,7 +261,6 @@
             buyALicence(e){ 
                 this.$validator.validateAll();
                 if (this.tournamentData.tournament_name) {
-                    console.log(this.tournamentData);
                     this.tournamentData.tournament_start_date = document.getElementById('tournament_start_date').value;
                     this.tournamentData.tournament_end_date = document.getElementById('tournament_end_date').value;
                     if(this.id){
@@ -396,6 +395,14 @@
 
             tournamentOrganising() {
                 $('#no').prop("checked",true)
+            },
+
+            onChange() {
+                Commercialisation.getTournamentPricingDetail().then(
+                (response) => {
+                  alert();
+                })
+
             }
         },
         beforeMount(){   
@@ -421,8 +428,6 @@
             $('#tournament_start_date').datepicker('setDate', moment().format('DD/MM/YYYY'))
             $('#tournament_end_date').datepicker('setDate', moment().add(1,'days').format('DD/MM/YYYY')) 
            
-            
-
             $("#tournament_start_date").on("change",function (value){ 
                vm.findDifferenceBetweenDates();
             })
@@ -434,6 +439,9 @@
             setTimeout(function(){
                 vm.setOldDays()
             },4000)
+
+
+            this.getTournamentAdvancedPrices();
 
             $('#cup').prop("checked",true)
             $('#no').prop("checked",true)
