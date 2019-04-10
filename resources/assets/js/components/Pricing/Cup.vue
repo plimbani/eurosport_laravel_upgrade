@@ -59,7 +59,6 @@
             savePricingData() {
                 Commercialisation.saveTournamentPricingDetail(this.cupPricingBands).then(
                     (response)=> {
-                        
                     },
                     (error)=>{
                     }
@@ -68,7 +67,7 @@
             getCupPricingData() {
                 Commercialisation.getTournamentPricingDetail().then(
                     (response)=> {
-                        console.log('response', response);
+                        this.cupPricingBands = JSON.parse(response.data.data).cup.bands;
                     },
                     (error)=>{
                     }
