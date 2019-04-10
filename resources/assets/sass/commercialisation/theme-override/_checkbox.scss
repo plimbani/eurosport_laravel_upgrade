@@ -12,3 +12,34 @@
     border: $theme-color-primary;
     background: $theme-color-primary;
 }
+
+.tournament-details {
+    .radio-inline {
+        background-color: $theme-color-gray;
+        padding: 10px;
+        min-width: 120px;
+        height: 63px;
+
+        label {
+            @extend .mb-0;
+            @extend .text-capitalize;
+            @extend .d-block;
+            font-size: $font-size-base;
+
+            span {
+                @extend .d-block;
+                color: $theme-color-dark-gray;
+                font-weight: 500;
+                font-size: 0.75rem;
+            }
+
+            &:before {
+                top: 2px;
+            }
+
+            &:after {
+                top: 8px;
+            }
+        }
+    }
+}
