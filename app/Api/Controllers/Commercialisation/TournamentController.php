@@ -188,8 +188,4 @@ class TournamentController extends BaseController
             return response()->json(['success' => false, 'status' => Response::HTTP_UNPROCESSABLE_ENTITY, 'data' => [], 'error' => [], 'message' => 'Something went wrong.']);
         }
     }
-
-    public function getTournamentPricingBands() {
-        return $this->tournamentRepoObj->getTournamentPricingBands();
-    }
 }
