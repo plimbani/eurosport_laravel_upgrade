@@ -142,6 +142,8 @@ class TournamentController extends BaseController
                                     'start_date' => Carbon::createFromFormat('d/m/Y', $requestData['tournament']['tournament_start_date']),
                                     'end_date' => Carbon::createFromFormat('d/m/Y', $requestData['tournament']['tournament_end_date']),
                                     'maximum_teams' => $requestData['tournament']['tournament_max_teams'],
+                                    'tournament_type' => $requestData['tournament']['tournament_type'],
+                                    'custom_tournament_format' => $requestData['tournament']['tournament_type'] == 'cup' ? $requestData['tournament']['custom_tournament_format'] : NULL
                                 ];
                             }
                         }   
