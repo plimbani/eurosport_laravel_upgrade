@@ -6,6 +6,7 @@
                     <input type="text" class="form-control" id="min-team" placeholder="e.g. 1" v-model="band.min_teams">
                 </div>
             </div>
+            <input type="hidden" name="id" :value="band.id">
             <div class="col-sm-4 col-md-1 col-lg-1 col-xl-1 text-center">
                 <div class="form-group">
                     <p class="m-0">to</p>

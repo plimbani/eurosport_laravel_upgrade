@@ -23,7 +23,7 @@
                 </div>
             </div>
 
-            <pricingBand :tournamentType="'cup'" :bands="cupPricingBands"></pricingBand>
+            <pricingBand :tournamentType="'cup'" :bands="pricingBands"></pricingBand>
 
             <p><a href="javascript:void(0)" class="text-primary" @click="addCupPricingBand()"><u>Add pricing band</u></a></p>
             <a href="javascript:void(0)" class="btn btn-primary" @click="savePricingData()">Save</a>
@@ -38,41 +38,21 @@
 	export default {
 		data() {
             return {
-            	cupPricingBands: [],
             }
         },
+        props: ['pricingBands'],
         components : {
         	PricingBand
         },
-        computed: {
-
-        },
-        mounted() {
-            this.getCupPricingData();
-        },
         methods: {
         	addCupPricingBand() {
-        		this.cupPricingBands.push({
-        			type: 'cup', min_teams: '', max_teams: '', basic_price: '', advanced_price: ''
+        		this.pricingBands.push({
+        			type: 'cup', id: null, min_teams: '', max_teams: '', basic_price: '', advanced_price: ''
         		});
         	},
             savePricingData() {
-                Commercialisation.saveTournamentPricingDetail(this.cupPricingBands).then(
-                    (response)=> {
-                    },
-                    (error)=>{
-                    }
-                )
+                this.$emit('save-cup-pricing-detail', this.pricingBands);
             },
-            getCupPricingData() {
-                Commercialisation.getTournamentPricingDetail().then(
-                    (response)=> {
-                        this.cupPricingBands = JSON.parse(response.data.data).cup.bands;
-                    },
-                    (error)=>{
-                    }
-                )
-            }
         }
 	}
 </script>
