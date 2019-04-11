@@ -139,7 +139,7 @@ export default {
       return this.$store.state.Pitch.pitches
     },
     isResultAdmin() {
-        return this.$store.state.Users.userDetails.role_slug == 'Results.administrator';
+      return this.$store.state.Users.userDetails.role_slug == 'Results.administrator';
     },
   },
   mounted() {
