@@ -36,7 +36,7 @@
                                     </ul>
                                 </div>
                             </div>
-							<component :is="currentView"> </component>
+							<component :is="currentView" v-if="!modalOpen"> </component>
                             <UnsaveMatchScoreModel></UnsaveMatchScoreModel>
 						</div>
 					</div>
@@ -55,7 +55,6 @@ import Messages from '../../../components/Messages.vue'
 import AddMessageModel from '../../../components/AddMessageModel.vue'
 import UnsaveMatchScoreModel from '../../../components/UnsaveMatchScoreModel.vue'
 
-
 export default {
     data() {
      return {
@@ -63,8 +62,36 @@ export default {
             messageStatus: false
         }
     },
+    computed: {
+      modalOpen() {
+        return this.$store.state.Tournament.modalOpen;
+      }
+    },
     components: {
         SummaryTab, SummaryReport, ScheduleResultsAdmin, Messages, AddMessageModel, UnsaveMatchScoreModel
+    },
+    beforeRouteLeave(to, from, next) {
+      let redirectName = to.name; 
+      let matchResultChange = this.$store.state.Tournament.matchResultChange;
+      let currentSection = from.name;
+      if ( matchResultChange && currentSection == 'tournaments_summary_details')
+      { 
+        window.sectionVal = -1;
+        window.redirectPath = redirectName;
+        $('#unSaveMatchModal').modal('show');
+
+        let vm = this;
+        $("#unSaveMatchModal").on('hidden.bs.modal', function () {
+
+          vm.$store.dispatch('UnsaveMatchData',[]);
+          vm.$store.dispatch('UnsaveMatchStatus',false);
+
+          //vm.$router.push({'name':redirectName});
+        });
+      }
+      else{
+        next();
+      }
     },
     mounted() {
       if(this.isResultAdmin) {

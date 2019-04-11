@@ -212,7 +212,6 @@ export default {
     this.matchData = _.sortBy(_.cloneDeep(this.matchData1),['match_datetime'] );
 
     var vm = this;
-
     Vue.nextTick(() =>{
       vm.updateMatchScoreToRel();
     });
@@ -234,25 +233,27 @@ export default {
     this.$root.$off('reloadMatchList');
     this.$root.$off('saveMatchScore');
   },
-  beforeDestroy: function() {
+  beforeDestroy: function(event) {
+    console.log("beforeDestroy");
     clearInterval(this.matchInterval);
     if ( this.resultChange )
     {
-      this.resetStoreUnsaveMatch();
+      this.resetStoreUnsaveMatch(0);
     }
   },
   watch: {
     matchData1: {
       handler: function (val, oldVal) {
-        var resultChange = this.checkScoreChangeOrnot();
-        this.resultChange = resultChange;
-
+        console.log("on match data 1");
         if ( this.resultChange )
         {
-          this.resetStoreUnsaveMatch();
+          this.resetStoreUnsaveMatch(1);
         }
 
+        this.resultChange = false;
         this.matchData = _.sortBy(_.cloneDeep(val), ['match_datetime']);
+
+        this.updateMatchScoreToRel();
         let vm = this;
         Vue.nextTick()
         .then(function () {
@@ -260,7 +261,6 @@ export default {
             vm.getResultOverridePopover(value);
           });
 
-          vm.updateMatchScoreToRel();
           if ( vm.matchIdleTimeInterval !== 0)
           {
             clearInterval(vm.matchInterval);
@@ -384,11 +384,16 @@ export default {
     },
 
     changeTeam(Id, Name) {
+
+      window.changeTeamId = Id;
+      window.changeTeamname = Name;
       // here we dispatch Method
       this.$store.dispatch('setCurrentScheduleView','teamDetails')
       this.$root.$emit('changeComp', Id, Name);
     },
     changeDrawDetails(competition) {
+
+      window.competition = competition;
       // here we dispatch Method
       this.$store.dispatch('setCurrentScheduleView','drawDetails')
       let Id = competition.competitionId
@@ -402,12 +407,6 @@ export default {
     },
     updateScore(match,index) {
 
-      var resultChange = this.checkScoreChangeOrnot();
-      this.resultChange = resultChange;
-
-      clearInterval(this.matchInterval);
-      this.matchInterval = setInterval(this.updateMatchScoreIdleStat,this.matchIdleTimeInterval);
-
       let matchId = match.fid;
       if(match.Home_id == 0 || match.Away_id == 0) {
         toastr.error('Both home and away teams should be there for score update.');
@@ -415,6 +414,18 @@ export default {
         $('input[name="away_score['+matchId+']"]').val('');
         return false;
       }
+
+      var resultChange = this.checkScoreChangeOrnot();
+      this.resultChange = resultChange;
+
+      console.log("heere update score");
+
+      this.$store.dispatch('UnsaveMatchStatus',_.cloneDeep(this.resultChange));
+      this.$store.dispatch('UnsaveMatchData', _.cloneDeep(this.matchData));
+
+      clearInterval(this.matchInterval);
+      this.matchInterval = setInterval(this.updateMatchScoreIdleStat,this.matchIdleTimeInterval);
+
       if (this.$store.state.scoreAutoUpdate == true) {
         $("body .js-loader").removeClass('d-none');
         this.index =  index
@@ -520,6 +531,11 @@ export default {
         matchPostData.matchDataArray = matchDataArray;
         Tournament.saveAllMatchResults(matchPostData).then(
           (response) => {
+
+            this.resultChange = false;
+            this.$store.dispatch('UnsaveMatchData',[]);
+            this.$store.dispatch('UnsaveMatchStatus',false);
+
             $("body .js-loader").addClass('d-none');
             if(this.$store.state.currentScheduleView == 'drawDetails') {
               let Id = this.DrawName.id
@@ -533,10 +549,11 @@ export default {
             if(this.$store.state.currentScheduleView == 'matchList') {
               this.$root.$emit('getMatchesByFilter');
             }
-            toastr.success('Scores has been updated successfully', 'Score Updated', {timeOut: 5000});
+            toastr.success('Scores has been updated successfully', 'Score Updated', {timeOut: 1000});
           }
         )
       }
+
     },
     setMatchDataOfMatchList(matchData) {
       this.matchData = _.sortBy(_.cloneDeep(matchData),['match_datetime'] );
@@ -597,17 +614,12 @@ export default {
         this.updateMatchScoreToRel();
       }
     },
-    resetStoreUnsaveMatch()
+    resetStoreUnsaveMatch(sectionVal)
     {
-      this.$store.dispatch('UnsaveMatchData',this.matchData);
-      this.$store.dispatch('UnsaveMatchStatus',this.resultChange);
+      window.sectionVal = sectionVal;
+      //this.$store.dispatch('UnsaveMatchData',this.matchData);
+      //this.$store.dispatch('UnsaveMatchStatus',this.resultChange);
       $('#unSaveMatchModal').modal('show');
-
-      let vm = this;
-      $("#unSaveMatchModal").on('hidden.bs.modal', function () {
-        vm.$store.dispatch('UnsaveMatchData',[]);
-        vm.$store.dispatch('UnsaveMatchStatus',false);
-      });
     }
   },
 }
