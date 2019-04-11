@@ -5,7 +5,7 @@
         <div class="col-lg-12">
           <div class="tabs tabs-primary">
             <ul class="nav nav-tabs edit-tournament-tab" role="tablist">
-                <li class="nav-item">
+                <li class="nav-item" v-if="!isResultAdmin">
                     <a :class="[activePath == 'tournament_add' ? 'active' : '', 'nav-link','doc-filled']" data-toggle="tab"  href="#tournament_add" role="tab" @click="GetSelectComponent('tournament_add')">
                       <div class="wrapper-tab">
                         <span class="icon-football-block"><i class="fas fa-futbol"></i></span>
@@ -18,7 +18,7 @@
                       </div>
                     </a> 
                 </li>
-                <li class="nav-item">      
+                <li class="nav-item" v-if="!isResultAdmin">      
                     <a :class="[(activePath == 'competition_format' ? 'active' : ''), (competitionList.length > 0 ? 'doc-filled' : ''), 'nav-link']" data-toggle="tab" href="#competition_format" role="tab" @click="GetSelectComponent('competition_format')">
                       <div class="wrapper-tab">
                         <span class="icon-football-block"><i class="fas fa-futbol"></i></span>
@@ -32,7 +32,7 @@
                     </a>                    
                 </li>
 
-                <li class="nav-item">                    
+                <li class="nav-item" v-if="!isResultAdmin">                    
                     <a :class="[(activePath == 'pitch_capacity' ? 'active' : ''), (pitches !== undefined ? 'doc-filled' : ''), 'nav-link']" data-toggle="tab" href="#pitch_capacity" role="tab" @click="GetSelectComponent('pitch_capacity')">
                       <div class="wrapper-tab">
                         <span class="icon-football-block"><i class="fas fa-futbol"></i></span>
@@ -46,7 +46,7 @@
                     </a>                    
                 </li>
 
-                <li class="nav-item">                    
+                <li class="nav-item" v-if="!isResultAdmin">                    
                     <a :class="[(activePath == 'teams_groups' ? 'active' : ''),(teamsCount.length > 0 ? 'doc-filled' : ''), 'nav-link']" data-toggle="tab" href="#teams_groups" role="tab"  @click="GetSelectComponent('teams_groups')">
                       <div class="wrapper-tab">
                         <span class="icon-football-block"><i class="fas fa-futbol"></i></span>
@@ -59,7 +59,7 @@
                       </div>
                     </a>                    
                 </li>
-                <li class="nav-item">                    
+                <li class="nav-item" v-if="!isResultAdmin">                    
                     <a :class="[(activePath == 'pitch_planner' ? 'active' : ''), (isMatchScheduled ? 'doc-filled' : ''), 'nav-link']" data-toggle="tab" href="#pitch_planner" role="tab" @click="GetSelectComponent('pitch_planner')">
                       <div class="wrapper-tab">
                         <span class="icon-football-block"><i class="fas fa-futbol"></i></span>
@@ -80,7 +80,7 @@
                     
                         {{$lang.summary_label}}
 
-                        <span class="text-tooltip" data-toggle="popover" data-animation="false" data-placement="left" data-content="Edit and view results, access reports and send messages to your tournament participants">
+                        <span class="text-tooltip" data-toggle="popover" data-animation="false" data-placement="top" data-content="Edit and view results, access reports and send messages to your tournament participants">
                             <i class="fas fa-info-circle"></i>
                         </span>
                       </div>
@@ -137,7 +137,10 @@ export default {
     pitches()
     {
       return this.$store.state.Pitch.pitches
-    }
+    },
+    isResultAdmin() {
+      return this.$store.state.Users.userDetails.role_slug == 'Results.administrator';
+    },    
   },
   mounted() {
     this.updateTabStateData();
