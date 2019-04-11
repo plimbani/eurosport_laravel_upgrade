@@ -113,14 +113,12 @@ export default {
         }
 
         if( getCurrentScheduleView == "matchList" && currentView == "matchListing") {
-          var filterKey = window.filterKey;
-          $("input[name='filter']:checked").trigger('click');
+          var filterKey = vm.$store.state.Tournament.tournamentFiler.filterKey;
+          var filterValue = vm.$store.state.Tournament.tournamentFiler.filterValue;
 
-          var filterValue = window.filterValue;
-          $("input[name='filter']:checked").trigger('click');
-
-
-          this.$root.$emit('getMatchByTournamentFilter',filterKey,filterValue);
+          setTimeout(function(){
+            vm.$root.$emit('getMatchByTournamentFilter',filterKey,filterValue);
+          },100);
 
         }
       }

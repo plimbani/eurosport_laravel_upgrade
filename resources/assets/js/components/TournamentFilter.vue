@@ -65,7 +65,7 @@
                 </div>
               </form>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 filterDropdown">
               <select :class="'form-control  ls-select2 '+filterKey" v-if="filterKey == 'competation_group'">
                 <option value="" v-if="filterKey != 'age_category'">Select</option>
                 <option   
@@ -73,7 +73,7 @@
               </select>
               <select  class="form-control ls-select2" v-model="dropDown" @change="setFilterValue()" v-else>
                 <option value="" v-if="filterKey != 'age_category'">Select</option>
-                <option  :value="option.id" v-for="option in options"   v-bind:value="option" >{{option.name}}</option>
+                <option  :rel="option.id" v-for="option in options"   v-bind:value="option" >{{option.name}}</option>
               </select>
             </div>
           </div>
@@ -147,7 +147,6 @@ export default {
     },
     setFilterValue() {
       // return false;
-
       this.filterValue = this.dropDown
       window.filterValue = this.dropDown;
       let tournamentFilter = {'filterKey': this.filterKey, 'filterValue':this.filterValue, 'filterDependentKey': '', 'filterDependentValue': ''}
