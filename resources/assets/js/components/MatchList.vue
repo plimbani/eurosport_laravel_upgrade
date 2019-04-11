@@ -615,76 +615,10 @@ export default {
     },
     resetStoreUnsaveMatch(sectionVal)
     {
-
       window.sectionVal = sectionVal;
       this.$store.dispatch('UnsaveMatchData',this.matchData);
       this.$store.dispatch('UnsaveMatchStatus',this.resultChange);
       $('#unSaveMatchModal').modal('show');
-
-      // var getCurrentScheduleView = this.$store.state.currentScheduleView;
-      // var currentView = this.$store.state.setCurrentView;
-      // var liIndex = 0;
-      // $(".scheduleResultTab .nav-item").each(function(index) {
-      //   if($(this).find($('a')).hasClass('active')) {
-      //     liIndex = index;
-      //   } 
-      // });
-
-      /*var vm = this;
-      Vue.nextTick(() =>{
-        vm.$store.dispatch('ModalOpenStatus',false);
-        //vm.$store.dispatch('setCurrentScheduleView','');
-        //vm.$store.dispatch('setCurrentScheduleView','');
-        //vm.$store.dispatch('setCurrentView','')
-      });*/
-
-      // $("#unSaveMatchModal").on('hidden.bs.modal', function () {
-      //   console.log("hidden");
-      //   vm.$store.dispatch('UnsaveMatchData',[]);
-      //   vm.$store.dispatch('UnsaveMatchStatus',false);
-      //   //vm.$store.dispatch('setCurrentView','');
-      //   //console.log("window.competition"+window.competition.competitionId);
-      //   //console.log("getCurrentScheduleView"+getCurrentScheduleView);
-      //   if( sectionVal == 0)
-      //   {
-      //     if ( getCurrentScheduleView == "teamDetails")
-      //     {
-      //       console.log('inside team details');
-      //       vm.$root.$emit('changeComp', window.changeTeamId, window.changeTeamname);
-      //       Vue.nextTick(() =>{
-      //         window.changeTeamId = 0;
-      //         window.changeTeamname = 0;
-      //       });
-            
-      //     }
-      //     else if( getCurrentScheduleView == "drawDetails" && currentView == "matchListing" && typeof window.competition !== undefined) {
-
-      //       console.log('drawDetails');
-      //       console.log("window.competition.competitionId"+window.competition.competitionId);
-      //       let competition = window.competition;
-      //       let Id = competition.competitionId;
-      //       let Name = competition.group_name+'-'+competition.competation_name;
-      //       let CompetationType = competition.round;
-
-      //       vm.$root.$emit('changeDrawListComp', Id, Name,CompetationType);
-      //       vm.$root.$emit('getcurrentCompetitionStanding', Id);
-      //       vm.$root.$emit('setDrawTable',Id);
-      //       vm.$root.$emit('setStandingData',Id);
-
-      //       Vue.nextTick(() =>{
-      //         window.competition = {};
-      //       });
-      //     }
-      //     // else
-      //     // {
-      //     //   console.log('other');
-      //     //   $('.summary-content ul.nav-tabs li.d-none').trigger('click');
-      //     //   Vue.nextTick(() =>{
-      //     //     $('.summary-content ul.nav-tabs li:eq('+liIndex+')').trigger('click');
-      //     //   });
-      //     // }
-      //   }
-      // });
     }
   },
 }

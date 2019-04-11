@@ -46,14 +46,10 @@ export default {
 
       vm.$store.dispatch('UnsaveMatchData',[]);
       vm.$store.dispatch('UnsaveMatchStatus',false);
-      //vm.$store.dispatch('setCurrentView','');
-      //console.log("window.competition"+window.competition.competitionId);
-      //console.log("getCurrentScheduleView"+getCurrentScheduleView);
       if( sectionVal == 0)
       {
         if ( getCurrentScheduleView == "teamDetails")
         {
-          console.log('inside team details');
           vm.$root.$emit('changeComp', window.changeTeamId, window.changeTeamname);
           Vue.nextTick(() =>{
             window.changeTeamId = 0;
@@ -63,8 +59,6 @@ export default {
         }
         else if( getCurrentScheduleView == "drawDetails" && currentView == "matchListing" && typeof(window.competition) !== "undefined") {
 
-          console.log('drawDetails');
-          console.log("window.competition.competitionId"+window.competition.competitionId);
           let competition = window.competition;
           let Id = competition.competitionId;
           let Name = competition.group_name+'-'+competition.competation_name;
@@ -79,14 +73,17 @@ export default {
             window.competition = 'undefined';
           });
         }
-        else
+        else if (getCurrentScheduleView == "matchList" && currentView == "matchListing")
         {
-          console.log('other');
           $('.summary-content ul.nav-tabs li.d-none').trigger('click');
           Vue.nextTick(() =>{
             $('.summary-content ul.nav-tabs li:eq('+liIndex+')').trigger('click');
           });
         }
+      }else if ( sectionVal == -1)
+      {
+        var redirectName = window.redirectPath;
+        vm.$router.push({'name':redirectName});
       }
     });
   },

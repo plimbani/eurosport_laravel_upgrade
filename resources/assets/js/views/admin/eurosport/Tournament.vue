@@ -77,6 +77,8 @@ export default {
       let currentSection = from.name;
       if ( matchResultChange && currentSection == 'tournaments_summary_details')
       { 
+        window.sectionVal = -1;
+        window.redirectPath = redirectName;
         $('#unSaveMatchModal').modal('show');
 
         let vm = this;
@@ -85,7 +87,7 @@ export default {
           vm.$store.dispatch('UnsaveMatchData',[]);
           vm.$store.dispatch('UnsaveMatchStatus',false);
 
-          vm.$router.push({'name':redirectName});
+          //vm.$router.push({'name':redirectName});
         });
       }
       else{
