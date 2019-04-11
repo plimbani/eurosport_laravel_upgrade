@@ -31,6 +31,101 @@ export default {
     return  {
     }
   },
+  mounted() {
+    let vm = this;
+    $("#unSaveMatchModal").on('hidden.bs.modal', function () {
+      var sectionVal = window.sectionVal;
+      var getCurrentScheduleView = vm.$store.state.currentScheduleView;
+      var currentView = vm.$store.state.setCurrentView;
+      var liIndex = 0;
+      $(".scheduleResultTab .nav-item").each(function(index) {
+        if($(this).find($('a')).hasClass('active')) {
+          liIndex = index;
+        } 
+      });
+
+      vm.$store.dispatch('UnsaveMatchData',[]);
+      vm.$store.dispatch('UnsaveMatchStatus',false);
+      if( sectionVal == 0)
+      {
+        if ( getCurrentScheduleView == "teamDetails")
+        {
+          vm.$root.$emit('changeComp', window.changeTeamId, window.changeTeamname);
+          Vue.nextTick(() =>{
+            window.changeTeamId = 0;
+            window.changeTeamname = 0;
+          });
+          
+        }
+        else if( getCurrentScheduleView == "drawDetails" && currentView == "matchListing" && typeof(window.competition) !== "undefined") {
+
+          let competition = window.competition;
+          let Id = competition.competitionId;
+          let Name = competition.group_name+'-'+competition.competation_name;
+          let CompetationType = competition.round;
+
+          console.log(competition);
+          console.log("Id"+Id); 
+
+          vm.$root.$emit('changeDrawListComp', Id, Name,CompetationType);
+          vm.$root.$emit('getcurrentCompetitionStanding', Id);
+          vm.$root.$emit('setDrawTable',Id);
+          vm.$root.$emit('setStandingData',Id);
+
+          Vue.nextTick(() =>{
+            window.competition = 'undefined';
+          });
+        }
+        else if (getCurrentScheduleView == "matchList" && currentView == "matchListing")
+        {
+          $('.summary-content ul.nav-tabs li.d-none').trigger('click');
+          Vue.nextTick(() =>{
+            $('.summary-content ul.nav-tabs li:eq('+liIndex+')').trigger('click');
+          });
+        }
+      }else if ( sectionVal == -1)
+      {
+        var redirectName = window.redirectPath;
+        vm.$router.push({'name':redirectName});
+      }
+      else if ( sectionVal == 1)
+      {
+        if( getCurrentScheduleView == "drawDetails" && currentView == "drawsListing" && typeof(window.competitionChange) !== "undefined") {
+          console.log('inside sectionVal 1');
+          console.log(window.competitionChange);
+          let competition = window.competitionChange;
+
+          let Id = competition.id;
+          let Name = competition.group_name+'-'+competition.display_name;
+          let CompetationType = competition.competation_type;
+
+
+          vm.$root.$emit('changeComp',Id, Name,CompetationType);
+          vm.$root.$emit('getcurrentCompetitionStanding',Id);
+          vm.$root.$emit('setDrawTable',Id);
+          vm.$root.$emit('setStandingData',Id);
+
+          vm.currentCompetationId = Id;
+
+          Vue.nextTick(() =>{
+            window.competitionChange = 'undefined';
+          });
+        }
+
+        if( getCurrentScheduleView == "matchList" && currentView == "matchListing") {
+          var filterKey = window.filterKey;
+          $("input[name='filter']:checked").trigger('click');
+
+          var filterValue = window.filterValue;
+          $("input[name='filter']:checked").trigger('click');
+
+
+          this.$root.$emit('getMatchByTournamentFilter',filterKey,filterValue);
+
+        }
+      }
+    });
+  },
   methods: {
     saveMatchData(){
       let isSameScore = false;
@@ -62,7 +157,7 @@ export default {
           matchPostData.matchDataArray = matchDataArray;
           Tournament.saveAllMatchResults(matchPostData).then(
             (response) => {
-              toastr.success('Scores has been updated successfully', 'Score Updated', {timeOut: 5000});
+              toastr.success('Scores have been updated successfully', 'Score Updated', {timeOut: 1000});
               $('#unSaveMatchModal').modal('hide');
             }
           )

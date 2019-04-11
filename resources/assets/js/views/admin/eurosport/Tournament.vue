@@ -23,8 +23,7 @@
                                               <div class="wrapper-tab">{{$lang.summary_label_schedule}}</div>
                                             </a>
                                         </li>
-                                        <li 
-                                          v-if="!isResultAdmin">
+                                        <li class="nav-item" v-if="!isResultAdmin">
                                             <a class="nav-link" data-toggle="tab" href="javascript:void(0)" role="tab" @click="currentView='messages'">
                                               <div class="wrapper-tab">{{$lang.summary_label_message}}</div>
                                             </a>
@@ -37,7 +36,7 @@
                                     </ul>
                                 </div>
                             </div>
-							<component :is="currentView"> </component>
+							<component :is="currentView" v-if="!modalOpen"> </component>
                             <UnsaveMatchScoreModel></UnsaveMatchScoreModel>
 						</div>
 					</div>
@@ -56,7 +55,6 @@ import Messages from '../../../components/Messages.vue'
 import AddMessageModel from '../../../components/AddMessageModel.vue'
 import UnsaveMatchScoreModel from '../../../components/UnsaveMatchScoreModel.vue'
 
-
 export default {
     data() {
      return {
@@ -64,42 +62,68 @@ export default {
             messageStatus: false
         }
     },
+    computed: {
+      modalOpen() {
+        return this.$store.state.Tournament.modalOpen;
+      }
+    },
     components: {
         SummaryTab, SummaryReport, ScheduleResultsAdmin, Messages, AddMessageModel, UnsaveMatchScoreModel
     },
+    beforeRouteLeave(to, from, next) {
+      let redirectName = to.name; 
+      let matchResultChange = this.$store.state.Tournament.matchResultChange;
+      let currentSection = from.name;
+      if ( matchResultChange && currentSection == 'tournaments_summary_details')
+      { 
+        window.sectionVal = -1;
+        window.redirectPath = redirectName;
+        $('#unSaveMatchModal').modal('show');
+
+        let vm = this;
+        $("#unSaveMatchModal").on('hidden.bs.modal', function () {
+
+          vm.$store.dispatch('UnsaveMatchData',[]);
+          vm.$store.dispatch('UnsaveMatchStatus',false);
+
+          //vm.$router.push({'name':redirectName});
+        });
+      }
+      else{
+        next();
+      }
+    },
     mounted() {
-        if(this.isResultAdmin) {
-            this.currentView = 'scheduleResultsAdmin';
-        }
-      	let tournamentId = this.$store.state.Tournament.tournamentId
-        if(tournamentId == null || tournamentId == '' || tournamentId == undefined) {
-        	toastr['error']('Please Select Tournament', 'Error');
-          this.$router.push({name: 'welcome'});
-        } else {
-            // First Set Menu and ActiveTab
-          let currentNavigationData = {activeTab:'tournaments_summary_details', currentPage: 'Summary'}
-            this.$store.dispatch('setActiveTab', currentNavigationData)
-        }
-        // Here we set currenct Schedule view null
-        this.$store.dispatch('setCurrentScheduleView','')
+      if(this.isResultAdmin) {
+        this.currentView = 'scheduleResultsAdmin';
+      }
+    	let tournamentId = this.$store.state.Tournament.tournamentId
+      if(tournamentId == null || tournamentId == '' || tournamentId == undefined) {
+      	toastr['error']('Please Select Tournament', 'Error');
+        this.$router.push({name: 'welcome'});
+      } else {
+        let currentNavigationData = {activeTab:'tournaments_summary_details', currentPage: 'Summary'}
+        this.$store.dispatch('setActiveTab', currentNavigationData)
+      }
+      this.$store.dispatch('setCurrentScheduleView','')
     },
     computed: {
-        isResultAdmin() {
-          return this.$store.state.Users.userDetails.role_slug == 'Results.administrator';
-        },
+      isResultAdmin() {
+        return this.$store.state.Users.userDetails.role_slug == 'Results.administrator';
+      }
     },
     methods: {
-        addMessage() {
-          let vm =this
-          this.messageStatus = true
-          this.type='add'
-          setTimeout(function(){
-            $('#exampleModal').modal('show')
-              $("#exampleModal").on('hidden.bs.modal', function () {
-                vm.messageStatus = false
-            });
-          },500)
-        }
+      addMessage() {
+        let vm =this
+        this.messageStatus = true
+        this.type='add'
+        setTimeout(function(){
+          $('#exampleModal').modal('show')
+            $("#exampleModal").on('hidden.bs.modal', function () {
+              vm.messageStatus = false
+          });
+        },500)
+      }
     }
 }
 </script>

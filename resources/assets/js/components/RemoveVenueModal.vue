@@ -4,7 +4,7 @@
         <div class="modal-content">
             <form method="delete" class="js-delete-modal-form">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="myModalLabel">{{$lang.user_management_error}}</h5>
+                    <h5 class="modal-title" id="myModalLabel">Action Required</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body js-delete-confirmation-msg">{{ removeVenue }}</div>

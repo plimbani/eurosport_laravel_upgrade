@@ -139,7 +139,7 @@ export default {
       return this.$store.state.Pitch.pitches
     },
     isResultAdmin() {
-        return this.$store.state.Users.userDetails.role_slug == 'Results.administrator';
+      return this.$store.state.Users.userDetails.role_slug == 'Results.administrator';
     },
   },
   mounted() {
@@ -196,9 +196,13 @@ export default {
     },
     updateTabStateData() {
       this.displayTournamentCompetationList();
-      this.$store.dispatch('SetTeams',this.$store.state.Tournament.tournamentId);
+      if(this.$store.state.Tournament.tournamentId != 0 && this.$store.state.Tournament.tournamentId != '' && this.$store.state.Tournament.tournamentId != null) {
+        this.$store.dispatch('SetTeams',this.$store.state.Tournament.tournamentId);  
+      }
       this.$store.dispatch('SetPitches',this.$store.state.Tournament.tournamentId);
-      this.$store.dispatch('setMatches');
+      if(this.$store.state.Tournament.tournamentId != 0 && this.$store.state.Tournament.tournamentId != '' && this.$store.state.Tournament.tournamentId != null) {
+        this.$store.dispatch('setMatches');
+      }
     }
   },
 }

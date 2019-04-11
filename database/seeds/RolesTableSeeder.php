@@ -12,7 +12,7 @@ class RolesTableSeeder extends Seeder
      */
     public function run()
     {
-        Schema::disableForeignKeyConstraints();        
+        Schema::disableForeignKeyConstraints();
         DB::table('roles')->truncate();
         DB::table('roles')->insert([
           ['name' => 'Super administrator', 'slug' => 'Super.administrator', 'description' => 'The magician', 'level' => '1', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],

@@ -19,6 +19,9 @@ module.exports= {
   welcome_create_website: 'Create website',
   welcome_create_duplicate_tournament: 'Duplicate tournament',
 
+  welcome_view_tournaments_assigned_to_you: 'View tournaments assigned to you',
+  welcome_add_details_about_matches: 'View and add details about matches',
+
   siteheader_name: "Chris",
   siteheader_settings: "Settings",
   siteheader_userprofile: "User Profile",
@@ -255,6 +258,7 @@ module.exports= {
   program_edit_item: "Edit Item",
 
 
+  competation_add_age_categories: "Select",
   competation_age_categories: "Age categories",
   competation_add_age_category: "Add age category",
   competation_button_back: "Back",

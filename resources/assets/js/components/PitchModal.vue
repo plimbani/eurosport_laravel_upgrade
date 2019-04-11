@@ -22,7 +22,7 @@
                 <li class="nav-item">
                   <a data-toggle="tab" class="nav-link" href="#results_tab" role="tab"><div class="wrapper-tab">Result</div></a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" v-if="!isResultAdmin">
                   <a data-toggle="tab" class="nav-link" href="#colors_tab" role="tab"><div class="wrapper-tab">Colours</div></a>
                 </li>                                    
               </ul>
@@ -243,7 +243,7 @@
                   </div>                  
                 </div>
 
-                <div id="colors_tab" class="tab-pane">                  
+                <div id="colors_tab" class="tab-pane" v-if="!isResultAdmin">
                   <div class="form-group row">
                     <div class="col-sm-3 form-control-label">{{ $lang.pitch_modal_age_category_color }} ({{ matchDetail.category_age.category_age }})*</div>
                     <div class="col-sm-6">
@@ -284,7 +284,7 @@ import _ from 'lodash';
 var moment = require('moment');
   export default {
     data() {
-       return {
+        return {
          'tournamentId': this.$store.state.Tournament.tournamentId,
          'matchDetail':{
             'competition': {
@@ -305,7 +305,6 @@ var moment = require('moment');
          'updatedMatchData': null,
        }
     },
-
     props: ['matchFixture','section'],
     mounted() {
       let vm = this;
@@ -326,307 +325,312 @@ var moment = require('moment');
           })
         this.matchFixtureDetail();
       }
-  },
-  methods: {
-    initialState() {
-      return {
-        "homeTeam":1,
-      }
     },
-    matchFixtureDetail(){
-      let vm = this;
-      Tournament.getMatchFixtureDetail(this.matchId).then(
-          (response) => {
-            $('.js-colorpicker').minicolors({
-              animationSpeed: 50,
-              animationEasing: 'swing',
-              format : 'hex',
-              theme: 'bootstrap',
-              position: 'bottom right',
-              change : function() {
-                vm.matchDetail[$(this).data('name')] = $(this).val();
-                return;
-              }
-            });
-                
-            this.matchDetail = response.data.data;
-
-            this.matchDetail.id = this.matchId
-          if(this.matchDetail.referee == null) {
-             this.matchFixture.refereeId = 0
-             this.matchFixture.refereeText = 'R'
-          } else {
-            this.matchFixture.refereeText = this.matchDetail.referee.first_name+' '+this.matchDetail.referee.last_name
-            this.matchDetail.referee.first_name = this.matchDetail.referee.last_name+', '+this.matchDetail.referee.first_name
-            this.referee_name = this.matchDetail.referee.first_name
-            this.matchFixture.refereeId = this.matchDetail.referee_id
-           }
-
-          let colorVal = this.matchDetail.category_age.category_age_color;
-          let textColorVal = this.matchDetail.category_age.category_age_font_color;
-          let borderColorVal = this.matchDetail.category_age.category_age_color;
-          let fixtureStripColor = this.matchDetail.competition.color_code != null ? this.matchDetail.competition.color_code : '#FFFFFF';
-
-          this.matchFixture.color = colorVal;
-          this.matchFixture.textColor = textColorVal;
-          this.matchFixture.borderColor = borderColorVal;
-          this.matchFixture.fixtureStripColor = fixtureStripColor;
-
-          this.matchDetail.age_category_color = colorVal;
-          this.matchDetail.group_color = fixtureStripColor;
-
-          // this.matchDetail.matchTime = moment(response.data.data.match_datetime,' hh:mm"ss DD-MMM-YYYY ').format(' kk:mm DD MMM  YYYY ')
-
-          $('div.fc-unthemed').fullCalendar('updateEvent', this.matchFixture);
-          let date = moment(response.data.data.match_datetime,'YYYY-MM-DD hh:mm:ss')
-          this.matchDetail.matchTime = date.format('HH:mm ddd DD MMM YYYY')
-
-          this.matchDetail.match_winner =  (this.matchDetail.match_winner == null || this.matchDetail.match_winner == 0 || this.matchDetail.match_winner == '') ? '': this.matchDetail.match_winner
-          // Set Some Values
-          this.matchDetail.match_status = (this.matchDetail.match_status == null || this.matchDetail.match_status == '') ? '' : this.matchDetail.match_status
-
-          this.matchDetail.hometeam_score = (this.matchDetail.hometeam_score == null) ? '' : this.matchDetail.hometeam_score
-
-          this.matchDetail.awayteam_score = (this.matchDetail.awayteam_score == null) ? '' : this.matchDetail.awayteam_score
-
-          this.matchDetail.referee_id = (this.matchDetail.referee_id == null || this.matchDetail.referee_id == 0 ) ? '' :this.matchDetail.referee_id
-
-          this.matchDetail.home_yellow_cards = this.matchDetail.home_yellow_cards ? this.matchDetail.home_yellow_cards : null;
-          this.matchDetail.away_yellow_cards = this.matchDetail.away_yellow_cards ? this.matchDetail.away_yellow_cards : null;
-          this.matchDetail.home_red_cards = this.matchDetail.home_red_cards ? this.matchDetail.home_red_cards : null;
-          this.matchDetail.away_red_cards = this.matchDetail.away_red_cards ? this.matchDetail.away_red_cards : null;
-
-          if(this.updatedMatchData !== null) {
-            this.matchDetail.hometeam_score = this.updatedMatchData.homeScore;
-            this.matchDetail.awayteam_score = this.updatedMatchData.awayScore;
-
-            if (this.matchDetail.round == 'Elimination' && this.matchDetail.hometeam_score != '' && this.matchDetail.awayteam_score != '' && this.matchDetail.hometeam_score != null && this.matchDetail.awayteam_score != null && this.matchDetail.hometeam_score == this.matchDetail.awayteam_score && this.matchDetail.is_result_override == 0) {
-              this.matchDetail.is_result_override = 1;
-              let vm = this;
-              Vue.nextTick(function () {
-                vm.$validator.validateAll().then(() => {}).catch(() => {});
-              });
-            }
-          }
-
-          $('input[data-name=age_category_color]').minicolors('value', colorVal);
-          $('input[data-name=group_color]').minicolors('value', fixtureStripColor);
-      })
-    },
-    removeReferee(){
-      Tournament.removeAssignedReferee(this.matchDetail.id).then(
-        (response) => {
-          this.refereeRemoved = 'yes';
-          this.matchFixture.refereeId = 0
-          this.matchFixture.refereeText = 'R'
-          $('div.fc-unthemed').fullCalendar('updateEvent', this.matchFixture);
-          this.matchFixtureDetail()
-          toastr.success('Referee has been removed successfully', 'Referee removed', {timeOut: 5000});
+    computed: {
+      isResultAdmin() {
+        return this.$store.state.Users.userDetails.role_slug == 'Results.administrator';
+      },
+    },  
+    methods: {
+      initialState() {
+        return {
+          "homeTeam":1,
         }
-      )
-    },
-    closeModal() {
-      $('#matchScheduleModal').modal('hide');
-      if(this.refereeRemoved == 'yes'){
-        // this.$root.$emit('setPitchReset')
-      }
-    },
-    saveFixtureDetail(){
-      let vm = this;
-      if(($('#home_team_score').val() != '' || $('#away_team_score').val() != '') && (this.matchDetail.home_team == 0 || this.matchDetail.away_team == 0)) {
-        toastr.error('Both home and away teams should be there for score update.');
-        return false;
-      }
-      let home_score = $('#home_team_score').val()
-      let away_score = $('#away_team_score').val()
-      if (home_score == away_score && this.matchDetail.round == 'Elimination' && this.matchDetail.is_result_override == 0 && home_score != '' && away_score != '' && this.matchDetail.hometeam_score != null && this.matchDetail.awayteam_score != null) {
-        this.matchDetail.is_result_override = 1;
-      }
-      Vue.nextTick(function () {
-        vm.$validator.validateAll().then((response) => {
-          if(response) {
-            let  matchStatus = vm.matchDetail.is_result_override == 1 ? $('#match_status').val() : '';
-            let  matchWinner = vm.matchDetail.is_result_override == 1 ? $('#match_winner').val() : '';
-            let data = {'matchId':vm.matchDetail.id,'refereeId': vm.matchDetail.referee_id,'homeTeamScore':$('#home_team_score').val(),'awayTeamScore':$('#away_team_score').val(),
-              'matchStatus': matchStatus,'matchWinner': matchWinner,'comments':$('#comments').val(),
-              'is_result_override':$('#is_result_override').val(), 'home_yellow_cards': $('#home_yellow_cards').val(), 'away_yellow_cards': $('#away_yellow_cards').val(), 'home_red_cards': $('#home_red_cards').val(), 'away_red_cards': $('#away_red_cards').val(),'age_category_color': vm.matchDetail.age_category_color, 'group_color': vm.matchDetail.group_color}
-            Tournament.saveMatchResult(data).then(
-              (response) => {
-                vm.matchFixtureDetail();
-                $('#matchScheduleModal').modal('hide')
-                toastr.success('This match has been updated.', 'Match Details', {timeOut: 5000});
-                let matchData = {};
-
-                matchData['home_score'] = $('#home_team_score').val()
-                matchData['away_score'] = $('#away_team_score').val()
-                matchData['competation_id'] = response.data.data.competationId
-                matchData['is_result_override'] = response.data.data.isResultOverride
-                matchData['match_status'] = $('#match_status').val()
-                matchData['match_winner'] = $('#match_winner').val()
-
-                if(vm.section == 'scheduleResult') {
-                  vm.$root.$emit('reloadMatchList', matchData)
-                  //
-                  vm.$root.$emit('setDrawTable',matchData['competation_id']);
-                  vm.$root.$emit('setStandingData',matchData['competation_id']);
-                } else {
-                  vm.$root.$emit('displayTournamentCompetationList');
-                  vm.$root.$emit('setPitchReset');
-                  vm.$store.dispatch('setMatches');
-                  vm.$root.$emit('reloadAllEvents');
-                }
-              }
-            )
-          }
-        },
-        (error) => {
-        });
-
-      });
-    },
-    assignReferee(refereeId){
-      let data = {'refereeId': refereeId,'matchId': this.matchId}
-      Tournament.assignReferee(data).then(
-        (response) => {
-          // this.matchFixtureDetail()
-          toastr.success('Referee has been assigned successfully', 'Referee assigned', {timeOut: 5000});
-          vm.$root.$emit('setPitchPlanTab','gamesTab')
-        }
-        )
-    },
-    matchUnschedule() {
-      let vm =this
-      Tournament.matchUnschedule(this.matchId).then(
-        (response) => {
-          // vm.$root.$emit('setPitchReset')
-           $('#matchScheduleModal').modal('hide')
-           setTimeout(function(){
-             $('div.fc-unthemed').fullCalendar( 'removeEvents', [vm.matchFixture._id] )
-           },200)
-          toastr.success('Match has been unscheduled successfully', 'Match Unscheduled', {timeOut: 5000});
-
-          this.$store.dispatch('setMatches');
-          this.$store.dispatch('SetScheduledMatches');
-          this.$root.$emit('reloadAllEvents')
-
-
-      })
-    },
-    matchPrint(ReportData) {
-      var matchPrintWindow = window.open('', '_blank');
-      Tournament.getSignedUrlForMatchPrint(ReportData).then(
-        (response) => {
-          matchPrintWindow.location = response.data;
-        },
-        (error) => {
-
-        }
-      )
-      // var win = window.open("/api/match/print?"+ReportData, '_blank');
-      // win.focus();
-      // return true;
-    },
-    generateMatchPrint() {
-       let ReportData = 'matchId='+this.matchId+'&result_override='+(this.matchDetail.is_result_override == 1 ? true : false)
-       if(this.matchDetail.is_result_override == 1) {
-        let matchWinner = ''
-        if(this.matchDetail.match_winner == this.matchDetail.home_team) {
-          matchWinner = this.matchDetail.home_team_name
-        } else {
-          matchWinner = this.matchDetail.away_team_name
-        }
-
-          ReportData = ReportData+'&status='+this.matchDetail.match_status+'&winner='+matchWinner
-        }
-
-        if(this.matchDetail.is_result_override == 1){
-            let vm = this
-            let val = 0
-            this.$validator.validateAll().then(
-              (response) => {
-                val = 1
-            },
-              (error) => {
-              }
-            )
-
-             setTimeout(function(){
-
-            if(val == 1) {
-              vm.matchPrint(ReportData)
-            } },500)
-
-        } else {
-          var matchPrintWindow = window.open('', '_blank');
-          Tournament.getSignedUrlForMatchPrint(ReportData).then(
+      },
+      matchFixtureDetail(){
+        let vm = this;
+        Tournament.getMatchFixtureDetail(this.matchId).then(
             (response) => {
-              matchPrintWindow.location = response.data;
-            },
-            (error) => {
+              $('.js-colorpicker').minicolors({
+                animationSpeed: 50,
+                animationEasing: 'swing',
+                format : 'hex',
+                theme: 'bootstrap',
+                position: 'bottom right',
+                change : function() {
+                  vm.matchDetail[$(this).data('name')] = $(this).val();
+                  return;
+                }
+              });
+                  
+              this.matchDetail = response.data.data;
 
+              this.matchDetail.id = this.matchId
+            if(this.matchDetail.referee == null) {
+               this.matchFixture.refereeId = 0
+               this.matchFixture.refereeText = 'R'
+            } else {
+              this.matchFixture.refereeText = this.matchDetail.referee.first_name+' '+this.matchDetail.referee.last_name
+              this.matchDetail.referee.first_name = this.matchDetail.referee.last_name+', '+this.matchDetail.referee.first_name
+              this.referee_name = this.matchDetail.referee.first_name
+              this.matchFixture.refereeId = this.matchDetail.referee_id
+             }
+
+            let colorVal = this.matchDetail.category_age.category_age_color;
+            let textColorVal = this.matchDetail.category_age.category_age_font_color;
+            let borderColorVal = this.matchDetail.category_age.category_age_color;
+            let fixtureStripColor = this.matchDetail.competition.color_code != null ? this.matchDetail.competition.color_code : '#FFFFFF';
+
+            this.matchFixture.color = colorVal;
+            this.matchFixture.textColor = textColorVal;
+            this.matchFixture.borderColor = borderColorVal;
+            this.matchFixture.fixtureStripColor = fixtureStripColor;
+
+            this.matchDetail.age_category_color = colorVal;
+            this.matchDetail.group_color = fixtureStripColor;
+
+            // this.matchDetail.matchTime = moment(response.data.data.match_datetime,' hh:mm"ss DD-MMM-YYYY ').format(' kk:mm DD MMM  YYYY ')
+
+            $('div.fc-unthemed').fullCalendar('updateEvent', this.matchFixture);
+            let date = moment(response.data.data.match_datetime,'YYYY-MM-DD hh:mm:ss')
+            this.matchDetail.matchTime = date.format('HH:mm ddd DD MMM YYYY')
+
+            this.matchDetail.match_winner =  (this.matchDetail.match_winner == null || this.matchDetail.match_winner == 0 || this.matchDetail.match_winner == '') ? '': this.matchDetail.match_winner
+            // Set Some Values
+            this.matchDetail.match_status = (this.matchDetail.match_status == null || this.matchDetail.match_status == '') ? '' : this.matchDetail.match_status
+
+            this.matchDetail.hometeam_score = (this.matchDetail.hometeam_score == null) ? '' : this.matchDetail.hometeam_score
+
+            this.matchDetail.awayteam_score = (this.matchDetail.awayteam_score == null) ? '' : this.matchDetail.awayteam_score
+
+            this.matchDetail.referee_id = (this.matchDetail.referee_id == null || this.matchDetail.referee_id == 0 ) ? '' :this.matchDetail.referee_id
+
+            this.matchDetail.home_yellow_cards = this.matchDetail.home_yellow_cards ? this.matchDetail.home_yellow_cards : null;
+            this.matchDetail.away_yellow_cards = this.matchDetail.away_yellow_cards ? this.matchDetail.away_yellow_cards : null;
+            this.matchDetail.home_red_cards = this.matchDetail.home_red_cards ? this.matchDetail.home_red_cards : null;
+            this.matchDetail.away_red_cards = this.matchDetail.away_red_cards ? this.matchDetail.away_red_cards : null;
+
+            if(this.updatedMatchData !== null) {
+              this.matchDetail.hometeam_score = this.updatedMatchData.homeScore;
+              this.matchDetail.awayteam_score = this.updatedMatchData.awayScore;
+
+              if (this.matchDetail.round == 'Elimination' && this.matchDetail.hometeam_score != '' && this.matchDetail.awayteam_score != '' && this.matchDetail.hometeam_score != null && this.matchDetail.awayteam_score != null && this.matchDetail.hometeam_score == this.matchDetail.awayteam_score && this.matchDetail.is_result_override == 0) {
+                this.matchDetail.is_result_override = 1;
+                let vm = this;
+                Vue.nextTick(function () {
+                  vm.$validator.validateAll().then(() => {}).catch(() => {});
+                });
+              }
             }
-          )
 
-          // var win = window.open("/api/match/print?"+ReportData, '_blank');
-          // win.focus();
-        }
-    },
-    getHoldingName(competitionActualName, placeholder) {
-      if(competitionActualName.indexOf('Group') !== -1){
-        return placeholder;
-      } else if(competitionActualName.indexOf('Pos') !== -1){
-        return 'Pos-' + placeholder;
-      }
-    },
-    getTeamName(teamId, teamName, teamPlaceHolder, competitionActualName){ 
-      if(teamId != 0){
-          return teamName;
-      } else if(teamId == 0 && teamName == '@^^@') {
-          return this.getHoldingName(competitionActualName, teamPlaceHolder)
-      }
-      return teamPlaceHolder;
-    },
-    checkOverride() {
-      this.matchDetail.match_status = '';
-      this.matchDetail.match_winner = '';
-      if(this.matchDetail.is_result_override == '0') {
-        this.matchDetail.hometeam_score = '';
-        this.matchDetail.awayteam_score = '';
-      }
-    },
-    getMatchData() {
-      this.matchId = this.matchFixture.id;
-      let tournamentData = {
-        'tournamentId':this.tournamentId,
-        'age_category':this.matchFixture.matchAgeGroupId
-      }
-       Tournament.getReferees(tournamentData).then(
-        (response) => {
-            this.referees = response.data.referees
+            $('input[data-name=age_category_color]').minicolors('value', colorVal);
+            $('input[data-name=group_color]').minicolors('value', fixtureStripColor);
         })
-      this.matchFixtureDetail();
-    },
-    updateMatchData(matchData) {
-      this.updatedMatchData = matchData;
-    },
-    changeScore() {
-      if (this.matchDetail.is_result_override == 1 && (this.matchDetail.match_status == 'Walk-over' || this.matchDetail.match_status == 'Abandoned')) {
-        this.matchDetail.hometeam_score = 0;
-        this.matchDetail.awayteam_score = 0;
-        if (this.matchDetail.match_winner == this.matchDetail.home_team) {
-          this.matchDetail.hometeam_score = 3;
-        } else if(this.matchDetail.match_winner == this.matchDetail.away_team) {
-          this.matchDetail.awayteam_score = 3;
+      },
+      removeReferee(){
+        Tournament.removeAssignedReferee(this.matchDetail.id).then(
+          (response) => {
+            this.refereeRemoved = 'yes';
+            this.matchFixture.refereeId = 0
+            this.matchFixture.refereeText = 'R'
+            $('div.fc-unthemed').fullCalendar('updateEvent', this.matchFixture);
+            this.matchFixtureDetail()
+            toastr.success('Referee has been removed successfully', 'Referee removed', {timeOut: 5000});
+          }
+        )
+      },
+      closeModal() {
+        $('#matchScheduleModal').modal('hide');
+        if(this.refereeRemoved == 'yes'){
+          // this.$root.$emit('setPitchReset')
         }
+      },
+      saveFixtureDetail(){
+        let vm = this;
+        if(($('#home_team_score').val() != '' || $('#away_team_score').val() != '') && (this.matchDetail.home_team == 0 || this.matchDetail.away_team == 0)) {
+          toastr.error('Both home and away teams should be there for score update.');
+          return false;
+        }
+        let home_score = $('#home_team_score').val()
+        let away_score = $('#away_team_score').val()
+        if (home_score == away_score && this.matchDetail.round == 'Elimination' && this.matchDetail.is_result_override == 0 && home_score != '' && away_score != '' && this.matchDetail.hometeam_score != null && this.matchDetail.awayteam_score != null) {
+          this.matchDetail.is_result_override = 1;
+        }
+        Vue.nextTick(function () {
+          vm.$validator.validateAll().then((response) => {
+            if(response) {
+              let  matchStatus = vm.matchDetail.is_result_override == 1 ? $('#match_status').val() : '';
+              let  matchWinner = vm.matchDetail.is_result_override == 1 ? $('#match_winner').val() : '';
+              let data = {'matchId':vm.matchDetail.id,'refereeId': vm.matchDetail.referee_id,'homeTeamScore':$('#home_team_score').val(),'awayTeamScore':$('#away_team_score').val(),
+                'matchStatus': matchStatus,'matchWinner': matchWinner,'comments':$('#comments').val(),
+                'is_result_override':$('#is_result_override').val(), 'home_yellow_cards': $('#home_yellow_cards').val(), 'away_yellow_cards': $('#away_yellow_cards').val(), 'home_red_cards': $('#home_red_cards').val(), 'away_red_cards': $('#away_red_cards').val(),'age_category_color': vm.matchDetail.age_category_color, 'group_color': vm.matchDetail.group_color}
+              Tournament.saveMatchResult(data).then(
+                (response) => {
+                  vm.matchFixtureDetail();
+                  $('#matchScheduleModal').modal('hide')
+                  toastr.success('This match has been updated.', 'Match Details', {timeOut: 5000});
+                  let matchData = {};
+
+                  matchData['home_score'] = $('#home_team_score').val()
+                  matchData['away_score'] = $('#away_team_score').val()
+                  matchData['competation_id'] = response.data.data.competationId
+                  matchData['is_result_override'] = response.data.data.isResultOverride
+                  matchData['match_status'] = $('#match_status').val()
+                  matchData['match_winner'] = $('#match_winner').val()
+
+                  if(vm.section == 'scheduleResult') {
+                    vm.$root.$emit('reloadMatchList', matchData)
+                    //
+                    vm.$root.$emit('setDrawTable',matchData['competation_id']);
+                    vm.$root.$emit('setStandingData',matchData['competation_id']);
+                  } else {
+                    vm.$root.$emit('displayTournamentCompetationList');
+                    vm.$root.$emit('setPitchReset');
+                    vm.$store.dispatch('setMatches');
+                    vm.$root.$emit('reloadAllEvents');
+                  }
+                }
+              )
+            }
+          },
+          (error) => {
+          });
+
+        });
+      },
+      assignReferee(refereeId){
+        let data = {'refereeId': refereeId,'matchId': this.matchId}
+        Tournament.assignReferee(data).then(
+          (response) => {
+            // this.matchFixtureDetail()
+            toastr.success('Referee has been assigned successfully', 'Referee assigned', {timeOut: 5000});
+            vm.$root.$emit('setPitchPlanTab','gamesTab')
+          }
+          )
+      },
+      matchUnschedule() {
+        let vm =this
+        Tournament.matchUnschedule(this.matchId).then(
+          (response) => {
+            // vm.$root.$emit('setPitchReset')
+             $('#matchScheduleModal').modal('hide')
+             setTimeout(function(){
+               $('div.fc-unthemed').fullCalendar( 'removeEvents', [vm.matchFixture._id] )
+             },200)
+            toastr.success('Match has been unscheduled successfully', 'Match Unscheduled', {timeOut: 5000});
+
+            this.$store.dispatch('setMatches');
+            this.$store.dispatch('SetScheduledMatches');
+            this.$root.$emit('reloadAllEvents')
+
+
+        })
+      },
+      matchPrint(ReportData) {
+        var matchPrintWindow = window.open('', '_blank');
+        Tournament.getSignedUrlForMatchPrint(ReportData).then(
+          (response) => {
+            matchPrintWindow.location = response.data;
+          },
+          (error) => {
+
+          }
+        )
+        // var win = window.open("/api/match/print?"+ReportData, '_blank');
+        // win.focus();
+        // return true;
+      },
+      generateMatchPrint() {
+         let ReportData = 'matchId='+this.matchId+'&result_override='+(this.matchDetail.is_result_override == 1 ? true : false)
+         if(this.matchDetail.is_result_override == 1) {
+          let matchWinner = ''
+          if(this.matchDetail.match_winner == this.matchDetail.home_team) {
+            matchWinner = this.matchDetail.home_team_name
+          } else {
+            matchWinner = this.matchDetail.away_team_name
+          }
+
+            ReportData = ReportData+'&status='+this.matchDetail.match_status+'&winner='+matchWinner
+          }
+
+          if(this.matchDetail.is_result_override == 1){
+              let vm = this
+              let val = 0
+              this.$validator.validateAll().then(
+                (response) => {
+                  val = 1
+              },
+                (error) => {
+                }
+              )
+
+               setTimeout(function(){
+
+              if(val == 1) {
+                vm.matchPrint(ReportData)
+              } },500)
+
+          } else {
+            var matchPrintWindow = window.open('', '_blank');
+            Tournament.getSignedUrlForMatchPrint(ReportData).then(
+              (response) => {
+                matchPrintWindow.location = response.data;
+              },
+              (error) => {
+
+              }
+            )
+
+            // var win = window.open("/api/match/print?"+ReportData, '_blank');
+            // win.focus();
+          }
+      },
+      getHoldingName(competitionActualName, placeholder) {
+        if(competitionActualName.indexOf('Group') !== -1){
+          return placeholder;
+        } else if(competitionActualName.indexOf('Pos') !== -1){
+          return 'Pos-' + placeholder;
+        }
+      },
+      getTeamName(teamId, teamName, teamPlaceHolder, competitionActualName){ 
+        if(teamId != 0){
+            return teamName;
+        } else if(teamId == 0 && teamName == '@^^@') {
+            return this.getHoldingName(competitionActualName, teamPlaceHolder)
+        }
+        return teamPlaceHolder;
+      },
+      checkOverride() {
+        this.matchDetail.match_status = '';
+        this.matchDetail.match_winner = '';
+        if(this.matchDetail.is_result_override == '0') {
+          this.matchDetail.hometeam_score = '';
+          this.matchDetail.awayteam_score = '';
+        }
+      },
+      getMatchData() {
+        this.matchId = this.matchFixture.id;
+        let tournamentData = {
+          'tournamentId':this.tournamentId,
+          'age_category':this.matchFixture.matchAgeGroupId
+        }
+         Tournament.getReferees(tournamentData).then(
+          (response) => {
+              this.referees = response.data.referees
+          })
+        this.matchFixtureDetail();
+      },
+      updateMatchData(matchData) {
+        this.updatedMatchData = matchData;
+      },
+      changeScore() {
+        if (this.matchDetail.is_result_override == 1 && (this.matchDetail.match_status == 'Walk-over' || this.matchDetail.match_status == 'Abandoned')) {
+          this.matchDetail.hometeam_score = 0;
+          this.matchDetail.awayteam_score = 0;
+          if (this.matchDetail.match_winner == this.matchDetail.home_team) {
+            this.matchDetail.hometeam_score = 3;
+          } else if(this.matchDetail.match_winner == this.matchDetail.away_team) {
+            this.matchDetail.awayteam_score = 3;
+          }
+        }
+      },
+      formatGroupName() {
+        if(this.matchDetail.competition.actual_name) {
+          var groupName = this.matchDetail.competition.actual_name;
+          var splittedGroupName = groupName.split("-");
+          return splittedGroupName[splittedGroupName.length - 1];
+        }      
       }
-    },
-    formatGroupName() {
-      if(this.matchDetail.competition.actual_name) {
-        var groupName = this.matchDetail.competition.actual_name;
-        var splittedGroupName = groupName.split("-");
-        return splittedGroupName[splittedGroupName.length - 1];
-      }      
     }
   }
-}
 </script>
