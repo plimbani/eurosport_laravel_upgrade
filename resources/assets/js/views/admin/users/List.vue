@@ -52,6 +52,8 @@
                                         <th>{{$lang.use_desktop_country}}</th>
                                         <th>{{$lang.use_desktop_language}}</th>
                                         <th>{{$lang.user_desktop_status}}</th>
+                                        <th>{{$lang.user_device}}</th>
+                                        <th>{{$lang.user_app_version}}</th>
                                         <th class="text-center">{{$lang.user_desktop}}</th>
                                         <th class="text-center">{{$lang.user_mobile}}</th>
                                         <th>{{$lang.user_desktop_action}}</th>
@@ -70,6 +72,8 @@
                                     <td v-else>
                                       <a href="#"  @click="resendModalOpen(user.email)"><u>Re-send</u></a>
                                     </td>
+                                    <td>{{ user.device }}</td>
+                                    <td>{{ user.app_version }}</td>
                                     <td class="text-center">
                                       <i class="fas fa-check text-success"
                                         v-if="user.is_desktop_user == true"></i>
