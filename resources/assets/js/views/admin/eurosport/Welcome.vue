@@ -37,13 +37,21 @@
             </h5>
           </div>
           <div class="card-block text-center">
-              <div class="form-group" v-if="(userDetails.role_name == 'Internal administrator' || userDetails.role_name == 'Tournament administrator' || userDetails.role_slug == 'Results.administrator') ">
+              <div class="form-group" v-if="(userDetails.role_name == 'Internal administrator' || userDetails.role_name == 'Tournament administrator')">
                 <ol class="col-sm-10 offset-sm-1">
                   <li class="text-left">{{$lang.welcome_add_new_tournament_edition_details}}</li>
                   <li class="text-left">{{$lang.welcome_add_new_tournament_review}}</li>
                   <li class="text-left">{{$lang.welcome_add_new_tournament_publish}}!</li>
                 </ol>
               </div>
+
+              <div class="form-group" v-if="userDetails.role_slug == 'Results.administrator'">
+                <ol class="col-sm-10 offset-sm-1">
+                  <li class="text-left">{{$lang.welcome_view_tournaments_assigned_to_you}}</li>
+                  <li class="text-left">{{$lang.welcome_add_details_about_matches}}</li>
+                </ol>
+              </div>
+
               <button class="btn btn-primary col-sm-10 btn-theme" @click="addNewTournament()" v-if="(userDetails.role_name == 'Internal administrator') ">{{$lang.welcome_add_button_new_edition}} </button>
               <button class="btn btn-primary col-sm-10 btn-theme" @click="userList()" v-if="(userDetails.role_name == 'Master administrator' || userDetails.role_name == 'Super administrator')">{{$lang.welcome_add_new_user}}</button>
               <br>
@@ -87,7 +95,7 @@ computed: {
       return this.$store.state.Users.userDetails
     },
     isResultAdmin() {
-        return this.$store.state.Users.userDetails.role_slug == 'Results.administrator';
+      return this.$store.state.Users.userDetails.role_slug == 'Results.administrator';
     },
   },
   mounted() {
