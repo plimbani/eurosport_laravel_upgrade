@@ -1061,11 +1061,13 @@ class TournamentRepository
         // saving tournament competitions
         if($existingTournamentCompetitions) {
             foreach ($existingTournamentCompetitions as $competition) {
-                $copiedCompetition = $competition->replicate();
-                $copiedCompetition->tournament_competation_template_id = $ageCategoriesMappingArray[$competition->tournament_competation_template_id];
-                $copiedCompetition->tournament_id = $newCopiedTournament->id;
-                $copiedCompetition->save();
-                $competitionsMappingArray[$competition->id] = $copiedCompetition->id;
+                if(isset($ageCategoriesMappingArray[$competition->tournament_competation_template_id])) {
+                    $copiedCompetition = $competition->replicate();
+                    $copiedCompetition->tournament_competation_template_id = $ageCategoriesMappingArray[$competition->tournament_competation_template_id];
+                    $copiedCompetition->tournament_id = $newCopiedTournament->id;
+                    $copiedCompetition->save();
+                    $competitionsMappingArray[$competition->id] = $copiedCompetition->id;
+                }
             }
         }
 
@@ -1163,10 +1165,12 @@ class TournamentRepository
             foreach ($ageCategoriesMappingArray as $key => $ageCategory) {
                 $positions = Position::where('age_category_id', $key)->get();
                 foreach ($positions as $poskey => $position) {
-                    $copiedPositions = $position->replicate();
-                    $copiedPositions->age_category_id = $ageCategoriesMappingArray[$position->age_category_id];
-                    $copiedPositions->team_id = isset($teamsMappingArray[$position->team_id]) ? $teamsMappingArray[$position->team_id] : null;
-                    $copiedPositions->save();
+                    if(isset($ageCategoriesMappingArray[$position->age_category_id])) {
+                        $copiedPositions = $position->replicate();
+                        $copiedPositions->age_category_id = $ageCategoriesMappingArray[$position->age_category_id];
+                        $copiedPositions->team_id = isset($teamsMappingArray[$position->team_id]) ? $teamsMappingArray[$position->team_id] : null;
+                        $copiedPositions->save();
+                    }
                 }
             }
         }
@@ -1174,17 +1178,19 @@ class TournamentRepository
         // saving tournament fixtures
         if($existingTournamentFixtures) {
             foreach ($existingTournamentFixtures as $fixture) {
-                $copiedFixture = $fixture->replicate();
-                $copiedFixture->tournament_id = $newCopiedTournament->id;
-                $copiedFixture->competition_id = $competitionsMappingArray[$fixture->competition_id];
-                $copiedFixture->venue_id = isset($venuesMappingArray[$fixture->venue_id]) ? $venuesMappingArray[$fixture->venue_id] : null;
-                $copiedFixture->age_group_id = isset($ageCategoriesMappingArray[$fixture->age_group_id]) ? $ageCategoriesMappingArray[$fixture->age_group_id] : null;
-                $copiedFixture->referee_id = isset($refereesMappingArray[$fixture->referee_id]) ? $refereesMappingArray[$fixture->referee_id] : null;
-                $copiedFixture->pitch_id = isset($pitchesMappingArray[$fixture->pitch_id]) ? $pitchesMappingArray[$fixture->pitch_id] : null;
-                $copiedFixture->match_winner = isset($teamsMappingArray[$fixture->match_winner]) ? $teamsMappingArray[$fixture->match_winner] : null;
-                $copiedFixture->home_team = isset($teamsMappingArray[$fixture->home_team]) ? $teamsMappingArray[$fixture->home_team] : 0;
-                $copiedFixture->away_team = isset($teamsMappingArray[$fixture->away_team]) ? $teamsMappingArray[$fixture->away_team] : 0;
-                $copiedFixture->save();
+                if(isset($competitionsMappingArray[$fixture->competition_id])) {
+                    $copiedFixture = $fixture->replicate();
+                    $copiedFixture->tournament_id = $newCopiedTournament->id;
+                    $copiedFixture->competition_id = $competitionsMappingArray[$fixture->competition_id];
+                    $copiedFixture->venue_id = isset($venuesMappingArray[$fixture->venue_id]) ? $venuesMappingArray[$fixture->venue_id] : null;
+                    $copiedFixture->age_group_id = isset($ageCategoriesMappingArray[$fixture->age_group_id]) ? $ageCategoriesMappingArray[$fixture->age_group_id] : null;
+                    $copiedFixture->referee_id = isset($refereesMappingArray[$fixture->referee_id]) ? $refereesMappingArray[$fixture->referee_id] : null;
+                    $copiedFixture->pitch_id = isset($pitchesMappingArray[$fixture->pitch_id]) ? $pitchesMappingArray[$fixture->pitch_id] : null;
+                    $copiedFixture->match_winner = isset($teamsMappingArray[$fixture->match_winner]) ? $teamsMappingArray[$fixture->match_winner] : null;
+                    $copiedFixture->home_team = isset($teamsMappingArray[$fixture->home_team]) ? $teamsMappingArray[$fixture->home_team] : 0;
+                    $copiedFixture->away_team = isset($teamsMappingArray[$fixture->away_team]) ? $teamsMappingArray[$fixture->away_team] : 0;
+                    $copiedFixture->save();
+                }
             }
         }
 
