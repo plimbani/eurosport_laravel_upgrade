@@ -244,6 +244,7 @@ export default {
   watch: {
     matchData1: {
       handler: function (val, oldVal) {
+        console.log("on match data 1");
         if ( this.resultChange )
         {
           this.resetStoreUnsaveMatch(1);

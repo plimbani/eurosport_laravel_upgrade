@@ -64,6 +64,9 @@ export default {
           let Name = competition.group_name+'-'+competition.competation_name;
           let CompetationType = competition.round;
 
+          console.log(competition);
+          console.log("Id"+Id); 
+
           vm.$root.$emit('changeDrawListComp', Id, Name,CompetationType);
           vm.$root.$emit('getcurrentCompetitionStanding', Id);
           vm.$root.$emit('setDrawTable',Id);
@@ -87,7 +90,39 @@ export default {
       }
       else if ( sectionVal == 1)
       {
-        
+        if( getCurrentScheduleView == "drawDetails" && currentView == "drawsListing" && typeof(window.competitionChange) !== "undefined") {
+          console.log('inside sectionVal 1');
+          console.log(window.competitionChange);
+          let competition = window.competitionChange;
+
+          let Id = competition.id;
+          let Name = competition.group_name+'-'+competition.display_name;
+          let CompetationType = competition.competation_type;
+
+
+          vm.$root.$emit('changeComp',Id, Name,CompetationType);
+          vm.$root.$emit('getcurrentCompetitionStanding',Id);
+          vm.$root.$emit('setDrawTable',Id);
+          vm.$root.$emit('setStandingData',Id);
+
+          vm.currentCompetationId = Id;
+
+          Vue.nextTick(() =>{
+            window.competitionChange = 'undefined';
+          });
+        }
+
+        if( getCurrentScheduleView == "matchList" && currentView == "matchListing") {
+          var filterKey = window.filterKey;
+          $("input[name='filter']:checked").trigger('click');
+
+          var filterValue = window.filterValue;
+          $("input[name='filter']:checked").trigger('click');
+
+
+          this.$root.$emit('getMatchByTournamentFilter',filterKey,filterValue);
+
+        }
       }
     });
   },

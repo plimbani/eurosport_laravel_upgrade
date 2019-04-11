@@ -12,7 +12,7 @@
         v-on:change="onChangeDrawDetails"
         v-model="DrawName">
         <!-- <option value="">Select</option> -->
-        <option v-for="option in drawList" v-bind:value="option" :rel="option.id"
+        <option v-for="option in drawList" v-bind:value="option"
         >
 
         {{option.name}}
@@ -297,6 +297,7 @@ export default {
            )
         },
         onChangeDrawDetails() {
+          console.log("on change");
           this.$store.dispatch('setCurrentScheduleView','drawDetails')
 
           window.competitionChange = this.DrawName;
