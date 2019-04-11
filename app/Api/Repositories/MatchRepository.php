@@ -425,6 +425,13 @@ class MatchRepository
             }
           }
         }
+
+
+        if(isset($tournamentData['matchOrderReport']) && $tournamentData['matchOrderReport'] == 1)
+        {
+          $reportQuery = $reportQuery->orderBy(DB::raw('match_datetime IS NULL, match_datetime'), 'asc');
+        }
+
       $resultData = $reportQuery->get();
       $updatedArray =[];
 
@@ -1144,7 +1151,7 @@ class MatchRepository
         foreach($teamData as $Tdata) {
           //$numTeamsArray[]=$Tdata->TeamId;
           $teamDetails[$Tdata->TeamId]['TeamName']=$Tdata->TeamName;
-          $teamDetails[$Tdata->TeamId]['TeamFlag']=$Tdata->TeamLogo;
+          $teamDetails[$Tdata->TeamId]['TeamFlag']=$this->getAWSUrl.$Tdata->TeamLogo;
           $teamDetails[$Tdata->TeamId]['TeamCountryFlag']=$Tdata->TeamCountryFlag;
           $teamDetails[$Tdata->TeamId]['ShirtColor']=$Tdata->ShirtColor;
           $teamDetails[$Tdata->TeamId]['ShortsColor']=$Tdata->ShortsColor;
