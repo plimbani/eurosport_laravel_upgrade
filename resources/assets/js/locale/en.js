@@ -251,6 +251,7 @@ module.exports= {
   program_edit_item: "Edit Item",
 
 
+  competation_add_age_categories: "Select",
   competation_age_categories: "Age categories",
   competation_add_age_category: "Add age category",
   competation_button_back: "Back",
