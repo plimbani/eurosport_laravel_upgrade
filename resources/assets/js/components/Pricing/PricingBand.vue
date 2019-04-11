@@ -2,8 +2,10 @@
 	<div>
 		<div class="row align-items-center" v-for="(band, bandIndex) in bands">
             <div class="col-sm-4 col-md-2 col-lg-2 col-xl-2">
-                <div class="form-group">
-                    <input type="text" class="form-control" id="min-team" placeholder="e.g. 1" v-model="band.min_teams">
+                <div class="form-group" :class="{'has-error': errors.has('min_teams') }">
+                    <input type="text" class="form-control" placeholder="e.g. 1" :class="{'is-danger': errors.has('min_teams') }" name="min_teams" v-validate="'required'" v-model="band.min_teams">
+                    <i v-show="errors.has('min_teams')" class="fas fa-warning"></i>
+                    <span class="help is-danger" v-show="errors.has('min_teams')">{{ errors.first('min_teams') }}</span>
                 </div>
             </div>
             <input type="hidden" name="id" :value="band.id">
@@ -44,6 +46,7 @@
             }
         },
         props: ['tournamentType', 'bands'],
+        inject: ['$validator'],
         components : {
         },
         methods: {

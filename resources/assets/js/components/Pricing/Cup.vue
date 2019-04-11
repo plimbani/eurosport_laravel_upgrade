@@ -40,7 +40,7 @@
             return {
             }
         },
-        props: ['pricingBands'],
+        props: ['pricingBands'],        
         components : {
         	PricingBand
         },
@@ -51,7 +51,12 @@
         		});
         	},
             savePricingData() {
-                this.$emit('save-cup-pricing-detail', this.pricingBands);
+                this.$validator.validateAll().then((response) => {
+                    if(response) {
+                        this.$emit('save-cup-pricing-detail', this.pricingBands);
+                    }
+                }).catch((errors) => {
+                });
             },
         }
 	}

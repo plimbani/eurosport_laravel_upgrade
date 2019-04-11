@@ -400,7 +400,6 @@
             onChange() {
                 Commercialisation.getTournamentPricingDetail().then(
                 (response) => {
-                  alert();
                 })
 
             }
