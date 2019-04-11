@@ -274,7 +274,7 @@
           </div>
           <div class="form-group row">
             <div class="col-sm-3">
-              <button class="btn btn-danger w-75" @click.prevent="removeLocation(index)" v-if="index > 0">&#8212; {{$lang.tournament_remove_location}}</button>
+              <button class="btn btn-danger w-75" @click.prevent="removeLocation(index,location)" v-if="index > 0">&#8212; {{$lang.tournament_remove_location}}</button>
             </div>
           </div>
           </div>
@@ -297,18 +297,21 @@
       </div>
     </div>
   </div>
+  <RemoveVenueModal :removeVenue="removeVenue"></RemoveVenueModal>
 </div>
 </template>
 <script >
 var moment = require('moment');
 import location from '../../../components/Location.vue'
+import RemoveVenueModal from '../../../components/RemoveVenueModal.vue'
 import Tournament from '../../../api/tournament.js'
 import Ls from './../../../services/ls'
+import _ from 'lodash'
 export default {
 data() {
 return {
 tournament: {name:'',website:'',facebook:'',twitter:'',tournament_contact_first_name:'',tournament_contact_last_name:'',tournament_contact_home_phone:'',
-image_logo:'',test_value:'',del_location:'0',maximum_teams:''
+image_logo:'',test_value:'',del_location:[],maximum_teams:''
 },
 userRole:this.$store.state.Users.userDetails.role_name,
 locations: [
@@ -319,7 +322,7 @@ tournament_venue_city: "",
 tournament_venue_postcode: "",
 tournament_venue_state: "",
 tournament_venue_country: "",
-tournament_location_id:0,
+tournament_location_id:"",
 tournament_venue_organiser: "",
 }
 ],
@@ -327,11 +330,12 @@ image:'',
 customCount:0,
 tournamentId: 0,
 imagePath :'',
-tournamentDateDiff: 0
+tournamentDateDiff: 0,
+'removeVenue': 'Before this venue can be deleted all pitches associated with it must be re-allocated to an alternative venue.',
 }
 },
 components: {
-location: location
+location: location, RemoveVenueModal
 },
 mounted(){
 Plugin.initPlugins(['Select2','TimePickers','MultiSelect','DatePicker','setCurrentDate'])
@@ -497,10 +501,26 @@ this.image = '';
 this.imagePath='';
 e.preventDefault();
 },
-removeLocation (index){
-// here first we get the location id of it
-this.tournament.del_location = this.locations[index].tournament_location_id
-this.locations.splice(index,1)
+removeLocation (index, location){
+    let pitches = this.$store.state.Pitch.pitches;
+    if(pitches) {
+        let removeVenue = _.find(pitches, ['venue_id', location.tournament_location_id]); 
+        if(removeVenue) {
+          $("#remove_venue").modal('show');
+        }  else {
+              // here first we get the location id of it
+              if(this.locations[index].tournament_location_id != '') {
+                this.tournament.del_location.push(this.locations[index].tournament_location_id)
+              }
+              this.locations.splice(index,1)  
+        }
+    } else {
+              // here first we get the location id of it
+              if(this.locations[index].tournament_location_id != '') {
+                this.tournament.del_location.push(this.locations[index].tournament_location_id)
+              }
+              this.locations.splice(index,1)  
+    }
 },
 next() {
 let vm = this;
@@ -510,40 +530,42 @@ let vm = this;
 
 this.$validator.validateAll().then(
 (response) => {
-  // if its return true then proceed
- this.tournament.start_date = document.getElementById('tournament_start_date').value
-  this.tournament.end_date = document.getElementById('tournament_end_date').value
+  if(response) {
+    // if its return true then proceed
+    this.tournament.start_date = document.getElementById('tournament_start_date').value
+    this.tournament.end_date = document.getElementById('tournament_end_date').value
 
-  this.tournament.image_logo = this.image
-  this.tournament.locations = this.locations
-  // here we check if tournament id is Set then
-  this.tournament.tournamentId = this.tournamentId
-  // we can take length of how much we have to move for loop
-  this.tournament.locationCount = this.customCount;
-  this.tournament.user_id = JSON.parse(Ls.get('userData')).id;
-  let msg=''
-  if(this.tournament.tournamentId == 0){
-    msg = 'Tournament details added successfully.'
-  } else {
-    msg = 'Tournament details edited successfully.'
-  }
-
-  $("body .js-loader").removeClass('d-none');
-
-  Tournament.saveTournament(vm.tournament).then(
-    (response) => {
-      if(response.data.status_code == 200) {
-        toastr['success'](msg, 'Success');
-        vm.$store.dispatch('SaveTournamentDetails', response.data.data);
-        $("body .js-loader").addClass('d-none');
-        vm.redirectCompetation();
-      } else {
-        alert('Error Occured');
-      }
-    },
-    (error) => {
+    this.tournament.image_logo = this.image
+    this.tournament.locations = this.locations
+    // here we check if tournament id is Set then
+    this.tournament.tournamentId = this.tournamentId
+    // we can take length of how much we have to move for loop
+    this.tournament.locationCount = this.customCount;
+    this.tournament.user_id = JSON.parse(Ls.get('userData')).id;
+    let msg=''
+    if(this.tournament.tournamentId == 0){
+      msg = 'Tournament details added successfully.'
+    } else {
+      msg = 'Tournament details edited successfully.'
     }
-  );
+
+    $("body .js-loader").removeClass('d-none');
+
+    Tournament.saveTournament(vm.tournament).then(
+      (response) => {
+        if(response.data.status_code == 200) {
+          toastr['success'](msg, 'Success');
+          vm.$store.dispatch('SaveTournamentDetails', response.data.data);
+          $("body .js-loader").addClass('d-none');
+          vm.redirectCompetation();
+        } else {
+          alert('Error Occured');
+        }
+      },
+      (error) => {
+      }
+    );
+  }
 },
 (error) => {
 }
