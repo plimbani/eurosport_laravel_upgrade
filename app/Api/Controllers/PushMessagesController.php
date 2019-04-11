@@ -184,7 +184,7 @@ class PushMessagesController extends BaseController
         $content = $data['contents'];
         $type = $data['type'];
 
-        $users = \DB::table('users_favourite')->where('tournament_id','=',$tournamentId)->pluck('user_id')->toArray();
+        $users = \DB::table('users_favourite')->where('tournament_id','=',$tournamentId)->where('deleted_at', '=', NULL)->pluck('user_id')->toArray();
 
         if(is_array($users) && count($users) == 0) {
           return $this->response->array([

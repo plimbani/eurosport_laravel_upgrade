@@ -22,27 +22,34 @@
                 </div>
               </div>
 
-              <div class="form-group row align-items-center">
+              <div class="form-group row align-items-center" :class="{'has-error': errors.has('category_age') }">
                 <div class="col-sm-4 form-control-label">{{$lang.competation_label_age_category_name}}</div>
                 <div class="col-sm-8">
                   <div class="row">
                     <div class="col-sm-12">
-                     <multiselect  name="category_age" id="category_age"
+                    <select class="form-control" name="category_age" id="category_age"
+                      v-model="competation_format.category_age" @input="onChange" @close="onTouch" @select="onSelect" :disabled="isAgeCategoryDisabled" v-validate="'required'" style="width:100%;" :class="{'is-danger': errors.has('category_age') }">
+                      <option value="">{{$lang.competation_add_age_categories}}</option>
+                      <option v-for="categoryAge in categoryAgeArr"
+                        :value="categoryAge">{{categoryAge}}
+                      </option>
+                    </select>
+                     <!-- <multiselect  name="category_age" id="category_age"
                       v-model="competation_format.category_age" :options="categoryAgeArr" :multiple="false"
                        :hide-selected="false" :ShowLabels="false" :value="value" track-by="id"
                        :clear-on-select="false" :Searchable="true" @input="onChange" @close="onTouch"
-                       @select="onSelect" :disabled="isAgeCategoryDisabled">
+                       @select="onSelect" :disabled="isAgeCategoryDisabled"> -->
                          <!-- <option v-if="n > 4" v-for="n in (21)"
                           :value="'Under '+ n + 's'">
                          Under {{n}}s
                         </option>
                         <option>Men open age</option>
                         <option>Women open age</option> -->
-                        <option v-for="categoryAge in categoryAgeArr"
+                       <!--  <option v-for="categoryAge in categoryAgeArr"
                         :value="categoryAge">{{categoryAge}}
-                        </option>
-                      </multiselect>
-                     <span class="help is-danger" v-show="isInvalid">{{$lang.competation_modal_age_category_required}}</span>
+                        </option> -->
+                      <!-- </multiselect> -->
+                     <span class="help is-danger" v-show="errors.has('category_age')">{{$lang.competation_modal_age_category_required}}</span>
                     </div>
                   </div>
                 </div>
@@ -527,9 +534,6 @@ export default {
   },
   mounted() {
     this.allCategoryRules = this.categoryRules;
-
-    // here we call A function to delete all data
-
     let this1 = this
     $("#AgeCategoryModal").on('hide.bs.modal', function () {
       this1.competation_format = this1.initialState()
