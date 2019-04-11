@@ -7,8 +7,8 @@
             <h5 class="text-center"><strong>{{$lang.welcome_manage_tournament}}</strong></h5>
           </div>
           <div class="card-block text-center">
-            <div class="form-group" v-if="(userDetails.role_name != 'Tournament administrator')">
-              <button v-if="(userDetails.role_name != 'Tournament administrator' && userDetails.role_slug != 'Results.administrator')" type="button" class="btn btn-success col-sm-10" data-target="#tournament_details_modal" data-toggle="modal">{{$lang.welcome_add_button_tournament_details}}</button>
+            <div class="form-group" v-if="(userDetails.role_name != 'Tournament administrator' && userDetails.role_slug != 'Results.administrator')">
+              <button type="button" class="btn btn-success col-sm-10" data-target="#tournament_details_modal" data-toggle="modal">{{$lang.welcome_add_button_tournament_details}}</button>
               <AddTournamentDetailsModal></AddTournamentDetailsModal>
             </div>
             <div class= "form-group" v-if="(userDetails.role_name != 'Tournament administrator' &&  userDetails.role_name != 'Internal administrator' && userDetails.role_slug != 'Results.administrator')">
