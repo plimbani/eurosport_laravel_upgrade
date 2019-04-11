@@ -199,9 +199,7 @@ export default {
       if(this.$store.state.Tournament.tournamentId != 0 && this.$store.state.Tournament.tournamentId != '' && this.$store.state.Tournament.tournamentId != null) {
         this.$store.dispatch('SetTeams',this.$store.state.Tournament.tournamentId);  
       }
-      
       this.$store.dispatch('SetPitches',this.$store.state.Tournament.tournamentId);
-
       if(this.$store.state.Tournament.tournamentId != 0 && this.$store.state.Tournament.tournamentId != '' && this.$store.state.Tournament.tournamentId != null) {
         this.$store.dispatch('setMatches');
       }

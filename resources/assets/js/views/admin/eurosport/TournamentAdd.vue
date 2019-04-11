@@ -532,7 +532,7 @@ this.$validator.validateAll().then(
 (response) => {
   if(response) {
     // if its return true then proceed
-   this.tournament.start_date = document.getElementById('tournament_start_date').value
+    this.tournament.start_date = document.getElementById('tournament_start_date').value
     this.tournament.end_date = document.getElementById('tournament_end_date').value
 
     this.tournament.image_logo = this.image
