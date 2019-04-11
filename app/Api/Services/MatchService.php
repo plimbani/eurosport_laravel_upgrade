@@ -1153,7 +1153,6 @@ class MatchService implements MatchContract
        // echo 'Before Sort';
 
       //  echo 'After Sort';
-            dd($calculatedArray);
         $for_override_condition = array();
         foreach ($calculatedArray as $ckey => $cvalue) {
             $manual_order = $mid = $cid = $did = $eid = $overrride = $group_winner = $matchesWon = $goalRatio = $headToHead = $teamName = array();
