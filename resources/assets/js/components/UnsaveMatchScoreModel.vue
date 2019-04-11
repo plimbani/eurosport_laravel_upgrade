@@ -85,6 +85,10 @@ export default {
         var redirectName = window.redirectPath;
         vm.$router.push({'name':redirectName});
       }
+      else if ( sectionVal == 1)
+      {
+        
+      }
     });
   },
   methods: {

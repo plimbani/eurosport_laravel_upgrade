@@ -244,17 +244,15 @@ export default {
   watch: {
     matchData1: {
       handler: function (val, oldVal) {
+        if ( this.resultChange )
+        {
+          this.resetStoreUnsaveMatch(1);
+        }
+
+        this.resultChange = false;
+        this.matchData = _.sortBy(_.cloneDeep(val), ['match_datetime']);
 
         this.updateMatchScoreToRel();
-        // var resultChange = this.checkScoreChangeOrnot();
-        // this.resultChange = resultChange;
-
-        // if ( this.resultChange )
-        // {
-        //   this.resetStoreUnsaveMatch(1);
-        // }
-
-        this.matchData = _.sortBy(_.cloneDeep(val), ['match_datetime']);
         let vm = this;
         Vue.nextTick()
         .then(function () {
@@ -262,7 +260,6 @@ export default {
             vm.getResultOverridePopover(value);
           });
 
-          //vm.updateMatchScoreToRel();
           if ( vm.matchIdleTimeInterval !== 0)
           {
             clearInterval(vm.matchInterval);
@@ -409,15 +406,6 @@ export default {
     },
     updateScore(match,index) {
 
-      var resultChange = this.checkScoreChangeOrnot();
-      this.resultChange = resultChange;
-
-      this.$store.dispatch('UnsaveMatchStatus',_.cloneDeep(this.resultChange));
-      this.$store.dispatch('UnsaveMatchData', _.cloneDeep(this.matchData));
-
-      clearInterval(this.matchInterval);
-      this.matchInterval = setInterval(this.updateMatchScoreIdleStat,this.matchIdleTimeInterval);
-
       let matchId = match.fid;
       if(match.Home_id == 0 || match.Away_id == 0) {
         toastr.error('Both home and away teams should be there for score update.');
@@ -425,6 +413,18 @@ export default {
         $('input[name="away_score['+matchId+']"]').val('');
         return false;
       }
+
+      var resultChange = this.checkScoreChangeOrnot();
+      this.resultChange = resultChange;
+
+      console.log("heere update score");
+
+      this.$store.dispatch('UnsaveMatchStatus',_.cloneDeep(this.resultChange));
+      this.$store.dispatch('UnsaveMatchData', _.cloneDeep(this.matchData));
+
+      clearInterval(this.matchInterval);
+      this.matchInterval = setInterval(this.updateMatchScoreIdleStat,this.matchIdleTimeInterval);
+
       if (this.$store.state.scoreAutoUpdate == true) {
         $("body .js-loader").removeClass('d-none');
         this.index =  index
@@ -616,8 +616,8 @@ export default {
     resetStoreUnsaveMatch(sectionVal)
     {
       window.sectionVal = sectionVal;
-      this.$store.dispatch('UnsaveMatchData',this.matchData);
-      this.$store.dispatch('UnsaveMatchStatus',this.resultChange);
+      //this.$store.dispatch('UnsaveMatchData',this.matchData);
+      //this.$store.dispatch('UnsaveMatchStatus',this.resultChange);
       $('#unSaveMatchModal').modal('show');
     }
   },

@@ -298,6 +298,8 @@ export default {
         },
         onChangeDrawDetails() {
           this.$store.dispatch('setCurrentScheduleView','drawDetails')
+
+          window.competitionChange = this.DrawName;
           let Id = this.DrawName.id
           let Name = this.DrawName.name
           let CompetationType = this.DrawName.actual_competition_type
