@@ -29,6 +29,7 @@
                                     <option value="mobile.user">Mobile user</option>
                                     <option value="Super.administrator">Super administrator</option>
                                     <option value="tournament.administrator">Tournament administrator</option>
+                                    <option value="Results.administrator">Results administrator</option>
                                 </select>
                               </div>
                               <div class="col-md-2">
@@ -99,7 +100,7 @@
                                         <i class="fas fa-trash"></i>
                                         </a>
                                         &nbsp;
-                                        <a v-if="user.role_slug == 'tournament.administrator'" class="text-primary icon-size-1-2" href="javascript:void(0)"
+                                        <a v-if="(user.role_slug == 'tournament.administrator' || user.role_slug == 'Results.administrator')" class="text-primary icon-size-1-2" href="javascript:void(0)"
                                         @click="editTournamentPermission(user)">
                                         <i class="fas fa-eye fa-1x"></i>
                                         </a>

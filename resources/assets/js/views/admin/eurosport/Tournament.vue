@@ -8,22 +8,22 @@
              <div class="row justify-content-between">
               <div class="col-sm-12">
                 <ul class="nav nav-tabs" role="tablist">
-                  <li class="nav-item">
+                  <li class="nav-item" v-if="!isResultAdmin">
                     <a class="nav-link active" data-toggle="tab" href="javascript:void(0)" role="tab" @click="currentView='summaryTab'">
                       <div class="wrapper-tab">{{$lang.summary_label_summary}}</div>
                     </a>
                   </li>
-                  <li class="nav-item">
+                  <li class="nav-item" v-if="!isResultAdmin">
                     <a class="nav-link" data-toggle="tab" href="javascript:void(0)" role="tab" @click="currentView='summaryReport'">
                       <div class="wrapper-tab">{{$lang.summary_label_reports}}</div>
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" href="javascript:void(0)" role="tab" @click="currentView='scheduleResultsAdmin'">
+                    <a class="nav-link" :class="isResultAdmin ? 'active' : ''" data-toggle="tab" href="javascript:void(0)" role="tab" @click="currentView='scheduleResultsAdmin'">
                       <div class="wrapper-tab">{{$lang.summary_label_schedule}}</div>
                     </a>
                   </li>
-                  <li class="nav-item">
+                  <li class="nav-item" v-if="!isResultAdmin">
                     <a class="nav-link" data-toggle="tab" href="javascript:void(0)" role="tab" @click="currentView='messages'">
                       <div class="wrapper-tab">{{$lang.summary_label_message}}</div>
                     </a>
@@ -66,20 +66,25 @@ export default {
         SummaryTab, SummaryReport, ScheduleResultsAdmin, Messages, AddMessageModel
     },
     mounted() {
+      if(this.isResultAdmin) {
+        this.currentView = 'scheduleResultsAdmin';
+      }
     	let tournamentId = this.$store.state.Tournament.tournamentId
       if(tournamentId == null || tournamentId == '' || tournamentId == undefined) {
       	toastr['error']('Please Select Tournament', 'Error');
         this.$router.push({name: 'welcome'});
       } else {
-          // First Set Menu and ActiveTab
         let currentNavigationData = {activeTab:'tournaments_summary_details', currentPage: 'Summary'}
-          this.$store.dispatch('setActiveTab', currentNavigationData)
+        this.$store.dispatch('setActiveTab', currentNavigationData)
       }
-      // Here we set currenct Schedule view null
       this.$store.dispatch('setCurrentScheduleView','')
     },
-
-     methods: {
+    computed: {
+      isResultAdmin() {
+        return this.$store.state.Users.userDetails.role_slug == 'Results.administrator';
+      }
+    },
+    methods: {
       addMessage() {
         let vm =this
         this.messageStatus = true
@@ -90,7 +95,7 @@ export default {
               vm.messageStatus = false
           });
         },500)
-    }
+      }
     }
 }
 </script>
