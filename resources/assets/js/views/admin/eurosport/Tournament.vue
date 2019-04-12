@@ -75,14 +75,6 @@ export default {
         window.sectionVal = -1;
         window.redirectPath = redirectName;
         $('#unSaveMatchModal').modal('show');
-
-        let vm = this;
-        $("#unSaveMatchModal").on('hidden.bs.modal', function () {
-
-          vm.$store.dispatch('UnsaveMatchData',[]);
-          vm.$store.dispatch('UnsaveMatchStatus',false);
-
-        });
       }
       else{
         next();
