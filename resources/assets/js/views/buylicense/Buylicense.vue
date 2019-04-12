@@ -15,7 +15,7 @@
                                 <label class="radio-inline control-label d-inline-flex align-items-center mr-3">
                                     <div class="checkbox checked">
                                         <div class="c-input">
-                                          <input type="radio" id="cup" name="tournament_type" value="cup" class="euro-radio mr-2"  v-model="tournamentData.tournament_type" @click="tournamentOrganising()"> 
+                                          <input type="radio" id="cup" name="tournament_type" value="cup" class="euro-radio mr-2"  v-model="tournamentData.tournament_type" @click="tournamentOrganising()" @change="getTournamentPricing()"> 
                                           <label for="cup">Cup</label>
                                         </div>
                                     </div>
@@ -37,7 +37,7 @@
                                     <label class="radio-inline control-label d-inline-flex align-items-center mr-3">
                                         <div class="checkbox checked">
                                             <div class="c-input">
-                                              <input type="radio" id="no" name="custom_tournament_format" value="0" class="euro-radio mr-2"  v-model="tournamentData.custom_tournament_format" @input="onChange">
+                                              <input type="radio" id="no" name="custom_tournament_format" value="0" class="euro-radio mr-2"  v-model="tournamentData.custom_tournament_format">
                                               <label for="no">No <span>£ INCLUDED</span></label>
                                             </div>
                                         </div>
