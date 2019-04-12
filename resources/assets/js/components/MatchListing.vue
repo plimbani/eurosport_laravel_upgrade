@@ -69,11 +69,6 @@ export default {
 		    'matchScoreFilter': 'all',
 		}
 	},
-	computed: {
-		modalOpen() {
-			return this.$store.state.Tournament.modalOpen;
-		}
-	},
 	filters: {
 	    formatDate: function(date) {
 	      // return moment(date).format("ddd DD/MM/YYYY h:mm");

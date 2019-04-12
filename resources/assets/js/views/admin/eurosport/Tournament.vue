@@ -36,7 +36,7 @@
                 </ul>
                 </div>
               </div>
-							<component :is="currentView" v-if="!modalOpen"> </component>
+							<component :is="currentView"> </component>
               <UnsaveMatchScoreModel></UnsaveMatchScoreModel>
 						</div>
 					</div>
@@ -63,11 +63,6 @@ export default {
         messageStatus: false
        }
     },
-    computed: {
-      modalOpen() {
-        return this.$store.state.Tournament.modalOpen;
-      }
-    },
     components: {
         SummaryTab, SummaryReport, ScheduleResultsAdmin, Messages, AddMessageModel, UnsaveMatchScoreModel
     },
@@ -87,7 +82,6 @@ export default {
           vm.$store.dispatch('UnsaveMatchData',[]);
           vm.$store.dispatch('UnsaveMatchStatus',false);
 
-          //vm.$router.push({'name':redirectName});
         });
       }
       else{

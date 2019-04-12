@@ -73,7 +73,7 @@
               </select>
               <select  class="form-control ls-select2" v-model="dropDown" @change="setFilterValue()" v-else>
                 <option value="" v-if="filterKey != 'age_category'">Select</option>
-                <option  :rel="option.id" v-for="option in options"   v-bind:value="option" >{{option.name}}</option>
+                <option  :value="option.id" v-for="option in options"   v-bind:value="option" >{{option.name}}</option>{{option.name}}</option>
               </select>
             </div>
           </div>
@@ -148,7 +148,6 @@ export default {
     setFilterValue() {
       // return false;
       this.filterValue = this.dropDown
-      window.filterValue = this.dropDown;
       let tournamentFilter = {'filterKey': this.filterKey, 'filterValue':this.filterValue, 'filterDependentKey': '', 'filterDependentValue': ''}
       this.$store.dispatch('setTournamentFilter', tournamentFilter);
       if(this.activePath == 'teams_groups'){
@@ -178,8 +177,7 @@ export default {
       this.dropDown = ''
       let tournamentId = this.$store.state.Tournament.tournamentId
       // Here Call method to get Tournament Data for key
-      this.filterKey = tourament_key;
-      window.filterKey = tourament_key;
+      this.filterKey = tourament_key
       let tournamentData = {'tournamentId':tournamentId,
       'keyData':tourament_key,'type':this.section,'cat':'age'}
       Tournament.getDropDownData(tournamentData).then(

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <component :is="currentScheduleView" v-if="!modalOpen" :matchData="matchData" :otherData="otherData"></component>
+    <component :is="currentScheduleView" :matchData="matchData" :otherData="otherData"></component>
   </div>
 </template>
 
@@ -32,9 +32,6 @@ export default {
 	computed: {
 		currentScheduleView() {
 			return this.$store.state.currentScheduleView
-		},
-		modalOpen() {
-			return this.$store.state.Tournament.modalOpen;
 		}
 	},
 	mounted() {

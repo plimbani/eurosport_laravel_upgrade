@@ -234,7 +234,6 @@ export default {
     this.$root.$off('saveMatchScore');
   },
   beforeDestroy: function(event) {
-    console.log("beforeDestroy");
     clearInterval(this.matchInterval);
     if ( this.resultChange )
     {
@@ -244,7 +243,6 @@ export default {
   watch: {
     matchData1: {
       handler: function (val, oldVal) {
-        console.log("on match data 1");
         if ( this.resultChange )
         {
           this.resetStoreUnsaveMatch(1);
@@ -417,9 +415,6 @@ export default {
 
       var resultChange = this.checkScoreChangeOrnot();
       this.resultChange = resultChange;
-
-      console.log("heere update score");
-
       this.$store.dispatch('UnsaveMatchStatus',_.cloneDeep(this.resultChange));
       this.$store.dispatch('UnsaveMatchData', _.cloneDeep(this.matchData));
 
@@ -617,8 +612,6 @@ export default {
     resetStoreUnsaveMatch(sectionVal)
     {
       window.sectionVal = sectionVal;
-      //this.$store.dispatch('UnsaveMatchData',this.matchData);
-      //this.$store.dispatch('UnsaveMatchStatus',this.resultChange);
       $('#unSaveMatchModal').modal('show');
     }
   },

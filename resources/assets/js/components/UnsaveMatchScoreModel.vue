@@ -37,13 +37,7 @@ export default {
       var sectionVal = window.sectionVal;
       var getCurrentScheduleView = vm.$store.state.currentScheduleView;
       var currentView = vm.$store.state.setCurrentView;
-      var liIndex = 0;
-      $(".scheduleResultTab .nav-item").each(function(index) {
-        if($(this).find($('a')).hasClass('active')) {
-          liIndex = index;
-        } 
-      });
-
+     
       vm.$store.dispatch('UnsaveMatchData',[]);
       vm.$store.dispatch('UnsaveMatchStatus',false);
       if( sectionVal == 0)
@@ -64,9 +58,6 @@ export default {
           let Name = competition.group_name+'-'+competition.competation_name;
           let CompetationType = competition.round;
 
-          console.log(competition);
-          console.log("Id"+Id); 
-
           vm.$root.$emit('changeDrawListComp', Id, Name,CompetationType);
           vm.$root.$emit('getcurrentCompetitionStanding', Id);
           vm.$root.$emit('setDrawTable',Id);
@@ -78,6 +69,13 @@ export default {
         }
         else if (getCurrentScheduleView == "matchList" && currentView == "matchListing")
         {
+          var liIndex = 0;
+          $(".scheduleResultTab .nav-item").each(function(index) {
+            if($(this).find($('a')).hasClass('active')) {
+              liIndex = index;
+            } 
+          });
+
           $('.summary-content ul.nav-tabs li.d-none').trigger('click');
           Vue.nextTick(() =>{
             $('.summary-content ul.nav-tabs li:eq('+liIndex+')').trigger('click');
@@ -91,8 +89,7 @@ export default {
       else if ( sectionVal == 1)
       {
         if( getCurrentScheduleView == "drawDetails" && currentView == "drawsListing" && typeof(window.competitionChange) !== "undefined") {
-          console.log('inside sectionVal 1');
-          console.log(window.competitionChange);
+
           let competition = window.competitionChange;
 
           let Id = competition.id;
@@ -116,9 +113,7 @@ export default {
           var filterKey = vm.$store.state.Tournament.tournamentFiler.filterKey;
           var filterValue = vm.$store.state.Tournament.tournamentFiler.filterValue;
 
-          setTimeout(function(){
-            vm.$root.$emit('getMatchByTournamentFilter',filterKey,filterValue);
-          },100);
+          vm.$root.$emit('getMatchByTournamentFilter',filterKey,filterValue);
 
         }
       }

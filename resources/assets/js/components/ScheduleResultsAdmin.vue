@@ -46,7 +46,7 @@
 											</li>
 										</ul>
 										<div class="tab-content summary-content">
-										<component :is="currentView" :currentView="currentView" v-if="!modalOpen"></component>
+										<component :is="currentView" :currentView="currentView"></component>
 											<!--<div class="card">
 												<div class="card-block">
 													<component :is="currentView" :currentView="currentView"></component>
@@ -94,11 +94,6 @@ export default {
     this.$store.dispatch('isAdmin',true)
     // Also Call Api For Getting the last Updated Record
 	},
-    computed: {
-      modalOpen() {
-        return this.$store.state.Tournament.modalOpen;
-      }
-    },
 	components: {
 		DrawsListing, MatchListing, TeamListing,DrawDetails,FinalPlacings
 	},

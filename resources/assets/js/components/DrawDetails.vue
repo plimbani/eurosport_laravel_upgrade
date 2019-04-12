@@ -12,10 +12,10 @@
         v-on:change="onChangeDrawDetails"
         v-model="DrawName">
         <!-- <option value="">Select</option> -->
-        <option v-for="option in drawList" v-bind:value="option"
-        >
-
-        {{option.name}}
+        <option
+        v-for="option in drawList"
+        v-bind:value="option"
+        >{{option.name}}
         </option>
       </select>
     </div>
@@ -136,12 +136,10 @@ export default {
     },
     created: function() {
       this.$root.$on('setDrawTable', this.GenerateDrawTable);
-      this.$root.$on('onChangeDrawDetails');
     },
     beforeCreate: function() {
       // Remove custom event listener
       this.$root.$off('setDrawTable');
-      this.$root.$off('onChangeDrawDetails');
     },
   mounted() {
     this.setTeamData()
@@ -297,7 +295,6 @@ export default {
            )
         },
         onChangeDrawDetails() {
-          console.log("on change");
           this.$store.dispatch('setCurrentScheduleView','drawDetails')
 
           window.competitionChange = this.DrawName;
@@ -320,7 +317,7 @@ export default {
             return teamId.Home_id
         },
         setTeamData() {
-           let tempMatchdata = (this.matchData.length > 0 && !this.matchData[0].hasOwnProperty('fid')) ? this.matchData : this.drawList
+            let tempMatchdata = (this.matchData.length > 0 && !this.matchData[0].hasOwnProperty('fid')) ? this.matchData : this.drawList
 
             this.currentCompetationId = this.otherData.DrawId
 
