@@ -73,7 +73,7 @@
               </select>
               <select  class="form-control ls-select2" v-model="dropDown" @change="setFilterValue()" v-else>
                 <option value="" v-if="filterKey != 'age_category'">Select</option>
-                <option  :value="option.id" v-for="option in options"   v-bind:value="option" >{{option.name}}</option>{{option.name}}</option>
+                <option  :value="option.id" v-for="option in options"   v-bind:value="option" >{{option.name}}</option>
               </select>
             </div>
           </div>
