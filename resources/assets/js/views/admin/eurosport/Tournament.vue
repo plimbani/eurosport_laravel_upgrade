@@ -37,6 +37,7 @@
                 </div>
               </div>
 							<component :is="currentView"> </component>
+              <UnsaveMatchScoreModel></UnsaveMatchScoreModel>
 						</div>
 					</div>
 				</div>
@@ -52,7 +53,7 @@ import SummaryReport from '../../../components/SummaryReport.vue'
 import ScheduleResultsAdmin from '../../../components/ScheduleResultsAdmin.vue'
 import Messages from '../../../components/Messages.vue'
 import AddMessageModel from '../../../components/AddMessageModel.vue'
-
+import UnsaveMatchScoreModel from '../../../components/UnsaveMatchScoreModel.vue'
 
 export default {
 
@@ -63,7 +64,21 @@ export default {
        }
     },
     components: {
-        SummaryTab, SummaryReport, ScheduleResultsAdmin, Messages, AddMessageModel
+        SummaryTab, SummaryReport, ScheduleResultsAdmin, Messages, AddMessageModel, UnsaveMatchScoreModel
+    },
+    beforeRouteLeave(to, from, next) {
+      let redirectName = to.name; 
+      let matchResultChange = this.$store.state.Tournament.matchResultChange;
+      let currentSection = from.name;
+      if ( matchResultChange && currentSection == 'tournaments_summary_details')
+      { 
+        window.sectionVal = -1;
+        window.redirectPath = redirectName;
+        $('#unSaveMatchModal').modal('show');
+      }
+      else{
+        next();
+      }
     },
     mounted() {
       if(this.isResultAdmin) {
