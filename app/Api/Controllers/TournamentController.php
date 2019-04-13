@@ -3,12 +3,7 @@ namespace Laraspace\Api\Controllers;
 
 use UrlSigner;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
-use Laraspace\Models\Team;  
-use Laraspace\Models\Referee;   
-use Laraspace\Models\Position;  
-use Laraspace\Models\Tournament;    
-use Laraspace\Models\TempFixture;   
+use Illuminate\Http\Request;  
 use Laraspace\Models\TournamentCompetationTemplates;
 use Laraspace\Http\Requests\Tournament\DeleteRequest;
 use Laraspace\Http\Requests\Tournament\PublishRequest;
