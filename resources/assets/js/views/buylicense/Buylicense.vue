@@ -414,18 +414,31 @@
                 let tournamentMaxTeams = this.tournamentData.tournament_max_teams
 
 
-                if(tournamentOrganising == 'cup' && tournamentCustomFormats == 'no') {
+                if(tournamentOrganising == 'cup' && tournamentCustomFormats == 'no' && tournamentMaxTeams) {
                     let tournamentPricing = _.filter(this.tournamentPricingBand.cup.bands, function(band) { 
-                        return band.min_teams <= tournamentMaxTeams && band.max_teams >= tournamentMaxTeams; 
+                        let tournamentLicencePricing =  band.min_teams <= tournamentMaxTeams && band.max_teams >= tournamentMaxTeams; 
+                        return band.price;
                     });
 
                     let tournamentData = _.groupBy(this.tournamentPricingBand.cup.bands, tournamentPricing);
-                    console.log(tournamentData);
-                } else {        
-                    if(tournamentOrganising == 'cup'){
-                       
-                    }
-                    
+                } 
+
+                if(tournamentOrganising == 'cup' && tournamentCustomFormats == 'yes' && tournamentMaxTeams) {
+                    let tournamentPricing = _.filter(this.tournamentPricingBand.cup.bands, function(band) { 
+                        let tournamentLicencePricing =  band.min_teams <= tournamentMaxTeams && band.max_teams >= tournamentMaxTeams; 
+                            return band.price + band.advanced_price;
+                    });
+
+                    let tournamentData = _.groupBy(this.tournamentPricingBand.cup.bands, tournamentPricing);
+                } 
+
+                if(tournamentOrganising == 'league' && tournamentMaxTeams) {
+                    let tournamentPricing = _.filter(this.tournamentPricingBand.cup.bands, function(band) { 
+                        let tournamentLicencePricing =  band.min_teams <= tournamentMaxTeams && band.max_teams >= tournamentMaxTeams; 
+                            return band.price;
+                    });
+
+                    let tournamentData = _.groupBy(this.tournamentPricingBand.cup.bands, tournamentPricing);
                 }
             }
         },
@@ -462,6 +475,10 @@
             },4000) 
 
             this.getTournamentPricing();
+
+            this.tournament_type;
+            this.custom_tournament_format;
+            this.tournament_max_teams;
 
             $('#cup').prop("checked",true)
             $('#no').prop("checked",true)
