@@ -95,7 +95,7 @@
                                         </div>
                                         <div class="col-md-6 col-lg-5 mt-2 mt-md-0"> 
                                             <select class="form-control" v-model="tournamentData.currency_type" id="currency_type" @change="changeCurrencyType($event)">
-                                                <option selected value="EURO">EURO</option> 
+                                                <option selected value="euro-radio">EURO</option> 
                                                 <option value="GBP">GBP</option>
                                             </select>
                                         </div>
@@ -113,7 +113,8 @@
                                             <p class="text-sm-right mb-0 mt-3 mt-sm-0">
                                              <span v-if="tournamentData.currency_type == 'GBP'">&#163;</span>   
                                              <span v-if="tournamentData.currency_type == 'EURO'">&#128;</span>   
-                                            {{returnFormatedNumber(tournamentData.total_amount)}}</p>
+                                            {{returnFormatedNumber(tournamentData.tournamentPricingValue)}}</p>
+
                                         </div>
                                     </div>
 
@@ -122,7 +123,7 @@
                                     <p class="text-sm-right font-weight-bold">
                                         <span v-if="tournamentData.currency_type == 'GBP'">&#163;</span>   
                                         <span v-if="tournamentData.currency_type == 'EURO'">&#128;</span>  
-                                        {{returnFormatedNumber(tournamentData.total_amount)}}</p>
+                                        {{returnFormatedNumber(tournamentData.tournamentPricingValue)}}</p>
                                 </div>
                                 <div class="card-text" v-if="id">
                                     
@@ -161,7 +162,7 @@
                                     <p class="text-sm-right font-weight-bold" v-if="newDaysAdded > 0 || new_added_teams > 0">
                                         <span v-if="tournamentData.currency_type == 'GBP'">&#163;</span>   
                                         <span v-if="tournamentData.currency_type == 'EURO'">&#128;</span>  
-                                        {{returnFormatedNumber(tournamentData.total_amount)}}</p>
+                                        {{returnFormatedNumber(tournamentData.tournamentPricingValue)}}</p>
                                 </div>
                                 <div class="row justify-content-end">
                                     <div class="col-md-7 col-lg-7 col-xl-6">
@@ -212,6 +213,7 @@
                     is_renew:0,
                     tournament_type: "cup",
                     custom_tournament_format: "no",
+                    tournamentPricingValue: '',
 
                 },
                 
@@ -252,6 +254,7 @@
         },
         methods: {
             changeTeams(){ 
+                this.tournammentPricingData();
                 this.new_added_teams = this.tournamentData.tournament_max_teams - this.tournament_old_teams; 
             },
             changeDays(){
@@ -413,33 +416,34 @@
                 let tournamentOrganising = this.tournamentData.tournament_type
                 let tournamentCustomFormats = this.tournamentData.custom_tournament_format
                 let tournamentMaxTeams = this.tournamentData.tournament_max_teams
+                let vm = this;
 
-
+                console.log('tournamentMaxTeams', tournamentMaxTeams);
                 if(tournamentOrganising == 'cup' && tournamentCustomFormats == 'no' && tournamentMaxTeams) {
-                    let tournamentPricing = _.filter(this.tournamentPricingBand.cup.bands, function(band) { 
-                        let tournamentLicencePricing =  band.min_teams <= tournamentMaxTeams && band.max_teams >= tournamentMaxTeams; 
-                        return band.price;
+                    let tournamentPricing = _.filter(this.tournamentPricingBand.cup.bands, function(band) {
+                        if(tournamentMaxTeams >= band.min_teams && tournamentMaxTeams <= band.max_teams) {
+                            vm.tournamentData.tournamentPricingValue = band.price; 
+                            console.log('cup', vm.tournamentData.tournamentPricingValue);
+                        }
                     });
-
-                    let tournamentData = _.groupBy(this.tournamentPricingBand.cup.bands, tournamentPricing);
                 } 
-
+                            
                 if(tournamentOrganising == 'cup' && tournamentCustomFormats == 'yes' && tournamentMaxTeams) {
-                    let tournamentPricing = _.filter(this.tournamentPricingBand.cup.bands, function(band) { 
-                        let tournamentLicencePricing =  band.min_teams <= tournamentMaxTeams && band.max_teams >= tournamentMaxTeams; 
-                            return band.price + band.advanced_price;
+                    let tournamentPricing = _.filter(this.tournamentPricingBand.cup.bands, function(band) {
+                        if(tournamentMaxTeams >= band.min_teams && tournamentMaxTeams <= band.max_teams) {
+                            vm.tournamentData.tournamentPricingValue = band.price + band.advanced_price;
+                            console.log('cupl', vm.tournamentData.tournamentPricingValue);
+                        }
                     });
-
-                    let tournamentData = _.groupBy(this.tournamentPricingBand.cup.bands, tournamentPricing);
                 } 
 
                 if(tournamentOrganising == 'league' && tournamentMaxTeams) {
-                    let tournamentPricing = _.filter(this.tournamentPricingBand.cup.bands, function(band) { 
-                        let tournamentLicencePricing =  band.min_teams <= tournamentMaxTeams && band.max_teams >= tournamentMaxTeams; 
-                            return band.price;
+                    let tournamentPricing = _.filter(this.tournamentPricingBand.league.bands, function(band) {
+                        if(tournamentMaxTeams >= band.min_teams && tournamentMaxTeams <= band.max_teams) {
+                            vm.tournamentData.tournamentPricingValue = band.price;
+                            console.log('league', vm.tournamentData.tournamentPricingValue);
+                        }
                     });
-
-                    let tournamentData = _.groupBy(this.tournamentPricingBand.cup.bands, tournamentPricing);
                 }
             }
         },
@@ -470,16 +474,12 @@
             $("#tournament_end_date").on("change",function (value){ 
                vm.findDifferenceBetweenDates();
             })   
+            this.getTournamentPricing();
             this.getCurrencyValue();
             setTimeout(function(){
                 vm.setOldDays()
-            },4000) 
-
-            this.getTournamentPricing();
-
-            this.tournament_type;
-            this.custom_tournament_format;
-            this.tournament_max_teams;
+                vm.tournammentPricingData()
+            },1500) 
 
             $('#cup').prop("checked",true)
             $('#no').prop("checked",true)
