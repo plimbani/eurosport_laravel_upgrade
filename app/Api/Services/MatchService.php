@@ -1039,7 +1039,8 @@ class MatchService implements MatchContract
 
     private function TeamPMAssignKp($data)
     {
-      // dd($data);
+      // dd($data);\
+        $processFixtures = [];
         $compId = $data['home']['competition_id'];
         $competition = Competition::find($compId);
         $tournament_id =  $competition->tournament_id;
@@ -1332,6 +1333,7 @@ class MatchService implements MatchContract
         // dd($calculatedArray[$cupId]);
         if($matches) {
            foreach($matches as $key=>$match) {
+            $processFixtures[] = $match->matchID;
             //$templateData = json_decode($match->JsonData,true);
             // echo "<pre>"; print_r($match); echo "</pre>";
             $exmatchNumber = explode('.',$match->MatchNumber);
@@ -1401,6 +1403,8 @@ class MatchService implements MatchContract
             }
             // else check if its new change
           }
+
+          $this->processFixtures($processFixtures);
         }
         return ;
     }
@@ -2580,5 +2584,12 @@ class MatchService implements MatchContract
     public function matchUnscheduledFixtures($matchId)
     {
         return $this->matchRepoObj->matchUnscheduledFixtures($matchId);
+    }
+
+    public function processFixtures($fixtures)
+    {
+      foreach($fixtures as $id) {
+        $this->calculateCupLeagueTable($id);
+      }
     }
 }
