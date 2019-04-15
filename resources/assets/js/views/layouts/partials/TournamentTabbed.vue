@@ -1,6 +1,13 @@
 <template>
   <div class="card">
     <div class="card-block">
+        <div class="row">
+            <div class="col-md-12">
+                <p v-if="tournamentEndDateTimeDisplayMessage && this.displayTournamentEndDate !=''" class="result-administration-date">
+                    <small class="text-muted">Please note: You will no longer be able to enter results or edit your tournament after {{ displayTournamentEndDate | formatDate }} </small> 
+                </p>  
+            </div>
+        </div>
       <div class="row">
         <div class="col-lg-12">
           <div class="tabs tabs-primary">
@@ -102,10 +109,37 @@ export default {
     return {
       'header' : 'header',
       'tournamentId' : this.$store.state.Tournament.tournamentId,
+      displayTournamentEndDate:"",
+      currentDateTime: moment().format('DD/MM/YYYY HH:mm:ss'),
+
+    }
+  },
+  filters: {
+    formatDate: function(date) {
+      if(date != null ) {
+        return moment(date).format("HH:mm Do MMM YYYY");
+      } else {
+        return  '-';
+      }
     }
   },
   computed: {
     activePath() {
+      return this.$store.state.activePath
+    },
+    tournamentEndDateTimeDisplayMessage() {
+      let currentDateTime = this.currentDateTime;
+      let displayTournamentEndDate = this.displayTournamentEndDate;
+      let expireTime = moment(displayTournamentEndDate).add(8, 'hours').format('DD/MM/YYYY HH:mm:ss');
+      let tournamentStartDate = this.$store.state.Tournament.tournamentStartDate;
+
+      if(displayTournamentEndDate) {
+        if(tournamentStartDate >= currentDateTime  && expireTime <= currentDateTime) {
+           return true;
+        } else {
+          return false;
+        }
+      }
       return this.$store.state.activePath;
     },
     isScoreUpdated() {
@@ -140,11 +174,12 @@ export default {
     },
     isResultAdmin() {
       return this.$store.state.Users.userDetails.role_slug == 'Results.administrator';
-    },    
+    },
   },
   mounted() {
     this.updateTabStateData();
     this.$store.dispatch('ResetPitchPlannerFromEnlargeMode');
+    this.editTournamentMessage();
     if(this.tournamentId == '' ) {
       //this.$router.push({name: 'welcome'})
       }
@@ -177,6 +212,18 @@ export default {
           }
         },2000 )
       }
+    },
+
+    editTournamentMessage() {
+      this.TournamentId = this.$store.state.Tournament.tournamentId
+      let TournamentData = {'tournament_id': this.TournamentId}
+      Tournament.editTournamentMessage(TournamentData).then(
+          (response) => {
+              this.displayTournamentEndDate = response.data
+          },
+          (error) => {
+          }
+      )
       this.updateTabStateData();
     },
     displayTournamentCompetationList () {
@@ -204,6 +251,6 @@ export default {
         this.$store.dispatch('setMatches');
       }
     }
-  },
+  }
 }
 </script>

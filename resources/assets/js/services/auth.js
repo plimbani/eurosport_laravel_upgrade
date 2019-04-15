@@ -18,12 +18,32 @@ export default {
             }
         });
     },
+
+    register(registerData){
+        // need to change in the API in url and also in function
+         return axios.post('/api/v1/commercialisation/thankyou', registerData).then(response =>  {
+             console.log("response in register::",response.data); 
+             if (response.data.success) {
+                // console.log("inside settttt:::",response.data.data.token);
+                Ls.set('auth.token',response.data.data.token)
+                Ls.set('email',registerData.email)
+             }else{
+                 toastr['error'](response.data.message, 'Error');
+             }
+         }).catch(error => {
+             console.log("error in register::",error);
+         });
+    },
     logout(){
         return axios.get('/api/auth/logout').then(response =>  {
             Ls.remove('auth.token')
             Ls.remove('email')
             Ls.remove('vuex')
             Ls.remove('userData')
+            Ls.remove('user_role')
+            Ls.remove('usercountry')
+            Ls.remove('tournamentDetails')
+            Ls.remove('orderInfo')
             // here we have to reload the page
             toastr['success']('Logged out!', 'Success');
             setTimeout(Plugin.reloadPage, 1000);

@@ -4,6 +4,16 @@
 	    	<div class="col-sm-12">
 				<!-- <div class="card"> -->
 					<!-- <div class="card-block"> -->
+
+						<div class="row">
+							<div class="col-md-12" v-if="currentView == 'matchListing'">
+							    <p v-if="tournamentStartDataDisplay" class="result-administration-date">
+							    	<small class="text-muted">Result
+							     	administration will be available from 
+							        {{ tournamentStartDate | formatDate }}</small> 
+							    </p>  
+							</div>
+						</div>
 						<div class="row align-items-center last-updated-row-text">
 							<div class="col-md-7">
 								<p class="mb-0 last-updated-time pl-0"><small class="text-muted">{{$lang.summary_schedule_last_update}}
@@ -46,7 +56,7 @@
 											</li>
 										</ul>
 										<div class="tab-content summary-content">
-										<component :is="currentView" :currentView="currentView"></component>
+										<component :is="currentView" :tournamentStartDate ="this.tournamentStartDate" :currentView="currentView"></component>
 											<!--<div class="card">
 												<div class="card-block">
 													<component :is="currentView" :currentView="currentView"></component>
@@ -84,9 +94,35 @@ export default {
 			competationList : {},
 			ageCategory: '',
 			currentView: '',
-			lastUpdatedDateValue: ''
+			lastUpdatedDateValue: '',
+			tournamentStartDate: '',
+			currentDate: moment().format('YYYY-MM-DD'),
 		}
 	},
+
+
+	computed: {
+    	tournamentStartDataDisplay() {
+	     	let startDate = this.tournamentStartDate;
+	     	let currentDate = this.currentDate;
+	     	if(startDate > currentDate){
+	     		return true
+	     	} else {
+	     		return false
+	     	}
+	    }
+  	},
+
+
+	filters: {
+	    formatDate: function(date) {
+	      if(date != null ) {
+	        return moment(date).format("Do MMM YYYY");
+	      } else {
+	        return  '-';
+	      }
+	    }
+	  },
 	mounted(){
 		// here we set drawsListing as currentView
 	this.currentView = 'drawsListing'
@@ -102,6 +138,7 @@ export default {
     	this.$root.$on('lastUpdateDate',this.lastUpdatedDate);
     	this.$root.$on('setCurrentView',this.setCurrentView);
     	this.getAgeCategory();
+    	this.tournamentEndDateDisplyMessage();
 
   	},
   beforeCreate: function() {
@@ -177,6 +214,20 @@ export default {
 			} else {
     			toastr['error']('Please select age category.', 'Error');
 			}
+		},
+
+		tournamentEndDateDisplyMessage() {
+			this.TournamentId = this.$store.state.Tournament.tournamentId
+
+			let TournamentData = {'tournament_id': this.TournamentId}
+
+			Tournament.resultAdministratorDisplayMessage(TournamentData).then(
+			  	(response) => {
+			 		this.tournamentStartDate = response.data;
+		  		},
+			    (error) => {
+			  	}
+			)
 		}
 	}
 }

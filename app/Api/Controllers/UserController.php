@@ -3,14 +3,12 @@
 namespace Laraspace\Api\Controllers;
 
 use Illuminate\Http\Request;
-use Dingo\Api\Routing\Helpers;
-use Illuminate\Routing\Controller;
-use Brotzka\DotenvEditor\DotenvEditor;
-
-// Need to Define Only Contracts
-use JWTAuth;
-use UrlSigner;
+use Illuminate\Http\Response;
 use Carbon\Carbon;
+use DB;
+use JWTAuth;
+// Need to Define Only Contracts
+use Laraspace\Http\Requests\Commercialisation\Customer\UpdateRequest as UpdateCusRequest;
 use Laraspace\Models\User;
 use Laraspace\Models\Role;
 use Laraspace\Custom\Helper\Common;
@@ -35,6 +33,7 @@ use Laraspace\Http\Requests\User\GetUsetTournamentsRequest;
 use Laraspace\Http\Requests\User\SetDefaultFavouriteRequest;
 use Laraspace\Http\Requests\User\TournamentPermissionRequest;
 use Laraspace\Http\Requests\User\GetSignedUrlForUsersTableDataRequest;
+use UrlSigner;
 
 /**
  * Users Resource Description.
@@ -45,10 +44,12 @@ use Laraspace\Http\Requests\User\GetSignedUrlForUsersTableDataRequest;
  */
 class UserController extends BaseController
 {
+
     public function __construct(UserContract $userObj)
     {
         $this->userObj = $userObj;
         $this->userRepoObj = new UserRepository();
+        $this->userImagePath = getenv('S3_URL') . '/assets/img/users/';
         // $this->middleware('auth');
         // $this->middleware('jwt.auth');
     }
@@ -66,6 +67,7 @@ class UserController extends BaseController
     {
         return $this->userObj->getAllUsers();
     }
+
     public function getUserDetails(GetUserDetailsRequest $request)
     {
         return $this->userObj->getUserDetails($request->all());
@@ -89,7 +91,6 @@ class UserController extends BaseController
     {
         return $userData = $this->userObj->getUserTableData($request->all());
     }
-
 
     /**
      * Create New User Result.
@@ -138,60 +139,60 @@ class UserController extends BaseController
     {
         return $this->userObj->delete($id);
     }
+
     public function changeUserStatus(UserStatusRequest $request)
     {
-      return $this->userObj->changeUserStatus($request->all());
+        return $this->userObj->changeUserStatus($request->all());
     }
-
 
     public function setPassword($key, Request $request)
     {
-      $usersPasswords = User::where(['token'=>$key])->get();
+        $usersPasswords = User::where(['token' => $key])->get();
 
-      $message = "";
-      $error = false;
-      if (count($usersPasswords) == 0) {
-          $isUserVerified = User::withTrashed()->where(['token'=>$key])->get();
-          if(count($isUserVerified) > 0) {
-              $error=true;
-              $message = "You have already set the password.";
-          } else {
-              //return response()->view('errors.404', [], 404);
-              return array('message'=> 'Link is Expired');
-          }
-      }
+        $message = "";
+        $error = false;
+        if (count($usersPasswords) == 0) {
+            $isUserVerified = User::withTrashed()->where(['token' => $key])->get();
+            if (count($isUserVerified) > 0) {
+                $error = true;
+                $message = "You have already set the password.";
+            } else {
+                //return response()->view('errors.404', [], 404);
+                return array('message' => 'Link is Expired');
+            }
+        }
 
-      // TODO: Here we put Code for Mobile Verification
-      if(isset($usersPasswords) && count($usersPasswords) > 0 && $usersPasswords[0]['registered_from'] == 0) {
+        // TODO: Here we put Code for Mobile Verification
+        if (isset($usersPasswords) && count($usersPasswords) > 0 && $usersPasswords[0]['registered_from'] == 0) {
 
-        //TODO: Need to put code for change Status For User with user Update
-        //$usersDetail['key'] = $key;
-          $usersPassword = User::where('token', $key)->first();
-          //$users = User::where("id", $usersPassword->id)->first();
-          $usersPassword->is_verified = 1;
-          $usersPassword->is_active = 1;
-          $usersPassword->token = '';
-          $user =  $usersPassword->save();
-        // Already set the password
-       // $usersDetail['password'] = $usersPasswords[0]['password'];
-       // $result = $this->userRepoObj->createPassword($usersDetail);
-          return redirect('/mlogin');
-      }
+            //TODO: Need to put code for change Status For User with user Update
+            //$usersDetail['key'] = $key;
+            $usersPassword = User::where('token', $key)->first();
+            //$users = User::where("id", $usersPassword->id)->first();
+            $usersPassword->is_verified = 1;
+            $usersPassword->is_active = 1;
+            $usersPassword->token = '';
+            $user = $usersPassword->save();
+            // Already set the password
+            // $usersDetail['password'] = $usersPasswords[0]['password'];
+            // $result = $this->userRepoObj->createPassword($usersDetail);
+            return redirect('/mlogin');
+        }
 
-      // echo "<pre>";print_r($usersPasswords);echo "</pre>";exit;
+        // echo "<pre>";print_r($usersPasswords);echo "</pre>";exit;
 
-      return view('emails.users.setpassword', compact('usersPasswords'));
-      // return view('emails.users.setpassword');
+        return view('emails.users.setpassword', compact('usersPasswords'));
+        // return view('emails.users.setpassword');
     }
 
     public function passwordActivate(Request $request)
     {
-      $key = $request->key;
-      $password = $request->password;
-      $usersDetail['key'] = $key;
-      $usersDetail['password'] = $password;
-      $result = $this->userRepoObj->createPassword($usersDetail);
-      return ($result == 'Mobile') ?  redirect('/mlogin') : redirect('/login/verified');
+        $key = $request->key;
+        $password = $request->password;
+        $usersDetail['key'] = $key;
+        $usersDetail['password'] = $password;
+        $result = $this->userRepoObj->createPassword($usersDetail);
+        return ($result == 'Mobile') ? redirect('/mlogin') : redirect('/login/verified');
     }
 
     // for desktop - resend email verification
@@ -202,62 +203,128 @@ class UserController extends BaseController
 
     public function setFavourite(SetFavouriteRequest $request)
     {
-      return $this->userObj->setFavourite($request->all());
+        return $this->userObj->setFavourite($request->all());
     }
+
     public function removeFavourite(RemoveFavouriteRequest $request)
     {
-      return$this->userObj->removeFavourite($request->all());
+        return$this->userObj->removeFavourite($request->all());
     }
+
     public function setDefaultFavourite(SetDefaultFavouriteRequest $request)
     {
-      return $this->userObj->setDefaultFavourite($request->all());
+        return $this->userObj->setDefaultFavourite($request->all());
     }
+
     public function postSetting(PostSettingRequest $request)
     {
-      return $this->userObj->postSetting($request->all());
+        return $this->userObj->postSetting($request->all());
     }
+
     public function getSetting(GetSettingRequest $request)
     {
-      return $this->userObj->getSetting($request->all());
+        return $this->userObj->getSetting($request->all());
     }
+
     public function setUserImage(Request $request)
     {
-      return $this->userObj->setUserImage($request->all());
-    }
-    public function updatefcm(UpdateFcmRequest $request) {
-      return $this->userObj->setFCM($request->all());
-    }
-    public function getAllAppUsers(Request $request) {
-      return $this->userObj->getAllAppUsers($request->all());
+        return $this->userObj->setUserImage($request->all());
     }
 
-    public function changeTournamentPermission(TournamentPermissionRequest $request) {
-      return $this->userObj->changeTournamentPermission($request->all());
+    public function updatefcm(UpdateFcmRequest $request)
+    {
+        return $this->userObj->setFCM($request->all());
     }
 
-    public function changePermissions(ChangePermissionRequest $request) {
-      return $this->userObj->changePermissions($request->all());  
+    public function getAllAppUsers(Request $request)
+    {
+        return $this->userObj->getAllAppUsers($request->all());
     }
 
-    public function getUserTournaments(GetUsetTournamentsRequest $request, $id) {
-      return $this->userObj->getUserTournaments($id);
+    public function changeTournamentPermission(TournamentPermissionRequest $request)
+    {
+        return $this->userObj->changeTournamentPermission($request->all());
     }
 
-    public function getUserWebsites(GetUserWebsitesRequest $request, $id) {
-      return $this->userObj->getUserWebsites($id);
+    public function changePermissions(ChangePermissionRequest $request)
+    {
+        return $this->userObj->changePermissions($request->all());
+    }
+
+    public function getUserTournaments(GetUsetTournamentsRequest $request, $id)
+    {
+        return $this->userObj->getUserTournaments($id);
+    }
+
+    public function getUserWebsites(GetUserWebsitesRequest $request, $id)
+    {
+        return $this->userObj->getUserWebsites($id);
     }
 
     public function getSignedUrlForUsersTableData(GetSignedUrlForUsersTableDataRequest $request)
     {
         $reportData = $request->all();
         ksort($reportData);
-        $reportData  = http_build_query($reportData);
+        $reportData = http_build_query($reportData);
 
         $signedUrl = UrlSigner::sign(url('api/users/getUserTableData?' . $reportData), Carbon::now()->addMinutes(config('config-variables.signed_url_interval')));
 
         return $signedUrl;
     }
+    /**
+     * Get user details     
+     * @param int $userId user id
+     * @return json
+     */
+    public function getDetails()
+    {
+        try {
+            $authUser = JWTAuth::parseToken()->toUser();            
+            $user = $this->userRepoObj->getUserById($authUser->id);
+            return response()->json([
+                        'success' => true,
+                        'status' => Response::HTTP_OK,
+                        'data' => $user,
+                        'error' => [],
+                        'message' => 'Get details of user successfully.'
+            ]);
+        } catch (\Exception $ex) {
+            return response()->json(['success' => false, 'status' => Response::HTTP_NOT_FOUND, 'data' => [], 'error' => [],
+                        'message' => 'Somethind went wrong. Please try again letter.']);
+        }
+    }
 
+    /**
+     * Update customer details
+     * @param storeRegRequest $request
+     * @return json
+     */
+    public function updateUser(UpdateCusRequest $request)
+    {
+        try {
+            $authUser = JWTAuth::parseToken()->toUser();            
+//            if ($authUser && $userObj->hasRole('tournament.administrator')) {
+//                $user = $userObj;
+//            }
+            $data = $request->all();
+            $status = $this->userRepoObj->updateUser($data, $authUser->id);
+            unset($data);
+            if ($status) {
+                return response()->json(['success' => true, 'status' => Response::HTTP_OK,
+                            'data' => [], 'error' => [],
+                            'message' => 'User details has been updated successfully.'
+                ]);
+            } else {
+                return response()->json(['success' => false, 'status' => Response::HTTP_FORBIDDEN,
+                            'data' => [], 'error' => [],
+                            'message' => 'This email address already exists.'
+                ]);
+            }
+        } catch (\Exception $ex) {
+            return response()->json(['success' => false, 'status' => Response::HTTP_NOT_FOUND, 'data' => [], 'error' => [],
+                        'message' => 'Somethind went wrong. Please try again letter.']);
+        }
+    }
     public function getAllCountries(Request $request) {
         return $this->userObj->getAllCountries();
     }

@@ -1,0 +1,98 @@
+// Login Section, Confirmation Section, Register Section
+
+.login-section,
+.confirmation-section,
+.register-section {
+    p {
+        a {
+            color: $theme-color-primary;
+            text-decoration: underline;
+        }
+    }
+}
+
+// Manage Tournament Section
+
+.manage-tournament {
+    .card {
+        background: $theme-color-gray;
+
+        .h7 {
+            color: $theme-color-primary;
+        }
+
+        ul {
+            &.tournament-information {
+
+                li,
+                a {
+                    color: $theme-color-primary;
+                }
+
+                a {
+                    text-decoration: underline;
+                }
+            }
+        }
+
+        .btn-group {
+            .btn-link {
+                color: $theme-color-primary;
+
+                &:hover {
+                    text-decoration: none;
+                    background-color: $theme-color-primary;
+                    color: $white;
+                }
+            }
+        }
+    }
+}
+
+// Tournament Section
+
+.tournament-section {
+    .sponsored-list {
+        img {
+            width: 80px;
+        }
+    }
+
+    .tournament-image {
+        box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.15);
+    }
+
+    .bordered-div {
+        &:before {
+            content: '';
+            @extend .position-absolute;
+            border-left: 1px solid $theme-color-primary;
+            left: -40px;
+            @extend .h-100;
+
+            @include media-breakpoint-down(lg) {
+                display: none;
+            }
+        }
+    }
+
+    .app-code {
+        border: 1px dashed $black;
+
+        @include media-breakpoint-down(lg) {
+            width: 50%;
+        }
+
+        h3 {
+            color: $theme-color-dark-gray;
+            letter-spacing: 10px;
+            margin-right: -10px !important;
+        }
+    }
+
+    .get-app {
+        img {
+            width: 130px;
+        }
+    }
+}

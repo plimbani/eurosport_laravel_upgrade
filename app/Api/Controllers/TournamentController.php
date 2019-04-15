@@ -253,7 +253,40 @@ class TournamentController extends BaseController
     {
         return $this->tournamentObj->updateCompetitionDisplayName($request->all());
     }
+    /*
+    * Upload tournament sponser image
+    *
+    * @return response
+    */
+    public function uploadSponsorLogo(Request $request) {
+        return $this->tournamentObj->uploadSponsorLogo($request);
+    }
 
+    /*
+    * Result administrator display message
+    *
+    * @return response
+    */
+    public function resultAdministratorDisplayMessage(Request $request) {
+        return $this->tournamentObj->resultAdministratorDisplayMessage($request->all());
+    }
+
+    /*
+    * Edit tournament display message
+    *
+    * @return response
+    */
+    public function editTournamentMessage(Request $request) {
+        return $this->tournamentObj->editTournamentMessage($request->all());
+    }
+    /*
+    * Get tournament access code
+    *
+    * @return response
+    */
+    public function getTournamentAccessCodeDetail(Request $request) {
+        return $this->tournamentObj->getTournamentAccessCodeDetail($request->all());  
+    }
     public function duplicateTournament(Request $request)
     {
         return $this->tournamentObj->duplicateTournament($request->all());

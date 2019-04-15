@@ -119,23 +119,23 @@
 				if (!files.length)
 					return;
 
-		    if(Plugin.ValidateImageType(files[0]) == false) {
-	        toastr['error']('Sponsor logo is not a valid image', 'Error');
-	        return;
-	      }
+		    	if(Plugin.ValidateImageType(files[0]) == false) {
+	        		toastr['error']('Sponsor logo is not a valid image', 'Error');
+	       			return;
+	      		}
 
 				vm.isSponsorImageUploading = true;
-	      var formData = new FormData();
-	      formData.append('image', files[0]);
-	      axios.post('/api/websites/uploadSponsorImage', formData).then(
-		      (response)=> {
-		      	vm.formValues.logo = response.data;
-		      	vm.isSponsorImageUploading = false;
-		      	this.isLoad = false;
-		      },
-		      (error)=>{
-		      }
-	      );
+			    var formData = new FormData();
+			    formData.append('image', files[0]);
+			    axios.post('/api/websites/uploadSponsorImage', formData).then(
+			      	(response)=> {
+			      	vm.formValues.logo = response.data;
+			      	vm.isSponsorImageUploading = false;
+			      	this.isLoad = false;
+			      	},
+			     	(error)=>{
+			      	}
+			    );
 			},
 		},
 	};

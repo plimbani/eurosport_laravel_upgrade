@@ -40,15 +40,7 @@
                     </div>
                 </div>
 
-                <!-- <div class="form-group row" v-if="formValues.id === ''">
-                    <label class="col-sm-5 form-control-label">{{$lang.user_management_password}}</label>
-                    <div class="col-sm-6">
-                        <input v-model="formValues.password" v-validate="'required'" :class="{'is-danger': errors.has('pass') }" name="pass" type="password" class="form-control" placeholder="Enter password">
-                        <i v-show="errors.has('pass')" class="fas fa-warning"></i>
-                        <span class="help is-danger" v-show="errors.has('pass')">{</span>
-                    </div>
-                </div> -->
-                <div class="form-group row">
+                <div v-if="!isCustomer" class="form-group row">
                     <label class="col-sm-5 form-control-label">{{$lang.user_management_user_type}}</label>
                     <div class="col-sm-6">
                       <select v-validate="'required'":class="{'is-danger': errors.has('user_type') }" class="form-control ls-select2" name="user_type" v-model="formValues.userType" @change="userTypeChanged()">
@@ -68,7 +60,7 @@
                         <span class="help is-danger" v-show="errors.has('organisation')">{{$lang.user_management_organisation_required}}</span>
                     </div>
                 </div>
-                <div class="form-group row">
+                <div v-if="!isCustomer" class="form-group row">
                     <label class="col-sm-5 form-control-label">{{$lang.user_management_role}}</label>
                     <div class="col-sm-6">
                       <select class="form-control ls-select2" name="role" v-model="formValues.role">
@@ -79,7 +71,7 @@
                       </select>
                     </div>
                 </div>
-                <div class="form-group row">
+                <div v-if="defaultAppTournament != 'commercialisation'" class="form-group row">
                     <label class="col-sm-5 form-control-label">{{$lang.user_management_default_app_tournament}}</label>
                     <div class="col-sm-6">
                       <select v-validate="'required'":class="{'is-danger': errors.has('tournament_id') }" class="form-control ls-select2" name="tournament_id" v-model="formValues.tournament_id">
@@ -90,6 +82,58 @@
                       </select>
                       <span class="help is-danger" v-show="errors.has('tournament_id')">{{$lang.user_management_default_app_tournament_required}}</span>
                     </div>
+                </div>
+
+                 <div v-if="isCustomer" class="form-group row">
+                    <label class="col-sm-5 form-control-label"> {{$lang.user_management_status}}</label>
+                     <div class="col-sm-6">
+                        <select class="form-control" id="country" v-model="formValues.status">
+                            <option value="1">Active</option>
+                            <option value="0">In Active</option>
+                        </select> 
+                     </div>
+                </div>
+                
+                <div v-if="isCustomer" class="form-group row">
+                    <label class="col-sm-5 form-control-label">
+                      {{$lang.user_management_job_title}}
+                      
+                    </label>
+                    <div class="col-sm-6">
+                        <input v-model="formValues.job_title" v-validate="'required|alpha_spaces'" :class="{'is-danger': errors.has('job_title') }" name="job_title" type="text" class="form-control" placeholder="Enter Job Title">
+                        <i v-show="errors.has('job_title')" class="fas fa-warning"></i>
+                        <span class="help is-danger" v-show="errors.has('job_title')">{{ errors.first('job_title') }}</span>
+                    </div>
+                </div>
+                <div v-if="isCustomer" class="form-group row">
+                     <label class="col-sm-5 form-control-label">{{$lang.user_management_address}}</label> 
+                     <div class="col-sm-6">
+                        <input type="textarea" class="form-control  mb-4" placeholder="Address" id="address-line-1" name="address" v-model="formValues.address"> 
+                        <input type="text" class="form-control" placeholder="Address Line 2 " id="address-line-2" v-model="formValues.address_2">  
+                     </div>
+                     
+                </div>
+                <div v-if="isCustomer" class="form-group row">
+                    <label class="col-sm-5 form-control-label">{{$lang.user_management_city}}</label>
+                    <div class="col-sm-6">
+                        <input type="textarea" class="form-control form-control-danger" placeholder="City" id="city" name="city" v-model="formValues.city">
+                    </div> 
+                </div>
+
+                <div v-if="isCustomer" class="form-group row">
+                    <label class="col-sm-5 form-control-label">{{$lang.user_management_zipcode}}</label>
+                     <div class="col-sm-6">                       
+                        <input type="textarea" class="form-control form-control-danger" placeholder="Zip" id="zipcode" name="zip" v-model="formValues.zip"> 
+                     </div>
+                </div>
+
+                <div v-if="isCustomer" class="form-group row">
+                    <label class="col-sm-5 form-control-label">{{$lang.user_management_country}}</label>
+                     <div class="col-sm-6">
+                        <select class="form-control" id="country" v-model="formValues.country" >
+                            <option v-for="(value, key) in countries" :value="value">{{key}}</option>
+                        </select> 
+                     </div>
                 </div>
             </div>
             <div class="modal-footer">
@@ -102,7 +146,8 @@
   </div>
 </template>
 <script type="text/javascript">
-import User from '../api/users.js'
+import User from '../api/users.js';
+import Constant from '../services/constant';
 import { ErrorBag } from 'vee-validate';
     export default {
         data() {
@@ -120,6 +165,8 @@ import { ErrorBag } from 'vee-validate';
                     tournament_id: '',
                     role: '',
                 },
+                countries:{},
+                isCustomer:false,
                 userRolesOptions: [],
                 userModalTitle: 'Add User',
                 deleteConfirmMsg: 'Are you sure you would like to delete this user record?',
@@ -131,7 +178,7 @@ import { ErrorBag } from 'vee-validate';
                 showOrganisation: false,
                 initialUserType: null,
                 roleOptions: ['Player', 'Coach/Manager/Trainer', 'Other'],
-              
+                defaultAppTournament: this.$store.state.Configuration.currentLayout,
                 errorMessages: {
                   en: {
                     custom: {
@@ -167,8 +214,10 @@ import { ErrorBag } from 'vee-validate';
             if(this.userId!=''){
                 this.editUser(this.userId)
             }
+            this.getCountries();
             this.userRolesOptions =  this.userRoles
             this.$validator.updateDictionary(this.errorMessages);
+
         },
         props:['userId','userRoles','userEmailData','publishedTournaments','isMasterAdmin'],
         methods: {
@@ -185,10 +234,28 @@ import { ErrorBag } from 'vee-validate';
                 //TODO: refactor the Code For Move to Api User
                 User.getEditUser(id).then(
                   (response)=> {
+                    
                     this.userModalTitle="Edit User";
                     this.$data.formValues = response.data;
+                    // console.log("response.data.is_active::",response.data.is_active);
+                    if(response.data.is_active){
+                      // console.log("inside");
+                      this.$data.formValues.status = "1";
+                    }else{
+                      this.$data.formValues.status = "0";
+                    }
+                    this.$data.formValues.zip = response.data.zipcode;
+                    this.$data.formValues.country = response.data.country_id;
+                    // this.$data.formValues = response.data;
                     this.initialUserType = response.data.userType;
                     this.$data.formValues.userEmail2 = this.$data.formValues.emailAddress;
+                    // console.log("response.data.role_slug::",response.data.role_slug);
+                    // if((response.data.role_slug).toLowerCase() == "mobile.user"){
+                    if((response.data.role_slug).toLowerCase() == "customer"){
+                      this.isCustomer = true;
+                    }else{
+                      this.isCustomer = false;
+                    }
                     this.userTypeChanged();
                   },
                   (error)=> {
@@ -211,9 +278,6 @@ import { ErrorBag } from 'vee-validate';
             },
             updateUserList() {
               let data = {}
-              //if(this.$route.params.registerType == '' || this.$route.params.registerType == null)
-                //  registerType = this.registerType
-              //  alert('hello called')
               User.getUsersByRegisterType(data).then(
                 (response)=> {
                    if('users' in response.data) {
@@ -311,7 +375,6 @@ import { ErrorBag } from 'vee-validate';
                     }
                   }
                 }).catch((errors) => {
-                    // toastr['error']('Please fill all required fields ', 'Error')
                  });
             },
             userTypeChanged() {
@@ -329,7 +392,7 @@ import { ErrorBag } from 'vee-validate';
             },
             updateUser() {
               let that = this;
-              setTimeout(function(){
+			  setTimeout(function(){
                 User.updateUser(that.formValues.id,that.formValues).then(
                     (response)=> {
                     toastr.success('User has been updated successfully.', 'Update User', {timeOut: 5000});
@@ -341,6 +404,13 @@ import { ErrorBag } from 'vee-validate';
 
                   )
               },1000)
+            },
+            getCountries(){
+                axios.get(Constant.apiBaseUrl+'country/list').then(response =>  {
+                    if(response.data.success){
+                        this.countries = response.data.data;
+                    }
+                 })
             },
         }
     }

@@ -1,7 +1,12 @@
 <template>
+	
 	<div class="tab-content summary-report-content">
+			
 		<div class="tabs tabs-primary">
-			<ul class="nav nav-tabs" role="tablist">
+			<div class="result-administration-date" v-if="!isShowReport">	
+				Reports will be available from {{dateBeForTwoDaysFormat}}.
+			</div>
+			<ul class="nav nav-tabs" role="tablist" v-if="isShowReport">
 	            <li class="nav-item">
 	              <a data-toggle="tab" class="nav-link active" href="#matches_tab" role="tab">
 	              	<div class="wrapper-tab">Matches</div>
@@ -16,7 +21,8 @@
 			
 			<div class="tab-content">
 				<div id="matches_tab" class="tab-pane active">
-			    <div class="row align-items-center">
+					<div  v-if="isShowReport">
+			    		<div class="row align-items-center">
 					<div class="col-md-6">
 						<span>{{$lang.summary_message}}</span>
 					</div>
@@ -251,81 +257,84 @@
 				    		</span>
 						</div>
 					</div>
+					</div>
 				</div>
 				<div id="fair_play_tab" class="tab-pane">
-				  <div class="row align-items-center">
-						<div class="col-md-6">
-							<span>{{$lang.summary_message}}</span>
-						</div>
-						<div class="col-md-6">
-							<div class="d-flex align-items-center justify-content-end">
-								<button class="btn btn-primary mr-1" @click='exportTeamsFairPlayReport()'>{{$lang.summary_button_download}}</button>
-								<button class="btn btn-primary"  @click="generateTeamsFairPlayPrint()">{{$lang.summary_button_print}}</button>
+					<div v-if="isShowReport">	
+						<div class="row align-items-center">
+							<div class="col-md-6">
+								<span>{{$lang.summary_message}}</span>
+							</div>
+							<div class="col-md-6">
+								<div class="d-flex align-items-center justify-content-end">
+									<button class="btn btn-primary mr-1" @click='exportTeamsFairPlayReport()'>{{$lang.summary_button_download}}</button>
+									<button class="btn btn-primary"  @click="generateTeamsFairPlayPrint()">{{$lang.summary_button_print}}</button>
+								</div>
 							</div>
 						</div>
-					</div>
-					<div class="block-bg mt-4">
-						<form name="frmFairPlayReport" id="frmFairPlayReport" class="fair_play_report_form">
-							<div class="form-group text-left mb-0">
-								<div class="row align-items-center">
-									<div class="col-md-6">
-										<div class="row align-items-center">
-											<div class="col-md-3">
-												<label class="mb-0"><strong>{{$lang.summary_reports_age_catrgory}}</strong></label>
-											</div>
-											<div class="col-md-5">
-		         						<select name="sel_ageCategory" id="sel_ageCategory"
-		                      class="form-control ls-select2">
-		          						<option value="">{{$lang.summary_age_category_select}}</option>
-		            					<option v-for="(competation, index) in competationList"
-		            						:value="competation.id">{{competation.group_name}}</option>
-		           					</select>							
+						<div class="block-bg mt-4">
+							<form name="frmFairPlayReport" id="frmFairPlayReport" class="fair_play_report_form">
+								<div class="form-group text-left mb-0">
+									<div class="row align-items-center">
+										<div class="col-md-6">
+											<div class="row align-items-center">
+												<div class="col-md-3">
+													<label class="mb-0"><strong>{{$lang.summary_reports_age_catrgory}}</strong></label>
+												</div>
+												<div class="col-md-5">
+			         						<select name="sel_ageCategory" id="sel_ageCategory"
+			                      class="form-control ls-select2">
+			          						<option value="">{{$lang.summary_age_category_select}}</option>
+			            					<option v-for="(competation, index) in competationList"
+			            						:value="competation.id">{{competation.group_name}}</option>
+			           					</select>							
+												</div>
 											</div>
 										</div>
 									</div>
 								</div>
-							</div>
-						</form>
-					</div>
-					<div class="row align-items-center mt-4">
-						<div class="col-md-12">
-							<div class="d-flex align-items-center justify-content-end">
-								<button type="button" name="clearFairPlayButton" id="clearButton" class="btn btn-primary mr-1" @click="clearFairPlayForm()">{{$lang.summary_button_clear}}</button>
-								<button type="button" name="generateFairPlayReport" id="generateReport" class="btn btn-primary" @click="generateFairPlayReport()">{{$lang.summary_button_generate}}</button>
+							</form>
+						</div>
+						<div class="row align-items-center mt-4">
+							<div class="col-md-12">
+								<div class="d-flex align-items-center justify-content-end">
+									<button type="button" name="clearFairPlayButton" id="clearButton" class="btn btn-primary mr-1" @click="clearFairPlayForm()">{{$lang.summary_button_clear}}</button>
+									<button type="button" name="generateFairPlayReport" id="generateReport" class="btn btn-primary" @click="generateFairPlayReport()">{{$lang.summary_button_generate}}</button>
+								</div>
 							</div>
 						</div>
-					</div>
-					<div class="row mt-4" id="summary_fair_play_report_table">
-						<div class="col-md-12">
-							<div class="table-responsive">
-							 	<table class="table table-hover table-bordered report-table" v-bind:class="{ 'display_table' : teams.length == 0, 'display_block' : teams.length > 0 }" id="fair_play_report_print" border="1" cellpadding="0" cellspacing="0" width="100%">
-									<thead>
-								      	<tr>
-											<th class="text-center" @click="sortFairPlayReport('team_id')">{{$lang.summary_fair_play_reports_team_id}}&nbsp;<i class="fas fa-sort"></i></th>
-						                    <th class="text-center" @click="sortFairPlayReport('name')">{{$lang.summary_fair_play_reports_team}}&nbsp;<i class="fas fa-sort"></i></th>
-						                    <th class="text-center" @click="sortFairPlayReport('club_name')">{{$lang.summary_fair_play_reports_club}}&nbsp;<i class="fas fa-sort"></i></th>
-						                    <th class="text-center" @click="sortFairPlayReport('country_name')">{{$lang.summary_fair_play_reports_country}}&nbsp;<i class="fas fa-sort"></i></th>
-						                    <th class="text-center" @click="sortFairPlayReport('age_name')">{{$lang.summary_fair_play_reports_age_category}}&nbsp;<i class="fas fa-sort"></i></th>
-						                    <th class="text-center" @click="sortFairPlayReport('total_yellow_cards')">{{$lang.summary_fair_play_reports_yellow_cards}}&nbsp;<i class="fas fa-sort"></i></th>
-						                    <th class="text-center" @click="sortFairPlayReport('total_red_cards')">{{$lang.summary_fair_play_reports_red_cards}}&nbsp;<i class="fas fa-sort"></i></th>
-							            </tr>
-				          			</thead>
-	                				<tbody>
-					                	<tr v-for="team in teamsFairPlayData">
-					                		<td>{{ team.team_id }}</td>
-					                		<td>{{ team.name }}</td>
-					                		<td>{{ team.club_name }}</td>
-					                		<td>{{ team.country_name }}</td>
-					                		<td>{{ team.age_name }}</td>
-					                		<td align="center">{{ team.total_yellow_cards == null ? 0 : team.total_yellow_cards }}</td>
-					                		<td align="center">{{ team.total_red_cards == null ? 0 : team.total_red_cards }}</td>
-					                	</tr>
-	                				</tbody>
-	              				</table>
-			    			</div>
-						    <span v-if="teams.length == 0">
-				         		No information available
-				    		</span>
+						<div class="row mt-4" id="summary_fair_play_report_table">
+							<div class="col-md-12">
+								<div class="table-responsive">
+								 	<table class="table table-hover table-bordered report-table" v-bind:class="{ 'display_table' : teams.length == 0, 'display_block' : teams.length > 0 }" id="fair_play_report_print" border="1" cellpadding="0" cellspacing="0" width="100%">
+										<thead>
+									      	<tr>
+												<th class="text-center" @click="sortFairPlayReport('team_id')">{{$lang.summary_fair_play_reports_team_id}}&nbsp;<i class="fas fa-sort"></i></th>
+							                    <th class="text-center" @click="sortFairPlayReport('name')">{{$lang.summary_fair_play_reports_team}}&nbsp;<i class="fas fa-sort"></i></th>
+							                    <th class="text-center" @click="sortFairPlayReport('club_name')">{{$lang.summary_fair_play_reports_club}}&nbsp;<i class="fas fa-sort"></i></th>
+							                    <th class="text-center" @click="sortFairPlayReport('country_name')">{{$lang.summary_fair_play_reports_country}}&nbsp;<i class="fas fa-sort"></i></th>
+							                    <th class="text-center" @click="sortFairPlayReport('age_name')">{{$lang.summary_fair_play_reports_age_category}}&nbsp;<i class="fas fa-sort"></i></th>
+							                    <th class="text-center" @click="sortFairPlayReport('total_yellow_cards')">{{$lang.summary_fair_play_reports_yellow_cards}}&nbsp;<i class="fas fa-sort"></i></th>
+							                    <th class="text-center" @click="sortFairPlayReport('total_red_cards')">{{$lang.summary_fair_play_reports_red_cards}}&nbsp;<i class="fas fa-sort"></i></th>
+								            </tr>
+					          			</thead>
+		                				<tbody>
+						                	<tr v-for="team in teamsFairPlayData">
+						                		<td>{{ team.team_id }}</td>
+						                		<td>{{ team.name }}</td>
+						                		<td>{{ team.club_name }}</td>
+						                		<td>{{ team.country_name }}</td>
+						                		<td>{{ team.age_name }}</td>
+						                		<td align="center">{{ team.total_yellow_cards == null ? 0 : team.total_yellow_cards }}</td>
+						                		<td align="center">{{ team.total_red_cards == null ? 0 : team.total_red_cards }}</td>
+						                	</tr>
+		                				</tbody>
+		              				</table>
+				    			</div>
+							    <span v-if="teams.length == 0">
+					         		No information available
+					    		</span>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -338,7 +347,7 @@
 <script >
 	import Tournament from '../api/tournament.js'
 	import Pitch from '../api/pitch.js'
-
+	import Ls from '../services/ls';
 export default {
     data() {
        return {
@@ -361,6 +370,9 @@ export default {
         fairPlayReportSortKey: 'team_id',
         sortBy: 'asc',
         reverse: false,
+        isShowReport:true,
+        startDateFormat:"",
+        dateBeForTwoDaysFormat:""
        	}
     },
     computed: {
@@ -379,12 +391,14 @@ export default {
     },
     mounted() {
     	this.TournamentId = parseInt(this.$store.state.Tournament.tournamentId)
+    	
     	this.displayTournamentCompetationList()
     	this.getTeams()
     	this.getLocation()
     	this.getPitches()
     	this.getReferees()
       this.getClubs()
+      this.checkIsTournametStartDate();
       let stdate  = false
     	$('.ls-datepicker').datepicker({autoclose: true})
     	$('#start_date').datepicker().on('changeDate',function(){
@@ -861,6 +875,38 @@ export default {
 			toastr['error']('Records not available', 'Error');
 		}
 	},
+	checkIsTournametStartDate(){
+		let tournamentStartDate = this.$store.state.Tournament.tournamentStartDate;
+      	// console.log("tournament in report tournamentStartDate::",this.$store.state.Tournament.tournamentStartDate);
+      	let startDateArr = tournamentStartDate.split("/");
+      	
+        let startDateFormat = startDateArr[2]+"/"+startDateArr[1]+"/"+startDateArr[0];
+        // console.log("startDateFormat::")
+        let startDate = moment(startDateFormat).startOf('day');
+        this.dateBeForTwoDaysFormat = moment(startDateFormat).startOf('day').subtract(2,'days').format('Do MMMM YYYY');
+        // console.log("this.dateBeForTwoDaysFormat::",this.dateBeForTwoDaysFormat);
+        let endDate = moment().startOf('day');
+        this.startDateFormat = startDate.format('Do MMMM YYYY');
+        // console.log("startDate::",startDate)
+        // console.log("endDate::",endDate)
+        let dayDifference = endDate.diff(startDate, 'days'); 
+        // console.log("dayDifference::0",dayDifference);
+        let userRole = Ls.get('user_role');
+      	  // console.log("userRole::",userRole);
+        if(typeof userRole != "undefined" && userRole != "undefined" && userRole != null && userRole != "null" && userRole == "customer" && dayDifference < -2){
+        	this.isShowReport = false;
+        }else{
+        	this.isShowReport = true;
+        }	
+       
+        // if(dayDifference < -2){
+      		// this.isShowReport = false;
+        // }else{
+        // 	this.isShowReport = true;
+        // }
+
+        // console.log("dayDifference::",dayDifference)
+	}
   }
 }
 </script>

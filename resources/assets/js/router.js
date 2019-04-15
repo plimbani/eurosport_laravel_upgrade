@@ -44,6 +44,8 @@ import LayoutTournament from './views/layouts/LayoutTournament.vue'
 // Website Layout
 import LayoutWebsite from './views/layouts/LayoutWebsite.vue'
 
+
+
 // Full EuroSport Layout
 import FullLayoutTournament from './views/layouts/FullLayoutTournament.vue'
 import PrintPitchPlannerLayout from './views/layouts/PrintPitchPlannerLayout.vue'
@@ -63,6 +65,29 @@ import PitchPlanner from './views/admin/eurosport/PitchPlanner.vue'
 // UserManagement Layout
 import LayoutUserManagement from './views/layouts/LayoutUserManagement.vue'
 
+// Commercialisation Layout
+import LayoutCommercialisation from './views/layouts/LayoutCommercialisation.vue'
+
+// Thankyou Layout
+import LayoutProfile from './views/layouts/LayoutProfile.vue'
+import Profile from './views/profile/Profile.vue'
+
+// Profile Layout
+import LayoutThankyou from './views/layouts/LayoutThankyou.vue'
+import Thankyou from './views/thankyou/Thankyou.vue'
+
+import Buylicense from './views/buylicense/Buylicense.vue'
+import Checkout from './views/checkout/Checkout.vue'
+// payment view
+import payment from './views/payment/payment.vue'
+import dashboard from './views/dashboard/dashboard.vue' 
+
+
+import EnterTournamentAccessCode from './views/tournament/EnterTournamentAccessCode.vue'
+import TournamentDetail from './views/tournament/TournamentDetail.vue'
+import UsersTournament from './views/userstournament/UsersTournament.vue'
+import TournamentsTransaction from './views/tournamentstransaction/TournamentsTransaction.vue'
+
 // Duplicate Tournament Layout
 import LayoutDuplicateTournament from './views/layouts/LayoutDuplicateTournament.vue'
 
@@ -80,6 +105,16 @@ import WebsiteStay from './views/admin/eurosport/WebsiteStay.vue';
 import WebsiteVisitors from './views/admin/eurosport/WebsiteVisitors.vue';
 import WebsiteMedia from './views/admin/eurosport/WebsiteMedia.vue';
 import WebsiteContact from './views/admin/eurosport/WebsiteContact.vue';
+import Test from './views/admin/eurosport/Test.vue';
+
+// commercialisation pricing pages
+import ManagePricing from './components/Pricing/ManagePricing.vue'
+
+// Commercialisation backend Layout
+import LayoutTournamentPricingForBackend from './views/layouts/LayoutTournamentPricing.vue'
+
+
+import Ls from './services/ls'
 
 Vue.use(VueRouter)
 
@@ -124,10 +159,10 @@ const routes = [
                 name: 'welcome'
             },
         ]
-    },*/
-
+    },*/ 
+    
     // Admin Backend Routes For Tournaments
-    {
+     {
         path: '/admin', component: LayoutHorizontal,
         meta: { requiresAuth: true },
         children: [
@@ -207,7 +242,6 @@ const routes = [
         name: 'users_list'
     },
 
-
     // Duplicate tournament copy routes
     {
         path: '/tournaments',
@@ -273,6 +307,28 @@ const routes = [
             }
         ]
     },
+    {
+        path: '/userstourmanents', component: LayoutTournament,
+        meta: { requiresAuth: true },
+        children: [
+            {
+                path: '/',
+                component: UsersTournament,
+                name: 'userstourmanent'
+            }
+        ]
+    }, 
+    {
+        path: '/tournamentstransaction', component: LayoutCommercialisation,
+        meta: { requiresAuth: true },
+        children: [
+            {
+                path: '/',
+                component: TournamentsTransaction,
+                name: 'tournamentstransaction'
+            }
+        ]
+    },
 
 
      /*
@@ -282,7 +338,7 @@ const routes = [
     */
 
     {
-        path: '/', component: LayoutLogin,
+        path: '/', component: LayoutCommercialisation,
         children: [
             {
                 path: 'login/:status*',
@@ -294,8 +350,128 @@ const routes = [
                 component: Register,
                 name: 'register'
             },
+
         ]
     },
+    {
+        path: '/', component: LayoutCommercialisation,
+        // meta: { requiresAuth: true },
+        children: [
+            {
+                path: '/test',
+                component: Test,
+                name: 'test'
+            }
+        ]
+    },    
+    {
+        path: '/thankyou', component: LayoutCommercialisation,
+        meta: { requiresAuth: true },
+        children: [
+            {
+                path: '/',
+                component: Thankyou,
+                name: 'thankyou'
+            }
+        ]
+    },
+    {
+        path: '/checkout', component: LayoutCommercialisation,
+        meta: { requiresAuth: true },
+        children: [
+            {
+                path: '/',
+                component: Checkout,
+                name: 'checkout'
+            }
+        ]
+    },
+    {
+        // path: '/profile/:id', component: LayoutLogin,
+        path: '/profile', component: LayoutCommercialisation,
+        meta: { requiresAuth: true },
+        children: [
+            {
+                path: '/',
+                component: Profile,
+                name: 'profile'
+            }
+        ]
+    },
+    {
+        path: '/buylicense', component: LayoutCommercialisation,
+        // meta: { requiresAuth: true },
+        children: [
+            {
+                path: '/',
+                component: Buylicense,
+                name: 'buylicense'
+            }
+        ]
+    },
+    {
+        path: '/enter-tournament', component: LayoutCommercialisation, 
+        children: [
+            {
+                path: '/',
+                component: EnterTournamentAccessCode,
+                name: 'EnterTournamentAccessCode'
+            }
+        ]
+    },
+    {
+        path: '/tournament-detail', component: LayoutCommercialisation, 
+        children: [
+            {
+                path: '/',
+                component: TournamentDetail,
+                name: 'TournamentDetail'
+            }
+        ]
+    },
+    {
+        path: '/mtournament-detail', component: LayoutCommercialisation, 
+        children: [
+            {
+                path: '/',
+                component: TournamentDetail,
+                name: 'TournamentDetail'
+            }
+        ]
+    },
+    {
+        path: '/payment', component: LayoutCommercialisation,
+        meta: { requiresAuth: true },
+        children: [
+            {
+                path: '/',
+                component: payment,
+                name: 'payment'
+            }
+        ]
+    },
+    {
+        path: '/dashboard', component: LayoutCommercialisation,
+        meta: { requiresAuth: true },
+        children: [
+            {
+                path: '/',
+                component: dashboard,
+                name: 'dashboard'
+            }
+        ]
+    },
+    {
+        path: '/manage_pricing', component: LayoutTournamentPricingForBackend,
+        meta: { requiresAuth: true },
+        children: [
+            {
+                path: '/admin/manage_pricing',
+                component: ManagePricing,
+                name: 'manage_pricing'
+            }
+        ]
+    },    
 
     // DEFAULT ROUTE
     {   path: '*', component : NotFoundPage }
@@ -322,6 +498,7 @@ router.beforeEach((to, from, next) => {
         store.dispatch('ResetWebsiteDetail');
     }
 
+    let restrictCustomerRoutes = ['website_add', 'website_homepage', 'website_teams', 'website_venue', 'website_tournament', 'website_program', 'website_stay', 'website_visitors', 'website_media', 'website_contact','welcome','users_list','userstourmanent'];
     let routesForResultAdmin = ['welcome', 'tournaments_summary_details'];
 
     // If the next route is requires user to be Logged IN
@@ -330,15 +507,37 @@ router.beforeEach((to, from, next) => {
             if(!response.authenticated){
                 return next({ path : '/login'})
             }
+
+
+            if ( response.userData.role_name == "customer" && restrictCustomerRoutes.indexOf(to.name) >= 0) {
+                router.push({'name':'dashboard'});
+            }
+
             if(response.authenticated && typeof response.hasAccess !== 'undefined' && response.hasAccess == false){
                 return next({ path : '/admin'});
             }
+
             if(response.userData.role_slug == 'Results.administrator' && routesForResultAdmin.indexOf(to.name) === -1) {
                 return next({ path: '*' });
-            }            
+            }
+            
             store.dispatch('setScoreAutoUpdate',response.is_score_auto_update);
             return next()
         })
+    }else{
+        // logic for auth page if user is logged in then those will be redirected to admin page
+        // enter-tournament
+        // tournament-detail
+        // 
+        // console.log("to.name::",to.name)
+        if(to.name != "buylicense" && to.name != "EnterTournamentAccessCode" && to.name != "TournamentDetail"){
+            let token = Ls.get('auth.token')
+            // console.log("login page",token)
+            if(typeof token != "undefined" && token != undefined && token != "null" && token != null){
+                 return next({ path : '/admin'});
+            }
+        }
+
     }
 
     return next()

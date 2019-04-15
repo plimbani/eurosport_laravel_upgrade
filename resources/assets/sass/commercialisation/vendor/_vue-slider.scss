@@ -1,0 +1,41 @@
+.vue-slider-component {
+    &.vue-slider-horizontal {
+        @extend .p-0;
+
+        .vue-slider-process {
+            background-color: $theme-color-primary;
+        }
+
+        .vue-slider {
+            border: 1px solid $vue-slider-border-color;
+            border-radius: 5px;
+            background-color: $theme-input-border-color;
+            height: 10px !important;
+
+            .vue-slider-tooltip-right {
+                &.vue-slider-tooltip-wrap {
+                    .vue-slider-tooltip {
+                        @include gradient-directional($ls-color-blue--gradient, $ls-color-blue--light-gradient, 90deg);
+                        border: 1px solid $theme-color-primary;
+                        border-radius: 4px;
+                        box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.1);
+
+                        @include media-breakpoint-up(md) {
+                            font-size: $font-size-base * 1.5;
+                            padding: 10px 20px;
+                        }
+
+                        &:before {
+                            @include media-breakpoint-up(md) {
+                                border: 10px solid transparent;
+                                top: 51%;
+                                left: -18px;
+                                border-right-color: $theme-color-primary;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

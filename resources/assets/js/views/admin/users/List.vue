@@ -53,6 +53,7 @@
                                         <th>{{$lang.use_desktop_country}}</th>
                                         <th>{{$lang.use_desktop_language}}</th>
                                         <th>{{$lang.user_desktop_status}}</th>
+                                        <th>{{$lang.user_desktop_tournment}}</th>
                                         <th>{{$lang.user_device}}</th>
                                         <th>{{$lang.user_app_version}}</th>
                                         <th class="text-center">{{$lang.user_desktop}}</th>
@@ -73,6 +74,7 @@
                                     <td v-else>
                                       <a href="#"  @click="resendModalOpen(user.email)"><u>Re-send</u></a>
                                     </td>
+                                    <td @click="redirectToTournamentList(user)"><a href="javascript:void(0)" class="centered">{{ user.tournaments_count }}</a></td>
                                     <td>{{ user.device }}</td>
                                     <td>{{ user.app_version }}</td>
                                     <td class="text-center">
@@ -409,7 +411,9 @@
             showChangePrivilegeModal() {
               $('#confirm_privilege_modal').modal('show');
             },
-
+            redirectToTournamentList(user){
+                this.$router.push({name: 'userstourmanent', query: {id:user.id}});
+            },
             getLanguageData() {
               User.getAllLanguages().then(
                 (response)=> {
@@ -418,7 +422,7 @@
                 (error)=> {
                 }
               )
-            },
+            }
         }
     }
 </script>

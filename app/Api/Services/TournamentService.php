@@ -16,10 +16,21 @@ use Laraspace\Models\User;
 use Laraspace\Models\UserFavourites;
 use Laraspace\Traits\TournamentAccess;
 use View;
+use File;
+use Storage;
+use Config;
 
 class TournamentService implements TournamentContract
 {
     use TournamentAccess;
+
+
+      /**
+       * @var predefined image path
+      */
+      protected $imagePath;
+
+      protected $userService;
 
     /**
      *  Messages To Display.
@@ -32,6 +43,10 @@ class TournamentService implements TournamentContract
         $this->tournamentRepoObj = $tournamentRepoObj;
         $this->getAWSUrl = getenv('S3_URL');
         $this->tournamentLogo =  getenv('S3_URL').'/assets/img/tournament_logo/';
+        $this->imagePath = Config::get('wot.imagePath');
+        
+        $this->userService = new UserService;
+        
     }
 
      /*
@@ -271,9 +286,9 @@ class TournamentService implements TournamentContract
      */
     public function create($data)
     {
-
          //exit;
         $data = $data->all();
+
 
         // here first we save the tournament related Data
         // here we have to precprocess the image
@@ -932,6 +947,64 @@ class TournamentService implements TournamentContract
     {
       $data = $this->tournamentRepoObj->updateCompetitionDisplayName($data);
       return ['options' => $data];
+    }
+
+    /*
+    * Save tournament sposer logo
+    *
+    * @return response
+    */
+    public function uploadSponsorLogo($request)
+    {
+      $image = $request->image;
+      $filename = md5(microtime(true) . rand(10,99)) . '.' . $image->getClientOriginalExtension();
+      $s3path = $this->imagePath['tournament_sponsor'].$filename;
+      $disk = Storage::disk('s3');
+      $disk->put($s3path, file_get_contents($image), 'public');
+      return $this->getAWSUrl . $s3path;
+    }
+
+    /*
+    * Result administrator display message
+    *
+    * @return response
+    */
+
+    public function resultAdministratorDisplayMessage($data)
+    {
+      $data = $this->tournamentRepoObj->resultAdministratorDisplayMessage($data['tournamentData']);
+      return $data;
+    }
+
+    /*
+    * Result administrator display message
+    *
+    * @return response
+    */
+    public function editTournamentMessage($data)
+    {
+      $data = $this->tournamentRepoObj->editTournamentMessage($data['tournamentData']);
+      return $data;
+    }
+ 
+    public function getTournamentAccessCodeDetail($data)
+    {
+      $authUser = JWTAuth::parseToken()->toUser();
+      $tournament = $this->tournamentRepoObj->getTournamentAccessCodeDetail($data);
+      if($tournament) {
+         $tournamentEndDateFormat = Carbon::createFromFormat('d/m/Y', $tournament['end_date'])->addDays(28);
+          $endDateAddMonth = Carbon::parse($tournamentEndDateFormat)->format('Y-m-d');
+          
+          $currentDateFormat = Carbon::now()->format('Y-m-d');
+          if($endDateAddMonth <= $currentDateFormat) {
+              return response()->json(['message' => 'This tournament is no longer available'], 500);
+          }
+      }   else {
+          return response()->json(['message' => 'The tournament code was not recognised'], 500);
+      } 
+      $favouriteTournament = ['user_id' => $authUser->id, 'tournament_id' => $tournament['id']];
+      $this->userService->setDefaultFavourite($favouriteTournament);
+      return response()->json(['data' => $tournament]);
     }
 
     public function duplicateTournament($data)

@@ -1,0 +1,64 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700');
+
+$base-font-family: 'Poppins', sans-serif;
+$font-weight-light: 300;
+$theme-color-primary: #0078AB;
+$theme-color-gray: #F6F6F5;
+$theme-color-dark-gray: #4a4a4a;
+
+$ls-color-green--gradient: #97AD09;
+$ls-color-green--light-gradient: #417505;
+$ls-color-blue--gradient: $theme-color-primary;
+$ls-color-blue--light-gradient: #00B2FF;
+$ls-color-dark-blue: #030021;
+
+$enable-shadows:true;
+$enable-rounded: false;
+
+// $font-family-base: $base-font-family;
+
+// Input Variants
+
+$theme-input-color: #000;
+$theme-input-border-color: #eeeeee;
+$theme-input-padding-y: 0.25rem; 
+$theme-input-padding-x: 1rem; 
+$theme-input-line-height: 1.667;
+
+$input-color: $theme-input-color;
+$input-line-height: $theme-input-line-height;
+$input-bg: $theme-color-gray;
+
+// Button
+
+$theme-btn-line-height: 1.29;
+$btn-line-height: $theme-btn-line-height;
+
+// Typography
+
+$headings-color : $theme-color-primary;
+// $custom-heading-line-height: 1.25;
+
+// $custom-heading-h1: 3rem;
+// $h1-font-size: $custom-heading-h1;
+
+// $headings-line-height: $custom-heading-line-height;
+
+// $custom-heading-h2: 2.25rem;
+// $h2-font-size: $custom-heading-h2;
+
+// $custom-heading-h3: 1.5rem;
+// $h3-font-size: $custom-heading-h3;
+
+// $custom-heading-h4: 1.125rem;
+// $h4-font-size: $custom-heading-h4;
+
+// $custom-heading-h5: 1rem;
+// $h5-font-size: $custom-heading-h5;
+
+// $custom-heading-h6: 0.875rem;
+// $h6-font-size: $custom-heading-h6;
+// 
+// Vue-Slider 
+
+$vue-slider-border-color: #D1D0EA;

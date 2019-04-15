@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AlterTournamentsStatus extends Migration
+class AddAccessCodeToTournamentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,9 @@ class AlterTournamentsStatus extends Migration
      */
     public function up()
     {
-        DB::statement("ALTER TABLE tournaments CHANGE status status ENUM('Published','Unpublished','Closed','Preview')");
+        Schema::table('tournaments', function (Blueprint $table) {
+            $table->string('access_code')->after('maximum_teams')->nullable();
+        });
     }
 
     /**
@@ -23,6 +25,8 @@ class AlterTournamentsStatus extends Migration
      */
     public function down()
     {
-        DB::statement("ALTER TABLE tournaments CHANGE status status ENUM('Published','Unpublished','Closed')");
+        Schema::table('tournaments', function (Blueprint $table) {
+            $table->dropColumn(['access_code']);
+        });
     }
 }

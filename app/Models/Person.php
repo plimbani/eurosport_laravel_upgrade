@@ -21,6 +21,7 @@ class Person extends Model
         'last_name',
         'display_name',
         'address',
+        'address_2',
         'dob',
         'bio',
         'avatar',
@@ -33,6 +34,10 @@ class Person extends Model
         'v_card',
         'extra_info',
         'settings',
+        'job_title',
+        'city',
+        'zipcode',
+        'country_id',
     ];
 
     /**
@@ -44,7 +49,7 @@ class Person extends Model
         'first_name' => 'string',
         'last_name' => 'string',
         'display_name' => 'string',
-        'address' => 'array',
+        'address' => 'string',
         'dob' => 'datetime',
         'bio' => 'string',
         'avatar' => 'string',

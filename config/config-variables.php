@@ -8,6 +8,8 @@ return [
     "signed_url_interval" => env('SIGNED_URL_INTERVAL'),
     "website_preview_url" => env('WEBSITE_PREVIEW_URL'),
     "preview_url_expire_time" => env('PREVIEW_URL_EXPIRE_TIME'),
+    "app_url" => env('APP_URL'),
+    
     "category_rules" => [
 	    "match_points" => "Match points",
 	    "goal_difference" => "Goal difference",
@@ -42,6 +44,11 @@ return [
         "#FFFFFF" => "White",
         "#FBE122" => "Yellow",
     ],
+
+    "current_layout" => env('CURRENT_LAYOUT'),
+    "google_app_store_link" => env('GOOGLE_APP_STORE_LINK'),
+    "google_store_open_deep_link" =>env('GOOGLE_STORE_OPEN_DEEP_LINK'),
+
     "age_category_color" => [
         '#C2B182', '#b0e0e6', '#DCB8D4', '#ffe4e1', '#0099cc', '#ffa500', '#6dc066', '#ffff00','#d3ffce',
         '#c39797', '#00A998', '#ffc3a0', '#f5f5dc', '#ffd700', '#cbbeb5', '#1874CD', '#ffc0cb', '#a0db8e',

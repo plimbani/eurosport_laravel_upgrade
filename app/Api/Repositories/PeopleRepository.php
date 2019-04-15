@@ -6,6 +6,7 @@ use Laraspace\Models\Person;
 
 class PeopleRepository
 {
+
     public function create($data)
     {
         return Person::create($data);
@@ -19,5 +20,14 @@ class PeopleRepository
     public function edit($data, $peopleId)
     {
         return Person::where('id', $peopleId)->update($data);
+    }
+
+    public function getPersonByEmail($email, $userId = '')
+    {
+        $person = Person::where("primary_email", $email);
+        if(!empty($userId)) {
+            $person->where('id', '<>', $userId);
+        }
+        return $person->get();
     }
 }

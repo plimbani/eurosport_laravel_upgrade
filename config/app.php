@@ -134,7 +134,16 @@ return [
     'log_level' => env('APP_LOG_LEVEL', 'debug'),
 
     'app_scheme' => env('APP_SCHEME',''),
-
+    
+    //Ingenico Payment Gateway Credentials
+    'PSPID' => env('PSPID', 'EasymatchmanagerQA'),
+    
+    'SHA_IN_PASS_PHRASE' => env('SHA_IN_PASS_PHRASE', 'b709e0ae-ab5b-4a78-bfc7-0bd54612d622'),
+    
+    'SHA_ALGO' => env('SHA_ALGO', 'sha512'),
+    
+    'payment_status' => [0 => 'invalid', 1 => 'cancelled', 2 => 'authorisation_refused', 4 => 'order_stored', 5 => 'authorised', 7 => 'payment_deleted', 8 => 'refund', 9 => 'payment_requested'],
+    
     /*
     |--------------------------------------------------------------------------
     | Autoloaded Service Providers
@@ -235,9 +244,11 @@ return [
         Laraspace\Api\Providers\WebsiteVenueServiceProvider::class,
         Laraspace\Api\Providers\ContactServiceProvider::class,
         Laraspace\Api\Providers\UploadMediaServiceProvider::class,
+	    Laraspace\Api\Providers\Commercialisation\RegisterServiceProvider::class,
         Laraspace\Providers\ComposerServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
         Spatie\UrlSigner\Laravel\UrlSignerServiceProvider::class,
+        Laraspace\Api\Providers\Commercialisation\TournamentPricingServiceProvider::class,
     ],
 
     /*

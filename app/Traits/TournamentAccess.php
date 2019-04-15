@@ -13,7 +13,7 @@ trait TournamentAccess
 	 * Check for tournament access to user
 	 *
 	 * @return response
-	 */
+	*/
 	protected function checkForTournamentAccess($id)
 	{
 		$user = $this->getCurrentLoggedInUserDetail();		
@@ -25,6 +25,19 @@ trait TournamentAccess
 			return false;
 		}
 		return true;
+	}
+
+	/*
+	 * Check for tournament access
+	 *
+	 * @return response
+	*/
+	public function isTournamentFavourite($user, $id){
+		$tournamentsIds = $user->favouriteTournaments()->pluck('tournament_id')->toArray();
+		if (in_array($id, $tournamentsIds)) {
+			return true;
+		}
+		return false;
 	}
 
 	/*
