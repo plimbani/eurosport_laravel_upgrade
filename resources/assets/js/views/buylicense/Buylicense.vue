@@ -15,7 +15,7 @@
                                 <label class="radio-inline control-label d-inline-flex align-items-center mr-3">
                                     <div class="checkbox checked">
                                         <div class="c-input">
-                                          <input type="radio" id="cup" name="tournament_type" value="cup" class="euro-radio mr-2"  v-model="tournamentData.tournament_type" @click="tournamentOrganising()" @change="tournammentPricingData"> 
+                                          <input type="radio" id="cup" name="tournament_type" value="cup" class="euro-radio mr-2"  v-model="tournamentData.tournament_type" @click="tournamentOrganising()" @change="tournammentPricingData()"> 
                                           <label for="cup">Cup</label>
                                         </div>
                                     </div>
@@ -24,7 +24,7 @@
                                 <label class="radio-inline control-label d-inline-flex align-items-center">
                                     <div class="checkbox">
                                         <div class="c-input">
-                                          <input type="radio" id="league" name="tournament_type" value="league" class="euro-radio mr-2 " v-model="tournamentData.tournament_type" @change="tournammentPricingData">
+                                          <input type="radio" id="league" name="tournament_type" value="league" class="euro-radio mr-2 " v-model="tournamentData.tournament_type" @change="tournammentPricingData()">
                                           <label for="league">League</label>
                                         </div>
                                     </div>
@@ -38,7 +38,7 @@
                                         <div class="checkbox checked">
                                             <div class="c-input">
                                               <input type="radio" id="no" name="custom_tournament_format" 
-                                              value="no" class="euro-radio mr-2"  v-model="tournamentData.custom_tournament_format" @change="tournammentPricingData">
+                                              value="no" class="euro-radio mr-2"  v-model="tournamentData.custom_tournament_format" @change="tournammentPricingData()">
                                               <label for="no">No <span>£ INCLUDED</span></label>
                                             </div>
                                         </div>
@@ -46,7 +46,8 @@
                                     <label class="radio-inline control-label d-inline-flex align-items-center">
                                         <div class="checkbox">
                                             <div class="c-input">
-                                              <input type="radio" id="yes" name="custom_tournament_format" value="yes" class="euro-radio mr-2"  v-model="tournamentData.custom_tournament_format" @change="tournammentPricingData">
+                                              <input type="radio" id="yes" name="custom_tournament_format" value="yes" class="euro-radio mr-2"  v-model="tournamentData.custom_tournament_format" 
+                                              @change="tournammentPricingData()">
                                               <label for="yes">Yes <span>+£100</span></label>
                                             </div>
                                         </div>
@@ -59,7 +60,7 @@
 
                         <div class="row my-4 my-lg-5">
                             <div class="col-10 col-md-11 col-lg-12">
-                                <vue-slider @callback='changeTeams' :min='2' :max='60' tooltip-dir='right' v-model="tournamentData.tournament_max_teams" class="tournament_teams" @change="tournammentPricingData"></vue-slider>
+                                <vue-slider @callback='changeTeams' :min='2' :max='60' tooltip-dir='right' v-model="tournamentData.tournament_max_teams" class="tournament_teams" @change="tournammentPricingData()"></vue-slider>
                             </div>
                         </div>
 
