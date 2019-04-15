@@ -23,15 +23,6 @@ class GetCompetationFormatRequest extends FormRequest
             $tournament_id = null;
             if((isset($this->headers->all()['ismobileuser'])) && $this->headers->all()['ismobileuser'] == true) {
                 $tournament_id = $this->all()['tournament_id'];
-                
-                $currentLayout = config('config-variables.current_layout');
-                if($currentLayout == 'commercialisation'){
-                    $checkForTournamentAccess = $this->checkForTournamentAccess($tournament_id);
-                    if(!$checkForTournamentAccess) {
-                        return false;
-                    } 
-                }    
-
             } else {
                 $data = $this->all()['tournamentData'];
                 $tournament_id = $data['tournament_id'];

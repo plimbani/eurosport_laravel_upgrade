@@ -44,6 +44,7 @@ return [
         "#FFFFFF" => "White",
         "#FBE122" => "Yellow",
     ],
+
     "current_layout" => env('CURRENT_LAYOUT'),
     "google_app_store_link" => env('GOOGLE_APP_STORE_LINK'),
     "google_store_open_deep_link" =>env('GOOGLE_STORE_OPEN_DEEP_LINK'),
@@ -76,4 +77,5 @@ return [
         "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#000000",
         "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#ffffff", "#000000", "#ffffff",
     ],
+    "match_idle_time" => env('MATCH_IDLE_TIME'),
 ];

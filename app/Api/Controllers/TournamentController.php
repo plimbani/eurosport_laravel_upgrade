@@ -3,7 +3,8 @@ namespace Laraspace\Api\Controllers;
 
 use UrlSigner;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
+use Illuminate\Http\Request;  
+use Laraspace\Models\TournamentCompetationTemplates;
 use Laraspace\Http\Requests\Tournament\DeleteRequest;
 use Laraspace\Http\Requests\Tournament\PublishRequest;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -252,13 +253,11 @@ class TournamentController extends BaseController
     {
         return $this->tournamentObj->updateCompetitionDisplayName($request->all());
     }
-
     /*
     * Upload tournament sponser image
     *
     * @return response
     */
-      
     public function uploadSponsorLogo(Request $request) {
         return $this->tournamentObj->uploadSponsorLogo($request);
     }
@@ -280,7 +279,6 @@ class TournamentController extends BaseController
     public function editTournamentMessage(Request $request) {
         return $this->tournamentObj->editTournamentMessage($request->all());
     }
-
     /*
     * Get tournament access code
     *
@@ -289,7 +287,6 @@ class TournamentController extends BaseController
     public function getTournamentAccessCodeDetail(Request $request) {
         return $this->tournamentObj->getTournamentAccessCodeDetail($request->all());  
     }
-
     public function duplicateTournament(Request $request)
     {
         return $this->tournamentObj->duplicateTournament($request->all());

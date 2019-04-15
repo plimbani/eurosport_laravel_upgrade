@@ -10,7 +10,7 @@
 	               <h6 class="mb-0"><strong>{{$lang.summary_table_text}}</strong></h6>
 	            </div>
 	        	<div class="col-9">
-                    <button type="button" class="btn btn-primary pull-right"
+                    <button type="button" class="btn btn-primary float-right"
                        @click="addMessage()"><small><i class="fas fa-plus"></i>
                        </small>&nbsp;{{$lang.summary_message_button}}
                     </button>

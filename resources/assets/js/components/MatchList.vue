@@ -1,7 +1,7 @@
 <template>
 <div class="row">
   <div class="col-md-12">
-  <button type="button" name="save" class="btn btn-primary pull-right mb-3" @click="saveMatchScore()" v-if="getCurrentScheduleView == 'matchList' && isUserDataExist && matchData.length > 0">Save</button>  
+  <button type="button" name="save" class="btn btn-primary float-right mb-3" @click="saveMatchScore()" v-if="getCurrentScheduleView == 'matchList' && isUserDataExist && matchData.length > 0">Save</button>  
   <table id="matchSchedule" class="table table-hover table-bordered table-sm" v-if="matchData.length > 0">
     <thead>
       <th class="text-center">{{$lang.summary_schedule_date_time}}</th>
@@ -48,14 +48,14 @@
         </td>
         <td class="text-center js-match-list">
             <div class="d-inline-flex position-relative">
-              <input type="text" v-model="match.homeScore" :name="'home_score['+match.fid+']'" style="width: 25px; text-align: center;" v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails'" :readonly="((match.is_scheduled == '0') || (match.isResultOverride == '1' && (match.match_status == 'Walk-over' || match.match_status == 'Abandoned'))) || checkDateScoreInput" @change="updateScore(match,index1)">
+              <input type="text" class="scoreUpdate" v-model="match.homeScore" :name="'home_score['+match.fid+']'" style="width: 25px; text-align: center;" v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails'" :readonly="(match.is_scheduled == '0') || (match.isResultOverride == '1' && (match.match_status == 'Walk-over' || match.match_status == 'Abandoned'))" @keyup="updateScore(match,index1)">
 
               <span v-else>{{match.homeScore}}</span>
 
               <span class="circle-badge" :class="{'left-input': (isUserDataExist && getCurrentScheduleView != 'teamDetails'), 'left-text': (!isUserDataExist || getCurrentScheduleView == 'teamDetails') }" v-if="(match.isResultOverride == '1' && match.match_winner == match.Home_id)"><a data-toggle="popover" :class="'result-override-home-popover-' + match.fid" href="#" data-placement="top" data-trigger="hover" :data-content="match.result_override_popover" data-animation="false"><i class="fas fa-asterisk text-white" aria-hidden="true"></i></a></span>
             </div> -
             <div class="d-inline-flex position-relative">
-              <input type="text" v-model="match.AwayScore" :name="'away_score['+match.fid+']'" style="width: 25px; text-align: center;"  v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails'" :readonly="((match.is_scheduled == '0') || (match.isResultOverride == '1' && (match.match_status == 'Walk-over' || match.match_status == 'Abandoned'))) || checkDateScoreInput" @change="updateScore(match,index1)">
+              <input type="text" class="scoreUpdate" v-model="match.AwayScore" :name="'away_score['+match.fid+']'" style="width: 25px; text-align: center;"  v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails'" :readonly="(match.is_scheduled == '0') || (match.isResultOverride == '1' && (match.match_status == 'Walk-over' || match.match_status == 'Abandoned'))" @keyup="updateScore(match,index1)">
 
               <span class="circle-badge" :class="{'right-input': (isUserDataExist && getCurrentScheduleView != 'teamDetails'), 'right-text': (!isUserDataExist || getCurrentScheduleView == 'teamDetails') }" v-if="(match.isResultOverride == '1' && match.match_winner == match.Away_id)"><a :class="'result-override-away-popover-' + match.fid" href="#" data-toggle="popover" data-placement="top" data-trigger="hover" :data-content="match.result_override_popover" data-animation="false"><i class="fas fa-asterisk text-white" aria-hidden="true"></i></a></span>
 
@@ -110,7 +110,7 @@
     </div>
     <div class="row d-flex align-items-center" v-if="isUserDataExist && getCurrentScheduleView != 'teamDetails' && matchData.length > 0">
       <div class="col-12">
-        <button type="button" name="save" class="btn btn-primary pull-right" @click="saveMatchScore()">Save</button>  
+        <button type="button" name="save" class="btn btn-primary float-right" @click="saveMatchScore()">Save</button>  
       </div>
     </div>
   <!--<span v-else>No information available</span>-->
@@ -141,6 +141,9 @@ export default {
       'index':'',
       'matchData': [],
       'currentMatchId': 0,
+      'matchInterval':'',
+      'matchIdleTimeInterval':null,
+      'resultChange': false,
       paginate: (this.getCurrentScheduleView != 'teamDetails' && this.getCurrentScheduleView != 'drawDetails') ? ['matchlist'] : null,
       shown: false,
       isMatchListInitialized: false,
@@ -150,7 +153,6 @@ export default {
       currentDate: moment().format('DD/MM/YYYY'),
     }
   },
-
   filters: {
     formatDate: function(date) {
       if(date != null ) {
@@ -220,6 +222,18 @@ export default {
         }
     });
     this.matchData = _.sortBy(_.cloneDeep(this.matchData1),['match_datetime'] );
+
+    var vm = this;
+    Vue.nextTick(() =>{
+      vm.updateMatchScoreToRel();
+    });
+
+    this.matchIdleTimeInterval = parseInt(this.$store.state.Configuration.matchIdleTime) * 1000;
+    if ( this.matchIdleTimeInterval !== 0)
+    {
+      clearInterval(this.matchInterval);
+      this.matchInterval = setInterval(this.updateMatchScoreIdleStat,this.matchIdleTimeInterval);
+    }
   },
   created: function() {
     this.$root.$on('reloadMatchList', this.setScore);
@@ -231,16 +245,37 @@ export default {
     this.$root.$off('reloadMatchList');
     this.$root.$off('saveMatchScore');
   },
+  beforeDestroy: function(event) {
+    clearInterval(this.matchInterval);
+    if ( this.resultChange )
+    {
+      this.resetStoreUnsaveMatch(0);
+    }
+  },
   watch: {
     matchData1: {
       handler: function (val, oldVal) {
+        if ( this.resultChange )
+        {
+          this.resetStoreUnsaveMatch(1);
+        }
+
+        this.resultChange = false;
         this.matchData = _.sortBy(_.cloneDeep(val), ['match_datetime']);
+
+        this.updateMatchScoreToRel();
         let vm = this;
         Vue.nextTick()
         .then(function () {
           $.each(vm.matchData, function (index,value){
             vm.getResultOverridePopover(value);
           });
+
+          if ( vm.matchIdleTimeInterval !== 0)
+          {
+            clearInterval(vm.matchInterval);
+            vm.matchInterval = setInterval(vm.updateMatchScoreIdleStat,vm.matchIdleTimeInterval);
+          }
         });
       },
       deep: true,
@@ -359,11 +394,16 @@ export default {
     },
 
     changeTeam(Id, Name) {
+
+      window.changeTeamId = Id;
+      window.changeTeamname = Name;
       // here we dispatch Method
       this.$store.dispatch('setCurrentScheduleView','teamDetails')
       this.$root.$emit('changeComp', Id, Name);
     },
     changeDrawDetails(competition) {
+
+      window.competition = competition;
       // here we dispatch Method
       this.$store.dispatch('setCurrentScheduleView','drawDetails')
       let Id = competition.competitionId
@@ -376,6 +416,7 @@ export default {
       this.$store.dispatch('setCurrentScheduleView','teamDetails')
     },
     updateScore(match,index) {
+
       let matchId = match.fid;
       if(match.Home_id == 0 || match.Away_id == 0) {
         toastr.error('Both home and away teams should be there for score update.');
@@ -383,6 +424,15 @@ export default {
         $('input[name="away_score['+matchId+']"]').val('');
         return false;
       }
+
+      var resultChange = this.checkScoreChangeOrnot();
+      this.resultChange = resultChange;
+      this.$store.dispatch('UnsaveMatchStatus',_.cloneDeep(this.resultChange));
+      this.$store.dispatch('UnsaveMatchData', _.cloneDeep(this.matchData));
+
+      clearInterval(this.matchInterval);
+      this.matchInterval = setInterval(this.updateMatchScoreIdleStat,this.matchIdleTimeInterval);
+
       if (this.$store.state.scoreAutoUpdate == true) {
         $("body .js-loader").removeClass('d-none');
         this.index =  index
@@ -488,6 +538,11 @@ export default {
         matchPostData.matchDataArray = matchDataArray;
         Tournament.saveAllMatchResults(matchPostData).then(
           (response) => {
+
+            this.resultChange = false;
+            this.$store.dispatch('UnsaveMatchData',[]);
+            this.$store.dispatch('UnsaveMatchStatus',false);
+
             $("body .js-loader").addClass('d-none');
             if(this.$store.state.currentScheduleView == 'drawDetails') {
               let Id = this.DrawName.id
@@ -501,10 +556,11 @@ export default {
             if(this.$store.state.currentScheduleView == 'matchList') {
               this.$root.$emit('getMatchesByFilter');
             }
-            toastr.success('Scores has been updated successfully', 'Score Updated', {timeOut: 5000});
+            toastr.success('Scores has been updated successfully', 'Score Updated', {timeOut: 1000});
           }
         )
       }
+
     },
     setMatchDataOfMatchList(matchData) {
       this.matchData = _.sortBy(_.cloneDeep(matchData),['match_datetime'] );
@@ -536,6 +592,40 @@ export default {
         match.result_override_popover = "* Abandoned, win awarded";
       }
     },
+    updateMatchScoreToRel()
+    {
+      $('.scoreUpdate').each(function(){
+        $(this).attr('rel',$(this).val());
+      });
+    },
+    checkScoreChangeOrnot()
+    {
+      var unsaveResult = false;
+      if ( $('#matchSchedule .scoreUpdate').length )
+      {
+        $('#matchSchedule .scoreUpdate').each(function(){
+          if ( !unsaveResult && !$(this).attr('readonly') && $(this).val() !== $(this).attr('rel') )
+          {
+            unsaveResult = true;
+          }
+
+        });
+      }
+      return unsaveResult;
+    },
+    updateMatchScoreIdleStat(){
+      var unsaveResult = this.checkScoreChangeOrnot();
+      if ( unsaveResult )
+      {
+        this.saveMatchScore();
+        this.updateMatchScoreToRel();
+      }
+    },
+    resetStoreUnsaveMatch(sectionVal)
+    {
+      window.sectionVal = sectionVal;
+      $('#unSaveMatchModal').modal('show');
+    }
   },
 }
 </script>

@@ -1,7 +1,7 @@
 <template>
 <div>
 
-<table class="mt-3 table table-hover table-bordered mt-3" v-if="standingData.length > 0">
+<table class="mt-3 table table-hover table-bordered mt-3 tbl-standing" v-if="standingData.length > 0">
 	<thead>
 
 		<th class="text-center"></th>
@@ -19,7 +19,7 @@
 
 			<td align="left">
 				<div class="matchteam-details">
-  				<span :class="'matchteam-flag flag-icon flag-icon-'+stand.teamCountryFlag"></span>
+  				<span v-if="stand.teamCountryFlag != null" :class="'matchteam-flag flag-icon flag-icon-'+stand.teamCountryFlag"></span>
   				<div class="matchteam-dress" v-if="stand.shorts_color && stand.shirt_color">
             		<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64.4 62"><g><polygon class="cls-1" v-bind:fill="stand.shorts_color" points="13.79 39.72 13.79 61.04 30.26 61.04 32.2 55.22 34.14 61.04 50.61 61.04 50.61 39.72 13.79 39.72"/></g><path class="cls-2" v-bind:fill="stand.shirt_color" d="M62.83,11.44,50.61,1H38A6.29,6.29,0,0,1,32.2,4.84,6.29,6.29,0,0,1,26.39,1H13.79L1.57,11.44a1.65,1.65,0,0,0-.09,2.41L8,20.34l5.81-3.87V39.72H50.61V16.47l5.81,3.87,6.5-6.49A1.65,1.65,0,0,0,62.83,11.44Z"/></svg>
           		</div>
@@ -120,7 +120,9 @@ export default {
         },
 		changeTeam(Id, Name) {
 			// here we dispatch Method
-
+			window.changeTeamId = Id;
+      		window.changeTeamname = Name;
+      		
 			this.$store.dispatch('setCurrentScheduleView','teamDetails')
 			this.$root.$emit('changeComp', Id, Name);
 		},

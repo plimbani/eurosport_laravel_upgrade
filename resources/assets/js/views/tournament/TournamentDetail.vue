@@ -1,57 +1,59 @@
 <template>
-    <section class="confirmation-section section-padding pb-0">
-        <div class="tournament-section section-padding">
-            <div class="container">
-                <div class="row" v-if="tournamentData.id">
-                    <div class="col-xl-8">
-                        <div class="row">
-                            <div class="col-sm-4 col-md-3">
-                                <img v-if="tournamentData.logo" :src='tournamentData.logo' class="img-fluid tournament-image">
-                                
-                            </div>
-                            <div class="col-sm-8 col-md-9">
-                                <h6 class="text-uppercase mb-0 mt-4 mt-sm-0">License: #{{tournamentData.access_code}}</h6>
-                                <h2 class="font-weight-bold mb-0">{{tournamentData.name}}</h2>
-                                <h4 class="text-uppercase font-weight-bold mb-4">{{tournamentData.start_date}} - {{tournamentData.end_date}}</h4>
+    <div class="main-section">
+        <section class="confirmation-section">
+            <div class="tournament-section section-padding">
+                <div class="container">
+                    <div class="row" v-if="tournamentData.id">
+                        <div class="col-xl-8">
+                            <div class="row">
+                                <div class="col-sm-4 col-md-3">
+                                    <img v-if="tournamentData.logo" :src='tournamentData.logo' class="img-fluid tournament-image">
+                                    
+                                </div>
+                                <div class="col-sm-8 col-md-9">
+                                    <h6 class="text-uppercase mb-0 mt-4 mt-sm-0">License: #{{tournamentData.access_code}}</h6>
+                                    <h2 class="font-weight-bold mb-0">{{tournamentData.name}}</h2>
+                                    <h4 class="text-uppercase font-weight-bold mb-4">{{tournamentData.start_date}} - {{tournamentData.end_date}}</h4>
 
-                                <h6 v-if="contactDetail.first_name || contactDetail.telephone"  class="text-uppercase mb-0 font-weight-bold">Main Contact</h6>
-                                <p class="mb-4">{{contactDetail.first_name}} {{contactDetail.last_name}} <a :href="'tel:' + contactDetail.telephone">{{contactDetail.telephone}}</a></p>
+                                    <h6 v-if="contactDetail.first_name || contactDetail.telephone"  class="text-uppercase mb-0 font-weight-bold">Main Contact</h6>
+                                    <p class="mb-4">{{contactDetail.first_name}} {{contactDetail.last_name}} <a :href="'tel:' + contactDetail.telephone">{{contactDetail.telephone}}</a></p>
 
-                                 <h6 v-if="tournamentSponsers.length > 0"  class="text-uppercase font-weight-bold">Sponsored by</h6>
+                                     <h6 v-if="tournamentSponsers.length > 0"  class="text-uppercase font-weight-bold">Sponsored by</h6>
 
-                                <ul class="list-unstyled sponsored-list mb-0">
-                                    <li class="d-inline" v-for="sponser in tournamentSponsers">
-                                        
-                                        <img :src="sponser.logo" alt="sponsored">
-                                    </li>
-                                </ul>
+                                    <ul class="list-unstyled sponsored-list mb-0">
+                                        <li class="d-inline" v-for="sponser in tournamentSponsers">
+                                            
+                                            <img :src="sponser.logo" alt="sponsored">
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-xl-4 bordered-div mt-5 mt-xl-0">
-                        <h4 class="text-uppercase font-weight-bold">Follow on your phone</h4>
-                        <p class="mb-4">Download and open the tournament planner app and enter the following code to follow Brighton Champions Cup.</p>
+                        <div class="col-xl-4 bordered-div mt-5 mt-xl-0">
+                            <h4 class="text-uppercase font-weight-bold">Follow on your phone</h4>
+                            <p class="mb-4">Download and open the tournament planner app and enter the following code to follow Brighton Champions Cup.</p>
 
-                        <div class="app-code text-center py-3">
-                            <h3 class="font-weight-bold m-0">{{tournamentData.access_code}}</h3>
+                            <div class="app-code text-center py-3">
+                                <h3 class="font-weight-bold m-0">{{tournamentData.access_code}}</h3>
+                            </div>
+                            
+                            <ul class="list-unstyled get-app mb-0 text-xl-center mt-4">
+                                <li class="d-inline pr-2"><a href="javascript:void(0);" @click="tournamentDetailAppStoreLink()"><img src="/images/app-store.png"></a></li>
+                                <li class="d-inline"><a href="javascript:void(0);" @click="tournamentDetailGoogleStoreLink()"><img src="/images/google-play.png"></a></li>
+                            </ul>
                         </div>
-                        
-                        <ul class="list-unstyled get-app mb-0 text-xl-center mt-4">
-                            <li class="d-inline pr-2"><a href="javascript:void(0);" @click="tournamentDetailAppStoreLink()"><img src="/images/app-store.png"></a></li>
-                            <li class="d-inline"><a href="javascript:void(0);" @click="tournamentDetailGoogleStoreLink()"><img src="/images/google-play.png"></a></li>
-                        </ul>
                     </div>
-                </div>
-                <div class="row" v-if="!tournamentData.id">
-                    <div class="col-xl-12">
-                        Tournament details not found
-                        
+                    <div class="row" v-if="!tournamentData.id">
+                        <div class="col-xl-12">
+                            Tournament details not found
+                            
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <schedule-and-result :tournamentData="tournamentData"></schedule-and-result>
-    </section>
+            <schedule-and-result :tournamentData="tournamentData"></schedule-and-result>
+        </section>
+    </div>
 </template>
 <script type="text/babel">
     // console.log("register  page");

@@ -22,27 +22,34 @@
                 </div>
               </div>
 
-              <div class="form-group row align-items-center">
+              <div class="form-group row align-items-center" :class="{'has-error': errors.has('category_age') }">
                 <div class="col-sm-4 form-control-label">{{$lang.competation_label_age_category_name}}</div>
                 <div class="col-sm-8">
                   <div class="row">
                     <div class="col-sm-12">
-                     <multiselect  name="category_age" id="category_age"
+                    <select class="form-control" name="category_age" id="category_age"
+                      v-model="competation_format.category_age" @input="onChange" @close="onTouch" @select="onSelect" :disabled="isAgeCategoryDisabled" v-validate="'required'" style="width:100%;" :class="{'is-danger': errors.has('category_age') }">
+                      <option value="">{{$lang.competation_add_age_categories}}</option>
+                      <option v-for="categoryAge in categoryAgeArr"
+                        :value="categoryAge">{{categoryAge}}
+                      </option>
+                    </select>
+                     <!-- <multiselect  name="category_age" id="category_age"
                       v-model="competation_format.category_age" :options="categoryAgeArr" :multiple="false"
                        :hide-selected="false" :ShowLabels="false" :value="value" track-by="id"
                        :clear-on-select="false" :Searchable="true" @input="onChange" @close="onTouch"
-                       @select="onSelect" :disabled="isAgeCategoryDisabled">
+                       @select="onSelect" :disabled="isAgeCategoryDisabled"> -->
                          <!-- <option v-if="n > 4" v-for="n in (21)"
                           :value="'Under '+ n + 's'">
                          Under {{n}}s
                         </option>
                         <option>Men open age</option>
                         <option>Women open age</option> -->
-                        <option v-for="categoryAge in categoryAgeArr"
+                       <!--  <option v-for="categoryAge in categoryAgeArr"
                         :value="categoryAge">{{categoryAge}}
-                        </option>
-                      </multiselect>
-                     <span class="help is-danger" v-show="isInvalid">{{$lang.competation_modal_age_category_required}}</span>
+                        </option> -->
+                      <!-- </multiselect> -->
+                     <span class="help is-danger" v-show="errors.has('category_age')">{{$lang.competation_modal_age_category_required}}</span>
                     </div>
                   </div>
                 </div>
@@ -169,7 +176,7 @@
                                 </div>
                               </span>
                             </div>
-                            <div class="col-sm-8 align-self-center">
+                            <div class="col-sm-7 align-self-center">
                               <span for="one"
                               v-if="checkTemplate(option)"  :style="'color:'+option.template_font_color">
                               {{option.name}}<br>{{option.disp_format}}<br>{{option.total_match}} matches<br>{{option.total_time | formatTime}}
@@ -181,7 +188,7 @@
                               <span v-else>Avg games per team: Not applicable </span>
                               </span>
                             </div>
-                            <div class="col-sm-3 align-self-center text-center">
+                            <div class="col-sm-4 align-self-center text-center">
                               <a href="#" @click="viewGraphicalPreview(option.name, option.graphic_image)" class="btn btn-outline-primary btn-sm" v-if="option.graphic_image">View schedule</a>
                             </div>
                           </div>
@@ -467,7 +474,7 @@ export default {
       haveTwoHalvesFM: true,
       initialHalfBreakRR: '5',
       initialHalfBreakFM: '5',      
-      categoryAgeArr: ['U08/5','U09','U09/5','U09/7','U10','U10/5','U10/7','U10/9','U10/5A','U10/7A','U10/5B','U10/7B','U11','U11/11','U11/7','U11/7A','U11/7B','U12','U12/7','U12/8','U12/9','U12-A','U12/7A','U12/8A','U12-B','U12/7B','U12/8B','U13','U13/7','U13/8','U13/9','U13-A','U13/7A','U13/8A','U13/9A','U13-B','U13/8B','U13/9B','U14','U14/7','U14-A','U14-B','U15','U15/7','U15/8','U15-A','U15-B','U16','U16-A','U16-B','U17','U17-A','U17-B','U18','U19','U19-A','U19-B','U10-U9','G08/5','G09/5','G09/7','G10/5','G10/7','G10/7A','G10/7B','G11','G11/7','G12','G12/7','G12/8','G12/9','G12/7A','G12/7B','G13','G13/7','G13/8','G13/9','G13/7A','G13/7B','G14','G14/7','G14/8','G14-A','G14-B','G15','G15/7','G15/8','G15-A','G15-B','G16','G17','G17/7','G17-A','G17-B','G18','G18/7','G18-A','G18-B','G19','G19-A','G19-B','M-O','M-O/5','M-O/7','M32','M35','M35/7','W-O','W-O/7'],
+      categoryAgeArr: ['U08/5','U09','U09/5','U09/7','U10','U10/5','U10/7','U10/9','U10/5A','U10/7A','U10/5B','U10/7B','U11','U11/11','U11/7','U11/7A','U11/7B','U12','U12/7','U12/8','U12/9','U12-A','U12/7A','U12/8A','U12-B','U12/7B','U12/8B','U13','U13/7','U13/8','U13/9','U13-A','U13/7A','U13/8A','U13/9A','U13-B','U13/8B','U13/9B','U14','U14/7','U14-A','U14-B','U15', 'U15/7','U15/8','U15-A','U15-B','U16','U16-A','U16-B','U17','U17-A','U17-B','U18','U19','U19-A','U19-B','U10-U9','G08/5','G09/5','G09/7','G10/5','G10/7','G10/7A','G10/7B','G11','G11/7','G12','G12/7','G12/8','G12/9','G12/7A','G12/7B','G13','G13/7','G13/8','G13/9','G13/7A','G13/7B','G14','G14/7','G14/8','G14-A','G14-B','G15','G15/7','G15/8','G15-A','G15-B','G16','G17','G17/7','G17-A','G17-B','G18','G18/7','G18-A','G18-B','G19','G19-A','G19-B','M-O','M-O/5','M-O/7','M32','M35','M35/7','W-O','W-O/7'],
       allCategoryRules: [],
       templateGraphicImageName: '',
       templateGraphicImagePath: '',
@@ -527,9 +534,6 @@ export default {
   },
   mounted() {
     this.allCategoryRules = this.categoryRules;
-
-    // here we call A function to delete all data
-
     let this1 = this
     $("#AgeCategoryModal").on('hide.bs.modal', function () {
       this1.competation_format = this1.initialState()

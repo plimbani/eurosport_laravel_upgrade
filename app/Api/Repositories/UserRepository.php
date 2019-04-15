@@ -60,7 +60,7 @@ class UserRepository {
             $user = $user->where('roles.slug', '=', $data['userType']);
         }
 
-        $user = $user->select('users.id as id', 'people.first_name as first_name', 'people.last_name as last_name', 'users.email as email', 'roles.id as role_id', 'roles.name as role_name', 'roles.slug as role_slug', 'users.is_verified as is_verified', 'users.is_mobile_user as is_mobile_user', 'users.is_desktop_user as is_desktop_user', 'users.organisation as organisation', 'users.locale as locale', 'users.role as role', 'countries.name as country');
+        $user = $user->select('users.id as id', 'people.first_name as first_name', 'people.last_name as last_name', 'users.email as email', 'roles.id as role_id', 'roles.name as role_name', 'roles.slug as role_slug', 'users.is_verified as is_verified', 'users.is_mobile_user as is_mobile_user', 'users.is_desktop_user as is_desktop_user', 'users.organisation as organisation', 'users.locale as locale', 'users.role as role','countries.name as country', 'users.device as device', 'users.app_version as app_version');
 
         $user->orderBy('people.last_name', 'asc');
 
@@ -110,22 +110,23 @@ class UserRepository {
     public function create($data)
     {
         $userData = [
-            'person_id' => $data['person_id'],
-            'username' => $data['username'],
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'organisation' => $data['organisation'],
-            'password' => $data['password'],
-            'token' => $data['token'],
-            'is_verified' => 0,
-            'is_online' => 0,
-            'is_active' => (isset($data['is_mobile_user'])) ? 0 : 1,
-            'is_blocked' => 0,
-            'is_mobile_user' => $data['is_mobile_user'] ? 1 : 0,
-            'is_desktop_user' => $data['is_desktop_user'] ? 1 : 0,
-            'registered_from' => $data['registered_from'] ? 1 : 0,
-            'user_image' => (isset($data['user_image']) && $data['user_image'] != '') ? $data['user_image'] : '',
-            'role' => (isset($data['role']) && $data['role'] != '') ? $data['role'] : '',
+        'person_id' => $data['person_id'],
+        'username' => $data['username'],
+        'name' => $data['name'],
+        'email' => $data['email'],
+        'organisation' => $data['organisation'],
+        'password' => $data['password'],
+        'token' => $data['token'],
+        'is_verified' => 0,
+        'is_online' => 0,
+        'is_active' => (isset($data['is_mobile_user'])) ? 0 : 1,
+        'is_blocked' => 0 ,
+        'is_mobile_user' => $data['is_mobile_user'] ? 1 : 0,
+        'is_desktop_user' => $data['is_desktop_user'] ? 1 : 0,
+        'registered_from' => $data['registered_from'] ? 1 : 0,
+        'user_image'=>(isset($data['user_image']) && $data['user_image']!='') ?  $data['user_image'] : '',
+        'role' => (isset($data['role']) && $data['role']!='') ?  $data['role'] : '',
+        
         ];
 
         $deletedUser = User::onlyTrashed()->where('email', $data['email'])->first();
@@ -174,7 +175,6 @@ class UserRepository {
                         'users.is_active', 'roles.slug as role_slug', 'people.address', 'people.address_2', 'people.country_id', 'people.city', 'people.job_title', 'people.zipcode')
                 ->where("users.id", "=", $userId)
                 ->first();
-        
         $defaultFavouriteTournament = DB::table('users_favourite')->where('user_id', $user->id)->where('is_default', 1)->first();
 
         $user->tournament_id = $defaultFavouriteTournament ? $defaultFavouriteTournament->tournament_id : null;
@@ -333,5 +333,13 @@ class UserRepository {
     public function getAllLanguages()
     {
         return $languages = config('wot.languages');
+    }
+
+    public function updateAppDeviceVersion($data) {
+        $usersAppDevice = User::where('id', $data['user_id'])
+                                ->update(['device' => $data['device'], 'app_version' => $data['app_version'], 
+                                  'os_version' => $data['os_version']]);
+
+        return ['status_code' => 200, 'message' => 'User data has been updated.'];
     }
 }

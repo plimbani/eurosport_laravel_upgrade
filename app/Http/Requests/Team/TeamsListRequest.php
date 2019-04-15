@@ -20,23 +20,14 @@ class TeamsListRequest extends FormRequest
         $data = $this->all();
         $token = JWTAuth::getToken();
         if (isset($data['tournament_id'])) {
-            if(!$token || (isset($this->headers->all()['ismobileuser'])) && $this->headers->all()['ismobileuser'] == true) {
-                $tournament_id = $data['tournament_id'];
-
-                $currentLayout = config('config-variables.current_layout');
-                if($currentLayout == 'commercialisation'){
-                    $checkForTournamentAccess = $this->checkForTournamentAccess($tournament_id);
-                    if(!$checkForTournamentAccess) {
-                        return false;
-                    } 
-                }    
-
-                $isTournamentAccessible = $this->checkForTournamentReadAccess($data['tournament_id']);
-                if(!$isTournamentAccessible) {
-                  return false;
-                }
-                return true;
-            }
+          if(!$token || (isset($this->headers->all()['ismobileuser'])) && $this->headers->all()['ismobileuser'] == true) {
+              $tournament_id = $data['tournament_id'];
+              $isTournamentAccessible = $this->checkForTournamentReadAccess($data['tournament_id']);
+              if(!$isTournamentAccessible) {
+                return false;
+              }
+              return true;
+          }
         }
         return true;
     }

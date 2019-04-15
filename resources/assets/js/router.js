@@ -107,6 +107,13 @@ import WebsiteMedia from './views/admin/eurosport/WebsiteMedia.vue';
 import WebsiteContact from './views/admin/eurosport/WebsiteContact.vue';
 import Test from './views/admin/eurosport/Test.vue';
 
+// commercialisation pricing pages
+import ManagePricing from './components/Pricing/ManagePricing.vue'
+
+// Commercialisation backend Layout
+import LayoutTournamentPricingForBackend from './views/layouts/LayoutTournamentPricing.vue'
+
+
 import Ls from './services/ls'
 
 Vue.use(VueRouter)
@@ -235,7 +242,6 @@ const routes = [
         name: 'users_list'
     },
 
-
     // Duplicate tournament copy routes
     {
         path: '/tournaments',
@@ -301,8 +307,8 @@ const routes = [
             }
         ]
     },
-     {
-        path: '/userstourmanents', component: LayoutCommercialisation,
+    {
+        path: '/userstourmanents', component: LayoutTournament,
         meta: { requiresAuth: true },
         children: [
             {
@@ -312,7 +318,7 @@ const routes = [
             }
         ]
     }, 
-     {
+    {
         path: '/tournamentstransaction', component: LayoutCommercialisation,
         meta: { requiresAuth: true },
         children: [
@@ -344,6 +350,7 @@ const routes = [
                 component: Register,
                 name: 'register'
             },
+
         ]
     },
     {
@@ -379,7 +386,7 @@ const routes = [
             }
         ]
     },
-     {
+    {
         // path: '/profile/:id', component: LayoutLogin,
         path: '/profile', component: LayoutCommercialisation,
         meta: { requiresAuth: true },
@@ -391,8 +398,7 @@ const routes = [
             }
         ]
     },
-     
-     {
+    {
         path: '/buylicense', component: LayoutCommercialisation,
         // meta: { requiresAuth: true },
         children: [
@@ -403,7 +409,7 @@ const routes = [
             }
         ]
     },
-     {
+    {
         path: '/enter-tournament', component: LayoutCommercialisation, 
         children: [
             {
@@ -444,7 +450,6 @@ const routes = [
             }
         ]
     },
-    
     {
         path: '/dashboard', component: LayoutCommercialisation,
         meta: { requiresAuth: true },
@@ -456,6 +461,17 @@ const routes = [
             }
         ]
     },
+    {
+        path: '/manage_pricing', component: LayoutTournamentPricingForBackend,
+        meta: { requiresAuth: true },
+        children: [
+            {
+                path: '/admin/manage_pricing',
+                component: ManagePricing,
+                name: 'manage_pricing'
+            }
+        ]
+    },    
 
     // DEFAULT ROUTE
     {   path: '*', component : NotFoundPage }
@@ -480,16 +496,31 @@ router.beforeEach((to, from, next) => {
     let websiteRoutes = ['website_add', 'website_homepage', 'website_teams', 'website_venue', 'website_tournament', 'website_program', 'website_stay', 'website_visitors', 'website_media', 'website_contact'];
     if (websiteRoutes.indexOf(to.name) === -1) {
         store.dispatch('ResetWebsiteDetail');
-    } 
+    }
+
+    let restrictCustomerRoutes = ['website_add', 'website_homepage', 'website_teams', 'website_venue', 'website_tournament', 'website_program', 'website_stay', 'website_visitors', 'website_media', 'website_contact','welcome','users_list','userstourmanent'];
+    let routesForResultAdmin = ['welcome', 'tournaments_summary_details'];
+
     // If the next route is requires user to be Logged IN
     if (to.matched.some(m => m.meta.requiresAuth)){
         return AuthService.check(data).then((response) => {
             if(!response.authenticated){
                 return next({ path : '/login'})
             }
+
+
+            if ( response.userData.role_name == "customer" && restrictCustomerRoutes.indexOf(to.name) >= 0) {
+                router.push({'name':'dashboard'});
+            }
+
             if(response.authenticated && typeof response.hasAccess !== 'undefined' && response.hasAccess == false){
                 return next({ path : '/admin'});
             }
+
+            if(response.userData.role_slug == 'Results.administrator' && routesForResultAdmin.indexOf(to.name) === -1) {
+                return next({ path: '*' });
+            }
+            
             store.dispatch('setScoreAutoUpdate',response.is_score_auto_update);
             return next()
         })
