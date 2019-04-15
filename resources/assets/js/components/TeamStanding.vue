@@ -120,7 +120,9 @@ export default {
         },
 		changeTeam(Id, Name) {
 			// here we dispatch Method
-
+			window.changeTeamId = Id;
+      		window.changeTeamname = Name;
+      		
 			this.$store.dispatch('setCurrentScheduleView','teamDetails')
 			this.$root.$emit('changeComp', Id, Name);
 		},

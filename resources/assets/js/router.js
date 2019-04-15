@@ -499,6 +499,7 @@ router.beforeEach((to, from, next) => {
     }
 
     let restrictCustomerRoutes = ['website_add', 'website_homepage', 'website_teams', 'website_venue', 'website_tournament', 'website_program', 'website_stay', 'website_visitors', 'website_media', 'website_contact','welcome','users_list','userstourmanent'];
+    let routesForResultAdmin = ['welcome', 'tournaments_summary_details'];
 
     // If the next route is requires user to be Logged IN
     if (to.matched.some(m => m.meta.requiresAuth)){
@@ -516,7 +517,10 @@ router.beforeEach((to, from, next) => {
                 return next({ path : '/admin'});
             }
 
-
+            if(response.userData.role_slug == 'Results.administrator' && routesForResultAdmin.indexOf(to.name) === -1) {
+                return next({ path: '*' });
+            }
+            
             store.dispatch('setScoreAutoUpdate',response.is_score_auto_update);
             return next()
         })

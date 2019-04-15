@@ -4,6 +4,7 @@ import * as types from '../mutation-types';
 const state = {
   'googleMapKey': null,
   'currentLayout': null,
+  'matchIdleTime': 0,
 };
 
 // getters
@@ -22,6 +23,9 @@ const mutations = {
 	},
 	[types.SET_CURRENT_LAYOUT] (state, currentLayout) {
 		state.currentLayout = currentLayout;
+	},
+	[types.SET_MATCH_IDLETIME] (state, matchIdleTime) {
+		state.matchIdleTime = matchIdleTime;
 	},
 };
 
