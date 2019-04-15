@@ -28,6 +28,7 @@ use Laraspace\Models\MatchStanding;
 use Laraspace\Models\TeamManualRanking;
 use Laraspace\Models\TournamentClub;
 use Laraspace\Models\TournamentUser;
+use Laraspace\Models\TournamentPricing;
 
 class TournamentRepository
 {

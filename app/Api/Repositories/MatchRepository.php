@@ -45,7 +45,11 @@ class MatchRepository
 
     public function getDraws($tournamentData) {
          //$data = Competition::where('tournament_id',$tournamentId)->get();
-      $tournamentId = $tournamentData['tournamentId'];
+      if(isset($tournamentData['tournamentId'])) {
+          $tournamentId = $tournamentData['tournamentId'];
+      } else {
+          $tournamentId = $tournamentData['tournament_id'];
+      }
       //$tournamentId = $tournamentData['tournament_id'];
       $reportQuery = DB::table('competitions')
                      ->leftjoin('tournament_competation_template','tournament_competation_template.id', '=', 'competitions.tournament_competation_template_id');
@@ -1569,7 +1573,11 @@ class MatchRepository
       $val = TempFixture::where('tournament_id','=',$tournamentId)
               ->select('id','updated_at')
               ->orderBy('updated_at','desc')->first();
-      return (isset($val['updated_at']) && $val['updated_at'] != '') ? $val['updated_at'] :new \DateTime();
+
+      $currentDateTime = new \DateTime();
+      $formatCurrentTime = $currentDateTime->format('Y-m-d H:i:s');
+
+      return (isset($val['updated_at']) && $val['updated_at'] != '') ? $val['updated_at'] : $formatCurrentTime;
     }
 
     public function setUnavailableBlock($matchData)
