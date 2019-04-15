@@ -69,7 +69,7 @@ class TournamentService implements TournamentContract
           {
             $authUser = JWTAuth::parseToken()->toUser();
             $userObj = User::find($authUser->id);
-            if($authUser && $userObj->hasRole('tournament.administrator')) {
+            if($authUser && ($userObj->hasRole('tournament.administrator') ||$userObj->hasRole('Results.administrator'))) {
               $user = $userObj;
             }
           }

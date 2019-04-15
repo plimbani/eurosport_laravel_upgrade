@@ -3,7 +3,7 @@
     <div class="modal-dialog modal-lg" role="document">
       <div class="modal-content">
         <div class="modal-header">
-           <h5 class="modal-title" id="displaygraphicLabel">{{$lang.competation_modal_age_category}} {{templateGraphicImageName}}</h5>
+           <h5 class="modal-title" id="displaygraphicLabel">Match Schedule – Template {{templateGraphicImageName}}</h5>
            <button type="button" class="close js-close-btn" @click="closeViewGraphicImage()">
            <span>×</span>
            </button>
