@@ -22,7 +22,7 @@
 
             <pricingBand :tournamentType="'league'" :bands="pricingBands"></pricingBand>
 
-            <p><a href="javascript:void(0)" class="text-primary" @click="addLeaguePricingBand()"><u>Add pricing band</u></a></p>
+            <p class="mt-4"><a href="javascript:void(0)" class="text-primary" @click="addLeaguePricingBand()"><u>Add pricing band</u></a></p>
             <button type="button" class="btn btn-primary" @click="savePricingData()">Save</button>
         </form>
     </div>
@@ -50,7 +50,12 @@
         		});
         	},
             savePricingData() {
-                this.$emit('save-league-pricing-detail', this.pricingBands);
+                this.$validator.validateAll().then((response) => {
+                    if(response) {
+                        this.$emit('save-league-pricing-detail', this.pricingBands);
+                    }
+                }).catch((errors) => {
+                });
             },
         }
 	}

@@ -25,7 +25,7 @@
 
             <pricingBand :tournamentType="'cup'" :bands="pricingBands"></pricingBand>
 
-            <p><a href="javascript:void(0)" class="text-primary" @click="addCupPricingBand()"><u>Add pricing band</u></a></p>
+            <p class="mt-4"><a href="javascript:void(0)" class="text-primary" @click="addCupPricingBand()"><u>Add pricing band</u></a></p>
             <a href="javascript:void(0)" class="btn btn-primary" @click="savePricingData()">Save</a>
         </form>
 	</div>
