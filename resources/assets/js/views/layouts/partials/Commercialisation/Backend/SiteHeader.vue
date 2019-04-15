@@ -27,7 +27,7 @@
                         <!-- <router-link class="dropdown-item" to="/admin/settings"><i class="fa fa-cogs"></i>{{$lang.siteheader_settings}}</router-link> -->
                          <a href="javascript:void(0)" class="dropdown-item" @click="showEditProfileModal()"><i class="fas fa-user"></i>{{$lang.siteheader_userprofile}}</a>
                          <a href="javascript:void(0)" class="dropdown-item" @click="showSettingModal()"><i class="fas fa-sign-out"></i>Setting</a>
-                         <a href="javascript:void(0)" class="dropdown-item" @click="showPricing()"><i class="fas fa-money-bill-alt"></i>Manage Pricing</a>
+                         <a href="javascript:void(0)" class="dropdown-item" @click="showPricingView()"><i class="fas fa-money-bill-alt"></i>Manage Pricing</a>
                         <a href="#" class="dropdown-item" @click.prevent="logout"><i class="fas fa-sign-out"></i>{{$lang.siteheader_logout}}</a>
                     </div>
                 </li>
@@ -84,8 +84,6 @@
         </div>
     </div>
      <user :userData="userData" :emailExist="emailExist" @showEmailExists="showEmailExists" @hideEmailExists="hideEmailExists"></user>
-
-     <managePricing v-if="isPricingPageActive"></managePricing>
 </div>
 </template>
 
@@ -119,7 +117,6 @@
                 adminsetting:{
                     currencyvalue:1
                 },
-                'isPricingPageActive': false
             }
         },
         // computed: {
@@ -295,8 +292,7 @@
             hideEmailExists() {
                 this.emailExist = false;
             },
-            showPricing() {
-                this.isPricingPageActive = true;
+            showPricingView() {
                 this.$router.push({name: 'manage_pricing'});
             }
         },
