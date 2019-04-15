@@ -216,7 +216,7 @@ export default {
       vm.updateMatchScoreToRel();
     },200);
 
-    this.matchIdleTimeInterval = parseInt(this.$store.state.Configuration.matchIdleTime) * 500;
+    this.matchIdleTimeInterval = parseInt(this.$store.state.Configuration.matchIdleTime) * 1000;
     if ( this.matchIdleTimeInterval !== 0)
     {
       clearInterval(this.matchInterval);
