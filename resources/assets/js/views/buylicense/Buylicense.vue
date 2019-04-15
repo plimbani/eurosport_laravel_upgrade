@@ -15,7 +15,7 @@
                                 <label class="radio-inline control-label d-inline-flex align-items-center mr-3">
                                     <div class="checkbox checked">
                                         <div class="c-input">
-                                          <input type="radio" id="cup" name="tournament_type" value="cup" class="euro-radio mr-2"  v-model="tournamentData.tournament_type" @click="tournamentOrganising()" @input="onChange"> 
+                                          <input type="radio" id="cup" name="tournament_type" value="cup" class="euro-radio mr-2"  v-model="tournamentData.tournament_type" @click="tournamentOrganising()" @change="tournammentPricingData()"> 
                                           <label for="cup">Cup</label>
                                         </div>
                                     </div>
@@ -24,7 +24,7 @@
                                 <label class="radio-inline control-label d-inline-flex align-items-center">
                                     <div class="checkbox">
                                         <div class="c-input">
-                                          <input type="radio" id="league" name="tournament_type" value="league" class="euro-radio mr-2" v-model="tournamentData.tournament_type">
+                                          <input type="radio" id="league" name="tournament_type" value="league" class="euro-radio mr-2 " v-model="tournamentData.tournament_type" @change="tournammentPricingData()">
                                           <label for="league">League</label>
                                         </div>
                                     </div>
@@ -37,7 +37,8 @@
                                     <label class="radio-inline control-label d-inline-flex align-items-center mr-3">
                                         <div class="checkbox checked">
                                             <div class="c-input">
-                                              <input type="radio" id="no" name="custom_tournament_format" value="0" class="euro-radio mr-2"  v-model="tournamentData.custom_tournament_format" @input="onChange">
+                                              <input type="radio" id="no" name="custom_tournament_format" 
+                                              value="no" class="euro-radio mr-2"  v-model="tournamentData.custom_tournament_format" @change="tournammentPricingData()">
                                               <label for="no">No <span>£ INCLUDED</span></label>
                                             </div>
                                         </div>
@@ -45,7 +46,8 @@
                                     <label class="radio-inline control-label d-inline-flex align-items-center">
                                         <div class="checkbox">
                                             <div class="c-input">
-                                              <input type="radio" id="yes" name="custom_tournament_format" value="1" class="euro-radio mr-2"  v-model="tournamentData.custom_tournament_format" @input="onChange">
+                                              <input type="radio" id="yes" name="custom_tournament_format" value="yes" class="euro-radio mr-2"  v-model="tournamentData.custom_tournament_format" 
+                                              @change="tournammentPricingData()">
                                               <label for="yes">Yes <span>+£100</span></label>
                                             </div>
                                         </div>
@@ -58,7 +60,7 @@
 
                         <div class="row my-4 my-lg-5">
                             <div class="col-10 col-md-11 col-lg-12">
-                                <vue-slider @callback='changeTeams' :min='2' :max='60' tooltip-dir='right' v-model="tournamentData.tournament_max_teams" @input="onChange"></vue-slider>
+                                <vue-slider @callback='changeTeams' :min='2' :max='60' tooltip-dir='right' v-model="tournamentData.tournament_max_teams" class="tournament_teams" @change="tournammentPricingData()"></vue-slider>
                             </div>
                         </div>
 
@@ -209,7 +211,7 @@
                     payment_currency:"EUR",
                     is_renew:0,
                     tournament_type: "cup",
-                    custom_tournament_format: 0,
+                    custom_tournament_format: "no",
 
                 },
                 
@@ -224,7 +226,8 @@
                 id:"",
                 gpbConvertValue:1,
                 tournament_old_teams:2,
-                new_added_teams:0
+                new_added_teams:0,
+                tournamentPricingBand: '',
                 
             }
         },
@@ -397,15 +400,48 @@
                 $('#no').prop("checked",true)
             },
 
-            onChange() {
+            getTournamentPricing() {
                 Commercialisation.getTournamentPricingDetail().then(
                 (response) => {
+                    this.tournamentPricingBand = JSON.parse(response.data.data);
                 })
+                
+            },
 
+
+            tournammentPricingData() {
+                let tournamentOrganising = this.tournamentData.tournament_type
+                let tournamentCustomFormats = this.tournamentData.custom_tournament_format
+                let tournamentMaxTeams = this.tournamentData.tournament_max_teams
+
+
+                if(tournamentOrganising == 'cup' && tournamentCustomFormats == 'no' && tournamentMaxTeams) {
+                    let tournamentPricing = _.filter(this.tournamentPricingBand.cup.bands, function(band) { 
+                        let tournamentLicencePricing =  band.min_teams <= tournamentMaxTeams && band.max_teams >= tournamentMaxTeams; 
+                        return band.price;
+                    });
+
+                    let tournamentData = _.groupBy(this.tournamentPricingBand.cup.bands, tournamentPricing);
+                } 
+
+                if(tournamentOrganising == 'cup' && tournamentCustomFormats == 'yes' && tournamentMaxTeams) {
+                    let tournamentPricing = _.filter(this.tournamentPricingBand.cup.bands, function(band) { 
+                        let tournamentLicencePricing =  band.min_teams <= tournamentMaxTeams && band.max_teams >= tournamentMaxTeams; 
+                            return band.price + band.advanced_price;
+                    });
+
+                    let tournamentData = _.groupBy(this.tournamentPricingBand.cup.bands, tournamentPricing);
+                } 
+
+                if(tournamentOrganising == 'league' && tournamentMaxTeams) {
+                    let tournamentPricing = _.filter(this.tournamentPricingBand.cup.bands, function(band) { 
+                        let tournamentLicencePricing =  band.min_teams <= tournamentMaxTeams && band.max_teams >= tournamentMaxTeams; 
+                            return band.price;
+                    });
+
+                    let tournamentData = _.groupBy(this.tournamentPricingBand.cup.bands, tournamentPricing);
+                }
             }
-        },
-        beforeMount(){   
-            
         },
         mounted () {
             var vm = this
@@ -437,10 +473,13 @@
             this.getCurrencyValue();
             setTimeout(function(){
                 vm.setOldDays()
-            },4000)
+            },4000) 
 
+            this.getTournamentPricing();
 
-            this.getTournamentAdvancedPrices();
+            this.tournament_type;
+            this.custom_tournament_format;
+            this.tournament_max_teams;
 
             $('#cup').prop("checked",true)
             $('#no').prop("checked",true)
