@@ -1318,7 +1318,7 @@ class MatchService implements MatchContract
 
         $reportQuery = DB::table('temp_fixtures')
         ->select('temp_fixtures.id as matchID','temp_fixtures.match_number as MatchNumber','temp_fixtures.home_team_name as HomeTeam','temp_fixtures.home_team as HomeTeamId','temp_fixtures.away_team_name as AwayTeam',
-
+          'temp_fixtures.home_team_placeholder_name as HomeTeamPlaceHolderName','temp_fixtures.away_team_placeholder_name as AwayTeamPlaceHolderName',
           'temp_fixtures.away_team as AwayTeamId')
         ->leftJoin('competitions','competitions.id','=','temp_fixtures.competition_id')
         ->leftJoin('tournament_competation_template','tournament_competation_template.id','=','competitions.tournament_competation_template_id')
@@ -1356,8 +1356,15 @@ class MatchService implements MatchContract
 
                   if($this->checkForEndRR($cupId) == true) {
                     DB::table('temp_fixtures')->where('id',$match->matchID)->update($updateArray);
-                    unset($updateArray);
+                  } else {
+                    DB::table('temp_fixtures')->where('id',$match->matchID)->update(
+                      [
+                        'home_team_name' => $match->HomeTeamPlaceHolderName,
+                        'home_team' => 0,
+                      ]
+                    );
                   }
+                  unset($updateArray);
                   //echo '<br>';
                 }
                 // check if value is changed
@@ -1378,8 +1385,15 @@ class MatchService implements MatchContract
                   ];
                   if($this->checkForEndRR($cupId) == true) {
                     DB::table('temp_fixtures')->where('id',$match->matchID)->update($updateArray);
-                    unset($updateArray);
+                  } else {
+                    DB::table('temp_fixtures')->where('id',$match->matchID)->update(
+                      [
+                        'away_team_name'=> $match->AwayTeamPlaceHolderName,
+                        'away_team' => 0,
+                      ]
+                    );
                   }
+                  unset($updateArray);
                 }else {
                  // echo 'hi-Away';
                 }
