@@ -263,13 +263,14 @@ class MatchService implements MatchContract
             $resultGridTable[$competition->id] = ['name' => $competition['name'], 'results' => [], 'actual_competition_type' => $competition['actual_competition_type']];
           }
 
-          $tournamentDataMatches = ['tournamentData' => ['competitionId' => $competition->id, 'tournamentId' => $competition->tournament_id, 'is_scheduled' => 1]];
+          $tournamentDataMatches = ['tournamentData' => ['competitionId' => $competition->id, 'tournamentId' => $competition->tournament_id, 'is_scheduled' => 1,'matchOrderReport' => 1]];
           $resultMatches =$this->getFixtures(collect($tournamentDataMatches));
           $resultMatchesTable[$competition->id] = ['name' => $competition['name'], 'results' => $resultMatches['data']];
         }
         if ($competition->competation_round_no !== "Round 1") {
-          $tournamentDataMatchesAfterFirstRound = ['tournamentData' => ['competitionId' => $competition->id, 'tournamentId' => $competition->tournament_id]];
+          $tournamentDataMatchesAfterFirstRound = ['tournamentData' => ['competitionId' => $competition->id, 'tournamentId' => $competition->tournament_id, 'matchOrderReport' => 1]];
           $resultMatchesAfterFirstRound =$this->getFixtures(collect($tournamentDataMatchesAfterFirstRound));
+
           $resultMatchesTableAfterFirstRound[$competition->id] = ['name' => $competition['name'], 'results' => $resultMatchesAfterFirstRound['data'], 'actual_competition_type' => $competition['actual_competition_type']];
         }
       }
@@ -937,11 +938,13 @@ class MatchService implements MatchContract
           $fix1['CupFixture']['match_round'] = $singleFxture->round;
           $ageCategoryId = $fix1['CupFixture']['age_group_id'] = $singleFxture->age_group_id;
         }
-        if( $fix1['CupFixture']['hometeam'] == 0 || $fix1['CupFixture']['awayteam'] == 0)
-        {
-          return $singleFxture->competition_id;
-        }
 
+        if($fix1['CupFixture']['match_round'] == 'Round Robin') {
+          if( $fix1['CupFixture']['hometeam'] == 0 || $fix1['CupFixture']['awayteam'] == 0)
+          {
+            return $singleFxture->competition_id;
+          }
+        }
 
         // Set the fix1 single record team
 
@@ -1333,7 +1336,6 @@ class MatchService implements MatchContract
         // dd($calculatedArray[$cupId]);
         if($matches) {
            foreach($matches as $key=>$match) {
-            $processFixtures[] = $match->matchID;
             //$templateData = json_decode($match->JsonData,true);
             // echo "<pre>"; print_r($match); echo "</pre>";
             $exmatchNumber = explode('.',$match->MatchNumber);
@@ -1344,7 +1346,7 @@ class MatchService implements MatchContract
               foreach($calculatedArray[$cupId] as $dd1) {
 
                 if($homeTeam == $dd1['teamAgeGroupPlaceHolder']) {
-
+                  $processFixtures[] = $match->matchID;
                   //echo $matchId = $match->matchID;
                   //echo $matchNumber = $match->MatchNumber;
 
@@ -1379,6 +1381,8 @@ class MatchService implements MatchContract
             if($awayTeam) {
               foreach($calculatedArray[$cupId] as $dd1) {
                 if($awayTeam == $dd1['teamAgeGroupPlaceHolder']) {
+                  $processFixtures[] = $match->matchID;
+
                   $updatedMatchNumer =  str_replace($awayTeam,$dd1['teamName'],$match->MatchNumber);
                   $awayTeamId = $dd1['teamid'];
                   $updateArray = [

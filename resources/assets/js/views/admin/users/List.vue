@@ -29,6 +29,7 @@
                                     <option value="mobile.user">Mobile user</option>
                                     <option value="Super.administrator">Super administrator</option>
                                     <option value="tournament.administrator">Tournament administrator</option>
+                                    <option value="Results.administrator">Results administrator</option>
                                 </select>
                               </div>
                               <div class="col-md-2">
@@ -52,6 +53,8 @@
                                         <th>{{$lang.use_desktop_country}}</th>
                                         <th>{{$lang.use_desktop_language}}</th>
                                         <th>{{$lang.user_desktop_status}}</th>
+                                        <th>{{$lang.user_device}}</th>
+                                        <th>{{$lang.user_app_version}}</th>
                                         <th class="text-center">{{$lang.user_desktop}}</th>
                                         <th class="text-center">{{$lang.user_mobile}}</th>
                                         <th>{{$lang.user_desktop_action}}</th>
@@ -70,6 +73,8 @@
                                     <td v-else>
                                       <a href="#"  @click="resendModalOpen(user.email)"><u>Re-send</u></a>
                                     </td>
+                                    <td>{{ user.device }}</td>
+                                    <td>{{ user.app_version }}</td>
                                     <td class="text-center">
                                       <i class="fas fa-check text-success"
                                         v-if="user.is_desktop_user == true"></i>
@@ -95,7 +100,7 @@
                                         <i class="fas fa-trash"></i>
                                         </a>
                                         &nbsp;
-                                        <a v-if="user.role_slug == 'tournament.administrator'" class="text-primary icon-size-1-2" href="javascript:void(0)"
+                                        <a v-if="(user.role_slug == 'tournament.administrator' || user.role_slug == 'Results.administrator')" class="text-primary icon-size-1-2" href="javascript:void(0)"
                                         @click="editTournamentPermission(user)">
                                         <i class="fas fa-eye fa-1x"></i>
                                         </a>
