@@ -50,7 +50,7 @@ $api->version('v1', function ($api) {
     $api->get('tournaments/getTournamentBySlug/{slug}', 'Laraspace\Api\Controllers\TournamentController@getTournamentBySlug');
 
     $api->post('tournament/getCategoryCompetitions', 'Laraspace\Api\Controllers\TournamentController@getCategoryCompetitions');
-    $api->post('match/getFixtures', 'Laraspace\Api\Controllers\MatchController@getFixtures');
+    $api->post('match/getFixtures', 'Laraspace\Api\Controllers\MatchController@getFixtures')->middleware('tournamentAccessable');
     $api->post('match/getDrawTable', 'Laraspace\Api\Controllers\MatchController@getDrawTable');
     $api->post('teams/getAllCompetitionTeamsFromFixture', 'Laraspace\Api\Controllers\TeamController@getAllCompetitionTeamsFromFixture');
 
@@ -67,18 +67,18 @@ $api->version('v1', function ($api) {
 
     $api->post('appversion', 'Laraspace\Api\Controllers\VersionController@apkVersion');
 
-    $api->post('age_group/getCompetationFormat', 'Laraspace\Api\Controllers\AgeGroupController@getCompetationFormat');
+    $api->post('age_group/getCompetationFormat', 'Laraspace\Api\Controllers\AgeGroupController@getCompetationFormat')->middleware('tournamentAccessable');
 
-    $api->post('match/getDraws', 'Laraspace\Api\Controllers\MatchController@getDraws');
+    $api->post('match/getDraws', 'Laraspace\Api\Controllers\MatchController@getDraws')->middleware('tournamentAccessable');
 
-    $api->post('match/getStanding/{refreshStanding?}', 'Laraspace\Api\Controllers\MatchController@getStanding');
+    $api->post('match/getStanding/{refreshStanding?}', 'Laraspace\Api\Controllers\MatchController@getStanding')->middleware('tournamentAccessable');
 
     $api->post('user/create', 'Laraspace\Api\Controllers\UserController@createUser')->name('create.users');
 
     $api->post('/passwordactivate', '\Laraspace\Api\Controllers\UserController@passwordActivate');
     $api->get('tournaments', 'Laraspace\Api\Controllers\TournamentController@index');
 
-    $api->post('age_group/getPlacingsData', 'Laraspace\Api\Controllers\AgeGroupController@getPlacingsData');
+    $api->post('age_group/getPlacingsData', 'Laraspace\Api\Controllers\AgeGroupController@getPlacingsData')->middleware('tournamentAccessable')->middleware('tournamentAccessable');
 
     $api->post('tournament/getCompetitionAndPitchDetail', 'Laraspace\Api\Controllers\TournamentController@getCompetitionAndPitchDetail');
 
@@ -216,9 +216,9 @@ $api->version('v1', ['middleware' => 'jwt.auth'], function ($api) {
     $api->post('users/setDefaultFavourite', 'Laraspace\Api\Controllers\UserController@setDefaultFavourite');
 
     $api->post('users/getLoginUserFavouriteTournament', 'Laraspace\Api\Controllers\TournamentController@getUserLoginFavouriteTournament');
-    $api->post('tournaments/getTournamentClub', 'Laraspace\Api\Controllers\TournamentController@getTournamentClub');
+    $api->post('tournaments/getTournamentClub', 'Laraspace\Api\Controllers\TournamentController@getTournamentClub')->middleware('tournamentAccessable');
 
-    $api->post('teams/getTeamsList', 'Laraspace\Api\Controllers\TeamController@getTeamsList');
+    $api->post('teams/getTeamsList', 'Laraspace\Api\Controllers\TeamController@getTeamsList')->middleware('tournamentAccessable');
     $api->post('teams/getAllTournamentTeams', 'Laraspace\Api\Controllers\TeamController@getAllTournamentTeams');
 
     $api->post('users/postSetting', 'Laraspace\Api\Controllers\UserController@postSetting');
@@ -267,6 +267,7 @@ $api->version('v1', ['middleware' => 'jwt.auth'], function ($api) {
     $api->post('duplicateTournamentList','Laraspace\Api\Controllers\TournamentController@duplicateTournamentList');
 
     $api->post('tournament/access_code', 'Laraspace\Api\Controllers\TournamentController@getTournamentAccessCodeDetail');
+    $api->post('updateAppDeviceVersion','Laraspace\Api\Controllers\UserController@updateAppDeviceVersion');
 
 });
 

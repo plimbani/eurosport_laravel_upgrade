@@ -5,6 +5,7 @@ namespace Laraspace\Api\Providers\Commercialisation;
 use Illuminate\Support\ServiceProvider;
 use Laraspace\Api\Services\Commercialisation\RegisterService;
 use Laraspace\Api\Repositories\Commercialisation\RegisterRepository;
+use Laraspace\Api\Services\Commercialisation\TournamentPricingService;
 
 class RegisterServiceProvider extends ServiceProvider
 {

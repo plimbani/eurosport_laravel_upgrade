@@ -1,5 +1,5 @@
 <template>
-    <div class="template-container 13113">
+    <div class="template-container">
         <site-header v-if="getCurrentLayout === 'tmp'"></site-header>
         <site-commercialisation-header v-if="getCurrentLayout === 'commercialisation'"></site-commercialisation-header>    
         <!--<site-header-bottom></site-header-bottom>-->
