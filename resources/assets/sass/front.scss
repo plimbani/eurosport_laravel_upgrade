@@ -1167,3 +1167,11 @@ a.active-view:hover {
 .add-category-table th:nth-child(10), .add-category-table td:nth-child(10), .add-category-table th:nth-child(8), .add-category-table td:nth-child(8), .add-category-table th:nth-child(13), .add-category-table td:nth-child(13) {
     width: 90px;
 }
+
+.pull-right {
+  float: right;
+}
+
+.pull-left {
+  float: left;
+}
