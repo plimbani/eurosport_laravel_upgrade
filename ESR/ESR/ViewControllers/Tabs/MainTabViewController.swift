@@ -111,10 +111,10 @@ class MainTabViewController: SuperViewController {
             return
         }
         
-        self.view.showProgressHUD()
+        // self.view.showProgressHUD()
         
         var parameters: [String: Any] = [:]
-        parameters["device"] = "\(UIDevice.current.name)"
+        parameters["device"] = "iOS"
         parameters["app_version"] = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
         parameters["os_version"] = "\(UIDevice.current.systemVersion)"
         
@@ -123,7 +123,9 @@ class MainTabViewController: SuperViewController {
         }
         
         ApiManager().updateAppVersion(parameters, success: { result in
-            DispatchQueue.main.async {}
+            DispatchQueue.main.async {
+                // self.view.hideProgressHUD()
+            }
         }, failure: { result in
             DispatchQueue.main.async {
                 self.view.hideProgressHUD()

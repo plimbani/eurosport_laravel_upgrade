@@ -356,6 +356,8 @@ extension CreateAccountVC : UITextFieldDelegate {
             txtPassword.becomeFirstResponder()
         } else if textField == txtPassword {
             txtConfirmPassword.becomeFirstResponder()
+        } else if textField == txtConfirmPassword {
+            self.view.endEditing(true)
         }
         return true
     }
@@ -439,6 +441,7 @@ extension CreateAccountVC : UITableViewDataSource, UITableViewDelegate {
                             } else if indexPath.row == CreateAccountList.confirmPass.rawValue {
                                 txtConfirmPassword = textFieldCell.txtField
                                 txtConfirmPassword.placeholder = String.localize(key: "Confirm password")
+                                txtConfirmPassword.returnKeyType = .done
                             }
                         case .LabelSelectionCell:
                             _ = cellOwner.loadMyNibFile(nibName: kNiB.Cell.LabelSelectionCell)

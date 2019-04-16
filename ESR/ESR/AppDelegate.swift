@@ -241,19 +241,10 @@ extension AppDelegate: MessagingDelegate {
         // TODO: If necessary send token to application server.
         // Note: This callback is fired at each app startup and whenever a new token is generated.
     }
-    
-    /*func messaging(_ messaging: Messaging, didReceive remoteMessage: MessagingRemoteMessage) {
-        print(remoteMessage)
-    }*/
 }
 
 extension AppDelegate: UNUserNotificationCenterDelegate {
-//    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-//        
-//        print("Voila got first notification...!")
-//        completionHandler([.alert,.sound, .badge])
-//    }
-    
+
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any]) {
         // If you are receiving a notification message while your app is in the background,
         // this callback will not be fired till the user taps on the notification launching the application.
@@ -261,11 +252,13 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        
         if let userInfo = response.notification.request.content.userInfo as? [String : Any] {
+            
+            // print("PUSH NOTI \(userInfo)")
             if let dic = userInfo["aps"] as? NSDictionary {
                 if let alertMessage = dic.value(forKey: "alert") as? NSDictionary {
                     
-                        
                         if USERDEFAULTS.bool(forKey: kUserDefaults.isSound) {
                             AudioServicesPlaySystemSound(1315)
                         }
@@ -292,6 +285,8 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
     
         if let dic = userInfo["aps"] as? NSDictionary {
+            // print("PUSH NOTI \(dic)")
+            
             if let alertMessage = dic.value(forKey: "alert") as? NSDictionary {
                 if application.applicationState == .active {
                     

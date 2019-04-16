@@ -122,6 +122,7 @@ class LoginVC: SuperViewController {
     
     func sendLoginRequest() {
         if APPDELEGATE.reachability.connection == .none {
+            self.showCustomAlertVC(title: String.localize(key: "alert_title_error"), message: String.localize(key: "string_no_internet"))
             return
         }
         

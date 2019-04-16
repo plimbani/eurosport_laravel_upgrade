@@ -88,7 +88,11 @@ class ClubListVC: SuperViewController {
                 self.table.reloadData()
             }
         }) { (result) in
+            
             DispatchQueue.main.async {
+                
+                
+                
                 self.view.hideProgressHUD()
             }
         }
