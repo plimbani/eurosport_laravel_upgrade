@@ -271,7 +271,60 @@ class UserController extends BaseController
 
         return $signedUrl;
     }
+    /**
+     * Get user details     
+     * @param int $userId user id
+     * @return json
+     */
+    public function getDetails()
+    {
+        try {
+            $authUser = JWTAuth::parseToken()->toUser();            
+            $user = $this->userRepoObj->getUserById($authUser->id);
+            return response()->json([
+                        'success' => true,
+                        'status' => Response::HTTP_OK,
+                        'data' => $user,
+                        'error' => [],
+                        'message' => 'Get details of user successfully.'
+            ]);
+        } catch (\Exception $ex) {
+            return response()->json(['success' => false, 'status' => Response::HTTP_NOT_FOUND, 'data' => [], 'error' => [],
+                        'message' => 'Somethind went wrong. Please try again letter.']);
+        }
+    }
 
+    /**
+     * Update customer details
+     * @param storeRegRequest $request
+     * @return json
+     */
+    public function updateUser(UpdateCusRequest $request)
+    {
+        try {
+            $authUser = JWTAuth::parseToken()->toUser();            
+//            if ($authUser && $userObj->hasRole('tournament.administrator')) {
+//                $user = $userObj;
+//            }
+            $data = $request->all();
+            $status = $this->userRepoObj->updateUser($data, $authUser->id);
+            unset($data);
+            if ($status) {
+                return response()->json(['success' => true, 'status' => Response::HTTP_OK,
+                            'data' => [], 'error' => [],
+                            'message' => 'User details has been updated successfully.'
+                ]);
+            } else {
+                return response()->json(['success' => false, 'status' => Response::HTTP_FORBIDDEN,
+                            'data' => [], 'error' => [],
+                            'message' => 'This email address already exists.'
+                ]);
+            }
+        } catch (\Exception $ex) {
+            return response()->json(['success' => false, 'status' => Response::HTTP_NOT_FOUND, 'data' => [], 'error' => [],
+                        'message' => 'Somethind went wrong. Please try again letter.']);
+        }
+    }
     public function getAllCountries(Request $request) {
         return $this->userObj->getAllCountries();
     }
@@ -315,5 +368,9 @@ class UserController extends BaseController
       Common::sendMail($email_details, $recipient, $email_msg, $email_templates);
 
       return ['status_code' => '200', 'message' => 'Please check your inbox to verify your email address.'];
+    }
+
+    public function updateAppDeviceVersion(Request $request) {
+      return $this->userObj->updateAppDeviceVersion($request->all());
     }
 }

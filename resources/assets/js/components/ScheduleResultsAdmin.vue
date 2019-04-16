@@ -16,9 +16,8 @@
 						</div>
 						<div class="row align-items-center last-updated-row-text">
 							<div class="col-md-7">
-								<p class="mb-0 last-updated-time"><small class="text-muted">{{$lang.summary_schedule_last_update}}
-								        : {{lastUpdatedDateValue}}</small> 
-								</p>
+								<p class="mb-0 last-updated-time pl-0"><small class="text-muted">{{$lang.summary_schedule_last_update}}
+							        : {{lastUpdatedDateValue}}</small> </p>
 							</div>
 							<div class="col-md-5" v-if="currentView != 'teamListing' && currentView != 'matchListing'">
 								<div class="align-items-center d-flex justify-content-end">
@@ -36,7 +35,7 @@
 							<div class="row">
 								<div class="col-md-12">
 									<div class="tabs tabs-primary">
-										<ul class="nav nav-tabs">
+										<ul class="nav nav-tabs scheduleResultTab">
 											<li @click="setCurrentView('drawsListing')" class="nav-item">
 												<a :class="[currentView == 'drawsListing' ? 'active' : '']" class="nav-link" href="javascript:void(0)">
 													<div class="wrapper-tab">{{$lang.summary_schedule_categories}}
@@ -52,6 +51,9 @@
 											<li @click="setCurrentView('finalPlacings')" class="nav-item">
 												<a :class="[currentView == 'finalPlacings' ? 'active' : '']" class="nav-link" href="javascript:void(0)"><div class="wrapper-tab">{{$lang.summary_schedule_final_placings}}</div></a>
 											</li>											
+											<li @click="setCurrentView('')" class="nav-item d-none">
+												<a :class="[currentView == '' ? 'active' : '']" class="nav-link" href="javascript:void(0)"><div class="wrapper-tab"></div></a>
+											</li>
 										</ul>
 										<div class="tab-content summary-content">
 										<component :is="currentView" :tournamentStartDate ="this.tournamentStartDate" :currentView="currentView"></component>

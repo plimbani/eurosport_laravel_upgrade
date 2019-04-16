@@ -65,7 +65,7 @@
                 </div>
               </form>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 filterDropdown">
               <select :class="'form-control  ls-select2 '+filterKey" v-if="filterKey == 'competation_group'">
                 <option value="" v-if="filterKey != 'age_category'">Select</option>
                 <option   
@@ -147,7 +147,6 @@ export default {
     },
     setFilterValue() {
       // return false;
-
       this.filterValue = this.dropDown
       let tournamentFilter = {'filterKey': this.filterKey, 'filterValue':this.filterValue, 'filterDependentKey': '', 'filterDependentValue': ''}
       this.$store.dispatch('setTournamentFilter', tournamentFilter);

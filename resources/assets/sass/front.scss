@@ -1111,6 +1111,7 @@ a.aecor-anchor {
     text-align: center;
     margin-bottom: 1.2rem;
 }
+
 .add-category-table tr td, .add-category-table tr th {
     padding: 0.5rem 0.2rem;
 }
@@ -1164,4 +1165,13 @@ a.active-view:hover {
 }
 .match-fixture-comment {
     margin-left: 4px;
+}
+
+.tbl-drawdetails th,
+.tbl-drawdetails td{
+    word-break: break-word;
+}
+
+.add-category-table th:nth-child(10), .add-category-table td:nth-child(10), .add-category-table th:nth-child(8), .add-category-table td:nth-child(8), .add-category-table th:nth-child(13), .add-category-table td:nth-child(13) {
+    width: 90px;
 }

@@ -20,23 +20,17 @@ class TeamDetailsRequest extends FormRequest
     public function authorize()
     {
         $token = JWTAuth::getToken();
-        if(!$token || (isset($this->headers->all()['ismobileuser'])) && $this->headers->all()['ismobileuser'] == true) {
-            $ageCategoryId = $this->all()['ageCategoryId'];
-            $ageCategory = TournamentCompetationTemplates::findOrFail($ageCategoryId);
-            $tournament_id = $ageCategory->tournament_id;
+        if(isset($this->headers->all()['ismobileuser']) && $this->headers->all()['ismobileuser'] == true) {
+            if(!$token || (isset($this->headers->all()['ismobileuser'])) && $this->headers->all()['ismobileuser'] == true) {
+                $ageCategoryId = $this->all()['ageCategoryId'];
+                $ageCategory = TournamentCompetationTemplates::findOrFail($ageCategoryId);
+                $tournament_id = $ageCategory->tournament_id;   
 
-            $currentLayout = config('config-variables.current_layout');
-            if($currentLayout == 'commercialisation'){
-                $checkForTournamentAccess = $this->checkForTournamentAccess($tournament_id);
-                if(!$checkForTournamentAccess) {
+                $tournament = Tournament::where('id',$tournament_id)->first();
+                $isTournamentPublished = $this->isTournamentPublished($tournament);
+                if(!$isTournamentPublished) {
                     return false;
-                } 
-            }    
-
-            $tournament = Tournament::where('id',$tournament_id)->first();
-            $isTournamentPublished = $this->isTournamentPublished($tournament);
-            if(!$isTournamentPublished) {
-                return false;
+                }
             }
         }
         return true;
