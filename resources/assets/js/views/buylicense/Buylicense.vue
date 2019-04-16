@@ -448,6 +448,9 @@
                     let tournamentPricingRecord = _.head(tournamentLicensePricingArray);
                     vm.tournamentData.tournamentPricingValue = tournamentPricingRecord;
                 }
+                if(typeof vm.tournamentData.tournamentPricingValue === 'undefined'){
+                    vm.tournamentData.tournamentPricingValue = 0;
+                }
             }
         },
         mounted () {
