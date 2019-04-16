@@ -135,7 +135,7 @@
                                             <p class="text-sm-right mb-0 mt-3 mt-sm-0" >
                                              <span v-if="tournamentData.currency_type == 'GBP'">&#163;</span>   
                                              <span v-if="tournamentData.currency_type == 'EURO'">&#128;</span>   
-                                            100</p>
+                                            {{returnFormatedNumber(tournamentData.tournamentPricingValue)}}</p>
                                         </div>
                                     </div>
                                     
@@ -147,7 +147,7 @@
                                             <p class="text-sm-right mb-0 mt-3 mt-sm-0">
                                              <span v-if="tournamentData.currency_type == 'GBP'">&#163;</span>   
                                              <span v-if="tournamentData.currency_type == 'EURO'">&#128;</span>   
-                                            30</p>
+                                            {{returnFormatedNumber(tournamentData.tournamentPricingValue)}}</p>
                                         </div>
                                     </div>
                                     <div class="row" v-if="newDaysAdded <= 0 && new_added_teams <= 0">
