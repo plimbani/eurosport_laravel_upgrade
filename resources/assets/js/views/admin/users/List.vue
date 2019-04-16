@@ -24,12 +24,13 @@
                                 <select class="form-control ls-select2" v-on:change="searchTypeData"
                                     v-model="userTypeSearch" name="user_type" id="user_type">
                                     <option value="">Filter by user type</option>
+                                    <option value="customer">Customer</option>
                                     <option value="Internal.administrator">Internal administrator</option>
                                     <option value="Master.administrator">Master administrator</option>
                                     <option value="mobile.user">Mobile user</option>
+                                    <option value="Results.administrator">Results administrator</option>                       
                                     <option value="Super.administrator">Super administrator</option>
-                                    <option value="tournament.administrator">Tournament administrator</option>
-                                    <option value="Results.administrator">Results administrator</option>
+                                    <option value="tournament.administrator">Tournament administrator</option>                         
                                 </select>
                               </div>
                               <div class="col-md-2">

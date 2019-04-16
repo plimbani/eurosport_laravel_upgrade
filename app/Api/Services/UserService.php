@@ -113,8 +113,34 @@ class UserService implements UserContract
 
          // $token = 1;
         }
+
         $userData['people']['first_name']=$data['name'];
         $userData['people']['last_name']=$data['surname'];
+        $userData['people']['display_name'] = $data['name'] . " " . $data['surname'];
+
+        
+        $getUserTypeSlug = Role::where('id', $data['userType'])->first()->slug;
+        if($getUserTypeSlug == "customer") {
+
+          if(!empty($data['address']))
+            $userData['people']['address'] = $data['address'];
+
+          if(!empty($data['address_2']))
+            $userData['people']['address_2'] = $data['address_2'];
+
+          if(!empty($data['job_title']))
+            $userData['people']['job_title'] = $data['job_title'];
+
+          if(!empty($data['city']))
+            $userData['people']['city'] = $data['city'];
+
+          if(!empty($data['zip']))
+            $userData['people']['zipcode'] = $data['zip'];
+
+          if(!empty($data['country']))
+            $userData['people']['country_id'] = $data['country'];
+        }
+
         \Log::info('Insert in PeopleTable');
         $peopleObj = $this->peopleRepoObj->create($userData['people']);
         $userData['user']['person_id']=$peopleObj->id;
@@ -123,7 +149,11 @@ class UserService implements UserContract
         $userData['user']['email']=$data['emailAddress'];
         $userData['user']['organisation']=$data['organisation'];
         $userData['user']['userType']=$data['userType'];
-        $userData['user']['role']=$data['role'];
+        $userData['user']['role']=$data['role'];  
+              
+        if($getUserTypeSlug == "customer" && !empty($data['status'])) {
+           $userData['user']['is_active'] = $data['status'];
+        }
 
         // $userData['user']['password'] = Hash::make('password');
         // // dd($userData['user']);
@@ -162,14 +192,16 @@ class UserService implements UserContract
             $userFavouriteData['user_id']=$user_id;
             $data['tournament_id'] = 1;
             $userFavouriteData['tournament_id'] = $data['tournament_id'];
-            $userFavouriteData['is_default']= 1;  
+            $userFavouriteData['is_default']= 1;
+
+            $this->userRepoObj->createUserFavourites($userFavouriteData);
           }
 
           // if($data['tournament_id'] == '' || $data['tournament_id'] == 0)
           // $data['tournament_id'] = 1;
           // $userFavouriteData['tournament_id'] = $data['tournament_id'];
           // $userFavouriteData['is_default']= 1;
-          $this->userRepoObj->createUserFavourites($userFavouriteData);
+          
         //  return ['status_code' => '200', 'message' => 'Mobile Data Sucessfully Inserted'];
         }
         

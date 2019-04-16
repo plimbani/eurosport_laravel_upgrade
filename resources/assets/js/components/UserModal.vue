@@ -40,7 +40,7 @@
                     </div>
                 </div>
 
-                <div v-if="!isCustomer" class="form-group row">
+                <div v-if="showUserType" class="form-group row">
                     <label class="col-sm-5 form-control-label">{{$lang.user_management_user_type}}</label>
                     <div class="col-sm-6">
                       <select v-validate="'required'":class="{'is-danger': errors.has('user_type') }" class="form-control ls-select2" name="user_type" v-model="formValues.userType" @change="userTypeChanged()">
@@ -60,7 +60,7 @@
                         <span class="help is-danger" v-show="errors.has('organisation')">{{$lang.user_management_organisation_required}}</span>
                     </div>
                 </div>
-                <div v-if="!isCustomer" class="form-group row">
+                <div v-if="showUserType" class="form-group row">
                     <label class="col-sm-5 form-control-label">{{$lang.user_management_role}}</label>
                     <div class="col-sm-6">
                       <select class="form-control ls-select2" name="role" v-model="formValues.role">
@@ -88,6 +88,7 @@
                     <label class="col-sm-5 form-control-label"> {{$lang.user_management_status}}</label>
                      <div class="col-sm-6">
                         <select class="form-control" id="country" v-model="formValues.status">
+                            <option value="">Select</option>
                             <option value="1">Active</option>
                             <option value="0">In Active</option>
                         </select> 
@@ -96,11 +97,10 @@
                 
                 <div v-if="isCustomer" class="form-group row">
                     <label class="col-sm-5 form-control-label">
-                      {{$lang.user_management_job_title}}
-                      
+                      {{$lang.user_management_job_title}}                      
                     </label>
                     <div class="col-sm-6">
-                        <input v-model="formValues.job_title" v-validate="'required|alpha_spaces'" :class="{'is-danger': errors.has('job_title') }" name="job_title" type="text" class="form-control" placeholder="Enter Job Title">
+                        <input v-model="formValues.job_title" v-validate="'alpha_spaces'" :class="{'is-danger': errors.has('job_title') }" name="job_title" type="text" class="form-control" placeholder="Enter Job Title">
                         <i v-show="errors.has('job_title')" class="fas fa-warning"></i>
                         <span class="help is-danger" v-show="errors.has('job_title')">{{ errors.first('job_title') }}</span>
                     </div>
@@ -110,8 +110,7 @@
                      <div class="col-sm-6">
                         <input type="textarea" class="form-control  mb-4" placeholder="Address" id="address-line-1" name="address" v-model="formValues.address"> 
                         <input type="text" class="form-control" placeholder="Address Line 2 " id="address-line-2" v-model="formValues.address_2">  
-                     </div>
-                     
+                     </div>                     
                 </div>
                 <div v-if="isCustomer" class="form-group row">
                     <label class="col-sm-5 form-control-label">{{$lang.user_management_city}}</label>
@@ -130,7 +129,8 @@
                 <div v-if="isCustomer" class="form-group row">
                     <label class="col-sm-5 form-control-label">{{$lang.user_management_country}}</label>
                      <div class="col-sm-6">
-                        <select class="form-control" id="country" v-model="formValues.country" >
+                        <select class="form-control ls-select2" id="country" v-model="formValues.country" >
+                            <option value="">Select</option>
                             <option v-for="(value, key) in countries" :value="value">{{key}}</option>
                         </select> 
                      </div>
@@ -164,6 +164,8 @@ import { ErrorBag } from 'vee-validate';
                     userEmail2: '',
                     tournament_id: '',
                     role: '',
+                    status:'',
+                    country:'',
                 },
                 countries:{},
                 isCustomer:false,
@@ -177,6 +179,7 @@ import { ErrorBag } from 'vee-validate';
                 existEmail: false,
                 showOrganisation: false,
                 initialUserType: null,
+                showUserType: true,
                 roleOptions: ['Player', 'Coach/Manager/Trainer', 'Other'],
                 defaultAppTournament: this.$store.state.Configuration.currentLayout,
                 errorMessages: {
@@ -245,7 +248,7 @@ import { ErrorBag } from 'vee-validate';
                       this.$data.formValues.status = "0";
                     }
                     this.$data.formValues.zip = response.data.zipcode;
-                    this.$data.formValues.country = response.data.country_id;
+                    this.$data.formValues.country = (response.data.country_id)?response.data.country_id:'';
                     // this.$data.formValues = response.data;
                     this.initialUserType = response.data.userType;
                     this.$data.formValues.userEmail2 = this.$data.formValues.emailAddress;
@@ -253,8 +256,10 @@ import { ErrorBag } from 'vee-validate';
                     // if((response.data.role_slug).toLowerCase() == "mobile.user"){
                     if((response.data.role_slug).toLowerCase() == "customer"){
                       this.isCustomer = true;
+                      this.showUserType = false;
                     }else{
                       this.isCustomer = false;
+                      this.showUserType = true;
                     }
                     this.userTypeChanged();
                   },
@@ -389,6 +394,16 @@ import { ErrorBag } from 'vee-validate';
               if(roleData && roleData.slug !== 'mobile.user') {
                 this.showOrganisation = true;
               }
+
+              this.showUserType = true;
+              if(this.$data.formValues.id !== "") {
+                this.showUserType = false;
+              }
+
+              if(roleData && roleData.slug === 'customer') {
+                this.isCustomer = true;
+              }
+
             },
             updateUser() {
               let that = this;
