@@ -193,10 +193,10 @@ class TransactionRepository
         $mainTransaction = [
             'updated_at' => date('Y-m-d H:i:s')
         ];
-        if (empty($tournament['total_amount'])) {
+        if (empty($tournament['tournamentPricingValue'])) {
             $transaction = [
                 'transaction_id' => $existsTransaction['id'],
-                'amount' => $tournament['total_amount'],
+                'amount' => $tournament['tournamentPricingValue'],
                 'updated_at' => date('Y-m-d H:i:s')
             ];
         } else {
