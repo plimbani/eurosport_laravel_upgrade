@@ -14,8 +14,8 @@ class AddNewFieldsToTournamentsTable extends Migration
     public function up()
     {
         Schema::table('tournaments', function (Blueprint $table) {
-            $table->enum('tournament_type', array('cup', 'league'))->nullable()->default(null)->after('competition_type');
-            $table->boolean('custom_tournament_format')->after('tournament_type')->nullable()->default(null);
+            $table->enum('tournament_type', array('cup', 'league'))->nullable()->default(null)->after('competition_type')->default('cup');
+            $table->boolean('custom_tournament_format')->after('tournament_type')->nullable()->default(0);
         });
     }
 

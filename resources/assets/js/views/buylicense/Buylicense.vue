@@ -38,7 +38,7 @@
                                         <div class="checkbox checked">
                                             <div class="c-input">
                                               <input type="radio" id="no" name="custom_tournament_format" 
-                                              value="no" class="euro-radio mr-2"  v-model="tournamentData.custom_tournament_format" @change="tournammentPricingData()">
+                                              value="0" class="euro-radio mr-2"  v-model="tournamentData.custom_tournament_format" @change="tournammentPricingData()">
                                               <label for="no">No <span>£ INCLUDED</span></label>
                                             </div>
                                         </div>
@@ -46,7 +46,7 @@
                                     <label class="radio-inline control-label d-inline-flex align-items-center">
                                         <div class="checkbox">
                                             <div class="c-input">
-                                              <input type="radio" id="yes" name="custom_tournament_format" value="yes" class="euro-radio mr-2"  v-model="tournamentData.custom_tournament_format" 
+                                              <input type="radio" id="yes" name="custom_tournament_format" value="1" class="euro-radio mr-2"  v-model="tournamentData.custom_tournament_format" 
                                               @change="tournammentPricingData()">
                                               <label for="yes">Yes <span>+£100</span></label>
                                             </div>
@@ -212,7 +212,7 @@
                     payment_currency:"EUR",
                     is_renew:0,
                     tournament_type: "cup",
-                    custom_tournament_format: "no",
+                    custom_tournament_format: 0,
                     tournamentPricingValue: '',
 
                 },
@@ -413,13 +413,14 @@
             },
 
             tournammentPricingData() {
+
                 let tournamentOrganising = this.tournamentData.tournament_type
                 let tournamentCustomFormats = this.tournamentData.custom_tournament_format
                 let tournamentMaxTeams = this.tournamentData.tournament_max_teams
                 let vm = this;
                 let tournamentLicensePricingArray = [];
 
-                if(tournamentOrganising == 'cup' && tournamentCustomFormats == 'no' && tournamentMaxTeams) {
+                if(tournamentOrganising == 'cup' && tournamentCustomFormats == 0 && tournamentMaxTeams) {
                     let tournamentPricing = _.filter(this.tournamentPricingBand.cup.bands, function(band) {
                         if(tournamentMaxTeams >= band.min_teams && tournamentMaxTeams <= band.max_teams) {
                             tournamentLicensePricingArray.push(band.price);    
@@ -429,7 +430,7 @@
                     vm.tournamentData.tournamentPricingValue = tournamentPricingRecord;
                 } 
                             
-                if(tournamentOrganising == 'cup' && tournamentCustomFormats == 'yes' && tournamentMaxTeams) {
+                if(tournamentOrganising == 'cup' && tournamentCustomFormats == 1 && tournamentMaxTeams) {
                     let tournamentPricing = _.filter(this.tournamentPricingBand.cup.bands, function(band) {
                         if(tournamentMaxTeams >= band.min_teams && tournamentMaxTeams <= band.max_teams) {
                             tournamentLicensePricingArray.push(band.price + band.advanced_price);
