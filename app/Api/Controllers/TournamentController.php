@@ -3,7 +3,8 @@ namespace Laraspace\Api\Controllers;
 
 use UrlSigner;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
+use Illuminate\Http\Request;  
+use Laraspace\Models\TournamentCompetationTemplates;
 use Laraspace\Http\Requests\Tournament\DeleteRequest;
 use Laraspace\Http\Requests\Tournament\PublishRequest;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -262,5 +263,4 @@ class TournamentController extends BaseController
     {
         return $this->tournamentObj->duplicateTournamentList($request->all());
     }
-
 }

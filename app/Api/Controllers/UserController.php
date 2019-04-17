@@ -302,4 +302,8 @@ class UserController extends BaseController
 
       return ['status_code' => '200', 'message' => 'Please check your inbox to verify your email address.'];
     }
+
+    public function updateAppDeviceVersion(Request $request) {
+      return $this->userObj->updateAppDeviceVersion($request->all());
+    }
 }

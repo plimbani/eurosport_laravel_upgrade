@@ -1,5 +1,5 @@
 <template>
-    <select class="form-control ls-select2 col-sm-10 offset-sm-1 mr-0 ml-0" v-model="selected" v-on:change="updateStatus">
+    <select class="form-control ls-select2" v-model="selected" v-on:change="updateStatus">
         <option v-for="option in options" v-bind:value="option">
             {{option}}
         </option>
