@@ -110,6 +110,8 @@ class TabFollowVC: SuperViewController {
                 
                 if let favTournamentList = result.value(forKey: "data") as? NSArray {
                     
+                    print("favTournamentList: \(favTournamentList.count)")
+                    
                     for dicTournament in favTournamentList {
                         let tournament = ParseManager.parseFollowTournament(dicTournament as! NSDictionary)
                         
@@ -130,6 +132,7 @@ class TabFollowVC: SuperViewController {
             }
         }, failure: { result in
             DispatchQueue.main.async {
+                print("favTournamentList error: \(result)")
                 self.view.hideProgressHUD()
             }
         })

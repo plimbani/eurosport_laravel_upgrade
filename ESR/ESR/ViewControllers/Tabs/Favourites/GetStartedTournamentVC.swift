@@ -64,7 +64,7 @@ class GetStartedTournamentVC: SuperViewController {
         
         var parameters: [String: Any] = [:]
         parameters["accessCode"] = txtTournamentCode.text!
-        
+        self.view.showProgressHUD()
         ApiManager().accessCode(parameters, success: { result in
             DispatchQueue.main.async {
                 self.view.hideProgressHUD()

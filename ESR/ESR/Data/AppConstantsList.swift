@@ -139,6 +139,7 @@ enum AlertRequestCode: Int {
     case logOut = 102
     case profileUpdate = 103
     case resendEmail = 104
+    case tournamentExpire = 105
 }
 
 enum ResponseCode: Int {
@@ -153,6 +154,7 @@ enum ResponseCode: Int {
 extension Notification.Name {
     static let internetConnectivity = Notification.Name("internetConnectivity")
     static let selectCountry = Notification.Name("selectCountry")
+    static let goToTabFollow = Notification.Name("goToTabFollow")
 }
 
 struct kNotification {

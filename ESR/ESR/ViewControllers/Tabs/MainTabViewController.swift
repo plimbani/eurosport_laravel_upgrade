@@ -45,6 +45,10 @@ class MainTabViewController: SuperViewController {
     
     func initialize(){
         
+        if ApplicationData.currentTarget == ApplicationData.CurrentTargetList.EasyMM.rawValue {
+            NotificationCenter.default.addObserver(self, selector: #selector(goToTabFollow(_:)), name: .goToTabFollow, object: nil)
+        }
+        
         APPDELEGATE.mainTabVC = self
         
         for i in 0..<tabButtonList.count{
@@ -104,6 +108,10 @@ class MainTabViewController: SuperViewController {
         self.view.addSubview(tournamentDetailsView)
         
         updateAppVersionAPI()
+    }
+    
+    @objc func goToTabFollow(_ notification: NSNotification) {
+        onTabSelected(btn: tabButtonList[TabIndex.tabFav.rawValue])
     }
     
     func updateAppVersionAPI() {
@@ -193,7 +201,16 @@ class MainTabViewController: SuperViewController {
     }
     
     func setupTabs() {
-        viewControllers = [initFavouritesVC(), initTournamentVC(), initTeamsVC(), initAgeCategoriesVC(), initSettingsVC()]
+        
+        var vc: UIViewController? = nil
+        
+        if ApplicationData.currentTarget == ApplicationData.CurrentTargetList.EasyMM.rawValue {
+            vc = initFollowVC()
+        } else {
+            vc = initFavouritesVC()
+        }
+        
+        viewControllers = [vc!, initTournamentVC(), initTeamsVC(), initAgeCategoriesVC(), initSettingsVC()]
         addViewControllerToContentView(false)
     }
     

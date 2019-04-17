@@ -1377,7 +1377,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = ESR_Easymm_Dev_18_mar;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				base_url = "http:/$()/mukesh-wot.dev.aecortech.com/api/";
+				base_url = "https:/$()/rishab-eurosport.dev.aecortech.com/api/";
 				google_map_key = AIzaSyA48POKxVvdyLfu_pRE_5fVw5XLd8E7s40;
 			};
 			name = Debug;
@@ -1516,7 +1516,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = DEV_ESR_5_mar_2019;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				base_url = "http:/$()/sunny-eurosport.dev.aecortech.com/api/";
+				base_url = "https:/$()/rishab-eurosport.dev.aecortech.com/api/";
 				google_map_key = AIzaSyA48POKxVvdyLfu_pRE_5fVw5XLd8E7s40;
 			};
 			name = Debug;
