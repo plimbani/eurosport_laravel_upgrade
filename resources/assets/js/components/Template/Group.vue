@@ -539,8 +539,8 @@
 		   //  			}
 		   //  		}
 		   //  	}
-    			
-    			if(groupData.type == "round_robin") {
+    			this.groupData.matches = [];
+    			if(groupData.type == "round_robin" && this.roundIndex != 0) {
     				this.groupData.matches = [];
 
 	    			for(var i=0; i<totalTimes; i++){
@@ -554,7 +554,7 @@
 	    						if(this.divisionIndex === -1) {
 	    							let team1 = groupData.teams[j-1];
 		    						let team2 = groupData.teams[k-1];
-	    							if(this.roundIndex == 0 && groupData.type == "round_robin") {
+	    							/*if(this.roundIndex == 0 && groupData.type == "round_robin") {
 	    								let home = groupName + j;
 	    								let away = groupName + k;
 		    							inBetween = j + '-' + k;
@@ -562,7 +562,7 @@
 		    							displayMatchNumber = "CAT." + (this.roundIndex+1) + "." + matchCount + ".@HOME-@AWAY";
 		    							displayHomeTeamPlaceholderName = home;
 		    							displayAwayTeamPlaceholderName = away;
-		    						} else {
+		    						} else {*/
 		    							let divisionRoundGroupPositionTeam1 = team1.position.split(',');
 		    							let divisionRoundGroupPositionTeam2 = team2.position.split(',');
 		    							let roundDataTeam1 = null;
@@ -589,7 +589,7 @@
 			    							let groupName2 = this.getRoundRobinGroupName(roundDataTeam2, parseInt(divisionRoundGroupPositionTeam2[2]));
 			    							inBetween = parseInt(divisionRoundGroupPositionTeam1[3] + 1) + groupName1 + '-' + parseInt(divisionRoundGroupPositionTeam2[3] + 1) + groupName2;
 			    						}
-		    						}
+		    						//}
 	    						}
 	    						matchCount++;
 	    						vm.groupData.matches.push({

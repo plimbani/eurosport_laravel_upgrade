@@ -542,52 +542,20 @@ class AgeGroupService implements AgeGroupContract
       $finalArray['total_matches'] = $totalMatchesCount;
       $finalArray['avg_game_team'] = $averageMatches;
 
-      print_r(json_encode($finalArray));exit;
-
       return json_encode($finalArray);
     }
 
     public function setTemplateMatchesForKnockout($totalTeams, $times, $currentGroup, $round="")
     {
-      $a = 1;
-      $currentRound = $round + 1;
-      $matches = [];
-      for($i=0; $i<$times; $i++){
-        for($j=1; $j<=$totalTeams; $j++) {
-          for($k=($j+1); $k<=$totalTeams; $k++) {
-            $matches[] = ['in-between' => $j. '-' .$k,
-                          'match_number' => ($a > 9 ? "CAT.RR$currentRound.$a.$currentGroup$j-$currentGroup$k" : "CAT.RR$currentRound.0$a.$currentGroup$j-$currentGroup$k"),
-                          'display_match_number' => "CAT.1.$a.@HOME-@AWAY",
-                          'display_home_team_placeholder_name' => "$currentGroup$j",
-                          'display_away_team_placeholder_name' => "$currentGroup$k"
-                        ];
-            $a++;
-          }
-        }
-      }
-
+      $fetchRoundMatches = $this->generateRoundFixturesBaseOnTeam($totalTeams);
+      $matches = $this->leagueKnockoutJsonMatches($fetchRoundMatches,$round,$currentGroup,$times);
       return $matches;
     }
 
     public function setTemplateMatchesForLeague($totalTeams, $times, $currentGroup, $currentRound)
     {
-      $a = 1;
-      $currentRound = $currentRound + 1;
-      $matches = [];
-      for($i=0; $i<$times; $i++){
-        for($j=1; $j<=$totalTeams; $j++) {
-          for($k=($j+1); $k<=$totalTeams; $k++) {
-            $matches[] = ['in-between' => $j. '-' .$k,
-                          'match_number' => ($a > 9 ? "CAT.RR$currentRound.$a.$currentGroup$j-$currentGroup$k" : "CAT.RR$currentRound.0$a.$currentGroup$j-$currentGroup$k"),
-                          'display_match_number' => "CAT.1.$a.@HOME-@AWAY",
-                          'display_home_team_placeholder_name' => "$currentGroup$j",
-                          'display_away_team_placeholder_name' => "$currentGroup$k"
-                        ];
-            $a++;
-          }
-        }
-      }
-
+      $fetchRoundMatches = $this->generateRoundFixturesBaseOnTeam($totalTeams);
+      $matches = $this->leagueKnockoutJsonMatches($fetchRoundMatches,$currentRound,$currentGroup,$times);
       return $matches;
     }    
 
@@ -791,5 +759,65 @@ class AgeGroupService implements AgeGroupContract
       }
 
       return $nextRoundMatches;
+    }
+
+    public function generateRoundFixturesBaseOnTeam($teamSize)
+    {
+      $teams = range(1,$teamSize);
+      $odd = array_values(array_filter($teams, function($k) { return($k%2 == 1); }));
+      $even = array_values(array_filter($teams, function($k) { return($k%2 == 0); }));
+
+      // check teamsize even or odd if odd then add extra bye team
+      if ($teamSize % 2 == 1) {
+        array_push($even,'bye');
+      }
+
+      // Generate week round and matches
+      $weekRoundMatches = [];
+      $loopItrate = $teamSize - 1;
+      for( $j=1; $j<=$loopItrate; $j++ )
+      {
+        // generate matches week wise
+        foreach ($odd as $key => $value) {
+          if ( $value != 'bye' && $even[$key] != 'bye')
+          {
+            $weekRoundMatches[$j][] = $value.'-'.$even[$key];
+          }
+        }
+
+        // now swap teams fot next week end matches and get and remove last element of odd array and push to end of even array
+        array_push($even, end($odd) );
+        array_pop($odd);
+
+        // move first element of even array to second position of odd array
+        array_splice($odd, 1, 0, head($even));
+        array_shift($even);
+      }
+
+      return $weekRoundMatches;
+    }
+
+    public function leagueKnockoutJsonMatches($fetchRoundMatches,$round,$currentGroup,$times)
+    {
+      $currentRound = $round + 1;
+      $matches = [];
+
+      for($i=0; $i<$times; $i++){
+        foreach ($fetchRoundMatches as $key => $week) {
+          foreach ($week as $wkey => $match) {
+            $weekNumber = $i*count($fetchRoundMatches) + $key;
+            list($home,$away) = explode('-',$match);
+
+            $matches[] = ['in-between' => $match,
+                            'match_number' => "CAT.RR$currentRound.".sprintf('%02d',$weekNumber).".$currentGroup$home-$currentGroup$away",
+                            'display_match_number' => "CAT.1.$weekNumber.@HOME-@AWAY",
+                            'display_home_team_placeholder_name' => "$currentGroup$home",
+                            'display_away_team_placeholder_name' => "$currentGroup$away"
+                          ];
+          }
+        }
+      }
+
+      return $matches;
     }
 }
