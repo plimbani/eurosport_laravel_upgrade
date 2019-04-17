@@ -320,6 +320,10 @@
                 let endDateArr = endDateFromId.split("/"); 
                 let startDateFormat = startDateArr[2]+"/"+startDateArr[1]+"/"+startDateArr[0];
                 let endDateFormat = endDateArr[2]+"/"+endDateArr[1]+"/"+endDateArr[0]; 
+
+                startDateFormat = startDateFormat+" 00:00:00";
+                endDateFormat = endDateFormat+ " 24:59:59";
+
                 let startDate = moment(startDateFormat);
                 let endDate = moment(endDateFormat);
                 
