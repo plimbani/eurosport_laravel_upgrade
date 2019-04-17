@@ -25,7 +25,7 @@
 							<div class="row">
 								<div class="col-md-12">
 									<div class="tabs tabs-primary">
-										<ul class="nav nav-tabs">
+										<ul class="nav nav-tabs scheduleResultTab">
 											<li @click="setCurrentView('drawsListing')" class="nav-item">
 												<a :class="[currentView == 'drawsListing' ? 'active' : '']" class="nav-link" href="javascript:void(0)">
 													<div class="wrapper-tab">{{$lang.summary_schedule_categories}}
@@ -41,6 +41,9 @@
 											<li @click="setCurrentView('finalPlacings')" class="nav-item">
 												<a :class="[currentView == 'finalPlacings' ? 'active' : '']" class="nav-link" href="javascript:void(0)"><div class="wrapper-tab">{{$lang.summary_schedule_final_placings}}</div></a>
 											</li>											
+											<li @click="setCurrentView('')" class="nav-item d-none">
+												<a :class="[currentView == '' ? 'active' : '']" class="nav-link" href="javascript:void(0)"><div class="wrapper-tab"></div></a>
+											</li>
 										</ul>
 										<div class="tab-content summary-content">
 										<component :is="currentView" :currentView="currentView"></component>
