@@ -596,6 +596,8 @@ class TemplateRepository
         ];
         $finalArray['tournament_positions'][] = $tournamentsPositionsData;
 
+        dd($finalArray);
+
         return json_encode($finalArray);
     }
 
