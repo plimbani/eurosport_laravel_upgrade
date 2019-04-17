@@ -60,7 +60,7 @@
                         <span class="help is-danger" v-show="errors.has('organisation')">{{$lang.user_management_organisation_required}}</span>
                     </div>
                 </div>
-                <div v-if="showUserType" class="form-group row">
+                <div v-if="showUserRole" class="form-group row">
                     <label class="col-sm-5 form-control-label">{{$lang.user_management_role}}</label>
                     <div class="col-sm-6">
                       <select class="form-control ls-select2" name="role" v-model="formValues.role">
@@ -84,7 +84,7 @@
                     </div>
                 </div>
 
-                 <div v-if="isCustomer" class="form-group row">
+                 <div v-if="!showUserType && isCustomer" class="form-group row">
                     <label class="col-sm-5 form-control-label"> {{$lang.user_management_status}}</label>
                      <div class="col-sm-6">
                         <select class="form-control" id="country" v-model="formValues.status">
@@ -130,7 +130,6 @@
                     <label class="col-sm-5 form-control-label">{{$lang.user_management_country}}</label>
                      <div class="col-sm-6">
                         <select class="form-control ls-select2" id="country" v-model="formValues.country" >
-                            <option value="">Select</option>
                             <option v-for="(value, key) in countries" :value="value">{{key}}</option>
                         </select> 
                      </div>
@@ -180,6 +179,7 @@ import { ErrorBag } from 'vee-validate';
                 showOrganisation: false,
                 initialUserType: null,
                 showUserType: true,
+                showUserRole: true,
                 roleOptions: ['Player', 'Coach/Manager/Trainer', 'Other'],
                 defaultAppTournament: this.$store.state.Configuration.currentLayout,
                 errorMessages: {
@@ -248,7 +248,8 @@ import { ErrorBag } from 'vee-validate';
                       this.$data.formValues.status = "0";
                     }
                     this.$data.formValues.zip = response.data.zipcode;
-                    this.$data.formValues.country = (response.data.country_id)?response.data.country_id:'';
+                    this.$data.formValues.country = (response.data.country_id)?response.data.country_id:this.countries[Object.keys(this.countries)[0]];
+
                     // this.$data.formValues = response.data;
                     this.initialUserType = response.data.userType;
                     this.$data.formValues.userEmail2 = this.$data.formValues.emailAddress;
@@ -257,9 +258,11 @@ import { ErrorBag } from 'vee-validate';
                     if((response.data.role_slug).toLowerCase() == "customer"){
                       this.isCustomer = true;
                       this.showUserType = false;
+                      this.showUserRole = false;
                     }else{
                       this.isCustomer = false;
                       this.showUserType = true;
+                      this.showUserRole = true;
                     }
                     this.userTypeChanged();
                   },
@@ -400,9 +403,13 @@ import { ErrorBag } from 'vee-validate';
                 this.showUserType = false;
               }
 
+              this.isCustomer = false;
+              this.showUserRole = true;
               if(roleData && roleData.slug === 'customer') {
                 this.isCustomer = true;
+                this.showUserRole = false;
               }
+
 
             },
             updateUser() {
@@ -424,6 +431,8 @@ import { ErrorBag } from 'vee-validate';
                 axios.get(Constant.apiBaseUrl+'country/list').then(response =>  {
                     if(response.data.success){
                         this.countries = response.data.data;
+                        console.log(this.countries[Object.keys(this.countries)[0]]);
+                        this.formValues.country = this.countries[Object.keys(this.countries)[0]];
                     }
                  })
             },
