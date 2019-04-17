@@ -220,7 +220,7 @@
                 pspid:"", 
                 amount:"",
                 disabled:false,
-                dayDifference:1,
+                dayDifference:2,
                 oldDaysDifference:1,
                 newDaysAdded:0,
                 id:"",
