@@ -239,7 +239,7 @@ class PushMessagesController extends BaseController
         $message = $this->insertInMessageHistory($data);
 
         // Broadcast message to make message appear for users on tournament websites
-        event(new AppMessageSent($message));
+        // event(new AppMessageSent($message));
 
         return $this->response->array([
                     'data' => $downstreamResponse1,

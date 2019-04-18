@@ -40,8 +40,6 @@
 
     @include('partials.frontend.quick-links.home')
 
-    @include('partials.frontend.tournament-messages')
-
     @include('flash::message')
 
     @yield('content')
