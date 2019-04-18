@@ -82,3 +82,4 @@ mix.combine([
 .version();
 
 mix.copy('node_modules/@fortawesome/fontawesome-pro/webfonts', 'public/assets/webfonts');
+mix.copy('node_modules/@fortawesome/fontawesome-pro/webfonts', 'public/frontend/fonts/webfonts');

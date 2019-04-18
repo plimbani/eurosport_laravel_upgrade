@@ -38,7 +38,7 @@
 
     @include('partials.frontend.inner-hero-section')
 
-    @include('partials.frontend.tournament-messages')
+    {{-- @include('partials.frontend.tournament-messages') --}}
 
     @include('flash::message')
 
@@ -59,7 +59,7 @@
     @yield('modals')
 
     <!-- Javscript required for application -->
-    @include('partials.frontend.app-js')
+    {{-- @include('partials.frontend.app-js') --}}
 
     <script src="{{ asset('frontend/js/global.js') }}"></script>
 
