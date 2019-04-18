@@ -2,7 +2,7 @@
     <div>
         <div class="container" id="step2-template-setting">
             <div class="row justify-content-center">
-                <div class="col-md-8">
+                <div class="col-md-12">
                     <h5>{{ $lang.add_template_modal_step2_header }}</h5>
                     <round v-for="(round, roundIndex) in templateFormDetail.steptwo.rounds" :index="roundIndex" :divisionIndex="-1" :roundData="round" :templateFormDetail="templateFormDetail" :startGroupCount="getPreviousRoundGroupCount(roundIndex-1)"></round>
                     
