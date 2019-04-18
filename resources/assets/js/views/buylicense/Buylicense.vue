@@ -321,12 +321,12 @@
                 let startDateFormat = startDateArr[2]+"/"+startDateArr[1]+"/"+startDateArr[0];
                 let endDateFormat = endDateArr[2]+"/"+endDateArr[1]+"/"+endDateArr[0]; 
 
-                startDateFormat = startDateFormat+" 00:00:00";
-                endDateFormat = endDateFormat+ " 24:59:59";
+                startDateFormat = startDateFormat;
+                endDateFormat = endDateFormat;
 
                 let startDate = moment(startDateFormat);
-                let endDate = moment(endDateFormat);
-                
+                let endDate = moment(endDateFormat).add('days',1);
+
                 this.dayDifference = endDate.diff(startDate, 'days'); 
                 this.changeDays();
                 
