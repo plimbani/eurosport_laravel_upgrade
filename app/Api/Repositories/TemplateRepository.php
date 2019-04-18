@@ -8,11 +8,22 @@ use Laraspace\Models\User;
 use Laraspace\Traits\AuthUserDetail;
 use Laraspace\Models\TournamentTemplates;
 use Laraspace\Models\TournamentCompetationTemplates;
+use Laraspace\Api\Services\AgeGroupService;
+
 
 class TemplateRepository
 {
     use AuthUserDetail;
-
+    protected $ageGroupService;
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct(AgeGroupService $ageGroupService)
+    {
+        $this->ageGroupService = $ageGroupService;
+    }
     /*
      * Get all templates
      *
@@ -201,9 +212,14 @@ class TemplateRepository
                 }
 
                 if($roundIndex === 0 && $group['type'] === 'round_robin') {
-                    foreach ($group['matches'] as $match) {
-                        array_push($matches, ['in_between' => $match['in_between'], 'match_number' => $match['match_number'], 'display_match_number' => $match['display_match_number'], 'display_home_team_placeholder_name' => $match['display_home_team_placeholder_name'], 'display_away_team_placeholder_name' => $match['display_away_team_placeholder_name']]);
-                    }
+                    $matches = [];
+                    $times = $this->getNumberOfTimesFromString($times);
+                    $fetchRoundMatches = $this->ageGroupService->generateRoundFixturesBaseOnTeam($noOfTeams);
+
+                    $matches = $this->ageGroupService->leagueKnockoutJsonMatches($fetchRoundMatches,$roundIndex,$groupName,$times);
+
+
+                    $group['matches'] = $matches;
                 }
 
                 if($roundIndex === 0 && $groupIndex === $firstPlacingMatchIndex && $group['type'] === 'placing_match') {
@@ -580,7 +596,7 @@ class TemplateRepository
         ];
         $finalArray['tournament_positions'][] = $tournamentsPositionsData;
 
-        print_r(json_encode($finalArray));exit;
+        dd($finalArray);
 
         return json_encode($finalArray);
     }
@@ -743,5 +759,28 @@ class TemplateRepository
         }
 
         return $displayMatchNumber;
+    }
+
+    public function getNumberOfTimesFromString($times)
+    {
+        if ( $times == 'once')
+        {
+            return 1;
+        }
+
+        if ( $times == 'twice')
+        {
+            return 2;
+        }
+
+        if ( $times == 'three_times')
+        {
+            return 3;
+        }
+
+        if ( $times == 'four_times')
+        {
+            return 4;
+        }
     }
 }

@@ -33,7 +33,7 @@
 		'404_page_title' => 'Error 404 - Page not found',
 		'404_page_message' => 'This might be because you have typed the web address incorrectly, or the page you were looking for may have been moved, updated or deleted. <a href=":url">Click here</a> to return to the homepage.',
 		'contact_form_send_btn' => 'Send Enquiry',
-		'match_schedule_message' => 'The match schedule will be available 2-3 days before the tournament begins.',
+		'match_schedule_message' => 'The match schedule will be available 5-7 days before the tournament begins.',
 		'no_location_found' => 'No locations found.',
 		'no_photos_found' => 'No photos found.',
 		'recaptcha_error_message' => 'Please validate reCAPTCHA',

@@ -20,7 +20,7 @@ export default  {
   },  
   computed: {
   	TournamentName() {
-  		return this.$store.state.Tournament.tournamentName
+  		return this.$store.getters.getTournamentName;
   	},
     currentPage() {
     return (this.$store.state.currentPage == '') ? '' : this.$store.state.currentPage      
