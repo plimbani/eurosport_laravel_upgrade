@@ -220,7 +220,7 @@
                 pspid:"", 
                 amount:"",
                 disabled:false,
-                dayDifference:1,
+                dayDifference:2,
                 oldDaysDifference:1,
                 newDaysAdded:0,
                 id:"",
@@ -320,9 +320,13 @@
                 let endDateArr = endDateFromId.split("/"); 
                 let startDateFormat = startDateArr[2]+"/"+startDateArr[1]+"/"+startDateArr[0];
                 let endDateFormat = endDateArr[2]+"/"+endDateArr[1]+"/"+endDateArr[0]; 
+
+                startDateFormat = startDateFormat;
+                endDateFormat = endDateFormat;
+
                 let startDate = moment(startDateFormat);
-                let endDate = moment(endDateFormat);
-                
+                let endDate = moment(endDateFormat).add('days',1);
+
                 this.dayDifference = endDate.diff(startDate, 'days'); 
                 this.changeDays();
                 

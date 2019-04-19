@@ -102,17 +102,15 @@
                         Ls.set('usercountry',response.data.country)
                         this.disabled = false;
                         let tournamentDetails = Ls.get('tournamentDetails')
+						let indxOfCustomer =  (response.data.role).findIndex(item => item.slug.toLowerCase() == "customer") 
+						if(indxOfCustomer > -1){
+							Ls.set('user_role','customer')
+						}
                         if(typeof tournamentDetails != "undefined" && tournamentDetails != undefined && tournamentDetails != "null" && tournamentDetails != null){
                             // console.log("tournamentDetails::",tournamentDetails);
                             this.$router.push({'name':'checkout'})
                         }else{
-                            // let roles = [{slug:'customer1'},{slug:'admin'}]
-                            // let indxOfCustomer = (roles).findIndex(item => item.slug == "customer");
-                            let indxOfCustomer =  (response.data.role).findIndex(item => item.slug.toLowerCase() == "customer") 
-                            // console.log('fff::',response.data);
                             if(indxOfCustomer > -1){
-                                Ls.set('user_role','customer')
-                            // if(response.data.role.slug == "customer"){
                                 this.$router.push({'name':'dashboard'})
                             }else{
                                 this.$router.push({'name':'welcome'})

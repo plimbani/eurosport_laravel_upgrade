@@ -54,6 +54,7 @@ class RegisterRepository
                 'registered_from' => 1,
                 'is_active' => 1,
                 'is_verified' => 1,
+                'country_id' => $data['country'],
             ];
 
             $user = User::create($newUser);
