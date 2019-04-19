@@ -770,12 +770,14 @@ class AgeGroupService implements AgeGroupContract
       // check teamsize even or odd if odd then add extra bye team
       if ($teamSize % 2 == 1) {
         array_push($even,'bye');
+      } else {
+        $teamSize--;
       }
 
       // Generate week round and matches
       $weekRoundMatches = [];
-      $loopItrate = $teamSize - 1;
-      for( $j=1; $j<=$loopItrate; $j++ )
+
+      for( $j=1; $j<=$teamSize; $j++ )
       {
         // generate matches week wise
         foreach ($odd as $key => $value) {
