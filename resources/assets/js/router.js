@@ -442,13 +442,8 @@ const routes = [
     {
         path: '/payment', component: LayoutCommercialisation,
         meta: { requiresAuth: true },
-        children: [
-            {
-                path: '/',
-                component: payment,
-                name: 'payment'
-            }
-        ]
+        component: payment,
+        name: 'payment'
     },
     {
         path: '/dashboard', component: LayoutCommercialisation,
