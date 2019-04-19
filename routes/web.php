@@ -19,6 +19,8 @@ Route::group(['domain' => config('app.domain')], function() {
 	Route::get('user/setpassword/{key}','\Laraspace\Api\Controllers\UserController@setPassword');
 
 	Route::get('pdf/footer', 'PDFController@getFooter')->name('pdf.footer');
+
+	Route::get('paymentCallback', '\Laraspace\Api\Controllers\Commercialisation\BuyLicenseController@paymentCallback');
 	
 	Route::get('/{vue?}', function () {
 		return view('app');
