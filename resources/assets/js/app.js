@@ -22,13 +22,17 @@ require('./mixins');
 
 import Plugin from './helpers/plugin'
 import Website from './api/website.js';
+import Ls from './services/ls.js'
 window.Plugin = Plugin
 
 const app = new Vue({
     router,
     store,
-    mounted() {
-    	this.getConfigurationDetail();
+    mounted() {      
+      let authToken = Ls.get('auth.token');
+      if (authToken != null) {
+        this.getConfigurationDetail();
+      }
     },
     methods : {
         onOverlayClick(){
