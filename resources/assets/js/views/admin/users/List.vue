@@ -28,9 +28,9 @@
                                     <option value="Internal.administrator">Internal administrator</option>
                                     <option value="Master.administrator">Master administrator</option>
                                     <option value="mobile.user">Mobile user</option>
+                                    <option value="Results.administrator">Results administrator</option>                       
                                     <option value="Super.administrator">Super administrator</option>
-                                    <option value="tournament.administrator">Tournament administrator</option>
-                                    <option value="Results.administrator">Results administrator</option>
+                                    <option value="tournament.administrator">Tournament administrator</option>                         
                                 </select>
                               </div>
                               <div class="col-md-2">
