@@ -104,4 +104,8 @@ class BuyLicenseController extends BaseController
             return response()->json(['success' => false, 'status' => Response::HTTP_UNPROCESSABLE_ENTITY, 'data' => [], 'error' => [], 'message' => $ex->getMessage()]);
         }
     }
+
+    public function paymentCallback(Request $request) {
+        return redirect('payment?' . http_build_query($request->all()));
+    }
 }

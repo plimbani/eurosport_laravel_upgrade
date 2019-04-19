@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<div class="row align-items-center" v-for="(band, bandIndex) in bands">
+		<div class="row align-items-center mt-2" v-for="(band, bandIndex) in bands">
             <div class="col-sm-4 col-md-2 col-lg-2 col-xl-2">
                 <div class="form-group" :class="{'has-error': errors.has('min_teams'+bandIndex) }">
                     <input type="text" class="form-control" placeholder="e.g. 1" :class="{'is-danger': errors.has('min_teams'+bandIndex) }" :name="'min_teams'+bandIndex" v-validate="'required'" v-model="band.min_teams" data-vv-as="Min teams">

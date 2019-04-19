@@ -26,6 +26,8 @@ class AddNewFieldsToTournamentsTable extends Migration
      */
     public function down()
     {
-        $table->dropColumn(['tournament_type', 'custom_tournament_format']);
+        Schema::table('tournaments', function (Blueprint $table) {
+            $table->dropColumn(['tournament_type', 'custom_tournament_format']);
+        });
     }
 }

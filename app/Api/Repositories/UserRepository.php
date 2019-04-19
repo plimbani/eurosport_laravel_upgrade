@@ -126,6 +126,7 @@ class UserRepository {
         'registered_from' => $data['registered_from'] ? 1 : 0,
         'user_image'=>(isset($data['user_image']) && $data['user_image']!='') ?  $data['user_image'] : '',
         'role' => (isset($data['role']) && $data['role']!='') ?  $data['role'] : '',
+        'country_id' => $data['country_id'] ? $data['country_id'] : null,
         
         ];
 
@@ -296,7 +297,8 @@ class UserRepository {
                 'name' => $data['first_name'] . " " . $data['last_name'],
                 'email' => $data['email'],
                 'organisation' => !empty($data['organisation']) ? $data['organisation'] : '',
-                'is_active' => !empty($data['user_status']) ? $data['user_status'] : $user->is_active
+                'is_active' => !empty($data['user_status']) ? $data['user_status'] : $user->is_active,
+                'country_id' => $data['country'],
             ];
             $user->update($userData);
 
