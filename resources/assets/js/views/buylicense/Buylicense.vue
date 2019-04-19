@@ -126,7 +126,6 @@
                                         {{returnFormatedNumber(tournamentData.tournamentPricingValue)}}</p>
                                 </div>
                                 <div class="card-text" v-if="id">
-                                    
                                     <div class="row" v-if="new_added_teams > 0">
                                         <div class="col-sm-6 col-md-7 col-lg-7">
                                             <p class="mb-0">Addition {{new_added_teams}} teams</p> 
@@ -173,8 +172,8 @@
                                         </button>      
                                         <button v-if="disabled && !id" class="btn btn-success btn-block" disabled="true">Buy your license</button>
 
-                                         <button v-if ="!disabled && id && newDaysAdded <= 0 && new_added_teams <= 0" class="btn btn-success btn-block"  v-on:click="updateALicence()">
-                                        Confirm Details </button>
+                                         <button v-if ="!disabled && id && newDaysAdded <= 0 && new_added_teams <= 0" class="btn btn-success btn-block" disabled v-on:click="updateALicence()">
+                                         Confirm Details </button>
                                          <button v-if ="!disabled && id && (newDaysAdded > 0 || new_added_teams > 0)" class="btn btn-success btn-block"  v-on:click="buyALicence()">
                                         Make Payment</button>
                                     </div>
@@ -213,7 +212,8 @@
                     is_renew:0,
                     tournament_type: "cup",
                     custom_tournament_format: 0,
-                    tournamentPricingValue: '',
+                    tournamentPricingValue: 0,
+                    transactionDifferenceAmountValue: 0,
 
                 },
                 
@@ -332,12 +332,14 @@
                 
             },
 
+                
             getTournamentDetail(){ 
-                axios.get(Constant.apiBaseUrl+'get-tournament?tournamentId='+this.id, {}).then(response =>  {  
-                        
-                        if (response.data.success) {  
-                            var start_date = new Date(moment(response.data.data.start_date, 'DD/MM/YYYY').format('MM/DD/YYYY'));
-                            var end_date = new Date(moment(response.data.data.end_date, 'DD/MM/YYYY').format('MM/DD/YYYY')); 
+                axios.get(Constant.apiBaseUrl+'get-tournament?transactionId='+this.id, {}).then(response =>  {
+                    console.log('response', response);
+                        // if (response.data.success) {
+                          
+                            var start_date = new Date(moment(response.data.transaction.tournament.start_date, 'DD/MM/YYYY').format('MM/DD/YYYY'));
+                            var end_date = new Date(moment(response.data.transaction.tournament.end_date, 'DD/MM/YYYY').format('MM/DD/YYYY')); 
                             
                             let today = new Date();
                             if(today.getTime() > end_date.getTime()){
@@ -353,18 +355,30 @@
                             }
                             
                             this.tournamentData['id'] = this.id;
-                            this.tournamentData['old_tournament_id'] = response.data.data.id;
-                            this.tournamentData['tournament_name'] = response.data.data.name;
-                            this.tournamentData['tournament_max_teams'] = response.data.data.maximum_teams;   
-                            this.tournament_old_teams = response.data.data.maximum_teams;   
-                            this.tournamentData['access_code'] = response.data.data.access_code;
-                            this.tournamentData['custom_tournament_format'] = response.data.data.custom_tournament_format;
-                            this.tournamentData['tournament_type'] = response.data.data.tournament_type;   
-                           
-                
-                         }else{ 
-                            toastr['error'](response.data.message, 'Error');
-                         }
+                            this.tournamentData['old_tournament_id'] = response.data.transaction.tournament.id;
+                            this.tournamentData['tournament_name'] = response.data.transaction.tournament.name;
+                            this.tournamentData['tournament_max_teams'] = response.data.transaction.tournament.maximum_teams;   
+                            this.tournament_old_teams = response.data.transaction.tournament.maximum_teams;   
+                            this.tournamentData['access_code'] = response.data.transaction.tournament.access_code;
+                            this.tournamentData['custom_tournament_format'] = response.data.transaction.tournament.custom_tournament_format;
+                            this.tournamentData['tournament_type'] = response.data.transaction.tournament.tournament_type;   
+
+
+                            // transaction histories amount difference calculation 
+                            let transactionAmount = [];
+                            let tournamentPricing = _.filter(response.data.transaction.get_sorted_transaction_histories, function(historyAmount)
+                            {
+                                transactionAmount.push(historyAmount.amount); 
+                            });
+                        
+                            let transactionDifferenceAmountValue = _.sumBy(transactionAmount, function(historyAmount) { 
+                                return historyAmount; 
+                            }); 
+                            this.tournamentData.transactionDifferenceAmountValue = transactionDifferenceAmountValue
+                         // }else{ 
+                         //    toastr['error'](response.data.message, 'Error');
+                         // }
+                        
                  }).catch(error => {
                      
                  }); 
@@ -413,7 +427,6 @@
             },
 
             tournammentPricingData() {
-
                 let tournamentOrganising = this.tournamentData.tournament_type
                 let tournamentCustomFormats = this.tournamentData.custom_tournament_format
                 let tournamentMaxTeams = this.tournamentData.tournament_max_teams
@@ -427,7 +440,7 @@
                         }
                     });
                     let tournamentPricingRecord = _.head(tournamentLicensePricingArray);
-                    vm.tournamentData.tournamentPricingValue = tournamentPricingRecord;
+                    vm.tournamentData.tournamentPricingValue = tournamentPricingRecord - this.tournamentData.transactionDifferenceAmountValue;
                 } 
                             
                 if(tournamentOrganising == 'cup' && tournamentCustomFormats == 1 && tournamentMaxTeams) {
@@ -437,7 +450,7 @@
                         }
                     });
                     let tournamentPricingRecord = _.head(tournamentLicensePricingArray);
-                    vm.tournamentData.tournamentPricingValue = tournamentPricingRecord;
+                    vm.tournamentData.tournamentPricingValue = tournamentPricingRecord - this.tournamentData.transactionDifferenceAmountValue;
                 } 
 
                 if(tournamentOrganising == 'league' && tournamentMaxTeams) {
@@ -447,7 +460,7 @@
                         }
                     });
                     let tournamentPricingRecord = _.head(tournamentLicensePricingArray);
-                    vm.tournamentData.tournamentPricingValue = tournamentPricingRecord;
+                    vm.tournamentData.tournamentPricingValue = tournamentPricingRecord - this.tournamentData.transactionDifferenceAmountValue;
                 }
                 if(typeof vm.tournamentData.tournamentPricingValue === 'undefined'){
                     vm.tournamentData.tournamentPricingValue = 0;
@@ -485,9 +498,9 @@
             this.getCurrencyValue();
             setTimeout(function(){
                 vm.setOldDays()
+                vm.getTournamentDetail()
                 vm.tournammentPricingData()
             },1500) 
-
             $('#cup').prop("checked",true)
             $('#no').prop("checked",true)
         }
