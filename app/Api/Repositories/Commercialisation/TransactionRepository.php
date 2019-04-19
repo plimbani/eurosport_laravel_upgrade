@@ -42,10 +42,9 @@ class TransactionRepository
         if ($data['STATUS'] == 5 && !empty($requestData['tournament'])) {
             $tournamentRes = $this->tournamentObj->addTournamentDetails($requestData['tournament'], 'api');
 
-            $tournamentRes->users()->attach($userId);
+            // $tournamentRes->users()->attach($userId);
         }
         $response = $this->addTransaction($data, $tournamentRes, $userId);
-
         //If renew license then duplicate age category if team size same
         if (!empty($requestData['tournament']['is_renew'])) {
             $oldTournamentRecord = Tournament::findOrFail($requestData['tournament']['old_tournament_id']);
@@ -150,7 +149,9 @@ class TransactionRepository
         $paymentStatus = config('app.payment_status');
         $transaction = [
             'tournament_id' => !empty($tournamentRes->id) ? $tournamentRes->id : null,
+            'userId' => !empty($userId) ? $userId : null,
         ];
+
         $response = Transaction::create($transaction);
 
         //Add in transaction history
@@ -172,7 +173,6 @@ class TransactionRepository
         ];
         TransactionHistory::create($transactionHistory);       
         $responseData = array_merge($transactionHistory, $transaction);
-
         return $responseData;
     }
 

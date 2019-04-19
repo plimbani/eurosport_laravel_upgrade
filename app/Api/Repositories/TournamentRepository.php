@@ -29,6 +29,8 @@ use Laraspace\Models\TeamManualRanking;
 use Laraspace\Models\TournamentClub;
 use Laraspace\Models\TournamentUser;
 use Laraspace\Models\TournamentPricing;
+use Laraspace\Models\TransactionHistory;
+use Laraspace\Models\Transaction;
 
 class TournamentRepository
 {
@@ -736,6 +738,8 @@ class TournamentRepository
 
     public function addTournamentDetails($tournamentDetailData, $type = '')
     {
+        $currentLayout = config('config-variables.current_layout');
+
         $token = JWTAuth::getToken();
         $authUser = JWTAuth::parseToken()->toUser();
         $userId = $authUser->id;
@@ -747,11 +751,13 @@ class TournamentRepository
         $tournament->start_date = $tournamentDetailData['tournament_start_date'];
         $tournament->end_date = $tournamentDetailData['tournament_end_date'];
         $tournament->status = 'Unpublished';
-        if($type == 'api') {
+        if($currentLayout == 'commercialisation') {
             $tournament->access_code = Str::random(4);
+            $tournament->tournament_type = $tournamentDetailData['tournament_type'];
+            $tournament->custom_tournament_format = $tournamentDetailData['custom_tournament_format'];
         }
         $status = $tournament->save();
-        if ($type == 'api') {
+        if ($type == 'commercialisation') {
             return $tournament;
         }
         return $status;
@@ -1107,7 +1113,7 @@ class TournamentRepository
      */
     public function getTournamentDetails($id)
     {
-        return Tournament::where('id', $id)->first();
+        return Transaction::with('getSortedTransactionHistories','tournament')->find($id);
     }
     
     /**
@@ -1416,5 +1422,9 @@ class TournamentRepository
     {
         $tournament = Tournament::where('access_code', $data['accessCode'])->first();
         return $tournament;   
-    }  
+    } 
+
+    public function getUserTransactions($user) {
+        return Transaction::where('user_id', $user->id)->with('getSortedTransactionHistories','tournament')->get();        
+    }
 }
