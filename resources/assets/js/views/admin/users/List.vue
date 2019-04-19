@@ -24,6 +24,7 @@
                                 <select class="form-control ls-select2" v-on:change="searchTypeData"
                                     v-model="userTypeSearch" name="user_type" id="user_type">
                                     <option value="">Filter by user type</option>
+                                    <option value="customer">Customer</option>
                                     <option value="Internal.administrator">Internal administrator</option>
                                     <option value="Master.administrator">Master administrator</option>
                                     <option value="mobile.user">Mobile user</option>
@@ -42,7 +43,8 @@
                     </div>
                     <div class="row d-flex flex-row align-items-center">
                         <div class="col-md-12">
-                            <table class="table add-category-table">
+                          <div class="table-responsive">
+                            <table class="table add-category-table table-sm">
                                 <thead>
                                     <tr>
                                         <th>{{$lang.user_desktop_name}}</th>
@@ -74,7 +76,10 @@
                                     <td v-else>
                                       <a href="#"  @click="resendModalOpen(user.email)"><u>Re-send</u></a>
                                     </td>
-                                    <td @click="redirectToTournamentList(user)"><a href="javascript:void(0)" class="centered">{{ user.tournaments_count }}</a></td>
+                                    <td class="text-center" @click="redirectToTournamentList(user)">
+                                      <a href="javascript:void(0)" class="centered text-primary" v-if="user.role_slug == 'customer'"><u>{{ user.tournaments_count }}</u></a>
+                                      <a href="javascript:void(0)" class="centered" v-else>-</a>
+                                    </td>
                                     <td>{{ user.device }}</td>
                                     <td>{{ user.app_version }}</td>
                                     <td class="text-center">
@@ -94,19 +99,19 @@
                                          @click="editUser(user.id)" v-if="!(isMasterAdmin == true && user.role_slug == 'Super.administrator')">
                                         <i class="fas fa-pencil"></i>
                                         </a>
-                                        &nbsp;
+
                                         <a href="javascript:void(0)"
                                         data-confirm-msg="Are you sure you would like to delete
                                         this user record?" data-toggle="modal" data-target="#delete_modal"
                                         @click="prepareDeleteResource(user.id)" v-if="!(isMasterAdmin == true && user.role_slug == 'Super.administrator')">
                                         <i class="fas fa-trash"></i>
                                         </a>
-                                        &nbsp;
+
                                         <a v-if="(user.role_slug == 'tournament.administrator' || user.role_slug == 'Results.administrator')" class="text-primary icon-size-1-2" href="javascript:void(0)"
                                         @click="editTournamentPermission(user)">
                                         <i class="fas fa-eye fa-1x"></i>
                                         </a>
-                                        &nbsp;
+
                                         <!--<a v-if="IsSuperAdmin == true"
                                         href="javascript:void(0)"
                                         data-confirm-msg="Are you sure you
@@ -123,9 +128,10 @@
                                         </a>-->
                                     </td>
                                   </tr>
-                                  <tr><td colspan="8"></td></tr>
+                                  <!-- <tr><td colspan="8"></td></tr> -->
                                 </tbody>
                             </table>
+                          </div>
                             <paginate v-if="shown" name="userpagination" :list="userList.userData" ref="paginator" :per="no_of_records"  class="paginate-list">
                             </paginate>
                             <div class="row d-flex flex-row align-items-center">

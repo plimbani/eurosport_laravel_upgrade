@@ -16,7 +16,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="match in getMatchList()">
+            <tr v-for="match in matchData">
               <td>{{ match.match_datetime | formatDate }}</td>
               <td>
                 <a href="" v-if="currentView != 'Competition'" @click.prevent="showCompetitionData(match)">
