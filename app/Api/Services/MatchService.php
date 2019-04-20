@@ -351,10 +351,12 @@ class MatchService implements MatchContract
       foreach ($AllMatches as $match) {
         $matchResult = $this->matchRepoObj->saveAllResults($match);
         $matchData = $matchResult['match_data'];
-        $teamArray[$matchData['age_group_id']][] = $matchData['home_team_id'];
-        $teamArray[$matchData['age_group_id']][] = $matchData['away_team_id'];
-        // $competationId = $this->calculateCupLeagueTable($match['matchId']);
-        $competitionIds[$matchData['age_group_id']][] = $matchData['competition_id'];
+        if($matchResult['is_score_updated'] === true) {
+          $teamArray[$matchData['age_group_id']][] = $matchData['home_team_id'];
+          $teamArray[$matchData['age_group_id']][] = $matchData['away_team_id'];
+          // $competationId = $this->calculateCupLeagueTable($match['matchId']);
+          $competitionIds[$matchData['age_group_id']][] = $matchData['competition_id'];
+        }
       }
 
       foreach ($competitionIds as $ageGroupId => $cids) {

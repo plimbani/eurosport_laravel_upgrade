@@ -1545,8 +1545,15 @@ class MatchRepository
 
     public function saveAllResults($data)
     {
+      $isScoreUpdated = true;
       $matchData = [];
       $tempFixtures = TempFixture::where('id',$data['matchId'])->first();
+      if($tempFixtures['hometeam_score'] == $data['homeScore'] && $tempFixtures['awayteam_score'] == $data['awayScore']) {
+        $isScoreUpdated = false;
+      }
+      if($isScoreUpdated === false) {
+        return ['status' => true, 'data' => 'Scores updated successfully.', 'match_data' => $matchData, 'is_score_updated' => $isScoreUpdated];
+      }
       $matchData['home_team_id'] = $tempFixtures['home_team'];
       $matchData['away_team_id'] = $tempFixtures['away_team'];
       $matchData['age_group_id'] = $tempFixtures['age_group_id'];
@@ -1557,7 +1564,7 @@ class MatchRepository
       ];
       $data = TempFixture::where('id',$data['matchId'])
                 ->update($updateData);
-      return ['status' => true, 'data' => 'Scores updated successfully.', 'match_data' => $matchData];
+      return ['status' => true, 'data' => 'Scores updated successfully.', 'match_data' => $matchData, 'is_score_updated' => $isScoreUpdated];
     }
 
     public function getMatchDetail($matchId)
