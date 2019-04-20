@@ -96,7 +96,6 @@ export default {
 	          this.isListGettingUpdate = false;
 		    }).catch((error) => {
 		        if (axios.isCancel(error)) {
-		            console.log('post Request canceled');
 		        }
 		        this.isListGettingUpdate = false;
 		    });
