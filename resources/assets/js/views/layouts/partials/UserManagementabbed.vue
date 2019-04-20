@@ -57,6 +57,8 @@ export default {
 	        cancel();
 	    }
 	    this.isListGettingUpdate = true;
+	    $("body .js-loader").removeClass('d-none');
+
 
 		let emaildata = []
 		let userData = {}
@@ -94,10 +96,12 @@ export default {
 	          	this.userList.userCount = 0;
 	          }
 	          this.isListGettingUpdate = false;
+	          $("body .js-loader").addClass('d-none');
 		    }).catch((error) => {
 		        if (axios.isCancel(error)) {
 		        }
 		        this.isListGettingUpdate = false;
+		        $("body .js-loader").addClass('d-none');
 		    });
 
       // User.getUsersByRegisterType(userData).then(
