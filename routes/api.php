@@ -354,5 +354,7 @@ $api->version('v1', ['middleware' => 'jwt.auth'], function ($api) {
 $api->version('v1', function ($api) {
     $api->get('getWebsiteMessages/{tournamentId}', 'Laraspace\Api\Controllers\PushMessagesController@getWebsiteMessages');
 
-    $api->post('tournament/getFilterDropDownData', 'Laraspace\Api\Controllers\TournamentController@getFilterDropDownData');
+    $api->post('tournament/getFilterDropDownData','Laraspace\Api\Controllers\TournamentController@getFilterDropDownData');
+
+    $api->post('duplicateExistingTournament', 'Laraspace\Api\Controllers\TournamentController@duplicateExistingTournament');
 });
