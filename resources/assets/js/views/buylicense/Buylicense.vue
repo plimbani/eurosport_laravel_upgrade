@@ -339,7 +339,6 @@
                 
             getTournamentDetail(){ 
                 axios.get(Constant.apiBaseUrl+'get-tournament?transactionId='+this.id, {}).then(response =>  {
-                    console.log('response', response);
                         // if (response.data.success) {
                           
                             var start_date = new Date(moment(response.data.transaction.tournament.start_date, 'DD/MM/YYYY').format('MM/DD/YYYY'));
@@ -466,8 +465,8 @@
                     let tournamentPricingRecord = _.head(tournamentLicensePricingArray);
                     vm.tournamentData.tournamentPricingValue = tournamentPricingRecord - this.tournamentData.transactionDifferenceAmountValue;
                 }
-                if(typeof vm.tournamentData.tournamentPricingValue === 'undefined'){
-                    vm.tournamentData.tournamentPricingValue = 0;
+                if(typeof vm.tournamentData.tournamentPricingValue  === 'undefined'){
+                    vm.tournamentData.tournamentPricingValue  = 0;
                 }
             }
         },
@@ -502,7 +501,9 @@
             this.getCurrencyValue();
             setTimeout(function(){
                 vm.setOldDays()
-                vm.getTournamentDetail()
+                if(this.id) {
+                    vm.getTournamentDetail()
+                }
                 vm.tournammentPricingData()
             },1500) 
             $('#cup').prop("checked",true)

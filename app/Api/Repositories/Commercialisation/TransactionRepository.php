@@ -42,9 +42,10 @@ class TransactionRepository
         if ($data['STATUS'] == 5 && !empty($requestData['tournament'])) {
             $tournamentRes = $this->tournamentObj->addTournamentDetails($requestData['tournament'], 'api');
 
-            // $tournamentRes->users()->attach($userId);
+            $tournamentRes->users()->attach($userId);
         }
         $response = $this->addTransaction($data, $tournamentRes, $userId);
+
         //If renew license then duplicate age category if team size same
         if (!empty($requestData['tournament']['is_renew'])) {
             $oldTournamentRecord = Tournament::findOrFail($requestData['tournament']['old_tournament_id']);
@@ -149,9 +150,8 @@ class TransactionRepository
         $paymentStatus = config('app.payment_status');
         $transaction = [
             'tournament_id' => !empty($tournamentRes->id) ? $tournamentRes->id : null,
-            'userId' => !empty($userId) ? $userId : null,
+            'user_id' => $tournamentRes->user_id,
         ];
-
         $response = Transaction::create($transaction);
 
         //Add in transaction history
@@ -173,6 +173,7 @@ class TransactionRepository
         ];
         TransactionHistory::create($transactionHistory);       
         $responseData = array_merge($transactionHistory, $transaction);
+
         return $responseData;
     }
 
@@ -187,12 +188,13 @@ class TransactionRepository
         $tournament = $requestData['tournament'];
         $authUser = JWTAuth::parseToken()->toUser();
         $paymentStatus = config('app.payment_status');
-        $existsTransaction = Transaction::where('tournament_id', $tournament['id'])->first();
+        $existsTransaction = Transaction::where('tournament_id', $tournament['old_tournament_id'])->first();        
         $existsTransaction->tournament->preventDateAttrSet = true;
 
         $mainTransaction = [
             'updated_at' => date('Y-m-d H:i:s')
         ];
+    
         if (empty($tournament['tournamentPricingValue'])) {
             $transaction = [
                 'transaction_id' => $existsTransaction['id'],
@@ -201,7 +203,6 @@ class TransactionRepository
             ];
         } else {
             $existsHistory = TransactionHistory::where('transaction_id', $existsTransaction['id'])->orderBy('id', 'desc')->first();
-
             $transaction = [
                 'transaction_id' => $existsTransaction['id'],
                 'order_id' => $data['ORDERID'],
@@ -234,7 +235,6 @@ class TransactionRepository
             Mail::to($authUser->email)
                     ->send(new SendMail($emailData, $subject, $email_templates, NULL, NULL, NULL));
         }
-
         return $result;
     }
 

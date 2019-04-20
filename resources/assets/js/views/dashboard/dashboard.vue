@@ -6,8 +6,7 @@
                     <div class="col-md-12">
                         <h3 class="text-uppercase font-weight-bold mb-4">Manage Tournaments</h3>
                         <div class="row">
-                            <div class="col-md-6 col-lg-12 d-flex" v-for="transaction of transactions">
-                                
+                            <div class="col-md-6 col-lg-12 d-flex" v-for="transaction in transactions">
                                 <div class="card w-100">
                                     <div class="card-block">
                                         <div class="row align-items-center">
@@ -21,7 +20,7 @@
                                                     <div class="col-lg-5">
                                                         <ul class="list-unstyled mb-0 tournament-information">
                                                             <li class="d-inline h7 text-uppercase font-weight-bold pr-2"><span><i class="fa fa-globe"></i></span>&nbsp; <a target="_blank" v-bind:href="transaction.tournament.website">View public website</a></li>
-                                                            <li v-if="transaction.tournament.access_code" id="open-share-popup" @click="openSharePopup(tournament)" class="d-inline h7 text-uppercase font-weight-bold"><span><i class="fa fa-share-alt"></i></span>&nbsp; <a href="#">Share</a></li>
+                                                            <li v-if="transaction.tournament.access_code" id="open-share-popup" @click="openSharePopup(transaction)" class="d-inline h7 text-uppercase font-weight-bold"><span><i class="fa fa-share-alt"></i></span>&nbsp; <a href="#">Share</a></li>
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -117,7 +116,7 @@
         },
         methods: {
             getTournamentList(){
-                axios.get(Constant.apiBaseUrl+'getUserTransactions', {}).then(response =>  {
+                axios.get(Constant.apiBaseUrl+'getUserTransactions', {}).then(response =>  { 
                     // this.transactions = response.data.transactions;
                         // if (response.data.success) { 
                             this.transactions = response.data.transactions;
@@ -173,10 +172,8 @@
                 this.$router.push({name:'tournament_add'});
             },
 
-            
-
-            openSharePopup(tournament){
-                this.access_code_popup = this.url + tournament.tournament.access_code;
+            openSharePopup(transaction){
+                this.access_code_popup = this.url + transaction.tournament.access_code;
                 $("#open_share_popup").modal('show'); 
             },
 
