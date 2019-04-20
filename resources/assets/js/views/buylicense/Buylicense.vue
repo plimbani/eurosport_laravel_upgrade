@@ -339,10 +339,9 @@
                 
             getTournamentDetail(){ 
                 axios.get(Constant.apiBaseUrl+'get-tournament?transactionId='+this.id, {}).then(response =>  {
-                        // if (response.data.success) {
-                          
-                            var start_date = new Date(moment(response.data.transaction.tournament.start_date, 'DD/MM/YYYY').format('MM/DD/YYYY'));
-                            var end_date = new Date(moment(response.data.transaction.tournament.end_date, 'DD/MM/YYYY').format('MM/DD/YYYY')); 
+                        if (response.data.success) {
+                            var start_date = new Date(moment(response.data.data.tournament.start_date, 'DD/MM/YYYY').format('MM/DD/YYYY'));
+                            var end_date = new Date(moment(response.data.data.tournament.end_date, 'DD/MM/YYYY').format('MM/DD/YYYY')); 
                             
                             let today = new Date();
                             if(today.getTime() > end_date.getTime()){
@@ -358,13 +357,13 @@
                             }
                             
                             this.tournamentData['id'] = this.id;
-                            this.tournamentData['old_tournament_id'] = response.data.transaction.tournament.id;
-                            this.tournamentData['tournament_name'] = response.data.transaction.tournament.name;
-                            this.tournamentData['tournament_max_teams'] = response.data.transaction.tournament.maximum_teams;   
-                            this.tournament_old_teams = response.data.transaction.tournament.maximum_teams;   
-                            this.tournamentData['access_code'] = response.data.transaction.tournament.access_code;
-                            this.tournamentData['custom_tournament_format'] = response.data.transaction.tournament.custom_tournament_format;
-                            this.tournamentData['tournament_type'] = response.data.transaction.tournament.tournament_type;   
+                            this.tournamentData['old_tournament_id'] = response.data.data.tournament.id;
+                            this.tournamentData['tournament_name'] = response.data.data.tournament.name;
+                            this.tournamentData['tournament_max_teams'] = response.data.data.tournament.maximum_teams;   
+                            this.tournament_old_teams = response.data.data.tournament.maximum_teams;   
+                            this.tournamentData['access_code'] = response.data.data.tournament.access_code;
+                            this.tournamentData['custom_tournament_format'] = response.data.data.tournament.custom_tournament_format;
+                            this.tournamentData['tournament_type'] = response.data.data.tournament.tournament_type;   
 
 
                             // transaction histories amount difference calculation 
@@ -378,9 +377,9 @@
                                 return historyAmount; 
                             }); 
                             this.tournamentData.transactionDifferenceAmountValue = transactionDifferenceAmountValue
-                         // }else{ 
-                         //    toastr['error'](response.data.message, 'Error');
-                         // }
+                         }else{ 
+                            toastr['error'](response.data.message, 'Error');
+                         }
                         
                  }).catch(error => {
                      

@@ -116,14 +116,12 @@
         },
         methods: {
             getTournamentList(){
-                axios.get(Constant.apiBaseUrl+'getUserTransactions', {}).then(response =>  { 
-                    // this.transactions = response.data.transactions;
-                        // if (response.data.success) { 
-                            this.transactions = response.data.transactions;
-                             
-                         // }else{ 
-                         //    toastr['error'](response.data.message, 'Error');
-                         // }
+                axios.get(Constant.apiBaseUrl+'getUserTransactions', {}).then(response =>  {
+                        if (response.data.success) { 
+                            this.transactions = response.data.data;
+                        }else{ 
+                            toastr['error'](response.data.message, 'Error');
+                        }
                  }).catch(error => {
                      
                  });                

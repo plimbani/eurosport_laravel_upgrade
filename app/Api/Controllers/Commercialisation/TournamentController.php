@@ -66,14 +66,14 @@ class TournamentController extends BaseController
     {
         try {
             $data = $request->all();
-            return $this->tournamentRepoObj->getTournamentDetails($data['transactionId']);
-            // return response()->json([
-            //             'success' => true,
-            //             'status' => Response::HTTP_OK,
-            //             'data' => $response,
-            //             'error' => [],
-            //             'message' => 'Tournament list.'
-            // ]);
+            $response = $this->tournamentRepoObj->getTournamentDetails($data['transactionId']);
+            return response()->json([
+                        'success' => true,
+                        'status' => Response::HTTP_OK,
+                        'data' => $response,
+                        'error' => [],
+                        'message' => 'Tournament list.'
+            ]);
         } catch (\Exception $ex) {
             return response()->json(['success' => false, 'status' => Response::HTTP_UNPROCESSABLE_ENTITY, 'data' => [], 'error' => [], 'message' => 'Something went wrong.']);
         }
@@ -210,8 +210,19 @@ class TournamentController extends BaseController
 
 
     public function getUserTransactions() {
-        $authUser = JWTAuth::parseToken()->toUser();
-        $user = User::find($authUser->id);
-        return $this->tournamentRepoObj->getUserTransactions($user);
+        try {
+            $authUser = JWTAuth::parseToken()->toUser();
+            $user = User::find($authUser->id);
+            $response = $this->tournamentRepoObj->getUserTransactions($user);
+            return response()->json([
+                        'success' => true,
+                        'status' => Response::HTTP_OK,
+                        'data' => $response,
+                        'error' => [],
+                        'message' => 'Tournament list.'
+            ]);
+        } catch (\Exception $ex) {
+            return response()->json(['success' => false, 'status' => Response::HTTP_UNPROCESSABLE_ENTITY, 'data' => [], 'error' => [], 'message' => $ex->getMessage()]);
+        }
     }
 }
