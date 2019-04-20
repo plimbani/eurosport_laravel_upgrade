@@ -60,7 +60,7 @@
                                         <th>{{$lang.user_desktop_action}}</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody v-if="!isListGettingUpdate">
                                   <tr class="" v-for="user in paginated('userpagination')">
                                     <td>{{ user.first_name }}</td>
                                     <td>{{ user.last_name }}</td>
@@ -124,9 +124,9 @@
                                   <tr><td colspan="8"></td></tr>
                                 </tbody>
                             </table>
-                            <paginate v-if="shown" name="userpagination" :list="userList.userData" ref="paginator" :per="no_of_records"  class="paginate-list">
+                            <paginate v-if="shown && !isListGettingUpdate" name="userpagination" :list="userList.userData" ref="paginator" :per="no_of_records"  class="paginate-list">
                             </paginate>
-                            <div class="row d-flex flex-row align-items-center">
+                            <div class="row d-flex flex-row align-items-center" v-if="!isListGettingUpdate">
                               <div class="col page-dropdown">
                                 <select class="form-control ls-select2" name="no_of_records" v-model="no_of_records">
                                   <option v-for="recordCount in recordCounts" v-bind:value="recordCount">
@@ -223,6 +223,7 @@
 
         props: {
             userList: Object,
+            isListGettingUpdate: Boolean
         },
         computed: {
             IsSuperAdmin() {
