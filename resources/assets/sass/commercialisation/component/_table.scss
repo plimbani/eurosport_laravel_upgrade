@@ -34,3 +34,24 @@
         }
     }
 }
+
+.add-category-table {
+    &.table-sm {
+        tr {
+            font-size: 0.875rem;
+        }
+    }
+
+    th,
+    td {
+
+        &:last-child,
+        &:nth-child(8) {
+            min-width: 70px;
+        }
+
+        &:nth-child(11) {
+            min-width: 100px;
+        }
+    }
+}

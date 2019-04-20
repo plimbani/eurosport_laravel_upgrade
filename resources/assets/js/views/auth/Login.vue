@@ -56,10 +56,10 @@
                             <div class="form-actions">
                                 <div class="row">
                                     <div class="col-sm-6">
-                                        <button type="button" name="resetPassword"  @click="backtologin()" class="btn btn-login uppercase w-100 ">{{$lang.login_back_button}}</button>
+                                        <button type="button" name="resetPassword"  @click="backtologin()" class="btn btn-login uppercase w-100 btn-success">{{$lang.login_back_button}}</button>
                                     </div>
                                     <div class="col-sm-6">
-                                        <button type="button" name="resetPassword" id="resetPassword" @click="sendResetLink()" class="btn btn-login uppercase w-100 ">{{$lang.login_reset_button}}</button>
+                                        <button type="button" name="resetPassword" id="resetPassword" @click="sendResetLink()" class="btn btn-login uppercase w-100 btn-success">{{$lang.login_reset_button}}</button>
                                     </div>
                                 </div>
                             </div>
@@ -72,7 +72,9 @@
 </template>
 <script type="text/babel">
     import Auth from '../../services/auth'
-     import Ls from '../../services/ls'
+    import Ls from '../../services/ls'
+    import UserApi from '../../api/users.js';
+    import Website from '../../api/website.js';
 
     export default {
         data() {
@@ -102,10 +104,16 @@
                         Ls.set('usercountry',response.data.country)
                         this.disabled = false;
                         let tournamentDetails = Ls.get('tournamentDetails')
+                        
+                        let userData = {'email': this.loginData.email}
+                        this.getUserDetails(userData);
+                        this.getConfigurationDetail();
+
 						let indxOfCustomer =  (response.data.role).findIndex(item => item.slug.toLowerCase() == "customer") 
 						if(indxOfCustomer > -1){
 							Ls.set('user_role','customer')
 						}
+
                         if(typeof tournamentDetails != "undefined" && tournamentDetails != undefined && tournamentDetails != "null" && tournamentDetails != null){
                             // console.log("tournamentDetails::",tournamentDetails);
                             this.$router.push({'name':'checkout'})
@@ -149,26 +157,47 @@
 
             sendResetLink() {
                 this.$validator.validateAll().then(() => {
-                $('#resetPassword').attr("disabled","disabled");
-                let formData = {'email': this.loginData.email}
-                return axios.post('/api/password/email',formData).then(response =>  {
-                    if(response.data.status == 403) {
-                        toastr['error'](response.data.message, 'Error');
-                    } else if(response.status == 200){
-                        this.loginData.forgotpassword = ''
-                        toastr['success']('We have emailed you a password reset link!', 'Success');
-                    } else{
-                        toastr['error']('email address does not exist', 'Error');
-                    }
-                    $('#resetPassword').removeAttr("disabled", "");
-                }).catch(error => {
-                    if (error.response.status == 401) {
-                                // toastr['error']('Invalid Credentials', 'Error');
-                    }else{
-                    }
+                    $('#resetPassword').attr("disabled","disabled");
+                    let formData = {'email': this.loginData.email}
+                    return axios.post('/api/password/email',formData).then(response =>  {
+                        if(response.data.status == 403) {
+                            toastr['error'](response.data.message, 'Error');
+                        } else if(response.status == 200){
+                            this.loginData.forgotpassword = ''
+                            toastr['success']('We have emailed you a password reset link!', 'Success');
+                        } else{
+                            toastr['error']('email address does not exist', 'Error');
+                        }
+                        $('#resetPassword').removeAttr("disabled", "");
+                    }).catch(error => {
+                        if (error.response.status == 401) {
+                                    // toastr['error']('Invalid Credentials', 'Error');
+                        }else{
+                        }
+                    });
                 });
-            });
+            },
+            getUserDetails(emailData){
+                UserApi.getUserDetails(emailData).then(
+                  (response)=> {
+                    this.userData = response.data.data;
+                    Ls.set('userData',JSON.stringify(this.userData[0]))  
+                    let UserData  = JSON.parse(Ls.get('userData'))
+                    this.$store.dispatch('getUserDetails', UserData);
+                  },
+                  (error)=> {
+                  }
+                );
+            },
+            getConfigurationDetail() {
+                Website.getConfigurationDetail().then(
+                  (response)=> {
+                    this.$store.dispatch('setConfigurationDetail', response.data);
+                  },
+                  (error)=> {
+                  }
+                );            
             }
-        },
+        }
     }
 </script>
