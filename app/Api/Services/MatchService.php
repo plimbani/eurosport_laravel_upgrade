@@ -361,11 +361,11 @@ class MatchService implements MatchContract
 
       foreach ($competitionIds as $ageGroupId => $cids) {
         $lowerCompetitionId = min(array_unique($cids));
-        $allCompetitionsIds = Competition::where('tournament_id', '=', $tournamentId)->where('tournament_competation_template_id', '=', $ageGroupId)->where('id', '>=', $lowerCompetitionId)->pluck('id')->toArray();
-        foreach ($allCompetitionsIds as $id) {
-          $data = ['tournamentId' => $tournamentId, 'competitionId' => $id];
-          $this->refreshCompetitionStandings($data);
-        }
+        // $allCompetitionsIds = Competition::where('tournament_id', '=', $tournamentId)->where('tournament_competation_template_id', '=', $ageGroupId)->where('id', '>=', $lowerCompetitionId)->pluck('id')->toArray();
+          // foreach ($allCompetitionsIds as $id) {
+            $data = ['tournamentId' => $tournamentId, 'competitionId' => $lowerCompetitionId];
+            $this->refreshCompetitionStandings($data);
+          // }
       }
       foreach ($teamArray as $ageGroupId => $teamsList) {
         $teamsList = array_unique($teamsList);
@@ -658,6 +658,7 @@ class MatchService implements MatchContract
                 // ->where('round','=' , 'Elimination')
                 ->where('age_group_id','=',$ageGroupId)
                 ->get();
+      $processFixtures = [];
 
       $matchArr =  array();
       $teams_arr = explode('.', $singleFixture->match_number);
@@ -694,7 +695,7 @@ class MatchService implements MatchContract
           if($SelhomeTeam == $homeTeam ) {
             // echo "SDF";exit;
             $match1 = $match;
-
+            $processFixtures[] = $match->id;
           }
           if($homeTeam[0] == '(') {
               if(isset($match1) && $match1 != ''){
