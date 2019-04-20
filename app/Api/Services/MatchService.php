@@ -1280,7 +1280,7 @@ class MatchService implements MatchContract
         }
 
 
-        if ( $head_to_head && $competition->is_manual_override_standing === null )
+        if ( $head_to_head && $competition->is_manual_override_standing == 0 )
         {
 
           $calculatedArray = array_shift($calculatedArray);
