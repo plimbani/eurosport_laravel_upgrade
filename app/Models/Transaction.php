@@ -21,6 +21,10 @@ class Transaction extends Model
     public function transactionHistories() {
         return $this->hasMany('Laraspace\Models\TransactionHistory');
     }
+
+    public function getSortedTransactionHistories() {
+        return $this->transactionHistories()->orderBy('id', 'desc');
+    }
     
     
 }

@@ -137,11 +137,12 @@
             tournamentDetailAppStoreLink(){
                 if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
                     this.$router.push({ path: 'mtournament-detail', query: { code: this.code }})
+                    window.location.href = this.baseUrl+'/mtournament-detail';
                 } 
 
                 if(!/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
                     this.$router.push({ path: 'tournament-detail', query: { code: this.code }})
-                    window.location.href = 'https://play.google.com/store?hl=en';  
+                    window.location.href = 'https://itunes.apple.com/us/app/euro-sportring-tournaments/id1437488944?mt=8';  
                 }
             },
 
