@@ -116,11 +116,17 @@ export default {
 	},
 	methods: {
 		setFilter(filterKey,filterValue) {
+		    if(filterValue && filterValue.class == 'age'){
+		       this.filterKey1 = 'competation_group_age';
+		    } else {
+		    	this.filterKey1 = 'competation_group';
+		    }
         	if(filterKey != undefined) {
-            this.filterKey1 = filterKey
+            // this.filterKey1 = filterKey
             this.filterValue1 = filterValue
 
-  	        this.getAllMatches(this.currentDate, this.matchScoreFilter, filterKey,filterValue)
+            this.getAllMatches(this.currentDate, this.matchScoreFilter, this.filterKey1,this.filterValue1)
+  	        // this.getAllMatches(this.currentDate, this.matchScoreFilter, filterKey,filterValue)
         	}
 
 	      //  if(filterKey == 'age_category'){
@@ -308,7 +314,7 @@ export default {
 				(response)=> {
 					$("body .js-loader").addClass('d-none');
 					if(response.data.status_code == 200) {
-						this.matchData = response.data.data
+						vm.matchData = response.data.data
 						setTimeout(function(){
 					      vm.matchData = _.orderBy(vm.matchData, ['match_datetime'], ['asc'])
 					      vm.$root.$emit('setMatchDataOfMatchList', vm.matchData);
