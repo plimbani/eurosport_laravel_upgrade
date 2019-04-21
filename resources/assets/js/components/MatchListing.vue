@@ -116,17 +116,16 @@ export default {
 	},
 	methods: {
 		setFilter(filterKey,filterValue) {
-		    if(filterValue && filterValue.class == 'age'){
-		       this.filterKey1 = 'competation_group_age';
-		    } else {
-		    	this.filterKey1 = 'competation_group';
-		    }
         	if(filterKey != undefined) {
-            // this.filterKey1 = filterKey
-            this.filterValue1 = filterValue
+        		if(filterValue.class == 'age'){
+		       		this.filterKey1 = 'competation_group_age';
+		    	} else {
+        			this.filterKey1 = filterKey
+		    	}
+            // this.filterValue1 = filterValue
 
-            this.getAllMatches(this.currentDate, this.matchScoreFilter, this.filterKey1,this.filterValue1)
-  	        // this.getAllMatches(this.currentDate, this.matchScoreFilter, filterKey,filterValue)
+            // this.getAllMatches(this.currentDate, this.matchScoreFilter, this.filterKey1,this.filterValue1)
+  	        this.getAllMatches(this.currentDate, this.matchScoreFilter, this.filterKey1,filterValue)
         	}
 
 	      //  if(filterKey == 'age_category'){
