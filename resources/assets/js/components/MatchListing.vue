@@ -116,8 +116,7 @@ export default {
 	},
 	methods: {
 		setFilter(filterKey,filterValue) {
-
-		    if(filterValue.class == 'age'){
+		    if(filterValue && filterValue.class == 'age'){
 		       this.filterKey1 = 'competation_group_age';
 		    } else {
 		    	this.filterKey1 = 'competation_group';
