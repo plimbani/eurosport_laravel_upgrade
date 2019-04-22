@@ -172,7 +172,7 @@
                                         </button>      
                                         <button v-if="disabled && !id" class="btn btn-success btn-block" disabled="true">Buy your license</button>
 
-                                         <button v-if ="!disabled && id && newDaysAdded <= 0 && new_added_teams <= 0" class="btn btn-success btn-block" disabled v-on:click="updateALicence()">
+                                         <button v-if ="!disabled && id && newDaysAdded <= 0 && new_added_teams <= 0" class="btn btn-success btn-block" v-on:click="updateALicence()">
                                          Confirm Details </button>
                                          <button v-if ="!disabled && id && (newDaysAdded > 0 || new_added_teams > 0)" class="btn btn-success btn-block"  v-on:click="buyALicence()">
                                         Make Payment</button>
