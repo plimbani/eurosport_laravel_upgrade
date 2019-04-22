@@ -757,7 +757,7 @@ class TournamentRepository
             $tournament->custom_tournament_format = $tournamentDetailData['custom_tournament_format'];
         }
         $status = $tournament->save();
-        if ($type == 'commercialisation') {
+        if ($currentLayout == 'commercialisation') {
             return $tournament;
         }
         return $status;
