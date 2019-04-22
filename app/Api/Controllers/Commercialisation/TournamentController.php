@@ -131,36 +131,36 @@ class TournamentController extends BaseController
             $tournamentCompetationTemplates = TournamentCompetationTemplates::where('tournament_id', $requestData['tournament']['old_tournament_id'])->pluck('total_teams')->sum();
 
             // Tournament update license 
-            if (!empty($requestData['tournament'])) {
-                    if($tournamentStartDate >= $requestTournamentStartDate && $tournamentFixture == 0){
-                        if($tournamentStartDate >= $requestTournamentStartDate && $tournamentPitch == 0){
-                            if($tournamentStartDate >= $requestTournamentStartDate && $tournamentCompetationTemplates <= $tournamentMaximumTeam){
+            if (!empty($requestData['tournament'])) {        
+                if($tournamentStartDate >= $requestTournamentStartDate && $tournamentFixture == 0){
+                    if($tournamentStartDate >= $requestTournamentStartDate && $tournamentPitch == 0){
+                        if($tournamentStartDate >= $requestTournamentStartDate && $tournamentCompetationTemplates <= $tournamentMaximumTeam){
 
-                                $customTournamentFormat = '';
+                            $customTournamentFormat = '';
 
-                                if($requestData['tournament']['tournament_type'] == 'cup' &&  $requestData['tournament']['custom_tournament_format'] == 'no') {
-                                    $customTournamentFormat = 0;
-                                } elseif($requestData['tournament']['tournament_type'] == 'cup' &&  $requestData['tournament']['custom_tournament_format'] == 'yes') {
-                                    $customTournamentFormat = 1;
-                                } else {
-                                    $customTournamentFormat = NULL;
-                                }
-
-
-                                $requestData['tournament'] = [
-                                    'id' => $requestData['tournament']['old_tournament_id'],
-                                    'name' => $requestData['tournament']['tournament_name'],
-                                    'start_date' => Carbon::createFromFormat('d/m/Y', $requestData['tournament']['tournament_start_date']),
-                                    'end_date' => Carbon::createFromFormat('d/m/Y', $requestData['tournament']['tournament_end_date']),
-                                    'maximum_teams' => $requestData['tournament']['tournament_max_teams'],
-                                    'tournament_type' => $requestData['tournament']['tournament_type'],
-                                    'custom_tournament_format' => $customTournamentFormat,
-                                ];
+                            if($requestData['tournament']['tournament_type'] == 'cup' &&  $requestData['tournament']['custom_tournament_format'] == 'no') {
+                                $customTournamentFormat = 0;
+                            } elseif($requestData['tournament']['tournament_type'] == 'cup' &&  $requestData['tournament']['custom_tournament_format'] == 'yes') {
+                                $customTournamentFormat = 1;
+                            } else {
+                                $customTournamentFormat = 'NULL';
                             }
-                        }   
-                    } else {
-                        return response()->json(['status' => 'error', 'message' => 'Please unschedule matches before shortening the length of our tournament.']);
-                    }
+
+
+                            $requestData['tournament'] = [
+                                'id' => $requestData['tournament']['old_tournament_id'],
+                                'name' => $requestData['tournament']['tournament_name'],
+                                'start_date' => Carbon::createFromFormat('d/m/Y', $requestData['tournament']['tournament_start_date']),
+                                'end_date' => Carbon::createFromFormat('d/m/Y', $requestData['tournament']['tournament_end_date']),
+                                'maximum_teams' => $requestData['tournament']['tournament_max_teams'],
+                                'tournament_type' => $requestData['tournament']['tournament_type'],
+                                'custom_tournament_format' => $customTournamentFormat,
+                            ];
+                        }
+                    }   
+                } else {
+                    return response()->json(['status' => 'error', 'message' => 'Please unschedule matches before shortening the length of our tournament.']);
+                }
                 
                 $this->tournamentRepoObj->edit($requestData['tournament']);
             }
