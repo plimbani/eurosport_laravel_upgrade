@@ -38,12 +38,18 @@ class TransactionRepository
         $data = array_change_key_case($requestData['paymentResponse'], CASE_UPPER);
         $authUser = JWTAuth::parseToken()->toUser();
         $userId = $authUser->id;
-
+		
         if ($data['STATUS'] == 5 && !empty($requestData['tournament'])) {
-            $tournamentRes = $this->tournamentObj->addTournamentDetails($requestData['tournament'], 'api');
+            $tournamentRes = $this->tournamentObj->addTournamentDetails($requestData['tournament'], 'commercialisation');
+		}
 
+		if(empty($tournamentRes))
+		{
+			//In case of non successfull transaction, need to set maximum_teams to insert into transaction_history.
+			$tournamentRes = (object)[];
+			$tournamentRes->maximum_teams = $requestData['tournament']['tournament_max_teams'];
             $tournamentRes->users()->attach($userId);
-        }
+		}
         $response = $this->addTransaction($data, $tournamentRes, $userId);
 
         //If renew license then duplicate age category if team size same
@@ -150,7 +156,7 @@ class TransactionRepository
         $paymentStatus = config('app.payment_status');
         $transaction = [
             'tournament_id' => !empty($tournamentRes->id) ? $tournamentRes->id : null,
-            'user_id' => $tournamentRes->user_id,
+            'user_id' => !empty($userId) ? $userId : null,
         ];
         $response = Transaction::create($transaction);
 
@@ -164,11 +170,11 @@ class TransactionRepository
             'status' => $paymentStatus[$data['STATUS']],
             'currency' => $data['CURRENCY'],
             'card_type' => $data['PM'],
-            'card_holder_name' => $data['CN'],
-            'card_number' => $data['CARDNO'],
-            'card_validity' => $data['ED'],
+            'card_holder_name' => (isset($data['CN'])) ? $data['CN'] : null,
+            'card_number' => (isset($data['CARDNO'])) ? $data['CARDNO'] : null,
+            'card_validity' => (isset($data['ED'])) ? $data['ED'] : null,
             'transaction_date' => date('Y-m-d H:i:s', strtotime($data['TRXDATE'])),
-            'brand' => $data['BRAND'],
+            'brand' => (isset($data['BRAND'])) ? $data['BRAND'] : null,
             'payment_response' => json_encode($data)
         ];
         TransactionHistory::create($transactionHistory);       

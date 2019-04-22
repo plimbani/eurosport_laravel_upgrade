@@ -106,6 +106,24 @@ class BuyLicenseController extends BaseController
     }
 
     public function paymentCallback(Request $request) {
-        return redirect('payment?' . http_build_query($request->all()));
+        if($request['STATUS'] == 5)
+		{
+			//Authorized-success
+			return redirect('payment?' . http_build_query($request->all()));
+		}
+		else if($request['STATUS'] == 1)
+		{
+			//cancelled
+			return redirect('paymentfailure?' . http_build_query($request->all()));
+		}
+		else if($request['STATUS'] == 2)
+		{
+			//authorisation_refused
+			return redirect('paymentfailure?' . http_build_query($request->all()));
+		}
+		else
+		{
+			return redirect('paymentfailure?' . http_build_query($request->all()));
+		}
     }
 }
