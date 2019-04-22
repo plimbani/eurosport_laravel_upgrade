@@ -152,11 +152,27 @@ class ApplicationData: NSObject {
         return nil
     }
     
+    static func getCountDownTime(_ dateStr: String, dateFormat: String = kDateFormat.format1) -> Date? {
+        let formatter = DateFormatter()
+        formatter.dateFormat = dateFormat
+        formatter.timeZone = TimeZone(identifier: TimeZone.current.identifier)
+        
+        print("TIMEZONE: \(dateStr)")
+        print("TIMEZONE: \(TimeZone(identifier: TimeZone.current.identifier))")
+        
+        if let newDate = formatter.date(from: dateStr) {
+            return newDate
+        }
+        
+        return nil
+    }
+    
     static func getFormattedDate(_ dateStr: String, dateFormat: String = kDateFormat.format1) -> Date? {
         let formatter = DateFormatter()
         formatter.dateFormat = dateFormat
         
         var localeStr = "en"
+        
         if let userData = ApplicationData.sharedInstance().getUserData() {
             localeStr = userData.locale
         }

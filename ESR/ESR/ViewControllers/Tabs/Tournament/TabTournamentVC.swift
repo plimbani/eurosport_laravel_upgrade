@@ -186,7 +186,7 @@ class TabTournamentVC: SuperViewController {
     func convertToCountdownTime() {
         
         if let selectedTournament = ApplicationData.sharedInstance().getSelectedTournament() {
-            if let tournamentStartTime = ApplicationData.getFormattedDate(selectedTournament.tournamentStartTime, dateFormat: kDateFormat.format3) {
+            if let tournamentStartTime = ApplicationData.getCountDownTime(selectedTournament.tournamentStartTime, dateFormat: kDateFormat.format3) {
                 
                 let calendar = NSCalendar.current
                 let unitFlags = Set<Calendar.Component>([.day, .hour, .minute, .second])
