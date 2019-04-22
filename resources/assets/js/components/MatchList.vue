@@ -212,9 +212,9 @@ export default {
     this.matchData = _.sortBy(_.cloneDeep(this.matchData1),['match_datetime'] );
 
     var vm = this;
-    Vue.nextTick(() =>{
+    setTimeout(function() {
       vm.updateMatchScoreToRel();
-    });
+    },200);
 
     this.matchIdleTimeInterval = parseInt(this.$store.state.Configuration.matchIdleTime) * 1000;
     if ( this.matchIdleTimeInterval !== 0)

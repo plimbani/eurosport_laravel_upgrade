@@ -572,7 +572,8 @@ class TournamentRepository
             ->select('match_datetime as TournamentStartTime',
                 'temp_fixtures.tournament_id as TId')
             ->orderBy('temp_fixtures.match_datetime', 'asc')
-            ->get()->first();
+            ->get()
+            ->unique('TId');
         if ($pitches) {
             return $pitches->toArray();
         } else {
@@ -615,8 +616,8 @@ class TournamentRepository
 
                 if ($tournamentStartTimeArr) {
                     foreach ($tournamentStartTimeArr as $key => $tournamentTime) {
-                        if ($userData1['TournamentId'] == $tournamentStartTimeArr['TId']) {
-                            $userData[$index]['TournamentStartTime'] = date('Y-m-d H:i:s', strtotime($tournamentStartTimeArr['TournamentStartTime']));
+                        if ($userData1['TournamentId'] == $tournamentTime['TId']) {
+                            $userData[$index]['TournamentStartTime'] = date('Y-m-d H:i:s', strtotime($tournamentTime['TournamentStartTime']));
                         }
                     }
                 }
