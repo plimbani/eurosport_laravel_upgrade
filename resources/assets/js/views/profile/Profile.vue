@@ -127,7 +127,7 @@
             },
 
             getUserDetail(){ 
-                axios.get(Constant.apiBaseUrl+'user/get-details/').then(response =>  {
+                axios.get(Constant.apiBaseUrl+'user/get-details').then(response =>  {
                     if(response.data.success){ 
                         let indxOfCustomer =  (response.data.data.roles).findIndex(item => item.slug == "customer") 
                         if(indxOfCustomer > -1){

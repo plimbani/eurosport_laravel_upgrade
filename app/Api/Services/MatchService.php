@@ -948,11 +948,13 @@ class MatchService implements MatchContract
           $fix1['CupFixture']['match_round'] = $singleFxture->round;
           $ageCategoryId = $fix1['CupFixture']['age_group_id'] = $singleFxture->age_group_id;
         }
-        if( $fix1['CupFixture']['hometeam'] == 0 || $fix1['CupFixture']['awayteam'] == 0)
-        {
-          return $singleFxture->competition_id;
-        }
 
+        if($fix1['CupFixture']['match_round'] == 'Round Robin') {
+          if( $fix1['CupFixture']['hometeam'] == 0 || $fix1['CupFixture']['awayteam'] == 0)
+          {
+            return $singleFxture->competition_id;
+          }
+        }
 
         // Set the fix1 single record team
 
@@ -1050,7 +1052,8 @@ class MatchService implements MatchContract
 
     private function TeamPMAssignKp($data)
     {
-      // dd($data);
+      // dd($data);\
+        $processFixtures = [];
         $compId = $data['home']['competition_id'];
         $competition = Competition::find($compId);
         $tournament_id =  $competition->tournament_id;
@@ -1329,7 +1332,7 @@ class MatchService implements MatchContract
 
         $reportQuery = DB::table('temp_fixtures')
         ->select('temp_fixtures.id as matchID','temp_fixtures.match_number as MatchNumber','temp_fixtures.home_team_name as HomeTeam','temp_fixtures.home_team as HomeTeamId','temp_fixtures.away_team_name as AwayTeam',
-
+          'temp_fixtures.home_team_placeholder_name as HomeTeamPlaceHolderName','temp_fixtures.away_team_placeholder_name as AwayTeamPlaceHolderName',
           'temp_fixtures.away_team as AwayTeamId')
         ->leftJoin('competitions','competitions.id','=','temp_fixtures.competition_id')
         ->leftJoin('tournament_competation_template','tournament_competation_template.id','=','competitions.tournament_competation_template_id')
@@ -1353,7 +1356,7 @@ class MatchService implements MatchContract
               foreach($calculatedArray[$cupId] as $dd1) {
 
                 if($homeTeam == $dd1['teamAgeGroupPlaceHolder']) {
-
+                  $processFixtures[] = $match->matchID;
                   //echo $matchId = $match->matchID;
                   //echo $matchNumber = $match->MatchNumber;
 
@@ -1367,8 +1370,15 @@ class MatchService implements MatchContract
 
                   if($this->checkForEndRR($cupId) == true) {
                     DB::table('temp_fixtures')->where('id',$match->matchID)->update($updateArray);
-                    unset($updateArray);
+                  } else {
+                    DB::table('temp_fixtures')->where('id',$match->matchID)->update(
+                      [
+                        'home_team_name' => $match->HomeTeamPlaceHolderName,
+                        'home_team' => 0,
+                      ]
+                    );
                   }
+                  unset($updateArray);
                   //echo '<br>';
                 }
                 // check if value is changed
@@ -1381,6 +1391,8 @@ class MatchService implements MatchContract
             if($awayTeam) {
               foreach($calculatedArray[$cupId] as $dd1) {
                 if($awayTeam == $dd1['teamAgeGroupPlaceHolder']) {
+                  $processFixtures[] = $match->matchID;
+
                   $updatedMatchNumer =  str_replace($awayTeam,$dd1['teamName'],$match->MatchNumber);
                   $awayTeamId = $dd1['teamid'];
                   $updateArray = [
@@ -1389,8 +1401,15 @@ class MatchService implements MatchContract
                   ];
                   if($this->checkForEndRR($cupId) == true) {
                     DB::table('temp_fixtures')->where('id',$match->matchID)->update($updateArray);
-                    unset($updateArray);
+                  } else {
+                    DB::table('temp_fixtures')->where('id',$match->matchID)->update(
+                      [
+                        'away_team_name'=> $match->AwayTeamPlaceHolderName,
+                        'away_team' => 0,
+                      ]
+                    );
                   }
+                  unset($updateArray);
                 }else {
                  // echo 'hi-Away';
                 }
@@ -1398,6 +1417,8 @@ class MatchService implements MatchContract
             }
             // else check if its new change
           }
+
+          $this->processFixtures($processFixtures);
         }
         return ;
     }
@@ -2629,5 +2650,12 @@ class MatchService implements MatchContract
     public function matchUnscheduledFixtures($matchId)
     {
         return $this->matchRepoObj->matchUnscheduledFixtures($matchId);
+    }
+
+    public function processFixtures($fixtures)
+    {
+      foreach($fixtures as $id) {
+        $this->calculateCupLeagueTable($id);
+      }
     }
 }

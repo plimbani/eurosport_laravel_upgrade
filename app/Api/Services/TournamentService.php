@@ -1018,4 +1018,9 @@ class TournamentService implements TournamentContract
       $data = $this->tournamentRepoObj->duplicateTournamentList($data);
       return ['data' => $data, 'status_code' => '200']; 
     }
+
+    public function getUserTransactions($user) {
+      $data = $this->tournamentRepoObj->getUserTransactions($user);
+      return ['data' => $data, 'status_code' => '200']; 
+    }
 }

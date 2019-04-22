@@ -54,8 +54,9 @@ class BuyLicenseController extends BaseController
     public function generateHashKey(Request $request)
     {
         $requestData = $request->all();
+        
         $orderId = 'ORDER-' . uniqid() . '-' . time();
-        $shaInString = 'AMOUNT=' . ($requestData['total_amount'] * 100) . config('app.SHA_IN_PASS_PHRASE') .
+        $shaInString = 'AMOUNT=' . ($requestData['tournamentPricingValue'] * 100) . config('app.SHA_IN_PASS_PHRASE') .
                 'CURRENCY=' . substr($requestData['currency_type'], 0, 3) . config('app.SHA_IN_PASS_PHRASE') . 'ORDERID=' . $orderId . config('app.SHA_IN_PASS_PHRASE') .
                 'PMLIST=' . $requestData['PMLIST'] . config('app.SHA_IN_PASS_PHRASE') . 'PMLISTTYPE=' . $requestData['PMLISTTYPE'] . config('app.SHA_IN_PASS_PHRASE') .
                 'PSPID=' . config('app.PSPID') . config('app.SHA_IN_PASS_PHRASE');
@@ -64,7 +65,7 @@ class BuyLicenseController extends BaseController
         return response()->json([
                     'success' => true,
                     'status' => Response::HTTP_OK,
-                    'data' => ['shaSignIn' => $shaSign, 'total_amount' => ($requestData['total_amount'] * 100), 'pspid' => config('app.PSPID'), 'orderId' => $orderId],
+                    'data' => ['shaSignIn' => $shaSign, 'tournamentPricingValue' => ($requestData['tournamentPricingValue'] * 100), 'pspid' => config('app.PSPID'), 'orderId' => $orderId],
                     'error' => [],
                     'message' => 'Hash key genreated successfully.'
         ]);
@@ -102,5 +103,27 @@ class BuyLicenseController extends BaseController
         } catch (\Exception $ex) {
             return response()->json(['success' => false, 'status' => Response::HTTP_UNPROCESSABLE_ENTITY, 'data' => [], 'error' => [], 'message' => $ex->getMessage()]);
         }
+    }
+
+    public function paymentCallback(Request $request) {
+        if($request['STATUS'] == 5)
+		{
+			//Authorized-success
+			return redirect('payment?' . http_build_query($request->all()));
+		}
+		else if($request['STATUS'] == 1)
+		{
+			//cancelled
+			return redirect('paymentfailure?' . http_build_query($request->all()));
+		}
+		else if($request['STATUS'] == 2)
+		{
+			//authorisation_refused
+			return redirect('paymentfailure?' . http_build_query($request->all()));
+		}
+		else
+		{
+			return redirect('paymentfailure?' . http_build_query($request->all()));
+		}
     }
 }

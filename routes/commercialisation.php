@@ -31,6 +31,8 @@ Route::group(['middleware' => 'jwt.auth'], function() {
     
 
     Route::post('v1/saveTournamentPricingDetail', '\Laraspace\Api\Controllers\Commercialisation\TournamentPricingController@saveTournamentPricingDetail');
+
+    Route::get('v1/getUserTransactions', '\Laraspace\Api\Controllers\Commercialisation\TournamentController@getUserTransactions');
 });
 
 Route::get('v1/tournament-pricing-bands', '\Laraspace\Api\Controllers\Commercialisation\TournamentPricingController@getTournamentPricingBands');
