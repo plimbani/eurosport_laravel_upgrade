@@ -522,59 +522,62 @@ class MatchRepository
           $head_to_head = false;
           $check_head_to_head_with_key = '';
           $remain_head_to_head_with_key = '';
-          foreach($rules as $key => $rule) {
 
-            if($rule['checked'] == false || ( $rule['key'] != 'head_to_head' && $head_to_head == true)) {
+          if($competition->is_manual_override_standing == 0) {
+            foreach($rules as $key => $rule) {
 
-              if (  $rule['checked'] == true && ( $rule['key'] != 'head_to_head' && $head_to_head == true )  )
-              {
-                if($rule['key'] == 'goal_difference') {
-                  $remain_head_to_head_with_key .= '|GoalDifference';
+              if($rule['checked'] == false || ( $rule['key'] != 'head_to_head' && $head_to_head == true)) {
+
+                if (  $rule['checked'] == true && ( $rule['key'] != 'head_to_head' && $head_to_head == true )  )
+                {
+                  if($rule['key'] == 'goal_difference') {
+                    $remain_head_to_head_with_key .= '|GoalDifference';
+                  }
+                  if($rule['key'] == 'goals_for') {
+                    $remain_head_to_head_with_key .= '|goal_for';
+                  }
+                  if($rule['key'] == 'matches_won') {
+                    $remain_head_to_head_with_key .= '|won';
+                  }
+                  if($rule['key'] == 'goal_ratio') {
+                    $remain_head_to_head_with_key .= '|GoalRatio';
+                  }
                 }
-                if($rule['key'] == 'goals_for') {
-                  $remain_head_to_head_with_key .= '|goal_for';
+                continue;
+              }
+
+              if($rule['key'] == 'match_points') {
+                $reportQuery = $reportQuery->orderBy('match_standing.points','desc');
+                $check_head_to_head_with_key .= '|points';
+              }
+
+              if($rule['key'] == 'head_to_head') {
+                if($checkResultEntered > 0)
+                {
+                  $reportQuery = $reportQuery->orderBy('teams.name','asc');
                 }
-                if($rule['key'] == 'matches_won') {
-                  $remain_head_to_head_with_key .= '|won';
-                }
-                if($rule['key'] == 'goal_ratio') {
-                  $remain_head_to_head_with_key .= '|GoalRatio';
+                else
+                {
+                  $head_to_head = true;
                 }
               }
-              continue;
-            }
-
-            if($rule['key'] == 'match_points') {
-              $reportQuery = $reportQuery->orderBy('match_standing.points','desc');
-              $check_head_to_head_with_key .= '|points';
-            }
-
-            if($rule['key'] == 'head_to_head') {
-              if($checkResultEntered > 0)
-              {
-                $reportQuery = $reportQuery->orderBy('teams.name','asc');
+              
+              if($rule['key'] == 'goal_difference') {
+                $reportQuery = $reportQuery->orderBy('GoalDifference','desc');
+                $check_head_to_head_with_key .= '|GoalDifference';
               }
-              else
-              {
-                $head_to_head = true;
+              if($rule['key'] == 'goals_for') {
+                $reportQuery = $reportQuery->orderBy('match_standing.goal_for','desc');
+                $check_head_to_head_with_key .= '|goal_for';
               }
-            }
-            
-            if($rule['key'] == 'goal_difference') {
-              $reportQuery = $reportQuery->orderBy('GoalDifference','desc');
-              $check_head_to_head_with_key .= '|GoalDifference';
-            }
-            if($rule['key'] == 'goals_for') {
-              $reportQuery = $reportQuery->orderBy('match_standing.goal_for','desc');
-              $check_head_to_head_with_key .= '|goal_for';
-            }
-            if($rule['key'] == 'matches_won') {
-              $reportQuery = $reportQuery->orderBy('match_standing.won','desc');
-              $check_head_to_head_with_key .= '|won';
-            }
-            if($rule['key'] == 'goal_ratio') {
-              $reportQuery = $reportQuery->orderBy('GoalRatio','desc');
-              $check_head_to_head_with_key .= '|GoalRatio';
+              if($rule['key'] == 'matches_won') {
+                $reportQuery = $reportQuery->orderBy('match_standing.won','desc');
+                $check_head_to_head_with_key .= '|won';
+              }
+              if($rule['key'] == 'goal_ratio') {
+                $reportQuery = $reportQuery->orderBy('GoalRatio','desc');
+                $check_head_to_head_with_key .= '|GoalRatio';
+              }
             }
           }
 
@@ -694,7 +697,7 @@ class MatchRepository
 
           $holdingTeamStandings = collect($allStandingDataArray);
           $competitionStandings = $reportQuery->get();
-          if ( $head_to_head == true )
+          if ( $head_to_head == true && $competition->is_manual_override_standing == 0 )
           {
             $competitionStandings = json_decode(json_encode($competitionStandings), true);
 
@@ -829,7 +832,6 @@ class MatchRepository
             $pos++;
           }
         }
-
         return array($standingArray,'1');
       }
       else
@@ -970,18 +972,16 @@ class MatchRepository
 
           foreach ($remain_head_to_head_with_key as $rkey => $rvalue) {
               foreach ($svalue as $sskey => $svvalue) {
-
-                if ( array_key_exists('team_id', $svvalue) )
+                $team_id = $svvalue['team_id'];
+                if ( array_key_exists_r('team_id', $standingData) )
                 {
-                  $team_id = $svvalue['team_id'];
                   $standKey = array_search($team_id, array_column($standingData, 'team_id'));
                 }
                 else
                 {
-                  $team_id = $svvalue['teamid'];
                   $standKey = array_search($team_id, array_column($standingData, 'teamid'));
                 }
-                
+
                 $svalue[$sskey]['outer_'.$rvalue] = $standingData[$standKey][$rvalue];
                 $remainingSorting['outer_'.$rvalue][$sskey] = (int)$standingData[$standKey][$rvalue];
               }
@@ -1545,8 +1545,15 @@ class MatchRepository
 
     public function saveAllResults($data)
     {
+      $isScoreUpdated = true;
       $matchData = [];
       $tempFixtures = TempFixture::where('id',$data['matchId'])->first();
+      if($tempFixtures['hometeam_score'] == $data['homeScore'] && $tempFixtures['awayteam_score'] == $data['awayScore']) {
+        $isScoreUpdated = false;
+      }
+      if($isScoreUpdated === false) {
+        return ['status' => true, 'data' => 'Scores updated successfully.', 'match_data' => $matchData, 'is_score_updated' => $isScoreUpdated];
+      }
       $matchData['home_team_id'] = $tempFixtures['home_team'];
       $matchData['away_team_id'] = $tempFixtures['away_team'];
       $matchData['age_group_id'] = $tempFixtures['age_group_id'];
@@ -1557,7 +1564,7 @@ class MatchRepository
       ];
       $data = TempFixture::where('id',$data['matchId'])
                 ->update($updateData);
-      return ['status' => true, 'data' => 'Scores updated successfully.', 'match_data' => $matchData];
+      return ['status' => true, 'data' => 'Scores updated successfully.', 'match_data' => $matchData, 'is_score_updated' => $isScoreUpdated];
     }
 
     public function getMatchDetail($matchId)
