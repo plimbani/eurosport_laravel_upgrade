@@ -51,6 +51,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.TimeZone;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -178,8 +179,7 @@ public class HomeActivity extends BaseAppCompactActivity {
     }
 
     private void startTimeUpdateHandler(final String startDate) {
-//        if (timer != null)
-//            timer.cancel();
+
 
         timerTask = new TimerTask() {
             @Override
@@ -208,7 +208,8 @@ public class HomeActivity extends BaseAppCompactActivity {
 
     public void getDateDifference(String FutureDate) {
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss" );
+        dateFormat.setTimeZone(TimeZone.getTimeZone("Europe/London"));
 
         try {
             Date currentDate = dateFormat.parse(FutureDate);
