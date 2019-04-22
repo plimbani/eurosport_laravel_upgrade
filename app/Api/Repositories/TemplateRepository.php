@@ -568,19 +568,34 @@ class TemplateRepository
             }
         }
 
+        // tournament_positions code
+        $tournamentsPositionsData = [];
         $placings = $templateFormDetail['stepthree']['placings'];
+
         foreach($placings as $placingIndex => $placing) {
-            $divisionRoundGroupPosition = $placing['position'];
+            $roundGroupPositionArray = explode(',', $placing['position']);
+            $roundDetail = $finalArray['tournament_competation_format']['format_name'][$roundGroupPositionArray[1]];
+            $groupDetail = $roundDetail['match_type'][$roundGroupPositionArray[2]];
+            $matchNumber = $groupDetail['groups']['match'][$roundGroupPositionArray[3]]['match_number'];
+
+            $tournamentsPositionsData[$placingIndex]['position'] = ($placingIndex + 1);
+            if($placing['position_type'] == 'winner' || $placing['position_type'] == 'loser') {
+                $tournamentsPositionsData[$placingIndex]['dependent_type'] = 'match';
+                $tournamentsPositionsData[$placingIndex]['match_number'] = $matchNumber;
+                $tournamentsPositionsData[$placingIndex]['result_type'] = $placing['position_type'];
+            }
+            if($placing['position_type'] == 'placed') {
+                $tournamentsPositionsData[$placingIndex]['dependent_type'] = 'ranking';
+                $roundDataTeam = $templateFormDetail['steptwo']['rounds'][$roundGroupPositionArray[1]];
+                $groupName = $this->getRoundRobinGroupName($roundDataTeam, intval($roundGroupPositionArray[2]));
+                $team = (intval($roundGroupPositionArray[3]) + 1) . $groupName;
+                $tournamentsPositionsData[$placingIndex]['ranking'] = $team;
+            }
         }
 
-        $tournamentsPositionsData = [
-            'position' => '',
-            'dependent_type' => '',
-            'ranking' => ''
-        ];
-        $finalArray['tournament_positions'][] = $tournamentsPositionsData;
+        echo "<pre>";print_r($tournamentsPositionsData);echo "</pre>";exit;
 
-        // dd($finalArray);
+        $finalArray['tournament_positions'][] = $tournamentsPositionsData;
 
         return json_encode($finalArray);
     }
