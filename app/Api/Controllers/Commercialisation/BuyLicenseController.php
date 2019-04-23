@@ -111,18 +111,13 @@ class BuyLicenseController extends BaseController
 			//Authorized-success
 			return redirect('payment?' . http_build_query($request->all()));
 		}
-		else if($request['STATUS'] == 1)
-		{
-			//cancelled
-			return redirect('paymentfailure?' . http_build_query($request->all()));
-		}
-		else if($request['STATUS'] == 2)
-		{
-			//authorisation_refused
-			return redirect('paymentfailure?' . http_build_query($request->all()));
-		}
 		else
 		{
+			// payment failure case
+			$paymentStatus = config('app.payment_status');
+			$statusMessage = ucfirst($paymentStatus[$request['STATUS']]);
+			$statusMessage = str_replace('_', " ", $statusMessage);
+			$request['STATUS_MESSAGE'] = $statusMessage;
 			return redirect('paymentfailure?' . http_build_query($request->all()));
 		}
     }
