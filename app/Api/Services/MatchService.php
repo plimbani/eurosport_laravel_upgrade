@@ -1200,6 +1200,7 @@ class MatchService implements MatchContract
             $head_to_head = false;
             $check_head_to_head_with_key = '';
             $remain_head_to_head_with_key = '';
+            $head_to_head_order_atlast = false;
             for($i=0; $i<count($rules); $i++) {
               $rule = $rules[$i];
 
@@ -1233,9 +1234,7 @@ class MatchService implements MatchContract
               if($rule['key'] == 'head_to_head') {
                 if($checkResultEntered > 0)
                 {
-                  $params[] = $teamName;
-                  $params[] = SORT_ASC;
-                  $check_head_to_head_with_key .= '|teamName';
+                  $head_to_head_order_atlast = true;
                 }
                 else
                 {
@@ -1264,6 +1263,13 @@ class MatchService implements MatchContract
                 $params[] = SORT_DESC;
                 $check_head_to_head_with_key .= '|goal_ratio';
               }
+            }
+
+            if ( $head_to_head_order_atlast )
+            {
+              $params[] = $teamName;
+              $params[] = SORT_ASC;
+              $check_head_to_head_with_key .= '|teamName';
             }
 
             if ( !empty($check_head_to_head_with_key) )
