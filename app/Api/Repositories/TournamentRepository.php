@@ -752,10 +752,21 @@ class TournamentRepository
         $tournament->end_date = $tournamentDetailData['tournament_end_date'];
         $tournament->status = 'Unpublished';
         if($currentLayout == 'commercialisation') {
+            $customTournamentFormat = '';
+
+            if($tournamentDetailData['tournament_type'] == 'cup' && $tournamentDetailData['custom_tournament_format'] == 0) {
+                $customTournamentFormat = 0;
+            }else if($tournamentDetailData['tournament_type'] == 'cup' && $tournamentDetailData['custom_tournament_format'] == 1) {
+                $customTournamentFormat = 1;
+            } else {
+                $customTournamentFormat = NULL;   
+            }
+
             $tournament->access_code = Str::random(4);
             $tournament->tournament_type = $tournamentDetailData['tournament_type'];
-            $tournament->custom_tournament_format = $tournamentDetailData['custom_tournament_format'];
+            $tournament->custom_tournament_format = $customTournamentFormat;
         }
+        
         $status = $tournament->save();
         if ($currentLayout == 'commercialisation') {
             return $tournament;
@@ -1124,7 +1135,9 @@ class TournamentRepository
     public function getTournamentByAccessCode($accessCode)
     {
         $baseUrl = getenv('APP_URL');
-        $googleAppStoreLink = config('config-variables.google_app_store_link');
+        $googleAppStoreLink = config('config-variables.google_play_store_link');
+        $appleStoreLink = config('config-variables.apple_store_link');
+        $appleStoreDeepLink = config('config-variables.apple_store_deep_link');
 
         $tournament = Tournament::where('access_code', $accessCode)->first();
         
@@ -1141,7 +1154,9 @@ class TournamentRepository
                 'contact_details' => !empty($tournament->contacts) ? $tournament->contacts : [],
                 'tournament_sponsor' => !empty($tournament->sponsors) ? $tournament->sponsors : [],
                 'baseUrl' => $baseUrl,
-                'googleAppStoreLink'=> $googleAppStoreLink
+                'googleAppStoreLink'=> $googleAppStoreLink,
+                'appleStoreLink'=> $appleStoreLink,
+                'appleStoreDeepLink'=> $appleStoreDeepLink
             ];
         }
         return $response;
@@ -1420,8 +1435,10 @@ class TournamentRepository
     */
     public function getTournamentAccessCodeDetail($data)
     {
+        $authUser = JWTAuth::parseToken()->toUser();
         $tournament = Tournament::where('access_code', $data['accessCode'])->first();
-        return $tournament;   
+        $userFavourites = UserFavourites::where('tournament_id', $tournament['id'])->where('user_id', $authUser->id)->get();
+        return ['tournament' => $tournament, 'userFavourites' => $userFavourites];
     } 
 
     public function getUserTransactions($user) {

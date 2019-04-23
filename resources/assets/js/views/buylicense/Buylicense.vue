@@ -363,12 +363,11 @@
                             this.tournament_old_teams = response.data.data.tournament.maximum_teams;   
                             this.tournamentData['access_code'] = response.data.data.tournament.access_code;
                             this.tournamentData['custom_tournament_format'] = response.data.data.tournament.custom_tournament_format;
-                            this.tournamentData['tournament_type'] = response.data.data.tournament.tournament_type;   
-
+                            this.tournamentData['tournament_type'] = response.data.data.tournament.tournament_type; 
 
                             // transaction histories amount difference calculation 
                             let transactionAmount = [];
-                            let tournamentPricing = _.filter(response.data.transaction.get_sorted_transaction_histories, function(historyAmount)
+                            let tournamentPricing = _.filter(response.data.data.get_sorted_transaction_histories, function(historyAmount)
                             {
                                 transactionAmount.push(historyAmount.amount); 
                             });
@@ -500,9 +499,7 @@
             this.getCurrencyValue();
             setTimeout(function(){
                 vm.setOldDays()
-                if(this.id) {
-                    vm.getTournamentDetail()
-                }
+                vm.getTournamentDetail()
                 vm.tournammentPricingData()
             },1500) 
             $('#cup').prop("checked",true)

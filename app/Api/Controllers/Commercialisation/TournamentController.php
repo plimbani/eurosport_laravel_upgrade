@@ -130,24 +130,21 @@ class TournamentController extends BaseController
 
             $tournamentCompetationTemplates = TournamentCompetationTemplates::where('tournament_id', $requestData['tournament']['old_tournament_id'])->pluck('total_teams')->sum();
 
-            $changeDateValue = 'false';
-
             // Tournament update license 
-            if (!empty($requestData['tournament'])) {
+            if (!empty($requestData['tournament'])) {        
                 if($tournamentStartDate >= $requestTournamentStartDate && $tournamentFixture == 0){
                     if($tournamentStartDate >= $requestTournamentStartDate && $tournamentPitch == 0){
                         if($tournamentStartDate >= $requestTournamentStartDate && $tournamentCompetationTemplates <= $tournamentMaximumTeam){
 
                             $customTournamentFormat = '';
 
-                            if($requestData['tournament']['tournament_type'] == 'cup' &&  $requestData['tournament']['custom_tournament_format'] == 'no') {
+                            if($requestData['tournament']['tournament_type'] == 'cup' && $requestData['tournament']['custom_tournament_format'] == 0) {
                                 $customTournamentFormat = 0;
-                            } elseif($requestData['tournament']['tournament_type'] == 'cup' &&  $requestData['tournament']['custom_tournament_format'] == 'yes') {
+                            }else if($requestData['tournament']['tournament_type'] == 'cup' && $requestData['tournament']['custom_tournament_format'] == 1) {
                                 $customTournamentFormat = 1;
                             } else {
-                                $customTournamentFormat = NULL;
+                                $customTournamentFormat = NULL;   
                             }
-
 
                             $requestData['tournament'] = [
                                 'id' => $requestData['tournament']['old_tournament_id'],
@@ -163,7 +160,6 @@ class TournamentController extends BaseController
                 } else {
                     return response()->json(['status' => 'error', 'message' => 'Please unschedule matches before shortening the length of our tournament.']);
                 }
-                
                 $this->tournamentRepoObj->edit($requestData['tournament']);
             }
             return response()->json([
