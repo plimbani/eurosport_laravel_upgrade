@@ -752,10 +752,21 @@ class TournamentRepository
         $tournament->end_date = $tournamentDetailData['tournament_end_date'];
         $tournament->status = 'Unpublished';
         if($currentLayout == 'commercialisation') {
+            $customTournamentFormat = '';
+
+            if($tournamentDetailData['tournament_type'] == 'cup' && $tournamentDetailData['custom_tournament_format'] == 0) {
+                $customTournamentFormat = 0;
+            }else if($tournamentDetailData['tournament_type'] == 'cup' && $tournamentDetailData['custom_tournament_format'] == 1) {
+                $customTournamentFormat = 1;
+            } else {
+                $customTournamentFormat = NULL;   
+            }
+
             $tournament->access_code = Str::random(4);
             $tournament->tournament_type = $tournamentDetailData['tournament_type'];
-            $tournament->custom_tournament_format = $tournamentDetailData['custom_tournament_format'];
+            $tournament->custom_tournament_format = $customTournamentFormat;
         }
+        
         $status = $tournament->save();
         if ($currentLayout == 'commercialisation') {
             return $tournament;
