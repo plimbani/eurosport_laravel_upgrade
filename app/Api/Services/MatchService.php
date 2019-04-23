@@ -361,10 +361,12 @@ class MatchService implements MatchContract
       foreach ($AllMatches as $match) {
         $matchResult = $this->matchRepoObj->saveAllResults($match);
         $matchData = $matchResult['match_data'];
-        $teamArray[$matchData['age_group_id']][] = $matchData['home_team_id'];
-        $teamArray[$matchData['age_group_id']][] = $matchData['away_team_id'];
-        // $competationId = $this->calculateCupLeagueTable($match['matchId']);
-        $competitionIds[$matchData['age_group_id']][] = $matchData['competition_id'];
+        if($matchResult['is_score_updated'] === true) {
+          $teamArray[$matchData['age_group_id']][] = $matchData['home_team_id'];
+          $teamArray[$matchData['age_group_id']][] = $matchData['away_team_id'];
+          // $competationId = $this->calculateCupLeagueTable($match['matchId']);
+          $competitionIds[$matchData['age_group_id']][] = $matchData['competition_id'];
+        }
       }
 
       foreach ($competitionIds as $ageGroupId => $cids) {
@@ -1278,6 +1280,8 @@ class MatchService implements MatchContract
 
             $params[] = &$cvalue;
             if($competition->is_manual_override_standing == 1) {
+              $params = [];
+              $params[] = &$cvalue;
               $params = array_merge(array($manual_order, SORT_ASC), $params);
             }
 
@@ -1286,7 +1290,7 @@ class MatchService implements MatchContract
         }
 
 
-        if ( $head_to_head )
+        if ( $head_to_head && $competition->is_manual_override_standing == 0 )
         {
 
           $calculatedArray = array_shift($calculatedArray);

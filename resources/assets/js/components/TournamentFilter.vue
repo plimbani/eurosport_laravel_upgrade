@@ -126,6 +126,7 @@ export default {
     },
     clearFilter(){
       this.dropDown = ''
+      $('#competation_group').prop('checked', true);
       this.setFilterValue()
       $('.competation_group').select2().val(null).trigger("change");
       $('#age_category').trigger('click')
