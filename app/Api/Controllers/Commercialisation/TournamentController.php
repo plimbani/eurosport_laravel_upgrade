@@ -130,10 +130,8 @@ class TournamentController extends BaseController
 
             $tournamentCompetationTemplates = TournamentCompetationTemplates::where('tournament_id', $requestData['tournament']['old_tournament_id'])->pluck('total_teams')->sum();
 
-            $changeDateValue = 'false';
-
             // Tournament update license 
-            if (!empty($requestData['tournament'])) {
+            if (!empty($requestData['tournament'])) {        
                 if($tournamentStartDate >= $requestTournamentStartDate && $tournamentFixture == 0){
                     if($tournamentStartDate >= $requestTournamentStartDate && $tournamentPitch == 0){
                         if($tournamentStartDate >= $requestTournamentStartDate && $tournamentCompetationTemplates <= $tournamentMaximumTeam){
@@ -145,7 +143,7 @@ class TournamentController extends BaseController
                             } elseif($requestData['tournament']['tournament_type'] == 'cup' &&  $requestData['tournament']['custom_tournament_format'] == 'yes') {
                                 $customTournamentFormat = 1;
                             } else {
-                                $customTournamentFormat = NULL;
+                                $customTournamentFormat = 'NULL';
                             }
 
 
