@@ -39,16 +39,17 @@ class TransactionRepository
         $authUser = JWTAuth::parseToken()->toUser();
         $userId = $authUser->id;
 		
+        $tournamentRes = null;
         if ($data['STATUS'] == 5 && !empty($requestData['tournament'])) {
             $tournamentRes = $this->tournamentObj->addTournamentDetails($requestData['tournament'], 'commercialisation');
+            $tournamentRes->users()->attach($userId);
 		}
 
-		if(empty($tournamentRes))
+		if(!$tournamentRes)
 		{
-			//In case of non successfull transaction, need to set maximum_teams to insert into transaction_history.
 			$tournamentRes = (object)[];
 			$tournamentRes->maximum_teams = $requestData['tournament']['tournament_max_teams'];
-            $tournamentRes->users()->attach($userId);
+            
 		}
         $response = $this->addTransaction($data, $tournamentRes, $userId);
 
@@ -214,7 +215,7 @@ class TransactionRepository
                 'order_id' => $data['ORDERID'],
                 'transaction_key' => $data['PAYID'],
                 'team_size' => $tournament['tournament_max_teams'],
-                'amount' => number_format($data['AMOUNT'] + $existsHistory['amount'], 2, '.', ''),
+                'amount' => number_format($data['AMOUNT'], 2, '.', ''),
                 'status' => $paymentStatus[$data['STATUS']],
                 'currency' => $data['CURRENCY'],
                 'card_type' => $data['PM'],
