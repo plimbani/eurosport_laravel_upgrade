@@ -1124,7 +1124,9 @@ class TournamentRepository
     public function getTournamentByAccessCode($accessCode)
     {
         $baseUrl = getenv('APP_URL');
-        $googleAppStoreLink = config('config-variables.google_app_store_link');
+        $googleAppStoreLink = config('config-variables.google_play_store_link');
+        $appleStoreLink = config('config-variables.apple_store_link');
+        $appleStoreDeepLink = config('config-variables.apple_store_deep_link');
 
         $tournament = Tournament::where('access_code', $accessCode)->first();
         
@@ -1141,7 +1143,9 @@ class TournamentRepository
                 'contact_details' => !empty($tournament->contacts) ? $tournament->contacts : [],
                 'tournament_sponsor' => !empty($tournament->sponsors) ? $tournament->sponsors : [],
                 'baseUrl' => $baseUrl,
-                'googleAppStoreLink'=> $googleAppStoreLink
+                'googleAppStoreLink'=> $googleAppStoreLink,
+                'appleStoreLink'=> $appleStoreLink,
+                'appleStoreDeepLink'=> $appleStoreDeepLink
             ];
         }
         return $response;

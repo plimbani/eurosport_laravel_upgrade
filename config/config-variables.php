@@ -46,8 +46,10 @@ return [
     ],
 
     "current_layout" => env('CURRENT_LAYOUT'),
-    "google_app_store_link" => env('GOOGLE_APP_STORE_LINK'),
-    "google_store_open_deep_link" =>env('GOOGLE_STORE_OPEN_DEEP_LINK'),
+    "google_play_store_link" => env('GOOGLE_PLAY_STORE_LINK'),
+    "google_play_store_deep_link" =>env('GOOGLE_PLAY_STORE_DEEP_LINK'),
+    "apple_store_link" => env('APPLE_STORE_LINK'),
+    "apple_store_deep_link" =>env('APPLE_STORE_DEEP_LINK'),
 
     "age_category_color" => [
         '#C2B182', '#b0e0e6', '#DCB8D4', '#ffe4e1', '#0099cc', '#ffa500', '#6dc066', '#ffff00','#d3ffce',
