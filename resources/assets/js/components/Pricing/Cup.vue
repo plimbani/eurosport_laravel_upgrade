@@ -47,7 +47,7 @@
         methods: {
         	addCupPricingBand() {
         		this.pricingBands.push({
-        			type: 'cup', id: null, min_teams: '', max_teams: '', basic_price: '', advanced_price: ''
+        			type: 'cup', id: null, min_teams: '', max_teams: '', price: '', advanced_price: ''
         		});
         	},
             savePricingData() {

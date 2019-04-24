@@ -43,12 +43,11 @@ class UserRepository {
     public function getUsersByRegisterType($data)
     {
         $user = User::join('role_user', 'users.id', '=', 'role_user.user_id')
-                ->join('roles', 'roles.id', '=', 'role_user.role_id')
-                ->join('people', 'people.id', '=', 'users.person_id')
+                ->leftjoin('roles', 'roles.id', '=', 'role_user.role_id')
+                ->leftjoin('people', 'people.id', '=', 'users.person_id')
                 ->leftjoin('countries', 'countries.id', '=', 'users.country_id');
 
-        if (isset($data['userData']) && $data['userData'] !== '') {
-
+        if(isset($data['userData']) && $data['userData'] !== '') {
             $user = $user->where(function($query) use($data) {
                 $query->where('users.email', 'like', "%" . $data['userData'] . "%")
                         ->orWhere('people.first_name', 'like', "%" . $data['userData'] . "%")
