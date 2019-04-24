@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="content-wrapper">
 		<site-commercialisation-header></site-commercialisation-header>
 		<router-view></router-view>
 		<site-commercialisation-footer></site-commercialisation-footer>
