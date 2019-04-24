@@ -114,6 +114,8 @@ import ManagePricing from './components/Pricing/ManagePricing.vue'
 // Commercialisation backend Layout
 import LayoutTournamentPricingForBackend from './views/layouts/LayoutTournamentPricing.vue'
 
+// Commercialisation user tournament transaction 
+import LayoutTournamentsTransaction from './views/layouts/LayoutTournamentsTransaction.vue'
 
 import Ls from './services/ls'
 
@@ -320,7 +322,7 @@ const routes = [
         ]
     }, 
     {
-        path: '/tournamentstransaction', component: LayoutCommercialisation,
+        path: '/tournamentstransaction', component: LayoutTournamentsTransaction,
         meta: { requiresAuth: true },
         children: [
             {
