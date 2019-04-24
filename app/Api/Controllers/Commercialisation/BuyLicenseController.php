@@ -125,6 +125,7 @@ class BuyLicenseController extends BaseController
 			{
 				$request['STATUS_MESSAGE'] = "Failed";
 			}
+			return redirect('payment?' . http_build_query($request->all()));
 		}
     }
 }
