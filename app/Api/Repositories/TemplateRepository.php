@@ -563,6 +563,12 @@ class TemplateRepository
             }
         }
 
+        foreach ($templateFormDetail['steptwo']['divisions'] as $divisionIndex => $division) {
+            foreach ($templateFormDetail['steptwo']['rounds'] as $roundIndex => $round) {
+
+            }
+        }
+
         $placings = $templateFormDetail['stepthree']['placings'];
         foreach($placings as $placingIndex => $placing) {
             $divisionRoundGroupPosition = $placing['position'];
@@ -744,23 +750,19 @@ class TemplateRepository
 
     public function getNumberOfTimesFromString($times)
     {
-        if ( $times == 'once')
-        {
+        if ( $times == 'once') {
             return 1;
         }
 
-        if ( $times == 'twice')
-        {
+        if ( $times == 'twice') {
             return 2;
         }
 
-        if ( $times == 'three_times')
-        {
+        if ( $times == 'three_times') {
             return 3;
         }
 
-        if ( $times == 'four_times')
-        {
+        if ( $times == 'four_times') {
             return 4;
         }
     }

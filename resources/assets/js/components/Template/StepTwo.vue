@@ -103,7 +103,7 @@
                 startRoundCount = this.templateFormDetail.steptwo.rounds.length;
                 _.forEach(vm.templateFormDetail.steptwo.divisions, function(division, divisionIndex) {
                     vm.templateFormDetail.steptwo.divisions[divisionIndex].start_round_count = startRoundCount;
-                    startRoundCount +=  vm.templateFormDetail.steptwo.divisions[divisionIndex].rounds.length;
+                    // startRoundCount +=  vm.templateFormDetail.steptwo.divisions[divisionIndex].rounds.length;
                 });
                 this.templateFormDetail.steptwo.round_count = startRoundCount;
             },
