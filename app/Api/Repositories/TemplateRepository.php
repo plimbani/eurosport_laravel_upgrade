@@ -163,7 +163,6 @@ class TemplateRepository
         $templateFormDetail = $data['templateFormDetail'];
         $totalTeams = $templateFormDetail['stepone']['no_of_teams'];
         $finalArray = [];
-        $finalArray['total_matches'] = '';
         $finalArray['tournament_teams'] = $totalTeams;
         $finalArray['remark'] = $templateFormDetail['stepfour']['remarks'];
         $finalArray['template_font_color'] = $templateFormDetail['stepfour']['template_font_color'];
@@ -176,7 +175,6 @@ class TemplateRepository
         $finalArray['tournament_positions'] = [];
 
         $rounds = [];
-        $matches = [];
         $roundGroupCount = 0;
         $placingGroupCount = 0;
         $bothSameTeamTypes = false;
@@ -195,7 +193,7 @@ class TemplateRepository
             $firstPlacingMatchIndex = array_search('placing_match', array_column($round['groups'], 'type'));
             foreach ($round['groups'] as $groupIndex => $group) {
                 $matchCount = 1;
-                // $matches = [];
+                $matches = [];
 
                 $groupData = $group;
                 $times = $groupData['teams_play_each_other'];
@@ -551,7 +549,7 @@ class TemplateRepository
                     }
                 }
 
-                $totalMatches = count($matches);
+                $totalMatches += count($matches);
 
                 $matchTypeDetail = [
                     'name' => '',
