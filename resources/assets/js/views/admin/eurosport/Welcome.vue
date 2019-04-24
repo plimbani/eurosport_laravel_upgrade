@@ -1,7 +1,7 @@
 <template>
   <div class="main-content container-fluid" id="dashboardPage">
     <div class="row home-content">
-      <div class="d-flex mb-4" :class="isResultAdmin ? 'col-sm-6' : 'col-sm-4'">
+      <div class="d-flex mb-4" :class="isResultAdmin ? 'col-sm-6' : isTournamentAdmin ? 'col-sm-3' : 'col-sm-4'">
         <div class="card mb-0 w-100">
           <div class="card-header">
             <h5 class="text-center"><strong>{{$lang.welcome_manage_tournament}}</strong></h5>
@@ -24,11 +24,11 @@
           </div>
         </div>
       </div>
-      <div class="d-flex mb-4" :class="isResultAdmin ? 'col-sm-6' : 'col-sm-4'">
+      <div class="d-flex mb-4" :class="isResultAdmin ? 'col-sm-6' : isTournamentAdmin ? 'col-sm-3' : 'col-sm-4'">
         <div class="card mb-0 w-100">
           <div class="card-header">
             <h5 class="text-center"
-            v-if="(userDetails.role_name != 'Tournament administrator' &&  userDetails.role_name != 'Internal administrator' && userDetails.role_slug != 'Results.administrator')"><strong>{{$lang.welcome_manage_user}}</strong></h5>
+            v-if="(userDetails.role_name != 'Tournament administrator' &&  userDetails.role_name != 'Internal administrator' && userDetails.role_slug != 'Results.administrator')"><strong>{{$lang.welcome_administration}}</strong></h5>
             <h5 class="text-center" v-if="(userDetails.role_name == 'Tournament administrator' || userDetails.role_slug == 'Results.administrator')"><strong>{{$lang.welcome_add_tournament_permission}}</strong></h5>
             <h5 class="text-center" v-if="(userDetails.role_name == 'Internal administrator')"><strong>{{$lang.welcome_add_tournament}}</strong></h5>
             <!-- <h5 class="text-center" v-else><strong>{{$lang.welcome_add_tournament}}</strong> -->
@@ -56,7 +56,19 @@
           </div>
         </div>
       </div>
-      <div class="col-sm-4 d-flex mb-4" v-if="userDetails.role_slug != 'Results.administrator'">
+      <div class="d-flex mb-4" :class="[userDetails.role_name == 'Tournament administrator' ? 'col-sm-3' : 'col-sm-4']" v-if="userDetails.role_name == 'Tournament administrator'">
+        <div class="card mb-0 w-100">
+          <div class="card-header">
+            <h5 class="text-center"><strong>{{$lang.welcome_administration}}</strong></h5>
+          </div>
+          <div class="card-block text-center">
+            <div class="form-group">
+              <button type="button" class="btn btn-primary col-sm-10" @click="manageTemplate()">{{$lang.welcome_manage_templates}}</button>
+            </div>
+          </div>
+        </div>
+      </div>      
+      <div class="d-flex mb-4" :class="isTournamentAdmin ? 'col-sm-3' : 'col-sm-4'" v-if="userDetails.role_slug != 'Results.administrator'">
         <div class="card mb-0 w-100">
           <div class="card-header">
             <h5 class="text-center"><strong>{{$lang.welcome_manage_websites}}</strong></h5>
@@ -67,18 +79,6 @@
             </div>
             <div class="form-group">
               <websiteDropDown></websiteDropDown>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="d-flex mb-4" :class="[userDetails.role_name == 'Tournament administrator' ? 'col-sm-3' : 'col-sm-4']" v-if="userDetails.role_name == 'Tournament administrator'">
-        <div class="card mb-0 w-100">
-          <div class="card-header">
-            <h5 class="text-center"><strong>{{$lang.welcome_manage_templates_header}}</strong></h5>
-          </div>
-          <div class="card-block text-center">
-            <div class="form-group">
-              <button type="button" class="btn btn-primary col-sm-10" @click="manageTemplate()">{{$lang.welcome_manage_templates}}</button>
             </div>
           </div>
         </div>
@@ -106,6 +106,9 @@ computed: {
     },
     isResultAdmin() {
       return this.$store.state.Users.userDetails.role_slug == 'Results.administrator';
+    },
+    isTournamentAdmin() {
+      return this.$store.state.Users.userDetails.role_slug == 'tournament.administrator';
     },    
   },
   mounted() {

@@ -2,7 +2,7 @@
 	<div>
 		<div class="container" id="step3-template-setting">
 			<div class="row justify-content-center">
-				<div class="col-md-8">
+				<div class="col-md-12">
 					<div class="row">
 						<div class="col-12">
 							<h5>{{ $lang.add_template_modal_step3_header }}</h5>

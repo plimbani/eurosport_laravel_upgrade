@@ -20,6 +20,7 @@ module.exports= {
   welcome_manage_templates: 'Manage templates',
   welcome_manage_templates_header: 'Manage Templates',
   welcome_create_duplicate_tournament: 'Duplicate tournament',
+  welcome_administration: 'Administration',
 
   welcome_view_tournaments_assigned_to_you: 'View tournaments assigned to you',
   welcome_add_details_about_matches: 'View and add details about matches',
