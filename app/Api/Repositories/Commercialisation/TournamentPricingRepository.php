@@ -58,8 +58,12 @@ class TournamentPricingRepository
         $pricingDetail->max_teams = $data['max_teams'];
         $pricingDetail->price = $data['price'];
         $pricingDetail->advanced_price = isset($data['advanced_price']) ? $data['advanced_price'] : null;
-        $pricingDetail->created_by = $state == 'create' ? $this->getCurrentLoggedInUserId() : null;
-        $pricingDetail->updated_by = $state == 'update' ? $this->getCurrentLoggedInUserId() : null;
+        if($state == 'create') {
+            $pricingDetail->created_by = $this->getCurrentLoggedInUserId();
+        }
+        if($state == 'update' && $pricingDetail->isDirty()) {
+            $pricingDetail->updated_by = $this->getCurrentLoggedInUserId();
+        }
         $pricingDetail->save();
 
         return $pricingDetail;
