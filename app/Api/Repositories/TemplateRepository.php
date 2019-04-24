@@ -529,7 +529,7 @@ class TemplateRepository
                             'match_number' => $matchNumber,
                             'display_match_number' => $displayMatchNumber,
                             'display_home_team_placeholder_name' => $displayHomeTeamPlaceholderName,
-                            'display_away_team_placeholder_name' > $displayAwayTeamPlaceholderName,
+                            'display_away_team_placeholder_name' => $displayAwayTeamPlaceholderName,
                         ]);
 
                         // array_push($matches, [
@@ -545,11 +545,10 @@ class TemplateRepository
                 }
 
                 $totalMatches += count($matches);
-
                 $matchTypeDetail = [
-                    'name' => '',
-                    'total_match' => $group['no_of_teams'],
-                    'group_count' => count($round['groups']),
+                    'name' => ($group['type'] === 'round_robin' ? 'RR-1*' : 'PM-1*') . $group['no_of_teams'],
+                    'total_match' => count($matches),
+                    'group_count' => $group['no_of_teams'],
                     'groups' => ['group_name' => 'Group-' . $groupName, 'match' => $matches]
                 ];
 
@@ -594,9 +593,7 @@ class TemplateRepository
         $finalArray['tournament_min_match'] = $minimumMatches;
         $finalArray['avg_game_team'] = $averageMatches;
         $finalArray['position_type'] = $positionType;
-        $finalArray['tournament_positions'][] = $tournamentsPositionsData;
-
-        echo "<pre>";print_r($finalArray);echo "</pre>";exit;
+        $finalArray['tournament_positions'] = $tournamentsPositionsData;
 
         return json_encode($finalArray);
     }
@@ -609,10 +606,15 @@ class TemplateRepository
      */
     public function insertTemplate($data, $templateJson)
     {
+        $decodedJson = json_decode($templateJson);
         $tournamentTemplate = new TournamentTemplates();
         $tournamentTemplate->json_data = $templateJson;
         $tournamentTemplate->name = $data['templateFormDetail']['stepone']['templateName'];
         $tournamentTemplate->total_teams = $data['templateFormDetail']['stepone']['no_of_teams'];
+        $tournamentTemplate->minimum_matches = $decodedJson->tournament_min_match;
+        $tournamentTemplate->position_type = $decodedJson->position_type;
+        $tournamentTemplate->avg_matches = $decodedJson->avg_game_team;
+        $tournamentTemplate->total_matches = $decodedJson->total_matches;
         $tournamentTemplate->editor_type = $data['templateFormDetail']['stepone']['editor'];
         $tournamentTemplate->template_form_detail = json_encode($data['templateFormDetail']);
         $tournamentTemplate->version = array_get($data,'version', 1);
