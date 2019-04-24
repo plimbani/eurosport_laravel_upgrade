@@ -1,10 +1,7 @@
 <template>
-	<div class="content-wrapper">
+	<div>
 		<site-commercialisation-header></site-commercialisation-header>
-        <div class="main-content container-fluid">
-            <breadCrum></breadCrum>
-		    <router-view></router-view>
-        </div>
+		<router-view></router-view>
 		<site-commercialisation-footer></site-commercialisation-footer>
 	</div>
 </template>
