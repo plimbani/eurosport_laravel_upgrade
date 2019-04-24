@@ -1442,6 +1442,6 @@ class TournamentRepository
     } 
 
     public function getUserTransactions($user) {
-        return Transaction::where('user_id', $user->id)->with('getSortedTransactionHistories','tournament')->get();        
+        return Transaction::where('user_id', $user->id)->with('getSortedTransactionHistories','tournament')->has('getSortedTransactionHistories')->get();      
     }
 }
