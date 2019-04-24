@@ -651,10 +651,12 @@ class TournamentRepository
         // TODO : Change the code to find first schedule match for that tournament
 
         $pitches = TempFixture::whereIn('tournament_id', $tournamentId)
-                        ->whereNotNull('match_datetime')
-                        ->select('match_datetime as TournamentStartTime', 'temp_fixtures.tournament_id as TId')
-                        ->orderBy('temp_fixtures.match_datetime', 'asc')
-                        ->get()->first();
+            ->whereNotNull('match_datetime')
+            ->select('match_datetime as TournamentStartTime',
+                'temp_fixtures.tournament_id as TId')
+            ->orderBy('temp_fixtures.match_datetime', 'asc')
+            ->get()
+            ->unique('TId');
         if ($pitches) {
             return $pitches->toArray();
         } else {
@@ -697,8 +699,8 @@ class TournamentRepository
 
                 if ($tournamentStartTimeArr) {
                     foreach ($tournamentStartTimeArr as $key => $tournamentTime) {
-                        if ($userData1['TournamentId'] == $tournamentStartTimeArr['TId']) {
-                            $userData[$index]['TournamentStartTime'] = date('Y-m-d H:i:s', strtotime($tournamentStartTimeArr['TournamentStartTime']));
+                        if ($userData1['TournamentId'] == $tournamentTime['TId']) {
+                            $userData[$index]['TournamentStartTime'] = date('Y-m-d H:i:s', strtotime($tournamentTime['TournamentStartTime']));
                         }
                     }
                 }

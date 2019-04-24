@@ -46,7 +46,7 @@
         methods: {
         	 addLeaguePricingBand() {
         		this.pricingBands.push({
-        			type: 'league', id: null, min_teams: '', max_teams: '', basic_price: '',
+        			type: 'league', id: null, min_teams: '', max_teams: '', price: '',
         		});
         	},
             savePricingData() {
