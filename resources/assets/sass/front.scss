@@ -13,7 +13,7 @@
 
 .section-hero-area {
     position: relative;
-    padding-top: 100px;
+    padding-top: 133px;
 }
 
 .fc-time-grid .fc-slats td {
@@ -1170,4 +1170,16 @@ a.active-view:hover {
 .tbl-drawdetails th,
 .tbl-drawdetails td{
     word-break: break-word;
+}
+
+.add-category-table th:nth-child(10), .add-category-table td:nth-child(10), .add-category-table th:nth-child(8), .add-category-table td:nth-child(8), .add-category-table th:nth-child(13), .add-category-table td:nth-child(13) {
+    width: 90px;
+}
+
+.pull-right {
+  float: right;
+}
+
+.pull-left {
+  float: left;
 }

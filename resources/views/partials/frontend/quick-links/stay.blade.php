@@ -30,7 +30,7 @@
                     @if(in_array('tips.page.details', $accessible_routes))
                         <li class="nav-item">
                             <a class="nav-link {{ Route::currentRouteName() == 'tips.page.details' ? 'active' : '' }}" href="{{ route('tips.page.details', ['domain' => $websiteDomain]) }}">
-                                <span class="icon"><i class="fas fa-utensils"></i></span>
+                                <span class="icon"><i class="fas fa-lightbulb"></i></span>
                                 <span>{!! __('messages.tips') !!}</span>
                             </a>
                         </li>

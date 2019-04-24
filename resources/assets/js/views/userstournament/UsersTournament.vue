@@ -37,12 +37,14 @@
                                 </thead>
                                 <tbody>
                                   <tr class="" v-for="tournament in usersTourmanents">
-                                    <td v-on:click="redirectToTournamentDetailPage(tournament)">{{ tournament.name }}</td>
+                                    <td v-on:click="redirectToTournamentDetailPage(tournament)">
+                                    <a href="javascript:void(0)" class="text-primary"><u>{{ tournament.name }}</u></a></td>
                                     <td>{{ tournament.start_date }}</td>
                                     <td>{{ tournament.end_date }}</td>
                                     <td>{{ tournament.maximum_teams }}</td>
                                     <!-- <td>TEA</td> -->
-                                    <td v-on:click="redirectToTransactionListPage(tournament)" >{{ tournament.created_at }}</td>
+                                    <td v-on:click="redirectToTransactionListPage(tournament)" >
+                                    <a href="javascript:void(0)" class="text-primary"><u>{{ tournament.created_at }}</u></a></td>
                                     <td>Edit</td>
                                     
                                   </tr>

@@ -43,12 +43,11 @@ class UserRepository {
     public function getUsersByRegisterType($data)
     {
         $user = User::join('role_user', 'users.id', '=', 'role_user.user_id')
-                ->join('roles', 'roles.id', '=', 'role_user.role_id')
-                ->join('people', 'people.id', '=', 'users.person_id')
+                ->leftjoin('roles', 'roles.id', '=', 'role_user.role_id')
+                ->leftjoin('people', 'people.id', '=', 'users.person_id')
                 ->leftjoin('countries', 'countries.id', '=', 'users.country_id');
 
-        if (isset($data['userData']) && $data['userData'] !== '') {
-
+        if(isset($data['userData']) && $data['userData'] !== '') {
             $user = $user->where(function($query) use($data) {
                 $query->where('users.email', 'like', "%" . $data['userData'] . "%")
                         ->orWhere('people.first_name', 'like', "%" . $data['userData'] . "%")
@@ -60,7 +59,7 @@ class UserRepository {
             $user = $user->where('roles.slug', '=', $data['userType']);
         }
 
-        $user = $user->select('users.id as id', 'people.first_name as first_name', 'people.last_name as last_name', 'users.email as email', 'roles.id as role_id', 'roles.name as role_name', 'roles.slug as role_slug', 'users.is_verified as is_verified', 'users.is_mobile_user as is_mobile_user', 'users.is_desktop_user as is_desktop_user', 'users.organisation as organisation', 'users.locale as locale', 'users.role as role', 'countries.name as country');
+        $user = $user->select('users.id as id', 'people.first_name as first_name', 'people.last_name as last_name', 'users.email as email', 'roles.id as role_id', 'roles.name as role_name', 'roles.slug as role_slug', 'users.is_verified as is_verified', 'users.is_mobile_user as is_mobile_user', 'users.is_desktop_user as is_desktop_user', 'users.organisation as organisation', 'users.locale as locale', 'users.role as role','countries.name as country', 'users.device as device', 'users.app_version as app_version');
 
         $user->orderBy('people.last_name', 'asc');
 
@@ -126,6 +125,7 @@ class UserRepository {
         'registered_from' => $data['registered_from'] ? 1 : 0,
         'user_image'=>(isset($data['user_image']) && $data['user_image']!='') ?  $data['user_image'] : '',
         'role' => (isset($data['role']) && $data['role']!='') ?  $data['role'] : '',
+        'country_id' => $data['country_id'] ? $data['country_id'] : null,
         
         ];
 
@@ -296,7 +296,8 @@ class UserRepository {
                 'name' => $data['first_name'] . " " . $data['last_name'],
                 'email' => $data['email'],
                 'organisation' => !empty($data['organisation']) ? $data['organisation'] : '',
-                'is_active' => !empty($data['user_status']) ? $data['user_status'] : $user->is_active
+                'is_active' => !empty($data['user_status']) ? $data['user_status'] : $user->is_active,
+                'country_id' => $data['country'],
             ];
             $user->update($userData);
 
@@ -333,5 +334,13 @@ class UserRepository {
     public function getAllLanguages()
     {
         return $languages = config('wot.languages');
+    }
+
+    public function updateAppDeviceVersion($data) {
+        $usersAppDevice = User::where('id', $data['user_id'])
+                                ->update(['device' => $data['device'], 'app_version' => $data['app_version'], 
+                                  'os_version' => $data['os_version']]);
+
+        return ['status_code' => 200, 'message' => 'User data has been updated.'];
     }
 }

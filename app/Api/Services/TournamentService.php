@@ -69,7 +69,7 @@ class TournamentService implements TournamentContract
           {
             $authUser = JWTAuth::parseToken()->toUser();
             $userObj = User::find($authUser->id);
-            if($authUser && $userObj->hasRole('tournament.administrator')) {
+            if($authUser && ($userObj->hasRole('tournament.administrator') ||$userObj->hasRole('Results.administrator'))) {
               $user = $userObj;
             }
           }
@@ -990,9 +990,10 @@ class TournamentService implements TournamentContract
     public function getTournamentAccessCodeDetail($data)
     {
       $authUser = JWTAuth::parseToken()->toUser();
-      $tournament = $this->tournamentRepoObj->getTournamentAccessCodeDetail($data);
-      if($tournament) {
-         $tournamentEndDateFormat = Carbon::createFromFormat('d/m/Y', $tournament['end_date'])->addDays(28);
+      $tournamentData = $this->tournamentRepoObj->getTournamentAccessCodeDetail($data);
+      
+      if($tournamentData['tournament']) {
+         $tournamentEndDateFormat = Carbon::createFromFormat('d/m/Y', $tournamentData['tournament']['end_date'])->addDays(28);
           $endDateAddMonth = Carbon::parse($tournamentEndDateFormat)->format('Y-m-d');
           
           $currentDateFormat = Carbon::now()->format('Y-m-d');
@@ -1002,9 +1003,12 @@ class TournamentService implements TournamentContract
       }   else {
           return response()->json(['message' => 'The tournament code was not recognised'], 500);
       } 
-      $favouriteTournament = ['user_id' => $authUser->id, 'tournament_id' => $tournament['id']];
-      $this->userService->setDefaultFavourite($favouriteTournament);
-      return response()->json(['data' => $tournament]);
+      if($tournamentData['userFavourites']) {
+        $favouriteTournament = ['user_id' => $authUser->id, 'tournament_id' => $tournamentData['tournament']['id']];
+      } else {
+        $this->userService->setDefaultFavourite($favouriteTournament);  
+      }
+      return response()->json(['data' => $tournamentData['tournament']]);
     }
 
     public function duplicateTournament($data)
@@ -1016,6 +1020,11 @@ class TournamentService implements TournamentContract
     public function duplicateTournamentList($data)
     {
       $data = $this->tournamentRepoObj->duplicateTournamentList($data);
+      return ['data' => $data, 'status_code' => '200']; 
+    }
+
+    public function getUserTransactions($user) {
+      $data = $this->tournamentRepoObj->getUserTransactions($user);
       return ['data' => $data, 'status_code' => '200']; 
     }
 }

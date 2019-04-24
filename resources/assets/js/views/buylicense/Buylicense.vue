@@ -15,7 +15,7 @@
                                 <label class="radio-inline control-label d-inline-flex align-items-center mr-3">
                                     <div class="checkbox checked">
                                         <div class="c-input">
-                                          <input type="radio" id="cup" name="tournament_type" value="cup" class="euro-radio mr-2"  v-model="tournamentData.tournament_type" @click="tournamentOrganising()"> 
+                                          <input type="radio" id="cup" name="tournament_type" value="cup" class="euro-radio mr-2"  v-model="tournamentData.tournament_type" @click="tournamentOrganising()" @change="tournammentPricingData()"> 
                                           <label for="cup">Cup</label>
                                         </div>
                                     </div>
@@ -24,7 +24,7 @@
                                 <label class="radio-inline control-label d-inline-flex align-items-center">
                                     <div class="checkbox">
                                         <div class="c-input">
-                                          <input type="radio" id="league" name="tournament_type" value="league" class="euro-radio mr-2" v-model="tournamentData.tournament_type">
+                                          <input type="radio" id="league" name="tournament_type" value="league" class="euro-radio mr-2 " v-model="tournamentData.tournament_type" @change="tournammentPricingData()">
                                           <label for="league">League</label>
                                         </div>
                                     </div>
@@ -37,7 +37,8 @@
                                     <label class="radio-inline control-label d-inline-flex align-items-center mr-3">
                                         <div class="checkbox checked">
                                             <div class="c-input">
-                                              <input type="radio" id="no" name="custom_tournament_format" value="0" class="euro-radio mr-2"  v-model="tournamentData.custom_tournament_format">
+                                              <input type="radio" id="no" name="custom_tournament_format" 
+                                              value="0" class="euro-radio mr-2"  v-model="tournamentData.custom_tournament_format" @change="tournammentPricingData()">
                                               <label for="no">No <span>£ INCLUDED</span></label>
                                             </div>
                                         </div>
@@ -45,7 +46,8 @@
                                     <label class="radio-inline control-label d-inline-flex align-items-center">
                                         <div class="checkbox">
                                             <div class="c-input">
-                                              <input type="radio" id="yes" name="custom_tournament_format" value="1" class="euro-radio mr-2"  v-model="tournamentData.custom_tournament_format">
+                                              <input type="radio" id="yes" name="custom_tournament_format" value="1" class="euro-radio mr-2"  v-model="tournamentData.custom_tournament_format" 
+                                              @change="tournammentPricingData()">
                                               <label for="yes">Yes <span>+£100</span></label>
                                             </div>
                                         </div>
@@ -58,7 +60,7 @@
 
                         <div class="row my-4 my-lg-5">
                             <div class="col-10 col-md-11 col-lg-12">
-                                <vue-slider @callback='changeTeams' :min='2' :max='60' tooltip-dir='right' v-model="tournamentData.tournament_max_teams"></vue-slider>
+                                <vue-slider @callback='changeTeams' :min='2' :max='60' tooltip-dir='right' v-model="tournamentData.tournament_max_teams" class="tournament_teams" @change="tournammentPricingData()"></vue-slider>
                             </div>
                         </div>
 
@@ -111,7 +113,8 @@
                                             <p class="text-sm-right mb-0 mt-3 mt-sm-0">
                                              <span v-if="tournamentData.currency_type == 'GBP'">&#163;</span>   
                                              <span v-if="tournamentData.currency_type == 'EURO'">&#128;</span>   
-                                            {{returnFormatedNumber(tournamentData.total_amount)}}</p>
+                                            {{returnFormatedNumber(tournamentData.tournamentPricingValue)}}</p>
+
                                         </div>
                                     </div>
 
@@ -120,10 +123,9 @@
                                     <p class="text-sm-right font-weight-bold">
                                         <span v-if="tournamentData.currency_type == 'GBP'">&#163;</span>   
                                         <span v-if="tournamentData.currency_type == 'EURO'">&#128;</span>  
-                                        {{returnFormatedNumber(tournamentData.total_amount)}}</p>
+                                        {{returnFormatedNumber(tournamentData.tournamentPricingValue)}}</p>
                                 </div>
                                 <div class="card-text" v-if="id">
-                                    
                                     <div class="row" v-if="new_added_teams > 0">
                                         <div class="col-sm-6 col-md-7 col-lg-7">
                                             <p class="mb-0">Addition {{new_added_teams}} teams</p> 
@@ -131,11 +133,11 @@
                                         <div class="col-sm-6 col-md-5 col-lg-5">
                                             <p class="text-sm-right mb-0 mt-3 mt-sm-0" >
                                              <span v-if="tournamentData.currency_type == 'GBP'">&#163;</span>   
-                                             <span v-if="tournamentData.currency_type == 'EURO'">&#128;</span>   
-                                            100</p>
+                                             <span v-if="tournamentData.currency_type == 'EURO'">&#128;</span>
+
+                                            {{returnFormatedNumber(tournamentData.tournamentPricingValue)}}</p>
                                         </div>
                                     </div>
-                                    
                                     <div class="row" v-if="newDaysAdded > 0">
                                         <div class="col-sm-6 col-md-7 col-lg-7">
                                             <p class="mb-0">Addition {{newDaysAdded}} days</p>
@@ -144,7 +146,7 @@
                                             <p class="text-sm-right mb-0 mt-3 mt-sm-0">
                                              <span v-if="tournamentData.currency_type == 'GBP'">&#163;</span>   
                                              <span v-if="tournamentData.currency_type == 'EURO'">&#128;</span>   
-                                            30</p>
+                                            {{returnFormatedNumber(tournamentData.tournamentPricingValue)}}</p>
                                         </div>
                                     </div>
                                     <div class="row" v-if="newDaysAdded <= 0 && new_added_teams <= 0">
@@ -159,7 +161,7 @@
                                     <p class="text-sm-right font-weight-bold" v-if="newDaysAdded > 0 || new_added_teams > 0">
                                         <span v-if="tournamentData.currency_type == 'GBP'">&#163;</span>   
                                         <span v-if="tournamentData.currency_type == 'EURO'">&#128;</span>  
-                                        {{returnFormatedNumber(tournamentData.total_amount)}}</p>
+                                        {{returnFormatedNumber(tournamentData.tournamentPricingValue)}}</p>
                                 </div>
                                 <div class="row justify-content-end">
                                     <div class="col-md-7 col-lg-7 col-xl-6">
@@ -170,8 +172,8 @@
                                         </button>      
                                         <button v-if="disabled && !id" class="btn btn-success btn-block" disabled="true">Buy your license</button>
 
-                                         <button v-if ="!disabled && id && newDaysAdded <= 0 && new_added_teams <= 0" class="btn btn-success btn-block"  v-on:click="updateALicence()">
-                                        Confirm Details </button>
+                                         <button v-if ="!disabled && id && newDaysAdded <= 0 && new_added_teams <= 0" class="btn btn-success btn-block" v-on:click="updateALicence()">
+                                         Confirm Details </button>
                                          <button v-if ="!disabled && id && (newDaysAdded > 0 || new_added_teams > 0)" class="btn btn-success btn-block"  v-on:click="buyALicence()">
                                         Make Payment</button>
                                     </div>
@@ -190,7 +192,7 @@
     import Ls from '../../services/ls';
     import Constant from '../../services/constant';
     import vueSlider from 'vue-slider-component';
-   
+    import Commercialisation from '../../api/commercialisation.js'
    
     export default {
         components: {
@@ -210,6 +212,8 @@
                     is_renew:0,
                     tournament_type: "cup",
                     custom_tournament_format: 0,
+                    tournamentPricingValue: 0,
+                    transactionDifferenceAmountValue: 0,
 
                 },
                 
@@ -218,13 +222,14 @@
                 pspid:"", 
                 amount:"",
                 disabled:false,
-                dayDifference:1,
+                dayDifference:2,
                 oldDaysDifference:1,
                 newDaysAdded:0,
                 id:"",
                 gpbConvertValue:1,
                 tournament_old_teams:2,
-                new_added_teams:0
+                new_added_teams:0,
+                tournamentPricingBand: '',
                 
             }
         },
@@ -249,6 +254,7 @@
         },
         methods: {
             changeTeams(){ 
+                this.tournammentPricingData();
                 this.new_added_teams = this.tournamentData.tournament_max_teams - this.tournament_old_teams; 
             },
             changeDays(){
@@ -258,10 +264,10 @@
                 this.oldDaysDifference = this.dayDifference;
                 this.changeDays();  
             },
-            buyALicence(e){ 
+            buyALicence(e){
+
                 this.$validator.validateAll();
                 if (this.tournamentData.tournament_name) {
-                    console.log(this.tournamentData);
                     this.tournamentData.tournament_start_date = document.getElementById('tournament_start_date').value;
                     this.tournamentData.tournament_end_date = document.getElementById('tournament_end_date').value;
                     if(this.id){
@@ -318,20 +324,24 @@
                 let endDateArr = endDateFromId.split("/"); 
                 let startDateFormat = startDateArr[2]+"/"+startDateArr[1]+"/"+startDateArr[0];
                 let endDateFormat = endDateArr[2]+"/"+endDateArr[1]+"/"+endDateArr[0]; 
+
+                startDateFormat = startDateFormat;
+                endDateFormat = endDateFormat;
+
                 let startDate = moment(startDateFormat);
-                let endDate = moment(endDateFormat);
-                
+                let endDate = moment(endDateFormat).add('days',1);
+
                 this.dayDifference = endDate.diff(startDate, 'days'); 
                 this.changeDays();
                 
             },
 
+                
             getTournamentDetail(){ 
-                axios.get(Constant.apiBaseUrl+'get-tournament?tournamentId='+this.id, {}).then(response =>  {  
-                        
-                        if (response.data.success) {  
-                            var start_date = new Date(moment(response.data.data.start_date, 'DD/MM/YYYY').format('MM/DD/YYYY'));
-                            var end_date = new Date(moment(response.data.data.end_date, 'DD/MM/YYYY').format('MM/DD/YYYY')); 
+                axios.get(Constant.apiBaseUrl+'get-tournament?transactionId='+this.id, {}).then(response =>  {
+                        if (response.data.success) {
+                            var start_date = new Date(moment(response.data.data.tournament.start_date, 'DD/MM/YYYY').format('MM/DD/YYYY'));
+                            var end_date = new Date(moment(response.data.data.tournament.end_date, 'DD/MM/YYYY').format('MM/DD/YYYY')); 
                             
                             let today = new Date();
                             if(today.getTime() > end_date.getTime()){
@@ -347,18 +357,29 @@
                             }
                             
                             this.tournamentData['id'] = this.id;
-                            this.tournamentData['old_tournament_id'] = response.data.data.id;
-                            this.tournamentData['tournament_name'] = response.data.data.name;
-                            this.tournamentData['tournament_max_teams'] = response.data.data.maximum_teams;   
-                            this.tournament_old_teams = response.data.data.maximum_teams;   
-                            this.tournamentData['access_code'] = response.data.data.access_code;
-                            this.tournamentData['custom_tournament_format'] = response.data.data.custom_tournament_format;
-                            this.tournamentData['tournament_type'] = response.data.data.tournament_type;   
-                           
-                
+                            this.tournamentData['old_tournament_id'] = response.data.data.tournament.id;
+                            this.tournamentData['tournament_name'] = response.data.data.tournament.name;
+                            this.tournamentData['tournament_max_teams'] = response.data.data.tournament.maximum_teams;   
+                            this.tournament_old_teams = response.data.data.tournament.maximum_teams;   
+                            this.tournamentData['access_code'] = response.data.data.tournament.access_code;
+                            this.tournamentData['custom_tournament_format'] = response.data.data.tournament.custom_tournament_format;
+                            this.tournamentData['tournament_type'] = response.data.data.tournament.tournament_type; 
+
+                            // transaction histories amount difference calculation 
+                            let transactionAmount = [];
+                            let tournamentPricing = _.filter(response.data.data.get_sorted_transaction_histories, function(historyAmount)
+                            {
+                                transactionAmount.push(historyAmount.amount); 
+                            });
+                        
+                            let transactionDifferenceAmountValue = _.sumBy(transactionAmount, function(historyAmount) { 
+                                return historyAmount; 
+                            }); 
+                            this.tournamentData.transactionDifferenceAmountValue = transactionDifferenceAmountValue
                          }else{ 
                             toastr['error'](response.data.message, 'Error');
                          }
+                        
                  }).catch(error => {
                      
                  }); 
@@ -369,10 +390,10 @@
                 this.tournamentData.currency_type = event.target.value;
                 if((this.tournamentData.currency_type).toLowerCase() == "gbp"){
                     this.tournamentData.payment_currency = this.tournamentData.currency_type;
-                    this.tournamentData.total_amount = (this.tournamentData.total_amount)*this.gpbConvertValue;
+                    this.tournamentData.tournamentPricingValue = (this.tournamentData.tournamentPricingValue)*this.gpbConvertValue;
                     
                 }else{
-                    this.tournamentData.total_amount = this.tournamentData.total_amount/this.gpbConvertValue;
+                    this.tournamentData.tournamentPricingValue = this.tournamentData.tournamentPricingValue/this.gpbConvertValue;
                     this.tournamentData.payment_currency = "EUR";
                 }
             },
@@ -396,10 +417,56 @@
 
             tournamentOrganising() {
                 $('#no').prop("checked",true)
+            },
+
+            getTournamentPricing() {
+                Commercialisation.getTournamentPricingDetail().then(
+                (response) => {
+                    this.tournamentPricingBand = JSON.parse(response.data.data);
+                })
+                
+            },
+
+            tournammentPricingData() {
+                let tournamentOrganising = this.tournamentData.tournament_type
+                let tournamentCustomFormats = this.tournamentData.custom_tournament_format
+                let tournamentMaxTeams = this.tournamentData.tournament_max_teams
+                let vm = this;
+                let tournamentLicensePricingArray = [];
+
+                if(tournamentOrganising == 'cup' && tournamentCustomFormats == 0 && tournamentMaxTeams) {
+                    let tournamentPricing = _.filter(this.tournamentPricingBand.cup.bands, function(band) {
+                        if(tournamentMaxTeams >= band.min_teams && tournamentMaxTeams <= band.max_teams) {
+                            tournamentLicensePricingArray.push(band.price);    
+                        }
+                    });
+                    let tournamentPricingRecord = _.head(tournamentLicensePricingArray);
+                    vm.tournamentData.tournamentPricingValue = tournamentPricingRecord - this.tournamentData.transactionDifferenceAmountValue;
+                } 
+                            
+                if(tournamentOrganising == 'cup' && tournamentCustomFormats == 1 && tournamentMaxTeams) {
+                    let tournamentPricing = _.filter(this.tournamentPricingBand.cup.bands, function(band) {
+                        if(tournamentMaxTeams >= band.min_teams && tournamentMaxTeams <= band.max_teams) {
+                            tournamentLicensePricingArray.push(band.price + band.advanced_price);
+                        }
+                    });
+                    let tournamentPricingRecord = _.head(tournamentLicensePricingArray);
+                    vm.tournamentData.tournamentPricingValue = tournamentPricingRecord - this.tournamentData.transactionDifferenceAmountValue;
+                } 
+
+                if(tournamentOrganising == 'league' && tournamentMaxTeams) {
+                    let tournamentPricing = _.filter(this.tournamentPricingBand.league.bands, function(band) {
+                        if(tournamentMaxTeams >= band.min_teams && tournamentMaxTeams <= band.max_teams) {
+                            tournamentLicensePricingArray.push(band.price);
+                        }
+                    });
+                    let tournamentPricingRecord = _.head(tournamentLicensePricingArray);
+                    vm.tournamentData.tournamentPricingValue = tournamentPricingRecord - this.tournamentData.transactionDifferenceAmountValue;
+                }
+                if(isNaN(vm.tournamentData.tournamentPricingValue)){
+                    vm.tournamentData.tournamentPricingValue  = 0;
+                }
             }
-        },
-        beforeMount(){   
-            
         },
         mounted () {
             var vm = this
@@ -421,8 +488,6 @@
             $('#tournament_start_date').datepicker('setDate', moment().format('DD/MM/YYYY'))
             $('#tournament_end_date').datepicker('setDate', moment().add(1,'days').format('DD/MM/YYYY')) 
            
-            
-
             $("#tournament_start_date").on("change",function (value){ 
                vm.findDifferenceBetweenDates();
             })
@@ -430,11 +495,13 @@
             $("#tournament_end_date").on("change",function (value){ 
                vm.findDifferenceBetweenDates();
             })   
+            this.getTournamentPricing();
             this.getCurrencyValue();
             setTimeout(function(){
                 vm.setOldDays()
-            },4000)
-
+                vm.getTournamentDetail()
+                vm.tournammentPricingData()
+            },1500) 
             $('#cup').prop("checked",true)
             $('#no').prop("checked",true)
         }

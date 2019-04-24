@@ -24,11 +24,13 @@
                                 <select class="form-control ls-select2" v-on:change="searchTypeData"
                                     v-model="userTypeSearch" name="user_type" id="user_type">
                                     <option value="">Filter by user type</option>
+                                    <option value="customer">Customer</option>
                                     <option value="Internal.administrator">Internal administrator</option>
                                     <option value="Master.administrator">Master administrator</option>
                                     <option value="mobile.user">Mobile user</option>
+                                    <option value="Results.administrator">Results administrator</option>                       
                                     <option value="Super.administrator">Super administrator</option>
-                                    <option value="tournament.administrator">Tournament administrator</option>
+                                    <option value="tournament.administrator">Tournament administrator</option>                         
                                 </select>
                               </div>
                               <div class="col-md-2">
@@ -41,7 +43,8 @@
                     </div>
                     <div class="row d-flex flex-row align-items-center">
                         <div class="col-md-12">
-                            <table class="table add-category-table">
+                          <div class="table-responsive">
+                            <table class="table add-category-table table-sm">
                                 <thead>
                                     <tr>
                                         <th>{{$lang.user_desktop_name}}</th>
@@ -53,12 +56,14 @@
                                         <th>{{$lang.use_desktop_language}}</th>
                                         <th>{{$lang.user_desktop_status}}</th>
                                         <th>{{$lang.user_desktop_tournment}}</th>
+                                        <th>{{$lang.user_device}}</th>
+                                        <th>{{$lang.user_app_version}}</th>
                                         <th class="text-center">{{$lang.user_desktop}}</th>
                                         <th class="text-center">{{$lang.user_mobile}}</th>
                                         <th>{{$lang.user_desktop_action}}</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody v-if="!isListGettingUpdate">
                                   <tr class="" v-for="user in paginated('userpagination')">
                                     <td>{{ user.first_name }}</td>
                                     <td>{{ user.last_name }}</td>
@@ -71,7 +76,12 @@
                                     <td v-else>
                                       <a href="#"  @click="resendModalOpen(user.email)"><u>Re-send</u></a>
                                     </td>
-                                    <td @click="redirectToTournamentList(user)"><a href="javascript:void(0)" class="centered">{{ user.tournaments_count }}</a></td>
+                                    <td class="text-center" @click="redirectToTournamentList(user)">
+                                      <a href="javascript:void(0)" class="centered text-primary" v-if="user.role_slug == 'customer'"><u>{{ user.tournaments_count }}</u></a>
+                                      <a href="javascript:void(0)" class="centered" v-else>-</a>
+                                    </td>
+                                    <td>{{ user.device }}</td>
+                                    <td>{{ user.app_version }}</td>
                                     <td class="text-center">
                                       <i class="fas fa-check text-success"
                                         v-if="user.is_desktop_user == true"></i>
@@ -89,19 +99,19 @@
                                          @click="editUser(user.id)" v-if="!(isMasterAdmin == true && user.role_slug == 'Super.administrator')">
                                         <i class="fas fa-pencil"></i>
                                         </a>
-                                        &nbsp;
+
                                         <a href="javascript:void(0)"
                                         data-confirm-msg="Are you sure you would like to delete
                                         this user record?" data-toggle="modal" data-target="#delete_modal"
                                         @click="prepareDeleteResource(user.id)" v-if="!(isMasterAdmin == true && user.role_slug == 'Super.administrator')">
                                         <i class="fas fa-trash"></i>
                                         </a>
-                                        &nbsp;
-                                        <a v-if="user.role_slug == 'tournament.administrator'" class="text-primary icon-size-1-2" href="javascript:void(0)"
+
+                                        <a v-if="(user.role_slug == 'tournament.administrator' || user.role_slug == 'Results.administrator')" class="text-primary icon-size-1-2" href="javascript:void(0)"
                                         @click="editTournamentPermission(user)">
                                         <i class="fas fa-eye fa-1x"></i>
                                         </a>
-                                        &nbsp;
+
                                         <!--<a v-if="IsSuperAdmin == true"
                                         href="javascript:void(0)"
                                         data-confirm-msg="Are you sure you
@@ -118,33 +128,34 @@
                                         </a>-->
                                     </td>
                                   </tr>
-                                  <tr><td colspan="8"></td></tr>
+                                  <!-- <tr><td colspan="8"></td></tr> -->
                                 </tbody>
                             </table>
-                            <paginate v-if="shown" name="userpagination" :list="userList.userData" ref="paginator" :per="no_of_records"  class="paginate-list">
-                            </paginate>
-                            <div class="row d-flex flex-row align-items-center">
-                              <div class="col page-dropdown">
-                                <select class="form-control ls-select2" name="no_of_records" v-model="no_of_records">
-                                  <option v-for="recordCount in recordCounts" v-bind:value="recordCount">
-                                      {{ recordCount }}
-                                  </option>
-                                </select>
-                              </div>
-                              <div class="col">
-                                <span v-if="$refs.paginator">
-                                  Viewing {{ $refs.paginator.pageItemsCount }} results
-                                </span>
-                              </div>
-                              <div class="col-md-6">
-                                <paginate-links for="userpagination"
-                                  :show-step-links="true" :async="true" :limit="2" class="mb-0">
-                                </paginate-links>
-                              </div>
+                          </div>
+                          <paginate v-if="shown && !isListGettingUpdate" name="userpagination" :list="userList.userData" ref="paginator" :per="no_of_records"  class="paginate-list">
+                          </paginate>
+                          <div class="row d-flex flex-row align-items-center" v-if="!isListGettingUpdate">
+                            <div class="col page-dropdown">
+                              <select class="form-control ls-select2" name="no_of_records" v-model="no_of_records">
+                                <option v-for="recordCount in recordCounts" v-bind:value="recordCount">
+                                    {{ recordCount }}
+                                </option>
+                              </select>
+                            </div>
+                            <div class="col">
+                              <span v-if="$refs.paginator">
+                                Viewing {{ $refs.paginator.pageItemsCount }} results
+                              </span>
+                            </div>
+                            <div class="col-md-6">
+                              <paginate-links for="userpagination"
+                                :show-step-links="true" :async="true" :limit="2" class="mb-0">
+                              </paginate-links>
                             </div>
                           </div>
-                        <div v-if="userList.userCount == 0" class="col-md-12">
-                            <h6 class="block text-center">No record found</h6>
+                          <div v-if="userList.userCount == 0" class="col-md-12">
+                              <h6 class="block text-center">No record found</h6>
+                          </div>
                         </div>
                     </div>
                 </div>
@@ -220,6 +231,7 @@
 
         props: {
             userList: Object,
+            isListGettingUpdate: Boolean
         },
         computed: {
             IsSuperAdmin() {

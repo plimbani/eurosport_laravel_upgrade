@@ -18,8 +18,8 @@ class CreateTournamentPricingsTable extends Migration
             $table->enum('type', array('cup', 'league'))->nullable();
             $table->integer('min_teams')->nullable();
             $table->integer('max_teams')->nullable();
-            $table->float('price', 8, 2)->nullable();
-            $table->float('advanced_price', 8, 2)->nullable()->default(null);
+            $table->float('price', 16, 2)->nullable();
+            $table->float('advanced_price', 16, 2)->nullable()->default(null);
             $table->integer('created_by')->unsigned()->nullable();
             $table->foreign('created_by')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
             $table->integer('updated_by')->unsigned()->nullable();

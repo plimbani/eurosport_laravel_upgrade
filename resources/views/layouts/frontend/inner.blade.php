@@ -38,7 +38,7 @@
 
     @include('partials.frontend.inner-hero-section')
 
-    @include('partials.frontend.tournament-messages')
+    {{-- @include('partials.frontend.tournament-messages') --}}
 
     @include('flash::message')
 

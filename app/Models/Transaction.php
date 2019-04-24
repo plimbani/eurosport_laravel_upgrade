@@ -8,7 +8,9 @@ class Transaction extends Model
 {
 
     protected $fillable = [
+        'user_id',
         'tournament_id',
+		'user_id',
         'created_at',
         'updated_at',
         'deleted_at',
@@ -20,6 +22,10 @@ class Transaction extends Model
     
     public function transactionHistories() {
         return $this->hasMany('Laraspace\Models\TransactionHistory');
+    }
+
+    public function getSortedTransactionHistories() {
+        return $this->transactionHistories()->orderBy('id', 'desc');
     }
     
     
