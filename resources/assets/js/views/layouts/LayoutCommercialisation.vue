@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="content-wrapper">
 		<site-commercialisation-header></site-commercialisation-header>
         <div class="main-content container-fluid">
             <breadCrum></breadCrum>
