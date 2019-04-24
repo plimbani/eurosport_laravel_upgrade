@@ -28,9 +28,9 @@
                                     <option value="Internal.administrator">Internal administrator</option>
                                     <option value="Master.administrator">Master administrator</option>
                                     <option value="mobile.user">Mobile user</option>
+                                    <option value="Results.administrator">Results administrator</option>                       
                                     <option value="Super.administrator">Super administrator</option>
-                                    <option value="tournament.administrator">Tournament administrator</option>
-                                    <option value="Results.administrator">Results administrator</option>
+                                    <option value="tournament.administrator">Tournament administrator</option>                         
                                 </select>
                               </div>
                               <div class="col-md-2">
@@ -63,7 +63,7 @@
                                         <th>{{$lang.user_desktop_action}}</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody v-if="!isListGettingUpdate">
                                   <tr class="" v-for="user in paginated('userpagination')">
                                     <td>{{ user.first_name }}</td>
                                     <td>{{ user.last_name }}</td>
@@ -132,30 +132,30 @@
                                 </tbody>
                             </table>
                           </div>
-                            <paginate v-if="shown" name="userpagination" :list="userList.userData" ref="paginator" :per="no_of_records"  class="paginate-list">
-                            </paginate>
-                            <div class="row d-flex flex-row align-items-center">
-                              <div class="col page-dropdown">
-                                <select class="form-control ls-select2" name="no_of_records" v-model="no_of_records">
-                                  <option v-for="recordCount in recordCounts" v-bind:value="recordCount">
-                                      {{ recordCount }}
-                                  </option>
-                                </select>
-                              </div>
-                              <div class="col">
-                                <span v-if="$refs.paginator">
-                                  Viewing {{ $refs.paginator.pageItemsCount }} results
-                                </span>
-                              </div>
-                              <div class="col-md-6">
-                                <paginate-links for="userpagination"
-                                  :show-step-links="true" :async="true" :limit="2" class="mb-0">
-                                </paginate-links>
-                              </div>
+                          <paginate v-if="shown && !isListGettingUpdate" name="userpagination" :list="userList.userData" ref="paginator" :per="no_of_records"  class="paginate-list">
+                          </paginate>
+                          <div class="row d-flex flex-row align-items-center" v-if="!isListGettingUpdate">
+                            <div class="col page-dropdown">
+                              <select class="form-control ls-select2" name="no_of_records" v-model="no_of_records">
+                                <option v-for="recordCount in recordCounts" v-bind:value="recordCount">
+                                    {{ recordCount }}
+                                </option>
+                              </select>
+                            </div>
+                            <div class="col">
+                              <span v-if="$refs.paginator">
+                                Viewing {{ $refs.paginator.pageItemsCount }} results
+                              </span>
+                            </div>
+                            <div class="col-md-6">
+                              <paginate-links for="userpagination"
+                                :show-step-links="true" :async="true" :limit="2" class="mb-0">
+                              </paginate-links>
                             </div>
                           </div>
-                        <div v-if="userList.userCount == 0" class="col-md-12">
-                            <h6 class="block text-center">No record found</h6>
+                          <div v-if="userList.userCount == 0" class="col-md-12">
+                              <h6 class="block text-center">No record found</h6>
+                          </div>
                         </div>
                     </div>
                 </div>
@@ -231,6 +231,7 @@
 
         props: {
             userList: Object,
+            isListGettingUpdate: Boolean
         },
         computed: {
             IsSuperAdmin() {

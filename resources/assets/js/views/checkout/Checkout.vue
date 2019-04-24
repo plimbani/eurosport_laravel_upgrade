@@ -76,7 +76,7 @@
                             <div class="col-sm-6 col-md-5 col-lg-5">
                                 <p class="text-sm-right mb-0 mt-3 mt-sm-0">
                                     <span v-if="tournamentData.currency_type == 'GBP'">&#163;</span>   
-                                    <span v-if="tournamentData.currency_type == 'EURO'">&#128;</span>{{returnFormatedNumber(tournamentData.total_amount/100)}}</p>
+                                    <span v-if="tournamentData.currency_type == 'EURO'">&#128;</span>{{returnFormatedNumber(tournamentData.tournamentPricingValue/100)}}</p>
                                 </p>
                             </div>
                         </div>
@@ -84,7 +84,7 @@
                         <div class="divider my-3 opacited"></div>
 
                         <p class="text-sm-right font-weight-bold"><span v-if="tournamentData.currency_type == 'GBP'">&#163;</span>   
-                        <span v-if="tournamentData.currency_type == 'EURO'">&#128;</span>{{returnFormatedNumber(tournamentData.total_amount/100)}}</p>
+                        <span v-if="tournamentData.currency_type == 'EURO'">&#128;</span>{{returnFormatedNumber(tournamentData.tournamentPricingValue/100)}}</p>
                         
                         <button v-if="shaSignIn"  class="btn btn-success" v-on:click="makePaymentButton()">Checkout</button> 
                         <button v-if="!shaSignIn" class="btn btn-success" disabled="true">Get checkout</button>
@@ -137,13 +137,13 @@
                         this.shaSignIn = response.data.data.shaSignIn;
                         this.orderId = response.data.data.orderId;
                         this.pspid = response.data.data.pspid;
-                        this.amount = response.data.data.total_amount;
-
+                        this.amount = response.data.data.tournamentPricingValue;
+                        
                         let orderInfo = this.tournamentData;
                         orderInfo.shaSignIn = this.shaSignIn;
                         orderInfo.orderId = this.orderId;
                         orderInfo.pspid = this.pspid;
-                        orderInfo.total_amount = this.amount;
+                        orderInfo.tournamentPricingValue = this.amount;
                         Ls.set('orderInfo', JSON.stringify(orderInfo))
                         let self = this;
                         setTimeout(function () {

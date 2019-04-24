@@ -62,11 +62,11 @@ class TournamentController extends BaseController
      * @param TournamentSummary $request
      * @return string
      */
-    public function getTournament(TournamentSummary $request)
+    public function getTournament(Request $request)
     {
         try {
             $data = $request->all();
-            $response = $this->tournamentRepoObj->getTournamentDetails($data['tournamentId']);
+            $response = $this->tournamentRepoObj->getTournamentDetails($data['transactionId']);
             return response()->json([
                         'success' => true,
                         'status' => Response::HTTP_OK,
@@ -131,27 +131,35 @@ class TournamentController extends BaseController
             $tournamentCompetationTemplates = TournamentCompetationTemplates::where('tournament_id', $requestData['tournament']['old_tournament_id'])->pluck('total_teams')->sum();
 
             // Tournament update license 
-            if (!empty($requestData['tournament'])) {
-                if(($tournamentStartDate == $requestTournamentStartDate) && ($tournamentEndDate == $requestTournamentEndDate)){
-                    if($tournamentStartDate >= $requestTournamentStartDate && $tournamentFixture == 0){
-                        if($tournamentStartDate >= $requestTournamentStartDate && $tournamentPitch == 0){
-                            if($tournamentStartDate >= $requestTournamentStartDate && $tournamentCompetationTemplates <= $tournamentMaximumTeam){
-                                $requestData['tournament'] = [
-                                    'id' => $requestData['tournament']['id'],
-                                    'name' => $requestData['tournament']['tournament_name'],
-                                    'start_date' => Carbon::createFromFormat('d/m/Y', $requestData['tournament']['tournament_start_date']),
-                                    'end_date' => Carbon::createFromFormat('d/m/Y', $requestData['tournament']['tournament_end_date']),
-                                    'maximum_teams' => $requestData['tournament']['tournament_max_teams'],
-                                    'tournament_type' => $requestData['tournament']['tournament_type'],
-                                    'custom_tournament_format' => $requestData['tournament']['tournament_type'] == 'cup' ? $requestData['tournament']['custom_tournament_format'] : NULL
-                                ];
+            if (!empty($requestData['tournament'])) {        
+                if($tournamentStartDate >= $requestTournamentStartDate && $tournamentFixture == 0){
+                    if($tournamentStartDate >= $requestTournamentStartDate && $tournamentPitch == 0){
+                        if($tournamentStartDate >= $requestTournamentStartDate && $tournamentCompetationTemplates <= $tournamentMaximumTeam){
+
+                            $customTournamentFormat = '';
+
+                            if($requestData['tournament']['tournament_type'] == 'cup' && $requestData['tournament']['custom_tournament_format'] == 0) {
+                                $customTournamentFormat = 0;
+                            }else if($requestData['tournament']['tournament_type'] == 'cup' && $requestData['tournament']['custom_tournament_format'] == 1) {
+                                $customTournamentFormat = 1;
+                            } else {
+                                $customTournamentFormat = NULL;   
                             }
-                        }   
-                    }
+
+                            $requestData['tournament'] = [
+                                'id' => $requestData['tournament']['old_tournament_id'],
+                                'name' => $requestData['tournament']['tournament_name'],
+                                'start_date' => Carbon::createFromFormat('d/m/Y', $requestData['tournament']['tournament_start_date']),
+                                'end_date' => Carbon::createFromFormat('d/m/Y', $requestData['tournament']['tournament_end_date']),
+                                'maximum_teams' => $requestData['tournament']['tournament_max_teams'],
+                                'tournament_type' => $requestData['tournament']['tournament_type'],
+                                'custom_tournament_format' => $customTournamentFormat,
+                            ];
+                        }
+                    }   
                 } else {
                     return response()->json(['status' => 'error', 'message' => 'Please unschedule matches before shortening the length of our tournament.']);
                 }
-                
                 $this->tournamentRepoObj->edit($requestData['tournament']);
             }
             return response()->json([
@@ -186,6 +194,24 @@ class TournamentController extends BaseController
             ]);
         } catch (\Exception $ex) {
             return response()->json(['success' => false, 'status' => Response::HTTP_UNPROCESSABLE_ENTITY, 'data' => [], 'error' => [], 'message' => 'Something went wrong.']);
+        }
+    }
+
+
+    public function getUserTransactions() {
+        try {
+            $authUser = JWTAuth::parseToken()->toUser();
+            $user = User::find($authUser->id);
+            $response = $this->tournamentRepoObj->getUserTransactions($user);
+            return response()->json([
+                        'success' => true,
+                        'status' => Response::HTTP_OK,
+                        'data' => $response,
+                        'error' => [],
+                        'message' => 'Tournament list.'
+            ]);
+        } catch (\Exception $ex) {
+            return response()->json(['success' => false, 'status' => Response::HTTP_UNPROCESSABLE_ENTITY, 'data' => [], 'error' => [], 'message' => $ex->getMessage()]);
         }
     }
 }

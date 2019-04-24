@@ -67,7 +67,9 @@
                 tournamentSponsers:[],
                 code:"",
                 baseUrl:"",
-                googleAppStoreLink:"", 
+                googleAppStoreLink:"",
+                appleStoreLink:"",
+                appleStoreDeepLink:"", 
                 contactDetail:{
                     first_name:"",
                     last_name:"",
@@ -117,9 +119,12 @@
                                 this.contactDetail.last_name = this.contactData[0].last_name;
                                 this.contactDetail.telephone = this.contactData[0].telephonee;
                              }
+
                              this.tournamentSponsers = response.data.data.tournament_sponsor;
                              this.baseUrl = response.data.data.baseUrl;
                              this.googleAppStoreLink = response.data.data.googleAppStoreLink;
+                             this.appleStoreLink = response.data.data.appleStoreLink;
+                             this.appleStoreDeepLink = response.data.data.appleStoreDeepLink;
                              
                          }else{ 
                             this.tournamentData = {};
@@ -135,24 +140,25 @@
                
             },
             tournamentDetailAppStoreLink(){
-                if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-                    this.$router.push({ path: 'mtournament-detail', query: { code: this.code }})
-                } 
 
+                if(/iPhone|iPad|iPod/i.test(navigator.userAgent)){ 
+                    //this.$router.push({ path: 'mtournament-detail', query: { code: this.code }})
+                    window.location.href = this.appleStoreDeepLink+'?code='+this.code;
+                }
+ 
                 if(!/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-                    this.$router.push({ path: 'tournament-detail', query: { code: this.code }})
-                    window.location.href = 'https://play.google.com/store?hl=en';  
+                    //this.$router.push({ path: 'tournament-detail', query: { code: this.code }})
+                    window.location.href = this.appleStoreLink;
                 }
             },
-
             tournamentDetailGoogleStoreLink() {
                 if(/Android/i.test(navigator.userAgent)){ 
-                    this.$router.push({ path: 'mtournament-detail', query: { code: this.code }})
-                    window.location.href = this.baseUrl+'/tournament/openApp';
+                    //this.$router.push({ path: 'mtournament-detail', query: { code: this.code }})
+                    window.location.href = this.baseUrl+'/tournament/openApp?code='+this.code;
                 }
 
                 if (!navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/)) {
-                    this.$router.push({ path: 'tournament-detail', query: { code: this.code }})
+                    // this.$router.push({ path: 'tournament-detail', query: { code: this.code }})
                     window.location.href = this.googleAppStoreLink;  
                 }
             }

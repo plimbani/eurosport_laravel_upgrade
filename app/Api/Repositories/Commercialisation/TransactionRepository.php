@@ -38,12 +38,19 @@ class TransactionRepository
         $data = array_change_key_case($requestData['paymentResponse'], CASE_UPPER);
         $authUser = JWTAuth::parseToken()->toUser();
         $userId = $authUser->id;
-
+		
+        $tournamentRes = null;
         if ($data['STATUS'] == 5 && !empty($requestData['tournament'])) {
-            $tournamentRes = $this->tournamentObj->addTournamentDetails($requestData['tournament'], 'api');
-
+            $tournamentRes = $this->tournamentObj->addTournamentDetails($requestData['tournament'], 'commercialisation');
             $tournamentRes->users()->attach($userId);
-        }
+		}
+
+		if(!$tournamentRes)
+		{
+			$tournamentRes = (object)[];
+			$tournamentRes->maximum_teams = $requestData['tournament']['tournament_max_teams'];
+            
+		}
         $response = $this->addTransaction($data, $tournamentRes, $userId);
 
         //If renew license then duplicate age category if team size same
@@ -150,6 +157,7 @@ class TransactionRepository
         $paymentStatus = config('app.payment_status');
         $transaction = [
             'tournament_id' => !empty($tournamentRes->id) ? $tournamentRes->id : null,
+            'user_id' => !empty($userId) ? $userId : null,
         ];
         $response = Transaction::create($transaction);
 
@@ -163,11 +171,11 @@ class TransactionRepository
             'status' => $paymentStatus[$data['STATUS']],
             'currency' => $data['CURRENCY'],
             'card_type' => $data['PM'],
-            'card_holder_name' => $data['CN'],
-            'card_number' => $data['CARDNO'],
-            'card_validity' => $data['ED'],
+            'card_holder_name' => (isset($data['CN'])) ? $data['CN'] : null,
+            'card_number' => (isset($data['CARDNO'])) ? $data['CARDNO'] : null,
+            'card_validity' => (isset($data['ED'])) ? $data['ED'] : null,
             'transaction_date' => date('Y-m-d H:i:s', strtotime($data['TRXDATE'])),
-            'brand' => $data['BRAND'],
+            'brand' => (isset($data['BRAND'])) ? $data['BRAND'] : null,
             'payment_response' => json_encode($data)
         ];
         TransactionHistory::create($transactionHistory);       
@@ -187,27 +195,27 @@ class TransactionRepository
         $tournament = $requestData['tournament'];
         $authUser = JWTAuth::parseToken()->toUser();
         $paymentStatus = config('app.payment_status');
-        $existsTransaction = Transaction::where('tournament_id', $tournament['id'])->first();
+        $existsTransaction = Transaction::where('tournament_id', $tournament['old_tournament_id'])->first();        
         $existsTransaction->tournament->preventDateAttrSet = true;
 
         $mainTransaction = [
             'updated_at' => date('Y-m-d H:i:s')
         ];
-        if (empty($tournament['total_amount'])) {
+    
+        if (empty($tournament['tournamentPricingValue'])) {
             $transaction = [
                 'transaction_id' => $existsTransaction['id'],
-                'amount' => $tournament['total_amount'],
+                'amount' => $tournament['tournamentPricingValue'],
                 'updated_at' => date('Y-m-d H:i:s')
             ];
         } else {
             $existsHistory = TransactionHistory::where('transaction_id', $existsTransaction['id'])->orderBy('id', 'desc')->first();
-
             $transaction = [
                 'transaction_id' => $existsTransaction['id'],
                 'order_id' => $data['ORDERID'],
                 'transaction_key' => $data['PAYID'],
                 'team_size' => $tournament['tournament_max_teams'],
-                'amount' => number_format($data['AMOUNT'] + $existsHistory['amount'], 2, '.', ''),
+                'amount' => number_format($data['AMOUNT'], 2, '.', ''),
                 'status' => $paymentStatus[$data['STATUS']],
                 'currency' => $data['CURRENCY'],
                 'card_type' => $data['PM'],
@@ -234,7 +242,6 @@ class TransactionRepository
             Mail::to($authUser->email)
                     ->send(new SendMail($emailData, $subject, $email_templates, NULL, NULL, NULL));
         }
-
         return $result;
     }
 

@@ -80,6 +80,7 @@ import Buylicense from './views/buylicense/Buylicense.vue'
 import Checkout from './views/checkout/Checkout.vue'
 // payment view
 import payment from './views/payment/payment.vue'
+import paymentfailure from './views/payment/paymentfailure.vue'
 import dashboard from './views/dashboard/dashboard.vue' 
 
 
@@ -442,13 +443,14 @@ const routes = [
     {
         path: '/payment', component: LayoutCommercialisation,
         meta: { requiresAuth: true },
-        children: [
-            {
-                path: '/',
-                component: payment,
-                name: 'payment'
-            }
-        ]
+        component: payment,
+        name: 'payment'
+    },
+	{
+        path: '/paymentfailure', component: LayoutCommercialisation,
+        meta: { requiresAuth: true },
+        component: paymentfailure,
+        name: 'paymentfailure'
     },
     {
         path: '/dashboard', component: LayoutCommercialisation,

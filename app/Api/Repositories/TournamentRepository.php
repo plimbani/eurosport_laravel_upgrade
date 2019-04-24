@@ -29,6 +29,8 @@ use Laraspace\Models\TeamManualRanking;
 use Laraspace\Models\TournamentClub;
 use Laraspace\Models\TournamentUser;
 use Laraspace\Models\TournamentPricing;
+use Laraspace\Models\TransactionHistory;
+use Laraspace\Models\Transaction;
 
 class TournamentRepository
 {
@@ -649,10 +651,12 @@ class TournamentRepository
         // TODO : Change the code to find first schedule match for that tournament
 
         $pitches = TempFixture::whereIn('tournament_id', $tournamentId)
-                        ->whereNotNull('match_datetime')
-                        ->select('match_datetime as TournamentStartTime', 'temp_fixtures.tournament_id as TId')
-                        ->orderBy('temp_fixtures.match_datetime', 'asc')
-                        ->get()->first();
+            ->whereNotNull('match_datetime')
+            ->select('match_datetime as TournamentStartTime',
+                'temp_fixtures.tournament_id as TId')
+            ->orderBy('temp_fixtures.match_datetime', 'asc')
+            ->get()
+            ->unique('TId');
         if ($pitches) {
             return $pitches->toArray();
         } else {
@@ -695,8 +699,8 @@ class TournamentRepository
 
                 if ($tournamentStartTimeArr) {
                     foreach ($tournamentStartTimeArr as $key => $tournamentTime) {
-                        if ($userData1['TournamentId'] == $tournamentStartTimeArr['TId']) {
-                            $userData[$index]['TournamentStartTime'] = date('Y-m-d H:i:s', strtotime($tournamentStartTimeArr['TournamentStartTime']));
+                        if ($userData1['TournamentId'] == $tournamentTime['TId']) {
+                            $userData[$index]['TournamentStartTime'] = date('Y-m-d H:i:s', strtotime($tournamentTime['TournamentStartTime']));
                         }
                     }
                 }
@@ -736,6 +740,8 @@ class TournamentRepository
 
     public function addTournamentDetails($tournamentDetailData, $type = '')
     {
+        $currentLayout = config('config-variables.current_layout');
+
         $token = JWTAuth::getToken();
         $authUser = JWTAuth::parseToken()->toUser();
         $userId = $authUser->id;
@@ -747,11 +753,24 @@ class TournamentRepository
         $tournament->start_date = $tournamentDetailData['tournament_start_date'];
         $tournament->end_date = $tournamentDetailData['tournament_end_date'];
         $tournament->status = 'Unpublished';
-        if($type == 'api') {
+        if($currentLayout == 'commercialisation') {
+            $customTournamentFormat = '';
+
+            if($tournamentDetailData['tournament_type'] == 'cup' && $tournamentDetailData['custom_tournament_format'] == 0) {
+                $customTournamentFormat = 0;
+            }else if($tournamentDetailData['tournament_type'] == 'cup' && $tournamentDetailData['custom_tournament_format'] == 1) {
+                $customTournamentFormat = 1;
+            } else {
+                $customTournamentFormat = NULL;   
+            }
+
             $tournament->access_code = Str::random(4);
+            $tournament->tournament_type = $tournamentDetailData['tournament_type'];
+            $tournament->custom_tournament_format = $customTournamentFormat;
         }
+        
         $status = $tournament->save();
-        if ($type == 'api') {
+        if ($currentLayout == 'commercialisation') {
             return $tournament;
         }
         return $status;
@@ -1107,7 +1126,7 @@ class TournamentRepository
      */
     public function getTournamentDetails($id)
     {
-        return Tournament::where('id', $id)->first();
+        return Transaction::with('getSortedTransactionHistories','tournament')->find($id);
     }
     
     /**
@@ -1118,7 +1137,9 @@ class TournamentRepository
     public function getTournamentByAccessCode($accessCode)
     {
         $baseUrl = getenv('APP_URL');
-        $googleAppStoreLink = config('config-variables.google_app_store_link');
+        $googleAppStoreLink = config('config-variables.google_play_store_link');
+        $appleStoreLink = config('config-variables.apple_store_link');
+        $appleStoreDeepLink = config('config-variables.apple_store_deep_link');
 
         $tournament = Tournament::where('access_code', $accessCode)->first();
         
@@ -1135,7 +1156,9 @@ class TournamentRepository
                 'contact_details' => !empty($tournament->contacts) ? $tournament->contacts : [],
                 'tournament_sponsor' => !empty($tournament->sponsors) ? $tournament->sponsors : [],
                 'baseUrl' => $baseUrl,
-                'googleAppStoreLink'=> $googleAppStoreLink
+                'googleAppStoreLink'=> $googleAppStoreLink,
+                'appleStoreLink'=> $appleStoreLink,
+                'appleStoreDeepLink'=> $appleStoreDeepLink
             ];
         }
         return $response;
@@ -1414,7 +1437,13 @@ class TournamentRepository
     */
     public function getTournamentAccessCodeDetail($data)
     {
+        $authUser = JWTAuth::parseToken()->toUser();
         $tournament = Tournament::where('access_code', $data['accessCode'])->first();
-        return $tournament;   
-    }  
+        $userFavourites = UserFavourites::where('tournament_id', $tournament['id'])->where('user_id', $authUser->id)->get();
+        return ['tournament' => $tournament, 'userFavourites' => $userFavourites];
+    } 
+
+    public function getUserTransactions($user) {
+        return Transaction::where('user_id', $user->id)->with('getSortedTransactionHistories','tournament')->get();        
+    }
 }
