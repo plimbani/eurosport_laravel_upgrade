@@ -106,19 +106,25 @@ class BuyLicenseController extends BaseController
     }
 
     public function paymentCallback(Request $request) {
-        if($request['STATUS'] == 5)
+        if($request['STATUS'] == 5 || $request['STATUS'] == 9)
 		{
-			//Authorized-success
+			//Authorized-success OR Payment_requested
 			return redirect('payment?' . http_build_query($request->all()));
 		}
 		else
 		{
-			// payment failure case
+			//Payment not success
 			$paymentStatus = config('app.payment_status');
-			$statusMessage = ucfirst($paymentStatus[$request['STATUS']]);
-			$statusMessage = str_replace('_', " ", $statusMessage);
-			$request['STATUS_MESSAGE'] = $statusMessage;
-			return redirect('paymentfailure?' . http_build_query($request->all()));
+			if(isset($paymentStatus[$request['STATUS']]))
+			{
+				$statusMessage = $paymentStatus[$request['STATUS']];
+				$statusMessage = str_replace('_', ' ', $statusMessage);
+				$request['STATUS_MESSAGE'] = ucfirst($statusMessage);
+			}
+			else
+			{
+				$request['STATUS_MESSAGE'] = "Failed";
+			}
 		}
     }
 }
