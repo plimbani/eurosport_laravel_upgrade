@@ -269,6 +269,7 @@ class TransactionRepository
                     'end_date' => $transaction->tournament->end_date,
                     'currency' => $history->currency,
                     'created_at' => $history->created_at,
+                    'transaction_date' => $history->transaction_date,
                 ];
             }
         }

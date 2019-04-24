@@ -43,7 +43,7 @@
                                         <td>{{transction.team_size}}</td>
                                         
                                         <td><span v-if='index >= 1'>+</span>{{getDayDifferences(transction.start_date,transction.end_date)}} day<span v-if='getDayDifferences(transction.start_date,transction.end_date) >= 1'>s</span></td>
-                                        <td>{{transction.transaction_id}}</td>
+                                        <td>{{transction.transaction_date}}</td>
                                         <td>{{transction.currency}}</td>
                                         <td>{{transction.amount}}</td>
                                    
@@ -111,7 +111,7 @@
                 let startDateFormat = startDateArr[2]+"/"+startDateArr[1]+"/"+startDateArr[0];
                 let endDateFormat = endDateArr[2]+"/"+endDateArr[1]+"/"+endDateArr[0]; 
                 let startDate = moment(startDateFormat);
-                let endDate = moment(endDateFormat);
+                let endDate = moment(endDateFormat).add('days',1);
                 
                 let dayDiff = endDate.diff(startDate, 'days');
                 return dayDiff;
