@@ -587,6 +587,8 @@ class TemplateRepository
 
         $averageMatches = $this->getAverageMatches($totalMatches, $totalTeams);
         $minimumMatches = $this->getMinimumMatches($templateFormDetail, $teamsPlayedEachOther);
+
+        echo "<pre>";print_r($minimumMatches);echo "</pre>";exit;
         $positionType = $this->getPositionType($tournamentsPositionsData);
 
         $finalArray['total_matches'] = $totalMatches;
@@ -606,15 +608,16 @@ class TemplateRepository
      */
     public function insertTemplate($data, $templateJson)
     {
-        $decodedJson = json_decode($templateJson);
+        $decodedJson = json_decode($templateJson, true);
+
         $tournamentTemplate = new TournamentTemplates();
         $tournamentTemplate->json_data = $templateJson;
         $tournamentTemplate->name = $data['templateFormDetail']['stepone']['templateName'];
         $tournamentTemplate->total_teams = $data['templateFormDetail']['stepone']['no_of_teams'];
-        $tournamentTemplate->minimum_matches = $decodedJson->tournament_min_match;
-        $tournamentTemplate->position_type = $decodedJson->position_type;
-        $tournamentTemplate->avg_matches = $decodedJson->avg_game_team;
-        $tournamentTemplate->total_matches = $decodedJson->total_matches;
+        $tournamentTemplate->minimum_matches = $decodedJson['tournament_min_match'];
+        $tournamentTemplate->position_type = $decodedJson['position_type'];
+        $tournamentTemplate->avg_matches = $decodedJson['avg_game_team'];
+        $tournamentTemplate->total_matches = $decodedJson['total_matches'];
         $tournamentTemplate->editor_type = $data['templateFormDetail']['stepone']['editor'];
         $tournamentTemplate->template_form_detail = json_encode($data['templateFormDetail']);
         $tournamentTemplate->version = array_get($data,'version', 1);
@@ -796,31 +799,26 @@ class TemplateRepository
     public function getMinimumMatches($templateFormDetail, $teamsPlayedEachOther)
     {
         $minGames = 0;
-        $noOfGamesPerGroup = 0;
         $rounds = $templateFormDetail['steptwo']['rounds'];
         $totalTeams = $templateFormDetail['stepone']['no_of_teams'];
-        $roundGroupTeams = 0;
 
         foreach ($rounds as $roundIndex => $round) {
+            $nGames = [];
             if($round['no_of_teams'] < $totalTeams) {
                 break;
             } else {
                 foreach ($round['groups'] as $groupIndex => $group) {
                     if($group['type'] == 'round_robin') {
-                        $noOfGamesPerGroup = $teamsPlayedEachOther[$group['teams_play_each_other']] * ($group['no_of_teams'] - 1);
-                        if($minGames == 0 || $minGames < $noOfGamesPerGroup) {
-                            $minGames = $noOfGamesPerGroup;
-                        }
+                        $nGames[] = $teamsPlayedEachOther[$group['teams_play_each_other']] * ($group['no_of_teams'] - 1);
                     }
-
                     if($group['type'] == 'placing_match') {
-                        $noOfGamesPerGroup = 1;
-                        $roundGroupTeams = $roundGroupTeams+1;
+                        $nGames[] = 1;
                     }
                 }
             }
+            $minGames += min($nGames);
         }
-        $minimumMatches = $minGames + $roundGroupTeams;
+        $minimumMatches = $minGames;
 
         return $minimumMatches;
     }
