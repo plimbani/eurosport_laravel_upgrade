@@ -114,6 +114,11 @@ import ManagePricing from './components/Pricing/ManagePricing.vue'
 // Commercialisation backend Layout
 import LayoutTournamentPricingForBackend from './views/layouts/LayoutTournamentPricing.vue'
 
+// Commercialisation user tournament transaction 
+import LayoutUserTournamentTransaction from './views/layouts/LayoutUserTournamentTransaction.vue'
+
+// Commercialisation user tournament transaction history
+import LayoutUserTournamentTransactionHistory from './views/layouts/LayoutUserTournamentTransactionHistory.vue'
 
 import Ls from './services/ls'
 
@@ -309,7 +314,7 @@ const routes = [
         ]
     },
     {
-        path: '/userstourmanents', component: LayoutTournament,
+        path: '/userstourmanents', component: LayoutUserTournamentTransaction,
         meta: { requiresAuth: true },
         children: [
             {
@@ -320,7 +325,7 @@ const routes = [
         ]
     }, 
     {
-        path: '/tournamentstransaction', component: LayoutCommercialisation,
+        path: '/tournamentstransaction', component: LayoutUserTournamentTransactionHistory,
         meta: { requiresAuth: true },
         children: [
             {
@@ -468,8 +473,9 @@ const routes = [
         meta: { requiresAuth: true },
         children: [
             {
-                path: '/admin/manage_pricing',
+                path: '/manage_pricing',
                 component: ManagePricing,
+                meta: { requiresAuth: true },
                 name: 'manage_pricing'
             }
         ]

@@ -43,7 +43,6 @@ class sendEmailCustomerStandingResults extends Command
      */
     public function handle()
     {
-
         Log::info("Script started at :- ".date('Y-m-d H:i:s'));
         $customerUsers =DB::table('role_user')->where('role_id',6)->get();
 
@@ -70,7 +69,8 @@ class sendEmailCustomerStandingResults extends Command
                     Log::info("oldest match end time for this tournament :- ".$lastMatchEndTime->match_endtime);
                     // Add 8 hours in date end time
                     $finalDate = Carbon::parse($lastMatchEndTime->match_endtime);
-                    $finalDate->addHours(8); 
+                    $configHours = env('CUSTOMER_SEND_MAIL_AFTER_MATCH_FINISHED');
+                    $finalDate->addHours($configHours); 
 
 
                     Log::info("Time after ading 8 hours to oldest end time :- ".$finalDate);

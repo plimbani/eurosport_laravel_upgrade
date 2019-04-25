@@ -1437,13 +1437,11 @@ class TournamentRepository
     */
     public function getTournamentAccessCodeDetail($data)
     {
-        $authUser = JWTAuth::parseToken()->toUser();
         $tournament = Tournament::where('access_code', $data['accessCode'])->first();
-        $userFavourites = UserFavourites::where('tournament_id', $tournament['id'])->where('user_id', $authUser->id)->get();
-        return ['tournament' => $tournament, 'userFavourites' => $userFavourites];
+        return $tournament;
     } 
 
     public function getUserTransactions($user) {
-        return Transaction::where('user_id', $user->id)->with('getSortedTransactionHistories','tournament')->get();        
+        return Transaction::where('user_id', $user->id)->with('getSortedTransactionHistories','tournament')->has('getSortedTransactionHistories')->get();      
     }
 }
