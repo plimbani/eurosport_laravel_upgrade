@@ -37,7 +37,7 @@ class TransactionService implements TransactionContract {
     public function generatePaymentReceipt($data)
     {
         $transaction = \DB::table('transaction_histories')
-                ->select('transaction_histories.id', 'transaction_histories.amount', 'transaction_histories.order_id', 'transaction_histories.team_size', 'tournaments.start_date', 'tournaments.end_date')
+                ->select('transaction_histories.id', 'transaction_histories.currency', 'transaction_histories.amount', 'transaction_histories.order_id', 'transaction_histories.team_size', 'tournaments.start_date', 'tournaments.end_date')
                 ->join('transactions', 'transaction_histories.transaction_id', '=', 'transactions.id')
                 ->join('tournaments', 'tournaments.id', '=', 'transactions.tournament_id')
                 ->where(['transactions.tournament_id' => $data['tournament_id']])
@@ -64,7 +64,8 @@ class TransactionService implements TransactionContract {
             'days' => $days,
             'maximumTeams' => $maxTeam,
             'amount' => $amount,
-            'orderNumber' => $transaction[0]->order_id
+            'orderNumber' => $transaction[0]->order_id,
+			'currency' => $transaction[0]->currency
         ];
         $date = new \DateTime(date('H:i d M Y'));
         $pdf = PDF::loadView('commercialisation.payment_receipt', ['data' => $pdfData])
