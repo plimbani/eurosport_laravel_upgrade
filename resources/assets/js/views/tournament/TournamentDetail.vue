@@ -44,14 +44,13 @@
                         </div>
                     </div>
                     <div class="row" v-if="!tournamentData.id">
-                        <div class="col-xl-12">
+                        <div class="col-xl-12 text-center">
                             Tournament details not found
-                            
                         </div>
                     </div>
                 </div>
             </div>
-            <schedule-and-result :tournamentData="tournamentData"></schedule-and-result>
+            <schedule-and-result :tournamentData="tournamentData" v-if="tournamentData.id"></schedule-and-result>
         </section>
     </div>
 </template>

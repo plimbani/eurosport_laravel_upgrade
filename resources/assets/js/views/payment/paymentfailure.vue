@@ -4,7 +4,7 @@
             <div class="row justify-content-between">
                 <div class="col-md-12">
                     <h1 class="font-weight-bold">Information</h1>
-                    <p>Unfortunately your transaction has been cancelled/failed. so we are unable to proceed to create your tournament.</p>
+                    <p>Unfortunately your transaction has been {{status_message}}. so we are unable to proceed to create your tournament.</p>
                 </div>
                 <div class="col-md-12">
                     <button class="btn btn-success" v-on:click="redirectToDashboardPage()">Get started</button>
@@ -27,7 +27,8 @@
                 paymentObj:{
 
                 },
-                tournament:{}
+                tournament:{},
+                status_message:"cancelled",
             }
         },
         methods: {
@@ -37,6 +38,7 @@
                     paymentResponse:this.paymentObj
                 } 
                 var url = "payment/response";
+                this.status_message = this.paymentObj.STATUS_MESSAGE.toLowerCase();
                 
                 if(typeof this.tournament.id != "undefined" && this.tournament.id != undefined && !this.tournament.is_renew){
                     

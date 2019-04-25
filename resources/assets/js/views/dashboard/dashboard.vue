@@ -19,7 +19,8 @@
                                                     
                                                     <div class="col-lg-5">
                                                         <ul class="list-unstyled mb-0 tournament-information">
-                                                            <li class="d-inline h7 text-uppercase font-weight-bold pr-2"><span><i class="fa fa-globe"></i></span>&nbsp; <a target="_blank" v-bind:href="tournament.website">View public website</a></li>
+                                                            <li v-if="tournament.website" class="d-inline h7 text-uppercase font-weight-bold pr-2"><span><i class="fa fa-globe"></i></span>&nbsp; <a target="_blank" v-bind:href="tournament.website">View public website</a></li>
+
                                                             <li v-if="tournament.access_code" id="open-share-popup" @click="openSharePopup(tournament)" class="d-inline h7 text-uppercase font-weight-bold"><span><i class="fa fa-share-alt"></i></span>&nbsp; <a href="#">Share</a></li>
                                                         </ul>
                                                     </div>
