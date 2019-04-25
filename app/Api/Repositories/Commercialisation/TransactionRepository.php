@@ -170,7 +170,7 @@ class TransactionRepository
             'amount' => number_format($data['AMOUNT'], 2, '.', ''),
             'status' => $paymentStatus[$data['STATUS']],
             'currency' => $data['CURRENCY'],
-            'card_type' => $data['PM'],
+            'card_type' => (isset($data['PM'])) ? $data['PM'] : null,
             'card_holder_name' => (isset($data['CN'])) ? $data['CN'] : null,
             'card_number' => (isset($data['CARDNO'])) ? $data['CARDNO'] : null,
             'card_validity' => (isset($data['ED'])) ? $data['ED'] : null,
