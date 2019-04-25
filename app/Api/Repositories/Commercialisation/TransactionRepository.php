@@ -40,7 +40,7 @@ class TransactionRepository
         $userId = $authUser->id;
 		
         $tournamentRes = null;
-        if ($data['STATUS'] == 5 && !empty($requestData['tournament'])) {
+        if (($data['STATUS'] == 5 || $data['STATUS'] == 9) && !empty($requestData['tournament'])) {
             $tournamentRes = $this->tournamentObj->addTournamentDetails($requestData['tournament'], 'commercialisation');
             $tournamentRes->users()->attach($userId);
 		}
@@ -133,7 +133,7 @@ class TransactionRepository
             }
         }
 
-        if ($data['STATUS'] == 5) {
+        if ($data['STATUS'] == 5 || $data['STATUS'] == 9) {
             //Send conformation mail to customer
             $subject = 'Message from Eurosport';
             $email_templates = 'emails.frontend.payment_confirmed';
@@ -234,7 +234,7 @@ class TransactionRepository
         if (!empty($data)) {
             $result = TransactionHistory::create($transaction);
         }
-        if ($data['STATUS'] == 5) {
+        if ($data['STATUS'] == 5 || $data['STATUS'] == 9) {
             //Send conformation mail to customer
             $subject = 'Message from Eurosport';
             $email_templates = 'emails.frontend.payment_confirmed';
