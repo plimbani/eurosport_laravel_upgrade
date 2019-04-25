@@ -109,7 +109,9 @@
 
 .main-section {
     padding-top: 63px;
-
+    // margin-top: 63px;
+    background-color: #fff;
+    
     .card {
         @extend .border-0;
     }
