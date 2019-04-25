@@ -151,9 +151,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
-        /*print("absoluteString: \(url.absoluteString)")
-        let dicURL = URL(string: url.absoluteString)!
-        print("code: \(dicURL["code"])")*/
+        print("absoluteString: \(url.absoluteString)")
+        if let dicURL = URL(string: url.absoluteString) {
+            print("code: \(dicURL["code"])")
+            if let code = dicURL["code"] as? String {
+                ApplicationData.accessCodeFromURL = code
+                NotificationCenter.default.post(name: .accessCodeAPI, object: nil, userInfo: nil)
+            }
+        }
+        
         return true
     }
     

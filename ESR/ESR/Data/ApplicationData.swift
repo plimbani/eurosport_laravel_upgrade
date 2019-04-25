@@ -24,6 +24,8 @@ class ApplicationData: NSObject {
     
     static var isAppUpdateDispalyed = false
     
+    static var accessCodeFromURL = NULL_STRING
+    
     // For maintaining targets
     enum CurrentTargetList: String {
         case ESR
@@ -157,8 +159,8 @@ class ApplicationData: NSObject {
         formatter.dateFormat = dateFormat
         formatter.timeZone = TimeZone(identifier: TimeZone.current.identifier)
         
-        print("TIMEZONE: \(dateStr)")
-        print("TIMEZONE: \(TimeZone(identifier: TimeZone.current.identifier))")
+        // print("TIMEZONE: \(dateStr)")
+        // print("TIMEZONE: \(TimeZone(identifier: TimeZone.current.identifier))")
         
         if let newDate = formatter.date(from: dateStr) {
             return newDate

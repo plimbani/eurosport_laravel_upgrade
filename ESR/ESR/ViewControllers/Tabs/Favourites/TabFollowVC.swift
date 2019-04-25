@@ -98,6 +98,8 @@ class TabFollowVC: SuperViewController {
             return
         }
         
+        self.tournamentList.removeAll()
+        
         var parameters: [String: Any] = [:]
         if let userData = ApplicationData.sharedInstance().getUserData() {
             parameters["user_id"] = userData.id
@@ -138,14 +140,19 @@ class TabFollowVC: SuperViewController {
         })
     }
     
-    func accessCodeAPI() {
+    func accessCodeAPI(accessCode: String = NULL_STRING) {
         if APPDELEGATE.reachability.connection == .none {
             self.view.hideProgressHUD()
             return
         }
         
         var parameters: [String: Any] = [:]
-        parameters["accessCode"] = txtTournamentCode.text!
+        
+        if accessCode != NULL_STRING {
+            parameters["accessCode"] = accessCode
+        } else {
+            parameters["accessCode"] = txtTournamentCode.text!
+        }
         
         ApiManager().accessCode(parameters, success: { result in
             DispatchQueue.main.async {
@@ -154,7 +161,17 @@ class TabFollowVC: SuperViewController {
                 if let dicTournament = result.value(forKey: "data") as? NSDictionary {
                     let tournament = ParseManager.parseTournament(dicTournament)
                     ApplicationData.sharedInstance().saveSelectedTournament(tournament)
-                    self.delegate!.mainTabViewControllerSelectTab(TabIndex.tabTournament.rawValue)
+                    
+                    if accessCode != NULL_STRING {
+                        if let userData = ApplicationData.sharedInstance().getUserData() {
+                            userData.tournamentId = tournament.id
+                            ApplicationData.sharedInstance().saveUserData(userData)
+                        }
+                        
+                        self.getFavTournamentsAPI()
+                    } else {
+                        self.delegate!.mainTabViewControllerSelectTab(TabIndex.tabTournament.rawValue)
+                    }
                 }
             }
         }, failure: { result in
@@ -188,5 +205,9 @@ extension TabFollowVC: UITableViewDataSource, UITableViewDelegate {
         cell!.dic = tournamentList[indexPath.row]
         cell!.reloadCell()
         return cell!
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        accessCodeAPI(accessCode: tournamentList[indexPath.row].accessCode)
     }
 }

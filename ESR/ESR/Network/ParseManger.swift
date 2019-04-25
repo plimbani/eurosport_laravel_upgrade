@@ -341,6 +341,10 @@ class ParseManager {
             tournamentObj.tournamentLogo = text
         }
         
+        if let text = record.value(forKey: "access_code") as? String {
+            tournamentObj.accessCode = text
+        }
+        
         return tournamentObj
     }
     

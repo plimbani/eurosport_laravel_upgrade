@@ -38,6 +38,8 @@ class Tournament: NSObject, NSCoding {
     var pointsPerBye: String = NULL_STRING
     var tournamentLogo: String = NULL_STRING
     
+    var accessCode: String = NULL_STRING
+    
     override init() {}
     
     required init(coder aDecoder: NSCoder) {
@@ -90,6 +92,10 @@ class Tournament: NSObject, NSCoding {
         if let tournamentStartTime = aDecoder.decodeObject(forKey: "tournamentStartTime") as? String {
             self.tournamentStartTime = tournamentStartTime
         }
+        
+        if let accessCodeValue = aDecoder.decodeObject(forKey: "access_code") as? String {
+            self.accessCode = accessCodeValue
+        }
     }
     
     func encode(with aCoder: NSCoder) {
@@ -106,5 +112,6 @@ class Tournament: NSObject, NSCoding {
         aCoder.encode(logo, forKey: "logo")
         aCoder.encode(competitionType, forKey: "competitionType")
         aCoder.encode(tournamentStartTime, forKey: "tournamentStartTime")
+        aCoder.encode(accessCode, forKey: "access_code")
     }
 }

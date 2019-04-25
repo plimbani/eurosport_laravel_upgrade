@@ -47,6 +47,7 @@ class MainTabViewController: SuperViewController {
         
         if ApplicationData.currentTarget == ApplicationData.CurrentTargetList.EasyMM.rawValue {
             NotificationCenter.default.addObserver(self, selector: #selector(goToTabFollow(_:)), name: .goToTabFollow, object: nil)
+            NotificationCenter.default.addObserver(self, selector: #selector(callAccessCodeAPI(_:)), name: .accessCodeAPI, object: nil)
         }
         
         APPDELEGATE.mainTabVC = self
@@ -91,15 +92,28 @@ class MainTabViewController: SuperViewController {
             sendAppversionRequest()
         }
         
-        if let userDetails = ApplicationData.sharedInstance().getUserData() {
-            if userDetails.countryId == NULL_ID {
-                
-                onTabSelected(btn: tabButtonList[TabIndex.tabsettings.rawValue])
-                
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    NotificationCenter.default.post(name: .selectCountry, object: nil)
+        var skipCountryCheck = false
+        
+        // Checks if the application is redirected from deep link
+        if ApplicationData.currentTarget == ApplicationData.CurrentTargetList.EasyMM.rawValue {
+            if ApplicationData.accessCodeFromURL != NULL_STRING {
+                skipCountryCheck = true
+            }
+        }
+        
+        if !skipCountryCheck {
+            if let userDetails = ApplicationData.sharedInstance().getUserData() {
+                if userDetails.countryId == NULL_ID {
+                    
+                    onTabSelected(btn: tabButtonList[TabIndex.tabsettings.rawValue])
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                        NotificationCenter.default.post(name: .selectCountry, object: nil)
+                    }
                 }
             }
+        } else {
+            accessCodeAPI()
         }
         
         _ = cellOwner.loadMyNibFile(nibName: "TournamentDetailsView")
@@ -110,8 +124,48 @@ class MainTabViewController: SuperViewController {
         updateAppVersionAPI()
     }
     
+    @objc func callAccessCodeAPI(_ notification: NSNotification) {
+        accessCodeAPI()
+    }
+    
     @objc func goToTabFollow(_ notification: NSNotification) {
         onTabSelected(btn: tabButtonList[TabIndex.tabFav.rawValue])
+    }
+    
+    func accessCodeAPI() {
+        if APPDELEGATE.reachability.connection == .none {
+            self.view.hideProgressHUD()
+            return
+        }
+        
+        var parameters: [String: Any] = [:]
+        parameters["accessCode"] = ApplicationData.accessCodeFromURL
+        
+        self.view.showProgressHUD()
+        ApiManager().accessCode(parameters, success: { result in
+            DispatchQueue.main.async {
+                self.view.hideProgressHUD()
+                
+                if let dicTournament = result.value(forKey: "data") as? NSDictionary {
+                    ApplicationData.accessCodeFromURL = NULL_STRING
+                    
+                    let tournament = ParseManager.parseTournament(dicTournament)
+                    
+                    if let userData = ApplicationData.sharedInstance().getUserData() {
+                        userData.tournamentId = tournament.id
+                        ApplicationData.sharedInstance().saveUserData(userData)
+                    }
+                    
+                    ApplicationData.sharedInstance().saveSelectedTournament(tournament)
+                    self.onTabSelected(btn: self.tabButtonList[TabIndex.tabTournament.rawValue])
+                }
+            }
+        }, failure: { result in
+            DispatchQueue.main.async {
+                self.view.hideProgressHUD()
+                self.onTabSelected(btn: self.tabButtonList[TabIndex.tabFav.rawValue])
+            }
+        })
     }
     
     func updateAppVersionAPI() {

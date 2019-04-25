@@ -155,6 +155,7 @@ extension Notification.Name {
     static let internetConnectivity = Notification.Name("internetConnectivity")
     static let selectCountry = Notification.Name("selectCountry")
     static let goToTabFollow = Notification.Name("goToTabFollow")
+    static let accessCodeAPI = Notification.Name("accessCodeAPI")
 }
 
 struct kNotification {
