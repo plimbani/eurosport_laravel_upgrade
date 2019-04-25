@@ -9,6 +9,7 @@
 <script type="text/babel">
 	import SiteCommercialisationHeader from './partials/Commercialisation/Frontend/SiteHeader.vue'
     import SiteCommercialisationFooter from './partials/Commercialisation/Frontend/SiteFooter.vue'
+    import BreadCrum from '../../components/BreadCrum.vue'
     export default {
     	data() {
             return {
@@ -16,7 +17,7 @@
             }
         },
         components : {
-            SiteCommercialisationHeader, SiteCommercialisationFooter
+            SiteCommercialisationHeader, SiteCommercialisationFooter, BreadCrum
         },        
     }
 </script>

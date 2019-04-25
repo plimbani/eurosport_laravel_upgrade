@@ -1,5 +1,5 @@
 <template>
-    <footer class="section-padding">
+    <footer class="section-padding footer">
     	<div class="container">
     		<div class="row">
     			<div class="col-sm-6">
@@ -35,7 +35,11 @@
     	</div>
     </footer>
 </template>
-
-<script type="text/babel">
-    
+<script type="text/javascript">
+    $(document).ready( function(){
+        var headerHeight = $(".header").outerHeight();
+        var footerHeight = $(".footer").outerHeight();
+        // $('.main-section').css({ 'min-height': 'calc(100vh - ' + (headerHeight + footerHeight) + 'px)' });
+        $('.main-section').css({ 'min-height': 'calc(100vh - ' + (footerHeight) + 'px)' });
+    });
 </script>
