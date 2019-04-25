@@ -40,7 +40,7 @@
                 </div>
             </div>
 
-            <div class="col-sm-2 col-md-2 col-lg-2 col-xl-3 text-left text-sm-center">
+            <div class="col-sm-2 col-md-2 col-lg-2 col-xl-3 text-left text-sm-center" v-if="bands.length > 1">
                 <div class="form-group">
                     <p class="m-0"><a href="javascript:void(0)" class="text-primary" @click="removeBand(bandIndex)"><u>Delete</u></a></p>
                 </div>
