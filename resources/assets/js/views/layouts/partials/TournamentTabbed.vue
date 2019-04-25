@@ -11,7 +11,7 @@
       <div class="row">
         <div class="col-lg-12">
           <div class="tabs tabs-primary">
-            <ul class="nav nav-tabs edit-tournament-tab" role="tablist" v-if="currentPage">
+            <ul class="nav nav-tabs edit-tournament-tab" role="tablist">
                 <li class="nav-item" v-if="!isResultAdmin">
                     <a :class="[activePath == 'tournament_add' ? 'active' : '', 'nav-link','doc-filled']" data-toggle="tab"  href="#tournament_add" role="tab" @click="GetSelectComponent('tournament_add')">
                       <div class="wrapper-tab">
