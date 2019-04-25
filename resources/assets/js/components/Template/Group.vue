@@ -138,15 +138,16 @@
 				this.groupData.teams = [];
 				this.groupData.matches = [];
 				let vm = this;
+				console.log('this.groupData.no_of_teams', this.groupData.no_of_teams);
 				for (i = 0; i < this.groupData.no_of_teams; i++) {
-					if(this.groupData.type === 'placing_match' && (i%2) === 0) {
-						this.groupData.matches.push({is_final: false});
+					if(vm.groupData.type === 'placing_match' && (i%2) === 0) {
+						vm.groupData.matches.push({is_final: false});
 					}
 					if(_.has(oldGroupTeamData, i)) {
 						this.groupData.teams.push({position_type: oldGroupTeamData[i].position_type, group: oldGroupTeamData[i].group, position: oldGroupTeamData[i].position});
 						continue;
 					}
-					if(this.roundIndex === 0 && ((this.groupData.type === 'placing_match' && this.index === this.getFirstPlacingMatch()) || this.divisionIndex !== -1)) {
+					if(this.roundIndex === 0 && ((this.groupData.type === 'placing_match' && this.index ===this.getFirstPlacingMatch()) || this.divisionIndex !== -1)) {
 						this.groupData.teams.push({	position_type: 'team', group: '', position: i});
 						continue;
 					}
@@ -199,45 +200,53 @@
                 	return groupsForSelection;
                 }
 
-        		_.forEach(this.templateFormDetail['steptwo'].rounds, function(round, roundIndex) {
-					_.forEach(round.groups, function(group, groupIndex) {
-						if(roundIndex === vm.roundIndex && groupIndex >= vm.index) return false;
-
-						if(group.type === 'round_robin' && team.position_type === 'placed') {
-							groupsForSelection[roundRobinIndex] = {'name': 'Group ' + String.fromCharCode(65 +roundGroupCount), 'value': '-1,' + roundIndex + ',' + groupIndex};
-							roundGroupCount += 1;
-
-							if(roundRobinIndex === 0 && (team.group === '' || typeof team.group === 'undefined'))
-								vm.groupData.teams[teamIndex].group = groupsForSelection[roundRobinIndex].value;
-
-							roundRobinIndex++;
-
-							return true;
-						}
-
-						if(group.type === 'placing_match' && _.indexOf(['winner', 'loser'], team.position_type) > -1) {
-							placingGroupCount += 1;
-							groupsForSelection[placingMatchIndex] = {'name': 'PM ' + (placingGroupCount), 'value': '-1,' + roundIndex + ',' + groupIndex};
-
-							if(placingMatchIndex === 0 && (team.group === '' || typeof team.group === 'undefined')) {
-								vm.groupData.teams[teamIndex].group = groupsForSelection[placingMatchIndex].value;
-							}
-
-							placingMatchIndex++;
-
-							return true;
-						}
-					});
-					if(roundIndex >= vm.roundIndex) return false;
-				});
-
-				_.forEach(this.templateFormDetail['steptwo'].divisions, function(division, divisionIndex) {
-					_.forEach(division.rounds, function(round, roundIndex) {
+                if(this.divisionIndex === -1){
+	        		_.forEach(this.templateFormDetail['steptwo'].rounds, function(round, roundIndex) {
 						_.forEach(round.groups, function(group, groupIndex) {
-							if(divisionIndex === vm.divisionIndex && roundIndex === vm.roundIndex && groupIndex >= vm.index) return false;
+							if(roundIndex === vm.roundIndex && groupIndex >= vm.index) return false;
 
 							if(group.type === 'round_robin' && team.position_type === 'placed') {
-								groupsForSelection[roundRobinIndex] = {'name': 'Group ' + String.fromCharCode(65 +roundGroupCount), 'value': divisionIndex + ',' + roundIndex + ',' + groupIndex};
+								groupsForSelection[roundRobinIndex] = {'name': 'Group ' + String.fromCharCode(65 +roundGroupCount), 'value': '-1,' + roundIndex + ',' + groupIndex};
+								roundGroupCount += 1;
+
+								if(roundRobinIndex === 0 && (team.group === '' || typeof team.group === 'undefined'))
+									vm.groupData.teams[teamIndex].group = groupsForSelection[roundRobinIndex].value;
+
+								roundRobinIndex++;
+
+								return true;
+							}
+
+							if(group.type === 'placing_match' && _.indexOf(['winner', 'loser'], team.position_type) > -1) {
+								placingGroupCount += 1;
+								groupsForSelection[placingMatchIndex] = {'name': 'PM ' + (placingGroupCount), 'value': '-1,' + roundIndex + ',' + groupIndex};
+
+								if(placingMatchIndex === 0 && (team.group === '' || typeof team.group === 'undefined')) {
+									vm.groupData.teams[teamIndex].group = groupsForSelection[placingMatchIndex].value;
+								}
+
+								placingMatchIndex++;
+
+								return true;
+							}
+						});
+						if(roundIndex >= vm.roundIndex) return false;
+					});
+				}
+
+				if(this.divisionIndex !== -1 && this.roundIndex > 0) {
+					_.forEach(this.templateFormDetail['steptwo'].divisions, function(division, divisionIndex) {
+						if(divisionIndex === vm.divisionIndex) return false;
+						placingGroupCount += division.rounds.length;
+					});
+
+					let division = this.templateFormDetail['steptwo'].divisions[this.divisionIndex];
+					_.forEach(division.rounds, function(round, roundIndex) {
+						_.forEach(round.groups, function(group, groupIndex) {
+							if(roundIndex === vm.roundIndex && groupIndex >= vm.index) return false;
+
+							if(group.type === 'round_robin' && team.position_type === 'placed') {
+								groupsForSelection[roundRobinIndex] = {'name': 'Group ' + String.fromCharCode(65 +roundGroupCount), 'value': vm.divisionIndex + ',' + roundIndex + ',' + groupIndex};
 								roundGroupCount += 1;
 
 								if(roundRobinIndex === 0 && team.group === '')
@@ -250,7 +259,7 @@
 
 							if(group.type === 'placing_match' && _.indexOf(['winner', 'loser'], team.position_type) > -1) {
 								placingGroupCount += 1;
-								groupsForSelection[placingMatchIndex] = {'name': 'PM ' + (placingGroupCount), 'value': divisionIndex + ',' + roundIndex + ',' + groupIndex};
+								groupsForSelection[placingMatchIndex] = {'name': 'PM ' + (placingGroupCount), 'value': vm.divisionIndex + ',' + roundIndex + ',' + groupIndex};
 
 								if(placingMatchIndex === 0 && (team.group === '' || typeof team.group === 'undefined')) {
 									vm.groupData.teams[teamIndex].group = groupsForSelection[placingMatchIndex].value;
@@ -261,9 +270,10 @@
 								return true;
 							}
 						});
-						if(divisionIndex === vm.divisionIndex && roundIndex >= vm.roundIndex) return false;
+						if(roundIndex >= vm.roundIndex) return false;
 					});
-				});
+				}
+
 				return groupsForSelection;
 		    },
 		    getPositionsForSelection(teamIndex, group) {
@@ -375,8 +385,8 @@
 		    },
 		    updateTeamPositions() {
 		    	let vm = this;
-		    	this.groupData.matches = [];
 		    	if(this.roundIndex === 0 && this.groupData.type === 'placing_match' && this.index === this.getFirstPlacingMatch()) {
+		    		this.groupData.matches = [];
 		    		_.forEach(this.groupData.teams, function(team, teamIndex) {
 		    			vm.groupData.teams[teamIndex].position = teamIndex;
 		    			vm.groupData.teams[teamIndex].position_type = 'team';
@@ -386,6 +396,7 @@
 		    		});
 		    	}
 		    	if(this.roundIndex === 0 && this.groupData.type === 'placing_match' && this.index !== this.getFirstPlacingMatch()) {
+		    		this.groupData.matches = [];
 		    		_.forEach(this.groupData.teams, function(team, teamIndex) {
 		    			vm.groupData.teams[teamIndex].position_type = 'winner';
 		    			if(teamIndex % 2 === 0) {
@@ -539,7 +550,6 @@
 		   //  			}
 		   //  		}
 		   //  	}
-    			this.groupData.matches = [];
     			if(groupData.type == "round_robin" && this.roundIndex != 0) {
     				this.groupData.matches = [];
 
