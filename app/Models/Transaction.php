@@ -25,7 +25,10 @@ class Transaction extends Model
     }
 
     public function getSortedTransactionHistories() {
-        return $this->transactionHistories()->where('status', '=', 'authorised')->orderBy('id', 'desc');
+        return $this->transactionHistories()->where(function($query), {
+                            $query->where('status', '=', 'authorised')
+                            ->orWhere('status', '=', 'payment_requested');
+        })->orderBy('id', 'desc');
     }
     
     
