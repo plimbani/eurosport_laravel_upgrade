@@ -5,7 +5,7 @@
             <div class="modal-header">
                 <div class="container">
                     <div class="row justify-content-center">
-                        <div class="col-md-8">
+                        <div class="col-md-12">
                             <div class="row align-items-center">
                                 <div class="col-8">
                                     <h4 class="modal-title" id="addNewTemplateModal">{{$lang.add_template_modal_header}}</h4>

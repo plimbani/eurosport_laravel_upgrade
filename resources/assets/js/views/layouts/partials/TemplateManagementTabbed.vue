@@ -7,7 +7,7 @@
 						<ul class="nav nav-tabs" role="tablist">
 							<li class="nav-item">
 								<a class="nav-link active" data-toggle="tab"
-								href="javascript:void(0)" role="tab">{{$lang.template_management_template}}</a>
+								href="javascript:void(0)" role="tab"><div class="wrapper-tab">{{$lang.template_management_template}}</div></a>
 							</li>
 						</ul>
 						<TemplateList :templateList="templateList"></TemplateList>
