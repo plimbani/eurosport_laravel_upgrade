@@ -150,6 +150,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return false
     }
     
+    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+        /*print("absoluteString: \(url.absoluteString)")
+        let dicURL = URL(string: url.absoluteString)!
+        print("code: \(dicURL["code"])")*/
+        return true
+    }
+    
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         let deviceTokenString = deviceToken.reduce("", {$0 + String(format: "%02X", $1)})
         print(deviceTokenString)
