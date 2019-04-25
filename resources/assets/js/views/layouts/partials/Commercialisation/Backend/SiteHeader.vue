@@ -25,9 +25,9 @@
                     </a>
                     <div class="dropdown-menu dropdown-menu-right notification-dropdown">
                         <!-- <router-link class="dropdown-item" to="/admin/settings"><i class="fa fa-cogs"></i>{{$lang.siteheader_settings}}</router-link> -->
-                         <a href="javascript:void(0)" class="dropdown-item" @click="showEditProfileModal()"><i class="fas fa-user"></i>{{$lang.siteheader_userprofile}}</a>
-                         <a href="javascript:void(0)" class="dropdown-item" @click="showSettingModal()"><i class="fas fa-sign-out"></i>Setting</a>
-                         <a href="javascript:void(0)" class="dropdown-item" @click="showPricingView()"><i class="fas fa-money-bill-alt"></i>Manage Pricing</a>
+                         <a v-if="userRole != 'customer'" href="javascript:void(0)" class="dropdown-item" @click="showEditProfileModal()"><i class="fas fa-user"></i>{{$lang.siteheader_userprofile}}</a>
+                         <a v-if="userRole != 'customer'" href="javascript:void(0)" class="dropdown-item" @click="showSettingModal()"><i class="fas fa-sign-out"></i>Setting</a>
+                         <a v-if="userRole != 'customer'" href="javascript:void(0)" class="dropdown-item" @click="showPricingView()"><i class="fas fa-money-bill-alt"></i>Manage Pricing</a>
                         <a href="#" class="dropdown-item" @click.prevent="logout"><i class="fas fa-sign-out"></i>{{$lang.siteheader_logout}}</a>
                     </div>
                 </li>
@@ -113,6 +113,7 @@
                 'name': '',
                 'image': '',
                 'userData':[],
+                'userRole':'',
                 'emailExist': false,
                 adminsetting:{
                     currencyvalue:1
@@ -148,6 +149,7 @@
                       //console.log('InuserDetails')
                       //console.log(this.userData[0])
                       Ls.set('userData',JSON.stringify(this.userData[0]))
+                      this.userRole = this.userData[0].role_slug
                       this.id = this.userData[0].id
                       let Id = this.id
                       let this1 = this
