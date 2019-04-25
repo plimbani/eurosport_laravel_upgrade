@@ -468,8 +468,9 @@ const routes = [
         meta: { requiresAuth: true },
         children: [
             {
-                path: '/admin/manage_pricing',
+                path: '/manage_pricing',
                 component: ManagePricing,
+                meta: { requiresAuth: true },
                 name: 'manage_pricing'
             }
         ]

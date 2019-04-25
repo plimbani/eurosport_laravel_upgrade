@@ -1,6 +1,8 @@
 <template>
 		<div class="template-container">
 			<div class="main-content container-fluid" id="pricingPage">
+				<breadCrum></breadCrum>
+
 				<div class="card">
 					<div class="card-block">
 						<div class="row">
@@ -54,18 +56,18 @@
         },
         mounted() {
         	this.getPricingData();
+        	let currentNavigationData = {activeTab:'manage_pricing', currentPage: 'Manage pricing'};
+			this.$store.dispatch('setActiveTab', currentNavigationData);
         },
         computed: {
-            getCurrentLayout() {
-                return this.$store.state.Configuration.currentLayout;
-            }
         },
         methods: {
             getPricingData() {
                 Commercialisation.getTournamentPricingDetail().then(
                     (response)=> {
-                        this.cupPricingBands = JSON.parse(response.data.data).cup.bands;
-                        this.leaguePricingBands = JSON.parse(response.data.data).league.bands;
+                    	let cupResponseData = JSON.parse(response.data.data);
+                    	this.getCupPricingData(cupResponseData.cup.bands);
+                    	this.getLeaguePricingData(cupResponseData.league.bands);
                     },
                     (error)=>{
                     }
@@ -92,7 +94,25 @@
                     (error)=>{
                     }
                 )
-            }
+            },
+            getCupPricingData(cupData) {
+            	if(cupData.length) {
+            		this.cupPricingBands = cupData;
+            	} else {
+            		this.cupPricingBands.push({
+        				type: 'cup', id: null, min_teams: '', max_teams: '', price: '', advanced_price: ''
+        			});
+            	}
+            },
+            getLeaguePricingData(leagueData) {
+            	if(leagueData.length) {
+            		this.leaguePricingBands = leagueData;
+            	} else {
+            		this.leaguePricingBands.push({
+        				type: 'league', id: null, min_teams: '', max_teams: '', price: '',
+        			});
+            	}
+            }            
         }
 	}
 </script>
