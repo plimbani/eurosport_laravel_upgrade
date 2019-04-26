@@ -4,7 +4,7 @@
     <div class="page-header">
       <ol class="breadcrumb">
         <li><a href="/admin">Home</a></li>
-        <li><a href="#">{{currentPage}}</a></li>
+        <li><a href="/users">{{currentPage}}</a></li>
         <li class="active"><span>Transaction history</span></li>
       </ol>
     </div>
