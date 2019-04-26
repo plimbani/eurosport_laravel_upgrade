@@ -142,6 +142,7 @@ class UserService implements UserContract
         }
 
         \Log::info('Insert in PeopleTable');
+
         $peopleObj = $this->peopleRepoObj->create($userData['people']);
         $userData['user']['person_id']=$peopleObj->id;
         $userData['user']['username']=$data['emailAddress'];
@@ -149,8 +150,11 @@ class UserService implements UserContract
         $userData['user']['email']=$data['emailAddress'];
         $userData['user']['organisation']=$data['organisation'];
         $userData['user']['userType']=$data['userType'];
-        $userData['user']['role']=$data['role'];  
-        $userData['user']['country_id'] = $data['country'];
+        $userData['user']['role']=$data['role'];
+
+        if(!empty($data['country']))
+          $userData['user']['country_id'] = $data['country'];
+       
               
         if($getUserTypeSlug == "customer" && !empty($data['status'])) {
            $userData['user']['is_active'] = $data['status'];
@@ -368,11 +372,12 @@ class UserService implements UserContract
             $data['organisation'] = NULL;
           }
         }
+
         $userData['user']['name']=$data['name']." ".$data['surname'];
         ($data['emailAddress']!= '') ? $userData['user']['email']=$data['emailAddress'] : '';
         $userData['user']['organisation']=$data['organisation'];
         $userData['user']['role'] = $data['role'];
-        $userData['user']['country_id'] = $data['country'];
+        $userData['user']['country_id'] = isset($data['country']) ? $data['country'] : null;
 
         (isset($data['locale']) && $data['locale']!='') ? $userData['user']['locale'] = $data['locale'] : '';
         
