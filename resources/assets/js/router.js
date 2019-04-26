@@ -518,7 +518,7 @@ router.beforeEach((to, from, next) => {
 
 
             if ( response.userData.role_name == "customer" && restrictCustomerRoutes.indexOf(to.name) >= 0) {
-                router.push({'name':'dashboard'});
+                return next({ path : '/dashboard'});
             }
 
             if(response.authenticated && typeof response.hasAccess !== 'undefined' && response.hasAccess == false){

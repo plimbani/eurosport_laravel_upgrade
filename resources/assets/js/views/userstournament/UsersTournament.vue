@@ -73,21 +73,6 @@
                 customer_id:0, // currently static
             }
         },
-        beforeRouteEnter(to, from, next) {  
-            next(vm =>{
-                if(Object.keys(to.query).length === 0) {
-                    vm.$router.push({name: 'users_list'});
-                }else{
-                    if(typeof to.query.id != "undefined"){
-                        vm.customer_id = to.query.id; 
-                        vm.getTournamentListOfUser();
-                    }else{  
-                        vm.$router.push({name: 'users_list'});
-                    }
-                }
-                
-            })
-        },
         methods: {
             getTournamentListOfUser(){
                 let params = {
@@ -95,6 +80,7 @@
                 }
                 
                 axios.post(Constant.apiBaseUrl+'customer-tournament',params).then(response =>  {  
+                    console.log('response', response);
                      this.usersTourmanents = response.data.data;
                 }).catch(error => {
                     this.disabled = false;
@@ -126,10 +112,23 @@
 
             redirectToTransactionListPage(tournament){
                  this.$router.push({name: 'tournamentstransaction', query: {id:tournament.id}}); 
-            } 
+            }, 
+
+            getTournamentRecord() {
+                if(Object.keys(this.$route.query).length === 0) {
+                    this.$router.push({name: 'users_list'});
+                }else{
+                    if(this.$route.query.id != ''){
+                        this.customer_id = this.$route.query.id; 
+                        this.getTournamentListOfUser();
+                    }else{  
+                        this.$router.push({name: 'users_list'});
+                    }
+                }
+            }
         },
         beforeMount(){  
-            
+            this.getTournamentRecord();
         }
     }
 </script>
