@@ -151,7 +151,7 @@
                                                         <tr>
                                                             <td align="right" style="text-align: right; font-size: 0px; padding: 10px 25px; word-break: break-word;">
                                                                 <div style="font-family:Roboto, Helvetica, Arial, sans-serif;font-size:16px;font-weight:300;line-height:24px;text-align:left;color:#555;">
-                                                                    <p>Hello There,</p>
+                                                                    <p>Hello</p>
                                                                     <p>Thank you for the purchase. Your order number is #<?php echo $data['orderNumber']; ?>.</p>
                                                                     <p>
                                                                         
