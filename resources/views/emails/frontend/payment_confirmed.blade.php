@@ -205,13 +205,18 @@ $days = $interval->format('%a');
                                                                         <tr>
                                                                             <th style="text-align: left; font-weight: normal; padding: 10px;" align="left"><?php echo $email_details['tournament']['tournament_max_teams']; ?> Team license for a <?php echo $email_details['tournament']['dayDifference']; ?> day tournament
                                                                             </th>
-                                                                            <td style="text-align: right; padding: 10px;" align="right">$<?php echo $email_details['paymentResponse']['amount']; ?></td>
+                                                                            <td style="text-align: right; padding: 10px;" align="right">
+                                                                                <?php if($email_details['paymentResponse']['currency'] == "GBP") {echo "&#163;";} else { echo "&#128;"; }
+                                                                                ?>
+                                                                                <?php echo $email_details['paymentResponse']['amount']; ?></td>
                                                                         </tr>
                                                                     </tbody>
                                                                     <thead class="footer">
                                                                         <tr>
                                                                             <th colspan="2" style="border-bottom: 0px solid #57697E; background-color: rgba(33, 150, 243,0.1); text-align: right; font-size: 16px; padding: 10px;" bgcolor="rgba(33, 150, 243,0.1)" align="right">
-                                                                                $<?php echo $email_details['paymentResponse']['amount']; ?>
+                                                                                <?php if($email_details['paymentResponse']['currency'] == "GBP") {echo "&#163;";} else { echo "&#128;"; }
+                                                                                ?>
+                                                                                <?php echo $email_details['paymentResponse']['amount']; ?>
                                                                             </th>
                                                                         </tr>
                                                                     </thead>

@@ -6,9 +6,8 @@
                     <div class="row" v-if="tournamentData.id">
                         <div class="col-xl-8">
                             <div class="row">
-                                <div class="col-sm-4 col-md-3">
-                                    <img v-if="tournamentData.logo" :src='tournamentData.logo' class="img-fluid tournament-image">
-                                    
+                                <div v-if="tournamentData.logo" class="col-sm-4 col-md-3">
+                                    <img  :src='tournamentData.logo' class="img-fluid tournament-image">                                    
                                 </div>
                                 <div class="col-sm-8 col-md-9">
                                     <h6 class="text-uppercase mb-0 mt-4 mt-sm-0">License: #{{tournamentData.access_code}}</h6>
@@ -44,14 +43,13 @@
                         </div>
                     </div>
                     <div class="row" v-if="!tournamentData.id">
-                        <div class="col-xl-12">
+                        <div class="col-xl-12 text-center">
                             Tournament details not found
-                            
                         </div>
                     </div>
                 </div>
             </div>
-            <schedule-and-result :tournamentData="tournamentData"></schedule-and-result>
+            <schedule-and-result :tournamentData="tournamentData" v-if="tournamentData.id"></schedule-and-result>
         </section>
     </div>
 </template>
