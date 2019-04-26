@@ -119,7 +119,7 @@ class BuyLicenseController extends BaseController
 			{
 				$statusMessage = $paymentStatus[$request['STATUS']];
 				$statusMessage = str_replace('_', ' ', $statusMessage);
-				$request['STATUS_MESSAGE'] = ucfirst($statusMessage);
+				$request['STATUS_MESSAGE'] = ucwords($statusMessage);
 			}
 			else
 			{
