@@ -60,7 +60,7 @@ public class LinkRecognizerActivity extends BaseActivity {
             final String host = uri.getHost().toLowerCase();
             Log.e(scheme, host);
             if (("http".equals(scheme) || "https".equals(scheme)) &&
-                    ("rishab-eurosport.dev.aecortech.com".equals(host) || "www.rishab-eurosport.dev.aecortech.com".equals(host))) {
+                    ("usama-eurosport.dev.aecortech.com".equals(host) || "www.usama-eurosport.dev.aecortech.com".equals(host))) {
                 dispatchIntent = mapWebLink(uri);
             }
 

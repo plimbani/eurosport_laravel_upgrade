@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -80,7 +79,12 @@ public class FavouritesActivity extends BaseAppCompactActivity {
         favouriteList.addFooterView(new View(mContext));
 
         if (BuildConfig.isEasyMatchManager) {
-            easyMatchManagerFavAdapter = new EasyMatchManagerFavAdapter((Activity) mContext, new ArrayList<TournamentModel>());
+            easyMatchManagerFavAdapter = new EasyMatchManagerFavAdapter((Activity) mContext, new ArrayList<TournamentModel>(), new EasyMatchManagerFavAdapter.OnFavRowClick() {
+                @Override
+                public void onFavRowClick(String access_code) {
+                    callAccessCodeApi(access_code, true);
+                }
+            });
             favouriteList.setAdapter(easyMatchManagerFavAdapter);
             viewFavDefault.setVisibility(View.GONE);
             View footerView = ((LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.row_follow_another_tournament, null, false);
@@ -116,7 +120,7 @@ public class FavouritesActivity extends BaseAppCompactActivity {
             btn_submit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    callAccessCodeApi(et_enter_access_code.getText().toString().trim());
+                    callAccessCodeApi(et_enter_access_code.getText().toString().trim(), false);
                 }
             });
             getLoggedInUserFavouriteTournamentList();
@@ -162,7 +166,7 @@ public class FavouritesActivity extends BaseAppCompactActivity {
 
     }
 
-    private void callAccessCodeApi(String accessCode) {
+    private void callAccessCodeApi(String accessCode, final boolean isFromAdapter) {
 
         if (Utility.isInternetAvailable(mContext)) {
             final ProgressHUD mProgressDialog = Utility.getProgressDialog(mContext);
@@ -189,14 +193,14 @@ public class FavouritesActivity extends BaseAppCompactActivity {
                             TournamentModel mTempFavTournament = GsonConverter.getInstance().decodeFromJsonString(response.getString("data"), TournamentModel.class);
                             if (mTempFavTournament.getId() != null) {
                                 mAppSharedPref.setString(AppConstants.PREF_TOURNAMENT_ID, mTempFavTournament.getId());
-//                                mAppSharedPref.setString(AppConstants.PREF_SESSION_TOURNAMENT_ID, mTempFavTournament.getId());
+                                mAppSharedPref.setString(AppConstants.PREF_SESSION_TOURNAMENT_ID, mTempFavTournament.getId());
                             }
                         }
                         if (et_enter_access_code != null) {
                             et_enter_access_code.setText("");
                         }
 //                        if (response.has("status_code") && !Utility.isNullOrEmpty(response.getString("status_code")) && response.getString("status_code").equalsIgnoreCase("200")) {
-                        if (!getIntent().getBooleanExtra("isFirstTime", false)) {
+                        if (!isFromAdapter && !getIntent().getBooleanExtra("isFirstTime", false)) {
                             startActivity(new Intent(FavouritesActivity.this, HomeActivity.class));
                         } else {
                             getLoggedInUserFavouriteTournamentList();

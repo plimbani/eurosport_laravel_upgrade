@@ -81,12 +81,8 @@ public class ClubsClubFragment extends Fragment {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser) {
-            // load data here
-            isVisible = true;
-        } else {
-            // fragment is no longer visible
-            isVisible = false;
+        if (isVisibleToUser && getActivity() != null) {
+            getClubList();
         }
     }
 
@@ -101,9 +97,7 @@ public class ClubsClubFragment extends Fragment {
         ll_no_item_view.setVisibility(View.GONE);
         tv_no_item.setVisibility(View.GONE);
         rl_search.setVisibility(View.GONE);
-        if (isVisible) {
-            getClubList();
-        }
+        getClubList();
         setListener();
         iv_close.setVisibility(View.GONE);
         et_age_search.setHint(getString(R.string.hint_search_club));
