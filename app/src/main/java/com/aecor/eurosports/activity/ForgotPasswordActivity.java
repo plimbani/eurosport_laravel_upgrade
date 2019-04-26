@@ -56,6 +56,8 @@ public class ForgotPasswordActivity extends BaseActivity {
     @OnClick(R.id.iv_header_logo)
     protected void onHeaderLogoClicked() {
         Intent intent = new Intent(mContext, LandingActivity.class);
+        intent.putExtra("accessCode", getIntent().getStringExtra("accessCode"));
+        intent.putExtra("isFromUrl", getIntent().getBooleanExtra("isFromUrl", false));
         startActivity(intent);
         finish();
     }
@@ -119,7 +121,10 @@ public class ForgotPasswordActivity extends BaseActivity {
 //                                startActivity(mForgotPasswordOtpIntent);
                                 if (response.has("message") && !Utility.isNullOrEmpty(response.getString("message")) && response.getString("message").equalsIgnoreCase("success")) {
                                     Utility.showToast(mContext, getString(R.string.we_have_sent_password_reset_link));
-                                    startActivity(new Intent(mContext, SignInActivity.class));
+                                    Intent intent = new Intent(mContext,SignInActivity.class);
+                                    intent.putExtra("accessCode", getIntent().getStringExtra("accessCode"));
+                                    intent.putExtra("isFromUrl", getIntent().getBooleanExtra("isFromUrl", false));
+                                    startActivity(intent);
                                     finish();
                                 } else {
                                     Utility.showToast(mContext, response.getString("message"));
@@ -175,6 +180,8 @@ public class ForgotPasswordActivity extends BaseActivity {
 
     private void loadBackActivity() {
         Intent mSignInIntent = new Intent(mContext, SignInActivity.class);
+        mSignInIntent.putExtra("accessCode", getIntent().getStringExtra("accessCode"));
+        mSignInIntent.putExtra("isFromUrl", getIntent().getBooleanExtra("isFromUrl", false));
         startActivity(mSignInIntent);
         finish();
     }

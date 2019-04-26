@@ -34,9 +34,9 @@ public class ClubsActivity extends BaseAppCompactActivity {
     public void initView() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        mViewPager.setOffscreenPageLimit(1);
         mSectionsPagerAdapter = new ClubSectionsPagerAdapter(mContext, getSupportFragmentManager());
         mViewPager.setAdapter(mSectionsPagerAdapter);
+        mViewPager.setOffscreenPageLimit(3);
         tabLayout.setupWithViewPager(mViewPager);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle(getString(R.string.teams).toUpperCase());
