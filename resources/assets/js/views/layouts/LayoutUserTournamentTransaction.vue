@@ -13,6 +13,7 @@
 	import SiteCommercialisationHeader from './partials/Commercialisation/Frontend/SiteHeader.vue'
     import SiteCommercialisationFooter from './partials/Commercialisation/Frontend/SiteFooter.vue'
     import TournamentTabbed from './partials/TournamentTabbed.vue'
+    // import UsersTournament from '../userstournament/UsersTournament.vue'
     import BreadCrum from '../../components/UserTournamentTransactionBreadCrum.vue'
     export default {
     	data() {
