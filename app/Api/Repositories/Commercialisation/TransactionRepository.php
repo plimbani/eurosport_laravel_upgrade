@@ -166,7 +166,7 @@ class TransactionRepository
         $datetime1 = new \DateTime($fdate);
         $datetime2 = new \DateTime($tdate);
         $interval = $datetime1->diff($datetime2);
-        $days = $interval->format('%a');
+        $days = $interval->format('%a') + 1;
 		
         //Add in transaction history
         $transactionHistory = [
