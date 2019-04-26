@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,14 +47,15 @@ import butterknife.ButterKnife;
 
 public class EasyMatchManagerFavAdapter extends BaseAdapter {
     private final String TAG = EasyMatchManagerFavAdapter.class.getSimpleName();
+    private OnFavRowClick onFavRowClick;
     private LayoutInflater inflater;
     private Context mContext;
     private List<TournamentModel> mFavTournamentList;
     private AppPreference mPreference;
 
-    public EasyMatchManagerFavAdapter(Activity context, List<TournamentModel> favlist) {
+    public EasyMatchManagerFavAdapter(Activity context, List<TournamentModel> favlist, OnFavRowClick onFavRowClick) {
         mContext = context;
-
+        this.onFavRowClick = onFavRowClick;
         inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mFavTournamentList = favlist;
@@ -137,7 +137,13 @@ public class EasyMatchManagerFavAdapter extends BaseAdapter {
             } else {
                 ((ViewHolderCommerci) holder).iv_tournament_logo.setImageResource(R.drawable.globe);
             }
-
+            rowview.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (mPreference.getString(AppConstants.PREF_TOURNAMENT_ID) == null || !mPreference.getString(AppConstants.PREF_TOURNAMENT_ID).equalsIgnoreCase(rowItem.getTournament_id()))
+                        onFavRowClick.onFavRowClick(rowItem.getAccess_code());
+                }
+            });
         } else {
 
             if (!Utility.isNullOrEmpty(rowItem.getName())) {
@@ -480,5 +486,9 @@ public class EasyMatchManagerFavAdapter extends BaseAdapter {
     @Override
     public int getItemViewType(int position) {
         return position;
+    }
+
+    public interface OnFavRowClick {
+        void onFavRowClick(String access_code);
     }
 }

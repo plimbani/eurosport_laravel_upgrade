@@ -20,6 +20,8 @@ import com.aecor.eurosports.gson.GsonConverter;
 import com.aecor.eurosports.http.VolleyJsonObjectRequest;
 import com.aecor.eurosports.http.VolleySingeltone;
 import com.aecor.eurosports.model.ProfileModel;
+import com.aecor.eurosports.model.TournamentModel;
+import com.aecor.eurosports.ui.ProgressHUD;
 import com.aecor.eurosports.ui.ViewDialog;
 import com.aecor.eurosports.util.ApiConstants;
 import com.aecor.eurosports.util.AppConstants;
@@ -55,6 +57,8 @@ public class SignInActivity extends BaseActivity {
 
     @Override
     public void initView() {
+        String access = getIntent().getStringExtra("accessCode");
+        boolean ss = getIntent().getBooleanExtra("isFromUrl", false);
         enabledDisableLoginButton(false);
         Utility.setupUI(mContext, ll_main_layout);
         mAppSharedPref = AppPreference.getInstance(mContext);
@@ -89,6 +93,8 @@ public class SignInActivity extends BaseActivity {
     @OnClick(R.id.iv_header_logo)
     protected void onHeaderLogoClicked() {
         Intent intent = new Intent(mContext, LandingActivity.class);
+        intent.putExtra("accessCode", getIntent().getStringExtra("accessCode"));
+        intent.putExtra("isFromUrl", getIntent().getBooleanExtra("isFromUrl", false));
         startActivity(intent);
         finish();
     }
@@ -96,6 +102,8 @@ public class SignInActivity extends BaseActivity {
     @OnClick(R.id.tv_forgot_password)
     protected void onForgotPasswordClicked() {
         Intent mForgotPasswordIntent = new Intent(mContext, ForgotPasswordActivity.class);
+        mForgotPasswordIntent.putExtra("accessCode", getIntent().getStringExtra("accessCode"));
+        mForgotPasswordIntent.putExtra("isFromUrl", getIntent().getBooleanExtra("isFromUrl", false));
         startActivity(mForgotPasswordIntent);
         finish();
     }
@@ -168,7 +176,7 @@ public class SignInActivity extends BaseActivity {
                             mAppSharedPref.setString(AppConstants.PREF_PROFILE, profile);
                             mAppSharedPref.setString(AppConstants.PREF_USER_ID, jsonObject.getString("user_id"));
 //                            if (!BuildConfig.isEasyMatchManager)
-                                mAppSharedPref.setString(AppConstants.PREF_TOURNAMENT_ID, jsonObject.getString("tournament_id"));
+                            mAppSharedPref.setString(AppConstants.PREF_TOURNAMENT_ID, jsonObject.getString("tournament_id"));
                             mAppSharedPref.setString(AppConstants.PREF_IMAGE_URL, jsonObject.getString("profile_image_url"));
 
                             if (jsonObject.has("role")) {
@@ -309,15 +317,21 @@ public class SignInActivity extends BaseActivity {
 
     private void launchHome() {
         if (BuildConfig.isEasyMatchManager) {
-            if (Utility.isNullOrEmpty(mAppSharedPref.getString(AppConstants.PREF_TOURNAMENT_ID))) {
-                //get started screen
-                startActivity(new Intent(mContext, GetStartedActivity.class));
+            if (getIntent().getBooleanExtra("isFromUrl", false) && getIntent().getStringExtra("accessCode")!=null && getIntent().getStringExtra("accessCode").trim().length()>0) {
+                //call access api
+                callAccessCodeApi(getIntent().getStringExtra("accessCode"));
             } else {
-                if (Utility.isNullOrEmpty(mAppSharedPref.getString(AppConstants.PREF_COUNTRY_ID))) {
-                    startActivity(new Intent(mContext, ProfileActivity.class));
+                if (Utility.isNullOrEmpty(mAppSharedPref.getString(AppConstants.PREF_TOURNAMENT_ID))) {
+                    //get started screen
+                    startActivity(new Intent(mContext, GetStartedActivity.class));
                 } else {
-                    startActivity(new Intent(mContext, HomeActivity.class));
+                    if (Utility.isNullOrEmpty(mAppSharedPref.getString(AppConstants.PREF_COUNTRY_ID))) {
+                        startActivity(new Intent(mContext, ProfileActivity.class));
+                    } else {
+                        startActivity(new Intent(mContext, HomeActivity.class));
+                    }
                 }
+                finish();
             }
         } else {
             if (Utility.isNullOrEmpty(mAppSharedPref.getString(AppConstants.PREF_COUNTRY_ID))) {
@@ -325,9 +339,69 @@ public class SignInActivity extends BaseActivity {
             } else {
                 startActivity(new Intent(mContext, HomeActivity.class));
             }
+            finish();
         }
-        finish();
     }
+
+
+    private void callAccessCodeApi(String accessCode) {
+
+        if (Utility.isInternetAvailable(mContext)) {
+            final ProgressHUD mProgressDialog = Utility.getProgressDialog(mContext);
+            String url = ApiConstants.ACCESS_CODE;
+            final JSONObject requestJson = new JSONObject();
+            try {
+                requestJson.put("accessCode", accessCode);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            RequestQueue mQueue = VolleySingeltone.getInstance(mContext)
+                    .getRequestQueue();
+
+            final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(mContext, Request.Method
+                    .POST, url,
+                    requestJson, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    Utility.StopProgress(mProgressDialog);
+                    try {
+
+                        AppLogger.LogE(TAG, "access code response" + response.toString());
+                        if (response.has("data") && !Utility.isNullOrEmpty(response.getString("data"))) {
+                            TournamentModel mTempFavTournament = GsonConverter.getInstance().decodeFromJsonString(response.getString("data"), TournamentModel.class);
+                            if (mTempFavTournament.getId() != null) {
+                                mAppSharedPref.setString(AppConstants.PREF_TOURNAMENT_ID, mTempFavTournament.getId());
+                                startActivity(new Intent(mContext, HomeActivity.class));
+                                finish();
+                            }
+                        }
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    try {
+                        Utility.StopProgress(mProgressDialog);
+                        Utility.parseVolleyError(mContext, error);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            });
+            mQueue.add(jsonRequest);
+        } else {
+            checkConnection();
+        }
+
+
+    }
+
+
 
     private void postTokenOnServer(String mFcmToken) {
         String email = mAppSharedPref.getString(AppConstants.PREF_EMAIL);
@@ -456,6 +530,8 @@ public class SignInActivity extends BaseActivity {
 
     protected void loadBackActivity() {
         Intent mLandingActivityIntent = new Intent(mContext, LandingActivity.class);
+        mLandingActivityIntent.putExtra("accessCode", getIntent().getStringExtra("accessCode"));
+        mLandingActivityIntent.putExtra("isFromUrl", getIntent().getBooleanExtra("isFromUrl", false));
         startActivity(mLandingActivityIntent);
         finish();
     }

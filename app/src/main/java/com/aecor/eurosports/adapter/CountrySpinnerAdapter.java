@@ -50,7 +50,6 @@ public class CountrySpinnerAdapter extends ArrayAdapter<CountriesModel> {
     }
 
     private View rowview(View convertView, int position) {
-        AppLogger.LogE(TAG, "pos" + position);
         ViewHolder holder;
         View rowview = convertView;
         if (rowview == null) {
