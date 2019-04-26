@@ -160,7 +160,14 @@ class TransactionRepository
             'user_id' => !empty($userId) ? $userId : null,
         ];
         $response = Transaction::create($transaction);
-
+		
+		$fdate = str_replace('/', '-', $tournamentRes->start_date);
+        $tdate = str_replace('/', '-', $tournamentRes->end_date);
+        $datetime1 = new \DateTime($fdate);
+        $datetime2 = new \DateTime($tdate);
+        $interval = $datetime1->diff($datetime2);
+        $days = $interval->format('%a');
+		
         //Add in transaction history
         $transactionHistory = [
             'transaction_id' => $response->id,
@@ -176,7 +183,8 @@ class TransactionRepository
             'card_validity' => (isset($data['ED'])) ? $data['ED'] : null,
             'transaction_date' => date('Y-m-d H:i:s', strtotime($data['TRXDATE'])),
             'brand' => (isset($data['BRAND'])) ? $data['BRAND'] : null,
-            'payment_response' => json_encode($data)
+            'payment_response' => json_encode($data),
+			'no_of_days' => $days
         ];
         TransactionHistory::create($transactionHistory);       
         $responseData = array_merge($transactionHistory, $transaction);
@@ -270,6 +278,7 @@ class TransactionRepository
                     'currency' => $history->currency,
                     'created_at' => $history->created_at,
                     'transaction_date' => $history->transaction_date,
+					'no_of_days' => $history->no_of_days
                 ];
             }
         }
