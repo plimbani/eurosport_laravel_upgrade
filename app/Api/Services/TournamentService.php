@@ -991,8 +991,8 @@ class TournamentService implements TournamentContract
     {
       $authUser = JWTAuth::parseToken()->toUser();
       $tournament = $this->tournamentRepoObj->getTournamentAccessCodeDetail($data);
-      
-      if($tournament) {
+
+      if($tournament['status'] == 'Published' || $tournament['status'] == 'Preview') {
          $tournamentEndDateFormat = Carbon::createFromFormat('d/m/Y', $tournament['end_date'])->addDays(28);
           $endDateAddMonth = Carbon::parse($tournamentEndDateFormat)->format('Y-m-d');
           
@@ -1000,7 +1000,9 @@ class TournamentService implements TournamentContract
           if($endDateAddMonth <= $currentDateFormat) {
               return response()->json(['message' => 'This tournament is no longer available'], 500);
           }
-      }   else {
+      } else if($tournament['status'] == 'Unpublished'){
+          return response()->json(['message' => 'Tournament is not yet published or in preview'], 500);
+      } else {
           return response()->json(['message' => 'The tournament code was not recognised'], 500);
       } 
       $favouriteTournament = ['user_id' => $authUser->id, 'tournament_id' => $tournament['id']];

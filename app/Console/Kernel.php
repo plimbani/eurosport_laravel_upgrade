@@ -24,7 +24,7 @@ class Kernel extends ConsoleKernel
         Commands\sendActivityNotification::class,
         Commands\removeDanglingImages::class,
         Commands\RemoveExpirePreviewDomain::class,
-        Commands\sendEmailCustomerStandingResults::class,
+        Commands\sendEmailCustomerStandingResultsAndDeleteTournamentUser::class,
         Commands\unfavouriteUserTournamentRemove::class,
     ];
 
@@ -40,7 +40,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('activity:notification')->everyThirtyMinutes();
         $schedule->command('setup:removeDanglingImages')->dailyAt('03:00');
         $schedule->command('setup:removePreviewUrl')->everyFiveMinutes();
-        $schedule->command('setup:sendEmailCustomerStandingResults')->hourly();
+        $schedule->command('setup:sendEmailCustomerStandingResultsAndDeleteTournamentUser')->everyMinute();
         $schedule->command('setup:unfavouriteUserTournamentRemove')->hourly();
     }
 
