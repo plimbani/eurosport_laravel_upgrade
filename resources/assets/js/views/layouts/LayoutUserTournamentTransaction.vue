@@ -4,7 +4,7 @@
 		<site-commercialisation-header v-if="getCurrentLayout === 'commercialisation'"></site-commercialisation-header>
         <div class="main-content container-fluid" id="dashboardPage">
             <breadCrum></breadCrum>
-            <TournamentTabbed></TournamentTabbed>
+            <UsersTournament></UsersTournament>
         </div> 
 		<site-footer v-if="getCurrentLayout === 'tmp'"></site-footer>
         <site-commercialisation-footer v-if="getCurrentLayout === 'commercialisation'"></site-commercialisation-footer>
@@ -16,8 +16,7 @@
     import SiteFooter from './partials/SiteFooter.vue'
 
     import Layout from '../../helpers/layout'
-    import TournamentTabbed from './partials/TournamentTabbed.vue'
-    // import UsersTournament from '../userstournament/UsersTournament.vue'
+    import UsersTournament from '../userstournament/UsersTournament.vue'
     import BreadCrum from '../../components/UserTournamentTransactionBreadCrum.vue'
 
     import SiteCommercialisationHeader from './partials/Commercialisation/Backend/SiteHeader.vue'
@@ -29,7 +28,7 @@
             }
         },
         components : {
-            SiteHeader, SiteFooter, BreadCrum, TournamentTabbed, SiteCommercialisationHeader, SiteCommercialisationFooter
+            SiteHeader, SiteFooter, BreadCrum, SiteCommercialisationHeader, SiteCommercialisationFooter, UsersTournament
             
         },
         mounted() {
