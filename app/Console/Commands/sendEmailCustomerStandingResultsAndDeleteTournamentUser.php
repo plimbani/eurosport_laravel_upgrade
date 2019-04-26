@@ -48,7 +48,12 @@ class sendEmailCustomerStandingResultsAndDeleteTournamentUser extends Command
     {
         Log::info("Script started at :- ".date('Y-m-d H:i:s'));
 
-        $customerUsers = RoleUser::with('tournament_user.tournaments','user')->where('role_id',6)->get()->toArray();
+        $customerUsers = RoleUser::with('tournament_user.tournaments','user')->where('role_id',6)->get();
+
+        if ( $customerUsers->count() > 0)
+        {
+            $customerUsers = $customerUsers->toArray();
+        }
 
         foreach ($customerUsers as $ckey => $cvalue) {
             $customerEmail = $cvalue['user']['email'];
