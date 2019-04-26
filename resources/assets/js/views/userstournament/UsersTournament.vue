@@ -80,7 +80,6 @@
                 }
                 
                 axios.post(Constant.apiBaseUrl+'customer-tournament',params).then(response =>  {  
-                    console.log('response', response);
                      this.usersTourmanents = response.data.data;
                 }).catch(error => {
                     this.disabled = false;
