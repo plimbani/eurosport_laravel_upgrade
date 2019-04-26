@@ -44,7 +44,6 @@ public class GroupsSpinnerAdapter extends ArrayAdapter<ClubGroupModel> {
     }
 
     private View rowview(View convertView, int position) {
-        AppLogger.LogE(TAG, "pos" + position);
         ViewHolder holder;
         View rowview = convertView;
         if (rowview == null) {

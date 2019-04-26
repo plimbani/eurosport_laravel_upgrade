@@ -82,12 +82,8 @@ public class ClubsGroupFragment extends Fragment {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser) {
-            // load data here
-            isVisible = true;
-        } else {
-            // fragment is no longer visible
-            isVisible = false;
+        if (isVisibleToUser && getActivity()!=null) {
+            getTournamentGroup();
         }
     }
 
@@ -104,9 +100,6 @@ public class ClubsGroupFragment extends Fragment {
         tv_no_item.setVisibility(View.GONE);
         rl_search.setVisibility(View.GONE);
         iv_close.setVisibility(View.GONE);
-        if (isVisible) {
-            getTournamentGroup();
-        }
         setListener();
         et_age_search.setHint(getString(R.string.hint_search_groups));
 

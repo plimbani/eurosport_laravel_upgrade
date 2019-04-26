@@ -149,6 +149,8 @@ public class RegisterActivity extends BaseAppCompactActivity {
     @OnClick(R.id.iv_header_logo)
     protected void onHeaderLogoClicked() {
         Intent intent = new Intent(mContext, LandingActivity.class);
+        intent.putExtra("accessCode", getIntent().getStringExtra("accessCode"));
+        intent.putExtra("isFromUrl", getIntent().getBooleanExtra("isFromUrl", false));
         startActivity(intent);
         finish();
     }
@@ -210,7 +212,10 @@ public class RegisterActivity extends BaseAppCompactActivity {
                                 Utility.showToast(mContext, getResources().getString(R.string.register_success));
                             }
 
-                            startActivity(new Intent(mContext, SignInActivity.class));
+                            Intent intent = new Intent(mContext, SignInActivity.class);
+                            intent.putExtra("accessCode", getIntent().getStringExtra("accessCode"));
+                            intent.putExtra("isFromUrl", getIntent().getBooleanExtra("isFromUrl", false));
+                            startActivity(intent);
                             finish();
                         }
                     } catch (Exception e) {
@@ -378,6 +383,8 @@ public class RegisterActivity extends BaseAppCompactActivity {
 
     private void loadBackActivity() {
         Intent mLandingActivityIntent = new Intent(mContext, LandingActivity.class);
+        mLandingActivityIntent.putExtra("accessCode", getIntent().getStringExtra("accessCode"));
+        mLandingActivityIntent.putExtra("isFromUrl", getIntent().getBooleanExtra("isFromUrl", false));
         startActivity(mLandingActivityIntent);
         finish();
     }
