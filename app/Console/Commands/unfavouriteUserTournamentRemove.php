@@ -41,7 +41,7 @@ class unfavouriteUserTournamentRemove extends Command
     public function handle()
     {
         $createdDateBeforeOneMonth = Carbon::now()->subDays(28)->format('Y-m-d');
-        $allTournaments = Tournament::whereDate('end_date','<=', $createdDateBeforeOneMonth)->pluck('id')->toArray();
+        $allTournaments = Tournament::whereDate('end_date','<', $createdDateBeforeOneMonth)->pluck('id')->toArray();
 
         $allExpireUserFavourites = UserFavourites::whereIn('tournament_id', $allTournaments)->where('is_default',1)->whereNull('deleted_at')->get();
 
@@ -63,7 +63,7 @@ class unfavouriteUserTournamentRemove extends Command
         }
         $tounamentWillDelete = array_unique($tounamentWillDelete);
         UserFavourites::whereIn('tournament_id', $tounamentWillDelete)->delete();
-        
+
         $this->info('Script executed.');
     }
 }
