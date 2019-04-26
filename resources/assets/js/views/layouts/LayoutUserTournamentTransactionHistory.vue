@@ -4,7 +4,7 @@
         <site-commercialisation-header v-if="getCurrentLayout === 'commercialisation'"></site-commercialisation-header>
         <div class="main-content container-fluid" id="dashboardPage">
             <breadCrum></breadCrum>
-            <TournamentsTransaction></TournamentsTransaction>
+            <router-view></router-view>
         </div> 
         <site-footer v-if="getCurrentLayout === 'tmp'"></site-footer>
         <site-commercialisation-footer v-if="getCurrentLayout === 'commercialisation'"></site-commercialisation-footer>
@@ -38,6 +38,6 @@
             getCurrentLayout() {
                 return this.$store.state.Configuration.currentLayout;
             }
-        }   
+        } 
     }
 </script>

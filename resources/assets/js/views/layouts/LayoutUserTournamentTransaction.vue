@@ -16,7 +16,6 @@
     import SiteFooter from './partials/SiteFooter.vue'
 
     import Layout from '../../helpers/layout'
-    import TournamentTabbed from './partials/TournamentTabbed.vue'
     import UsersTournament from '../userstournament/UsersTournament.vue'
     import BreadCrum from '../../components/UserTournamentTransactionBreadCrum.vue'
 
@@ -29,7 +28,7 @@
             }
         },
         components : {
-            SiteHeader, SiteFooter, BreadCrum, TournamentTabbed, SiteCommercialisationHeader, SiteCommercialisationFooter, UsersTournament
+            SiteHeader, SiteFooter, BreadCrum, SiteCommercialisationHeader, SiteCommercialisationFooter, UsersTournament
             
         },
         mounted() {
