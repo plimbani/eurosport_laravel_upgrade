@@ -138,7 +138,6 @@
 				this.groupData.teams = [];
 				this.groupData.matches = [];
 				let vm = this;
-				console.log('this.groupData.no_of_teams', this.groupData.no_of_teams);
 				for (i = 0; i < this.groupData.no_of_teams; i++) {
 					if(vm.groupData.type === 'placing_match' && (i%2) === 0) {
 						vm.groupData.matches.push({is_final: false});

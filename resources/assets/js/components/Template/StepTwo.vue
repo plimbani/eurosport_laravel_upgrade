@@ -4,8 +4,11 @@
             <div class="row justify-content-center">
                 <div class="col-md-12">
                     <h5>{{ $lang.add_template_modal_step2_header }}</h5>
-                    <round v-for="(round, roundIndex) in templateFormDetail.steptwo.rounds" :index="roundIndex" :divisionIndex="-1" :roundData="round" :templateFormDetail="templateFormDetail" :startGroupCount="getPreviousRoundGroupCount(roundIndex-1)"></round>
-                    
+                    <div v-for="(round, roundIndex) in templateFormDetail.steptwo.rounds">
+                        <round  :index="roundIndex" :divisionIndex="-1" :roundData="round" :templateFormDetail="templateFormDetail" :startGroupCount="getPreviousRoundGroupCount(roundIndex-1)"></round>
+
+                        <p class="text-danger" v-if="!isSeletedRoundTeamsIsInUse(roundIndex)">Round teams and group teams count should match.</p>
+                    </div>
                     <division v-for="(division, divisionIndex) in templateFormDetail.steptwo.divisions" :index="divisionIndex" :divisionData="division" :templateFormDetail="templateFormDetail"></division>
                     
                     <div class="form-group">
@@ -20,7 +23,7 @@
                     </div>
                     <div class="form-group">
                         <button type="button" class="btn btn-primary" @click="back()">{{ $lang.add_template_modal_back_button }}</button>
-                        <button type="button" class="btn btn-primary" @click="next()">{{ $lang.add_template_modal_next_button }}</button>
+                        <button type="button" class="btn btn-primary" @click="next()" :disabled="isDisabled">{{ $lang.add_template_modal_next_button }}</button>
                     </div>
                 </div>
             </div>                  
@@ -34,6 +37,7 @@
         props: ['templateFormDetail'],
         data() {
             return {
+                teamsCheckError: [],
             }
         },
         components: {
@@ -44,7 +48,7 @@
         },
         created() {
             this.$root.$on('updateGroupCount', this.updateGroupCount);
-            this.$root.$on('updateRoundCount', this.updateRoundCount);
+            this.$root.$on('updateRoundCount', this.updateRoundCount);            
         },
         beforeCreate: function() {
             // Remove custom event listener 
@@ -52,7 +56,16 @@
             this.$root.$off('updateRoundCount');
         },
         computed: {
-
+            isDisabled() {
+                let status;
+                _.find(this.teamsCheckError, function(o) {
+                    if(o == false) {                        
+                        return true;
+                    } else {
+                        return false;
+                    }
+                });
+            }
         },
         methods: {
             addNewRound() {
@@ -107,7 +120,21 @@
                 });
                 this.templateFormDetail.steptwo.round_count = startRoundCount;
             },
-            
+            isSeletedRoundTeamsIsInUse(roundIndex) {
+                let isMatched = false;
+                let totalGroupTeams = 0;
+                let round = this.templateFormDetail.steptwo.rounds[roundIndex];
+                let roundTeams = round.no_of_teams;
+                _.forEach(round.groups, function(groupValue) {
+                    totalGroupTeams += Number(groupValue.no_of_teams);
+                    if(roundTeams === totalGroupTeams) {
+                        isMatched = true;
+                    }
+                });
+
+                this.teamsCheckError[roundIndex] = isMatched;
+                return isMatched;
+            }
         },
     }
 </script>
