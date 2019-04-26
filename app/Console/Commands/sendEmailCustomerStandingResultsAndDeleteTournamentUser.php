@@ -12,21 +12,21 @@ use Laraspace\Models\RoleUser;
 use Laraspace\Models\TempFixture;
 use Laraspace\Models\TournamentUser;
 
-class sendEmailCustomerStandingResults extends Command
+class sendEmailCustomerStandingResultsAndDeleteTournamentUser extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'setup:sendEmailCustomerStandingResults';
+    protected $signature = 'setup:sendEmailCustomerStandingResultsAndDeleteTournamentUser';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Send email to customers for all age categories results and  standing of tournament';
+    protected $description = 'Send email to customers for all age categories results and  standing of tournament and delete tournament user after tournament finished';
 
     /**
      * Create a new command instance.
@@ -47,7 +47,8 @@ class sendEmailCustomerStandingResults extends Command
     public function handle()
     {
         Log::info("Script started at :- ".date('Y-m-d H:i:s'));
-        $customerUsers = RoleUser::with('tournament_user.tournaments','user')->where('role_id',6)->where('user_id',805)->get()->toArray();
+
+        $customerUsers = RoleUser::with('tournament_user.tournaments','user')->where('role_id',6)->get()->toArray();
 
         foreach ($customerUsers as $ckey => $cvalue) {
             $customerEmail = $cvalue['user']['email'];
@@ -55,6 +56,7 @@ class sendEmailCustomerStandingResults extends Command
                 if ( !empty($tournamentData['tournaments']))
                 {
                     $tournamentId = $tournamentData['tournaments']['id'];
+                    Log::info("customer user id  :- ".$cvalue['user']['id']);
                     Log::info("customer whose tournament and id is :- ".$tournamentId);
                     $tournamentName = $tournamentData['tournaments']['name'];
 
@@ -90,7 +92,6 @@ class sendEmailCustomerStandingResults extends Command
                             $currDate = date('Y-m-d');
                             $currHour = date('H');
                             $currMin = date('i');
-                            $currMin = 50;
 
                             Log::info("currDate :- ".$currDate);
                             Log::info("dbDate :- ".$dbDate);
