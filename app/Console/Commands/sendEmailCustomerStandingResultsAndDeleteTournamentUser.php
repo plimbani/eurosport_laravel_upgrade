@@ -6,11 +6,11 @@ use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Laraspace\Api\Contracts\MatchContract;
 use Laraspace\Mail\SendMail;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Log;
 use Laraspace\Models\RoleUser;
 use Laraspace\Models\TempFixture;
 use Laraspace\Models\TournamentUser;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Log;
 
 class sendEmailCustomerStandingResultsAndDeleteTournamentUser extends Command
 {
