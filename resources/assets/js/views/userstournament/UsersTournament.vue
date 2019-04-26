@@ -45,8 +45,7 @@
                                     <!-- <td>TEA</td> -->
                                     <td v-on:click="redirectToTransactionListPage(tournament)" >
                                     <a href="javascript:void(0)" class="text-primary"><u>{{ tournament.created_at }}</u></a></td>
-                                    <td>Edit</td>
-                                    
+                                    <td><a class="text-primary" href="javascript:void(0);"  v-on:click="redirectToTournamentDetailPage(tournament)" title="Edit"><i class="fas fa-pencil"></i></a></td>                                    
                                   </tr>
                                   <tr><td colspan="8"></td></tr>
                                 </tbody>
