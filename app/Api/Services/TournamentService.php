@@ -1000,7 +1000,9 @@ class TournamentService implements TournamentContract
           if($endDateAddMonth <= $currentDateFormat) {
               return response()->json(['message' => 'This tournament is no longer available'], 500);
           }
-      }   else {
+      } else if($tournament['status'] == 'Unpublished'){
+          return response()->json(['message' => 'The tournament code was not recognised'], 500);
+      } else {
           return response()->json(['message' => 'The tournament code was not recognised'], 500);
       } 
       $favouriteTournament = ['user_id' => $authUser->id, 'tournament_id' => $tournament['id']];
