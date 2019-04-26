@@ -137,7 +137,7 @@ class UserService implements UserContract
           if(!empty($data['zip']))
             $userData['people']['zipcode'] = $data['zip'];
 
-          if(isset(!empty($data['country'])))
+          if(empty($data['country']))
             $userData['people']['country_id'] = $data['country'];
         }
 
@@ -150,7 +150,7 @@ class UserService implements UserContract
         $userData['user']['organisation']=$data['organisation'];
         $userData['user']['userType']=$data['userType'];
         $userData['user']['role']=$data['role'];  
-        $userData['user']['country_id'] = isset($data['country']) ? $data['country'] : null;
+        $userData['user']['country_id'] = $data['country'];
               
         if($getUserTypeSlug == "customer" && !empty($data['status'])) {
            $userData['user']['is_active'] = $data['status'];
