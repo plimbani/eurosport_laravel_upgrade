@@ -62,11 +62,11 @@ class TournamentController extends BaseController
      * @param TournamentSummary $request
      * @return string
      */
-    public function getTournament(Request $request)
+    public function getTournament(TournamentSummary $request)
     {
         try {
             $data = $request->all();
-            $response = $this->tournamentRepoObj->getTournamentDetails($data['transactionId']);
+            $response = $this->tournamentRepoObj->getTournamentDetails($data['tournamentId']);
             return response()->json([
                         'success' => true,
                         'status' => Response::HTTP_OK,

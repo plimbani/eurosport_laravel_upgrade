@@ -40,7 +40,7 @@ class TransactionRepository
         $userId = $authUser->id;
 		
         $tournamentRes = null;
-        if ($data['STATUS'] == 5 && !empty($requestData['tournament'])) {
+        if (($data['STATUS'] == 5 || $data['STATUS'] == 9) && !empty($requestData['tournament'])) {
             $tournamentRes = $this->tournamentObj->addTournamentDetails($requestData['tournament'], 'commercialisation');
             $tournamentRes->users()->attach($userId);
 		}
@@ -133,7 +133,7 @@ class TransactionRepository
             }
         }
 
-        if ($data['STATUS'] == 5) {
+        if ($data['STATUS'] == 5 || $data['STATUS'] == 9) {
             //Send conformation mail to customer
             $subject = 'Message from Eurosport';
             $email_templates = 'emails.frontend.payment_confirmed';
@@ -170,7 +170,7 @@ class TransactionRepository
             'amount' => number_format($data['AMOUNT'], 2, '.', ''),
             'status' => $paymentStatus[$data['STATUS']],
             'currency' => $data['CURRENCY'],
-            'card_type' => $data['PM'],
+            'card_type' => (isset($data['PM'])) ? $data['PM'] : null,
             'card_holder_name' => (isset($data['CN'])) ? $data['CN'] : null,
             'card_number' => (isset($data['CARDNO'])) ? $data['CARDNO'] : null,
             'card_validity' => (isset($data['ED'])) ? $data['ED'] : null,
@@ -234,7 +234,7 @@ class TransactionRepository
         if (!empty($data)) {
             $result = TransactionHistory::create($transaction);
         }
-        if ($data['STATUS'] == 5) {
+        if ($data['STATUS'] == 5 || $data['STATUS'] == 9) {
             //Send conformation mail to customer
             $subject = 'Message from Eurosport';
             $email_templates = 'emails.frontend.payment_confirmed';
@@ -269,9 +269,11 @@ class TransactionRepository
                     'end_date' => $transaction->tournament->end_date,
                     'currency' => $history->currency,
                     'created_at' => $history->created_at,
+                    'transaction_date' => $history->transaction_date,
                 ];
             }
         }
+        
         return $response;
     }
 
