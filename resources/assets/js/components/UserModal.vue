@@ -237,7 +237,6 @@ import { ErrorBag } from 'vee-validate';
                 //TODO: refactor the Code For Move to Api User
                 User.getEditUser(id).then(
                   (response)=> {
-                    console.log(response);
                     this.userModalTitle="Edit User";
                     this.$data.formValues = response.data;
                     // console.log("response.data.is_active::",response.data.is_active);
@@ -431,7 +430,6 @@ import { ErrorBag } from 'vee-validate';
                 axios.get(Constant.apiBaseUrl+'country/list').then(response =>  {
                     if(response.data.success){
                         this.countries = response.data.data;
-                        console.log(this.countries[Object.keys(this.countries)[0]]);
                         this.formValues.country = this.countries[Object.keys(this.countries)[0]];
                     }
                  })
