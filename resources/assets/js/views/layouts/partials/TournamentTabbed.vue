@@ -174,9 +174,6 @@ export default {
     },
     isResultAdmin() {
       return this.$store.state.Users.userDetails.role_slug == 'Results.administrator';
-    },
-    currentPage() {
-      return this.$store.state.currentPage == 'users';
     }
   },
   mounted() {
