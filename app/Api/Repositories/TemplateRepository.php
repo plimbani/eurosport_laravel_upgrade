@@ -192,7 +192,7 @@ class TemplateRepository
             $roundDetail['round'] = $round;
             $roundDetail['roundIndex'] = $roundIndex;
             $roundDetail['divisionIndex'] = -1;
-            $this->processRound($finalArray, $roundGroupCount, $placingGroupCount, $totalMatches, $roundDetail);
+            $this->processRound($finalArray, $roundGroupCount, $placingGroupCount, $totalMatches, $roundDetail, $templateFormDetail);
         }
 
         foreach ($templateFormDetail['steptwo']['divisions'] as $divisionIndex => $division) {
@@ -202,7 +202,7 @@ class TemplateRepository
                 $roundDetail['round'] = $round;
                 $roundDetail['roundIndex'] = $roundIndex;
                 $roundDetail['divisionIndex'] = -1;
-                $this->processRound($finalArray, $roundGroupCount, $placingGroupCount, $totalMatches, $roundDetail, );
+                $this->processRound($finalArray, $roundGroupCount, $placingGroupCount, $totalMatches, $roundDetail, $templateFormDetail);
             }
         }
         
@@ -227,6 +227,8 @@ class TemplateRepository
                 $tournamentsPositionsData[$placingIndex]['ranking'] = $team;
             }
         }
+
+        dd($finalArray);
 
         $averageMatches = $this->getAverageMatches($totalMatches, $totalTeams);
         $minimumMatches = $this->getMinimumMatches($templateFormDetail);
@@ -438,7 +440,7 @@ class TemplateRepository
             } else {
                 foreach ($round['groups'] as $groupIndex => $group) {
                     if($group['type'] == 'round_robin') {
-                        $nGames[] = $this->getNumberOfTimesFromString([$group['teams_play_each_other']]) * ($group['no_of_teams'] - 1);
+                        $nGames[] = $this->getNumberOfTimesFromString($group['teams_play_each_other']) * ($group['no_of_teams'] - 1);
                     }
                     if($group['type'] == 'placing_match') {
                         $nGames[] = 1;
@@ -467,7 +469,7 @@ class TemplateRepository
         return 'final_and_group_ranking';
     }
 
-    public function processRound(&$finalArray, &$roundGroupCount, &$placingGroupCount, &$totalMatches, $roundDetail) {
+    public function processRound(&$finalArray, &$roundGroupCount, &$placingGroupCount, &$totalMatches, $roundDetail, $templateFormDetail) {
         $round = $roundDetail['round'];
         $roundIndex = $roundDetail['roundIndex'];
         $divisionIndex = $roundDetail['divisionIndex'];
