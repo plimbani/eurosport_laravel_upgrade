@@ -49,9 +49,8 @@ class TransactionRepository
 		{
 			$tournamentRes = (object)[];
 			$tournamentRes->maximum_teams = $requestData['tournament']['tournament_max_teams'];
-			$tournamentRes->no_of_days = $requestData['tournament']['dayDifference'];
-            
 		}
+		$tournamentRes->no_of_days = $requestData['tournament']['dayDifference'];
         $response = $this->addTransaction($data, $tournamentRes, $userId);
 
         //If renew license then duplicate age category if team size same
@@ -216,7 +215,7 @@ class TransactionRepository
                 'transaction_id' => $existsTransaction['id'],
                 'order_id' => $data['ORDERID'],
                 'transaction_key' => $data['PAYID'],
-                'team_size' => $tournament['tournament_max_teams'],
+                'team_size' => $tournament['teamDifference'],
                 'amount' => number_format($data['AMOUNT'], 2, '.', ''),
                 'status' => $paymentStatus[$data['STATUS']],
                 'currency' => $data['CURRENCY'],
