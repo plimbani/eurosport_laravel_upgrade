@@ -33,7 +33,7 @@ class UserRepository {
         $user = User:: join('role_user', 'users.id', '=', 'role_user.user_id')
                 ->join('roles', 'roles.id', '=', 'role_user.role_id')
                 ->where('users.email', trim($email))
-                ->select("users.*", "roles.name as role_name", "roles.slug as role_slug", DB::raw('CONCAT("' . $this->userImagePath . '", users.user_image) AS user_image')
+                ->select("users.*","users.country_id as country","roles.name as role_name","roles.slug as role_slug", DB::raw('CONCAT("' . $this->userImagePath . '", users.user_image) AS user_image')
                 )
                 ->get();
 
@@ -170,7 +170,7 @@ class UserRepository {
                 ->join('people', 'users.person_id', '=', 'people.id')
                 ->join('role_user', 'users.id', '=', 'role_user.user_id')
                 ->join('roles', 'roles.id', '=', 'role_user.role_id')
-                ->select("users.id as id", "users.email as emailAddress", DB::raw('IF(users.user_image is not null,CONCAT("' . $this->userImagePath . '", users.user_image),"" ) as image'), "users.organisation as organisation", "people.first_name as name", "people.last_name as surname", "role_user.role_id as userType", "users.role as role", "users.country_id as country_id", "users.locale as locale",
+                ->select("users.id as id", "users.email as emailAddress", DB::raw('IF(users.user_image is not null,CONCAT("' . $this->userImagePath . '", users.user_image),"" ) as image'), "users.organisation as organisation", "people.first_name as name", "people.last_name as surname", "role_user.role_id as userType", "users.role as role", "users.country_id as country_id", "users.country_id as country", "users.locale as locale",
                         'users.is_active', 'roles.slug as role_slug', 'people.address', 'people.address_2', 'people.city', 'people.job_title', 'people.zipcode')
                 ->where("users.id", "=", $userId)
                 ->first();
