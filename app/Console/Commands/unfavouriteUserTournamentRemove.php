@@ -14,7 +14,7 @@ class unfavouriteUserTournamentRemove extends Command
      *
      * @var string
      */
-    protected $signature = 'command:unfavouriteUserTournamentRemove';
+    protected $signature = 'setup:unfavouriteUserTournamentRemove';
 
     /**
      * The console command description.
