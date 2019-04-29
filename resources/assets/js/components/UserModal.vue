@@ -237,7 +237,7 @@ import { ErrorBag } from 'vee-validate';
                 //TODO: refactor the Code For Move to Api User
                 User.getEditUser(id).then(
                   (response)=> {
-                    
+                    console.log(response);
                     this.userModalTitle="Edit User";
                     this.$data.formValues = response.data;
                     // console.log("response.data.is_active::",response.data.is_active);

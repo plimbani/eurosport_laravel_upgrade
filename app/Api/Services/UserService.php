@@ -136,9 +136,6 @@ class UserService implements UserContract
 
           if(!empty($data['zip']))
             $userData['people']['zipcode'] = $data['zip'];
-
-          if(empty($data['country']))
-            $userData['people']['country_id'] = $data['country'];
         }
 
         \Log::info('Insert in PeopleTable');
@@ -322,7 +319,6 @@ class UserService implements UserContract
     public function update($data, $userId)
     {
         $data = $data->all();
-
         $mobileUserRoleId = Role::where('slug', 'mobile.user')->first()->id;
         $userData=array();
         $userData['people']=array();
@@ -347,7 +343,7 @@ class UserService implements UserContract
           $data['name'] = $data['first_name'];
           $data['surname'] = $data['last_name'];
           $data['role'] = $data['role'];
-          $data['country_id'] = $data['country'];
+          $data['country_id'] = isset($data['country']) ? $data['country'] : null;
          // \Log::info('Update in password'.$data['password']);
          // $userData['user']['password'] = Hash::make(trim($data['password']));
           $data['emailAddress'] = '';
@@ -417,7 +413,6 @@ class UserService implements UserContract
                 'job_title' => !empty($data['job_title']) ? $data['job_title'] : $userObj->profile->job_title,
                 'city' => !empty($data['city']) ? $data['city'] : $userObj->profile->city,
                 'zipcode' => !empty($data['zip']) ? $data['zip'] : $userObj->profile->zip,
-                'country_id' => !empty($data['country']) ? $data['country'] : $userObj->profile->country,
             ];
         }
         $peopleObj = $this->peopleRepoObj->edit($userData['people'], $userObj->person_id);
