@@ -41,7 +41,7 @@
                   <div class="form-group row">
                       <label class="col-sm-4 form-control-label">{{$lang.user_management_country}}</label>
                       <div class="col-sm-7">
-                        <select v-validate="'required'":class="{'is-danger': errors.has('country') }" class="form-control ls-select2" name="country" v-model="userData.country_id">
+                        <select v-validate="'required'":class="{'is-danger': errors.has('country') }" class="form-control ls-select2" name="country" v-model="userData.country">
                             <option value="">Select</option>
                             <option v-for="country in this.allCountries" :value="country.id">
                               {{ country.name }}
