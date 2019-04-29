@@ -18,11 +18,13 @@ class GetFixturesRequest extends FormRequest
      */
     public function authorize()
     {
+
         $token = JWTAuth::getToken();
         if(!$token || (isset($this->headers->all()['ismobileuser'])) && $this->headers->all()['ismobileuser'] == true) {
+
             if (isset($this->all()['tournamentData'])) {
                 $data = $this->all()['tournamentData'];
-                $tournament_id = $data['tournament_id'];
+                $tournament_id = $data['tournamentId'];
                 $tournament = Tournament::where('id',$tournament_id)->first();
                 $isTournamentPublished = $this->isTournamentPublished($tournament);
                 if(!$isTournamentPublished) {

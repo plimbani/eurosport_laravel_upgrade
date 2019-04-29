@@ -46,8 +46,6 @@ class sendEmailCustomerStandingResultsAndDeleteTournamentUser extends Command
      */
     public function handle()
     {
-        Log::info("Script started at :- ".date('Y-m-d H:i:s'));
-
         $customerUsers = RoleUser::with('tournament_user.tournaments','user')->where('role_id',6)->get();
 
         if ( $customerUsers->count() > 0)
@@ -61,8 +59,6 @@ class sendEmailCustomerStandingResultsAndDeleteTournamentUser extends Command
                 if ( !empty($tournamentData['tournaments']))
                 {
                     $tournamentId = $tournamentData['tournaments']['id'];
-                    Log::info("customer user id  :- ".$cvalue['user']['id']);
-                    Log::info("customer whose tournament and id is :- ".$tournamentId);
                     $tournamentName = $tournamentData['tournaments']['name'];
 
                     $anyUnscheduleMatchInTournament = TempFixture::where('tournament_id',$tournamentId)->where('is_scheduled',0)->count();
@@ -75,14 +71,12 @@ class sendEmailCustomerStandingResultsAndDeleteTournamentUser extends Command
 
                         if ( !empty( $lastMatchEndTime->match_endtime ))
                         {
-                            Log::info("oldest match end time for this tournament :- ".$lastMatchEndTime->match_endtime);
                             // Add 8 hours in date end time
                             $finalDate = Carbon::parse($lastMatchEndTime->match_endtime);
                             $deleteDate = Carbon::parse($lastMatchEndTime->match_endtime);
                             $configHours = env('CUSTOMER_SEND_MAIL_AFTER_MATCH_FINISHED');
                             $finalDate->addHours($configHours); 
-
-                            Log::info("Time after ading 8 hours to oldest end time :- ".$finalDate);
+                            
                             list($dbDate,$dbHours) = explode(' ',$finalDate);
                             $dbHour = date('H',strtotime($dbHours));
                             $dbMin = date('i',strtotime($dbHours));
@@ -97,22 +91,10 @@ class sendEmailCustomerStandingResultsAndDeleteTournamentUser extends Command
                             $currDate = date('Y-m-d');
                             $currHour = date('H');
                             $currMin = date('i');
-
-                            Log::info("currDate :- ".$currDate);
-                            Log::info("dbDate :- ".$dbDate);
-                            Log::info("currHour :- ".$currHour);
-                            Log::info("dbHour :- ".$dbHour);
-                            Log::info("currMin :- ".$currMin);
-                            Log::info("dbMin :- ".$dbMin);
-
                             // Compare current date and time with Db match end time
                             if ( $dbDate == $currDate && $dbHour == $currHour && $dbMin == $currMin )
                             {
-                                Log::info("date and hour match and going to generate pdf");
                                 $file = $this->matchObj->getAllCategoriesReport($tournamentId);
-
-                                Log::info("File generated and file is :- ".$file);
-
                                 $emailTemplate = 'emails.sendEmailCustomerStandingResults';
                                 $email_details = 'Please find attached your tournament report for '.$tournamentName.'. Many thanks for using Easy Match Manager.';
 
@@ -121,33 +103,17 @@ class sendEmailCustomerStandingResultsAndDeleteTournamentUser extends Command
                                 Mail::to($customerEmail)
                                 ->send(new SendMail($email_details,$subject,$emailTemplate, null, null, null, $file));
 
-                                Log::info("Email send to customer :- ".$customerEmail);
-
                                 unlink($file);
-
-                                Log::info("Delete generated file");
                             }
 
                             if ( $deleteDate == $currDate && $deleteHour == $currHour && $deleteMin == $currMin )
                             {
-                                Log::info("currDate :- ".$currDate);
-                                Log::info("deleteDate :- ".$deleteDate);
-                                Log::info("currHour :- ".$currHour);
-                                Log::info("deleteHour :- ".$deleteHour);
-                                Log::info("currMin :- ".$currMin);
-                                Log::info("deleteMin :- ".$deleteMin);
-
-                                Log::info("inside tournament user delete");
                                 TournamentUser::where('user_id',$cvalue['user']['id'])->where('tournament_id',$tournamentId)->delete();
-
-                                Log::info("Delete tournament user");
                             }
                         }
                     }
                 }
             }
         }
-
-        Log::info("Script Ended at :- ".date('Y-m-d H:i:s'));
     }
 }

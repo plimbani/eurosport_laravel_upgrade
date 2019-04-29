@@ -136,7 +136,7 @@
                         this.userProfileDetail = response.data.data.person_detail;
                         this.userProfileDetail.email = response.data.data.email;
                         this.userProfileDetail.organisation = response.data.data.organisation;
-                        this.userProfileDetail.country = response.data.data.person_detail.country_id;
+                        this.userProfileDetail.country = response.data.data.country_id;
                         this.userProfileDetail.zip = response.data.data.person_detail.zipcode;  
                     }
                 }) 

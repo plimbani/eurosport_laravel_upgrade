@@ -28,6 +28,7 @@ class TransactionHistory extends Model
         'created_at',
         'updated_at',
         'deleted_at',
+		'no_of_days',
     ];
     
     public function transaction() {
