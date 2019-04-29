@@ -49,6 +49,7 @@ class TransactionRepository
 		{
 			$tournamentRes = (object)[];
 			$tournamentRes->maximum_teams = $requestData['tournament']['tournament_max_teams'];
+			$tournamentRes->no_of_days = $requestData['tournament']['dayDifference'];
             
 		}
         $response = $this->addTransaction($data, $tournamentRes, $userId);
@@ -160,14 +161,7 @@ class TransactionRepository
             'user_id' => !empty($userId) ? $userId : null,
         ];
         $response = Transaction::create($transaction);
-		
-		$fdate = str_replace('/', '-', $tournamentRes->start_date);
-        $tdate = str_replace('/', '-', $tournamentRes->end_date);
-        $datetime1 = new \DateTime($fdate);
-        $datetime2 = new \DateTime($tdate);
-        $interval = $datetime1->diff($datetime2);
-        $days = $interval->format('%a') + 1;
-		
+				
         //Add in transaction history
         $transactionHistory = [
             'transaction_id' => $response->id,
@@ -184,7 +178,7 @@ class TransactionRepository
             'transaction_date' => date('Y-m-d H:i:s', strtotime($data['TRXDATE'])),
             'brand' => (isset($data['BRAND'])) ? $data['BRAND'] : null,
             'payment_response' => json_encode($data),
-			'no_of_days' => $days
+			'no_of_days' => $tournamentRes->no_of_days
         ];
         TransactionHistory::create($transactionHistory);       
         $responseData = array_merge($transactionHistory, $transaction);
@@ -233,7 +227,8 @@ class TransactionRepository
                 'transaction_date' => date('Y-m-d H:i:s', strtotime($data['TRXDATE'])),
                 'brand' => $data['BRAND'],
                 'payment_response' => json_encode($data),
-                'updated_at' => date('Y-m-d H:i:s')
+                'updated_at' => date('Y-m-d H:i:s'),
+				'no_of_days' => $tournament['dayDifference']
             ];
         }
         Transaction::where('tournament_id', $tournament['id'])
