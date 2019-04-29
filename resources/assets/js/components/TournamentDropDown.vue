@@ -49,7 +49,8 @@
 					tournamentEndDate:this.tournament.end_date,
 			        facebook:this.tournament.facebook,
 			        website:this.tournament.website,
-			        twitter:this.tournament.twitter
+			        twitter:this.tournament.twitter,
+			        access_code:this.tournament.access_code
 		      	}
 		    	this.$store.dispatch('SetTournamentName', tournamentSel)
 

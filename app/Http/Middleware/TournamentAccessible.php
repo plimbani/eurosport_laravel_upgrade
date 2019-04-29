@@ -28,6 +28,8 @@ class TournamentAccessible
                 $tournament_id = $request->all()['tournamentData']['tournamentId'];
             } else if(isset($request->all()['tournamentId'])) {
                 $tournament_id = $request->all()['tournamentId'];
+            } else if(isset($request->all()['tournament_id'])) {
+                $tournament_id = $request->all()['tournament_id'];
             }
             
             $currentLayout = config('config-variables.current_layout');
