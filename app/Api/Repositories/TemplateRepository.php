@@ -196,12 +196,13 @@ class TemplateRepository
         }
 
         foreach ($templateFormDetail['steptwo']['divisions'] as $divisionIndex => $division) {
+            dd($division);
             $divisionTeams = $roundIndex === 0 ? $division['teams'] : null;
-            foreach ($templateFormDetail['steptwo']['rounds'] as $roundIndex => $round) {
+            foreach ($division['rounds'] as $roundIndex => $round) {
                 $roundDetail = [];
                 $roundDetail['round'] = $round;
                 $roundDetail['roundIndex'] = $roundIndex;
-                $roundDetail['divisionIndex'] = -1;
+                $roundDetail['divisionIndex'] = $divisionIndex;
                 $this->processRound($finalArray, $roundGroupCount, $placingGroupCount, $totalMatches, $roundDetail, $templateFormDetail);
             }
         }
