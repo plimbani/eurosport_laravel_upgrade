@@ -137,7 +137,7 @@ class UserService implements UserContract
           if(!empty($data['zip']))
             $userData['people']['zipcode'] = $data['zip'];
 
-          if(!empty($data['country']))
+          if(empty($data['country']))
             $userData['people']['country_id'] = $data['country'];
         }
 
