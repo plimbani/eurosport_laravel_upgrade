@@ -37,7 +37,6 @@ class Person extends Model
         'job_title',
         'city',
         'zipcode',
-        'country_id',
     ];
 
     /**
