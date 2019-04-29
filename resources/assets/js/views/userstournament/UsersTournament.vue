@@ -100,7 +100,8 @@
                     tournamentEndDate:selectedTournament.end_date,
                     facebook:selectedTournament.facebook,
                     website:selectedTournament.website,
-                    twitter:selectedTournament.twitter
+                    twitter:selectedTournament.twitter,
+                    access_code:selectedTournament.access_code
                 }
                 this.$store.dispatch('SetTournamentName', tournamentSel);
                 let currentNavigationData = {activeTab:'tournament_add', currentPage: 'Tournament details'};
