@@ -90,7 +90,7 @@ class AuthController extends Controller
              $userDetails['sur_name'] = $userData->last_name;
              $userDetails['email'] = $userData->email;
              $userDetails['profile_image_url'] = $userData->userImage;
-             $userDetails['tournament_id'] = $userFavourite ? $userFavourite : null;
+             $userDetails['tournament_id'] = $userFavourite ? $userFavourite->tournament_id : null;
              $userDetails['user_id'] = $userData->id;
              $userDetails['locale'] = $userData->locale;
              $userSettings = Settings::where('user_id','=',$userData->id)->first();
