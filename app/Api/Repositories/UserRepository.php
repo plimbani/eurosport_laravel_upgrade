@@ -171,9 +171,10 @@ class UserRepository {
                 ->join('role_user', 'users.id', '=', 'role_user.user_id')
                 ->join('roles', 'roles.id', '=', 'role_user.role_id')
                 ->select("users.id as id", "users.email as emailAddress", DB::raw('IF(users.user_image is not null,CONCAT("' . $this->userImagePath . '", users.user_image),"" ) as image'), "users.organisation as organisation", "people.first_name as name", "people.last_name as surname", "role_user.role_id as userType", "users.role as role", "users.country_id as country_id", "users.locale as locale",
-                        'users.is_active', 'roles.slug as role_slug', 'people.address', 'people.address_2', 'people.country_id', 'people.city', 'people.job_title', 'people.zipcode')
+                        'users.is_active', 'roles.slug as role_slug', 'people.address', 'people.address_2', 'people.city', 'people.job_title', 'people.zipcode')
                 ->where("users.id", "=", $userId)
                 ->first();
+
         $defaultFavouriteTournament = DB::table('users_favourite')->where('user_id', $user->id)->where('is_default', 1)->first();
 
         $user->tournament_id = $defaultFavouriteTournament ? $defaultFavouriteTournament->tournament_id : null;
@@ -310,7 +311,6 @@ class UserRepository {
                 'job_title' => $data['job_title'],
                 'city' => $data['city'],
                 'zipcode' => $data['zip'],
-                'country_id' => $data['country'],
             ];
             $user->profile->update($personData);
 

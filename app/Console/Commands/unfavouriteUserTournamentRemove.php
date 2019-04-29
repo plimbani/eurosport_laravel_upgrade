@@ -14,7 +14,7 @@ class unfavouriteUserTournamentRemove extends Command
      *
      * @var string
      */
-    protected $signature = 'command:unfavouriteUserTournamentRemove';
+    protected $signature = 'setup:unfavouriteUserTournamentRemove';
 
     /**
      * The console command description.
@@ -59,6 +59,7 @@ class unfavouriteUserTournamentRemove extends Command
             {
                 $firstTournament = $findUserHasAnother->first();
                 UserFavourites::where('id', $firstTournament['id'])->update(['is_default' => 1]);
+                UserFavourites::where('id', $expireTournament['id'])->update(['is_default' => 0]);
             }
         }
         $tounamentWillDelete = array_unique($tounamentWillDelete);

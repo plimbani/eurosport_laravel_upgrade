@@ -41,7 +41,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('setup:removeDanglingImages')->dailyAt('03:00');
         $schedule->command('setup:removePreviewUrl')->everyFiveMinutes();
         $schedule->command('setup:sendEmailCustomerStandingResultsAndDeleteTournamentUser')->everyMinute();
-        $schedule->command('setup:unfavouriteUserTournamentRemove')->hourly();
+        $schedule->command('setup:unfavouriteUserTournamentRemove')->dailyAt('00:00');
     }
 
     /**
