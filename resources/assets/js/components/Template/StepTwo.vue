@@ -57,14 +57,15 @@
         },
         computed: {
             isDisabled() {
-                let status;
-                _.find(this.teamsCheckError, function(o) {
-                    if(o == false) {                        
-                        return true;
-                    } else {
-                        return false;
+                var status = false;
+                _.forEach(this.teamsCheckError, function(value, key) {
+                    console.log('value', value)
+                    if(value == false) {
+                        status = true;
                     }
                 });
+
+                return status;
             }
         },
         methods: {
@@ -132,7 +133,8 @@
                     }
                 });
 
-                this.teamsCheckError[roundIndex] = isMatched;
+                // this.teamsCheckError[roundIndex] = isMatched;
+                // this.$set(this.teamsCheckError, roundIndex, isMatched);
                 return isMatched;
             }
         },
