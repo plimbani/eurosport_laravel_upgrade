@@ -54,7 +54,7 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:host="https://comm-qa.wot.esrtmp.com"
+                    android:host="www.comm-qa.wot.esrtmp.com"
                     android:pathPrefix="/tournament/openApp"
                     android:scheme="https" />
             </intent-filter>
