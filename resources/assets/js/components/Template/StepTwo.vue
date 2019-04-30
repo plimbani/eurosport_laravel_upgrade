@@ -5,9 +5,7 @@
                 <div class="col-md-12">
                     <h5>{{ $lang.add_template_modal_step2_header }}</h5>
                     <div v-for="(round, roundIndex) in templateFormDetail.steptwo.rounds">
-                        <round  :index="roundIndex" :divisionIndex="-1" :roundData="round" :templateFormDetail="templateFormDetail" :startGroupCount="getPreviousRoundGroupCount(roundIndex-1)"></round>
-
-                        <p class="text-danger" v-if="!isSeletedRoundTeamsIsInUse(roundIndex)">Round teams and group teams count should match.</p>
+                        <round  :index="roundIndex" :divisionIndex="-1" :roundData="round" :templateFormDetail="templateFormDetail" :startGroupCount="getPreviousRoundGroupCount(roundIndex-1)" :isSeletedRoundTeamsAndGroupTeamsNotSame="!isSeletedRoundTeamsIsInUse(roundIndex)"></round>
                     </div>
                     <division v-for="(division, divisionIndex) in templateFormDetail.steptwo.divisions" :index="divisionIndex" :divisionData="division" :templateFormDetail="templateFormDetail"></division>
                     
@@ -57,14 +55,20 @@
         },
         computed: {
             isDisabled() {
-                let status;
-                _.find(this.teamsCheckError, function(o) {
-                    if(o == false) {                        
-                        return true;
-                    } else {
+                let rounds = this.templateFormDetail.steptwo.rounds;
+                var isMatched = false;
+                _.forEach(rounds, function(round) {
+                    let totalGroupTeams = 0;
+                    _.forEach(round.groups, function(groupValue) {
+                        totalGroupTeams += Number(groupValue.no_of_teams);
+                    });
+                    if(round.no_of_teams !== totalGroupTeams) {
+                        isMatched = true;
                         return false;
                     }
                 });
+
+                return isMatched;
             }
         },
         methods: {
@@ -127,12 +131,11 @@
                 let roundTeams = round.no_of_teams;
                 _.forEach(round.groups, function(groupValue) {
                     totalGroupTeams += Number(groupValue.no_of_teams);
-                    if(roundTeams === totalGroupTeams) {
-                        isMatched = true;
-                    }
                 });
+                if(roundTeams === totalGroupTeams) {
+                    isMatched = true;
+                }
 
-                this.teamsCheckError[roundIndex] = isMatched;
                 return isMatched;
             }
         },
