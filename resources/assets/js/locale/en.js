@@ -211,7 +211,7 @@ module.exports= {
   tournament_filter_age_category_match: "Category",
   tournament_label: "Tournament data",
   teams_groups_label: "Teams and groups",
-
+  tournament_license_access_code: "License",
 
   website_label: "Website",
   website_information: "Website information",

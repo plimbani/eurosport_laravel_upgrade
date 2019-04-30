@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddCountryIdAndCityAndJobTitleAndZipcodeColumsToPeopleTable extends Migration
+class AddCityAndJobTitleAndZipcodeColumsToPeopleTable extends Migration
 {
 
     /**
@@ -15,12 +15,9 @@ class AddCountryIdAndCityAndJobTitleAndZipcodeColumsToPeopleTable extends Migrat
     public function up()
     {
         Schema::table('people', function (Blueprint $table) {
-            $table->unsignedInteger('country_id')->nullable()->default(NULL)->after('gender');
-            $table->string('city')->nullable()->default(NULL)->after('country_id');
+            $table->string('city')->nullable()->default(NULL)->after('gender');
             $table->string('job_title')->nullable()->default(NULL)->after('city');
-            $table->string('zipcode')->nullable()->default(NULL)->after('job_title');
-
-            $table->foreign('country_id')->references('id')->on('countries');            
+            $table->string('zipcode')->nullable()->default(NULL)->after('job_title');        
         });
     }
 
@@ -33,8 +30,7 @@ class AddCountryIdAndCityAndJobTitleAndZipcodeColumsToPeopleTable extends Migrat
     {
 		Schema::disableForeignKeyConstraints();
         Schema::table('people', function (Blueprint $table) {	
-			$table->dropForeign('people_country_id_foreign');
-            $table->dropColumn(['country_id', 'city', 'job_title', 'zipcode']);
+            $table->dropColumn(['city', 'job_title', 'zipcode']);
         });
 		Schema::enableForeignKeyConstraints();
     }

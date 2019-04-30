@@ -340,7 +340,6 @@
                 
             getTournamentDetail(){ 
                 axios.get(Constant.apiBaseUrl+'get-tournament?tournamentId='+this.id, {}).then(response =>  {
-                    console.log('response', response);
                         if (response.data.success) {
                             var start_date = new Date(moment(response.data.data.tournament.start_date, 'DD/MM/YYYY').format('MM/DD/YYYY'));
                             var end_date = new Date(moment(response.data.data.tournament.end_date, 'DD/MM/YYYY').format('MM/DD/YYYY')); 
@@ -367,7 +366,6 @@
                             this.tournamentData['custom_tournament_format'] = response.data.data.tournament.custom_tournament_format;
                             this.tournamentData['tournament_type'] = response.data.data.tournament.tournament_type; 
 
-                            console.log('tournamentPricing', response.data.data.tournament.tournament_type);
                             // transaction histories amount difference calculation 
                             let transactionAmount = [];
                             let tournamentPricing = _.filter(response.data.data.get_sorted_transaction_histories, function(historyAmount)
@@ -465,7 +463,7 @@
                     let tournamentPricingRecord = _.head(tournamentLicensePricingArray);
                     vm.tournamentData.tournamentPricingValue = tournamentPricingRecord - this.tournamentData.transactionDifferenceAmountValue;
                 }
-                if(isNaN(vm.tournamentData.tournamentPricingValue)){
+                if(isNaN(vm.tournamentData.tournamentPricingValue) || vm.tournamentData.tournamentPricingValue < 0){
                     vm.tournamentData.tournamentPricingValue  = 0;
                 }
             }

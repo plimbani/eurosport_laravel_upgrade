@@ -21,14 +21,14 @@ class Transaction extends Model
     }
     
     public function transactionHistories() {
-        return $this->hasMany('Laraspace\Models\TransactionHistory');
+        return $this->hasMany('Laraspace\Models\TransactionHistory', 'transaction_id');
     }
 
     public function getSortedTransactionHistories() {
         return $this->transactionHistories()->where(function($query){
-                            $query->where('status', '=', 'authorised')
-                            ->orWhere('status', '=', 'payment_requested');
-        })->orderBy('id', 'desc');
+                                $query->where('status', '=', 'authorised')
+                                ->orWhere('status', '=', 'payment_requested');
+                            })->orderBy('id', 'desc');
     }
     
     
