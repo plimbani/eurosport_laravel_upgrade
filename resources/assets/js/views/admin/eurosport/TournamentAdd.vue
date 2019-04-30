@@ -304,7 +304,8 @@
           <div class="form-group row">
             <label class="col-sm-2 form-control-label">{{$lang.tournament_organiser}}</label>
             <div class="col-sm-4">
-              <input type="text" class="form-control" placeholder="" v-model="location.tournament_venue_organiser">
+              <input type="text" class="form-control" placeholder="" 
+              v-model="location.tournament_venue_organiser">
             </div>
           </div>
           <div class="form-group row">
@@ -355,6 +356,7 @@ tournament: {name:'',website:'',facebook:'',twitter:'',tournament_contact_first_
 image_logo:'',test_value:'',del_location:[],maximum_teams:'', tournament_sponsor:[], access_code:'',
 },
 userRole:this.$store.state.Users.userDetails.role_name,
+// userOrganisation: this.$store.state.Users.userDetails.organisation,
 locations: [
 {
 tournament_venue_name: "",
@@ -364,7 +366,7 @@ tournament_venue_postcode: "",
 tournament_venue_state: "",
 tournament_venue_country: "",
 tournament_location_id:"",
-tournament_venue_organiser: "",
+tournament_venue_organiser: this.$store.state.Users.userDetails.organisation,
 }
 ],
 sponsorImage: [],
@@ -549,6 +551,7 @@ this.locations.push ({
 tournament_venue_name: "",
 touranment_venue_address: "",
 tournament_venue_city: "",
+tournament_venue_organiser: this.$store.state.Users.userDetails.organisation,
 tournament_venue_postcode: "",
 tournament_venue_state: "",
 tournament_venue_country: "",

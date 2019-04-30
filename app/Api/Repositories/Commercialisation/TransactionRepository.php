@@ -38,11 +38,12 @@ class TransactionRepository
         $data = array_change_key_case($requestData['paymentResponse'], CASE_UPPER);
         $authUser = JWTAuth::parseToken()->toUser();
         $userId = $authUser->id;
-		
         $tournamentRes = null;
         if (($data['STATUS'] == 5 || $data['STATUS'] == 9) && !empty($requestData['tournament'])) {
             $tournamentRes = $this->tournamentObj->addTournamentDetails($requestData['tournament'], 'commercialisation');
+            $tournamentContact = $this->tournamentObj->addTournamentContactDetails($tournamentRes->id, $userId, 'commercialisation');
             $tournamentRes->users()->attach($userId);
+		
 		}
 
 		if(!$tournamentRes)
