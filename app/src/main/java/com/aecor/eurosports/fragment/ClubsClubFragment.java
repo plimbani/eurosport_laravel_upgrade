@@ -77,6 +77,13 @@ public class ClubsClubFragment extends Fragment {
     @BindView(R.id.iv_close)
     protected ImageView iv_close;
 
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if(isVisibleToUser && getActivity()!=null){
+            getClubList();
+        }
+    }
 
     protected void initView() {
         Utility.setupUI(mContext, ll_main_layout);
