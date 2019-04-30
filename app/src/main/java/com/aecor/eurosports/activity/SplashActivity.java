@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.RequiresApi;
 
+import com.aecor.eurosports.BuildConfig;
 import com.aecor.eurosports.R;
 import com.aecor.eurosports.gson.GsonConverter;
 import com.aecor.eurosports.http.VolleyJsonObjectRequest;
@@ -149,15 +150,14 @@ public class SplashActivity extends BaseActivity {
                     try {
                         AppLogger.LogE(TAG, "***** Sign in response *****" + response.toString());
 
-                        startActivity(new Intent(mContext, HomeActivity.class));
-                        finish();
                         if (response.getString("authenticated").equalsIgnoreCase("true")) {
                             ProfileModel profileModel = GsonConverter.getInstance().decodeFromJsonString(response.get("userData").toString(), ProfileModel.class);
                             String profile = GsonConverter.getInstance().encodeToJsonString(profileModel);
                             JSONObject jsonObject = new JSONObject(response.get("userData").toString());
                             mAppSharedPref.setString(AppConstants.PREF_PROFILE, profile);
                             mAppSharedPref.setString(AppConstants.PREF_USER_ID, jsonObject.getString("user_id"));
-                            mAppSharedPref.setString(AppConstants.PREF_TOURNAMENT_ID, jsonObject.getString("tournament_id"));
+                            if (!BuildConfig.isEasyMatchManager)
+                                mAppSharedPref.setString(AppConstants.PREF_TOURNAMENT_ID, jsonObject.getString("tournament_id"));
                             mAppSharedPref.setString(AppConstants.PREF_IMAGE_URL, jsonObject.getString("profile_image_url"));
                             if (jsonObject.has("role")) {
                                 mAppSharedPref.setString(AppConstants.PREF_ROLE, jsonObject.getString("role"));
@@ -192,7 +192,12 @@ public class SplashActivity extends BaseActivity {
                                     }
                                 }
                             }
-
+                            if (BuildConfig.isEasyMatchManager) {
+                                if (jsonObject.has("tournament_id") && !Utility.isNullOrEmpty(jsonObject.getString("tournament_id"))) {
+                                    mAppSharedPref.setString(AppConstants.PREF_TOURNAMENT_ID, jsonObject.getString("tournament_id"));
+                                }
+                            }
+                            postUserDeviceDetails(mContext);
                         } else {
 //                            {"authenticated":false,"message":"Account de-activated please contact your administrator."}
                             if (response.has("message") && !Utility.isNullOrEmpty(response.getString("message"))) {
@@ -221,6 +226,32 @@ public class SplashActivity extends BaseActivity {
             });
             mQueue.add(jsonRequest1);
         }
+    }
+
+    private void launchHome() {
+        if (BuildConfig.isEasyMatchManager) {
+            if (!Utility.isNullOrEmpty(mAppSharedPref.getString(AppConstants.PREF_TOURNAMENT_ID))) {
+                if (mAppSharedPref.getString(AppConstants.PREF_COUNTRY_ID) == null) {
+                    //profile screen
+                    startActivity(new Intent(mContext, ProfileActivity.class));
+                } else {
+                    // home screen
+                    startActivity(new Intent(mContext, HomeActivity.class));
+                }
+            } else {
+                // get started screen
+                startActivity(new Intent(mContext, GetStartedActivity.class));
+            }
+        } else {
+            if (mAppSharedPref.getString(AppConstants.PREF_COUNTRY_ID) == null) {
+                //profile screen
+                startActivity(new Intent(mContext, ProfileActivity.class));
+            } else {
+                // home screen
+                startActivity(new Intent(mContext, HomeActivity.class));
+            }
+        }
+        finish();
     }
 
     private void checkAppVersion() {
@@ -367,5 +398,58 @@ public class SplashActivity extends BaseActivity {
         }
     }
 
+    private void postUserDeviceDetails(final Context mContext) {
+
+        if (Utility.isInternetAvailable(mContext)) {
+            PackageManager manager = mContext.getPackageManager();
+            PackageInfo info;
+            String installedAppVersion = "";
+            try {
+                info = manager.getPackageInfo(mContext.getPackageName(), 0);
+                installedAppVersion = info.versionName;
+            } catch (PackageManager.NameNotFoundException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            Utility.startProgress(mContext);
+            String url = ApiConstants.POST_USER_DETAILS;
+            final JSONObject requestJson = new JSONObject();
+            try {
+                requestJson.put("device", "Android");
+                requestJson.put("app_version", installedAppVersion);
+                requestJson.put("os_version", Utility.getOsVersion(mContext));
+                requestJson.put("user_id", mAppSharedPref.getString(AppConstants.PREF_USER_ID));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            final RequestQueue mQueue = VolleySingeltone.getInstance(mContext).getRequestQueue();
+            final VolleyJsonObjectRequest jsonRequest1 = new VolleyJsonObjectRequest(mContext, Request.Method
+                    .POST, url,
+                    requestJson, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    Utility.StopProgress();
+                    try {
+                        AppLogger.LogE("TAG", "***** Post User details response *****" + response.toString());
+
+                        launchHome();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    try {
+                        Utility.StopProgress();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            });
+            mQueue.add(jsonRequest1);
+        }
+    }
 
 }

@@ -25,8 +25,10 @@
     <string name="confirm_password">Confirm password</string>
     <string name="surname">Surname</string>
     <string name="firstname">First name</string>
+
     <string name="role">Select role</string>
     <string name="error">Error</string>
+    <string name="email_verification">Email Verification</string>
     <string name="button_ok">Ok</string>
     <string name="select_tournament">Select tournament</string>
     <string name="select_default_tournament">Select default tournament</string>
@@ -111,6 +113,7 @@
     <string name="privacy_terms_text_2">- Your first name and surname\n- Your preferred tournament details\n- Your e-mail address\n- Your IP address</string>
     <string name="why_app_needs_data">WHY EURO-SPORTRING NEEDS DATA</string>
     <string name="privacy_terms_text_3">Euro-Sportring processes your personal data so that it is able to contact you in writing by email when you ask it to.\n\nEuro-Sportring may also use your personal data as part of its performance of an agreement to provide services: usually involving the organisation and sale of international tournaments.</string>
+    <string name="password_must_be_at_least_5_char_long">Your password must be at least 5 characters long</string>
     <string name="remember_me">Remember me</string>
 
     <string name="how_long_retains_data">HOW LONG EURO-SPORTRING RETAINS DATA</string>
@@ -128,7 +131,6 @@
     <string name="penalties_win">* Game won on penalties</string>
     <string name="abandoned_win">* Abandoned, win awarded</string>
     <string name="standings">STANDINGS</string>
-    <string name="select_your_country">Select your country</string>
 
     <string name="terms_of_use">By continuing you accept our <u>Terms of Use</u>.</string>
     <!--Language-->
@@ -146,6 +148,8 @@
     <string name="placing">Placing: </string>
     <string name="preview">Preview</string>
     <string name="preview_message">This tournament is currently in preview status. More details about the tournament will be available nearer the start date.</string>
+    <string name="select_role">Role</string>
+    <string name="select_your_country">Select your country</string>
 
     <string-array name="role_array">
         <item>@string/role</item>
@@ -153,6 +157,7 @@
         <item>@string/coach_manager_trainer</item>
         <item>@string/other</item>
     </string-array>
+
     <!--Month Name-->
     <string name="january">January</string>
     <string name="february">February</string>
@@ -166,6 +171,7 @@
     <string name="october">October</string>
     <string name="november">November</string>
     <string name="december">December</string>
+    <string name="view_graphic"><u>View schedule</u></string>
 
     <string name="jan">Jan</string>
     <string name="feb">Feb</string>
@@ -178,7 +184,6 @@
     <string name="oct">Oct</string>
     <string name="nov">Nov</string>
     <string name="dec">Dec</string>
-
 
 
     <string-array name="clubs_tabs">
@@ -239,4 +244,15 @@
         <item>@string/nov</item>
         <item>@string/dec</item>
     </string-array>
+
+
+    <string name="enter_tournament_code_to_start">Enter a tournament code to get started</string>
+    <string name="enter_code_to_follow_another_tournament">Enter a code to follow another tournament</string>
+    <string name="tournament_code">Tournament code</string>
+    <string name="submit">Submit</string>
+    <string name="tournament_not_available">This tournament is no longer available</string>
+    <string name="tournament_code_not_recognised">The tournament code was not recognised</string>
+
+
+    <string name="resend_email">Re-send email</string>
 </resources>

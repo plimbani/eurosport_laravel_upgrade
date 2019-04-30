@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.aecor.eurosports">
 
     <!--
@@ -52,7 +53,8 @@
             android:name=".activity.FavouritesActivity"
             android:label="@string/title_activity_favourites"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".activity.LandingActivity"
             android:screenOrientation="portrait" />
@@ -76,7 +78,7 @@
             android:screenOrientation="portrait"
             android:taskAffinity=""
             android:theme="@android:style/Theme.Dialog"
-            android:windowSoftInputMode="adjustPan"  />
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".activity.ForgotPasswordActivity"
             android:screenOrientation="portrait" />
@@ -133,8 +135,15 @@
         <activity
             android:name=".activity.VenueMapActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.FinalPlacingMatchesActivity" 
-		    android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.FinalPlacingMatchesActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.FullScreenImageActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".activity.GetStartedActivity"
+            android:screenOrientation="portrait" />
 
         <service android:name=".MyFirebaseInstanceIdService">
             <intent-filter>
@@ -167,6 +176,34 @@
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
         </receiver>
+
+
+        <activity android:name=".activity.LinkRecognizerActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="rishab-eurosport.dev.aecortech.com"
+                    android:pathPrefix="/tournament/openApp"
+                    android:scheme="http" />
+            </intent-filter>
+
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="rishab-eurosport.dev.aecortech.com"
+                    android:pathPrefix="/mtournament/openApp"
+                    android:scheme="http" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

@@ -117,4 +117,7 @@
     <string name="name">Nom :</string>
     <string name="first_name">Prénom</string>
     <string name="get_otp">Soumettre</string>
+
+    <string name="email_verification">vérification de l\'E-mail</string>
+    <string name="resend_email">Ré-envoyer l\'email</string>
 </resources>

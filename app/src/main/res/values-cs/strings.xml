@@ -120,4 +120,6 @@
     <string name="get_otp">Odeslat</string>
 
 
+    <string name="email_verification">potvrzení e-mailu</string>
+    <string name="resend_email">Přeposlat email</string>
 </resources>

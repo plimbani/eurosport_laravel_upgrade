@@ -12,12 +12,14 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Rect;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
@@ -58,6 +60,26 @@ public class Utility {
 
     public static void showToast(Context mContext, String message) {
         Toast.makeText(mContext, message, Toast.LENGTH_LONG).show();
+    }
+
+    public static boolean isSoftKeyBoardOpen(View mParentLayout) {
+        Rect r = new Rect();
+        mParentLayout.getWindowVisibleDisplayFrame(r);
+        int screenHeight = mParentLayout.getRootView().getHeight();
+
+        // r.bottom is the position above soft keypad or device button.
+        // if keypad is shown, the r.bottom is smaller than that before.
+        int keypadHeight = screenHeight - r.bottom;
+
+
+        if (keypadHeight > screenHeight * 0.15) { // 0.15 ratio is perhaps enough to determine keypad height.
+            // keyboard is opened
+            return true;
+        } else {
+            // keyboard is closed
+            return false;
+        }
+
     }
 
     public static void startProgress(@NonNull Context context) {
@@ -239,6 +261,32 @@ public class Utility {
         return false;
     }
 
+    public static String getDeviceInformation(Context mContext) {
+        Log.i("TAG", "SERIAL: " + Build.SERIAL);
+        Log.i("TAG", "MODEL: " + Build.MODEL);
+        Log.i("TAG", "ID: " + Build.ID);
+        Log.i("TAG", "Manufacture: " + Build.MANUFACTURER);
+        Log.i("TAG", "brand: " + Build.BRAND);
+        Log.i("TAG", "type: " + Build.TYPE);
+        Log.i("TAG", "user: " + Build.USER);
+        Log.i("TAG", "BASE: " + Build.VERSION_CODES.BASE);
+        Log.i("TAG", "INCREMENTAL " + Build.VERSION.INCREMENTAL);
+        Log.i("TAG", "SDK  " + Build.VERSION.SDK);
+        Log.i("TAG", "BOARD: " + Build.BOARD);
+        Log.i("TAG", "BRAND " + Build.BRAND);
+        Log.i("TAG", "HOST " + Build.HOST);
+        Log.i("TAG", "FINGERPRINT: " + Build.FINGERPRINT);
+        Log.i("TAG", "Version Code: " + Build.VERSION.RELEASE);
+        return Build.MODEL + Build.MANUFACTURER + Build.BRAND;
+
+    }
+
+    public static String getOsVersion(Context mContext) {
+
+        return android.os.Build.VERSION.RELEASE + "";
+
+    }
+
     public static boolean isValidEmail(CharSequence target) {
         return !TextUtils.isEmpty(target) && android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
     }
@@ -318,7 +366,7 @@ public class Utility {
         myCal.setTime(d);
         String curTime = String.format("%02d:%02d", myCal.get(Calendar.HOUR_OF_DAY), myCal.get(Calendar.MINUTE));
 
-        String formattedDate = curTime + " " +( myCal.get(Calendar.DAY_OF_MONTH) <10?("0"+ myCal.get(Calendar.DAY_OF_MONTH) ):( myCal.get(Calendar.DAY_OF_MONTH) )) + " " + mContext.getResources().getStringArray(R.array.month_names)[myCal.get(Calendar.MONTH)] + " " + myCal.get(Calendar.YEAR);
+        String formattedDate = curTime + " " + (myCal.get(Calendar.DAY_OF_MONTH) < 10 ? ("0" + myCal.get(Calendar.DAY_OF_MONTH)) : (myCal.get(Calendar.DAY_OF_MONTH))) + " " + mContext.getResources().getStringArray(R.array.month_names)[myCal.get(Calendar.MONTH)] + " " + myCal.get(Calendar.YEAR);
 
         AppLogger.LogE(TAG, "df.format(d)" + df.format(d));
         return formattedDate;
@@ -403,6 +451,14 @@ public class Utility {
             sb.append(String.format("%" + maxWidth + 's', s));
         }
         return sb.toString();
+    }
+
+    public static int getScreenWidth() {
+        return Resources.getSystem().getDisplayMetrics().widthPixels;
+    }
+
+    public static int getScreenHeight() {
+        return Resources.getSystem().getDisplayMetrics().heightPixels;
     }
 
     public static boolean compare(String v1, String v2) {

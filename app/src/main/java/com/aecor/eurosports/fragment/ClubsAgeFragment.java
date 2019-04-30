@@ -2,6 +2,7 @@ package com.aecor.eurosports.fragment;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -20,6 +21,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.aecor.eurosports.R;
+import com.aecor.eurosports.activity.HomeActivity;
 import com.aecor.eurosports.adapter.AgeAdapter;
 import com.aecor.eurosports.gson.GsonConverter;
 import com.aecor.eurosports.http.VolleyJsonObjectRequest;
@@ -27,6 +29,7 @@ import com.aecor.eurosports.http.VolleySingeltone;
 import com.aecor.eurosports.model.AgeCategoriesModel;
 import com.aecor.eurosports.ui.ProgressHUD;
 import com.aecor.eurosports.ui.SimpleDividerItemDecoration;
+import com.aecor.eurosports.ui.ViewDialog;
 import com.aecor.eurosports.util.ApiConstants;
 import com.aecor.eurosports.util.AppConstants;
 import com.aecor.eurosports.util.AppLogger;
@@ -82,8 +85,8 @@ public class ClubsAgeFragment extends Fragment {
         age_list.setLayoutManager(mLayoutManager);
         age_list.setItemAnimator(new DefaultItemAnimator());
         age_list.addItemDecoration(new SimpleDividerItemDecoration(mContext));
-
         getAgeCategories();
+
         setListener();
         ll_no_item_view.setVisibility(View.GONE);
         tv_no_item.setVisibility(View.GONE);
@@ -100,7 +103,6 @@ public class ClubsAgeFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.club_content, container, false);
         ButterKnife.bind(this, view);
         mContext = getActivity();
@@ -141,6 +143,21 @@ public class ClubsAgeFragment extends Fragment {
                                         showNoItemView();
                                     }
                                 }
+                            } else if (response.has("status_code") && !Utility.isNullOrEmpty(response.getString("status_code")) && response.getString("status_code").equalsIgnoreCase("500")) {
+                                String msg = "Selected tournament has expired";
+                                if (response.has("message")) {
+                                    msg = response.getString("message");
+                                }
+                                ViewDialog.showSingleButtonDialog((Activity) mContext, mContext.getString(R.string.error), msg, mContext.getString(R.string.button_ok), new ViewDialog.CustomDialogInterface() {
+                                    @Override
+                                    public void onPositiveButtonClicked() {
+                                        Intent intent = new Intent(mContext, HomeActivity.class);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                        mContext.startActivity(intent);
+                                        ((Activity) mContext).finish();
+                                    }
+
+                                });
                             }
                         } else {
                             showNoItemView();
@@ -184,7 +201,7 @@ public class ClubsAgeFragment extends Fragment {
                 return lhs.getGroup_name().compareTo(rhs.getGroup_name());
             }
         });
-        adapter = new AgeAdapter((Activity) mContext, list,false);
+        adapter = new AgeAdapter((Activity) mContext, list, false, false);
         age_list.setAdapter(adapter);
         rl_search.setVisibility(View.VISIBLE);
         age_list.setVisibility(View.VISIBLE);
