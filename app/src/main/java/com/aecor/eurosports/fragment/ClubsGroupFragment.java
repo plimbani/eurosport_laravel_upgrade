@@ -78,6 +78,14 @@ public class ClubsGroupFragment extends Fragment {
     @BindView(R.id.iv_close)
     protected ImageView iv_close;
 
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser && getActivity() != null) {
+            getTournamentGroup();
+        }
+    }
+
     protected void initView() {
         Utility.setupUI(mContext, ll_main_layout);
 
@@ -91,8 +99,6 @@ public class ClubsGroupFragment extends Fragment {
         tv_no_item.setVisibility(View.GONE);
         rl_search.setVisibility(View.GONE);
         iv_close.setVisibility(View.GONE);
-        getTournamentGroup();
-
         setListener();
         et_age_search.setHint(getString(R.string.hint_search_groups));
 
