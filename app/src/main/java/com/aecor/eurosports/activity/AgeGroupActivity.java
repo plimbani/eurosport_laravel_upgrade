@@ -2,6 +2,7 @@ package com.aecor.eurosports.activity;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -20,6 +21,7 @@ import com.aecor.eurosports.http.VolleySingeltone;
 import com.aecor.eurosports.model.ClubGroupModel;
 import com.aecor.eurosports.ui.ProgressHUD;
 import com.aecor.eurosports.ui.SimpleDividerItemDecoration;
+import com.aecor.eurosports.ui.ViewDialog;
 import com.aecor.eurosports.util.ApiConstants;
 import com.aecor.eurosports.util.AppConstants;
 import com.aecor.eurosports.util.AppLogger;
@@ -141,6 +143,21 @@ public class AgeGroupActivity extends BaseAppCompactActivity {
                                     showNoItemView();
                                 }
                             }
+                        } else if (response.has("status_code") && !Utility.isNullOrEmpty(response.getString("status_code")) && response.getString("status_code").equalsIgnoreCase("500")) {
+                            String msg = "Selected tournament has expired";
+                            if (response.has("message")) {
+                                msg = response.getString("message");
+                            }
+                            ViewDialog.showSingleButtonDialog((Activity) mContext, mContext.getString(R.string.error), msg, mContext.getString(R.string.button_ok), new ViewDialog.CustomDialogInterface() {
+                                @Override
+                                public void onPositiveButtonClicked() {
+                                    Intent intent = new Intent(mContext, HomeActivity.class);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    mContext.startActivity(intent);
+                                    ((Activity) mContext).finish();
+                                }
+
+                            });
                         }
 
                     } catch (Exception e) {

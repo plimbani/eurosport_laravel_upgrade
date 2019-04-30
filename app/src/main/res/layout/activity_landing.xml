@@ -39,7 +39,8 @@
             android:id="@+id/register"
             style="@style/text_black_title"
             android:background="@drawable/btn_yellow"
-            android:text="@string/create_account" />
+            android:text="@string/create_account"
+            android:textColor="@color/btn_active_text_color" />
 
         <Button
             android:id="@+id/signin"
@@ -47,7 +48,8 @@
             android:layout_marginTop="20dp"
             android:layout_marginBottom="20dp"
             android:background="@drawable/btn_yellow"
-            android:text="@string/sign_in" />
+            android:text="@string/sign_in"
+            android:textColor="@color/btn_active_text_color" />
 
     </LinearLayout>
 

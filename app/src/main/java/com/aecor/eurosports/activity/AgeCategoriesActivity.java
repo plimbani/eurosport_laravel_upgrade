@@ -22,6 +22,7 @@ import com.aecor.eurosports.http.VolleyJsonObjectRequest;
 import com.aecor.eurosports.http.VolleySingeltone;
 import com.aecor.eurosports.model.AgeCategoriesModel;
 import com.aecor.eurosports.ui.SimpleDividerItemDecoration;
+import com.aecor.eurosports.ui.ViewDialog;
 import com.aecor.eurosports.util.ApiConstants;
 import com.aecor.eurosports.util.AppConstants;
 import com.aecor.eurosports.util.AppLogger;
@@ -148,6 +149,21 @@ public class AgeCategoriesActivity extends BaseAppCompactActivity {
                                     showNoItemView();
                                 }
                             }
+                        } else if (response.has("status_code") && !Utility.isNullOrEmpty(response.getString("status_code")) && response.getString("status_code").equalsIgnoreCase("500")) {
+                            String msg = "Selected tournament has expired";
+                            if (response.has("message")) {
+                                msg = response.getString("message");
+                            }
+                            ViewDialog.showSingleButtonDialog((Activity) mContext, mContext.getString(R.string.error), msg, mContext.getString(R.string.button_ok), new ViewDialog.CustomDialogInterface() {
+                                @Override
+                                public void onPositiveButtonClicked() {
+                                    Intent intent = new Intent(mContext, HomeActivity.class);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    mContext.startActivity(intent);
+                                    ((Activity) mContext).finish();
+                                }
+
+                            });
                         }
 
                     } catch (Exception e) {
@@ -176,7 +192,7 @@ public class AgeCategoriesActivity extends BaseAppCompactActivity {
     private void setAgeAdapter(AgeCategoriesModel mTournamentList[]) {
         List<AgeCategoriesModel> list = new ArrayList<>();
         list.addAll(Arrays.asList(mTournamentList));
-        adapter = new AgeAdapter((Activity) mContext, list,isShowFinalPlacing);
+        adapter = new AgeAdapter((Activity) mContext, list,isShowFinalPlacing , true);
         rv_ageList.setAdapter(adapter);
         rv_ageList.setVisibility(View.VISIBLE);
 

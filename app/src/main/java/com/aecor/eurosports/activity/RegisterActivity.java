@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.Html;
 import android.text.SpannableString;
@@ -13,18 +12,16 @@ import android.text.Spanned;
 import android.text.TextWatcher;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.aecor.eurosports.BuildConfig;
 import com.aecor.eurosports.R;
 import com.aecor.eurosports.adapter.RoleSpinnerAdapter;
 import com.aecor.eurosports.adapter.TournamentSpinnerAdapter;
@@ -49,7 +46,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class RegisterActivity extends BaseAppCompactActivity {
@@ -109,6 +105,13 @@ public class RegisterActivity extends BaseAppCompactActivity {
         setListener();
         setRoleAdapter();
         showBackButton("");
+        makeToolBarBackgroundTransparent();
+
+        if (BuildConfig.isEasyMatchManager) {
+            sp_tournament.setVisibility(View.GONE);
+        } else {
+            sp_tournament.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -162,6 +165,8 @@ public class RegisterActivity extends BaseAppCompactActivity {
     public void register() {
         if (!confirm_password.getText().toString().equals(register_password.getText().toString().trim())) {
             Utility.showToast(mContext, getString(R.string.password_do_not_match));
+        } else if (confirm_password.length() <= 4 && register_password.length() <= 4) {
+            Utility.showToast(mContext, getString(R.string.password_must_be_at_least_5_char_long));
         } else {
             register_user();
         }
@@ -297,45 +302,27 @@ public class RegisterActivity extends BaseAppCompactActivity {
         String surname = sname.getText().toString().trim();
 
         if (firstname.isEmpty()) {
-            fname.setBackgroundResource(R.drawable.edittext_border_red);
             return false;
-        } else {
-            fname.setBackgroundResource(R.drawable.edittext_border);
         }
 
         if (surname.isEmpty()) {
-            sname.setBackgroundResource(R.drawable.edittext_border_red);
             return false;
-        } else {
-            sname.setBackgroundResource(R.drawable.edittext_border);
         }
         if (emailOrPhone.isEmpty() || !Utility.isValidEmail(emailOrPhone)) {
-            email.setBackgroundResource(R.drawable.edittext_border_red);
             return false;
-        } else {
-            email.setBackgroundResource(R.drawable.edittext_border);
         }
 
         if (password.isEmpty()) {
-            register_password.setBackgroundResource(R.drawable.edittext_border_red);
             return false;
-        } else {
-            register_password.setBackgroundResource(R.drawable.edittext_border);
         }
         if (confirmPassword.isEmpty()) {
-            confirm_password.setBackgroundResource(R.drawable.edittext_border_red);
             return false;
-        } else {
-            confirm_password.setBackgroundResource(R.drawable.edittext_border);
         }
 
-        if (!validate_spinner()) {
-            sp_tournament.setBackgroundResource(R.drawable.spinner_bg_image_gray_error);
+        if (!BuildConfig.isEasyMatchManager && !validate_spinner()) {
             return false;
-        } else {
-            sp_tournament.setBackgroundResource(R.drawable.spinner_bg_image_gray);
-
         }
+
         return true;
 
     }

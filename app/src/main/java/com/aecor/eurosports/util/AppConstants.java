@@ -13,6 +13,8 @@ public class AppConstants {
     public static final int MAX_IMAGE_HEIGHT_LARGE = 230;
 
 
+    public static final String KEY_AGE_CATEGORIES_ID = "key_age_categories_id";
+    public static final String KEY_IMAGE_URL = "key_image_url";
     public static final String KEY_REMEMBER_EMAIL = "remember_email";
     public static final String KEY_REMEMBER_PASSWORD = "remember_password";
     public static final String KEY_IS_FROM_SIGNUP = "is_from_signup";
@@ -35,11 +37,10 @@ public class AppConstants {
     public static final String PREF_USER_ID = "user_id";
     public static final String PREF_TOURNAMENT_ID = "tournament_id";
     public static final String PREF_IMAGE_URL = "image_url";
-    public static final String PREF_ROLE = "role";
-    public static final String PREF_COUNTRY_ID = "country_id";
     public static final String PREF_USER_LOCALE = "user_locale";
     public static final String PREF_SESSION_TOURNAMENT_ID = "session_tournament_id";
     public static final String PREF_SESSION_TOURNAMENT_STATUS = "session_tournament_status";
+
     public static final String ARG_CLUB_ID = "club_id";
     public static final String ARG_GROUP_ID = "group_id";
     public static final String ARG_AGE_GROUP_ID = "age_id";
@@ -73,4 +74,7 @@ public class AppConstants {
     public static final String KEY_HOME = "@HOME";
     public static final String KEY_AWAY = "@AWAY";
     public static final String KEY_SCREEN_TITLE = "screen_title";
+    public static final String PREF_ROLE = "role";
+    public static final String PREF_COUNTRY_ID = "country_id";
+
 }

@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.aecor.eurosports.BuildConfig;
 import com.aecor.eurosports.R;
 import com.aecor.eurosports.adapter.TournamentSpinnerAdapter;
 import com.aecor.eurosports.gson.GsonConverter;
@@ -50,6 +51,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.TimeZone;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -109,8 +111,10 @@ public class HomeActivity extends BaseAppCompactActivity {
                 if (mTournamentList != null && mTournamentList.get(position) != null && !Utility.isNullOrEmpty(mTournamentList.get(position).getName())) {
                     tournamentPosition = position;
                     AppLogger.LogE(TAG, "Tournament Position -> " + tournamentPosition);
-                    mPreference.setString(AppConstants.PREF_SESSION_TOURNAMENT_ID, mTournamentList.get(position).getTournament_id());
-                    mPreference.setString(AppConstants.PREF_SESSION_TOURNAMENT_STATUS, mTournamentList.get(position).getStatus());
+                    if (!Utility.isNullOrEmpty(mTournamentList.get(position).getId()) && !Utility.isNullOrEmpty(mTournamentList.get(position).getTournament_id())) {
+                        mPreference.setString(AppConstants.PREF_SESSION_TOURNAMENT_ID, mTournamentList.get(position).getTournament_id());
+                        mPreference.setString(AppConstants.PREF_SESSION_TOURNAMENT_STATUS, mTournamentList.get(position).getStatus());
+                    }
                     if (!Utility.isNullOrEmpty(mTournamentList.get(position).getName())) {
                         tv_tournamentName.setText(mTournamentList.get(position).getName().replace(" ", "\n"));
                     } else {
@@ -175,8 +179,7 @@ public class HomeActivity extends BaseAppCompactActivity {
     }
 
     private void startTimeUpdateHandler(final String startDate) {
-//        if (timer != null)
-//            timer.cancel();
+
 
         timerTask = new TimerTask() {
             @Override
@@ -205,7 +208,8 @@ public class HomeActivity extends BaseAppCompactActivity {
 
     public void getDateDifference(String FutureDate) {
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss" );
+        dateFormat.setTimeZone(TimeZone.getTimeZone("Europe/London"));
 
         try {
             Date currentDate = dateFormat.parse(FutureDate);
@@ -352,6 +356,13 @@ public class HomeActivity extends BaseAppCompactActivity {
                                 TournamentModel mTournamentList[] = GsonConverter.getInstance().decodeFromJsonString(response.getString("data"), TournamentModel[].class);
                                 if (mTournamentList != null && mTournamentList.length > 0) {
                                     setTournamnetSpinnerAdapter(mTournamentList);
+                                } else {
+                                    if (BuildConfig.isEasyMatchManager) {
+                                        Intent intent = new Intent(HomeActivity.this, GetStartedActivity.class);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                        startActivity(intent);
+                                        finish();
+                                    }
                                 }
                             } else {
                                 TournamentModel mEmptyTournamentModel = new TournamentModel();
@@ -359,6 +370,12 @@ public class HomeActivity extends BaseAppCompactActivity {
                                 TournamentModel[] mTournamentList = new TournamentModel[1];
                                 mTournamentList[0] = mEmptyTournamentModel;
                                 setEmptyTournamentAdapter(mTournamentList);
+                                if (BuildConfig.isEasyMatchManager) {
+                                    Intent intent = new Intent(HomeActivity.this, GetStartedActivity.class);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    startActivity(intent);
+                                    finish();
+                                }
                             }
                         }
 

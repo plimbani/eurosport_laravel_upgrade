@@ -21,10 +21,10 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_marginBottom="10dp"
                 android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
                 android:layout_marginTop="10dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="10dp"
                 android:layout_weight="1"
                 android:background="@drawable/layout_border"
                 android:orientation="vertical">
@@ -115,8 +115,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
                     android:layout_marginTop="2dp"
+                    android:layout_marginBottom="5dp"
                     android:baselineAligned="false"
                     android:orientation="horizontal">
 
@@ -241,9 +241,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
+                android:layout_marginBottom="10dp"
                 android:orientation="horizontal">
 
                 <Button
@@ -252,7 +252,8 @@
                     android:layout_marginRight="5dp"
                     android:layout_weight="1"
                     android:background="@drawable/btn_yellow"
-                    android:text="@string/teams" />
+                    android:text="@string/teams"
+                    android:textColor="@color/btn_active_text_color" />
 
                 <Button
                     android:id="@+id/btn_final_placings"
@@ -260,7 +261,8 @@
                     android:layout_marginLeft="5dp"
                     android:layout_weight="1"
                     android:background="@drawable/btn_yellow"
-                    android:text="@string/final_placings" />
+                    android:text="@string/final_placings"
+                    android:textColor="@color/btn_active_text_color" />
 
             </LinearLayout>
 
@@ -268,9 +270,9 @@
                 android:id="@+id/sp_tournament"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
+                android:layout_marginBottom="10dp"
                 android:background="@drawable/spinner_bg_image_gray"
                 android:drawSelectorOnTop="true"
                 android:prompt="@string/select_tournament" />

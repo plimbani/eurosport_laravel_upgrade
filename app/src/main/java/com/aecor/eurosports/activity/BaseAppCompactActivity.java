@@ -7,9 +7,11 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -303,6 +305,11 @@ public abstract class BaseAppCompactActivity extends AppCompatActivity implement
         }
 
     }
+
+    protected void makeToolBarBackgroundTransparent() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setBackgroundColor(ContextCompat.getColor(mContext, android.R.color.transparent));
+     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

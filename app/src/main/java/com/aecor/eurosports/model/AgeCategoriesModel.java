@@ -30,6 +30,7 @@ public class AgeCategoriesModel implements Parcelable {
     private String template_name;
     private String comments;
     private String display_name;
+    private String graphic_image;
 
     protected AgeCategoriesModel(Parcel in) {
         id = in.readInt();
@@ -54,6 +55,7 @@ public class AgeCategoriesModel implements Parcelable {
         template_name = in.readString();
         comments = in.readString();
         display_name = in.readString();
+        graphic_image = in.readString();
     }
 
     public static final Creator<AgeCategoriesModel> CREATOR = new Creator<AgeCategoriesModel>() {
@@ -67,6 +69,14 @@ public class AgeCategoriesModel implements Parcelable {
             return new AgeCategoriesModel[size];
         }
     };
+
+    public String getGraphic_image() {
+        return graphic_image;
+    }
+
+    public void setGraphic_image(String graphic_image) {
+        this.graphic_image = graphic_image;
+    }
 
     public int getId() {
         return id;
@@ -244,6 +254,7 @@ public class AgeCategoriesModel implements Parcelable {
         this.display_name = display_name;
     }
 
+
     @Override
     public int describeContents() {
         return 0;
@@ -273,5 +284,6 @@ public class AgeCategoriesModel implements Parcelable {
         dest.writeString(template_name);
         dest.writeString(comments);
         dest.writeString(display_name);
+        dest.writeString(graphic_image);
     }
 }
