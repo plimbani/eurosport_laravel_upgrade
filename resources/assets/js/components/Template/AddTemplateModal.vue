@@ -78,7 +78,8 @@
                     },
                     stepfour: {
                         remarks: '',
-                        template_font_color: ''
+                        template_font_color: '',
+                        roundSchedules: ['']
                     }
                 }
 		    }

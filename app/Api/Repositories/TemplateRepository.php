@@ -228,8 +228,6 @@ class TemplateRepository
             }
         }
 
-        dd($finalArray);
-
         $averageMatches = $this->getAverageMatches($totalMatches, $totalTeams);
         $minimumMatches = $this->getMinimumMatches($templateFormDetail);
         $positionType = $this->getPositionType($tournamentsPositionsData);
@@ -239,6 +237,7 @@ class TemplateRepository
         $finalArray['avg_game_team'] = $averageMatches;
         $finalArray['position_type'] = $positionType;
         $finalArray['tournament_positions'] = $tournamentsPositionsData;
+        $finalArray['round_schedule'] = $data['templateFormDetail']['stepfour']['roundSchedules'];
 
         return json_encode($finalArray);
     }

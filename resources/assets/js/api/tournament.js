@@ -29,7 +29,8 @@ export default {
   },
   getTemplate(templateData) {
     let templateId = templateData['tournamentTemplateId']
-    return api.post('tournaments/getTemplate', {'tournamentTemplateId': templateId});
+    let ageCategoryId = templateData['ageCategoryId']
+    return api.post('tournaments/getTemplate', {'tournamentTemplateId': templateId, 'ageCategoryId': ageCategoryId});
      // return api.post('tournaments/getTemplate', {'tournamentTemplateId': templateId});
   },
   deleteCompetation(competationId) {

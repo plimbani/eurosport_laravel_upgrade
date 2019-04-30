@@ -118,6 +118,30 @@
 							<i v-show="errors.has('remarks')" class="fa fa-warning"></i>
                         	<span class="help is-danger" v-show="errors.has('remarks')">{{ errors.first('remarks') }}</span>
 						</div>
+
+						<div class="form-group">
+							<label for="remarks">Round schedule</label>
+							<div v-for="(roundSchedule, index) in templateFormDetail.stepfour.roundSchedules" class="row">
+								<div class="col-sm-6 col-md-4 col-lg-4 col-xl-4">
+									<div class="form-group" :class="{'has-error': errors.has('round_schedule'+index) }">
+										<input :name="'round_schedule'+index" type="text" v-model="templateFormDetail.stepfour.roundSchedules[index]" class="form-control" placeholder="Round schedule" :class="{'is-danger': errors.has('round_schedule'+index) }" v-validate="'required'" data-vv-as="Round schedule">
+									    <div class="error-block">
+									        <i v-show="errors.has('round_schedule'+index)" class="fas fa-warning"></i>
+									        <span class="help is-danger" v-show="errors.has('round_schedule'+index)">{{ errors.first('round_schedule'+index) }}</span>
+									    </div>										
+									</div>
+								</div>
+
+								<div class="col-sm-2 col-md-2 col-lg-2 col-xl-3 text-left text-sm-center" v-if="templateFormDetail.stepfour.roundSchedules.length > 1">
+									<div class="form-group">
+					                    <p class="m-0"><a href="javascript:void(0)" class="text-primary" @click="removeRoundSchedule(index)"><u>Delete</u></a></p>
+					                </div>
+								</div>
+							</div>
+
+							<button type="button" class="btn btn-primary" @click="addNewRoundSchedule()">Add</button>
+						</div>
+
 						<div class="form-group row">
 							<label class="col-12 form-control-label">Colour</label>
 							<div class="col-12">
@@ -242,7 +266,6 @@
             },
             getMatchDetail(teamPosition, positionType) {
             	if(teamPosition) {
-            		console.log('teamPosition', teamPosition);
 			    	let vm = this;
 
 			    	let divisionRoundGroupPosition = teamPosition.split(',');
@@ -277,6 +300,12 @@
 		    	divisions[-1]['rounds'] = this.templateFormDetail.steptwo.rounds;
 		    	divisions.push(this.templateFormDetail.steptwo.divisions);
 		    },
+		    addNewRoundSchedule() {
+		    	this.templateFormDetail.stepfour.roundSchedules.push('');
+		    },
+		    removeRoundSchedule(index) {
+		    	this.templateFormDetail.stepfour.roundSchedules.splice(index, 1);
+		    }
         }
     }
 </script>
