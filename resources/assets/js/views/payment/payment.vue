@@ -140,7 +140,7 @@
                 
                 this.tournament.total_amount = this.tournament.total_amount/100;   
                 let tempObj = this.$route.query;
-                //Ls.remove('orderInfo');
+                Ls.remove('orderInfo');
                 for(let key in tempObj){ 
                     this.paymentObj[key] = tempObj[key];
                 }  
