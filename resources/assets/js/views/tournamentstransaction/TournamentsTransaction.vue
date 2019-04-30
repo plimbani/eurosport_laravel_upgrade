@@ -42,11 +42,10 @@
                                         <td>{{transction.transaction_id}}</td>
                                         <td>{{transction.team_size}}</td>
                                         
-                                        <td><span v-if='index >= 1'>+</span>{{transction.no_of_days}} day<span v-if='transction.no_of_days >= 1'>s</span></td>
+                                        <td><span v-if='index >= 1 && transction.no_of_days > 0' >+</span>{{transction.no_of_days}} day<span v-if='transction.no_of_days >= 1'>s</span></td>
                                         <td>{{transction.transaction_date}}</td>
                                         <td>{{transction.currency}}</td>
-                                        <td>{{transction.amount}}</td>
-                                   
+                                        <td>{{transction.amount}}</td>                          
                                     
                                   </tr>
                                   <tr><td colspan="8"></td></tr>
