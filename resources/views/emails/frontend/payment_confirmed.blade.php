@@ -206,8 +206,15 @@ $days = $interval->format('%a') + 1;
                                                                             <th style="text-align: left; font-weight: normal; padding: 10px;" align="left"><?php 
 																			if(isset($email_details['is_manage_license']) && $email_details['is_manage_license'] == 1)
 																			{
-																				echo $email_details['tournament']['tournament_max_teams']; ?> (+ <?php echo $email_details['tournament']['teamDifference']; ?>) Team license for a <?php echo $days; ?> (+ <?php echo $email_details['tournament']['dayDifference']; ?>) day tournament
-																			<?php }
+
+                                                                                $daysign = "+";
+                                                                                if($email_details['tournament']['dayDifference'] < 0) {
+                                                                                    $daysign = "";
+                                                                                }
+
+																				echo $email_details['tournament']['tournament_max_teams']; ?> (+ <?php echo $email_details['tournament']['teamDifference']; ?>) Team license for a <?php echo $days; ?> (<?php echo $daysign; ?> <?php echo $email_details['tournament']['dayDifference']; ?>) day tournament
+																			<?php 
+                                                                            }
 																			else{
 																				echo $email_details['tournament']['tournament_max_teams']; ?> Team license for a <?php echo $email_details['tournament']['dayDifference']; ?> day tournament
                                                                             <?php } ?>
