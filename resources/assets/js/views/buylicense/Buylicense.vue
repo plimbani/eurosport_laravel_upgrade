@@ -271,7 +271,8 @@
                     this.tournamentData.tournament_start_date = document.getElementById('tournament_start_date').value;
                     this.tournamentData.tournament_end_date = document.getElementById('tournament_end_date').value;
                     if(this.id){
-                        this.tournamentData.dayDifference =  this.newDaysAdded; 
+                        this.tournamentData.dayDifference =  this.newDaysAdded;
+						this.tournamentData.teamDifference =  this.new_added_teams;
                     }else{
                         this.tournamentData.dayDifference = this.dayDifference;
                     }
@@ -462,7 +463,7 @@
                     let tournamentPricingRecord = _.head(tournamentLicensePricingArray);
                     vm.tournamentData.tournamentPricingValue = tournamentPricingRecord - this.tournamentData.transactionDifferenceAmountValue;
                 }
-                if(isNaN(vm.tournamentData.tournamentPricingValue)){
+                if(isNaN(vm.tournamentData.tournamentPricingValue) || vm.tournamentData.tournamentPricingValue < 0){
                     vm.tournamentData.tournamentPricingValue  = 0;
                 }
             }
