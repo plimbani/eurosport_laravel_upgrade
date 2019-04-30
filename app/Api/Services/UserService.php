@@ -388,7 +388,6 @@ class UserService implements UserContract
                 'country_id' => isset($data['country']) ? $data['country'] : null,
             ];
         }
-
         $this->userRepoObj->update($userData['user'], $userId);
 
         if(isset($data['tournament_id'])) {
