@@ -50,7 +50,7 @@ class TransactionService implements TransactionContract {
         $datetime1 = new \DateTime($fdate);
         $datetime2 = new \DateTime($tdate);
         $interval = $datetime1->diff($datetime2);
-        $days = $interval->format('%a');
+        $days = $interval->format('%a') + 1;
 
         if (count($transaction) > 1) {
             $amount = $transaction[0]->amount - $transaction[1]->amount;

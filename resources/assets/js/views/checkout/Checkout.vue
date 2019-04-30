@@ -71,7 +71,9 @@
                         <div class="divider my-3"></div>
                         <div class="row">
                             <div class="col-sm-6 col-md-7 col-lg-7">
-                                <p class="mb-0">{{tournamentData.tournament_max_teams}} team license for a {{tournamentData.dayDifference}} day(s) tournament</p>
+                                <p class="mb-0" v-if="!id">{{tournamentData.tournament_max_teams}} team license for a {{tournamentData.dayDifference}} day(s) tournament</p>
+
+								<p class="mb-0" v-if="id">{{tournamentData.teamDifference}} team license for a {{tournamentData.dayDifference}} day(s) tournament</p>
                             </div>
                             <div class="col-sm-6 col-md-5 col-lg-5">
                                 <p class="text-sm-right mb-0 mt-3 mt-sm-0">
@@ -121,7 +123,8 @@
                 currentCountry: "",
                 countryCardList: [],
                 countries: {},
-                PMLIST: 'VISA;MasterCard'
+                PMLIST: 'VISA;MasterCard',
+				id:""
             }
         },
         beforeRouteEnter(to, from, next) {
@@ -214,7 +217,10 @@
                 let endDate = moment(endDateFormat);
                 
                 this.dayDifference = endDate.diff(startDate, 'days'); 
-
+				if(this.tournamentData.id){
+                    this.id = this.tournamentData.id;
+                }
+				//console.log(this.tournamentData);
             } else {
                 this.$router.push({name: 'login'});
             }
