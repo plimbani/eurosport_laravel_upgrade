@@ -343,7 +343,7 @@ class UserService implements UserContract
           $data['name'] = $data['first_name'];
           $data['surname'] = $data['last_name'];
           $data['role'] = $data['role'];
-          $data['country_id'] = isset($data['country']) ? $data['country'] : null;
+          $data['country_id'] = isset($data['country_id']) ? $data['country_id'] : null;
          // \Log::info('Update in password'.$data['password']);
          // $userData['user']['password'] = Hash::make(trim($data['password']));
           $data['emailAddress'] = '';
@@ -373,7 +373,7 @@ class UserService implements UserContract
         ($data['emailAddress']!= '') ? $userData['user']['email']=$data['emailAddress'] : '';
         $userData['user']['organisation']=$data['organisation'];
         $userData['user']['role'] = $data['role'];
-        $userData['user']['country_id'] = isset($data['country']) ? $data['country'] : null;
+        $userData['user']['country_id'] = isset($data['country_id']) ? $data['country_id'] : null;
 
         (isset($data['locale']) && $data['locale']!='') ? $userData['user']['locale'] = $data['locale'] : '';
         
@@ -388,6 +388,7 @@ class UserService implements UserContract
                 'country_id' => isset($data['country']) ? $data['country'] : null,
             ];
         }
+
         $this->userRepoObj->update($userData['user'], $userId);
 
         if(isset($data['tournament_id'])) {
