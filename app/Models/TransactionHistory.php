@@ -34,9 +34,4 @@ class TransactionHistory extends Model
     public function transaction() {
         return $this->belongsTo('Laraspace\Models\Transaction', 'transaction_id');
     }
-    
-//    public function getCreatedAtAttribute($value)
-//    {
-//        return Carbon::parse($value)->format('Y-m-d H:i:s');
-//    }
 }

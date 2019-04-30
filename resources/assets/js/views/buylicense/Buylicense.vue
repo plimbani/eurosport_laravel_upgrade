@@ -463,7 +463,7 @@
                     let tournamentPricingRecord = _.head(tournamentLicensePricingArray);
                     vm.tournamentData.tournamentPricingValue = tournamentPricingRecord - this.tournamentData.transactionDifferenceAmountValue;
                 }
-                if(isNaN(vm.tournamentData.tournamentPricingValue)){
+                if(isNaN(vm.tournamentData.tournamentPricingValue) || vm.tournamentData.tournamentPricingValue < 0){
                     vm.tournamentData.tournamentPricingValue  = 0;
                 }
             }
