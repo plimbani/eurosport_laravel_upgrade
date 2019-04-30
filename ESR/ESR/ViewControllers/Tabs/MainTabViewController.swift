@@ -196,9 +196,9 @@ class MainTabViewController: SuperViewController {
                     return
                 }
                 
-                if let error = result.value(forKey: "error") as? String {
+               // if let error = result.value(forKey: "error") as? String {
                     // self.showCustomAlertVC(title: String.localize(key: "alert_title_error"), message: error)
-                }
+               // }
             }
         })
     }

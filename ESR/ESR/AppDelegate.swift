@@ -30,7 +30,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         IQKeyboardManager.shared.enable = true
         
         // Firebase
-        FirebaseApp.configure()
+        var filePath = NULL_STRING
+        if ApplicationData.currentTarget == ApplicationData.CurrentTargetList.EasyMM.rawValue {
+            filePath = Bundle.main.path(forResource: "GoogleService-Info-Easymm", ofType: "plist")!
+        } else {
+            filePath = Bundle.main.path(forResource: "GoogleService-Info", ofType: "plist")!
+        }
+        
+        let options = FirebaseOptions(contentsOfFile: filePath)
+        FirebaseApp.configure(options: options!)
         
         Messaging.messaging().delegate = self
         // APNS

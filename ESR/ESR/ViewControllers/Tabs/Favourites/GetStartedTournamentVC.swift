@@ -72,6 +72,12 @@ class GetStartedTournamentVC: SuperViewController {
                 if let dicTournament = result.value(forKey: "data") as? NSDictionary {
                     let tournament = ParseManager.parseTournament(dicTournament)
                     ApplicationData.sharedInstance().saveSelectedTournament(tournament)
+                    
+                    if let userData = ApplicationData.sharedInstance().getUserData() {
+                        userData.tournamentId = tournament.id
+                        ApplicationData.sharedInstance().saveUserData(userData)
+                    }
+                    
                     UIApplication.shared.keyWindow?.rootViewController = Storyboards.Main.instantiateMainVC()
                 }
             }

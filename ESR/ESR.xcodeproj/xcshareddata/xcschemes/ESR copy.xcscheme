@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "300E3587225E1E93006C3E71"
-               BuildableName = "ESR copy 2.app"
-               BlueprintName = "ESR copy 2"
+               BlueprintIdentifier = "30F1805B2272F76600301C6F"
+               BuildableName = "ESR copy.app"
+               BlueprintName = "ESR copy"
                ReferencedContainer = "container:ESR.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -32,9 +32,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "300E3587225E1E93006C3E71"
-            BuildableName = "ESR copy 2.app"
-            BlueprintName = "ESR copy 2"
+            BlueprintIdentifier = "30F1805B2272F76600301C6F"
+            BuildableName = "ESR copy.app"
+            BlueprintName = "ESR copy"
             ReferencedContainer = "container:ESR.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -55,9 +55,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "300E3587225E1E93006C3E71"
-            BuildableName = "ESR copy 2.app"
-            BlueprintName = "ESR copy 2"
+            BlueprintIdentifier = "30F1805B2272F76600301C6F"
+            BuildableName = "ESR copy.app"
+            BlueprintName = "ESR copy"
             ReferencedContainer = "container:ESR.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -74,9 +74,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "300E3587225E1E93006C3E71"
-            BuildableName = "ESR copy 2.app"
-            BlueprintName = "ESR copy 2"
+            BlueprintIdentifier = "30F1805B2272F76600301C6F"
+            BuildableName = "ESR copy.app"
+            BlueprintName = "ESR copy"
             ReferencedContainer = "container:ESR.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

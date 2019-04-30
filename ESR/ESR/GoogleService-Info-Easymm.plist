@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>647325923706-8ngvpepkagbmekmsqffmmqi9c2n5kkd4.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.647325923706-8ngvpepkagbmekmsqffmmqi9c2n5kkd4</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>647325923706-dmmprq3ffh6i94v28a9gvb5f8vvjqmsr.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAYFFuaAo3sc9H2JyAmdJbKmwAl3JfRUhU</string>
+	<key>GCM_SENDER_ID</key>
+	<string>647325923706</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.aecordigital.eurosporting.easymatchmanager</string>
+	<key>PROJECT_ID</key>
+	<string>easy-match-manager</string>
+	<key>STORAGE_BUCKET</key>
+	<string>easy-match-manager.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:647325923706:ios:b7fae21ae7eead88</string>
+	<key>DATABASE_URL</key>
+	<string>https://easy-match-manager.firebaseio.com</string>
+</dict>
+</plist>

@@ -91,11 +91,13 @@ class GroupListVC: SuperViewController {
         }) { (result) in
             DispatchQueue.main.async {
                 self.view.hideProgressHUD()
-                // "{\"status_code\":500,\"tournament_expired\":\"Selected tournament has expired\"}"
+                
                 if result.allKeys.count > 0 {
                     if let status_code = result.value(forKey: "status_code") as? Int {
                         if status_code == 500 {
-                            self.showCustomAlertVC(title: String.localize(key: "alert_title_error"), message: result.value(forKey: "tournament_expired") as! String, requestCode: AlertRequestCode.tournamentExpire.rawValue, delegate: self)
+                            if let msg = result.value(forKey: "tournament_expired") as? String {
+                                self.showCustomAlertVC(title: String.localize(key: "alert_title_error"), message: msg, requestCode: AlertRequestCode.tournamentExpire.rawValue, delegate: self)
+                            }
                         }
                     }
                 }
