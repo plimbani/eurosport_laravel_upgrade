@@ -717,8 +717,6 @@ class TemplateRepository
                         $teamGroupType1 = $teamRoundData1['match_type'][$groupIndex]['groups']['match'][$divisionRoundGroupPosition1[3]];
                         $homeTeamData = $this->getWinnerOrLooserTeams($teamGroupType1, $divisionRoundGroupPosition1, $isSamePositionType, $homePositionType, 'home');
 
-                        dd($homeTeamData);
-
                         $teamRoundData2 = $finalArray['tournament_competation_format']['format_name'][$divisionRoundGroupPosition2[1]];
                         $teamGroupType2 = $teamRoundData2['match_type'][$groupIndex]['groups']['match'][$divisionRoundGroupPosition2[3]];
                         $awayTeamData = $this->getWinnerOrLooserTeams($teamGroupType2, $divisionRoundGroupPosition2, $isSamePositionType, $awayPositionType, 'away');
@@ -735,25 +733,17 @@ class TemplateRepository
                         $bothSameTeamTypes = true;
                         $teamRoundData1 = $templateFormDetail['steptwo']['rounds'][$divisionRoundGroupPosition1[1]];
                         $teamGroupType1 = $teamRoundData1['groups'][$divisionRoundGroupPosition1[2]]['type'];
-                        $groupName1 = null;
-                        if($teamGroupType1 === 'round_robin') {
-                            $groupName1 = $this->getRoundRobinGroupName($teamRoundData1, $divisionRoundGroupPosition1[2]);
-                        }
+                        $homeTeamData = $this->getRoundRobinTeamData($teamGroupType1, $teamRoundData1, $divisionRoundGroupPosition1, 'home');
                         
                         $teamRoundData2 = $templateFormDetail['steptwo']['rounds'][$divisionRoundGroupPosition2[1]];
                         $teamGroupType2 = $teamRoundData2['groups'][$divisionRoundGroupPosition2[2]]['type'];
-                        $groupName2 = null;
-                        if($teamGroupType2 === 'round_robin') {
-                            $groupName2 = $this->getRoundRobinGroupName($teamRoundData2, $divisionRoundGroupPosition2[2]);
-                        }
+                        $awayTeamData = $this->getRoundRobinTeamData($teamGroupType2, $teamRoundData2, $divisionRoundGroupPosition2, 'away');
 
-                        $homeTeam = (intval($divisionRoundGroupPosition1[3]) + 1) . $groupName1;
-                        $awayTeam = (intval($divisionRoundGroupPosition2[3]) + 1) . $groupName2;
-                        $inBetween = $homeTeam . '-' . $awayTeam;
-                        $matchNumber = 'CAT.PM'. ($this->getPlacingMatchGroupCount($round, $groupIndex) + 1) . '.G' . ($teamIndex / 2 + 1) . '.' . $inBetween;
-                        $displayMatchNumber = 'CAT.'. ($this->getPlacingMatchGroupCount($round, $groupIndex) + 1) . '.' . ($teamIndex / 2 + 1) . '.' . $inBetween;
-                        $displayHomeTeamPlaceholderName = '#' . $homeTeam;
-                        $displayAwayTeamPlaceholderName = '#' . $awayTeam;
+                        $inBetween = $homeTeamData['teamInBetween'] . '-' . $awayTeamData['teamInBetween'];
+                        $matchNumber = 'CAT.PM'. ($this->getPlacingMatchGroupCount($round, $groupIndex) + 1) . '.G' . ($teamIndex / 2 + 1) . '.' . $homeTeamData['teamMatchNumber'] . '-' . $awayTeamData['teamMatchNumber'];
+                        $displayMatchNumber = 'CAT.'. ($this->getPlacingMatchGroupCount($round, $groupIndex) + 1) . '.' . ($teamIndex / 2 + 1) . '.' . $homeTeamData['teamDisplayMatchNumber'] . '-' . $awayTeamData['teamDisplayMatchNumber'];
+                        $displayHomeTeamPlaceholderName = $homeTeamData['teamDisplayPlaceholderName'];
+                        $displayAwayTeamPlaceholderName = $awayTeamData['teamDisplayPlaceholderName'];
                     }
 
                     if($bothSameTeamTypes == false) {
@@ -874,5 +864,26 @@ class TemplateRepository
                 $placingGroupCount++;
             }
         }
+    }
+
+    public function getRoundRobinTeamData($teamGroupType, $teamRoundData, $divisionRoundGroupPosition, $teamType)
+    {
+        $groupName = null;
+        if($teamGroupType === 'round_robin') {
+            $groupName = $this->getRoundRobinGroupName($teamRoundData, $divisionRoundGroupPosition[2]);
+        }
+
+        $team = (intval($divisionRoundGroupPosition[3]) + 1) . $groupName;
+        $teamInBetween = $team;
+        $teamMatchNumber = $team;
+        $teamDisplayMatchNumber =  $teamType === 'home' ? '@HOME' : '@AWAY';
+        $teamDisplayPlaceholderName = '#' . $team;
+
+        return [
+            'teamInBetween' => $teamInBetween,
+            'teamMatchNumber' => $teamMatchNumber,
+            'teamDisplayMatchNumber' => $teamDisplayMatchNumber,
+            'teamDisplayPlaceholderName' => $teamDisplayPlaceholderName
+        ];
     }
 }
