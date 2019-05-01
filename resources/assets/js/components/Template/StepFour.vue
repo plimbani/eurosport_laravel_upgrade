@@ -142,6 +142,22 @@
 							<button type="button" class="btn btn-primary" @click="addNewRoundSchedule()">Add</button>
 						</div>
 
+						<div class="form-group" :class="{'has-error': errors.has('graphic_image') }">
+							<label for="remarks">Graphic image</label>
+							<div v-if="!image">
+								<img src="/assets/img/noimage.png" class="thumb-size" />
+								<button type="button" class="btn btn-default ml-4" name="btnSelect" id="btnSelect" @click="openFileInput">	{{$lang.tournament_tournament_choose_button}}
+								</button>
+								<input type="file" class="thumb-size d-none" name="graphic_image" id="graphic_image" @change="onFileChange">
+								<i v-show="errors.has('graphic_image')" class="fa fa-warning"></i>
+	                        	<span class="help is-danger" v-show="errors.has('graphic_image')">{{ errors.first('graphic_image') }}</span>
+	                        </div>
+	                        <div v-else>
+								<img :src="imagePath + image" class="thumb-size" />
+                            	<button class="btn btn-danger ml-4" @click="removeImage">{{$lang.tournament_tournament_remove_button}}</button>	                        	
+	                        </div>
+						</div>
+
 						<div class="form-group row">
 							<label class="col-12 form-control-label">Colour</label>
 							<div class="col-12">
@@ -152,7 +168,7 @@
 								<i v-show="errors.has('template_font_color')" class="fa fa-warning"></i>
     	                    	<span class="help is-danger" v-show="errors.has('template_font_color')">{{ errors.first('template_font_color') }}</span>						
 							</div>
-						</div>					
+						</div>
 						<div class="form-group row align-items-center mb-3">
 							<div class="col-12">
 								<button type="button" class="btn btn-primary" @click="back()">{{ $lang.add_template_modal_back_button }}</button>
@@ -171,6 +187,8 @@
 		props: ['templateFormDetail', 'editedTemplateId'],
         data() {
             return {
+            	image:'',
+            	imagePath :'',
             	templateFontColors: [
             		'rgb(146,208,80)', 'rgb(255,192,0)', 'rgb(217,149,148)'
             	],
@@ -181,6 +199,8 @@
         },
         beforeCreate: function() {
             this.$root.$off('updateTemplateData');
+        },
+        mounted() {
         },
         computed: {
         	
@@ -305,7 +325,34 @@
 		    },
 		    removeRoundSchedule(index) {
 		    	this.templateFormDetail.stepfour.roundSchedules.splice(index, 1);
-		    }
+		    },
+		    openFileInput() {
+		    	$('#graphic_image').trigger('click');
+		    },
+		    onFileChange(e) {
+				var files = e.target.files || e.dataTransfer.files;
+				if (!files.length)
+				return;
+				if(Plugin.ValidateImageSize(files) == true) {
+				  this.createImage(files[0]);
+				}
+		    },
+			createImage(file) {
+				this.imagePath='';
+				var image = new Image();
+				var reader = new FileReader();
+				var vm = this;
+				reader.onload = (e) => {
+					vm.image = e.target.result;
+				};
+
+				reader.readAsDataURL(file);
+			},
+			removeImage(e) {
+				this.image = '';
+				this.imagePath='';
+				e.preventDefault();
+			}
         }
     }
 </script>

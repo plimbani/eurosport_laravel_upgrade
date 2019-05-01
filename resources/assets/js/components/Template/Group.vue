@@ -216,7 +216,7 @@
 								return true;
 							}
 
-							if(group.type === 'placing_match' && _.indexOf(['winner', 'loser'], team.position_type) > -1) {
+							if(group.type === 'placing_match' && _.indexOf(['winner', 'looser'], team.position_type) > -1) {
 								placingGroupCount += 1;
 								groupsForSelection[placingMatchIndex] = {'name': 'PM ' + (placingGroupCount), 'value': '-1,' + roundIndex + ',' + groupIndex};
 
@@ -256,7 +256,7 @@
 								return true;
 							}
 
-							if(group.type === 'placing_match' && _.indexOf(['winner', 'loser'], team.position_type) > -1) {
+							if(group.type === 'placing_match' && _.indexOf(['winner', 'looser'], team.position_type) > -1) {
 								placingGroupCount += 1;
 								groupsForSelection[placingMatchIndex] = {'name': 'PM ' + (placingGroupCount), 'value': vm.divisionIndex + ',' + roundIndex + ',' + groupIndex};
 
@@ -292,7 +292,7 @@
 			    			name += ' (PM' + vm.getPlacingMatchGroupName(roundData, position[2]);
 			    			if(team.position_type === 'winner') {
 			    				name += ' WR';
-			    			} else if(team.position_type === 'loser') {
+			    			} else if(team.position_type === 'looser') {
 			    				name += ' LR';
 			    			}
 			    			
@@ -334,7 +334,7 @@
 		    		}
 
 			    	// for placing
-					if(groupType === 'placing_match' && _.indexOf(['winner', 'loser'], team.position_type) > -1) {
+					if(groupType === 'placing_match' && _.indexOf(['winner', 'looser'], team.position_type) > -1) {
 						let matches = numberOfTeams / 2;
 						if(this.groupData.teams[teamIndex].position === '' || typeof this.groupData.teams[teamIndex].position === 'undefined') {
 							this.groupData.teams[teamIndex].position = group + ',0';
@@ -377,7 +377,7 @@
 
 				if(!(this.roundIndex === 0 && ((this.groupData.type === 'placing_match' && this.index === this.getFirstPlacingMatch())  || this.divisionIndex !== -1))) {
 					positionTypes.push({'key': 'winner', 'value': 'Winner'});
-					positionTypes.push({'key': 'loser', 'value': 'Loser'});
+					positionTypes.push({'key': 'looser', 'value': 'Looser'});
 				}
 
 				return positionTypes;
