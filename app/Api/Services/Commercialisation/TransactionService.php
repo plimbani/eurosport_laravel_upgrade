@@ -37,7 +37,7 @@ class TransactionService implements TransactionContract {
     public function generatePaymentReceipt($data)
     {
         $transaction = \DB::table('transaction_histories')
-                ->select('transaction_histories.id', 'transaction_histories.currency', 'transaction_histories.amount', 'transaction_histories.order_id', 'transaction_histories.team_size', 'tournaments.start_date', 'tournaments.end_date')
+                ->select('transaction_histories.id', 'transaction_histories.currency', 'transaction_histories.amount', 'transaction_histories.order_id', 'transaction_histories.team_size', 'tournaments.start_date', 'tournaments.end_date', 'transaction_histories.no_of_days')
                 ->join('transactions', 'transaction_histories.transaction_id', '=', 'transactions.id')
                 ->join('tournaments', 'tournaments.id', '=', 'transactions.tournament_id')
                 ->where(['transactions.tournament_id' => $data['tournament_id']])
@@ -53,20 +53,25 @@ class TransactionService implements TransactionContract {
         $days = $interval->format('%a') + 1;
 
         if (count($transaction) > 1) {
-            $amount = $transaction[0]->amount - $transaction[1]->amount;
-            $maxTeam = '+' . ($transaction[0]->team_size - $transaction[1]->team_size);
+            //$amount = $transaction[0]->amount - $transaction[1]->amount;
+            //$maxTeam = '+' . ($transaction[0]->team_size - $transaction[1]->team_size);
+
+            $amount = $transaction[0]->amount;
+            $maxTeam = $transaction[0]->team_size;
+
         } else {
             $amount = $transaction[0]->amount;
             $maxTeam = $transaction[0]->team_size;
         }
 
         $pdfData = [
-            'days' => $days,
+            'days' => $transaction[0]->no_of_days,
             'maximumTeams' => $maxTeam,
             'amount' => $amount,
             'orderNumber' => $transaction[0]->order_id,
 			'currency' => $transaction[0]->currency
         ];
+        
         $date = new \DateTime(date('H:i d M Y'));
         $pdf = PDF::loadView('commercialisation.payment_receipt', ['data' => $pdfData])
                 ->setPaper('a4')
