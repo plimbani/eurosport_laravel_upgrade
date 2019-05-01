@@ -167,9 +167,6 @@ class TemplateRepository
         $finalArray['remark'] = $templateFormDetail['stepfour']['remarks'];
         $finalArray['template_font_color'] = $templateFormDetail['stepfour']['template_font_color'];
         $finalArray['tournament_name'] = $templateFormDetail['stepone']['templateName'];
-        $finalArray['competition_round'] = '';
-        $finalArray['competition_group_round'] = '';
-        $finalArray['competation_format'] = '';
         $finalArray['tournament_competation_format'] = [];
         $finalArray['tournament_competation_format']['format_name'] = [];
         $finalArray['tournament_positions'] = [];
@@ -834,7 +831,7 @@ class TemplateRepository
                 'name' => ($group['type'] === 'round_robin' ? 'RR-1*' : 'PM-1*') . $group['no_of_teams'],
                 'total_match' => count($matches),
                 'group_count' => $group['no_of_teams'],
-                'groups' => ['group_name' => 'Group-' . $groupName, 'match' => $matches]
+                'groups' => ['group_name' => ($group['type'] === 'round_robin' ?'Group-' : 'Group-PM') . $groupName, 'match' => $matches]
             ];
 
             $finalArray['tournament_competation_format']['format_name'][$roundIndex]['match_type'][] = $matchTypeDetail;

@@ -806,7 +806,7 @@ class AgeGroupService implements AgeGroupContract
             $weekNumber = $i*count($fetchRoundMatches) + $key;
             list($home,$away) = explode('-',$match);
 
-            $matches[] = ['in-between' => $match,
+            $matches[] = ['in_between' => $match,
                             'match_number' => "CAT.RR$currentRound.".sprintf('%02d',$weekNumber).".$currentGroup$home-$currentGroup$away",
                             'display_match_number' => "CAT.1.$weekNumber.@HOME-@AWAY",
                             'display_home_team_placeholder_name' => "$currentGroup$home",
