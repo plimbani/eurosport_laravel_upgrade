@@ -1,7 +1,9 @@
 <template>
 	<div class="template-container">
 		<site-commercialisation-header v-if="getCurrentLayout === 'commercialisation'"></site-commercialisation-header>
-		<router-view></router-view>
+        <div class="main-content container-fluid" id="dashboardPage">
+		  <router-view></router-view>
+        </div>  
 		<site-commercialisation-footer v-if="getCurrentLayout === 'commercialisation'"></site-commercialisation-footer>
 	</div>
 </template>
