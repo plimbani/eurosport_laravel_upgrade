@@ -371,11 +371,11 @@ class MatchService implements MatchContract
 
       foreach ($competitionIds as $ageGroupId => $cids) {
         $lowerCompetitionId = min(array_unique($cids));
-        $allCompetitionsIds = Competition::where('tournament_id', '=', $tournamentId)->where('tournament_competation_template_id', '=', $ageGroupId)->where('id', '>=', $lowerCompetitionId)->pluck('id')->toArray();
-        foreach ($allCompetitionsIds as $id) {
-          $data = ['tournamentId' => $tournamentId, 'competitionId' => $id];
-          $this->refreshCompetitionStandings($data);
-        }
+        // $allCompetitionsIds = Competition::where('tournament_id', '=', $tournamentId)->where('tournament_competation_template_id', '=', $ageGroupId)->where('id', '>=', $lowerCompetitionId)->pluck('id')->toArray();
+          // foreach ($allCompetitionsIds as $id) {
+            $data = ['tournamentId' => $tournamentId, 'competitionId' => $lowerCompetitionId];
+            $this->refreshCompetitionStandings($data);
+          // }
       }
       foreach ($teamArray as $ageGroupId => $teamsList) {
         $teamsList = array_unique($teamsList);
@@ -539,7 +539,6 @@ class MatchService implements MatchContract
     }
     }
     private function secondRoundElimination($singleFixture) {
-
       $age_category_id = $singleFixture->age_group_id;
       $tournament_id   = $singleFixture->tournament_id;
 
@@ -605,7 +604,7 @@ class MatchService implements MatchContract
         ->where(function($query) use ($val) {
           $query->whereRaw(DB::raw("match_number like '%(".$val."_WR)%' OR  match_number like '%(".$val."_LR)%' "));
         })->get();
-
+        $processFixtures = [];
         // here we get two records 1 for Winner and other for looser
         foreach($results as $record) {
          $rec_mtchNumber = explode(".",$record->match_number);
@@ -622,6 +621,7 @@ class MatchService implements MatchContract
               'home_team_name'=> $winnerTeam,
               'home_team'=> $winnerId
             ]);
+            $processFixtures[] = $record->id;
            }
 
            if(trim("(".$val."_WR)") == trim($awayTeam)) {
@@ -629,6 +629,7 @@ class MatchService implements MatchContract
               'away_team_name'=> $winnerTeam,
               'away_team'=> $winnerId
             ]);
+            $processFixtures[] = $record->id;
            }
 
            // its away team
@@ -641,6 +642,7 @@ class MatchService implements MatchContract
               'home_team_name'=> $looserTeam,
               'home_team'=> $looserId
             ]);
+            $processFixtures[] = $record->id;
            }
 
            if(trim("(".$val."_LR)") == trim($awayTeam)) {
@@ -648,9 +650,11 @@ class MatchService implements MatchContract
               'away_team_name'=> $looserTeam,
               'away_team'=> $looserId
             ]);
+            $processFixtures[] = $record->id;
            }
          }
         }
+        $this->processFixtures($processFixtures);
       }
 
       return ;
@@ -668,6 +672,7 @@ class MatchService implements MatchContract
                 // ->where('round','=' , 'Elimination')
                 ->where('age_group_id','=',$ageGroupId)
                 ->get();
+      $processFixtures = [];
 
       $matchArr =  array();
       $teams_arr = explode('.', $singleFixture->match_number);
@@ -704,7 +709,6 @@ class MatchService implements MatchContract
           if($SelhomeTeam == $homeTeam ) {
             // echo "SDF";exit;
             $match1 = $match;
-
           }
           if($homeTeam[0] == '(') {
               if(isset($match1) && $match1 != ''){
@@ -714,7 +718,6 @@ class MatchService implements MatchContract
             }
           if($SelawayTeam==$awayTeam) {
             $match2=$match;
-
           }
           if($awayTeam[strlen($awayTeam)-1]==')') {
               if(isset($match2) && $match2 != ''){
@@ -797,6 +800,7 @@ class MatchService implements MatchContract
             $updateArray = ['home_team_name'=> $hometeamName,'home_team'=>$homeTeamId];
             DB::table('temp_fixtures')->where('id',$match->id)->update($updateArray);
           }
+          $processFixtures[] = $match->id;
         }
         if($awayTeam  == $modifiedTeamsWinner) {
           $awayteamName = null;
@@ -834,6 +838,7 @@ class MatchService implements MatchContract
             $updateArray = ['away_team_name'=> $awayteamName,'away_team'=>$awayTeamId];
             DB::table('temp_fixtures')->where('id',$match->id)->update($updateArray);
           }
+          $processFixtures[] = $match->id;
         }
         // For Looser
         $modifiedTeamsLooser = $modifiedTeams.'_LR';
@@ -874,6 +879,7 @@ class MatchService implements MatchContract
             $updateArray = [ 'home_team_name'=> $hometeamName,'home_team'=>$homeTeamId];
             DB::table('temp_fixtures')->where('id',$match->id)->update($updateArray);
           }
+          $processFixtures[] = $match->id;
         }
         if($awayTeam  == $modifiedTeamsLooser) {
           $awayteamName = null;
@@ -911,9 +917,11 @@ class MatchService implements MatchContract
             $updateArray = ['away_team_name'=> $awayteamName,'away_team'=>$awayTeamId];
             DB::table('temp_fixtures')->where('id',$match->id)->update($updateArray);
           }
+          $processFixtures[] = $match->id;
         }
       }
 
+      $this->processFixtures($processFixtures);
       return $singleFixture->competition_id;
     }
 
@@ -1202,6 +1210,7 @@ class MatchService implements MatchContract
             $head_to_head = false;
             $check_head_to_head_with_key = '';
             $remain_head_to_head_with_key = '';
+            $head_to_head_order_atlast = false;
             for($i=0; $i<count($rules); $i++) {
               $rule = $rules[$i];
 
@@ -1235,9 +1244,7 @@ class MatchService implements MatchContract
               if($rule['key'] == 'head_to_head') {
                 if($checkResultEntered > 0)
                 {
-                  $params[] = $teamName;
-                  $params[] = SORT_ASC;
-                  $check_head_to_head_with_key .= '|teamName';
+                  $head_to_head_order_atlast = true;
                 }
                 else
                 {
@@ -1266,6 +1273,13 @@ class MatchService implements MatchContract
                 $params[] = SORT_DESC;
                 $check_head_to_head_with_key .= '|goal_ratio';
               }
+            }
+
+            if ( $head_to_head_order_atlast )
+            {
+              $params[] = $teamName;
+              $params[] = SORT_ASC;
+              $check_head_to_head_with_key .= '|teamName';
             }
 
             if ( !empty($check_head_to_head_with_key) )
@@ -2658,6 +2672,7 @@ class MatchService implements MatchContract
 
     public function processFixtures($fixtures)
     {
+      $fixtures = array_unique($fixtures);
       foreach($fixtures as $id) {
         $this->calculateCupLeagueTable($id);
       }

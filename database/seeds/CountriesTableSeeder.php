@@ -12,7 +12,8 @@ class CountriesTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('countries')->delete();
+        Schema::disableForeignKeyConstraints();
+        DB::table('countries')->truncate();
         DB::table('countries')->insert([
           [ 'name' => 'ALBANIA', 'country_code' => 'AL ', 'country_flag' => 'al', 'logo' => '/assets/img/flags/AL.png', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
           [ 'name' => 'AUSTRIA', 'country_code' => 'AT', 'country_flag' => 'at', 'logo' => '/assets/img/flags/AT.png', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
@@ -52,7 +53,7 @@ class CountriesTableSeeder extends Seeder
           [ 'name' => 'MOROCCO', 'country_code' => 'MA', 'country_flag' => 'ma', 'logo' => '/assets/img/flags/MA.png', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
           [ 'name' => 'NETHERLANDS', 'country_code' => 'NL', 'country_flag' => 'nl', 'logo' => '/assets/img/flags/NL.png', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
           [ 'name' => 'NEW ZEALAND', 'country_code' => 'NZ', 'country_flag' => 'nz', 'logo' => '/assets/img/flags/NZ.png', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
-          [ 'name' => 'NORTHERN IRELAND', 'country_code' => 'NI', 'country_flag' => 'gb', 'logo' => '/assets/img/flags/GBNir.png', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+          [ 'name' => 'NORTHERN IRELAND', 'country_code' => 'NI', 'country_flag' => 'gb-nir', 'logo' => '/assets/img/flags/GBNir.png', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
           [ 'name' => 'NORWAY', 'country_code' => 'NO', 'country_flag' => 'no', 'logo' => '/assets/img/flags/NO.png', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
           [ 'name' => 'PERU', 'country_code' => 'PE', 'country_flag' => 'pe', 'logo' => '/assets/img/flags/PE.png', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
           [ 'name' => 'POLAND', 'country_code' => 'PL', 'country_flag' => 'pl', 'logo' => '/assets/img/flags/PL.png', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
@@ -80,5 +81,6 @@ class CountriesTableSeeder extends Seeder
           [ 'name' => 'ALGERIA', 'country_code' => 'DZ', 'country_flag' => 'dz', 'logo' => '/assets/img/flags/DZ.png', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
           [ 'name' => 'GEORGIA', 'country_code' => 'GE', 'country_flag' => 'ge', 'logo' => '/assets/img/flags/GE.png', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
         ]);
+        Schema::enableForeignKeyConstraints();
     }
 }
