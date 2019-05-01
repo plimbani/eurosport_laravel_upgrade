@@ -283,11 +283,8 @@ class AgeGroupService implements AgeGroupContract
     }
     private function calculateTime($json_data, $data) {
         $json_data = json_decode($json_data);
-
-        // $disp_format_name = $json_data->tournament_teams .' TEAMS,'. $json_data->competation_format;
-        $disp_format_name = $json_data->tournament_teams .' teams: '.
-        $json_data->competition_group_round.($json_data->competition_round != '' ? ' - '.$json_data->competition_round : '');
-
+        $roundScheduleData = join(" - ",$json_data->round_schedule);
+        $disp_format_name = $json_data->tournament_teams .' teams: '.$roundScheduleData;
         $total_matches = $json_data->total_matches;
 
         // Now here we calculate total time for a Compeation format For RR
@@ -454,15 +451,15 @@ class AgeGroupService implements AgeGroupContract
     public function generateTemplateJsonForLeague($data)
     {
       $totalTeams = $data['total_teams'];
+      $competitionRound = 'RR 1-' .$totalTeams;
+      $competitionGroupRound = '1x' .$totalTeams;
 
       $finalArray = [];
       $finalArray['tournament_teams'] = $totalTeams;
       $finalArray['remark'] = $data['remarks'];
       $finalArray['template_font_color'] = $data['template_font_color'];
       $finalArray['tournament_name'] = 'T.' .$totalTeams. '.'  .$data['min_matches'];
-      $finalArray['competition_round'] = 'RR 1-' .$totalTeams;
-      $finalArray['competition_group_round'] = '1*' .$totalTeams;
-      $finalArray['competation_format'] = '';
+      $finalArray['round_schedule'] = [$competitionGroupRound, $competitionRound];
       $finalArray['tournament_min_match'] = $data['min_matches'];
       $finalArray['position_type'] = 'group_ranking';
       $finalArray['tournament_competation_format'] = [];
@@ -513,7 +510,8 @@ class AgeGroupService implements AgeGroupContract
     {
       $totalTeams = $data['total_teams'];
       $groupSize = $data['group_size'];
-
+      $competitionRound = 'RR 1-' .$totalTeams;
+      $competitionGroupRound = '1x' .$totalTeams;
       $totalGroups = $totalTeams / $groupSize;
       $finalTeams = $totalTeams / $totalGroups;
       $teamsPerGroup = $totalTeams / $totalGroups;
@@ -523,9 +521,7 @@ class AgeGroupService implements AgeGroupContract
       $finalArray['tournament_teams'] = $totalTeams;
       $finalArray['tournament_name'] = 'T.' .$totalTeams. '.'  .$data['min_matches'];
       $finalArray['template_font_color'] = $data['template_font_color'];
-      $finalArray['competition_round'] = 'RR 1-' .$totalTeams;
-      $finalArray['competition_group_round'] = '1*' .$totalTeams;
-      $finalArray['competation_format'] = '';
+      $finalArray['round_schedule'] = [$competitionGroupRound, $competitionRound];
       $finalArray['tournament_min_match'] = $data['min_matches'];
       $finalArray['remark'] = $data['remarks'];
       $finalArray['position_type'] = 'final';
