@@ -215,7 +215,7 @@ class TemplateRepository
         $placings = $templateFormDetail['stepthree']['placings'];
         foreach($placings as $placingIndex => $placing) {
             $roundGroupPositionArray = explode(',', $placing['position']);
-            if($roundGroupPositionArray[0] === -1) {
+            if((int)$roundGroupPositionArray[0] === -1) {
                 $roundDetail = $finalArray['tournament_competation_format']['format_name'][$roundGroupPositionArray[1]];
             } else {
                 $roundDetail = $finalArray['tournament_competation_format']['divisions'][$roundGroupPositionArray[0]]['format_name'][$roundGroupPositionArray[1]];
@@ -716,6 +716,8 @@ class TemplateRepository
                         $teamRoundData1 = $finalArray['tournament_competation_format']['format_name'][$divisionRoundGroupPosition1[1]];
                         $teamGroupType1 = $teamRoundData1['match_type'][$groupIndex]['groups']['match'][$divisionRoundGroupPosition1[3]];
                         $homeTeamData = $this->getWinnerOrLooserTeams($teamGroupType1, $divisionRoundGroupPosition1, $isSamePositionType, $homePositionType, 'home');
+
+                        dd($homeTeamData);
 
                         $teamRoundData2 = $finalArray['tournament_competation_format']['format_name'][$divisionRoundGroupPosition2[1]];
                         $teamGroupType2 = $teamRoundData2['match_type'][$groupIndex]['groups']['match'][$divisionRoundGroupPosition2[3]];
