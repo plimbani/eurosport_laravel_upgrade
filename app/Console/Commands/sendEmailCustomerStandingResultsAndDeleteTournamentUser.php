@@ -88,9 +88,14 @@ class sendEmailCustomerStandingResultsAndDeleteTournamentUser extends Command
                             $deleteHour = date('H',strtotime($deleteHours));
                             $deleteMin = date('i',strtotime($deleteHours));
 
-                            $currDate = date('Y-m-d');
-                            $currHour = date('H');
-                            $currMin = date('i');
+                            $currentDateTime = Carbon::now();
+                            $currentDateTime->setTimezone('Europe/London');
+                            $bstTimeFormat = $currentDateTime->toDateTimeString();
+
+                            $currDate = date('Y-m-d',strtotime($bstTimeFormat));
+                            $currHour = date('H',strtotime($bstTimeFormat));
+                            $currMin = date('i',strtotime($bstTimeFormat));
+                            
                             // Compare current date and time with Db match end time
                             if ( $dbDate == $currDate && $dbHour == $currHour && $dbMin == $currMin )
                             {
