@@ -832,8 +832,8 @@ class TemplateRepository
                     if($round === end($templateFormDetail['steptwo']['rounds'])
                         && $group === end($templateFormDetail['steptwo']['rounds'][$roundIndex]['groups'])
                         && $group['type'] == 'placing_match') {
-                        $position = '-1,' .$roundIndex. ',' .$groupIndex. ',' .($currentMatch-1);
-                        $this->getMatchPosition($position, $templateFormDetail['stepthree']['placings']);
+                        $data = $divisionIndex. ',' .$roundIndex. ',' .$groupIndex. ',' .($currentMatch-1);
+                        $position = $this->getMatchPosition($data, $templateFormDetail['stepthree']['placings']);
                     }
                     
                     array_push($matches, [
@@ -879,5 +879,13 @@ class TemplateRepository
                 $placingGroupCount++;
             }
         }
+    }
+
+    public function getMatchPosition($position, $positionArray)
+    {
+        $matchedPositionArray = collect($positionArray)->where('position', $position)->keys()->toArray();
+
+        echo "<pre>";print_r($matchedPositionArray);echo "</pre>";exit;
+        $data = implode("-", $matchedPositionArray);
     }
 }
