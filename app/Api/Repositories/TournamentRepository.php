@@ -95,10 +95,9 @@ class TournamentRepository
     public function getTemplate($tournamentTemplateId, $ageCategoryId)
     {
         $tournamentTemplateData              = [];
-        $tournamentTemplate                  = TournamentTemplates::find($tournamentTemplateId);
-
-        $tournamentTemplateData['json_data'] = '';
-        if($tournamentTemplate) {
+        $tournamentTemplateData['json_data'] = '';        
+        if($tournamentTemplateId != NULL) {
+            $tournamentTemplate                  = TournamentTemplates::find($tournamentTemplateId);
             $tournamentTemplateData['json_data'] = $tournamentTemplate->json_data;
             $tournamentTemplateData['image']     = $tournamentTemplate->image;
             $tournamentTemplateData['graphic_image']     = $tournamentTemplate->graphic_image ? getenv('S3_URL').$tournamentTemplate->graphic_image : null;
@@ -106,10 +105,6 @@ class TournamentRepository
             $tournamentCompetitionTemplate = TournamentCompetationTemplates::find($ageCategoryId);
             $tournamentTemplateData['json_data'] = $tournamentCompetitionTemplate->template_json_data;
         }
-
-        // $tournamentTemplateData['json_data'] = $tournamentTemplate->json_data;
-        // $tournamentTemplateData['image']     = $tournamentTemplate->image;
-        // $tournamentTemplateData['graphic_image']     = $tournamentTemplate->graphic_image ? getenv('S3_URL').$tournamentTemplate->graphic_image : null;
 
         return $tournamentTemplateData;
     }
