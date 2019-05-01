@@ -247,8 +247,6 @@ class TemplateRepository
         $finalArray['tournament_positions'] = $tournamentsPositionsData;
         $finalArray['round_schedule'] = $data['templateFormDetail']['stepfour']['roundSchedules'];
 
-        dd($finalArray);
-
         return json_encode($finalArray);
     }
 
@@ -832,6 +830,7 @@ class TemplateRepository
                         'display_match_number' => $displayMatchNumber,
                         'display_home_team_placeholder_name' => $displayHomeTeamPlaceholderName,
                         'display_away_team_placeholder_name' => $displayAwayTeamPlaceholderName,
+                        'position' => $position
                     ]);
 
                     // array_push($matches, [
@@ -894,9 +893,14 @@ class TemplateRepository
 
     public function getMatchPosition($position, $positionArray)
     {
-        $matchedPositionArray = collect($positionArray)->where('position', $position)->keys()->toArray();
+        $position = '';
+        $winnerPosition = collect($positionArray)->where('position', $position)->where('position_type', 'winner')->keys()->toArray();
+        $looserPosition = collect($positionArray)->where('position', $position)->where('position_type', 'loser')->keys()->toArray();
 
-        echo "<pre>";print_r($matchedPositionArray);echo "</pre>";exit;
-        $data = implode("-", $matchedPositionArray);
+        if(!empty($winnerPosition) && !empty($looserPosition)) {
+            $position = (head($winnerPosition) + 1) . '-' .(head($looserPosition) + 1);
+        }
+
+        return $position;
     }    
 }
