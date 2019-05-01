@@ -703,6 +703,7 @@ class TemplateRepository
 
                     $divisionRoundGroupPosition1 = explode(',', $teams[$teamIndex]['position']);
                     $divisionRoundGroupPosition2 = explode(',', $teams[$teamIndex + 1]['position']);
+
                     $homePositionType = $teams[$teamIndex]['position_type'];
                     $awayPositionType = $teams[$teamIndex + 1]['position_type'];
 
@@ -824,6 +825,13 @@ class TemplateRepository
 
                             $displayAwayTeamPlaceholderName = ($divisionRoundGroupPosition2[1] + 1). '.' .$awayTeamPlaceholderIndex;
                         }
+                    }
+
+                    if($round === end($templateFormDetail['steptwo']['rounds'])
+                        && $group === end($templateFormDetail['steptwo']['rounds'][$roundIndex]['groups'])
+                        && $group['type'] == 'placing_match') {
+                        $position = '-1,' .$roundIndex. ',' .$groupIndex. ',' .($currentMatch-1);
+                        $this->getMatchPosition($position, $templateFormDetail['stepthree']['placings']);
                     }
                     
                     array_push($matches, [
