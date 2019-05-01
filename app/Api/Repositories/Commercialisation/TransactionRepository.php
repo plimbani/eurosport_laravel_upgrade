@@ -38,11 +38,12 @@ class TransactionRepository
         $data = array_change_key_case($requestData['paymentResponse'], CASE_UPPER);
         $authUser = JWTAuth::parseToken()->toUser();
         $userId = $authUser->id;
-		
         $tournamentRes = null;
         if (($data['STATUS'] == 5 || $data['STATUS'] == 9) && !empty($requestData['tournament'])) {
             $tournamentRes = $this->tournamentObj->addTournamentDetails($requestData['tournament'], 'commercialisation');
+            $tournamentContact = $this->tournamentObj->addTournamentContactDetails($tournamentRes->id, $userId);
             $tournamentRes->users()->attach($userId);
+		
 		}
 
 		if(!$tournamentRes)
@@ -240,8 +241,8 @@ class TransactionRepository
             //Send conformation mail to customer
             $subject = 'Message from Eurosport';
             $email_templates = 'emails.frontend.payment_confirmed';
-            $emailData = ['paymentResponse' => $requestData['paymentResponse'], 'tournament' => $requestData['tournament'], 'user' => $authUser->profile];
-            Mail::to($authUser->email)
+            $emailData = ['paymentResponse' => $requestData['paymentResponse'], 'tournament' => $requestData['tournament'], 'user' => $authUser->profile, 'is_manage_license' => 1];
+			Mail::to($authUser->email)
                     ->send(new SendMail($emailData, $subject, $email_templates, NULL, NULL, NULL));
         }
         return $result;

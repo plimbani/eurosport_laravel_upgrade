@@ -304,7 +304,8 @@
           <div class="form-group row">
             <label class="col-sm-2 form-control-label">{{$lang.tournament_organiser}}</label>
             <div class="col-sm-4">
-              <input type="text" class="form-control" placeholder="" v-model="location.tournament_venue_organiser">
+              <input type="text" class="form-control" placeholder="" 
+              v-model="location.tournament_venue_organiser">
             </div>
           </div>
           <div class="form-group row">
@@ -364,7 +365,7 @@ tournament_venue_postcode: "",
 tournament_venue_state: "",
 tournament_venue_country: "",
 tournament_location_id:"",
-tournament_venue_organiser: "",
+tournament_venue_organiser: (this.$store.state.Configuration.currentLayout == "commercialisation" && this.$store.state.Users.userDetails.role_name == "Customer") ? this.$store.state.Users.userDetails.organisation : "",
 }
 ],
 sponsorImage: [],
@@ -413,6 +414,7 @@ currentLayout: this.$store.state.Configuration.currentLayout,
               // Initially Set with Zero
               this.locations = []
               for(let i=0;i<locations.length;i++){
+
                 this.locations.push ({
                     tournament_venue_name: locations[i]['name'],
                     touranment_venue_address: locations[i]['address1'],
@@ -544,11 +546,13 @@ methods: {
 selectImage() {
 $('#selectFile').trigger('click')
 },
+
 addLocationClick() {
 this.locations.push ({
 tournament_venue_name: "",
 touranment_venue_address: "",
 tournament_venue_city: "",
+tournament_venue_organiser: (this.$store.state.Configuration.currentLayout == "commercialisation" && this.$store.state.Users.userDetails.role_name == "Customer") ? this.$store.state.Users.userDetails.organisation : "",
 tournament_venue_postcode: "",
 tournament_venue_state: "",
 tournament_venue_country: "",

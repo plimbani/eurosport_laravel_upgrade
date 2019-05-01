@@ -135,12 +135,11 @@ export default {
 
       if(displayTournamentEndDate) {
         if(tournamentStartDate >= currentDateTime  && expireTime <= currentDateTime) {
-           return true;
+           return false;
         } else {
-          return false;
+          return true;
         }
       }
-      return this.$store.state.activePath;
     },
     isScoreUpdated() {
       let isScoreUpdated = false;
