@@ -103,11 +103,11 @@
                 this.divisionData.teams = [];
                 for (i = 0; i < this.divisionData.no_of_teams; i++) {
                     if(_.has(oldDivisionTeamData, i)) {
-                        this.divisionData.teams.push({position_type: oldDivisionTeamData[i].position_type, group: oldDivisionTeamData[i].group, position: oldDivisionTeamData[i].position, teams: ''});
+                        this.divisionData.teams.push({position_type: oldDivisionTeamData[i].position_type, group: oldDivisionTeamData[i].group, position: oldDivisionTeamData[i].position});
                         continue;
                     }
                     
-                    this.divisionData.teams.push({position_type: 'placed', group: '', position: '', teams: ''});
+                    this.divisionData.teams.push({position_type: 'placed', group: '', position: ''});
                 }
             },
             onPositionTypeChange(teamIndex) {
