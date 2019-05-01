@@ -215,7 +215,7 @@ class TemplateRepository
         $placings = $templateFormDetail['stepthree']['placings'];
         foreach($placings as $placingIndex => $placing) {
             $roundGroupPositionArray = explode(',', $placing['position']);
-            if($roundGroupPositionArray[0] === -1) {
+            if((int)$roundGroupPositionArray[0] === -1) {
                 $roundDetail = $finalArray['tournament_competation_format']['format_name'][$roundGroupPositionArray[1]];
             } else {
                 $roundDetail = $finalArray['tournament_competation_format']['divisions'][$roundGroupPositionArray[0]]['format_name'][$roundGroupPositionArray[1]];
