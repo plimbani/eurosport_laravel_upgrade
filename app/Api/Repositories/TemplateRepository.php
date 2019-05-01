@@ -248,6 +248,7 @@ class TemplateRepository
         $finalArray['avg_game_team'] = $averageMatches;
         $finalArray['position_type'] = $positionType;
         $finalArray['tournament_positions'] = $tournamentsPositionsData;
+        $finalArray['round_schedule'] = $data['templateFormDetail']['stepfour']['roundSchedules'];
 
         dd($finalArray);
 

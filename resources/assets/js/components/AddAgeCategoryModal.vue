@@ -236,7 +236,7 @@
                             <div class="col-sm-8 align-self-center">
                               <span for="one"
                               v-if="checkTemplate(option)"  :style="'color:'+option.template_font_color">
-                              {{option.name}}<br>{{option.disp_format}}<br>{{option.total_match}} matches<br>{{option.total_time | formatTime}}
+                              {{option.name}}<br>{{displayRoundSchedule(option)}}<br>{{option.total_match}} matches<br>{{option.total_time | formatTime}}
                               <br>
                               <span v-if="option.remark != ''">Remark: {{option.remark}} </span>
                               <span v-else>Remark: None </span>
@@ -760,7 +760,7 @@ export default {
       });
 
       return groupSize;
-    }    
+    },
   },
   methods: {
     checkV(id) {
@@ -1155,6 +1155,12 @@ export default {
     {
       $('#AgeCategoryModal').modal('hide');
     },
+    displayRoundSchedule(data) {
+      var roundScheduleData = JSON.parse(data.json_data).round_schedule;
+      if(roundScheduleData) {
+        return data.total_teams +" teams: "+ roundScheduleData.join(" - ");
+      }
+    }
   }
 }
 </script>

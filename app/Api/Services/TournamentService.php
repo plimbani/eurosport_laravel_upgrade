@@ -252,8 +252,8 @@ class TournamentService implements TournamentContract
     public function getTemplate($data)
     {
        // Here we send Status Code and Messages
-        $data = $data['tournamentTemplateId'];
-        $data = $this->tournamentRepoObj->getTemplate($data);
+        // $data = $data['tournamentTemplateId'];
+        $data = $this->tournamentRepoObj->getTemplate($data['tournamentTemplateId'], $data['ageCategoryId']);
         if ($data) {
             return ['status_code' => '200', 'data' => $data];
         }
