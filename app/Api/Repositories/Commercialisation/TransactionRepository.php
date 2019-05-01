@@ -41,7 +41,7 @@ class TransactionRepository
         $tournamentRes = null;
         if (($data['STATUS'] == 5 || $data['STATUS'] == 9) && !empty($requestData['tournament'])) {
             $tournamentRes = $this->tournamentObj->addTournamentDetails($requestData['tournament'], 'commercialisation');
-            $tournamentContact = $this->tournamentObj->addTournamentContactDetails($tournamentRes->id, $userId, 'commercialisation');
+            $tournamentContact = $this->tournamentObj->addTournamentContactDetails($tournamentRes->id, $userId);
             $tournamentRes->users()->attach($userId);
 		
 		}
