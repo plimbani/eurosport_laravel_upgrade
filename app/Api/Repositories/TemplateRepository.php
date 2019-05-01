@@ -192,25 +192,35 @@ class TemplateRepository
             $roundDetail['round'] = $round;
             $roundDetail['roundIndex'] = $roundIndex;
             $roundDetail['divisionIndex'] = -1;
-            $this->processRound($finalArray, $roundGroupCount, $placingGroupCount, $totalMatches, $roundDetail, $templateFormDetail);
+            $this->processRound($finalArray, $roundGroupCount, $placingGroupCount, $totalMatches, $roundDetail, null, $templateFormDetail);
         }
 
         foreach ($templateFormDetail['steptwo']['divisions'] as $divisionIndex => $division) {
-            dd($division);
-            $divisionTeams = $roundIndex === 0 ? $division['teams'] : null;
+            $divisionTeams = $division['teams'];
+            $divisionNoOfTeam = $division['no_of_teams'];
+            $divisionStartRoundCount = $division['start_round_count'];
             foreach ($division['rounds'] as $roundIndex => $round) {
                 $roundDetail = [];
+                $divisionDetail = [];
                 $roundDetail['round'] = $round;
                 $roundDetail['roundIndex'] = $roundIndex;
                 $roundDetail['divisionIndex'] = $divisionIndex;
-                $this->processRound($finalArray, $roundGroupCount, $placingGroupCount, $totalMatches, $roundDetail, $templateFormDetail);
+                $divisionDetail['divisionTeams'] = $divisionTeams;
+                $divisionDetail['divisionNoOfTeam'] = $divisionNoOfTeam;
+                $divisionDetail['divisionStartRoundCount'] = $divisionStartRoundCount;
+                $this->processRound($finalArray, $roundGroupCount, $placingGroupCount, $totalMatches, $roundDetail, $divisionDetail, $templateFormDetail);
             }
         }
         
         $placings = $templateFormDetail['stepthree']['placings'];
         foreach($placings as $placingIndex => $placing) {
             $roundGroupPositionArray = explode(',', $placing['position']);
-            $roundDetail = $finalArray['tournament_competation_format']['format_name'][$roundGroupPositionArray[1]];
+            if($roundGroupPositionArray[0] === -1) {
+                $roundDetail = $finalArray['tournament_competation_format']['format_name'][$roundGroupPositionArray[1]];
+            } else {
+                $roundDetail = $finalArray['tournament_competation_format']['divisions'][$roundGroupPositionArray[0]]['format_name'][$roundGroupPositionArray[1]];
+            }
+            
             $groupDetail = $roundDetail['match_type'][$roundGroupPositionArray[2]];
             $matchNumber = $groupDetail['groups']['match'][$roundGroupPositionArray[3]]['match_number'];
 
@@ -229,8 +239,6 @@ class TemplateRepository
             }
         }
 
-        dd($finalArray);
-
         $averageMatches = $this->getAverageMatches($totalMatches, $totalTeams);
         $minimumMatches = $this->getMinimumMatches($templateFormDetail);
         $positionType = $this->getPositionType($tournamentsPositionsData);
@@ -240,6 +248,8 @@ class TemplateRepository
         $finalArray['avg_game_team'] = $averageMatches;
         $finalArray['position_type'] = $positionType;
         $finalArray['tournament_positions'] = $tournamentsPositionsData;
+
+        dd($finalArray);
 
         return json_encode($finalArray);
     }
@@ -470,12 +480,10 @@ class TemplateRepository
         return 'final_and_group_ranking';
     }
 
-    public function processRound(&$finalArray, &$roundGroupCount, &$placingGroupCount, &$totalMatches, $roundDetail, $templateFormDetail) {
+    public function processRound(&$finalArray, &$roundGroupCount, &$placingGroupCount, &$totalMatches, $roundDetail, $divisionDetail, $templateFormDetail) {
         $round = $roundDetail['round'];
         $roundIndex = $roundDetail['roundIndex'];
         $divisionIndex = $roundDetail['divisionIndex'];
-
-        $finalArray['tournament_competation_format']['format_name'][$roundIndex]['name'] = 'Round '.($roundIndex+1);
 
         $firstPlacingMatchIndex = array_search('placing_match', array_column($round['groups'], 'type'));
         foreach ($round['groups'] as $groupIndex => $group) {
@@ -504,13 +512,13 @@ class TemplateRepository
                 $group['matches'] = $matches;
             }
 
-            if($roundIndex === 0 && $groupIndex === $firstPlacingMatchIndex && $group['type'] === 'placing_match') {
+            if($divisionIndex === -1 && $roundIndex === 0 && $groupIndex === $firstPlacingMatchIndex && $group['type'] === 'placing_match') {
                 for($i=1; $i<=$noOfTeams; $i=$i+2) {
                     $home = $i;
                     $away = $i + 1;
                     $inBetween = $home . "-" . $away;
-                    $matchNumber = "CAT.PM" + ($roundIndex+1) + ".G" + $matchCount + "." + $home + "-" + $away;
-                    $displayMatchNumber = "CAT." + ($roundIndex+1) + "." + $matchCount + ".@HOME-@AWAY";
+                    $matchNumber = "CAT.PM" . ($roundIndex+1) . ".G" . $matchCount . "." . $home . "-" . $away;
+                    $displayMatchNumber = "CAT." . ($roundIndex+1) . "." . $matchCount . ".@HOME-@AWAY";
                     $displayHomeTeamPlaceholderName = $home;
                     $displayAwayTeamPlaceholderName = $away;
 
@@ -520,7 +528,7 @@ class TemplateRepository
                 }
             }
 
-            if($roundIndex === 0 && $groupIndex !== $firstPlacingMatchIndex && $group['type'] === 'placing_match') {
+            if($divisionIndex === -1 && $roundIndex === 0 && $groupIndex !== $firstPlacingMatchIndex && $group['type'] === 'placing_match') {
                 $teams = $group['teams'];
                 
                 $totalPlacingMatches = 0;
@@ -613,7 +621,7 @@ class TemplateRepository
                 }
             }
 
-            if($roundIndex > 0 && $group['type'] === "round_robin") {
+            if(($divisionIndex === -1 && $roundIndex > 0 && $group['type'] === "round_robin")) {
                 $times = $this->getNumberOfTimesFromString($times);
                 for($i=0; $i<$times; $i++){
                     for($j=1; $j<=$noOfTeams; $j++) {
@@ -679,17 +687,26 @@ class TemplateRepository
                 }
             }
 
-            if($roundIndex > 0 && $group['type'] === "placing_match") {
-                for ($teamIndex = 0; $teamIndex < count($group['teams']); $teamIndex++) {
+            if(($divisionIndex === -1 && $roundIndex > 0 && $group['type'] === "placing_match") || ($divisionIndex > -1 && $roundIndex >= 0 && $group['type'] === "placing_match")) {
+                // dd($divisionDetail);
+                $teams = $group['teams'];
+                if($divisionIndex >= -1 && $roundIndex === 0) {
+                    $teams = [];
+                    for ($teamIndex = 0; $teamIndex < count($group['teams']); $teamIndex++) {
+                        $teams[$teamIndex] = $divisionDetail['divisionTeams'][$group['teams'][$teamIndex]['position']];
+                    }
+                }
+                // dd($teams);
+                for ($teamIndex = 0; $teamIndex < count($teams); $teamIndex++) {
                     $bothSameTeamTypes = false;
                     
                     $currentRound = $roundIndex + 1;
                     $currentMatch = ($teamIndex/2) + 1;
 
-                    $divisionRoundGroupPosition1 = explode(',', $group['teams'][$teamIndex]['position']);
-                    $divisionRoundGroupPosition2 = explode(',', $group['teams'][$teamIndex + 1]['position']);
-                    $homePositionType = $group['teams'][$teamIndex]['position_type'];
-                    $awayPositionType = $group['teams'][$teamIndex + 1]['position_type'];
+                    $divisionRoundGroupPosition1 = explode(',', $teams[$teamIndex]['position']);
+                    $divisionRoundGroupPosition2 = explode(',', $teams[$teamIndex + 1]['position']);
+                    $homePositionType = $teams[$teamIndex]['position_type'];
+                    $awayPositionType = $teams[$teamIndex + 1]['position_type'];
 
                     if(($homePositionType == 'winner' && $awayPositionType == 'winner') || ($homePositionType == 'loser' && $awayPositionType == 'loser')) {
                         $bothSameTeamTypes = true;
@@ -711,7 +728,7 @@ class TemplateRepository
                         $displayAwayTeamPlaceholderName = $awayTeamData['teamDisplayPlaceholderName'];
                     }
 
-                    if($group['teams'][$teamIndex]['position_type'] == 'placed' && $group['teams'][$teamIndex + 1]['position_type'] == 'placed') {
+                    if($homePositionType == 'placed' && $awayPositionType == 'placed') {
                         $bothSameTeamTypes = true;
                         $teamRoundData1 = $templateFormDetail['steptwo']['rounds'][$divisionRoundGroupPosition1[1]];
                         $teamGroupType1 = $teamRoundData1['groups'][$divisionRoundGroupPosition1[2]]['type'];
@@ -737,7 +754,7 @@ class TemplateRepository
                     }
 
                     if($bothSameTeamTypes == false) {
-                        if($group['teams'][$teamIndex]['position_type'] === 'placed') {
+                        if($teams[$teamIndex]['position_type'] === 'placed') {
                             $teamRoundData1 = $templateFormDetail['steptwo']['rounds'][$divisionRoundGroupPosition1[1]];
                             $teamGroupType1 = $teamRoundData1['groups'][$divisionRoundGroupPosition1[2]]['type'];
                             $groupName1 = null;
@@ -752,7 +769,7 @@ class TemplateRepository
                             $homeDisplayHomeTeamPlaceholderName = '#' . $homeTeam;
                         }
 
-                        if($group['teams'][$teamIndex]['position_type'] == 'winner' || $group['teams'][$teamIndex]['position_type'] == 'loser') {
+                        if($teams[$teamIndex]['position_type'] == 'winner' || $teams[$teamIndex]['position_type'] == 'loser') {
                             $teamRoundData1 = $finalArray['tournament_competation_format']['format_name'][$divisionRoundGroupPosition1[1]];
                             $teamGroupType1 = $teamRoundData1['match_type'][$groupIndex]['groups']['match'][$divisionRoundGroupPosition1[3]];
                             $teamGroupType1MatchNumber = explode(".", $teamGroupType1['match_number']);
@@ -760,12 +777,12 @@ class TemplateRepository
                             $groupName1 = str_replace("-", "_", end($teamGroupType1MatchNumber));
                             $homeTeamPlaceholderIndex = $divisionRoundGroupPosition1[3] + 1;
 
-                            if($group['teams'][$teamIndex]['position_type'] == 'winner') {
+                            if($teams[$teamIndex]['position_type'] == 'winner') {
                                 $homeInBetween = 'CAT.PM' .($divisionRoundGroupPosition1[1] + 1). '.G' .$homeTeamPlaceholderIndex. 'WR';
                                 $homeMatchNumber = 'CAT.PM' .$currentRound. '.G' .$currentMatch. '.' .$groupName1 .'_WR';
                                 $homeDisplayMatchNumber = 'CAT.' .$currentRound. '.' .$currentMatch. '.wrs.(@HOME-@AWAY)';
                             }
-                            if($group['teams'][$teamIndex]['position_type'] == 'loser') {
+                            if($teams[$teamIndex]['position_type'] == 'loser') {
                                 $homeInBetween = 'CAT.PM' .($divisionRoundGroupPosition1[1] + 1). '.G' .$homeTeamPlaceholderIndex. 'LR';
                                 $homeMatchNumber = 'CAT.PM' .$currentRound. '.G' .$currentMatch. '.' .$groupName1 .'_LR';
                                 $homeDisplayMatchNumber = 'CAT.' .$currentRound. '.' .$currentMatch. '.lrs.(@HOME-@AWAY)';
@@ -774,7 +791,7 @@ class TemplateRepository
                             $displayHomeTeamPlaceholderName = ($divisionRoundGroupPosition1[1] + 1). '.' .$homeTeamPlaceholderIndex;
                         }
 
-                        if($group['teams'][$teamIndex + 1]['position_type'] == 'placed') {
+                        if($teams[$teamIndex + 1]['position_type'] == 'placed') {
                             $teamRoundData2 = $templateFormDetail['steptwo']['rounds'][$divisionRoundGroupPosition2[1]];
                             $teamGroupType2 = $teamRoundData2['groups'][$divisionRoundGroupPosition2[2]]['type'];
                             $groupName2 = null;
@@ -789,19 +806,19 @@ class TemplateRepository
                             $awayDisplayAwayTeamPlaceholderName = '#' . $awayTeam;
                         }
 
-                        if($group['teams'][$teamIndex + 1]['position_type'] == 'winner' || $group['teams'][$teamIndex + 1]['position_type'] == 'loser') {
+                        if($teams[$teamIndex + 1]['position_type'] == 'winner' || $teams[$teamIndex + 1]['position_type'] == 'loser') {
                             $teamRoundData2 = $finalArray['tournament_competation_format']['format_name'][$divisionRoundGroupPosition2[1]];
                             $teamGroupType2 = $teamRoundData2['match_type'][$groupIndex]['groups']['match'][$divisionRoundGroupPosition2[3]];
                             $teamGroupType2MatchNumber = explode(".", $teamGroupType2['match_number']);
                             $groupName2 = str_replace("-", "_", end($teamGroupType2MatchNumber));
                             $awayTeamPlaceholderIndex = $divisionRoundGroupPosition2[3] + 1;
 
-                            if($group['teams'][$teamIndex]['position_type'] == 'winner') {
+                            if($teams[$teamIndex]['position_type'] == 'winner') {
                                 $awayInBetween = 'CAT.PM' .($divisionRoundGroupPosition1[1] + 1). '.G' .$awayTeamPlaceholderIndex. 'WR';
                                 $homeMatchNumber = 'CAT.PM' .$currentRound. '.G' .$currentMatch. '.' .$groupName1 .'_WR';
                                 $homeDisplayMatchNumber = 'CAT.' .$currentRound. '.' .$currentMatch. '.wrs.(@HOME-@AWAY)';
                             }
-                            if($group['teams'][$teamIndex]['position_type'] == 'loser') {
+                            if($teams[$teamIndex]['position_type'] == 'loser') {
                                 $awayInBetween = 'CAT.PM' .($divisionRoundGroupPosition1[1] + 1). '.G' .$awayTeamPlaceholderIndex. 'LR';
                                 $homeMatchNumber = 'CAT.PM' .$currentRound. '.G' .$currentMatch. '.' .$groupName1 .'_LR';
                                 $homeDisplayMatchNumber = 'CAT.' .$currentRound. '.' .$currentMatch. '.lrs.(@HOME-@AWAY)';
@@ -839,7 +856,13 @@ class TemplateRepository
                 'groups' => ['group_name' => 'Group-' . $groupName, 'match' => $matches]
             ];
 
-            $finalArray['tournament_competation_format']['format_name'][$roundIndex]['match_type'][] = $matchTypeDetail;
+            if($divisionIndex === -1) {
+                $finalArray['tournament_competation_format']['format_name'][$roundIndex]['name'] = 'Round '.($roundIndex+1);
+                $finalArray['tournament_competation_format']['format_name'][$roundIndex]['match_type'][] = $matchTypeDetail;
+            } else if($divisionIndex >= 0) {
+                $finalArray['tournament_competation_format']['divisions'][$divisionIndex]['format_name'][$roundIndex]['name'] = 'Round '.($roundIndex+1);
+                $finalArray['tournament_competation_format']['divisions'][$divisionIndex]['format_name'][$roundIndex]['match_type'][] = $matchTypeDetail;
+            }
 
             if($group['type'] === "round_robin") {
                 $roundGroupCount++;
