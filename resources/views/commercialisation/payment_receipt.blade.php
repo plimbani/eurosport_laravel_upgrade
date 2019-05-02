@@ -151,7 +151,7 @@
                                                         <tr>
                                                             <td align="right" style="text-align: right; font-size: 0px; padding: 10px 25px; word-break: break-word;">
                                                                 <div style="font-family:Roboto, Helvetica, Arial, sans-serif;font-size:16px;font-weight:300;line-height:24px;text-align:left;color:#555;">
-                                                                    <p>Hello There,</p>
+                                                                    <p>Hello</p>
                                                                     <p>Thank you for the purchase. Your order number is #<?php echo $data['orderNumber']; ?>.</p>
                                                                     <p>
                                                                         
@@ -185,13 +185,29 @@
                                                                         <tr>
                                                                             <th style="text-align: left; font-weight: normal; padding: 10px;" align="left"><?php echo $data['maximumTeams']; ?> Team license for a <?php echo $data['days']; ?> day(s) tournament
                                                                             </th>
-                                                                            <td style="text-align: right; padding: 10px;" align="right">$<?php echo $data['amount']; ?></td>
+                                                                            <td style="text-align: right; padding: 10px;" align="right">
+																			<?php if($data['currency'] == "GBP") 
+																			{
+																				echo "&#163;";
+																			} else { 
+																				echo "&#128;"; 
+																			}
+                                                                             echo $data['amount'];
+																			 ?>
+																			 </td>
                                                                         </tr>
                                                                     </tbody>
                                                                     <thead class="footer">
                                                                         <tr>
                                                                             <th colspan="2" style="border-bottom: 0px solid #57697E; background-color: rgba(33, 150, 243,0.1); text-align: right; font-size: 16px; padding: 10px;" bgcolor="rgba(33, 150, 243,0.1)" align="right">
-                                                                                $<?php echo $data['amount']; ?>
+                                                                             <?php if($data['currency'] == "GBP") 
+																			{
+																				echo "&#163;";
+																			} else { 
+																				echo "&#128;"; 
+																			}
+                                                                             echo $data['amount'];
+																			 ?>
                                                                             </th>
                                                                         </tr>
                                                                     </thead>

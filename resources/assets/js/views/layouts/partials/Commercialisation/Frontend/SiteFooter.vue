@@ -35,11 +35,6 @@
     	</div>
     </footer>
 </template>
-
-<script type="text/babel">
-    
-</script>
-
 <script type="text/javascript">
     $(document).ready( function(){
         var headerHeight = $(".header").outerHeight();

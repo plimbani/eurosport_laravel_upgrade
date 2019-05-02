@@ -45,8 +45,7 @@
                                     <!-- <td>TEA</td> -->
                                     <td v-on:click="redirectToTransactionListPage(tournament)" >
                                     <a href="javascript:void(0)" class="text-primary"><u>{{ tournament.created_at }}</u></a></td>
-                                    <td>Edit</td>
-                                    
+                                    <td><a class="text-primary" href="javascript:void(0);"  v-on:click="redirectToTournamentDetailPage(tournament)" title="Edit"><i class="fas fa-pencil"></i></a></td>                                    
                                   </tr>
                                   <tr><td colspan="8"></td></tr>
                                 </tbody>
@@ -72,21 +71,6 @@
                 usersTourmanents:[],
                 customer_id:0, // currently static
             }
-        },
-        beforeRouteEnter(to, from, next) {  
-            next(vm =>{
-                if(Object.keys(to.query).length === 0) {
-                    vm.$router.push({name: 'users_list'});
-                }else{
-                    if(typeof to.query.id != "undefined"){
-                        vm.customer_id = to.query.id; 
-                        vm.getTournamentListOfUser();
-                    }else{  
-                        vm.$router.push({name: 'users_list'});
-                    }
-                }
-                
-            })
         },
         methods: {
             getTournamentListOfUser(){
@@ -116,7 +100,8 @@
                     tournamentEndDate:selectedTournament.end_date,
                     facebook:selectedTournament.facebook,
                     website:selectedTournament.website,
-                    twitter:selectedTournament.twitter
+                    twitter:selectedTournament.twitter,
+                    access_code:selectedTournament.access_code
                 }
                 this.$store.dispatch('SetTournamentName', tournamentSel);
                 let currentNavigationData = {activeTab:'tournament_add', currentPage: 'Tournament details'};
@@ -126,10 +111,23 @@
 
             redirectToTransactionListPage(tournament){
                  this.$router.push({name: 'tournamentstransaction', query: {id:tournament.id}}); 
-            } 
+            }, 
+
+            getTournamentRecord() {
+                if(Object.keys(this.$route.query).length === 0) {
+                    this.$router.push({name: 'users_list'});
+                }else{
+                    if(this.$route.query.id != ''){
+                        this.customer_id = this.$route.query.id; 
+                        this.getTournamentListOfUser();
+                    }else{  
+                        this.$router.push({name: 'users_list'});
+                    }
+                }
+            }
         },
         beforeMount(){  
-            
+            this.getTournamentRecord();
         }
     }
 </script>

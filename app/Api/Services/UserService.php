@@ -136,12 +136,10 @@ class UserService implements UserContract
 
           if(!empty($data['zip']))
             $userData['people']['zipcode'] = $data['zip'];
-
-          if(!empty($data['country']))
-            $userData['people']['country_id'] = $data['country'];
         }
 
         \Log::info('Insert in PeopleTable');
+
         $peopleObj = $this->peopleRepoObj->create($userData['people']);
         $userData['user']['person_id']=$peopleObj->id;
         $userData['user']['username']=$data['emailAddress'];
@@ -149,8 +147,11 @@ class UserService implements UserContract
         $userData['user']['email']=$data['emailAddress'];
         $userData['user']['organisation']=$data['organisation'];
         $userData['user']['userType']=$data['userType'];
-        $userData['user']['role']=$data['role'];  
-        $userData['user']['country_id'] = $data['country'];
+        $userData['user']['role']=$data['role'];
+
+        if(!empty($data['country']))
+          $userData['user']['country_id'] = $data['country'];
+       
               
         if($getUserTypeSlug == "customer" && !empty($data['status'])) {
            $userData['user']['is_active'] = $data['status'];
@@ -318,7 +319,6 @@ class UserService implements UserContract
     public function update($data, $userId)
     {
         $data = $data->all();
-
         $mobileUserRoleId = Role::where('slug', 'mobile.user')->first()->id;
         $userData=array();
         $userData['people']=array();
@@ -343,7 +343,7 @@ class UserService implements UserContract
           $data['name'] = $data['first_name'];
           $data['surname'] = $data['last_name'];
           $data['role'] = $data['role'];
-          $data['country_id'] = $data['country'];
+          $data['country_id'] = isset($data['country_id']) ? $data['country_id'] : null;
          // \Log::info('Update in password'.$data['password']);
          // $userData['user']['password'] = Hash::make(trim($data['password']));
           $data['emailAddress'] = '';
@@ -368,11 +368,12 @@ class UserService implements UserContract
             $data['organisation'] = NULL;
           }
         }
+
         $userData['user']['name']=$data['name']." ".$data['surname'];
         ($data['emailAddress']!= '') ? $userData['user']['email']=$data['emailAddress'] : '';
         $userData['user']['organisation']=$data['organisation'];
         $userData['user']['role'] = $data['role'];
-        $userData['user']['country_id'] = $data['country'];
+        $userData['user']['country_id'] = isset($data['country_id']) ? $data['country_id'] : null;
 
         (isset($data['locale']) && $data['locale']!='') ? $userData['user']['locale'] = $data['locale'] : '';
         
@@ -412,7 +413,6 @@ class UserService implements UserContract
                 'job_title' => !empty($data['job_title']) ? $data['job_title'] : $userObj->profile->job_title,
                 'city' => !empty($data['city']) ? $data['city'] : $userObj->profile->city,
                 'zipcode' => !empty($data['zip']) ? $data['zip'] : $userObj->profile->zip,
-                'country_id' => !empty($data['country']) ? $data['country'] : $userObj->profile->country,
             ];
         }
         $peopleObj = $this->peopleRepoObj->edit($userData['people'], $userObj->person_id);

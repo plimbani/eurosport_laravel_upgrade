@@ -271,7 +271,8 @@
                     this.tournamentData.tournament_start_date = document.getElementById('tournament_start_date').value;
                     this.tournamentData.tournament_end_date = document.getElementById('tournament_end_date').value;
                     if(this.id){
-                        this.tournamentData.dayDifference =  this.newDaysAdded; 
+                        this.tournamentData.dayDifference =  this.newDaysAdded;
+						this.tournamentData.teamDifference =  this.new_added_teams;
                     }else{
                         this.tournamentData.dayDifference = this.dayDifference;
                     }
@@ -338,7 +339,7 @@
 
                 
             getTournamentDetail(){ 
-                axios.get(Constant.apiBaseUrl+'get-tournament?transactionId='+this.id, {}).then(response =>  {
+                axios.get(Constant.apiBaseUrl+'get-tournament?tournamentId='+this.id, {}).then(response =>  {
                         if (response.data.success) {
                             var start_date = new Date(moment(response.data.data.tournament.start_date, 'DD/MM/YYYY').format('MM/DD/YYYY'));
                             var end_date = new Date(moment(response.data.data.tournament.end_date, 'DD/MM/YYYY').format('MM/DD/YYYY')); 
@@ -371,7 +372,6 @@
                             {
                                 transactionAmount.push(historyAmount.amount); 
                             });
-                        
                             let transactionDifferenceAmountValue = _.sumBy(transactionAmount, function(historyAmount) { 
                                 return historyAmount; 
                             }); 
@@ -463,7 +463,7 @@
                     let tournamentPricingRecord = _.head(tournamentLicensePricingArray);
                     vm.tournamentData.tournamentPricingValue = tournamentPricingRecord - this.tournamentData.transactionDifferenceAmountValue;
                 }
-                if(isNaN(vm.tournamentData.tournamentPricingValue)){
+                if(isNaN(vm.tournamentData.tournamentPricingValue) || vm.tournamentData.tournamentPricingValue < 0){
                     vm.tournamentData.tournamentPricingValue  = 0;
                 }
             }
@@ -499,7 +499,9 @@
             this.getCurrencyValue();
             setTimeout(function(){
                 vm.setOldDays()
-                vm.getTournamentDetail()
+                if(this.id){
+                    vm.getTournamentDetail()
+                }
                 vm.tournammentPricingData()
             },1500) 
             $('#cup').prop("checked",true)

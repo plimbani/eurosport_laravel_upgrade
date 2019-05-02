@@ -24,12 +24,14 @@ class TournamentAccessible
         $token = JWTAuth::getToken();
         
         if((isset($request->headers->all()['ismobileuser'])) && $request->headers->all()['ismobileuser'] == true) {
-            if(isset($request->all()['tournamentId'])) {
+            if(isset($request->all()['tournamentData']) && isset($request->all()['tournamentData']['tournamentId'])) {
+                $tournament_id = $request->all()['tournamentData']['tournamentId'];
+            } else if(isset($request->all()['tournamentId'])) {
                 $tournament_id = $request->all()['tournamentId'];
-            } else {
+            } else if(isset($request->all()['tournament_id'])) {
                 $tournament_id = $request->all()['tournament_id'];
             }
-            // $tournament_id = $request->all()['tournament_id'];
+            
             $currentLayout = config('config-variables.current_layout');
             if($currentLayout == 'commercialisation'){
                 $user = $this->getCurrentLoggedInUserDetail();

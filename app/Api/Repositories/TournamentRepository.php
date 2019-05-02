@@ -31,6 +31,7 @@ use Laraspace\Models\TournamentUser;
 use Laraspace\Models\TournamentPricing;
 use Laraspace\Models\TransactionHistory;
 use Laraspace\Models\Transaction;
+use Laraspace\Models\User;
 
 class TournamentRepository
 {
@@ -1126,7 +1127,9 @@ class TournamentRepository
      */
     public function getTournamentDetails($id)
     {
-        return Transaction::with('getSortedTransactionHistories','tournament')->find($id);
+        $authUser = JWTAuth::parseToken()->toUser();
+        $tournament = Transaction::where('tournament_id', $id)->where('user_id', $authUser->id)->with('getSortedTransactionHistories', 'tournament')->has('getSortedTransactionHistories', '>=', DB::raw(1))->first();
+        return $tournament;
     }
     
     /**
@@ -1167,7 +1170,6 @@ class TournamentRepository
     public function resultAdministratorDisplayMessage($tournamentData)
     {
         $tournamentStartDate = Tournament::where('id', $tournamentData['tournament_id'])->pluck('start_date')->first();
-
         $tournamentDateFormat = Carbon::createFromFormat('d/m/Y', $tournamentStartDate);
         $tournamentDisplayDate = Carbon::parse($tournamentDateFormat)->format('Y-m-d');
 
@@ -1437,13 +1439,21 @@ class TournamentRepository
     */
     public function getTournamentAccessCodeDetail($data)
     {
-        $authUser = JWTAuth::parseToken()->toUser();
         $tournament = Tournament::where('access_code', $data['accessCode'])->first();
-        $userFavourites = UserFavourites::where('tournament_id', $tournament['id'])->where('user_id', $authUser->id)->get();
-        return ['tournament' => $tournament, 'userFavourites' => $userFavourites];
+        return $tournament;
     } 
 
     public function getUserTransactions($user) {
-        return Transaction::where('user_id', $user->id)->with('getSortedTransactionHistories','tournament')->get();        
+        return Transaction::where([['user_id', $user->id], ["tournament_id", "!=", null]])->with('getSortedTransactionHistories','tournament')->has('getSortedTransactionHistories')->get();      
+    }
+
+    public function addTournamentContactDetails($tournamentId, $userId) {
+         $user = User::find($userId);
+         list($first_name, $last_name) = explode(' ', $user['name']);
+         return TournamentContact::create([
+            'tournament_id' => $tournamentId,
+            'first_name' => $first_name,
+            'last_name' => $last_name,
+        ]);
     }
 }

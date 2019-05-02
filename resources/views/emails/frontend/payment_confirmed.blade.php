@@ -4,7 +4,7 @@ $tdate = str_replace('/', '-', $email_details['tournament']['tournament_end_date
 $datetime1 = new DateTime($fdate);
 $datetime2 = new DateTime($tdate);
 $interval = $datetime1->diff($datetime2);
-$days = $interval->format('%a');
+$days = $interval->format('%a') + 1;
 ?>
 <!doctype html>
 <!--<html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
@@ -203,15 +203,34 @@ $days = $interval->format('%a');
                                                                     </thead>
                                                                     <tbody>
                                                                         <tr>
-                                                                            <th style="text-align: left; font-weight: normal; padding: 10px;" align="left"><?php echo $email_details['tournament']['tournament_max_teams']; ?> Team license for a <?php echo $email_details['tournament']['dayDifference']; ?> day tournament
-                                                                            </th>
-                                                                            <td style="text-align: right; padding: 10px;" align="right">$<?php echo $email_details['paymentResponse']['amount']; ?></td>
+                                                                            <th style="text-align: left; font-weight: normal; padding: 10px;" align="left"><?php 
+																			if(isset($email_details['is_manage_license']) && $email_details['is_manage_license'] == 1)
+																			{
+
+                                                                                $daysign = "+";
+                                                                                if($email_details['tournament']['dayDifference'] < 0) {
+                                                                                    $daysign = "";
+                                                                                }
+
+																				echo $email_details['tournament']['tournament_max_teams']; ?> (+ <?php echo $email_details['tournament']['teamDifference']; ?>) Team license for a <?php echo $days; ?> (<?php echo $daysign; ?> <?php echo $email_details['tournament']['dayDifference']; ?>) day tournament
+																			<?php 
+                                                                            }
+																			else{
+																				echo $email_details['tournament']['tournament_max_teams']; ?> Team license for a <?php echo $email_details['tournament']['dayDifference']; ?> day tournament
+                                                                            <?php } ?>
+																			</th>
+                                                                            <td style="text-align: right; padding: 10px;" align="right">
+                                                                                <?php if($email_details['paymentResponse']['currency'] == "GBP") {echo "&#163;";} else { echo "&#x20AC;"; }
+                                                                                ?>
+                                                                                <?php echo $email_details['paymentResponse']['amount']; ?></td>
                                                                         </tr>
                                                                     </tbody>
                                                                     <thead class="footer">
                                                                         <tr>
                                                                             <th colspan="2" style="border-bottom: 0px solid #57697E; background-color: rgba(33, 150, 243,0.1); text-align: right; font-size: 16px; padding: 10px;" bgcolor="rgba(33, 150, 243,0.1)" align="right">
-                                                                                $<?php echo $email_details['paymentResponse']['amount']; ?>
+                                                                                <?php if($email_details['paymentResponse']['currency'] == "GBP") {echo "&#163;";} else { echo "&#x20AC;"; }
+                                                                                ?>
+                                                                                <?php echo $email_details['paymentResponse']['amount']; ?>
                                                                             </th>
                                                                         </tr>
                                                                     </thead>

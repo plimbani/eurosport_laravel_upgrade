@@ -37,7 +37,7 @@ class TransactionService implements TransactionContract {
     public function generatePaymentReceipt($data)
     {
         $transaction = \DB::table('transaction_histories')
-                ->select('transaction_histories.id', 'transaction_histories.amount', 'transaction_histories.order_id', 'transaction_histories.team_size', 'tournaments.start_date', 'tournaments.end_date')
+                ->select('transaction_histories.id', 'transaction_histories.currency', 'transaction_histories.amount', 'transaction_histories.order_id', 'transaction_histories.team_size', 'tournaments.start_date', 'tournaments.end_date', 'transaction_histories.no_of_days', 'tournaments.maximum_teams')
                 ->join('transactions', 'transaction_histories.transaction_id', '=', 'transactions.id')
                 ->join('tournaments', 'tournaments.id', '=', 'transactions.tournament_id')
                 ->where(['transactions.tournament_id' => $data['tournament_id']])
@@ -50,22 +50,26 @@ class TransactionService implements TransactionContract {
         $datetime1 = new \DateTime($fdate);
         $datetime2 = new \DateTime($tdate);
         $interval = $datetime1->diff($datetime2);
-        $days = $interval->format('%a');
+        $days = $interval->format('%a') + 1;
 
         if (count($transaction) > 1) {
-            $amount = $transaction[0]->amount - $transaction[1]->amount;
-            $maxTeam = '+' . ($transaction[0]->team_size - $transaction[1]->team_size);
+            $amount  = $transaction[0]->amount;
+            $maxTeam = $transaction[0]->maximum_teams." (+".$transaction[0]->team_size.")";
+            $days = $days." (+".$transaction[0]->no_of_days.")";
         } else {
             $amount = $transaction[0]->amount;
             $maxTeam = $transaction[0]->team_size;
         }
 
+       
         $pdfData = [
             'days' => $days,
             'maximumTeams' => $maxTeam,
             'amount' => $amount,
-            'orderNumber' => $transaction[0]->order_id
+            'orderNumber' => $transaction[0]->order_id,
+			'currency' => $transaction[0]->currency
         ];
+
         $date = new \DateTime(date('H:i d M Y'));
         $pdf = PDF::loadView('commercialisation.payment_receipt', ['data' => $pdfData])
                 ->setPaper('a4')
@@ -78,7 +82,6 @@ class TransactionService implements TransactionContract {
                 ->setOption('margin-top', 20)
                 ->setOption('margin-bottom', 20);
         $pdfFile = 'payment-receipt-' . $date->format('Y-m-d H:i:s') . '.pdf';
-
         return $pdf->download($pdfFile);
     }
 }
