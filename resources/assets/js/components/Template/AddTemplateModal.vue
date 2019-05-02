@@ -79,7 +79,10 @@
                     stepfour: {
                         remarks: '',
                         template_font_color: '',
-                        roundSchedules: ['']
+                        roundSchedules: [''],
+                        graphic_image: '',
+                        image:'',
+                        imagePath :''
                     }
                 }
 		    }

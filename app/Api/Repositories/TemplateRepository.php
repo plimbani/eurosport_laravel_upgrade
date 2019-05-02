@@ -22,6 +22,7 @@ class TemplateRepository
      */
     public function __construct(AgeGroupService $ageGroupService)
     {
+        $this->getGraphicImagePath = '/assets/img/template_graphic_image/';
         $this->ageGroupService = $ageGroupService;
     }
     /*
@@ -115,6 +116,7 @@ class TemplateRepository
     public function editTemplate($id)
     {
         $tournamentTemplate = TournamentTemplates::where('id', $id)->first();
+        $tournamentTemplate->graphic_image = $tournamentTemplate->graphic_image ? getenv('S3_URL').$tournamentTemplate->graphic_image : null;
 
         return $tournamentTemplate;
     }
@@ -259,10 +261,12 @@ class TemplateRepository
     public function insertTemplate($data, $templateJson)
     {
         $decodedJson = json_decode($templateJson, true);
+        $graphicImageName = $this->getGraphicImagePath .$data['templateFormDetail']['stepfour']['graphic_image'];
 
         $tournamentTemplate = new TournamentTemplates();
         $tournamentTemplate->json_data = $templateJson;
         $tournamentTemplate->name = $data['templateFormDetail']['stepone']['templateName'];
+        $tournamentTemplate->graphic_image = $graphicImageName;
         $tournamentTemplate->total_teams = $data['templateFormDetail']['stepone']['no_of_teams'];
         $tournamentTemplate->minimum_matches = $decodedJson['tournament_min_match'];
         $tournamentTemplate->position_type = $decodedJson['position_type'];
@@ -286,14 +290,24 @@ class TemplateRepository
      */
     public function updateTemplate($data, $templateJson)
     {
+        $decodedJson = json_decode($templateJson, true);
+        $graphicImageName = NULL;
+        if($data['templateFormDetail']['stepfour']['graphic_image']) {            
+            $graphicImageName = $this->getGraphicImagePath .$data['templateFormDetail']['stepfour']['graphic_image'];
+        }
+
         $tournamentTemplate = TournamentTemplates::findOrFail($data['editedTemplateId']);
         $tournamentTemplate->json_data = $templateJson;
         $tournamentTemplate->name = $data['templateFormDetail']['stepone']['templateName'];
+        $tournamentTemplate->graphic_image = $graphicImageName;
         $tournamentTemplate->total_teams = $data['templateFormDetail']['stepone']['no_of_teams'];
+        $tournamentTemplate->minimum_matches = $decodedJson['tournament_min_match'];
+        $tournamentTemplate->position_type = $decodedJson['position_type'];
+        $tournamentTemplate->avg_matches = $decodedJson['avg_game_team'];
+        $tournamentTemplate->total_matches = $decodedJson['total_matches'];
         $tournamentTemplate->editor_type = $data['templateFormDetail']['stepone']['editor'];
         $tournamentTemplate->template_form_detail = json_encode($data['templateFormDetail']);
-        $tournamentTemplate->created_by = Auth::user()->id;
-        $tournamentTemplate->save();        
+        $tournamentTemplate->save();
 
         return $tournamentTemplate;
     }
@@ -902,5 +916,5 @@ class TemplateRepository
         }
 
         return $position;
-    }    
+    }
 }

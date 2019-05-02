@@ -138,8 +138,7 @@
 					                </div>
 								</div>
 							</div>
-
-							<button type="button" class="btn btn-primary" @click="addNewRoundSchedule()">Add</button>
+							<a href="javascript:void(0)" class="text-primary" @click="addNewRoundSchedule()"><u>Add</u></a>
 						</div>
 
 						<div class="form-group" :class="{'has-error': errors.has('graphic_image') }">
@@ -148,12 +147,12 @@
 								<img src="/assets/img/noimage.png" class="thumb-size" />
 								<button type="button" class="btn btn-default ml-4" name="btnSelect" id="btnSelect" @click="openFileInput">	{{$lang.tournament_tournament_choose_button}}
 								</button>
-								<input type="file" class="thumb-size d-none" name="graphic_image" id="graphic_image" @change="onFileChange">
+								<input type="file" class="thumb-size d-none" name="graphic_image" id="graphic_image" @change="onFileChange" v-validate="'required'" data-vv-as="Graphic image">
 								<i v-show="errors.has('graphic_image')" class="fa fa-warning"></i>
-	                        	<span class="help is-danger" v-show="errors.has('graphic_image')">{{ errors.first('graphic_image') }}</span>
-	                        </div>
+								<div><span class="help is-danger" v-show="errors.has('graphic_image')">{{ errors.first('graphic_image') }}</span></div>
+	                        </div>	                        
 	                        <div v-else>
-								<img :src="imagePath + image" class="thumb-size" />
+								<img :src="image" class="thumb-size" />
                             	<button class="btn btn-danger ml-4" @click="removeImage">{{$lang.tournament_tournament_remove_button}}</button>	                        	
 	                        </div>
 						</div>
@@ -184,49 +183,53 @@
 <script type="text/javascript">
 	import Template from '../../api/template.js'
 	export default {
-		props: ['templateFormDetail', 'editedTemplateId'],
+		props: ['templateFormDetail', 'editedTemplateId', 'templateGraphicImage'],
         data() {
             return {
             	image:'',
-            	imagePath :'',
             	templateFontColors: [
             		'rgb(146,208,80)', 'rgb(255,192,0)', 'rgb(217,149,148)'
             	],
             }
         },
         created() {
+        	this.image = this.templateGraphicImage !== undefined ? this.templateGraphicImage : null;
             this.$root.$on('updateTemplateData', this.updateTemplateData);
         },
         beforeCreate: function() {
             this.$root.$off('updateTemplateData');
-        },
-        mounted() {
-        },
-        computed: {
-        	
         },
         methods: {
         	saveTemplateDetail() {
         		var templateData = {'templateFormDetail': this.templateFormDetail};
         		this.$validator.validateAll().then((response) => {
 	        		if(response) {
+	        			this.templateFormDetail.stepfour.graphic_image = this.image;
 	        			var templateData = { 'templateFormDetail': this.templateFormDetail };
 	        			if(this.editedTemplateId) {
 	        				templateData.editedTemplateId = this.editedTemplateId;
 	        				Template.updateTemplateDetail(templateData).then(
 			        			(response) => {
+			        				toastr.success('Template has been updated successfully.', 'Add Age Category', {timeOut: 5000});
+			        				$('#edit_template_modal').modal('hide');
+			        				this.$root.$emit('getTemplates');
 			        			},
-			        			(error) => {
+			        			(error) => {			        				
 			        			}
 			        		);
 	        			} else {
 			        		Template.saveTemplateDetail(templateData).then(
 			        			(response) => {
+			        				toastr.success('Template has been added successfully.', 'Add Age Category', {timeOut: 5000});
+			        				$('#add_new_template_modal').modal('hide');
+			        				this.$root.$emit('getTemplates');
 			        			},
 			        			(error) => {
 			        			}
 			        		);
 	        			}
+
+	        			
 	        		}
                 }).catch((errors) => {
                 });	        		
@@ -338,7 +341,6 @@
 				}
 		    },
 			createImage(file) {
-				this.imagePath='';
 				var image = new Image();
 				var reader = new FileReader();
 				var vm = this;
@@ -350,7 +352,6 @@
 			},
 			removeImage(e) {
 				this.image = '';
-				this.imagePath='';
 				e.preventDefault();
 			}
         }
