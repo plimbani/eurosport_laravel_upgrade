@@ -141,7 +141,7 @@
 							<a href="javascript:void(0)" class="text-primary" @click="addNewRoundSchedule()"><u>Add</u></a>
 						</div>
 
-						<div class="form-group" :class="{'has-error': errors.has('graphic_image') }">
+						<div class="form-group" :class="{'has-error': errors.has('graphic_image') }" v-if="(userDetails.role_slug == 'Internal.administrator' || userDetails.role_slug == 'Super.administrator' || userDetails.role_slug == 'Tournament administrator')">
 							<label for="remarks">Graphic image</label>
 							<div v-if="!image">
 								<img src="/assets/img/noimage.png" class="thumb-size" />
@@ -198,6 +198,11 @@
         },
         beforeCreate: function() {
             this.$root.$off('updateTemplateData');
+        },
+        computed: {
+		    userDetails: function() {
+		      return this.$store.state.Users.userDetails
+		    },
         },
         methods: {
         	saveTemplateDetail() {

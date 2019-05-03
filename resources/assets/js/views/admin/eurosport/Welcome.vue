@@ -1,7 +1,7 @@
 <template>
   <div class="main-content container-fluid" id="dashboardPage">
     <div class="row home-content">
-      <div class="d-flex mb-4" :class="isResultAdmin ? 'col-sm-6' : isTournamentAdmin ? 'col-sm-3' : 'col-sm-4'">
+      <div class="d-flex mb-4" :class="isResultAdmin ? 'col-sm-6' : (isTournamentAdmin || isInternalAdmin) ? 'col-sm-3' : 'col-sm-4'">
         <div class="card mb-0 w-100">
           <div class="card-header">
             <h5 class="text-center"><strong>{{$lang.welcome_manage_tournament}}</strong></h5>
@@ -24,7 +24,7 @@
           </div>
         </div>
       </div>
-      <div class="d-flex mb-4" :class="isResultAdmin ? 'col-sm-6' : isTournamentAdmin ? 'col-sm-3' : 'col-sm-4'">
+      <div class="d-flex mb-4" :class="isResultAdmin ? 'col-sm-6' : (isTournamentAdmin || isInternalAdmin) ? 'col-sm-3' : 'col-sm-4'">
         <div class="card mb-0 w-100">
           <div class="card-header">
             <h5 class="text-center"
@@ -52,11 +52,12 @@
               <button class="btn btn-primary col-sm-10 btn-theme" @click="userList()" v-if="(userDetails.role_name == 'Master administrator' || userDetails.role_name == 'Super administrator')">{{$lang.welcome_add_new_user}}</button>
               <br>
               <br>
-              <button class="btn btn-primary col-sm-10 btn-theme" @click="templateList()" v-if="(userDetails.role_name == 'Master administrator' || userDetails.role_name == 'Super administrator')">{{$lang.welcome_manage_templates}}</button>
+              <button class="btn btn-primary col-sm-10 btn-theme" @click="templateList()" v-if="(userDetails.role_slug == 'Super.administrator')">{{$lang.welcome_manage_templates}}</button>
           </div>
         </div>
       </div>
-      <div class="d-flex mb-4" :class="[userDetails.role_name == 'Tournament administrator' ? 'col-sm-3' : 'col-sm-4']" v-if="userDetails.role_name == 'Tournament administrator'">
+      <div class="d-flex mb-4" :class="[(userDetails.role_name == 'Tournament administrator' || userDetails.role_slug == 'Internal.administrator') ? 'col-sm-3' : 'col-sm-4']" 
+      v-if="(userDetails.role_slug == 'tournament.administrator' || userDetails.role_slug == 'Internal.administrator')">
         <div class="card mb-0 w-100">
           <div class="card-header">
             <h5 class="text-center"><strong>{{$lang.welcome_administration}}</strong></h5>
@@ -68,7 +69,7 @@
           </div>
         </div>
       </div>      
-      <div class="d-flex mb-4" :class="isTournamentAdmin ? 'col-sm-3' : 'col-sm-4'" v-if="userDetails.role_slug != 'Results.administrator'">
+      <div class="d-flex mb-4" :class="(isTournamentAdmin || isInternalAdmin) ? 'col-sm-3' : 'col-sm-4'" v-if="userDetails.role_slug != 'Results.administrator'">
         <div class="card mb-0 w-100">
           <div class="card-header">
             <h5 class="text-center"><strong>{{$lang.welcome_manage_websites}}</strong></h5>
@@ -109,7 +110,10 @@ computed: {
     },
     isTournamentAdmin() {
       return this.$store.state.Users.userDetails.role_slug == 'tournament.administrator';
-    },    
+    },
+    isInternalAdmin() {
+      return this.$store.state.Users.userDetails.role_slug == 'Internal.administrator';
+    }
   },
   mounted() {
     let tournamentAdd  = {name:'', 'currentPage':'Home'}

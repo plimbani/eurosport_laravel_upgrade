@@ -126,11 +126,16 @@ class TemplateService implements TemplateContract
                 return '';
             }
 
+            $f = finfo_open();
+            $mimeType = finfo_buffer($f, $imgData, FILEINFO_MIME_TYPE);
+            $split = explode( '/', $mimeType);
+            $extension = $split[1];
+
             $imageName = \Uuid::generate(4);
-            $path = $imagePath.$imageName.'.png';
+            $path = $imagePath.$imageName.'.' .$extension;
             $s3->put($path, $imgData);
 
-            return $imageName.'.png';
+            return $imageName.'.' .$extension;
         } else {
             return '';
         }
