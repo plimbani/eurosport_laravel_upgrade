@@ -21,7 +21,7 @@
 						        				<select class="form-control ls-select2" v-model="placing.position_type" @change="onPositionTypeChange(placingIndex)">
 							                    	<option value="placed">Placed</option>
 							                    	<option value="winner">Winner</option>
-							                    	<option value="loser">Loser</option>
+							                    	<option value="looser">Looser</option>
 							                    </select>
 							                </div>
 						        		</div>
@@ -130,7 +130,7 @@
 							return true;
 						}
 
-						if(group.type === 'placing_match' && _.indexOf(['winner', 'loser'], placing.position_type) > -1) {
+						if(group.type === 'placing_match' && _.indexOf(['winner', 'looser'], placing.position_type) > -1) {
 							placingGroupCount += 1;
 							groupsForSelection[placingMatchIndex] = {'name': 'PM ' + (placingGroupCount), 'value': '-1,' + roundIndex + ',' + groupIndex};
 
@@ -160,7 +160,7 @@
 								return true;
 							}
 
-							if(group.type === 'placing_match' && _.indexOf(['winner', 'loser'], placing.position_type) > -1) {
+							if(group.type === 'placing_match' && _.indexOf(['winner', 'looser'], placing.position_type) > -1) {
 								placingGroupCount += 1;
 								groupsForSelection[placingMatchIndex] = {'name': 'PM ' + (placingGroupCount), 'value': divisionIndex + ',' + roundIndex + ',' + groupIndex};
 
@@ -205,7 +205,7 @@
 		    		}
 
 			    	// for placing
-					if(groupType === 'placing_match' && _.indexOf(['winner', 'loser'], placing.position_type) > -1) {
+					if(groupType === 'placing_match' && _.indexOf(['winner', 'looser'], placing.position_type) > -1) {
 						let matches = numberOfTeams / 2;
 						if(this.templateFormDetail.stepthree.placings[placingIndex].position === '' || typeof this.templateFormDetail.stepthree.placings[placingIndex].position === 'undefined') {
 							this.templateFormDetail.stepthree.placings[placingIndex].position = group + ',0';

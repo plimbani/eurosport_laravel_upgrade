@@ -37,7 +37,11 @@ export default {
 		this.$root.$on('setSearch', this.getTemplates);
 		this.$root.$on('clearSearch', this.clearSearch);
 		this.getTemplates();
+		this.$root.$on('getTemplates', this.getTemplates);
 	},
+	beforeCreate: function() {
+	    this.$root.$off('getTemplates');
+	},	
 	mounted() {
 	},
 	methods: {

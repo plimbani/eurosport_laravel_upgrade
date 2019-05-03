@@ -119,7 +119,7 @@
 
                 positionTypes.push({'key': 'placed', 'value': 'Placed'});
                 positionTypes.push({'key': 'winner', 'value': 'Winner'});
-                positionTypes.push({'key': 'loser', 'value': 'Loser'});
+                positionTypes.push({'key': 'looser', 'value': 'Looser'});
 
                 return positionTypes;
             },
@@ -148,7 +148,7 @@
                             return true;
                         }
 
-                        if(group.type === 'placing_match' && _.indexOf(['winner', 'loser'], team.position_type) > -1) {
+                        if(group.type === 'placing_match' && _.indexOf(['winner', 'looser'], team.position_type) > -1) {
                             placingGroupCount += 1;
                             groupsForSelection[placingMatchIndex] = {'name': 'PM ' + (placingGroupCount), 'value': '-1,' + roundIndex + ',' + groupIndex};
 
@@ -192,7 +192,7 @@
                     }
 
                     // for placing
-                    if(groupType === 'placing_match' && _.indexOf(['winner', 'loser'], team.position_type) > -1) {
+                    if(groupType === 'placing_match' && _.indexOf(['winner', 'looser'], team.position_type) > -1) {
                         let matches = numberOfTeams / 2;
                         if(this.divisionData.teams[teamIndex].position === '' || typeof this.divisionData.teams[teamIndex].position === 'undefined') {
                             this.divisionData.teams[teamIndex].position = group + ',0';
