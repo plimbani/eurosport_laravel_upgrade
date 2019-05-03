@@ -250,7 +250,7 @@ class TemplateRepository
         $finalArray['tournament_positions'] = $tournamentsPositionsData;
         $finalArray['round_schedule'] = $data['templateFormDetail']['stepfour']['roundSchedules'];
 
-        dd($finalArray);
+        dd(json_encode($finalArray));
 
         return json_encode($finalArray);
     }
@@ -366,7 +366,7 @@ class TemplateRepository
         return count(array_filter($roundData['groups'], function($o, $index) use($groupIndex) { return ($o['type'] === 'placing_match' && $index <= $groupIndex); }, ARRAY_FILTER_USE_BOTH));
     }
 
-    public function getWinnerOrLooserTeams($teamGroupType, $divisionRoundGroupPosition, $isSamePositionType, $positionType, $teamType)
+    public function getWinnerOrLooserTeams($teamGroupType, $divisionRoundGroupPosition, $isSamePositionType, $positionType, $startRoundCount, $startMatchCount, $teamType)
     {
         $teamGroupTypeMatchNumber = explode(".", $teamGroupType['match_number']);
         $teams = explode("-", end($teamGroupTypeMatchNumber));
@@ -374,15 +374,15 @@ class TemplateRepository
         $teamPlaceholderIndex = intval($divisionRoundGroupPosition[3]) + 1;
         if (strpos($teams[0], 'WR') || strpos($teams[0], 'LR')){
             $groupName = str_replace("-", "_", end($teamGroupTypeMatchNumber));
-            $teamMatchNumber = '(PM' . (intval($divisionRoundGroupPosition[1]) + 1) . '_G' . $teamPlaceholderIndex . ($positionType == 'winner' ? '_WR' : '_LR') . ')';
+            $teamMatchNumber = '(PM' . ($startRoundCount + intval($divisionRoundGroupPosition[1]) + 1) . '_G' . ($startMatchCount + $teamPlaceholderIndex) . ($positionType == 'winner' ? '_WR' : '_LR') . ')';
         } else {
             $groupName = str_replace("-", "_", end($teamGroupTypeMatchNumber));
             $teamMatchNumber = $groupName . ($positionType == 'winner' ? '_WR' : '_LR');
         }
 
-        $teamInBetween = $this->getTeamInBetween($divisionRoundGroupPosition, $teamPlaceholderIndex, $positionType, $groupName);
+        $teamInBetween = $this->getTeamInBetween($divisionRoundGroupPosition, $teamPlaceholderIndex, $positionType, $groupName, $startRoundCount, $startMatchCount);
         $teamDisplayMatchNumber =  $this->getTeamDisplayMatchNumber($teamType, $isSamePositionType, $positionType);
-        $teamDisplayPlaceholderName = ($divisionRoundGroupPosition[1] + 1) . '.' . $teamPlaceholderIndex;
+        $teamDisplayPlaceholderName = ($startRoundCount + intval($divisionRoundGroupPosition[1]) + 1) . '.' . ($startMatchCount + $teamPlaceholderIndex);
 
         return [
             'teamInBetween' => $teamInBetween,
@@ -411,10 +411,10 @@ class TemplateRepository
         return $displayMatchNumber;
     }
 
-    public function getTeamInBetween($divisionRoundGroupPosition, $teamPlaceholderIndex, $positionType, $groupName)
+    public function getTeamInBetween($divisionRoundGroupPosition, $teamPlaceholderIndex, $positionType, $groupName, $startRoundCount, $startMatchCount)
     {
         if($positionType === 'winner' || $positionType === 'loser') {
-            $teamInBetween = 'CAT.PM' .($divisionRoundGroupPosition[1] + 1). '.G' . $teamPlaceholderIndex. ($positionType == 'winner' ? 'WR' : 'LR');    
+            $teamInBetween = 'CAT.PM' .($startRoundCount + $divisionRoundGroupPosition[1] + 1). '.G' . ($startMatchCount + $teamPlaceholderIndex). ($positionType == 'winner' ? 'WR' : 'LR');    
         }
         if($positionType === 'placed') {
             $teamInBetween = $teamPlaceholderIndex . $groupName;    
@@ -485,11 +485,13 @@ class TemplateRepository
         $round = $roundDetail['round'];
         $roundIndex = $roundDetail['roundIndex'];
         $divisionIndex = $roundDetail['divisionIndex'];
+        $startRoundCount = $divisionIndex >= 0 ? $divisionDetail['divisionStartRoundCount'] : 0;
 
         $firstPlacingMatchIndex = array_search('placing_match', array_column($round['groups'], 'type'));
         foreach ($round['groups'] as $groupIndex => $group) {
             $matchCount = 1;
             $matches = [];
+            $startMatchCount = isset($group['start_match_count']) ? $group['start_match_count'] : 0;
 
             $groupData = $group;
             $times = $groupData['teams_play_each_other'];
@@ -501,7 +503,7 @@ class TemplateRepository
             }
 
             if($group['type'] === "placing_match") {
-                $groupName = $placingGroupCount + 1;
+                $groupName = "PM" . ($placingGroupCount + 1);
             }
 
             if($roundIndex === 0 && $group['type'] === 'round_robin') {
@@ -689,7 +691,7 @@ class TemplateRepository
             }
 
             if(($divisionIndex === -1 && $roundIndex > 0 && $group['type'] === "placing_match") || ($divisionIndex > -1 && $roundIndex >= 0 && $group['type'] === "placing_match")) {
-                // dd($divisionDetail);
+                //dd($divisionDetail);
                 $teams = $group['teams'];
                 if($divisionIndex >= -1 && $roundIndex === 0) {
                     $teams = [];
@@ -697,7 +699,7 @@ class TemplateRepository
                         $teams[$teamIndex] = $divisionDetail['divisionTeams'][$group['teams'][$teamIndex]['position']];
                     }
                 }
-                // dd($teams);
+                // print_r($teams);
                 for ($teamIndex = 0; $teamIndex < count($teams); $teamIndex++) {
                     $bothSameTeamTypes = false;
                     
@@ -713,18 +715,18 @@ class TemplateRepository
                         $bothSameTeamTypes = true;
                         $isSamePositionType = true;
 
-                        $teamRoundData1 = $finalArray['tournament_competation_format']['format_name'][$divisionRoundGroupPosition1[1]];
+                        $teamRoundData1 = $this->getTeamRoundData($finalArray, $divisionRoundGroupPosition1, $divisionIndex);
                         $teamGroupType1 = $teamRoundData1['match_type'][$groupIndex]['groups']['match'][$divisionRoundGroupPosition1[3]];
-                        $homeTeamData = $this->getWinnerOrLooserTeams($teamGroupType1, $divisionRoundGroupPosition1, $isSamePositionType, $homePositionType, 'home');
+                        $homeTeamData = $this->getWinnerOrLooserTeams($teamGroupType1, $divisionRoundGroupPosition1, $isSamePositionType, $homePositionType, $startRoundCount, $startMatchCount, 'home');
 
-                        $teamRoundData2 = $finalArray['tournament_competation_format']['format_name'][$divisionRoundGroupPosition2[1]];
+                        $teamRoundData2 = $this->getTeamRoundData($finalArray, $divisionRoundGroupPosition2, $divisionIndex);
                         $teamGroupType2 = $teamRoundData2['match_type'][$groupIndex]['groups']['match'][$divisionRoundGroupPosition2[3]];
-                        $awayTeamData = $this->getWinnerOrLooserTeams($teamGroupType2, $divisionRoundGroupPosition2, $isSamePositionType, $awayPositionType, 'away');
+                        $awayTeamData = $this->getWinnerOrLooserTeams($teamGroupType2, $divisionRoundGroupPosition2, $isSamePositionType, $awayPositionType, $startRoundCount, $startMatchCount, 'away');
 
                         $teamType = $homePositionType === 'winner' ? 'wrs.' : 'lrs.';
                         $inBetween = $homeTeamData['teamInBetween'] . '-' . $awayTeamData['teamInBetween'];
-                        $matchNumber = "CAT.PM" . ($roundIndex+1) . ".G" . $currentMatch . "." . $homeTeamData['teamMatchNumber'] . "-" . $awayTeamData['teamMatchNumber'];
-                        $displayMatchNumber = "CAT." . ($roundIndex+1) . "." . $currentMatch . "." . $teamType . '(' . $homeTeamData['teamDisplayMatchNumber'] . '-' . $awayTeamData['teamDisplayMatchNumber'] . ')';
+                        $matchNumber = "CAT.PM" . ($startRoundCount + $roundIndex + 1) . ".G" . ($currentMatch + $startMatchCount) . "." . $homeTeamData['teamMatchNumber'] . "-" . $awayTeamData['teamMatchNumber'];
+                        $displayMatchNumber = "CAT." . ($startRoundCount + $roundIndex + 1) . "." . ($currentMatch + $startMatchCount) . "." . $teamType . '(' . $homeTeamData['teamDisplayMatchNumber'] . '-' . $awayTeamData['teamDisplayMatchNumber'] . ')';
                         $displayHomeTeamPlaceholderName = $homeTeamData['teamDisplayPlaceholderName'];
                         $displayAwayTeamPlaceholderName = $awayTeamData['teamDisplayPlaceholderName'];
                     }
@@ -740,8 +742,8 @@ class TemplateRepository
                         $awayTeamData = $this->getRoundRobinTeamData($teamGroupType2, $teamRoundData2, $divisionRoundGroupPosition2, 'away');
 
                         $inBetween = $homeTeamData['teamInBetween'] . '-' . $awayTeamData['teamInBetween'];
-                        $matchNumber = 'CAT.PM'. ($this->getPlacingMatchGroupCount($round, $groupIndex) + 1) . '.G' . ($teamIndex / 2 + 1) . '.' . $homeTeamData['teamMatchNumber'] . '-' . $awayTeamData['teamMatchNumber'];
-                        $displayMatchNumber = 'CAT.'. ($this->getPlacingMatchGroupCount($round, $groupIndex) + 1) . '.' . ($teamIndex / 2 + 1) . '.' . $homeTeamData['teamDisplayMatchNumber'] . '-' . $awayTeamData['teamDisplayMatchNumber'];
+                        $matchNumber = 'CAT.PM'. ($startRoundCount + $roundIndex + 1) . '.G' . ($currentMatch + $startMatchCount) . '.' . $homeTeamData['teamMatchNumber'] . '-' . $awayTeamData['teamMatchNumber'];
+                        $displayMatchNumber = 'CAT.'. ($startRoundCount + $roundIndex + 1) . '.' . ($currentMatch + $startMatchCount) . '.' . $homeTeamData['teamDisplayMatchNumber'] . '-' . $awayTeamData['teamDisplayMatchNumber'];
                         $displayHomeTeamPlaceholderName = $homeTeamData['teamDisplayPlaceholderName'];
                         $displayAwayTeamPlaceholderName = $awayTeamData['teamDisplayPlaceholderName'];
                     }
@@ -885,5 +887,13 @@ class TemplateRepository
             'teamDisplayMatchNumber' => $teamDisplayMatchNumber,
             'teamDisplayPlaceholderName' => $teamDisplayPlaceholderName
         ];
+    }
+
+    public function getTeamRoundData($finalArray, $divisionRoundGroupPosition, $divisionIndex)
+    {
+        if($divisionIndex === -1) {
+            return $finalArray['tournament_competation_format']['format_name'][$divisionRoundGroupPosition[1]];
+        }
+        return $finalArray['tournament_competation_format']['divisions'][$divisionIndex]['format_name'][$divisionRoundGroupPosition[1]];
     }
 }

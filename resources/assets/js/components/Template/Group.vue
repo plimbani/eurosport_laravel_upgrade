@@ -131,6 +131,7 @@
                 }
                 this.last_selected_teams = this.groupData.no_of_teams;
                 this.displayTeams();
+                this.$root.$emit('updateGroupCount');
         	},
         	displayTeams() {
         		var i;

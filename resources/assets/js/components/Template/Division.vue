@@ -215,7 +215,7 @@
                 }
             },
             addNewDivisionRound(index) {
-                this.templateFormDetail.steptwo.divisions[index].rounds.push({no_of_teams: "", groups: [], startRoundGroupCount: this.templateFormDetail.steptwo.round_group_count, startPlacingGroupCount: this.templateFormDetail.steptwo.placing_group_count});
+                this.templateFormDetail.steptwo.divisions[index].rounds.push({no_of_teams: "", groups: [], start_round_group_count: this.templateFormDetail.steptwo.round_group_count, start_placing_group_count: this.templateFormDetail.steptwo.placing_group_count});
                 if(this.templateFormDetail.steptwo.divisions[index].rounds.length === 1) {
                     this.templateFormDetail.steptwo.divisions[index].rounds[0].no_of_teams = this.divisionData.no_of_teams;
                 }
