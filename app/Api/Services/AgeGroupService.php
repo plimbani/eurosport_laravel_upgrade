@@ -458,7 +458,7 @@ class AgeGroupService implements AgeGroupContract
       $finalArray['tournament_teams'] = $totalTeams;
       $finalArray['remark'] = $data['remarks'];
       $finalArray['template_font_color'] = $data['template_font_color'];
-      $finalArray['tournament_name'] = 'T.' .$totalTeams. '.'  .$data['min_matches'];
+      $finalArray['tournament_name'] = $totalTeams. ' team league';
       $finalArray['round_schedule'] = [$competitionGroupRound, $competitionRound];
       $finalArray['tournament_min_match'] = $data['min_matches'];
       $finalArray['position_type'] = 'group_ranking';
@@ -519,7 +519,7 @@ class AgeGroupService implements AgeGroupContract
 
       $finalArray = [];
       $finalArray['tournament_teams'] = $totalTeams;
-      $finalArray['tournament_name'] = 'T.' .$totalTeams. '.'  .$data['min_matches'];
+      $finalArray['tournament_name'] = $totalTeams. ' team knockout';
       $finalArray['template_font_color'] = $data['template_font_color'];
       $finalArray['round_schedule'] = [$competitionGroupRound, $competitionRound];
       $finalArray['tournament_min_match'] = $data['min_matches'];
