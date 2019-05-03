@@ -126,13 +126,7 @@ class TemplateService implements TemplateContract
                 return '';
             }
 
-            // if($id == '') {
-              $imageName = \Uuid::generate(4);
-            // } else {
-              // $imageName = $id;
-            // }
-
-
+            $imageName = \Uuid::generate(4);
             $path = $imagePath.$imageName.'.png';
             $s3->put($path, $imgData);
 
