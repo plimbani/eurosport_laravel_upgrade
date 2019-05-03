@@ -60,7 +60,11 @@
                 this.$root.$emit('updateGroupCount');
             },
             removeRound(index) {
-                this.templateFormDetail.steptwo.rounds.splice(index, 1);
+                if(this.divisionIndex === -1) {
+                    this.templateFormDetail.steptwo.rounds.splice(index, 1);
+                } else {
+                    this.templateFormDetail.steptwo.divisions[this.divisionIndex].rounds.splice(index, 1);
+                }
                 this.$root.$emit('updateGroupCount');
                 this.$root.$emit('updateRoundCount');
             },
