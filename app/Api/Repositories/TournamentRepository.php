@@ -95,10 +95,9 @@ class TournamentRepository
     public function getTemplate($tournamentTemplateId, $ageCategoryId)
     {
         $tournamentTemplateData              = [];
-        $tournamentTemplate                  = TournamentTemplates::find($tournamentTemplateId);
-
-        $tournamentTemplateData['json_data'] = '';
-        if($tournamentTemplate) {
+        $tournamentTemplateData['json_data'] = '';        
+        if($tournamentTemplateId != NULL) {
+            $tournamentTemplate                  = TournamentTemplates::find($tournamentTemplateId);
             $tournamentTemplateData['json_data'] = $tournamentTemplate->json_data;
             $tournamentTemplateData['image']     = $tournamentTemplate->image;
             $tournamentTemplateData['graphic_image']     = $tournamentTemplate->graphic_image ? getenv('S3_URL').$tournamentTemplate->graphic_image : null;
@@ -106,10 +105,6 @@ class TournamentRepository
             $tournamentCompetitionTemplate = TournamentCompetationTemplates::find($ageCategoryId);
             $tournamentTemplateData['json_data'] = $tournamentCompetitionTemplate->template_json_data;
         }
-
-        // $tournamentTemplateData['json_data'] = $tournamentTemplate->json_data;
-        // $tournamentTemplateData['image']     = $tournamentTemplate->image;
-        // $tournamentTemplateData['graphic_image']     = $tournamentTemplate->graphic_image ? getenv('S3_URL').$tournamentTemplate->graphic_image : null;
 
         return $tournamentTemplateData;
     }
@@ -127,14 +122,10 @@ class TournamentRepository
     public function getAllTemplatesFromMatches($data = array())
     {
         if (is_array($data) && count($data['tournamentData']) > 0 && $data['tournamentData']['minimum_matches'] != '' && $data['tournamentData']['total_teams'] != '') {
-            // TODO: need to Add
-            return TournamentTemplates::where(['total_teams' => $data['tournamentData']['total_teams'], 'minimum_matches' => $data['tournamentData']['minimum_matches']])->where('editor_type', $data['tournamentData']['tournament_format'])->orderBy('name')->get();
+            return TournamentTemplates::where(['total_teams' => $data['tournamentData']['total_teams'], 'minimum_matches' => $data['tournamentData']['minimum_matches']])->where('editor_type', $data['tournamentData']['tournament_format'])->where('is_latest', 1)->orderBy('name')->get();
         } else {
-            // here we modified the data
             return;
-            // return TournamentTemplates::get();
         }
-
     }
 
     /**
