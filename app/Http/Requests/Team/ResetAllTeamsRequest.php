@@ -17,7 +17,7 @@ class ResetAllTeamsRequest extends FormRequest
     public function authorize()
     {
         $user = $this->getCurrentLoggedInUserDetail();
-        if($user->hasRole('Super.administrator')) {
+        if($user->hasRole('Super.administrator') || $user->hasRole('tournament.administrator')) {
             return true;
         }
         return false;
