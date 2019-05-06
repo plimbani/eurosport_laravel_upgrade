@@ -217,9 +217,10 @@
 			        			(response) => {
 			        				toastr.success('Template has been updated successfully.', 'Add Age Category', {timeOut: 5000});
 			        				$('#edit_template_modal').modal('hide');
+			        				this.$root.$emit('clearFormFields');
 			        				this.$root.$emit('getTemplates');
 			        			},
-			        			(error) => {			        				
+			        			(error) => {
 			        			}
 			        		);
 	        			} else {
@@ -227,14 +228,13 @@
 			        			(response) => {
 			        				toastr.success('Template has been added successfully.', 'Add Age Category', {timeOut: 5000});
 			        				$('#add_new_template_modal').modal('hide');
+			        				this.$root.$emit('clearFormFields');
 			        				this.$root.$emit('getTemplates');
 			        			},
 			        			(error) => {
 			        			}
 			        		);
 	        			}
-
-	        			
 	        		}
                 }).catch((errors) => {
                 });	        		

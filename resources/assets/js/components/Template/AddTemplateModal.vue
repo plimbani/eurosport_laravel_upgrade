@@ -48,7 +48,61 @@
 		data() {
 		    return {
                 currentStep: 1,
-                templateFormDetail: {
+                templateFormDetail: this.intialState(),
+                // {
+                //     stepone: {
+                //         templateName: '',
+                //         no_of_teams: '',
+                //         editor: 'advance',
+                //     },
+                //     steptwo: {
+                //         rounds: [{
+                //             no_of_teams: '',
+                //             groups: [{
+                //                 type: "round_robin",
+                //                 no_of_teams: 2,
+                //                 teams_play_each_other: "once",
+                //                 teams: [{position_type: 'placed', group: '', position: ''}],
+                //                 matches: [{in_between: '1-2'}],
+                //             }],
+                //             start_round_group_count: 0,
+                //             start_placing_group_count: 0,
+                //         }],
+                //         divisions: [],
+                //         round_group_count: 1,
+                //         placing_group_count: 0,
+                //         start_round_count: 0,
+                //         round_count: 1,
+                //     },
+                //     stepthree: {
+                //         placings: [{position_type: 'placed', group: '', position: ''}]
+                //     },
+                //     stepfour: {
+                //         remarks: '',
+                //         template_font_color: '',
+                //         roundSchedules: [''],
+                //         graphic_image: '',
+                //         image:'',
+                //         imagePath :''
+                //     }
+                // }
+		    }
+		},
+        components: {
+          StepOne, StepTwo, StepThree, StepFour
+        },
+        inject: ['$validator'],
+        created() {
+            this.$root.$on('clearFormFields', this.clearFormFields);
+        },
+        beforeCreate: function() {
+            this.$root.$off('clearFormFields');
+        },
+		mounted() {
+		},
+		methods: {
+            intialState() {
+                return {
                     stepone: {
                         templateName: '',
                         no_of_teams: '',
@@ -85,14 +139,7 @@
                         imagePath :''
                     }
                 }
-		    }
-		},
-        components: {
-          StepOne, StepTwo, StepThree, StepFour
-        },
-		mounted() {
-		},
-		methods: {
+            },
             changeTabIndex(from, to, key, data) {
                 this.templateFormDetail[key] = _.cloneDeep(data);
                 this.currentStep = to;
@@ -100,8 +147,13 @@
             },
             closeModal() {
                 $('#add_new_template_modal').modal('hide');
-                // this.changeTabIndex(this.currentStep, 1, 'stepone', this.templateFormDetail);
+                this.clearFormFields();
                 return;
+            },
+            clearFormFields() {
+                this.templateFormDetail = this.intialState();
+                this.changeTabIndex(this.currentStep, 1, 'stepone', this.templateFormDetail);
+                this.clearErrorMsgs();
             }
 		}
 	}
