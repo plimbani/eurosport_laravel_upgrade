@@ -62,6 +62,7 @@
 		},
         components: {
         },
+        inject: ['$validator'],
 		mounted() {
             $("[data-toggle=popover]").popover({
                 html : false,
