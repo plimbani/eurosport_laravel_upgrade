@@ -206,6 +206,7 @@
         },
         methods: {
         	saveTemplateDetail() {
+        		let vm = this;
         		var templateData = {'templateFormDetail': this.templateFormDetail};
         		this.$validator.validateAll().then((response) => {
 	        		if(response) {
@@ -215,10 +216,10 @@
 	        				templateData.editedTemplateId = this.editedTemplateId;
 	        				Template.updateTemplateDetail(templateData).then(
 			        			(response) => {
-			        				toastr.success('Template has been updated successfully.', 'Add Age Category', {timeOut: 5000});
+			        				toastr.success('Template has been updated successfully.', 'Update Template', {timeOut: 5000});
 			        				$('#edit_template_modal').modal('hide');
-			        				this.$root.$emit('clearFormFields');
-			        				this.$root.$emit('getTemplates');
+			        				vm.$root.$emit('clearFormFields');
+			        				vm.$root.$emit('getTemplates');
 			        			},
 			        			(error) => {
 			        			}
@@ -226,10 +227,10 @@
 	        			} else {
 			        		Template.saveTemplateDetail(templateData).then(
 			        			(response) => {
-			        				toastr.success('Template has been added successfully.', 'Add Age Category', {timeOut: 5000});
+			        				toastr.success('Template has been added successfully.', 'Add Template', {timeOut: 5000});
 			        				$('#add_new_template_modal').modal('hide');
-			        				this.$root.$emit('clearFormFields');
-			        				this.$root.$emit('getTemplates');
+			        				vm.$root.$emit('clearFormFields');
+			        				vm.$root.$emit('getTemplates');
 			        			},
 			        			(error) => {
 			        			}

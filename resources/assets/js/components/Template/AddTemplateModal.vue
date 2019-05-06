@@ -62,6 +62,10 @@
             this.$root.$off('clearFormFields');
         },
 		mounted() {
+            let vm = this;
+            $('#add_new_template_modal').on('hidden.bs.modal', function () {
+                vm.$emit('addTemplateModalHidden');
+            });
 		},
 		methods: {
             intialState() {
@@ -111,9 +115,6 @@
             closeModal() {
                 let vm = this;
                 $('#add_new_template_modal').modal('hide');
-                $('#add_new_template_modal').on('hidden.bs.modal', function () {
-                    vm.$emit('addTemplateModalHidden');
-                });
             },
             clearFormFields() {
                 let vm = this;

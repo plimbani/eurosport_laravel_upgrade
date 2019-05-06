@@ -1,5 +1,5 @@
 <template>
-	<div class="modal fade bg-modal-color refdel" id="edit_template_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	<div class="modal fade bg-modal-color refdel" id="edit_template_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
       <div class="modal-dialog add-newtemplate-modal">
         <div class="modal-content border-0 rounded-0">
             <div class="modal-header">
@@ -49,15 +49,25 @@
 		data() {
 		    return {
                 currentStep: 1,
-                templateFormDetail: JSON.parse(this.editTemplateDetail.template_form_detail),
+                templateFormDetail: _.cloneDeep(JSON.parse(this.editTemplateDetail.template_form_detail)),
                 editedTemplateId: this.editTemplateDetail.id,
                 templateGraphicImage: this.editTemplateDetail.graphic_image,
 		    }
 		},
+        created() {
+            this.$root.$on('clearFormFields', this.clearFormFields);
+        },
+        beforeCreate: function() {
+            this.$root.$off('clearFormFields');
+        },
         components: {
           StepOne, StepTwo, StepThree, StepFour
         },
 		mounted() {
+            let vm = this;
+            $('#edit_template_modal').on('hidden.bs.modal', function () {
+                vm.$emit('editTemplateModalHidden');
+            });
 		},
 		methods: {
             changeTabIndex(from, to, key, data) {
@@ -67,8 +77,9 @@
             },
             closeModal() {
                 $('#edit_template_modal').modal('hide');
-                // this.changeTabIndex(this.currentStep, 1, 'stepone', this.templateFormDetail);
-                return;
+            },
+            clearFormFields() {
+                this.errors.clear();
             }
 		}
 	}
