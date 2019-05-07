@@ -58,6 +58,7 @@ export default {
 	mounted() {
 		this.currentView = 'drawsListing';
 		this.$store.dispatch('setCurrentView', this.currentView);
+		this.getMatchLastUpdatedDate();
 	},
 	watch: {
 		tournamentData: function () {
