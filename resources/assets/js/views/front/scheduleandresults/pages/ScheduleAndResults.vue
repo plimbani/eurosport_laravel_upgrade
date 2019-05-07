@@ -7,7 +7,7 @@
 	                <h6 class="text-uppercase font-weight-bold mb-0">Last Updated</h6>
 	                <p class="mb-4">{{ lastMatchUpdatedDate }}</p>
 
-	                <div class="tabs tabs-primary">
+	                <div class="tabs tabs-primary custom-tabbing">
 						<ul class="nav nav-tabs mb-4">
 							<li @click="setCurrentView('drawsListing')" class="nav-item">
 								<a :class="[currentView == 'drawsListing' ? 'active' : '']" href="javascript:void(0)" class="nav-link"><div class="wrapper-tab">Categories</div></a>

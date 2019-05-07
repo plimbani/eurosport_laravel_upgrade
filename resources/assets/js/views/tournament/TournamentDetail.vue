@@ -17,7 +17,7 @@
                                     <h6 v-if="contactDetail.first_name || contactDetail.telephone"  class="text-uppercase mb-0 font-weight-bold">Main Contact</h6>
                                     <p class="mb-4">{{contactDetail.first_name}} {{contactDetail.last_name}} <a :href="'tel:' + contactDetail.telephone">{{contactDetail.telephone}}</a></p>
 
-                                     <h6 v-if="tournamentSponsers.length > 0"  class="text-uppercase font-weight-bold">Sponsored by</h6>
+                                     <h6 v-if="tournamentSponsers.length > 0"  class="text-uppercase font-weight-bold mb-1">Sponsored by</h6>
 
                                     <ul class="list-unstyled sponsored-list mb-0">
                                         <li class="d-inline" v-for="sponser in tournamentSponsers">
