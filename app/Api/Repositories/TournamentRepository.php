@@ -68,7 +68,8 @@ class TournamentRepository
     }
 
     public function getAll($status = '', $user = null)
-    {
+    {   
+        $baseUrl = getenv('APP_URL');
         if ($status == '') {
             $data = Tournament::
                     select('tournaments.*', \DB::raw('IF(tournaments.logo is not null,CONCAT("' . $this->tournamentLogo . '", tournaments.logo),"" ) as tournamentLogo'));
@@ -84,7 +85,7 @@ class TournamentRepository
         }
         $data = $data->orderBy('name', 'asc')->get();
 
-        return $data;
+        return ['data' => $data, 'baseUrl' => $baseUrl];
         /* if($status == '') {
           return Tournament::get();
           }
