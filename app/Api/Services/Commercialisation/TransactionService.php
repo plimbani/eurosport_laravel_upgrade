@@ -65,7 +65,7 @@ class TransactionService implements TransactionContract {
         $pdfData = [
             'days' => $days,
             'maximumTeams' => $maxTeam,
-            'amount' => $amount,
+            'amount' => number_format($amount,2),
             'orderNumber' => $transaction[0]->order_id,
 			'currency' => $transaction[0]->currency
         ];
