@@ -1,11 +1,11 @@
 <template>
-	<div class="modal fade bg-modal-color refdel" id="add_new_template_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	<div class="modal fade bg-modal-color refdel" id="add_new_template_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
       <div class="modal-dialog add-newtemplate-modal">
         <div class="modal-content border-0 rounded-0">
             <div class="modal-header">
                 <div class="container">
                     <div class="row justify-content-center">
-                        <div class="col-md-8">
+                        <div class="col-md-12">
                             <div class="row align-items-center">
                                 <div class="col-8">
                                     <h4 class="modal-title" id="addNewTemplateModal">{{$lang.add_template_modal_header}}</h4>
@@ -48,7 +48,28 @@
 		data() {
 		    return {
                 currentStep: 1,
-                templateFormDetail: {
+                templateFormDetail: _.cloneDeep(this.intialState()),
+		    }
+		},
+        components: {
+          StepOne, StepTwo, StepThree, StepFour
+        },
+        inject: ['$validator'],
+        created() {
+            this.$root.$on('clearFormFields', this.clearFormFields);
+        },
+        beforeCreate: function() {
+            this.$root.$off('clearFormFields');
+        },
+		mounted() {
+            let vm = this;
+            $('#add_new_template_modal').on('hidden.bs.modal', function () {
+                vm.$emit('addTemplateModalHidden');
+            });
+		},
+		methods: {
+            intialState() {
+                return {
                     stepone: {
                         templateName: '',
                         no_of_teams: '',
@@ -78,26 +99,28 @@
                     },
                     stepfour: {
                         remarks: '',
-                        template_font_color: ''
+                        template_font_color: '',
+                        roundSchedules: [''],
+                        graphic_image: '',
+                        image:'',
+                        imagePath :''
                     }
                 }
-		    }
-		},
-        components: {
-          StepOne, StepTwo, StepThree, StepFour
-        },
-		mounted() {
-		},
-		methods: {
+            },
             changeTabIndex(from, to, key, data) {
                 this.templateFormDetail[key] = _.cloneDeep(data);
                 this.currentStep = to;
                 this.templateFormDetail.steptwo.rounds[0].no_of_teams = this.templateFormDetail.stepone.no_of_teams;
             },
             closeModal() {
+                let vm = this;
                 $('#add_new_template_modal').modal('hide');
-                // this.changeTabIndex(this.currentStep, 1, 'stepone', this.templateFormDetail);
-                return;
+            },
+            clearFormFields() {
+                let vm = this;
+                this.templateFormDetail = _.cloneDeep(this.intialState());
+                this.changeTabIndex(this.currentStep, 1, 'stepone', this.templateFormDetail);
+                this.errors.clear();
             }
 		}
 	}

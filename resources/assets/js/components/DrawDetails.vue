@@ -327,6 +327,8 @@ export default {
         onChangeDrawDetails() {
 
           this.$store.dispatch('setCurrentScheduleView','drawDetails')
+
+          window.competitionChange = this.DrawName;
           let Id = this.DrawName.id
           let Name = this.DrawName.name
           let CompetationType = this.DrawName.actual_competition_type
@@ -428,6 +430,8 @@ export default {
         },
         changeTeam(Id, Name) {
             // here we dispatch Method
+            window.changeTeamId = Id;
+            window.changeTeamname = Name;
 
             this.$store.dispatch('setCurrentScheduleView','teamDetails')
             this.$root.$emit('changeComp', Id, Name);

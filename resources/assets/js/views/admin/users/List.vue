@@ -29,6 +29,7 @@
                                     <option value="mobile.user">Mobile user</option>
                                     <option value="Super.administrator">Super administrator</option>
                                     <option value="tournament.administrator">Tournament administrator</option>
+                                    <option value="Results.administrator">Results administrator</option>
                                 </select>
                               </div>
                               <div class="col-md-2">
@@ -52,12 +53,14 @@
                                         <th>{{$lang.use_desktop_country}}</th>
                                         <th>{{$lang.use_desktop_language}}</th>
                                         <th>{{$lang.user_desktop_status}}</th>
+                                        <th>{{$lang.user_device}}</th>
+                                        <th>{{$lang.user_app_version}}</th>
                                         <th class="text-center">{{$lang.user_desktop}}</th>
                                         <th class="text-center">{{$lang.user_mobile}}</th>
                                         <th>{{$lang.user_desktop_action}}</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody v-if="!isListGettingUpdate">
                                   <tr class="" v-for="user in paginated('userpagination')">
                                     <td>{{ user.first_name }}</td>
                                     <td>{{ user.last_name }}</td>
@@ -70,6 +73,8 @@
                                     <td v-else>
                                       <a href="#"  @click="resendModalOpen(user.email)"><u>Re-send</u></a>
                                     </td>
+                                    <td>{{ user.device }}</td>
+                                    <td>{{ user.app_version }}</td>
                                     <td class="text-center">
                                       <i class="fas fa-check text-success"
                                         v-if="user.is_desktop_user == true"></i>
@@ -95,7 +100,7 @@
                                         <i class="fas fa-trash"></i>
                                         </a>
                                         &nbsp;
-                                        <a v-if="user.role_slug == 'tournament.administrator'" class="text-primary icon-size-1-2" href="javascript:void(0)"
+                                        <a v-if="(user.role_slug == 'tournament.administrator' || user.role_slug == 'Results.administrator')" class="text-primary icon-size-1-2" href="javascript:void(0)"
                                         @click="editTournamentPermission(user)">
                                         <i class="fas fa-eye fa-1x"></i>
                                         </a>
@@ -119,9 +124,9 @@
                                   <tr><td colspan="8"></td></tr>
                                 </tbody>
                             </table>
-                            <paginate v-if="shown" name="userpagination" :list="userList.userData" ref="paginator" :per="no_of_records"  class="paginate-list">
+                            <paginate v-if="shown && !isListGettingUpdate" name="userpagination" :list="userList.userData" ref="paginator" :per="no_of_records"  class="paginate-list">
                             </paginate>
-                            <div class="row d-flex flex-row align-items-center">
+                            <div class="row d-flex flex-row align-items-center" v-if="!isListGettingUpdate">
                               <div class="col page-dropdown">
                                 <select class="form-control ls-select2" name="no_of_records" v-model="no_of_records">
                                   <option v-for="recordCount in recordCounts" v-bind:value="recordCount">
@@ -218,6 +223,7 @@
 
         props: {
             userList: Object,
+            isListGettingUpdate: Boolean
         },
         computed: {
             IsSuperAdmin() {

@@ -45,7 +45,7 @@
             <tr v-for="draw in drawData">
                 <td>
                   <a class="pull-left text-left text-primary" @click.prevent="changeGroup(draw)" href=""><u>{{ draw.display_name }}</u> </a>
-                  <a v-if="isUserDataExist" href="#" @click="openEditCompetitionNameModal(draw)" class="pull-right text-primary"><i class="fas fa-pencil"></i></a>
+                  <a v-if="(isUserDataExist && !isResultAdmin)" href="#" @click="openEditCompetitionNameModal(draw)" class="pull-right text-primary"><i class="fas fa-pencil"></i></a>
                 </td>
                 <td class="text-center">{{ draw.competation_type }}</td>
                 <td class="text-center">{{ draw.team_size }}</td>
@@ -217,6 +217,9 @@ export default {
     isUserDataExist() {
       return this.$store.state.isAdmin;
     },
+    isResultAdmin() {
+      return this.$store.state.Users.userDetails.role_slug == 'Results.administrator';
+    },    
   },
 	methods: {
 		/*changeTeam(Id, Name) {

@@ -2,10 +2,11 @@
     <div>
         <div class="container" id="step2-template-setting">
             <div class="row justify-content-center">
-                <div class="col-md-8">
+                <div class="col-md-12">
                     <h5>{{ $lang.add_template_modal_step2_header }}</h5>
-                    <round v-for="(round, roundIndex) in templateFormDetail.steptwo.rounds" :index="roundIndex" :divisionIndex="-1" :roundData="round" :templateFormDetail="templateFormDetail" :startGroupCount="getPreviousRoundGroupCount(roundIndex-1)"></round>
-                    
+                    <div v-for="(round, roundIndex) in templateFormDetail.steptwo.rounds">
+                        <round  :index="roundIndex" :divisionIndex="-1" :roundData="round" :templateFormDetail="templateFormDetail" :startGroupCount="getPreviousRoundGroupCount(roundIndex-1)" :isSeletedRoundTeamsAndGroupTeamsNotSame="!isSeletedRoundTeamsIsInUse(roundIndex)"></round>
+                    </div>
                     <division v-for="(division, divisionIndex) in templateFormDetail.steptwo.divisions" :index="divisionIndex" :divisionData="division" :templateFormDetail="templateFormDetail"></division>
                     
                     <div class="form-group">
@@ -20,7 +21,7 @@
                     </div>
                     <div class="form-group">
                         <button type="button" class="btn btn-primary" @click="back()">{{ $lang.add_template_modal_back_button }}</button>
-                        <button type="button" class="btn btn-primary" @click="next()">{{ $lang.add_template_modal_next_button }}</button>
+                        <button type="button" class="btn btn-primary" @click="next()" :disabled="isDisabled">{{ $lang.add_template_modal_next_button }}</button>
                     </div>
                 </div>
             </div>                  
@@ -34,6 +35,13 @@
         props: ['templateFormDetail'],
         data() {
             return {
+                teamsCheckError: [],
+                teamsPlayEachOther: {
+                    'once': 1,
+                    'twice': 2,
+                    'three_times': 3,
+                    'four_times': 4,
+                },
             }
         },
         components: {
@@ -44,7 +52,7 @@
         },
         created() {
             this.$root.$on('updateGroupCount', this.updateGroupCount);
-            this.$root.$on('updateRoundCount', this.updateRoundCount);
+            this.$root.$on('updateRoundCount', this.updateRoundCount);            
         },
         beforeCreate: function() {
             // Remove custom event listener 
@@ -52,11 +60,26 @@
             this.$root.$off('updateRoundCount');
         },
         computed: {
+            isDisabled() {
+                let rounds = this.templateFormDetail.steptwo.rounds;
+                var isMatched = false;
+                _.forEach(rounds, function(round) {
+                    let totalGroupTeams = 0;
+                    _.forEach(round.groups, function(groupValue) {
+                        totalGroupTeams += Number(groupValue.no_of_teams);
+                    });
+                    if(round.no_of_teams !== totalGroupTeams) {
+                        isMatched = true;
+                        return false;
+                    }
+                });
 
+                return isMatched;
+            }
         },
         methods: {
             addNewRound() {
-                this.templateFormDetail.steptwo.rounds.push({no_of_teams: "", groups: [], startRoundGroupCount: this.templateFormDetail.steptwo.round_group_count, startPlacingGroupCount: this.templateFormDetail.steptwo.placing_group_count});
+                this.templateFormDetail.steptwo.rounds.push({no_of_teams: "", groups: [], start_round_group_count: this.templateFormDetail.steptwo.round_group_count, start_placing_group_count: this.templateFormDetail.steptwo.placing_group_count});
                 this.updateRoundCount();
             },
             removeGroup(groupIndex, roundIndex) {
@@ -82,12 +105,27 @@
                     startRoundGroupCount +=  _.filter(round.groups, function(o) { return o.type === 'round_robin'; }).length;
                     startPlacingGroupCount +=  _.filter(round.groups, function(o) { return o.type === 'placing_match'; }).length;
                 });
+                let groupMatchesCount = [];
                 _.forEach(vm.templateFormDetail.steptwo.divisions, function(division, divisionIndex) {
                     _.forEach(division.rounds, function(round, index) {
+                        if(!(index in groupMatchesCount)) {
+                            groupMatchesCount[index] = 0;
+                        }
                         vm.templateFormDetail.steptwo.divisions[divisionIndex].rounds[index].start_round_group_count = startRoundGroupCount;
                         vm.templateFormDetail.steptwo.divisions[divisionIndex].rounds[index].start_placing_group_count = startPlacingGroupCount;
                         startRoundGroupCount +=  _.filter(round.groups, function(o) { return o.type === 'round_robin'; }).length;
                         startPlacingGroupCount +=  _.filter(round.groups, function(o) { return o.type === 'placing_match'; }).length;
+                        _.forEach(round.groups, function(group, groupIndex) {
+                            console.log('group.type', group.type);
+                            if(group.type === 'round_robin') {
+                                vm.templateFormDetail.steptwo.divisions[divisionIndex].rounds[index].groups[groupIndex].start_match_count = groupMatchesCount[index];
+                                groupMatchesCount[index] += (group.teams.length - 1) * (group.teams.length/2) * vm.teamsPlayEachOther[group.teams_play_each_other];
+                            }
+                            if(group.type === 'placing_match') {
+                                vm.templateFormDetail.steptwo.divisions[divisionIndex].rounds[index].groups[groupIndex].start_match_count = groupMatchesCount[index];
+                                groupMatchesCount[index] += group.teams.length/2;
+                            }
+                        });
                     });
                 });
                 this.templateFormDetail.steptwo.round_group_count = startRoundGroupCount;
@@ -103,11 +141,24 @@
                 startRoundCount = this.templateFormDetail.steptwo.rounds.length;
                 _.forEach(vm.templateFormDetail.steptwo.divisions, function(division, divisionIndex) {
                     vm.templateFormDetail.steptwo.divisions[divisionIndex].start_round_count = startRoundCount;
-                    startRoundCount +=  vm.templateFormDetail.steptwo.divisions[divisionIndex].rounds.length;
+                    // startRoundCount +=  vm.templateFormDetail.steptwo.divisions[divisionIndex].rounds.length;
                 });
                 this.templateFormDetail.steptwo.round_count = startRoundCount;
             },
-            
+            isSeletedRoundTeamsIsInUse(roundIndex) {
+                let isMatched = false;
+                let totalGroupTeams = 0;
+                let round = this.templateFormDetail.steptwo.rounds[roundIndex];
+                let roundTeams = round.no_of_teams;
+                _.forEach(round.groups, function(groupValue) {
+                    totalGroupTeams += Number(groupValue.no_of_teams);
+                });
+                if(roundTeams === totalGroupTeams) {
+                    isMatched = true;
+                }
+
+                return isMatched;
+            },
         },
     }
 </script>

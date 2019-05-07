@@ -35,7 +35,9 @@
 // @import "node_modules/bootstrap/scss/print";
 
 // Font Awesome Pro
-@import "custom/fa/fontawesome";
+// @import "custom/fa/fontawesome";
+@import '~@fortawesome/fontawesome-pro/scss/fontawesome';
+@import '~@fortawesome/fontawesome-pro/scss/solid';
 
 // Custom overrides
 @import "custom/components";

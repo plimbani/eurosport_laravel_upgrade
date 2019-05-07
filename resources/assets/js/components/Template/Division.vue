@@ -103,11 +103,11 @@
                 this.divisionData.teams = [];
                 for (i = 0; i < this.divisionData.no_of_teams; i++) {
                     if(_.has(oldDivisionTeamData, i)) {
-                        this.divisionData.teams.push({position_type: oldDivisionTeamData[i].position_type, group: oldDivisionTeamData[i].group, position: oldDivisionTeamData[i].position, teams: ''});
+                        this.divisionData.teams.push({position_type: oldDivisionTeamData[i].position_type, group: oldDivisionTeamData[i].group, position: oldDivisionTeamData[i].position});
                         continue;
                     }
                     
-                    this.divisionData.teams.push({position_type: 'placed', group: '', position: '', teams: ''});
+                    this.divisionData.teams.push({position_type: 'placed', group: '', position: ''});
                 }
             },
             onPositionTypeChange(teamIndex) {
@@ -119,7 +119,7 @@
 
                 positionTypes.push({'key': 'placed', 'value': 'Placed'});
                 positionTypes.push({'key': 'winner', 'value': 'Winner'});
-                positionTypes.push({'key': 'loser', 'value': 'Loser'});
+                positionTypes.push({'key': 'looser', 'value': 'Looser'});
 
                 return positionTypes;
             },
@@ -148,7 +148,7 @@
                             return true;
                         }
 
-                        if(group.type === 'placing_match' && _.indexOf(['winner', 'loser'], team.position_type) > -1) {
+                        if(group.type === 'placing_match' && _.indexOf(['winner', 'looser'], team.position_type) > -1) {
                             placingGroupCount += 1;
                             groupsForSelection[placingMatchIndex] = {'name': 'PM ' + (placingGroupCount), 'value': '-1,' + roundIndex + ',' + groupIndex};
 
@@ -192,7 +192,7 @@
                     }
 
                     // for placing
-                    if(groupType === 'placing_match' && _.indexOf(['winner', 'loser'], team.position_type) > -1) {
+                    if(groupType === 'placing_match' && _.indexOf(['winner', 'looser'], team.position_type) > -1) {
                         let matches = numberOfTeams / 2;
                         if(this.divisionData.teams[teamIndex].position === '' || typeof this.divisionData.teams[teamIndex].position === 'undefined') {
                             this.divisionData.teams[teamIndex].position = group + ',0';
@@ -215,7 +215,7 @@
                 }
             },
             addNewDivisionRound(index) {
-                this.templateFormDetail.steptwo.divisions[index].rounds.push({no_of_teams: "", groups: [], startRoundGroupCount: this.templateFormDetail.steptwo.round_group_count, startPlacingGroupCount: this.templateFormDetail.steptwo.placing_group_count});
+                this.templateFormDetail.steptwo.divisions[index].rounds.push({no_of_teams: "", groups: [], start_round_group_count: this.templateFormDetail.steptwo.round_group_count, start_placing_group_count: this.templateFormDetail.steptwo.placing_group_count});
                 if(this.templateFormDetail.steptwo.divisions[index].rounds.length === 1) {
                     this.templateFormDetail.steptwo.divisions[index].rounds[0].no_of_teams = this.divisionData.no_of_teams;
                 }

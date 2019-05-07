@@ -1,11 +1,11 @@
 <template>
-	<div class="modal fade bg-modal-color refdel" id="edit_template_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	<div class="modal fade bg-modal-color refdel" id="edit_template_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
       <div class="modal-dialog add-newtemplate-modal">
         <div class="modal-content border-0 rounded-0">
             <div class="modal-header">
                 <div class="container">
                     <div class="row justify-content-center">
-                        <div class="col-md-8">
+                        <div class="col-md-12">
                             <div class="row align-items-center">
                                 <div class="col-8">
                                     <h4 class="modal-title" id="editTemplateModal">{{$lang.add_template_modal_header}}</h4>
@@ -31,7 +31,7 @@
                 <step-three v-show="currentStep === 3" :templateFormDetail="templateFormDetail" @change-tab-index="changeTabIndex"></step-three>
                 
                 <!-- Step 4 -->
-                <step-four v-show="currentStep === 4" :templateFormDetail="templateFormDetail" :editedTemplateId="editedTemplateId" @change-tab-index="changeTabIndex"></step-four>
+                <step-four v-show="currentStep === 4" :templateFormDetail="templateFormDetail" :editedTemplateId="editedTemplateId" @change-tab-index="changeTabIndex" :templateGraphicImage="templateGraphicImage"></step-four>
             </div>
         </div>
       </div>
@@ -49,14 +49,25 @@
 		data() {
 		    return {
                 currentStep: 1,
-                templateFormDetail: JSON.parse(this.editTemplateDetail.template_form_detail),
-                editedTemplateId: this.editTemplateDetail.id
+                templateFormDetail: _.cloneDeep(JSON.parse(this.editTemplateDetail.template_form_detail)),
+                editedTemplateId: this.editTemplateDetail.id,
+                templateGraphicImage: this.editTemplateDetail.graphic_image,
 		    }
 		},
+        created() {
+            this.$root.$on('clearFormFields', this.clearFormFields);
+        },
+        beforeCreate: function() {
+            this.$root.$off('clearFormFields');
+        },
         components: {
           StepOne, StepTwo, StepThree, StepFour
         },
 		mounted() {
+            let vm = this;
+            $('#edit_template_modal').on('hidden.bs.modal', function () {
+                vm.$emit('editTemplateModalHidden');
+            });
 		},
 		methods: {
             changeTabIndex(from, to, key, data) {
@@ -66,8 +77,9 @@
             },
             closeModal() {
                 $('#edit_template_modal').modal('hide');
-                // this.changeTabIndex(this.currentStep, 1, 'stepone', this.templateFormDetail);
-                return;
+            },
+            clearFormFields() {
+                this.errors.clear();
             }
 		}
 	}

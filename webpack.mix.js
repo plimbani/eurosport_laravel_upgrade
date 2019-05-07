@@ -79,4 +79,7 @@ mix.combine([
 
 .sass('resources/assets/sass/frontend/theme-6.scss', 'public/frontend/css/')
 
-.version()
+.version();
+
+mix.copy('node_modules/@fortawesome/fontawesome-pro/webfonts', 'public/assets/webfonts');
+mix.copy('node_modules/@fortawesome/fontawesome-pro/webfonts', 'public/frontend/fonts/webfonts');

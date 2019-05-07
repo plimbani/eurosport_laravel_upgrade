@@ -8,7 +8,9 @@
                     <option value="">Number of teams</option>
                     <option v-for="n in 60" v-if="n >= 2" :value="n">{{ n }}</option>
                 </select>
+                <p class="text-danger" v-if="isSeletedRoundTeamsAndGroupTeamsNotSame">Round teams and group teams count should match.</p>
             </div>
+
             
             <!-- new group component -->
             <group v-for="(group, groupIndex) in roundData.groups" :index="groupIndex" :roundIndex="index" :divisionIndex="divisionIndex" :roundData="roundData" :groupData="group" :templateFormDetail="templateFormDetail"></group>
@@ -23,7 +25,7 @@
     import _ from 'lodash';
     import Group from './Group.vue';
     export default {
-        props: ['roundData', 'templateFormDetail', 'index', 'divisionIndex'],
+        props: ['roundData', 'templateFormDetail', 'index', 'divisionIndex', 'isSeletedRoundTeamsAndGroupTeamsNotSame'],
         data() {
             return {
                 last_selected_teams: this.roundData.no_of_teams,
@@ -58,7 +60,11 @@
                 this.$root.$emit('updateGroupCount');
             },
             removeRound(index) {
-                this.templateFormDetail.steptwo.rounds.splice(index, 1);
+                if(this.divisionIndex === -1) {
+                    this.templateFormDetail.steptwo.rounds.splice(index, 1);
+                } else {
+                    this.templateFormDetail.steptwo.divisions[this.divisionIndex].rounds.splice(index, 1);
+                }
                 this.$root.$emit('updateGroupCount');
                 this.$root.$emit('updateRoundCount');
             },

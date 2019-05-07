@@ -15,9 +15,11 @@
 								<u>{{ category.group_name }} ({{ category.category_age }})</u>
 							</a>
               <a href="#" data-toggle="modal" data-target="#commentmodal" class="text-primary" @click.prevent="showComment(category)"><i class="fas fa-info-circle" v-if="category.comments != null"></i></a>
+              <a href="#" @click="viewGraphicImage(category.template_name, category.graphic_image)" class="btn btn-outline-primary btn-sm ml-2 float-right text-primary" v-if="category.graphic_image">View schedule</a>
 						</td>
 						<td>{{ category.total_teams }}</td>
 					</tr>
+          <displaygraphic :templateGraphicImageName="templateGraphicImageName" :viewGraphicImagePath="templateGraphicImagePath" :sectionGraphicImage="'DrawList'"></displaygraphic>
 				</tbody>
 			</table>
 		</div>
@@ -111,6 +113,7 @@
   import CategoryList from '../../../../../api/frontend/categorylist.js';
   import MatchList from '../../../../../api/frontend/matchlist.js';
   import Competition from './../list/components/Competition.vue';
+  import displaygraphic from '../../../../../components/DisplayGraphicalStructure.vue';
 
 	export default {
 		data() {
@@ -128,12 +131,14 @@
         },
         currentCategoryId: '',
         divData: [],
+        templateGraphicImageName: '',
+        templateGraphicImagePath: '',
       };
   	},
   	computed: {
   	},
    	components: {
-      Competition,
+      Competition,displaygraphic
 		},
 		mounted() {			
 			this.getAllCategoriesData();
@@ -207,6 +212,11 @@
         this.showView = 'competition';
         this.getSelectedCompetitionDetails(id, competitionName, competitionType);
       },
+      viewGraphicImage : function(imageName, imagePath){
+        $('#displayGraphicImage').modal('show');
+        this.templateGraphicImageName = imageName;
+        this.templateGraphicImagePath = imagePath;
+      }
     },
     filters: {
       getDivName: function (value) {

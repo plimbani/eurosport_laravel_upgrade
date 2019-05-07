@@ -109,8 +109,8 @@
         <delete-modal :deleteConfirmMsg="deleteConfirmMsg" @confirmed="deleteConfirmed()"></delete-modal>
         <template-info-modal v-show="templateInfoModal" :templateDetail="templateDetail"></template-info-modal>
         <template-in-use-modal v-show="templateInUseModal"></template-in-use-modal>
-        <add-template-modal></add-template-modal>
-        <edit-template-modal :editTemplateDetail="editTemplateDetail" v-if="isEdit"></edit-template-modal>
+        <add-template-modal @addTemplateModalHidden="addTemplateModalHidden" v-if="isAdd"></add-template-modal>
+        <edit-template-modal :editTemplateDetail="editTemplateDetail" @editTemplateModalHidden="editTemplateModalHidden" v-if="isEdit"></edit-template-modal>
     </div>
 </template>
 <script type="text/babel">
@@ -144,6 +144,7 @@
                 deleteAction: '',
                 editTemplateDetail: '',
                 isEdit: false,
+                isAdd: false,
                 deleteConfirmMsg: 'Are you sure you would like to delete this template?',
             }
         },
@@ -194,16 +195,28 @@
             )
           },
           addTemplate() {
-            $('#add_new_template_modal').modal('show');
+            this.isAdd = true;
+            Vue.nextTick()
+            .then(function () {
+              $('#add_new_template_modal').modal('show');
+            });
+          },
+          addTemplateModalHidden() {
+            this.isAdd = false;
+          },
+          editTemplateModalHidden() {
+            console.log('editTemplateModalHidden');
+            this.isEdit = false;
           },
           editTemplate(templateId) {
             Template.editTemplate(templateId).then(
               (response)=> {
                 this.isEdit = true;
                 this.editTemplateDetail = response.data.data;
-                setTimeout(function() {
-                  $('#edit_template_modal').modal('show');
-                }, 100);
+                Vue.nextTick()
+                  .then(function () {
+                    $('#edit_template_modal').modal('show');
+                });
               },
               (error)=> {
               }

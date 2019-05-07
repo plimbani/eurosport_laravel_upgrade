@@ -13,24 +13,25 @@
     </div>
   </div>
 
-<table id="matchSchedule" class="table table-hover table-bordered table-sm" v-if="matchData.length > 0 && isDivExist == 0">
-    <MatchListTableHead :isHideLocation="isHideLocation" :isUserDataExist="isUserDataExist" :getCurrentScheduleView="getCurrentScheduleView" :showPlacingForMatch="showPlacingForMatch()"></MatchListTableHead>
-    
-    <MatchListTableBody :getCurrentScheduleView="getCurrentScheduleView" :showPlacingForMatch="showPlacingForMatch()" :isHideLocation="isHideLocation" :isUserDataExist="isUserDataExist" :matchData="matchData" :isDivExist="isDivExist" @openPitchModal="openPitchModal" @changeDrawDetails="changeDrawDetails"></MatchListTableBody>
-</table>
+  <table id="matchSchedule" class="table table-hover table-bordered table-sm" v-if="matchData.length > 0 && isDivExist == 0">
+      <MatchListTableHead :isHideLocation="isHideLocation" :isUserDataExist="isUserDataExist" :getCurrentScheduleView="getCurrentScheduleView" :showPlacingForMatch="showPlacingForMatch()"></MatchListTableHead>
+      
+      <MatchListTableBody :getCurrentScheduleView="getCurrentScheduleView" :showPlacingForMatch="showPlacingForMatch()" :isHideLocation="isHideLocation" :isUserDataExist="isUserDataExist" :matchData="matchData" :isDivExist="isDivExist" @openPitchModal="openPitchModal" @changeDrawDetails="changeDrawDetails"></MatchListTableBody>
+  </table>
 
-<div class="col-md-12" v-for="(matches,index) in isDivExistData" v-if="matchData.length > 0 && isDivExist == 1">
-      <label class="mb-0"><h5 class="mb-2">{{index}}</h5></label><br>
-      <label class="mb-0"><h6 class="mb-2">{{ getCompetitionName(matches) }} matches</h6></label>
+  <div class="col-md-12" v-for="(matches,index) in isDivExistData" v-if="matchData.length > 0 && isDivExist == 1">
+    <label class="mb-0"><h5 class="mb-2">{{index}}</h5></label><br>
+    <label class="mb-0"><h6 class="mb-2">{{ getCompetitionName(matches) }} matches</h6></label>
 
-      <table id="matchSchedule" class="table table-hover table-bordered table-sm">
+    <table id="matchSchedule" class="table table-hover table-bordered table-sm">
 
-        <MatchListTableHead :isHideLocation="isHideLocation" :isUserDataExist="isUserDataExist" :getCurrentScheduleView="getCurrentScheduleView" :showPlacingForMatch="showPlacingForMatch()"></MatchListTableHead>
+      <MatchListTableHead :isHideLocation="isHideLocation" :isUserDataExist="isUserDataExist" :getCurrentScheduleView="getCurrentScheduleView" :showPlacingForMatch="showPlacingForMatch()"></MatchListTableHead>
 
-        <MatchListTableBody :getCurrentScheduleView="getCurrentScheduleView" :showPlacingForMatch="showPlacingForMatch()" :isHideLocation="isHideLocation" :isUserDataExist="isUserDataExist" :matchData="matches" :isDivExist="isDivExist" @openPitchModal="openPitchModal" @changeDrawDetails="changeDrawDetails"></MatchListTableBody> 
+      <MatchListTableBody :getCurrentScheduleView="getCurrentScheduleView" :showPlacingForMatch="showPlacingForMatch()" :isHideLocation="isHideLocation" :isUserDataExist="isUserDataExist" :matchData="matches" :isDivExist="isDivExist" @openPitchModal="openPitchModal" @changeDrawDetails="changeDrawDetails"></MatchListTableBody> 
 
-      </table>
-    </div>
+    </table>
+  </div>
+
     <paginate v-if="getCurrentScheduleView != 'teamDetails' && getCurrentScheduleView != 'drawDetails' && matchData.length > 0" name="matchlist" :list="matchData" ref="paginator" :per="no_of_records"  class="paginate-list">
     </paginate>
     <div v-if="getCurrentScheduleView != 'teamDetails' && getCurrentScheduleView != 'drawDetails' && matchData.length > 0" class="row d-flex flex-row align-items-center mb-3">
@@ -89,6 +90,9 @@ export default {
       'index':'',
       'matchData': [],
       'currentMatchId': 0,
+      'matchInterval':'',
+      'matchIdleTimeInterval':null,
+      'resultChange': false,
       paginate: (this.getCurrentScheduleView != 'teamDetails' && this.getCurrentScheduleView != 'drawDetails') ? ['matchlist'] : null,
       shown: false,
       isMatchListInitialized: false,
@@ -138,6 +142,18 @@ export default {
         }
     });
     this.matchData = _.sortBy(_.cloneDeep(this.matchData1),['match_datetime'] );
+
+    var vm = this;
+    setTimeout(function() {
+      vm.updateMatchScoreToRel();
+    },200);
+
+    this.matchIdleTimeInterval = parseInt(this.$store.state.Configuration.matchIdleTime) * 1000;
+    if ( this.matchIdleTimeInterval !== 0)
+    {
+      clearInterval(this.matchInterval);
+      this.matchInterval = setInterval(this.updateMatchScoreIdleStat,this.matchIdleTimeInterval);
+    }
   },
   created: function() {
     this.$root.$on('reloadMatchList', this.setScore);
@@ -149,16 +165,37 @@ export default {
     this.$root.$off('reloadMatchList');
     this.$root.$off('saveMatchScore');
   },
+  beforeDestroy: function(event) {
+    clearInterval(this.matchInterval);
+    if ( this.resultChange )
+    {
+      this.resetStoreUnsaveMatch(0);
+    }
+  },
   watch: {
     matchData1: {
       handler: function (val, oldVal) {
+        if ( this.resultChange )
+        {
+          this.resetStoreUnsaveMatch(1);
+        }
+
+        this.resultChange = false;
         this.matchData = _.sortBy(_.cloneDeep(val), ['match_datetime']);
+
+        this.updateMatchScoreToRel();
         let vm = this;
         Vue.nextTick()
         .then(function () {
           $.each(vm.matchData, function (index,value){
             vm.getResultOverridePopover(value);
           });
+
+          if ( vm.matchIdleTimeInterval !== 0)
+          {
+            clearInterval(vm.matchInterval);
+            vm.matchInterval = setInterval(vm.updateMatchScoreIdleStat,vm.matchIdleTimeInterval);
+          }
         });
 
         var getFirstMatch = _.head(vm.matchData);
@@ -282,6 +319,8 @@ export default {
 
     },
     changeDrawDetails(competition) {
+
+      window.competition = competition;
       // here we dispatch Method
       this.$store.dispatch('setCurrentScheduleView','drawDetails')
       let Id = competition.competitionId
@@ -291,6 +330,7 @@ export default {
       //this.$emit('changeComp',Id);
     },
     updateScore(match,index) {
+
       let matchId = match.fid;
       if(match.Home_id == 0 || match.Away_id == 0) {
         toastr.error('Both home and away teams should be there for score update.');
@@ -298,6 +338,15 @@ export default {
         $('input[name="away_score['+matchId+']"]').val('');
         return false;
       }
+
+      var resultChange = this.checkScoreChangeOrnot();
+      this.resultChange = resultChange;
+      this.$store.dispatch('UnsaveMatchStatus',_.cloneDeep(this.resultChange));
+      this.$store.dispatch('UnsaveMatchData', _.cloneDeep(this.matchData));
+
+      clearInterval(this.matchInterval);
+      this.matchInterval = setInterval(this.updateMatchScoreIdleStat,this.matchIdleTimeInterval);
+
       if (this.$store.state.scoreAutoUpdate == true) {
         $("body .js-loader").removeClass('d-none');
         this.index =  index
@@ -405,6 +454,11 @@ export default {
         matchPostData.matchDataArray = matchDataArray;
         Tournament.saveAllMatchResults(matchPostData).then(
           (response) => {
+
+            this.resultChange = false;
+            this.$store.dispatch('UnsaveMatchData',[]);
+            this.$store.dispatch('UnsaveMatchStatus',false);
+
             $("body .js-loader").addClass('d-none');
             if(this.$store.state.currentScheduleView == 'drawDetails') {
               let Id = this.DrawName.id
@@ -418,10 +472,11 @@ export default {
             if(this.$store.state.currentScheduleView == 'matchList') {
               this.$root.$emit('getMatchesByFilter');
             }
-            toastr.success('Scores has been updated successfully', 'Score Updated', {timeOut: 5000});
+            toastr.success('Scores has been updated successfully', 'Score Updated', {timeOut: 1000});
           }
         )
       }
+
     },
     setMatchDataOfMatchList(matchData) {
       this.matchData = _.sortBy(_.cloneDeep(matchData),['match_datetime'] );
@@ -451,6 +506,40 @@ export default {
         return '';
       }
     },
+    updateMatchScoreToRel()
+    {
+      $('.scoreUpdate').each(function(){
+        $(this).attr('rel',$(this).val());
+      });
+    },
+    checkScoreChangeOrnot()
+    {
+      var unsaveResult = false;
+      if ( $('#matchSchedule .scoreUpdate').length )
+      {
+        $('#matchSchedule .scoreUpdate').each(function(){
+          if ( !unsaveResult && !$(this).attr('readonly') && $(this).val() !== $(this).attr('rel') )
+          {
+            unsaveResult = true;
+          }
+
+        });
+      }
+      return unsaveResult;
+    },
+    updateMatchScoreIdleStat(){
+      var unsaveResult = this.checkScoreChangeOrnot();
+      if ( unsaveResult )
+      {
+        this.saveMatchScore();
+        this.updateMatchScoreToRel();
+      }
+    },
+    resetStoreUnsaveMatch(sectionVal)
+    {
+      window.sectionVal = sectionVal;
+      $('#unSaveMatchModal').modal('show');
+    }
   },
 }
 </script>
