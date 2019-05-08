@@ -500,6 +500,7 @@ class TemplateRepository
 
         $firstPlacingMatchIndex = array_search('placing_match', array_column($round['groups'], 'type'));
         foreach ($round['groups'] as $groupIndex => $group) {
+            $considerInTeamAssignment = false;
             $matchCount = 1;
             $matches = [];
             $startMatchCount = isset($group['start_match_count']) ? $group['start_match_count'] : 0;
@@ -527,6 +528,7 @@ class TemplateRepository
             }
 
             if($divisionIndex === -1 && $roundIndex === 0 && $groupIndex === $firstPlacingMatchIndex && $group['type'] === 'placing_match') {
+                $considerInTeamAssignment = true;
                 for($i=1; $i<=$noOfTeams; $i=$i+2) {
                     $home = $i;
                     $away = $i + 1;
@@ -797,6 +799,11 @@ class TemplateRepository
                 'group_count' => $group['no_of_teams'],
                 'groups' => ['group_name' => ($group['type'] === 'round_robin' ? 'Group-' : 'Group-') . $groupName, 'match' => $matches]
             ];
+
+            if($considerInTeamAssignment === true) {
+                $matchTypeDetail['consider_in_team_assignment'] = 1;
+                $matchTypeDetail['groups']['actual_group_name'] = 'Pos-A';
+            }
 
             if($divisionIndex === -1) {
                 $finalArray['tournament_competation_format']['format_name'][$roundIndex]['name'] = 'Round '.($roundIndex+1);
