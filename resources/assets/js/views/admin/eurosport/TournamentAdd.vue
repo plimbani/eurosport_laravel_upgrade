@@ -139,9 +139,10 @@
             </div>
           </div>
         </div>
-        <div class="">
-            <h6><strong>{{$lang.tournament_eurosporting}}</strong></h6>
-        </div>
+        <h3 class="text-uppercase font-weight-bold mt-5">
+            {{$lang.tournament_eurosporting}}
+        </h3>
+        <div class="row"><div class="col-lg-6"><div class="divider mb-5"></div></div></div>
         <div class="form-group row" :class="{'has-error': errors.has('tournament.tournament_contact_first_name') }">
           <label class="col-sm-2 form-control-label">{{$lang.tournament_first_name}}*</label>
           <div class="col-sm-4">
@@ -173,9 +174,10 @@
         </div>
         <!--<location :locations="locations"></location>-->
         <div v-for="(location, index) in locations">
-          <div class="">
-            <h6><strong>{{$lang.tournament_location}}</strong></h6>
-          </div>
+          <h3 class="text-uppercase font-weight-bold mt-5">
+              {{$lang.tournament_location}}
+          </h3>
+          <div class="row"><div class="col-lg-6"><div class="divider mb-5"></div></div></div>
           <div class="form-group row">
             <label class="col-sm-2 form-control-label">{{$lang.tournament_venue}}*</label>
             <div class="col-sm-4">

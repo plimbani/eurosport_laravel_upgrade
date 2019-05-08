@@ -600,6 +600,7 @@ module.exports= {
   summary_age_groups: "Age group",
   summary_participating_countries: "Participating countries",
   summary_euro_supporting_contact: "Euro-Sportring contact",
+  summary_easy_match_manager_main_contact: "Main contact",
   summary_teams: "Teams",
   summary_age_categories: "Age Categories",
   summary_games: "Games",
