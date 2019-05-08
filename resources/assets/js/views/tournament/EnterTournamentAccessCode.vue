@@ -3,7 +3,7 @@
         <section class="confirmation-section section-padding">
             <div class="container">
                 <div class="row justify-content-between">
-                    <div class="col-lg-5 col-md-8">
+                    <div class="col-lg-5">
                         <label>Access Your Tournament</label>
                         <p class="mb-5">If you have been given four digit code please enter it below to access your tournament </p>
                             
@@ -18,19 +18,19 @@
                         </div>
                     </div>
 
-                    <div class="col-lg-6 col-md-4">
-                        <div class="d-flex">
-                            <div class="img-device"><img src="/images/device.png" class="" alt="Mock Up"></div>
-                            <div class="ml-2">
-                                <h3 class="font-weight-bold">Get our mobile app</h3>
-                                <ul class="pl-4">
+                    <div class="col-lg-6 mt-4 mt-lg-0">
+                        <div class="d-md-flex">
+                            <div class="img-device text-center"><img src="/images/device.png" class="" alt="Mock Up"></div>
+                            <div class="d-flex flex-column justify-content-between ml-3 mt-4 mt-md-0">
+                                <h3 class="font-weight-bold mb-md-0">Get our mobile app</h3>
+                                <ul class="pl-4 mb-md-0">
                                     <li class="py-1">Lorem ipsum dolor sit amet, consectetur</li>
                                     <li class="py-1">Lorem ipsum dolor sit amet, consectetur</li>
                                     <li class="py-1">Lorem ipsum dolor sit amet, consectetur</li>
                                     <li class="py-1">Lorem ipsum dolor sit amet, consectetur</li>
                                 </ul>
 
-                                <ul class="list-unstyled get-app mb-0 text-xl-center mt-4">
+                                <ul class="list-unstyled get-app mb-0 pl-2">
                                     <li class="d-inline pr-2">
                                         <a href="javascript:void(0);">
                                             <img src="/images/app-store.png">
