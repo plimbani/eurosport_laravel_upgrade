@@ -12,7 +12,7 @@
                                 <div class="col-sm-8 col-md-9">
                                     <h6 class="text-uppercase mb-0 mt-4 mt-sm-0">License: #{{tournamentData.access_code}}</h6>
                                     <h2 class="font-weight-bold mb-0">{{tournamentData.name}}</h2>
-                                    <h4 class="text-uppercase font-weight-bold mb-4">{{this.tournamentDisplayDateFormat}}</h4>
+                                    <h4 class="text-uppercase font-weight-bold mb-4">{{displayTournamentDateFormat}}</h4>
 
                                     <h6 v-if="contactDetail.first_name || contactDetail.telephone"  class="text-uppercase mb-0 font-weight-bold">Main Contact</h6>
                                     <p class="mb-4">{{contactDetail.first_name}} {{contactDetail.last_name}} <a :href="'tel:' + contactDetail.telephone">{{contactDetail.telephone}}</a></p>
@@ -77,6 +77,11 @@
                 isTournamentDetailCallDone: false,
             }
         },
+        mounted() {
+        },
+        components: {
+            ScheduleAndResult,
+        },
         computed: {
             displayTournamentDateFormat(){
                 let startDateFormat = moment(this.tournamentData.start_date, 'DD/MM/YYYY').format('Do MMM YYYY');
@@ -99,12 +104,6 @@
                     return this.tournamentDisplayDateFormat = startDateMonth+ ' - ' +endDateFormat;
                 }
             }
-        },
-        mounted() {
-            this.display();
-        },
-        components: {
-            ScheduleAndResult,
         },
         beforeRouteEnter(to, from, next) { 
             
@@ -187,10 +186,7 @@
                     // this.$router.push({ path: 'tournament-detail', query: { code: this.code }})
                     window.location.href = this.googleAppStoreLink;  
                 }
-            },
-            display(){
-                return this.displayTournamentDateFormat();
-            },
+            }
         }
     }
 </script>
