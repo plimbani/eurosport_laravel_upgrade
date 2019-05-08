@@ -522,7 +522,7 @@ class MatchRepository
           $head_to_head = false;
           $check_head_to_head_with_key = '';
           $remain_head_to_head_with_key = '';
-
+          $head_to_head_order_atlast = false;
           if($competition->is_manual_override_standing == 0) {
             foreach($rules as $key => $rule) {
 
@@ -554,7 +554,7 @@ class MatchRepository
               if($rule['key'] == 'head_to_head') {
                 if($checkResultEntered > 0)
                 {
-                  $reportQuery = $reportQuery->orderBy('teams.name','asc');
+                  $head_to_head_order_atlast = true;
                 }
                 else
                 {
@@ -592,8 +592,12 @@ class MatchRepository
             $remain_head_to_head_with_key = ltrim($remain_head_to_head_with_key,'|');
           }
 
-          $reportQuery = $reportQuery->orderBy('match_standing.team_id','asc');
+          if ( $head_to_head_order_atlast )
+          {
+            $reportQuery = $reportQuery->orderBy('teams.name','asc');
+          }
 
+          $reportQuery = $reportQuery->orderBy('match_standing.team_id','asc');
           $tempFixtures = DB::table('temp_fixtures')
                           ->leftjoin('competitions', 'temp_fixtures.competition_id', '=', 'competitions.id')
                           ->where('temp_fixtures.tournament_id', $tournamentData['tournamentId'])
