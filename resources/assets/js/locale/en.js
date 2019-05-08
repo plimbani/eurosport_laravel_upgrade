@@ -78,6 +78,7 @@ module.exports= {
   user_management_sentence: "Add, edit and remove Euro-Sportring Tournament Planner users.",
   user_management_sentence_tournament: "Add, edit and remove Euro-Sportring mobile users.",
   user_management_all_users_sentence: "Add, edit and remove Euro-Sportring users.",
+  user_management_commercialisation_all_users_sentence: "Add, edit and remove Easy Match Manager users.",
   user_management_add_name: "Name*",
   user_management_clear_button: "Clear",
   user_management_add_name_required: "This field is required.",
