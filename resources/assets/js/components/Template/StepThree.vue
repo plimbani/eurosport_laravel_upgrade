@@ -17,27 +17,33 @@
 						        <div class="col-md-9">
 						        	<div class="row align-items-center">
 						        		<div class="col-md-4">
-					        				<div class="form-group mb-0">
-						        				<select class="form-control ls-select2" v-model="placing.position_type" @change="onPositionTypeChange(placingIndex)">
+					        				<div class="form-group mb-4">
+						        				<select class="form-control ls-select2" v-model="placing.position_type" @change="onPositionTypeChange(placingIndex)" v-validate="'required'" :class="{'is-danger': errors.has('position_type') }" :name="'position_type'+placingIndex" data-vv-as="Position type">
 							                    	<option value="placed">Placed</option>
 							                    	<option value="winner">Winner</option>
 							                    	<option value="looser">Looser</option>
 							                    </select>
+							                    <i v-show="errors.has('position_type'+placingIndex)" class="fas fa-warning"></i>
+									        	<span class="help is-danger" v-show="errors.has('position_type'+placingIndex)">{{ errors.first('position_type'+placingIndex) }}</span>
 							                </div>
 						        		</div>
 						        		<div class="col-md-3">
-						        			<div class="form-group mb-0">
-							        			<select class="form-control ls-select2" v-model="placing.group">
+						        			<div class="form-group mb-4">
+							        			<select class="form-control ls-select2" v-model="placing.group" v-validate="'required'" :class="{'is-danger': errors.has('position_group') }" :name="'position_group'+placingIndex" data-vv-as="Group">
 							                    	<option v-for="group in getGroupsForSelection(placingIndex)" :value="group.value">{{ group.name }}
 							                    	</option>
 							                    </select>
+							                    <i v-show="errors.has('position_group'+placingIndex)" class="fas fa-warning"></i>
+									        	<span class="help is-danger" v-show="errors.has('position_group'+placingIndex)">{{ errors.first('position_group'+placingIndex) }}</span>
 							                </div>
 						        		</div>						        		
 						        		<div class="col-md-4">
-					        				<div class="form-group mb-0">
-						        				<select class="form-control ls-select2" v-model="placing.position">
+					        				<div class="form-group mb-4">
+						        				<select class="form-control ls-select2" v-model="placing.position" :name="'position_name'+placingIndex" v-validate="'required'" :class="{'is-danger': errors.has('position_name') }" data-vv-as="Match name">
 							                    	<option :value="position.value" v-for="position in getPositionsForSelection(placingIndex, placing.group)">{{ position.name }}</option>
 							                    </select>
+							                    <i v-show="errors.has('position_name'+placingIndex)" class="fas fa-warning"></i>
+									        	<span class="help is-danger" v-show="errors.has('position_name'+placingIndex)">{{ errors.first('position_name'+placingIndex) }}</span>
 							                </div>
 						        		</div>
 						        		<div class="col-md-1 d-flex align-items-center justify-content-center">
@@ -78,6 +84,7 @@
         },
         components: {
         },
+        inject: ['$validator'],
         mounted() {
         },
         methods: {
@@ -100,7 +107,13 @@
 		    	// this.templateFormDetail = data;
 		    },
 		    next() {
-		    	this.$emit('change-tab-index', 3, 4, 'stepthree', _.cloneDeep(this.templateFormDetail.stepthree));
+                this.$validator.validateAll().then((response) => {
+	                if(response) {                    	
+	    				this.$emit('change-tab-index', 3, 4, 'stepthree', _.cloneDeep(this.templateFormDetail.stepthree));
+	                }
+				}).catch((errors) => {
+
+            	});
 		    },
 		    back() {
                 this.$emit('change-tab-index', 3, 2, 'stepthree', _.cloneDeep(this.templateFormDetail.stepthree));
