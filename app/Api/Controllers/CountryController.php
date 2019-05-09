@@ -18,7 +18,7 @@ class CountryController extends BaseController
     public function getList()
     {
         try {
-            $list = Country::all()->pluck('id', 'name');
+            $list = Country::orderBy('name', 'asc')->get()->pluck('id', 'name');
             return response()->json([
                         'success' => true,
                         'status' => Response::HTTP_OK,

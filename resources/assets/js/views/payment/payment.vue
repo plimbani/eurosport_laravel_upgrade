@@ -21,7 +21,7 @@
 
                     <div class="row">
                         <div class="col-sm-6 col-md-7 col-lg-7">
-                            <p v-if="!paymentFlag" class="mb-0" id="reeiptDetails">{{tournament.tournament_max_teams}} Team licence for a {{tournament.dayDifference}} day</p>
+                            <p v-if="!paymentFlag" class="mb-0" id="reeiptDetails">{{tournament.tournament_max_teams}} team license for a {{tournament.dayDifference}} day tournament</p>
 
                             <p v-if="paymentFlag" class="mb-0" id="reeiptDetails">{{tournament.tournament_max_teams}} (+{{tournament.teamDifference}}) Team licence for a  {{this.totaldays}} ({{daysign}} {{tournament.dayDifference}}) day</p>
 
@@ -36,8 +36,8 @@
                     <p class="text-sm-right font-weight-bold">{{paymentObj.amount}} {{paymentObj.currency}}</p>
 
                     <p class="py-3">You may now proceed to your dashboard and begin adding your tournament details.</p>
-                    <button v-if="tournament_id" class="btn btn-success" v-on:click="redirectToDashboardPage()">Get started</button>
-                    <button v-if="!tournament_id" class="btn btn-success" disabled="true">Get started</button>
+                    <button v-if="tournament_id" class="btn btn-primary" v-on:click="redirectToDashboardPage()">Get started</button>
+                    <button v-if="!tournament_id" class="btn btn-primary" disabled="true">Get started</button>
                     
                 </div>
             </div>

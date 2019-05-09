@@ -99,13 +99,18 @@
                                     </div>
 
                                     <label>Zip or postcode</label>
-                                    <div class="form-group">
-                                        <input type="textarea" class="form-control form-control-danger" placeholder="Zip" id="zipcode" name="zip" v-model="registerData.zip">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <input type="textarea" class="form-control form-control-danger" placeholder="Zip" id="zipcode" name="zip" v-model="registerData.zip">
+                                            </div>
+                                        </div>
                                     </div>
 
                                     <label>Country</label>
                                     <div class="form-group">
-                                        <select class="form-control" id="country" v-model="registerData.country" >
+                                        <select class="form-control" id="country" v-model="registerData.country">
+                                            <option value="">Please select</option>
                                             <option v-for="(value, key) in countries" :value="value">{{key}}</option>
                                         </select> 
                                     </div>
@@ -148,7 +153,7 @@
                     address_2: '',
                     city: '',
                     zip: '',
-                    country: 1
+                    country:'',
                 },
                 countries:{},
                 disabled:false
