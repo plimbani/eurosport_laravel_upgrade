@@ -17,6 +17,7 @@ import LayoutFront from './views/layouts/LayoutFront.vue'
 
 //Login : Auth
 import Login from './views/auth/Login.vue'
+import PasswordReset from './views/auth/Reset.vue'
 import Register from './views/auth/Register.vue'
 
 // Error : Not Found page
@@ -356,6 +357,11 @@ const routes = [
                 component: Register,
                 name: 'register'
             },
+            {
+                path: 'password/reset/:token*',
+                component: PasswordReset,
+                name: 'reset'
+            },
 
         ]
     },
@@ -448,14 +454,24 @@ const routes = [
     {
         path: '/payment', component: LayoutCommercialisation,
         meta: { requiresAuth: true },
-        component: payment,
-        name: 'payment'
+        children: [
+            {   
+                path: '/',
+                component: payment,
+                name: 'payment'
+            }
+        ]
     },
 	{
         path: '/paymentfailure', component: LayoutCommercialisation,
         meta: { requiresAuth: true },
-        component: paymentfailure,
-        name: 'paymentfailure'
+        children: [
+            {  
+                path: '/',
+                component: paymentfailure,
+                name: 'paymentfailure'
+            }
+        ]
     },
     {
         path: '/dashboard', component: LayoutCommercialisation,

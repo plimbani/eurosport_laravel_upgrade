@@ -136,7 +136,7 @@ class TransactionRepository
 
         if ($data['STATUS'] == 5 || $data['STATUS'] == 9) {
             //Send conformation mail to customer
-            $subject = 'Message from Eurosport';
+            $subject = 'Easy Match Manager - Order confirmation';
             $email_templates = 'emails.frontend.payment_confirmed';
             $emailData = ['paymentResponse' => $requestData['paymentResponse'], 'tournament' => $requestData['tournament'], 'user' => $authUser->profile];
             Mail::to($authUser->email)
@@ -239,7 +239,7 @@ class TransactionRepository
         }
         if ($data['STATUS'] == 5 || $data['STATUS'] == 9) {
             //Send conformation mail to customer
-            $subject = 'Message from Eurosport';
+            $subject = 'Easy Match Manager - Order confirmation';
             $email_templates = 'emails.frontend.payment_confirmed';
             $emailData = ['paymentResponse' => $requestData['paymentResponse'], 'tournament' => $requestData['tournament'], 'user' => $authUser->profile, 'is_manage_license' => 1];
 			Mail::to($authUser->email)

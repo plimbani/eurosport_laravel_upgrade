@@ -154,13 +154,22 @@ class User extends Authenticatable implements HasRoleAndPermissionContract, CanR
      */
     public function sendPasswordResetNotification($token)
     {
+        $currentLayout = config('config-variables.current_layout');
+        $emailSubject = 'Euro-Sportring Tournament Planner';
+
+        if($currentLayout == 'commercialisation') {
+            $emailSubject = 'Easy Match Manager';
+        }
+        
         $mobileUserRoleId = Role::where('slug', 'mobile.user')->first()->id;
         $name = (isset($this->personDetail->first_name)) ? $this->personDetail->first_name : $this->name;
         $send_otp='';
-        $subject = 'Euro-Sportring Tournament Planner - Reset password';
+        
+        $subject = $emailSubject . ' - Reset password';
+        
         // Set OTP
         if(!empty($this->roles()->first()) && ($this->roles()->first()->id == $mobileUserRoleId)) {
-            $subject = 'Euro-Sportring - Password Reset';
+            $subject = $emailSubject . ' - Password Reset';
             // $send_otp = str_random(4);
             // $encoded_otp = base64_encode($this->id."|".$send_otp);
 
@@ -174,7 +183,7 @@ class User extends Authenticatable implements HasRoleAndPermissionContract, CanR
             // $_SESSION['otp_key'] = $send_otp;
             // request()->session()->put('otp_value', $encoded_otp);
         }
-        $this->notify(new ResetPasswordNotification($token, $name,$this->email,$send_otp, $subject));
+        $this->notify(new ResetPasswordNotification($token, $name,$this->email,$send_otp, $subject, $currentLayout));
     }
     public function settings()
     {

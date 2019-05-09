@@ -57,7 +57,7 @@
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        <p>You can invite anyone to follow your tournament online and in the app. Simply share your following URL by email, SMS or any other social Media.</p>
+                                        <p>You can invite anyone to follow your tournament online and in the app. Simply share your following URL by email, SMS or any other social media.</p>
                                         <p class="popup-access-code mb-0 text-center py-4 px-1 font-weight-bold" v-on:click="copyAccessCode()">{{ access_code_popup }}</p>
                                         <input type="hidden" id="access_code_popup" :value="access_code_popup">
                                     </div>
@@ -110,6 +110,7 @@
             return { 
                 tournaments: [],
                 access_code_popup:"",
+                baseUrl:"",
                 url:"app.tournament-planner.com/t/"
             }
         },
@@ -117,7 +118,8 @@
             getTournamentList(){
                 axios.get(Constant.apiBaseUrl+'tournaments/list', {}).then(response =>  {
                         if (response.data.success) { 
-                            this.tournaments = response.data.data;
+                            this.baseUrl = response.data.data.baseUrl;
+                            this.tournaments = response.data.data.data;
                         }else{ 
                             toastr['error'](response.data.message, 'Error');
                         }
@@ -171,7 +173,7 @@
             },
 
             openSharePopup(tournament){
-                this.access_code_popup = this.url + tournament.access_code;
+                this.access_code_popup = this.baseUrl + '/' + this.url + tournament.access_code;
                 $("#open_share_popup").modal('show'); 
             },
 

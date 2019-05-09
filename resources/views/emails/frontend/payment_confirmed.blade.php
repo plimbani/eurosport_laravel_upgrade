@@ -222,7 +222,7 @@ $days = $interval->format('%a') + 1;
                                                                             <td style="text-align: right; padding: 10px;" align="right">
                                                                                 <?php if($email_details['paymentResponse']['currency'] == "GBP") {echo "&#163;";} else { echo "&#x20AC;"; }
                                                                                 ?>
-                                                                                <?php echo $email_details['paymentResponse']['amount']; ?></td>
+                                                                                <?php echo number_format($email_details['paymentResponse']['amount'],2); ?></td>
                                                                         </tr>
                                                                     </tbody>
                                                                     <thead class="footer">
@@ -230,7 +230,7 @@ $days = $interval->format('%a') + 1;
                                                                             <th colspan="2" style="border-bottom: 0px solid #57697E; background-color: rgba(33, 150, 243,0.1); text-align: right; font-size: 16px; padding: 10px;" bgcolor="rgba(33, 150, 243,0.1)" align="right">
                                                                                 <?php if($email_details['paymentResponse']['currency'] == "GBP") {echo "&#163;";} else { echo "&#x20AC;"; }
                                                                                 ?>
-                                                                                <?php echo $email_details['paymentResponse']['amount']; ?>
+                                                                                <?php echo number_format($email_details['paymentResponse']['amount'],2); ?>
                                                                             </th>
                                                                         </tr>
                                                                     </thead>

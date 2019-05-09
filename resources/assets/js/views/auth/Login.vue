@@ -120,7 +120,14 @@
                             this.$router.push({'name':'checkout'})
                         }else{
                             if(indxOfCustomer > -1){
-                                this.$router.push({'name':'dashboard'})
+                                if ( response.data.userTournamentCount > 0 )
+                                {
+                                    this.$router.push({'name':'dashboard'})
+                                }
+                                else
+                                {
+                                    this.$router.push({'name':'buylicense'});    
+                                }
                             }else{
                                 this.$router.push({'name':'welcome'})
                             }

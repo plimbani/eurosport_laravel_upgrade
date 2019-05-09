@@ -1,7 +1,7 @@
 <template>
     <div class="main-section">
       <form action="" id="registerForm" method="post" @submit.prevent="redirectToPage">
-        <section class="confirmation-section section-padding">
+        <section class="confirmation-section thank-you section-padding">
             <div class="container">
                 <div class="row">
                     <div class="col-md-6">

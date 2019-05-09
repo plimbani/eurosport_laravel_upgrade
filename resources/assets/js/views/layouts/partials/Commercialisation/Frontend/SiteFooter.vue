@@ -29,17 +29,26 @@
     				</ul>
     			</div>
     			<div class="col-sm-6 text-center text-sm-right">
-    				<p class="text-white small mb-0">&copy; 2018 Easy Tournament Manager</p>
+    				<p class="text-white small mb-0">&copy; {{currentYear}} Easy Tournament Manager</p>
     			</div>
     		</div>
     	</div>
     </footer>
 </template>
 <script type="text/javascript">
-    $(document).ready( function(){
-        var headerHeight = $(".header").outerHeight();
-        var footerHeight = $(".footer").outerHeight();
-        // $('.main-section').css({ 'min-height': 'calc(100vh - ' + (headerHeight + footerHeight) + 'px)' });
-        $('.main-section').css({ 'min-height': 'calc(100vh - ' + (footerHeight) + 'px)' });
-    });
+    export default {
+        data() {
+            return {
+                'currentYear': new Date().getFullYear()
+            }
+        },
+        mounted() {
+            $(document).ready( function(){
+                var headerHeight = $(".header").outerHeight();
+                var footerHeight = $(".footer").outerHeight();
+                // $('.main-section').css({ 'min-height': 'calc(100vh - ' + (headerHeight + footerHeight) + 'px)' });
+                $('.main-section').css({ 'min-height': 'calc(100vh - ' + (footerHeight) + 'px)' });
+            });
+        }            
+    }
 </script>
