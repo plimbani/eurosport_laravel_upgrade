@@ -34,4 +34,9 @@ class TransactionHistory extends Model
     public function transaction() {
         return $this->belongsTo('Laraspace\Models\Transaction', 'transaction_id');
     }
+
+    public function getAmountAttribute($value)
+    {
+         return number_format($value, 2);
+    }
 }

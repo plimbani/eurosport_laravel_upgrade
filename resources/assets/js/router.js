@@ -453,14 +453,24 @@ const routes = [
     {
         path: '/payment', component: LayoutCommercialisation,
         meta: { requiresAuth: true },
-        component: payment,
-        name: 'payment'
+        children: [
+            {   
+                path: '/',
+                component: payment,
+                name: 'payment'
+            }
+        ]
     },
 	{
         path: '/paymentfailure', component: LayoutCommercialisation,
         meta: { requiresAuth: true },
-        component: paymentfailure,
-        name: 'paymentfailure'
+        children: [
+            {  
+                path: '/',
+                component: paymentfailure,
+                name: 'paymentfailure'
+            }
+        ]
     },
     {
         path: '/dashboard', component: LayoutCommercialisation,

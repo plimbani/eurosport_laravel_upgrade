@@ -1,0 +1,25 @@
+.tabs-primary {
+    &.custom-tabbing {
+        .nav-tabs {
+            border-bottom-color: #0078ab;
+            border-bottom-width: 2px;
+
+            .nav-item {
+                @extend .font-weight-normal;
+
+                .nav-link {
+                    border-bottom: none;
+                    margin-right: 2px;
+                    margin-bottom: 0px;
+
+                    .wrapper-tab {
+                        margin-bottom: 0;
+                        border-radius: 0;
+                        padding: 0.75em 3em;
+                        background: #ccf0ff;
+                    }
+                }
+            }
+        }
+    }
+}
