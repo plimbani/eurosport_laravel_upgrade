@@ -120,7 +120,6 @@ class ResetPasswordController extends Controller
      public function reset(Request $request)
     {
 
-
         ///$this->validate($request, $this->rules(), $this->validationErrorMessages());
 
         // Here we will attempt to reset the user's password. If it is successful we
@@ -163,10 +162,13 @@ class ResetPasswordController extends Controller
         $response == Password::PASSWORD_RESET
                 ? $this->sendResetResponse($response)
                 : $this->sendResetFailedResponse($request, $response);
-        if($userData->roles[0]->id != $mobileUserRoleId)
-            return redirect('/login/passwordupdated');
-        else
-            return redirect('/mlogin')->with('reset','reset password');
+
+        if($userData->roles[0]->id != $mobileUserRoleId) {
+            $url = '/login/passwordupdated';
+        }else {
+            $url = '/mlogin?reset="reset password"';
+        }
+        return $url;
     }
 
     public function userMlogin(Request $request) {
