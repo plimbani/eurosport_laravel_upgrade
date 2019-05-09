@@ -107,7 +107,7 @@
 			<div class="col-md-12">
 			<span>{{$lang.summary_age_groups}}: {{tournamentSummary.tournament_groups}}</span><br>
 				<span>{{$lang.summary_participating_countries}}: {{tournamentSummary.tournament_countries}}</span><br>
-				<span v-if="currentLayout == 'commercialisation'">{{$lang.summary_euro_supporting_contact}}:  {{tournamentSummary.tournament_contact}}</span>
+				<span v-if="currentLayout == 'commercialisation'">{{$lang.summary_easy_match_manager_main_contact}}:  {{tournamentSummary.tournament_contact}}</span>
 				<span v-else>{{$lang.summary_euro_supporting_contact}}:  {{tournamentSummary.tournament_contact}}</span>
 			</div>
 		</div>
