@@ -27,10 +27,12 @@
                         </div>
 
                         <div class="form-group" id="divCheckPasswordMatch"></div>
-                        <div class="h4 text-center mt-4">
-                            <button id="addButton" class="btn btn-primary">
-                                Reset password
-                            </button>
+                        <div class="row">
+                            <div class="col-lg-5 col-md-6">
+                                <div class="form-group">
+                                    <button class="btn btn-success btn-block" id="addButton">{{$lang.login_reset_button}}</button>
+                                </div>
+                            </div>
                         </div>
                     </form> 
                     </div>
