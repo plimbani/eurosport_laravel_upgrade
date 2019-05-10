@@ -61,7 +61,7 @@ class MyOwnResetPassword extends Notification
                     ->subject($this->subject)
                     ->line('You are receiving this email because we received a password reset request for your account. Click the button below to reset your password:')
                     ->action('Reset passwsord', url('password/reset', $this->token))
-                    ->view('notifications::email',array('name'=>$this->name,'userEmail'=>$this->userEmail,'userOTP'=>$this->userOtp,'currentLayout'=>$this->currentLayout))
+                    ->view('notifications::email',array('name'=>$this->name,'userEmail'=>urlencode($this->userEmail),'userOTP'=>$this->userOtp,'currentLayout'=>$this->currentLayout))
                     ->line('Thank you for using our application!');
     }
 

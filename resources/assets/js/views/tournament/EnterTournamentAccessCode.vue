@@ -4,7 +4,7 @@
             <div class="container">
                 <div class="row justify-content-between">
                     <div class="col-lg-5">
-                        <label>Access Your Tournament</label>
+                        <h1>Access Your Tournament</h1>
                         <p class="mb-5">If you have been given four digit code please enter it below to access your tournament </p>
                             
                                 <!-- <input type="text" class="form-control" placeholder="Enter your code" id = "code" name="code" v-model="code">

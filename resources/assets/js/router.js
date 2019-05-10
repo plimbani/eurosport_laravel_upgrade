@@ -362,7 +362,6 @@ const routes = [
                 component: PasswordReset,
                 name: 'reset'
             },
-
         ]
     },
     {
