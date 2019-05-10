@@ -11,17 +11,20 @@
                         <input type="hidden" name="token" v-model="token">
 
                         <div class="form-group" :class="{'has-error': errors.has('email') }">
+                            <label for="email-id" v-if="currentLayout == 'commercialisation'">Email Address</label>
                             <input type="email" class="form-control" id="" placeholder="e.g name@domain.com" name="email" v-model="email" v-validate="'required|email'">
                             <span class="help is-danger" v-show="errors.has('email')">{{$lang.login_password_validation_message}}</span> 
                         </div>
 
                         <div class="form-group" :class="{'has-error': errors.has('password') }">
+                            <label for="pwd" v-if="currentLayout == 'commercialisation'">Password</label> 
                              <input id="password" type="password" class="form-control" placeholder="Password" name="password" v-model="password" v-validate="'required|min:5'" ref="password">
                              <span class="help is-danger" v-show="errors.has('password')">{{errors.first('password')}}</span>
                         </div>
 
 
                         <div class="form-group" :class="{'has-error': errors.has('password_confirmation') }">
+                            <label for="pwd" v-if="currentLayout == 'commercialisation'">Confirm password</label> 
                             <input id="password-confirm" type="password" class="form-control" placeholder="Confirm password" v-model="password_confirmation" name="password_confirmation" v-validate="'required|confirmed:password'">
                             <span class="help is-danger" v-show="errors.has('password_confirmation')">{{errors.first('password_confirmation')}}</span>
                         </div>
@@ -46,6 +49,7 @@
     export default {
         data() {
             return {
+                currentLayout: this.$store.state.Configuration.currentLayout,
                 email: this.$route.query.userEmail,
                 token: this.$route.params.token,
                 password:'',
