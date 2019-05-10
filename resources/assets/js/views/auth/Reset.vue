@@ -1,6 +1,9 @@
 <template>
     <div>
-        <!-- <p class="h4 text-center mt-4" style="color:#757575">Reset password</p> -->
+        <div class="alert alert-danger margin-top-15" v-if="serverError != undefined && serverError != ''">
+            {{ serverError }}
+        </div>
+        <p class="h4 text-center mt-4" style="color:#757575">Reset password</p>
         <form class="login-form" id="loginForm" method="post" @submit.prevent="validateBeforeSubmit"> 
 
             <input type="hidden" name="token" v-model="token">
@@ -37,6 +40,7 @@
             return {
                 email: this.$route.query.userEmail,
                 token: this.$route.params.token,
+                serverError: this.$route.query.error,
                 password:'',
                 password_confirmation:'',
                 errorMessages: {
