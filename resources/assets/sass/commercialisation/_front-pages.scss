@@ -57,7 +57,7 @@
 
             .btn-outline {
                 &:hover {
-                    border-color: transparent;
+                    border-color: $theme-color-primary;
                     background-color: transparent;
                     color: $theme-color-primary;
                 }
