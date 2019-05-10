@@ -35,7 +35,7 @@
     export default {
         data() {
             return {
-                email: this.$route.query.userEmail.replace("%20","%2B"),
+                email: this.$route.query.userEmail,
                 token: this.$route.params.token,
                 password:'',
                 password_confirmation:'',
