@@ -27,13 +27,14 @@ class MyOwnResetPassword extends Notification
      *
      * @return void
      */
-    public function __construct($token, $name, $userEmail,$userOtp='', $subject)
+    public function __construct($token, $name, $userEmail,$userOtp='', $subject, $currentLayout)
     {
         $this->token = $token;
         $this->name = $name;
         $this->userEmail = $userEmail;
         $this->userOtp = $userOtp;
         $this->subject = $subject;
+        $this->currentLayout = $currentLayout;
 
     }
 
@@ -59,8 +60,8 @@ class MyOwnResetPassword extends Notification
         return (new MailMessage)
                     ->subject($this->subject)
                     ->line('You are receiving this email because we received a password reset request for your account. Click the button below to reset your password:')
-                    ->action('Reset passwsord', route('password.reset', $this->token))
-                    ->view('notifications::email',array('name'=>$this->name,'userEmail'=>$this->userEmail,'userOTP'=>$this->userOtp))
+                    ->action('Reset passwsord', url('password/reset', $this->token))
+                    ->view('notifications::email',array('name'=>$this->name,'userEmail'=>urlencode($this->userEmail),'userOTP'=>$this->userOtp,'currentLayout'=>$this->currentLayout))
                     ->line('Thank you for using our application!');
     }
 

@@ -56,19 +56,19 @@ class ResetPasswordController extends Controller
     //         ['token' => $token, 'email' => $request->email]
     //     );
     // }
-    public function showResetForm(Request $request, $token = null)
-    {
-         $password_reset = \DB::table('password_resets')->where('token', $token)->first();
-        // if(empty($password_reset)){
-        //     throw new NotFoundHttpException;
-        // }
-        $email = '';
-        
-        // return view('auth.reset')->with('token', $token)->with('email', $email);
-        return view('auth.passwords.reset')->with(
-            ['token' => $token, 'email' => $email, 'currentYear' => date('Y')]
-        );
-    }
+    // public function showResetForm(Request $request, $token = null)
+    // {
+    //     $currentLayout = config('config-variables.current_layout');
+    //     $password_reset = \DB::table('password_resets')->where('token', $token)->first();
+    //     // if(empty($password_reset)){
+    //     //     throw new NotFoundHttpException;
+    //     // }
+    //     $email = '';
+    //     // return view('auth.reset')->with('token', $token)->with('email', $email);
+    //     return view('auth.passwords.reset')->with(
+    //         ['token' => $token, 'email' => $email, 'currentYear' => date('Y'), 'currentLayout' => $currentLayout]
+    //     );
+    // }
 
 
     /**
@@ -120,7 +120,6 @@ class ResetPasswordController extends Controller
      public function reset(Request $request)
     {
 
-
         ///$this->validate($request, $this->rules(), $this->validationErrorMessages());
 
         // Here we will attempt to reset the user's password. If it is successful we
@@ -163,10 +162,13 @@ class ResetPasswordController extends Controller
         $response == Password::PASSWORD_RESET
                 ? $this->sendResetResponse($response)
                 : $this->sendResetFailedResponse($request, $response);
-        if($userData->roles[0]->id != $mobileUserRoleId)
-            return redirect('/login/passwordupdated');
-        else
-            return redirect('/mlogin')->with('reset','reset password');
+
+        if($userData->roles[0]->id != $mobileUserRoleId) {
+            $url = '/login/passwordupdated';
+        }else {
+            $url = '/mlogin?reset="reset password"';
+        }
+        return $url;
     }
 
     public function userMlogin(Request $request) {

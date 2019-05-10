@@ -7,6 +7,7 @@ use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Laraspace\Models\Settings;
 use Laraspace\Models\UserFavourites;
+use Laraspace\Models\TournamentUser;
 
 class AuthController extends Controller
 {
@@ -25,16 +26,17 @@ class AuthController extends Controller
             return response()->json(['error' => 'could_not_create_token'], 500);
         }
         $authUser = JWTAuth::authenticate($token);
-
         $person = $authUser->profile()->first();
         $country = $authUser->country_id;
         $role = [$authUser->roles()->first()];
+
+        $userTournamentCount = TournamentUser::with('tournaments')->has('tournaments')->where('user_id', $authUser->id)->count();
         
         // all good so return the token
         //return response()->json(compact('token'));
         //$token = response()->json(compact('token'));
        // $token = compact('token');
-        return response()->json(compact('token', 'role', 'country'));
+        return response()->json(compact('token', 'role', 'country', 'userTournamentCount'));
 
     }
 
@@ -100,6 +102,7 @@ class AuthController extends Controller
              $userDetails['role_name'] = $userData->roles()->first()->slug;
              $userDetails['locale'] = $userData->locale;
              $userDetails['country_id'] = $userData->country_id;
+             
              $tournament_id = array();
              return response(['authenticated' => true,'userData'=> $userDetails, 'is_score_auto_update' =>config('config-variables.is_score_auto_update')]);
             }

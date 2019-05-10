@@ -27,7 +27,7 @@
 		mounted() {
 	      	Tournament.getAllTournaments().then(
 		      (response) => {
-		        this.options = response.data.data
+		        this.options = response.data.data.data
 		      },
 		      (error) => {
 		      }

@@ -12,7 +12,7 @@
                                 <div class="col-sm-8 col-md-9">
                                     <h6 class="text-uppercase mb-0 mt-4 mt-sm-0">License: #{{tournamentData.access_code}}</h6>
                                     <h2 class="font-weight-bold mb-0">{{tournamentData.name}}</h2>
-                                    <h4 class="text-uppercase font-weight-bold mb-4">{{tournamentData.start_date}} - {{tournamentData.end_date}}</h4>
+                                    <h4 class="text-uppercase font-weight-bold mb-4">{{displayTournamentDateFormat}}</h4>
 
                                     <h6 v-if="contactDetail.first_name || contactDetail.telephone"  class="text-uppercase mb-0 font-weight-bold">Main Contact</h6>
                                     <p class="mb-4">{{contactDetail.first_name}} {{contactDetail.last_name}} <a :href="'tel:' + contactDetail.telephone">{{contactDetail.telephone}}</a></p>
@@ -30,7 +30,7 @@
                         </div>
                         <div class="col-xl-4 bordered-div mt-5 mt-xl-0">
                             <h4 class="text-uppercase font-weight-bold">Follow on your phone</h4>
-                            <p class="mb-4">Download and open the tournament planner app and enter the following code to follow Brighton Champions Cup.</p>
+                            <p class="mb-4">Download and open the tournament planner app and enter the following code to follow {{ tournamentData.name }} Cup.</p>
 
                             <div class="app-code text-center py-3">
                                 <h3 class="font-weight-bold m-0">{{tournamentData.access_code}}</h3>
@@ -42,9 +42,9 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="row" v-if="!tournamentData.id">
+                    <div class="row" v-if="!tournamentData.id && isTournamentDetailCallDone">
                         <div class="col-xl-12 text-center">
-                            Tournament details not found
+                            Tournament detail not found
                         </div>
                     </div>
                 </div>
@@ -72,11 +72,38 @@
                     first_name:"",
                     last_name:"",
                     telephone:""
-                }
+                },
+                tournamentDisplayDateFormat:"",
+                isTournamentDetailCallDone: false,
             }
+        },
+        mounted() {
         },
         components: {
             ScheduleAndResult,
+        },
+        computed: {
+            displayTournamentDateFormat(){
+                let startDateFormat = moment(this.tournamentData.start_date, 'DD/MM/YYYY').format('Do MMM YYYY');
+                let endDateFormat = moment(this.tournamentData.end_date, 'DD/MM/YYYY').format('Do MMM YYYY');
+
+                let startDay = moment(this.tournamentData.start_date, 'DD/MM/YYYY').format('Do');
+                let startMonth = moment(this.tournamentData.start_date, 'DD/MM/YYYY').format('MMM');
+                let startDateMonth = moment(this.tournamentData.start_date, 'DD/MM/YYYY').format('Do MMM');
+                let startYear = moment(this.tournamentData.start_date, 'DD/MM/YYYY').format('YYYY');
+
+                let endDay = moment(this.tournamentData.end_date, 'DD/MM/YYYY').format('Do');
+                let endMonth = moment(this.tournamentData.end_date, 'DD/MM/YYYY').format('MMM');
+                let endYear = moment(this.tournamentData.end_date, 'DD/MM/YYYY').format('YYYY');
+                
+                if(startMonth == endMonth){
+                    return this.tournamentDisplayDateFormat = startDay+ ' - '+endDateFormat;
+                } else if(startYear != endYear){
+                    return this.tournamentDisplayDateFormat = startDateFormat+ ' - ' +endDateFormat;
+                } else if(startMonth != endMonth) {
+                    return this.tournamentDisplayDateFormat = startDateMonth+ ' - ' +endDateFormat;
+                }
+            }
         },
         beforeRouteEnter(to, from, next) { 
             
@@ -107,15 +134,15 @@
         },
         methods: {
             getTournamentDetail(){
-               
-                 axios.get(Constant.apiBaseUrl+'tournament-by-code?tournament='+this.code, {}).then(response =>  {  
+                 axios.get(Constant.apiBaseUrl+'tournament-by-code?tournament='+this.code, {}).then(response =>  { 
+                        this.isTournamentDetailCallDone = true;
                         if (response.data.success && typeof response.data.data != "undefined" && typeof response.data.data.tournament_details != "undefined") {
                              this.tournamentData = response.data.data.tournament_details;
                              this.contactData = response.data.data.contact_details;
                              if((this.contactData).length > 0){
                                 this.contactDetail.first_name = this.contactData[0].first_name;
                                 this.contactDetail.last_name = this.contactData[0].last_name;
-                                this.contactDetail.telephone = this.contactData[0].telephonee;
+                                this.contactDetail.telephone = this.contactData[0].telephone;
                              }
 
                              this.tournamentSponsers = response.data.data.tournament_sponsor;
