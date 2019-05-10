@@ -1,10 +1,10 @@
 <template>
 <div>
     <header class="site-header">
-        <div class="container">
+        <div class="container-fluid w-100">
             <a href="#" class="brand-main" @click="home">
-                <img src="/assets/img/logo-desk.svg" id="logo-desk" alt="Laraspace Logo" class="hidden-sm-down">
-                <img src="/assets/img/logo-mobile.svg" id="logo-mobile" alt="Laraspace Logo" class="hidden-md-up">
+                <img src="/assets/img/tmplogo.svg" id="logo-desk" alt="Laraspace Logo" class="hidden-sm-down">
+                <img src="/assets/img/tmplogo.svg" id="logo-mobile" alt="Laraspace Logo" class="hidden-md-up">
             </a>
             <a href="#" class="nav-toggle" @click="onNavToggle">
                 <div class="hamburger hamburger--htla">
@@ -14,19 +14,19 @@
             <!-- <span class="offset-1"> {{TournamentName}} </span> -->
             <ul class="action-list">
                 <li>
-                    <i class="jv-icon jv-clock"></i>&nbsp;<span id="timer">{{curTime}}</span>
+                    <i class="fas fa-clock"></i>&nbsp;<span id="timer">{{curTime}}</span>
                 </li>
                 <li>
-                    <i class="jv-icon jv-calendar"></i>&nbsp;<span id="date">{{date}}</span>
+                    <i class="fas fa-calendar"></i>&nbsp;<span id="date">{{date}}</span>
                 </li>
                 <li>
                     <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" aria-haspopup="true" data-close-others="true" aria-expanded="true">
                         <span class="username username-hide-on-mobile">{{userData.name}}</span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right notification-dropdown">
-                        <!-- <router-link class="dropdown-item" to="/admin/settings"><i class="fa fa-cogs"></i>{{$lang.siteheader_settings}}</router-link> -->
-                         <a href="javascript:void(0)" class="dropdown-item" @click="showEditProfileModal()"><i class="fa fa-user"></i>{{$lang.siteheader_userprofile}}</a>
-                        <a href="#" class="dropdown-item" @click.prevent="logout"><i class="fa fa-sign-out"></i>{{$lang.siteheader_logout}}</a>
+                        <!-- <router-link class="dropdown-item" to="/admin/settings"><i class="fas fa-cogs"></i>{{$lang.siteheader_settings}}</router-link> -->
+                         <a href="javascript:void(0)" class="dropdown-item" @click="showEditProfileModal()"><i class="fas fa-user"></i>{{$lang.siteheader_userprofile}}</a>
+                        <a href="#" class="dropdown-item" @click.prevent="logout"><i class="fas fa-sign-out"></i>{{$lang.siteheader_logout}}</a>
                     </div>
                 </li>
               <!--   <li> <a href="#">{{$lang.siteheader_help}}</a> </li>
@@ -35,20 +35,20 @@
 
                 <!--
                 <li>
-                    <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-plus"></i></a>
+                    <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-plus"></i></a>
                     <div class="dropdown-menu dropdown-menu-right">
-                        <a class="dropdown-item" href="#"><i class="fa fa-edit"></i> New Post</a>
-                        <a class="dropdown-item" href="#"><i class="fa fa-tag"></i> New Category</a>
+                        <a class="dropdown-item" href="#"><i class="fas fa-edit"></i> New Post</a>
+                        <a class="dropdown-item" href="#"><i class="fas fa-tag"></i> New Category</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#"><i class="fa fa-star"></i> Separated link</a>
+                        <a class="dropdown-item" href="#"><i class="fas fa-star"></i> Separated link</a>
                     </div>
                 </li>
                 <li>
-                    <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-bell"></i></a>
+                    <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-bell"></i></a>
                     <div class="dropdown-menu dropdown-menu-right notification-dropdown">
                         <h6 class="dropdown-header">Notifications</h6>
-                        <a class="dropdown-item" href="#"><i class="fa fa-user"></i> New User was Registered</a>
-                        <a class="dropdown-item" href="#"><i class="fa fa-comment"></i> A Comment has been posted.</a>
+                        <a class="dropdown-item" href="#"><i class="fas fa-user"></i> New User was Registered</a>
+                        <a class="dropdown-item" href="#"><i class="fas fa-comment"></i> A Comment has been posted.</a>
                     </div>
                 </li>
                 -->
@@ -66,7 +66,8 @@
     import Auth from '../../../services/auth'
     import User from '../../../views/admin/Userprofile.vue'
     import Ls from '../../../services/ls'
-    import UserApi from '../../../api/users.js'
+    import UserApi from '../../../api/users.js';
+    import Website from '../../../api/website.js';
 
     export default {
     components: {
@@ -100,7 +101,9 @@
         let email = Ls.get('email');
         // Here we call Function to get User Details
         let userData = {'email':email}
-        this.getUserDetails(userData)
+        this.getUserDetails(userData);
+        this.getConfigurationDetail();
+        this.getWebsiteDetails();
 
 
          },
@@ -131,32 +134,36 @@
                   (error)=> {
                   }
                 );
-
-              /*  axios.post("/api/user/getDetails",{'userData':emailData}).then((response) => {
-                      this.userData = response.data.data;
-                      //console.log('InuserDetails')
-                      //console.log(this.userData[0])
-                      Ls.set('userData',JSON.stringify(this.userData[0]))
-                      this.id = this.userData[0].id
-                      let Id = this.id
-                      let this1 = this
-                      setInterval(function(){this1.clock() },1000)
-                        let that = this
-                        if(Id!=''){
-                            that.editUser(Id)
-                            //setTimeout(function(){
-                              //  that.editUser(Id)
-                            //},1000)
-                        }
-
-                        let UserData  = JSON.parse(Ls.get('userData'))
-                       //console.log(UserData)
-                       this.$store.dispatch('getUserDetails', UserData);
-
-                    });
-                    */
-
-
+            },
+            getConfigurationDetail() {
+                Website.getConfigurationDetail().then(
+                  (response)=> {
+                    this.$store.dispatch('setConfigurationDetail', response.data);
+                  },
+                  (error)=> {
+                  }
+                );
+            },
+            getWebsiteDetails() {
+              if(this.getWebsiteId !== null) {
+                Website.getWebsiteDetails(this.getWebsiteId).then(
+                  (response)=> {
+                    var websiteDetail = response.data.data;
+                    let website  = {
+                      id: websiteDetail.id,
+                      tournament_name: websiteDetail.tournament_name,
+                      tournament_dates: websiteDetail.tournament_dates,
+                      tournament_location: websiteDetail.tournament_location,
+                      pages: websiteDetail.pages,
+                      preview_domain: websiteDetail.preview_domain,
+                      preview_domain_generated_at: websiteDetail.preview_domain_generated_at
+                    };
+                    this.$store.dispatch('SetWebsite', website);
+                  },
+                  (error)=> {
+                  }
+                );
+              }
             },
             initialState() {
                 return {
@@ -231,6 +238,9 @@
             },
             userId() {
                 return this.$store.state.Users.userDetails.id
+            },
+            getWebsiteId() {
+              return this.$store.state.Website.id;
             },
             // userData() {
             //     return this.$store.state.Users.userDetails

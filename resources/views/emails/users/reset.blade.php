@@ -144,7 +144,7 @@
                         <table role="presentation" cellpadding="0" cellspacing="0" style="border-collapse:collapse;border-spacing:0px;" align="center" border="0">
                           <tbody>
                             <tr>
-                              <td style="width:150px;"><img alt="" title="" height="auto" src="{{ asset('assets/img/logo-desk.png') }}" style="border:none;border-radius:0px;display:block;outline:none;text-decoration:none;width:100%;height:auto;" width="150"></td>
+                              <td style="width:150px;"><img alt="" title="" height="auto" src="{{ asset('assets/img/tmplogo.png') }}" style="border:none;border-radius:0px;display:block;outline:none;text-decoration:none;width:100%;height:auto;" width="150"></td>
                             </tr>
                           </tbody>
                         </table>
@@ -243,7 +243,7 @@
                     <tr>
                       <td style="word-wrap:break-word;font-size:0px;padding:10px 25px;" align="center">
                         <div class="" style="cursor:auto;color:#555;font-family:Roboto, Helvetica, Arial, sans-serif;font-size:16px;font-weight:300;line-height:24px;text-align:center;">
-                          <p style="line-height:14px"><small>Copyright 2017 Euro-Sportring.</br>All rights reserved. Developer by <a style="text-decoration: none;" href="http://aecordigital.com" target="_blank"><font color="#2196f3">aecor.</font></a></small></p>
+                          <p style="line-height:14px"><small>Copyright {{ Carbon\Carbon::now()->format('Y') }} TMP Applications BV.<br/>Developer by <a style="text-decoration:underline; color: inherit;" href="http://aecordigital.com" target="_blank">aecor</a>.</small></p>
                         </div>
                       </td>
                     </tr>

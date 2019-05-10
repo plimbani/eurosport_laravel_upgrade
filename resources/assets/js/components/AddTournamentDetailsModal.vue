@@ -17,7 +17,7 @@
 		                      :class="{'is-danger': errors.has('tournament_name') }"
 		                      name="tournament_name" type="text"
 		                      class="form-control" placeholder="Enter tournament name">
-		                      <i v-show="errors.has('tournament_name')" class="fa fa-warning"></i>
+		                      <i v-show="errors.has('tournament_name')" class="fas fa-warning"></i>
 		                      <span class="help is-danger" v-show="errors.has('tournament_name')">{{$lang.tournament_details_add_name_required}}
 		                      </span>
 		                  </div>
@@ -29,7 +29,7 @@
 		                      :class="{'is-danger': errors.has('tournament_max_teams') }"
 		                      name="tournament_max_teams" type="text"
 		                      class="form-control" placeholder="Enter maximum teams">
-		                      <i v-show="errors.has('tournament_max_teams')" class="fa fa-warning"></i>
+		                      <i v-show="errors.has('tournament_max_teams')" class="fas fa-warning"></i>
 		                      <span class="help is-danger" v-show="errors.has('tournament_max_teams')">{{$lang.tournament_details_max_team_required}}
 		                      </span>
 		                  </div>
@@ -39,11 +39,11 @@
 			              <div class="col-sm-6 d-flex flex-column align-items-start">
 			              	<div class="input-group">
 			                  <span class="input-group-addon" :class="{'warning-box': errors.has('tournament_start_date') }">
-			                      <i class="jv-icon jv-calendar"></i>
+			                      <i class="fas fa-calendar"></i>
 			                  </span>
 			                  <input type="text" class="form-control ls-datepicker" v-validate="'required'" 
 			                  :class="{'is-danger': errors.has('tournament_start_date') }" id="tournament_details_start_date" name="tournament_start_date">
-			                   <i v-show="errors.has('tournament_start_date')" class="fa fa-warning"></i>                    
+			                   <i v-show="errors.has('tournament_start_date')" class="fas fa-warning"></i>                    
 			                </div>
 			                <span class="help is-danger" v-show="errors.has('tournament_start_date')">{{$lang.tournament_details_start_date_required}}
 		                    </span>
@@ -54,10 +54,10 @@
 			              <div class="col-sm-6 d-flex flex-column align-items-start">
 			              	<div class="input-group">
 			                  <span class="input-group-addon" :class="{'warning-box': errors.has('tournament_end_date') }">
-			                      <i class="jv-icon jv-calendar"></i>
+			                      <i class="fas fa-calendar"></i>
 			                  </span>
 			                  <input type="text" class="form-control ls-datepicker" id="tournament_details_end_date" v-validate="'required'" :class="{'is-danger': errors.has('tournament_end_date') }" name="tournament_end_date">
-			                  <i v-show="errors.has('tournament_end_date')" class="fa fa-warning"></i> 
+			                  <i v-show="errors.has('tournament_end_date')" class="fas fa-warning"></i> 
 			                </div>
 			                <span class="help is-danger" v-show="errors.has('tournament_end_date')">{{$lang.tournament_details_end_date_required}}
 		                    </span>			                

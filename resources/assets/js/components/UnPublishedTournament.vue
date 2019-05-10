@@ -1,5 +1,5 @@
 <template>
-    <div class="modal fade" id="publish_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal fade" id="unpublish_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -12,7 +12,7 @@
                 </p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">{{$lang.summary_tab_popup_unpublish_cancel_button}}</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">{{$lang.summary_tab_popup_unpublish_cancel_button}}</button>
                 <button type="submit" class="btn btn-primary" @click.prevent="updateStatus">{{$lang.summary_tab_popup_unpublish_confirm_button}}</button>
             </div>
         </div>

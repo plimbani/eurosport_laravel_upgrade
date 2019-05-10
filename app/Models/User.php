@@ -45,7 +45,10 @@ class User extends Authenticatable implements HasRoleAndPermissionContract, CanR
         'is_desktop_user',
         'registered_from',
         'locale',
-        'fcm_id'
+        'fcm_id',
+        'role',
+        'country_id',
+        'locale',
     ];
 
     /**
@@ -54,7 +57,7 @@ class User extends Authenticatable implements HasRoleAndPermissionContract, CanR
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 'remember_token', 'token', 'fcm_id',
     ];
 
     /**
@@ -183,8 +186,18 @@ class User extends Authenticatable implements HasRoleAndPermissionContract, CanR
         return $this->hasMany('Laraspace\Models\UserFavourites', 'user_id')->where('is_default', 1);
     }
 
+    public function favouriteTournaments()
+    {
+        return $this->hasMany('Laraspace\Models\UserFavourites', 'user_id');
+    }
+
     public function tournaments()
     {
         return $this->belongsToMany('Laraspace\Models\Tournament', 'tournament_user', 'user_id','tournament_id');
+    }
+
+    public function websites()
+    {
+        return $this->belongsToMany('Laraspace\Models\Website', 'website_user', 'user_id','website_id');
     }
 }

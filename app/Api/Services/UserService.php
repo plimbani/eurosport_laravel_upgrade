@@ -11,14 +11,17 @@ use Laraspace\Custom\Helper\Common;
 use Illuminate\Mail\Message;
 use Laraspace\Models\User;
 use Laraspace\Models\Role;
+use Laraspace\Models\Club;
 use Hash;
-
+use Laraspace\Traits\AuthUserDetail;
 use App\Mail\SendMail;
 use Illuminate\Support\Facades\Mail;
 use Laraspace\Models\UserFavourites;
 
 class UserService implements UserContract
 {
+  use AuthUserDetail;
+
     public function __construct()
     {
         $this->userRepoObj = new \Laraspace\Api\Repositories\UserRepository();
@@ -53,13 +56,12 @@ class UserService implements UserContract
      * @return [type]
      */
     public function create($data)
-    { 
-      // dd($data);
-  
+    {
         // Data Initilization
         $data = $data->all();
+        
         $mobileUserRoleId = Role::where('slug', 'mobile.user')->first()->id;
-
+        
         \Log::info('User Create Method Called');
         $userData=array();
         $userData['people']=array();
@@ -76,7 +78,6 @@ class UserService implements UserContract
         $userData['user']['is_mobile_user'] = true;
         $userData['user']['is_desktop_user'] = true;
         $userData['user']['registered_from'] = true;
-
         // $data['is_mobile_user'] = false;
         // if($isMobileUsers != '' ) {
         //   $data['is_mobile_user'] = true;
@@ -92,6 +93,7 @@ class UserService implements UserContract
         // }
         // here we check that if userType is
 
+
         if(isset($isMobileUsers) && $isMobileUsers == true)
         {
           $data['name'] = $data['first_name'];
@@ -104,22 +106,22 @@ class UserService implements UserContract
           $data['tournament_id']=$data['tournament_id'];
           \Log::info('password after encrypt '.$userPassword);
 
+          
           $userData['user']['registered_from'] = false;
 
          // $token = 1;
         }
-
         $userData['people']['first_name']=$data['name'];
         $userData['people']['last_name']=$data['surname'];
         \Log::info('Insert in PeopleTable');
         $peopleObj = $this->peopleRepoObj->create($userData['people']);
-
         $userData['user']['person_id']=$peopleObj->id;
         $userData['user']['username']=$data['emailAddress'];
         $userData['user']['name']=$data['name']." ".$data['surname'];
         $userData['user']['email']=$data['emailAddress'];
         $userData['user']['organisation']=$data['organisation'];
         $userData['user']['userType']=$data['userType'];
+        $userData['user']['role']=$data['role'];
 
         // $userData['user']['password'] = Hash::make('password');
         // // dd($userData['user']);
@@ -134,6 +136,7 @@ class UserService implements UserContract
           $userData['user']['is_desktop_user'] = false;
         }
 
+        
         $userData['user']['token'] = $token;
         \Log::info($userData);
         \Log::info('Insert in UserTable');
@@ -160,6 +163,7 @@ class UserService implements UserContract
           $this->userRepoObj->createUserFavourites($userFavouriteData);
         //  return ['status_code' => '200', 'message' => 'Mobile Data Sucessfully Inserted'];
         }
+        
         // Also Add settings Data
         $userSettings['user_id'] = $user_id;
         $userSettings['value'] = '{"is_sound":"true","is_vibration":"true","is_notification":"true"}';
@@ -271,12 +275,13 @@ class UserService implements UserContract
      */
     public function update($data, $userId)
     {
-
         $data = $data->all();
+
         $mobileUserRoleId = Role::where('slug', 'mobile.user')->first()->id;
         $userData=array();
         $userData['people']=array();
         $userData['user']=array();
+
         $userObj = User::findOrFail($userId);
 
         if(isset($data['emailAddress'])) {
@@ -292,18 +297,20 @@ class UserService implements UserContract
         if($isMobileUsers != '') {
           // here we change the data variable
           \Log::info('Update in User table');
-
+          
           $data['name'] = $data['first_name'];
           $data['surname'] = $data['last_name'];
+          $data['role'] = $data['role'];
+          $data['country_id'] = $data['country_id'];
          // \Log::info('Update in password'.$data['password']);
          // $userData['user']['password'] = Hash::make(trim($data['password']));
           $data['emailAddress'] = '';
-          $data['organisation'] = NULL;
+          $data['organisation'] = $userObj->organisation;
           $data['userType'] = $userObj->roles[0]->id;
           // here we add code for Tournament id update
 
         } else {
-          if($userObj->roles[0]->id == $mobileUserRoleId && $data['userType'] != $mobileUserRoleId) {
+          if($userObj->roles[0]->id == $mobileUserRoleId && isset($data['userType']) && $data['userType'] != $mobileUserRoleId) {
             $email_details = array();
             $email_details['name'] = $data['name'];
             $recipient = $data['emailAddress'];
@@ -314,28 +321,33 @@ class UserService implements UserContract
             $userData['user']['is_desktop_user'] = 1;
           }
 
-          if($userObj->roles[0]->id != $mobileUserRoleId && $data['userType'] == $mobileUserRoleId) {
+          if($userObj->roles[0]->id != $mobileUserRoleId && isset($data['userType']) && $data['userType'] == $mobileUserRoleId) {
             $userData['user']['is_desktop_user'] = 0;
             $data['organisation'] = NULL;
           }
         }
-
         $userData['user']['name']=$data['name']." ".$data['surname'];
         ($data['emailAddress']!= '') ? $userData['user']['email']=$data['emailAddress'] : '';
         $userData['user']['organisation']=$data['organisation'];
-        (isset($data['locale']) && $data['locale']!='') ? $userData['user']['locale'] = $data['locale'] : '';
+        $userData['user']['role'] = $data['role'];
+        $userData['user']['country_id'] = $data['country_id'];
 
+        (isset($data['locale']) && $data['locale']!='') ? $userData['user']['locale'] = $data['locale'] : '';
+        
         $this->userRepoObj->update($userData['user'], $userId);
 
         if(isset($data['tournament_id'])) {
           $this->setDefaultFavourite(['user_id' => $userId, 'tournament_id' => $data['tournament_id']]);
         }
 
-        $userObj->detachAllRoles();
-        $userObj->attachRole($data['userType']);
+        if(isset($data['userType'])) {
+          $userObj->detachAllRoles();
+          $userObj->attachRole($data['userType']);
+        }
 
         $userData['people']['first_name']=$data['name'];
         $userData['people']['last_name']=$data['surname'];
+        // $userData['people']['role']=$data['role'];
         $peopleObj = $this->peopleRepoObj->edit($userData['people'], $userObj->person_id);
 
         if ($data) {
@@ -431,7 +443,7 @@ class UserService implements UserContract
         // Insert value and set default
          // $userData = UserFavourites::where('user_id','=',$user_id)
          //      ->get();
-        
+
         $userFavouriteData = array();
         $userFavouriteData['user_id'] =  $user_id;
         $userFavouriteData['tournament_id']  = $tournament_id;
@@ -521,11 +533,36 @@ class UserService implements UserContract
         return ['status_code'=>'200','message'=>'Tournament permissions has been updated successfully.'];
       } else {
         return ['status_code'=>'200','message'=>'Problem on updating'];
+      }
+    }
+
+    public function changePermissions($data) {
+      $data = $this->userRepoObj->changePermissions($data);
+      if($data) {
+        return ['status_code'=>'200','message'=>'Permissions has been updated successfully.'];
+      } else {
+        return ['status_code'=>'200','message'=>'Problem on updating'];
       }     
     }
 
     public function getUserTournaments($id) {
-      return $this->userRepoObj->getUserTournaments($id); 
+      return $this->userRepoObj->getUserTournaments($id);
+    }
+
+    public function getUserWebsites($id) {
+      return $this->userRepoObj->getUserWebsites($id); 
+    }
+
+    public function getAllCountries() {
+        return $this->userRepoObj->getAllCountries();
+    }
+
+    public function getAllLanguages() {
+        return $this->userRepoObj->getAllLanguages();
+    }
+
+    public function updateAppDeviceVersion($data) {
+       return $this->userRepoObj->updateAppDeviceVersion($data);
     }
 
 }

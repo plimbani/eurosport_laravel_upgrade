@@ -30,7 +30,7 @@ interface PitchContract
     public function edit($request,$pitchId);
     
     public function getPitchData($pitchId);
-
+    public function generatePitchMatchReport($pitchId);
     /*
      * Delete Pitch
      *

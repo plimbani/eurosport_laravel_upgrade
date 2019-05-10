@@ -10,9 +10,26 @@
         </div>
         <div class="modal-body">
           <form name="ageCategoryName">
-            <div class="row d-flex">
+            <!-- <div class="row">
+              <div class="col-md-12">
+                <div class="d-flex justify-content-end">
+                  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#template-image-modal">Enlarge</button>
+                </div>
+              </div>
+            </div>
+            <div class="row my-3">
+              <div class="col-md-12">
+                <div class="d-flex justify-content-center">
+                  <div class="d-block mx-auto">
+                    <img class="img-fluid" v-bind:src="'/'+templateImage">
+                  </div>
+                </div>
+              </div>
+            </div> -->
+          
+            <div class="row">
               <div class="col-md-6">
-                <div class="jumbotron mb-0 px-4 py-4">
+                <div class="jumbotron h-100 mb-0 px-4 py-4">
                   <p class="row">
                       <label class="col-md-6"><strong>{{$lang.competation_modal_format_team}}</strong></label>
                       <label class="col-md-6">{{ templateData['tournament_teams'] }}</label>
@@ -57,6 +74,11 @@
                 </div>
               </div>
             </div>
+            <div class="row">
+              <div class="col-md-12 text-center">
+                <img class="img-fluid" :src="templateGraphicViewImage">
+              </div>
+            </div>
           </form>
         </div>
        </div>
@@ -65,7 +87,7 @@
 </template>
 <script type="text/babel">
    export default {
-     props: ['templateData','totalTime'],
+     props: ['templateData','totalTime','templateGraphicViewImage'],
      filters: {
     formatTime: function(time) {
       var hours = Math.floor( time /   60);

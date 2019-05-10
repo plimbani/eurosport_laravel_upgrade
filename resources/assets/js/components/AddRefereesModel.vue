@@ -4,7 +4,7 @@
     <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel">{{$lang.add_referees_model}}</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <button type="button" class="close" @click="closeAddRefereesModal()">
                 <span aria-hidden="true">×</span>
             </button>
         </div>
@@ -14,7 +14,7 @@
               <label class="col-sm-5 form-control-label">{{$lang.add_refree_modal_first_name}}</label>
               <div class="col-sm-6">
                 <input type="text" name="first_name" id="first_name"  v-validate="'required'" v-model="formValues.first_name" class="form-control"  :class="{'is-danger': errors.has('ageCategory_name') }" >
-                <i v-show="errors.has('first_name')" class="fa fa-warning"> </i>
+                <i v-show="errors.has('first_name')" class="fas fa-warning"> </i>
 
                <span class="help is-danger" v-show="errors.has('first_name')">{{$lang.add_refree_modal_validation}}</span>
               </div>
@@ -23,7 +23,7 @@
               <label class="col-sm-5 form-control-label">{{$lang.add_refree_modal_last_name}}</label>
               <div class="col-sm-6">
                 <input type="text" name="last_name" id="last_name"  v-validate="'required'" v-model="formValues.last_name"  class="form-control" >
-                <i v-show="errors.has('last_name')" class="fa fa-warning"> </i>
+                <i v-show="errors.has('last_name')" class="fas fa-warning"> </i>
                 <span class="help is-danger" v-show="errors.has('last_name')">{{$lang.add_refree_modal_validation}}</span>
                </div>
             </div>
@@ -48,7 +48,7 @@
                       <option value="">U15</option>
                       <option value="">U19</option>
                   </select> -->
-                  <input type="checkbox" name="chk_ageCategory" id="chk_ageCategory">&nbsp; Select all
+                  <input type="checkbox" name="chk_ageCategory" id="chk_ageCategory" v-model="formValues.is_all_age_categories_selected" :true-value="true" :false-value="false" :checked="formValues.is_all_age_categories_selected == true ? ' checked' : ''">&nbsp; Select all
                  <multiselect name="sel_ageCategory" id="sel_ageCategory" :options="competationList" :multiple="true" :hide-selected="false" :ShowLabels="false" :value="value" track-by="id"  label="category_age"   :clear-on-select="false" :Searchable="true"  @input="onChange"  @close="onTouch" @select="onSelect" @remove="onRemove"></multiselect>
                    <!-- <select name="sel_ageCategory"  v-model="formValues.age_group_id"  v-validate="'required'" v-bind:multiple="isMultiple" :class="{'is-danger': errors.has('sel_ageCategory') }"  class="form-control" id="sel_ageCategory" >
                         <option value="">Select</option>
@@ -162,7 +162,7 @@ export default {
                   age_category.push(opt.id)
                 });
                 
-              let ReportData = {'tournament_id': this.tournamentId,'age_category':age_category.join(), 'first_name': $('#first_name').val(),'last_name': $('#last_name').val(),'telephone': $('#telephone').val(),'email': $('#email').val(),'comments': $('#availability').val(),'refereeId':this.refereeId}
+              let ReportData = {'tournament_id': this.tournamentId,'age_category':age_category.join(), 'first_name': $('#first_name').val(),'last_name': $('#last_name').val(),'telephone': $('#telephone').val(),'email': $('#email').val(),'comments': $('#availability').val(),'refereeId':this.refereeId, 'is_all_age_categories_selected': $('#chk_ageCategory').prop('checked') }
                if(this.refereeId != '') {
                 Tournament.updateReferee(ReportData).then(
                 (response) => {
@@ -216,7 +216,10 @@ export default {
       },
       onTouch () {
         this.isTouched = true
-      }
+      },
+      closeAddRefereesModal() {
+        $("#refreesModal").modal('hide');
+      },
     }
 
 }

@@ -16,7 +16,7 @@
                         <label class="col-sm-5 form-control-label">{{$lang.pitch_planner_first_name}}</label>
                         <div class="col-sm-6">
                             <input type="text" v-validate="'required'" :class="{'is-danger': errors.has('first_name') }" name="first_name"  id="first_name" class="form-control">
-                                <i v-show="errors.has('first_name')" class="fa fa-warning"></i>
+                                <i v-show="errors.has('first_name')" class="fas fa-warning"></i>
                         <span class="help is-danger" v-show="errors.has('first_name')">{{ errors.first('first_name') }}</span>
                         </div>
                     </div>
@@ -24,7 +24,7 @@
                         <label class="col-sm-5 form-control-label">{{$lang.pitch_planner_last_name}}</label>
                         <div class="col-sm-6">
                             <input type="text" v-validate="'required'" :class="{'is-danger': errors.has('last_name') }"  id="last_name" name="last_name"   class="form-control">
-                                <i v-show="errors.has('last_name')" class="fa fa-warning"></i>
+                                <i v-show="errors.has('last_name')" class="fas fa-warning"></i>
                         <span class="help is-danger" v-show="errors.has('last_name')">{{ errors.first('last_name') }}</span>
                         </div>
                     </div>
@@ -47,7 +47,7 @@
                                 <option value="">{{$lang.pitch_planner_age_categories_select}}</option>
                                 <option v-for="(competation, index) in competationList" :value="competation.id">{{competation.category_age}}</option>
                             </select>
-                            <i v-show="errors.has('sel_ageCategory')" class="fa fa-warning"></i>
+                            <i v-show="errors.has('sel_ageCategory')" class="fas fa-warning"></i>
                         <span class="help is-danger" v-show="errors.has('sel_ageCategory')">{{$lang.pitch_planner_select_age_categories}}</span>
                         </div>
                     </div>
