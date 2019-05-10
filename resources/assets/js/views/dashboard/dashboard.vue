@@ -11,7 +11,7 @@
                                     <div class="card-block">
                                         <div class="row align-items-center">
                                             <div class="col-xl-7">
-                                                <p class="h7 text-uppercase mb-0">License: #{{tournament.access_code}}</p>
+                                                <p class="h7 text-uppercase mb-0 text-uppercase">License: #{{tournament.access_code}}</p>
                                                 <div class="row align-items-center mb-2">
                                                     <div class="col-lg-7">
                                                         <h3 class="font-weight-bold mb-0">{{tournament.name}}</h3>
@@ -19,22 +19,22 @@
                                                     
                                                     <div class="col-lg-5">
                                                         <ul class="list-unstyled mb-0 tournament-information">
-                                                            <li v-if="tournament.website" class="d-inline h7 text-uppercase font-weight-bold pr-2"><span><i class="fa fa-globe"></i></span>&nbsp; <a target="_blank" v-bind:href="tournament.website">View public website</a></li>
+                                                            <li v-if="tournament.website" class="d-inline h7 text-uppercase font-weight-bold pr-2"><span><img src="/images/website.png" alt=""></span>&nbsp; <a target="_blank" v-bind:href="tournament.website">View public website</a></li>
 
-                                                            <li v-if="tournament.access_code" id="open-share-popup" @click="openSharePopup(tournament)" class="d-inline h7 text-uppercase font-weight-bold"><span><i class="fa fa-share-alt"></i></span>&nbsp; <a href="#">Share</a></li>
+                                                            <li v-if="tournament.access_code" id="open-share-popup" @click="openSharePopup(tournament)" class="d-inline h7 text-uppercase font-weight-bold"><span><img src="/images/share.png" alt=""></span>&nbsp; <a href="#">Share</a></li>
                                                         </ul>
                                                     </div>
                                                 </div>
                                                 <ul class="list-unstyled mb-0">
-                                                    <li class="d-block d-lg-inline pb-1 pb-sm-0 pr-sm-2"><i class="fa fa-list-ul" aria-hidden="true"></i> &nbsp;{{tournament.maximum_teams}} Teams</li>
-                                                    <li class="d-block d-lg-inline pb-1 pb-sm-0 pr-sm-2" v-if="tournament.matchlistCount != 0"><i class="fa fa-futbol-o" aria-hidden="true"></i> &nbsp;{{tournament.matchlistCount}} Matches</li>
-                                                    <li class="d-block d-lg-inline"><i class="fa fa-calendar" aria-hidden="true"></i> &nbsp;{{displayDashboardTournamentDateFormat(tournament)}}</li>
+                                                    <li class="d-block d-lg-inline pb-1 pb-sm-0 pr-sm-2"><img src="/images/team.png" alt=""> &nbsp;{{tournament.maximum_teams}} Teams</li>
+                                                    <li class="d-block d-lg-inline pb-1 pb-sm-0 pr-sm-2" v-if="tournament.matchlistCount != 0"><img src="/images/match.png" alt=""> &nbsp;{{tournament.matchlistCount}} Matches</li>
+                                                    <li class="d-block d-lg-inline"><img src="/images/date.png" alt=""> &nbsp;{{displayDashboardTournamentDateFormat(tournament)}}</li>
                                                 </ul>
                                             </div>
                                 
                                             <div class="col-xl-5 mt-3 mt-lg-0 text-lg-right">
                                                 <div class="btn-group" v-if="!isTournamentExpired(tournament.end_date)">
-                                                    <button class="btn btn-outline" v-on:click="redirectToTournamentDetailPage(tournament)"><span><i class="fa fa-pencil" aria-hidden="true"></i></span>&nbsp; Edit</button>
+                                                    <button class="btn btn-outline" v-on:click="redirectToTournamentDetailPage(tournament)"><img src="/images/edit.png" alt=""> Edit</button>
                                                     <button class="btn btn-outline ml-2" v-on:click="redirectToManageTournament(tournament)">Manage License</button>
                                                 </div>
                                                 <div class="btn-group" v-if="isTournamentExpired(tournament.end_date)">
@@ -74,18 +74,18 @@
                                     <div class="card-block">
                                         <div class="row align-items-center">
                                             <div class="col-xl-7">
-                                                <p class="h7 mb-0">Version 1</p>
+                                                <p class="h7 mb-0 text-uppercase">Version 1</p>
                                                 <h3 class="font-weight-bold mb-2">Ben’s 4x4 + Knockout</h3>
                                                 <ul class="list-unstyled mb-0">
-                                                    <li class="d-block d-lg-inline pb-1 pb-sm-0 pr-sm-2"><i class="fa fa-list-ul" aria-hidden="true"></i> &nbsp;32 Teams</li>
-                                                    <li class="d-block d-lg-inline pb-1 pb-sm-0 pr-sm-2"><i class="fa fa-futbol-o" aria-hidden="true"></i> &nbsp;48 Matches</li>
-                                                    <li class="d-block d-lg-inline"><i class="fa fa-calendar" aria-hidden="true"></i> &nbsp;19th - 22nd October 2018</li>
+                                                    <li class="d-block d-lg-inline pb-1 pb-sm-0 pr-sm-2"><img src="/images/team.png" alt=""> &nbsp;32 Teams</li>
+                                                    <li class="d-block d-lg-inline pb-1 pb-sm-0 pr-sm-2"><img src="/images/match.png" alt=""> &nbsp;48 Matches</li>
+                                                    <li class="d-block d-lg-inline"><img src="/images/date.png" alt=""> &nbsp;19th - 22nd October 2018</li>
                                                 </ul>
                                             </div>
                                             <div class="col-xl-5 mt-3 mt-lg-0 text-lg-right">
                                                 <div class="btn-group">
-                                                    <button class="btn btn-link"><span><i class="fa fa-trash" aria-hidden="true"></i></span>&nbsp;Delete</button>
-                                                    <button class="btn btn-outline ml-2"><span><i class="fa fa-pencil" aria-hidden="true"></i></span>&nbsp; Edit</button>
+                                                    <button class="btn btn-link"><img src="/images/delete.png" alt=""> Delete</button>
+                                                    <button class="btn btn-outline ml-2"><img src="/images/edit.png" alt=""> Edit</button>
                                                 </div>
                                             </div>
                                         </div>

@@ -19,13 +19,19 @@
     background: $white;
 
     .card {
-        background: $theme-color-gray;
+        background: #F5F8FA;
 
         .h7 {
             color: $theme-color-primary;
         }
 
         ul {
+            li {
+                img {
+                    vertical-align: baseline;
+                }
+            }
+
             &.tournament-information {
 
                 li,
@@ -45,9 +51,20 @@
 
                 &:hover {
                     text-decoration: none;
-                    background-color: $theme-color-primary;
-                    color: $white;
+                    border: 1px solid $theme-color-primary;
                 }
+            }
+
+            .btn-outline {
+                &:hover {
+                    border-color: transparent;
+                    background-color: transparent;
+                    color: $theme-color-primary;
+                }
+            }
+
+            img{
+                padding-right: 10px;
             }
         }
     }
