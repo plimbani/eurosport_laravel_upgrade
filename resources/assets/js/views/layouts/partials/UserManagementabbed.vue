@@ -76,21 +76,10 @@ export default {
 	            cancel = c;
 	        })
 	    }).then((response) => {
-	        if('users' in response.data) {
-	            // for(var val1 in response.data.users) {
-	            //   for(var val2 in response.data.users[val1]) {
-	            //     emaildata.push(response.data.users[val1]['email'])
-	            //    //emaildata=response.data.users[val1]['email']
-	            //   }
-	            // }
-
-	            // var unique = emaildata.filter(function(elem, index, self) {
-	            //     return index == self.indexOf(elem);
-	            // })
-
-	            this.userList.emaildata = _.map(response.data.users, 'email');
-	            this.userList.userData = response.data.users;
-	            this.userList.userCount = response.data.users.length;
+	        if('data' in response.data) {
+	            this.userList.emaildata = _.map(response.data.data, 'email');
+	            this.userList.userData = response.data.data;
+	            this.userList.userCount = response.data.data.length;
 	          } else {
 	          	this.userList.userData = [];
 	          	this.userList.userCount = 0;

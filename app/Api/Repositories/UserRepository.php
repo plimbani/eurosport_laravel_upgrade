@@ -61,12 +61,11 @@ class UserRepository {
 
         $user->orderBy('people.last_name','asc');
 
+        $userData = $user->get();
 
-         $userData = $user->get();
+        $dataArray = array();
 
-         $dataArray = array();
-
-         if(isset($data['report_download']) &&  $data['report_download'] == 'yes') {
+        if(isset($data['report_download']) &&  $data['report_download'] == 'yes') {
 
             foreach ($userData as $user) {
 
@@ -98,9 +97,9 @@ class UserRepository {
             ];
             //Total Stakes, Total Revenue, Amount & Balance fields are set as Number statically.
             \Laraspace\Custom\Helper\Common::toExcel($lableArray,$dataArray,$otherParams,'xlsx','yes');
-         }
+        }
 
-         return  $user->get();
+        return  $user->paginate(20);
     }
 
     public function create($data)
