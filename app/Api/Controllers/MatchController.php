@@ -244,7 +244,7 @@ class MatchController extends BaseController
 
             TempFixture::where('tournament_id', '=', $tournamentId)->update(['is_scheduled' => 0, 'pitch_id' => null, 'hometeam_score' => null, 'awayteam_score' => null]);
 
-            $tournamentFixtures = TempFixture::where('age_group_id', '=', $ageGroupId)->where('tournament_id', '=', $tournamentId)->get();
+            $tournamentFixtures = DB::table('temp_fixtures')::where('age_group_id', '=', $ageGroupId)->where('tournament_id', '=', $tournamentId)->get();
             $pitch = $pitchRepoObj->getAllPitches($tournamentId)->first();
             $pitchAvailability = $pitch->pitchAvailability;
             $pitchAvailabilityIndex = 0;
@@ -316,7 +316,7 @@ class MatchController extends BaseController
                 ];
 
                 $matchResult = $matchRepoObj->saveResult($matchData);
-                $competationId = $matchServiceObj->calculateCupLeagueTable($matchData['matchId']);
+                $competationId = $matchServiceObj->calculateCupLeagueTable($fixture);
             }
         } catch(\Exception $e) {
             $status = 'error';
