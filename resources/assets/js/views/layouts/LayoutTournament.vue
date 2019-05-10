@@ -1,9 +1,9 @@
 <template>
     <div class="template-container">
         <site-header></site-header>
-          <div class="main-content container" id="dashboardPage">
+          <div class="main-content container-fluid" id="dashboardPage">
             <breadCrum></breadCrum>
-            <tournamentTabbed></tournamentTabbed>                 
+            <tournamentTabbed></tournamentTabbed>
           </div>             
         <!--<router-view></router-view>-->
         <!-- <div class="horizontal_line"></div> -->
@@ -15,7 +15,6 @@
 
     import SiteHeader from './partials/SiteHeader.vue'
     import SiteFooter from './partials/SiteFooter.vue'
-    import SiteHeaderBottom from './partials/SiteHeaderBottom.vue'
 
     import Layout from '../../helpers/layout'
     import BreadCrum from '../../components/BreadCrum.vue'
@@ -28,7 +27,7 @@
             }
         },
         components : {
-            SiteHeader , SiteHeaderBottom , SiteFooter, BreadCrum, TournamentTabbed
+            SiteHeader, SiteFooter, BreadCrum, TournamentTabbed
         }
     }
 </script>

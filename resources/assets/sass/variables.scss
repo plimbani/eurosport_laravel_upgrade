@@ -45,7 +45,7 @@ $btn-secondary-bg:               $white !default;
 $btn-secondary-border:           $ls-color-gray--very-dark !default;
 
 $nav-link-padding:              .75em 1.25em !default;
-
+$modal-xl:					1140px !default;
 
 /*
 |--------------------------------------------------------------------------
@@ -135,4 +135,9 @@ $pitch-badge-info : #2196F3;
 	replacing path of flag icon
 */
 /* TODO: Need to change path add at dynamically */
-$flag-icon-css-path: 'http://dev-esr.s3.amazonaws.com/assets/img/flags' !default;
+$flag-icon-css-path: '/assets/img/flags' !default;
+
+$space-row-gutter-tiny: 12px !default;
+
+// Fontawesome 5
+$fa-font-path:                "/assets/webfonts" !default;

@@ -1,0 +1,552 @@
+{
+    "total_matches": 78,
+    "tournament_id": "0106",
+    "tournament_teams": 18,
+    "tournament_name": "T.23.6",
+    "template_font_color": "rgb(146,208,80)",
+    "competition_round": "PM 1-4/5-9/10-13/13-16/17-18",
+    "competition_group_round": "2x4,2x5",
+    "competation_format": "",
+    "tournament_min_match": 5,
+    "avg_game_team": 5.4,
+    "tournament_competition_ranking": {
+        "format_name": [
+            {
+                "round": "Round 1",
+                "groups": [
+                    {
+                        "Ranking": "Ranking A",
+                        "group_name": "Group-A",
+                        "team_count": 4,
+                        "teams": [
+                            {
+                                "position": "1",
+                                "team": "1A"
+                            },
+                            {
+                                "position": "2",
+                                "team": "2A"
+                            },
+                            {
+                                "position": "3",
+                                "team": "3A"
+                            },
+                            {
+                                "position": "4",
+                                "team": "4A"
+                            }
+                        ]
+                    },
+                    {
+                        "Ranking": "Ranking B",
+                        "group_name": "Group-B",
+                        "team_count": 4,
+                        "teams": [
+                            {
+                                "position": "1",
+                                "team": "1B"
+                            },
+                            {
+                                "position": "2",
+                                "team": "2B"
+                            },
+                            {
+                                "position": "3",
+                                "team": "3B"
+                            },
+                            {
+                                "position": "4",
+                                "team": "4B"
+                            }
+                        ]
+                    },
+                    {
+                        "Ranking": "Ranking C",
+                        "group_name": "Group-C",
+                        "team_count": 5,
+                        "teams": [
+                            {
+                                "position": "1",
+                                "team": "1C"
+                            },
+                            {
+                                "position": "2",
+                                "team": "2C"
+                            },
+                            {
+                                "position": "3",
+                                "team": "3C"
+                            },
+                            {
+                                "position": "4",
+                                "team": "4C"
+                            },
+                            {
+                                "position": "5",
+                                "team": "5C"
+                            }
+                        ]
+                    },
+                    {
+                        "Ranking": "Ranking D",
+                        "group_name": "Group-D",
+                        "team_count": 5,
+                        "teams": [
+                            {
+                                "position": "1",
+                                "team": "1D"
+                            },
+                            {
+                                "position": "2",
+                                "team": "2D"
+                            },
+                            {
+                                "position": "3",
+                                "team": "3D"
+                            },
+                            {
+                                "position": "4",
+                                "team": "4D"
+                            },
+                            {
+                                "position": "5",
+                                "team": "5D"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    "tournament_competation_format": {
+        "format_name": [
+            {
+                "name": "Round 1",
+                "match_type": [
+                    {
+                        "name": "RR-1*4",
+                        "total_match": 6,
+                        "group_count": 4,
+                        "groups": {
+                            "group_name": "Group-A",
+                            "match": [
+                                {
+                                    "in_between": "1-2",
+                                    "match_number": "CAT.RR1.01.A1-A2",
+                                    "display_match_number": "CAT.1.1.@HOME-@AWAY",
+                                    "display_home_team_placeholder_name": "A1",
+                                    "display_away_team_placeholder_name": "A2"
+                                },
+                                {
+                                    "in_between": "3-4",
+                                    "match_number": "CAT.RR1.01.A3-A4",
+                                    "display_match_number": "CAT.1.1.@HOME-@AWAY",
+                                    "display_home_team_placeholder_name": "A3",
+                                    "display_away_team_placeholder_name": "A4"
+                                },
+                                {
+                                    "in_between": "1-3",
+                                    "match_number": "CAT.RR1.02.A1-A3",
+                                    "display_match_number": "CAT.1.2.@HOME-@AWAY",
+                                    "display_home_team_placeholder_name": "A1",
+                                    "display_away_team_placeholder_name": "A3"
+                                },
+                                {
+                                    "in_between": "2-4",
+                                    "match_number": "CAT.RR1.02.A2-A4",
+                                    "display_match_number": "CAT.1.2.@HOME-@AWAY",
+                                    "display_home_team_placeholder_name": "A2",
+                                    "display_away_team_placeholder_name": "A4"
+                                },
+                                {
+                                    "in_between": "1-4",
+                                    "match_number": "CAT.RR1.03.A1-A4",
+                                    "display_match_number": "CAT.1.3.@HOME-@AWAY",
+                                    "display_home_team_placeholder_name": "A1",
+                                    "display_away_team_placeholder_name": "A4"
+                                },
+                                {
+                                    "in_between": "2-3",
+                                    "match_number": "CAT.RR1.03.A2-A3",
+                                    "display_match_number": "CAT.1.3.@HOME-@AWAY",
+                                    "display_home_team_placeholder_name": "A2",
+                                    "display_away_team_placeholder_name": "A3"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "name": "RR-1*4",
+                        "total_match": 6,
+                        "group_count": 4,
+                        "groups": {
+                            "group_name": "Group-B",
+                            "match": [
+                                {
+                                    "in_between": "1-2",
+                                    "match_number": "CAT.RR1.01.B1-B2",
+                                    "display_match_number": "CAT.1.1.@HOME-@AWAY",
+                                    "display_home_team_placeholder_name": "B1",
+                                    "display_away_team_placeholder_name": "B2"
+                                },
+                                {
+                                    "in_between": "3-4",
+                                    "match_number": "CAT.RR1.01.B3-B4",
+                                    "display_match_number": "CAT.1.1.@HOME-@AWAY",
+                                    "display_home_team_placeholder_name": "B3",
+                                    "display_away_team_placeholder_name": "B4"
+                                },
+                                {
+                                    "in_between": "1-3",
+                                    "match_number": "CAT.RR1.02.B1-B3",
+                                    "display_match_number": "CAT.1.2.@HOME-@AWAY",
+                                    "display_home_team_placeholder_name": "B1",
+                                    "display_away_team_placeholder_name": "B3"
+                                },
+                                {
+                                    "in_between": "2-4",
+                                    "match_number": "CAT.RR1.02.B2-B4",
+                                    "display_match_number": "CAT.1.2.@HOME-@AWAY",
+                                    "display_home_team_placeholder_name": "B2",
+                                    "display_away_team_placeholder_name": "B4"
+                                },
+                                {
+                                    "in_between": "1-4",
+                                    "match_number": "CAT.RR1.03.B1-B4",
+                                    "display_match_number": "CAT.1.3.@HOME-@AWAY",
+                                    "display_home_team_placeholder_name": "B1",
+                                    "display_away_team_placeholder_name": "B4"
+                                },
+                                {
+                                    "in_between": "2-3",
+                                    "match_number": "CAT.RR1.03.B2-B3",
+                                    "display_match_number": "CAT.1.3.@HOME-@AWAY",
+                                    "display_home_team_placeholder_name": "B2",
+                                    "display_away_team_placeholder_name": "B3"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "name": "RR-1*5",
+                        "total_match": 10,
+                        "group_count": 5,
+                        "groups": {
+                            "group_name": "Group-C",
+                            "match": [
+                                {
+                                    "in_between": "1-5",
+                                    "match_number": "CAT.RR1.01.C1-C5",
+                                    "display_match_number": "CAT.1.1.@HOME-@AWAY",
+                                    "display_home_team_placeholder_name": "C1",
+                                    "display_away_team_placeholder_name": "C5"
+                                },
+                                {
+                                    "in_between": "2-3",
+                                    "match_number": "CAT.RR1.01.C2-C3",
+                                    "display_match_number": "CAT.1.1.@HOME-@AWAY",
+                                    "display_home_team_placeholder_name": "C2",
+                                    "display_away_team_placeholder_name": "C3"
+                                },
+                                {
+                                    "in_between": "1-4",
+                                    "match_number": "CAT.RR1.02.C1-C4",
+                                    "display_match_number": "CAT.1.2.@HOME-@AWAY",
+                                    "display_home_team_placeholder_name": "C1",
+                                    "display_away_team_placeholder_name": "C4"
+                                },
+                                {
+                                    "in_between": "2-5",
+                                    "match_number": "CAT.RR1.02.C2-C5",
+                                    "display_match_number": "CAT.1.2.@HOME-@AWAY",
+                                    "display_home_team_placeholder_name": "C2",
+                                    "display_away_team_placeholder_name": "C5"
+                                },
+                                {
+                                    "in_between": "1-3",
+                                    "match_number": "CAT.RR1.03.C1-C3",
+                                    "display_match_number": "CAT.1.3.@HOME-@AWAY",
+                                    "display_home_team_placeholder_name": "C1",
+                                    "display_away_team_placeholder_name": "C3"
+                                },
+                                {
+                                    "in_between": "2-4",
+                                    "match_number": "CAT.RR1.03.C2-C4",
+                                    "display_match_number": "CAT.1.3.@HOME-@AWAY",
+                                    "display_home_team_placeholder_name": "C2",
+                                    "display_away_team_placeholder_name": "C4"
+                                },
+                                {
+                                    "in_between": "3-5",
+                                    "match_number": "CAT.RR1.04.C3-C5",
+                                    "display_match_number": "CAT.1.4.@HOME-@AWAY",
+                                    "display_home_team_placeholder_name": "C3",
+                                    "display_away_team_placeholder_name": "C5"
+                                },
+                                {
+                                    "in_between": "1-2",
+                                    "match_number": "CAT.RR1.05.C1-C2",
+                                    "display_match_number": "CAT.1.5.@HOME-@AWAY",
+                                    "display_home_team_placeholder_name": "C1",
+                                    "display_away_team_placeholder_name": "C2"
+                                },
+                                {
+                                    "in_between": "3-4",
+                                    "match_number": "CAT.RR1.05.C3-C4",
+                                    "display_match_number": "CAT.1.5.@HOME-@AWAY",
+                                    "display_home_team_placeholder_name": "C3",
+                                    "display_away_team_placeholder_name": "C4"
+                                },
+                                {
+                                    "in_between": "4-5",
+                                    "match_number": "CAT.RR1.06.C4-C5",
+                                    "display_match_number": "CAT.1.6.@HOME-@AWAY",
+                                    "display_home_team_placeholder_name": "C4",
+                                    "display_away_team_placeholder_name": "C5"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "name": "RR-1*5",
+                        "total_match": 10,
+                        "group_count": 5,
+                        "groups": {
+                            "group_name": "Group-D",
+                            "match": [
+                                {
+                                    "in_between": "1-5",
+                                    "match_number": "CAT.RR1.01.D1-D5",
+                                    "display_match_number": "CAT.1.1.@HOME-@AWAY",
+                                    "display_home_team_placeholder_name": "D1",
+                                    "display_away_team_placeholder_name": "D5"
+                                },
+                                {
+                                    "in_between": "2-3",
+                                    "match_number": "CAT.RR1.01.D2-D3",
+                                    "display_match_number": "CAT.1.1.@HOME-@AWAY",
+                                    "display_home_team_placeholder_name": "D2",
+                                    "display_away_team_placeholder_name": "D3"
+                                },
+                                {
+                                    "in_between": "1-4",
+                                    "match_number": "CAT.RR1.02.D1-D4",
+                                    "display_match_number": "CAT.1.2.@HOME-@AWAY",
+                                    "display_home_team_placeholder_name": "D1",
+                                    "display_away_team_placeholder_name": "D4"
+                                },
+                                {
+                                    "in_between": "2-5",
+                                    "match_number": "CAT.RR1.02.D2-D5",
+                                    "display_match_number": "CAT.1.2.@HOME-@AWAY",
+                                    "display_home_team_placeholder_name": "D2",
+                                    "display_away_team_placeholder_name": "D5"
+                                },
+                                {
+                                    "in_between": "1-3",
+                                    "match_number": "CAT.RR1.03.D1-D3",
+                                    "display_match_number": "CAT.1.3.@HOME-@AWAY",
+                                    "display_home_team_placeholder_name": "D1",
+                                    "display_away_team_placeholder_name": "D3"
+                                },
+                                {
+                                    "in_between": "2-4",
+                                    "match_number": "CAT.RR1.03.D2-D4",
+                                    "display_match_number": "CAT.1.3.@HOME-@AWAY",
+                                    "display_home_team_placeholder_name": "D2",
+                                    "display_away_team_placeholder_name": "D4"
+                                },
+                                {
+                                    "in_between": "3-5",
+                                    "match_number": "CAT.RR1.04.D3-D5",
+                                    "display_match_number": "CAT.1.4.@HOME-@AWAY",
+                                    "display_home_team_placeholder_name": "D3",
+                                    "display_away_team_placeholder_name": "D5"
+                                },
+                                {
+                                    "in_between": "1-2",
+                                    "match_number": "CAT.RR1.05.D1-D2",
+                                    "display_match_number": "CAT.1.5.@HOME-@AWAY",
+                                    "display_home_team_placeholder_name": "D1",
+                                    "display_away_team_placeholder_name": "D2"
+                                },
+                                {
+                                    "in_between": "3-4",
+                                    "match_number": "CAT.RR1.05.D3-D4",
+                                    "display_match_number": "CAT.1.5.@HOME-@AWAY",
+                                    "display_home_team_placeholder_name": "D3",
+                                    "display_away_team_placeholder_name": "D4"
+                                },
+                                {
+                                    "in_between": "4-5",
+                                    "match_number": "CAT.RR1.06.D4-D5",
+                                    "display_match_number": "CAT.1.6.@HOME-@AWAY",
+                                    "display_home_team_placeholder_name": "D4",
+                                    "display_away_team_placeholder_name": "D5"
+                                }
+                            ]
+                        }
+                    }
+                ]
+            },
+            {
+                "name": "Round 2",
+                "match_type": [
+                    {
+                        "name": "PM-1",
+                        "total_match": 8,
+                        "group_count": 4,
+                        "groups": {
+                            "group_name": "Group-PM1",
+                            "match": [
+                                {
+                                    "in_between": "1A-1B",
+                                    "match_number": "CAT.PM2.G1.1A-1B",
+                                    "display_match_number": "CAT.2.1.@HOME-@AWAY",
+                                    "display_home_team_placeholder_name": "#1A",
+                                    "display_away_team_placeholder_name": "#1B"
+                                },
+                                {
+                                    "in_between": "1C-1D",
+                                    "match_number": "CAT.PM2.G2.1C-1D",
+                                    "display_match_number": "CAT.2.2.@HOME-@AWAY",
+                                    "display_home_team_placeholder_name": "#1C",
+                                    "display_away_team_placeholder_name": "#1D"
+                                },
+                                {
+                                    "in_between": "2A-2B",
+                                    "match_number": "CAT.PM2.G3.2A-2B",
+                                    "display_match_number": "CAT.2.3.@HOME-@AWAY",
+                                    "display_home_team_placeholder_name": "#2A",
+                                    "display_away_team_placeholder_name": "#2B"
+                                },
+                                {
+                                    "in_between": "2C-2D",
+                                    "match_number": "CAT.PM2.G4.2C-2D",
+                                    "display_match_number": "CAT.2.4.@HOME-@AWAY",
+                                    "display_home_team_placeholder_name": "#2C",
+                                    "display_away_team_placeholder_name": "#2D"
+                                },
+                                {
+                                    "in_between": "3A-3B",
+                                    "match_number": "CAT.PM2.G5.3A-3B",
+                                    "display_match_number": "CAT.2.5.@HOME-@AWAY",
+                                    "display_home_team_placeholder_name": "#3A",
+                                    "display_away_team_placeholder_name": "#3B"
+                                },
+                                {
+                                    "in_between": "3C-3D",
+                                    "match_number": "CAT.PM2.G6.3C-3D",
+                                    "display_match_number": "CAT.2.6.@HOME-@AWAY",
+                                    "display_home_team_placeholder_name": "#3C",
+                                    "display_away_team_placeholder_name": "#3D"
+                                },
+                                {
+                                    "in_between": "4A-4B",
+                                    "match_number": "CAT.PM2.G7.4A-4B",
+                                    "display_match_number": "CAT.2.7.@HOME-@AWAY",
+                                    "display_home_team_placeholder_name": "#4A",
+                                    "display_away_team_placeholder_name": "#4B"
+                                },
+                                {
+                                    "in_between": "4C-4D",
+                                    "match_number": "CAT.PM2.G8.4C-4D",
+                                    "display_match_number": "CAT.2.8.@HOME-@AWAY",
+                                    "display_home_team_placeholder_name": "#4C",
+                                    "display_away_team_placeholder_name": "#4D"
+                                }
+                            ]
+                        }
+                    }
+                ]
+            },
+            {
+                "name": "Round 3",
+                "match_type": [
+                    {
+                        "name": "PM-2",
+                        "total_match": 9,
+                        "group_count": 18,
+                        "groups": {
+                            "group_name": "Group-PM2",
+                            "match": [
+                                {
+                                    "in_between": "CAT.PM2.G1WR-CAT.PM2.G2WR",
+                                    "match_number": "CAT.PM3.G1.1A_1B_WR-1C_1D_WR",
+                                    "display_match_number": "CAT.3.1.wrs.(@HOME-@AWAY)",
+                                    "display_home_team_placeholder_name": "2.1",
+                                    "display_away_team_placeholder_name": "2.2",
+                                    "position": "1-2"
+                                },
+                                {
+                                    "in_between": "CAT.PM2.G1LR-CAT.PM2.G2LR",
+                                    "match_number": "CAT.PM3.G2.1C_1D_LR-1A_1B_LR",
+                                    "display_match_number": "CAT.3.2.lrs.(@HOME-@AWAY)",
+                                    "display_home_team_placeholder_name": "2.2",
+                                    "display_away_team_placeholder_name": "2.1",
+                                    "position": "3-4"
+                                },
+                                {
+                                    "in_between": "CAT.PM2.G3WR-CAT.PM2.G4WR",
+                                    "match_number": "CAT.PM3.G3.2A_2B_WR-2C_2D_WR",
+                                    "display_match_number": "CAT.3.3.wrs.(@HOME-@AWAY)",
+                                    "display_home_team_placeholder_name": "2.3",
+                                    "display_away_team_placeholder_name": "2.4",
+                                    "position": "5-6"
+                                },
+                                {
+                                    "in_between": "CAT.PM2.G3LR-CAT.PM2.G4LR",
+                                    "match_number": "CAT.PM3.G4.2C_2D_LR-2A_2B_LR",
+                                    "display_match_number": "CAT.3.4.lrs.(@HOME-@AWAY)",
+                                    "display_home_team_placeholder_name": "2.4",
+                                    "display_away_team_placeholder_name": "2.3",
+                                    "position": "7-8"
+                                },
+                                {
+                                    "in_between": "CAT.PM2.G5WR-CAT.PM2.G6WR",
+                                    "match_number": "CAT.PM3.G5.3A_3B_WR-3C_3D_WR",
+                                    "display_match_number": "CAT.3.5.wrs.(@HOME-@AWAY)",
+                                    "display_home_team_placeholder_name": "2.5",
+                                    "display_away_team_placeholder_name": "2.6",
+                                    "position": "9-10"
+                                },
+                                {
+                                    "in_between": "CAT.PM2.G5LR-CAT.PM2.G6LR",
+                                    "match_number": "CAT.PM3.G6.3C_3D_LR-3A_3B_LR",
+                                    "display_match_number": "CAT.3.6.lrs.(@HOME-@AWAY)",
+                                    "display_home_team_placeholder_name": "2.6",
+                                    "display_away_team_placeholder_name": "2.5",
+                                    "position": "11-12"
+                                },
+                                {
+                                    "in_between": "CAT.PM2.G7WR-CAT.PM2.G8WR",
+                                    "match_number": "CAT.PM3.G7.4A_4B_WR-4C_4D_WR",
+                                    "display_match_number": "CAT.3.7.wrs.(@HOME-@AWAY)",
+                                    "display_home_team_placeholder_name": "2.7",
+                                    "display_away_team_placeholder_name": "2.8",
+                                    "position": "13-14"
+                                },
+                                {
+                                    "in_between": "CAT.PM2.G7LR-CAT.PM2.G8LR",
+                                    "match_number": "CAT.PM3.G8.4C_4D_LR-4A_4B_LR",
+                                    "display_match_number": "CAT.3.8.lrs.(@HOME-@AWAY)",
+                                    "display_home_team_placeholder_name": "2.8",
+                                    "display_away_team_placeholder_name": "2.7",
+                                    "position": "15-16"
+                                },
+                                {
+                                    "in_between": "5C-5D",
+                                    "match_number": "CAT.PM3.G9.5C-5D",
+                                    "display_match_number": "CAT.3.9.@HOME-@AWAY",
+                                    "display_home_team_placeholder_name": "#5C",
+                                    "display_away_team_placeholder_name": "#5D",
+                                    "position": "17-18"
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        ]
+    }
+}

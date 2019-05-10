@@ -1,5 +1,8 @@
+.jv-comment {
+  *zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe904;');
+}
 .jv-home {
-  *zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe900;');
+  *zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#x1f3e0;');
 }
 .jv-dashboard-app {
   *zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe901;');
@@ -11,10 +14,10 @@
   *zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe903;');
 }
 .jv-clock {
-  *zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe904;');
+  *zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#x1f553;');
 }
 .jv-car {
-  *zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe905;');
+  *zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#x1f698;');
 }
 .jv-chats {
   *zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe906;');
@@ -89,39 +92,51 @@
   *zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe927;');
 }
 .jv-plus {
-  *zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe91c;');
+  *zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#x2795;');
 }
 .jv-close {
-  *zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe91d;');
+  *zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#x2715;');
 }
 .jv-search {
-  *zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe91e;');
+  *zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#x1f50d;');
 }
 .jv-dustbin {
-  *zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe91f;');
+  *zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#x267b;');
 }
 .jv-download {
-  *zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe920;');
+  *zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe900;');
 }
 .jv-find-doc {
-  *zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe921;');
+  *zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#x1f50e;');
 }
 .jv-go-up {
   *zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe922;');
 }
 .jv-cloud {
-  *zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe923;');
+  *zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#x1f325;');
 }
 .jv-reload {
   *zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe924;');
 }
 .jv-web {
-  *zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe925;');
+  *zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#x1f310;');
 }
 .jv-error {
-  *zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#x1f311;');
+  *zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#x26a0;');
 }
 .jv-calendar-time {
-  *zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe929;');
+  *zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#x1f4c6;');
+}
+.jv-checklist {
+  *zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe928;');
+}
+.jv-steering {
+  *zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe92a;');
+}
+.jv-truck {
+  *zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#x1f69a;');
+}
+.jv-truck-info {
+  *zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#x1f69b;');
 }
 

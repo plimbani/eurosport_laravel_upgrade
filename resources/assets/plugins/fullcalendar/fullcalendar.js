@@ -8341,6 +8341,17 @@ TimeGrid.mixin({
 			startTimeText = this.getEventTimeText(event, null, false); // displayEnd=false
 		}
 
+		// var matchRemarkClasses = 'match-remark';
+		// if( (event.fixtureStripColor && event.fixtureStripColor == event.color)) {
+		// 	matchRemarkClasses += ' match-remark-right-position2';
+		// } else {
+		// 	matchRemarkClasses += ' match-remark-right-position17';
+		// }
+
+		if(event.locationCheckFlag == false) {
+			skinCss += ';display: none;';
+		}
+
 		return '<a class="' + classes.join(' ') + '"' +
 			(event.url ?
 				' href="' + htmlEscape(event.url) + '"' :
@@ -8352,7 +8363,7 @@ TimeGrid.mixin({
 				) +
 			'>' +
 				'<div class="scheduled-match-content">' +
-
+					((event.matchId !== -1 && event.matchId !== '') ? '<span class="match-planner-warning" style="display: ' + event.displayFlag + '"><i class="fas fa-exclamation-triangle"></i></span>' : '')+
 					'<div class="fc-content">' +
 						(timeText ?
 							'<span class="fc-referee referee_'+event.refereeId+'" id="'+ event.refereeId+'">'+ event.refereeText+'</span>' +
@@ -8361,6 +8372,7 @@ TimeGrid.mixin({
 							' data-full="' + htmlEscape(fullTimeText) + '"' +
 							'>' +
 								'<span>' + htmlEscape(timeText) + '</span>' +
+								(event.remarks ? '<span class="match-fixture-comment"><i class="fas fa-comment-dots"></i></span>' : '') +
 							'</div>' :
 							''
 							) +
@@ -8371,6 +8383,14 @@ TimeGrid.mixin({
 							'</div>' :
 							''
 							) +
+						((event.homeScore !== null) && (event.awayScore !== null) && (typeof event.awayScore !== 'undefined') && (typeof event.awayScore !== 'undefined') ? 
+							'<div class="fc-score">' +
+								((event.isResultOverride == 1 && (event.matchStatus == 'Walk-over' || event.matchStatus == 'Abandoned') && event.matchWinner == event.homeTeam) ? '*' : '') +
+								htmlEscape(event.homeScore) + '-' + htmlEscape(event.awayScore) +
+								((event.isResultOverride == 1 && (event.matchStatus == 'Walk-over' || event.matchStatus == 'Abandoned') && event.matchWinner == event.awayTeam) ? '*' : '') +
+							'</div>' :
+							''
+						) +
 					'</div>' +
 					'<div class="fc-bg"/>' +
 					/* TODO: write CSS for this
@@ -8387,6 +8407,7 @@ TimeGrid.mixin({
 					'<div class="scheduled-match-content-strip" style="background: ' + event.fixtureStripColor + '"></div>' :
 						''
 						) +
+					((event.matchId !== '' && event.matchId !== -1) ? '<div class="checkbox d-none match-unschedule-checkbox-div"><div class="c-input"><input type="checkbox" class="euro-checkbox match-unschedule-checkbox" name="match_unschedule_check[]" id="'+ event.matchId+'"><label for="'+ event.matchId+'"></label></div></div>' : '') +
 				'</div>' +
 			'</a>';
 	},

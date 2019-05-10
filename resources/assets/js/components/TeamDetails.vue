@@ -3,7 +3,7 @@
 	<div class="form-group">
 	   <a @click="setCurrentTabView(currentTabView)" data-toggle="tab" href="javascript:void(0)"
 	   role="tab" aria-expanded="true" class="btn btn-primary">
-       <i aria-hidden="true" class="fa fa-angle-double-left"></i>Back to {{setCurrentMsg}}</a>
+       <i aria-hidden="true" class="fas fa-angle-double-left"></i>Back to {{setCurrentMsg}}</a>
 
 	</div>
 		<div class="row">
@@ -39,7 +39,7 @@
 			</div> -->
 				<div class="row">
 					<div class="col-md-12">
-						<component :is="teamView"  :matchData="matchData"></component>
+						<component :is="teamView"  :matchData1="matchData"></component>
 					</div>
 				</div>
 				<!--<matchList :matchData="matchData"></matchList>-->

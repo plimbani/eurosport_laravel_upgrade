@@ -2,6 +2,8 @@
 
 namespace Laraspace\Http\Controllers\Auth;
 
+use DB;
+use Carbon\Carbon;
 use Laraspace\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Http\Request;
@@ -130,6 +132,7 @@ class ResetPasswordController extends Controller
         $mobileUserRoleId = Role::where('slug', 'mobile.user')->first()->id;
         $userData = User::where(['email'=>$data['email']])->first();
 
+
         // if($userData->roles[0]->id == $mobileUserRoleId) {
         //     $data['otp'] = (isset($data['otp'])) ? $data['otp'] : '1';
         // //   if($this->isValidOTP($mobileUser, $data['otp'])) {
@@ -142,11 +145,16 @@ class ResetPasswordController extends Controller
         //   // }
         // } else {
 
+           
+
+
         $response = $this->broker()->reset(
           $this->credentials($request), function ($user, $password) {
             $this->resetPassword($user, $password);
           }
-        );
+        );       
+
+
         // }
         // If the password was successfully reset, we will redirect the user back to
         // the application's home authenticated view. If there is an error we can
