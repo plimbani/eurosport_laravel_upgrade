@@ -52,7 +52,7 @@
                         <div class="col-md-12">
                           <div class="panel panel-default reset-password">
                                     <div class="panel-body">
-                                    @if(session('reset') && session('reset') == 'reset password')
+                                    @if( Request::get('reset') && Request::get('reset') == 'reset password')
                                     <div class="alert alert-success my-3">
                                             <i class="fas fa-check text-success"
                                             >
