@@ -116,7 +116,7 @@
   <!--<span v-else>No information available</span>-->
   <pitch-modal :matchFixture="matchFixture" v-show="setPitchModal" :section="section"></pitch-modal>
 
-  <UnSavedMatchScoresModal v-show="unChangedMatchScoresModalOpen" :unChangedMatchScores="unChangedMatchScores"></UnSavedMatchScoresModal>
+  <UnSavedMatchScoresInfoModal v-show="unChangedMatchScoresInfoModalOpen" :unChangedMatchScores="unChangedMatchScores"></UnSavedMatchScoresInfoModal>
 
   </div>
 </div>
@@ -126,14 +126,14 @@ import Tournament from '../api/tournament.js'
 import PitchModal from '../components/PitchModal.vue';
 import DeleteModal1 from '../components/DeleteModalBlock.vue'
 import VuePaginate from 'vue-paginate'
-import UnSavedMatchScoresModal from '../components/UnsavedMatchScoresInfo.vue'
+import UnSavedMatchScoresInfoModal from '../components/UnsavedMatchScoresInfo.vue'
 
 export default {
   props: ['matchData1', 'DrawName'],
   components: {
     PitchModal,
     DeleteModal1,
-    UnSavedMatchScoresModal,
+    UnSavedMatchScoresInfoModal,
   },
   data() {
     return {
@@ -153,7 +153,7 @@ export default {
       isMatchListInitialized: false,
       no_of_records: 20,
       recordCounts: [5,10,20,50,100],
-      unChangedMatchScoresModalOpen: false,
+      unChangedMatchScoresInfoModalOpen: false,
       unChangedMatchScores: [],
     }
   },
@@ -531,7 +531,7 @@ export default {
           (response) => {
             this.unChangedMatchScores = response.data.unChangedScores;
             if(this.unChangedMatchScores.length > 0) {
-              this.unChangedMatchScoresModalOpen = true;
+              this.unChangedMatchScoresInfoModalOpen = true;
               $('#unSavedMatchScoresModal').modal('show');
             }
             this.resultChange = false;
@@ -551,7 +551,10 @@ export default {
             if(this.$store.state.currentScheduleView == 'matchList') {
               this.$root.$emit('getMatchesByFilter');
             }
-            toastr.success('Scores has been updated successfully', 'Score Updated', {timeOut: 1000});
+            
+            if(response.data.isAnyMatchScoreUpdated == true) {
+              toastr.success('Scores has been updated successfully', 'Score Updated', {timeOut: 1000});
+            }
           }
         )
       }

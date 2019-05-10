@@ -9,11 +9,11 @@
 	             <span aria-hidden="true">×</span>
 	             </button>
 	          </div>
-	          <div class="modal-body modal-fixed-height">
-	                <p>Following are the matches whose scores are not updated:</p>
-	                <div v-for="match in unChangedMatchScores">
-	                	<p>{{ match }}</p>
-	                </div>
+	          <div class="modal-body">
+                <p class="font-weight-bold">Following are the matches whose scores are not updated:</p>
+            	<ul class="list-unstyled" v-for="match in unChangedMatchScores">
+            		<li>{{ match }}</li>
+            	</ul>
 	          </div>
 	          <div class="modal-footer">
 	            <button type="button" class="btn btn-danger"  @click="closeModal()">{{$lang.manual_ranking_cancel}}</button>
