@@ -85,7 +85,12 @@ class TournamentRepository
         }
         $data = $data->orderBy('name', 'asc')->get();
 
-        return ['data' => $data, 'baseUrl' => $baseUrl];
+        $tournamentListCount = array();
+        foreach ($data as $key => $tournament) {
+                $data[$key]['matchlistCount'] = TempFixture::where('tournament_id', $tournament->id)->count();  
+        }
+        
+        return ['data' => $data, 'baseUrl' => $baseUrl, 'matchlistCount' => $tournamentListCount];
         /* if($status == '') {
           return Tournament::get();
           }

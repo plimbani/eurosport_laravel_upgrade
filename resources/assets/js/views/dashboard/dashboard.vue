@@ -27,8 +27,8 @@
                                                 </div>
                                                 <ul class="list-unstyled mb-0">
                                                     <li class="d-block d-lg-inline pb-1 pb-sm-0 pr-sm-2"><i class="fa fa-list-ul" aria-hidden="true"></i> &nbsp;{{tournament.maximum_teams}} Teams</li>
-                                                    <li class="d-block d-lg-inline pb-1 pb-sm-0 pr-sm-2"><i class="fa fa-futbol-o" aria-hidden="true"></i> &nbsp;{{tournament.no_of_match_per_day_pitch}} Matches</li>
-                                                    <li class="d-block d-lg-inline"><i class="fa fa-calendar" aria-hidden="true"></i> &nbsp;{{tournament.start_date}} - {{tournament.end_date}}</li>
+                                                    <li class="d-block d-lg-inline pb-1 pb-sm-0 pr-sm-2" v-if="tournament.matchlistCount != 0"><i class="fa fa-futbol-o" aria-hidden="true"></i> &nbsp;{{tournament.matchlistCount}} Matches</li>
+                                                    <li class="d-block d-lg-inline"><i class="fa fa-calendar" aria-hidden="true"></i> &nbsp;{{displayDashboardTournamentDateFormat(tournament)}}</li>
                                                 </ul>
                                             </div>
                                 
@@ -111,8 +111,12 @@
                 tournaments: [],
                 access_code_popup:"",
                 baseUrl:"",
-                url:"app.tournament-planner.com/t/"
+                url:"app.tournament-planner.com/t/",
+                dashboardTournamentDisplayDateFormat:"",
             }
+        },
+        computed: {
+            
         },
         methods: {
             getTournamentList(){
@@ -207,7 +211,29 @@
             },
             redirectToManageTournament(tournament){
                 this.$router.push({name: 'buylicense', query: {id:tournament.id}});   
-            }             
+            },
+            displayDashboardTournamentDateFormat(tournament){
+                let vm = this;
+                let startDateFormat = moment(tournament.start_date, 'DD/MM/YYYY').format('Do MMM YYYY');
+                let endDateFormat = moment(tournament.end_date, 'DD/MM/YYYY').format('Do MMM YYYY');
+
+                let startDay = moment(tournament.start_date, 'DD/MM/YYYY').format('Do');
+                let startMonth = moment(tournament.start_date, 'DD/MM/YYYY').format('MMM');
+                let startDateMonth = moment(tournament.start_date, 'DD/MM/YYYY').format('Do MMM');
+                let startYear = moment(tournament.start_date, 'DD/MM/YYYY').format('YYYY');
+
+                let endDay = moment(tournament.end_date, 'DD/MM/YYYY').format('Do');
+                let endMonth = moment(tournament.end_date, 'DD/MM/YYYY').format('MMM');
+                let endYear = moment(tournament.end_date, 'DD/MM/YYYY').format('YYYY');
+
+                if(startMonth == endMonth){
+                    return vm.dashboardTournamentDisplayDateFormat = startDay+ ' - '+endDateFormat;
+                } else if(startYear != endYear){
+                    return vm.dashboardTournamentDisplayDateFormat = startDateFormat+ ' - ' +endDateFormat;
+                } else if(startMonth != endMonth) {
+                    return vm.dashboardTournamentDisplayDateFormat = startDateMonth+ ' - ' +endDateFormat;
+                } 
+            }            
             
         },
         beforeMount(){  
