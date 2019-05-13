@@ -18,7 +18,7 @@ class PitchRepository
 
     public function getAllPitches($tournamentId)
     {
-        return Pitch::with(['pitchAvailability','pitchAvailability.pitchBreaks','venue'])->where('tournament_id',$tournamentId)->get();
+        return Pitch::with(['pitchAvailability','pitchAvailability.pitchBreaks','venue'])->where('tournament_id',$tournamentId)->orderBy('order')->get();
 
     }
 
@@ -140,5 +140,12 @@ class PitchRepository
             ->get();
 
         return ['tournamentData' => $tournament, 'matches' => $matches];
+    }
+
+    public function updatePitchOrder($pitchData,$order)
+    {
+        $pitchId = $pitchData['id'];
+        $updateData = ['order' => $order];
+        return Pitch::where('id', $pitchId)->update($updateData);
     }
 }

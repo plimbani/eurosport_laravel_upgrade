@@ -492,4 +492,9 @@ class PitchController extends BaseController
 
         return $columns;
     }
+
+    public function updatePitchOrder(Request $request)
+    {
+        return $this->pitchObj->updatePitchOrder($request);
+    }
 }

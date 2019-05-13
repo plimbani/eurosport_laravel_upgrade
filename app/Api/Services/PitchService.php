@@ -279,4 +279,17 @@ class PitchService implements PitchContract
     {
       return $this->pitchRepoObj->getPitchPlannerPrintData($tournamentId);
     }
+
+    public function updatePitchOrder($data)
+    {
+
+      $pitchData = $data->all();
+      $orderValue = 0;
+      foreach ($pitchData as $key => $pitch) {
+        $this->pitchRepoObj->updatePitchOrder($pitch,$orderValue);
+        $orderValue++;
+      }
+
+      return ['status_code' => '200'];
+    }
 }

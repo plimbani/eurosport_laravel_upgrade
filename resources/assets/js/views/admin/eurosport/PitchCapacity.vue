@@ -26,33 +26,39 @@
                                     <th class="text-center">{{$lang.pitch_modal_details_type}}</th>
                                     <th class="text-center">{{$lang.pitch_modal_availability_stage}}</th>
                                     <th class="text-center">{{$lang.pitch_modal_action}}</th>
+                                    <th class="text-center">{{$lang.pitch_modal_order}} </th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr v-for="pitch in pitches">
-                                    <td class="text-left">{{pitch.pitch_number}}</td>
-                                    <td class="text-left">{{ pitch.venue.name }}</td>
-                                    <td class="text-left">{{pitch.size}}</td>
-                                    <td class="text-left" style="text-transform: capitalize;">{{pitch.type}}</td>
-                                    <td>
-                                        <p v-for="pitchStage in pitch.pitch_av_text">
-                                        {{pitchStage}}</p>
-                                        <!--<p>Day 2: 10am-1pm, 3pm-5pm</p>
-                                        <p>Day 3: 10am-2pm</p>-->
-                                    </td>
-                                    <td class="text-center">
-                                        <span class="align-middle">
-                                            <a class="text-primary" href="javascript:void(0)" @click="editPitch(pitch.id)"><i class="fas fa-pencil"></i></a>
-                                        </span>
-                                        <span class="align-middle">
-                                             <a href="#" @click="generatePitchMatchReport(pitch.id)" title="Pitch match schedule" class="text-primary mx-1" style="font-size:1.1em"><i class="fas fa-download"></i></a>
-                                        </span>
-                                        <span class="align-middle">
-                                             <a href="javascript:void(0)" data-confirm-msg="Are you sure you would like to delete this pitch record?" data- data-toggle="modal" data-target="#delete_modal" @click="deletePitch(pitch.id)"><i class="fas fa-trash text-danger"></i></a>
-                                        </span>
-                                    </td>
-                                </tr>
-                            </tbody>
+                            <draggable v-model="dragPitches" tag="tbody" @change="onChangeOrder">
+                                    <tr v-for="pitch in dragPitches" :key="pitch.id">
+                                        <td class="text-left">{{pitch.pitch_number}}</td>
+                                        <td class="text-left">{{ pitch.venue.name }}</td>
+                                        <td class="text-left">{{pitch.size}}</td>
+                                        <td class="text-left" style="text-transform: capitalize;">{{pitch.type}}</td>
+                                        <td>
+                                            <p v-for="pitchStage in pitch.pitch_av_text">
+                                            {{pitchStage}}</p>
+                                            <!--<p>Day 2: 10am-1pm, 3pm-5pm</p>
+                                            <p>Day 3: 10am-2pm</p>-->
+                                        </td>
+                                        <td class="text-center">
+                                            <span class="align-middle">
+                                                <a class="text-primary" href="javascript:void(0)" @click="editPitch(pitch.id)"><i class="fas fa-pencil"></i></a>
+                                            </span>
+                                            <span class="align-middle">
+                                                 <a href="#" @click="generatePitchMatchReport(pitch.id)" title="Pitch match schedule" class="text-primary mx-1" style="font-size:1.1em"><i class="fas fa-download"></i></a>
+                                            </span>
+                                            <span class="align-middle">
+                                                 <a href="javascript:void(0)" data-confirm-msg="Are you sure you would like to delete this pitch record?" data- data-toggle="modal" data-target="#delete_modal" @click="deletePitch(pitch.id)"><i class="fas fa-trash text-danger"></i></a>
+                                            </span>
+                                        </td>
+                                        <td class="text-center">
+                                            <span class="align-middle">
+                                                <i class="fas fa-arrows-alt"></i>
+                                            </span>
+                                        </td>
+                                    </tr>
+                            </draggable>
                         </table>
                         <div v-else>
                             <p class="text-muted">No pitch found.</p>
@@ -138,8 +144,10 @@ import addPitchDetail from '../../../views/admin/eurosport/addPitchDetail.vue'
 import DeleteModal from '../../../components/DeleteModal.vue'
 import Pitch from '../../../api/pitch'
 import Tournament from '../../../api/tournament.js'
+import draggable from 'vuedraggable';
 
     export default {
+        components: { draggable },
         data() {
             return {
                 'tournamentId': this.$store.state.Tournament.tournamentId,
@@ -175,6 +183,7 @@ import Tournament from '../../../api/tournament.js'
                 },
                 'locationSizeWiseSummaryArray': {},
                 'locationWiseSummaryTotal': {},
+                'dragPitches':this.$store.state.Pitch.pitches,
             }
         },
 
@@ -195,7 +204,7 @@ import Tournament from '../../../api/tournament.js'
             this.$root.$off('getLocationWiseSummary');
         },
         components: {
-            editPitchDetail,addPitchDetail,DeleteModal
+            editPitchDetail,addPitchDetail,DeleteModal,draggable
         },
         computed: {
             pitchId: function(){
@@ -303,6 +312,19 @@ import Tournament from '../../../api/tournament.js'
 
         },
         methods: {
+            onChangeOrder() {
+                let vm = this;
+                return axios.post('/api/pitch/updatePitchOrder', this.dragPitches).then(response =>  {
+                    toastr.success('Pitch order successfully updated.', 'Update Pitch', {timeOut: 5000});
+                    vm.getAllPitches();
+                }).catch(error => {
+                    if (error.response.status == 401) {
+                        toastr['error']('Invalid Credentials', 'Error');
+                    } else {
+                        // Something happened in setting up the request that triggered an Error
+                    }
+                });
+            },
             displayPitch(value) {
               this.dispPitch = false
             },
