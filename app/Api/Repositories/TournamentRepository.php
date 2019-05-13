@@ -85,6 +85,7 @@ class TournamentRepository
         }
         $data = $data->orderBy('name', 'asc')->get();
 
+        // Dashboard page matchListCount count
         $tournamentListCount = array();
         foreach ($data as $key => $tournament) {
                 $data[$key]['matchlistCount'] = TempFixture::where('tournament_id', $tournament->id)->count();  
