@@ -34,6 +34,30 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="comm-qa.wot.esrtmp.com"
+                    android:pathPrefix="/tournament/openApp"
+                    android:scheme="https" />
+            </intent-filter>
+
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="www.comm-qa.wot.esrtmp.com"
+                    android:pathPrefix="/tournament/openApp"
+                    android:scheme="https" />
+            </intent-filter>
         </activity>
 
         <meta-data
@@ -179,30 +203,6 @@
 
 
         <activity android:name=".activity.LinkRecognizerActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:host="rishab-eurosport.dev.aecortech.com"
-                    android:pathPrefix="/tournament/openApp"
-                    android:scheme="http" />
-            </intent-filter>
-
-
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:host="rishab-eurosport.dev.aecortech.com"
-                    android:pathPrefix="/mtournament/openApp"
-                    android:scheme="http" />
-            </intent-filter>
         </activity>
     </application>
 

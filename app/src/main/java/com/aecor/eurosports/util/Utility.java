@@ -29,6 +29,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.aecor.eurosports.R;
+import com.aecor.eurosports.activity.FavouritesActivity;
+import com.aecor.eurosports.activity.GetStartedActivity;
 import com.aecor.eurosports.activity.LandingActivity;
 import com.aecor.eurosports.activity.SplashActivity;
 import com.aecor.eurosports.ui.ProgressHUD;
@@ -141,21 +143,35 @@ public class Utility {
                 message = data.getString("error");
 
             }
-            if (!isNullOrEmpty(message)) {
-
+            if (data.has("tournament_expired")) {
+                message = data.getString("tournament_expired");
                 ViewDialog.showSingleButtonDialog((Activity) mContext, mContext.getString(R.string.error), message, mContext.getString(R.string.button_ok), new ViewDialog.CustomDialogInterface() {
                     @Override
                     public void onPositiveButtonClicked() {
-                        if (mContext instanceof SplashActivity) {
-                            Intent mLandingPageIntent = new Intent(mContext, LandingActivity.class);
-                            mContext.startActivity(mLandingPageIntent);
-                            ((Activity) mContext).finish();
-                        }
+                        Intent mFavourites = new Intent(mContext, GetStartedActivity.class);
+                        mFavourites.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        mContext.startActivity(mFavourites);
                     }
 
                 });
-            }
 
+
+            } else {
+                if (!isNullOrEmpty(message)) {
+
+                    ViewDialog.showSingleButtonDialog((Activity) mContext, mContext.getString(R.string.error), message, mContext.getString(R.string.button_ok), new ViewDialog.CustomDialogInterface() {
+                        @Override
+                        public void onPositiveButtonClicked() {
+                            if (mContext instanceof SplashActivity) {
+                                Intent mLandingPageIntent = new Intent(mContext, LandingActivity.class);
+                                mContext.startActivity(mLandingPageIntent);
+                                ((Activity) mContext).finish();
+                            }
+                        }
+
+                    });
+                }
+            }
         } catch (@NonNull JSONException e) {
             e.printStackTrace();
         }

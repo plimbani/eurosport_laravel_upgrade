@@ -77,6 +77,15 @@ public class ClubsGroupFragment extends Fragment {
     protected LinearLayout ll_main_layout;
     @BindView(R.id.iv_close)
     protected ImageView iv_close;
+    protected boolean isVisible;
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser && getActivity()!=null) {
+            getTournamentGroup();
+        }
+    }
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {

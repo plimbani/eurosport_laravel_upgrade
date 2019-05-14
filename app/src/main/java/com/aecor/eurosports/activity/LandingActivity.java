@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.aecor.eurosports.R;
@@ -54,13 +55,20 @@ public class LandingActivity extends BaseActivity {
 
     @OnClick(R.id.signin)
     protected void signin() {
-        startActivity(new Intent(mContext, SignInActivity.class));
+        boolean ss = getIntent().getBooleanExtra("isFromUrl", false);
+        Intent intent = new Intent(mContext, SignInActivity.class);
+        intent.putExtra("accessCode", getIntent().getStringExtra("accessCode"));
+        intent.putExtra("isFromUrl", getIntent().getBooleanExtra("isFromUrl", false));
+        startActivity(intent);
         finish();
     }
 
     @OnClick(R.id.register)
     protected void register() {
-        startActivity(new Intent(mContext, RegisterActivity.class));
+        Intent intent = new Intent(mContext, RegisterActivity.class);
+        intent.putExtra("accessCode", getIntent().getStringExtra("accessCode"));
+        intent.putExtra("isFromUrl", getIntent().getBooleanExtra("isFromUrl", false));
+        startActivity(intent);
         finish();
     }
 
