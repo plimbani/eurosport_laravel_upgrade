@@ -87,14 +87,6 @@ public class ClubsGroupFragment extends Fragment {
         }
     }
 
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser && getActivity() != null) {
-            getTournamentGroup();
-        }
-    }
-
     protected void initView() {
         Utility.setupUI(mContext, ll_main_layout);
 
