@@ -89,16 +89,18 @@
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:orientation="horizontal">
+                    android:orientation="vertical">
 
                     <ImageView
                         android:id="@+id/iv_tournamentLogo"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="72dp"
+                        android:layout_height="72dp"
                         android:layout_gravity="center"
                         android:layout_margin="10dp" />
 
                     <TextView
+                        android:maxLines="2"
+                        android:ellipsize="end"
                         android:id="@+id/tv_tournamentName"
                         style="@style/text_black_title"
                         android:layout_width="wrap_content"
