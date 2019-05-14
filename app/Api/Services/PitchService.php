@@ -61,7 +61,7 @@ class PitchService implements PitchContract
     }
 
     /**
-     * Edit Pitch.
+     * Edit Pitch.-
      *
      * @param array $data
      *
@@ -278,5 +278,15 @@ class PitchService implements PitchContract
     public function getPitchPlannerPrintData($tournamentId)
     {
       return $this->pitchRepoObj->getPitchPlannerPrintData($tournamentId);
+    }
+
+    public function getPicthSearchRecord($tournamentData) 
+    {
+      return $this->pitchRepoObj->getPicthSearchRecord($tournamentData);
+    }
+
+    public function getVenuesDropDownData($tournamentData)
+    {
+        return $this->pitchRepoObj->getVenuesDropDownData($tournamentData);
     }
 }

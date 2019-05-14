@@ -492,4 +492,14 @@ class PitchController extends BaseController
 
         return $columns;
     }
+    public function getPicthSearchRecord(Request $tournamentData) 
+    {   
+        return $this->pitchObj->getPicthSearchRecord($tournamentData);
+    }
+
+
+    public function getVenuesDropDownData(Request $tournamentData)
+    {
+      return $this->pitchObj->getVenuesDropDownData($tournamentData);
+    }
 }

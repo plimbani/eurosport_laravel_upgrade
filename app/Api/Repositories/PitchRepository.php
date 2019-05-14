@@ -141,4 +141,25 @@ class PitchRepository
 
         return ['tournamentData' => $tournament, 'matches' => $matches];
     }
+    public function getPicthSearchRecord($tournamentData) 
+    {
+        $pitchData = Pitch::where('tournament_id',$tournamentData['tournament_id']);
+
+
+        if(isset($tournamentData['selectedVenue']) && $tournamentData['pitchDataSearch'] !== '') {
+            $pitchData->where('venue_id', '=', $tournamentData['selectedVenue']);
+        }
+        return $pitchData->get();
+
+    }
+
+
+    public function getVenuesDropDownData($tournamentData)
+    {
+        $pitchVenues = Venue::where('tournament_id', $tournamentData['tournament_id'])
+                            ->select('id', 'name')
+                            ->get();
+        return $pitchVenues;
+
+    }
 }

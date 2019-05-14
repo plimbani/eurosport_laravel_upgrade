@@ -3,12 +3,36 @@
         <div class="card">
             <div class="card-block">
                 <div class="row">
-                  <div class="col-3 align-self-center">
-                      <h6 class="mb-0"><strong>{{$lang.pitch_capacity}}</strong></h6>
-                  </div>
-                  <div class="col-9 align-self-center">
-                    <button type="button" class="btn btn-primary pull-right" @click="addPitch()"><small><i class="fas fa-plus"></i></small>&nbsp;{{$lang.pitch_add}}</button>
-                  </div>
+                    <div class="col-3 align-self-center">
+                        <h6 class="mb-0"><strong>{{$lang.pitch_capacity}}</strong></h6>
+                    </div>
+                    <div class="col-md-7">
+                        <div class="row align-items-center justify-content-end">
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control"
+                                               v-on:keyup="getPitchSearchData" v-model="pitchDataSearch" 
+                                               placeholder="Search for a pitch">
+                                    </div>
+                                    <div class="col-md-5">
+                                        <select class="form-control"
+                                            v-model="selectedVenue" name="selected_venue" id="selected_venue" 
+                                            @change="getPitchSearchData()">
+                                            <option value="">Select venue</option>
+                                            <option :value="option.id"
+                                            v-for="option in options">
+                                              {{option.name}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="col-5 align-self-center">
+                                        <button type="button" class="btn btn-primary pull-right" @click="addPitch()"><small><i class="fas fa-plus"></i></small>&nbsp;{{$lang.pitch_add}}</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <addPitchDetail  v-if="pitchId=='' && dispPitch==true" ></addPitchDetail>
@@ -29,7 +53,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="pitch in pitches">
+                                <tr v-if="searchDisplayData == false" v-for="pitch in pitches">     
                                     <td class="text-left">{{pitch.pitch_number}}</td>
                                     <td class="text-left">{{ pitch.venue.name }}</td>
                                     <td class="text-left">{{pitch.size}}</td>
@@ -175,6 +199,11 @@ import Tournament from '../../../api/tournament.js'
                 },
                 'locationSizeWiseSummaryArray': {},
                 'locationWiseSummaryTotal': {},
+                pitchDataSearch: '',
+                selectedVenue: '',
+                options:[],
+                searchDisplayData: false,
+                displayRecord:[],
             }
         },
 
@@ -209,7 +238,6 @@ import Tournament from '../../../api/tournament.js'
             },
         },
         mounted(){
-            this.getAllPitches()
             let tournamentId = this.$store.state.Tournament.tournamentId
             if(tournamentId == null || tournamentId == '' || tournamentId == undefined) {
               toastr['error']('Please Select Tournament', 'Error');
@@ -300,6 +328,8 @@ import Tournament from '../../../api/tournament.js'
             // $('.ls-datepicker').datepicker('setDatesDisabled', this.disableDate);
             // $('.sdate').datepicker('setDatesDisabled', this.disableDate);
             let this3 = this
+            // this.getPitchSearchData();
+            this.getVenuesDropDownData();
 
         },
         methods: {
@@ -717,6 +747,24 @@ import Tournament from '../../../api/tournament.js'
                 }
                 return (totalAvailableTime - totalTimeRequired);
             },
+            getPitchSearchData(){
+                let tournamentData = {'tournament_id': this.tournamentId, 'pitchDataSearch': this.pitchDataSearch, 
+                    'selectedVenue': this.selectedVenue}
+                Pitch.getPicthSearchRecord(tournamentData).then (
+                      (response) => {
+                        this.searchDisplayData = true;
+                        this.displayRecord = response.data.pitches;
+                });
+            },
+
+            getVenuesDropDownData() {
+                let tournamentData = {'tournament_id': this.tournamentId}
+                Pitch.getVenuesDropDownData(tournamentData).then (
+                      (response) => {
+                        this.options = response.data.venues;   
+                });
+            },
+
         }
     }
 </script>
