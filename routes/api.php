@@ -44,6 +44,8 @@ $api->version('v1', ['middleware' => 'signedurl'], function ($api) {
     $api->get('referee/downloadSampleUploadSheet', 'Laraspace\Api\Controllers\RefereeController@downloadSampleUploadSheet');
     $api->get('match/downloadSampleUploadSheet', 'Laraspace\Api\Controllers\MatchController@downloadSampleUploadSheet');
     $api->get('pitchPlanner/export/{tournamentId}', 'Laraspace\Api\Controllers\PitchController@generatePitchPlannerExport');
+
+    $api->get('teams/getGroupsViewData/report/print', 'Laraspace\Api\Controllers\TeamController@printGroupsViewReport');
 });
 
 $api->version('v1', function ($api) {
@@ -270,7 +272,9 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
     
     $api->post('duplicateTournamentList','Laraspace\Api\Controllers\TournamentController@duplicateTournamentList');
 
-    $api->post('updateAppDeviceVersion','Laraspace\Api\Controllers\UserController@updateAppDeviceVersion');    
+    $api->post('updateAppDeviceVersion','Laraspace\Api\Controllers\UserController@updateAppDeviceVersion');   
+
+    $api->post('getSignedUrlForGroupsViewReport', 'Laraspace\Api\Controllers\TeamController@getSignedUrlForGroupsViewReport'); 
 
 });
 

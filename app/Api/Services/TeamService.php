@@ -12,6 +12,7 @@ use Laraspace\Models\TempFixture;
 use Laraspace\Models\Competition;
 use Laraspace\Traits\TournamentAccess;
 use Laraspace\Api\Contracts\TeamContract;
+use Laraspace\Models\TournamentTemplates;
 use Laraspace\Api\Repositories\TeamRepository;
 use Laraspace\Models\TournamentCompetationTemplates;
 
@@ -500,5 +501,38 @@ class TeamService implements TeamContract
 
       $reportData = $reportQuery->get();
       return $reportData;
+    }
+
+    public function printGroupsViewReport($data)
+    {
+      $tournamentTemplate = TournamentTemplates::find($data['tournamentTemplateId']);
+      $jsonData = json_decode($tournamentTemplate->json_data, true);
+      $jsonCompetitionFormatDataFirstRound = $jsonData['tournament_competation_format']['format_name'][0]['match_type'];
+
+      $tournamentLogo = null;
+      $tournamentDetail = Tournament::find($data['tournamentId']);
+      if($tournamentDetail->logo != null) {
+        $tournamentLogo = $this->tournamentLogo. $tournamentDetail->logo;
+      }
+
+      $groupsViewArray = [];
+      foreach($jsonCompetitionFormatDataFirstRound as $round) {
+        array_push($groupsViewArray, $round);
+      }
+
+      $teamsData = $this->teamRepoObj->getAllFromFilter($data);
+      $date = new \DateTime(date('H:i d M Y'));
+      $pdf = PDF::loadView('teams_and_groups.group_detail_report',['data' => $data, 'groupsData' => $groupsViewArray, 'teamsData' => $teamsData, 'tournamentLogo' => $tournamentLogo])
+            ->setPaper('a4')
+            ->setOption('header-spacing', '5')
+            ->setOption('header-font-size', 7)
+            ->setOption('header-font-name', 'Open Sans')
+            ->setOrientation('portrait')
+            ->setOption('footer-html', route('pdf.footer'))
+            ->setOption('header-right', $date->format('H:i d M Y'))
+            ->setOption('margin-top', 20)
+            ->setOption('margin-bottom', 20);
+      
+      return $pdf->download('group_detail_report.pdf');
     }
 }

@@ -24,6 +24,7 @@ use Laraspace\Http\Requests\Team\GetAllTournamentTeamsRequest;
 use Laraspace\Http\Requests\Team\GetAllCompetitionTeamsFromFixtureRequest;
 use Laraspace\Http\Requests\Team\GetSignedUrlForTeamsFairPlayReportPrint;
 use Laraspace\Http\Requests\Team\GetSignedUrlForTeamsFairPlayReportExport;
+use Laraspace\Http\Requests\Team\GetSignedUrlForGroupsViewReportRequest;
 
 
 // Need to Define Only Contracts
@@ -245,5 +246,20 @@ class TeamController extends BaseController
     public function printTeamFairPlayReport(Request $request)
     {
         return $this->teamObj->printTeamFairPlayReport($request->all());   
+    }
+
+    public function getSignedUrlForGroupsViewReport(GetSignedUrlForGroupsViewReportRequest $request)
+    {
+      $groupsViewData = $request->all();
+      ksort($groupsViewData);
+      $groupsViewData  = http_build_query($groupsViewData);
+      $signedUrl = UrlSigner::sign(url('api/teams/getGroupsViewData/report/print?' . $groupsViewData), Carbon::now()->addMinutes(config('config-variables.signed_url_interval')));
+
+      return $signedUrl;
+    }
+
+    public function printGroupsViewReport(Request $request)
+    {
+      return $this->teamObj->printGroupsViewReport($request->all());
     }
 }

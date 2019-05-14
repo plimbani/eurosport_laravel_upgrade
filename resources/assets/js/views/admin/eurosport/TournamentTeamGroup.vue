@@ -48,6 +48,9 @@
                   <div class="col-sm-3" v-show="this.age_category != ''" v-if="this.role_slug != 'mobile.user'">
                     <button type="button" data-toggle="modal" data-target="#reset_modal" class="btn btn-primary w-100">Delete teams</button>
                   </div>
+                  <div class="col-sm-3" v-show="this.age_category != ''" v-if="this.role_slug != 'mobile.user'">
+                    <button type="button" class="btn btn-primary w-100" @click="printAllocatedTeams()">Download group graphic</button>
+                  </div>                  
                 </div>
               </div>
             </div>
@@ -779,6 +782,22 @@
       onTeamDrag(ev) {
         ev.dataTransfer.setData("id", ev.target.id);
         this.beforeChange($('#' + ev.target.id).data('select-id'));
+      },
+      printAllocatedTeams() {
+        let data = 'tournamentId='+this.$store.state.Tournament.tournamentId+'&'+'ageCategoryId='+this.age_category.id+'&'+'tournamentTemplateId='+this.age_category.tournament_template_id;
+
+        if(data != ''){
+          Tournament.getSignedUrlForGroupsViewReport(data).then(
+            (response) => {
+              window.location.href = response.data;
+            },
+            (error) => {
+
+            }
+          )
+        } else{
+          toastr['error']('Records not available', 'Error');
+        }
       }
     }
   }
