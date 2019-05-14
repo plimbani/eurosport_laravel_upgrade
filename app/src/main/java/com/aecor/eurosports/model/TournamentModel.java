@@ -13,6 +13,16 @@ public class TournamentModel {
     private String website;
     private String facebook;
     private String twitter;
+
+    public String getAccess_code() {
+        return access_code;
+    }
+
+    public void setAccess_code(String access_code) {
+        this.access_code = access_code;
+    }
+
+    private String access_code;
     private String logo;
     private String competition_type;
     private String status;

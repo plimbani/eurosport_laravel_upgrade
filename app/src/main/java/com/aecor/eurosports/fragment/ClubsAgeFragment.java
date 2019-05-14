@@ -22,6 +22,8 @@ import android.widget.TextView;
 
 import com.aecor.eurosports.R;
 import com.aecor.eurosports.activity.HomeActivity;
+import com.aecor.eurosports.activity.LandingActivity;
+import com.aecor.eurosports.activity.SplashActivity;
 import com.aecor.eurosports.adapter.AgeAdapter;
 import com.aecor.eurosports.gson.GsonConverter;
 import com.aecor.eurosports.http.VolleyJsonObjectRequest;
@@ -101,6 +103,14 @@ public class ClubsAgeFragment extends Fragment {
         et_age_search.setHint(getString(R.string.hint_search_age_category));
     }
 
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser && getActivity() != null) {
+            getAgeCategories();
+        }
+    }
+
     protected void setListener() {
         GenericTextMatcher mTextWatcher = new GenericTextMatcher();
         et_age_search.addTextChangedListener(mTextWatcher);
@@ -109,6 +119,7 @@ public class ClubsAgeFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.club_content, container, false);
         ButterKnife.bind(this, view);
         mContext = getActivity();

@@ -47,6 +47,8 @@ public class GetStartedActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_access_code);
+        Utility.setupUI(this,findViewById(R.id.ll_main_layout));
+
         ButterKnife.bind(this);
         mContext = this;
         initView();

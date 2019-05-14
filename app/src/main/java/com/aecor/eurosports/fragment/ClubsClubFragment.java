@@ -76,11 +76,13 @@ public class ClubsClubFragment extends Fragment {
     protected LinearLayout ll_main_layout;
     @BindView(R.id.iv_close)
     protected ImageView iv_close;
+    protected boolean isVisible;
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if(isVisibleToUser && getActivity()!=null){
+
+        if (isVisibleToUser && getActivity() != null) {
             getClubList();
         }
     }
@@ -97,7 +99,6 @@ public class ClubsClubFragment extends Fragment {
         tv_no_item.setVisibility(View.GONE);
         rl_search.setVisibility(View.GONE);
         getClubList();
-
         setListener();
         iv_close.setVisibility(View.GONE);
         et_age_search.setHint(getString(R.string.hint_search_club));
