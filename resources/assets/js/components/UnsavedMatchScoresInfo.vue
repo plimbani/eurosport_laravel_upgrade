@@ -14,6 +14,8 @@
             	<ul class="list-unstyled" v-for="match in unChangedMatchScores">
             		<li>{{ match }}</li>
             	</ul>
+
+            	<p>Latest score for all the listed matches has been syncronized.</p>
 	          </div>
 	          <div class="modal-footer">
 	            <button type="button" class="btn btn-danger"  @click="closeModal()">{{$lang.manual_ranking_cancel}}</button>

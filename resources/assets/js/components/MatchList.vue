@@ -554,6 +554,8 @@ export default {
             
             if(response.data.isAnyMatchScoreUpdated == true) {
               toastr.success('Scores has been updated successfully', 'Score Updated', {timeOut: 1000});
+            } else {
+              toastr.error('Not a single score updated.', 'Score not updated', {timeOut: 1000});
             }
           }
         )

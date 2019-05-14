@@ -350,9 +350,12 @@ class MatchService implements MatchContract
       $matchResult = null;
       $unChangedMatchScoresArray = [];
       $isAnyMatchScoreUpdated = false;
+      $matchesScoresStatusArray = [];
 
       foreach ($AllMatches as $match) {
         $matchResult = $this->matchRepoObj->saveAllResults($match);
+        array_push($matchesScoresStatusArray, $matchResult['is_score_updated']);
+        // $matchesScoresStatusArray['is_score_updated'] = $matchResult['is_score_updated'];
         if($matchResult['status'] === false) {
           $unChangedMatchScoresArray[] = $matchResult['tempFixture']->match_number;
         }
@@ -364,8 +367,13 @@ class MatchService implements MatchContract
           $competitionIds[$matchData['age_group_id']][] = $matchData['competition_id'];
         }
       }
-      
-      if(count($AllMatches) != count($unChangedMatchScoresArray)) {
+
+      $changedScoresCount = count(array_filter($matchesScoresStatusArray, function($x) { 
+                              return $x==true;
+                            }));
+      //print_r($changedScoresCount);exit; 
+
+      if(($changedScoresCount != count($unChangedMatchScoresArray)) || ($changedScoresCount == count($unChangedMatchScoresArray) && $changedScoresCount == 0 && count($unChangedMatchScoresArray) == 0)) {
         $isAnyMatchScoreUpdated = true;
       }
 
