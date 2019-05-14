@@ -143,10 +143,11 @@ class PitchRepository
     }
     public function getPicthSearchRecord($tournamentData) 
     {
-        $pitchData = Pitch::where('tournament_id',$tournamentData['tournament_id']);
+        $pitchData = Pitch::with(['pitchAvailability','pitchAvailability.pitchBreaks','venue'])->where('tournament_id',$tournamentData['tournament_id']);
 
+        // $pitchData = Pitch::where('tournament_id',$tournamentData['tournament_id']);
 
-        if(isset($tournamentData['selectedVenue']) && $tournamentData['pitchDataSearch'] !== '') {
+        if(isset($tournamentData['selectedVenue'])) {
             $pitchData->where('venue_id', '=', $tournamentData['selectedVenue']);
         }
         return $pitchData->get();

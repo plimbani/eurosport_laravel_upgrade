@@ -53,7 +53,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-if="searchDisplayData == false" v-for="pitch in pitches">     
+                                <tr v-for="pitch in displayRecord">     
                                     <td class="text-left">{{pitch.pitch_number}}</td>
                                     <td class="text-left">{{ pitch.venue.name }}</td>
                                     <td class="text-left">{{pitch.size}}</td>
@@ -231,6 +231,8 @@ import Tournament from '../../../api/tournament.js'
                 return _.cloneDeep(this.$store.getters.curPitchId)
             },
             pitches: function() {
+                this.displayRecord = this.$store.state.Pitch.pitches;
+                console.log(this.displayRecord);
                 return this.$store.state.Pitch.pitches
             },
             pitchData: function() {
