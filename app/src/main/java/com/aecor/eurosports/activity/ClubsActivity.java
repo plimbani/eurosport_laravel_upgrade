@@ -35,6 +35,7 @@ public class ClubsActivity extends BaseAppCompactActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         mSectionsPagerAdapter = new ClubSectionsPagerAdapter(mContext, getSupportFragmentManager());
+        mViewPager.setOffscreenPageLimit(3);
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mViewPager.setOffscreenPageLimit(3);
         tabLayout.setupWithViewPager(mViewPager);
