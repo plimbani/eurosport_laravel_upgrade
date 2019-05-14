@@ -29,7 +29,7 @@
                                     <th class="text-center">{{$lang.pitch_modal_order}} </th>
                                 </tr>
                             </thead>
-                            <draggable v-model="dragPitches" tag="tbody" @change="onChangePitchOrder()" :options="{handle: '.drag-handle'}">
+                            <draggable v-model="dragPitches" tag="tbody" @change="updatePitchOrder()" :options="{handle: '.drag-handle'}">
                                     <tr v-for="(pitch,index) in dragPitches" :key="pitch.id">
                                         <td class="text-left">{{pitch.pitch_number}}</td>
                                         <td class="text-left">{{ pitch.venue.name }}</td>
@@ -728,16 +728,16 @@ import draggable from 'vuedraggable';
                 }
                 return (totalAvailableTime - totalTimeRequired);
             },
-            onChangePitchOrder() {
+            updatePitchOrder() {
                 let vm = this;
                 return axios.post('/api/pitch/updatePitchOrder', this.dragPitches).then(response =>  {
-                    toastr.success('Pitch order successfully updated.', 'Update Pitch Order', {timeOut: 5000});
+                    toastr.success('Pitches order successfully updated.', 'Update Pitches Order', {timeOut: 5000});
                     vm.getAllPitches();
                 }).catch(error => {
                     if (error.response.status == 401) {
                         toastr['error']('Invalid Credentials', 'Error');
                     } else {
-                        // Something happened in setting up the request that triggered an Error
+                        toastr.error('Pitches order not successfully updated.', 'Update Pitches Order', {timeOut: 5000});
                     }
                 });
             },
