@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -76,6 +77,7 @@ public class AgeCategoriesActivity extends BaseAppCompactActivity {
         setListener();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        ((AppCompatTextView) findViewById(R.id.tv_title)).setText("AGE CATEGORIES");
         if (getSupportActionBar() != null) {
             if (!Utility.isNullOrEmpty(mTitle)) {
                 showBackButton(mTitle);
@@ -192,7 +194,7 @@ public class AgeCategoriesActivity extends BaseAppCompactActivity {
     private void setAgeAdapter(AgeCategoriesModel mTournamentList[]) {
         List<AgeCategoriesModel> list = new ArrayList<>();
         list.addAll(Arrays.asList(mTournamentList));
-        adapter = new AgeAdapter((Activity) mContext, list,isShowFinalPlacing , true);
+        adapter = new AgeAdapter((Activity) mContext, list, isShowFinalPlacing, true);
         rv_ageList.setAdapter(adapter);
         rv_ageList.setVisibility(View.VISIBLE);
 
@@ -200,7 +202,6 @@ public class AgeCategoriesActivity extends BaseAppCompactActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
         Intent mIntent = new Intent(mContext, HomeActivity.class);
         mIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(mIntent);

@@ -14,7 +14,34 @@
         app:contentInsetStart="20dp"
         app:contentInsetStartWithNavigation="10dp"
         app:layout_scrollFlags="scroll|enterAlways"
-        app:popupTheme="@style/AppTheme.PopupOverlay" />
+        app:popupTheme="@style/AppTheme.PopupOverlay">
+
+        <RelativeLayout
+            android:background="@android:color/transparent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="12dp">
+
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColor="@color/white"
+                android:textSize="18sp"/>
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/tv_final_placing"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="FINAL PLACINGS"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:visibility="gone" />
+        </RelativeLayout>
+    </android.support.v7.widget.Toolbar>
 
     <include layout="@layout/no_internet_textview" />
 
