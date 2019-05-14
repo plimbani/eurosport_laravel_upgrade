@@ -103,14 +103,6 @@ public class ClubsAgeFragment extends Fragment {
         et_age_search.setHint(getString(R.string.hint_search_age_category));
     }
 
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser && getActivity() != null) {
-            getAgeCategories();
-        }
-    }
-
     protected void setListener() {
         GenericTextMatcher mTextWatcher = new GenericTextMatcher();
         et_age_search.addTextChangedListener(mTextWatcher);

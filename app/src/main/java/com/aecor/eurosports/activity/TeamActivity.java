@@ -86,6 +86,8 @@ public class TeamActivity extends BaseAppCompactActivity {
     protected TextView tv_view_graphic;
     @BindView(R.id.ll_match_header)
     protected LinearLayout ll_match_header;
+    @BindView(R.id.ll_schedule)
+    protected LinearLayout ll_schedule;
     @BindView(R.id.tr_group_header)
     protected TableRow tr_group_header;
     private TeamDetailModel mTeamDetailModel;
@@ -190,7 +192,7 @@ public class TeamActivity extends BaseAppCompactActivity {
         startActivity(mAllClubMatchesActivity);
     }
 
-    @OnClick(R.id.tv_view_graphic)
+    @OnClick(R.id.ll_schedule)
     protected void onViewGraphicClicked() {
         if (!Utility.isNullOrEmpty(mImageUrl)) {
             if (Utility.isInternetAvailable(mContext)) {
@@ -370,10 +372,18 @@ public class TeamActivity extends BaseAppCompactActivity {
 
 
         if (!Utility.isNullOrEmpty(mLeagueModel.getName())) {
-            tv_group_name.setText(mLeagueModel.getName());
+            tv_group_name.setText(Html.fromHtml("<u>" + mLeagueModel.getName() + "</u>"));
         } else {
             tv_group_name.setText("");
         }
+        tv_group_name.setTag(mLeagueModel.getId());
+        tv_group_name.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.e("tags",view.getTag().toString());
+            }
+        });
+
         if (!Utility.isNullOrEmpty(mLeagueModel.getPoints())) {
             tv_points.setText(mLeagueModel.getPoints());
         } else {
@@ -648,8 +658,8 @@ public class TeamActivity extends BaseAppCompactActivity {
                     Utility.StopProgress(mProgressHUD);
                     try {
                         AppLogger.LogE(TAG, "getTeamFixtures Response" + response.toString());
-                        if(response.has("status_code")){
-                            Log.e("status code",response.getString("status_code"));
+                        if (response.has("status_code")) {
+                            Log.e("status code", response.getString("status_code"));
                         }
                         if (response.has("status_code") && !Utility.isNullOrEmpty(response.getString("status_code")) && response.getString("status_code").equalsIgnoreCase("200")) {
                             if (response.has("data") && !Utility.isNullOrEmpty(response.getString("data"))) {
