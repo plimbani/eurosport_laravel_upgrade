@@ -5,9 +5,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -60,6 +62,8 @@ public class AgeGroupActivity extends BaseAppCompactActivity {
     private GroupAdapter adapter;
     @BindView(R.id.ll_main_layout)
     protected LinearLayout ll_main_layout;
+    @BindView(R.id.tv_final_placing)
+    protected AppCompatTextView tv_final_placing;
     private String mAgeGroupId;
 
     @Override
@@ -74,6 +78,7 @@ public class AgeGroupActivity extends BaseAppCompactActivity {
 //        mAgeGroupId = getIntent().getExtras().getString(AppConstants.ARG_AGE_CATEGORY_ID);
         mContext = this;
         initView();
+        setListener();
     }
 
     @Override
@@ -82,6 +87,8 @@ public class AgeGroupActivity extends BaseAppCompactActivity {
         mPreference = AppPreference.getInstance(mContext);
         ll_no_item_view.setVisibility(View.GONE);
         rl_search.setVisibility(View.GONE);
+        tv_final_placing.setVisibility(View.VISIBLE);
+        tv_final_placing.setText(Html.fromHtml("<u>" + tv_final_placing.getText().toString() + "</u>"));
         getAgeGroup();
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(mContext);
         rv_groupList.setLayoutManager(mLayoutManager);
@@ -92,7 +99,14 @@ public class AgeGroupActivity extends BaseAppCompactActivity {
 
     @Override
     protected void setListener() {
-
+        tv_final_placing.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent mFinalPlacingMatchesIntent = new Intent(mContext, FinalPlacingMatchesActivity.class);
+                mFinalPlacingMatchesIntent.putExtra(AppConstants.ARG_AGE_CATEGORY_ID, mAgeGroupId + "");
+                mContext.startActivity(mFinalPlacingMatchesIntent);
+            }
+        });
     }
 
     private void setClubGroupAdapter(ClubGroupModel mClubModel[]) {

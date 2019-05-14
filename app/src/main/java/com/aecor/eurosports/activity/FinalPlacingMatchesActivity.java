@@ -185,4 +185,5 @@ public class FinalPlacingMatchesActivity  extends BaseAppCompactActivity {
             checkConnection();
         }
     }
+
 }
