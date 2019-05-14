@@ -33,8 +33,6 @@ export default {
 			'userList': {
 				'userData': [],
 				'userCount': 0,
-				'listStatus': 1,
-      			'emaildata':[]
       		},
       		isListGettingUpdate: false,
 		}
@@ -52,15 +50,13 @@ export default {
 	  clearSearch() {
 	    this.getSelectComponent()
 	},		
-	getSelectComponent(userSearh='', userType='') {
+	getSelectComponent(userSearh='', userType='', currentPage=1, noOfRecords=20) {
 		if (cancel !== undefined) {
 	        cancel();
 	    }
 	    this.isListGettingUpdate = true;
 	    $("body .js-loader").removeClass('d-none');
 
-
-		let emaildata = []
 		let userData = {}
 
 		if(userSearh != '') {
@@ -71,17 +67,20 @@ export default {
 			  userData.userType = userType;
 		}
 
+		userData.currentPage = currentPage;
+
+		userData.noOfRecords = noOfRecords;
+
 	  axios.post('api/users/getUsersByRegisterType', userData, {cancelToken: new CancelToken(function executor(c) 
 	        {
 	            cancel = c;
 	        })
 	    }).then((response) => {
 	        if('data' in response.data) {
-	            this.userList.emaildata = _.map(response.data.data, 'email');
-	            this.userList.userData = response.data.data;
+	        	this.userList = response.data;
 	            this.userList.userCount = response.data.data.length;
 	          } else {
-	          	this.userList.userData = [];
+	          	this.userList = [];
 	          	this.userList.userCount = 0;
 	          }
 	          this.isListGettingUpdate = false;

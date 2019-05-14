@@ -565,4 +565,7 @@ class UserService implements UserContract
        return $this->userRepoObj->updateAppDeviceVersion($data);
     }
 
+    public function validateUserEmail($data) {
+        return $this->userRepoObj->validateUserEmail($data);
+    }
 }

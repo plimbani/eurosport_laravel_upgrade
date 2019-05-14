@@ -9,6 +9,7 @@ use Laraspace\Models\Settings;
 use Laraspace\Models\Country;
 use DB;
 use Hash;
+use Illuminate\Pagination\Paginator;
 
 class UserRepository {
 
@@ -66,7 +67,6 @@ class UserRepository {
         $dataArray = array();
 
         if(isset($data['report_download']) &&  $data['report_download'] == 'yes') {
-
             foreach ($userData as $user) {
 
                 $status = ($user->is_verified == 1) ? 'Verified': 'Resend';
@@ -99,7 +99,13 @@ class UserRepository {
             \Laraspace\Custom\Helper\Common::toExcel($lableArray,$dataArray,$otherParams,'xlsx','yes');
         }
 
-        return  $user->paginate(20);
+        $currentPage = $data['currentPage']; // You can set this to any page you want to paginate to
+        // before querying users
+        Paginator::currentPageResolver(function () use ($currentPage) {
+          return $currentPage;
+        });
+
+        return  $user->paginate($data['noOfRecords']);
     }
 
     public function create($data)
@@ -283,5 +289,16 @@ class UserRepository {
                                   'os_version' => $data['os_version']]);
 
         return ['status_code' => 200, 'message' => 'User data has been updated.'];
+    }
+
+    public function validateUserEmail($data) {
+      $user = User::where('email', $data['email']);
+      if(isset($data['id'])) {
+        $user->where('id', '!=', $data['id']);
+      }
+      if($user->first()) {
+        return ['status_code' => 200, 'emailexists' => true];
+      }
+      return ['status_code' => 200, 'emailexists' => false];
     }
 }

@@ -270,7 +270,9 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
     
     $api->post('duplicateTournamentList','Laraspace\Api\Controllers\TournamentController@duplicateTournamentList');
 
-    $api->post('updateAppDeviceVersion','Laraspace\Api\Controllers\UserController@updateAppDeviceVersion');    
+    $api->post('updateAppDeviceVersion','Laraspace\Api\Controllers\UserController@updateAppDeviceVersion'); 
+
+    $api->post('user/validateemail','Laraspace\Api\Controllers\UserController@validateUserEmail');   
 
 });
 
