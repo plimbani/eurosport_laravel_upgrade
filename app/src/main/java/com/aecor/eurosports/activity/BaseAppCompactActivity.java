@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
@@ -299,7 +300,8 @@ public abstract class BaseAppCompactActivity extends AppCompatActivity implement
         toolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle(title.toUpperCase());
+            ((AppCompatTextView) findViewById(R.id.tv_title)).setText(title);
+            getSupportActionBar().setTitle("");
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setHomeAsUpIndicator(R.drawable.left_arrow_white);
         }
@@ -309,7 +311,7 @@ public abstract class BaseAppCompactActivity extends AppCompatActivity implement
     protected void makeToolBarBackgroundTransparent() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setBackgroundColor(ContextCompat.getColor(mContext, android.R.color.transparent));
-     }
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
