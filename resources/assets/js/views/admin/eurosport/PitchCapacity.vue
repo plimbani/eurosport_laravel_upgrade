@@ -29,7 +29,7 @@
                                     <th class="text-center">{{$lang.pitch_modal_order}} </th>
                                 </tr>
                             </thead>
-                            <draggable v-model="dragPitches" tag="tbody" @change="onChangePitchOrder" :options="{handle: '.drag-handle'}">
+                            <draggable v-model="dragPitches" tag="tbody" @change="onChangePitchOrder()" :options="{handle: '.drag-handle'}">
                                     <tr v-for="(pitch,index) in dragPitches" :key="pitch.id">
                                         <td class="text-left">{{pitch.pitch_number}}</td>
                                         <td class="text-left">{{ pitch.venue.name }}</td>

@@ -38,6 +38,9 @@ class PitchRepository
 
     public function createPitch($pitchData)
     {
+        // Get max order from pitches
+        $maxOrder = Pitch::where('tournament_id', $pitchData['tournamentId'])->max('order');
+        
         return Pitch::create([
             'tournament_id' => $pitchData['tournamentId'],
             'pitch_number' => $pitchData['pitch_number'],
@@ -45,7 +48,7 @@ class PitchRepository
             'venue_id' => $pitchData['location'],
             'size' => $pitchData['pitch_size'],
             'pitch_capacity' => $pitchData['pitchCapacity'],
-
+            'order' => $maxOrder+1,
         ]);
     }
     public function getPitchData($pitchId)
