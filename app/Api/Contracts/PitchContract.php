@@ -38,5 +38,5 @@ interface PitchContract
      * @return response
      */
     public function deletePitch($deleteId);
-    public function getPicthSearchRecord($tournamentData);
+    public function getPitchSearchRecord($tournamentData);
 }

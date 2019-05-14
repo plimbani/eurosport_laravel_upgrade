@@ -16,9 +16,9 @@
                             v-model="selectedVenue" name="selected_venue" id="selected_venue" 
                             @change="getPitchSearchData()">
                             <option value="">Select venue</option>
-                            <option :value="option.id"
-                            v-for="option in options">
-                              {{option.name}}
+                            <option :value="venuesOption.id"
+                            v-for="venuesOption in venuesOptions">
+                              {{venuesOption.name}}
                             </option>
                         </select>
                     </div>
@@ -208,7 +208,7 @@ import draggable from 'vuedraggable';
                 'dragPitches':this.$store.state.Pitch.pitches,
                 pitchDataSearch: '',
                 selectedVenue: '',
-                options:[],
+                venuesOptions:[],
                 searchDisplayData: false,
             }
         },
@@ -787,7 +787,7 @@ import draggable from 'vuedraggable';
                 let tournamentData = {'tournament_id': this.tournamentId}
                 Pitch.getVenuesDropDownData(tournamentData).then (
                       (response) => {
-                        this.options = response.data.venues;   
+                        this.venuesOptions = response.data.venues;   
                 });
             },
         }

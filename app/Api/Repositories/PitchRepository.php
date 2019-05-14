@@ -145,7 +145,7 @@ class PitchRepository
         return ['tournamentData' => $tournament, 'matches' => $matches];
     }
  
-    public function getPicthSearchRecord($tournamentData) 
+    public function getPitchSearchRecord($tournamentData) 
     {
         $selectVenue = false;
     
@@ -160,8 +160,8 @@ class PitchRepository
 
         if(isset($tournamentData['pitchDataSearch']) && $tournamentData['pitchDataSearch'] != ''){
             $pitchSearchData->where('pitches.tournament_id',$tournamentData['tournament_id'])
-                        ->Where(function ($query) use ($tournamentData){
-                            $query->orWhere('pitches.pitch_number', 'like', "%" . $tournamentData['pitchDataSearch'] . "%")
+                        ->where(function ($query) use ($tournamentData){
+                            $query->where('pitches.pitch_number', 'like', "%" . $tournamentData['pitchDataSearch'] . "%")
                                 ->orWhere('venues.name', 'like', "%" . $tournamentData['pitchDataSearch'] . "%");
                         });  
         }

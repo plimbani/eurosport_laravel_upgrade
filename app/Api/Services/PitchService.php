@@ -280,9 +280,9 @@ class PitchService implements PitchContract
       return $this->pitchRepoObj->getPitchPlannerPrintData($tournamentId);
     }
 
-    public function getPicthSearchRecord($tournamentData) 
+    public function getPitchSearchRecord($tournamentData) 
     {
-      return $this->pitchRepoObj->getPicthSearchRecord($tournamentData);
+      return $this->pitchRepoObj->getPitchSearchRecord($tournamentData);
     }
 
     public function getVenuesDropDownData($tournamentData)
