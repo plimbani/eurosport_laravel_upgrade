@@ -355,7 +355,7 @@ export default {
           return this.$store.state.Tournament.venues
       },
       pitchId: function() {
-          return this.$store.getters.curPitchId
+        return _.cloneDeep(this.$store.getters.curPitchId)
       },
       pitchData: function() {
           return this.$store.state.Pitch.pitchData

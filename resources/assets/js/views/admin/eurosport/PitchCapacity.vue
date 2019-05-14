@@ -29,8 +29,8 @@
                                     <th class="text-center">{{$lang.pitch_modal_order}} </th>
                                 </tr>
                             </thead>
-                            <draggable v-model="dragPitches" tag="tbody" @change="onChangeOrder">
-                                    <tr v-for="pitch in dragPitches" :key="pitch.id">
+                            <draggable v-model="dragPitches" tag="tbody" @change="onChangePitchOrder" :options="{handle: '.drag-handle'}">
+                                    <tr v-for="(pitch,index) in dragPitches" :key="pitch.id">
                                         <td class="text-left">{{pitch.pitch_number}}</td>
                                         <td class="text-left">{{ pitch.venue.name }}</td>
                                         <td class="text-left">{{pitch.size}}</td>
@@ -52,9 +52,10 @@
                                                  <a href="javascript:void(0)" data-confirm-msg="Are you sure you would like to delete this pitch record?" data- data-toggle="modal" data-target="#delete_modal" @click="deletePitch(pitch.id)"><i class="fas fa-trash text-danger"></i></a>
                                             </span>
                                         </td>
-                                        <td class="text-center">
-                                            <span class="align-middle">
-                                                <i class="fas fa-arrows-alt"></i>
+                                        <td class="text-center drag-handle">
+                                            <span class="align-middle text-primary">
+                                                <i class="fas fa-arrow-up" v-if="index > 0 && index < dragPitches.length"></i>
+                                                <i class="fas fa-arrow-down" v-if="index >= 0 && index < dragPitches.length - 1"></i>
                                             </span>
                                         </td>
                                     </tr>
@@ -211,7 +212,8 @@ import draggable from 'vuedraggable';
                 return _.cloneDeep(this.$store.getters.curPitchId)
             },
             pitches: function() {
-                return this.$store.state.Pitch.pitches
+                this.dragPitches = this.$store.state.Pitch.pitches;
+                return  _.cloneDeep(this.$store.state.Pitch.pitches);
             },
             pitchData: function() {
                 return this.$store.state.Pitch.pitchData
@@ -312,19 +314,6 @@ import draggable from 'vuedraggable';
 
         },
         methods: {
-            onChangeOrder() {
-                let vm = this;
-                return axios.post('/api/pitch/updatePitchOrder', this.dragPitches).then(response =>  {
-                    toastr.success('Pitch order successfully updated.', 'Update Pitch', {timeOut: 5000});
-                    vm.getAllPitches();
-                }).catch(error => {
-                    if (error.response.status == 401) {
-                        toastr['error']('Invalid Credentials', 'Error');
-                    } else {
-                        // Something happened in setting up the request that triggered an Error
-                    }
-                });
-            },
             displayPitch(value) {
               this.dispPitch = false
             },
@@ -738,6 +727,19 @@ import draggable from 'vuedraggable';
                     }
                 }
                 return (totalAvailableTime - totalTimeRequired);
+            },
+            onChangePitchOrder() {
+                let vm = this;
+                return axios.post('/api/pitch/updatePitchOrder', this.dragPitches).then(response =>  {
+                    toastr.success('Pitch order successfully updated.', 'Update Pitch Order', {timeOut: 5000});
+                    vm.getAllPitches();
+                }).catch(error => {
+                    if (error.response.status == 401) {
+                        toastr['error']('Invalid Credentials', 'Error');
+                    } else {
+                        // Something happened in setting up the request that triggered an Error
+                    }
+                });
             },
         }
     }
