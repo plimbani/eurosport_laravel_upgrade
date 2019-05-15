@@ -177,9 +177,8 @@ class PitchRepository
         return $pitchVenues;
     }
 
-    public function updatePitchOrder($pitchData,$order)
+    public function updatePitchOrder($pitchId,$order)
     {
-        $pitchId = $pitchData['id'];
         $updateData = ['order' => $order];
         return Pitch::where('id', $pitchId)->update($updateData);
     }

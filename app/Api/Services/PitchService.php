@@ -293,9 +293,9 @@ class PitchService implements PitchContract
     {
 
       $pitchData = $data->all();
-      $orderValue = 0;
-      foreach ($pitchData as $key => $pitch) {
-        $this->pitchRepoObj->updatePitchOrder($pitch,$orderValue);
+      $orderValue = 1;
+      foreach ($pitchData as $key => $pitchId) {
+        $this->pitchRepoObj->updatePitchOrder($pitchId,$orderValue);
         $orderValue++;
       }
 

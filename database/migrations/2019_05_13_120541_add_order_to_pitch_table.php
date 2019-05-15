@@ -14,7 +14,7 @@ class AddOrderToPitchTable extends Migration
     public function up()
     {
         Schema::table('pitches', function (Blueprint $table) {
-            $table->integer('order')->nullable()->default(0)->after('pitch_capacity');
+            $table->integer('order')->default(0)->after('pitch_capacity');
         });
     }
 
