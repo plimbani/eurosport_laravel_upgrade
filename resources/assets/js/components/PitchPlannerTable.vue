@@ -8,6 +8,7 @@
                         <button class="btn btn-primary btn-md" @click="openAutomaticPitchPlanningModal()">{{$lang.pitch_planner_automatic_planning}}</button>
                         <button class="btn btn-md btn-secondary" id="unschedule_fixtures" @click="unscheduleFixtures()">{{$lang.pitch_planner_unschedule_fixtures}}</button>
                         <button class="btn btn-danger btn-md cancle-match-unscheduling d-none" id="cancle_unscheduling_fixtures" @click="cancelUnscheduleFixtures()">{{$lang.pitch_planner_cancel_unscheduling}}</button>
+                         <button class="btn btn-primary btn-md vertical" @click="saveMatchResult()">Save match planner</button>
                     </div>
                     <div>
                         <button class="btn btn-default btn-md vertical" @click="printPitchPlanner()"><i class="fas fa-print text-primary"></i></button>
@@ -542,6 +543,11 @@
                     vm.$store.dispatch('SetScheduledMatches');
                     vm.$root.$emit('reloadAllEvents')
                 })
+            },
+
+            saveMatchResult() {
+                let vm = this
+                vm.$root.$emit('saveScheduleMatches')              
             }
         }
     }

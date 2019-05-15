@@ -1410,23 +1410,23 @@ class MatchRepository
         $setFlag = 1;
       }
 
-      $updateData = [
-        'venue_id' => $pitchData->venue_id,
-        'pitch_id' => $data['pitchId'],
-        'match_datetime' => $data['matchStartDate'],
-        'match_endtime' => $data['matchEndDate'],
-        'is_scheduled' => 1,
-        'minimum_team_interval_flag' => $setFlag,
-      ];
+      // $updateData = [
+      //   'venue_id' => $pitchData->venue_id,
+      //   'pitch_id' => $data['pitchId'],
+      //   'match_datetime' => $data['matchStartDate'],
+      //   'match_endtime' => $data['matchEndDate'],
+      //   'is_scheduled' => 1,
+      //   'minimum_team_interval_flag' => $setFlag,
+      // ];
 
-      $updateResult = DB::table('temp_fixtures')
-          ->where('id', $data['matchId'])
-          ->update($updateData);
+      // $updateResult = DB::table('temp_fixtures')
+      //     ->where('id', $data['matchId'])
+      //     ->update($updateData);
 
-      $matchData = array('teams'=>$teams,'tournamentId'=>$data['tournamentId'],'ageGroupId'=>$teamData['age_group_id'],'teamId'=>$teamId);
-      $matchresult =  $this->checkTeamIntervalforMatches($matchData);
+      // $matchData = array('teams'=>$teams,'tournamentId'=>$data['tournamentId'],'ageGroupId'=>$teamData['age_group_id'],'teamId'=>$teamId);
+      // $matchresult =  $this->checkTeamIntervalforMatches($matchData);
 
-      return $updateResult;
+      return 0;
     }
     public function matchUnschedule($matchId)
     {
@@ -1658,5 +1658,20 @@ class MatchRepository
       ];
 
         $updateMacthFixtures = TempFixture::whereIn('id', $matchId['matchId'])->update($updateMatchUnscheduledRecord);
+    }
+
+
+    public function saveScheduleMatches($data)
+    {
+       $updateMatchScheduleResult = DB::table('temp_fixtures')
+                      ->where('id', $data['matchId'])
+                      ->update([
+                        'pitch_id' => $data['pitchId'],
+                        'match_datetime' => $data['matchStartDate'],
+                        'match_endtime' => $data['matchEndDate'],
+                        'is_scheduled' => 1,
+                      ]);
+
+      return $updateMatchScheduleResult;
     }
 }

@@ -274,4 +274,7 @@ export default {
   duplicateTournamentList(tournamentData) {
     return api.post('duplicateTournamentList', tournamentData)
   },
+  saveScheduleMatches(scheduleMatchesArray) {
+    return api.post('saveScheduleMatches', scheduleMatchesArray)
+  },
 }

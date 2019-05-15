@@ -28,6 +28,8 @@ import _ from 'lodash'
                 'deleteConfirmMsg': 'Are you sure you would like to delete this block?',
                 'remBlock_id': 0,
                 'section': 'pitchPlanner',
+                scheduleMatchesArray: [],
+
                 // 'currentView': this.$store.getters.curStageView
             }
         },
@@ -75,11 +77,13 @@ import _ from 'lodash'
         created: function() {
             this.$root.$on('reloadAllEvents', this.reloadAllEvents);
             this.$root.$on('arrangeLeftColumn', this.arrangeLeftColumn);
+            this.$root.$on('saveScheduleMatches', this.saveScheduleMatches);
         },
         beforeCreate: function() {
             // Remove custom event listener
             this.$root.$off('reloadAllEvents');
             this.$root.$off('arrangeLeftColumn');
+            // this.$root.$off('saveScheduleMatches');
         },
         mounted() {
             let vm = this;
@@ -228,6 +232,7 @@ import _ from 'lodash'
                     },
                     eventReceive: function( event, delta, revertFunc, jsEvent, ui, view) { // called when a proper external event is dropped
                         if(event.refereeId == -3 ){
+                            console.log('event', event);
                             let matchData = {
                                 'tournamentId': vm.tournamentId,
                                 'refereeId': event.id,
@@ -268,8 +273,7 @@ import _ from 'lodash'
                                 'matchId': matchId,
                                 'matchStartDate': moment.utc(event.start._d).format('YYYY-MM-DD HH:mm:ss'),
                                 'matchEndDate':moment.utc(event.end._d).format('YYYY-MM-DD HH:mm:ss')
-                            };
-
+                            };  
                             if(event.refereeId == -2){
                                  Tournament.setUnavailableBlock(matchData).then(
                                     (response) => {
@@ -286,20 +290,22 @@ import _ from 'lodash'
                                     }
                                 })
                             }else{
-
                             Tournament.setMatchSchedule(matchData).then(
                                 (response) => {
+                                    vm.scheduleMatchesArray.push(matchData);
+                                    console.log('1', vm.scheduleMatchesArray);
                                     if(response.data.status_code == 200 ){
                                         if(response.data.data != -1 && response.data.data != -2){
                                             vm.$store.dispatch('setMatches');
                                              toastr.success(response.data.message, 'Schedule Match', {timeOut: 5000});
                                              vm.getScheduledMatch(vm.tournamentFilter.filterKey,vm.tournamentFilter.filterValue,vm.tournamentFilter.filterDependentKey,vm.tournamentFilter.filterDependentValue)
                                              vm.reloadAllEvents()
-                                        } else {
+                                        } 
+                                        else {
                                             $('.fc.fc-unthemed').fullCalendar( 'removeEvents', [event._id] )
-                                            vm.$store.dispatch('setMatches');
+                                            // vm.$store.dispatch('setMatches');
                                             vm.matchFixture = {}
-                                            vm.getScheduledMatch()
+                                            // vm.getScheduledMatch()
                                             toastr.error(response.data.message, 'Schedule Match', {timeOut: 5000});
                                         }
                                     }
@@ -845,7 +851,18 @@ import _ from 'lodash'
             },
             arrangeLeftColumn() {
                 arrangeLeftColumn();
-            }
+            },
+
+            saveScheduleMatches() {
+                Tournament.saveScheduleMatches(this.scheduleMatchesArray).then(
+                    (response) => {
+                        
+                    },  
+                    (error) => {
+
+                    }
+                )
+            },
         }
     };
 

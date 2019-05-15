@@ -2615,4 +2615,18 @@ class MatchService implements MatchContract
         $this->calculateCupLeagueTable($id);
       }
     }
+
+    public function saveScheduleMatches($scheduleMatches)
+    {
+      $data = null;
+      foreach ($scheduleMatches as $scheduleMatch) {
+        $data = $this->matchRepoObj->saveScheduleMatches($scheduleMatch);
+      }
+
+      if ($data) {
+        return ['status_code' => '200', 'data' => $data];
+      } else {
+          return ['status_code' => '300'];
+      }
+    }
 }

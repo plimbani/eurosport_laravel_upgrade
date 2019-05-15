@@ -890,4 +890,9 @@ class MatchController extends BaseController
     {
         return $this->matchObj->matchUnscheduledFixtures($request->all());
     }
+
+    public function saveScheduleMatches(Request $request) 
+    {
+        return $this->matchObj->saveScheduleMatches($request->all());
+    }
 }
