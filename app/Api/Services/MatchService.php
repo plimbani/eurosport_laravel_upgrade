@@ -371,7 +371,6 @@ class MatchService implements MatchContract
       $changedScoresCount = count(array_filter($matchesScoresStatusArray, function($x) { 
                               return $x==true;
                             }));
-      //print_r($changedScoresCount);exit; 
 
       if(($changedScoresCount != count($unChangedMatchScoresArray)) || ($changedScoresCount == count($unChangedMatchScoresArray) && $changedScoresCount == 0 && count($unChangedMatchScoresArray) == 0)) {
         $isAnyMatchScoreUpdated = true;
