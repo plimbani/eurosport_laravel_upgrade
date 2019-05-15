@@ -19,7 +19,7 @@ class GetStandingRequest extends FormRequest
     public function authorize()
     {
         $token = JWTAuth::getToken();
-        if(!$token || (isset($this->headers->all()['ismobileuser'])) && $this->headers->all()['ismobileuser'] == true) {            
+        if(!$token || (isset(app('request')->header('ismobileuser'))) && app('request')->header('ismobileuser') == "true") {            
             $data = $this->all()['tournamentData'];
             $tournament_id = $data['tournamentId'];
             $tournament = Tournament::where('id',$tournament_id)->first();

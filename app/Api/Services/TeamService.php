@@ -501,4 +501,9 @@ class TeamService implements TeamContract
       $reportData = $reportQuery->get();
       return $reportData;
     }
+
+    public function getTournamentTeamDetails($data)
+    {
+      return $this->teamRepoObj->getTournamentTeamDetails($data);
+    }
 }

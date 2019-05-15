@@ -13,9 +13,9 @@ class GetSettingRequest extends FormRequest
      */
     public function authorize()
     {
-        if (isset($this->headers->all()['ismobileuser'])) {
-            $isMobileUser = $this->headers->all()['ismobileuser'];
-            if ($isMobileUser == true) {
+        if (isset(app('request')->header('ismobileuser'))) {
+            $isMobileUser = app('request')->header('ismobileuser');
+            if ($isMobileUser == "true") {
                 return true;
             }
         }
