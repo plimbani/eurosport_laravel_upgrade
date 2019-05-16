@@ -8,7 +8,7 @@
                         <button class="btn btn-primary btn-md" @click="openAutomaticPitchPlanningModal()">{{$lang.pitch_planner_automatic_planning}}</button>
                         <button class="btn btn-md btn-secondary" id="unschedule_fixtures" @click="unscheduleFixtures()">{{$lang.pitch_planner_unschedule_fixtures}}</button>
                         <button class="btn btn-danger btn-md cancle-match-unscheduling d-none" id="cancle_unscheduling_fixtures" @click="cancelUnscheduleFixtures()">{{$lang.pitch_planner_cancel_unscheduling}}</button>
-                         <button class="btn btn-primary btn-md vertical" @click="saveMatchResult()">Save match planner</button>
+                         <button class="btn btn-primary btn-md vertical" @click="saveScheduleMatches()">Save match planner</button>
                     </div>
                     <div>
                         <button class="btn btn-default btn-md vertical" @click="printPitchPlanner()"><i class="fas fa-print text-primary"></i></button>
@@ -32,7 +32,7 @@
                                     <div></div>
                                 </div>
                                 <div :id="'stage_outer_div'+stage.stageNumber" :data-stage-number="stage.stageNumber" class="js-stage-outer-div">
-                                    <pitch-planner-stage :stage="stage"  :defaultView="defaultView"></pitch-planner-stage>
+                                    <pitch-planner-stage :stage="stage" :saveScheduleMatchResult="saveScheduleMatchResult" :defaultView="defaultView" @schedule-match-result="saveScheduleMatchResult"></pitch-planner-stage>
                                 </div>
                             </div>
                         </div>
@@ -177,9 +177,8 @@
                 'formValues': this.initialState(),
                 'unscheduleFixture': 'Are you sure you would like to unschedule the selected fixtures?',
                 'matchId': null,
+                'scheduleMatchesArray': [],
             };
-        },
-        props: {
         },
         mounted() {
             $('.pitch_planner_section').mCustomScrollbar({
@@ -545,10 +544,26 @@
                 })
             },
 
-            saveMatchResult() {
-                let vm = this
-                vm.$root.$emit('saveScheduleMatches')              
-            }
+            saveScheduleMatchResult(matchData) {
+                this.scheduleMatchesArray.push(matchData);
+                console.log('1', this.scheduleMatchesArray);   
+            },
+
+            saveScheduleMatches() {
+                Tournament.saveScheduleMatches(this.scheduleMatchesArray).then(
+                    (response) => {
+                        console.log('in');
+                        if(response.data.status_code == '200') {
+                            toastr.success('Match has been scheduled successfully.', 'Schedule Match');
+                        }
+                    },  
+                    (error) => {
+
+                    }
+                )
+            },
+
+
         }
     }
 </script>

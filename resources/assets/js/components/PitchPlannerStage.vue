@@ -28,7 +28,6 @@ import _ from 'lodash'
                 'deleteConfirmMsg': 'Are you sure you would like to delete this block?',
                 'remBlock_id': 0,
                 'section': 'pitchPlanner',
-                scheduleMatchesArray: [],
 
                 // 'currentView': this.$store.getters.curStageView
             }
@@ -232,7 +231,6 @@ import _ from 'lodash'
                     },
                     eventReceive: function( event, delta, revertFunc, jsEvent, ui, view) { // called when a proper external event is dropped
                         if(event.refereeId == -3 ){
-                            console.log('event', event);
                             let matchData = {
                                 'tournamentId': vm.tournamentId,
                                 'refereeId': event.id,
@@ -291,9 +289,9 @@ import _ from 'lodash'
                                 })
                             }else{
                             Tournament.setMatchSchedule(matchData).then(
-                                (response) => {
-                                    vm.scheduleMatchesArray.push(matchData);
-                                    console.log('1', vm.scheduleMatchesArray);
+                                (response) => {   
+                                    vm.$emit('schedule-match-result', matchData);
+                                    // console.log('1', scheduleMatchesArray);
                                     if(response.data.status_code == 200 ){
                                         if(response.data.data != -1 && response.data.data != -2){
                                             vm.$store.dispatch('setMatches');
@@ -345,7 +343,6 @@ import _ from 'lodash'
                             revertFunc()
                             return false;
                         }
-
                         let ed = $(this)
                         if(event.refereeId == -1 || event.refereeId == -2){
                             revertFunc();
@@ -856,13 +853,17 @@ import _ from 'lodash'
             saveScheduleMatches() {
                 Tournament.saveScheduleMatches(this.scheduleMatchesArray).then(
                     (response) => {
-                        
+                        if(response.data.status_code == '200') {
+                            toastr.success('Match has been scheduled successfully.', 'Schedule Match');
+                        }
                     },  
                     (error) => {
 
                     }
                 )
             },
+
+
         }
     };
 
