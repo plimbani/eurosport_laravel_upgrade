@@ -55,6 +55,9 @@
 
             <input type="hidden" name="FONTTYPE" value="">
 
+            <input type="hidden" name="TP" value="">
+
+
             
             <input type="hidden" name="PMLIST" v-model="PMLIST">
             <input type="hidden" name="PMLISTTYPE" value="1">
