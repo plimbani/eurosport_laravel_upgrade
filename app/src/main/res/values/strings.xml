@@ -255,4 +255,7 @@
 
 
     <string name="resend_email">Re-send email</string>
+    <string name="facebook_signin">Sign in with Facebook</string>
+    <string name="facebook_app_id">1041471999387166</string>
+    <string name="fb_login_protocol_scheme">fb1041471999387166</string>
 </resources>
