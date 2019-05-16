@@ -6,6 +6,7 @@ use JWTAuth;
 use Socialite;
 use Validator;
 use Laraspace\Models\User;
+use Laraspace\Models\Person;
 use Illuminate\Http\Request;
 use Laraspace\Models\Settings;
 use Tymon\JWTAuth\Exceptions\JWTException;
@@ -123,6 +124,9 @@ class AuthController extends Controller
         return response()->json(['message' => 'Log out success'], 200);
     }
 
+    /**
+     * Social login
+     */
     public function socialLogin(TokenCheckRequest $request)
     {
         $token = $request->token;
@@ -151,7 +155,7 @@ class AuthController extends Controller
                 ]);
 
                 if ($validator->fails()) {
-                    throw new ValidationException($validator);
+                    return response()->json(['message' => 'User already exists.'], 422);
                 }
             }
 
@@ -171,28 +175,28 @@ class AuthController extends Controller
             if(isset($provider))
                 $userData['provider'] = $provider;
 
-            $authUser = $this->storeUserDetail($userData);
+            $authUser = $this->storeFacebookUserDetail($userData);
         }
 
         $token = JWTAuth::fromUser($authUser);
-        $user = User::with(['personDetail','favouriteTournaments'])->where('id', $authUser->id)->first();
+        $userDetails = User::with(['personDetail','favouriteTournaments'])->where('id', $authUser->id)->first();
 
         if (!$token) {
             throw new \Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException('Basic', 'Invalid credentials.');
         }
 
         $userDetailArray = [];
-        if(isset($user)) {
-            $userDetailArray['first_name'] = $user->personDetail->first_name;
-            $userDetailArray['sur_name'] = $user->personDetail->last_name;
-            $userDetailArray['email'] = $user->email ? $user->email : null;
-            $userDetailArray['tournament_id'] = $user->favouriteTournaments[0]->tournament_id;
-            $userDetailArray['user_id'] = $user->id;
-            $userDetailArray['locale'] = $user->locale;
-            $userSettings = Settings::where('user_id','=',$user->id)->first();
+        if(isset($userDetails)) {
+            $userDetailArray['first_name'] = $userDetails->personDetail->first_name;
+            $userDetailArray['sur_name'] = $userDetails->personDetail->last_name;
+            $userDetailArray['email'] = $userDetails->email ? $userDetails->email : null;
+            $userDetailArray['tournament_id'] = isset($userDetails->favouriteTournaments[0]) ? $userDetails->favouriteTournaments[0]->tournament_id : null;
+            $userDetailArray['user_id'] = $userDetails->id;
+            $userDetailArray['locale'] = $userDetails->locale ? $userDetails->locale : null;
+            $userSettings = Settings::where('user_id','=',$userDetails->id)->first();
             $userDetailArray['settings'] = $userSettings ? $userSettings->toArray() : null;
-            $userDetailArray['role'] = $user->role;
-            $userDetailArray['country_id'] = $user->country_id;
+            $userDetailArray['role'] = $userDetails->role ? $userDetails->role : null;
+            $userDetailArray['country_id'] = $userDetails->country_id ? $userDetails->country_id : null;
         }
 
         return response(['authenticated' => true, 'userData'=> $userDetailArray, 'is_score_auto_update' =>config('config-variables.is_score_auto_update')]);
@@ -214,14 +218,32 @@ class AuthController extends Controller
         return $facebookUserDetail;
     }
 
-    public function storeUserDetail($userData)
+    /**
+     * Store facebook user detail
+     */
+    public function storeFacebookUserDetail($userData)
     {
+        //saving people table data
+        $person = new Person();
+        $person->first_name = $userData['first_name'];
+        $person->last_name = $userData['last_name'];
+        $person->save();
+
+        //saving users table data
         $user = new User();
+        $user->person_id = $person->id;
         $user->name = $userData['first_name']. ' ' .$userData['last_name'];
-        $user->email = $userData['email'] ? $userData['email'] : null;
+        $user->email = isset($userData['email']) ? $userData['email'] : null;
+        $user->username = isset($userData['email']) ? $userData['email'] : null;
         $user->provider = $userData['provider'];
         $user->provider_id = $userData['provider_id'];
         $user->save();
+
+        //saving user settings data
+        $setting = new Settings();
+        $setting->user_id = $user->id;
+        $setting->value = '{"is_sound":"true","is_vibration":"true","is_notification":"true"}';
+        $setting->save();
 
         return $user;
     }

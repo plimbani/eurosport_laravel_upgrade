@@ -17,6 +17,7 @@ class AddProviderFieldsToUsersTable extends Migration
             $table->string('provider')->default('email')->after('os_version');
             $table->string('provider_id')->nullable()->after('provider');
             DB::statement('ALTER TABLE `users` MODIFY `email` VARCHAR(255) NULL;');
+            DB::statement('ALTER TABLE `users` MODIFY `username` VARCHAR(255) NULL;');
         });
     }
 
@@ -30,6 +31,7 @@ class AddProviderFieldsToUsersTable extends Migration
         Schema::table('users', function($table) {
             $table->dropColumn(['provider', 'provider_id']);
             DB::statement('ALTER TABLE `users` MODIFY `email` VARCHAR(255) NOT NULL;');
+            DB::statement('ALTER TABLE `users` MODIFY `username` VARCHAR(255) NOT NULL;');
         });
     }
 }
