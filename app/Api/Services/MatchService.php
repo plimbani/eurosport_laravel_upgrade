@@ -348,15 +348,32 @@ class MatchService implements MatchContract
       $AllMatches = $matchData->all()['matchData']['matchDataArray'];
       $tournamentId = $matchData->all()['matchData']['tournamentId'];
       $matchResult = null;
+      $unChangedMatchScoresArray = [];
+      $isAnyMatchScoreUpdated = false;
+      $matchesScoresStatusArray = [];
+
       foreach ($AllMatches as $match) {
         $matchResult = $this->matchRepoObj->saveAllResults($match);
+        array_push($matchesScoresStatusArray, $matchResult['is_score_updated']);
+        // $matchesScoresStatusArray['is_score_updated'] = $matchResult['is_score_updated'];
+        if($matchResult['status'] === false) {
+          $unChangedMatchScoresArray[] = $matchResult['tempFixture']->match_number;
+        }
         $matchData = $matchResult['match_data'];
-        if($matchResult['is_score_updated'] === true) {
+        if($matchResult['is_score_updated'] === true && $matchResult['status'] === true) {
           $teamArray[$matchData['age_group_id']][] = $matchData['home_team_id'];
           $teamArray[$matchData['age_group_id']][] = $matchData['away_team_id'];
           // $competationId = $this->calculateCupLeagueTable($match['matchId']);
           $competitionIds[$matchData['age_group_id']][] = $matchData['competition_id'];
         }
+      }
+
+      $changedScoresCount = count(array_filter($matchesScoresStatusArray, function($x) { 
+                              return $x==true;
+                            }));
+
+      if(($changedScoresCount != count($unChangedMatchScoresArray)) || ($changedScoresCount == count($unChangedMatchScoresArray) && $changedScoresCount == 0 && count($unChangedMatchScoresArray) == 0)) {
+        $isAnyMatchScoreUpdated = true;
       }
 
       foreach ($competitionIds as $ageGroupId => $cids) {
@@ -373,7 +390,7 @@ class MatchService implements MatchContract
         $matchresult =  $this->matchRepoObj->checkTeamIntervalforMatches($matchData);
       }
       if ($matchResult) {
-        return ['status_code' => '200', 'data' => $matchResult];
+        return ['status_code' => '200', 'data' => $matchResult, 'unChangedScores' => $unChangedMatchScoresArray, 'isAnyMatchScoreUpdated' => $isAnyMatchScoreUpdated];
       } else {
           return ['status_code' => '300'];
       }
