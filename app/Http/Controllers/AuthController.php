@@ -5,6 +5,7 @@ namespace Laraspace\Http\Controllers;
 use JWTAuth;
 use Socialite;
 use Validator;
+use Laraspace\Models\Role;
 use Laraspace\Models\User;
 use Laraspace\Models\Person;
 use Illuminate\Http\Request;
@@ -147,59 +148,49 @@ class AuthController extends Controller
         }
 
         $authUser = User::where('provider_id', $user['id'])->first();
+        $mobileUserRoleId = Role::where('slug', 'mobile.user')->first()->id;
 
         if (!$authUser) {
+          $userData = [];
+          if(isset($user['first_name']))
+              $userData['first_name'] = $user['first_name'];
+
+          if(isset($user['last_name']))
+              $userData['last_name'] = $user['last_name'];
+
+          if(isset($user['email']))
+              $userData['email'] = $user['email'];
+
+          if(isset($user['id']))
+              $userData['provider_id'] = $user['id'];
+
+          if(isset($provider))
+              $userData['provider'] = $provider;
+
+          $isUserDeleted = User::onlyTrashed()->where('email', $user['email'])->first();
+          if($isUserDeleted){
+            $authUser = $this->restoreDeletedUser($isUserDeleted, $userData);
+          } else {
             if(isset($user['email'])) {
-                $validator = Validator::make(['email' => $user['email']], [
-                    'email' => 'required|email|unique:users,email',
-                ]);
+              $validator = Validator::make(['email' => $user['email']], [
+                'email' => 'required|email|unique:users,email',
+              ]);
 
-                if ($validator->fails()) {
-                    return response()->json(['message' => 'User already exists.'], 422);
-                }
-            }
-
-            $userData = [];
-            if(isset($user['first_name']))
-                $userData['first_name'] = $user['first_name'];
-
-            if(isset($user['last_name']))
-                $userData['last_name'] = $user['last_name'];
-
-            if(isset($user['email']))
-                $userData['email'] = $user['email'];
-
-            if(isset($user['id']))
-                $userData['provider_id'] = $user['id'];
-
-            if(isset($provider))
-                $userData['provider'] = $provider;
-
+              if ($validator->fails()) {
+                return response()->json(['message' => 'User already exists.'], 422);
+              }
+            }              
             $authUser = $this->storeFacebookUserDetail($userData);
+          }
         }
 
-        $token = JWTAuth::fromUser($authUser);
-        $userDetails = User::with(['personDetail','favouriteTournaments'])->where('id', $authUser->id)->first();
+        $token = JWTAuth::fromUser($authUser);        
 
         if (!$token) {
             throw new \Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException('Basic', 'Invalid credentials.');
         }
 
-        $userDetailArray = [];
-        if(isset($userDetails)) {
-            $userDetailArray['first_name'] = $userDetails->personDetail->first_name;
-            $userDetailArray['sur_name'] = $userDetails->personDetail->last_name;
-            $userDetailArray['email'] = $userDetails->email ? $userDetails->email : null;
-            $userDetailArray['tournament_id'] = isset($userDetails->favouriteTournaments[0]) ? $userDetails->favouriteTournaments[0]->tournament_id : null;
-            $userDetailArray['user_id'] = $userDetails->id;
-            $userDetailArray['locale'] = $userDetails->locale ? $userDetails->locale : null;
-            $userSettings = Settings::where('user_id','=',$userDetails->id)->first();
-            $userDetailArray['settings'] = $userSettings ? $userSettings->toArray() : null;
-            $userDetailArray['role'] = $userDetails->role ? $userDetails->role : null;
-            $userDetailArray['country_id'] = $userDetails->country_id ? $userDetails->country_id : null;
-        }
-
-        return response(['authenticated' => true, 'userData'=> $userDetailArray, 'is_score_auto_update' =>config('config-variables.is_score_auto_update')]);
+        return response()->json(compact('token'));
     }
 
     /**
@@ -223,6 +214,8 @@ class AuthController extends Controller
      */
     public function storeFacebookUserDetail($userData)
     {
+        $mobileUserRoleId = Role::where('slug', 'mobile.user')->first()->id;
+
         //saving people table data
         $person = new Person();
         $person->first_name = $userData['first_name'];
@@ -237,7 +230,11 @@ class AuthController extends Controller
         $user->username = isset($userData['email']) ? $userData['email'] : null;
         $user->provider = $userData['provider'];
         $user->provider_id = $userData['provider_id'];
+        $user->is_mobile_user = 1;
+        $user->is_verified = 1;
+        $user->is_active = 1;
         $user->save();
+        $user->attachRole($mobileUserRoleId);
 
         //saving user settings data
         $setting = new Settings();
@@ -246,5 +243,42 @@ class AuthController extends Controller
         $setting->save();
 
         return $user;
+    }
+
+    /**
+     * Re-store deleted user detail
+     */
+    public function restoreDeletedUser($deletedUser, $userData)
+    {
+      $mobileUserRoleId = Role::where('slug', 'mobile.user')->first()->id;
+      $deletedUser->restore();
+
+      // updating value in people table
+      $person = Person::find($deletedUser->id);
+      $person->first_name = $userData['first_name'];
+      $person->last_name = $userData['last_name'];
+      $person->save();
+
+      // updating values in users table
+      $deletedUserData = User::find($deletedUser->id);
+      $deletedUserData->person_id = $person->id;
+      $deletedUserData->name = $userData['first_name']. ' ' .$userData['last_name'];
+      $deletedUserData->provider = $userData['provider'];
+      $deletedUserData->provider_id = $userData['provider_id'];
+      $deletedUserData->is_verified = 1;
+      $deletedUserData->is_active = 1;
+      $deletedUserData->is_mobile_user = 1;
+      $deletedUserData->save();
+      $deletedUserData->roles()->sync($mobileUserRoleId);
+
+      // updating values in settings table if there is no any data
+      $setting = Settings::where('user_id', $deletedUser->id)->first();
+      if(!$setting) {
+        $setting->user_id = $deletedUser->id;
+        $setting->value = '{"is_sound":"true","is_vibration":"true","is_notification":"true"}';
+        $setting->save();
+      }
+
+      return $deletedUserData;
     }
 }
