@@ -124,7 +124,6 @@ public class TeamActivity extends BaseAppCompactActivity {
 
     @BindView(R.id.sp_team)
     protected Spinner sp_team;
-    private TeamDetailModel mTeamModel;
     private TeamSpinnerAdapter teamSpinnerAdapter;
 
     @Override
@@ -273,7 +272,7 @@ public class TeamActivity extends BaseAppCompactActivity {
                 mTeamList);
         sp_team.setAdapter(teamSpinnerAdapter);
         sp_team.setSelection(selectedGroupPos);
-        mTeamModel = mTeamList.get(selectedGroupPos);
+        mTeamDetailModel = mTeamList.get(selectedGroupPos);
 /*        getTeamFixtures();
         getGroupStanding();
         getGraphicImageUrl(mTeamDetailModel.getAge_group_id() + "");*/
@@ -333,7 +332,7 @@ public class TeamActivity extends BaseAppCompactActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (mTeamList != null && mTeamList.get(position) != null) {
-                    mTeamModel = mTeamList.get(position);
+                    mTeamDetailModel = mTeamList.get(position);
 
                     tl_group_rows.removeAllViews();
                     ll_matches.removeAllViews();
@@ -464,18 +463,23 @@ public class TeamActivity extends BaseAppCompactActivity {
             @Override
             public void onClick(View view) {
                 Log.e("tags", view.getTag().toString());
-//                getTournamentDetail(view.getTag().toString());
-                int selectedGroupPos = 0;
 
+                int selectedGroupPos = 0;
+                boolean isTeamAvailable = false;
                 for (int i = 0; i < mTeamList.size(); i++) {
                     if (mTeamList.get(i).getId().equalsIgnoreCase(view.getTag().toString())) {
                         AppLogger.LogE(TAG, "selected pos" + selectedGroupPos);
                         selectedGroupPos = i;
+                        isTeamAvailable = true;
                         break;
                     }
                 }
-                mTeamDetailModel = mTeamList.get(selectedGroupPos);
-                sp_team.setSelection(selectedGroupPos);
+                if (isTeamAvailable) {
+                    mTeamDetailModel = mTeamList.get(selectedGroupPos);
+                    sp_team.setSelection(selectedGroupPos);
+                } else {
+                    getTournamentDetail(view.getTag().toString());
+                }
 
             }
         });
@@ -564,7 +568,7 @@ public class TeamActivity extends BaseAppCompactActivity {
 
                                     tl_group_rows.removeAllViews();
                                     ll_matches.removeAllViews();
-
+                                    updateUI();
                                     getTeamFixtures();
                                     getGroupStanding();
                                     getGraphicImageUrl(mTeamDetailModel.getAge_group_id() + "");
