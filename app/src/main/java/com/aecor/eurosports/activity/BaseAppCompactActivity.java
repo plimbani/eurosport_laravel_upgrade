@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.aecor.eurosports.BuildConfig;
 import com.aecor.eurosports.R;
 import com.aecor.eurosports.application.ApplicationClass;
 import com.aecor.eurosports.ui.ViewDialog;
@@ -233,7 +234,10 @@ public abstract class BaseAppCompactActivity extends AppCompatActivity implement
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.lv_favourites:
-
+                    if (!BuildConfig.isEasyMatchManager && Utility.isNullOrEmpty(mPref.getString(AppConstants.PREF_TOURNAMENT_ID))) {
+                        Utility.showToast(BaseAppCompactActivity.this,getString(R.string.please_update_profile));
+                        return;
+                    }
                     selectedTabName = AppConstants.SCREEN_CONSTANT_FAVOURITES;
                     Intent mFavourites = new Intent(mContext, FavouritesActivity.class);
                     mFavourites.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -243,6 +247,10 @@ public abstract class BaseAppCompactActivity extends AppCompatActivity implement
 
                 case R.id.lv_clubs:
 
+                    if (!BuildConfig.isEasyMatchManager && Utility.isNullOrEmpty(mPref.getString(AppConstants.PREF_TOURNAMENT_ID))) {
+                        Utility.showToast(BaseAppCompactActivity.this,getString(R.string.please_update_profile));
+                        return;
+                    }
                     if (!Utility.isNullOrEmpty(mPref.getString(AppConstants.PREF_SESSION_TOURNAMENT_STATUS)) &&
                             mPref.getString(AppConstants.PREF_SESSION_TOURNAMENT_STATUS).equalsIgnoreCase("Preview")) {
                         ViewDialog.showSingleButtonDialog((Activity) mContext, getString(R.string.preview), getString(R.string.preview_message), getString(R.string.button_ok), new ViewDialog.CustomDialogInterface() {
@@ -261,6 +269,11 @@ public abstract class BaseAppCompactActivity extends AppCompatActivity implement
                     break;
 
                 case R.id.lv_age_categories:
+
+                    if (!BuildConfig.isEasyMatchManager && Utility.isNullOrEmpty(mPref.getString(AppConstants.PREF_TOURNAMENT_ID))) {
+                        Utility.showToast(BaseAppCompactActivity.this,getString(R.string.please_update_profile));
+                        return;
+                    }
                     if (!Utility.isNullOrEmpty(mPref.getString(AppConstants.PREF_SESSION_TOURNAMENT_STATUS)) &&
                             mPref.getString(AppConstants.PREF_SESSION_TOURNAMENT_STATUS).equalsIgnoreCase("Preview")) {
                         ViewDialog.showSingleButtonDialog((Activity) mContext, getString(R.string.preview), getString(R.string.preview_message), getString(R.string.button_ok), new ViewDialog.CustomDialogInterface() {
@@ -278,6 +291,11 @@ public abstract class BaseAppCompactActivity extends AppCompatActivity implement
                     }
                     break;
                 case R.id.lv_tournament:
+
+                    if (!BuildConfig.isEasyMatchManager && Utility.isNullOrEmpty(mPref.getString(AppConstants.PREF_TOURNAMENT_ID))) {
+                        Utility.showToast(BaseAppCompactActivity.this,getString(R.string.please_update_profile));
+                        return;
+                    }
                     selectedTabName = AppConstants.SCREEN_CONSTANT_TOURNAMENT;
                     Intent mTournament = new Intent(mContext, HomeActivity.class);
                     mTournament.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -286,6 +304,11 @@ public abstract class BaseAppCompactActivity extends AppCompatActivity implement
                     break;
 
                 case R.id.lv_user_settings:
+
+                    if (!BuildConfig.isEasyMatchManager && Utility.isNullOrEmpty(mPref.getString(AppConstants.PREF_TOURNAMENT_ID))) {
+                        Utility.showToast(BaseAppCompactActivity.this,getString(R.string.please_update_profile));
+                        return;
+                    }
                     selectedTabName = AppConstants.SCREEN_CONSTANT_USER_SETTINGS;
                     Intent mSettingsIntent = new Intent(mContext, SettingsActivity.class);
                     startActivity(mSettingsIntent);
