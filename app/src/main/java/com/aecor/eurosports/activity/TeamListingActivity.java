@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.AdapterView;
@@ -79,6 +80,9 @@ public class TeamListingActivity extends BaseAppCompactActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent mTeamDetailIntent = new Intent(mContext, TeamActivity.class);
                 mTeamDetailIntent.putExtra(AppConstants.ARG_TEAM_DETAIL, list.get(position));
+                Bundle bundle = new Bundle();
+                bundle.putParcelableArrayList(AppConstants.ARG_ALL_TEAM_LIST, (ArrayList<? extends Parcelable>) list);
+                mTeamDetailIntent.putExtras(bundle);
                 startActivity(mTeamDetailIntent);
             }
         });
@@ -120,11 +124,11 @@ public class TeamListingActivity extends BaseAppCompactActivity {
 
     private void getTeamList() {
 
-          if (Utility.isInternetAvailable(mContext)) {
-              Utility.startProgress(mContext);
-              String url = ApiConstants.GET_TEAM_LIST;
-              final JSONObject requestJson = new JSONObject();
-              RequestQueue mQueue = VolleySingeltone.getInstance(mContext)
+        if (Utility.isInternetAvailable(mContext)) {
+            Utility.startProgress(mContext);
+            String url = ApiConstants.GET_TEAM_LIST;
+            final JSONObject requestJson = new JSONObject();
+            RequestQueue mQueue = VolleySingeltone.getInstance(mContext)
                     .getRequestQueue();
             try {
                 requestJson.put(AppConstants.PREF_TOURNAMENT_ID, mPreference.getString(AppConstants.PREF_SESSION_TOURNAMENT_ID));
