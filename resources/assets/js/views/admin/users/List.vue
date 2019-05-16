@@ -62,7 +62,7 @@
                                     </tr>
                                 </thead>
                                 <tbody v-if="!isListGettingUpdate">
-                                  <tr class="" v-for="user in paginated('userpagination')">
+                                  <tr class="" v-for="user in userList.data">
                                     <td>{{ user.first_name }}</td>
                                     <td>{{ user.last_name }}</td>
                                     <td>{{ user.email }}</td>
@@ -126,25 +126,21 @@
                                 </tbody>
                             </table>
                           </div>
-                            <paginate v-if="shown && !isListGettingUpdate" name="userpagination" :list="userList.userData" ref="paginator" :per="no_of_records"  class="paginate-list">
-                            </paginate>
-                            <div class="row d-flex flex-row align-items-center" v-if="!isListGettingUpdate">
+                            <div class="row d-flex flex-row align-items-center" v-if="!isListGettingUpdate && userList.data.length > 0">
                               <div class="col page-dropdown">
-                                <select class="form-control ls-select2" name="no_of_records" v-model="no_of_records">
+                                <select class="form-control ls-select2" name="no_of_records" v-model="no_of_records" @change="onNoOfRecordsChange()">
                                   <option v-for="recordCount in recordCounts" v-bind:value="recordCount">
                                       {{ recordCount }}
                                   </option>
                                 </select>
                               </div>
                               <div class="col">
-                                <span v-if="$refs.paginator">
-                                  Viewing {{ $refs.paginator.pageItemsCount }} results
+                                <span>
+                                  Viewing {{ userList.from + '-' + userList.to }} of {{ userList.total }} results
                                 </span>
                               </div>
                               <div class="col-md-6">
-                                <paginate-links for="userpagination"
-                                  :show-step-links="true" :async="true" :limit="2" class="mb-0">
-                                </paginate-links>
+                                <pagination :align="'right'" :show-disabled="true" :limit="1" :data="userList" @pagination-change-page="getResults"></pagination>
                               </div>
                             </div>
                           </div>
@@ -156,7 +152,7 @@
             </div>
         </div>
         <user-modal v-if="userStatus" :userId="userId"
-        :userRoles="userRoles" :userEmailData="userEmailData" :publishedTournaments="publishedTournaments" :isMasterAdmin="isMasterAdmin" @showChangePrivilegeModal="showChangePrivilegeModal()"></user-modal>
+        :userRoles="userRoles" :publishedTournaments="publishedTournaments" :isMasterAdmin="isMasterAdmin" @showChangePrivilegeModal="showChangePrivilegeModal()"></user-modal>
         <delete-modal :deleteConfirmMsg="deleteConfirmMsg" @confirmed="deleteConfirmed()"></delete-modal>
         <resend-modal :resendConfirm="resendConfirm" @confirmed="resendConfirmed()"></resend-modal>
         <active-modal
@@ -181,6 +177,7 @@
     import User from '../../../api/users.js'
     import Tournament from '../../../api/tournament.js'
     import VuePaginate from 'vue-paginate'
+    import pagination from 'laravel-vue-pagination'
 
 
     export default {
@@ -192,6 +189,7 @@
             TournamentPermissionModal,
             PermissionModal,
             ConfirmPrivilegeChangeModal,
+            pagination,
         },
         data() {
             return {
@@ -213,8 +211,7 @@
                 enb: false,
                 userRoles: [],
                 publishedTournaments: [],
-                userEmailData: this.userList,
-                paginate: ['userpagination'],
+                // paginate: ['userpagination'],
                 shown: false,
                 no_of_records: 20,
                 recordCounts: [5,10,20,50,100],
@@ -236,7 +233,7 @@
             },
             isMasterAdmin() {
               return this.$store.state.Users.userDetails.role_slug == 'Master.administrator';
-            }
+            },
         },
         filters: {
             formatDate: function(date) {
@@ -272,8 +269,8 @@
             //call method for refresh
             this.$root.$emit('clearSearch')
           },
-          searchUserData() {
-            this.$root.$emit('setSearch', this.userListSearch,this.userTypeSearch);
+          searchUserData(e) {
+            this.$root.$emit('setSearch', this.userListSearch,this.userTypeSearch, 1, this.no_of_records);
             var first_name = $("#user_first_name").val();
             var last_name = $("#user_last_name").val();
             var email = $("#user_email").val();
@@ -422,6 +419,12 @@
                 }
               )
             },
+            getResults(page = 1) {
+                this.$root.$emit('setSearch', this.userListSearch,this.userTypeSearch, page, this.no_of_records);
+            },
+            onNoOfRecordsChange() {
+                this.$root.$emit('setSearch', this.userListSearch,this.userTypeSearch, 1, this.no_of_records);
+            }
         }
     }
 </script>
