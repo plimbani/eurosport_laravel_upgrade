@@ -58,6 +58,8 @@ class UserRepository {
             $user = $user->where('roles.slug', '=', $data['userType']);
         }
 
+        $languages = config('wot.languages');
+
         $user = $user->select('users.id as id', 'people.first_name as first_name', 'people.last_name as last_name', 'users.email as email', 'roles.id as role_id', 'roles.name as role_name', 'roles.slug as role_slug', 'users.is_verified as is_verified', 'users.is_mobile_user as is_mobile_user', 'users.is_desktop_user as is_desktop_user', 'users.organisation as organisation', 'users.locale as locale', 'users.role as role','countries.name as country', 'users.device as device', 'users.app_version as app_version');
 
         $user->orderBy('people.last_name','asc');
@@ -78,7 +80,12 @@ class UserRepository {
                         $user->last_name,
                         $user->email,
                         $user->role_name,
+                        $user->role,
+                        $user->country,
+                        $languages[$user->locale],
                         $status,
+                        $user->device,
+                        $user->app_version,
                         $isDesktopUser,
                         $isMobileUser,
                     ];
@@ -93,7 +100,7 @@ class UserRepository {
                 ];
 
             $lableArray = [
-                'Name', 'Surname' ,'Email address', 'User type', 'Status', 'Desktop', 'Mobile'
+                'Name', 'Surname' ,'Email address', 'User type', 'Role', 'Country', 'Language', 'Status', 'Device', 'App version', 'Desktop', 'Mobile'
             ];
             //Total Stakes, Total Revenue, Amount & Balance fields are set as Number statically.
             \Laraspace\Custom\Helper\Common::toExcel($lableArray,$dataArray,$otherParams,'xlsx','yes');
