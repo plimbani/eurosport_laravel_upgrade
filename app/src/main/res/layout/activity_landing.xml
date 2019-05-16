@@ -36,8 +36,16 @@
         android:orientation="vertical">
 
         <Button
+            android:id="@+id/facebook"
+            style="@style/text_black_title"
+            android:background="@drawable/btn_yellow"
+            android:text="@string/facebook_signin"
+            android:textColor="@color/btn_active_text_color" />
+
+        <Button
             android:id="@+id/register"
             style="@style/text_black_title"
+            android:layout_marginTop="20dp"
             android:background="@drawable/btn_yellow"
             android:text="@string/create_account"
             android:textColor="@color/btn_active_text_color" />
