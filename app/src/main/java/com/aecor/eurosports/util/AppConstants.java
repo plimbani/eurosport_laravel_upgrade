@@ -76,4 +76,5 @@ public class AppConstants {
     public static final String KEY_SCREEN_TITLE = "screen_title";
     public static final String PREF_ROLE = "role";
     public static final String PREF_COUNTRY_ID = "country_id";
+    public static final String PROVIDER_SOCIAL_FACEBOOK = "facebook";
 }
