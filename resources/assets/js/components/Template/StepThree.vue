@@ -244,47 +244,51 @@
 		    	this.templateFormDetail.stepthree.placings[placingIndex].position = '';
 		    },
 		    updatePositions() {
-		    	_.forEach(this.templateFormDetail.stepthree.placings, function(placing, placingIndex) {
+		    	let vm = this;
+
+		    	let placings = _.cloneDeep(vm.templateFormDetail.stepthree.placings);
+
+	    		_.forEach(vm.templateFormDetail.stepthree.placings, function(placing, placingIndex) {
 		    		let group = placing.group != '' ? placing.group.split(',') : '';
 		    		let position = placing.position != '' ? placing.position.split(',') : '';
 		    		let allRounds = null;
 		    		let selectedGroup = null;
 		    		if(group[0] === '-1') {
-		    			allRounds = this.templateFormDetail['steptwo'].rounds;
+		    			allRounds = vm.templateFormDetail['steptwo'].rounds;
 		    		} else {
-		    			if(!(group[0] in this.templateFormDetail['steptwo'].divisions)) {
-		    				this.resetPosition(placingIndex);
+		    			if(!(group[0] in vm.templateFormDetail['steptwo'].divisions)) {
+		    				placings.splice(placingIndex, 1);
+		    				delete placings[placingIndex];
 		    				return true;
 		    			}
-		    			allRounds = this.templateFormDetail['steptwo'].divisions[group[0]].rounds;
+		    			allRounds = vm.templateFormDetail['steptwo'].divisions[group[0]].rounds;
 		    		}
 
 		    		if( (!(group[1] in allRounds)) || (!(group[2] in allRounds[group[1]].groups)) ) {
-		    			selectedGroup = allRounds[group[1]].groups[group[2]];
-		    			this.resetPosition(placingIndex);
+		    			console.log('called');
+		    			delete placings[placingIndex];
 		    			return true;
 		    		}
+		    		selectedGroup = allRounds[group[1]].groups[group[2]];
 
 		    		if(placing.position != '') {
 		    			if(placing.position_type === 'placed') {
 		    				if(!(position[3] in selectedGroup.teams)) {
-		    					this.resetPosition(placingIndex);
+		    					delete placings[placingIndex];
 		    					return true;
 		    				}
 		    			}
 		    			if((placing.position_type === 'winner') || (placing.position_type === 'looser')) {
 		    				if(!(position[3] in selectedGroup.matches)) {
-		    					this.resetPosition(placingIndex);
+		    					delete placings[placingIndex];
 		    					return true;
 		    				}
 		    			}
 		    		}
 		    	});
+		    
+		    	vm.templateFormDetail.stepthree.placings = _.cloneDeep(_.compact(placings));
 		    },
-		    resetPosition(placingIndex) {
-		    	this.templateFormDetail.stepthree.placings[placingIndex].group = '';
-		    	this.templateFormDetail.stepthree.placings[placingIndex].position = '';
-		    }
         }
 	}
 </script>

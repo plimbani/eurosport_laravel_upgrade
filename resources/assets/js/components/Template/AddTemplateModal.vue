@@ -95,7 +95,7 @@
                         round_count: 1,
                     },
                     stepthree: {
-                        placings: [{position_type: 'placed', group: '', position: ''}]
+                        placings: []
                     },
                     stepfour: {
                         remarks: '',
