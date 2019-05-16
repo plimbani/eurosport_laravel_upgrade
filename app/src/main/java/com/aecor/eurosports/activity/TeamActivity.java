@@ -5,19 +5,25 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.content.ContextCompat;
 import android.text.Html;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.aecor.eurosports.R;
+import com.aecor.eurosports.adapter.TeamSpinnerAdapter;
 import com.aecor.eurosports.gson.GsonConverter;
 import com.aecor.eurosports.http.VolleyJsonObjectRequest;
 import com.aecor.eurosports.http.VolleySingeltone;
@@ -96,7 +102,30 @@ public class TeamActivity extends BaseAppCompactActivity {
     private LeagueModel mLeagueModelData[];
     @BindView(R.id.view_seperator)
     protected View view_seperator;
+    @BindView(R.id.ll_standings_view)
+    protected LinearLayout ll_standings_view;
+    @BindView(R.id.ll_matches_view)
+    protected LinearLayout ll_matches_view;
     private String mImageUrl;
+    private ArrayList<TeamDetailModel> mTeamList;
+
+
+    @BindView(R.id.ll_matches_tab)
+    protected FrameLayout ll_matches_tab;
+    @BindView(R.id.ll_standing_tab)
+    protected FrameLayout ll_standing_tab;
+    @BindView(R.id.tv_standing)
+    protected TextView tv_standing;
+    @BindView(R.id.tv_standing_selector)
+    protected View tv_standing_selector;
+    @BindView(R.id.tv_matches_selector)
+    protected View tv_matches_selector;
+
+
+    @BindView(R.id.sp_team)
+    protected Spinner sp_team;
+    private TeamDetailModel mTeamModel;
+    private TeamSpinnerAdapter teamSpinnerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,7 +134,18 @@ public class TeamActivity extends BaseAppCompactActivity {
         ButterKnife.bind(this);
         mContext = this;
         mTeamDetailModel = getIntent().getParcelableExtra(AppConstants.ARG_TEAM_DETAIL);
+
+        if (getIntent() != null && getIntent().getExtras() != null) {
+            Bundle bundle = getIntent().getExtras();
+            if (bundle.containsKey(AppConstants.ARG_ALL_TEAM_LIST)) {
+                mTeamList = bundle.getParcelableArrayList(AppConstants.ARG_ALL_TEAM_LIST);
+            }
+        }
+
         initView();
+        setListener();
+
+        onStandingClicked();
     }
 
     private void getGraphicImageUrl(final String mId) {
@@ -212,12 +252,39 @@ public class TeamActivity extends BaseAppCompactActivity {
         mPreference = AppPreference.getInstance(mContext);
         tr_group_header.setVisibility(View.GONE);
         ll_match_header.setVisibility(View.GONE);
+        tv_view_graphic.setVisibility(View.GONE);
+
+        updateUI();
+
+        showBackButton(getString(R.string.team));
+
+
+        int selectedGroupPos = 0;
+
+        for (int i = 0; i < mTeamList.size(); i++) {
+            if (mTeamList.get(i).getId().equalsIgnoreCase(mTeamDetailModel.getId())) {
+                AppLogger.LogE(TAG, "selected pos" + selectedGroupPos);
+                selectedGroupPos = i;
+                break;
+            }
+        }
+
+        teamSpinnerAdapter = new TeamSpinnerAdapter((Activity) mContext,
+                mTeamList);
+        sp_team.setAdapter(teamSpinnerAdapter);
+        sp_team.setSelection(selectedGroupPos);
+        mTeamModel = mTeamList.get(selectedGroupPos);
+/*        getTeamFixtures();
+        getGroupStanding();
+        getGraphicImageUrl(mTeamDetailModel.getAge_group_id() + "");*/
+    }
+
+    private void updateUI() {
         if (!Utility.isNullOrEmpty(mTeamDetailModel.getName())) {
             tv_team_name.setText(mTeamDetailModel.getName());
         } else {
             tv_team_name.setText("");
         }
-        tv_view_graphic.setVisibility(View.GONE);
 
         if (!Utility.isNullOrEmpty(mTeamDetailModel.getCountryLogo())) {
             Glide.with(mContext)
@@ -258,15 +325,30 @@ public class TeamActivity extends BaseAppCompactActivity {
         } else {
             tv_group_table_title.setText("");
         }
-        showBackButton(getString(R.string.team));
-        getTeamFixtures();
-        getGroupStanding();
-        getGraphicImageUrl(mTeamDetailModel.getAge_group_id() + "");
     }
 
     @Override
     protected void setListener() {
+        sp_team.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (mTeamList != null && mTeamList.get(position) != null) {
+                    mTeamModel = mTeamList.get(position);
 
+                    tl_group_rows.removeAllViews();
+                    ll_matches.removeAllViews();
+                    updateUI();
+                    getTeamFixtures();
+                    getGroupStanding();
+                    getGraphicImageUrl(mTeamDetailModel.getAge_group_id() + "");
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+
+            }
+        });
     }
 
 
@@ -359,6 +441,7 @@ public class TeamActivity extends BaseAppCompactActivity {
 
         View teamLeagueView = getLayoutInflater().inflate(R.layout.row_team_leaguetable, null);
         LinearLayout ll_groupRow = (LinearLayout) teamLeagueView.findViewById(R.id.ll_groupRow);
+        Log.e("ids", mLeagueModel.getId() + "    " + mTeamDetailModel.getId());
         if (!Utility.isNullOrEmpty(mLeagueModel.getId()) && !Utility.isNullOrEmpty(mTeamDetailModel.getId()) && mLeagueModel.getId().equalsIgnoreCase(mTeamDetailModel.getId())) {
             ll_groupRow.setBackgroundColor(ContextCompat.getColor(mContext, R.color.light_green));
         } else {
@@ -380,7 +463,20 @@ public class TeamActivity extends BaseAppCompactActivity {
         tv_group_name.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.e("tags",view.getTag().toString());
+                Log.e("tags", view.getTag().toString());
+//                getTournamentDetail(view.getTag().toString());
+                int selectedGroupPos = 0;
+
+                for (int i = 0; i < mTeamList.size(); i++) {
+                    if (mTeamList.get(i).getId().equalsIgnoreCase(view.getTag().toString())) {
+                        AppLogger.LogE(TAG, "selected pos" + selectedGroupPos);
+                        selectedGroupPos = i;
+                        break;
+                    }
+                }
+                mTeamDetailModel = mTeamList.get(selectedGroupPos);
+                sp_team.setSelection(selectedGroupPos);
+
             }
         });
 
@@ -432,6 +528,86 @@ public class TeamActivity extends BaseAppCompactActivity {
         tl_group_rows.addView(teamLeagueView);
         View seperatorView = getLayoutInflater().inflate(R.layout.table_row_seperator, null);
         tl_group_rows.addView(seperatorView);
+    }
+
+    private void getTournamentDetail(String team_id) {
+        if (Utility.isInternetAvailable(mContext)) {
+            final ProgressHUD mProgressHUD = Utility.getProgressDialog(mContext);
+            String url = ApiConstants.GET_TEAM_DETAILS;
+            final JSONObject requestJson = new JSONObject();
+            RequestQueue mQueue = VolleySingeltone.getInstance(mContext)
+                    .getRequestQueue();
+            try {
+                JSONObject mTournamentData = new JSONObject();
+                mTournamentData.put("tournament_id", mPreference.getString(AppConstants.PREF_SESSION_TOURNAMENT_ID));
+                mTournamentData.put("team_id", team_id);
+                requestJson.put("tournamentData", mTournamentData);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            AppLogger.LogE(TAG, "url" + url);
+            AppLogger.LogE(TAG, "requestJson" + requestJson.toString());
+
+            final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(mContext, Request.Method
+                    .POST, url,
+                    requestJson, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    Utility.StopProgress(mProgressHUD);
+                    try {
+                        AppLogger.LogE(TAG, "getteamdetail Response" + response.toString());
+                        if (response.has("status_code") && !Utility.isNullOrEmpty(response.getString("status_code")) && response.getString("status_code").equalsIgnoreCase("200")) {
+                            if (response.has("data") && !Utility.isNullOrEmpty(response.getString("data"))) {
+                                TeamDetailModel[] mTeamDetailModelList = GsonConverter.getInstance().decodeFromJsonString(response.getString("data"), TeamDetailModel[].class);
+                                if (mTeamDetailModelList != null && mTeamDetailModelList.length > 0) {
+                                    mTeamDetailModel = mTeamDetailModelList[0];
+
+                                    tl_group_rows.removeAllViews();
+                                    ll_matches.removeAllViews();
+
+                                    getTeamFixtures();
+                                    getGroupStanding();
+                                    getGraphicImageUrl(mTeamDetailModel.getAge_group_id() + "");
+                                }
+                            }
+                        } else if (response.has("status_code") && !Utility.isNullOrEmpty(response.getString("status_code")) && response.getString("status_code").equalsIgnoreCase("500")) {
+                            String msg = "Selected tournament has expired";
+                            if (response.has("message")) {
+                                msg = response.getString("message");
+                            }
+                            ViewDialog.showSingleButtonDialog((Activity) mContext, mContext.getString(R.string.error), msg, mContext.getString(R.string.button_ok), new ViewDialog.CustomDialogInterface() {
+                                @Override
+                                public void onPositiveButtonClicked() {
+                                    Intent intent = new Intent(mContext, HomeActivity.class);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    mContext.startActivity(intent);
+                                    ((Activity) mContext).finish();
+                                }
+
+                            });
+                        }
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    try {
+                        Utility.StopProgress(mProgressHUD);
+                        Utility.parseVolleyError(mContext, error);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            });
+            mQueue.add(jsonRequest);
+        } else {
+            checkConnection();
+        }
     }
 
     private void addNoItemGroupLeagueView() {
@@ -732,5 +908,23 @@ public class TeamActivity extends BaseAppCompactActivity {
         Intent mAgeGroupIntent = new Intent(mContext, AgeGroupActivity.class);
         mAgeGroupIntent.putExtra(AppConstants.ARG_AGE_CATEGORY_ID, mTeamDetailModel.getAge_group_id());
         mContext.startActivity(mAgeGroupIntent);
+    }
+
+    @OnClick(R.id.ll_standing_tab)
+    protected void onStandingClicked() {
+        tv_standing_selector.setVisibility(View.VISIBLE);
+        ll_standings_view.setVisibility(View.VISIBLE);
+        tv_matches_selector.setVisibility(View.GONE);
+        ll_matches_view.setVisibility(View.GONE);
+
+
+    }
+
+    @OnClick(R.id.ll_matches_tab)
+    protected void onMatchesClicked() {
+        tv_standing_selector.setVisibility(View.GONE);
+        ll_standings_view.setVisibility(View.GONE);
+        tv_matches_selector.setVisibility(View.VISIBLE);
+        ll_matches_view.setVisibility(View.VISIBLE);
     }
 }

@@ -9,7 +9,7 @@ public class ApiConstants {
     //    www.esrtmp.com -> live
     //    qa.esrtmp.com -> qa
 
-                //public static final String BASE_URL = "https://www.esrtmp.com/api/"; // ESR Live
+    //public static final String BASE_URL = "https://www.esrtmp.com/api/"; // ESR Live
 //    public static final String BASE_URL = "https://qa.wot.esrtmp.com/api/"; // ESR QA
 //    public static final String BASE_URL = "https://comm-qa.wot.esrtmp.com/api/"; // EasyMatchManager QA
     public static final String BASE_URL = "http://usama-eurosport.dev.aecortech.com/api/";
@@ -46,5 +46,6 @@ public class ApiConstants {
     public static final String GET_TEAM_FIXTURES = BASE_URL + "match/getFixtures";
     public static final String GET_GROUP_STANDING = BASE_URL + "match/getStanding/yes";
     public static final String POST_FCM_TOKEN = BASE_URL + "users/updatefcm";
+    public static final String GET_TEAM_DETAILS = BASE_URL + "getTournamentTeamDetails";
 }
     
