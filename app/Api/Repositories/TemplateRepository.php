@@ -249,7 +249,7 @@ class TemplateRepository
         $finalArray['tournament_positions'] = $tournamentsPositionsData;
         $finalArray['round_schedule'] = $data['templateFormDetail']['stepfour']['roundSchedules'];
 
-        dd(json_encode($finalArray));
+        // dd(json_encode($finalArray));
 
         return json_encode($finalArray);
     }
