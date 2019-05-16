@@ -81,7 +81,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-messaging:11.0.2'
     implementation 'com.google.android.gms:play-services-maps:11.0.2'
     implementation 'com.github.MikeOrtiz:TouchImageView:1.4.0'
-
+    implementation 'com.facebook.android:facebook-login:[4,5)'
     testImplementation 'junit:junit:4.12'
 }
 apply plugin: 'com.google.gms.google-services'
