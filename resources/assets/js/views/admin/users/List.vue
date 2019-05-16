@@ -42,7 +42,8 @@
                     </div>
                     <div class="row d-flex flex-row align-items-center">
                         <div class="col-md-12">
-                            <table class="table add-category-table">
+                          <div class="table-responsive">
+                            <table class="table add-category-table users-table">
                                 <thead>
                                     <tr>
                                         <th>{{$lang.user_desktop_name}}</th>
@@ -124,6 +125,7 @@
                                   <tr><td colspan="8"></td></tr>
                                 </tbody>
                             </table>
+                          </div>
                             <paginate v-if="shown && !isListGettingUpdate" name="userpagination" :list="userList.userData" ref="paginator" :per="no_of_records"  class="paginate-list">
                             </paginate>
                             <div class="row d-flex flex-row align-items-center" v-if="!isListGettingUpdate">
