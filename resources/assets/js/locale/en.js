@@ -439,6 +439,7 @@ module.exports= {
   pitch_modal_availability_button_addstage: "Add day",
   pitch_modal_availability_button_add: "Add day",
   pitch_capacity_location: "Venue",
+  pitch_modal_order: "Order",
 
 
   pitch_modal_edit_pitch_button: "Delete",
