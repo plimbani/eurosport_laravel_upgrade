@@ -38,8 +38,7 @@
         <Button
             android:id="@+id/facebook"
             style="@style/text_black_title"
-            android:background="@drawable/btn_yellow"
-            android:text="@string/facebook_signin"
+            android:background="@drawable/login_with_fb_bg"
             android:textColor="@color/btn_active_text_color" />
 
         <Button
