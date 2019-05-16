@@ -273,6 +273,8 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
 
     $api->post('updateAppDeviceVersion','Laraspace\Api\Controllers\UserController@updateAppDeviceVersion');
 
+    $api->post('getTournamentTeamDetails','Laraspace\Api\Controllers\TeamController@getTournamentTeamDetails');
+
     $api->post('pitchSearchRecord', 'Laraspace\Api\Controllers\PitchController@getPitchSearchRecord');
     $api->post('getVenuesDropDownData', 'Laraspace\Api\Controllers\PitchController@getVenuesDropDownData');
 

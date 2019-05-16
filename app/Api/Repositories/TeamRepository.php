@@ -627,4 +627,26 @@ class TeamRepository
 
       return ['teamData' => $teamData];
     }
+
+    public function getTournamentTeamDetails($data)
+    {
+      // First get the tournamentId and team id and return team detail.
+      $tournamentId = $data['tournamentData']['tournament_id'];
+      $teamId = $data['tournamentData']['team_id'];
+
+      return Team::where('teams.id','=',$teamId)
+            ->join('countries','countries.id','=','teams.country_id')
+            ->join('tournament_competation_template','tournament_competation_template.id','=','teams.age_group_id')
+            ->join('competitions','competitions.id',
+              '=','teams.competation_id')
+            ->select('teams.*','countries.id as countryId',
+              'countries.name as CountryName',
+              'tournament_competation_template.id as ageGroupId',
+              'tournament_competation_template.group_name as ageGroupName',
+              'tournament_competation_template.category_age as CategoryAge',
+              'competitions.id as GroupId',
+              'competitions.name as GroupName',
+              DB::raw('CONCAT("'.$this->AwsUrl.'", countries.logo) AS countryLogo'))
+            ->where('teams.tournament_id','=',$tournamentId)->get();
+    }
 }
