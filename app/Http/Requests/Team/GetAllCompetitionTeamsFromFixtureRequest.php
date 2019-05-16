@@ -20,7 +20,7 @@ class GetAllCompetitionTeamsFromFixtureRequest extends FormRequest
     public function authorize()
     {
         $token = JWTAuth::getToken();
-        if(!$token || (isset(app('request')->header('ismobileuser'))) && app('request')->header('ismobileuser') == "true") {
+        if(!$token || (isset($this->headers->all()['ismobileuser'])) && app('request')->header('ismobileuser') == "true") {
             $data = $this->all()['tournamentData'];
             $competitionId = $data['competitionId'];
             $competition = Competition::findOrFail($competitionId);

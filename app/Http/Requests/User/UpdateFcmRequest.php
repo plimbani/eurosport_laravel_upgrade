@@ -13,7 +13,7 @@ class UpdateFcmRequest extends FormRequest
      */
     public function authorize()
     {
-        if (isset(app('request')->header('ismobileuser'))) {
+        if (isset($this->headers->all()['ismobileuser'])) {
             $isMobileUser = app('request')->header('ismobileuser');
             if ($isMobileUser == "true") {
                 return true;
