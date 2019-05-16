@@ -108,10 +108,10 @@ public class AutoLoginUtils {
     private static void checkStoreCredentials(Context mContext) {
         if (Utility.isInternetAvailable(mContext)) {
             mAppSharedPref = AppPreference.getInstance(mContext);
-            String email = mAppSharedPref.getString(AppConstants.PREF_EMAIL);
-            String password = mAppSharedPref.getString(AppConstants.PREF_PASSWORD);
 
-            if (Utility.isNullOrEmpty(email) && Utility.isNullOrEmpty(password)) {
+            if (mAppSharedPref.getBoolean(AppConstants.IS_LOGIN_USING_FB) && mAppSharedPref.getString(AppConstants.PREF_TOKEN) != null) {
+                validate_user(mContext);
+            } else {
                 checkuser(mContext);
             }
         } else {
@@ -185,11 +185,10 @@ public class AutoLoginUtils {
 
     public static void checkuser(final Context mContext) {
 
-        mAppSharedPref = AppPreference.getInstance(mContext);
         String email = mAppSharedPref.getString(AppConstants.PREF_EMAIL);
         String password = mAppSharedPref.getString(AppConstants.PREF_PASSWORD);
 
-        if (Utility.isInternetAvailable(mContext) && !Utility.isNullOrEmpty(email) && !Utility.isNullOrEmpty(password)) {
+        if (!Utility.isNullOrEmpty(email) && !Utility.isNullOrEmpty(password)) {
 //            mAppSharedPref.setString(AppConstants.PREF_SESSION_TOURNAMENT_ID, "");
             String url = ApiConstants.SIGN_IN;
             final JSONObject requestJson = new JSONObject();
@@ -287,9 +286,17 @@ public class AutoLoginUtils {
                                     }
                                 }
                             }
-                         } else {
+                        } else {
 //                            {"authenticated":false,"message":"Account de-activated please contact your administrator."}
                             if (response.has("message") && !Utility.isNullOrEmpty(response.getString("message"))) {
+                                ViewDialog.showSingleButtonDialog((Activity) mContext, mContext.getString(R.string.email_verification), response.getString("message"), mContext.getString(R.string.resend_email), new ViewDialog.CustomDialogInterface() {
+                                    @Override
+                                    public void onPositiveButtonClicked() {
+                                        if (mAppSharedPref.getString(AppConstants.PREF_EMAIL) != null) {
+                                            resendEmail(mContext);
+                                        }
+                                    }
+                                });
                             }
                         }
                     } catch (Exception e) {
@@ -307,6 +314,52 @@ public class AutoLoginUtils {
                         mContext.startActivity(launcherIntent);
                         ((Activity) mContext).finish();
 
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            });
+            mQueue.add(jsonRequest1);
+        }
+    }
+
+
+    private static void resendEmail(final Context mContext) {
+        if (Utility.isInternetAvailable(mContext)) {
+            Utility.startProgress(mContext);
+            String url = ApiConstants.RESEND_EMAIL;
+            final JSONObject requestJson1 = new JSONObject();
+            try {
+                requestJson1.put("email", mAppSharedPref.getString(AppConstants.PREF_EMAIL));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            final RequestQueue mQueue = VolleySingeltone.getInstance(mContext).getRequestQueue();
+            final VolleyJsonObjectRequest jsonRequest1 = new VolleyJsonObjectRequest(mContext, Request.Method
+                    .POST, url,
+                    requestJson1, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    Utility.StopProgress();
+                    try {
+                        AppLogger.LogE(TAG, "***** Resend email response *****" + response.toString());
+                        if (response.has("status_code") && !Utility.isNullOrEmpty(response.getString("status_code")) && response.getString("status_code").equalsIgnoreCase("200")) {
+                            if (response.has("message") && !Utility.isNullOrEmpty(response.getString("message"))) {
+                                String messgae = response.getString("message");
+                                Utility.showToast(mContext, messgae);
+                            }
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    try {
+                        Utility.StopProgress();
+                        Utility.parseVolleyError(mContext, error);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
