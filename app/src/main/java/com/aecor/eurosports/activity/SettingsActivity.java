@@ -91,7 +91,7 @@ public class SettingsActivity extends BaseAppCompactActivity {
 
                 Intent intent = new Intent(mContext, LandingActivity.class);
                 ComponentName cn = intent.getComponent();
-                Intent mainIntent = IntentCompat.makeRestartActivityTask(cn);
+                Intent mainIntent = Intent.makeRestartActivityTask(cn);
                 startActivity(mainIntent);
                 finish();
             }
