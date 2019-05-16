@@ -18,6 +18,9 @@ Route::group(['prefix' => 'auth'], function () {
     Route::post('login','AuthController@authenticate');
     Route::get('logout','AuthController@logout');
     Route::post('check','AuthController@check');
+
+    // Social logins
+    Route::post('social/login/token', 'AuthController@socialLogin');
 });
 
 Route::get('password/reset/{token}', '\Laraspace\Api\Controllers\PasswordController@getReset');
