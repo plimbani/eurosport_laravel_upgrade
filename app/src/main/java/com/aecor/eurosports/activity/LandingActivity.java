@@ -144,6 +144,7 @@ public class LandingActivity extends BaseActivity {
 
                                 String FEmail = object.getString("email");
                                 Log.e("Email = ", " " + FEmail);
+                                LoginManager.getInstance().logOut();
                                 mAppPref.setString(AppConstants.PREF_EMAIL, FEmail);
                                 //  Toast.makeText(getApplicationContext(), "Name " + Name, Toast.LENGTH_LONG).show();
 
@@ -197,7 +198,6 @@ public class LandingActivity extends BaseActivity {
                 @Override
                 public void onResponse(JSONObject response) {
                     Utility.StopProgress();
-                    LoginManager.getInstance().logOut();
                     try {
                         AppLogger.LogE(TAG, "***** Sign in response *****" + response.toString());
                         String token = response.get(AppConstants.PREF_TOKEN).toString();

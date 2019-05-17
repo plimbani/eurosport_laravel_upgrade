@@ -165,7 +165,7 @@
                         android:padding="10dp"
                         android:text="@string/view_graphic"
                         android:textColor="@color/link"
-                        android:textSize="18sp" />
+                        android:textSize="20sp" />
                 </LinearLayout>
             </LinearLayout>
 
