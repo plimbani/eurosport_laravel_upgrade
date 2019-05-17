@@ -83,6 +83,9 @@
         methods: {
             removeDivision(index) {
                 this.templateFormDetail.steptwo.divisions.splice(index, 1);
+                this.$root.$emit('updateGroupCount');
+                this.$root.$emit('updateRoundCount');
+                this.$root.$emit('updatePositions');
             },
             onTeamChange(divisionIndex) {
                 let divisionTeams = this.divisionData.no_of_teams;
