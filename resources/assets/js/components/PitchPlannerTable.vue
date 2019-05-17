@@ -178,6 +178,7 @@
                 'unscheduleFixture': 'Are you sure you would like to unschedule the selected fixtures?',
                 'matchId': null,
                 'scheduleMatchesArray': [],
+                'gamesMatchList': [],
             };
         },
         mounted() {
