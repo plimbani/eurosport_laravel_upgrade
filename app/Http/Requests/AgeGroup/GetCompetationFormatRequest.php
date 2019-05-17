@@ -19,9 +19,9 @@ class GetCompetationFormatRequest extends FormRequest
     public function authorize()
     {
         $token = JWTAuth::getToken();
-        if(!$token || ($this->headers->all()['ismobileuser'] && app('request')->header('ismobileuser') == "true")) {
+        if(!$token || (app('request')->header('ismobileuser') && app('request')->header('ismobileuser') == "true")) {
             $tournament_id = null;
-            if($this->headers->all()['ismobileuser'] && app('request')->header('ismobileuser') == "true") {
+            if(app('request')->header('ismobileuser') && app('request')->header('ismobileuser') == "true") {
                 $tournament_id = $this->all()['tournament_id'];
             } else {
                 $data = $this->all()['tournamentData'];
