@@ -116,7 +116,7 @@ public class HomeActivity extends BaseAppCompactActivity {
                         mPreference.setString(AppConstants.PREF_SESSION_TOURNAMENT_STATUS, mTournamentList.get(position).getStatus());
                     }
                     if (!Utility.isNullOrEmpty(mTournamentList.get(position).getName())) {
-                        tv_tournamentName.setText(mTournamentList.get(position).getName().replace(" ", "\n"));
+                        tv_tournamentName.setText(mTournamentList.get(position).getName());
                     } else {
                         tv_tournamentName.setText("");
                     }

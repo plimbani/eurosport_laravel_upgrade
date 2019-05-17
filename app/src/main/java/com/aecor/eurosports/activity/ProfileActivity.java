@@ -162,6 +162,7 @@ public class ProfileActivity extends BaseAppCompactActivity {
 
                                 if (!Utility.isNullOrEmpty(mSelectedTournamentId) && Utility.isNullOrEmpty(mAppPref.getString(AppConstants.PREF_TOURNAMENT_ID)) && mAppPref.getBoolean(AppConstants.IS_LOGIN_USING_FB)) {
                                     mAppPref.setString(AppConstants.PREF_TOURNAMENT_ID, mSelectedTournamentId);
+                                    mAppPref.setString(AppConstants.PREF_SESSION_TOURNAMENT_ID, mSelectedTournamentId);
                                 }
 
                                 Utility.showToast(mContext, messgae);
