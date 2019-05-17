@@ -2483,7 +2483,7 @@ class MatchService implements MatchContract
     public function moveMatchStandings($tournamentId, $ageCategoryId, $competitionId)
     {
       // Manual standing insert - start
-      $allCompetitions = Competition::where('tournament_id','=',$tournamentId)->where('tournament_competation_template_id','=',)->where('id','>',$competitionId)->get();
+      $allCompetitions = Competition::where('tournament_id','=',$tournamentId)->where('tournament_competation_template_id','=',$ageCategoryId)->where('id','>',$competitionId)->get();
 
       foreach($allCompetitions as $competition)
       {
