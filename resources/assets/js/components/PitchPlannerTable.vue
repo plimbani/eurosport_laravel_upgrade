@@ -545,14 +545,12 @@
             },
 
             saveScheduleMatchResult(matchData) {
-                this.scheduleMatchesArray.push(matchData);
-                console.log('1', this.scheduleMatchesArray);   
+                this.scheduleMatchesArray.push(matchData);   
             },
 
             saveScheduleMatches() {
                 Tournament.saveScheduleMatches(this.scheduleMatchesArray).then(
                     (response) => {
-                        console.log('in');
                         if(response.data.status_code == '200') {
                             toastr.success('Match has been scheduled successfully.', 'Schedule Match');
                         }
