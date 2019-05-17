@@ -13,7 +13,7 @@ class SetDefaultFavouriteRequest extends FormRequest
      */
     public function authorize()
     {
-        if (isset($this->headers->all()['ismobileuser'])) {
+        if (app('request')->header('ismobileuser')) {
             $isMobileUser = app('request')->header('ismobileuser');
             if ($isMobileUser == "true") {
                 return true;
