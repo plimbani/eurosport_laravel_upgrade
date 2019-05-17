@@ -122,7 +122,8 @@ class UserRepository {
         'registered_from' => $data['registered_from'] ? 1 : 0,
         'user_image'=>(isset($data['user_image']) && $data['user_image']!='') ?  $data['user_image'] : '',
         'role' => (isset($data['role']) && $data['role']!='') ?  $data['role'] : '',
-        
+        'provider' => 'email',
+        'provider_id' => null
         ];
       
         $deletedUser = User::onlyTrashed()->where('email',$data['email'])->first();
