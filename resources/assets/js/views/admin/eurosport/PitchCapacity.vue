@@ -74,7 +74,7 @@
                                             </span>
                                         </td>
                                         <td v-if="!searchDisplayData" class="text-center drag-handle">
-                                            <span class="align-middle text-primary">
+                                            <span class="align-middle text-primary draggable-handle">
                                                 <i class="fas fa-arrow-up" v-if="index > 0 && index < dragPitches.length"></i>
                                                 <i class="fas fa-arrow-down" v-if="index >= 0 && index < dragPitches.length - 1"></i>
                                             </span>
