@@ -1,10 +1,10 @@
 <?php
 
-namespace Laraspace\Http\Requests\User;
+namespace Laraspace\Http\Requests\Team;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class SetDefaultFavouriteRequest extends FormRequest
+class GetTournamentTeamDetailsRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

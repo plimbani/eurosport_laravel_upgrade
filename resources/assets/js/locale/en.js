@@ -126,7 +126,7 @@ module.exports= {
   user_management_user_type: "User type*",
   user_management_user_type_required: "This field is required.",
   user_management_default_app_tournament: "Default app tournament*",
-  user_management_role: "Role*",
+  user_management_role: "Role",
   user_management_country: "Country*",
   user_management_language: "Language",
   maximum_teams: "Maximum teams",
@@ -439,6 +439,7 @@ module.exports= {
   pitch_modal_availability_button_addstage: "Add day",
   pitch_modal_availability_button_add: "Add day",
   pitch_capacity_location: "Venue",
+  pitch_modal_order: "Order",
 
 
   pitch_modal_edit_pitch_button: "Delete",

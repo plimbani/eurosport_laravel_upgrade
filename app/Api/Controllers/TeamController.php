@@ -24,6 +24,7 @@ use Laraspace\Http\Requests\Team\GetAllTournamentTeamsRequest;
 use Laraspace\Http\Requests\Team\GetAllCompetitionTeamsFromFixtureRequest;
 use Laraspace\Http\Requests\Team\GetSignedUrlForTeamsFairPlayReportPrint;
 use Laraspace\Http\Requests\Team\GetSignedUrlForTeamsFairPlayReportExport;
+use Laraspace\Http\Requests\Team\GetTournamentTeamDetailsRequest;
 
 
 // Need to Define Only Contracts
@@ -245,5 +246,10 @@ class TeamController extends BaseController
     public function printTeamFairPlayReport(Request $request)
     {
         return $this->teamObj->printTeamFairPlayReport($request->all());   
+    }
+
+    public function getTournamentTeamDetails(GetTournamentTeamDetailsRequest $request) 
+    {
+        return $this->teamObj->getTournamentTeamDetails($request->all());
     }
 }
