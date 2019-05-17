@@ -15,7 +15,7 @@
             		<li>{{ match }}</li>
             	</ul>
 
-            	<p>Latest score for all the listed matches has been syncronized.</p>
+            	<strong>Note:</strong> Latest score for all the listed matches has been synchronized.
 	          </div>
 	          <div class="modal-footer">
 	            <button type="button" class="btn btn-danger"  @click="closeModal()">{{$lang.manual_ranking_cancel}}</button>
