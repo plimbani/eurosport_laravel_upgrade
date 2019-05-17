@@ -936,7 +936,7 @@ class MatchService implements MatchContract
           $findTeams[] = $value->away_team;
         }
 
-        if(cound($findTeams) > 0) {
+        if(count($findTeams) > 0) {
           $findTeams = array_unique($findTeams);
           $this->moveMatchStandings($data['tournamentId'], $ageCategoryId, $data['competitionId']);
           $this->generateStandingsForCompetitions($data['tournamentId'], $data['competitionId'], $ageCategoryId, $findTeams, 'Round Robin');
