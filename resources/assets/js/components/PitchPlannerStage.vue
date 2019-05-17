@@ -291,6 +291,7 @@ import _ from 'lodash'
                             Tournament.setMatchSchedule(matchData).then(
                                 (response) => {   
                                     vm.$emit('schedule-match-result', matchData);
+                                    vm.$root.$emit('gamesMatchList', matchData);
                                     if(response.data.status_code == 200 ){
                                         if(response.data.data != -1 && response.data.data != -2){
                                             vm.$store.dispatch('setMatches');

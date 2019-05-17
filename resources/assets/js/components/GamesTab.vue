@@ -44,7 +44,8 @@ export default {
       matchStatus: true,
       matchCompetition:{'matchList':''},
       'filterStatus': true,
-      'tournamentFilter': this.$store.state.Tournament.tournamentFiler
+      'tournamentFilter': this.$store.state.Tournament.tournamentFiler,
+      'gamesMatchListRecord': [],
     }
   },
   computed: {
@@ -63,7 +64,10 @@ export default {
     }
   },
   created: function() {
-      // this.$root.$on('getTeamsByTournamentFilter', this.setGameFilter);
+      this.$root.$on('gamesMatchList', this.gamesMatchListData);
+  },
+  beforeCreate: function() {
+    this.$root.$off('gamesMatchList');
   },
   mounted() {
     this.$store.dispatch('setCompetationWithGames');
@@ -89,6 +93,11 @@ export default {
         this.TournamentId = 0;
       }
     },
+
+    gamesMatchListData(matchData)
+    {
+      
+    }
   }
 }
 
