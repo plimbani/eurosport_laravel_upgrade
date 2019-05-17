@@ -5,7 +5,8 @@
                 <div class="card-block">
                     <div class="row d-flex flex-row align-items-center mb-3 ">
                       <div class="col-md-5">
-                            <p class="mb-0">{{$lang.user_management_all_users_sentence}}</p>
+                            <p class="mb-0" v-if="currentLayout == 'commercialisation'">{{$lang.user_management_commercialisation_all_users_sentence}}</p>
+                            <p class="mb-0" v-else>{{$lang.user_management_all_users_sentence}}</p>
                       </div>
                       <div class="col-md-7">
                         <div class="row align-items-center justify-content-end">
@@ -42,11 +43,10 @@
                                         <td>{{transction.transaction_id}}</td>
                                         <td>{{transction.team_size}}</td>
                                         
-                                        <td><span v-if='index >= 1'>+</span>{{getDayDifferences(transction.start_date,transction.end_date)}} day<span v-if='getDayDifferences(transction.start_date,transction.end_date) >= 1'>s</span></td>
-                                        <td>{{transction.transaction_id}}</td>
+                                        <td><span v-if='index >= 1 && transction.no_of_days > 0' >+</span>{{transction.no_of_days}} day<span v-if='transction.no_of_days >= 1'>s</span></td>
+                                        <td>{{transction.transaction_date}}</td>
                                         <td>{{transction.currency}}</td>
-                                        <td>{{transction.amount}}</td>
-                                   
+                                        <td>{{transction.amount}}</td>                          
                                     
                                   </tr>
                                   <tr><td colspan="8"></td></tr>
@@ -71,7 +71,8 @@
         data() {
             return {
                 tournamentsTransactions:[],
-                tournament_id:160 // currently static
+                tournament_id:160, // currently static
+                currentLayout: this.$store.state.Configuration.currentLayout,
             }
         },
         beforeRouteEnter(to, from, next) {  
@@ -105,17 +106,17 @@
                 });  
             },
 
-            getDayDifferences(start,end){
+            /*getDayDifferences(start,end){
                 let startDateArr = start.split("/");
                 let endDateArr = end.split("/"); 
                 let startDateFormat = startDateArr[2]+"/"+startDateArr[1]+"/"+startDateArr[0];
                 let endDateFormat = endDateArr[2]+"/"+endDateArr[1]+"/"+endDateArr[0]; 
                 let startDate = moment(startDateFormat);
-                let endDate = moment(endDateFormat);
+                let endDate = moment(endDateFormat).add('days', 1);
                 
                 let dayDiff = endDate.diff(startDate, 'days');
                 return dayDiff;
-            } 
+            }*/ 
         },
         beforeMount(){  
         }

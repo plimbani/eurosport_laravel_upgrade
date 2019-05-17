@@ -7,6 +7,7 @@ use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Laraspace\Models\Settings;
 use Laraspace\Models\UserFavourites;
+use Laraspace\Models\TournamentUser;
 
 class AuthController extends Controller
 {
@@ -26,14 +27,16 @@ class AuthController extends Controller
         }
         $authUser = JWTAuth::authenticate($token);
         $person = $authUser->profile()->first();
-        $country = $person->country_id;
+        $country = $authUser->country_id;
         $role = [$authUser->roles()->first()];
+
+        $userTournamentCount = TournamentUser::with('tournaments')->has('tournaments')->where('user_id', $authUser->id)->count();
         
         // all good so return the token
         //return response()->json(compact('token'));
         //$token = response()->json(compact('token'));
        // $token = compact('token');
-        return response()->json(compact('token', 'role', 'country'));
+        return response()->json(compact('token', 'role', 'country', 'userTournamentCount'));
 
     }
 
@@ -68,28 +71,19 @@ class AuthController extends Controller
           }
             $path = getenv('S3_URL').'/assets/img/users/';
             $userDataQuery = \Laraspace\Models\User::where('users.id',$userData->id)
-                              ->leftJoin('users_favourite','users_favourite.user_id','=','users.id')
                               ->leftJoin('people','people.id','=','users.person_id')
                               ->leftjoin('countries', 'countries.id', '=', 'users.country_id')
                               ->join('role_user', 'users.id', '=', 'role_user.user_id')
                               ->join('roles', 'roles.id', '=', 'role_user.role_id')
-                              ->where('users_favourite.deleted_at', '=', NUll)
                               ->select('users.id',
                                 'users.locale',
                                 'people.first_name',
                                 'people.last_name','users.email',
                                 'users.user_image',
-                                \DB::raw('IF(users.user_image is not null,CONCAT("'.$path.'", users.user_image),"" ) as userImage'),
-                                'users_favourite.tournament_id','users.role as role','countries.id as country_id')
+                                \DB::raw('IF(users.user_image is not null,CONCAT("'.$path.'", users.user_image),"" ) as userImage'),'users.role as role','countries.id as country_id')
                               ->get();
 
-            $userFavourites = UserFavourites::where('user_id', $userData->id)->where('is_default', '=', 1)->where('deleted_at', '=', NUll)->first();
-            $userFavouriteTournamentId = '';
-
-            if($userFavourites) {
-              $userFavouriteTournamentId = UserFavourites::where('tournament_id', $userFavourites->tournament_id)->first()->tournament_id;
-            }
-
+            $userFavourite = UserFavourites::where('user_id', $userData->id)->where('is_default', '=', 1)->first();
 
             $userDetails = array();
             if(isset($userDataQuery)) {
@@ -98,7 +92,7 @@ class AuthController extends Controller
              $userDetails['sur_name'] = $userData->last_name;
              $userDetails['email'] = $userData->email;
              $userDetails['profile_image_url'] = $userData->userImage;
-             $userDetails['tournament_id'] = $userFavouriteTournamentId ? $userFavouriteTournamentId : null;
+             $userDetails['tournament_id'] = $userFavourite ? $userFavourite->tournament_id : null;
              $userDetails['user_id'] = $userData->id;
              $userDetails['locale'] = $userData->locale;
              $userSettings = Settings::where('user_id','=',$userData->id)->first();
@@ -108,6 +102,7 @@ class AuthController extends Controller
              $userDetails['role_name'] = $userData->roles()->first()->slug;
              $userDetails['locale'] = $userData->locale;
              $userDetails['country_id'] = $userData->country_id;
+             
              $tournament_id = array();
              return response(['authenticated' => true,'userData'=> $userDetails, 'is_score_auto_update' =>config('config-variables.is_score_auto_update')]);
             }

@@ -38,6 +38,7 @@ const state = {
   unsaveMatchData:[],
   matchResultChange:false,
   setRedirectPage:'',
+  access_code:'',
 }
 // getters
 const getters = {
@@ -224,6 +225,7 @@ const mutations = {
 	state.tournamentId = currentTournament.id
 	state.tournamentStatus = currentTournament.tournamentStatus
 	state.tournamentLogo = currentTournament.tournamentLogo
+  state.access_code = currentTournament.access_code
 
   // Optional Fields
   state.facebook = currentTournament.facebook
@@ -231,7 +233,6 @@ const mutations = {
   state.twitter = currentTournament.twitter
   },
   [types.SAVE_TOURNAMENT] (state, tournamentData) {
-
 	state.tournamentName = tournamentData.name
   state.maximumTeams = tournamentData.maximum_teams
   state.tournamentId = tournamentData.id

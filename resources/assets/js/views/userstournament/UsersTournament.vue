@@ -5,7 +5,8 @@
                 <div class="card-block">
                     <div class="row d-flex flex-row align-items-center mb-3 ">
                       <div class="col-md-5">
-                            <p class="mb-0">{{$lang.user_management_all_users_sentence}}</p>
+                            <p class="mb-0" v-if="currentLayout == 'commercialisation'">{{$lang.user_management_commercialisation_all_users_sentence}}</p>
+                            <p class="mb-0" v-else>{{$lang.user_management_all_users_sentence}}</p>
                       </div>
                       <div class="col-md-7">
                         <div class="row align-items-center justify-content-end">
@@ -45,8 +46,7 @@
                                     <!-- <td>TEA</td> -->
                                     <td v-on:click="redirectToTransactionListPage(tournament)" >
                                     <a href="javascript:void(0)" class="text-primary"><u>{{ tournament.created_at }}</u></a></td>
-                                    <td>Edit</td>
-                                    
+                                    <td><a class="text-primary" href="javascript:void(0);"  v-on:click="redirectToTournamentDetailPage(tournament)" title="Edit"><i class="fas fa-pencil"></i></a></td>                                    
                                   </tr>
                                   <tr><td colspan="8"></td></tr>
                                 </tbody>
@@ -71,22 +71,8 @@
             return {
                 usersTourmanents:[],
                 customer_id:0, // currently static
+                currentLayout: this.$store.state.Configuration.currentLayout,
             }
-        },
-        beforeRouteEnter(to, from, next) {  
-            next(vm =>{
-                if(Object.keys(to.query).length === 0) {
-                    vm.$router.push({name: 'users_list'});
-                }else{
-                    if(typeof to.query.id != "undefined"){
-                        vm.customer_id = to.query.id; 
-                        vm.getTournamentListOfUser();
-                    }else{  
-                        vm.$router.push({name: 'users_list'});
-                    }
-                }
-                
-            })
         },
         methods: {
             getTournamentListOfUser(){
@@ -95,7 +81,7 @@
                 }
                 
                 axios.post(Constant.apiBaseUrl+'customer-tournament',params).then(response =>  {  
-                     this.usersTourmanents = response.data.data;
+                     this.usersTourmanents = response.data.data.data;
                 }).catch(error => {
                     this.disabled = false;
                      console.log("error in getTournamentListOfUser::",error);
@@ -116,7 +102,8 @@
                     tournamentEndDate:selectedTournament.end_date,
                     facebook:selectedTournament.facebook,
                     website:selectedTournament.website,
-                    twitter:selectedTournament.twitter
+                    twitter:selectedTournament.twitter,
+                    access_code:selectedTournament.access_code
                 }
                 this.$store.dispatch('SetTournamentName', tournamentSel);
                 let currentNavigationData = {activeTab:'tournament_add', currentPage: 'Tournament details'};
@@ -126,10 +113,23 @@
 
             redirectToTransactionListPage(tournament){
                  this.$router.push({name: 'tournamentstransaction', query: {id:tournament.id}}); 
-            } 
+            }, 
+
+            getTournamentRecord() {
+                if(Object.keys(this.$route.query).length === 0) {
+                    this.$router.push({name: 'users_list'});
+                }else{
+                    if(this.$route.query.id != ''){
+                        this.customer_id = this.$route.query.id; 
+                        this.getTournamentListOfUser();
+                    }else{  
+                        this.$router.push({name: 'users_list'});
+                    }
+                }
+            }
         },
         beforeMount(){  
-            
+            this.getTournamentRecord();
         }
     }
 </script>

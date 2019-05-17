@@ -1,24 +1,27 @@
 <template>
-	<div class="template-container">
+    <div class="template-container">
         <site-header v-if="getCurrentLayout === 'tmp'"></site-header>
-		<site-commercialisation-header v-if="getCurrentLayout === 'commercialisation'"></site-commercialisation-header>
+        <site-commercialisation-header v-if="getCurrentLayout === 'commercialisation'"></site-commercialisation-header>
         <div class="main-content container-fluid" id="dashboardPage">
-          <breadCrum></breadCrum>
-		  <router-view></router-view>
-        </div>  
+            <breadCrum></breadCrum>
+            <router-view></router-view>
+        </div> 
         <site-footer v-if="getCurrentLayout === 'tmp'"></site-footer>
-		<site-commercialisation-footer v-if="getCurrentLayout === 'commercialisation'"></site-commercialisation-footer>
-	</div>
+        <site-commercialisation-footer v-if="getCurrentLayout === 'commercialisation'"></site-commercialisation-footer>
+    </div>
 </template>
 
 <script type="text/babel">
     import SiteHeader from './partials/SiteHeader.vue'
     import SiteFooter from './partials/SiteFooter.vue'
 
+    import Layout from '../../helpers/layout'
+    import BreadCrum from '../../components/UserTournamentTransactionHistoryBreadCrum.vue'
+    import TournamentsTransaction from '../tournamentstransaction/TournamentsTransaction.vue'
+
     import SiteCommercialisationHeader from './partials/Commercialisation/Backend/SiteHeader.vue'
     import SiteCommercialisationFooter from './partials/Commercialisation/Backend/SiteFooter.vue'
-    import BreadCrum from '../../components/UserTournamentTransactionBreadCrum.vue'
-
+    
     export default {
         data() {
             return {
@@ -26,14 +29,15 @@
             }
         },
         components : {
-            SiteCommercialisationHeader, SiteCommercialisationFooter, BreadCrum, SiteHeader, SiteFooter
-        },
+            SiteHeader, SiteFooter, BreadCrum, TournamentsTransaction, SiteCommercialisationHeader, SiteCommercialisationFooter
+        }, 
         mounted() {
+            Layout.set('layout-horizontal')
         },
         computed: {
             getCurrentLayout() {
                 return this.$store.state.Configuration.currentLayout;
             }
-        }
-    }    
+        } 
+    }
 </script>

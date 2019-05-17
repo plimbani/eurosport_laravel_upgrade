@@ -29,6 +29,7 @@ class CreateTransactionHistoriesTable extends Migration
             $table->dateTime('transaction_date')->nullable()->default(NULL);
             $table->string('brand')->nullable()->default(NULL);
             $table->string('currency')->nullable()->default(NULL);
+			$table->integer('no_of_days');
             $table->text('payment_response');
             $table->timestamps();
             $table->softDeletes();

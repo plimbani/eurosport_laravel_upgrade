@@ -17,6 +17,7 @@ import LayoutFront from './views/layouts/LayoutFront.vue'
 
 //Login : Auth
 import Login from './views/auth/Login.vue'
+import PasswordReset from './views/auth/Reset.vue'
 import Register from './views/auth/Register.vue'
 
 // Error : Not Found page
@@ -114,6 +115,11 @@ import ManagePricing from './components/Pricing/ManagePricing.vue'
 // Commercialisation backend Layout
 import LayoutTournamentPricingForBackend from './views/layouts/LayoutTournamentPricing.vue'
 
+// Commercialisation user tournament transaction 
+import LayoutUserTournamentTransaction from './views/layouts/LayoutUserTournamentTransaction.vue'
+
+// Commercialisation user tournament transaction history
+import LayoutUserTournamentTransactionHistory from './views/layouts/LayoutUserTournamentTransactionHistory.vue'
 
 import Ls from './services/ls'
 
@@ -309,7 +315,7 @@ const routes = [
         ]
     },
     {
-        path: '/userstourmanents', component: LayoutTournament,
+        path: '/userstourmanents', component: LayoutUserTournamentTransaction,
         meta: { requiresAuth: true },
         children: [
             {
@@ -320,7 +326,7 @@ const routes = [
         ]
     }, 
     {
-        path: '/tournamentstransaction', component: LayoutCommercialisation,
+        path: '/tournamentstransaction', component: LayoutUserTournamentTransactionHistory,
         meta: { requiresAuth: true },
         children: [
             {
@@ -351,7 +357,11 @@ const routes = [
                 component: Register,
                 name: 'register'
             },
-
+            {
+                path: 'password/reset/:token*',
+                component: PasswordReset,
+                name: 'reset'
+            },
         ]
     },
     {
@@ -443,14 +453,24 @@ const routes = [
     {
         path: '/payment', component: LayoutCommercialisation,
         meta: { requiresAuth: true },
-        component: payment,
-        name: 'payment'
+        children: [
+            {   
+                path: '/',
+                component: payment,
+                name: 'payment'
+            }
+        ]
     },
 	{
         path: '/paymentfailure', component: LayoutCommercialisation,
         meta: { requiresAuth: true },
-        component: paymentfailure,
-        name: 'paymentfailure'
+        children: [
+            {  
+                path: '/',
+                component: paymentfailure,
+                name: 'paymentfailure'
+            }
+        ]
     },
     {
         path: '/dashboard', component: LayoutCommercialisation,
@@ -513,7 +533,7 @@ router.beforeEach((to, from, next) => {
 
 
             if ( response.userData.role_name == "customer" && restrictCustomerRoutes.indexOf(to.name) >= 0) {
-                router.push({'name':'dashboard'});
+                return next({ path : '/dashboard'});
             }
 
             if(response.authenticated && typeof response.hasAccess !== 'undefined' && response.hasAccess == false){

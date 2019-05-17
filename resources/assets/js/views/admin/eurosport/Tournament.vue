@@ -23,7 +23,7 @@
                       <div class="wrapper-tab">{{$lang.summary_label_schedule}}</div>
                     </a>
                   </li>
-                  <li class="nav-item" v-if="!isResultAdmin">
+                  <li class="nav-item" v-if="!isResultAdmin && !isCustomer">
                     <a class="nav-link" data-toggle="tab" href="javascript:void(0)" role="tab" @click="currentView='messages'">
                       <div class="wrapper-tab">{{$lang.summary_label_message}}</div>
                     </a>
@@ -97,7 +97,10 @@ export default {
     computed: {
       isResultAdmin() {
         return this.$store.state.Users.userDetails.role_slug == 'Results.administrator';
-      }
+      },
+      isCustomer() {
+        return this.$store.state.Users.userDetails.role_slug == 'customer';
+      },
     },
     methods: {
       addMessage() {

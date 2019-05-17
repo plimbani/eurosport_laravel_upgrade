@@ -78,6 +78,7 @@ module.exports= {
   user_management_sentence: "Add, edit and remove Euro-Sportring Tournament Planner users.",
   user_management_sentence_tournament: "Add, edit and remove Euro-Sportring mobile users.",
   user_management_all_users_sentence: "Add, edit and remove Euro-Sportring users.",
+  user_management_commercialisation_all_users_sentence: "Add, edit and remove Easy Match Manager users.",
   user_management_add_name: "Name*",
   user_management_clear_button: "Clear",
   user_management_add_name_required: "This field is required.",
@@ -211,7 +212,7 @@ module.exports= {
   tournament_filter_age_category_match: "Category",
   tournament_label: "Tournament data",
   teams_groups_label: "Teams and groups",
-
+  tournament_license_access_code: "License",
 
   website_label: "Website",
   website_information: "Website information",
@@ -599,6 +600,7 @@ module.exports= {
   summary_age_groups: "Age group",
   summary_participating_countries: "Participating countries",
   summary_euro_supporting_contact: "Euro-Sportring contact",
+  summary_easy_match_manager_main_contact: "Main contact",
   summary_teams: "Teams",
   summary_age_categories: "Age Categories",
   summary_games: "Games",

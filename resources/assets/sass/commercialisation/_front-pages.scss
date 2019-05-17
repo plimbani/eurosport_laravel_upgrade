@@ -109,6 +109,8 @@
 
 .main-section {
     padding-top: 63px;
+    // margin-top: 63px;
+    background-color: #fff;
 
     .card {
         @extend .border-0;
@@ -149,4 +151,33 @@
     padding: 0.75rem;
     background: rgba(255, 235, 59, 0.1);
     margin-bottom: 2.5rem;
+}
+
+.login-section,
+.thank-you {
+    background: url('/images/polygon-background.svg');
+    background-position: 102% 56%;
+}
+
+.buy-license-section {
+    .card {
+        &.shaded-card {
+            background: url('/images/polygon-background.svg');
+            background-position: 63% 20%;
+        }
+    }
+}
+
+.confirmation-section {
+    .img-device {
+        img {
+            width: 200px;
+        }
+    }
+
+    .get-app {
+        img {
+            width: 130px;
+        }
+    }
 }

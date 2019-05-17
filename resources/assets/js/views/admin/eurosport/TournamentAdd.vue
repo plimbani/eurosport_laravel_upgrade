@@ -3,7 +3,9 @@
 <div>
 <div class="card">
   <div class="card-block">
-      <h6><strong>{{$lang.tournament_information}}</strong></h6>
+      <h6><strong>{{$lang.tournament_information}}</strong>
+        <span v-if="this.currentLayout == 'commercialisation' && tournament.access_code != null"  class="float-right font-weight-bold">{{ $lang.tournament_license_access_code}} #{{ tournament.access_code }}</span>
+      </h6>
       <form name="tournamentName" enctype="multipart/form-data">
         <div class="row">
           <div class="col-sm-6">
@@ -137,9 +139,10 @@
             </div>
           </div>
         </div>
-        <div class="">
-            <h6><strong>{{$lang.tournament_eurosporting}}</strong></h6>
-        </div>
+        <h3 class="text-uppercase font-weight-bold mt-5">
+            {{$lang.tournament_eurosporting}}
+        </h3>
+        <div class="row"><div class="col-lg-6"><div class="divider mb-5"></div></div></div>
         <div class="form-group row" :class="{'has-error': errors.has('tournament.tournament_contact_first_name') }">
           <label class="col-sm-2 form-control-label">{{$lang.tournament_first_name}}*</label>
           <div class="col-sm-4">
@@ -171,9 +174,10 @@
         </div>
         <!--<location :locations="locations"></location>-->
         <div v-for="(location, index) in locations">
-          <div class="">
-            <h6><strong>{{$lang.tournament_location}}</strong></h6>
-          </div>
+          <h3 class="text-uppercase font-weight-bold mt-5">
+              {{$lang.tournament_location}}
+          </h3>
+          <div class="row"><div class="col-lg-6"><div class="divider mb-5"></div></div></div>
           <div class="form-group row">
             <label class="col-sm-2 form-control-label">{{$lang.tournament_venue}}*</label>
             <div class="col-sm-4">
@@ -302,7 +306,8 @@
           <div class="form-group row">
             <label class="col-sm-2 form-control-label">{{$lang.tournament_organiser}}</label>
             <div class="col-sm-4">
-              <input type="text" class="form-control" placeholder="" v-model="location.tournament_venue_organiser">
+              <input type="text" class="form-control" placeholder="" 
+              v-model="location.tournament_venue_organiser">
             </div>
           </div>
           <div class="form-group row">
@@ -336,7 +341,6 @@
 <script >
 
 $(document).on('click', '.js-tournament-sponsor-image', function(e){
-  console.log($(this).data('index'));
   $("#tournament_sponsor_image" + $(this).data('index')).trigger('click');
 });
 
@@ -351,7 +355,7 @@ export default {
 data() {
 return {
 tournament: {name:'',website:'',facebook:'',twitter:'',tournament_contact_first_name:'',tournament_contact_last_name:'',tournament_contact_home_phone:'',
-image_logo:'',test_value:'',del_location:[],maximum_teams:'', tournament_sponsor:[],
+image_logo:'',test_value:'',del_location:[],maximum_teams:'', tournament_sponsor:[], access_code:'',
 },
 userRole:this.$store.state.Users.userDetails.role_name,
 locations: [
@@ -363,7 +367,7 @@ tournament_venue_postcode: "",
 tournament_venue_state: "",
 tournament_venue_country: "",
 tournament_location_id:"",
-tournament_venue_organiser: "",
+tournament_venue_organiser: (this.$store.state.Configuration.currentLayout == "commercialisation" && this.$store.state.Users.userDetails.role_name == "Customer") ? this.$store.state.Users.userDetails.organisation : "",
 }
 ],
 sponsorImage: [],
@@ -375,6 +379,7 @@ is_sponsor_logo_uploading: false,
 is_sponsor_logo_uploading_index: 0,
 tournamentDateDiff: 0,
 'removeVenue': 'Before this venue can be deleted all pitches associated with it must be re-allocated to an alternative venue.',
+currentLayout: this.$store.state.Configuration.currentLayout,
 }
 },
   components: {
@@ -411,6 +416,7 @@ tournamentDateDiff: 0,
               // Initially Set with Zero
               this.locations = []
               for(let i=0;i<locations.length;i++){
+
                 this.locations.push ({
                     tournament_venue_name: locations[i]['name'],
                     touranment_venue_address: locations[i]['address1'],
@@ -461,13 +467,13 @@ tournamentDateDiff: 0,
     // here we set data from state for tournament
     this.tournament.name = this.$store.state.Tournament.tournamentName
     this.tournament.maximum_teams = this.$store.state.Tournament.maximumTeams
-
     if(this.$store.state.Tournament.tournamentLogo != undefined || this.$store.state.Tournament.tournamentLogo != null || this.$store.state.Tournament.tournamentLogo != '')
     {
     this.image = this.$store.state.Tournament.tournamentLogo
     this.imagePath = ''
     }
 
+    this.tournament.access_code = this.$store.state.Tournament.access_code
     this.tournament.website =this.$store.state.Tournament.website
     this.tournament.facebook =this.$store.state.Tournament.facebook
     this.tournament.twitter = this.$store.state.Tournament.twitter
@@ -542,11 +548,13 @@ methods: {
 selectImage() {
 $('#selectFile').trigger('click')
 },
+
 addLocationClick() {
 this.locations.push ({
 tournament_venue_name: "",
 touranment_venue_address: "",
 tournament_venue_city: "",
+tournament_venue_organiser: (this.$store.state.Configuration.currentLayout == "commercialisation" && this.$store.state.Users.userDetails.role_name == "Customer") ? this.$store.state.Users.userDetails.organisation : "",
 tournament_venue_postcode: "",
 tournament_venue_state: "",
 tournament_venue_country: "",

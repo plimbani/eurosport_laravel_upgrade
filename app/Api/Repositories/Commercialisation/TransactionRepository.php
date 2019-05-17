@@ -38,19 +38,20 @@ class TransactionRepository
         $data = array_change_key_case($requestData['paymentResponse'], CASE_UPPER);
         $authUser = JWTAuth::parseToken()->toUser();
         $userId = $authUser->id;
-		
         $tournamentRes = null;
-        if ($data['STATUS'] == 5 && !empty($requestData['tournament'])) {
+        if (($data['STATUS'] == 5 || $data['STATUS'] == 9) && !empty($requestData['tournament'])) {
             $tournamentRes = $this->tournamentObj->addTournamentDetails($requestData['tournament'], 'commercialisation');
+            $tournamentContact = $this->tournamentObj->addTournamentContactDetails($tournamentRes->id, $userId);
             $tournamentRes->users()->attach($userId);
+		
 		}
 
 		if(!$tournamentRes)
 		{
 			$tournamentRes = (object)[];
 			$tournamentRes->maximum_teams = $requestData['tournament']['tournament_max_teams'];
-            
 		}
+		$tournamentRes->no_of_days = $requestData['tournament']['dayDifference'];
         $response = $this->addTransaction($data, $tournamentRes, $userId);
 
         //If renew license then duplicate age category if team size same
@@ -133,9 +134,9 @@ class TransactionRepository
             }
         }
 
-        if ($data['STATUS'] == 5) {
+        if ($data['STATUS'] == 5 || $data['STATUS'] == 9) {
             //Send conformation mail to customer
-            $subject = 'Message from Eurosport';
+            $subject = 'Easy Match Manager - Order confirmation';
             $email_templates = 'emails.frontend.payment_confirmed';
             $emailData = ['paymentResponse' => $requestData['paymentResponse'], 'tournament' => $requestData['tournament'], 'user' => $authUser->profile];
             Mail::to($authUser->email)
@@ -160,7 +161,7 @@ class TransactionRepository
             'user_id' => !empty($userId) ? $userId : null,
         ];
         $response = Transaction::create($transaction);
-
+				
         //Add in transaction history
         $transactionHistory = [
             'transaction_id' => $response->id,
@@ -170,13 +171,14 @@ class TransactionRepository
             'amount' => number_format($data['AMOUNT'], 2, '.', ''),
             'status' => $paymentStatus[$data['STATUS']],
             'currency' => $data['CURRENCY'],
-            'card_type' => $data['PM'],
+            'card_type' => (isset($data['PM'])) ? $data['PM'] : null,
             'card_holder_name' => (isset($data['CN'])) ? $data['CN'] : null,
             'card_number' => (isset($data['CARDNO'])) ? $data['CARDNO'] : null,
             'card_validity' => (isset($data['ED'])) ? $data['ED'] : null,
             'transaction_date' => date('Y-m-d H:i:s', strtotime($data['TRXDATE'])),
             'brand' => (isset($data['BRAND'])) ? $data['BRAND'] : null,
-            'payment_response' => json_encode($data)
+            'payment_response' => json_encode($data),
+			'no_of_days' => $tournamentRes->no_of_days
         ];
         TransactionHistory::create($transactionHistory);       
         $responseData = array_merge($transactionHistory, $transaction);
@@ -214,7 +216,7 @@ class TransactionRepository
                 'transaction_id' => $existsTransaction['id'],
                 'order_id' => $data['ORDERID'],
                 'transaction_key' => $data['PAYID'],
-                'team_size' => $tournament['tournament_max_teams'],
+                'team_size' => $tournament['teamDifference'],
                 'amount' => number_format($data['AMOUNT'], 2, '.', ''),
                 'status' => $paymentStatus[$data['STATUS']],
                 'currency' => $data['CURRENCY'],
@@ -225,7 +227,8 @@ class TransactionRepository
                 'transaction_date' => date('Y-m-d H:i:s', strtotime($data['TRXDATE'])),
                 'brand' => $data['BRAND'],
                 'payment_response' => json_encode($data),
-                'updated_at' => date('Y-m-d H:i:s')
+                'updated_at' => date('Y-m-d H:i:s'),
+				'no_of_days' => $tournament['dayDifference']
             ];
         }
         Transaction::where('tournament_id', $tournament['id'])
@@ -234,12 +237,12 @@ class TransactionRepository
         if (!empty($data)) {
             $result = TransactionHistory::create($transaction);
         }
-        if ($data['STATUS'] == 5) {
+        if ($data['STATUS'] == 5 || $data['STATUS'] == 9) {
             //Send conformation mail to customer
-            $subject = 'Message from Eurosport';
+            $subject = 'Easy Match Manager - Order confirmation';
             $email_templates = 'emails.frontend.payment_confirmed';
-            $emailData = ['paymentResponse' => $requestData['paymentResponse'], 'tournament' => $requestData['tournament'], 'user' => $authUser->profile];
-            Mail::to($authUser->email)
+            $emailData = ['paymentResponse' => $requestData['paymentResponse'], 'tournament' => $requestData['tournament'], 'user' => $authUser->profile, 'is_manage_license' => 1];
+			Mail::to($authUser->email)
                     ->send(new SendMail($emailData, $subject, $email_templates, NULL, NULL, NULL));
         }
         return $result;
@@ -269,9 +272,12 @@ class TransactionRepository
                     'end_date' => $transaction->tournament->end_date,
                     'currency' => $history->currency,
                     'created_at' => $history->created_at,
+                    'transaction_date' => $history->transaction_date,
+					'no_of_days' => $history->no_of_days
                 ];
             }
         }
+        
         return $response;
     }
 

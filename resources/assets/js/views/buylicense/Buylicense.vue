@@ -39,7 +39,9 @@
                                             <div class="c-input">
                                               <input type="radio" id="no" name="custom_tournament_format" 
                                               value="0" class="euro-radio mr-2"  v-model="tournamentData.custom_tournament_format" @change="tournammentPricingData()">
-                                              <label for="no">No <span>£ INCLUDED</span></label>
+                                              <label for="no">No <span></span>
+                                              <span v-if="tournamentData.currency_type == 'GBP'">&#163; INCLUDED</span> 
+                                              <span v-if="tournamentData.currency_type == 'EURO'">&#128; INCLUDED</span></label>
                                             </div>
                                         </div>
                                     </label>
@@ -48,7 +50,10 @@
                                             <div class="c-input">
                                               <input type="radio" id="yes" name="custom_tournament_format" value="1" class="euro-radio mr-2"  v-model="tournamentData.custom_tournament_format" 
                                               @change="tournammentPricingData()">
-                                              <label for="yes">Yes <span>+£100</span></label>
+                                              <label for="yes">Yes 
+                                                <span v-if="tournamentData.currency_type == 'GBP'">&#163; {{ tournamentData.tournamentLicenseAdvancePriceDisplay }}</span>   
+                                                <span v-if="tournamentData.currency_type == 'EURO'">&#128; {{ tournamentData.tournamentLicenseAdvancePriceDisplay }}</span>
+                                            </label>
                                             </div>
                                         </div>
                                     </label>
@@ -214,6 +219,7 @@
                     custom_tournament_format: 0,
                     tournamentPricingValue: 0,
                     transactionDifferenceAmountValue: 0,
+                    tournamentLicenseAdvancePriceDisplay: 0,
 
                 },
                 
@@ -271,7 +277,8 @@
                     this.tournamentData.tournament_start_date = document.getElementById('tournament_start_date').value;
                     this.tournamentData.tournament_end_date = document.getElementById('tournament_end_date').value;
                     if(this.id){
-                        this.tournamentData.dayDifference =  this.newDaysAdded; 
+                        this.tournamentData.dayDifference =  this.newDaysAdded;
+						this.tournamentData.teamDifference =  this.new_added_teams;
                     }else{
                         this.tournamentData.dayDifference = this.dayDifference;
                     }
@@ -338,7 +345,7 @@
 
                 
             getTournamentDetail(){ 
-                axios.get(Constant.apiBaseUrl+'get-tournament?transactionId='+this.id, {}).then(response =>  {
+                axios.get(Constant.apiBaseUrl+'get-tournament?tournamentId='+this.id, {}).then(response =>  {
                         if (response.data.success) {
                             var start_date = new Date(moment(response.data.data.tournament.start_date, 'DD/MM/YYYY').format('MM/DD/YYYY'));
                             var end_date = new Date(moment(response.data.data.tournament.end_date, 'DD/MM/YYYY').format('MM/DD/YYYY')); 
@@ -371,7 +378,6 @@
                             {
                                 transactionAmount.push(historyAmount.amount); 
                             });
-                        
                             let transactionDifferenceAmountValue = _.sumBy(transactionAmount, function(historyAmount) { 
                                 return historyAmount; 
                             }); 
@@ -386,12 +392,10 @@
             },
 
             changeCurrencyType(event){
-                
                 this.tournamentData.currency_type = event.target.value;
                 if((this.tournamentData.currency_type).toLowerCase() == "gbp"){
                     this.tournamentData.payment_currency = this.tournamentData.currency_type;
                     this.tournamentData.tournamentPricingValue = (this.tournamentData.tournamentPricingValue)*this.gpbConvertValue;
-                    
                 }else{
                     this.tournamentData.tournamentPricingValue = this.tournamentData.tournamentPricingValue/this.gpbConvertValue;
                     this.tournamentData.payment_currency = "EUR";
@@ -434,16 +438,28 @@
                 let vm = this;
                 let tournamentLicensePricingArray = [];
 
+                //Custom tournament format display value 
+                let tournamentPricing = _.filter(this.tournamentPricingBand.cup.bands, function(band) {
+                     if(tournamentMaxTeams >= band.min_teams && tournamentMaxTeams <= band.max_teams) {
+                        vm.tournamentData.tournamentLicenseAdvancePriceDisplay = band.advanced_price;
+                    }
+                });
+
                 if(tournamentOrganising == 'cup' && tournamentCustomFormats == 0 && tournamentMaxTeams) {
                     let tournamentPricing = _.filter(this.tournamentPricingBand.cup.bands, function(band) {
                         if(tournamentMaxTeams >= band.min_teams && tournamentMaxTeams <= band.max_teams) {
-                            tournamentLicensePricingArray.push(band.price);    
+                            tournamentLicensePricingArray.push(band.price);  
                         }
                     });
+
                     let tournamentPricingRecord = _.head(tournamentLicensePricingArray);
                     vm.tournamentData.tournamentPricingValue = tournamentPricingRecord - this.tournamentData.transactionDifferenceAmountValue;
-                } 
-                            
+
+                    if(this.tournamentData.currency_type == "GBP") {
+                        vm.tournamentData.payment_currency = vm.tournamentData.currency_type;
+                        vm.tournamentData.tournamentPricingValue = (vm.tournamentData.tournamentPricingValue)*vm.gpbConvertValue;
+                    }
+                }   
                 if(tournamentOrganising == 'cup' && tournamentCustomFormats == 1 && tournamentMaxTeams) {
                     let tournamentPricing = _.filter(this.tournamentPricingBand.cup.bands, function(band) {
                         if(tournamentMaxTeams >= band.min_teams && tournamentMaxTeams <= band.max_teams) {
@@ -451,7 +467,12 @@
                         }
                     });
                     let tournamentPricingRecord = _.head(tournamentLicensePricingArray);
-                    vm.tournamentData.tournamentPricingValue = tournamentPricingRecord - this.tournamentData.transactionDifferenceAmountValue;
+                        vm.tournamentData.tournamentPricingValue = tournamentPricingRecord - this.tournamentData.transactionDifferenceAmountValue;
+
+                    if(this.tournamentData.currency_type == "GBP") {
+                        vm.tournamentData.payment_currency = vm.tournamentData.currency_type;
+                        vm.tournamentData.tournamentPricingValue = (vm.tournamentData.tournamentPricingValue)*vm.gpbConvertValue;
+                    }                        
                 } 
 
                 if(tournamentOrganising == 'league' && tournamentMaxTeams) {
@@ -461,9 +482,14 @@
                         }
                     });
                     let tournamentPricingRecord = _.head(tournamentLicensePricingArray);
-                    vm.tournamentData.tournamentPricingValue = tournamentPricingRecord - this.tournamentData.transactionDifferenceAmountValue;
+                        vm.tournamentData.tournamentPricingValue = tournamentPricingRecord - this.tournamentData.transactionDifferenceAmountValue;
+
+                    if(this.tournamentData.currency_type == "GBP") {
+                        vm.tournamentData.payment_currency = vm.tournamentData.currency_type;
+                        vm.tournamentData.tournamentPricingValue = (vm.tournamentData.tournamentPricingValue)*vm.gpbConvertValue;
+                    }
                 }
-                if(isNaN(vm.tournamentData.tournamentPricingValue)){
+                if(isNaN(vm.tournamentData.tournamentPricingValue) || vm.tournamentData.tournamentPricingValue < 0){
                     vm.tournamentData.tournamentPricingValue  = 0;
                 }
             }
@@ -499,7 +525,9 @@
             this.getCurrencyValue();
             setTimeout(function(){
                 vm.setOldDays()
-                vm.getTournamentDetail()
+                if(this.id){
+                    vm.getTournamentDetail()
+                }
                 vm.tournammentPricingData()
             },1500) 
             $('#cup').prop("checked",true)

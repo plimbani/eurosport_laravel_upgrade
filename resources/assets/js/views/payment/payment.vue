@@ -21,7 +21,10 @@
 
                     <div class="row">
                         <div class="col-sm-6 col-md-7 col-lg-7">
-                            <p class="mb-0" id="reeiptDetails">{{tournament.tournament_max_teams}} Team licence for a {{tournament.dayDifference}} day</p>
+                            <p v-if="!paymentFlag" class="mb-0" id="reeiptDetails">{{tournament.tournament_max_teams}} team license for a {{tournament.dayDifference}} day tournament</p>
+
+                            <p v-if="paymentFlag" class="mb-0" id="reeiptDetails">{{tournament.tournament_max_teams}} (+{{tournament.teamDifference}}) Team licence for a  {{this.totaldays}} ({{daysign}} {{tournament.dayDifference}}) day</p>
+
                         </div>
                         <div class="col-sm-6 col-md-5 col-lg-5">
                             <p class="text-sm-right mb-0 mt-3 mt-sm-0">{{paymentObj.amount}} {{paymentObj.currency}}</p>
@@ -33,8 +36,8 @@
                     <p class="text-sm-right font-weight-bold">{{paymentObj.amount}} {{paymentObj.currency}}</p>
 
                     <p class="py-3">You may now proceed to your dashboard and begin adding your tournament details.</p>
-                    <button v-if="tournament_id" class="btn btn-success" v-on:click="redirectToDashboardPage()">Get started</button>
-                    <button v-if="!tournament_id" class="btn btn-success" disabled="true">Get started</button>
+                    <button v-if="tournament_id" class="btn btn-primary" v-on:click="redirectToDashboardPage()">Get started</button>
+                    <button v-if="!tournament_id" class="btn btn-primary" disabled="true">Get started</button>
                     
                 </div>
             </div>
@@ -52,6 +55,9 @@
         data() {
             return {
                 tournament_id:"",
+                paymentFlag:false,
+                totaldays:"",
+                daysign : "+",
                 paymentObj:{
 
                 },
@@ -66,9 +72,22 @@
                 } 
                 var url = "payment/response";
                 
-                if(typeof this.tournament.id != "undefined" && this.tournament.id != undefined && !this.tournament.is_renew){
-                    
+                if(typeof this.tournament.id != "undefined" && this.tournament.id != undefined && !this.tournament.is_renew){                    
                     url = "manage-tournament";
+
+                    let startDateArr = (this.tournament.tournament_start_date).split("/");
+                    let endDateArr = (this.tournament.tournament_end_date).split("/");
+                    let startDateFormat = startDateArr[2]+"/"+startDateArr[1]+"/"+startDateArr[0];
+                    let endDateFormat = endDateArr[2]+"/"+endDateArr[1]+"/"+endDateArr[0];
+
+                    let startDate = moment(startDateFormat);
+                    let endDate = moment(endDateFormat).add('days',1);
+
+                    this.totaldays = endDate.diff(startDate, 'days'); 
+                    if(this.tournament.dayDifference < 0) {
+                        this.daysign = "";
+                    }
+                    this.paymentFlag =  true;
                 }
                 
                 axios.post(Constant.apiBaseUrl+url, apiParams).then(response =>  {
@@ -111,8 +130,7 @@
                 if(this.tournament_id != ""){
                     this.$router.push({name: 'dashboard'});
                 }
-            }
-             
+            },            
             
         },
         beforeMount(){  

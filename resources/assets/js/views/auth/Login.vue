@@ -45,6 +45,7 @@
 
                     <div class="col-md-6"  v-else>
                        <form class="forget-form" id="js-frm-resetpassword-activation" method="post"> 
+                        <h1 class="font-weight-bold">Reset password</h1>
                         <p style="font-size:14px; color:#464a4c; margin-top:25px;">{{$lang.login_forgot_password_message}}</p>
                              <div :class="{'form-group' : true , 'has-danger': errors.has('email') }">
                                     <!-- <input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="Email" name="email" /> -->
@@ -119,7 +120,14 @@
                             this.$router.push({'name':'checkout'})
                         }else{
                             if(indxOfCustomer > -1){
-                                this.$router.push({'name':'dashboard'})
+                                if ( response.data.userTournamentCount > 0 )
+                                {
+                                    this.$router.push({'name':'dashboard'})
+                                }
+                                else
+                                {
+                                    this.$router.push({'name':'buylicense'});    
+                                }
                             }else{
                                 this.$router.push({'name':'welcome'})
                             }

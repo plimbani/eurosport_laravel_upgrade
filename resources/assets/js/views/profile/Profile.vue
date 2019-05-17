@@ -4,6 +4,12 @@
             <section class="register-section section-padding">
                 <div class="container">
                     <div class="row">
+                        <div class="col-md-9 col-lg-6">
+                            <h1 class="font-weight-bold">Update your profile</h1>
+                        </div>
+                    </div>
+
+                    <div class="row mt-5">
                         <div class="col-md-6">  
                             <h3 class="text-uppercase font-weight-bold mt-0">Your details</h3>
 
@@ -115,6 +121,7 @@
                     axios.post(Constant.apiBaseUrl+'user/update',this.userProfileDetail).then(response =>  { 
                         if(response.data.success){ 
                             this.$router.push({'name':'dashboard'})
+                            toastr['success']('User details has been updated successfully.', 'Success');
                         }else{
                          toastr['error'](response.data.message, 'Error');
                         }
@@ -136,7 +143,7 @@
                         this.userProfileDetail = response.data.data.person_detail;
                         this.userProfileDetail.email = response.data.data.email;
                         this.userProfileDetail.organisation = response.data.data.organisation;
-                        this.userProfileDetail.country = response.data.data.person_detail.country_id;
+                        this.userProfileDetail.country = response.data.data.country_id;
                         this.userProfileDetail.zip = response.data.data.person_detail.zipcode;  
                     }
                 }) 

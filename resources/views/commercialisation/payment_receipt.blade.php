@@ -151,8 +151,8 @@
                                                         <tr>
                                                             <td align="right" style="text-align: right; font-size: 0px; padding: 10px 25px; word-break: break-word;">
                                                                 <div style="font-family:Roboto, Helvetica, Arial, sans-serif;font-size:16px;font-weight:300;line-height:24px;text-align:left;color:#555;">
-                                                                    <p>Hello There,</p>
-                                                                    <p>Thank you for the purchase. Your order number is #<?php echo $data['orderNumber']; ?>.</p>
+                                                                    <p>Hello</p>
+                                                                    <p>Thank you for the purchase. Your order number is Easy-Match-Manager-<?php echo $data['orderNumber']; ?>.</p>
                                                                     <p>
                                                                         
                                                                     </p>
@@ -185,13 +185,29 @@
                                                                         <tr>
                                                                             <th style="text-align: left; font-weight: normal; padding: 10px;" align="left"><?php echo $data['maximumTeams']; ?> Team license for a <?php echo $data['days']; ?> day(s) tournament
                                                                             </th>
-                                                                            <td style="text-align: right; padding: 10px;" align="right">$<?php echo $data['amount']; ?></td>
+                                                                            <td style="text-align: right; padding: 10px;" align="right">
+																			<?php if($data['currency'] == "GBP") 
+																			{
+																				echo "&#163;";
+																			} else { 
+																				echo "&#128;"; 
+																			}
+                                                                             echo $data['amount'];
+																			 ?>
+																			 </td>
                                                                         </tr>
                                                                     </tbody>
                                                                     <thead class="footer">
                                                                         <tr>
                                                                             <th colspan="2" style="border-bottom: 0px solid #57697E; background-color: rgba(33, 150, 243,0.1); text-align: right; font-size: 16px; padding: 10px;" bgcolor="rgba(33, 150, 243,0.1)" align="right">
-                                                                                $<?php echo $data['amount']; ?>
+                                                                             <?php if($data['currency'] == "GBP") 
+																			{
+																				echo "&#163;";
+																			} else { 
+																				echo "&#128;"; 
+																			}
+                                                                             echo $data['amount'];
+																			 ?>
                                                                             </th>
                                                                         </tr>
                                                                     </thead>
@@ -207,47 +223,7 @@
                                 </table>
                             </div>
                             <!--[if mso | IE]></td></tr></table></td></tr><tr><td class="" width="600px" ><table align="center" border="0" cellpadding="0" cellspacing="0" class="" style="width:570px;" width="570" ><tr><td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->
-                            <div style="background:#fff;background-color:#fff;Margin:0px auto;max-width:570px;">
-                                <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="background:#fff;background-color:#fff;width:100%;">
-                                    <tbody>
-                                        <tr>
-                                            <td style="direction: ltr; font-size: 0px; padding: 20px 0; padding-bottom: 0; padding-top: 0; text-align: center; vertical-align: top;" align="center" valign="top">
-                                            <!--[if mso | IE]><table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td class="" style="vertical-align:top;width:570px;" ><![endif]-->
-                                                <div class="mj-column-per-100 outlook-group-fix" style="font-size:13px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;">
-                                                    <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;" width="100%">
-                                                        <tr>
-                                                            <td align="right" style="text-align: right; font-size: 0px; padding: 10px 25px; padding-top: 0; padding-bottom: 0; word-break: break-word;">
-                                                                <div style="font-family:Roboto, Helvetica, Arial, sans-serif;font-size:16px;font-weight:300;line-height:24px;text-align:left;color:#555;">
-                                                                    <p>You may now proceed to your dashboard and begin adding your tournament details.</p>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                    </table>
-                                                </div><!--[if mso | IE]></td></tr></table><![endif]-->
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
                             <!--[if mso | IE]></td></tr></table></td></tr><tr><td class="" width="600px" ><table align="center" border="0" cellpadding="0" cellspacing="0" class="" style="width:570px;" width="570" ><tr><td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->
-                            <div style="background:#fff;background-color:#fff;Margin:0px auto;max-width:570px;">
-                            <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="background:#fff;background-color:#fff;width:100%;"><tbody><tr><td style="direction: ltr; font-size: 0px; padding: 20px 0; padding-bottom: 0; padding-top: 0; text-align: center; vertical-align: top;" align="center" valign="top"><!--[if mso | IE]><table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td class="" style="vertical-align:top;width:570px;" ><![endif]--><div class="mj-column-per-100 outlook-group-fix" style="font-size:13px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;"><table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;" width="100%"><tr><td align="right" vertical-align="middle" style="text-align: right; font-size: 0px; padding: 10px 25px; word-break: break-word;"><table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse:separate;line-height:100%;">
-                                                                    <tr>
-                                                                        <td align="right" bgcolor="#2196F3" role="presentation" style="text-align: right; border: none; border-radius: 3px; cursor: auto; padding: 10px 25px;" valign="middle">
-                                                                            <a href="<?php echo env('APP_URL');?>/admin" style="background: #2196F3; color: #ffffff; font-family: Roboto, Helvetica, Arial, sans-serif; font-size: 13px; font-weight: 300; line-height: 120%; Margin: 0; text-decoration: none; text-transform: none;" target="_blank">Get started</a>
-                                                                        </td>
-                                                                    </tr>
-                                                                </table>
-                                                            </td>
-                                                        </tr>
-                                                    </table>
-                                                </div>
-                                                <!--[if mso | IE]></td></tr></table><![endif]-->
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
                             <!--[if mso | IE]></td></tr></table></td></tr><tr><td class="" width="600px" ><table align="center" border="0" cellpadding="0" cellspacing="0" class="" style="width:570px;" width="570" ><tr><td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->
                             <div style="background:#fff;background-color:#fff;Margin:0px auto;border-radius:0 0 4px 4px;max-width:570px;">
                                 <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="background:#fff;background-color:#fff;width:100%;border-radius:0 0 4px 4px;">

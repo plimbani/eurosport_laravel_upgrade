@@ -990,25 +990,24 @@ class TournamentService implements TournamentContract
     public function getTournamentAccessCodeDetail($data)
     {
       $authUser = JWTAuth::parseToken()->toUser();
-      $tournamentData = $this->tournamentRepoObj->getTournamentAccessCodeDetail($data);
-      
-      if($tournamentData['tournament']) {
-         $tournamentEndDateFormat = Carbon::createFromFormat('d/m/Y', $tournamentData['tournament']['end_date'])->addDays(28);
+      $tournament = $this->tournamentRepoObj->getTournamentAccessCodeDetail($data);
+
+      if($tournament['status'] == 'Published' || $tournament['status'] == 'Preview') {
+         $tournamentEndDateFormat = Carbon::createFromFormat('d/m/Y', $tournament['end_date'])->addDays(28);
           $endDateAddMonth = Carbon::parse($tournamentEndDateFormat)->format('Y-m-d');
           
           $currentDateFormat = Carbon::now()->format('Y-m-d');
           if($endDateAddMonth <= $currentDateFormat) {
               return response()->json(['message' => 'This tournament is no longer available'], 500);
           }
-      }   else {
+      } else if($tournament['status'] == 'Unpublished'){
+          return response()->json(['message' => 'Tournament is not yet published or in preview'], 500);
+      } else {
           return response()->json(['message' => 'The tournament code was not recognised'], 500);
       } 
-      if($tournamentData['userFavourites']) {
-        $favouriteTournament = ['user_id' => $authUser->id, 'tournament_id' => $tournamentData['tournament']['id']];
-      } else {
-        $this->userService->setDefaultFavourite($favouriteTournament);  
-      }
-      return response()->json(['data' => $tournamentData['tournament']]);
+      $favouriteTournament = ['user_id' => $authUser->id, 'tournament_id' => $tournament['id']];
+      $this->userService->setDefaultFavourite($favouriteTournament);
+      return response()->json(['data' => $tournament]);
     }
 
     public function duplicateTournament($data)
