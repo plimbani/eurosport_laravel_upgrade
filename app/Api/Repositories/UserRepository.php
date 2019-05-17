@@ -57,7 +57,7 @@ class UserRepository {
             $user = $user->where('roles.slug', '=', $data['userType']);
         }
 
-        $user = $user->select('users.id as id', 'people.first_name as first_name', 'people.last_name as last_name', 'users.email as email', 'roles.id as role_id', 'roles.name as role_name', 'roles.slug as role_slug', 'users.is_verified as is_verified', 'users.is_mobile_user as is_mobile_user', 'users.is_desktop_user as is_desktop_user', 'users.organisation as organisation', 'users.locale as locale', 'users.role as role','countries.name as country', 'users.device as device', 'users.app_version as app_version');
+        $user = $user->select('users.id as id', 'people.first_name as first_name', 'people.last_name as last_name', 'users.email as email', 'roles.id as role_id', 'roles.name as role_name', 'roles.slug as role_slug', 'users.is_verified as is_verified', 'users.is_mobile_user as is_mobile_user', 'users.is_desktop_user as is_desktop_user', 'users.organisation as organisation', 'users.locale as locale', 'users.role as role','countries.name as country', 'users.device as device', 'users.app_version as app_version', 'users.provider as provider');
 
         $user->orderBy('people.last_name','asc');
 
@@ -180,7 +180,7 @@ class UserRepository {
             ->join('role_user', 'users.id', '=', 'role_user.user_id')
             ->select("users.id as id", "users.email as emailAddress",
                DB::raw('IF(users.user_image is not null,CONCAT("'.$this->userImagePath.'", users.user_image),"" ) as image'),
-             "users.organisation as organisation", "people.first_name as name", "people.last_name as surname", "role_user.role_id as userType", "users.role as role", "users.country_id as country_id", "users.locale as locale")
+             "users.organisation as organisation", "people.first_name as name", "people.last_name as surname", "role_user.role_id as userType", "users.role as role", "users.country_id as country_id", "users.locale as locale", "users.provider as provider")
             ->where("users.id", "=", $userId)
             ->first();
 

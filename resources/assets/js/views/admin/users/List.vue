@@ -48,6 +48,7 @@
                                         <th>{{$lang.user_desktop_name}}</th>
                                         <th>{{$lang.user_desktop_surname}}</th>
                                         <th>{{$lang.user_desktop_email}}</th>
+                                        <th>{{$lang.user_desktop_source}}</th>
                                         <th>{{$lang.user_desktop_usertype}}</th>
                                         <th>{{$lang.use_desktop_role}}</th>
                                         <th>{{$lang.use_desktop_country}}</th>
@@ -65,6 +66,7 @@
                                     <td>{{ user.first_name }}</td>
                                     <td>{{ user.last_name }}</td>
                                     <td>{{ user.email }}</td>
+                                    <td>{{ user.provider | capitalize }}</td>
                                     <td>{{ user.role_name }}</td>
                                     <td>{{ user.role }}</td>
                                     <td>{{ user.country }}</td>
@@ -238,8 +240,13 @@
         },
         filters: {
             formatDate: function(date) {
-            return moment(date).format("HH:mm  DD MMM YYYY");
-             },
+              return moment(date).format("HH:mm  DD MMM YYYY");
+            },
+            capitalize: function (value) {
+              if (!value) return '';
+              value = value.toString();
+              return value.charAt(0).toUpperCase() + value.slice(1);
+            }            
           },
         mounted() {
           // here we check the permission to allowed to access users list
