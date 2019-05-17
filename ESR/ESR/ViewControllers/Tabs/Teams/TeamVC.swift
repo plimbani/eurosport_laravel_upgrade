@@ -20,6 +20,10 @@ class TeamVC: SuperViewController {
     @IBOutlet var btnViewSchedule: UIButton!
     @IBOutlet var heightConstraintBtnViewSchedule: NSLayoutConstraint!
     
+    @IBOutlet var stackviewMatchView: UIStackView!
+    @IBOutlet var stackviewGroupView: UIStackView!
+    @IBOutlet var noLeagueMatchView: UIView!
+    @IBOutlet var noLeagueGroupView: UIView!
     @IBOutlet var sectionMatchView: UIView!
     @IBOutlet var sectionGroupView: UIView!
     @IBOutlet var lblSectionGroupName: UILabel!
@@ -27,8 +31,17 @@ class TeamVC: SuperViewController {
     @IBOutlet var lblMatchViewNoLeagueData: UILabel!
     @IBOutlet var lblGroupViewNoLeagueData: UILabel!
     
-    var isMatchLeagueDataEmpty = false
-    var isGroupLeagueDataEmpty = false
+    var isMatchLeagueDataEmpty = false {
+        didSet {
+            noLeagueMatchView.isHidden = isMatchLeagueDataEmpty
+        }
+    }
+    
+    var isGroupLeagueDataEmpty = false {
+        didSet {
+            noLeagueGroupView.isHidden = isGroupLeagueDataEmpty
+        }
+    }
     
     var teamFixuteuresList = [TeamFixture]()
     var groupStandingsList = [GroupStanding]()
@@ -43,8 +56,48 @@ class TeamVC: SuperViewController {
     var rotateToPortrait = false
     var viewGraphicImgURL = NULL_STRING
     
+    var HEADER_HEIGHT: CGFloat = 160
+    var HEADER_HEIGHT_AFTER_HIDE: CGFloat = 120
+    
+    @IBOutlet var tabStandingsSeparator: UIView!
+    @IBOutlet var tabMatchesSeparator: UIView!
+    @IBOutlet var tabStandingView: UIView!
+    @IBOutlet var tabMatchView: UIView!
+    @IBOutlet var teamSelectionView: UIView!
+    @IBOutlet var lblSelectedTeamName: UILabel!
+    
+    var selectedPickerPosition = 0
+    
+    var titleList = [String]()
+    var teamList = NSMutableArray()
+    var teamTitleList = [String]()
+    
+    var selectedTab = 0 {
+        didSet {
+            if selectedTab == 0 {
+                tabStandingsSeparator.backgroundColor = UIColor.AppColor()
+                tabMatchesSeparator.backgroundColor = UIColor.clear
+                
+                if groupStandingsList.count == 0 {
+                    getGroupStadingsAPI()
+                } else {
+                    table.reloadData()
+                }
+            } else {
+                tabMatchesSeparator.backgroundColor = UIColor.AppColor()
+                tabStandingsSeparator.backgroundColor = UIColor.clear
+                
+                if teamFixuteuresList.count == 0 {
+                    getFixturesRequestAPI()
+                } else {
+                    table.reloadData()
+                }
+            }
+        }
+    }
+    
     let btnViewScheduleAttributes : [NSAttributedStringKey: Any] = [
-        NSAttributedStringKey.font : UIFont.init(name: Font.HELVETICA_REGULAR, size: 15.0),
+        NSAttributedStringKey.font : UIFont.init(name: Font.HELVETICA_REGULAR, size: 18.0),
         NSAttributedStringKey.foregroundColor : UIColor.viewScheduleBlue,
         NSAttributedStringKey.underlineStyle : NSUnderlineStyle.styleSingle.rawValue]
     
@@ -69,22 +122,31 @@ class TeamVC: SuperViewController {
             
             if let mainTabViewController = self.parent!.parent as? MainTabViewController {
                 mainTabViewController.hideTabbar(flag: false)
-                mainTabViewController.contentView.layoutIfNeeded()
-                mainTabViewController.contentView.updateConstraints()
             }
         }
     }
     
     func initialize() {
+        let adjustForTabbarInsets: UIEdgeInsets = UIEdgeInsetsMake(0, 0, 60, 0)
+        table.contentInset = adjustForTabbarInsets
+        table.scrollIndicatorInsets = adjustForTabbarInsets
+        
         titleNavigationBar.lblTitle.text = String.localize(key: "title_team")
         titleNavigationBar.delegate = self
         titleNavigationBar.setBackgroundColor()
+        
+        isMatchLeagueDataEmpty = true
+        isGroupLeagueDataEmpty = true
         
         lblMatchViewNoLeagueData.text = String.localize(key: "string_no_league_data")
         lblGroupViewNoLeagueData.text = String.localize(key: "string_no_league_data")
         
         btnViewSchedule.setAttributedTitle(NSMutableAttributedString(string: "View schedule",
                                                                      attributes: btnViewScheduleAttributes), for: .normal)
+        
+        self.tabStandingView.addGestureRecognizer(UITapGestureRecognizer(target: self, action:  #selector(self.onTabStandingViewPressed)))
+        self.tabMatchView.addGestureRecognizer(UITapGestureRecognizer(target: self, action:  #selector(self.onTabMatchViewPressed)))
+        self.teamSelectionView.addGestureRecognizer(UITapGestureRecognizer(target: self, action:  #selector(self.onTeamViewPressed)))
         
         // Checks internet connectivity
         setConstraintLblNoInternet(APPDELEGATE.reachability.connection == .none)
@@ -103,19 +165,47 @@ class TeamVC: SuperViewController {
         heightTeamListCell = (cellOwner.cell as! TeamListCell).getCellHeight()
         
         ApplicationData.setBorder(view: tableViewHeaderInnerContiner, Color: .btnDisable, CornerRadius: 0.0, Thickness: 1.0)
-        tableViewHeader.frame.size = CGSize(width:table.frame.width, height: 120)
+        tableViewHeader.frame.size = CGSize(width:table.frame.width, height: HEADER_HEIGHT_AFTER_HIDE)
         table.tableHeaderView = tableViewHeader
-        setHeaderValues()
+        
+        setHeaderValues(dicTeam: dicTeam)
         
         dicTableData[SectionIndex.group.rawValue] = self.groupStandingsList
         dicTableData[SectionIndex.match.rawValue] = self.teamFixuteuresList
         
-        sendGetFixturesRequest()
-        sendGetGroupStadingsRequest()
+        tabStandingsSeparator.backgroundColor = .AppColor()
+        tabMatchesSeparator.backgroundColor = .clear
+
+        getFixturesRequestAPI()
+        getGroupStadingsAPI()
+        
+        for i in 0..<teamList.count{
+            let team = teamList[i] as! NSDictionary
+            
+            if let text = team.value(forKey: "name") as? String {
+                teamTitleList.append(text)
+            }
+        }
+        
+        if teamTitleList.count > 0 {
+            lblSelectedTeamName.text = teamTitleList[selectedPickerPosition]
+        }
     }
     
     deinit {
         NotificationCenter.default.removeObserver(self, name: .internetConnectivity, object: nil)
+    }
+    
+    @objc func onTabStandingViewPressed(sender : UITapGestureRecognizer) {
+        selectedTab = 0
+    }
+    
+    @objc func onTabMatchViewPressed(sender : UITapGestureRecognizer) {
+        selectedTab = 1
+    }
+    
+    @objc func onTeamViewPressed(sender : UITapGestureRecognizer) {
+        showPickerVC(selectedPosition: selectedPickerPosition, titleList: teamTitleList, delegate: self)
     }
     
     @IBAction func btnViewSchedulePressed(_ sender: UIButton) {
@@ -132,7 +222,7 @@ class TeamVC: SuperViewController {
         }
     }
     
-    func setHeaderValues() {
+    func setHeaderValues(dicTeam: NSDictionary) {
         var name = NULL_STRING
         var groupName = NULL_STRING
         
@@ -165,6 +255,7 @@ class TeamVC: SuperViewController {
         }
         
         if let text = dicTeam.value(forKey: "age_group_id") as? Int {
+            print("age_group_id \(text)")
             sendGetViewGraphicImageRequest(ageGroupId: text)
         }
         
@@ -184,8 +275,10 @@ class TeamVC: SuperViewController {
                 if let imgURL = result as? String {
                     self.heightConstraintBtnViewSchedule.constant = 30
                     self.viewGraphicImgURL = imgURL
-                    self.tableViewHeader.frame.size = CGSize(width: self.table.frame.width, height: 155)
-                    self.table.tableHeaderView?.layoutIfNeeded()
+                    self.tableViewHeader.frame.size = CGSize(width: self.table.frame.width, height: self.HEADER_HEIGHT)
+                    
+                    self.table.beginUpdates()
+                    self.table.endUpdates()
                 } else {
                     self.heightConstraintBtnViewSchedule.constant = 0
                 }
@@ -193,7 +286,7 @@ class TeamVC: SuperViewController {
         }, failure: { result in })
     }
     
-    func sendGetFixturesRequest() {
+    func getFixturesRequestAPI(teamId: Int = -1) {
         if APPDELEGATE.reachability.connection == .none {
             return
         }
@@ -204,7 +297,12 @@ class TeamVC: SuperViewController {
             parameters["tournamentId"] = selectedTournament.id
         }
         
-        parameters["teamId"] = dicTeam.value(forKey: "id") as! Int
+        if teamId != -1 {
+            parameters["teamId"] = teamId
+        } else {
+            parameters["teamId"] = dicTeam.value(forKey: "id") as! Int
+        }
+        
         parameters["is_scheduled"] = "1"
         
         var serverTournamentData: [String: Any] = [:]
@@ -260,7 +358,7 @@ class TeamVC: SuperViewController {
         })
     }
     
-    func sendGetGroupStadingsRequest() {
+    func getGroupStadingsAPI(groupId: Int = -1) {
         if APPDELEGATE.reachability.connection == .none {
             return
         }
@@ -273,7 +371,11 @@ class TeamVC: SuperViewController {
             parameters["tournamentId"] = selectedTournament.id
         }
         
-        parameters["competitionId"] = dicTeam.value(forKey: "GroupId") as! Int
+        if groupId != -1 {
+            parameters["competitionId"] = groupId
+        } else {
+            parameters["competitionId"] = dicTeam.value(forKey: "GroupId") as! Int
+        }
         
         var serverTournamentData: [String: Any] = [:]
         serverTournamentData["tournamentData"] = parameters
@@ -285,6 +387,7 @@ class TeamVC: SuperViewController {
                 self.groupStandingsList.removeAll()
                 
                 if let data = result.value(forKey: "data") as? NSArray {
+                    
                     for i in 0..<data.count {
                         self.groupStandingsList.append(ParseManager.parseGroupStandings(data[i] as! NSDictionary))
                     }
@@ -294,6 +397,40 @@ class TeamVC: SuperViewController {
                 self.isGroupLeagueDataEmpty = (self.groupStandingsList.count == 0)
                 self.lblGroupViewNoLeagueData.isHidden = !(self.groupStandingsList.count == 0)
                 self.table.reloadData()
+            }
+        }, failure: { result in
+            DispatchQueue.main.async {
+                self.view.hideProgressHUD()
+            }
+        })
+    }
+    
+    func getTournamentTeamDetailsAPI(teamId: Int) {
+        if APPDELEGATE.reachability.connection == .none {
+            return
+        }
+        
+        self.view.showProgressHUD()
+        
+        var parameters: [String: Any] = [:]
+        
+        if let selectedTournament = ApplicationData.sharedInstance().getSelectedTournament() {
+            parameters["tournament_id"] = selectedTournament.id
+        }
+        
+        parameters["team_id"] = teamId
+        
+        var serverTournamentData: [String: Any] = [:]
+        serverTournamentData["tournamentData"] = parameters
+        
+        ApiManager().getTournamentTeamDetails(serverTournamentData, success: { result in
+            DispatchQueue.main.async {
+                self.view.hideProgressHUD()
+                if let array = result.value(forKey: "data") as? NSArray {
+                    if array.count > 0 {
+                        self.setHeaderValues(dicTeam: array[0] as! NSDictionary)
+                    }
+                }
             }
         }, failure: { result in
             DispatchQueue.main.async {
@@ -317,9 +454,59 @@ extension TeamVC: TitleNavigationBarDelegate {
     }
 }
 
+extension TeamVC: GroupSummaryStandingsCellDelegate {
+    func groupSummaryStandingsCellBtnTeamNamePressed(indexPath: IndexPath) {
+        
+        let selectedTeam = groupStandingsList[indexPath.row] as! GroupStanding
+        
+        var change = false
+        
+        for i in 0..<teamList.count{
+            if let id = (teamList[i] as! NSDictionary).value(forKey: "id") as? Int {
+                if id == selectedTeam.teamId && id != (dicTeam.value(forKey: "id") as! Int) {
+                    dicTeam = teamList[i] as! NSDictionary
+                    selectedPickerPosition = i
+                    change = true
+                    lblSelectedTeamName.text = (teamList[i] as! NSDictionary).value(forKey: "name") as! String
+                    break
+                }
+            }
+        }
+        
+        if change {
+            getFixturesRequestAPI(teamId: dicTeam.value(forKey: "id") as! Int)
+            getGroupStadingsAPI(groupId: dicTeam.value(forKey: "GroupId") as! Int)
+            getTournamentTeamDetailsAPI(teamId: dicTeam.value(forKey: "id") as! Int)
+        }
+    }
+}
+
+extension TeamVC: PickerVCDelegate {
+    func pickerVCDoneBtnPressed(title: String, lastPosition: Int) {
+        selectedPickerPosition = lastPosition
+        lblSelectedTeamName.text = title
+        
+        let selectedTeam = teamList[selectedPickerPosition] as! NSDictionary
+        dicTeam = selectedTeam
+        
+        getFixturesRequestAPI(teamId: selectedTeam.value(forKey: "id") as! Int)
+        getGroupStadingsAPI(groupId: selectedTeam.value(forKey: "GroupId") as! Int)
+        getTournamentTeamDetailsAPI(teamId: selectedTeam.value(forKey: "id") as! Int)
+    }
+    
+    func pickerVCCancelBtnPressed() {}
+}
+
 extension TeamVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == Int(SectionIndex.group.rawValue) {
+        
+        if selectedTab == 0 {
+            return groupStandingsList.count + 2
+        } else {
+            return teamFixuteuresList.count + 1
+        }
+        
+        /*if section == Int(SectionIndex.group.rawValue) {
             if let array = dicTableData.value(forKey: "\(section)") as? [GroupStanding] {
                 return array.count + 2
             }
@@ -327,13 +514,12 @@ extension TeamVC: UITableViewDelegate, UITableViewDataSource {
             if let array = dicTableData.value(forKey: "\(section)") as? [TeamFixture] {
                 return array.count + 1
             }
-        }
-        return 0
+        }*/
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if indexPath.section == Int(SectionIndex.group.rawValue) {
-            
+        
+        if selectedTab == 0 {
             if indexPath.row == groupStandingsList.count + 1 || indexPath.row  == groupStandingsList.count {
                 return heightTeamListCell
             }
@@ -346,15 +532,30 @@ extension TeamVC: UITableViewDelegate, UITableViewDataSource {
             
             return heightGroupSummaryMatchesCell
         }
+        
+        /*if indexPath.section == Int(SectionIndex.group.rawValue) {
+            
+            if indexPath.row == groupStandingsList.count + 1 || indexPath.row  == groupStandingsList.count {
+                return heightTeamListCell
+            }
+            
+            return heightGroupSummaryStandingsCell
+        } else {
+            if indexPath.row == teamFixuteuresList.count {
+                return heightTeamListCell
+            }
+            
+            return heightGroupSummaryMatchesCell
+        }*/
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
+        return 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        if indexPath.section == Int(SectionIndex.group.rawValue) {
+        if selectedTab == 0 {
             
             if indexPath.row == groupStandingsList.count || indexPath.row == groupStandingsList.count + 1 {
                 var cell = tableView.dequeueReusableCell(withIdentifier: "TeamListCell") as? TeamListCell
@@ -377,8 +578,12 @@ extension TeamVC: UITableViewDelegate, UITableViewDataSource {
                     cell = cellOwner.cell as? GroupSummaryStandingsCell
                 }
                 
+                cell?.indexPath = indexPath
+                cell?.delegate = self
                 let dic = groupStandingsList[indexPath.row]
                 cell?.record = dic
+                
+                cell?.backgroundColor = UIColor.white
                 
                 if let id = dicTeam.value(forKey: "id") as? Int {
                     if dic.teamId == id {
@@ -390,7 +595,7 @@ extension TeamVC: UITableViewDelegate, UITableViewDataSource {
                 return cell!
             }
         } else {
-        if indexPath.row == teamFixuteuresList.count {
+            if indexPath.row == teamFixuteuresList.count {
                 var cell = tableView.dequeueReusableCell(withIdentifier: "TeamListCell") as? TeamListCell
                 if cell == nil {
                     _ = cellOwner.loadMyNibFile(nibName: "TeamListCell")
@@ -414,7 +619,7 @@ extension TeamVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.section == Int(SectionIndex.group.rawValue) {
+        if selectedTab == 0 {
             
             if indexPath.row == groupStandingsList.count {
                 // Group details click
@@ -453,7 +658,7 @@ extension TeamVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        if section == Int(SectionIndex.group.rawValue) {
+        if selectedTab == 0 {
             return sectionGroupView
         } else {
             return sectionMatchView
@@ -461,7 +666,7 @@ extension TeamVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        if section == Int(SectionIndex.group.rawValue) {
+        if selectedTab == 0 {
             return isGroupLeagueDataEmpty ? 100 : 50
         }
         

@@ -23,6 +23,7 @@ class AgeCategoriesGroupsVC: SuperViewController {
     func initialize() {
         titleNavigationBar.lblTitle.text = String.localize(key: "title_age_categories_groups")
         titleNavigationBar.delegate = self
+        titleNavigationBar.isFinalPlacings = true
         titleNavigationBar.setBackgroundColor()
         
         // Checks internet connectivity
@@ -103,6 +104,12 @@ extension AgeCategoriesGroupsVC: CustomAlertVCDelegate {
 extension AgeCategoriesGroupsVC: TitleNavigationBarDelegate {
     func titleNavBarBackBtnPressed() {
         self.navigationController?.popViewController(animated: true)
+    }
+    
+    func titleNavBarBtnFinalPlacingsPressed() {
+        let viewController = Storyboards.Tournament.instantiateFinalPlacingsVC()
+        viewController.ageCategoryId = ageCategoryId
+        self.navigationController?.pushViewController(viewController, animated: true)
     }
 }
 

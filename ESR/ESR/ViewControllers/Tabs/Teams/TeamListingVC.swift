@@ -152,6 +152,8 @@ extension TeamListingVC: UITableViewDataSource, UITableViewDelegate {
         
         let viewController = Storyboards.Teams.instantiateTeamVC()
         viewController.dicTeam = teamList[indexPath.row] as! NSDictionary
+        viewController.teamList = teamList
+        viewController.selectedPickerPosition = indexPath.row
         self.navigationController?.pushViewController(viewController, animated: true)
     }
 }

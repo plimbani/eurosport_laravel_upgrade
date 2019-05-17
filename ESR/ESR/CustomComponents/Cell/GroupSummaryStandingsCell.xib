@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -58,41 +58,44 @@
                             <constraint firstAttribute="height" constant="1" id="gfs-f7-LNh"/>
                         </constraints>
                     </view>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="T1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WZJ-dt-aTE">
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hqa-C5-2AM">
                         <rect key="frame" x="48" y="16" width="107" height="18"/>
-                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
-                        <nil key="textColor"/>
-                        <nil key="highlightedColor"/>
-                    </label>
+                        <state key="normal" title="T1">
+                            <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </state>
+                        <connections>
+                            <action selector="btnGroupNamePressed:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="3ir-Gl-YPi"/>
+                        </connections>
+                    </button>
                 </subviews>
                 <constraints>
                     <constraint firstItem="42r-lG-wmi" firstAttribute="leading" secondItem="L83-Ia-XSe" secondAttribute="trailing" constant="15" id="0fo-Xc-p0U"/>
                     <constraint firstItem="Qlh-rm-oEX" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="1az-hE-bF6"/>
-                    <constraint firstItem="oeJ-tQ-r72" firstAttribute="leading" secondItem="WZJ-dt-aTE" secondAttribute="trailing" constant="15" id="5LC-b6-ngz"/>
+                    <constraint firstItem="oeJ-tQ-r72" firstAttribute="leading" secondItem="Hqa-C5-2AM" secondAttribute="trailing" constant="15" id="3Ia-Rm-vu2"/>
+                    <constraint firstItem="Hqa-C5-2AM" firstAttribute="leading" secondItem="Qlh-rm-oEX" secondAttribute="trailing" constant="8" id="3gC-FR-dIa"/>
                     <constraint firstItem="A4P-TY-KDG" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="5WV-ya-jwq"/>
+                    <constraint firstItem="Hqa-C5-2AM" firstAttribute="bottom" secondItem="Qlh-rm-oEX" secondAttribute="bottom" id="9jL-kh-2vg"/>
                     <constraint firstItem="L83-Ia-XSe" firstAttribute="leading" secondItem="oeJ-tQ-r72" secondAttribute="trailing" constant="15" id="Bnn-UZ-uP0"/>
                     <constraint firstItem="oeJ-tQ-r72" firstAttribute="top" secondItem="42r-lG-wmi" secondAttribute="top" id="Dci-PW-b9a"/>
-                    <constraint firstItem="WZJ-dt-aTE" firstAttribute="leading" secondItem="Qlh-rm-oEX" secondAttribute="trailing" constant="8" id="EWQ-FZ-uAS"/>
                     <constraint firstAttribute="trailing" secondItem="A4P-TY-KDG" secondAttribute="trailing" id="IXM-az-CBx"/>
+                    <constraint firstItem="Hqa-C5-2AM" firstAttribute="top" secondItem="Qlh-rm-oEX" secondAttribute="top" id="MiE-vZ-Pin"/>
                     <constraint firstItem="oeJ-tQ-r72" firstAttribute="width" secondItem="42r-lG-wmi" secondAttribute="width" id="SoC-6x-4hK"/>
                     <constraint firstItem="L83-Ia-XSe" firstAttribute="width" secondItem="42r-lG-wmi" secondAttribute="width" id="aDh-qj-CFp"/>
                     <constraint firstItem="Qlh-rm-oEX" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="cXU-yi-mMZ"/>
                     <constraint firstItem="L83-Ia-XSe" firstAttribute="bottom" secondItem="42r-lG-wmi" secondAttribute="bottom" id="dHo-qP-OKO"/>
                     <constraint firstItem="42r-lG-wmi" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="fcS-lK-HAW"/>
                     <constraint firstItem="L83-Ia-XSe" firstAttribute="top" secondItem="42r-lG-wmi" secondAttribute="top" id="hOD-9U-pD9"/>
-                    <constraint firstItem="WZJ-dt-aTE" firstAttribute="bottom" secondItem="Qlh-rm-oEX" secondAttribute="bottom" id="iXZ-Te-b2z"/>
                     <constraint firstItem="oeJ-tQ-r72" firstAttribute="bottom" secondItem="42r-lG-wmi" secondAttribute="bottom" id="rKw-lJ-OlA"/>
-                    <constraint firstItem="WZJ-dt-aTE" firstAttribute="top" secondItem="Qlh-rm-oEX" secondAttribute="top" id="scp-52-nBn"/>
                     <constraint firstAttribute="bottom" secondItem="A4P-TY-KDG" secondAttribute="bottom" constant="-0.5" id="utz-Jf-sQX"/>
                     <constraint firstAttribute="trailing" secondItem="42r-lG-wmi" secondAttribute="trailing" constant="15" id="vTM-70-T7d"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
+                <outlet property="btnGroupname" destination="Hqa-C5-2AM" id="R95-M1-468"/>
                 <outlet property="imgViewFlag" destination="Qlh-rm-oEX" id="WKm-AX-Zrg"/>
                 <outlet property="lblGames" destination="oeJ-tQ-r72" id="gWg-4e-wHM"/>
                 <outlet property="lblGoalDifference" destination="L83-Ia-XSe" id="7bk-eQ-lnR"/>
-                <outlet property="lblGroupname" destination="WZJ-dt-aTE" id="7xR-nE-cOw"/>
                 <outlet property="lblPoints" destination="42r-lG-wmi" id="Q5n-Nc-Yxd"/>
             </connections>
         </tableViewCell>

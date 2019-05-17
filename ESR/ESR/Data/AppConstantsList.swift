@@ -59,6 +59,7 @@ struct API_ENDPOINT {
     static let ACCESS_CODE = API_URL.BASE_URL + "tournament/access_code";
     
     static let UPDATE_APP_VERSION = API_URL.BASE_URL + "updateAppDeviceVersion";
+    static let GET_TOURNAMENT_TEAM_DETAILS = API_URL.BASE_URL + "getTournamentTeamDetails";
 }
 
 struct kViewController {
@@ -212,8 +213,9 @@ struct DeviceType {
 
 struct Font {
     // Avenir next
-    static let HELVETICA_REGULAR = "Helvetica"
-    static let HELVETICA_BOLD = "Helvetica-Bold"
+    static let HELVETICA_REGULAR = "HelveticaNeue"
+    static let HELVETICA_BOLD = "HelveticaNeue-Bold"
+    static let HELVETICA_MEDIUM = "HelveticaNeue-Medium"
     
     struct Size {
         static let commonBtnSize = CGFloat(16)

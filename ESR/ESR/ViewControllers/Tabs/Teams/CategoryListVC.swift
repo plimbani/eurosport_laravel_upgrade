@@ -24,6 +24,8 @@ class CategoryListVC: SuperViewController {
     var tournamentId = NULL_ID
     var isSearch = false
     
+    var rotateToPortrait = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         initialize()
@@ -31,19 +33,29 @@ class CategoryListVC: SuperViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         sendAgeCategoriesRequest()
+        
+        if rotateToPortrait {
+            APPDELEGATE.deviceOrientation = .portrait
+            let valueOrientation = UIInterfaceOrientation.portrait.rawValue
+            UIDevice.current.setValue(valueOrientation, forKey: "orientation")
+            UIViewController.attemptRotationToDeviceOrientation()
+            self.tabBarController?.tabBar.isHidden = false
+            rotateToPortrait = false
+            
+            if let mainTabViewController = self.parent!.parent as? MainTabViewController {
+                mainTabViewController.hideTabbar(flag: false)
+            }
+        }
     }
     
     func initialize() {
         txtSearch.placeholder = String.localize(key: "placeholder_search_tab_category")
         txtSearch.setLeftPaddingPoints(35)
-        txtSearch.delegate = self
         txtSearch.returnKeyType = .done
         txtSearch.layer.cornerRadius = (txtSearch.frame.size.height / 2)
         txtSearch.clipsToBounds = true
         txtSearch.font = UIFont(name: Font.HELVETICA_REGULAR, size: Font.Size.commonTextFieldTxt)
         txtSearch.addTarget(self, action: #selector(textFieldDidChange(textField:)), for: .editingChanged)
-        
-        
         
         // Height for cell
         _ = cellOwner.loadMyNibFile(nibName: kNiB.Cell.AgeCategoryCell)
@@ -137,9 +149,21 @@ extension CategoryListVC: TitleNavigationBarDelegate {
     }
 }
 
-extension CategoryListVC: UITextFieldDelegate {
-    func textFieldDidBeginEditing(_ textField: UITextField) {
+extension CategoryListVC: AgeCategoryCellDelegate {
+    func ageCategoriesCellBtnViewSchedulePressed(_ indexPath: IndexPath) {
+        let viewController = Storyboards.Main.instantiateViewScheduleImageVC()
         
+        if isSearch {
+            if let imgURLValue = (ageCategoriesFilterList[indexPath.row] as! NSDictionary).value(forKey: "graphic_image") as? String {
+                viewController.imgURL = imgURLValue
+            }
+        } else {
+            if let imgURLValue = (ageCategoriesList[indexPath.row] as! NSDictionary).value(forKey: "graphic_image") as? String {
+                viewController.imgURL = imgURLValue
+            }
+        }
+        
+        self.navigationController?.pushViewController(viewController, animated: true)
     }
 }
 
@@ -164,6 +188,9 @@ extension CategoryListVC: UITableViewDataSource, UITableViewDelegate {
             _ = cellOwner.loadMyNibFile(nibName: "AgeCategoryCell")
             cell = cellOwner.cell as? AgeCategoryCell
         }
+        
+        cell?.indexPath = indexPath
+        cell?.delegate = self
         
         if isSearch {
             cell?.record = ageCategoriesFilterList[indexPath.row] as! NSDictionary

@@ -7,8 +7,9 @@
 
 import UIKit
 
-protocol TitleNavigationBarDelegate {
+@objc protocol TitleNavigationBarDelegate {
     func titleNavBarBackBtnPressed()
+    @objc optional func titleNavBarBtnFinalPlacingsPressed()
 }
 
 class TitleNavigationBar: UIView {
@@ -17,10 +18,30 @@ class TitleNavigationBar: UIView {
     @IBOutlet var btnBack: UIButton!
     @IBOutlet var lblTitle: UILabel!
     @IBOutlet var containerView: UIView!
-    
+    @IBOutlet var btnFinalPlacings: UIButton!
     var delegate: TitleNavigationBarDelegate?
 
     @IBOutlet var widthConstraintBackBtn: NSLayoutConstraint!
+    @IBOutlet var widthConstraintBtnFinalPlacings: NSLayoutConstraint!
+    
+    let btnFinalPlacingsAttributes : [NSAttributedStringKey: Any] = [
+        NSAttributedStringKey.font : UIFont.init(name: Font.HELVETICA_MEDIUM, size: 18.0),
+        NSAttributedStringKey.foregroundColor : UIColor.white,
+        NSAttributedStringKey.underlineStyle : NSUnderlineStyle.styleSingle.rawValue]
+    
+    var isFinalPlacings: Bool = false {
+        didSet {
+            if isFinalPlacings {
+                widthConstraintBtnFinalPlacings.constant = 155
+            } else {
+                widthConstraintBtnFinalPlacings.constant = 0
+            }
+        }
+    }
+    
+    override func awakeFromNib() {
+        isFinalPlacings = false
+    }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -35,6 +56,9 @@ class TitleNavigationBar: UIView {
         
         lblTitle.text = NULL_STRING
         lblTitle.textColor = .white
+        
+        btnFinalPlacings.setAttributedTitle(NSMutableAttributedString(string: "FINAL PLACINGS",
+                                                                     attributes: btnFinalPlacingsAttributes), for: .normal)
     }
     
     func hideBackButton(){
@@ -45,6 +69,10 @@ class TitleNavigationBar: UIView {
     
     func setBackgroundColor(){
         containerView.backgroundColor = UIColor.AppColor()
+    }
+    
+    @IBAction func btnFinalPlacingsPressed(_ sender: UIButton) {
+        delegate?.titleNavBarBtnFinalPlacingsPressed?()
     }
     
     @IBAction func backBtnPressed(_ sender: UIButton) {

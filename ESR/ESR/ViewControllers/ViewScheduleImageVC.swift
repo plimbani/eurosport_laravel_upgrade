@@ -48,6 +48,10 @@ class ViewScheduleImageVC: UIViewController {
                 (viewController as! TeamVC).rotateToPortrait = true
                 self.navigationController?.popToViewController(viewController, animated: true)
                 break
+            } else if viewController is CategoryListVC {
+                (viewController as! CategoryListVC).rotateToPortrait = true
+                self.navigationController?.popToViewController(viewController, animated: true)
+                break
             }
         }
     }

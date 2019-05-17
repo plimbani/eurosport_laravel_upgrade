@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -75,14 +75,14 @@
                                                 <rect key="frame" x="10" y="5" width="268" height="180"/>
                                                 <subviews>
                                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="globe" translatesAutoresizingMaskIntoConstraints="NO" id="cx0-50-ove">
-                                                        <rect key="frame" x="49" y="65" width="50" height="50"/>
+                                                        <rect key="frame" x="99" y="15" width="70" height="70"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="height" constant="50" id="NZt-Vp-tzv"/>
-                                                            <constraint firstAttribute="width" constant="50" id="nII-vz-3JV"/>
+                                                            <constraint firstAttribute="height" constant="70" id="NZt-Vp-tzv"/>
+                                                            <constraint firstAttribute="width" constant="70" id="nII-vz-3JV"/>
                                                         </constraints>
                                                     </imageView>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pBw-zu-nWs">
-                                                        <rect key="frame" x="109" y="90" width="149" height="0.0"/>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pBw-zu-nWs">
+                                                        <rect key="frame" x="15" y="100" width="238" height="0.0"/>
                                                         <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="22"/>
                                                         <color key="textColor" red="0.42745098040000001" green="0.65098039220000004" blue="0.12941176469999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>
@@ -90,11 +90,12 @@
                                                 </subviews>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
-                                                    <constraint firstItem="cx0-50-ove" firstAttribute="centerY" secondItem="JTo-vz-kJw" secondAttribute="centerY" id="55h-Zi-ajA"/>
-                                                    <constraint firstItem="cx0-50-ove" firstAttribute="centerX" secondItem="JTo-vz-kJw" secondAttribute="centerX" priority="500" constant="-60" id="8u2-vI-irY"/>
-                                                    <constraint firstItem="pBw-zu-nWs" firstAttribute="centerY" secondItem="cx0-50-ove" secondAttribute="centerY" id="cVy-06-vxi"/>
-                                                    <constraint firstAttribute="trailing" secondItem="pBw-zu-nWs" secondAttribute="trailing" constant="10" id="nVn-TW-nsm"/>
-                                                    <constraint firstItem="pBw-zu-nWs" firstAttribute="leading" secondItem="cx0-50-ove" secondAttribute="trailing" constant="10" id="qFC-za-3Pi"/>
+                                                    <constraint firstItem="cx0-50-ove" firstAttribute="centerY" secondItem="JTo-vz-kJw" secondAttribute="centerY" constant="-40" id="0Mm-8x-T5Q"/>
+                                                    <constraint firstItem="cx0-50-ove" firstAttribute="centerX" secondItem="JTo-vz-kJw" secondAttribute="centerX" priority="500" id="8u2-vI-irY"/>
+                                                    <constraint firstItem="pBw-zu-nWs" firstAttribute="centerX" secondItem="cx0-50-ove" secondAttribute="centerX" id="BSg-J6-ySL"/>
+                                                    <constraint firstItem="pBw-zu-nWs" firstAttribute="leading" secondItem="JTo-vz-kJw" secondAttribute="leading" constant="15" id="b8a-ym-0Qc"/>
+                                                    <constraint firstAttribute="trailing" secondItem="pBw-zu-nWs" secondAttribute="trailing" constant="15" id="nVn-TW-nsm"/>
+                                                    <constraint firstItem="pBw-zu-nWs" firstAttribute="top" secondItem="cx0-50-ove" secondAttribute="bottom" constant="15" id="yXz-dv-wRB"/>
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hkO-qD-D5X">

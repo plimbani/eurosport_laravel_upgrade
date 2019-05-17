@@ -138,6 +138,10 @@ class ApiManager {
         getRequest(API_ENDPOINT.TOURNAMENTS, success: success, failure: failure)
     }
     
+    func getTournamentTeamDetails(_ parameters: [String: Any]?,success: @escaping (_ result: NSDictionary) -> (), failure: @escaping (_ result: NSDictionary) -> ()) {
+        postRequest(API_ENDPOINT.GET_TOURNAMENT_TEAM_DETAILS, parameters, success: success, failure: failure, true)
+    }
+    
     func getCountriesList(success: @escaping (_ result: NSDictionary) -> (), failure: @escaping (_ result: NSDictionary) -> ()) {
         getRequest(API_ENDPOINT.COUNTRIES_LIST, success: success, failure: failure)
     }
