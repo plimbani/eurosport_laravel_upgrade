@@ -79,8 +79,11 @@
             }
         },
         created() {
+        	this.$root.$on('updatePositions', this.updatePositions);
         },
         beforeCreate: function() {
+        	// Remove custom event listener 
+            this.$root.$off('updatePositions');
         },
         components: {
         },
@@ -239,6 +242,52 @@
             onGroupChange(teamIndex) {
 		    	let vm = this;
 		    	this.templateFormDetail.stepthree.placings[placingIndex].position = '';
+		    },
+		    updatePositions() {
+		    	let vm = this;
+
+		    	let placings = _.cloneDeep(vm.templateFormDetail.stepthree.placings);
+
+	    		_.forEach(vm.templateFormDetail.stepthree.placings, function(placing, placingIndex) {
+		    		let group = placing.group != '' ? placing.group.split(',') : '';
+		    		let position = placing.position != '' ? placing.position.split(',') : '';
+		    		let allRounds = null;
+		    		let selectedGroup = null;
+		    		if(group[0] === '-1') {
+		    			allRounds = vm.templateFormDetail['steptwo'].rounds;
+		    		} else {
+		    			if(!(group[0] in vm.templateFormDetail['steptwo'].divisions)) {
+		    				placings.splice(placingIndex, 1);
+		    				delete placings[placingIndex];
+		    				return true;
+		    			}
+		    			allRounds = vm.templateFormDetail['steptwo'].divisions[group[0]].rounds;
+		    		}
+
+		    		if( (!(group[1] in allRounds)) || (!(group[2] in allRounds[group[1]].groups)) ) {
+		    			console.log('called');
+		    			delete placings[placingIndex];
+		    			return true;
+		    		}
+		    		selectedGroup = allRounds[group[1]].groups[group[2]];
+
+		    		if(placing.position != '') {
+		    			if(placing.position_type === 'placed') {
+		    				if(!(position[3] in selectedGroup.teams)) {
+		    					delete placings[placingIndex];
+		    					return true;
+		    				}
+		    			}
+		    			if((placing.position_type === 'winner') || (placing.position_type === 'looser')) {
+		    				if(!(position[3] in selectedGroup.matches)) {
+		    					delete placings[placingIndex];
+		    					return true;
+		    				}
+		    			}
+		    		}
+		    	});
+		    
+		    	vm.templateFormDetail.stepthree.placings = _.cloneDeep(_.compact(placings));
 		    },
         }
 	}
