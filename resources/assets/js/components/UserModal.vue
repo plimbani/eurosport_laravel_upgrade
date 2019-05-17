@@ -42,7 +42,7 @@
                 <div class="form-group row">
                     <label class="col-sm-5 form-control-label">{{$lang.user_management_user_type}}</label>
                     <div class="col-sm-6">
-                      <select v-validate="'required'" :class="{'is-danger': errors.has('user_type') }" class="form-control ls-select2" name="user_type" v-model="formValues.userType" @change="userTypeChanged()">
+                      <select v-validate="'required'":class="{'is-danger': errors.has('user_type') }" class="form-control ls-select2" name="user_type" v-model="formValues.userType" @change="userTypeChanged()" :disabled="formValues.provider == 'facebook'">
                         <option value="">Select</option>
                         <option v-for="role in userRolesOptions" v-bind:value="role.id" v-if="(!(isMasterAdmin == true && role.slug == 'Super.administrator'))">
                             {{ role.name }}
@@ -109,6 +109,7 @@ import { ErrorBag } from 'vee-validate';
                     userEmail2: '',
                     tournament_id: '',
                     role: '',
+                    provider: '',
                 },
                 userRolesOptions: [],
                 userModalTitle: 'Add User',
