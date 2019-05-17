@@ -18,8 +18,6 @@ class AuthController extends Controller
 {
     public function authenticate(Request $request)
     {
-        // dd($request->all());
-        // grab credentials from the request
         $credentials = $request->only('email', 'password');
         try {
             // attempt to verify the credentials and create a token for the user
@@ -31,7 +29,6 @@ class AuthController extends Controller
             return response()->json(['error' => 'could_not_create_token'], 500);
         }
 
-        // all good so return the token
         //return response()->json(compact('token'));
         //$token = response()->json(compact('token'));
        // $token = compact('token');
@@ -46,11 +43,10 @@ class AuthController extends Controller
         } catch (JWTException $e) {
             return response(['authenticated' => false]);
         }
-        // Here Add Functionality if use is Active then allowed to login
+
         $token=JWTAuth::getToken();
         if($token) {
           $userData = JWTAuth::toUser($token);
-          // here we put check for Mobile Users
           $isMobileUsers = \Request::header('IsMobileUser');
           $userTournament = $userData->tournaments()->pluck('id')->toArray();
           if ($userData->isRole('tournament.administrator') && $request->has('tournamentId') && !in_array($request->tournamentId,$userTournament)) {
@@ -109,7 +105,6 @@ class AuthController extends Controller
 
     public function logout()
     {
-
         try {
             $token = JWTAuth::getToken();
 
@@ -133,23 +128,13 @@ class AuthController extends Controller
         $token = $request->token;
         $provider = $request->provider;
 
-        try {
-            switch ($provider) {
-                case "facebook":
-                    Socialite::driver($provider)->fields(['name', 'first_name', 'last_name', 'email']);
-                    $payload = Socialite::driver($provider)->userFromToken($token);
-                    $user = $this->getFacebookUserData($payload);
-                    break;
-                default:
-                    $user = Socialite::driver($provider)->userFromToken($token);
-            }
-        } catch (\GuzzleHttp\Exception\ClientException $e) {
-            throw new \Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException('Basic', $e->getMessage());
+        if($provider == 'facebook') {
+          Socialite::driver($provider)->fields(['name', 'first_name', 'last_name', 'email']);
+          $payload = Socialite::driver($provider)->userFromToken($token);
+          $user = $this->getFacebookUserData($payload);
         }
 
         $authUser = User::where('provider_id', $user['id'])->first();
-        $mobileUserRoleId = Role::where('slug', 'mobile.user')->first()->id;
-
         if (!$authUser) {
           $userData = [];
           if(isset($user['first_name']))
@@ -164,8 +149,7 @@ class AuthController extends Controller
           if(isset($user['id']))
               $userData['provider_id'] = $user['id'];
 
-          if(isset($provider))
-              $userData['provider'] = $provider;
+          $userData['provider'] = $provider;
 
           $isUserDeleted = User::onlyTrashed()->where('email', $user['email'])->first();
           if($isUserDeleted){
@@ -184,8 +168,7 @@ class AuthController extends Controller
           }
         }
 
-        $token = JWTAuth::fromUser($authUser);        
-
+        $token = JWTAuth::fromUser($authUser);
         if (!$token) {
             throw new \Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException('Basic', 'Invalid credentials.');
         }
