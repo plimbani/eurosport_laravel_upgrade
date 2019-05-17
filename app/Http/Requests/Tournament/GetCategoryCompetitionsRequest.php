@@ -19,7 +19,7 @@ class GetCategoryCompetitionsRequest extends FormRequest
     public function authorize()
     {
         $token = JWTAuth::getToken();
-        if(!$token || ($this->headers->all()['ismobileuser']) && app('request')->header('ismobileuser') == "true") {
+        if(!$token || ($this->headers->all()['ismobileuser'] && app('request')->header('ismobileuser') == "true")) {
             if (isset($this->all()['ageGroupId'])) {
                 $ageGroupId = $this->all()['ageGroupId'];
                 $ageCategory = TournamentCompetationTemplates::findOrFail($ageGroupId);
