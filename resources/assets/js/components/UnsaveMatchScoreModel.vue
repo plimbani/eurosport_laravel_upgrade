@@ -159,16 +159,16 @@ export default {
           Tournament.saveAllMatchResults(matchPostData).then(
             (response) => {
               this.unChangedMatchScores = response.data.unChangedScores;
-              if(this.unChangedMatchScores.length > 0) {
-                this.unChangedMatchScoresInfoModalOpen = true;
-                $('#unSavedMatchScoresModal').modal('show');
-              }
               if(response.data.isAnyMatchScoreUpdated == true) {
                 toastr.success('Scores have been updated successfully', 'Score Updated', {timeOut: 1000});
               } else {
                 toastr.error('Not a single score updated.', 'Score not updated', {timeOut: 1000});
               }
               $('#unSaveMatchModal').modal('hide');
+              if(this.unChangedMatchScores.length > 0) {
+                this.unChangedMatchScoresInfoModalOpen = true;
+                $('#unSavedMatchScoresModal').modal('show');
+              }              
             }
           )
         }
