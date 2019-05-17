@@ -474,7 +474,7 @@ public class TeamActivity extends BaseAppCompactActivity {
                         break;
                     }
                 }
-                if (isTeamAvailable) {
+                if (isTeamAvailable && mTeamList.size()>1 && !mTeamList.get(sp_team.getSelectedItemPosition()).getId().equalsIgnoreCase(view.getTag().toString())) {
                     mTeamDetailModel = mTeamList.get(selectedGroupPos);
                     sp_team.setSelection(selectedGroupPos);
                 } else {
