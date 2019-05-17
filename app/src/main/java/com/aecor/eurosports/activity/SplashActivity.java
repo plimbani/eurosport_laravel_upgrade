@@ -240,14 +240,19 @@ public class SplashActivity extends BaseActivity {
                                     finish();
                                 }
                             } else {
-                                if (mAppSharedPref.getString(AppConstants.PREF_COUNTRY_ID) == null) {
-                                    //profile screen
+                                if (mAppSharedPref.getBoolean(AppConstants.IS_LOGIN_USING_FB) && Utility.isNullOrEmpty(mAppSharedPref.getString(AppConstants.PREF_TOURNAMENT_ID))) {
                                     startActivity(new Intent(mContext, ProfileActivity.class));
                                     finish();
                                 } else {
-                                    // home screen
-                                    startActivity(new Intent(mContext, HomeActivity.class));
-                                    finish();
+                                    if (Utility.isNullOrEmpty(mAppSharedPref.getString(AppConstants.PREF_COUNTRY_ID))) {
+                                        //profile screen
+                                        startActivity(new Intent(mContext, ProfileActivity.class));
+                                        finish();
+                                    } else {
+                                        // home screen
+                                        startActivity(new Intent(mContext, HomeActivity.class));
+                                        finish();
+                                    }
                                 }
                             }
                         } else {
