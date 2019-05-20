@@ -16,6 +16,7 @@ use Laraspace\Models\Team;
 use Laraspace\Models\Position;
 use Laraspace\Traits\TournamentAccess;
 use Laraspace\Models\TournamentCompetationTemplates;
+use Laraspace\Models\Pitch;
 
 class MatchService implements MatchContract
 {
@@ -2613,6 +2614,19 @@ class MatchService implements MatchContract
       $fixtures = array_unique($fixtures);
       foreach($fixtures as $id) {
         $this->calculateCupLeagueTable($id);
+      }
+    }
+
+    public function saveScheduleMatches($scheduleMatches)
+    {
+      $data = null;
+      foreach ($scheduleMatches as $scheduleMatch) {
+        $scheduleMatch['venue_id'] = Pitch::find($scheduleMatch['pitchId'])->venue_id;
+        $data = $this->matchRepoObj->saveScheduleMatches($scheduleMatch);
+      }
+      
+      if($data) {
+        return ['status_code' => '200', 'data' => $data, 'message' => 'Match has been scheduled successfully'];
       }
     }
 }
