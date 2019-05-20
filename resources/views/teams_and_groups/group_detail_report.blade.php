@@ -1,98 +1,139 @@
 <html lang="en">
 	<head>
 		<title>Euro-Sportring Administration</title>
-		{{-- <link href="{{ asset(mix('assets/css/laraspace.css')) }}" rel="stylesheet" type="text/css" /> --}}
-		{{-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">  --}}
 		<link type="text/css" rel="stylesheet" href="{{ asset(mix('/assets/css/flag_icons.css')) }}"/>
+		<style>
+			.logo {
+				width: 150px;
+			}
+
+			.data-wrapper {
+				margin-top: 25px;
+				background: #f8f8f8;
+				padding: 1.25em;
+			}
+
+			.card-content {
+				background: white;
+				padding: 0.75rem;
+	    		position: relative;
+			    border-radius: 2px;
+			    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+	    	}
+
+	    	.card-content .card-title {
+			    display: block;
+			    line-height: 32px;
+			    margin-bottom: 8px;
+			    font-size: 18px;
+    			font-weight: 300;
+    			color: #2196F3;
+    			text-align: center;
+			}
+
+			.card-content p {
+				font-size: 12px;
+			}
+
+			table tr {
+				page-break-inside: avoid;
+				vertical-align: top;
+			}
+
+		</style>
 	</head>
-	<body class="layout-default skin-default pace-done" data-gr-c-s-loaded="true">
-		<div class="container">
-			<center>
-				@if($tournamentLogo != null)	
-			  		<img src="{{ $tournamentLogo }}" id="logo-desk" alt="Laraspace Logo" class="hidden-sm-down text-center" width="200px" height="100px">
-			  	@endif
+	<body>
+		@if($tournamentLogo != null)	
+	  		<img src="{{ $tournamentLogo }}" class="logo" id="logo-desk" alt="Laraspace Logo">
+	  	@endif
 
-			  	@if($tournamentLogo == null && config('config-variables.current_layout') == 'tmp')
-		  			<img src="{{ asset('assets/img/tmplogo.svg')}}" id="logo-desk" alt="Laraspace Logo" class="hidden-sm-down text-center" width="200px" height="100px">
-			  	@endif
+	  	@if($tournamentLogo == null && config('config-variables.current_layout') == 'tmp')
+  			<img src="{{ asset('assets/img/tmplogo.svg')}}" class="logo" id="logo-desk" alt="Laraspace Logo">
+	  	@endif
 
-			  	@if($tournamentLogo == null && config('config-variables.current_layout') == 'commercialisation')
-			  		<img src="{{ asset('assets/img/easy-match-manager.jpg')}}" id="logo-desk" alt="Laraspace Logo" class="hidden-sm-down text-center" width="200px" height="100px">
-			  	@endif
-			</center>
-			<div class="row">
+	  	@if($tournamentLogo == null && config('config-variables.current_layout') == 'commercialisation')
+	  		<img src="{{ asset('assets/img/easy-match-manager.jpg')}}" class="logo" id="logo-desk" alt="Laraspace Logo">
+	  	@endif
+		<div class="data-wrapper">
+			<table style="width:100%">
 				@foreach($groupsData as $group)
-				<div class="col-sm-2 my-2">
-					<div class="card-content bg-white">
-						<span class="card-title text-primary">
-							<strong>
-								@php
-									$groupNameStr = explode("-", $group['name']);
-									$competitionType = $groupNameStr[0];
-								@endphp
-								@if($competitionType == 'PM')
-						        	{{ str_replace('Group-', '', $group['groups']['group_name']) }}
-						        @else
-						        	{{ $group['groups']['group_name'] }}
-								@endif
-							</strong>
-						</span>
-						@for ($i = 1; $i <= $group['group_count']; $i++)
-							<div>
-								<p class="text-primary left">
+					@if($loop->index % 3 === 0)
+						<tr>
+					@endif
+						<td align="center">
+							<div class="card-content">
+								<div class="card-title">
 									<strong>
 										@php
-											$fullName = '';
-											if(isset($group['groups']['actual_group_name'])) {
-									          $actualGroupName = $group['groups']['actual_group_name'];
-									          $fullName = $actualGroupName. '-' .$i;
-									        } else {
-									          $fullName = $group['groups']['group_name']. $i;
-									        }
-
-									        $displayName = $fullName;
+											$groupNameStr = explode("-", $group['name']);
+											$competitionType = $groupNameStr[0];
 										@endphp
-										@foreach($teamsData as $team)
-											@if($team->age_group_id == $data['ageCategoryId'] && $fullName == $team->group_name)
-												@php $displayName = 'flag-icon flag-icon-' .$team->country_flag; @endphp
-											@endif
-										@endforeach
-										<span class="{{ $displayName }}"></span>
-										
-										<span>
-											@php
-												$fullName = "";
-												$actualFullName = "";
-											@endphp
-
-											@if(isset($group['groups']['actual_group_name']))
-												@php
-													$actualFullName = $group['groups']['actual_group_name']. '-' .$i;
-													$actualGroupName = explode("-", $group['groups']['actual_group_name']);
-													$fullName = $actualGroupName[0]. '-' .$i;
-												@endphp
-											@else
-												@php
-													$fullName = $actualFullName = $group['groups']['group_name'] .$i;
-												@endphp
-											@endif
-
-											@foreach($teamsData as $team)
-												@if($team->age_group_id == $data['ageCategoryId'] && $actualFullName == $team->group_name)
-													@php $fullName = $team->name; @endphp
-												@endif
-											@endforeach
-
-											{{ $fullName }}
-										</span>
+										@if($competitionType == 'PM')
+								        	{{ str_replace('Group-', '', $group['groups']['group_name']) }}
+								        @else
+								        	{{ $group['groups']['group_name'] }}
+										@endif
 									</strong>
-								</p>
+								</div>
+								@for ($i = 1; $i <= $group['group_count']; $i++)
+									<div>
+										<p>
+											<strong>
+												@php
+													$fullName = '';
+													if(isset($group['groups']['actual_group_name'])) {
+											          $actualGroupName = $group['groups']['actual_group_name'];
+											          $fullName = $actualGroupName. '-' .$i;
+											        } else {
+											          $fullName = $group['groups']['group_name']. $i;
+											        }
+
+											        $displayName = $fullName;
+												@endphp
+												@foreach($teamsData as $team)
+													@if($team->age_group_id == $data['ageCategoryId'] && $fullName == $team->group_name)
+														@php $displayName = 'flag-icon flag-icon-' .$team->country_flag; @endphp
+													@endif
+												@endforeach
+												<span class="{{ $displayName }}"></span>
+												
+												<span>
+													@php
+														$fullName = "";
+														$actualFullName = "";
+													@endphp
+
+													@if(isset($group['groups']['actual_group_name']))
+														@php
+															$actualFullName = $group['groups']['actual_group_name']. '-' .$i;
+															$actualGroupName = explode("-", $group['groups']['actual_group_name']);
+															$fullName = $actualGroupName[0]. '-' .$i;
+														@endphp
+													@else
+														@php
+															$fullName = $actualFullName = $group['groups']['group_name'] .$i;
+														@endphp
+													@endif
+
+													@foreach($teamsData as $team)
+														@if($team->age_group_id == $data['ageCategoryId'] && $actualFullName == $team->group_name)
+															@php $fullName = $team->name; @endphp
+														@endif
+													@endforeach
+
+													{{ $fullName }}
+												</span>
+											</strong>
+										</p>
+									</div>
+								@endfor
 							</div>
-						@endfor
-					</div>
-				</div>
+						</td>
+					@if($loop->index % 3 === 2)
+						</tr>
+					@endif
 				@endforeach
-			</div>
+			</table>
 		</div>
 	</body>
 </html>
