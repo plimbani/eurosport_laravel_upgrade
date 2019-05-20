@@ -121,7 +121,7 @@
                     axios.post(Constant.apiBaseUrl+'user/update',this.userProfileDetail).then(response =>  { 
                         if(response.data.success){ 
                             this.$router.push({'name':'dashboard'})
-                            toastr['success']('User details has been updated successfully.', 'Success');
+                            toastr['success']('User details have been updated successfully.', 'Success');
                         }else{
                          toastr['error'](response.data.message, 'Error');
                         }

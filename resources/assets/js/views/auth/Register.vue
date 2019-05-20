@@ -42,14 +42,14 @@
 
                                     <label>Password</label>
                                     <div class="form-group">
-                                       <input id="pwd" type="password" class="form-control" placeholder="Enter password" name="password" v-model="registerData.password" v-validate="{ rules: { required: true } }" ref="password">
-                                        <span class="help is-danger" v-show="errors.has('password')">The password field is required.</span>
-                                    </div>
-                                    <div class="form-group">
-                                        <input id="cpwd" type="password" class="form-control" placeholder="Confirm password" name="password_confirmation" v-model="registerData.password_confirmation" v-validate="'required|confirmed:password'">
-                                        <span class="help is-danger" v-show="errors.has('password_confirmation')">The confirm password field is required.</span>
+                                       <input id="password" type="password" class="form-control" placeholder="Enter password" name="password" v-model="registerData.password" v-validate="{ rules: { required: true } }" ref="password">
+                                       <span class="help is-danger" v-show="errors.has('password')">{{errors.first('password')}}</span>
                                     </div>
 
+                                    <div class="form-group">
+                                        <input id="password-confirm" type="password" class="form-control" placeholder="Confirm password" name="password_confirmation" v-model="registerData.password_confirmation" v-validate="'required|confirmed:password'">
+                                        <span class="help is-danger" v-show="errors.has('password_confirmation')">{{errors.first('password_confirmation')}}</span>
+                                    </div>
                                     <h3 class="text-uppercase font-weight-bold mt-5">Your organisation</h3>
                                 </div>
                             </div>
@@ -155,9 +155,38 @@
                     zip: '',
                     country:'',
                 },
+                errorMessages: {
+                    en: {
+                        custom: {
+                          password: {
+                            required: 'This field is required.',
+                            min: 'Your password must be at least 5 characters long'
+                          },
+                          password_confirmation: {
+                            required: 'This field is required.',
+                            confirmed: 'Passwords do not match'
+                          }
+                        }
+                    },
+                    fr: {
+                        custom: {
+                          password: {
+                            required: 'FThis field is required.',
+                            min: 'FYour password must be at least 5 characters long'
+                          },
+                          password_confirmation: {
+                            required: 'FThis field is required.',
+                            confirmed: 'FPasswords do not match'
+                          }
+                        }
+                    }               
+                },
                 countries:{},
                 disabled:false
             }
+        },
+        mounted() {
+            this.$validator.localize(this.errorMessages);
         },
         methods: {
             registerUser(e){
