@@ -36,7 +36,7 @@
                                     <div class="form-group">
                                         <input type="email" id="email-id" class="form-control " placeholder="e.g name@domain.com" name="email"
                                            v-model="registerData.email" v-validate="{ rules: { required: true, email: true } }">
-					<span class="help is-danger" v-show="errors.has('email') && errors.first('email') == 'The email field must be a valid email.'">{{$lang.login_email_invalid_validation_message}}</span>
+					                    <span class="help is-danger" v-show="errors.has('email') && errors.first('email') == 'The email field must be a valid email.'">{{$lang.login_email_invalid_validation_message}}</span>
                                         <span class="help is-danger" v-show="errors.has('email') && errors.first('email') == 'The email field is required.'">{{$lang.login_email_validation_message}}</span>
                                     </div>
 
@@ -193,7 +193,6 @@
                
                 // console.log("registerUser");
                 this.$validator.validateAll().then((response) => {
-                    if(response) {
                         if (!this.errors.any()) {
                             this.disabled = true; 
                             axios.post(Constant.apiBaseUrl+'commercialisation/thankyou', this.registerData).then(response =>  {
@@ -228,8 +227,10 @@
                                 this.disabled = false;
                                  console.log("error in register::",error);
                              });
+                        } else {
+                            window.scrollTo(200,0);
                         }
-                    }
+                    
                 }).catch(() => {
                     // fail stuff
                 });
