@@ -1,11 +1,14 @@
 <?php
 
-namespace Laraspace\Http\Requests\User;
+namespace Laraspace\Http\Requests\Team;
 
+use Laraspace\Traits\TournamentAccess;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateFcmRequest extends FormRequest
+class GetSignedUrlForGroupsViewReportRequest extends FormRequest
 {
+    use TournamentAccess;
+    
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -13,13 +16,12 @@ class UpdateFcmRequest extends FormRequest
      */
     public function authorize()
     {
-        if (app('request')->header('ismobileuser')) {
-            $isMobileUser = app('request')->header('ismobileuser');
-            if ($isMobileUser == "true") {
-                return true;
-            }
+        $data = $this->all();
+        $isTournamentAccessible = $this->checkForWritePermissionOfTournament($data['tournamentId']);
+        if(!$isTournamentAccessible) {
+            return false;
         }
-        return false;
+        return true;
     }
 
     /**

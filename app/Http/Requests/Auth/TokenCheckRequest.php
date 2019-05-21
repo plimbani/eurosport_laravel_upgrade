@@ -1,10 +1,10 @@
 <?php
 
-namespace Laraspace\Http\Requests\User;
+namespace Laraspace\Http\Requests\Auth;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateFcmRequest extends FormRequest
+class TokenCheckRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,9 +13,9 @@ class UpdateFcmRequest extends FormRequest
      */
     public function authorize()
     {
-        if (app('request')->header('ismobileuser')) {
-            $isMobileUser = app('request')->header('ismobileuser');
-            if ($isMobileUser == "true") {
+        if (isset($this->headers->all()['ismobileuser'])) {
+            $isMobileUser = $this->headers->all()['ismobileuser'];
+            if ($isMobileUser == true) {
                 return true;
             }
         }
@@ -30,7 +30,8 @@ class UpdateFcmRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'token' => 'required',
+            'provider' => 'required|in:facebook',
         ];
     }
 }

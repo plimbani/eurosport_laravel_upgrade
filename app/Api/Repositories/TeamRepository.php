@@ -16,6 +16,7 @@ class TeamRepository
 {
     public function __construct() {
       $this->AwsUrl = getenv('S3_URL');
+      $this->matchRepoObj = new \Laraspace\Api\Repositories\MatchRepository();
     }
     public function getAll($tournamentId,$ageGroup='')
     {
@@ -538,16 +539,15 @@ class TeamRepository
       $team->save();    
     }
 
-    public function resetAllTeams($ageCategoryId)
+    public function resetAllTeams($data)
     {
 
+      $ageCategoryId = $data['ageCategoryId'];
+      $tournamentId = $data['tournamentId'];
+      
       $tempfixtures = TempFixture::where('age_group_id',$ageCategoryId)->update(['home_team' => 0,
         'away_team' => 0, 'is_result_override' => 0, 'match_winner' => null, 'match_status' => null,
-        'hometeam_score' => null, 'awayteam_score' => null, 'is_scheduled' => 0, 'comments' => null,
-        'minimum_team_interval_flag' => 0, 'match_datetime' => null, 'match_endtime' => null, 
-        'referee_id' => null, 'venue_id' => 0,'home_team_name' => null, 'away_team_name' => null, 
-        'pitch_id' => 0]);
-
+        'hometeam_score' => null, 'awayteam_score' => null, 'home_team_name' => null, 'away_team_name' => null]);
 
       $teamDataReset = Team::where('age_group_id',$ageCategoryId)->delete();  
 
@@ -558,9 +558,11 @@ class TeamRepository
      
       $MatchStanding = DB::table('match_standing')->whereIn('competition_id',$competationIds)
                                                   ->delete();
-
       $competitions = Competition::where('tournament_competation_template_id',$ageCategoryId)
-                                   ->update(['is_manual_override_standing'=> 0 , 'color_code'=>null]);
+                                   ->update(['is_manual_override_standing'=> 0]);
+
+      $matchData = array('tournamentId'=>$tournamentId, 'ageGroupId'=>$ageCategoryId);
+      $matchresult =  $this->matchRepoObj->checkTeamIntervalForMatchesOnCategoryUpdate($matchData);
       
     }
 
@@ -624,5 +626,27 @@ class TeamRepository
                             ->get();
 
       return ['teamData' => $teamData];
+    }
+
+    public function getTournamentTeamDetails($data)
+    {
+      // First get the tournamentId and team id and return team detail.
+      $tournamentId = $data['tournamentData']['tournament_id'];
+      $teamId = $data['tournamentData']['team_id'];
+
+      return Team::where('teams.id','=',$teamId)
+            ->join('countries','countries.id','=','teams.country_id')
+            ->join('tournament_competation_template','tournament_competation_template.id','=','teams.age_group_id')
+            ->join('competitions','competitions.id',
+              '=','teams.competation_id')
+            ->select('teams.*','countries.id as countryId',
+              'countries.name as CountryName',
+              'tournament_competation_template.id as ageGroupId',
+              'tournament_competation_template.group_name as ageGroupName',
+              'tournament_competation_template.category_age as CategoryAge',
+              'competitions.id as GroupId',
+              'competitions.name as GroupName',
+              DB::raw('CONCAT("'.$this->AwsUrl.'", countries.logo) AS countryLogo'))
+            ->where('teams.tournament_id','=',$tournamentId)->get();
     }
 }
