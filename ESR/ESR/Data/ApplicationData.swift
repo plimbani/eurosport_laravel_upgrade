@@ -26,6 +26,8 @@ class ApplicationData: NSObject {
     
     static var accessCodeFromURL = NULL_STRING
     
+    static var facebookDetailsPending = false
+    
     // For maintaining targets
     enum CurrentTargetList: String {
         case ESR

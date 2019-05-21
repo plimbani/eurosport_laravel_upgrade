@@ -14,6 +14,7 @@ import Firebase
 import FirebaseMessaging
 import AudioToolbox
 import IQKeyboardManagerSwift
+import FacebookCore
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -53,6 +54,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if let statusBar = UIApplication.shared.value(forKey: "statusBar") as? UIView {
             statusBar.backgroundColor = UIColor.AppColor()
         }
+        
+        // Facebook
+        SDKApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
         
         GMSServices.provideAPIKey(Environment().configuration(PlistKey.GoogleMapKey))
         // Fabric
@@ -168,7 +172,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
         
-        return true
+        let facebookHandler = SDKApplicationDelegate.shared.application(app, open: url, options: options)
+        return facebookHandler
     }
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {

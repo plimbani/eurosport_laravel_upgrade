@@ -30,6 +30,7 @@
 "alert_create_account_email" = "Kijk in je inbox om je e-mailadres te bevestigen en je accountregistratie af te ronden.";
 "alert_preview_tournament" = "This tournament is currently in preview status. More details about the tournament will be available nearer the start date.";
 "alert_msg_password_length" = "Uw wachtwoord moet minimaal 5 tekens lang zijn";
+"alert_msg_facebook_profile_details" = "Please update your profile first";
 
 "string_league_table" = "league table";
 "Matches" = "Wedstrijden";

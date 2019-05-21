@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import FacebookCore
+import FacebookLogin
 
 class LandingVC: SuperViewController {
 
@@ -13,6 +15,9 @@ class LandingVC: SuperViewController {
     
     @IBOutlet var btnSignIn: UIButton!
     @IBOutlet var btnCreateAccount: UIButton!
+    @IBOutlet var btnLoginWithFacebook: UIButton!
+    
+    var authToken = NULL_STRING
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,14 +44,18 @@ class LandingVC: SuperViewController {
         }
         
         if USERDEFAULTS.string(forKey: kUserDefaults.token) != nil {
-            updateToken()
+            if USERDEFAULTS.bool(forKey: kUserDefaults.isFacebookLogin) {
+                getUserDetailsAPI()
+            } else {
+                autoLoginAndUpdateToken()
+            }
         } else {
             // Checks if new app version is available or not
             sendAppversionRequest()
         }
     }
     
-    func updateToken() {
+    func autoLoginAndUpdateToken() {
         if APPDELEGATE.reachability.connection == .none {
             return
         }
@@ -117,6 +126,109 @@ class LandingVC: SuperViewController {
                 }
             }
         })
+    }
+    
+    // MARK: Facebook
+    
+    func loginFacebookAPI(token: String) {
+        if APPDELEGATE.reachability.connection == .none {
+            self.showCustomAlertVC(title: String.localize(key: "alert_title_error"), message: String.localize(key: "string_no_internet"))
+            return
+        }
+        
+        self.view.showProgressHUD()
+        
+        var parameters: [String: Any] = [:]
+        parameters["token"] = token
+        parameters["provider"] = "facebook"
+        
+        ApiManager().loginFacebook(parameters, success: { result in
+            DispatchQueue.main.async {
+                self.view.hideProgressHUD()
+                if let token = result.value(forKey: "token") as? String {
+                    USERDEFAULTS.set(token, forKey: kUserDefaults.token)
+                    USERDEFAULTS.set(true, forKey: kUserDefaults.isFacebookLogin)
+                    
+                    self.getUserDetailsAPI()
+                }
+            }
+        }, failure: { result in
+            DispatchQueue.main.async {
+                self.view.hideProgressHUD()
+                
+                if result.allKeys.count == 0 {
+                    return
+                }
+                
+                if let error = result.value(forKey: "error") as? String {
+                    self.showCustomAlertVC(title: String.localize(key: "alert_title_error"), message: error)
+                }
+            }
+        })
+    }
+    
+    func getUserDetailsAPI() {
+        if APPDELEGATE.reachability.connection == .none {
+            return
+        }
+        
+        let parameters: [String: Any] = [:]
+        
+        self.view.showProgressHUD()
+        ApiManager().getUserDetails(parameters, success: { result in
+            DispatchQueue.main.async {
+                self.view.hideProgressHUD()
+                
+                if let authenticated = result.value(forKey: "authenticated") as? Bool {
+                    if authenticated {
+                        ParseManager.parseLogin(result)
+                        
+                        if let userData = ApplicationData.sharedInstance().getUserData() {
+                            if userData.tournamentId == NULL_ID {
+                                ApplicationData.facebookDetailsPending = true
+                            }
+                        }
+                        
+                        UIApplication.shared.keyWindow?.rootViewController = Storyboards.Main.instantiateMainVC()
+                    }
+                }
+            }
+        }, failure: { result in
+            DispatchQueue.main.async {
+                self.view.hideProgressHUD()
+                
+                if result.allKeys.count == 0 {
+                    return
+                }
+                
+                if let error = result.value(forKey: "error") as? String {
+                    self.showCustomAlertVC(title: String.localize(key: "alert_title_error"), message: error)
+                }
+            }
+        })
+    }
+    
+    @IBAction func btnLoginWithFacebookPressed(_ sender: UIButton) {
+        if APPDELEGATE.reachability.connection == .none {
+            return
+        }
+        
+        self.view.showProgressHUD()
+        LoginManager().logIn(readPermissions: [.publicProfile, .email], viewController: self) { result in
+            DispatchQueue.main.async {
+                self.view.hideProgressHUD()
+            }
+            switch result {
+            case .cancelled:
+                print("Login Cancelled - User cancelled login.")
+                break
+            case .failed(let error):
+                print("Login Fail - Login failed with error \(error)")
+            case .success(_, _, let accessToken):
+                self.authToken = accessToken.authenticationToken
+                self.loginFacebookAPI(token: self.authToken)
+            }
+        }
     }
     
     @IBAction func createAccountBtnPressed(_ sender: UIButton) {

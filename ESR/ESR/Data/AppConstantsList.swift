@@ -30,6 +30,7 @@ struct API_ENDPOINT {
     static let TOURNAMENTS = API_URL.BASE_URL + "tournaments"
     static let APP_VERSION = API_URL.BASE_URL + "appversion"
     static let LOGIN = API_URL.BASE_URL + "auth/login"
+    static let LOGIN_FACEBOOK = API_URL.BASE_URL + "auth/social/login"
     static let REGISTER = API_URL.BASE_URL + "user/create"
     static let FORGOT_PASSWORD = API_URL.BASE_URL + "password/email"
     static let CHECK_USER = API_URL.BASE_URL + "auth/check"
@@ -123,6 +124,7 @@ struct kUserDefaults {
     static let selectedTournament   = "selectedTournament"
     static let isRememberLogin      = "isRememberLogin"
     static let isLogin              = "isLogin"
+    static let isFacebookLogin      = "isFacebookLogin"
     // System reserved key
     static let currentLanguageKey   = "i18n_language" // i18n_language currentLanguageKey
 }

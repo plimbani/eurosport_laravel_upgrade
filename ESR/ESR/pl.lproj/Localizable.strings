@@ -30,6 +30,7 @@
 "alert_create_account_email" = "Sprawdź swoją skrzynkę mailową, aby zweryfikować adres e-mail i dokończyć rejestrację.";
 "alert_preview_tournament" = "This tournament is currently in preview status. More details about the tournament will be available nearer the start date.";
 "alert_msg_password_length" = "Twoje hasło musi mieć co najmniej 5 znaków";
+"alert_msg_facebook_profile_details" = "Please update your profile first";
 
 "string_league_table" = "tabela ligowa";
 "Matches" = "Mecze";

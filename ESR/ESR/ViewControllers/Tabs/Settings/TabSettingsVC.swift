@@ -31,34 +31,19 @@ class TabSettingsVC: SuperViewController {
         table.separatorColor = .black
         table.tableFooterView = UIView()
         
+        if ApplicationData.facebookDetailsPending {
+            self.navigationController?.pushViewController(Storyboards.Settings.instantiateProfileVC(), animated: true)
+            return
+        }
+        
         // Register to receive notification
         NotificationCenter.default.addObserver(self, selector: #selector(goToSelectCountry), name: .selectCountry, object: nil)
-        
-        // Alertview
-        // initInfoAlertViewTwoButton(self.view, self)
     }
     
     @objc func goToSelectCountry() {
         self.navigationController?.pushViewController(Storyboards.Settings.instantiateProfileVC(), animated: true)
     }
 }
-
-/*extension TabSettingsVC: CustomAlertViewTwoButtonDelegate {
-    
-    func customAlertViewTwoButtonNoBtnPressed(requestCode: Int) {}
-    
-    func customAlertViewTwoButtonYesBtnPressed(requestCode: Int) {
-        if requestCode == AlertRequestCode.logOut.rawValue {
-            USERDEFAULTS.set(nil, forKey: kUserDefaults.token)
-            USERDEFAULTS.set(nil, forKey: kUserDefaults.selectedTournament)
-            USERDEFAULTS.set(nil, forKey: kUserDefaults.userData)
-            //USERDEFAULTS.set(nil, forKey: kUserDefaults.email)
-            //USERDEFAULTS.set(nil, forKey: kUserDefaults.password)
-            USERDEFAULTS.set(false, forKey: kUserDefaults.isLogin)
-            UIApplication.shared.keyWindow?.rootViewController = UINavigationController(rootViewController: Storyboards.Main.instantiateLandingVC())
-        }
-    }
-}*/
 
 extension TabSettingsVC: CustomAlertTwoBtnVCDelegate {
     func customAlertTwoBtnVCNoBtnPressed(requestCode: Int) {}
@@ -68,9 +53,8 @@ extension TabSettingsVC: CustomAlertTwoBtnVCDelegate {
             USERDEFAULTS.set(nil, forKey: kUserDefaults.token)
             USERDEFAULTS.set(nil, forKey: kUserDefaults.selectedTournament)
             USERDEFAULTS.set(nil, forKey: kUserDefaults.userData)
-            //USERDEFAULTS.set(nil, forKey: kUserDefaults.email)
-            //USERDEFAULTS.set(nil, forKey: kUserDefaults.password)
             USERDEFAULTS.set(false, forKey: kUserDefaults.isLogin)
+            USERDEFAULTS.set(false, forKey: kUserDefaults.isFacebookLogin)
             UIApplication.shared.keyWindow?.rootViewController = UINavigationController(rootViewController: Storyboards.Main.instantiateLandingVC())
         }
     }

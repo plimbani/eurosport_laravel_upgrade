@@ -30,6 +30,7 @@
 "alert_create_account_email" = "Zkontrolujte svoji e-mailovou schránku, potvrďte e-mailovou adresu a dokončete tak registraci účtu";
 "alert_preview_tournament" = "This tournament is currently in preview status. More details about the tournament will be available nearer the start date.";
 "alert_msg_password_length" = "Vaše heslo musí být nejméně 5 znaků dlouhé.";
+"alert_msg_facebook_profile_details" = "Please update your profile first";
 
 "string_league_table" = "ligová tabulka";
 "Matches" = "Zápasy";

@@ -45,6 +45,13 @@ class MainTabViewController: SuperViewController {
     
     func initialize(){
         
+        _ = cellOwner.loadMyNibFile(nibName: "TournamentDetailsView")
+        tournamentDetailsView = cellOwner.view as! TournamentDetailsView
+        tournamentDetailsView!.hide()
+        self.view.addSubview(tournamentDetailsView)
+        
+        updateAppVersionAPI()
+        
         if ApplicationData.currentTarget == ApplicationData.CurrentTargetList.EasyMM.rawValue {
             NotificationCenter.default.addObserver(self, selector: #selector(goToTabFollow(_:)), name: .goToTabFollow, object: nil)
             NotificationCenter.default.addObserver(self, selector: #selector(callAccessCodeAPI(_:)), name: .accessCodeAPI, object: nil)
@@ -92,6 +99,13 @@ class MainTabViewController: SuperViewController {
             sendAppversionRequest()
         }
         
+        if ApplicationData.facebookDetailsPending {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                self.onTabSelected(btn: self.tabButtonList[TabIndex.tabsettings.rawValue])
+            }
+            return
+        }
+        
         var skipCountryCheck = false
         
         // Checks if the application is redirected from deep link
@@ -115,13 +129,6 @@ class MainTabViewController: SuperViewController {
         } else {
             accessCodeAPI()
         }
-        
-        _ = cellOwner.loadMyNibFile(nibName: "TournamentDetailsView")
-        tournamentDetailsView = cellOwner.view as! TournamentDetailsView
-        tournamentDetailsView!.hide()
-        self.view.addSubview(tournamentDetailsView)
-        
-        updateAppVersionAPI()
     }
     
     @objc func callAccessCodeAPI(_ notification: NSNotification) {
@@ -173,8 +180,6 @@ class MainTabViewController: SuperViewController {
             return
         }
         
-        // self.view.showProgressHUD()
-        
         var parameters: [String: Any] = [:]
         parameters["device"] = "iOS"
         parameters["app_version"] = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
@@ -185,22 +190,7 @@ class MainTabViewController: SuperViewController {
         }
         
         ApiManager().updateAppVersion(parameters, success: { result in
-            DispatchQueue.main.async {
-                // self.view.hideProgressHUD()
-            }
-        }, failure: { result in
-            DispatchQueue.main.async {
-                self.view.hideProgressHUD()
-                
-                if result.allKeys.count == 0 {
-                    return
-                }
-                
-               // if let error = result.value(forKey: "error") as? String {
-                    // self.showCustomAlertVC(title: String.localize(key: "alert_title_error"), message: error)
-               // }
-            }
-        })
+        }, failure: { result in })
     }
     
     func refeshTabTitle() {
@@ -334,6 +324,11 @@ class MainTabViewController: SuperViewController {
         
         if selectedIndex != btn.tag {
             selectedIndex = btn.tag
+            
+            if ApplicationData.facebookDetailsPending && selectedIndex != 4 {
+                self.showCustomAlertVC(title: String.localize(key: "alert_title_error"), message: String.localize(key: "alert_msg_facebook_profile_details"))
+                return
+            }
             
             if selectedIndex == 2 || selectedIndex == 3 {
                 if ApplicationData.sharedInstance().isTournamentInPreview() {

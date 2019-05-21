@@ -31,6 +31,7 @@
 "alert_create_account_email" = "Please check your inbox to verify your email address and complete your account registration";
 "alert_preview_tournament" = "This tournament is currently in preview status. More details about the tournament will be available nearer the start date.";
 "alert_msg_password_length" = "Your password must be at least 5 characters long.";
+"alert_msg_facebook_profile_details" = "Please update your profile first";
 
 "string_league_table" = "league table";
 "Matches" = "Matches";

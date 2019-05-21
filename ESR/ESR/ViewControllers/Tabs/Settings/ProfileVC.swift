@@ -22,8 +22,9 @@ class ProfileVC: SuperViewController {
     
     var lblRoleContainerView: UIView!
     var lblCountryContainerView: UIView!
+    var lblTournamentContainerView: UIView!
     
-    var fieldList = NSArray()
+    var fieldList = NSMutableArray()
     var cellList = NSMutableArray()
     
     var heightLabelSelectionCell: CGFloat = 0
@@ -40,10 +41,12 @@ class ProfileVC: SuperViewController {
     
     var isRole = false
     var isCountry = false
+    var isLanguage = false
     
     var selectedCountryPosition = 0
     var selectedLanguagePosition = 0
     var selectedRolePosition = 0
+    var selectedTournamentPosition = 0
     
     enum SettingsList: Int {
         case email = 0
@@ -52,6 +55,7 @@ class ProfileVC: SuperViewController {
         case role = 3
         case language = 4
         case country = 5
+        case tournament = 6
     }
     
     override func viewDidLoad() {
@@ -63,15 +67,6 @@ class ProfileVC: SuperViewController {
         titleNavigationBar.delegate = self
         titleNavigationBar.lblTitle.text = String.localize(key: "title_profile")
         titleNavigationBar.setBackgroundColor()
-        
-        if ApplicationData.currentTarget == ApplicationData.CurrentTargetList.EasyMM.rawValue {
-            btnUpdate.setTitleColor(.white, for: .normal)
-        }
-        
-        // Fieldlist
-        if let url = Bundle.main.url(forResource: "ProfileList", withExtension: "plist") {
-            fieldList = NSArray(contentsOf: url)!
-        }
         
         table.tableFooterView = UIView()
         
@@ -85,10 +80,25 @@ class ProfileVC: SuperViewController {
         btnUpdate.isEnabled = false
         btnUpdate.backgroundColor = UIColor.btnDisable
         
+        if ApplicationData.currentTarget == ApplicationData.CurrentTargetList.EasyMM.rawValue {
+            btnUpdate.setTitleColor(.white, for: .normal)
+        }
+        
+        // Fieldlist
+        if let url = Bundle.main.url(forResource: "ProfileList", withExtension: "plist") {
+            fieldList = NSMutableArray.init(array: NSArray(contentsOf: url)!)
+        }
+        
         if let userData = ApplicationData.sharedInstance().getUserData() {
             selectedTournamentId = userData.tournamentId
             selectedRole = userData.role
             selectedCountryId = userData.countryId
+        }
+        
+        if !ApplicationData.facebookDetailsPending {
+            fieldList = NSMutableArray.init(array: fieldList.filter({
+                (($0 as! NSDictionary).value(forKey: "identifier") as! String) != "tournament"
+            }))
         }
     }
     
@@ -113,24 +123,9 @@ class ProfileVC: SuperViewController {
                     }
                 }
                 
-                if self.lblTournament != nil && self.tournamentTitleList.count > 0 {
-                    if self.selectedTournamentId != -1 {
-                        for i in 0..<self.tournamentList.count {
-                            if let serverTournamentId = self.tournamentList[i].value(forKey: "id") as? Int {
-                                if serverTournamentId == self.selectedTournamentId {
-                                    self.lblTournament.text = self.tournamentList[i].value(forKey: "name") as! String
-                                    break
-                                }
-                            }
-                        }
-                    } else {
-                        self.lblTournament.text = self.tournamentTitleList[0]
-                    }
-                }
-                
                 // Sets user role
                 if let userDetails = ApplicationData.sharedInstance().getUserData() {
-                    if userDetails.role != NULL_STRING {
+                    if userDetails.role != NULL_STRING && self.lblRole != nil {
                         self.lblRole.text = userDetails.role
                     }
                 }
@@ -211,6 +206,10 @@ class ProfileVC: SuperViewController {
         parameters["role"] = selectedRole
         parameters["locale"] = selectedLocale
         
+        if ApplicationData.facebookDetailsPending {
+            parameters["tournament_id"] = selectedTournamentId
+        }
+        
         if let userData = ApplicationData.sharedInstance().getUserData() {
             parameters["user_id"] = userData.id
             
@@ -220,6 +219,10 @@ class ProfileVC: SuperViewController {
                     
                     if let message = result.value(forKey: "message") as? String {
                         self.showCustomAlertVC(title: String.localize(key: "alert_title_success"), message: message, requestCode: AlertRequestCode.profileUpdate.rawValue, delegate: self)
+                        
+                        if ApplicationData.facebookDetailsPending {
+                            ApplicationData.facebookDetailsPending = false
+                        }
                         
                         if let userData = ApplicationData.sharedInstance().getUserData() {
                             userData.tournamentId = self.selectedTournamentId
@@ -283,6 +286,22 @@ class ProfileVC: SuperViewController {
             return
         }
         
+        if ApplicationData.facebookDetailsPending {
+            if selectedTournamentId == NULL_ID {
+                return
+            }
+            
+            if let text = txtEmail.text {
+                if text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                    return
+                }
+                
+                if !Utils.isValidEmail(text) {
+                    return
+                }
+            }
+        }
+        
         btnUpdate.isEnabled = true
         btnUpdate.backgroundColor = UIColor.btnYellow
         
@@ -339,7 +358,9 @@ extension ProfileVC: PickerVCDelegate {
             }
             
             ApplicationData.setBorder(view: lblCountryContainerView, Color: .clear, CornerRadius: 0, Thickness: 1.0)
-        } else {
+        } else if isLanguage {
+            isLanguage = false
+            
             lblLanguage.text = title
             lblLanguage.textColor = .black
             selectedLanguagePosition = lastPosition
@@ -352,6 +373,13 @@ extension ProfileVC: PickerVCDelegate {
                     break
                 }
             }
+        } else {
+            lblTournament.text = title
+            lblTournament.textColor = .black
+            selectedTournamentPosition = lastPosition
+            
+            selectedTournamentId = tournamentList[selectedTournamentPosition].value(forKey: "id") as! Int
+            ApplicationData.setBorder(view: lblTournamentContainerView, Color: .clear, CornerRadius: 0, Thickness: 1.0)
         }
         
         updateUpdateBtn()
@@ -419,7 +447,6 @@ extension ProfileVC : UITableViewDataSource, UITableViewDelegate {
                             textFieldCell.txtField.addTarget(self, action: #selector(textFieldDidChange(textField:)), for: .editingChanged)
                             
                             if indexPath.row == SettingsList.email.rawValue {
-                                textFieldCell.txtField.isEnabled = false
                                 txtEmail = textFieldCell.txtField
                                 txtEmail.textColor = UIColor.txtPlaceholderTxt
                             } else if indexPath.row == SettingsList.firstname.rawValue {
@@ -431,6 +458,9 @@ extension ProfileVC : UITableViewDataSource, UITableViewDelegate {
                             if let userData = ApplicationData.sharedInstance().getUserData() {
                                 if txtEmail != nil {
                                     txtEmail.text = userData.email
+                                    txtEmail.isEnabled = false
+                                } else {
+                                    txtEmail.isEnabled = true
                                 }
                                 
                                 if txtFirstName != nil {
@@ -491,9 +521,16 @@ extension ProfileVC : UITableViewDataSource, UITableViewDelegate {
                                 }
                                 
                                 lblLanguage.textColor = .black
+                            } else if indexPath.row == SettingsList.tournament.rawValue {
+                                lblTournament = labelSelectionCell.lblTitle
+                                lblTournament.textColor = .black
+                                lblTournamentContainerView = labelSelectionCell.containerView
+                                
+                                if selectedTournamentId == NULL_ID {
+                                    ApplicationData.setBorder(view: lblTournamentContainerView, Color: .red, CornerRadius: 0, Thickness: 1.0)
+                                }
                             }
                             
-                        
                         default:
                             print("default")
                     }
@@ -515,7 +552,10 @@ extension ProfileVC : UITableViewDataSource, UITableViewDelegate {
             isCountry = true
             showPickerVC(selectedPosition: selectedCountryPosition, titleList: countryTitleList, delegate: self)
          } else if indexPath.row == SettingsList.language.rawValue {
+            isLanguage = true
             showPickerVC(selectedPosition: selectedLanguagePosition, titleList: getRefreshedLanguageList(), delegate: self)
+         } else if indexPath.row == SettingsList.tournament.rawValue {
+            showPickerVC(selectedPosition: selectedTournamentPosition, titleList: tournamentTitleList, delegate: self)
         }
     }
 }

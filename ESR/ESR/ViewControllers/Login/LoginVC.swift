@@ -120,7 +120,7 @@ class LoginVC: SuperViewController {
         btnLogin.backgroundColor = UIColor.btnYellow
     }
     
-    func sendLoginRequest() {
+    func loginAPI() {
         if APPDELEGATE.reachability.connection == .none {
             self.showCustomAlertVC(title: String.localize(key: "alert_title_error"), message: String.localize(key: "string_no_internet"))
             return
@@ -147,7 +147,7 @@ class LoginVC: SuperViewController {
                     
                     USERDEFAULTS.set(true, forKey: kUserDefaults.isLogin)
                     
-                    self.sendGetUserDetailsRequest()
+                    self.getUserDetailsAPI()
                 } else {
                     self.view.hideProgressHUD()
                 }
@@ -167,7 +167,7 @@ class LoginVC: SuperViewController {
         })
     }
     
-    func sendGetUserDetailsRequest() {
+    func getUserDetailsAPI() {
         if APPDELEGATE.reachability.connection == .none {
             return
         }
@@ -182,7 +182,7 @@ class LoginVC: SuperViewController {
                     if authenticated {
                         ParseManager.parseLogin(result)
                         if let fcmToken = USERDEFAULTS.string(forKey: kUserDefaults.fcmToken) {
-                            self.updateFCMToken(fcmToken)
+                            self.updateFCMTokenAPI(fcmToken)
                         }
                         UIApplication.shared.keyWindow?.rootViewController = Storyboards.Main.instantiateMainVC()
                     } else {
@@ -208,7 +208,7 @@ class LoginVC: SuperViewController {
         })
     }
     
-    func updateFCMToken(_ token: String) {
+    func updateFCMTokenAPI(_ token: String) {
         if APPDELEGATE.reachability.connection == .none {
             return
         }
@@ -232,7 +232,7 @@ class LoginVC: SuperViewController {
         }
     }
     
-    func resendEmail(email: String) {
+    func resendEmailAPI(email: String) {
         if APPDELEGATE.reachability.connection == .none {
             return
         }
@@ -271,7 +271,7 @@ class LoginVC: SuperViewController {
     }
     
     @IBAction func signInBtnPressed(_ sender: UIButton) {
-        sendLoginRequest()
+        loginAPI()
     }
     
     @IBAction func forgotPassBtnPressed(_ sender: UIButton) {
@@ -285,7 +285,7 @@ class LoginVC: SuperViewController {
 extension LoginVC: CustomAlertVCDelegate {
     func customAlertVCOkBtnPressed(requestCode: Int) {
         if requestCode == AlertRequestCode.resendEmail.rawValue {
-            resendEmail(email: txtEmail.text!)
+            resendEmailAPI(email: txtEmail.text!)
         }
     }
 }

@@ -1,8 +1,33 @@
 PODS:
   - Alamofire (4.7.2)
+  - Bolts (1.9.0):
+    - Bolts/AppLinks (= 1.9.0)
+    - Bolts/Tasks (= 1.9.0)
+  - Bolts/AppLinks (1.9.0):
+    - Bolts/Tasks
+  - Bolts/Tasks (1.9.0)
   - Crashlytics (3.10.0):
     - Fabric (~> 1.7.3)
   - Fabric (1.7.7)
+  - FacebookCore (0.3.2):
+    - Bolts (~> 1.8)
+    - FBSDKCoreKit (~> 4.35)
+  - FacebookLogin (0.3.2):
+    - Bolts (~> 1.8)
+    - FacebookCore (~> 0.3.2)
+    - FBSDKCoreKit (~> 4.35)
+    - FBSDKLoginKit (~> 4.35)
+  - FacebookShare (0.3.2):
+    - Bolts (~> 1.8)
+    - FacebookCore (~> 0.3.2)
+    - FBSDKCoreKit (~> 4.35)
+    - FBSDKShareKit (~> 4.35)
+  - FBSDKCoreKit (4.44.1):
+    - Bolts (~> 1.9)
+  - FBSDKLoginKit (4.44.1):
+    - FBSDKCoreKit
+  - FBSDKShareKit (4.44.1):
+    - FBSDKCoreKit
   - Firebase/Core (5.7.0):
     - Firebase/CoreOnly
     - FirebaseAnalytics (= 5.1.1)
@@ -74,6 +99,9 @@ DEPENDENCIES:
   - Alamofire (~> 4.7)
   - Crashlytics (= 3.10)
   - Fabric
+  - FacebookCore (= 0.3.2)
+  - FacebookLogin (= 0.3.2)
+  - FacebookShare (= 0.3.2)
   - Firebase/Core
   - Firebase/Messaging
   - GoogleMaps
@@ -85,8 +113,15 @@ DEPENDENCIES:
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - Alamofire
+    - Bolts
     - Crashlytics
     - Fabric
+    - FacebookCore
+    - FacebookLogin
+    - FacebookShare
+    - FBSDKCoreKit
+    - FBSDKLoginKit
+    - FBSDKShareKit
     - Firebase
     - FirebaseAnalytics
     - FirebaseCore
@@ -104,8 +139,15 @@ SPEC REPOS:
 
 SPEC CHECKSUMS:
   Alamofire: e4fa87002c137ba2d8d634d2c51fabcda0d5c223
+  Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
   Crashlytics: a989ef242b66605577a425733797f810bd2725eb
   Fabric: bda89e242bce1b7b8ab264248cf3407774ce0095
+  FacebookCore: fe93222bb70346730ef33b061d493e9e7a7cb1f5
+  FacebookLogin: a4e225974791c82836765a294582b4778baffc07
+  FacebookShare: 5319f2655d53d20c595745a68dae8476027b8bae
+  FBSDKCoreKit: a823ae35bdb60ebb8d7a7e51abe7c5d87d2bfced
+  FBSDKLoginKit: 54ae59987f2a8703021557c90a9aebb9e5c2bef6
+  FBSDKShareKit: 526d4cfb713d24855fa23d0dd74e191accd3a720
   Firebase: 734a4f92957aa6c40e7ae3fda3d9359e1890aa87
   FirebaseAnalytics: 993577e91157feb40945abedd6ab346d8a4b6ac8
   FirebaseCore: 3a97432acb324b439fbed338e642f9cbb516a63d
@@ -121,6 +163,6 @@ SPEC CHECKSUMS:
   Protobuf: 1eb9700044745f00181c136ef21b8ff3ad5a0fd5
   SDWebImage: 624d6e296c69b244bcede364c72ae0430ac14681
 
-PODFILE CHECKSUM: 362315f16259a37de6c8103c793befbd2fe70974
+PODFILE CHECKSUM: 48f7a894a0103a320460dfcaeaf95dcdcb14238b
 
 COCOAPODS: 1.6.0.beta.2

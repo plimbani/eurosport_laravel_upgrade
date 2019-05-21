@@ -43,6 +43,7 @@ class ApiManager {
         let result: NSDictionary = [:]
         
         if let json = String(data: data, encoding: String.Encoding.utf8) {
+            print("Error \(json)")
             let result = Utils.convertToDictionary(json)
             if result != nil {
                 return result! as NSDictionary
@@ -103,6 +104,10 @@ class ApiManager {
     // MARK:- Login
     func login(_ parameters: [String: Any]?, success: @escaping (_ result: NSDictionary) -> (), failure: @escaping (_ result: NSDictionary) -> ()) {
         postRequest(API_ENDPOINT.LOGIN, parameters, success: success, failure: failure)
+    }
+    
+    func loginFacebook(_ parameters: [String: Any]?, success: @escaping (_ result: NSDictionary) -> (), failure: @escaping (_ result: NSDictionary) -> ()) {
+        postRequest(API_ENDPOINT.LOGIN_FACEBOOK, parameters, success: success, failure: failure)
     }
     
     func register(_ parameters: [String: Any]?, success: @escaping (_ result: NSDictionary) -> (), failure: @escaping (_ result: NSDictionary) -> ()) {

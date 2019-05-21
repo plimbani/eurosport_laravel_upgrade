@@ -101,7 +101,7 @@ class CreateAccountVC: SuperViewController {
         
         if ApplicationData.currentTarget != ApplicationData.CurrentTargetList.EasyMM.rawValue {
             // Get tournaments API request
-            sendGetTournamentsRequest()
+            getTournamentsAPI()
         } else {
             // Removes select tournament field
             var position = -1
@@ -162,7 +162,7 @@ class CreateAccountVC: SuperViewController {
     }
     
     //MARK:- Request Methods
-    func sendGetTournamentsRequest() {
+    func getTournamentsAPI() {
         if APPDELEGATE.reachability.connection == .none {
             return
         }
