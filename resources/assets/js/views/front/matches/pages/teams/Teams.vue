@@ -98,7 +98,7 @@
 	      TeamList.getTournamentTeams(data).then(
 	        (response)=> {
 	          if(response.data.status_code == 200) {
-	            this.teams = response.data.data
+	            this.teams = _.orderBy(response.data.data, ['name'], ['asc']);
 	          }
 	        },
 	        (error) => {
