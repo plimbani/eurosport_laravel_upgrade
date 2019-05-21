@@ -19,19 +19,13 @@
       </div>
     </div>
   </div>
-
-  <UnSavedMatchScoresInfoModal v-show="unChangedMatchScoresInfoModalOpen" :unChangedMatchScores="unChangedMatchScores"></UnSavedMatchScoresInfoModal>
 </div>
 </template>
 
 <script type="text/babel">
 import Tournament from '../api/tournament.js'
-import UnSavedMatchScoresInfoModal from '../components/UnsavedMatchScoresInfo.vue'
 
 export default {
-  components: {
-    UnSavedMatchScoresInfoModal,
-  },
   data() {
     return  {
       unChangedMatchScores: [],
@@ -159,6 +153,7 @@ export default {
           Tournament.saveAllMatchResults(matchPostData).then(
             (response) => {
               this.unChangedMatchScores = response.data.unChangedScores;
+              // this.$emit('unchanged-match-scores', this.unChangedMatchScores);
               if(response.data.isAnyMatchScoreUpdated == true) {
                 toastr.success('Scores have been updated successfully', 'Score Updated', {timeOut: 1000});
               } else {
@@ -166,8 +161,9 @@ export default {
               }
               $('#unSaveMatchModal').modal('hide');
               if(this.unChangedMatchScores.length > 0) {
-                this.unChangedMatchScoresInfoModalOpen = true;
-                $('#unSavedMatchScoresModal').modal('show');
+                this.$emit('unchanged-match-scores', this.unChangedMatchScores);
+                // this.unChangedMatchScoresInfoModalOpen = true;
+                // $('#unSavedMatchScoresModal').modal('show');
               }              
             }
           )
