@@ -171,9 +171,11 @@ $days = $interval->format('%a') + 1;
                                                         <tr>
                                                             <td align="right" style="text-align: right; font-size: 0px; padding: 10px 25px; word-break: break-word;">
                                                                 <div style="font-family:Roboto, Helvetica, Arial, sans-serif;font-size:16px;font-weight:300;line-height:24px;text-align:left;color:#555;">
-                                                                    <p>Hi<?php echo (!empty($email_details['user']->first_name)) ? $email_details['user']->first_name. " ". $email_details['user']->last_name : 'There';?>,</p>
+                                                                    <p>Hi <?php echo (!empty($email_details['user']->first_name)) ? $email_details['user']->first_name. " ". $email_details['user']->last_name : 'There';?>,</p>
                                                                     <p>Thank you for the purchase. Your order number is #<?php echo $email_details['paymentResponse']['orderID']; ?>.</p>
                                                                     <p>
+
+                                                                          Purchase date: <?php echo $email_details['tournamentCreatedAtDateFormat']; ?>
                                                                         <!--<a href="#" style="color: #2196F3; text-decoration: none;">Print receipt</a>-->
                                                                     </p>
                                                                 </div>
@@ -317,7 +319,7 @@ $days = $interval->format('%a') + 1;
                                                         <tr>
                                                             <td align="right" style="text-align: right; font-size: 0px; padding: 10px 25px; word-break: break-word;">
                                                                 <div style="font-family:Roboto, Helvetica, Arial, sans-serif;font-size:16px;font-weight:300;line-height:24px;text-align:center;color:#555;">&copy; 2019 Easy Match Manager. Developer by
-                                                                    <a href="aecordigital.com" style="color: #2196F3; text-decoration: none;"><u>aecor</u></a>.
+                                                                    <a href="http://aecordigital.com" style="color: #2196F3; text-decoration: none;"><u>aecor</u></a>.
                                                                 </div>
                                                             </td>
                                                         </tr>

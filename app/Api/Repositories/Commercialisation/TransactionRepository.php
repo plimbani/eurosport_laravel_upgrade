@@ -4,6 +4,8 @@ namespace Laraspace\Api\Repositories\Commercialisation;
 
 use Hash;
 use JWTAuth;
+use DB;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
 use Laraspace\Mail\SendMail;
 use Laraspace\Models\Competition;
@@ -38,6 +40,7 @@ class TransactionRepository
         $data = array_change_key_case($requestData['paymentResponse'], CASE_UPPER);
         $authUser = JWTAuth::parseToken()->toUser();
         $userId = $authUser->id;
+
         $tournamentRes = null;
         if (($data['STATUS'] == 5 || $data['STATUS'] == 9) && !empty($requestData['tournament'])) {
             $tournamentRes = $this->tournamentObj->addTournamentDetails($requestData['tournament'], 'commercialisation');
@@ -133,12 +136,14 @@ class TransactionRepository
                 }
             }
         }
+        $tournamentCreatedAt = Tournament::orderBy('id', 'desc')->first();
+        $tournamentCreatedAtDateFormat = $tournamentCreatedAt['created_at']->format('h:i:s d-m-y');
 
         if ($data['STATUS'] == 5 || $data['STATUS'] == 9) {
             //Send conformation mail to customer
             $subject = 'Easy Match Manager - Order confirmation';
             $email_templates = 'emails.frontend.payment_confirmed';
-            $emailData = ['paymentResponse' => $requestData['paymentResponse'], 'tournament' => $requestData['tournament'], 'user' => $authUser->profile];
+            $emailData = ['paymentResponse' => $requestData['paymentResponse'], 'tournament' => $requestData['tournament'], 'user' => $authUser->profile, 'tournamentCreatedAtDateFormat' => $tournamentCreatedAtDateFormat];
             Mail::to($authUser->email)
                     ->send(new SendMail($emailData, $subject, $email_templates, NULL, NULL, NULL));
         }
@@ -231,6 +236,10 @@ class TransactionRepository
 				'no_of_days' => $tournament['dayDifference']
             ];
         }
+
+        $tournamentCreatedAt = Tournament::orderBy('id', 'desc')->first();
+        $tournamentCreatedAtDateFormat = $tournamentCreatedAt['created_at']->format('h:i:s d-m-y');
+
         Transaction::where('tournament_id', $tournament['id'])
                 ->update($mainTransaction);
         $result = '';
@@ -241,7 +250,7 @@ class TransactionRepository
             //Send conformation mail to customer
             $subject = 'Easy Match Manager - Order confirmation';
             $email_templates = 'emails.frontend.payment_confirmed';
-            $emailData = ['paymentResponse' => $requestData['paymentResponse'], 'tournament' => $requestData['tournament'], 'user' => $authUser->profile, 'is_manage_license' => 1];
+            $emailData = ['paymentResponse' => $requestData['paymentResponse'], 'tournament' => $requestData['tournament'], 'user' => $authUser->profile, 'is_manage_license' => 1, 'tournamentCreatedAtDateFormat' => $tournamentCreatedAtDateFormat];
 			Mail::to($authUser->email)
                     ->send(new SendMail($emailData, $subject, $email_templates, NULL, NULL, NULL));
         }

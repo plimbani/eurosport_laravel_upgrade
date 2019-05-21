@@ -151,10 +151,10 @@
                                                         <tr>
                                                             <td align="right" style="text-align: right; font-size: 0px; padding: 10px 25px; word-break: break-word;">
                                                                 <div style="font-family:Roboto, Helvetica, Arial, sans-serif;font-size:16px;font-weight:300;line-height:24px;text-align:left;color:#555;">
-                                                                    <p>Hello</p>
+                                                                    <p>Hi</p>
                                                                     <p>Thank you for the purchase. Your order number is Easy-Match-Manager-<?php echo $data['orderNumber']; ?>.</p>
                                                                     <p>
-                                                                        
+                                                                        Purchase date: <?php echo $data['tournamentCreatedAtDateFormat'] ?>
                                                                     </p>
                                                                 </div>
                                                             </td>
@@ -183,7 +183,7 @@
                                                                     </thead>
                                                                     <tbody>
                                                                         <tr>
-                                                                            <th style="text-align: left; font-weight: normal; padding: 10px;" align="left"><?php echo $data['maximumTeams']; ?> Team license for a <?php echo $data['days']; ?> day(s) tournament
+                                                                            <th style="text-align: left; font-weight: normal; padding: 10px;" align="left"><?php echo $data['maximumTeams']; ?> team license for a <?php echo $data['days']; ?> day tournament
                                                                             </th>
                                                                             <td style="text-align: right; padding: 10px;" align="right">
 																			<?php if($data['currency'] == "GBP") 
@@ -253,8 +253,8 @@
                                                     <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;" width="100%">
                                                         <tr>
                                                             <td align="right" style="text-align: right; font-size: 0px; padding: 10px 25px; word-break: break-word;">
-                                                                <div style="font-family:Roboto, Helvetica, Arial, sans-serif;font-size:16px;font-weight:300;line-height:24px;text-align:center;color:#555;">&copy; 2019 TMP Applications BV. Developer by
-                                                                    <a href="aecordigital.com" style="color: #2196F3; text-decoration: none;">aecor</a>.
+                                                                <div style="font-family:Roboto, Helvetica, Arial, sans-serif;font-size:16px;font-weight:300;line-height:24px;text-align:center;color:#555;">&copy; 2019 Easy Match Manager. Developed by
+                                                                    <a href="http://aecordigital.com" style="color: #2196F3; text-decoration: none;"><u>aecor</u></a>.
                                                                 </div>
                                                             </td>
                                                         </tr>
