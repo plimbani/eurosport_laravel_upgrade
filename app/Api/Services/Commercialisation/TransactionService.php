@@ -6,6 +6,7 @@ use JWTAuth;
 use Laraspace\Api\Contracts\Commercialisation\TransactionContract;
 use Laraspace\Api\Repositories\Commercialisation\TransactionRepository;
 use Laraspace\Models\Transaction;
+use Laraspace\Models\Tournament;
 use PDF;
 
 class TransactionService implements TransactionContract {
@@ -61,15 +62,18 @@ class TransactionService implements TransactionContract {
             $maxTeam = $transaction[0]->team_size;
         }
 
-       
+        $tournamentCreatedAt = Tournament::orderBy('id', 'desc')->first();
+        $tournamentCreatedAtDateFormat = $tournamentCreatedAt['created_at']->format('h:i:s d-m-y');
+
         $pdfData = [
             'days' => $days,
             'maximumTeams' => $maxTeam,
             'amount' => number_format($amount,2),
             'orderNumber' => $transaction[0]->order_id,
-			'currency' => $transaction[0]->currency
+			'currency' => $transaction[0]->currency,
+            'tournamentCreatedAtDateFormat' => $tournamentCreatedAtDateFormat
         ];
-
+        
         $date = new \DateTime(date('H:i d M Y'));
         $pdf = PDF::loadView('commercialisation.payment_receipt', ['data' => $pdfData])
                 ->setPaper('a4')

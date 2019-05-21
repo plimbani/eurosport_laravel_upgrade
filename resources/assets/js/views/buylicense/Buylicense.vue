@@ -5,7 +5,7 @@
                 <div class="row justify-content-between">
                     <div class="col-lg-6">
                         <h1 class="font-weight-bold" v-if="!id">Buy a license</h1>
-                        <h1 class="font-weight-bold" v-if="id">Update License for a {{tournamentData.tournament_name}}<span v-if="tournamentData.access_code">(#{{tournamentData.access_code}})</span></h1>
+                        <h1 class="font-weight-bold" v-if="id">Update License for {{tournamentData.tournament_name}}<span v-if="tournamentData.access_code">(#{{tournamentData.access_code}})</span></h1>
                         <p class="mb-5" v-if="!id">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris posuere vel mi ac sagittis. Quisque vel nulla at nibh finibus sodales. Nam efficitur sem a mi rhoncus. </p>
                         <p class="mb-5" v-if="id">You can add more teams and extend the duration of your tournament. </p>
                         <label> What kind of tournament are you organising?</label>
@@ -133,7 +133,7 @@
                                 <div class="card-text" v-if="id">
                                     <div class="row" v-if="new_added_teams > 0">
                                         <div class="col-sm-6 col-md-7 col-lg-7">
-                                            <p class="mb-0">Addition {{new_added_teams}} teams</p> 
+                                            <p class="mb-0">Additional {{new_added_teams}} teams</p> 
                                         </div>
                                         <div class="col-sm-6 col-md-5 col-lg-5">
                                             <p class="text-sm-right mb-0 mt-3 mt-sm-0" >
@@ -145,7 +145,7 @@
                                     </div>
                                     <div class="row" v-if="newDaysAdded > 0">
                                         <div class="col-sm-6 col-md-7 col-lg-7">
-                                            <p class="mb-0">Addition {{newDaysAdded}} days</p>
+                                            <p class="mb-0">Additional {{newDaysAdded}} days</p>
                                         </div>
                                         <div class="col-sm-6 col-md-5 col-lg-5">
                                             <p class="text-sm-right mb-0 mt-3 mt-sm-0">
