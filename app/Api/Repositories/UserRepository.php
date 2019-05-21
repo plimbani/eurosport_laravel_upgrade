@@ -78,6 +78,7 @@ class UserRepository {
                         $user->first_name,
                         $user->last_name,
                         $user->email,
+                        $user->provider,
                         $user->role_name,
                         $user->role,
                         $user->country,
@@ -99,7 +100,7 @@ class UserRepository {
                 ];
 
             $lableArray = [
-                'Name', 'Surname' ,'Email address', 'User type', 'Role', 'Country', 'Language', 'Status', 'Device', 'App version', 'Desktop', 'Mobile'
+                'Name', 'Surname' ,'Email address', 'Source', 'User type', 'Role', 'Country', 'Language', 'Status', 'Device', 'App version', 'Desktop', 'Mobile'
             ];
             //Total Stakes, Total Revenue, Amount & Balance fields are set as Number statically.
             \Laraspace\Custom\Helper\Common::toExcel($lableArray,$dataArray,$otherParams,'xlsx','yes');
