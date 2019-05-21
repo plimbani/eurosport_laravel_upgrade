@@ -38,7 +38,6 @@
               </div>
 							<component :is="currentView"> </component>
               <UnsaveMatchScoreModel @unchanged-match-scores="unChangedMatchScoresModal"></UnsaveMatchScoreModel>
-              <!-- <UnSavedMatchScoresInfoModal v-show="unChangedMatchScoresInfoModalOpen" :unChangedMatchScores="unChangedMatchScores"></UnSavedMatchScoresInfoModal> -->
 						</div>
 					</div>
 				</div>
@@ -114,11 +113,7 @@ export default {
         },500)
       },
       unChangedMatchScoresModal(data) {
-        this.$parent.unChangedMatchScoresModal1(data);
-        // this.unChangedMatchScores = data;
-        // this.unChangedMatchScoresInfoModalOpen = true;
-
-        // $('#unSavedMatchScoresModal').modal('show');
+        this.$parent.setUnChangedMatchScoresModal(data);
       }      
     }
 }

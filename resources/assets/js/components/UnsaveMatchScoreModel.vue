@@ -153,7 +153,6 @@ export default {
           Tournament.saveAllMatchResults(matchPostData).then(
             (response) => {
               this.unChangedMatchScores = response.data.unChangedScores;
-              // this.$emit('unchanged-match-scores', this.unChangedMatchScores);
               if(response.data.isAnyMatchScoreUpdated == true) {
                 toastr.success('Scores have been updated successfully', 'Score Updated', {timeOut: 1000});
               } else {
@@ -162,9 +161,7 @@ export default {
               $('#unSaveMatchModal').modal('hide');
               if(this.unChangedMatchScores.length > 0) {
                 this.$emit('unchanged-match-scores', this.unChangedMatchScores);
-                // this.unChangedMatchScoresInfoModalOpen = true;
-                // $('#unSavedMatchScoresModal').modal('show');
-              }              
+              }
             }
           )
         }

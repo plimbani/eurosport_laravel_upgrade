@@ -211,7 +211,7 @@ export default {
         this.$store.dispatch('setMatches');
       }
     },
-    unChangedMatchScoresModal1(data) {
+    setUnChangedMatchScoresModal(data) {
       this.unChangedMatchScores = data;
       this.unChangedMatchScoresInfoModalOpen = true;
       setTimeout(function() {
