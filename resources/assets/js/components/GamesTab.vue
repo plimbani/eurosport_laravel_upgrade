@@ -37,7 +37,6 @@ export default {
   data() {
     return {
       tournamentId: this.$store.state.Tournament.tournamentId,
-      
       competationList: [],
       matchGame: [],
       totalMatch: '',
@@ -45,7 +44,7 @@ export default {
       matchCompetition:{'matchList':''},
       'filterStatus': true,
       'tournamentFilter': this.$store.state.Tournament.tournamentFiler,
-      'gamesMatchListRecord': this.$store.getters.getAllCompetitionWithGames,
+      'gamesMatchListRecord': _.cloneDeep(this.$store.getters.getAllCompetitionWithGames),
     }
   },
   computed: {
@@ -59,7 +58,7 @@ export default {
       }
     },
 
-     matches(){
+    matches(){
       return this.$store.state.Tournament.matches
     }
   },
@@ -77,7 +76,6 @@ export default {
   },
   methods: {
     displayTournamentCompetationList () {
-    // Only called if valid tournament id is Present
       if (!isNaN(this.tournamentId)) {
         // here we add data for
         let TournamentData = {'tournament_id': this.tournamentId}
@@ -93,16 +91,15 @@ export default {
         this.TournamentId = 0;
       }
     },
-
     gamesMatchListData(matchData)
     {
-      let vm = this;
-      _.forEach(this.gamesMatchListRecord, function(competition, competitionIndex){
-        let matchPlannerGamesFilter = _.filter(competition.matchList, function(data) { 
-          return data.matchId != matchData.matchId;
-        });
-        vm.gamesMatchListRecord[competitionIndex]['matchList'] = matchPlannerGamesFilter;
-      })
+      // let vm = this;
+      // _.forEach(this.gamesMatchListRecord, function(competition, competitionIndex){
+      //   let matchPlannerGamesFilter = _.filter(competition.matchList, function(data) { 
+      //     return data.matchId != matchData.matchId;
+      //   });
+      //   vm.gamesMatchListRecord[competitionIndex]['matchList'] = matchPlannerGamesFilter;
+      // })
     }
   }
 }

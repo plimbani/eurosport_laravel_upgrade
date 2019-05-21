@@ -28,7 +28,7 @@ import _ from 'lodash'
                 'deleteConfirmMsg': 'Are you sure you would like to delete this block?',
                 'remBlock_id': 0,
                 'section': 'pitchPlanner',
-
+                'currentScheduledMatch': null,
                 // 'currentView': this.$store.getters.curStageView
             }
         },
@@ -76,13 +76,11 @@ import _ from 'lodash'
         created: function() {
             this.$root.$on('reloadAllEvents', this.reloadAllEvents);
             this.$root.$on('arrangeLeftColumn', this.arrangeLeftColumn);
-            this.$root.$on('saveScheduleMatches', this.saveScheduleMatches);
         },
         beforeCreate: function() {
             // Remove custom event listener
             this.$root.$off('reloadAllEvents');
             this.$root.$off('arrangeLeftColumn');
-            // this.$root.$off('saveScheduleMatches');
         },
         mounted() {
             let vm = this;
@@ -227,9 +225,13 @@ import _ from 'lodash'
                     resources: vm.pitchesData,
                     events: vm.scheduledMatches,
                     drop: function(date, jsEvent, ui, resourceId) {
-                       // $(this).remove();
+                        console.log('$(this)', $(this));
+                        vm.currentScheduledMatch = $(this);
+                        // jsEvent.draggedEl.parentNode.removeChild(jsEvent.draggedEl);
+                        // $(this).remove();
                     },
                     eventReceive: function( event, delta, revertFunc, jsEvent, ui, view) { // called when a proper external event is dropped
+                        console.log('event', event);
                         if(event.refereeId == -3 ){
                             let matchData = {
                                 'tournamentId': vm.tournamentId,
@@ -289,21 +291,25 @@ import _ from 'lodash'
                                 })
                             }else{
                             Tournament.setMatchSchedule(matchData).then(
-                                (response) => {   
-                                    vm.$emit('schedule-match-result', matchData);
-                                    vm.$root.$emit('gamesMatchList', matchData);
+                                (response) => {
                                     if(response.data.status_code == 200 ){
                                         if(response.data.data != -1 && response.data.data != -2){
-                                            vm.$store.dispatch('setMatches');
-                                             toastr.success(response.data.message, 'Schedule Match', {timeOut: 5000});
-                                             vm.getScheduledMatch(vm.tournamentFilter.filterKey,vm.tournamentFilter.filterValue,vm.tournamentFilter.filterDependentKey,vm.tournamentFilter.filterDependentValue)
-                                             vm.reloadAllEvents()
+                                            vm.$emit('schedule-match-result', matchData);
+                                            vm.$root.$emit('gamesMatchList', matchData);
+                                            // vm.$store.dispatch('setMatches');
+                                             // toastr.success(response.data.message, 'Schedule Match', {timeOut: 5000});
+                                             // vm.getScheduledMatch(vm.tournamentFilter.filterKey,vm.tournamentFilter.filterValue,vm.tournamentFilter.filterDependentKey,vm.tournamentFilter.filterDependentValue)
+                                             $(this.$el).fullCalendar( 'removeEvents' )
+                                             vm.currentScheduledMatch.remove();
+                                             vm.currentScheduledMatch = null;
+                                             // $('.fc.fc-unthemed').fullCalendar( 'removeEvents', [event._id] )
+                                             // vm.reloadAllEvents()
                                         } 
                                         else {
                                             $('.fc.fc-unthemed').fullCalendar( 'removeEvents', [event._id] )
-                                            // vm.$store.dispatch('setMatches');
+                                            vm.$store.dispatch('setMatches');
                                             vm.matchFixture = {}
-                                            // vm.getScheduledMatch()
+                                            vm.getScheduledMatch()
                                             toastr.error(response.data.message, 'Schedule Match', {timeOut: 5000});
                                         }
                                     }
@@ -384,6 +390,10 @@ import _ from 'lodash'
                             return true;
                         }
 
+                        if(typeof calEvent.id === 'undefined') {
+                            return true;
+                        }
+
                         vm.$root.$emit('cancelUnscheduleFixtures');
 
                         var posX = $(this).offset().left, posY = $(this).offset().top;
@@ -441,7 +451,6 @@ import _ from 'lodash'
                         // console.log('Error occured during tournament api', error)
                     }
                 )
-
             },
             reloadAllEvents(){
                 let vm = this;
@@ -461,7 +470,6 @@ import _ from 'lodash'
                 } else {
                     tournamentData ={'tournamentId':this.tournamentId,'is_scheduled':true,'fixture_date':fixtureDate}
                 }
-                // let tournamentData ={'tournamentId':this.tournamentId }
                 Tournament.getFixtures(tournamentData).then(
                     (response)=> {
                         let vm = this
@@ -849,21 +857,6 @@ import _ from 'lodash'
             arrangeLeftColumn() {
                 arrangeLeftColumn();
             },
-
-            saveScheduleMatches() {
-                Tournament.saveScheduleMatches(this.scheduleMatchesArray).then(
-                    (response) => {
-                        if(response.data.status_code == '200') {
-                            toastr.success('Match has been scheduled successfully.', 'Schedule Match');
-                        }
-                    },  
-                    (error) => {
-
-                    }
-                )
-            },
-
-
         }
     };
 

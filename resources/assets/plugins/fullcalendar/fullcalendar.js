@@ -8352,6 +8352,10 @@ TimeGrid.mixin({
 			skinCss += ';display: none;';
 		}
 
+		if(typeof event.id === 'undefined') {
+			event.displayFlag = 'none';
+		}
+
 		return '<a class="' + classes.join(' ') + '"' +
 			(event.url ?
 				' href="' + htmlEscape(event.url) + '"' :

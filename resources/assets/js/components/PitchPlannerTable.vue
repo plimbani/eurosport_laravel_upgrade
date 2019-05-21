@@ -32,7 +32,7 @@
                                     <div></div>
                                 </div>
                                 <div :id="'stage_outer_div'+stage.stageNumber" :data-stage-number="stage.stageNumber" class="js-stage-outer-div">
-                                    <pitch-planner-stage :stage="stage" :saveScheduleMatchResult="saveScheduleMatchResult" :defaultView="defaultView" @schedule-match-result="saveScheduleMatchResult" :gamesMatchList="gamesMatchList"></pitch-planner-stage>
+                                    <pitch-planner-stage :stage="stage" :defaultView="defaultView" @schedule-match-result="saveScheduleMatchResult" :gamesMatchList="gamesMatchList"></pitch-planner-stage>
                                 </div>
                             </div>
                         </div>
@@ -548,8 +548,6 @@
             saveScheduleMatchResult(matchData) {
                 this.scheduleMatchesArray.push(matchData);   
             },
-
-
             saveScheduleMatches() {
                 Tournament.saveScheduleMatches(this.scheduleMatchesArray).then(
                     (response) => {
@@ -558,12 +556,9 @@
                         }
                     },  
                     (error) => {
-
                     }
                 )
             },
-
-
         }
     }
 </script>
