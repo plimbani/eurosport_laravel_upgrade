@@ -19,7 +19,7 @@ class GetDrawsRequest extends FormRequest
     public function authorize()
     {
         $token = JWTAuth::getToken();
-        if(!$token || (isset($this->headers->all()['ismobileuser'])) && $this->headers->all()['ismobileuser'] == true) {           
+        if(!$token || (app('request')->header('ismobileuser') && app('request')->header('ismobileuser') == "true")) {            
             if(isset($this->all()['tournamentId'])) {
                 $tournament_id = $this->all()['tournamentId'];
             } else {

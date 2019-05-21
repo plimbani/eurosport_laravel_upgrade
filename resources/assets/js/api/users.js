@@ -60,5 +60,8 @@ export default {
   },
   getAllLanguages() {
     return api.get('getAllLanguages');
-  }
+  },
+  validateUserEmail(formData) {
+    return api.post('user/validateemail',formData)
+  },
 }
