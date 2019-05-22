@@ -100,13 +100,13 @@
 													@if($team->age_group_id == $data['ageCategoryId'] && $fullName == $team->group_name)
 														@php
 														$isTeamAllocated = 1; 
-														$displayName = 'flag-icon flag-icon-' .$team->country_flag; 
+														$displayName = $team->logo; 
 														@endphp
 													@endif
 												@endforeach
 
 												@if($isTeamAllocated == 1) 
-													<img width="16" height="12" src="{{ asset($team->logo) }}" alt="">
+													<img width="16" height="12" src="{{ asset($displayName) }}" alt="">
 												@else
 													<span class="{{ $displayName }}"></span>
 												@endif
