@@ -322,7 +322,8 @@ class MatchRepository
               'tournament_competation_template.match_interval_FM',
               'tournament_competation_template.id as tid',
               'temp_fixtures.home_yellow_cards', 'temp_fixtures.away_yellow_cards',
-              'temp_fixtures.home_red_cards', 'temp_fixtures.away_red_cards',              
+              'temp_fixtures.home_red_cards', 'temp_fixtures.away_red_cards',
+              'temp_fixtures.score_last_update_date_time',
               DB::raw('CONCAT(home_team.name, " vs ", away_team.name) AS full_game')
               )
           ->where('temp_fixtures.tournament_id', $tournamentData['tournamentId']);
@@ -522,7 +523,7 @@ class MatchRepository
           $head_to_head = false;
           $check_head_to_head_with_key = '';
           $remain_head_to_head_with_key = '';
-
+          $head_to_head_order_atlast = false;
           if($competition->is_manual_override_standing == 0) {
             foreach($rules as $key => $rule) {
 
@@ -554,7 +555,7 @@ class MatchRepository
               if($rule['key'] == 'head_to_head') {
                 if($checkResultEntered > 0)
                 {
-                  $reportQuery = $reportQuery->orderBy('teams.name','asc');
+                  $head_to_head_order_atlast = true;
                 }
                 else
                 {
@@ -592,8 +593,12 @@ class MatchRepository
             $remain_head_to_head_with_key = ltrim($remain_head_to_head_with_key,'|');
           }
 
-          $reportQuery = $reportQuery->orderBy('match_standing.team_id','asc');
+          if ( $head_to_head_order_atlast )
+          {
+            $reportQuery = $reportQuery->orderBy('teams.name','asc');
+          }
 
+          $reportQuery = $reportQuery->orderBy('match_standing.team_id','asc');
           $tempFixtures = DB::table('temp_fixtures')
                           ->leftjoin('competitions', 'temp_fixtures.competition_id', '=', 'competitions.id')
                           ->where('temp_fixtures.tournament_id', $tournamentData['tournamentId'])
@@ -1554,6 +1559,10 @@ class MatchRepository
       if($isScoreUpdated === false) {
         return ['status' => true, 'data' => 'Scores updated successfully.', 'match_data' => $matchData, 'is_score_updated' => $isScoreUpdated];
       }
+      if($data['score_last_update_date_time'] != $tempFixtures['score_last_update_date_time']) {
+        return ['status' => false, 'data' => 'You need to refresh page to get latest updated score.', 'match_data' => $matchData, 'is_score_updated' => $isScoreUpdated, 'tempFixture' => $tempFixtures];
+      }
+
       $matchData['home_team_id'] = $tempFixtures['home_team'];
       $matchData['away_team_id'] = $tempFixtures['away_team'];
       $matchData['age_group_id'] = $tempFixtures['age_group_id'];
@@ -1561,6 +1570,7 @@ class MatchRepository
       $updateData = [
         'hometeam_score' => $data['homeScore'],
         'awayteam_score' => $data['awayScore'],
+        'score_last_update_date_time' => Carbon::now(),
       ];
       $data = TempFixture::where('id',$data['matchId'])
                 ->update($updateData);

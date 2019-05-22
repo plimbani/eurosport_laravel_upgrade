@@ -333,6 +333,7 @@ module.exports = {
   pitch_modal_availability_capacity: "FCapacity",
   pitch_modal_availability_button_addstage: "FAdd day",
   pitch_modal_availability_button_add: "FAdd day",
+  pitch_modal_order: "FOrder",
 
   pitch_modal_edit_pitch_button: "FDelete",
   pitch_modal_edit_pitch_cancel_button: "FCancel",

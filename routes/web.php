@@ -7,6 +7,8 @@
 |
 */
 
+Route::get('auth/{provider}/callback', '\Laraspace\Http\Controllers\Auth\LoginController@handleProviderCallback')->where('provider', 'facebook');
+
 Route::group(['domain' => config('app.domain')], function() {
 	Route::get('tournament/report/reportExport','\Laraspace\Api\Controllers\TournamentController@generateReport');
 	Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
