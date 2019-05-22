@@ -48,5 +48,7 @@ public class ApiConstants {
     public static final String POST_FCM_TOKEN = BASE_URL + "users/updatefcm";
     public static final String GET_TEAM_DETAILS = BASE_URL + "getTournamentTeamDetails";
     public static final String FACEBOOK_LOGIN = BASE_URL + "auth/social/login";
+    public static final String POST_USER_DETAILS = BASE_URL + "updateAppDeviceVersion";
+
 }
     
