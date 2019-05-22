@@ -4,7 +4,7 @@
     <div class="page-header">
       <ol class="breadcrumb">
         <li><a href="/admin">Home</a></li>
-        <li><a href="/users">{{currentPage}}</a></li>
+        <li><a href="/users">Users</a></li>
         <li class="active"><span>Tournament</span></li>
       </ol>
     </div>
