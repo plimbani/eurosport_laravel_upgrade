@@ -254,6 +254,62 @@ public class SignInActivity extends BaseActivity {
         }
     }
 
+    private void postUserDeviceDetails() {
+
+        if (Utility.isInternetAvailable(mContext)) {
+            PackageManager manager = getPackageManager();
+            PackageInfo info;
+            String installedAppVersion = "";
+            try {
+                info = manager.getPackageInfo(getPackageName(), 0);
+                installedAppVersion = info.versionName;
+            } catch (PackageManager.NameNotFoundException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            Utility.startProgress(mContext);
+            String url = ApiConstants.POST_USER_DETAILS;
+            final JSONObject requestJson = new JSONObject();
+            try {
+                requestJson.put("device", "Android");
+                requestJson.put("app_version", installedAppVersion);
+                requestJson.put("os_version", Utility.getOsVersion(mContext));
+                requestJson.put("user_id", mAppSharedPref.getString(AppConstants.PREF_USER_ID));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            final RequestQueue mQueue = VolleySingeltone.getInstance(mContext).getRequestQueue();
+            final VolleyJsonObjectRequest jsonRequest1 = new VolleyJsonObjectRequest(mContext, Request.Method
+                    .POST, url,
+                    requestJson, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    Utility.StopProgress();
+                    try {
+                        AppLogger.LogE(TAG, "***** Post User details response *****" + response.toString());
+
+                        launchHome();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    try {
+                        Utility.StopProgress();
+                        Utility.parseVolleyError(mContext, error);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            });
+            mQueue.add(jsonRequest1);
+        } else {
+            checkConnection();
+        }
+    }
 
     private void resendEmail() {
         if (Utility.isInternetAvailable(mContext)) {
@@ -304,12 +360,12 @@ public class SignInActivity extends BaseActivity {
 
     private void checkIfNewTokenIsAvailable() {
         if (!Utility.isNullOrEmpty(mAppSharedPref.getString(AppConstants.PREF_TOKEN_POSTED_ONSERVER)) && mAppSharedPref.getString(AppConstants.PREF_TOKEN_POSTED_ONSERVER).equalsIgnoreCase("true")) {
-            launchHome();
+            postUserDeviceDetails();
         } else {
             if (!Utility.isNullOrEmpty(mAppSharedPref.getString(AppConstants.FIREBASE_TOKEN))) {
                 postTokenOnServer(mAppSharedPref.getString(AppConstants.FIREBASE_TOKEN));
             } else {
-                launchHome();
+                postUserDeviceDetails();
             }
 
         }
@@ -427,7 +483,7 @@ public class SignInActivity extends BaseActivity {
                         try {
                             AppLogger.LogE(TAG, "***** Post FCM Token response *****" + response.toString());
                             mAppSharedPref.setString(AppConstants.PREF_TOKEN_POSTED_ONSERVER, "true");
-                            launchHome();
+                            postUserDeviceDetails();
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
