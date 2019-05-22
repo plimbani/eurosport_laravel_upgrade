@@ -58,6 +58,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
@@ -107,7 +108,7 @@ public class TeamActivity extends BaseAppCompactActivity {
     @BindView(R.id.ll_matches_view)
     protected LinearLayout ll_matches_view;
     private String mImageUrl;
-    private ArrayList<TeamDetailModel> mTeamList;
+    private List<TeamDetailModel> mTeamList;
 
 
     @BindView(R.id.ll_matches_tab)
@@ -137,7 +138,7 @@ public class TeamActivity extends BaseAppCompactActivity {
         if (getIntent() != null && getIntent().getExtras() != null) {
             Bundle bundle = getIntent().getExtras();
             if (bundle.containsKey(AppConstants.ARG_ALL_TEAM_LIST)) {
-                mTeamList = bundle.getParcelableArrayList(AppConstants.ARG_ALL_TEAM_LIST);
+                //mTeamList = bundle.getParcelableArrayList(AppConstants.ARG_ALL_TEAM_LIST);
             }
         }
 
@@ -258,21 +259,7 @@ public class TeamActivity extends BaseAppCompactActivity {
         showBackButton(getString(R.string.team));
 
 
-        int selectedGroupPos = 0;
-
-        for (int i = 0; i < mTeamList.size(); i++) {
-            if (mTeamList.get(i).getId().equalsIgnoreCase(mTeamDetailModel.getId())) {
-                AppLogger.LogE(TAG, "selected pos" + selectedGroupPos);
-                selectedGroupPos = i;
-                break;
-            }
-        }
-
-        teamSpinnerAdapter = new TeamSpinnerAdapter((Activity) mContext,
-                mTeamList);
-        sp_team.setAdapter(teamSpinnerAdapter);
-        sp_team.setSelection(selectedGroupPos);
-        mTeamDetailModel = mTeamList.get(selectedGroupPos);
+        getTeamList();
 /*        getTeamFixtures();
         getGroupStanding();
         getGraphicImageUrl(mTeamDetailModel.getAge_group_id() + "");*/
@@ -474,7 +461,7 @@ public class TeamActivity extends BaseAppCompactActivity {
                         break;
                     }
                 }
-                if (isTeamAvailable && mTeamList.size()>1 && !mTeamList.get(sp_team.getSelectedItemPosition()).getId().equalsIgnoreCase(view.getTag().toString())) {
+                if (isTeamAvailable && mTeamList.size() > 1 && !mTeamList.get(sp_team.getSelectedItemPosition()).getId().equalsIgnoreCase(view.getTag().toString())) {
                     mTeamDetailModel = mTeamList.get(selectedGroupPos);
                     sp_team.setSelection(selectedGroupPos);
                 } else {
@@ -930,5 +917,93 @@ public class TeamActivity extends BaseAppCompactActivity {
         ll_standings_view.setVisibility(View.GONE);
         tv_matches_selector.setVisibility(View.VISIBLE);
         ll_matches_view.setVisibility(View.VISIBLE);
+    }
+
+
+    private void getTeamList() {
+
+        if (Utility.isInternetAvailable(mContext)) {
+            Utility.startProgress(mContext);
+            String url = ApiConstants.GET_TEAM_LIST;
+            final JSONObject requestJson = new JSONObject();
+            RequestQueue mQueue = VolleySingeltone.getInstance(mContext)
+                    .getRequestQueue();
+            try {
+                requestJson.put(AppConstants.PREF_TOURNAMENT_ID, mPreference.getString(AppConstants.PREF_SESSION_TOURNAMENT_ID));
+                requestJson.put("age_group_id", mTeamDetailModel.getAge_group_id());
+//                requestJson.put("group_id", mTeamDetailModel.getGroupId());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            AppLogger.LogE(TAG, "url" + url);
+            AppLogger.LogE(TAG, "requestJson " + requestJson.toString());
+            final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(mContext, Request.Method
+                    .POST, url,
+                    requestJson, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    Utility.StopProgress();
+                    try {
+                        if (response != null && !Utility.isNullOrEmpty(response.toString())) {
+                            AppLogger.LogE(TAG, "get team list" + response.toString());
+                            if (response.has("status_code") && !Utility.isNullOrEmpty(response.getString("status_code")) && response.getString("status_code").equalsIgnoreCase("200")) {
+                                if (response.has("data") && !Utility.isNullOrEmpty(response.getString("data"))) {
+                                    TeamDetailModel mTeamListArray[] = GsonConverter.getInstance().decodeFromJsonString(response.getString("data"), TeamDetailModel[].class);
+                                    if (mTeamListArray != null && mTeamListArray.length > 0) {
+                                        mTeamList = Arrays.asList(mTeamListArray);
+
+                                        int selectedGroupPos = 0;
+
+                                        for (int i = 0; i < mTeamList.size(); i++) {
+                                            if (mTeamList.get(i).getId().equalsIgnoreCase(mTeamDetailModel.getId())) {
+                                                AppLogger.LogE(TAG, "selected pos" + selectedGroupPos);
+                                                selectedGroupPos = i;
+                                                break;
+                                            }
+                                        }
+
+                                        teamSpinnerAdapter = new TeamSpinnerAdapter((Activity) mContext,
+                                                mTeamList);
+                                        sp_team.setAdapter(teamSpinnerAdapter);
+                                        sp_team.setSelection(selectedGroupPos);
+                                        mTeamDetailModel = mTeamList.get(selectedGroupPos);
+                                    }
+                                }
+                            } else if (response.has("status_code") && !Utility.isNullOrEmpty(response.getString("status_code")) && response.getString("status_code").equalsIgnoreCase("500")) {
+                                String msg = "Selected tournament has expired";
+                                if (response.has("message")) {
+                                    msg = response.getString("message");
+                                }
+                                ViewDialog.showSingleButtonDialog((Activity) mContext, mContext.getString(R.string.error), msg, mContext.getString(R.string.button_ok), new ViewDialog.CustomDialogInterface() {
+                                    @Override
+                                    public void onPositiveButtonClicked() {
+                                        Intent intent = new Intent(mContext, HomeActivity.class);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                        mContext.startActivity(intent);
+                                        ((Activity) mContext).finish();
+                                    }
+
+                                });
+                            }
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    try {
+                        Utility.StopProgress();
+                        Utility.parseVolleyError(mContext, error);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            });
+            mQueue.add(jsonRequest);
+        }
     }
 }

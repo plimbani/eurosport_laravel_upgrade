@@ -268,6 +268,12 @@ public class SplashActivity extends BaseActivity {
                                     }
 
                                 });
+                            }else {
+                                Intent launcherIntent = new Intent(mContext,
+                                        LandingActivity.class);
+                                launcherIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                mContext.startActivity(launcherIntent);
+                                ((Activity) mContext).finish();
                             }
                         }
                     } catch (Exception e) {
