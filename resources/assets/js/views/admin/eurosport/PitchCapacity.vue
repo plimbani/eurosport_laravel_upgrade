@@ -801,14 +801,40 @@ import draggable from 'vuedraggable';
             getPitchSearchData(){
                 let tournamentData = {'tournament_id': this.tournamentId, 'pitchDataSearch': this.pitchDataSearch,
                     'selectedVenue': this.selectedVenue}
+                let vm = this;
                 Pitch.getPicthSearchRecord(tournamentData).then (
-                      (response) => {
-                        this.dragPitches = [];
-                        this.searchDisplayData = false;
-                        if(this.selectedVenue != '' || this.pitchDataSearch != '') {
-                            this.searchDisplayData = true;
-                        }
-                        this.dragPitches = response.data.pitches;
+                    (response) => {
+                    this.dragPitches = [];
+                    this.searchDisplayData = false;
+                    if(this.selectedVenue != '' || this.pitchDataSearch != '') {
+                        this.searchDisplayData = true;
+                    }
+                    this.dragPitches = response.data.pitches;
+                    _.forEach(this.dragPitches , function(pitch, index) {
+                        let i = 1;
+                        let stageTime = {}
+                        
+                        _.forEach(pitch.pitch_availability, function(pitchAvailable) {
+                            
+                            if(pitchAvailable.break_enable == '0' || pitchAvailable.break_enable == '1'  ) {
+
+                                let stageStr = "Day " + pitchAvailable.stage_no +" : "+pitchAvailable.stage_start_time+'-';
+
+                                _.forEach(pitchAvailable.pitch_breaks, function(pitchBreaks) {
+                                    stageStr = stageStr +pitchBreaks.break_start+', '+pitchBreaks.break_end+'-';
+                                });
+
+                                stageStr = stageStr + pitchAvailable.stage_end_time;
+                
+                                stageTime[pitch.id+"_"+i]  = stageStr;
+
+                                i++;
+                                
+                            }
+                            vm.dragPitches[index].pitch_av_text = stageTime; 
+                        });
+
+                    });
                 });
             },
 
