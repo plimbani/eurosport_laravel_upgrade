@@ -51,6 +51,7 @@ module.exports= {
   user_desktop_name: "Name",
   user_desktop_surname: "Surname",
   user_desktop_email: "Email address",
+  user_desktop_source: "Source",
   user_desktop_organisation: "Organisation",
   user_desktop_organisation_date_time: "Date & time",
   user_desktop_usertype: "User type",
@@ -100,6 +101,7 @@ module.exports= {
   user_management_image: "Profile image",
   user_image_choose_file: "Choose file",
   user_image_size: "Maximum size of 1 MB.",
+  user_view_and_edit_tournaments_associated: "View and edit tournaments associated with a user.",
   // user_image_dimensions: "Image dimensions 250 x 250.",
 
   team_edit_team_id: "TeamID*",
@@ -137,7 +139,7 @@ module.exports= {
   user_management_user_type: "User type*",
   user_management_user_type_required: "This field is required.",
   user_management_default_app_tournament: "Default app tournament*",
-  user_management_role: "Role*",
+  user_management_role: "Role",
   user_management_country: "Country*",
   user_management_language: "Language",
   maximum_teams: "Maximum teams",
@@ -453,6 +455,7 @@ module.exports= {
   pitch_modal_availability_button_addstage: "Add day",
   pitch_modal_availability_button_add: "Add day",
   pitch_capacity_location: "Venue",
+  pitch_modal_order: "Order",
 
 
   pitch_modal_edit_pitch_button: "Delete",

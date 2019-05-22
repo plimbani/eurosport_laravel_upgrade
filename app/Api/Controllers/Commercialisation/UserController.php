@@ -61,7 +61,7 @@ class UserController extends BaseController
             if ($status) {
                 return response()->json(['success' => true, 'status' => Response::HTTP_OK,
                             'data' => [], 'error' => [],
-                            'message' => 'User details has been updated successfully.'
+                            'message' => 'User details have been updated successfully.'
                 ]);
             } else {
                 return response()->json(['success' => false, 'status' => Response::HTTP_FORBIDDEN,

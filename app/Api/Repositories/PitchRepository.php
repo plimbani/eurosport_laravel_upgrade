@@ -18,7 +18,7 @@ class PitchRepository
 
     public function getAllPitches($tournamentId)
     {
-        return Pitch::with(['pitchAvailability','pitchAvailability.pitchBreaks','venue'])->where('tournament_id',$tournamentId)->get();
+        return Pitch::with(['pitchAvailability','pitchAvailability.pitchBreaks','venue'])->where('tournament_id',$tournamentId)->orderBy('order')->get();
 
     }
 
@@ -38,6 +38,9 @@ class PitchRepository
 
     public function createPitch($pitchData)
     {
+        // Get max order from pitches
+        $maxOrder = Pitch::where('tournament_id', $pitchData['tournamentId'])->max('order');
+        
         return Pitch::create([
             'tournament_id' => $pitchData['tournamentId'],
             'pitch_number' => $pitchData['pitch_number'],
@@ -45,7 +48,7 @@ class PitchRepository
             'venue_id' => $pitchData['location'],
             'size' => $pitchData['pitch_size'],
             'pitch_capacity' => $pitchData['pitchCapacity'],
-
+            'order' => $maxOrder+1,
         ]);
     }
     public function getPitchData($pitchId)
@@ -140,5 +143,43 @@ class PitchRepository
             ->get();
 
         return ['tournamentData' => $tournament, 'matches' => $matches];
+    }
+ 
+    public function getPitchSearchRecord($tournamentData) 
+    {
+        $selectVenue = false;
+    
+        $pitchSearchData = Pitch::with(['pitchAvailability','pitchAvailability.pitchBreaks','venue'])
+            ->join('venues', 'venues.id','=','pitches.venue_id')
+            ->where('pitches.tournament_id',$tournamentData['tournament_id']);
+    
+        if(isset($tournamentData['selectedVenue']) && $tournamentData['selectedVenue'] != '') {
+            $selectVenue = true;
+            $pitchSearchData->where('venue_id', '=', $tournamentData['selectedVenue']);
+        }
+
+        if(isset($tournamentData['pitchDataSearch']) && $tournamentData['pitchDataSearch'] != ''){
+            $pitchSearchData->where('pitches.tournament_id',$tournamentData['tournament_id'])
+                        ->where(function ($query) use ($tournamentData){
+                            $query->where('pitches.pitch_number', 'like', "%" . $tournamentData['pitchDataSearch'] . "%")
+                                ->orWhere('venues.name', 'like', "%" . $tournamentData['pitchDataSearch'] . "%");
+                        });  
+        }
+        return $pitchSearchData->get();
+    }
+
+
+    public function getVenuesDropDownData($tournamentData)
+    {
+        $pitchVenues = Venue::where('tournament_id', $tournamentData['tournament_id'])
+                            ->select('id', 'name')
+                            ->get();
+        return $pitchVenues;
+    }
+
+    public function updatePitchOrder($pitchId,$order)
+    {
+        $updateData = ['order' => $order];
+        return Pitch::where('id', $pitchId)->update($updateData);
     }
 }
