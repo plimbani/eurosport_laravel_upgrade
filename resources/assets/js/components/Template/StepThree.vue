@@ -17,8 +17,8 @@
 						        <div class="col-md-9">
 						        	<div class="row">
 						        		<div class="col-md-4">
-					        				<div class="form-group">
-						        				<select class="form-control ls-select2" v-model="placing.position_type" @change="onPositionTypeChange(placingIndex)" v-validate="'required'" :class="{'is-danger': errors.has('position_type') }" :name="'position_type'+placingIndex">
+					        				<div class="form-group" :class="{'has-error': errors.has('position_type'+placingIndex) }">
+						        				<select class="form-control ls-select2" v-model="placing.position_type" @change="onPositionTypeChange(placingIndex)" v-validate="'required'" :class="{'is-danger': errors.has('position_type'+placingIndex) }" :name="'position_type'+placingIndex" data-vv-as="Position type">
 							                    	<option value="placed">Placed</option>
 							                    	<option value="winner">Winner</option>
 							                    	<option value="looser">Looser</option>
@@ -28,8 +28,9 @@
 							                </div>
 						        		</div>
 						        		<div class="col-md-3">
-						        			<div class="form-group">
-							        			<select class="form-control ls-select2" v-model="placing.group" v-validate="'required'" :class="{'is-danger': errors.has('position_group') }" :name="'position_group'+placingIndex">
+						        			<div class="form-group" :class="{'has-error': errors.has('position_group'+placingIndex) }">
+							        			<select class="form-control ls-select2" v-model="placing.group" v-validate="'required'" :class="{'is-danger': errors.has('position_group'+placingIndex) }" 
+							        			:name="'position_group'+placingIndex" data-vv-as="Group">
 							                    	<option v-for="group in getGroupsForSelection(placingIndex)" :value="group.value">{{ group.name }}
 							                    	</option>
 							                    </select>
@@ -38,8 +39,8 @@
 							                </div>
 						        		</div>						        		
 						        		<div class="col-md-4">
-					        				<div class="form-group">
-						        				<select class="form-control ls-select2" v-model="placing.position" :name="'position_name'+placingIndex" v-validate="'required'" :class="{'is-danger': errors.has('position_name') }" data-vv-as="Match name">
+					        				<div class="form-group" :class="{'has-error': errors.has('position_name'+placingIndex) }">
+						        				<select class="form-control ls-select2" v-model="placing.position" :name="'position_name'+placingIndex" v-validate="'required'" :class="{'is-danger': errors.has('position_name'+placingIndex) }" data-vv-as="Match name">
 							                    	<option :value="position.value" v-for="position in getPositionsForSelection(placingIndex, placing.group)">{{ position.name }}</option>
 							                    </select>
 							                    <i v-show="errors.has('position_name'+placingIndex)" class="fas fa-warning"></i>
@@ -103,7 +104,7 @@
             				position_name: {
 								required: 'FThis field is required.',
             				}
-            			}            			
+            			}
             		}
             	}
             }
