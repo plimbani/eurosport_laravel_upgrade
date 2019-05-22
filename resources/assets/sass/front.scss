@@ -762,7 +762,8 @@ label.error {
     margin-right: 0px;
 }
 
-.pitch-filter-form.form-inline {
+.pitch-filter-form.form-inline,
+.pitch-capacity-form {
     .form-group {
         &:last-child {
             margin-right: 0;
@@ -1263,4 +1264,24 @@ a.active-view:hover {
 
 .pull-left {
     float: left;
+}
+
+.pitch-capacity-form {
+    .form-control {
+        font-size: 1rem;
+        color: $base-font-color;
+    }
+}
+
+.pitch-capacity-form .form-control::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+  color: $base-font-color;
+}
+.pitch-capacity-form .form-control::-moz-placeholder { /* Firefox 19+ */
+  color: $base-font-color;
+}
+.pitch-capacity-form .form-control:-ms-input-placeholder { /* IE 10+ */
+  color: $base-font-color;
+}
+.pitch-capacity-form .form-control:-moz-placeholder { /* Firefox 18- */
+  color: $base-font-color;
 }

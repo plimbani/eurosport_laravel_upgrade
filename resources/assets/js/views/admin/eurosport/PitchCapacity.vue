@@ -6,14 +6,38 @@
                   <div class="col-md-6 align-self-center">
                       <h6 class="mb-0"><strong>{{$lang.pitch_capacity}}</strong></h6>
                   </div>
-                  <div class="col-md-2">
-                        <input type="text" class="form-control"
-                               v-on:keyup="getPitchSearchData" v-model="pitchDataSearch" 
+
+                    <div class="col-md-6">
+                        <form class="form-inline justify-content-end pitch-capacity-form">
+                            <div class="form-group">
+                                <label><strong>Filter by:</strong></label>
+                            </div>
+                            <div class="form-group">
+                                <select class="form-control m-w-130"
+                                    v-model="selectedVenue" name="selected_venue" id="selected_venue"
+                                    @change="getPitchSearchData()">
+                                    <option value="">All venues</option>
+                                    <option :value="venuesOption.id"
+                                    v-for="venuesOption in venuesOptions">
+                                      {{venuesOption.name}}
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control"
+                               v-on:keyup="getPitchSearchData" v-model="pitchDataSearch"
                                placeholder="Search for a pitch">
+                            </div>
+                            <div class="form-group">
+                                <button type="button" class="btn btn-primary" @click="addPitch()"><small><i class="fas fa-plus"></i></small>&nbsp;{{$lang.pitch_add}}</button>
+                            </div>
+                        </form>
                     </div>
-                    <div class="col-md-2">
+
+
+                    <!-- <div class="col-md-2">
                         <select class="form-control"
-                            v-model="selectedVenue" name="selected_venue" id="selected_venue" 
+                            v-model="selectedVenue" name="selected_venue" id="selected_venue"
                             @change="getPitchSearchData()">
                             <option value="">All venues</option>
                             <option :value="venuesOption.id"
@@ -21,6 +45,11 @@
                               {{venuesOption.name}}
                             </option>
                         </select>
+                    </div> -->
+                  <!-- <div class="col-md-2">
+                        <input type="text" class="form-control"
+                               v-on:keyup="getPitchSearchData" v-model="pitchDataSearch"
+                               placeholder="Search for a pitch">
                     </div>
                     <div class="col-md-2">
                         <div class="row justify-content-end">
@@ -29,7 +58,7 @@
                                 <button type="button" class="btn btn-primary btn-block" @click="addPitch()"><small><i class="fas fa-plus"></i></small>&nbsp;{{$lang.pitch_add}}</button>
                           </div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
 
                 <addPitchDetail  v-if="pitchId=='' && dispPitch==true" ></addPitchDetail>
@@ -770,7 +799,7 @@ import draggable from 'vuedraggable';
                 });
             },
             getPitchSearchData(){
-                let tournamentData = {'tournament_id': this.tournamentId, 'pitchDataSearch': this.pitchDataSearch, 
+                let tournamentData = {'tournament_id': this.tournamentId, 'pitchDataSearch': this.pitchDataSearch,
                     'selectedVenue': this.selectedVenue}
                 Pitch.getPicthSearchRecord(tournamentData).then (
                       (response) => {
@@ -787,7 +816,7 @@ import draggable from 'vuedraggable';
                 let tournamentData = {'tournament_id': this.tournamentId}
                 Pitch.getVenuesDropDownData(tournamentData).then (
                       (response) => {
-                        this.venuesOptions = response.data.venues;   
+                        this.venuesOptions = response.data.venues;
                 });
             },
             resetSearchFilter() {
