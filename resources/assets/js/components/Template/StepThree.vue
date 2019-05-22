@@ -126,17 +126,15 @@
         		let groupsForSelection = [];
         		let roundRobinIndex = 0;
         		let placingMatchIndex = 0;
-        		let roundGroupCount = 0;
-                let placingGroupCount = 0;
                 let vm = this;
 
         		_.forEach(this.templateFormDetail['steptwo'].rounds, function(round, roundIndex) {
 					_.forEach(round.groups, function(group, groupIndex) {
 						if(roundIndex === vm.roundIndex && groupIndex >= vm.index) return false;
 
+						let roundData = vm.templateFormDetail['steptwo'].rounds[roundIndex];
 						if(group.type === 'round_robin' && placing.position_type === 'placed') {
-							groupsForSelection[roundRobinIndex] = {'name': 'Group ' + String.fromCharCode(65 +roundGroupCount), 'value': '-1,' + roundIndex + ',' + groupIndex};
-							roundGroupCount += 1;
+							groupsForSelection[roundRobinIndex] = {'name': 'Group ' + vm.getRoundRobinGroupName(roundData, groupIndex), 'value': '-1,' + roundIndex + ',' + groupIndex};
 
 							if(roundRobinIndex === 0 && (placing.group === '' || typeof placing.group === 'undefined'))
 								vm.templateFormDetail.stepthree.placings[placingIndex].group = groupsForSelection[roundRobinIndex].value;
@@ -147,8 +145,7 @@
 						}
 
 						if(group.type === 'placing_match' && _.indexOf(['winner', 'looser'], placing.position_type) > -1) {
-							placingGroupCount += 1;
-							groupsForSelection[placingMatchIndex] = {'name': 'PM ' + (placingGroupCount), 'value': '-1,' + roundIndex + ',' + groupIndex};
+							groupsForSelection[placingMatchIndex] = {'name': 'PM ' + (vm.getPlacingMatchGroupName(roundData, groupIndex)), 'value': '-1,' + roundIndex + ',' + groupIndex};
 
 							if(placingMatchIndex === 0 && (placing.group === '' || typeof placing.group === 'undefined')) {
 								vm.templateFormDetail.stepthree.placings[placingIndex].group = groupsForSelection[placingMatchIndex].value;
@@ -164,9 +161,10 @@
 				_.forEach(this.templateFormDetail['steptwo'].divisions, function(division, divisionIndex) {
 					_.forEach(division.rounds, function(round, roundIndex) {
 						_.forEach(round.groups, function(group, groupIndex) {
+
+							let roundData = vm.templateFormDetail['steptwo'].divisions[divisionIndex].rounds[roundIndex];
 							if(group.type === 'round_robin' && placing.position_type === 'placed') {
-								groupsForSelection[roundRobinIndex] = {'name': 'Group ' + String.fromCharCode(65 +roundGroupCount), 'value': divisionIndex + ',' + roundIndex + ',' + groupIndex};
-								roundGroupCount += 1;
+								groupsForSelection[roundRobinIndex] = {'name': 'Group ' + vm.getRoundRobinGroupName(roundData, groupIndex), 'value': divisionIndex + ',' + roundIndex + ',' + groupIndex};
 
 								if(roundRobinIndex === 0 && placing.group === '')
 									vm.templateFormDetail.stepthree.placings[placingIndex].group = groupsForSelection[roundRobinIndex].value;
@@ -177,8 +175,7 @@
 							}
 
 							if(group.type === 'placing_match' && _.indexOf(['winner', 'looser'], placing.position_type) > -1) {
-								placingGroupCount += 1;
-								groupsForSelection[placingMatchIndex] = {'name': 'PM ' + (placingGroupCount), 'value': divisionIndex + ',' + roundIndex + ',' + groupIndex};
+								groupsForSelection[placingMatchIndex] = {'name': 'PM ' + (vm.getPlacingMatchGroupName(roundData, groupIndex)), 'value': divisionIndex + ',' + roundIndex + ',' + groupIndex};
 
 								if(placingMatchIndex === 0 && (placing.group === '' || typeof placing.group === 'undefined')) {
 									vm.templateFormDetail.stepthree.placings[placingIndex].group = groupsForSelection[placingMatchIndex].value;
@@ -288,6 +285,14 @@
 		    	});
 		    
 		    	vm.templateFormDetail.stepthree.placings = _.cloneDeep(_.compact(placings));
+		    },
+		    getRoundRobinGroupName(roundData, groupIndex) {
+		    	let currentRoundGroupCount =  _.filter(roundData.groups, function(o, index) { return (o.type === 'round_robin' && index < groupIndex); }).length;
+		    	return String.fromCharCode(65 + roundData.start_round_group_count + currentRoundGroupCount);
+		    },
+		    getPlacingMatchGroupName(roundData, groupIndex) {
+		    	let currentPlacingGroupCount =  _.filter(roundData.groups, function(o, index) { return (o.type === 'placing_match' && index <= groupIndex); }).length;
+		    	return (roundData.start_placing_group_count + currentPlacingGroupCount);
 		    },
         }
 	}

@@ -18,13 +18,13 @@
 						<div class="card-block">
 							<div class="row align-items-center">
 								<div class="col-12">
-									<h6 class="font-weight-bold">{{ getRoundName(roundIndex, -1) }}&nbsp;<span class="small">({{ round.no_of_teams }} items)</span></h6>
+									<h6 class="font-weight-bold">{{ getRoundName(roundIndex, -1) }}&nbsp;<span class="small">({{ round.no_of_teams }} teams)</span></h6>
 								</div>
 							</div>
 							<div class="row">
 								<div class="col-6" v-for="(group, groupIndex) in round.groups">
 									<h6 class="font-weight-bold mb-0">{{ getGroupName(groupIndex, roundIndex, -1) }}</h6>
-									<p class="text-muted small mb-0" v-if="group.type === 'round_robin'">Teams play each other {{ group.teams_play_each_other }}</p>
+									<p class="text-muted small mb-0" v-if="group.type === 'round_robin'">Teams play each other {{ getTeamPlayEachOther(group.teams_play_each_other) }}</p>
 									<ul class="list-unstyled mb-4">
 										<li v-if="group.type === 'round_robin'" v-for="(team, teamIndex) in group.teams">
 											<span v-if="roundIndex == 0">Team {{ teamIndex + 1 }}</span>
@@ -312,15 +312,17 @@
 			    	}
 			    	let groupData = roundData.groups[groupIndex];
 
-			    	if(groupData.type === 'round_robin') {
-			    		groupName = 'Group ' + this.getRoundRobinGroupName(roundData, groupIndex);
-			    		return this.getSuffixForPosition(position) + ' - ' +  groupName;
-			    	}
+			    	if(groupData) {
+				    	if(groupData.type === 'round_robin') {
+				    		groupName = 'Group ' + this.getRoundRobinGroupName(roundData, groupIndex);
+				    		return this.getSuffixForPosition(position) + ' - ' +  groupName;
+				    	}
 
-			    	if(groupData.type === 'placing_match') {
-			    		groupName = 'PM ' + this.getPlacingMatchGroupName(roundData, groupIndex);
-			    		return (positionType.charAt(0).toUpperCase() + positionType.slice(1)) + ' ' + groupName + ' Match ' + position;
-			    	}
+				    	if(groupData.type === 'placing_match') {
+				    		groupName = 'PM ' + this.getPlacingMatchGroupName(roundData, groupIndex);
+				    		return (positionType.charAt(0).toUpperCase() + positionType.slice(1)) + ' ' + groupName + ' Match ' + position;
+				    	}
+				    }
 			    }
 		    },
 		    getDivisions() {
@@ -359,7 +361,16 @@
 			removeImage(e) {
 				this.image = '';
 				e.preventDefault();
-			}
+			},
+			getTeamPlayEachOther(times) {
+				let teamPlayEachOther = {
+					'once' : 'once',
+					'twice' : 'twice',
+					'three_times' : 'three times',
+					'four_times' : 'four times',
+				}
+				return teamPlayEachOther[times];
+			},
         }
     }
 </script>
