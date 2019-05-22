@@ -15,7 +15,7 @@
                         <select class="form-control"
                             v-model="selectedVenue" name="selected_venue" id="selected_venue" 
                             @change="getPitchSearchData()">
-                            <option value="">Select venue</option>
+                            <option value="">All venues</option>
                             <option :value="venuesOption.id"
                             v-for="venuesOption in venuesOptions">
                               {{venuesOption.name}}
@@ -759,13 +759,13 @@ import draggable from 'vuedraggable';
                 let vm = this;
                 var pitchIds = _.map(this.dragPitches, 'id');
                 return axios.post('/api/pitch/updatePitchOrder', pitchIds).then(response =>  {
-                    toastr.success('Pitches order successfully updated.', 'Update Pitches Order', {timeOut: 5000});
+                    toastr.success('The order of the pitches has been updated', 'Pitch Order', {timeOut: 5000});
                     vm.getAllPitches();
                 }).catch(error => {
                     if (error.response.status == 401) {
                         toastr['error']('Invalid Credentials', 'Error');
                     } else {
-                        toastr.error('Pitches order not successfully updated.', 'Update Pitches Order', {timeOut: 5000});
+                        toastr.error('Pitches order not successfully updated', 'Pitch Order', {timeOut: 5000});
                     }
                 });
             },
