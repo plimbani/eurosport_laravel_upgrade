@@ -6,21 +6,50 @@
                   <div class="col-md-6 align-self-center">
                       <h6 class="mb-0"><strong>{{$lang.pitch_capacity}}</strong></h6>
                   </div>
-                  <div class="col-md-2">
-                        <input type="text" class="form-control"
-                               v-on:keyup="getPitchSearchData" v-model="pitchDataSearch" 
+
+                    <div class="col-md-6">
+                        <form class="form-inline justify-content-end pitch-capacity-form">
+                            <div class="form-group">
+                                <label><strong>Filter by:</strong></label>
+                            </div>
+                            <div class="form-group">
+                                <select class="form-control m-w-130"
+                                    v-model="selectedVenue" name="selected_venue" id="selected_venue"
+                                    @change="getPitchSearchData()">
+                                    <option value="">All venues</option>
+                                    <option :value="venuesOption.id"
+                                    v-for="venuesOption in venuesOptions">
+                                      {{venuesOption.name}}
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control"
+                               v-on:keyup="getPitchSearchData" v-model="pitchDataSearch"
                                placeholder="Search for a pitch">
+                            </div>
+                            <div class="form-group">
+                                <button type="button" class="btn btn-primary" @click="addPitch()"><small><i class="fas fa-plus"></i></small>&nbsp;{{$lang.pitch_add}}</button>
+                            </div>
+                        </form>
                     </div>
-                    <div class="col-md-2">
+
+
+                    <!-- <div class="col-md-2">
                         <select class="form-control"
-                            v-model="selectedVenue" name="selected_venue" id="selected_venue" 
+                            v-model="selectedVenue" name="selected_venue" id="selected_venue"
                             @change="getPitchSearchData()">
-                            <option value="">Select venue</option>
+                            <option value="">All venues</option>
                             <option :value="venuesOption.id"
                             v-for="venuesOption in venuesOptions">
                               {{venuesOption.name}}
                             </option>
                         </select>
+                    </div> -->
+                  <!-- <div class="col-md-2">
+                        <input type="text" class="form-control"
+                               v-on:keyup="getPitchSearchData" v-model="pitchDataSearch"
+                               placeholder="Search for a pitch">
                     </div>
                     <div class="col-md-2">
                         <div class="row justify-content-end">
@@ -29,7 +58,7 @@
                                 <button type="button" class="btn btn-primary btn-block" @click="addPitch()"><small><i class="fas fa-plus"></i></small>&nbsp;{{$lang.pitch_add}}</button>
                           </div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
 
                 <addPitchDetail  v-if="pitchId=='' && dispPitch==true" ></addPitchDetail>
@@ -427,6 +456,7 @@ import draggable from 'vuedraggable';
                        vm.getPitchSizeWiseSummary();
                        vm.getLocationWiseSummary();
                        vm.$root.$emit('')
+                       vm.resetSearchFilter();
                   });
                 },1000)
 
@@ -440,6 +470,7 @@ import draggable from 'vuedraggable';
                 setTimeout(function(){
                     this1.$store.dispatch('PitchData',pitchId)
                     this1.getAllPitches()
+                    this1.resetSearchFilter();
                 },1000)
 
             },
@@ -448,13 +479,14 @@ import draggable from 'vuedraggable';
                 // this.$store.dispatch('removePitch',pitchId)
                 // toastr['warning']('All schedules with this pitch will be removerd', 'Warning');
                 return axios.post('/api/pitch/delete/'+pitchId).then(response =>  {
-                    this.getAllPitches()
+                    //this.getAllPitches()
                    $("#delete_modal").modal("hide");
                     toastr.success('Pitch successfully deleted.', 'Delete Pitch', {timeOut: 5000});
                     // toastr['success']('Pitch Successfully removed', 'Success');
                     vm.getAllPitches();
                     vm.getPitchSizeWiseSummary();
                     vm.getLocationWiseSummary();
+                    vm.resetSearchFilter();
                     }).catch(error => {
                     if (error.response.status == 401) {
                         toastr['error']('Invalid Credentials', 'Error');
@@ -756,27 +788,53 @@ import draggable from 'vuedraggable';
                 let vm = this;
                 var pitchIds = _.map(this.dragPitches, 'id');
                 return axios.post('/api/pitch/updatePitchOrder', pitchIds).then(response =>  {
-                    toastr.success('Pitches order successfully updated.', 'Update Pitches Order', {timeOut: 5000});
+                    toastr.success('The order of the pitches has been updated', 'Pitch Order', {timeOut: 5000});
                     vm.getAllPitches();
                 }).catch(error => {
                     if (error.response.status == 401) {
                         toastr['error']('Invalid Credentials', 'Error');
                     } else {
-                        toastr.error('Pitches order not successfully updated.', 'Update Pitches Order', {timeOut: 5000});
+                        toastr.error('Pitches order not successfully updated', 'Pitch Order', {timeOut: 5000});
                     }
                 });
             },
             getPitchSearchData(){
-                let tournamentData = {'tournament_id': this.tournamentId, 'pitchDataSearch': this.pitchDataSearch, 
+                let tournamentData = {'tournament_id': this.tournamentId, 'pitchDataSearch': this.pitchDataSearch,
                     'selectedVenue': this.selectedVenue}
+                let vm = this;
                 Pitch.getPicthSearchRecord(tournamentData).then (
-                      (response) => {
-                        this.dragPitches = [];
-                        this.searchDisplayData = false;
-                        if(this.selectedVenue != '' || this.pitchDataSearch != '') {
-                            this.searchDisplayData = true;
-                        }
-                        this.dragPitches = response.data.pitches;
+                    (response) => {
+                    this.dragPitches = [];
+                    this.searchDisplayData = false;
+                    if(this.selectedVenue != '' || this.pitchDataSearch != '') {
+                        this.searchDisplayData = true;
+                    }
+                    this.dragPitches = response.data.pitches;
+                    _.forEach(this.dragPitches , function(pitch, index) {
+                        let i = 1;
+                        let stageTime = {}
+                        
+                        _.forEach(pitch.pitch_availability, function(pitchAvailable) {
+                            
+                            if(pitchAvailable.break_enable == '0' || pitchAvailable.break_enable == '1'  ) {
+
+                                let stageStr = "Day " + pitchAvailable.stage_no +" : "+pitchAvailable.stage_start_time+'-';
+
+                                _.forEach(pitchAvailable.pitch_breaks, function(pitchBreaks) {
+                                    stageStr = stageStr +pitchBreaks.break_start+', '+pitchBreaks.break_end+'-';
+                                });
+
+                                stageStr = stageStr + pitchAvailable.stage_end_time;
+                
+                                stageTime[pitch.id+"_"+i]  = stageStr;
+
+                                i++;
+                                
+                            }
+                            vm.dragPitches[index].pitch_av_text = stageTime; 
+                        });
+
+                    });
                 });
             },
 
@@ -784,9 +842,14 @@ import draggable from 'vuedraggable';
                 let tournamentData = {'tournament_id': this.tournamentId}
                 Pitch.getVenuesDropDownData(tournamentData).then (
                       (response) => {
-                        this.venuesOptions = response.data.venues;   
+                        this.venuesOptions = response.data.venues;
                 });
             },
+            resetSearchFilter() {
+                this.selectedVenue = '';
+                this.pitchDataSearch = '';
+                this.searchDisplayData = false;
+            }
         }
     }
 </script>
