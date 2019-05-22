@@ -1222,10 +1222,34 @@ a.active-view:hover {
     width: 90px;
 }
 
+.add-category-table{
+    &.users-table{
+        th,td{
+            min-width: 90px;
+            &:nth-child(4){
+                min-width: 200px;
+            }
+            &:nth-child(5){
+                min-width: 150px;
+            }
+        }
+    }
+}
+
 .pull-right {
   float: right;
 }
 
 .pull-left {
   float: left;
+}
+
+// .help.is-danger {
+//     position: absolute;
+//     font-size: 13px;
+// }
+
+.unsaved-score-list li{
+    padding: 5px 0;
+    font-size: 14px;
 }

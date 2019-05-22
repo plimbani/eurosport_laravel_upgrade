@@ -112,4 +112,5 @@ return [
         "#000000", "#000000", "#000000", "#000000", "#000000", "#000000", "#ffffff", "#000000", "#ffffff",
     ],
     "match_idle_time" => env('MATCH_IDLE_TIME'),
+    "current_layout" => env('CURRENT_LAYOUT'),
 ];

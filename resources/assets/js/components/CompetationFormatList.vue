@@ -19,8 +19,7 @@
               <td class="text-left">{{competation.group_name}} </td>
               <td class="text-left">{{competation.category_age}}</td>
               <td class="text-left">{{competation.template_name}}</td>
-              <td class="text-left">{{competation.disp_format_name}} <a href="#"  
-                @click="viewCompFormat(competation.id, competation.tournament_template_id,competation.total_time)" class="btn btn-primary btn-sm ml-1 float-right">View</a></td>
+              <td class="text-left d-flex justify-content-between">{{competation.disp_format_name}} <span class="pl-2"><a href="#"  @click="viewCompFormat(competation.tournament_template_id,competation.total_time)" class="btn btn-primary btn-sm ml-1 float-right">View</a></span></td>
               <td class="text-center">{{competation.total_match}}</td>
               <td>{{competation.total_time | formatTime}}
               </td>
