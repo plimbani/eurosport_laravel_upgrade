@@ -8,6 +8,7 @@ import android.os.Parcelable;
  */
 
 public class AgeCategoriesModel implements Parcelable {
+    
     private int id;
     private int total_teams;
     private int tournament_id;
