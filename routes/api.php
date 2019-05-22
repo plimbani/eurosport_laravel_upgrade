@@ -164,6 +164,7 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
     $api->post('pitch/create', 'Laraspace\Api\Controllers\PitchController@createPitch');
     $api->post('pitch/edit/{id}', 'Laraspace\Api\Controllers\PitchController@edit');
     $api->post('pitch/delete/{deleteid}', 'Laraspace\Api\Controllers\PitchController@deletePitch');
+    $api->post('pitch/updatePitchOrder', 'Laraspace\Api\Controllers\PitchController@updatePitchOrder');
 
     $api->post('age_group/createCompetationFomat','Laraspace\Api\Controllers\AgeGroupController@createCompetationFomat');
     $api->post('age_group/deleteCompetationFormat','Laraspace\Api\Controllers\AgeGroupController@deleteCompetationFormat');
@@ -270,7 +271,11 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
     
     $api->post('duplicateTournamentList','Laraspace\Api\Controllers\TournamentController@duplicateTournamentList');
 
-    $api->post('updateAppDeviceVersion','Laraspace\Api\Controllers\UserController@updateAppDeviceVersion');    
+    $api->post('updateAppDeviceVersion','Laraspace\Api\Controllers\UserController@updateAppDeviceVersion');  
+
+    $api->post('pitchSearchRecord', 'Laraspace\Api\Controllers\PitchController@getPitchSearchRecord');
+
+    $api->post('getVenuesDropDownData', 'Laraspace\Api\Controllers\PitchController@getVenuesDropDownData');
 
 });
 
