@@ -50,6 +50,7 @@
     import Auth from '../../services/auth'
     import Ls from '../../services/ls'
     import Constant from '../../services/constant'
+    import Commercialisation from '../../api/commercialisation.js'
     
     export default {
         data() {
@@ -116,16 +117,15 @@
                  });
             },
 
-            printReceipt(){
-
-                
-                if(this.tournament_id != ""){                    
-                    let url = Constant.apiBaseUrl+'generate/receipt?tournament_id='+this.tournament_id;
-                    window.open(url,'_blank');
-                }
-                
-                
+            printReceipt() {
+                let tournamentId = this.tournament_id
+                Commercialisation.getSignedUrlForBuyLicensePrint(tournamentId).then(
+                (response) => {
+                    window.location.href = response.data;
+                })                
             },
+
+
             redirectToDashboardPage(){
                 if(this.tournament_id != ""){
                     this.$router.push({name: 'dashboard'});
