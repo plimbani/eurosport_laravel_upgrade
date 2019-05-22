@@ -31,10 +31,9 @@ const actions = {
 
   SetPitches ({commit,dispatch},tournamentId) {
     // commit(types.SET_ALL_PITCHES, [])
-    Pitch.getAllPitches(tournamentId).then (
+    return Pitch.getAllPitches(tournamentId).then (
       (response) => {
         let pitches =  response.data.pitches
-
         // here we change for add new variable for calculate pitch Availibility
 
         _.forEach(pitches , function(pitchAvailable, index) {
@@ -67,8 +66,11 @@ const actions = {
 
         });
 
-
-        commit(types.SET_ALL_PITCHES, response.data.pitches)
+        return new Promise((resolve, reject) => {
+          commit(types.SET_ALL_PITCHES, response.data.pitches)
+          resolve(response.data.pitches);
+        });
+        
         commit(types.SET_PITCH_CAPACITY, response.data.pitches)
         // dispatch(Pitch.PitchData,156)
          // Pitch.PitchData(pitches[0].id)

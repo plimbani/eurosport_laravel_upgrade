@@ -38,7 +38,7 @@
 
                 <div class="row mt-4">
                     <div class="result col-md-12">
-                         <table class="table table-hover table-bordered mb-0 pitch_capacity_table" v-if="pitches">
+                         <table class="table table-hover table-bordered mb-0 pitch_capacity_table" v-if="dragPitches">
                             <thead>
                                 <tr>
                                     <th class="text-center">{{$lang.pitch_modal_details_name}}</th>
@@ -167,7 +167,6 @@ import DeleteModal from '../../../components/DeleteModal.vue'
 import Pitch from '../../../api/pitch'
 import Tournament from '../../../api/tournament.js'
 import draggable from 'vuedraggable';
-
     export default {
         components: { draggable },
         data() {
@@ -235,12 +234,6 @@ import draggable from 'vuedraggable';
         computed: {
             pitchId: function(){
                 return _.cloneDeep(this.$store.getters.curPitchId)
-            },
-            pitches: function() {
-                if(!this.searchDisplayData) {
-                    this.dragPitches = this.$store.state.Pitch.pitches;
-                }
-                return  _.cloneDeep(this.$store.state.Pitch.pitches);
             },
             pitchData: function() {
                 return this.$store.state.Pitch.pitchData
@@ -346,7 +339,10 @@ import draggable from 'vuedraggable';
               this.dispPitch = false
             },
             getAllPitches() {
-                this.$store.dispatch('SetPitches',this.tournamentId);
+                let vm = this;
+                this.$store.dispatch('SetPitches',this.tournamentId).then((pitches) => {
+                    vm.dragPitches = pitches;
+                });
                 this.$store.dispatch('SetVenues',this.tournamentId);
             },
             deletePitch (pitchId) {
@@ -431,6 +427,7 @@ import draggable from 'vuedraggable';
                        vm.getPitchSizeWiseSummary();
                        vm.getLocationWiseSummary();
                        vm.$root.$emit('')
+                       vm.resetSearchFilter();
                   });
                 },1000)
 
@@ -444,6 +441,7 @@ import draggable from 'vuedraggable';
                 setTimeout(function(){
                     this1.$store.dispatch('PitchData',pitchId)
                     this1.getAllPitches()
+                    this1.resetSearchFilter();
                 },1000)
 
             },
@@ -452,13 +450,14 @@ import draggable from 'vuedraggable';
                 // this.$store.dispatch('removePitch',pitchId)
                 // toastr['warning']('All schedules with this pitch will be removerd', 'Warning');
                 return axios.post('/api/pitch/delete/'+pitchId).then(response =>  {
-                    this.getAllPitches()
+                    //this.getAllPitches()
                    $("#delete_modal").modal("hide");
                     toastr.success('Pitch successfully deleted.', 'Delete Pitch', {timeOut: 5000});
                     // toastr['success']('Pitch Successfully removed', 'Success');
                     vm.getAllPitches();
                     vm.getPitchSizeWiseSummary();
                     vm.getLocationWiseSummary();
+                    vm.resetSearchFilter();
                     }).catch(error => {
                     if (error.response.status == 401) {
                         toastr['error']('Invalid Credentials', 'Error');
@@ -758,7 +757,8 @@ import draggable from 'vuedraggable';
             },
             updatePitchOrder() {
                 let vm = this;
-                return axios.post('/api/pitch/updatePitchOrder', this.dragPitches).then(response =>  {
+                var pitchIds = _.map(this.dragPitches, 'id');
+                return axios.post('/api/pitch/updatePitchOrder', pitchIds).then(response =>  {
                     toastr.success('Pitches order successfully updated.', 'Update Pitches Order', {timeOut: 5000});
                     vm.getAllPitches();
                 }).catch(error => {
@@ -790,6 +790,11 @@ import draggable from 'vuedraggable';
                         this.venuesOptions = response.data.venues;   
                 });
             },
+            resetSearchFilter() {
+                this.selectedVenue = '';
+                this.pitchDataSearch = '';
+                this.searchDisplayData = false;
+            }
         }
     }
 </script>
