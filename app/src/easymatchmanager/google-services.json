@@ -31,6 +31,14 @@
           }
         },
         {
+          "client_id": "647325923706-dmmprq3ffh6i94v28a9gvb5f8vvjqmsr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.aecor.eurosports.easymatchmanager",
+            "certificate_hash": "9904adbd7ccaf48df7695fb7fab88a67ebb94729"
+          }
+        },
+        {
           "client_id": "647325923706-vj5lfjkhnl0cjta3ant2ep5is3lb7r1d.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -41,20 +49,13 @@
         }
       ],
       "services": {
-        "analytics_service": {
-          "status": 1
-        },
         "appinvite_service": {
-          "status": 2,
           "other_platform_oauth_client": [
             {
               "client_id": "647325923706-vj5lfjkhnl0cjta3ant2ep5is3lb7r1d.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
-        },
-        "ads_service": {
-          "status": 2
         }
       }
     }
