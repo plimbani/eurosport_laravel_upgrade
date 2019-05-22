@@ -84,6 +84,7 @@
 										<p>
 											<strong>
 												@php
+													$isTeamAllocated = 0;
 													$fullName = '';
 													if(isset($group['groups']['actual_group_name'])) {
 											          $actualGroupName = $group['groups']['actual_group_name'];
@@ -94,12 +95,21 @@
 
 											        $displayName = $fullName;
 												@endphp
+
 												@foreach($teamsData as $team)
 													@if($team->age_group_id == $data['ageCategoryId'] && $fullName == $team->group_name)
-														@php $displayName = 'flag-icon flag-icon-' .$team->country_flag; @endphp
+														@php
+														$isTeamAllocated = 1; 
+														$displayName = 'flag-icon flag-icon-' .$team->country_flag; 
+														@endphp
 													@endif
 												@endforeach
-												<span class="{{ $displayName }}"></span>
+
+												@if($isTeamAllocated == 1) 
+													<img width="16" height="12" src="{{ asset($team->logo) }}" alt="">
+												@else
+													<span class="{{ $displayName }}"></span>
+												@endif
 												
 												<span>
 													@php
