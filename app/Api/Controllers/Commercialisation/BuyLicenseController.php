@@ -78,10 +78,10 @@ class BuyLicenseController extends BaseController
      * Generate PDF for payment receipt
      * @param Request $request
      */
-    public function generatePaymentReceipt(Request $request)
+    public function generatePaymentReceipt(Request $request, $id)
     {  
         try {
-            return $this->transactionObj->generatePaymentReceipt($request->all());
+            return $this->transactionObj->generatePaymentReceipt($request->all(),$id);
         } catch (\Exception $ex) {
             return response()->json(['success' => false, 'status' => Response::HTTP_UNPROCESSABLE_ENTITY, 'data' => [], 'error' => [], 'message' => $ex->getMessage()]);
         }
