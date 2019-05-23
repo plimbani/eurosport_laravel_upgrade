@@ -858,7 +858,7 @@ class TemplateRepository
                 $finalArray['tournament_competation_format']['format_name'][$roundIndex]['name'] = 'Round '.($roundIndex+1);
                 $finalArray['tournament_competation_format']['format_name'][$roundIndex]['match_type'][] = $matchTypeDetail;
             } else if($divisionIndex >= 0) {
-                $finalArray['tournament_competation_format']['divisions'][$divisionIndex]['format_name'][$roundIndex]['name'] = 'Round '.($roundIndex+1);
+                $finalArray['tournament_competation_format']['divisions'][$divisionIndex]['format_name'][$roundIndex]['name'] = 'Round '.($startRoundCount + $roundIndex + 1);
                 $finalArray['tournament_competation_format']['divisions'][$divisionIndex]['format_name'][$roundIndex]['match_type'][] = $matchTypeDetail;
             }
 
@@ -894,18 +894,18 @@ class TemplateRepository
 
     public function getTeamRoundDataForPlacing($finalArray, $divisionRoundGroupPosition, $divisionIndex)
     {
-        if($divisionIndex === -1) {
+        if($divisionRoundGroupPosition[0] == -1) {
             return $finalArray['tournament_competation_format']['format_name'][$divisionRoundGroupPosition[1]];
         }
-        return $finalArray['tournament_competation_format']['divisions'][$divisionIndex]['format_name'][$divisionRoundGroupPosition[1]];
+        return $finalArray['tournament_competation_format']['divisions'][$divisionRoundGroupPosition[0]]['format_name'][$divisionRoundGroupPosition[1]];
     }
 
     public function getTeamRoundDataForRoundRobin($templateFormDetail, $divisionRoundGroupPosition, $divisionIndex)
     {
-        if($divisionIndex === -1) {
+        if($divisionRoundGroupPosition[0] == -1) {
             return $templateFormDetail['steptwo']['rounds'][$divisionRoundGroupPosition[1]];
         }
-        return $templateFormDetail['steptwo']['divisions'][$divisionIndex]['rounds'][$divisionRoundGroupPosition[1]];
+        return $templateFormDetail['steptwo']['divisions'][$divisionRoundGroupPosition[0]]['rounds'][$divisionRoundGroupPosition[1]];
     }
 
     public function getMatchPosition($teamPosition, $positionArray)
