@@ -827,4 +827,11 @@ module.exports= {
   copy_age_category_modal_header: "Copy Category",
   copy_age_category_modal_note: "Please complete the fields below for the new category you are creating.",
   copy_age_category_modal_validation_message: "This field is required",
+
+  unsaved_match_score_info_modal_header: "Match Results Conflict",
+  unsaved_match_score_info_modal_body_header: "The following matches are not displaying the most up to date result:",
+  unsaved_match_score_info_modal_note: "On closing this message the latest scores will now be synchronised and displaying.",
+
+  modal_close_button: "Close",
+  note: "Note:",
 }
