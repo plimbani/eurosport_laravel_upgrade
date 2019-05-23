@@ -67,6 +67,7 @@
                 }
                 this.$root.$emit('updateGroupCount');
                 this.$root.$emit('updateRoundCount');
+                this.$root.$emit('updatePositions');
             },
             removeGroup(groupIndex, roundIndex) {
                 this.roundData.groups.splice(groupIndex, 1);

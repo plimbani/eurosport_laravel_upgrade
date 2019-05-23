@@ -170,7 +170,9 @@ export default {
             }, {});
             this.DrawName = drawname1
             this.CompRound = round
-            this.refreshStanding();
+            if ( currDId != undefined){
+              this.refreshStanding();
+            }
             //this.DrawName = this.matchData[0];
             // find record of that
           }
@@ -308,9 +310,7 @@ export default {
         refreshStanding(resolve='') {
           $("body .js-loader").removeClass('d-none');
           let compId = ''
-          if(this.currentCompetationId!=undefined){
-            compId = this.DrawName.id
-          }
+          compId = this.DrawName.id
           let tournamentData = {'tournamentId': this.$store.state.Tournament.tournamentId,'competitionId': compId}
           Tournament.refreshStanding(tournamentData).then(
             (response)=> {

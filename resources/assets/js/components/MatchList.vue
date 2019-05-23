@@ -61,6 +61,8 @@
   <!--<span v-else>No information available</span>-->
   <pitch-modal :matchFixture="matchFixture" v-show="setPitchModal" :section="section"></pitch-modal>
 
+  <UnSavedMatchScoresInfoModal v-show="unChangedMatchScoresInfoModalOpen" :unChangedMatchScores="unChangedMatchScores"></UnSavedMatchScoresInfoModal>
+
   </div>
 </div>
 </template>
@@ -71,6 +73,7 @@ import MatchListTableBody from '../components/MatchListTableBody.vue';
 import MatchListTableHead from '../components/MatchListTableHead.vue';
 import DeleteModal1 from '../components/DeleteModalBlock.vue'
 import VuePaginate from 'vue-paginate'
+import UnSavedMatchScoresInfoModal from '../components/UnsavedMatchScoresInfo.vue'
 
 export default {
   props: ['matchData1', 'DrawName', 'otherData'],
@@ -78,7 +81,8 @@ export default {
     PitchModal,
     DeleteModal1,
     MatchListTableBody,
-    MatchListTableHead
+    MatchListTableHead,
+    UnSavedMatchScoresInfoModal,
   },
   data() {
     return {
@@ -99,7 +103,9 @@ export default {
       isDivExist: false,
       isDivExistData: [],
       no_of_records: 20,
-      recordCounts: [5,10,20,50,100]
+      recordCounts: [5,10,20,50,100],
+      unChangedMatchScoresInfoModalOpen: false,
+      unChangedMatchScores: [],
     }
   },
   computed: {
@@ -117,12 +123,6 @@ export default {
     getCurrentScheduleView() {
       return this.$store.state.currentScheduleView
     },
-  },
-  components: {
-    PitchModal,
-    DeleteModal1,
-    MatchListTableBody,
-    MatchListTableHead,
   },
   mounted() {
     this.$root.$on('setMatchDataOfMatchList', this.setMatchDataOfMatchList);
@@ -440,6 +440,7 @@ export default {
           matchData.matchId = value.fid;
           matchData.homeScore = $('input[name="home_score['+value.fid+']"]').val();
           matchData.awayScore = $('input[name="away_score['+value.fid+']"]').val();
+          matchData.score_last_update_date_time = value.score_last_update_date_time;
           matchDataArray[index] = matchData;
           if(value.round == 'Elimination' && value.homeScore == value.AwayScore && value.isResultOverride == 0 && value.homeScore != '' && value.AwayScore != '' && value.homeScore != null && value.AwayScore != null) {
             isSameScore = true;
@@ -454,7 +455,11 @@ export default {
         matchPostData.matchDataArray = matchDataArray;
         Tournament.saveAllMatchResults(matchPostData).then(
           (response) => {
-
+            this.unChangedMatchScores = response.data.unChangedScores;
+            if(this.unChangedMatchScores.length > 0) {
+              this.unChangedMatchScoresInfoModalOpen = true;
+              $('#unSavedMatchScoresModal').modal('show');
+            }
             this.resultChange = false;
             this.$store.dispatch('UnsaveMatchData',[]);
             this.$store.dispatch('UnsaveMatchStatus',false);
@@ -472,7 +477,12 @@ export default {
             if(this.$store.state.currentScheduleView == 'matchList') {
               this.$root.$emit('getMatchesByFilter');
             }
-            toastr.success('Scores has been updated successfully', 'Score Updated', {timeOut: 1000});
+            
+            if(response.data.isAnyMatchScoreUpdated == true) {
+              toastr.success('Scores has been updated successfully', 'Score Updated', {timeOut: 1000});
+            } else {
+              toastr.error('Not a single score updated.', 'Score not updated', {timeOut: 1000});
+            }
           }
         )
       }

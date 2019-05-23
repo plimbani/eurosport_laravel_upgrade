@@ -18,6 +18,9 @@ Route::group(['prefix' => 'auth'], function () {
     Route::post('login','AuthController@authenticate');
     Route::get('logout','AuthController@logout');
     Route::post('check','AuthController@check');
+
+    // Social logins
+    Route::post('social/login', 'AuthController@socialLogin');
 });
 
 Route::get('password/reset/{token}', '\Laraspace\Api\Controllers\PasswordController@getReset');
@@ -44,6 +47,8 @@ $api->version('v1', ['middleware' => 'signedurl'], function ($api) {
     $api->get('referee/downloadSampleUploadSheet', 'Laraspace\Api\Controllers\RefereeController@downloadSampleUploadSheet');
     $api->get('match/downloadSampleUploadSheet', 'Laraspace\Api\Controllers\MatchController@downloadSampleUploadSheet');
     $api->get('pitchPlanner/export/{tournamentId}', 'Laraspace\Api\Controllers\PitchController@generatePitchPlannerExport');
+
+    $api->get('teams/getGroupsViewData/report/print', 'Laraspace\Api\Controllers\TeamController@printGroupsViewReport');
 });
 
 $api->version('v1', function ($api) {
@@ -163,6 +168,7 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
     $api->post('pitch/create', 'Laraspace\Api\Controllers\PitchController@createPitch');
     $api->post('pitch/edit/{id}', 'Laraspace\Api\Controllers\PitchController@edit');
     $api->post('pitch/delete/{deleteid}', 'Laraspace\Api\Controllers\PitchController@deletePitch');
+    $api->post('pitch/updatePitchOrder', 'Laraspace\Api\Controllers\PitchController@updatePitchOrder');
 
     $api->post('age_group/createCompetationFomat','Laraspace\Api\Controllers\AgeGroupController@createCompetationFomat');
     $api->post('age_group/deleteCompetationFormat','Laraspace\Api\Controllers\AgeGroupController@deleteCompetationFormat');
@@ -277,8 +283,17 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
     
     $api->post('duplicateTournamentList','Laraspace\Api\Controllers\TournamentController@duplicateTournamentList');
 
-    $api->post('updateAppDeviceVersion','Laraspace\Api\Controllers\UserController@updateAppDeviceVersion');    
+    $api->post('updateAppDeviceVersion','Laraspace\Api\Controllers\UserController@updateAppDeviceVersion');
 
+    $api->post('getTournamentTeamDetails','Laraspace\Api\Controllers\TeamController@getTournamentTeamDetails');
+
+    $api->post('pitchSearchRecord', 'Laraspace\Api\Controllers\PitchController@getPitchSearchRecord');
+
+    $api->post('getVenuesDropDownData', 'Laraspace\Api\Controllers\PitchController@getVenuesDropDownData');
+    
+    $api->post('getSignedUrlForGroupsViewReport', 'Laraspace\Api\Controllers\TeamController@getSignedUrlForGroupsViewReport');
+
+    $api->post('user/validateemail','Laraspace\Api\Controllers\UserController@validateUserEmail');
 });
 
 // Websites CMS routes
@@ -368,4 +383,6 @@ $api->version('v1', function ($api) {
     $api->post('tournament/getFilterDropDownData','Laraspace\Api\Controllers\TournamentController@getFilterDropDownData');
 
     $api->post('duplicateExistingTournament', 'Laraspace\Api\Controllers\TournamentController@duplicateExistingTournament');
+
+    $api->get('compareTemplateJson/{oldId}/{newId}', 'Laraspace\Api\Controllers\TemplateController@compareJsonTemplate');    
 });
