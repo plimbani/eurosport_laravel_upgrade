@@ -29,7 +29,6 @@ export default {
     methods: {
         initEvents() {
             // store data so the calendar knows to render an event upon drop
-
             $(this.$el).data('event', {
                 id: this.match=='unavailable' ? 'block_' + new Date().getTime() : this.match.id,
 
@@ -44,8 +43,8 @@ export default {
                 matchId: this.match.matchId,
                 matchAgeGroupId: this.match.ageGroupId,
                 forceEventDuration: true,
-                fixtureStripColor: this.match == 'unavailable' ? 'grey' : (this.match.competationColorCode != null ? this.match.competationColorCode : '#FFFFFF')
-                
+                fixtureStripColor: this.match == 'unavailable' ? 'grey' : (this.match.competationColorCode != null ? this.match.competationColorCode : '#FFFFFF'),
+                scheduleLastUpdateDateTime: this.match.scheduleLastUpdateDateTime ? this.match.scheduleLastUpdateDateTime : null
             });
 
             // make the event draggable using jQuery UI

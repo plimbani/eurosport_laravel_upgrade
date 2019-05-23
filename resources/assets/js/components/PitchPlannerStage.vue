@@ -3,6 +3,7 @@
         <div class='pitchPlanner' :id="'pitchPlanner'+stage.stageNumber"></div>
         <pitch-modal :matchFixture="matchFixture" :section="section" v-if="setPitchModal"></pitch-modal>
         <delete-modal1 :deleteConfirmMsg="deleteConfirmMsg"  @confirmedBlock="deleteConfirmedBlock()"></delete-modal1>
+        <UnsavedMatchFixture :unChangedMatchFixtures="unChangedMatchFixtures"></UnsavedMatchFixture>
     </div>
 </template>
 
@@ -11,6 +12,7 @@ import moment from 'moment'
 import Tournament from '../api/tournament.js'
 import PitchModal from '../components/PitchModal.vue';
 import DeleteModal1 from '../components/DeleteModalBlock.vue'
+import UnsavedMatchFixture from '../components/UnsavedMatchFixture.vue'
 
 import _ from 'lodash'
     export default {
@@ -28,6 +30,8 @@ import _ from 'lodash'
                 'deleteConfirmMsg': 'Are you sure you would like to delete this block?',
                 'remBlock_id': 0,
                 'section': 'pitchPlanner',
+                'unChangedMatchFixtureModalOpen': false,
+                'unChangedMatchFixtures': [],
                 // 'currentView': this.$store.getters.curStageView
             }
         },
@@ -35,6 +39,7 @@ import _ from 'lodash'
         components: {
             PitchModal,
             DeleteModal1,
+            UnsavedMatchFixture,
         },
         computed: {
             pitchesData() {
@@ -267,7 +272,8 @@ import _ from 'lodash'
                                 'pitchId': event.resourceId,
                                 'matchId': matchId,
                                 'matchStartDate': moment.utc(event.start._d).format('YYYY-MM-DD HH:mm:ss'),
-                                'matchEndDate':moment.utc(event.end._d).format('YYYY-MM-DD HH:mm:ss')
+                                'matchEndDate':moment.utc(event.end._d).format('YYYY-MM-DD HH:mm:ss'),
+                                'scheduleLastUpdateDateTime': event.scheduleLastUpdateDateTime,
                             };
 
                             if(event.refereeId == -2){
@@ -291,6 +297,13 @@ import _ from 'lodash'
                                 (response) => {
                                     if(response.data.status_code == 200 ){
                                         if(response.data.data != -1 && response.data.data != -2){
+
+                                            vm.unChangedMatchFixtures = response.data.unChangedFixturesArray;
+                                            if(vm.unChangedMatchFixtures.length > 0) {
+                                              vm.unChangedMatchFixtureModalOpen = true;
+                                              $('#unChangedMatchFixtureModal').modal('show');
+                                            }
+
                                             vm.$store.dispatch('setMatches');
                                              toastr.success(response.data.message, 'Schedule Match', {timeOut: 5000});
                                              vm.getScheduledMatch(vm.tournamentFilter.filterKey,vm.tournamentFilter.filterValue,vm.tournamentFilter.filterDependentKey,vm.tournamentFilter.filterDependentValue)

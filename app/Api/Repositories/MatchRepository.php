@@ -323,7 +323,8 @@ class MatchRepository
               'tournament_competation_template.id as tid',
               'temp_fixtures.home_yellow_cards', 'temp_fixtures.away_yellow_cards',
               'temp_fixtures.home_red_cards', 'temp_fixtures.away_red_cards',              
-              DB::raw('CONCAT(home_team.name, " vs ", away_team.name) AS full_game')
+              DB::raw('CONCAT(home_team.name, " vs ", away_team.name) AS full_game'),
+              'temp_fixtures.schedule_last_update_date_time'
               )
           ->where('temp_fixtures.tournament_id', $tournamentData['tournamentId']);
 
@@ -1343,6 +1344,7 @@ class MatchRepository
     public function setMatchSchedule($data, $allowSchedulingForcefully = false)
     {
       $teamData = TempFixture::join('tournament_competation_template','temp_fixtures.age_group_id','tournament_competation_template.id')->where('temp_fixtures.id',$data['matchId'])->select('tournament_competation_template.team_interval','tournament_competation_template.pitch_size','temp_fixtures.*')->first()->toArray();
+
       $team_interval =   $teamData['team_interval'];
 
       $pitchData = Pitch::find($data['pitchId']);
@@ -1410,6 +1412,10 @@ class MatchRepository
         $setFlag = 1;
       }
 
+      if($data['scheduleLastUpdateDateTime'] != $teamData['schedule_last_update_date_time']) {
+        return ['status' => false, 'message' => 'You need to refresh page to get latest updated fixtures.', 'data'=>$teamData];
+      }
+
       $updateData = [
         'venue_id' => $pitchData->venue_id,
         'pitch_id' => $data['pitchId'],
@@ -1417,6 +1423,7 @@ class MatchRepository
         'match_endtime' => $data['matchEndDate'],
         'is_scheduled' => 1,
         'minimum_team_interval_flag' => $setFlag,
+        'schedule_last_update_date_time' => Carbon::now()
       ];
 
       $updateResult = DB::table('temp_fixtures')
@@ -1426,13 +1433,13 @@ class MatchRepository
       $matchData = array('teams'=>$teams,'tournamentId'=>$data['tournamentId'],'ageGroupId'=>$teamData['age_group_id'],'teamId'=>$teamId);
       $matchresult =  $this->checkTeamIntervalforMatches($matchData);
 
-      return $updateResult;
+      // return $updateResult;
+
+      return ['status' => true, 'data' => $updateData];
     }
     public function matchUnschedule($matchId)
     {
-
       $matchData = DB::table('temp_fixtures')->find($matchId);
-      // dd($matchData);
 
       $updateData = [
         'is_scheduled' => 0,
@@ -1443,28 +1450,27 @@ class MatchRepository
         'match_datetime' => NULL,
         'match_endtime' => NULL,
         'venue_id' => 0,
-
+        'schedule_last_update_date_time' => Carbon::now()
       ];
-     $updateResult =  DB::table('temp_fixtures')
+      $updateResult =  DB::table('temp_fixtures')
             ->where('id', $matchId)
             ->update($updateData);
-      // if($matchData->home_team !=0 && $matchData->away_team !=0) {
-        if($matchData->home_team != 0 && $matchData->away_team != 0) {
-          $teamId = true;
-          $teamsList = array($matchData->home_team, $matchData->away_team);
-        }else{
-          $teamId = false;
-          $teamsList = array($matchData->home_team_placeholder_name, $matchData->away_team_placeholder_name);
 
-        }
-        $tournamentId = $matchData->tournament_id;
-        $ageGroupId  = $matchData->age_group_id;
+      if($matchData->home_team != 0 && $matchData->away_team != 0) {
+        $teamId = true;
+        $teamsList = array($matchData->home_team, $matchData->away_team);
+      }else{
+        $teamId = false;
+        $teamsList = array($matchData->home_team_placeholder_name, $matchData->away_team_placeholder_name);
+      }
+      $tournamentId = $matchData->tournament_id;
+      $ageGroupId  = $matchData->age_group_id;
 
-        $matchData = array('teams'=>$teamsList,'tournamentId'=>$tournamentId,'ageGroupId'=>$ageGroupId,'teamId'=>$teamId);
+      $matchData = array('teams'=>$teamsList,'tournamentId'=>$tournamentId,'ageGroupId'=>$ageGroupId,'teamId'=>$teamId);
 
-        $matchresult =  $this->checkTeamIntervalforMatches($matchData);
-      // }
-     return $updateResult;
+      $matchresult =  $this->checkTeamIntervalforMatches($matchData);
+      
+      return $updateResult;
     }
 
     public function getAllScheduledMatches($data)
@@ -1655,6 +1661,7 @@ class MatchRepository
         'match_datetime' => NULL,
         'match_endtime' => NULL,
         'venue_id' => 0,
+        'schedule_last_update_date_time' => Carbon::now()
       ];
 
         $updateMacthFixtures = TempFixture::whereIn('id', $matchId['matchId'])->update($updateMatchUnscheduledRecord);
