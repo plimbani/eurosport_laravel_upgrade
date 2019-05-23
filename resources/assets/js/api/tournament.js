@@ -120,8 +120,8 @@ export default {
   getDropDownData(tournamentData) {
     return api.post('tournament/getDropDownData',{'tournamentData': tournamentData})
   },
-  setMatchSchedule(matchData) {
-    return api.post('match/schedule',{'matchData': matchData})
+  setMatchSchedule(data) {
+    return api.post('match/schedule',{'data': data})
   },
   matchUnschedule(matchData) {
     return api.post('match/unschedule',{'matchData': matchData})

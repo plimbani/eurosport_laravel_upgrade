@@ -4,13 +4,13 @@
             <div class="col-md-9 mb-3">
                 <div class="d-flex justify-content-between">
                     <div>
-                        <button v-if="isPitchPlannerInEnlargeMode == 0" class="btn btn-primary btn-md vertical" @click="enlargePitchPlanner()">Enlarge</button>
                         <button class="btn btn-primary btn-md" @click="openAutomaticPitchPlanningModal()">{{$lang.pitch_planner_automatic_planning}}</button>
                         <button class="btn btn-md btn-secondary" id="unschedule_fixtures" @click="unscheduleFixtures()">{{$lang.pitch_planner_unschedule_fixtures}}</button>
                         <button class="btn btn-danger btn-md cancle-match-unscheduling d-none" id="cancle_unscheduling_fixtures" @click="cancelUnscheduleFixtures()">{{$lang.pitch_planner_cancel_unscheduling}}</button>
                          <button class="btn btn-primary btn-md vertical" @click="saveScheduleMatches()">Save match planner</button>
                     </div>
                     <div>
+                        <button v-if="isPitchPlannerInEnlargeMode == 0" class="btn btn-primary btn-md vertical" @click="enlargePitchPlanner()">Enlarge</button>
                         <button class="btn btn-default btn-md vertical" @click="printPitchPlanner()"><i class="fas fa-print text-primary"></i></button>
                         <button class="btn btn-default btn-md vertical" @click="exportPitchPlanner()"><i class="fas fa-download text-primary"></i></button>
                     </div>
@@ -32,7 +32,7 @@
                                     <div></div>
                                 </div>
                                 <div :id="'stage_outer_div'+stage.stageNumber" :data-stage-number="stage.stageNumber" class="js-stage-outer-div">
-                                    <pitch-planner-stage :stage="stage" :defaultView="defaultView" @schedule-match-result="saveScheduleMatchResult" :gamesMatchList="gamesMatchList"></pitch-planner-stage>
+                                    <pitch-planner-stage :stage="stage" :defaultView="defaultView" @schedule-match-result="saveScheduleMatchResult" :gamesMatchList="gamesMatchList" :scheduleMatchesArray="scheduleMatchesArray"></pitch-planner-stage>
                                 </div>
                             </div>
                         </div>

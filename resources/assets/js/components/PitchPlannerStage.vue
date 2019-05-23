@@ -32,7 +32,7 @@ import _ from 'lodash'
                 // 'currentView': this.$store.getters.curStageView
             }
         },
-        props: [ 'stage' , 'defaultView'],
+        props: [ 'stage' , 'defaultView', 'scheduleMatchesArray'],
         components: {
             PitchModal,
             DeleteModal1,
@@ -121,9 +121,6 @@ import _ from 'lodash'
                     setGameAndRefereeTabHeight();
                 }
             });
-
-
-
         },
         methods: {
             initComponent(){
@@ -225,7 +222,6 @@ import _ from 'lodash'
                     resources: vm.pitchesData,
                     events: vm.scheduledMatches,
                     drop: function(date, jsEvent, ui, resourceId) {
-                        console.log('$(this)', $(this));
                         vm.currentScheduledMatch = $(this);
                         // jsEvent.draggedEl.parentNode.removeChild(jsEvent.draggedEl);
                         // $(this).remove();
@@ -290,7 +286,11 @@ import _ from 'lodash'
                                     }
                                 })
                             }else{
-                            Tournament.setMatchSchedule(matchData).then(
+                            let data = {
+                                matchData: matchData,
+                                scheduleMatchesArray: vm.scheduleMatchesArray
+                            }
+                            Tournament.setMatchSchedule(data).then(
                                 (response) => {
                                     if(response.data.status_code == 200 ){
                                         if(response.data.data != -1 && response.data.data != -2){
