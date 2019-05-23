@@ -149,11 +149,14 @@ extension TeamListingVC: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
         let viewController = Storyboards.Teams.instantiateTeamVC()
         viewController.dicTeam = teamList[indexPath.row] as! NSDictionary
-        viewController.teamList = teamList
-        viewController.selectedPickerPosition = indexPath.row
+        
+        if isClubsCategoryTeam {
+            viewController.teamList = teamList
+            viewController.selectedPickerPosition = indexPath.row
+        }
+        
         self.navigationController?.pushViewController(viewController, animated: true)
     }
 }

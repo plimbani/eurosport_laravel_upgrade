@@ -26,6 +26,8 @@ class GroupSummaryStandingsCell: UITableViewCell {
     
     var indexPath: IndexPath!
     
+    var isFromAgecategory = false
+    
     let btnAttributes : [NSAttributedStringKey: Any] = [
         NSAttributedStringKey.font : UIFont.init(name: Font.HELVETICA_REGULAR, size: 17.0),
         NSAttributedStringKey.foregroundColor : UIColor.black,
@@ -49,9 +51,14 @@ class GroupSummaryStandingsCell: UITableViewCell {
         lblGoalDifference.text = NULL_STRING
         
         if record.name != NULL_STRING {
-           // lblGroupname.text = record.name
-            btnGroupname.setAttributedTitle(NSMutableAttributedString(string: record.name,
-                                                                         attributes: btnAttributes), for: .normal)
+           
+            if isFromAgecategory {
+                btnGroupname.setTitle(record.name, for: .normal)
+                btnGroupname.isEnabled = false
+            } else {
+                btnGroupname.setAttributedTitle(NSMutableAttributedString(string: record.name,
+                                                                          attributes: btnAttributes), for: .normal)
+            }
         }
         
         if record.teamFlag != NULL_STRING {

@@ -49,6 +49,10 @@ class CategoryListVC: SuperViewController {
     }
     
     func initialize() {
+        let adjustForTabbarInsets: UIEdgeInsets = UIEdgeInsetsMake(0, 0, 60, 0)
+        table.contentInset = adjustForTabbarInsets
+        table.scrollIndicatorInsets = adjustForTabbarInsets
+        
         txtSearch.placeholder = String.localize(key: "placeholder_search_tab_category")
         txtSearch.setLeftPaddingPoints(35)
         txtSearch.returnKeyType = .done

@@ -24,7 +24,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ldw-mj-L2d">
-                        <rect key="frame" x="12" y="22" width="125" height="0.0"/>
+                        <rect key="frame" x="12" y="12" width="125" height="19.5"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="125" id="OE2-5v-Sve"/>
                         </constraints>
@@ -39,8 +39,8 @@
                             <constraint firstAttribute="height" constant="21" id="X2I-D6-8Jb"/>
                         </constraints>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QG5-uo-ela">
-                        <rect key="frame" x="182" y="22" width="126" height="0.0"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QG5-uo-ela">
+                        <rect key="frame" x="182" y="5" width="126" height="33.5"/>
                         <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="16"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
@@ -58,10 +58,12 @@
                     <constraint firstItem="EjF-Y1-r70" firstAttribute="leading" secondItem="ldw-mj-L2d" secondAttribute="trailing" id="Dxq-x5-E4k"/>
                     <constraint firstItem="EjF-Y1-r70" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="FwA-XE-GmE"/>
                     <constraint firstItem="ldw-mj-L2d" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="12" id="IH4-kM-Sqj"/>
-                    <constraint firstItem="ldw-mj-L2d" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="WLD-P0-Plt"/>
-                    <constraint firstItem="QG5-uo-ela" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="kNf-dd-Qyy"/>
+                    <constraint firstItem="ldw-mj-L2d" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="12" id="KjP-rg-Oh7"/>
+                    <constraint firstAttribute="bottom" secondItem="ldw-mj-L2d" secondAttribute="bottom" constant="12" id="LlB-2A-jhe"/>
                     <constraint firstAttribute="bottom" secondItem="KTh-a5-h3L" secondAttribute="bottom" id="kkW-fx-Boc"/>
                     <constraint firstAttribute="trailing" secondItem="KTh-a5-h3L" secondAttribute="trailing" id="l2d-tq-7aC"/>
+                    <constraint firstItem="QG5-uo-ela" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="5" id="llh-td-n6D"/>
+                    <constraint firstAttribute="bottom" secondItem="QG5-uo-ela" secondAttribute="bottom" constant="5" id="tnT-ru-Ihf"/>
                     <constraint firstItem="KTh-a5-h3L" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="uw7-QM-muT"/>
                     <constraint firstAttribute="trailing" secondItem="QG5-uo-ela" secondAttribute="trailing" constant="12" id="zd0-y6-W1Z"/>
                 </constraints>

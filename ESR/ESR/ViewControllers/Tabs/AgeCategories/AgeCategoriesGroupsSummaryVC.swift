@@ -45,6 +45,10 @@ class AgeCategoriesGroupsSummaryVC: SuperViewController {
     }
     
     func initialize() {
+        let adjustForTabbarInsets: UIEdgeInsets = UIEdgeInsetsMake(0, 0, 60, 0)
+        table.contentInset = adjustForTabbarInsets
+        table.scrollIndicatorInsets = adjustForTabbarInsets
+        
         titleNavigationBar.lblTitle.text = String.localize(key: "title_age_categories_groups_summary")
         titleNavigationBar.delegate = self
         titleNavigationBar.setBackgroundColor()
@@ -390,6 +394,7 @@ extension AgeCategoriesGroupsSummaryVC : UITableViewDataSource, UITableViewDeleg
                 cell = cellOwner.cell as? GroupSummaryStandingsCell
             }
             cell?.record = groupStandingsList[indexPath.row]
+            cell?.isFromAgecategory = true
             cell?.reloadCell()
             return cell!
         } else {

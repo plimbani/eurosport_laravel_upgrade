@@ -10,7 +10,6 @@ import UIKit
 class FinalPlacingsVC: SuperViewController {
 
     var finalPlacingsList = NSArray()
-    var heightFinalPlacingsCell: CGFloat = 0
     var ageCategoryId: Int = NULL_ID
     
     @IBOutlet var table: UITableView!
@@ -28,10 +27,6 @@ class FinalPlacingsVC: SuperViewController {
         
         // To show/hide internet view in Navigation bar
         NotificationCenter.default.addObserver(self, selector: #selector(showHideNoInternetView(_:)), name: .internetConnectivity, object: nil)
-        
-        // Height for cell
-        _ = cellOwner.loadMyNibFile(nibName: kNiB.Cell.FinalPlacingsCell)
-        heightFinalPlacingsCell = (cellOwner.cell as! FinalPlacingsCell).getCellHeight()
         
         sendFinalPlacingsRequest()
     }
@@ -110,7 +105,7 @@ extension FinalPlacingsVC: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return heightFinalPlacingsCell
+        return UITableViewAutomaticDimension
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

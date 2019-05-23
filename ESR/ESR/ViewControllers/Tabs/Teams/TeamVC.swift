@@ -179,16 +179,12 @@ class TeamVC: SuperViewController {
         getFixturesRequestAPI()
         getGroupStadingsAPI()
         
-        for i in 0..<teamList.count{
-            let team = teamList[i] as! NSDictionary
-            
-            if let text = team.value(forKey: "name") as? String {
-                teamTitleList.append(text)
-            }
-        }
+        teamTitleList = teamList.map({ ($0 as! NSDictionary).value(forKey: "name") as! String })
         
         if teamTitleList.count > 0 {
             lblSelectedTeamName.text = teamTitleList[selectedPickerPosition]
+        } else {
+            getTeamListByAgeCategoryID()
         }
     }
     
@@ -437,6 +433,60 @@ class TeamVC: SuperViewController {
                 self.view.hideProgressHUD()
             }
         })
+    }
+    
+    func getTeamListByAgeCategoryID() {
+        if APPDELEGATE.reachability.connection == .none {
+            return
+        }
+        
+        self.view.showProgressHUD()
+        var parameters: [String: Any] = [:]
+        
+        parameters["age_group_id"] = dicTeam.value(forKey: "ageGroupId") as! Int
+        
+        if let selectedTournament = ApplicationData.sharedInstance().getSelectedTournament() {
+            parameters["tournament_id"] = selectedTournament.id
+        }
+        
+        ApiManager().getTeamList(parameters, success: { (result) in
+            DispatchQueue.main.async {
+                self.view.hideProgressHUD()
+                
+                if let data = result.value(forKey: "data") as? NSArray {
+                    self.teamList = NSMutableArray.init(array: data)
+                }
+                
+                let descriptor: NSSortDescriptor = NSSortDescriptor(key: "name", ascending: true)
+                self.teamList = NSMutableArray.init(array: self.teamList.sortedArray(using: [descriptor]))
+                self.teamTitleList = self.teamList.map({ ($0 as! NSDictionary).value(forKey: "name") as! String })
+                
+                for i in 0..<self.teamList.count{
+                    if (self.dicTeam.value(forKey: "id") as! Int) == (self.teamList[i] as! NSDictionary).value(forKey: "id") as! Int {
+                        self.selectedPickerPosition = i
+                        break
+                    }
+                }
+                
+                if self.teamTitleList.count > 0 {
+                    self.lblSelectedTeamName.text = self.teamTitleList[self.selectedPickerPosition]
+                }
+            }
+        }) { (result) in
+            DispatchQueue.main.async {
+                self.view.hideProgressHUD()
+                
+                if result.allKeys.count > 0 {
+                    if let status_code = result.value(forKey: "status_code") as? Int {
+                        if status_code == 500 {
+                            if let msg = result.value(forKey: "tournament_expired") as? String {
+                                self.showCustomAlertVC(title: String.localize(key: "alert_title_error"), message: msg, requestCode: AlertRequestCode.tournamentExpire.rawValue, delegate: self)
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 

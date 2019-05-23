@@ -37,6 +37,10 @@ class TabAgeCategoriesVC: SuperViewController {
     }
     
     func initialize() {
+        let adjustForTabbarInsets: UIEdgeInsets = UIEdgeInsetsMake(0, 0, 60, 0)
+        table.contentInset = adjustForTabbarInsets
+        table.scrollIndicatorInsets = adjustForTabbarInsets
+        
         self.navigationController?.isNavigationBarHidden = true
         titleNavigationBar.lblTitle.text = String.localize(key: "title_age_categories")
         titleNavigationBar.hideBackButton()
