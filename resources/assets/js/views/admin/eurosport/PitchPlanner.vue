@@ -54,7 +54,7 @@ var moment = require('moment');
         // Means Set Here
        let currentNavigationData = {
         activeTab:'pitch_planner',
-        currentPage: 'Pitch Planner'
+        currentPage: 'Match Planner'
       }
         this.$store.dispatch('setActiveTab', currentNavigationData)
       }
