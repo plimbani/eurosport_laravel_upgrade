@@ -175,7 +175,7 @@ class TabTournamentVC: SuperViewController {
             if startTournamentMonthStr == endTournamentMonthStr {
                 tournamentDate = "\(startDay) - \(endDay) \(startTournamentMonthStr) \(yearString)"
             }else{
-                tournamentDate = "\(startDay) \(startTournamentMonthStr) - \(endDay) \(startTournamentMonthStr) \(yearString)"
+                tournamentDate = "\(startDay) \(startTournamentMonthStr) - \(endDay) \(endTournamentMonthStr) \(yearString)"
             }
             
             lblTournamentDate.text = tournamentDate
