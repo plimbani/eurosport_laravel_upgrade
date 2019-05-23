@@ -43,17 +43,21 @@
 		</style>
 	</head>
 	<body>
-		@if($tournamentLogo != null)	
-	  		<img src="{{ $tournamentLogo }}" class="logo" id="logo-desk" alt="Laraspace Logo">
-	  	@endif
+		<center>
+			@if($tournamentLogo != null)	
+		  		<img src="{{ $tournamentLogo }}" class="hidden-sm-down text-center" id="logo-desk" alt="Laraspace Logo" width="200px" height="100px">
+		  	@endif
 
-	  	@if($tournamentLogo == null && config('config-variables.current_layout') == 'tmp')
-  			<img src="{{ asset('assets/img/tmplogo.svg')}}" class="logo" id="logo-desk" alt="Laraspace Logo">
-	  	@endif
+		  	@if($tournamentLogo == null && config('config-variables.current_layout') == 'tmp')
+	  			<img src="{{ asset('assets/img/tmplogo.svg')}}" class="hidden-sm-down text-center" id="logo-desk" alt="Laraspace Logo" width="200px" height="100px">
+		  	@endif
 
-	  	@if($tournamentLogo == null && config('config-variables.current_layout') == 'commercialisation')
-	  		<img src="{{ asset('assets/img/easy-match-manager.jpg')}}" class="logo" id="logo-desk" alt="Laraspace Logo">
-	  	@endif
+		  	@if($tournamentLogo == null && config('config-variables.current_layout') == 'commercialisation')
+		  		<img src="{{ asset('assets/img/easy-match-manager.jpg')}}" class="hidden-sm-down text-center" id="logo-desk" alt="Laraspace Logo" width="200px" height="100px">
+		  	@endif
+			<h3>{{ $categoryName. ' groups' }}</h3>
+		</center>
+
 		<div class="data-wrapper">
 			<table style="width:100%">
 				@foreach($groupsData as $group)
@@ -80,6 +84,7 @@
 										<p>
 											<strong>
 												@php
+													$isTeamAllocated = 0;
 													$fullName = '';
 													if(isset($group['groups']['actual_group_name'])) {
 											          $actualGroupName = $group['groups']['actual_group_name'];
@@ -90,12 +95,21 @@
 
 											        $displayName = $fullName;
 												@endphp
+
 												@foreach($teamsData as $team)
 													@if($team->age_group_id == $data['ageCategoryId'] && $fullName == $team->group_name)
-														@php $displayName = 'flag-icon flag-icon-' .$team->country_flag; @endphp
+														@php
+														$isTeamAllocated = 1; 
+														$displayName = $team->logo; 
+														@endphp
 													@endif
 												@endforeach
-												<span class="{{ $displayName }}"></span>
+
+												@if($isTeamAllocated == 1) 
+													<img width="16" height="12" src="{{ asset($displayName) }}" alt="">
+												@else
+													<span class="{{ $displayName }}"></span>
+												@endif
 												
 												<span>
 													@php

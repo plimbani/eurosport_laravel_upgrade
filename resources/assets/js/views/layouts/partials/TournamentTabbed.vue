@@ -88,6 +88,7 @@
                 </li>
             </ul>
           <router-view></router-view>
+          <UnSavedMatchScoresInfoModal v-show="unChangedMatchScoresInfoModalOpen" :unChangedMatchScores="unChangedMatchScores"></UnSavedMatchScoresInfoModal>
           </div>
         </div>
       </div>
@@ -97,12 +98,18 @@
 <script type="text/babel">
 import _ from 'lodash'
 import Tournament from '../../../api/tournament.js'
+import UnSavedMatchScoresInfoModal from '../../../components/UnsavedMatchScoresInfo.vue'
 export default {
   data() {
     return {
       'header' : 'header',
       'tournamentId' : this.$store.state.Tournament.tournamentId,
+      unChangedMatchScoresInfoModalOpen: false,
+      unChangedMatchScores: []
     }
+  },
+  components: {
+    UnSavedMatchScoresInfoModal
   },
   computed: {
     activePath() {
@@ -203,6 +210,13 @@ export default {
       if(this.$store.state.Tournament.tournamentId != 0 && this.$store.state.Tournament.tournamentId != '' && this.$store.state.Tournament.tournamentId != null) {
         this.$store.dispatch('setMatches');
       }
+    },
+    setUnChangedMatchScoresModal(data) {
+      this.unChangedMatchScores = data;
+      this.unChangedMatchScoresInfoModalOpen = true;
+      setTimeout(function() {
+        $('#unSavedMatchScoresModal').modal('show');
+      }, 500);
     }
   },
 }
