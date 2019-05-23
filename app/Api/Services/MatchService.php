@@ -349,7 +349,7 @@ class MatchService implements MatchContract
       $tournamentId = $matchData->all()['matchData']['tournamentId'];
       $matchResult = null;
       $unChangedMatchScoresArray = [];
-      $isAnyMatchScoreUpdated = false;
+      $areAllMatchScoreUpdated = false;
       $matchesScoresStatusArray = [];
 
       foreach ($AllMatches as $match) {
@@ -372,8 +372,8 @@ class MatchService implements MatchContract
                               return $x==true;
                             }));
 
-      if(($changedScoresCount != count($unChangedMatchScoresArray)) || ($changedScoresCount == count($unChangedMatchScoresArray) && $changedScoresCount == 0 && count($unChangedMatchScoresArray) == 0)) {
-        $isAnyMatchScoreUpdated = true;
+      if(count($unChangedMatchScoresArray) === 0) {
+        $areAllMatchScoreUpdated = true;
       }
 
       foreach ($competitionIds as $ageGroupId => $cids) {
@@ -390,7 +390,7 @@ class MatchService implements MatchContract
         $matchresult =  $this->matchRepoObj->checkTeamIntervalforMatches($matchData);
       }
       if ($matchResult) {
-        return ['status_code' => '200', 'data' => $matchResult, 'unChangedScores' => $unChangedMatchScoresArray, 'isAnyMatchScoreUpdated' => $isAnyMatchScoreUpdated];
+        return ['status_code' => '200', 'data' => $matchResult, 'unChangedScores' => $unChangedMatchScoresArray, 'areAllMatchScoreUpdated' => $areAllMatchScoreUpdated];
       } else {
           return ['status_code' => '300'];
       }
