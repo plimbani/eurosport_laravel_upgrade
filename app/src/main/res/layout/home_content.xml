@@ -264,7 +264,7 @@
                     android:layout_marginLeft="5dp"
                     android:layout_weight="1"
                     android:background="@drawable/btn_yellow"
-                    android:text="@string/final_placings"
+                    android:text="@string/age_categories"
                     android:textColor="@color/btn_active_text_color" />
 
             </LinearLayout>

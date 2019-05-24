@@ -438,33 +438,85 @@ public class LandingActivity extends BaseActivity {
         }
     }
 
-    private void launchHome(boolean isFromFB) {
-        if (BuildConfig.isEasyMatchManager) {
-            if (getIntent().getBooleanExtra("isFromUrl", false) && getIntent().getStringExtra("accessCode") != null && getIntent().getStringExtra("accessCode").trim().length() > 0) {
-                //call access api
-                callAccessCodeApi(getIntent().getStringExtra("accessCode"));
-            } else {
-                if (Utility.isNullOrEmpty(mAppPref.getString(AppConstants.PREF_TOURNAMENT_ID))) {
-                    //get started screen
-                    startActivity(new Intent(mContext, GetStartedActivity.class));
-                } else {
-                    if (Utility.isNullOrEmpty(mAppPref.getString(AppConstants.PREF_COUNTRY_ID))) {
-                        startActivity(new Intent(mContext, ProfileActivity.class));
-                    } else {
-                        startActivity(new Intent(mContext, HomeActivity.class));
+    private void launchHome(final boolean isFromFB) {
+
+        if (Utility.isInternetAvailable(mContext)) {
+            PackageManager manager = mContext.getPackageManager();
+            PackageInfo info;
+            String installedAppVersion = "";
+            try {
+                info = manager.getPackageInfo(mContext.getPackageName(), 0);
+                installedAppVersion = info.versionName;
+            } catch (PackageManager.NameNotFoundException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            Utility.startProgress(mContext);
+            String url = ApiConstants.POST_USER_DETAILS;
+            final JSONObject requestJson = new JSONObject();
+            try {
+                requestJson.put("device", "Android");
+                requestJson.put("app_version", installedAppVersion);
+                requestJson.put("os_version", Utility.getOsVersion(mContext));
+                requestJson.put("user_id", mAppPref.getString(AppConstants.PREF_USER_ID));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            final RequestQueue mQueue = VolleySingeltone.getInstance(mContext).getRequestQueue();
+            final VolleyJsonObjectRequest jsonRequest1 = new VolleyJsonObjectRequest(mContext, Request.Method
+                    .POST, url,
+                    requestJson, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    Utility.StopProgress();
+                    try {
+                        AppLogger.LogE("TAG", "***** Post User details response *****" + response.toString());
+
+                        if (BuildConfig.isEasyMatchManager) {
+                            if (getIntent().getBooleanExtra("isFromUrl", false) && getIntent().getStringExtra("accessCode") != null && getIntent().getStringExtra("accessCode").trim().length() > 0) {
+                                //call access api
+                                callAccessCodeApi(getIntent().getStringExtra("accessCode"));
+                            } else {
+                                if (Utility.isNullOrEmpty(mAppPref.getString(AppConstants.PREF_TOURNAMENT_ID))) {
+                                    //get started screen
+                                    startActivity(new Intent(mContext, GetStartedActivity.class));
+                                } else {
+                                    if (Utility.isNullOrEmpty(mAppPref.getString(AppConstants.PREF_COUNTRY_ID))) {
+                                        startActivity(new Intent(mContext, ProfileActivity.class));
+                                    } else {
+                                        startActivity(new Intent(mContext, HomeActivity.class));
+                                    }
+                                }
+                                finish();
+                            }
+                        } else {
+                            mAppPref.setBoolean(AppConstants.IS_LOGIN_USING_FB, isFromFB);
+                            if (Utility.isNullOrEmpty(mAppPref.getString(AppConstants.PREF_COUNTRY_ID)) || Utility.isNullOrEmpty(mAppPref.getString(AppConstants.PREF_TOURNAMENT_ID))) {
+                                startActivity(new Intent(mContext, ProfileActivity.class));
+                            } else {
+                                startActivity(new Intent(mContext, HomeActivity.class));
+                            }
+                            finish();
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
                 }
-                finish();
-            }
-        } else {
-            mAppPref.setBoolean(AppConstants.IS_LOGIN_USING_FB, isFromFB);
-            if (Utility.isNullOrEmpty(mAppPref.getString(AppConstants.PREF_COUNTRY_ID)) || Utility.isNullOrEmpty(mAppPref.getString(AppConstants.PREF_TOURNAMENT_ID))) {
-                startActivity(new Intent(mContext, ProfileActivity.class));
-            } else {
-                startActivity(new Intent(mContext, HomeActivity.class));
-            }
-            finish();
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    try {
+                        Utility.StopProgress();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            });
+            mQueue.add(jsonRequest1);
         }
+
+
     }
 
     private void callAccessCodeApi(String accessCode) {
