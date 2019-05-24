@@ -253,7 +253,7 @@ export default {
       this.$store.dispatch('setCurrentScheduleViewAgeCategory','drawList')
       this.$store.dispatch('setcurrentAgeCategoryId',ageGroupId)
 
-      let tournamentData = {'ageGroupId': ageGroupId}
+      let tournamentData = {'ageGroupId': ageGroupId,'fromDrawList':1}
       Tournament.getCategoryCompetitions(tournamentData).then(
         (response) => {
 
