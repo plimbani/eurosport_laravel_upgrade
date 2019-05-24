@@ -1651,12 +1651,19 @@ class MatchRepository
 
     public function matchUnscheduledFixtures($matchData)
     {
-      exit;
-      $conflictedMatchFixtures = [];
-      $unConflictedMatchFixtures = [];
+      $conflictedMatchFixtureIds = [];
+      $unConflictedMatchFixtureIds = [];
+      $conflictedFixtureMatchNumber = [];
 
       foreach ($matchData['matchData'] as $key => $value) {
         $tempFixture = TempFixture::find($value['matchId']);
+        if($value['scheduleLastUpdateDateTime'] != $tempFixture->schedule_last_update_date_time) {
+          $conflictedFixtureMatchNumber[] = $tempFixture->match_number;
+          $conflictedMatchFixtureIds[] = $value['matchId'];
+          return ['status' => false, 'message' => 'You need to refresh page to get latest updated fixtures.', 'conflictedFixtureMatchNumber' => $conflictedFixtureMatchNumber];
+        } else {
+          $unConflictedMatchFixtureIds[] = $value['matchId'];
+        }
       }
 
       $updateMatchUnscheduledRecord = [
@@ -1671,6 +1678,8 @@ class MatchRepository
         'schedule_last_update_date_time' => Carbon::now()
       ];
 
-      $updateMacthFixtures = TempFixture::whereIn('id', $matchId['matchId'])->update($updateMatchUnscheduledRecord);
+      $updateMacthFixtures = TempFixture::whereIn('id', $unConflictedMatchFixtureIds)->update($updateMatchUnscheduledRecord);
+
+      return ['status' => true, 'data' => $updateMacthFixtures, 'conflictedFixtureMatchNumber' => $conflictedFixtureMatchNumber];
     }
 }
