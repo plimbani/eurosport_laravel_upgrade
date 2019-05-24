@@ -305,7 +305,11 @@ import _ from 'lodash'
                                             }
 
                                             vm.$store.dispatch('setMatches');
-                                             toastr.success(response.data.message, 'Schedule Match', {timeOut: 5000});
+
+                                            if(response.data.areAllMatchFixtureScheduled == true) {
+                                              toastr.success(response.data.message, 'Schedule Match', {timeOut: 5000});
+                                            }
+                                             // toastr.success(response.data.message, 'Schedule Match', {timeOut: 5000});
                                              vm.getScheduledMatch(vm.tournamentFilter.filterKey,vm.tournamentFilter.filterValue,vm.tournamentFilter.filterDependentKey,vm.tournamentFilter.filterDependentValue)
                                              vm.reloadAllEvents()
                                         } else {
@@ -619,7 +623,8 @@ import _ from 'lodash'
                                     'homeTeamPlaceHolder': displayHomeTeamPlaceholder,
                                     'awayTeamPlaceHolder': displayAwayTeamPlaceholder,
                                     'remarks': match.matchRemarks,
-                                    'locationCheckFlag': locationCheckFlag
+                                    'locationCheckFlag': locationCheckFlag,
+                                    'scheduleLastUpdateDateTime': match.schedule_last_update_date_time
                                 }
                             sMatches.push(mData)
                             }
@@ -655,7 +660,8 @@ import _ from 'lodash'
                                         'homeTeamPlaceHolder': null,
                                         'awayTeamPlaceHolder': null,
                                         'remarks': null,
-                                        'locationCheckFlag': null
+                                        'locationCheckFlag': null,
+                                        'scheduleLastUpdateDateTime': null
                                     }
                                     sMatches.push(mData1)
                                     counter = counter+1;
@@ -686,7 +692,8 @@ import _ from 'lodash'
                                         'homeTeamPlaceHolder': null,
                                         'awayTeamPlaceHolder': null,
                                         'remarks': null,
-                                        'locationCheckFlag': null
+                                        'locationCheckFlag': null,
+                                        'scheduleLastUpdateDateTime': null
                                     }
                                     sMatches.push(mData2)
                                     counter = counter+1;
@@ -718,7 +725,8 @@ import _ from 'lodash'
                                             'homeTeamPlaceHolder': null,
                                             'awayTeamPlaceHolder': null,
                                             'remarks': null,
-                                            'locationCheckFlag': null
+                                            'locationCheckFlag': null,
+                                            'scheduleLastUpdateDateTime': null
                                         }
 
                                         sMatches.push(mData)

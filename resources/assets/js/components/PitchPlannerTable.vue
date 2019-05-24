@@ -517,14 +517,20 @@
             confirmUnschedulingFixtures() {
                 let vm = this;
                 var matchId = [];
+                var matchDetail = [];
                 $(".match-unschedule-checkbox").each(function( index ) {
                     var checkboxChecked = $(this).is(':checked');
                     if(checkboxChecked) {
                         matchId.push($(this).attr('id'));
+                        matchDetail.push({
+                            'matchId': $(this).attr('id'), 
+                            'scheduleLastUpdateDateTime': $(this).data("schedulelastupdatedatetime")
+                        }) 
                     }
                 });
 
-                Tournament.matchUnscheduledFixtures(matchId).then(
+                // Tournament.matchUnscheduledFixtures(matchId).then(
+                Tournament.matchUnscheduledFixtures(matchDetail).then(
                 (response) => {
                     $('#bulk_unscheduled_fixtures').modal('hide')
                     setTimeout(function(){

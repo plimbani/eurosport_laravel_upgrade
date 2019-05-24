@@ -14,6 +14,7 @@
             	<ul class="list-unstyled" v-for="match in unChangedMatchFixtures">
             		<li>{{ match }}</li>
             	</ul>
+            	<strong>{{ $lang.note }}</strong> The latest scores will synchronise and display.
 	          </div>
 	          <div class="modal-footer">
 	            <button type="button" class="btn btn-danger"  @click="closeModal()">close</button>

@@ -164,17 +164,28 @@ class MatchService implements MatchContract
     }
 
     public function scheduleMatch($matchData) {
+        $matchFixturesStatusArray = [];
+        $areAllMatchFixtureScheduled = false;
         $data = $matchData->all()['matchData'];
         $scheduledResult = $this->matchRepoObj->setMatchSchedule($matchData->all()['matchData']);
+        array_push($matchFixturesStatusArray, $scheduledResult['is_fixture_scheduled']);
 
         $unChangedFixturesArray = [];
         if($scheduledResult['status'] === false) {
           $unChangedFixturesArray[] = $scheduledResult['data']['match_number'];
         }
 
+        $changedMatchFixturesCount = count(array_filter($matchFixturesStatusArray, function($x) { 
+                                        return $x==true;
+                                      }));
+
+        if(count($unChangedFixturesArray) === 0) {
+          $areAllMatchFixtureScheduled = true;
+        }
+
         if ($scheduledResult) {
             if($scheduledResult != -1 && $scheduledResult != -2){
-              return ['status_code' => '200', 'data' => $scheduledResult, 'message' => 'Match has been scheduled successfully', 'unChangedFixturesArray' => $unChangedFixturesArray];
+              return ['status_code' => '200', 'data' => $scheduledResult, 'message' => 'Match has been scheduled successfully', 'unChangedFixturesArray' => $unChangedFixturesArray, 'areAllMatchFixtureScheduled' => $areAllMatchFixtureScheduled];
             } else if($scheduledResult == -1){
               return ['status_code' => '200', 'data' => $scheduledResult, 'message' => 'One or both teams are scheduled for a team interval.'];
             } else if($scheduledResult == -2){
@@ -2609,9 +2620,9 @@ class MatchService implements MatchContract
       }
     }
 
-    public function matchUnscheduledFixtures($matchId)
+    public function matchUnscheduledFixtures($matchData)
     {
-        return $this->matchRepoObj->matchUnscheduledFixtures($matchId);
+        return $this->matchRepoObj->matchUnscheduledFixtures($matchData);
     }
 
     public function processFixtures($fixtures)
