@@ -96,15 +96,20 @@ import _ from 'lodash'
 
                 //  Unschedule fixtures checkbox check uncheck
                 $(document).on('change','.match-unschedule-checkbox', function (e){
-                    if($('.match-unschedule-checkbox').is(':checked')) {
-                        $('#unschedule_fixtures').html('Confirm unscheduling').addClass('btn btn-success');
+                    if($('.match-unschedule-checkbox:checked').length > 0) {
+                        // $('#unschedule_fixtures').html('Confirm unscheduling').addClass('btn btn-success');
+                        $("#unschedule_fixtures").hide();
+                        $("#confirm_unscheduling").show();
                         $("#cancle_unscheduling_fixtures").show();
-                        $('.cancle-match-unscheduling').removeClass('d-none');
+                        // $('.cancle-match-unscheduling').removeClass('d-none');
                     } else {
-                        $("#unschedule_fixtures").html('Unschedule fixture').removeClass('btn btn-success');
-                        $("#unschedule_fixtures").addClass('btn btn-primary btn-md btn-secondary');
-                        $(".match-unschedule-checkbox-div").addClass('d-none');
+                        // $("#unschedule_fixtures").html('Unschedule fixture').removeClass('btn btn-success');
+                        // $("#unschedule_fixtures").addClass('btn btn-primary btn-md btn-secondary');
+                        $("#confirm_unscheduling").hide();
                         $("#cancle_unscheduling_fixtures").hide();
+                        $("#unschedule_fixtures").show().removeClass('btn-success').addClass('btn-primary');
+                        $(".match-unschedule-checkbox-div").addClass('d-none');
+                        $(".match-unschedule-checkbox").prop( "checked", false);
                     }
                 });
             });
@@ -362,17 +367,21 @@ import _ from 'lodash'
                                 'matchStartDate': moment.utc(event.start._d).format('YYYY-MM-DD HH:mm:ss'),
                                 'matchEndDate':moment.utc(event.end._d).format('YYYY-MM-DD HH:mm:ss')
                             };
-                            Tournament.setMatchSchedule(matchData).then(
+                            let data = {
+                                matchData: matchData,
+                                scheduleMatchesArray: vm.scheduleMatchesArray
+                            }
+                            Tournament.setMatchSchedule(data).then(
                                 (response) => {
                                     if(response.data.data != -1 && response.data.data != -2){
                                             toastr.success('Match schedule has been updated successfully', 'Schedule Match', {timeOut: 5000});
-                                            let matchScheduleChk =new Promise((resolve, reject) => {
-                                                resolve(vm.getScheduledMatch(vm.tournamentFilter.filterKey,vm.tournamentFilter.filterValue,vm.tournamentFilter.filterDependentKey,vm.tournamentFilter.filterDependentValue));
-                                            });
+                                            // let matchScheduleChk =new Promise((resolve, reject) => {
+                                            //     resolve(vm.getScheduledMatch(vm.tournamentFilter.filterKey,vm.tournamentFilter.filterValue,vm.tournamentFilter.filterDependentKey,vm.tournamentFilter.filterDependentValue));
+                                            // });
 
-                                            matchScheduleChk.then((successMessage) => {
-                                              vm.reloadAllEvents();
-                                            });
+                                            // matchScheduleChk.then((successMessage) => {
+                                            //   vm.reloadAllEvents();
+                                            // });
                                             // vm.reloadAllEvents()
                                         }else{
                                             revertFunc();
