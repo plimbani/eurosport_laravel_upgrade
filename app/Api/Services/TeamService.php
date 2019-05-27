@@ -528,18 +528,20 @@ class TeamService implements TeamContract
       }
 
       $teamsData = $this->teamRepoObj->getAllFromFilter($data);
+      $ageCategoryDetail = TournamentCompetationTemplates::find($data['ageCategoryId']);
       $date = new \DateTime(date('H:i d M Y'));
-      $pdf = PDF::loadView('teams_and_groups.group_detail_report',['data' => $data, 'groupsData' => $groupsViewArray, 'teamsData' => $teamsData, 'tournamentLogo' => $tournamentLogo])
+      $pdf = PDF::loadView('teams_and_groups.group_detail_report',['data' => $data, 'groupsData' => $groupsViewArray, 'teamsData' => $teamsData, 'tournamentLogo' => $tournamentLogo, 'categoryName' => $ageCategoryDetail->group_name])
             ->setPaper('a4')
             ->setOption('header-spacing', '5')
             ->setOption('header-font-size', 7)
             ->setOption('header-font-name', 'Open Sans')
             ->setOrientation('portrait')
-            ->setOption('footer-html', route('pdf.footer'))
+            ->setOption('footer-right', 'Page [page] of [toPage]')
+            ->setOption('footer-font-size', 7)
             ->setOption('header-right', $date->format('H:i d M Y'))
             ->setOption('margin-top', 20)
             ->setOption('margin-bottom', 20);
       
-      return $pdf->download('group_detail_report.pdf');
+      return $pdf->download($ageCategoryDetail->group_name. ' groups.pdf');
     }
 }
