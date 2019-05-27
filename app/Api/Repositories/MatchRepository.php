@@ -1658,11 +1658,10 @@ class MatchRepository
       foreach ($matchData['matchData'] as $key => $value) {
         $tempFixture = TempFixture::find($value['matchId']);
         if($value['scheduleLastUpdateDateTime'] != $tempFixture->schedule_last_update_date_time) {
-          $conflictedFixtureMatchNumber[] = $tempFixture->match_number;
-          $conflictedMatchFixtureIds[] = $value['matchId'];
-          return ['status' => false, 'message' => 'You need to refresh page to get latest updated fixtures.', 'conflictedFixtureMatchNumber' => $conflictedFixtureMatchNumber];
+            $isFixturesUncheduled = false;
+            return ['status' => false, 'message' => 'You need to refresh page to get latest updated fixtures.', 'data' => $tempFixture, 'is_fixture_unscheduled' => $isFixturesUncheduled];          
         } else {
-          $unConflictedMatchFixtureIds[] = $value['matchId'];
+            $unConflictedMatchFixtureIds[] = $value['matchId'];
         }
       }
 
@@ -1680,6 +1679,6 @@ class MatchRepository
 
       $updateMacthFixtures = TempFixture::whereIn('id', $unConflictedMatchFixtureIds)->update($updateMatchUnscheduledRecord);
 
-      return ['status' => true, 'data' => $updateMacthFixtures, 'conflictedFixtureMatchNumber' => $conflictedFixtureMatchNumber];
+      return ['status' => true, 'data' => $updateMacthFixtures];
     }
 }

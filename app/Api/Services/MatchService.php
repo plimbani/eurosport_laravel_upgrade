@@ -2622,7 +2622,21 @@ class MatchService implements MatchContract
 
     public function matchUnscheduledFixtures($matchData)
     {
-        return $this->matchRepoObj->matchUnscheduledFixtures($matchData);
+      $areAllMatchFixtureUnScheduled = false;
+      $result = $this->matchRepoObj->matchUnscheduledFixtures($matchData);
+
+      // echo "<pre>";print_r($result['data']->match_number);echo "</pre>";exit;
+
+      $conflictedFixturesArray = [];
+      if($result['status'] === false) {
+        $conflictedFixturesArray[] = $result['data']->match_number;
+      }
+
+      if(count($conflictedFixturesArray) === 0) {
+        $areAllMatchFixtureUnScheduled = true;
+      }
+
+      return ['status_code' => '200', 'data' => $result, 'message' => 'Match has been unscheduled successfully', 'conflictedFixturesArray' => $conflictedFixturesArray, 'areAllMatchFixtureUnScheduled' => $areAllMatchFixtureUnScheduled];
     }
 
     public function processFixtures($fixtures)

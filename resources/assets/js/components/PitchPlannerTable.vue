@@ -73,6 +73,7 @@
         <AutomaticPitchPlanning></AutomaticPitchPlanning>
         <AddRefereesModel :formValues="formValues" :competationList="competationList" :tournamentId="tournamentId" :refereeId="refereeId" ></AddRefereesModel>
         <UploadRefereesModel :tournamentId="tournamentId"></UploadRefereesModel>
+        <UnsavedMatchFixture :unChangedMatchFixtures="conflictedMatchFixtures"></UnsavedMatchFixture>
     </div>
 </template>
 <script type="text/babel">
@@ -85,10 +86,11 @@
     import Tournament from '../api/tournament.js'
     import AutomaticPitchPlanning from './AutomaticPitchPlanningModal.vue'
     import BulkUnscheduledfixtureModal from './BulkUnscheduledfixtureModal.vue'
+    import UnsavedMatchFixture from './UnsavedMatchFixture.vue'
 
     export default  {
         components: {
-            GamesTab, RefereesTab, PitchPlannerStage, AddRefereesModel, UploadRefereesModel, AutomaticPitchPlanning, BulkUnscheduledfixtureModal
+            GamesTab, RefereesTab, PitchPlannerStage, AddRefereesModel, UploadRefereesModel, AutomaticPitchPlanning, BulkUnscheduledfixtureModal, UnsavedMatchFixture
         },
         computed: {
             GameActiveTab () {
@@ -176,6 +178,7 @@
                 'formValues': this.initialState(),
                 'unscheduleFixture': 'Are you sure you would like to unschedule the selected fixtures?',
                 'matchId': null,
+                'conflictedMatchFixtures': [],
             };
         },
         props: {
@@ -532,7 +535,12 @@
                 // Tournament.matchUnscheduledFixtures(matchId).then(
                 Tournament.matchUnscheduledFixtures(matchDetail).then(
                 (response) => {
+                    console.log('response', response)
                     $('#bulk_unscheduled_fixtures').modal('hide')
+                    vm.conflictedMatchFixtures = response.data.conflictedFixtureMatchNumber;
+                    if(vm.conflictedMatchFixtures.length > 0) {
+                        $('#unChangedMatchFixtureModal').modal('show');
+                    }
                     setTimeout(function(){
                         _.forEach(matchId, function(value, key) {
                             $('div.fc-unthemed').fullCalendar( 'removeEvents', [value] );
