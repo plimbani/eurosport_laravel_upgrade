@@ -5,11 +5,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.RequiresApi;
+import android.util.Base64;
 import android.util.Log;
 
 import com.aecor.eurosports.BuildConfig;
@@ -34,6 +36,9 @@ import com.crashlytics.android.Crashlytics;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 import butterknife.ButterKnife;
 import io.fabric.sdk.android.Fabric;
@@ -93,6 +98,7 @@ public class SplashActivity extends BaseActivity {
             }
         }
         initView();
+        printHashKey(this);
     }
 
     private void isUserLogin() {
@@ -609,6 +615,23 @@ public class SplashActivity extends BaseActivity {
                 }
             });
             mQueue.add(jsonRequest1);
+        }
+    }
+
+
+    public static void printHashKey(Context pContext) {
+        try {
+            PackageInfo info = pContext.getPackageManager().getPackageInfo(pContext.getPackageName(), PackageManager.GET_SIGNATURES);
+            for (Signature signature : info.signatures) {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                String hashKey = new String(Base64.encode(md.digest(), 0));
+                Log.e("SplashActivity", "printHashKey() Hash Key: " + hashKey);
+            }
+        } catch (NoSuchAlgorithmException e) {
+            Log.e("SplashActivity", "printHashKey()", e);
+        } catch (Exception e) {
+            Log.e("SplashActivity", "printHashKey()", e);
         }
     }
 }
