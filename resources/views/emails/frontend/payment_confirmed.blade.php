@@ -169,7 +169,7 @@ $days = $interval->format('%a') + 1;
                                                 <div class="mj-column-per-100 outlook-group-fix" style="font-size:13px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;">
                                                     <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;" width="100%">
                                                         <tr>
-                                                            <td align="right" style="text-align: right; font-size: 0px; padding: 10px 25px; word-break: break-word;">
+                                                            <td align="right" style="text-align: right; font-size: 0px; padding: 10px 25px; padding-bottom: 0; word-break: break-word;">
                                                                 <div style="font-family:Roboto, Helvetica, Arial, sans-serif;font-size:16px;font-weight:300;line-height:24px;text-align:left;color:#555;">
                                                                     <p>Hi <?php echo (!empty($email_details['user']->first_name)) ? $email_details['user']->first_name. " ". $email_details['user']->last_name : 'There';?>,</p>
                                                                     <p>Thank you for the purchase. Your order number is #<?php echo $email_details['paymentResponse']['orderID']; ?>.</p>
@@ -192,13 +192,13 @@ $days = $interval->format('%a') + 1;
                                 <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="background:#fff;background-color:#fff;width:100%;">
                                     <tbody>
                                         <tr>
-                                            <td style="direction: ltr; font-size: 0px; padding: 25px; text-align: center; vertical-align: top;" align="center" valign="top">
+                                            <td style="direction: ltr; font-size: 0px; padding: 25px; padding-top: 0; text-align: center; vertical-align: top;" align="center" valign="top">
 <!--[if mso | IE]><table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td class="" style="vertical-align:top;width:520px;" ><![endif]-->
                                                 <div class="mj-column-per-100 outlook-group-fix" style="font-size:13px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;"><table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;" width="100%"><tr><td align="right" style="text-align: right; background: #fff; font-size: 0px; padding: 0; word-break: break-word;">
                                                                 <table cellpadding="0" cellspacing="0" width="100%" border="0" style="cellspacing:0;color:#000000;font-family:Arial, Helvetica, sans-serif;font-size:13px;line-height:22px;table-layout:auto;width:100%;">
                                                                     <thead>
                                                                         <tr>
-                                                                            <th colspan="2" style="border-bottom: 3px solid rgba(33, 150, 243,0.1); text-align: left; font-size: 20px; padding: 10px 0;" align="left">Reciept</th>
+                                                                            <th colspan="2" style="border-bottom: 3px solid rgba(33, 150, 243,0.1); text-align: left; font-size: 20px; padding-bottom: 10px;" align="left">Reciept</th>
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody>
