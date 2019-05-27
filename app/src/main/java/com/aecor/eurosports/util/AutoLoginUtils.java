@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+import android.util.Log;
 
 import com.aecor.eurosports.R;
 import com.aecor.eurosports.activity.SignInActivity;
@@ -108,8 +109,7 @@ public class AutoLoginUtils {
     private static void checkStoreCredentials(Context mContext) {
         if (Utility.isInternetAvailable(mContext)) {
             mAppSharedPref = AppPreference.getInstance(mContext);
-
-            if (mAppSharedPref.getBoolean(AppConstants.IS_LOGIN_USING_FB) && mAppSharedPref.getString(AppConstants.PREF_TOKEN) != null) {
+            if (mAppSharedPref.getBoolean(AppConstants.IS_LOGIN_USING_FB) && !Utility.isNullOrEmpty(mAppSharedPref.getString(AppConstants.PREF_TOKEN))) {
                 validate_user(mContext);
             } else {
                 checkuser(mContext);
@@ -370,6 +370,7 @@ public class AutoLoginUtils {
             mQueue.add(jsonRequest1);
         }
     }
+
     private static void postUserDeviceDetails(final Context mContext) {
 
         if (Utility.isInternetAvailable(mContext)) {

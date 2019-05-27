@@ -98,7 +98,7 @@ public class SplashActivity extends BaseActivity {
             }
         }
         initView();
-        printHashKey(this);
+        //printHashKey(this);
     }
 
     private void isUserLogin() {
@@ -108,8 +108,7 @@ public class SplashActivity extends BaseActivity {
     private void checkuser() {
 
         if (Utility.isInternetAvailable(mContext)) {
-
-            if (mAppSharedPref.getBoolean(AppConstants.IS_LOGIN_USING_FB) && mAppSharedPref.getString(AppConstants.PREF_TOKEN) != null) {
+            if (mAppSharedPref.getBoolean(AppConstants.IS_LOGIN_USING_FB) && !Utility.isNullOrEmpty(mAppSharedPref.getString(AppConstants.PREF_TOKEN))) {
                 validate_user();
             } else {
                 String email = mAppSharedPref.getString(AppConstants.PREF_EMAIL);
