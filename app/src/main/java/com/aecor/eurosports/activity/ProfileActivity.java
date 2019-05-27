@@ -310,7 +310,7 @@ public class ProfileActivity extends BaseAppCompactActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (position > 0) {
-                    mSelectedTournamentId = mTournamentList[position].getId();
+                    mSelectedTournamentId = mTournamentList[position-1].getId();
                 }
                 checkValidation();
             }
