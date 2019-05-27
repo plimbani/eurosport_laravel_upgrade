@@ -143,7 +143,6 @@ public class LandingActivity extends BaseActivity {
                                 // Name = object.getString("name");
 
                                 String FEmail = object.getString("email");
-                                Log.e("Email = ", " " + FEmail);
                                 LoginManager.getInstance().logOut();
                                 mAppPref.setString(AppConstants.PREF_EMAIL, FEmail);
                                 //  Toast.makeText(getApplicationContext(), "Name " + Name, Toast.LENGTH_LONG).show();
@@ -491,7 +490,7 @@ public class LandingActivity extends BaseActivity {
                             }
                         } else {
                             mAppPref.setBoolean(AppConstants.IS_LOGIN_USING_FB, isFromFB);
-                            if (Utility.isNullOrEmpty(mAppPref.getString(AppConstants.PREF_COUNTRY_ID)) || Utility.isNullOrEmpty(mAppPref.getString(AppConstants.PREF_TOURNAMENT_ID))) {
+                            if (Utility.isNullOrEmpty(mAppPref.getString(AppConstants.PREF_COUNTRY_ID)) || Utility.isNullOrEmpty(mAppPref.getString(AppConstants.PREF_TOURNAMENT_ID)) || Utility.isNullOrEmpty(mAppPref.getString(AppConstants.PREF_EMAIL))) {
                                 startActivity(new Intent(mContext, ProfileActivity.class));
                             } else {
                                 startActivity(new Intent(mContext, HomeActivity.class));

@@ -32,6 +32,7 @@ import com.aecor.eurosports.http.VolleySingeltone;
 import com.aecor.eurosports.model.CountriesModel;
 import com.aecor.eurosports.model.ProfileModel;
 import com.aecor.eurosports.model.TournamentModel;
+import com.aecor.eurosports.ui.ViewDialog;
 import com.aecor.eurosports.util.ApiConstants;
 import com.aecor.eurosports.util.AppConstants;
 import com.aecor.eurosports.util.AppLogger;
@@ -141,6 +142,11 @@ public class ProfileActivity extends BaseAppCompactActivity {
                 if (!Utility.isNullOrEmpty(mSelectedTournamentId) && Utility.isNullOrEmpty(mAppPref.getString(AppConstants.PREF_TOURNAMENT_ID)) && mAppPref.getBoolean(AppConstants.IS_LOGIN_USING_FB)) {
                     requestJson.put("tournament_id", mSelectedTournamentId);
                 }
+
+                if (Utility.isNullOrEmpty(mAppPref.getString(AppConstants.PREF_EMAIL)) && mAppPref.getBoolean(AppConstants.IS_LOGIN_USING_FB)) {
+                    requestJson.put("emailAddress", input_email.getText().toString().trim());
+                }
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -165,12 +171,25 @@ public class ProfileActivity extends BaseAppCompactActivity {
                                     mAppPref.setString(AppConstants.PREF_SESSION_TOURNAMENT_ID, mSelectedTournamentId);
                                 }
 
+                                if (Utility.isNullOrEmpty(mAppPref.getString(AppConstants.PREF_EMAIL)) && mAppPref.getBoolean(AppConstants.IS_LOGIN_USING_FB)) {
+                                    mAppPref.setString(AppConstants.PREF_EMAIL, input_email.getText().toString().trim());
+                                }
+
                                 Utility.showToast(mContext, messgae);
                                 Intent mIntent = getIntent();
                                 startActivity(mIntent);
                                 finish();
                             } else {
                                 Utility.showToast(mContext, getResources().getString(R.string.update_profile_message));
+                            }
+                        } else if (response.has("status_code") && !Utility.isNullOrEmpty(response.getString("status_code")) && response.getString("status_code").equalsIgnoreCase("500")) {
+                            if (response.has("message") && !Utility.isNullOrEmpty(response.getString("message"))) {
+                                ViewDialog.showSingleButtonDialog((Activity) mContext, mContext.getString(R.string.error), response.getString("message"), mContext.getString(R.string.button_ok), new ViewDialog.CustomDialogInterface() {
+                                    @Override
+                                    public void onPositiveButtonClicked() {
+
+                                    }
+                                });
                             }
                         }
                     } catch (Exception e) {
@@ -210,7 +229,13 @@ public class ProfileActivity extends BaseAppCompactActivity {
     private void setData() {
         if (!Utility.isNullOrEmpty(mAppPref.getString(AppConstants.PREF_EMAIL))) {
             input_email.setText(mAppPref.getString(AppConstants.PREF_EMAIL));
+            input_email.setFocusable(false);
+            input_email.setEnabled(false);
+            input_email.setClickable(false);
         } else {
+            input_email.setClickable(true);
+            input_email.setFocusable(true);
+            input_email.setEnabled(true);
             input_email.setText("");
         }
 
@@ -261,6 +286,11 @@ public class ProfileActivity extends BaseAppCompactActivity {
         input_last_name.addTextChangedListener(textWatcher);
         input_first_name.addTextChangedListener(textWatcher);
 
+        if (Utility.isNullOrEmpty(mAppPref.getString(AppConstants.PREF_EMAIL))) {
+            input_email.addTextChangedListener(textWatcher);
+        }
+
+
         profile_language_selection.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -310,7 +340,7 @@ public class ProfileActivity extends BaseAppCompactActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (position > 0) {
-                    mSelectedTournamentId = mTournamentList[position-1].getId();
+                    mSelectedTournamentId = mTournamentList[position - 1].getId();
                 }
                 checkValidation();
             }
@@ -409,7 +439,17 @@ public class ProfileActivity extends BaseAppCompactActivity {
     private boolean validate() {
         String fname = input_first_name.getText().toString().trim();
         String sname = input_last_name.getText().toString().trim();
+        String email = input_email.getText().toString().trim();
         addOrRemoveBorder();
+
+        if (Utility.isNullOrEmpty(email)) {
+            return false;
+        }
+
+        if (!Utility.isValidEmail(email)) {
+            return false;
+        }
+
         if (Utility.isNullOrEmpty(fname)) {
             return false;
         }
@@ -437,6 +477,7 @@ public class ProfileActivity extends BaseAppCompactActivity {
     private void addOrRemoveBorder() {
         String fname = input_first_name.getText().toString().trim();
         String sname = input_last_name.getText().toString().trim();
+        String email = input_email.getText().toString().trim();
 
         if (Utility.isNullOrEmpty(fname)) {
             input_first_name.setBackgroundResource(R.drawable.edittext_border_red);
@@ -467,6 +508,12 @@ public class ProfileActivity extends BaseAppCompactActivity {
 
         } else {
             sp_tournament.setBackgroundResource(R.drawable.spinner_bg_image_gray);
+        }
+
+        if (Utility.isNullOrEmpty(email)) {
+            input_email.setBackgroundResource(R.drawable.edittext_border_red);
+        } else {
+            input_email.setBackgroundResource(R.drawable.edittext_border);
         }
     }
 
