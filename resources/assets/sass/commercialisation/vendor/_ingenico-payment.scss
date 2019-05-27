@@ -1,0 +1,166 @@
+#payment-zone {
+
+    // h2 {
+    //     @extend label;
+    // }
+
+    table {
+        &.ncoltable1 {
+            background-color: $white;
+        }
+
+        &.ncoltable2 {
+            background-color: $white;
+            border-width: medium;
+            border-color: green;
+        }
+
+        &.ncoltable3 {
+            // background-color: $white;
+            background-color: transparent;
+
+        }
+    }
+
+    table {
+        @extend .table;
+
+        th,
+        td {
+            border-top: 0px;
+            vertical-align: middle;
+
+            small {
+                font-size: 100%;
+
+                label {
+                    // font-size: 0.75rem;
+                    font-size: $font-size-base;
+                }
+            }
+        }
+
+        td {
+            &.ncolh1 {
+                background-color: lighten($theme-color-primary, 60%);
+                color: $theme-color-primary;
+
+                small {
+                    font-weight: $font-weight-bold;
+                }
+            }
+
+            &.ncoltxtl,
+            &.ncoltxtl2 {
+                background-color: $white;
+                color: $theme-color-primary;
+                text-align: right;
+                font-weight: $font-weight-bold;
+
+                small {
+                    font-weight: $font-weight-bold;
+                }
+            }
+
+            &.ncoltxtr {
+                background-color: $white;
+                color: black;
+                text-align: left;
+                font-weight: bold;
+            }
+
+            &.ncoltxtc {
+                background-color: $white;
+                color: black;
+                text-align: center;
+                font-weight: bold;
+            }
+
+            &.ncolinput {
+                background-color: $white;
+                color: black;
+            }
+
+            &.ncolline1 {
+                background-color: #ffffff;
+                color: black;
+            }
+
+            &.ncolline2 {
+                background-color: $white;
+                color: black;
+            }
+        }
+
+        input.ncol {
+            @extend .btn;
+
+            &#ncol_cancel {
+                @extend .btn-danger;
+                @extend .btn-block;
+            }
+
+            &#submit3,
+            &[value="ok"] {
+                @extend .btn-success;
+                @extend .btn-block;
+            }
+
+            &#btn_Back {
+            	@extend .btn-block;
+            	@extend .btn-outline-primary;
+            }
+        }
+
+        td.ncollogoc {
+            // background-color: $white;
+            color: black;
+            text-align: center;
+            font-weight: bold;
+            vertical-align: top;
+
+            a {
+                display: inline-block;
+                margin-bottom: 20px;
+
+                img {
+                    max-width: 100%;
+                }
+
+            }
+
+            small {
+                >small {
+                    >a {
+                        padding: 0 5px;
+                        color: $text-muted;
+                        font-size: 14px;
+                    }
+                }
+            }
+
+        }
+
+        td.ncolinput {
+            small {
+                display: inline-flex;
+                align-items: center;
+
+                input {
+                    @extend .form-control;
+                }
+
+                select {
+                    @extend .form-control;
+                    min-width: 4rem;
+                    height: calc(2.25rem + 2px);
+                    margin-right: 10px;
+
+                    &:last-child {
+                        margin-left: 10px;
+                    }
+                }
+            }
+        }
+    }
+}
