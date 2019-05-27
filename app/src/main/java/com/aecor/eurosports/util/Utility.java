@@ -157,8 +157,11 @@ public class Utility {
 
 
             } else {
-                if (!isNullOrEmpty(message)) {
-
+                if (!isNullOrEmpty(message) && message.equalsIgnoreCase("token_expired")) {
+                    Intent mLandingPageIntent = new Intent(mContext, LandingActivity.class);
+                    mContext.startActivity(mLandingPageIntent);
+                    ((Activity) mContext).finish();
+                } else {
                     ViewDialog.showSingleButtonDialog((Activity) mContext, mContext.getString(R.string.error), message, mContext.getString(R.string.button_ok), new ViewDialog.CustomDialogInterface() {
                         @Override
                         public void onPositiveButtonClicked() {
