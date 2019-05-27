@@ -11,6 +11,7 @@ import android.support.annotation.RequiresApi;
 import android.util.Log;
 
 import com.aecor.eurosports.R;
+import com.aecor.eurosports.activity.LandingActivity;
 import com.aecor.eurosports.activity.SignInActivity;
 import com.aecor.eurosports.activity.UpdateAppDialogPopup;
 import com.aecor.eurosports.application.ApplicationClass;
@@ -298,6 +299,12 @@ public class AutoLoginUtils {
                                         }
                                     }
                                 });
+                            }else {
+                                Intent launcherIntent = new Intent(mContext,
+                                        LandingActivity.class);
+                                launcherIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                mContext.startActivity(launcherIntent);
+                                ((Activity) mContext).finish();
                             }
                         }
                     } catch (Exception e) {

@@ -13,8 +13,13 @@
     <list default="true" id="f7e54537-3a96-43b7-966b-eae3020df760" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+<<<<<<< HEAD
       <change beforePath="$PROJECT_DIR$/app/app.iml" beforeDir="false" afterPath="$PROJECT_DIR$/app/app.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
+=======
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/util/ApiConstants.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/util/ApiConstants.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/util/AutoLoginUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/util/AutoLoginUtils.java" afterDir="false" />
+>>>>>>> a9580e516ae3c89b13587bd86613da77c28d9da4
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -74,6 +79,65 @@
       </state>
     </system>
   </component>
+<<<<<<< HEAD
+=======
+  <component name="FUSProjectUsageTrigger">
+    <session id="-1636685821">
+      <usages-collector id="statistics.lifecycle.project">
+        <counts>
+          <entry key="project.closed" value="52" />
+          <entry key="project.open.time.1" value="10" />
+          <entry key="project.open.time.10" value="7" />
+          <entry key="project.open.time.12" value="4" />
+          <entry key="project.open.time.13" value="2" />
+          <entry key="project.open.time.14" value="2" />
+          <entry key="project.open.time.16" value="2" />
+          <entry key="project.open.time.18" value="1" />
+          <entry key="project.open.time.19" value="1" />
+          <entry key="project.open.time.2" value="10" />
+          <entry key="project.open.time.3" value="3" />
+          <entry key="project.open.time.5" value="1" />
+          <entry key="project.open.time.7" value="1" />
+          <entry key="project.open.time.8" value="4" />
+          <entry key="project.open.time.9" value="9" />
+          <entry key="project.opened" value="57" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.open">
+        <counts>
+          <entry key="class" value="1" />
+          <entry key="gradle" value="8" />
+          <entry key="java" value="374" />
+          <entry key="png" value="2" />
+          <entry key="properties" value="3" />
+          <entry key="xml" value="164" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.open">
+        <counts>
+          <entry key="CLASS" value="1" />
+          <entry key="Groovy" value="8" />
+          <entry key="Image" value="2" />
+          <entry key="JAVA" value="374" />
+          <entry key="Properties" value="3" />
+          <entry key="XML" value="164" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.edit">
+        <counts>
+          <entry key="java" value="5431" />
+          <entry key="xml" value="705" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.edit">
+        <counts>
+          <entry key="JAVA" value="5431" />
+          <entry key="XML" value="705" />
+        </counts>
+      </usages-collector>
+    </session>
+  </component>
+>>>>>>> a9580e516ae3c89b13587bd86613da77c28d9da4
   <component name="FavoritesManager">
     <favorites_list name="EuroSport_28Feb19" />
   </component>
@@ -82,8 +146,19 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/build.gradle">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
             <state relative-caret-position="41">
               <caret line="27" column="22" selection-start-line="27" selection-start-column="22" selection-end-line="27" selection-end-column="22" />
+=======
+            <state relative-caret-position="4">
+              <caret line="231" column="25" selection-start-line="231" selection-start-column="25" selection-end-line="231" selection-end-column="25" />
+              <folding>
+                <element signature="e#2000#2129#0" expanded="true" />
+                <element signature="e#2128#2129#0" expanded="true" />
+                <element signature="e#3255#3256#0" expanded="true" />
+                <element signature="e#3294#3295#0" expanded="true" />
+              </folding>
+>>>>>>> a9580e516ae3c89b13587bd86613da77c28d9da4
             </state>
           </provider>
         </entry>
@@ -98,10 +173,42 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+<<<<<<< HEAD
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/activity/AgeGroupActivity.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="240">
               <caret line="186" column="36" selection-start-line="186" selection-start-column="36" selection-end-line="186" selection-end-column="36" />
+=======
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/util/ApiConstants.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="21">
+              <caret line="16" column="2" selection-start-line="16" selection-start-column="2" selection-end-line="16" selection-end-column="2" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/util/AutoLoginUtils.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="363">
+              <caret line="308" column="25" selection-start-line="308" selection-start-column="25" selection-end-line="308" selection-end-column="25" />
+              <folding>
+                <element signature="e#4219#4259#0" expanded="true" />
+                <element signature="e#4261#4306#0" expanded="true" />
+                <element signature="e#4308#4346#0" expanded="true" />
+                <element signature="e#4348#4608#0" expanded="true" />
+                <element signature="e#4607#4608#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/application/ApplicationClass.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="42">
+              <caret line="41" selection-start-line="41" selection-end-line="41" />
+>>>>>>> a9580e516ae3c89b13587bd86613da77c28d9da4
             </state>
           </provider>
         </entry>
@@ -109,8 +216,22 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/util/Utility.java">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
             <state relative-caret-position="7">
               <caret line="135" column="59" selection-start-line="135" selection-start-column="59" selection-end-line="135" selection-end-column="59" />
+=======
+            <state relative-caret-position="198">
+              <caret line="146" column="41" lean-forward="true" selection-start-line="146" selection-start-column="41" selection-end-line="146" selection-end-column="41" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/activity/ProfileActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="182">
+              <caret line="433" column="17" selection-start-line="433" selection-start-column="17" selection-end-line="433" selection-end-column="17" />
+>>>>>>> a9580e516ae3c89b13587bd86613da77c28d9da4
             </state>
           </provider>
         </entry>
@@ -208,13 +329,16 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/activity/HomeActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/application/ApplicationClass.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/util/AutoLoginUtils.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/profile.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/util/ApiConstants.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/activity/LandingActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/activity/ProfileActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/activity/SplashActivity.java" />
+<<<<<<< HEAD
         <option value="$PROJECT_DIR$/app/build.gradle" />
+=======
+        <option value="$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/util/ApiConstants.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/util/AutoLoginUtils.java" />
+>>>>>>> a9580e516ae3c89b13587bd86613da77c28d9da4
       </list>
     </option>
   </component>
@@ -269,7 +393,7 @@
     <property name="DEBUGGABLE_PROCESS" value="com.aecor.eurosports" />
     <property name="DEBUGGER_ID" value="Auto" />
     <property name="SHOW_ALL_PROCESSES" value="false" />
-    <property name="SearchEverywhereHistoryKey" value="au&#9;FILE&#9;file://D:/Workspace/EuroSport_28Feb19/app/src/main/java/com/aecor/eurosports/util/AutoLoginUtils.java&#10;spl&#9;FILE&#9;file://D:/Workspace/EuroSport_28Feb19/app/src/main/java/com/aecor/eurosports/activity/SplashActivity.java&#10;api&#9;FILE&#9;file://D:/Workspace/EuroSport_28Feb19/app/src/main/java/com/aecor/eurosports/util/ApiConstants.java&#10;auto&#9;FILE&#9;file://D:/Workspace/EuroSport_28Feb19/app/src/main/java/com/aecor/eurosports/util/AutoLoginUtils.java&#10;mani&#9;FILE&#9;file://D:/Workspace/EuroSport_28Feb19/app/src/main/AndroidManifest.xml&#10;spla&#9;FILE&#9;file://D:/Workspace/EuroSport_28Feb19/app/src/main/java/com/aecor/eurosports/activity/SplashActivity.java&#10;stri&#9;FILE&#9;file://D:/Workspace/EuroSport_28Feb19/app/src/main/res/values/strings.xml&#10;profi&#9;PSI&#9;JAVA://com.aecor.eurosports.activity.ProfileActivity&#10;prof&#9;FILE&#9;file://D:/Workspace/EuroSport_28Feb19/app/src/main/java/com/aecor/eurosports/activity/ProfileActivity.java&#10;home&#9;FILE&#9;file://D:/Workspace/EuroSport_28Feb19/app/src/main/java/com/aecor/eurosports/activity/HomeActivity.java&#10;profil&#9;FILE&#9;file://D:/Workspace/EuroSport_28Feb19/app/src/main/java/com/aecor/eurosports/activity/ProfileActivity.java&#10;app&#9;FILE&#9;file://D:/Workspace/EuroSport_28Feb19/app/src/main/java/com/aecor/eurosports/application/ApplicationClass.java&#10;hom&#9;FILE&#9;file://D:/Workspace/EuroSport_28Feb19/app/src/main/java/com/aecor/eurosports/activity/HomeActivity.java&#10;sign&#9;FILE&#9;file://D:/Workspace/EuroSport_28Feb19/app/src/main/java/com/aecor/eurosports/activity/SignInActivity.java&#10;land&#9;FILE&#9;file://D:/Workspace/EuroSport_28Feb19/app/src/main/java/com/aecor/eurosports/activity/LandingActivity.java&#10;hea&#9;FILE&#9;file://D:/Workspace/EuroSport_28Feb19/app/src/main/res/layout/toolbar_header.xml&#10;club&#9;FILE&#9;file://D:/Workspace/EuroSport_28Feb19/app/src/main/java/com/aecor/eurosports/activity/ClubsActivity.java&#10;team&#9;FILE&#9;file://D:/Workspace/EuroSport_28Feb19/app/src/main/java/com/aecor/eurosports/activity/TeamActivity.java&#10;he&#9;FILE&#9;file://D:/Workspace/EuroSport_28Feb19/app/src/main/res/layout/toolbar_header.xml&#10;lan&#9;FILE&#9;file://D:/Workspace/EuroSport_28Feb19/app/src/main/java/com/aecor/eurosports/activity/LandingActivity.java&#10;str&#9;FILE&#9;file://D:/Workspace/EuroSport_28Feb19/app/src/main/res/values/strings.xml&#10;pro&#9;FILE&#9;file://D:/Workspace/EuroSport_28Feb19/app/src/main/java/com/aecor/eurosports/activity/ProfileActivity.java&#10;tea&#9;PSI&#9;JAVA://com.aecor.eurosports.activity.TeamActivity&#10;head&#9;FILE&#9;file://D:/Workspace/EuroSport_28Feb19/app/src/main/res/layout/toolbar_header.xml&#10;styl&#9;FILE&#9;file://D:/Workspace/EuroSport_28Feb19/app/src/main/res/values/styles.xml&#10;regis&#9;FILE&#9;file://D:/Workspace/EuroSport_28Feb19/app/src/main/java/com/aecor/eurosports/activity/RegisterActivity.java&#10;sett&#9;FILE&#9;file://D:/Workspace/EuroSport_28Feb19/app/src/main/java/com/aecor/eurosports/activity/SettingsActivity.java&#10;regi&#9;FILE&#9;file://D:/Workspace/EuroSport_28Feb19/app/src/main/java/com/aecor/eurosports/activity/RegisterActivity.java&#10;reg&#9;FILE&#9;file://D:/Workspace/EuroSport_28Feb19/app/src/main/res/layout/activity_register.xml&#10;si&#9;PSI&#9;JAVA://com.aecor.eurosports.activity.SignInActivity&#10;groupm&#9;FILE&#9;file://D:/Workspace/EuroSport_28Feb19/app/src/main/java/com/aecor/eurosports/model/ClubGroupModel.java&#10;appcon&#9;FILE&#9;file://D:/Workspace/EuroSport_28Feb19/app/src/main/java/com/aecor/eurosports/util/AppConstants.java&#10;foo&#9;FILE&#9;file://D:/Workspace/EuroSport_28Feb19/app/src/main/res/layout/home_footer.xml&#10;base&#9;PSI&#9;JAVA://com.aecor.eurosports.activity.BaseActivity&#10;re&#9;FILE&#9;file://D:/Workspace/EuroSport_28Feb19/app/src/main/java/com/aecor/eurosports/activity/RegisterActivity.java&#10;fa&#9;FILE&#9;file://D:/Workspace/EuroSport_28Feb19/app/src/main/java/com/aecor/eurosports/activity/FavouritesActivity.java&#10;fav&#9;FILE&#9;file://D:/Workspace/EuroSport_28Feb19/app/src/main/java/com/aecor/eurosports/activity/FavouritesActivity.java&#10;acc&#9;FILE&#9;file://D:/Workspace/EuroSport_28Feb19/app/src/main/res/layout/layout_access_code.xml&#10;acce&#9;FILE&#9;file://D:/Workspace/EuroSport_28Feb19/app/src/easymatchmanager/res/layout/layout_access_code.xml&#10;ba&#9;FILE&#9;file://D:/Workspace/EuroSport_28Feb19/app/src/main/java/com/aecor/eurosports/activity/BaseAppCompactActivity.java&#10;strin&#9;FILE&#9;file://D:/Workspace/EuroSport_28Feb19/app/src/main/res/values/strings.xml&#10;forg&#9;PSI&#9;JAVA://com.aecor.eurosports.activity.ForgotPasswordActivity" />
+    <property name="SearchEverywhereHistoryKey" value="spl&#9;FILE&#9;file://D:/Workspace/EuroSport_28Feb19/app/src/main/java/com/aecor/eurosports/activity/SplashActivity.java&#10;api&#9;FILE&#9;file://D:/Workspace/EuroSport_28Feb19/app/src/main/java/com/aecor/eurosports/util/ApiConstants.java&#10;uti&#9;FILE&#9;file://D:/Workspace/EuroSport_28Feb19/app/src/main/java/com/aecor/eurosports/util/Utility.java&#10;au&#9;FILE&#9;file://D:/Workspace/EuroSport_28Feb19/app/src/main/java/com/aecor/eurosports/util/AutoLoginUtils.java&#10;auto&#9;FILE&#9;file://D:/Workspace/EuroSport_28Feb19/app/src/main/java/com/aecor/eurosports/util/AutoLoginUtils.java&#10;mani&#9;FILE&#9;file://D:/Workspace/EuroSport_28Feb19/app/src/main/AndroidManifest.xml&#10;spla&#9;FILE&#9;file://D:/Workspace/EuroSport_28Feb19/app/src/main/java/com/aecor/eurosports/activity/SplashActivity.java&#10;stri&#9;FILE&#9;file://D:/Workspace/EuroSport_28Feb19/app/src/main/res/values/strings.xml&#10;profi&#9;PSI&#9;JAVA://com.aecor.eurosports.activity.ProfileActivity&#10;prof&#9;FILE&#9;file://D:/Workspace/EuroSport_28Feb19/app/src/main/java/com/aecor/eurosports/activity/ProfileActivity.java&#10;home&#9;FILE&#9;file://D:/Workspace/EuroSport_28Feb19/app/src/main/java/com/aecor/eurosports/activity/HomeActivity.java&#10;profil&#9;FILE&#9;file://D:/Workspace/EuroSport_28Feb19/app/src/main/java/com/aecor/eurosports/activity/ProfileActivity.java&#10;app&#9;FILE&#9;file://D:/Workspace/EuroSport_28Feb19/app/src/main/java/com/aecor/eurosports/application/ApplicationClass.java&#10;hom&#9;FILE&#9;file://D:/Workspace/EuroSport_28Feb19/app/src/main/java/com/aecor/eurosports/activity/HomeActivity.java&#10;sign&#9;FILE&#9;file://D:/Workspace/EuroSport_28Feb19/app/src/main/java/com/aecor/eurosports/activity/SignInActivity.java&#10;land&#9;FILE&#9;file://D:/Workspace/EuroSport_28Feb19/app/src/main/java/com/aecor/eurosports/activity/LandingActivity.java&#10;hea&#9;FILE&#9;file://D:/Workspace/EuroSport_28Feb19/app/src/main/res/layout/toolbar_header.xml&#10;club&#9;FILE&#9;file://D:/Workspace/EuroSport_28Feb19/app/src/main/java/com/aecor/eurosports/activity/ClubsActivity.java&#10;team&#9;FILE&#9;file://D:/Workspace/EuroSport_28Feb19/app/src/main/java/com/aecor/eurosports/activity/TeamActivity.java&#10;he&#9;FILE&#9;file://D:/Workspace/EuroSport_28Feb19/app/src/main/res/layout/toolbar_header.xml&#10;lan&#9;FILE&#9;file://D:/Workspace/EuroSport_28Feb19/app/src/main/java/com/aecor/eurosports/activity/LandingActivity.java&#10;str&#9;FILE&#9;file://D:/Workspace/EuroSport_28Feb19/app/src/main/res/values/strings.xml&#10;pro&#9;FILE&#9;file://D:/Workspace/EuroSport_28Feb19/app/src/main/java/com/aecor/eurosports/activity/ProfileActivity.java&#10;tea&#9;PSI&#9;JAVA://com.aecor.eurosports.activity.TeamActivity&#10;head&#9;FILE&#9;file://D:/Workspace/EuroSport_28Feb19/app/src/main/res/layout/toolbar_header.xml&#10;styl&#9;FILE&#9;file://D:/Workspace/EuroSport_28Feb19/app/src/main/res/values/styles.xml&#10;regis&#9;FILE&#9;file://D:/Workspace/EuroSport_28Feb19/app/src/main/java/com/aecor/eurosports/activity/RegisterActivity.java&#10;sett&#9;FILE&#9;file://D:/Workspace/EuroSport_28Feb19/app/src/main/java/com/aecor/eurosports/activity/SettingsActivity.java&#10;regi&#9;FILE&#9;file://D:/Workspace/EuroSport_28Feb19/app/src/main/java/com/aecor/eurosports/activity/RegisterActivity.java&#10;reg&#9;FILE&#9;file://D:/Workspace/EuroSport_28Feb19/app/src/main/res/layout/activity_register.xml&#10;si&#9;PSI&#9;JAVA://com.aecor.eurosports.activity.SignInActivity&#10;groupm&#9;FILE&#9;file://D:/Workspace/EuroSport_28Feb19/app/src/main/java/com/aecor/eurosports/model/ClubGroupModel.java&#10;appcon&#9;FILE&#9;file://D:/Workspace/EuroSport_28Feb19/app/src/main/java/com/aecor/eurosports/util/AppConstants.java&#10;foo&#9;FILE&#9;file://D:/Workspace/EuroSport_28Feb19/app/src/main/res/layout/home_footer.xml&#10;base&#9;PSI&#9;JAVA://com.aecor.eurosports.activity.BaseActivity&#10;re&#9;FILE&#9;file://D:/Workspace/EuroSport_28Feb19/app/src/main/java/com/aecor/eurosports/activity/RegisterActivity.java&#10;fa&#9;FILE&#9;file://D:/Workspace/EuroSport_28Feb19/app/src/main/java/com/aecor/eurosports/activity/FavouritesActivity.java&#10;fav&#9;FILE&#9;file://D:/Workspace/EuroSport_28Feb19/app/src/main/java/com/aecor/eurosports/activity/FavouritesActivity.java&#10;acc&#9;FILE&#9;file://D:/Workspace/EuroSport_28Feb19/app/src/main/res/layout/layout_access_code.xml&#10;acce&#9;FILE&#9;file://D:/Workspace/EuroSport_28Feb19/app/src/easymatchmanager/res/layout/layout_access_code.xml&#10;ba&#9;FILE&#9;file://D:/Workspace/EuroSport_28Feb19/app/src/main/java/com/aecor/eurosports/activity/BaseAppCompactActivity.java&#10;strin&#9;FILE&#9;file://D:/Workspace/EuroSport_28Feb19/app/src/main/res/values/strings.xml&#10;forg&#9;PSI&#9;JAVA://com.aecor.eurosports.activity.ForgotPasswordActivity" />
     <property name="android.project.structure.last.selected" value="app" />
     <property name="android.project.structure.proportion" value="0.15" />
     <property name="android.sdk.path" value="$USER_HOME$/AppData/Local/Android/Sdk" />
@@ -420,16 +544,25 @@
     <editor active="true" />
     <layout>
       <window_info id="Captures" order="0" side_tool="true" weight="0.25" />
+<<<<<<< HEAD
       <window_info content_ui="combo" id="Project" order="1" sideWeight="0.45812806" visible="true" weight="0.16868381" />
+=======
+      <window_info content_ui="combo" id="Project" order="1" sideWeight="0.45901638" visible="true" weight="0.23524962" />
+>>>>>>> a9580e516ae3c89b13587bd86613da77c28d9da4
       <window_info id="Structure" order="2" sideWeight="0.52459013" side_tool="true" weight="0.30257186" />
       <window_info id="Favorites" order="3" sideWeight="0.52459013" side_tool="true" weight="0.30257186" />
-      <window_info id="Build Variants" order="4" sideWeight="0.5418719" side_tool="true" visible="true" weight="0.23524962" />
+      <window_info id="Build Variants" order="4" sideWeight="0.5409836" side_tool="true" visible="true" weight="0.23524962" />
       <window_info id="Image Layers" order="5" />
       <window_info id="Designer" order="6" />
       <window_info id="Capture Tool" order="7" />
       <window_info anchor="bottom" id="Run" order="0" weight="0.3295082" />
+<<<<<<< HEAD
       <window_info anchor="bottom" id="Logcat" order="1" sideWeight="0.49924356" weight="0.8180328" />
       <window_info active="true" anchor="bottom" id="TODO" order="2" visible="true" weight="0.3295082" />
+=======
+      <window_info anchor="bottom" id="Logcat" order="1" sideWeight="0.49924356" weight="0.85081965" />
+      <window_info anchor="bottom" id="TODO" order="2" weight="0.3295082" />
+>>>>>>> a9580e516ae3c89b13587bd86613da77c28d9da4
       <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49924356" weight="0.33442622" />
       <window_info anchor="bottom" id="Terminal" order="4" weight="0.3295082" />
       <window_info anchor="bottom" id="Event Log" order="5" sideWeight="0.50075644" side_tool="true" weight="0.7152209" />
@@ -788,13 +921,13 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/util/AutoLoginUtils.java</url>
-          <line>40</line>
+          <line>41</line>
           <properties />
           <option name="timeStamp" value="140" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/util/AutoLoginUtils.java</url>
-          <line>109</line>
+          <line>110</line>
           <properties />
           <option name="timeStamp" value="141" />
         </line-breakpoint>
@@ -1044,13 +1177,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/application/ApplicationClass.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="350">
-          <caret line="67" lean-forward="true" selection-start-line="67" selection-end-line="67" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/activity/FavouritesActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="6226">
@@ -1118,6 +1244,7 @@
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/util/ApiConstants.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="187">
@@ -1125,6 +1252,8 @@
         </state>
       </provider>
     </entry>
+=======
+>>>>>>> a9580e516ae3c89b13587bd86613da77c28d9da4
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/activity/GetStartedActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="195">
@@ -1154,37 +1283,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/activity/SplashActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="176">
-          <caret line="110" column="58" selection-start-line="110" selection-start-column="58" selection-end-line="110" selection-end-column="58" />
-          <folding>
-            <element signature="e#2000#2129#0" expanded="true" />
-            <element signature="e#2128#2129#0" expanded="true" />
-            <element signature="e#3255#3256#0" expanded="true" />
-            <element signature="e#3294#3295#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/util/AppConstants.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="417">
           <caret line="80" column="34" selection-start-line="80" selection-start-column="34" selection-end-line="80" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/util/Utility.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="7">
-          <caret line="135" column="59" selection-start-line="135" selection-start-column="59" selection-end-line="135" selection-end-column="59" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/util/AutoLoginUtils.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="109" selection-start-line="109" selection-end-line="109" />
         </state>
       </provider>
     </entry>
@@ -1197,8 +1299,61 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/activity/ProfileActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="314">
-          <caret line="439" selection-start-line="439" selection-end-line="439" />
+        <state relative-caret-position="182">
+          <caret line="433" column="17" selection-start-line="433" selection-start-column="17" selection-end-line="433" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/util/Utility.java">
+      <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
+        <state relative-caret-position="7">
+          <caret line="135" column="59" selection-start-line="135" selection-start-column="59" selection-end-line="135" selection-end-column="59" />
+=======
+        <state relative-caret-position="198">
+          <caret line="146" column="41" lean-forward="true" selection-start-line="146" selection-start-column="41" selection-end-line="146" selection-end-column="41" />
+>>>>>>> a9580e516ae3c89b13587bd86613da77c28d9da4
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/util/ApiConstants.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="21">
+          <caret line="16" column="2" selection-start-line="16" selection-start-column="2" selection-end-line="16" selection-end-column="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/application/ApplicationClass.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="42">
+          <caret line="41" selection-start-line="41" selection-end-line="41" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/activity/SplashActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4">
+          <caret line="231" column="25" selection-start-line="231" selection-start-column="25" selection-end-line="231" selection-end-column="25" />
+          <folding>
+            <element signature="e#2000#2129#0" expanded="true" />
+            <element signature="e#2128#2129#0" expanded="true" />
+            <element signature="e#3255#3256#0" expanded="true" />
+            <element signature="e#3294#3295#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/aecor/eurosports/util/AutoLoginUtils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="363">
+          <caret line="308" column="25" selection-start-line="308" selection-start-column="25" selection-end-line="308" selection-end-column="25" />
+          <folding>
+            <element signature="e#4219#4259#0" expanded="true" />
+            <element signature="e#4261#4306#0" expanded="true" />
+            <element signature="e#4308#4346#0" expanded="true" />
+            <element signature="e#4348#4608#0" expanded="true" />
+            <element signature="e#4607#4608#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
