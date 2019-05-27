@@ -50,15 +50,23 @@ class addDivisionAndUpdateExistingData extends Command
             $templateJson = json_decode($ttvalue['json_data'], true);
 
             //get tournament_comp_template from template id
-            $allTournamentCompTemplates = TournamentCompetationTemplates::where('tournament_template_id',$ttvalue['id'])->limit(1)->get()->toArray();
+            $allTournamentCompTemplates = TournamentCompetationTemplates::where('tournament_template_id',$ttvalue['id'])->get()->toArray();
 
+
+            $this->info('Fetching all competation template for id :- '.$ttvalue['id']);
+            $count = 1;
             foreach ($allTournamentCompTemplates as $tctkey => $tctvalue) {
 
                 // Get all existing competitions
                 $tournament_id = $tctvalue['tournament_id'];
                 $tournament_comp_template_id = $tctvalue['id'];
+                $this->info('');
+                $this->info('########################################################################################');
+                $this->info('comp template count is :- '.$count);
+                $this->info('Fetching existing age group and id is  :- '.$tctvalue['id']);
 
                 $existingCompetition = Competition::where('competation_round_no','!=','Round 1')->where('tournament_competation_template_id',$tournament_comp_template_id)->where('tournament_id',$tournament_id)->pluck('id','name')->toArray();
+
 
                 $displayName = $tctvalue['group_name'].'-'.$tctvalue['category_age'];
 
@@ -67,6 +75,9 @@ class addDivisionAndUpdateExistingData extends Command
                 $divisions = $templateJson['tournament_competation_format']['divisions'];
                 $order = 1;
                 foreach ($divisions as $dkey => $dvalue) {
+                    $this->info('Create a new entry in division table for tournament_id = '.$tournament_id.' and tournament_competition_template_id = '.$tournament_comp_template_id);
+
+
                     $divData = [];
                     $divData['name'] = "Division ".$order;
                     $divData['order'] = $order;
@@ -80,7 +91,11 @@ class addDivisionAndUpdateExistingData extends Command
 
                     foreach ($dvalue['format_name'] as $roundkey => $roundValue) {
                         $roundName = $roundValue['name'];
+                        $this->info('_________________________________________________________________________________________');
+                        $this->info('looping on new round.');
+
                         foreach ($roundValue['match_type'] as $matchTypeKey => $matchTypevalue) {
+                            $this->info('iterating match type');
                             $groupNameTocheck = $displayName.'-'.$matchTypevalue['groups']['group_name'];
                             list($compType,$compMatchMultiple) = explode('-',$matchTypevalue['name']);
 
@@ -98,6 +113,7 @@ class addDivisionAndUpdateExistingData extends Command
 
                             if (array_key_exists($groupNameTocheck, $existingCompetition) )
                             {
+
                                 $competitionData['name'] = $groupNameTocheck;
                                 $competitionData['display_name'] = $groupNameTocheck;
                                 $competitionData['actual_name'] = $groupNameTocheck;
@@ -105,7 +121,7 @@ class addDivisionAndUpdateExistingData extends Command
                                 $competitionUpdateId = $existingCompetition[$groupNameTocheck];
 
                                 Competition::where('id',$competitionUpdateId)->update($competitionData);
-
+                                $this->info('Update Existing competition with new value , and comp id is :- '.$competitionUpdateId);
                                 unset($existingCompetition[$groupNameTocheck]);
                             }
                             else
@@ -119,16 +135,19 @@ class addDivisionAndUpdateExistingData extends Command
                                     // if not matched then overwrite existing one
                                     $competitionUpdateId = head($existingCompetition);
 
-                                    $notMatchedCompetition[$competitionUpdateId] = $competitionData;
-                                    Competition::where('id',$competitionUpdateId)->update($competitionData);
+                                    $notMatchedCompetition[$competitionUpdateId] = "id = ".$competitionUpdateId." and tournament_id = ".$tournament_id;
 
+                                    Competition::where('id',$competitionUpdateId)->update($competitionData);
+                                    $this->info('Not match with DB competiton , Update Existing competition with new value. , and comp id is :- '.$competitionUpdateId);
                                     $needToRemovekey = array_search($competitionUpdateId,$existingCompetition);
                                     unset($existingCompetition[$needToRemovekey]);
                                 }
                                 else
                                 {
+
                                     $compResult = Competition::create($competitionData);
                                     $competitionUpdateId = $compResult->id;
+                                    $this->info('Create new competition and id is :- '.$competitionUpdateId);
                                 }
                             }
 
@@ -140,14 +159,18 @@ class addDivisionAndUpdateExistingData extends Command
                                 TempFixture::where('tournament_id',$tournament_id)->where('age_group_id',$tournament_comp_template_id)->where('match_number',$updatedMatchNumber)->update($updateMatchData);
 
 
+                                $this->info('iterating temp fixture matches and updated with new competition id , match_number = '.$mvalue['match_number'].' and tournament_id = '.$tournament_id.' and age_group_id = '.$tournament_comp_template_id.' and new updated competition is '.$competitionUpdateId.'.');
+
+
                             }
                         }
                     }
                     $order++;
                 }
+                $count++;
             }
-
-            echo "<pre>";print_r("done for existing Data");exit();
+            echo "<pre>no match existing competition name issue";print_r($notMatchedCompetition);
+            $this->info("Script executed.");
         }
     }
 }

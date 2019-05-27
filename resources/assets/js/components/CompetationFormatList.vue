@@ -23,7 +23,7 @@
                 <div class="d-flex justify-content-between align-items-center">
                   {{competation.disp_format_name}} 
                   <span class="pl-2">
-                    <a href="#"  @click="viewCompFormat(competation.tournament_template_id,competation.total_time)" class="btn btn-primary btn-sm ml-1 float-right">View</a>
+                    <a href="#"  @click="viewCompFormat(competation.id,competation.tournament_template_id,competation.total_time)" class="btn btn-primary btn-sm ml-1 float-right">View</a>
                   </span>
                 </div>
               </td>
