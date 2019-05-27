@@ -532,21 +532,25 @@
                     }
                 });
 
-                // Tournament.matchUnscheduledFixtures(matchId).then(
                 Tournament.matchUnscheduledFixtures(matchDetail).then(
                 (response) => {
-                    console.log('response', response)
                     $('#bulk_unscheduled_fixtures').modal('hide')
-                    vm.conflictedMatchFixtures = response.data.conflictedFixtureMatchNumber;
+                    vm.conflictedMatchFixtures = response.data.conflictedFixturesArray;
                     if(vm.conflictedMatchFixtures.length > 0) {
                         $('#unChangedMatchFixtureModal').modal('show');
                     }
+
                     setTimeout(function(){
                         _.forEach(matchId, function(value, key) {
                             $('div.fc-unthemed').fullCalendar( 'removeEvents', [value] );
                         });
                     },200)
-                    toastr.success('Fixtures unscheduled successfully', 'Fixtures Unscheduled', {timeOut: 5000});
+
+                    if(response.data.areAllMatchFixtureUnScheduled == true) {
+                      toastr.success('Fixtures unscheduled successfully', 'Fixtures Unscheduled', {timeOut: 5000});
+                    }
+
+                    // toastr.success('Fixtures unscheduled successfully', 'Fixtures Unscheduled', {timeOut: 5000});
                     $("#unschedule_fixtures").html('Unschedule fixture').removeClass('btn btn-success');
                     $("#unschedule_fixtures").addClass('btn btn-primary btn-md btn-secondary');
                     $(".match-unschedule-checkbox-div").addClass('d-none');

@@ -168,16 +168,11 @@ class MatchService implements MatchContract
         $areAllMatchFixtureScheduled = false;
         $data = $matchData->all()['matchData'];
         $scheduledResult = $this->matchRepoObj->setMatchSchedule($matchData->all()['matchData']);
-        array_push($matchFixturesStatusArray, $scheduledResult['is_fixture_scheduled']);
 
         $unChangedFixturesArray = [];
         if($scheduledResult['status'] === false) {
           $unChangedFixturesArray[] = $scheduledResult['data']['match_number'];
         }
-
-        $changedMatchFixturesCount = count(array_filter($matchFixturesStatusArray, function($x) { 
-                                        return $x==true;
-                                      }));
 
         if(count($unChangedFixturesArray) === 0) {
           $areAllMatchFixtureScheduled = true;
@@ -2624,19 +2619,11 @@ class MatchService implements MatchContract
     {
       $areAllMatchFixtureUnScheduled = false;
       $result = $this->matchRepoObj->matchUnscheduledFixtures($matchData);
-
-      // echo "<pre>";print_r($result['data']->match_number);echo "</pre>";exit;
-
-      $conflictedFixturesArray = [];
-      if($result['status'] === false) {
-        $conflictedFixturesArray[] = $result['data']->match_number;
-      }
-
-      if(count($conflictedFixturesArray) === 0) {
+      if(sizeof($result['conflictedFixtureMatchNumber']) === 0) {
         $areAllMatchFixtureUnScheduled = true;
       }
 
-      return ['status_code' => '200', 'data' => $result, 'message' => 'Match has been unscheduled successfully', 'conflictedFixturesArray' => $conflictedFixturesArray, 'areAllMatchFixtureUnScheduled' => $areAllMatchFixtureUnScheduled];
+      return ['status_code' => '200', 'data' => $result, 'message' => 'Match has been unscheduled successfully', 'conflictedFixturesArray' => $result['conflictedFixtureMatchNumber'], 'areAllMatchFixtureUnScheduled' => $areAllMatchFixtureUnScheduled];
     }
 
     public function processFixtures($fixtures)

@@ -1432,8 +1432,6 @@ class MatchRepository
       $matchData = array('teams'=>$teams,'tournamentId'=>$data['tournamentId'],'ageGroupId'=>$teamData['age_group_id'],'teamId'=>$teamId);
       $matchresult =  $this->checkTeamIntervalforMatches($matchData);
 
-      // return $updateResult;
-
       return ['status' => true, 'data' => $updateData, 'is_fixture_scheduled' => $isFixtureScheduled];
     }
     public function matchUnschedule($matchId)
@@ -1658,11 +1656,15 @@ class MatchRepository
       foreach ($matchData['matchData'] as $key => $value) {
         $tempFixture = TempFixture::find($value['matchId']);
         if($value['scheduleLastUpdateDateTime'] != $tempFixture->schedule_last_update_date_time) {
-            $isFixturesUncheduled = false;
-            return ['status' => false, 'message' => 'You need to refresh page to get latest updated fixtures.', 'data' => $tempFixture, 'is_fixture_unscheduled' => $isFixturesUncheduled];          
+          $isFixturesUncheduled = false;
+          $conflictedFixtureMatchNumber[] = $tempFixture->match_number;
         } else {
-            $unConflictedMatchFixtureIds[] = $value['matchId'];
+          $unConflictedMatchFixtureIds[] = $value['matchId'];
         }
+      }
+
+      if(sizeof($conflictedFixtureMatchNumber) > 0) {
+        return ['status' => false, 'message' => 'You need to refresh page to get latest updated fixtures.', 'data' => $tempFixture, 'is_fixture_unscheduled' => $isFixturesUncheduled, 'conflictedFixtureMatchNumber' => $conflictedFixtureMatchNumber];
       }
 
       $updateMatchUnscheduledRecord = [
@@ -1679,6 +1681,6 @@ class MatchRepository
 
       $updateMacthFixtures = TempFixture::whereIn('id', $unConflictedMatchFixtureIds)->update($updateMatchUnscheduledRecord);
 
-      return ['status' => true, 'data' => $updateMacthFixtures];
+      return ['status' => true, 'data' => $updateMacthFixtures, 'conflictedFixtureMatchNumber' => $conflictedFixtureMatchNumber];
     }
 }
