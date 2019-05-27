@@ -153,8 +153,7 @@
                                                                 <div style="font-family:Roboto, Helvetica, Arial, sans-serif;font-size:16px;font-weight:300;line-height:24px;text-align:left;color:#555;">
                                                                     <p>Hi</p>
                                                                     <p>Thank you for the purchase. Your order number is Easy-Match-Manager-<?php echo $data['orderNumber']; ?>.</p>
-                                                                    <p>
-                                                                        Purchase date: <?php echo $data['tournamentCreatedAtDateFormat'] ?>
+                                                                    <p>Purchase date: <?php echo $data['tournamentCreatedAtDateFormat'] ?>
                                                                     </p>
                                                                 </div>
                                                             </td>
@@ -178,12 +177,12 @@
                                                                 <table cellpadding="0" cellspacing="0" width="100%" border="0" style="cellspacing:0;color:#000000;font-family:Arial, Helvetica, sans-serif;font-size:13px;line-height:22px;table-layout:auto;width:100%;">
                                                                     <thead>
                                                                         <tr>
-                                                                            <th colspan="2" style="border-bottom: 3px solid rgba(33, 150, 243,0.1); text-align: left; font-size: 20px; padding: 10px;" align="left">Reciept</th>
+                                                                            <th colspan="2" style="border-bottom: 3px solid rgba(33, 150, 243,0.1); text-align: left; font-size: 20px; padding: 10px 0;" align="left">Reciept</th>
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody>
                                                                         <tr>
-                                                                            <th style="text-align: left; font-weight: normal; padding: 10px;" align="left"><?php echo $data['maximumTeams']; ?> team license for a <?php echo $data['days']; ?> day tournament
+                                                                            <th style="text-align: left; font-weight: normal; padding: 10px 0;" align="left"><?php echo $data['maximumTeams']; ?> team license for a <?php echo $data['days']; ?> day tournament
                                                                             </th>
                                                                             <td style="text-align: right; padding: 10px;" align="right">
 																			<?php if($data['currency'] == "GBP") 
@@ -254,7 +253,7 @@
                                                         <tr>
                                                             <td align="right" style="text-align: right; font-size: 0px; padding: 10px 25px; word-break: break-word;">
                                                                 <div style="font-family:Roboto, Helvetica, Arial, sans-serif;font-size:16px;font-weight:300;line-height:24px;text-align:center;color:#555;">&copy; 2019 Easy Match Manager. Developed by
-                                                                    <a href="http://aecordigital.com" style="color: #2196F3; text-decoration: none;"><u>aecor</u></a>.
+                                                                    <a href="http://aecordigital.com" style="color: #0078AB; text-decoration: none;"><u>aecor</u></a>.
                                                                 </div>
                                                             </td>
                                                         </tr>

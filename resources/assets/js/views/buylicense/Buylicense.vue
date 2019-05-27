@@ -273,7 +273,6 @@
                 this.changeDays();  
             },
             buyALicence(e){
-
                 this.$validator.validateAll();
                 if (this.tournamentData.tournament_name) {
                     this.tournamentData.tournament_start_date = document.getElementById('tournament_start_date').value;
@@ -494,24 +493,44 @@
                 if(isNaN(vm.tournamentData.tournamentPricingValue) || vm.tournamentData.tournamentPricingValue < 0){
                     vm.tournamentData.tournamentPricingValue  = 0;
                 }
+            },
+            tournamentEditYourLicense() {
+                let editTournamentLicense;
+                if(this.$route.query.edityourlicense == 'yes') {
+                    editTournamentLicense = JSON.parse(Ls.get("orderInfo")); 
+                    this.tournamentData.tournament_start_date = editTournamentLicense.tournament_start_date;
+                    this.tournamentData.tournament_end_date = editTournamentLicense.tournament_end_date;
+                    this.tournamentData.tournament_max_teams = editTournamentLicense.tournament_max_teams;
+                    this.tournamentData.tournament_name = editTournamentLicense.tournament_name;
+                    this.tournamentData.total_amount = editTournamentLicense.total_amount;
+                    this.tournamentData.access_code = editTournamentLicense.access_code;
+                    this.tournamentData.currency_type = editTournamentLicense.currency_type;
+                    this.tournamentData.payment_currency = editTournamentLicense.payment_currency;
+                    this.tournamentData.is_renew = editTournamentLicense.is_renew;
+                    this.tournamentData.tournament_type = editTournamentLicense.tournament_type;
+                    this.tournamentData.custom_tournament_format = editTournamentLicense.custom_tournament_format;
+                }
             }
         },
         mounted () {
             var vm = this;
-            let editTournamentLicense;
+
+            vm.tournamentData.tournament_start_date = moment(vm.tournamentData.tournament_start_date).format('DD/MM/YYYY');
+            vm.tournamentData.tournament_end_date = moment(vm.tournamentData.tournament_end_date).add(1,'days').format('DD/MM/YYYY');
+
 
             $('#tournament_start_date').datepicker({
                 autoclose: true,
                 startDate: '-0m',
                 onSelect: function( selectedDate ) {
-                    $( "#totournament_end_date" ).datepicker( "option", "minDate",  );
+                    $( "#totournament_end_date" ).datepicker( "option", "minDate", selectedDate);
                 }
             });
-             $('#tournament_end_date').datepicker({
+            $('#tournament_end_date').datepicker({
                 autoclose: true,
                 startDate: '-0m',
                 onSelect: function( selectedDate ) {
-                    $( "#tournament_start_date" ).datepicker( "option", "maxDate", selectedDate );
+                    $( "#tournament_start_date" ).datepicker( "option", "maxDate", selectedDate);
                 }
             });
             $('#tournament_start_date').datepicker('setDate', moment().format('DD/MM/YYYY'))
@@ -527,33 +546,17 @@
                vm.tournamentData.tournament_end_date = event.target.value;
             });
 
-
-            if(this.$route.query.edityourlicense == 'yes') {
-                editTournamentLicense = JSON.parse(Ls.get("orderInfo")); 
-                this.tournamentData.tournament_name = editTournamentLicense.tournament_name;
-                this.tournamentData.tournament_start_date = editTournamentLicense.tournament_start_date;
-                this.tournamentData.tournament_end_date = editTournamentLicense.tournament_end_date;
-                this.tournamentData.total_amount = editTournamentLicense.total_amount;
-                this.tournamentData.access_code = editTournamentLicense.access_code;
-                this.tournamentData.currency_type = editTournamentLicense.currency_type;
-                this.tournamentData.payment_currency = editTournamentLicense.payment_currency;
-                this.tournamentData.is_renew = editTournamentLicense.is_renew;
-                this.tournamentData.tournament_type = editTournamentLicense.tournament_type;
-                this.tournamentData.custom_tournament_format = editTournamentLicense.custom_tournament_format;
-            }
-
             this.getTournamentPricing();
             this.getCurrencyValue();
             setTimeout(function(){
-                if(vm.$route.query.edityourlicense == 'yes') {
-                    vm.tournamentData.tournament_max_teams = editTournamentLicense.tournament_max_teams;
-                }
                 vm.setOldDays()
                 if(this.id){
                     vm.getTournamentDetail()
                 }
+                vm.tournamentEditYourLicense()
                 vm.tournammentPricingData()
             },1500) 
+
             if(this.$route.query.edityourlicense != 'yes'){
                 $('#cup').prop("checked",true)
                 $('#no').prop("checked",true)
