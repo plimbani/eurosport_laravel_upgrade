@@ -943,7 +943,7 @@ class MatchService implements MatchContract
       $firstCompetition = Competition::where('tournament_competation_template_id', $ageCategoryId)->orderBy('id')->first();
       $groupFixture = DB::table('temp_fixtures')->select('temp_fixtures.*')->where('tournament_id','=',$data['tournamentId'])->where('competition_id',$data['competitionId'])->get();
 
-      //if($firstCompetition->id != $data['competitionId'] && $competition->actual_competition_type === 'Round Robin') {
+      if($competition->actual_competition_type === 'Round Robin') {
         $findTeams = [];
         foreach ($groupFixture as $key => $value) {
           if($value->home_team == 0 || $value->away_team == 0) {
@@ -959,7 +959,7 @@ class MatchService implements MatchContract
           $this->generateStandingsForCompetitions($data['tournamentId'], $data['competitionId'], $ageCategoryId, $findTeams, 'Round Robin');
           $this->updateCategoryPositions($data['competitionId'], $ageCategoryId);
         }
-      //}
+      }
 
       $standingResData = $this->matchRepoObj->getStanding($data);
       if ($standingResData) {
