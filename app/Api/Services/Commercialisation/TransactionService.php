@@ -35,13 +35,13 @@ class TransactionService implements TransactionContract {
      * @param array $data
      * @return string
      */
-    public function generatePaymentReceipt($data)
+    public function generatePaymentReceipt($data, $tournament_id)
     {
         $transaction = \DB::table('transaction_histories')
                 ->select('transaction_histories.id', 'transaction_histories.currency', 'transaction_histories.amount', 'transaction_histories.order_id', 'transaction_histories.team_size', 'tournaments.start_date', 'tournaments.end_date', 'transaction_histories.no_of_days', 'tournaments.maximum_teams')
                 ->join('transactions', 'transaction_histories.transaction_id', '=', 'transactions.id')
                 ->join('tournaments', 'tournaments.id', '=', 'transactions.tournament_id')
-                ->where(['transactions.tournament_id' => $data['tournament_id']])
+                ->where(['transactions.tournament_id' => $tournament_id])
                 ->orderBy('transaction_histories.id', 'desc')
                 ->limit(2)
                 ->get();

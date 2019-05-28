@@ -29,7 +29,8 @@
                                    v-model="userProfileDetail.email" v-validate="{ rules: { required: true, email: true } }">
                                 <span class="help is-danger" v-show="errors.has('email') && errors.first('email') == 'The email field must be a valid email.'">{{$lang.login_email_invalid_validation_message}}</span>
                                 <span class="help is-danger" v-show="errors.has('email') && errors.first('email') == 'The email field is required.'">{{$lang.login_email_validation_message}}</span>
-                            </div> 
+                            </div>
+
                             <h3 class="text-uppercase font-weight-bold mt-5">Your organisation</h3>
 
                             <div class="divider mb-5"></div>
@@ -115,22 +116,27 @@
         },
         methods: {
             updateProfile(e){
-                this.$validator.validateAll();
-                if (!this.errors.any()) { 
-                    this.disabled = true;
-                    axios.post(Constant.apiBaseUrl+'user/update',this.userProfileDetail).then(response =>  { 
-                        if(response.data.success){ 
-                            this.$router.push({'name':'dashboard'})
-                            toastr['success']('User details have been updated successfully.', 'Success');
-                        }else{
-                         toastr['error'](response.data.message, 'Error');
-                        }
-                    }).catch(error => {
-                        this.disabled = false;
-                         console.log("error in profile upate::",error);
-                     });
-                     
-                } 
+                this.$validator.validateAll().then((response) => {
+                    if (!this.errors.any()) { 
+                        this.disabled = true;
+                        axios.post(Constant.apiBaseUrl+'user/update',this.userProfileDetail).then(response =>  { 
+                            if(response.data.success){ 
+                                this.$router.push({'name':'dashboard'})
+                                toastr['success']('User details have been updated successfully.', 'Success');
+                            }else{
+                             toastr['error'](response.data.message, 'Error');
+                            }
+                        }).catch(error => {
+                            this.disabled = false;
+                             console.log("error in profile upate::",error);
+                         });
+                         
+                    }   else {
+                            window.scrollTo(200,0);
+                    }
+                }).catch(() => {
+                    // fail stuff
+                }); 
             },
 
             getUserDetail(){ 

@@ -4,7 +4,23 @@
 		<site-commercialisation-header v-if="getCurrentLayout === 'commercialisation'"></site-commercialisation-header>
         <div class="main-content container-fluid" id="dashboardPage">
             <breadCrum></breadCrum>
-            <UsersTournament></UsersTournament>
+            <div class="card">
+                <div class="card-block">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="tabs tabs-primary user_tabs">
+                                <ul class="nav nav-tabs" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" data-toggle="tab"
+                                        href="javascript:void(0)" role="tab"><div class="wrapper-tab">Tournament</div></a>
+                                    </li>
+                                </ul>
+                                <UsersTournament></UsersTournament>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div> 
 		<site-footer v-if="getCurrentLayout === 'tmp'"></site-footer>
         <site-commercialisation-footer v-if="getCurrentLayout === 'commercialisation'"></site-commercialisation-footer>

@@ -33,6 +33,12 @@ Route::group(['middleware' => 'jwt.auth'], function() {
     Route::post('v1/saveTournamentPricingDetail', '\Laraspace\Api\Controllers\Commercialisation\TournamentPricingController@saveTournamentPricingDetail');
 
     Route::get('v1/getUserTransactions', '\Laraspace\Api\Controllers\Commercialisation\TournamentController@getUserTransactions');
+
+    Route::post('getSignedUrlForBuyLicensePrint/{tournamentId}', '\Laraspace\Api\Controllers\Commercialisation\BuyLicenseController@getSignedUrlForBuyLicensePrint');
+});
+
+$api->version('v1', ['middleware' => 'signedurl'], function($api) {
+    $api->get('license/receipt/generate/{tournamentId}', 'Laraspace\Api\Controllers\Commercialisation\BuyLicenseController@generatePaymentReceipt');
 });
 
 Route::get('v1/tournament-pricing-bands', '\Laraspace\Api\Controllers\Commercialisation\TournamentPricingController@getTournamentPricingBands');
@@ -41,8 +47,9 @@ Route::post('v1/generateHashKey', '\Laraspace\Api\Controllers\Commercialisation\
 
 //Payment response callback URL
 Route::post('v1/payment/response', '\Laraspace\Api\Controllers\Commercialisation\BuyLicenseController@paymentResponse');
-Route::get('v1/generate/receipt', '\Laraspace\Api\Controllers\Commercialisation\BuyLicenseController@generatePaymentReceipt');
+
 Route::get('v1/tournament-by-code', '\Laraspace\Api\Controllers\Commercialisation\TournamentController@getTournamentByCode');
+
 Route::get('v1/get-website-settings', '\Laraspace\Api\Controllers\Commercialisation\WebsiteSettingsController@getSettings');
 
 

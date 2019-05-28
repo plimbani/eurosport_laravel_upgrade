@@ -91,9 +91,9 @@
                         <p class="text-sm-right font-weight-bold"><span v-if="tournamentData.currency_type == 'GBP'">&#163;</span>   
                         <span v-if="tournamentData.currency_type == 'EURO'">&#128;</span>{{returnFormatedNumber(tournamentData.tournamentPricingValue/100)}}</p>
                         
-                        <button v-if="shaSignIn"  class="btn btn-success" v-on:click="makePaymentButton()">Checkout</button> 
-                        <button v-if="shaSignIn"  class="btn btn-success" v-on:click="redirectBuylicensePage()">EDIT YOUR LICENSE</button> 
+                        <button v-if="shaSignIn"  class="btn btn-success" v-on:click="makePaymentButton()">Checkout</button>
                         <button v-if="!shaSignIn" class="btn btn-success" disabled="true">Get checkout</button>
+                        <button v-if="shaSignIn"  class="btn btn-success" v-on:click="redirectBuylicensePage()">EDIT YOUR LICENSE</button> 
                     </div>
                 </div>
             </div>
@@ -206,9 +206,8 @@
                 })
             },
             redirectBuylicensePage(){
-                this.$router.push({name: 'buylicense', query: {id:this.tournamentData.old_tournament_id}}); 
+                this.$router.push({ name: 'buylicense', query: { edityourlicense: 'yes', id:this.tournamentData.old_tournament_id}}); 
             },
-
         },
         beforeMount() {
             let tournamentDetails = Ls.get('tournamentDetails');

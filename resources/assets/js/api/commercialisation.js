@@ -6,5 +6,8 @@ export default {
   	},
   	getTournamentPricingDetail() {
   		return api.get('v1/tournament-pricing-bands');
-  	}
+  	},
+  	getSignedUrlForBuyLicensePrint(tournamentId) {
+  		return api.post('getSignedUrlForBuyLicensePrint/' +tournamentId);
+  	},
 }

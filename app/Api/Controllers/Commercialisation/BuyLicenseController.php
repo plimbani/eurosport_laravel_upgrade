@@ -3,6 +3,9 @@
 namespace Laraspace\Api\Controllers\Commercialisation;
 
 // Need to Define Only Contracts
+use JWTAuth;
+use UrlSigner;
+use Carbon\Carbon;
 use Laraspace\Api\Services\Commercialisation\TransactionService;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
@@ -75,10 +78,10 @@ class BuyLicenseController extends BaseController
      * Generate PDF for payment receipt
      * @param Request $request
      */
-    public function generatePaymentReceipt(Request $request)
-    {
+    public function generatePaymentReceipt(Request $request, $id)
+    {  
         try {
-            return $this->transactionObj->generatePaymentReceipt($request->all());
+            return $this->transactionObj->generatePaymentReceipt($request->all(),$id);
         } catch (\Exception $ex) {
             return response()->json(['success' => false, 'status' => Response::HTTP_UNPROCESSABLE_ENTITY, 'data' => [], 'error' => [], 'message' => $ex->getMessage()]);
         }
@@ -127,5 +130,11 @@ class BuyLicenseController extends BaseController
 			}
 			return redirect('paymentfailure?' . http_build_query($request->all()));
 		}
+    }
+
+    public function getSignedUrlForBuyLicensePrint(Request $request, $tournamentId)
+    {
+        $signedUrl = UrlSigner::sign(url('api/license/receipt/generate/'. $tournamentId), Carbon::now()->addMinutes(config('config-variables.signed_url_interval')));
+        return $signedUrl;
     }
 }
