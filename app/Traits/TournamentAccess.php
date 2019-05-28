@@ -95,4 +95,25 @@ trait TournamentAccess
 	    }
 	    return true;
 	}
+
+	/*
+	 * Check for write permission of tournament
+	 *
+	 * @return response
+	 */
+	protected function checkForWritePermissionOfTournament($id)
+	{
+		$user = $this->getCurrentLoggedInUserDetail();
+		if($user->hasRole('tournament.administrator')) {
+			$tournamentsIds = $user->tournaments()->pluck('id')->toArray();
+			if (in_array($id, $tournamentsIds)) {
+				return true;
+			}
+			return false;
+		}
+		if($user->hasRole('mobile.user') || $user->hasRole('Results.administrator')) {
+			return false;
+		}
+		return true;
+	}	
 }

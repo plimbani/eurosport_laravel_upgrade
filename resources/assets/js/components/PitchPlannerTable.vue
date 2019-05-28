@@ -35,7 +35,7 @@
                                     <div></div>
                                 </div>
                                 <div :id="'stage_outer_div'+stage.stageNumber" :data-stage-number="stage.stageNumber" class="js-stage-outer-div">
-                                    <pitch-planner-stage :stage="stage" :defaultView="defaultView" @schedule-match-result="saveScheduleMatchResult" :gamesMatchList="gamesMatchList" :scheduleMatchesArray="scheduleMatchesArray"></pitch-planner-stage>
+                                    <pitch-planner-stage :stage="stage" :defaultView="defaultView" @schedule-match-result="saveScheduleMatchResult" :gamesMatchList="gamesMatchList" :scheduleMatchesArray="scheduleMatchesArray" :isMatchScheduleInEdit="isMatchScheduleInEdit"></pitch-planner-stage>
                                 </div>
                             </div>
                         </div>
@@ -182,6 +182,7 @@
                 'matchId': null,
                 'scheduleMatchesArray': [],
                 'gamesMatchList': [],
+                'isMatchScheduleInEdit': false,
             };
         },
         mounted() {
@@ -546,16 +547,18 @@
             },
 
             saveScheduleMatchResult(matchData) {
-                this.scheduleMatchesArray.push(matchData);   
+                this.scheduleMatchesArray.push(matchData);
             },
             saveScheduleMatches() {
+                let vm = this;
                 $("body .js-loader").removeClass('d-none');
                 Tournament.saveScheduleMatches(this.scheduleMatchesArray).then(
                     (response) => {
                         if(response.data.status_code == '200') {
                             toastr.success('Match has been scheduled successfully.', 'Schedule Match');
-                            this.cancelScheduleMatches();
+                            vm.cancelScheduleMatches();
                             $("body .js-loader").addClass('d-none');
+                            vm.isMatchScheduleInEdit = false;
                         }
                     },  
                     (error) => {
@@ -569,6 +572,7 @@
                 this.cancelUnscheduleFixtures();
                 $("#unschedule_fixtures").hide();
                 $("#automatic_planning").hide();
+                this.isMatchScheduleInEdit = true;
             },
             cancelScheduleMatches() {
                 $('#schedule_fixtures').removeClass('btn-success').addClass('btn-primary');
@@ -576,6 +580,7 @@
                 $('#cancel_schedule_fixtures').hide();
                 $("#unschedule_fixtures").show();
                 $("#automatic_planning").show();
+                this.isMatchScheduleInEdit = false;
             },
         }
     }

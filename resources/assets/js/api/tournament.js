@@ -277,4 +277,7 @@ export default {
   saveScheduleMatches(scheduleMatchesArray) {
     return api.post('saveScheduleMatches', scheduleMatchesArray)
   },
+  getSignedUrlForGroupsViewReport(groupsViewData) {
+    return api.post('getSignedUrlForGroupsViewReport?'+groupsViewData);
+  },
 }

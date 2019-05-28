@@ -527,7 +527,7 @@ export default {
 
 		      Tournament.getCompetationFormat(TournamentData).then(
 		      (response) => {
-		        this.competationList = response.data.data
+		        this.competationList = _.orderBy(response.data.data, 'category_age');
 		        // console.log(this.competationList);
 		      },
 		      (error) => {
@@ -552,7 +552,7 @@ export default {
             }
 		      Tournament.getTeams(TournamentData).then(
 		      (response) => {
-		        this.teams = response.data.data
+		        this.teams = _.orderBy(response.data.data, 'name');
 		        // console.log(this.competationList);
 		      },
 		      (error) => {
@@ -584,7 +584,7 @@ export default {
 		      let TournamentData = {'tournament_id': this.TournamentId}
 		      Pitch.getAllPitches(this.TournamentId).then(
 		      (response) => {
-		        this.pitches = response.data.pitches
+		        this.pitches = _.orderBy(response.data.pitches, 'pitch_number');
 		        // console.log(this.competationList);
 		      },
 		      (error) => {
@@ -623,7 +623,7 @@ export default {
             }
 	          Tournament.getClubsByTournamentId(this.TournamentId).then(
 	          (response) => {
-	            this.clubs = response.data.clubs
+	            this.clubs = _.orderBy(response.data.clubs, 'name');
 	          },
 	          (error) => {
 	          }

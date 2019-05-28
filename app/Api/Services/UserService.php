@@ -304,7 +304,7 @@ class UserService implements UserContract
           $data['country_id'] = $data['country_id'];
          // \Log::info('Update in password'.$data['password']);
          // $userData['user']['password'] = Hash::make(trim($data['password']));
-          $data['emailAddress'] = '';
+          $data['emailAddress'] = ($userObj->email === null && $userObj->provider === 'facebook') ? $data['emailAddress'] : '';
           $data['organisation'] = $userObj->organisation;
           $data['userType'] = $userObj->roles[0]->id;
           // here we add code for Tournament id update
@@ -539,7 +539,7 @@ class UserService implements UserContract
     public function changePermissions($data) {
       $data = $this->userRepoObj->changePermissions($data);
       if($data) {
-        return ['status_code'=>'200','message'=>'Permissions has been updated successfully.'];
+        return ['status_code'=>'200','message'=>'Permissions have been updated successfully.'];
       } else {
         return ['status_code'=>'200','message'=>'Problem on updating'];
       }     
@@ -565,4 +565,7 @@ class UserService implements UserContract
        return $this->userRepoObj->updateAppDeviceVersion($data);
     }
 
+    public function validateUserEmail($data) {
+        return $this->userRepoObj->validateUserEmail($data);
+    }
 }

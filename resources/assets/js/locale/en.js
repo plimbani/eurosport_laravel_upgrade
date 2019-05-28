@@ -50,6 +50,7 @@ module.exports= {
   user_desktop_name: "Name",
   user_desktop_surname: "Surname",
   user_desktop_email: "Email address",
+  user_desktop_source: "Source",
   user_desktop_organisation: "Organisation",
   user_desktop_organisation_date_time: "Date & time",
   user_desktop_usertype: "User type",
@@ -126,7 +127,7 @@ module.exports= {
   user_management_user_type: "User type*",
   user_management_user_type_required: "This field is required.",
   user_management_default_app_tournament: "Default app tournament*",
-  user_management_role: "Role*",
+  user_management_role: "Role",
   user_management_country: "Country*",
   user_management_language: "Language",
   maximum_teams: "Maximum teams",
@@ -439,6 +440,7 @@ module.exports= {
   pitch_modal_availability_button_addstage: "Add day",
   pitch_modal_availability_button_add: "Add day",
   pitch_capacity_location: "Venue",
+  pitch_modal_order: "Order",
 
 
   pitch_modal_edit_pitch_button: "Delete",
@@ -827,4 +829,11 @@ module.exports= {
   copy_age_category_modal_header: "Copy Category",
   copy_age_category_modal_note: "Please complete the fields below for the new category you are creating.",
   copy_age_category_modal_validation_message: "This field is required",
+
+  unsaved_match_score_info_modal_header: "Match Results Conflict",
+  unsaved_match_score_info_modal_body_header: "The following matches are not displaying the most up to date result:",
+  unsaved_match_score_info_modal_note: "On closing this message the latest scores will synchronise and display.",
+
+  modal_close_button: "Close",
+  note: "Note:",
 }

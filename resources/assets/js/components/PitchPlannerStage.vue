@@ -32,7 +32,7 @@ import _ from 'lodash'
                 // 'currentView': this.$store.getters.curStageView
             }
         },
-        props: [ 'stage' , 'defaultView', 'scheduleMatchesArray'],
+        props: [ 'stage' , 'defaultView', 'scheduleMatchesArray', 'isMatchScheduleInEdit'],
         components: {
             PitchModal,
             DeleteModal1,
@@ -96,7 +96,7 @@ import _ from 'lodash'
 
                 //  Unschedule fixtures checkbox check uncheck
                 $(document).on('change','.match-unschedule-checkbox', function (e){
-                    if($('.match-unschedule-checkbox:checked').length > 0) {
+                    if($('.match-unschedule-checkbox:checked').length) {
                         // $('#unschedule_fixtures').html('Confirm unscheduling').addClass('btn btn-success');
                         $("#unschedule_fixtures").hide();
                         $("#confirm_unscheduling").show();
@@ -293,22 +293,26 @@ import _ from 'lodash'
                             }else{
                             let data = {
                                 matchData: matchData,
-                                scheduleMatchesArray: vm.scheduleMatchesArray
+                                scheduleMatchesArray: vm.scheduleMatchesArray,
+                                isMultiSchedule: vm.isMatchScheduleInEdit,
                             }
+                            console.log('data', data);
                             Tournament.setMatchSchedule(data).then(
                                 (response) => {
                                     if(response.data.status_code == 200 ){
                                         if(response.data.data != -1 && response.data.data != -2){
-                                            vm.$emit('schedule-match-result', matchData);
-                                            vm.$root.$emit('gamesMatchList', matchData);
-                                            // vm.$store.dispatch('setMatches');
-                                             // toastr.success(response.data.message, 'Schedule Match', {timeOut: 5000});
-                                             // vm.getScheduledMatch(vm.tournamentFilter.filterKey,vm.tournamentFilter.filterValue,vm.tournamentFilter.filterDependentKey,vm.tournamentFilter.filterDependentValue)
-                                             $(this.$el).fullCalendar( 'removeEvents' )
-                                             vm.currentScheduledMatch.remove();
-                                             vm.currentScheduledMatch = null;
-                                             // $('.fc.fc-unthemed').fullCalendar( 'removeEvents', [event._id] )
-                                             // vm.reloadAllEvents()
+                                            vm.currentScheduledMatch.remove();
+                                            vm.currentScheduledMatch = null;
+                                            if(vm.isMatchScheduleInEdit === true) {
+                                                vm.$emit('schedule-match-result', matchData);
+                                                vm.$root.$emit('gamesMatchList', matchData);
+                                                $(vm.$el).fullCalendar( 'removeEvents' )
+                                            } else {
+                                                vm.$store.dispatch('setMatches');
+                                                toastr.success(response.data.message, 'Schedule Match', {timeOut: 5000});
+                                                vm.getScheduledMatch(vm.tournamentFilter.filterKey,vm.tournamentFilter.filterValue,vm.tournamentFilter.filterDependentKey,vm.tournamentFilter.filterDependentValue)
+                                                vm.reloadAllEvents()
+                                            }
                                         } 
                                         else {
                                             $('.fc.fc-unthemed').fullCalendar( 'removeEvents', [event._id] )
@@ -369,25 +373,28 @@ import _ from 'lodash'
                             };
                             let data = {
                                 matchData: matchData,
-                                scheduleMatchesArray: vm.scheduleMatchesArray
+                                scheduleMatchesArray: vm.scheduleMatchesArray,
+                                isMultiSchedule: vm.isMatchScheduleInEdit,
                             }
+                            console.log('data', data);
                             Tournament.setMatchSchedule(data).then(
                                 (response) => {
                                     if(response.data.data != -1 && response.data.data != -2){
+                                        if(vm.isMatchScheduleInEdit === false) {
                                             toastr.success('Match schedule has been updated successfully', 'Schedule Match', {timeOut: 5000});
-                                            // let matchScheduleChk =new Promise((resolve, reject) => {
-                                            //     resolve(vm.getScheduledMatch(vm.tournamentFilter.filterKey,vm.tournamentFilter.filterValue,vm.tournamentFilter.filterDependentKey,vm.tournamentFilter.filterDependentValue));
-                                            // });
 
-                                            // matchScheduleChk.then((successMessage) => {
-                                            //   vm.reloadAllEvents();
-                                            // });
-                                            // vm.reloadAllEvents()
-                                        }else{
-                                            revertFunc();
-                                            toastr.error(response.data.message, 'Schedule Match', {timeOut: 5000});
+                                            let matchScheduleChk =new Promise((resolve, reject) => {
+                                                resolve(vm.getScheduledMatch(vm.tournamentFilter.filterKey,vm.tournamentFilter.filterValue,vm.tournamentFilter.filterDependentKey,vm.tournamentFilter.filterDependentValue));
+
+                                                matchScheduleChk.then((successMessage) => {
+                                                  vm.reloadAllEvents();
+                                                });
+                                            });
                                         }
-
+                                    }else{
+                                        revertFunc();
+                                        toastr.error(response.data.message, 'Schedule Match', {timeOut: 5000});
+                                    }
                                 },
                                 (error) => {
                                 }

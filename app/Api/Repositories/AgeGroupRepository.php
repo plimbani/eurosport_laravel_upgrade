@@ -440,7 +440,8 @@ class AgeGroupRepository
               'away_team_placeholder_name'=>$away_team,
               'display_away_team_placeholder_name'=>$fixtureMatchDetailArray[$key]['display_away_team_placeholder_name'],
               'venue_id'=>0,
-              'pitch_id'=>0
+              'pitch_id'=>0,
+              'score_last_update_date_time' => Carbon::now()
             ]
           );
       }

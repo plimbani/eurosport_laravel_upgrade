@@ -322,7 +322,8 @@ class MatchRepository
               'tournament_competation_template.match_interval_FM',
               'tournament_competation_template.id as tid',
               'temp_fixtures.home_yellow_cards', 'temp_fixtures.away_yellow_cards',
-              'temp_fixtures.home_red_cards', 'temp_fixtures.away_red_cards',              
+              'temp_fixtures.home_red_cards', 'temp_fixtures.away_red_cards',
+              'temp_fixtures.score_last_update_date_time',
               DB::raw('CONCAT(home_team.name, " vs ", away_team.name) AS full_game')
               )
           ->where('temp_fixtures.tournament_id', $tournamentData['tournamentId']);
@@ -1343,7 +1344,7 @@ class MatchRepository
     public function setMatchSchedule($data, $allowSchedulingForcefully = false)
     {
       $matchData = $data['matchData'];
-      $scheduleMatchesArray = $data['scheduleMatchesArray'];
+      $scheduleMatchesArray = $data['isMultiSchedule'] === true ? $data['scheduleMatchesArray'] : [];
       $teamData = TempFixture::join('tournament_competation_template','temp_fixtures.age_group_id','tournament_competation_template.id')->where('temp_fixtures.id',$matchData['matchId'])->select('tournament_competation_template.team_interval','tournament_competation_template.pitch_size','temp_fixtures.*')->first()->toArray();
       $team_interval = $teamData['team_interval'];
 
@@ -1368,73 +1369,73 @@ class MatchRepository
 
       $scheduleMatchesIds = count($scheduleMatchesArray) > 0 ? array_column($scheduleMatchesArray, 'matchId') : [];
       $matchResultCount = TempFixture::where('tournament_id',$matchData['tournamentId']);
-                if(count($scheduleMatchesIds) > 0) {
-                  $matchResultCount = $matchResultCount->where(function($query) use($scheduleMatchesIds) {
-                    $query->where('is_scheduled', 1)
-                      ->orWhereIn('id', $scheduleMatchesIds);
-                  });
-                } else {
-                  $matchResultCount = $matchResultCount->where('is_scheduled', 1);
-                }
-                $matchResultCount = $matchResultCount->where('age_group_id',$teamData['age_group_id'])
-                ->where('id','!=',$matchData['matchId'])
-                ->where(function($query1) use ($teams,$teamId) {
-                  if($teamId){
-                    $query1->whereIn('home_team',$teams)
-                           ->orWhereIn('away_team',$teams);
-                  } else{
-                    $query1->whereIn('home_team_placeholder_name',$teams)
-                           ->orWhereIn('away_team_placeholder_name',$teams) ;
-                  }
+      if(count($scheduleMatchesIds) > 0) {
+        $matchResultCount = $matchResultCount->where(function($query) use($scheduleMatchesIds) {
+          $query->where('is_scheduled', 1)
+            ->orWhereIn('id', $scheduleMatchesIds);
+        });
+      } else {
+        $matchResultCount = $matchResultCount->where('is_scheduled', 1);
+      }
+      $matchResultCount = $matchResultCount->where('age_group_id',$teamData['age_group_id'])
+      ->where('id','!=',$matchData['matchId'])
+      ->where(function($query1) use ($teams,$teamId) {
+        if($teamId){
+          $query1->whereIn('home_team',$teams)
+                 ->orWhereIn('away_team',$teams);
+        } else{
+          $query1->whereIn('home_team_placeholder_name',$teams)
+                 ->orWhereIn('away_team_placeholder_name',$teams) ;
+        }
 
-                })->get()->keyBy('id');
+      })->get()->keyBy('id');
 
-                foreach($scheduleMatchesArray as $scheduleMatch) {
-                  if($scheduleMatch['matchId'] !== $matchData['matchId']) {
-                    $matchResultCount[$scheduleMatch['matchId']]->match_datetime = $scheduleMatch['matchStartDate'];
-                    $matchResultCount[$scheduleMatch['matchId']]->match_endtime = $scheduleMatch['matchEndDate'];
-                  }
-                }
+      foreach($scheduleMatchesArray as $scheduleMatch) {
+        if($scheduleMatch['matchId'] !== $matchData['matchId']) {
+          $matchResultCount[$scheduleMatch['matchId']]->match_datetime = $scheduleMatch['matchStartDate'];
+          $matchResultCount[$scheduleMatch['matchId']]->match_endtime = $scheduleMatch['matchEndDate'];
+        }
+      }
 
-                // $matchResultCount->where(function($query) use ($team_interval,$startTime,$endTime,$matchData) {
-                    $edStartTime = Carbon::createFromFormat('Y-m-d H:i:s', $matchData['matchEndDate'])->addMinutes(0);
-                    $edEndTime = Carbon::createFromFormat('Y-m-d H:i:s', $matchData['matchEndDate'])->addMinutes($team_interval);
-                    $sdStartTime = Carbon::createFromFormat('Y-m-d H:i:s', $matchData['matchStartDate'])->subMinutes($team_interval);
-                    $sdEndTime = Carbon::createFromFormat('Y-m-d H:i:s', $matchData['matchStartDate'])->subMinutes(0);
-                    $matchResultCount = $matchResultCount->filter(function($item) use ($sdStartTime,$sdEndTime,$edStartTime,$edEndTime,$matchData) {
-                      if($item['match_endtime'] > $sdStartTime && $item['match_endtime'] <= $sdEndTime) {
-                        return true;
-                      }
-                      if($item['match_datetime'] >= $edStartTime && $item['match_datetime'] < $edEndTime) {
-                        return true;
-                      }
-                      if($item['match_datetime'] > $matchData['matchStartDate'] && $item['match_datetime'] < $matchData['matchEndDate']) {
-                        return true;
-                      }
-                      if($item['match_datetime'] >= $matchData['matchStartDate'] && $item['match_datetime'] < $matchData['matchEndDate']) {
-                        return true;
-                      }
+      // $matchResultCount->where(function($query) use ($team_interval,$startTime,$endTime,$matchData) {
+          $edStartTime = Carbon::createFromFormat('Y-m-d H:i:s', $matchData['matchEndDate'])->addMinutes(0);
+          $edEndTime = Carbon::createFromFormat('Y-m-d H:i:s', $matchData['matchEndDate'])->addMinutes($team_interval);
+          $sdStartTime = Carbon::createFromFormat('Y-m-d H:i:s', $matchData['matchStartDate'])->subMinutes($team_interval);
+          $sdEndTime = Carbon::createFromFormat('Y-m-d H:i:s', $matchData['matchStartDate'])->subMinutes(0);
+          $matchResultCount = $matchResultCount->filter(function($item) use ($sdStartTime,$sdEndTime,$edStartTime,$edEndTime,$matchData) {
+            if($item['match_endtime'] > $sdStartTime && $item['match_endtime'] <= $sdEndTime) {
+              return true;
+            }
+            if($item['match_datetime'] >= $edStartTime && $item['match_datetime'] < $edEndTime) {
+              return true;
+            }
+            if($item['match_datetime'] > $matchData['matchStartDate'] && $item['match_datetime'] < $matchData['matchEndDate']) {
+              return true;
+            }
+            if($item['match_datetime'] >= $matchData['matchStartDate'] && $item['match_datetime'] < $matchData['matchEndDate']) {
+              return true;
+            }
 
-                      if($item['match_endtime'] > $matchData['matchStartDate'] && $item['match_endtime'] <= $matchData['matchEndDate']) {
-                        return true;
-                      }
+            if($item['match_endtime'] > $matchData['matchStartDate'] && $item['match_endtime'] <= $matchData['matchEndDate']) {
+              return true;
+            }
 
-                      return false;
-                      // $query2->where('match_endtime','>',$sdStartTime)->where('match_endtime','<=',$sdEndTime);
-                    });
-                    // $matchResultCount->orWhere(function($query3) use ($edStartTime,$edEndTime) {
-                    //    $query3->where('match_datetime','>=',$edStartTime)->where('match_datetime','<',$edEndTime);
-                    // });
-                    // $matchResultCount->orWhere(function($query4) use ($matchData) {
-                    //   $query4->where('match_datetime','>',$matchData['matchStartDate'])->where('match_datetime','<',$matchData['matchEndDate']);
-                    // });
-                    // $matchResultCount->orWhere(function($query5) use ($matchData) {
-                    //   $query5->where('match_datetime','>=',$matchData['matchStartDate'])->where('match_datetime','<',$matchData['matchEndDate']);
-                    // });
-                    // $matchResultCount->orWhere(function($query6) use ($matchData) {
-                    //   $query6->where('match_endtime','>',$matchData['matchStartDate'])->where('match_endtime','<=',$matchData['matchEndDate']);
-                    // });
-                 //});
+            return false;
+            // $query2->where('match_endtime','>',$sdStartTime)->where('match_endtime','<=',$sdEndTime);
+          });
+          // $matchResultCount->orWhere(function($query3) use ($edStartTime,$edEndTime) {
+          //    $query3->where('match_datetime','>=',$edStartTime)->where('match_datetime','<',$edEndTime);
+          // });
+          // $matchResultCount->orWhere(function($query4) use ($matchData) {
+          //   $query4->where('match_datetime','>',$matchData['matchStartDate'])->where('match_datetime','<',$matchData['matchEndDate']);
+          // });
+          // $matchResultCount->orWhere(function($query5) use ($matchData) {
+          //   $query5->where('match_datetime','>=',$matchData['matchStartDate'])->where('match_datetime','<',$matchData['matchEndDate']);
+          // });
+          // $matchResultCount->orWhere(function($query6) use ($matchData) {
+          //   $query6->where('match_endtime','>',$matchData['matchStartDate'])->where('match_endtime','<=',$matchData['matchEndDate']);
+          // });
+       //});
 
       if($matchResultCount->count() >0){
         if( $allowSchedulingForcefully == false && ((strpos($teamData['match_number'],"RR1") != false) || (strpos($teamData['match_number'],"PM1" ) != false)) ) {
@@ -1444,21 +1445,23 @@ class MatchRepository
         $setFlag = 1;
       }
 
-      // $updateData = [
-      //   'venue_id' => $pitchData->venue_id,
-      //   'pitch_id' => $data['pitchId'],
-      //   'match_datetime' => $data['matchStartDate'],
-      //   'match_endtime' => $data['matchEndDate'],
-      //   'is_scheduled' => 1,
-      //   'minimum_team_interval_flag' => $setFlag,
-      // ];
+      if($data['isMultiSchedule'] === false) {
+        $updateData = [
+          'venue_id' => $pitchData->venue_id,
+          'pitch_id' => $matchData['pitchId'],
+          'match_datetime' => $matchData['matchStartDate'],
+          'match_endtime' => $matchData['matchEndDate'],
+          'is_scheduled' => 1,
+          'minimum_team_interval_flag' => $setFlag,
+        ];
 
-      // $updateResult = DB::table('temp_fixtures')
-      //     ->where('id', $data['matchId'])
-      //     ->update($updateData);
+        $updateResult = DB::table('temp_fixtures')
+            ->where('id', $matchData['matchId'])
+            ->update($updateData);
 
-      // $matchData = array('teams'=>$teams,'tournamentId'=>$data['tournamentId'],'ageGroupId'=>$teamData['age_group_id'],'teamId'=>$teamId);
-      // $matchresult =  $this->checkTeamIntervalforMatches($matchData);
+        $matchData = array('teams'=>$teams,'tournamentId'=>$matchData['tournamentId'],'ageGroupId'=>$teamData['age_group_id'],'teamId'=>$teamId);
+        $matchresult =  $this->checkTeamIntervalforMatches($matchData);
+      }
       return 1;
     }
     public function matchUnschedule($matchId)
@@ -1591,6 +1594,10 @@ class MatchRepository
       if($isScoreUpdated === false) {
         return ['status' => true, 'data' => 'Scores updated successfully.', 'match_data' => $matchData, 'is_score_updated' => $isScoreUpdated];
       }
+      if($data['score_last_update_date_time'] != $tempFixtures['score_last_update_date_time']) {
+        return ['status' => false, 'data' => 'You need to refresh page to get latest updated score.', 'match_data' => $matchData, 'is_score_updated' => $isScoreUpdated, 'tempFixture' => $tempFixtures];
+      }
+
       $matchData['home_team_id'] = $tempFixtures['home_team'];
       $matchData['away_team_id'] = $tempFixtures['away_team'];
       $matchData['age_group_id'] = $tempFixtures['age_group_id'];
@@ -1598,6 +1605,7 @@ class MatchRepository
       $updateData = [
         'hometeam_score' => $data['homeScore'],
         'awayteam_score' => $data['awayScore'],
+        'score_last_update_date_time' => Carbon::now(),
       ];
       $data = TempFixture::where('id',$data['matchId'])
                 ->update($updateData);

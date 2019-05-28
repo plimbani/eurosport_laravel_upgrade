@@ -22,4 +22,11 @@ export default {
   getLocationWiseSummary(tournamentId) {
     return api.get('getLocationWiseSummary/' + tournamentId)
   },
+  getPicthSearchRecord(tournamentData){
+    return api.post('pitchSearchRecord', tournamentData)
+  },
+
+  getVenuesDropDownData(tournamentData) {
+    return api.post('getVenuesDropDownData', tournamentData)
+  }, 
 }
