@@ -87,6 +87,13 @@ class AgeCategoriesGroupsVC: SuperViewController {
                             }
                         }
                     }
+                    
+                    if let error = result.value(forKey: "error") as? String {
+                        if error == "token_expired"{
+                            USERDEFAULTS.set(nil, forKey: kUserDefaults.token)
+                            UIApplication.shared.keyWindow?.rootViewController = UINavigationController(rootViewController: Storyboards.Main.instantiateLandingVC())
+                        }
+                    }
                 }
             }
         }

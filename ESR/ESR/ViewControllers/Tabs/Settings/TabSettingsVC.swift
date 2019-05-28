@@ -20,6 +20,11 @@ class TabSettingsVC: SuperViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        if ApplicationData.facebookDetailsPending {
+            self.navigationController?.pushViewController(Storyboards.Settings.instantiateProfileVC(), animated: true)
+            return
+        }
+        
         table.reloadData()
     }
     
@@ -30,11 +35,6 @@ class TabSettingsVC: SuperViewController {
         
         table.separatorColor = .black
         table.tableFooterView = UIView()
-        
-        if ApplicationData.facebookDetailsPending {
-            self.navigationController?.pushViewController(Storyboards.Settings.instantiateProfileVC(), animated: true)
-            return
-        }
         
         // Register to receive notification
         NotificationCenter.default.addObserver(self, selector: #selector(goToSelectCountry), name: .selectCountry, object: nil)

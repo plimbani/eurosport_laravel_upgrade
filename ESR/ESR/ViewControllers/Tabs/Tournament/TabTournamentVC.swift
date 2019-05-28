@@ -119,15 +119,6 @@ class TabTournamentVC: SuperViewController {
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
     }
     
-    @objc func updateTimer() {
-        convertToCountdownTime()
-    }
-    
-    @objc func onSelectTournament(_ sender : UITapGestureRecognizer) {
-        // pickerHandlerView.show()
-        showPickerVC(selectedPosition: selectedPosition, titleList: titleList, delegate: self)
-    }
-    
     func getProgressView(maxValue: CGFloat) -> MBCircularProgressBarView {
         let progressBarView = MBCircularProgressBarView()
         progressBarView.backgroundColor = .white
@@ -218,6 +209,15 @@ class TabTournamentVC: SuperViewController {
         }
     }
     
+    @objc func updateTimer() {
+        convertToCountdownTime()
+    }
+    
+    @objc func onSelectTournament(_ sender : UITapGestureRecognizer) {
+        // pickerHandlerView.show()
+        showPickerVC(selectedPosition: selectedPosition, titleList: titleList, delegate: self)
+    }
+    
     @objc func showHideNoInternetView(_ notification: NSNotification) {
         if notification.userInfo != nil {
             if let isShow = notification.userInfo![kNotification.isShow] as? Bool {
@@ -226,15 +226,17 @@ class TabTournamentVC: SuperViewController {
         }
     }
     
-    @IBAction func onFinalPlacingPressed(_ sender: UIButton) {
+    @IBAction func onAgeCategoriesPressed(_ sender: UIButton) {
         if ApplicationData.sharedInstance().isTournamentInPreview() {
             showCustomAlertVC(title: String.localize(key: "alert_title_preview"), message: String.localize(key: "alert_preview_tournament"), requestCode: 100, delegate: self)
             return
         }
         
-        let viewController = Storyboards.Teams.instantiateCategoryListVC()
-        viewController.isFromTournament = true
-        self.navigationController?.pushViewController(viewController, animated: true)
+        // let viewController = Storyboards.Teams.instantiateCategoryListVC()
+        // viewController.isFromTournament = true
+        // self.navigationController?.pushViewController(viewController, animated: true)
+        
+        delegate!.mainTabViewControllerSelectTab(TabIndex.tabAgeCategories.rawValue)
     }
     
     @IBAction func onTeamPressed(_ sender: UIButton) {
@@ -357,6 +359,17 @@ class TabTournamentVC: SuperViewController {
         }, failure: { result in
             DispatchQueue.main.async {
                 self.view.hideProgressHUD()
+                
+                if result.allKeys.count == 0 {
+                    return
+                }
+                
+                if let error = result.value(forKey: "error") as? String {
+                    if error == "token_expired"{
+                        USERDEFAULTS.set(nil, forKey: kUserDefaults.token)
+                        UIApplication.shared.keyWindow?.rootViewController = UINavigationController(rootViewController: Storyboards.Main.instantiateLandingVC())
+                    }
+                }
             }
         })
     }
@@ -376,11 +389,8 @@ extension TabTournamentVC: PickerVCDelegate {
         let dicSelectedTournament = self.tournamentList[lastPosition]
         ApplicationData.sharedInstance().saveSelectedTournament(dicSelectedTournament)
         updateTournamentDetails()
-        // refreshTournamentPosition()
     }
     
-    func pickerVCCancelBtnPressed() {
-        
-    }
+    func pickerVCCancelBtnPressed() {}
 }
 

@@ -160,7 +160,7 @@ class LandingVC: SuperViewController {
                     return
                 }
                 
-                if let error = result.value(forKey: "error") as? String {
+                if let error = result.value(forKey: "message") as? String {
                     self.showCustomAlertVC(title: String.localize(key: "alert_title_error"), message: error)
                 }
             }
@@ -187,6 +187,11 @@ class LandingVC: SuperViewController {
                             if userData.tournamentId == NULL_ID {
                                 ApplicationData.facebookDetailsPending = true
                             }
+                            
+                            if userData.email == NULL_STRING {
+                                ApplicationData.facebookDetailsPending = true
+                            }
+                            
                         }
                         
                         UIApplication.shared.keyWindow?.rootViewController = Storyboards.Main.instantiateMainVC()
@@ -202,7 +207,7 @@ class LandingVC: SuperViewController {
                 }
                 
                 if let error = result.value(forKey: "error") as? String {
-                    self.showCustomAlertVC(title: String.localize(key: "alert_title_error"), message: error)
+                    self.showCustomAlertVC(title: String.localize(key: "alert_title_error"), message: error, buttonTitle: String.localize(key: "btn_ok"))
                 }
             }
         })

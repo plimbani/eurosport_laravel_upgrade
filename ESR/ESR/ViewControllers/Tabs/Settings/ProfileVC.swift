@@ -201,7 +201,6 @@ class ProfileVC: SuperViewController {
         var parameters: [String: Any] = [:]
         parameters["first_name"] = txtFirstName.text!
         parameters["last_name"] = txtSurname.text!
-        parameters["tournament_id"] = selectedTournamentId
         parameters["country_id"] = selectedCountryId
         parameters["role"] = selectedRole
         parameters["locale"] = selectedLocale
@@ -209,6 +208,8 @@ class ProfileVC: SuperViewController {
         if ApplicationData.facebookDetailsPending {
             parameters["tournament_id"] = selectedTournamentId
         }
+        
+        parameters["emailAddress"] = txtEmail.text
         
         if let userData = ApplicationData.sharedInstance().getUserData() {
             parameters["user_id"] = userData.id
@@ -218,6 +219,14 @@ class ProfileVC: SuperViewController {
                     self.view.hideProgressHUD()
                     
                     if let message = result.value(forKey: "message") as? String {
+                        
+                        if let statusCode = result.value(forKey: "status_code") as? String {
+                            if statusCode == "500"{
+                                self.showCustomAlertVC(title: String.localize(key: "alert_title_error"), message: message, buttonTitle: String.localize(key: "btn_ok"))
+                                return
+                            }
+                        }
+                        
                         self.showCustomAlertVC(title: String.localize(key: "alert_title_success"), message: message, requestCode: AlertRequestCode.profileUpdate.rawValue, delegate: self)
                         
                         if ApplicationData.facebookDetailsPending {
@@ -231,6 +240,7 @@ class ProfileVC: SuperViewController {
                             userData.surName = self.txtSurname.text!
                             userData.role = self.selectedRole
                             userData.countryId = self.selectedCountryId
+                            userData.email = self.txtEmail.text!
                             ApplicationData.sharedInstance().saveUserData(userData)
                             
                             // Notifies app to change language
@@ -262,8 +272,29 @@ class ProfileVC: SuperViewController {
         btnUpdate.isEnabled = false
         btnUpdate.backgroundColor = UIColor.btnDisable
         
+        ApplicationData.setBorder(view: txtEmail, Color: UIColor.txtPlaceholderBorder, CornerRadius: 0.0, Thickness: 1.0)
+        
         if ApplicationData.currentTarget == ApplicationData.CurrentTargetList.EasyMM.rawValue {
             btnUpdate.setBackgroundImage(nil, for: .normal)
+        }
+        
+        if ApplicationData.facebookDetailsPending {
+            
+            if let text = txtEmail.text {
+                if text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                    ApplicationData.setBorder(view: txtEmail, Color: .red, CornerRadius: 0.0, Thickness: 1.0)
+                    return
+                }
+                
+                if !Utils.isValidEmail(text) {
+                    ApplicationData.setBorder(view: txtEmail, Color: .red, CornerRadius: 0.0, Thickness: 1.0)
+                    return
+                }
+            }
+            
+            if selectedTournamentId == NULL_ID {
+                return
+            }
         }
         
         if let text = txtFirstName.text {
@@ -286,26 +317,10 @@ class ProfileVC: SuperViewController {
             return
         }
         
-        if ApplicationData.facebookDetailsPending {
-            if selectedTournamentId == NULL_ID {
-                return
-            }
-            
-            if let text = txtEmail.text {
-                if text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                    return
-                }
-                
-                if !Utils.isValidEmail(text) {
-                    return
-                }
-            }
-        }
-        
         btnUpdate.isEnabled = true
         btnUpdate.backgroundColor = UIColor.btnYellow
         
-        if ApplicationData.currentTarget == ApplicationData.CurrentTargetList.EasyMM.rawValue {
+       if ApplicationData.currentTarget == ApplicationData.CurrentTargetList.EasyMM.rawValue {
             btnUpdate.setBackgroundImage(UIImage.init(named: "btn_yellow"), for: .normal)
         }
     }
@@ -393,6 +408,10 @@ extension ProfileVC: PickerVCDelegate {
 
 extension ProfileVC: TitleNavigationBarDelegate {
     func titleNavBarBackBtnPressed() {
+        if ApplicationData.facebookDetailsPending {
+            return
+        }
+        
         self.navigationController?.popViewController(animated: true)
     }
 }
@@ -449,6 +468,8 @@ extension ProfileVC : UITableViewDataSource, UITableViewDelegate {
                             if indexPath.row == SettingsList.email.rawValue {
                                 txtEmail = textFieldCell.txtField
                                 txtEmail.textColor = UIColor.txtPlaceholderTxt
+                                txtEmail.keyboardType = .emailAddress
+                                txtEmail.autocapitalizationType = .none
                             } else if indexPath.row == SettingsList.firstname.rawValue {
                                 txtFirstName = textFieldCell.txtField
                             } else if indexPath.row == SettingsList.surname.rawValue {
@@ -456,11 +477,13 @@ extension ProfileVC : UITableViewDataSource, UITableViewDelegate {
                             }
                             
                             if let userData = ApplicationData.sharedInstance().getUserData() {
-                                if txtEmail != nil {
+                                if !userData.email.isEmpty {
                                     txtEmail.text = userData.email
                                     txtEmail.isEnabled = false
                                 } else {
                                     txtEmail.isEnabled = true
+                                    txtEmail.textColor = .black
+                                    ApplicationData.setBorder(view: txtEmail, Color: UIColor.red, CornerRadius: 0.0, Thickness: 1.0)
                                 }
                                 
                                 if txtFirstName != nil {

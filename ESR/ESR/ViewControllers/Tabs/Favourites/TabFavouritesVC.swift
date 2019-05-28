@@ -82,6 +82,10 @@ class TabFavouritesVC: SuperViewController {
         }, failure: { result in
             DispatchQueue.main.async {
                 self.view.hideProgressHUD()
+                
+                if result.allKeys.count == 0 {
+                    return
+                }
             }
         })
     }
@@ -211,6 +215,17 @@ class TabFavouritesVC: SuperViewController {
         }, failure: { result in
             DispatchQueue.main.async {
                 self.view.hideProgressHUD()
+                
+                if result.allKeys.count == 0 {
+                    return
+                }
+                
+                if let error = result.value(forKey: "error") as? String {
+                    if error == "token_expired"{
+                        USERDEFAULTS.set(nil, forKey: kUserDefaults.token)
+                        UIApplication.shared.keyWindow?.rootViewController = UINavigationController(rootViewController: Storyboards.Main.instantiateLandingVC())
+                    }
+                }
             }
         })
     }

@@ -58,6 +58,7 @@
 		3044DE5B223F9E99005E8C86 /* TabFollowVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3044DE5A223F9E99005E8C86 /* TabFollowVC.swift */; };
 		3044DE5E2240CFF9005E8C86 /* FollowTournamentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3044DE5C2240CFF9005E8C86 /* FollowTournamentCell.swift */; };
 		3044DE5F2240CFF9005E8C86 /* FollowTournamentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3044DE5D2240CFF9005E8C86 /* FollowTournamentCell.xib */; };
+		3052EBE32298117700FD8CE8 /* esr_production.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3052EBE22298117700FD8CE8 /* esr_production.plist */; };
 		305693FE212BEABC009790BA /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 305693FD212BEABC009790BA /* ProfileVC.swift */; };
 		30569400212BEACC009790BA /* NotificationAndSoundVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 305693FF212BEACC009790BA /* NotificationAndSoundVC.swift */; };
 		30569402212BEADC009790BA /* PrivacyAndTermsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30569401212BEADC009790BA /* PrivacyAndTermsVC.swift */; };
@@ -238,13 +239,12 @@
 /* Begin PBXFileReference section */
 		3009A35F21CA56A8002769CF /* AllMatchesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllMatchesVC.swift; sourceTree = "<group>"; };
 		300E3585225E1C4B006C3E71 /* Pods_ESR.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Pods_ESR.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		300E3603225E1E94006C3E71 /* ESR copy 2-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "ESR copy 2-Info.plist"; path = "/Users/pratik/Documents/WS_ios/eurosport-swift/ESR/ESR copy 2-Info.plist"; sourceTree = "<absolute>"; };
 		30181CC0211D95B60067D65F /* ESR.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ESR.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		30181CC3211D95B60067D65F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		30181CC8211D95B60067D65F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		30181CCA211D95B80067D65F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		30181CCD211D95B80067D65F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		30181CCF211D95B80067D65F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		30181CCF211D95B80067D65F /* esr.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = esr.plist; sourceTree = "<group>"; };
 		30181CD8211D98720067D65F /* SuperViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuperViewController.swift; sourceTree = "<group>"; };
 		30181CDC211D99F50067D65F /* AppConstantsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConstantsList.swift; sourceTree = "<group>"; };
 		30181CDE211D9DFF0067D65F /* ApplicationData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationData.swift; sourceTree = "<group>"; };
@@ -294,6 +294,7 @@
 		3044DE5C2240CFF9005E8C86 /* FollowTournamentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowTournamentCell.swift; sourceTree = "<group>"; };
 		3044DE5D2240CFF9005E8C86 /* FollowTournamentCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FollowTournamentCell.xib; sourceTree = "<group>"; };
 		3044DE602240F5F1005E8C86 /* Pods_ESR.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Pods_ESR.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3052EBE22298117700FD8CE8 /* esr_production.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = esr_production.plist; sourceTree = "<group>"; };
 		305693FD212BEABC009790BA /* ProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVC.swift; sourceTree = "<group>"; };
 		305693FF212BEACC009790BA /* NotificationAndSoundVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationAndSoundVC.swift; sourceTree = "<group>"; };
 		30569401212BEADC009790BA /* PrivacyAndTermsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyAndTermsVC.swift; sourceTree = "<group>"; };
@@ -396,7 +397,6 @@
 		30C799F821CD105100B0ECB4 /* BundleExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BundleExtension.swift; sourceTree = "<group>"; };
 		30C799FA21D35E3A00B0ECB4 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		30F180D72272F76600301C6F /* ESR copy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ESR copy.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		30F180D82272F76700301C6F /* ESR copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "ESR copy-Info.plist"; path = "/Users/pratik/Documents/WS_ios/eurosport-swift/ESR/ESR copy-Info.plist"; sourceTree = "<absolute>"; };
 		30F180E0227850C400301C6F /* GoogleService-Info-Easymm.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info-Easymm.plist"; sourceTree = "<group>"; };
 		30FB3110212EB2B300ABA22A /* privacyContent.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = privacyContent.html; sourceTree = "<group>"; };
 		30FB3112212EEB0B00ABA22A /* FavouriteTournamentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouriteTournamentCell.swift; sourceTree = "<group>"; };
@@ -475,8 +475,6 @@
 				30181CC1211D95B60067D65F /* Products */,
 				023496BC20B01812C3B358A9 /* Pods */,
 				2BDEF858AB329BF64FB52540 /* Frameworks */,
-				300E3603225E1E94006C3E71 /* ESR copy 2-Info.plist */,
-				30F180D82272F76700301C6F /* ESR copy-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -507,7 +505,8 @@
 				30C799F021CD05C800B0ECB4 /* Localizable.strings */,
 				30C799FA21D35E3A00B0ECB4 /* GoogleService-Info.plist */,
 				30F180E0227850C400301C6F /* GoogleService-Info-Easymm.plist */,
-				30181CCF211D95B80067D65F /* Info.plist */,
+				30181CCF211D95B80067D65F /* esr.plist */,
+				3052EBE22298117700FD8CE8 /* esr_production.plist */,
 				3018B35522423C4900EC76F4 /* easymm.plist */,
 			);
 			path = ESR;
@@ -881,6 +880,7 @@
 				30FB312F21366AA400ABA22A /* GroupSummaryStandingsCell.xib in Resources */,
 				307542AC2170BE03003715C7 /* LabelCell.xib in Resources */,
 				3086BC96213EB11A00810CC8 /* TwoLabelCell.xib in Resources */,
+				3052EBE32298117700FD8CE8 /* esr_production.plist in Resources */,
 				30181D342122C0370067D65F /* LabelSelectionCell.xib in Resources */,
 				30FB312B21366A6400ABA22A /* GroupSummaryMatchesCell.xib in Resources */,
 				30181D40212312EC0067D65F /* ButtonCell.xib in Resources */,
@@ -1388,7 +1388,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
-				INFOPLIST_FILE = ESR/Info.plist;
+				INFOPLIST_FILE = ESR/esr.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1479,7 +1479,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
-				INFOPLIST_FILE = ESR/Info.plist;
+				INFOPLIST_FILE = ESR/esr_production.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1570,7 +1570,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
-				INFOPLIST_FILE = ESR/Info.plist;
+				INFOPLIST_FILE = ESR/esr_production.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1595,7 +1595,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = BSDM4Q267C;
-				INFOPLIST_FILE = "ESR copy-Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/ESR/easymm.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1620,7 +1620,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = BSDM4Q267C;
-				INFOPLIST_FILE = "ESR copy-Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/ESR/easymm.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1645,7 +1645,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = BSDM4Q267C;
-				INFOPLIST_FILE = "ESR copy-Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/ESR/easymm.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
