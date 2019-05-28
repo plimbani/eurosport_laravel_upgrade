@@ -956,7 +956,7 @@ class MatchService implements MatchContract
         if(count($findTeams) > 0) {
           $findTeams = array_unique($findTeams);
           $this->moveMatchStandings($data['tournamentId'], $ageCategoryId, $data['competitionId']);
-          $this->generateStandingsForCompetitions($data['tournamentId'], $data['competitionId'], $ageCategoryId, $findTeams, 'Round Robin');
+          $this->generateStandingsForCompetitions($data['tournamentId'], $data['competitionId'], $ageCategoryId, $findTeams, 'Round Robin', false);
           $this->updateCategoryPositions($data['competitionId'], $ageCategoryId);
         }
       }
@@ -1640,7 +1640,7 @@ class MatchService implements MatchContract
         return ['status_code' => '200', 'message' => 'Ranking has been updated successfully.'];
     }
 
-    public function generateStandingsForCompetitions($tournamentId, $cup_competition_id, $ageCategoryId, $findTeams, $competitionType) {
+    public function generateStandingsForCompetitions($tournamentId, $cup_competition_id, $ageCategoryId, $findTeams, $competitionType, $assignTeamsToFurtherRounds = true) {
       $matches = DB::table('temp_fixtures')
                 ->where('tournament_id','=',$tournamentId)
                 ->where('competition_id','=',$cup_competition_id)
@@ -1856,7 +1856,9 @@ class MatchService implements MatchContract
         }
       }
 
-      $this->TeamPMAssignKp($cup_competition_id);
+      if($assignTeamsToFurtherRounds) {
+        $this->TeamPMAssignKp($cup_competition_id);
+      }
     }
 
     public function processMatch($data, $match)
