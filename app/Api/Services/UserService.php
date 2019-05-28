@@ -346,7 +346,7 @@ class UserService implements UserContract
           $data['country_id'] = $data['country_id'];
          // \Log::info('Update in password'.$data['password']);
          // $userData['user']['password'] = Hash::make(trim($data['password']));
-          $data['emailAddress'] = '';
+          $data['emailAddress'] = ($userObj->email === null && $userObj->provider === 'facebook') ? $data['emailAddress'] : '';
           $data['organisation'] = $userObj->organisation;
           $data['userType'] = $userObj->roles[0]->id;
           // here we add code for Tournament id update

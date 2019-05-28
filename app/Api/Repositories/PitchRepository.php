@@ -150,7 +150,6 @@ class PitchRepository
         $selectVenue = false;
     
         $pitchSearchData = Pitch::with(['pitchAvailability','pitchAvailability.pitchBreaks','venue'])
-            ->join('venues', 'venues.id','=','pitches.venue_id')
             ->where('pitches.tournament_id',$tournamentData['tournament_id']);
     
         if(isset($tournamentData['selectedVenue']) && $tournamentData['selectedVenue'] != '') {
@@ -162,7 +161,9 @@ class PitchRepository
             $pitchSearchData->where('pitches.tournament_id',$tournamentData['tournament_id'])
                         ->where(function ($query) use ($tournamentData){
                             $query->where('pitches.pitch_number', 'like', "%" . $tournamentData['pitchDataSearch'] . "%")
-                                ->orWhere('venues.name', 'like', "%" . $tournamentData['pitchDataSearch'] . "%");
+                                ->orWhereHas('venue', function($query) use ($tournamentData) {
+                                    $query->where('name', 'like', "%" . $tournamentData['pitchDataSearch'] . "%");
+                                });
                         });  
         }
         return $pitchSearchData->get();

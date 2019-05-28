@@ -45,7 +45,7 @@
                     <div class="row d-flex flex-row align-items-center">
                         <div class="col-md-12">
                           <div class="table-responsive">
-                            <table class="table add-category-table users-table">
+                            <table class="table add-category-table users-table" style="border-bottom: 1px solid #eceeef">
                                 <thead>
                                     <tr>
                                         <th>{{$lang.user_desktop_name}}</th>
@@ -131,7 +131,6 @@
                                         </a>-->
                                     </td>
                                   </tr>
-                                  <!-- <tr><td colspan="8"></td></tr> -->
                                 </tbody>
                             </table>
                           </div>

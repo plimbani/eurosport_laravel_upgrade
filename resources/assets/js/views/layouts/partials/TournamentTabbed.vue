@@ -3,7 +3,7 @@
     <div class="card-block">
         <div class="row">
             <div class="col-md-12">
-                <p v-if="tournamentEndDateTimeDisplayMessage && this.displayTournamentEndDate !=''" class="result-administration-date">
+                <p v-if="tournamentEndDateTimeDisplayMessage && displayTournamentEndDate !=''" class="result-administration-date">
                     <small class="text-muted">Please note: You will no longer be able to enter results or edit your tournament after {{ displayTournamentEndDate | formatDate }} </small> 
                 </p>  
             </div>
@@ -95,6 +95,7 @@
                 </li>
             </ul>
           <router-view></router-view>
+          <UnSavedMatchScoresInfoModal v-show="unChangedMatchScoresInfoModalOpen" :unChangedMatchScores="unChangedMatchScores"></UnSavedMatchScoresInfoModal>
           </div>
         </div>
       </div>
@@ -104,6 +105,7 @@
 <script type="text/babel">
 import _ from 'lodash'
 import Tournament from '../../../api/tournament.js'
+import UnSavedMatchScoresInfoModal from '../../../components/UnsavedMatchScoresInfo.vue'
 export default {
   data() {
     return {
@@ -111,7 +113,8 @@ export default {
       'tournamentId' : this.$store.state.Tournament.tournamentId,
       displayTournamentEndDate:"",
       currentDateTime: moment().format('DD/MM/YYYY HH:mm:ss'),
-
+      unChangedMatchScoresInfoModalOpen: false,
+      unChangedMatchScores: [],
     }
   },
   filters: {
@@ -122,6 +125,9 @@ export default {
         return  '-';
       }
     }
+  },
+  components: {
+    UnSavedMatchScoresInfoModal
   },
   computed: {
     activePath() {
@@ -249,6 +255,13 @@ export default {
       if(this.$store.state.Tournament.tournamentId != 0 && this.$store.state.Tournament.tournamentId != '' && this.$store.state.Tournament.tournamentId != null) {
         this.$store.dispatch('setMatches');
       }
+    },
+    setUnChangedMatchScoresModal(data) {
+      this.unChangedMatchScores = data;
+      this.unChangedMatchScoresInfoModalOpen = true;
+      setTimeout(function() {
+        $('#unSavedMatchScoresModal').modal('show');
+      }, 500);
     }
   }
 }

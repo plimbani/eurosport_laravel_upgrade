@@ -37,7 +37,7 @@
                 </div>
               </div>
 							<component :is="currentView"> </component>
-              <UnsaveMatchScoreModel></UnsaveMatchScoreModel>
+              <UnsaveMatchScoreModel @unchanged-match-scores="unChangedMatchScoresModal"></UnsaveMatchScoreModel>
 						</div>
 					</div>
 				</div>
@@ -54,13 +54,14 @@ import ScheduleResultsAdmin from '../../../components/ScheduleResultsAdmin.vue'
 import Messages from '../../../components/Messages.vue'
 import AddMessageModel from '../../../components/AddMessageModel.vue'
 import UnsaveMatchScoreModel from '../../../components/UnsaveMatchScoreModel.vue'
+// import UnSavedMatchScoresInfoModal from '../../../components/UnsavedMatchScoresInfo.vue'
 
 export default {
 
     data() {
        return {
          currentView:'summaryTab',
-        messageStatus: false
+        messageStatus: false,
        }
     },
     components: {
@@ -113,7 +114,10 @@ export default {
               vm.messageStatus = false
           });
         },500)
-      }
+      },
+      unChangedMatchScoresModal(data) {
+        this.$parent.setUnChangedMatchScoresModal(data);
+      }      
     }
 }
 </script>
