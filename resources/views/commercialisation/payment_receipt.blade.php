@@ -151,7 +151,7 @@
                                                         <tr>
                                                             <td align="right" style="text-align: right; font-size: 0px; padding: 10px 25px; padding-bottom: 0; word-break: break-word;">
                                                                 <div style="font-family:Roboto, Helvetica, Arial, sans-serif;font-size:16px;font-weight:300;line-height:24px;text-align:left;color:#555;">
-                                                                    <p>Hi</p>
+                                                                    <p>Hi <?php echo $data['userName'] ?>,</p>
                                                                     <p>Thank you for the purchase. Your order number is Easy-Match-Manager-<?php echo $data['orderNumber']; ?>.</p>
                                                                     <p>Purchase date: <?php echo $data['tournamentCreatedAtDateFormat'] ?>
                                                                     </p>

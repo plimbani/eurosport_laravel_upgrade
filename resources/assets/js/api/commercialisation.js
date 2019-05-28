@@ -7,7 +7,7 @@ export default {
   	getTournamentPricingDetail() {
   		return api.get('v1/tournament-pricing-bands');
   	},
-  	getSignedUrlForBuyLicensePrint(tournamentId) {
-  		return api.post('getSignedUrlForBuyLicensePrint/' +tournamentId);
+  	getSignedUrlForBuyLicensePrint(tournamentData) {
+  		return api.post('getSignedUrlForBuyLicensePrint', {'tournamentData':tournamentData});
   	},
 }

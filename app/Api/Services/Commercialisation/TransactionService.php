@@ -71,7 +71,8 @@ class TransactionService implements TransactionContract {
             'amount' => number_format($amount,2),
             'orderNumber' => $transaction[0]->order_id,
 			'currency' => $transaction[0]->currency,
-            'tournamentCreatedAtDateFormat' => $tournamentCreatedAtDateFormat
+            'tournamentCreatedAtDateFormat' => $tournamentCreatedAtDateFormat,
+            'userName' => $_GET['user_name'],
         ];
         
         $date = new \DateTime(date('H:i d M Y'));

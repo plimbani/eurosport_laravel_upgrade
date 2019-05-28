@@ -103,7 +103,7 @@
 </template>
 <script type="text/babel">
     import Auth from '../../services/auth'
-            import Ls from '../../services/ls';
+    import Ls from '../../services/ls';
     import Constant from '../../services/constant';
     import vueSlider from 'vue-slider-component';    
     
@@ -183,7 +183,6 @@
                     {id: '18', name: 'FRANCE', cardType: 'CarteBancaire'},
                 ];
                 let usercountry = Ls.get('usercountry');
-
                 if (usercountry != undefined && usercountry != "null" && usercountry != null) {
                     let idx = (this.countryList).findIndex(country => {
                         return country.id == usercountry

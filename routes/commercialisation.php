@@ -34,7 +34,7 @@ Route::group(['middleware' => 'jwt.auth'], function() {
 
     Route::get('v1/getUserTransactions', '\Laraspace\Api\Controllers\Commercialisation\TournamentController@getUserTransactions');
 
-    Route::post('getSignedUrlForBuyLicensePrint/{tournamentId}', '\Laraspace\Api\Controllers\Commercialisation\BuyLicenseController@getSignedUrlForBuyLicensePrint');
+    Route::post('getSignedUrlForBuyLicensePrint', '\Laraspace\Api\Controllers\Commercialisation\BuyLicenseController@getSignedUrlForBuyLicensePrint');
 });
 
 $api->version('v1', ['middleware' => 'signedurl'], function($api) {
