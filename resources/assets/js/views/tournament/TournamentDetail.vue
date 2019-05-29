@@ -30,7 +30,7 @@
                         </div>
                         <div class="col-xl-4 bordered-div mt-5 mt-xl-0">
                             <h4 class="text-uppercase font-weight-bold">Follow on your phone</h4>
-                            <p class="mb-4">Download and open the tournament planner app and enter the following code to follow {{ tournamentData.name }} Cup.</p>
+                            <p class="mb-4">Download and open the tournament planner app and enter the following code to follow {{ tournamentData.name }}.</p>
 
                             <div class="app-code text-center py-3">
                                 <h3 class="font-weight-bold m-0">{{tournamentData.access_code}}</h3>
