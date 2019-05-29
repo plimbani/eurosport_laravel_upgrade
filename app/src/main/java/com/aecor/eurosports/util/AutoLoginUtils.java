@@ -98,7 +98,6 @@ public class AutoLoginUtils {
                 @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
                 @Override
                 public void onPositiveButtonClicked() {
-
                     System.exit(0);
 
                 }
