@@ -16,14 +16,14 @@
 	<string>$(PRODUCT_NAME)</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
-	<key>FacebookAppID</key>
-	<string>2285199178466834</string>
-	<key>FacebookDisplayName</key>
-	<string>Commercialisation</string>
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
 	<key>CFBundleVersion</key>
 	<string>1</string>
+	<key>FacebookAppID</key>
+	<string>2285199178466834</string>
+	<key>FacebookDisplayName</key>
+	<string>Commercialisation</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>

@@ -15,15 +15,15 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "30F1805B2272F76600301C6F"
-               BuildableName = "ESR copy.app"
-               BlueprintName = "ESR copy"
+               BuildableName = "ESR comm.app"
+               BlueprintName = "ESR comm"
                ReferencedContainer = "container:ESR.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
-      buildConfiguration = "Debug ( QA )"
+      buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
@@ -33,8 +33,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "30F1805B2272F76600301C6F"
-            BuildableName = "ESR copy.app"
-            BlueprintName = "ESR copy"
+            BuildableName = "ESR comm.app"
+            BlueprintName = "ESR comm"
             ReferencedContainer = "container:ESR.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -42,7 +42,7 @@
       </AdditionalOptions>
    </TestAction>
    <LaunchAction
-      buildConfiguration = "Debug ( QA )"
+      buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       launchStyle = "0"
@@ -56,8 +56,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "30F1805B2272F76600301C6F"
-            BuildableName = "ESR copy.app"
-            BlueprintName = "ESR copy"
+            BuildableName = "ESR comm.app"
+            BlueprintName = "ESR comm"
             ReferencedContainer = "container:ESR.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -65,7 +65,7 @@
       </AdditionalOptions>
    </LaunchAction>
    <ProfileAction
-      buildConfiguration = "Debug ( QA )"
+      buildConfiguration = "Debug"
       shouldUseLaunchSchemeArgsEnv = "YES"
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
@@ -75,17 +75,17 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "30F1805B2272F76600301C6F"
-            BuildableName = "ESR copy.app"
-            BlueprintName = "ESR copy"
+            BuildableName = "ESR comm.app"
+            BlueprintName = "ESR comm"
             ReferencedContainer = "container:ESR.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
-      buildConfiguration = "Debug ( QA )">
+      buildConfiguration = "Debug">
    </AnalyzeAction>
    <ArchiveAction
-      buildConfiguration = "Debug ( QA )"
+      buildConfiguration = "Debug"
       revealArchiveInOrganizer = "YES">
    </ArchiveAction>
 </Scheme>

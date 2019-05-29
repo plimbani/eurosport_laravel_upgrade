@@ -1,0 +1,6 @@
+framework module Pods_ESR_comm {
+  umbrella header "Pods-ESR comm-umbrella.h"
+
+  export *
+  module * { export * }
+}

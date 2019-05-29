@@ -4,15 +4,15 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>ESR copy QA.xcscheme</key>
+		<key>ESR comm QA.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>22</integer>
+			<integer>33</integer>
 		</dict>
-		<key>ESR copy.xcscheme_^#shared#^_</key>
+		<key>ESR comm.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>23</integer>
+			<integer>32</integer>
 		</dict>
 		<key>ESR.xcscheme</key>
 		<dict>

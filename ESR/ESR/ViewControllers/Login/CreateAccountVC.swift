@@ -216,6 +216,7 @@ class CreateAccountVC: SuperViewController {
     @objc func onLogoImageClick(_ sender : UITapGestureRecognizer) {
         self.navigationController?.popToRootViewController(animated: true)
     }
+    
     func updateCreateAccountBtn() {
         btnCreateNewAccount.isEnabled = false
         btnCreateNewAccount.backgroundColor = UIColor.btnDisable
@@ -280,9 +281,8 @@ class CreateAccountVC: SuperViewController {
         }
     }
     
-    
     @IBAction func btnBackPressed(_ sender: UIButton) {
-            self.navigationController?.popViewController(animated: true)
+        self.navigationController?.popViewController(animated: true)
     }
     
     @objc func btnCreateAccountPressed(_ btn: UIButton) {
