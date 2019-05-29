@@ -545,7 +545,6 @@
                vm.findDifferenceBetweenDates(); 
                vm.tournamentData.tournament_end_date = event.target.value;
             });
-
             this.getTournamentPricing();
             this.getCurrencyValue();
             setTimeout(function(){
@@ -553,8 +552,8 @@
                 if(this.id){
                     vm.getTournamentDetail()
                 }
-                vm.tournamentEditYourLicense()
                 vm.tournammentPricingData()
+                vm.tournamentEditYourLicense()
             },1500) 
 
             if(this.$route.query.edityourlicense != 'yes'){
