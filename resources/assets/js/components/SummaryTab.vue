@@ -39,7 +39,7 @@
  				<PreviewTournament>
 				</PreviewTournament>
 
-				<div class="col-sm-4" v-if="(userDetails.role_name == 'Super administrator' || userDetails.role_name == 'Internal administrator' || userDetails.role_name == 'Master administrator')">
+				<div class="col-sm-3" v-if="(userDetails.role_name == 'Super administrator' || userDetails.role_name == 'Internal administrator' || userDetails.role_name == 'Master administrator')">
 					<button type="button" data-toggle="modal"
 					data-confirm-msg="Are you sure you would like to delete this user record?"
 					data-target="#delete_modal"
