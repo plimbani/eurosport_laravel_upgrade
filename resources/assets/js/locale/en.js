@@ -49,7 +49,7 @@ module.exports= {
   user_management_mobileuser: "Mobile users",
   user_management_user: "Users",
   user_desktop_name: "Name",
-  user_desktop_surname: "Surname",
+  user_desktop_surname: "Surname*",
   user_desktop_email: "Email address",
   user_desktop_source: "Source",
   user_desktop_organisation: "Organisation",

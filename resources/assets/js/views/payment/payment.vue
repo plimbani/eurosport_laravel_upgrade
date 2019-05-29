@@ -62,7 +62,8 @@
                 paymentObj:{
 
                 },
-                tournament:{}
+                tournament:{},
+                userDetail:this.$store.state.Users.userDetails,
             }
         },
         methods: {
@@ -118,8 +119,8 @@
             },
 
             printReceipt() {
-                let tournamentId = this.tournament_id
-                Commercialisation.getSignedUrlForBuyLicensePrint(tournamentId).then(
+                let tournamentData = {'tournament_id':this.tournament_id, 'user_name':this.userDetail.name};
+                Commercialisation.getSignedUrlForBuyLicensePrint(tournamentData).then(
                 (response) => {
                     window.location.href = response.data;
                 })                
@@ -130,7 +131,19 @@
                 if(this.tournament_id != ""){
                     this.$router.push({name: 'dashboard'});
                 }
-            },            
+            }, 
+            getUserDetails(emailData){
+                UserApi.getUserDetails(emailData).then(
+                  (response)=> {
+                    this.userData = response.data.data;
+                    Ls.set('userData',JSON.stringify(this.userData[0]))  
+                    let UserData  = JSON.parse(Ls.get('userData'))
+                    this.$store.dispatch('getUserDetails', UserData);
+                  },
+                  (error)=> {
+                  }
+                );
+            },           
             
         },
         beforeMount(){  

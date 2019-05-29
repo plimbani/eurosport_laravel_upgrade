@@ -132,9 +132,12 @@ class BuyLicenseController extends BaseController
 		}
     }
 
-    public function getSignedUrlForBuyLicensePrint(Request $request, $tournamentId)
+    public function getSignedUrlForBuyLicensePrint(Request $request)
     {
-        $signedUrl = UrlSigner::sign(url('api/license/receipt/generate/'. $tournamentId), Carbon::now()->addMinutes(config('config-variables.signed_url_interval')));
+        $tournamentId = $request['tournamentData']['tournament_id'];
+        $userName = $request['tournamentData']['user_name'];
+        $signedUrl = UrlSigner::sign(url('api/license/receipt/generate/'. $tournamentId.'?user_name='.$userName), Carbon::now()->addMinutes(config('config-variables.signed_url_interval')));
+        
         return $signedUrl;
     }
 }

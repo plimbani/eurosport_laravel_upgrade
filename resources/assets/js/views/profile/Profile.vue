@@ -91,6 +91,7 @@
     import Auth from '../../services/auth'
     import Ls from '../../services/ls'
     import Constant from '../../services/constant'
+    import User from '../../api/users.js'
 
     // console.log("register  page");
     export default {
@@ -121,6 +122,8 @@
                         this.disabled = true;
                         axios.post(Constant.apiBaseUrl+'user/update',this.userProfileDetail).then(response =>  { 
                             if(response.data.success){ 
+                                let userData = {'email': Ls.get('email')}
+                                this.getUserDetails(userData);
                                 this.$router.push({'name':'dashboard'})
                                 toastr['success']('User details have been updated successfully.', 'Success');
                             }else{
@@ -139,7 +142,7 @@
                 }); 
             },
 
-            getUserDetail(){ 
+            getUserDetailRecord(){ 
                 axios.get(Constant.apiBaseUrl+'user/get-details').then(response =>  {
                     if(response.data.success){ 
                         let indxOfCustomer =  (response.data.data.roles).findIndex(item => item.slug == "customer") 
@@ -161,9 +164,22 @@
                     }
                  })
             },
+            getUserDetails(emailData){
+                User.getUserDetails(emailData).then(
+                  (response)=> {
+                    this.userData = response.data.data;
+                    Ls.set('userData',JSON.stringify(this.userData[0]))  
+                    let UserData  = JSON.parse(Ls.get('userData'))
+                    this.$store.dispatch('getUserDetails', UserData);
+                    Ls.set('usercountry',this.userData[0]['country'])  
+                  },
+                  (error)=> {
+                  }
+                );
+            },
         },
         beforeMount(){ 
-            this.getUserDetail();
+            this.getUserDetailRecord();
             this.getCountries();
         }
     }
