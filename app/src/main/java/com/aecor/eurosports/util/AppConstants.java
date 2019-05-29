@@ -49,6 +49,7 @@ public class AppConstants {
     public static final String ARG_AGE_CATEGORY_ID = "age_category_id";
     public static final String ARG_GROUP_DETAIL = "group_detail";
     public static final String ARG_ALL_GROUP_LIST = "all_group_list";
+    public static final String ARG_ALL_TEAM_LIST = "all_team_list";
     public static final String ARG_FULL_LEAGUE_TABLE_DETAIL = "full_league_table_detail";
     public static final String ARG_MATCH_INFO = "match_info";
     public static final String ARG_COMPETATION_TYPE = "competation_type";
@@ -76,4 +77,6 @@ public class AppConstants {
     public static final String KEY_SCREEN_TITLE = "screen_title";
     public static final String PREF_ROLE = "role";
     public static final String PREF_COUNTRY_ID = "country_id";
+    public static final String PROVIDER_SOCIAL_FACEBOOK = "facebook";
+    public static final String IS_LOGIN_USING_FB = "isLoginUsingFB";
 }

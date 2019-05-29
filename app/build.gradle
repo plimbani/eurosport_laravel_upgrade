@@ -24,8 +24,8 @@ android {
         applicationId "com.aecor.eurosports"
         minSdkVersion 15
         targetSdkVersion 26
-        versionCode 5
-        versionName "5.0.0"
+        versionCode 7
+        versionName "7.0.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -81,7 +81,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-messaging:11.0.2'
     implementation 'com.google.android.gms:play-services-maps:11.0.2'
     implementation 'com.github.MikeOrtiz:TouchImageView:1.4.0'
-
+    implementation 'com.facebook.android:facebook-login:[4,5)'
     testImplementation 'junit:junit:4.12'
 }
 apply plugin: 'com.google.gms.google-services'

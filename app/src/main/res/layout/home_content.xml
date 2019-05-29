@@ -99,11 +99,12 @@
                         android:layout_margin="10dp" />
 
                     <TextView
-                        android:maxLines="2"
-                        android:ellipsize="end"
                         android:id="@+id/tv_tournamentName"
                         style="@style/text_black_title"
                         android:layout_width="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"
+                        android:maxLines="2"
                         android:textColor="@color/green"
                         android:textSize="25sp"
                         android:textStyle="bold" />
@@ -263,7 +264,7 @@
                     android:layout_marginLeft="5dp"
                     android:layout_weight="1"
                     android:background="@drawable/btn_yellow"
-                    android:text="@string/final_placings"
+                    android:text="@string/age_categories"
                     android:textColor="@color/btn_active_text_color" />
 
             </LinearLayout>

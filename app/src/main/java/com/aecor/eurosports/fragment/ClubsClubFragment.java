@@ -81,6 +81,7 @@ public class ClubsClubFragment extends Fragment {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
+
         if (isVisibleToUser && getActivity() != null) {
             getClubList();
         }

@@ -116,7 +116,7 @@ public class HomeActivity extends BaseAppCompactActivity {
                         mPreference.setString(AppConstants.PREF_SESSION_TOURNAMENT_STATUS, mTournamentList.get(position).getStatus());
                     }
                     if (!Utility.isNullOrEmpty(mTournamentList.get(position).getName())) {
-                        tv_tournamentName.setText(mTournamentList.get(position).getName().replace(" ", "\n"));
+                        tv_tournamentName.setText(mTournamentList.get(position).getName());
                     } else {
                         tv_tournamentName.setText("");
                     }
@@ -544,13 +544,9 @@ public class HomeActivity extends BaseAppCompactActivity {
                 }
             });
         } else {
-
             Intent mAgeCategories = new Intent(mContext, AgeCategoriesActivity.class);
-            mAgeCategories.putExtra(AppConstants.KEY_SCREEN_TITLE, getString(R.string.final_placings_title));
+//            mAgeCategories.putExtra(AppConstants.KEY_SCREEN_TITLE, getString(R.string.final_placings_title));
             startActivity(mAgeCategories);
         }
     }
-
-
 }
-

@@ -79,7 +79,7 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
     protected TextView tv_view_full_league_table;
     @BindView(R.id.ll_match_header)
     protected LinearLayout ll_match_header;
-     @BindView(R.id.tv_standing_selector)
+    @BindView(R.id.tv_standing_selector)
     protected View tv_standing_selector;
     @BindView(R.id.tv_matches_selector)
     protected View tv_matches_selector;
@@ -182,7 +182,7 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
         tl_group_rows.addView(seperatorView);
     }
 
-    private void addGroupLeagueHeaderRow( ) {
+    private void addGroupLeagueHeaderRow() {
         View teamLeagueHeaderView = getLayoutInflater().inflate(R.layout.standing_header, null);
         TextView tv_group_table_title = (TextView) teamLeagueHeaderView.findViewById(R.id.tv_group_table_title);
         String groupTableTitle = mGroupModel.getDisplay_name() + " " + getString(R.string.league_table);
@@ -237,7 +237,7 @@ public class GroupSummaryActivity extends BaseAppCompactActivity {
 
     private void initUI() {
         tv_view_all_club_matches.setVisibility(View.GONE);
-         ll_match_header.setVisibility(View.GONE);
+        ll_match_header.setVisibility(View.GONE);
         ll_standings_content.setVisibility(View.GONE);
         ll_match_content.setVisibility(View.GONE);
         if (mGroupModel.getActual_competition_type().equalsIgnoreCase(AppConstants.GROUP_COMPETATION_TYPE_ELIMINATION)) {

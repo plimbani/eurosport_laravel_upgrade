@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,14 +21,18 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.aecor.eurosports.BuildConfig;
 import com.aecor.eurosports.R;
 import com.aecor.eurosports.adapter.CountrySpinnerAdapter;
 import com.aecor.eurosports.adapter.RoleSpinnerAdapter;
+import com.aecor.eurosports.adapter.TournamentSpinnerAdapter;
 import com.aecor.eurosports.gson.GsonConverter;
 import com.aecor.eurosports.http.VolleyJsonObjectRequest;
 import com.aecor.eurosports.http.VolleySingeltone;
 import com.aecor.eurosports.model.CountriesModel;
 import com.aecor.eurosports.model.ProfileModel;
+import com.aecor.eurosports.model.TournamentModel;
+import com.aecor.eurosports.ui.ViewDialog;
 import com.aecor.eurosports.util.ApiConstants;
 import com.aecor.eurosports.util.AppConstants;
 import com.aecor.eurosports.util.AppLogger;
@@ -78,9 +83,13 @@ public class ProfileActivity extends BaseAppCompactActivity {
     protected Spinner sp_role;
     @BindView(R.id.sp_country)
     protected Spinner sp_country;
+    @BindView(R.id.sp_tournament)
+    protected Spinner sp_tournament;
     private String mSelectedCountryId;
     private List<CountriesModel> mCountryList;
     private String[] roleArray;
+    private TournamentModel[] mTournamentList;
+    private String mSelectedTournamentId;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -129,6 +138,15 @@ public class ProfileActivity extends BaseAppCompactActivity {
                 if (!Utility.isNullOrEmpty(mSelectedCountryId)) {
                     requestJson.put("country_id", mSelectedCountryId);
                 }
+                //check tournament id available in pref or not and also check user has login through fb then and only pass tournament_id
+                if (!Utility.isNullOrEmpty(mSelectedTournamentId) && Utility.isNullOrEmpty(mAppPref.getString(AppConstants.PREF_TOURNAMENT_ID)) && mAppPref.getBoolean(AppConstants.IS_LOGIN_USING_FB)) {
+                    requestJson.put("tournament_id", mSelectedTournamentId);
+                }
+
+                if (Utility.isNullOrEmpty(mAppPref.getString(AppConstants.PREF_EMAIL)) && mAppPref.getBoolean(AppConstants.IS_LOGIN_USING_FB)) {
+                    requestJson.put("emailAddress", input_email.getText().toString().trim());
+                }
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -147,12 +165,31 @@ public class ProfileActivity extends BaseAppCompactActivity {
                                 String messgae = response.getString("message");
                                 mAppPref.setString(AppConstants.LANGUAGE_SELECTION, selectedLocale);
                                 mAppPref.setString(AppConstants.LANGUAGE_POSITION, languagePos + "");
+
+                                if (!Utility.isNullOrEmpty(mSelectedTournamentId) && Utility.isNullOrEmpty(mAppPref.getString(AppConstants.PREF_TOURNAMENT_ID)) && mAppPref.getBoolean(AppConstants.IS_LOGIN_USING_FB)) {
+                                    mAppPref.setString(AppConstants.PREF_TOURNAMENT_ID, mSelectedTournamentId);
+                                    mAppPref.setString(AppConstants.PREF_SESSION_TOURNAMENT_ID, mSelectedTournamentId);
+                                }
+
+                                if (Utility.isNullOrEmpty(mAppPref.getString(AppConstants.PREF_EMAIL)) && mAppPref.getBoolean(AppConstants.IS_LOGIN_USING_FB)) {
+                                    mAppPref.setString(AppConstants.PREF_EMAIL, input_email.getText().toString().trim());
+                                }
+
                                 Utility.showToast(mContext, messgae);
                                 Intent mIntent = getIntent();
-                                finish();
                                 startActivity(mIntent);
+                                finish();
                             } else {
                                 Utility.showToast(mContext, getResources().getString(R.string.update_profile_message));
+                            }
+                        } else if (response.has("status_code") && !Utility.isNullOrEmpty(response.getString("status_code")) && response.getString("status_code").equalsIgnoreCase("500")) {
+                            if (response.has("message") && !Utility.isNullOrEmpty(response.getString("message"))) {
+                                ViewDialog.showSingleButtonDialog((Activity) mContext, mContext.getString(R.string.error), response.getString("message"), mContext.getString(R.string.button_ok), new ViewDialog.CustomDialogInterface() {
+                                    @Override
+                                    public void onPositiveButtonClicked() {
+
+                                    }
+                                });
                             }
                         }
                     } catch (Exception e) {
@@ -187,13 +224,18 @@ public class ProfileActivity extends BaseAppCompactActivity {
         getCountryList();
         setListener();
         showBackButton(getResources().getString(R.string.profile).toUpperCase());
-
     }
 
     private void setData() {
         if (!Utility.isNullOrEmpty(mAppPref.getString(AppConstants.PREF_EMAIL))) {
             input_email.setText(mAppPref.getString(AppConstants.PREF_EMAIL));
+            input_email.setFocusable(false);
+            input_email.setEnabled(false);
+            input_email.setClickable(false);
         } else {
+            input_email.setClickable(true);
+            input_email.setFocusable(true);
+            input_email.setEnabled(true);
             input_email.setText("");
         }
 
@@ -244,6 +286,11 @@ public class ProfileActivity extends BaseAppCompactActivity {
         input_last_name.addTextChangedListener(textWatcher);
         input_first_name.addTextChangedListener(textWatcher);
 
+        if (Utility.isNullOrEmpty(mAppPref.getString(AppConstants.PREF_EMAIL))) {
+            input_email.addTextChangedListener(textWatcher);
+        }
+
+
         profile_language_selection.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -287,6 +334,22 @@ public class ProfileActivity extends BaseAppCompactActivity {
                 checkValidation();
             }
         });
+
+
+        sp_tournament.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position > 0) {
+                    mSelectedTournamentId = mTournamentList[position - 1].getId();
+                }
+                checkValidation();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                checkValidation();
+            }
+        });
     }
 
     private void getCountryList() {
@@ -303,6 +366,15 @@ public class ProfileActivity extends BaseAppCompactActivity {
                 @Override
                 public void onResponse(JSONObject response) {
                     Utility.StopProgress();
+                    // getTournamentList api calling after getting response of country because of progress bar
+                    // both api calling showProgress and stopProgress
+                    // spinner will be visible if tournament_id is null inside pref and user has login through fb
+                    if (Utility.isNullOrEmpty(mAppPref.getString(AppConstants.PREF_TOURNAMENT_ID)) && mAppPref.getBoolean(AppConstants.IS_LOGIN_USING_FB)) {
+                        sp_tournament.setVisibility(View.VISIBLE);
+                        getTournamentList();
+                    } else {
+                        sp_tournament.setVisibility(View.GONE);
+                    }
                     try {
                         AppLogger.LogE(TAG, "Get Country List response" + response.toString());
                         if (response.has("countries") && !Utility.isNullOrEmpty(response.getString("countries"))) {
@@ -367,7 +439,17 @@ public class ProfileActivity extends BaseAppCompactActivity {
     private boolean validate() {
         String fname = input_first_name.getText().toString().trim();
         String sname = input_last_name.getText().toString().trim();
+        String email = input_email.getText().toString().trim();
         addOrRemoveBorder();
+
+        if (Utility.isNullOrEmpty(email)) {
+            return false;
+        }
+
+        if (!Utility.isValidEmail(email)) {
+            return false;
+        }
+
         if (Utility.isNullOrEmpty(fname)) {
             return false;
         }
@@ -384,6 +466,9 @@ public class ProfileActivity extends BaseAppCompactActivity {
 
             return false;
         }
+        if (Utility.isNullOrEmpty(mAppPref.getString(AppConstants.PREF_TOURNAMENT_ID)) && Utility.isNullOrEmpty(mSelectedTournamentId)) {
+            return false;
+        }
 
 
         return true;
@@ -392,6 +477,7 @@ public class ProfileActivity extends BaseAppCompactActivity {
     private void addOrRemoveBorder() {
         String fname = input_first_name.getText().toString().trim();
         String sname = input_last_name.getText().toString().trim();
+        String email = input_email.getText().toString().trim();
 
         if (Utility.isNullOrEmpty(fname)) {
             input_first_name.setBackgroundResource(R.drawable.edittext_border_red);
@@ -415,6 +501,19 @@ public class ProfileActivity extends BaseAppCompactActivity {
 
         } else {
             sp_role.setBackgroundResource(R.drawable.spinner_bg_image_gray);
+        }
+
+        if (Utility.isNullOrEmpty(mSelectedTournamentId)) {
+            sp_tournament.setBackgroundResource(R.drawable.spinner_bg_image_gray_error);
+
+        } else {
+            sp_tournament.setBackgroundResource(R.drawable.spinner_bg_image_gray);
+        }
+
+        if (Utility.isNullOrEmpty(email)) {
+            input_email.setBackgroundResource(R.drawable.edittext_border_red);
+        } else {
+            input_email.setBackgroundResource(R.drawable.edittext_border);
         }
     }
 
@@ -456,7 +555,10 @@ public class ProfileActivity extends BaseAppCompactActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        if (Utility.isNullOrEmpty(mAppPref.getString(AppConstants.PREF_EMAIL)) || Utility.isNullOrEmpty(mAppPref.getString(AppConstants.PREF_TOURNAMENT_ID))) {
+            Utility.showToast(ProfileActivity.this, getString(R.string.please_update_profile));
+            return;
+        }
         Intent mSettingsIntent = new Intent(mContext, SettingsActivity.class);
         startActivity(mSettingsIntent);
         finish();
@@ -473,5 +575,69 @@ public class ProfileActivity extends BaseAppCompactActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void getTournamentList() {
+
+        if (Utility.isInternetAvailable(mContext)) {
+            Utility.startProgress(mContext);
+            String url = ApiConstants.GET_TOURNAMENTS;
+            final JSONObject requestJson = new JSONObject();
+            RequestQueue mQueue = VolleySingeltone.getInstance(mContext)
+                    .getRequestQueue();
+
+            final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(mContext, Request.Method
+                    .GET, url,
+                    requestJson, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    Utility.StopProgress();
+                    try {
+                        AppLogger.LogE(TAG, "Get Tournament List response" + response.toString());
+                        if (response.has("status_code") && !Utility.isNullOrEmpty(response.getString("status_code")) && response.getString("status_code").equalsIgnoreCase("200")) {
+                            if (response.has("data") && !Utility.isNullOrEmpty(response.getString("data"))) {
+                                mTournamentList = GsonConverter.getInstance().decodeFromJsonString(response.getString("data"), TournamentModel[].class);
+                                if (mTournamentList != null && mTournamentList.length > 0) {
+                                    setTournamnetSpinnerAdapter(mTournamentList);
+                                }
+                            }
+                        }
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    try {
+                        Utility.StopProgress();
+                        Utility.parseVolleyError(mContext, error);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            });
+            mQueue.add(jsonRequest);
+        } else {
+            checkConnection();
+        }
+    }
+
+
+    private void setTournamnetSpinnerAdapter(TournamentModel mTournamentList[]) {
+        TournamentModel mHintModel = new TournamentModel();
+        mHintModel.setName(getString(R.string.select_tournament));
+
+        List<TournamentModel> list = new ArrayList<>();
+        list.addAll(Arrays.asList(mTournamentList));
+        list.add(0, mHintModel);
+        TournamentSpinnerAdapter adapter = new TournamentSpinnerAdapter((Activity) mContext,
+                list);
+        sp_tournament.setAdapter(adapter);
+        sp_tournament.setSelection(0);
+
     }
 }
