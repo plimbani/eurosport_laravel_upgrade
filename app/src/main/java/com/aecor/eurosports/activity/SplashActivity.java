@@ -88,13 +88,15 @@ public class SplashActivity extends BaseActivity {
         setContentView(R.layout.activity_splash_screen);
         ButterKnife.bind(this);
 
-        Uri uri = getIntent().getData();
-        if (uri != null) {
-            final String scheme = uri.getScheme().toLowerCase();
-            final String host = uri.getHost().toLowerCase();
-            if (("http".equals(scheme) || "https".equals(scheme)) &&
-                    ("comm-qa.wot.esrtmp.com".equals(host) || "www.comm-qa.wot.esrtmp.com".equals(host))) {
-                accessCode = getAccessCode(uri);
+        if (BuildConfig.isEasyMatchManager) {
+            Uri uri = getIntent().getData();
+            if (uri != null) {
+                final String scheme = uri.getScheme().toLowerCase();
+                final String host = uri.getHost().toLowerCase();
+                if (("http".equals(scheme) || "https".equals(scheme)) &&
+                        ("comm-qa.wot.esrtmp.com".equals(host) || "www.comm-qa.wot.esrtmp.com".equals(host))) {
+                    accessCode = getAccessCode(uri);
+                }
             }
         }
         initView();
@@ -113,45 +115,55 @@ public class SplashActivity extends BaseActivity {
             } else {
                 String email = mAppSharedPref.getString(AppConstants.PREF_EMAIL);
                 String password = mAppSharedPref.getString(AppConstants.PREF_PASSWORD);
-//            mAppSharedPref.setString(AppConstants.PREF_SESSION_TOURNAMENT_ID, "");
-                String url = ApiConstants.SIGN_IN;
-                final JSONObject requestJson = new JSONObject();
-                try {
-                    requestJson.put("email", email);
-                    requestJson.put("password", password);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
 
-                AppLogger.LogE(TAG, "***** Splash screen request *****" + requestJson.toString());
-                final RequestQueue mQueue = VolleySingeltone.getInstance(mContext).getRequestQueue();
-                final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(mContext, Request.Method
-                        .POST, url,
-                        requestJson, new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
+                if (!Utility.isNullOrEmpty(email) && !Utility.isNullOrEmpty(password)) {
+
+//            mAppSharedPref.setString(AppConstants.PREF_SESSION_TOURNAMENT_ID, "");
+                    String url = ApiConstants.SIGN_IN;
+                    final JSONObject requestJson = new JSONObject();
+                    try {
+                        requestJson.put("email", email);
+                        requestJson.put("password", password);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                    AppLogger.LogE(TAG, "***** Splash screen request *****" + requestJson.toString());
+                    final RequestQueue mQueue = VolleySingeltone.getInstance(mContext).getRequestQueue();
+                    final VolleyJsonObjectRequest jsonRequest = new VolleyJsonObjectRequest(mContext, Request.Method
+                            .POST, url,
+                            requestJson, new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
 //                    Utility.StopProgress();
-                        try {
-                            AppLogger.LogE(TAG, "***** Splash Screen response *****" + response.toString());
-                            String token = response.get(AppConstants.PREF_TOKEN).toString();
-                            mAppSharedPref.setString(AppConstants.PREF_TOKEN, token);
-                            validate_user();
-                        } catch (Exception e) {
-                            e.printStackTrace();
+                            try {
+                                AppLogger.LogE(TAG, "***** Splash Screen response *****" + response.toString());
+                                String token = response.get(AppConstants.PREF_TOKEN).toString();
+                                mAppSharedPref.setString(AppConstants.PREF_TOKEN, token);
+                                validate_user();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
                         }
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        try {
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            try {
 //                        Utility.StopProgress();
-                            Utility.parseVolleyError(mContext, error);
-                        } catch (Exception e) {
-                            e.printStackTrace();
+                                Utility.parseVolleyError(mContext, error);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
                         }
-                    }
-                });
-                mQueue.add(jsonRequest);
+                    });
+                    mQueue.add(jsonRequest);
+                }else {
+                    Intent launcherIntent = new Intent(mContext,
+                            LandingActivity.class);
+                    launcherIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    mContext.startActivity(launcherIntent);
+                    ((Activity) mContext).finish();
+                }
             }
         } else {
             ViewDialog.showSingleButtonDialog((Activity) mContext, mContext.getString(R.string.no_internet), mContext.getString(R.string.internet_message), mContext.getString(R.string.button_ok), new ViewDialog.CustomDialogInterface() {
@@ -481,7 +493,7 @@ public class SplashActivity extends BaseActivity {
             String email = mAppSharedPref.getString(AppConstants.PREF_EMAIL);
             String password = mAppSharedPref.getString(AppConstants.PREF_PASSWORD);
 
-            if (Utility.isNullOrEmpty(email) && Utility.isNullOrEmpty(password)) {
+            if (BuildConfig.isEasyMatchManager && Utility.isNullOrEmpty(email) && Utility.isNullOrEmpty(password)) {
                 Intent intent = new Intent(mContext, LandingActivity.class);
                 intent.putExtra("accessCode", accessCode);
                 intent.putExtra("isFromUrl", true);

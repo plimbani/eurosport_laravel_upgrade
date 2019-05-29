@@ -470,7 +470,7 @@ public class LandingActivity extends BaseActivity {
                     Utility.StopProgress();
                     try {
                         AppLogger.LogE("TAG", "***** Post User details response *****" + response.toString());
-
+                        mAppPref.setBoolean(AppConstants.IS_LOGIN_USING_FB, isFromFB);
                         if (BuildConfig.isEasyMatchManager) {
                             if (getIntent().getBooleanExtra("isFromUrl", false) && getIntent().getStringExtra("accessCode") != null && getIntent().getStringExtra("accessCode").trim().length() > 0) {
                                 //call access api
@@ -480,7 +480,7 @@ public class LandingActivity extends BaseActivity {
                                     //get started screen
                                     startActivity(new Intent(mContext, GetStartedActivity.class));
                                 } else {
-                                    if (Utility.isNullOrEmpty(mAppPref.getString(AppConstants.PREF_COUNTRY_ID))) {
+                                    if (Utility.isNullOrEmpty(mAppPref.getString(AppConstants.PREF_COUNTRY_ID)) || Utility.isNullOrEmpty(mAppPref.getString(AppConstants.PREF_EMAIL))) {
                                         startActivity(new Intent(mContext, ProfileActivity.class));
                                     } else {
                                         startActivity(new Intent(mContext, HomeActivity.class));
@@ -489,7 +489,6 @@ public class LandingActivity extends BaseActivity {
                                 finish();
                             }
                         } else {
-                            mAppPref.setBoolean(AppConstants.IS_LOGIN_USING_FB, isFromFB);
                             if (Utility.isNullOrEmpty(mAppPref.getString(AppConstants.PREF_COUNTRY_ID)) || Utility.isNullOrEmpty(mAppPref.getString(AppConstants.PREF_TOURNAMENT_ID)) || Utility.isNullOrEmpty(mAppPref.getString(AppConstants.PREF_EMAIL))) {
                                 startActivity(new Intent(mContext, ProfileActivity.class));
                             } else {

@@ -135,7 +135,7 @@ public class GetStartedActivity extends BaseActivity {
                             et_enter_access_code.setText("");
                         }
 
-                        if (Utility.isNullOrEmpty(mAppSharedPref.getString(AppConstants.PREF_COUNTRY_ID))) {
+                        if (Utility.isNullOrEmpty(mAppSharedPref.getString(AppConstants.PREF_COUNTRY_ID)) || Utility.isNullOrEmpty(mAppSharedPref.getString(AppConstants.PREF_EMAIL))) {
                             startActivity(new Intent(GetStartedActivity.this, ProfileActivity.class));
                         } else {
                             startActivity(new Intent(GetStartedActivity.this, FavouritesActivity.class));

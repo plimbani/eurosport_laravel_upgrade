@@ -555,7 +555,7 @@ public class ProfileActivity extends BaseAppCompactActivity {
 
     @Override
     public void onBackPressed() {
-        if (!BuildConfig.isEasyMatchManager && Utility.isNullOrEmpty(mAppPref.getString(AppConstants.PREF_TOURNAMENT_ID))) {
+        if (Utility.isNullOrEmpty(mAppPref.getString(AppConstants.PREF_EMAIL)) || Utility.isNullOrEmpty(mAppPref.getString(AppConstants.PREF_TOURNAMENT_ID))) {
             Utility.showToast(ProfileActivity.this, getString(R.string.please_update_profile));
             return;
         }

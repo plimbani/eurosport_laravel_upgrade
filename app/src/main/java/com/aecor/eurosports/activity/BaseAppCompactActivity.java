@@ -153,7 +153,7 @@ public abstract class BaseAppCompactActivity extends AppCompatActivity implement
     private void selectDiselectBottomTab(ImageView iv, TextView tv, LinearLayout lv, boolean isSelected, int imageDrawable) {
         iv.setImageResource(imageDrawable);
         if (isSelected) {
-            tv.setTextColor(mContext.getResources().getColor(R.color.red));
+            tv.setTextColor(mContext.getResources().getColor(R.color.red_bottom));
         } else {
             tv.setTextColor(mContext.getResources().getColor(R.color.home_textview));
         }
@@ -234,7 +234,7 @@ public abstract class BaseAppCompactActivity extends AppCompatActivity implement
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.lv_favourites:
-                    if (!BuildConfig.isEasyMatchManager && Utility.isNullOrEmpty(mPref.getString(AppConstants.PREF_TOURNAMENT_ID))) {
+                    if (Utility.isNullOrEmpty(mPref.getString(AppConstants.PREF_EMAIL)) || Utility.isNullOrEmpty(mPref.getString(AppConstants.PREF_TOURNAMENT_ID))) {
                         Utility.showToast(BaseAppCompactActivity.this,getString(R.string.please_update_profile));
                         return;
                     }
@@ -247,7 +247,7 @@ public abstract class BaseAppCompactActivity extends AppCompatActivity implement
 
                 case R.id.lv_clubs:
 
-                    if (!BuildConfig.isEasyMatchManager && Utility.isNullOrEmpty(mPref.getString(AppConstants.PREF_TOURNAMENT_ID))) {
+                    if (Utility.isNullOrEmpty(mPref.getString(AppConstants.PREF_EMAIL)) || Utility.isNullOrEmpty(mPref.getString(AppConstants.PREF_TOURNAMENT_ID))) {
                         Utility.showToast(BaseAppCompactActivity.this,getString(R.string.please_update_profile));
                         return;
                     }
@@ -270,7 +270,7 @@ public abstract class BaseAppCompactActivity extends AppCompatActivity implement
 
                 case R.id.lv_age_categories:
 
-                    if (!BuildConfig.isEasyMatchManager && Utility.isNullOrEmpty(mPref.getString(AppConstants.PREF_TOURNAMENT_ID))) {
+                    if (Utility.isNullOrEmpty(mPref.getString(AppConstants.PREF_EMAIL)) || Utility.isNullOrEmpty(mPref.getString(AppConstants.PREF_TOURNAMENT_ID))) {
                         Utility.showToast(BaseAppCompactActivity.this,getString(R.string.please_update_profile));
                         return;
                     }
@@ -292,7 +292,7 @@ public abstract class BaseAppCompactActivity extends AppCompatActivity implement
                     break;
                 case R.id.lv_tournament:
 
-                    if (!BuildConfig.isEasyMatchManager && Utility.isNullOrEmpty(mPref.getString(AppConstants.PREF_TOURNAMENT_ID))) {
+                    if (Utility.isNullOrEmpty(mPref.getString(AppConstants.PREF_EMAIL)) || Utility.isNullOrEmpty(mPref.getString(AppConstants.PREF_TOURNAMENT_ID))) {
                         Utility.showToast(BaseAppCompactActivity.this,getString(R.string.please_update_profile));
                         return;
                     }
@@ -305,7 +305,7 @@ public abstract class BaseAppCompactActivity extends AppCompatActivity implement
 
                 case R.id.lv_user_settings:
 
-                    if (!BuildConfig.isEasyMatchManager && Utility.isNullOrEmpty(mPref.getString(AppConstants.PREF_TOURNAMENT_ID))) {
+                    if (Utility.isNullOrEmpty(mPref.getString(AppConstants.PREF_EMAIL)) || Utility.isNullOrEmpty(mPref.getString(AppConstants.PREF_TOURNAMENT_ID))) {
                         Utility.showToast(BaseAppCompactActivity.this,getString(R.string.please_update_profile));
                         return;
                     }

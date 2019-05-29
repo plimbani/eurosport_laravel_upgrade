@@ -94,16 +94,18 @@ public class AutoLoginUtils {
             });
             mQueue.add(jsonRequest);
         } else {
-            ViewDialog.showSingleButtonDialog((Activity) mContext, mContext.getString(R.string.no_internet), mContext.getString(R.string.internet_message), mContext.getString(R.string.button_ok), new ViewDialog.CustomDialogInterface() {
-                @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
-                @Override
-                public void onPositiveButtonClicked() {
+            if (mContext instanceof Activity) {
+                ViewDialog.showSingleButtonDialog((Activity) mContext, mContext.getString(R.string.no_internet), mContext.getString(R.string.internet_message), mContext.getString(R.string.button_ok), new ViewDialog.CustomDialogInterface() {
+                    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+                    @Override
+                    public void onPositiveButtonClicked() {
 
-                    System.exit(0);
+                        System.exit(0);
 
-                }
+                    }
 
-            });
+                });
+            }
         }
     }
 
@@ -116,14 +118,15 @@ public class AutoLoginUtils {
                 checkuser(mContext);
             }
         } else {
-            ViewDialog.showSingleButtonDialog((Activity) mContext, mContext.getString(R.string.no_internet), mContext.getString(R.string.internet_message), mContext.getString(R.string.button_ok), new ViewDialog.CustomDialogInterface() {
+            if (mContext instanceof Activity) {
+                ViewDialog.showSingleButtonDialog((Activity) mContext, mContext.getString(R.string.no_internet), mContext.getString(R.string.internet_message), mContext.getString(R.string.button_ok), new ViewDialog.CustomDialogInterface() {
                 @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
                 @Override
                 public void onPositiveButtonClicked() {
 
                 }
 
-            });
+            });}
         }
     }
 
@@ -291,15 +294,16 @@ public class AutoLoginUtils {
                         } else {
 //                            {"authenticated":false,"message":"Account de-activated please contact your administrator."}
                             if (response.has("message") && !Utility.isNullOrEmpty(response.getString("message"))) {
-                                ViewDialog.showSingleButtonDialog((Activity) mContext, mContext.getString(R.string.email_verification), response.getString("message"), mContext.getString(R.string.resend_email), new ViewDialog.CustomDialogInterface() {
+                                if (mContext instanceof Activity) {
+                                    ViewDialog.showSingleButtonDialog((Activity) mContext, mContext.getString(R.string.email_verification), response.getString("message"), mContext.getString(R.string.resend_email), new ViewDialog.CustomDialogInterface() {
                                     @Override
                                     public void onPositiveButtonClicked() {
                                         if (mAppSharedPref.getString(AppConstants.PREF_EMAIL) != null) {
                                             resendEmail(mContext);
                                         }
                                     }
-                                });
-                            }else {
+                                });}
+                            } else {
                                 Intent launcherIntent = new Intent(mContext,
                                         LandingActivity.class);
                                 launcherIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
