@@ -20,17 +20,14 @@ class TeamDetailsRequest extends FormRequest
     public function authorize()
     {
         $token = JWTAuth::getToken();
-        if(isset($this->headers->all()['ismobileuser']) && $this->headers->all()['ismobileuser'] == true) {
-            if(!$token || (isset($this->headers->all()['ismobileuser'])) && $this->headers->all()['ismobileuser'] == true) {
-                $ageCategoryId = $this->all()['ageCategoryId'];
-                $ageCategory = TournamentCompetationTemplates::findOrFail($ageCategoryId);
-                $tournament_id = $ageCategory->tournament_id;   
-
-                $tournament = Tournament::where('id',$tournament_id)->first();
-                $isTournamentPublished = $this->isTournamentPublished($tournament);
-                if(!$isTournamentPublished) {
-                    return false;
-                }
+        if(!$token || (app('request')->header('ismobileuser') && app('request')->header('ismobileuser') == "true")) {
+            $ageCategoryId = $this->all()['ageCategoryId'];
+            $ageCategory = TournamentCompetationTemplates::findOrFail($ageCategoryId);
+            $tournament_id = $ageCategory->tournament_id;
+            $tournament = Tournament::where('id',$tournament_id)->first();
+            $isTournamentPublished = $this->isTournamentPublished($tournament);
+            if(!$isTournamentPublished) {
+                return false;
             }
         }
         return true;

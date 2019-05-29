@@ -106,7 +106,7 @@
 
             User.changePermissions(data).then(
               (response)=> {
-                toastr.success('Permissions has been updated successfully.', 'Permissions', {timeOut: 5000});
+                toastr.success('Permissions have been updated successfully.', 'Permissions', {timeOut: 5000});
                 $("#permission_modal").modal("hide");
                 this.formValues.tournaments = [];
               },

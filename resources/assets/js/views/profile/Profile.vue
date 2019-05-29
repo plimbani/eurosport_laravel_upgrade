@@ -29,7 +29,8 @@
                                    v-model="userProfileDetail.email" v-validate="{ rules: { required: true, email: true } }">
                                 <span class="help is-danger" v-show="errors.has('email') && errors.first('email') == 'The email field must be a valid email.'">{{$lang.login_email_invalid_validation_message}}</span>
                                 <span class="help is-danger" v-show="errors.has('email') && errors.first('email') == 'The email field is required.'">{{$lang.login_email_validation_message}}</span>
-                            </div> 
+                            </div>
+
                             <h3 class="text-uppercase font-weight-bold mt-5">Your organisation</h3>
 
                             <div class="divider mb-5"></div>
@@ -90,6 +91,7 @@
     import Auth from '../../services/auth'
     import Ls from '../../services/ls'
     import Constant from '../../services/constant'
+    import User from '../../api/users.js'
 
     // console.log("register  page");
     export default {
@@ -115,25 +117,32 @@
         },
         methods: {
             updateProfile(e){
-                this.$validator.validateAll();
-                if (!this.errors.any()) { 
-                    this.disabled = true;
-                    axios.post(Constant.apiBaseUrl+'user/update',this.userProfileDetail).then(response =>  { 
-                        if(response.data.success){ 
-                            this.$router.push({'name':'dashboard'})
-                            toastr['success']('User details has been updated successfully.', 'Success');
-                        }else{
-                         toastr['error'](response.data.message, 'Error');
-                        }
-                    }).catch(error => {
-                        this.disabled = false;
-                         console.log("error in profile upate::",error);
-                     });
-                     
-                } 
+                this.$validator.validateAll().then((response) => {
+                    if (!this.errors.any()) { 
+                        this.disabled = true;
+                        axios.post(Constant.apiBaseUrl+'user/update',this.userProfileDetail).then(response =>  { 
+                            if(response.data.success){ 
+                                let userData = {'email': Ls.get('email')}
+                                this.getUserDetails(userData);
+                                this.$router.push({'name':'dashboard'})
+                                toastr['success']('User details have been updated successfully.', 'Success');
+                            }else{
+                             toastr['error'](response.data.message, 'Error');
+                            }
+                        }).catch(error => {
+                            this.disabled = false;
+                             console.log("error in profile upate::",error);
+                         });
+                         
+                    }   else {
+                            window.scrollTo(200,0);
+                    }
+                }).catch(() => {
+                    // fail stuff
+                }); 
             },
 
-            getUserDetail(){ 
+            getUserDetailRecord(){ 
                 axios.get(Constant.apiBaseUrl+'user/get-details').then(response =>  {
                     if(response.data.success){ 
                         let indxOfCustomer =  (response.data.data.roles).findIndex(item => item.slug == "customer") 
@@ -155,9 +164,22 @@
                     }
                  })
             },
+            getUserDetails(emailData){
+                User.getUserDetails(emailData).then(
+                  (response)=> {
+                    this.userData = response.data.data;
+                    Ls.set('userData',JSON.stringify(this.userData[0]))  
+                    let UserData  = JSON.parse(Ls.get('userData'))
+                    this.$store.dispatch('getUserDetails', UserData);
+                    Ls.set('usercountry',this.userData[0]['country'])  
+                  },
+                  (error)=> {
+                  }
+                );
+            },
         },
         beforeMount(){ 
-            this.getUserDetail();
+            this.getUserDetailRecord();
             this.getCountries();
         }
     }

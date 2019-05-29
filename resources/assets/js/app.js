@@ -19,7 +19,7 @@ require('./mixins');
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
-
+import UserApi from './api/users.js';
 import Plugin from './helpers/plugin'
 import Website from './api/website.js';
 import Ls from './services/ls.js'
@@ -32,6 +32,8 @@ const app = new Vue({
       let authToken = Ls.get('auth.token');
       if (authToken != null) {
         this.getConfigurationDetail();
+        let userData = {'email': Ls.get('email')}
+        this.getUserDetails(userData);
       }
     },
     methods : {
@@ -46,7 +48,19 @@ const app = new Vue({
               (error)=> {
               }
             );
-        }
+        },
+        getUserDetails(emailData){
+            UserApi.getUserDetails(emailData).then(
+              (response)=> {
+                this.userData = response.data.data;
+                Ls.set('userData',JSON.stringify(this.userData[0]))  
+                let UserData  = JSON.parse(Ls.get('userData'))
+                this.$store.dispatch('getUserDetails', UserData);
+              },
+              (error)=> {
+              }
+            );
+        },
     }
 }).$mount('#app')
 
