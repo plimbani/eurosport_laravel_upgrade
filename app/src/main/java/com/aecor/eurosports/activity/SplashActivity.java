@@ -632,6 +632,7 @@ public class SplashActivity extends BaseActivity {
 
     public static void printHashKey(Context pContext) {
         try {
+            Log.e("pContext.getPackageName()",pContext.getPackageName());
             PackageInfo info = pContext.getPackageManager().getPackageInfo(pContext.getPackageName(), PackageManager.GET_SIGNATURES);
             for (Signature signature : info.signatures) {
                 MessageDigest md = MessageDigest.getInstance("SHA");
