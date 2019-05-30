@@ -403,7 +403,7 @@
 
                 setTournamentStages.then( (msg) => {
                     this.$store.dispatch('setTournamentStages', stages)
-                    vm.stageStatus = true
+                    setTimeout(function(){ vm.stageStatus = true; }, 200);
                     vm.tournamentStages = stages
                 });
             },
