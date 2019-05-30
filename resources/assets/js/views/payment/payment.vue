@@ -27,13 +27,13 @@
 
                         </div>
                         <div class="col-sm-6 col-md-5 col-lg-5">
-                            <p class="text-sm-right mb-0 mt-3 mt-sm-0">{{paymentObj.amount}} {{paymentObj.currency}}</p>
+                            <p class="text-sm-right mb-0 mt-3 mt-sm-0"> {{paymentObj.currency == 'EUR' ? '€' : '£' }} {{paymentObj.amount}}</p>
                         </div>
                     </div>
 
                     <div class="divider my-3 opacited"></div>
 
-                    <p class="text-sm-right font-weight-bold">{{paymentObj.amount}} {{paymentObj.currency}}</p>
+                    <p class="text-sm-right font-weight-bold">{{paymentObj.currency == 'EUR' ? '€' : '£' }} {{paymentObj.amount}}</p>
 
                     <p class="py-3">You may now proceed to your dashboard and begin adding your tournament details.</p>
                     <button v-if="tournament_id" class="btn btn-primary" v-on:click="redirectToDashboardPage()">Get started</button>
@@ -50,6 +50,7 @@
     import Auth from '../../services/auth'
     import Ls from '../../services/ls'
     import Constant from '../../services/constant'
+    import Commercialisation from '../../api/commercialisation.js'
     
     export default {
         data() {
@@ -61,7 +62,8 @@
                 paymentObj:{
 
                 },
-                tournament:{}
+                tournament:{},
+                userDetail:this.$store.state.Users.userDetails,
             }
         },
         methods: {
@@ -116,21 +118,32 @@
                  });
             },
 
-            printReceipt(){
-
-                
-                if(this.tournament_id != ""){                    
-                    let url = Constant.apiBaseUrl+'generate/receipt?tournament_id='+this.tournament_id;
-                    window.open(url,'_blank');
-                }
-                
-                
+            printReceipt() {
+                let tournamentData = {'tournament_id':this.tournament_id, 'user_name':this.userDetail.name};
+                Commercialisation.getSignedUrlForBuyLicensePrint(tournamentData).then(
+                (response) => {
+                    window.location.href = response.data;
+                })                
             },
+
+
             redirectToDashboardPage(){
                 if(this.tournament_id != ""){
                     this.$router.push({name: 'dashboard'});
                 }
-            },            
+            }, 
+            getUserDetails(emailData){
+                UserApi.getUserDetails(emailData).then(
+                  (response)=> {
+                    this.userData = response.data.data;
+                    Ls.set('userData',JSON.stringify(this.userData[0]))  
+                    let UserData  = JSON.parse(Ls.get('userData'))
+                    this.$store.dispatch('getUserDetails', UserData);
+                  },
+                  (error)=> {
+                  }
+                );
+            },           
             
         },
         beforeMount(){  

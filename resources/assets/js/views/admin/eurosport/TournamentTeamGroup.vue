@@ -45,9 +45,12 @@
                       </select>
                     </div>
                   </div>
-                  <div class="col-sm-3" v-show="this.age_category != ''" v-if="this.role_slug != 'mobile.user'">
+                  <div class="col-sm-3" v-show="this.age_category != ''" v-if="loggedInUserRole">
                     <button type="button" data-toggle="modal" data-target="#reset_modal" class="btn btn-primary w-100">Delete teams</button>
                   </div>
+                  <div class="col-sm-3" v-show="this.age_category != ''" v-if="this.role_slug != 'mobile.user'">
+                    <button type="button" class="btn btn-primary w-100" @click="printAllocatedTeams()">Download groups</button>
+                  </div>                  
                 </div>
               </div>
             </div>
@@ -242,11 +245,16 @@
       TeamModal,
     },
     computed: {
-       tournamentFilter: function() {
+      tournamentFilter: function() {
         return this.$store.state.Tournament.tournamentFiler
+      },
+      loggedInUserRole() {
+        if(this.role_slug == 'Super.administrator' || this.role_slug == 'tournament.administrator' || this.role_slug == 'Internal.administrator' || this.role_slug == 'Master.administrator') {
+          return true;
+        }
+        return false;
       }
     },
-
     filters: {
       truncate: function(string, value) {
         if(string.length <= value) {
@@ -256,9 +264,6 @@
         }
       },
     },
-
-
-
     mounted() {
       let tournamentId = this.$store.state.Tournament.tournamentId
         if(tournamentId == null || tournamentId == '') {
@@ -779,6 +784,22 @@
       onTeamDrag(ev) {
         ev.dataTransfer.setData("id", ev.target.id);
         this.beforeChange($('#' + ev.target.id).data('select-id'));
+      },
+      printAllocatedTeams() {
+        let data = 'tournamentId='+this.$store.state.Tournament.tournamentId+'&'+'ageCategoryId='+this.age_category.id+'&'+'tournamentTemplateId='+this.age_category.tournament_template_id;
+
+        if(data != ''){
+          Tournament.getSignedUrlForGroupsViewReport(data).then(
+            (response) => {
+              window.location.href = response.data;
+            },
+            (error) => {
+
+            }
+          )
+        } else{
+          toastr['error']('Records not available', 'Error');
+        }
       }
     }
   }

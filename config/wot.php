@@ -270,12 +270,12 @@ return [
   'activity_notification_recepients' => [
     'to' => explode(',', env('ACTIVITY_NOTIFICATION_RECEPIENTS_TO')),
     'cc' => [],
-    'bcc' => explode(',', env('ACTIVITY_NOTIFICATION_RECEPIENTS_BCC')),
+    'bcc' => (env('ACTIVITY_NOTIFICATION_RECEPIENTS_BCC') != '') ? explode(',', env('ACTIVITY_NOTIFICATION_RECEPIENTS_BCC')) : [],
   ],
   'inquiries_recipient' => [
     'to' => explode(',', env('INQUIRIES_RECEPIENTS_TO')),
     'cc' => [],
-    'bcc' => explode(',', env('INQUIRIES_RECEPIENTS_BCC')),
+    'bcc' => (env('INQUIRIES_RECEPIENTS_BCC') != '') ? explode(',', env('INQUIRIES_RECEPIENTS_BCC')) : [],
   ],
   'google_re_captcha_site_key' => env('GOOGLE_RE_CAPTCHA_SITE_KEY', ''),
   'google_re_captcha_secret_key' => env('GOOGLE_RE_CAPTCHA_SECRET_KEY', ''),

@@ -1,0 +1,56 @@
+// Laraspace.scss - Bootstraps all the sass files into one
+
+
+@import 'variables';
+@import 'commercialisation/variables';
+// Plugins
+@import '../plugins/bootstrap/scss/bootstrap';
+@import '../plugins/bootstrap/scss/variables';
+@import '../plugins/bootstrap/scss/mixins';
+@import '../plugins/bootstrap/scss/custom';
+@import '../plugins/bootstrap/scss/normalize';
+@import '../plugins/bootstrap/scss/reboot';
+@import '../plugins/bootstrap/scss/type';
+@import '../plugins/bootstrap/scss/tables';
+@import '../plugins/bootstrap/scss/forms';
+@import '../plugins/bootstrap/scss/buttons';
+@import '../plugins/bootstrap/scss/transitions';
+@import '../plugins/bootstrap/scss/custom-forms';
+@import '../plugins/bootstrap/scss/utilities';
+@import '../plugins/customfonts/style';
+
+// Color
+@import 'components/colors';
+
+// Content Styles
+@import 'base';
+
+// Layouts
+@import 'layouts/layout';
+
+//Partials
+@import 'partials/header';
+@import 'partials/footer';
+
+// Components
+@import 'components/forms';
+@import 'components/buttons';
+
+//Front
+@import 'front';
+
+//commercialisation
+@import 'commercialisation/general';
+@import 'commercialisation/component/header';
+@import 'commercialisation/component/footer';
+@import 'commercialisation/component/buttons';
+@import 'commercialisation/component/typography';
+@import 'commercialisation/component/form';
+
+
+// pages
+// 
+@import 'commercialisation/front-pages';
+
+// @vendor
+@import 'commercialisation/vendor/ingenico-payment';

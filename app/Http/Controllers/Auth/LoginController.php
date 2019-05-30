@@ -1,8 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace Laraspace\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
+use Auth;
+use Socialite;
+use Laraspace\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class LoginController extends Controller
@@ -36,4 +38,18 @@ class LoginController extends Controller
     {
         $this->middleware('guest', ['except' => 'logout']);
     }
+
+    /**
+     * Obtain the user information from provider. Check if the user already exists in our
+     * database by looking up their provider_id in the database.
+     *
+     * If the user exists, log them in. Otherwise, create a new user then log them in. After that
+     * redirect them to the authenticated users homepage.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function handleProviderCallback($provider)
+    {
+        
+    }    
 }

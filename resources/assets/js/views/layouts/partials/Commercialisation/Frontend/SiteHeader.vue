@@ -12,7 +12,7 @@
                                 <a href="#"  v-if="!isProfilePage" @click.prevent="redirectToProfilePage">User Profile <i class="fas fa-user"></i></a>
                             </li>
                             <li class="d-inline">
-                                <a href="#" @click.prevent="logout">{{$lang.siteheader_logout}} <i class="fas fa-sign-out"></i></a>
+                                <a href="#" @click.prevent="logout">Logout <i class="fas fa-sign-out"></i></a>
                             </li>
                             <li class="d-inline">
                                 <a href="#" v-if="!isDashboarPage" @click.prevent="redirectToDashboardPage">Dashboard <i class="fas fa-tachometer"></i></a>
@@ -20,7 +20,7 @@
                         </ul>
                     </div>
                     
-    				<p v-if="!isUserLoggedIn" class="text-uppercase mb-0">For help call <a href="tel:+44(0)1234 567 890" class="font-weight-bold ml-3">+44(0)1234 567 890</a> | <a href="/login">Login</a></p>
+    				<p v-if="!isUserLoggedIn" class="text-uppercase mb-0">For help call<a href="tel:+44(0)1234 567 890" class="font-weight-bold ml-2">+44(0)1234 567 890</a> | <a href="/login">Login</a></p>
     			</div>
     		</div>
     	</div>

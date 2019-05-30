@@ -326,7 +326,8 @@ class MatchRepository
               'tournament_competation_template.match_interval_FM',
               'tournament_competation_template.id as tid',
               'temp_fixtures.home_yellow_cards', 'temp_fixtures.away_yellow_cards',
-              'temp_fixtures.home_red_cards', 'temp_fixtures.away_red_cards',              
+              'temp_fixtures.home_red_cards', 'temp_fixtures.away_red_cards',
+              'temp_fixtures.score_last_update_date_time',
               DB::raw('CONCAT(home_team.name, " vs ", away_team.name) AS full_game')
               )
           ->where('temp_fixtures.tournament_id', $tournamentData['tournamentId']);
@@ -786,10 +787,13 @@ class MatchRepository
       $virtual_lt_sorted = array();
       $virtual_lt_sorted_details = array();
       foreach ($conflictedTeamArray as $cta => $ctv) {
-        $virtual_lt_sorted[$cta] = $this->headToHeadVirtualLeagueTable($conflictedTeamids,$cta,$ctv,$tournamentId,$compId,$tournamentCompetationTemplatesRecord,$remain_head_to_head_with_key,$standingData);
-
-        $virtual_lt_sorted_details[$cta]['total_teams'] = count($virtual_lt_sorted[$cta]);
-        $virtual_lt_sorted_details[$cta]['remaining'] = count($virtual_lt_sorted[$cta]);
+        $headToHeadVirtualLeagueTableData =  $this->headToHeadVirtualLeagueTable($conflictedTeamids,$cta,$ctv,$tournamentId,$compId,$tournamentCompetationTemplatesRecord,$remain_head_to_head_with_key,$standingData);
+        if ( !empty($headToHeadVirtualLeagueTableData) )
+        {
+          $virtual_lt_sorted[$cta] = $headToHeadVirtualLeagueTableData;
+          $virtual_lt_sorted_details[$cta]['total_teams'] = count($virtual_lt_sorted[$cta]);
+          $virtual_lt_sorted_details[$cta]['remaining'] = count($virtual_lt_sorted[$cta]);
+        }
       }
 
       // make new sorted array
@@ -1562,6 +1566,10 @@ class MatchRepository
       if($isScoreUpdated === false) {
         return ['status' => true, 'data' => 'Scores updated successfully.', 'match_data' => $matchData, 'is_score_updated' => $isScoreUpdated];
       }
+      if($data['score_last_update_date_time'] != $tempFixtures['score_last_update_date_time']) {
+        return ['status' => false, 'data' => 'You need to refresh page to get latest updated score.', 'match_data' => $matchData, 'is_score_updated' => $isScoreUpdated, 'tempFixture' => $tempFixtures];
+      }
+
       $matchData['home_team_id'] = $tempFixtures['home_team'];
       $matchData['away_team_id'] = $tempFixtures['away_team'];
       $matchData['age_group_id'] = $tempFixtures['age_group_id'];
@@ -1569,6 +1577,7 @@ class MatchRepository
       $updateData = [
         'hometeam_score' => $data['homeScore'],
         'awayteam_score' => $data['awayScore'],
+        'score_last_update_date_time' => Carbon::now(),
       ];
       $data = TempFixture::where('id',$data['matchId'])
                 ->update($updateData);

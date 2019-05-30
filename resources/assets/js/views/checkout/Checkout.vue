@@ -91,8 +91,9 @@
                         <p class="text-sm-right font-weight-bold"><span v-if="tournamentData.currency_type == 'GBP'">&#163;</span>   
                         <span v-if="tournamentData.currency_type == 'EURO'">&#128;</span>{{returnFormatedNumber(tournamentData.tournamentPricingValue/100)}}</p>
                         
-                        <button v-if="shaSignIn"  class="btn btn-success" v-on:click="makePaymentButton()">Checkout</button> 
+                        <button v-if="shaSignIn"  class="btn btn-success" v-on:click="makePaymentButton()">Checkout</button>
                         <button v-if="!shaSignIn" class="btn btn-success" disabled="true">Get checkout</button>
+                        <button v-if="shaSignIn"  class="btn btn-success" v-on:click="redirectBuylicensePage()">EDIT YOUR LICENSE</button> 
                     </div>
                 </div>
             </div>
@@ -102,7 +103,7 @@
 </template>
 <script type="text/babel">
     import Auth from '../../services/auth'
-            import Ls from '../../services/ls';
+    import Ls from '../../services/ls';
     import Constant from '../../services/constant';
     import vueSlider from 'vue-slider-component';    
     
@@ -182,7 +183,6 @@
                     {id: '18', name: 'FRANCE', cardType: 'CarteBancaire'},
                 ];
                 let usercountry = Ls.get('usercountry');
-
                 if (usercountry != undefined && usercountry != "null" && usercountry != null) {
                     let idx = (this.countryList).findIndex(country => {
                         return country.id == usercountry
@@ -204,7 +204,9 @@
                     }
                 })
             },
-
+            redirectBuylicensePage(){
+                this.$router.push({ name: 'buylicense', query: { edityourlicense: 'yes', id:this.tournamentData.old_tournament_id}}); 
+            },
         },
         beforeMount() {
             let tournamentDetails = Ls.get('tournamentDetails');
