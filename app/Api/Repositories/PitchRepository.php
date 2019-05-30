@@ -70,10 +70,9 @@ class PitchRepository
         $data = Pitch::where('id', $pitchId)->update($updateData);
         
         if($data) {
-            $tempFixtures = TempFixture::where('pitch_id', $pitchId)->where('tournament_id', $pitchData['tournamentId'])->get();
-            foreach ($tempFixtures as $key => $tempFixture) {
-              $tempFixture->update(['venue_id' => $pitchData['location']]);
-            }
+            $tempFixtures = TempFixture::where('pitch_id', $pitchId)
+                                        ->where('tournament_id', $pitchData['tournamentId'])
+                                        ->update(['venue_id' => $pitchData['location']]);
         }
 
         return $data;
