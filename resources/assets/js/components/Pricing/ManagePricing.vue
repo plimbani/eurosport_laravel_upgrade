@@ -61,7 +61,7 @@
             getPricingData() {
                 Commercialisation.getTournamentPricingDetail().then(
                     (response)=> {
-                    	let cupResponseData = JSON.parse(response.data.data);
+                    	let cupResponseData = response.data.data;
                     	this.getCupPricingData(cupResponseData.cup.bands);
                     	this.getLeaguePricingData(cupResponseData.league.bands);
                     },
