@@ -59,7 +59,7 @@ class RegisterRepository
             $user = User::create($newUser);
             
             //Find role and attach with user
-            $role = Role::where('slug', '=', 'Customer')->first();
+            $role = Role::where('slug', '=', 'customer')->first();
             $user->roles()->attach($role->id); //Bind role with customer
             
             return [

@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Laraspace\Api\Contracts\MatchContract;
 use Laraspace\Mail\SendMail;
+use Laraspace\Models\Role;
 use Laraspace\Models\RoleUser;
 use Laraspace\Models\TempFixture;
 use Laraspace\Models\TournamentUser;
@@ -46,7 +47,8 @@ class sendEmailCustomerStandingResultsAndDeleteTournamentUser extends Command
      */
     public function handle()
     {
-        $customerUsers = RoleUser::with('tournament_user.tournaments','user')->where('role_id',6)->get();
+        $customerRoleId = Role::where('slug', 'customer')->first()->id;
+        $customerUsers = RoleUser::with('tournament_user.tournaments','user')->where('role_id', $customerRoleId)->get();
 
         if ( $customerUsers->count() > 0)
         {
