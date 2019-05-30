@@ -4,7 +4,7 @@
 <div class="card">
   <div class="card-block">
       <h6><strong>{{$lang.tournament_information}}</strong>
-        <span v-if="this.currentLayout == 'commercialisation' && tournament.access_code != null"  class="float-right font-weight-bold">{{ $lang.tournament_license_access_code}} #{{ tournament.access_code }}</span>
+        <span v-if="this.currentLayout == 'commercialisation' && tournament.access_code != null"  class="float-right font-weight-bold">{{ $lang.tournament_license_access_code}} #{{ tournament.access_code | upperCase}}</span>
       </h6>
       <form name="tournamentName" enctype="multipart/form-data">
         <div class="row">
@@ -385,6 +385,11 @@ currentLayout: this.$store.state.Configuration.currentLayout,
   components: {
     location: location, RemoveVenueModal, TransitionImage
   },
+filters: {
+  upperCase: function(value) {
+    return value.toUpperCase()
+  }          
+},
   mounted(){
     Plugin.initPlugins(['Select2','TimePickers','MultiSelect','DatePicker','setCurrentDate'])
     // here we dispatch methods

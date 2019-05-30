@@ -427,7 +427,7 @@
             getTournamentPricing() {
                 Commercialisation.getTournamentPricingDetail().then(
                 (response) => {
-                    this.tournamentPricingBand = JSON.parse(response.data.data);
+                    this.tournamentPricingBand = response.data.data;
                 })
                 
             },
