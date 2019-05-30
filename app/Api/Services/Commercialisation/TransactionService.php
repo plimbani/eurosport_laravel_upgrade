@@ -6,6 +6,7 @@ use JWTAuth;
 use Laraspace\Api\Contracts\Commercialisation\TransactionContract;
 use Laraspace\Api\Repositories\Commercialisation\TransactionRepository;
 use Laraspace\Models\Transaction;
+use Laraspace\Models\Tournament;
 use PDF;
 
 class TransactionService implements TransactionContract {
@@ -34,13 +35,13 @@ class TransactionService implements TransactionContract {
      * @param array $data
      * @return string
      */
-    public function generatePaymentReceipt($data)
+    public function generatePaymentReceipt($data, $tournament_id)
     {
         $transaction = \DB::table('transaction_histories')
                 ->select('transaction_histories.id', 'transaction_histories.currency', 'transaction_histories.amount', 'transaction_histories.order_id', 'transaction_histories.team_size', 'tournaments.start_date', 'tournaments.end_date', 'transaction_histories.no_of_days', 'tournaments.maximum_teams')
                 ->join('transactions', 'transaction_histories.transaction_id', '=', 'transactions.id')
                 ->join('tournaments', 'tournaments.id', '=', 'transactions.tournament_id')
-                ->where(['transactions.tournament_id' => $data['tournament_id']])
+                ->where(['transactions.tournament_id' => $tournament_id])
                 ->orderBy('transaction_histories.id', 'desc')
                 ->limit(2)
                 ->get();
@@ -61,15 +62,19 @@ class TransactionService implements TransactionContract {
             $maxTeam = $transaction[0]->team_size;
         }
 
-       
+        $tournamentCreatedAt = Tournament::orderBy('id', 'desc')->first();
+        $tournamentCreatedAtDateFormat = $tournamentCreatedAt['created_at']->format('h:i:s d-m-y');
+
         $pdfData = [
             'days' => $days,
             'maximumTeams' => $maxTeam,
             'amount' => number_format($amount,2),
             'orderNumber' => $transaction[0]->order_id,
-			'currency' => $transaction[0]->currency
+			'currency' => $transaction[0]->currency,
+            'tournamentCreatedAtDateFormat' => $tournamentCreatedAtDateFormat,
+            'userName' => $_GET['user_name'],
         ];
-
+        
         $date = new \DateTime(date('H:i d M Y'));
         $pdf = PDF::loadView('commercialisation.payment_receipt', ['data' => $pdfData])
                 ->setPaper('a4')

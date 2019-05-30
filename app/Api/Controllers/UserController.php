@@ -373,4 +373,8 @@ class UserController extends BaseController
     public function updateAppDeviceVersion(Request $request) {
       return $this->userObj->updateAppDeviceVersion($request->all());
     }
+
+    public function validateUserEmail(Request $request) {
+      return $this->userObj->validateUserEmail($request->all());
+    }
 }

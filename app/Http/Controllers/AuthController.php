@@ -2,19 +2,24 @@
 
 namespace Laraspace\Http\Controllers;
 
-use Illuminate\Http\Request;
 use JWTAuth;
-use Tymon\JWTAuth\Exceptions\JWTException;
+use Socialite;
+use Validator;
+use Laraspace\Models\Role;
+use Laraspace\Models\User;
+use Laraspace\Models\Person;
+use Illuminate\Http\Request;
 use Laraspace\Models\Settings;
 use Laraspace\Models\UserFavourites;
 use Laraspace\Models\TournamentUser;
+use Tymon\JWTAuth\Exceptions\JWTException;
+use Illuminate\Validation\ValidationException;
+use Laraspace\Http\Requests\Auth\TokenCheckRequest;
 
 class AuthController extends Controller
 {
     public function authenticate(Request $request)
     {
-        // dd($request->all());
-        // grab credentials from the request
         $credentials = $request->only('email', 'password');
         try {
             // attempt to verify the credentials and create a token for the user
@@ -33,6 +38,7 @@ class AuthController extends Controller
         $userTournamentCount = TournamentUser::with('tournaments')->has('tournaments')->where('user_id', $authUser->id)->count();
         
         // all good so return the token
+
         //return response()->json(compact('token'));
         //$token = response()->json(compact('token'));
        // $token = compact('token');
@@ -47,11 +53,10 @@ class AuthController extends Controller
         } catch (JWTException $e) {
             return response(['authenticated' => false]);
         }
-        // Here Add Functionality if use is Active then allowed to login
+
         $token=JWTAuth::getToken();
         if($token) {
           $userData = JWTAuth::toUser($token);
-          // here we put check for Mobile Users
           $isMobileUsers = \Request::header('IsMobileUser');
           $userTournament = $userData->tournaments()->pluck('id')->toArray();
           if ($userData->isRole('tournament.administrator') && $request->has('tournamentId') && !in_array($request->tournamentId,$userTournament)) {
@@ -111,7 +116,6 @@ class AuthController extends Controller
 
     public function logout()
     {
-
         try {
             $token = JWTAuth::getToken();
 
@@ -125,5 +129,150 @@ class AuthController extends Controller
         }
 
         return response()->json(['message' => 'Log out success'], 200);
+    }
+
+    /**
+     * Social login
+     */
+    public function socialLogin(TokenCheckRequest $request)
+    {
+        $token = $request->token;
+        $provider = $request->provider;
+
+        if($provider == 'facebook') {
+          Socialite::driver($provider)->fields(['name', 'first_name', 'last_name', 'email']);
+          $payload = Socialite::driver($provider)->userFromToken($token);
+          $user = $this->getFacebookUserData($payload);
+        }
+
+        $authUser = User::where('provider_id', $user['id'])->first();
+        if (!$authUser) {
+          $userData = [];
+          if(isset($user['first_name']))
+              $userData['first_name'] = $user['first_name'];
+
+          if(isset($user['last_name']))
+              $userData['last_name'] = $user['last_name'];
+
+          if(isset($user['email']))
+              $userData['email'] = $user['email'];
+
+          if(isset($user['id']))
+              $userData['provider_id'] = $user['id'];
+
+          $userData['provider'] = $provider;
+
+          $isUserDeleted = User::onlyTrashed()->where('email', $user['email'])->first();
+          if($isUserDeleted){
+            $authUser = $this->restoreDeletedUser($isUserDeleted, $userData);
+          } else {
+            if(isset($user['email'])) {
+              $validator = Validator::make(['email' => $user['email']], [
+                'email' => 'required|email|unique:users,email',
+              ]);
+
+              if ($validator->fails()) {
+                return response()->json(['message' => 'User already exists.'], 422);
+              }
+            }              
+            $authUser = $this->storeFacebookUserDetail($userData);
+          }
+        }
+
+        $token = JWTAuth::fromUser($authUser);
+        if (!$token) {
+            throw new \Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException('Basic', 'Invalid credentials.');
+        }
+
+        return response()->json(compact('token'));
+    }
+
+    /**
+     * Get user data from Facebook provider
+     */
+    public function getFacebookUserData($user)
+    {
+        $facebookUserDetail = [
+            'id' => $user->id,
+            'email' => isset($user->user['email']) ? $user->user['email'] : null,
+        ];
+        $userName = isset($user->user['name']) ? explode(' ', $user->user['name'], 2) : null;
+        $facebookUserDetail['first_name'] = isset($user['first_name']) ? $user['first_name'] : (isset($userName[0]) ? $userName[0] : null);
+        $facebookUserDetail['last_name'] = isset($user['last_name']) ? $user['last_name'] : (isset($userName[1]) ? $userName[1] : null);
+
+        return $facebookUserDetail;
+    }
+
+    /**
+     * Store facebook user detail
+     */
+    public function storeFacebookUserDetail($userData)
+    {
+        $mobileUserRoleId = Role::where('slug', 'mobile.user')->first()->id;
+
+        //saving people table data
+        $person = new Person();
+        $person->first_name = $userData['first_name'];
+        $person->last_name = $userData['last_name'];
+        $person->save();
+
+        //saving users table data
+        $user = new User();
+        $user->person_id = $person->id;
+        $user->name = $userData['first_name']. ' ' .$userData['last_name'];
+        $user->email = isset($userData['email']) ? $userData['email'] : null;
+        $user->username = isset($userData['email']) ? $userData['email'] : null;
+        $user->provider = $userData['provider'];
+        $user->provider_id = $userData['provider_id'];
+        $user->is_mobile_user = 1;
+        $user->is_verified = 1;
+        $user->is_active = 1;
+        $user->save();
+        $user->attachRole($mobileUserRoleId);
+
+        //saving user settings data
+        $setting = new Settings();
+        $setting->user_id = $user->id;
+        $setting->value = '{"is_sound":"true","is_vibration":"true","is_notification":"true"}';
+        $setting->save();
+
+        return $user;
+    }
+
+    /**
+     * Re-store deleted user detail
+     */
+    public function restoreDeletedUser($deletedUser, $userData)
+    {
+      $mobileUserRoleId = Role::where('slug', 'mobile.user')->first()->id;
+      $deletedUser->restore();
+
+      // updating value in people table
+      $person = Person::find($deletedUser->id);
+      $person->first_name = $userData['first_name'];
+      $person->last_name = $userData['last_name'];
+      $person->save();
+
+      // updating values in users table
+      $deletedUserData = User::find($deletedUser->id);
+      $deletedUserData->person_id = $person->id;
+      $deletedUserData->name = $userData['first_name']. ' ' .$userData['last_name'];
+      $deletedUserData->provider = $userData['provider'];
+      $deletedUserData->provider_id = $userData['provider_id'];
+      $deletedUserData->is_verified = 1;
+      $deletedUserData->is_active = 1;
+      $deletedUserData->is_mobile_user = 1;
+      $deletedUserData->save();
+      $deletedUserData->roles()->sync($mobileUserRoleId);
+
+      // updating values in settings table if there is no any data
+      $setting = Settings::where('user_id', $deletedUser->id)->first();
+      if(!$setting) {
+        $setting->user_id = $deletedUser->id;
+        $setting->value = '{"is_sound":"true","is_vibration":"true","is_notification":"true"}';
+        $setting->save();
+      }
+
+      return $deletedUserData;
     }
 }

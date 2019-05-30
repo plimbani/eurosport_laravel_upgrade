@@ -36,20 +36,20 @@
                                     <div class="form-group">
                                         <input type="email" id="email-id" class="form-control " placeholder="e.g name@domain.com" name="email"
                                            v-model="registerData.email" v-validate="{ rules: { required: true, email: true } }">
-					<span class="help is-danger" v-show="errors.has('email') && errors.first('email') == 'The email field must be a valid email.'">{{$lang.login_email_invalid_validation_message}}</span>
+					                    <span class="help is-danger" v-show="errors.has('email') && errors.first('email') == 'The email field must be a valid email.'">{{$lang.login_email_invalid_validation_message}}</span>
                                         <span class="help is-danger" v-show="errors.has('email') && errors.first('email') == 'The email field is required.'">{{$lang.login_email_validation_message}}</span>
                                     </div>
 
                                     <label>Password</label>
                                     <div class="form-group">
-                                       <input id="pwd" type="password" class="form-control" placeholder="Enter password" name="password" v-model="registerData.password" v-validate="{ rules: { required: true } }" ref="password">
-                                        <span class="help is-danger" v-show="errors.has('password')">The password field is required.</span>
-                                    </div>
-                                    <div class="form-group">
-                                        <input id="cpwd" type="password" class="form-control" placeholder="Confirm password" name="password_confirmation" v-model="registerData.password_confirmation" v-validate="'required|confirmed:password'">
-                                        <span class="help is-danger" v-show="errors.has('password_confirmation')">The confirm password field is required.</span>
+                                       <input id="password" type="password" class="form-control" placeholder="Enter password" name="password" v-model="registerData.password" v-validate="{ rules: { required: true } }" ref="password">
+                                       <span class="help is-danger" v-show="errors.has('password')">{{errors.first('password')}}</span>
                                     </div>
 
+                                    <div class="form-group">
+                                        <input id="password-confirm" type="password" class="form-control" placeholder="Confirm password" name="password_confirmation" v-model="registerData.password_confirmation" v-validate="'required|confirmed:password'">
+                                        <span class="help is-danger" v-show="errors.has('password_confirmation')">{{errors.first('password_confirmation')}}</span>
+                                    </div>
                                     <h3 class="text-uppercase font-weight-bold mt-5">Your organisation</h3>
                                 </div>
                             </div>
@@ -155,16 +155,44 @@
                     zip: '',
                     country:'',
                 },
+                errorMessages: {
+                    en: {
+                        custom: {
+                          password: {
+                            required: 'This field is required.',
+                            min: 'Your password must be at least 5 characters long'
+                          },
+                          password_confirmation: {
+                            required: 'This field is required.',
+                            confirmed: 'Passwords do not match'
+                          }
+                        }
+                    },
+                    fr: {
+                        custom: {
+                          password: {
+                            required: 'FThis field is required.',
+                            min: 'FYour password must be at least 5 characters long'
+                          },
+                          password_confirmation: {
+                            required: 'FThis field is required.',
+                            confirmed: 'FPasswords do not match'
+                          }
+                        }
+                    }               
+                },
                 countries:{},
                 disabled:false
             }
+        },
+        mounted() {
+            this.$validator.localize(this.errorMessages);
         },
         methods: {
             registerUser(e){
                
                 // console.log("registerUser");
                 this.$validator.validateAll().then((response) => {
-                    if(response) {
                         if (!this.errors.any()) {
                             this.disabled = true; 
                             axios.post(Constant.apiBaseUrl+'commercialisation/thankyou', this.registerData).then(response =>  {
@@ -199,8 +227,10 @@
                                 this.disabled = false;
                                  console.log("error in register::",error);
                              });
+                        } else {
+                            window.scrollTo(200,0);
                         }
-                    }
+                    
                 }).catch(() => {
                     // fail stuff
                 });

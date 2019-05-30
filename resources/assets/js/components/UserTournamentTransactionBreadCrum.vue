@@ -4,7 +4,8 @@
     <div class="page-header">
       <ol class="breadcrumb">
         <li><a href="/admin">Home</a></li>
-        <li><a href="/users">{{currentPage}}</a></li>
+        <li v-if="currentPath"><a href="/users" >Users</a></li>
+        <li v-else><a href="#">{{ currentPage }}</a></li>
         <li class="active"><span>Tournament</span></li>
       </ol>
     </div>
@@ -20,7 +21,10 @@ export default  {
   },  
   computed: {
     currentPage() {
-    return (this.$store.state.currentPage == '') ? '' : this.$store.state.currentPage      
+      return (this.$store.state.currentPage == '') ? '' : this.$store.state.currentPage      
+    },
+    currentPath() {
+      return ((this.$router.currentRoute.path).indexOf("/userstourmanents") > -1) ? true : false
     }
   }
 }

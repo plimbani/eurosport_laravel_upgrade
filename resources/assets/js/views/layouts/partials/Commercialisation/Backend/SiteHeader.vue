@@ -26,8 +26,8 @@
                     <div class="dropdown-menu dropdown-menu-right notification-dropdown">
                         <!-- <router-link class="dropdown-item" to="/admin/settings"><i class="fa fa-cogs"></i>{{$lang.siteheader_settings}}</router-link> -->
                          <a v-if="userRole != 'customer'" href="javascript:void(0)" class="dropdown-item" @click="showEditProfileModal()"><i class="fas fa-user"></i>{{$lang.siteheader_userprofile}}</a>
-                         <a v-if="userRole != 'customer'" href="javascript:void(0)" class="dropdown-item" @click="showSettingModal()"><i class="fas fa-sign-out"></i>Setting</a>
-                         <a v-if="userRole != 'customer'" href="javascript:void(0)" class="dropdown-item" @click="showPricingView()"><i class="fas fa-money-bill-alt"></i>Manage Pricing</a>
+                         <a v-if="userRole != 'customer'" href="javascript:void(0)" class="dropdown-item" @click="showSettingModal()"><i class="fas fa-cog"></i>Setting</a>
+                         <a v-if="userRole != 'customer'" href="javascript:void(0)" class="dropdown-item" @click="showPricingView()"><i class="fas fa-euro-sign"></i>Manage Pricing</a>
                         <a href="#" class="dropdown-item" @click.prevent="logout"><i class="fas fa-sign-out"></i>{{$lang.siteheader_logout}}</a>
                     </div>
                 </li>

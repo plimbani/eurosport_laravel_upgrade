@@ -283,4 +283,7 @@ export default {
   duplicateTournamentList(tournamentData) {
     return api.post('duplicateTournamentList', tournamentData)
   },
+  getSignedUrlForGroupsViewReport(groupsViewData) {
+    return api.post('getSignedUrlForGroupsViewReport?'+groupsViewData);
+  },
 }

@@ -26,9 +26,10 @@
 import Tournament from '../api/tournament.js'
 
 export default {
-
   data() {
     return  {
+      unChangedMatchScores: [],
+      unChangedMatchScoresInfoModalOpen: false,
     }
   },
   mounted() {
@@ -136,6 +137,7 @@ export default {
             matchData.matchId = value.fid;
             matchData.homeScore = value.homeScore;
             matchData.awayScore = value.AwayScore
+            matchData.score_last_update_date_time = value.score_last_update_date_time;
             matchDataArray[index] = matchData;
             if(value.round == 'Elimination' && value.homeScore == value.AwayScore && value.isResultOverride == 0 && value.homeScore != '' && value.AwayScore != '' && value.homeScore != null && value.AwayScore != null) {
               isSameScore = true;
@@ -150,8 +152,14 @@ export default {
           matchPostData.matchDataArray = matchDataArray;
           Tournament.saveAllMatchResults(matchPostData).then(
             (response) => {
-              toastr.success('Scores have been updated successfully', 'Score Updated', {timeOut: 1000});
+              this.unChangedMatchScores = response.data.unChangedScores;
+              if(response.data.areAllMatchScoreUpdated == true) {
+                toastr.success('Scores have been updated successfully', 'Score Updated', {timeOut: 1000});
+              }
               $('#unSaveMatchModal').modal('hide');
+              if(this.unChangedMatchScores.length > 0) {
+                this.$emit('unchanged-match-scores', this.unChangedMatchScores);
+              }
             }
           )
         }
