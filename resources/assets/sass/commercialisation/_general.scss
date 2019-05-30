@@ -13,9 +13,10 @@
 body {
     font-size: $font-size-base;
     height: 100%;
+    background-color: $white;
 }
 
-html{
+html {
     height: 100%;
 }
 
@@ -27,29 +28,41 @@ html{
     }
 }
 
-.error-block{
-	position:absolute;
-	font-size: 0.75rem;
+.error-block {
+    position: absolute;
+    font-size: 0.75rem;
 }
 
-.form-control::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+.form-control::-webkit-input-placeholder {
+    /* Chrome/Opera/Safari */
     font-size: 0.875rem;
 }
 
-.form-control::-moz-placeholder { /* Firefox 19+ */
+.form-control::-moz-placeholder {
+    /* Firefox 19+ */
     font-size: 0.875rem;
 }
 
-.form-control:-ms-input-placeholder { /* IE 10+ */
+.form-control:-ms-input-placeholder {
+    /* IE 10+ */
     font-size: 0.875rem;
 }
 
-.form-control:-moz-placeholder { /* Firefox 18- */
+.form-control:-moz-placeholder {
+    /* Firefox 18- */
     font-size: 0.875rem;
 }
 
-.content-wrapper{
+.content-wrapper {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+}
+
+.commercialisation {
+    .tabs-primary {
+        .grey_bg {
+            background-color: #F5F8FA;
+        }
+    }
 }
