@@ -18,6 +18,7 @@ class LandingVC: SuperViewController {
     @IBOutlet var btnLoginWithFacebook: UIButton!
     
     var authToken = NULL_STRING
+    var isAutoLogin = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,6 +45,8 @@ class LandingVC: SuperViewController {
         }
         
         if USERDEFAULTS.string(forKey: kUserDefaults.token) != nil {
+            isAutoLogin = true
+            
             if USERDEFAULTS.bool(forKey: kUserDefaults.isFacebookLogin) {
                 getUserDetailsAPI()
             } else {
@@ -183,18 +186,23 @@ class LandingVC: SuperViewController {
                     if authenticated {
                         ParseManager.parseLogin(result)
                         
+                        let mainVC = Storyboards.Main.instantiateMainVC()
+                        
                         if let userData = ApplicationData.sharedInstance().getUserData() {
-                            if userData.tournamentId == NULL_ID {
-                                ApplicationData.facebookDetailsPending = true
-                            }
-                            
                             if userData.email == NULL_STRING {
                                 ApplicationData.facebookDetailsPending = true
+                            } else {
+                                if userData.countryId == NULL_ID {
+                                    mainVC.skipCountryCheck = false
+                                }
                             }
                             
+                            if !self.isAutoLogin {
+                                ApplicationData.temLoginFlag = true
+                            }
                         }
                         
-                        UIApplication.shared.keyWindow?.rootViewController = Storyboards.Main.instantiateMainVC()
+                        UIApplication.shared.keyWindow?.rootViewController = mainVC
                     }
                 }
             }

@@ -184,6 +184,8 @@ class LoginVC: SuperViewController {
                         if let fcmToken = USERDEFAULTS.string(forKey: kUserDefaults.fcmToken) {
                             self.updateFCMTokenAPI(fcmToken)
                         }
+                        
+                        ApplicationData.temLoginFlag = true
                         UIApplication.shared.keyWindow?.rootViewController = Storyboards.Main.instantiateMainVC()
                     } else {
                         if let message = result.value(forKey: "message") as? String {

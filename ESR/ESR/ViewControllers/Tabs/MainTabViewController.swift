@@ -28,6 +28,8 @@ class MainTabViewController: SuperViewController {
     
     @IBOutlet var heightConstraintTabbarContainerView: NSLayoutConstraint!
     
+    var skipCountryCheck = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         initialize()
@@ -99,14 +101,12 @@ class MainTabViewController: SuperViewController {
             sendAppversionRequest()
         }
         
-        if ApplicationData.facebookDetailsPending {
+        /*if ApplicationData.facebookDetailsPending {
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                 self.onTabSelected(btn: self.tabButtonList[TabIndex.tabsettings.rawValue])
             }
             return
-        }
-        
-        var skipCountryCheck = false
+        }*/
         
         // Checks if the application is redirected from deep link
         if ApplicationData.currentTarget == ApplicationData.CurrentTargetList.EasyMM.rawValue {
@@ -115,7 +115,11 @@ class MainTabViewController: SuperViewController {
             }
         }
         
-        if !skipCountryCheck {
+        if skipCountryCheck {
+            accessCodeAPI()
+        }
+        
+        /*if !skipCountryCheck {
             if let userDetails = ApplicationData.sharedInstance().getUserData() {
                 if userDetails.countryId == NULL_ID {
                     
@@ -128,7 +132,7 @@ class MainTabViewController: SuperViewController {
             }
         } else {
             accessCodeAPI()
-        }
+        }*/
     }
     
     @objc func callAccessCodeAPI(_ notification: NSNotification) {

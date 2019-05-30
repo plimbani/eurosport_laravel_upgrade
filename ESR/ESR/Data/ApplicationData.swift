@@ -28,6 +28,8 @@ class ApplicationData: NSObject {
     
     static var facebookDetailsPending = false
     
+    static var temLoginFlag = false
+    
     // For maintaining targets
     enum CurrentTargetList: String {
         case ESR

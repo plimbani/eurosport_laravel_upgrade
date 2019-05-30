@@ -125,6 +125,26 @@ class TabFollowVC: SuperViewController {
                         
                         self.tournamentList.append(tournament)
                     }
+                    
+                    if ApplicationData.temLoginFlag {
+                        if ApplicationData.facebookDetailsPending {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                                self.delegate!.mainTabViewControllerSelectTab(TabIndex.tabsettings.rawValue)
+                            }
+                        } else {
+                            if let userDetails = ApplicationData.sharedInstance().getUserData() {
+                                if userDetails.countryId == NULL_ID {
+                                    self.delegate!.mainTabViewControllerSelectTab(TabIndex.tabsettings.rawValue)
+                                }
+                                
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                                    NotificationCenter.default.post(name: .selectCountry, object: nil)
+                                }
+                            }
+                        }
+                        
+                        ApplicationData.temLoginFlag = false
+                    }
                 } else {
                     UIApplication.shared.keyWindow?.rootViewController = Storyboards.Favourites.instantiateGetStartedTournamentVC()
                     return
