@@ -545,9 +545,11 @@
                     vm.$root.$emit('reloadAllEvents')
                 })
             },
-
             saveScheduleMatchResult(matchData) {
                 this.scheduleMatchesArray.push(matchData);
+            },
+            clearScheduleMatches() {
+                this.scheduleMatchesArray = [];
             },
             saveScheduleMatches() {
                 let vm = this;
@@ -581,6 +583,9 @@
                 $("#unschedule_fixtures").show();
                 $("#automatic_planning").show();
                 this.isMatchScheduleInEdit = false;
+                this.clearScheduleMatches();
+
+                location.reload();
             },
         }
     }

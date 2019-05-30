@@ -304,10 +304,12 @@ import _ from 'lodash'
                                             vm.currentScheduledMatch.remove();
                                             vm.currentScheduledMatch = null;
                                             if(vm.isMatchScheduleInEdit === true) {
+                                                console.log('yes - isMatchScheduleInEdit');
                                                 vm.$emit('schedule-match-result', matchData);
                                                 vm.$root.$emit('gamesMatchList', matchData);
-                                                $(vm.$el).fullCalendar( 'removeEvents' )
+                                                // $(vm.$el).fullCalendar( 'removeEvents' )
                                             } else {
+                                                console.log('no - isMatchScheduleInEdit');
                                                 vm.$store.dispatch('setMatches');
                                                 toastr.success(response.data.message, 'Schedule Match', {timeOut: 5000});
                                                 vm.getScheduledMatch(vm.tournamentFilter.filterKey,vm.tournamentFilter.filterValue,vm.tournamentFilter.filterDependentKey,vm.tournamentFilter.filterDependentValue)
