@@ -90,7 +90,7 @@ export default {
       	toastr['error']('Please Select Tournament', 'Error');
         this.$router.push({name: 'welcome'});
       } else {
-        let currentNavigationData = {activeTab:'tournaments_summary_details', currentPage: 'Summary'}
+        let currentNavigationData = {activeTab:'tournaments_summary_details', currentPage: 'Administration'}
         this.$store.dispatch('setActiveTab', currentNavigationData)
       }
       this.$store.dispatch('setCurrentScheduleView','')

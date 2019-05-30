@@ -1328,7 +1328,10 @@ a.active-view:hover {
 .unsaved-score-list li{
     padding: 5px 0;
     font-size: 14px;
-    float: left;
+}
+
+.add-category-table th {
+    white-space: nowrap;
 }
 
 .pitch-capacity-form {
