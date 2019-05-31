@@ -521,14 +521,12 @@
 
             $('#tournament_start_date').datepicker({
                 autoclose: true,
-                startDate: '-0m',
                 onSelect: function( selectedDate ) {
                     $( "#totournament_end_date" ).datepicker( "option", "minDate", selectedDate);
                 }
             });
             $('#tournament_end_date').datepicker({
                 autoclose: true,
-                startDate: '-0m',
                 onSelect: function( selectedDate ) {
                     $( "#tournament_start_date" ).datepicker( "option", "maxDate", selectedDate);
                 }
