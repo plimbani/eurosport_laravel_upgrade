@@ -147,6 +147,7 @@
             this.$root.$on('displayTournamentCompetationList', this.displayTournamentCompetationList);
             this.$root.$on('setView', this.setView);
             this.$root.$on('cancelUnscheduleFixtures', this.cancelUnscheduleFixtures);
+            this.$root.$on('filterMatches', this.filterMatches);
         },
         beforeCreate: function() {
             // Remove custom event listener
