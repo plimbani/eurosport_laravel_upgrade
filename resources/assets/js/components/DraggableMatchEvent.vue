@@ -47,7 +47,12 @@ export default {
                 matchCompetitionId: this.match.competitionId,
                 matchVenueId: this.match.venueId,
                 forceEventDuration: true,
-                fixtureStripColor: this.match == 'unavailable' ? 'grey' : (this.match.competationColorCode != null ? this.match.competationColorCode : '#FFFFFF')
+                fixtureStripColor: this.match == 'unavailable' ? 'grey' : (this.match.competationColorCode != null ? this.match.competationColorCode : '#FFFFFF'),
+                displayMatchName: this.match.displayMatchName,
+                categoryAgeColor: this.match.categoryAgeColor,
+                categoryAgeFontColor: this.match.categoryAgeFontColor,
+                competitionColorCode: this.match.competationColorCode,
+                matchRefereeId: this.match == 'unavailable' ? -2 : '0',
                 
             });
 

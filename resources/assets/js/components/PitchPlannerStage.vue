@@ -80,7 +80,6 @@ import _ from 'lodash'
             // Remove custom event listener
             this.$root.$off('reloadAllEvents');
             this.$root.$off('arrangeLeftColumn');
-            this.$root.$off('filterMatches');
         },
         mounted() {
             let vm = this;
@@ -645,6 +644,7 @@ import _ from 'lodash'
                                     'categoryAgeColor': match.category_age_color,
                                     'categoryAgeFontColor': match.category_age_font_color,
                                     'competitionColorCode': match.competation_color_code,
+                                    'matchRefereeId': match.referee_id ? match.referee_id : 0,
                                 }
                             sMatches.push(mData)
                             }
@@ -687,6 +687,7 @@ import _ from 'lodash'
                                         'categoryAgeColor': null,
                                         'categoryAgeFontColor': null,
                                         'competitionColorCode': null,
+                                        'matchRefereeId': null,
                                     }
                                     sMatches.push(mData1)
                                     counter = counter+1;
@@ -724,6 +725,7 @@ import _ from 'lodash'
                                         'categoryAgeColor': null,
                                         'categoryAgeFontColor': null,
                                         'competitionColorCode': null,
+                                        'matchRefereeId': null,
                                     }
                                     sMatches.push(mData2)
                                     counter = counter+1;
@@ -762,6 +764,7 @@ import _ from 'lodash'
                                             'categoryAgeColor': null,
                                             'categoryAgeFontColor': null,
                                             'competitionColorCode': null,
+                                            'matchRefereeId': null,
                                         }
 
                                         sMatches.push(mData)
@@ -820,6 +823,7 @@ import _ from 'lodash'
                     'categoryAgeColor': null,
                     'categoryAgeFontColor': null,
                     'competitionColorCode': null,
+                    'matchRefereeId': null,
 
               }
                this.scheduledMatches.push(mData21)
@@ -909,61 +913,6 @@ import _ from 'lodash'
             },
             arrangeLeftColumn() {
                 arrangeLeftColumn();
-            },
-            filterMatches(filterKey, filterValue, filterDependentKey, filterDependentValue) {
-                // console.log('clientevents', $(this.$el).fullCalendar('clientEvents'));
-                // console.log('events', $(this.$el).fullCalendar('getEventSources'));
-                let vm = this;
-                console.log('this.stage.stageNumber', this.stage.stageNumber);
-                let allEvents = $('#pitchPlanner' + this.stage.stageNumber).parent('.fc-unthemed').fullCalendar('clientEvents');
-                console.log('allEvents', allEvents);
-                let events = _.filter(allEvents, function(o) { return o.matchId != -1; });
-
-                console.log('events', events);
-
-                _.forEach(events, function(event) {
-                    let scheduleBlock = false;
-                    if(filterKey == 'age_category'){
-                        if( filterValue != '' && filterValue.id != event.matchAgeGroupId){
-                            scheduleBlock = true
-                        }
-                        if(filterDependentKey != '' && filterDependentValue != ''  && filterDependentValue != event.matchCompetitionId) {
-                            scheduleBlock = true
-                        }
-                    } else if(filterKey == 'location'){
-                        if( filterValue != '' && filterValue.id != event.matchVenueId){
-                            scheduleBlock = true;
-                        }
-                    }
-
-                    if(scheduleBlock){
-                        event.color = 'grey';
-                        event.textColor = '#FFFFFF';
-                        event.borderColor = 'grey';
-                        event.fixtureStripColor = 'grey';
-                        event.refereeId = -1;
-                        event.matchTitle = 'Match scheduled - ' + event.displayMatchName;
-                    } else {
-                        let borderColorVal;
-                        let isBright = (parseInt(vm.getBrightness(event.categoryAgeColor)) > 160);
-                        if(isBright) {
-                            borderColorVal = vm.LightenDarkenColor(event.categoryAgeColor, -40);
-                        } else {
-                            borderColorVal = vm.LightenDarkenColor(event.categoryAgeColor, 40);
-                        }
-                        let fixtureStripColor = event.competitionColorCode != null ? event.competitionColorCode : '#FFFFFF';
-
-                        event.color = event.categoryAgeColor;
-                        event.textColor = event.categoryAgeFontColor;
-                        event.borderColor = borderColorVal;
-                        event.fixtureStripColor = fixtureStripColor;
-                        // refereeId = match.referee_id ? match.referee_id : 0
-                        event.matchTitle = event.displayMatchName;
-                    }
-
-                    console.log('event', event);
-                    $(vm.$el).fullCalendar('updateEvent', event);
-                })
             },
         }
     };

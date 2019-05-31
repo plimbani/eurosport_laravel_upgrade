@@ -162,6 +162,7 @@
             this.$root.$off('editReferee');
             this.$root.$off('displayTournamentCompetationList');
             this.$root.$off('setView');
+            this.$root.$off('filterMatches');
         },
         data() {
             return {
@@ -587,6 +588,100 @@
                 this.clearScheduleMatches();
 
                 location.reload();
+            },
+            filterMatches(filterKey, filterValue, filterDependentKey, filterDependentValue) {
+                let vm = this;
+
+                _.forEach(this.tournamentStages, function(stage, stageIndex) {
+                    let allEvents = $('#pitchPlanner' + (stageIndex + 1)).parent('.fc-unthemed').fullCalendar('clientEvents');
+                    let events = _.filter(allEvents, function(o) { return o.matchId != -1; });
+
+                    events = _.map(events, function(event) {
+                        let scheduleBlock = false;
+                        if(filterKey == 'age_category'){
+                            if( filterValue != '' && filterValue.id != event.matchAgeGroupId){
+                                scheduleBlock = true
+                            }
+                            if(filterDependentKey != '' && filterDependentValue != ''  && filterDependentValue != event.matchCompetitionId) {
+                                scheduleBlock = true
+                            }
+                        } else if(filterKey == 'location'){
+                            if( filterValue != '' && filterValue.id != event.matchVenueId){
+                                scheduleBlock = true;
+                            }
+                        }
+
+                        if(scheduleBlock){
+                            event.color = 'grey';
+                            event.textColor = '#FFFFFF';
+                            event.borderColor = 'grey';
+                            event.fixtureStripColor = 'grey';
+                            event.refereeId = -1;
+                            event.matchTitle = 'Match scheduled - ' + event.displayMatchName;
+                        } else {
+                            let borderColorVal;
+                            let isBright = (parseInt(vm.getBrightness(event.categoryAgeColor)) > 160);
+                            if(isBright) {
+                                borderColorVal = vm.LightenDarkenColor(event.categoryAgeColor, -40);
+                            } else {
+                                borderColorVal = vm.LightenDarkenColor(event.categoryAgeColor, 40);
+                            }
+                            let fixtureStripColor = event.competitionColorCode != null ? event.competitionColorCode : '#FFFFFF';
+
+                            event.color = event.categoryAgeColor;
+                            event.textColor = event.categoryAgeFontColor;
+                            event.borderColor = borderColorVal;
+                            event.fixtureStripColor = fixtureStripColor;
+                            event.refereeId = event.matchRefereeId;
+                            event.matchTitle = event.displayMatchName;
+                        }
+                        return event;
+                    });
+                    $('#pitchPlanner' + (stageIndex + 1)).parent('.fc-unthemed').fullCalendar('updateEvents', events);
+                });
+            },
+            LightenDarkenColor(colorCode, amount) {
+                var usePound = false;
+
+                if (colorCode[0] == "#") {
+                    colorCode = colorCode.slice(1);
+                    usePound = true;
+                }
+
+                var num = parseInt(colorCode, 16);
+
+                var r = (num >> 16) + amount;
+
+                if (r > 255) {
+                    r = 255;
+                } else if (r < 0) {
+                    r = 0;
+                }
+
+                var b = ((num >> 8) & 0x00FF) + amount;
+
+                if (b > 255) {
+                    b = 255;
+                } else if (b < 0) {
+                    b = 0;
+                }
+
+                var g = (num & 0x0000FF) + amount;
+
+                if (g > 255) {
+                    g = 255;
+                } else if (g < 0) {
+                    g = 0;
+                }
+
+                return (usePound ? "#" : "") + (g | (b << 8) | (r << 16)).toString(16);
+            },
+            getBrightness(hexCode) {
+              hexCode = hexCode.replace('#', '');
+              var c_r = parseInt(hexCode.substr(0, 2),16);
+              var c_g = parseInt(hexCode.substr(2, 2),16);
+              var c_b = parseInt(hexCode.substr(4, 2),16);
+              return ((c_r * 299) + (c_g * 587) + (c_b * 114)) / 1000;
             },
         }
     }
