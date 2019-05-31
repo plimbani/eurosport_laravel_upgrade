@@ -372,6 +372,8 @@
                             this.tournamentData['access_code'] = response.data.data.tournament.access_code;
                             this.tournamentData['custom_tournament_format'] = response.data.data.tournament.custom_tournament_format;
                             this.tournamentData['tournament_type'] = response.data.data.tournament.tournament_type; 
+                            this.tournamentData['payment_currency'] = response.data.data.get_sorted_transaction_histories[0].currency;
+                            this.tournamentData['currency_type'] = response.data.data.get_sorted_transaction_histories[0].currency;
 
                             // transaction histories amount difference calculation 
                             let transactionAmount = [];
@@ -521,12 +523,14 @@
 
             $('#tournament_start_date').datepicker({
                 autoclose: true,
+                startDate: '-0m',
                 onSelect: function( selectedDate ) {
                     $( "#totournament_end_date" ).datepicker( "option", "minDate", selectedDate);
                 }
             });
             $('#tournament_end_date').datepicker({
                 autoclose: true,
+                startDate: '-0m',
                 onSelect: function( selectedDate ) {
                     $( "#tournament_start_date" ).datepicker( "option", "maxDate", selectedDate);
                 }
