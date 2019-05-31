@@ -377,12 +377,14 @@ class MatchService implements MatchContract
       }
 
       foreach ($competitionIds as $ageGroupId => $cids) {
-        $lowerCompetitionId = min(array_unique($cids));
+        // $lowerCompetitionId = min(array_unique($cids));
         // $allCompetitionsIds = Competition::where('tournament_id', '=', $tournamentId)->where('tournament_competation_template_id', '=', $ageGroupId)->where('id', '>=', $lowerCompetitionId)->pluck('id')->toArray();
-          // foreach ($allCompetitionsIds as $id) {
-            $data = ['tournamentId' => $tournamentId, 'competitionId' => $lowerCompetitionId];
+        $allCompetitionsIds = array_unique($cids);
+        sort($allCompetitionsIds);
+        foreach ($allCompetitionsIds as $id) {
+            $data = ['tournamentId' => $tournamentId, 'competitionId' => $id];
             $this->refreshCompetitionStandings($data);
-          // }
+        }
       }
       foreach ($teamArray as $ageGroupId => $teamsList) {
         $teamsList = array_unique($teamsList);
