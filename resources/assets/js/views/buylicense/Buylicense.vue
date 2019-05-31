@@ -372,6 +372,8 @@
                             this.tournamentData['access_code'] = response.data.data.tournament.access_code;
                             this.tournamentData['custom_tournament_format'] = response.data.data.tournament.custom_tournament_format;
                             this.tournamentData['tournament_type'] = response.data.data.tournament.tournament_type; 
+                            this.tournamentData['payment_currency'] = response.data.data.get_sorted_transaction_histories[0].currency;
+                            this.tournamentData['currency_type'] = response.data.data.get_sorted_transaction_histories[0].currency;
 
                             // transaction histories amount difference calculation 
                             let transactionAmount = [];
@@ -427,7 +429,7 @@
             getTournamentPricing() {
                 Commercialisation.getTournamentPricingDetail().then(
                 (response) => {
-                    this.tournamentPricingBand = JSON.parse(response.data.data);
+                    this.tournamentPricingBand = response.data.data;
                 })
                 
             },
@@ -545,7 +547,6 @@
                vm.findDifferenceBetweenDates(); 
                vm.tournamentData.tournament_end_date = event.target.value;
             });
-
             this.getTournamentPricing();
             this.getCurrencyValue();
             setTimeout(function(){
@@ -553,8 +554,8 @@
                 if(this.id){
                     vm.getTournamentDetail()
                 }
-                vm.tournamentEditYourLicense()
                 vm.tournammentPricingData()
+                vm.tournamentEditYourLicense()
             },1500) 
 
             if(this.$route.query.edityourlicense != 'yes'){
