@@ -1638,7 +1638,10 @@ class MatchService implements MatchContract
     }
 
     public function saveStandingsManually($request) {
-        $this->matchRepoObj->saveStandingsManually($request->all()['data']);
+        $data = $request->all()['data'];
+        $this->matchRepoObj->saveStandingsManually($data);
+        $data = ['tournamentId' => $data['tournament_id'], 'competitionId' => $data['competitionId']];
+        $this->refreshCompetitionStandings($data);
         return ['status_code' => '200', 'message' => 'Ranking has been updated successfully.'];
     }
 
