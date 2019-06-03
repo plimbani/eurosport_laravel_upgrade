@@ -1,7 +1,7 @@
 <template>
   <div class="row justify-content-end">
     <div class="col-sm-12">
-      <h6 class="font-weight-bold">{{$lang.teams_filter}}</h6>
+      <h6 class="font-weight-bold fieldset-title">{{$lang.teams_filter}}</h6>
     </div>
     <div class="col-sm-12">
       <div class="row">

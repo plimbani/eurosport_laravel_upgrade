@@ -5,7 +5,7 @@
 				<div class="card-block">
 					<div v-if="isPageEnabled('meals')">
 						<!-- <hr class="my-4"> -->
-						<h6><strong>{{$lang.website_meals}}</strong></h6>
+						<h6 class="fieldset-title"><strong>{{$lang.website_meals}}</strong></h6>
 						<div class="form-group justify-content-between row">
 		        	<div class="col-sm-12">
 		        		<div class="row">
@@ -19,7 +19,7 @@
 					</div>
 					<div v-if="isPageEnabled('accommodation')">
 						<hr class="my-4">
-						<h6><strong>{{$lang.website_accommodation}}</strong></h6>
+						<h6 class="fieldset-title"><strong>{{$lang.website_accommodation}}</strong></h6>
 						<div class="form-group justify-content-between row">
 		        	<div class="col-sm-12">
 		        		<div class="row">
