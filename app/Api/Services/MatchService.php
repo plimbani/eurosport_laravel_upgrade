@@ -223,8 +223,9 @@ class MatchService implements MatchContract
       
       $categoryAgeColor = $ageCategory->category_age_color;
       $categoryStripColor = $competition->color_code ? $competition->color_code : '#FFFFFF';
+      $currentLayout = config('config-variables.current_layout');
 
-      $pdf = PDF::loadView('pitchplanner.pitch',['data' => $resultData,'result_override'=>$matchData['result_override'], 'categoryAgeColor' => $categoryAgeColor, 'categoryStripColor' => $categoryStripColor])
+      $pdf = PDF::loadView('pitchplanner.pitch',['data' => $resultData,'result_override'=>$matchData['result_override'], 'categoryAgeColor' => $categoryAgeColor, 'categoryStripColor' => $categoryStripColor,'currentLayout' => $currentLayout])
           ->setPaper('a4')
           ->setOption('header-spacing', '5')
           ->setOption('header-font-size', 7)

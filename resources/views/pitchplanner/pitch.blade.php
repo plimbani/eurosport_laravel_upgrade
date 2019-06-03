@@ -36,7 +36,10 @@
 </style>
 
 <center>
-  <img  src="{{ asset('assets/img/tmplogo.svg')}}" id="logo-desk" alt="Laraspace Logo" class="hidden-sm-down text-center" width="200px" height="100px">
+  <?php 
+    $logo = ($currentLayout == 'tmp') ? 'assets/img/tmplogo.svg' : 'assets/img/emm.svg';
+  ?>
+  <img  src="{{ asset($logo)}}" id="logo-desk" alt="Laraspace Logo" class="hidden-sm-down text-center" width="200px" height="100px">
 </center>
 
 <table class="tblpage" border="1" cellpadding="1" cellspacing="0" width="100%">
