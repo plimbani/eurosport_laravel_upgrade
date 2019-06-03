@@ -3,7 +3,7 @@
 <div>
 <div class="card">
   <div class="card-block">
-      <h6><strong>{{$lang.tournament_information}}</strong>
+      <h6 class="fieldset-title"><strong>{{$lang.tournament_information}}</strong>
         <span v-if="this.currentLayout == 'commercialisation' && tournament.access_code != null"  class="float-right font-weight-bold">{{ $lang.tournament_license_access_code}} #{{ tournament.access_code | upperCase}}</span>
       </h6>
       <form name="tournamentName" enctype="multipart/form-data">
@@ -139,10 +139,9 @@
             </div>
           </div>
         </div>
-        <h3 class="text-uppercase font-weight-bold mt-5">
-            {{$lang.tournament_eurosporting}}
-        </h3>
-        <div class="row"><div class="col-lg-6"><div class="divider mb-5"></div></div></div>
+        <div class="">
+            <h6 class="fieldset-title"><strong>{{$lang.tournament_eurosporting}}</strong></h6>
+        </div>
         <div class="form-group row" :class="{'has-error': errors.has('tournament.tournament_contact_first_name') }">
           <label class="col-sm-2 form-control-label">{{$lang.tournament_first_name}}*</label>
           <div class="col-sm-4">
@@ -174,10 +173,9 @@
         </div>
         <!--<location :locations="locations"></location>-->
         <div v-for="(location, index) in locations">
-          <h3 class="text-uppercase font-weight-bold mt-5">
-              {{$lang.tournament_location}}
-          </h3>
-          <div class="row"><div class="col-lg-6"><div class="divider mb-5"></div></div></div>
+          <div class="">
+            <h6 class="fieldset-title"><strong>{{$lang.tournament_location}}</strong></h6>
+          </div>
           <div class="form-group row">
             <label class="col-sm-2 form-control-label">{{$lang.tournament_venue}}*</label>
             <div class="col-sm-4">
@@ -306,7 +304,7 @@
           <div class="form-group row">
             <label class="col-sm-2 form-control-label">{{$lang.tournament_organiser}}</label>
             <div class="col-sm-4">
-              <input type="text" class="form-control" placeholder="" 
+              <input type="text" class="form-control" placeholder=""
               v-model="location.tournament_venue_organiser">
             </div>
           </div>
@@ -345,7 +343,6 @@ $(document).on('click', '.js-tournament-sponsor-image', function(e){
 });
 
 var moment = require('moment');
-import location from '../../../components/Location.vue'
 import RemoveVenueModal from '../../../components/RemoveVenueModal.vue'
 import Tournament from '../../../api/tournament.js'
 import Ls from './../../../services/ls'
@@ -382,13 +379,13 @@ tournamentDateDiff: 0,
 currentLayout: this.$store.state.Configuration.currentLayout,
 }
 },
-  components: {
-    location: location, RemoveVenueModal, TransitionImage
-  },
+components: {
+  RemoveVenueModal, TransitionImage
+},
 filters: {
   upperCase: function(value) {
     return value.toUpperCase()
-  }          
+  }
 },
   mounted(){
     Plugin.initPlugins(['Select2','TimePickers','MultiSelect','DatePicker','setCurrentDate'])
@@ -566,7 +563,7 @@ tournament_venue_country: "",
 tournament_location_id: ""
 });
 },
-addTournamentSponsorImage() {   
+addTournamentSponsorImage() {
 this.sponsorImage.push({
 tournament_sponsor_logo: "",id:0
 });
@@ -598,7 +595,7 @@ e.preventDefault();
 removeLocation (index, location){
     let pitches = this.$store.state.Pitch.pitches;
     if(pitches) {
-        let removeVenue = _.find(pitches, ['venue_id', location.tournament_location_id]); 
+        let removeVenue = _.find(pitches, ['venue_id', location.tournament_location_id]);
         if(removeVenue) {
           $("#remove_venue").modal('show');
         }  else {
@@ -606,14 +603,14 @@ removeLocation (index, location){
               if(this.locations[index].tournament_location_id != '') {
                 this.tournament.del_location.push(this.locations[index].tournament_location_id)
               }
-              this.locations.splice(index,1)  
+              this.locations.splice(index,1)
         }
     } else {
               // here first we get the location id of it
               if(this.locations[index].tournament_location_id != '') {
                 this.tournament.del_location.push(this.locations[index].tournament_location_id)
               }
-              this.locations.splice(index,1)  
+              this.locations.splice(index,1)
     }
 },
 next() {
@@ -697,8 +694,8 @@ onSponsorLogoChange(e,i) {
                       {
                         //let tournamentSponsorImage = response.data;
                         vm.sponsorImage[i]['tournament_sponsor_logo'] = response.data;
-                            // tournament_sponsor_logo: img 
-                        
+                            // tournament_sponsor_logo: img
+
                         // vm.tournament_sponsor_logo = response.data;
                         vm.is_sponsor_logo_uploading = false;
                         vm.is_sponsor_logo_uploading_index = 0;

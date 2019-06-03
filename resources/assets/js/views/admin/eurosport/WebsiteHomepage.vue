@@ -2,7 +2,7 @@
 	<div class="tab-content">
 		<div class="card">
 			<div class="card-block">
-				<h6><strong>{{$lang.website_homepage_options}}</strong></h6>
+				<h6 class="fieldset-title"><strong>{{$lang.website_homepage_options}}</strong></h6>
 				<form name="website_homepage" enctype="multipart/form-data">
 	        <div class="form-group justify-content-between row">
 	        	<div class="col-sm-6">
@@ -59,7 +59,7 @@
 	        <hr class="my-4">
 	        <div class="form-group row">
 	        	<div class="col-sm-12">
-	        		<h6><strong>{{$lang.homepage_statistics}}</strong></h6>
+	        		<h6 class="fieldset-title"><strong>{{$lang.homepage_statistics}}</strong></h6>
 	        	</div>
 	        	<div class="col-sm-6">
 	        		<statistic-list @setStatistics="setStatistics"></statistic-list>
@@ -68,7 +68,7 @@
 	        <hr class="my-4">
 	        <div class="form-group row">
 	        	<div class="col-sm-12">
-	        		<h6><strong>{{$lang.homepage_organiser_logos}}</strong></h6>
+	        		<h6 class="fieldset-title"><strong>{{$lang.homepage_organiser_logos}}</strong></h6>
 	        	</div>
 	        	<div class="col-sm-6">
 	        		<organiser-logo-list @setOrganiserLogos="setOrganiserLogos"></organiser-logo-list>
