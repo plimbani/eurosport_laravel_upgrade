@@ -19,7 +19,7 @@
       <MatchListTableBody :getCurrentScheduleView="getCurrentScheduleView" :showPlacingForMatch="showPlacingForMatch()" :isHideLocation="isHideLocation" :isUserDataExist="isUserDataExist" :matchData="matchData" :isDivExist="isDivExist" @openPitchModal="openPitchModal" @changeDrawDetails="changeDrawDetails"></MatchListTableBody>
   </table>
 
-  <div class="col-md-12" v-for="(matches,index) in isDivExistData" v-if="matchData.length > 0 && isDivExist == 1">
+  <div v-for="(matches,index) in isDivExistData" v-if="matchData.length > 0 && isDivExist == 1">
     <label class="mb-0"><h5 class="mb-2">{{index}}</h5></label><br>
     <label class="mb-0"><h6 class="mb-2">{{ getCompetitionName(matches) }} matches</h6></label>
 

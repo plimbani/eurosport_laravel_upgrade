@@ -303,19 +303,21 @@ export default {
       )
     },
     updateCategoryDivisionName() {
-      this.$validator.validateAll().then(() => {
-        let tournamentId = this.$store.state.Tournament.tournamentId
-        let ageCategoryId = this.$store.state.currentAgeCategoryId
-        let TournamentData = {'tournament_id':tournamentId, 'currentAgeCategoryId':ageCategoryId,'divisionId':this.divisionId,'categoryDivisionName': this.divisionName}
-        Tournament.updateCategoryDivisionName(TournamentData).then(
-          (response) => {
-            $('#editDivisionNameModal').modal('hide');
-            toastr.success('Division name has been update successfully.', 'Division Name', {timeOut: 5000});
-            this.showGroups(this.currentAgeCategoryId);
-          },
-          (error) => {
-          }
-        )
+      this.$validator.validateAll().then((response) => {
+        if (!this.errors.any()) {
+          let tournamentId = this.$store.state.Tournament.tournamentId
+          let ageCategoryId = this.$store.state.currentAgeCategoryId
+          let TournamentData = {'tournament_id':tournamentId, 'currentAgeCategoryId':ageCategoryId,'divisionId':this.divisionId,'categoryDivisionName': this.divisionName}
+          Tournament.updateCategoryDivisionName(TournamentData).then(
+            (response) => {
+              $('#editDivisionNameModal').modal('hide');
+              toastr.success('Division name has been update successfully.', 'Division Name', {timeOut: 5000});
+              this.showGroups(this.currentAgeCategoryId);
+            },
+            (error) => {
+            }
+          )
+        }
        }).catch(() => {
           // toastr['error']('Invalid Credentials', 'Error')
        });
