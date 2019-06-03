@@ -3,3 +3,17 @@
         box-shadow: 0 20px 40px 0 rgba(0, 0, 0, 0.25);
     }
 }
+
+.main-content {
+    .main-card {
+        border: 0;
+        &>.card-block {
+            padding: 0;
+        }
+    }
+    .home-content{
+        .card{
+            border:1px solid rgba(0, 0, 0, 0.125)
+        }
+    }
+}

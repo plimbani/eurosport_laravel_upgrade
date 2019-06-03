@@ -11,7 +11,6 @@ import MatchListing from './MatchListing.vue'
 import DrawList from './DrawList.vue'
 import MatchList from './MatchList.vue'
 import DrawDetails from './DrawDetails.vue'
-import LocationList from './LocationList.vue'
 import TeamDetails from './TeamDetails.vue'
 import TeamList from './TeamList.vue'
 import FinalPlacings from './FinalPlacings.vue'
@@ -40,7 +39,7 @@ export default {
 		this.getAllDraws();
 	},
 	components: {
-		MatchListing,DrawList,MatchList,DrawDetails,LocationList,TeamDetails,TeamList,FinalPlacings
+		MatchListing,DrawList,MatchList,DrawDetails,TeamDetails,TeamList,FinalPlacings
 	},
 	created: function() {
 		this.$store.dispatch('setCurrentScheduleViewAgeCategory', 'ageCategoryList')

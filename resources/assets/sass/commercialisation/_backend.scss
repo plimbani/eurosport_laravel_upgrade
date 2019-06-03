@@ -1,0 +1,19 @@
+.commercialisation {
+    .tabs-primary {
+        .fieldset-title{
+        	font-size: $theme-page-header;
+        	@extend .text-uppercase;
+        	padding-bottom: 1.2rem;
+        	border-bottom: 1px solid $theme-color-primary;
+        }
+
+        .grey_bg {
+            background-color: #F5F8FA;
+        }
+
+	    #profile_image_file,#referee_upload_file{
+	    	@extend .font-weight-normal;
+	    	text-transform: initial !important;	
+	    }
+    }
+}

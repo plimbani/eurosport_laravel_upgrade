@@ -3,7 +3,7 @@
 		<div class="card">
 			<div class="card-block">
 				<form name="website_homepage" enctype="multipart/form-data">
-	        <h6><strong>{{$lang.competation_age_categories}}</strong></h6>
+	        <h6 class="fieldset-title"><strong>{{$lang.competation_age_categories}}</strong></h6>
 	        <div class="form-group justify-content-between row">
 	        	<div class="col-sm-12">
 	        		<div class="row">
@@ -15,7 +15,7 @@
 	        </div>
 	        <div v-if="isPageEnabled('rules')">
 		        <hr class="my-4">
-		        <h6><strong>{{$lang.tournament_rules}}</strong></h6>
+		        <h6 class="fieldset-title"><strong>{{$lang.tournament_rules}}</strong></h6>
 		        <div class="form-group justify-content-between row">
 		        	<div class="col-sm-12">
 		        		<div class="row">
@@ -28,7 +28,7 @@
 		      </div>
 		      <div v-if="isPageEnabled('history')">
 		        <hr class="my-4">
-		        <h6><strong>{{$lang.tournament_history}}</strong></h6>
+		        <h6 class="fieldset-title"><strong>{{$lang.tournament_history}}</strong></h6>
 		        <div class="row">
 		          <div class="col-sm-8">
 	        			<history-year-list @setHistoryData="setHistoryData" :countries="tournament.countries"></history-year-list>

@@ -23,7 +23,7 @@
     		</div>
     	</div>
     </header>
-    <div class="main-section">
+    <div class="main-section" id="payment-zone">
         <div class="manage-tournament section-padding">
             <div class="container">
                 <div class="row">
@@ -401,7 +401,7 @@
             </div>
         </div>
     </div>
-    <div id="payment-zone">$$$PAYMENT ZONE$$$</div>
+    {{-- <div id="payment-zone">$$$PAYMENT ZONE$$$</div> --}}
 	<footer class="section-padding footer">
 		<div class="container">
 			<div class="row">
