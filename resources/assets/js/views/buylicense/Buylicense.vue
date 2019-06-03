@@ -510,7 +510,9 @@
                     this.tournamentData.payment_currency = editTournamentLicense.payment_currency;
                     this.tournamentData.is_renew = editTournamentLicense.is_renew;
                     this.tournamentData.tournament_type = editTournamentLicense.tournament_type;
-                    this.tournamentData.custom_tournament_format = editTournamentLicense.custom_tournament_format;
+                    this.tournamentData.custom_tournament_format = editTournamentLicense.custom_tournament_format
+                    this.user_old_selected_format = editTournamentLicense.custom_tournament_format;
+                    this.user_old_selected_type = editTournamentLicense.tournament_type;
                 }
             }
         },
@@ -554,10 +556,10 @@
                 if(this.id){
                     vm.getTournamentDetail()
                 }
-                vm.tournammentPricingData()
                 vm.tournamentEditYourLicense()
+                vm.tournammentPricingData()
             },1500) 
-
+            
             if(this.$route.query.edityourlicense != 'yes'){
                 $('#cup').prop("checked",true)
                 $('#no').prop("checked",true)
