@@ -95,7 +95,7 @@ import _ from 'lodash'
 
                 //  Unschedule fixtures checkbox check uncheck
                 $(document).on('change','.match-unschedule-checkbox', function (e){
-                    if($('.match-unschedule-checkbox').is(':checked')) {
+                    if($('.match-unschedule-checkbox:checked').length) {
                         $('#unschedule_fixtures').html('Confirm unscheduling').addClass('btn btn-success');
                         $("#cancle_unscheduling_fixtures").show();
                         $('.cancle-match-unscheduling').removeClass('d-none');
