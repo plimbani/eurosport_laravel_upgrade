@@ -670,6 +670,7 @@ input[type=number] {
     overflow: inherit;
     height: 594px !important;
 }
+
 .fc-time-grid-container {
     // height: 100% !important;
     // overflow-y: hidden !important;
@@ -1169,7 +1170,7 @@ gmap-map {
     right: 15px;
 }
 
-.add-newtemplate-modal.modal-dialog{
+.add-newtemplate-modal.modal-dialog {
     position: fixed;
     margin: 0;
     width: 100%;
@@ -1189,12 +1190,12 @@ gmap-map {
     vertical-align: middle;
 }
 
-.add-newtemplate-modal.modal-dialog .btn-group .btn{
-    border-radius:0.25rem !important;
+.add-newtemplate-modal.modal-dialog .btn-group .btn {
+    border-radius: 0.25rem !important;
 }
 
-.add-newtemplate-modal.modal-dialog .btn-group .btn + .btn{
-    margin-left:10px;
+.add-newtemplate-modal.modal-dialog .btn-group .btn+.btn {
+    margin-left: 10px;
 }
 
 .popover.bs-tether-element.show {
@@ -1206,7 +1207,7 @@ gmap-map {
     height: 100vh;
 }
 
-.add-newtemplate-modal .modal-content{
+.add-newtemplate-modal .modal-content {
     min-height: 100%;
 }
 
@@ -1262,12 +1263,12 @@ a.active-view:hover {
     max-width: 900px;
 }
 
-#select2-drawName-results li.rounds
-{
+#select2-drawName-results li.rounds {
     font-weight: bold;
-    color:rgb(89, 89, 89);
+    color: rgb(89, 89, 89);
 
 }
+
 .stage-top-horizontal-scroll {
     width: calc(100% - 41px);
     min-height: 15px;
@@ -1323,7 +1324,7 @@ a.active-view:hover {
 }
 
 .pull-left {
-  float: left;
+    float: left;
 }
 
 .help.is-danger {
@@ -1331,7 +1332,7 @@ a.active-view:hover {
     font-size: 13px;
 }
 
-.unsaved-score-list li{
+.unsaved-score-list li {
     padding: 5px 0;
     font-size: 14px;
 }
@@ -1347,15 +1348,32 @@ a.active-view:hover {
     }
 }
 
-.pitch-capacity-form .form-control::-webkit-input-placeholder { /* Chrome/Opera/Safari */
-  color: $base-font-color;
+.pitch-capacity-form .form-control::-webkit-input-placeholder {
+    /* Chrome/Opera/Safari */
+    color: $base-font-color;
 }
-.pitch-capacity-form .form-control::-moz-placeholder { /* Firefox 19+ */
-  color: $base-font-color;
+
+.pitch-capacity-form .form-control::-moz-placeholder {
+    /* Firefox 19+ */
+    color: $base-font-color;
 }
-.pitch-capacity-form .form-control:-ms-input-placeholder { /* IE 10+ */
-  color: $base-font-color;
+
+.pitch-capacity-form .form-control:-ms-input-placeholder {
+    /* IE 10+ */
+    color: $base-font-color;
 }
-.pitch-capacity-form .form-control:-moz-placeholder { /* Firefox 18- */
-  color: $base-font-color;
+
+.pitch-capacity-form .form-control:-moz-placeholder {
+    /* Firefox 18- */
+    color: $base-font-color;
+}
+
+.round-title {
+    a {
+        color: $ls-color-black;
+    }
+}
+
+.nested-rounds {
+    font-size: 0.875rem;
 }
