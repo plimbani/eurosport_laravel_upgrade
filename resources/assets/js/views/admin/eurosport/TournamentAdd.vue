@@ -334,7 +334,7 @@ tournamentDateDiff: 0,
 }
 },
 components: {
-location:RemoveVenueModal
+  RemoveVenueModal
 },
 mounted(){
 Plugin.initPlugins(['Select2','TimePickers','MultiSelect','DatePicker','setCurrentDate'])
