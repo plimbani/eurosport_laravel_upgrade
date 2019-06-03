@@ -2,7 +2,7 @@
 	<div class="tab-content">
 		<div class="card">
 			<div class="card-block">
-				<h6><strong>{{$lang.website_locations}}</strong></h6>
+				<h6 class="fieldset-title"><strong>{{$lang.website_locations}}</strong></h6>
 				<form name="website_venue" enctype="multipart/form-data">
 					<div class="form-group row">
 	        	<div class="col-sm-6">
@@ -11,7 +11,7 @@
 	        </div>
 	        <div class="form-group row">
 	        	<div class="col-sm-12">
-	        		<h6><strong>{{$lang.website_map}}</strong></h6>
+	        		<h6 class="fieldset-title"><strong>{{$lang.website_map}}</strong></h6>
 	        		<website-location-map @setMarkers="setMarkers"></website-location-map>
 	        		<div class="mt-2" v-show="!this.venue.isMarkerTextValid">
 					      <span class="help is-danger">Please add information to all the markers.</span>
