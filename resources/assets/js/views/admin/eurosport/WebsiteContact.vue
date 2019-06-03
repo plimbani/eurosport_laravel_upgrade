@@ -2,7 +2,7 @@
 	<div class="tab-content">
 		<div class="card">
 			<div class="card-block">
-				<h6><strong>{{$lang.website_contact}}</strong></h6>
+				<h6 class="fieldset-title"><strong>{{$lang.website_contact}}</strong></h6>
         <form name="frm_website_contact" enctype="multipart/form-data">
           <div class="row justify-content-between">
             <div class="col-md-12">
