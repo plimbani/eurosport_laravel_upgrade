@@ -131,9 +131,12 @@
                                         {{returnFormatedNumber(tournamentData.tournamentPricingValue)}}</p>
                                 </div>
                                 <div class="card-text" v-if="id">
-                                    <div class="row" v-if="new_added_teams > 0">
+                                    <div class="row" v-if="!buyLicenseIsDataNotUpdated">
                                         <div class="col-sm-6 col-md-7 col-lg-7">
-                                            <p class="mb-0">Additional {{new_added_teams}} teams</p> 
+                                            <p class="mb-0" v-if="new_added_teams > 0">Additional {{new_added_teams}} teams</p> 
+                                            <p class="mb-0" v-if="newDaysAdded > 0">Additional {{newDaysAdded}} days</p>
+                                            <p class="mb-0" v-if="user_old_selected_format">Tournament type</p>
+                                            <p class="mb-0" v-if="user_old_selected_type">Tournament formats</p>
                                         </div>
                                         <div class="col-sm-6 col-md-5 col-lg-5">
                                             <p class="text-sm-right mb-0 mt-3 mt-sm-0" >
@@ -143,22 +146,10 @@
                                             {{returnFormatedNumber(tournamentData.tournamentPricingValue)}}</p>
                                         </div>
                                     </div>
-                                    <div class="row" v-if="newDaysAdded > 0">
-                                        <div class="col-sm-6 col-md-7 col-lg-7">
-                                            <p class="mb-0">Additional {{newDaysAdded}} days</p>
-                                        </div>
-                                        <div class="col-sm-6 col-md-5 col-lg-5">
-                                            <p class="text-sm-right mb-0 mt-3 mt-sm-0">
-                                             <span v-if="tournamentData.currency_type == 'GBP'">&#163;</span>   
-                                             <span v-if="tournamentData.currency_type == 'EURO'">&#128;</span>   
-                                            {{returnFormatedNumber(tournamentData.tournamentPricingValue)}}</p>
-                                        </div>
-                                    </div>
-                                    <div class="row" v-if="newDaysAdded <= 0 && new_added_teams <= 0">
+                                    <div class="row" v-if="buyLicenseIsDataNotUpdated">
                                         <div class="col-sm-6 col-md-7 col-lg-7">
                                             <p class="mb-0">No change</p>
                                         </div>
-                                        
                                     </div>
 
                                     <div class="divider my-3 opacited"></div>
@@ -170,16 +161,14 @@
                                 </div>
                                 <div class="row justify-content-end">
                                     <div class="col-md-7 col-lg-7 col-xl-6">
-                                        
                                         <button v-if ="!disabled && !id" class="btn btn-success btn-block"  v-on:click="buyALicence()">
                                             <span v-if ="!tournamentData.is_renew">Buy your license</span>
                                             <span v-if ="tournamentData.is_renew">Renew your licence</span> 
                                         </button>      
                                         <button v-if="disabled && !id" class="btn btn-success btn-block" disabled="true">Buy your license</button>
-
-                                         <button v-if ="!disabled && id && newDaysAdded <= 0 && new_added_teams <= 0" class="btn btn-success btn-block" v-on:click="updateALicence()">
+                                         <button v-if ="!disabled && id && buyLicenseIsDataNotUpdated" class="btn btn-success btn-block" v-on:click="updateALicence()">
                                          Confirm Details </button>
-                                         <button v-if ="!disabled && id && (newDaysAdded > 0 || new_added_teams > 0)" class="btn btn-success btn-block"  v-on:click="buyALicence()">
+                                         <button v-if ="!disabled && id && !buyLicenseIsDataNotUpdated" class="btn btn-success btn-block"  v-on:click="buyALicence()">
                                         Make Payment</button>
                                     </div>
                                 </div>
@@ -237,6 +226,8 @@
                 new_added_teams:0,
                 tournamentPricingBand: '',
                 edityourlicense: false,
+                user_old_selected_type:'',
+                user_old_selected_format:'',
                 
             }
         },
@@ -258,6 +249,16 @@
                })
             }
             next()
+        },
+
+        computed: {
+            buyLicenseIsDataNotUpdated(){
+                if(this.newDaysAdded <= 0 && this.new_added_teams <= 0 && this.user_old_selected_format == this.tournamentData.custom_tournament_format){
+                    return true
+                } else {
+                    return false
+                }
+            }
         },
         
         methods: {
@@ -371,9 +372,9 @@
                             this.tournament_old_teams = response.data.data.tournament.maximum_teams;   
                             this.tournamentData['access_code'] = response.data.data.tournament.access_code;
                             this.tournamentData['custom_tournament_format'] = response.data.data.tournament.custom_tournament_format;
-                            this.tournamentData['tournament_type'] = response.data.data.tournament.tournament_type; 
-                            this.tournamentData['payment_currency'] = response.data.data.get_sorted_transaction_histories[0].currency;
-                            this.tournamentData['currency_type'] = response.data.data.get_sorted_transaction_histories[0].currency;
+                            this.tournamentData['tournament_type'] = response.data.data.tournament.tournament_type;
+                            this.user_old_selected_type = response.data.data.tournament.tournament_type;
+                            this.user_old_selected_format = response.data.data.tournament.custom_tournament_format; 
 
                             // transaction histories amount difference calculation 
                             let transactionAmount = [];
@@ -433,7 +434,6 @@
                 })
                 
             },
-
             tournammentPricingData() {
                 let tournamentOrganising = this.tournamentData.tournament_type
                 let tournamentCustomFormats = this.tournamentData.custom_tournament_format
