@@ -478,10 +478,8 @@ export default {
               this.$root.$emit('getMatchesByFilter');
             }
             
-            if(response.data.isAnyMatchScoreUpdated == true) {
+            if(response.data.areAllMatchScoreUpdated == true) {
               toastr.success('Scores has been updated successfully', 'Score Updated', {timeOut: 1000});
-            } else {
-              toastr.error('Not a single score updated.', 'Score not updated', {timeOut: 1000});
             }
           }
         )

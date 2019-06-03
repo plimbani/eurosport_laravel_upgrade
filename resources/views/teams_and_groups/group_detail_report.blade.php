@@ -1,7 +1,6 @@
 <html lang="en">
 	<head>
 		<title>Euro-Sportring Administration</title>
-		<link type="text/css" rel="stylesheet" href="{{ asset(mix('/assets/css/flag_icons.css')) }}"/>
 		<style>
 			.logo {
 				width: 150px;
@@ -39,7 +38,6 @@
 				page-break-inside: avoid;
 				vertical-align: top;
 			}
-
 		</style>
 	</head>
 	<body>
@@ -57,7 +55,6 @@
 		  	@endif
 			<h3>{{ $categoryName. ' groups' }}</h3>
 		</center>
-
 		<div class="data-wrapper">
 			<table style="width:100%">
 				@foreach($groupsData as $group)

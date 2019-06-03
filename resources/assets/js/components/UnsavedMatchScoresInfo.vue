@@ -4,21 +4,21 @@
 	      <div class="modal-dialog modal-md" role="document">
 	        <div class="modal-content">
 	          <div class="modal-header">
-	             <h5 class="modal-title" id="competationmodalLabel">Unsaved Match Score Info</h5>
+	             <h5 class="modal-title" id="competationmodalLabel">{{ $lang.unsaved_match_score_info_modal_header }}</h5>
 	             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 	             <span aria-hidden="true">×</span>
 	             </button>
 	          </div>
 	          <div class="modal-body">
-                <p class="font-weight-bold">Following are the matches whose scores are not updated:</p>
+                <p class="font-weight-bold">{{ $lang.unsaved_match_score_info_modal_body_header }}</p>
             	<ul class="list-unstyled" v-for="match in unChangedMatchScores">
             		<li>{{ match }}</li>
             	</ul>
 
-            	<strong>Note:</strong> Latest score for all the listed matches has been synchronized.
+            	<strong>{{ $lang.note }}</strong> {{ $lang.unsaved_match_score_info_modal_note  }}
 	          </div>
 	          <div class="modal-footer">
-	            <button type="button" class="btn btn-danger"  @click="closeModal()">{{$lang.manual_ranking_cancel}}</button>
+	            <button type="button" class="btn btn-danger"  @click="closeModal()">{{$lang.modal_close_button}}</button>
 	          </div>          
 	         </div>
 	      </div>
