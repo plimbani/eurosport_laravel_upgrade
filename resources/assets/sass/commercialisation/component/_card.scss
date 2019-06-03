@@ -5,15 +5,12 @@
 }
 
 .main-content {
-    // .card {
-    //     border: 0;
-    // }
-
-    // &>.card {
-    //     .card-block {
-    //         padding: 0;
-    //     }
-    // }
+    .main-card {
+        border: 0;
+        &>.card-block {
+            padding: 0;
+        }
+    }
     .home-content{
         .card{
             border:1px solid rgba(0, 0, 0, 0.125)
