@@ -446,6 +446,7 @@ class TemplateRepository
     }
 
     public function getAverageMatches($totalMatches, $numTeams)
+    {
        $averageMatches = $totalMatches / ($numTeams / 2);
        return round($averageMatches, 1);
     }
