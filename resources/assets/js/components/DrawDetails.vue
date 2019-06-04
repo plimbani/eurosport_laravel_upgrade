@@ -170,9 +170,6 @@ export default {
             }, {});
             this.DrawName = drawname1
             this.CompRound = round
-            if ( currDId != undefined){
-              this.refreshStanding();
-            }
 
 
             setTimeout(function(){
@@ -202,6 +199,9 @@ export default {
                 });
 
                 vm.onChangeDrawDetails();
+                if ( currDId != undefined){
+                  vm.refreshStanding();
+                }
               });
 
               $("#drawName").val(currDId).trigger('change');
