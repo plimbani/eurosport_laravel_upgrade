@@ -59,13 +59,12 @@
 
 import TeamDetails from './TeamDetails.vue'
 import DrawDetails from './DrawDetails.vue'
-import LocationList from './LocationList.vue'
 import VuePaginate from 'vue-paginate'
 
 export default {
 	props:['matchData'],
 	components: {
-		TeamDetails, DrawDetails,LocationList
+		TeamDetails, DrawDetails
 	},
 	data() {
 	return {

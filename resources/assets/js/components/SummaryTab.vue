@@ -5,7 +5,7 @@
 				<label  v-show="(tournamentLogo != null && tournamentLogo != '' )">
 					<img  :src="tournamentLogo" width="50" class="mr-2">
 				</label>
-				<h6 class="mb-2">
+				<h6 class="mb-2 fieldset-title">
 					<strong>{{tournamentName}}</strong>
 				</h6>
 

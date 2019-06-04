@@ -1,4 +1,7 @@
 .euro-checkbox+label {
+    color: $base-font-color;
+    text-transform: initial !important;
+    font-weight: 400 !important;
     &:before {
         top: 4px;
     }

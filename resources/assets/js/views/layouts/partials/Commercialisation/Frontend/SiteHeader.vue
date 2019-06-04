@@ -12,10 +12,10 @@
                                 <a href="#"  v-if="!isProfilePage" @click.prevent="redirectToProfilePage">User Profile <i class="fas fa-user"></i></a>
                             </li>
                             <li class="d-inline">
-                                <a href="#" @click.prevent="logout">Logout <i class="fas fa-sign-out"></i></a>
-                            </li>
-                            <li class="d-inline">
                                 <a href="#" v-if="!isDashboarPage" @click.prevent="redirectToDashboardPage">Dashboard <i class="fas fa-tachometer"></i></a>
+                            </li>
+                             <li class="d-inline">
+                                <a href="#" @click.prevent="logout">Logout <i class="fas fa-sign-out"></i></a>
                             </li>
                         </ul>
                     </div>

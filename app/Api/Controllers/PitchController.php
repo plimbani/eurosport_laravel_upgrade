@@ -180,8 +180,8 @@ class PitchController extends BaseController
 
             $tournamentPitches[$match->pitch_id] = $match->pitch_number;
         }
-
-        $data = ['pitchPlannerPrintData' => $pitchPlannerPrintData, 'tournamentDates' => $tournamentDates, 'matches' => $matches, 'tournamentPitches' => $tournamentPitches];
+        $currentLayout = config('config-variables.current_layout');
+        $data = ['pitchPlannerPrintData' => $pitchPlannerPrintData, 'tournamentDates' => $tournamentDates, 'matches' => $matches, 'tournamentPitches' => $tournamentPitches, 'currentLayout' => $currentLayout];
 
         $pdf = PDF::loadView('pitchplanner.tournament_matches',$data)
             ->setPaper('a4')
