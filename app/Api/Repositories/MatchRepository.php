@@ -1390,15 +1390,16 @@ class MatchRepository
           $query1->whereIn('home_team_placeholder_name',$teams)
                  ->orWhereIn('away_team_placeholder_name',$teams) ;
         }
-
       })->get()->keyBy('id');
 
       foreach($scheduleMatchesArray as $scheduleMatch) {
-        if($scheduleMatch['matchId'] !== $matchData['matchId']) {
-          $matchResultCount[$scheduleMatch['matchId']]->match_datetime = $scheduleMatch['matchStartDate'];
-          $matchResultCount[$scheduleMatch['matchId']]->match_endtime = $scheduleMatch['matchEndDate'];
+        if($scheduleMatch['matchId'] !== $matchData['matchId'] && isset($matchResultCount[$scheduleMatch['matchId']])) {
+          $matchResultCount[$scheduleMatch['matchId']]['match_datetime'] = $scheduleMatch['matchStartDate'];
+          $matchResultCount[$scheduleMatch['matchId']]['match_endtime'] = $scheduleMatch['matchEndDate'];
         }
       }
+
+      $matchResultCount = collect($matchResultCount);
 
       // $matchResultCount->where(function($query) use ($team_interval,$startTime,$endTime,$matchData) {
           $edStartTime = Carbon::createFromFormat('Y-m-d H:i:s', $matchData['matchEndDate'])->addMinutes(0);
@@ -1684,8 +1685,6 @@ class MatchRepository
       } else {
           $teamStanding = DB::table('match_standing')->where('competition_id', $competitionId)->update(['manual_order' => null]);
       }
-      // $competition = Competition::find($competitionId);
-
     }
 
     public function matchUnscheduledFixtures($matchId)

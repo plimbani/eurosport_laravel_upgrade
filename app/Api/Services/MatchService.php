@@ -378,12 +378,14 @@ class MatchService implements MatchContract
       }
 
       foreach ($competitionIds as $ageGroupId => $cids) {
-        $lowerCompetitionId = min(array_unique($cids));
+        // $lowerCompetitionId = min(array_unique($cids));
         // $allCompetitionsIds = Competition::where('tournament_id', '=', $tournamentId)->where('tournament_competation_template_id', '=', $ageGroupId)->where('id', '>=', $lowerCompetitionId)->pluck('id')->toArray();
-          // foreach ($allCompetitionsIds as $id) {
-            $data = ['tournamentId' => $tournamentId, 'competitionId' => $lowerCompetitionId];
+        $allCompetitionsIds = array_unique($cids);
+        sort($allCompetitionsIds);
+        foreach ($allCompetitionsIds as $id) {
+            $data = ['tournamentId' => $tournamentId, 'competitionId' => $id];
             $this->refreshCompetitionStandings($data);
-          // }
+        }
       }
       foreach ($teamArray as $ageGroupId => $teamsList) {
         $teamsList = array_unique($teamsList);
@@ -1637,7 +1639,10 @@ class MatchService implements MatchContract
     }
 
     public function saveStandingsManually($request) {
-        $this->matchRepoObj->saveStandingsManually($request->all()['data']);
+        $data = $request->all()['data'];
+        $this->matchRepoObj->saveStandingsManually($data);
+        $data = ['tournamentId' => $data['tournament_id'], 'competitionId' => $data['competitionId']];
+        $this->refreshCompetitionStandings($data);
         return ['status_code' => '200', 'message' => 'Ranking has been updated successfully.'];
     }
 

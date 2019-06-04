@@ -606,7 +606,8 @@
                                 scheduleBlock = true
                             }
                         } else if(filterKey == 'location'){
-                            if( filterValue != '' && filterValue.id != event.matchVenueId){
+                            console.log('filterValue', filterValue);
+                            if( filterValue != '' && filterValue.id != event.resourceId){
                                 scheduleBlock = true;
                             }
                         }
