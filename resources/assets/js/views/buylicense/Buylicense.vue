@@ -51,8 +51,8 @@
                                               <input type="radio" id="yes" name="custom_tournament_format" value="1" class="euro-radio mr-2"  v-model="tournamentData.custom_tournament_format" 
                                               @change="tournammentPricingData()">
                                               <label for="yes">Yes 
-                                                <span v-if="tournamentData.currency_type == 'GBP'">&#163; {{ tournamentData.tournamentLicenseAdvancePriceDisplay }}</span>   
-                                                <span v-if="tournamentData.currency_type == 'EURO'">&#128; {{ tournamentData.tournamentLicenseAdvancePriceDisplay }}</span>
+                                                <span v-if="tournamentData.currency_type == 'GBP'">&#163; {{returnFormatedNumber(tournamentData.tournamentLicenseAdvancePriceDisplay)}}</span>   
+                                                <span v-if="tournamentData.currency_type == 'EURO'">&#128; {{returnFormatedNumber(tournamentData.tournamentLicenseAdvancePriceDisplay)}}</span>
                                             </label>
                                             </div>
                                         </div>
@@ -348,51 +348,51 @@
                 
             getTournamentDetail(){
                 axios.get(Constant.apiBaseUrl+'get-tournament?tournamentId='+this.id, {}).then(response =>  {
-                        if (response.data.success) {
-                            var start_date = new Date(moment(response.data.data.tournament.start_date, 'DD/MM/YYYY').format('MM/DD/YYYY'));
-                            var end_date = new Date(moment(response.data.data.tournament.end_date, 'DD/MM/YYYY').format('MM/DD/YYYY')); 
-                            
-                            let today = new Date();
-                            if(today.getTime() > end_date.getTime()){
-                                this.id = "";
-                                this.tournamentData['is_renew'] = 1;
-                            }else{
-                                let startMonth = start_date.getMonth()+1;                         
-                                let endMonth = end_date.getMonth()+1;                         
-                                this.tournamentData['tournament_start_date'] = start_date.getDate()+'/'+startMonth + '/'+start_date.getFullYear();
-                                this.tournamentData['tournament_end_date'] = end_date.getDate()+'/'+endMonth + '/'+end_date.getFullYear(); 
-                                $('#tournament_start_date').datepicker('setDate', this.tournamentData['tournament_start_date'])
-                                 $('#tournament_end_date').datepicker('setDate', this.tournamentData['tournament_end_date'])  
-                            }
-                            
-                            this.tournamentData['id'] = this.id;
-                            this.tournamentData['old_tournament_id'] = response.data.data.tournament.id;
-                            this.tournamentData['tournament_name'] = response.data.data.tournament.name;
-                            this.tournamentData['tournament_max_teams'] = response.data.data.tournament.maximum_teams;   
-                            this.tournament_old_teams = response.data.data.tournament.maximum_teams;   
-                            this.tournamentData['access_code'] = response.data.data.tournament.access_code;
-                            this.tournamentData['custom_tournament_format'] = response.data.data.tournament.custom_tournament_format;
-                            this.tournamentData['tournament_type'] = response.data.data.tournament.tournament_type;
-                            this.user_old_selected_type = response.data.data.tournament.tournament_type;
-                            this.user_old_selected_format = response.data.data.tournament.custom_tournament_format; 
-
-                            // transaction histories amount difference calculation 
-                            let transactionAmount = [];
-                            let tournamentPricing = _.filter(response.data.data.get_sorted_transaction_histories, function(historyAmount)
-                            {
-                                transactionAmount.push(historyAmount.amount); 
-                            });
-                            let transactionDifferenceAmountValue = _.sumBy(transactionAmount, function(historyAmount) { 
-                                return historyAmount; 
-                            }); 
-                            this.tournamentData.transactionDifferenceAmountValue = transactionDifferenceAmountValue
-                         }else{ 
-                            toastr['error'](response.data.message, 'Error');
-                         }
+                    if (response.data.success) {
+                        var start_date = new Date(moment(response.data.data.tournament.start_date, 'DD/MM/YYYY').format('MM/DD/YYYY'));
+                        var end_date = new Date(moment(response.data.data.tournament.end_date, 'DD/MM/YYYY').format('MM/DD/YYYY')); 
                         
-                 }).catch(error => {
+                        let today = new Date();
+                        if(today.getTime() > end_date.getTime()){
+                            this.id = "";
+                            this.tournamentData['is_renew'] = 1;
+                        }else{
+                            let startMonth = start_date.getMonth()+1;                         
+                            let endMonth = end_date.getMonth()+1;                         
+                            this.tournamentData['tournament_start_date'] = start_date.getDate()+'/'+startMonth + '/'+start_date.getFullYear();
+                            this.tournamentData['tournament_end_date'] = end_date.getDate()+'/'+endMonth + '/'+end_date.getFullYear(); 
+                            $('#tournament_start_date').datepicker('setDate', this.tournamentData['tournament_start_date'])
+                             $('#tournament_end_date').datepicker('setDate', this.tournamentData['tournament_end_date'])  
+                        }
+                        
+                        this.tournamentData['id'] = this.id;
+                        this.tournamentData['old_tournament_id'] = response.data.data.tournament.id;
+                        this.tournamentData['tournament_name'] = response.data.data.tournament.name;
+                        this.tournamentData['tournament_max_teams'] = response.data.data.tournament.maximum_teams;   
+                        this.tournament_old_teams = response.data.data.tournament.maximum_teams;   
+                        this.tournamentData['access_code'] = response.data.data.tournament.access_code;
+                        this.tournamentData['custom_tournament_format'] = response.data.data.tournament.custom_tournament_format;
+                        this.tournamentData['tournament_type'] = response.data.data.tournament.tournament_type;
+                        this.user_old_selected_type = response.data.data.tournament.tournament_type;
+                        this.user_old_selected_format = response.data.data.tournament.custom_tournament_format; 
+
+                        // transaction histories amount difference calculation 
+                        let transactionAmount = [];
+                        let tournamentPricing = _.filter(response.data.data.get_sorted_transaction_histories, function(historyAmount)
+                        {
+                            transactionAmount.push(historyAmount.amount); 
+                        });
+                        let transactionDifferenceAmountValue = _.sumBy(transactionAmount, function(historyAmount) { 
+                            return historyAmount; 
+                        }); 
+                        this.tournamentData.transactionDifferenceAmountValue = transactionDifferenceAmountValue
+                     }else{ 
+                        toastr['error'](response.data.message, 'Error');
+                    }
+                        
+                }).catch(error => {
                      
-                 }); 
+                }); 
             },
 
             changeCurrencyType(event){
@@ -404,6 +404,7 @@
                     this.tournamentData.tournamentPricingValue = this.tournamentData.tournamentPricingValue/this.gpbConvertValue;
                     this.tournamentData.payment_currency = "EUR";
                 }
+                this.tournammentPricingData();
             },
 
             getCurrencyValue(){ 
@@ -447,6 +448,12 @@
                         vm.tournamentData.tournamentLicenseAdvancePriceDisplay = band.advanced_price;
                     }
                 });
+                
+                // Custom format value (Yes) change in GBP currency  
+                if(this.tournamentData.currency_type == "GBP"){
+                    this.tournamentData.payment_currency = this.tournamentData.currency_type;
+                    this.tournamentData.tournamentLicenseAdvancePriceDisplay = (this.tournamentData.tournamentLicenseAdvancePriceDisplay)*this.gpbConvertValue;
+                }
 
                 if(tournamentOrganising == 'cup' && tournamentCustomFormats == 0 && tournamentMaxTeams) {
                     let tournamentPricing = _.filter(this.tournamentPricingBand.cup.bands, function(band) {
