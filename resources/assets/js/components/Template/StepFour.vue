@@ -112,11 +112,9 @@
 						</div>
 					</div>
 					<form>
-						<div class="form-group" :class="{'has-error': errors.has('remarks') }">
+						<div class="form-group">
 							<label for="remarks">Remarks</label>
-							<input name="remarks" type="text" class="form-control" v-model="templateFormDetail.stepfour.remarks" v-validate="'required'" :class="{'is-danger': errors.has('remarks') }" placeholder="Remarks">
-							<i v-show="errors.has('remarks')" class="fa fa-warning"></i>
-                        	<span class="help is-danger" v-show="errors.has('remarks')">{{ errors.first('remarks') }}</span>
+							<input name="remarks" type="text" class="form-control" v-model="templateFormDetail.stepfour.remarks" placeholder="Remarks">
 						</div>
 
 						<div class="form-group">
