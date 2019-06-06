@@ -1657,8 +1657,6 @@ class MatchRepository
       } else {
           $teamStanding = DB::table('match_standing')->where('competition_id', $competitionId)->update(['manual_order' => null]);
       }
-      // $competition = Competition::find($competitionId);
-
     }
 
     public function matchUnscheduledFixtures($matchId)
