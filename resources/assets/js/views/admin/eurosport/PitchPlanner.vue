@@ -4,7 +4,7 @@
 			<div class="card-block pb-0">
           <div class="row align-items-center justify-content-start">
             <div class="col-6 align-self-center">
-              <h6 class="m-0" v-if="isPitchPlannerInEnlargeMode == 0"><strong>{{$lang.pitch_planner_label}}</strong>
+              <h6 class="m-0 fieldset-title" v-if="isPitchPlannerInEnlargeMode == 0"><strong>{{$lang.pitch_planner_label}}</strong>
                 <span class="match-planner-view">
                   (<a href="javascript:void(0)" class="horizontal js-horizontal-view" :class="{ 'active-view': isHorizontal }"  @click="setView('timelineDay')">{{$lang.pitch_planner_horizontal}}</a> /
                    <a href="javascript:void(0)" class="vertical" :class="{ 'active-view': isVertical }"  @click="setView('agendaDay')">{{$lang.pitch_planner_vertical}}</a>)

@@ -2,7 +2,7 @@
 	<div class="tab-content">
 		<div class="card">
 			<div class="card-block">
-				<h6><strong>{{$lang.age_categories}}</strong></h6>
+				<h6 class="fieldset-title"><strong>{{$lang.age_categories}}</strong></h6>
 				<div class="form-group justify-content-between row">
 	        	<div class="col-sm-6">
 	        		<age-category-list @setAgeCategories="setAgeCategories" :countries="team.countries"></age-category-list>
@@ -11,7 +11,7 @@
 				<hr class="my-4">
 				<div class="form-group row">
         	<div class="col-sm-12">
-        		<h6><strong>{{$lang.upload_teams}}</strong></h6>
+        		<h6 class="fieldset-title"><strong>{{$lang.upload_teams}}</strong></h6>
         	</div>
         	<div class="col-sm-8">
             <form method="post" name="frm_team_import" id="frm_team_import" enctype="multipart/form-data">
