@@ -139,15 +139,15 @@
 							<a href="javascript:void(0)" class="text-primary" @click="addNewRoundSchedule()"><u>Add</u></a>
 						</div>
 
-						<div class="form-group" :class="{'has-error': errors.has('graphic_image') }" v-if="(userDetails.role_slug == 'Internal.administrator' || userDetails.role_slug == 'Super.administrator' || userDetails.role_slug == 'Tournament administrator')">
+						<div class="form-group" v-if="(userDetails.role_slug == 'Internal.administrator' || userDetails.role_slug == 'Super.administrator' || userDetails.role_slug == 'Tournament administrator')">
 							<label for="remarks">Graphic image</label>
 							<div v-if="!image">
 								<img src="/assets/img/noimage.png" class="thumb-size" />
 								<button type="button" class="btn btn-default ml-4" name="btnSelect" id="btnSelect" @click="openFileInput">	{{$lang.tournament_tournament_choose_button}}
 								</button>
-								<input type="file" class="thumb-size d-none" name="graphic_image" id="graphic_image" @change="onFileChange" v-validate="'required'" data-vv-as="Graphic image">
-								<i v-show="errors.has('graphic_image')" class="fa fa-warning"></i>
-								<div><span class="help is-danger" v-show="errors.has('graphic_image')">{{ errors.first('graphic_image') }}</span></div>
+								<input type="file" class="thumb-size d-none" name="graphic_image" id="graphic_image" @change="onFileChange">
+								<!-- <i v-show="errors.has('graphic_image')" class="fa fa-warning"></i> -->
+								<!-- <div><span class="help is-danger" v-show="errors.has('graphic_image')">{{ errors.first('graphic_image') }}</span></div> -->
 	                        </div>	                        
 	                        <div v-else>
 								<img :src="image" class="thumb-size" />
