@@ -263,7 +263,11 @@ class TemplateRepository
     public function insertTemplate($data, $templateJson)
     {
         $decodedJson = json_decode($templateJson, true);
-        $graphicImageName = $this->getGraphicImagePath .$data['templateFormDetail']['stepfour']['graphic_image'];
+
+        $graphicImageName = NULL;
+        if($data['templateFormDetail']['stepfour']['graphic_image']) {
+            $graphicImageName = $this->getGraphicImagePath .$data['templateFormDetail']['stepfour']['graphic_image'];
+        }
 
         $tournamentTemplate = new TournamentTemplates();
         $tournamentTemplate->json_data = $templateJson;
@@ -294,7 +298,7 @@ class TemplateRepository
     {
         $decodedJson = json_decode($templateJson, true);
         $graphicImageName = NULL;
-        if($data['templateFormDetail']['stepfour']['graphic_image']) {            
+        if($data['templateFormDetail']['stepfour']['graphic_image']) {
             $graphicImageName = $this->getGraphicImagePath .$data['templateFormDetail']['stepfour']['graphic_image'];
         }
 
