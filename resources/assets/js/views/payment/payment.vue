@@ -1,50 +1,52 @@
 <template>
-    <section class="buy-license-section section-padding">
-        <div class="container">
-            <div class="row justify-content-between">
-                <div class="col-md-12">
-                    <h1 class="font-weight-bold">Confirmation</h1>
-                    <p>Thank you for purchase. Your order number is {{paymentObj.orderID}}</p>
-                </div>
-                <div class="col-md-12">
-                    <button v-if="tournament_id" class="btn btn-success" @click="printReceipt()">Print receipt</button>
-                     <button v-if="!tournament_id" class="btn btn-success" disabled="true">Print receipt</button>
-                    
-                </div>
-            </div>
-
-            <div class="row mt-5">
-                <div class="col-md-12">
-                    <h3 class="mb-0 text-uppercase font-weight-bold">Receipt</h3>
-
-                    <div class="divider my-3"></div>
-
-                    <div class="row">
-                        <div class="col-sm-6 col-md-7 col-lg-7">
-                            <p v-if="!paymentFlag" class="mb-0" id="reeiptDetails">{{tournament.tournament_max_teams}} team license for a {{tournament.dayDifference}} day tournament</p>
-
-                            <p v-if="paymentFlag" class="mb-0" id="reeiptDetails">{{tournament.tournament_max_teams}} (+{{tournament.teamDifference}}) Team licence for a  {{this.totaldays}} ({{daysign}} {{tournament.dayDifference}}) day</p>
-
-                        </div>
-                        <div class="col-sm-6 col-md-5 col-lg-5">
-                            <p class="text-sm-right mb-0 mt-3 mt-sm-0"> {{paymentObj.currency == 'EUR' ? '€' : '£' }} {{paymentObj.amount}}</p>
-                        </div>
+    <div class="main-section">
+        <section class="buy-license-section section-padding">
+            <div class="container">
+                <div class="row justify-content-between">
+                    <div class="col-md-12">
+                        <h1 class="font-weight-bold">Confirmation</h1>
+                        <p>Thank you for purchase. Your order number is {{paymentObj.orderID}}</p>
                     </div>
-
-                    <div class="divider my-3 opacited"></div>
-
-                    <p class="text-sm-right font-weight-bold">{{paymentObj.currency == 'EUR' ? '€' : '£' }} {{paymentObj.amount}}</p>
-
-                    <p class="py-3">You may now proceed to your dashboard and begin adding your tournament details.</p>
-                    <button v-if="tournament_id" class="btn btn-primary" v-on:click="redirectToDashboardPage()">Get started</button>
-                    <button v-if="!tournament_id" class="btn btn-primary" disabled="true">Get started</button>
-                    
+                    <div class="col-md-12">
+                        <button v-if="tournament_id" class="btn btn-success" @click="printReceipt()">Print receipt</button>
+                         <button v-if="!tournament_id" class="btn btn-success" disabled="true">Print receipt</button>
+                        
+                    </div>
                 </div>
-            </div>
 
-            
-        </div>
-    </section>
+                <div class="row mt-5">
+                    <div class="col-md-12">
+                        <h3 class="mb-0 text-uppercase font-weight-bold">Receipt</h3>
+
+                        <div class="divider my-3"></div>
+
+                        <div class="row">
+                            <div class="col-sm-6 col-md-7 col-lg-7">
+                                <p v-if="!paymentFlag" class="mb-0" id="reeiptDetails">{{tournament.tournament_max_teams}} team license for a {{tournament.dayDifference}} day tournament</p>
+
+                                <p v-if="paymentFlag" class="mb-0" id="reeiptDetails">{{tournament.tournament_max_teams}} (+{{tournament.teamDifference}}) Team licence for a  {{this.totaldays}} ({{daysign}} {{tournament.dayDifference}}) day</p>
+
+                            </div>
+                            <div class="col-sm-6 col-md-5 col-lg-5">
+                                <p class="text-sm-right mb-0 mt-3 mt-sm-0"> {{paymentObj.currency == 'EUR' ? '€' : '£' }} {{paymentObj.amount}}</p>
+                            </div>
+                        </div>
+
+                        <div class="divider my-3 opacited"></div>
+
+                        <p class="text-sm-right font-weight-bold">{{paymentObj.currency == 'EUR' ? '€' : '£' }} {{paymentObj.amount}}</p>
+
+                        <p class="py-3">You may now proceed to your dashboard and begin adding your tournament details.</p>
+                        <button v-if="tournament_id" class="btn btn-primary" v-on:click="redirectToDashboardPage()">Get started</button>
+                        <button v-if="!tournament_id" class="btn btn-primary" disabled="true">Get started</button>
+                        
+                    </div>
+                </div>
+
+                
+            </div>
+        </section>
+    </div>
 </template>
 <script type="text/babel">
     import Auth from '../../services/auth'
