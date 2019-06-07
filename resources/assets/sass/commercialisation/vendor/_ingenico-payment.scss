@@ -9,13 +9,10 @@
             background-color: $white;
 
             input[type="button"] {
-                &.ncol1 {
-                    @extend .btn-block;
-                    @extend .btn-primary;
-                }
+                @extend .btn-success;
             }
         }
-        
+
 
         &.ncoltable2 {
             background-color: $white;
@@ -129,9 +126,12 @@
                 @extend .btn-block;
             }
 
-            &#btn_Back,
-            &#btn_BackToMerchantHome {
+            &#btn_Back {
                 @extend .btn-block;
+                @extend .btn-primary;
+            }
+
+            &#btn_BackToMerchantHome {
                 @extend .btn-primary;
             }
         }
