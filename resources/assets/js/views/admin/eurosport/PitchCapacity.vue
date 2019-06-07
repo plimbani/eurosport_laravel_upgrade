@@ -3,11 +3,11 @@
         <div class="card">
             <div class="card-block">
                 <div class="row align-items-center">
-                  <div class="col-md-6 align-self-center">
-                      <h6 class="mb-0"><strong>{{$lang.pitch_capacity}}</strong></h6>
+                  <div class="col-md-3 align-self-center">
+                      <h6 class="mb-0 fieldset-title"><strong>{{$lang.pitch_capacity}}</strong></h6>
                   </div>
 
-                    <div class="col-md-6">
+                    <div class="col-md-9">
                         <form class="form-inline justify-content-end pitch-capacity-form">
                             <div class="form-group">
                                 <label><strong>Filter by:</strong></label>
@@ -118,7 +118,7 @@
                 </div>
                 <div class="row my-3">
                   <div class="col-3 align-self-center">
-                      <h6 class="mb-0"><strong>{{$lang.pitch_summary}}</strong></h6>
+                      <h6 class="mb-0 fieldset-title"><strong>{{$lang.pitch_summary}}</strong></h6>
                   </div>
                 </div>
                 <div class="row">
@@ -153,7 +153,7 @@
                 <div v-for="(locationDetail, locationId) in locationSizeWiseSummaryArray">
                     <div class="row my-3">
                       <div class="col-3 align-self-center">
-                          <h6 class="mb-0"><strong>Venue - {{ locationDetail.name }}</strong></h6>
+                          <h6 class="mb-0 fieldset-title"><strong>Venue - {{ locationDetail.name }}</strong></h6>
                       </div>
                     </div>
                     <div class="row">

@@ -3,7 +3,7 @@
 <div>
 <div class="card">
   <div class="card-block">
-      <h6><strong>{{$lang.tournament_information}}</strong></h6>
+      <h6 class="fieldset-title"><strong>{{$lang.tournament_information}}</strong></h6>
       <form name="tournamentName" enctype="multipart/form-data">
         <div class="row">
           <div class="col-sm-6">
@@ -105,7 +105,7 @@
           </div>
         </div>
         <div class="">
-            <h6><strong>{{$lang.tournament_eurosporting}}</strong></h6>
+            <h6 class="fieldset-title"><strong>{{$lang.tournament_eurosporting}}</strong></h6>
         </div>
         <div class="form-group row" :class="{'has-error': errors.has('tournament.tournament_contact_first_name') }">
           <label class="col-sm-2 form-control-label">{{$lang.tournament_first_name}}*</label>
@@ -139,7 +139,7 @@
         <!--<location :locations="locations"></location>-->
         <div v-for="(location, index) in locations">
           <div class="">
-            <h6><strong>{{$lang.tournament_location}}</strong></h6>
+            <h6 class="fieldset-title"><strong>{{$lang.tournament_location}}</strong></h6>
           </div>
           <div class="form-group row">
             <label class="col-sm-2 form-control-label">{{$lang.tournament_venue}}*</label>
@@ -302,7 +302,6 @@
 </template>
 <script >
 var moment = require('moment');
-import location from '../../../components/Location.vue'
 import RemoveVenueModal from '../../../components/RemoveVenueModal.vue'
 import Tournament from '../../../api/tournament.js'
 import Ls from './../../../services/ls'
@@ -335,7 +334,7 @@ tournamentDateDiff: 0,
 }
 },
 components: {
-location: location, RemoveVenueModal
+  RemoveVenueModal
 },
 mounted(){
 Plugin.initPlugins(['Select2','TimePickers','MultiSelect','DatePicker','setCurrentDate'])

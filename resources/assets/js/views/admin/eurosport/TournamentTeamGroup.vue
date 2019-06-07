@@ -2,7 +2,7 @@
   <div class="tab-content">
   	<div class="card">
   		<div class="card-block">
-      		<h6><strong>{{$lang.teams_terms_groups}}</strong></h6>
+      		<h6 class="fieldset-title"><strong>{{$lang.teams_terms_groups}}</strong></h6>
             <div class="row">
               <div class="col-sm-12 mb-2">
                 Team list spreadsheet <a href="javascript:void(0)" @click="downloadTeamsSpreadsheetSample()" class="text-primary"><u>click here</u>.</a>  View
@@ -48,6 +48,9 @@
                   <div class="col-sm-3" v-show="this.age_category != ''" v-if="loggedInUserRole">
                     <button type="button" data-toggle="modal" data-target="#reset_modal" class="btn btn-primary w-100">Delete teams</button>
                   </div>
+                  <div class="col-sm-3" v-show="this.age_category != ''" v-if="this.role_slug != 'mobile.user'">
+                    <button type="button" class="btn btn-primary w-100" @click="printAllocatedTeams()">Download groups</button>
+                  </div>                  
                 </div>
               </div>
             </div>
@@ -781,6 +784,22 @@
       onTeamDrag(ev) {
         ev.dataTransfer.setData("id", ev.target.id);
         this.beforeChange($('#' + ev.target.id).data('select-id'));
+      },
+      printAllocatedTeams() {
+        let data = 'tournamentId='+this.$store.state.Tournament.tournamentId+'&'+'ageCategoryId='+this.age_category.id+'&'+'tournamentTemplateId='+this.age_category.tournament_template_id;
+
+        if(data != ''){
+          Tournament.getSignedUrlForGroupsViewReport(data).then(
+            (response) => {
+              window.location.href = response.data;
+            },
+            (error) => {
+
+            }
+          )
+        } else{
+          toastr['error']('Records not available', 'Error');
+        }
       }
     }
   }

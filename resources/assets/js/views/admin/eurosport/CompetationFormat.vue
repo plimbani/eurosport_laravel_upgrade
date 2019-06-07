@@ -2,7 +2,7 @@
 	<div class="tab-content">
 		<div class="card">
       <div class="card-block">
-          <h6 class="mt4"><strong>{{$lang.competation_age_categories}}</strong></h6>
+          <h6 class="mt4 fieldset-title"><strong>{{$lang.competation_age_categories}}</strong></h6>
           <competationFormatList></competationFormatList>
       </div>
 		</div>
@@ -31,7 +31,7 @@ export default {
       this.$router.push({name: 'welcome'});
     } else {
       // Means Set Here
-      let currentNavigationData = {activeTab:'competition_format', currentPage: 'Competition Format'}
+      let currentNavigationData = {activeTab:'competition_format', currentPage: 'Competition Formats'}
       this.$store.dispatch('setActiveTab', currentNavigationData)
       this.$store.dispatch('SetPitches',tournamentId);
       this.$store.dispatch('SetVenues',tournamentId);

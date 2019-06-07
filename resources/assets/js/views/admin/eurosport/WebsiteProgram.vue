@@ -2,7 +2,7 @@
 	<div class="tab-content">
 		<div class="card">
 			<div class="card-block">
-				<h6><strong>{{$lang.itinerary_title}}</strong></h6>
+				<h6 class="fieldset-title"><strong>{{$lang.itinerary_title}}</strong></h6>
 				<div class="form-group justify-content-between row">
 					<div class="col-sm-6">
 	      		<itinerary-list @setItineraries="setItineraries"></itinerary-list>

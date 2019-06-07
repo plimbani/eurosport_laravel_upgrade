@@ -48,7 +48,7 @@
 		'welcome_image' => 'Velkommen billede',
 		'organised_by' => 'Arrangeret af',
 		'match_schedule' => 'Kampprogram',
-		'the_teams' => 'Holdende',
+		'the_teams' => 'Holdene',
 		'the_venue' => 'Anlægget',
 		'travel_accommodation' => 'Rejse og indkvartering',
 		'copyright' => 'Copyright &copy;',

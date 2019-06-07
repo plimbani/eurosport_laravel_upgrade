@@ -783,10 +783,13 @@ class MatchRepository
       $virtual_lt_sorted = array();
       $virtual_lt_sorted_details = array();
       foreach ($conflictedTeamArray as $cta => $ctv) {
-        $virtual_lt_sorted[$cta] = $this->headToHeadVirtualLeagueTable($conflictedTeamids,$cta,$ctv,$tournamentId,$compId,$tournamentCompetationTemplatesRecord,$remain_head_to_head_with_key,$standingData);
-
-        $virtual_lt_sorted_details[$cta]['total_teams'] = count($virtual_lt_sorted[$cta]);
-        $virtual_lt_sorted_details[$cta]['remaining'] = count($virtual_lt_sorted[$cta]);
+        $headToHeadVirtualLeagueTableData =  $this->headToHeadVirtualLeagueTable($conflictedTeamids,$cta,$ctv,$tournamentId,$compId,$tournamentCompetationTemplatesRecord,$remain_head_to_head_with_key,$standingData);
+        if ( !empty($headToHeadVirtualLeagueTableData) )
+        {
+          $virtual_lt_sorted[$cta] = $headToHeadVirtualLeagueTableData;
+          $virtual_lt_sorted_details[$cta]['total_teams'] = count($virtual_lt_sorted[$cta]);
+          $virtual_lt_sorted_details[$cta]['remaining'] = count($virtual_lt_sorted[$cta]);
+        }
       }
 
       // make new sorted array
@@ -1646,8 +1649,6 @@ class MatchRepository
       } else {
           $teamStanding = DB::table('match_standing')->where('competition_id', $competitionId)->update(['manual_order' => null]);
       }
-      // $competition = Competition::find($competitionId);
-
     }
 
     public function matchUnscheduledFixtures($matchId)
