@@ -137,12 +137,15 @@
         	},
         	displayTeams() {
         		var i;
+        		var oldGroupMatchesData = _.cloneDeep(this.groupData.matches);
         		var oldGroupTeamData = _.cloneDeep(this.groupData.teams);
 				this.groupData.teams = [];
 				this.groupData.matches = [];
 				let vm = this;
 				for (i = 0; i < this.groupData.no_of_teams; i++) {
-					if(vm.groupData.type === 'placing_match' && (i%2) === 0) {
+					if(_.has(oldGroupMatchesData, i)) {
+						vm.groupData.matches.push(oldGroupMatchesData[i]);
+					} else if(vm.groupData.type === 'placing_match' && (i%2) === 0) {
 						vm.groupData.matches.push({is_final: false});
 					}
 					if(_.has(oldGroupTeamData, i)) {

@@ -552,6 +552,7 @@ class TemplateRepository
 
             if($divisionIndex === -1 && $roundIndex === 0 && $groupIndex !== $firstPlacingMatchIndex && $group['type'] === 'placing_match') {
                 $teams = $group['teams'];
+                $groupMatches = $group['matches'];
                 
                 $totalPlacingMatches = 0;
                 $allPlacingMatches = [];
@@ -627,13 +628,19 @@ class TemplateRepository
                             $displayHomeTeamPlaceholderName = ($roundIndex + 1) . "." . ($prevPlacingMatchesCount1 + parseInt($position1) + 1);
                             $displayAwayTeamPlaceholderName = ($roundIndex + 1) . "." . ($prevPlacingMatchesCount2 + parseInt($position2) + 1);
 
-                            array_push($matches, [
+                            $matchDetailArray = [
                                 'in_between' => $inBetween,
                                 'match_number' => $matchNumber,
                                 'display_match_number' => $displayMatchNumber,
                                 'display_home_team_placeholder_name' => $displayHomeTeamPlaceholderName,
                                 'display_away_team_placeholder_name' => $displayAwayTeamPlaceholderName,
-                            ]);
+                            ];
+
+                            if((int)$groupMatches[($i/2)]['is_final'] === 1) {
+                                $matchDetailArray['is_final_match'] = 1;
+                            }
+
+                            array_push($matches, $matchDetailArray);
 
                             $matchCount++;
                         }
@@ -733,6 +740,7 @@ class TemplateRepository
             if(($divisionIndex === -1 && $roundIndex > 0 && $group['type'] === "placing_match") || ($divisionIndex > -1 && $roundIndex >= 0 && $group['type'] === "placing_match")) {
                 //dd($divisionDetail);
                 $teams = $group['teams'];
+                $groupMatches = $group['matches'];
                 if($divisionIndex >= -1 && $roundIndex === 0) {
                     $teams = [];
                     for ($teamIndex = 0; $teamIndex < count($group['teams']); $teamIndex++) {
@@ -839,6 +847,9 @@ class TemplateRepository
                         'display_home_team_placeholder_name' => $displayHomeTeamPlaceholderName,
                         'display_away_team_placeholder_name' => $displayAwayTeamPlaceholderName,
                     ];
+                    if((int)$groupMatches[($teamIndex/2)]['is_final'] === 1) {
+                        $matchDetail['is_final_match'] = 1;
+                    }
                     if($position !== null) {
                         $matchDetail['position'] = $position;
                     }
