@@ -3,7 +3,7 @@
 		<div class="card" :class="{ 'border-0' : isPitchPlannerInEnlargeMode }">
 			<div class="card-block pb-0">
           <div class="row align-items-center justify-content-start">
-            <div class="col-3 align-self-center">
+            <div class="col-6 align-self-center">
               <h6 class="m-0 fieldset-title" v-if="isPitchPlannerInEnlargeMode == 0"><strong>{{$lang.pitch_planner_label}}</strong>
                 <span class="match-planner-view">
                   (<a href="javascript:void(0)" class="horizontal js-horizontal-view" :class="{ 'active-view': isHorizontal }"  @click="setView('timelineDay')">{{$lang.pitch_planner_horizontal}}</a> /
@@ -11,7 +11,7 @@
                  </span>
               </h6>
             </div>
-            <div class="col-9 align-self-center">
+            <div class="col-6 align-self-center">
               <pitchPlannerFilter :section="section"></pitchPlannerFilter>
             </div>
             <div>
