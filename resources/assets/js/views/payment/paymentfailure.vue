@@ -1,19 +1,21 @@
 <template>
-    <section class="buy-license-section section-padding">
-        <div class="container">
-            <div class="row justify-content-between">
-                <div class="col-md-12">
-                    <h1 class="font-weight-bold">Transaction - {{status_message}}</h1>
-                    <p>Your transaction is in status as "{{status_message}}". So we are not able to create tournament.</p>
+    <div class="main-section">
+        <section class="buy-license-section section-padding">
+            <div class="container">
+                <div class="row justify-content-between">
+                    <div class="col-md-12">
+                        <h1 class="font-weight-bold">Transaction - {{status_message}}</h1>
+                        <p>Your transaction is in status as "{{status_message}}". So we are not able to create tournament.</p>
+                    </div>
+                    <div class="col-md-12">
+                        <button class="btn btn-success" v-on:click="redirectToDashboardPage()">Get started</button>
+                    </div>
                 </div>
-                <div class="col-md-12">
-                    <button class="btn btn-success" v-on:click="redirectToDashboardPage()">Get started</button>
-                </div>
-            </div>
 
-            
-        </div>
-    </section>
+                
+            </div>
+        </section>
+    </div>
 </template>
 <script type="text/babel">
     import Auth from '../../services/auth'
