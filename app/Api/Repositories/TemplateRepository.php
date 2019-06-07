@@ -186,6 +186,8 @@ class TemplateRepository
         $displayHomeTeamPlaceholderName = '';
         $displayAwayTeamPlaceholderName = '';
 
+        print_r($templateFormDetail['steptwo']['rounds']);exit;
+
         foreach ($templateFormDetail['steptwo']['rounds'] as $roundIndex => $round) {
             $roundDetail = [];
             $roundDetail['round'] = $round;
