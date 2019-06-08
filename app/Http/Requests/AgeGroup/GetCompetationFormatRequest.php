@@ -18,6 +18,7 @@ class GetCompetationFormatRequest extends FormRequest
      */
     public function authorize()
     {
+        \Log::info('GetCompetationFormatRequest:' .json_encode($this->all()));
         $token = JWTAuth::getToken();
         if(!$token || (app('request')->header('ismobileuser') && app('request')->header('ismobileuser') == "true")) {
             $tournament_id = null;
