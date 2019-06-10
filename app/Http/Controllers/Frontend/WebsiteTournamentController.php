@@ -2,6 +2,7 @@
 
 namespace Laraspace\Http\Controllers\Frontend;
 
+use App;
 use Landlord;
 use Laraspace\Models\Page;
 use Illuminate\Http\Request;
