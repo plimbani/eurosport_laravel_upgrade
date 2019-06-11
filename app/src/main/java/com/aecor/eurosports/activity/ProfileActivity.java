@@ -113,7 +113,7 @@ public class ProfileActivity extends BaseAppCompactActivity {
 
 
         if (Utility.isInternetAvailable(mContext)) {
-            Utility.setLocale(mContext, selectedLocale);
+            Utility.setLocale(getApplicationContext(), selectedLocale);
             ProfileModel profileModel = GsonConverter.getInstance().decodeFromJsonString(mAppPref.getString(AppConstants.PREF_PROFILE), ProfileModel.class);
             String user_id = mAppPref.getString(AppConstants.PREF_USER_ID);
             Utility.startProgress(mContext);
