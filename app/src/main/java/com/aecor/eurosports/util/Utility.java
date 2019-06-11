@@ -29,7 +29,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.aecor.eurosports.R;
-import com.aecor.eurosports.activity.FavouritesActivity;
 import com.aecor.eurosports.activity.GetStartedActivity;
 import com.aecor.eurosports.activity.LandingActivity;
 import com.aecor.eurosports.activity.SplashActivity;
@@ -391,24 +390,30 @@ public class Utility {
         return formattedDate;
     }
 
-    public static Context setLocale(Context context, String language) {
+    public static void setLocale(Context context, String language) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            return updateResources(context, language);
+            updateResources(context, language);
+        } else {
+            updateResourcesLegacy(context, language);
         }
-
-        return updateResourcesLegacy(context, language);
     }
 
     @TargetApi(Build.VERSION_CODES.N)
-    private static Context updateResources(Context context, String language) {
-        Locale locale = new Locale(language);
-        Locale.setDefault(locale);
+    private static void updateResources(Context context, String language) {
 
-        Configuration configuration = context.getResources().getConfiguration();
-        configuration.setLocale(locale);
-        configuration.setLayoutDirection(locale);
 
-        return context.createConfigurationContext(configuration);
+        Resources activityRes = context.getResources();
+        Configuration activityConf = activityRes.getConfiguration();
+        Locale newLocale = new Locale(language);
+        activityConf.setLocale(newLocale);
+        activityRes.updateConfiguration(activityConf, activityRes.getDisplayMetrics());
+
+        Resources applicationRes = context.getApplicationContext().getResources();
+        Configuration applicationConf = applicationRes.getConfiguration();
+        applicationConf.setLocale(newLocale);
+        applicationRes.updateConfiguration(applicationConf,
+                applicationRes.getDisplayMetrics());
+
     }
 
     public static boolean isPackageInstalled(Context context, String packageName) {

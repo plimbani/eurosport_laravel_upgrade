@@ -100,7 +100,7 @@ public class SplashActivity extends BaseActivity {
             }
         }
         initView();
-//        printHashKey(this);
+        printHashKey(this);
     }
 
     private void isUserLogin() {
