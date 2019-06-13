@@ -186,6 +186,8 @@ class TemplateRepository
         $displayHomeTeamPlaceholderName = '';
         $displayAwayTeamPlaceholderName = '';
 
+        // print_r($templateFormDetail['steptwo']['rounds']);exit;
+
         foreach ($templateFormDetail['steptwo']['rounds'] as $roundIndex => $round) {
             $roundDetail = [];
             $roundDetail['round'] = $round;
@@ -710,7 +712,7 @@ class TemplateRepository
                                 $teamMatch2 = $finalArray['tournament_competation_format']['divisions'][$divisionRoundGroupPosition2[0]]['format_name'][$divisionRoundGroupPosition2[1]]['match_type'][$divisionRoundGroupPosition2[2]]['groups']['match'][$divisionRoundGroupPosition2[3]]['match_number'];
                             }
 
-                            if (strpos($teamMatch1, 'WR') || strpos($teamMatch2, 'LR')) {
+                            if (($team1['position_type'] == 'winner' && $team2['position_type'] == 'winner') || ($team1['position_type'] == 'looser' && $team2['position_type'] == 'looser')) {
                                 $isPlacingMatchAsRoundRobin = true;
                             }
 
@@ -719,12 +721,11 @@ class TemplateRepository
                             }
 
                             $inBetween = $homeTeamData['teamInBetween'] . '-' . $awayTeamData['teamInBetween'];
+                            $matchNumber = 'CAT.RR'. ($startRoundCount + $roundIndex + 1) . '.' . sprintf('%02d', $weekNumber) . '.' . $homeTeamData['teamMatchNumber'] . '-' . $awayTeamData['teamMatchNumber'];
                             
                             if($teamType !== '') {
-                                $matchNumber = 'CAT.RR'. ($startRoundCount + $roundIndex + 1) . '.' . sprintf('%02d', $weekNumber) . '.' . $teamType . '(' . $homeTeamData['teamMatchNumber'] . '-' . $awayTeamData['teamMatchNumber'] . ')';
                                 $displayMatchNumber = 'CAT.'. ($startRoundCount + $roundIndex + 1) . '.' . $weekNumber . '.' . $teamType . '(' . $homeTeamData['teamDisplayMatchNumber'] . '-' . $awayTeamData['teamDisplayMatchNumber'] . ')';
                             } else {
-                                $matchNumber = 'CAT.RR'. ($startRoundCount + $roundIndex + 1) . '.' . sprintf('%02d', $weekNumber) . '.' . $homeTeamData['teamMatchNumber'] . '-' . $awayTeamData['teamMatchNumber'];
                                 $displayMatchNumber = 'CAT.'. ($startRoundCount + $roundIndex + 1) . '.' . $weekNumber . '.' . $homeTeamData['teamDisplayMatchNumber'] . '-' . $awayTeamData['teamDisplayMatchNumber'];    
                             }
                             
