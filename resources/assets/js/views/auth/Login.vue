@@ -100,6 +100,7 @@
                     axios.post('/api/auth/login', this.loginData).then(response =>  {
                         // console.log("response.data::",response.data)
                         Ls.set('auth.token',response.data.token)
+                        let loginDisplayMessage = Ls.get('registrationMessage');
                         // We set Email Over here
                         Ls.set('email',this.loginData.email)
                         Ls.set('usercountry',response.data.country)

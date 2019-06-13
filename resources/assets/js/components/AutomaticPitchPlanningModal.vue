@@ -17,7 +17,7 @@
               <div class="row">
                 <div class="col-sm-6">
                   <div class="form-group row">
-                    <label class="col-sm-12 col-form-label">{{ $lang.pitch_planner_automatic_planning_age_categories }}</label>
+                    <div class="col-sm-12 col-form-label">{{ $lang.pitch_planner_automatic_planning_age_categories }}</div>
                     <div class="col-sm-12">
                       <select v-validate="'required'" class="form-control ls-select2 m-w-130" v-model="selectedAgeCategory" @change="getCompetitions()" name="age_category">
                         <option value="">Select category</option>
@@ -33,7 +33,7 @@
                 </div>
                 <div class="col-sm-6">
                   <div class="form-group row">
-                    <label class="col-sm-12 col-form-label">{{ $lang.pitch_planner_automatic_planning_competitions }}</label>
+                    <div class="col-sm-12 col-form-label">{{ $lang.pitch_planner_automatic_planning_competitions }}</div>
                     <div class="col-sm-12">
                       <select v-validate="'required'" class="form-control ls-select2 m-w-130" v-model="selectedGroup" name="competition">
                         <option value="">Select category</option>
@@ -51,7 +51,7 @@
               <div class="row">
                 <div class="col-sm-6">
                   <div class="form-group row">
-                    <label class="col-sm-12 col-form-label">{{ $lang.pitch_planner_automatic_planning_team_interval }}</label>
+                    <div class="col-sm-12 col-form-label">{{ $lang.pitch_planner_automatic_planning_team_interval }}</div>
                     <div class="col-sm-12">
                       <input v-model="team_interval" name="team_interval" type="text" class="form-control" readonly="readonly">
                     </div>
@@ -59,7 +59,7 @@
                 </div>
                 <div class="col-sm-6">
                   <div class="form-group row">
-                    <label class="col-sm-12 col-form-label">{{ $lang.pitch_planner_automatic_planning_total_normal_matches_duration }}</label>
+                    <div class="col-sm-12 col-form-label">{{ $lang.pitch_planner_automatic_planning_total_normal_matches_duration }}</div>
                     <div class="col-sm-12">
                       <input v-model="normal_match_duration" name="team_interval" type="text" class="form-control" readonly="readonly">
                     </div>
@@ -69,7 +69,7 @@
               <div class="row">
                 <div class="col-sm-6">
                   <div class="form-group row">
-                    <label class="col-sm-12 col-form-label">{{ $lang.pitch_planner_automatic_planning_total_final_matches_duration }}</label>
+                    <div class="col-sm-12 col-form-label">{{ $lang.pitch_planner_automatic_planning_total_final_matches_duration }}</div>
                     <div class="col-sm-12">
                       <input v-model="final_match_duration" name="team_interval" type="text" class="form-control" readonly="readonly">
                     </div>
@@ -77,7 +77,7 @@
                 </div>
                 <div class="col-sm-6">
                   <div class="form-group row">
-                    <label class="col-sm-12 col-form-label">{{ $lang.pitch_planner_automatic_planning_pitch_selection }}</label>
+                    <div class="col-sm-12 col-form-label">{{ $lang.pitch_planner_automatic_planning_pitch_selection }}</div>
                     <div class="col-sm-12">
                       <multiselect name="sel_pitch" id="sel_pitch" :options="availablePitches" :multiple="true" :hide-selected="false" :ShowLabels="false" track-by="id" @close="onTouch" label="pitch_number" :value="selectedPitches" :clear-on-select="false" :Searchable="true" @input="onChange" @select="onSelect" @remove="onRemove">
                       </multiselect>

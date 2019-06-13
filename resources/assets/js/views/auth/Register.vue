@@ -156,6 +156,7 @@
                         if (!this.errors.any()) {
                             this.disabled = true; 
                             axios.post(Constant.apiBaseUrl+'commercialisation/thankyou', this.registerData).then(response =>  {
+                                Ls.set('registrationMessage',1)
                                  // this.$store.dispatch('SetTournamentName', tournamentSel);
                                  if (response.data.success) {
                                     this.$router.push({'name':'login'})
