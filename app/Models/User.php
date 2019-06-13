@@ -168,7 +168,6 @@ class User extends Authenticatable implements HasRoleAndPermissionContract, CanR
         $send_otp='';
         
         $subject = $emailSubject . ' - Reset password';
-        
         // Set OTP
         if(!empty($this->roles()->first()) && ($this->roles()->first()->id == $mobileUserRoleId)) {
             $subject = $emailSubject . ' - Password Reset';
