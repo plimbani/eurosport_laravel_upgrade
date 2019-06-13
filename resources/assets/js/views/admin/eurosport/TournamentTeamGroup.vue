@@ -10,8 +10,8 @@
               </div>
             </div>
             <div class="form-group row">
-              <label class="col-sm-2 form-control-label">Import file</label>
-              <div class="col-sm-10">
+              <label class="col-sm-3 form-control-label">Import file</label>
+              <div class="col-sm-9">
                 <form method="post" name="frmCsvImport" id="frmCsvImport" enctype="multipart/form-data">
                   <div class="row">
                     <div class="col align-self-center">
@@ -33,8 +33,8 @@
             </div>
       		  <div class="form-group row">
               <div class="col-sm-12 mb-2 text-muted">Choose an age category to allocate teams to groups.</div>
-              <label class="col-sm-2 form-control-label">Select age category</label>
-              <div class="col-sm-10">
+              <label class="col-sm-3 form-control-label">Select age category</label>
+              <div class="col-sm-9">
                 <div class="row">
                   <div class="col-sm-4">
                     <div class="form-group">
