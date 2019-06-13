@@ -166,9 +166,7 @@ class User extends Authenticatable implements HasRoleAndPermissionContract, CanR
         $mobileUserRoleId = Role::where('slug', 'mobile.user')->first()->id;
         $name = (isset($this->personDetail->first_name)) ? $this->personDetail->first_name : $this->name;
         $send_otp='';
-        
         $subject = $emailSubject . ' - Reset password';
-        
         // Set OTP
         if(!empty($this->roles()->first()) && ($this->roles()->first()->id == $mobileUserRoleId)) {
             $subject = $emailSubject . ' - Password Reset';
