@@ -40,16 +40,6 @@
                                         <span class="help is-danger" v-show="errors.has('email') && errors.first('email') == 'The email field is required.'">{{$lang.login_email_validation_message}}</span>
                                     </div>
 
-                                    <label>Password</label>
-                                    <div class="form-group">
-                                       <input id="password" type="password" class="form-control" placeholder="Enter password" name="password" v-model="registerData.password" v-validate="{ rules: { required: true } }" ref="password">
-                                       <span class="help is-danger" v-show="errors.has('password')">{{errors.first('password')}}</span>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <input id="password-confirm" type="password" class="form-control" placeholder="Confirm password" name="password_confirmation" v-model="registerData.password_confirmation" v-validate="'required|confirmed:password'">
-                                        <span class="help is-danger" v-show="errors.has('password_confirmation')">{{errors.first('password_confirmation')}}</span>
-                                    </div>
                                     <h3 class="text-uppercase font-weight-bold mt-5">Your organisation</h3>
                                 </div>
                             </div>
@@ -145,8 +135,6 @@
                     first_name: '',
                     last_name: '',
                     email: '',
-                    password: '',
-                    password_confirmation: '',
                     organisation: '',
                     job_title: '',
                     address: '',
@@ -154,32 +142,6 @@
                     city: '',
                     zip: '',
                     country:'',
-                },
-                errorMessages: {
-                    en: {
-                        custom: {
-                          password: {
-                            required: 'This field is required.',
-                            min: 'Your password must be at least 5 characters long'
-                          },
-                          password_confirmation: {
-                            required: 'This field is required.',
-                            confirmed: 'Passwords do not match'
-                          }
-                        }
-                    },
-                    fr: {
-                        custom: {
-                          password: {
-                            required: 'FThis field is required.',
-                            min: 'FYour password must be at least 5 characters long'
-                          },
-                          password_confirmation: {
-                            required: 'FThis field is required.',
-                            confirmed: 'FPasswords do not match'
-                          }
-                        }
-                    }               
                 },
                 countries:{},
                 disabled:false
@@ -196,7 +158,7 @@
                             axios.post(Constant.apiBaseUrl+'commercialisation/thankyou', this.registerData).then(response =>  {
                                  // this.$store.dispatch('SetTournamentName', tournamentSel);
                                  if (response.data.success) {
-                                    this.$router.push({'name':'thankyou'})
+                                    this.$router.push({'name':'login'})
                                  }else{
                                      toastr['error'](response.data.message, 'Error');
                                  }
