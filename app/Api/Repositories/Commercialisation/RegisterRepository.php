@@ -47,7 +47,6 @@ class RegisterRepository
                 'name' => $data['first_name'] . " " . $data['last_name'],
                 'email' => $data['email'],
                 'organisation' => !empty($data['organisation']) ? $data['organisation'] : '',
-                'password' => Hash::make($data['password']),
                 'is_mobile_user' => 1,
                 'is_desktop_user' => 1,
                 'registered_from' => 1,
@@ -64,8 +63,7 @@ class RegisterRepository
             
             return [
                 'user' => $user,
-                'role' => [$role],
-                'token' => JWTAuth::attempt(['email' => $newUser['email'], 'password' => $data['password']])
+                'role' => [$role]
             ];
         } else {
             return false;
