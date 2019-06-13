@@ -583,7 +583,7 @@ class TournamentRepository
     }
     public function getUserLoginFavouriteTournament($data)
     {
-
+        \Log::info('getUserLoginFavouriteTournament:' .json_encode($data));
         //$url = getenv('S3_URL').'/assets/img/tournament_logo/';
         // Now here we attach the tournament Start Date Seperately for check the first started match
         $userData = UserFavourites::where('users_favourite.user_id', '=', $data['user_id'])
