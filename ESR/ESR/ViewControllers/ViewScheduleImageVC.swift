@@ -17,7 +17,7 @@ class ViewScheduleImageVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        TestFairy.log(String(describing: self))
         scrollView.delegate = self
         scrollView.minimumZoomScale = 1.0
         scrollView.maximumZoomScale = 10.0
@@ -39,6 +39,7 @@ class ViewScheduleImageVC: UIViewController {
     }
     
     @IBAction func btnClosePressed(_ sender: UIButton) {
+        TestFairy.log(String(describing: self) + " btnClosePressed")
         for viewController in self.navigationController!.viewControllers {
             if viewController is TabAgeCategoriesVC {
                 (viewController as! TabAgeCategoriesVC).rotateToPortrait = true

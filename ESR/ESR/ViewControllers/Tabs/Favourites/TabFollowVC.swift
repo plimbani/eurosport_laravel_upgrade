@@ -22,6 +22,7 @@ class TabFollowVC: SuperViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        TestFairy.log(String(describing: self))
         self.navigationController?.isNavigationBarHidden = true
         intialize()
     }
@@ -89,6 +90,7 @@ class TabFollowVC: SuperViewController {
     }
     
     @IBAction func updateTournamentBtnPressed(_ sender: UIButton) {
+        TestFairy.log(String(describing: self) + " updateTournamentBtnPressed")
         accessCodeAPI()
     }
     
@@ -228,6 +230,7 @@ extension TabFollowVC: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        TestFairy.log(String(describing: self) + " didSelectRowAt")
         accessCodeAPI(accessCode: tournamentList[indexPath.row].accessCode)
     }
 }

@@ -20,6 +20,7 @@ class GroupListVC: SuperViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        TestFairy.log(String(describing: self))
         initialize()
     }
     
@@ -122,9 +123,7 @@ extension GroupListVC: CustomAlertVCDelegate {
 }
 
 extension GroupListVC: UITextFieldDelegate {
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        
-    }
+    func textFieldDidBeginEditing(_ textField: UITextField) {}
 }
 
 extension GroupListVC: UITableViewDataSource, UITableViewDelegate {
@@ -161,6 +160,7 @@ extension GroupListVC: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        TestFairy.log(String(describing: self) + " didSelectRowAt")
         self.view.endEditing(true)
         txtSearch.resignFirstResponder()
         let viewController = Storyboards.Teams.instantiateTeamListingVC()

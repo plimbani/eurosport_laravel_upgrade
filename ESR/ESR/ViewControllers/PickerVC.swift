@@ -26,7 +26,7 @@ class PickerVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        TestFairy.log(String(describing: self))
         btnDone.setTitleTextAttributes([NSAttributedStringKey(rawValue: NSAttributedStringKey.font.rawValue): UIFont(name: Font.HELVETICA_REGULAR, size: Font.Size.commonBtnSize)], for: .normal)
         btnCancel.setTitleTextAttributes([NSAttributedStringKey(rawValue: NSAttributedStringKey.font.rawValue): UIFont(name: Font.HELVETICA_REGULAR, size: Font.Size.commonBtnSize)], for: .normal)
         
@@ -40,16 +40,19 @@ class PickerVC: UIViewController {
     }
     
     @objc func handleTap(_ sender: UITapGestureRecognizer? = nil) {
+        TestFairy.log(String(describing: self) + " handleTap")
         self.dismiss(animated: true, completion: nil)
         delegate?.pickerVCCancelBtnPressed()
     }
     
     @IBAction func cancelButtonPressed(_ sender: UIBarButtonItem) {
+        TestFairy.log(String(describing: self) + " cancelButtonPressed")
         self.dismiss(animated: true, completion: nil)
         delegate?.pickerVCCancelBtnPressed()
     }
     
     @IBAction func doneButtonPressed(_ sender: UIBarButtonItem) {
+        TestFairy.log(String(describing: self) + " doneButtonPressed")
         delegate?.pickerVCDoneBtnPressed(title: titleList[selectedPickerPosition], lastPosition: selectedPickerPosition)
         self.dismiss(animated: true, completion: nil)
     }

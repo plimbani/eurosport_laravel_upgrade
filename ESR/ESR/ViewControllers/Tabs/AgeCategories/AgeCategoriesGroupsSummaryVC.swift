@@ -41,6 +41,7 @@ class AgeCategoriesGroupsSummaryVC: SuperViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        TestFairy.log(String(describing: self))
         initialize()
     }
     
@@ -124,6 +125,7 @@ class AgeCategoriesGroupsSummaryVC: SuperViewController {
     }
     
     @objc func onTabStandingViewPressed(sender : UITapGestureRecognizer) {
+        TestFairy.log(String(describing: self) + " onTabStandingViewPressed")
         tabStandingsSeparator.backgroundColor = UIColor.AppColor()
         tabMatchesSeparator.backgroundColor = UIColor.clear
         selectedTab = 0
@@ -136,6 +138,7 @@ class AgeCategoriesGroupsSummaryVC: SuperViewController {
     }
     
     @objc func onTabMatchViewPressed(sender : UITapGestureRecognizer) {
+        TestFairy.log(String(describing: self) + " onTabMatchViewPressed")
         tabMatchesSeparator.backgroundColor = UIColor.AppColor()
         tabStandingsSeparator.backgroundColor = UIColor.clear
         selectedTab = 1
@@ -148,10 +151,12 @@ class AgeCategoriesGroupsSummaryVC: SuperViewController {
     }
     
     @objc func onGroupViewPressed(sender : UITapGestureRecognizer) {
+        TestFairy.log(String(describing: self) + " onGroupViewPressed")
         showPickerVC(selectedPosition: selectedPickerPosition, titleList: titleList, delegate: self)
     }
     
     @objc func onFooterGroupStandingView(sender : UITapGestureRecognizer) {
+        TestFairy.log(String(describing: self) + " onFooterGroupStandingView")
         if let mainTabViewController = self.parent!.parent as? MainTabViewController {
             mainTabViewController.hideTabbar()
         }
@@ -417,7 +422,7 @@ extension AgeCategoriesGroupsSummaryVC : UITableViewDataSource, UITableViewDeleg
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        TestFairy.log(String(describing: self) + " didSelectRowAt")
         if selectedTab == 1 {
             let viewController = Storyboards.AgeCategories.instantiateMatchInfoVC()
             viewController.dicTeamFixture = self.teamFixuteuresList[indexPath.row]

@@ -14,7 +14,7 @@ class GetStartedTournamentVC: SuperViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        TestFairy.log(String(describing: self))
         btnSubmit.isEnabled = false
         btnSubmit.backgroundColor = UIColor.btnDisable
         
@@ -27,6 +27,7 @@ class GetStartedTournamentVC: SuperViewController {
     }
     
     @IBAction func btnSubmitPressed(_ sender: UIButton) {
+        TestFairy.log(String(describing: self) + " btnSubmitPressed")
         accessCodeAPI()
     }
     

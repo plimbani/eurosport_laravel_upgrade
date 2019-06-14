@@ -21,6 +21,7 @@ class TabTeamsVC: SuperViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        TestFairy.log(String(describing: self))
         self.navigationController?.isNavigationBarHidden = true
         initialize()
     }
@@ -70,6 +71,7 @@ class TabTeamsVC: SuperViewController {
     }
     
     @objc func onTabSelected(sender : UITapGestureRecognizer) {
+        TestFairy.log(String(describing: self) + " onTabSelected")
         
         if let viewValue = sender.view {
             if selectedIndex != viewValue.tag {

@@ -57,6 +57,7 @@ class CreateAccountVC: SuperViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        TestFairy.log(String(describing: self))
         initialize()
         let tap = UITapGestureRecognizer(target: self, action: #selector(onLogoImageClick(_:)))
         logoImg.isUserInteractionEnabled = true
@@ -196,6 +197,7 @@ class CreateAccountVC: SuperViewController {
     }
     
     @objc func termsNPolicyPressed(gestureRecognizer: UITapGestureRecognizer) {
+        TestFairy.log(String(describing: self) + " termsNPolicyPressed")
         if let txtViewTermsNPrivacy = gestureRecognizer.view as? UITextView {
             let location: CGPoint = gestureRecognizer.location(in: txtViewTermsNPrivacy)
             
@@ -214,6 +216,7 @@ class CreateAccountVC: SuperViewController {
     }
     
     @objc func onLogoImageClick(_ sender : UITapGestureRecognizer) {
+        TestFairy.log(String(describing: self) + " onLogoImageClick")
         self.navigationController?.popToRootViewController(animated: true)
     }
     
@@ -282,11 +285,12 @@ class CreateAccountVC: SuperViewController {
     }
     
     @IBAction func btnBackPressed(_ sender: UIButton) {
+        TestFairy.log(String(describing: self) + " btnBackPressed")
         self.navigationController?.popViewController(animated: true)
     }
     
     @objc func btnCreateAccountPressed(_ btn: UIButton) {
-        
+        TestFairy.log(String(describing: self) + " btnCreateAccountPressed")
         if txtPassword.text!.trimmingCharacters(in: .whitespacesAndNewlines).count < 5 {
             showCustomAlertVC(title: String.localize(key: "alert_title_error"), message: String.localize(key: "alert_msg_password_length"))
             return

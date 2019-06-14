@@ -18,6 +18,7 @@ class TabAgeCategoriesVC: SuperViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        TestFairy.log(String(describing: self))
         initialize()
     }
     
@@ -129,12 +130,14 @@ extension TabAgeCategoriesVC: CustomAlertVCDelegate {
 
 extension TabAgeCategoriesVC: TabAgeCategoriesCellDelegate {
     func tabAgeCategoriesCellBtnInfoPressed(_ indexPath: IndexPath) {
+        TestFairy.log(String(describing: self) + " tabAgeCategoriesCellBtnInfoPressed")
         if let comment = (ageCategoriesList[indexPath.row] as! NSDictionary).value(forKey: "comments") as? String {
            self.showCustomAlertVC(title: String.localize(key: "alert_title_success"), message: comment)
         }
     }
     
     func tabAgeCategoriesCellBtnViewSchedulePressed(_ indexPath: IndexPath) {
+        TestFairy.log(String(describing: self) + " tabAgeCategoriesCellBtnViewSchedulePressed")
         let viewController = Storyboards.Main.instantiateViewScheduleImageVC()
         
         if let imgURLValue = (ageCategoriesList[indexPath.row] as! NSDictionary).value(forKey: "graphic_image") as? String {
@@ -169,6 +172,7 @@ extension TabAgeCategoriesVC: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        TestFairy.log(String(describing: self) + " didSelectRowAt")
         let viewController = Storyboards.AgeCategories.instantiateAgeCategoriesGroupsVC()
         viewController.ageCategoryId = (ageCategoriesList[indexPath.row] as! NSDictionary).value(forKey: "id") as! Int
         self.navigationController?.pushViewController(viewController, animated: true)

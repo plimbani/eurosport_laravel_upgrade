@@ -32,6 +32,7 @@ class MainTabViewController: SuperViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        TestFairy.log(String(describing: self))
         initialize()
     }
     
@@ -136,10 +137,12 @@ class MainTabViewController: SuperViewController {
     }
     
     @objc func callAccessCodeAPI(_ notification: NSNotification) {
+        TestFairy.log(String(describing: self) + " callAccessCodeAPI")
         accessCodeAPI()
     }
     
     @objc func goToTabFollow(_ notification: NSNotification) {
+        TestFairy.log(String(describing: self) + " goToTabFollow")
         onTabSelected(btn: tabButtonList[TabIndex.tabFav.rawValue])
     }
     
@@ -325,6 +328,7 @@ class MainTabViewController: SuperViewController {
     }
     
     @objc func onTabSelected(btn: UIButton) {
+        TestFairy.log(String(describing: self) + " onTabSelected")
         
         if selectedIndex != btn.tag {
             selectedIndex = btn.tag

@@ -28,6 +28,7 @@ class CategoryListVC: SuperViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        TestFairy.log(String(describing: self))
         initialize()
     }
     
@@ -214,6 +215,7 @@ extension CategoryListVC: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        TestFairy.log(String(describing: self) + " didSelectRowAt")
         self.view.endEditing(true)
         txtSearch.resignFirstResponder()
         var dic: NSDictionary!

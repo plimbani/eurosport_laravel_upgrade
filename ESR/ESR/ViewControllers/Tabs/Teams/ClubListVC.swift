@@ -20,6 +20,7 @@ class ClubListVC: SuperViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        TestFairy.log(String(describing: self))
         initialize()
     }
     
@@ -152,6 +153,7 @@ extension ClubListVC: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        TestFairy.log(String(describing: self) + " didSelectRowAt")
         self.view.endEditing(true)
         txtSearch.resignFirstResponder()
         let viewController = Storyboards.Teams.instantiateTeamListingVC()
