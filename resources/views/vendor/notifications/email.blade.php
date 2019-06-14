@@ -118,7 +118,7 @@
       <table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td style="vertical-align:top;width:600px;">
       <![endif]--><div class="mj-column-per-100 outlook-group-fix" style="vertical-align:top;display:inline-block;direction:ltr;font-size:13px;text-align:left;width:100%;"><table role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0"><tbody><tr><td style="word-wrap:break-word;font-size:0px;padding:10px 25px;" align="center"><div class="" style="cursor:auto;color:#555;font-family:Roboto, Helvetica, Arial, sans-serif;font-size:16px;font-weight:300;line-height:24px;text-align:center;"><p style="line-height:14px">
         <small>&copy; {{ Carbon\Carbon::now()->format('Y') }} @if($currentLayout == "tmp") TMP Applications BV. @else Easy Match Manager. @endif Developed by
-          <a href="https://aecordigital.com" style="color: #0078AB; text-decoration: none;">aecor</a>.
+          <a href="https://aecordigital.com" style="color: #0078AB; text-decoration: none;"><u>aecor</u></a>.
         </small>
       </p></div></td></tr></tbody></table></div><!--[if mso | IE]>
       </td></tr></table>
