@@ -531,7 +531,7 @@ class TemplateRepository
                 $times = $this->getNumberOfTimesFromString($times);
                 $fetchRoundMatches = $this->ageGroupService->generateRoundFixturesBaseOnTeam($noOfTeams);
 
-                $matches = $this->ageGroupService->leagueKnockoutJsonMatches($fetchRoundMatches,$roundIndex,$groupName,$times);
+                $matches = $this->ageGroupService->leagueKnockoutJsonMatches($fetchRoundMatches, $roundIndex, $groupName, $times, $startRoundCount);
                 $group['matches'] = $matches;
             }
 
@@ -650,7 +650,7 @@ class TemplateRepository
                 }
             }
 
-            if(($divisionIndex === -1 && $roundIndex > 0 && $group['type'] === "round_robin")) {
+            if(($roundIndex > 0 && $group['type'] === "round_robin")) {
                 $times = $this->getNumberOfTimesFromString($times);
                 $fetchRoundMatches = $this->ageGroupService->generateRoundFixturesBaseOnTeam($noOfTeams);
 
@@ -726,7 +726,7 @@ class TemplateRepository
                             if($teamType !== '') {
                                 $displayMatchNumber = 'CAT.'. ($startRoundCount + $roundIndex + 1) . '.' . $weekNumber . '.' . $teamType . '(' . $homeTeamData['teamDisplayMatchNumber'] . '-' . $awayTeamData['teamDisplayMatchNumber'] . ')';
                             } else {
-                                $displayMatchNumber = 'CAT.'. ($startRoundCount + $roundIndex + 1) . '.' . $weekNumber . '.' . $homeTeamData['teamDisplayMatchNumber'] . '-' . $awayTeamData['teamDisplayMatchNumber'];    
+                                $displayMatchNumber = 'CAT.'. ($startRoundCount + $roundIndex + 1) . '.' . $weekNumber . '.' . $homeTeamData['teamDisplayMatchNumber'] . '-' . $awayTeamData['teamDisplayMatchNumber'];
                             }
                             
                             $displayHomeTeamPlaceholderName = $homeTeamData['teamDisplayPlaceholderName'];

@@ -117,8 +117,8 @@
                         startPlacingGroupCount +=  _.filter(round.groups, function(o) { return o.type === 'placing_match'; }).length;
                         _.forEach(round.groups, function(group, groupIndex) {
                             if(group.type === 'round_robin') {
-                                vm.templateFormDetail.steptwo.divisions[divisionIndex].rounds[index].groups[groupIndex].start_match_count = groupMatchesCount[index];
-                                groupMatchesCount[index] += (group.teams.length - 1) * (group.teams.length/2) * vm.teamsPlayEachOther[group.teams_play_each_other];
+                                vm.templateFormDetail.steptwo.divisions[divisionIndex].rounds[index].groups[groupIndex].start_match_count = 0;
+                                // groupMatchesCount[index] += (group.teams.length - 1) * (group.teams.length/2) * vm.teamsPlayEachOther[group.teams_play_each_other];
                             }
                             if(group.type === 'placing_match') {
                                 vm.templateFormDetail.steptwo.divisions[divisionIndex].rounds[index].groups[groupIndex].start_match_count = groupMatchesCount[index];

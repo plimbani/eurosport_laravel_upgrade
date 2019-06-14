@@ -6,7 +6,7 @@
                 <label>Number of teams in division</label>
                 <select class="form-control ls-select2" v-model="divisionData.no_of_teams" @change="onTeamChange(index)">
                     <option value="">Number of teams</option>
-                    <option v-for="n in 28" v-if="n >= 4" :value="n">{{ n }}</option>
+                    <option v-for="n in 28" v-if="n >= 2" :value="n">{{ n }}</option>
                 </select>
             </div>
 
