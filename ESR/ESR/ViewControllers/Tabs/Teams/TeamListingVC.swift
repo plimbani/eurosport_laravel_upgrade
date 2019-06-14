@@ -21,6 +21,7 @@ class TeamListingVC: SuperViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        TestFairy.log(String(describing: self))
         initialize()
     }
     
@@ -128,6 +129,7 @@ extension TeamListingVC: CustomAlertVCDelegate {
 
 extension TeamListingVC: TitleNavigationBarDelegate {
     func titleNavBarBackBtnPressed() {
+        TestFairy.log(String(describing: self) + " titleNavBarBackBtnPressed")
         self.navigationController?.popViewController(animated: true)
     }
 }

@@ -17,6 +17,7 @@ class AllMatchesVC: SuperViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        TestFairy.log(String(describing: self))
         initialize()
     }
     
@@ -153,7 +154,7 @@ extension AllMatchesVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        TestFairy.log(String(describing: self) + " didSelectRowAt")
         let viewController = Storyboards.AgeCategories.instantiateMatchInfoVC()
         viewController.dicTeamFixture = self.teamFixuteuresList[indexPath.row]
         self.navigationController?.pushViewController(viewController, animated: true)

@@ -17,6 +17,7 @@ class TabFavouritesVC: SuperViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        TestFairy.log(String(describing: self))
         self.navigationController?.isNavigationBarHidden = true
         initialize()
     }
@@ -233,6 +234,8 @@ class TabFavouritesVC: SuperViewController {
 
 extension TabFavouritesVC: FavouriteTournamentCellDelegate {
     func favTournamentCellFavBtnPressed(_ indexPath: IndexPath) {
+        TestFairy.log(String(describing: self) + " favTournamentCellFavBtnPressed")
+        
         let tournament = tournamentList[indexPath.row]
         
         if tournament.isDefault == 1 {

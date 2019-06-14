@@ -18,6 +18,7 @@ class ForgotPasswordVC: SuperViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        TestFairy.log(String(describing: self))
         initialize()
         let tap = UITapGestureRecognizer(target: self, action: #selector(onLogoImageClick(_:)))
         logoImg.isUserInteractionEnabled = true
@@ -59,6 +60,7 @@ class ForgotPasswordVC: SuperViewController {
     }
     
     @IBAction func btnBackPressed(_ sender: UIButton) {
+        TestFairy.log(String(describing: self) + " btnBackPressed")
         self.navigationController?.popViewController(animated: true)
     }
     
@@ -133,9 +135,11 @@ class ForgotPasswordVC: SuperViewController {
     }
     
     @IBAction func onSubmitBtnPressed(_ sender: UIButton) {
+        TestFairy.log(String(describing: self) + " onSubmitBtnPressed")
         sendForgotPasswordRequest()
     }
     @objc func onLogoImageClick(_ sender : UITapGestureRecognizer) {
+        TestFairy.log(String(describing: self) + " onLogoImageClick")
         self.navigationController?.popToRootViewController(animated: true)
     }
 }

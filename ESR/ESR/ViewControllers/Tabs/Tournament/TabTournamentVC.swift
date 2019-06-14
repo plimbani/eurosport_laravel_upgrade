@@ -52,6 +52,7 @@ class TabTournamentVC: SuperViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        TestFairy.log(String(describing: self))
         initialize()
     }
     
@@ -214,7 +215,7 @@ class TabTournamentVC: SuperViewController {
     }
     
     @objc func onSelectTournament(_ sender : UITapGestureRecognizer) {
-        // pickerHandlerView.show()
+        TestFairy.log(String(describing: self) + " onSelectTournament")
         showPickerVC(selectedPosition: selectedPosition, titleList: titleList, delegate: self)
     }
     
@@ -227,6 +228,7 @@ class TabTournamentVC: SuperViewController {
     }
     
     @IBAction func onAgeCategoriesPressed(_ sender: UIButton) {
+        TestFairy.log(String(describing: self) + " onAgeCategoriesPressed")
         if ApplicationData.sharedInstance().isTournamentInPreview() {
             showCustomAlertVC(title: String.localize(key: "alert_title_preview"), message: String.localize(key: "alert_preview_tournament"), requestCode: 100, delegate: self)
             return
@@ -240,6 +242,7 @@ class TabTournamentVC: SuperViewController {
     }
     
     @IBAction func onTeamPressed(_ sender: UIButton) {
+        TestFairy.log(String(describing: self) + " onTeamPressed")
         if ApplicationData.sharedInstance().isTournamentInPreview() {
             showCustomAlertVC(title: String.localize(key: "alert_title_preview"), message: String.localize(key: "alert_preview_tournament"), requestCode: 102, delegate: self)
             return
@@ -249,7 +252,7 @@ class TabTournamentVC: SuperViewController {
     }
     
     @IBAction func onTournamentDetailsPressed(_ sender: UIButton) {
-        
+        TestFairy.log(String(describing: self) + " onTournamentDetailsPressed")
         if let selectedTournament = ApplicationData.sharedInstance().getSelectedTournament() {
             tournamentDetailsView.nameString = selectedTournament.firstName + " " + selectedTournament.lastName
             tournamentDetailsView.contactString = selectedTournament.telephone

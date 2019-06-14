@@ -28,6 +28,7 @@ class CustomAlertTwoBtnVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        TestFairy.log(String(describing: self))
         initialize()
     }
     
@@ -55,11 +56,13 @@ class CustomAlertTwoBtnVC: UIViewController {
     }
     
     @IBAction func yesButtonPressed(_ sender: UIButton) {
+        TestFairy.log(String(describing: self) + " yesButtonPressed")
         delegate?.customAlertTwoBtnVCYesBtnPressed(requestCode: requestCode)
         self.dismiss(animated: true, completion: nil)
     }
     
     @IBAction func noButtonPressed(_ sender: UIButton) {
+        TestFairy.log(String(describing: self) + " noButtonPressed")
         delegate?.customAlertTwoBtnVCNoBtnPressed!(requestCode: requestCode)
         self.dismiss(animated: true, completion: nil)
     }

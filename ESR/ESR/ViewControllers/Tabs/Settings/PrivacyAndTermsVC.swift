@@ -13,6 +13,7 @@ class PrivacyAndTermsVC: SuperViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        TestFairy.log(String(describing: self))
         tvHtmlContent.delegate = self
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(termsNPolicyPressed))

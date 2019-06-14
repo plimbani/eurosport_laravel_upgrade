@@ -25,6 +25,7 @@ class CustomAlertVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        TestFairy.log(String(describing: self))
         initialize()
     }
     
@@ -47,6 +48,7 @@ class CustomAlertVC: UIViewController {
     }
     
     @IBAction func btnOkPressed(_ sender: UIButton) {
+        TestFairy.log(String(describing: self) + " btnOkPressed")
         delegate?.customAlertVCOkBtnPressed(requestCode: requestCode)
         self.dismiss(animated: true, completion: nil)
     }

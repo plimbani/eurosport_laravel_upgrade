@@ -27,6 +27,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         _ = ApplicationData.sharedInstance()
+        TestFairy.begin("SDK-7273syUD")
+        
         // Keyboard manager
         IQKeyboardManager.shared.enable = true
         

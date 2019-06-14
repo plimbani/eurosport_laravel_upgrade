@@ -60,6 +60,7 @@ class ProfileVC: SuperViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        TestFairy.log(String(describing: self))
         initialize()
     }
     
@@ -566,6 +567,7 @@ extension ProfileVC : UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+         TestFairy.log(String(describing: self) + " didSelectRowAt")
          self.view.endEditing(true)
         
          if indexPath.row == SettingsList.role.rawValue {

@@ -108,6 +108,7 @@ class TeamVC: SuperViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        TestFairy.log(String(describing: self))
         initialize()
     }
     
@@ -676,6 +677,7 @@ extension TeamVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        TestFairy.log(String(describing: self) + " didSelectRowAt")
         if selectedTab == 0 {
             
             if indexPath.row == groupStandingsList.count {

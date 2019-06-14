@@ -22,6 +22,7 @@ class LoginVC: SuperViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        TestFairy.log(String(describing: self))
         initialize()
         let tap = UITapGestureRecognizer(target: self, action: #selector(onLogoImageClick(_:)))
         logoImg.isUserInteractionEnabled = true
@@ -262,22 +263,27 @@ class LoginVC: SuperViewController {
     }
     
     @IBAction func btnBackPressed(_ sender: UIButton) {
+        TestFairy.log(String(describing: self) + " btnBackPressed")
         self.navigationController?.popViewController(animated: true)
     }
     
     @IBAction func rememberMeBtnPressed(_ sender: UIButton) {
+        TestFairy.log(String(describing: self) + " rememberMeBtnPressed")
         isRememberMe = !isRememberMe
         btnRememberMe.setImage(isRememberMe ? UIImage.init(named: "icon_check") : UIImage.init(named: "icon_uncheck"), for: .normal)
     }
     
     @IBAction func signInBtnPressed(_ sender: UIButton) {
+        TestFairy.log(String(describing: self) + " signInBtnPressed")
         loginAPI()
     }
     
     @IBAction func forgotPassBtnPressed(_ sender: UIButton) {
+        TestFairy.log(String(describing: self) + " forgotPassBtnPressed")
         self.navigationController?.pushViewController(Storyboards.Main.instantiateForgotPasswordVC(), animated: true)
     }
     @objc func onLogoImageClick(_ sender : UITapGestureRecognizer) {
+        TestFairy.log(String(describing: self) + " onLogoImageClick")
         self.navigationController?.popToRootViewController(animated: true)
     }
 }

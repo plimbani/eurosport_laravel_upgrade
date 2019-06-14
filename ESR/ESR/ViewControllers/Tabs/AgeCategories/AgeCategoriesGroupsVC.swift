@@ -17,6 +17,7 @@ class AgeCategoriesGroupsVC: SuperViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        TestFairy.log(String(describing: self))
         initialize()
     }
     
@@ -110,10 +111,12 @@ extension AgeCategoriesGroupsVC: CustomAlertVCDelegate {
 
 extension AgeCategoriesGroupsVC: TitleNavigationBarDelegate {
     func titleNavBarBackBtnPressed() {
+        TestFairy.log(String(describing: self) + " titleNavBarBackBtnPressed")
         self.navigationController?.popViewController(animated: true)
     }
     
     func titleNavBarBtnFinalPlacingsPressed() {
+        TestFairy.log(String(describing: self) + " titleNavBarBtnFinalPlacingsPressed")
         let viewController = Storyboards.Tournament.instantiateFinalPlacingsVC()
         viewController.ageCategoryId = ageCategoryId
         self.navigationController?.pushViewController(viewController, animated: true)
@@ -143,6 +146,7 @@ extension AgeCategoriesGroupsVC : UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        TestFairy.log(String(describing: self) + " didSelectRowAt")
         let viewController = Storyboards.AgeCategories.instantiateAgeCategoriesGroupsSummaryVC()
         viewController.dicGroup = (ageCategoriesGroupsList[indexPath.row] as! NSDictionary)
         viewController.selectedPickerPosition = indexPath.row

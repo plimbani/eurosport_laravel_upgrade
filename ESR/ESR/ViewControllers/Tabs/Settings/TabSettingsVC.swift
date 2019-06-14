@@ -15,6 +15,7 @@ class TabSettingsVC: SuperViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        TestFairy.log(String(describing: self))
         self.navigationController?.isNavigationBarHidden = true
         initialize()
     }
@@ -115,6 +116,7 @@ extension TabSettingsVC: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        TestFairy.log(String(describing: self) + " didSelectRowAt")
         if let record = fieldList[indexPath.row] as? NSDictionary {
             if let identifier = record.value(forKey: "identifier") as? String {
                 if !identifier.isEmpty {
