@@ -61,18 +61,18 @@
         },
         computed: {
             isDisabled() {
+                let vm = this;
                 let rounds = this.templateFormDetail.steptwo.rounds;
-                var isMatched = false;
-                _.forEach(rounds, function(round) {
-                    let totalGroupTeams = 0;
-                    _.forEach(round.groups, function(groupValue) {
-                        totalGroupTeams += Number(groupValue.no_of_teams);
+                let isMatched = this.checkForTeamCount(rounds, -1);
+
+                if(!isMatched) {
+                    _.forEach(vm.templateFormDetail.steptwo.divisions, function(division, divisionIndex) {
+                        isMatched = vm.checkForTeamCount(division.rounds, divisionIndex);
+                        if(isMatched) {
+                            return false;
+                        }
                     });
-                    if(round.no_of_teams !== totalGroupTeams) {
-                        isMatched = true;
-                        return false;
-                    }
-                });
+                }
 
                 return isMatched;
             }
@@ -149,8 +149,15 @@
                 let totalGroupTeams = 0;
                 let round = this.templateFormDetail.steptwo.rounds[roundIndex];
                 let roundTeams = round.no_of_teams;
-                _.forEach(round.groups, function(groupValue) {
-                    totalGroupTeams += Number(groupValue.no_of_teams);
+                let isPlacingMatchRecorded = false;
+                _.forEach(round.groups, function(group) {
+                    if(isPlacingMatchRecorded && roundIndex === 0 && group.type === 'placing_match') {
+                        return true;
+                    }
+                    totalGroupTeams += Number(group.no_of_teams);
+                    if(group.type === 'placing_match' && roundIndex === 0) {
+                        isPlacingMatchRecorded = true;
+                    }
                 });
                 if(roundTeams === totalGroupTeams) {
                     isMatched = true;
@@ -158,6 +165,27 @@
 
                 return isMatched;
             },
+            checkForTeamCount(rounds, divisionIndex) {
+                let isMatched = false;
+                _.forEach(rounds, function(round, roundIndex) {
+                    let totalGroupTeams = 0;
+                    let isPlacingMatchRecorded = false;
+                    _.forEach(round.groups, function(group) {
+                        if(isPlacingMatchRecorded && roundIndex === 0 && divisionIndex === -1 && group.type === 'placing_match') {
+                            return true;
+                        }
+                        totalGroupTeams += Number(group.no_of_teams);
+                        if(group.type === 'placing_match' && roundIndex === 0 && divisionIndex === -1) {
+                            isPlacingMatchRecorded = true;
+                        }
+                    });
+                    if(round.no_of_teams !== totalGroupTeams) {
+                        isMatched = true;
+                        return false;
+                    }
+                });
+                return isMatched;
+            }
         },
     }
 </script>
