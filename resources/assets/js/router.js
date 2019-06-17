@@ -363,6 +363,11 @@ const routes = [
                 component: PasswordReset,
                 name: 'reset'
             },
+            {
+            path: 'user/setpassword/:token*',
+                component: PasswordSet,
+                name: 'PasswordSet'
+            },
         ]
     },
     {
