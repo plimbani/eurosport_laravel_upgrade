@@ -34,7 +34,6 @@ use Laraspace\Http\Requests\User\SetDefaultFavouriteRequest;
 use Laraspace\Http\Requests\User\TournamentPermissionRequest;
 use Laraspace\Http\Requests\User\GetSignedUrlForUsersTableDataRequest;
 use UrlSigner;
-use Illuminate\Http\Response;
 
 /**
  * Users Resource Description.
