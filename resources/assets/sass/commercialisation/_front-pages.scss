@@ -181,6 +181,8 @@
         &.shaded-card {
             background: url('/images/polygon-background.svg');
             background-position: 63% 20%;
+            position: sticky;
+            top: 150px;
         }
     }
 }
