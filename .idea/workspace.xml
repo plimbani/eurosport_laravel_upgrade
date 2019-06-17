@@ -186,7 +186,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>group_name&quot;</find>
       <find>sp_role</find>
       <find>back</find>
       <find>Sign in response</find>
@@ -216,6 +215,7 @@
       <find>socialLogin</find>
       <find>getStanding</find>
       <find>callAccessCodeApi</find>
+      <find>Login</find>
     </findStrings>
   </component>
   <component name="GenerateSignedApkSettings">
