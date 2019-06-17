@@ -68,11 +68,13 @@ class ApiManager {
             switch response.result {
             case .success:
                 if let json = response.result.value {
+                    TestFairy.log("Success - \(apiURL)")
                     print("JSON: \(json)")
                     let result = json as! NSDictionary
                     success(result)
                 }
             case .failure(let error):
+                TestFairy.log("Failure - \(apiURL)")
                 print(error.localizedDescription)
                 if let data = response.data {
                     failure(self.getErrorResult(data))
@@ -87,12 +89,14 @@ class ApiManager {
             response in
             switch response.result {
             case .success:
+                TestFairy.log("Success - \(apiURL)")
                 if let json = response.result.value {
                     print("JSON: \(json)")
                     let result = json as! NSDictionary
                     success(result)
                 }
             case .failure(let error):
+                TestFairy.log("Failure - \(apiURL)")
                 print(error.localizedDescription)
                 if let data = response.data {
                     failure(self.getErrorResult(data))
@@ -230,4 +234,6 @@ class ApiManager {
     func accessCode(_ parameters: [String: Any]?, success: @escaping (_ result: NSDictionary) -> (), failure: @escaping (_ result: NSDictionary) -> ()) {
         postRequest(API_ENDPOINT.ACCESS_CODE, parameters, success: success, failure: failure, true)
     }
+    
+    
 }

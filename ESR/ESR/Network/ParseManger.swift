@@ -385,6 +385,10 @@ class ParseManager {
     static func parseLogin(_ rootDic: NSDictionary) {
         let userData = UserData()
         
+        if let enableLogs = rootDic.value(forKey: "enable_logs_ios") as? Bool {
+            userData.enableLogs = enableLogs
+        }
+        
         if let userDataDic = rootDic.value(forKey: "userData") as? NSObject {
             if let email = userDataDic.value(forKey: "email") as? String {
                 userData.email = email

@@ -19,6 +19,7 @@ class UserData: NSObject, NSCoding {
     var imageURL:String = NULL_STRING
     var role:String = NULL_STRING
     var countryId:Int = NULL_ID
+    var enableLogs: Bool = false
     
     override init() {}
     
@@ -26,6 +27,7 @@ class UserData: NSObject, NSCoding {
         self.id = aDecoder.decodeInteger(forKey: "id")
         self.tournamentId = aDecoder.decodeInteger(forKey: "tournamentId")
         self.countryId = aDecoder.decodeInteger(forKey: "countryId")
+        self.enableLogs = aDecoder.decodeBool(forKey: "enableLogs")
         
         if let firstName = aDecoder.decodeObject(forKey: "firstName") as? String {
             self.firstName = firstName
@@ -62,5 +64,6 @@ class UserData: NSObject, NSCoding {
         aCoder.encode(locale, forKey: "locale")
         aCoder.encode(imageURL, forKey: "imageURL")
         aCoder.encode(role, forKey: "role")
+        aCoder.encode(enableLogs, forKey: "enableLogs")
     }
 }

@@ -32,6 +32,13 @@ class MainTabViewController: SuperViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        if let userData = ApplicationData.sharedInstance().getUserData() {
+            if userData.enableLogs {
+                TestFairy.begin("SDK-7273syUD")
+            } else {
+                TestFairy.begin(NULL_STRING)
+            }
+        }
         TestFairy.log(String(describing: self))
         initialize()
     }
@@ -226,6 +233,7 @@ class MainTabViewController: SuperViewController {
         let parameters: [String: Any] = [:]
         ApiManager().getAppVersion(parameters, success: { result in
             DispatchQueue.main.async {
+                TestFairy.log("sendAppversionRequest success")
                 self.view.hideProgressHUD()
                 if let serverVersion = result.value(forKey: "ios_app_version") as? String {
                     let appVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
@@ -239,7 +247,7 @@ class MainTabViewController: SuperViewController {
         }, failure: { result in
             DispatchQueue.main.async {
                 self.view.hideProgressHUD()
-                
+                TestFairy.log("sendAppversionRequest failure")
                 if result.allKeys.count == 0 {
                     return
                 }
