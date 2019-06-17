@@ -16,8 +16,6 @@ Route::group(['domain' => config('app.domain')], function() {
 	Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('password.request');
 	Route::get('mlogin','Auth\ResetPasswordController@userMlogin');
 
-	Route::get('user/setpassword/{key}','\Laraspace\Api\Controllers\UserController@setPassword');
-
 	Route::get('pdf/footer', 'PDFController@getFooter')->name('pdf.footer');
 
 	Route::get('/{vue?}', function () {

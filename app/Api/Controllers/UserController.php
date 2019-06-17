@@ -35,6 +35,7 @@ use Laraspace\Http\Requests\User\GetUsetTournamentsRequest;
 use Laraspace\Http\Requests\User\SetDefaultFavouriteRequest;
 use Laraspace\Http\Requests\User\TournamentPermissionRequest;
 use Laraspace\Http\Requests\User\GetSignedUrlForUsersTableDataRequest;
+use Illuminate\Http\Response;
 
 /**
  * Users Resource Description.
@@ -146,10 +147,12 @@ class UserController extends BaseController
 
     public function setPassword($key, Request $request)
     {
+
       $usersPasswords = User::where(['token'=>$key])->get();
 
       $message = "";
       $error = false;
+
       if (count($usersPasswords) == 0) {
           $isUserVerified = User::withTrashed()->where(['token'=>$key])->get();
           if(count($isUserVerified) > 0) {
@@ -157,7 +160,8 @@ class UserController extends BaseController
               $message = "You have already set the password.";
           } else {
               //return response()->view('errors.404', [], 404);
-              return array('message'=> 'Link is Expired');
+              $error=true;
+              $message = "Link is Expired.";
           }
       }
 
@@ -178,9 +182,14 @@ class UserController extends BaseController
           return redirect('/mlogin');
       }
 
-      // echo "<pre>";print_r($usersPasswords);echo "</pre>";exit;
+      return response()->json([
+                    'success' => true,
+                    'status' => Response::HTTP_OK,
+                    'error' => $error,
+                    'message' => $message
+        ]);
 
-      return view('emails.users.setpassword', compact('usersPasswords'));
+      //return view('emails.users.setpassword', compact('usersPasswords'));
       // return view('emails.users.setpassword');
     }
 
@@ -190,8 +199,9 @@ class UserController extends BaseController
       $password = $request->password;
       $usersDetail['key'] = $key;
       $usersDetail['password'] = $password;
+
       $result = $this->userRepoObj->createPassword($usersDetail);
-      return ($result == 'Mobile') ?  redirect('/mlogin') : redirect('/login/verified');
+      return ($result == 'Mobile') ?  '/mlogin' : '/login/verified';
     }
 
     // for desktop - resend email verification
