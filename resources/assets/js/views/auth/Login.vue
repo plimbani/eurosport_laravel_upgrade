@@ -13,7 +13,7 @@
                         <h6 class="text-uppercase mb-0">For Members</h6>
                         <h1 class="font-weight-bold">Login</h1>
                         <p>Quisque vel nulla at nibh finibus sodales. Nam efficitur sem. Don’t have an account? <a href="#" @click="redirectToRegisterPage()">Register here</a>.</p>
-
+                        <p>We have sent you an email to your email address for you to complete your registration.</p>
                         <div class="divider my-5"></div>
                         <form class="login-form" id="loginForm" method="post" @submit.prevent="validateBeforeSubmit">
                             <div  :class="{'form-group' : true , 'has-danger': errors.has('email') }">
@@ -100,6 +100,7 @@
                     axios.post('/api/auth/login', this.loginData).then(response =>  {
                         // console.log("response.data::",response.data)
                         Ls.set('auth.token',response.data.token)
+                        let loginDisplayMessage = Ls.get('registrationMessage');
                         // We set Email Over here
                         Ls.set('email',this.loginData.email)
                         Ls.set('usercountry',response.data.country)

@@ -31,7 +31,7 @@
                                 </label>
                             </div>
 
-                            <div v-if="tournamentData.tournament_type != 'league'">
+                            <div v-if="tournamentData.tournament_type != 'league'" class="tournament_formats">
                             <label>Do you want to create custom tournament formats?</label>
                                 <div class="form-group">
                                     <label class="radio-inline control-label d-inline-flex align-items-center mr-3">
@@ -63,9 +63,9 @@
 
                         <label>Number of teams competing</label>
 
-                        <div class="row my-4 my-lg-5">
-                            <div class="col-10 col-md-11 col-lg-12">
-                                <vue-slider @callback='changeTeams' :min='2' :max='60' tooltip-dir='right' v-model="tournamentData.tournament_max_teams" class="tournament_teams" @change="tournammentPricingData()" ref="tournamentTeamSlider"></vue-slider>
+                        <div class="row">
+                            <div class="col-12">
+                                <vue-slider @callback='changeTeams' :min='2' :max='tournamentData.tournamentTeamNumbers' tooltip-dir='right' v-model="tournamentData.tournament_max_teams" class="tournament_teams mb-4" @change="tournammentPricingData()" ref="tournamentTeamSlider"></vue-slider>
                             </div>
                         </div>
 
@@ -112,7 +112,7 @@
                                 <div class="card-text" v-if="!id"> 
                                     <div class="row">
                                         <div class="col-sm-6 col-md-7 col-lg-7">
-                                            <p class="mb-0">{{tournamentData.tournament_max_teams}} team license for a {{dayDifference}} day(s) tournament</p>
+                                            <p class="mb-0">{{tournamentData.tournament_max_teams}} team license for a {{dayDifference}} day tournament</p>
                                         </div>
                                         <div class="col-sm-6 col-md-5 col-lg-5">
                                             <p class="text-sm-right mb-0 mt-3 mt-sm-0">
@@ -209,6 +209,9 @@
                     tournamentPricingValue: 0,
                     transactionDifferenceAmountValue: 0,
                     tournamentLicenseAdvancePriceDisplay: 0,
+                    maximumCupTeamSize:0,
+                    maximumLeagueTeamSize:0,
+                    tournamentTeamNumbers:0,
 
                 },
                 
@@ -236,7 +239,8 @@
                 next(vm => {  
                     
                     setTimeout(function(){ 
-                        vm.tournamentData.tournament_max_teams = to.query.teams; 
+                        vm.tournamentData.tournament_max_teams = to.query.teams;
+                        // vm.tournamentData.tournamentTeamNumbers =  to.query.teams;
                         if(typeof to.query.teams == "undefined"){
                             vm.tournamentData.tournament_max_teams = 2;
                         }
@@ -441,14 +445,36 @@
                 let tournamentMaxTeams = this.tournamentData.tournament_max_teams
                 let vm = this;
                 let tournamentLicensePricingArray = [];
-
                 //Custom tournament format display value 
+
+                let maxCupTeamSize = _.maxBy(this.tournamentPricingBand.cup.bands,'max_teams');
+                vm.tournamentData.maximumCupTeamSize = maxCupTeamSize.max_teams;
+                vm.tournamentData.tournamentTeamNumbers = maxCupTeamSize.max_teams;
+
+
+                let minLeagueSize = _.maxBy(this.tournamentPricingBand.league.bands,'max_teams');
+                vm.tournamentData.maximumLeagueTeamSize = minLeagueSize.max_teams;
+                vm.tournamentData.tournamentTeamNumbers = minLeagueSize.max_teams;
+
+                if(this.tournamentData.tournament_max_teams <= this.tournamentData.maximumCupTeamSize){
+                    vm.tournamentData.tournamentPricingValue;
+                    $('#cup').prop("checked",true)
+                    $('.tournament_formats').show();
+                }
+
+                if(this.tournamentData.tournament_max_teams >= this.tournamentData.maximumLeagueTeamSize)
+                {
+                    vm.tournamentData.tournamentPricingValue;
+                    $('#league').prop("checked",true)
+                    $('.tournament_formats').hide();
+                }
+
                 let tournamentPricing = _.filter(this.tournamentPricingBand.cup.bands, function(band) {
                      if(tournamentMaxTeams >= band.min_teams && tournamentMaxTeams <= band.max_teams) {
                         vm.tournamentData.tournamentLicenseAdvancePriceDisplay = band.advanced_price;
                     }
                 });
-                
+
                 // Custom format value (Yes) change in GBP currency  
                 if(this.tournamentData.currency_type == "GBP"){
                     this.tournamentData.payment_currency = this.tournamentData.currency_type;

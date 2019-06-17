@@ -137,7 +137,7 @@ class TransactionRepository
             }
         }
         $tournamentCreatedAt = Tournament::orderBy('id', 'desc')->first();
-        $tournamentCreatedAtDateFormat = $tournamentCreatedAt['created_at']->format('h:i:s d-m-y');
+        $tournamentCreatedAtDateFormat = $tournamentCreatedAt['created_at']->format('H:i:s d-m-y');
 
         if ($data['STATUS'] == 5 || $data['STATUS'] == 9) {
             //Send conformation mail to customer
@@ -147,7 +147,6 @@ class TransactionRepository
             Mail::to($authUser->email)
                     ->send(new SendMail($emailData, $subject, $email_templates, NULL, NULL, NULL));
         }
-
         return $response;
     }
 
