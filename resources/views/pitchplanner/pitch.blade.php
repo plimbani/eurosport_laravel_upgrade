@@ -27,19 +27,19 @@
     margin: 0cm auto;
   }
   .color-preview {
-    float: left;
     width: 20px;
     height: 20px;
     margin: 5px;
+    display: inline-block;
     border: 1px solid rgba(0, 0, 0, .2);
   }
 </style>
 
 <center>
   <?php 
-    $logo = ($currentLayout == 'tmp') ? 'assets/img/tmplogo.svg' : 'assets/img/emm.svg';
+    $logo = ($currentLayout == 'tmp') ? 'assets/img/tmplogo.svg' : 'images/logo-emm.png';
   ?>
-  <img  src="{{ asset($logo)}}" id="logo-desk" alt="Laraspace Logo" class="hidden-sm-down text-center" width="200px" height="100px">
+  <img  src="{{ asset($logo)}}" id="logo-desk" alt="Laraspace Logo" width="auto" height="auto">
 </center>
 
 <table class="tblpage" border="1" cellpadding="1" cellspacing="0" width="100%">
