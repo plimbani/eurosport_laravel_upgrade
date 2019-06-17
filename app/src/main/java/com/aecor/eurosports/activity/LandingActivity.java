@@ -231,11 +231,11 @@ public class LandingActivity extends BaseActivity {
                             if (jsonObject.has("profile_image_url")) {
                                 mAppPref.setString(AppConstants.PREF_IMAGE_URL, jsonObject.getString("profile_image_url"));
                             }
-                            if (jsonObject.has("enable_logs_android")) {
-                                String enable_logs_android = jsonObject.getString("enable_logs_android");
-                                if (!Utility.isNullOrEmpty(enable_logs_android) && enable_logs_android.equalsIgnoreCase("1")) {
+                            if (response != null && response.has("enable_logs_android")) {
+                                String enable_logs_android = response.getString("enable_logs_android");
+                                if (!Utility.isNullOrEmpty(enable_logs_android) && enable_logs_android.equalsIgnoreCase("true")) {
                                     TestFairy.begin(mContext, "SDK-7273syUD");
-                                    mAppPref.setString( AppConstants.KEY_ENABLE_LOGS_ANDROID, "1");
+                                    mAppPref.setString(AppConstants.KEY_ENABLE_LOGS_ANDROID, "true");
                                     TestFairy.setUserId(jsonObject.getString("user_id"));
                                 }
                             }

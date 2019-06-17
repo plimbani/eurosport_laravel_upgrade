@@ -187,11 +187,11 @@ public class SignInActivity extends BaseActivity {
                             if (jsonObject.has("country_id")) {
                                 mAppSharedPref.setString(AppConstants.PREF_COUNTRY_ID, jsonObject.getString("country_id"));
                             }
-                            if (jsonObject.has("enable_logs_android")) {
-                                String enable_logs_android = jsonObject.getString("enable_logs_android");
-                                if (!Utility.isNullOrEmpty(enable_logs_android) && enable_logs_android.equalsIgnoreCase("1")) {
+                            if (response != null && response.has("enable_logs_android")) {
+                                String enable_logs_android = response.getString("enable_logs_android");
+                                if (!Utility.isNullOrEmpty(enable_logs_android) && enable_logs_android.equalsIgnoreCase("true")) {
                                     TestFairy.begin(mContext, "SDK-7273syUD");
-                                    mAppSharedPref.setString( AppConstants.KEY_ENABLE_LOGS_ANDROID, "1");
+                                    mAppSharedPref.setString(AppConstants.KEY_ENABLE_LOGS_ANDROID, "true");
                                     TestFairy.setUserId(jsonObject.getString("user_id"));
                                 }
                             }
