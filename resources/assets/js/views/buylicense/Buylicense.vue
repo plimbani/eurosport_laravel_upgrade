@@ -457,14 +457,12 @@
                 vm.tournamentData.tournamentTeamNumbers = minLeagueSize.max_teams;
 
                 if(this.tournamentData.tournament_max_teams <= this.tournamentData.maximumCupTeamSize){
-                    vm.tournamentData.tournamentPricingValue;
                     $('#cup').prop("checked",true)
                     $('.tournament_formats').show();
                 }
 
                 if(this.tournamentData.tournament_max_teams >= this.tournamentData.maximumLeagueTeamSize)
                 {
-                    vm.tournamentData.tournamentPricingValue;
                     $('#league').prop("checked",true)
                     $('.tournament_formats').hide();
                 }
