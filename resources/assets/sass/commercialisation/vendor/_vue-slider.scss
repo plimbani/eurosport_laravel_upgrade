@@ -1,6 +1,17 @@
 .vue-slider-component {
     &.vue-slider-horizontal {
-        @extend .p-0;
+        // @extend .p-0;
+        display: flex;
+        align-items: center;
+        height: 27px;
+
+        @include media-breakpoint-up(md) {
+            height: 58px;
+        }
+
+        .vue-slider {
+            flex-grow: 1;
+        }
 
         .vue-slider-process {
             background-color: $theme-color-primary;

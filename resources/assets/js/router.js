@@ -19,6 +19,7 @@ import LayoutFront from './views/layouts/LayoutFront.vue'
 import Login from './views/auth/Login.vue'
 import PasswordReset from './views/auth/Reset.vue'
 import Register from './views/auth/Register.vue'
+//import PasswordSet from './views/auth/PasswordSet.vue'
 
 // Error : Not Found page
 import NotFoundPage from './views/errors/404.vue'

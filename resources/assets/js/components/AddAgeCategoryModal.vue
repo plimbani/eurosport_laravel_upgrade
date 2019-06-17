@@ -208,7 +208,7 @@
                 <div class="col-sm-4 form-control-label">{{$lang.competation_modal_game_duration}}</div>
                 <div class="col-sm-8">
                   <div class="row align-items-center">
-                    <div class="col-sm-2">
+                    <div class="col-sm-3">
                       <select class="form-control ls-select2" name="halves_RR" v-model="competation_format.halves_RR" @change="showHideHalfTimeBreakRR()">
                         <option value="1">1 x</option>
                         <option value="2">2 x</option>
@@ -233,7 +233,7 @@
                 <div class="col-sm-4 form-control-label">{{$lang.competation_modal_duration_final}}</div>
                 <div class="col-sm-8">
                   <div class="row align-items-center">
-                     <div class="col-sm-2">
+                     <div class="col-sm-3">
                         <select id="duration" name="halves_FM" v-model="competation_format.halves_FM" class="form-control ls-select2" @change="showHideHalfTimeBreakFM()">
                           <option value="1">1 x</option>
                           <option value="2">2 x</option>

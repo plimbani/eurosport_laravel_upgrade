@@ -30,7 +30,7 @@
               <div class="tab-content">
                 <div id="general_tab" class="tab-pane active">
                   <div class="form-group row mb-0">
-                    <label class="col-sm-3">{{$lang.pitch_modal_match_number}}</label>
+                    <div class="col-sm-3">{{$lang.pitch_modal_match_number}}</div>
                     <p class="col-sm-9">{{ matchDetail.display_match_number }}</p>
                   </div>
                   <div class="form-group row">
@@ -66,17 +66,17 @@
                     </div>
                   </div>
                   <div class="form-group row">
-                    <label class="col-sm-3">{{$lang.pitch_modal_date}}</label>
+                    <div class="col-sm-3">{{$lang.pitch_modal_date}}</div>
                     <p class="col-sm-9">{{matchDetail.matchTime}}</p>
-                    <label class="col-sm-3">{{$lang.pitch_modal_pitch_details}}</label><p class="col-sm-9"
+                    <div class="col-sm-3">{{$lang.pitch_modal_pitch_details}}</div><p class="col-sm-9"
                     v-if="matchDetail.pitch && matchDetail.pitch.pitch_number">{{matchDetail.pitch.pitch_number}}</p>
                   </div>
                   <!-- <p class="mt-0 refree_name"> -->
                     <div v-if="matchDetail.referee">
                       <div class="form-group row">
-                        <label class="col-sm-3 col-sm-3 form-control-label align-self-center">
+                        <div class="col-sm-3 col-sm-3 form-control-label align-self-center">
                           Referee
-                        </label>
+                        </div>
                         <div class="col-sm-6 align-self-center">
                             <input class="form-control mr-sm-2" type="text"
                             v-model="matchDetail.referee.first_name"
@@ -89,7 +89,7 @@
                       </div>
                     </div>
                     <div class="form-group row" v-else>
-                      <label class="col-sm-3 form-control-label">{{$lang.pitch_modal_referee_label}}</label>
+                      <div class="col-sm-3 form-control-label">{{$lang.pitch_modal_referee_label}}</div>
                       <div class="col-sm-9">
                         <select  v-model="matchDetail.referee_id" class="form-control ls-select2" name="selReferee">
                           <option value="">{{$lang.pitch_modal_refree_select}}</option>
@@ -99,19 +99,19 @@
                     </div>
                   <!-- </p> -->
                   <div class="form-group row">
-                    <label class="col-sm-3 form-control-label">Remarks</label>
+                    <div class="col-sm-3 form-control-label">Remarks</div>
                     <div class="col-sm-9">
                       <textarea class="form-control" name="comments" id="comments">{{matchDetail.comments}}</textarea>
                     </div>
                   </div>
                   <div class="form-group row">
-                    <label class="col-sm-3 form-control-label">{{$lang.pitch_modal_team1_comments_label}}</label>
+                    <div class="col-sm-3 form-control-label">{{$lang.pitch_modal_team1_comments_label}}</div>
                     <div class="col-sm-9">
                       <textarea class="form-control" name="home_comment" id="home_comment" disabled="disabled">{{matchDetail.hometeam_comment}}</textarea>
                     </div>
                   </div>
                   <div class="form-group row">
-                    <label class="col-sm-3 form-control-label">{{$lang.pitch_modal_team2_comments_label}}</label>
+                    <div class="col-sm-3 form-control-label">{{$lang.pitch_modal_team2_comments_label}}</div>
                     <div class="col-sm-9">
                       <textarea class="form-control" name="comments" id="comments" disabled="disabled">{{matchDetail.awayteam_comment}}</textarea>
                     </div>
@@ -120,9 +120,9 @@
 
                 <div id="results_tab" class="tab-pane">
                   <div class="form-group row">
-                    <label class="col-sm-3 col-sm-3 form-control-label align-self-center">
+                    <div class="col-sm-3 col-sm-3 form-control-label align-self-center">
                       Result
-                    </label>
+                    </div>
                     
                     <div class="col-sm-3 align-self-center">
                       <input type="number" min="0" name="home_team_score"
@@ -132,9 +132,9 @@
                       Team 1 ({{ getTeamName(matchDetail.home_team, matchDetail.home_team_name, matchDetail.
                       display_home_team_placeholder_name, matchDetail.competition.actual_name) }})
                     </div>                    
-                    <label class="col-sm-3 col-sm-3 form-control-label align-self-center">
+                    <div class="col-sm-3 col-sm-3 form-control-label align-self-center">
                       &nbsp;
-                    </label>
+                    </div>
                     <div class="col-sm-3 align-self-center">
                       <input type="number" min="0" name="away_team_score"
                       v-model="matchDetail.awayteam_score" id="away_team_score" class="form-control" :readonly="(this.matchDetail.is_result_override == 1) && (this.matchDetail.match_status == 'Walk-over' || this.matchDetail.match_status == 'Abandoned')">
@@ -150,14 +150,14 @@
                         <div class="checkbox result-override-checkbox">
                             <div class="c-input">
                                 <input type="checkbox" class="euro-checkbox" id="is_result_override" name="is_result_override" v-model="matchDetail.is_result_override" :true-value="'1'" :false-value="'0'" :value="matchDetail.is_result_override" @change="checkOverride()">
-                                <label for="is_result_override" class="mb-0">{{$lang.pitch_modal_result_override}}</label>
+                                <div for="is_result_override" class="mb-0">{{$lang.pitch_modal_result_override}}</div>
                             </div>
                         </div>
                     </div>
 
                   </div>
                   <div class="form-group row" v-if="matchDetail.is_result_override == 1">
-                    <label class="col-sm-3 form-control-label">{{$lang.pitch_modal_status_label}}</label>
+                    <div class="col-sm-3 form-control-label">{{$lang.pitch_modal_status_label}}</div>
                     <div class="col-sm-9">
                       <select v-model="matchDetail.match_status"
                        v-validate="'required'" :class="{'is-danger': errors.has('match_status') }"
@@ -171,7 +171,7 @@
                     </div>
                   </div>
                   <div class="form-group row" v-if="matchDetail.is_result_override == 1">
-                    <label class="col-sm-3 form-control-label">{{$lang.pitch_modal_winner_label}}</label>
+                    <div class="col-sm-3 form-control-label">{{$lang.pitch_modal_winner_label}}</div>
                     <div class="col-sm-9">
                       <select name="match_winner" v-model="matchDetail.match_winner"
                        v-validate="'required'" :class="{'is-danger': errors.has('match_winner') }"
@@ -185,9 +185,9 @@
                     </div>
                   </div>
                   <div class="form-group row">
-                    <label class="col-sm-3 col-sm-3 form-control-label align-self-center">
+                    <div class="col-sm-3 col-sm-3 form-control-label align-self-center">
                       {{$lang.pitch_modal_yellow_cards}}
-                    </label>
+                    </div>
                     
                     <div class="col-sm-3 align-self-center">
                       <input type="text" min="0" name="home_yellow_cards"
@@ -199,9 +199,9 @@
                       Team 1 ({{ getTeamName(matchDetail.home_team, matchDetail.home_team_name, matchDetail.
                       display_home_team_placeholder_name, matchDetail.competition.actual_name) }})
                     </div>                    
-                    <label class="col-sm-3 col-sm-3 form-control-label align-self-center">
+                    <div class="col-sm-3 col-sm-3 form-control-label align-self-center">
                       &nbsp;
-                    </label>
+                    </div>
                     <div class="col-sm-3 align-self-center">
                       <input type="text" min="0" name="away_yellow_cards"
                       v-model="matchDetail.away_yellow_cards" id="away_yellow_cards" class="form-control" v-validate="{ rules: { regex: /^[0-9]*$/ } }" :class="{'is-danger': errors.has('away_yellow_cards') }">
@@ -214,9 +214,9 @@
                     </div>
                   </div>
                   <div class="form-group row">
-                    <label class="col-sm-3 col-sm-3 form-control-label align-self-center">
+                    <div class="col-sm-3 col-sm-3 form-control-label align-self-center">
                       {{$lang.pitch_modal_red_cards}}
-                    </label>
+                    </div>
                     
                     <div class="col-sm-3 align-self-center">
                       <input type="text" min="0" name="home_red_cards"
@@ -228,9 +228,9 @@
                       Team 1 ({{ getTeamName(matchDetail.home_team, matchDetail.home_team_name, matchDetail.
                       display_home_team_placeholder_name, matchDetail.competition.actual_name) }})
                     </div>                    
-                    <label class="col-sm-3 col-sm-3 form-control-label align-self-center">
+                    <div class="col-sm-3 col-sm-3 form-control-label align-self-center">
                       &nbsp;
-                    </label>
+                    </div>
                     <div class="col-sm-3 align-self-center">
                       <input type="text" min="0" name="away_red_cards" v-model="matchDetail.away_red_cards" id="away_red_cards" class="form-control" v-validate="{ rules: { regex: /^[0-9]*$/ } }" :class="{'is-danger': errors.has('away_red_cards') }">
                       <i v-show="errors.has('away_red_cards')" class="fas fa-warning"></i>

@@ -151,7 +151,7 @@
                                                         <tr>
                                                             <td align="right" style="text-align: right; font-size: 0px; padding: 10px 25px; padding-bottom: 0; word-break: break-word;">
                                                                 <div style="font-family:Roboto, Helvetica, Arial, sans-serif;font-size:16px;font-weight:300;line-height:24px;text-align:left;color:#555;">
-                                                                    <p>Hi <?php echo $data['userName'] ?>,</p>
+                                                                    <p>Hi <?php echo $data['userFirstName'] ?>,</p>
                                                                     <p>Thank you for the purchase. Your order number is Easy-Match-Manager-<?php echo $data['orderNumber']; ?>.</p>
                                                                     <p>Purchase date: <?php echo $data['tournamentCreatedAtDateFormat'] ?>
                                                                     </p>
@@ -177,7 +177,7 @@
                                                                 <table cellpadding="0" cellspacing="0" width="100%" border="0" style="cellspacing:0;color:#000000;font-family:Arial, Helvetica, sans-serif;font-size:13px;line-height:22px;table-layout:auto;width:100%;">
                                                                     <thead>
                                                                         <tr>
-                                                                            <th colspan="2" style="border-bottom: 3px solid rgba(33, 150, 243,0.1); text-align: left; font-size: 20px; padding-bottom: 10px; " align="left">Reciept</th>
+                                                                            <th colspan="2" style="border-bottom: 3px solid rgba(33, 150, 243,0.1); text-align: left; font-size: 20px; padding-bottom: 10px; " align="left">Receipt</th>
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody>

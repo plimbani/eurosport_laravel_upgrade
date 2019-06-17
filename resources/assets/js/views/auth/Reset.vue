@@ -7,7 +7,7 @@
                         <div class="alert alert-danger margin-top-15" v-if="serverError != undefined && serverError != ''">
                             {{ serverError }}
                         </div>
-                        <h1 class="font-weight-bold">Reset password</h1>
+                        <h1 class="font-weight-bold">Set password</h1>
                         <div class="divider my-5"></div>
                         <form class="login-form" id="loginForm" method="post" @submit.prevent="validateBeforeSubmit"> 
                         <input type="hidden" name="token" v-model="token">
@@ -35,7 +35,7 @@
                         <div class="row">
                             <div class="col-lg-5 col-md-6">
                                 <div class="form-group">
-                                    <button class="btn btn-success btn-block" id="addButton">{{$lang.login_reset_button}}</button>
+                                    <button class="btn btn-success btn-block" id="addButton">{{$lang.login_set_password}}</button>
                                 </div>
                             </div>
                         </div>
