@@ -1,24 +1,45 @@
 <template>
-    <div>
+    <div class="main-section">
+        <section class="login-section section-padding">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="alert alert-danger margin-top-15" v-if="error == true">
+                            {{ message }}
+                        </div>
 
-    <div class="alert alert-success margin-top-15" v-if="error == true">
-        {{ message }}
-    </div>
+                        <h1 class="font-weight-bold" v-if="error == false">Set password</h1>
+                        <div class="divider my-5" v-if="error == false"></div>
 
-    <form id="loginForm" method="post" @submit.prevent="validateBeforeSubmit" v-if="error == false">
-        <input type="hidden" name="key" v-model="token">
-        <div class="form-group" :class="{'has-error': errors.has('password') }">
-             <input id="password" type="password" class="form-control" placeholder="Password" name="password" v-model="password" v-validate="'required|min:5'" ref="password">
-             <span class="help is-danger" v-show="errors.has('password')">{{errors.first('password')}}</span>
-        </div>
+                        <form class="login-form" id="loginForm" method="post" @submit.prevent="validateBeforeSubmit" v-if="error == false"> 
+                            <input type="hidden" name="key" v-model="token">
+
+                            <div :class="{'form-group' : true ,'has-danger': errors.has('password') }">
+                                <label for="pwd" v-if="currentLayout == 'commercialisation'">Password</label> 
+                                 <input id="password" type="password" class="form-control" placeholder="Password" name="password" v-model="password" v-validate="'required|min:5'" ref="password">
+                                 <span class="help is-danger" v-show="errors.has('password')">{{errors.first('password')}}</span>
+                            </div>
 
 
-        <div class="form-group" :class="{'has-error': errors.has('password_confirmation') }">
-            <input id="password-confirm" type="password" class="form-control" placeholder="Confirm password" v-model="password_confirmation" name="password_confirmation" v-validate="'required|confirmed:password'">
-            <span class="help is-danger" v-show="errors.has('password_confirmation')">{{errors.first('password_confirmation')}}</span>
-        </div>
-        <button class="btn btn-login btn-full euro-button">Set password</button>
-    </form>
+                            <div :class="{'form-group' : true ,'has-danger': errors.has('password_confirmation') }">
+                                <label for="pwd" v-if="currentLayout == 'commercialisation'">Confirm password</label> 
+                                <input id="password-confirm" type="password" class="form-control" placeholder="Confirm password" v-model="password_confirmation" name="password_confirmation" v-validate="'required|confirmed:password'">
+                                <span class="help is-danger" v-show="errors.has('password_confirmation')">{{errors.first('password_confirmation')}}</span>
+                            </div>
+
+                            <div class="form-group" id="divCheckPasswordMatch"></div>
+                            <div class="row">
+                                <div class="col-lg-5 col-md-6">
+                                    <div class="form-group">
+                                        <button class="btn btn-success btn-block" id="addButton">{{$lang.login_set_password}}</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form> 
+                    </div>
+                </div>
+            </div>
+        </section>
     </div>
 </template>
 
