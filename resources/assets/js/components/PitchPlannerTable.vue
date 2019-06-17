@@ -548,7 +548,12 @@
                 })
             },
             saveScheduleMatchResult(matchData) {
-                this.scheduleMatchesArray.push(matchData);
+                let matchIndex = _.findIndex(this.scheduleMatchesArray, function(o) { return o.matchId == matchData.matchId; });
+                if(matchIndex === -1) {
+                    this.scheduleMatchesArray.push(matchData);
+                } else {
+                    this.scheduleMatchesArray[matchIndex] = matchData;
+                }
             },
             clearScheduleMatches() {
                 this.scheduleMatchesArray = [];

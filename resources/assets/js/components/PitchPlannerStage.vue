@@ -231,9 +231,6 @@ import _ from 'lodash'
                         // $(this).remove();
                     },
                     eventReceive: function( event, delta, revertFunc, jsEvent, ui, view) { // called when a proper external event is dropped
-                        console.log('allevents', $(vm.$el).fullCalendar('getEventSources'));
-                        console.log('clientEvents', $(vm.$el).fullCalendar('clientEvents'));
-                        console.log('event', event);
                         if(event.refereeId == -3 ){
                             let matchData = {
                                 'tournamentId': vm.tournamentId,
@@ -380,7 +377,7 @@ import _ from 'lodash'
                                 scheduleMatchesArray: vm.scheduleMatchesArray,
                                 isMultiSchedule: vm.isMatchScheduleInEdit,
                             }
-                            console.log('data', data);
+                            console.log('eventDropdata', data);
                             Tournament.setMatchSchedule(data).then(
                                 (response) => {
                                     if(response.data.data != -1 && response.data.data != -2){
@@ -394,6 +391,8 @@ import _ from 'lodash'
                                                   vm.reloadAllEvents();
                                                 });
                                             });
+                                        } else {
+                                            vm.$emit('schedule-match-result', matchData);
                                         }
                                     }else{
                                         revertFunc();
