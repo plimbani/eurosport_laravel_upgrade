@@ -116,6 +116,11 @@
 		30DC116522B3825300B4FC44 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30DC116422B3825300B4FC44 /* OpenGLES.framework */; };
 		30DC116822B38AE000B4FC44 /* TestFairyLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30DC116722B38AE000B4FC44 /* TestFairyLog.swift */; };
 		30DC116922B38AE000B4FC44 /* TestFairyLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30DC116722B38AE000B4FC44 /* TestFairyLog.swift */; };
+		30DC116F22B3AB7F00B4FC44 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30DC116422B3825300B4FC44 /* OpenGLES.framework */; };
+		30DC117022B3AB8100B4FC44 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30DC116222B3824A00B4FC44 /* SystemConfiguration.framework */; };
+		30DC117122B3AB8400B4FC44 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30DC116022B3824200B4FC44 /* AVFoundation.framework */; };
+		30DC117222B3AB8700B4FC44 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30DC115D22B3823700B4FC44 /* CoreMedia.framework */; };
+		30DC117322B3AB8900B4FC44 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30DC115C22B3823700B4FC44 /* CoreMotion.framework */; };
 		30F1805E2272F76600301C6F /* GroupDetailsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307949E521394C6800DE23A3 /* GroupDetailsVC.swift */; };
 		30F1805F2272F76600301C6F /* AgeCategoriesGroupsSummaryVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FB311E2135523B00ABA22A /* AgeCategoriesGroupsSummaryVC.swift */; };
 		30F180602272F76600301C6F /* AgeCategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FB311821353CA000ABA22A /* AgeCategoryCell.swift */; };
@@ -469,8 +474,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				30DC117222B3AB8700B4FC44 /* CoreMedia.framework in Frameworks */,
 				CA75544F6E87CB1F51A5DCB8 /* Pods_ESR_comm.framework in Frameworks */,
 				30DC115B22B3820D00B4FC44 /* libTestFairy.a in Frameworks */,
+				30DC117122B3AB8400B4FC44 /* AVFoundation.framework in Frameworks */,
+				30DC117022B3AB8100B4FC44 /* SystemConfiguration.framework in Frameworks */,
+				30DC116F22B3AB7F00B4FC44 /* OpenGLES.framework in Frameworks */,
+				30DC117322B3AB8900B4FC44 /* CoreMotion.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
