@@ -65,7 +65,7 @@
 
                         <div class="row">
                             <div class="col-12">
-                                <vue-slider @callback='changeTeams' :min='2' :max='tournamentData.tournamentTeamNumbers' tooltip-dir='right' v-model="tournamentData.tournament_max_teams" class="tournament_teams mb-4" @change="tournammentPricingData()" ref="tournamentTeamSlider"></vue-slider>
+                                <vue-slider @callback='changeTeams' :min='2' :max='tournamentData.tournamentTeamNumbers' tooltip-dir='right' v-model="tournamentData.tournament_max_teams" class="tournament_teams mb-4" @change="tournammentPricingData(1)" ref="tournamentTeamSlider"></vue-slider>
                             </div>
                         </div>
 
@@ -240,7 +240,7 @@
                     
                     setTimeout(function(){ 
                         vm.tournamentData.tournament_max_teams = to.query.teams;
-                        // vm.tournamentData.tournamentTeamNumbers =  to.query.teams;
+                        vm.tournamentData.tournamentTeamNumbers =  to.query.teams;
                         if(typeof to.query.teams == "undefined"){
                             vm.tournamentData.tournament_max_teams = 2;
                         }
@@ -439,7 +439,7 @@
                 })
                 
             },
-            tournammentPricingData() {
+            tournammentPricingData(value) {
                 let tournamentOrganising = this.tournamentData.tournament_type
                 let tournamentCustomFormats = this.tournamentData.custom_tournament_format
                 let tournamentMaxTeams = this.tournamentData.tournament_max_teams
@@ -451,20 +451,37 @@
                 vm.tournamentData.maximumCupTeamSize = maxCupTeamSize.max_teams;
                 vm.tournamentData.tournamentTeamNumbers = maxCupTeamSize.max_teams;
 
-
                 let minLeagueSize = _.maxBy(this.tournamentPricingBand.league.bands,'max_teams');
                 vm.tournamentData.maximumLeagueTeamSize = minLeagueSize.max_teams;
                 vm.tournamentData.tournamentTeamNumbers = minLeagueSize.max_teams;
 
-                if(this.tournamentData.tournament_max_teams <= this.tournamentData.maximumCupTeamSize){
-                    $('#cup').prop("checked",true)
-                    $('.tournament_formats').show();
+                let smallLeagueOrCup = '';
+
+                if(maxCupTeamSize.max_teams > minLeagueSize.max_teams) { 
+                    vm.tournamentData.tournamentTeamNumbers = maxCupTeamSize.max_teams; 
+                    smallLeagueOrCup = 'league';
+                } else {
+                    vm.tournamentData.tournamentTeamNumbers = minLeagueSize.max_teams;
+                    smallLeagueOrCup = 'cup';
                 }
 
-                if(this.tournamentData.tournament_max_teams >= this.tournamentData.maximumLeagueTeamSize)
-                {
-                    $('#league').prop("checked",true)
-                    $('.tournament_formats').hide();
+                if(value == 1) {
+                    if(smallLeagueOrCup == 'cup' && this.tournamentData.tournament_max_teams <= maximumCupTeamSize.max_teams) {
+                        $('#cup').prop("checked",true);
+                        $('.tournament_formats').show();
+                    } else  if(smallLeagueOrCup == 'cup' && this.tournamentData.tournament_max_teams >= maximumCupTeamSize.max_teams) {
+                        $('#league').prop("checked",true);
+                        $('.tournament_formats').show();
+                    } else if(smallLeagueOrCup == 'league' && this.tournamentData.tournament_max_teams <= minLeagueSize.max_teams) {
+                        tournamentOrganising = 'league';
+                        $('#league').prop("checked",true)
+                        $('.tournament_formats').hide();
+
+                    } else  if(smallLeagueOrCup == 'league' && this.tournamentData.tournament_max_teams >= minLeagueSize.max_teams) {
+                        tournamentOrganising = 'cup';
+                        $('#cup').prop("checked",true);
+                        $('.tournament_formats').show();
+                    }
                 }
 
                 let tournamentPricing = _.filter(this.tournamentPricingBand.cup.bands, function(band) {
@@ -547,7 +564,7 @@
                 }
             }
         },
-        mounted () {
+        mounted() {
             var vm = this;
 
             vm.tournamentData.tournament_start_date = moment(vm.tournamentData.tournament_start_date).format('DD/MM/YYYY');
