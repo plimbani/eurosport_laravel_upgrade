@@ -2,7 +2,7 @@
     <div class="tab-content">
         <div class="card">
             <div class="card-block">
-                <h6 class=""><strong>{{$lang.pitch_capacity}}</strong></h6>
+                <h6><strong>{{$lang.pitch_capacity}}</strong></h6>
                 <div class="row">
                     <div class="col-md-1 pitch-capaciry" v-for="referee in referees">
                         <p><strong>{{referee.first_name}}</strong></p>

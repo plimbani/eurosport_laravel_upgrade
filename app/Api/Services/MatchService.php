@@ -329,6 +329,9 @@ class MatchService implements MatchContract
         $ageGroupId  = $result['age_group_id'];
         $teamsList =array($result['home_team'],$result['away_team']);
 
+        \Log::info('saveResult-tournamentId' . $tournamentId);
+        \Log::info('saveResult-AllMatches' . json_encode($matchData->all()['matchData']));
+
         $matchData = array('teams'=>$teamsList,'tournamentId'=>$tournamentId,'ageGroupId'=>$ageGroupId,'teamId'=>true);
 
         $matchresult =  $this->matchRepoObj->checkTeamIntervalforMatches($matchData);
@@ -348,6 +351,10 @@ class MatchService implements MatchContract
       $competitionIds = [];
       $AllMatches = $matchData->all()['matchData']['matchDataArray'];
       $tournamentId = $matchData->all()['matchData']['tournamentId'];
+
+      \Log::info('saveAllResults-tournamentId' . $tournamentId);
+      \Log::info('saveAllResults-AllMatches' . json_encode($AllMatches));
+
       $matchResult = null;
       $unChangedMatchScoresArray = [];
       $areAllMatchScoreUpdated = false;
