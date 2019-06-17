@@ -8,7 +8,6 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
-import android.util.Log;
 
 import com.aecor.eurosports.R;
 import com.aecor.eurosports.activity.LandingActivity;
@@ -24,6 +23,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.testfairy.TestFairy;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -264,6 +264,14 @@ public class AutoLoginUtils {
                                 mAppSharedPref.setString(AppConstants.LANGUAGE_SELECTION, jsonObject.getString("locale"));
                                 Utility.setLocale(mContext, jsonObject.getString("locale"));
                             }
+                            if (jsonObject.has("enable_logs_android")) {
+                                String enable_logs_android = jsonObject.getString("enable_logs_android");
+                                if (!Utility.isNullOrEmpty(enable_logs_android) && enable_logs_android.equalsIgnoreCase("1")) {
+                                    TestFairy.begin(mContext, "SDK-7273syUD");
+                                    mAppSharedPref.setString(AppConstants.KEY_ENABLE_LOGS_ANDROID, "1");
+                                    TestFairy.setUserId(jsonObject.getString("user_id"));
+                                }
+                            }
                             if (jsonObject.has("settings")) {
                                 JSONObject mSettingsJson = jsonObject.getJSONObject("settings");
                                 if (mSettingsJson.has("value") && !Utility.isNullOrEmpty(mSettingsJson.getString("value"))) {
@@ -298,7 +306,7 @@ public class AutoLoginUtils {
                                         }
                                     }
                                 });
-                            }else {
+                            } else {
                                 Intent launcherIntent = new Intent(mContext,
                                         LandingActivity.class);
                                 launcherIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

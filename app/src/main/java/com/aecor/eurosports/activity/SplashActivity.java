@@ -33,6 +33,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.crashlytics.android.Crashlytics;
+import com.testfairy.TestFairy;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -98,7 +99,6 @@ public class SplashActivity extends BaseActivity {
             }
         }
         initView();
-//        printHashKey(this);
     }
 
     private void isUserLogin() {
@@ -192,6 +192,14 @@ public class SplashActivity extends BaseActivity {
                             mAppSharedPref.setString(AppConstants.PREF_IMAGE_URL, jsonObject.getString("profile_image_url"));
                             if (jsonObject.has("role")) {
                                 mAppSharedPref.setString(AppConstants.PREF_ROLE, jsonObject.getString("role"));
+                            }
+                            if (jsonObject.has("enable_logs_android")) {
+                                String enable_logs_android = jsonObject.getString("enable_logs_android");
+                                if (!Utility.isNullOrEmpty(enable_logs_android) && enable_logs_android.equalsIgnoreCase("1")) {
+                                    TestFairy.begin(mContext, "SDK-7273syUD");
+                                    mAppSharedPref.setString( AppConstants.KEY_ENABLE_LOGS_ANDROID, "1");
+                                    TestFairy.setUserId(jsonObject.getString("user_id"));
+                                }
                             }
                             if (jsonObject.has("country_id")) {
                                 mAppSharedPref.setString(AppConstants.PREF_COUNTRY_ID, jsonObject.getString("country_id"));
