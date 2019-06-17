@@ -359,14 +359,14 @@ const routes = [
                 name: 'register'
             },
             {
-                path: 'password/reset/:token*',
-                component: PasswordReset,
-                name: 'reset'
-            },
-            {
             path: 'user/setpassword/:token*',
                 component: PasswordSet,
                 name: 'PasswordSet'
+            },
+            {
+                path: 'password/reset/:token*',
+                component: PasswordReset,
+                name: 'PasswordReset'
             },
         ]
     },

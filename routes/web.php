@@ -13,7 +13,6 @@ Route::get('auth/{provider}/callback', '\Laraspace\Http\Controllers\Auth\LoginCo
 
 Route::group(['domain' => config('app.domain')], function() {
 	Route::get('tournament/report/reportExport','\Laraspace\Api\Controllers\TournamentController@generateReport');
-	
 	//Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
 
 	Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('password.request');
