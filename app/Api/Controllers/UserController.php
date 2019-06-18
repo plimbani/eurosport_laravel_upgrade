@@ -362,18 +362,25 @@ class UserController extends BaseController
       $email_templates = null;
       $email_msg = null;
 
+      $currentLayout = config('config-variables.current_layout');
+      $email_details['currentLayout'] = $currentLayout;
+      $brandName = 'Euro-Sportring';
+      if($currentLayout == "commercialisation") {
+        $brandName = 'Easy Match Manager';
+      }
+
       if($userData->registered_from === 0)
       {
         $email_templates = 'emails.users.mobile_user';
-        $email_msg = 'Euro-Sportring - Email Verification';
+        $email_msg = $brandName.' - Email Verification';
       } else {
         $mobileUserRoleId = Role::where('slug', 'mobile.user')->first()->id;
         if($userData->roles[0]->id == $mobileUserRoleId) {
           $email_templates = 'emails.users.mobile_user_registered_from_desktop';
-          $email_msg = 'Euro-Sportring - Set password';
+          $email_msg = $brandName.' - Set password';
         } else {
-          $email_templates = 'emails.users.desktop_user';
-          $email_msg = 'Euro-Sportring Tournament Planner - Set password';
+          $email_templates = ($currentLayout == "commercialisation") ? 'emails.users.registration' : 'emails.users.desktop_user';
+          $email_msg = $brandName.' Tournament Planner - Set password';
         }
       }
 
