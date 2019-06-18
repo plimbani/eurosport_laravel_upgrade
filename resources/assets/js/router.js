@@ -19,7 +19,7 @@ import LayoutFront from './views/layouts/LayoutFront.vue'
 import Login from './views/auth/Login.vue'
 import PasswordReset from './views/auth/Reset.vue'
 import Register from './views/auth/Register.vue'
-import PasswordSet from './views/auth/PasswordSet.vue'
+//import PasswordSet from './views/auth/PasswordSet.vue'
 
 // Error : Not Found page
 import NotFoundPage from './views/errors/404.vue'
@@ -553,21 +553,16 @@ router.beforeEach((to, from, next) => {
             store.dispatch('setScoreAutoUpdate',response.is_score_auto_update);
             return next()
         })
-    }else{
-        // logic for auth page if user is logged in then those will be redirected to admin page
-        // enter-tournament
-        // tournament-detail
-        // 
-        // console.log("to.name::",to.name)
-        if(to.name != "buylicense" && to.name != "EnterTournamentAccessCode" && to.name != "TournamentDetail"){
-            let token = Ls.get('auth.token')
-            // console.log("login page",token)
-            if(typeof token != "undefined" && token != undefined && token != "null" && token != null){
-                 return next({ path : '/admin'});
-            }
-        }
-
     }
+    // else{
+    //     if(to.name != "buylicense" && to.name != "EnterTournamentAccessCode" && to.name != "TournamentDetail"){
+    //         let token = Ls.get('auth.token')
+    //         // console.log("login page",token)
+    //         if(typeof token != "undefined" && token != undefined && token != "null" && token != null){
+    //              return next({ path : '/admin'});
+    //         }
+    //     }
+    // }
 
     return next()
 });

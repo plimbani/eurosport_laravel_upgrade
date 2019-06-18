@@ -63,8 +63,10 @@
                 }
             }
 
-            img{
-                padding-right: 10px;
+            img {
+                margin-right: 10px;
+                vertical-align: baseline;
+                width: 10px;
             }
         }
     }
@@ -181,6 +183,8 @@
         &.shaded-card {
             background: url('/images/polygon-background.svg');
             background-position: 63% 20%;
+            position: sticky;
+            top: 150px;
         }
     }
 }
