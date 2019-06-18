@@ -147,20 +147,23 @@ class UserController extends BaseController
 
     public function setPassword($key, Request $request)
     {
-        $usersPasswords = User::where(['token' => $key])->get();
 
-        $message = "";
-        $error = false;
-        if (count($usersPasswords) == 0) {
-            $isUserVerified = User::withTrashed()->where(['token' => $key])->get();
-            if (count($isUserVerified) > 0) {
-                $error = true;
-                $message = "You have already set the password.";
-            } else {
-                //return response()->view('errors.404', [], 404);
-                return array('message' => 'Link is Expired');
-            }
-        }
+      $usersPasswords = User::where(['token'=>$key])->get();
+
+      $message = "";
+      $error = false;
+
+      if (count($usersPasswords) == 0) {
+          $isUserVerified = User::withTrashed()->where(['token'=>$key])->get();
+          if(count($isUserVerified) > 0) {
+              $error=true;
+              $message = "You have already set the password.";
+          } else {
+              //return response()->view('errors.404', [], 404);
+              $error=true;
+              $message = "Link is Expired.";
+          }
+      }
 
         // TODO: Here we put Code for Mobile Verification
         if (isset($usersPasswords) && count($usersPasswords) > 0 && $usersPasswords[0]['registered_from'] == 0) {
@@ -179,20 +182,29 @@ class UserController extends BaseController
             return redirect('/mlogin');
         }
 
-        // echo "<pre>";print_r($usersPasswords);echo "</pre>";exit;
+      return response()->json([
+                    'success' => true,
+                    'status' => Response::HTTP_OK,
+                    'error' => $error,
+                    'message' => $message
+        ]);
 
-        return view('emails.users.setpassword', compact('usersPasswords'));
-        // return view('emails.users.setpassword');
+      //return view('emails.users.setpassword', compact('usersPasswords'));
+      // return view('emails.users.setpassword');
+
     }
 
     public function passwordActivate(Request $request)
     {
-        $key = $request->key;
-        $password = $request->password;
-        $usersDetail['key'] = $key;
-        $usersDetail['password'] = $password;
-        $result = $this->userRepoObj->createPassword($usersDetail);
-        return ($result == 'Mobile') ? redirect('/mlogin') : redirect('/login/verified');
+
+      $key = $request->key;
+      $password = $request->password;
+      $usersDetail['key'] = $key;
+      $usersDetail['password'] = $password;
+
+      $result = $this->userRepoObj->createPassword($usersDetail);
+      return ($result == 'Mobile') ?  '/mlogin' : '/login/verified';
+
     }
 
     // for desktop - resend email verification
