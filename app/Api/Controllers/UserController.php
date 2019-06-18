@@ -152,6 +152,7 @@ class UserController extends BaseController
 
       $message = "";
       $error = false;
+      $redirect = '';
 
       if (count($usersPasswords) == 0) {
           $isUserVerified = User::withTrashed()->where(['token'=>$key])->get();
@@ -165,28 +166,31 @@ class UserController extends BaseController
           }
       }
 
-        // TODO: Here we put Code for Mobile Verification
-        if (isset($usersPasswords) && count($usersPasswords) > 0 && $usersPasswords[0]['registered_from'] == 0) {
+      // TODO: Here we put Code for Mobile Verification
+      if(isset($usersPasswords) && count($usersPasswords) > 0 && $usersPasswords[0]['registered_from'] == 0) {
 
-            //TODO: Need to put code for change Status For User with user Update
-            //$usersDetail['key'] = $key;
-            $usersPassword = User::where('token', $key)->first();
-            //$users = User::where("id", $usersPassword->id)->first();
-            $usersPassword->is_verified = 1;
-            $usersPassword->is_active = 1;
-            $usersPassword->token = '';
-            $user = $usersPassword->save();
-            // Already set the password
-            // $usersDetail['password'] = $usersPasswords[0]['password'];
-            // $result = $this->userRepoObj->createPassword($usersDetail);
-            return redirect('/mlogin');
-        }
+        //TODO: Need to put code for change Status For User with user Update
+        //$usersDetail['key'] = $key;
+          $usersPassword = User::where('token', $key)->first();
+          //$users = User::where("id", $usersPassword->id)->first();
+          $usersPassword->is_verified = 1;
+          $usersPassword->is_active = 1;
+          $usersPassword->token = '';
+          $user =  $usersPassword->save();
+
+          $redirect = '/mlogin';
+        // Already set the password
+       // $usersDetail['password'] = $usersPasswords[0]['password'];
+       // $result = $this->userRepoObj->createPassword($usersDetail);
+          //return redirect('/mlogin');
+      }
 
       return response()->json([
                     'success' => true,
                     'status' => Response::HTTP_OK,
                     'error' => $error,
-                    'message' => $message
+                    'message' => $message,
+                    'redirect' => $redirect,
         ]);
 
       //return view('emails.users.setpassword', compact('usersPasswords'));
