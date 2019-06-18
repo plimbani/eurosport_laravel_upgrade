@@ -6,7 +6,7 @@
                     <div>
                         <button v-if="isPitchPlannerInEnlargeMode == 0" class="btn btn-primary btn-md vertical" @click="enlargePitchPlanner()">Enlarge</button>
                         <button class="btn btn-primary btn-md" @click="openAutomaticPitchPlanningModal()">{{$lang.pitch_planner_automatic_planning}}</button>
-                        <button class="btn btn-primary btn-md btn-secondary" id="unschedule_fixtures" @click="unscheduleFixtures()">{{$lang.pitch_planner_unschedule_fixtures}}</button>
+                        <button class="btn btn-md btn-secondary" id="unschedule_fixtures" @click="unscheduleFixtures()">{{$lang.pitch_planner_unschedule_fixtures}}</button>
                         <button class="btn btn-danger btn-md cancle-match-unscheduling d-none" id="cancle_unscheduling_fixtures" @click="cancelUnscheduleFixtures()">{{$lang.pitch_planner_cancel_unscheduling}}</button>
                     </div>
                     <div>
@@ -24,11 +24,15 @@
                         <div class="card">
                             <div class="btn pnl" :id="stage.stageNumber">
                                 Day {{ stage.stageNumber }}: {{dispDate(stage.tournamentStartDate)}}
-                                <a data-toggle="collapse" v-bind:data-target="'#demo'+stage.stageNumber" :id="'pitch_stage_open_close_'+stage.stageNumber" href="javascript:void(0)" data-status="open" @click="toggleStage(stage.stageNumber)" class="pull-right open-close-link">Close</a>
+                                <a data-toggle="collapse" v-bind:data-target="'#stage_div'+stage.stageNumber" :id="'pitch_stage_open_close_'+stage.stageNumber" href="javascript:void(0)" data-status="open" @click="toggleStage(stage.stageNumber)" class="pull-right open-close-link">Close</a>
                             </div>
-                            
-                            <div :id="'demo'+stage.stageNumber" class="stages collapse in show" aria-expanded="true">
-                                <pitch-planner-stage :stage="stage"  :defaultView="defaultView"></pitch-planner-stage>
+                            <div :id="'stage_div'+stage.stageNumber" class="stages collapse in show" aria-expanded="true">
+                                <div :class="'stage-top-horizontal-scroll js-stage-top-horizontal-scroll'+stage.stageNumber" :data-stage-number="stage.stageNumber">
+                                    <div></div>
+                                </div>
+                                <div :id="'stage_outer_div'+stage.stageNumber" :data-stage-number="stage.stageNumber" class="js-stage-outer-div">
+                                    <pitch-planner-stage :stage="stage"  :defaultView="defaultView"></pitch-planner-stage>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -488,14 +492,20 @@
                 var manageClass = false;
                 if($("#unschedule_fixtures").hasClass('btn-success')) {
                     $("#bulk_unscheduled_fixtures").modal('show');
+                    return true;
+                }
+                if($("#unschedule_fixtures").hasClass('btn-secondary')) {
+                    $("#unschedule_fixtures").removeClass('btn-secondary').addClass('btn-primary');
+                    $(".match-unschedule-checkbox-div").removeClass('d-none');
+                    return true;
                 }
 
-                if($("#unschedule_fixtures").hasClass('btn-secondary')) {
-                    $("#unschedule_fixtures").removeClass('btn-secondary');
-                    $(".match-unschedule-checkbox-div").removeClass('d-none');
-                } 
+                if($("#unschedule_fixtures").hasClass('btn-primary')) {
+                    $("#unschedule_fixtures").removeClass('btn-primary').addClass('btn-secondary');
+                    $(".match-unschedule-checkbox-div").addClass('d-none');
+                    return true;
+                }
             },
-
             cancelUnscheduleFixtures() {
                 $("#unschedule_fixtures").html('Unschedule fixture').removeClass('btn btn-success');
                 $("#unschedule_fixtures").addClass('btn btn-primary btn-md btn-secondary');

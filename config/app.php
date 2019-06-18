@@ -238,6 +238,8 @@ return [
         Laraspace\Providers\ComposerServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
         Spatie\UrlSigner\Laravel\UrlSignerServiceProvider::class,
+        Laraspace\Api\Providers\TemplateServiceProvider::class,
+        Laravel\Socialite\SocialiteServiceProvider::class,
     ],
 
     /*
@@ -299,6 +301,8 @@ return [
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
         'UrlSigner' => Spatie\UrlSigner\Laravel\UrlSignerFacade::class,
+        'Uuid' => Webpatser\Uuid\Uuid::class,
+        'Socialite' => Laravel\Socialite\Facades\Socialite::class,
     ],
 
 ];

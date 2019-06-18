@@ -8341,12 +8341,12 @@ TimeGrid.mixin({
 			startTimeText = this.getEventTimeText(event, null, false); // displayEnd=false
 		}
 
-		var matchRemarkClasses = 'match-remark';
-		if( (event.fixtureStripColor && event.fixtureStripColor == event.color)) {
-			matchRemarkClasses += ' match-remark-right-position2';
-		} else {
-			matchRemarkClasses += ' match-remark-right-position17';
-		}
+		// var matchRemarkClasses = 'match-remark';
+		// if( (event.fixtureStripColor && event.fixtureStripColor == event.color)) {
+		// 	matchRemarkClasses += ' match-remark-right-position2';
+		// } else {
+		// 	matchRemarkClasses += ' match-remark-right-position17';
+		// }
 
 		if(event.locationCheckFlag == false) {
 			skinCss += ';display: none;';
@@ -8363,7 +8363,7 @@ TimeGrid.mixin({
 				) +
 			'>' +
 				'<div class="scheduled-match-content">' +
-					'<div class="badge badge-custom " style="display: ' + event.displayFlag + '"><i class="fas fa-exclamation-triangle"></i></div>'+
+					((event.matchId !== -1 && event.matchId !== '') ? '<span class="match-planner-warning" style="display: ' + event.displayFlag + '"><i class="fas fa-exclamation-triangle"></i></span>' : '')+
 					'<div class="fc-content">' +
 						(timeText ?
 							'<span class="fc-referee referee_'+event.refereeId+'" id="'+ event.refereeId+'">'+ event.refereeText+'</span>' +
@@ -8372,6 +8372,7 @@ TimeGrid.mixin({
 							' data-full="' + htmlEscape(fullTimeText) + '"' +
 							'>' +
 								'<span>' + htmlEscape(timeText) + '</span>' +
+								(event.remarks ? '<span class="match-fixture-comment"><i class="fas fa-comment-dots"></i></span>' : '') +
 							'</div>' :
 							''
 							) +
@@ -8406,10 +8407,7 @@ TimeGrid.mixin({
 					'<div class="scheduled-match-content-strip" style="background: ' + event.fixtureStripColor + '"></div>' :
 						''
 						) +
-					'<div class="checkbox d-none match-unschedule-checkbox-div"><div class="c-input"><input type="checkbox" class="euro-checkbox match-unschedule-checkbox" name="match_unschedule_check[]" id="'+ event.matchId+'"><label for="'+ event.matchId+'"></label></div></div>'+
-					(event.remarks ?
-					'<div class="' + matchRemarkClasses + '"><i class="fas fa-comment-dots"></i></div>' : ''
-						) +
+					((event.matchId !== '' && event.matchId !== -1) ? '<div class="checkbox d-none match-unschedule-checkbox-div"><div class="c-input"><input type="checkbox" class="euro-checkbox match-unschedule-checkbox" name="match_unschedule_check[]" id="'+ event.matchId+'"><label for="'+ event.matchId+'"></label></div></div>' : '') +
 				'</div>' +
 			'</a>';
 	},

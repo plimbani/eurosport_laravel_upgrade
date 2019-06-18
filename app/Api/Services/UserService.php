@@ -539,7 +539,7 @@ class UserService implements UserContract
     public function changePermissions($data) {
       $data = $this->userRepoObj->changePermissions($data);
       if($data) {
-        return ['status_code'=>'200','message'=>'Permissions has been updated successfully.'];
+        return ['status_code'=>'200','message'=>'Permissions have been updated successfully.'];
       } else {
         return ['status_code'=>'200','message'=>'Problem on updating'];
       }     
@@ -561,4 +561,11 @@ class UserService implements UserContract
         return $this->userRepoObj->getAllLanguages();
     }
 
+    public function updateAppDeviceVersion($data) {
+       return $this->userRepoObj->updateAppDeviceVersion($data);
+    }
+
+    public function validateUserEmail($data) {
+        return $this->userRepoObj->validateUserEmail($data);
+    }
 }

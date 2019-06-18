@@ -3,154 +3,166 @@ $gray-light: #eeeeee;
 $nav-height: 50px;
 $container-height: 400px;
 $club-logo-box: 180px;
-.preview {
-	.nav {
-		&-item {
-			.nav-link {
-				&:hover {
-					text-decoration: none;
-					color: inherit;
-					opacity: 0.5;
-					border: 0;
-				}
-				&.dropdown-toggle:after {
-						margin-left: 0.5rem;
-				}
-			}
-		}
-	}
-	.preview--header,
-	.preview--header-secondary {
-		height: $nav-height;
-		> .container-fluid,
-		> .container-fluid > div {
-			height: 100%;
-		}
-	}
-	.preview--header {
-		background: $black;
-		.logo {
-			img {
-				height: ($nav-height - 10);
-			}
-		}
-		.lang-bar {
-			h5 {
-				font-size: 10px;
-				text-transform: uppercase;
-				color: $white;
-				margin-bottom: 0;
-				margin-right: 5px;
-			}
-			img {
-				height: 20px;
-			}
-		}
-	}
-	.preview--container {
-		position: relative;
-		height: $container-height;
-		&-nav {
-			height: $nav-height;
-			position: absolute;
-			top: 0;
-			right: 0;
-			left: 0;
-			z-index: 1;
-			background: rgba($primary-color, 0.9);
-			> .container-fluid,
-			> .container-fluid > ul {
-				height: 100%;
-			}
+
+.tabs-primary{
+	@at-root {
+	 	.preview {
 			.nav {
-				align-items: center;
 				&-item {
 					.nav-link {
-						color: $white;
-						font-size: 11px;
-						font-weight: 700;
-						text-transform: uppercase;
+						&:hover {
+							text-decoration: none;
+							color: inherit;
+							opacity: 0.5;
+							border: 0;
+						}
+						&.dropdown-toggle:after {
+								margin-left: 0.5rem;
+						}
 					}
 				}
 			}
-		}
-		&-banner {
-			height: $container-height;
-			width: 100%;
-			overflow: hidden;
-			img {
-				width: 100%;
-				height: 100%;
-				-o-object-fit: cover;
-				object-fit: cover;
-				-o-object-position: center;
-				object-position: center;
+			.preview--header,
+			.preview--header-secondary {
+				height: $nav-height;
+				> .container-fluid,
+				> .container-fluid > div {
+					height: 100%;
+				}
 			}
-		}
-		&-overlay {
-			position: absolute;
-			top: 0;
-			left: 0;
-			right: 0;
-			bottom: 0;
-			background: black;
-			background: linear-gradient(
-				180deg,
-				transparent 0%,
-				rgba($black, 0.1) 50%,
-				rgba($black, 0.25) 75%,
-				rgba($black, 0.5) 100%
-			);
-			> .container-fluid {
-				height: 100%;
-				display: flex;
-				flex-direction: column;
-				justify-content: flex-end;
-			}
-			.club_logo {
-				&-box {
-					box-shadow: 0px 10px 20px 0px rgba($black, 0.15);
-					width: $club-logo-box;
-					height: $club-logo-box;
-					display: block;
-					margin: 0 auto;
-					margin-bottom: -25px;
-					background: #fff;
+			.preview--header {
+				background: $black;
+				.logo {
 					img {
-						max-width: ($club-logo-box - 23px);
-						max-height: ($club-logo-box - 23px);
+						height: ($nav-height - 10);
+					}
+				}
+				.lang-bar {
+					h5 {
+						font-size: 10px;
+						text-transform: uppercase;
+						color: $white;
+						margin-bottom: 0;
+						margin-right: 5px;
+					}
+					img {
+						height: 20px;
 					}
 				}
 			}
-			.club_info {
-				.club_info-title {
-					font-weight: 700;
-					font-size: 2.5rem;
-					line-height: 2.125rem;
-					text-shadow: 0 2px 4px rgba($black, 0.5);
-					color: $white;
+			.preview--container {
+				position: relative;
+				height: $container-height;
+				&-nav {
+					height: $nav-height;
+					position: absolute;
+					top: 0;
+					right: 0;
+					left: 0;
+					z-index: 1;
+					background: rgba($primary-color, 0.9);
+					> .container-fluid,
+					> .container-fluid > ul {
+						height: 100%;
+					}
+					.nav {
+						align-items: center;
+						&-item {
+							.nav-link {
+								color: $white;
+								font-size: 11px;
+								font-weight: 700;
+								text-transform: uppercase;
+								margin-right: 0px;
+							    margin-bottom: 0px;
+							    border-bottom: none;
+							    padding: 0.75em 1.25em;
+							}
+						}
+					}
 				}
-				.club_info-detail {
-					font-size: 1rem;
-					text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-					color: $white;
+				&-banner {
+					height: $container-height;
+					width: 100%;
+					overflow: hidden;
+					img {
+						width: 100%;
+						height: 100%;
+						-o-object-fit: cover;
+						object-fit: cover;
+						-o-object-position: center;
+						object-position: center;
+					}
+				}
+				&-overlay {
+					position: absolute;
+					top: 0;
+					left: 0;
+					right: 0;
+					bottom: 0;
+					background: black;
+					background: linear-gradient(
+						180deg,
+						transparent 0%,
+						rgba($black, 0.1) 50%,
+						rgba($black, 0.25) 75%,
+						rgba($black, 0.5) 100%
+					);
+					> .container-fluid {
+						height: 100%;
+						display: flex;
+						flex-direction: column;
+						justify-content: flex-end;
+					}
+					.club_logo {
+						&-box {
+							box-shadow: 0px 10px 20px 0px rgba($black, 0.15);
+							width: $club-logo-box;
+							height: $club-logo-box;
+							display: block;
+							margin: 0 auto;
+							margin-bottom: -25px;
+							background: #fff;
+							img {
+								max-width: ($club-logo-box - 23px);
+								max-height: ($club-logo-box - 23px);
+							}
+						}
+					}
+					.club_info {
+						.club_info-title {
+							font-weight: 700;
+							font-size: 2.5rem;
+							line-height: 2.125rem;
+							text-shadow: 0 2px 4px rgba($black, 0.5);
+							color: $white;
+						}
+						.club_info-detail {
+							font-size: 1rem;
+							text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+							color: $white;
+						}
+					}
 				}
 			}
-		}
-	}
-	.preview--header-secondary {
-		background: $gray-light;
-		.nav {
-			&-item {
-				.nav-link {
-					color: $primary-color;
-					text-transform: uppercase;
-					font-size: 0.8rem;
-					font-weight: 700;
-					padding: 0.35rem 0.75rem;
-					line-height: 1;
-					display: flex;
-					align-items: center;
+			.preview--header-secondary {
+				background: $gray-light;
+				.nav {
+					&-item {
+						.nav-link {
+							color: $primary-color;
+							text-transform: uppercase;
+							font-size: 0.8rem;
+							font-weight: 700;
+							padding: 0.35rem 0.75rem;
+							line-height: 1;
+							display: flex;
+							align-items: center;
+							margin-right: 0px;
+						    margin-bottom: 0px;
+						    border-bottom: none;
+						}
+					}
 				}
 			}
 		}

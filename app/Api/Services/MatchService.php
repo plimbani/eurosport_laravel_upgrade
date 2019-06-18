@@ -130,7 +130,6 @@ class MatchService implements MatchContract
         $tournamentData = $data['tournamentData'];
 
         $standingResData = $this->matchRepoObj->getStanding($tournamentData);
-
         if($refreshStanding && $refreshStanding == 'yes' && isset($tournamentData['competitionId']) && $tournamentData['competitionId'] != '')
         {
             $competition = Competition::find($tournamentData['competitionId']);
@@ -264,13 +263,14 @@ class MatchService implements MatchContract
             $resultGridTable[$competition->id] = ['name' => $competition['name'], 'results' => [], 'actual_competition_type' => $competition['actual_competition_type']];
           }
 
-          $tournamentDataMatches = ['tournamentData' => ['competitionId' => $competition->id, 'tournamentId' => $competition->tournament_id, 'is_scheduled' => 1]];
+          $tournamentDataMatches = ['tournamentData' => ['competitionId' => $competition->id, 'tournamentId' => $competition->tournament_id, 'is_scheduled' => 1,'matchOrderReport' => 1]];
           $resultMatches =$this->getFixtures(collect($tournamentDataMatches));
           $resultMatchesTable[$competition->id] = ['name' => $competition['name'], 'results' => $resultMatches['data']];
         }
         if ($competition->competation_round_no !== "Round 1") {
-          $tournamentDataMatchesAfterFirstRound = ['tournamentData' => ['competitionId' => $competition->id, 'tournamentId' => $competition->tournament_id]];
+          $tournamentDataMatchesAfterFirstRound = ['tournamentData' => ['competitionId' => $competition->id, 'tournamentId' => $competition->tournament_id, 'matchOrderReport' => 1]];
           $resultMatchesAfterFirstRound =$this->getFixtures(collect($tournamentDataMatchesAfterFirstRound));
+
           $resultMatchesTableAfterFirstRound[$competition->id] = ['name' => $competition['name'], 'results' => $resultMatchesAfterFirstRound['data'], 'actual_competition_type' => $competition['actual_competition_type']];
         }
       }
@@ -321,7 +321,8 @@ class MatchService implements MatchContract
     }
     public function saveResult($matchData) {
         $matchResult = $this->matchRepoObj->saveResult($matchData->all()['matchData']);
-        $competationId = $this->calculateCupLeagueTable($matchData->all()['matchData']['matchId']);
+        $fixture = DB::table('temp_fixtures')->where('id', $matchData->all()['matchData']['matchId'])->first();
+        $competationId = $this->calculateCupLeagueTable($fixture);
 
         $result = TempFixture::where('id',$matchData->all()['matchData']['matchId'])->first()->toArray();
         $tournamentId = $result['tournament_id'];
@@ -348,22 +349,40 @@ class MatchService implements MatchContract
       $AllMatches = $matchData->all()['matchData']['matchDataArray'];
       $tournamentId = $matchData->all()['matchData']['tournamentId'];
       $matchResult = null;
+      $unChangedMatchScoresArray = [];
+      $isAnyMatchScoreUpdated = false;
+      $matchesScoresStatusArray = [];
+
       foreach ($AllMatches as $match) {
         $matchResult = $this->matchRepoObj->saveAllResults($match);
+        array_push($matchesScoresStatusArray, $matchResult['is_score_updated']);
+        // $matchesScoresStatusArray['is_score_updated'] = $matchResult['is_score_updated'];
+        if($matchResult['status'] === false) {
+          $unChangedMatchScoresArray[] = $matchResult['tempFixture']->match_number;
+        }
         $matchData = $matchResult['match_data'];
-        $teamArray[$matchData['age_group_id']][] = $matchData['home_team_id'];
-        $teamArray[$matchData['age_group_id']][] = $matchData['away_team_id'];
-        // $competationId = $this->calculateCupLeagueTable($match['matchId']);
-        $competitionIds[$matchData['age_group_id']][] = $matchData['competition_id'];
+        if($matchResult['is_score_updated'] === true && $matchResult['status'] === true) {
+          $teamArray[$matchData['age_group_id']][] = $matchData['home_team_id'];
+          $teamArray[$matchData['age_group_id']][] = $matchData['away_team_id'];
+          $competitionIds[$matchData['age_group_id']][] = $matchData['competition_id'];
+        }
+      }
+
+      $changedScoresCount = count(array_filter($matchesScoresStatusArray, function($x) { 
+                              return $x==true;
+                            }));
+
+      if(($changedScoresCount != count($unChangedMatchScoresArray)) || ($changedScoresCount == count($unChangedMatchScoresArray) && $changedScoresCount == 0 && count($unChangedMatchScoresArray) == 0)) {
+        $isAnyMatchScoreUpdated = true;
       }
 
       foreach ($competitionIds as $ageGroupId => $cids) {
         $lowerCompetitionId = min(array_unique($cids));
-        $allCompetitionsIds = Competition::where('tournament_id', '=', $tournamentId)->where('tournament_competation_template_id', '=', $ageGroupId)->where('id', '>=', $lowerCompetitionId)->pluck('id')->toArray();
-        foreach ($allCompetitionsIds as $id) {
-          $data = ['tournamentId' => $tournamentId, 'competitionId' => $id];
-          $this->refreshCompetitionStandings($data);
-        }
+        // $allCompetitionsIds = Competition::where('tournament_id', '=', $tournamentId)->where('tournament_competation_template_id', '=', $ageGroupId)->where('id', '>=', $lowerCompetitionId)->pluck('id')->toArray();
+          // foreach ($allCompetitionsIds as $id) {
+            $data = ['tournamentId' => $tournamentId, 'competitionId' => $lowerCompetitionId];
+            $this->refreshCompetitionStandings($data);
+          // }
       }
       foreach ($teamArray as $ageGroupId => $teamsList) {
         $teamsList = array_unique($teamsList);
@@ -371,7 +390,7 @@ class MatchService implements MatchContract
         $matchresult =  $this->matchRepoObj->checkTeamIntervalforMatches($matchData);
       }
       if ($matchResult) {
-        return ['status_code' => '200', 'data' => $matchResult];
+        return ['status_code' => '200', 'data' => $matchResult, 'unChangedScores' => $unChangedMatchScoresArray, 'isAnyMatchScoreUpdated' => $isAnyMatchScoreUpdated];
       } else {
           return ['status_code' => '300'];
       }
@@ -412,7 +431,8 @@ class MatchService implements MatchContract
     }
     public function updateScore($matchData) {
        $scoreUpdate = $this->matchRepoObj->updateScore($matchData->all()['matchData']);
-       $competationId = $this->calculateCupLeagueTable($matchData->all()['matchData']['matchId']);
+       $fixture = DB::table('temp_fixtures')->where('id', $matchData->all()['matchData']['matchId'])->first();
+       $competationId = $this->calculateCupLeagueTable($fixture);
 
        $result = TempFixture::where('id',$matchData->all()['matchData']['matchId'])->first()->toArray();
         $tournamentId = $result['tournament_id'];
@@ -527,7 +547,6 @@ class MatchService implements MatchContract
     }
     }
     private function secondRoundElimination($singleFixture) {
-
       $age_category_id = $singleFixture->age_group_id;
       $tournament_id   = $singleFixture->tournament_id;
 
@@ -593,7 +612,7 @@ class MatchService implements MatchContract
         ->where(function($query) use ($val) {
           $query->whereRaw(DB::raw("match_number like '%(".$val."_WR)%' OR  match_number like '%(".$val."_LR)%' "));
         })->get();
-
+        $processFixtures = [];
         // here we get two records 1 for Winner and other for looser
         foreach($results as $record) {
          $rec_mtchNumber = explode(".",$record->match_number);
@@ -610,6 +629,7 @@ class MatchService implements MatchContract
               'home_team_name'=> $winnerTeam,
               'home_team'=> $winnerId
             ]);
+            $processFixtures[] = $record->id;
            }
 
            if(trim("(".$val."_WR)") == trim($awayTeam)) {
@@ -617,6 +637,7 @@ class MatchService implements MatchContract
               'away_team_name'=> $winnerTeam,
               'away_team'=> $winnerId
             ]);
+            $processFixtures[] = $record->id;
            }
 
            // its away team
@@ -629,6 +650,7 @@ class MatchService implements MatchContract
               'home_team_name'=> $looserTeam,
               'home_team'=> $looserId
             ]);
+            $processFixtures[] = $record->id;
            }
 
            if(trim("(".$val."_LR)") == trim($awayTeam)) {
@@ -636,9 +658,11 @@ class MatchService implements MatchContract
               'away_team_name'=> $looserTeam,
               'away_team'=> $looserId
             ]);
+            $processFixtures[] = $record->id;
            }
          }
         }
+        $this->processFixtures($processFixtures);
       }
 
       return ;
@@ -656,6 +680,7 @@ class MatchService implements MatchContract
                 // ->where('round','=' , 'Elimination')
                 ->where('age_group_id','=',$ageGroupId)
                 ->get();
+      $processFixtures = [];
 
       $matchArr =  array();
       $teams_arr = explode('.', $singleFixture->match_number);
@@ -692,7 +717,6 @@ class MatchService implements MatchContract
           if($SelhomeTeam == $homeTeam ) {
             // echo "SDF";exit;
             $match1 = $match;
-
           }
           if($homeTeam[0] == '(') {
               if(isset($match1) && $match1 != ''){
@@ -702,7 +726,6 @@ class MatchService implements MatchContract
             }
           if($SelawayTeam==$awayTeam) {
             $match2=$match;
-
           }
           if($awayTeam[strlen($awayTeam)-1]==')') {
               if(isset($match2) && $match2 != ''){
@@ -785,6 +808,7 @@ class MatchService implements MatchContract
             $updateArray = ['home_team_name'=> $hometeamName,'home_team'=>$homeTeamId];
             DB::table('temp_fixtures')->where('id',$match->id)->update($updateArray);
           }
+          $processFixtures[] = $match->id;
         }
         if($awayTeam  == $modifiedTeamsWinner) {
           $awayteamName = null;
@@ -822,6 +846,7 @@ class MatchService implements MatchContract
             $updateArray = ['away_team_name'=> $awayteamName,'away_team'=>$awayTeamId];
             DB::table('temp_fixtures')->where('id',$match->id)->update($updateArray);
           }
+          $processFixtures[] = $match->id;
         }
         // For Looser
         $modifiedTeamsLooser = $modifiedTeams.'_LR';
@@ -862,6 +887,7 @@ class MatchService implements MatchContract
             $updateArray = [ 'home_team_name'=> $hometeamName,'home_team'=>$homeTeamId];
             DB::table('temp_fixtures')->where('id',$match->id)->update($updateArray);
           }
+          $processFixtures[] = $match->id;
         }
         if($awayTeam  == $modifiedTeamsLooser) {
           $awayteamName = null;
@@ -899,22 +925,40 @@ class MatchService implements MatchContract
             $updateArray = ['away_team_name'=> $awayteamName,'away_team'=>$awayTeamId];
             DB::table('temp_fixtures')->where('id',$match->id)->update($updateArray);
           }
+          $processFixtures[] = $match->id;
         }
       }
 
+      $this->processFixtures($processFixtures);
       return $singleFixture->competition_id;
     }
 
     public function refreshStanding($data) {
       $data = $data['tournamentData'];
-      $standingCount =  DB::table('match_standing')
-                            ->where('tournament_id','=',$data['tournamentId'])
-                            ->where('competition_id','=',$data['competitionId'])->count();
 
+      // Following query will not be not needed if we will send age category id.
+      $competition = Competition::find($data['competitionId']);
+      $ageCategoryId = $competition->tournament_competation_template_id;
+
+      $firstCompetition = Competition::where('tournament_competation_template_id', $ageCategoryId)->orderBy('id')->first();
       $groupFixture = DB::table('temp_fixtures')->select('temp_fixtures.*')->where('tournament_id','=',$data['tournamentId'])->where('competition_id',$data['competitionId'])->get();
 
-      foreach ($groupFixture as $key => $value) {
-        $this->calculateCupLeagueTable($value->id, 0);
+      if($firstCompetition->id != $data['competitionId'] && $competition->actual_competition_type === 'Round Robin') {
+        $findTeams = [];
+        foreach ($groupFixture as $key => $value) {
+          if($value->home_team == 0 || $value->away_team == 0) {
+            continue;
+          }
+          $findTeams[] = $value->home_team;
+          $findTeams[] = $value->away_team;
+        }
+
+        if(count($findTeams) > 0) {
+          $findTeams = array_unique($findTeams);
+          $this->moveMatchStandings($data['tournamentId'], $ageCategoryId, $data['competitionId']);
+          $this->generateStandingsForCompetitions($data['tournamentId'], $data['competitionId'], $ageCategoryId, $findTeams, 'Round Robin');
+          $this->updateCategoryPositions($data['competitionId'], $ageCategoryId);
+        }
       }
 
       $standingResData = $this->matchRepoObj->getStanding($data);
@@ -923,32 +967,25 @@ class MatchService implements MatchContract
       }
     }
 
-    public function calculateCupLeagueTable($id, $generatePositions = 1) {
+    public function calculateCupLeagueTable($fixture) {
         $ageCategoryId = 0;
         $competitionId = 0;
-        $singleFixture = DB::table('temp_fixtures')->select('temp_fixtures.*')->where('id','=',$id)->get();
         $fix1=array();
-        // dd($singleFixture );
-        foreach($singleFixture as $singleFxture)
-        {
-          $competitionId = $fix1['CupFixture']['cupcompetition'] = $singleFxture->competition_id;
-          $fix1['CupFixture']['hometeam'] = $singleFxture->home_team;
-          $fix1['CupFixture']['awayteam'] = $singleFxture->away_team;
-          $fix1['CupFixture']['tournamentId'] = $singleFxture->tournament_id;
-          $fix1['CupFixture']['match_round'] = $singleFxture->round;
-          $ageCategoryId = $fix1['CupFixture']['age_group_id'] = $singleFxture->age_group_id;
-        }
-        if( $fix1['CupFixture']['hometeam'] == 0 || $fix1['CupFixture']['awayteam'] == 0)
-        {
-          return $singleFxture->competition_id;
-        }
+        $competitionId = $fix1['CupFixture']['cupcompetition'] = $fixture->competition_id;
+        $fix1['CupFixture']['hometeam'] = $fixture->home_team;
+        $fix1['CupFixture']['awayteam'] = $fixture->away_team;
+        $fix1['CupFixture']['tournamentId'] = $fixture->tournament_id;
+        $fix1['CupFixture']['match_round'] = $fixture->round;
+        $ageCategoryId = $fix1['CupFixture']['age_group_id'] = $fixture->age_group_id;
 
-
-        // Set the fix1 single record team
+        if($fix1['CupFixture']['match_round'] == 'Round Robin') {
+          if( $fix1['CupFixture']['hometeam'] == 0 || $fix1['CupFixture']['awayteam'] == 0)
+          {
+            return $fixture->competition_id;
+          }
+        }
 
         $cup_competition_id = $fix1['CupFixture']['cupcompetition'];
-        //$this->CupCompetition->id = $cup_competition_id;
-        //$comType = $this->CupCompetition->field('competition_type');
         $home = false;
         // Home team Id, away team id
         $home_tema_id[] = $fix1['CupFixture']['hometeam'];
@@ -956,68 +993,27 @@ class MatchService implements MatchContract
         // merge it
         $findTeams = array_merge($home_tema_id,$away_team_id);
         if($fix1['CupFixture']['match_round'] == 'Elimination') {
-
           // So here we have to Call Function For Elimination Matches
-          $competitionId = $this->calculateEliminationTeams($singleFixture[0]);
+          $competitionId = $this->calculateEliminationTeams($fixture);
 
           // changes for #247
-          $competition = Competition::where('id', $singleFxture->competition_id)->first();
+          $competition = Competition::where('id', $fixture->competition_id)->first();
           if($competition->competation_type == 'Elimination' && $competition->actual_competition_type == 'Round Robin') {
-              $this->generateStandingsForCompetitions($fix1, $cup_competition_id, $findTeams,'Elimination');
+              $this->generateStandingsForCompetitions($fix1['CupFixture']['tournamentId'], $cup_competition_id, $ageCategoryId, $findTeams,'Elimination');
           }
-          if($generatePositions == 1) {
-            $this->updateCategoryPositions($competitionId, $ageCategoryId);
-          }
+          $this->updateCategoryPositions($competitionId, $ageCategoryId);
 
           return $competitionId;
           // end #247
         }
-        $comType = 'C';
-        if ($comType == 'C') {
-            // Manual standing insert - start
-            $allCompetitions = Competition::where('tournament_id','=',$fix1['CupFixture']['tournamentId'])->where('tournament_competation_template_id','=',$fix1['CupFixture']['age_group_id'])->where('id','>',$cup_competition_id)->get();
 
-            foreach($allCompetitions as $competition)
-            {
-              if($competition->is_manual_override_standing == 1) {
-                $allCompetitionStandings = DB::table('match_standing')->where('tournament_id','=',$fix1['CupFixture']['tournamentId'])->where('competition_id', '=', $competition->id)->get();
+        $this->moveMatchStandings($fix1['CupFixture']['tournamentId'], $fix1['CupFixture']['age_group_id'], $cup_competition_id);
 
-                foreach($allCompetitionStandings as $standing) {
-                  $teamManualRanking = TeamManualRanking::where('tournament_id','=',$standing->tournament_id)->where('competition_id', '=', $standing->competition_id)->where('team_id', '=', $standing->team_id)->first();
+        $this->generateStandingsForCompetitions($fix1['CupFixture']['tournamentId'], $cup_competition_id, $ageCategoryId, $findTeams, 'Round Robin');
 
-                  if($teamManualRanking) {
-                    $teamManualRanking->manual_order = $standing->manual_order;
-                    $teamManualRanking->save();
-                  } else {
-                    $teamManualRanking = new TeamManualRanking();
-                    $teamManualRanking->tournament_id = $standing->tournament_id;
-                    $teamManualRanking->competition_id = $standing->competition_id;
-                    $teamManualRanking->team_id = $standing->team_id;
-                    $teamManualRanking->manual_order = $standing->manual_order;
-                    $teamManualRanking->save();
-                  }
-
-                }
-              }
-            }
-            // Manual standing insert - end
-
-            $result = DB::table('match_standing')
-                            ->join('competitions', 'match_standing.competition_id', '=', 'competitions.id')
-                            ->where('match_standing.tournament_id','=',$fix1['CupFixture']['tournamentId'])
-                            ->where('match_standing.competition_id','>',$cup_competition_id)
-                            ->where('competitions.tournament_competation_template_id', '=', $fix1['CupFixture']['age_group_id'])->delete();
-
-
-            // dd($result,$fix1['CupFixture']['tournamentId'],$cup_competition_id,$findTeams);
-            $this->generateStandingsForCompetitions($fix1, $cup_competition_id, $findTeams, 'Round Robin');
-
-        if($generatePositions == 1) {
-          $this->updateCategoryPositions($competitionId, $ageCategoryId);
-        }
+        $this->updateCategoryPositions($competitionId, $ageCategoryId);
 
         return $cup_competition_id;
-      }
     }
     /*
       This function used for Team Assignment For Placing Matches
@@ -1038,10 +1034,9 @@ class MatchService implements MatchContract
 
     }
 
-    private function TeamPMAssignKp($data)
+    private function TeamPMAssignKp($compId)
     {
-      // dd($data);
-        $compId = $data['home']['competition_id'];
+        $processFixtures = [];
         $competition = Competition::find($compId);
         $tournament_id =  $competition->tournament_id;
 
@@ -1061,10 +1056,6 @@ class MatchService implements MatchContract
 
          // $teams = DB::table('teams')->where('competation_id','=',$compId)->get();
          $teams = DB::table('teams')->whereIn('id',$teamList)->get();
-           // dd($teams);
-        // $team_ids = $data['home']['team_id'].','.$data['away']['team_id'];
-        // $teams = DB::table('teams')->whereIn('id',[$data['home']['team_id'],$data['away']['team_id']])->get();
-        // print_r($teams);exit;
         $defaultArray = array('Played' => 0,'Won' => '0', 'Lost' => 0,'Draw' => 0,
           'home_goal' => 0,'away_goal' => 0,'goal_difference' => 0,'Total' => 0,
           'manual_override' => 0,'group_winner' => 0, 'manual_order' => 0);
@@ -1186,11 +1177,29 @@ class MatchService implements MatchContract
 
             $head_to_head = false;
             $check_head_to_head_with_key = '';
-
+            $remain_head_to_head_with_key = '';
+            $head_to_head_order_atlast = false;
             for($i=0; $i<count($rules); $i++) {
               $rule = $rules[$i];
 
               if($rule['checked'] == false || ( $rule['key'] != 'head_to_head' && $head_to_head == true)) {
+
+                if (  $rule['checked'] == true && ( $rule['key'] != 'head_to_head' && $head_to_head == true )  )
+                {
+                  if($rule['key'] == 'goal_difference') {
+                    $remain_head_to_head_with_key .= '|goal_difference';
+                  }
+                  if($rule['key'] == 'goals_for') {
+                    $remain_head_to_head_with_key .= '|home_goal';
+                  }
+                  if($rule['key'] == 'matches_won') {
+                    $remain_head_to_head_with_key .= '|Won';
+                  }
+                  if($rule['key'] == 'goal_ratio') {
+                    $remain_head_to_head_with_key .= '|goal_ratio';
+                  }
+                }
+
                 continue;
               }
               
@@ -1203,9 +1212,7 @@ class MatchService implements MatchContract
               if($rule['key'] == 'head_to_head') {
                 if($checkResultEntered > 0)
                 {
-                  $params[] = $teamName;
-                  $params[] = SORT_ASC;
-                  $check_head_to_head_with_key .= '|teamName';
+                  $head_to_head_order_atlast = true;
                 }
                 else
                 {
@@ -1236,13 +1243,27 @@ class MatchService implements MatchContract
               }
             }
 
+            if ( $head_to_head_order_atlast )
+            {
+              $params[] = $teamName;
+              $params[] = SORT_ASC;
+              $check_head_to_head_with_key .= '|teamName';
+            }
+
             if ( !empty($check_head_to_head_with_key) )
             {
               $check_head_to_head_with_key = ltrim($check_head_to_head_with_key,'|');
             }
 
+            if ( !empty($remain_head_to_head_with_key) )
+            {
+              $remain_head_to_head_with_key = ltrim($remain_head_to_head_with_key,'|');
+            }
+
             $params[] = &$cvalue;
             if($competition->is_manual_override_standing == 1) {
+              $params = [];
+              $params[] = &$cvalue;
               $params = array_merge(array($manual_order, SORT_ASC), $params);
             }
 
@@ -1251,19 +1272,22 @@ class MatchService implements MatchContract
         }
 
 
-        if ( $head_to_head )
+        if ( $head_to_head && $competition->is_manual_override_standing == 0 )
         {
 
           $calculatedArray = array_shift($calculatedArray);
-          list($calculatedArray,$sort_head_to_head) = $this->matchRepoObj->sortByHeadtoHead($calculatedArray,$check_head_to_head_with_key,$tournament_id,$compId,$tournamentCompetationTemplatesRecord);
+          list($calculatedArray,$sort_head_to_head) = $this->matchRepoObj->sortByHeadtoHead($calculatedArray,$check_head_to_head_with_key,$tournament_id,$compId,$tournamentCompetationTemplatesRecord,$remain_head_to_head_with_key);
 
           if ( $sort_head_to_head == '1') {
-            $head_to_head_position_sorting = array();           
+            $head_to_head_position_sorting = array();    
+            $internal_head_to_head_position_sorting = array();         
             foreach ($calculatedArray as $comp_stand_key => $comp_stand_value) {
               $head_to_head_position_sorting[$comp_stand_key] = (int)$comp_stand_value['head_to_head_position'];
+              $internal_head_to_head_position_sorting[$comp_stand_key] = (int)$comp_stand_value['internal_head_to_head_position'];
             }
-            array_multisort($head_to_head_position_sorting, SORT_ASC,$calculatedArray);
+            array_multisort($internal_head_to_head_position_sorting,SORT_ASC,$calculatedArray);
           }
+
           $setCalculatedArray[$cupId] = $calculatedArray;
           $calculatedArray = $setCalculatedArray;
         }
@@ -1294,7 +1318,7 @@ class MatchService implements MatchContract
 
         $reportQuery = DB::table('temp_fixtures')
         ->select('temp_fixtures.id as matchID','temp_fixtures.match_number as MatchNumber','temp_fixtures.home_team_name as HomeTeam','temp_fixtures.home_team as HomeTeamId','temp_fixtures.away_team_name as AwayTeam',
-
+          'temp_fixtures.home_team_placeholder_name as HomeTeamPlaceHolderName','temp_fixtures.away_team_placeholder_name as AwayTeamPlaceHolderName',
           'temp_fixtures.away_team as AwayTeamId')
         ->leftJoin('competitions','competitions.id','=','temp_fixtures.competition_id')
         ->leftJoin('tournament_competation_template','tournament_competation_template.id','=','competitions.tournament_competation_template_id')
@@ -1318,7 +1342,7 @@ class MatchService implements MatchContract
               foreach($calculatedArray[$cupId] as $dd1) {
 
                 if($homeTeam == $dd1['teamAgeGroupPlaceHolder']) {
-
+                  $processFixtures[] = $match->matchID;
                   //echo $matchId = $match->matchID;
                   //echo $matchNumber = $match->MatchNumber;
 
@@ -1332,8 +1356,15 @@ class MatchService implements MatchContract
 
                   if($this->checkForEndRR($cupId) == true) {
                     DB::table('temp_fixtures')->where('id',$match->matchID)->update($updateArray);
-                    unset($updateArray);
+                  } else {
+                    DB::table('temp_fixtures')->where('id',$match->matchID)->update(
+                      [
+                        'home_team_name' => $match->HomeTeamPlaceHolderName,
+                        'home_team' => 0,
+                      ]
+                    );
                   }
+                  unset($updateArray);
                   //echo '<br>';
                 }
                 // check if value is changed
@@ -1346,6 +1377,8 @@ class MatchService implements MatchContract
             if($awayTeam) {
               foreach($calculatedArray[$cupId] as $dd1) {
                 if($awayTeam == $dd1['teamAgeGroupPlaceHolder']) {
+                  $processFixtures[] = $match->matchID;
+
                   $updatedMatchNumer =  str_replace($awayTeam,$dd1['teamName'],$match->MatchNumber);
                   $awayTeamId = $dd1['teamid'];
                   $updateArray = [
@@ -1354,8 +1387,15 @@ class MatchService implements MatchContract
                   ];
                   if($this->checkForEndRR($cupId) == true) {
                     DB::table('temp_fixtures')->where('id',$match->matchID)->update($updateArray);
-                    unset($updateArray);
+                  } else {
+                    DB::table('temp_fixtures')->where('id',$match->matchID)->update(
+                      [
+                        'away_team_name'=> $match->AwayTeamPlaceHolderName,
+                        'away_team' => 0,
+                      ]
+                    );
                   }
+                  unset($updateArray);
                 }else {
                  // echo 'hi-Away';
                 }
@@ -1363,6 +1403,8 @@ class MatchService implements MatchContract
             }
             // else check if its new change
           }
+
+          $this->processFixtures($processFixtures);
         }
         return ;
     }
@@ -1598,12 +1640,12 @@ class MatchService implements MatchContract
         return ['status_code' => '200', 'message' => 'Ranking has been updated successfully.'];
     }
 
-    public function generateStandingsForCompetitions($fix1, $cup_competition_id, $findTeams, $competitionType) {
+    public function generateStandingsForCompetitions($tournamentId, $cup_competition_id, $ageCategoryId, $findTeams, $competitionType) {
       $matches = DB::table('temp_fixtures')
-                ->where('tournament_id','=',$fix1['CupFixture']['tournamentId'])
+                ->where('tournament_id','=',$tournamentId)
                 ->where('competition_id','=',$cup_competition_id)
                 ->where(function ($query) use ($findTeams)  {
-                    $query ->whereIn('away_team',$findTeams)
+                    $query->whereIn('away_team',$findTeams)
                          ->orWhereIn('home_team',$findTeams);
                 })->where('round','=' , $competitionType)->get();
 
@@ -1621,327 +1663,200 @@ class MatchService implements MatchContract
       $comp_fixtures = $fixtu;
       $ageGroupList = array();
 
-      $ageGroupList[$fix1['CupFixture']['hometeam']] = array('Played' => 0,'Won' => '0', 'Lost' => 0,'Draw' => 0,'home_goal' => 0,'away_goal'=>0);
+      foreach($findTeams as $team) {
+        $ageGroupList[$team] = array('Played' => 0,'Won' => '0', 'Lost' => 0,'Draw' => 0,'home_goal' => 0,'away_goal'=>0);
+      }
 
-      $ageGroupList[$fix1['CupFixture']['awayteam']] = array('Played' => 0,'Won' => '0', 'Lost' => 0,'Draw' => 0,'away_goal' => 0,'home_goal'=>0);
+      foreach($findTeams as $team) {
+        foreach ($comp_fixtures as $key => $fix) {
+          $winnerTeam = 'nd';
 
-      foreach ($comp_fixtures as $key => $fix) {
-        $winnerTeam = 'nd';
+          if($fix['CupFixture']['hometeamscore'] != '' && ($fix['CupFixture']['awayteamscore'] != '') && empty($fix['CupFixture']['Abandoned'])) {
+              if($fix['CupFixture']['hometeamscore']  == $fix['CupFixture']['awayteamscore']){
+                  if ($fix['CupFixture']['HomeTeamScoreAfterExtraTime'] != '' && $fix['CupFixture']['AwayTeamScoreAfterExtraTime'] != '' ){
+                      if($fix['CupFixture']['HomeTeamScoreAfterExtraTime'] == $fix['CupFixture']['AwayTeamScoreAfterExtraTime']){
+                          if ($fix['CupFixture']['HomeTeamScoreAfterPen'] != '' && $fix['CupFixture']['AwayTeamScoreAfterPen'] != ''){
+                              if($fix['CupFixture']['HomeTeamScoreAfterPen'] == $fix['CupFixture']['AwayTeamScoreAfterPen']){
+                                  $winnerTeam = -1;
+                              } else {
+                                  if($fix['CupFixture']['HomeTeamScoreAfterPen'] > $fix['CupFixture']['AwayTeamScoreAfterPen']){
+                                      $winnerTeam = $fix['CupFixture']['hometeam'];
+                                      $home = true;
+                                  } else {
+                                      $winnerTeam = $fix['CupFixture']['awayteam'];
+                                  }
+                              }
+                          }else{
+                              $winnerTeam = -1;
+                          }
+                      } else {
 
-        if($fix['CupFixture']['hometeamscore'] != '' && ($fix['CupFixture']['awayteamscore'] != '')&& empty($fix['CupFixture']['Abandoned'])) {
-            if($fix['CupFixture']['hometeamscore']  == $fix['CupFixture']['awayteamscore']){
-                if ($fix['CupFixture']['HomeTeamScoreAfterExtraTime'] != '' && $fix['CupFixture']['AwayTeamScoreAfterExtraTime'] != '' ){
-                    if($fix['CupFixture']['HomeTeamScoreAfterExtraTime'] == $fix['CupFixture']['AwayTeamScoreAfterExtraTime']){
-                        if ($fix['CupFixture']['HomeTeamScoreAfterPen'] != '' && $fix['CupFixture']['AwayTeamScoreAfterPen'] != ''){
-                            if($fix['CupFixture']['HomeTeamScoreAfterPen'] == $fix['CupFixture']['AwayTeamScoreAfterPen']){
-                                $winnerTeam = -1;
-                            } else {
-                                if($fix['CupFixture']['HomeTeamScoreAfterPen'] > $fix['CupFixture']['AwayTeamScoreAfterPen']){
-                                    $winnerTeam = $fix['CupFixture']['hometeam'];
-                                    $home = true;
-                                } else {
-                                    $winnerTeam = $fix['CupFixture']['awayteam'];
-                                }
-                            }
-                        }else{
-                            $winnerTeam = -1;
-                        }
-                    } else {
-
-                      // Hometeamscore extratime is greter than awayteamscore
-                        if($fix['CupFixture']['HomeTeamScoreAfterExtraTime'] > $fix['CupFixture']['AwayTeamScoreAfterExtraTime']){
-                            $winnerTeam = $fix['CupFixture']['hometeam'];
-                            $home = true;
-                        } else {
-                            $winnerTeam = $fix['CupFixture']['awayteam'];
-                        }
-                    }
-                }else{
-                    $winnerTeam = -1;
-                }
-            } else {
-                if($fix['CupFixture']['hometeamscore'] > $fix['CupFixture']['awayteamscore']){
-                  $winnerTeam = $fix['CupFixture']['hometeam'];
-                  $home = true;
-                } else {
-                  $winnerTeam = $fix['CupFixture']['awayteam'];
-                }
-            }
-        } else {
-            if(!empty($fix['CupFixture']['Abandoned'])){
-                if($fix['CupFixture']['Abandoned'] == 'HomeWin'){
-                    $winnerTeam = $fix['CupFixture']['hometeam'];
-                }
-
-                if($fix['CupFixture']['Abandoned'] == 'AwayWin'){
-                    $winnerTeam = $fix['CupFixture']['awayteam'];
-                }
-
-                if($fix['CupFixture']['Abandoned'] == 'Draw'){
-                    $winnerTeam = -1;
-                }
-            }
-        }
-
-        if ($winnerTeam != 'nd') {
-            if ( $winnerTeam == -1) {
-              // 1. check if has same Home id
-              if ($fix1['CupFixture']['hometeam'] == $fix['CupFixture']['hometeam']) {
-                  $ageGroupList[$fix1['CupFixture']['hometeam']]['Played'] = (int)$ageGroupList[$fix1['CupFixture']['hometeam']]['Played'] + 1;
-                  $ageGroupList[$fix1['CupFixture']['hometeam']]['Draw'] = (int)$ageGroupList[$fix1['CupFixture']['hometeam']]['Draw'] + 1;
-                  if ($fix['CupFixture']['hometeamscore'] != '') {
-                      $ageGroupList[$fix1['CupFixture']['hometeam']]['home_goal'] = (int)$ageGroupList[$fix1['CupFixture']['hometeam']]['home_goal'] + (int)$fix['CupFixture']['hometeamscore'];
-                  }
-                  if ($fix['CupFixture']['awayteamscore'] != '') {
-                      $ageGroupList[$fix1['CupFixture']['hometeam']]['away_goal'] = (int)$ageGroupList[$fix1['CupFixture']['hometeam']]['away_goal'] + (int)$fix['CupFixture']['awayteamscore'];
-                  }
-              } else{
-                  if ($fix1['CupFixture']['hometeam'] == $fix['CupFixture']['awayteam'] ) {
-                      $ageGroupList[$fix1['CupFixture']['hometeam']]['Played'] =
-                      (int)$ageGroupList[$fix1['CupFixture']['hometeam']]['Played'] + 1;
-                      $ageGroupList[$fix1['CupFixture']['hometeam']]['Draw'] = (int)$ageGroupList[$fix1['CupFixture']['hometeam']]['Draw'] + 1;
-
-                      if ($fix['CupFixture']['awayteamscore'] != '') {
-                        $ageGroupList[$fix1['CupFixture']['hometeam']]['home_goal'] = (int)$ageGroupList[$fix1['CupFixture']['hometeam']]['home_goal'] + (int)$fix['CupFixture']['awayteamscore'];
+                        // Hometeamscore extratime is greter than awayteamscore
+                          if($fix['CupFixture']['HomeTeamScoreAfterExtraTime'] > $fix['CupFixture']['AwayTeamScoreAfterExtraTime']){
+                              $winnerTeam = $fix['CupFixture']['hometeam'];
+                              $home = true;
+                          } else {
+                              $winnerTeam = $fix['CupFixture']['awayteam'];
+                          }
                       }
-
-                      if ($fix['CupFixture']['hometeamscore'] != '') {
-                        $ageGroupList[$fix1['CupFixture']['hometeam']]['away_goal'] = (int)$ageGroupList[$fix1['CupFixture']['hometeam']]['away_goal'] + (int)$fix['CupFixture']['hometeamscore'];
-                      }
-                  }
-              }
-
-              // 2. check if has same awayteam
-              if ($fix1['CupFixture']['awayteam'] == $fix['CupFixture']['awayteam']) {
-                  $ageGroupList[$fix1['CupFixture']['awayteam']]['Played'] = (int)$ageGroupList[$fix1['CupFixture']['awayteam']]['Played'] + 1;
-                  $ageGroupList[$fix1['CupFixture']['awayteam']]['Draw'] = (int)$ageGroupList[$fix1['CupFixture']['awayteam']]['Draw'] + 1;
-                  // Add home_goal Score for awayTeam
-                  if ($fix['CupFixture']['awayteamscore'] != '') {
-                    $ageGroupList[$fix1['CupFixture']['awayteam']]['home_goal'] =
-                    (int)$ageGroupList[$fix1['CupFixture']['awayteam']]['home_goal'] +
-                    (int)$fix['CupFixture']['awayteamscore'];
-                  }
-                  // Add away_goal score for hometeam
-                  if ($fix['CupFixture']['hometeamscore'] != '') {
-                    $ageGroupList[$fix1['CupFixture']['awayteam']]['away_goal'] =
-                    (int)$ageGroupList[$fix1['CupFixture']['awayteam']]['away_goal'] +
-                    (int)$fix['CupFixture']['hometeamscore'];
+                  }else{
+                      $winnerTeam = -1;
                   }
               } else {
-                  // if awayteam for singlerecord is same as hometeam for iterate
-                  if ($fix1['CupFixture']['awayteam'] == $fix['CupFixture']['hometeam'] ) {
-                      $ageGroupList[$fix1['CupFixture']['awayteam']]['Played'] =
-                      (int)$ageGroupList[$fix1['CupFixture']['awayteam']]['Played'] + 1;
-                      $ageGroupList[$fix1['CupFixture']['awayteam']]['Draw'] = (int)$ageGroupList[$fix1['CupFixture']['awayteam']]['Draw'] + 1;
+                  if($fix['CupFixture']['hometeamscore'] > $fix['CupFixture']['awayteamscore']){
+                    $winnerTeam = $fix['CupFixture']['hometeam'];
+                    $home = true;
+                  } else {
+                    $winnerTeam = $fix['CupFixture']['awayteam'];
+                  }
+              }
+          } else {
+              if(!empty($fix['CupFixture']['Abandoned'])){
+                  if($fix['CupFixture']['Abandoned'] == 'HomeWin'){
+                      $winnerTeam = $fix['CupFixture']['hometeam'];
+                  }
 
-                      if ($fix['CupFixture']['hometeamscore'] != '') {
-                        $ageGroupList[$fix1['CupFixture']['awayteam']]['home_goal'] = (int)$ageGroupList[$fix1['CupFixture']['awayteam']]['home_goal'] + (int)$fix['CupFixture']['hometeamscore'];
+                  if($fix['CupFixture']['Abandoned'] == 'AwayWin'){
+                      $winnerTeam = $fix['CupFixture']['awayteam'];
+                  }
+
+                  if($fix['CupFixture']['Abandoned'] == 'Draw'){
+                      $winnerTeam = -1;
+                  }
+              }
+          }
+
+          if ($winnerTeam != 'nd') {
+              if ( $winnerTeam == -1) {
+                // 1. check if has same Home id
+                if ($team == $fix['CupFixture']['hometeam']) {
+                    $ageGroupList[$team]['Played'] = (int)$ageGroupList[$team]['Played'] + 1;
+                    $ageGroupList[$team]['Draw'] = (int)$ageGroupList[$team]['Draw'] + 1;
+                    if ($fix['CupFixture']['hometeamscore'] != '') {
+                        $ageGroupList[$team]['home_goal'] = (int)$ageGroupList[$team]['home_goal'] + (int)$fix['CupFixture']['hometeamscore'];
+                    }
+                    if ($fix['CupFixture']['awayteamscore'] != '') {
+                        $ageGroupList[$team]['away_goal'] = (int)$ageGroupList[$team]['away_goal'] + (int)$fix['CupFixture']['awayteamscore'];
+                    }
+                } else{
+                    if ($team == $fix['CupFixture']['awayteam'] ) {
+                        $ageGroupList[$team]['Played'] =
+                        (int)$ageGroupList[$team]['Played'] + 1;
+                        $ageGroupList[$team]['Draw'] = (int)$ageGroupList[$team]['Draw'] + 1;
+
+                        if ($fix['CupFixture']['awayteamscore'] != '') {
+                          $ageGroupList[$team]['home_goal'] = (int)$ageGroupList[$team]['home_goal'] + (int)$fix['CupFixture']['awayteamscore'];
+                        }
+
+                        if ($fix['CupFixture']['hometeamscore'] != '') {
+                          $ageGroupList[$team]['away_goal'] = (int)$ageGroupList[$team]['away_goal'] + (int)$fix['CupFixture']['hometeamscore'];
+                        }
+                    }
+                }
+              } else{
+                  // 1 if home team is Winner
+                  if ( $winnerTeam == $team) {
+                      $ageGroupList[$team]['Played'] =
+                      (int)$ageGroupList[$team]['Played'] + 1;
+
+                      $ageGroupList[$team]['Won'] = (int)$ageGroupList[$team]['Won'] + 1;
+
+                      if ($team == $fix['CupFixture']['hometeam']) {
+                          if ($fix['CupFixture']['hometeamscore'] != '') {
+                            $ageGroupList[$team]['home_goal'] = (int)$ageGroupList[$team]['home_goal'] + (int)$fix['CupFixture']['hometeamscore'];
+                          }
+                          if ($fix['CupFixture']['awayteamscore'] != '') {
+                            $ageGroupList[$team]['away_goal'] = (int)$ageGroupList[$team]['away_goal'] + (int)$fix['CupFixture']['awayteamscore'];
+                          }
+                      } else {
+                          if ($fix['CupFixture']['awayteamscore'] != '') {
+                            $ageGroupList[$team]['home_goal'] = (int)$ageGroupList[$team]['home_goal'] + (int)$fix['CupFixture']['awayteamscore'];
+                          }
+                          if ($fix['CupFixture']['hometeamscore'] != '') {
+                            $ageGroupList[$team]['away_goal'] = (int)$ageGroupList[$team]['away_goal'] + (int)$fix['CupFixture']['hometeamscore'];
+                          }
+                      }
+                  } else {
+                      if ($team == $fix['CupFixture']['hometeam']) {
+                        $ageGroupList[$team]['Played'] = (int)$ageGroupList[$team]['Played'] + 1;
+                        $ageGroupList[$team]['Lost'] = (int)$ageGroupList[$team]['Lost']+ 1;
+
+                        if ($fix['CupFixture']['hometeamscore'] != '') {
+                          $ageGroupList[$team]['home_goal'] = (int)$ageGroupList[$team]['home_goal'] + (int)$fix['CupFixture']['hometeamscore'];
+                        }
+
+                        if ($fix['CupFixture']['awayteamscore'] != '') {
+                          $ageGroupList[$team]['away_goal'] = (int)$ageGroupList[$team]['away_goal'] + (int)$fix['CupFixture']['awayteamscore'];
+                        }
                       }
 
-                      if ($fix['CupFixture']['awayteamscore'] != '') {
-                        $ageGroupList[$fix1['CupFixture']['awayteam']]['away_goal'] = (int)$ageGroupList[$fix1['CupFixture']['awayteam']]['away_goal'] + (int)$fix['CupFixture']['awayteamscore'];
+                      if ($team == $fix['CupFixture']['awayteam']) {
+                        $ageGroupList[$team]['Played'] = (int)$ageGroupList[$team]['Played'] + 1;
+                        $ageGroupList[$team]['Lost'] = (int)$ageGroupList[$team]['Lost']+ 1;
+
+                        if ($fix['CupFixture']['awayteamscore'] != '') {
+                            $ageGroupList[$team]['home_goal'] = (int)$ageGroupList[$team]['home_goal'] + (int)$fix['CupFixture']['awayteamscore'];
+                        }
+
+                        if ($fix['CupFixture']['hometeamscore'] != '') {
+                            $ageGroupList[$team]['away_goal'] = (int)$ageGroupList[$team]['away_goal'] + (int)$fix['CupFixture']['hometeamscore'];
+                        }
                       }
                   }
               }
-            } else{
-                // 1 if home team is Winner
-                if ( $winnerTeam == $fix1['CupFixture']['hometeam']) {
-                    $ageGroupList[$fix1['CupFixture']['hometeam']]['Played'] =
-                    (int)$ageGroupList[$fix1['CupFixture']['hometeam']]['Played'] + 1;
-
-                    $ageGroupList[$fix1['CupFixture']['hometeam']]['Won'] = (int)$ageGroupList[$fix1['CupFixture']['hometeam']]['Won'] + 1;
-
-                    if ($fix1['CupFixture']['hometeam'] == $fix['CupFixture']['hometeam']) {
-                        if ($fix['CupFixture']['hometeamscore'] != '') {
-                          $ageGroupList[$fix1['CupFixture']['hometeam']]['home_goal'] = (int)$ageGroupList[$fix1['CupFixture']['hometeam']]['home_goal'] + (int)$fix['CupFixture']['hometeamscore'];
-                        }
-                        if ($fix['CupFixture']['awayteamscore'] != '') {
-                          $ageGroupList[$fix1['CupFixture']['hometeam']]['away_goal'] = (int)$ageGroupList[$fix1['CupFixture']['hometeam']]['away_goal'] + (int)$fix['CupFixture']['awayteamscore'];
-                        }
-                    } else {
-                        if ($fix['CupFixture']['awayteamscore'] != '') {
-                          $ageGroupList[$fix1['CupFixture']['hometeam']]['home_goal'] = (int)$ageGroupList[$fix1['CupFixture']['hometeam']]['home_goal'] + (int)$fix['CupFixture']['awayteamscore'];
-                        }
-                        if ($fix['CupFixture']['hometeamscore'] != '') {
-                          $ageGroupList[$fix1['CupFixture']['hometeam']]['away_goal'] = (int)$ageGroupList[$fix1['CupFixture']['hometeam']]['away_goal'] + (int)$fix['CupFixture']['hometeamscore'];
-                        }
-                    }
-                } else {
-                    if ($fix1['CupFixture']['hometeam'] == $fix['CupFixture']['hometeam']) {
-                      $ageGroupList[$fix1['CupFixture']['hometeam']]['Played'] = (int)$ageGroupList[$fix1['CupFixture']['hometeam']]['Played'] + 1;
-                      $ageGroupList[$fix1['CupFixture']['hometeam']]['Lost'] = (int)$ageGroupList[$fix1['CupFixture']['hometeam']]['Lost']+ 1;
-
-                      if ($fix['CupFixture']['hometeamscore'] != '') {
-                        $ageGroupList[$fix1['CupFixture']['hometeam']]['home_goal'] = (int)$ageGroupList[$fix1['CupFixture']['hometeam']]['home_goal'] + (int)$fix['CupFixture']['hometeamscore'];
-                      }
-
-                      if ($fix['CupFixture']['awayteamscore'] != '') {
-                        $ageGroupList[$fix1['CupFixture']['hometeam']]['away_goal'] = (int)$ageGroupList[$fix1['CupFixture']['hometeam']]['away_goal'] + (int)$fix['CupFixture']['awayteamscore'];
-                      }
-                    }
-
-                    if ($fix1['CupFixture']['hometeam'] == $fix['CupFixture']['awayteam']) {
-                      $ageGroupList[$fix1['CupFixture']['hometeam']]['Played'] = (int)$ageGroupList[$fix1['CupFixture']['hometeam']]['Played'] + 1;
-                      $ageGroupList[$fix1['CupFixture']['hometeam']]['Lost'] = (int)$ageGroupList[$fix1['CupFixture']['hometeam']]['Lost']+ 1;
-
-                      if ($fix['CupFixture']['awayteamscore'] != '') {
-                          $ageGroupList[$fix1['CupFixture']['hometeam']]['home_goal'] = (int)$ageGroupList[$fix1['CupFixture']['hometeam']]['home_goal'] + (int)$fix['CupFixture']['awayteamscore'];
-                      }
-
-                      if ($fix['CupFixture']['hometeamscore'] != '') {
-                          $ageGroupList[$fix1['CupFixture']['hometeam']]['away_goal'] = (int)$ageGroupList[$fix1['CupFixture']['hometeam']]['away_goal'] + (int)$fix['CupFixture']['hometeamscore'];
-                      }
-                    }
-                }
-                if ($winnerTeam == $fix1['CupFixture']['awayteam']) {
-                    $ageGroupList[$fix1['CupFixture']['awayteam']]['Played'] = (int)$ageGroupList[$fix1['CupFixture']['awayteam']]['Played'] + 1;
-
-                    $ageGroupList[$fix1['CupFixture']['awayteam']]['Won'] = (int)$ageGroupList[$fix1['CupFixture']['awayteam']]['Won'] + 1;
-
-                    if ($fix1['CupFixture']['awayteam'] == $fix['CupFixture']['hometeam']) {
-                      if ($fix['CupFixture']['hometeamscore'] != '') {
-                        $ageGroupList[$fix1['CupFixture']['awayteam']]['home_goal'] = (int)$ageGroupList[$fix1['CupFixture']['awayteam']]['home_goal'] + (int)$fix['CupFixture']['hometeamscore'];
-                      }
-                      if ($fix['CupFixture']['awayteamscore'] != '') {
-                        $ageGroupList[$fix1['CupFixture']['awayteam']]['away_goal'] = (int)$ageGroupList[$fix1['CupFixture']['awayteam']]['away_goal'] + (int)$fix['CupFixture']['awayteamscore'];
-                      }
-                    } else {
-                        if ($fix['CupFixture']['awayteamscore'] != '') {
-                            $ageGroupList[$fix1['CupFixture']['awayteam']]['home_goal'] = (int)$ageGroupList[$fix1['CupFixture']['awayteam']]['home_goal'] + (int)$fix['CupFixture']['awayteamscore'];
-                        }
-                        if ($fix['CupFixture']['hometeamscore'] != '') {
-                            $ageGroupList[$fix1['CupFixture']['awayteam']]['away_goal'] = (int)$ageGroupList[$fix1['CupFixture']['awayteam']]['away_goal'] + (int)$fix['CupFixture']['hometeamscore'];
-                        }
-                    }
-                } else {
-                    if ($fix1['CupFixture']['awayteam'] == $fix['CupFixture']['awayteam']) {
-                        $ageGroupList[$fix1['CupFixture']['awayteam']]['Played'] = (int)$ageGroupList[$fix1['CupFixture']['awayteam']]['Played'] + 1;
-                        $ageGroupList[$fix1['CupFixture']['awayteam']]['Lost'] = (int)$ageGroupList[$fix1['CupFixture']['awayteam']]['Lost']+ 1;
-                        if ($fix['CupFixture']['awayteamscore'] != '') {
-                          $ageGroupList[$fix1['CupFixture']['awayteam']]['home_goal'] = (int)$ageGroupList[$fix1['CupFixture']['awayteam']]['home_goal'] + (int)$fix['CupFixture']['awayteamscore'];
-                        }
-                        if ($fix['CupFixture']['hometeamscore'] != '') {
-                          $ageGroupList[$fix1['CupFixture']['awayteam']]['away_goal'] = (int)$ageGroupList[$fix1['CupFixture']['awayteam']]['away_goal'] + (int)$fix['CupFixture']['hometeamscore'];
-                        }
-                    }
-
-                    if ($fix1['CupFixture']['awayteam'] == $fix['CupFixture']['hometeam']) {
-                        $ageGroupList[$fix1['CupFixture']['awayteam']]['Played'] = (int)$ageGroupList[$fix1['CupFixture']['awayteam']]['Played'] + 1;
-                        $ageGroupList[$fix1['CupFixture']['awayteam']]['Lost'] = (int)$ageGroupList[$fix1['CupFixture']['awayteam']]['Lost']+ 1;
-
-                        if ($fix['CupFixture']['hometeamscore'] != '') {
-                          $ageGroupList[$fix1['CupFixture']['awayteam']]['home_goal'] = (int)$ageGroupList[$fix1['CupFixture']['awayteam']]['home_goal'] + (int)$fix['CupFixture']['hometeamscore'];
-                        }
-                        if ($fix['CupFixture']['awayteamscore'] != '') {
-                          $ageGroupList[$fix1['CupFixture']['awayteam']]['away_goal'] = (int)$ageGroupList[$fix1['CupFixture']['awayteam']]['away_goal'] + (int)$fix['CupFixture']['awayteamscore'];
-                        }
-                    }
-                }
-            }
+          }
         }
       }
 
-      $homeTeamExist = DB::table('match_standing')
-                      ->where('tournament_id','=',$fix1['CupFixture']['tournamentId'])
-                      ->where('competition_id','=',$cup_competition_id)
-                      ->where('team_id',$fix1['CupFixture']['hometeam'])
-                      ->get()->first();
-
-      $tournamentCompetationTemplatesRecord = TournamentCompetationTemplates::where('id', $fix1['CupFixture']['age_group_id'])->get()->first();
+      $tournamentCompetationTemplatesRecord = TournamentCompetationTemplates::where('id', $ageCategoryId)->get()->first();
       $winningPoints = $tournamentCompetationTemplatesRecord->win_point;
       $losePoints = $tournamentCompetationTemplatesRecord->loss_point;
       $drawPoints = $tournamentCompetationTemplatesRecord->draw_point;
-      // $winningPoints = 3;$drawPoints = 1;$losePoints = 0;
-      $sendData = array();
 
-      if ($homeTeamExist){
-          $data = array();
+      foreach($findTeams as $team) {
+        $teamExist = DB::table('match_standing')
+                        ->where('tournament_id','=',$tournamentId)
+                        ->where('competition_id','=',$cup_competition_id)
+                        ->where('team_id',$team)
+                        ->get()->first();
 
-          $data['points'] = $ageGroupList[$fix1['CupFixture']['hometeam']]['Won'] * $winningPoints + $ageGroupList[$fix1['CupFixture']['hometeam']]['Draw'] * $drawPoints + $ageGroupList[$fix1['CupFixture']['hometeam']]['Lost'] * $losePoints;
-          $data['played'] = $ageGroupList[$fix1['CupFixture']['hometeam']]['Played'];
-          $data['won'] = $ageGroupList[$fix1['CupFixture']['hometeam']]['Won'];
-          $data['draws'] = $ageGroupList[$fix1['CupFixture']['hometeam']]['Draw'];
-          $data['lost'] = $ageGroupList[$fix1['CupFixture']['hometeam']]['Lost'];
-          $data['goal_for'] = $ageGroupList[$fix1['CupFixture']['hometeam']]['home_goal'];
-          $data['goal_against'] = $ageGroupList[$fix1['CupFixture']['hometeam']]['away_goal'];
+        if ($teamExist){
+            $data = array();
 
-          DB::table('match_standing')->where('id',$homeTeamExist->id)->update($data);
-          $sendData['home'] = $data;
-          $sendData['home']['competition_id'] = $homeTeamExist->competition_id;
-          $sendData['home']['team_id'] = $homeTeamExist->team_id;
-      } else {
-          $data3 = array();
+            $data['points'] = $ageGroupList[$team]['Won'] * $winningPoints + $ageGroupList[$team]['Draw'] * $drawPoints + $ageGroupList[$team]['Lost'] * $losePoints;
+            $data['played'] = $ageGroupList[$team]['Played'];
+            $data['won'] = $ageGroupList[$team]['Won'];
+            $data['draws'] = $ageGroupList[$team]['Draw'];
+            $data['lost'] = $ageGroupList[$team]['Lost'];
+            $data['goal_for'] = $ageGroupList[$team]['home_goal'];
+            $data['goal_against'] = $ageGroupList[$team]['away_goal'];
 
-          $data3['competition_id'] = $cup_competition_id;
-          $data3['tournament_id'] = $fix1['CupFixture']['tournamentId'];
-          $data3['team_id'] = $fix1['CupFixture']['hometeam'];
-          $data3['points'] = $ageGroupList[$fix1['CupFixture']['hometeam']]['Won'] * $winningPoints + $ageGroupList[$fix1['CupFixture']['hometeam']]['Draw'] * $drawPoints + $ageGroupList[$fix1['CupFixture']['hometeam']]['Lost'] * $losePoints;
-          $data3['played'] = $ageGroupList[$fix1['CupFixture']['hometeam']]['Played'];
-          $data3['won'] = $ageGroupList[$fix1['CupFixture']['hometeam']]['Won'];
-          $data3['draws'] = $ageGroupList[$fix1['CupFixture']['hometeam']]['Draw'];
-          $data3['lost'] = $ageGroupList[$fix1['CupFixture']['hometeam']]['Lost'];
-          $data3['goal_for'] = $ageGroupList[$fix1['CupFixture']['hometeam']]['home_goal'];
-          $data3['goal_against'] = $ageGroupList[$fix1['CupFixture']['hometeam']]['away_goal'];
+            DB::table('match_standing')->where('id',$teamExist->id)->update($data);
+        } else {
+            $data3 = array();
 
-          $teamManualRanking = TeamManualRanking::where('tournament_id','=',$fix1['CupFixture']['tournamentId'])->where('competition_id', '=', $cup_competition_id)->where('team_id', '=', $fix1['CupFixture']['hometeam'])->first();
-          if($teamManualRanking) {
-            $data3['manual_order'] = $teamManualRanking->manual_order;
-            $teamManualRanking->delete();
-          }
+            $data3['competition_id'] = $cup_competition_id;
+            $data3['tournament_id'] = $tournamentId;
+            $data3['team_id'] = $team;
+            $data3['points'] = $ageGroupList[$team]['Won'] * $winningPoints + $ageGroupList[$team]['Draw'] * $drawPoints + $ageGroupList[$team]['Lost'] * $losePoints;
+            $data3['played'] = $ageGroupList[$team]['Played'];
+            $data3['won'] = $ageGroupList[$team]['Won'];
+            $data3['draws'] = $ageGroupList[$team]['Draw'];
+            $data3['lost'] = $ageGroupList[$team]['Lost'];
+            $data3['goal_for'] = $ageGroupList[$team]['home_goal'];
+            $data3['goal_against'] = $ageGroupList[$team]['away_goal'];
 
-          DB::table('match_standing')->insert($data3);
-          $sendData['home'] = $data3;
+            $teamManualRanking = TeamManualRanking::where('tournament_id','=',$tournamentId)->where('competition_id', '=', $cup_competition_id)->where('team_id', '=', $team)->first();
+            if($teamManualRanking) {
+              $data3['manual_order'] = $teamManualRanking->manual_order;
+              $teamManualRanking->delete();
+            }
+
+            DB::table('match_standing')->insert($data3);
+        }
       }
 
-      $awayTeamExist = DB::table('match_standing')
-                      ->where('tournament_id','=',$fix1['CupFixture']['tournamentId'])
-                      ->where('competition_id','=',$cup_competition_id)
-                      ->where('team_id',$fix1['CupFixture']['awayteam'])
-                      ->get()->first();
-
-      if ($awayTeamExist){
-          $data1 = array();
-
-          $data1['points'] = $ageGroupList[$fix1['CupFixture']['awayteam']]['Won'] * $winningPoints + $ageGroupList[$fix1['CupFixture']['awayteam']]['Draw'] * $drawPoints + $ageGroupList[$fix1['CupFixture']['awayteam']]['Lost'] * $losePoints;
-
-          $data1['played'] = $ageGroupList[$fix1['CupFixture']['awayteam']]['Played'];
-          $data1['won'] = $ageGroupList[$fix1['CupFixture']['awayteam']]['Won'];
-          $data1['draws'] = $ageGroupList[$fix1['CupFixture']['awayteam']]['Draw'];
-          $data1['lost'] = $ageGroupList[$fix1['CupFixture']['awayteam']]['Lost'];
-          $data1['goal_for'] = $ageGroupList[$fix1['CupFixture']['awayteam']]['home_goal'];
-          $data1['goal_against'] = $ageGroupList[$fix1['CupFixture']['awayteam']]['away_goal'];
-
-          //$data = $ageGroupList[$fix1['CupFixture']['hometeam']];
-          DB::table('match_standing')->where('id',$awayTeamExist->id)->update($data1);
-          $sendData['away'] = $data1;
-          $sendData['away']['competition_id'] = $awayTeamExist->competition_id;
-          $sendData['away']['team_id'] = $awayTeamExist->team_id;
-      } else {
-          $data2 = array();
-
-          $data2['competition_id'] = $cup_competition_id;
-          $data2['team_id'] = $fix1['CupFixture']['awayteam'];
-          $data2['tournament_id'] = $fix1['CupFixture']['tournamentId'];
-          $data2['points'] = $ageGroupList[$fix1['CupFixture']['awayteam']]['Won'] * $winningPoints + $ageGroupList[$fix1['CupFixture']['awayteam']]['Draw'] * $drawPoints + $ageGroupList[$fix1['CupFixture']['awayteam']]['Lost'] * $losePoints;
-          $data2['played'] = $ageGroupList[$fix1['CupFixture']['awayteam']]['Played'];
-          $data2['won'] = $ageGroupList[$fix1['CupFixture']['awayteam']]['Won'];
-          $data2['draws'] = $ageGroupList[$fix1['CupFixture']['awayteam']]['Draw'];
-          $data2['lost'] = $ageGroupList[$fix1['CupFixture']['awayteam']]['Lost'];
-          $data2['goal_for'] = $ageGroupList[$fix1['CupFixture']['awayteam']]['home_goal'];
-          $data2['goal_against'] = $ageGroupList[$fix1['CupFixture']['awayteam']]['away_goal'];
-
-          $teamManualRanking = TeamManualRanking::where('tournament_id','=',$fix1['CupFixture']['tournamentId'])->where('competition_id', '=', $cup_competition_id)->where('team_id', '=', $fix1['CupFixture']['awayteam'])->first();
-          if($teamManualRanking) {
-            $data2['manual_order'] = $teamManualRanking->manual_order;
-            $teamManualRanking->delete();
-          }
-
-          DB::table('match_standing')->insert($data2);
-          $sendData['away'] = $data2;
-
-      }
-
-      $this->TeamPMAssignKp($sendData);
+      $this->TeamPMAssignKp($cup_competition_id);
     }
 
     public function processMatch($data, $match)
@@ -2400,7 +2315,6 @@ class MatchService implements MatchContract
       $ageCategory = TournamentCompetationTemplates::find($ageCategoryId);
       $tournamentTemplate = $ageCategory->TournamentTemplate;
       if($tournamentTemplate->position_type == 'final' || $tournamentTemplate->position_type == 'final_and_group_ranking') {
-        $competition = Competition::find($competitionId);
         $matchPositions = Position::where('age_category_id', $ageCategoryId)->where('dependent_type', 'match')->get();
         $this->updatePlacingMatchPositions($ageCategory, $matchPositions);
       }
@@ -2532,15 +2446,77 @@ class MatchService implements MatchContract
                             ->where('tournament_id','=',$data['tournamentId'])
                             ->where('competition_id','=',$data['competitionId'])->count();
 
+      $competition = Competition::find($data['competitionId']);
+      $ageCategoryId = $competition->tournament_competation_template_id;
       $groupFixture = DB::table('temp_fixtures')->select('temp_fixtures.*')->where('tournament_id','=',$data['tournamentId'])->where('competition_id',$data['competitionId'])->get();
+      if($competition->actual_competition_type === 'Round Robin') {
+        foreach ($groupFixture as $key => $value) {
+          if($value->home_team == 0 || $value->away_team == 0) {
+            continue;
+          }
+          $findTeams[] = $value->home_team;
+          $findTeams[] = $value->away_team;
+        }
 
-      foreach ($groupFixture as $key => $value) {
-        $this->calculateCupLeagueTable($value->id, 1);
+        $findTeams = array_unique($findTeams);
+        $this->moveMatchStandings($data['tournamentId'], $ageCategoryId, $data['competitionId']);
+        $this->generateStandingsForCompetitions($data['tournamentId'], $data['competitionId'], $ageCategoryId, $findTeams, 'Round Robin');
+        $this->updateCategoryPositions($data['competitionId'], $ageCategoryId);
+      } else {
+        foreach ($groupFixture as $key => $value) {
+          $this->calculateCupLeagueTable($value);
+        }
       }
     }
 
     public function matchUnscheduledFixtures($matchId)
     {
         return $this->matchRepoObj->matchUnscheduledFixtures($matchId);
+    }
+
+    public function processFixtures($fixtures)
+    {
+      $fixtures = array_unique($fixtures);
+      $allFixtures = DB::table('temp_fixtures')->whereIn('id', $fixtures)->get();
+      foreach($allFixtures as $fixture) {
+        $this->calculateCupLeagueTable($fixture);
+      }
+    }
+
+    public function moveMatchStandings($tournamentId, $ageCategoryId, $competitionId)
+    {
+      // Manual standing insert - start
+      $allCompetitions = Competition::where('tournament_id','=',$tournamentId)->where('tournament_competation_template_id','=',$ageCategoryId)->where('id','>',$competitionId)->get();
+
+      foreach($allCompetitions as $competition)
+      {
+        if($competition->is_manual_override_standing == 1) {
+          $allCompetitionStandings = DB::table('match_standing')->where('tournament_id','=',$tournamentId)->where('competition_id', '=', $competition->id)->get();
+
+          foreach($allCompetitionStandings as $standing) {
+            $teamManualRanking = TeamManualRanking::where('tournament_id','=',$standing->tournament_id)->where('competition_id', '=', $standing->competition_id)->where('team_id', '=', $standing->team_id)->first();
+
+            if($teamManualRanking) {
+              $teamManualRanking->manual_order = $standing->manual_order;
+              $teamManualRanking->save();
+            } else {
+              $teamManualRanking = new TeamManualRanking();
+              $teamManualRanking->tournament_id = $standing->tournament_id;
+              $teamManualRanking->competition_id = $standing->competition_id;
+              $teamManualRanking->team_id = $standing->team_id;
+              $teamManualRanking->manual_order = $standing->manual_order;
+              $teamManualRanking->save();
+            }
+
+          }
+        }
+      }
+      // Manual standing insert - end
+
+      $result = DB::table('match_standing')
+                      ->join('competitions', 'match_standing.competition_id', '=', 'competitions.id')
+                      ->where('match_standing.tournament_id','=',$tournamentId)
+                      ->where('match_standing.competition_id','>',$competitionId)
+                      ->where('competitions.tournament_competation_template_id', '=', $ageCategoryId)->delete();
     }
 }

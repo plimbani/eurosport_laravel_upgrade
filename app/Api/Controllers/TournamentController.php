@@ -4,6 +4,12 @@ namespace Laraspace\Api\Controllers;
 use UrlSigner;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Laraspace\Models\Team;
+use Laraspace\Models\Referee;
+use Laraspace\Models\Position;
+use Laraspace\Models\Tournament;
+use Laraspace\Models\TempFixture;
+use Laraspace\Models\TournamentCompetationTemplates;
 use Laraspace\Http\Requests\Tournament\DeleteRequest;
 use Laraspace\Http\Requests\Tournament\PublishRequest;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -258,5 +264,79 @@ class TournamentController extends BaseController
     public function updateCategoryDivisionName(Request $request)
     {
         return $this->tournamentObj->updateCategoryDivisionName($request->all());
+    }
+
+    public function duplicateTournament(Request $request)
+    {
+        return $this->tournamentObj->duplicateTournament($request->all());
+    }
+
+    public function duplicateTournamentList(Request $request)
+    {
+        return $this->tournamentObj->duplicateTournamentList($request->all());
+    }
+
+    public function duplicateExistingTournament(Request $request)   
+    {   
+        $oldTournamentId = $request->old_tournament_id; 
+        $newTournamentId = $request->new_tournament_id; 
+        $teamsMappingArray = [];   
+        $ageCategoriesMappingArray = [];    
+        $refereeNewAgeCategoriesArray = []; 
+        $duplicateTournaments = Tournament::where('id', $newTournamentId)->get();  
+        $existingTeams = Team::where('tournament_id', $oldTournamentId)->get();    
+        $existingTeamsIdsArray = $existingTeams->pluck('id');   
+        $duplicatedTeams = Team::where('tournament_id', $newTournamentId)->get()->toArray();    
+            
+        $existingAgeCategories = TournamentCompetationTemplates::where('tournament_id', $oldTournamentId)->get()->pluck('id');  
+        $duplicateAgeCategories = TournamentCompetationTemplates::where('tournament_id', $newTournamentId)->get()->toArray();   
+        $existingTournamentFixtures = TempFixture::where('tournament_id', $oldTournamentId)->get();    
+        $duplicatedTournamentFixtures = TempFixture::where('tournament_id', $newTournamentId)->get();   
+        $existingReferees = Referee::where('tournament_id', $oldTournamentId)->get();  
+        $duplicatedReferees = Referee::where('tournament_id', $newTournamentId)->get(); 
+         // preparing teams mapping array   
+        foreach ($duplicatedTeams as $key => $team) {               
+            $teamsMappingArray[$existingTeamsIdsArray[$key]] = $team['id']; 
+        }   
+        foreach ($duplicateAgeCategories as $ageCategorykey => $ageCategory) { 
+            $ageCategoriesMappingArray[$existingAgeCategories[$ageCategorykey]] = $ageCategory['id'];   
+        }   
+         // temp fixture fields updation    
+        foreach ($duplicatedTournamentFixtures as $key => $tempFixture) {   
+            $tempFixture->update([  
+                'match_winner' => isset($teamsMappingArray[$tempFixture->match_winner]) ? $teamsMappingArray[$tempFixture->match_winner] : null,    
+                'home_team' =>  isset($teamsMappingArray[$tempFixture->home_team]) ? $teamsMappingArray[$tempFixture->home_team] : 0,   
+                'away_team' =>  isset($teamsMappingArray[$tempFixture->away_team]) ? $teamsMappingArray[$tempFixture->away_team] : 0,   
+            ]); 
+        }   
+         // referees fields updation    
+        foreach ($existingReferees as $referee) {   
+            $refereeNewAgeCategoriesArray = [];
+            if($referee->age_group_id != null) {
+                $explodedExistingRefereeAgeCategories = explode(",", $referee->age_group_id);   
+                foreach ($explodedExistingRefereeAgeCategories as $key => $ageCategory) {  
+                    if(isset($ageCategoriesMappingArray[$ageCategory])) {
+                        $refereeNewAgeCategoriesArray[] = $ageCategoriesMappingArray[$ageCategory]; 
+                    }
+                }   
+            }   
+            $referee->update([ 
+                'age_group_id' => ($referee->age_group_id != null || count($refereeNewAgeCategoriesArray) > 0) ? implode(",", $refereeNewAgeCategoriesArray) : null,
+            ]); 
+        }   
+         // positions fields updation   
+        if($ageCategoriesMappingArray) {    
+            foreach ($ageCategoriesMappingArray as $key => $ageCategory) {  
+                $positions = Position::where('age_category_id', $key)->get();   
+                foreach ($positions as $position) { 
+                    if($position->team_id) {    
+                        $position->update([ 
+                            'team_id' => isset($teamsMappingArray[$position->team_id]) ? $teamsMappingArray[$position->team_id] : null, 
+                        ]); 
+                    }   
+                }   
+            }   
+        }   
+         echo "<pre>";print_r('done');echo "</pre>";exit;   
     }
 }

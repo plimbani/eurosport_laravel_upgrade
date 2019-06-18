@@ -10,7 +10,7 @@
 								href="javascript:void(0)" role="tab"><div class="wrapper-tab">{{$lang.user_management_user}}</div></a>
 							</li>
 						</ul>
-						<UserList :userList="userList"></UserList>
+						<UserList :userList="userList" :isListGettingUpdate="isListGettingUpdate"></UserList>
 					</div>
 				</div>
 			</div>
@@ -19,8 +19,13 @@
 </template>
 
 <script type="text/babel">
+import _ from 'lodash';
 import User from '../../../api/users.js'
 import UserList from '../../admin/users/List.vue'
+import axios from 'axios';
+const CancelToken = axios.CancelToken;
+let cancel;
+
 export default {
 	data() {
 		return {
@@ -28,9 +33,8 @@ export default {
 			'userList': {
 				'userData': [],
 				'userCount': 0,
-				'listStatus': 1,
-      			'emaildata':[]
-      		}
+      		},
+      		isListGettingUpdate: false,
 		}
 	},
 	components: {
@@ -46,45 +50,57 @@ export default {
 	  clearSearch() {
 	    this.getSelectComponent()
 	},		
-	getSelectComponent(userSearh='', userType='') {
-	  let emaildata = []
-	  let userData = {}
+	getSelectComponent(userSearh='', userType='', currentPage=1, noOfRecords=20) {
+		if (cancel !== undefined) {
+	        cancel();
+	    }
+	    this.isListGettingUpdate = true;
+	    $("body .js-loader").removeClass('d-none');
 
-	  if(userSearh != '') {
-	  	  userData.userData = userSearh;
-	  }
+		let userData = {}
 
-	  if(userType != '') {
-	  	  userData.userType = userType;
-	  }
+		if(userSearh != '') {
+			  userData.userData = userSearh;
+		}
 
-      User.getUsersByRegisterType(userData).then(
-        (response)=> {
+		if(userType != '') {
+			  userData.userType = userType;
+		}
 
-          if('users' in response.data) {
-            for(var val1 in response.data.users) {
-              for(var val2 in response.data.users[val1]) {
-                emaildata.push(response.data.users[val1]['email'])
-               //emaildata=response.data.users[val1]['email']
-              }
-            }
+		userData.currentPage = currentPage;
 
-            var unique = emaildata.filter(function(elem, index, self) {
-                return index == self.indexOf(elem);
-            })
+		userData.noOfRecords = noOfRecords;
 
-            this.userList.emaildata = unique;
-            this.userList.userData = response.data.users;
-            this.userList.userCount = response.data.users.length;
-          } else {
-          this.userList.userData = [];
-          this.userList.userCount = 0;
-          }
-        },
-        (error)=> {
+	  axios.post('api/users/getUsersByRegisterType', userData, {cancelToken: new CancelToken(function executor(c) 
+	        {
+	            cancel = c;
+	        })
+	    }).then((response) => {
+	        if('data' in response.data) {
+	        	this.userList = response.data;
+	            this.userList.userCount = response.data.data.length;
+	          } else {
+	          	this.userList = [];
+	          	this.userList.userCount = 0;
+	          }
+	          this.isListGettingUpdate = false;
+	          $("body .js-loader").addClass('d-none');
+		    }).catch((error) => {
+		        if (axios.isCancel(error)) {
+		        }
+		        this.isListGettingUpdate = false;
+		        $("body .js-loader").addClass('d-none');
+		    });
 
-        }
-      )
+      // User.getUsersByRegisterType(userData).then(
+      //   (response)=> {
+
+          
+      //   },
+      //   (error)=> {
+
+      //   }
+      // )
 
       // this.$router.push({name: 'users_list', params: { registerType: registerType }})
 			/*axios.get("/api/getUsersByRegisterType/"+registerType).then((response) => {

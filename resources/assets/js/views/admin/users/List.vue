@@ -29,6 +29,7 @@
                                     <option value="mobile.user">Mobile user</option>
                                     <option value="Super.administrator">Super administrator</option>
                                     <option value="tournament.administrator">Tournament administrator</option>
+                                    <option value="Results.administrator">Results administrator</option>
                                 </select>
                               </div>
                               <div class="col-md-2">
@@ -41,27 +42,32 @@
                     </div>
                     <div class="row d-flex flex-row align-items-center">
                         <div class="col-md-12">
-                            <table class="table add-category-table">
+                          <div class="table-responsive">
+                            <table class="table add-category-table users-table" style="border-bottom: 1px solid #eceeef">
                                 <thead>
                                     <tr>
                                         <th>{{$lang.user_desktop_name}}</th>
                                         <th>{{$lang.user_desktop_surname}}</th>
                                         <th>{{$lang.user_desktop_email}}</th>
+                                        <th>{{$lang.user_desktop_source}}</th>
                                         <th>{{$lang.user_desktop_usertype}}</th>
                                         <th>{{$lang.use_desktop_role}}</th>
                                         <th>{{$lang.use_desktop_country}}</th>
                                         <th>{{$lang.use_desktop_language}}</th>
                                         <th>{{$lang.user_desktop_status}}</th>
+                                        <th>{{$lang.user_device}}</th>
+                                        <th>{{$lang.user_app_version}}</th>
                                         <th class="text-center">{{$lang.user_desktop}}</th>
                                         <th class="text-center">{{$lang.user_mobile}}</th>
                                         <th>{{$lang.user_desktop_action}}</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                  <tr class="" v-for="user in paginated('userpagination')">
+                                <tbody v-if="!isListGettingUpdate">
+                                  <tr class="" v-for="user in userList.data">
                                     <td>{{ user.first_name }}</td>
                                     <td>{{ user.last_name }}</td>
                                     <td>{{ user.email }}</td>
+                                    <td>{{ user.provider | capitalize }}</td>
                                     <td>{{ user.role_name }}</td>
                                     <td>{{ user.role }}</td>
                                     <td>{{ user.country }}</td>
@@ -70,6 +76,8 @@
                                     <td v-else>
                                       <a href="#"  @click="resendModalOpen(user.email)"><u>Re-send</u></a>
                                     </td>
+                                    <td>{{ user.device }}</td>
+                                    <td>{{ user.app_version }}</td>
                                     <td class="text-center">
                                       <i class="fas fa-check text-success"
                                         v-if="user.is_desktop_user == true"></i>
@@ -95,7 +103,7 @@
                                         <i class="fas fa-trash"></i>
                                         </a>
                                         &nbsp;
-                                        <a v-if="user.role_slug == 'tournament.administrator'" class="text-primary icon-size-1-2" href="javascript:void(0)"
+                                        <a v-if="(user.role_slug == 'tournament.administrator' || user.role_slug == 'Results.administrator')" class="text-primary icon-size-1-2" href="javascript:void(0)"
                                         @click="editTournamentPermission(user)">
                                         <i class="fas fa-eye fa-1x"></i>
                                         </a>
@@ -116,31 +124,27 @@
                                         </a>-->
                                     </td>
                                   </tr>
-                                  <tr><td colspan="8"></td></tr>
                                 </tbody>
                             </table>
-                            <paginate v-if="shown" name="userpagination" :list="userList.userData" ref="paginator" :per="no_of_records"  class="paginate-list">
-                              </paginate>
-                              <div class="row d-flex flex-row align-items-center">
-                                <div class="col page-dropdown">
-                                  <select class="form-control ls-select2" name="no_of_records" v-model="no_of_records">
-                                    <option v-for="recordCount in recordCounts" v-bind:value="recordCount">
-                                        {{ recordCount }}
-                                    </option>
-                                  </select>
-                                </div>
-                                <div class="col">
-                                  <span v-if="$refs.paginator">
-                                    Viewing {{ $refs.paginator.pageItemsCount }} results
-                                  </span>
-                                </div>
-                                <div class="col-md-6">
-                                  <paginate-links for="userpagination"
-                                    :show-step-links="true" :async="true" :limit="2" class="mb-0">
-                                  </paginate-links>
-                                </div>
+                          </div>
+                            <div class="row d-flex flex-row align-items-center" v-if="!isListGettingUpdate && userList.data.length > 0">
+                              <div class="col page-dropdown">
+                                <select class="form-control ls-select2" name="no_of_records" v-model="no_of_records" @change="onNoOfRecordsChange()">
+                                  <option v-for="recordCount in recordCounts" v-bind:value="recordCount">
+                                      {{ recordCount }}
+                                  </option>
+                                </select>
                               </div>
-                        </div>
+                              <div class="col">
+                                <span>
+                                  Viewing {{ userList.from + '-' + userList.to }} of {{ userList.total }} results
+                                </span>
+                              </div>
+                              <div class="col-md-6">
+                                <pagination :align="'right'" :show-disabled="true" :limit="1" :data="userList" @pagination-change-page="getResults"></pagination>
+                              </div>
+                            </div>
+                          </div>
                         <div v-if="userList.userCount == 0" class="col-md-12">
                             <h6 class="block text-center">No record found</h6>
                         </div>
@@ -149,7 +153,7 @@
             </div>
         </div>
         <user-modal v-if="userStatus" :userId="userId"
-        :userRoles="userRoles" :userEmailData="userEmailData" :publishedTournaments="publishedTournaments" :isMasterAdmin="isMasterAdmin" @showChangePrivilegeModal="showChangePrivilegeModal()"></user-modal>
+        :userRoles="userRoles" :publishedTournaments="publishedTournaments" :isMasterAdmin="isMasterAdmin" @showChangePrivilegeModal="showChangePrivilegeModal()"></user-modal>
         <delete-modal :deleteConfirmMsg="deleteConfirmMsg" @confirmed="deleteConfirmed()"></delete-modal>
         <resend-modal :resendConfirm="resendConfirm" @confirmed="resendConfirmed()"></resend-modal>
         <active-modal
@@ -174,6 +178,7 @@
     import User from '../../../api/users.js'
     import Tournament from '../../../api/tournament.js'
     import VuePaginate from 'vue-paginate'
+    import pagination from 'laravel-vue-pagination'
 
 
     export default {
@@ -185,6 +190,7 @@
             TournamentPermissionModal,
             PermissionModal,
             ConfirmPrivilegeChangeModal,
+            pagination,
         },
         data() {
             return {
@@ -206,8 +212,7 @@
                 enb: false,
                 userRoles: [],
                 publishedTournaments: [],
-                userEmailData: this.userList,
-                paginate: ['userpagination'],
+                // paginate: ['userpagination'],
                 shown: false,
                 no_of_records: 20,
                 recordCounts: [5,10,20,50,100],
@@ -218,6 +223,7 @@
 
         props: {
             userList: Object,
+            isListGettingUpdate: Boolean
         },
         computed: {
             IsSuperAdmin() {
@@ -228,12 +234,17 @@
             },
             isMasterAdmin() {
               return this.$store.state.Users.userDetails.role_slug == 'Master.administrator';
-            }
+            },
         },
         filters: {
             formatDate: function(date) {
-            return moment(date).format("HH:mm  DD MMM YYYY");
-             },
+              return moment(date).format("HH:mm  DD MMM YYYY");
+            },
+            capitalize: function (value) {
+              if (!value) return '';
+              value = value.toString();
+              return value.charAt(0).toUpperCase() + value.slice(1);
+            }            
           },
         mounted() {
           // here we check the permission to allowed to access users list
@@ -264,8 +275,8 @@
             //call method for refresh
             this.$root.$emit('clearSearch')
           },
-          searchUserData() {
-            this.$root.$emit('setSearch', this.userListSearch,this.userTypeSearch);
+          searchUserData(e) {
+            this.$root.$emit('setSearch', this.userListSearch,this.userTypeSearch, 1, this.no_of_records);
             var first_name = $("#user_first_name").val();
             var last_name = $("#user_last_name").val();
             var email = $("#user_email").val();
@@ -414,6 +425,12 @@
                 }
               )
             },
+            getResults(page = 1) {
+                this.$root.$emit('setSearch', this.userListSearch,this.userTypeSearch, page, this.no_of_records);
+            },
+            onNoOfRecordsChange() {
+                this.$root.$emit('setSearch', this.userListSearch,this.userTypeSearch, 1, this.no_of_records);
+            }
         }
     }
 </script>

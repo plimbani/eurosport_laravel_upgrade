@@ -13,6 +13,7 @@ use Laraspace\Models\Referee;
 use Laraspace\Models\TournamentCompetationTemplates;
 use DB;
 use Carbon\Carbon;
+use Illuminate\Support\Arr;
 
 class MatchRepository
 {
@@ -43,14 +44,27 @@ class MatchRepository
     }
 
     public function getDraws($tournamentData) {
-      $tournamentId = $tournamentData['tournamentId'];
+      //dd($tournamentData);
+      if ( gettype($tournamentData['tournamentId']) == 'array')
+      {
+        $tournamentId = $tournamentData['tournamentId'][0];
+        $competationFormatId = $tournamentData['tournamentId'][1];
+      }
+      else
+      {
+        $tournamentId = $tournamentData['tournamentId'];
+        $competationFormatId = '';
+      }
+
       $reportQuery = DB::table('competitions')
                      ->leftjoin('tournament_competation_template','tournament_competation_template.id', '=', 'competitions.tournament_competation_template_id')
                      ->leftjoin('age_category_divisions', 'competitions.age_category_division_id', '=', 'age_category_divisions.id');
-      if(isset($tournamentData['competationFormatId']) && $tournamentData['competationFormatId'] != '') {
+
+      if($competationFormatId != '') {
         $reportQuery->where('competitions.tournament_competation_template_id','=',
-          $tournamentData['competationFormatId']);
+          $competationFormatId);
       }
+
       $reportQuery->where('competitions.tournament_id', $tournamentId);
       $reportQuery->select('competitions.*','tournament_competation_template.group_name', 'age_category_divisions.name as divisionName');
       $reportQuery = $reportQuery->get();
@@ -58,6 +72,7 @@ class MatchRepository
       $divisionsData = [];
       $roundRobinData = [];
       $finalData = [];
+      $ageCategoryData = []; 
       foreach ($reportQuery as $data) {
         if($data->age_category_division_id != '') {
           $divisionsData[$data->divisionName][$data->competation_round_no][] = $data;
@@ -69,7 +84,10 @@ class MatchRepository
       $finalData['round_robin'] = $roundRobinData;
       $finalData['divisions'] = $divisionsData;
 
-      return $finalData;
+      $ageCategoryData['ageCategoryData'] = $finalData;
+      $ageCategoryData['mainData'] = $reportQuery;
+
+      return $ageCategoryData;
     }
     public function getFixtures($tournamentData) {
 
@@ -335,7 +353,8 @@ class MatchRepository
               'tournament_competation_template.match_interval_FM',
               'tournament_competation_template.id as tid',
               'temp_fixtures.home_yellow_cards', 'temp_fixtures.away_yellow_cards',
-              'temp_fixtures.home_red_cards', 'temp_fixtures.away_red_cards',              
+              'temp_fixtures.home_red_cards', 'temp_fixtures.away_red_cards',
+              'temp_fixtures.score_last_update_date_time',
               DB::raw('CONCAT(home_team.name, " vs ", away_team.name) AS full_game')
               )
           ->where('temp_fixtures.tournament_id', $tournamentData['tournamentId']);
@@ -394,8 +413,6 @@ class MatchRepository
                             });
         }
 
-        // echo "<pre>"; print_r($tournamentData); exit();
-
         // Check all rounds matches are placing matches or not
         $roundQuery = 0;
         if(isset($tournamentData['competitionId'])) {
@@ -404,7 +421,7 @@ class MatchRepository
             $getAllCompetitionID = DB::table('competitions')->where('competitions.age_category_division_id',$compDiv[0])->pluck('competitions.id')->toArray();
             // All rounds are pm or round robin
              $countForRRElem = DB::table('temp_fixtures')->whereIn('temp_fixtures.competition_id',$getAllCompetitionID)
-             ->whereIn('round',['Round Robin','Elimination'])->count(); //,'Elimination'
+             ->whereIn('round',['Round Robin'])->count(); //,'Elimination'
              
              if ($countForRRElem == 0){
               $roundQuery = 1;
@@ -450,7 +467,6 @@ class MatchRepository
           }
         }
 
-
         if ( $roundQuery )
         {
           $reportQuery =  $reportQuery->whereIn('temp_fixtures.competition_id',$getAllCompetitionID);
@@ -465,10 +481,15 @@ class MatchRepository
           }
         }
 
-      $resultData = $reportQuery->get();
-      $updatedArray =[];
+        if(isset($tournamentData['matchOrderReport']) && $tournamentData['matchOrderReport'] == 1)
+        {
+          $reportQuery = $reportQuery->orderBy(DB::raw('match_datetime IS NULL, match_datetime'), 'asc');
+        }
 
-      foreach($resultData as $key=>$res) {
+        $resultData = $reportQuery->get();
+        $updatedArray =[];
+
+        foreach($resultData as $key=>$res) {
           $updatedArray[$key] = $res;
           $updatedArray[$key]->isDivExist = $roundQuery;
           if($res->Home_id == 0 ) {
@@ -554,43 +575,63 @@ class MatchRepository
           $reportQuery = $reportQuery->orderBy('match_standing.manual_order','asc');
           $head_to_head = false;
           $check_head_to_head_with_key = '';
-          foreach($rules as $key => $rule) {
+          $remain_head_to_head_with_key = '';
+          $head_to_head_order_atlast = false;
+          if($competition->is_manual_override_standing == 0) {
+            foreach($rules as $key => $rule) {
 
-            if($rule['checked'] == false || ( $rule['key'] != 'head_to_head' && $head_to_head == true)) {
-              continue;
-            }
+              if($rule['checked'] == false || ( $rule['key'] != 'head_to_head' && $head_to_head == true)) {
 
-            if($rule['key'] == 'match_points') {
-              $reportQuery = $reportQuery->orderBy('match_standing.points','desc');
-              $check_head_to_head_with_key .= '|points';
-            }
-
-            if($rule['key'] == 'head_to_head') {
-              if($checkResultEntered > 0)
-              {
-                $reportQuery = $reportQuery->orderBy('teams.name','asc');
+                if (  $rule['checked'] == true && ( $rule['key'] != 'head_to_head' && $head_to_head == true )  )
+                {
+                  if($rule['key'] == 'goal_difference') {
+                    $remain_head_to_head_with_key .= '|GoalDifference';
+                  }
+                  if($rule['key'] == 'goals_for') {
+                    $remain_head_to_head_with_key .= '|goal_for';
+                  }
+                  if($rule['key'] == 'matches_won') {
+                    $remain_head_to_head_with_key .= '|won';
+                  }
+                  if($rule['key'] == 'goal_ratio') {
+                    $remain_head_to_head_with_key .= '|GoalRatio';
+                  }
+                }
+                continue;
               }
-              else
-              {
-                $head_to_head = true;
+
+              if($rule['key'] == 'match_points') {
+                $reportQuery = $reportQuery->orderBy('match_standing.points','desc');
+                $check_head_to_head_with_key .= '|points';
               }
-            }
-            
-            if($rule['key'] == 'goal_difference') {
-              $reportQuery = $reportQuery->orderBy('GoalDifference','desc');
-              $check_head_to_head_with_key .= '|GoalDifference';
-            }
-            if($rule['key'] == 'goals_for') {
-              $reportQuery = $reportQuery->orderBy('match_standing.goal_for','desc');
-              $check_head_to_head_with_key .= '|goal_for';
-            }
-            if($rule['key'] == 'matches_won') {
-              $reportQuery = $reportQuery->orderBy('match_standing.won','desc');
-              $check_head_to_head_with_key .= '|won';
-            }
-            if($rule['key'] == 'goal_ratio') {
-              $reportQuery = $reportQuery->orderBy('GoalRatio','desc');
-              $check_head_to_head_with_key .= '|GoalRatio';
+
+              if($rule['key'] == 'head_to_head') {
+                if($checkResultEntered > 0)
+                {
+                  $head_to_head_order_atlast = true;
+                }
+                else
+                {
+                  $head_to_head = true;
+                }
+              }
+              
+              if($rule['key'] == 'goal_difference') {
+                $reportQuery = $reportQuery->orderBy('GoalDifference','desc');
+                $check_head_to_head_with_key .= '|GoalDifference';
+              }
+              if($rule['key'] == 'goals_for') {
+                $reportQuery = $reportQuery->orderBy('match_standing.goal_for','desc');
+                $check_head_to_head_with_key .= '|goal_for';
+              }
+              if($rule['key'] == 'matches_won') {
+                $reportQuery = $reportQuery->orderBy('match_standing.won','desc');
+                $check_head_to_head_with_key .= '|won';
+              }
+              if($rule['key'] == 'goal_ratio') {
+                $reportQuery = $reportQuery->orderBy('GoalRatio','desc');
+                $check_head_to_head_with_key .= '|GoalRatio';
+              }
             }
           }
 
@@ -600,8 +641,17 @@ class MatchRepository
             $check_head_to_head_with_key = ltrim($check_head_to_head_with_key,'|');
           }
 
-          $reportQuery = $reportQuery->orderBy('match_standing.team_id','asc');
+          if ( !empty($remain_head_to_head_with_key) )
+          {
+            $remain_head_to_head_with_key = ltrim($remain_head_to_head_with_key,'|');
+          }
 
+          if ( $head_to_head_order_atlast )
+          {
+            $reportQuery = $reportQuery->orderBy('teams.name','asc');
+          }
+
+          $reportQuery = $reportQuery->orderBy('match_standing.team_id','asc');
           $tempFixtures = DB::table('temp_fixtures')
                           ->leftjoin('competitions', 'temp_fixtures.competition_id', '=', 'competitions.id')
                           ->where('temp_fixtures.tournament_id', $tournamentData['tournamentId'])
@@ -705,21 +755,27 @@ class MatchRepository
 
           $holdingTeamStandings = collect($allStandingDataArray);
           $competitionStandings = $reportQuery->get();
-          if ( $head_to_head == true )
+          if ( $head_to_head == true && $competition->is_manual_override_standing == 0 )
           {
-            $competitionStandings = json_decode(json_encode($competitionStandings), True);
-            list($competitionStandings,$sort_head_to_head) = $this->sortByHeadtoHead($competitionStandings,$check_head_to_head_with_key,$tournamentData['tournamentId'],$tournamentData['competitionId'],$tournamentCompetationTemplatesRecord);
+            $competitionStandings = json_decode(json_encode($competitionStandings), true);
+
+            list($competitionStandings,$sort_head_to_head) = $this->sortByHeadtoHead($competitionStandings,$check_head_to_head_with_key,$tournamentData['tournamentId'],$tournamentData['competitionId'],$tournamentCompetationTemplatesRecord,$remain_head_to_head_with_key);
 
             if ( $sort_head_to_head == '1') {
               $head_to_head_position_sorting = array();           
+              $internal_head_to_head_position_sorting = array();  
               foreach ($competitionStandings as $comp_stand_key => $comp_stand_value) {
                 $head_to_head_position_sorting[$comp_stand_key] = (int)$comp_stand_value['head_to_head_position'];
+                $internal_head_to_head_position_sorting[$comp_stand_key] = (int)$comp_stand_value['internal_head_to_head_position'];
+                
               }
+              
+              array_multisort($internal_head_to_head_position_sorting,SORT_ASC,$competitionStandings);
 
-              array_multisort($head_to_head_position_sorting, SORT_ASC,$competitionStandings);
             }
 
             $competitionStandings = collect($competitionStandings);
+              
 
           }
           // dd($competitionStandings);
@@ -729,7 +785,7 @@ class MatchRepository
           return $mergedStandings;
     }
 
-    public function sortByHeadtoHead($standingData,$keyConflict,$tournamentId,$compId,$tournamentCompetationTemplatesRecord)
+    public function sortByHeadtoHead($standingData,$keyConflict,$tournamentId,$compId,$tournamentCompetationTemplatesRecord,$remain_head_to_head_with_key)
     {
 
       if ( gettype($standingData) != 'array')
@@ -780,7 +836,7 @@ class MatchRepository
       $virtual_lt_sorted = array();
       $virtual_lt_sorted_details = array();
       foreach ($conflictedTeamArray as $cta => $ctv) {
-        $virtual_lt_sorted[$cta] = $this->headToHeadVirtualLeagueTable($conflictedTeamids,$cta,$ctv,$tournamentId,$compId,$tournamentCompetationTemplatesRecord);
+        $virtual_lt_sorted[$cta] = $this->headToHeadVirtualLeagueTable($conflictedTeamids,$cta,$ctv,$tournamentId,$compId,$tournamentCompetationTemplatesRecord,$remain_head_to_head_with_key,$standingData);
 
         $virtual_lt_sorted_details[$cta]['total_teams'] = count($virtual_lt_sorted[$cta]);
         $virtual_lt_sorted_details[$cta]['remaining'] = count($virtual_lt_sorted[$cta]);
@@ -806,7 +862,11 @@ class MatchRepository
 
                 if ( $vt_value1['team_id'] == $v_l_value['team_id'] && $flag == false)
                 {
-                  $standingArray[$v_l_key]['head_to_head_position'] = $pos + $vt_key1 ;
+                  //$standingArray[$v_l_key]['head_to_head_position'] = $pos + $vt_key1 ;
+
+                  $standingArray[$v_l_key]['head_to_head_position'] = $pos;
+                  $standingArray[$v_l_key]['internal_head_to_head_position'] = $pos + $vt_key1 ;
+
                   $flag = true;
                   $virtual_lt_sorted_details[$vt_key]['remaining'] = $virtual_lt_sorted_details[$vt_key]['remaining'] - 1;
 
@@ -826,10 +886,10 @@ class MatchRepository
           else
           {
             $standingArray[$v_l_key]['head_to_head_position'] = $pos;
+            $standingArray[$v_l_key]['internal_head_to_head_position'] = $pos;
             $pos++;
           }
         }
-
         return array($standingArray,'1');
       }
       else
@@ -839,7 +899,7 @@ class MatchRepository
 
     }
 
-    public function headToHeadVirtualLeagueTable($conflictedTeamids,$cta,$ctv,$tournamentId,$compId,$tournamentCompetationTemplatesRecord)
+    public function headToHeadVirtualLeagueTable($conflictedTeamids,$cta,$ctv,$tournamentId,$compId,$tournamentCompetationTemplatesRecord,$remain_head_to_head_with_key,$standingData)
     {
       //merge conflicted teams
       $teamids = $conflictedTeamids[$cta];
@@ -951,8 +1011,51 @@ class MatchRepository
 
       array_multisort($points_array, SORT_DESC,$goal_difference, SORT_DESC,$goal_for,SORT_DESC,$teamName, SORT_ASC,$virtualLegaueTable);
 
+      //check point, gd, goal for still same 
+      $sort_virtual_leaguetable = array();
+      foreach ($virtualLegaueTable as $vtakey => $vlvalue) {
+        $key_for_check =  $vlvalue['points'].'|'.$vlvalue['GoalDifference'].'|'.$vlvalue['goal_for'];
+        $sort_virtual_leaguetable[$key_for_check][] = $vlvalue;
+      }
 
-      return $virtualLegaueTable;
+      $conflict_still_in_internal_leaguetable_array = array();
+      $remainingSorting = array();
+
+      foreach ($sort_virtual_leaguetable as $skey => $svalue) {
+        if(sizeof($svalue) > 1 && !empty($remain_head_to_head_with_key) ){
+          if ( !empty($remain_head_to_head_with_key) && gettype($remain_head_to_head_with_key) == 'string')
+          {
+            $remain_head_to_head_with_key = explode('|',$remain_head_to_head_with_key);
+          }
+
+          foreach ($remain_head_to_head_with_key as $rkey => $rvalue) {
+              foreach ($svalue as $sskey => $svvalue) {
+                $team_id = $svvalue['team_id'];
+                if ( array_key_exists_r('team_id', $standingData) )
+                {
+                  $standKey = array_search($team_id, array_column($standingData, 'team_id'));
+                }
+                else
+                {
+                  $standKey = array_search($team_id, array_column($standingData, 'teamid'));
+                }
+
+                $svalue[$sskey]['outer_'.$rvalue] = $standingData[$standKey][$rvalue];
+                $remainingSorting['outer_'.$rvalue][$sskey] = (int)$standingData[$standKey][$rvalue];
+              }
+              $sort_virtual_leaguetable[$skey] = $svalue;
+
+            $sortArray[] = &$remainingSorting['outer_'.$rvalue];
+            $sortArray[] = SORT_DESC;
+          }
+          $sortArray[] = &$svalue;
+
+          call_user_func_array('array_multisort', $sortArray);
+          }
+        $sort_virtual_leaguetable[$skey] = $svalue;
+      }
+
+      return Arr::collapse($sort_virtual_leaguetable);
     }
 
     public function getDrawTable($tournamentData){
@@ -1106,7 +1209,7 @@ class MatchRepository
         foreach($teamData as $Tdata) {
           //$numTeamsArray[]=$Tdata->TeamId;
           $teamDetails[$Tdata->TeamId]['TeamName']=$Tdata->TeamName;
-          $teamDetails[$Tdata->TeamId]['TeamFlag']=$Tdata->TeamLogo;
+          $teamDetails[$Tdata->TeamId]['TeamFlag']=$this->getAWSUrl.$Tdata->TeamLogo;
           $teamDetails[$Tdata->TeamId]['TeamCountryFlag']=$Tdata->TeamCountryFlag;
           $teamDetails[$Tdata->TeamId]['ShirtColor']=$Tdata->ShirtColor;
           $teamDetails[$Tdata->TeamId]['ShortsColor']=$Tdata->ShortsColor;
@@ -1500,8 +1603,19 @@ class MatchRepository
 
     public function saveAllResults($data)
     {
+      $isScoreUpdated = true;
       $matchData = [];
       $tempFixtures = TempFixture::where('id',$data['matchId'])->first();
+      if($tempFixtures['hometeam_score'] == $data['homeScore'] && $tempFixtures['awayteam_score'] == $data['awayScore']) {
+        $isScoreUpdated = false;
+      }
+      if($isScoreUpdated === false) {
+        return ['status' => true, 'data' => 'Scores updated successfully.', 'match_data' => $matchData, 'is_score_updated' => $isScoreUpdated];
+      }
+      if($data['score_last_update_date_time'] != $tempFixtures['score_last_update_date_time']) {
+        return ['status' => false, 'data' => 'You need to refresh page to get latest updated score.', 'match_data' => $matchData, 'is_score_updated' => $isScoreUpdated, 'tempFixture' => $tempFixtures];
+      }
+
       $matchData['home_team_id'] = $tempFixtures['home_team'];
       $matchData['away_team_id'] = $tempFixtures['away_team'];
       $matchData['age_group_id'] = $tempFixtures['age_group_id'];
@@ -1509,10 +1623,11 @@ class MatchRepository
       $updateData = [
         'hometeam_score' => $data['homeScore'],
         'awayteam_score' => $data['awayScore'],
+        'score_last_update_date_time' => Carbon::now(),
       ];
       $data = TempFixture::where('id',$data['matchId'])
                 ->update($updateData);
-      return ['status' => true, 'data' => 'Scores updated successfully.', 'match_data' => $matchData];
+      return ['status' => true, 'data' => 'Scores updated successfully.', 'match_data' => $matchData, 'is_score_updated' => $isScoreUpdated];
     }
 
     public function getMatchDetail($matchId)

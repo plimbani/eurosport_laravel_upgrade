@@ -20,6 +20,11 @@ use Laraspace\Models\UserFavourites;
 use Laraspace\Models\Venue;
 use Laraspace\Models\Website;
 use Laraspace\Models\AgeCategoryDivision;
+use Laraspace\Models\Position;
+use Laraspace\Models\MatchStanding;
+use Laraspace\Models\TeamManualRanking;
+use Laraspace\Models\TournamentClub;
+use Laraspace\Models\TournamentUser;
 
 class TournamentRepository
 {
@@ -88,13 +93,19 @@ class TournamentRepository
     return Tournament::where('status','=','Published')->get();
     }*/
     }
-    public function getTemplate($tournamentTemplateId)
+    public function getTemplate($tournamentTemplateId, $ageCategoryId)
     {
         $tournamentTemplateData              = [];
-        $tournamentTemplate                  = TournamentTemplates::find($tournamentTemplateId);
-        $tournamentTemplateData['json_data'] = $tournamentTemplate->json_data;
-        $tournamentTemplateData['image']     = $tournamentTemplate->image;
-        $tournamentTemplateData['graphic_image']     = $tournamentTemplate->graphic_image ? getenv('S3_URL').$tournamentTemplate->graphic_image : null;
+        $tournamentTemplateData['json_data'] = '';        
+        if($tournamentTemplateId != NULL) {
+            $tournamentTemplate                  = TournamentTemplates::find($tournamentTemplateId);
+            $tournamentTemplateData['json_data'] = $tournamentTemplate->json_data;
+            $tournamentTemplateData['image']     = $tournamentTemplate->image;
+            $tournamentTemplateData['graphic_image']     = $tournamentTemplate->graphic_image ? getenv('S3_URL').$tournamentTemplate->graphic_image : null;
+        } else {
+            $tournamentCompetitionTemplate = TournamentCompetationTemplates::find($ageCategoryId);
+            $tournamentTemplateData['json_data'] = $tournamentCompetitionTemplate->template_json_data;
+        }
 
         return $tournamentTemplateData;
     }
@@ -112,14 +123,10 @@ class TournamentRepository
     public function getAllTemplatesFromMatches($data = array())
     {
         if (is_array($data) && count($data['tournamentData']) > 0 && $data['tournamentData']['minimum_matches'] != '' && $data['tournamentData']['total_teams'] != '') {
-            // TODO: need to Add
-            return TournamentTemplates::where(['total_teams' => $data['tournamentData']['total_teams'], 'minimum_matches' => $data['tournamentData']['minimum_matches']])->orderBy('name')->get();
+            return TournamentTemplates::where(['total_teams' => $data['tournamentData']['total_teams'], 'minimum_matches' => $data['tournamentData']['minimum_matches']])->where('editor_type', $data['tournamentData']['tournament_format'])->where('is_latest', 1)->orderBy('name')->get();
         } else {
-            // here we modified the data
             return;
-            // return TournamentTemplates::get();
         }
-
     }
 
     /**
@@ -259,6 +266,14 @@ class TournamentRepository
         $locationCount = $data['locationCount'];
         $locData       = $data['locations'];
         $locationData  = array();
+        if ($data['del_location'] && count($data['del_location']) > 0) {
+            foreach ($data['del_location'] as $location) {
+                $venue = Venue::find($location);
+                if($venue) {
+                    $venue->delete();
+                }
+            }
+        }
         foreach ($locData as $location) {
             $locationData['id']            = $location['tournament_location_id'] ?? '';
             $locationData['name']          = $location['tournament_venue_name'] ?? '';
@@ -271,9 +286,6 @@ class TournamentRepository
             $locationData['tournament_id'] = $tournamentId;
             if (isset($locationData['id']) && $locationData['id'] != 0) {
                 // Update Touranment Table Data
-                if (isset($data['del_location']) && $data['del_location'] != 0) {
-                    $data = Venue::find($data['del_location'])->delete();
-                }
                 Venue::where('id', $locationData['id'])->update($locationData);
             } else {
                 //  TournamentContact::create($tournamentContactData);
@@ -563,7 +575,8 @@ class TournamentRepository
             ->select('match_datetime as TournamentStartTime',
                 'temp_fixtures.tournament_id as TId')
             ->orderBy('temp_fixtures.match_datetime', 'asc')
-            ->get()->first();
+            ->get()
+            ->unique('TId');
         if ($pitches) {
             return $pitches->toArray();
         } else {
@@ -606,8 +619,8 @@ class TournamentRepository
 
                 if ($tournamentStartTimeArr) {
                     foreach ($tournamentStartTimeArr as $key => $tournamentTime) {
-                        if ($userData1['TournamentId'] == $tournamentStartTimeArr['TId']) {
-                            $userData[$index]['TournamentStartTime'] = date('Y-m-d H:i:s', strtotime($tournamentStartTimeArr['TournamentStartTime']));
+                        if ($userData1['TournamentId'] == $tournamentTime['TId']) {
+                            $userData[$index]['TournamentStartTime'] = date('Y-m-d H:i:s', strtotime($tournamentTime['TournamentStartTime']));
                         }
                     }
                 }
@@ -665,7 +678,7 @@ class TournamentRepository
     public function getCategoryCompetitions($data)
     {
         $categoryCompetitions = Competition::with('AgeCategoryDivision')->where('tournament_competation_template_id', $data['ageGroupId']);
-        //->groupBy(['competation_round_no','age_category_division_id']);
+
         if (isset($data['competationType'])) {
             $categoryCompetitions = $categoryCompetitions->where('competation_type', $data['competationType']);
         }
@@ -676,7 +689,7 @@ class TournamentRepository
         $divisionsData = [];
         $data = [];
         foreach ($categoryCompetitions as $key => $value) {
-            if ( $value['age_category_division'] != '')
+            if ( isset($value['age_category_division']) )
             {
                 $divisionsData[$value['age_category_division_id'].'|'.$value['age_category_division']['name']][$value['competation_round_no']][] = $value;
 
@@ -1033,6 +1046,251 @@ class TournamentRepository
                                     $data['tournamentData']['currentAgeCategoryId'])
                                     ->where('id', $data['tournamentData']['divisionId'])
                                     ->update(['name' => $data['tournamentData']['categoryDivisionName']]);
+    }
 
+    public function duplicateTournament($data)
+    {
+        $existingTournament = Tournament::findOrFail($data['copy_tournament_id']);
+        $existingTournamentAgeCategories = TournamentCompetationTemplates::where('tournament_id', $data['copy_tournament_id'])->get();
+        $existingTournamentCompetitions = Competition::where('tournament_id', $data['copy_tournament_id'])->get();
+        $existingTournamentFixtures = TempFixture::where('tournament_id', $data['copy_tournament_id'])->get();
+        $existingTournamentMatchStandings = MatchStanding::where('tournament_id', $data['copy_tournament_id'])->get();
+        $existingTournamentVenues = Venue::where('tournament_id', $data['copy_tournament_id'])->get();
+        $existingTournamentPitches = Pitch::where('tournament_id', $data['copy_tournament_id'])->get();
+        $existingTournamentAvailablePitches = PitchAvailable::where('tournament_id', $data['copy_tournament_id'])->get();
+        $existingTournamentUnAvailablePitches = PitchUnavailable::where('tournament_id', $data['copy_tournament_id'])->get();
+        $existingTournamentTeams = Team::where('tournament_id', $data['copy_tournament_id'])->get();
+        $existingTournamentTeamsManualRankings = TeamManualRanking::where('tournament_id', $data['copy_tournament_id'])->get();
+        $existingTournamentContacts = TournamentContact::where('tournament_id', $data['copy_tournament_id'])->get();
+        $existingTournamentReferees = Referee::where('tournament_id', $data['copy_tournament_id'])->get();
+        $tournamentClubs = TournamentClub::where('tournament_id', $data['copy_tournament_id'])->get();
+        $tournamentUsers = TournamentUser::where('tournament_id', $data['copy_tournament_id'])->get();
+
+        $allPositions = [];
+        $teamsMappingArray = [];
+        $venuesMappingArray = [];
+        $pitchesMappingArray = [];
+        $refereesMappingArray = [];
+        $competitionsMappingArray = [];
+        $ageCategoriesMappingArray = [];
+
+        // saving tournament
+        $newCopiedTournament = $existingTournament->replicate();
+        $newCopiedTournament->name = $data['tournament_name'];
+        $newCopiedTournament->slug = $this->generateSlug($data['tournament_name'] . Carbon::createFromFormat('d/m/Y', $existingTournament->start_date)->year);
+        $newCopiedTournament->save();
+
+        // saving tournament age categories        
+        if($existingTournamentAgeCategories) {
+            foreach ($existingTournamentAgeCategories as $ageCategory) {
+                $copiedAgeCategory = $ageCategory->replicate();
+                $copiedAgeCategory->tournament_id = $newCopiedTournament->id;
+                $copiedAgeCategory->save();
+                $ageCategoriesMappingArray[$ageCategory->id] = $copiedAgeCategory->id;
+
+                // $positions = Position::where('age_category_id', $ageCategory->id)->get();
+
+                // echo "<pre>";print_r($positions);echo "</pre>";exit;
+                // $allPositions = array_merge($allPositions, $positions);
+            }
+        }
+
+        // saving tournament competitions
+        if($existingTournamentCompetitions) {
+            foreach ($existingTournamentCompetitions as $competition) {
+                if(isset($ageCategoriesMappingArray[$competition->tournament_competation_template_id])) {
+                    $copiedCompetition = $competition->replicate();
+                    $copiedCompetition->tournament_competation_template_id = $ageCategoriesMappingArray[$competition->tournament_competation_template_id];
+                    $copiedCompetition->tournament_id = $newCopiedTournament->id;
+                    $copiedCompetition->save();
+                    $competitionsMappingArray[$competition->id] = $copiedCompetition->id;
+                }
+            }
+        }
+
+        // saving tournament venues
+        if($existingTournamentVenues) {
+            foreach ($existingTournamentVenues as $venue) {
+                $copiedVenue = $venue->replicate();
+                $copiedVenue->tournament_id = $newCopiedTournament->id;
+                $copiedVenue->save();
+                $venuesMappingArray[$venue->id] = $copiedVenue->id;
+            }
+        }
+
+        // saving tournament associated pitches
+        if($existingTournamentPitches) {
+            foreach ($existingTournamentPitches as $pitch) {
+                $copiedPitch = $pitch->replicate();
+                $copiedPitch->tournament_id = $newCopiedTournament->id;
+                $copiedPitch->venue_id = isset($venuesMappingArray[$pitch->venue_id]) ? $venuesMappingArray[$pitch->venue_id] : null;
+                $copiedPitch->save();
+                $pitchesMappingArray[$pitch->id] = $copiedPitch->id;
+            }
+        }
+
+        // saving tournament pitch availability
+        if($existingTournamentAvailablePitches) {
+            foreach ($existingTournamentAvailablePitches as $availablePitch) {
+                if(isset($pitchesMappingArray[$availablePitch->pitch_id])) {
+                    $copiedAvailablePitch = $availablePitch->replicate();
+                    $copiedAvailablePitch->tournament_id = $newCopiedTournament->id;
+                    $copiedAvailablePitch->pitch_id = $pitchesMappingArray[$availablePitch->pitch_id];
+                    $copiedAvailablePitch->save();
+                }
+
+                if(isset($pitchesMappingArray[$availablePitch->pitch_id])) {
+                    $pitchBreak = PitchBreaks::where('pitch_id', $availablePitch->pitch_id)->first();
+                    if($pitchBreak) {
+                        $copiedPitchBreak = $pitchBreak->replicate();
+                        $copiedPitchBreak->pitch_id = $pitchesMappingArray[$availablePitch->pitch_id];
+                        $copiedPitchBreak->availability_id = $copiedAvailablePitch->id;
+                        $copiedPitchBreak->save();
+                    }
+                }
+            }
+        }
+
+        // saving tournament pitch unavailability
+        if($existingTournamentUnAvailablePitches) {
+            foreach ($existingTournamentUnAvailablePitches as $unAvailablePitch) {
+                if(isset($pitchesMappingArray[$unAvailablePitch->pitch_id])) {
+                    $copiedUnAvailablePitch = $unAvailablePitch->replicate();
+                    $copiedUnAvailablePitch->tournament_id = $newCopiedTournament->id;
+                    $copiedUnAvailablePitch->pitch_id = $pitchesMappingArray[$unAvailablePitch->pitch_id];
+                    $copiedUnAvailablePitch->save();
+                }
+            }
+        }
+
+        // saving tournament referees
+        $refereeNewAgeCategoriesArray = [];
+        if($existingTournamentReferees) {
+            foreach ($existingTournamentReferees as $referee) {
+                if($referee->age_group_id != null) {
+                    $explodedExistingRefereeAgeCategories = explode(",", $referee->age_group_id);
+                    foreach ($explodedExistingRefereeAgeCategories as $key => $ageCategory) {
+                        if(isset($ageCategoriesMappingArray[$ageCategory])) {
+                            $refereeNewAgeCategoriesArray[] = $ageCategoriesMappingArray[$ageCategory];
+                        }
+                    }
+                }
+
+                $copiedTournamentReferee = $referee->replicate();
+                $copiedTournamentReferee->tournament_id = $newCopiedTournament->id;
+                $copiedTournamentReferee->age_group_id = ($referee->age_group_id != null) ? implode(",", $refereeNewAgeCategoriesArray) : null;
+                $copiedTournamentReferee->save();
+                
+                $refereesMappingArray[$referee->id] = $copiedTournamentReferee->id;
+            }
+        }
+
+        // saving tournament teams
+        if($existingTournamentTeams) {
+            foreach ($existingTournamentTeams as $team) {
+                $copiedTeam = $team->replicate();
+                $copiedTeam->tournament_id = $newCopiedTournament->id;
+                $copiedTeam->competation_id = isset($competitionsMappingArray[$team->competation_id]) ? $competitionsMappingArray[$team->competation_id] : null;
+                $copiedTeam->age_group_id = isset($ageCategoriesMappingArray[$team->age_group_id]) ? $ageCategoriesMappingArray[$team->age_group_id] : null;
+                $copiedTeam->save();
+                $teamsMappingArray[$team->id] = $copiedTeam->id;
+            }
+        }
+
+        // saving positions
+        if($ageCategoriesMappingArray) {
+            foreach ($ageCategoriesMappingArray as $key => $ageCategory) {
+                $positions = Position::where('age_category_id', $key)->get();
+                foreach ($positions as $poskey => $position) {
+                    if(isset($ageCategoriesMappingArray[$position->age_category_id])) {
+                        $copiedPositions = $position->replicate();
+                        $copiedPositions->age_category_id = $ageCategoriesMappingArray[$position->age_category_id];
+                        $copiedPositions->team_id = isset($teamsMappingArray[$position->team_id]) ? $teamsMappingArray[$position->team_id] : null;
+                        $copiedPositions->save();
+                    }
+                }
+            }
+        }
+
+        // saving tournament fixtures
+        if($existingTournamentFixtures) {
+            foreach ($existingTournamentFixtures as $fixture) {
+                if(isset($competitionsMappingArray[$fixture->competition_id])) {
+                    $copiedFixture = $fixture->replicate();
+                    $copiedFixture->tournament_id = $newCopiedTournament->id;
+                    $copiedFixture->competition_id = $competitionsMappingArray[$fixture->competition_id];
+                    $copiedFixture->venue_id = isset($venuesMappingArray[$fixture->venue_id]) ? $venuesMappingArray[$fixture->venue_id] : null;
+                    $copiedFixture->age_group_id = isset($ageCategoriesMappingArray[$fixture->age_group_id]) ? $ageCategoriesMappingArray[$fixture->age_group_id] : null;
+                    $copiedFixture->referee_id = isset($refereesMappingArray[$fixture->referee_id]) ? $refereesMappingArray[$fixture->referee_id] : null;
+                    $copiedFixture->pitch_id = isset($pitchesMappingArray[$fixture->pitch_id]) ? $pitchesMappingArray[$fixture->pitch_id] : null;
+                    $copiedFixture->match_winner = isset($teamsMappingArray[$fixture->match_winner]) ? $teamsMappingArray[$fixture->match_winner] : null;
+                    $copiedFixture->home_team = isset($teamsMappingArray[$fixture->home_team]) ? $teamsMappingArray[$fixture->home_team] : 0;
+                    $copiedFixture->away_team = isset($teamsMappingArray[$fixture->away_team]) ? $teamsMappingArray[$fixture->away_team] : 0;
+                    $copiedFixture->save();
+                }
+            }
+        }
+
+        // saving tournament team manual rankings
+        if($existingTournamentTeamsManualRankings) {
+            foreach ($existingTournamentTeamsManualRankings as $teamManualRanking) {
+                $copiedTeamManualRanking = $teamManualRanking->replicate();
+                $copiedTeamManualRanking->tournament_id = $newCopiedTournament->id;
+                $copiedTeamManualRanking->competation_id = isset($competitionsMappingArray[$teamManualRanking->competation_id]) ? $competitionsMappingArray[$teamManualRanking->competation_id] : null;
+                $copiedTeamManualRanking->team_id = isset($teamsMappingArray[$teamManualRanking->team_id]) ? $teamsMappingArray[$teamManualRanking->team_id] : null;
+                $copiedTeamManualRanking->save();
+            }
+        }
+
+
+        // saving tournament contacts
+        if($existingTournamentContacts) {
+            foreach ($existingTournamentContacts as $tournamentContact) {
+                $copiedTournamentContact = $tournamentContact->replicate();
+                $copiedTournamentContact->tournament_id = $newCopiedTournament->id;
+                $copiedTournamentContact->save();
+            }
+        }
+
+        // saving tournament match standings
+        if($existingTournamentMatchStandings) {
+            foreach ($existingTournamentMatchStandings as $matchStanding) {
+                $copiedTournamentMatchStanding = $matchStanding->replicate();
+                $copiedTournamentMatchStanding->tournament_id = $newCopiedTournament->id;
+                $copiedTournamentMatchStanding->competition_id = isset($competitionsMappingArray[$matchStanding->competition_id]) ? $competitionsMappingArray[$matchStanding->competition_id] : null;
+                $copiedTournamentMatchStanding->team_id = isset($teamsMappingArray[$matchStanding->team_id]) ? $teamsMappingArray[$matchStanding->team_id] : null;
+                $copiedTournamentMatchStanding->save();
+            }
+        }
+
+        // saving tournament club
+        if($tournamentClubs) {
+            foreach ($tournamentClubs as $tournamentClub) {
+                $copiedTournamentClub = $tournamentClub->replicate();
+                $copiedTournamentClub->tournament_id = $newCopiedTournament->id;
+                $copiedTournamentClub->save();
+            }
+        }
+
+        if($tournamentUsers) {
+            foreach ($tournamentUsers as $tournamentUser) {
+                $copiedTournamentUser = $tournamentUser->replicate();
+                $copiedTournamentUser->tournament_id = $newCopiedTournament->id;
+                $copiedTournamentUser->save();
+            }
+        }
+
+
+        return $newCopiedTournament;
+    }
+
+    public function duplicateTournamentList($data)
+    {   
+        if(isset($data['tournamentNameSearch']) && $data['tournamentNameSearch'] !== '') {
+            $tournamentName =  Tournament::where('tournaments.name', 'like', "%" . $data['tournamentNameSearch'] . "%");
+            return $tournamentName->orderBy('name', 'asc')->get();
+        } else {
+            return  Tournament::orderBy('name', 'asc')->get();
+        }
     }
 }

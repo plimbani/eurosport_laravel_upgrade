@@ -14,9 +14,9 @@
 			 </div>
 			</div>
 			<div class="col-md-6">
-				<div class="row d-flex flex-row align-items-center">
-				<label for="status_rules" class="mb-0">{{$lang.summary_status}}:
-					<span class="pr-2 pl-0 text-primary" data-toggle="popover" data-animation="false" data-placement="bottom" :data-popover-content="'#status_rules'"><i class="fas fa-info-circle"></i>
+				<div class="row gutters-tiny align-items-center justify-content-end">
+				<label for="status_rules" class="col-md-2 text-right mb-0">{{$lang.summary_status}}:
+					<span class="text-primary" data-toggle="popover" data-animation="false" data-placement="bottom" :data-popover-content="'#status_rules'"><i class="fas fa-info-circle"></i>
 					</span>
 					<div v-bind:id="'status_rules'" style="display:none;">
                 		<div class="popover-body">
@@ -26,7 +26,7 @@
                 		</div>
 					</div>
                 </label>
-				<div class="col-md-6 mr-0 ml-0 pr-0 pl-0">
+				<div class="col-md-6">
 					<TournamentStatus :tournamentStatus='tournamentStatus'></TournamentStatus>
 				</div>
 
@@ -39,13 +39,14 @@
  				<PreviewTournament>
 				</PreviewTournament>
 
-				<div class="col-sm-4">
-				<button type="button" data-toggle="modal"
-				data-confirm-msg="Are you sure you would like to delete this user record?"
-				data-target="#delete_modal"
-				class="btn btn-danger w-100">{{$lang.summary_button_delete}}</button>
-				<delete-modal :deleteConfirmMsg="deleteConfirmMsg" @confirmed="deleteConfirmed()"></delete-modal>
-				<!--<DeleteTournament></DeleteTournament>-->
+				<div class="col-sm-4" v-if="(userDetails.role_name == 'Super administrator' || userDetails.role_name == 'Internal administrator' || userDetails.role_name == 'Master administrator')">
+					<button type="button" data-toggle="modal"
+					data-confirm-msg="Are you sure you would like to delete this user record?"
+					data-target="#delete_modal"
+					class="btn btn-danger w-100" 
+					>{{$lang.summary_button_delete}}</button>
+					<delete-modal :deleteConfirmMsg="deleteConfirmMsg" @confirmed="deleteConfirmed()"></delete-modal>
+					<!--<DeleteTournament></DeleteTournament>-->
 				</div>
 				</div>
 			</div>
@@ -152,6 +153,11 @@
 			        return $(title).children(".popover-heading").html();
 			    }
 			});
+	    },
+	    computed: {
+		    userDetails: function() {
+		      return this.$store.state.Users.userDetails
+		    },
 	    },
 	    created: function() {
        		this.$root.$on('StatusUpdate', this.updateStatus);

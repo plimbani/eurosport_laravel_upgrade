@@ -63,6 +63,12 @@ import PitchPlanner from './views/admin/eurosport/PitchPlanner.vue'
 // UserManagement Layout
 import LayoutUserManagement from './views/layouts/LayoutUserManagement.vue'
 
+// Template management Layout
+import LayoutTemplateManagement from './views/layouts/LayoutTemplateManagement.vue'
+
+// Duplicate Tournament Layout
+import LayoutDuplicateTournament from './views/layouts/LayoutDuplicateTournament.vue'
+
 //User Pages
 import UserList from './views/admin/users/List.vue'
 
@@ -203,6 +209,21 @@ const routes = [
         meta: { requiresAuth: true },
         name: 'users_list'
     },
+    {
+        path: '/templates',
+        component: LayoutTemplateManagement,
+        meta: { requiresAuth: true },
+        name: 'templates_list'
+    },
+
+
+    // Duplicate tournament copy routes
+    {
+        path: '/tournaments',
+        component: LayoutDuplicateTournament,
+        meta: { requiresAuth: true },
+        name: 'duplicate_tournament_copy'
+    },
 
     // Web site routes
     {
@@ -310,6 +331,8 @@ router.beforeEach((to, from, next) => {
         store.dispatch('ResetWebsiteDetail');
     }
 
+    let routesForResultAdmin = ['welcome', 'tournaments_summary_details'];
+
     // If the next route is requires user to be Logged IN
     if (to.matched.some(m => m.meta.requiresAuth)){
         return AuthService.check(data).then((response) => {
@@ -319,6 +342,9 @@ router.beforeEach((to, from, next) => {
             if(response.authenticated && typeof response.hasAccess !== 'undefined' && response.hasAccess == false){
                 return next({ path : '/admin'});
             }
+            if(response.userData.role_slug == 'Results.administrator' && routesForResultAdmin.indexOf(to.name) === -1) {
+                return next({ path: '*' });
+            }            
             store.dispatch('setScoreAutoUpdate',response.is_score_auto_update);
             return next()
         })

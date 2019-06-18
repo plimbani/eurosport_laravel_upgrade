@@ -15,9 +15,11 @@
 								<u>{{ category.group_name }} ({{ category.category_age }})</u>
 							</a>
               <a href="#" data-toggle="modal" data-target="#commentmodal" class="text-primary" @click.prevent="showComment(category)"><i class="fas fa-info-circle" v-if="category.comments != null"></i></a>
+              <a href="#" @click="viewGraphicImage(category.template_name, category.graphic_image)" class="btn btn-outline-primary btn-sm ml-2 float-right text-primary" v-if="category.graphic_image">View schedule</a>
 						</td>
 						<td>{{ category.total_teams }}</td>
 					</tr>
+          <displaygraphic :templateGraphicImageName="templateGraphicImageName" :viewGraphicImagePath="templateGraphicImagePath" :sectionGraphicImage="'DrawList'"></displaygraphic>
 				</tbody>
 			</table>
 		</div>
@@ -46,6 +48,38 @@
               </tr>
             </tbody>
         </table>
+      </div>
+
+      <div class="row">
+        <div v-for="(roundData,index) in divData" class="col-md-6">
+          <h6 class="mt-2">
+            <strong>{{ index | getDivName}}</strong>
+          </h6>
+          <div v-for="(draw1,index1) in roundData">
+            <h6 class="mt-2">
+              <strong>{{ index1 }}</strong>
+            </h6>
+
+            <table class="table table-hover table-bordered mt-2">
+              <thead>
+                  <tr>
+                      <th>{{$t('matches.categories')}}</th>
+                      <th class="text-center" style="width:200px">{{$t('matches.type')}}</th>
+                      <th class="text-center" style="width:100px">{{ $t('matches.teams')}}</th>
+                  </tr>
+              </thead>
+              <tbody>
+                <tr  v-for="draw in draw1"> <!--  -->
+                    <td>
+                      <a class="pull-left text-left text-primary" @click.prevent="showCompetitionDetail(draw)" href=""><u>{{ draw.display_name }}</u> </a>
+                    </td>
+                    <td class="text-center">{{ draw.competation_type }}</td>
+                    <td class="text-center">{{ draw.team_size }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
   
@@ -79,6 +113,7 @@
   import CategoryList from '../../../../../api/frontend/categorylist.js';
   import MatchList from '../../../../../api/frontend/matchlist.js';
   import Competition from './../list/components/Competition.vue';
+  import displaygraphic from '../../../../../components/DisplayGraphicalStructure.vue';
 
 	export default {
 		data() {
@@ -95,12 +130,15 @@
           type: '',
         },
         currentCategoryId: '',
+        divData: [],
+        templateGraphicImageName: '',
+        templateGraphicImagePath: '',
       };
   	},
   	computed: {
   	},
    	components: {
-      Competition,
+      Competition,displaygraphic
 		},
 		mounted() {			
 			this.getAllCategoriesData();
@@ -129,7 +167,8 @@
         this.currentCategoryId = ageGroupId;
 		    CategoryList.getCategoryCompetitions(tournamentData).then(
 	        (response) => {
-	          this.groupsData = response.data.competitions;
+	          this.groupsData = response.data.competitions.round_robin;
+            this.divData = response.data.competitions.division;
 	          this.showView = 'groups';
 	        },
 	        (error) => {
@@ -173,6 +212,21 @@
         this.showView = 'competition';
         this.getSelectedCompetitionDetails(id, competitionName, competitionType);
       },
-    }
+      viewGraphicImage : function(imageName, imagePath){
+        $('#displayGraphicImage').modal('show');
+        this.templateGraphicImageName = imageName;
+        this.templateGraphicImagePath = imagePath;
+      }
+    },
+    filters: {
+      getDivName: function (value) {
+        if (!value) return ''
+        return value.split("|")[1];
+      },
+      getDivId: function (value) {
+        if (!value) return ''
+        return value.split("|")[0];
+      }
+    },
 	}
 </script>

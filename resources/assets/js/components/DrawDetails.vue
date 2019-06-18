@@ -8,16 +8,16 @@
   </div>
   <div class="form-group row">
     <div class="col-md-3">
-      <select class="form-control" v-on:change="onChangeDrawDetails" v-model="DrawName">
+      <select class="form-control" id="drawName" v-on:change="onChangeDrawDetails">
         <!-- <option value="">Select</option> -->
-        <optgroup :label="key" v-for="(round, key) in drawList.round_robin">
-          <option v-bind:value="group" v-for="group in round">{{group.display_name}}</option>
+        <optgroup :label="key" v-for="(round, key) in dropdownDrawName.round_robin">
+          <option v-bind:value="group.id" :label="group.display_name" :rel="group.actual_competition_type" v-for="group in round">{{group.display_name}}</option>
         </optgroup>
 
-        <optgroup :label="index" v-for="(division, index) in drawList.divisions">
-          <optgroup :label="roundIndex" v-for="(divRound, roundIndex) in division">
-            <option v-bind:value="divGroup" v-for="divGroup in divRound">{{divGroup.display_name}}</option>
-          </optgroup>
+        <optgroup :label="index" class="division" v-for="(division, index) in dropdownDrawName.divisions">
+          <option class="rounds" disabled="true" :rel="roundIndex" :label="roundIndex" v-for="(divRound, roundIndex) in division">
+          <option v-bind:value="divGroup.id" class="placingMatches" :label="divGroup.display_name" :rel="divGroup.actual_competition_type" v-for="divGroup in divRound">&nbsp;&nbsp;&nbsp;&nbsp;{{ divGroup.display_name }}</option>
+          </option>
         </optgroup>
       </select>
     </div>
@@ -36,13 +36,13 @@
     <span v-if="match1Data.length == 0 && otherData.DrawType != 'Elimination'"> No information available</span>
   </div>
 <!--<h6>{{otherData.DrawName}} results grid</h6>-->
-  <table class="table table-hover table-bordered" border="1" v-if="match1Data.length > 0 && otherData.DrawType != 'Elimination'" >
+  <table class="table table-hover table-bordered tbl-drawdetails" border="1" v-if="match1Data.length > 0 && otherData.DrawType != 'Elimination'" >
     <thead>
       <tr>
-          <th></th>
-          <th v-for="(match,index) in match1Data" class="text-center">
-            <div class="matchteam-details">
-              <span :class="'matchteam-flag flag-icon flag-icon-'+match.TeamCountryFlag"></span>
+          <th :width="(100/(match1Data.length+1)) + '%'"></th>
+          <th :width="(100/(match1Data.length+1)) + '%'" v-for="(match,index) in match1Data" class="text-center">
+            <div class="matchteam-details d-block">
+              <span v-if="match.TeamCountryFlag != null" :class="'matchteam-flag flag-icon flag-icon-'+match.TeamCountryFlag"></span>
               <div class="matchteam-dress" v-if="match.ShortsColor && match.ShirtColor">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64.4 62"><g><polygon class="cls-1" v-bind:fill="match.ShortsColor" points="13.79 39.72 13.79 61.04 30.26 61.04 32.2 55.22 34.14 61.04 50.61 61.04 50.61 39.72 13.79 39.72"/></g><path class="cls-2" v-bind:fill="match.ShirtColor" d="M62.83,11.44,50.61,1H38A6.29,6.29,0,0,1,32.2,4.84,6.29,6.29,0,0,1,26.39,1H13.79L1.57,11.44a1.65,1.65,0,0,0-.09,2.41L8,20.34l5.81-3.87V39.72H50.61V16.47l5.81,3.87,6.5-6.49A1.65,1.65,0,0,0,62.83,11.44Z"/></svg>
               </div>
@@ -57,9 +57,9 @@
     <tbody>
       <tr v-for="(match,index) in match1Data">
 
-          <td>
+          <td :width="(100/(match1Data.length+1)) + '%'">
             <div class="matchteam-details">
-              <span v-if="match.TeamCountryFlag" :class="'matchteam-flag flag-icon flag-icon-' + match.TeamCountryFlag"></span>
+              <span v-if="match.TeamCountryFlag != null" :class="'matchteam-flag flag-icon flag-icon-' + match.TeamCountryFlag"></span>
               <div class="matchteam-dress" v-if="match.ShortsColor && match.ShirtColor">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64.4 62"><g><polygon class="cls-1" v-bind:fill="match.ShortsColor" points="13.79 39.72 13.79 61.04 30.26 61.04 32.2 55.22 34.14 61.04 50.61 61.04 50.61 39.72 13.79 39.72"/></g><path class="cls-2" v-bind:fill="match.ShirtColor" d="M62.83,11.44,50.61,1H38A6.29,6.29,0,0,1,32.2,4.84,6.29,6.29,0,0,1,26.39,1H13.79L1.57,11.44a1.65,1.65,0,0,0-.09,2.41L8,20.34l5.81-3.87V39.72H50.61V16.47l5.81,3.87,6.5-6.49A1.65,1.65,0,0,0,62.83,11.44Z"/></svg>
               </div>
@@ -70,7 +70,7 @@
           </td>
 
 
-          <td v-for="(teamMatch, ind2) in match.matches" :class="[teamMatch == 'Y' ? 'bg-light-grey' : '', '']">
+          <td :width="(100/(match1Data.length+1)) + '%'" v-for="(teamMatch, ind2) in match.matches" :class="[teamMatch == 'Y' ? 'bg-light-grey' : '', '']">
             <div class="text-center" v-if="teamMatch.score == null && teamMatch != 'Y' && teamMatch != 'X' ">
           {{teamMatch.date | formatDate}}</div>
             <div class="text-center" v-else> {{teamMatch.score}}</div>
@@ -124,7 +124,7 @@ export default {
             matchStatus: true,
             teamList: [],
             teamCount: 0,
-            testArray: ['1', '2', '3', '5'],
+            dropdownDrawName:[]
         }
     },
     created: function() {
@@ -140,15 +140,18 @@ export default {
     // here call method to get All Draws
     let TournamentId = this.$store.state.Tournament.tournamentId
     let currDId = this.currentCompetationId
+    let currentAgeCategoryId =  this.$store.state.currentAgeCategoryId;
     let round = 'Round Robin'
     let drawname1 = []
+    
     let vm = this
-      Tournament.getAllDraws(TournamentId).then(
+      Tournament.getAllDraws([TournamentId,currentAgeCategoryId]).then(
         (response)=> {
           if(response.data.status_code == 200) {
-            this.drawList = response.data.data
+            this.drawList = response.data.data.mainData
 
-            vm.drawList = response.data.data
+            vm.drawList = response.data.data.mainData;
+            vm.dropdownDrawName = response.data.data.ageCategoryData;
             vm.drawList.map(function(value, key) {
               if(value.actual_competition_type == 'Elimination') {
                 value.name = _.replace(value.name, '-Group', '');
@@ -157,7 +160,7 @@ export default {
             })
 
 
-            var uniqueArray = response.data.data.filter(function(item, pos) {
+            var uniqueArray = response.data.data.mainData.filter(function(item, pos) {
 
               if(item['id'] == currDId)
               {
@@ -167,7 +170,9 @@ export default {
             }, {});
             this.DrawName = drawname1
             this.CompRound = round
-            this.refreshStanding();
+            if ( currDId != undefined){
+              this.refreshStanding();
+            }
             //this.DrawName = this.matchData[0];
             // find record of that
           }
@@ -181,6 +186,38 @@ export default {
       // Call child class Method
       // this.$children[1].getData(this.currentCompetationId)
       // console.log(this.$children[1].getData())
+
+    setTimeout(function(){
+      $('#drawName optgroup .rounds').each(function() {
+        var insideOptions = $(this).html();
+        $(this).html('');
+        $(insideOptions).insertAfter($(this));
+
+        $(this).html($(this).attr('rel'));
+      });
+
+      $("#drawName").select2({
+        templateResult: function (data, container) {
+          if (data.element) {
+            $(container).addClass($(data.element).attr("class"));
+          }
+          return data.text;
+        }
+      })
+      .on('change', function () {
+        let curreId = $(this).val();
+        let drawnameChange = [];
+        vm.drawList.map(function(value, key) {
+          if(value.id == curreId) {
+            vm.DrawName = value;
+          }
+        });
+
+        vm.onChangeDrawDetails();
+      });
+
+      $("#drawName").val(currDId).trigger('change');
+    },500);
 
     $('.ls-select2').select2();
  },
@@ -273,9 +310,7 @@ export default {
         refreshStanding(resolve='') {
           $("body .js-loader").removeClass('d-none');
           let compId = ''
-          if(this.currentCompetationId!=undefined){
-            compId = this.DrawName.id
-          }
+          compId = this.DrawName.id
           let tournamentData = {'tournamentId': this.$store.state.Tournament.tournamentId,'competitionId': compId}
           Tournament.refreshStanding(tournamentData).then(
             (response)=> {
@@ -290,7 +325,10 @@ export default {
            )
         },
         onChangeDrawDetails() {
+
           this.$store.dispatch('setCurrentScheduleView','drawDetails')
+
+          window.competitionChange = this.DrawName;
           let Id = this.DrawName.id
           let Name = this.DrawName.name
           let CompetationType = this.DrawName.actual_competition_type
@@ -392,6 +430,8 @@ export default {
         },
         changeTeam(Id, Name) {
             // here we dispatch Method
+            window.changeTeamId = Id;
+            window.changeTeamname = Name;
 
             this.$store.dispatch('setCurrentScheduleView','teamDetails')
             this.$root.$emit('changeComp', Id, Name);

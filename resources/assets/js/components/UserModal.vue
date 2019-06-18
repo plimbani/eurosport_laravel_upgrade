@@ -39,19 +39,10 @@
                        <span class="help is-danger" v-if="existEmail == true">Email already exist</span>
                     </div>
                 </div>
-
-                <!-- <div class="form-group row" v-if="formValues.id === ''">
-                    <label class="col-sm-5 form-control-label">{{$lang.user_management_password}}</label>
-                    <div class="col-sm-6">
-                        <input v-model="formValues.password" v-validate="'required'" :class="{'is-danger': errors.has('pass') }" name="pass" type="password" class="form-control" placeholder="Enter password">
-                        <i v-show="errors.has('pass')" class="fas fa-warning"></i>
-                        <span class="help is-danger" v-show="errors.has('pass')">{</span>
-                    </div>
-                </div> -->
                 <div class="form-group row">
                     <label class="col-sm-5 form-control-label">{{$lang.user_management_user_type}}</label>
                     <div class="col-sm-6">
-                      <select v-validate="'required'":class="{'is-danger': errors.has('user_type') }" class="form-control ls-select2" name="user_type" v-model="formValues.userType" @change="userTypeChanged()">
+                      <select v-validate="'required'":class="{'is-danger': errors.has('user_type') }" class="form-control ls-select2" name="user_type" v-model="formValues.userType" @change="userTypeChanged()" :disabled="formValues.provider == 'facebook'">
                         <option value="">Select</option>
                         <option v-for="role in userRolesOptions" v-bind:value="role.id" v-if="(!(isMasterAdmin == true && role.slug == 'Super.administrator'))">
                             {{ role.name }}
@@ -115,10 +106,10 @@ import { ErrorBag } from 'vee-validate';
                     organisation: '',
                     userType: '',
                     resendEmail: '',
-                    userEmailData1: this.userEmailData,
                     userEmail2: '',
                     tournament_id: '',
                     role: '',
+                    provider: '',
                 },
                 userRolesOptions: [],
                 userModalTitle: 'Add User',
@@ -170,7 +161,7 @@ import { ErrorBag } from 'vee-validate';
             this.userRolesOptions =  this.userRoles
             this.$validator.updateDictionary(this.errorMessages);
         },
-        props:['userId','userRoles','userEmailData','publishedTournaments','isMasterAdmin'],
+        props:['userId','userRoles','publishedTournaments','isMasterAdmin'],
         methods: {
             initialState() {
                 this.$data.formValues.id = '',
@@ -227,92 +218,57 @@ import { ErrorBag } from 'vee-validate';
                 (error) => {
                 }
               )
-              /*
-               axios.get("/api/getUsersByRegisterType/"+this.$route.params.registerType).then((response) => {
-
-                    if('users' in response.data) {
-                        this.userList.userData = response.data.users;
-                        this.userList.userCount = response.data.users.length;
-                    } else {
-                        this.userList.userData = [];
-                        this.userList.userCount = 0;
-                    }
-                },
-                (error) => {
-                    console.log(error)
-                }); */
             },
             validateBeforeSubmit1() {
+                let vm = this;
                 this.$validator.validateAll().then((response) => {
                   if(response) {
-                    if(this.$data.formValues.id=="") {
-                    var a = this.userEmailData.emaildata.indexOf(this.$data.formValues.emailAddress)
+                    this.existEmail = false;
 
-                    // Means exist throw error
-                    if(a != -1) {
-                      this.existEmail = true
-                      return false
+                    let data = {};
+                    data.email = this.formValues.emailAddress;
+                    if(this.formValues.id != "") {
+                      data.id = this.formValues.id;
                     }
+                    User.validateUserEmail(data).then(
+                      (response)=> {
+                        if(response.data.emailexists != true) {
+                          if(vm.$data.formValues.id=="") {
+                            $("body .js-loader").removeClass('d-none');
+                            User.createUser(vm.formValues).then(
+                              (response)=> {
+                                toastr.success('User has been added successfully.', 'Add User', {timeOut: 5000});
+                                $("#user_form_modal").modal("hide");
+                                $("body .js-loader").addClass('d-none');
+                                setTimeout(Plugin.reloadPage, 500);
+                              },
+                              (error)=>{
+                                $("body .js-loader").addClass('d-none');
+                              }
+                            )
+                          } else {
+                            let initailUserType = vm.initialUserType;
+                            let initialRole = _.head(_.filter(vm.userRolesOptions, function(o) { return initailUserType == o.id; }));
+                            
+                            let selectedUserType = vm.formValues.userType;
+                            let selectedRole = _.head(_.filter(vm.userRolesOptions, function(o) { return selectedUserType == o.id; }));
 
-                        // here we add code for Mobile user for create user
-
-                        User.createUser(this.formValues).then(
-                          (response)=> {
-                            toastr.success('User has been added successfully.', 'Add User', {timeOut: 5000});
-                            $("#user_form_modal").modal("hide");
-                             setTimeout(Plugin.reloadPage, 1000);
-                            // this.$data.formValues = this.initialState();
-                            // this.updateUserList();
-
-                          },
-                          (error)=>{
+                            if(initialRole.slug == 'Super.administrator' && selectedRole.slug != 'Super.administrator') {
+                              vm.$emit('showChangePrivilegeModal');
+                              return false;
+                            }
+                            vm.updateUser();
                           }
-
-                        )
-                      /*  axios.post("/api/user/create", this.formValues).then((response) => {
-                            toastr.success('User has been added successfully.', 'Add User', {timeOut: 5000});
-                            $("#user_form_modal").modal("hide");
-                             setTimeout(Plugin.reloadPage, 1000);
-                            this.$data.formValues = this.initialState();
-                            this.updateUserList();
-                        });*/
-                    } else {
-                    // First we remove the value from array
-                    let arr=this.userEmailData.emaildata
-
-                    var a = arr.indexOf(this.$data.formValues.emailAddress)
-                    // Means exist throw error
-
-
-                    // the value is exist in
-                    if(a != -1 ) {
-                      // here we check value position is diferent
-                      if(arr[a] == this.$data.formValues.userEmail2) {
-                      } else {
-                        this.existEmail = true
-                      return false
+                        } else {
+                          vm.existEmail = true;
+                          $("body .js-loader").addClass('d-none');
+                        }
+                      },
+                      (error)=>{
                       }
-
-                    }
-
-                    let initailUserType = this.initialUserType;
-                    let initialRole = _.head(_.filter(this.userRolesOptions, function(o) { return initailUserType == o.id; }));
-                    
-                    let selectedUserType = this.formValues.userType;
-                    let selectedRole = _.head(_.filter(this.userRolesOptions, function(o) { return selectedUserType == o.id; }));
-
-                    if(initialRole.slug == 'Super.administrator' && selectedRole.slug != 'Super.administrator') {
-                      this.$emit('showChangePrivilegeModal');
-                      return false;
-                    }
-
-                    this.updateUser();
-
-                    }
+                    )
                   }
-                }).catch((errors) => {
-                    // toastr['error']('Please fill all required fields ', 'Error')
-                 });
+                }).catch((errors) => {});
             },
             userTypeChanged() {
               let roleData = null;
@@ -329,18 +285,18 @@ import { ErrorBag } from 'vee-validate';
             },
             updateUser() {
               let that = this;
-              setTimeout(function(){
-                User.updateUser(that.formValues.id,that.formValues).then(
-                    (response)=> {
-                    toastr.success('User has been updated successfully.', 'Update User', {timeOut: 5000});
-                      $("#user_form_modal").modal("hide");
-                      setTimeout(Plugin.reloadPage, 500);
-                    },
-                    (error)=>{
-                    }
-
-                  )
-              },1000)
+              $("body .js-loader").removeClass('d-none');
+              User.updateUser(that.formValues.id,that.formValues).then(
+                  (response)=> {
+                  toastr.success('User has been updated successfully.', 'Update User', {timeOut: 5000});
+                    $("#user_form_modal").modal("hide");
+                    $("body .js-loader").addClass('d-none');
+                    setTimeout(Plugin.reloadPage, 500);
+                  },
+                  (error)=>{
+                    $("body .js-loader").addClass('d-none');
+                  }
+                )
             },
         }
     }

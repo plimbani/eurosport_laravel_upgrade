@@ -45,7 +45,7 @@
             <tr v-for="draw in drawData">
                 <td>
                   <a class="pull-left text-left text-primary" @click.prevent="changeGroup(draw)" href=""><u>{{ draw.display_name }}</u> </a>
-                  <a v-if="isUserDataExist" href="#" @click="openEditCompetitionNameModal(draw)" class="pull-right text-primary"><i class="fas fa-pencil"></i></a>
+                  <a v-if="(isUserDataExist && !isResultAdmin)" href="#" @click="openEditCompetitionNameModal(draw)" class="pull-right text-primary"><i class="fas fa-pencil"></i></a>
                 </td>
                 <td class="text-center">{{ draw.competation_type }}</td>
                 <td class="text-center">{{ draw.team_size }}</td>
@@ -54,35 +54,36 @@
         </table>
       </div>
 
-
-      <div class="col-md-6" v-for="(divData,index) in divFilter">
-        <h6 class="mt-2">
-          <strong><a class="text-center" href="javascript:void(0)" @click="openEditCategoryDivisionNameModal(index)">{{ index | getDivName}}<i class="jv-icon jv-edit ml-2"></i></a></strong>
-        </h6>
-        <div v-for="(draw1,index1) in divData">
+      <div class="row">
+        <div v-for="(divData,index) in divFilter" class="col-md-6">
           <h6 class="mt-2">
-            <strong>{{ index1 }}</strong>
+            <strong><a class="text-center" href="javascript:void(0)" @click="openEditCategoryDivisionNameModal(index)">{{ index | getDivName}}<i v-if="isUserDataExist" class="jv-icon jv-edit ml-2"></i></a></strong>
           </h6>
+          <div v-for="(draw1,index1) in divData">
+            <h6 class="mt-2">
+              <strong>{{ index1 }}</strong>
+            </h6>
 
-          <table class="table table-hover table-bordered">
-            <thead>
-                <tr>
-                    <th>{{$lang.summary_schedule_draws_categories}}</th>
-                    <th class="text-center" style="width:200px">{{$lang.summary_schedule_type}}</th>
-                    <th class="text-center" style="width:100px">{{$lang.summary_schedule_team}}</th>
+            <table class="table table-hover table-bordered">
+              <thead>
+                  <tr>
+                      <th>{{$lang.summary_schedule_draws_categories}}</th>
+                      <th class="text-center" style="width:200px">{{$lang.summary_schedule_type}}</th>
+                      <th class="text-center" style="width:100px">{{$lang.summary_schedule_team}}</th>
+                  </tr>
+              </thead>
+              <tbody>
+                <tr  v-for="draw in draw1"> <!--  -->
+                    <td>
+                      <a class="pull-left text-left text-primary" @click.prevent="changeGroup(draw)" href=""><u>{{ draw.display_name }}</u> </a>
+                      <a v-if="isUserDataExist" href="#" @click="openEditCompetitionNameModal(draw)" class="pull-right text-primary"><i class="jv-icon jv-edit"></i></a>
+                    </td>
+                    <td class="text-center">{{ draw.competation_type }}</td>
+                    <td class="text-center">{{ draw.team_size }}</td>
                 </tr>
-            </thead>
-            <tbody>
-              <tr  v-for="draw in draw1"> <!--  -->
-                  <td>
-                    <a class="pull-left text-left text-primary" @click.prevent="changeGroup(draw)" href=""><u>{{ draw.display_name }}</u> </a>
-                    <a v-if="isUserDataExist" href="#" @click="openEditCompetitionNameModal(draw)" class="pull-right text-primary"><i class="jv-icon jv-edit"></i></a>
-                  </td>
-                  <td class="text-center">{{ draw.competation_type }}</td>
-                  <td class="text-center">{{ draw.team_size }}</td>
-              </tr>
-            </tbody>
-          </table>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
@@ -177,7 +178,6 @@ import TeamDetails from './TeamDetails.vue'
 import TeamList from './TeamList.vue'
 import DrawDetails from './DrawDetails.vue'
 import displaygraphic from './DisplayGraphicalStructure.vue'
-//import EditCategoryDivisionNameModal from './EditCategoryDivisionNameModal.vue'
 import _ from 'lodash'
 
 export default {
@@ -217,6 +217,9 @@ export default {
     isUserDataExist() {
       return this.$store.state.isAdmin;
     },
+    isResultAdmin() {
+      return this.$store.state.Users.userDetails.role_slug == 'Results.administrator';
+    },    
   },
 	methods: {
 		/*changeTeam(Id, Name) {
@@ -291,11 +294,6 @@ export default {
       var data = {'competitionData': this.competitionData};
       Tournament.updateCompetitionDisplayName(data).then(
         (response) => {
-          /*let filterData = response.data.options.data;
-          let filter = _.groupBy(filterData, 'competation_round_no');
-          this.groupsFilter = _.groupBy(filterData, 'competation_round_no');
-
-          this.groupsData = response.data.options.data;*/
           $('#editCompetitionNameModal').modal('hide');
           toastr.success(response.data.options.message, 'Competition Details', {timeOut: 5000});
           this.showGroups(this.currentAgeCategoryId);
@@ -308,7 +306,6 @@ export default {
       this.$validator.validateAll().then(() => {
         let tournamentId = this.$store.state.Tournament.tournamentId
         let ageCategoryId = this.$store.state.currentAgeCategoryId
-        console.log(this.divisionId);
         let TournamentData = {'tournament_id':tournamentId, 'currentAgeCategoryId':ageCategoryId,'divisionId':this.divisionId,'categoryDivisionName': this.divisionName}
         Tournament.updateCategoryDivisionName(TournamentData).then(
           (response) => {
