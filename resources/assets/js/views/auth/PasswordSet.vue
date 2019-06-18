@@ -85,6 +85,11 @@
                 let vm = this;
                 axios.get('/api/user/setpasswordCheck/'+this.token).then(response =>  {
                     if(response.data.success){
+                        if ( response.data.redirect != '')
+                        {
+                            window.location.href = response.data.redirect
+                        }
+                        
                         vm.error = response.data.error;
                         vm.message = response.data.message;
                     }
