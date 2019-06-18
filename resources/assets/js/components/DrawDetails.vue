@@ -170,9 +170,42 @@ export default {
             }, {});
             this.DrawName = drawname1
             this.CompRound = round
-            if ( currDId != undefined){
-              this.refreshStanding();
-            }
+
+
+            setTimeout(function(){
+              $('#drawName optgroup .rounds').each(function() {
+                var insideOptions = $(this).html();
+                $(this).html('');
+                $(insideOptions).insertAfter($(this));
+
+                $(this).html($(this).attr('rel'));
+              });
+
+              $("#drawName").select2({
+                templateResult: function (data, container) {
+                  if (data.element) {
+                    $(container).addClass($(data.element).attr("class"));
+                  }
+                  return data.text;
+                }
+              })
+              .on('change', function () {
+                let curreId = $(this).val();
+                let drawnameChange = [];
+                vm.drawList.map(function(value, key) {
+                  if(value.id == curreId) {
+                    vm.DrawName = value;
+                  }
+                });
+
+                vm.onChangeDrawDetails();
+                if ( currDId != undefined){
+                  vm.refreshStanding();
+                }
+              });
+
+              $("#drawName").val(currDId).trigger('change');
+            },500);
             //this.DrawName = this.matchData[0];
             // find record of that
           }
@@ -187,39 +220,7 @@ export default {
       // this.$children[1].getData(this.currentCompetationId)
       // console.log(this.$children[1].getData())
 
-    setTimeout(function(){
-      $('#drawName optgroup .rounds').each(function() {
-        var insideOptions = $(this).html();
-        $(this).html('');
-        $(insideOptions).insertAfter($(this));
-
-        $(this).html($(this).attr('rel'));
-      });
-
-      $("#drawName").select2({
-        templateResult: function (data, container) {
-          if (data.element) {
-            $(container).addClass($(data.element).attr("class"));
-          }
-          return data.text;
-        }
-      })
-      .on('change', function () {
-        let curreId = $(this).val();
-        let drawnameChange = [];
-        vm.drawList.map(function(value, key) {
-          if(value.id == curreId) {
-            vm.DrawName = value;
-          }
-        });
-
-        vm.onChangeDrawDetails();
-      });
-
-      $("#drawName").val(currDId).trigger('change');
-    },500);
-
-    $('.ls-select2').select2();
+    //$('.ls-select2').select2();
  },
   filters: {
     formatDate: function(date) {

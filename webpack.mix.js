@@ -83,5 +83,3 @@ mix.combine([
 
 mix.copy('node_modules/@fortawesome/fontawesome-pro/webfonts', 'public/assets/webfonts');
 mix.copy('node_modules/@fortawesome/fontawesome-pro/webfonts', 'public/frontend/fonts/webfonts');
-
-mix.sass('resources/assets/sass/flag_icons.scss', 'public/assets/css/');

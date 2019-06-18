@@ -537,10 +537,11 @@ class TeamService implements TeamContract
             ->setOption('header-font-name', 'Open Sans')
             ->setOrientation('portrait')
             ->setOption('footer-right', 'Page [page] of [toPage]')
+            ->setOption('footer-font-size', 7)
             ->setOption('header-right', $date->format('H:i d M Y'))
             ->setOption('margin-top', 20)
             ->setOption('margin-bottom', 20);
       
-      return $pdf->download('group_detail_report.pdf');
+      return $pdf->download($ageCategoryDetail->group_name. ' groups.pdf');
     }
 }
