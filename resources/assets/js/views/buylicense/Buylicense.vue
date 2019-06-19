@@ -448,16 +448,12 @@
 
                 let maxCupTeamSize = _.maxBy(this.tournamentPricingBand.cup.bands,'max_teams');
                 vm.tournamentData.maximumCupTeamSize = maxCupTeamSize.max_teams;
-                if(this.tournamentData.tournament_type == 'cup') {
-                    vm.tournamentData.tournamentTeamNumbers = maxCupTeamSize.max_teams;
-                }
-
+                vm.tournamentData.tournamentTeamNumbers = maxCupTeamSize.max_teams;
+                
                 let minLeagueSize = _.maxBy(this.tournamentPricingBand.league.bands,'max_teams');
                 vm.tournamentData.maximumLeagueTeamSize = minLeagueSize.max_teams;
-                if(this.tournamentData.tournament_type == 'league') {
-                    vm.tournamentData.tournamentTeamNumbers = minLeagueSize.max_teams;
-                }
-
+                vm.tournamentData.tournamentTeamNumbers = minLeagueSize.max_teams;
+                
                 let tournamentPricing = _.filter(this.tournamentPricingBand.cup.bands, function(band) {
                      if(tournamentMaxTeams >= band.min_teams && tournamentMaxTeams <= band.max_teams) {
                         vm.tournamentData.tournamentLicenseAdvancePriceDisplay = band.advanced_price;
@@ -484,7 +480,9 @@
                         vm.tournamentData.payment_currency = vm.tournamentData.currency_type;
                         vm.tournamentData.tournamentPricingValue = (vm.tournamentData.tournamentPricingValue)*vm.gpbConvertValue;
                     }
-                    vm.tournamentData.tournamentTeamNumbers = maxCupTeamSize.max_teams; 
+                    if(!this.$route.query.teams) { 
+                        vm.tournamentData.tournamentTeamNumbers = maxCupTeamSize.max_teams; 
+                    }
                 }   
                 if(tournamentOrganising == 'cup' && tournamentCustomFormats == 1 && tournamentMaxTeams) {
                     let tournamentPricing = _.filter(this.tournamentPricingBand.cup.bands, function(band) {
@@ -498,8 +496,10 @@
                     if(this.tournamentData.currency_type == "GBP") {
                         vm.tournamentData.payment_currency = vm.tournamentData.currency_type;
                         vm.tournamentData.tournamentPricingValue = (vm.tournamentData.tournamentPricingValue)*vm.gpbConvertValue;
-                    } 
-                    vm.tournamentData.tournamentTeamNumbers = maxCupTeamSize.max_teams;                   
+                    }
+                    if(!this.$route.query.teams) { 
+                        vm.tournamentData.tournamentTeamNumbers = maxCupTeamSize.max_teams;
+                    }                   
                 } 
 
                 if(tournamentOrganising == 'league' && tournamentMaxTeams) {
@@ -515,7 +515,9 @@
                         vm.tournamentData.payment_currency = vm.tournamentData.currency_type;
                         vm.tournamentData.tournamentPricingValue = (vm.tournamentData.tournamentPricingValue)*vm.gpbConvertValue;
                     }
-                    vm.tournamentData.tournamentTeamNumbers = minLeagueSize.max_teams;
+                    if(!this.$route.query.teams) {
+                        vm.tournamentData.tournamentTeamNumbers = minLeagueSize.max_teams;
+                    }    
                 }
                 if(isNaN(vm.tournamentData.tournamentPricingValue) || vm.tournamentData.tournamentPricingValue < 0){
                     vm.tournamentData.tournamentPricingValue  = 0;
@@ -525,8 +527,7 @@
                     if(this.tournamentData.tournament_max_teams <= this.tournamentData.maximumCupTeamSize){
                         $('#cup').prop("checked",true)
                         $('.tournament_formats').show();
-                    }
-                    if(this.tournamentData.tournament_max_teams <= this.tournamentData.maximumLeagueTeamSize)
+                    } else if(this.tournamentData.tournament_max_teams <= this.tournamentData.maximumLeagueTeamSize)
                     {
                         $('#league').prop("checked",true)
                         $('.tournament_formats').hide();
