@@ -238,9 +238,9 @@
               if(Object.keys(to.query).length !== 0) { //if the url has query (?query)
                 next(vm => {  
                     
-                    setTimeout(function(){ 
-                        vm.tournamentData.tournament_max_teams = to.query.teams;
-                        vm.tournamentData.tournamentTeamNumbers =  to.query.teams;
+                    setTimeout(function(){
+                        vm.tournamentData.tournament_max_teams = parseInt(to.query.teams);
+                        vm.tournamentData.tournamentTeamNumbers =  parseInt(to.query.teams);
                         if(typeof to.query.teams == "undefined"){
                             vm.tournamentData.tournament_max_teams = 2;
                         }
