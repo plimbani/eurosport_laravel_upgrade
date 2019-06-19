@@ -13,7 +13,9 @@
                         <h6 class="text-uppercase mb-0">For Members</h6>
                         <h1 class="font-weight-bold">Login</h1>
                         <p>Quisque vel nulla at nibh finibus sodales. Nam efficitur sem. Don’t have an account? <a href="#" @click="redirectToRegisterPage()">Register here</a>.</p>
-                        <p>We have sent you an email to your email address for you to complete your registration.</p>
+
+                        <p v-if="fromRegister == 1">We have sent you an email to your email address for you to complete your registration.</p>
+
                         <div class="divider my-5"></div>
                         <form class="login-form" id="loginForm" method="post" @submit.prevent="validateBeforeSubmit">
                             <div  :class="{'form-group' : true , 'has-danger': errors.has('email') }">
@@ -84,9 +86,18 @@
                     email: '',
                     password: '',
                     remember: '',
-                    forgotpassword: 0
+                    forgotpassword: 0,
                 },
-                disabled:false
+                disabled:false,
+                fromRegister:0
+            }
+        },
+        mounted()
+        {
+            if ( Ls.get('registrationMessage') )
+            {
+                this.fromRegister = Ls.get('registrationMessage');
+                Ls.set('registrationMessage',0);
             }
         },
         methods: {
