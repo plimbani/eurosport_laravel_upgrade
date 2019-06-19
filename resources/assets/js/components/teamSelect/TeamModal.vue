@@ -11,7 +11,7 @@
 		            </div>
 		            <div class="modal-body">
 		            	<div class="form-group row" :class="{'has-error': errors.has('teamID') }">
-		                  <label class="col-sm-5 form-control-label">{{$lang.team_edit_team_id}}</label>
+		                  <div class="col-sm-5 form-control-label">{{$lang.team_edit_team_id}}</div>
 			                <div class="col-sm-6">
 			                    <input v-model="formValues.team_id"  v-validate="'required'"  
 			                      :class="{'is-danger': errors.has('teamID') }"
@@ -25,7 +25,7 @@
 			                </div>
 		                </div>
 		                <div class="form-group row">
-		                	<label class="col-sm-5 form-control-label">{{$lang.team_edit_country}}</label>
+		                	<div class="col-sm-5 form-control-label">{{$lang.team_edit_country}}</div>
 		                	<div class="col-sm-6">
 								<select name="country" id="country" class="form-control" v-model="formValues.team_country" v-validate="'required'" :class="{'is-danger': errors.has('country') }">
 								  <option value="">{{$lang.countries_list}}</option>
@@ -36,7 +36,7 @@
 		                	</div>
 		                </div>
 		                <div class="form-group row">
-		                    <label class="col-sm-5 form-control-label">{{$lang.team_edit_team_name}}</label>
+		                    <div class="col-sm-5 form-control-label">{{$lang.team_edit_team_name}}</div>
 		                    <div class="col-sm-6">
 		                        <input v-model="formValues.team_name" v-validate="'required'" :class="{'is-danger': errors.has('team') }" name="team" type="text" class="form-control">
 		                        <i v-show="errors.has('team')" class="fas fa-warning"></i>
@@ -44,7 +44,7 @@
 		                    </div>
 		                </div>
 		                <div class="form-group row">
-	                    <label class="col-sm-5 form-control-label">{{$lang.team_edit_team_shirt_color}}</label>
+	                    <div class="col-sm-5 form-control-label">{{$lang.team_edit_team_shirt_color}}</div>
 	                    <div class="col-sm-6">
                         <select name="team_shirt_color" id="team_shirt_color" class="form-control" v-model="formValues.team_shirt_color">
 												  <option value="">{{$lang.countries_list}}</option>
@@ -54,7 +54,7 @@
 	                    </div>
 		                </div>
 		                <div class="form-group row">
-	                    <label class="col-sm-5 form-control-label">{{$lang.team_edit_team_shorts_color}}</label>
+	                    <div class="col-sm-5 form-control-label">{{$lang.team_edit_team_shorts_color}}</div>
 	                    <div class="col-sm-6">
                         <select name="team_shorts_color" id="team_shorts_color" class="form-control" v-model="formValues.team_shorts_color">
 												  <option value="">{{$lang.countries_list}}</option>
@@ -64,7 +64,7 @@
 	                    </div>
 		                </div>
 		                <div class="form-group row">
-		                    <label class="col-sm-5 form-control-label">{{$lang.team_edit_club}}</label>
+		                    <div class="col-sm-5 form-control-label">{{$lang.team_edit_club}}</div>
 		                    <div class="col-sm-6">
 		                       	 <input v-model="formValues.club_name" v-validate="'required'" 
 		                       	 :class="{'is-danger': errors.has('club') }" name="club" 
@@ -76,7 +76,7 @@
 		                    </div>
 		                </div>		                
 		                <div class="form-group row">
-		                    <label class="col-sm-5 form-control-label">{{$lang.team_edit_team_place}}</label>
+		                    <div class="col-sm-5 form-control-label">{{$lang.team_edit_team_place}}</div>
 		                    <div class="col-sm-6">
 		                        <input v-model="formValues.team_place" v-validate="'required'" :class="{'is-danger': errors.has('place') }" name="place" type="text" class="form-control">
 		                        <i v-show="errors.has('place')" class="fas fa-warning"></i>
@@ -84,7 +84,7 @@
 		                    </div>
 		                </div>
 		                <div class="form-group row">
-		                    <label class="col-sm-5 form-control-label">{{$lang.team_edit_comment}}</label>
+		                    <div class="col-sm-5 form-control-label">{{$lang.team_edit_comment}}</div>
 		                    <div class="col-sm-6">
 		                        <textarea v-model="formValues.comment" name="comment" type="text" class="form-control"></textarea>
 		                    </div>

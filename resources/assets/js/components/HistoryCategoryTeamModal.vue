@@ -10,7 +10,7 @@
         </div>
         <div class="modal-body">
           <div class="form-group row" :class="{'has-error': errors.has('name') }">
-            <label class="col-sm-5 form-control-label">{{ $lang.team_name }}*</label>
+            <div class="col-sm-5 form-control-label">{{ $lang.team_name }}*</div>
             <div class="col-sm-6">
                 <input v-model="formValues.name" v-validate="{'required':true}" :class="{'is-danger': errors.has('name') }" name="name" type="text" class="form-control" :placeholder="$lang.team_name">
                 <i v-show="errors.has('name')" class="fas fa-warning"></i>
@@ -19,7 +19,7 @@
             </div>
           </div>
           <div class="form-group row" :class="{'has-error': errors.has('country') }">
-            <label class="col-sm-5 form-control-label">{{ $lang.country }}*</label>
+            <div class="col-sm-5 form-control-label">{{ $lang.country }}*</div>
             <div class="col-sm-6">
               <select class="form-control ls-select2" v-validate="{'required':true}" name="country" v-model="formValues.country">
                 <option value="">Please select</option>

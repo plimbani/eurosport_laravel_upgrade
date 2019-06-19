@@ -10,7 +10,7 @@
         </div>
         <div class="modal-body">
           <div class="form-group row" :class="{'has-error': errors.has('name') }">
-            <label class="col-sm-5 form-control-label">{{ $lang.category }}*</label>
+            <div class="col-sm-5 form-control-label">{{ $lang.category }}*</div>
             <div class="col-sm-6">
                 <input v-model="formValues.name" v-validate="{'required':true}" :class="{'is-danger': errors.has('name') }" name="name" type="text" class="form-control" data-vv-as="category" :placeholder="$lang.category">
                 <i v-show="errors.has('name')" class="fas fa-warning"></i>
