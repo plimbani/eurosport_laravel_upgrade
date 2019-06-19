@@ -32,7 +32,7 @@ import _ from 'lodash'
                 // 'currentView': this.$store.getters.curStageView
             }
         },
-        props: [ 'stage' , 'defaultView', 'scheduleMatchesArray', 'isMatchScheduleInEdit'],
+        props: [ 'stage' , 'defaultView', 'scheduleMatchesArray', 'isMatchScheduleInEdit', 'stageIndex'],
         components: {
             PitchModal,
             DeleteModal1,
@@ -75,11 +75,15 @@ import _ from 'lodash'
         created: function() {
             this.$root.$on('reloadAllEvents', this.reloadAllEvents);
             this.$root.$on('arrangeLeftColumn', this.arrangeLeftColumn);
+            this.$root.$on('refreshPitch' + this.stageIndex, this.refreshPitch);
         },
         beforeCreate: function() {
             // Remove custom event listener
             this.$root.$off('reloadAllEvents');
             this.$root.$off('arrangeLeftColumn');
+        },
+        beforeDestroy: function() {
+            this.$root.$off('refreshPitch' + this.stageIndex);
         },
         mounted() {
             let vm = this;
@@ -294,7 +298,6 @@ import _ from 'lodash'
                                 scheduleMatchesArray: vm.scheduleMatchesArray,
                                 isMultiSchedule: vm.isMatchScheduleInEdit,
                             }
-                            console.log('data', data);
                             Tournament.setMatchSchedule(data).then(
                                 (response) => {
                                     if(response.data.status_code == 200 ){
@@ -302,12 +305,10 @@ import _ from 'lodash'
                                             vm.currentScheduledMatch.remove();
                                             vm.currentScheduledMatch = null;
                                             if(vm.isMatchScheduleInEdit === true) {
-                                                console.log('yes - isMatchScheduleInEdit');
                                                 vm.$emit('schedule-match-result', matchData);
                                                 vm.$root.$emit('gamesMatchList', matchData);
                                                 // $(vm.$el).fullCalendar( 'removeEvents' )
                                             } else {
-                                                console.log('no - isMatchScheduleInEdit');
                                                 vm.$store.dispatch('setMatches');
                                                 toastr.success(response.data.message, 'Schedule Match', {timeOut: 5000});
                                                 vm.getScheduledMatch(vm.tournamentFilter.filterKey,vm.tournamentFilter.filterValue,vm.tournamentFilter.filterDependentKey,vm.tournamentFilter.filterDependentValue)
@@ -354,7 +355,6 @@ import _ from 'lodash'
                     },
                     eventDrop: function(event, delta, revertFunc, jsEvent, ui, view) { // called when an event (already on the calendar) is moved
                         // update api call
-                        console.log('allevents', $(vm.$el).fullCalendar('getEventSources'));
                         if(vm.currentView == 'refereeTab'){
                             revertFunc()
                             return false;
@@ -377,7 +377,6 @@ import _ from 'lodash'
                                 scheduleMatchesArray: vm.scheduleMatchesArray,
                                 isMultiSchedule: vm.isMatchScheduleInEdit,
                             }
-                            console.log('eventDropdata', data);
                             Tournament.setMatchSchedule(data).then(
                                 (response) => {
                                     if(response.data.data != -1 && response.data.data != -2){
@@ -405,6 +404,10 @@ import _ from 'lodash'
                         }
                     },
                     eventClick: function(calEvent, jsEvent, view) {
+                        if(vm.isMatchScheduleInEdit === true) {
+                            return false;
+                        }
+
                         if($('.match-unschedule-checkbox-div').has(jsEvent.target).length) {
                             return true;
                         }
@@ -913,6 +916,11 @@ import _ from 'lodash'
             arrangeLeftColumn() {
                 arrangeLeftColumn();
             },
+            refreshPitch() {
+                this.$store.dispatch('setCompetationWithGames');
+                this.getScheduledMatch();
+                this.reloadAllEvents();
+            }
         }
     };
 

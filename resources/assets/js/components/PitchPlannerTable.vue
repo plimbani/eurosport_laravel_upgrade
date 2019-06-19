@@ -24,7 +24,7 @@
         <div class="row">
             <div class="pitch_planner_section pitch" v-bind:class="[isPrintPitchPlanner == 0 ? (isPitchPlannerInEnlargeMode == 0 ? 'col-md-9' : 'col-md-10') : 'col-md-12' ]">
                 <div class="pitch-planner-wrapper">
-                    <div class="pitch-planner-item" v-if="stageStatus" v-for="stage in tournamentStages">
+                    <div class="pitch-planner-item" v-if="stageStatus" v-for="(stage, stageIndex) in tournamentStages">
                         <div class="card">
                             <div class="btn pnl" :id="stage.stageNumber">
                                 Day {{ stage.stageNumber }}: {{dispDate(stage.tournamentStartDate)}}
@@ -35,7 +35,7 @@
                                     <div></div>
                                 </div>
                                 <div :id="'stage_outer_div'+stage.stageNumber" :data-stage-number="stage.stageNumber" class="js-stage-outer-div">
-                                    <pitch-planner-stage :stage="stage" :defaultView="defaultView" @schedule-match-result="saveScheduleMatchResult" :gamesMatchList="gamesMatchList" :scheduleMatchesArray="scheduleMatchesArray" :isMatchScheduleInEdit="isMatchScheduleInEdit"></pitch-planner-stage>
+                                    <pitch-planner-stage :stage="stage" :defaultView="defaultView" @schedule-match-result="saveScheduleMatchResult" :gamesMatchList="gamesMatchList" :scheduleMatchesArray="scheduleMatchesArray" :isMatchScheduleInEdit="isMatchScheduleInEdit" :stageIndex="stageIndex"></pitch-planner-stage>
                                 </div>
                             </div>
                         </div>
@@ -565,7 +565,7 @@
                     (response) => {
                         if(response.data.status_code == '200') {
                             toastr.success('Match has been scheduled successfully.', 'Schedule Match');
-                            vm.cancelScheduleMatches();
+                            vm.resetScheduleMatches();
                             $("body .js-loader").addClass('d-none');
                             vm.isMatchScheduleInEdit = false;
                         }
@@ -583,7 +583,8 @@
                 $("#automatic_planning").hide();
                 this.isMatchScheduleInEdit = true;
             },
-            cancelScheduleMatches() {
+            resetScheduleMatches() {
+                let vm = this;
                 $('#schedule_fixtures').removeClass('btn-success').addClass('btn-primary');
                 $('#save_schedule_fixtures').hide();
                 $('#cancel_schedule_fixtures').hide();
@@ -591,8 +592,14 @@
                 $("#automatic_planning").show();
                 this.isMatchScheduleInEdit = false;
                 this.clearScheduleMatches();
+            },
+            cancelScheduleMatches() {
+                let vm = this;
+                this.resetScheduleMatches();
 
-                location.reload();
+                _.forEach(this.tournamentStages, function(stage, stageIndex) {
+                    vm.$root.$emit('refreshPitch' + stageIndex);
+                });
             },
             filterMatches(filterKey, filterValue, filterDependentKey, filterDependentValue) {
                 let vm = this;
