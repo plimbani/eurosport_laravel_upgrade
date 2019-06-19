@@ -448,12 +448,15 @@
 
                 let maxCupTeamSize = _.maxBy(this.tournamentPricingBand.cup.bands,'max_teams');
                 vm.tournamentData.maximumCupTeamSize = maxCupTeamSize.max_teams;
-                vm.tournamentData.tournamentTeamNumbers = maxCupTeamSize.max_teams;
-
+                if(this.tournamentData.tournament_type == 'cup') {
+                    vm.tournamentData.tournamentTeamNumbers = maxCupTeamSize.max_teams;
+                }
                 let minLeagueSize = _.maxBy(this.tournamentPricingBand.league.bands,'max_teams');
                 vm.tournamentData.maximumLeagueTeamSize = minLeagueSize.max_teams;
-                vm.tournamentData.tournamentTeamNumbers = minLeagueSize.max_teams;
-                
+                if(this.tournamentData.tournament_type == 'league') {
+                    vm.tournamentData.tournamentTeamNumbers = minLeagueSize.max_teams;
+                }
+
                 let tournamentPricing = _.filter(this.tournamentPricingBand.cup.bands, function(band) {
                      if(tournamentMaxTeams >= band.min_teams && tournamentMaxTeams <= band.max_teams) {
                         vm.tournamentData.tournamentLicenseAdvancePriceDisplay = band.advanced_price;
