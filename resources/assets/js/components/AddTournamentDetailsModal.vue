@@ -11,7 +11,7 @@
 		            </div>
 		            <div class="modal-body">
 		                <div class="form-group row" :class="{'has-error': errors.has('tournament_name') }">
-		                  <label class="col-sm-5 form-control-label d-flex">{{$lang.tournament_detail_add_name}}</label>
+		                  <div class="col-sm-5 form-control-label d-flex">{{$lang.tournament_detail_add_name}}</div>
 		                  <div class="col-sm-6 d-flex flex-column align-items-start">
 		                      <input v-model="formValues.tournament_name" v-validate="'required'"
 		                      :class="{'is-danger': errors.has('tournament_name') }"
@@ -23,7 +23,7 @@
 		                  </div>
 		                </div>
 		               	<div class="form-group row" :class="{'has-error': errors.has('tournament_max_teams') }">
-		                  <label class="col-sm-5 form-control-label d-flex">{{$lang.tournament_detail_max_teams}}</label>
+		                  <div class="col-sm-5 form-control-label d-flex">{{$lang.tournament_detail_max_teams}}</div>
 		                  <div class="col-sm-6 d-flex flex-column align-items-start">
 		                      <input v-model="formValues.tournament_max_teams" v-validate="'required'"
 		                      :class="{'is-danger': errors.has('tournament_max_teams') }"
@@ -35,7 +35,7 @@
 		                  </div>
 		                </div>	
 		               	<div class="form-group row" :class="{'has-error': errors.has('tournament_start_date') }">
-		                  <label class="col-sm-5 form-control-label d-flex" for="tournament_start_date">{{$lang.tournament_start_date}}*</label>
+		                  <div class="col-sm-5 form-control-label d-flex" for="tournament_start_date">{{$lang.tournament_start_date}}*</div>
 			              <div class="col-sm-6 d-flex flex-column align-items-start">
 			              	<div class="input-group">
 			                  <span class="input-group-addon" :class="{'warning-box': errors.has('tournament_start_date') }">
@@ -50,7 +50,7 @@
 			              </div>
 		                </div>
 		               	<div class="form-group row" :class="{'has-error': errors.has('tournament_end_date') }">
-		                  <label class="col-sm-5 form-control-label d-flex" for="tournament_end_date">{{$lang.tournament_end_date}}*</label>
+		                  <div class="col-sm-5 form-control-label d-flex" for="tournament_end_date">{{$lang.tournament_end_date}}*</div>
 			              <div class="col-sm-6 d-flex flex-column align-items-start">
 			              	<div class="input-group">
 			                  <span class="input-group-addon" :class="{'warning-box': errors.has('tournament_end_date') }">

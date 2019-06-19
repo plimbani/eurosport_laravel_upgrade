@@ -81,7 +81,7 @@
             <div class="row">
               <div class="col-md-12">
                 <div class="form-group row">
-                  <label class="col-sm-4 form-control-label">Name</label>
+                  <div class="col-sm-4 form-control-label">Name</div>
                   <div class="col-sm-8">
                     <input type="text" name="competition_display_name" v-model="competitionData.display_name" class="form-control">
                   </div>
