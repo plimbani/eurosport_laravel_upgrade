@@ -65,7 +65,7 @@
 
                         <div class="row">
                             <div class="col-12">
-                                <vue-slider @callback='changeTeams' :min='2' :max='tournamentData.tournamentTeamNumbers' tooltip-dir='right' v-model="tournamentData.tournament_max_teams" class="tournament_teams mb-4" @change="tournammentPricingData(1)" ref="tournamentTeamSlider"></vue-slider>
+                                <vue-slider @callback='changeTeams' :min='2' :max='tournamentData.tournamentTeamNumbers' tooltip-dir='right' v-model="tournamentData.tournament_max_teams" class="tournament_teams mb-4" @change="tournammentPricingData()" ref="tournamentTeamSlider"></vue-slider>
                             </div>
                         </div>
 
@@ -439,7 +439,7 @@
                 })
                 
             },
-            tournammentPricingData(value) {
+            tournammentPricingData() {
                 let tournamentOrganising = this.tournamentData.tournament_type
                 let tournamentCustomFormats = this.tournamentData.custom_tournament_format
                 let tournamentMaxTeams = this.tournamentData.tournament_max_teams
@@ -449,7 +449,7 @@
                 let maxCupTeamSize = _.maxBy(this.tournamentPricingBand.cup.bands,'max_teams');
                 vm.tournamentData.maximumCupTeamSize = maxCupTeamSize.max_teams;
                 vm.tournamentData.tournamentTeamNumbers = maxCupTeamSize.max_teams;
-                
+
                 let minLeagueSize = _.maxBy(this.tournamentPricingBand.league.bands,'max_teams');
                 vm.tournamentData.maximumLeagueTeamSize = minLeagueSize.max_teams;
                 vm.tournamentData.tournamentTeamNumbers = minLeagueSize.max_teams;
