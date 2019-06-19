@@ -103,6 +103,7 @@ $api->version('v1', function ($api) {
     $api->get('getAllLanguages', 'Laraspace\Api\Controllers\UserController@getAllLanguages');
 
     $api->post('/userResendEmail', '\Laraspace\Api\Controllers\UserController@userResendEmail');
+    $api->get('user/setpasswordCheck/{key}','\Laraspace\Api\Controllers\UserController@setPassword');
 });
 
 $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {

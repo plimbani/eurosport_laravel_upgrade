@@ -18,6 +18,9 @@ import LayoutFront from './views/layouts/LayoutFront.vue'
 //Login : Auth
 import Login from './views/auth/Login.vue'
 import Register from './views/auth/Register.vue'
+import PasswordReset from './views/auth/Reset.vue'
+import PasswordSet from './views/auth/PasswordSet.vue'
+import Verfied from './views/auth/Verified.vue'
 
 // Error : Not Found page
 import NotFoundPage from './views/errors/404.vue'
@@ -294,6 +297,22 @@ const routes = [
                 component: Register,
                 name: 'register'
             },
+            {
+                path: 'user/setpassword/:token*',
+                component: PasswordSet,
+                name: 'PasswordSet'
+            },
+            {
+                path: 'password/reset/:token*',
+                component: PasswordReset,
+                name: 'PasswordReset'
+            },
+            {
+                path: 'mlogin',
+                component: Verfied,
+                name: 'Verfied'
+            },
+            
         ]
     },
 
