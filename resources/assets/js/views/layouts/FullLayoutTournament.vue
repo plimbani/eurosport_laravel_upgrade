@@ -1,7 +1,7 @@
 <template class="template-container">
     <div class="enlarge-div" v-show="showEnlargedPitchPlanner">
         <div class="enlarge-page-title">
-            <h5 class="modal-title" id="exampleModalLabel">Pitch planner</h5>
+            <h5 class="modal-title" id="exampleModalLabel">Match planner</h5>
             <button type="button" class="close" aria-label="Close" @click="showPitchPlanner()">
                 <span aria-hidden="true">&times;</span>
             </button>
