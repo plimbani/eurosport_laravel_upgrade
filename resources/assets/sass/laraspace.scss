@@ -4,35 +4,39 @@
 
 // Plugins
 @import '../plugins/bootstrap/scss/bootstrap';
-@import '../plugins/fontawesome/font-awesome';
+// @import '../plugins/fontawesome/font-awesome';
+// @import '../plugins/fontawesome-5/solid';
+// @import '../plugins/fontawesome-5/fontawesome';
+@import '~@fortawesome/fontawesome-pro/scss/fontawesome';
+@import '~@fortawesome/fontawesome-pro/scss/solid';
 @import '../plugins/flag-icon-css-master/sass/flag-icon';
 @import '../plugins/customfonts/style';
 @import '../plugins/ladda/ladda.scss';
 @import '../plugins/customScrollBar/customScrollBar.scss';
 @import '../plugins/toastr/toastr.scss';
-@import '../plugins/notie/notie.scss';
-@import "../plugins/switchery/switchery.scss";
+// @import '../plugins/notie/notie.scss';
+// @import "../plugins/switchery/switchery.scss";
 @import "../plugins/select2/select2.scss";
 @import "../plugins/select2/select2-bootstrap.scss";
-@import "../plugins/bootstrapSelect/bootstrap-select.scss";
-@import "../plugins/clockpicker/clockpicker.scss";
+// @import "../plugins/bootstrapSelect/bootstrap-select.scss";
+// @import "../plugins/clockpicker/clockpicker.scss";
 @import "../plugins/datatables/datatables.scss";
 @import "../plugins/multiselect/multiselect.scss";
 @import "../plugins/bootstrap-datepicker/bootstrap-datepicker.scss";
 @import "../plugins/timepicker/timepicker";
-@import "../plugins/summernote/summernote.scss";
-@import "../plugins/simplemde/simplemde.scss";
+// @import "../plugins/summernote/summernote.scss";
+// @import "../plugins/simplemde/simplemde.scss";
 @import "../plugins/pace/pace.scss";
-@import "../plugins/alertify/alertify.scss";
-@import "../plugins/easypiecharts/easypiecharts.scss";
-@import "../plugins/metisMenu/metisMenu.scss";
+// @import "../plugins/alertify/alertify.scss";
+// @import "../plugins/easypiecharts/easypiecharts.scss";
+// @import "../plugins/metisMenu/metisMenu.scss";
 @import "../plugins/fullcalendar/fullcalendar.css";
 // @import "../plugins/fullcalendar-scheduler/scheduler.css";
 @import "../plugins/vue-multiselect/vue-multiselect.min.css";
 
 
 @import "../plugins/fullcalendar-scheduler/lib/fullcalendar.min.css";
-@import "../plugins/fullcalendar-scheduler/scheduler.css"; 
+@import "../plugins/fullcalendar-scheduler/scheduler.css";
 
 @import "../plugins/jquery-minicolors/jquery.minicolors.css";
 
@@ -60,14 +64,21 @@
 @import 'partials/footer';
 
 // Components
+@import 'mixins/bg-color';
+@import 'components/grid';
+@import 'components/bg-varient';
 @import 'components/forms';
 @import 'components/euro-checkbox';
 @import 'components/buttons';
 @import 'components/cards';
 @import 'components/tabs';
 @import 'components/tables';
+@import 'components/modal';
 @import 'components/hamburgers';
 @import "components/transitions";
+@import "components/draggable-card";
+@import "components/tooltip-popover";
+@import "components/website-preview";
 
 //Pages
 @import 'pages/dashboard';
@@ -83,6 +94,6 @@
 
 //Front
 @import "front";
-
+@import "backend";
 @import "demo";
 

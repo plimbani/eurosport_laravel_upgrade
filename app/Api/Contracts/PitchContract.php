@@ -30,7 +30,7 @@ interface PitchContract
     public function edit($request,$pitchId);
     
     public function getPitchData($pitchId);
-
+    public function generatePitchMatchReport($pitchId);
     /*
      * Delete Pitch
      *
@@ -38,4 +38,5 @@ interface PitchContract
      * @return response
      */
     public function deletePitch($deleteId);
+    public function getPitchSearchRecord($tournamentData);
 }

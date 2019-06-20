@@ -6,9 +6,15 @@ use DB;
 use Laraspace\Api\Contracts\PitchContract;
 use Validator;
 use Laraspace\Model\Role;
+use Laraspace\Models\TempFixture;
+use Laraspace\Models\Pitch;
+use PDF;
+use Laraspace\Traits\TournamentAccess;
 
 class PitchService implements PitchContract
 {
+    use TournamentAccess;
+
     public function __construct()
     {
         $this->pitchRepoObj = new \Laraspace\Api\Repositories\PitchRepository();
@@ -17,7 +23,16 @@ class PitchService implements PitchContract
 
     public function getAllPitches($tournamentId)
     {
-        return $this->pitchRepoObj->getAllPitches($tournamentId);
+      $isTournamentAccessible = $this->checkForTournamentAccess($tournamentId);
+      if(!$isTournamentAccessible) {
+        abort(403, 'Unauthorized action.');
+      }
+      return $this->pitchRepoObj->getAllPitches($tournamentId);
+    }
+
+    public function getPitchSizeWiseSummary($tournamentId)
+    {
+      return $this->pitchRepoObj->getPitchSizeWiseSummary($tournamentId);
     }
 
     /**
@@ -46,7 +61,7 @@ class PitchService implements PitchContract
     }
 
     /**
-     * Edit Pitch.
+     * Edit Pitch.-
      *
      * @param array $data
      *
@@ -54,12 +69,7 @@ class PitchService implements PitchContract
      */
     public function edit($data,$pitchId)
     {
-
         $dataArr = $data->all();
-        // Call function to check if particular pitch has some schedule matches in that time
-        // if its have it then unschedule it
-
-        // dd($dataArr);
         $pitchdata = $this->pitchRepoObj->edit($dataArr,$pitchId);
 
         if($pitchdata){
@@ -214,5 +224,76 @@ class PitchService implements PitchContract
       $end_timestamp = strtotime($end_date);
       $today_timestamp = strtotime($todays_date);
       return (($today_timestamp >= $start_timestamp) && ($today_timestamp <= $end_timestamp));
+    }
+
+    public function generatePitchMatchReport($pitchId) 
+    {
+        $pitch = TempFixture::with('pitch','referee')->where('pitch_id',$pitchId)
+                                                    ->orderBy('match_datetime','asc')->get();
+        $pitchRecord = $pitch->toArray();
+
+        $pitchResult = pitch::find($pitchId);
+        $pitchReport = $pitchResult->toArray();
+
+        $date = new \DateTime(date('H:i d M Y'));
+        
+        $pdf = PDF::loadView('pitchcapacity.pitch_report_card',['pitchRecord' => $pitchRecord,
+          'pitchReport' => $pitchReport])
+            ->setPaper('a4')
+            ->setOption('header-spacing', '5')
+            ->setOption('header-font-size', 7)
+            ->setOption('header-font-name', 'Open Sans')
+            ->setOrientation('portrait')
+            ->setOption('footer-right', 'Page [page] of [toPage]')
+            ->setOption('header-right', $date->format('H:i d M Y'))
+            ->setOption('margin-top', 20)
+            ->setOption('margin-bottom', 20);
+        return $pdf->download('Pitchmatchschedule.pdf');
+    }
+
+    /**
+     * Get location wise summary.
+     *
+     * @param Int $tournamentId
+     *
+     * @return [type]
+     */
+    public function getLocationWiseSummary($tournamentId)
+    {
+      return $this->pitchRepoObj->getLocationWiseSummary($tournamentId);
+    }
+
+    /**
+     * Get pitch planner print data.
+     *
+     * @param Int $tournamentId
+     *
+     * @return [type]
+     */
+    public function getPitchPlannerPrintData($tournamentId)
+    {
+      return $this->pitchRepoObj->getPitchPlannerPrintData($tournamentId);
+    }
+
+    public function getPitchSearchRecord($tournamentData) 
+    {
+      return $this->pitchRepoObj->getPitchSearchRecord($tournamentData);
+    }
+
+    public function getVenuesDropDownData($tournamentData)
+    {
+        return $this->pitchRepoObj->getVenuesDropDownData($tournamentData);
+    }
+    public function updatePitchOrder($data)
+    {
+
+      $pitchData = $data->all();
+      $orderValue = 1;
+      foreach ($pitchData as $key => $pitchId) {
+        $this->pitchRepoObj->updatePitchOrder($pitchId,$orderValue);
+        $orderValue++;
+      }
+
+      return ['status_code' => '200'];
     }
 }

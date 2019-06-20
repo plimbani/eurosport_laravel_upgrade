@@ -14,8 +14,8 @@ import TeamList from './TeamList.vue'
 import MatchList from './MatchList.vue'
 import DrawDetails from './DrawDetails.vue'
 import DrawsListing from './DrawsListing.vue'
-import LocationList from './LocationList.vue'
 import MatchListing from './MatchListing.vue'
+import FinalPlacings from './FinalPlacings.vue'
 import DrawList from './DrawList.vue'
 
 export default {
@@ -30,11 +30,12 @@ export default {
     this.getAllTournamentTeams()
   },
   components: {
-    TeamDetails,DrawsListing,TeamList,MatchList,DrawDetails,MatchListing,LocationList,DrawList
+    TeamDetails,DrawsListing,TeamList,MatchList,DrawDetails,MatchListing,DrawList,FinalPlacings
   },
   created: function() {
        this.$root.$on('changeComp', this.setMatchData);
        this.$root.$on('changeDrawListComp', this.setMatchData);
+       this.$root.$on('getAllTournamentTeams', this.getAllTournamentTeams);
     },
   computed: {
     currentScheduleView() {
@@ -123,11 +124,13 @@ export default {
       //this.$store.dispatch('setCurrentScheduleView','teamDetails')
     },
     getAllTournamentTeams() {
+      $("body .js-loader").removeClass('d-none');
       let TournamentId = this.$store.state.Tournament.tournamentId
       let tournamentData={'tournamentId':TournamentId}
 
       Tournament.getTournamentTeams(tournamentData).then(
         (response)=> {
+          $("body .js-loader").addClass('d-none');
           if(response.data.status_code == 200) {
             this.matchData = response.data.data
           }

@@ -2,9 +2,12 @@
 
 namespace Laraspace\Http\Controllers\Auth;
 
+use DB;
+use Carbon\Carbon;
 use Laraspace\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use Illuminate\Http\Request;
+use Laraspace\Models\User;
 use Illuminate\Support\Facades\Password;
 
 class ForgotPasswordController extends Controller
@@ -40,14 +43,45 @@ class ForgotPasswordController extends Controller
      public function resetLink(Request $request)
     {
         $this->validate($request, ['email' => 'required|email']);
-
+        $currentLayout = config('config-variables.current_layout');
         // We will send the password reset link to this user. Once we have attempted
         // to send the link, we will examine the response then see the message we
         // need to show to the user. Finally, we'll send out a proper response.
+        $tries = 0;
+        $passwordReset = DB::table('password_resets')
+                ->where('email', $request['email'])
+                ->first();
+
+        if($passwordReset) {
+            $tries = $passwordReset->tries;
+            $diffInMinutes = Carbon::now()->diffInMinutes(Carbon::parse($passwordReset->last_requested_at));
+        }
+
+        if($tries == 3) {
+            if($diffInMinutes > config('config-variables.reset_password_interval')) {
+                $tries = 0;
+                $passwordReset = DB::table('password_resets')
+                                    ->where('email', $request['email'])
+                                    ->update(['tries' => $tries]);
+
+            } else {
+                $hourDuration = (config('config-variables.reset_password_interval') / 60);
+                $msg = "Too many reset password attempts. Please try again after " . $hourDuration . " hour.";
+                return response()->json(['status'=>'403', 'message' => $msg]);
+            }
+        }
+
         $response = $this->broker()->sendResetLink(
             $request->only('email')
             // $this->resetEmailBuilder()
         );
+
+        // saving tries and last_request_at
+        DB::table('password_resets')
+                ->where('email', $request['email'])
+                ->update(['tries' => $tries+1, 'last_requested_at' => Carbon::now()]);
+
+
        // $otp  = \Cookie::get('otp_key');
        // \Cookie::forget('otp_key');
         $otp = '';

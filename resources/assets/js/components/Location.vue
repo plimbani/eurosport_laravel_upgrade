@@ -10,7 +10,7 @@
 	<div class="col-sm-4">
 		<input type="text" class="form-control" placeholder="" name="tournamemt_validation_venue"
 		 v-model="location.tournament_venue_name" v-validate="'required'" :class="{'is-danger': errors.has('tournamemt_validation_venue') }">
-		 <i v-show="errors.has('tournamemt_validation_venue')" class="fa fa-warning"></i>
+		 <i v-show="errors.has('tournamemt_validation_venue')" class="fas fa-warning"></i>
 		 <span class="help is-danger" v-show="errors.has('tournamemt_validation_venue')">{{$lang.tournamemt_validation_venue}}</span>
 	</div>
 </div>

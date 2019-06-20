@@ -9,11 +9,12 @@ const state = {
   maximumTeams: '',
   tournamentStartDate:"",
   tournamentEndDate:"",
-  tournamentId: '',
+  tournamentId: 0,
   currentTemplate: '',
   currentTotalTime: '',
   tournamentDays: '',
   venues: [],
+  teams:[],
   tournamentStatus: '',
   tournamentLogo: '',
   facebook:'facebook',
@@ -21,7 +22,9 @@ const state = {
   website:'website',
   tournamentFiler:{
   	filterKey:'',
-  	filterValue: ''
+  	filterValue: '',
+    filterDependentKey: '',
+    filterDependentValue: ''
   },
   totalMatch:0,
   totalReferee:0,
@@ -32,6 +35,9 @@ const state = {
   competitionWithGames: {},
   tournamentStages: {},
   scheduledMatches: [],
+  unsaveMatchData:[],
+  matchResultChange:false,
+  setRedirectPage:'',
 }
 // getters
 const getters = {
@@ -55,7 +61,10 @@ const getters = {
     },
     scheduledMatches: state => {
       return state.scheduledMatches
-    }
+    },
+    getTournamentName: state => {
+      return state.tournamentName
+    },
 
 }
 // actions
@@ -83,11 +92,10 @@ const actions = {
   commit(types.TOURNAMENT_STAGES, tournamentStages)
   },
   setMatches({commit,state}) {
-      commit(types.SET_MATCHES, '')
+    commit(types.SET_MATCHES, '')
     let tdata = {}
     if(state.tournamentFiler.filterKey != '' && state.tournamentFiler.filterValue != '') {
-        tdata ={'tournamentId':state.tournamentId ,'filterKey':state.tournamentFiler.filterKey,'filterValue':state.tournamentFiler.filterValue.id,'fiterEnable':true
-      }
+      tdata ={'tournamentId':state.tournamentId ,'filterKey':state.tournamentFiler.filterKey,'filterValue':state.tournamentFiler.filterValue.id,'filterDependentValue':state.tournamentFiler.filterDependentValue,'filterDependentKey':state.tournamentFiler.filterDependentKey,'fiterEnable':true}
     } else {
         tdata ={'tournamentId':state.tournamentId}
     }
@@ -101,11 +109,8 @@ const actions = {
         }
       )
     });
-    
-  },
-  
-  
 
+  },
   SetVenues ({commit},tournamentId) {
 	Tournament.getAllVenues(tournamentId).then (
 	  (response) => {
@@ -115,10 +120,20 @@ const actions = {
 	  }
 	)
   },
+  SetTeams ({commit},tournamentId) {
+    let tournamentData = { 'tournamentId': tournamentId };
+    Tournament.getAllTeams(tournamentData).then (
+      (response) => {
+        commit(types.SET_TEAMS, response.data.data)
+      },
+      (error) => {
+      }
+    ) 
+  },
   SetTemplate ({commit}, tournamentData) {
 	Tournament.getTemplate(tournamentData).then (
 	  (response) => {
-		let TournamentRespData = {'json': response.data.data , 'TotalTime': tournamentData.totalTime}
+		let TournamentRespData = {'json': response.data.data.json_data , 'TotalTime': tournamentData.totalTime}
 		commit(types.SET_TEMPLATE, TournamentRespData)
 	  },
 	  (error) => {
@@ -144,23 +159,7 @@ const actions = {
 	)
   },
   SaveTournamentDetails ({commit}, tournamentData) {
-  Tournament.saveTournament(tournamentData).then(
-
-	  (response) => {
-
-		if(response.data.status_code == 200) {
-		  // Now here we set the tournament Id and Name
-		  //let data1 = {'tournamentData':response.data.data}
-      commit(types.CURRENT_TOURNAMENT, response.data.data)
-		} else {
-		  alert('Error Occured')
-		}
-		// commit(types.SAVE_TOURNAMENT, response.data)
-	  },
-	  (error) => {
-	  }
-	)
-
+    commit(types.CURRENT_TOURNAMENT, tournamentData)
   },
   setTournamentFilter({commit}, filterData) {
   	commit(types.SET_TOURNAMENT_FILTER, filterData)
@@ -200,8 +199,14 @@ const actions = {
     } else {
         tournamentData ={'tournamentId':state.tournamentId }
     }
-             
-  }
+
+  },
+  UnsaveMatchData({commit},matchData) {
+    commit(types.SET_UNSAVEMATCH_DATA,matchData)
+  },
+  UnsaveMatchStatus({commit},resultChange) {
+    commit(types.SET_UNSAVEMATCH_STATUS,resultChange)
+  },
 }
 
 // mutations
@@ -226,7 +231,7 @@ const mutations = {
   state.twitter = currentTournament.twitter
   },
   [types.SAVE_TOURNAMENT] (state, tournamentData) {
-  
+
 	state.tournamentName = tournamentData.name
   state.maximumTeams = tournamentData.maximum_teams
   state.tournamentId = tournamentData.id
@@ -252,18 +257,22 @@ const mutations = {
  [types.SET_VENUES] (state, venueData) {
 	state.venues = venueData;
   },
-   [types.TOTAL_MATCHES] (state, totalMatch) {
+ [types.SET_TEAMS] (state, teamData) {
+  state.teams = [];
+  state.teams = teamData;
+  },
+  [types.TOTAL_MATCHES] (state, totalMatch) {
 	state.totalMatch = totalMatch;
   },
   [types.TOTAL_REFEREES] (state, totalReferees) {
 	state.totalReferee = totalReferees;
   },
-  
-  [types.SET_TOURNAMENT_FILTER] (state, filterData) {
-  	
-	state.tournamentFiler.filterKey = filterData.filterKey;
-	state.tournamentFiler.filterValue = filterData.filterValue;
 
+  [types.SET_TOURNAMENT_FILTER] (state, filterData) {
+    state.tournamentFiler.filterKey = filterData.filterKey;
+    state.tournamentFiler.filterValue = filterData.filterValue;
+    state.tournamentFiler.filterDependentKey = (typeof filterData.filterDependentKey != 'undefined') ? filterData.filterDependentKey : '';
+    state.tournamentFiler.filterDependentValue = (typeof filterData.filterDependentValue != 'undefined') ? filterData.filterDependentValue : '';
   },
   [types.SET_REFEREES] (state, refereeData) {
   	state.referees = refereeData;
@@ -275,7 +284,7 @@ const mutations = {
     state.tournamentStages = '';
     state.tournamentStages = tournamentStages;
   },
-  
+
   [types.SET_MATCHES] (state, matches) {
     state.matches = '';
     state.matches = matches;
@@ -300,20 +309,13 @@ const mutations = {
         matchCount = 0
         // matchCount = 0
           _.find(allMatches, function (match) {
-            
             let round = ''
             let matchTime = 0
-            if(match.group_name == competition.group_name){
-              if(match.round == 'Round Robin'){
-                round = 'RR-'
-                matchTime = parseInt(competition.game_duration_RR) + parseInt(competition.halftime_break_RR) + parseInt(competition.match_interval_RR)
-              }else if(match.round == 'Elimination'){
-                round = 'EL-'
-                matchTime = parseInt(competition.game_duration_FM) + parseInt(competition.halftime_break_FM) + parseInt(competition.match_interval_FM)
-
-              }else if(match.round == 'Final'){
-                round = 'FN-'
-                matchTime = parseInt(competition.game_duration_FM) + parseInt(competition.halftime_break_FM) + parseInt(competition.match_interval_FM)
+            if(match.age_group_id == competition.id){
+              if(match.is_final_round_match == 1){
+                matchTime = parseInt(competition.game_duration_FM * competition.halves_FM) + parseInt(competition.halftime_break_FM) + parseInt(competition.match_interval_FM)
+              } else {
+                matchTime = parseInt(competition.game_duration_RR * competition.halves_RR) + parseInt(competition.halftime_break_RR) + parseInt(competition.match_interval_RR)
               }
 
               let fullgame1 = match.full_game;
@@ -323,19 +325,44 @@ const mutations = {
               if(match.Away_id != 0 && match.Home_id != 0) {
                 fullgame1 = ''
               }
-               let mtchNumber = match.match_number
-               let mtchNumber1 = mtchNumber.split(".")
+              let displayMatchNumber = match.displayMatchNumber
+              let displayHomeTeamPlaceholder = match.displayHomeTeamPlaceholderName
+              let displayAwayTeamPlaceholder = match.displayAwayTeamPlaceholderName
+              let displayMatchName = displayMatchNumber;
+
+              let mtchNumber = match.match_number
+              let mtchNumber1 = mtchNumber.split(".")
 
               let mtchNum = mtchNumber1[0]+'.'+mtchNumber1[1]+"."
-              if(match.Away_id != 0 && match.Home_id != 0)
-              {
-                 fullgame1 = ''
-                 mtchNum = mtchNum+match.HomeTeam+'-'+match.AwayTeam
-              } else {
-                mtchNum = mtchNum+mtchNumber1[2]
+              let teams = mtchNumber1[2].split("-")
+              let Placehometeam =  teams[0]
+              let Placeawayteam =  teams[1]
+
+              if(match.Home_id != 0){
+                  Placehometeam = displayHomeTeamPlaceholder = match.HomeTeam
+              } else if(match.Home_id == 0 && match.homeTeamName == '@^^@') {
+                  if(match.competition_actual_name.indexOf('Group') !== -1) {
+                      Placehometeam = displayHomeTeamPlaceholder = match.homePlaceholder
+                  } else if(match.competition_actual_name.indexOf('Pos') !== -1){
+                      Placehometeam = displayHomeTeamPlaceholder = 'Pos-' + match.homePlaceholder
+                  }
               }
 
-              var person = {'fullGame':fullgame1,'competationColorCode':competationColorCode, 'matchName':mtchNum,'matchTime':matchTime,'matchId': match.fid,'isScheduled': match.is_scheduled,'ageGroupId':match.age_group_id};
+              if(match.Away_id != 0){ 
+                  Placeawayteam = displayAwayTeamPlaceholder = match.AwayTeam
+              } else if(match.Away_id == 0 && match.awayTeamName == '@^^@') {
+                  if(match.competition_actual_name.indexOf('Group') !== -1) {
+                      Placeawayteam = displayAwayTeamPlaceholder = match.awayPlaceholder
+                  } else if(match.competition_actual_name.indexOf('Pos') !== -1){
+                      Placeawayteam = displayAwayTeamPlaceholder = 'Pos-' + match.awayPlaceholder
+                  }
+              }
+
+              mtchNum = mtchNum+Placehometeam+'-'+Placeawayteam
+
+              displayMatchName = displayMatchName.replace('@HOME', displayHomeTeamPlaceholder).replace('@AWAY', displayAwayTeamPlaceholder)
+
+              var person = {'fullGame':fullgame1,'competationColorCode':competationColorCode, 'matchName':mtchNum, 'displayMatchName': displayMatchName,'matchTime':matchTime,'matchId': match.fid,'isScheduled': match.is_scheduled,'ageGroupId':match.age_group_id};
               comp.push(person)
 
               if(match.is_scheduled!=1){
@@ -356,10 +383,13 @@ const mutations = {
         state.totalMatch = matchCountDisplay
         state.competitionWithGames = state.competationList
       }
-    
-    
   },
-
+  [types.SET_UNSAVEMATCH_DATA] (state, matchData) {
+    state.unsaveMatchData = matchData;
+  },
+  [types.SET_UNSAVEMATCH_STATUS] (state, unSaveMatchStatus) {
+    state.matchResultChange = unSaveMatchStatus;
+  },
 }
 
 export default {

@@ -2,7 +2,7 @@
     <div class="tab-content">
         <div class="card">
             <div class="card-block">
-                <h6 class=""><strong>{{$lang.pitch_capacity}}</strong></h6>
+                <h6><strong>{{$lang.pitch_capacity}}</strong></h6>
                 <div class="row">
                     <div class="col-md-1 pitch-capaciry" v-for="referee in referees">
                         <p><strong>{{referee.first_name}}</strong></p>
@@ -11,7 +11,7 @@
                     </div>
                 </div>
                 <div class="mt-4">
-                    <button type="button" class="btn btn-primary" @click="addReferee()"><i class="fa fa-plus" ></i> {{$lang.pitch_planner_referee}}</button>
+                    <button type="button" class="btn btn-primary" @click="addReferee()"><i class="fas fa-plus" ></i> {{$lang.pitch_planner_referee}}</button>
                 </div>
                 <addReferee></addReferee>
 

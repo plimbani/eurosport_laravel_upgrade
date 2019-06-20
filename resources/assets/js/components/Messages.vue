@@ -7,11 +7,11 @@
 	      <div class="card-block">
 	      	<div class="row align-items-center msg-history-add-msg">
 	            <div class="col-3">
-	               <h6 class="mb-0"><strong>{{$lang.summary_table_text}}</strong></h6>
+	               <h6 class="mb-0 fieldset-title"><strong>{{$lang.summary_table_text}}</strong></h6>
 	            </div>
 	        	<div class="col-9">
                     <button type="button" class="btn btn-primary pull-right"
-                       @click="addMessage()"><small><i class="jv-icon jv-plus"></i>
+                       @click="addMessage()"><small><i class="fas fa-plus"></i>
                        </small>&nbsp;{{$lang.summary_message_button}}
                     </button>
                 </div>

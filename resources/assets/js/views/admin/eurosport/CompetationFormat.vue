@@ -2,20 +2,10 @@
 	<div class="tab-content">
 		<div class="card">
       <div class="card-block">
-          <h6 class="mt4"><strong>{{$lang.competation_age_categories}}</strong></h6>
+          <h6 class="mt4 fieldset-title"><strong>{{$lang.competation_age_categories}}</strong></h6>
           <competationFormatList></competationFormatList>
       </div>
 		</div>
-        <!--<div class="row">
-            <div class="col-md-12">
-                <div class="pull-left">
-                    <button class="btn btn-primary" @click="backward()"><i class="fa fa-angle-double-left" aria-hidden="true" ></i>{{$lang.competation_button_back}}</button>
-                </div>
-                <div class="pull-right">
-                  <button class="btn btn-primary" @click="next()"> <i class="fa fa-angle-double-right" aria-hidden="true" ></i>{{$lang.competation_button_next}}</button>
-                </div>
-            </div>
-        </div>-->
 	</div>
 </template>
 
@@ -41,7 +31,7 @@ export default {
       this.$router.push({name: 'welcome'});
     } else {
       // Means Set Here
-      let currentNavigationData = {activeTab:'competation_format', currentPage: 'Competition Format'}
+      let currentNavigationData = {activeTab:'competition_format', currentPage: 'Competition Formats'}
       this.$store.dispatch('setActiveTab', currentNavigationData)
       this.$store.dispatch('SetPitches',tournamentId);
       this.$store.dispatch('SetVenues',tournamentId);

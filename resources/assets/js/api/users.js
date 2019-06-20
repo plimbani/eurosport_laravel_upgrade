@@ -43,7 +43,25 @@ export default {
   changeTournamentPermission(permissionData) {
     return api.post('user/changeTournamentPermission', permissionData)
   },
+  changePermissions(permissionData) {
+    return api.post('user/changePermissions', permissionData)
+  },
   getUserTournaments(userId) {
     return api.get('user/getUserTournaments/' + userId)
+  },
+  getUserWebsites(userId) {
+    return api.get('user/getUserWebsites/' + userId)
+  },
+  getSignedUrlForUsersTableData(userData) {
+    return api.post('getSignedUrlForUsersTableData?' +userData);
+  },
+  getAllCountries() {
+    return api.get('getCountries');
+  },
+  getAllLanguages() {
+    return api.get('getAllLanguages');
+  },
+  validateUserEmail(formData) {
+    return api.post('user/validateemail',formData)
   },
 }

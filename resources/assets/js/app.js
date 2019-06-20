@@ -1,3 +1,4 @@
+import 'babel-polyfill';
 import router from './router.js'
 
 import Layout from './helpers/layout'
@@ -9,6 +10,9 @@ import store from './store'
  */
 
 require('./bootstrap');
+
+require('./mixins');
+
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -28,3 +32,5 @@ const app = new Vue({
         }
     }
 }).$mount('#app')
+
+document.addEventListener('contextmenu', event => event.preventDefault());

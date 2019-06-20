@@ -45,7 +45,12 @@ class User extends Authenticatable implements HasRoleAndPermissionContract, CanR
         'is_desktop_user',
         'registered_from',
         'locale',
-        'fcm_id'
+        'fcm_id',
+        'role',
+        'country_id',
+        'locale',
+        'provider',
+        'provider_id'
     ];
 
     /**
@@ -54,7 +59,7 @@ class User extends Authenticatable implements HasRoleAndPermissionContract, CanR
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 'remember_token', 'token', 'fcm_id',
     ];
 
     /**
@@ -155,6 +160,7 @@ class User extends Authenticatable implements HasRoleAndPermissionContract, CanR
         $name = (isset($this->personDetail->first_name)) ? $this->personDetail->first_name : $this->name;
         $send_otp='';
         $subject = 'Euro-Sportring Tournament Planner - Reset password';
+        $currentLayout = config('config-variables.current_layout');
         // Set OTP
         if($this->roles()->first()->id == $mobileUserRoleId) {
             $subject = 'Euro-Sportring - Password Reset';
@@ -171,7 +177,7 @@ class User extends Authenticatable implements HasRoleAndPermissionContract, CanR
             // $_SESSION['otp_key'] = $send_otp;
             // request()->session()->put('otp_value', $encoded_otp);
         }
-        $this->notify(new ResetPasswordNotification($token, $name,$this->email,$send_otp, $subject));
+        $this->notify(new ResetPasswordNotification($token, $name,$this->email,$send_otp, $subject, $currentLayout));
     }
     public function settings()
     {
@@ -183,8 +189,18 @@ class User extends Authenticatable implements HasRoleAndPermissionContract, CanR
         return $this->hasMany('Laraspace\Models\UserFavourites', 'user_id')->where('is_default', 1);
     }
 
+    public function favouriteTournaments()
+    {
+        return $this->hasMany('Laraspace\Models\UserFavourites', 'user_id');
+    }
+
     public function tournaments()
     {
         return $this->belongsToMany('Laraspace\Models\Tournament', 'tournament_user', 'user_id','tournament_id');
+    }
+
+    public function websites()
+    {
+        return $this->belongsToMany('Laraspace\Models\Website', 'website_user', 'user_id','website_id');
     }
 }

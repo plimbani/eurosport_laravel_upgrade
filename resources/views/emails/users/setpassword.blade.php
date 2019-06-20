@@ -7,26 +7,23 @@
     <script src="/assets/js/core/pace.js"></script>
     <link href="{{mix('assets/css/laraspace.css')}}" rel="stylesheet" type="text/css">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <link rel="apple-touch-icon" sizes="57x57" href="/assets/admin/img/favicons/apple-touch-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="60x60" href="/assets/admin/img/favicons/apple-touch-icon-60x60.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="/assets/admin/img/favicons/apple-touch-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="/assets/admin/img/favicons/apple-touch-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="/assets/admin/img/favicons/apple-touch-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="/assets/admin/img/favicons/apple-touch-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="/assets/admin/img/favicons/apple-touch-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="/assets/admin/img/favicons/apple-touch-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/assets/admin/img/favicons/apple-touch-icon-180x180.png">
-    <link rel="icon" type="image/png" href="/assets/admin/img/favicons/favicon-32x32.png" sizes="32x32">
-    <link rel="icon" type="image/png" href="/assets/admin/img/favicons/android-chrome-192x192.png" sizes="192x192">
-    <link rel="icon" type="image/png" href="/assets/admin/img/favicons/favicon-96x96.png" sizes="96x96">
-    <link rel="icon" type="image/png" href="/assets/admin/img/favicons/favicon-16x16.png" sizes="16x16">
-    <link rel="manifest" href="/assets/admin/img/favicons/manifest.json">
-    <link rel="mask-icon" href="/assets/admin/img/favicons/safari-pinned-tab.svg" color="#333333">
-    <link rel="shortcut icon" href="/assets/admin/img/favicons/favicon.ico">
-    <meta name="msapplication-TileColor" content="#da532c">
-    <meta name="msapplication-TileImage" content="/assets/admin/img/favicons/mstile-144x144.png">
-    <meta name="msapplication-config" content="/assets/admin/img/favicons/browserconfig.xml">
-    <meta name="theme-color" content="#333333">
+    <link rel="apple-touch-icon" sizes="57x57" href="/assets/img/favicons/{{config('config-variables.current_layout') }}/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/assets/img/favicons/{{config('config-variables.current_layout') }}/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/assets/img/favicons/{{config('config-variables.current_layout') }}/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/assets/img/favicons/{{config('config-variables.current_layout') }}/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/assets/img/favicons/{{config('config-variables.current_layout') }}/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/assets/img/favicons/{{config('config-variables.current_layout') }}/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/assets/img/favicons/{{config('config-variables.current_layout') }}/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/assets/img/favicons/{{config('config-variables.current_layout') }}/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/favicons/{{config('config-variables.current_layout') }}/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192"  href="/assets/img/favicons/{{config('config-variables.current_layout') }}/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicons/{{config('config-variables.current_layout') }}/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/assets/img/favicons/{{config('config-variables.current_layout') }}/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicons/{{config('config-variables.current_layout') }}/favicon-16x16.png">
+    <link rel="manifest" href="/assets/img/favicons/{{config('config-variables.current_layout') }}/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
     <style>
         #password-error {
             color: #ff3860;
@@ -47,7 +44,7 @@
                 <div class="brand-main">
                     <a href="/admin">
                         <!-- <img src="http://www.euro-sportring.com/sites/default/files/euro-sportring_1.png" alt="Laraspace Logo"> -->
-                        <img src="/assets/img/logo-desk.svg" alt="Laraspace Logo">
+                        <img src="/assets/img/tmplogo.svg" alt="Laraspace Logo">
                     </a>
                 </div>
 
@@ -69,7 +66,7 @@
 
                                     <form id="js-frm-password-activation"
                                      name="js-frm-password-activation"
-                                     class="js-frm-password-activation" method="POST" action="/passwordactivate">
+                                     class="js-frm-password-activation" method="POST" action="/api/passwordactivate">
                                         <input type="hidden" id="key" name="key" value="{{$usersPasswords[0]['token']}}">
                                         <div class="form-group">
                                             <input id="password" type="password" class="form-control" placeholder="Enter password" name="password">
@@ -91,8 +88,7 @@
                 </div>
 
                 <div class="page-copyright">
-                     <p>Copyright 2017 Euro-Sportring. All rights reserved.<br/>
-                    Developed  by <a href="http://aecordigital.com" target="_blank">aecor </a></p>
+                    <p>Copyright {{ Carbon\Carbon::now()->format('Y') }} TMP Applications BV.<br/>Developed  by <a style="text-decoration:underline; color: inherit;" href="http://aecordigital.com" target="_blank">aecor</a>.</p>
                 </div>
             </div>
         </div>

@@ -1,103 +1,111 @@
 <template>
     <div>
-        <div class="add_user_btn">
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#user_form_modal" @click="addUser()">{{$lang.user_management_add_new_user}}</button>
+        <div class="add_user_btn d-flex align-items-center justify-content-end">
+          <button type="button" class="btn btn-primary mr-1" @click='exportTableReport()'>{{$lang.summary_button_download}}</button>
+          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#user_form_modal" @click="addUser()">{{$lang.user_management_add_new_user}}</button>
         </div>
         <div class="tab-content">
             <div class="card">
                 <div class="card-block">
                     <div class="row d-flex flex-row align-items-center mb-3 ">
-                        <div class="col-md-6">
+                      <div class="col-md-5">
                             <p class="mb-0">{{$lang.user_management_all_users_sentence}}</p>
-                        </div>
-                        <div class="col-md-6">
-                          <div class="row justify-content-end align-items-center">
-                              <div class="col">
-                                <form class="form-inline">
-                                  <div class="form-group">
-                                     <input type="text" class="form-control"
-                                          v-on:keyup="searchUserData" v-model="userListSearch"
-                                          placeholder="Search for a user">
-                                  </div>
-                                  <button type="button" class="btn btn-primary" @click='clear()'>{{$lang.user_management_clear_button}}</button>
-                                </form>
-                                 <!-- <div class="form-group">
-                                      <div>
-                                          <input type="text" class="form-control"
-                                          v-on:keyup="searchUserData" v-model="userListSearch"
-                                          placeholder="Search for a user">
-                                      </div>
-                                  </div> -->
+                      </div>
+                      <div class="col-md-7">
+                        <div class="row align-items-center justify-content-end">
+                          <div class="col-12">
+                            <div class="row">
+                              <div class="col-md-5">
+                                <input type="text" class="form-control"
+                                      v-on:keyup="searchUserData" v-model="userListSearch"
+                                      placeholder="Search for a user">
                               </div>
-                              <div class="col-4">
-                                <button type="button" class="btn btn-primary pull-right" @click='exportTableReport()'>{{$lang.summary_button_download}}</button>
+                              <div class="col-md-5">
+                                <select class="form-control ls-select2" v-on:change="searchTypeData"
+                                    v-model="userTypeSearch" name="user_type" id="user_type">
+                                    <option value="">Filter by user type</option>
+                                    <option value="Internal.administrator">Internal administrator</option>
+                                    <option value="Master.administrator">Master administrator</option>
+                                    <option value="mobile.user">Mobile user</option>
+                                    <option value="Super.administrator">Super administrator</option>
+                                    <option value="tournament.administrator">Tournament administrator</option>
+                                    <option value="Results.administrator">Results administrator</option>
+                                </select>
                               </div>
-                             <!--  <div class="col-md-3">
-                                  <div class="form-group">
-                                      <button type="button" class="btn btn-primary w-100" @click='clear()'>{{$lang.user_management_clear_button}}</button>
-                                  </div>
-                              </div> -->
-                              <!-- <div class="col-md-3">
-                                  <div class="form-group mb-0">
-                                      <button type="button" class="btn btn-primary w-100" @click='exportTableReport()'>{{$lang.summary_button_download}}</button>
-                                  </div>
-                              </div> -->
+                              <div class="col-md-2">
+                                <button type="button" class="btn btn-primary w-100" @click='clear()'>{{$lang.user_management_clear_button}}</button>
+                              </div>
+                            </div>
                           </div>
                         </div>
+                      </div>
                     </div>
                     <div class="row d-flex flex-row align-items-center">
                         <div class="col-md-12">
-                            <table class="table add-category-table">
+                          <div class="table-responsive">
+                            <table class="table add-category-table users-table" style="border-bottom: 1px solid #eceeef">
                                 <thead>
                                     <tr>
                                         <th>{{$lang.user_desktop_name}}</th>
                                         <th>{{$lang.user_desktop_surname}}</th>
                                         <th>{{$lang.user_desktop_email}}</th>
+                                        <th>{{$lang.user_desktop_source}}</th>
                                         <th>{{$lang.user_desktop_usertype}}</th>
+                                        <th>{{$lang.use_desktop_role}}</th>
+                                        <th>{{$lang.use_desktop_country}}</th>
+                                        <th>{{$lang.use_desktop_language}}</th>
                                         <th>{{$lang.user_desktop_status}}</th>
+                                        <th>{{$lang.user_device}}</th>
+                                        <th>{{$lang.user_app_version}}</th>
                                         <th class="text-center">{{$lang.user_desktop}}</th>
                                         <th class="text-center">{{$lang.user_mobile}}</th>
                                         <th>{{$lang.user_desktop_action}}</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                  <tr class="" v-for="user in paginated('userpagination')">
+                                <tbody v-if="!isListGettingUpdate">
+                                  <tr class="" v-for="user in userList.data">
                                     <td>{{ user.first_name }}</td>
                                     <td>{{ user.last_name }}</td>
                                     <td>{{ user.email }}</td>
+                                    <td>{{ user.provider | capitalize }}</td>
                                     <td>{{ user.role_name }}</td>
+                                    <td>{{ user.role }}</td>
+                                    <td>{{ user.country }}</td>
+                                    <td>{{ allLanguages[user.locale] }}</td>
                                     <td v-if="user.is_verified == 1">Verified</td>
                                     <td v-else>
                                       <a href="#"  @click="resendModalOpen(user.email)"><u>Re-send</u></a>
                                     </td>
+                                    <td>{{ user.device }}</td>
+                                    <td>{{ user.app_version }}</td>
                                     <td class="text-center">
-                                      <i class="jv-icon jv-checked-arrow text-success"
+                                      <i class="fas fa-check text-success"
                                         v-if="user.is_desktop_user == true"></i>
-                                      <i class="jv-icon jv-close text-danger"
+                                      <i class="fas fa-times text-danger"
                                         v-else></i>
                                     </td>
                                     <td class="text-center">
-                                      <i class="jv-icon jv-checked-arrow text-success"
+                                      <i class="fas fa-check text-success"
                                         v-if="user.is_mobile_user == true"></i>
-                                      <i class="jv-icon jv-close text-danger"
+                                      <i class="fas fa-times text-danger"
                                         v-else></i>
                                     </td>
                                     <td>
                                         <a class="text-primary" href="javascript:void(0)"
-                                         @click="editUser(user.id)">
-                                        <i class="jv-icon jv-edit"></i>
+                                         @click="editUser(user.id)" v-if="!(isMasterAdmin == true && user.role_slug == 'Super.administrator')">
+                                        <i class="fas fa-pencil"></i>
                                         </a>
                                         &nbsp;
                                         <a href="javascript:void(0)"
                                         data-confirm-msg="Are you sure you would like to delete
                                         this user record?" data-toggle="modal" data-target="#delete_modal"
-                                        @click="prepareDeleteResource(user.id)">
-                                        <i class="jv-icon jv-dustbin"></i>
+                                        @click="prepareDeleteResource(user.id)" v-if="!(isMasterAdmin == true && user.role_slug == 'Super.administrator')">
+                                        <i class="fas fa-trash"></i>
                                         </a>
                                         &nbsp;
-                                        <a v-if="user.role_slug == 'tournament.administrator'" class="text-primary icon-size-1-2" href="javascript:void(0)"
+                                        <a v-if="(user.role_slug == 'tournament.administrator' || user.role_slug == 'Results.administrator')" class="text-primary icon-size-1-2" href="javascript:void(0)"
                                         @click="editTournamentPermission(user)">
-                                        <i class="fa fa-eye fa-1x"></i>
+                                        <i class="fas fa-eye fa-1x"></i>
                                         </a>
                                         &nbsp;
                                         <!--<a v-if="IsSuperAdmin == true"
@@ -109,38 +117,34 @@
                                         data-target="#active_modal"
                                         @click="prepareDisableResource(user.id,user.is_active)"
                                         >
-                                        <i class="jv-icon jv-checked-arrow text-success"
+                                        <i class="fas fa-check text-success"
                                         v-if="user.is_active == true"></i>
-                                        <i class="jv-icon jv-close text-danger"
+                                        <i class="fas fa-times text-danger"
                                         v-else></i>
                                         </a>-->
                                     </td>
                                   </tr>
-                                  <tr><td colspan="8"></td></tr>
                                 </tbody>
                             </table>
-                            <paginate v-if="shown" name="userpagination" :list="userList.userData" ref="paginator" :per="no_of_records"  class="paginate-list">
-                              </paginate>
-                              <div class="row d-flex flex-row align-items-center">
-                                <div class="col page-dropdown">
-                                  <select class="form-control ls-select2" name="no_of_records" v-model="no_of_records">
-                                    <option v-for="recordCount in recordCounts" v-bind:value="recordCount">
-                                        {{ recordCount }}
-                                    </option>
-                                  </select>
-                                </div>
-                                <div class="col">
-                                  <span v-if="$refs.paginator">
-                                    Viewing {{ $refs.paginator.pageItemsCount }} results
-                                  </span>
-                                </div>
-                                <div class="col-md-6">
-                                  <paginate-links for="userpagination"
-                                    :show-step-links="true" :async="true" class="mb-0">
-                                  </paginate-links>
-                                </div>
+                          </div>
+                            <div class="row d-flex flex-row align-items-center" v-if="!isListGettingUpdate && userList.data.length > 0">
+                              <div class="col page-dropdown">
+                                <select class="form-control ls-select2" name="no_of_records" v-model="no_of_records" @change="onNoOfRecordsChange()">
+                                  <option v-for="recordCount in recordCounts" v-bind:value="recordCount">
+                                      {{ recordCount }}
+                                  </option>
+                                </select>
                               </div>
-                        </div>
+                              <div class="col">
+                                <span>
+                                  Viewing {{ userList.from + '-' + userList.to }} of {{ userList.total }} results
+                                </span>
+                              </div>
+                              <div class="col-md-6">
+                                <pagination :align="'right'" :show-disabled="true" :limit="1" :data="userList" @pagination-change-page="getResults"></pagination>
+                              </div>
+                            </div>
+                          </div>
                         <div v-if="userList.userCount == 0" class="col-md-12">
                             <h6 class="block text-center">No record found</h6>
                         </div>
@@ -149,7 +153,7 @@
             </div>
         </div>
         <user-modal v-if="userStatus" :userId="userId"
-        :userRoles="userRoles" :userEmailData="userEmailData" :publishedTournaments="publishedTournaments"></user-modal>
+        :userRoles="userRoles" :publishedTournaments="publishedTournaments" :isMasterAdmin="isMasterAdmin" @showChangePrivilegeModal="showChangePrivilegeModal()"></user-modal>
         <delete-modal :deleteConfirmMsg="deleteConfirmMsg" @confirmed="deleteConfirmed()"></delete-modal>
         <resend-modal :resendConfirm="resendConfirm" @confirmed="resendConfirmed()"></resend-modal>
         <active-modal
@@ -158,7 +162,9 @@
            @confirmed="activeConfirmed()"
            @closeModal="closeConfirm()">
          </active-modal>
-         <tournament-permission-modal :user="currentUserInTournamentPermission"></tournament-permission-modal>
+         <!-- <tournament-permission-modal :user="currentUserInTournamentPermission"></tournament-permission-modal> -->
+         <permission-modal :user="currentUserInTournamentPermission"></permission-modal>
+         <confirm-privilege-change-modal @confirmed="privilegeChangeConfirmed()"></confirm-privilege-change-modal>
     </div>
 </template>
 <script type="text/babel">
@@ -167,9 +173,12 @@
     import UserModal  from  '../../../components/UserModal.vue'
     import ActiveModal  from  '../../../components/ActiveModal.vue'
     import TournamentPermissionModal from '../../../components/TournamentPermissionModal.vue'
+    import PermissionModal from '../../../components/PermissionModal.vue'
+    import ConfirmPrivilegeChangeModal from '../../../components/ConfirmPrivilegeChangeModal.vue'
     import User from '../../../api/users.js'
     import Tournament from '../../../api/tournament.js'
     import VuePaginate from 'vue-paginate'
+    import pagination from 'laravel-vue-pagination'
 
 
     export default {
@@ -178,7 +187,10 @@
             ResendModal,
             UserModal,
             ActiveModal,
-            TournamentPermissionModal
+            TournamentPermissionModal,
+            PermissionModal,
+            ConfirmPrivilegeChangeModal,
+            pagination,
         },
         data() {
             return {
@@ -189,8 +201,10 @@
                 deleteAction: '',
                 image: '',
                 userData: '',
+                userType: '',
                 page: '',
                 userListSearch: '',
+                userTypeSearch: '',
                 userStatus: false,
                 userId: '',
                 uStatusData:'',
@@ -198,17 +212,18 @@
                 enb: false,
                 userRoles: [],
                 publishedTournaments: [],
-                userEmailData: this.userList,
-                paginate: ['userpagination'],
+                // paginate: ['userpagination'],
                 shown: false,
                 no_of_records: 20,
                 recordCounts: [5,10,20,50,100],
-                currentUserInTournamentPermission: null
+                currentUserInTournamentPermission: null,
+                allLanguages: [],
             }
         },
 
         props: {
             userList: Object,
+            isListGettingUpdate: Boolean
         },
         computed: {
             IsSuperAdmin() {
@@ -216,12 +231,20 @@
             },
             uData(){
               return this.uStatusData
-            }
+            },
+            isMasterAdmin() {
+              return this.$store.state.Users.userDetails.role_slug == 'Master.administrator';
+            },
         },
         filters: {
             formatDate: function(date) {
-            return moment(date).format("HH:mm  DD MMM YYYY");
-             },
+              return moment(date).format("HH:mm  DD MMM YYYY");
+            },
+            capitalize: function (value) {
+              if (!value) return '';
+              value = value.toString();
+              return value.charAt(0).toUpperCase() + value.slice(1);
+            }            
           },
         mounted() {
           // here we check the permission to allowed to access users list
@@ -239,6 +262,7 @@
           },2000 )
           this.getRolesWithData();
           this.getPublishedTournaments();
+          this.getLanguageData();
 
          setTimeout(() => {
             this.shown = true
@@ -247,28 +271,28 @@
         methods: {
           clear() {
             this.userListSearch = ''
+            this.userTypeSearch = ''
             //call method for refresh
             this.$root.$emit('clearSearch')
           },
-          searchUserData() {
-            // console.log(this.userListSearch);
-            this.$root.$emit('setSearch',this.userListSearch);
+          searchUserData(e) {
+            this.$root.$emit('setSearch', this.userListSearch,this.userTypeSearch, 1, this.no_of_records);
             var first_name = $("#user_first_name").val();
             var last_name = $("#user_last_name").val();
             var email = $("#user_email").val();
             var searchdata = "&first_name="+ first_name + "&last_name=" + last_name + "&email=" + email;
          },
+          searchTypeData() {
+            this.searchUserData();
+          },
           getRolesWithData() {
-            User.getRolesWithData().then(
-              (response)=> {
-                this.userRoles = response.data.roles;
-              },
-              (error)=> {
-              }
-            )
-           // axios.get("/api/roles-for-select").then((response) => {
-             //       this.userRoles = response.data;
-               // });
+              User.getRolesWithData().then(
+                (response)=> {
+                  this.userRoles = response.data.roles;
+                },
+                (error)=> {
+                }
+              )
             },
             getPublishedTournaments() {
               let data = { 'status' : 'Published' }
@@ -320,10 +344,6 @@
 
                   }
                 )
-               /* axios.post("/api/user/resendEmail",{'email':emailData}).then((response) => {
-                    $("#resend_modal").modal("hide");
-                     toastr.success('The invite email has been re-sent successfully.', 'Mail Sent', {timeOut: 5000});
-                }); */
             },
             resendModalOpen(data) {
                 this.resendEmail = data
@@ -347,14 +367,6 @@
                   }
                 }
               )
-              /*axios.post("/api/user/status",{'userData':this.uStatusData}).then((response) => {
-                  $("#active_modal").modal("hide");
-                  if(response.data.status_code == 200) {
-                      toastr.success(response.data.message,{timeOut: 3000});
-                      setTimeout(Plugin.reloadPage, 500);
-                  }
-
-                }); */
             },
             deleteConfirmed() {
                 User.deleteUser(this.deleteAction).then(
@@ -368,35 +380,56 @@
 
                   }
                 )
-               /* axios.post(this.deleteAction).then((response) => {
-                    $("#delete_modal").modal("hide");
-                     setTimeout(Plugin.reloadPage, 500);
-                    toastr.success('User has been deleted successfully.', 'Delete User', {timeOut: 5000});
-                    this.updateUserList();
-                }); */
+            },
+            privilegeChangeConfirmed() {
+              this.$root.$emit('privilegeChangeConfirmed');
+              $('#confirm_privilege_modal').modal('hide');
             },
             exportTableReport() {
                 let userData = this.reportQuery
                 let userSearch = '';
-                // console.log(userData);
-                // console.log(ReportData)
-                // let newdata = $.parseHTML( ReportData )
-                // let newdata =  $(ReportData).parse();
-                // let newdata = $('#frmReport').serialize();
-                  if(this.userListSearch!=''){
-                      userSearch = 'userData='+this.userListSearch
-                  }
-                   window.location.href = "/api/users/getUserTableData?report_download=yes&"+userSearch;
-                   // userData += '&report_download=yes'
-                   // window.location.href = "/api/users/getUserTableData?=report_download=yes&registerType=desktop&userData=";
+                let userSlugType = '';
+                userSearch = 'userData='+this.userListSearch;
+                userSlugType = 'userType='+this.userTypeSearch;
 
+                userData += 'report_download=yes&' + userSearch + '&' + userSlugType;
+
+                User.getSignedUrlForUsersTableData(userData).then(
+                  (response) => {
+                    window.location.href = response.data;
+                   },
+                  (error) => {
+                  }
+                )
+
+                // window.location.href = "/api/users/getUserTableData?report_download=yes&"+userSearch+"&"+userSlugType;
              },
             editTournamentPermission(user) {
               this.currentUserInTournamentPermission = user;
-              console.log('user', user);
               this.$root.$emit('getUserTournaments', user);
-              $('#tournament_permission_modal').modal('show')
+              this.$root.$emit('getUserWebsites', user);
+              $('#permission_modal').modal('show');
+              $('#permission_modal ul.nav-tabs a').first().trigger('click');
 
+            },
+            showChangePrivilegeModal() {
+              $('#confirm_privilege_modal').modal('show');
+            },
+
+            getLanguageData() {
+              User.getAllLanguages().then(
+                (response)=> {
+                  this.allLanguages = response.data;
+                },
+                (error)=> {
+                }
+              )
+            },
+            getResults(page = 1) {
+                this.$root.$emit('setSearch', this.userListSearch,this.userTypeSearch, page, this.no_of_records);
+            },
+            onNoOfRecordsChange() {
+                this.$root.$emit('setSearch', this.userListSearch,this.userTypeSearch, 1, this.no_of_records);
             }
         }
     }

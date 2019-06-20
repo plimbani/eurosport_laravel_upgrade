@@ -8,27 +8,36 @@
              <div class="row justify-content-between">
               <div class="col-sm-12">
                 <ul class="nav nav-tabs" role="tablist">
-                  <li class="nav-item">
-                    <a class="nav-link active" data-toggle="tab" href="javascript:void(0)" role="tab" @click="currentView='summaryTab'"><b>{{$lang.summary_label_summary}}</b></a>
+                  <li class="nav-item" v-if="!isResultAdmin">
+                    <a class="nav-link active" data-toggle="tab" href="javascript:void(0)" role="tab" @click="currentView='summaryTab'">
+                      <div class="wrapper-tab">{{$lang.summary_label_summary}}</div>
+                    </a>
+                  </li>
+                  <li class="nav-item" v-if="!isResultAdmin">
+                    <a class="nav-link" data-toggle="tab" href="javascript:void(0)" role="tab" @click="currentView='summaryReport'">
+                      <div class="wrapper-tab">{{$lang.summary_label_reports}}</div>
+                    </a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" href="javascript:void(0)" role="tab" @click="currentView='summaryReport'"><b>{{$lang.summary_label_reports}}</b></a>
+                    <a class="nav-link" :class="isResultAdmin ? 'active' : ''" data-toggle="tab" href="javascript:void(0)" role="tab" @click="currentView='scheduleResultsAdmin'">
+                      <div class="wrapper-tab">{{$lang.summary_label_schedule}}</div>
+                    </a>
                   </li>
-                  <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" href="javascript:void(0)" role="tab" @click="currentView='scheduleResultsAdmin'"><b>{{$lang.summary_label_schedule}}</b></a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" href="javascript:void(0)" role="tab" @click="currentView='messages'"><b>{{$lang.summary_label_message}}</b></a>
+                  <li class="nav-item" v-if="!isResultAdmin">
+                    <a class="nav-link" data-toggle="tab" href="javascript:void(0)" role="tab" @click="currentView='messages'">
+                      <div class="wrapper-tab">{{$lang.summary_label_message}}</div>
+                    </a>
                   </li>
              <!--      <div class="col display-flex align-items-center justify-content-end padding-right-zero" v-show="currentView=='messages'">
                     <button type="button" class="btn btn-primary"
-                         @click="addMessage()"><small><i class="jv-icon jv-plus"></i></small>&nbsp;{{$lang.summary_message_button}}</button>
+                         @click="addMessage()"><small><i class="fas fa-plus"></i></small>&nbsp;{{$lang.summary_message_button}}</button>
                   </div> -->
                  <AddMessageModel v-if="messageStatus"></AddMessageModel>
                 </ul>
                 </div>
               </div>
 							<component :is="currentView"> </component>
+              <UnsaveMatchScoreModel @unchanged-match-scores="unChangedMatchScoresModal"></UnsaveMatchScoreModel>
 						</div>
 					</div>
 				</div>
@@ -44,34 +53,54 @@ import SummaryReport from '../../../components/SummaryReport.vue'
 import ScheduleResultsAdmin from '../../../components/ScheduleResultsAdmin.vue'
 import Messages from '../../../components/Messages.vue'
 import AddMessageModel from '../../../components/AddMessageModel.vue'
-
+import UnsaveMatchScoreModel from '../../../components/UnsaveMatchScoreModel.vue'
+// import UnSavedMatchScoresInfoModal from '../../../components/UnsavedMatchScoresInfo.vue'
 
 export default {
 
     data() {
        return {
          currentView:'summaryTab',
-        messageStatus: false
+        messageStatus: false,
        }
     },
     components: {
-        SummaryTab, SummaryReport, ScheduleResultsAdmin, Messages, AddMessageModel
+        SummaryTab, SummaryReport, ScheduleResultsAdmin, Messages, AddMessageModel, UnsaveMatchScoreModel
+    },
+    beforeRouteLeave(to, from, next) {
+      let redirectName = to.name; 
+      let matchResultChange = this.$store.state.Tournament.matchResultChange;
+      let currentSection = from.name;
+      if ( matchResultChange && currentSection == 'tournaments_summary_details')
+      { 
+        window.sectionVal = -1;
+        window.redirectPath = redirectName;
+        $('#unSaveMatchModal').modal('show');
+      }
+      else{
+        next();
+      }
     },
     mounted() {
+      if(this.isResultAdmin) {
+        this.currentView = 'scheduleResultsAdmin';
+      }
     	let tournamentId = this.$store.state.Tournament.tournamentId
       if(tournamentId == null || tournamentId == '' || tournamentId == undefined) {
       	toastr['error']('Please Select Tournament', 'Error');
         this.$router.push({name: 'welcome'});
       } else {
-          // First Set Menu and ActiveTab
-        let currentNavigationData = {activeTab:'tournaments_summary_details', currentPage: 'Summary'}
-          this.$store.dispatch('setActiveTab', currentNavigationData)
+        let currentNavigationData = {activeTab:'tournaments_summary_details', currentPage: 'Administration'}
+        this.$store.dispatch('setActiveTab', currentNavigationData)
       }
-      // Here we set currenct Schedule view null
       this.$store.dispatch('setCurrentScheduleView','')
     },
-
-     methods: {
+    computed: {
+      isResultAdmin() {
+        return this.$store.state.Users.userDetails.role_slug == 'Results.administrator';
+      }
+    },
+    methods: {
       addMessage() {
         let vm =this
         this.messageStatus = true
@@ -82,7 +111,10 @@ export default {
               vm.messageStatus = false
           });
         },500)
-    }
+      },
+      unChangedMatchScoresModal(data) {
+        this.$parent.setUnChangedMatchScoresModal(data);
+      }      
     }
 }
 </script>

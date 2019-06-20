@@ -1,8 +1,8 @@
 <template>
   <section class="section section-hero-area">
-    <div class="container">
+    <div class="container-fluid">
       <div class="d-flex justify-content-center">
-        <div class="card">
+        <div class="card main-card">
           <div class="card-block">
                 <h4 class="card-title">Euro-Sportring Tournaments</h4>
                 <div v-for="tournament in tournaments">
@@ -47,6 +47,7 @@ export default {
      let tournamentSel  = {
         name:name,
         id:id,
+        tournamentSlug: tournament.slug,
         tournamentLogo: tournament.logo,
         tournamentStatus:tournament.status,
         tournamentStartDate:tournament.start_date,
@@ -55,7 +56,7 @@ export default {
       this.$store.dispatch('SetTournamentName', tournamentSel)
         // After Set We have to Redirect to Schedule View
       if(this.$store.state.Tournament.tournamentId != undefined) {
-        this.$router.push({'name':'front_schedule'})
+        this.$router.push({'name':'front_schedule', params: { tournamentslug: tournament.slug }})
       }
     }
   }

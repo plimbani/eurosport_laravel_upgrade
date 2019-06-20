@@ -10,7 +10,7 @@
         </div>
         <div class="card">
             <div class="card-header">
-                <h6>Select 2 <a class="source-link" href="https://select2.github.io/" target="_blank">source</a></h6>
+                <h6 class="">Select 2 <a class="source-link" href="https://select2.github.io/" target="_blank">source</a></h6>
             </div>
             <div class="card-block">
                 <div class="row">
@@ -118,7 +118,7 @@
         </div>
         <div class="card">
             <div class="card-header">
-                <h6>Bootstrap Select <a class="source-link" href="http://silviomoreto.github.io/bootstrap-select/"
+                <h6 class="">Bootstrap Select <a class="source-link" href="http://silviomoreto.github.io/bootstrap-select/"
                                         target="_blank">source</a></h6>
             </div>
             <div class="card-block">
@@ -213,7 +213,7 @@
         </div>
         <div class="card">
             <div class="card-header">
-                <h6>Multiple Select <a class="source-link" href="http://loudev.com/" target="_blank">source</a></h6>
+                <h6 class="">Multiple Select <a class="source-link" href="http://loudev.com/" target="_blank">source</a></h6>
             </div>
             <div class="card-block">
                 <div class="row">
@@ -323,7 +323,7 @@
         </div>
         <div class="card">
             <div class="card-header">
-                <h6>Switch Toggles <a class="source-link" href="http://abpetkov.github.io/switchery/"
+                <h6 class="">Switch Toggles <a class="source-link" href="http://abpetkov.github.io/switchery/"
                                       target="_blank">source</a></h6>
             </div>
             <div class="card-block">
@@ -364,7 +364,7 @@
         </div>
         <div class="card">
             <div class="card-header">
-                <h6>Clock Time Picker <a class="source-link" href="http://weareoutman.github.io/clockpicker/"
+                <h6 class="">Clock Time Picker <a class="source-link" href="http://weareoutman.github.io/clockpicker/"
                                          target="_blank">source</a></h6>
             </div>
             <div class="card-block">
@@ -380,7 +380,7 @@
                         <div class="input-group ls-clockpicker" data-autoclose="false">
                             <input type="text" class="form-control" value="09:30">
                             <span class="input-group-addon">
-                                <i class="fa fa-clock-o"></i>
+                                <i class="fas fa-clock-o"></i>
                             </span>
                         </div>
                     </div>
@@ -397,7 +397,7 @@
                              data-autoclose="true">
                             <input type="text" class="form-control" value="09:30">
                             <span class="input-group-addon">
-                                <i class="fa fa-clock-o"></i>
+                                <i class="fas fa-clock-o"></i>
                             </span>
                         </div>
                     </div>
@@ -406,7 +406,7 @@
         </div>
         <div class="card">
             <div class="card-header">
-                <h6>Date Picker <a class="source-link" href="https://github.com/eternicode/bootstrap-datepicker"
+                <h6 class="">Date Picker <a class="source-link" href="https://github.com/eternicode/bootstrap-datepicker"
                                    target="_blank">source</a></h6>
             </div>
             <div class="card-block">
@@ -420,7 +420,7 @@
 
                         <div class="input-group">
                             <span class="input-group-addon">
-                                <i class="fa fa-calendar"></i>
+                                <i class="fas fa-calendar"></i>
                             </span>
                             <input type="text" class="form-control ls-datepicker" value="09:30">
                         </div>
@@ -455,7 +455,7 @@
         </div>
         <div class="card">
             <div class="card-header">
-                <h6>Time Picker <a class="source-link" href="http://jonthornton.github.io/jquery-timepicker/"
+                <h6 class="">Time Picker <a class="source-link" href="http://jonthornton.github.io/jquery-timepicker/"
                                    target="_blank">source</a></h6>
             </div>
             <div class="card-block">
@@ -470,7 +470,7 @@
                         <div class="input-group">
                             <input type="text" class="form-control ls-timepicker" value="09:30">
                             <span class="input-group-addon">
-                                <i class="fa fa-clock-o"></i>
+                                <i class="fas fa-clock-o"></i>
                             </span>
                         </div>
                     </div>
@@ -484,7 +484,7 @@
                         <div class="input-group">
                             <input type="text" class="form-control ls-timepicker" value="09:30" data-duration="true">
                             <span class="input-group-addon">
-                                <i class="fa fa-clock-o"></i>
+                                <i class="fas fa-clock-o"></i>
                             </span>
                         </div>
                     </div>
@@ -498,7 +498,7 @@
                         <div class="input-group">
                             <input type="text" class="form-control ls-timepicker" value="09:30" data-format="H:i:s">
                             <span class="input-group-addon">
-                                <i class="fa fa-clock-o"></i>
+                                <i class="fas fa-clock-o"></i>
                             </span>
                         </div>
                     </div>

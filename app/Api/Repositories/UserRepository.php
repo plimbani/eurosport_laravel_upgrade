@@ -6,8 +6,10 @@ use Laraspace\Models\User;
 use Laraspace\Models\Role;
 use Laraspace\Models\UserFavourites;
 use Laraspace\Models\Settings;
+use Laraspace\Models\Country;
 use DB;
 use Hash;
+use Illuminate\Pagination\Paginator;
 
 class UserRepository {
 
@@ -25,7 +27,6 @@ class UserRepository {
     }
     public function getUserDetails($data)
     {
-        // dd($data);
        $email = $data['userData']['email'];
         $user = User:: join('role_user', 'users.id', '=', 'role_user.user_id')
                 ->join('roles', 'roles.id', '=', 'role_user.role_id')
@@ -34,44 +35,58 @@ class UserRepository {
                   DB::raw('CONCAT("'.$this->userImagePath.'", users.user_image) AS user_image')
                   )
                 ->get();
+
         return $user;
     }
 
     public function getUsersByRegisterType($data)
     {
+        ini_set('memory_limit','256M');
         $user = User::join('role_user', 'users.id', '=', 'role_user.user_id')
-                ->join('roles', 'roles.id', '=', 'role_user.role_id')
-                ->join('people', 'people.id', '=', 'users.person_id');
+                ->leftjoin('roles', 'roles.id', '=', 'role_user.role_id')
+                ->leftjoin('people', 'people.id', '=', 'users.person_id')
+                ->leftjoin('countries', 'countries.id', '=', 'users.country_id');
 
-        if(isset($data['userData'])) {
-            $user = $user->where('users.email', 'like', "%" . $data['userData'] . "%")
+        if(isset($data['userData']) && $data['userData'] !== '') {
+            $user = $user->where(function($query) use($data) {
+                $query->where('users.email', 'like', "%" . $data['userData'] . "%")
                         ->orWhere('people.first_name', 'like', "%" . $data['userData'] . "%")
                         ->orWhere('people.last_name', 'like', "%" . $data['userData'] . "%");
+            });
         }
 
-        $user = $user->select('users.id as id', 'people.first_name as first_name', 'people.last_name as last_name', 'users.email as email', 'roles.id as role_id', 'roles.name as role_name', 'roles.slug as role_slug', 'users.is_verified as is_verified', 'users.is_mobile_user as is_mobile_user', 'users.is_desktop_user as is_desktop_user', 'users.organisation as organisation', 'users.locale as locale');
+        if(isset($data['userType']) && $data['userType'] !== '') {
+            $user = $user->where('roles.slug', '=', $data['userType']);
+        }
+
+        $languages = config('wot.languages');
+        $user = $user->select('users.id as id', 'people.first_name as first_name', 'people.last_name as last_name', 'users.email as email', 'roles.id as role_id', 'roles.name as role_name', 'roles.slug as role_slug', 'users.is_verified as is_verified', 'users.is_mobile_user as is_mobile_user', 'users.is_desktop_user as is_desktop_user', 'users.organisation as organisation', 'users.locale as locale', 'users.role as role','countries.name as country', 'users.device as device', 'users.app_version as app_version', 'users.provider as provider');
 
         $user->orderBy('people.last_name','asc');
+        $userData = $user->get();
 
+        $dataArray = array();
 
-         $userData = $user->get();
-
-         $dataArray = array();
-
-         if(isset($data['report_download']) &&  $data['report_download'] == 'yes') {
-
+        if(isset($data['report_download']) &&  $data['report_download'] == 'yes') {
             foreach ($userData as $user) {
 
                 $status = ($user->is_verified == 1) ? 'Verified': 'Resend';
                 $isDesktopUser = ($user->is_desktop_user == 1) ? 'Yes': 'No';
                 $isMobileUser = ($user->is_mobile_user == 1) ? 'Yes': 'No';
+                $userListLanguages = $user->locale != '' ? $languages[$user->locale] : '';
                 
                 $ddata = [
                         $user->first_name,
                         $user->last_name,
                         $user->email,
+                        $user->provider,
                         $user->role_name,
+                        $user->role,
+                        $user->country,
+                        $userListLanguages,
                         $status,
+                        $user->device,
+                        $user->app_version,
                         $isDesktopUser,
                         $isMobileUser,
                     ];
@@ -86,13 +101,19 @@ class UserRepository {
                 ];
 
             $lableArray = [
-                'Name', 'Surname' ,'Email address', 'User type', 'Status', 'Desktop', 'Mobile'
+                'Name', 'Surname' ,'Email address', 'Source', 'User type', 'Role', 'Country', 'Language', 'Status', 'Device', 'App version', 'Desktop', 'Mobile'
             ];
             //Total Stakes, Total Revenue, Amount & Balance fields are set as Number statically.
             \Laraspace\Custom\Helper\Common::toExcel($lableArray,$dataArray,$otherParams,'xlsx','yes');
-         }
+        }
 
-         return  $user->get();
+        $currentPage = $data['currentPage']; // You can set this to any page you want to paginate to
+        // before querying users
+        Paginator::currentPageResolver(function () use ($currentPage) {
+          return $currentPage;
+        });
+
+        return  $user->paginate($data['noOfRecords']);
     }
 
     public function create($data)
@@ -112,28 +133,33 @@ class UserRepository {
         'is_mobile_user' => $data['is_mobile_user'] ? 1 : 0,
         'is_desktop_user' => $data['is_desktop_user'] ? 1 : 0,
         'registered_from' => $data['registered_from'] ? 1 : 0,
-        'user_image'=>(isset($data['user_image']) && $data['user_image']!='') ?  $data['user_image'] : ''
+        'user_image'=>(isset($data['user_image']) && $data['user_image']!='') ?  $data['user_image'] : '',
+        'role' => (isset($data['role']) && $data['role']!='') ?  $data['role'] : '',
+        'provider' => 'email',
+        'provider_id' => null
         ];
+      
         $deletedUser = User::onlyTrashed()->where('email',$data['email'])->first();
         // if($deletedUser){
         //     $user = $deletedUser->restore();
         // }
          // $deletedUser;
+
         try {
             if($deletedUser){
                 $deletedUser->restore();
-
                 $userData = User::find($deletedUser['id'])->update($userData);
-               
+
                 // $userData->roles()->detatch();
                 $user = User::find($deletedUser['id']);
                 $user->roles()->sync($data['userType']);
                 return ['status' => 'updated', 'user' => $user];
 
                 // return {'status':'updated','user':$user};
-               
+
                  // return  $deletedUser->attachRole($data['userType']);
             }else{
+              
                     $user = User::create($userData);
                     $user->attachRole($data['userType']);
                     return ['status'=>'created','user'=>$user];
@@ -167,7 +193,7 @@ class UserRepository {
             ->join('role_user', 'users.id', '=', 'role_user.user_id')
             ->select("users.id as id", "users.email as emailAddress",
                DB::raw('IF(users.user_image is not null,CONCAT("'.$this->userImagePath.'", users.user_image),"" ) as image'),
-             "users.organisation as organisation", "people.first_name as name", "people.last_name as surname", "role_user.role_id as userType")
+             "users.organisation as organisation", "people.first_name as name", "people.last_name as surname", "role_user.role_id as userType", "users.role as role", "users.country_id as country_id", "users.locale as locale", "users.provider as provider")
             ->where("users.id", "=", $userId)
             ->first();
 
@@ -194,7 +220,6 @@ class UserRepository {
         $key = $usersDetail['key'];
         $password = (isset($usersDetail['password']) && $usersDetail['password']!='') ? $usersDetail['password'] : '';
         $usersPassword = User::where('token', $key)->first();
-        // echo "<pre>";print_r($usersPassword);echo "</pre>";exit;
         $users = User::where("id", $usersPassword->id)->first();
         $users->is_verified = 1;
         $users->is_active = 1;
@@ -218,7 +243,7 @@ class UserRepository {
     }
     public function postSetting($userData)
     {
-        
+
       \Log::info($userData);
       $userId= $userData['userId'];
       $updatedValue = ['value' => json_encode($userData['userSettings'])];
@@ -238,10 +263,51 @@ class UserRepository {
       $user->tournaments()->sync([]);
       $user->tournaments()->attach($data['tournaments']);
       return true;
+    }
+
+    public function changePermissions($data) {
+      $user = User::find($data['user']['id']);
+      $user->tournaments()->sync([]);
+      $user->tournaments()->attach($data['tournaments']);
+      $user->websites()->sync([]);
+      $user->websites()->attach($data['websites']);
+      return true;
     } 
 
     public function getUserTournaments($id) {
       $user = User::find($id);
       return $user->tournaments()->pluck('id');
+    }
+
+    public function getUserWebsites($id) {
+      $user = User::find($id);
+      return $user->websites()->pluck('id');
+    }
+
+    public function getAllCountries() {
+      return $contries = Country::orderBy('name')->get();
+    }
+
+    public function getAllLanguages() {
+       return $languages = config('wot.languages');
+    }
+
+    public function updateAppDeviceVersion($data) {
+        $usersAppDevice = User::where('id', $data['user_id'])
+                                ->update(['device' => $data['device'], 'app_version' => $data['app_version'], 
+                                  'os_version' => $data['os_version']]);
+
+        return ['status_code' => 200, 'message' => 'User data has been updated.'];
+    }
+
+    public function validateUserEmail($data) {
+      $user = User::where('email', $data['email']);
+      if(isset($data['id'])) {
+        $user->where('id', '!=', $data['id']);
+      }
+      if($user->first()) {
+        return ['status_code' => 200, 'emailexists' => true];
+      }
+      return ['status_code' => 200, 'emailexists' => false];
     }
 }

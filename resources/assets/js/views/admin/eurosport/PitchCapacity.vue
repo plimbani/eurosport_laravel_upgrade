@@ -2,13 +2,63 @@
     <div class="tab-content">
         <div class="card">
             <div class="card-block">
-                <div class="row">
-                  <div class="col-3 align-self-center">
-                      <h6 class="mb-4"><strong>{{$lang.pitch_capacity}}</strong></h6>
+                <div class="row align-items-center">
+                  <div class="col-md-3 align-self-center">
+                      <h6 class="mb-0 fieldset-title"><strong>{{$lang.pitch_capacity}}</strong></h6>
                   </div>
-                  <div class="col-9 align-self-center">
-                    <button type="button" class="btn btn-primary pull-right" @click="addPitch()"><small><i class="jv-icon jv-plus"></i></small>&nbsp;{{$lang.pitch_add}}</button>
-                  </div>
+
+                    <div class="col-md-9">
+                        <form class="form-inline justify-content-end pitch-capacity-form">
+                            <div class="form-group">
+                                <label><strong>Filter by:</strong></label>
+                            </div>
+                            <div class="form-group">
+                                <select class="form-control m-w-130"
+                                    v-model="selectedVenue" name="selected_venue" id="selected_venue"
+                                    @change="getPitchSearchData()">
+                                    <option value="">All venues</option>
+                                    <option :value="venuesOption.id"
+                                    v-for="venuesOption in venuesOptions">
+                                      {{venuesOption.name}}
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control"
+                               v-on:keyup="getPitchSearchData" v-model="pitchDataSearch"
+                               placeholder="Search for a pitch">
+                            </div>
+                            <div class="form-group">
+                                <button type="button" class="btn btn-primary" @click="addPitch()"><small><i class="fas fa-plus"></i></small>&nbsp;{{$lang.pitch_add}}</button>
+                            </div>
+                        </form>
+                    </div>
+
+
+                    <!-- <div class="col-md-2">
+                        <select class="form-control"
+                            v-model="selectedVenue" name="selected_venue" id="selected_venue"
+                            @change="getPitchSearchData()">
+                            <option value="">All venues</option>
+                            <option :value="venuesOption.id"
+                            v-for="venuesOption in venuesOptions">
+                              {{venuesOption.name}}
+                            </option>
+                        </select>
+                    </div> -->
+                  <!-- <div class="col-md-2">
+                        <input type="text" class="form-control"
+                               v-on:keyup="getPitchSearchData" v-model="pitchDataSearch"
+                               placeholder="Search for a pitch">
+                    </div>
+                    <div class="col-md-2">
+                        <div class="row justify-content-end">
+
+                          <div class="col-md-10">
+                                <button type="button" class="btn btn-primary btn-block" @click="addPitch()"><small><i class="fas fa-plus"></i></small>&nbsp;{{$lang.pitch_add}}</button>
+                          </div>
+                        </div>
+                    </div> -->
                 </div>
 
                 <addPitchDetail  v-if="pitchId=='' && dispPitch==true" ></addPitchDetail>
@@ -17,52 +67,121 @@
 
                 <div class="row mt-4">
                     <div class="result col-md-12">
-                         <table class="table table-hover table-bordered mt-4 pitch_capacity_table" v-if="pitches">
+                         <table class="table table-hover table-bordered mb-0 pitch_capacity_table" v-if="dragPitches">
                             <thead>
                                 <tr>
                                     <th class="text-center">{{$lang.pitch_modal_details_name}}</th>
+                                    <th class="text-center">{{$lang.pitch_capacity_location}}</th>
                                     <th class="text-center">{{$lang.pitch_modal_details_size}}</th>
                                     <th class="text-center">{{$lang.pitch_modal_details_type}}</th>
                                     <th class="text-center">{{$lang.pitch_modal_availability_stage}}</th>
                                     <th class="text-center">{{$lang.pitch_modal_action}}</th>
+                                    <th class="text-center" v-if="!searchDisplayData">{{$lang.pitch_modal_order}} </th>
+                                </tr>
+                            </thead>
+                            <draggable v-model="dragPitches" :element="'tbody'" @change="updatePitchOrder()" :options="{handle: '.drag-handle'}">
+                                    <tr v-for="(pitch,index) in dragPitches">
+                                        <td class="text-left">{{pitch.pitch_number}}</td>
+                                        <td class="text-left">{{ pitch.venue.name }}</td>
+                                        <td class="text-left">{{pitch.size}}</td>
+                                        <td class="text-left" style="text-transform: capitalize;">{{pitch.type}}</td>
+                                        <td>
+                                            <p v-for="pitchStage in pitch.pitch_av_text">
+                                            {{pitchStage}}</p>
+                                            <!--<p>Day 2: 10am-1pm, 3pm-5pm</p>
+                                            <p>Day 3: 10am-2pm</p>-->
+                                        </td>
+                                        <td class="text-center">
+                                            <span class="align-middle">
+                                                <a class="text-primary" href="javascript:void(0)" @click="editPitch(pitch.id)"><i class="fas fa-pencil"></i></a>
+                                            </span>
+                                            <span class="align-middle">
+                                                 <a href="#" @click="generatePitchMatchReport(pitch.id)" title="Pitch match schedule" class="text-primary mx-1" style="font-size:1.1em"><i class="fas fa-download"></i></a>
+                                            </span>
+                                            <span class="align-middle">
+                                                 <a href="javascript:void(0)" data-confirm-msg="Are you sure you would like to delete this pitch record?" data- data-toggle="modal" data-target="#delete_modal" @click="deletePitch(pitch.id)"><i class="fas fa-trash text-danger"></i></a>
+                                            </span>
+                                        </td>
+                                        <td v-if="!searchDisplayData" class="text-center drag-handle">
+                                            <span class="align-middle text-primary draggable-handle">
+                                                <i class="fas fa-arrow-up" v-if="index > 0 && index < dragPitches.length"></i>
+                                                <i class="fas fa-arrow-down" v-if="index >= 0 && index < dragPitches.length - 1"></i>
+                                            </span>
+                                        </td>
+                                    </tr>
+                            </draggable>
+                        </table>
+                        <div v-else>
+                            <p class="text-muted">No pitch found.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row my-3">
+                  <div class="col-3 align-self-center">
+                      <h6 class="mb-0 fieldset-title"><strong>{{$lang.pitch_summary}}</strong></h6>
+                  </div>
+                </div>
+                <div class="row">
+                    <div class="result col-md-12">
+                        <table class="table table-hover table-bordered mb-0 pitch_size_summary" v-if="pitchSizeWiseSummaryArray">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">{{$lang.pitch_size}}</th>
+                                    <th class="text-center">{{$lang.pitch_available_time}}</th>
+                                    <th class="text-center">{{$lang.pitch_totaL_time}}</th>
+                                    <th class="text-center">{{$lang.pitch_balance}}</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="pitch in pitches">
-                                    <td class="text-center">{{pitch.pitch_number}}</td>
-                                    <td class="text-center">{{pitch.size}}</td>
-                                    <td class="text-center" style="text-transform: capitalize;">{{pitch.type}}</td>
-                                    <td>
-                                        <p v-for="pitchStage in pitch.pitch_av_text">
-                                        {{pitchStage}}</p>
-                                        <!--<p>Stage 2: 10am-1pm, 3pm-5pm</p>
-                                        <p>Stage 3: 10am-2pm</p>-->
-                                    </td>
-                                    <td class="text-center">
-                                        <span class="align-middle">
-                                            <a class="text-primary" href="javascript:void(0)" @click="editPitch(pitch.id)"><i class="jv-icon jv-edit"></i></a>
-
-                                        </span>
-                                        <span class="align-middle">
-                                             <a href="javascript:void(0)" data-confirm-msg="Are you sure you would like to delete this pitch record?" data- data-toggle="modal" data-target="#delete_modal" @click="deletePitch(pitch.id)"><i class="jv-icon jv-dustbin"></i></a>
-                                        </span>
-                                    </td>
+                                <tr v-for="(pitchSizeDetail, pitchSize) in pitchSizeWiseSummaryArray">
+                                    <td class="text-left">{{ pitchSize }}</td>
+                                    <td class="text-left">{{ pitchSizeDetail.availableTime }}</td>
+                                    <td class="text-left">{{ pitchSizeDetail.timeRequired }}</td>
+                                    <td class="text-left" :class="[pitchSizeDetail.balanceSign == '-' ? 'red' : 'text-success']">{{ pitchSizeDetail.balance }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-left"><strong>{{ $lang.totals }}</strong></td>
+                                    <td class="text-left">{{ pitchSizeWiseSummaryTotal.totalAvailableTime }}</td>
+                                    <td class="text-left">{{ pitchSizeWiseSummaryTotal.totalTimeRequired }}</td>
+                                    <td class="text-left" :class="[pitchSizeWiseSummaryTotal.totalBalanceSign == '-' ? 'red' : 'text-success']">{{ pitchSizeWiseSummaryTotal.totalBalance }}</td>
                                 </tr>
                             </tbody>
                         </table>
-                        <div class="dashbox mb-2">
-                            <p class="row">
-                                <label class="col-md-3"><strong>{{$lang.pitch_totaL_time}}</strong></label>
-                                <label class="col-md-5">{{((tournamentTime - (tournamentTime % 60)) / 60)+ ' hrs ' + (tournamentTime % 60) + ' mins '}}</label>
-                            </p>
-                            <p class="row">
-                                <label class="col-md-3"><strong>{{$lang.pitch_total_capacity}}</strong></label>
-                                <label class="col-md-5">{{((pitchCapacity - (pitchCapacity % 60)) / 60)+ ' hrs ' + (pitchCapacity % 60) + ' mins '}}</label>
-                            </p>
-                            <p class="row mb-0">
-                                <label class="col-md-3 m-0"><strong>{{$lang.pitch_balance}}</strong></label>
-                                <label :class="[parseInt(pitchCapacity-tournamentTime)<0? 'red': 'text-success','col-md-5 m-0' ]">{{ pitchAvailableBalance[2] + '' +pitchAvailableBalance[0]+ ' hrs ' + pitchAvailableBalance[1] + ' mins '}}</label>
-                            </p>
+                    </div>
+                </div>
+
+                <div v-for="(locationDetail, locationId) in locationSizeWiseSummaryArray">
+                    <div class="row my-3">
+                      <div class="col-3 align-self-center">
+                          <h6 class="mb-0 fieldset-title"><strong>Venue - {{ locationDetail.name }}</strong></h6>
+                      </div>
+                    </div>
+                    <div class="row">
+                        <div class="result col-md-12">
+                            <table class="table table-hover table-bordered mb-0 pitch_size_summary">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">Pitch</th>
+                                        <th class="text-center">{{$lang.pitch_available_time}}</th>
+                                        <th class="text-center">Total time used</th>
+                                        <th class="text-center">{{$lang.pitch_balance}}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="(pitchSizeDetail, pitchSize) in locationDetail.sizes">
+                                        <td class="text-left">{{ pitchSize }}</td>
+                                        <td class="text-left">{{ pitchSizeDetail.availableTime }}</td>
+                                        <td class="text-left">{{ pitchSizeDetail.timeUsed }}</td>
+                                        <td class="text-left" :class="[pitchSizeDetail.balanceSign == '-' ? 'red' : 'text-success']">{{ pitchSizeDetail.balance }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-left"><strong>{{ $lang.totals }}</strong></td>
+                                        <td class="text-left">{{ locationWiseSummaryTotal[locationId].totalAvailableTime }}</td>
+                                        <td class="text-left">{{ locationWiseSummaryTotal[locationId].totalTimeUsed }}</td>
+                                        <td class="text-left" :class="[locationWiseSummaryTotal[locationId].totalBalanceSign == '-' ? 'red' : 'text-success']">{{ locationWiseSummaryTotal[locationId].totalBalance }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -74,7 +193,11 @@
 import editPitchDetail from '../../../views/admin/eurosport/editPitchDetail.vue'
 import addPitchDetail from '../../../views/admin/eurosport/addPitchDetail.vue'
 import DeleteModal from '../../../components/DeleteModal.vue'
+import Pitch from '../../../api/pitch'
+import Tournament from '../../../api/tournament.js'
+import draggable from 'vuedraggable';
     export default {
+        components: { draggable },
         data() {
             return {
                 'tournamentId': this.$store.state.Tournament.tournamentId,
@@ -88,54 +211,62 @@ import DeleteModal from '../../../components/DeleteModal.vue'
                 'availableDate': [],
                 'deleteConfirmMsg': 'Are you sure you would like to delete this pitch? All matches on this pitch will be un-scheduled.',
                 'deletePitchId': '',
-                'dispPitch': false
-                }
+                'dispPitch': false,
+                'pitchSizeWiseSummaryData': {
+                    'allPitchSizes': [],
+                    'totalAvailableTimePitchSizeWise': {},
+                    'totalTimeRequiredPitchSizeWise': {},
+                },
+                'pitchSizeWiseSummaryArray': {},
+                'pitchSizeWiseSummaryTotal': {
+                    'totalAvailableTime': 0,
+                    'totalTimeRequired': 0,
+                    'totalBalance': 0,
+                    'totalBalanceSign': '+',
+                },
+                'locationWiseSummaryData': {
+                    'allLocations': [],
+                    'allPitchSizes': [],
+                    'allPitches': [],
+                    'totalAvailableTimeLocationWise': {},
+                    'totalTimeUsedLocationWise': {},
+                },
+                'locationSizeWiseSummaryArray': {},
+                'locationWiseSummaryTotal': {},
+                'dragPitches':this.$store.state.Pitch.pitches,
+                pitchDataSearch: '',
+                selectedVenue: '',
+                venuesOptions:[],
+                searchDisplayData: false,
+            }
         },
 
         created: function() {
-             this.$root.$on('displayPitch', this.displayPitch);
-             this.$root.$on('pitchrefresh', this.getAllPitches);
+            this.$root.$on('displayPitch', this.displayPitch);
+            this.$root.$on('pitchrefresh', this.getAllPitches);
+            this.$root.$on('getPitchSizeWiseSummary', this.getPitchSizeWiseSummary);
+            this.$root.$on('getLocationWiseSummary', this.getLocationWiseSummary);
+            this.getPitchSizeWiseSummary();
+            this.getLocationWiseSummary();
+            this.displayTournamentCompetationList();
+        },
+        beforeCreate: function() {
+            // Remove custom event listener
+            this.$root.$off('displayPitch');
+            this.$root.$off('pitchrefresh');
+            this.$root.$off('getPitchSizeWiseSummary');
+            this.$root.$off('getLocationWiseSummary');
         },
         components: {
-            editPitchDetail,addPitchDetail,DeleteModal
+            editPitchDetail,addPitchDetail,DeleteModal,draggable
         },
         computed: {
-            tournamentTime: function() {
-                return this.$store.state.Tournament.currentTotalTime
-            },
             pitchId: function(){
                 return _.cloneDeep(this.$store.getters.curPitchId)
-            },
-            pitches: function() {
-                return this.$store.state.Pitch.pitches
             },
             pitchData: function() {
                 return this.$store.state.Pitch.pitchData
             },
-            pitchCapacity: function() {
-                return this.$store.state.Pitch.pitchCapacity
-            },
-            pitchAvailableBalance : function() {
-                let pitchavailableBalance = []
-                let tournamentAvailableTime =  this.tournamentTime
-                let pitchCapacityTime =this.pitchCapacity
-                let availableTime = pitchCapacityTime - tournamentAvailableTime
-                var minutes = availableTime % 60;
-                var hours = (availableTime - minutes) / 60;
-
-                if(minutes<0){
-                    minutes = parseInt(0- minutes)
-                }
-                if(hours<0){
-                    hours = parseInt(0- hours)
-                }
-                let pitchSign= ''
-                if(this.tournamentTime > this.pitchCapacity){
-                  pitchSign = '-'
-                }
-                pitchavailableBalance.push (hours,minutes,pitchSign)
-                return pitchavailableBalance
-            }
         },
         mounted(){
             this.getAllPitches()
@@ -148,7 +279,7 @@ import DeleteModal from '../../../components/DeleteModal.vue'
               let currentNavigationData = {activeTab:'pitch_capacity', currentPage: 'Pitch Capacity'}
                 this.$store.dispatch('setActiveTab', currentNavigationData)
             }
-            Plugin.initPlugins(['Select2','BootstrapSelect','TimePickers','MultiSelect','DatePicker','SwitchToggles', 'addstage'])
+            Plugin.initPlugins(['Select2','TimePickers','MultiSelect','DatePicker', 'addstage'])
             // this.stage_capacity1 ='5.30';
             // this.stage_capacity1 ='5.30';
             // this.stage_capacity1 ='5.30';
@@ -229,6 +360,7 @@ import DeleteModal from '../../../components/DeleteModal.vue'
             // $('.ls-datepicker').datepicker('setDatesDisabled', this.disableDate);
             // $('.sdate').datepicker('setDatesDisabled', this.disableDate);
             let this3 = this
+            this.getVenuesDropDownData();
 
         },
         methods: {
@@ -236,7 +368,10 @@ import DeleteModal from '../../../components/DeleteModal.vue'
               this.dispPitch = false
             },
             getAllPitches() {
-                this.$store.dispatch('SetPitches',this.tournamentId);
+                let vm = this;
+                this.$store.dispatch('SetPitches',this.tournamentId).then((pitches) => {
+                    vm.dragPitches = pitches;
+                });
                 this.$store.dispatch('SetVenues',this.tournamentId);
             },
             deletePitch (pitchId) {
@@ -318,7 +453,10 @@ import DeleteModal from '../../../components/DeleteModal.vue'
                     $('#addPitchModal').modal('show')
                     $("#addPitchModal").on('hidden.bs.modal', function () {
                        vm.getAllPitches()
+                       vm.getPitchSizeWiseSummary();
+                       vm.getLocationWiseSummary();
                        vm.$root.$emit('')
+                       vm.resetSearchFilter();
                   });
                 },1000)
 
@@ -332,18 +470,23 @@ import DeleteModal from '../../../components/DeleteModal.vue'
                 setTimeout(function(){
                     this1.$store.dispatch('PitchData',pitchId)
                     this1.getAllPitches()
+                    this1.resetSearchFilter();
                 },1000)
 
             },
             removePitch(pitchId) {
+                let vm = this;
                 // this.$store.dispatch('removePitch',pitchId)
                 // toastr['warning']('All schedules with this pitch will be removerd', 'Warning');
                 return axios.post('/api/pitch/delete/'+pitchId).then(response =>  {
-                    this.getAllPitches()
+                    //this.getAllPitches()
                    $("#delete_modal").modal("hide");
                     toastr.success('Pitch successfully deleted.', 'Delete Pitch', {timeOut: 5000});
                     // toastr['success']('Pitch Successfully removed', 'Success');
-                    this.getAllPitches()
+                    vm.getAllPitches();
+                    vm.getPitchSizeWiseSummary();
+                    vm.getLocationWiseSummary();
+                    vm.resetSearchFilter();
                     }).catch(error => {
                     if (error.response.status == 401) {
                         toastr['error']('Invalid Credentials', 'Error');
@@ -359,6 +502,353 @@ import DeleteModal from '../../../components/DeleteModal.vue'
                 //     toastr.success('User has been deleted succesfully.', 'Delete User', {timeOut: 5000});
                 //     this.updateUserList();
                 // });
+            },
+            getPitchSizeWiseSummary() {
+                if (!isNaN(this.tournamentId)) {
+                    let vm = this;
+                    vm.pitchSizeWiseSummaryData = this.defaultPitchSizeWiseSummaryData();
+                    vm.pitchSizeWiseSummaryArray = {};
+                    vm.pitchSizeWiseSummaryTotal = this.defaultPitchSizeWiseSummaryTotal();
+
+                    Pitch.getPitchSizeWiseSummary(this.tournamentId).then (
+                      (response) => {
+                        vm.pitchSizeWiseSummaryData = response.data;
+                        let allPitchSizes = response.data.allPitchSizes;
+                        let totalAvailableTime = 0;
+                        let totalTimeRequired = 0;
+                        let totalBalance = 0;
+
+                        for(let i=0; i<allPitchSizes.length; i++) {
+                            let pitchSize = allPitchSizes[i];
+                            let pitchSizeDetail = {};
+                            let availableTime = vm.getAvailableTimeOfPitchSize(pitchSize);
+                            let timeRequired = vm.getRequiredTimeForPitchSize(pitchSize);
+                            let balance = vm.getPitchSizeBalance(pitchSize);
+
+                            totalAvailableTime += availableTime;
+                            totalTimeRequired += timeRequired;
+                            totalBalance += balance;
+
+                            let minutes = balance % 60;
+                            let hours = (balance - minutes) / 60;
+
+                            if(minutes<0){
+                                minutes = parseInt(0 - minutes)
+                            }
+                            if(hours<0){
+                                hours = parseInt(0 - hours)
+                            }
+
+                            pitchSizeDetail.availableTime = ( ((availableTime - (availableTime % 60)) / 60) + ' hrs ' + (availableTime % 60) + ' mins');
+                            pitchSizeDetail.timeRequired = ( ((timeRequired - (timeRequired % 60)) / 60) + ' hrs ' + (timeRequired % 60) + ' mins');
+                            pitchSizeDetail.balance = (balance < 0 ? '-' : '') + ( hours + ' hrs ' + minutes + ' mins' );
+                            pitchSizeDetail.balanceSign = balance < 0 ? '-' : '+';
+
+                            vm.pitchSizeWiseSummaryArray[pitchSize] = pitchSizeDetail;
+                        }
+
+                        let minutes = totalBalance % 60;
+                        let hours = (totalBalance - minutes) / 60;
+
+                        if(minutes<0){
+                            minutes = parseInt(0 - minutes)
+                        }
+                        if(hours<0){
+                            hours = parseInt(0 - hours)
+                        }
+
+                        vm.pitchSizeWiseSummaryTotal.totalAvailableTime = ( ((totalAvailableTime - (totalAvailableTime % 60)) / 60) + ' hrs ' + (totalAvailableTime % 60) + ' mins');
+                        vm.pitchSizeWiseSummaryTotal.totalTimeRequired = ( ((totalTimeRequired - (totalTimeRequired % 60)) / 60) + ' hrs ' + (totalTimeRequired % 60) + ' mins');
+                        vm.pitchSizeWiseSummaryTotal.totalBalance = (totalBalance < 0 ? '-' : '') + ( hours + ' hrs ' + minutes + ' mins' );
+                        vm.pitchSizeWiseSummaryTotal.totalBalanceSign = totalBalance < 0 ? '-' : '+';
+                      },
+                      (error) => {
+                      }
+                    )
+                } else {
+                  this.TournamentId = 0;
+                }
+            },
+            defaultPitchSizeWiseSummaryData() {
+                return {
+                    'allPitchSizes': [],
+                    'totalAvailableTimePitchSizeWise': {},
+                    'totalTimeRequiredPitchSizeWise': {},
+                }
+            },
+            defaultPitchSizeWiseSummaryTotal() {
+                return {
+                    'totalAvailableTime': 0,
+                    'totalTimeRequired': 0,
+                    'totalBalance': 0,
+                    'totalBalanceSign': '+',
+                };
+            },
+            getAvailableTimeOfPitchSize(pitchSize) {
+                let totalAvailableTimePitchSizeWise = this.pitchSizeWiseSummaryData.totalAvailableTimePitchSizeWise;
+                let timeInMinutes = 0;
+                if(totalAvailableTimePitchSizeWise.hasOwnProperty(pitchSize)) {
+                    timeInMinutes = parseInt(totalAvailableTimePitchSizeWise[pitchSize]);
+                }
+                return timeInMinutes;
+            },
+            getRequiredTimeForPitchSize(pitchSize) {
+                let totalTimeRequiredPitchSizeWise = this.pitchSizeWiseSummaryData.totalTimeRequiredPitchSizeWise;
+                let timeInMinutes = 0;
+                if(totalTimeRequiredPitchSizeWise.hasOwnProperty(pitchSize)) {
+                    timeInMinutes = parseInt(totalTimeRequiredPitchSizeWise[pitchSize]);
+                }
+                return timeInMinutes;
+            },
+            getPitchSizeBalance(pitchSize) {
+                let totalAvailableTimePitchSizeWise = this.pitchSizeWiseSummaryData.totalAvailableTimePitchSizeWise;
+                let totalTimeRequiredPitchSizeWise = this.pitchSizeWiseSummaryData.totalTimeRequiredPitchSizeWise;
+                let totalAvailableTime = 0;
+                let totalTimeRequired = 0;
+
+                if(totalAvailableTimePitchSizeWise.hasOwnProperty(pitchSize)) {
+                    totalAvailableTime = parseInt(totalAvailableTimePitchSizeWise[pitchSize]);
+                }
+                if(totalTimeRequiredPitchSizeWise.hasOwnProperty(pitchSize)) {
+                    totalTimeRequired = parseInt(totalTimeRequiredPitchSizeWise[pitchSize]);
+                }
+
+                return (totalAvailableTime - totalTimeRequired);
+            },
+            displayTournamentCompetationList () {
+              $("body .js-loader").removeClass('d-none');
+                this.TournamentId = parseInt(this.$store.state.Tournament.tournamentId)
+                // Only called if valid tournament id is Present
+                if (!isNaN(this.TournamentId)) {
+                    // here we add data for
+                    let TournamentData = {'tournament_id': this.TournamentId}
+                    Tournament.getCompetationFormat(TournamentData).then(
+                    (response) => {
+                      $("body .js-loader").addClass('d-none');
+                        let time_sum= 0;
+                        response.data.data.reduce(function (a,b) {
+                            time_sum += b['total_time']
+                        },0);
+                        this.$store.dispatch('SetTournamentTotalTime', time_sum);
+                    },
+                    (error) => {
+                    }
+                    )
+                } else {
+                  this.TournamentId = 0;
+                }
+            },
+            generatePitchMatchReport(pitchId) {
+               // var win = window.open("/api/pitch/reportCard/" + pitchId);
+               // win.focus();
+               var pitchPrintWindow = window.open('', '_parent');
+                Tournament.getSignedUrlForPitchMatchReport(pitchId).then(
+                    (response) => {
+                       pitchPrintWindow.location = response.data;
+                    },
+                    (error) => {
+
+                    }
+                )
+            },
+            getLocationWiseSummary() {
+                if (!isNaN(this.tournamentId)) {
+                    let vm = this;
+                    vm.locationWiseSummaryData = this.defaultLocationWiseSummaryData();
+                    vm.locationSizeWiseSummaryArray = {};
+
+                    Pitch.getLocationWiseSummary(this.tournamentId).then (
+                      (response) => {
+                        vm.locationWiseSummaryData = response.data;
+                        let allLocations = response.data.allLocations;
+                        let allPitchSizes = response.data.allPitchSizes;
+                        let locationSizeWiseSummaryArray = {};
+                        let locationWiseSummaryTotal = {};
+                        for(let i=0; i<allLocations.length; i++) {
+                            let totalAvailableTime = 0;
+                            let totalTimeUsed = 0;
+                            let totalBalance = 0;
+                            let location = allLocations[i];
+                            let locationId = allLocations[i].id;
+                            locationSizeWiseSummaryArray[locationId] = {};
+                            locationSizeWiseSummaryArray[locationId]['name'] = location.name;
+                            locationSizeWiseSummaryArray[locationId]['sizes'] = {};
+                            locationWiseSummaryTotal[locationId] = this.defaultLocationWiseSummaryTotal();
+                            for(let j=0; j<allPitchSizes.length; j++) {
+                                let locationSizeDetail = {};
+                                let size = allPitchSizes[j];
+
+                                let availableTime = vm.getAvailableTimeOfLocationSize(locationId, size);
+                                let timeUsed = vm.getRequiredTimeForLocationSize(locationId, size);
+                                let balance = vm.getLocationBalanceSize(locationId, size);
+
+                                totalAvailableTime += availableTime;
+                                totalTimeUsed += timeUsed;
+                                totalBalance += balance;
+
+                                let minutes = balance % 60;
+                                let hours = (balance - minutes) / 60;
+
+                                if(minutes<0){
+                                    minutes = parseInt(0 - minutes)
+                                }
+                                if(hours<0){
+                                    hours = parseInt(0 - hours)
+                                }
+
+                                if(availableTime > 0 || timeUsed > 0) {
+                                    locationSizeDetail.availableTime = ( ((availableTime - (availableTime % 60)) / 60) + ' hrs ' + (availableTime % 60) + ' mins');
+                                    locationSizeDetail.timeUsed = ( ((timeUsed - (timeUsed % 60)) / 60) + ' hrs ' + (timeUsed % 60) + ' mins');
+                                    locationSizeDetail.balance = (balance < 0 ? '-' : '') + ( hours + ' hrs ' + minutes + ' mins' );
+                                    locationSizeDetail.balanceSign = balance < 0 ? '-' : '+';
+
+                                    locationSizeWiseSummaryArray[locationId]['sizes'][size] = locationSizeDetail;
+                                }
+                            }
+                            let minutes = totalBalance % 60;
+                            let hours = (totalBalance - minutes) / 60;
+
+                            if(minutes<0){
+                                minutes = parseInt(0 - minutes)
+                            }
+                            if(hours<0){
+                                hours = parseInt(0 - hours)
+                            }
+
+                            locationWiseSummaryTotal[locationId].totalAvailableTime = ( ((totalAvailableTime - (totalAvailableTime % 60)) / 60) + ' hrs ' + (totalAvailableTime % 60) + ' mins');
+                            locationWiseSummaryTotal[locationId].totalTimeUsed = ( ((totalTimeUsed - (totalTimeUsed % 60)) / 60) + ' hrs ' + (totalTimeUsed % 60) + ' mins');
+                            locationWiseSummaryTotal[locationId].totalBalance = (totalBalance < 0 ? '-' : '') + ( hours + ' hrs ' + minutes + ' mins' );
+                            locationWiseSummaryTotal[locationId].totalBalanceSign = totalBalance < 0 ? '-' : '+';
+                        }
+                        vm.locationSizeWiseSummaryArray = locationSizeWiseSummaryArray;
+                        vm.locationWiseSummaryTotal = locationWiseSummaryTotal;
+                      },
+                      (error) => {
+                      }
+                    )
+                } else {
+                  this.TournamentId = 0;
+                }
+            },
+            defaultLocationWiseSummaryData() {
+                return {
+                    'allLocations': [],
+                    'allPitches': [],
+                    'totalAvailableTimeLocationWise': {},
+                    'totalTimeUsedLocationWise': {},
+                }
+            },
+            defaultLocationWiseSummaryTotal() {
+                return {
+                    'totalAvailableTime': 0,
+                    'totalTimeRequired': 0,
+                    'totalBalance': 0,
+                    'totalBalanceSign': '+',
+                };
+            },
+            getAvailableTimeOfLocationSize(locationId, size) {
+                let totalAvailableTimeLocationWise = this.locationWiseSummaryData.totalAvailableTimeLocationWise;
+                let timeInMinutes = 0;
+                if(totalAvailableTimeLocationWise.hasOwnProperty(locationId)) {
+                    if (totalAvailableTimeLocationWise[locationId][size]) {
+                        timeInMinutes = parseInt(totalAvailableTimeLocationWise[locationId][size]);
+                    }
+                }
+                return timeInMinutes;
+            },
+            getRequiredTimeForLocationSize(locationId, size) {
+                let totalTimeUsedLocationWise = this.locationWiseSummaryData.totalTimeUsedLocationWise;
+                let timeInMinutes = 0;
+                if(totalTimeUsedLocationWise.hasOwnProperty(locationId)) {
+                    if (totalTimeUsedLocationWise[locationId][size]) {
+                        timeInMinutes = parseInt(totalTimeUsedLocationWise[locationId][size]);
+                    }
+                }
+                return timeInMinutes;
+            },
+            getLocationBalanceSize(locationId, size) {
+                let totalAvailableTimeLocationWise = this.locationWiseSummaryData.totalAvailableTimeLocationWise;
+                let totalTimeUsedLocationWise = this.locationWiseSummaryData.totalTimeUsedLocationWise;
+                let totalAvailableTime = 0;
+                let totalTimeRequired = 0;
+
+                if(totalAvailableTimeLocationWise.hasOwnProperty(locationId)) {
+                    if (totalAvailableTimeLocationWise[locationId][size]) {
+                        totalAvailableTime = parseInt(totalAvailableTimeLocationWise[locationId][size]);
+                    }
+                }
+                if(totalTimeUsedLocationWise.hasOwnProperty(locationId)) {
+                    if (totalTimeUsedLocationWise[locationId][size]) {
+                        totalTimeRequired = parseInt(totalTimeUsedLocationWise[locationId][size]);
+                    }
+                }
+                return (totalAvailableTime - totalTimeRequired);
+            },
+            updatePitchOrder() {
+                let vm = this;
+                var pitchIds = _.map(this.dragPitches, 'id');
+                return axios.post('/api/pitch/updatePitchOrder', pitchIds).then(response =>  {
+                    toastr.success('The order of the pitches has been updated', 'Pitch Order', {timeOut: 5000});
+                    vm.getAllPitches();
+                }).catch(error => {
+                    if (error.response.status == 401) {
+                        toastr['error']('Invalid Credentials', 'Error');
+                    } else {
+                        toastr.error('Pitches order not successfully updated', 'Pitch Order', {timeOut: 5000});
+                    }
+                });
+            },
+            getPitchSearchData(){
+                let tournamentData = {'tournament_id': this.tournamentId, 'pitchDataSearch': this.pitchDataSearch,
+                    'selectedVenue': this.selectedVenue}
+                let vm = this;
+                Pitch.getPicthSearchRecord(tournamentData).then (
+                    (response) => {
+                    this.dragPitches = [];
+                    this.searchDisplayData = false;
+                    if(this.selectedVenue != '' || this.pitchDataSearch != '') {
+                        this.searchDisplayData = true;
+                    }
+                    this.dragPitches = response.data.pitches;
+                    _.forEach(this.dragPitches , function(pitch, index) {
+                        let i = 1;
+                        let stageTime = {}
+                        
+                        _.forEach(pitch.pitch_availability, function(pitchAvailable) {
+                            
+                            if(pitchAvailable.break_enable == '0' || pitchAvailable.break_enable == '1'  ) {
+
+                                let stageStr = "Day " + pitchAvailable.stage_no +" : "+pitchAvailable.stage_start_time+'-';
+
+                                _.forEach(pitchAvailable.pitch_breaks, function(pitchBreaks) {
+                                    stageStr = stageStr +pitchBreaks.break_start+', '+pitchBreaks.break_end+'-';
+                                });
+
+                                stageStr = stageStr + pitchAvailable.stage_end_time;
+                
+                                stageTime[pitch.id+"_"+i]  = stageStr;
+
+                                i++;
+                                
+                            }
+                            vm.dragPitches[index].pitch_av_text = stageTime; 
+                        });
+
+                    });
+                });
+            },
+
+            getVenuesDropDownData() {
+                let tournamentData = {'tournament_id': this.tournamentId}
+                Pitch.getVenuesDropDownData(tournamentData).then (
+                      (response) => {
+                        this.venuesOptions = response.data.venues;
+                });
+            },
+            resetSearchFilter() {
+                this.selectedVenue = '';
+                this.pitchDataSearch = '';
+                this.searchDisplayData = false;
             }
         }
     }

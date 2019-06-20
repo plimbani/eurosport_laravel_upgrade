@@ -28,3 +28,8 @@
 .refdel {
   z-index : 9999
 }
+
+.modal-fixed-height {
+  max-height: 450px;
+  overflow-y: scroll;
+}

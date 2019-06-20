@@ -63,7 +63,7 @@ return [
             'charset' => 'utf8',
             'collation' => 'utf8_unicode_ci',
             'prefix' => '',
-            'strict' => true,
+            'strict' => false,
             'engine' => null,
         ],
 
@@ -107,6 +107,8 @@ return [
     */
 
     'redis' => [
+
+        'client' => 'predis',
 
         'cluster' => false,
 
