@@ -166,7 +166,7 @@ class TemplateRepository
         $totalTeams = $templateFormDetail['stepone']['no_of_teams'];
         $finalArray = [];
         $finalArray['tournament_teams'] = $totalTeams;
-        $finalArray['remark'] = $templateFormDetail['stepfour']['remarks'];
+        $templateFormDetail['stepfour']['remarks'] ? $finalArray['remark'] = $templateFormDetail['stepfour']['remarks'] : null;
         $finalArray['template_font_color'] = $templateFormDetail['stepfour']['template_font_color'];
         $finalArray['tournament_name'] = $templateFormDetail['stepone']['templateName'];
         $finalArray['tournament_competation_format'] = [];
@@ -185,8 +185,6 @@ class TemplateRepository
         $displayMatchNumber = '';
         $displayHomeTeamPlaceholderName = '';
         $displayAwayTeamPlaceholderName = '';
-
-        // print_r($templateFormDetail['steptwo']['rounds']);exit;
 
         foreach ($templateFormDetail['steptwo']['rounds'] as $roundIndex => $round) {
             $roundDetail = [];
@@ -250,8 +248,6 @@ class TemplateRepository
         $finalArray['position_type'] = $positionType;
         $finalArray['tournament_positions'] = $tournamentsPositionsData;
         $finalArray['round_schedule'] = $data['templateFormDetail']['stepfour']['roundSchedules'];
-
-        // dd(json_encode($finalArray));
 
         return json_encode($finalArray);
     }
@@ -526,7 +522,7 @@ class TemplateRepository
                 $groupName = "PM" . ($placingGroupCount + 1);
             }
 
-            if($roundIndex === 0 && $group['type'] === 'round_robin') {
+            if($divisionIndex === -1 && $roundIndex === 0 && $group['type'] === 'round_robin') {
                 // $matches = [];
                 $times = $this->getNumberOfTimesFromString($times);
                 $fetchRoundMatches = $this->ageGroupService->generateRoundFixturesBaseOnTeam($noOfTeams);
@@ -650,9 +646,17 @@ class TemplateRepository
                 }
             }
 
-            if(($roundIndex > 0 && $group['type'] === "round_robin")) {
+            if(( (($divisionIndex > -1 && $roundIndex === 0) || $roundIndex > 0) && $group['type'] === "round_robin")) {
                 $times = $this->getNumberOfTimesFromString($times);
                 $fetchRoundMatches = $this->ageGroupService->generateRoundFixturesBaseOnTeam($noOfTeams);
+
+                $teams = $groupData['teams'];
+                if($divisionIndex > -1 && $roundIndex === 0) {
+                    $teams = [];
+                    for ($teamIndex = 0; $teamIndex < count($group['teams']); $teamIndex++) {
+                        $teams[$teamIndex] = $divisionDetail['divisionTeams'][$group['teams'][$teamIndex]['position']];
+                    }
+                }
 
                 for($i=0; $i<$times; $i++){
                     foreach ($fetchRoundMatches as $key => $week) {
@@ -665,8 +669,8 @@ class TemplateRepository
                             $displayMatchNumber = null;
                             $displayHomeTeamPlaceholderName = null;
                             $displayAwayTeamPlaceholderName = null;
-                            $team1 = $groupData['teams'][intval($home) - 1];
-                            $team2 = $groupData['teams'][intval($away) - 1];
+                            $team1 = $teams[intval($home) - 1];
+                            $team2 = $teams[intval($away) - 1];
                             $divisionRoundGroupPosition1 = explode(',', $team1['position']);
                             $divisionRoundGroupPosition2 = explode(',', $team2['position']);
                             $teamRoundData1 = null;
@@ -834,11 +838,13 @@ class TemplateRepository
                         $displayAwayTeamPlaceholderName = $awayTeamData['teamDisplayPlaceholderName'];
                     }
 
-                    if( (($divisionIndex === -1 && ($roundIndex+1) === count($templateFormDetail['steptwo']['rounds'])) || ($divisionIndex >= 0 && $round === count($templateFormDetail['steptwo']['divisions'][$divisionIndex]['rounds'])))
+                    if( (($divisionIndex === -1 && ($roundIndex+1) === count($templateFormDetail['steptwo']['rounds'])) || ($divisionIndex >= 0 && ($roundIndex+1) === count($templateFormDetail['steptwo']['divisions'][$divisionIndex]['rounds'])))
                         && ($groupIndex+1) === count($round['groups'])
                         && $group['type'] == 'placing_match') {
+                        // echo $divisionIndex . "in" . "<br/>";
                         $teamPosition = $divisionIndex. ',' .$roundIndex. ',' .$groupIndex. ',' .($currentMatch-1);
                         $position = $this->getMatchPosition($teamPosition, $templateFormDetail['stepthree']['placings']);
+                        // echo $position. "<br/>";
                     }
                     
                     $matchDetail = [
