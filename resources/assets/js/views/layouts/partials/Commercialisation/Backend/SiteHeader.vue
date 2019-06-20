@@ -72,7 +72,7 @@
                         <div class="col-sm-4">
                              <input v-model="adminsetting.currencyvalue" placeholder="for ex. 1.1" class="form-control">
                         </div>
-                        <div class="col-sm-4"><label class="mb-0">GBP</label></div>
+                        <div class="col-sm-4"><div class="mb-0">GBP</div></div>
                     </div>
                      
                 </div>
