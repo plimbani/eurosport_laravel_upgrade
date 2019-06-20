@@ -362,7 +362,7 @@ const mutations = {
 
               displayMatchName = displayMatchName.replace('@HOME', displayHomeTeamPlaceholder).replace('@AWAY', displayAwayTeamPlaceholder)
 
-              var match = {'fullGame':fullgame1,'competationColorCode':competationColorCode, 'matchName':mtchNum, 'displayMatchName': displayMatchName,'matchTime':matchTime,'matchId': match.fid,'isScheduled': match.is_scheduled,'ageGroupId':match.age_group_id,'competitionId':match.competitionId,'venueId':match.venueId,'categoryAgeColor':match.category_age_color,'categoryAgeFontColor':match.category_age_font_color};
+              var match = {'fullGame':fullgame1,'competationColorCode':competationColorCode, 'matchName':mtchNum, 'displayMatchName': displayMatchName,'matchTime':matchTime,'matchId': match.fid,'isScheduled': match.is_scheduled,'ageGroupId':match.age_group_id,'competitionId':match.competitionId,'venueId':match.venueId,'categoryAgeColor':match.category_age_color,'categoryAgeFontColor':match.category_age_font_color, 'scheduleLastUpdateDateTime':match.schedule_last_update_date_time};
               comp.push(match)
 
               if(match.is_scheduled!=1){

@@ -77,6 +77,7 @@
         <AutomaticPitchPlanning></AutomaticPitchPlanning>
         <AddRefereesModel :formValues="formValues" :competationList="competationList" :tournamentId="tournamentId" :refereeId="refereeId" ></AddRefereesModel>
         <UploadRefereesModel :tournamentId="tournamentId"></UploadRefereesModel>
+        <UnsavedMatchFixture :unChangedMatchFixtures="conflictedMatchFixtures"></UnsavedMatchFixture>
     </div>
 </template>
 <script type="text/babel">
@@ -89,10 +90,11 @@
     import Tournament from '../api/tournament.js'
     import AutomaticPitchPlanning from './AutomaticPitchPlanningModal.vue'
     import BulkUnscheduledfixtureModal from './BulkUnscheduledfixtureModal.vue'
+    import UnsavedMatchFixture from './UnsavedMatchFixture.vue'
 
     export default  {
         components: {
-            GamesTab, RefereesTab, PitchPlannerStage, AddRefereesModel, UploadRefereesModel, AutomaticPitchPlanning, BulkUnscheduledfixtureModal
+            GamesTab, RefereesTab, PitchPlannerStage, AddRefereesModel, UploadRefereesModel, AutomaticPitchPlanning, BulkUnscheduledfixtureModal, UnsavedMatchFixture
         },
         computed: {
             GameActiveTab () {
@@ -185,6 +187,7 @@
                 'scheduleMatchesArray': [],
                 'gamesMatchList': [],
                 'isMatchScheduleInEdit': false,
+                'conflictedMatchFixtures': [],
             };
         },
         mounted() {
@@ -521,22 +524,37 @@
             confirmUnschedulingFixtures() {
                 let vm = this;
                 var matchId = [];
+                var matchDetail = [];
                 $(".match-unschedule-checkbox").each(function( index ) {
                     var checkboxChecked = $(this).is(':checked');
                     if(checkboxChecked) {
                         matchId.push($(this).attr('id'));
+                        matchDetail.push({
+                            'matchId': $(this).attr('id'), 
+                            'scheduleLastUpdateDateTime': $(this).data("schedulelastupdatedatetime")
+                        }) 
                     }
                 });
 
-                Tournament.matchUnscheduledFixtures(matchId).then(
+                Tournament.matchUnscheduledFixtures(matchDetail).then(
                 (response) => {
                     $('#bulk_unscheduled_fixtures').modal('hide')
+                    vm.conflictedMatchFixtures = response.data.conflictedFixturesArray;
+                    if(vm.conflictedMatchFixtures.length > 0) {
+                        $('#unChangedMatchFixtureModal').modal('show');
+                    }
+
                     setTimeout(function(){
                         _.forEach(matchId, function(value, key) {
                             $('div.fc-unthemed').fullCalendar( 'removeEvents', [value] );
                         });
                     },200)
-                    toastr.success('Fixtures unscheduled successfully', 'Fixtures Unscheduled', {timeOut: 5000});
+
+                    if(response.data.areAllMatchFixtureUnScheduled == true) {
+                      toastr.success('Fixtures unscheduled successfully', 'Fixtures Unscheduled', {timeOut: 5000});
+                    }
+
+                    // toastr.success('Fixtures unscheduled successfully', 'Fixtures Unscheduled', {timeOut: 5000});
                     $("#unschedule_fixtures").html('Unschedule fixture').removeClass('btn btn-success');
                     $("#unschedule_fixtures").addClass('btn btn-primary btn-md btn-secondary');
                     $(".match-unschedule-checkbox-div").addClass('d-none');

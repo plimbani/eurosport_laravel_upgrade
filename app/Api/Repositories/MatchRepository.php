@@ -324,7 +324,8 @@ class MatchRepository
               'temp_fixtures.home_yellow_cards', 'temp_fixtures.away_yellow_cards',
               'temp_fixtures.home_red_cards', 'temp_fixtures.away_red_cards',
               'temp_fixtures.score_last_update_date_time',
-              DB::raw('CONCAT(home_team.name, " vs ", away_team.name) AS full_game')
+              DB::raw('CONCAT(home_team.name, " vs ", away_team.name) AS full_game'),
+              'temp_fixtures.schedule_last_update_date_time'
               )
           ->where('temp_fixtures.tournament_id', $tournamentData['tournamentId']);
 
@@ -1346,6 +1347,7 @@ class MatchRepository
 
     public function setMatchSchedule($data, $allowSchedulingForcefully = false)
     {
+      $isFixtureScheduled = true;
       $matchData = $data['matchData'];
       $scheduleMatchesArray = $data['isMultiSchedule'] === true ? $data['scheduleMatchesArray'] : [];
       $teamData = TempFixture::join('tournament_competation_template','temp_fixtures.age_group_id','tournament_competation_template.id')->where('temp_fixtures.id',$matchData['matchId'])->select('tournament_competation_template.team_interval','tournament_competation_template.pitch_size','temp_fixtures.*')->first()->toArray();
@@ -1442,11 +1444,15 @@ class MatchRepository
        //});
 
       if($matchResultCount->count() >0){
-        if( $allowSchedulingForcefully == false && ((strpos($teamData['match_number'],"RR1") != false) || (strpos($teamData['match_number'],"PM1" ) != false)) ) {
-          return -1;
-        }
+            if( $allowSchedulingForcefully == false && ((strpos($teamData['match_number'],"RR1") != false) || (strpos($teamData['match_number'],"PM1" ) != false)) ) {
+                return -1;
+            }
+            $setFlag = 1;
+      }
 
-        $setFlag = 1;
+      if($data['scheduleLastUpdateDateTime'] != $teamData['schedule_last_update_date_time']) {
+        $isFixtureScheduled = false;
+        return ['status' => false, 'message' => 'You need to refresh page to get latest updated fixtures.', 'data'=>$teamData, 'is_fixture_scheduled' => $isFixtureScheduled];
       }
 
       if($data['isMultiSchedule'] === false) {
@@ -1457,6 +1463,7 @@ class MatchRepository
           'match_endtime' => $matchData['matchEndDate'],
           'is_scheduled' => 1,
           'minimum_team_interval_flag' => $setFlag,
+          'schedule_last_update_date_time' => Carbon::now()
         ];
 
         $updateResult = DB::table('temp_fixtures')
@@ -1466,13 +1473,11 @@ class MatchRepository
         $matchData = array('teams'=>$teams,'tournamentId'=>$matchData['tournamentId'],'ageGroupId'=>$teamData['age_group_id'],'teamId'=>$teamId);
         $matchresult =  $this->checkTeamIntervalforMatches($matchData);
       }
-      return 1;
+      return ['status' => true, 'data' => $updateData, 'is_fixture_scheduled' => $isFixtureScheduled];
     }
     public function matchUnschedule($matchId)
     {
-
       $matchData = DB::table('temp_fixtures')->find($matchId);
-      // dd($matchData);
 
       $updateData = [
         'is_scheduled' => 0,
@@ -1483,28 +1488,27 @@ class MatchRepository
         'match_datetime' => NULL,
         'match_endtime' => NULL,
         'venue_id' => 0,
-
+        'schedule_last_update_date_time' => Carbon::now()
       ];
-     $updateResult =  DB::table('temp_fixtures')
+      $updateResult =  DB::table('temp_fixtures')
             ->where('id', $matchId)
             ->update($updateData);
-      // if($matchData->home_team !=0 && $matchData->away_team !=0) {
-        if($matchData->home_team != 0 && $matchData->away_team != 0) {
-          $teamId = true;
-          $teamsList = array($matchData->home_team, $matchData->away_team);
-        }else{
-          $teamId = false;
-          $teamsList = array($matchData->home_team_placeholder_name, $matchData->away_team_placeholder_name);
 
-        }
-        $tournamentId = $matchData->tournament_id;
-        $ageGroupId  = $matchData->age_group_id;
+      if($matchData->home_team != 0 && $matchData->away_team != 0) {
+        $teamId = true;
+        $teamsList = array($matchData->home_team, $matchData->away_team);
+      }else{
+        $teamId = false;
+        $teamsList = array($matchData->home_team_placeholder_name, $matchData->away_team_placeholder_name);
+      }
+      $tournamentId = $matchData->tournament_id;
+      $ageGroupId  = $matchData->age_group_id;
 
-        $matchData = array('teams'=>$teamsList,'tournamentId'=>$tournamentId,'ageGroupId'=>$ageGroupId,'teamId'=>$teamId);
+      $matchData = array('teams'=>$teamsList,'tournamentId'=>$tournamentId,'ageGroupId'=>$ageGroupId,'teamId'=>$teamId);
 
-        $matchresult =  $this->checkTeamIntervalforMatches($matchData);
-      // }
-     return $updateResult;
+      $matchresult =  $this->checkTeamIntervalforMatches($matchData);
+      
+      return $updateResult;
     }
 
     public function getAllScheduledMatches($data)
@@ -1687,8 +1691,26 @@ class MatchRepository
       }
     }
 
-    public function matchUnscheduledFixtures($matchId)
+    public function matchUnscheduledFixtures($matchData)
     {
+      $conflictedMatchFixtureIds = [];
+      $unConflictedMatchFixtureIds = [];
+      $conflictedFixtureMatchNumber = [];
+
+      foreach ($matchData['matchData'] as $key => $value) {
+        $tempFixture = TempFixture::find($value['matchId']);
+        if($value['scheduleLastUpdateDateTime'] != $tempFixture->schedule_last_update_date_time) {
+          $isFixturesUncheduled = false;
+          $conflictedFixtureMatchNumber[] = $tempFixture->match_number;
+        } else {
+          $unConflictedMatchFixtureIds[] = $value['matchId'];
+        }
+      }
+
+      if(sizeof($conflictedFixtureMatchNumber) > 0) {
+        return ['status' => false, 'message' => 'You need to refresh page to get latest updated fixtures.', 'data' => $tempFixture, 'is_fixture_unscheduled' => $isFixturesUncheduled, 'conflictedFixtureMatchNumber' => $conflictedFixtureMatchNumber];
+      }
+
       $updateMatchUnscheduledRecord = [
         'is_scheduled' => 0,
         'pitch_id' => 0,
@@ -1698,9 +1720,12 @@ class MatchRepository
         'match_datetime' => NULL,
         'match_endtime' => NULL,
         'venue_id' => 0,
+        'schedule_last_update_date_time' => Carbon::now()
       ];
 
-        $updateMacthFixtures = TempFixture::whereIn('id', $matchId['matchId'])->update($updateMatchUnscheduledRecord);
+      $updateMacthFixtures = TempFixture::whereIn('id', $unConflictedMatchFixtureIds)->update($updateMatchUnscheduledRecord);
+
+      return ['status' => true, 'data' => $updateMacthFixtures, 'conflictedFixtureMatchNumber' => $conflictedFixtureMatchNumber];
     }
 
 

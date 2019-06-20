@@ -165,11 +165,23 @@ class MatchService implements MatchContract
     }
 
     public function scheduleMatch($data) {
+        $matchFixturesStatusArray = [];
+        $areAllMatchFixtureScheduled = false;
         $data = $data->all()['data'];
         $scheduledResult = $this->matchRepoObj->setMatchSchedule($data);
+
+        $unChangedFixturesArray = [];
+        if($scheduledResult['status'] === false) {
+          $unChangedFixturesArray[] = $scheduledResult['data']['match_number'];
+        }
+
+        if(count($unChangedFixturesArray) === 0) {
+          $areAllMatchFixtureScheduled = true;
+        }
+
         if ($scheduledResult) {
             if($scheduledResult != -1 && $scheduledResult != -2){
-              return ['status_code' => '200', 'data' => $scheduledResult, 'message' => 'Match has been scheduled successfully'];
+              return ['status_code' => '200', 'data' => $scheduledResult, 'message' => 'Match has been scheduled successfully', 'unChangedFixturesArray' => $unChangedFixturesArray, 'areAllMatchFixtureScheduled' => $areAllMatchFixtureScheduled];
             } else if($scheduledResult == -1){
               return ['status_code' => '200', 'data' => $scheduledResult, 'message' => 'One or both teams are scheduled for a team interval.'];
             } else if($scheduledResult == -2){
@@ -2484,9 +2496,15 @@ class MatchService implements MatchContract
       }
     }
 
-    public function matchUnscheduledFixtures($matchId)
+    public function matchUnscheduledFixtures($matchData)
     {
-        return $this->matchRepoObj->matchUnscheduledFixtures($matchId);
+      $areAllMatchFixtureUnScheduled = false;
+      $result = $this->matchRepoObj->matchUnscheduledFixtures($matchData);
+      if(sizeof($result['conflictedFixtureMatchNumber']) === 0) {
+        $areAllMatchFixtureUnScheduled = true;
+      }
+
+      return ['status_code' => '200', 'data' => $result, 'message' => 'Match has been unscheduled successfully', 'conflictedFixturesArray' => $result['conflictedFixtureMatchNumber'], 'areAllMatchFixtureUnScheduled' => $areAllMatchFixtureUnScheduled];
     }
 
     public function processFixtures($fixtures)

@@ -3,6 +3,7 @@
         <div class='pitchPlanner' :id="'pitchPlanner'+stage.stageNumber"></div>
         <pitch-modal :matchFixture="matchFixture" :section="section" v-if="setPitchModal"></pitch-modal>
         <delete-modal1 :deleteConfirmMsg="deleteConfirmMsg"  @confirmedBlock="deleteConfirmedBlock()"></delete-modal1>
+        <UnsavedMatchFixture :unChangedMatchFixtures="unChangedMatchFixtures"></UnsavedMatchFixture>
     </div>
 </template>
 
@@ -11,6 +12,7 @@ import moment from 'moment'
 import Tournament from '../api/tournament.js'
 import PitchModal from '../components/PitchModal.vue';
 import DeleteModal1 from '../components/DeleteModalBlock.vue'
+import UnsavedMatchFixture from '../components/UnsavedMatchFixture.vue'
 
 import _ from 'lodash'
     export default {
@@ -29,6 +31,8 @@ import _ from 'lodash'
                 'remBlock_id': 0,
                 'section': 'pitchPlanner',
                 'currentScheduledMatch': null,
+                'unChangedMatchFixtureModalOpen': false,
+                'unChangedMatchFixtures': [],
                 // 'currentView': this.$store.getters.curStageView
             }
         },
@@ -36,6 +40,7 @@ import _ from 'lodash'
         components: {
             PitchModal,
             DeleteModal1,
+            UnsavedMatchFixture,
         },
         computed: {
             pitchesData() {
@@ -275,8 +280,9 @@ import _ from 'lodash'
                                 'pitchId': event.resourceId,
                                 'matchId': matchId,
                                 'matchStartDate': moment.utc(event.start._d).format('YYYY-MM-DD HH:mm:ss'),
-                                'matchEndDate':moment.utc(event.end._d).format('YYYY-MM-DD HH:mm:ss')
-                            };  
+                                'matchEndDate':moment.utc(event.end._d).format('YYYY-MM-DD HH:mm:ss'),
+                                'scheduleLastUpdateDateTime': event.scheduleLastUpdateDateTime,
+                            };
                             if(event.refereeId == -2){
                                  Tournament.setUnavailableBlock(matchData).then(
                                     (response) => {
@@ -302,6 +308,12 @@ import _ from 'lodash'
                                 (response) => {
                                     if(response.data.status_code == 200 ){
                                         if(response.data.data != -1 && response.data.data != -2){
+                                            vm.unChangedMatchFixtures = response.data.unChangedFixturesArray;
+                                            if(vm.unChangedMatchFixtures.length > 0) {
+                                              vm.unChangedMatchFixtureModalOpen = true;
+                                              $('#unChangedMatchFixtureModal').modal('show');
+                                            }
+
                                             vm.currentScheduledMatch.remove();
                                             vm.currentScheduledMatch = null;
                                             if(vm.isMatchScheduleInEdit === true) {
@@ -310,7 +322,9 @@ import _ from 'lodash'
                                                 // $(vm.$el).fullCalendar( 'removeEvents' )
                                             } else {
                                                 vm.$store.dispatch('setMatches');
-                                                toastr.success(response.data.message, 'Schedule Match', {timeOut: 5000});
+                                                if(response.data.areAllMatchFixtureScheduled == true) {
+                                                    toastr.success(response.data.message, 'Schedule Match', {timeOut: 5000});
+                                                }
                                                 vm.getScheduledMatch(vm.tournamentFilter.filterKey,vm.tournamentFilter.filterValue,vm.tournamentFilter.filterDependentKey,vm.tournamentFilter.filterDependentValue)
                                                 vm.reloadAllEvents()
                                             }
@@ -647,6 +661,7 @@ import _ from 'lodash'
                                     'categoryAgeFontColor': match.category_age_font_color,
                                     'competitionColorCode': match.competation_color_code,
                                     'matchRefereeId': match.referee_id ? match.referee_id : 0,
+                                    'scheduleLastUpdateDateTime': match.schedule_last_update_date_time
                                 }
                             sMatches.push(mData)
                             }
@@ -690,6 +705,7 @@ import _ from 'lodash'
                                         'categoryAgeFontColor': null,
                                         'competitionColorCode': null,
                                         'matchRefereeId': null,
+                                        'scheduleLastUpdateDateTime': null
                                     }
                                     sMatches.push(mData1)
                                     counter = counter+1;
@@ -728,6 +744,7 @@ import _ from 'lodash'
                                         'categoryAgeFontColor': null,
                                         'competitionColorCode': null,
                                         'matchRefereeId': null,
+                                        'scheduleLastUpdateDateTime': null
                                     }
                                     sMatches.push(mData2)
                                     counter = counter+1;
@@ -767,6 +784,7 @@ import _ from 'lodash'
                                             'categoryAgeFontColor': null,
                                             'competitionColorCode': null,
                                             'matchRefereeId': null,
+                                            'scheduleLastUpdateDateTime': null
                                         }
 
                                         sMatches.push(mData)
