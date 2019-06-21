@@ -256,11 +256,16 @@ class TemplateRepository
         foreach($finalArray['tournament_competation_format']['format_name'] as $roundIndex => $round) {
             $templateFormDetailGroup = $templateFormDetail['steptwo']['rounds'][$roundIndex]['groups'];
             $firstPlacingMatchIndex = array_search('placing_match', array_column($templateFormDetailGroup, 'type'));
+            $isReorderingRequired = false;
             foreach ($round['match_type'] as $groupIndex => $group) {
                 if($roundIndex === 0 && $groupIndex !== $firstPlacingMatchIndex && $templateFormDetailGroup[$groupIndex]['type'] === 'placing_match') {
+                    $isReorderingRequired = true;
                     unset($finalArray['tournament_competation_format']['format_name'][$roundIndex]['match_type'][$groupIndex]);
                     $finalArray['tournament_competation_format']['format_name'][$roundIndex]['match_type'][0]['dependent_groups'][] = $group;
                 }
+            }
+            if($isReorderingRequired) {
+                $finalArray['tournament_competation_format']['format_name'][$roundIndex]['match_type'] = array_values($finalArray['tournament_competation_format']['format_name'][$roundIndex]['match_type']);
             }
         }
 
