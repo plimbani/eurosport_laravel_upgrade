@@ -231,7 +231,11 @@ class TemplateRepository
             }
             if($placing['position_type'] == 'placed') {
                 $tournamentsPositionsData[$placingIndex]['dependent_type'] = 'ranking';
-                $roundDataTeam = $templateFormDetail['steptwo']['rounds'][$roundGroupPositionArray[1]];
+                if((int)$roundGroupPositionArray[0] === -1) {
+                    $roundDataTeam = $templateFormDetail['steptwo']['rounds'][$roundGroupPositionArray[1]];
+                } else {
+                    $roundDataTeam = $templateFormDetail['steptwo']['divisions'][$roundGroupPositionArray[0]]['rounds'][$roundGroupPositionArray[1]];
+                }
                 $groupName = $this->getRoundRobinGroupName($roundDataTeam, intval($roundGroupPositionArray[2]));
                 $team = (intval($roundGroupPositionArray[3]) + 1) . $groupName;
                 $tournamentsPositionsData[$placingIndex]['ranking'] = $team;
@@ -569,17 +573,15 @@ class TemplateRepository
 
                 foreach($round['groups'] as $index => $o) {
                     if($o['type'] === 'placing_match' && $index < $groupIndex) {
-                        $matches  = $finalArray['tournament_competation_format']['format_name'][$roundIndex]['match_type'][$index]['groups']['match'];
+                        $previousMatches  = $finalArray['tournament_competation_format']['format_name'][$roundIndex]['match_type'][$index]['groups']['match'];
                         // if($index === 0) {
                         //     $matches  = $finalArray['tournament_competation_format']['format_name'][$roundIndex]['match_type'][$index]['groups']['match'];
                         // } else {
                         //     $matches  = $finalArray['tournament_competation_format']['format_name'][$roundIndex]['match_type'][0]['dependent_groups'][$index-1]['groups']['match'];
                         // }
-                        $totalPlacingMatches += count($matches);
-                        $allPlacingMatches = array_merge($allPlacingMatches, $matches);
-                    }
-                    if(($index+1) < $groupIndex) {
-                        $prevPlacingMatchesCount += count($matches);
+                        $totalPlacingMatches += count($previousMatches);
+                        $allPlacingMatches = array_merge($allPlacingMatches, $previousMatches);
+                        $prevPlacingMatchesCount += count($previousMatches);
                     }
                 }
 
