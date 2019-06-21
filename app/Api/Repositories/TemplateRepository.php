@@ -9,7 +9,7 @@ use Laraspace\Traits\AuthUserDetail;
 use Laraspace\Models\TournamentTemplates;
 use Laraspace\Models\TournamentCompetationTemplates;
 use Laraspace\Api\Services\AgeGroupService;
-
+use Illuminate\Pagination\Paginator;
 
 class TemplateRepository
 {
@@ -49,9 +49,14 @@ class TemplateRepository
         $templates->whereNull('tournament_template.deleted_at');
         $templates->orderBy('tournament_template.created_at');
         $templates->select('tournament_template.*', 'users.email as userEmail');
-        $templates = $templates->get();
+        $templatesData = $templates->get();
         
-        return $templates;
+        $currentPage = $data['currentPage']; 
+        Paginator::currentPageResolver(function () use ($currentPage) {
+
+          return $currentPage;
+        });
+        return $templates->paginate($data['noOfRecords']);
     }
 
     /*
