@@ -253,7 +253,8 @@ class AgeGroupRepository
                   \DB::raw('CONCAT("'.$this->tournamentLogoUrl.'", tournaments.logo) AS tournamentLogo'), 
                   \DB::raw('CONCAT("'.getenv('S3_URL').'", tournament_template.graphic_image) AS graphic_image'),
                   \DB::raw('(CASE WHEN tournament_competation_template.tournament_format = "basic" THEN 
-                  JSON_EXTRACT(tournament_competation_template.template_json_data, "$.tournament_name") ELSE tournament_template.name END) AS template_name'))
+                    JSON_UNQUOTE(JSON_EXTRACT(tournament_competation_template.template_json_data, "$.tournament_name"))
+                  ELSE tournament_template.name END) AS template_name'))
                 ->where($fieldName, $value)->get();
         } else {
           return TournamentCompetationTemplates::
