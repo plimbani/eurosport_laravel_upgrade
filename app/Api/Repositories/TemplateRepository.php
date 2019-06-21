@@ -348,9 +348,13 @@ class TemplateRepository
      * @param  array $position
      * @return response
      */
-    public function getPositionTypeCode()
+    public function getPositionTypeCode($type)
     {
-
+        if($type === 'winner') {
+            return 'WR';
+        } else if($type === 'looser') {
+            return 'LR';
+        }
     }
 
     public function getGroupNameByRoundAndGroupIndex($templateFormDetail, $divisionIndex, $roundIndex, $groupIndex)
@@ -397,20 +401,21 @@ class TemplateRepository
     public function getWinnerOrLooserTeams($teamGroupType, $divisionRoundGroupPosition, $isSamePositionType, $positionType, $startRoundCount, $startMatchCount, $teamType)
     {
         $teamGroupTypeMatchNumber = explode(".", $teamGroupType['match_number']);
+        $teamGroupTypeDisplayMatchNumber = explode(".", $teamGroupType['display_match_number']);
         $teams = explode("-", end($teamGroupTypeMatchNumber));
 
         $teamPlaceholderIndex = intval($divisionRoundGroupPosition[3]) + 1;
         if (strpos($teams[0], 'WR') || strpos($teams[0], 'LR')){
             $groupName = str_replace("-", "_", end($teamGroupTypeMatchNumber));
-            $teamMatchNumber = '(PM' . ($startRoundCount + intval($divisionRoundGroupPosition[1]) + 1) . '_G' . ($startMatchCount + $teamPlaceholderIndex) . ($positionType == 'winner' ? '_WR' : '_LR') . ')';
+            $teamMatchNumber = '(' . $teamGroupTypeMatchNumber[1] . '_' . $teamGroupTypeMatchNumber[2] . ($positionType == 'winner' ? '_WR' : '_LR') . ')';
         } else {
             $groupName = str_replace("-", "_", end($teamGroupTypeMatchNumber));
             $teamMatchNumber = $groupName . ($positionType == 'winner' ? '_WR' : '_LR');
         }
 
-        $teamInBetween = $this->getTeamInBetween($divisionRoundGroupPosition, $teamPlaceholderIndex, $positionType, $groupName, $startRoundCount, $startMatchCount);
+        $teamInBetween = $this->getTeamInBetween($teamGroupType, $divisionRoundGroupPosition, $teamPlaceholderIndex, $positionType, $groupName, $startRoundCount, $startMatchCount);
         $teamDisplayMatchNumber =  $this->getTeamDisplayMatchNumber($teamType, $isSamePositionType, $positionType);
-        $teamDisplayPlaceholderName = ($startRoundCount + intval($divisionRoundGroupPosition[1]) + 1) . '.' . ($startMatchCount + $teamPlaceholderIndex);
+        $teamDisplayPlaceholderName = $teamGroupTypeDisplayMatchNumber[1] . '.' . $teamGroupTypeDisplayMatchNumber[2];
 
         return [
             'teamInBetween' => $teamInBetween,
@@ -439,10 +444,11 @@ class TemplateRepository
         return $displayMatchNumber;
     }
 
-    public function getTeamInBetween($divisionRoundGroupPosition, $teamPlaceholderIndex, $positionType, $groupName, $startRoundCount, $startMatchCount)
+    public function getTeamInBetween($teamGroupType, $divisionRoundGroupPosition, $teamPlaceholderIndex, $positionType, $groupName, $startRoundCount, $startMatchCount)
     {
+        $teamGroupTypeMatchNumber = explode(".", $teamGroupType['match_number']);
         if($positionType === 'winner' || $positionType === 'looser') {
-            $teamInBetween = 'CAT.PM' .($startRoundCount + $divisionRoundGroupPosition[1] + 1). '.G' . ($startMatchCount + $teamPlaceholderIndex). ($positionType == 'winner' ? 'WR' : 'LR');
+            $teamInBetween = $teamGroupTypeMatchNumber[0] . '.' . $teamGroupTypeMatchNumber[1] . '.' . $teamGroupTypeMatchNumber[2] . ($positionType == 'winner' ? 'WR' : 'LR');
         }
         if($positionType === 'placed') {
             $teamInBetween = $teamPlaceholderIndex . $groupName;    
@@ -735,7 +741,7 @@ class TemplateRepository
                                 $teamMatch2 = $finalArray['tournament_competation_format']['divisions'][$divisionRoundGroupPosition2[0]]['format_name'][$divisionRoundGroupPosition2[1]]['match_type'][$divisionRoundGroupPosition2[2]]['groups']['match'][$divisionRoundGroupPosition2[3]]['match_number'];
                             }
 
-                            if (($team1['position_type'] == 'winner' && $team2['position_type'] == 'winner') || ($team1['position_type'] == 'looser' && $team2['position_type'] == 'looser')) {
+                            if(($team1['position_type'] == 'winner' || $team2['position_type'] == 'winner') || ($team1['position_type'] == 'looser' || $team2['position_type'] == 'looser')) {
                                 $isPlacingMatchAsRoundRobin = true;
                             }
 
