@@ -261,6 +261,7 @@ class TemplateRepository
                 if($roundIndex === 0 && $groupIndex !== $firstPlacingMatchIndex && $templateFormDetailGroup[$groupIndex]['type'] === 'placing_match') {
                     $isReorderingRequired = true;
                     unset($finalArray['tournament_competation_format']['format_name'][$roundIndex]['match_type'][$groupIndex]);
+                    $group['groups']['group_name'] = $finalArray['tournament_competation_format']['format_name'][$roundIndex]['match_type'][0]['groups']['group_name'];
                     $finalArray['tournament_competation_format']['format_name'][$roundIndex]['match_type'][0]['dependent_groups'][] = $group;
                 }
             }
@@ -585,11 +586,6 @@ class TemplateRepository
                 foreach($round['groups'] as $index => $o) {
                     if($o['type'] === 'placing_match' && $index < $groupIndex) {
                         $previousMatches  = $finalArray['tournament_competation_format']['format_name'][$roundIndex]['match_type'][$index]['groups']['match'];
-                        // if($index === 0) {
-                        //     $matches  = $finalArray['tournament_competation_format']['format_name'][$roundIndex]['match_type'][$index]['groups']['match'];
-                        // } else {
-                        //     $matches  = $finalArray['tournament_competation_format']['format_name'][$roundIndex]['match_type'][0]['dependent_groups'][$index-1]['groups']['match'];
-                        // }
                         $totalPlacingMatches += count($previousMatches);
                         $allPlacingMatches = array_merge($allPlacingMatches, $previousMatches);
                         $prevPlacingMatchesCount += count($previousMatches);
@@ -915,11 +911,7 @@ class TemplateRepository
 
             if($divisionIndex === -1) {
                 $finalArray['tournament_competation_format']['format_name'][$roundIndex]['name'] = 'Round '.($roundIndex+1);
-                // if($divisionIndex === -1 && $roundIndex === 0 && $groupIndex !== $firstPlacingMatchIndex && $group['type'] === 'placing_match') {
-                //     $finalArray['tournament_competation_format']['format_name'][$roundIndex]['match_type'][$firstPlacingMatchIndex]['dependent_groups'][] = $matchTypeDetail;
-                // } else {
-                    $finalArray['tournament_competation_format']['format_name'][$roundIndex]['match_type'][] = $matchTypeDetail;
-                // }
+                $finalArray['tournament_competation_format']['format_name'][$roundIndex]['match_type'][] = $matchTypeDetail;
             } else if($divisionIndex >= 0) {
                 $finalArray['tournament_competation_format']['divisions'][$divisionIndex]['format_name'][$roundIndex]['name'] = 'Round '.($startRoundCount + $roundIndex + 1);
                 $finalArray['tournament_competation_format']['divisions'][$divisionIndex]['format_name'][$roundIndex]['match_type'][] = $matchTypeDetail;
