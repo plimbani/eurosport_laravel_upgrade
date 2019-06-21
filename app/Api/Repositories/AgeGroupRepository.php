@@ -185,7 +185,11 @@ class AgeGroupRepository
 
         return TournamentCompetationTemplates::where('id', $data['competation_format_id'])->update($tournamentCompeationTemplate);
       } else {
-        $tournamentCompeationTemplate['template_json_data'] = $data['tournamentTemplate']['json_data'];
+        if($data['tournament_format'] == 'basic') {
+          $tournamentCompeationTemplate['template_json_data'] = $data['tournamentTemplate']['json_data'];
+        } else {
+          $tournamentCompeationTemplate['template_json_data'] = null;
+        }
         return TournamentCompetationTemplates::create($tournamentCompeationTemplate)->id;
       }
     }
@@ -239,13 +243,17 @@ class AgeGroupRepository
         $fieldName = key($tournamentData);
         $value = $tournamentData[$fieldName];
         if($fieldName == 'tournament_id') {
+          // return 
           return TournamentCompetationTemplates::
                  leftjoin('tournament_template', 'tournament_template.id', '=',
                   'tournament_competation_template.tournament_template_id')
                  ->leftJoin('tournaments','tournaments.id','=','tournament_competation_template.tournament_id')
-                 ->select('tournament_competation_template.*','tournament_template.name as template_name',
-                   \DB::raw('CONCAT("'.$this->tournamentLogoUrl.'", tournaments.logo) AS tournamentLogo'), 
-                   \DB::raw('CONCAT("'.getenv('S3_URL').'", tournament_template.graphic_image) AS graphic_image'))
+                 ->select('tournament_competation_template.*',
+                  'tournament_template.name as template_name',
+                  \DB::raw('CONCAT("'.$this->tournamentLogoUrl.'", tournaments.logo) AS tournamentLogo'), 
+                  \DB::raw('CONCAT("'.getenv('S3_URL').'", tournament_template.graphic_image) AS graphic_image'),
+                  \DB::raw('(CASE WHEN tournament_competation_template.tournament_format = "basic" THEN 
+                  JSON_EXTRACT(tournament_competation_template.template_json_data, "$.tournament_name") ELSE tournament_template.name END) AS template_name'))
                 ->where($fieldName, $value)->get();
         } else {
           return TournamentCompetationTemplates::
