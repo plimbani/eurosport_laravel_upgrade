@@ -261,7 +261,7 @@ class TemplateRepository
                 if($roundIndex === 0 && $groupIndex !== $firstPlacingMatchIndex && $templateFormDetailGroup[$groupIndex]['type'] === 'placing_match') {
                     $isReorderingRequired = true;
                     unset($finalArray['tournament_competation_format']['format_name'][$roundIndex]['match_type'][$groupIndex]);
-                    $group['groups']['group_name'] = $finalArray['tournament_competation_format']['format_name'][$roundIndex]['match_type'][0]['groups']['group_name'];
+                    // $group['groups']['group_name'] = $finalArray['tournament_competation_format']['format_name'][$roundIndex]['match_type'][0]['groups']['group_name'];
                     $finalArray['tournament_competation_format']['format_name'][$roundIndex]['match_type'][0]['dependent_groups'][] = $group;
                 }
             }
@@ -529,6 +529,7 @@ class TemplateRepository
         $startRoundCount = $divisionIndex >= 0 ? $divisionDetail['divisionStartRoundCount'] : 0;
 
         $firstPlacingMatchIndex = array_search('placing_match', array_column($round['groups'], 'type'));
+        $firstPlacingMatchGroupName = null;
         foreach ($round['groups'] as $groupIndex => $group) {
             $considerInTeamAssignment = false;
             $isPlacingMatchAsRoundRobin = false;
@@ -559,6 +560,7 @@ class TemplateRepository
             }
 
             if($divisionIndex === -1 && $roundIndex === 0 && $groupIndex === $firstPlacingMatchIndex && $group['type'] === 'placing_match') {
+                $firstPlacingMatchGroupName = $groupName;
                 $considerInTeamAssignment = true;
                 for($i=1; $i<=$noOfTeams; $i=$i+2) {
                     $home = $i;
@@ -892,6 +894,10 @@ class TemplateRepository
                 }
             }
 
+            if($divisionIndex === -1 && $roundIndex === 0 && $groupIndex !== $firstPlacingMatchIndex && $group['type'] === "placing_match") {
+                $groupName = $firstPlacingMatchGroupName;
+            }
+
             $totalMatches += count($matches);
             $matchTypeDetail = [
                 'name' => ( ($group['type'] === 'round_robin' && $isPlacingMatchAsRoundRobin === false) ? 'RR-1*' : 'PM-1*') . $group['no_of_teams'],
@@ -920,7 +926,7 @@ class TemplateRepository
             if($group['type'] === "round_robin") {
                 $roundGroupCount++;
             }
-            if($group['type'] === "placing_match") {
+            if($group['type'] === "placing_match" && !($divisionIndex === -1 && $roundIndex === 0 && $groupIndex !== $firstPlacingMatchIndex)) {
                 $placingGroupCount++;
             }
         }
