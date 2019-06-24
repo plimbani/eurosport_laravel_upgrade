@@ -286,7 +286,7 @@ class AgeGroupService implements AgeGroupContract
             // Add division into age_category_divisions table
 
             $latest_div_id = AgeCategoryDivision::create([
-              'name' => "Division " .$index,
+              'name' => "Division " .$index + 1,
               'order' => $div_display_order,
               'tournament_id' => $data['tournament_id'],
               'tournament_competition_template_id' => $tournament_competation_template_id,
