@@ -61,7 +61,7 @@
             this.$root.$off('clearFormFields');
         },
         components: {
-          StepOne, StepTwo, StepThree, StepFour
+            StepOne, StepTwo, StepThree, StepFour
         },
 		mounted() {
             let vm = this;

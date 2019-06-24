@@ -160,6 +160,7 @@ class User extends Authenticatable implements HasRoleAndPermissionContract, CanR
         $name = (isset($this->personDetail->first_name)) ? $this->personDetail->first_name : $this->name;
         $send_otp='';
         $subject = 'Euro-Sportring Tournament Planner - Reset password';
+        $currentLayout = config('config-variables.current_layout');
         // Set OTP
         if($this->roles()->first()->id == $mobileUserRoleId) {
             $subject = 'Euro-Sportring - Password Reset';
@@ -176,7 +177,7 @@ class User extends Authenticatable implements HasRoleAndPermissionContract, CanR
             // $_SESSION['otp_key'] = $send_otp;
             // request()->session()->put('otp_value', $encoded_otp);
         }
-        $this->notify(new ResetPasswordNotification($token, $name,$this->email,$send_otp, $subject));
+        $this->notify(new ResetPasswordNotification($token, $name,$this->email,$send_otp, $subject, $currentLayout));
     }
     public function settings()
     {

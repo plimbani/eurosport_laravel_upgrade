@@ -384,5 +384,7 @@ $api->version('v1', function ($api) {
 
     $api->post('duplicateExistingTournament', 'Laraspace\Api\Controllers\TournamentController@duplicateExistingTournament');
 
-    $api->get('compareTemplateJson/{oldId}/{newId}', 'Laraspace\Api\Controllers\TemplateController@compareJsonTemplate');    
+    $api->get('compareTemplateJson/{oldId}/{newId}', 'Laraspace\Api\Controllers\TemplateController@compareJsonTemplate');
+
+    $api->post('updateTemplateFormDetail', 'Laraspace\Api\Controllers\TemplateController@updateTemplateFormDetail');    
 });

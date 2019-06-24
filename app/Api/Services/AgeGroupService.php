@@ -879,9 +879,9 @@ class AgeGroupService implements AgeGroupContract
       return $weekRoundMatches;
     }
 
-    public function leagueKnockoutJsonMatches($fetchRoundMatches,$round,$currentGroup,$times)
+    public function leagueKnockoutJsonMatches($fetchRoundMatches, $round, $currentGroup, $times, $startRoundCount = 0)
     {
-      $currentRound = $round + 1;
+      $currentRound = $startRoundCount + $round + 1;
       $matches = [];
 
       for($i=0; $i<$times; $i++){
@@ -891,8 +891,8 @@ class AgeGroupService implements AgeGroupContract
             list($home,$away) = explode('-',$match);
 
             $matches[] = ['in_between' => $match,
-                            'match_number' => "CAT.RR$currentRound.".sprintf('%02d',$weekNumber).".$currentGroup$home-$currentGroup$away",
-                            'display_match_number' => "CAT.1.$weekNumber.@HOME-@AWAY",
+                            'match_number' => "CAT.RR" . $currentRound . '.' . sprintf('%02d',$weekNumber).".$currentGroup$home-$currentGroup$away",
+                            'display_match_number' => "CAT." . $currentRound . ".$weekNumber.@HOME-@AWAY",
                             'display_home_team_placeholder_name' => "$currentGroup$home",
                             'display_away_team_placeholder_name' => "$currentGroup$away"
                           ];

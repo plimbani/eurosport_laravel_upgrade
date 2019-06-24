@@ -25,7 +25,7 @@
   <div class="row align-items-center mb-3" v-if="otherData.DrawType != 'Elimination'">
     <div class="col-md-10">
       <label class="mb-0" v-if="otherData.DrawType != 'Elimination'">
-        <h6 class="mb-0">{{otherData.DrawName}} results grid</h6>
+        <h6 class="mb-0 fieldset-title">{{otherData.DrawName}} results grid</h6>
       </label>
     </div>
     <div class="col-md-2">
@@ -83,7 +83,7 @@
   </table>
 
   <div class="form-group">
-    <h6 v-if="otherData.DrawType != 'Elimination'" class="mb-0">
+    <h6 v-if="otherData.DrawType != 'Elimination'" class="mb-0 fieldset-title">
     {{otherData.DrawName}} standings
     <a href="#" @click="manualRankingModalOpen()" v-if="isUserDataExist && teamList.length > 0"><span>(<u>manual ranking</u>)</span></a>
     <span style="float: right;" v-if="DrawName.competation_round_no != 'Round 1' && isUserDataExist"><a href="javascript:void(0)" @click="refreshStanding()">Refresh standing</a></span>
@@ -93,7 +93,17 @@
     <div v-if="currentCompetationId == 0 && otherData.DrawType != 'Elimination'">No information available
     </div>
   </div>
-  
+
+  <div class="row align-items-center mb-3">
+    <div class="col-md-10">
+      <label class="mb-0">
+        <h6 class="mb-0 fieldset-title">{{otherData.DrawName}} matches</h6>
+      </label>
+    </div>
+    <div class="col-md-2">
+      <button type="button" name="save" class="btn btn-primary pull-right" @click="saveMatchScore()" v-if="otherData.DrawType == 'Elimination' && isUserDataExist">Save</button>
+    </div>
+  </div>
   <matchList :matchData1="matchData" :DrawName="DrawName" :otherData="otherData"></matchList>
   <manualRanking :competitionId="currentCompetationId" :teamList="teamList" :teamCount="teamCount" :isManualOverrideStanding="DrawName.is_manual_override_standing" @refreshStanding="refreshManualStanding()" @competitionAsManualStanding="competitionAsManualStanding"></manualRanking>
 </div>
@@ -101,7 +111,6 @@
 <script>
 import MatchListing from './MatchListing.vue'
 import MatchList from './MatchList.vue'
-import LocationList from'./LocationList.vue'
 import TeamStanding from './TeamStanding.vue'
 import Tournament from '../api/tournament.js'
 import ManualRanking from './manualRankingModal.vue'
@@ -281,7 +290,7 @@ export default {
         },
     },
   components: {
-        MatchList,LocationList,MatchListing,TeamStanding,ManualRanking
+        MatchList,MatchListing,TeamStanding,ManualRanking
   },
     methods: {
         refreshManualStanding() {
