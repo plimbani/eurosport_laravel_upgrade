@@ -77,6 +77,11 @@
 				        </div>
 				    </div>
 		        </div>
+		        <div class="row" v-if="groupData.type === 'placing_match'">
+					<div class="col-md-12">
+						<button type="button" class="btn btn-primary" @click="addNewMatch(index)" :disabled="disabledNewGroupButton(roundData.no_of_teams, index)"><small><i class="jv-icon jv-plus"></i></small> Add match</button>
+					</div>
+		        </div>
 		    </div>
 	    </div>
     </div>
