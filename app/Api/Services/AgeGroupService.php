@@ -282,11 +282,11 @@ class AgeGroupService implements AgeGroupContract
         $div_display_order = 1;
 
         if(isset($json_data->tournament_competation_format->divisions)) {
-          foreach ($json_data->tournament_competation_format->divisions as $division) {
+          foreach ($json_data->tournament_competation_format->divisions as $index => $division) {
             // Add division into age_category_divisions table
 
             $latest_div_id = AgeCategoryDivision::create([
-              'name' => $division->name,
+              'name' => "Division " .$index,
               'order' => $div_display_order,
               'tournament_id' => $data['tournament_id'],
               'tournament_competition_template_id' => $tournament_competation_template_id,
