@@ -163,9 +163,9 @@ export default {
 			// Here we again
 		},
 		exportCategoryReport() {
-			let ageCategory	= this.ageCategory
-			if(ageCategory!=''){
-				Tournament.getSignedUrlForMatchReport(ageCategory).then(
+			let ageCategoryData = {'ageCategory': this.ageCategory, 'tournament_id': this.TournamentId}
+			if(ageCategoryData!=''){
+				Tournament.getSignedUrlForMatchReport(ageCategoryData).then(
 					(response) => {
 						window.location.href = response.data;
 					},

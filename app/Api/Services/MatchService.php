@@ -16,6 +16,7 @@ use Laraspace\Models\Team;
 use Laraspace\Models\Position;
 use Laraspace\Traits\TournamentAccess;
 use Laraspace\Models\TournamentCompetationTemplates;
+use Laraspace\Models\Tournament;
 
 class MatchService implements MatchContract
 {
@@ -24,6 +25,7 @@ class MatchService implements MatchContract
     public function __construct()
     {
         $this->matchRepoObj = new \Laraspace\Api\Repositories\MatchRepository();
+        $this->tournamentLogo =  getenv('S3_URL').'/assets/img/tournament_logo/';
     }
 
     public function getAllMatches()
@@ -235,7 +237,7 @@ class MatchService implements MatchContract
       return $pdf->inline('Pitch.pdf');
     }
 
-    public function generateCategoryReport($ageGroupId)
+    public function generateCategoryReport($ageGroupId,$tournamentId)
     {
       $competitions = Competition::where('tournament_competation_template_id',$ageGroupId)->get();
       $date = new \DateTime(date('H:i d M Y'));
@@ -274,14 +276,21 @@ class MatchService implements MatchContract
           $resultMatchesTableAfterFirstRound[$competition->id] = ['name' => $competition['name'], 'results' => $resultMatchesAfterFirstRound['data'], 'actual_competition_type' => $competition['actual_competition_type']];
         }
       }
+
+      $tournamentLogo = null;
+      $tournamentDetail = Tournament::find($tournamentId);
+      if($tournamentDetail->logo != null) {
+        $tournamentLogo = $this->tournamentLogo. $tournamentDetail->logo;
+      }
+
       $pdfData['leagueTable'] = $leagueTable;
       $pdfData['resultGridTable'] = $resultGridTable;
       $pdfData['resultMatchesTable'] = $resultMatchesTable;
       $pdfData['resultMatchesTableAfterFirstRound'] = $resultMatchesTableAfterFirstRound;
 
-      // dd($pdfData);
 
-      $pdf = PDF::loadView('age_category.summary_report',['data' => $pdfData])
+      $pdf = PDF::loadView('age_category.summary_report',['data' => $pdfData, 'tournamentLogo' => 
+        $tournamentLogo])
             ->setPaper('a4')
             ->setOption('header-spacing', '5')
             ->setOption('header-font-size', 7)

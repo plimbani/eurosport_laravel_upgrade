@@ -36,7 +36,14 @@
     }
 </style>
 <center>
-  <img  src="{{ asset('assets/img/tmplogo.svg')}}" id="logo-desk" alt="Laraspace Logo" class="hidden-sm-down text-center" width="200px" height="100px">
+  @if($tournamentLogo != null)  
+    <img src="{{ $tournamentLogo }}" class="hidden-sm-down text-center" id="logo-desk" alt="Laraspace Logo" width="200px" height="100px">
+  @elseif(Config::get('config-variables.current_layout') == 'tmp')
+    <img  src="{{ asset('assets/img/tmplogo.svg')}}" id="logo-desk" alt="Laraspace Logo" class="hidden-sm-down text-center" width="200px" height="100px">
+  @elseif(Config::get('config-variables.current_layout') == 'commercialisation')
+    <img  src="{{ asset('assets/img/easy-match-manager/emm.svg')}}" id="logo-desk" alt="Laraspace Logo" class="hidden-sm-down text-center" width="200px" height="100px">
+  @endif 
+
   <h3>League table summary</h3>
 </center>
 @foreach($data['leagueTable'] as $league)
