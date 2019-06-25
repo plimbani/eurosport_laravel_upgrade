@@ -487,6 +487,9 @@ import _ from 'lodash'
                             let Placehometeam =  teams[0]
                             let Placeawayteam =  teams[1]
 
+                            let splittedGroupName = match.competition_actual_name.split('-');
+                            let groupName = splittedGroupName[2]+ ' ' +splittedGroupName[3];
+
                             if(match.Home_id != 0){
                                 Placehometeam = displayHomeTeamPlaceholder = match.HomeTeam
                             } else if(match.Home_id == 0 && match.homeTeamName == '@^^@') {
@@ -606,7 +609,9 @@ import _ from 'lodash'
                                     'homeTeamPlaceHolder': displayHomeTeamPlaceholder,
                                     'awayTeamPlaceHolder': displayAwayTeamPlaceholder,
                                     'remarks': match.matchRemarks,
-                                    'locationCheckFlag': locationCheckFlag
+                                    'locationCheckFlag': locationCheckFlag,
+                                    'competition_type': match.actual_round,
+                                    'groupName': groupName,
                                 }
                             sMatches.push(mData)
                             }
@@ -642,7 +647,9 @@ import _ from 'lodash'
                                         'homeTeamPlaceHolder': null,
                                         'awayTeamPlaceHolder': null,
                                         'remarks': null,
-                                        'locationCheckFlag': null
+                                        'locationCheckFlag': null,
+                                        'competition_type': null,
+                                        'groupName': null,
                                     }
                                     sMatches.push(mData1)
                                     counter = counter+1;
@@ -673,7 +680,9 @@ import _ from 'lodash'
                                         'homeTeamPlaceHolder': null,
                                         'awayTeamPlaceHolder': null,
                                         'remarks': null,
-                                        'locationCheckFlag': null
+                                        'locationCheckFlag': null,
+                                        'competition_type': null,
+                                        'groupName': null,
                                     }
                                     sMatches.push(mData2)
                                     counter = counter+1;
@@ -705,7 +714,9 @@ import _ from 'lodash'
                                             'homeTeamPlaceHolder': null,
                                             'awayTeamPlaceHolder': null,
                                             'remarks': null,
-                                            'locationCheckFlag': null
+                                            'locationCheckFlag': null,
+                                            'competition_type': null,
+                                            'groupName': null,                                            
                                         }
 
                                         sMatches.push(mData)

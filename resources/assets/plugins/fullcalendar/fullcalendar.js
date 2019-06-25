@@ -8372,6 +8372,7 @@ TimeGrid.mixin({
 							' data-full="' + htmlEscape(fullTimeText) + '"' +
 							'>' +
 								'<span>' + htmlEscape(timeText) + '</span>' +
+								(event.competition_type == 'Round Robin' ? '<span> (' + event.groupName + '</span>) ' : '') +
 								(event.remarks ? '<span class="match-fixture-comment"><i class="fas fa-comment-dots"></i></span>' : '') +
 							'</div>' :
 							''
