@@ -9,19 +9,19 @@ PODS:
   - Crashlytics (3.10.0):
     - Fabric (~> 1.7.3)
   - Fabric (1.7.7)
-  - FacebookCore (0.3.2):
-    - Bolts (~> 1.8)
-    - FBSDKCoreKit (~> 4.35)
-  - FacebookLogin (0.3.2):
-    - Bolts (~> 1.8)
-    - FacebookCore (~> 0.3.2)
-    - FBSDKCoreKit (~> 4.35)
-    - FBSDKLoginKit (~> 4.35)
-  - FacebookShare (0.3.2):
-    - Bolts (~> 1.8)
-    - FacebookCore (~> 0.3.2)
-    - FBSDKCoreKit (~> 4.35)
-    - FBSDKShareKit (~> 4.35)
+  - FacebookCore (0.5.0):
+    - Bolts (~> 1.9)
+    - FBSDKCoreKit (~> 4.37)
+  - FacebookLogin (0.5.0):
+    - Bolts (~> 1.9)
+    - FacebookCore (~> 0.5)
+    - FBSDKCoreKit (~> 4.37)
+    - FBSDKLoginKit (~> 4.37)
+  - FacebookShare (0.5.0):
+    - Bolts (~> 1.9)
+    - FacebookCore (~> 0.5)
+    - FBSDKCoreKit (~> 4.37)
+    - FBSDKShareKit (~> 4.37)
   - FBSDKCoreKit (4.44.1):
     - Bolts (~> 1.9)
   - FBSDKLoginKit (4.44.1):
@@ -99,9 +99,9 @@ DEPENDENCIES:
   - Alamofire (~> 4.7)
   - Crashlytics (= 3.10)
   - Fabric
-  - FacebookCore (= 0.3.2)
-  - FacebookLogin (= 0.3.2)
-  - FacebookShare (= 0.3.2)
+  - FacebookCore (= 0.5.0)
+  - FacebookLogin (= 0.5.0)
+  - FacebookShare (= 0.5.0)
   - Firebase/Core
   - Firebase/Messaging
   - GoogleMaps
@@ -142,9 +142,9 @@ SPEC CHECKSUMS:
   Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
   Crashlytics: a989ef242b66605577a425733797f810bd2725eb
   Fabric: bda89e242bce1b7b8ab264248cf3407774ce0095
-  FacebookCore: fe93222bb70346730ef33b061d493e9e7a7cb1f5
-  FacebookLogin: a4e225974791c82836765a294582b4778baffc07
-  FacebookShare: 5319f2655d53d20c595745a68dae8476027b8bae
+  FacebookCore: 74288d0add931d361b1596beae787ab72c438249
+  FacebookLogin: ebcf34714a1cb9f0759d9f071cfb01ed500996cf
+  FacebookShare: 963b4bb1124a64a395b1e428163d70b5774116e8
   FBSDKCoreKit: a823ae35bdb60ebb8d7a7e51abe7c5d87d2bfced
   FBSDKLoginKit: 54ae59987f2a8703021557c90a9aebb9e5c2bef6
   FBSDKShareKit: 526d4cfb713d24855fa23d0dd74e191accd3a720
@@ -163,6 +163,6 @@ SPEC CHECKSUMS:
   Protobuf: 1eb9700044745f00181c136ef21b8ff3ad5a0fd5
   SDWebImage: 624d6e296c69b244bcede364c72ae0430ac14681
 
-PODFILE CHECKSUM: f76025894464d662587a38de3527d1a626c430ba
+PODFILE CHECKSUM: d29b178750cba0ea941032b7dbea9089624ab962
 
 COCOAPODS: 1.6.0.beta.2
