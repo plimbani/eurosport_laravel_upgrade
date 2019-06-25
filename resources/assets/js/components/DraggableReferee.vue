@@ -34,7 +34,7 @@
 <script type="text/babel">
 import Tournament from '../api/tournament.js'
 export default {
-    props: ['referee', 'competationList'],
+    props: ['referee', 'competationList', 'isMatchScheduleInEdit'],
     filters: {
 
         formatAgeCategoryName: function(ageGroupId,competationList) {
@@ -62,6 +62,15 @@ export default {
                 return $(title).children(".popover-heading").html();
             }
         });
+    },
+    watch: {
+        isMatchScheduleInEdit: function (val) {
+            if(val === true) {
+                $(this.$el).draggable('disable');
+            } else {
+                $(this.$el).draggable('enable');
+            }
+        },
     },
     methods: {
         initEvents() {

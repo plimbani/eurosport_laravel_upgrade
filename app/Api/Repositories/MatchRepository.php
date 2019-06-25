@@ -1450,7 +1450,7 @@ class MatchRepository
             $setFlag = 1;
       }
 
-      if($data['scheduleLastUpdateDateTime'] != $teamData['schedule_last_update_date_time']) {
+      if($matchData['scheduleLastUpdateDateTime'] != $teamData['schedule_last_update_date_time']) {
         $isFixtureScheduled = false;
         return ['status' => false, 'message' => 'You need to refresh page to get latest updated fixtures.', 'data'=>$teamData, 'is_fixture_scheduled' => $isFixtureScheduled];
       }
@@ -1472,8 +1472,9 @@ class MatchRepository
 
         $matchData = array('teams'=>$teams,'tournamentId'=>$matchData['tournamentId'],'ageGroupId'=>$teamData['age_group_id'],'teamId'=>$teamId);
         $matchresult =  $this->checkTeamIntervalforMatches($matchData);
+        return ['status' => true, 'data' => $updateData, 'is_fixture_scheduled' => $isFixtureScheduled];
       }
-      return ['status' => true, 'data' => $updateData, 'is_fixture_scheduled' => $isFixtureScheduled];
+      return ['status' => true, 'data' => [], 'is_fixture_scheduled' => $isFixtureScheduled];
     }
     public function matchUnschedule($matchId)
     {

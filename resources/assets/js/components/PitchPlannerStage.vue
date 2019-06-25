@@ -384,7 +384,8 @@ import _ from 'lodash'
                                 'pitchId': event.resourceId,
                                 'matchId': matchId,
                                 'matchStartDate': moment.utc(event.start._d).format('YYYY-MM-DD HH:mm:ss'),
-                                'matchEndDate':moment.utc(event.end._d).format('YYYY-MM-DD HH:mm:ss')
+                                'matchEndDate':moment.utc(event.end._d).format('YYYY-MM-DD HH:mm:ss'),
+                                'scheduleLastUpdateDateTime': event.scheduleLastUpdateDateTime,
                             };
                             let data = {
                                 matchData: matchData,
