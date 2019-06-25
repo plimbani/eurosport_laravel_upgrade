@@ -293,6 +293,9 @@ class AgeGroupRepository
      */
     public function deleteCompeationFormat($tournamentCompetationTemplateId)
     {
+      $competition = Competition::where('tournament_competation_template_id', $tournamentCompetationTemplateId)->delete();
+      $ageCategoryDivisions = AgeCategoryDivision::where('tournament_competition_template_id', $tournamentCompetationTemplateId)->delete();
+
       $tournamentCompetationTemplate = TournamentCompetationTemplates::find($tournamentCompetationTemplateId);
       $tournamentId = $tournamentCompetationTemplate->tournament_id;
       $tournamentReferees = Referee::where('tournament_id', $tournamentId)->get();
