@@ -1,27 +1,37 @@
 <template>
     <div class="container-fluid">
-   		<EnterTournamentAccessCode v-if="getCurrentLayout === 'commercialisation'">
+   		<EnterTournamentAccessCode v-if="currentLayout === 'commercialisation'">
    		</EnterTournamentAccessCode>
-   		<Home v-if="getCurrentLayout === 'tmp'"></Home>
+   		<Home v-if="currentLayout === 'tmp'"></Home>
     </div>
 </template>
 <script type="text/babel">
 import EnterTournamentAccessCode from '../tournament/EnterTournamentAccessCode.vue'
 import Home from '../front/Home.vue'
+import Tournament from '../../api/tournament.js';
 
 export default {
     data() {
 	    return {
-	      
+	      currentLayout: ''
 	    }
     },
     components : {
         EnterTournamentAccessCode,Home
     },
-    computed: {
-	    getCurrentLayout() {
-	        return this.$store.state.Configuration.currentLayout;
-	    }
+    mounted() {
+    		this.getCurrentLayout();
+    },
+	methods: {
+		getCurrentLayout() {
+        	Tournament.getCurrentLayout().then(
+              (response)=> {
+                this.currentLayout = response.data;
+              },
+              (error)=> {
+              }
+            );
+        },
 	} 
 
 }

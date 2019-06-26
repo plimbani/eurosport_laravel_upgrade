@@ -365,4 +365,9 @@ class TournamentController extends BaseController
         }   
          echo "<pre>";print_r('done');echo "</pre>";exit;   
     }
+
+    public function getCurrentLayout() {
+        $currentLayout = config('config-variables.current_layout');
+        return $currentLayout;
+    }
 }

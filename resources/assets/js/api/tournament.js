@@ -286,4 +286,7 @@ export default {
   getSignedUrlForGroupsViewReport(groupsViewData) {
     return api.post('getSignedUrlForGroupsViewReport?'+groupsViewData);
   },
+  getCurrentLayout(){
+    return api.get('getCurrentLayout');
+  }
 }

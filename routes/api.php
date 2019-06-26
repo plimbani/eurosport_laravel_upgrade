@@ -110,6 +110,8 @@ $api->version('v1', function ($api) {
 
     $api->post('/userResendEmail', '\Laraspace\Api\Controllers\UserController@userResendEmail');
     $api->get('user/setpasswordCheck/{key}','\Laraspace\Api\Controllers\UserController@setPassword');
+    $api->get('getCurrentLayout', 'Laraspace\Api\Controllers\TournamentController@getCurrentLayout');
+
 });
 
 $api->version('v1', ['middleware' => 'jwt.auth'], function ($api) {
