@@ -615,8 +615,15 @@
                 let vm = this;
                 this.resetScheduleMatches();
 
-                _.forEach(this.tournamentStages, function(stage, stageIndex) {
-                    vm.$root.$emit('refreshPitch' + stageIndex);
+                this.$store.dispatch('setMatches')
+                .then((response) => {
+                    _.forEach(vm.tournamentStages, function(stage, stageIndex) {
+                        vm.$root.$emit('refreshPitch' + stageIndex);
+                    });
+                    vm.$root.$emit('refreshCompetitionWithGames');
+                })
+                .catch((response) => {
+                    toastr['error']('Error while fetching data', 'Error');
                 });
             },
             filterMatches(filterKey, filterValue, filterDependentKey, filterDependentValue) {

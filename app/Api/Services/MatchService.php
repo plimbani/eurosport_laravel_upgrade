@@ -2524,9 +2524,7 @@ class MatchService implements MatchContract
         $data = $this->matchRepoObj->saveScheduleMatches($scheduleMatch);
       }
       
-      if($data) {
-        return ['status_code' => '200', 'data' => $data, 'message' => 'Match has been scheduled successfully'];
-      }
+      return ['status_code' => '200', 'data' => $data, 'message' => 'Match has been scheduled successfully'];
     }
 
     public function moveMatchStandings($tournamentId, $ageCategoryId, $competitionId)

@@ -64,9 +64,11 @@ export default {
   },
   created: function() {
       this.$root.$on('gamesMatchList', this.gamesMatchListData);
+      this.$root.$on('refreshCompetitionWithGames', this.refreshCompetitionWithGames);
   },
   beforeCreate: function() {
     this.$root.$off('gamesMatchList');
+    this.$root.$off('refreshCompetitionWithGames');
   },
   mounted() {
     this.$store.dispatch('setCompetationWithGames');
@@ -100,6 +102,9 @@ export default {
       //   });
       //   vm.gamesMatchListRecord[competitionIndex]['matchList'] = matchPlannerGamesFilter;
       // })
+    },
+    refreshCompetitionWithGames() {
+      this.gamesMatchListRecord = _.cloneDeep(this.$store.getters.getAllCompetitionWithGames);
     }
   }
 }
