@@ -33,7 +33,7 @@ import NotFoundPage from './views/errors/404.vue'
 
 import Home from './views/front/Home.vue'
 import FrontSchedule from './views/front/FrontScheduleResults.vue'
-
+import IdentifyHome from './views/front/IdentifyHome.vue'
 /*
  |--------------------------------------------------------------------------
  | EuroSport Pages
@@ -146,7 +146,7 @@ const routes = [
         children: [
             {
                 path: '/',
-                component: Home,
+                component: IdentifyHome,
                 name: 'home'
             },
             {

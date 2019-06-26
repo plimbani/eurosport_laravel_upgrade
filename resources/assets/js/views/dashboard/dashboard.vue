@@ -111,7 +111,7 @@
                 tournaments: [],
                 access_code_popup:"",
                 baseUrl:"",
-                url:"app.tournament-planner.com/t/",
+                url:"tournament-detail",
                 dashboardTournamentDisplayDateFormat:"",
                 currentDateTime: moment(),
             }
@@ -178,7 +178,7 @@
             },
 
             openSharePopup(tournament){
-                this.access_code_popup = this.baseUrl + '/' + this.url + tournament.access_code;
+                this.access_code_popup = this.baseUrl + '/' + this.url + '?code=' + tournament.access_code;
                 $("#open_share_popup").modal('show'); 
             },
 
