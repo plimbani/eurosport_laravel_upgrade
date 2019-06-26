@@ -164,14 +164,18 @@ export default {
 		},
 		exportCategoryReport() {
 			let ageCategoryData = {'ageCategory': this.ageCategory, 'tournament_id': this.TournamentId}
-			Tournament.getSignedUrlForMatchReport(ageCategoryData).then(
-				(response) => {
-					window.location.href = response.data;
-				},
-				(error) => {
+			if(this.ageCategory !=''){
+				Tournament.getSignedUrlForMatchReport(ageCategoryData).then(
+					(response) => {
+						window.location.href = response.data;
+					},
+					(error) => {
 
-				}
-			)
+					}
+				)
+			} else {
+    			toastr['error']('Please select age category.', 'Error');
+			}
 		}
 	}
 }
