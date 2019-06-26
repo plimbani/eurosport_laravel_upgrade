@@ -70,6 +70,7 @@ export default {
       groupsData:[],
       ageCatgeoryComments: '',
       positionData: [],
+      positionId: '',
     }
   },
   mounted() {    
@@ -137,6 +138,8 @@ export default {
       let placingData = {'positionId': positionId, 'ageCategoryId': ageCategoryId}
       Tournament.deleteFinalPlacingTeam(placingData).then(
         (response) => {
+          this.getAgeCategoryDetail(ageCategoryId)
+          toastr.success('Team has been deleted successfully.', 'Delete Team', {timeOut: 5000});
         },
         (error) => {
 
