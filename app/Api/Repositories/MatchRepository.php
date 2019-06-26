@@ -1450,7 +1450,7 @@ class MatchRepository
             $setFlag = 1;
       }
 
-      if($matchData['scheduleLastUpdateDateTime'] != $teamData['schedule_last_update_date_time']) {
+      if($data['isMultiSchedule'] === false && $matchData['scheduleLastUpdateDateTime'] != $teamData['schedule_last_update_date_time']) {
         $isFixtureScheduled = false;
         return ['status' => false, 'message' => 'You need to refresh page to get latest updated fixtures.', 'data'=>$teamData, 'is_fixture_scheduled' => $isFixtureScheduled];
       }

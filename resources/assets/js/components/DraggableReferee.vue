@@ -1,5 +1,5 @@
 <template>
-    <div class="raferee_details" data-toggle="popover" data-animation="false" data-placement="left" :data-popover-content="'#i'+referee.id">
+    <div class="raferee_details js-referee-draggable-block" data-toggle="popover" data-animation="false" data-placement="left" :data-popover-content="'#i'+referee.id">
         <div class="raferee_list">
             <div v-bind:id="'i'+referee.id" style="display:none;">
                 <div class="popover-body">

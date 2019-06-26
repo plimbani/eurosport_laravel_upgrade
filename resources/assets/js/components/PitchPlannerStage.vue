@@ -256,7 +256,13 @@ import _ from 'lodash'
                                     let updatedMatch = response.data.data;
                                     if(response.data.status_code == 200 && response.data.data.status == true){
                                          toastr.success('Referee has been assigned successfully', 'Assigned Referee ', {timeOut: 5000});
-                                        vm.$store.dispatch('getAllReferee',vm.tournamentId);
+                                        vm.$store.dispatch('getAllReferee',vm.tournamentId).then(function() {
+                                            if($("#save_schedule_fixtures").is(':visible') === true) {
+                                                $('.js-referee-draggable-block').draggable('disable');
+                                            } else {
+                                                $('.js-referee-draggable-block').draggable('enable');
+                                            }
+                                        });
                                         vm.getScheduledMatch(vm.tournamentFilter.filterKey,vm.tournamentFilter.filterValue,vm.tournamentFilter.filterDependentKey,vm.tournamentFilter.filterDependentValue)
                                         vm.reloadAllEvents()
 
@@ -265,7 +271,13 @@ import _ from 'lodash'
                                         toastr.error(errorMsg, 'Assigned Referee ', {timeOut: 5000});
 
                                         $('.fc.fc-unthemed').fullCalendar( 'removeEvents', [event.matchId] )
-                                        vm.$store.dispatch('getAllReferee',vm.tournamentId);
+                                        vm.$store.dispatch('getAllReferee',vm.tournamentId).then(function() {
+                                            if($("#save_schedule_fixtures").is(':visible') === true) {
+                                                $('.js-referee-draggable-block').draggable('disable');
+                                            } else {
+                                                $('.js-referee-draggable-block').draggable('enable');
+                                            }
+                                        });
                                     }
                                 },
                                 (error) => {
@@ -318,8 +330,6 @@ import _ from 'lodash'
                                             vm.currentScheduledMatch = null;
                                             if(vm.isMatchScheduleInEdit === true) {
                                                 vm.$emit('schedule-match-result', matchData);
-                                                vm.$root.$emit('gamesMatchList', matchData);
-                                                // $(vm.$el).fullCalendar( 'removeEvents' )
                                             } else {
                                                 vm.$store.dispatch('setMatches');
                                                 if(response.data.areAllMatchFixtureScheduled == true) {
