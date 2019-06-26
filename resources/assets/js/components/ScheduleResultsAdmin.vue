@@ -163,9 +163,9 @@ export default {
 			// Here we again
 		},
 		exportCategoryReport() {
-			let ageCategory	= this.ageCategory
-			if(ageCategory!=''){
-				Tournament.getSignedUrlForMatchReport(ageCategory).then(
+			let ageCategoryData = {'ageCategory': this.ageCategory, 'tournament_id': this.TournamentId}
+			if(this.ageCategory !=''){
+				Tournament.getSignedUrlForMatchReport(ageCategoryData).then(
 					(response) => {
 						window.location.href = response.data;
 					},
@@ -173,7 +173,6 @@ export default {
 
 					}
 				)
-    			// window.location.href = "/api/match/report/generate/"+ageCategory;
 			} else {
     			toastr['error']('Please select age category.', 'Error');
 			}

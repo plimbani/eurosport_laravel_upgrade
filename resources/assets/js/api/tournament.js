@@ -209,7 +209,7 @@ export default {
     return api.post('age_group/getPlacingsData', placingsData)
   },
   getSignedUrlForMatchReport(ageCategoryData) {
-    return api.post('getSignedUrlForMatchReport/'+ageCategoryData)
+    return api.post('getSignedUrlForMatchReport', {'ageCategoryData': ageCategoryData})
   },
   getSignedUrlForTournamentReport(reportData) {
     return api.post('getSignedUrlForTournamentReport?'+reportData);
