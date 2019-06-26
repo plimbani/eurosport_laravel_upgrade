@@ -104,6 +104,8 @@ $api->version('v1', function ($api) {
 
     $api->post('/userResendEmail', '\Laraspace\Api\Controllers\UserController@userResendEmail');
     $api->get('user/setpasswordCheck/{key}','\Laraspace\Api\Controllers\UserController@setPassword');
+
+    $api->post('deleteFinalPlacingTeam','Laraspace\Api\Controllers\AgeGroupController@deleteFinalPlacingTeam');
 });
 
 $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {

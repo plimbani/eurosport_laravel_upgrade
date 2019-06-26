@@ -277,4 +277,7 @@ export default {
   getSignedUrlForGroupsViewReport(groupsViewData) {
     return api.post('getSignedUrlForGroupsViewReport?'+groupsViewData);
   },
+  deleteFinalPlacingTeam(placingData) {
+    return api.post('deleteFinalPlacingTeam', placingData)
+  },
 }

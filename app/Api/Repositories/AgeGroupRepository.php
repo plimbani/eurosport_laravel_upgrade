@@ -459,6 +459,8 @@ class AgeGroupRepository
           $positionData[$key]['team_name'] = $position->team['name'];
           $positionData[$key]['team_flag'] = $position->team->country->country_flag;
           $positionData[$key]['team_logo'] = getenv('S3_URL') . $position->team->country->logo;
+          $positionData[$key]['position_id'] = $position->id;
+          $positionData[$key]['age_category_id'] = $position->age_category_id;
         } else {
           $positionData[$key]['team_name'] = '';
 
@@ -473,6 +475,12 @@ class AgeGroupRepository
       $viewGraphicImageData = TournamentCompetationTemplates::where('id', $data['age_category'])->with('TournamentTemplate')->first();
 
       return $viewGraphicImageData->TournamentTemplate->graphic_image ? getenv('S3_URL').$viewGraphicImageData->TournamentTemplate->graphic_image : null;
+    }
+
+    public function deleteFinalPlacingTeam($data) {
+      $position = Position::where('id', $data['positionId']) 
+                                        ->update(['is_delete' => 1]);
+      return $position;
     }
 
 }

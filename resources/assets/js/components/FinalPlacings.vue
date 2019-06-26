@@ -37,10 +37,13 @@
           </div>
           <div class="modal-body modal-fixed-height">
               <div class="form-group row mb-0" v-for="position in positionData">
-                <div class="col-sm-3 form-control-label font-weight-bold border">Placing {{ position.pos }}</div>
-                <div class="col-sm-9 form-control-label d-flex"> 
+                <div class="col-sm-4 form-control-label font-weight-bold border">Placing {{ position.pos }}</div>
+                <div class="col-sm-4 form-control-label d-flex"> 
                   <span :class="'flag-icon flag-icon-' + position.team_flag"></span>
                   <span class="ml-1">{{ position.team_name }}</span>
+                </div>
+                <div class="col-sm-4 form-control-label"> 
+                  <div class="btn btn-outline-primary btn-sm ml-2" @click="deleteFinalPlacingTeam(position.position_id, position.age_category_id)"><u>Delete teams</u></div>
                 </div>
               </div>   
           </div>
@@ -130,6 +133,16 @@ export default {
         $('#viewPlacingsModal').modal('hide')
         return false
     },
+    deleteFinalPlacingTeam(positionId, ageCategoryId) {
+      let placingData = {'positionId': positionId, 'ageCategoryId': ageCategoryId}
+      Tournament.deleteFinalPlacingTeam(placingData).then(
+        (response) => {
+        },
+        (error) => {
+
+        }
+      )
+    }
   },
   filters: {
   },
