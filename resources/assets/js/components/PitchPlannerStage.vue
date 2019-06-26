@@ -3,7 +3,7 @@
         <div class='pitchPlanner' :id="'pitchPlanner'+stage.stageNumber"></div>
         <pitch-modal :matchFixture="matchFixture" :section="section" v-if="setPitchModal"></pitch-modal>
         <delete-modal1 :deleteConfirmMsg="deleteConfirmMsg"  @confirmedBlock="deleteConfirmedBlock()"></delete-modal1>
-        <UnsavedMatchFixture :unChangedMatchFixtures="unChangedMatchFixtures"></UnsavedMatchFixture>
+        <UnsavedMatchFixture :unChangedMatchFixtures="unChangedMatchFixtures" :isDiffMatchScheduled="isDiffMatchScheduled"></UnsavedMatchFixture>
     </div>
 </template>
 
@@ -34,6 +34,7 @@ import _ from 'lodash'
                 'unChangedMatchFixtureModalOpen': false,
                 'unChangedMatchFixtures': [],
                 // 'currentView': this.$store.getters.curStageView
+                'isDiffMatchScheduled': false,
             }
         },
         props: [ 'stage' , 'defaultView', 'scheduleMatchesArray', 'isMatchScheduleInEdit', 'stageIndex'],
@@ -307,9 +308,12 @@ import _ from 'lodash'
                             Tournament.setMatchSchedule(data).then(
                                 (response) => {
                                     if(response.data.status_code == 200 ){
+                                        if(response.data.data.is_different_match_scheduled == true) {
+                                            vm.isDiffMatchScheduled = true;
+                                        }
                                         if(response.data.data != -1 && response.data.data != -2){
                                             vm.unChangedMatchFixtures = response.data.unChangedFixturesArray;
-                                            if(vm.unChangedMatchFixtures.length > 0) {
+                                            if(vm.unChangedMatchFixtures.length > 0 && response.data.data.is_different_match_scheduled == false) {
                                               vm.unChangedMatchFixtureModalOpen = true;
                                               $('#unChangedMatchFixtureModal').modal('show');
                                             }

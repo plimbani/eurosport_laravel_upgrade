@@ -10,7 +10,8 @@
 	             </button>
 	          </div>
 	          <div class="modal-body">
-                <p class="font-weight-bold">The following matches are not displaying the most up to date result:</p>
+                <p v-if="isDiffMatchScheduled">The following matche(s) are not scheduled as other matche(s) has already been scheduled.</p>
+                <p class="font-weight-bold" v-else>The following fixtures are not up to date:</p>
             	<ul class="list-unstyled" v-for="match in unChangedMatchFixtures">
             		<li>{{ match }}</li>
             	</ul>
@@ -26,7 +27,7 @@
 </template>
 <script type="text/babel">
 	export default {
-		props: ['unChangedMatchFixtures'],
+		props: ['unChangedMatchFixtures', 'isDiffMatchScheduled'],
 		methods: {
 		    closeModal() {
 		        $('#unChangedMatchFixtureModal').modal('hide');

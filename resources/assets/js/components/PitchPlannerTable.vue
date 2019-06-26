@@ -188,6 +188,7 @@
                 'gamesMatchList': [],
                 'isMatchScheduleInEdit': false,
                 'conflictedMatchFixtures': [],
+                'conflictedMatchFixturesForBulkSchedule': []
             };
         },
         mounted() {
@@ -582,6 +583,11 @@
                 Tournament.saveScheduleMatches(this.scheduleMatchesArray).then(
                     (response) => {
                         if(response.data.status_code == '200') {
+                            console.log('response', response.data.data.conflictedFixtureMatchNumber);
+                            vm.conflictedMatchFixturesForBulkSchedule = response.data.data.conflictedFixtureMatchNumber;
+                            if(vm.conflictedMatchFixturesForBulkSchedule.length > 0) {
+                                $('#unChangedMatchFixtureModal').modal('show');
+                            }
                             toastr.success('Match has been scheduled successfully.', 'Schedule Match');
                             vm.resetScheduleMatches();
                             $("body .js-loader").addClass('d-none');

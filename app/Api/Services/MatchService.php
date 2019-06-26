@@ -2523,7 +2523,7 @@ class MatchService implements MatchContract
         $scheduleMatch['venue_id'] = Pitch::find($scheduleMatch['pitchId'])->venue_id;
         $data = $this->matchRepoObj->saveScheduleMatches($scheduleMatch);
       }
-      
+
       return ['status_code' => '200', 'data' => $data, 'message' => 'Match has been scheduled successfully'];
     }
 
