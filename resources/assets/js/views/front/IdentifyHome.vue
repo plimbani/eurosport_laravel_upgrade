@@ -1,7 +1,8 @@
 <template>
     <div class="container-fluid">
-   		<EnterTournamentAccessCode v-if="getCurrentLayout === 'commercialisation'"></EnterTournamentAccessCode>
-   		<home v-if="getCurrentLayout === 'tmp'"></home>
+   		<EnterTournamentAccessCode v-if="getCurrentLayout === 'commercialisation'">
+   		</EnterTournamentAccessCode>
+   		<Home v-if="getCurrentLayout === 'tmp'"></Home>
     </div>
 </template>
 <script type="text/babel">
