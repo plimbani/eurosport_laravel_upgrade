@@ -113,7 +113,6 @@ extension VenueVC : UITableViewDataSource, UITableViewDelegate {
                                 lblType = textFieldCell.lblTitle
                                 
                                 if dicTeamFixture.pitchType != NULL_STRING {
-                                    // lblType.text = String(dicTeamFixture.pitchType[0]).uppercased() + String(dicTeamFixture.pitchType[1])
                                     lblType.text = dicTeamFixture.pitchType.capitalizingFirstLetter()
                                 } else {
                                     lblType.text = String.localize(key: "string_na")

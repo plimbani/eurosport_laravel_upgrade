@@ -85,6 +85,7 @@ class LandingVC: SuperViewController {
                 }
             }, failure: { result in
                 DispatchQueue.main.async {
+                    self.view.hideProgressHUD()
                     if result.allKeys.count == 0 {
                         return
                     }

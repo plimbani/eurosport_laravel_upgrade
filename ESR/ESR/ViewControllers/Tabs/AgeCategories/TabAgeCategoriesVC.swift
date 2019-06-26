@@ -57,8 +57,6 @@ class TabAgeCategoriesVC: SuperViewController {
         _ = cellOwner.loadMyNibFile(nibName: kNiB.Cell.TabAgeCategoriesCell)
         heightAgeCategoriesCell = (cellOwner.cell as! TabAgeCategoriesCell).getCellHeight()
         
-        // initInfoAlertView(self.view)
-        
         sendAgeCategoriesRequest()
     }
     

@@ -247,19 +247,8 @@ class MatchInfoVC: SuperViewController {
         
         if dicTeamFixture.matchDatetime != NULL_STRING && dicTeamFixture.matchDatetimeObj != nil{
             let dateFormatter = DateFormatter()
-//            dateFormatter.dateFormat = kDateFormat.MMM
-//            let nameOfMonth = dateFormatter.string(from: dicTeamFixture.matchDatetimeObj!)
-//            dateFormatter.dateFormat = kDateFormat.dd
-//            let dateOfMonth = dateFormatter.string(from: dicTeamFixture.matchDatetimeObj!)
-//            dateFormatter.dateFormat = kDateFormat.hhmm
-//            let strTime = dateFormatter.string(from: dicTeamFixture.matchDatetimeObj!)
-            
             dateFormatter.dateFormat = kDateFormat.format6
             let formattedDate = dateFormatter.string(from: dicTeamFixture.matchDatetimeObj!)
-            
-            //lblDate.text = dateOfMonth + " " + nameOfMonth
-            //lblTime.text = strTime
-            
             lblDate.text = formattedDate
         } else {
             lblDate.text = NULL_STRING
