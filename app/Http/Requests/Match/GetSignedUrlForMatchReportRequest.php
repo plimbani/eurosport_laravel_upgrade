@@ -17,9 +17,8 @@ class GetSignedUrlForMatchReportRequest extends FormRequest
      */
     public function authorize()
     {
-        $ageCategoryId = $this->ageCategoryData['ageCategory'];
-        $ageCategory = TournamentCompetationTemplates::findOrFail($ageCategoryId);
-        $isTournamentAccessible = $this->checkForWritePermissionByTournament($ageCategory->tournament_id);
+        $tournamentId = $this->ageCategoryData['tournament_id'];
+        $isTournamentAccessible = $this->checkForWritePermissionByTournament($tournamentId);
         if(!$isTournamentAccessible) {
           return false;
         }
