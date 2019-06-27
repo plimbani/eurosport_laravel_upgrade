@@ -63,11 +63,9 @@ export default {
     }
   },
   created: function() {
-      this.$root.$on('gamesMatchList', this.gamesMatchListData);
       this.$root.$on('refreshCompetitionWithGames', this.refreshCompetitionWithGames);
   },
   beforeCreate: function() {
-    this.$root.$off('gamesMatchList');
     this.$root.$off('refreshCompetitionWithGames');
   },
   mounted() {
@@ -93,18 +91,13 @@ export default {
         this.TournamentId = 0;
       }
     },
-    gamesMatchListData(matchData)
-    {
-      // let vm = this;
-      // _.forEach(this.gamesMatchListRecord, function(competition, competitionIndex){
-      //   let matchPlannerGamesFilter = _.filter(competition.matchList, function(data) { 
-      //     return data.matchId != matchData.matchId;
-      //   });
-      //   vm.gamesMatchListRecord[competitionIndex]['matchList'] = matchPlannerGamesFilter;
-      // })
-    },
     refreshCompetitionWithGames() {
-      this.gamesMatchListRecord = _.cloneDeep(this.$store.getters.getAllCompetitionWithGames);
+      let vm = this;
+      this.gamesMatchListRecord = [];
+      Vue.nextTick()
+      .then(function () {
+        vm.gamesMatchListRecord = _.cloneDeep(vm.$store.getters.getAllCompetitionWithGames);
+      })
     }
   }
 }

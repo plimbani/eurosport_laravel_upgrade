@@ -35,7 +35,7 @@
                                     <div></div>
                                 </div>
                                 <div :id="'stage_outer_div'+stage.stageNumber" :data-stage-number="stage.stageNumber" class="js-stage-outer-div">
-                                    <pitch-planner-stage :stage="stage" :defaultView="defaultView" @schedule-match-result="saveScheduleMatchResult" :gamesMatchList="gamesMatchList" :scheduleMatchesArray="scheduleMatchesArray" :isMatchScheduleInEdit="isMatchScheduleInEdit" :stageIndex="stageIndex"></pitch-planner-stage>
+                                    <pitch-planner-stage :stage="stage" :defaultView="defaultView" @schedule-match-result="saveScheduleMatchResult" :scheduleMatchesArray="scheduleMatchesArray" :isMatchScheduleInEdit="isMatchScheduleInEdit" :stageIndex="stageIndex" @conflicted-match-fixutres="showConflictedMatchFixtures"></pitch-planner-stage>
                                 </div>
                             </div>
                         </div>
@@ -110,7 +110,7 @@
                 return this.$store.state.Pitch.pitches;
             },
             totalMatchCount() {
-                return this.$store.getters.totalMatch
+                return this.$store.getters.totalMatch - this.scheduleMatchesArray.length;
             },
             totalRefereeCount() {
                 return this.$store.state.Tournament.totalReferee
@@ -185,10 +185,8 @@
                 'unscheduleFixture': 'Are you sure you would like to unschedule the selected fixtures?',
                 'matchId': null,
                 'scheduleMatchesArray': [],
-                'gamesMatchList': [],
                 'isMatchScheduleInEdit': false,
                 'conflictedMatchFixtures': [],
-                'conflictedMatchFixturesForBulkSchedule': []
             };
         },
         mounted() {
@@ -556,10 +554,7 @@
                     }
 
                     // toastr.success('Fixtures unscheduled successfully', 'Fixtures Unscheduled', {timeOut: 5000});
-                    $("#unschedule_fixtures").html('Unschedule fixture').removeClass('btn btn-success');
-                    $("#unschedule_fixtures").addClass('btn btn-primary btn-md btn-secondary');
-                    $(".match-unschedule-checkbox-div").addClass('d-none');
-                    $("#cancle_unscheduling_fixtures").hide();
+                    vm.cancelUnscheduleFixtures();
 
                     vm.$store.dispatch('setMatches');
                     vm.$store.dispatch('SetScheduledMatches');
@@ -582,14 +577,26 @@
                 $("body .js-loader").removeClass('d-none');
                 Tournament.saveScheduleMatches(this.scheduleMatchesArray).then(
                     (response) => {
+                        vm.conflictedMatchFixtures = response.data.conflictedFixturesArray;
+                        if(vm.conflictedMatchFixtures.length > 0) {
+                            $("body .js-loader").addClass('d-none');
+                            $('#unChangedMatchFixtureModal').modal('show');
+                        }
                         if(response.data.status_code == '200') {
-                            console.log('response', response.data.data.conflictedFixtureMatchNumber);
-                            vm.conflictedMatchFixturesForBulkSchedule = response.data.data.conflictedFixtureMatchNumber;
-                            if(vm.conflictedMatchFixturesForBulkSchedule.length > 0) {
-                                $('#unChangedMatchFixtureModal').modal('show');
+                            if(response.data.areAllMatchFixtureScheduled == true) {
+                              toastr.success('Match has been scheduled successfully.', 'Schedule Match');
                             }
-                            toastr.success('Match has been scheduled successfully.', 'Schedule Match');
                             vm.resetScheduleMatches();
+                            vm.$store.dispatch('setMatches')
+                            .then((response) => {
+                                _.forEach(vm.tournamentStages, function(stage, stageIndex) {
+                                    vm.$root.$emit('refreshPitch' + stageIndex);
+                                });
+                                vm.$root.$emit('refreshCompetitionWithGames');
+                            })
+                            .catch((response) => {
+                                toastr['error']('Error while fetching data', 'Error');
+                            });
                             $("body .js-loader").addClass('d-none');
                             vm.isMatchScheduleInEdit = false;
                         }
@@ -727,6 +734,10 @@
               var c_b = parseInt(hexCode.substr(4, 2),16);
               return ((c_r * 299) + (c_g * 587) + (c_b * 114)) / 1000;
             },
+            showConflictedMatchFixtures(matchFixtureData) {
+                this.conflictedMatchFixtures = matchFixtureData;
+                $('#unChangedMatchFixtureModal').modal('show');
+            }
         }
     }
 </script>

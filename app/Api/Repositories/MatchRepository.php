@@ -1450,10 +1450,10 @@ class MatchRepository
             $setFlag = 1;
       }
 
-      $startDateTime = $data['matchData']['matchStartDate'];
-      $endDateTime = $data['matchData']['matchEndDate'];
+      $startDateTime = $matchData['matchStartDate'];
+      $endDateTime = $matchData['matchEndDate'];
       $fixturesResultCount = TempFixture::where('tournament_id',$teamData['tournament_id'])
-        ->where('id','!=', $data['matchData']['matchId'])
+        ->where('id','!=', $matchData['matchId'])
         ->where('is_scheduled', 1)
         ->where(function($query) use ($startDateTime, $endDateTime) {
             $query->where(function($query2) use ($startDateTime, $endDateTime) {
@@ -1472,7 +1472,7 @@ class MatchRepository
       }
 
 
-      if($matchData['scheduleLastUpdateDateTime'] != $teamData['schedule_last_update_date_time']) {
+      if($data['isMultiSchedule'] === false && $matchData['scheduleLastUpdateDateTime'] != $teamData['schedule_last_update_date_time']) {
         $isFixtureScheduled = false;
         return ['status' => false, 'message' => 'You need to refresh page to get latest updated fixtures.', 'data'=>$teamData, 'is_fixture_scheduled' => $isFixtureScheduled, 'is_different_match_scheduled' => false];
       }
@@ -1755,14 +1755,16 @@ class MatchRepository
 
     public function saveScheduleMatches($data)
     {
-      $conflictedFixtureMatchNumber = [];
+      $conflictedFixtureMatchNumber = null;
       $matchData = TempFixture::find($data['matchId']);
-      $isFixtureScheduled = true;
+
       if($data['scheduleLastUpdateDateTime'] != $matchData->schedule_last_update_date_time) {
-        $isFixtureScheduled = false;
-        $conflictedFixtureMatchNumber[] = $matchData->match_number;
-        return ['status' => false, 'message' => 'You need to refresh page to get latest updated fixtures.', 'data'=>$matchData, 'is_fixture_scheduled' => $isFixtureScheduled];
-      }    
+        $conflictedFixtureMatchNumber = $matchData->match_number;
+      }
+
+      if($conflictedFixtureMatchNumber) {
+        return ['status' => false, 'message' => 'You need to refresh page to get latest updated fixtures.', 'match_data' => $matchData, 'conflictedFixtureMatchNumber' => $conflictedFixtureMatchNumber];
+      }
 
       $updateMatchScheduleResult = TempFixture::where('id', $data['matchId'])
                       ->update([
@@ -1773,9 +1775,8 @@ class MatchRepository
                         'is_scheduled' => 1,
                         'schedule_last_update_date_time' => Carbon::now()
                       ]);
-
-      // return $updateMatchScheduleResult;
-      return ['status' => true, 'data' => $updateMatchScheduleResult, 'conflictedFixtureMatchNumber' => $conflictedFixtureMatchNumber];
+  
+      return ['status' => true, 'message' => 'Scores updated successfully.', 'match_data' => $updateMatchScheduleResult, 'conflictedFixtureMatchNumber' => $conflictedFixtureMatchNumber];
     }
 
     public function setAutomaticMatchSchedule($data, $allowSchedulingForcefully = false)

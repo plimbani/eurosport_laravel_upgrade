@@ -3,7 +3,6 @@
         <div class='pitchPlanner' :id="'pitchPlanner'+stage.stageNumber"></div>
         <pitch-modal :matchFixture="matchFixture" :section="section" v-if="setPitchModal"></pitch-modal>
         <delete-modal1 :deleteConfirmMsg="deleteConfirmMsg"  @confirmedBlock="deleteConfirmedBlock()"></delete-modal1>
-        <UnsavedMatchFixture :unChangedMatchFixtures="unChangedMatchFixtures" :isDiffMatchScheduled="isDiffMatchScheduled"></UnsavedMatchFixture>
     </div>
 </template>
 
@@ -12,7 +11,6 @@ import moment from 'moment'
 import Tournament from '../api/tournament.js'
 import PitchModal from '../components/PitchModal.vue';
 import DeleteModal1 from '../components/DeleteModalBlock.vue'
-import UnsavedMatchFixture from '../components/UnsavedMatchFixture.vue'
 
 import _ from 'lodash'
     export default {
@@ -41,7 +39,6 @@ import _ from 'lodash'
         components: {
             PitchModal,
             DeleteModal1,
-            UnsavedMatchFixture,
         },
         computed: {
             pitchesData() {
@@ -257,7 +254,13 @@ import _ from 'lodash'
                                     let updatedMatch = response.data.data;
                                     if(response.data.status_code == 200 && response.data.data.status == true){
                                          toastr.success('Referee has been assigned successfully', 'Assigned Referee ', {timeOut: 5000});
-                                        vm.$store.dispatch('getAllReferee',vm.tournamentId);
+                                        vm.$store.dispatch('getAllReferee',vm.tournamentId).then(function() {
+                                            if($("#save_schedule_fixtures").is(':visible') === true) {
+                                                $('.js-referee-draggable-block').draggable('disable');
+                                            } else {
+                                                $('.js-referee-draggable-block').draggable('enable');
+                                            }
+                                        });
                                         vm.getScheduledMatch(vm.tournamentFilter.filterKey,vm.tournamentFilter.filterValue,vm.tournamentFilter.filterDependentKey,vm.tournamentFilter.filterDependentValue)
                                         vm.reloadAllEvents()
 
@@ -266,7 +269,13 @@ import _ from 'lodash'
                                         toastr.error(errorMsg, 'Assigned Referee ', {timeOut: 5000});
 
                                         $('.fc.fc-unthemed').fullCalendar( 'removeEvents', [event.matchId] )
-                                        vm.$store.dispatch('getAllReferee',vm.tournamentId);
+                                        vm.$store.dispatch('getAllReferee',vm.tournamentId).then(function() {
+                                            if($("#save_schedule_fixtures").is(':visible') === true) {
+                                                $('.js-referee-draggable-block').draggable('disable');
+                                            } else {
+                                                $('.js-referee-draggable-block').draggable('enable');
+                                            }
+                                        });
                                     }
                                 },
                                 (error) => {
@@ -314,16 +323,13 @@ import _ from 'lodash'
                                         if(response.data.data != -1 && response.data.data != -2){
                                             vm.unChangedMatchFixtures = response.data.unChangedFixturesArray;
                                             if(vm.unChangedMatchFixtures.length > 0 && response.data.data.is_different_match_scheduled == false) {
-                                              vm.unChangedMatchFixtureModalOpen = true;
-                                              $('#unChangedMatchFixtureModal').modal('show');
+                                                vm.$emit('conflicted-match-fixutres', vm.unChangedMatchFixtures);
                                             }
 
                                             vm.currentScheduledMatch.remove();
                                             vm.currentScheduledMatch = null;
                                             if(vm.isMatchScheduleInEdit === true) {
                                                 vm.$emit('schedule-match-result', matchData);
-                                                vm.$root.$emit('gamesMatchList', matchData);
-                                                // $(vm.$el).fullCalendar( 'removeEvents' )
                                             } else {
                                                 vm.$store.dispatch('setMatches');
                                                 if(response.data.areAllMatchFixtureScheduled == true) {
