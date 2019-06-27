@@ -12,6 +12,7 @@ class LabelSelectionCell: UITableViewCell {
     @IBOutlet var lblTitle: UILabel!
     @IBOutlet var containerView: UIView!
     
+    @IBOutlet var btnDropdown: UIButton!
     var record = NSDictionary()
     
     override func awakeFromNib() {
@@ -19,6 +20,11 @@ class LabelSelectionCell: UITableViewCell {
         // Initialization code
         lblTitle.textColor = UIColor.txtPlaceholderTxt
         lblTitle.font = UIFont.init(name: Font.HELVETICA_REGULAR, size: Font.Size.commonLblSize)
+        
+        if ApplicationData.currentTarget == ApplicationData.CurrentTargetList.EasyMM.rawValue {
+            btnDropdown.setBackgroundImage(UIImage.init(named: "btn_yellow"), for: .normal)
+            btnDropdown.setImageColor(color: .white, image: UIImage(named: "down_arrow_black")!, state: .normal)
+        }
     }
 
     func reloadCell() {

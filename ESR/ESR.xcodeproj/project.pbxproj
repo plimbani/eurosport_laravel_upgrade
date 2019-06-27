@@ -75,7 +75,6 @@
 		307542B92174C9DD003715C7 /* FinalPlacingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307542B72174C9DD003715C7 /* FinalPlacingsCell.swift */; };
 		307542BA2174C9DD003715C7 /* FinalPlacingsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 307542B82174C9DD003715C7 /* FinalPlacingsCell.xib */; };
 		307542BE2178A157003715C7 /* TeamListingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307542BD2178A157003715C7 /* TeamListingVC.swift */; };
-		30790D7C220420AA000EE4A5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 30181CCC211D95B80067D65F /* LaunchScreen.storyboard */; };
 		307949DF2137F78100DE23A3 /* TeamFixture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307949DE2137F78100DE23A3 /* TeamFixture.swift */; };
 		307949E621394C6800DE23A3 /* GroupDetailsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307949E521394C6800DE23A3 /* GroupDetailsVC.swift */; };
 		307949ED21395AB200DE23A3 /* GroupDetailsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307949EB21395AB200DE23A3 /* GroupDetailsCell.swift */; };
@@ -312,6 +311,7 @@
 		3044DE5D2240CFF9005E8C86 /* FollowTournamentCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FollowTournamentCell.xib; sourceTree = "<group>"; };
 		3044DE602240F5F1005E8C86 /* Pods_ESR.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Pods_ESR.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3052EBE22298117700FD8CE8 /* esr_production.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = esr_production.plist; sourceTree = "<group>"; };
+		3054ACEC22C49D61005BF4DA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		305693FD212BEABC009790BA /* ProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVC.swift; sourceTree = "<group>"; };
 		305693FF212BEACC009790BA /* NotificationAndSoundVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationAndSoundVC.swift; sourceTree = "<group>"; };
 		30569401212BEADC009790BA /* PrivacyAndTermsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyAndTermsVC.swift; sourceTree = "<group>"; };
@@ -959,7 +959,6 @@
 				30FB312B21366A6400ABA22A /* GroupSummaryMatchesCell.xib in Resources */,
 				30181D40212312EC0067D65F /* ButtonCell.xib in Resources */,
 				30181D4E212590EC0067D65F /* ImageNavigationBar.xib in Resources */,
-				30790D7C220420AA000EE4A5 /* LaunchScreen.storyboard in Resources */,
 				30AF116921BA596400BE50F4 /* TabAgeCategoriesCell.xib in Resources */,
 				30FB31272136660900ABA22A /* GroupSummaryMatchesHeader.xib in Resources */,
 				3086BC87213D3DB800810CC8 /* AgeCategories.storyboard in Resources */,
@@ -1388,6 +1387,7 @@
 				30C799DA21CD04D000B0ECB4 /* nl */,
 				30C799E121CD04D800B0ECB4 /* da */,
 				30C799E821CD04E600B0ECB4 /* cs */,
+				3054ACEC22C49D61005BF4DA /* en */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";

@@ -223,6 +223,7 @@ class CreateAccountVC: SuperViewController {
     func updateCreateAccountBtn() {
         btnCreateNewAccount.isEnabled = false
         btnCreateNewAccount.backgroundColor = UIColor.btnDisable
+        btnCreateNewAccount.setTitleColor(.black, for: .normal)
         
         if ApplicationData.currentTarget == ApplicationData.CurrentTargetList.EasyMM.rawValue {
             btnCreateNewAccount.setBackgroundImage(nil, for: .normal)
@@ -281,6 +282,7 @@ class CreateAccountVC: SuperViewController {
         
         if ApplicationData.currentTarget == ApplicationData.CurrentTargetList.EasyMM.rawValue {
             btnCreateNewAccount.setBackgroundImage(UIImage.init(named: "btn_yellow"), for: .normal)
+            btnCreateNewAccount.setTitleColor(.white, for: .normal)
         }
     }
     

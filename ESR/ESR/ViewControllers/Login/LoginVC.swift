@@ -24,15 +24,16 @@ class LoginVC: SuperViewController {
         super.viewDidLoad()
         TestFairy.log(String(describing: self))
         initialize()
-        let tap = UITapGestureRecognizer(target: self, action: #selector(onLogoImageClick(_:)))
-        logoImg.isUserInteractionEnabled = true
-        logoImg.addGestureRecognizer(tap)
     }
     
     func initialize() {
         
         ApplicationData.setTextFieldAttributes(txtEmail)
         ApplicationData.setTextFieldAttributes(txtPassword)
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(onLogoImageClick(_:)))
+        logoImg.isUserInteractionEnabled = true
+        logoImg.addGestureRecognizer(tap)
         
         isRememberMe = USERDEFAULTS.bool(forKey: kUserDefaults.isRememberLogin)
         if isRememberMe {
@@ -88,6 +89,7 @@ class LoginVC: SuperViewController {
     func updateLoginBtn() {
         btnLogin.isEnabled = false
         btnLogin.backgroundColor = UIColor.btnDisable
+        btnLogin.setTitleColor(.black, for: .normal)
         
         if ApplicationData.currentTarget == ApplicationData.CurrentTargetList.EasyMM.rawValue {
             btnLogin.setBackgroundImage(nil, for: .normal)
@@ -115,6 +117,7 @@ class LoginVC: SuperViewController {
         
         if ApplicationData.currentTarget == ApplicationData.CurrentTargetList.EasyMM.rawValue {
             btnLogin.setBackgroundImage(UIImage.init(named: "btn_yellow"), for: .normal)
+            btnLogin.setTitleColor(.white, for: .normal)
         }
         
         btnLogin.isEnabled = true
