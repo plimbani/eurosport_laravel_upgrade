@@ -316,7 +316,6 @@ import _ from 'lodash'
                             }
                             Tournament.setMatchSchedule(data).then(
                                 (response) => {
-                                    console.log('here');
                                     if(response.data.status_code == 200 ){
                                         vm.unChangedMatchFixtures = response.data.unChangedFixturesArray;
                                         if(response.data.data.is_another_match_scheduled == true) {
