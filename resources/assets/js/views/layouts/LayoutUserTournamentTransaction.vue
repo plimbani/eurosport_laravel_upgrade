@@ -12,7 +12,7 @@
                                 <ul class="nav nav-tabs" role="tablist">
                                     <li class="nav-item">
                                         <a class="nav-link active" data-toggle="tab"
-                                        href="javascript:void(0)" role="tab"><div class="wrapper-tab">Transaction History</div></a>
+                                        href="javascript:void(0)" role="tab"><div class="wrapper-tab">Tournament</div></a>
                                     </li>
                                 </ul>
                                 <UsersTournament></UsersTournament>

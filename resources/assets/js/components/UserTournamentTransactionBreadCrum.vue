@@ -6,8 +6,7 @@
         <li><a href="/admin">Home</a></li>
         <li v-if="currentPath"><a href="/users" >Users</a></li>
         <li v-else><a href="#">{{ currentPage }}</a></li>
-        <li><a href="#">Tournament</a></li>
-        <li class="active"><span>Transaction History</span></li>
+        <li><span>Tournament</span></li>
       </ol>
     </div>
   </div>
