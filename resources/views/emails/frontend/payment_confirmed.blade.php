@@ -212,11 +212,11 @@ $days = $interval->format('%a') + 1;
                                                                                     $daysign = "";
                                                                                 }
 
-																				echo $email_details['tournament']['tournament_max_teams']; ?> (+ <?php echo $email_details['tournament']['teamDifference']; ?>) team license for a <?php echo $days; ?> (<?php echo $daysign; ?> <?php echo $email_details['tournament']['dayDifference']; ?>) day tournament
+																				echo $email_details['tournament']['tournament_name']; ?> - <?php echo $email_details['tournament']['tournament_max_teams']; ?> (+ <?php echo $email_details['tournament']['teamDifference']; ?>) team license for a <?php echo $days; ?> (<?php echo $daysign; ?> <?php echo $email_details['tournament']['dayDifference']; ?>) day tournament
 																			<?php 
                                                                             }
 																			else{
-																				echo $email_details['tournament']['tournament_max_teams']; ?> team license for a <?php echo $email_details['tournament']['dayDifference']; ?> day tournament
+																				echo $email_details['tournament']['tournament_name']; ?> - <?php echo $email_details['tournament']['tournament_max_teams']; ?> team license for a <?php echo $email_details['tournament']['dayDifference']; ?> day tournament
                                                                             <?php } ?>
 																			</th>
                                                                             <td style="text-align: right; padding: 10px;" align="right">

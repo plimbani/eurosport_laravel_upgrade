@@ -51,13 +51,13 @@
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title">Share Tournment</h5>
+                                        <h5 class="modal-title">Share Tournament</h5>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">×</span>
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        <p>You can invite anyone to follow your tournament online and in the app. Simply share your following URL by email, SMS or any other social media.</p>
+                                        <p>You can invite anyone to follow the tournament online and in the app. Simply share the following URL by email, SMS or any other social media.</p>
                                         <p class="popup-access-code mb-0 text-center py-4 px-1 font-weight-bold" v-on:click="copyAccessCode()">{{ access_code_popup }}</p>
                                         <input type="hidden" id="access_code_popup" :value="access_code_popup">
                                     </div>

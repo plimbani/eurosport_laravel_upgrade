@@ -29,9 +29,9 @@
                                     <option value="Internal.administrator">Internal administrator</option>
                                     <option value="Master.administrator">Master administrator</option>
                                     <option value="mobile.user">Mobile user</option>
-                                    <option value="Results.administrator">Results administrator</option>                       
+                                    <option value="Results.administrator">Results administrator</option>
                                     <option value="Super.administrator">Super administrator</option>
-                                    <option value="tournament.administrator">Tournament administrator</option>                         
+                                    <option value="tournament.administrator">Tournament administrator</option>
                                 </select>
                               </div>
                               <div class="col-md-2">
@@ -49,7 +49,7 @@
                                 <thead>
                                     <tr>
                                         <th>{{$lang.user_desktop_name}}</th>
-                                        <th>{{$lang.user_desktop_surname}}</th>
+                                        <th>{{$lang.user_list_desktop_surname}}</th>
                                         <th>{{$lang.user_desktop_email}}</th>
                                         <th>{{$lang.user_desktop_source}}</th>
                                         <th>{{$lang.user_desktop_usertype}}</th>
@@ -251,7 +251,7 @@
               if (!value) return '';
               value = value.toString();
               return value.charAt(0).toUpperCase() + value.slice(1);
-            }            
+            }
           },
         mounted() {
           // here we check the permission to allowed to access users list

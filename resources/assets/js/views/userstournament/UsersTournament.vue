@@ -32,7 +32,7 @@
                                         <th>Teams</th>
                                         
                                         <th>Purchase date</th>
-                                        <th>Action</th>
+                                        <th>Edit</th>
                                         
                                     </tr>
                                 </thead>

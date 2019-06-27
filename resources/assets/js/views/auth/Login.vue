@@ -12,7 +12,7 @@
                         </div>
                         <h6 class="text-uppercase mb-0">For Members</h6>
                         <h1 class="font-weight-bold">Login</h1>
-                        <p>Quisque vel nulla at nibh finibus sodales. Nam efficitur sem. Don’t have an account? <a href="#" @click="redirectToRegisterPage()">Register here</a>.</p>
+                        <p>Login below. Don’t have an account? <a href="#" @click="redirectToRegisterPage()">Register here</a>.</p>
 
                         <p v-if="fromRegister == 1">We have sent you an email to your email address for you to complete your registration.</p>
 

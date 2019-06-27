@@ -68,7 +68,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group row align-items-center">
-                        <div class="col-sm-4 form-control-label mb-0">1 EURO:</div>
+                        <div class="col-sm-4 form-control-label mb-0">&euro;1.00 (conversion):</div>
                         <div class="col-sm-4">
                              <input v-model="adminsetting.currencyvalue" placeholder="for ex. 1.1" class="form-control">
                         </div>

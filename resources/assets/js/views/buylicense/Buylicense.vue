@@ -5,7 +5,8 @@
                 <div class="row justify-content-between">
                     <div class="col-lg-6">
                         <h1 class="font-weight-bold" v-if="!id">Buy a license</h1>
-                        <h1 class="font-weight-bold" v-if="id">Update License for {{tournamentData.tournament_name}}<span v-if="tournamentData.access_code">(#{{tournamentData.access_code}})</span></h1>
+                        <h1 class="font-weight-bold" v-if="id">Update License for {{tournamentData.tournament_name}}<span v-if="tournamentData.access_code">
+                         (#{{tournamentData.access_code}})</span></h1>
                         <p class="mb-5" v-if="!id">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris posuere vel mi ac sagittis. Quisque vel nulla at nibh finibus sodales. Nam efficitur sem a mi rhoncus. </p>
                         <p class="mb-5" v-if="id">You can add more teams and extend the duration of your tournament. </p>
                         <label> What kind of tournament are you organising?</label>
