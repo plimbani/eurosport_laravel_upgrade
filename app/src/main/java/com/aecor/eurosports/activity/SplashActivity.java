@@ -33,6 +33,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.crashlytics.android.Crashlytics;
+import com.testfairy.TestFairy;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -88,15 +89,13 @@ public class SplashActivity extends BaseActivity {
         setContentView(R.layout.activity_splash_screen);
         ButterKnife.bind(this);
 
-        if (BuildConfig.isEasyMatchManager) {
-            Uri uri = getIntent().getData();
-            if (uri != null) {
-                final String scheme = uri.getScheme().toLowerCase();
-                final String host = uri.getHost().toLowerCase();
-                if (("http".equals(scheme) || "https".equals(scheme)) &&
-                        ("comm-qa.wot.esrtmp.com".equals(host) || "www.comm-qa.wot.esrtmp.com".equals(host))) {
-                    accessCode = getAccessCode(uri);
-                }
+        Uri uri = getIntent().getData();
+        if (uri != null) {
+            final String scheme = uri.getScheme().toLowerCase();
+            final String host = uri.getHost().toLowerCase();
+            if (("http".equals(scheme) || "https".equals(scheme)) &&
+                    ("comm-qa.wot.esrtmp.com".equals(host) || "www.comm-qa.wot.esrtmp.com".equals(host))) {
+                accessCode = getAccessCode(uri);
             }
         }
         initView();
@@ -150,20 +149,13 @@ public class SplashActivity extends BaseActivity {
                         public void onErrorResponse(VolleyError error) {
                             try {
 //                        Utility.StopProgress();
-                                Utility.parseVolleyError(mContext, error);
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
+                            Utility.parseVolleyError(mContext, error);
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
-                    });
-                    mQueue.add(jsonRequest);
-                }else {
-                    Intent launcherIntent = new Intent(mContext,
-                            LandingActivity.class);
-                    launcherIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    mContext.startActivity(launcherIntent);
-                    ((Activity) mContext).finish();
-                }
+                    }
+                });
+                mQueue.add(jsonRequest);
             }
         } else {
             ViewDialog.showSingleButtonDialog((Activity) mContext, mContext.getString(R.string.no_internet), mContext.getString(R.string.internet_message), mContext.getString(R.string.button_ok), new ViewDialog.CustomDialogInterface() {
@@ -207,6 +199,14 @@ public class SplashActivity extends BaseActivity {
                             }
                             if (jsonObject.has("country_id")) {
                                 mAppSharedPref.setString(AppConstants.PREF_COUNTRY_ID, jsonObject.getString("country_id"));
+                            }
+                            if (response != null && response.has("enable_logs_android")) {
+                                String enable_logs_android = response.getString("enable_logs_android");
+                                if (!Utility.isNullOrEmpty(enable_logs_android) && enable_logs_android.equalsIgnoreCase("true")) {
+                                    TestFairy.begin(mContext, "SDK-7273syUD");
+                                    mAppSharedPref.setString(AppConstants.KEY_ENABLE_LOGS_ANDROID, "true");
+                                    TestFairy.setUserId(jsonObject.getString("user_id"));
+                                }
                             }
                             if (jsonObject.has("locale") && !Utility.isNullOrEmpty(jsonObject.getString("locale"))) {
                                 mAppSharedPref.setString(AppConstants.PREF_USER_LOCALE, jsonObject.getString("locale"));
@@ -493,7 +493,7 @@ public class SplashActivity extends BaseActivity {
             String email = mAppSharedPref.getString(AppConstants.PREF_EMAIL);
             String password = mAppSharedPref.getString(AppConstants.PREF_PASSWORD);
 
-            if (BuildConfig.isEasyMatchManager && Utility.isNullOrEmpty(email) && Utility.isNullOrEmpty(password)) {
+            if (Utility.isNullOrEmpty(email) && Utility.isNullOrEmpty(password)) {
                 Intent intent = new Intent(mContext, LandingActivity.class);
                 intent.putExtra("accessCode", accessCode);
                 intent.putExtra("isFromUrl", true);
@@ -632,7 +632,6 @@ public class SplashActivity extends BaseActivity {
 
     public static void printHashKey(Context pContext) {
         try {
-            Log.e("pContext.getPackageName()",pContext.getPackageName());
             PackageInfo info = pContext.getPackageManager().getPackageInfo(pContext.getPackageName(), PackageManager.GET_SIGNATURES);
             for (Signature signature : info.signatures) {
                 MessageDigest md = MessageDigest.getInstance("SHA");

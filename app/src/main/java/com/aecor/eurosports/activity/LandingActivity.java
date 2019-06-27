@@ -36,10 +36,12 @@ import com.facebook.GraphResponse;
 import com.facebook.Profile;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
+import com.testfairy.TestFairy;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Arrays;
 import java.util.Collections;
 
 import butterknife.BindView;
@@ -111,8 +113,12 @@ public class LandingActivity extends BaseActivity {
     @OnClick(R.id.facebook)
     protected void facebookSignIn() {
         try {
-            LoginManager.getInstance().logInWithReadPermissions(this, Collections.singletonList("email"));
+            LoginManager.getInstance().logInWithReadPermissions(
+                    this,
+                    Arrays.asList("email")
+            );
             LoginManager.getInstance().registerCallback(this.mFacebookCallbackManager, new mFacebookCallBack());
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -121,48 +127,22 @@ public class LandingActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         this.mFacebookCallbackManager.onActivityResult(requestCode, resultCode, data);
 
     }
 
     private class mFacebookCallBack implements FacebookCallback<LoginResult> {
         public void onSuccess(LoginResult loginResult) {
-            //  Profile p = Profile.getCurrentProfile();
-
-            GraphRequest request = GraphRequest.newMeRequest(
-                    loginResult.getAccessToken(),
-                    new GraphRequest.GraphJSONObjectCallback() {
-                        @Override
-                        public void onCompleted(
-                                JSONObject object,
-                                GraphResponse response) {
-                            Log.e("LoginActivity Response ", response.toString());
-
-                            try {
-                                // Name = object.getString("name");
-
-                                String FEmail = object.getString("email");
-                                LoginManager.getInstance().logOut();
-                                mAppPref.setString(AppConstants.PREF_EMAIL, FEmail);
-                                //  Toast.makeText(getApplicationContext(), "Name " + Name, Toast.LENGTH_LONG).show();
-
-
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    });
-            Bundle parameters = new Bundle();
-            parameters.putString("fields", "id,name,email,gender");
-            request.setParameters(parameters);
-            request.executeAsync();
-            AppLogger.LogE("TAG", "loginResult" + loginResult);
-            AppLogger.LogE("TAG", "loginResult" + loginResult.getAccessToken().getToken());
-            AppLogger.LogE("TAG", "loginResult" + loginResult.getAccessToken().getUserId());
+            Utility.startProgress(mContext);
 
             if (!Utility.isNullOrEmpty(loginResult.getAccessToken().getToken())) {
+                AppLogger.LogE("TAG", "loginResult" + loginResult);
+                AppLogger.LogE("TAG", "loginResult" + loginResult.getAccessToken().getToken());
+                AppLogger.LogE("TAG", "loginResult" + loginResult.getAccessToken().getUserId());
+
                 socialLogin(loginResult.getAccessToken().getToken(), AppConstants.PROVIDER_SOCIAL_FACEBOOK);
+            } else {
+                Utility.StopProgress();
             }
 
         }
@@ -179,7 +159,6 @@ public class LandingActivity extends BaseActivity {
 
     private void socialLogin(String token, String providerSocialFacebook) {
         if (Utility.isInternetAvailable(mContext)) {
-            Utility.startProgress(mContext);
             String url = ApiConstants.FACEBOOK_LOGIN;
             final JSONObject requestJson = new JSONObject();
             try {
@@ -251,7 +230,14 @@ public class LandingActivity extends BaseActivity {
                             if (jsonObject.has("profile_image_url")) {
                                 mAppPref.setString(AppConstants.PREF_IMAGE_URL, jsonObject.getString("profile_image_url"));
                             }
-
+                            if (response != null && response.has("enable_logs_android")) {
+                                String enable_logs_android = response.getString("enable_logs_android");
+                                if (!Utility.isNullOrEmpty(enable_logs_android) && enable_logs_android.equalsIgnoreCase("true")) {
+                                    TestFairy.begin(mContext, "SDK-7273syUD");
+                                    mAppPref.setString(AppConstants.KEY_ENABLE_LOGS_ANDROID, "true");
+                                    TestFairy.setUserId(jsonObject.getString("user_id"));
+                                }
+                            }
                             if (jsonObject.has("role")) {
                                 mAppPref.setString(AppConstants.PREF_ROLE, jsonObject.getString("role"));
                             }

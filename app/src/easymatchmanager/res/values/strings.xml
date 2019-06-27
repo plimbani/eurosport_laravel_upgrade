@@ -3,8 +3,13 @@
     <string name="favorites">Follow</string>
     <string name="enter_tournament_code_to_start">Enter a tournament code to get started</string>
     <string name="enter_code_to_follow_another_tournament">Enter a code to follow another tournament</string>
+	    <!--for qa and live Commercialisation-->
+	<string name="facebook_app_id">2285199178466834</string>
+    <string name="fb_login_protocol_scheme">fb2285199178466834</string>
+
     <string name="tournament_code">Tournament code</string>
     <string name="submit">Submit</string>
     <string name="tournament_not_available">This tournament is no longer available</string>
     <string name="tournament_code_not_recognised">The tournament code was not recognised</string>
+
 </resources>
