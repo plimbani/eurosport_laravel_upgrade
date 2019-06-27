@@ -135,7 +135,7 @@
                     <div class="col-sm-3 col-sm-3 form-control-label align-self-center">
                       &nbsp;
                     </div>
-                    <div class="col-sm-3 align-self-center">
+                    <div class="col-sm-3 align-self-center mt-3">
                       <input type="number" min="0" name="away_team_score"
                       v-model="matchDetail.awayteam_score" id="away_team_score" class="form-control" :readonly="(this.matchDetail.is_result_override == 1) && (this.matchDetail.match_status == 'Walk-over' || this.matchDetail.match_status == 'Abandoned')">
                     </div>                    
@@ -202,7 +202,7 @@
                     <div class="col-sm-3 col-sm-3 form-control-label align-self-center">
                       &nbsp;
                     </div>
-                    <div class="col-sm-3 align-self-center">
+                    <div class="col-sm-3 align-self-center mt-3">
                       <input type="text" min="0" name="away_yellow_cards"
                       v-model="matchDetail.away_yellow_cards" id="away_yellow_cards" class="form-control" v-validate="{ rules: { regex: /^[0-9]*$/ } }" :class="{'is-danger': errors.has('away_yellow_cards') }">
                       <i v-show="errors.has('away_yellow_cards')" class="fas fa-warning"></i>
@@ -231,7 +231,7 @@
                     <div class="col-sm-3 col-sm-3 form-control-label align-self-center">
                       &nbsp;
                     </div>
-                    <div class="col-sm-3 align-self-center">
+                    <div class="col-sm-3 align-self-center mt-3">
                       <input type="text" min="0" name="away_red_cards" v-model="matchDetail.away_red_cards" id="away_red_cards" class="form-control" v-validate="{ rules: { regex: /^[0-9]*$/ } }" :class="{'is-danger': errors.has('away_red_cards') }">
                       <i v-show="errors.has('away_red_cards')" class="fas fa-warning"></i>
                       <span class="help is-danger" v-show="errors.has('away_red_cards')">Only numbers accepted</span>
