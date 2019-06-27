@@ -1468,13 +1468,13 @@ class MatchRepository
 
       if($fixturesResultCount->count() > 0) {
         $isFixtureScheduled = false;
-        return ['status' => false, 'message' => 'You cannot schedule this match here. As another match is already scheduled.', 'data'=>$teamData, 'is_fixture_scheduled' => $isFixtureScheduled, 'is_different_match_scheduled' => true];
+        return ['status' => false, 'message' => 'You cannot schedule this match here. As another match is already scheduled.', 'data'=>$teamData, 'is_fixture_scheduled' => $isFixtureScheduled, 'is_another_match_scheduled' => true];
       }
 
 
       if($data['isMultiSchedule'] === false && $matchData['scheduleLastUpdateDateTime'] != $teamData['schedule_last_update_date_time']) {
         $isFixtureScheduled = false;
-        return ['status' => false, 'message' => 'You need to refresh page to get latest updated fixtures.', 'data'=>$teamData, 'is_fixture_scheduled' => $isFixtureScheduled, 'is_different_match_scheduled' => false];
+        return ['status' => false, 'message' => 'You need to refresh page to get latest updated fixtures.', 'data'=>$teamData, 'is_fixture_scheduled' => $isFixtureScheduled, 'is_another_match_scheduled' => false];
       }
 
       if($data['isMultiSchedule'] === false) {
@@ -1495,9 +1495,9 @@ class MatchRepository
         $matchData = array('teams'=>$teams,'tournamentId'=>$matchData['tournamentId'],'ageGroupId'=>$teamData['age_group_id'],'teamId'=>$teamId);
         $matchresult =  $this->checkTeamIntervalforMatches($matchData);
         return ['status' => true, 'data' => $updateData, 'is_fixture_scheduled' => $isFixtureScheduled, 
-        'is_different_match_scheduled' => false];
+        'is_another_match_scheduled' => false];
       }
-      return ['status' => true, 'data' => [], 'is_fixture_scheduled' => $isFixtureScheduled, 'is_different_match_scheduled' => false];
+      return ['status' => true, 'data' => [], 'is_fixture_scheduled' => $isFixtureScheduled, 'is_another_match_scheduled' => false];
     }
     public function matchUnschedule($matchId)
     {

@@ -32,7 +32,7 @@ import _ from 'lodash'
                 'unChangedMatchFixtureModalOpen': false,
                 'unChangedMatchFixtures': [],
                 // 'currentView': this.$store.getters.curStageView
-                'isDiffMatchScheduled': false,
+                'isAnotherMatchScheduled': false,
             }
         },
         props: [ 'stage' , 'defaultView', 'scheduleMatchesArray', 'isMatchScheduleInEdit', 'stageIndex'],
@@ -316,14 +316,17 @@ import _ from 'lodash'
                             }
                             Tournament.setMatchSchedule(data).then(
                                 (response) => {
+                                    console.log('here');
                                     if(response.data.status_code == 200 ){
-                                        if(response.data.data.is_different_match_scheduled == true) {
-                                            vm.isDiffMatchScheduled = true;
+                                        vm.unChangedMatchFixtures = response.data.unChangedFixturesArray;
+                                        if(response.data.data.is_another_match_scheduled == true) {
+                                            vm.isAnotherMatchScheduled = true;
+                                            vm.$emit('conflicted-for-same-match-fixutres', vm.unChangedMatchFixtures, vm.isAnotherMatchScheduled);
                                         }
                                         if(response.data.data != -1 && response.data.data != -2){
-                                            vm.unChangedMatchFixtures = response.data.unChangedFixturesArray;
-                                            if(vm.unChangedMatchFixtures.length > 0 && response.data.data.is_different_match_scheduled == false) {
-                                                vm.$emit('conflicted-match-fixutres', vm.unChangedMatchFixtures);
+                                            if(vm.unChangedMatchFixtures.length > 0 && response.data.data.is_another_match_scheduled == false) {
+                                                vm.isAnotherMatchScheduled = false;
+                                                vm.$emit('conflicted-for-another-match-fixutres', vm.unChangedMatchFixtures, vm.isAnotherMatchScheduled);
                                             }
 
                                             vm.currentScheduledMatch.remove();

@@ -35,7 +35,7 @@
                                     <div></div>
                                 </div>
                                 <div :id="'stage_outer_div'+stage.stageNumber" :data-stage-number="stage.stageNumber" class="js-stage-outer-div">
-                                    <pitch-planner-stage :stage="stage" :defaultView="defaultView" @schedule-match-result="saveScheduleMatchResult" :scheduleMatchesArray="scheduleMatchesArray" :isMatchScheduleInEdit="isMatchScheduleInEdit" :stageIndex="stageIndex" @conflicted-match-fixutres="showConflictedMatchFixtures"></pitch-planner-stage>
+                                    <pitch-planner-stage :stage="stage" :defaultView="defaultView" @schedule-match-result="saveScheduleMatchResult" :scheduleMatchesArray="scheduleMatchesArray" :isMatchScheduleInEdit="isMatchScheduleInEdit" :stageIndex="stageIndex" @conflicted-for-same-match-fixutres="showConflictedForSameMatchFixtures" @conflicted-for-another-match-fixutres="showConflictedForAnotherMatchFixtures"></pitch-planner-stage>
                                 </div>
                             </div>
                         </div>
@@ -77,7 +77,7 @@
         <AutomaticPitchPlanning></AutomaticPitchPlanning>
         <AddRefereesModel :formValues="formValues" :competationList="competationList" :tournamentId="tournamentId" :refereeId="refereeId" ></AddRefereesModel>
         <UploadRefereesModel :tournamentId="tournamentId"></UploadRefereesModel>
-        <UnsavedMatchFixture :unChangedMatchFixtures="conflictedMatchFixtures"></UnsavedMatchFixture>
+        <UnsavedMatchFixture :unChangedMatchFixtures="conflictedMatchFixtures" :isAnotherMatchScheduled="isAnotherMatchScheduled"></UnsavedMatchFixture>
     </div>
 </template>
 <script type="text/babel">
@@ -187,6 +187,7 @@
                 'scheduleMatchesArray': [],
                 'isMatchScheduleInEdit': false,
                 'conflictedMatchFixtures': [],
+                'isAnotherMatchScheduled': false
             };
         },
         mounted() {
@@ -734,10 +735,16 @@
               var c_b = parseInt(hexCode.substr(4, 2),16);
               return ((c_r * 299) + (c_g * 587) + (c_b * 114)) / 1000;
             },
-            showConflictedMatchFixtures(matchFixtureData) {
+            showConflictedForSameMatchFixtures(matchFixtureData, anotherMatchScheduled) {
                 this.conflictedMatchFixtures = matchFixtureData;
+                this.isAnotherMatchScheduled = anotherMatchScheduled;
                 $('#unChangedMatchFixtureModal').modal('show');
-            }
+            },
+            showConflictedForAnotherMatchFixtures(matchFixtureData, anotherMatchScheduled) {
+                this.conflictedMatchFixtures = matchFixtureData;
+                this.isAnotherMatchScheduled = anotherMatchScheduled;
+                $('#unChangedMatchFixtureModal').modal('show');
+            }            
         }
     }
 </script>
