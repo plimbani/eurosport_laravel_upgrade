@@ -16,10 +16,10 @@ class DuplicateTournamentRequest extends FormRequest
     public function authorize()
     {
         $authUser = JWTAuth::parseToken()->toUser();
-        $tournamentUser = TournamentUser::where('tournament_id', $this->copy_tournament_id)->where('user_id', $authUser->id)->get();
 
         if($authUser->roles()->first()->slug == 'tournament.administrator') {
-            if($tournamentUser->count() == 0) {
+            $userTournaments = $authUser->tournaments()->where('tournament_id', $this->copy_tournament_id)->get();
+            if($userTournaments->count() == 0) {
                 return false;
             }
         }
