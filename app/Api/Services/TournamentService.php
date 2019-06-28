@@ -1001,7 +1001,7 @@ class TournamentService implements TournamentContract
               return response()->json(['message' => 'This tournament is no longer available'], 500);
           }
       } else if($tournament['status'] == 'Unpublished'){
-          return response()->json(['message' => 'Tournament is not yet published or in preview'], 500);
+          return response()->json(['message' => 'Tournament is not yet published or in preview mode', 'title' => 'Update'], 500);
       } else {
           return response()->json(['message' => 'The tournament code was not recognised'], 500);
       } 
