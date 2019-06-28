@@ -16,6 +16,8 @@ use Laraspace\Models\User;
 use Laraspace\Models\UserFavourites;
 use Laraspace\Traits\TournamentAccess;
 use View;
+use Laraspace\Jobs\FaviconGenerate;
+use Laraspace\Services\FaviconAPI\Client\HttpClient;
 
 class TournamentService implements TournamentContract
 {
@@ -271,8 +273,6 @@ class TournamentService implements TournamentContract
      */
     public function create($data)
     {
-
-         //exit;
         $data = $data->all();
 
         // here first we save the tournament related Data
@@ -282,12 +282,17 @@ class TournamentService implements TournamentContract
 
         $data['tournamentData']['image_logo']=$this->saveTournamentLogo($data,$id);
 
-        //\File::put($path , $imgData);
-        //print_r($imgData);
-
         $resultData = $this->tournamentRepoObj->create($data['tournamentData']);
 
         $this->getCoordinates($resultData);
+
+        if($data['tournamentData']['image_logo']) {
+          FaviconGenerate::dispatch(
+            $data['tournamentData']['image_logo'],
+            config('wot.imagePath')['favicon'],
+            $resultData['id']
+          );
+        }
 
         if ($data) {
             return ['status_code' => '200', 'message' => self::SUCCESS_MSG,
@@ -349,8 +354,6 @@ class TournamentService implements TournamentContract
             //$s3->put($path, $img->save());
 
             return $timeStamp.'.png';
-
-
         } else {
             // If its Edit
             return '';

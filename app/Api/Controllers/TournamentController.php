@@ -42,6 +42,7 @@ use Laraspace\Api\Contracts\TournamentContract;
 class TournamentController extends BaseController
 {
     use ValidatesRequests;
+
     /**
      * @param object $tournamentObj
      */
