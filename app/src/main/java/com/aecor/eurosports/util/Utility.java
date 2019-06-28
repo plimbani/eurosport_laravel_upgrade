@@ -142,6 +142,14 @@ public class Utility {
                 message = data.getString("error");
 
             }
+
+            String title = mContext.getString(R.string.error);
+
+            if (data.has("title")) {
+                message = data.getString("message");
+                title = data.getString("title");
+            }
+
             if (data.has("tournament_expired")) {
                 message = data.getString("tournament_expired");
                 ViewDialog.showSingleButtonDialog((Activity) mContext, mContext.getString(R.string.error), message, mContext.getString(R.string.button_ok), new ViewDialog.CustomDialogInterface() {
@@ -161,7 +169,7 @@ public class Utility {
                     mContext.startActivity(mLandingPageIntent);
                     ((Activity) mContext).finish();
                 } else {
-                    ViewDialog.showSingleButtonDialog((Activity) mContext, mContext.getString(R.string.error), message, mContext.getString(R.string.button_ok), new ViewDialog.CustomDialogInterface() {
+                    ViewDialog.showSingleButtonDialog((Activity) mContext, title, message, mContext.getString(R.string.button_ok), new ViewDialog.CustomDialogInterface() {
                         @Override
                         public void onPositiveButtonClicked() {
                             if (mContext instanceof SplashActivity) {

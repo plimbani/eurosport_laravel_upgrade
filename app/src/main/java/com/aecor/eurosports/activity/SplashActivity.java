@@ -149,13 +149,14 @@ public class SplashActivity extends BaseActivity {
                         public void onErrorResponse(VolleyError error) {
                             try {
 //                        Utility.StopProgress();
-                            Utility.parseVolleyError(mContext, error);
-                        } catch (Exception e) {
-                            e.printStackTrace();
+                                Utility.parseVolleyError(mContext, error);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
                         }
-                    }
-                });
-                mQueue.add(jsonRequest);
+                    });
+                    mQueue.add(jsonRequest);
+                }
             }
         } else {
             ViewDialog.showSingleButtonDialog((Activity) mContext, mContext.getString(R.string.no_internet), mContext.getString(R.string.internet_message), mContext.getString(R.string.button_ok), new ViewDialog.CustomDialogInterface() {
@@ -629,20 +630,4 @@ public class SplashActivity extends BaseActivity {
         }
     }
 
-
-    public static void printHashKey(Context pContext) {
-        try {
-            PackageInfo info = pContext.getPackageManager().getPackageInfo(pContext.getPackageName(), PackageManager.GET_SIGNATURES);
-            for (Signature signature : info.signatures) {
-                MessageDigest md = MessageDigest.getInstance("SHA");
-                md.update(signature.toByteArray());
-                String hashKey = new String(Base64.encode(md.digest(), 0));
-                Log.e("SplashActivity", "printHashKey() Hash Key: " + hashKey);
-            }
-        } catch (NoSuchAlgorithmException e) {
-            Log.e("SplashActivity", "printHashKey()", e);
-        } catch (Exception e) {
-            Log.e("SplashActivity", "printHashKey()", e);
-        }
-    }
 }

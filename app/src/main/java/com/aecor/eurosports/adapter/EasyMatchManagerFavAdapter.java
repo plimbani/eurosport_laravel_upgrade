@@ -111,9 +111,9 @@ public class EasyMatchManagerFavAdapter extends BaseAdapter {
                 ((ViewHolderCommerci) holder).tv_tournamentName.setText(rowItem.getName());
             }
             if (!Utility.isNullOrEmpty(rowItem.getName()) && checkDefault(rowItem)) {
-                ((ViewHolderCommerci) holder).iv_is_default.setVisibility(View.VISIBLE);
+                ((ViewHolderCommerci) holder).iv_is_default.setImageResource(R.drawable.fav_add);
             } else {
-                ((ViewHolderCommerci) holder).iv_is_default.setVisibility(View.GONE);
+                ((ViewHolderCommerci) holder).iv_is_default.setImageResource(R.drawable.fav_default);
             }
 
 

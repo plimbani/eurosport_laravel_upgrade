@@ -528,9 +528,11 @@ public class ProfileActivity extends BaseAppCompactActivity {
     private void enabledDisableLoginButton(boolean isEnable) {
         if (isEnable) {
             btn_update.setEnabled(true);
+            btn_update.setTextColor(Color.WHITE);
             btn_update.setBackgroundResource(R.drawable.btn_yellow);
         } else {
             btn_update.setEnabled(false);
+            btn_update.setTextColor(Color.BLACK);
             btn_update.setBackgroundResource(R.drawable.btn_disable);
         }
     }

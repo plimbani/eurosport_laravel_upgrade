@@ -40,7 +40,6 @@
             android:layout_height="match_parent"
             android:layout_gravity="right"
             android:foregroundGravity="right"
-            android:src="@drawable/default_heart_blue"
             android:visibility="visible" />
 
     </LinearLayout>

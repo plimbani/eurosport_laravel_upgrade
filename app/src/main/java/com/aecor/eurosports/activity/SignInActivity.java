@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -141,9 +142,11 @@ public class SignInActivity extends BaseActivity {
     private void enabledDisableLoginButton(boolean isEnable) {
         if (isEnable) {
             log_in.setEnabled(true);
+            log_in.setTextColor(Color.WHITE);
             log_in.setBackground(getResources().getDrawable(R.drawable.btn_yellow));
         } else {
             log_in.setEnabled(false);
+            log_in.setTextColor(Color.BLACK);
             log_in.setBackground(getResources().getDrawable(R.drawable.btn_disable));
         }
     }

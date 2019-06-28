@@ -103,9 +103,10 @@ public class AutoLoginUtils {
 
                         System.exit(0);
 
-                }
+                    }
 
-            });
+                });
+            }
         }
     }
 
@@ -309,7 +310,7 @@ public class AutoLoginUtils {
                                         }
                                     }
                                 });
-                            }else {
+                            } else {
                                 Intent launcherIntent = new Intent(mContext,
                                         LandingActivity.class);
                                 launcherIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
