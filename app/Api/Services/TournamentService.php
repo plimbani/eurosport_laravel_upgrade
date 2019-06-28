@@ -16,8 +16,6 @@ use Laraspace\Models\User;
 use Laraspace\Models\UserFavourites;
 use Laraspace\Traits\TournamentAccess;
 use View;
-use Laraspace\Jobs\FaviconGenerate;
-use Laraspace\Services\FaviconAPI\Client\HttpClient;
 
 class TournamentService implements TournamentContract
 {
@@ -285,14 +283,6 @@ class TournamentService implements TournamentContract
         $resultData = $this->tournamentRepoObj->create($data['tournamentData']);
 
         $this->getCoordinates($resultData);
-
-        if($data['tournamentData']['image_logo']) {
-          FaviconGenerate::dispatch(
-            $data['tournamentData']['image_logo'],
-            config('wot.imagePath')['favicon'],
-            $resultData['id']
-          );
-        }
 
         if ($data) {
             return ['status_code' => '200', 'message' => self::SUCCESS_MSG,
