@@ -3,7 +3,7 @@
     android:id="@+id/ll_main_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@drawable/background"
     android:orientation="vertical">
 
     <include layout="@layout/no_internet_textview" />
@@ -21,8 +21,8 @@
             android:layout_alignParentTop="true"
             android:id="@+id/iv_header_logo"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:src="@drawable/globe" />
+            android:layout_height="100dp"
+            android:src="@drawable/splash_screen_image" />
 
         <LinearLayout
             android:layout_centerInParent="true"
@@ -61,10 +61,10 @@
             <Button
                 android:id="@+id/btnSubmit"
                 style="@style/text_black_title"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_gravity="center"
                 android:layout_marginTop="20dp"
-                android:background="@drawable/edittext_border"
+                android:background="@drawable/btn_disable"
                 android:padding="5dp"
                 android:text="@string/submit"
                 android:textSize="18sp" />

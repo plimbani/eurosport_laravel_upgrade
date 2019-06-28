@@ -63,7 +63,7 @@ public class RoleSpinnerAdapter extends ArrayAdapter<String> {
             holder.tv_spinner.setText(data[position]);
         }
         if (position == 0 && !(mContext instanceof HomeActivity)) {
-            holder.tv_spinner.setTextColor(Color.GRAY);
+            holder.tv_spinner.setTextColor(Color.parseColor("#9e9e9e"));
         } else {
             holder.tv_spinner.setTextColor(Color.BLACK);
         }

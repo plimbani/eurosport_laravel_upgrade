@@ -104,8 +104,6 @@ public class RegisterActivity extends BaseAppCompactActivity {
         enabledDisableRegisterButton(false);
         setListener();
         setRoleAdapter();
-        showBackButton("");
-        makeToolBarBackgroundTransparent();
 
         if (BuildConfig.isEasyMatchManager) {
             sp_tournament.setVisibility(View.GONE);
@@ -339,9 +337,11 @@ public class RegisterActivity extends BaseAppCompactActivity {
     private void enabledDisableRegisterButton(boolean isEnable) {
         if (isEnable) {
             register.setEnabled(true);
+            register.setTextColor(Color.WHITE);
             register.setBackgroundResource(R.drawable.btn_yellow);
         } else {
             register.setEnabled(false);
+            register.setTextColor(Color.BLACK);
             register.setBackgroundResource(R.drawable.btn_disable);
         }
     }
@@ -375,11 +375,11 @@ public class RegisterActivity extends BaseAppCompactActivity {
         }
     }
 
-    //
-//    @OnClick(R.id.iv_back)
-//    protected void onBackButtonPressed() {
-//        loadBackActivity();
-//    }
+
+    @OnClick(R.id.iv_back)
+    protected void onBackButtonPressed() {
+        loadBackActivity();
+    }
 
     private void loadBackActivity() {
         Intent mLandingActivityIntent = new Intent(mContext, LandingActivity.class);

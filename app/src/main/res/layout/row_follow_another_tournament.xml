@@ -49,7 +49,7 @@
             style="@style/text_black_title"
             android:layout_marginTop="20dp"
             android:background="@drawable/btn_disable"
-            android:text="@string/update" />
+            android:text="@string/submit" />
 
     </LinearLayout>
 

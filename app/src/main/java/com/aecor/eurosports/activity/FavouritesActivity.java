@@ -61,6 +61,8 @@ public class FavouritesActivity extends BaseAppCompactActivity {
     protected View v_seperator;
     @BindView(R.id.ll_main_layout)
     protected LinearLayout ll_main_layout;
+    @BindView(R.id.llFooter)
+    protected LinearLayout llFooter;
     @BindView(R.id.ll_footer)
     protected LinearLayout ll_footer;
     @BindView(R.id.viewFavDefault)
@@ -76,7 +78,7 @@ public class FavouritesActivity extends BaseAppCompactActivity {
 
         mAppSharedPref = AppPreference.getInstance(mContext);
 
-        favouriteList.addFooterView(new View(mContext));
+//        favouriteList.addFooterView(new View(mContext));
 
         if (BuildConfig.isEasyMatchManager) {
             easyMatchManagerFavAdapter = new EasyMatchManagerFavAdapter((Activity) mContext, new ArrayList<TournamentModel>(), new EasyMatchManagerFavAdapter.OnFavRowClick() {
@@ -88,7 +90,9 @@ public class FavouritesActivity extends BaseAppCompactActivity {
             favouriteList.setAdapter(easyMatchManagerFavAdapter);
             viewFavDefault.setVisibility(View.GONE);
             View footerView = ((LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.row_follow_another_tournament, null, false);
-            favouriteList.addFooterView(footerView);
+//            favouriteList.addFooterView(footerView);
+            llFooter.removeAllViews();
+            llFooter.addView(footerView);
 
             final Button btn_submit = (Button) footerView.findViewById(R.id.btn_submit);
             et_enter_access_code = (EditText) footerView.findViewById(R.id.et_enter_access_code);
@@ -404,7 +408,7 @@ public class FavouritesActivity extends BaseAppCompactActivity {
 //            favouriteList.setOverscrollFooter(new ColorDrawable(Color.TRANSPARENT));
 //        }
 
-        favouriteList.addFooterView(new View(mContext));
+//        favouriteList.addFooterView(new View(mContext));
 
         Collections.sort(list, new Comparator<TournamentModel>() {
             DateFormat f = new SimpleDateFormat("dd/MM/yyyy");

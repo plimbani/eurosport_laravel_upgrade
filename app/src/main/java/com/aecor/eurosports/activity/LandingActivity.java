@@ -5,7 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -86,6 +88,12 @@ public class LandingActivity extends BaseActivity {
             PackageInfo pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
             String version = pInfo.versionName;
             tvAppVersion.setText(String.format(getString(R.string.app_version), version));
+
+            if (BuildConfig.isEasyMatchManager) {
+                tvAppVersion.setTextColor(ContextCompat.getColor(this, R.color.appColorPrimary));
+            } else {
+                tvAppVersion.setTextColor(Color.WHITE);
+            }
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
