@@ -131,11 +131,19 @@
                                         <span v-if="tournamentData.currency_type == 'EURO'">&#128;</span>  
                                         {{returnFormatedNumber(tournamentData.tournamentPricingValue)}}</p>
                                 </div>
+                                <!-- {{ newDaysAdded >= 1}} -->
                                 <div class="card-text" v-if="id">
                                     <div class="row" v-if="!buyLicenseIsDataNotUpdated">
                                         <div class="col-sm-6 col-md-7 col-lg-7">
-                                            <p class="mb-0" v-if="new_added_teams > 0">Additional {{new_added_teams}} teams</p> 
-                                            <p class="mb-0" v-if="newDaysAdded > 0">Additional {{newDaysAdded}} days</p>
+                                            <p class="mb-0">
+                                            <span v-if="new_added_teams == 1">Additional {{new_added_teams}} team</span>
+                                            <span v-else="new_added_teams > 1">Additional {{new_added_teams}} teams</span>
+                                            
+                                            </p>  
+                                            <p class="mb-0">
+                                                <span v-if="newDaysAdded == 1">Additional {{newDaysAdded}} day</span>
+                                                <span v-else="newDaysAdded > 1">Additional {{newDaysAdded}} days</span>
+                                            </p>
                                             <p class="mb-0" v-if="user_old_selected_format">Tournament type</p>
                                             <p class="mb-0" v-if="user_old_selected_type">Tournament formats</p>
                                         </div>
@@ -167,9 +175,9 @@
                                             <span v-if ="tournamentData.is_renew">Renew your licence</span> 
                                         </button>      
                                         <button v-if="disabled && !id" class="btn btn-success btn-block" disabled="true">Buy your license</button>
-                                         <button v-if ="!disabled && id && buyLicenseIsDataNotUpdated" class="btn btn-success btn-block" v-on:click="updateALicence()">
+                                         <button v-if ="!disabled && id && tournamentData.tournamentPricingValue == 0" class="btn btn-success btn-block" v-on:click="updateALicence()">
                                          Confirm Details </button>
-                                         <button v-if ="!disabled && id && !buyLicenseIsDataNotUpdated" class="btn btn-success btn-block"  v-on:click="buyALicence()">
+                                         <button v-if ="!disabled && id && !buyLicenseIsDataNotUpdated && tournamentData.tournamentPricingValue != 0" class="btn btn-success btn-block"  v-on:click="buyALicence()">
                                         Make Payment</button>
                                     </div>
                                 </div>

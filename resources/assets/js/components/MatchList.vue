@@ -196,13 +196,10 @@ export default {
       return this.$store.state.currentScheduleView
     },
     checkDateScoreInput() {
-      let tournamentDate = this.$store.state.Tournament.tournamentStartDate;
-      let currentDate = moment().format('DD/MM/YYYY');
-      
-      if(this.tournamentStartDate <= this.currentDate) {
-         return false
+      if(this.tournamentStartDate < this.currentDate) {
+         return true
       } else {
-        return true
+        return false
       }
     }
   },

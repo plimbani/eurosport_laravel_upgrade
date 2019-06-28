@@ -126,7 +126,7 @@
                     
                     <div class="col-sm-3 align-self-center">
                       <input type="number" min="0" name="home_team_score"
-                      v-model="matchDetail.hometeam_score" id="home_team_score" class="form-control" :readonly="(this.matchDetail.is_result_override == 1) && (this.matchDetail.match_status == 'Walk-over' || this.matchDetail.match_status == 'Abandoned')">
+                      v-model="matchDetail.hometeam_score" id="home_team_score" class="form-control" :readonly="(this.matchDetail.is_result_override == 1) && (this.matchDetail.match_status == 'Walk-over' || this.matchDetail.match_status == 'Abandoned') || checkDateScoreInput">
                     </div>
                     <div class="col-sm-6 align-self-center">
                       Team 1 ({{ getTeamName(matchDetail.home_team, matchDetail.home_team_name, matchDetail.
@@ -137,7 +137,7 @@
                     </div>
                     <div class="col-sm-3 align-self-center mt-3">
                       <input type="number" min="0" name="away_team_score"
-                      v-model="matchDetail.awayteam_score" id="away_team_score" class="form-control" :readonly="(this.matchDetail.is_result_override == 1) && (this.matchDetail.match_status == 'Walk-over' || this.matchDetail.match_status == 'Abandoned')">
+                      v-model="matchDetail.awayteam_score" id="away_team_score" class="form-control" :readonly="(this.matchDetail.is_result_override == 1) && (this.matchDetail.match_status == 'Walk-over' || this.matchDetail.match_status == 'Abandoned') || checkDateScoreInput">
                     </div>                    
                     <div class="col-sm-6 align-self-center">
                       Team 2 ({{ getTeamName(matchDetail.away_team, matchDetail.away_team_name, matchDetail.
@@ -191,7 +191,7 @@
                     
                     <div class="col-sm-3 align-self-center">
                       <input type="text" min="0" name="home_yellow_cards"
-                      v-model="matchDetail.home_yellow_cards" id="home_yellow_cards" class="form-control" v-validate="{ rules: { regex: /^[0-9]*$/ } }" :class="{'is-danger': errors.has('home_yellow_cards') }">
+                      v-model="matchDetail.home_yellow_cards" id="home_yellow_cards" class="form-control" v-validate="{ rules: { regex: /^[0-9]*$/ } }" :class="{'is-danger': errors.has('home_yellow_cards') }" :readonly="checkDateScoreInput">
                       <i v-show="errors.has('home_yellow_cards')" class="fas fa-warning"></i>
                       <span class="help is-danger" v-show="errors.has('home_yellow_cards')">Only numbers accepted</span>
                     </div>
@@ -204,7 +204,7 @@
                     </div>
                     <div class="col-sm-3 align-self-center mt-3">
                       <input type="text" min="0" name="away_yellow_cards"
-                      v-model="matchDetail.away_yellow_cards" id="away_yellow_cards" class="form-control" v-validate="{ rules: { regex: /^[0-9]*$/ } }" :class="{'is-danger': errors.has('away_yellow_cards') }">
+                      v-model="matchDetail.away_yellow_cards" id="away_yellow_cards" class="form-control" v-validate="{ rules: { regex: /^[0-9]*$/ } }" :class="{'is-danger': errors.has('away_yellow_cards') }" :readonly="checkDateScoreInput">
                       <i v-show="errors.has('away_yellow_cards')" class="fas fa-warning"></i>
                       <span class="help is-danger" v-show="errors.has('away_yellow_cards')">Only numbers accepted</span>
                     </div>                    
@@ -220,7 +220,8 @@
                     
                     <div class="col-sm-3 align-self-center">
                       <input type="text" min="0" name="home_red_cards"
-                      v-model="matchDetail.home_red_cards" id="home_red_cards" class="form-control" v-validate="{ rules: { regex: /^[0-9]*$/ } }" :class="{'is-danger': errors.has('home_red_cards') }">
+                      v-model="matchDetail.home_red_cards" id="home_red_cards" class="form-control" v-validate="{ rules: { regex: /^[0-9]*$/ } }" :class="{'is-danger': errors.has('home_red_cards') }" 
+                      :readonly="checkDateScoreInput">
                       <i v-show="errors.has('home_red_cards')" class="fas fa-warning"></i>
                       <span class="help is-danger" v-show="errors.has('home_red_cards')">Only numbers accepted</span>
                     </div>
@@ -232,7 +233,7 @@
                       &nbsp;
                     </div>
                     <div class="col-sm-3 align-self-center mt-3">
-                      <input type="text" min="0" name="away_red_cards" v-model="matchDetail.away_red_cards" id="away_red_cards" class="form-control" v-validate="{ rules: { regex: /^[0-9]*$/ } }" :class="{'is-danger': errors.has('away_red_cards') }">
+                      <input type="text" min="0" name="away_red_cards" v-model="matchDetail.away_red_cards" id="away_red_cards" class="form-control" v-validate="{ rules: { regex: /^[0-9]*$/ } }" :class="{'is-danger': errors.has('away_red_cards') }" :readonly="checkDateScoreInput">
                       <i v-show="errors.has('away_red_cards')" class="fas fa-warning"></i>
                       <span class="help is-danger" v-show="errors.has('away_red_cards')">Only numbers accepted</span>
                     </div>                    
@@ -303,6 +304,8 @@ var moment = require('moment');
          'reportQuery': '',
          'refereeRemoved': 'no',
          'updatedMatchData': null,
+          tournamentStartDate: this.$store.state.Tournament.tournamentStartDate,
+          currentDate: moment().format('DD/MM/YYYY'),
        }
     },
     props: ['matchFixture','section'],
@@ -329,6 +332,13 @@ var moment = require('moment');
     computed: {
       isResultAdmin() {
         return this.$store.state.Users.userDetails.role_slug == 'Results.administrator';
+      },
+      checkDateScoreInput() {
+        if(this.tournamentStartDate < this.currentDate) {
+           return true
+        } else {
+          return false
+        }
       },
     },  
     methods: {

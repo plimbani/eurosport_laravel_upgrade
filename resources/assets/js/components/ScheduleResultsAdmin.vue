@@ -96,7 +96,7 @@ export default {
 			currentView: '',
 			lastUpdatedDateValue: '',
 			tournamentStartDate: '',
-			currentDate: moment().format('YYYY-MM-DD'),
+			currentDate: moment().tz('Europe/London').format('YYYY-MM-DD'),
 		}
 	},
 
