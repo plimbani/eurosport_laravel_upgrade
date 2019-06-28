@@ -1,6 +1,7 @@
 <?php
 namespace Laraspace\Api\Repositories;
 
+use Auth;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
 use JWTAuth;
@@ -1254,12 +1255,19 @@ class TournamentRepository
     }
 
     public function duplicateTournamentList($data)
-    {   
+    {
+        $authUser = JWTAuth::parseToken()->toUser();
         if(isset($data['tournamentNameSearch']) && $data['tournamentNameSearch'] !== '') {
             $tournamentName =  Tournament::where('tournaments.name', 'like', "%" . $data['tournamentNameSearch'] . "%");
             return $tournamentName->orderBy('name', 'asc')->get();
         } else {
-            return  Tournament::orderBy('name', 'asc')->get();
+            if($authUser->roles()->first()->slug == 'tournament.administrator') {
+                return Tournament::leftjoin('tournament_user', 'tournament_user.tournament_id', '=', 'tournaments.id')
+                        ->where('tournament_user.user_id', '=', $authUser->id)
+                        ->orderBy('name', 'asc')
+                        ->get();
+            } 
+            return Tournament::orderBy('name', 'asc')->get();
         }
     }
 }
