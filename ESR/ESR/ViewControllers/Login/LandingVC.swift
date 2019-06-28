@@ -28,6 +28,7 @@ class LandingVC: SuperViewController {
     
     func initialize() {
         self.navigationController?.isNavigationBarHidden = true
+        lblAppVersion.textColor = UIColor.AppColor()
         
         if ApplicationData.currentTarget == ApplicationData.CurrentTargetList.EasyMM.rawValue {
             btnSignIn.setBackgroundImage(UIImage.init(named: "btn_yellow"), for: .normal)

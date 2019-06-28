@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -41,10 +41,10 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="P0W-OX-ffV">
-                                <rect key="frame" x="110" y="321" width="100" height="35"/>
+                                <rect key="frame" x="25" y="321" width="270" height="40"/>
+                                <color key="backgroundColor" red="0.80000000000000004" green="0.80000000000000004" blue="0.80000000000000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="35" id="Lsi-2s-0NW"/>
-                                    <constraint firstAttribute="width" constant="100" id="tAF-hL-nai"/>
+                                    <constraint firstAttribute="height" constant="40" id="Lsi-2s-0NW"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
                                 <state key="normal" title="Submit">
@@ -58,6 +58,8 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="7Nv-zM-MKO" firstAttribute="trailing" secondItem="lxQ-pw-byW" secondAttribute="trailing" id="ESQ-Be-vsm"/>
+                            <constraint firstItem="P0W-OX-ffV" firstAttribute="leading" secondItem="7Nv-zM-MKO" secondAttribute="leading" id="KGO-Lp-cj1"/>
+                            <constraint firstItem="P0W-OX-ffV" firstAttribute="trailing" secondItem="7Nv-zM-MKO" secondAttribute="trailing" id="Q1u-v1-K0G"/>
                             <constraint firstItem="7Nv-zM-MKO" firstAttribute="leading" secondItem="lxQ-pw-byW" secondAttribute="leading" id="Wag-cR-f2r"/>
                             <constraint firstItem="lxQ-pw-byW" firstAttribute="centerY" secondItem="hke-wm-G6n" secondAttribute="centerY" constant="-80" id="ZNo-M4-BxK"/>
                             <constraint firstItem="P0W-OX-ffV" firstAttribute="centerX" secondItem="hke-wm-G6n" secondAttribute="centerX" id="eRL-bm-nlK"/>
