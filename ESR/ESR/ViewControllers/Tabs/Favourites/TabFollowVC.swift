@@ -10,7 +10,6 @@ import UIKit
 class TabFollowVC: SuperViewController {
     
     @IBOutlet var table: UITableView!
-    @IBOutlet var footerView: UIView!
     @IBOutlet var txtTournamentCode: UITextField!
     @IBOutlet var btnUpdate: UIButton!
     
@@ -19,6 +18,8 @@ class TabFollowVC: SuperViewController {
     var heightFollowTournamentCell: CGFloat = 0
     
     var delegate: MainTabViewControllerDelegate?
+    
+    @IBOutlet var heightConstraintAceessCodeView: NSLayoutConstraint!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,7 +55,7 @@ class TabFollowVC: SuperViewController {
         btnUpdate.backgroundColor = UIColor.btnDisable
         
         table.tableHeaderView = UIView()
-        table.tableFooterView = footerView
+        // table.tableFooterView = footerView
         
         ApplicationData.setBorder(view: txtTournamentCode, Color: .gray, CornerRadius: 1.0, Thickness: 1.0)
         
@@ -70,6 +71,7 @@ class TabFollowVC: SuperViewController {
     func updateUpdateBtn(){
         btnUpdate.isEnabled = false
         btnUpdate.backgroundColor = UIColor.btnDisable
+        btnUpdate.setTitleColor(.black, for: .normal)
         
         if ApplicationData.currentTarget == ApplicationData.CurrentTargetList.EasyMM.rawValue {
             btnUpdate.setBackgroundImage(nil, for: .normal)
@@ -86,6 +88,7 @@ class TabFollowVC: SuperViewController {
         
         if ApplicationData.currentTarget == ApplicationData.CurrentTargetList.EasyMM.rawValue {
             btnUpdate.setBackgroundImage(UIImage.init(named: "btn_yellow"), for: .normal)
+            btnUpdate.setTitleColor(.white, for: .normal)
         }
     }
     
@@ -201,7 +204,7 @@ class TabFollowVC: SuperViewController {
                 self.view.hideProgressHUD()
                 
                 if let message = result.value(forKey: "message") as? String {
-                    self.showCustomAlertVC(title: String.localize(key: "alert_title_error"), message: message)
+                    self.showCustomAlertVC(title: result.value(forKey: "title") as? String ?? String.localize(key: "alert_title_error"), message: message)
                 }
             }
         })

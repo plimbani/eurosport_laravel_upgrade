@@ -34,7 +34,7 @@
                                 </constraints>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kx4-fl-VDi">
-                                <rect key="frame" x="30" y="264" width="260" height="50.000000000000057"/>
+                                <rect key="frame" x="30" y="264" width="260" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="d4Z-aK-7bT"/>
                                 </constraints>
@@ -1103,8 +1103,8 @@
         <image name="icon_uncheck" width="27" height="22"/>
         <image name="landing_bg" width="1500" height="2713"/>
         <image name="login_with_fb_bg" width="1312" height="196"/>
-        <image name="logo_esr_landing" width="511" height="211"/>
-        <image name="registration_bg" width="640" height="1136"/>
+        <image name="logo_esr_landing" width="600" height="600"/>
+        <image name="registration_bg" width="1500" height="2708"/>
         <image name="tab_age_categories" width="29" height="25"/>
         <image name="tab_age_categories_1" width="29" height="26.5"/>
         <image name="tab_favorites" width="29" height="38.5"/>

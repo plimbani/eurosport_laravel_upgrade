@@ -38,6 +38,7 @@ class GetStartedTournamentVC: SuperViewController {
     func updateUpdateBtn(){
         btnSubmit.isEnabled = false
         btnSubmit.backgroundColor = UIColor.btnDisable
+        btnSubmit.setTitleColor(.black, for: .normal)
         
         if ApplicationData.currentTarget == ApplicationData.CurrentTargetList.EasyMM.rawValue {
             btnSubmit.setBackgroundImage(nil, for: .normal)
@@ -54,6 +55,7 @@ class GetStartedTournamentVC: SuperViewController {
         
         if ApplicationData.currentTarget == ApplicationData.CurrentTargetList.EasyMM.rawValue {
             btnSubmit.setBackgroundImage(UIImage.init(named: "btn_yellow"), for: .normal)
+            btnSubmit.setTitleColor(.white, for: .normal)
         }
     }
     

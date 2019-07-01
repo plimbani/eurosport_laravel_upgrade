@@ -13,7 +13,6 @@ class FollowTournamentCell: UITableViewCell {
     @IBOutlet var imgView: UIImageView!
     @IBOutlet var lblTitle: UILabel!
     @IBOutlet var btnFav: UIButton!
-    @IBOutlet var btnRightArrow: UIButton!
     
     @IBOutlet var widthConstraintBtnFav: NSLayoutConstraint!
     

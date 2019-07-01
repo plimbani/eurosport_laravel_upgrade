@@ -26,6 +26,14 @@ class LoginVC: SuperViewController {
         initialize()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        let navigationBar = self.navigationController?.navigationBar
+        
+        navigationBar?.setBackgroundImage(UIImage(), for: .default)
+        navigationBar?.shadowImage = UIImage()
+        navigationBar?.isTranslucent = true
+    }
+    
     func initialize() {
         
         ApplicationData.setTextFieldAttributes(txtEmail)

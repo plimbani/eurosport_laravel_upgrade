@@ -23,6 +23,9 @@ class NotificationAndSoundVC: SuperViewController {
         titleNavigationBar.delegate = self
         titleNavigationBar.setBackgroundColor()
         
+        switchSound.onTintColor = UIColor.init(hexString: "#6fa52e")
+        switchNotifications.onTintColor = UIColor.init(hexString: "#6fa52e")
+        
         if let isSound = USERDEFAULTS.string(forKey: kUserDefaults.isSound) {
             switchSound.setOn(Bool(isSound) ?? false, animated: false)
         }
