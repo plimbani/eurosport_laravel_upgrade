@@ -84,7 +84,7 @@ class CountriesTableSeeder extends Seeder
           [ 'name' => 'ISLE OF MAN', 'country_code' => 'IM', 'country_flag' => 'im', 'logo' => '/assets/img/flags/IM.png', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
           [ 'name' => 'JAPAN', 'country_code' => 'JP', 'country_flag' => 'jp', 'logo' => '/assets/img/flags/JP.png', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
           [ 'name' => 'MOLDAVA', 'country_code' => 'MD', 'country_flag' => 'md', 'logo' => '/assets/img/flags/MD.png', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
-          [ 'name' => 'SAN MARINO', 'country_code' => 'SM', 'country_flag' => 'ad', 'logo' => '/assets/img/flags/SM.png', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
+          [ 'name' => 'SAN MARINO', 'country_code' => 'SM', 'country_flag' => 'sm', 'logo' => '/assets/img/flags/SM.png', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
           [ 'name' => 'SERBIA', 'country_code' => 'RS', 'country_flag' => 'rs', 'logo' => '/assets/img/flags/RS.png', 'created_at' => Carbon::now()->format('Y-m-d H:i:s')],
         ]);
         Schema::enableForeignKeyConstraints();
