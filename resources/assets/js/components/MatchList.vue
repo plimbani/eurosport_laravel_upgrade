@@ -127,6 +127,7 @@ import PitchModal from '../components/PitchModal.vue';
 import DeleteModal1 from '../components/DeleteModalBlock.vue'
 import VuePaginate from 'vue-paginate'
 import UnSavedMatchScoresInfoModal from '../components/UnsavedMatchScoresInfo.vue'
+var moment = require('moment-timezone');
 
 export default {
   props: ['matchData1', 'DrawName'],
@@ -154,7 +155,7 @@ export default {
       no_of_records: 20,
       recordCounts: [5,10,20,50,100],
       tournamentStartDate: this.$store.state.Tournament.tournamentStartDate,
-      currentDate: moment().format('DD/MM/YYYY'),
+      currentDate: moment().tz("Europe/London").format('DD/MM/YYYY'),
       unChangedMatchScoresInfoModalOpen: false,
       unChangedMatchScores: [],
     }
@@ -196,7 +197,7 @@ export default {
       return this.$store.state.currentScheduleView
     },
     checkDateScoreInput() {
-      if(this.tournamentStartDate < this.currentDate) {
+      if(this.tournamentStartDate > this.currentDate) {
          return true
       } else {
         return false

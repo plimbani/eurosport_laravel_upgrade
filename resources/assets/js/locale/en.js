@@ -103,7 +103,7 @@ module.exports= {
   user_management_image: "Profile image",
   user_image_choose_file: "Choose file",
   user_image_size: "Maximum size of 1 MB.",
-  user_view_and_edit_tournaments_associated: "View and edit tournaments associated with a user.",
+  user_view_and_edit_tournaments_associated: "Information about the tournament purchase.",
   user_view_and_edit_transaction_history: "Information about the tournament transaction.",
   // user_image_dimensions: "Image dimensions 250 x 250.",
 

@@ -106,13 +106,15 @@
 import _ from 'lodash'
 import Tournament from '../../../api/tournament.js'
 import UnSavedMatchScoresInfoModal from '../../../components/UnsavedMatchScoresInfo.vue'
+var moment = require('moment-timezone');
+
 export default {
   data() {
     return {
       'header' : 'header',
       'tournamentId' : this.$store.state.Tournament.tournamentId,
       displayTournamentEndDate:"",
-      currentDateTime: moment().format('DD/MM/YYYY HH:mm:ss'),
+      currentDateTime: moment().tz("Europe/London").format('DD/MM/YYYY HH:mm:ss'),
       unChangedMatchScoresInfoModalOpen: false,
       unChangedMatchScores: [],
     }
@@ -138,12 +140,12 @@ export default {
       let displayTournamentEndDate = this.displayTournamentEndDate;
       let expireTime = moment(displayTournamentEndDate).add(8, 'hours').format('DD/MM/YYYY HH:mm:ss');
       let tournamentStartDate = this.$store.state.Tournament.tournamentStartDate;
-
+      
       if(displayTournamentEndDate) {
         if(tournamentStartDate >= currentDateTime  && expireTime <= currentDateTime) {
-           return false;
+           return true;
         } else {
-          return true;
+          return false;
         }
       }
     },

@@ -281,8 +281,9 @@
 <script>
 import Tournament from '../api/tournament.js'
 import _ from 'lodash';
-
 var moment = require('moment');
+var moment = require('moment-timezone');
+
   export default {
     data() {
        return {
@@ -305,7 +306,7 @@ var moment = require('moment');
          'refereeRemoved': 'no',
          'updatedMatchData': null,
           tournamentStartDate: this.$store.state.Tournament.tournamentStartDate,
-          currentDate: moment().format('DD/MM/YYYY'),
+          currentDate: moment().tz("Europe/London").format('DD/MM/YYYY'),
        }
     },
     props: ['matchFixture','section'],
@@ -334,7 +335,7 @@ var moment = require('moment');
         return this.$store.state.Users.userDetails.role_slug == 'Results.administrator';
       },
       checkDateScoreInput() {
-        if(this.tournamentStartDate < this.currentDate) {
+        if(this.tournamentStartDate > this.currentDate) {
            return true
         } else {
           return false
