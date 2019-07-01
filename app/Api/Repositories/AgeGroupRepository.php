@@ -2,6 +2,7 @@
 
 namespace Laraspace\Api\Repositories;
 
+use Auth;
 use Laraspace\Models\Referee;
 use Laraspace\Models\AgeGroup;
 use Laraspace\Models\TournamentCompetationTemplates;
@@ -240,7 +241,6 @@ class AgeGroupRepository
 
       if(count($tournamentData) > 1)
       {
-
           $ageGroupIdArray = [];
           $ageGroupIdArray[] = $tournamentData['cat_id'];
           $result= TournamentCompetationTemplates::
@@ -261,14 +261,22 @@ class AgeGroupRepository
         $fieldName = key($tournamentData);
         $value = $tournamentData[$fieldName];
         if($fieldName == 'tournament_id') {
-          return TournamentCompetationTemplates::
+          $token = \JWTAuth::getToken();
+          $tournamentCompetitionTemplates = TournamentCompetationTemplates::
                  leftjoin('tournament_template', 'tournament_template.id', '=',
                   'tournament_competation_template.tournament_template_id')
                  ->leftJoin('tournaments','tournaments.id','=','tournament_competation_template.tournament_id')
                  ->select('tournament_competation_template.*','tournament_template.name as template_name',
                    \DB::raw('CONCAT("'.$this->tournamentLogoUrl.'", tournaments.logo) AS tournamentLogo'), 
                    \DB::raw('CONCAT("'.getenv('S3_URL').'", tournament_template.graphic_image) AS graphic_image'))
-                ->where($fieldName, $value)->get();
+                ->where($fieldName, $value);
+
+          if(!$token) {
+            $tournamentCompetitionTemplates = $tournamentCompetitionTemplates->whereHas('scheduledFixtures');
+          }
+          $tournamentCompetitionTemplates = $tournamentCompetitionTemplates->get();
+          
+          return $tournamentCompetitionTemplates;
         } else {
           return TournamentCompetationTemplates::
                  leftjoin('tournament_template', 'tournament_template.id', '=',
