@@ -39,7 +39,7 @@ public class ApplicationClass extends Application {
                     @Override
                     public void run() {
 
-                        AutoLoginUtils.checkAppVersion(ApplicationClass.this);
+                        //AutoLoginUtils.checkAppVersion(ApplicationClass.this);
                     }
                 });
                 thread.start();
