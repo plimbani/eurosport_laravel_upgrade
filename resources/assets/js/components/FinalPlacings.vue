@@ -42,8 +42,8 @@
                   <span :class="'flag-icon flag-icon-' + position.team_flag"></span>
                   <span class="ml-1">{{ position.team_name }}</span>
                 </div>
-                <div class="col-sm-4 form-control-label"> 
-                  <div class="btn btn-outline-primary btn-sm ml-2" @click="deleteFinalPlacingTeam(position.position_id, position.age_category_id)"><u>Delete teams</u></div>
+                <div class="col-sm-4 form-control-label text-right">
+                    <a @click="deleteFinalPlacingTeam(position.position_id, position.age_category_id)" class="text-primary" href="javascript:void()"><u>Delete</u></a>
                 </div>
               </div>   
           </div>

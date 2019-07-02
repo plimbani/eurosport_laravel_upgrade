@@ -482,6 +482,14 @@ class AgeGroupRepository
     public function deleteFinalPlacingTeam($data) {
       $position = Position::where('id', $data['positionId']) 
                                         ->update(['is_delete' => 1]);
+
+      $positionRecord = Position::where('id', '>', $data['positionId'])->where('is_delete', '!=', 1)
+                                  ->get();
+
+      foreach ($positionRecord as $position) {
+          $position->position = $position->position - 1;
+          $position->save();
+      }
       return $position;
     }
 
