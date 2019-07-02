@@ -271,7 +271,7 @@ class AgeGroupRepository
                    \DB::raw('CONCAT("'.getenv('S3_URL').'", tournament_template.graphic_image) AS graphic_image'))
                 ->where($fieldName, $value);
 
-          if(!$token) {
+          if(!$token || (app('request')->header('ismobileuser') && app('request')->header('ismobileuser') == "true")) {
             $tournamentCompetitionTemplates = $tournamentCompetitionTemplates->whereHas('scheduledFixtures');
           }
           $tournamentCompetitionTemplates = $tournamentCompetitionTemplates->get();
