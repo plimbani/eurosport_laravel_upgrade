@@ -112,7 +112,7 @@
             },
 
             redirectToTransactionListPage(tournament){
-                 this.$router.push({name: 'tournamentstransaction', query: {id:tournament.id}}); 
+                 this.$router.push({name: 'tournamentstransaction', query: {id:tournament.id, customer_id:this.customer_id}}); 
             }, 
 
             getTournamentRecord() {

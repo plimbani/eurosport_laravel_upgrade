@@ -5,7 +5,7 @@
       <ol class="breadcrumb">
         <li><a href="/admin">Home</a></li>
         <li><a href="/users">{{currentPage}}</a></li>
-        <li><a href="/userstourmanent?id=customer_id">Tournament</a></li>
+        <li><a href="javascript:void(0)" @click="redirectToTournamentList()">Tournament</a></li>
         <li class="active"><span>Transaction history</span></li>
       </ol>
     </div>
@@ -19,9 +19,15 @@ export default  {
   		'breadCrum' : 'breadCrum',
   	}
   },  
+  
   computed: {
     currentPage() {
-    return (this.$store.state.currentPage == '') ? '' : this.$store.state.currentPage      
+        return (this.$store.state.currentPage == '') ? '' : this.$store.state.currentPage      
+    },
+  },
+  methods:{
+    redirectToTournamentList(){
+        return this.$router.push({name: 'userstourmanent', query: {id:this.$route.query.customer_id}});
     },
   }
 }
