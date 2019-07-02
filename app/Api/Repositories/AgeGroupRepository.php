@@ -480,16 +480,22 @@ class AgeGroupRepository
     }
 
     public function deleteFinalPlacingTeam($data) {
-      $position = Position::where('id', $data['positionId']) 
-                                        ->update(['is_delete' => 1]);
+      $position = Position::where('age_category_id', $data['ageCategoryId'])->where('id', $data['positionId'])->first();
+      $position->is_delete = 1;
 
-      $positionRecord = Position::where('id', '>', $data['positionId'])->where('is_delete', '!=', 1)
-                                  ->get();
+      $newPosition = $position->position;
 
-      foreach ($positionRecord as $position) {
-          $position->position = $position->position - 1;
-          $position->save();
+      $positionRecord = Position::where('age_category_id', $data['ageCategoryId'])->where('position', '>', $position->position)->orderBy('position')->get();
+
+      foreach ($positionRecord as $index => $pos) {
+          $pos->position = $newPosition;
+          $pos->save();
+          $newPosition += 1;
       }
+
+      $position->position = $newPosition;
+      $position->save();
+
       return $position;
     }
 

@@ -43,7 +43,7 @@
                   <span class="ml-1">{{ position.team_name }}</span>
                 </div>
                 <div class="col-sm-4 form-control-label text-right">
-                    <a @click="deleteFinalPlacingTeam(position.position_id, position.age_category_id)" class="text-primary" href="javascript:void()"><u>Delete</u></a>
+                    <a @click="deleteFinalPlacingTeam(position.position_id, position.age_category_id)" class="text-primary" href="javascript:void(0)"><u>Delete</u></a>
                 </div>
               </div>   
           </div>
@@ -139,7 +139,7 @@ export default {
       Tournament.deleteFinalPlacingTeam(placingData).then(
         (response) => {
           this.getAgeCategoryDetail(ageCategoryId)
-          toastr.success('Team has been deleted successfully.', 'Delete Team', {timeOut: 5000});
+          toastr.success('Placing has been deleted successfully.', 'Delete placing', {timeOut: 5000});
         },
         (error) => {
 
