@@ -5,7 +5,8 @@
                 <div class="row justify-content-between">
                     <div class="col-lg-6">
                         <h1 class="font-weight-bold" v-if="!id">Buy a license</h1>
-                        <h1 class="font-weight-bold" v-if="id">Update License for {{tournamentData.tournament_name}}<span v-if="tournamentData.access_code">(#{{tournamentData.access_code}})</span></h1>
+                        <h1 class="font-weight-bold" v-if="id">Update License for {{tournamentData.tournament_name}}<span v-if="tournamentData.access_code">
+                         (#{{tournamentData.access_code | upperCase}})</span></h1>
                         <p class="mb-5" v-if="!id">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris posuere vel mi ac sagittis. Quisque vel nulla at nibh finibus sodales. Nam efficitur sem a mi rhoncus. </p>
                         <p class="mb-5" v-if="id">You can add more teams and extend the duration of your tournament. </p>
                         <label> What kind of tournament are you organising?</label>
@@ -130,11 +131,19 @@
                                         <span v-if="tournamentData.currency_type == 'EURO'">&#128;</span>  
                                         {{returnFormatedNumber(tournamentData.tournamentPricingValue)}}</p>
                                 </div>
+                                <!-- {{ newDaysAdded >= 1}} -->
                                 <div class="card-text" v-if="id">
                                     <div class="row" v-if="!buyLicenseIsDataNotUpdated">
                                         <div class="col-sm-6 col-md-7 col-lg-7">
-                                            <p class="mb-0" v-if="new_added_teams > 0">Additional {{new_added_teams}} teams</p> 
-                                            <p class="mb-0" v-if="newDaysAdded > 0">Additional {{newDaysAdded}} days</p>
+                                            <p class="mb-0">
+                                            <span v-if="new_added_teams == 1">Additional {{new_added_teams}} team</span>
+                                            <span v-else="new_added_teams > 1">Additional {{new_added_teams}} teams</span>
+                                            
+                                            </p>  
+                                            <p class="mb-0">
+                                                <span v-if="newDaysAdded == 1">Additional {{newDaysAdded}} day</span>
+                                                <span v-else="newDaysAdded > 1">Additional {{newDaysAdded}} days</span>
+                                            </p>
                                             <p class="mb-0" v-if="user_old_selected_format">Tournament type</p>
                                             <p class="mb-0" v-if="user_old_selected_type">Tournament formats</p>
                                         </div>
@@ -166,9 +175,9 @@
                                             <span v-if ="tournamentData.is_renew">Renew your licence</span> 
                                         </button>      
                                         <button v-if="disabled && !id" class="btn btn-success btn-block" disabled="true">Buy your license</button>
-                                         <button v-if ="!disabled && id && buyLicenseIsDataNotUpdated" class="btn btn-success btn-block" v-on:click="updateALicence()">
+                                         <button v-if ="!disabled && id && tournamentData.tournamentPricingValue == 0" class="btn btn-success btn-block" v-on:click="updateALicence()">
                                          Confirm Details </button>
-                                         <button v-if ="!disabled && id && !buyLicenseIsDataNotUpdated" class="btn btn-success btn-block"  v-on:click="buyALicence()">
+                                         <button v-if ="!disabled && id && !buyLicenseIsDataNotUpdated && tournamentData.tournamentPricingValue != 0" class="btn btn-success btn-block"  v-on:click="buyALicence()">
                                         Make Payment</button>
                                     </div>
                                 </div>
@@ -211,7 +220,7 @@
                     tournamentLicenseAdvancePriceDisplay: 0,
                     maximumCupTeamSize:0,
                     maximumLeagueTeamSize:0,
-                    tournamentTeamNumbers:0,
+                    tournamentTeamNumbers:2,
 
                 },
                 
@@ -238,9 +247,9 @@
               if(Object.keys(to.query).length !== 0) { //if the url has query (?query)
                 next(vm => {  
                     
-                    setTimeout(function(){ 
-                        vm.tournamentData.tournament_max_teams = to.query.teams;
-                        // vm.tournamentData.tournamentTeamNumbers =  to.query.teams;
+                    setTimeout(function(){
+                        vm.tournamentData.tournament_max_teams = parseInt(to.query.teams);
+                        vm.tournamentData.tournamentTeamNumbers =  parseInt(to.query.teams);
                         if(typeof to.query.teams == "undefined"){
                             vm.tournamentData.tournament_max_teams = 2;
                         }
@@ -254,7 +263,11 @@
             }
             next()
         },
-
+        filters: {
+          upperCase: function(value) {
+            return value.toUpperCase()
+          }
+        },
         computed: {
             buyLicenseIsDataNotUpdated(){
                 if(this.newDaysAdded <= 0 && this.new_added_teams <= 0 && this.user_old_selected_format == this.tournamentData.custom_tournament_format){
@@ -268,7 +281,7 @@
         methods: {
             changeTeams(){ 
                 this.tournammentPricingData();
-                this.new_added_teams = this.tournamentData.tournament_max_teams - this.tournament_old_teams; 
+                this.new_added_teams = this.tournamentData.tournament_max_teams - this.tournament_old_teams;
             },
             changeDays(){
                 this.newDaysAdded = this.dayDifference - this.oldDaysDifference; 
@@ -445,30 +458,15 @@
                 let tournamentMaxTeams = this.tournamentData.tournament_max_teams
                 let vm = this;
                 let tournamentLicensePricingArray = [];
-                //Custom tournament format display value 
 
                 let maxCupTeamSize = _.maxBy(this.tournamentPricingBand.cup.bands,'max_teams');
                 vm.tournamentData.maximumCupTeamSize = maxCupTeamSize.max_teams;
                 vm.tournamentData.tournamentTeamNumbers = maxCupTeamSize.max_teams;
-
-
-                let minLeagueSize = _.maxBy(this.tournamentPricingBand.league.bands,'max_teams');
-                vm.tournamentData.maximumLeagueTeamSize = minLeagueSize.max_teams;
-                vm.tournamentData.tournamentTeamNumbers = minLeagueSize.max_teams;
-
-                if(this.tournamentData.tournament_max_teams <= this.tournamentData.maximumCupTeamSize){
-                    vm.tournamentData.tournamentPricingValue;
-                    $('#cup').prop("checked",true)
-                    $('.tournament_formats').show();
-                }
-
-                if(this.tournamentData.tournament_max_teams >= this.tournamentData.maximumLeagueTeamSize)
-                {
-                    vm.tournamentData.tournamentPricingValue;
-                    $('#league').prop("checked",true)
-                    $('.tournament_formats').hide();
-                }
-
+                
+                let maxLeagueTeamSize = _.maxBy(this.tournamentPricingBand.league.bands,'max_teams');
+                vm.tournamentData.maximumLeagueTeamSize = maxLeagueTeamSize.max_teams;
+                vm.tournamentData.tournamentTeamNumbers = maxLeagueTeamSize.max_teams;
+               
                 let tournamentPricing = _.filter(this.tournamentPricingBand.cup.bands, function(band) {
                      if(tournamentMaxTeams >= band.min_teams && tournamentMaxTeams <= band.max_teams) {
                         vm.tournamentData.tournamentLicenseAdvancePriceDisplay = band.advanced_price;
@@ -495,6 +493,9 @@
                         vm.tournamentData.payment_currency = vm.tournamentData.currency_type;
                         vm.tournamentData.tournamentPricingValue = (vm.tournamentData.tournamentPricingValue)*vm.gpbConvertValue;
                     }
+                    if(!this.$route.query.teams) { 
+                        vm.tournamentData.tournamentTeamNumbers = maxCupTeamSize.max_teams; 
+                    }
                 }   
                 if(tournamentOrganising == 'cup' && tournamentCustomFormats == 1 && tournamentMaxTeams) {
                     let tournamentPricing = _.filter(this.tournamentPricingBand.cup.bands, function(band) {
@@ -508,7 +509,10 @@
                     if(this.tournamentData.currency_type == "GBP") {
                         vm.tournamentData.payment_currency = vm.tournamentData.currency_type;
                         vm.tournamentData.tournamentPricingValue = (vm.tournamentData.tournamentPricingValue)*vm.gpbConvertValue;
-                    }                        
+                    }
+                    if(!this.$route.query.teams) { 
+                        vm.tournamentData.tournamentTeamNumbers = maxCupTeamSize.max_teams;
+                    }                   
                 } 
 
                 if(tournamentOrganising == 'league' && tournamentMaxTeams) {
@@ -524,9 +528,38 @@
                         vm.tournamentData.payment_currency = vm.tournamentData.currency_type;
                         vm.tournamentData.tournamentPricingValue = (vm.tournamentData.tournamentPricingValue)*vm.gpbConvertValue;
                     }
+                    if(!this.$route.query.teams) {
+                        vm.tournamentData.tournamentTeamNumbers = maxLeagueTeamSize.max_teams;
+                    }    
                 }
                 if(isNaN(vm.tournamentData.tournamentPricingValue) || vm.tournamentData.tournamentPricingValue < 0){
                     vm.tournamentData.tournamentPricingValue  = 0;
+                }
+
+                
+                if(this.$route.query.teams) {
+                    if(this.tournamentData.tournament_max_teams <= this.tournamentData.maximumCupTeamSize){
+                        $('#cup').prop("checked",true)
+                        $('.tournament_formats').show();
+                    } else if(this.tournamentData.tournament_max_teams <= this.tournamentData.maximumLeagueTeamSize)
+                    {
+                        let tournamentPricing = _.filter(this.tournamentPricingBand.league.bands, function(band) {
+                            if(tournamentMaxTeams >= band.min_teams && tournamentMaxTeams <= band.max_teams) {
+                            tournamentLicensePricingArray.push(band.price);
+                            }
+                        });
+                        let tournamentPricingRecord = _.head(tournamentLicensePricingArray);
+                        vm.tournamentData.tournamentPricingValue = tournamentPricingRecord - this.tournamentData.transactionDifferenceAmountValue;
+
+                        if(this.tournamentData.currency_type == "GBP") {
+                            vm.tournamentData.payment_currency = vm.tournamentData.currency_type;
+                            vm.tournamentData.tournamentPricingValue = (vm.tournamentData.tournamentPricingValue)*vm.gpbConvertValue;
+                        }
+                        vm.tournamentData.tournamentTeamNumbers = maxLeagueTeamSize.max_teams;
+                            
+                        $('#league').prop("checked",true)
+                        $('.tournament_formats').hide();
+                    }
                 }
             },
             tournamentEditYourLicense() {
@@ -549,7 +582,7 @@
                 }
             }
         },
-        mounted () {
+        mounted() {
             var vm = this;
 
             vm.tournamentData.tournament_start_date = moment(vm.tournamentData.tournament_start_date).format('DD/MM/YYYY');

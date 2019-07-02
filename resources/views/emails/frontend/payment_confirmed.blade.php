@@ -198,7 +198,7 @@ $days = $interval->format('%a') + 1;
                                                                 <table cellpadding="0" cellspacing="0" width="100%" border="0" style="cellspacing:0;color:#000000;font-family:Arial, Helvetica, sans-serif;font-size:13px;line-height:22px;table-layout:auto;width:100%;">
                                                                     <thead>
                                                                         <tr>
-                                                                            <th colspan="2" style="border-bottom: 3px solid rgba(33, 150, 243,0.1); text-align: left; font-size: 20px; padding-bottom: 10px;" align="left">Reciept</th>
+                                                                            <th colspan="2" style="border-bottom: 3px solid rgba(33, 150, 243,0.1); text-align: left; font-size: 20px; padding-bottom: 10px;" align="left">Receipt</th>
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody>
@@ -212,11 +212,11 @@ $days = $interval->format('%a') + 1;
                                                                                     $daysign = "";
                                                                                 }
 
-																				echo $email_details['tournament']['tournament_max_teams']; ?> (+ <?php echo $email_details['tournament']['teamDifference']; ?>) team license for a <?php echo $days; ?> (<?php echo $daysign; ?> <?php echo $email_details['tournament']['dayDifference']; ?>) day tournament
+																				echo $email_details['tournament']['tournament_name']; ?> - <?php echo $email_details['tournament']['tournament_max_teams']; ?> (+ <?php echo $email_details['tournament']['teamDifference']; ?>) team license for a <?php echo $days; ?> (<?php echo $daysign; ?> <?php echo $email_details['tournament']['dayDifference']; ?>) day tournament
 																			<?php 
                                                                             }
 																			else{
-																				echo $email_details['tournament']['tournament_max_teams']; ?> team license for a <?php echo $email_details['tournament']['dayDifference']; ?> day tournament
+																				echo $email_details['tournament']['tournament_name']; ?> - <?php echo $email_details['tournament']['tournament_max_teams']; ?> team license for a <?php echo $email_details['tournament']['dayDifference']; ?> day tournament
                                                                             <?php } ?>
 																			</th>
                                                                             <td style="text-align: right; padding: 10px;" align="right">

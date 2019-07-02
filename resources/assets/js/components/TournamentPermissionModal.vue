@@ -15,7 +15,7 @@
                     <div class="checkbox">
                       <div class="c-input">
                           <input type="checkbox" v-bind:id="tournament.id" class="euro-checkbox" v-bind:value="tournament.id" v-model="formValues.tournaments" />
-                          <label v-bind:for="tournament.id">{{ tournament.name }} ({{tournament.status}})</label>
+                          <div v-bind:for="tournament.id">{{ tournament.name }} ({{tournament.status}})</div>
                       </div>
                     </div>
                 </div>

@@ -63,6 +63,7 @@ class TransactionService implements TransactionContract {
         }
 
         $tournamentCreatedAt = Tournament::orderBy('id', 'desc')->first();
+        $tournamentName = $tournamentCreatedAt['name'];
         $tournamentCreatedAtDateFormat = $tournamentCreatedAt['created_at']->format('H:i:s d-m-y');
         
         $pdfData = [
@@ -74,6 +75,7 @@ class TransactionService implements TransactionContract {
             'tournamentCreatedAtDateFormat' => $tournamentCreatedAtDateFormat,
             list($firstName, $lastName) = explode(' ', $_GET['user_name']),
             'userFirstName' => $firstName,
+            'tournamentName' => $tournamentName
         ];
         
         $date = new \DateTime(date('H:i d M Y'));

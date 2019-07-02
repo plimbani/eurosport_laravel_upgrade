@@ -20,6 +20,7 @@ import Login from './views/auth/Login.vue'
 import PasswordReset from './views/auth/Reset.vue'
 import Register from './views/auth/Register.vue'
 import PasswordSet from './views/auth/PasswordSet.vue'
+import Verfied from './views/auth/Verified.vue'
 
 // Error : Not Found page
 import NotFoundPage from './views/errors/404.vue'
@@ -32,7 +33,7 @@ import NotFoundPage from './views/errors/404.vue'
 
 import Home from './views/front/Home.vue'
 import FrontSchedule from './views/front/FrontScheduleResults.vue'
-
+import IdentifyHome from './views/front/IdentifyHome.vue'
 /*
  |--------------------------------------------------------------------------
  | EuroSport Pages
@@ -145,7 +146,7 @@ const routes = [
         children: [
             {
                 path: '/',
-                component: Home,
+                component: IdentifyHome,
                 name: 'home'
             },
             {
@@ -359,10 +360,21 @@ const routes = [
                 name: 'register'
             },
             {
+            path: 'user/setpassword/:token*',
+                component: PasswordSet,
+                name: 'PasswordSet'
+            },
+            {
                 path: 'password/reset/:token*',
                 component: PasswordReset,
-                name: 'reset'
+                name: 'PasswordReset'
             },
+            {
+                path: 'mlogin',
+                component: Verfied,
+                name: 'Verfied'
+            },
+            
         ]
     },
     {

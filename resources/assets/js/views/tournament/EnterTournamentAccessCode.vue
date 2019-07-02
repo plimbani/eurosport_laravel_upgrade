@@ -5,7 +5,7 @@
                 <div class="row justify-content-between">
                     <div class="col-lg-5">
                         <h1 class="text-uppercase h3 font-weight-bold">Access Your Tournament</h1>
-                        <p class="mb-5">If you have been given four digit code please enter it below to access your tournament </p>
+                        <p class="mb-5">If you have been given four digit code please enter it below to access your tournament. </p>
                             
                                 <!-- <input type="text" class="form-control" placeholder="Enter your code" id = "code" name="code" v-model="code">
                                 <button class="btn btn-success btn-block" v-on:click="redirectTournamentDetail()">Access Your Tournament</button> -->
@@ -22,7 +22,7 @@
                         <div class="d-md-flex">
                             <div class="img-device text-center"><img src="/images/device.png" class="" alt="Mock Up"></div>
                             <div class="d-flex flex-column justify-content-between ml-3 mt-4 mt-md-0">
-                                <h3 class="font-weight-bold mb-md-0">Get our mobile app</h3>
+                                <h1 class="text-uppercase h3 font-weight-bold mb-md-0">Get our mobile app</h1>
                                 <ul class="pl-4 mb-md-0">
                                     <li class="py-1">Lorem ipsum dolor sit amet, consectetur</li>
                                     <li class="py-1">Lorem ipsum dolor sit amet, consectetur</li>

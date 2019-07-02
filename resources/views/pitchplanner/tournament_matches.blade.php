@@ -21,7 +21,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <h4>Pitch planner</h4>
+                <h4>Match planner</h4>
                 <hr>
             </div>
         </div>

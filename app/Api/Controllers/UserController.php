@@ -147,52 +147,68 @@ class UserController extends BaseController
 
     public function setPassword($key, Request $request)
     {
-        $usersPasswords = User::where(['token' => $key])->get();
 
-        $message = "";
-        $error = false;
-        if (count($usersPasswords) == 0) {
-            $isUserVerified = User::withTrashed()->where(['token' => $key])->get();
-            if (count($isUserVerified) > 0) {
-                $error = true;
-                $message = "You have already set the password.";
-            } else {
-                //return response()->view('errors.404', [], 404);
-                return array('message' => 'Link is Expired');
-            }
-        }
+      $usersPasswords = User::where(['token'=>$key])->get();
 
-        // TODO: Here we put Code for Mobile Verification
-        if (isset($usersPasswords) && count($usersPasswords) > 0 && $usersPasswords[0]['registered_from'] == 0) {
+      $message = "";
+      $error = false;
+      $redirect = '';
 
-            //TODO: Need to put code for change Status For User with user Update
-            //$usersDetail['key'] = $key;
-            $usersPassword = User::where('token', $key)->first();
-            //$users = User::where("id", $usersPassword->id)->first();
-            $usersPassword->is_verified = 1;
-            $usersPassword->is_active = 1;
-            $usersPassword->token = '';
-            $user = $usersPassword->save();
-            // Already set the password
-            // $usersDetail['password'] = $usersPasswords[0]['password'];
-            // $result = $this->userRepoObj->createPassword($usersDetail);
-            return redirect('/mlogin');
-        }
+      if (count($usersPasswords) == 0) {
+          $isUserVerified = User::withTrashed()->where(['token'=>$key])->get();
+          if(count($isUserVerified) > 0) {
+              $error=true;
+              $message = "You have already set the password.";
+          } else {
+              //return response()->view('errors.404', [], 404);
+              $error=true;
+              $message = "Link is Expired.";
+          }
+      }
 
-        // echo "<pre>";print_r($usersPasswords);echo "</pre>";exit;
+      // TODO: Here we put Code for Mobile Verification
+      if(isset($usersPasswords) && count($usersPasswords) > 0 && $usersPasswords[0]['registered_from'] == 0) {
 
-        return view('emails.users.setpassword', compact('usersPasswords'));
-        // return view('emails.users.setpassword');
+        //TODO: Need to put code for change Status For User with user Update
+        //$usersDetail['key'] = $key;
+          $usersPassword = User::where('token', $key)->first();
+          //$users = User::where("id", $usersPassword->id)->first();
+          $usersPassword->is_verified = 1;
+          $usersPassword->is_active = 1;
+          $usersPassword->token = '';
+          $user =  $usersPassword->save();
+
+          $redirect = '/mlogin';
+        // Already set the password
+       // $usersDetail['password'] = $usersPasswords[0]['password'];
+       // $result = $this->userRepoObj->createPassword($usersDetail);
+          //return redirect('/mlogin');
+      }
+
+      return response()->json([
+                    'success' => true,
+                    'status' => Response::HTTP_OK,
+                    'error' => $error,
+                    'message' => $message,
+                    'redirect' => $redirect,
+        ]);
+
+      //return view('emails.users.setpassword', compact('usersPasswords'));
+      // return view('emails.users.setpassword');
+
     }
 
     public function passwordActivate(Request $request)
     {
-        $key = $request->key;
-        $password = $request->password;
-        $usersDetail['key'] = $key;
-        $usersDetail['password'] = $password;
-        $result = $this->userRepoObj->createPassword($usersDetail);
-        return ($result == 'Mobile') ? redirect('/mlogin') : redirect('/login/verified');
+
+      $key = $request->key;
+      $password = $request->password;
+      $usersDetail['key'] = $key;
+      $usersDetail['password'] = $password;
+
+      $result = $this->userRepoObj->createPassword($usersDetail);
+      return ($result == 'Mobile') ?  '/mlogin' : '/login/verified';
+
     }
 
     // for desktop - resend email verification
@@ -350,18 +366,25 @@ class UserController extends BaseController
       $email_templates = null;
       $email_msg = null;
 
+      $currentLayout = config('config-variables.current_layout');
+      $email_details['currentLayout'] = $currentLayout;
+      $brandName = 'Euro-Sportring';
+      if($currentLayout == "commercialisation") {
+        $brandName = 'Easy Match Manager';
+      }
+
       if($userData->registered_from === 0)
       {
         $email_templates = 'emails.users.mobile_user';
-        $email_msg = 'Euro-Sportring - Email Verification';
+        $email_msg = $brandName.' - Email Verification';
       } else {
         $mobileUserRoleId = Role::where('slug', 'mobile.user')->first()->id;
         if($userData->roles[0]->id == $mobileUserRoleId) {
           $email_templates = 'emails.users.mobile_user_registered_from_desktop';
-          $email_msg = 'Euro-Sportring - Set password';
+          $email_msg = $brandName.' - Set password';
         } else {
-          $email_templates = 'emails.users.desktop_user';
-          $email_msg = 'Euro-Sportring Tournament Planner - Set password';
+          $email_templates = ($currentLayout == "commercialisation") ? 'emails.users.registration' : 'emails.users.desktop_user';
+          $email_msg = $brandName.' - Set password';
         }
       }
 

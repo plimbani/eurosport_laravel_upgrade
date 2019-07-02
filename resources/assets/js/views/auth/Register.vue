@@ -96,13 +96,14 @@
                                             </div>
                                         </div>
                                     </div>
-
+                                    
                                     <label>Country</label>
                                     <div class="form-group">
-                                        <select class="form-control" id="country" v-model="registerData.country">
+                                        <select class="form-control" id="country" v-model="registerData.country" name="country" v-validate="{ rules: { required: true } }">
                                             <option value="">Please select</option>
                                             <option v-for="(value, key) in countries" :value="value">{{key}}</option>
                                         </select> 
+                                        <span class="help is-danger" v-show="errors.has('country')">The country name field is required.</span>
                                     </div>
 
                                     <div class="row mt-5">

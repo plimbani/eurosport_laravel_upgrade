@@ -217,18 +217,27 @@ class UserService implements UserContract
             $email_details['name'] = $data['name'];
             $email_details['token'] = $token;
             $email_details['is_mobile_user'] = 0;
+            $email_details['currentLayout'] = $currentLayout;
             $recipient = $data['emailAddress'];
+
+            $brandName = 'Euro-Sportring';
+            if($currentLayout == "commercialisation") {
+              $brandName = 'Easy Match Manager';
+            }
+
             if(isset($isMobileUsers) && $isMobileUsers == true)
             {
               $email_templates = 'emails.users.mobile_user';
-              $email_msg = 'Euro-Sportring - Email Verification';
+              $email_msg = $brandName.' - Email Verification';
             } else {
               if($userData['user']['userType'] == $mobileUserRoleId) {
                 $email_templates = 'emails.users.mobile_user_registered_from_desktop';
-                $email_msg = 'Euro-Sportring - Set password';
+                $email_msg = $brandName.' - Set password';
               } else {
-                $email_templates = 'emails.users.desktop_user';
-                $email_msg = 'Euro-Sportring Tournament Planner - Set password';
+
+                $email_templates = ($currentLayout == "commercialisation") ? 'emails.users.registration' : 'emails.users.desktop_user';
+
+                $email_msg = $brandName.' Tournament Planner - Set password';
               }
             }
 
