@@ -94,7 +94,7 @@ public class SplashActivity extends BaseActivity {
             final String scheme = uri.getScheme().toLowerCase();
             final String host = uri.getHost().toLowerCase();
             if (("http".equals(scheme) || "https".equals(scheme)) &&
-                    ("comm-qa.wot.esrtmp.com".equals(host) || "www.comm-qa.wot.esrtmp.com".equals(host))) {
+                    host.contains(ApiConstants.DEEPLINK_URL)) {
                 accessCode = getAccessCode(uri);
             }
         }
@@ -290,17 +290,24 @@ public class SplashActivity extends BaseActivity {
 
     private void launchHome() {
         if (BuildConfig.isEasyMatchManager) {
-            if (!Utility.isNullOrEmpty(mAppSharedPref.getString(AppConstants.PREF_TOURNAMENT_ID))) {
-                if (mAppSharedPref.getString(AppConstants.PREF_COUNTRY_ID) == null) {
-                    //profile screen
-                    startActivity(new Intent(mContext, ProfileActivity.class));
-                } else {
-                    // home screen
-                    startActivity(new Intent(mContext, HomeActivity.class));
-                }
+
+
+            if (accessCode != null && accessCode.trim().length() > 0) {
+                //call access api
+                callAccessCodeApi();
             } else {
-                // get started screen
-                startActivity(new Intent(mContext, GetStartedActivity.class));
+                if (!Utility.isNullOrEmpty(mAppSharedPref.getString(AppConstants.PREF_TOURNAMENT_ID))) {
+                    if (mAppSharedPref.getString(AppConstants.PREF_COUNTRY_ID) == null) {
+                        //profile screen
+                        startActivity(new Intent(mContext, ProfileActivity.class));
+                    } else {
+                        // home screen
+                        startActivity(new Intent(mContext, HomeActivity.class));
+                    }
+                } else {
+                    // get started screen
+                    startActivity(new Intent(mContext, GetStartedActivity.class));
+                }
             }
         } else {
             if (mAppSharedPref.getBoolean(AppConstants.IS_LOGIN_USING_FB) && Utility.isNullOrEmpty(mAppSharedPref.getString(AppConstants.PREF_TOURNAMENT_ID))) {
@@ -518,7 +525,7 @@ public class SplashActivity extends BaseActivity {
     }
 
 
-    private void callAccessCodeApi(String accessCode) {
+    private void callAccessCodeApi() {
 
         if (Utility.isInternetAvailable(mContext)) {
             final ProgressHUD mProgressDialog = Utility.getProgressDialog(mContext);
@@ -546,7 +553,13 @@ public class SplashActivity extends BaseActivity {
                             if (mTempFavTournament.getId() != null) {
                                 mAppSharedPref.setString(AppConstants.PREF_TOURNAMENT_ID, mTempFavTournament.getId());
                                 mAppSharedPref.setString(AppConstants.PREF_SESSION_TOURNAMENT_ID, mTempFavTournament.getId());
-                                startActivity(new Intent(mContext, HomeActivity.class));
+
+                                if (!Utility.isNullOrEmpty(mAppSharedPref.getString(AppConstants.PREF_TOURNAMENT_ID))) {
+                                    startActivity(new Intent(mContext, HomeActivity.class));
+                                } else {
+                                    // get started screen
+                                    startActivity(new Intent(mContext, GetStartedActivity.class));
+                                }
                                 finish();
                             }
                         }
@@ -629,5 +642,6 @@ public class SplashActivity extends BaseActivity {
             mQueue.add(jsonRequest1);
         }
     }
+
 
 }

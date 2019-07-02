@@ -41,7 +41,7 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:host="comm-qa.wot.esrtmp.com"
+                    android:host="rishab-eurosport.dev.aecortech.com"
                     android:pathPrefix="/tournament/openApp"
                     android:scheme="https" />
             </intent-filter>
@@ -54,7 +54,7 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:host="www.comm-qa.wot.esrtmp.com"
+                    android:host="www.rishab-eurosport.dev.aecortech.com"
                     android:pathPrefix="/tournament/openApp"
                     android:scheme="https" />
             </intent-filter>
