@@ -34,30 +34,6 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:host="rishab-eurosport.dev.aecortech.com"
-                    android:pathPrefix="/tournament/openApp"
-                    android:scheme="https" />
-            </intent-filter>
-
-
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:host="www.rishab-eurosport.dev.aecortech.com"
-                    android:pathPrefix="/tournament/openApp"
-                    android:scheme="https" />
-            </intent-filter>
         </activity>
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
@@ -79,6 +55,7 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
+
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="e9d94b282925a83d299b04a73a8c80554f477f37" />
@@ -221,10 +198,9 @@
         </receiver>
 
 
-        <activity android:name=".activity.LinkRecognizerActivity">
-        </activity>
-
-
+        <activity
+            android:name=".activity.LinkRecognizerActivity"
+            android:screenOrientation="portrait" />
 
     </application>
 

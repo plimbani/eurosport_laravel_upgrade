@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -528,7 +529,7 @@ public class ProfileActivity extends BaseAppCompactActivity {
     private void enabledDisableLoginButton(boolean isEnable) {
         if (isEnable) {
             btn_update.setEnabled(true);
-            btn_update.setTextColor(Color.WHITE);
+            btn_update.setTextColor(ContextCompat.getColor(mContext, R.color.btn_active_text_color));
             btn_update.setBackgroundResource(R.drawable.btn_yellow);
         } else {
             btn_update.setEnabled(false);

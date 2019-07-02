@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.Button;
@@ -85,7 +86,7 @@ public class GetStartedActivity extends BaseActivity {
     private void validate() {
         if (et_enter_access_code.getText().toString().trim().length() > 0) {
             btnSubmit.setEnabled(true);
-            btnSubmit.setTextColor(Color.WHITE);
+            btnSubmit.setTextColor(ContextCompat.getColor(mContext, R.color.btn_active_text_color));
             btnSubmit.setBackground(getResources().getDrawable(R.drawable.btn_yellow));
         } else {
             btnSubmit.setTextColor(Color.BLACK);

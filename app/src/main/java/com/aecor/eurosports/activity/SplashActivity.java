@@ -308,6 +308,7 @@ public class SplashActivity extends BaseActivity {
                     // get started screen
                     startActivity(new Intent(mContext, GetStartedActivity.class));
                 }
+                finish();
             }
         } else {
             if (mAppSharedPref.getBoolean(AppConstants.IS_LOGIN_USING_FB) && Utility.isNullOrEmpty(mAppSharedPref.getString(AppConstants.PREF_TOURNAMENT_ID))) {
@@ -317,15 +318,14 @@ public class SplashActivity extends BaseActivity {
                 if (Utility.isNullOrEmpty(mAppSharedPref.getString(AppConstants.PREF_COUNTRY_ID))) {
                     //profile screen
                     startActivity(new Intent(mContext, ProfileActivity.class));
-                    finish();
                 } else {
                     // home screen
                     startActivity(new Intent(mContext, HomeActivity.class));
-                    finish();
                 }
+                finish();
+
             }
         }
-        finish();
 
 
     }
