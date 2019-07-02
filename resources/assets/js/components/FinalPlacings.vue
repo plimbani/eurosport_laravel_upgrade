@@ -71,6 +71,7 @@ export default {
       ageCatgeoryComments: '',
       positionData: [],
       positionId: '',
+      ageCategoryId: '',
     }
   },
   mounted() {    
@@ -120,6 +121,7 @@ export default {
       )
     },
     getAgeCategoryDetail(ageCategoryId) {
+      this.ageCategoryId = ageCategoryId
       let ageCategoryData = {'ageCategoryId': ageCategoryId}
       Tournament.getPlacingsData(ageCategoryData).then(
         (response) => {
@@ -134,11 +136,11 @@ export default {
         $('#viewPlacingsModal').modal('hide')
         return false
     },
-    deleteFinalPlacingTeam(positionId, ageCategoryId) {
-      let placingData = {'positionId': positionId, 'ageCategoryId': ageCategoryId}
+    deleteFinalPlacingTeam(positionId) {
+      let placingData = {'positionId': positionId, 'ageCategoryId': this.ageCategoryId}
       Tournament.deleteFinalPlacingTeam(placingData).then(
         (response) => {
-          this.getAgeCategoryDetail(ageCategoryId)
+          this.getAgeCategoryDetail(this.ageCategoryId)
           toastr.success('Placing has been deleted successfully.', 'Delete placing', {timeOut: 5000});
         },
         (error) => {
