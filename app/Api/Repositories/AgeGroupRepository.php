@@ -462,7 +462,6 @@ class AgeGroupRepository
           $positionData[$key]['team_logo'] = getenv('S3_URL') . $position->team->country->logo;
           $positionData[$key]['position_id'] = $position->id;
           $positionData[$key]['age_category_id'] = $position->age_category_id;
-          $positionData[$key]['is_delete'] = $position->is_delete;
         } else {
           $positionData[$key]['team_name'] = '';
 
