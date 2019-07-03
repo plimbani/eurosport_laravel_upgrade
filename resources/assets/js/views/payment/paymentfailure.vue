@@ -8,7 +8,7 @@
                         <p>Your transaction is in status as "{{status_message}}". So we are not able to create tournament.</p>
                     </div>
                     <div class="col-md-12">
-                        <button class="btn btn-success" v-on:click="redirectToDashboardPage()">Get started</button>
+                        <button class="btn btn-success" v-on:click="redirectToDashboardPage()">Go to dashboard</button>
                     </div>
                 </div>
 

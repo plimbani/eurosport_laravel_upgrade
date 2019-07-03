@@ -24,8 +24,8 @@
     		<div class="row">
     			<div class="col-sm-6">
     				<ul class="list-unstyled text-center text-sm-left mb-md-0 policy-links">
-    					<li class="d-inline small"><a href="#" class="text-white">Privacy Policy</a></li>
-    					<li class="d-inline pl-4 small"><a href="#" class="text-white">Terms & Conditions</a></li>
+    					<li class="d-inline small"><a href="https://easy-match-manager.webflow.io/privacy-policy" target="_blank" class="text-white">Privacy Policy</a></li>
+    					<li class="d-inline pl-4 small"><a href="https://easy-match-manager.webflow.io/terms-and-conditions" target="_blank" class="text-white">Terms & Conditions</a></li>
     				</ul>
     			</div>
     			<div class="col-sm-6 text-center text-sm-right">
