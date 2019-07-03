@@ -559,10 +559,13 @@
 
                     vm.$store.dispatch('setMatches')
                     .then((response) => {
+                        _.forEach(vm.tournamentStages, function(stage, stageIndex) {
+                            vm.$root.$emit('refreshPitch' + stageIndex);
+                        });
                         vm.$root.$emit('refreshCompetitionWithGames');
+                        // vm.$store.dispatch('SetScheduledMatches');
+                        // vm.$root.$emit('reloadAllEvents')
                     });
-                    vm.$store.dispatch('SetScheduledMatches');
-                    vm.$root.$emit('reloadAllEvents')
                 })
             },
             saveScheduleMatchResult(matchData) {

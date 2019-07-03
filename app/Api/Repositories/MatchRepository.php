@@ -1455,6 +1455,7 @@ class MatchRepository
       $fixturesResultCount = TempFixture::where('tournament_id',$teamData['tournament_id'])
         ->where('id','!=', $matchData['matchId'])
         ->where('is_scheduled', 1)
+        ->where('pitch_id', $matchData['pitchId'])
         ->where(function($query) use ($startDateTime, $endDateTime) {
             $query->where(function($query2) use ($startDateTime, $endDateTime) {
               $query2->where('match_endtime','>',$startDateTime)->where('match_endtime','<=',$endDateTime);
