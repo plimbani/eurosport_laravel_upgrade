@@ -280,7 +280,7 @@
         
         methods: {
             changeTeams(){ 
-                this.tournammentPricingData();
+                this.tournammentPricingData('changeTeams');
                 this.new_added_teams = this.tournamentData.tournament_max_teams - this.tournament_old_teams;
             },
             changeDays(){
@@ -452,7 +452,7 @@
                 })
                 
             },
-            tournammentPricingData() {
+            tournammentPricingData(section) {
                 let tournamentOrganising = this.tournamentData.tournament_type
                 let tournamentCustomFormats = this.tournamentData.custom_tournament_format
                 let tournamentMaxTeams = this.tournamentData.tournament_max_teams
@@ -493,10 +493,15 @@
                         vm.tournamentData.payment_currency = vm.tournamentData.currency_type;
                         vm.tournamentData.tournamentPricingValue = (vm.tournamentData.tournamentPricingValue)*vm.gpbConvertValue;
                     }
-                    if(!this.$route.query.teams) { 
-                        vm.tournamentData.tournamentTeamNumbers = maxCupTeamSize.max_teams; 
+
+                    vm.tournamentData.tournamentTeamNumbers = maxCupTeamSize.max_teams; 
+
+                    if ( section != 'changeTeams'){
+                        $('#cup').prop("checked",true);
+                        $('.tournament_formats').show();
                     }
-                }   
+                }  
+
                 if(tournamentOrganising == 'cup' && tournamentCustomFormats == 1 && tournamentMaxTeams) {
                     let tournamentPricing = _.filter(this.tournamentPricingBand.cup.bands, function(band) {
                         if(tournamentMaxTeams >= band.min_teams && tournamentMaxTeams <= band.max_teams) {
@@ -510,12 +515,18 @@
                         vm.tournamentData.payment_currency = vm.tournamentData.currency_type;
                         vm.tournamentData.tournamentPricingValue = (vm.tournamentData.tournamentPricingValue)*vm.gpbConvertValue;
                     }
-                    if(!this.$route.query.teams) { 
-                        vm.tournamentData.tournamentTeamNumbers = maxCupTeamSize.max_teams;
-                    }                   
+
+                    vm.tournamentData.tournamentTeamNumbers = maxCupTeamSize.max_teams;  
+
+
+                    if ( section != 'changeTeams'){
+                        $('#cup').prop("checked",true)
+                        $('.tournament_formats').show();    
+                    }           
                 } 
 
                 if(tournamentOrganising == 'league' && tournamentMaxTeams) {
+
                     let tournamentPricing = _.filter(this.tournamentPricingBand.league.bands, function(band) {
                         if(tournamentMaxTeams >= band.min_teams && tournamentMaxTeams <= band.max_teams) {
                             tournamentLicensePricingArray.push(band.price);
@@ -528,19 +539,27 @@
                         vm.tournamentData.payment_currency = vm.tournamentData.currency_type;
                         vm.tournamentData.tournamentPricingValue = (vm.tournamentData.tournamentPricingValue)*vm.gpbConvertValue;
                     }
-                    if(!this.$route.query.teams) {
+                    //if(!this.$route.query.teams) {
                         vm.tournamentData.tournamentTeamNumbers = maxLeagueTeamSize.max_teams;
-                    }    
+                    //}
+                    if ( section != 'changeTeams'){
+                        $('#league').prop("checked",true)
+                        $('.tournament_formats').hide();  
+                    }  
                 }
                 if(isNaN(vm.tournamentData.tournamentPricingValue) || vm.tournamentData.tournamentPricingValue < 0){
                     vm.tournamentData.tournamentPricingValue  = 0;
                 }
 
-                
-                if(this.$route.query.teams) {
+                if(this.$route.query.teams && section == 'mounted') {
+
                     if(this.tournamentData.tournament_max_teams <= this.tournamentData.maximumCupTeamSize){
+
                         $('#cup').prop("checked",true)
                         $('.tournament_formats').show();
+
+                        vm.tournamentData.tournamentTeamNumbers = this.tournamentData.maximumCupTeamSize;
+
                     } else if(this.tournamentData.tournament_max_teams <= this.tournamentData.maximumLeagueTeamSize)
                     {
                         let tournamentPricing = _.filter(this.tournamentPricingBand.league.bands, function(band) {
@@ -548,6 +567,7 @@
                             tournamentLicensePricingArray.push(band.price);
                             }
                         });
+
                         let tournamentPricingRecord = _.head(tournamentLicensePricingArray);
                         vm.tournamentData.tournamentPricingValue = tournamentPricingRecord - this.tournamentData.transactionDifferenceAmountValue;
 
@@ -555,10 +575,30 @@
                             vm.tournamentData.payment_currency = vm.tournamentData.currency_type;
                             vm.tournamentData.tournamentPricingValue = (vm.tournamentData.tournamentPricingValue)*vm.gpbConvertValue;
                         }
+
                         vm.tournamentData.tournamentTeamNumbers = maxLeagueTeamSize.max_teams;
-                            
+
                         $('#league').prop("checked",true)
-                        $('.tournament_formats').hide();
+                        $('.tournament_formats').hide();  
+                        
+                    }
+                    else
+                    {
+                        if ( maxCupTeamSize.max_teams >= maxLeagueTeamSize.max_teams)
+                        {
+                            $('#cup').prop("checked",true)
+                            $('.tournament_formats').show();
+                            vm.tournamentData.tournament_type = 'cup';
+                            vm.tournamentData.tournamentTeamNumbers = maxCupTeamSize.max_teams;
+                        }
+                        else
+                        {
+                            $('#league').prop("checked",true);
+                            $('.tournament_formats').hide();  
+                            vm.tournamentData.tournament_type = 'league';
+                            vm.tournamentData.tournamentTeamNumbers = maxLeagueTeamSize.max_teams;
+
+                        }
                     }
                 }
             },
@@ -603,6 +643,7 @@
                     $( "#tournament_start_date" ).datepicker( "option", "maxDate", selectedDate);
                 }
             });
+
             $('#tournament_start_date').datepicker('setDate', moment().format('DD/MM/YYYY'))
             $('#tournament_end_date').datepicker('setDate', moment().add(1,'days').format('DD/MM/YYYY')) 
            
@@ -623,7 +664,7 @@
                     vm.getTournamentDetail()
                 }
                 vm.tournamentEditYourLicense()
-                vm.tournammentPricingData()
+                vm.tournammentPricingData('mounted')
             },1500) 
             
             if(this.$route.query.edityourlicense != 'yes'){
