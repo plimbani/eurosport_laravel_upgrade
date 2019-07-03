@@ -203,7 +203,7 @@ $days = $interval->format('%a') + 1;
                                                                     </thead>
                                                                     <tbody>
                                                                         <tr>
-                                                                            <th style="text-align: left; font-weight: normal; padding: 10px 0;" align="left"><?php 
+                                                                            <th style="font-family:Roboto, Helvetica, Arial, sans-serif;font-size:16px;font-weight:300;line-height:24px;text-align:left;color:#555;" align="left"><p><?php 
 																			if(isset($email_details['is_manage_license']) && $email_details['is_manage_license'] == 1)
 																			{
 
@@ -222,7 +222,7 @@ $days = $interval->format('%a') + 1;
                                                                             <td style="text-align: right; padding: 10px;" align="right">
                                                                                 <?php if($email_details['paymentResponse']['currency'] == "GBP") {echo "&#163;";} else { echo "&#x20AC;"; }
                                                                                 ?>
-                                                                                <?php echo number_format($email_details['paymentResponse']['amount'],2); ?></td>
+                                                                                <?php echo number_format($email_details['paymentResponse']['amount'],2); ?></p></td>
                                                                         </tr>
                                                                     </tbody>
                                                                     <thead class="footer">

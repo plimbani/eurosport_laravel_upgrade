@@ -112,10 +112,10 @@
 
                                 <div class="card-text" v-if="!id"> 
                                     <div class="row">
-                                        <div class="col-sm-6 col-md-7 col-lg-7">
+                                        <div class="col-sm-6 col-md-8 col-lg-8">
                                             <p class="mb-0">{{tournamentData.tournament_max_teams}} team license for a {{dayDifference}} day tournament</p>
                                         </div>
-                                        <div class="col-sm-6 col-md-5 col-lg-5">
+                                        <div class="col-sm-6 col-md-4 col-lg-4">
                                             <p class="text-sm-right mb-0 mt-3 mt-sm-0">
                                              <span v-if="tournamentData.currency_type == 'GBP'">&#163;</span>   
                                              <span v-if="tournamentData.currency_type == 'EURO'">&#128;</span>   
