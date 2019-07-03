@@ -556,7 +556,10 @@
                     // toastr.success('Fixtures unscheduled successfully', 'Fixtures Unscheduled', {timeOut: 5000});
                     vm.cancelUnscheduleFixtures();
 
-                    vm.$store.dispatch('setMatches');
+                    vm.$store.dispatch('setMatches')
+                    .then((response) => {
+                        vm.$root.$emit('refreshCompetitionWithGames');
+                    });
                     vm.$store.dispatch('SetScheduledMatches');
                     vm.$root.$emit('reloadAllEvents')
                 })
