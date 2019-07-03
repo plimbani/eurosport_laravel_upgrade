@@ -35,7 +35,7 @@
                                     <div></div>
                                 </div>
                                 <div :id="'stage_outer_div'+stage.stageNumber" :data-stage-number="stage.stageNumber" class="js-stage-outer-div">
-                                    <pitch-planner-stage :stage="stage" :defaultView="defaultView" @schedule-match-result="saveScheduleMatchResult" :scheduleMatchesArray="scheduleMatchesArray" :isMatchScheduleInEdit="isMatchScheduleInEdit" :stageIndex="stageIndex"></pitch-planner-stage>
+                                    <pitch-planner-stage :stage="stage" :defaultView="defaultView" @schedule-match-result="saveScheduleMatchResult" :scheduleMatchesArray="scheduleMatchesArray" :isMatchScheduleInEdit="isMatchScheduleInEdit" :stageIndex="stageIndex" @conflicted-for-same-match-fixutres="showConflictedForSameMatchFixtures" @conflicted-for-another-match-fixutres="showConflictedForAnotherMatchFixtures"></pitch-planner-stage>
                                 </div>
                             </div>
                         </div>
@@ -77,7 +77,7 @@
         <AutomaticPitchPlanning></AutomaticPitchPlanning>
         <AddRefereesModel :formValues="formValues" :competationList="competationList" :tournamentId="tournamentId" :refereeId="refereeId" ></AddRefereesModel>
         <UploadRefereesModel :tournamentId="tournamentId"></UploadRefereesModel>
-        <UnsavedMatchFixture :unChangedMatchFixtures="conflictedMatchFixtures"></UnsavedMatchFixture>
+        <UnsavedMatchFixture :unChangedMatchFixtures="conflictedMatchFixtures" :isAnotherMatchScheduled="isAnotherMatchScheduled"></UnsavedMatchFixture>
     </div>
 </template>
 <script type="text/babel">
@@ -187,6 +187,7 @@
                 'scheduleMatchesArray': [],
                 'isMatchScheduleInEdit': false,
                 'conflictedMatchFixtures': [],
+                'isAnotherMatchScheduled': false
             };
         },
         mounted() {
@@ -553,15 +554,14 @@
                       toastr.success('Fixtures unscheduled successfully', 'Fixtures Unscheduled', {timeOut: 5000});
                     }
 
-                    // toastr.success('Fixtures unscheduled successfully', 'Fixtures Unscheduled', {timeOut: 5000});
                     vm.cancelUnscheduleFixtures();
-
                     vm.$store.dispatch('setMatches')
                     .then((response) => {
+                        _.forEach(vm.tournamentStages, function(stage, stageIndex) {
+                            vm.$root.$emit('refreshPitch' + stageIndex);
+                        });
                         vm.$root.$emit('refreshCompetitionWithGames');
                     });
-                    vm.$store.dispatch('SetScheduledMatches');
-                    vm.$root.$emit('reloadAllEvents')
                 })
             },
             saveScheduleMatchResult(matchData) {
@@ -580,8 +580,15 @@
                 $("body .js-loader").removeClass('d-none');
                 Tournament.saveScheduleMatches(this.scheduleMatchesArray).then(
                     (response) => {
+                        vm.conflictedMatchFixtures = response.data.conflictedFixturesArray;
+                        if(vm.conflictedMatchFixtures.length > 0) {
+                            $("body .js-loader").addClass('d-none');
+                            $('#unChangedMatchFixtureModal').modal('show');
+                        }
                         if(response.data.status_code == '200') {
-                            toastr.success('Match has been scheduled successfully.', 'Schedule Match');
+                            if(response.data.areAllMatchFixtureScheduled == true) {
+                              toastr.success('Match has been scheduled successfully.', 'Schedule Match');
+                            }
                             vm.resetScheduleMatches();
                             vm.$store.dispatch('setMatches')
                             .then((response) => {
@@ -730,6 +737,16 @@
               var c_b = parseInt(hexCode.substr(4, 2),16);
               return ((c_r * 299) + (c_g * 587) + (c_b * 114)) / 1000;
             },
+            showConflictedForSameMatchFixtures(matchFixtureData, anotherMatchScheduled) {
+                this.conflictedMatchFixtures = matchFixtureData;
+                this.isAnotherMatchScheduled = anotherMatchScheduled;
+                $('#unChangedMatchFixtureModal').modal('show');
+            },
+            showConflictedForAnotherMatchFixtures(matchFixtureData, anotherMatchScheduled) {
+                this.conflictedMatchFixtures = matchFixtureData;
+                this.isAnotherMatchScheduled = anotherMatchScheduled;
+                $('#unChangedMatchFixtureModal').modal('show');
+            }            
         }
     }
 </script>

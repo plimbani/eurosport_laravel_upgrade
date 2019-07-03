@@ -3,7 +3,6 @@
         <div class='pitchPlanner' :id="'pitchPlanner'+stage.stageNumber"></div>
         <pitch-modal :matchFixture="matchFixture" :section="section" v-if="setPitchModal"></pitch-modal>
         <delete-modal1 :deleteConfirmMsg="deleteConfirmMsg"  @confirmedBlock="deleteConfirmedBlock()"></delete-modal1>
-        <UnsavedMatchFixture :unChangedMatchFixtures="unChangedMatchFixtures"></UnsavedMatchFixture>
     </div>
 </template>
 
@@ -12,7 +11,6 @@ import moment from 'moment'
 import Tournament from '../api/tournament.js'
 import PitchModal from '../components/PitchModal.vue';
 import DeleteModal1 from '../components/DeleteModalBlock.vue'
-import UnsavedMatchFixture from '../components/UnsavedMatchFixture.vue'
 
 import _ from 'lodash'
     export default {
@@ -34,13 +32,13 @@ import _ from 'lodash'
                 'unChangedMatchFixtureModalOpen': false,
                 'unChangedMatchFixtures': [],
                 // 'currentView': this.$store.getters.curStageView
+                'isAnotherMatchScheduled': false,
             }
         },
         props: [ 'stage' , 'defaultView', 'scheduleMatchesArray', 'isMatchScheduleInEdit', 'stageIndex'],
         components: {
             PitchModal,
             DeleteModal1,
-            UnsavedMatchFixture,
         },
         computed: {
             pitchesData() {
@@ -319,11 +317,15 @@ import _ from 'lodash'
                             Tournament.setMatchSchedule(data).then(
                                 (response) => {
                                     if(response.data.status_code == 200 ){
+                                        vm.unChangedMatchFixtures = response.data.unChangedFixturesArray;
+                                        if(response.data.data.is_another_match_scheduled == true) {
+                                            vm.isAnotherMatchScheduled = true;
+                                            vm.$emit('conflicted-for-same-match-fixutres', vm.unChangedMatchFixtures, vm.isAnotherMatchScheduled);
+                                        }
                                         if(response.data.data != -1 && response.data.data != -2){
-                                            vm.unChangedMatchFixtures = response.data.unChangedFixturesArray;
-                                            if(vm.unChangedMatchFixtures.length > 0) {
-                                              vm.unChangedMatchFixtureModalOpen = true;
-                                              $('#unChangedMatchFixtureModal').modal('show');
+                                            if(vm.unChangedMatchFixtures.length > 0 && response.data.data.is_another_match_scheduled == false) {
+                                                vm.isAnotherMatchScheduled = false;
+                                                vm.$emit('conflicted-for-another-match-fixutres', vm.unChangedMatchFixtures, vm.isAnotherMatchScheduled);
                                             }
 
                                             vm.currentScheduledMatch.remove();
