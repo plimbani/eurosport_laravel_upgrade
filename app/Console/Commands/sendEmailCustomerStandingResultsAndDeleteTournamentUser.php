@@ -75,7 +75,7 @@ class sendEmailCustomerStandingResultsAndDeleteTournamentUser extends Command
                         {
                             // Add 8 hours in date end time
                             $finalDate = Carbon::parse($lastMatchEndTime->match_endtime);
-                            $deleteDate = Carbon::parse($lastMatchEndTime->match_endtime);
+                            //$deleteDate = Carbon::parse($lastMatchEndTime->match_endtime);
                             $configHours = env('CUSTOMER_SEND_MAIL_AFTER_MATCH_FINISHED');
                             $finalDate->addHours($configHours); 
                             
@@ -83,12 +83,12 @@ class sendEmailCustomerStandingResultsAndDeleteTournamentUser extends Command
                             $dbHour = date('H',strtotime($dbHours));
                             $dbMin = date('i',strtotime($dbHours));
 
-                            $deleteUseHours = env('CUSTOMER_TOURNAMENT_DELETE_AFTER_MATCH_FINISHED');
+                            /*$deleteUseHours = env('CUSTOMER_TOURNAMENT_DELETE_AFTER_MATCH_FINISHED');
                             $deleteDate->addHours($deleteUseHours);
 
                             list($deleteDate,$deleteHours) = explode(' ',$deleteDate);
                             $deleteHour = date('H',strtotime($deleteHours));
-                            $deleteMin = date('i',strtotime($deleteHours));
+                            $deleteMin = date('i',strtotime($deleteHours));*/
 
                             $currentDateTime = Carbon::now();
                             $currentDateTime->setTimezone('Europe/London');
@@ -99,7 +99,7 @@ class sendEmailCustomerStandingResultsAndDeleteTournamentUser extends Command
                             $currMin = date('i',strtotime($bstTimeFormat));
                             
                             // Compare current date and time with Db match end time
-                            if ( $dbDate == $currDate && $dbHour == $currHour && $dbMin == $currMin )
+                            if ( $dbDate == $currDate && $dbHour == $currHour)
                             {
                                 $file = $this->matchObj->getAllCategoriesReport($tournamentId);
                                 $emailTemplate = 'emails.sendEmailCustomerStandingResults';
@@ -113,10 +113,10 @@ class sendEmailCustomerStandingResultsAndDeleteTournamentUser extends Command
                                 unlink($file);
                             }
 
-                            if ( $deleteDate == $currDate && $deleteHour == $currHour && $deleteMin == $currMin )
-                            {
-                                TournamentUser::where('user_id',$cvalue['user']['id'])->where('tournament_id',$tournamentId)->delete();
-                            }
+                            // if ( $deleteDate == $currDate && $deleteHour == $currHour && $deleteMin == $currMin )
+                            // {
+                            //     TournamentUser::where('user_id',$cvalue['user']['id'])->where('tournament_id',$tournamentId)->delete();
+                            // }
                         }
                     }
                 }

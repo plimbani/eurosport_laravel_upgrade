@@ -140,4 +140,10 @@ class BuyLicenseController extends BaseController
         
         return $signedUrl;
     }
+
+    public function getPaymentStatusMessages()
+    {
+        $paymentMessages = Config('config-variables.payment_status_messages');
+        return $paymentMessages;
+    }
 }

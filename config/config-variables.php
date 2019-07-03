@@ -82,5 +82,15 @@ return [
     "match_idle_time" => env('MATCH_IDLE_TIME'),
     "current_layout" => env('CURRENT_LAYOUT'),
     "enable_logs_ios" => env('ENABLE_LOGS_IOS'),
-    "enable_logs_android" => env('ENABLE_LOGS_ANDROID')
+    "enable_logs_android" => env('ENABLE_LOGS_ANDROID'),
+    "payment_status_messages" => [
+        "invalid" => "Your transaction was invalid.",
+        "cancelled" => "Your transaction was cancelled.",
+        "authorisation_refused" => "The authorisation has been refused by the financial institution.",
+        "order_stored" => "Order has been stored successfully.",
+        "authorised" => "The authorisation has been accepted.",
+        "payment_deleted" => "The payment has been cancelled/deleted.",
+        "refund" => "The payment has been refunded.",
+        "payment_requested" => "The payment has been requested."
+    ],
 ];
