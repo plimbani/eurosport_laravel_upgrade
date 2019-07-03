@@ -554,17 +554,13 @@
                       toastr.success('Fixtures unscheduled successfully', 'Fixtures Unscheduled', {timeOut: 5000});
                     }
 
-                    // toastr.success('Fixtures unscheduled successfully', 'Fixtures Unscheduled', {timeOut: 5000});
                     vm.cancelUnscheduleFixtures();
-
                     vm.$store.dispatch('setMatches')
                     .then((response) => {
                         _.forEach(vm.tournamentStages, function(stage, stageIndex) {
                             vm.$root.$emit('refreshPitch' + stageIndex);
                         });
                         vm.$root.$emit('refreshCompetitionWithGames');
-                        // vm.$store.dispatch('SetScheduledMatches');
-                        // vm.$root.$emit('reloadAllEvents')
                     });
                 })
             },
