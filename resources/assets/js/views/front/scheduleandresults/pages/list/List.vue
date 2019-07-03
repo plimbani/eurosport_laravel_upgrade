@@ -47,21 +47,21 @@
                   <div class="col-md-8 col-lg-6 mb-3 mb-md-0">
                     <div class="row align-items-center h-100">
                       <div class="col-md-4">
-                        <div class="radio d-inline-block pl-0">
+                        <div class="radio d-inline-flex align-items-center pl-0">
                             <input type="radio" v-model="filterBy" id="filter_category_and_competition" value="category_and_competition" name="match_filter" @change="getFilterOptions()">
-                            <label for="filter_category_and_competition" class="d-inline-block mb-0">Category</label>
+                            <label for="filter_category_and_competition" class="mb-0 ml-2">Category</label>
                         </div>
                       </div>
                       <div class="col-md-4">
-                        <div class="radio d-inline-block pl-0">
+                        <div class="radio d-inline-flex align-items-center pl-0">
                             <input type="radio" v-model="filterBy" id="filter_location" value="location" name="match_filter" @change="getFilterOptions()">
-                            <label for="filter_location" class="d-inline-block mb-0">Location</label>
+                            <label for="filter_location" class="mb-0 ml-2">Location</label>
                         </div>
                       </div>
                       <div class="col-md-4">
-                        <div class="radio d-inline-block pl-0">
+                        <div class="radio d-inline-flex align-items-center pl-0">
                             <input type="radio" v-model="filterBy" id="filter_team" value="team" name="match_filter" @change="getFilterOptions()">
-                            <label for="filter_team" class="d-inline-block mb-0">Team</label>
+                            <label for="filter_team" class="mb-0 ml-2">Team</label>
                         </div>
                       </div>
                     </div>

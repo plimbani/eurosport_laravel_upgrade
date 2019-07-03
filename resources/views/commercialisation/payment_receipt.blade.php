@@ -182,7 +182,7 @@
                                                                     </thead>
                                                                     <tbody>
                                                                         <tr>
-                                                                            <th style="text-align: left; font-weight: normal; padding: 10px 0;" align="left"><?php echo $data['maximumTeams']; ?> team license for a <?php echo $data['days']; ?> day tournament
+                                                                            <th style="text-align: left; font-weight: normal; padding: 10px 0;" align="left"><?php echo $data['tournamentName']; ?> - <?php echo $data['maximumTeams']; ?> team license for a <?php echo $data['days']; ?> day tournament
                                                                             </th>
                                                                             <td style="text-align: right; padding: 10px;" align="right">
 																			<?php if($data['currency'] == "GBP") 

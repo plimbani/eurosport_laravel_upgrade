@@ -15,7 +15,7 @@
                                 <a href="#" v-if="!isDashboarPage" @click.prevent="redirectToDashboardPage">Dashboard <i class="fas fa-tachometer"></i></a>
                             </li>
                              <li class="d-inline">
-                                <a href="#" @click.prevent="logout">Logout <i class="fas fa-sign-out"></i></a>
+                                <a href="#" @click.prevent="logout">Log out <i class="fas fa-sign-out"></i></a>
                             </li>
                         </ul>
                     </div>

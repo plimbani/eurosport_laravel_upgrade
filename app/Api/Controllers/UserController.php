@@ -384,7 +384,7 @@ class UserController extends BaseController
           $email_msg = $brandName.' - Set password';
         } else {
           $email_templates = ($currentLayout == "commercialisation") ? 'emails.users.registration' : 'emails.users.desktop_user';
-          $email_msg = $brandName.' Tournament Planner - Set password';
+          $email_msg = $brandName.' - Set password';
         }
       }
 

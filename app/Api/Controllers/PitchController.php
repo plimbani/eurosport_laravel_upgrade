@@ -188,7 +188,7 @@ class PitchController extends BaseController
             ->setOption('header-spacing', '5')
             ->setOption('header-font-size', 7)
             ->setOption('header-font-name', 'Open Sans')
-            ->setOption('footer-font-size', 9)
+            ->setOption('footer-font-size', 7)
             ->setOption('footer-font-name', 'Open Sans')
             ->setOrientation('portrait')
             ->setOption('footer-right', 'Page [page] of [toPage]')
