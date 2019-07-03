@@ -44,17 +44,25 @@ class MatchRepository
     }
 
     public function getDraws($tournamentData) {
+      $token = \JWTAuth::getToken();
          //$data = Competition::where('tournament_id',$tournamentId)->get();
       $tournamentId = $tournamentData['tournamentId'];
       //$tournamentId = $tournamentData['tournament_id'];
       $reportQuery = DB::table('competitions')
                      ->leftjoin('tournament_competation_template','tournament_competation_template.id', '=', 'competitions.tournament_competation_template_id');
+                     
       if(isset($tournamentData['competationFormatId']) && $tournamentData['competationFormatId'] != '') {
         $reportQuery->where('competitions.tournament_competation_template_id','=',
           $tournamentData['competationFormatId']);
       }
+
       $reportQuery->where('competitions.tournament_id', $tournamentId);
-     $reportQuery->select('competitions.*','tournament_competation_template.group_name');
+
+      if(!$token || (app('request')->header('ismobileuser') && app('request')->header('ismobileuser') == "true")) {
+        $reportQuery->select('competitions.*','tournament_competation_template.group_name', DB::raw('(select count(*) from temp_fixtures where temp_fixtures.competition_id = competitions.id and temp_fixtures.is_scheduled = 1) AS scheduleCount'))->having('scheduleCount', '>', 0);
+      } else {
+        $reportQuery->select('competitions.*','tournament_competation_template.group_name');
+      }
 
       return $reportQuery->get();
     }
@@ -253,6 +261,7 @@ class MatchRepository
     }
 
     public function getTempFixtures($tournamentData) {
+      $token = \JWTAuth::getToken();
       $reportQuery = DB::table('temp_fixtures')
           // ->Join('tournament', 'fixture.tournament_id', '=', 'tournament.id')
           ->leftjoin('venues', 'temp_fixtures.venue_id', '=', 'venues.id')
@@ -336,6 +345,10 @@ class MatchRepository
 
           //echo $dd1;
            $reportQuery = $reportQuery->whereDate('temp_fixtures.match_datetime', '=',$mysql_date_string);
+        }
+
+        if(!$token || (app('request')->header('ismobileuser') && app('request')->header('ismobileuser') == "true")) {
+          $reportQuery = $reportQuery->where('is_scheduled', 1);
         }
 
         if(isset($tournamentData['pitchId']) && $tournamentData['pitchId'] !== '' )

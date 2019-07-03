@@ -478,6 +478,7 @@ class TournamentRepository
         // now here we fetch data for specefic key
         if ($tournamentData['tournamentData']['type'] == 'teams' || $tournamentData['tournamentData']['type'] == 'scheduleResult') {
             $reportQuery = Team::where('teams.tournament_id', '=', $tournamentId);
+            $token = \JWTAuth::getToken();
             switch ($key) {
                 case 'team':
                     $resultData = $reportQuery->select('id', 'name as name')
@@ -501,12 +502,13 @@ class TournamentRepository
                     //echo $resultData;
                     break;
                 case 'competation_group':
-                    // $resultData = Competition::where('tournament_id',$tournamentId)
-                    //                ->select('id','name')
-                    //                ->get();
                     $resultData = TournamentCompetationTemplates::with('Competition')->where('tournament_id', $tournamentId)
-                        ->select('id', \DB::raw("CONCAT(group_name, ' (', category_age,')') AS name"), 'tournament_template_id')
-                        ->get();
+                        ->select('id', \DB::raw("CONCAT(group_name, ' (', category_age,')') AS name"), 'tournament_template_id');
+
+                    if(!$token || (app('request')->header('ismobileuser') && app('request')->header('ismobileuser') == "true")) {
+                        $resultData = $resultData->whereHas('scheduledFixtures');
+                    }
+                    $resultData = $resultData->get();
             }
         } else {
 
@@ -674,6 +676,7 @@ class TournamentRepository
 
     public function getCategoryCompetitions($data)
     {
+        $token = \JWTAuth::getToken();
         $categoryCompetitions = Competition::where('tournament_competation_template_id', $data['ageGroupId']);
         if (isset($data['competationType'])) {
             $categoryCompetitions = $categoryCompetitions->where('competation_type', $data['competationType']);
@@ -681,6 +684,11 @@ class TournamentRepository
         if (isset($data['competationRoundNo'])) {
             $categoryCompetitions = $categoryCompetitions->where('competation_round_no', $data['competationRoundNo']);
         }
+
+        if(!$token || (app('request')->header('ismobileuser') && app('request')->header('ismobileuser') == "true")) {
+            $categoryCompetitions = $categoryCompetitions->whereHas('scheduledFixtures');
+        }
+
         $categoryCompetitions = $categoryCompetitions->get();
         return $categoryCompetitions;
     }
@@ -695,6 +703,7 @@ class TournamentRepository
     {
         $tournamentId = $data['tournamentId'];
         $filterBy     = $data['filterBy'];
+        $token = \JWTAuth::getToken();
 
         $resultData = array();
         switch ($filterBy) {
@@ -703,8 +712,11 @@ class TournamentRepository
                 break;
             case 'category_and_competition':
                 $resultData = TournamentCompetationTemplates::with('Competition')->where('tournament_id', $tournamentId)
-                    ->select('id', \DB::raw("CONCAT(group_name, ' (', category_age,')') AS name"), 'tournament_template_id')
-                    ->get();
+                    ->select('id', \DB::raw("CONCAT(group_name, ' (', category_age,')') AS name"), 'tournament_template_id');
+                if(!$token || (app('request')->header('ismobileuser') && app('request')->header('ismobileuser') == "true")) {
+                    $resultData = $resultData->whereHas('scheduledFixtures');
+                }
+                $resultData = $resultData->get();
                 break;
             case 'location':
                 $resultData = Venue::where('tournament_id', $tournamentId)->select('id', 'name')->get();
