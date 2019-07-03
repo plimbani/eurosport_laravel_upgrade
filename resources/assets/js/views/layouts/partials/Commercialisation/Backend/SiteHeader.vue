@@ -67,11 +67,12 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div class="form-group row">
-                        <label class="col-sm-4 form-control-label">1 EURO :</label>
-                        <div class="col-sm-7">
-                             <input v-model="adminsetting.currencyvalue" placeholder="for ex. 1.1"> GBP
+                    <div class="form-group row align-items-center">
+                        <div class="col-sm-4 form-control-label mb-0">1 EURO:</div>
+                        <div class="col-sm-4">
+                             <input v-model="adminsetting.currencyvalue" placeholder="for ex. 1.1" class="form-control">
                         </div>
+                        <div class="col-sm-4"><label class="mb-0">GBP</label></div>
                     </div>
                      
                 </div>

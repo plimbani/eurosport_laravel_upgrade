@@ -223,8 +223,9 @@ class MatchService implements MatchContract
       
       $categoryAgeColor = $ageCategory->category_age_color;
       $categoryStripColor = $competition->color_code ? $competition->color_code : '#FFFFFF';
+      $currentLayout = config('config-variables.current_layout');
 
-      $pdf = PDF::loadView('pitchplanner.pitch',['data' => $resultData,'result_override'=>$matchData['result_override'], 'categoryAgeColor' => $categoryAgeColor, 'categoryStripColor' => $categoryStripColor])
+      $pdf = PDF::loadView('pitchplanner.pitch',['data' => $resultData,'result_override'=>$matchData['result_override'], 'categoryAgeColor' => $categoryAgeColor, 'categoryStripColor' => $categoryStripColor,'currentLayout' => $currentLayout])
           ->setPaper('a4')
           ->setOption('header-spacing', '5')
           ->setOption('header-font-size', 7)
@@ -339,6 +340,9 @@ class MatchService implements MatchContract
         $ageGroupId  = $result['age_group_id'];
         $teamsList =array($result['home_team'],$result['away_team']);
 
+        \Log::info('saveResult-tournamentId' . $tournamentId);
+        \Log::info('saveResult-AllMatches' . json_encode($matchData->all()['matchData']));
+
         $matchData = array('teams'=>$teamsList,'tournamentId'=>$tournamentId,'ageGroupId'=>$ageGroupId,'teamId'=>true);
 
         $matchresult =  $this->matchRepoObj->checkTeamIntervalforMatches($matchData);
@@ -358,6 +362,10 @@ class MatchService implements MatchContract
       $competitionIds = [];
       $AllMatches = $matchData->all()['matchData']['matchDataArray'];
       $tournamentId = $matchData->all()['matchData']['tournamentId'];
+
+      \Log::info('saveAllResults-tournamentId' . $tournamentId);
+      \Log::info('saveAllResults-AllMatches' . json_encode($AllMatches));
+
       $matchResult = null;
       $unChangedMatchScoresArray = [];
       $areAllMatchScoreUpdated = false;
@@ -387,12 +395,14 @@ class MatchService implements MatchContract
       }
 
       foreach ($competitionIds as $ageGroupId => $cids) {
-        $lowerCompetitionId = min(array_unique($cids));
+        // $lowerCompetitionId = min(array_unique($cids));
         // $allCompetitionsIds = Competition::where('tournament_id', '=', $tournamentId)->where('tournament_competation_template_id', '=', $ageGroupId)->where('id', '>=', $lowerCompetitionId)->pluck('id')->toArray();
-          // foreach ($allCompetitionsIds as $id) {
-            $data = ['tournamentId' => $tournamentId, 'competitionId' => $lowerCompetitionId];
+        $allCompetitionsIds = array_unique($cids);
+        sort($allCompetitionsIds);
+        foreach ($allCompetitionsIds as $id) {
+            $data = ['tournamentId' => $tournamentId, 'competitionId' => $id];
             $this->refreshCompetitionStandings($data);
-          // }
+        }
       }
       foreach ($teamArray as $ageGroupId => $teamsList) {
         $teamsList = array_unique($teamsList);
@@ -1646,7 +1656,10 @@ class MatchService implements MatchContract
     }
 
     public function saveStandingsManually($request) {
-        $this->matchRepoObj->saveStandingsManually($request->all()['data']);
+        $data = $request->all()['data'];
+        $this->matchRepoObj->saveStandingsManually($data);
+        $data = ['tournamentId' => $data['tournament_id'], 'competitionId' => $data['competitionId']];
+        $this->refreshCompetitionStandings($data);
         return ['status_code' => '200', 'message' => 'Ranking has been updated successfully.'];
     }
 

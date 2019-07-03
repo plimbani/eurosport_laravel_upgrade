@@ -2,7 +2,7 @@
   <div class="tab-content">
   	<div class="card">
   		<div class="card-block">
-      		<h6><strong>{{$lang.teams_terms_groups}}</strong></h6>
+      		<h6 class="fieldset-title"><strong>{{$lang.teams_terms_groups}}</strong></h6>
             <div class="row">
               <div class="col-sm-12 mb-2">
                 Team list spreadsheet <a href="javascript:void(0)" @click="downloadTeamsSpreadsheetSample()" class="text-primary"><u>click here</u>.</a>  View
@@ -10,8 +10,8 @@
               </div>
             </div>
             <div class="form-group row">
-              <label class="col-sm-2 form-control-label">Import file</label>
-              <div class="col-sm-10">
+              <div class="col-sm-3 form-control-label">Import file</div>
+              <div class="col-sm-9">
                 <form method="post" name="frmCsvImport" id="frmCsvImport" enctype="multipart/form-data">
                   <div class="row">
                     <div class="col align-self-center">
@@ -33,8 +33,8 @@
             </div>
       		  <div class="form-group row">
               <div class="col-sm-12 mb-2 text-muted">Choose an age category to allocate teams to groups.</div>
-              <label class="col-sm-2 form-control-label">Select age category</label>
-              <div class="col-sm-10">
+              <div class="col-sm-3 form-control-label">Select age category</div>
+              <div class="col-sm-9">
                 <div class="row">
                   <div class="col-sm-4">
                     <div class="form-group">
@@ -50,7 +50,7 @@
                   </div>
                   <div class="col-sm-3" v-show="this.age_category != ''" v-if="this.role_slug != 'mobile.user'">
                     <button type="button" class="btn btn-primary w-100" @click="printAllocatedTeams()">Download groups</button>
-                  </div>                  
+                  </div>
                 </div>
               </div>
             </div>

@@ -63,8 +63,8 @@ class TransactionService implements TransactionContract {
         }
 
         $tournamentCreatedAt = Tournament::orderBy('id', 'desc')->first();
-        $tournamentCreatedAtDateFormat = $tournamentCreatedAt['created_at']->format('h:i:s d-m-y');
-
+        $tournamentCreatedAtDateFormat = $tournamentCreatedAt['created_at']->format('H:i:s d-m-y');
+        
         $pdfData = [
             'days' => $days,
             'maximumTeams' => $maxTeam,
@@ -72,7 +72,8 @@ class TransactionService implements TransactionContract {
             'orderNumber' => $transaction[0]->order_id,
 			'currency' => $transaction[0]->currency,
             'tournamentCreatedAtDateFormat' => $tournamentCreatedAtDateFormat,
-            'userName' => $_GET['user_name'],
+            list($firstName, $lastName) = explode(' ', $_GET['user_name']),
+            'userFirstName' => $firstName,
         ];
         
         $date = new \DateTime(date('H:i d M Y'));
@@ -81,6 +82,9 @@ class TransactionService implements TransactionContract {
                 ->setOption('header-spacing', '5')
                 ->setOption('header-font-size', 7)
                 ->setOption('header-font-name', 'Open Sans')
+                ->setOption('footer-spacing', '5')
+                ->setOption('footer-font-size', 7)
+                ->setOption('footer-font-name', 'Open Sans')
                 ->setOrientation('portrait')
                 ->setOption('footer-right', 'Page [page] of [toPage]')
                 ->setOption('header-right', $date->format('H:i d M Y'))

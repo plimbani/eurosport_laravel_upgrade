@@ -10,7 +10,7 @@
         </div>
         <div class="modal-body">
           <div class="form-group row" :class="{'has-error': errors.has('image') }">
-            <label class="col-sm-5 form-control-label">{{ $lang.image }}*</label>
+            <div class="col-sm-5 form-control-label">{{ $lang.image }}*</div>
             <div class="col-sm-6">
               <img v-show="isLoad" :src="getImage" class="thumb-size" @load="loaded"/>
               <img class="thumb" v-show="!isLoad" src="/images/loader2.gif">
@@ -22,7 +22,7 @@
             </div>
           </div>
           <div class="form-group row" :class="{'has-error': errors.has('caption') }">
-            <label class="col-sm-5 form-control-label">{{ $lang.caption }}*</label>
+            <div class="col-sm-5 form-control-label">{{ $lang.caption }}*</div>
             <div class="col-sm-6">
                 <input v-model="formValues.caption" v-validate="'required'"
                 :class="{'is-danger': errors.has('caption') }"

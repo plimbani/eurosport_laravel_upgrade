@@ -348,7 +348,7 @@ table#Competition-modal-table {
 #profile_image_file {
     text-align: left;
     font-size: 15px;
-    line-height: 1.5;
+    line-height: 1.15;
 }
 
 #matchSchedule {
@@ -1261,6 +1261,11 @@ a.active-view:hover {
         td {
             white-space: nowrap;
             width: auto;
+            a{
+                &+a{
+                    margin-left: 5px;
+                }
+            }
         }
     }
 }

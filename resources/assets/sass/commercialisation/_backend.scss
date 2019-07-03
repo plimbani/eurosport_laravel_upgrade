@@ -1,0 +1,17 @@
+.commercialisation {
+    .tabs-primary {
+        .fieldset-title {
+            font-size: $theme-page-header;
+        }
+
+        .grey_bg {
+            background-color: #F5F8FA;
+        }
+
+        #profile_image_file,
+        #referee_upload_file {
+            @extend .font-weight-normal;
+            text-transform: initial !important;
+        }
+    }
+}

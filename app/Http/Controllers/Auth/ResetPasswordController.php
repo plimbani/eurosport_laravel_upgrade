@@ -164,6 +164,13 @@ class ResetPasswordController extends Controller
             $error = true;
         }
 
+
+        $error = false;
+        if ( $response != Password::PASSWORD_RESET )
+        {
+            $error = true;
+        }
+
         if (!$error)
         {
             if($userData->roles[0]->id != $mobileUserRoleId) {
@@ -176,6 +183,7 @@ class ResetPasswordController extends Controller
         {
             $url = '/password/reset/'.$data['token'].'?userEmail='.$data['email'].'&error='.trans($response);
         }
+        
         return $url;
     }
 

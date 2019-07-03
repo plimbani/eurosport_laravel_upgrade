@@ -12,6 +12,8 @@ use Laraspace\Models\Role;
 use Laraspace\Api\Repositories\PeopleRepository;
 use Laraspace\Api\Repositories\UserRepository;
 use Laraspace\Api\Repositories\CountryRepository;
+use Illuminate\Support\Facades\Mail;
+use Laraspace\Mail\SendMail;
 
 class RegisterRepository
 {
@@ -37,26 +39,36 @@ class RegisterRepository
             'zipcode' => $data['zip'],
         ];        
         $result = (new PeopleRepository())->create($newCustomer);
+
         unset($newCustomer);
 
         if (true == $result) {
             //Inserting Customer Data in User Table
+
+            $token = str_random(30);
+
             $newUser = [
                 'person_id' => $result['id'],
                 'username' => $data['email'],
                 'name' => $data['first_name'] . " " . $data['last_name'],
                 'email' => $data['email'],
                 'organisation' => !empty($data['organisation']) ? $data['organisation'] : '',
-                'password' => Hash::make($data['password']),
                 'is_mobile_user' => 1,
                 'is_desktop_user' => 1,
                 'registered_from' => 1,
-                'is_active' => 1,
-                'is_verified' => 1,
+                'is_active' => 0,
+                'is_verified' => 0,
                 'country_id' => $data['country'],
+                'token' => $token,
             ];
 
             $user = User::create($newUser);
+
+            $subject = 'Easy Match Manager - Set password';
+            $email_templates = 'emails.users.registration';
+            $emailData = ['name' => $data['first_name'],'token'=> $token,'currentLayout' => config('config-variables.current_layout')];
+            Mail::to($data['email'])
+                    ->send(new SendMail($emailData, $subject, $email_templates, NULL, NULL, NULL));
             
             //Find role and attach with user
             $role = Role::where('slug', '=', 'customer')->first();
@@ -64,8 +76,7 @@ class RegisterRepository
             
             return [
                 'user' => $user,
-                'role' => [$role],
-                'token' => JWTAuth::attempt(['email' => $newUser['email'], 'password' => $data['password']])
+                'role' => [$role]
             ];
         } else {
             return false;

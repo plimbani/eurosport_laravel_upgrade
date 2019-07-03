@@ -13,7 +13,10 @@
 </head>
 <body>
     <center>
-      <img src="{{ asset('assets/img/tmplogo.svg')}}" alt="Euro-Sportring Logo" width="100px" height="50px"/>
+        <?php 
+            $logo = ($currentLayout == 'tmp') ? 'assets/img/tmplogo.svg' : 'images/logo-emm.png';
+        ?>
+        <img src="{{ asset($logo)}}" alt="Euro-Sportring Logo" width="auto" height="auto"/> 
     </center>
     <div class="container">
         <div class="row">

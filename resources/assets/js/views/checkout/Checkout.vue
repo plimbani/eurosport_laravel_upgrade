@@ -74,9 +74,9 @@
                         <div class="divider my-3"></div>
                         <div class="row">
                             <div class="col-sm-6 col-md-7 col-lg-7">
-                                <p class="mb-0" v-if="!id">{{tournamentData.tournament_max_teams}} team license for a {{tournamentData.dayDifference}} day(s) tournament</p>
+                                <p class="mb-0" v-if="!id">{{tournamentData.tournament_max_teams}}  team license for a {{tournamentData.dayDifference}} day tournament</p>
 
-								<p class="mb-0" v-if="id">{{tournamentData.teamDifference}} team license for a {{tournamentData.dayDifference}} day(s) tournament</p>
+								<p class="mb-0" v-if="id">{{tournamentData.teamDifference}}  team license for a {{tournamentData.dayDifference}} day tournament</p>
                             </div>
                             <div class="col-sm-6 col-md-5 col-lg-5">
                                 <p class="text-sm-right mb-0 mt-3 mt-sm-0">
@@ -90,10 +90,9 @@
 
                         <p class="text-sm-right font-weight-bold"><span v-if="tournamentData.currency_type == 'GBP'">&#163;</span>   
                         <span v-if="tournamentData.currency_type == 'EURO'">&#128;</span>{{returnFormatedNumber(tournamentData.tournamentPricingValue/100)}}</p>
-                        
+                        <button v-if="shaSignIn"  class="btn btn-success" v-on:click="redirectBuylicensePage()">EDIT YOUR LICENSE</button> 
                         <button v-if="shaSignIn"  class="btn btn-success" v-on:click="makePaymentButton()">Checkout</button>
                         <button v-if="!shaSignIn" class="btn btn-success" disabled="true">Get checkout</button>
-                        <button v-if="shaSignIn"  class="btn btn-success" v-on:click="redirectBuylicensePage()">EDIT YOUR LICENSE</button> 
                     </div>
                 </div>
             </div>

@@ -69,12 +69,7 @@ class PitchService implements PitchContract
      */
     public function edit($data,$pitchId)
     {
-
         $dataArr = $data->all();
-        // Call function to check if particular pitch has some schedule matches in that time
-        // if its have it then unschedule it
-
-        // dd($dataArr,$pitchId);
         $pitchdata = $this->pitchRepoObj->edit($dataArr,$pitchId);
 
         if($pitchdata){
@@ -239,11 +234,11 @@ class PitchService implements PitchContract
 
         $pitchResult = pitch::find($pitchId);
         $pitchReport = $pitchResult->toArray();
-
+        $currentLayout = config('config-variables.current_layout');
         $date = new \DateTime(date('H:i d M Y'));
         
         $pdf = PDF::loadView('pitchcapacity.pitch_report_card',['pitchRecord' => $pitchRecord,
-          'pitchReport' => $pitchReport])
+          'pitchReport' => $pitchReport, 'currentLayout' => $currentLayout])
             ->setPaper('a4')
             ->setOption('header-spacing', '5')
             ->setOption('header-font-size', 7)

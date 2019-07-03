@@ -75,7 +75,7 @@
               </div>
 
               <div class="form-group row align-items-center">
-                <label class="col-sm-4 form-control-label">Pitch size*</label>
+                <div class="col-sm-4 form-control-label">Pitch size*</div>
                 <div class="col-sm-8">
                   <select name="pitch_size" id="pitch_size" class="form-control ls-select2" v-model="competation_format.pitch_size" v-validate="'required'" :class="{'is-danger': errors.has('pitch_size') }" :disabled="isPitchSizeDisabled">
                      <option value="">{{$lang.pitch_modal_pitch_size}}</option>
@@ -208,7 +208,7 @@
                 <div class="col-sm-4 form-control-label">{{$lang.competation_modal_game_duration}}</div>
                 <div class="col-sm-8">
                   <div class="row align-items-center">
-                    <div class="col-sm-2">
+                    <div class="col-sm-3">
                       <select class="form-control ls-select2" name="halves_RR" v-model="competation_format.halves_RR" @change="showHideHalfTimeBreakRR()">
                         <option value="1">1 x</option>
                         <option value="2">2 x</option>
@@ -233,7 +233,7 @@
                 <div class="col-sm-4 form-control-label">{{$lang.competation_modal_duration_final}}</div>
                 <div class="col-sm-8">
                   <div class="row align-items-center">
-                     <div class="col-sm-2">
+                     <div class="col-sm-3">
                         <select id="duration" name="halves_FM" v-model="competation_format.halves_FM" class="form-control ls-select2" @change="showHideHalfTimeBreakFM()">
                           <option value="1">1 x</option>
                           <option value="2">2 x</option>
