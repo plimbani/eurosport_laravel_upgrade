@@ -133,54 +133,43 @@
                                 </div>
                                 <!-- {{ newDaysAdded >= 1}} -->
                                 <div class="card-text" v-if="id">
-                                    <div class="row" v-if="!buyLicenseIsDataNotUpdated">
+                                    <div class="row">
                                         <div class="col-sm-6 col-md-7 col-lg-7">
                                             <p class="mb-0" v-if="new_added_teams != 0">
-                                                <span v-if="new_added_teams == 1">Additional {{Math.abs(new_added_teams)}} team</span>
-                                                <span v-else="new_added_teams > 1">Additional {{Math.abs(new_added_teams)}} teams</span>
+                                                <span v-if="buyLicenseIsTeamsUpdated == 1">
+                                                    <span v-if="new_added_teams == -1">Reduce {{Math.abs(new_added_teams)}} team</span>
+                                                    <span v-else="new_added_teams < -1">Reduce {{Math.abs(new_added_teams)}} teams</span>
+                                                </span>
+                                                <span v-else>
+                                                    <span v-if="new_added_teams == 1">Additional {{Math.abs(new_added_teams)}} team</span>
+                                                    <span v-else="new_added_teams > 1">Additional {{Math.abs(new_added_teams)}} teams</span>
+                                                </span>
                                             </p>
-
+                                            
                                             <p class="mb-0" v-if="newDaysAdded != 0">
-                                               <span v-if="newDaysAdded == 1">Additional {{Math.abs(newDaysAdded)}} day</span>
-                                               <span v-else="newDaysAdded > 1">Additional {{Math.abs(newDaysAdded)}} days</span>
+                                                <span v-if="buyLicenseIsDaysUpdated == 1">
+                                                    <span v-if="newDaysAdded == -1">Reduce {{Math.abs(newDaysAdded)}} day</span>
+                                                    <span v-else="newDaysAdded < -1">Reduce {{Math.abs(newDaysAdded)}} days</span>
+                                                </span>
+                                                <span v-else>
+                                                    <span v-if="newDaysAdded == 1">Additional {{Math.abs(newDaysAdded)}} day</span>
+                                                    <span v-else="newDaysAdded > 1">Additional {{Math.abs(newDaysAdded)}} days</span>
+                                                </span>
+                                              
                                             </p>
 
                                             <p class="mb-0" v-if="user_old_selected_type != tournamentData.tournament_type">Tournament type</p>
                                             <p class="mb-0" v-if="user_old_selected_format != tournamentData.custom_tournament_format && tournamentData.tournament_type != 'league'">Tournament formats</p>
                                         </div>
                                         <div class="col-sm-6 col-md-5 col-lg-5">
-                                            <p class="text-sm-right mb-0 mt-3 mt-sm-0">
+                                            <p class="text-sm-right mb-0 mt-3 mt-sm-0" v-if="newDaysAdded != 0 && new_added_teams != 0">
                                              <span v-if="tournamentData.currency_type == 'GBP'">&#163;</span>   
                                              <span v-if="tournamentData.currency_type == 'EURO'">&#128;</span>
 
                                             {{returnFormatedNumber(tournamentData.tournamentPricingValue)}}</p>
                                         </div>
                                     </div>
-                                    <div class="row" v-if="buyLicenseIsDataNotUpdated">
-                                        <div class="col-sm-6 col-md-7 col-lg-7">
-                                            <p class="mb-0" v-if="new_added_teams != 0">
-                                                <span v-if="new_added_teams == -1">Reduce {{Math.abs(new_added_teams)}} team</span>
-                                                <span v-else="new_added_teams < 1">Reduce {{Math.abs(new_added_teams)}} teams</span>
-                                            </p>
-
-                                            <p class="mb-0" v-if="newDaysAdded != 0">
-                                               <span v-if="newDaysAdded == -1">Reduce {{Math.abs(newDaysAdded)}} day</span>
-                                               <span v-else="newDaysAdded < 1">Reduce {{Math.abs(newDaysAdded)}} days</span>
-                                            </p>
-
-                                            <p class="mb-0" v-if="user_old_selected_type != tournamentData.tournament_type">Tournament type</p>
-                                            <p class="mb-0" v-if="user_old_selected_format != tournamentData.custom_tournament_format && tournamentData.tournament_type != 'league'">Tournament formats</p>
-                                        </div>
-                                        <div class="col-sm-6 col-md-5 col-lg-5" v-if="new_added_teams < 0 || newDaysAdded < 0">
-                                            <p class="text-sm-right mb-0 mt-3 mt-sm-0">
-                                             <span v-if="tournamentData.currency_type == 'GBP'">&#163;</span>   
-                                             <span v-if="tournamentData.currency_type == 'EURO'">&#128;</span>
-                                            
-                                            <span >{{returnFormatedNumber(tournamentData.tournamentPricingValue)}}</span>
-                                        </p>
-                                        </div>
-                                    </div>
-                                    
+                                      
                                     <div class="row" v-if="buyLicenseReduceTeamAndDay">
                                         <div class="col-sm-6 col-md-7 col-lg-7">
                                             <p class="mb-0">No change</p>
@@ -298,6 +287,20 @@
         computed: {
             buyLicenseIsDataNotUpdated(){
                 if(this.newDaysAdded <= 0 && this.new_added_teams <= 0){
+                    return true
+                } else {
+                    return false
+                }
+            },
+            buyLicenseIsDaysUpdated(){
+                if(this.newDaysAdded <= 0){
+                    return true
+                } else {
+                    return false
+                }
+            },
+            buyLicenseIsTeamsUpdated(){
+                if(this.new_added_teams <= 0){
                     return true
                 } else {
                     return false
@@ -571,7 +574,6 @@
                     vm.tournamentData.tournamentPricingValue  = 0;
                 }
 
-                
                 if(this.$route.query.teams) {
                     if(this.tournamentData.tournament_max_teams <= this.tournamentData.maximumCupTeamSize){
                         $('#cup').prop("checked",true)

@@ -211,7 +211,8 @@
                     let tabWith = $('#gameReferee').width()+10;
                     
                     if( $(window).scrollTop() > (stickyHeaderTop - siteHeaderHeight)) {
-                        $('#gameReferee').css({position: 'fixed', top: '0', width: tabWith, 'margin-top':siteHeaderHeight});
+                        $('#gameReferee').css({position: 'fixed', top: '0', width: tabWith, 'margin-top':$('.site-header').height()});
+
                     } else {
                         $('#gameReferee').css({position: 'static', top: '0', width:tabWith, 'margin-top':0});
                     }
