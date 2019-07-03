@@ -50,7 +50,7 @@ class sendEmailCustomerStandingResultsAndDeleteTournamentUser extends Command
         $customerRoleId = Role::where('slug', 'customer')->first()->id;
         $customerUsers = RoleUser::with('tournament_user.filter_tournaments_with_endate','user')
         ->where('role_id', $customerRoleId)
-        ->limit(3)->get();
+        ->get();
 
         if ( $customerUsers->count() > 0)
         {
