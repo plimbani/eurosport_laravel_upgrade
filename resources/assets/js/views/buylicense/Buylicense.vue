@@ -551,7 +551,7 @@
                     vm.tournamentData.tournamentPricingValue  = 0;
                 }
 
-                if(this.$route.query.teams && section == 'mounted') {
+                if(this.$route.query.teams && section == 'mounted') { 
 
                     if(this.tournamentData.tournament_max_teams <= this.tournamentData.maximumCupTeamSize){
 
