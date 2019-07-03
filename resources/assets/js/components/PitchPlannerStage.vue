@@ -505,9 +505,11 @@ import _ from 'lodash'
                 let vm = this;
                 let ev = this.$el;
                 $(ev).fullCalendar( 'removeEvents' )
+                $("body .js-loader").removeClass('d-none');
                 setTimeout(function(){
                     $(ev).fullCalendar('addEventSource', vm.scheduledMatches);
                     arrangeLeftColumn();
+                    $("body .js-loader").addClass('d-none');
                 },2100)
             },
             getScheduledMatch(filterKey='',filterValue='',filterDependentKey='',filterDependentValue='') {
