@@ -458,8 +458,9 @@ class AgeGroupRepository
     }
 
     public function getPlacingsData($data) {
-      $positions = Position::with('team', 'team.country')->where('age_category_id', $data['ageCategoryId'])->get();
-      
+      $positions = Position::with('team', 'team.country')->where('age_category_id', $data['ageCategoryId'])
+                   ->where('is_delete', '!=', 1)->get();
+
       $positionData = [];
       foreach ($positions as $key => $position) {
         $positionData[$key]['pos'] = $position->position;
@@ -467,6 +468,7 @@ class AgeGroupRepository
           $positionData[$key]['team_name'] = $position->team['name'];
           $positionData[$key]['team_flag'] = $position->team->country->country_flag;
           $positionData[$key]['team_logo'] = getenv('S3_URL') . $position->team->country->logo;
+          $positionData[$key]['position_id'] = $position->id;
         } else {
           $positionData[$key]['team_name'] = '';
 
@@ -481,6 +483,26 @@ class AgeGroupRepository
       $viewGraphicImageData = TournamentCompetationTemplates::where('id', $data['age_category'])->with('TournamentTemplate')->first();
 
       return $viewGraphicImageData->TournamentTemplate->graphic_image ? getenv('S3_URL').$viewGraphicImageData->TournamentTemplate->graphic_image : null;
+    }
+
+    public function deleteFinalPlacingTeam($data) {
+      $position = Position::where('age_category_id', $data['ageCategoryId'])->where('id', $data['positionId'])->first();
+      $position->is_delete = 1;
+
+      $newPosition = $position->position;
+
+      $positionRecord = Position::where('age_category_id', $data['ageCategoryId'])->where('position', '>', $position->position)->orderBy('position')->get();
+
+      foreach ($positionRecord as $index => $pos) {
+          $pos->position = $newPosition;
+          $pos->save();
+          $newPosition += 1;
+      }
+
+      $position->position = $newPosition;
+      $position->save();
+
+      return $position;
     }
 
 }

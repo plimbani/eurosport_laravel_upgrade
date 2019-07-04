@@ -37,10 +37,13 @@
           </div>
           <div class="modal-body modal-fixed-height">
               <div class="form-group row mb-0" v-for="position in positionData">
-                <div class="col-sm-3 form-control-label font-weight-bold border">Placing {{ position.pos }}</div>
-                <div class="col-sm-9 form-control-label d-flex"> 
+                <div class="col-sm-4 form-control-label font-weight-bold border">Placing {{ position.pos }}</div>
+                <div class="col-sm-4 form-control-label d-flex"> 
                   <span :class="'flag-icon flag-icon-' + position.team_flag"></span>
                   <span class="ml-1">{{ position.team_name }}</span>
+                </div>
+                <div class="col-sm-4 form-control-label text-right">
+                    <a @click="deleteFinalPlacingTeam(position.position_id)" class="text-primary" href="javascript:void(0)"><u>Delete</u></a>
                 </div>
               </div>   
           </div>
@@ -67,6 +70,8 @@ export default {
       groupsData:[],
       ageCatgeoryComments: '',
       positionData: [],
+      positionId: '',
+      ageCategoryId: '',
     }
   },
   mounted() {    
@@ -116,6 +121,7 @@ export default {
       )
     },
     getAgeCategoryDetail(ageCategoryId) {
+      this.ageCategoryId = ageCategoryId
       let ageCategoryData = {'ageCategoryId': ageCategoryId}
       Tournament.getPlacingsData(ageCategoryData).then(
         (response) => {
@@ -130,6 +136,18 @@ export default {
         $('#viewPlacingsModal').modal('hide')
         return false
     },
+    deleteFinalPlacingTeam(positionId) {
+      let placingData = {'positionId': positionId, 'ageCategoryId': this.ageCategoryId}
+      Tournament.deleteFinalPlacingTeam(placingData).then(
+        (response) => {
+          this.getAgeCategoryDetail(this.ageCategoryId)
+          toastr.success('Placing has been deleted successfully.', 'Delete placing', {timeOut: 5000});
+        },
+        (error) => {
+
+        }
+      )
+    }
   },
   filters: {
   },

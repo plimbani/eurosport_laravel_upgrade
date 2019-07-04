@@ -114,4 +114,8 @@ class AgeGroupController extends BaseController
         return $this->ageGroupObj->viewTemplateGraphicImage($request->all());
     }
 
+    public function deleteFinalPlacingTeam(Request $request) {
+        return $this->ageGroupObj->deleteFinalPlacingTeam($request->all());
+    }
+
 }
