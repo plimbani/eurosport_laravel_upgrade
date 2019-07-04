@@ -249,7 +249,7 @@
         mounted() {
           // here we check the permission to allowed to access users list
           let role_slug = this.$store.state.Users.userDetails.role_slug
-          if(role_slug == 'tournament.administrator' || role_slug == 'Internal.administrator') {
+          if(role_slug == 'Internal.administrator') {
             toastr['error']('Permission denied', 'Error');
             this.$router.push({name: 'welcome'});
           }

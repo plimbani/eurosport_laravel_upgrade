@@ -10,8 +10,11 @@ use Laraspace\Models\Country;
 use DB;
 use Hash;
 use Illuminate\Pagination\Paginator;
+use Laraspace\Traits\AuthUserDetail;
 
 class UserRepository {
+
+    use AuthUserDetail;
 
     public function __construct()
     {
@@ -42,10 +45,16 @@ class UserRepository {
     public function getUsersByRegisterType($data)
     {
         ini_set('memory_limit','256M');
+        $loggedInUser = $this->getCurrentLoggedInUserDetail();
         $user = User::join('role_user', 'users.id', '=', 'role_user.user_id')
                 ->leftjoin('roles', 'roles.id', '=', 'role_user.role_id')
                 ->leftjoin('people', 'people.id', '=', 'users.person_id')
                 ->leftjoin('countries', 'countries.id', '=', 'users.country_id');
+
+
+        if($loggedInUser->hasRole('tournament.administrator')) {
+          $user = $user->leftjoin('tournament_user', 'tournament_user.user_id', '=', 'users.id');
+        }
 
         if(isset($data['userData']) && $data['userData'] !== '') {
             $user = $user->where(function($query) use($data) {
