@@ -52,5 +52,7 @@ Route::get('v1/tournament-by-code', '\Laraspace\Api\Controllers\Commercialisatio
 
 Route::get('v1/get-website-settings', '\Laraspace\Api\Controllers\Commercialisation\WebsiteSettingsController@getSettings');
 
+Route::get('v1/get-payment-status-messages', '\Laraspace\Api\Controllers\Commercialisation\BuyLicenseController@getPaymentStatusMessages');
+
 
 
