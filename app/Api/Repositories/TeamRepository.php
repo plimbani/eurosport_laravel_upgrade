@@ -409,7 +409,7 @@ class TeamRepository
         return $teams;
       }
 
-      $teams = Team::with(['competition', 'competition.scheduledFixtures'])->where('teams.'.$fieldName,'=',$value)
+      $teams = Team::where('teams.'.$fieldName,'=',$value)
             ->join('countries','countries.id','=','teams.country_id')
             ->join('tournament_competation_template','tournament_competation_template.id','=','teams.age_group_id')
             ->join('competitions','competitions.id',
