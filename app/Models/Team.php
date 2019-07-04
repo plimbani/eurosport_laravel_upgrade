@@ -36,6 +36,10 @@ class Team extends Model
     {
         return $this->belongsTo('Laraspace\Models\Country', 'country_id');
     }
+    public function competition()
+    {
+        return $this->belongsTo('Laraspace\Models\Competition', 'competation_id');
+    }
 
     protected $dates = ['deleted_at'];
 }
