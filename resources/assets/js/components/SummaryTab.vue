@@ -33,10 +33,10 @@
  				<UnPublishedTournament>
 				</UnPublishedTournament>
 
-				<PublishTournament :tournamentStatus='tournamentStatus'>
+				<PublishTournament :isPublishedPreviewOnce='isPublishedPreviewOnce'>
 				</PublishTournament>
 
- 				<PreviewTournament>
+ 				<PreviewTournament :isPublishedPreviewOnce='isPublishedPreviewOnce'>
 				</PreviewTournament>
 
 				<div class="col-sm-4" v-if="(userDetails.role_name == 'Super administrator' || userDetails.role_name == 'Internal administrator' || userDetails.role_name == 'Master administrator')">
@@ -115,7 +115,6 @@
 </template>
 
 <script type="text/babel">
-
 	import PublishTournament from './PublishTournament.vue'
 	import UnPublishedTournament from './UnPublishedTournament.vue'
 	import PreviewTournament from './PreviewTournament.vue'
@@ -132,7 +131,8 @@
 	    		tournamentName:'',tournamentStatus:'',tournamentDates:'',tournamentDays:0,tournamentId:'',tournamentLogo:'',tournamentStatus:'',
 
 	    		deleteConfirmMsg: 'Are you sure you would like to delete this tournament?',
-                deleteAction: ''
+                deleteAction: '',
+                isPublishedPreviewOnce: 0,
 	    	}
 	    },
 	    components: {
@@ -162,6 +162,9 @@
 	    created: function() {
        		this.$root.$on('StatusUpdate', this.updateStatus);
   		},
+  		beforeCreate: function() {
+			this.$root.$off('StatusUpdate');
+		},
 	    methods: {
 	      updateStatus(status){
 	      	// here we call method to update Status
@@ -193,8 +196,6 @@
 	    				toastr['success']('This tournament has been '+status, 'Success');
 	    				let tournamentField = {'tournamentStatus': status}
 	    				this.$store.dispatch('setTournamentStatus',tournamentField)
-                //setTimeout(this.redirectToHomePage, 3000);
-
             }
 	    		},
 	    		(error) => {
@@ -232,6 +233,8 @@
                     locations = locations.substring(0,locations.length - 2)
     	    			this.tournamentSummary.locations = locations
 	    		   }
+
+	    		   this.isPublishedPreviewOnce = this.tournamentSummary['tournament_detail']['is_published_once'];
 
 	    			}
 	    		},

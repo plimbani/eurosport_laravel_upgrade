@@ -1,9 +1,9 @@
 <template>
-    <div class="modal fade" id="preview_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal fade" id="preview_modal" tabindex="-1" role="dialog">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="myModalLabel">{{$lang.summary_button_popup_preview_text}}</h5>
+                    <h5 class="modal-title">{{$lang.summary_button_popup_preview_text}}</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body text-left">
@@ -22,10 +22,11 @@
 </template>
 <script type="text/babel">
     export default  {
-      methods: {
-        updateStatus() {
-            this.$root.$emit('StatusUpdate','Preview');
+        props: ['isPublishedPreviewOnce'],
+        methods: {
+            updateStatus() {
+                this.$root.$emit('StatusUpdate','Preview');
+            }
         }
-      }
     }
 </script>

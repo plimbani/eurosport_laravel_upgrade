@@ -1,9 +1,9 @@
 <template>
-    <div class="modal fade" id="unpublish_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal fade" id="unpublish_modal" tabindex="-1" role="dialog">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="myModalLabel">{{$lang.summary_button_popup_unpublish_text}}</h5>
+                <h5 class="modal-title">{{$lang.summary_button_popup_unpublish_text}}</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body text-left">
@@ -21,11 +21,11 @@
 </template>
 <script type="text/babel">
     export default  {
-      methods: {
-        updateStatus() {
-            // here we set status to Publish For Tournament
-            this.$root.$emit('StatusUpdate','Unpublished');
+        methods: {
+            updateStatus() {
+                // here we set status to Publish For Tournament
+                this.$root.$emit('StatusUpdate','Unpublished');
+            }
         }
-      }
     }
 </script>

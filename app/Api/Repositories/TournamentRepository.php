@@ -441,7 +441,8 @@ class TournamentRepository
             $summaryData['tournament_countries'] = implode(' , ', array_unique($tempData['tournament_countries']));
         }
 
-        //$locationData = Venue::find();
+        $summaryData['tournament_detail'] = Tournament::find($tournamentId);
+        
         return $summaryData;
     }
     public function tournamentReport($data)
