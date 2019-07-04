@@ -17,6 +17,7 @@ use Laraspace\Models\Position;
 use Laraspace\Traits\TournamentAccess;
 use Laraspace\Models\TournamentCompetationTemplates;
 use Laraspace\Models\Tournament;
+use Laraspace\Models\Pitch;
 
 class MatchService implements MatchContract
 {
@@ -165,12 +166,24 @@ class MatchService implements MatchContract
         }
     }
 
-    public function scheduleMatch($matchData) {
-        $data = $matchData->all()['matchData'];
-        $scheduledResult = $this->matchRepoObj->setMatchSchedule($matchData->all()['matchData']);
+    public function scheduleMatch($data) {
+        $matchFixturesStatusArray = [];
+        $areAllMatchFixtureScheduled = false;
+        $data = $data->all()['data'];
+        $scheduledResult = $this->matchRepoObj->setMatchSchedule($data);
+
+        $unChangedFixturesArray = [];
+        if($scheduledResult['status'] === false) {
+          $unChangedFixturesArray[] = $scheduledResult['data']['match_number'];
+        }
+
+        if(count($unChangedFixturesArray) === 0) {
+          $areAllMatchFixtureScheduled = true;
+        }
+
         if ($scheduledResult) {
             if($scheduledResult != -1 && $scheduledResult != -2){
-              return ['status_code' => '200', 'data' => $scheduledResult, 'message' => 'Match has been scheduled successfully'];
+              return ['status_code' => '200', 'data' => $scheduledResult, 'message' => 'Match has been scheduled successfully', 'unChangedFixturesArray' => $unChangedFixturesArray, 'areAllMatchFixtureScheduled' => $areAllMatchFixtureScheduled];
             } else if($scheduledResult == -1){
               return ['status_code' => '200', 'data' => $scheduledResult, 'message' => 'One or both teams are scheduled for a team interval.'];
             } else if($scheduledResult == -2){
@@ -2492,9 +2505,15 @@ class MatchService implements MatchContract
       }
     }
 
-    public function matchUnscheduledFixtures($matchId)
+    public function matchUnscheduledFixtures($matchData)
     {
-        return $this->matchRepoObj->matchUnscheduledFixtures($matchId);
+      $areAllMatchFixtureUnScheduled = false;
+      $result = $this->matchRepoObj->matchUnscheduledFixtures($matchData);
+      if(sizeof($result['conflictedFixtureMatchNumber']) === 0) {
+        $areAllMatchFixtureUnScheduled = true;
+      }
+
+      return ['status_code' => '200', 'data' => $result, 'message' => 'Match has been unscheduled successfully', 'conflictedFixturesArray' => $result['conflictedFixtureMatchNumber'], 'areAllMatchFixtureUnScheduled' => $areAllMatchFixtureUnScheduled];
     }
 
     public function processFixtures($fixtures)
@@ -2504,6 +2523,26 @@ class MatchService implements MatchContract
       foreach($allFixtures as $fixture) {
         $this->calculateCupLeagueTable($fixture);
       }
+    }
+
+    public function saveScheduleMatches($scheduleMatches)
+    {
+      $matchFixturesStatusArray = [];
+      $areAllMatchFixtureScheduled = false;
+      foreach ($scheduleMatches as $scheduleMatch) {
+        $scheduleMatch['venue_id'] = Pitch::find($scheduleMatch['pitchId'])->venue_id;
+        $data = $this->matchRepoObj->saveScheduleMatches($scheduleMatch);
+        
+        if($data['status'] == false) {
+          $matchFixturesStatusArray[] = $data['match_data']->match_number;
+        }
+
+        if(sizeof($matchFixturesStatusArray) === 0) {
+          $areAllMatchFixtureScheduled = true;
+        }
+      }
+
+      return ['status_code' => '200', 'message' => 'Match has been scheduled successfully', 'conflictedFixturesArray' => $matchFixturesStatusArray, 'areAllMatchFixtureScheduled' => $areAllMatchFixtureScheduled];
     }
 
     public function moveMatchStandings($tournamentId, $ageCategoryId, $competitionId)

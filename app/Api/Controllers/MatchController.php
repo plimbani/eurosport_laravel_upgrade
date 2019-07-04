@@ -294,7 +294,7 @@ class MatchController extends BaseController
                     'tournamentId' => $tournamentId,
                 ];
 
-                $matchRepoObj->setMatchSchedule($matchData, true);
+                $matchRepoObj->setAutomaticMatchSchedule($matchData, true);
 
                 $awayTeamScore = rand(1,20);
                 $homeTeamScore = rand(1,20);
@@ -894,5 +894,10 @@ class MatchController extends BaseController
     public function matchUnscheduledFixtures(Request $request)
     {
         return $this->matchObj->matchUnscheduledFixtures($request->all());
+    }
+
+    public function saveScheduleMatches(Request $request) 
+    {
+        return $this->matchObj->saveScheduleMatches($request->all());
     }
 }

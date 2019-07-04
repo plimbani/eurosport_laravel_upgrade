@@ -120,8 +120,8 @@ export default {
   getDropDownData(tournamentData) {
     return api.post('tournament/getDropDownData',{'tournamentData': tournamentData})
   },
-  setMatchSchedule(matchData) {
-    return api.post('match/schedule',{'matchData': matchData})
+  setMatchSchedule(data) {
+    return api.post('match/schedule',{'data': data})
   },
   matchUnschedule(matchData) {
     return api.post('match/unschedule',{'matchData': matchData})
@@ -265,14 +265,17 @@ export default {
   copyAgeCategory(ageCategoryData) {
     return api.post('age_group/copyAgeCategory', {'ageCategoryData': ageCategoryData})
   },
-  matchUnscheduledFixtures(matchId) {
-    return api.post('match/fixtureUnschedule',{'matchId': matchId})
+  matchUnscheduledFixtures(matchData) {
+    return api.post('match/fixtureUnschedule',{'matchData': matchData})
   },
   duplicateTournament(copyTournamentData) {
     return api.post('duplicateTournament', copyTournamentData)
   },
   duplicateTournamentList(tournamentData) {
     return api.post('duplicateTournamentList', tournamentData)
+  },
+  saveScheduleMatches(scheduleMatchesArray) {
+    return api.post('saveScheduleMatches', scheduleMatchesArray)
   },
   getSignedUrlForGroupsViewReport(groupsViewData) {
     return api.post('getSignedUrlForGroupsViewReport?'+groupsViewData);

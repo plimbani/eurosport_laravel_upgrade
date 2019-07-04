@@ -4,12 +4,16 @@
             <div class="col-md-9 mb-3">
                 <div class="d-flex justify-content-between">
                     <div>
-                        <button v-if="isPitchPlannerInEnlargeMode == 0" class="btn btn-primary btn-md vertical" @click="enlargePitchPlanner()">Enlarge</button>
-                        <button class="btn btn-primary btn-md" @click="openAutomaticPitchPlanningModal()">{{$lang.pitch_planner_automatic_planning}}</button>
-                        <button class="btn btn-md btn-secondary" id="unschedule_fixtures" @click="unscheduleFixtures()">{{$lang.pitch_planner_unschedule_fixtures}}</button>
-                        <button class="btn btn-danger btn-md cancle-match-unscheduling d-none" id="cancle_unscheduling_fixtures" @click="cancelUnscheduleFixtures()">{{$lang.pitch_planner_cancel_unscheduling}}</button>
+                        <button class="btn btn-primary btn-md" id="automatic_planning" @click="openAutomaticPitchPlanningModal()">{{$lang.pitch_planner_automatic_planning}}</button>
+                        <button class="btn btn-primary btn-md" id="schedule_fixtures" @click="scheduleMatches()">Schedule fixtures</button>
+                        <button class="btn btn-success btn-md" id="save_schedule_fixtures" @click="saveScheduleMatches()" style="display: none;">Save</button>
+                        <button class="btn btn-danger btn-md" id="cancel_schedule_fixtures" @click="cancelScheduleMatches()" style="display: none;">Cancel</button>
+                        <button class="btn btn-md btn-primary" id="unschedule_fixtures" @click="unscheduleFixtures()">Unschedule fixtures</button>
+                        <button class="btn btn-md btn-success" id="confirm_unscheduling" @click="confirmUnscheduling()" style="display: none;">Confirm unscheduling</button>
+                        <button class="btn btn-danger btn-md cancle-match-unscheduling" id="cancle_unscheduling_fixtures" @click="cancelUnscheduleFixtures()" style="display: none;">{{$lang.pitch_planner_cancel_unscheduling}}</button>
                     </div>
                     <div>
+                        <button v-if="isPitchPlannerInEnlargeMode == 0" class="btn btn-primary btn-md vertical" @click="enlargePitchPlanner()">Enlarge</button>
                         <button class="btn btn-default btn-md vertical" @click="printPitchPlanner()"><i class="fas fa-print text-primary"></i></button>
                         <button class="btn btn-default btn-md vertical" @click="exportPitchPlanner()"><i class="fas fa-download text-primary"></i></button>
                     </div>
@@ -20,7 +24,7 @@
         <div class="row">
             <div class="pitch_planner_section pitch" v-bind:class="[isPrintPitchPlanner == 0 ? (isPitchPlannerInEnlargeMode == 0 ? 'col-md-9' : 'col-md-10') : 'col-md-12' ]">
                 <div class="pitch-planner-wrapper">
-                    <div class="pitch-planner-item" v-if="stageStatus" v-for="stage in tournamentStages">
+                    <div class="pitch-planner-item" v-if="stageStatus" v-for="(stage, stageIndex) in tournamentStages">
                         <div class="card">
                             <div class="btn pnl" :id="stage.stageNumber">
                                 Day {{ stage.stageNumber }}: {{dispDate(stage.tournamentStartDate)}}
@@ -31,7 +35,7 @@
                                     <div></div>
                                 </div>
                                 <div :id="'stage_outer_div'+stage.stageNumber" :data-stage-number="stage.stageNumber" class="js-stage-outer-div">
-                                    <pitch-planner-stage :stage="stage"  :defaultView="defaultView"></pitch-planner-stage>
+                                    <pitch-planner-stage :stage="stage" :defaultView="defaultView" @schedule-match-result="saveScheduleMatchResult" :scheduleMatchesArray="scheduleMatchesArray" :isMatchScheduleInEdit="isMatchScheduleInEdit" :stageIndex="stageIndex" @conflicted-for-same-match-fixutres="showConflictedForSameMatchFixtures" @conflicted-for-another-match-fixutres="showConflictedForAnotherMatchFixtures"></pitch-planner-stage>
                                 </div>
                             </div>
                         </div>
@@ -61,7 +65,7 @@
                                 <games-tab></games-tab>
                             </div>
                             <div :class="[currentView == 'refereeTab' ? 'active' : '', 'tab-pane']" v-if="refereeStatus"  id="referee-list" role="tabpanel">
-                                <referees-tab v-if="isCompetitionCallProcessed" :competationList="competationList"></referees-tab>
+                                <referees-tab v-if="isCompetitionCallProcessed" :competationList="competationList" :isMatchScheduleInEdit="isMatchScheduleInEdit"></referees-tab>
                             </div>
                         </div>
                     </div>
@@ -73,6 +77,7 @@
         <AutomaticPitchPlanning></AutomaticPitchPlanning>
         <AddRefereesModel :formValues="formValues" :competationList="competationList" :tournamentId="tournamentId" :refereeId="refereeId" ></AddRefereesModel>
         <UploadRefereesModel :tournamentId="tournamentId"></UploadRefereesModel>
+        <UnsavedMatchFixture :unChangedMatchFixtures="conflictedMatchFixtures" :isAnotherMatchScheduled="isAnotherMatchScheduled"></UnsavedMatchFixture>
     </div>
 </template>
 <script type="text/babel">
@@ -85,10 +90,11 @@
     import Tournament from '../api/tournament.js'
     import AutomaticPitchPlanning from './AutomaticPitchPlanningModal.vue'
     import BulkUnscheduledfixtureModal from './BulkUnscheduledfixtureModal.vue'
+    import UnsavedMatchFixture from './UnsavedMatchFixture.vue'
 
     export default  {
         components: {
-            GamesTab, RefereesTab, PitchPlannerStage, AddRefereesModel, UploadRefereesModel, AutomaticPitchPlanning, BulkUnscheduledfixtureModal
+            GamesTab, RefereesTab, PitchPlannerStage, AddRefereesModel, UploadRefereesModel, AutomaticPitchPlanning, BulkUnscheduledfixtureModal, UnsavedMatchFixture
         },
         computed: {
             GameActiveTab () {
@@ -104,7 +110,7 @@
                 return this.$store.state.Pitch.pitches;
             },
             totalMatchCount() {
-                return this.$store.getters.totalMatch
+                return this.$store.getters.totalMatch - this.scheduleMatchesArray.length;
             },
             totalRefereeCount() {
                 return this.$store.state.Tournament.totalReferee
@@ -143,6 +149,7 @@
             this.$root.$on('displayTournamentCompetationList', this.displayTournamentCompetationList);
             this.$root.$on('setView', this.setView);
             this.$root.$on('cancelUnscheduleFixtures', this.cancelUnscheduleFixtures);
+            this.$root.$on('filterMatches', this.filterMatches);
         },
         beforeCreate: function() {
             // Remove custom event listener
@@ -157,6 +164,7 @@
             this.$root.$off('editReferee');
             this.$root.$off('displayTournamentCompetationList');
             this.$root.$off('setView');
+            this.$root.$off('filterMatches');
         },
         data() {
             return {
@@ -176,9 +184,11 @@
                 'formValues': this.initialState(),
                 'unscheduleFixture': 'Are you sure you would like to unschedule the selected fixtures?',
                 'matchId': null,
+                'scheduleMatchesArray': [],
+                'isMatchScheduleInEdit': false,
+                'conflictedMatchFixtures': [],
+                'isAnotherMatchScheduled': false
             };
-        },
-        props: {
         },
         mounted() {
             $('.pitch_planner_section').mCustomScrollbar({
@@ -398,7 +408,7 @@
 
                 setTournamentStages.then( (msg) => {
                     this.$store.dispatch('setTournamentStages', stages)
-                    vm.stageStatus = true
+                    setTimeout(function(){ vm.stageStatus = true; }, 200);
                     vm.tournamentStages = stages
                 });
             },
@@ -489,60 +499,254 @@
                 );
             },
             unscheduleFixtures() {
-                var manageClass = false;
                 if($("#unschedule_fixtures").hasClass('btn-success')) {
-                    $("#bulk_unscheduled_fixtures").modal('show');
-                    return true;
-                }
-                if($("#unschedule_fixtures").hasClass('btn-secondary')) {
-                    $("#unschedule_fixtures").removeClass('btn-secondary').addClass('btn-primary');
-                    $(".match-unschedule-checkbox-div").removeClass('d-none');
-                    return true;
-                }
-
-                if($("#unschedule_fixtures").hasClass('btn-primary')) {
-                    $("#unschedule_fixtures").removeClass('btn-primary').addClass('btn-secondary');
+                    $("#unschedule_fixtures").removeClass('btn-success').addClass('btn-primary');
                     $(".match-unschedule-checkbox-div").addClass('d-none');
                     return true;
                 }
+                if($("#unschedule_fixtures").hasClass('btn-primary')) {
+                    $("#unschedule_fixtures").removeClass('btn-primary').addClass('btn-success');
+                    $(".match-unschedule-checkbox-div").removeClass('d-none');
+                    return true;
+                }
+            },
+            confirmUnscheduling() {
+                $("#bulk_unscheduled_fixtures").modal('show');
             },
             cancelUnscheduleFixtures() {
-                $("#unschedule_fixtures").html('Unschedule fixture').removeClass('btn btn-success');
-                $("#unschedule_fixtures").addClass('btn btn-primary btn-md btn-secondary');
+                $("#unschedule_fixtures").show().removeClass('btn-success').addClass('btn-primary');
+                // $("#unschedule_fixtures").addClass('btn btn-primary btn-md btn-secondary');
                 $(".match-unschedule-checkbox-div").addClass('d-none');
                 $("#cancle_unscheduling_fixtures").hide();
+                $("#confirm_unscheduling").hide();
                 $(".match-unschedule-checkbox").prop( "checked", false);
             },
-
             confirmUnschedulingFixtures() {
                 let vm = this;
                 var matchId = [];
+                var matchDetail = [];
                 $(".match-unschedule-checkbox").each(function( index ) {
                     var checkboxChecked = $(this).is(':checked');
                     if(checkboxChecked) {
                         matchId.push($(this).attr('id'));
+                        matchDetail.push({
+                            'matchId': $(this).attr('id'), 
+                            'scheduleLastUpdateDateTime': $(this).data("schedulelastupdatedatetime")
+                        }) 
                     }
                 });
 
-                Tournament.matchUnscheduledFixtures(matchId).then(
+                Tournament.matchUnscheduledFixtures(matchDetail).then(
                 (response) => {
                     $('#bulk_unscheduled_fixtures').modal('hide')
+                    vm.conflictedMatchFixtures = response.data.conflictedFixturesArray;
+                    if(vm.conflictedMatchFixtures.length > 0) {
+                        $('#unChangedMatchFixtureModal').modal('show');
+                    }
+
                     setTimeout(function(){
                         _.forEach(matchId, function(value, key) {
                             $('div.fc-unthemed').fullCalendar( 'removeEvents', [value] );
                         });
                     },200)
-                    toastr.success('Fixtures unscheduled successfully', 'Fixtures Unscheduled', {timeOut: 5000});
-                    $("#unschedule_fixtures").html('Unschedule fixture').removeClass('btn btn-success');
-                    $("#unschedule_fixtures").addClass('btn btn-primary btn-md btn-secondary');
-                    $(".match-unschedule-checkbox-div").addClass('d-none');
-                    $("#cancle_unscheduling_fixtures").hide();
 
-                    vm.$store.dispatch('setMatches');
-                    vm.$store.dispatch('SetScheduledMatches');
-                    vm.$root.$emit('reloadAllEvents')
+                    if(response.data.areAllMatchFixtureUnScheduled == true) {
+                      toastr.success('Fixtures unscheduled successfully', 'Fixtures Unscheduled', {timeOut: 5000});
+                    }
+
+                    vm.cancelUnscheduleFixtures();
+                    vm.$store.dispatch('setMatches')
+                    .then((response) => {
+                        _.forEach(vm.tournamentStages, function(stage, stageIndex) {
+                            vm.$root.$emit('refreshPitch' + stageIndex);
+                        });
+                        vm.$root.$emit('refreshCompetitionWithGames');
+                    });
                 })
-            }
+            },
+            saveScheduleMatchResult(matchData) {
+                let matchIndex = _.findIndex(this.scheduleMatchesArray, function(o) { return o.matchId == matchData.matchId; });
+                if(matchIndex === -1) {
+                    this.scheduleMatchesArray.push(matchData);
+                } else {
+                    this.scheduleMatchesArray[matchIndex] = matchData;
+                }
+            },
+            clearScheduleMatches() {
+                this.scheduleMatchesArray = [];
+            },
+            saveScheduleMatches() {
+                let vm = this;
+                $("body .js-loader").removeClass('d-none');
+                Tournament.saveScheduleMatches(this.scheduleMatchesArray).then(
+                    (response) => {
+                        vm.conflictedMatchFixtures = response.data.conflictedFixturesArray;
+                        if(vm.conflictedMatchFixtures.length > 0) {
+                            $("body .js-loader").addClass('d-none');
+                            $('#unChangedMatchFixtureModal').modal('show');
+                        }
+                        if(response.data.status_code == '200') {
+                            if(response.data.areAllMatchFixtureScheduled == true) {
+                              toastr.success('Match has been scheduled successfully.', 'Schedule Match');
+                            }
+                            vm.resetScheduleMatches();
+                            vm.$store.dispatch('setMatches')
+                            .then((response) => {
+                                _.forEach(vm.tournamentStages, function(stage, stageIndex) {
+                                    vm.$root.$emit('refreshPitch' + stageIndex);
+                                });
+                                vm.$root.$emit('refreshCompetitionWithGames');
+                            })
+                            .catch((response) => {
+                                toastr['error']('Error while fetching data', 'Error');
+                            });
+                            $("body .js-loader").addClass('d-none');
+                            vm.isMatchScheduleInEdit = false;
+                        }
+                    },  
+                    (error) => {
+                    }
+                )
+            },
+            scheduleMatches() {
+                $('#schedule_fixtures').removeClass('btn-primary').addClass('btn-success');
+                $('#save_schedule_fixtures').show();
+                $('#cancel_schedule_fixtures').show();
+                this.cancelUnscheduleFixtures();
+                $("#unschedule_fixtures").hide();
+                $("#automatic_planning").hide();
+                this.isMatchScheduleInEdit = true;
+            },
+            resetScheduleMatches() {
+                let vm = this;
+                $('#schedule_fixtures').removeClass('btn-success').addClass('btn-primary');
+                $('#save_schedule_fixtures').hide();
+                $('#cancel_schedule_fixtures').hide();
+                $("#unschedule_fixtures").show();
+                $("#automatic_planning").show();
+                this.isMatchScheduleInEdit = false;
+                this.clearScheduleMatches();
+            },
+            cancelScheduleMatches() {
+                let vm = this;
+                this.resetScheduleMatches();
+
+                this.$store.dispatch('setMatches')
+                .then((response) => {
+                    _.forEach(vm.tournamentStages, function(stage, stageIndex) {
+                        vm.$root.$emit('refreshPitch' + stageIndex);
+                    });
+                    vm.$root.$emit('refreshCompetitionWithGames');
+                })
+                .catch((response) => {
+                    toastr['error']('Error while fetching data', 'Error');
+                });
+            },
+            filterMatches(filterKey, filterValue, filterDependentKey, filterDependentValue) {
+                let vm = this;
+
+                _.forEach(this.tournamentStages, function(stage, stageIndex) {
+                    let allEvents = $('#pitchPlanner' + (stageIndex + 1)).parent('.fc-unthemed').fullCalendar('clientEvents');
+                    let events = _.filter(allEvents, function(o) { return o.matchId != -1; });
+
+                    events = _.map(events, function(event) {
+                        let scheduleBlock = false;
+                        if(filterKey == 'age_category'){
+                            if( filterValue != '' && filterValue.id != event.matchAgeGroupId){
+                                scheduleBlock = true
+                            }
+                            if(filterDependentKey != '' && filterDependentValue != ''  && filterDependentValue != event.matchCompetitionId) {
+                                scheduleBlock = true
+                            }
+                        } else if(filterKey == 'location'){
+                            console.log('filterValue', filterValue);
+                            if( filterValue != '' && filterValue.id != event.resourceId){
+                                scheduleBlock = true;
+                            }
+                        }
+
+                        if(scheduleBlock){
+                            event.color = 'grey';
+                            event.textColor = '#FFFFFF';
+                            event.borderColor = 'grey';
+                            event.fixtureStripColor = 'grey';
+                            event.refereeId = -1;
+                            event.matchTitle = 'Match scheduled - ' + event.displayMatchName;
+                        } else {
+                            let borderColorVal;
+                            let isBright = (parseInt(vm.getBrightness(event.categoryAgeColor)) > 160);
+                            if(isBright) {
+                                borderColorVal = vm.LightenDarkenColor(event.categoryAgeColor, -40);
+                            } else {
+                                borderColorVal = vm.LightenDarkenColor(event.categoryAgeColor, 40);
+                            }
+                            let fixtureStripColor = event.competitionColorCode != null ? event.competitionColorCode : '#FFFFFF';
+
+                            event.color = event.categoryAgeColor;
+                            event.textColor = event.categoryAgeFontColor;
+                            event.borderColor = borderColorVal;
+                            event.fixtureStripColor = fixtureStripColor;
+                            event.refereeId = event.matchRefereeId;
+                            event.matchTitle = event.displayMatchName;
+                        }
+                        return event;
+                    });
+                    $('#pitchPlanner' + (stageIndex + 1)).parent('.fc-unthemed').fullCalendar('updateEvents', events);
+                });
+            },
+            LightenDarkenColor(colorCode, amount) {
+                var usePound = false;
+
+                if (colorCode[0] == "#") {
+                    colorCode = colorCode.slice(1);
+                    usePound = true;
+                }
+
+                var num = parseInt(colorCode, 16);
+
+                var r = (num >> 16) + amount;
+
+                if (r > 255) {
+                    r = 255;
+                } else if (r < 0) {
+                    r = 0;
+                }
+
+                var b = ((num >> 8) & 0x00FF) + amount;
+
+                if (b > 255) {
+                    b = 255;
+                } else if (b < 0) {
+                    b = 0;
+                }
+
+                var g = (num & 0x0000FF) + amount;
+
+                if (g > 255) {
+                    g = 255;
+                } else if (g < 0) {
+                    g = 0;
+                }
+
+                return (usePound ? "#" : "") + (g | (b << 8) | (r << 16)).toString(16);
+            },
+            getBrightness(hexCode) {
+              hexCode = hexCode.replace('#', '');
+              var c_r = parseInt(hexCode.substr(0, 2),16);
+              var c_g = parseInt(hexCode.substr(2, 2),16);
+              var c_b = parseInt(hexCode.substr(4, 2),16);
+              return ((c_r * 299) + (c_g * 587) + (c_b * 114)) / 1000;
+            },
+            showConflictedForSameMatchFixtures(matchFixtureData, anotherMatchScheduled) {
+                this.conflictedMatchFixtures = matchFixtureData;
+                this.isAnotherMatchScheduled = anotherMatchScheduled;
+                $('#unChangedMatchFixtureModal').modal('show');
+            },
+            showConflictedForAnotherMatchFixtures(matchFixtureData, anotherMatchScheduled) {
+                this.conflictedMatchFixtures = matchFixtureData;
+                this.isAnotherMatchScheduled = anotherMatchScheduled;
+                $('#unChangedMatchFixtureModal').modal('show');
+            }            
         }
     }
 </script>
