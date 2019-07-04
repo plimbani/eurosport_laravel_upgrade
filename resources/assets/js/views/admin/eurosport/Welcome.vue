@@ -15,7 +15,7 @@
               <button class="btn btn-primary col-sm-10 btn-theme" @click="addNewTournament()">{{$lang.welcome_add_button_new_edition}}</button>
             </div>
              <div class= "form-group">
-              <button class="btn btn-primary col-sm-10 btn-theme" @click="duplicateTournament()" v-if="( userDetails.role_name == 'Internal administrator' || userDetails.role_name == 'Master administrator' || userDetails.role_name == 'Super administrator')">
+              <button class="btn btn-primary col-sm-10 btn-theme" @click="duplicateTournament()" v-if="( userDetails.role_name == 'Internal administrator' || userDetails.role_slug == 'tournament.administrator' || userDetails.role_name == 'Master administrator' || userDetails.role_name == 'Super administrator')">
               {{$lang.welcome_create_duplicate_tournament}}</button>
             </div>
             <div class="form-group">
