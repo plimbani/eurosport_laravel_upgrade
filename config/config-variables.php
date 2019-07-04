@@ -73,5 +73,8 @@ return [
     "match_idle_time" => env('MATCH_IDLE_TIME'),
     "current_layout" => env('CURRENT_LAYOUT'),
     "enable_logs_ios" => env('ENABLE_LOGS_IOS'),
-    "enable_logs_android" => env('ENABLE_LOGS_ANDROID')
+    "enable_logs_android" => env('ENABLE_LOGS_ANDROID'),
+    'favicon' => [
+        'apiurl' => env('FAVICON_API_URL', ''),
+    ],
 ];

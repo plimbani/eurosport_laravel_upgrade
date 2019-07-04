@@ -241,6 +241,7 @@ return [
     'photo' => '/assets/img/photo/',
     'document' => '/assets/img/document/',
     'editor_image' => '/assets/img/editor_image/',
+    'favicon' => '/assets/img/favicon/',
   ],
   'tempImagePath' => storage_path() . '/temp_images/',
   'notification_page_names' => [
