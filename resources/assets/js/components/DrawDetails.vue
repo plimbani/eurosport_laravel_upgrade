@@ -22,9 +22,7 @@
   </div>
   <div class="row align-items-center mb-3" v-if="otherData.DrawType != 'Elimination'">
     <div class="col-md-10">
-      <label class="mb-0" v-if="otherData.DrawType != 'Elimination'">
-        <h6 class="mb-0 fieldset-title">{{otherData.DrawName}} results grid</h6>
-      </label>
+        <h6 class="mb-0 fieldset-title" v-if="otherData.DrawType != 'Elimination'">{{otherData.DrawName}} results grid</h6>
     </div>
     <div class="col-md-2">
       <button type="button" name="save" class="btn btn-primary pull-right" @click="saveMatchScore()" v-if="otherData.DrawType != 'Elimination' && isUserDataExist">Save</button>
@@ -94,9 +92,7 @@
 
   <div class="row align-items-center mb-3">
     <div class="col-md-10">
-      <label class="mb-0">
         <h6 class="mb-0 fieldset-title">{{otherData.DrawName}} matches</h6>
-      </label>
     </div>
     <div class="col-md-2">
       <button type="button" name="save" class="btn btn-primary pull-right" @click="saveMatchScore()" v-if="otherData.DrawType == 'Elimination' && isUserDataExist">Save</button>
