@@ -66,11 +66,16 @@ import Constant from '../../services/constant';
                 if(this.code.length == 4){
                     axios.get(Constant.apiBaseUrl+'tournament-by-code?tournament='+this.code, {}).then(response =>  {
                     
-                            if (response.data.success && typeof response.data.data != "undefined" && typeof response.data.data.tournament_details != "undefined") {
+                            if (response.data.success && typeof response.data.data != "undefined" && typeof response.data.data.tournament_details != "undefined" && response.data.data.tournamentStatus != 'Unpublished') {
 
                                  this.$router.push({ path: 'tournament-detail', query: { code: this.code }})
-                             }else{ 
-                                toastr['error']("Please enter valid tournament code", 'Error');
+                             }else{
+                                if (response.data.data.tournamentStatus == 'Unpublished'){
+                                    toastr['error']("Tournament is not yet published or in preview mode", 'Error');
+                                }else
+                                {
+                                    toastr['error']("Please enter valid tournament code", 'Error');
+                                }
                              }
                      }).catch(error => {
                         toastr['error']("Please enter valid tournament code", 'Error');    
