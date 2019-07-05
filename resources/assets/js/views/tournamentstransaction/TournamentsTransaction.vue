@@ -5,7 +5,7 @@
                 <div class="card-block">
                     <div class="row d-flex flex-row align-items-center mb-3 ">
                       <div class="col-md-5">
-                            <p class="mb-0" v-if="currentLayout == 'commercialisation'">{{$lang.user_management_commercialisation_all_users_sentence}}</p>
+                            <p class="mb-0" v-if="currentLayout == 'commercialisation'">{{$lang.user_view_and_edit_transaction_history}}</p>
                             <p class="mb-0" v-else>{{$lang.user_management_all_users_sentence}}</p>
                       </div>
                       <div class="col-md-7">

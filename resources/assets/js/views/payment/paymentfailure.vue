@@ -5,10 +5,10 @@
                 <div class="row justify-content-between">
                     <div class="col-md-12">
                         <h1 class="font-weight-bold">Transaction - {{status_message}}</h1>
-                        <p>Your transaction is in status as "{{status_message}}". So we are not able to create tournament.</p>
+                        <p>{{ predefined_payment_status_messages[status_message] }}</p>
                     </div>
                     <div class="col-md-12">
-                        <button class="btn btn-success" v-on:click="redirectToDashboardPage()">Get started</button>
+                        <button class="btn btn-success" v-on:click="redirectToDashboardPage()">Go to dashboard</button>
                     </div>
                 </div>
 
@@ -31,8 +31,12 @@
                 },
                 tournament:{},
                 status_message:"cancelled",
+                predefined_payment_status_messages: [],
             }
         },
+        mounted() {
+            this.getPaymentStatusMessages();
+        },        
         methods: {
             getPaymentDetails(){
                 let apiParams = {
@@ -72,9 +76,14 @@
             },
             redirectToDashboardPage(){
                 this.$router.push({name: 'dashboard'});
+            },
+            getPaymentStatusMessages() {
+                var url = "get-payment-status-messages";
+                axios.get(Constant.apiBaseUrl+url).then(response =>  {
+                    this.predefined_payment_status_messages = response.data;
+                }).catch(error => {
+                });
             }
-             
-            
         },
         beforeMount(){  
             let tournament = Ls.get('orderInfo'); 
@@ -92,6 +101,6 @@
             }else{
                 
             }
-        }
+        },
     }
 </script>

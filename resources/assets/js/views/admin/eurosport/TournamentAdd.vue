@@ -23,7 +23,7 @@
             <div class="form-group" :class="{'has-error': errors.has('tournament.maximum_teams') }">
               <label>{{$lang.maximum_teams}}*</label>
               <div class="input-group">
-                 <input type="number" class="form-control" v-model="tournament.maximum_teams" name="maximum_teams" v-validate="'required'" v-if="((tournamentId != 0 ) || userRole == 'Tournament administrator')"  disabled="disabled" :class="{'is-danger': errors.has('maximum_teams') }">
+                 <input type="number" class="form-control" v-model="tournament.maximum_teams" name="maximum_teams" v-validate="'required'" v-if="userRole == 'Customer'"  disabled="disabled" :class="{'is-danger': errors.has('maximum_teams') }">
 
                  <input type="number" class="form-control" v-model="tournament.maximum_teams" name="maximum_teams" v-validate="'required'" v-else   :class="{'is-danger': errors.has('maximum_teams') }">
                  <i v-show="errors.has('tournament_name')" class="fas fa-warning"></i>
@@ -40,7 +40,7 @@
                   <span class="input-group-addon">
                       <i class="fas fa-calendar"></i>
                   </span>
-                  <input type="text" class="form-control ls-datepicker" v-if="((tournamentId != 0 ) || userRole == 'Tournament administrator')"  disabled="disabled" id="tournament_start_date">
+                  <input type="text" class="form-control ls-datepicker" v-if="userRole == 'Customer'"  disabled="disabled" id="tournament_start_date">
                   <input type="text" class="form-control ls-datepicker" v-else id="tournament_start_date">
               </div>
             </div>
@@ -52,7 +52,7 @@
                   <span class="input-group-addon">
                       <i class="fas fa-calendar"></i>
                   </span>
-                  <input type="text" class="form-control ls-datepicker" v-if="((tournamentId != 0 ) || userRole == 'Tournament administrator')"  disabled="disabled" id="tournament_end_date">
+                  <input type="text" class="form-control ls-datepicker" v-if="userRole == 'Customer'"  disabled="disabled" id="tournament_end_date">
                   <input type="text" class="form-control ls-datepicker" v-else id="tournament_end_date">
               </div>
             </div>

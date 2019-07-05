@@ -198,12 +198,12 @@ $days = $interval->format('%a') + 1;
                                                                 <table cellpadding="0" cellspacing="0" width="100%" border="0" style="cellspacing:0;color:#000000;font-family:Arial, Helvetica, sans-serif;font-size:13px;line-height:22px;table-layout:auto;width:100%;">
                                                                     <thead>
                                                                         <tr>
-                                                                            <th colspan="2" style="border-bottom: 3px solid rgba(33, 150, 243,0.1); text-align: left; font-size: 20px; padding-bottom: 10px;" align="left">Reciept</th>
+                                                                            <th colspan="2" style="border-bottom: 3px solid rgba(33, 150, 243,0.1); text-align: left; font-size: 20px; padding-bottom: 10px;" align="left">Receipt</th>
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody>
                                                                         <tr>
-                                                                            <th style="text-align: left; font-weight: normal; padding: 10px 0;" align="left"><?php 
+                                                                            <th style="font-family:Roboto, Helvetica, Arial, sans-serif;font-size:16px;font-weight:300;line-height:24px;text-align:left;color:#555;" align="left"><p><?php 
 																			if(isset($email_details['is_manage_license']) && $email_details['is_manage_license'] == 1)
 																			{
 
@@ -212,17 +212,17 @@ $days = $interval->format('%a') + 1;
                                                                                     $daysign = "";
                                                                                 }
 
-																				echo $email_details['tournament']['tournament_max_teams']; ?> (+ <?php echo $email_details['tournament']['teamDifference']; ?>) team license for a <?php echo $days; ?> (<?php echo $daysign; ?> <?php echo $email_details['tournament']['dayDifference']; ?>) day tournament
+																				echo $email_details['tournament']['tournament_name']; ?> - <?php echo $email_details['tournament']['tournament_max_teams']; ?> (+ <?php echo $email_details['tournament']['teamDifference']; ?>) team license for a <?php echo $days; ?> (<?php echo $daysign; ?> <?php echo $email_details['tournament']['dayDifference']; ?>) day tournament
 																			<?php 
                                                                             }
 																			else{
-																				echo $email_details['tournament']['tournament_max_teams']; ?> team license for a <?php echo $email_details['tournament']['dayDifference']; ?> day tournament
-                                                                            <?php } ?>
+																				echo $email_details['tournament']['tournament_name']; ?> - <?php echo $email_details['tournament']['tournament_max_teams']; ?> team license for a <?php echo $email_details['tournament']['dayDifference']; ?> day tournament
+                                                                            <?php } ?></p>
 																			</th>
-                                                                            <td style="text-align: right; padding: 10px;" align="right">
+                                                                            <td style="text-align: right; font-family:Roboto, Helvetica, Arial, sans-serif;font-size:16px;font-weight:300;line-height:24px;color:#555;" align="right"><p>
                                                                                 <?php if($email_details['paymentResponse']['currency'] == "GBP") {echo "&#163;";} else { echo "&#x20AC;"; }
                                                                                 ?>
-                                                                                <?php echo number_format($email_details['paymentResponse']['amount'],2); ?></td>
+                                                                                <?php echo number_format($email_details['paymentResponse']['amount'],2); ?></p></td>
                                                                         </tr>
                                                                     </tbody>
                                                                     <thead class="footer">

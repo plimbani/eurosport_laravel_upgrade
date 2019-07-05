@@ -86,6 +86,7 @@ import MatchListing from './MatchListing.vue'
 import TeamListing from './TeamListing.vue'
 import DrawDetails from './DrawDetails.vue'
 import FinalPlacings from './FinalPlacings.vue'
+var moment = require('moment-timezone');
 
 export default {
 	data() {
@@ -96,7 +97,7 @@ export default {
 			currentView: '',
 			lastUpdatedDateValue: '',
 			tournamentStartDate: '',
-			currentDate: moment().format('YYYY-MM-DD'),
+			currentDate: moment().tz("Europe/London").format('YYYY-MM-DD'),
 		}
 	},
 

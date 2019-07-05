@@ -158,7 +158,7 @@ class TournamentController extends BaseController
                         }
                     }   
                 } else {
-                    return response()->json(['status' => 'error', 'message' => 'Please unschedule matches before shortening the length of our tournament.']);
+                    return response()->json(['status' => 'error', 'message' => 'Please unschedule matches before shortening the length of your tournament.']);
                 }
                 $this->tournamentRepoObj->edit($requestData['tournament']);
             }

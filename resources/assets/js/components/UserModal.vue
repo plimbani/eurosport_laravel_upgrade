@@ -86,11 +86,13 @@
                  <div v-if="!showUserType && isCustomer" class="form-group row">
                     <div class="col-sm-5 form-control-label"> {{$lang.user_management_status}}</div>
                      <div class="col-sm-6">
-                        <select class="form-control" id="country" v-model="formValues.status">
+                        <select class="form-control" id="country" v-model="formValues.status" 
+                        v-validate="'required'" :class="{'is-danger': errors.has('status') }" name="status">
                             <option value="">Select</option>
                             <option value="1">Active</option>
-                            <option value="0">In Active</option>
-                        </select> 
+                            <option value="0">In-active</option>
+                        </select>
+                        <span class="help is-danger" v-show="errors.has('status')">{{$lang.user_management_status_required}}</span>
                      </div>
                 </div>
                 

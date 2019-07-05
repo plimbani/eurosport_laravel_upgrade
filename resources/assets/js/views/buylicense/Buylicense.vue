@@ -5,7 +5,8 @@
                 <div class="row justify-content-between">
                     <div class="col-lg-6">
                         <h1 class="font-weight-bold" v-if="!id">Buy a license</h1>
-                        <h1 class="font-weight-bold" v-if="id">Update License for {{tournamentData.tournament_name}}<span v-if="tournamentData.access_code">(#{{tournamentData.access_code}})</span></h1>
+                        <h1 class="font-weight-bold" v-if="id">Update License for {{tournamentData.tournament_name}}<span v-if="tournamentData.access_code">
+                         (#{{tournamentData.access_code | upperCase}})</span></h1>
                         <p class="mb-5" v-if="!id">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris posuere vel mi ac sagittis. Quisque vel nulla at nibh finibus sodales. Nam efficitur sem a mi rhoncus. </p>
                         <p class="mb-5" v-if="id">You can add more teams and extend the duration of your tournament. </p>
                         <label> What kind of tournament are you organising?</label>
@@ -111,10 +112,10 @@
 
                                 <div class="card-text" v-if="!id"> 
                                     <div class="row">
-                                        <div class="col-sm-6 col-md-7 col-lg-7">
+                                        <div class="col-sm-6 col-md-9 col-lg-9">
                                             <p class="mb-0">{{tournamentData.tournament_max_teams}} team license for a {{dayDifference}} day tournament</p>
                                         </div>
-                                        <div class="col-sm-6 col-md-5 col-lg-5">
+                                        <div class="col-sm-6 col-md-3 col-lg-3">
                                             <p class="text-sm-right mb-0 mt-3 mt-sm-0">
                                              <span v-if="tournamentData.currency_type == 'GBP'">&#163;</span>   
                                              <span v-if="tournamentData.currency_type == 'EURO'">&#128;</span>   
@@ -131,22 +132,52 @@
                                         {{returnFormatedNumber(tournamentData.tournamentPricingValue)}}</p>
                                 </div>
                                 <div class="card-text" v-if="id">
-                                    <div class="row" v-if="!buyLicenseIsDataNotUpdated">
+                                    <div class="row">
                                         <div class="col-sm-6 col-md-7 col-lg-7">
-                                            <p class="mb-0" v-if="new_added_teams > 0">Additional {{new_added_teams}} teams</p> 
-                                            <p class="mb-0" v-if="newDaysAdded > 0">Additional {{newDaysAdded}} days</p>
-                                            <p class="mb-0" v-if="user_old_selected_format">Tournament type</p>
-                                            <p class="mb-0" v-if="user_old_selected_type">Tournament formats</p>
+                                            <p class="mb-0" v-if="new_added_teams != 0">
+                                                <span v-if="buyLicenseIsTeamsUpdated == 1">
+                                                    <span v-if="new_added_teams == -1">Reduced {{Math.abs(new_added_teams)}} team</span>
+                                                    <span v-else="new_added_teams < -1">Reduced {{Math.abs(new_added_teams)}} teams</span>
+                                                </span>
+                                                <span v-else>
+                                                    <span v-if="new_added_teams == 1">Additional {{Math.abs(new_added_teams)}} team</span>
+                                                    <span v-else="new_added_teams > 1">Additional {{Math.abs(new_added_teams)}} teams</span>
+                                                </span>
+                                            </p>
+                                            
+                                            <p class="mb-0" v-if="newDaysAdded != 0">
+                                                <span v-if="buyLicenseIsDaysUpdated == 1">
+                                                    <span v-if="newDaysAdded == -1">Reduced {{Math.abs(newDaysAdded)}} day</span>
+                                                    <span v-else="newDaysAdded < -1">Reduced {{Math.abs(newDaysAdded)}} days</span>
+                                                </span>
+                                                <span v-else>
+                                                    <span v-if="newDaysAdded == 1">Additional {{Math.abs(newDaysAdded)}} day</span>
+                                                    <span v-else="newDaysAdded > 1">Additional {{Math.abs(newDaysAdded)}} days</span>
+                                                </span>
+                                              
+                                            </p>
+
+                                            <p class="mb-0" v-if="user_old_selected_type != tournamentData.tournament_type">Tournament type</p>
+                                            <p class="mb-0" v-if="user_old_selected_format != tournamentData.custom_tournament_format && tournamentData.tournament_type != 'league'">Tournament formats</p>
+
                                         </div>
                                         <div class="col-sm-6 col-md-5 col-lg-5">
-                                            <p class="text-sm-right mb-0 mt-3 mt-sm-0" >
+                                            <p class="text-sm-right mb-0 mt-3 mt-sm-0" 
+                                            v-if="manageLicensePaymentPrice">
                                              <span v-if="tournamentData.currency_type == 'GBP'">&#163;</span>   
                                              <span v-if="tournamentData.currency_type == 'EURO'">&#128;</span>
 
-                                            {{returnFormatedNumber(tournamentData.tournamentPricingValue)}}</p>
+                                            {{manageTournamentTaemsAndDaysFormatValue}}</p>
+                                            
+                                            <p class="text-sm-right mb-0 mt-3 mt-sm-0" v-if="manageLicensePaymentPrice">
+                                             <span v-if="tournamentData.currency_type == 'GBP'">&#163;</span>   
+                                             <span v-if="tournamentData.currency_type == 'EURO'">&#128;</span>
+
+                                            {{manageTournamentFormatValue}}</p>
                                         </div>
                                     </div>
-                                    <div class="row" v-if="buyLicenseIsDataNotUpdated">
+                                      
+                                    <div class="row" v-if="buyLicenseReduceTeamAndDay">
                                         <div class="col-sm-6 col-md-7 col-lg-7">
                                             <p class="mb-0">No change</p>
                                         </div>
@@ -154,7 +185,7 @@
 
                                     <div class="divider my-3 opacited"></div>
 
-                                    <p class="text-sm-right font-weight-bold" v-if="newDaysAdded > 0 || new_added_teams > 0">
+                                    <p class="text-sm-right font-weight-bold" v-if="manageLicensePaymentPrice">
                                         <span v-if="tournamentData.currency_type == 'GBP'">&#163;</span>   
                                         <span v-if="tournamentData.currency_type == 'EURO'">&#128;</span>  
                                         {{returnFormatedNumber(tournamentData.tournamentPricingValue)}}</p>
@@ -166,9 +197,9 @@
                                             <span v-if ="tournamentData.is_renew">Renew your licence</span> 
                                         </button>      
                                         <button v-if="disabled && !id" class="btn btn-success btn-block" disabled="true">Buy your license</button>
-                                         <button v-if ="!disabled && id && buyLicenseIsDataNotUpdated" class="btn btn-success btn-block" v-on:click="updateALicence()">
+                                        <button v-if ="!disabled && id && confirmDetailButton" class="btn btn-success btn-block" v-on:click="updateALicence()">
                                          Confirm Details </button>
-                                         <button v-if ="!disabled && id && !buyLicenseIsDataNotUpdated" class="btn btn-success btn-block"  v-on:click="buyALicence()">
+                                        <button v-if ="!disabled && id &&  tournamentData.tournamentPricingValue != 0" class="btn btn-success btn-block"  v-on:click="buyALicence()">
                                         Make Payment</button>
                                     </div>
                                 </div>
@@ -254,16 +285,61 @@
             }
             next()
         },
-
+        filters: {
+          upperCase: function(value) {
+            return value.toUpperCase()
+          }
+        },
         computed: {
-            buyLicenseIsDataNotUpdated(){
-                if(this.newDaysAdded <= 0 && this.new_added_teams <= 0 && this.user_old_selected_format == this.tournamentData.custom_tournament_format){
+            buyLicenseIsDaysUpdated(){
+                if(this.newDaysAdded <= 0){
                     return true
                 } else {
                     return false
                 }
-            }
-        },
+            },
+            buyLicenseIsTeamsUpdated(){
+                if(this.new_added_teams <= 0){
+                    return true
+                } else {
+                    return false
+                }
+            },
+            buyLicenseReduceTeamAndDay(){
+                if(this.newDaysAdded == 0 && this.new_added_teams == 0 && this.user_old_selected_format == this.tournamentData.custom_tournament_format && this.user_old_selected_type == this.tournamentData.tournament_type) {
+                    return true
+                } else {
+                    return false
+                }
+            },
+            confirmDetailButton(){
+                if(this.tournamentData.tournamentPricingValue == 0 && (this.newDaysAdded != 0 || this.new_added_teams != 0 || this.user_old_selected_format != 
+                    this.tournamentData.custom_tournament_format || this.user_old_selected_type != this.tournamentData.tournament_type || this.tournament_old_teams != this.tournamentData.tournament_max_teams)) {
+                    return true
+                } else {
+                    return false
+                } 
+            },
+            manageLicensePaymentPrice(){
+                if(this.newDaysAdded != 0 || this.new_added_teams != 0 || this.user_old_selected_format != 
+                    this.tournamentData.custom_tournament_format || this.user_old_selected_type != this.tournamentData.tournament_type){
+                    return true
+                } else {
+                    return false
+                }
+            },
+            manageTournamentFormatValue(){
+                if(this.tournamentData.tournament_type == 'cup' && this.tournamentData.custom_tournament_format == '1') {
+                    return this.tournamentData.tournamentLicenseAdvancePriceDisplay
+                } 
+            },
+            manageTournamentTaemsAndDaysFormatValue() {
+                 if(this.tournamentData.tournament_type == 'cup' && this.tournamentData.custom_tournament_format == '1' && this.new_added_teams != this.tournament_old_teams) {
+                    return this.tournamentData.tournamentPricingValue - this.tournamentData.tournamentLicenseAdvancePriceDisplay 
+                }
+                return this.tournamentData.tournamentPricingValue
+            }   
+        },   
         
         methods: {
             changeTeams(){ 
@@ -449,11 +525,11 @@
                 let maxCupTeamSize = _.maxBy(this.tournamentPricingBand.cup.bands,'max_teams');
                 vm.tournamentData.maximumCupTeamSize = maxCupTeamSize.max_teams;
                 vm.tournamentData.tournamentTeamNumbers = maxCupTeamSize.max_teams;
-
-                let minLeagueSize = _.maxBy(this.tournamentPricingBand.league.bands,'max_teams');
-                vm.tournamentData.maximumLeagueTeamSize = minLeagueSize.max_teams;
-                vm.tournamentData.tournamentTeamNumbers = minLeagueSize.max_teams;
                 
+                let maxLeagueTeamSize = _.maxBy(this.tournamentPricingBand.league.bands,'max_teams');
+                vm.tournamentData.maximumLeagueTeamSize = maxLeagueTeamSize.max_teams;
+                vm.tournamentData.tournamentTeamNumbers = maxLeagueTeamSize.max_teams;
+               
                 let tournamentPricing = _.filter(this.tournamentPricingBand.cup.bands, function(band) {
                      if(tournamentMaxTeams >= band.min_teams && tournamentMaxTeams <= band.max_teams) {
                         vm.tournamentData.tournamentLicenseAdvancePriceDisplay = band.advanced_price;
@@ -492,11 +568,11 @@
                     });
                     let tournamentPricingRecord = _.head(tournamentLicensePricingArray);
                         vm.tournamentData.tournamentPricingValue = tournamentPricingRecord - this.tournamentData.transactionDifferenceAmountValue;
-
                     if(this.tournamentData.currency_type == "GBP") {
                         vm.tournamentData.payment_currency = vm.tournamentData.currency_type;
                         vm.tournamentData.tournamentPricingValue = (vm.tournamentData.tournamentPricingValue)*vm.gpbConvertValue;
                     }
+
                     if(!this.$route.query.teams) { 
                         vm.tournamentData.tournamentTeamNumbers = maxCupTeamSize.max_teams;
                     }                   
@@ -516,7 +592,7 @@
                         vm.tournamentData.tournamentPricingValue = (vm.tournamentData.tournamentPricingValue)*vm.gpbConvertValue;
                     }
                     if(!this.$route.query.teams) {
-                        vm.tournamentData.tournamentTeamNumbers = minLeagueSize.max_teams;
+                        vm.tournamentData.tournamentTeamNumbers = maxLeagueTeamSize.max_teams;
                     }    
                 }
                 if(isNaN(vm.tournamentData.tournamentPricingValue) || vm.tournamentData.tournamentPricingValue < 0){
@@ -529,6 +605,20 @@
                         $('.tournament_formats').show();
                     } else if(this.tournamentData.tournament_max_teams <= this.tournamentData.maximumLeagueTeamSize)
                     {
+                        let tournamentPricing = _.filter(this.tournamentPricingBand.league.bands, function(band) {
+                            if(tournamentMaxTeams >= band.min_teams && tournamentMaxTeams <= band.max_teams) {
+                            tournamentLicensePricingArray.push(band.price);
+                            }
+                        });
+                        let tournamentPricingRecord = _.head(tournamentLicensePricingArray);
+                        vm.tournamentData.tournamentPricingValue = tournamentPricingRecord - this.tournamentData.transactionDifferenceAmountValue;
+
+                        if(this.tournamentData.currency_type == "GBP") {
+                            vm.tournamentData.payment_currency = vm.tournamentData.currency_type;
+                            vm.tournamentData.tournamentPricingValue = (vm.tournamentData.tournamentPricingValue)*vm.gpbConvertValue;
+                        }
+                        vm.tournamentData.tournamentTeamNumbers = maxLeagueTeamSize.max_teams;
+                            
                         $('#league').prop("checked",true)
                         $('.tournament_formats').hide();
                     }
@@ -587,6 +677,7 @@
                vm.findDifferenceBetweenDates(); 
                vm.tournamentData.tournament_end_date = event.target.value;
             });
+            
             this.getTournamentPricing();
             this.getCurrencyValue();
             setTimeout(function(){
