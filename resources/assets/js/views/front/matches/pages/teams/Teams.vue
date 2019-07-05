@@ -72,6 +72,7 @@
         currentCategoryId: '',
         teamMatches: [],
         currentSelectedTeamName: '',
+        competitionFixtures: [],
       };
     },
     computed: {
@@ -99,6 +100,13 @@
 	        (response)=> {
 	          if(response.data.status_code == 200) {
 	            this.teams = _.orderBy(response.data.data, ['name'], ['asc']);
+	            this.competitionFixtures = response.data.competitionFixtures;
+	            let vm = this;
+	            if(vm.competitionFixtures) {
+	              vm.teams = _.filter(vm.teams, function(o) {
+	                return vm.competitionFixtures[o.competationId] > 0;
+	              });
+	            }
 	          }
 	        },
 	        (error) => {

@@ -32,7 +32,7 @@ Route::get('/mlogin', '\Laraspace\Http\Controllers\Auth\ResetPasswordController@
 $api = app('Dingo\Api\Routing\Router');
 
 $api->version('v1', ['middleware' => 'signedurl'], function ($api) {
-    $api->get('match/report/generate/{ageGroupId}',
+    $api->get('match/report/generate/{ageGroupId}/{tournamentId}',
         'Laraspace\Api\Controllers\MatchController@generateCategoryReport')->name('generate.category.report');
     $api->get('tournament/report/print', 'Laraspace\Api\Controllers\TournamentController@generatePrint');
     $api->get('match/print', 'Laraspace\Api\Controllers\MatchController@generateMatchPrint');
@@ -104,6 +104,8 @@ $api->version('v1', function ($api) {
 
     $api->post('/userResendEmail', '\Laraspace\Api\Controllers\UserController@userResendEmail');
     $api->get('user/setpasswordCheck/{key}','\Laraspace\Api\Controllers\UserController@setPassword');
+
+    $api->post('deleteFinalPlacingTeam','Laraspace\Api\Controllers\AgeGroupController@deleteFinalPlacingTeam');
 });
 
 $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
@@ -141,6 +143,8 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
     $api->post('match/schedule', 'Laraspace\Api\Controllers\MatchController@scheduleMatch');
     $api->post('match/unschedule', 'Laraspace\Api\Controllers\MatchController@unscheduleMatch');
     $api->post('match/fixtureUnschedule', 'Laraspace\Api\Controllers\MatchController@matchUnscheduledFixtures');
+    $api->post('saveScheduleMatches', 'Laraspace\Api\Controllers\MatchController@saveScheduleMatches');
+    
 
     $api->post('match/detail', 'Laraspace\Api\Controllers\MatchController@getMatchDetail');
     $api->post('match/removeAssignedReferee', 'Laraspace\Api\Controllers\MatchController@removeAssignedReferee');
@@ -243,7 +247,7 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
         'Laraspace\Api\Controllers\TournamentController@saveCategoryCompetitionColor');
 
     // routes for signed url
-    $api->post('getSignedUrlForMatchReport/{ageCategory}', 'Laraspace\Api\Controllers\MatchController@getSignedUrlForMatchReport');
+    $api->post('getSignedUrlForMatchReport', 'Laraspace\Api\Controllers\MatchController@getSignedUrlForMatchReport');
 
     $api->post('getSignedUrlForTournamentReport', 'Laraspace\Api\Controllers\TournamentController@getSignedUrlForTournamentReport');
 
