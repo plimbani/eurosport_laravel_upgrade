@@ -44,7 +44,7 @@
                     </div>
                     <div class="row" v-if="!tournamentData.id && isTournamentDetailCallDone">
                         <div class="col-xl-12 text-center">
-                            Tournament detail not found
+                            {{tournamentError}}
                         </div>
                     </div>
                 </div>
@@ -75,6 +75,7 @@
                 },
                 tournamentDisplayDateFormat:"",
                 isTournamentDetailCallDone: false,
+                tournamentError:'',
             }
         },
         mounted() {
@@ -136,7 +137,7 @@
             getTournamentDetail(){
                  axios.get(Constant.apiBaseUrl+'tournament-by-code?tournament='+this.code, {}).then(response =>  { 
                         this.isTournamentDetailCallDone = true;
-                        if (response.data.success && typeof response.data.data != "undefined" && typeof response.data.data.tournament_details != "undefined") {
+                        if (response.data.success && typeof response.data.data != "undefined" && typeof response.data.data.tournament_details != "undefined" &&response.data.data.tournamentStatus != 'Unpublished') {
                              this.tournamentData = response.data.data.tournament_details;
                              this.contactData = response.data.data.contact_details;
                              if((this.contactData).length > 0){
@@ -155,7 +156,16 @@
                             this.tournamentData = {};
                             this.contactData= [];
                             this.tournamentSponsers= [];
-                            toastr['error']("Tournament detail not found.", 'Error');
+                            if ( response.data.data.tournamentStatus == 'Unpublished')
+                            {
+                                this.tournamentError = "Tournament is not yet published or in preview mode.";
+                                toastr['error'](this.tournamentError, 'Error');
+                            }
+                            else
+                            {
+                                this.tournamentError = "Tournament detail not found.";
+                                toastr['error'](this.tournamentError, 'Error');
+                            }
                          }
                  }).catch(error => {
                     this.tournamentData = {};
