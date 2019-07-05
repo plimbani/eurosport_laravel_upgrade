@@ -115,6 +115,7 @@ export default {
       'tournamentId' : this.$store.state.Tournament.tournamentId,
       displayTournamentEndDate:"",
       currentDateTime: moment().tz("Europe/London").format('DD/MM/YYYY HH:mm:ss'),
+      currentDate: moment().tz("Europe/London").format('DD/MM/YYYY'),
       unChangedMatchScoresInfoModalOpen: false,
       unChangedMatchScores: [],
     }
@@ -136,13 +137,12 @@ export default {
       return this.$store.state.activePath
     },
     tournamentEndDateTimeDisplayMessage() {
-      let currentDateTime = this.currentDateTime;
       let displayTournamentEndDate = this.displayTournamentEndDate;
       let expireTime = moment(displayTournamentEndDate).add(8, 'hours').format('DD/MM/YYYY HH:mm:ss');
       let tournamentStartDate = this.$store.state.Tournament.tournamentStartDate;
       
       if(displayTournamentEndDate) {
-        if(tournamentStartDate >= currentDateTime  && expireTime <= currentDateTime) {
+        if(tournamentStartDate >= this.currentDate && expireTime >= this.currentDateTime) {
            return true;
         } else {
           return false;
