@@ -1168,7 +1168,8 @@ class TournamentRepository
                 'baseUrl' => $baseUrl,
                 'googleAppStoreLink'=> $googleAppStoreLink,
                 'appleStoreLink'=> $appleStoreLink,
-                'appleStoreDeepLink'=> $appleStoreDeepLink
+                'appleStoreDeepLink'=> $appleStoreDeepLink,
+                'tournamentStatus'=>$tournament->status
             ];
         }
         return $response;
