@@ -6,6 +6,9 @@
 	    <!--for qa and live Commercialisation-->
 	<string name="facebook_app_id">2285199178466834</string>
     <string name="fb_login_protocol_scheme">fb2285199178466834</string>
+    <!--for local Commercialisation-->
+	<!--<string name="facebook_app_id">2244675008941893</string>-->
+    <!--<string name="fb_login_protocol_scheme">fb2244675008941893</string>-->
 
     <string name="tournament_code">Tournament code</string>
     <string name="submit">Submit</string>
