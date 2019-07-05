@@ -132,7 +132,7 @@
 
 	    		deleteConfirmMsg: 'Are you sure you would like to delete this tournament?',
                 deleteAction: '',
-                isPublishedPreviewOnce: 0,
+                isPublishedPreviewOnce: 1,
 	    	}
 	    },
 	    components: {
@@ -166,10 +166,10 @@
 			this.$root.$off('StatusUpdate');
 		},
 	    methods: {
-	      updateStatus(status){
+	      updateStatus(status, switchDefaultTournament){
 	      	// here we call method to update Status
 	      	let tournamentId = this.$store.state.Tournament.tournamentId;
-	      	let tournamentData = {'tournamentId': tournamentId, 'status': status}
+	      	let tournamentData = {'tournamentId': tournamentId, 'status': status, 'switchDefaultTournament': switchDefaultTournament};
 	      	if(tournamentId != undefined)
 	    	{
 	    		Tournament.updateStatus(tournamentData).then(
@@ -234,7 +234,7 @@
     	    			this.tournamentSummary.locations = locations
 	    		   }
 
-	    		   this.isPublishedPreviewOnce = this.tournamentSummary['tournament_detail']['is_published_once'];
+	    		   this.isPublishedPreviewOnce = this.tournamentSummary['tournament_detail']['is_published_preview_once'];
 
 	    			}
 	    		},

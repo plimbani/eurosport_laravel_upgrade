@@ -10,10 +10,13 @@
                     <p>
                         {{$lang.summary_button_publish_text}}
                     </p>
-                    <p v-if="isPublishedPreviewOnce === 1">
-                        When set to "Preview" or "Published" existing followers on the app of the original tournament will also be a follower of this new duplicated tournament.<br/>
-                        Please check the box if you would also like to switch the default tournament of users from the original tournament to this duplicated one.
-                    </p>
+                    <div v-if="isPublishedPreviewOnce === 0">
+                        <div>When set to "Preview" or "Published" existing followers on the app of the original tournament will also be a follower of this new duplicated tournament.</div>
+                        <div class="c-input mt-3">
+                            <input type="checkbox" class="euro-checkbox" name="check_switch_default_tournament" v-model="switch_default_tournament" :true-value="1" :false-value="0" />
+                            <label for="switch_default_tournament">Please check the box if you would also like to switch the default tournament of users from the original tournament to this duplicated one.</label>
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-dismiss="modal">{{$lang.summary_tab_popup_publish_cancel_button}}</button>
@@ -26,12 +29,20 @@
 </template>
 <script type="text/babel">
     export default  {
+        data() {
+            return {
+                switch_default_tournament: 0,
+            }
+        },
+        mounted() {
+            console.log('isPublishedPreviewOnce', this.isPublishedPreviewOnce);
+        },
         props: ['isPublishedPreviewOnce'],
         methods: {
             updateStatus() {
                 // here we set status to Publish For Tournament
                // $('#publish_modal').attr('data-dismiss','modal')
-                this.$root.$emit('StatusUpdate','Published');
+                this.$root.$emit('StatusUpdate','Published', this.switch_default_tournament);
             }
         }
     }

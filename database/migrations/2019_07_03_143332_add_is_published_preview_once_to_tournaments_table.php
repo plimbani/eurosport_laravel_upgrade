@@ -15,6 +15,8 @@ class AddIsPublishedPreviewOnceToTournamentsTable extends Migration
     {
         Schema::table('tournaments', function($table) {
             $table->tinyInteger('is_published_preview_once')->default(0)->after('points_per_bye');
+            $table->unsignedInteger('duplicated_from')->nullable()->default(NULL)->after('points_per_bye');
+            $table->foreign('duplicated_from')->references('id')->on('tournaments')->onDelete(NULL);
         });
     }
 
@@ -26,7 +28,7 @@ class AddIsPublishedPreviewOnceToTournamentsTable extends Migration
     public function down()
     {
         Schema::table('tournaments', function($table) {
-            $table->dropColumn('is_published_preview_once');
+            $table->dropColumn(['is_published_preview_once', 'duplicated_from']);
         });
     }
 }
