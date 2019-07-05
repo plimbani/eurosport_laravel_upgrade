@@ -23,7 +23,18 @@ class GetStartedTournamentVC: SuperViewController {
         
         ApplicationData.setBorder(view: txtTournamentCode, Color: .gray, CornerRadius: 1.0, Thickness: 1.0)
         
+        NotificationCenter.default.addObserver(self, selector: #selector(callAccessCodeAPI(_:)), name: .accessCodeAPI, object: nil)
+        
         hideKeyboardWhenTappedAround()
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: .accessCodeAPI, object: nil)
+    }
+    
+    @objc func callAccessCodeAPI(_ notification: NSNotification) {
+        TestFairy.log(String(describing: self) + " callAccessCodeAPI")
+        accessCodeAPI()
     }
     
     @IBAction func btnSubmitPressed(_ sender: UIButton) {
@@ -66,13 +77,21 @@ class GetStartedTournamentVC: SuperViewController {
         }
         
         var parameters: [String: Any] = [:]
-        parameters["accessCode"] = txtTournamentCode.text!
+        
+        if ApplicationData.accessCodeFromURL != NULL_STRING {
+            parameters["accessCode"] = ApplicationData.accessCodeFromURL
+        } else {
+            parameters["accessCode"] = txtTournamentCode.text!
+        }
+        
         self.view.showProgressHUD()
         ApiManager().accessCode(parameters, success: { result in
             DispatchQueue.main.async {
                 self.view.hideProgressHUD()
                 
                 if let dicTournament = result.value(forKey: "data") as? NSDictionary {
+                    ApplicationData.accessCodeFromURL = NULL_STRING
+                    
                     let tournament = ParseManager.parseTournament(dicTournament)
                     ApplicationData.sharedInstance().saveSelectedTournament(tournament)
                     
@@ -89,7 +108,7 @@ class GetStartedTournamentVC: SuperViewController {
                 self.view.hideProgressHUD()
                 
                 if let message = result.value(forKey: "message") as? String {
-                    self.showCustomAlertVC(title: String.localize(key: "alert_title_error"), message: message)
+                    self.showCustomAlertVC(title: result.value(forKey: "title") as? String ?? String.localize(key: "alert_title_error"), message: message)
                 }
             }
         })

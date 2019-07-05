@@ -43,6 +43,10 @@ class MainTabViewController: SuperViewController {
         initialize()
     }
     
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: .accessCodeAPI, object: nil)
+    }
+    
     override func viewDidLayoutSubviews() {
         tournamentDetailsView.frame = CGRect(x: 0, y: 0, width: DEVICE_WIDTH, height: DEVICE_HEIGHT)
     }
@@ -185,6 +189,10 @@ class MainTabViewController: SuperViewController {
             DispatchQueue.main.async {
                 self.view.hideProgressHUD()
                 self.onTabSelected(btn: self.tabButtonList[TabIndex.tabFav.rawValue])
+                
+                if let message = result.value(forKey: "message") as? String {
+                    self.showCustomAlertVC(title: result.value(forKey: "title") as? String ?? String.localize(key: "alert_title_error"), message: message)
+                }
             }
         })
     }
