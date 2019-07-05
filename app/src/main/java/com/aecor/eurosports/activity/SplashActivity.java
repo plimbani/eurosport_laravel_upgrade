@@ -99,7 +99,23 @@ public class SplashActivity extends BaseActivity {
             }
         }
         initView();
-//        printHashKey(this);
+        //printHashKey(this);
+    }
+
+    private void printHashKey(Context context) {
+        try {
+            PackageInfo info = getPackageManager().getPackageInfo(getPackageName(), PackageManager.GET_SIGNATURES);
+            for (Signature signature : info.signatures) {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                String hashKey = new String(Base64.encode(md.digest(), 0));
+                Log.i(TAG, "printHashKey() Hash Key: " + hashKey);
+            }
+        } catch (NoSuchAlgorithmException e) {
+            Log.e(TAG, "printHashKey()", e);
+        } catch (Exception e) {
+            Log.e(TAG, "printHashKey()", e);
+        }
     }
 
     private void isUserLogin() {
@@ -308,6 +324,7 @@ public class SplashActivity extends BaseActivity {
                     // get started screen
                     startActivity(new Intent(mContext, GetStartedActivity.class));
                 }
+                finish();
             }
         } else {
             if (mAppSharedPref.getBoolean(AppConstants.IS_LOGIN_USING_FB) && Utility.isNullOrEmpty(mAppSharedPref.getString(AppConstants.PREF_TOURNAMENT_ID))) {
@@ -317,15 +334,14 @@ public class SplashActivity extends BaseActivity {
                 if (Utility.isNullOrEmpty(mAppSharedPref.getString(AppConstants.PREF_COUNTRY_ID))) {
                     //profile screen
                     startActivity(new Intent(mContext, ProfileActivity.class));
-                    finish();
                 } else {
                     // home screen
                     startActivity(new Intent(mContext, HomeActivity.class));
-                    finish();
                 }
+                finish();
+
             }
         }
-        finish();
 
 
     }

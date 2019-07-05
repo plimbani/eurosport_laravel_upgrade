@@ -30,6 +30,7 @@ import android.widget.Toast;
 
 import com.aecor.eurosports.R;
 import com.aecor.eurosports.activity.GetStartedActivity;
+import com.aecor.eurosports.activity.HomeActivity;
 import com.aecor.eurosports.activity.LandingActivity;
 import com.aecor.eurosports.activity.SplashActivity;
 import com.aecor.eurosports.ui.ProgressHUD;
@@ -132,7 +133,7 @@ public class Utility {
             AppLogger.LogE(TAG, "error " + error.getMessage());
             String responseBody = error.getMessage();
 
-            JSONObject data = new JSONObject(responseBody);
+            final JSONObject data = new JSONObject(responseBody);
             String message = null;
             if (data.has("message")) {
                 message = data.getString("message");
@@ -173,9 +174,22 @@ public class Utility {
                         @Override
                         public void onPositiveButtonClicked() {
                             if (mContext instanceof SplashActivity) {
-                                Intent mLandingPageIntent = new Intent(mContext, LandingActivity.class);
-                                mContext.startActivity(mLandingPageIntent);
-                                ((Activity) mContext).finish();
+                                try {
+                                    if(data.has("title") && !isNullOrEmpty(data.getString("title"))){
+                                        Intent mLandingPageIntent = new Intent(mContext, HomeActivity.class);
+                                        mContext.startActivity(mLandingPageIntent);
+                                        ((Activity) mContext).finish();
+                                    }else {
+                                        Intent mLandingPageIntent = new Intent(mContext, LandingActivity.class);
+                                        mContext.startActivity(mLandingPageIntent);
+                                        ((Activity) mContext).finish();
+                                    }
+                                } catch (JSONException e) {
+                                    Intent mLandingPageIntent = new Intent(mContext, LandingActivity.class);
+                                    mContext.startActivity(mLandingPageIntent);
+                                    ((Activity) mContext).finish();
+                                    e.printStackTrace();
+                                }
                             }
                         }
 
