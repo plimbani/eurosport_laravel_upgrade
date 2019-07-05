@@ -137,7 +137,7 @@
             getTournamentDetail(){
                  axios.get(Constant.apiBaseUrl+'tournament-by-code?tournament='+this.code, {}).then(response =>  { 
                         this.isTournamentDetailCallDone = true;
-                        if (response.data.success && typeof response.data.data != "undefined" && typeof response.data.data.tournament_details != "undefined" &&response.data.data.tournamentStatus != 'Unpublished') {
+                        if (response.data.success && typeof response.data.data != "undefined" && typeof response.data.data.tournament_details != "undefined" && response.data.data.tournamentStatus != 'Unpublished') {
                              this.tournamentData = response.data.data.tournament_details;
                              this.contactData = response.data.data.contact_details;
                              if((this.contactData).length > 0){
