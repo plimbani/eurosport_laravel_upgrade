@@ -3,8 +3,8 @@
     <div class="card-block">
         <div class="row">
             <div class="col-md-12">
-                <p v-if="tournamentEndDateTimeDisplayMessage && displayTournamentEndDate !=''" class="result-administration-date">
-                    <small class="text-muted">Please note: You will no longer be able to enter results or edit your tournament after {{ displayTournamentEndDate | formatDate }} </small> 
+                <p v-if="tournamentEndDateTimeDisplayMessage" class="result-administration-date">
+                    <small class="text-muted">Please note: You will no longer be able to enter results or edit your tournament after {{ displayTournamentMatchEndDate | formatDate }} </small> 
                 </p>  
             </div>
         </div>
@@ -137,11 +137,11 @@ export default {
       return this.$store.state.activePath
     },
     tournamentEndDateTimeDisplayMessage() {
-      let displayTournamentEndDate = this.displayTournamentEndDate;
-      let expireTime = moment(displayTournamentEndDate).add(8, 'hours').format('DD/MM/YYYY HH:mm:ss');
+      let displayTournamentMatchEndDate = this.displayTournamentEndDate;
+      let expireTime = moment(displayTournamentMatchEndDate).add(8, 'hours').format('DD/MM/YYYY HH:mm:ss');
       let tournamentStartDate = this.$store.state.Tournament.tournamentStartDate;
       
-      if(displayTournamentEndDate) {
+      if(displayTournamentMatchEndDate) {
         if(tournamentStartDate >= this.currentDate && expireTime >= this.currentDateTime) {
            return true;
         } else {
