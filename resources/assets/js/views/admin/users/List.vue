@@ -99,7 +99,8 @@
                                         <a href="javascript:void(0)"
                                         data-confirm-msg="Are you sure you would like to delete
                                         this user record?" data-toggle="modal" data-target="#delete_modal"
-                                        @click="prepareDeleteResource(user.id)" v-if="!(isMasterAdmin == true && user.role_slug == 'Super.administrator')">
+                                        @click="prepareDeleteResource(user.id)" 
+                                        v-if="(!(isMasterAdmin == true && user.role_slug == 'Super.administrator') || !isTournamentAdmin)">
                                         <i class="fas fa-trash"></i>
                                         </a>
                                         &nbsp;
@@ -235,6 +236,9 @@
             isMasterAdmin() {
               return this.$store.state.Users.userDetails.role_slug == 'Master.administrator';
             },
+            isTournamentAdmin() {
+              return this.$store.state.Users.userDetails.role_slug == 'tournament.administrator';
+            },
         },
         filters: {
             formatDate: function(date) {
@@ -249,7 +253,7 @@
         mounted() {
           // here we check the permission to allowed to access users list
           let role_slug = this.$store.state.Users.userDetails.role_slug
-          if(role_slug == 'tournament.administrator' || role_slug == 'Internal.administrator') {
+          if(role_slug == 'Internal.administrator') {
             toastr['error']('Permission denied', 'Error');
             this.$router.push({name: 'welcome'});
           }

@@ -78,19 +78,21 @@
             }
           )
 
-          Website.getAllWebsites().then(
-            (response) => {
-              this.allWebsites = response.data.data
-            },
-            (error) => {
-            }
-          )
+          if(this.$store.state.Users.userDetails.role_slug != 'tournament.administrator') {
+            Website.getAllWebsites().then(
+              (response) => {
+                this.allWebsites = response.data.data
+              },
+              (error) => {
+              }
+            )
+          }
 
         },
         computed: {
           isPermisionModalActive() {
             if(this.user) {
-              if(this.user.role_slug == "Results.administrator") {
+              if(this.user.role_slug == "Results.administrator" || this.user.role_slug == "tournament.administrator") {
                 return false;
               }
             }
