@@ -288,6 +288,8 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
     $api->post('getSignedUrlForGroupsViewReport', 'Laraspace\Api\Controllers\TeamController@getSignedUrlForGroupsViewReport');
 
     $api->post('user/validateemail','Laraspace\Api\Controllers\UserController@validateUserEmail');
+    
+    $api->post('user/verifyResultAdminUser','Laraspace\Api\Controllers\UserController@verifyResultAdminUser');
 });
 
 // Websites CMS routes
