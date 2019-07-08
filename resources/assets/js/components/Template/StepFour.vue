@@ -128,17 +128,12 @@
 <script type="text/javascript">
 	import Template from '../../api/template.js'
 	export default {
-		props: ['templateFormDetail', 'editedTemplateId', 'templateGraphicImage'],
+		props: ['templateFormDetail', 'editedTemplateId'],
         data() {
             return {
-            	// image:'',
-            	// templateFontColors: [
-            	// 	'rgb(146,208,80)', 'rgb(255,192,0)', 'rgb(217,149,148)'
-            	// ],
             }
         },
         created() {
-        	// this.image = this.templateGraphicImage !== undefined ? this.templateGraphicImage : null;
             this.$root.$on('updateTemplateData', this.updateTemplateData);
         },
         beforeCreate: function() {
@@ -155,7 +150,6 @@
         		var templateData = {'templateFormDetail': this.templateFormDetail};
         		this.$validator.validateAll().then((response) => {
 	        		if(response) {
-	        			this.templateFormDetail.stepone.graphic_image = this.image;
 	        			var templateData = { 'templateFormDetail': this.templateFormDetail };
 	        			if(this.editedTemplateId) {
 	        				templateData.editedTemplateId = this.editedTemplateId;
@@ -187,9 +181,6 @@
         	},
         	back() {
         		this.$emit('change-tab-index', 4, 3, 'stepfour', _.cloneDeep(this.templateFormDetail.stepfour));
-        	},
-        	setTemplateFontColor(color) {
-        		this.templateFormDetail.stepfour.template_font_color = color;
         	},
 			getGroupName(groupIndex, roundIndex, divisionIndex) {
 				return this.getGroupNameByRoundAndGroupIndex(groupIndex, roundIndex, divisionIndex);
@@ -276,37 +267,6 @@
 		    	divisions[-1]['rounds'] = this.templateFormDetail.steptwo.rounds;
 		    	divisions.push(this.templateFormDetail.steptwo.divisions);
 		    },
-		 //    addNewRoundSchedule() {
-		 //    	this.templateFormDetail.stepfour.roundSchedules.push('');
-		 //    },
-		 //    removeRoundSchedule(index) {
-		 //    	this.templateFormDetail.stepfour.roundSchedules.splice(index, 1);
-		 //    },
-		 //    openFileInput() {
-		 //    	$('#graphic_image').trigger('click');
-		 //    },
-		 //    onFileChange(e) {
-			// 	var files = e.target.files || e.dataTransfer.files;
-			// 	if (!files.length)
-			// 	return;
-			// 	if(Plugin.ValidateImageSize(files) == true) {
-			// 	  this.createImage(files[0]);
-			// 	}
-		 //    },
-			// createImage(file) {
-			// 	var image = new Image();
-			// 	var reader = new FileReader();
-			// 	var vm = this;
-			// 	reader.onload = (e) => {
-			// 		vm.image = e.target.result;
-			// 	};
-
-			// 	reader.readAsDataURL(file);
-			// },
-			// removeImage(e) {
-			// 	this.image = '';
-			// 	e.preventDefault();
-			// },
 			getTeamPlayEachOther(times) {
 				let teamPlayEachOther = {
 					'once' : 'once',

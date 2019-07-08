@@ -259,4 +259,24 @@ class TemplateController extends BaseController
 
         echo "<pre>";print_r('script executed!');echo "</pre>";exit;
     }
+
+    public function templateJsonUpdateScript()
+    {
+        $templates = TournamentTemplates::where('template_form_detail', '!=', '')->get();
+
+        foreach ($templates as $template) {
+            $templateFormDetail = json_decode($template->template_form_detail, true);
+            foreach ($templateFormDetail['stepfour'] as $key => $value) {
+                $templateFormDetail['stepone'][$key] = $value;
+            }
+            if(isset($templateFormDetail['stepone']['imagePath'])) {
+                unset($templateFormDetail['stepone']['imagePath']);
+            }
+            unset($templateFormDetail['stepfour']);
+            $template->template_form_detail = json_encode($templateFormDetail);
+            $template->save();
+        }
+
+        echo "<pre>";print_r('script executed.');echo "</pre>";exit;
+    }
 }
