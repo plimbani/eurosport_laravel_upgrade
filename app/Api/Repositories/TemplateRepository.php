@@ -171,8 +171,8 @@ class TemplateRepository
         $totalTeams = $templateFormDetail['stepone']['no_of_teams'];
         $finalArray = [];
         $finalArray['tournament_teams'] = $totalTeams;
-        $templateFormDetail['stepfour']['remarks'] ? $finalArray['remark'] = $templateFormDetail['stepfour']['remarks'] : null;
-        $finalArray['template_font_color'] = $templateFormDetail['stepfour']['template_font_color'];
+        $templateFormDetail['stepone']['remarks'] ? $finalArray['remark'] = $templateFormDetail['stepone']['remarks'] : null;
+        $finalArray['template_font_color'] = $templateFormDetail['stepone']['template_font_color'];
         $finalArray['tournament_name'] = $templateFormDetail['stepone']['templateName'];
         $finalArray['tournament_competation_format'] = [];
         $finalArray['tournament_competation_format']['format_name'] = [];
@@ -256,7 +256,7 @@ class TemplateRepository
         $finalArray['avg_game_team'] = $averageMatches;
         $finalArray['position_type'] = $positionType;
         $finalArray['tournament_positions'] = $tournamentsPositionsData;
-        $finalArray['round_schedule'] = $data['templateFormDetail']['stepfour']['roundSchedules'];
+        $finalArray['round_schedule'] = $data['templateFormDetail']['stepone']['roundSchedules'];
 
         foreach($finalArray['tournament_competation_format']['format_name'] as $roundIndex => $round) {
             $templateFormDetailGroup = $templateFormDetail['steptwo']['rounds'][$roundIndex]['groups'];
@@ -289,8 +289,8 @@ class TemplateRepository
         $decodedJson = json_decode($templateJson, true);
 
         $graphicImageName = NULL;
-        if($data['templateFormDetail']['stepfour']['graphic_image']) {
-            $graphicImageName = $this->getGraphicImagePath .$data['templateFormDetail']['stepfour']['graphic_image'];
+        if($data['templateFormDetail']['stepone']['graphic_image']) {
+            $graphicImageName = $this->getGraphicImagePath .$data['templateFormDetail']['stepone']['graphic_image'];
         }
 
         $tournamentTemplate = new TournamentTemplates();
@@ -322,8 +322,8 @@ class TemplateRepository
     {
         $decodedJson = json_decode($templateJson, true);
         $graphicImageName = NULL;
-        if($data['templateFormDetail']['stepfour']['graphic_image']) {
-            $graphicImageName = $this->getGraphicImagePath .$data['templateFormDetail']['stepfour']['graphic_image'];
+        if($data['templateFormDetail']['stepone']['graphic_image']) {
+            $graphicImageName = $this->getGraphicImagePath .$data['templateFormDetail']['stepone']['graphic_image'];
         }
 
         $tournamentTemplate = TournamentTemplates::findOrFail($data['editedTemplateId']);
