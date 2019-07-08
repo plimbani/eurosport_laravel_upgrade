@@ -14,7 +14,6 @@ import TeamList from './TeamList.vue'
 import MatchList from './MatchList.vue'
 import DrawDetails from './DrawDetails.vue'
 import DrawsListing from './DrawsListing.vue'
-import LocationList from './LocationList.vue'
 import MatchListing from './MatchListing.vue'
 import FinalPlacings from './FinalPlacings.vue'
 import DrawList from './DrawList.vue'
@@ -31,7 +30,7 @@ export default {
     this.getAllTournamentTeams()
   },
   components: {
-    TeamDetails,DrawsListing,TeamList,MatchList,DrawDetails,MatchListing,LocationList,DrawList,FinalPlacings
+    TeamDetails,DrawsListing,TeamList,MatchList,DrawDetails,MatchListing,DrawList,FinalPlacings
   },
   created: function() {
        this.$root.$on('changeComp', this.setMatchData);

@@ -5,7 +5,7 @@
 				<form name="website_media" enctype="multipart/form-data">
 					<div class="form-group row">
 	        	<div class="col-sm-12">
-	        		<h6><strong>{{$lang.photo_gallery}}</strong></h6>
+	        		<h6 class="fieldset-title"><strong>{{$lang.photo_gallery}}</strong></h6>
 	        	</div>
 	        	<div class="col-sm-6">
 	        		<photo-list @setPhotos="setPhotos"></photo-list>
@@ -14,7 +14,7 @@
 	        <hr class="my-4">
 	        <div class="form-group row">
 	        	<div class="col-sm-12">
-	        		<h6><strong>{{$lang.files_and_documents}}</strong></h6>
+	        		<h6 class="fieldset-title"><strong>{{$lang.files_and_documents}}</strong></h6>
 	        	</div>
 	        	<div class="col-sm-6">
 	        		<document-list @setDocuments="setDocuments"></document-list>

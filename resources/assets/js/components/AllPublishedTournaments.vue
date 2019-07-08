@@ -1,7 +1,7 @@
 <template>
 	<div class="container">
 		<div class="d-flex justify-content-center">
-			<div class="card">
+			<div class="card main-card">
 				<div class="card-block">
 			        <h4 class="card-title">EuroSport Tournaments</h4>
 			        <div v-for="tournament in tournaments">
