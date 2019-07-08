@@ -869,10 +869,8 @@ class TemplateRepository
                     if( (($divisionIndex === -1 && ($roundIndex+1) === count($templateFormDetail['steptwo']['rounds'])) || ($divisionIndex >= 0 && ($roundIndex+1) === count($templateFormDetail['steptwo']['divisions'][$divisionIndex]['rounds'])))
                         && ($groupIndex+1) === count($round['groups'])
                         && $group['type'] == 'placing_match') {
-                        // echo $divisionIndex . "in" . "<br/>";
                         $teamPosition = $divisionIndex. ',' .$roundIndex. ',' .$groupIndex. ',' .($currentMatch-1);
                         $position = $this->getMatchPosition($teamPosition, $templateFormDetail['stepthree']['placings']);
-                        // echo $position. "<br/>";
                     }
                     
                     $matchDetail = [
@@ -974,7 +972,7 @@ class TemplateRepository
         $winnerPosition = collect($positionArray)->where('position', $teamPosition)->where('position_type', 'winner')->keys()->toArray();
         $looserPosition = collect($positionArray)->where('position', $teamPosition)->where('position_type', 'looser')->keys()->toArray();
 
-        $position = '';
+        $position = null;
         if(!empty($winnerPosition) && !empty($looserPosition)) {
             $position = (head($winnerPosition) + 1) . '-' .(head($looserPosition) + 1);
         }
