@@ -56,11 +56,11 @@
 
       <div class="row">
         <div v-for="(divData,index) in divFilter" class="col-md-6">
-          <h6 class="mt-2">
-            <strong><a class="text-center" href="javascript:void(0)" @click="openEditCategoryDivisionNameModal(index)">{{ index | getDivName}}<i v-if="isUserDataExist" class="jv-icon jv-edit ml-2"></i></a></strong>
+          <h6 class="mt-2 round-title">
+            <strong><a class="text-center" href="javascript:void(0)" @click="openEditCategoryDivisionNameModal(index)">{{ index | getDivName}}<i v-if="isUserDataExist" class="fas fa-pencil ml-2"></i></a></strong>
           </h6>
           <div v-for="(draw1,index1) in divData">
-            <h6 class="mt-2">
+            <h6 class="mt-4 mb-3 nested-rounds">
               <strong>{{ index1 }}</strong>
             </h6>
 
@@ -76,7 +76,7 @@
                 <tr  v-for="draw in draw1"> <!--  -->
                     <td>
                       <a class="pull-left text-left text-primary" @click.prevent="changeGroup(draw)" href=""><u>{{ draw.display_name }}</u> </a>
-                      <a v-if="isUserDataExist" href="#" @click="openEditCompetitionNameModal(draw)" class="pull-right text-primary"><i class="jv-icon jv-edit"></i></a>
+                      <a v-if="isUserDataExist" href="#" @click="openEditCompetitionNameModal(draw)" class="pull-right text-primary"><i class="fas fa-pencil"></i></a>
                     </td>
                     <td class="text-center">{{ draw.competation_type }}</td>
                     <td class="text-center">{{ draw.team_size }}</td>
@@ -253,7 +253,7 @@ export default {
       this.$store.dispatch('setCurrentScheduleViewAgeCategory','drawList')
       this.$store.dispatch('setcurrentAgeCategoryId',ageGroupId)
 
-      let tournamentData = {'ageGroupId': ageGroupId}
+      let tournamentData = {'ageGroupId': ageGroupId,'fromDrawList':1}
       Tournament.getCategoryCompetitions(tournamentData).then(
         (response) => {
 
@@ -303,19 +303,21 @@ export default {
       )
     },
     updateCategoryDivisionName() {
-      this.$validator.validateAll().then(() => {
-        let tournamentId = this.$store.state.Tournament.tournamentId
-        let ageCategoryId = this.$store.state.currentAgeCategoryId
-        let TournamentData = {'tournament_id':tournamentId, 'currentAgeCategoryId':ageCategoryId,'divisionId':this.divisionId,'categoryDivisionName': this.divisionName}
-        Tournament.updateCategoryDivisionName(TournamentData).then(
-          (response) => {
-            $('#editDivisionNameModal').modal('hide');
-            toastr.success('Division name has been update successfully.', 'Division Name', {timeOut: 5000});
-            this.showGroups(this.currentAgeCategoryId);
-          },
-          (error) => {
-          }
-        )
+      this.$validator.validateAll().then((response) => {
+        if (!this.errors.any()) {
+          let tournamentId = this.$store.state.Tournament.tournamentId
+          let ageCategoryId = this.$store.state.currentAgeCategoryId
+          let TournamentData = {'tournament_id':tournamentId, 'currentAgeCategoryId':ageCategoryId,'divisionId':this.divisionId,'categoryDivisionName': this.divisionName}
+          Tournament.updateCategoryDivisionName(TournamentData).then(
+            (response) => {
+              $('#editDivisionNameModal').modal('hide');
+              toastr.success('Division name has been update successfully.', 'Division Name', {timeOut: 5000});
+              this.showGroups(this.currentAgeCategoryId);
+            },
+            (error) => {
+            }
+          )
+        }
        }).catch(() => {
           // toastr['error']('Invalid Credentials', 'Error')
        });

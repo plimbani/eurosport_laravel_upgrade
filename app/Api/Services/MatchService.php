@@ -350,7 +350,7 @@ class MatchService implements MatchContract
       $tournamentId = $matchData->all()['matchData']['tournamentId'];
       $matchResult = null;
       $unChangedMatchScoresArray = [];
-      $isAnyMatchScoreUpdated = false;
+      $areAllMatchScoreUpdated = false;
       $matchesScoresStatusArray = [];
 
       foreach ($AllMatches as $match) {
@@ -372,17 +372,19 @@ class MatchService implements MatchContract
                               return $x==true;
                             }));
 
-      if(($changedScoresCount != count($unChangedMatchScoresArray)) || ($changedScoresCount == count($unChangedMatchScoresArray) && $changedScoresCount == 0 && count($unChangedMatchScoresArray) == 0)) {
-        $isAnyMatchScoreUpdated = true;
+      if(count($unChangedMatchScoresArray) === 0) {
+        $areAllMatchScoreUpdated = true;
       }
 
       foreach ($competitionIds as $ageGroupId => $cids) {
-        $lowerCompetitionId = min(array_unique($cids));
+        // $lowerCompetitionId = min(array_unique($cids));
         // $allCompetitionsIds = Competition::where('tournament_id', '=', $tournamentId)->where('tournament_competation_template_id', '=', $ageGroupId)->where('id', '>=', $lowerCompetitionId)->pluck('id')->toArray();
-          // foreach ($allCompetitionsIds as $id) {
-            $data = ['tournamentId' => $tournamentId, 'competitionId' => $lowerCompetitionId];
+        $allCompetitionsIds = array_unique($cids);
+        sort($allCompetitionsIds);
+        foreach ($allCompetitionsIds as $id) {
+            $data = ['tournamentId' => $tournamentId, 'competitionId' => $id];
             $this->refreshCompetitionStandings($data);
-          // }
+        }
       }
       foreach ($teamArray as $ageGroupId => $teamsList) {
         $teamsList = array_unique($teamsList);
@@ -390,7 +392,7 @@ class MatchService implements MatchContract
         $matchresult =  $this->matchRepoObj->checkTeamIntervalforMatches($matchData);
       }
       if ($matchResult) {
-        return ['status_code' => '200', 'data' => $matchResult, 'unChangedScores' => $unChangedMatchScoresArray, 'isAnyMatchScoreUpdated' => $isAnyMatchScoreUpdated];
+        return ['status_code' => '200', 'data' => $matchResult, 'unChangedScores' => $unChangedMatchScoresArray, 'areAllMatchScoreUpdated' => $areAllMatchScoreUpdated];
       } else {
           return ['status_code' => '300'];
       }
@@ -943,7 +945,7 @@ class MatchService implements MatchContract
       $firstCompetition = Competition::where('tournament_competation_template_id', $ageCategoryId)->orderBy('id')->first();
       $groupFixture = DB::table('temp_fixtures')->select('temp_fixtures.*')->where('tournament_id','=',$data['tournamentId'])->where('competition_id',$data['competitionId'])->get();
 
-      if($firstCompetition->id != $data['competitionId'] && $competition->actual_competition_type === 'Round Robin') {
+      if($competition->actual_competition_type === 'Round Robin') {
         $findTeams = [];
         foreach ($groupFixture as $key => $value) {
           if($value->home_team == 0 || $value->away_team == 0) {
@@ -956,7 +958,7 @@ class MatchService implements MatchContract
         if(count($findTeams) > 0) {
           $findTeams = array_unique($findTeams);
           $this->moveMatchStandings($data['tournamentId'], $ageCategoryId, $data['competitionId']);
-          $this->generateStandingsForCompetitions($data['tournamentId'], $data['competitionId'], $ageCategoryId, $findTeams, 'Round Robin');
+          $this->generateStandingsForCompetitions($data['tournamentId'], $data['competitionId'], $ageCategoryId, $findTeams, 'Round Robin', false);
           $this->updateCategoryPositions($data['competitionId'], $ageCategoryId);
         }
       }
@@ -1636,11 +1638,14 @@ class MatchService implements MatchContract
     }
 
     public function saveStandingsManually($request) {
-        $this->matchRepoObj->saveStandingsManually($request->all()['data']);
+        $data = $request->all()['data'];
+        $this->matchRepoObj->saveStandingsManually($data);
+        $data = ['tournamentId' => $data['tournament_id'], 'competitionId' => $data['competitionId']];
+        $this->refreshCompetitionStandings($data);
         return ['status_code' => '200', 'message' => 'Ranking has been updated successfully.'];
     }
 
-    public function generateStandingsForCompetitions($tournamentId, $cup_competition_id, $ageCategoryId, $findTeams, $competitionType) {
+    public function generateStandingsForCompetitions($tournamentId, $cup_competition_id, $ageCategoryId, $findTeams, $competitionType, $assignTeamsToFurtherRounds = true) {
       $matches = DB::table('temp_fixtures')
                 ->where('tournament_id','=',$tournamentId)
                 ->where('competition_id','=',$cup_competition_id)
@@ -1856,7 +1861,9 @@ class MatchService implements MatchContract
         }
       }
 
-      $this->TeamPMAssignKp($cup_competition_id);
+      if($assignTeamsToFurtherRounds) {
+        $this->TeamPMAssignKp($cup_competition_id);
+      }
     }
 
     public function processMatch($data, $match)

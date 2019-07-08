@@ -41,6 +41,7 @@ class UserRepository {
 
     public function getUsersByRegisterType($data)
     {
+        ini_set('memory_limit','256M');
         $user = User::join('role_user', 'users.id', '=', 'role_user.user_id')
                 ->leftjoin('roles', 'roles.id', '=', 'role_user.role_id')
                 ->leftjoin('people', 'people.id', '=', 'users.person_id')

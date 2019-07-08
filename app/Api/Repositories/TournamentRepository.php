@@ -685,7 +685,14 @@ class TournamentRepository
         if (isset($data['competationRoundNo'])) {
             $categoryCompetitions = $categoryCompetitions->where('competation_round_no', $data['competationRoundNo']);
         }
-        $categoryCompetitions = $categoryCompetitions->get()->toArray();
+        $categoryCompetitions = $categoryCompetitions->get();
+
+        if ( !isset($data['fromDrawList']))
+        {
+            return $categoryCompetitions;
+        }
+
+        $categoryCompetitions = $categoryCompetitions->toArray();
         $divisionsData = [];
         $data = [];
         foreach ($categoryCompetitions as $key => $value) {
