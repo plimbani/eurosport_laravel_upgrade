@@ -45,7 +45,7 @@ module.exports= {
     'age_category': 'Age category',
     'placings': 'Placings',
     'view_placings': 'View placings',
-    'final_placings': 'Final placings',
+    'final_placings': 'Final Placings',
     'close': 'Close',
     'placing': 'Placing',
     'cancel': 'Cancel',
