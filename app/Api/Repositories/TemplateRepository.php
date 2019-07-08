@@ -248,11 +248,11 @@ class TemplateRepository
         }
 
         $averageMatches = $this->getAverageMatches($totalMatches, $totalTeams);
-        $minimumMatches = $this->getMinimumMatches($templateFormDetail);
+        // $minimumMatches = $this->getMinimumMatches($templateFormDetail);
         $positionType = $this->getPositionType($tournamentsPositionsData);
 
         $finalArray['total_matches'] = $totalMatches;
-        $finalArray['tournament_min_match'] = $minimumMatches;
+        // $finalArray['tournament_min_match'] = $minimumMatches;
         $finalArray['avg_game_team'] = $averageMatches;
         $finalArray['position_type'] = $positionType;
         $finalArray['tournament_positions'] = $tournamentsPositionsData;
@@ -298,7 +298,7 @@ class TemplateRepository
         $tournamentTemplate->name = $data['templateFormDetail']['stepone']['templateName'];
         $tournamentTemplate->graphic_image = $graphicImageName;
         $tournamentTemplate->total_teams = $data['templateFormDetail']['stepone']['no_of_teams'];
-        $tournamentTemplate->minimum_matches = $decodedJson['tournament_min_match'];
+        $tournamentTemplate->minimum_matches = $data['templateFormDetail']['stepone']['minimum_match'];
         $tournamentTemplate->position_type = $decodedJson['position_type'];
         $tournamentTemplate->avg_matches = $decodedJson['avg_game_team'];
         $tournamentTemplate->total_matches = $decodedJson['total_matches'];
@@ -331,7 +331,7 @@ class TemplateRepository
         $tournamentTemplate->name = $data['templateFormDetail']['stepone']['templateName'];
         $tournamentTemplate->graphic_image = $graphicImageName;
         $tournamentTemplate->total_teams = $data['templateFormDetail']['stepone']['no_of_teams'];
-        $tournamentTemplate->minimum_matches = $decodedJson['tournament_min_match'];
+        $tournamentTemplate->minimum_matches = $data['templateFormDetail']['stepone']['minimum_match'];
         $tournamentTemplate->position_type = $decodedJson['position_type'];
         $tournamentTemplate->avg_matches = $decodedJson['avg_game_team'];
         $tournamentTemplate->total_matches = $decodedJson['total_matches'];
@@ -485,32 +485,32 @@ class TemplateRepository
        return round($averageMatches, 1);
     }
 
-    public function getMinimumMatches($templateFormDetail)
-    {
-        $minGames = 0;
-        $rounds = $templateFormDetail['steptwo']['rounds'];
-        $totalTeams = $templateFormDetail['stepone']['no_of_teams'];
+    // public function getMinimumMatches($templateFormDetail)
+    // {
+    //     $minGames = 0;
+    //     $rounds = $templateFormDetail['steptwo']['rounds'];
+    //     $totalTeams = $templateFormDetail['stepone']['no_of_teams'];
 
-        foreach ($rounds as $roundIndex => $round) {
-            $nGames = [];
-            if($round['no_of_teams'] < $totalTeams) {
-                break;
-            } else {
-                foreach ($round['groups'] as $groupIndex => $group) {
-                    if($group['type'] == 'round_robin') {
-                        $nGames[] = $this->getNumberOfTimesFromString($group['teams_play_each_other']) * ($group['no_of_teams'] - 1);
-                    }
-                    if($group['type'] == 'placing_match') {
-                        $nGames[] = 1;
-                    }
-                }
-            }
-            $minGames += min($nGames);
-        }
-        $minimumMatches = $minGames;
+    //     foreach ($rounds as $roundIndex => $round) {
+    //         $nGames = [];
+    //         if($round['no_of_teams'] < $totalTeams) {
+    //             break;
+    //         } else {
+    //             foreach ($round['groups'] as $groupIndex => $group) {
+    //                 if($group['type'] == 'round_robin') {
+    //                     $nGames[] = $this->getNumberOfTimesFromString($group['teams_play_each_other']) * ($group['no_of_teams'] - 1);
+    //                 }
+    //                 if($group['type'] == 'placing_match') {
+    //                     $nGames[] = 1;
+    //                 }
+    //             }
+    //         }
+    //         $minGames += min($nGames);
+    //     }
+    //     $minimumMatches = $minGames;
 
-        return $minimumMatches;
-    }
+    //     return $minimumMatches;
+    // }
 
     public function getPositionType($positions)
     {
