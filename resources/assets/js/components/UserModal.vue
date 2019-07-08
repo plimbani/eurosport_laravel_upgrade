@@ -9,83 +9,107 @@
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
-            <div class="modal-body">
-                <div class="form-group row" :class="{'has-error': errors.has('name') }">
-                  <label class="col-sm-5 form-control-label">{{$lang.user_management_add_name}}</label>
+            <div v-if="isNormalUserFields"> 
+              <div class="modal-body">
+                  <div class="form-group row" :class="{'has-error': errors.has('name') }">
+                    <label class="col-sm-5 form-control-label">{{$lang.user_management_add_name}}</label>
+                    <div class="col-sm-6">
+                        <input v-model="formValues.name" v-validate="'required|alpha_spaces'"
+                        :class="{'is-danger': errors.has('name') }"
+                        name="name" type="text"
+                        class="form-control" placeholder="Enter first name">
+                        <i v-show="errors.has('name')" class="fas fa-warning"></i>
+                        <span class="help is-danger" v-show="errors.has('name')">{{ errors.first('name') }}
+                        </span>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                      <label class="col-sm-5 form-control-label">{{$lang.user_management_add_surname}}</label>
+                      <div class="col-sm-6">
+                          <input v-model="formValues.surname" v-validate="'required|alpha_spaces'" :class="{'is-danger': errors.has('surname') }" name="surname" type="text" class="form-control" placeholder="Enter second name">
+                          <i v-show="errors.has('surname')" class="fas fa-warning"></i>
+                          <span class="help is-danger" v-show="errors.has('surname')">{{ errors.first('surname') }}</span>
+                      </div>
+                  </div>
+                  <div class="form-group row">
+                      <label class="col-sm-5 form-control-label">{{$lang.user_management_email}}</label>
+                      <div class="col-sm-6">
+                          <input v-model="formValues.emailAddress" v-validate="'required|email'" :class="{'is-danger': errors.has('email_address') }" name="email_address" type="email" class="form-control" placeholder="Enter email address">
+                          <i v-show="errors.has('email_address')" class="fas fa-warning"></i>
+                          <span class="help is-danger" v-show="errors.has('email_address')">{{$lang.user_management_email_required}}</span>
+                         <span class="help is-danger" v-if="existEmail == true">Email already exist</span>
+                      </div>
+                  </div>
+                  <div class="form-group row">
+                      <label class="col-sm-5 form-control-label">{{$lang.user_management_user_type}}</label>
+                      <div class="col-sm-6">
+                        <select v-validate="'required'":class="{'is-danger': errors.has('user_type') }" class="form-control ls-select2" name="user_type" v-model="formValues.userType" @change="userTypeChanged()" :disabled="formValues.provider == 'facebook'">
+                          <option value="">Select</option>
+                          <option v-for="role in userRolesOptions" v-bind:value="role.id" v-if="(!(isMasterAdmin == true && role.slug == 'Super.administrator'))">
+                              {{ role.name }}
+                          </option>
+                        </select>
+                        <span class="help is-danger" v-show="errors.has('user_type')">{{$lang.user_management_user_type_required}}</span>
+                      </div>
+                  </div>
+                  <div class="form-group row" v-show="showOrganisation">
+                      <label class="col-sm-5 form-control-label">{{$lang.user_management_organisation}}</label>
+                      <div class="col-sm-6">
+                          <input v-model="formValues.organisation" v-validate="{ rules: { required: showOrganisation } }" :class="{'is-danger': errors.has('organisation') }" name="organisation" type="text" class="form-control" placeholder="Enter organisation name">
+                          <i v-show="errors.has('organisation')" class="fas fa-warning"></i>
+                          <span class="help is-danger" v-show="errors.has('organisation')">{{$lang.user_management_organisation_required}}</span>
+                      </div>
+                  </div>
+                  <div class="form-group row">
+                      <label class="col-sm-5 form-control-label">{{$lang.user_management_role}}</label>
+                      <div class="col-sm-6">
+                        <select class="form-control ls-select2" name="role" v-model="formValues.role">
+                            <option value="">Select</option>
+                            <option v-for="role in roleOptions" :value="role">
+                              {{ role }}
+                            </option>
+                        </select>
+                      </div>
+                  </div>
+                  <div class="form-group row">
+                      <label class="col-sm-5 form-control-label">{{$lang.user_management_default_app_tournament}}</label>
+                      <div class="col-sm-6">
+                        <select v-validate="'required'":class="{'is-danger': errors.has('tournament_id') }" class="form-control ls-select2" name="tournament_id" v-model="formValues.tournament_id">
+                          <option value="">Select</option>
+                          <option v-for="tournament in publishedTournaments" v-bind:value="tournament.id">
+                              {{ tournament.name }}
+                          </option>
+                        </select>
+                        <span class="help is-danger" v-show="errors.has('tournament_id')">{{$lang.user_management_default_app_tournament_required}}</span>
+                      </div>
+                  </div>
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-danger" data-dismiss="modal">{{$lang.user_management_user_cancle}}</button>
+                  <button type="button" class="btn btn-primary" @click="validateBeforeSubmit1()">{{$lang.user_management_user_save}}</button>
+              </div>
+            </div>
+            <div v-else>
+              <div class="modal-body">
+                <div class="form-group row">
+                  <label class="col-sm-5 form-control-label">{{$lang.user_management_email}}</label>
                   <div class="col-sm-6">
-                      <input v-model="formValues.name" v-validate="'required|alpha_spaces'"
-                      :class="{'is-danger': errors.has('name') }"
-                      name="name" type="text"
-                      class="form-control" placeholder="Enter first name">
-                      <i v-show="errors.has('name')" class="fas fa-warning"></i>
-                      <span class="help is-danger" v-show="errors.has('name')">{{ errors.first('name') }}
-                      </span>
+                      <input v-model="result_admin_email" v-validate="'required|email'" :class="{'is-danger': errors.has('result_admin_email') }" name="result_admin_email" type="email" class="form-control" placeholder="Enter email address">
+                      <i v-show="errors.has('result_admin_email')" class="fas fa-warning"></i>
+                      <span class="help is-danger" v-show="errors.has('result_admin_email')">{{$lang.user_management_email_required}}</span>
+                     <span class="help is-danger" v-if="existEmail == true">Email already exist</span>
                   </div>
                 </div>
-                <div class="form-group row">
-                    <label class="col-sm-5 form-control-label">{{$lang.user_management_add_surname}}</label>
-                    <div class="col-sm-6">
-                        <input v-model="formValues.surname" v-validate="'required|alpha_spaces'" :class="{'is-danger': errors.has('surname') }" name="surname" type="text" class="form-control" placeholder="Enter second name">
-                        <i v-show="errors.has('surname')" class="fas fa-warning"></i>
-                        <span class="help is-danger" v-show="errors.has('surname')">{{ errors.first('surname') }}</span>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-sm-5 form-control-label">{{$lang.user_management_email}}</label>
-                    <div class="col-sm-6">
-                        <input v-model="formValues.emailAddress" v-validate="'required|email'" :class="{'is-danger': errors.has('email_address') }" name="email_address" type="email" class="form-control" placeholder="Enter email address">
-                        <i v-show="errors.has('email_address')" class="fas fa-warning"></i>
-                        <span class="help is-danger" v-show="errors.has('email_address')">{{$lang.user_management_email_required}}</span>
-                       <span class="help is-danger" v-if="existEmail == true">Email already exist</span>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-sm-5 form-control-label">{{$lang.user_management_user_type}}</label>
-                    <div class="col-sm-6">
-                      <select v-validate="'required'":class="{'is-danger': errors.has('user_type') }" class="form-control ls-select2" name="user_type" v-model="formValues.userType" @change="userTypeChanged()" :disabled="formValues.provider == 'facebook'">
-                        <option value="">Select</option>
-                        <option v-for="role in userRolesOptions" v-bind:value="role.id" v-if="(!(isMasterAdmin == true && role.slug == 'Super.administrator'))">
-                            {{ role.name }}
-                        </option>
-                      </select>
-                      <span class="help is-danger" v-show="errors.has('user_type')">{{$lang.user_management_user_type_required}}</span>
-                    </div>
-                </div>
-                <div class="form-group row" v-show="showOrganisation">
-                    <label class="col-sm-5 form-control-label">{{$lang.user_management_organisation}}</label>
-                    <div class="col-sm-6">
-                        <input v-model="formValues.organisation" v-validate="{ rules: { required: showOrganisation } }" :class="{'is-danger': errors.has('organisation') }" name="organisation" type="text" class="form-control" placeholder="Enter organisation name">
-                        <i v-show="errors.has('organisation')" class="fas fa-warning"></i>
-                        <span class="help is-danger" v-show="errors.has('organisation')">{{$lang.user_management_organisation_required}}</span>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-sm-5 form-control-label">{{$lang.user_management_role}}</label>
-                    <div class="col-sm-6">
-                      <select class="form-control ls-select2" name="role" v-model="formValues.role">
-                          <option value="">Select</option>
-                          <option v-for="role in roleOptions" :value="role">
-                            {{ role }}
-                          </option>
-                      </select>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-sm-5 form-control-label">{{$lang.user_management_default_app_tournament}}</label>
-                    <div class="col-sm-6">
-                      <select v-validate="'required'":class="{'is-danger': errors.has('tournament_id') }" class="form-control ls-select2" name="tournament_id" v-model="formValues.tournament_id">
-                        <option value="">Select</option>
-                        <option v-for="tournament in publishedTournaments" v-bind:value="tournament.id">
-                            {{ tournament.name }}
-                        </option>
-                      </select>
-                      <span class="help is-danger" v-show="errors.has('tournament_id')">{{$lang.user_management_default_app_tournament_required}}</span>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
+                <div class="form-group row" v-if="isUserExists">
+                  <div class="col-sm-12">
+                    <p class="text-danger">This user already exists but cannot be added a results administrator. Please contact your super administrator for assistance.</p>
+                  </div>
+                </div>                
+              </div>
+              <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">{{$lang.user_management_user_cancle}}</button>
-                <button type="button" class="btn btn-primary" @click="validateBeforeSubmit1()">{{$lang.user_management_user_save}}</button>
+                <button type="button" class="btn btn-primary" @click="verifyResultAdminUser()">{{$lang.user_management_user_save}}</button>
+              </div>              
             </div>
         </form>
       </div>
@@ -122,6 +146,10 @@ import { ErrorBag } from 'vee-validate';
                 showOrganisation: false,
                 initialUserType: null,
                 roleOptions: ['Player', 'Coach/Manager/Trainer', 'Other'],
+
+                result_admin_email: '',
+                isUserExists: false,
+                normalUserFields: false,
               
                 errorMessages: {
                   en: {
@@ -151,6 +179,17 @@ import { ErrorBag } from 'vee-validate';
                 }
             }
         },
+        computed: {
+          userDetails() {
+            return this.$store.state.Users.userDetails;
+          },
+          isNormalUserFields() {
+            if((this.userDetails.role_slug != 'tournament.administrator') || (this.isUserExists == false && this.normalUserFields == true) ) {
+              return true;
+            }
+            return false;
+          },
+        },
         created() {
           this.$root.$on('privilegeChangeConfirmed', this.updateUser);
         },
@@ -172,7 +211,7 @@ import { ErrorBag } from 'vee-validate';
                 this.formValues.userType= '',
                 this.formValues.resendEmail= ''
             },
-           editUser(id) {
+            editUser(id) {
                 //TODO: refactor the Code For Move to Api User
                 User.getEditUser(id).then(
                   (response)=> {
@@ -192,7 +231,7 @@ import { ErrorBag } from 'vee-validate';
               var reader = new FileReader();
               var vm = this;
 
-            reader.onload = (e) => {
+              reader.onload = (e) => {
                 vm.image = e.target.result;
               };
               reader.readAsDataURL(file);
@@ -298,6 +337,26 @@ import { ErrorBag } from 'vee-validate';
                   }
                 )
             },
+            verifyResultAdminUser() {
+              this.$validator.validateAll().then((response) => {
+                if(response) {
+                  let data = {'email': this.result_admin_email};
+                  User.verifyResultAdminUser(data).then(
+                    (response)=> {
+                      if(response.data.emailExists) {
+                        this.isUserExists = true;
+                        this.normalUserFields = false;
+                      } else {
+                        this.isUserExists = false;
+                        this.normalUserFields = true;
+                      }
+                    },
+                    (error)=>{
+                    }
+                  )
+                }
+              }).catch((errors) => {});
+            }
         }
     }
 </script>

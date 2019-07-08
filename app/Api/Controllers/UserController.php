@@ -324,4 +324,9 @@ class UserController extends BaseController
     public function validateUserEmail(Request $request) {
       return $this->userObj->validateUserEmail($request->all());
     }
+
+    public function verifyResultAdminUser(Request $request)
+    {
+      return $this->userObj->verifyResultAdminUser($request->all());
+    }
 }

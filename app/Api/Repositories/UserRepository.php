@@ -7,11 +7,15 @@ use Laraspace\Models\Role;
 use Laraspace\Models\UserFavourites;
 use Laraspace\Models\Settings;
 use Laraspace\Models\Country;
+use Laraspace\Models\TournamentUser;
 use DB;
 use Hash;
 use Illuminate\Pagination\Paginator;
+use Laraspace\Traits\AuthUserDetail;
 
 class UserRepository {
+
+    use AuthUserDetail;
 
     public function __construct()
     {
@@ -42,10 +46,28 @@ class UserRepository {
     public function getUsersByRegisterType($data)
     {
         ini_set('memory_limit','256M');
+        $loggedInUser = $this->getCurrentLoggedInUserDetail();
+        $tournamentIds = $loggedInUser->tournaments->pluck('id')->toArray();
+
         $user = User::join('role_user', 'users.id', '=', 'role_user.user_id')
                 ->leftjoin('roles', 'roles.id', '=', 'role_user.role_id')
                 ->leftjoin('people', 'people.id', '=', 'users.person_id')
                 ->leftjoin('countries', 'countries.id', '=', 'users.country_id');
+
+
+        if($loggedInUser->hasRole('tournament.administrator')) {
+          $tournamentUserIds = TournamentUser::join('role_user', 'tournament_user.user_id', '=', 'role_user.user_id')
+                                              ->join('roles', 'roles.id', '=', 'role_user.role_id')
+                                              ->whereIn('tournament_id', $tournamentIds)
+                                              ->where('tournament_user.user_id', '!=', $loggedInUser->id)
+                                              ->where('slug', 'Results.administrator')
+                                              ->select('tournament_user.*', 'roles.name', 'roles.slug')
+                                              ->groupBy('user_id')
+                                              ->pluck('user_id')
+                                              ->toArray();
+
+          $user = $user->whereIn('users.id', $tournamentUserIds);
+        }
 
         if(isset($data['userData']) && $data['userData'] !== '') {
             $user = $user->where(function($query) use($data) {
@@ -309,5 +331,18 @@ class UserRepository {
         return ['status_code' => 200, 'emailexists' => true];
       }
       return ['status_code' => 200, 'emailexists' => false];
+    }
+
+    public function verifyResultAdminUser($data)
+    {
+      $user = User::where('email', $data['email'])->first();
+
+      if($user) {
+        if($user->roles()->first()->slug != 'Results.administrator') {
+          return ['status_code'=> 200, 'emailExists' => true];
+        }
+      } else {
+        return ['status_code'=> 200, 'emailExists' => false];
+      }
     }
 }
