@@ -22,7 +22,7 @@
 		            <div class="col-md-6" v-if="groupData.type == 'round_robin'">
 		                <div class="form-group mb-0">
 		                    <label>Teams play each other</label>
-		                    <select class="form-control ls-select2" v-model="groupData.teams_play_each_other" @change="setMatches()">
+		                    <select class="form-control ls-select2" v-model="groupData.teams_play_each_other" @change="setMatches('teams_play_each_other_change')">
 		                        <option value="once">Once</option>
 		                        <option value="twice">Twice</option>
 		                        <option value="three_times">Three times</option>
@@ -61,7 +61,7 @@
 				        			<div class="col-md-4">
 				        				<div class="form-group mb-0">
 					        				<select :disabled="( (roundIndex === 0 && groupData.type === 'placing_match' && index === getFirstPlacingMatch()) || (roundIndex === 0 && divisionIndex !== -1) ) " class="form-control ls-select2" v-model="team.group" @change="onGroupChange(teamIndex)">
-					                    		<option v-for="group in getGroupsForSelection(teamIndex)" :value="group.value">{{ group.name }}</option>
+					                    		<option v-for="group in getGroupsForSelection(teamIndex, groupData.type)" :value="group.value">{{ group.name }}</option>
 					                    	</select>
 					                    </div>
 				        			</div>
@@ -77,6 +77,11 @@
 				        </div>
 				    </div>
 		        </div>
+		        <!-- <div class="row mt-3" v-if="groupData.type === 'placing_match' && !(roundIndex === 0 && index === getFirstPlacingMatch())">
+					<div class="col-md-12">
+						<button type="button" class="btn btn-primary" @click="addNewMatch()"><small><i class="jv-icon jv-plus"></i></small> Add match</button>
+					</div>
+		        </div> -->
 		    </div>
 	    </div>
     </div>
@@ -136,20 +141,24 @@
                 this.$root.$emit('updatePositions');
         	},
         	displayTeams() {
-        		var i;
-        		var oldGroupTeamData = _.cloneDeep(this.groupData.teams);
+        		let i;
+        		let oldGroupMatchesData = _.cloneDeep(this.groupData.matches);
+        		let oldGroupTeamData = _.cloneDeep(this.groupData.teams);
+        		let manualMatchAdded = _.filter(oldGroupMatchesData, function(o) { return (typeof o.is_manual_match_add !== 'undefined' && o.is_manual_match_add === true); });
 				this.groupData.teams = [];
 				this.groupData.matches = [];
 				let vm = this;
 				for (i = 0; i < this.groupData.no_of_teams; i++) {
-					if(vm.groupData.type === 'placing_match' && (i%2) === 0) {
+					if(_.has(oldGroupMatchesData, i)) {
+						vm.groupData.matches.push(oldGroupMatchesData[i]);
+					} else if(vm.groupData.type === 'placing_match' && (i%2) === 0) {
 						vm.groupData.matches.push({is_final: false});
 					}
 					if(_.has(oldGroupTeamData, i)) {
 						this.groupData.teams.push({position_type: oldGroupTeamData[i].position_type, group: oldGroupTeamData[i].group, position: oldGroupTeamData[i].position});
 						continue;
 					}
-					if(this.roundIndex === 0 && ((this.groupData.type === 'placing_match' && this.index ===this.getFirstPlacingMatch()) || this.divisionIndex !== -1)) {
+					if(this.roundIndex === 0 && ((this.groupData.type === 'placing_match' && this.index === this.getFirstPlacingMatch()) || this.divisionIndex !== -1)) {
 						this.groupData.teams.push({	position_type: 'team', group: '', position: i});
 						continue;
 					}
@@ -159,9 +168,17 @@
 					}
 				    this.groupData.teams.push({position_type: 'placed', group: '', position: ''});
 				}
+
+				_.forEach(manualMatchAdded, function(match, matchIndex) {
+					vm.groupData.matches.push(match);
+					let teamIndex = matchIndex * 2;
+					vm.groupData.teams.push({position_type: oldGroupTeamData[teamIndex].position_type, group: oldGroupTeamData[teamIndex].group, position: oldGroupTeamData[teamIndex].position});
+					vm.groupData.teams.push({position_type: oldGroupTeamData[teamIndex + 1].position_type, group: oldGroupTeamData[teamIndex + 1].group, position: oldGroupTeamData[teamIndex + 1].position});
+				});
+
 				Vue.nextTick()
 					.then(function () {
-						vm.setMatches();	
+						vm.setMatches('no_of_team_change');	
 					});
         	},
 			getSuffixForPosition(d) {
@@ -177,7 +194,7 @@
 		    	let vm = this;
 		    	Vue.nextTick()
 					.then(function () {
-						vm.setMatches();
+						vm.setMatches('assign_position');
 					});
 		    },
 		    onChangeGroupType() {
@@ -187,15 +204,21 @@
 		    	this.updateTeamPositions();
 		    	Vue.nextTick()
 					.then(function () {
-						vm.setMatches();	
+						vm.setMatches('group_type_change');	
 					});
 		    },
-		    getGroupsForSelection(teamIndex) {
+		    getGroupsForSelection(teamIndex, type) {
 		    	let team = this.groupData.teams[teamIndex];
         		let groupsForSelection = [];
         		let roundRobinIndex = 0;
         		let placingMatchIndex = 0;
                 let vm = this;
+                let isManualMatchAdd = false;
+
+                if(type === 'placing_match') {
+                	let match = this.groupData.matches[parseInt(teamIndex/2)];
+                	isManualMatchAdd = (typeof match !== 'undefined' && 'is_manual_match_add' in match) ? match.is_manual_match_add : false;
+                }
 
                 if(this.divisionIndex !== -1 && this.roundIndex === 0) {
                 	return groupsForSelection;
@@ -204,7 +227,12 @@
                 if(this.divisionIndex === -1){
 	        		_.forEach(this.templateFormDetail['steptwo'].rounds, function(round, roundIndex) {
 						_.forEach(round.groups, function(group, groupIndex) {
-							if(roundIndex === vm.roundIndex && groupIndex >= vm.index) return false;
+							console.log('isManualMatchAdd', isManualMatchAdd + ' ' + roundIndex + ' ' + groupIndex);
+							if(isManualMatchAdd) {
+								if(roundIndex === vm.roundIndex && groupIndex > vm.index) return false;
+							} else {
+								if(roundIndex === vm.roundIndex && groupIndex >= vm.index) return false;
+							}
 
 							let roundData = vm.templateFormDetail['steptwo'].rounds[roundIndex];
 							if(group.type === 'round_robin' && team.position_type === 'placed') {
@@ -230,7 +258,11 @@
 								return true;
 							}
 						});
-						if(roundIndex >= vm.roundIndex) return false;
+						if(isManualMatchAdd) {
+							if(roundIndex > vm.roundIndex) return false;
+						} else {
+							if(roundIndex >= vm.roundIndex) return false;
+						}
 					});
 				}
 
@@ -242,7 +274,11 @@
 					let division = this.templateFormDetail['steptwo'].divisions[this.divisionIndex];
 					_.forEach(division.rounds, function(round, roundIndex) {
 						_.forEach(round.groups, function(group, groupIndex) {
-							if(roundIndex === vm.roundIndex && groupIndex >= vm.index) return false;
+							if(isManualMatchAdd) {
+								if(roundIndex === vm.roundIndex && groupIndex > vm.index) return false;
+							} else {
+								if(roundIndex === vm.roundIndex && groupIndex >= vm.index) return false;
+							}
 
 							let roundData = vm.templateFormDetail['steptwo'].divisions[vm.divisionIndex].rounds[roundIndex];
 							if(group.type === 'round_robin' && team.position_type === 'placed') {
@@ -268,10 +304,14 @@
 								return true;
 							}
 						});
-						if(roundIndex >= vm.roundIndex) return false;
+						if(isManualMatchAdd) {
+							if(roundIndex > vm.roundIndex) return false;
+						} else {
+							if(roundIndex >= vm.roundIndex) return false;
+						}
 					});
 				}
-
+				console.log('groupsForSelection', groupsForSelection);
 				return groupsForSelection;
 		    },
 		    getPositionsForSelection(teamIndex, group) {
@@ -324,7 +364,7 @@
 
 			    	if(groupData) {
 				    	var teams = groupData.teams;
-				    	var numberOfTeams = groupData.no_of_teams;
+				    	var numberOfTeams = teams.length;
 				    	var groupType = groupData.type;
 				    	
 					    // for round robin
@@ -344,7 +384,9 @@
 								this.groupData.teams[teamIndex].position = group + ',0';
 							}
 							for (var i = 1; i <= matches; i++) {
-								positionsForSelection.push({'name': 'Match' + i, 'value': group + ',' + (i - 1)});
+								if( ((i-1)*2) < teamIndex ) {
+									positionsForSelection.push({'name': 'Match' + i, 'value': group + ',' + (i - 1)});
+								}
 							}
 						}
 					}
@@ -358,7 +400,7 @@
 		    	this.groupData.teams[teamIndex].position = '';
 		    	Vue.nextTick()
 					.then(function () {
-						vm.setMatches();
+						vm.setMatches('position_type_change');
 					});
 		    },
 		    onGroupChange(teamIndex) {
@@ -366,7 +408,7 @@
 		    	this.groupData.teams[teamIndex].position = '';
 		    	Vue.nextTick()
 					.then(function () {
-						vm.setMatches();
+						vm.setMatches('group_change');
 					});
 		    },
 		    getPositionTypes() {
@@ -413,7 +455,7 @@
 		    	let index = _.findIndex(this.roundData.groups, {'type': 'placing_match'});
 		    	return index;
 		    },
-		    setMatches() {
+		    setMatches(change) {
 		    	let vm = this;
 
         		let groupData = this.groupData;
@@ -427,195 +469,90 @@
 		    	}
 
 		    	let matchCount = 1;
-		   //  	if(this.roundIndex === 0 && groupData.type === 'placing_match' && this.index === this.getFirstPlacingMatch()) {
-		   //  		for(var i=1; i<=noOfTeams; i=i+2) {
-		   //  			let home = i;
-		   //  			let away = i + 1;
-		   //  			let inBetween =  home + "-" + away;
-					// 	let matchNumber = "CAT.PM" + (this.roundIndex+1) + ".G" + matchCount + "." + home + "-" + away;
-					// 	let displayMatchNumber = "CAT." + (this.roundIndex+1) + "." + matchCount + ".@HOME-@AWAY";
-					// 	let displayHomeTeamPlaceholderName = home;
-					// 	let displayAwayTeamPlaceholderName = away;
 
-					// 	vm.groupData.matches.push({
-					// 		in_between: inBetween,
-					// 		match_number: matchNumber,
-					// 		display_match_number: displayMatchNumber,
-					// 		display_home_team_placeholder_name: displayHomeTeamPlaceholderName,
-					// 		display_away_team_placeholder_name: displayAwayTeamPlaceholderName,
-					// 	});
-					// 	matchCount++;
-		   //  		}
-		   //  	}
+		    	if(change === 'no_of_team_change' || change === 'group_type_change') {
+		    		_.forEach(_.cloneDeep(this.groupData.matches), function(match, matchIndex) {
+			    		if(typeof match.is_manual_match_add !== 'undefined' && match.is_manual_match_add === true) {
+			    			vm.groupData.matches.splice(matchIndex, 1);
+				    		vm.groupData.teams.splice((matchIndex*2), 1);
+				    		vm.groupData.teams.splice((matchIndex*2), 1);
+			    		}
+			    	});
+		    	}
 
-		   //  	if(this.roundIndex === 0 && groupData.type === 'placing_match' && this.index !== this.getFirstPlacingMatch()) {
-		   //  		let teams = groupData.teams;
-		    		
-		   //  		let totalPlacingMatches = 0;
-		   //  		let allPlacingMatches = [];
-		   //  		let prevPlacingMatchesCount = 0;
+		    	var oldGroupMatchesData = _.cloneDeep(this.groupData.matches);
 
-		   //  		_.forEach(_.cloneDeep(this.roundData.groups), function(o, index) {
-					// 	if(o.type === 'placing_match' && index < vm.index) {
-					// 		totalPlacingMatches += o.matches.length;
-					// 		allPlacingMatches = allPlacingMatches.concat(o.matches);
-					// 	}
-					// 	if((index+1) < vm.index) {
-					// 		prevPlacingMatchesCount += o.matches.length;
-					// 	}
-					// });
+		    	this.groupData.matches = [];
+		  		
+    			// if(groupData.type == "round_robin" && this.roundIndex != 0) {
+	    		// 	for(var i=0; i<totalTimes; i++){
+	    		// 		for(var j=1; j<=noOfTeams; j++) {
+	    		// 			for(var k=(j+1); k<=noOfTeams; k++) {
+	    		// 				let inBetween = null;
+	    		// 				let matchNumber = null;
+	    		// 				let displayMatchNumber = null;
+	    		// 				let displayHomeTeamPlaceholderName = null;
+	    		// 				let displayAwayTeamPlaceholderName = null;
+	    		// 				if(this.divisionIndex === -1) {
+	    		// 					let team1 = groupData.teams[j-1];
+		    	// 					let team2 = groupData.teams[k-1];
+	    		// 					/*if(this.roundIndex == 0 && groupData.type == "round_robin") {
+	    		// 						let home = groupName + j;
+	    		// 						let away = groupName + k;
+		    	// 						inBetween = j + '-' + k;
+		    	// 						matchNumber = "CAT.RR" + (this.roundIndex+1) + ".0" + matchCount + "." + home + "-" + away;
+		    	// 						displayMatchNumber = "CAT." + (this.roundIndex+1) + "." + matchCount + ".@HOME-@AWAY";
+		    	// 						displayHomeTeamPlaceholderName = home;
+		    	// 						displayAwayTeamPlaceholderName = away;
+		    	// 					} else {*/
+		    	// 						let divisionRoundGroupPositionTeam1 = team1.position.split(',');
+		    	// 						let divisionRoundGroupPositionTeam2 = team2.position.split(',');
+		    	// 						let roundDataTeam1 = null;
+		    	// 						let roundDataTeam2 = null;
 
-		   //  		for(var i=0; i<noOfTeams; i=i+2) {
-		   //  			if(teams[i].position !== '' && teams[i+1].position !== '') {
-		   //  				// let divisionRoundGroupPosition1 = teams[i].position.split(',');
-		   //  				// let divisionRoundGroupPosition2 = teams[i+1].position.split(',');
-		   //  				// let team1 = null;
-		   //  				// let team2 = null;
-
-		   //  				// if(divisionRoundGroupPosition1[0] === -1) {
-		   //  				// 	team1 = this.templateFormDetail.stepTwo.rounds[divisionRoundGroupPosition1[1]].groups[divisionRoundGroupPosition1[2]].teams[divisionRoundGroupPosition1[3]];
-		   //  				// } else {
-		   //  				// 	team1 = this.templateFormDetail.stepTwo.divisions[divisionRoundGroupPosition1[0]].rounds[divisionRoundGroupPosition1[1]].groups[divisionRoundGroupPosition1[2]].teams[divisionRoundGroupPosition1[3]];
-		   //  				// }
-
-		   //  				// if(divisionRoundGroupPosition2[0] === -1) {
-		   //  				// 	team2 = this.templateFormDetail.stepTwo.rounds[divisionRoundGroupPosition2[1]].groups[divisionRoundGroupPosition2[2]].teams[divisionRoundGroupPosition2[3]];
-		   //  				// } else {
-		   //  				// 	team2 = this.templateFormDetail.stepTwo.divisions[divisionRoundGroupPosition2[0]].rounds[divisionRoundGroupPosition2[1]].groups[divisionRoundGroupPosition2[2]].teams[divisionRoundGroupPosition2[3]];
-		   //  				// }
-
-		   //  				let divisionRoundGroupPosition1 = teams[i].position.split(',');
-		   //  				let divisionRoundGroupPosition2 = teams[i+1].position.split(',');
-
-		   //  				let position1 = divisionRoundGroupPosition1[3];
-			  //   			let position2 = divisionRoundGroupPosition2[3];
-
-			  //   			let prevPlacingMatchesCount1 = 0;
-			  //   			let prevPlacingMatchesCount2 = 0;
-
-				 //    		_.forEach(_.cloneDeep(this.roundData.groups), function(o, index) {
-					// 			if(index < parseInt(divisionRoundGroupPosition1[2])) {
-					// 				prevPlacingMatchesCount1 += o.matches.length;
-					// 			}
-					// 			if(index < parseInt(divisionRoundGroupPosition2[2])) {
-					// 				prevPlacingMatchesCount2 += o.matches.length;
-					// 			}
-					// 		});
-
-			  //   			let positionType1 = this.getPositionTypeCode(teams[i].position_type);
-			  //   			let positionType2 = this.getPositionTypeCode(teams[i+1].position_type);
-
-			  //   			let homePlaceholder = "CAT.PM" + (this.roundIndex + 1) + ".G" + (prevPlacingMatchesCount1 + parseInt(position1) + 1);
-			  //   			let awayPlaceholder = "CAT.PM" + (this.roundIndex + 1) + ".G" + (prevPlacingMatchesCount2 + parseInt(position2) + 1);
-
-			  //   			let homePlacingMatch = _.head(_.filter(allPlacingMatches, function(o, index) { return (o.match_number.indexOf(homePlaceholder)) !== -1; }));
-			  //   			let awayPlacingMatch = _.head(_.filter(allPlacingMatches, function(o, index) { return (o.match_number.indexOf(awayPlaceholder)) !== -1; }));
-
-			  //   			if(typeof homePlacingMatch !== 'undefined' && typeof awayPlacingMatch !== 'undefined') {
-			  //   				let home = null;
-			  //   				let away = null;
-
-			  //   				let teamMatchNumber1 = homePlacingMatch.match_number.split('.');
-			  //   				let teamMatchNumber2 = awayPlacingMatch.match_number.split('.');
-
-			  //   				if(teamMatchNumber1[teamMatchNumber1.length - 1].indexOf('WR') !== -1 || teamMatchNumber1[teamMatchNumber1.length - 1].indexOf('LR') !== -1) {
-			  //   					home = "(" + teamMatchNumber1[1] + "_" + teamMatchNumber1[2] + '_' + positionType1 + ")";
-			  //   				} else {
-			  //   					home = homePlacingMatch.in_between.replace('-', '_') + '_' + positionType1;
-			  //   				}
-
-			  //   				if(teamMatchNumber2[teamMatchNumber2.length - 1].indexOf('WR') !== -1 || teamMatchNumber2[teamMatchNumber2.length - 1].indexOf('LR') !== -1) {
-				 //    				away = "(" + teamMatchNumber2[1] + "_" + teamMatchNumber2[2] + '_' + positionType2 + ")";
-			  //   				} else {
-				 //    				away = awayPlacingMatch.in_between.replace('-', '_') + '_' + positionType2;
-			  //   				}
-			    				
-				 //    			let inBetween =  homePlaceholder + positionType1 + "-" + awayPlaceholder + positionType2;
-					// 			let matchNumber = "CAT.PM" + (this.roundIndex + 1) + ".G" + (totalPlacingMatches + matchCount) + "." + home + "-" + away;
-					// 			let displayMatchNumber = null;
-					// 			if(positionType1 === positionType2 && positionType1 === 'WR') {
-					// 				displayMatchNumber = "CAT." + (this.roundIndex+1) + "." + (totalPlacingMatches + matchCount) + ".wrs.(@HOME-@AWAY)";
-					// 			} else if(positionType1 === positionType2 && positionType1 === 'LR') {
-					// 				displayMatchNumber = "CAT." + (this.roundIndex+1) + "." + (totalPlacingMatches + matchCount) + ".lrs.(@HOME-@AWAY)";
-					// 			}
-
-					// 			let displayHomeTeamPlaceholderName = (this.roundIndex + 1) + "." + (prevPlacingMatchesCount1 + parseInt(position1) + 1);
-					// 			let displayAwayTeamPlaceholderName = (this.roundIndex + 1) + "." + (prevPlacingMatchesCount2 + parseInt(position2) + 1);
-
-					// 			vm.groupData.matches.push({
-					// 				in_between: inBetween,
-					// 				match_number: matchNumber,
-					// 				display_match_number: displayMatchNumber,
-					// 				display_home_team_placeholder_name: displayHomeTeamPlaceholderName,
-					// 				display_away_team_placeholder_name: displayAwayTeamPlaceholderName,
-					// 			});
-					// 			matchCount++;
-			  //   			}
-		   //  			}
-		   //  		}
-		   //  	}
-    			if(groupData.type == "round_robin" && this.roundIndex != 0) {
-    				this.groupData.matches = [];
-
-	    			for(var i=0; i<totalTimes; i++){
-	    				for(var j=1; j<=noOfTeams; j++) {
-	    					for(var k=(j+1); k<=noOfTeams; k++) {
-	    						let inBetween = null;
-	    						let matchNumber = null;
-	    						let displayMatchNumber = null;
-	    						let displayHomeTeamPlaceholderName = null;
-	    						let displayAwayTeamPlaceholderName = null;
-	    						if(this.divisionIndex === -1) {
-	    							let team1 = groupData.teams[j-1];
-		    						let team2 = groupData.teams[k-1];
-	    							/*if(this.roundIndex == 0 && groupData.type == "round_robin") {
-	    								let home = groupName + j;
-	    								let away = groupName + k;
-		    							inBetween = j + '-' + k;
-		    							matchNumber = "CAT.RR" + (this.roundIndex+1) + ".0" + matchCount + "." + home + "-" + away;
-		    							displayMatchNumber = "CAT." + (this.roundIndex+1) + "." + matchCount + ".@HOME-@AWAY";
-		    							displayHomeTeamPlaceholderName = home;
-		    							displayAwayTeamPlaceholderName = away;
-		    						} else {*/
-		    							let divisionRoundGroupPositionTeam1 = team1.position.split(',');
-		    							let divisionRoundGroupPositionTeam2 = team2.position.split(',');
-		    							let roundDataTeam1 = null;
-		    							let roundDataTeam2 = null;
-
-		    							if(team1.position) {
-		    								if(divisionRoundGroupPositionTeam1[0] === '-1') {
-			    								roundDataTeam1 = vm.templateFormDetail['steptwo'].rounds[divisionRoundGroupPositionTeam1[1]];
-			    							} else {
-			    								roundDataTeam1 = vm.templateFormDetail['steptwo'].divisions[divisionRoundGroupPositionTeam1[0]].rounds[divisionRoundGroupPositionTeam1[1]];
-			    							}
-		    							}
+		    	// 						if(team1.position) {
+		    	// 							if(divisionRoundGroupPositionTeam1[0] === '-1') {
+			    // 								roundDataTeam1 = vm.templateFormDetail['steptwo'].rounds[divisionRoundGroupPositionTeam1[1]];
+			    // 							} else {
+			    // 								roundDataTeam1 = vm.templateFormDetail['steptwo'].divisions[divisionRoundGroupPositionTeam1[0]].rounds[divisionRoundGroupPositionTeam1[1]];
+			    // 							}
+		    	// 						}
 		    							
-		    							if(team2.position) {
-			    							if(divisionRoundGroupPositionTeam2[0] === '-1') {
-			    								roundDataTeam2 = vm.templateFormDetail['steptwo'].rounds[divisionRoundGroupPositionTeam2[1]];
-			    							} else {
-			    								roundDataTeam2 = vm.templateFormDetail['steptwo'].divisions[divisionRoundGroupPositionTeam2[0]].rounds[divisionRoundGroupPositionTeam2[1]];
-			    							}
-			    						}
+		    	// 						if(team2.position) {
+			    // 							if(divisionRoundGroupPositionTeam2[0] === '-1') {
+			    // 								roundDataTeam2 = vm.templateFormDetail['steptwo'].rounds[divisionRoundGroupPositionTeam2[1]];
+			    // 							} else {
+			    // 								roundDataTeam2 = vm.templateFormDetail['steptwo'].divisions[divisionRoundGroupPositionTeam2[0]].rounds[divisionRoundGroupPositionTeam2[1]];
+			    // 							}
+			    // 						}
 
-			    						if(roundDataTeam1 && roundDataTeam2) {
-			    							let groupName1 = this.getRoundRobinGroupName(roundDataTeam1, parseInt(divisionRoundGroupPositionTeam1[2]));
-			    							let groupName2 = this.getRoundRobinGroupName(roundDataTeam2, parseInt(divisionRoundGroupPositionTeam2[2]));
-			    							inBetween = parseInt(divisionRoundGroupPositionTeam1[3] + 1) + groupName1 + '-' + parseInt(divisionRoundGroupPositionTeam2[3] + 1) + groupName2;
-			    						}
-		    						//}
-	    						}
-	    						matchCount++;
-	    						vm.groupData.matches.push({
-	    							in_between: inBetween,
-	    							match_number: matchNumber,
-	    							display_match_number: displayMatchNumber,
-	    							display_home_team_placeholder_name: displayHomeTeamPlaceholderName,
-	    							display_away_team_placeholder_name: displayAwayTeamPlaceholderName,
-	    						});
-	    					}
-	    				}
-	    			}
+			    // 						if(roundDataTeam1 && roundDataTeam2) {
+			    // 							let groupName1 = this.getRoundRobinGroupName(roundDataTeam1, parseInt(divisionRoundGroupPositionTeam1[2]));
+			    // 							let groupName2 = this.getRoundRobinGroupName(roundDataTeam2, parseInt(divisionRoundGroupPositionTeam2[2]));
+			    // 							inBetween = parseInt(divisionRoundGroupPositionTeam1[3] + 1) + groupName1 + '-' + parseInt(divisionRoundGroupPositionTeam2[3] + 1) + groupName2;
+			    // 						}
+		    	// 					//}
+	    		// 				}
+	    		// 				matchCount++;
+	    		// 				vm.groupData.matches.push({
+	    		// 					in_between: inBetween,
+	    		// 					match_number: matchNumber,
+	    		// 					display_match_number: displayMatchNumber,
+	    		// 					display_home_team_placeholder_name: displayHomeTeamPlaceholderName,
+	    		// 					display_away_team_placeholder_name: displayAwayTeamPlaceholderName,
+	    		// 				});
+	    		// 			}
+	    		// 		}
+	    		// 	}
+	    		// }
+	    		if(groupData.type == "placing_match") {
+	    			_.forEach(groupData.teams, function(team, teamIndex) {
+	    				if(teamIndex % 2 === 0) {
+		    				let isFinal = (typeof oldGroupMatchesData[teamIndex/2] !== 'undefined' && typeof oldGroupMatchesData[teamIndex/2]['is_final'] !== 'undefined') ? oldGroupMatchesData[teamIndex/2]['is_final'] : false;
+		    				let isManualMatchAdd = (typeof oldGroupMatchesData[teamIndex/2] !== 'undefined' && typeof oldGroupMatchesData[teamIndex/2]['is_manual_match_add'] !== 'undefined') ? oldGroupMatchesData[teamIndex/2]['is_manual_match_add'] : false;
+		    				vm.groupData.matches.push({is_final: isFinal, is_manual_match_add: isManualMatchAdd});
+			    		}
+		    		});
 	    		}
 		    },
 		    getGroupNameByRoundAndGroupIndex(divisionIndex, roundIndex, groupIndex) {
@@ -659,6 +596,11 @@
 		    		return true;
 		    	}
 		    	return false;
+		    },
+		    addNewMatch() {
+		    	this.groupData.teams.push({position_type: 'placed', group: '', position: ''});
+		    	this.groupData.teams.push({position_type: 'placed', group: '', position: ''});
+		    	this.groupData.matches.push({is_final: false, is_manual_match_add: true});
 		    },
         }
     }

@@ -205,7 +205,6 @@
             this.isAdd = false;
           },
           editTemplateModalHidden() {
-            console.log('editTemplateModalHidden');
             this.isEdit = false;
           },
           editTemplate(templateId) {
