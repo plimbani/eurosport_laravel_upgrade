@@ -10,7 +10,7 @@
 								href="javascript:void(0)" role="tab"><div class="wrapper-tab">{{$lang.template_management_template}}</div></a>
 							</li>
 						</ul>
-						<TemplateList :templateList="templateList"></TemplateList>
+						<TemplateList :templateList="templateList" :isListGettingUpdate="isListGettingUpdate"></TemplateList>
 					</div>
 				</div>
 			</div>
@@ -27,7 +27,8 @@ export default {
 			'templateList': {
 				'templateData': [],
 				'templateCount': 0,
-      		}
+      		},
+      		isListGettingUpdate: false,
 		}
 	},
 	components: {
@@ -45,8 +46,15 @@ export default {
 	mounted() {
 	},
 	methods: {
-		getTemplates(teamSearch='', createdBySearch='') {
+		getTemplates(teamSearch='', createdBySearch='', currentPage=1, noOfRecords=20) {
 			let templateData = {};
+
+			this.isListGettingUpdate = true;
+
+			templateData.currentPage = currentPage;
+
+		    templateData.noOfRecords = noOfRecords;
+
 			if(teamSearch != '') {
 	  	  		templateData.teamSearch = teamSearch;
   			}
@@ -58,8 +66,14 @@ export default {
 			Template.getTemplates(templateData).then(
 				(response)=> {
 					$("body .js-loader").addClass('d-none');
-					this.templateList.templateData = response.data.data;
-					this.templateList.templateCount = response.data.data.length;
+					if(response.data) {
+						this.templateList.templateData = response.data.data;
+						this.templateList.templateCount = response.data.data.data.length;
+					} else {
+						this.templateList.templateData = [];
+	          			this.templateList.templateCount = 0;
+					}	
+					this.isListGettingUpdate = false;	
 				},
 		        (error)=> {
 		        }
