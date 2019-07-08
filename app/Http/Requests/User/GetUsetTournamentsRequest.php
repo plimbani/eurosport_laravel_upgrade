@@ -18,7 +18,7 @@ class GetUsetTournamentsRequest extends FormRequest
     {
         $loggedInUser = $this->getCurrentLoggedInUserDetail();
 
-        if($loggedInUser->hasRole('Super.administrator') || $loggedInUser->hasRole('Master.administrator')) {
+        if($loggedInUser->hasRole('Super.administrator') || $loggedInUser->hasRole('Master.administrator') || $loggedInUser->hasRole('tournament.administrator')) {
             return true;
         }
         return false;
