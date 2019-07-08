@@ -13,8 +13,8 @@
                     <div v-if="isPublishedPreviewOnce === 0">
                         <div>When set to "Preview" or "Published" existing followers on the app of the original tournament will also be a follower of this new duplicated tournament.</div>
                         <div class="c-input mt-3">
-                            <input type="checkbox" class="euro-checkbox" name="check_switch_default_tournament" v-model="switch_default_tournament" :true-value="1" :false-value="0" />
-                            <label for="switch_default_tournament">Please check the box if you would also like to switch the default tournament of users from the original tournament to this duplicated one.</label>
+                            <input id="switch_default_tournament_in_publish" type="checkbox" class="euro-checkbox" v-model="switch_default_tournament" :true-value="1" :false-value="0" />
+                            <label for="switch_default_tournament_in_publish">Please check the box if you would also like to switch the default tournament of users from the original tournament to this duplicated one.</label>
                         </div>
                     </div>
                 </div>
@@ -33,9 +33,6 @@
             return {
                 switch_default_tournament: 0,
             }
-        },
-        mounted() {
-            console.log('isPublishedPreviewOnce', this.isPublishedPreviewOnce);
         },
         props: ['isPublishedPreviewOnce'],
         methods: {

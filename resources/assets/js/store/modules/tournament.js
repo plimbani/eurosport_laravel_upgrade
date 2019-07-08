@@ -38,6 +38,7 @@ const state = {
   unsaveMatchData:[],
   matchResultChange:false,
   setRedirectPage:'',
+  isPublishedPreviewOnce: 0,
 }
 // getters
 const getters = {
@@ -73,7 +74,7 @@ const actions = {
 	commit(types.SET_TOURNAMENT_TOTAL_TIME, totalTime)
   },
   setTournamentStatus({commit}, status) {
-	commit(types.SET_TOURNAMENT_STATUS, status)
+	 commit(types.SET_TOURNAMENT_STATUS, status)
   },
   SetTournamentName ({commit}, tournamentData) {
   commit(types.CURRENT_TOURNAMENT, tournamentData)
@@ -212,7 +213,10 @@ const actions = {
 // mutations
 const mutations = {
   [types.SET_TOURNAMENT_STATUS] (state, tournamentField) {
-	state.tournamentStatus = tournamentField.tournamentStatus
+	 state.tournamentStatus = tournamentField.tournamentStatus;
+   if(tournamentField.tournamentStatus === 'Preview' || tournamentField.tournamentStatus === 'Published') {
+    state.isPublishedPreviewOnce = 1;
+   }
   },
   [types.CURRENT_TOURNAMENT] (state, currentTournament) {
  	//alert(JSON.stringify(currentTournamentName))
