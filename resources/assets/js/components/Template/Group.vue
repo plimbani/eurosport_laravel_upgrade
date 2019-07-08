@@ -22,7 +22,7 @@
 		            <div class="col-md-6" v-if="groupData.type == 'round_robin'">
 		                <div class="form-group mb-0">
 		                    <label>Teams play each other</label>
-		                    <select class="form-control ls-select2" v-model="groupData.teams_play_each_other" @change="setMatches()">
+		                    <select class="form-control ls-select2" v-model="groupData.teams_play_each_other" @change="setMatches('teams_play_each_other_change')">
 		                        <option value="once">Once</option>
 		                        <option value="twice">Twice</option>
 		                        <option value="three_times">Three times</option>
@@ -61,7 +61,7 @@
 				        			<div class="col-md-4">
 				        				<div class="form-group mb-0">
 					        				<select :disabled="( (roundIndex === 0 && groupData.type === 'placing_match' && index === getFirstPlacingMatch()) || (roundIndex === 0 && divisionIndex !== -1) ) " class="form-control ls-select2" v-model="team.group" @change="onGroupChange(teamIndex)">
-					                    		<option v-for="group in getGroupsForSelection(teamIndex)" :value="group.value">{{ group.name }}</option>
+					                    		<option v-for="group in getGroupsForSelection(teamIndex, groupData.type)" :value="group.value">{{ group.name }}</option>
 					                    	</select>
 					                    </div>
 				        			</div>
@@ -77,6 +77,11 @@
 				        </div>
 				    </div>
 		        </div>
+		        <!-- <div class="row mt-3" v-if="groupData.type === 'placing_match' && !(roundIndex === 0 && index === getFirstPlacingMatch())">
+					<div class="col-md-12">
+						<button type="button" class="btn btn-primary" @click="addNewMatch()"><small><i class="jv-icon jv-plus"></i></small> Add match</button>
+					</div>
+		        </div> -->
 		    </div>
 	    </div>
     </div>
@@ -136,9 +141,10 @@
                 this.$root.$emit('updatePositions');
         	},
         	displayTeams() {
-        		var i;
-        		var oldGroupMatchesData = _.cloneDeep(this.groupData.matches);
-        		var oldGroupTeamData = _.cloneDeep(this.groupData.teams);
+        		let i;
+        		let oldGroupMatchesData = _.cloneDeep(this.groupData.matches);
+        		let oldGroupTeamData = _.cloneDeep(this.groupData.teams);
+        		let manualMatchAdded = _.filter(oldGroupMatchesData, function(o) { return (typeof o.is_manual_match_add !== 'undefined' && o.is_manual_match_add === true); });
 				this.groupData.teams = [];
 				this.groupData.matches = [];
 				let vm = this;
@@ -152,7 +158,7 @@
 						this.groupData.teams.push({position_type: oldGroupTeamData[i].position_type, group: oldGroupTeamData[i].group, position: oldGroupTeamData[i].position});
 						continue;
 					}
-					if(this.roundIndex === 0 && ((this.groupData.type === 'placing_match' && this.index ===this.getFirstPlacingMatch()) || this.divisionIndex !== -1)) {
+					if(this.roundIndex === 0 && ((this.groupData.type === 'placing_match' && this.index === this.getFirstPlacingMatch()) || this.divisionIndex !== -1)) {
 						this.groupData.teams.push({	position_type: 'team', group: '', position: i});
 						continue;
 					}
@@ -162,9 +168,17 @@
 					}
 				    this.groupData.teams.push({position_type: 'placed', group: '', position: ''});
 				}
+
+				_.forEach(manualMatchAdded, function(match, matchIndex) {
+					vm.groupData.matches.push(match);
+					let teamIndex = matchIndex * 2;
+					vm.groupData.teams.push({position_type: oldGroupTeamData[teamIndex].position_type, group: oldGroupTeamData[teamIndex].group, position: oldGroupTeamData[teamIndex].position});
+					vm.groupData.teams.push({position_type: oldGroupTeamData[teamIndex + 1].position_type, group: oldGroupTeamData[teamIndex + 1].group, position: oldGroupTeamData[teamIndex + 1].position});
+				});
+
 				Vue.nextTick()
 					.then(function () {
-						vm.setMatches();	
+						vm.setMatches('no_of_team_change');	
 					});
         	},
 			getSuffixForPosition(d) {
@@ -180,7 +194,7 @@
 		    	let vm = this;
 		    	Vue.nextTick()
 					.then(function () {
-						vm.setMatches();
+						vm.setMatches('assign_position');
 					});
 		    },
 		    onChangeGroupType() {
@@ -190,15 +204,21 @@
 		    	this.updateTeamPositions();
 		    	Vue.nextTick()
 					.then(function () {
-						vm.setMatches();	
+						vm.setMatches('group_type_change');	
 					});
 		    },
-		    getGroupsForSelection(teamIndex) {
+		    getGroupsForSelection(teamIndex, type) {
 		    	let team = this.groupData.teams[teamIndex];
         		let groupsForSelection = [];
         		let roundRobinIndex = 0;
         		let placingMatchIndex = 0;
                 let vm = this;
+                let isManualMatchAdd = false;
+
+                if(type === 'placing_match') {
+                	let match = this.groupData.matches[parseInt(teamIndex/2)];
+                	isManualMatchAdd = (typeof match !== 'undefined' && 'is_manual_match_add' in match) ? match.is_manual_match_add : false;
+                }
 
                 if(this.divisionIndex !== -1 && this.roundIndex === 0) {
                 	return groupsForSelection;
@@ -207,7 +227,12 @@
                 if(this.divisionIndex === -1){
 	        		_.forEach(this.templateFormDetail['steptwo'].rounds, function(round, roundIndex) {
 						_.forEach(round.groups, function(group, groupIndex) {
-							if(roundIndex === vm.roundIndex && groupIndex >= vm.index) return false;
+							console.log('isManualMatchAdd', isManualMatchAdd + ' ' + roundIndex + ' ' + groupIndex);
+							if(isManualMatchAdd) {
+								if(roundIndex === vm.roundIndex && groupIndex > vm.index) return false;
+							} else {
+								if(roundIndex === vm.roundIndex && groupIndex >= vm.index) return false;
+							}
 
 							let roundData = vm.templateFormDetail['steptwo'].rounds[roundIndex];
 							if(group.type === 'round_robin' && team.position_type === 'placed') {
@@ -233,7 +258,11 @@
 								return true;
 							}
 						});
-						if(roundIndex >= vm.roundIndex) return false;
+						if(isManualMatchAdd) {
+							if(roundIndex > vm.roundIndex) return false;
+						} else {
+							if(roundIndex >= vm.roundIndex) return false;
+						}
 					});
 				}
 
@@ -245,7 +274,11 @@
 					let division = this.templateFormDetail['steptwo'].divisions[this.divisionIndex];
 					_.forEach(division.rounds, function(round, roundIndex) {
 						_.forEach(round.groups, function(group, groupIndex) {
-							if(roundIndex === vm.roundIndex && groupIndex >= vm.index) return false;
+							if(isManualMatchAdd) {
+								if(roundIndex === vm.roundIndex && groupIndex > vm.index) return false;
+							} else {
+								if(roundIndex === vm.roundIndex && groupIndex >= vm.index) return false;
+							}
 
 							let roundData = vm.templateFormDetail['steptwo'].divisions[vm.divisionIndex].rounds[roundIndex];
 							if(group.type === 'round_robin' && team.position_type === 'placed') {
@@ -271,10 +304,14 @@
 								return true;
 							}
 						});
-						if(roundIndex >= vm.roundIndex) return false;
+						if(isManualMatchAdd) {
+							if(roundIndex > vm.roundIndex) return false;
+						} else {
+							if(roundIndex >= vm.roundIndex) return false;
+						}
 					});
 				}
-
+				console.log('groupsForSelection', groupsForSelection);
 				return groupsForSelection;
 		    },
 		    getPositionsForSelection(teamIndex, group) {
@@ -327,7 +364,7 @@
 
 			    	if(groupData) {
 				    	var teams = groupData.teams;
-				    	var numberOfTeams = groupData.no_of_teams;
+				    	var numberOfTeams = teams.length;
 				    	var groupType = groupData.type;
 				    	
 					    // for round robin
@@ -347,7 +384,9 @@
 								this.groupData.teams[teamIndex].position = group + ',0';
 							}
 							for (var i = 1; i <= matches; i++) {
-								positionsForSelection.push({'name': 'Match' + i, 'value': group + ',' + (i - 1)});
+								if( ((i-1)*2) < teamIndex ) {
+									positionsForSelection.push({'name': 'Match' + i, 'value': group + ',' + (i - 1)});
+								}
 							}
 						}
 					}
@@ -361,7 +400,7 @@
 		    	this.groupData.teams[teamIndex].position = '';
 		    	Vue.nextTick()
 					.then(function () {
-						vm.setMatches();
+						vm.setMatches('position_type_change');
 					});
 		    },
 		    onGroupChange(teamIndex) {
@@ -369,7 +408,7 @@
 		    	this.groupData.teams[teamIndex].position = '';
 		    	Vue.nextTick()
 					.then(function () {
-						vm.setMatches();
+						vm.setMatches('group_change');
 					});
 		    },
 		    getPositionTypes() {
@@ -416,7 +455,7 @@
 		    	let index = _.findIndex(this.roundData.groups, {'type': 'placing_match'});
 		    	return index;
 		    },
-		    setMatches() {
+		    setMatches(change) {
 		    	let vm = this;
 
         		let groupData = this.groupData;
@@ -430,6 +469,16 @@
 		    	}
 
 		    	let matchCount = 1;
+
+		    	if(change === 'no_of_team_change' || change === 'group_type_change') {
+		    		_.forEach(_.cloneDeep(this.groupData.matches), function(match, matchIndex) {
+			    		if(typeof match.is_manual_match_add !== 'undefined' && match.is_manual_match_add === true) {
+			    			vm.groupData.matches.splice(matchIndex, 1);
+				    		vm.groupData.teams.splice((matchIndex*2), 1);
+				    		vm.groupData.teams.splice((matchIndex*2), 1);
+			    		}
+			    	});
+		    	}
 
 		    	var oldGroupMatchesData = _.cloneDeep(this.groupData.matches);
 
@@ -499,8 +548,9 @@
 	    		if(groupData.type == "placing_match") {
 	    			_.forEach(groupData.teams, function(team, teamIndex) {
 	    				if(teamIndex % 2 === 0) {
-		    				let isFinal = (typeof oldGroupMatchesData[teamIndex/2] !== 'undefined' && typeof oldGroupMatchesData[teamIndex/2]['is_final']) ? oldGroupMatchesData[teamIndex/2]['is_final'] : false;
-		    				vm.groupData.matches.push({is_final: isFinal});
+		    				let isFinal = (typeof oldGroupMatchesData[teamIndex/2] !== 'undefined' && typeof oldGroupMatchesData[teamIndex/2]['is_final'] !== 'undefined') ? oldGroupMatchesData[teamIndex/2]['is_final'] : false;
+		    				let isManualMatchAdd = (typeof oldGroupMatchesData[teamIndex/2] !== 'undefined' && typeof oldGroupMatchesData[teamIndex/2]['is_manual_match_add'] !== 'undefined') ? oldGroupMatchesData[teamIndex/2]['is_manual_match_add'] : false;
+		    				vm.groupData.matches.push({is_final: isFinal, is_manual_match_add: isManualMatchAdd});
 			    		}
 		    		});
 	    		}
@@ -546,6 +596,11 @@
 		    		return true;
 		    	}
 		    	return false;
+		    },
+		    addNewMatch() {
+		    	this.groupData.teams.push({position_type: 'placed', group: '', position: ''});
+		    	this.groupData.teams.push({position_type: 'placed', group: '', position: ''});
+		    	this.groupData.matches.push({is_final: false, is_manual_match_add: true});
 		    },
         }
     }
