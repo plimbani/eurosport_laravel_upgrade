@@ -40,6 +40,7 @@ class PitchController extends BaseController
     public function __construct(PitchContract $pitchObj)
     {
         $this->pitchObj = $pitchObj;
+        $this->tournamentLogo =  getenv('S3_URL').'/assets/img/tournament_logo/';
         // $this->middleware('auth');
         // $this->middleware('jwt.auth');
     }
@@ -155,6 +156,11 @@ class PitchController extends BaseController
             $tournamentStartDate->addDay();
         }
 
+        $tournamentLogo = null;
+        $tournamentDetail = Tournament::find($tournamentId);
+        if($tournamentDetail->logo != null) {
+            $tournamentLogo = $this->tournamentLogo. $tournamentDetail->logo;
+        }
         $matches = collect([]);
 
         $tournamentPitches = [];
@@ -181,14 +187,16 @@ class PitchController extends BaseController
             $tournamentPitches[$match->pitch_id] = $match->pitch_number;
         }
 
-        $data = ['pitchPlannerPrintData' => $pitchPlannerPrintData, 'tournamentDates' => $tournamentDates, 'matches' => $matches, 'tournamentPitches' => $tournamentPitches];
+        $data = ['pitchPlannerPrintData' => $pitchPlannerPrintData, 'tournamentDates' => $tournamentDates, 'matches' => $matches, 'tournamentPitches' => $tournamentPitches, 'tournamentLogo' => 
+        $tournamentLogo];
 
         $pdf = PDF::loadView('pitchplanner.tournament_matches',$data)
             ->setPaper('a4')
             ->setOption('header-spacing', '5')
             ->setOption('header-font-size', 7)
             ->setOption('header-font-name', 'Open Sans')
-            ->setOption('footer-font-size', 9)
+            ->setOption('footer-spacing', '5')
+            ->setOption('footer-font-size', 7)
             ->setOption('footer-font-name', 'Open Sans')
             ->setOrientation('portrait')
             ->setOption('footer-right', 'Page [page] of [toPage]')
@@ -270,8 +278,8 @@ class PitchController extends BaseController
         }
 
 
-        \Excel::create('Pitch planner', function($excel) use ($tournamentDates, $tournamentPitches, $time, $matches) {
-            $excel->sheet('pitch_planner', function($sheet) use ($tournamentDates, $tournamentPitches, $time, $matches)
+        \Excel::create('Match planner', function($excel) use ($tournamentDates, $tournamentPitches, $time, $matches) {
+            $excel->sheet('Match planner', function($sheet) use ($tournamentDates, $tournamentPitches, $time, $matches)
             {
                 $rowCount = 1;
                 $cell = 2;
@@ -431,6 +439,7 @@ class PitchController extends BaseController
                         // displaying match fixtures
                         $matchString = '';
                         foreach($matches->where('pitch_id', $pitch->id)->where('match_day', $date->format('Y-m-d')) as $match) {
+                            echo "<pre>"; print_r($match); echo "</pre>";
                             $ageCategoryColor = $match['age_category_color'] ? $match['age_category_color'] : $match['category_age_color'];
                             $ageCategoryFontColor = $match['category_age_font_color'];
                             $startTime = $match['match_datetime']->format('H:i');
@@ -447,7 +456,7 @@ class PitchController extends BaseController
                             if($match['hometeam_score'] !== null && $match['awayteam_score'] !== null) {
                                 $score = "\n".$match['hometeam_score'] . ' - ' .$match['awayteam_score'];
                             }
-                            $matchString = $matchTime .$refreeName .$match['match_name'] .$score;
+                            $matchString = $refreeName .$matchTime .$match['match_name'] .$score;
 
                             // displaying fixtures
                             $sheet->cell($startIndex.$cell, function($cell) use ($matchString, $ageCategoryColor, $ageCategoryFontColor) {
