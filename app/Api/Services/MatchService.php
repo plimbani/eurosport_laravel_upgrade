@@ -295,6 +295,8 @@ class MatchService implements MatchContract
             ->setOption('header-spacing', '5')
             ->setOption('header-font-size', 7)
             ->setOption('header-font-name', 'Open Sans')
+            ->setOption('footer-spacing', '5')
+            ->setOption('footer-font-size', 7)
             ->setOrientation('portrait')
             ->setOption('footer-right', 'Page [page] of [toPage]')
             ->setOption('header-right', $date->format('H:i d M Y'))
