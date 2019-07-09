@@ -41,6 +41,7 @@
                             <tr>
                                 <th>{{$lang.template_name}}</th>
                                 <th>{{$lang.template_teams}}</th>
+                                <th>{{$lang.template_min_matches}}</th>
                                 <th>{{$lang.template_avg_teams}}</th>
                                 <th>{{$lang.template_total_matches}}</th>
                                 <th>{{$lang.template_divisions}}</th>
@@ -54,6 +55,7 @@
                           <tr class="" v-for="template in templateList.templateData.data">
                             <td>{{ template.name }}</td>
                             <td>{{ template.total_teams }}</td>
+                            <td>{{ template.minimum_matches }}</td>
                             <td>{{ template.avg_matches }}</td>
                             <td>{{ template.total_matches }}</td>
                             <td>{{ template.divisions }}</td>
