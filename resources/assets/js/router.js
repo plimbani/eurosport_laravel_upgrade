@@ -2,6 +2,7 @@ import Vue from 'vue'
 import store from './store'
 import VueRouter from 'vue-router'
 
+import Ls from './services/ls'
 import AuthService from './services/auth'
 
 /*
@@ -343,7 +344,7 @@ router.beforeEach((to, from, next) => {
 
     let routesForResultAdmin = ['welcome', 'tournaments_summary_details'];
 
-    let checkTokenValidate = ['login','PasswordReset','PasswordSet'];
+    let checkTokenValidate = ['home', 'login','PasswordReset','PasswordSet'];
     if ( checkTokenValidate.indexOf(to.name) !== -1)
     {
         return axios.get('/api/auth/token_validate').then(response =>  {
@@ -352,6 +353,7 @@ router.beforeEach((to, from, next) => {
             }
             else
             {
+                Ls.remove('auth.token');
                 return next();
             }
         }).catch(error => {
