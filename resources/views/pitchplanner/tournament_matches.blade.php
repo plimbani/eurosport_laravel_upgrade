@@ -61,6 +61,7 @@
                                                 <tr class="w-100">
                                                     <td class="w-50">
                                                         {{ $match['match_datetime']->format('H:i') }} - {{ $match['match_endtime']->format('H:i') }}
+                                                        {{$match['competation_type'] == 'Round Robin' ? '(' .$match['actual_name']. ')' : ''}}
                                                     </td>
                                                     <td class="w-50">
                                                         @if($match['hometeam_score'] !== null && $match['awayteam_score'] !== null)
