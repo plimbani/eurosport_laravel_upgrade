@@ -80,7 +80,10 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     
-                                    <input type="text" class="form-control ls-datepicker" id="tournament_end_date" v-model="tournamentData.tournament_end_date">
+                                    <input type="text" class="form-control ls-datepicker" id="tournament_end_date" v-model="tournamentData.tournament_end_date" v-if="id && tournamentData.is_renew == 0" disabled="disabled">
+
+                                    <input type="text" class="form-control ls-datepicker" id="tournament_end_date" v-model="tournamentData.tournament_end_date" v-else>
+
                                 </div>
                             </div>
                         </div>
@@ -194,6 +197,20 @@
                                         </div>
                                     </div>
 
+                                    <div class="row" v-if="!buyLicenseReduceTeamAndDay">
+                                        <div class="col-8">
+                                           <p class="mb-0" >Already paid</p>
+                                        </div>
+                                        <div class="col-4 text-right">
+                                            <p class="text-sm-right mb-0 mt-3 mt-sm-0">
+
+                                             <span v-if="tournamentData.currency_type == 'GBP'">&#163;</span>   
+                                             <span v-if="tournamentData.currency_type == 'EURO'">&#128;</span>
+
+                                            -{{manageTournamentAlreadyPaid}}</p>
+                                        </div>
+                                    </div>
+
                                     <div class="divider my-3 opacited"></div>
 
                                     <p class="text-sm-right font-weight-bold" v-if="manageLicensePaymentPrice">
@@ -202,7 +219,7 @@
                                         {{returnFormatedNumber(tournamentData.tournamentPricingValue)}}</p>
                                 </div>
                                 <div class="row justify-content-end">
-                                    <div class="col-md-7 col-lg-7 col-xl-6">
+                                    <div class="col-md-7 col-lg-7" :class="!tournamentData.is_renew ? 'col-xl-6' : 'col-xl-7'">
                                         <button v-if ="!disabled && !id" class="btn btn-success btn-block"  v-on:click="buyALicence()">
                                             <span v-if ="!tournamentData.is_renew">Buy your license</span>
                                             <span v-if ="tournamentData.is_renew">Renew your licence</span> 
@@ -251,6 +268,7 @@
                     tournamentPricingValue: 0,
                     transactionDifferenceAmountValue: 0,
                     tournamentLicenseAdvancePriceDisplay: 0,
+                    tournamentLicenseBasicPriceDisplay: 0,
                     maximumCupTeamSize:0,
                     maximumLeagueTeamSize:0,
                     tournamentTeamNumbers:2,
@@ -344,17 +362,20 @@
                     return this.tournamentData.tournamentLicenseAdvancePriceDisplay
                 } 
             },
+            manageTournamentAlreadyPaid(){
+                return this.tournamentData.transactionDifferenceAmountValue;
+            },
             manageTournamentTaemsAndDaysFormatValue() {
-                 if(this.tournamentData.tournament_type == 'cup' && this.tournamentData.custom_tournament_format == '1' && this.new_added_teams != this.tournament_old_teams) {
-                  var outstandingPrice = this.tournamentData.tournamentPricingValue - this.tournamentData.tournamentLicenseAdvancePriceDisplay;
+                // if(this.tournamentData.tournament_type == 'cup' && this.tournamentData.custom_tournament_format == '1' && this.new_added_teams != this.tournament_old_teams) {
+                //   var outstandingPrice = this.tournamentData.tournamentPricingValue - this.tournamentData.tournamentLicenseAdvancePriceDisplay;
 
-                    if ( outstandingPrice < 1 )
-                    {
-                        return 0;
-                    }
-                }
+                //     if ( outstandingPrice < 1 )
+                //     {
+                //         return 0;
+                //     }
+                // }
 
-                return this.tournamentData.tournamentPricingValue
+                return this.tournamentData.tournamentLicenseBasicPriceDisplay;
             }   
         },   
         
@@ -550,6 +571,7 @@
                 let tournamentPricing = _.filter(this.tournamentPricingBand.cup.bands, function(band) {
                      if(tournamentMaxTeams >= band.min_teams && tournamentMaxTeams <= band.max_teams) {
                         vm.tournamentData.tournamentLicenseAdvancePriceDisplay = band.advanced_price;
+                        vm.tournamentData.tournamentLicenseBasicPriceDisplay = band.price;
                     }
                 });
 
@@ -557,6 +579,8 @@
                 if(this.tournamentData.currency_type == "GBP"){
                     this.tournamentData.payment_currency = this.tournamentData.currency_type;
                     this.tournamentData.tournamentLicenseAdvancePriceDisplay = (this.tournamentData.tournamentLicenseAdvancePriceDisplay)*this.gpbConvertValue;
+
+                    this.tournamentData.tournamentLicenseBasicPriceDisplay = (this.tournamentData.tournamentLicenseBasicPriceDisplay)*this.gpbConvertValue;
                 }
 
                 if(tournamentOrganising == 'cup' && tournamentCustomFormats == 0 && tournamentMaxTeams) {
@@ -611,10 +635,12 @@
                     let tournamentPricing = _.filter(this.tournamentPricingBand.league.bands, function(band) {
                         if(tournamentMaxTeams >= band.min_teams && tournamentMaxTeams <= band.max_teams) {
                             tournamentLicensePricingArray.push(band.price);
+                            vm.tournamentData.tournamentLicenseBasicPriceDisplay = band.price;
                         }
                     });
                     let tournamentPricingRecord = _.head(tournamentLicensePricingArray);
-                        vm.tournamentData.tournamentPricingValue = tournamentPricingRecord - this.tournamentData.transactionDifferenceAmountValue;
+
+                    vm.tournamentData.tournamentPricingValue = tournamentPricingRecord - this.tournamentData.transactionDifferenceAmountValue;
 
                     if(this.tournamentData.currency_type == "GBP") {
                         vm.tournamentData.payment_currency = vm.tournamentData.currency_type;
@@ -692,6 +718,10 @@
                     this.tournamentData.custom_tournament_format = editTournamentLicense.custom_tournament_format
                     this.user_old_selected_format = editTournamentLicense.custom_tournament_format;
                     this.user_old_selected_type = editTournamentLicense.tournament_type;
+
+                    let startDate = moment(editTournamentLicense.tournament_start_date, 'DD/MM/YYYY')
+                    let endDate = moment(editTournamentLicense.tournament_end_date, 'DD/MM/YYYY')
+                    this.dayDifference = endDate.diff(startDate, 'days') + 1;
                 }
             }
         },
@@ -721,7 +751,22 @@
            
             $("#tournament_start_date").on("change",function (event, value){
                vm.findDifferenceBetweenDates();
-               vm.tournamentData.tournament_start_date = event.target.value; 
+
+               if ( vm.id && !vm.tournamentData.is_renew )
+               {
+
+                    let startDate = moment(vm.tournamentData.tournament_start_date, 'DD/MM/YYYY')
+                    let endDate = moment(vm.tournamentData.tournament_end_date, 'DD/MM/YYYY')
+                    let diffDays = endDate.diff(startDate, 'days')
+
+                    let newEndDate = moment($('#tournament_start_date').val(), "DD/MM/YYYY").add(diffDays, 'days');
+
+                    var newEndDate1 = newEndDate.format("DD/MM/YYYY");
+                    $('#tournament_end_date').datepicker('setStartDate', ) 
+                    $('#tournament_end_date').datepicker('setDate', newEndDate1);
+                }
+
+                vm.tournamentData.tournament_start_date = event.target.value; 
             })
 
             $("#tournament_end_date").on("change",function (event, value){ 
