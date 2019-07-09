@@ -652,9 +652,14 @@ class TournamentRepository
             ->leftjoin('countries', 'countries.id', '=', 'teams.country_id')
             ->select('clubs.id as ClubId', 'clubs.name as clubName', 'countries.id as countryId', 'countries.name as CountryName',
                 \DB::raw('CONCAT("' . $url . '", countries.logo ) AS CountryLogo')
-            )
-            ->groupBy('clubs.id', 'countries.id')
-            ->get();
+            );
+
+        if(app('request')->header('ismobileuser') && app('request')->header('ismobileuser') == "true") {
+          $clubData = $clubData->whereHas('competition.scheduledFixtures');
+        }
+        
+        $clubData = $clubData->groupBy('clubs.id', 'countries.id')->get();
+
         return (count($clubData) > 0) ? $clubData : 0;
     }
 
