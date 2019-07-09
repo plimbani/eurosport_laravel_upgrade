@@ -1450,9 +1450,32 @@ class MatchRepository
             $setFlag = 1;
       }
 
+      $startDateTime = $matchData['matchStartDate'];
+      $endDateTime = $matchData['matchEndDate'];
+      $fixturesResultCount = TempFixture::where('tournament_id',$teamData['tournament_id'])
+        ->where('id','!=', $matchData['matchId'])
+        ->where('is_scheduled', 1)
+        ->where('pitch_id', $matchData['pitchId'])
+        ->where(function($query) use ($startDateTime, $endDateTime) {
+            $query->where(function($query2) use ($startDateTime, $endDateTime) {
+              $query2->where('match_endtime','>',$startDateTime)->where('match_endtime','<=',$endDateTime);
+            });
+            $query->orWhere(function($query3) use ($startDateTime,$endDateTime) {
+              $query3->where('match_datetime','>=',$startDateTime)->where('match_datetime','<',$endDateTime);
+            });
+          })
+        ->get();
+
+
+      if($fixturesResultCount->count() > 0) {
+        $isFixtureScheduled = false;
+        return ['status' => false, 'message' => 'You cannot schedule this match here. As another match is already scheduled.', 'data'=>$teamData, 'is_fixture_scheduled' => $isFixtureScheduled, 'is_another_match_scheduled' => true];
+      }
+
+
       if($data['isMultiSchedule'] === false && $matchData['scheduleLastUpdateDateTime'] != $teamData['schedule_last_update_date_time']) {
         $isFixtureScheduled = false;
-        return ['status' => false, 'message' => 'You need to refresh page to get latest updated fixtures.', 'data'=>$teamData, 'is_fixture_scheduled' => $isFixtureScheduled];
+        return ['status' => false, 'message' => 'You need to refresh page to get latest updated fixtures.', 'data'=>$teamData, 'is_fixture_scheduled' => $isFixtureScheduled, 'is_another_match_scheduled' => false];
       }
 
       if($data['isMultiSchedule'] === false) {
@@ -1472,9 +1495,10 @@ class MatchRepository
 
         $matchData = array('teams'=>$teams,'tournamentId'=>$matchData['tournamentId'],'ageGroupId'=>$teamData['age_group_id'],'teamId'=>$teamId);
         $matchresult =  $this->checkTeamIntervalforMatches($matchData);
-        return ['status' => true, 'data' => $updateData, 'is_fixture_scheduled' => $isFixtureScheduled];
+        return ['status' => true, 'data' => $updateData, 'is_fixture_scheduled' => $isFixtureScheduled, 
+        'is_another_match_scheduled' => false];
       }
-      return ['status' => true, 'data' => [], 'is_fixture_scheduled' => $isFixtureScheduled];
+      return ['status' => true, 'data' => [], 'is_fixture_scheduled' => $isFixtureScheduled, 'is_another_match_scheduled' => false];
     }
     public function matchUnschedule($matchId)
     {
@@ -1732,6 +1756,17 @@ class MatchRepository
 
     public function saveScheduleMatches($data)
     {
+      $conflictedFixtureMatchNumber = null;
+      $matchData = TempFixture::find($data['matchId']);
+
+      if($data['scheduleLastUpdateDateTime'] != $matchData->schedule_last_update_date_time) {
+        $conflictedFixtureMatchNumber = $matchData->match_number;
+      }
+
+      if($conflictedFixtureMatchNumber) {
+        return ['status' => false, 'message' => 'You need to refresh page to get latest updated fixtures.', 'match_data' => $matchData, 'conflictedFixtureMatchNumber' => $conflictedFixtureMatchNumber];
+      }
+
       $updateMatchScheduleResult = TempFixture::where('id', $data['matchId'])
                       ->update([
                         'venue_id' => $data['venue_id'],
@@ -1739,8 +1774,10 @@ class MatchRepository
                         'match_datetime' => $data['matchStartDate'],
                         'match_endtime' => $data['matchEndDate'],
                         'is_scheduled' => 1,
+                        'schedule_last_update_date_time' => Carbon::now()
                       ]);
-      return $updateMatchScheduleResult;
+  
+      return ['status' => true, 'message' => 'Scores updated successfully.', 'match_data' => $updateMatchScheduleResult, 'conflictedFixtureMatchNumber' => $conflictedFixtureMatchNumber];
     }
 
     public function setAutomaticMatchSchedule($data, $allowSchedulingForcefully = false)

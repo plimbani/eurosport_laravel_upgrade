@@ -2518,13 +2518,22 @@ class MatchService implements MatchContract
 
     public function saveScheduleMatches($scheduleMatches)
     {
-      $data = null;
+      $matchFixturesStatusArray = [];
+      $areAllMatchFixtureScheduled = false;
       foreach ($scheduleMatches as $scheduleMatch) {
         $scheduleMatch['venue_id'] = Pitch::find($scheduleMatch['pitchId'])->venue_id;
         $data = $this->matchRepoObj->saveScheduleMatches($scheduleMatch);
+        
+        if($data['status'] == false) {
+          $matchFixturesStatusArray[] = $data['match_data']->match_number;
+        }
+
+        if(sizeof($matchFixturesStatusArray) === 0) {
+          $areAllMatchFixtureScheduled = true;
+        }
       }
-      
-      return ['status_code' => '200', 'data' => $data, 'message' => 'Match has been scheduled successfully'];
+
+      return ['status_code' => '200', 'message' => 'Match has been scheduled successfully', 'conflictedFixturesArray' => $matchFixturesStatusArray, 'areAllMatchFixtureScheduled' => $areAllMatchFixtureScheduled];
     }
 
     public function moveMatchStandings($tournamentId, $ageCategoryId, $competitionId)
