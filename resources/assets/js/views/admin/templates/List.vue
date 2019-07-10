@@ -58,7 +58,7 @@
                             <td>{{ template.minimum_matches }}</td>
                             <td>{{ template.avg_matches }}</td>
                             <td>{{ template.total_matches }}</td>
-                            <td>{{ template.divisions }}</td>
+                            <td>{{ template.no_of_divisions }}</td>
                             <td>{{ template.version }}</td>
                             <td>{{ template.created_at | createdAtFilter }}</td>
                             <td>{{ template.userEmail }}</td>

@@ -104,13 +104,6 @@
                         placings: []
                     },
                     stepfour: {
-                        // remarks: '',
-                        // template_font_color: '',
-                        // roundSchedules: [''],
-                        // graphic_image: '',
-                        // image:'',
-                        // imagePath :'',
-                        // minimum_match: '',
                     }
                 }
             },
