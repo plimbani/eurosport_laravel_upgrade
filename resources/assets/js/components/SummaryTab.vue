@@ -132,7 +132,7 @@
 
 	    		deleteConfirmMsg: 'Are you sure you would like to delete this tournament?',
                 deleteAction: '',
-                isPublishedPreviewOnce: 1,
+                isPublishedPreviewOnce: 0,
 	    	}
 	    },
 	    components: {
@@ -193,6 +193,9 @@
 	    			
               		$("#"+modal).modal("hide");
 	    				this.tournamentStatus = status
+	    				if(this.tournamentStatus === 'Preview' || this.tournamentStatus === 'Published') {
+	    					this.isPublishedPreviewOnce = true;
+	    				}
 	    				toastr['success']('This tournament has been '+status, 'Success');
 	    				let tournamentField = {'tournamentStatus': status}
 	    				this.$store.dispatch('setTournamentStatus',tournamentField)

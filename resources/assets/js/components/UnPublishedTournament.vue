@@ -4,7 +4,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">{{$lang.summary_button_popup_unpublish_text}}</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" @click.prevent="cancelStatusChange()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body text-left">
                 <p>
@@ -12,7 +12,7 @@
                 </p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">{{$lang.summary_tab_popup_unpublish_cancel_button}}</button>
+                <button type="button" class="btn btn-danger" @click.prevent="cancelStatusChange()">{{$lang.summary_tab_popup_unpublish_cancel_button}}</button>
                 <button type="submit" class="btn btn-primary" @click.prevent="updateStatus">{{$lang.summary_tab_popup_unpublish_confirm_button}}</button>
             </div>
         </div>
@@ -23,8 +23,11 @@
     export default  {
         methods: {
             updateStatus() {
-                // here we set status to Publish For Tournament
                 this.$root.$emit('StatusUpdate','Unpublished');
+            },
+            cancelStatusChange() {
+                $('#unpublish_modal').modal('hide');
+                this.$root.$emit('cancelStatusChange');
             }
         }
     }

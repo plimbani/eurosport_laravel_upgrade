@@ -464,7 +464,6 @@ class TournamentRepository
         $newdata           = array();
         $newdata['status'] = $tournamentData['status'];
         $tournamentId      = $tournamentData['tournamentId'];
-        $switchDefaultTournament = $tournamentData['switchDefaultTournament'];
 
         if($tournamentData['status'] == "Unpublished") {
             Website::where('linked_tournament',$tournamentId)->update(['linked_tournament' => NULL]);
@@ -474,6 +473,7 @@ class TournamentRepository
         $tournament->status = $tournamentData['status'];
 
         if(($tournamentData['status'] == "Published" || $tournamentData['status'] == "Preview") && $tournament->is_published_preview_once === 0) {
+            $switchDefaultTournament = $tournamentData['switchDefaultTournament'];
             $userFavourites = UserFavourites::where('tournament_id', $tournament->duplicated_from)->get();
             foreach ($userFavourites as $userFavourite) {
                 $copiedUserFavourite = $userFavourite->replicate();
