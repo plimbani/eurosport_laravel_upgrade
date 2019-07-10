@@ -58,7 +58,7 @@ class UserRepository {
                 ->leftjoin('countries', 'countries.id', '=', 'users.country_id');
 
 
-        if($loggedInUser->hasRole('tournament.administrator')) {
+        if($loggedInUser->hasRole('tournament.administrator')) { 
           $tournamentUserIds = TournamentUser::join('role_user', 'tournament_user.user_id', '=', 'role_user.user_id')
                               ->join('roles', 'roles.id', '=', 'role_user.role_id')
                               ->whereIn('tournament_id', $tournamentIds)
@@ -142,6 +142,7 @@ class UserRepository {
 
     public function create($data)
     {
+        $loggedInUser = $this->getCurrentLoggedInUserDetail();
         $userData = [
         'person_id' => $data['person_id'],
         'username' => $data['username'],
@@ -160,7 +161,8 @@ class UserRepository {
         'user_image'=>(isset($data['user_image']) && $data['user_image']!='') ?  $data['user_image'] : '',
         'role' => (isset($data['role']) && $data['role']!='') ?  $data['role'] : '',
         'provider' => 'email',
-        'provider_id' => null
+        'provider_id' => null,
+        'userType' => $loggedInUser->hasRole('tournament.administrator') ? 6 : $data['userType'],
         ];
       
         $deletedUser = User::onlyTrashed()->where('email',$data['email'])->first();
@@ -186,8 +188,6 @@ class UserRepository {
                     $user = User::create($userData);
                     $user->attachRole($data['userType']);
 
-                    
-                    $loggedInUser = $this->getCurrentLoggedInUserDetail();
                     if($loggedInUser->hasRole('tournament.administrator')) {
                         $tournamentAdminUser = new TournamentAdminUser();
                         $tournamentAdminUser->user_id = $user->id;

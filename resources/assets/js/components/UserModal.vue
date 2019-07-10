@@ -43,11 +43,14 @@
                   <div class="form-group row">
                       <label class="col-sm-5 form-control-label">{{$lang.user_management_user_type}}</label>
                       <div class="col-sm-6">
-                        <select v-validate="'required'":class="{'is-danger': errors.has('user_type') }" class="form-control ls-select2" name="user_type" v-model="formValues.userType" @change="userTypeChanged()" :disabled="formValues.provider == 'facebook'">
+                        <select v-validate="'required'":class="{'is-danger': errors.has('user_type') }" class="form-control ls-select2" name="user_type" v-model="formValues.userType" @change="userTypeChanged()" :disabled="formValues.provider == 'facebook'" v-if="userRole != 'Tournament administrator'">
                           <option value="">Select</option>
                           <option v-for="role in userRolesOptions" v-bind:value="role.id" v-if="(!(isMasterAdmin == true && role.slug == 'Super.administrator'))">
                               {{ role.name }}
                           </option>
+                        </select>
+                        <select class="form-control ls-select2" disabled v-if="userRole == 'Tournament administrator'">
+                          <option value="">Results administrator</option>
                         </select>
                         <span class="help is-danger" v-show="errors.has('user_type')">{{$lang.user_management_user_type_required}}</span>
                       </div>
@@ -94,7 +97,7 @@
                 <div class="form-group row">
                   <label class="col-sm-5 form-control-label">{{$lang.user_management_email}}</label>
                   <div class="col-sm-6">
-                      <input v-model="result_admin_email" v-validate="'required|email'" :class="{'is-danger': errors.has('result_admin_email') }" name="result_admin_email" type="email" class="form-control" placeholder="Enter email address">
+                      <input v-model="result_admin_email"  v-validate="'required|email'" name="result_admin_email" :class="{'is-danger': errors.has('result_admin_email') }" type="email" class="form-control" placeholder="Enter email address">
                       <i v-show="errors.has('result_admin_email')" class="fas fa-warning"></i>
                       <span class="help is-danger" v-show="errors.has('result_admin_email')">{{$lang.user_management_email_required}}</span>
                      <span class="help is-danger" v-if="existEmail == true">Email already exist</span>
@@ -150,7 +153,7 @@ import { ErrorBag } from 'vee-validate';
                 result_admin_email: '',
                 isUserExists: false,
                 normalUserFields: false,
-              
+                userRole:this.$store.state.Users.userDetails.role_name,
                 errorMessages: {
                   en: {
                     custom: {
