@@ -1,4 +1,6 @@
-@if($websiteDetail->tournament_logo)
+@php($tournamentLogoHeaders = @get_headers(config('filesystems.disks.s3.url') . config('wot.imagePath.favicon') . $websiteDetail->id . '/' . 'favicon-32x32.png'))
+
+@if($websiteDetail->tournament_logo && preg_match("|200|", $tournamentLogoHeaders[0]))
 	<link rel="apple-touch-icon" sizes="180x180" href="{{ config('filesystems.disks.s3.url') . config('wot.imagePath.favicon') . $websiteDetail->id . '/' . 'apple-touch-icon.png' }}">
 	<link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 736px) and (orientation: landscape) and (-webkit-device-pixel-ratio: 3)" href="{{ config('filesystems.disks.s3.url') . config('wot.imagePath.favicon') . $websiteDetail->id . '/' . 'apple-touch-startup-image-1182x2208.png' }}">
 	<link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 736px) and (orientation: portrait) and (-webkit-device-pixel-ratio: 3)" href="{{ config('filesystems.disks.s3.url') . config('wot.imagePath.favicon') . $websiteDetail->id . '/' . 'apple-touch-startup-image-1242x2148.png' }}">
