@@ -24,6 +24,15 @@ class CategoryListVC: SuperViewController {
     var tournamentId = NULL_ID
     var isSearch = false
     
+    @IBOutlet var lblNoData: UILabel!
+    
+    var isDataAvailable: Bool = false {
+        didSet {
+            table.isHidden = !isDataAvailable
+            lblNoData.isHidden = isDataAvailable
+        }
+    }
+    
     var rotateToPortrait = false
     
     override func viewDidLoad() {
@@ -120,6 +129,7 @@ class CategoryListVC: SuperViewController {
                 }
                 
                 self.table.reloadData()
+                self.isDataAvailable = (self.ageCategoriesList.count != 0)
             }
         }) { (result) in
             DispatchQueue.main.async {

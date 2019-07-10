@@ -75,6 +75,7 @@ class TabTeamsVC: SuperViewController {
         
         if let viewValue = sender.view {
             if selectedIndex != viewValue.tag {
+                previousIndex = selectedIndex
                 selectedIndex = viewValue.tag
                 
                 tabLabelList[selectedIndex].textColor = .white
@@ -83,7 +84,6 @@ class TabTeamsVC: SuperViewController {
                 if selectedIndex != previousIndex {
                     tabLabelList[previousIndex].textColor = UIColor.init(named: "teamtabstextcolor")
                     tabLineViewList[previousIndex].backgroundColor = .clear
-                    previousIndex = selectedIndex
                 }
                 
                 // Remove previous view controller

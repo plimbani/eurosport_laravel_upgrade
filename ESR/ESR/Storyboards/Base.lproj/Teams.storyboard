@@ -205,19 +205,30 @@
                                     <outlet property="delegate" destination="1fd-gd-aa0" id="TE1-gj-SrU"/>
                                 </connections>
                             </tableView>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No data avilable" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OcQ-kG-LJD">
+                                <rect key="frame" x="0.0" y="70" width="320" height="498"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <constraints>
                             <constraint firstItem="UF1-c0-ecJ" firstAttribute="leading" secondItem="jiW-CA-Q5S" secondAttribute="leading" id="5yr-xz-BLO"/>
+                            <constraint firstItem="OcQ-kG-LJD" firstAttribute="top" secondItem="UF1-c0-ecJ" secondAttribute="bottom" id="BcQ-Cx-QZx"/>
                             <constraint firstItem="jiW-CA-Q5S" firstAttribute="trailing" secondItem="vZe-qT-SI4" secondAttribute="trailing" id="C0J-c6-WRj"/>
+                            <constraint firstItem="OcQ-kG-LJD" firstAttribute="leading" secondItem="jiW-CA-Q5S" secondAttribute="leading" id="OUA-Yf-k6x"/>
+                            <constraint firstItem="jiW-CA-Q5S" firstAttribute="trailing" secondItem="OcQ-kG-LJD" secondAttribute="trailing" id="Onw-sT-f7j"/>
                             <constraint firstItem="vZe-qT-SI4" firstAttribute="top" secondItem="UF1-c0-ecJ" secondAttribute="bottom" id="Tyw-uo-LnN"/>
                             <constraint firstItem="vZe-qT-SI4" firstAttribute="leading" secondItem="jiW-CA-Q5S" secondAttribute="leading" id="Z2B-vu-96T"/>
                             <constraint firstItem="jiW-CA-Q5S" firstAttribute="bottom" secondItem="vZe-qT-SI4" secondAttribute="bottom" id="en3-PE-sBO"/>
+                            <constraint firstItem="jiW-CA-Q5S" firstAttribute="bottom" secondItem="OcQ-kG-LJD" secondAttribute="bottom" id="gMV-8U-8YW"/>
                             <constraint firstItem="jiW-CA-Q5S" firstAttribute="trailing" secondItem="UF1-c0-ecJ" secondAttribute="trailing" id="osc-yo-iVL"/>
                             <constraint firstItem="UF1-c0-ecJ" firstAttribute="top" secondItem="jiW-CA-Q5S" secondAttribute="top" id="wYX-fK-Mgm"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="jiW-CA-Q5S"/>
                     </view>
                     <connections>
+                        <outlet property="lblNoData" destination="OcQ-kG-LJD" id="t8X-wS-mFF"/>
                         <outlet property="table" destination="vZe-qT-SI4" id="wrY-3B-e7O"/>
                         <outlet property="txtSearch" destination="ytN-a2-6d5" id="0w7-oS-Srd"/>
                     </connections>
@@ -829,11 +840,21 @@
                                     <outlet property="delegate" destination="nJD-eO-hgX" id="66A-hR-8dB"/>
                                 </connections>
                             </tableView>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No data available" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4kz-mL-pEi">
+                                <rect key="frame" x="0.0" y="70" width="320" height="498"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <constraints>
+                            <constraint firstItem="JK9-zQ-T7m" firstAttribute="trailing" secondItem="4kz-mL-pEi" secondAttribute="trailing" id="3jI-AJ-aWy"/>
+                            <constraint firstItem="4kz-mL-pEi" firstAttribute="top" secondItem="CCg-oA-JIy" secondAttribute="bottom" id="9qn-3Z-WhD"/>
                             <constraint firstItem="JK9-zQ-T7m" firstAttribute="trailing" secondItem="CCg-oA-JIy" secondAttribute="trailing" id="Br2-Zk-69U"/>
                             <constraint firstItem="JK9-zQ-T7m" firstAttribute="bottom" secondItem="Xrw-wS-WVI" secondAttribute="bottom" id="F6C-nJ-OBd"/>
+                            <constraint firstItem="4kz-mL-pEi" firstAttribute="leading" secondItem="JK9-zQ-T7m" secondAttribute="leading" id="J7m-gH-Wao"/>
                             <constraint firstItem="CCg-oA-JIy" firstAttribute="leading" secondItem="JK9-zQ-T7m" secondAttribute="leading" id="KX7-pH-3Yy"/>
+                            <constraint firstItem="JK9-zQ-T7m" firstAttribute="bottom" secondItem="4kz-mL-pEi" secondAttribute="bottom" id="NbY-IR-tKY"/>
                             <constraint firstItem="Xrw-wS-WVI" firstAttribute="leading" secondItem="JK9-zQ-T7m" secondAttribute="leading" id="Sq2-GH-JJT"/>
                             <constraint firstItem="JK9-zQ-T7m" firstAttribute="trailing" secondItem="Xrw-wS-WVI" secondAttribute="trailing" id="fN8-U7-grv"/>
                             <constraint firstItem="Xrw-wS-WVI" firstAttribute="top" secondItem="CCg-oA-JIy" secondAttribute="bottom" id="is5-9Y-eDu"/>
@@ -842,6 +863,7 @@
                         <viewLayoutGuide key="safeArea" id="JK9-zQ-T7m"/>
                     </view>
                     <connections>
+                        <outlet property="lblNoData" destination="4kz-mL-pEi" id="pt1-Hb-e9G"/>
                         <outlet property="table" destination="Xrw-wS-WVI" id="pr3-2o-yjd"/>
                         <outlet property="txtSearch" destination="TmA-3a-u3S" id="nFx-69-qWN"/>
                     </connections>
@@ -901,18 +923,28 @@
                                     <outlet property="delegate" destination="goi-Vb-JmH" id="6gm-Ja-KJh"/>
                                 </connections>
                             </tableView>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No data available" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qqc-Lp-Mk2">
+                                <rect key="frame" x="0.0" y="114" width="320" height="454"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <constraints>
                             <constraint firstItem="5lm-4o-ySm" firstAttribute="leading" secondItem="onK-nU-Y9g" secondAttribute="leading" id="8rR-iF-9XQ"/>
+                            <constraint firstItem="Qqc-Lp-Mk2" firstAttribute="leading" secondItem="onK-nU-Y9g" secondAttribute="leading" id="BOd-gP-Yec"/>
                             <constraint firstItem="6J4-RE-7SI" firstAttribute="top" secondItem="onK-nU-Y9g" secondAttribute="top" id="LZr-iO-Bvz"/>
                             <constraint firstItem="6J4-RE-7SI" firstAttribute="leading" secondItem="onK-nU-Y9g" secondAttribute="leading" id="Ppm-s0-wan"/>
                             <constraint firstItem="onK-nU-Y9g" firstAttribute="bottom" secondItem="hAh-mF-Ozp" secondAttribute="bottom" id="PxU-Pr-Naj"/>
                             <constraint firstItem="5lm-4o-ySm" firstAttribute="top" secondItem="6J4-RE-7SI" secondAttribute="bottom" id="Tlz-Vf-Orp"/>
                             <constraint firstItem="onK-nU-Y9g" firstAttribute="trailing" secondItem="hAh-mF-Ozp" secondAttribute="trailing" id="UYG-HG-nfX"/>
+                            <constraint firstItem="onK-nU-Y9g" firstAttribute="trailing" secondItem="Qqc-Lp-Mk2" secondAttribute="trailing" id="ZnM-gX-NRS"/>
                             <constraint firstItem="onK-nU-Y9g" firstAttribute="trailing" secondItem="6J4-RE-7SI" secondAttribute="trailing" id="eYs-XK-wgR"/>
                             <constraint firstItem="hAh-mF-Ozp" firstAttribute="leading" secondItem="onK-nU-Y9g" secondAttribute="leading" id="krJ-Ph-hIO"/>
                             <constraint firstItem="hAh-mF-Ozp" firstAttribute="top" secondItem="5lm-4o-ySm" secondAttribute="bottom" id="oHd-2S-DbF"/>
                             <constraint firstItem="onK-nU-Y9g" firstAttribute="trailing" secondItem="5lm-4o-ySm" secondAttribute="trailing" id="qbf-v1-yUj"/>
+                            <constraint firstItem="Qqc-Lp-Mk2" firstAttribute="top" secondItem="5lm-4o-ySm" secondAttribute="bottom" id="tz7-yE-phT"/>
+                            <constraint firstItem="onK-nU-Y9g" firstAttribute="bottom" secondItem="Qqc-Lp-Mk2" secondAttribute="bottom" id="yjf-YR-7vG"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="onK-nU-Y9g"/>
                     </view>
@@ -920,6 +952,7 @@
                         <outlet property="heightConstraintSeachView" destination="fs8-w3-mNc" id="rKH-Nq-x9t"/>
                         <outlet property="heightConstraintTitleNavigationBar" destination="LPg-as-apd" id="GIh-Jf-hSj"/>
                         <outlet property="imgSearch" destination="6O6-TZ-cK0" id="ZHd-gc-Uz5"/>
+                        <outlet property="lblNoData" destination="Qqc-Lp-Mk2" id="UUL-qu-Dim"/>
                         <outlet property="searchView" destination="5lm-4o-ySm" id="Py1-PZ-kRN"/>
                         <outlet property="table" destination="hAh-mF-Ozp" id="vfF-uP-Prq"/>
                         <outlet property="titleNavigationBar" destination="6J4-RE-7SI" id="ZNt-cT-pmT"/>
@@ -936,13 +969,13 @@
         <image name="down_arrow_black" width="68" height="38"/>
         <image name="search" width="81" height="81"/>
         <namedColor name="navigationbarcolor">
-            <color red="0.0" green="0.5725490196078431" blue="0.83921568627450982" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.7803921568627451" green="0.039215686274509803" blue="0.12549019607843137" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="teamtabssepcolor">
-            <color red="0.027450980392156862" green="0.29803921568627451" blue="0.51764705882352946" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.92941176470588238" green="0.61960784313725492" blue="0.17647058823529413" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="teamtabstextcolor">
-            <color red="0.8666666666666667" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.62352941176470589" green="0.83529411764705885" blue="0.93333333333333335" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
 </document>
