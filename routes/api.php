@@ -391,4 +391,6 @@ $api->version('v1', function ($api) {
     $api->post('updateTemplateFormDetail', 'Laraspace\Api\Controllers\TemplateController@updateTemplateFormDetail');
 
     $api->post('templateJsonUpdateScript', 'Laraspace\Api\Controllers\TemplateController@templateJsonUpdateScript');
+
+    $api->post('scriptForDivisionsAndMinimumMatches', 'Laraspace\Api\Controllers\TemplateController@scriptForDivisionsAndMinimumMatches');
 });
