@@ -10,9 +10,11 @@ use Laraspace\Models\Country;
 use Laraspace\Models\TournamentUser;
 use DB;
 use Hash;
+use JWTAuth;
 use Illuminate\Pagination\Paginator;
 use Laraspace\Traits\AuthUserDetail;
 use Laraspace\Models\RoleUser;
+use Laraspace\Models\TournamentAdminUser;
 
 class UserRepository {
 
@@ -58,15 +60,14 @@ class UserRepository {
 
         if($loggedInUser->hasRole('tournament.administrator')) {
           $tournamentUserIds = TournamentUser::join('role_user', 'tournament_user.user_id', '=', 'role_user.user_id')
-                                              ->join('roles', 'roles.id', '=', 'role_user.role_id')
-                                              ->whereIn('tournament_id', $tournamentIds)
-                                              ->where('tournament_user.user_id', '!=', $loggedInUser->id)
-                                              ->where('slug', 'Results.administrator')
-                                              ->select('tournament_user.*', 'roles.name', 'roles.slug')
-                                              ->groupBy('user_id')
-                                              ->pluck('user_id')
-                                              ->toArray();
-
+                              ->join('roles', 'roles.id', '=', 'role_user.role_id')
+                              ->whereIn('tournament_id', $tournamentIds)
+                              ->where('tournament_user.user_id', '!=', $loggedInUser->id)
+                              ->where('slug', 'Results.administrator')
+                              ->select('tournament_user.*', 'roles.name', 'roles.slug')
+                              ->groupBy('user_id')
+                              ->pluck('user_id')
+                              ->toArray();
           $user = $user->whereIn('users.id', $tournamentUserIds);
         }
 
@@ -182,9 +183,17 @@ class UserRepository {
 
                  // return  $deletedUser->attachRole($data['userType']);
             }else{
-              
                     $user = User::create($userData);
                     $user->attachRole($data['userType']);
+
+                    
+                    $loggedInUser = $this->getCurrentLoggedInUserDetail();
+                    if($loggedInUser->hasRole('tournament.administrator')) {
+                        $tournamentAdminUser = new TournamentAdminUser();
+                        $tournamentAdminUser->user_id = $user->id;
+                        $tournamentAdminUser->added_by = $loggedInUser['id'];        
+                        $tournamentAdminUser->save();
+                    } 
                     return ['status'=>'created','user'=>$user];
 
 
