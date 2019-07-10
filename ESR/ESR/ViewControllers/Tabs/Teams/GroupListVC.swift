@@ -18,6 +18,15 @@ class GroupListVC: SuperViewController {
     
     var isSearch = false
     
+    @IBOutlet var lblNoData: UILabel!
+    
+    var isDataAvailable: Bool = false {
+        didSet {
+            table.isHidden = !isDataAvailable
+            lblNoData.isHidden = isDataAvailable
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         TestFairy.log(String(describing: self))
@@ -88,6 +97,7 @@ class GroupListVC: SuperViewController {
                 }
                 
                 self.table.reloadData()
+                self.isDataAvailable = (self.ageCategoriesGroupsList.count != 0)
             }
         }) { (result) in
             DispatchQueue.main.async {

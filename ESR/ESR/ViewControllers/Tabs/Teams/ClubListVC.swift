@@ -18,6 +18,15 @@ class ClubListVC: SuperViewController {
     
     var isSearch = false
     
+    @IBOutlet var lblNoData: UILabel!
+    
+    var isDataAvailable: Bool = false {
+        didSet {
+            table.isHidden = !isDataAvailable
+            lblNoData.isHidden = isDataAvailable
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         TestFairy.log(String(describing: self))
@@ -87,6 +96,8 @@ class ClubListVC: SuperViewController {
                 let descriptor: NSSortDescriptor = NSSortDescriptor(key: "clubName", ascending: true)
                 self.tournamentClubList = NSMutableArray.init(array: self.tournamentClubList.sortedArray(using: [descriptor]))
                 self.table.reloadData()
+                
+                self.isDataAvailable = (self.tournamentClubList.count != 0)
             }
         }) { (result) in
             
