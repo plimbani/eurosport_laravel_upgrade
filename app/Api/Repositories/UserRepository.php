@@ -67,8 +67,17 @@ class UserRepository {
                               ->select('tournament_user.*', 'roles.name', 'roles.slug')
                               ->groupBy('user_id')
                               ->pluck('user_id')
-                              ->toArray();
-          $user = $user->whereIn('users.id', $tournamentUserIds);
+                              ->toArray();                   
+
+          $tournamentAdminUser =  TournamentAdminUser::join('role_user', 'tournament_admin_users.user_id', '=', 'role_user.user_id')
+                              ->join('roles', 'roles.id', '=', 'role_user.role_id')
+                              ->where('slug', 'Results.administrator')
+                              ->join('users', 'tournament_admin_users.user_id', '=', 'users.id')
+                              ->pluck('tournament_admin_users.user_id')
+                              ->toArray(); 
+          $tournamentArray = array_merge($tournamentUserIds,$tournamentAdminUser);
+          $finalTournamentUniqueId = array_unique($tournamentArray);
+          $user = $user->whereIn('users.id', $finalTournamentUniqueId);  
         }
 
         if(isset($data['userData']) && $data['userData'] !== '') {
@@ -143,6 +152,8 @@ class UserRepository {
     public function create($data)
     {
         $loggedInUser = $this->getCurrentLoggedInUserDetail();
+        $data['userType'] = $loggedInUser->hasRole('tournament.administrator') ? 6 : $data['userType'];
+
         $userData = [
         'person_id' => $data['person_id'],
         'username' => $data['username'],
@@ -162,9 +173,8 @@ class UserRepository {
         'role' => (isset($data['role']) && $data['role']!='') ?  $data['role'] : '',
         'provider' => 'email',
         'provider_id' => null,
-        'userType' => $loggedInUser->hasRole('tournament.administrator') ? 6 : $data['userType'],
         ];
-      
+        
         $deletedUser = User::onlyTrashed()->where('email',$data['email'])->first();
         // if($deletedUser){
         //     $user = $deletedUser->restore();
