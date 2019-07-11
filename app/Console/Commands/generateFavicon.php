@@ -64,6 +64,6 @@ class generateFavicon extends Command
             $website->tournament_logo,
             config('wot.imagePath')['favicon'],
             $website->id
-        );
+        )->onQueue('favicon');
     }
 }
