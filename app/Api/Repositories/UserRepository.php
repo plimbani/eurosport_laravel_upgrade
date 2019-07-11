@@ -75,8 +75,8 @@ class UserRepository {
                               ->join('users', 'tournament_admin_users.user_id', '=', 'users.id')
                               ->pluck('tournament_admin_users.user_id')
                               ->toArray(); 
-          $tournamentArray = array_merge($tournamentUserIds,$tournamentAdminUser);
-          $finalTournamentUniqueId = array_unique($tournamentArray);
+          $userTournamentsArray = array_merge($tournamentUserIds,$tournamentAdminUser);
+          $finalTournamentUniqueId = array_unique($userTournamentsArray);
           $user = $user->whereIn('users.id', $finalTournamentUniqueId);  
         }
 
@@ -172,7 +172,7 @@ class UserRepository {
         'user_image'=>(isset($data['user_image']) && $data['user_image']!='') ?  $data['user_image'] : '',
         'role' => (isset($data['role']) && $data['role']!='') ?  $data['role'] : '',
         'provider' => 'email',
-        'provider_id' => null,
+        'provider_id' => null
         ];
         
         $deletedUser = User::onlyTrashed()->where('email',$data['email'])->first();
