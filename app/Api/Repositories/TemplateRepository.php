@@ -9,7 +9,7 @@ use Laraspace\Traits\AuthUserDetail;
 use Laraspace\Models\TournamentTemplates;
 use Laraspace\Models\TournamentCompetationTemplates;
 use Laraspace\Api\Services\AgeGroupService;
-
+use Illuminate\Pagination\Paginator;
 
 class TemplateRepository
 {
@@ -49,9 +49,14 @@ class TemplateRepository
         $templates->whereNull('tournament_template.deleted_at');
         $templates->orderBy('tournament_template.created_at');
         $templates->select('tournament_template.*', 'users.email as userEmail');
-        $templates = $templates->get();
+        $templatesData = $templates->get();
         
-        return $templates;
+        $currentPage = $data['currentPage']; 
+        Paginator::currentPageResolver(function () use ($currentPage) {
+
+          return $currentPage;
+        });
+        return $templates->paginate($data['noOfRecords']);
     }
 
     /*
@@ -166,8 +171,8 @@ class TemplateRepository
         $totalTeams = $templateFormDetail['stepone']['no_of_teams'];
         $finalArray = [];
         $finalArray['tournament_teams'] = $totalTeams;
-        $templateFormDetail['stepfour']['remarks'] ? $finalArray['remark'] = $templateFormDetail['stepfour']['remarks'] : null;
-        $finalArray['template_font_color'] = $templateFormDetail['stepfour']['template_font_color'];
+        $templateFormDetail['stepone']['remarks'] ? $finalArray['remark'] = $templateFormDetail['stepone']['remarks'] : null;
+        $finalArray['template_font_color'] = $templateFormDetail['stepone']['template_font_color'];
         $finalArray['tournament_name'] = $templateFormDetail['stepone']['templateName'];
         $finalArray['tournament_competation_format'] = [];
         $finalArray['tournament_competation_format']['format_name'] = [];
@@ -243,15 +248,15 @@ class TemplateRepository
         }
 
         $averageMatches = $this->getAverageMatches($totalMatches, $totalTeams);
-        $minimumMatches = $this->getMinimumMatches($templateFormDetail);
+        // $minimumMatches = $this->getMinimumMatches($templateFormDetail);
         $positionType = $this->getPositionType($tournamentsPositionsData);
 
         $finalArray['total_matches'] = $totalMatches;
-        $finalArray['tournament_min_match'] = $minimumMatches;
+        $finalArray['tournament_min_match'] = $templateFormDetail['stepone']['minimum_match'];
         $finalArray['avg_game_team'] = $averageMatches;
         $finalArray['position_type'] = $positionType;
         $finalArray['tournament_positions'] = $tournamentsPositionsData;
-        $finalArray['round_schedule'] = $data['templateFormDetail']['stepfour']['roundSchedules'];
+        $finalArray['round_schedule'] = $data['templateFormDetail']['stepone']['roundSchedules'];
 
         foreach($finalArray['tournament_competation_format']['format_name'] as $roundIndex => $round) {
             $templateFormDetailGroup = $templateFormDetail['steptwo']['rounds'][$roundIndex]['groups'];
@@ -282,10 +287,11 @@ class TemplateRepository
     public function insertTemplate($data, $templateJson)
     {
         $decodedJson = json_decode($templateJson, true);
+        $divisionsCount = isset($decodedJson['tournament_competation_format']['divisions']) ? sizeof($decodedJson['tournament_competation_format']['divisions']) : 0;
 
         $graphicImageName = NULL;
-        if($data['templateFormDetail']['stepfour']['graphic_image']) {
-            $graphicImageName = $this->getGraphicImagePath .$data['templateFormDetail']['stepfour']['graphic_image'];
+        if($data['templateFormDetail']['stepone']['graphic_image']) {
+            $graphicImageName = $this->getGraphicImagePath .$data['templateFormDetail']['stepone']['graphic_image'];
         }
 
         $tournamentTemplate = new TournamentTemplates();
@@ -293,10 +299,11 @@ class TemplateRepository
         $tournamentTemplate->name = $data['templateFormDetail']['stepone']['templateName'];
         $tournamentTemplate->graphic_image = $graphicImageName;
         $tournamentTemplate->total_teams = $data['templateFormDetail']['stepone']['no_of_teams'];
-        $tournamentTemplate->minimum_matches = $decodedJson['tournament_min_match'];
+        $tournamentTemplate->minimum_matches = $data['templateFormDetail']['stepone']['minimum_match'];
         $tournamentTemplate->position_type = $decodedJson['position_type'];
         $tournamentTemplate->avg_matches = $decodedJson['avg_game_team'];
         $tournamentTemplate->total_matches = $decodedJson['total_matches'];
+        $tournamentTemplate->no_of_divisions = $divisionsCount;
         $tournamentTemplate->editor_type = $data['templateFormDetail']['stepone']['editor'];
         $tournamentTemplate->template_form_detail = json_encode($data['templateFormDetail']);
         $tournamentTemplate->version = array_get($data,'version', 1);
@@ -317,8 +324,8 @@ class TemplateRepository
     {
         $decodedJson = json_decode($templateJson, true);
         $graphicImageName = NULL;
-        if($data['templateFormDetail']['stepfour']['graphic_image']) {
-            $graphicImageName = $this->getGraphicImagePath .$data['templateFormDetail']['stepfour']['graphic_image'];
+        if($data['templateFormDetail']['stepone']['graphic_image']) {
+            $graphicImageName = $this->getGraphicImagePath .$data['templateFormDetail']['stepone']['graphic_image'];
         }
 
         $tournamentTemplate = TournamentTemplates::findOrFail($data['editedTemplateId']);
@@ -326,7 +333,7 @@ class TemplateRepository
         $tournamentTemplate->name = $data['templateFormDetail']['stepone']['templateName'];
         $tournamentTemplate->graphic_image = $graphicImageName;
         $tournamentTemplate->total_teams = $data['templateFormDetail']['stepone']['no_of_teams'];
-        $tournamentTemplate->minimum_matches = $decodedJson['tournament_min_match'];
+        $tournamentTemplate->minimum_matches = $data['templateFormDetail']['stepone']['minimum_match'];
         $tournamentTemplate->position_type = $decodedJson['position_type'];
         $tournamentTemplate->avg_matches = $decodedJson['avg_game_team'];
         $tournamentTemplate->total_matches = $decodedJson['total_matches'];
@@ -480,32 +487,32 @@ class TemplateRepository
        return round($averageMatches, 1);
     }
 
-    public function getMinimumMatches($templateFormDetail)
-    {
-        $minGames = 0;
-        $rounds = $templateFormDetail['steptwo']['rounds'];
-        $totalTeams = $templateFormDetail['stepone']['no_of_teams'];
+    // public function getMinimumMatches($templateFormDetail)
+    // {
+    //     $minGames = 0;
+    //     $rounds = $templateFormDetail['steptwo']['rounds'];
+    //     $totalTeams = $templateFormDetail['stepone']['no_of_teams'];
 
-        foreach ($rounds as $roundIndex => $round) {
-            $nGames = [];
-            if($round['no_of_teams'] < $totalTeams) {
-                break;
-            } else {
-                foreach ($round['groups'] as $groupIndex => $group) {
-                    if($group['type'] == 'round_robin') {
-                        $nGames[] = $this->getNumberOfTimesFromString($group['teams_play_each_other']) * ($group['no_of_teams'] - 1);
-                    }
-                    if($group['type'] == 'placing_match') {
-                        $nGames[] = 1;
-                    }
-                }
-            }
-            $minGames += min($nGames);
-        }
-        $minimumMatches = $minGames;
+    //     foreach ($rounds as $roundIndex => $round) {
+    //         $nGames = [];
+    //         if($round['no_of_teams'] < $totalTeams) {
+    //             break;
+    //         } else {
+    //             foreach ($round['groups'] as $groupIndex => $group) {
+    //                 if($group['type'] == 'round_robin') {
+    //                     $nGames[] = $this->getNumberOfTimesFromString($group['teams_play_each_other']) * ($group['no_of_teams'] - 1);
+    //                 }
+    //                 if($group['type'] == 'placing_match') {
+    //                     $nGames[] = 1;
+    //                 }
+    //             }
+    //         }
+    //         $minGames += min($nGames);
+    //     }
+    //     $minimumMatches = $minGames;
 
-        return $minimumMatches;
-    }
+    //     return $minimumMatches;
+    // }
 
     public function getPositionType($positions)
     {
@@ -869,10 +876,8 @@ class TemplateRepository
                     if( (($divisionIndex === -1 && ($roundIndex+1) === count($templateFormDetail['steptwo']['rounds'])) || ($divisionIndex >= 0 && ($roundIndex+1) === count($templateFormDetail['steptwo']['divisions'][$divisionIndex]['rounds'])))
                         && ($groupIndex+1) === count($round['groups'])
                         && $group['type'] == 'placing_match') {
-                        // echo $divisionIndex . "in" . "<br/>";
                         $teamPosition = $divisionIndex. ',' .$roundIndex. ',' .$groupIndex. ',' .($currentMatch-1);
                         $position = $this->getMatchPosition($teamPosition, $templateFormDetail['stepthree']['placings']);
-                        // echo $position. "<br/>";
                     }
                     
                     $matchDetail = [
@@ -974,7 +979,7 @@ class TemplateRepository
         $winnerPosition = collect($positionArray)->where('position', $teamPosition)->where('position_type', 'winner')->keys()->toArray();
         $looserPosition = collect($positionArray)->where('position', $teamPosition)->where('position_type', 'looser')->keys()->toArray();
 
-        $position = '';
+        $position = null;
         if(!empty($winnerPosition) && !empty($looserPosition)) {
             $position = (head($winnerPosition) + 1) . '-' .(head($looserPosition) + 1);
         }

@@ -62,7 +62,7 @@ class TemplateService implements TemplateContract
      * @return response
      */
     public function saveTemplateDetail($data) {
-        $data['templateFormDetail']['stepfour']['graphic_image'] = $this->saveTemplateGraphicImage($data);
+        $data['templateFormDetail']['stepone']['graphic_image'] = $this->saveTemplateGraphicImage($data);
         $data = $this->templateRepoObj->saveTemplateDetail($data);
         return ['data' => $data, 'status_code' => '200'];
     }
@@ -100,14 +100,14 @@ class TemplateService implements TemplateContract
      * @return response
      */
     public function updateTemplateDetail($data) {
-        $data['templateFormDetail']['stepfour']['graphic_image'] = $this->saveTemplateGraphicImage($data, $data['editedTemplateId']);
+        $data['templateFormDetail']['stepone']['graphic_image'] = $this->saveTemplateGraphicImage($data, $data['editedTemplateId']);
         $data = $this->templateRepoObj->updateTemplateDetail($data);
         return ['data' => $data, 'status_code' => '200'];
     }
 
     private function saveTemplateGraphicImage($data, $id='')
     {
-        $graphicImage = $data['templateFormDetail']['stepfour']['graphic_image'];
+        $graphicImage = $data['templateFormDetail']['stepone']['graphic_image'];
         if($graphicImage != '') {
             if(strpos($graphicImage, $this->getAWSUrl) !==  false) {
                 $path = $this->getAWSUrl.'/assets/img/template_graphic_image/';

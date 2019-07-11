@@ -102,6 +102,7 @@ $api->version('v1', function ($api) {
     $api->get('getAllLanguages', 'Laraspace\Api\Controllers\UserController@getAllLanguages');
     $api->post('tournament/updateCategoryDivisionName', 'Laraspace\Api\Controllers\TournamentController@updateCategoryDivisionName');
     $api->post('/userResendEmail', '\Laraspace\Api\Controllers\UserController@userResendEmail');
+    $api->get('user/setpasswordCheck/{key}','\Laraspace\Api\Controllers\UserController@setPassword');
 });
 
 $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
@@ -386,5 +387,9 @@ $api->version('v1', function ($api) {
 
     $api->get('compareTemplateJson/{oldId}/{newId}', 'Laraspace\Api\Controllers\TemplateController@compareJsonTemplate');
 
-    $api->post('updateTemplateFormDetail', 'Laraspace\Api\Controllers\TemplateController@updateTemplateFormDetail');    
+    $api->post('updateTemplateFormDetail', 'Laraspace\Api\Controllers\TemplateController@updateTemplateFormDetail');
+
+    $api->post('templateJsonUpdateScript', 'Laraspace\Api\Controllers\TemplateController@templateJsonUpdateScript');
+
+    $api->post('scriptForDivisionsAndMinimumMatches', 'Laraspace\Api\Controllers\TemplateController@scriptForDivisionsAndMinimumMatches');
 });
