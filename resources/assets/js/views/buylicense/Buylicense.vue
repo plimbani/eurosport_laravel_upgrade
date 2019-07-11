@@ -407,7 +407,6 @@
             },
             changeDays(){
                 this.newDaysAdded = this.dayDifference - this.oldDaysDifference; 
-                console.log('this.newDaysAdded', this.newDaysAdded);
             },
             setOldDays(){
                 this.oldDaysDifference = this.dayDifference;
@@ -774,7 +773,6 @@
                 }
             },
             tournamentEditYourLicense() {
-                console.log('tournamentEditYourLicense', JSON.parse(Ls.get("orderInfo")));
                 let editTournamentLicense;
                 if(this.$route.query.edityourlicense == 'yes') {
                     editTournamentLicense = JSON.parse(Ls.get("orderInfo")); 

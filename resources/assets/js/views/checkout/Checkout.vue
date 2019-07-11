@@ -261,7 +261,6 @@
 				if(this.tournamentData.id){
                     this.id = this.tournamentData.id;
                 }
-				//console.log(this.tournamentData);
             } else {
                 this.$router.push({name: 'login'});
             }
