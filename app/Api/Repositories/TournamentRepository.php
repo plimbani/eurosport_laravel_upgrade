@@ -481,6 +481,9 @@ class TournamentRepository
                 if($switchDefaultTournament == 0) {
                     $copiedUserFavourite->is_default = 0;
                 }
+                if($switchDefaultTournament == 1 && $copiedUserFavourite->is_default == 1) {
+                    UserFavourites::where('user_id', '=', $copiedUserFavourite->user_id)->update(['is_default' => 0]);
+                }
                 $copiedUserFavourite->save();
             }
             $tournament->is_published_preview_once = 1;
@@ -1070,6 +1073,7 @@ class TournamentRepository
         $newCopiedTournament->slug = $this->generateSlug($data['tournament_name'] . Carbon::createFromFormat('d/m/Y', $existingTournament->start_date)->year);
         $newCopiedTournament->duplicated_from = $existingTournament->id;
         $newCopiedTournament->status = 'Unpublished';
+        $newCopiedTournament->is_published_preview_once = 0;
         $newCopiedTournament->save();
 
         // saving tournament age categories        

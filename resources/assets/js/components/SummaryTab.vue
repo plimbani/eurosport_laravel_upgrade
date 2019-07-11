@@ -33,10 +33,10 @@
  				<UnPublishedTournament>
 				</UnPublishedTournament>
 
-				<PublishTournament :isPublishedPreviewOnce='isPublishedPreviewOnce'>
+				<PublishTournament :canDuplicateFavourites='canDuplicateFavourites'>
 				</PublishTournament>
 
- 				<PreviewTournament :isPublishedPreviewOnce='isPublishedPreviewOnce'>
+ 				<PreviewTournament :canDuplicateFavourites='canDuplicateFavourites'>
 				</PreviewTournament>
 
 				<div class="col-sm-4" v-if="(userDetails.role_name == 'Super administrator' || userDetails.role_name == 'Internal administrator' || userDetails.role_name == 'Master administrator')">
@@ -132,7 +132,7 @@
 
 	    		deleteConfirmMsg: 'Are you sure you would like to delete this tournament?',
                 deleteAction: '',
-                isPublishedPreviewOnce: 0,
+                canDuplicateFavourites: false,
 	    	}
 	    },
 	    components: {
@@ -193,8 +193,8 @@
 	    			
               		$("#"+modal).modal("hide");
 	    				this.tournamentStatus = status
-	    				if(this.tournamentStatus === 'Preview' || this.tournamentStatus === 'Published') {
-	    					this.isPublishedPreviewOnce = true;
+	    				if( (this.tournamentStatus === 'Preview' || this.tournamentStatus === 'Published') && this.tournamentSummary['tournament_detail']['duplicated_from'] !== null && this.tournamentSummary['tournament_detail']['is_published_preview_once'] === 0) {
+	    					this.canDuplicateFavourites = false;
 	    				}
 	    				toastr['success']('This tournament has been '+status, 'Success');
 	    				let tournamentField = {'tournamentStatus': status}
@@ -237,7 +237,7 @@
     	    			this.tournamentSummary.locations = locations
 	    		   }
 
-	    		   this.isPublishedPreviewOnce = this.tournamentSummary['tournament_detail']['is_published_preview_once'];
+	    		   this.canDuplicateFavourites = (this.tournamentSummary['tournament_detail']['duplicated_from'] !== null &&  this.tournamentSummary['tournament_detail']['is_published_preview_once'] === 0) ? true : false;
 
 	    			}
 	    		},

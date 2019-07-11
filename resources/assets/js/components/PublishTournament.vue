@@ -10,7 +10,7 @@
                     <p>
                         {{$lang.summary_button_publish_text}}
                     </p>
-                    <div v-if="isPublishedPreviewOnce === 0">
+                    <div v-if="canDuplicateFavourites">
                         <div>When set to "Preview" or "Published" existing followers on the app of the original tournament will also be a follower of this new duplicated tournament.</div>
                         <div class="c-input mt-3">
                             <input id="switch_default_tournament_in_publish" type="checkbox" class="euro-checkbox" v-model="switch_default_tournament" :true-value="1" :false-value="0" />
@@ -34,7 +34,7 @@
                 switch_default_tournament: 0,
             }
         },
-        props: ['isPublishedPreviewOnce'],
+        props: ['canDuplicateFavourites'],
         methods: {
             updateStatus() {
                 this.$root.$emit('StatusUpdate','Published', this.switch_default_tournament);
