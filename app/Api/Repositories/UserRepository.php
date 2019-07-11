@@ -76,8 +76,8 @@ class UserRepository {
                               ->pluck('tournament_admin_users.user_id')
                               ->toArray(); 
           $userTournamentsArray = array_merge($tournamentUserIds,$tournamentAdminUser);
-          $finalTournamentUniqueId = array_unique($userTournamentsArray);
-          $user = $user->whereIn('users.id', $finalTournamentUniqueId);  
+          $finalTournamentUnique = array_unique($userTournamentsArray);
+          $user = $user->whereIn('users.id', $finalTournamentUnique);  
         }
 
         if(isset($data['userData']) && $data['userData'] !== '') {
