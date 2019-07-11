@@ -110,6 +110,7 @@
               (response)=> {
                 toastr.success('Permissions have been updated successfully.', 'Permissions', {timeOut: 5000});
                 $("#permission_modal").modal("hide");
+                this.$root.$emit('getResults');
                 this.formValues.tournaments = [];
               },
               (error)=>{

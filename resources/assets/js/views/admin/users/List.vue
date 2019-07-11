@@ -251,6 +251,12 @@
               return value.charAt(0).toUpperCase() + value.slice(1);
             }
           },
+        created() {
+            this.$root.$on('getResults', this.getResults)
+        },
+        beforeCreate: function() {
+          this.$root.$off('getResults');
+        },
         mounted() {
           // here we check the permission to allowed to access users list
           let role_slug = this.$store.state.Users.userDetails.role_slug

@@ -97,7 +97,7 @@
                 <div class="form-group row">
                   <label class="col-sm-5 form-control-label">{{$lang.user_management_email}}</label>
                   <div class="col-sm-6">
-                      <input v-model="result_admin_email" name="result_admin_email" :class="{'is-danger': errors.has('result_admin_email') }" type="email" class="form-control" placeholder="Enter email address">
+                      <input v-model="result_admin_email" v-validate="" name="result_admin_email" :class="{'is-danger': errors.has('result_admin_email') }" type="email" class="form-control" placeholder="Enter email address">
                       <i v-show="errors.has('result_admin_email')" class="fas fa-warning"></i>
                       <span class="help is-danger" v-show="errors.has('result_admin_email')">{{$lang.user_management_email_required}}</span>
                      <span class="help is-danger" v-if="existEmail == true">Email already exist</span>
@@ -192,9 +192,17 @@ import { ErrorBag } from 'vee-validate';
             }
             return false;
           },
+          resultTournamentAdministratorEmail(){
+            if(this.normalUserFields == false) {
+              return 'required|email';
+            } else {
+              return '';
+            }
+          }
         },
         created() {
           this.$root.$on('privilegeChangeConfirmed', this.updateUser);
+          this.$root.$on('updateUserList', this.updateUserList);
         },
         mounted(){
             if(this.userId!=''){
