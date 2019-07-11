@@ -241,7 +241,7 @@ class WebsiteRepository
         $data['tournament_logo'],
         config('wot.imagePath')['favicon'],
         $website->id
-      );
+      )->onQueue('favicon');
     }
 
     // Allowed access to particular user roles
