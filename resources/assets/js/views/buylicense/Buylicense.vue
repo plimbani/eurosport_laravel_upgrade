@@ -199,7 +199,6 @@
                                             <p class="text-sm-right mb-0 mt-3 mt-sm-0">
                                              <span v-if="tournamentData.currency_type == 'GBP'">&#163;</span>   
                                              <span v-if="tournamentData.currency_type == 'EURO'">&#128;</span>
-
                                             {{manageTournamentFormatValue}}</p>
                                         </div>
                                     </div>
@@ -217,15 +216,14 @@
 
                                     <div class="row" v-if="!buyLicenseReduceTeamAndDay">
                                         <div class="col-8">
-                                           <p class="mb-0" >Already paid</p>
+                                           <p class="mb-0" >Paid amount</p>
                                         </div>
                                         <div class="col-4 text-right">
                                             <p class="text-sm-right mb-0 mt-3 mt-sm-0">
 
-                                             <span v-if="tournamentData.currency_type == 'GBP'">&#163;</span>   
+                                            -<span v-if="tournamentData.currency_type == 'GBP'">&#163;</span>   
                                              <span v-if="tournamentData.currency_type == 'EURO'">&#128;</span>
-
-                                            -{{manageTournamentAlreadyPaid}}</p>
+                                            {{manageTournamentAlreadyPaid}}</p>
                                         </div>
                                     </div>
 
@@ -409,6 +407,7 @@
             },
             changeDays(){
                 this.newDaysAdded = this.dayDifference - this.oldDaysDifference; 
+                console.log('this.newDaysAdded', this.newDaysAdded);
             },
             setOldDays(){
                 this.oldDaysDifference = this.dayDifference;
@@ -515,10 +514,26 @@
                         this.tournamentData['tournament_max_teams'] = response.data.data.tournament.maximum_teams;   
                         this.tournament_old_teams = response.data.data.tournament.maximum_teams;   
                         this.tournamentData['access_code'] = response.data.data.tournament.access_code;
-                        this.tournamentData['custom_tournament_format'] = response.data.data.tournament.custom_tournament_format;
+
+                        if ( this.$route.query.edityourlicense == 'yes')
+                        {
+                            this.tournamentData['custom_tournament_format'] = (response.data.data.tournament.custom_tournament_format != null ) ? response.data.data.tournament.custom_tournament_format : 0;
+
+                            this.user_old_selected_format = null;
+                        }
+                        else
+                        {
+                            this.tournamentData['custom_tournament_format'] = (response.data.data.tournament.custom_tournament_format != null ) ? response.data.data.tournament.custom_tournament_format : 0;
+
+                            this.user_old_selected_format = (response.data.data.tournament.custom_tournament_format != null ) ? response.data.data.tournament.custom_tournament_format : 0;
+                        }
+                        
+
+                        //this.tournamentData['custom_tournament_format'] = response.data.data.tournament.custom_tournament_format;
+
                         this.tournamentData['tournament_type'] = response.data.data.tournament.tournament_type;
                         this.user_old_selected_type = response.data.data.tournament.tournament_type;
-                        this.user_old_selected_format = response.data.data.tournament.custom_tournament_format; 
+                        //this.user_old_selected_format = response.data.data.tournament.custom_tournament_format; 
 
                         // transaction histories amount difference calculation 
                         let transactionAmount = [];
@@ -527,11 +542,11 @@
                             transactionAmount.push(parseFloat((historyAmount.amount))); 
                         });
 
-                        console.log("here",transactionAmount);
                         let transactionDifferenceAmountValue = _.sumBy(transactionAmount, function(historyAmount) { 
                             return historyAmount; 
                         }); 
-                        this.tournamentData.transactionDifferenceAmountValue = transactionDifferenceAmountValue
+                        this.tournamentData.transactionDifferenceAmountValue = transactionDifferenceAmountValue;
+                        this.tournamentEditYourLicense();
                      }else{ 
                         toastr['error'](response.data.message, 'Error');
                     }
@@ -759,6 +774,7 @@
                 }
             },
             tournamentEditYourLicense() {
+                console.log('tournamentEditYourLicense', JSON.parse(Ls.get("orderInfo")));
                 let editTournamentLicense;
                 if(this.$route.query.edityourlicense == 'yes') {
                     editTournamentLicense = JSON.parse(Ls.get("orderInfo")); 
@@ -773,27 +789,29 @@
                     this.tournamentData.is_renew = editTournamentLicense.is_renew;
                     this.tournamentData.tournament_type = editTournamentLicense.tournament_type;
                     this.tournamentData.custom_tournament_format = editTournamentLicense.custom_tournament_format
-                    this.user_old_selected_format = editTournamentLicense.custom_tournament_format;
-                    this.user_old_selected_type = editTournamentLicense.tournament_type;
+                    // this.user_old_selected_format = editTournamentLicense.custom_tournament_format;
+                    // this.user_old_selected_type = editTournamentLicense.tournament_type;
+                    this.tournamentData.transactionDifferenceAmountValue = editTournamentLicense.transactionDifferenceAmountValue;
 
                     let startDate = moment(editTournamentLicense.tournament_start_date, 'DD/MM/YYYY')
                     let endDate = moment(editTournamentLicense.tournament_end_date, 'DD/MM/YYYY')
                     this.dayDifference = endDate.diff(startDate, 'days') + 1;
+                    this.edityourlicense = true;
+                    this.new_added_teams = editTournamentLicense.teamDifference;
+                    // this.findDifferenceBetweenDates();
+                    // this.setOldDays()
                 }
             },
             tournamentExpired(endDate){
                 //let currentDateTime = this.currentDateTime;
-                console.log("here",endDate);
                 let tournamentEndDate = endDate;
 
                 let tournamentExpireTime = moment(tournamentEndDate).format('DD/MM/YYYY HH:mm:ss');
                 let currentDateTime = moment().format('DD/MM/YYYY HH:mm:ss');
 
                 if(tournamentExpireTime > currentDateTime) {
-                    console.log("here if");
                    return false;
                 } else {
-                    console.log("here else");
                   return true;
                 }
             }
@@ -853,8 +871,11 @@
                 vm.setOldDays()
                 if(this.id){
                     vm.getTournamentDetail()
+                }else
+                {
+                    vm.tournamentEditYourLicense()
                 }
-                vm.tournamentEditYourLicense()
+               
                 vm.tournammentPricingData('mounted')
             },1500) 
             
