@@ -158,6 +158,24 @@
                                             {{manageTournamentTaemsAndDaysFormatValue}}</p>
                                         </div>
                                     </div>
+
+                                    <div class="row" v-if="new_added_teams == 0 && !buyLicenseReduceTeamAndDay">
+                                        <div class="col-8">
+                                            <p class="mb-0">{{ tournament_old_teams }} teams
+                                            </p>
+                                           
+                                        </div>
+                                        <div class="col-4 text-right">
+                                            <p class="text-sm-right mb-0 mt-3 mt-sm-0">
+
+                                             <span v-if="tournamentData.currency_type == 'GBP'">&#163;</span>   
+                                             <span v-if="tournamentData.currency_type == 'EURO'">&#128;</span>
+
+                                            {{manageTournamentTaemsAndDaysFormatValue}}</p>
+                                        </div>
+                                    </div>
+
+
                                     <div class="row">
                                         <div class="col-8">
                                             <p class="mb-0" v-if="newDaysAdded != 0">
@@ -173,7 +191,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="row" v-if="user_old_selected_format != tournamentData.custom_tournament_format && tournamentData.tournament_type != 'league'">
+                                    <div class="row" v-if="(user_old_selected_format != tournamentData.custom_tournament_format && tournamentData.tournament_type != 'league') || (new_added_teams != 0 && tournamentData.custom_tournament_format == '1')">
                                         <div class="col-8">
                                            <p class="mb-0" >Tournament formats</p>
                                         </div>
@@ -306,7 +324,6 @@
                         }
                         if(typeof to.query.id != "undefined"){
                             vm.id = to.query.id;
-                            
                             vm.getTournamentDetail();
                         }
                     }, 100); 
@@ -360,9 +377,15 @@
             manageTournamentFormatValue(){
                 if(this.tournamentData.tournament_type == 'cup' && this.tournamentData.custom_tournament_format == '1') {
                     return this.tournamentData.tournamentLicenseAdvancePriceDisplay
-                } 
+                } else {
+                    return 0;
+                }
             },
             manageTournamentAlreadyPaid(){
+
+                if(this.tournamentData.currency_type == "GBP"){
+                    return (this.tournamentData.transactionDifferenceAmountValue)*this.gpbConvertValue;
+                }
                 return this.tournamentData.transactionDifferenceAmountValue;
             },
             manageTournamentTaemsAndDaysFormatValue() {
@@ -461,27 +484,30 @@
                 this.dayDifference = endDate.diff(startDate, 'days'); 
                 this.changeDays();
                 
-            },
-
-                
+            },  
             getTournamentDetail(){
                 axios.get(Constant.apiBaseUrl+'get-tournament?tournamentId='+this.id, {}).then(response =>  {
                     if (response.data.success) {
                         var start_date = new Date(moment(response.data.data.tournament.start_date, 'DD/MM/YYYY').format('MM/DD/YYYY'));
                         var end_date = new Date(moment(response.data.data.tournament.end_date, 'DD/MM/YYYY').format('MM/DD/YYYY')); 
+
+                        let expired = this.tournamentExpired(response.data.data.tournamentExpireTime);
                         
                         let today = new Date();
-                        if(today.getTime() > end_date.getTime()){
+                        //if(today.getTime() > end_date.getTime()){
+                        if ( expired ) {
                             this.id = "";
-                            this.tournamentData['is_renew'] = 1;
+                            this.tournamentData['is_renew'] = 1; 
                         }else{
                             let startMonth = start_date.getMonth()+1;                         
                             let endMonth = end_date.getMonth()+1;                         
                             this.tournamentData['tournament_start_date'] = start_date.getDate()+'/'+startMonth + '/'+start_date.getFullYear();
                             this.tournamentData['tournament_end_date'] = end_date.getDate()+'/'+endMonth + '/'+end_date.getFullYear(); 
                             $('#tournament_start_date').datepicker('setDate', this.tournamentData['tournament_start_date'])
-                             $('#tournament_end_date').datepicker('setDate', this.tournamentData['tournament_end_date'])  
+                            $('#tournament_end_date').datepicker('setDate', this.tournamentData['tournament_end_date'])  
                         }
+
+
                         
                         this.tournamentData['id'] = this.id;
                         this.tournamentData['old_tournament_id'] = response.data.data.tournament.id;
@@ -498,8 +524,10 @@
                         let transactionAmount = [];
                         let tournamentPricing = _.filter(response.data.data.get_sorted_transaction_histories, function(historyAmount)
                         {
-                            transactionAmount.push(historyAmount.amount); 
+                            transactionAmount.push(parseFloat((historyAmount.amount))); 
                         });
+
+                        console.log("here",transactionAmount);
                         let transactionDifferenceAmountValue = _.sumBy(transactionAmount, function(historyAmount) { 
                             return historyAmount; 
                         }); 
@@ -581,6 +609,8 @@
                     this.tournamentData.tournamentLicenseAdvancePriceDisplay = (this.tournamentData.tournamentLicenseAdvancePriceDisplay)*this.gpbConvertValue;
 
                     this.tournamentData.tournamentLicenseBasicPriceDisplay = (this.tournamentData.tournamentLicenseBasicPriceDisplay)*this.gpbConvertValue;
+
+                    //this.tournamentData.transactionDifferenceAmountValue = (this.tournamentData.transactionDifferenceAmountValue)*this.gpbConvertValue;
                 }
 
                 if(tournamentOrganising == 'cup' && tournamentCustomFormats == 0 && tournamentMaxTeams) {
@@ -591,7 +621,16 @@
                     });
 
                     let tournamentPricingRecord = _.head(tournamentLicensePricingArray);
-                    vm.tournamentData.tournamentPricingValue = tournamentPricingRecord - this.tournamentData.transactionDifferenceAmountValue;
+                    //vm.tournamentData.tournamentPricingValue = tournamentPricingRecord - this.tournamentData.transactionDifferenceAmountValue;
+
+                    if ( !vm.id && vm.tournamentData.is_renew )
+                    {
+                        vm.tournamentData.tournamentPricingValue = tournamentPricingRecord;
+                    }   
+                    else
+                    {
+                        vm.tournamentData.tournamentPricingValue = tournamentPricingRecord - this.tournamentData.transactionDifferenceAmountValue;
+                    }
 
                     if(this.tournamentData.currency_type == "GBP") {
                         vm.tournamentData.payment_currency = vm.tournamentData.currency_type;
@@ -615,7 +654,17 @@
                     });
 
                     let tournamentPricingRecord = _.head(tournamentLicensePricingArray);
+
+                    //vm.tournamentData.tournamentPricingValue = tournamentPricingRecord - this.tournamentData.transactionDifferenceAmountValue;
+
+                    if ( !vm.id && vm.tournamentData.is_renew )
+                    {
+                        vm.tournamentData.tournamentPricingValue = tournamentPricingRecord;
+                    }   
+                    else
+                    {
                         vm.tournamentData.tournamentPricingValue = tournamentPricingRecord - this.tournamentData.transactionDifferenceAmountValue;
+                    }
 
                     if(this.tournamentData.currency_type == "GBP") {
                         vm.tournamentData.payment_currency = vm.tournamentData.currency_type;
@@ -640,7 +689,15 @@
                     });
                     let tournamentPricingRecord = _.head(tournamentLicensePricingArray);
 
-                    vm.tournamentData.tournamentPricingValue = tournamentPricingRecord - this.tournamentData.transactionDifferenceAmountValue;
+                    if ( !vm.id && vm.tournamentData.is_renew )
+                    {
+                        vm.tournamentData.tournamentPricingValue = tournamentPricingRecord;
+                    }   
+                    else
+                    {
+                        vm.tournamentData.tournamentPricingValue = tournamentPricingRecord - this.tournamentData.transactionDifferenceAmountValue;
+                    }
+                   
 
                     if(this.tournamentData.currency_type == "GBP") {
                         vm.tournamentData.payment_currency = vm.tournamentData.currency_type;
@@ -722,6 +779,22 @@
                     let startDate = moment(editTournamentLicense.tournament_start_date, 'DD/MM/YYYY')
                     let endDate = moment(editTournamentLicense.tournament_end_date, 'DD/MM/YYYY')
                     this.dayDifference = endDate.diff(startDate, 'days') + 1;
+                }
+            },
+            tournamentExpired(endDate){
+                //let currentDateTime = this.currentDateTime;
+                console.log("here",endDate);
+                let tournamentEndDate = endDate;
+
+                let tournamentExpireTime = moment(tournamentEndDate).format('DD/MM/YYYY HH:mm:ss');
+                let currentDateTime = moment().format('DD/MM/YYYY HH:mm:ss');
+
+                if(tournamentExpireTime > currentDateTime) {
+                    console.log("here if");
+                   return false;
+                } else {
+                    console.log("here else");
+                  return true;
                 }
             }
         },
