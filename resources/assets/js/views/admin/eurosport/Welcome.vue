@@ -14,8 +14,8 @@
             <div class= "form-group" v-if="(userDetails.role_name != 'Tournament administrator' &&  userDetails.role_name != 'Internal administrator' && userDetails.role_slug != 'Results.administrator')">
               <button class="btn btn-primary col-sm-10 btn-theme" @click="addNewTournament()">{{$lang.welcome_add_button_new_edition}}</button>
             </div>
-             <div class= "form-group">
-              <button class="btn btn-primary col-sm-10 btn-theme" @click="duplicateTournament()" v-if="( userDetails.role_name == 'Internal administrator' || userDetails.role_name == 'Master administrator' || userDetails.role_name == 'Super administrator')">
+             <div class="form-group" v-if="( userDetails.role_name == 'Internal administrator' || userDetails.role_name == 'Master administrator' || userDetails.role_name == 'Super administrator')">
+              <button class="btn btn-primary col-sm-10 btn-theme" @click="duplicateTournament()">
               {{$lang.welcome_create_duplicate_tournament}}</button>
             </div>
             <div class="form-group">
@@ -28,16 +28,16 @@
         <div class="card mb-0 w-100">
           <div class="card-header">
             <h5 class="text-center"
-            v-if="(userDetails.role_name != 'Tournament administrator' &&  userDetails.role_name != 'Internal administrator' && userDetails.role_slug != 'Results.administrator')"><strong>{{$lang.welcome_manage_user}}</strong></h5>
-            <h5 class="text-center" v-if="(userDetails.role_name == 'Tournament administrator' || userDetails.role_slug == 'Results.administrator')"><strong>{{$lang.welcome_add_tournament_permission}}</strong></h5>
+            v-if="(userDetails.role_name != 'Internal administrator' && userDetails.role_slug != 'Results.administrator')"><strong>{{$lang.welcome_manage_user}}</strong></h5>
+            <h5 class="text-center" v-if="(userDetails.role_slug == 'Results.administrator')"><strong>{{$lang.welcome_add_tournament_permission}}</strong></h5>
             <h5 class="text-center" v-if="(userDetails.role_name == 'Internal administrator')"><strong>{{$lang.welcome_add_tournament}}</strong></h5>
             <!-- <h5 class="text-center" v-else><strong>{{$lang.welcome_add_tournament}}</strong> -->
             </h5>
           </div>
           <div class="card-block text-center">
-              <div class="form-group" v-if="(userDetails.role_name == 'Internal administrator' || userDetails.role_name == 'Tournament administrator') ">
+              <div class="form-group" v-if="(userDetails.role_name == 'Internal administrator') ">
                 <ol class="col-sm-10 offset-sm-1">
-                  <li class="text-left">{{$lang.welcome_add_new_tournament_edition_details}}</li>
+                  <li class="text-left">Add your tournament details</li>
                   <li class="text-left">{{$lang.welcome_add_new_tournament_review}}</li>
                   <li class="text-left">{{$lang.welcome_add_new_tournament_publish}}!</li>
                 </ol>
