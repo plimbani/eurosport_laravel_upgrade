@@ -2,7 +2,7 @@
   <div class="modal" id="user_form_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
-        <form name="frmUser" id="frmUser" method="POST">
+        <form name="frmUser" id="frmUser">
             <div class="modal-header">
                 <h5 class="modal-title">{{ userModalTitle }}</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
