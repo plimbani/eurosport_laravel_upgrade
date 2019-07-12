@@ -374,7 +374,7 @@ class UserRepository {
           $tournamentAdminUser->added_by = $loggedInUser->id;
           $tournamentAdminUser->save();
 
-          return ['status_code'=> 200, 'userUpdate' => true];
+          return ['status_code'=> 200, 'isResultAdmin' => true];
         }
       } else {
         return ['status_code'=> 200, 'emailExists' => false];
