@@ -1,5 +1,5 @@
+@php($isTournamentLogoFaviconAvailable=false)
 @php
-	$isTournamentLogoFaviconAvailable = false;
 	if($websiteDetail->tournament_logo) {
 		$headers = get_headers(config('filesystems.disks.s3.url') . config('wot.imagePath.favicon') . $websiteDetail->id . '/' . 'favicon-16x16.png');
 		$isTournamentLogoFaviconAvailable = stripos($headers[0], "200 OK") ? true : false;
@@ -7,30 +7,30 @@
 @endphp
 
 @if($isTournamentLogoFaviconAvailable)
-	<link rel="apple-touch-icon" sizes="180x180" href="{{ config('filesystems.disks.s3.url') . config('wot.imagePath.favicon') . $websiteDetail->id . '/' . 'apple-touch-icon.png' }}">
-	<link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 736px) and (orientation: landscape) and (-webkit-device-pixel-ratio: 3)" href="{{ config('filesystems.disks.s3.url') . config('wot.imagePath.favicon') . $websiteDetail->id . '/' . 'apple-touch-startup-image-1182x2208.png' }}">
-	<link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 736px) and (orientation: portrait) and (-webkit-device-pixel-ratio: 3)" href="{{ config('filesystems.disks.s3.url') . config('wot.imagePath.favicon') . $websiteDetail->id . '/' . 'apple-touch-startup-image-1242x2148.png' }}">
-	<link rel="apple-touch-startup-image" media="(device-width: 768px) and (device-height: 1024px) and (orientation: landscape) and (-webkit-device-pixel-ratio: 2)" href="{{ config('filesystems.disks.s3.url') . config('wot.imagePath.favicon') . $websiteDetail->id . '/' . 'apple-touch-startup-image-1496x2048.png' }}">
-	<link rel="apple-touch-startup-image" media="(device-width: 768px) and (device-height: 1024px) and (orientation: portrait) and (-webkit-device-pixel-ratio: 2)" href="{{ config('filesystems.disks.s3.url') . config('wot.imagePath.favicon') . $websiteDetail->id . '/' . 'apple-touch-startup-image-1536x2008.png' }}">
-	<link rel="apple-touch-startup-image" media="(device-width: 320px) and (device-height: 480px) and (-webkit-device-pixel-ratio: 1)" href="{{ config('filesystems.disks.s3.url') . config('wot.imagePath.favicon') . $websiteDetail->id . '/' . 'apple-touch-startup-image-320x460.png' }}">
-	<link rel="apple-touch-startup-image" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)" href="{{ config('filesystems.disks.s3.url') . config('wot.imagePath.favicon') . $websiteDetail->id . '/' . 'apple-touch-startup-image-640x1096.png' }}">
-	<link rel="apple-touch-startup-image" media="(device-width: 320px) and (device-height: 480px) and (-webkit-device-pixel-ratio: 2)" href="{{ config('filesystems.disks.s3.url') . config('wot.imagePath.favicon') . $websiteDetail->id . '/' . 'apple-touch-startup-image-640x920.png' }}">
-	<link rel="apple-touch-startup-image" media="(device-width: 768px) and (device-height: 1024px) and (orientation: landscape) and (-webkit-device-pixel-ratio: 1)" href="{{ config('filesystems.disks.s3.url') . config('wot.imagePath.favicon') . $websiteDetail->id . '/' . 'apple-touch-startup-image-748x1024.png' }}">
-	<link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2)" href="{{ config('filesystems.disks.s3.url') . config('wot.imagePath.favicon') . $websiteDetail->id . '/' . 'apple-touch-startup-image-750x1294.png' }}">
-	<link rel="apple-touch-startup-image" media="(device-width: 768px) and (device-height: 1024px) and (orientation: portrait) and (-webkit-device-pixel-ratio: 1)" href="{{ config('filesystems.disks.s3.url') . config('wot.imagePath.favicon') . $websiteDetail->id . '/' . 'apple-touch-startup-image-768x1004.png' }}">
-	<link rel="icon" type="image/png" sizes="32x32" href="{{ config('filesystems.disks.s3.url') . config('wot.imagePath.favicon') . $websiteDetail->id . '/' . 'favicon-32x32.png' }}">
-	<link rel="icon" type="image/png" sizes="230x230" href="{{ config('filesystems.disks.s3.url') . config('wot.imagePath.favicon') . $websiteDetail->id . '/' . 'favicon-230x230.png' }}">
-	<link rel="icon" type="image/png" sizes="192x192" href="{{ config('filesystems.disks.s3.url') . config('wot.imagePath.favicon') . $websiteDetail->id . '/' . 'android-chrome-192x192.png' }}">
-	<link rel="icon" type="image/png" sizes="228x228" href="{{ config('filesystems.disks.s3.url') . config('wot.imagePath.favicon') . $websiteDetail->id . '/' . 'coast-228x228.png' }}">
-	<link rel="icon" type="image/png" sizes="16x16" href="{{ config('filesystems.disks.s3.url') . config('wot.imagePath.favicon') . $websiteDetail->id . '/' . 'favicon-16x16.png' }}">
-	<link rel="manifest" href="{{ config('filesystems.disks.s3.url') . config('wot.imagePath.favicon') . $websiteDetail->id . '/' . 'site.webmanifest' }}">
-	<link rel="mask-icon" href="{{ config('filesystems.disks.s3.url') . config('wot.imagePath.favicon') . $websiteDetail->id . '/' . 'safari-pinned-tab.svg" color="#FFFFFF' }}">
-	<link rel="shortcut icon" href="{{ config('filesystems.disks.s3.url') . config('wot.imagePath.favicon') . $websiteDetail->id . '/' . 'favicon.ico' }}">
-	<link rel="yandex-tableau-widget" href="{{ config('filesystems.disks.s3.url') . config('wot.imagePath.favicon') . $websiteDetail->id . '/' . 'yandex-browser-manifest.json' }}">
-	<meta property="og:image" content="{{ config('filesystems.disks.s3.url') . config('wot.imagePath.favicon') . $websiteDetail->id . '/' . 'open-graph.png' }}">
+	<link rel="apple-touch-icon" sizes="180x180" href="{{ config('filesystems.disks.s3.url') . config('wot.imagePath.favicon') . $websiteDetail->id . '/' . 'apple-touch-icon.png' . '?' . date('U') }}">
+	<link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 736px) and (orientation: landscape) and (-webkit-device-pixel-ratio: 3)" href="{{ config('filesystems.disks.s3.url') . config('wot.imagePath.favicon') . $websiteDetail->id . '/' . 'apple-touch-startup-image-1182x2208.png' . '?' . date('U') }}">
+	<link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 736px) and (orientation: portrait) and (-webkit-device-pixel-ratio: 3)" href="{{ config('filesystems.disks.s3.url') . config('wot.imagePath.favicon') . $websiteDetail->id . '/' . 'apple-touch-startup-image-1242x2148.png' . '?' . date('U') }}">
+	<link rel="apple-touch-startup-image" media="(device-width: 768px) and (device-height: 1024px) and (orientation: landscape) and (-webkit-device-pixel-ratio: 2)" href="{{ config('filesystems.disks.s3.url') . config('wot.imagePath.favicon') . $websiteDetail->id . '/' . 'apple-touch-startup-image-1496x2048.png' . '?' . date('U') }}">
+	<link rel="apple-touch-startup-image" media="(device-width: 768px) and (device-height: 1024px) and (orientation: portrait) and (-webkit-device-pixel-ratio: 2)" href="{{ config('filesystems.disks.s3.url') . config('wot.imagePath.favicon') . $websiteDetail->id . '/' . 'apple-touch-startup-image-1536x2008.png' . '?' . date('U') }}">
+	<link rel="apple-touch-startup-image" media="(device-width: 320px) and (device-height: 480px) and (-webkit-device-pixel-ratio: 1)" href="{{ config('filesystems.disks.s3.url') . config('wot.imagePath.favicon') . $websiteDetail->id . '/' . 'apple-touch-startup-image-320x460.png' . '?' . date('U') }}">
+	<link rel="apple-touch-startup-image" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)" href="{{ config('filesystems.disks.s3.url') . config('wot.imagePath.favicon') . $websiteDetail->id . '/' . 'apple-touch-startup-image-640x1096.png' . '?' . date('U') }}">
+	<link rel="apple-touch-startup-image" media="(device-width: 320px) and (device-height: 480px) and (-webkit-device-pixel-ratio: 2)" href="{{ config('filesystems.disks.s3.url') . config('wot.imagePath.favicon') . $websiteDetail->id . '/' . 'apple-touch-startup-image-640x920.png' . '?' . date('U') }}">
+	<link rel="apple-touch-startup-image" media="(device-width: 768px) and (device-height: 1024px) and (orientation: landscape) and (-webkit-device-pixel-ratio: 1)" href="{{ config('filesystems.disks.s3.url') . config('wot.imagePath.favicon') . $websiteDetail->id . '/' . 'apple-touch-startup-image-748x1024.png' . '?' . date('U') }}">
+	<link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2)" href="{{ config('filesystems.disks.s3.url') . config('wot.imagePath.favicon') . $websiteDetail->id . '/' . 'apple-touch-startup-image-750x1294.png' . '?' . date('U') }}">
+	<link rel="apple-touch-startup-image" media="(device-width: 768px) and (device-height: 1024px) and (orientation: portrait) and (-webkit-device-pixel-ratio: 1)" href="{{ config('filesystems.disks.s3.url') . config('wot.imagePath.favicon') . $websiteDetail->id . '/' . 'apple-touch-startup-image-768x1004.png' . '?' . date('U') }}">
+	<link rel="icon" type="image/png" sizes="32x32" href="{{ config('filesystems.disks.s3.url') . config('wot.imagePath.favicon') . $websiteDetail->id . '/' . 'favicon-32x32.png' . '?' . date('U') }}">
+	<link rel="icon" type="image/png" sizes="230x230" href="{{ config('filesystems.disks.s3.url') . config('wot.imagePath.favicon') . $websiteDetail->id . '/' . 'favicon-230x230.png' . '?' . date('U') }}">
+	<link rel="icon" type="image/png" sizes="192x192" href="{{ config('filesystems.disks.s3.url') . config('wot.imagePath.favicon') . $websiteDetail->id . '/' . 'android-chrome-192x192.png' . '?' . date('U') }}">
+	<link rel="icon" type="image/png" sizes="228x228" href="{{ config('filesystems.disks.s3.url') . config('wot.imagePath.favicon') . $websiteDetail->id . '/' . 'coast-228x228.png' . '?' . date('U') }}">
+	<link rel="icon" type="image/png" sizes="16x16" href="{{ config('filesystems.disks.s3.url') . config('wot.imagePath.favicon') . $websiteDetail->id . '/' . 'favicon-16x16.png' . '?' . date('U') }}">
+	<link rel="manifest" href="{{ config('filesystems.disks.s3.url') . config('wot.imagePath.favicon') . $websiteDetail->id . '/' . 'site.webmanifest' . '?' . date('U') }}">
+	<link rel="mask-icon" href="{{ config('filesystems.disks.s3.url') . config('wot.imagePath.favicon') . $websiteDetail->id . '/' . 'safari-pinned-tab.svg' . '?' . date('U') }}" color="#FFFFFF">
+	<link rel="shortcut icon" href="{{ config('filesystems.disks.s3.url') . config('wot.imagePath.favicon') . $websiteDetail->id . '/' . 'favicon.ico' . '?' . date('U') }}">
+	<link rel="yandex-tableau-widget" href="{{ config('filesystems.disks.s3.url') . config('wot.imagePath.favicon') . $websiteDetail->id . '/' . 'yandex-browser-manifest.json' . '?' . date('U') }}">
+	<meta property="og:image" content="{{ config('filesystems.disks.s3.url') . config('wot.imagePath.favicon') . $websiteDetail->id . '/' . 'open-graph.png' . '?' . date('U') }}">
 	<meta name="apple-mobile-web-app-capable" content="yes">
 	<meta name="msapplication-TileColor" content="#654321">
-	<meta name="msapplication-TileImage" content="{{ config('filesystems.disks.s3.url') . config('wot.imagePath.favicon') . $websiteDetail->id . '/' . 'mstile-144x144.png' }}">
+	<meta name="msapplication-TileImage" content="{{ config('filesystems.disks.s3.url') . config('wot.imagePath.favicon') . $websiteDetail->id . '/' . 'mstile-144x144.png' . '?' . date('U') }}">
 	<meta name="theme-color" content="#FFFFFF">
 @else
 	<link rel="apple-touch-icon" sizes="57x57" href="{{ asset('assets/img/favicons/'.config('config-variables.current_layout').'/apple-icon-57x57.png') }}">
