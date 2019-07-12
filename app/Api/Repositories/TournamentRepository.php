@@ -443,7 +443,8 @@ class TournamentRepository
             $summaryData['tournament_countries'] = implode(' , ', array_unique($tempData['tournament_countries']));
         }
 
-        //$locationData = Venue::find();
+        $summaryData['tournament_detail'] = Tournament::find($tournamentId);
+        
         return $summaryData;
     }
     public function tournamentReport($data)
@@ -469,7 +470,30 @@ class TournamentRepository
         if($tournamentData['status'] == "Unpublished") {
             Website::where('linked_tournament',$tournamentId)->update(['linked_tournament' => NULL]);
         }
-        return Tournament::where('id', $tournamentId)->update($newdata);
+
+        $tournament = Tournament::find($tournamentId);
+        $tournament->status = $tournamentData['status'];
+
+        if(($tournamentData['status'] == "Published" || $tournamentData['status'] == "Preview") && $tournament->is_published_preview_once === 0) {
+            $switchDefaultTournament = $tournamentData['switchDefaultTournament'];
+            $userFavourites = UserFavourites::where('tournament_id', $tournament->duplicated_from)->get();
+            foreach ($userFavourites as $userFavourite) {
+                $copiedUserFavourite = $userFavourite->replicate();
+                $copiedUserFavourite->tournament_id = $tournament->id;
+                if($switchDefaultTournament == 0) {
+                    $copiedUserFavourite->is_default = 0;
+                }
+                if($switchDefaultTournament == 1 && $copiedUserFavourite->is_default == 1) {
+                    UserFavourites::where('user_id', '=', $copiedUserFavourite->user_id)->update(['is_default' => 0]);
+                }
+                $copiedUserFavourite->save();
+            }
+            $tournament->is_published_preview_once = 1;
+        }
+
+        $tournament->save();
+
+        return true;
     }
     public function tournamentFilter($tournamentData)
     {
@@ -1066,6 +1090,9 @@ class TournamentRepository
         $newCopiedTournament = $existingTournament->replicate();
         $newCopiedTournament->name = $data['tournament_name'];
         $newCopiedTournament->slug = $this->generateSlug($data['tournament_name'] . Carbon::createFromFormat('d/m/Y', $existingTournament->start_date)->year);
+        $newCopiedTournament->duplicated_from = $existingTournament->id;
+        $newCopiedTournament->status = 'Unpublished';
+        $newCopiedTournament->is_published_preview_once = 0;
         $newCopiedTournament->save();
 
         // saving tournament age categories        

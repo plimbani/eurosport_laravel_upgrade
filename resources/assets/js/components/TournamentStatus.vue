@@ -17,6 +17,12 @@
         mounted () {
           this.selected = this.tournamentStatus
         },
+        created: function() {
+            this.$root.$on('cancelStatusChange', this.cancelStatusChange);
+        },
+        beforeCreate: function() {
+            this.$root.$off('cancelStatusChange');
+        },
         watch: {
           tournamentStatus: function (newValue) {
             this.selected = newValue
@@ -39,7 +45,10 @@
                 {
                    $('#preview_modal').modal('show');
                 }
-            }
+            },
+            cancelStatusChange() {
+                this.selected = this.tournamentStatus;
+            },
         }
     }
 </script>
