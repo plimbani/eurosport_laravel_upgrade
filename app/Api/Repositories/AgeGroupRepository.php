@@ -221,7 +221,7 @@ class AgeGroupRepository
         } else {
           $tournamentCompeationTemplate['template_json_data'] = null;
         }
-        
+
         return TournamentCompetationTemplates::create($tournamentCompeationTemplate)->id;
       }
     }
