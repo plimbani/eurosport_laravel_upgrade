@@ -149,8 +149,8 @@ class UserRepository {
     public function create($data)
     {
         $loggedInUser = $this->getCurrentLoggedInUserDetail();
-        // $data['userType'] = $loggedInUser->hasRole('tournament.administrator') ? 6 : $data['userType'];
-        $data['userType'] = $loggedInUser->hasRole('tournament.administrator') ? $loggedInUser->roles()->first()->id : $data['userType'];
+        $resultAdministratorRoleId = Role::where('slug', 'Results.administrator')->first()->id;
+        $data['userType'] = $loggedInUser->hasRole('tournament.administrator') ? $resultAdministratorRoleId : $data['userType'];
 
         $userData = [
         'person_id' => $data['person_id'],
@@ -174,10 +174,6 @@ class UserRepository {
         ];
         
         $deletedUser = User::onlyTrashed()->where('email',$data['email'])->first();
-        // if($deletedUser){
-        //     $user = $deletedUser->restore();
-        // }
-         // $deletedUser;
 
         try {
             if($deletedUser){
@@ -307,19 +303,17 @@ class UserRepository {
 
     public function changePermissions($data) {
       $user = User::find($data['user']['id']);
-      // $userTournament = $data['tournaments'];
-      // $assignedTournamentCount = count($userTournament);
-
-      $tournamentUser = TournamentUser::where('user_id', $user->id)->get();
-      if($tournamentUser->count() == 0) {
-        $mobileUserRole = Role::where('slug', 'mobile.user')->first();
-        $roleMobileUser = RoleUser::where('user_id', $data['user']['id'])->update(['role_id' => $mobileUserRole->id]);
-      }
 
       $user->tournaments()->sync([]);
       $user->tournaments()->attach($data['tournaments']);
       $user->websites()->sync([]);
       $user->websites()->attach($data['websites']);
+
+      if($user->hasRole('Results.administrator') && $user->tournaments()->count() == 0) {
+        $mobileUserRole = Role::where('slug', 'mobile.user')->first();
+        $roleMobileUser = RoleUser::where('user_id', $data['user']['id'])->update(['role_id' => $mobileUserRole->id]);
+      }
+
       return true;
     } 
 
