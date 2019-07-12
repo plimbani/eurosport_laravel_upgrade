@@ -120,9 +120,9 @@
                                         </div>
                                         <div class="col-sm-6 col-md-3 col-lg-3">
                                             <p class="text-sm-right mb-0 mt-3 mt-sm-0">
-                                             <span v-if="tournamentData.currency_type == 'GBP'">&#163;</span>   
-                                             <span v-if="tournamentData.currency_type == 'EURO'">&#128;</span>   
-                                            {{returnFormatedNumber(tournamentData.tournamentPricingValue)}}</p>
+                                             <span v-if="tournamentData.currency_type == 'GBP'">&#163;</span>
+                                             <span v-if="tournamentData.currency_type == 'EURO'">&#128;</span>{{returnFormatedNumber(tournamentData.tournamentPricingValue)}}
+                                         </p>
 
                                         </div>
                                     </div>
@@ -130,9 +130,8 @@
                                     <div class="divider my-3 opacited"></div>
 
                                     <p class="text-sm-right font-weight-bold">
-                                        <span v-if="tournamentData.currency_type == 'GBP'">&#163;</span>   
-                                        <span v-if="tournamentData.currency_type == 'EURO'">&#128;</span>  
-                                        {{returnFormatedNumber(tournamentData.tournamentPricingValue)}}</p>
+                                        <span v-if="tournamentData.currency_type == 'GBP'">&#163;</span>
+                                        <span v-if="tournamentData.currency_type == 'EURO'">&#128;</span>{{returnFormatedNumber(tournamentData.tournamentPricingValue)}}</p>
                                 </div>
                                 <div class="card-text" v-if="id">
                                     <div class="row" v-if="new_added_teams != 0">
@@ -152,10 +151,8 @@
                                         <div class="col-4 text-right">
                                             <p class="text-sm-right mb-0 mt-3 mt-sm-0" 
                                             v-if="manageLicensePaymentPrice">
-                                             <span v-if="tournamentData.currency_type == 'GBP'">&#163;</span>   
-                                             <span v-if="tournamentData.currency_type == 'EURO'">&#128;</span>
-
-                                            {{manageTournamentTaemsAndDaysFormatValue}}</p>
+                                             <span v-if="tournamentData.currency_type == 'GBP'">&#163;</span>
+                                             <span v-if="tournamentData.currency_type == 'EURO'">&#128;</span>{{returnFormatedNumber(manageTournamentTaemsAndDaysFormatValue)}}</p>
                                         </div>
                                     </div>
 
@@ -168,10 +165,8 @@
                                         <div class="col-4 text-right">
                                             <p class="text-sm-right mb-0 mt-3 mt-sm-0">
 
-                                             <span v-if="tournamentData.currency_type == 'GBP'">&#163;</span>   
-                                             <span v-if="tournamentData.currency_type == 'EURO'">&#128;</span>
-
-                                            {{manageTournamentTaemsAndDaysFormatValue}}</p>
+                                             <span v-if="tournamentData.currency_type == 'GBP'">&#163;</span>
+                                             <span v-if="tournamentData.currency_type == 'EURO'">&#128;</span>{{returnFormatedNumber(manageTournamentTaemsAndDaysFormatValue)}}</p>
                                         </div>
                                     </div>
 
@@ -197,9 +192,8 @@
                                         </div>
                                         <div class="col-4 text-right">
                                             <p class="text-sm-right mb-0 mt-3 mt-sm-0">
-                                             <span v-if="tournamentData.currency_type == 'GBP'">&#163;</span>   
-                                             <span v-if="tournamentData.currency_type == 'EURO'">&#128;</span>
-                                            {{manageTournamentFormatValue}}</p>
+                                             <span v-if="tournamentData.currency_type == 'GBP'">&#163;</span>
+                                             <span v-if="tournamentData.currency_type == 'EURO'">&#128;</span>{{returnFormatedNumber(manageTournamentFormatValue)}}</p>
                                         </div>
                                     </div>
 
@@ -220,25 +214,21 @@
                                         </div>
                                         <div class="col-4 text-right">
                                             <p class="text-sm-right mb-0 mt-3 mt-sm-0">
-
-                                            -<span v-if="tournamentData.currency_type == 'GBP'">&#163;</span>   
-                                             <span v-if="tournamentData.currency_type == 'EURO'">&#128;</span>
-                                            {{manageTournamentAlreadyPaid}}</p>
+                                            -<span v-if="tournamentData.currency_type == 'GBP'">&#163;</span>
+                                             <span v-if="tournamentData.currency_type == 'EURO'">&#128;</span>{{returnFormatedNumber(manageTournamentAlreadyPaid)}}</p>
                                         </div>
                                     </div>
 
                                     <div class="divider my-3 opacited"></div>
-
                                     <p class="text-sm-right font-weight-bold" v-if="manageLicensePaymentPrice">
-                                        <span v-if="tournamentData.currency_type == 'GBP'">&#163;</span>   
-                                        <span v-if="tournamentData.currency_type == 'EURO'">&#128;</span>  
-                                        {{returnFormatedNumber(tournamentData.tournamentPricingValue)}}</p>
+                                        <span v-if="tournamentData.currency_type == 'GBP'">&#163;</span>
+                                        <span v-if="tournamentData.currency_type == 'EURO'">&#128;</span>{{returnFormatedNumber(tournamentData.tournamentPricingValue)}}</p>
                                 </div>
                                 <div class="row justify-content-end">
                                     <div class="col-md-7 col-lg-7" :class="!tournamentData.is_renew ? 'col-xl-6' : 'col-xl-7'">
                                         <button v-if ="!disabled && !id" class="btn btn-success btn-block"  v-on:click="buyALicence()">
                                             <span v-if ="!tournamentData.is_renew">Buy your license</span>
-                                            <span v-if ="tournamentData.is_renew">Renew your licence</span> 
+                                            <span v-if ="tournamentData.is_renew">Renew your licence</span>
                                         </button>      
                                         <button v-if="disabled && !id" class="btn btn-success btn-block" disabled="true">Buy your license</button>
                                         <button v-if ="!disabled && id && confirmDetailButton" class="btn btn-success btn-block" v-on:click="updateALicence()">
@@ -380,13 +370,13 @@
                 }
             },
             manageTournamentAlreadyPaid(){
-
                 if(this.tournamentData.currency_type == "GBP"){
                     return (this.tournamentData.transactionDifferenceAmountValue)*this.gpbConvertValue;
                 }
                 return this.tournamentData.transactionDifferenceAmountValue;
             },
             manageTournamentTaemsAndDaysFormatValue() {
+                return this.tournamentData.tournamentLicenseBasicPriceDisplay;
                 // if(this.tournamentData.tournament_type == 'cup' && this.tournamentData.custom_tournament_format == '1' && this.new_added_teams != this.tournament_old_teams) {
                 //   var outstandingPrice = this.tournamentData.tournamentPricingValue - this.tournamentData.tournamentLicenseAdvancePriceDisplay;
 
@@ -395,8 +385,6 @@
                 //         return 0;
                 //     }
                 // }
-
-                return this.tournamentData.tournamentLicenseBasicPriceDisplay;
             }   
         },   
         
@@ -423,6 +411,8 @@
                     }else{
                         this.tournamentData.dayDifference = this.dayDifference;
                     }
+
+                    this.tournamentData.gpbConvertValue = this.gpbConvertValue;
                     // newDaysAdded
                     Ls.set("tournamentDetails",JSON.stringify(this.tournamentData));     
                     
@@ -535,12 +525,23 @@
                         //this.user_old_selected_format = response.data.data.tournament.custom_tournament_format; 
 
                         // transaction histories amount difference calculation 
+                        let vm = this;
                         let transactionAmount = [];
                         let tournamentPricing = _.filter(response.data.data.get_sorted_transaction_histories, function(historyAmount)
                         {
-                            transactionAmount.push(parseFloat((historyAmount.amount))); 
+                            if ( vm.tournamentData.payment_currency == 'EUR' && vm.tournamentData.payment_currency != historyAmount.currency)
+                            {
+                                transactionAmount.push(parseFloat((historyAmount.amount/vm.gpbConvertValue)));
+                            }
+                            else if( vm.tournamentData.payment_currency == 'GBP' && vm.tournamentData.payment_currency != historyAmount.currency)
+                            {
+                                transactionAmount.push(parseFloat((historyAmount.amount*vm.gpbConvertValue)));
+                            }
+                            else
+                            {
+                                transactionAmount.push(parseFloat((historyAmount.amount))); 
+                            }
                         });
-
                         let transactionDifferenceAmountValue = _.sumBy(transactionAmount, function(historyAmount) { 
                             return historyAmount; 
                         }); 
@@ -643,7 +644,7 @@
                     }   
                     else
                     {
-                        vm.tournamentData.tournamentPricingValue = tournamentPricingRecord - this.tournamentData.transactionDifferenceAmountValue;
+                        vm.tournamentData.tournamentPricingValue = tournamentPricingRecord - vm.tournamentData.transactionDifferenceAmountValue;
                     }
 
                     if(this.tournamentData.currency_type == "GBP") {
@@ -677,7 +678,7 @@
                     }   
                     else
                     {
-                        vm.tournamentData.tournamentPricingValue = tournamentPricingRecord - this.tournamentData.transactionDifferenceAmountValue;
+                        vm.tournamentData.tournamentPricingValue = tournamentPricingRecord - vm.tournamentData.transactionDifferenceAmountValue;
                     }
 
                     if(this.tournamentData.currency_type == "GBP") {
@@ -709,13 +710,14 @@
                     }   
                     else
                     {
-                        vm.tournamentData.tournamentPricingValue = tournamentPricingRecord - this.tournamentData.transactionDifferenceAmountValue;
+                        vm.tournamentData.tournamentPricingValue = tournamentPricingRecord - vm.tournamentData.transactionDifferenceAmountValue;
                     }
                    
 
                     if(this.tournamentData.currency_type == "GBP") {
                         vm.tournamentData.payment_currency = vm.tournamentData.currency_type;
                         vm.tournamentData.tournamentPricingValue = (vm.tournamentData.tournamentPricingValue)*vm.gpbConvertValue;
+                        vm.tournamentData.tournamentLicenseBasicPriceDisplay = (vm.tournamentData.tournamentLicenseBasicPriceDisplay)*vm.gpbConvertValue;
                     }
                     //if(!this.$route.query.teams) {
                         vm.tournamentData.tournamentTeamNumbers = maxLeagueTeamSize.max_teams;
