@@ -35,7 +35,7 @@
                   <div class="form-group row">
                       <label class="col-sm-5 form-control-label">{{$lang.user_management_email}}</label>
                       <div class="col-sm-6">
-                          <input v-model="result_admin_email != '' ? result_admin_email : formValues.emailAddress" v-validate="'required|email'" :class="{'is-danger': errors.has('email_address') }" name="email_address" key="email_address" type="email" class="form-control" placeholder="Enter email address">
+                          <input v-model="formValues.emailAddress" v-validate="'required|email'" :class="{'is-danger': errors.has('email_address') }" name="email_address" key="email_address" type="email" class="form-control" placeholder="Enter email address">
 
                           <i v-show="errors.has('email_address')" class="fas fa-warning"></i>
                           <span class="help is-danger" v-show="errors.has('email_address')">{{$lang.user_management_email_required}}</span>
@@ -213,7 +213,6 @@ import { ErrorBag } from 'vee-validate';
             this.userRolesOptions =  this.userRoles
             // this.$validator.updateDictionary(this.errorMessages);
             this.$validator.localize('en', this.errorMessages.en);
-            this.$validator.localize('fr', this.errorMessages.fr);
         },
         props:['userId','userRoles','publishedTournaments','isMasterAdmin'],
         methods: {
@@ -362,6 +361,7 @@ import { ErrorBag } from 'vee-validate';
                       } else {
                         this.isUserExists = false;
                         this.normalUserFields = true;
+                        this.formValues.emailAddress = this.result_admin_email;
                       }
                       if(response.data.isResultAdmin) {
                         $("#user_form_modal").modal("hide");
