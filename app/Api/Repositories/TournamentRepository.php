@@ -653,9 +653,15 @@ class TournamentRepository
             ->select('clubs.id as ClubId', 'clubs.name as clubName', 'countries.id as countryId', 'countries.name as CountryName',
                 \DB::raw('CONCAT("' . $url . '", countries.logo ) AS CountryLogo')
             );
-
+            
         if(app('request')->header('ismobileuser') && app('request')->header('ismobileuser') == "true") {
-          $clubData = $clubData->whereHas('competition.scheduledFixtures');
+          $clubData = $clubData->where(function($q) use($data) {
+            return $q->whereHas('homeFixtures', function($q1) use($data) {
+              $q1->where('is_scheduled', 1)->where('tournament_id', $data['tournament_id']);
+            })->orWhereHas('awayFixtures', function($q2) use($data) {
+              $q2->where('is_scheduled', 1)->where('tournament_id', $data['tournament_id']);
+            });
+          });
         }
         
         $clubData = $clubData->groupBy('clubs.id', 'countries.id')->get();
