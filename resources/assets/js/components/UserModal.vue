@@ -17,6 +17,7 @@
                         <input v-model="formValues.name" v-validate="'required|alpha_spaces'"
                         :class="{'is-danger': errors.has('name') }"
                         name="name" type="text"
+                        key="name"
                         class="form-control" placeholder="Enter first name">
                         <i v-show="errors.has('name')" class="fas fa-warning"></i>
                         <span class="help is-danger" v-show="errors.has('name')">{{ errors.first('name') }}
@@ -26,7 +27,7 @@
                   <div class="form-group row">
                       <label class="col-sm-5 form-control-label">{{$lang.user_management_add_surname}}</label>
                       <div class="col-sm-6">
-                          <input v-model="formValues.surname" v-validate="'required|alpha_spaces'" :class="{'is-danger': errors.has('surname') }" name="surname" type="text" class="form-control" placeholder="Enter second name">
+                          <input v-model="formValues.surname" v-validate="'required|alpha_spaces'" :class="{'is-danger': errors.has('surname') }" name="surname" key="surname" type="text" class="form-control" placeholder="Enter second name">
                           <i v-show="errors.has('surname')" class="fas fa-warning"></i>
                           <span class="help is-danger" v-show="errors.has('surname')">{{ errors.first('surname') }}</span>
                       </div>
@@ -34,7 +35,8 @@
                   <div class="form-group row">
                       <label class="col-sm-5 form-control-label">{{$lang.user_management_email}}</label>
                       <div class="col-sm-6">
-                          <input v-model="result_admin_email != '' ? result_admin_email : formValues.emailAddress" v-validate="'required|email'" :class="{'is-danger': errors.has('email_address') }" name="email_address" type="email" class="form-control" placeholder="Enter email address">
+                          <input v-model="result_admin_email != '' ? result_admin_email : formValues.emailAddress" v-validate="'required|email'" :class="{'is-danger': errors.has('email_address') }" name="email_address" key="email_address" type="email" class="form-control" placeholder="Enter email address">
+
                           <i v-show="errors.has('email_address')" class="fas fa-warning"></i>
                           <span class="help is-danger" v-show="errors.has('email_address')">{{$lang.user_management_email_required}}</span>
                          <span class="help is-danger" v-if="existEmail == true">Email already exist</span>
@@ -43,7 +45,7 @@
                   <div class="form-group row">
                       <label class="col-sm-5 form-control-label">{{$lang.user_management_user_type}}</label>
                       <div class="col-sm-6">
-                        <select v-validate="'required'":class="{'is-danger': errors.has('user_type') }" class="form-control ls-select2" name="user_type" v-model="formValues.userType" @change="userTypeChanged()" :disabled="formValues.provider == 'facebook'" v-if="userRole != 'Tournament administrator'">
+                        <select v-validate="'required'":class="{'is-danger': errors.has('user_type') }" class="form-control ls-select2" name="user_type" key="user_type" v-model="formValues.userType" @change="userTypeChanged()" :disabled="formValues.provider == 'facebook'" v-if="userRole != 'Tournament administrator'">
                           <option value="">Select</option>
                           <option v-for="role in userRolesOptions" v-bind:value="role.id" v-if="(!(isMasterAdmin == true && role.slug == 'Super.administrator'))">
                               {{ role.name }}
@@ -58,7 +60,7 @@
                   <div class="form-group row" v-show="showOrganisation">
                       <label class="col-sm-5 form-control-label">{{$lang.user_management_organisation}}</label>
                       <div class="col-sm-6">
-                          <input v-model="formValues.organisation" v-validate="{ rules: { required: showOrganisation } }" :class="{'is-danger': errors.has('organisation') }" name="organisation" type="text" class="form-control" placeholder="Enter organisation name">
+                          <input v-model="formValues.organisation" v-validate="{ rules: { required: showOrganisation } }" :class="{'is-danger': errors.has('organisation') }" name="organisation" key="organisation" type="text" class="form-control" placeholder="Enter organisation name">
                           <i v-show="errors.has('organisation')" class="fas fa-warning"></i>
                           <span class="help is-danger" v-show="errors.has('organisation')">{{$lang.user_management_organisation_required}}</span>
                       </div>
@@ -66,7 +68,7 @@
                   <div class="form-group row">
                       <label class="col-sm-5 form-control-label">{{$lang.user_management_role}}</label>
                       <div class="col-sm-6">
-                        <select class="form-control ls-select2" name="role" v-model="formValues.role">
+                        <select class="form-control ls-select2" name="role" key="role" v-model="formValues.role">
                             <option value="">Select</option>
                             <option v-for="role in roleOptions" :value="role">
                               {{ role }}
@@ -77,7 +79,7 @@
                   <div class="form-group row">
                       <label class="col-sm-5 form-control-label">{{$lang.user_management_default_app_tournament}}</label>
                       <div class="col-sm-6">
-                        <select v-validate="'required'":class="{'is-danger': errors.has('tournament_id') }" class="form-control ls-select2" name="tournament_id" v-model="formValues.tournament_id">
+                        <select v-validate="'required'":class="{'is-danger': errors.has('tournament_id') }" class="form-control ls-select2" name="tournament_id" key="tournament_id" v-model="formValues.tournament_id">
                           <option value="">Select</option>
                           <option v-for="tournament in publishedTournaments" v-bind:value="tournament.id">
                               {{ tournament.name }}
@@ -97,7 +99,7 @@
                 <div class="form-group row">
                   <label class="col-sm-5 form-control-label">{{$lang.user_management_email}}</label>
                   <div class="col-sm-6">
-                      <input v-model="result_admin_email" v-validate="" name="result_admin_email" :class="{'is-danger': errors.has('result_admin_email') }" type="email" class="form-control" placeholder="Enter email address">
+                      <input v-model="result_admin_email" key="result_admin_email" v-validate="resultTournamentAdministratorEmail" name="result_admin_email" :class="{'is-danger': errors.has('result_admin_email') }" type="email" class="form-control" placeholder="Enter email address">
                       <i v-show="errors.has('result_admin_email')" class="fas fa-warning"></i>
                       <span class="help is-danger" v-show="errors.has('result_admin_email')">{{$lang.user_management_email_required}}</span>
                      <span class="help is-danger" v-if="existEmail == true">Email already exist</span>
@@ -209,7 +211,9 @@ import { ErrorBag } from 'vee-validate';
                 this.editUser(this.userId)
             }
             this.userRolesOptions =  this.userRoles
-            this.$validator.updateDictionary(this.errorMessages);
+            // this.$validator.updateDictionary(this.errorMessages);
+            this.$validator.localize('en', this.errorMessages.en);
+            this.$validator.localize('fr', this.errorMessages.fr);
         },
         props:['userId','userRoles','publishedTournaments','isMasterAdmin'],
         methods: {
@@ -253,9 +257,6 @@ import { ErrorBag } from 'vee-validate';
             },
             updateUserList() {
               let data = {}
-              //if(this.$route.params.registerType == '' || this.$route.params.registerType == null)
-                //  registerType = this.registerType
-              //  alert('hello called')
               User.getUsersByRegisterType(data).then(
                 (response)=> {
                    if('users' in response.data) {
@@ -366,6 +367,8 @@ import { ErrorBag } from 'vee-validate';
                         $("#user_form_modal").modal("hide");
                         setTimeout(Plugin.reloadPage, 500);
                       }
+                      this.$validator.errors.clear()
+                      this.$validator.reset();
                     },
                     (error)=>{
                     }
