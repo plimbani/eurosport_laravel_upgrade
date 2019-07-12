@@ -2,6 +2,7 @@ import Vue from 'vue'
 import store from './store'
 import VueRouter from 'vue-router'
 
+import Ls from './services/ls'
 import AuthService from './services/auth'
 
 /*
@@ -343,12 +344,31 @@ router.beforeEach((to, from, next) => {
 
     let routesForResultAdmin = ['welcome', 'tournaments_summary_details'];
 
+    let checkTokenValidate = ['home', 'login','PasswordReset','PasswordSet'];
+    if ( checkTokenValidate.indexOf(to.name) !== -1)
+    {
+        return axios.get('/api/auth/token_validate').then(response =>  {
+            if(response.data.authenticated == true) {
+                return next({ path : '/admin'})
+            }
+            else
+            {
+                Ls.remove('auth.token');
+                return next();
+            }
+        }).catch(error => {
+        });
+    }
+
     // If the next route is requires user to be Logged IN
+
     if (to.matched.some(m => m.meta.requiresAuth)){
         return AuthService.check(data).then((response) => {
+
             if(!response.authenticated){
                 return next({ path : '/login'})
             }
+
             if(response.authenticated && typeof response.hasAccess !== 'undefined' && response.hasAccess == false){
                 return next({ path : '/admin'});
             }
@@ -359,7 +379,6 @@ router.beforeEach((to, from, next) => {
             return next()
         })
     }
-
     return next()
 });
 

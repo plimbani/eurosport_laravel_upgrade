@@ -21,6 +21,9 @@ Route::group(['prefix' => 'auth'], function () {
 
     // Social logins
     Route::post('social/login', 'AuthController@socialLogin');
+
+    //check token validate
+    Route::get('token_validate','AuthController@token_validate');
 });
 
 Route::get('password/reset/{token}', '\Laraspace\Api\Controllers\PasswordController@getReset');
@@ -292,6 +295,8 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
     $api->post('getSignedUrlForGroupsViewReport', 'Laraspace\Api\Controllers\TeamController@getSignedUrlForGroupsViewReport');
 
     $api->post('user/validateemail','Laraspace\Api\Controllers\UserController@validateUserEmail');
+    
+    $api->post('user/verifyResultAdminUser','Laraspace\Api\Controllers\UserController@verifyResultAdminUser');
 });
 
 // Websites CMS routes

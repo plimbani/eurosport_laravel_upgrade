@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="row">
-            <div class="col-md-9 mb-3">
+            <div class="col-md-12 mb-3">
                 <div class="d-flex justify-content-between">
                     <div>
                         <button class="btn btn-primary btn-md" id="automatic_planning" @click="openAutomaticPitchPlanningModal()">{{$lang.pitch_planner_automatic_planning}}</button>

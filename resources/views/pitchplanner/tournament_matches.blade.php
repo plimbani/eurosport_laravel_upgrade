@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Pitch planner - {{ $pitchPlannerPrintData['tournamentData']->name }}</title>
+    <title>Match planner - {{ $pitchPlannerPrintData['tournamentData']->name }}</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
@@ -13,12 +13,18 @@
 </head>
 <body>
     <center>
-      <img src="{{ asset('assets/img/tmplogo.svg')}}" alt="Euro-Sportring Logo" width="100px" height="50px"/>
+      @if($tournamentLogo != null)  
+        <img src="{{ $tournamentLogo }}" class="hidden-sm-down text-center" id="logo-desk" alt="Laraspace Logo" width="200px" height="100px">
+      @elseif(Config::get('config-variables.current_layout') == 'tmp')
+        <img  src="{{ asset('assets/img/tmplogo.svg')}}" id="logo-desk" alt="Laraspace Logo" class="hidden-sm-down text-center" width="200px" height="100px">
+      @elseif(Config::get('config-variables.current_layout') == 'commercialisation')
+        <img  src="{{ asset('assets/img/easy-match-manager/emm.svg')}}" id="logo-desk" alt="Laraspace Logo" class="hidden-sm-down text-center" width="200px" height="100px">
+      @endif 
     </center>
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <h4>Pitch planner</h4>
+                <h4>Match planner</h4>
                 <hr>
             </div>
         </div>
@@ -48,8 +54,14 @@
                                         <table class="w-100">
                                             <tbody class="w-100">
                                                 <tr class="w-100">
+                                                    <td colspan="2">
+                                                        {{ $match['referre_name'] }}
+                                                    </td>
+                                                </tr>
+                                                <tr class="w-100">
                                                     <td class="w-50">
                                                         {{ $match['match_datetime']->format('H:i') }} - {{ $match['match_endtime']->format('H:i') }}
+                                                        {{$match['competation_type'] == 'Round Robin' ? '(' .$match['actual_name']. ')' : ''}}
                                                     </td>
                                                     <td class="w-50">
                                                         @if($match['hometeam_score'] !== null && $match['awayteam_score'] !== null)
@@ -60,11 +72,6 @@
                                                 <tr class="w-100">
                                                     <td colspan="2">
                                                         {{ $match['match_name'] }}
-                                                    </td>
-                                                </tr>
-                                                <tr class="w-100">
-                                                    <td colspan="2">
-                                                        {{ $match['referre_name'] }}
                                                     </td>
                                                 </tr>
                                             </tbody>

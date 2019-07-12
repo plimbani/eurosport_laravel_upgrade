@@ -83,7 +83,7 @@
         @else 
         <p>Thanks for registering an account with Easy Match Manager. Please click on the button below to verify your email address and complete your account registration.</p>
         @endif
-        <p>Once verified you will be able to login to you your account.</p>
+        <p>Once verified you will be able to login to your account.</p>
       </div></td></tr></tbody></table></div><!--[if mso | IE]>
       </td></tr></table>
       <![endif]--></td></tr></tbody></table></div><!--[if mso | IE]>

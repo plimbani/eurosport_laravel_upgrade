@@ -238,6 +238,10 @@ import _ from 'lodash'
                         // $(this).remove();
                     },
                     eventReceive: function( event, delta, revertFunc, jsEvent, ui, view) { // called when a proper external event is dropped
+                        if(vm.isMatchScheduleInEdit === true) {
+                            event.borderColor = '#FF0000';
+                            $('#pitchPlanner' + (vm.stage.stageNumber)).parent('.fc-unthemed').fullCalendar('updateEvent', event);
+                        }
                         if(event.refereeId == -3 ){
                             let matchData = {
                                 'tournamentId': vm.tournamentId,
@@ -381,6 +385,10 @@ import _ from 'lodash'
                     },
                     eventDrop: function(event, delta, revertFunc, jsEvent, ui, view) { // called when an event (already on the calendar) is moved
                         // update api call
+                        if(vm.isMatchScheduleInEdit === true) {
+                            event.borderColor = '#FF0000';
+                            $('#pitchPlanner' + (vm.stage.stageNumber)).parent('.fc-unthemed').fullCalendar('updateEvent', event);
+                        }
                         if(vm.currentView == 'refereeTab'){
                             revertFunc()
                             return false;
