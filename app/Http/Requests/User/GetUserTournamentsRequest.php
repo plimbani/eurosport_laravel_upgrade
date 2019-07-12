@@ -5,7 +5,7 @@ namespace Laraspace\Http\Requests\User;
 use Laraspace\Traits\AuthUserDetail;
 use Illuminate\Foundation\Http\FormRequest;
 
-class GetUsetTournamentsRequest extends FormRequest
+class GetUserTournamentsRequest extends FormRequest
 {
     use AuthUserDetail;
     

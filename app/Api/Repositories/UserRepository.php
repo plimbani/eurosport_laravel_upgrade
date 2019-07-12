@@ -59,22 +59,21 @@ class UserRepository {
 
 
         if($loggedInUser->hasRole('tournament.administrator')) { 
-          $tournamentUserIds = TournamentUser::join('role_user', 'tournament_user.user_id', '=', 'role_user.user_id')
-                              ->join('roles', 'roles.id', '=', 'role_user.role_id')
+          $tournamentUserIds = TournamentUser::leftjoin('role_user', 'tournament_user.user_id', '=', 'role_user.user_id')
+                              ->leftjoin('roles', 'roles.id', '=', 'role_user.role_id')
                               ->whereIn('tournament_id', $tournamentIds)
                               ->where('tournament_user.user_id', '!=', $loggedInUser->id)
                               ->where('slug', 'Results.administrator')
-                              ->select('tournament_user.*', 'roles.name', 'roles.slug')
-                              ->groupBy('user_id')
-                              ->pluck('user_id')
-                              ->toArray();                   
+                              ->pluck('tournament_user.user_id')
+                              ->toArray();
 
-          $tournamentAdminUser =  TournamentAdminUser::join('role_user', 'tournament_admin_users.user_id', '=', 'role_user.user_id')
+          $tournamentAdminUser = TournamentAdminUser::join('role_user', 'tournament_admin_users.user_id', '=', 'role_user.user_id')
                               ->join('roles', 'roles.id', '=', 'role_user.role_id')
                               ->where('slug', 'Results.administrator')
                               ->join('users', 'tournament_admin_users.user_id', '=', 'users.id')
                               ->pluck('tournament_admin_users.user_id')
-                              ->toArray(); 
+                              ->toArray();
+
           $userTournamentsArray = array_merge($tournamentUserIds,$tournamentAdminUser);
           $finalTournamentUnique = array_unique($userTournamentsArray);
           $user = $user->whereIn('users.id', $finalTournamentUnique);  
@@ -363,7 +362,6 @@ class UserRepository {
     public function verifyResultAdminUser($data)
     {
       $user = User::where('email', $data['email'])->first();
-
       if($user) {
         if($user->roles()->first()->slug != 'Results.administrator') {
           return ['status_code'=> 200, 'emailExists' => true];
