@@ -91,6 +91,14 @@
     <div v-if="currentCompetationId == 0 && otherData.DrawType != 'Elimination'">No information available
     </div>
   </div>
+  <!-- <div class="row align-items-center mb-3">
+    <div class="col-md-10">
+        <h6 class="mb-0 fieldset-title">{{otherData.DrawName}} matches</h6>
+    </div>
+    <div class="col-md-2">
+      <button type="button" name="save" class="btn btn-primary pull-right" @click="saveMatchScore()" v-if="otherData.DrawType == 'Elimination' && isUserDataExist">Save</button>
+    </div>
+  </div> -->
   <matchList :matchData1="matchData" :DrawName="DrawName" :otherData="otherData"></matchList>
   <manualRanking :competitionId="currentCompetationId" :teamList="teamList" :teamCount="teamCount" :isManualOverrideStanding="DrawName.is_manual_override_standing" @refreshStanding="refreshManualStanding()" @competitionAsManualStanding="competitionAsManualStanding"></manualRanking>
 </div>

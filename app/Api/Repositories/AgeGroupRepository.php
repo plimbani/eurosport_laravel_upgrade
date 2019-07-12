@@ -215,12 +215,13 @@ class AgeGroupRepository
 
         $tournamentCompeationTemplate['category_age_color'] = $predefinedAgeCategoryColorsArray[$colorIndex];
         $tournamentCompeationTemplate['category_age_font_color'] = $predefinedAgeCategoryFontColorsArray[$colorIndex];
-        
+
         if($data['tournament_format'] == 'basic') {
           $tournamentCompeationTemplate['template_json_data'] = $data['tournamentTemplate']['json_data'];
         } else {
           $tournamentCompeationTemplate['template_json_data'] = null;
         }
+
         return TournamentCompetationTemplates::create($tournamentCompeationTemplate)->id;
       }
     }
@@ -303,6 +304,9 @@ class AgeGroupRepository
      */
     public function deleteCompeationFormat($tournamentCompetationTemplateId)
     {
+      $competition = Competition::where('tournament_competation_template_id', $tournamentCompetationTemplateId)->delete();
+      $ageCategoryDivisions = AgeCategoryDivision::where('tournament_competition_template_id', $tournamentCompetationTemplateId)->delete();
+
       $tournamentCompetationTemplate = TournamentCompetationTemplates::find($tournamentCompetationTemplateId);
       $tournamentId = $tournamentCompetationTemplate->tournament_id;
       $tournamentReferees = Referee::where('tournament_id', $tournamentId)->get();
