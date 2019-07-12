@@ -107,7 +107,7 @@
                 </div>
                 <div class="form-group row" v-if="isUserExists">
                   <div class="col-sm-12">
-                    <p class="text-danger">This user already exists but cannot be added a results administrator. Please contact your super administrator for assistance.</p>
+                    <p class="text-danger mb-0">This user already exists but cannot be added a results administrator. Please contact your super administrator for assistance.</p>
                   </div>
                 </div>                
               </div>
