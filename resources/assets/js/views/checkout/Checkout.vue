@@ -76,13 +76,47 @@
                             <div class="col-sm-6 col-md-7 col-lg-7">
                                 <p class="mb-0" v-if="!id">{{tournamentData.tournament_max_teams}}  team license for a {{tournamentData.dayDifference}} day tournament</p>
 
-								<p class="mb-0" v-if="id">{{tournamentData.teamDifference}}  team license for a {{tournamentData.dayDifference}} day tournament</p>
+								<p class="mb-0" v-if="id">
+                                    <span v-if="tournamentData.teamDifference == 0">{{tournamentData.tournament_max_teams }} teams
+                                    </span>
+                                    <span v-if="tournamentData.teamDifference > 0">Additional {{tournamentData.teamDifference }} teams
+                                    </span>
+                                    <span v-if="tournamentData.teamDifference < 0">Reduce {{Math.abs(tournamentData.teamDifference)}} teams
+                                    </span>
+                                </p>
+
+                                <p class="mb-0" v-if="id && tournamentData.tournament_type == 'cup' && tournamentData.custom_tournament_format == 1">
+                                    <span>Tournament formats
+                                    </span>
+                                </p>
+                                <p class="mb-0" v-if="id && tournamentData.transactionDifferenceAmountValue > 0">
+                                    <span>Paid amount
+                                    </span>
+                                </p>
                             </div>
-                            <div class="col-sm-6 col-md-5 col-lg-5">
+                            <div class="col-sm-6 col-md-5 col-lg-5"  v-if="!id">
                                 <p class="text-sm-right mb-0 mt-3 mt-sm-0">
-                                    <span v-if="tournamentData.currency_type == 'GBP'">&#163;</span>   
+                                    <span v-if="tournamentData.currency_type == 'GBP'">&#163;</span>
                                     <span v-if="tournamentData.currency_type == 'EURO'">&#128;</span>{{returnFormatedNumber(tournamentData.tournamentPricingValue/100)}}</p>
                                 </p>
+                            </div>
+
+                            <div class="col-sm-6 col-md-5 col-lg-5"  v-if="id">
+                                <p class="text-sm-right mb-0 mt-3 mt-sm-0">
+                                    <span v-if="tournamentData.currency_type == 'GBP'">&#163;</span>
+                                    <span v-if="tournamentData.currency_type == 'EURO'">&#128;</span>{{returnFormatedNumber(managePrice)}}
+                                </p>
+
+                                <p class="text-sm-right mb-0 mt-3 mt-sm-0" v-if="tournamentData.tournament_type == 'cup' && tournamentData.custom_tournament_format == 1">
+                                    <span v-if="tournamentData.currency_type == 'GBP'">&#163;</span>
+                                    <span v-if="tournamentData.currency_type == 'EURO'">&#128;</span>{{returnFormatedNumber(manageAdvancePrice)}}
+                                </p>
+
+                                <p class="text-sm-right mb-0 mt-3 mt-sm-0" v-if="tournamentData.transactionDifferenceAmountValue > 0">
+                                    -<span v-if="tournamentData.currency_type == 'GBP'">&#163;</span>
+                                    <span v-if="tournamentData.currency_type == 'EURO'">&#128;</span>{{returnFormatedNumber(manageDifferencePrice)}}
+                                </p>
+
                             </div>
                         </div>
 
@@ -127,12 +161,28 @@
                 countryCardList: [],
                 countries: {},
                 PMLIST: 'VISA;MasterCard',
-				id:""
+				id:"",
+
             }
         },
         beforeRouteEnter(to, from, next) {
 
             next()
+        },
+        computed: {
+            managePrice(){
+                return this.tournamentData.tournamentLicenseBasicPriceDisplay
+            },
+            manageDifferencePrice(){
+                if (this.tournamentData.payment_currency == 'GBP')
+                {
+                    return this.tournamentData.transactionDifferenceAmountValue*(parseFloat(this.tournamentData.gpbConvertValue));
+                }
+                return this.tournamentData.transactionDifferenceAmountValue;
+            },
+            manageAdvancePrice(){
+                return this.tournamentData.tournamentLicenseAdvancePriceDisplay;
+            }
         },
         methods: {
             generateHashKey(e) {
@@ -224,7 +274,6 @@
 				if(this.tournamentData.id){
                     this.id = this.tournamentData.id;
                 }
-				//console.log(this.tournamentData);
             } else {
                 this.$router.push({name: 'login'});
             }
