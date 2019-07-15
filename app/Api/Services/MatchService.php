@@ -986,8 +986,9 @@ class MatchService implements MatchContract
         $fix1['CupFixture']['tournamentId'] = $fixture->tournament_id;
         $fix1['CupFixture']['match_round'] = $fixture->round;
         $ageCategoryId = $fix1['CupFixture']['age_group_id'] = $fixture->age_group_id;
+        $competition = Competition::where('id', $fixture->competition_id)->first();
 
-        if($fix1['CupFixture']['match_round'] == 'Round Robin') {
+        if($fix1['CupFixture']['match_round'] == 'Round Robin' || ($competition->competation_type == 'Elimination' && $competition->actual_competition_type == 'Round Robin')) {
           if( $fix1['CupFixture']['hometeam'] == 0 || $fix1['CupFixture']['awayteam'] == 0)
           {
             return $fixture->competition_id;
@@ -1006,7 +1007,6 @@ class MatchService implements MatchContract
           $competitionId = $this->calculateEliminationTeams($fixture);
 
           // changes for #247
-          $competition = Competition::where('id', $fixture->competition_id)->first();
           if($competition->competation_type == 'Elimination' && $competition->actual_competition_type == 'Round Robin') {
               $this->generateStandingsForCompetitions($fix1['CupFixture']['tournamentId'], $cup_competition_id, $ageCategoryId, $findTeams,'Elimination');
           }
@@ -1412,7 +1412,6 @@ class MatchService implements MatchContract
             }
             // else check if its new change
           }
-
           $this->processFixtures($processFixtures);
         }
         return ;
@@ -1846,7 +1845,6 @@ class MatchService implements MatchContract
             DB::table('match_standing')->where('id',$teamExist->id)->update($data);
         } else {
             $data3 = array();
-
             $data3['competition_id'] = $cup_competition_id;
             $data3['tournament_id'] = $tournamentId;
             $data3['team_id'] = $team;
@@ -1867,7 +1865,6 @@ class MatchService implements MatchContract
             DB::table('match_standing')->insert($data3);
         }
       }
-
       if($assignTeamsToFurtherRounds) {
         $this->TeamPMAssignKp($cup_competition_id);
       }
@@ -2471,7 +2468,6 @@ class MatchService implements MatchContract
           $findTeams[] = $value->home_team;
           $findTeams[] = $value->away_team;
         }
-
         $findTeams = array_unique($findTeams);
         $this->moveMatchStandings($data['tournamentId'], $ageCategoryId, $data['competitionId']);
         $this->generateStandingsForCompetitions($data['tournamentId'], $data['competitionId'], $ageCategoryId, $findTeams, 'Round Robin');
