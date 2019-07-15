@@ -187,7 +187,6 @@
                                         <div class="col-8">
                                             <p class="mb-0" >Tournament type</p>
                                         </div>
-                                        
                                     </div>                                      
                                     <div class="row" v-if="buyLicenseReduceTeamAndDay">
                                         <div class="col-sm-6 col-md-7 col-lg-7">
@@ -339,13 +338,6 @@
                     return false
                 }
             },
-            manageDaysPaymentPrice(){
-                if(this.newDaysAdded != 0 || this.user_old_selected_type != this.tournamentData.tournament_type){
-                    return true
-                } else {
-                    return false
-                }
-            },
             manageTournamentFormatValue(){
                 if(this.tournamentData.tournament_type == 'cup' && this.tournamentData.custom_tournament_format == '1') {
                     return this.tournamentData.tournamentLicenseAdvancePriceDisplay
@@ -353,8 +345,9 @@
             },
             manageTournamentTaemsAndDaysFormatValue() {
                  if(this.tournamentData.tournament_type == 'cup' && this.tournamentData.custom_tournament_format == '1' && this.new_added_teams != this.tournament_old_teams) {
-                  return this.tournamentData.tournamentPricingValue - this.tournamentData.tournamentLicenseAdvancePriceDisplay;
+                  return  this.tournamentData.tournamentPricingValue - this.tournamentData.tournamentLicenseAdvancePriceDisplay;
                 }
+
                 return this.tournamentData.tournamentPricingValue
             }   
         },   
@@ -582,10 +575,12 @@
                     let tournamentPricing = _.filter(this.tournamentPricingBand.cup.bands, function(band) {
                         if(tournamentMaxTeams >= band.min_teams && tournamentMaxTeams <= band.max_teams) {
                             tournamentLicensePricingArray.push(band.price + band.advanced_price);
+                           
                         }
                     });
                     let tournamentPricingRecord = _.head(tournamentLicensePricingArray);
                         vm.tournamentData.tournamentPricingValue = tournamentPricingRecord - this.tournamentData.transactionDifferenceAmountValue;
+
                     if(this.tournamentData.currency_type == "GBP") {
                         vm.tournamentData.payment_currency = vm.tournamentData.currency_type;
                         vm.tournamentData.tournamentPricingValue = (vm.tournamentData.tournamentPricingValue)*vm.gpbConvertValue;

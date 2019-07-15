@@ -3,7 +3,7 @@
     <div class="card-block">
         <div class="row">
             <div class="col-md-12">
-                <p v-if="tournamentEndDateTimeDisplayMessage && displayTournamentEndDate !=''" class="result-administration-date">
+                <p v-if="tournamentEndDateTimeDisplayMessage" class="result-administration-date">
                     <small class="text-muted">Please note: You will no longer be able to enter results or edit your tournament after {{ displayTournamentEndDate | formatDate }} </small> 
                 </p>  
             </div>
