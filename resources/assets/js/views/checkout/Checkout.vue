@@ -171,12 +171,6 @@
         },
         computed: {
             managePrice(){
-
-                // if (this.tournamentData.payment_currency == 'GBP')
-                // {
-                //     return this.tournamentData.tournamentLicenseBasicPriceDisplay*(parseFloat(this.tournamentData.gpbConvertValue));
-                // }
-
                 return this.tournamentData.tournamentLicenseBasicPriceDisplay
             },
             manageDifferencePrice(){
@@ -187,10 +181,6 @@
                 return this.tournamentData.transactionDifferenceAmountValue;
             },
             manageAdvancePrice(){
-                // if (this.tournamentData.payment_currency == 'GBP')
-                // {
-                //     return this.tournamentData.tournamentLicenseAdvancePriceDisplay*(parseFloat(this.tournamentData.gpbConvertValue));
-                // }
                 return this.tournamentData.tournamentLicenseAdvancePriceDisplay;
             }
         },
