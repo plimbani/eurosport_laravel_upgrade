@@ -90,7 +90,10 @@ class TournamentRepository
         foreach ($data as $key => $tournament) {
             $matchCount = TempFixture::where('tournament_id', $tournament->id)->count();
             $data[$key]['matchlistCount'] = $matchCount;
-            $data[$key]['tournamentExpireTime'] = $this->getTournamentExpireTime($tournament->id,$tournament->end_date,$matchCount);
+            if ( $user && $user->roles()->first()->slug == 'customer')
+            {
+                $data[$key]['tournamentExpireTime'] = $this->getTournamentExpireTime($tournament->id,$tournament->end_date,$matchCount);
+            }
         }
         
         return ['data' => $data, 'baseUrl' => $baseUrl];
@@ -1142,10 +1145,11 @@ class TournamentRepository
         if ( $tournament )
         {
             $matchCount = TempFixture::where('tournament_id', $tournament->id)->count();
-            $expireTime = $this->getTournamentExpireTime($id,$tournament->tournament['end_date'],$matchCount);
-            
-            $tournament->tournamentExpireTime = $expireTime;
-
+            if ( $authUser && $authUser->roles()->first()->slug == 'customer')
+            {
+                $expireTime = $this->getTournamentExpireTime($id,$tournament->tournament['end_date'],$matchCount);
+                $tournament->tournamentExpireTime = $expireTime;
+            }
         }
         return $tournament;
     }
@@ -1480,7 +1484,6 @@ class TournamentRepository
     {
         if ( $matchCount == 0 )
         {
-            //$endDate = $tournament->end_date;
             $tournamentEndDate =Carbon::createFromFormat('d/m/Y', $endDate)->addDay()->format('Y-m-d');
 
             $finalDate = Carbon::parse($tournamentEndDate);
@@ -1496,7 +1499,6 @@ class TournamentRepository
             }
             else
             {
-                $endDate = $tournament->end_date;
                 $tournamentEndDate =Carbon::createFromFormat('d/m/Y', $endDate)->addDay()->format('Y-m-d');
 
                 $finalDate = Carbon::parse($tournamentEndDate);
