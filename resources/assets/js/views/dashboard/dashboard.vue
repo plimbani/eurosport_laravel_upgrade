@@ -10,7 +10,7 @@
                                 <div class="card w-100">
                                     <div class="card-block">
                                         <div class="row align-items-center">
-                                            <div class="col-xl-7" :class="tournamentDashboardEdit(tournament.end_date) ? '' : 'is-disabled'">
+                                            <div class="col-xl-7" :class="!tournamentDashboardEdit(tournament.tournamentExpireTime) ? '' : 'is-disabled'">
                                                 <p class="h7 text-uppercase mb-0 text-uppercase">License: #{{tournament.access_code}}</p>
                                                 <div class="row align-items-center mb-2">
                                                     <div class="col-lg-7">
@@ -33,11 +33,11 @@
                                             </div>
                                 
                                             <div class="col-xl-5 mt-3 mt-lg-0 text-lg-right">
-                                                <div class="btn-group" v-if="!isTournamentExpired(tournament.end_date)">
-                                                    <button v-if="tournamentDashboardEdit(tournament.end_date)" class="btn btn-outline" v-on:click="redirectToTournamentDetailPage(tournament)"><img src="/images/edit.png" alt=""> Edit</button>
+                                                <div class="btn-group" v-if="!tournamentDashboardEdit(tournament.tournamentExpireTime)">
+                                                    <button class="btn btn-outline" v-on:click="redirectToTournamentDetailPage(tournament)"><img src="/images/edit.png" alt=""> Edit</button>
                                                     <button v-if="tournamentDashboardManageLicense(tournament.start_date)" class="btn btn-outline ml-2" v-on:click="redirectToManageTournament(tournament)">Manage License</button>
                                                 </div>
-                                                <div class="btn-group" v-if="isTournamentExpired(tournament.end_date)">
+                                                <div class="btn-group" v-if="tournamentDashboardEdit(tournament.tournamentExpireTime)">
                                                     <button class="btn btn-outline ml-2" v-on:click="redirectToRenewTournament(tournament)">Renew License</button>
                                                 </div>
                                             </div>
@@ -144,6 +144,8 @@
                 let startDate = moment(startDateFormat);
                 let endDate = moment(endDateFormat);
                 let dayDifference = endDate.diff(startDate, 'days');
+
+                console.log("here",dayDifference);
                 
                 if(dayDifference >= 2){
                     return true;
@@ -236,13 +238,16 @@
                 } 
             },
             tournamentDashboardEdit(endDate){
-                let currentDateTime = this.currentDateTime;
+                //let currentDateTime = this.currentDateTime;
                 let tournamentEndDate = endDate;
-                let tournamentExpireTime = moment(tournamentEndDate, 'DD/MM/YYYY HH:mm:ss').add(1, 'days');
-                if(tournamentExpireTime >= currentDateTime) {
-                   return true;
+
+                let tournamentExpireTime = moment(tournamentEndDate).format('DD/MM/YYYY HH:mm:ss');
+                let currentDateTime = moment(this.currentDateTime).format('DD/MM/YYYY HH:mm:ss');
+
+                if(tournamentExpireTime > currentDateTime) {
+                   return false;
                 } else {
-                  return false;
+                  return true;
                 }
             },
 
