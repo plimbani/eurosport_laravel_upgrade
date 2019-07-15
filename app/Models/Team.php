@@ -40,6 +40,14 @@ class Team extends Model
     {
         return $this->belongsTo('Laraspace\Models\Competition', 'competation_id');
     }
+    public function homeFixtures()
+    {
+        return $this->hasMany('Laraspace\Models\TempFixture', 'home_team', 'id');
+    }
+    public function awayFixtures()
+    {
+        return $this->hasMany('Laraspace\Models\TempFixture', 'away_team', 'id');
+    }
 
     protected $dates = ['deleted_at'];
 }

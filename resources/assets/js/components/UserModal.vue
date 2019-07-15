@@ -107,9 +107,14 @@
                 </div>
                 <div class="form-group row" v-if="isUserExists">
                   <div class="col-sm-12">
-                    <p class="text-danger">This user already exists but cannot be added a results administrator. Please contact your super administrator for assistance.</p>
+                    <p class="text-danger mb-0">This user already exists but cannot be added a results administrator. Please contact your super administrator for assistance.</p>
                   </div>
-                </div>                
+                </div>
+                <div class="form-group row" v-if="isAlreadyAdded">
+                  <div class="col-sm-12">
+                    <p class="text-danger mb-0">This user has already been added.</p>
+                  </div>
+                </div>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">{{$lang.user_management_user_cancle}}</button>
@@ -181,7 +186,8 @@ import { ErrorBag } from 'vee-validate';
                       }
                     }
                   }
-                }
+                },
+                isAlreadyAdded: false,
             }
         },
         computed: {
@@ -353,8 +359,13 @@ import { ErrorBag } from 'vee-validate';
               this.$validator.validateAll().then((response) => {
                 if(response) {
                   let data = {'email': this.result_admin_email};
+                  this.isAlreadyAdded = false;
                   User.verifyResultAdminUser(data).then(
                     (response)=> {
+                      if(typeof response.data.isAlreadyAdded != 'undefined' && response.data.isAlreadyAdded == true) {
+                        this.isAlreadyAdded = true;
+                        return false;
+                      }
                       if(response.data.emailExists) {
                         this.isUserExists = true;
                         this.normalUserFields = false;
