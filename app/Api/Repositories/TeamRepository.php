@@ -402,7 +402,13 @@ class TeamRepository
             ->where('competitions.tournament_id','=',$tournamentId);
 
         if(app('request')->header('ismobileuser') && app('request')->header('ismobileuser') == "true") {
-          $teams = $teams->whereHas('competition.scheduledFixtures');
+          $teams = $teams->where(function($q) use($tournamentId) {
+            return $q->whereHas('homeFixtures', function($q1) use($tournamentId) {
+              $q1->where('is_scheduled', 1)->where('tournament_id', $tournamentId);
+            })->orWhereHas('awayFixtures', function($q2) use($tournamentId) {
+              $q2->where('is_scheduled', 1)->where('tournament_id', $tournamentId);
+            });
+          });
         }
 
         $teams = $teams->get();
