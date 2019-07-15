@@ -362,6 +362,12 @@ class UserRepository {
       $loggedInUser = $this->getCurrentLoggedInUserDetail();
 
       if($user) {
+        $tournamentAdminUser = TournamentAdminUser::where('user_id', $user->id)->where('added_by', $loggedInUser->id)->first();
+
+        if($tournamentAdminUser) {
+          return ['status_code'=> 200, 'isAlreadyAdded' => true];
+        }
+
         if($user->roles()->first()->slug != 'Results.administrator') {
           return ['status_code'=> 200, 'emailExists' => true];
         } else {
