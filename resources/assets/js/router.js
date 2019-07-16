@@ -537,13 +537,29 @@ router.beforeEach((to, from, next) => {
     let restrictCustomerRoutes = ['website_add', 'website_homepage', 'website_teams', 'website_venue', 'website_tournament', 'website_program', 'website_stay', 'website_visitors', 'website_media', 'website_contact','welcome','users_list','userstourmanent'];
     let routesForResultAdmin = ['welcome', 'tournaments_summary_details'];
 
+    let checkTokenValidate = ['login','PasswordReset','PasswordSet'];
+    if ( checkTokenValidate.indexOf(to.name) !== -1)
+    {
+        return axios.get('/api/auth/token_validate').then(response =>  {
+            if(response.data.authenticated == true) {
+                return next({ path : '/admin'})
+            }
+            else
+            {
+                return next();
+            }
+        }).catch(error => {
+        });
+    }
+
     // If the next route is requires user to be Logged IN
+
     if (to.matched.some(m => m.meta.requiresAuth)){
         return AuthService.check(data).then((response) => {
+
             if(!response.authenticated){
                 return next({ path : '/login'})
             }
-
 
             if ( response.userData.role_name == "customer" && restrictCustomerRoutes.indexOf(to.name) >= 0) {
                 return next({ path : '/dashboard'});
@@ -570,7 +586,6 @@ router.beforeEach((to, from, next) => {
     //         }
     //     }
     // }
-
     return next()
 });
 
