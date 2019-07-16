@@ -21,6 +21,9 @@ Route::group(['prefix' => 'auth'], function () {
 
     // Social logins
     Route::post('social/login', 'AuthController@socialLogin');
+
+    //check token validate
+    Route::get('token_validate','AuthController@token_validate');
 });
 
 Route::get('password/reset/{token}', '\Laraspace\Api\Controllers\PasswordController@getReset');
