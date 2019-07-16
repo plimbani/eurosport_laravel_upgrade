@@ -16,6 +16,15 @@ class TabAgeCategoriesVC: SuperViewController {
     
     var rotateToPortrait = false
     
+    @IBOutlet var lblNoData: UILabel!
+    
+    var isDataAvailable: Bool = false {
+        didSet {
+            table.isHidden = !isDataAvailable
+            lblNoData.isHidden = isDataAvailable
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         TestFairy.log(String(describing: self))
@@ -94,10 +103,12 @@ class TabAgeCategoriesVC: SuperViewController {
                 }
                 
                 self.table.reloadData()
+                self.isDataAvailable = (self.ageCategoriesList.count != 0)
             }
         }) { (result) in
             DispatchQueue.main.async {
                 self.view.hideProgressHUD()
+                self.isDataAvailable = false
                 
                 if result.allKeys.count > 0 {
                     if let status_code = result.value(forKey: "status_code") as? Int {

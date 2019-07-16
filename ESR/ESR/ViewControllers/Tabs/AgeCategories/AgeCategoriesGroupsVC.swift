@@ -15,6 +15,15 @@ class AgeCategoriesGroupsVC: SuperViewController {
     var heightAgeCategoryCell: CGFloat = 0
     var ageCategoryId: Int = NULL_ID
     
+    @IBOutlet var lblNoData: UILabel!
+    
+    var isDataAvailable: Bool = false {
+        didSet {
+            table.isHidden = !isDataAvailable
+            lblNoData.isHidden = isDataAvailable
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         TestFairy.log(String(describing: self))
@@ -69,16 +78,18 @@ class AgeCategoriesGroupsVC: SuperViewController {
             DispatchQueue.main.async {
                 self.view.hideProgressHUD()
                 
-                /*if let data = result.value(forKey: "data") as? NSArray {
+                if let data = result.value(forKey: "data") as? NSArray {
                     self.ageCategoriesGroupsList = data
                     ApplicationData.groupsList = data
-                }*/
+                }
                 
                 self.table.reloadData()
+                self.isDataAvailable = (self.ageCategoriesGroupsList.count != 0)
             }
         }) { (result) in
             DispatchQueue.main.async {
                 self.view.hideProgressHUD()
+                self.isDataAvailable = false
                 
                 if result.allKeys.count > 0 {
                     if let status_code = result.value(forKey: "status_code") as? Int {
