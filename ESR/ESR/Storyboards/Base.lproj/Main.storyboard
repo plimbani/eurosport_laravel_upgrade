@@ -1067,7 +1067,7 @@
                                 </constraints>
                             </scrollView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Itg-5a-MJs">
-                                <rect key="frame" x="289" y="35" width="16" height="22"/>
+                                <rect key="frame" x="275" y="35" width="30" height="30"/>
                                 <inset key="imageEdgeInsets" minX="3" minY="3" maxX="3" maxY="3"/>
                                 <state key="normal" image="icon_close"/>
                                 <connections>
@@ -1103,7 +1103,7 @@
         <image name="icon_uncheck" width="27" height="22"/>
         <image name="landing_bg" width="1500" height="2713"/>
         <image name="login_with_fb_bg" width="1312" height="196"/>
-        <image name="logo_esr_landing" width="522" height="600"/>
+        <image name="logo_esr_landing" width="511" height="211"/>
         <image name="registration_bg" width="640" height="1136"/>
         <image name="tab_age_categories" width="29" height="25"/>
         <image name="tab_age_categories_1" width="29" height="26.5"/>
@@ -1116,7 +1116,7 @@
         <image name="tab_tournament" width="29" height="35"/>
         <image name="tab_tournament_1" width="29" height="35"/>
         <namedColor name="navigationbarcolor">
-            <color red="0.7803921568627451" green="0.039215686274509803" blue="0.12549019607843137" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.0" green="0.5725490196078431" blue="0.83921568627450982" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
 </document>

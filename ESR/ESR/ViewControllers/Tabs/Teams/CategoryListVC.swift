@@ -134,6 +134,7 @@ class CategoryListVC: SuperViewController {
         }) { (result) in
             DispatchQueue.main.async {
                 self.view.hideProgressHUD()
+                self.isDataAvailable = false
                 
                 if result.allKeys.count > 0 {
                     if let status_code = result.value(forKey: "status_code") as? Int {
