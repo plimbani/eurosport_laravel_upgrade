@@ -370,4 +370,8 @@ class TournamentController extends BaseController
         $currentLayout = config('config-variables.current_layout');
         return $currentLayout;
     }
+
+    public function getTournamentExpireDate(Request $request) {
+        return $this->tournamentObj->getTournamentExpireDate($request->all());
+    }
 }
