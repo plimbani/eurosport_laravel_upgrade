@@ -340,23 +340,26 @@
                 }
             },
             buyLicenseReduceTeamAndDay(){
-                if(this.newDaysAdded == 0 && this.new_added_teams == 0 && this.user_old_selected_format == this.tournamentData.custom_tournament_format && this.user_old_selected_type == this.tournamentData.tournament_type) {
+                var startDatechange = this.startDatechange();
+                if(this.newDaysAdded == 0 && this.new_added_teams == 0 && this.user_old_selected_format == this.tournamentData.custom_tournament_format && this.user_old_selected_type == this.tournamentData.tournament_type && !startDatechange ) {
                     return true
                 } else {
                     return false
                 }
             },
             confirmDetailButton(){
+                var startDatechange = this.startDatechange();
                 if(this.tournamentData.tournamentPricingValue == 0 && (this.newDaysAdded != 0 || this.new_added_teams != 0 || this.user_old_selected_format != 
-                    this.tournamentData.custom_tournament_format || this.user_old_selected_type != this.tournamentData.tournament_type || this.tournament_old_teams != this.tournamentData.tournament_max_teams)) {
+                    this.tournamentData.custom_tournament_format || this.user_old_selected_type != this.tournamentData.tournament_type || this.tournament_old_teams != this.tournamentData.tournament_max_teams || startDatechange )) {
                     return true
                 } else {
                     return false
                 } 
             },
             manageLicensePaymentPrice(){
+                var startDatechange = this.startDatechange();
                 if(this.new_added_teams != 0 || this.user_old_selected_type != this.tournamentData.tournament_type || this.user_old_selected_format != 
-                    this.tournamentData.custom_tournament_format){
+                    this.tournamentData.custom_tournament_format || startDatechange){
                     return true
                 } else {
                     return false
@@ -389,6 +392,19 @@
         },   
         
         methods: {
+            startDatechange(){
+                var changeDate = new Date(moment(this.tournamentData.tournament_start_date, 'DD/MM/YYYY'));
+                var iniDate = new Date(moment(this.tournamentData.old_tournament_start_date, 'DD/MM/YYYY')); 
+
+                let formatChangeDate = moment(changeDate).format('DD/MM/YYYY');
+                let formatIniDate = moment(iniDate).format('DD/MM/YYYY');
+
+                if ( formatChangeDate != formatIniDate )
+                {
+                    return true;
+                }
+                return false;
+            },
             changeTeams(){ 
                 this.tournammentPricingData('changeTeams');
                 this.new_added_teams = this.tournamentData.tournament_max_teams - this.tournament_old_teams;
@@ -487,10 +503,13 @@
                             this.id = "";
                             this.tournamentData['is_renew'] = 1; 
                         }else{
+
                             let startMonth = start_date.getMonth()+1;                         
                             let endMonth = end_date.getMonth()+1;                         
                             this.tournamentData['tournament_start_date'] = start_date.getDate()+'/'+startMonth + '/'+start_date.getFullYear();
                             this.tournamentData['tournament_end_date'] = end_date.getDate()+'/'+endMonth + '/'+end_date.getFullYear(); 
+
+                            this.tournamentData['old_tournament_start_date'] = start_date.getDate()+'/'+startMonth + '/'+start_date.getFullYear();
                             $('#tournament_start_date').datepicker('setDate', this.tournamentData['tournament_start_date'])
                             $('#tournament_end_date').datepicker('setDate', this.tournamentData['tournament_end_date'])  
                         }
@@ -823,6 +842,8 @@
             vm.tournamentData.tournament_end_date = moment(vm.tournamentData.tournament_end_date).add(1,'days').format('DD/MM/YYYY');
 
 
+            vm.tournamentData.old_tournament_start_date = moment(vm.tournamentData.tournament_start_date).format('DD/MM/YYYY');
+
             $('#tournament_start_date').datepicker({
                 autoclose: true,
                 startDate: '-0m',
@@ -841,20 +862,21 @@
             $('#tournament_end_date').datepicker('setDate', moment().add(1,'days').format('DD/MM/YYYY')) 
            
             $("#tournament_start_date").on("change",function (event, value){
-               vm.findDifferenceBetweenDates();
+                vm.findDifferenceBetweenDates();
+                let startDate = moment(vm.tournamentData.tournament_start_date, 'DD/MM/YYYY')
+                let endDate = moment(vm.tournamentData.tournament_end_date, 'DD/MM/YYYY')
+                let diffDays = endDate.diff(startDate, 'days')
 
-               if ( vm.id && !vm.tournamentData.is_renew )
-               {
+                let newEndDate = moment($('#tournament_start_date').val(), "DD/MM/YYYY").add(diffDays, 'days');
 
-                    let startDate = moment(vm.tournamentData.tournament_start_date, 'DD/MM/YYYY')
-                    let endDate = moment(vm.tournamentData.tournament_end_date, 'DD/MM/YYYY')
-                    let diffDays = endDate.diff(startDate, 'days')
-
-                    let newEndDate = moment($('#tournament_start_date').val(), "DD/MM/YYYY").add(diffDays, 'days');
-
-                    var newEndDate1 = newEndDate.format("DD/MM/YYYY");
-                    $('#tournament_end_date').datepicker('setStartDate', ) 
+                var newEndDate1 = newEndDate.format("DD/MM/YYYY");
+                setTimeout(function(){
                     $('#tournament_end_date').datepicker('setDate', newEndDate1);
+                },100);
+                
+                if ( !vm.id )
+                {
+                    $('#tournament_end_date').datepicker('setStartDate', event.target.value)
                 }
 
                 vm.tournamentData.tournament_start_date = event.target.value; 
