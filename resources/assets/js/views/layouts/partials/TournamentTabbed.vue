@@ -252,7 +252,10 @@ export default {
     },
     updateTabStateData() {
       this.displayTournamentCompetationList();
-      this.getTournamentExpireDate();
+      if ( this.$store.state.Users.userDetails.role_slug == 'customer')
+      {
+        this.getTournamentExpireDate();
+      }
       if(this.$store.state.Tournament.tournamentId != 0 && this.$store.state.Tournament.tournamentId != '' && this.$store.state.Tournament.tournamentId != null) {
         this.$store.dispatch('SetTeams',this.$store.state.Tournament.tournamentId);
       }
