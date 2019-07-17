@@ -4,7 +4,7 @@
       <div class="modal-content">
         <form name="frmTournamentPermission" id="frmTournamentPermission" method="POST">
             <div class="modal-header">
-                <h5 class="modal-title">{{$lang.user_management_permission_title}}</h5>
+                <h5 class="modal-title" v-if="user != null">{{$lang.user_management_permission_title}}  - {{ user.first_name }} {{ user.last_name}} {{ user.email }}</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
                 </button>
