@@ -366,7 +366,7 @@ router.beforeEach((to, from, next) => {
         })
     }
 
-    let checkTokenValidate = ['login','PasswordReset','PasswordSet'];
+    let checkTokenValidate = ['login','PasswordReset','PasswordSet', 'home', 'front_schedule'];
     if(Ls.get('auth.token'))
     {
         return axios.get('/api/auth/token_validate').then(response =>  {
