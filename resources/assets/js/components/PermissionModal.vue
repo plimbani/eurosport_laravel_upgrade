@@ -90,9 +90,12 @@
 
         },
         computed: {
+          userDetails() {
+            return this.$store.state.Users.userDetails;
+          },
           isPermisionModalActive() {
             if(this.user) {
-              if(this.user.role_slug == "Results.administrator" || this.user.role_slug == "tournament.administrator") {
+              if(this.user.role_slug == "Results.administrator" || this.userDetails.role_slug == "tournament.administrator") {
                 return false;
               }
             }

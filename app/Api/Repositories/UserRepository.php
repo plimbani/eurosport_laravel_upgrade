@@ -59,25 +59,22 @@ class UserRepository {
 
 
         if($loggedInUser->hasRole('tournament.administrator')) { 
-          $tournamentUserIds = TournamentUser::join('role_user', 'tournament_user.user_id', '=', 'role_user.user_id')
-                              ->join('roles', 'roles.id', '=', 'role_user.role_id')
-                              ->whereIn('tournament_id', $tournamentIds)
-                              ->where('tournament_user.user_id', '!=', $loggedInUser->id)
-                              ->where('slug', 'Results.administrator')
-                              ->select('tournament_user.*', 'roles.name', 'roles.slug')
-                              ->groupBy('user_id')
-                              ->pluck('user_id')
-                              ->toArray();                   
+          $tournamentUserIds = TournamentUser::leftjoin('role_user', 'tournament_user.user_id', '=', 'role_user.user_id')
+                                              ->leftjoin('roles', 'roles.id', '=', 'role_user.role_id')
+                                              ->whereIn('tournament_id', $tournamentIds)
+                                              ->where('tournament_user.user_id', '!=', $loggedInUser->id)
+                                              ->where('slug', 'Results.administrator')
+                                              ->pluck('tournament_user.user_id')
+                                              ->toArray();
 
-          $tournamentAdminUser =  TournamentAdminUser::join('role_user', 'tournament_admin_users.user_id', '=', 'role_user.user_id')
-                              ->join('roles', 'roles.id', '=', 'role_user.role_id')
-                              ->where('slug', 'Results.administrator')
-                              ->join('users', 'tournament_admin_users.user_id', '=', 'users.id')
-                              ->pluck('tournament_admin_users.user_id')
-                              ->toArray(); 
-          $userTournamentsArray = array_merge($tournamentUserIds,$tournamentAdminUser);
+
+          $tournamentAdminUserIds = TournamentAdminUser::where('added_by', $loggedInUser->id)
+                                                        ->pluck('user_id')
+                                                        ->toArray();
+
+          $userTournamentsArray = array_merge($tournamentUserIds, $tournamentAdminUserIds);
           $finalTournamentUnique = array_unique($userTournamentsArray);
-          $user = $user->whereIn('users.id', $finalTournamentUnique);  
+          $user = $user->whereIn('users.id', $finalTournamentUnique);
         }
 
         if(isset($data['userData']) && $data['userData'] !== '') {
@@ -152,7 +149,8 @@ class UserRepository {
     public function create($data)
     {
         $loggedInUser = $this->getCurrentLoggedInUserDetail();
-        $data['userType'] = $loggedInUser->hasRole('tournament.administrator') ? 6 : $data['userType'];
+        $resultAdministratorRoleId = Role::where('slug', 'Results.administrator')->first()->id;
+        $data['userType'] = $loggedInUser->hasRole('tournament.administrator') ? $resultAdministratorRoleId : $data['userType'];
 
         $userData = [
         'person_id' => $data['person_id'],
@@ -176,10 +174,6 @@ class UserRepository {
         ];
         
         $deletedUser = User::onlyTrashed()->where('email',$data['email'])->first();
-        // if($deletedUser){
-        //     $user = $deletedUser->restore();
-        // }
-         // $deletedUser;
 
         try {
             if($deletedUser){
@@ -309,17 +303,19 @@ class UserRepository {
 
     public function changePermissions($data) {
       $user = User::find($data['user']['id']);
-      $userTournament = $data['tournaments'];
-      $assignedTournamentCount = count($userTournament);
 
-      if($assignedTournamentCount == 0) {
-        $roleMobileUser = RoleUser::where('user_id', $data['user']['id'])
-                                ->update(['role_id' => 5]);                                
-      }
       $user->tournaments()->sync([]);
       $user->tournaments()->attach($data['tournaments']);
       $user->websites()->sync([]);
       $user->websites()->attach($data['websites']);
+
+      if($user->hasRole('Results.administrator') && $user->tournaments()->count() == 0) {
+        $mobileUserRole = Role::where('slug', 'mobile.user')->first();
+        $roleMobileUser = RoleUser::where('user_id', $data['user']['id'])->update(['role_id' => $mobileUserRole->id]);
+
+        $tournamentAdminUserIds = TournamentAdminUser::where('user_id', $user->id)->delete();
+      }
+
       return true;
     } 
 
@@ -363,10 +359,24 @@ class UserRepository {
     public function verifyResultAdminUser($data)
     {
       $user = User::where('email', $data['email'])->first();
+      $loggedInUser = $this->getCurrentLoggedInUserDetail();
 
       if($user) {
+        $tournamentAdminUser = TournamentAdminUser::where('user_id', $user->id)->where('added_by', $loggedInUser->id)->first();
+
+        if($tournamentAdminUser) {
+          return ['status_code'=> 200, 'isAlreadyAdded' => true];
+        }
+
         if($user->roles()->first()->slug != 'Results.administrator') {
           return ['status_code'=> 200, 'emailExists' => true];
+        } else {
+          $tournamentAdminUser = new TournamentAdminUser();
+          $tournamentAdminUser->user_id = $user->id;
+          $tournamentAdminUser->added_by = $loggedInUser->id;
+          $tournamentAdminUser->save();
+
+          return ['status_code'=> 200, 'isResultAdmin' => true];
         }
       } else {
         return ['status_code'=> 200, 'emailExists' => false];

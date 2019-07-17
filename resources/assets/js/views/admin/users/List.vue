@@ -418,7 +418,9 @@
             editTournamentPermission(user) {
               this.currentUserInTournamentPermission = user;
               this.$root.$emit('getUserTournaments', user);
-              this.$root.$emit('getUserWebsites', user);
+              if(this.$store.state.Users.userDetails.role_slug != 'tournament.administrator') {
+                this.$root.$emit('getUserWebsites', user);
+              }
               $('#permission_modal').modal('show');
               $('#permission_modal ul.nav-tabs a').first().trigger('click');
 
