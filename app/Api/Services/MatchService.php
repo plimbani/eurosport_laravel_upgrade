@@ -965,7 +965,7 @@ class MatchService implements MatchContract
         if(count($findTeams) > 0) {
           $findTeams = array_unique($findTeams);
           $this->moveMatchStandings($data['tournamentId'], $ageCategoryId, $data['competitionId']);
-          $this->generateStandingsForCompetitions($data['tournamentId'], $data['competitionId'], $ageCategoryId, $findTeams, 'Round Robin', false);
+          $this->generateStandingsForCompetitions($data['tournamentId'], $data['competitionId'], $ageCategoryId, $findTeams, $competition->competation_type, false);
           $this->updateCategoryPositions($data['competitionId'], $ageCategoryId);
         }
       }
@@ -1658,7 +1658,7 @@ class MatchService implements MatchContract
                 ->where(function ($query) use ($findTeams)  {
                     $query->whereIn('away_team',$findTeams)
                          ->orWhereIn('home_team',$findTeams);
-                })->where('round','=' , $competitionType)->get();
+                })->where('round','=', $competitionType)->get();
 
       $fixtu = array();
       foreach($matches as $key1=>$match)
@@ -2343,7 +2343,7 @@ class MatchService implements MatchContract
     public function updatePlacingMatchPositions($ageCategory, $positions)
     {
       $prefixMatchName = $ageCategory->group_name . '-' . $ageCategory->category_age . '-';
-      for($i=0; $i < count($positions); $i=$i+2) {
+      for($i=0; $i < count($positions); $i++) {
         $matchNumber = str_replace('CAT.', $prefixMatchName, $positions[$i]->match_number);
         $fixture = DB::table('temp_fixtures')->where('match_number', $matchNumber)->where('age_group_id', $ageCategory->id)->get()->first();
 
@@ -2367,14 +2367,15 @@ class MatchService implements MatchContract
         }
 
         if($winner!==null && $looser!==null) {
-          // Update winner team
-          $positions[$i]->team_id = $winner;
-          $positions[$i]->save();
+          if($positions[$i]->result_type === 'winner') {
+            // Update winner team
+            $positions[$i]->team_id = $winner;
+            $positions[$i]->save();
+          }
 
-          // Update looser team
-          if(isset($positions[$i + 1])) {
-            $positions[$i + 1]->team_id = $looser;
-            $positions[$i + 1]->save();
+          if($positions[$i]->result_type === 'looser') {
+            $positions[$i]->team_id = $looser;
+            $positions[$i]->save();
           }
         }
       }
@@ -2470,7 +2471,7 @@ class MatchService implements MatchContract
         }
         $findTeams = array_unique($findTeams);
         $this->moveMatchStandings($data['tournamentId'], $ageCategoryId, $data['competitionId']);
-        $this->generateStandingsForCompetitions($data['tournamentId'], $data['competitionId'], $ageCategoryId, $findTeams, 'Round Robin');
+        $this->generateStandingsForCompetitions($data['tournamentId'], $data['competitionId'], $ageCategoryId, $findTeams, $competition->competation_type);
         $this->updateCategoryPositions($data['competitionId'], $ageCategoryId);
       } else {
         foreach ($groupFixture as $key => $value) {

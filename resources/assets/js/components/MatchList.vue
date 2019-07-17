@@ -199,7 +199,6 @@ export default {
         });
 
         var getFirstMatch = _.head(vm.matchData);
-        console.log('vm.matchData', vm.matchData);
         if ( typeof(getFirstMatch) != 'undefined' && getFirstMatch.isDivExist == 1 )
         {
           vm.isDivExist = getFirstMatch.isDivExist;
