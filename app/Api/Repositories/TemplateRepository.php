@@ -136,9 +136,9 @@ class TemplateRepository
     {
         $templateJson = $this->generateTemplateJson($data);
         $tournamentCompetationTemplateCount = TournamentCompetationTemplates::where('tournament_template_id', $data['editedTemplateId'])->count();
-
         $tournamentTemplate = TournamentTemplates::findOrFail($data['editedTemplateId']);
-        if($tournamentCompetationTemplateCount > 0) {
+
+        if((json_encode($data['templateFormDetail']) != $tournamentTemplate->template_form_detail) && $tournamentCompetationTemplateCount > 0) {
             $tournamentTemplate->is_latest = 0;
             $tournamentTemplate->save();
 
