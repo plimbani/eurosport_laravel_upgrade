@@ -88,7 +88,12 @@ class TournamentRepository
         // Dashboard page matchList count
         $tournamentListCount = array();
         foreach ($data as $key => $tournament) {
-                $data[$key]['matchlistCount'] = TempFixture::where('tournament_id', $tournament->id)->count();  
+            $matchCount = TempFixture::where('tournament_id', $tournament->id)->count();
+            $data[$key]['matchlistCount'] = $matchCount;
+            if ( $user && $user->roles()->first()->slug == 'customer')
+            {
+                $data[$key]['tournamentExpireTime'] = $this->getTournamentExpireTime($tournament->id,$tournament->end_date,$matchCount);
+            }
         }
         
         return ['data' => $data, 'baseUrl' => $baseUrl];
@@ -1136,6 +1141,16 @@ class TournamentRepository
     {
         $authUser = JWTAuth::parseToken()->toUser();
         $tournament = Transaction::where('tournament_id', $id)->where('user_id', $authUser->id)->with('getSortedTransactionHistories', 'tournament')->has('getSortedTransactionHistories', '>=', DB::raw(1))->first();
+
+        if ( $tournament )
+        {
+            $matchCount = TempFixture::where('tournament_id', $tournament->id)->count();
+            if ( $authUser && $authUser->roles()->first()->slug == 'customer')
+            {
+                $expireTime = $this->getTournamentExpireTime($id,$tournament->tournament['end_date'],$matchCount);
+                $tournament->tournamentExpireTime = $expireTime;
+            }
+        }
         return $tournament;
     }
     
@@ -1168,7 +1183,8 @@ class TournamentRepository
                 'baseUrl' => $baseUrl,
                 'googleAppStoreLink'=> $googleAppStoreLink,
                 'appleStoreLink'=> $appleStoreLink,
-                'appleStoreDeepLink'=> $appleStoreDeepLink
+                'appleStoreDeepLink'=> $appleStoreDeepLink,
+                'tournamentStatus'=>$tournament->status
             ];
         }
         return $response;
@@ -1462,5 +1478,35 @@ class TournamentRepository
             'first_name' => $first_name,
             'last_name' => $last_name,
         ]);
+    }
+
+    public function getTournamentExpireTime($tid,$endDate,$matchCount)
+    {
+        if ( $matchCount == 0 )
+        {
+            $tournamentEndDate =Carbon::createFromFormat('d/m/Y', $endDate)->addDay()->format('Y-m-d');
+
+            $finalDate = Carbon::parse($tournamentEndDate);
+        }
+        else
+        {
+            $lastMatchEndTime = TempFixture::where('tournament_id',$tid)
+                    ->select('match_endtime')->orderBy('match_endtime', 'desc')->first();
+
+            if ( !empty( $lastMatchEndTime->match_endtime ))
+            {
+                $finalDate = Carbon::parse($lastMatchEndTime->match_endtime);
+            }
+            else
+            {
+                $tournamentEndDate =Carbon::createFromFormat('d/m/Y', $endDate)->addDay()->format('Y-m-d');
+
+                $finalDate = Carbon::parse($tournamentEndDate);
+            }
+        } 
+
+        $configHours = env('CUSTOMER_SEND_MAIL_AFTER_MATCH_FINISHED');
+        $finalDate->addHours($configHours);
+        return $finalDate->toDateTimeString();
     }
 }

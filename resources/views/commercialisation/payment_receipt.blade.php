@@ -182,9 +182,9 @@
                                                                     </thead>
                                                                     <tbody>
                                                                         <tr>
-                                                                            <th style="text-align: left; font-weight: normal; padding: 10px 0;" align="left"><?php echo $data['tournamentName']; ?> - <?php echo $data['maximumTeams']; ?> team license for a <?php echo $data['days']; ?> day tournament
+                                                                            <th style="font-family:Roboto, Helvetica, Arial, sans-serif;font-size:16px;font-weight:300;line-height:24px;text-align:left;color:#555;" align="left"><p><?php echo $data['tournamentName']; ?> - <?php echo $data['maximumTeams']; ?> team license for a <?php echo $data['days']; ?> day tournament</p>
                                                                             </th>
-                                                                            <td style="text-align: right; padding: 10px;" align="right">
+                                                                            <td style="text-align: right; font-family:Roboto, Helvetica, Arial, sans-serif;font-size:16px;font-weight:300;line-height:24px;color:#555;" align="right"><p>
 																			<?php if($data['currency'] == "GBP") 
 																			{
 																				echo "&#163;";
@@ -192,7 +192,7 @@
 																				echo "&#128;"; 
 																			}
                                                                              echo $data['amount'];
-																			 ?>
+																			 ?></p>
 																			 </td>
                                                                         </tr>
                                                                     </tbody>
