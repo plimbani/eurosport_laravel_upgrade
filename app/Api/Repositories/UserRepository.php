@@ -321,9 +321,8 @@ class UserRepository {
         $tournamentAdminUserIds = TournamentAdminUser::where('user_id', $user->id)->delete();
       }
       if($loggedInUser->hasRole('tournament.administrator') && $user->hasRole('Results.administrator')) { 
-
-        $tournamentArray = Tournament::whereIn('id', $data['tournaments'])->pluck('name','id')->toArray();
-
+        
+        $tournamentArray = Tournament::whereIn('id', $data['tournaments'])->get()->toArray();
         $email_details['userName'] = $data['user']['first_name'];
         $email_details['tournamentName'] = $tournamentArray;
         $userEmail = $data['user']['email'];
