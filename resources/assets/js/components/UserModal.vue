@@ -39,7 +39,7 @@
 
                           <i v-show="errors.has('email_address')" class="fas fa-warning"></i>
                           <span class="help is-danger" v-show="errors.has('email_address')">{{$lang.user_management_email_required}}</span>
-                         <span class="help is-danger" v-if="existEmail == true">Email already exist</span>
+                         <span class="help is-danger" v-if="existEmail == true">Email already exists</span>
                       </div>
                   </div>
                   <div class="form-group row">
@@ -96,6 +96,11 @@
             </div>
             <div v-else>
               <div class="modal-body">
+                <div class="form-group row mb-0">
+                  <div class="col-sm-12">
+                    <p>Please enter the email address of the results administrator you would like to add.</p>
+                  </div>
+                </div>
                 <div class="form-group row">
                   <label class="col-sm-5 form-control-label">{{$lang.user_management_email}}</label>
                   <div class="col-sm-6">
@@ -118,7 +123,7 @@
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">{{$lang.user_management_user_cancle}}</button>
-                <button type="button" class="btn btn-primary" @click="verifyResultAdminUser()">{{$lang.user_management_user_save}}</button>
+                <button type="button" class="btn btn-primary" @click="verifyResultAdminUser()">{{$lang.tournament_administrator_add_user}}</button>
               </div>              
             </div>
         </form>

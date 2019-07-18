@@ -7,10 +7,14 @@ use Laraspace\Models\Role;
 use Laraspace\Models\UserFavourites;
 use Laraspace\Models\Settings;
 use Laraspace\Models\Country;
+use Laraspace\Models\Tournament;
 use Laraspace\Models\TournamentUser;
+use Laraspace\Custom\Helper\Common;
 use DB;
 use Hash;
 use JWTAuth;
+use Laraspace\Mail\SendMail;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Pagination\Paginator;
 use Laraspace\Traits\AuthUserDetail;
 use Laraspace\Models\RoleUser;
@@ -302,7 +306,12 @@ class UserRepository {
     }
 
     public function changePermissions($data) {
+      $loggedInUser = $this->getCurrentLoggedInUserDetail();
       $user = User::find($data['user']['id']);
+
+      $userTournamentsIds = $user->tournaments->pluck('id')->toArray();
+      $userSelectedTournamentsIds = $data['tournaments'];
+      $newlySelectedTournamentsIds = array_diff($userSelectedTournamentsIds, $userTournamentsIds);
 
       $user->tournaments()->sync([]);
       $user->tournaments()->attach($data['tournaments']);
@@ -314,6 +323,18 @@ class UserRepository {
         $roleMobileUser = RoleUser::where('user_id', $data['user']['id'])->update(['role_id' => $mobileUserRole->id]);
 
         $tournamentAdminUserIds = TournamentAdminUser::where('user_id', $user->id)->delete();
+      }
+      if($loggedInUser->hasRole('tournament.administrator') && $user->hasRole('Results.administrator')) {
+        $tournamentsArray = Tournament::whereIn('id', $newlySelectedTournamentsIds)->get()->toArray();
+
+        foreach ($tournamentsArray as $key => $tournament) {
+          $email_details['userName'] = $data['user']['first_name'];
+          $email_details['tournamentName'] = $tournament['name'];
+          $userEmail = $data['user']['email'];
+          $subject = 'Euro-Sportring Tournament Planner - New tournament access';
+          $email_templates = 'emails.users.result_administrator_tournament_access';
+          Mail::to($userEmail)->send(new SendMail($email_details, $subject, $email_templates, NULL, NULL, NULL));
+        }      
       }
 
       return true;
