@@ -19,8 +19,8 @@ class CreateAgeCategoryDivisionsTable extends Migration
             $table->integer('order');
             $table->integer('tournament_id')->unsigned()->index();
             $table->foreign('tournament_id')->references('id')->on('tournaments')->onDelete('cascade')->onUpdate('cascade');
-            $table->integer('tournament_competition_template_id')->unsigned()->index()->nullable();
-            $table->foreign('tournament_competition_template_id', 'age_cat_div_tournament_comp_temp_id')->references('id')->on('tournament_competation_template')->onDelete('cascade');
+            $table->integer('tournament_competition_template_id')->unsigned()->index();
+            $table->foreign('tournament_competition_template_id', 'acd_tct_id_foreign')->references('id')->on('tournament_competation_template')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }
