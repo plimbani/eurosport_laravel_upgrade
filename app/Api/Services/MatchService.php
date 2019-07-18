@@ -296,6 +296,8 @@ class MatchService implements MatchContract
               ->setPaper('a4')
               ->setOption('header-spacing', '5')
               ->setOption('header-font-size', 7)
+              ->setOption('footer-spacing', '5')
+              ->setOption('footer-font-size', 7)
               ->setOption('header-font-name', 'Open Sans')
               ->setOrientation('portrait')
               ->setOption('footer-right', 'Page [page] of [toPage]')
