@@ -568,4 +568,8 @@ class UserService implements UserContract
     public function validateUserEmail($data) {
         return $this->userRepoObj->validateUserEmail($data);
     }
+
+    public function verifyResultAdminUser($data) {
+      return $this->userRepoObj->verifyResultAdminUser($data);
+    }
 }

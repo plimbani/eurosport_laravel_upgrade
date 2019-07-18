@@ -14,6 +14,7 @@ use Laraspace\Traits\AuthUserDetail;
 use Laraspace\Api\Services\PageService;
 use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
+use Laraspace\Jobs\FaviconGenerate;
 
 class WebsiteRepository
 {
@@ -173,6 +174,7 @@ class WebsiteRepository
   public function saveWebsite($data)
   {
     $loggedInUser = $this->getCurrentLoggedInUserDetail();
+    $isImageUpdated = false;
 
     if(isset($data['websiteId']) && $data['websiteId'] != null){
       $websiteId = $data['websiteId'];
@@ -196,6 +198,7 @@ class WebsiteRepository
       
       if($data['isExistingWebsite'] == true) {
         if ($website->tournament_logo != '' && $website->tournament_logo != NULL && $website->tournament_logo != $data['tournament_logo']) {
+          $isImageUpdated = true;
           if ($this->disk->exists($this->websiteTournamentLogoPath . $website->tournament_logo)) {
             $this->disk->delete($this->websiteTournamentLogoPath . $website->tournament_logo);
             foreach ($this->websiteTournamentLogoConversions as $key => $value) {
@@ -232,6 +235,14 @@ class WebsiteRepository
     }
 
     $data['websiteId'] = $website->id;
+
+    if( $isImageUpdated || ($data['isExistingWebsite'] == false && $data['tournament_logo'] != '') ) {
+      FaviconGenerate::dispatch(
+        $data['tournament_logo'],
+        config('wot.imagePath')['favicon'],
+        $website->id
+      )->onQueue('favicon');
+    }
 
     // Allowed access to particular user roles
     if($loggedInUser->hasRole('Super.administrator') || $loggedInUser->hasRole('Master.administrator') || $loggedInUser->hasRole('Internal.administrator')) {

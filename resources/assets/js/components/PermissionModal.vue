@@ -78,19 +78,24 @@
             }
           )
 
-          Website.getAllWebsites().then(
-            (response) => {
-              this.allWebsites = response.data.data
-            },
-            (error) => {
-            }
-          )
+          if(this.$store.state.Users.userDetails.role_slug != 'tournament.administrator') {
+            Website.getAllWebsites().then(
+              (response) => {
+                this.allWebsites = response.data.data
+              },
+              (error) => {
+              }
+            )
+          }
 
         },
         computed: {
+          userDetails() {
+            return this.$store.state.Users.userDetails;
+          },
           isPermisionModalActive() {
             if(this.user) {
-              if(this.user.role_slug == "Results.administrator") {
+              if(this.user.role_slug == "Results.administrator" || this.userDetails.role_slug == "tournament.administrator") {
                 return false;
               }
             }
@@ -108,6 +113,7 @@
               (response)=> {
                 toastr.success('Permissions have been updated successfully.', 'Permissions', {timeOut: 5000});
                 $("#permission_modal").modal("hide");
+                this.$root.$emit('getResults');
                 this.formValues.tournaments = [];
               },
               (error)=>{

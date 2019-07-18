@@ -22,6 +22,7 @@ use Laraspace\Http\Requests\Tournament\GenerateReportRequest;
 use Laraspace\Http\Requests\Tournament\StoreBasicDetailRequest;
 use Laraspace\Http\Requests\Tournament\TournamentFilterRequest;
 use Laraspace\Http\Requests\Tournament\GetTournamentBySlugRequest;
+use Laraspace\Http\Requests\Tournament\DuplicateTournamentRequest;
 use Laraspace\Http\Requests\Tournament\GetCategoryCompetitionsRequest;
 use Laraspace\Http\Requests\Tournament\CategoryCompetitionColorRequest;
 use Laraspace\Http\Requests\Tournament\GetAllPublishedTournamentsRequest;
@@ -42,6 +43,7 @@ use Laraspace\Api\Contracts\TournamentContract;
 class TournamentController extends BaseController
 {
     use ValidatesRequests;
+
     /**
      * @param object $tournamentObj
      */
@@ -266,7 +268,7 @@ class TournamentController extends BaseController
         return $this->tournamentObj->updateCategoryDivisionName($request->all());
     }
 
-    public function duplicateTournament(Request $request)
+    public function duplicateTournament(DuplicateTournamentRequest $request)
     {
         return $this->tournamentObj->duplicateTournament($request->all());
     }
