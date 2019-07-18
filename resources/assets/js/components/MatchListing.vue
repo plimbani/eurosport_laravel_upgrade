@@ -36,7 +36,7 @@
 		</div>
 	</div>
     <component :is="currentScheduleView"
-    :matchData1="matchData" :matchData="matchData" :otherData="otherData"
+    :matchData1="matchData" :matchData="matchData" :otherData="otherData" :currentView="currentView"
     > </component>
   </div>
 </template>
@@ -56,6 +56,7 @@ import FinalPlacings from './FinalPlacings.vue'
 var moment = require('moment')
 
 export default {
+	props: ['currentView'],
 	data() {
 		return {
 			matchData: [],otherData:[],matchDate:this.$store.state.Tournament.tournamentStartDate,tournamentDates:[],
