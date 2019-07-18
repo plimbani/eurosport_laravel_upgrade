@@ -20,7 +20,6 @@ export default {
   getAllTeamsFromCompetitionId(tournamentData){
     return api.post('teams/getTeamsListByCompetition', {'tournamentData': tournamentData})
   },
-
   saveCompetationFormat(compeationFormatData) {
   	return api.post('age_group/createCompetationFomat', {'compeationFormatData': compeationFormatData})
   },
@@ -288,5 +287,8 @@ export default {
   },
   getCurrentLayout(){
     return api.get('getCurrentLayout');
-  }
+  },
+  getTournamentExpireDate(tournamentData) {
+    return api.post('tournament/getTournamentExpireDate', {'data': tournamentData})
+  },
 }

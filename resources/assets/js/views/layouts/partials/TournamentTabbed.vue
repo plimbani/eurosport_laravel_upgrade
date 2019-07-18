@@ -4,7 +4,7 @@
         <div class="row">
             <div class="col-md-12">
                 <p v-if="tournamentEndDateTimeDisplayMessage" class="result-administration-date">
-                    <small class="text-muted">Please note: You will no longer be able to enter results or edit your tournament after {{ displayTournamentEndDate | formatDate }} </small> 
+                    <small class="text-muted">Please note: You will no longer be able to enter results or edit your tournament after {{ getTournamentExpireDateValue | formatDate }} </small> 
                 </p>  
             </div>
         </div>
@@ -118,6 +118,7 @@ export default {
       currentDate: moment().tz("Europe/London").format('DD/MM/YYYY'),
       unChangedMatchScoresInfoModalOpen: false,
       unChangedMatchScores: [],
+      getTournamentExpireDateValue:'',
     }
   },
   filters: {
@@ -137,17 +138,18 @@ export default {
       return this.$store.state.activePath
     },
     tournamentEndDateTimeDisplayMessage() {
-      let displayTournamentEndDate = this.displayTournamentEndDate;
-      let expireTime = moment(displayTournamentEndDate).add(8, 'hours').format('DD/MM/YYYY HH:mm:ss');
+      //let displayTournamentEndDate = this.displayTournamentEndDate;
+      //let expireTime = moment(displayTournamentEndDate).add(8, 'hours').format('DD/MM/YYYY HH:mm:ss');
       let tournamentStartDate = this.$store.state.Tournament.tournamentStartDate;
-      
-      if(displayTournamentEndDate) {
-        if(tournamentStartDate >= this.currentDate && expireTime >= this.currentDateTime) {
+
+      let expireTime = moment(this.getTournamentExpireDateValue).format('DD/MM/YYYY HH:mm:ss');
+      //if(displayTournamentEndDate) {
+        if(tournamentStartDate <= this.currentDate && expireTime >= this.currentDateTime) {
            return true;
         } else {
           return false;
         }
-      }
+      //}
     },
     isScoreUpdated() {
       let isScoreUpdated = false;
@@ -250,6 +252,10 @@ export default {
     },
     updateTabStateData() {
       this.displayTournamentCompetationList();
+      if ( this.$store.state.Users.userDetails.role_slug == 'customer')
+      {
+        this.getTournamentExpireDate();
+      }
       if(this.$store.state.Tournament.tournamentId != 0 && this.$store.state.Tournament.tournamentId != '' && this.$store.state.Tournament.tournamentId != null) {
         this.$store.dispatch('SetTeams',this.$store.state.Tournament.tournamentId);
       }
@@ -264,6 +270,16 @@ export default {
       setTimeout(function() {
         $('#unSavedMatchScoresModal').modal('show');
       }, 500);
+    },
+    getTournamentExpireDate(){
+        let TournamentData = {'tournament_id': this.$store.state.Tournament.tournamentId,'tournament_end_date': this.$store.state.Tournament.tournamentEndDate}
+        Tournament.getTournamentExpireDate(TournamentData).then(
+        (response) => {
+          this.getTournamentExpireDateValue = response.data;
+        },
+        (error) => {
+        }
+        )
     }
   }
 }

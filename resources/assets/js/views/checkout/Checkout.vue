@@ -200,6 +200,8 @@
                         orderInfo.orderId = this.orderId;
                         orderInfo.pspid = this.pspid;
                         orderInfo.tournamentPricingValue = this.amount;
+
+                        this.amount = parseInt(this.amount);
                         Ls.set('orderInfo', JSON.stringify(orderInfo))
                         let self = this;
                         setTimeout(function () {
