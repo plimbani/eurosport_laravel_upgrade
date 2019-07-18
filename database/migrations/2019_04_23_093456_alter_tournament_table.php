@@ -15,7 +15,6 @@ class AlterTournamentTable extends Migration
     {
         Schema::table('tournament_template', function (Blueprint $table) {
             DB::statement('ALTER TABLE tournament_template CHANGE divisions no_of_divisions INT(10)');
-            $table->integer('no_of_rounds')->unsigned()->nullable()->after('no_of_divisions');
         });
     }
 
@@ -28,7 +27,6 @@ class AlterTournamentTable extends Migration
     {
         Schema::table('tournament_template', function (Blueprint $table) {
             DB::statement('ALTER TABLE tournament_template CHANGE no_of_divisions divisions VARCHAR(255)');
-            $table->dropColumn(['no_of_rounds']);
         });
     }
 }

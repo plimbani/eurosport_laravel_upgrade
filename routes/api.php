@@ -21,6 +21,9 @@ Route::group(['prefix' => 'auth'], function () {
 
     // Social logins
     Route::post('social/login', 'AuthController@socialLogin');
+
+    //check token validate
+    Route::get('token_validate','AuthController@token_validate');
 });
 
 Route::get('password/reset/{token}', '\Laraspace\Api\Controllers\PasswordController@getReset');
@@ -102,6 +105,7 @@ $api->version('v1', function ($api) {
     $api->get('getAllLanguages', 'Laraspace\Api\Controllers\UserController@getAllLanguages');
     $api->post('tournament/updateCategoryDivisionName', 'Laraspace\Api\Controllers\TournamentController@updateCategoryDivisionName');
     $api->post('/userResendEmail', '\Laraspace\Api\Controllers\UserController@userResendEmail');
+    $api->get('user/setpasswordCheck/{key}','\Laraspace\Api\Controllers\UserController@setPassword');
 });
 
 $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
@@ -384,5 +388,11 @@ $api->version('v1', function ($api) {
 
     $api->post('duplicateExistingTournament', 'Laraspace\Api\Controllers\TournamentController@duplicateExistingTournament');
 
-    $api->get('compareTemplateJson/{oldId}/{newId}', 'Laraspace\Api\Controllers\TemplateController@compareJsonTemplate');    
+    $api->get('compareTemplateJson/{oldId}/{newId}', 'Laraspace\Api\Controllers\TemplateController@compareJsonTemplate');
+
+    $api->post('updateTemplateFormDetail', 'Laraspace\Api\Controllers\TemplateController@updateTemplateFormDetail');
+
+    $api->post('templateJsonUpdateScript', 'Laraspace\Api\Controllers\TemplateController@templateJsonUpdateScript');
+
+    $api->post('scriptForDivisionsAndMinimumMatches', 'Laraspace\Api\Controllers\TemplateController@scriptForDivisionsAndMinimumMatches');
 });

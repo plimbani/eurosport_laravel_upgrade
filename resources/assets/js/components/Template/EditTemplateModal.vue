@@ -22,7 +22,8 @@
             </div>
             <div class="modal-body">
                 <!-- Step 1 -->
-                <step-one v-show="currentStep === 1" :templateFormDetail="templateFormDetail" @change-tab-index="changeTabIndex"></step-one>
+                <step-one v-show="currentStep === 1" :templateFormDetail="templateFormDetail" @change-tab-index="changeTabIndex" 
+                :templateGraphicImage="templateGraphicImage"></step-one>
 
                 <!-- Step 2 -->
                 <step-two v-show="currentStep === 2" :templateFormDetail="templateFormDetail" @change-tab-index="changeTabIndex"></step-two>
@@ -31,7 +32,7 @@
                 <step-three v-show="currentStep === 3" :templateFormDetail="templateFormDetail" @change-tab-index="changeTabIndex"></step-three>
                 
                 <!-- Step 4 -->
-                <step-four v-show="currentStep === 4" :templateFormDetail="templateFormDetail" :editedTemplateId="editedTemplateId" @change-tab-index="changeTabIndex" :templateGraphicImage="templateGraphicImage"></step-four>
+                <step-four v-show="currentStep === 4" :templateFormDetail="templateFormDetail" :editedTemplateId="editedTemplateId" @change-tab-index="changeTabIndex"></step-four>
             </div>
         </div>
       </div>
@@ -61,7 +62,7 @@
             this.$root.$off('clearFormFields');
         },
         components: {
-          StepOne, StepTwo, StepThree, StepFour
+            StepOne, StepTwo, StepThree, StepFour
         },
 		mounted() {
             let vm = this;

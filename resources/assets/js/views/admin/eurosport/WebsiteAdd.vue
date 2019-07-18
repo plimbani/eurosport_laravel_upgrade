@@ -2,7 +2,7 @@
 	<div class="tab-content">
 		<div class="card">
 			<div class="card-block">
-				<h6><strong>{{$lang.website_information}}</strong></h6>
+				<h6 class="fieldset-title"><strong>{{$lang.website_information}}</strong></h6>
 				<form name="frm_website_add_edit" enctype="multipart/form-data">
 					<div class="row justify-content-between">
 						<div class="col-md-6" v-if="this.isAdmin">
@@ -120,7 +120,7 @@
 					<hr class="my-4">
 					<div class="row justify-content-between">
 						<div class="col-md-12">
-							<h6><strong>{{$lang.website_customisation}}</strong></h6>
+							<h6 class="fieldset-title"><strong>{{$lang.website_customisation}}</strong></h6>
 						</div>
 						<div class="col-md-6">
 							<div class="form-group row">
@@ -265,7 +265,7 @@
 					<hr class="my-4">
 					<div class="row justify-content-between">
 						<div class="col-md-12">
-							<h6><strong>{{$lang.website_sponsors}}</strong></h6>
+							<h6 class="fieldset-title"><strong>{{$lang.website_sponsors}}</strong></h6>
 						</div>
 						<div class="col-sm-6">
 							<sponsors-list @setSponsors="setSponsors"></sponsors-list>
@@ -274,7 +274,7 @@
 					<hr class="my-4" v-if="this.isAdmin">
 					<div class="row justify-content-between" v-if="this.isAdmin">
 						<div class="col-md-12">
-							<h6><strong>{{$lang.website_page_permission}}</strong></h6>
+							<h6 class="fieldset-title"><strong>{{$lang.website_page_permission}}</strong></h6>
 						</div>
 						<div class="col-md-12">
 							<div class="form-group row">

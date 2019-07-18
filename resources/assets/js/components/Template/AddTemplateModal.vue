@@ -74,6 +74,12 @@
                         templateName: '',
                         no_of_teams: '',
                         editor: 'advance',
+                        remarks: '',
+                        template_font_color: '',
+                        roundSchedules: [''],
+                        graphic_image: '',
+                        image:'',
+                        minimum_match: '',
                     },
                     steptwo: {
                         rounds: [{
@@ -83,7 +89,7 @@
                                 no_of_teams: 2,
                                 teams_play_each_other: "once",
                                 teams: [{position_type: 'placed', group: '', position: ''}],
-                                matches: [{in_between: '1-2'}],
+                                matches: [],
                             }],
                             start_round_group_count: 0,
                             start_placing_group_count: 0,
@@ -98,12 +104,6 @@
                         placings: []
                     },
                     stepfour: {
-                        remarks: '',
-                        template_font_color: '',
-                        roundSchedules: [''],
-                        graphic_image: '',
-                        image:'',
-                        imagePath :''
                     }
                 }
             },

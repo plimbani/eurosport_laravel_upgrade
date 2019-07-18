@@ -4,107 +4,107 @@
           <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#template_form_modal" @click="addTemplate()">{{$lang.template_management_add_new_template}}</button>
         </div>
         <div class="tab-content">
-            <div class="card">
-                <div class="card-block">
-                    <div class="row d-flex flex-row align-items-center mb-3 ">
-                      <div class="col-md-5">
-                      </div>
-                      <div class="col-md-7">
-                        <div class="row align-items-center justify-content-end">
-                          <div class="col-12">
-                            <div class="row">
-                              <div class="col-md-5">
-                                <select class="form-control ls-select2" v-model="teamSearch" name="teams" id="teams" v-on:change="filterData">
-                                    <option value="">Number of teams</option>
-                                    <option v-for="n in 28" v-if="n >=4" :value="n">{{ n }}</option>
-                                </select>
-                              </div>
-                              <div class="col-md-5">
-                                <select class="form-control ls-select2" v-model="createdBySearch" name="created_by" id="created_by" v-on:change="filterData">
-                                    <option value="">Created by</option>
-                                    <option :value="user.id" v-for="user in users"> {{ user.email }}</option>
-                                </select>
-                              </div>
-                              <div class="col-md-2">
-                                <button type="button" class="btn btn-primary w-100" @click='clear()'>{{$lang.user_management_clear_button}}</button>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row d-flex flex-row align-items-center">
-                        <div class="col-md-12">
-                            <table class="table add-category-table">
-                                <thead>
-                                    <tr>
-                                        <th>{{$lang.template_name}}</th>
-                                        <th>{{$lang.template_teams}}</th>
-                                        <th>{{$lang.template_avg_teams}}</th>
-                                        <th>{{$lang.template_total_matches}}</th>
-                                        <th>{{$lang.template_divisions}}</th>
-                                        <th>{{$lang.template_version}}</th>
-                                        <th>{{$lang.template_created_date}}</th>
-                                        <th>{{$lang.template_created_by}}</th>
-                                        <th>{{$lang.template_action}}</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                  <tr class="" v-for="template in paginated('templateData')">
-                                    <td>{{ template.name }}</td>
-                                    <td>{{ template.total_teams }}</td>
-                                    <td>{{ template.avg_matches }}</td>
-                                    <td>{{ template.total_matches }}</td>
-                                    <td>{{ template.divisions }}</td>
-                                    <td>{{ template.version }}</td>
-                                    <td>{{ template.created_at | createdAtFilter }}</td>
-                                    <td>{{ template.userEmail }}</td>
-                                    <td>
-                                        <a class="text-primary" href="javascript:void(0)"
-                                         @click="openTemplateInfoModal(template)">
-                                          <i class="fa fa-info-circle"></i>
-                                        </a>
-                                        <a class="text-primary" href="javascript:void(0)"
-                                         @click="editTemplate(template.id)">
-                                          <i class="jv-icon jv-edit"></i>
-                                        </a>
-                                        <a href="javascript:void(0)"
-                                          @click="deleteTemplate(template)">
-                                          <i class="jv-icon jv-dustbin"></i>
-                                        </a>
-                                    </td>
-                                  </tr>
-                                  <tr><td colspan="8"></td></tr>
-                                </tbody>
-                            </table>
-                            <paginate v-if="shown" name="templateData" :list="templateList.templateData" ref="paginator" :per="no_of_records"  class="paginate-list">
-                            </paginate>
-                            <div class="row d-flex flex-row align-items-center">
-                              <div class="col page-dropdown">
-                                <select class="form-control ls-select2" name="no_of_records" v-model="no_of_records">
-                                  <option v-for="recordCount in recordCounts" v-bind:value="recordCount">
-                                      {{ recordCount }}
-                                  </option>
-                                </select>
-                              </div>
-                              <div class="col">
-                                <span v-if="$refs.paginator">
-                                  Viewing {{ $refs.paginator.pageItemsCount }} results
-                                </span>
-                              </div>
-                              <div class="col-md-6">
-                                <paginate-links for="templateData"
-                                  :show-step-links="true" :async="true" class="mb-0">
-                                </paginate-links>
-                              </div>
-                            </div>
-                        </div>
-                        <div v-if="templateList.length == 0" class="col-md-12">
-                            <h6 class="block text-center">No record found</h6>
-                        </div>
-                    </div>
+          <div class="card">
+            <div class="card-block">
+              <div class="row d-flex flex-row align-items-center mb-3 ">
+                <div class="col-md-5">
                 </div>
+                <div class="col-md-7">
+                  <div class="row align-items-center justify-content-end">
+                    <div class="col-12">
+                      <div class="row">
+                        <div class="col-md-5">
+                          <select class="form-control ls-select2" v-model="teamSearch" name="teams" id="teams" v-on:change="filterData">
+                              <option value="">Number of teams</option>
+                              <option v-for="n in 28" v-if="n >=4" :value="n">{{ n }}</option>
+                          </select>
+                        </div>
+                        <div class="col-md-5">
+                          <select class="form-control ls-select2" v-model="createdBySearch" name="created_by" id="created_by" v-on:change="filterData">
+                              <option value="">Created by</option>
+                              <option :value="user.id" v-for="user in users"> {{ user.email }}</option>
+                          </select>
+                        </div>
+                        <div class="col-md-2">
+                          <button type="button" class="btn btn-primary w-100" @click='clear()'>{{$lang.user_management_clear_button}}</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row d-flex flex-row align-items-center">
+                  <div class="col-md-12">
+                    <div class="table-responsive">
+                      <table class="table add-category-table">
+                        <thead>
+                            <tr>
+                                <th>{{$lang.template_name}}</th>
+                                <th>{{$lang.template_teams}}</th>
+                                <th>{{$lang.template_min_matches}}</th>
+                                <th>{{$lang.template_avg_teams}}</th>
+                                <th>{{$lang.template_total_matches}}</th>
+                                <th>{{$lang.template_divisions}}</th>
+                                <th>{{$lang.template_version}}</th>
+                                <th>{{$lang.template_created_date}}</th>
+                                <th>{{$lang.template_created_by}}</th>
+                                <th>{{$lang.template_action}}</th>
+                            </tr>
+                        </thead>
+                        <tbody v-if="!isListGettingUpdate">
+                          <tr class="" v-for="template in templateList.templateData.data">
+                            <td>{{ template.name }}</td>
+                            <td>{{ template.total_teams }}</td>
+                            <td>{{ template.minimum_matches }}</td>
+                            <td>{{ template.avg_matches }}</td>
+                            <td>{{ template.total_matches }}</td>
+                            <td>{{ template.no_of_divisions }}</td>
+                            <td>{{ template.version }}</td>
+                            <td>{{ template.created_at | createdAtFilter }}</td>
+                            <td>{{ template.userEmail }}</td>
+                            <td>
+                                <a class="text-primary" href="javascript:void(0)"
+                                 @click="openTemplateInfoModal(template)">
+                                  <i class="fa fa-info-circle"></i>
+                                </a>
+                                <a class="text-primary" href="javascript:void(0)"
+                                 @click="editTemplate(template.id)">
+                                  <i class="jv-icon jv-edit"></i>
+                                </a>
+                                <a href="javascript:void(0)"
+                                  @click="deleteTemplate(template)">
+                                  <i class="jv-icon jv-dustbin"></i>
+                                </a>
+                            </td>
+                          </tr>
+                          <tr><td colspan="8"></td></tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <div class="row d-flex flex-row align-items-center" v-if="!isListGettingUpdate">
+                      <div class="col page-dropdown">
+                        <select class="form-control ls-select2" name="no_of_records" v-model="no_of_records" @change="onNoOfRecordsChange()">
+                          <option v-for="recordCount in recordCounts" v-bind:value="recordCount">
+                              {{ recordCount }}
+                          </option>
+                        </select>
+                      </div>
+                      <div class="col">
+                        <span>
+                          Viewing {{ templateList.templateData.from + '-' + templateList.templateData.to }} of {{ templateList.templateData.total }} results
+                        </span>
+                      </div>
+                      <div class="col-md-6">
+                        <pagination :align="'right'" :show-disabled="true" :limit="1" :data="templateList.templateData" @pagination-change-page="getResults"></pagination>
+                      </div>
+                    </div>
+                  </div>
+                  <div v-if="templateList.templateData.data == 0" class="col-md-12">
+                      <h6 class="block text-center">No record found</h6>
+                  </div>
+              </div>
             </div>
+          </div>
         </div>
         <delete-modal :deleteConfirmMsg="deleteConfirmMsg" @confirmed="deleteConfirmed()"></delete-modal>
         <template-info-modal v-show="templateInfoModal" :templateDetail="templateDetail"></template-info-modal>
@@ -118,6 +118,7 @@
     import Template from '../../../api/template.js'
     import Tournament from '../../../api/tournament.js'
     import VuePaginate from 'vue-paginate'
+    import pagination from 'laravel-vue-pagination'
     import DeleteModal from '../../../components/DeleteModal.vue'
     import TemplateInfoModal from '../../../components/TemplateInfoModal.vue'
     import TemplateInUseModal from '../../../components/TemplateInUseModal.vue'
@@ -126,13 +127,13 @@
 
     export default {
         components: {
-          TemplateInfoModal, DeleteModal, TemplateInUseModal, AddTemplateModal, EditTemplateModal
+          TemplateInfoModal, DeleteModal, TemplateInUseModal, AddTemplateModal, EditTemplateModal, pagination
         },
         data() {
             return {
                 users: '',
                 page: '',
-                paginate: ['templateData'],
+                // paginate: ['templateData'],
                 shown: false,
                 no_of_records: 20,
                 recordCounts: [5,10,20,50,100],
@@ -148,7 +149,10 @@
                 deleteConfirmMsg: 'Are you sure you would like to delete this template?',
             }
         },
-        props: ['templateList'],
+        props: {
+          templateList: Object,
+          isListGettingUpdate: Boolean
+        },
         filters: {
           createdAtFilter(value) {
             return moment(value).format("Do MMMM YYYY");
@@ -205,7 +209,6 @@
             this.isAdd = false;
           },
           editTemplateModalHidden() {
-            console.log('editTemplateModalHidden');
             this.isEdit = false;
           },
           editTemplate(templateId) {
@@ -252,6 +255,12 @@
               }
             )
           },
+          getResults(page = 1) {
+              this.$root.$emit('setSearch', this.teamSearch,this.createdBySearch, page, this.no_of_records);
+          },
+          onNoOfRecordsChange() {
+              this.$root.$emit('setSearch', this.teamSearch,this.createdBySearch, 1, this.no_of_records);
+          }
         }
     }
 </script>

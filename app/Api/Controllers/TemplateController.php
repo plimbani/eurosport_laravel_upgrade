@@ -222,4 +222,80 @@ class TemplateController extends BaseController
             echo "<pre>";print_r($error);echo "</pre>";
         }
     }
+
+    public function updateTemplateFormDetail(Request $request)
+    {
+        $templates = TournamentTemplates::where('template_form_detail', '!=', '')->get();
+        foreach ($templates as $key => $template) {
+            $templateFormDetail = json_decode($template->template_form_detail, true);
+            $rounds = $templateFormDetail['steptwo']['rounds'];
+
+            foreach ($rounds as $roundIndex => $round) {
+                foreach ($round['groups'] as $groupIndex => $group) {
+                    $newMatches = [];
+                    $groupTeams = sizeof($group['teams']);
+                    $groupMatchesCount = $groupTeams / 2;
+
+                    if($group['type'] == 'round_robin') {
+                        $templateFormDetail['steptwo']['rounds'][$roundIndex]['groups'][$groupIndex]['matches'] = [];
+                    }
+
+                    if(sizeof($group['matches']) > $groupMatchesCount) {
+                        array_splice($group['matches'], $groupMatchesCount);
+
+                        if($group['type'] == 'placing_match') {
+                            foreach ($group['matches'] as $matchIndex => $match) {
+                                $newMatches[]['is_final'] = isset($match['is_final']) ? $match['is_final'] : false;
+                            }
+                            $templateFormDetail['steptwo']['rounds'][$roundIndex]['groups'][$groupIndex]['matches'] = $newMatches;
+                        }
+                    }
+                }
+            }
+
+            $template->template_form_detail = json_encode($templateFormDetail);
+            $template->save();
+        }
+
+        echo "<pre>";print_r('script executed!');echo "</pre>";exit;
+    }
+
+    public function templateJsonUpdateScript()
+    {
+        $templates = TournamentTemplates::where('template_form_detail', '!=', '')->get();
+
+        foreach ($templates as $template) {
+            $templateFormDetail = json_decode($template->template_form_detail, true);
+            foreach ($templateFormDetail['stepfour'] as $key => $value) {
+                $templateFormDetail['stepone'][$key] = $value;
+            }
+            if(isset($templateFormDetail['stepone']['imagePath'])) {
+                unset($templateFormDetail['stepone']['imagePath']);
+            }
+            unset($templateFormDetail['stepfour']);
+            $template->template_form_detail = json_encode($templateFormDetail);
+            $template->save();
+        }
+
+        echo "<pre>";print_r('script executed.');echo "</pre>";exit;
+    }
+
+    public function scriptForDivisionsAndMinimumMatches()
+    {
+        $templates = TournamentTemplates::where('template_form_detail', '!=', '')->get();
+
+        foreach($templates as $template) {
+            $jsonData = json_decode($template->json_data, true);
+            $templateFormDetail = json_decode($template->template_form_detail, true);
+            
+            $totalDivisions = isset($jsonData['tournament_competation_format']['divisions']) ? sizeof($jsonData['tournament_competation_format']['divisions']) : 0;
+            $jsonData['tournament_min_match'] = $template->minimum_matches;
+
+            $template->json_data = json_encode($jsonData);
+            $template->no_of_divisions = $totalDivisions;
+            $template->save();
+        }
+
+        echo "<pre>";print_r('script executed.');echo "</pre>";exit;
+    }
 }

@@ -98,7 +98,7 @@ class AuthController extends Controller
              $userDetails['country_id'] = $userData->country_id;
 
              $tournament_id = array();
-             return response(['authenticated' => true,'userData'=> $userDetails, 'is_score_auto_update' =>config('config-variables.is_score_auto_update')]);
+             return response(['authenticated' => true,'userData'=> $userDetails, 'is_score_auto_update' =>config('config-variables.is_score_auto_update'), 'enable_logs_ios' =>config('config-variables.enable_logs_ios'), 'enable_logs_android' =>config('config-variables.enable_logs_android')]);
             }
         }
     }
@@ -263,5 +263,19 @@ class AuthController extends Controller
       }
 
       return $deletedUserData;
+    }
+
+    public function token_validate()
+    {
+      if(!JWTAuth::getToken()) {
+        return response(['authenticated' => false]);
+      }
+      
+      try {
+          JWTAuth::parseToken()->authenticate();
+          return response(['authenticated' => true]);
+      } catch (JWTException $e) {
+          return response(['authenticated' => false]);
+      }
     }
 }
