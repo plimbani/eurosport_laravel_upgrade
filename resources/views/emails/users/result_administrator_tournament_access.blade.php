@@ -79,9 +79,7 @@
       <![endif]--><div class="mj-column-per-100 outlook-group-fix" style="vertical-align:middle;display:inline-block;direction:ltr;font-size:13px;text-align:left;width:100%;"><table role="presentation" cellpadding="0" cellspacing="0" style="vertical-align:middle;" width="100%" border="0"><tbody><tr><td style="word-wrap:break-word;font-size:0px;padding:10px 25px;padding-top:10px;padding-bottom:10px;padding-right:25px;padding-left:25px;" align="left"><div class="" style="cursor:auto;color:#555;font-family:Roboto, Helvetica, Arial, sans-serif;font-size:16px;font-weight:300;line-height:24px;text-align:left;">
         <p>Hi {{$email_details['userName']}},</p>
         <p>You have been granted access to edit the following tournament:
-        @foreach($email_details['tournamentName'] as $tournament)
-          <p>{{ $tournament['name'] }} ({{ $tournament['status'] }})</p>
-        @endforeach
+          <span>{{ $email_details['tournamentName'] }}</span>
         </p>
       </div></td></tr></tbody></table></div><!--[if mso | IE]>
       </td></tr></table>
