@@ -87,6 +87,8 @@ import WebsiteVisitors from './views/admin/eurosport/WebsiteVisitors.vue';
 import WebsiteMedia from './views/admin/eurosport/WebsiteMedia.vue';
 import WebsiteContact from './views/admin/eurosport/WebsiteContact.vue';
 
+import Ls from './services/ls';
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -351,21 +353,7 @@ router.beforeEach((to, from, next) => {
     }
 
     let routesForResultAdmin = ['welcome', 'tournaments_summary_details'];
-
-    let checkTokenValidate = ['login','PasswordReset','PasswordSet'];
-    if ( checkTokenValidate.indexOf(to.name) !== -1)
-    {
-        return axios.get('/api/auth/token_validate').then(response =>  {
-            if(response.data.authenticated == true) {
-                return next({ path : '/admin'})
-            }
-            else
-            {
-                return next();
-            }
-        }).catch(error => {
-        });
-    }
+    
 
     // If the next route is requires user to be Logged IN
 
@@ -385,6 +373,25 @@ router.beforeEach((to, from, next) => {
             store.dispatch('setScoreAutoUpdate',response.is_score_auto_update);
             return next()
         })
+    }
+
+    let checkTokenValidate = ['login','PasswordReset','PasswordSet', 'home', 'front_schedule'];
+    if(Ls.get('auth.token'))
+    {
+        return axios.get('/api/auth/token_validate').then(response =>  {
+            if(response.data.authenticated == true) {
+                if ( checkTokenValidate.indexOf(to.name) !== -1)
+                {
+                   return next({ path : '/admin'}) 
+                }
+            }
+            else
+            {
+                Ls.remove('auth.token');
+            }
+            return next()
+        }).catch(error => {
+        });
     }
     return next()
 });
