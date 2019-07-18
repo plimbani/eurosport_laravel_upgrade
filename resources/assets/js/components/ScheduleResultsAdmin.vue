@@ -106,7 +106,7 @@ export default {
     	tournamentStartDataDisplay() {
 	     	let startDate = this.tournamentStartDate;
 	     	let currentDate = this.currentDate;
-	     	if(startDate > currentDate){
+	     	if(this.$store.state.Users.userDetails.role_slug == 'customer' && startDate > currentDate){
 	     		return true
 	     	} else {
 	     		return false

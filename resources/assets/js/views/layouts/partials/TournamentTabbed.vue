@@ -144,7 +144,7 @@ export default {
 
       let expireTime = moment(this.getTournamentExpireDateValue).format('DD/MM/YYYY HH:mm:ss');
       //if(displayTournamentEndDate) {
-        if(tournamentStartDate <= this.currentDate && expireTime >= this.currentDateTime) {
+        if(this.$store.state.Users.userDetails.role_slug == 'customer' && tournamentStartDate <= this.currentDate && expireTime >= this.currentDateTime) {
            return true;
         } else {
           return false;
