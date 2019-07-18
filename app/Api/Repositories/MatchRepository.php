@@ -44,25 +44,16 @@ class MatchRepository
     }
 
     public function getDraws($tournamentData) {
-      //dd($tournamentData);
-      if ( gettype($tournamentData['tournamentId']) == 'array')
-      {
-        $tournamentId = $tournamentData['tournamentId'][0];
-        $competationFormatId = $tournamentData['tournamentId'][1];
-      }
-      else
-      {
-        $tournamentId = $tournamentData['tournamentId'];
-        $competationFormatId = '';
-      }
+
+      $tournamentId = $tournamentData['tournamentId'];
 
       $reportQuery = DB::table('competitions')
                      ->leftjoin('tournament_competation_template','tournament_competation_template.id', '=', 'competitions.tournament_competation_template_id')
                      ->leftjoin('age_category_divisions', 'competitions.age_category_division_id', '=', 'age_category_divisions.id');
 
-      if($competationFormatId != '') {
+      if(isset($tournamentData['competationFormatId']) && $tournamentData['competationFormatId'] != '') {
         $reportQuery->where('competitions.tournament_competation_template_id','=',
-          $competationFormatId);
+          $tournamentData['competationFormatId']);
       }
 
       $reportQuery->where('competitions.tournament_id', $tournamentId);
