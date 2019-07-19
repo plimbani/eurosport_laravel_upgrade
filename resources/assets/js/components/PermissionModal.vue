@@ -121,9 +121,12 @@
             // usage as a promise (2.1.0+, see note below)
             Vue.nextTick()
               .then(function () {
-                console.log('vm.formValues.tournaments.length', vm.formValues.tournaments.length);
+                let selectedTournaments = _.cloneDeep(vm.formValues.tournaments);
+                let adminTournaments = _.map(_.cloneDeep(vm.allTournaments), 'id');
+                let intersectCount = adminTournaments.filter(x => selectedTournaments.includes(x));
+
                 vm.selectTournamentError = false;
-                if(vm.isCompulsoryTournamentSelection && vm.formValues.tournaments.length === 0) {
+                if(vm.isCompulsoryTournamentSelection && intersectCount.length === 0) {
                   vm.selectTournamentError = true;
                   return false;
                 }
