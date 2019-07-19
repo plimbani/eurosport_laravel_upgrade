@@ -211,7 +211,10 @@ import { ErrorBag } from 'vee-validate';
             } else {
               return '';
             }
-          }
+          },
+          isTournamentAdmin() {
+            return this.$store.state.Users.userDetails.role_slug == 'tournament.administrator';
+          },
         },
         created() {
           this.$root.$on('privilegeChangeConfirmed', this.updateUser);
@@ -302,8 +305,12 @@ import { ErrorBag } from 'vee-validate';
                                 toastr.success('User has been added successfully.', 'Add User', {timeOut: 5000});
                                 $("#user_form_modal").modal("hide");
                                 $("body .js-loader").addClass('d-none');
-                                this.$emit('editTournamentPermission', response.data.user, true);
-                                //setTimeout(Plugin.reloadPage, 500);
+
+                                if(response.data.user.role_slug === 'Results.administrator' && this.isTournamentAdmin()) {
+                                  this.$emit('editTournamentPermission', response.data.user, true);
+                                  return true;
+                                }
+                                vm.$root.$emit('getResults');
                               },
                               (error)=>{
                                 $("body .js-loader").addClass('d-none');
