@@ -9,6 +9,7 @@
 	</select>
 </template>
 <script>
+	import Ls from '../services/ls';
 	import Tournament from '../api/tournament.js'
 	export default {
 		data() {
@@ -16,7 +17,7 @@
 		        tournament: '',
 		        selected: null,
 		        value: '',
-		        options: []
+		        options: [],
 		     }
 	    },
 		computed: {
@@ -25,9 +26,23 @@
 	        },
 	    },
 		mounted() {
+			let defaultTournamentId = Ls.get('redirect_tournament_id');
 	      	Tournament.getAllTournaments().then(
 		      (response) => {
-		        this.options = response.data.data
+		        this.options = response.data.data;
+		        if(defaultTournamentId != null) {
+		        	$("body .js-loader").removeClass('d-none');
+			        let selectedTournament = _.filter(this.options, function(o) {
+			        	return o.id == defaultTournamentId;
+			        });
+
+			        Ls.remove('redirect_tournament_id');
+			        if(selectedTournament.length > 0) {
+			        	this.tournament = _.first(selectedTournament);
+				        this.onChange();
+			        }
+			        $("body .js-loader").addClass('d-none');
+		        }
 		      },
 		      (error) => {
 		      }
