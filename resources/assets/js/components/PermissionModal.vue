@@ -121,6 +121,7 @@
             // usage as a promise (2.1.0+, see note below)
             Vue.nextTick()
               .then(function () {
+                console.log('vm.formValues.tournaments.length', vm.formValues.tournaments.length);
                 vm.selectTournamentError = false;
                 if(vm.isCompulsoryTournamentSelection && vm.formValues.tournaments.length === 0) {
                   vm.selectTournamentError = true;
