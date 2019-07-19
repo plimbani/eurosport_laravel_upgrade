@@ -565,9 +565,10 @@
           tournamentTemplateId = templateId
         }
 
-        if(tournamentTemplateId == null) {
+        if(this.age_category!= '' && this.age_category.tournament_template_id == null) {
           let ageCategoryTemplateJson = this.age_category.template_json_data;
           this.getTournamentTemplate(ageCategoryTemplateJson);
+          return true;
         }
 
         // console.log(tournamentTemplateId,'tid')
