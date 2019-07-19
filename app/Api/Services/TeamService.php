@@ -72,18 +72,26 @@ class TeamService implements TeamContract
 
     public function getAllTournamentTeams($data)
     {
-
-      // Here we send Status Code and Messages
+        $token = \JWTAuth::getToken();
+        $tournamentId = $data['tournamentData']['tournamentId'];
         $data = $this->teamRepoObj->getAllTournamentTeams($data['tournamentData']['tournamentId']);
+        $competitionFixtures = null;
+
+        if(!$token || (app('request')->header('ismobileuser') && app('request')->header('ismobileuser') == "true")) {
+          $competitionFixtures = Competition::withCount('scheduledFixtures')
+                                              ->where('tournament_id', $tournamentId)
+                                              ->pluck('scheduled_fixtures_count', 'id')
+                                              ->toArray();
+        }
+
         if ($data) {
-            return ['status_code' => '200', 'data' => $data];
+          return ['status_code' => '200', 'data' => $data, 'competitionFixtures' => $competitionFixtures];
         }
 
         return ['status_code' => '505', 'message' => 'Error in Data'];
     }
     public function getAllFromCompetitionId($data)
     {
-      // dd($data);
         $data = $this->teamRepoObj->getAllFromCompetitionId($data['tournamentData']['competitionId']);
         if ($data) {
             return ['status_code' => '200', 'data' => $data];

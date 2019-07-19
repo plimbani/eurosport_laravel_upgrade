@@ -99,12 +99,14 @@
                                         <a href="javascript:void(0)"
                                         data-confirm-msg="Are you sure you would like to delete
                                         this user record?" data-toggle="modal" data-target="#delete_modal"
-                                        @click="prepareDeleteResource(user.id)" v-if="!(isMasterAdmin == true && user.role_slug == 'Super.administrator')">
+                                        @click="prepareDeleteResource(user.id)"
+                                        v-if="(!(isMasterAdmin == true && user.role_slug == 'Super.administrator'
+                                        || user.role_slug != 'tournament.administrator') || !isTournamentAdmin)">
                                         <i class="fas fa-trash"></i>
                                         </a>
                                         &nbsp;
                                         <a v-if="(user.role_slug == 'tournament.administrator' || user.role_slug == 'Results.administrator')" class="text-primary icon-size-1-2" href="javascript:void(0)"
-                                        @click="editTournamentPermission(user)">
+                                        @click="editTournamentPermission(user, false)">
                                         <i class="fas fa-eye fa-1x"></i>
                                         </a>
                                         &nbsp;
@@ -153,7 +155,7 @@
             </div>
         </div>
         <user-modal v-if="userStatus" :userId="userId"
-        :userRoles="userRoles" :publishedTournaments="publishedTournaments" :isMasterAdmin="isMasterAdmin" @showChangePrivilegeModal="showChangePrivilegeModal()"></user-modal>
+        :userRoles="userRoles" :publishedTournaments="publishedTournaments" :isMasterAdmin="isMasterAdmin" @showChangePrivilegeModal="showChangePrivilegeModal()" @editTournamentPermission="editTournamentPermission"></user-modal>
         <delete-modal :deleteConfirmMsg="deleteConfirmMsg" @confirmed="deleteConfirmed()"></delete-modal>
         <resend-modal :resendConfirm="resendConfirm" @confirmed="resendConfirmed()"></resend-modal>
         <active-modal
@@ -163,7 +165,7 @@
            @closeModal="closeConfirm()">
          </active-modal>
          <!-- <tournament-permission-modal :user="currentUserInTournamentPermission"></tournament-permission-modal> -->
-         <permission-modal :user="currentUserInTournamentPermission"></permission-modal>
+         <permission-modal :user="currentUserInTournamentPermission" :isCompulsoryTournamentSelection="isCompulsoryTournamentSelection"></permission-modal>
          <confirm-privilege-change-modal @confirmed="privilegeChangeConfirmed()"></confirm-privilege-change-modal>
     </div>
 </template>
@@ -218,6 +220,7 @@
                 recordCounts: [5,10,20,50,100],
                 currentUserInTournamentPermission: null,
                 allLanguages: [],
+                isCompulsoryTournamentSelection: false,
             }
         },
 
@@ -235,6 +238,9 @@
             isMasterAdmin() {
               return this.$store.state.Users.userDetails.role_slug == 'Master.administrator';
             },
+            isTournamentAdmin() {
+              return this.$store.state.Users.userDetails.role_slug == 'tournament.administrator';
+            },
         },
         filters: {
             formatDate: function(date) {
@@ -244,12 +250,18 @@
               if (!value) return '';
               value = value.toString();
               return value.charAt(0).toUpperCase() + value.slice(1);
-            }            
+            }
           },
+        created() {
+            this.$root.$on('getResults', this.getResults)
+        },
+        beforeCreate: function() {
+          this.$root.$off('getResults');
+        },
         mounted() {
           // here we check the permission to allowed to access users list
           let role_slug = this.$store.state.Users.userDetails.role_slug
-          if(role_slug == 'tournament.administrator' || role_slug == 'Internal.administrator') {
+          if(role_slug == 'Internal.administrator') {
             toastr['error']('Permission denied', 'Error');
             this.$router.push({name: 'welcome'});
           }
@@ -321,7 +333,7 @@
               },1000)
             },
             editUser(id) {
-                this.userId = id
+                this.userId = id;
                 this.userModalTitle="Edit User";
                  this.userStatus = true
                  let vm = this
@@ -404,10 +416,13 @@
 
                 // window.location.href = "/api/users/getUserTableData?report_download=yes&"+userSearch+"&"+userSlugType;
              },
-            editTournamentPermission(user) {
+            editTournamentPermission(user, isCompulsorySelection) {
+              this.isCompulsoryTournamentSelection = isCompulsorySelection;
               this.currentUserInTournamentPermission = user;
               this.$root.$emit('getUserTournaments', user);
-              this.$root.$emit('getUserWebsites', user);
+              if(this.$store.state.Users.userDetails.role_slug != 'tournament.administrator') {
+                this.$root.$emit('getUserWebsites', user);
+              }
               $('#permission_modal').modal('show');
               $('#permission_modal ul.nav-tabs a').first().trigger('click');
 
