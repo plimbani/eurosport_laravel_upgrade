@@ -65,8 +65,8 @@ export default {
   assignCategory(data) {
     return api.post('team/category/assign',{ data})
  },
- getAllDraws(tournamentData) {
-    return api.post('match/getDraws',{'tournamentId': tournamentData})
+ getAllDraws(tournamentData,competationFormatId) {
+    return api.post('match/getDraws',{'tournamentId': tournamentData,'competationFormatId':competationFormatId})
  },
  getFixtures(tournamentData) {
     return api.post('match/getFixtures',{'tournamentData': tournamentData})

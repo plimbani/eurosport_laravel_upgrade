@@ -141,7 +141,7 @@ export default {
     let drawname1 = []
     
     let vm = this
-      Tournament.getAllDraws([TournamentId,currentAgeCategoryId]).then(
+      Tournament.getAllDraws(TournamentId,currentAgeCategoryId).then(
         (response)=> {
           if(response.data.status_code == 200) {
             this.drawList = response.data.data.mainData
