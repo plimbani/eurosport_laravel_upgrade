@@ -306,7 +306,7 @@ import { ErrorBag } from 'vee-validate';
                                 $("#user_form_modal").modal("hide");
                                 $("body .js-loader").addClass('d-none');
 
-                                if(response.data.user.role_slug === 'Results.administrator' && this.isTournamentAdmin()) {
+                                if(response.data.user.role_slug === 'Results.administrator' && this.isTournamentAdmin) {
                                   this.$emit('editTournamentPermission', response.data.user, true);
                                   return true;
                                 }
