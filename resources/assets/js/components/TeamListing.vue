@@ -21,7 +21,7 @@ import DrawList from './DrawList.vue'
 export default {
   data() {
     return {
-      matchData:[], otherData:[]
+      matchData:[], otherData:[], competitionFixtures: []
     }
   },
   mounted() {
@@ -132,7 +132,14 @@ export default {
         (response)=> {
           $("body .js-loader").addClass('d-none');
           if(response.data.status_code == 200) {
-            this.matchData = response.data.data
+            this.matchData = response.data.data;
+            this.competitionFixtures = response.data.competitionFixtures;
+            let vm = this;
+            if(vm.competitionFixtures) {
+              vm.matchData = _.filter(vm.matchData, function(o) {
+                return vm.competitionFixtures[o.competationId] > 0;
+              });
+            }
           }
         },
         (error) => {

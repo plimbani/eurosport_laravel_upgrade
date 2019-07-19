@@ -168,7 +168,13 @@ export default {
                 (response) => {
                     toastr['success']('Referee edited successfully.', 'Success');
                     $('#refreesModal').modal('hide')
-                    this.$store.dispatch('getAllReferee',this.$store.state.Tournament.tournamentId);
+                    this.$store.dispatch('getAllReferee',this.$store.state.Tournament.tournamentId).then(function() {
+                      if($("#save_schedule_fixtures").is(':visible') === true) {
+                        $('.js-referee-draggable-block').draggable('disable');
+                      } else {
+                        $('.js-referee-draggable-block').draggable('enable');
+                      }
+                    });
                     // this.$root.$emit('setRefereeReset')
                     // this.$root.$emit('setPitchPlanTab','refereeTab')
                   }
@@ -178,7 +184,13 @@ export default {
                 (response) => {
                     toastr['success']('Referee added successfully.', 'Success');
                     $('#refreesModal').modal('hide')
-                    this.$store.dispatch('getAllReferee',this.$store.state.Tournament.tournamentId);
+                    this.$store.dispatch('getAllReferee',this.$store.state.Tournament.tournamentId).then(function() {
+                      if($("#save_schedule_fixtures").is(':visible') === true) {
+                        $('.js-referee-draggable-block').draggable('disable');
+                      } else {
+                        $('.js-referee-draggable-block').draggable('enable');
+                      }
+                    });
                     // this.$root.$emit('setRefereeReset')
                     // this.$root.$emit('setPitchPlanTab','refereeTab')
                   }
@@ -194,7 +206,13 @@ export default {
                toastr['success']('Referee has been removed successfully', 'Success');
                $('#delete_modal').modal('hide')
                $('#refreesModal').modal('hide')
-                this.$store.dispatch('getAllReferee',this.$store.state.Tournament.tournamentId);
+                this.$store.dispatch('getAllReferee',this.$store.state.Tournament.tournamentId).then(function() {
+                  if($("#save_schedule_fixtures").is(':visible') === true) {
+                    $('.js-referee-draggable-block').draggable('disable');
+                  } else {
+                    $('.js-referee-draggable-block').draggable('enable');
+                  }
+                });
                // this.$root.$emit('setRefereeReset')
                // this.$root.$emit('setPitchPlanTab','refereeTab')
           }
