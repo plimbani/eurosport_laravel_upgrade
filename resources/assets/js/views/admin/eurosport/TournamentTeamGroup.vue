@@ -564,6 +564,12 @@
         }else{
           tournamentTemplateId = templateId
         }
+
+        if(tournamentTemplateId == null) {
+          let ageCategoryTemplateJson = this.age_category.template_json_data;
+          this.getTournamentTemplate(ageCategoryTemplateJson);
+        }
+
         // console.log(tournamentTemplateId,'tid')
         if(tournamentTemplateId != undefined && tournamentTemplateId != '' )
         {
@@ -574,52 +580,8 @@
             (response) => {
               //var JsonTemplateData = JSON.stringify(eval("(" + response.data.data + ")"));
 
-              let jsonObj = JSON.parse(response.data.data.json_data)
-              //let JsonTemplateData  = response.data.data
-              // Now here we put data over there as per group
-               let jsonCompetationFormatDataFirstRound = jsonObj['tournament_competation_format']['format_name'][0]['match_type']
-               let availGroupTeam = []
-               let vm = this;
-               // if(type == 'filter'){
-                  this.grps = []
-                  this.grpsView = []
-                  _.forEach(jsonCompetationFormatDataFirstRound, function(group) {
-                    let splitGroupName = group.name.split('-');
-                    let competitionType = splitGroupName[0];
-
-                    if(competitionType == 'PM' && typeof group.consider_in_team_assignment == "undefined") {
-                      return;
-                    }
-
-                    let groupName = null;
-                    if(competitionType == 'PM' && group.consider_in_team_assignment == 1) {
-                      groupName = group.groups.actual_group_name + '-';
-                    } else {
-                      groupName = group.groups.group_name;
-                    }
-
-                    for(var i = 1; i <= group.group_count; i++ ){
-                      availGroupTeam.push(groupName+i)
-                    }
-
-                    vm.grpsView.push(group);
-                    vm.grps.push(group);
-
-                  });
-               // }else{
-                  // this.grpsView = jsonCompetationFormatDataFirstRound
-                  // _.forEach(this.grpsView, function(group) {
-                  //   for(var i = 1; i <= group.group_count; i++ ){
-                  //     // let gname = group.groups.group_name+i
-                  //     availGroupTeam.push(group.groups.group_name+i)
-                  //   }
-
-                  // });
-               // }
-
-
-              this.availableGroupsTeam = availGroupTeam
-              this.teamSize = jsonObj.tournament_teams
+              let jsonObj = response.data.data.json_data;
+              this.getTournamentTemplate(jsonObj);
             },
             (error)=> {
               toastr['error']('error in getting json data.', 'Error');
@@ -800,6 +762,54 @@
         } else{
           toastr['error']('Records not available', 'Error');
         }
+      },
+      getTournamentTemplate(templateJson) {
+        //let JsonTemplateData  = response.data.data
+        // Now here we put data over there as per group
+         let jsonObj = JSON.parse(templateJson)
+         let jsonCompetationFormatDataFirstRound = jsonObj['tournament_competation_format']['format_name'][0]['match_type']
+         let availGroupTeam = []
+         let vm = this;
+         // if(type == 'filter'){
+            this.grps = []
+            this.grpsView = []
+            _.forEach(jsonCompetationFormatDataFirstRound, function(group) {
+              let splitGroupName = group.name.split('-');
+              let competitionType = splitGroupName[0];
+
+              if(competitionType == 'PM' && typeof group.consider_in_team_assignment == "undefined") {
+                return;
+              }
+
+              let groupName = null;
+              if(competitionType == 'PM' && group.consider_in_team_assignment == 1) {
+                groupName = group.groups.actual_group_name + '-';
+              } else {
+                groupName = group.groups.group_name;
+              }
+
+              for(var i = 1; i <= group.group_count; i++ ){
+                availGroupTeam.push(groupName+i)
+              }
+
+              vm.grpsView.push(group);
+              vm.grps.push(group);
+
+            });
+         // }else{
+            // this.grpsView = jsonCompetationFormatDataFirstRound
+            // _.forEach(this.grpsView, function(group) {
+            //   for(var i = 1; i <= group.group_count; i++ ){
+            //     // let gname = group.groups.group_name+i
+            //     availGroupTeam.push(group.groups.group_name+i)
+            //   }
+
+            // });
+         // }
+
+
+        this.availableGroupsTeam = availGroupTeam
+        this.teamSize = jsonObj.tournament_teams
       }
     }
   }

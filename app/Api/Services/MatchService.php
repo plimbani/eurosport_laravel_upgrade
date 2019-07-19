@@ -2348,12 +2348,18 @@ class MatchService implements MatchContract
     public function updateCategoryPositions($competitionId, $ageCategoryId)
     {
       $ageCategory = TournamentCompetationTemplates::find($ageCategoryId);
-      $tournamentTemplate = $ageCategory->TournamentTemplate;
-      if($tournamentTemplate->position_type == 'final' || $tournamentTemplate->position_type == 'final_and_group_ranking') {
+
+      if($ageCategory->tournament_template_id == null && $ageCategory->template_json_data != null) {
+        $tournamentTemplate = json_decode($ageCategory->template_json_data, true);
+      } else {
+        $tournamentTemplate = json_decode($ageCategory->TournamentTemplate->json_data, true);
+      }
+
+      if($tournamentTemplate['position_type'] == 'final' || $tournamentTemplate['position_type'] == 'final_and_group_ranking') {
         $matchPositions = Position::where('age_category_id', $ageCategoryId)->where('dependent_type', 'match')->get();
         $this->updatePlacingMatchPositions($ageCategory, $matchPositions);
       }
-      if($tournamentTemplate->position_type == 'final_and_group_ranking' || $tournamentTemplate->position_type == 'group_ranking') {
+      if($tournamentTemplate['position_type'] == 'final_and_group_ranking' || $tournamentTemplate['position_type'] == 'group_ranking') {
         $rankingPositions = Position::where('age_category_id', $ageCategoryId)->where('dependent_type', 'ranking')->get();
         $this->updateGroupRankingPositions($ageCategory, $rankingPositions);
       }
