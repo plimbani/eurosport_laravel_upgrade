@@ -24,6 +24,7 @@ class Kernel extends ConsoleKernel
         Commands\sendActivityNotification::class,
         Commands\removeDanglingImages::class,
         Commands\RemoveExpirePreviewDomain::class,
+        Commands\generateFavicon::class,
     ];
 
     /**
