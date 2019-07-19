@@ -2,6 +2,7 @@ import Vue from 'vue'
 import store from './store'
 import VueRouter from 'vue-router'
 
+import Ls from './services/ls'
 import AuthService from './services/auth'
 
 /*
@@ -86,8 +87,6 @@ import WebsiteStay from './views/admin/eurosport/WebsiteStay.vue';
 import WebsiteVisitors from './views/admin/eurosport/WebsiteVisitors.vue';
 import WebsiteMedia from './views/admin/eurosport/WebsiteMedia.vue';
 import WebsiteContact from './views/admin/eurosport/WebsiteContact.vue';
-
-import Ls from './services/ls';
 
 Vue.use(VueRouter)
 
@@ -352,14 +351,16 @@ router.beforeEach((to, from, next) => {
         store.dispatch('ResetWebsiteDetail');
     }
 
+    if(to.name == 'login' && (typeof to.query.redirect_tournament_id != 'undefined')) {
+        Ls.set('redirect_tournament_id', to.query.redirect_tournament_id);
+    }
+
     let routesForResultAdmin = ['welcome', 'tournaments_summary_details'];
-    
 
     // If the next route is requires user to be Logged IN
 
     if (to.matched.some(m => m.meta.requiresAuth)){
         return AuthService.check(data).then((response) => {
-
             if(!response.authenticated){
                 return next({ path : '/login'})
             }

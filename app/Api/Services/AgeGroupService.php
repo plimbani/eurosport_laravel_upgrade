@@ -902,4 +902,11 @@ class AgeGroupService implements AgeGroupContract
 
       return $matches;
     }
+
+    public function deleteFinalPlacingTeam($data) {
+      $data = $this->ageGroupObj->deleteFinalPlacingTeam($data);
+      if ($data) {
+        return ['data' => $data, 'status_code' => '200', 'message' => 'Teams has been deleted Successfully'];
+      }
+    }
 }
