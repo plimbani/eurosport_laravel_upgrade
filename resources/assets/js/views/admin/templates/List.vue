@@ -36,7 +36,7 @@
               <div class="row d-flex flex-row align-items-center">
                   <div class="col-md-12">
                     <div class="table-responsive">
-                      <table class="table add-category-table">
+                      <table class="table add-category-table tbl-template">
                         <thead>
                             <tr>
                                 <th>{{$lang.template_name}}</th>
@@ -77,7 +77,7 @@
                                 </a>
                             </td>
                           </tr>
-                          <tr><td colspan="8"></td></tr>
+                          <tr><td colspan="10"></td></tr>
                         </tbody>
                       </table>
                     </div>
