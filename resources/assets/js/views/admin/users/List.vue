@@ -92,7 +92,7 @@
                                     </td>
                                     <td>
                                         <a class="text-primary" href="javascript:void(0)"
-                                         @click="editUser(user)" v-if="!(isMasterAdmin == true && user.role_slug == 'Super.administrator')">
+                                         @click="editUser(user.id)" v-if="!(isMasterAdmin == true && user.role_slug == 'Super.administrator')">
                                         <i class="fas fa-pencil"></i>
                                         </a>
                                         &nbsp;
@@ -332,8 +332,8 @@
                 });
               },1000)
             },
-            editUser(user) {
-                this.userId = user.id
+            editUser(id) {
+                this.userId = id;
                 this.userModalTitle="Edit User";
                  this.userStatus = true
                  let vm = this
