@@ -1,11 +1,13 @@
 <template>
     <div class="template-container">
-        <site-header></site-header>
+        <site-header v-if="getCurrentLayout === 'tmp'"></site-header>
+        <site-commercialisation-header v-if="getCurrentLayout === 'commercialisation'"></site-commercialisation-header>
         <div class="main-content container-fluid" id="dashboardPage">
             <breadCrum></breadCrum>
             <DuplicateTournamenttabbed></DuplicateTournamenttabbed>                 
         </div>       
-        <site-footer></site-footer>
+        <site-footer v-if="getCurrentLayout === 'tmp'"></site-footer>
+        <site-commercialisation-footer v-if="getCurrentLayout === 'commercialisation'"></site-commercialisation-footer>
     </div>
 </template>
 
@@ -19,6 +21,9 @@
     import BreadCrum from '../../components/BreadCrum.vue'
     import DuplicateTournamenttabbed from './partials/DuplicateTournamenttabbed.vue'
 
+    import SiteCommercialisationHeader from './partials/Commercialisation/Backend/SiteHeader.vue'
+    import SiteCommercialisationFooter from './partials/Commercialisation/Backend/SiteFooter.vue'
+
     export default {
         data() {
             return {
@@ -26,10 +31,15 @@
             }
         },
         components : {
-            SiteHeader , SiteHeaderBottom , SiteFooter, BreadCrum, DuplicateTournamenttabbed
+            SiteHeader , SiteHeaderBottom , SiteFooter, BreadCrum, DuplicateTournamenttabbed,SiteCommercialisationHeader, SiteCommercialisationFooter
         },
         mounted() {
             Layout.set('layout-horizontal')
+        },
+        computed: {
+            getCurrentLayout() {
+                return this.$store.state.Configuration.currentLayout;
+            }
         }
     }
 </script>
