@@ -43,8 +43,8 @@ class addDivisionAndUpdateExistingData extends Command
     public function handle()
     {
         $templateIds = explode(',',$this->argument('templateIds'));
-        $type1Templates = array('New TT2','New TT26','New TT70','New TT72','New TT100');
-        $type1DiffFormateTemplates = array('New TT58','New TT85','New TT135','New TT136');
+        $type1Templates = array('New TT2','New TT26','New TT44','New TT70','New TT72','New TT100');
+        $type1DiffFormateTemplates = array('New TT58','New TT85','New TT135','New TT136','T.13.5');
 
         $tournamentTemplates = TournamentTemplates::where('no_of_divisions','>',0)->whereNotNull('no_of_divisions')->whereIn('id',$templateIds)->limit(1)->get()->toArray();
 
@@ -69,7 +69,6 @@ class addDivisionAndUpdateExistingData extends Command
             //get tournament_comp_template from template id
             $allTournamentCompTemplates = TournamentCompetationTemplates::where('tournament_template_id',$ttvalue['id'])->limit(1)->get()->toArray();
 
-            echo "<pre>";print_r($allTournamentCompTemplates);exit();
             $this->info('Fetching all competation template for id :- '.$ttvalue['id']);
             $count = 1;
             foreach ($allTournamentCompTemplates as $tctkey => $tctvalue) {
@@ -188,7 +187,7 @@ class addDivisionAndUpdateExistingData extends Command
                                 $updateMatchData = [];
                                 $updateMatchData['competition_id'] = $competitionUpdateId;
 
-                                if ( ( $isType1Template && $islastDiv ) || ( $isType1DiffFormateTemplates && $islastRound) )
+                                if ( ( $isType1Template && $islastDiv ) || ( $isType1DiffFormateTemplates && $islastRound && $islastDiv ) )
                                 {
                                     $updatedMatchNumber = str_replace('CAT.', $displayName.'-', $mvalue['match_number']);
 
