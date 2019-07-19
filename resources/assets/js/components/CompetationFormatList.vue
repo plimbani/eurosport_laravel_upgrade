@@ -23,7 +23,7 @@
                 <div class="d-flex justify-content-between align-items-center">
                   {{competation.disp_format_name}} 
                   <span class="pl-2">
-                    <a href="#"  @click="viewCompFormat(competation.tournament_template_id,competation.total_time)" class="btn btn-primary btn-sm ml-1 float-right">View</a>
+                    <a href="#"  @click="viewCompFormat(competation.id, competation.tournament_template_id, competation.total_time)" class="btn btn-primary btn-sm ml-1 float-right">View</a>
                   </span>
                 </div>
               </td>
@@ -94,7 +94,7 @@ export default {
   data() {
     return {
       competationList : {}, TournamentId: 0, competation_id: '',setTime:'',
-      tournamentTemplateId: '', totalTime:'',
+      tournamentTemplateId: null, totalTime:'',
       deleteConfirmMsg: 'Are you sure you would like to delete this age category?',deleteAction: '',
       templateData:[],
       totalTime: '',
@@ -146,9 +146,9 @@ export default {
         });
       },500)
     },
-    viewCompFormat(id,tTime) {
+    viewCompFormat(ageCategoryId, id,tTime) {
         $("#competationmodal").modal('show');
-         let TemplateData = {tournamentTemplateId : id}
+         let TemplateData = {tournamentTemplateId : id, ageCategoryId: ageCategoryId}
          Tournament.getTemplate(TemplateData).then(
           (response) => {
           if(response.data.status_code==200){

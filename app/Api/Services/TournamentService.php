@@ -158,10 +158,6 @@ class TournamentService implements TournamentContract
         return ['status_code' => '505', 'message' => self::ERROR_MSG];
     }
     private function calculateTime($data,$jsonData) {
-        // We calculate the Following over here
-        // Total Time
-        // Total Match
-        // display Format Name
         if($data['game_duration_RR'] == 'other') {
           $data['game_duration_RR'] = $data['halves_RR'] * $data['game_duration_RR_other'];
         } else {
@@ -190,25 +186,21 @@ class TournamentService implements TournamentContract
          exit;
         }
 
-
-        $disp_format_name = $json_data->tournament_teams .' teams: '.
-        $json_data->competition_group_round.($json_data->competition_round != '' ? ' - '.$json_data->competition_round : '');
+        $disp_format_name = '';
+        if(isset($json_data->round_schedule)) {
+          $roundScheduleData = join(" - ",$json_data->round_schedule);
+          $disp_format_name = $json_data->tournament_teams .' teams: '.$roundScheduleData;
+        }
 
         $total_matches = $json_data->total_matches;
-
-        // Now here we calculate total time for a Compeation format For RR
-        // Move For loop and take count -1 for round robin
         $totalRound = count($json_data->tournament_competation_format->format_name);
         $total_rr_time = 0; $total_final_time=0;$total_time=0;
-        // we use -1 loop for only consider round robin matches
-        // TODO: We change logic to Only Consider final Matches
 
         if(isset($json_data->final_round) && ($json_data->final_round == 'F' || $json_data->final_round == 'F/SMF')) {
           $isFinalMatch = true;
         } else {
           $isFinalMatch = false;
         }
-
 
         $total_round_match = $isFinalMatch ? $total_matches - 1 : $total_matches;
         // Calculate Game Duration for RR
@@ -252,8 +244,9 @@ class TournamentService implements TournamentContract
     public function getTemplate($data)
     {
        // Here we send Status Code and Messages
-        $data = $data['tournamentTemplateId'];
-        $data = $this->tournamentRepoObj->getTemplate($data);
+        // $data = $data['tournamentTemplateId'];
+        $ageCategoryId = isset($data['ageCategoryId']) ? $data['ageCategoryId'] : null;
+        $data = $this->tournamentRepoObj->getTemplate($data['tournamentTemplateId'], $ageCategoryId);
         if ($data) {
             return ['status_code' => '200', 'data' => $data];
         }
@@ -927,6 +920,14 @@ class TournamentService implements TournamentContract
       return ['options' => $data];
     }
 
+    /**
+    * Update category division display name.
+    */
+    public function updateCategoryDivisionName($data)
+    {
+      $data = $this->tournamentRepoObj->updateCategoryDivisionName($data);
+      return $data;
+    }
     public function duplicateTournament($data)
     {
       $data = $this->tournamentRepoObj->duplicateTournament($data);
