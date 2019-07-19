@@ -474,11 +474,6 @@ $('.panel-title').on('click',function(){
     $('#opt_icon').removeClass('fa-minus')
   }
 });
-if ($(document).height() > $(window).height()) {
-        $('.site-footer').removeClass('sticky');
-    } else {
-       $('.site-footer').addClass('sticky');
-    }
 },
 methods: {
 selectImage() {
