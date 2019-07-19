@@ -260,13 +260,6 @@
             toastr['error']('Permission denied', 'Error');
             this.$router.push({name: 'welcome'});
           }
-          setTimeout( function(){
-            if ($(document).height() > $(window).height()) {
-              $('.site-footer').removeClass('sticky');
-           } else {
-             $('.site-footer').addClass('sticky');
-           }
-          },2000 )
           this.getRolesWithData();
           this.getPublishedTournaments();
           this.getLanguageData();
