@@ -275,4 +275,18 @@ class AuthController extends Controller
 
       return $deletedUserData;
     }
+
+    public function token_validate()
+    {
+      if(!JWTAuth::getToken()) {
+        return response(['authenticated' => false]);
+      }
+      
+      try {
+          JWTAuth::parseToken()->authenticate();
+          return response(['authenticated' => true]);
+      } catch (JWTException $e) {
+          return response(['authenticated' => false]);
+      }
+    }
 }
