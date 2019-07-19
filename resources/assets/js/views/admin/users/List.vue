@@ -92,7 +92,7 @@
                                     </td>
                                     <td>
                                         <a class="text-primary" href="javascript:void(0)"
-                                         @click="editUser(user.id)" v-if="!(isMasterAdmin == true && user.role_slug == 'Super.administrator')">
+                                         @click="editUser(user)" v-if="!(isMasterAdmin == true && user.role_slug == 'Super.administrator')">
                                         <i class="fas fa-pencil"></i>
                                         </a>
                                         &nbsp;
@@ -106,7 +106,7 @@
                                         </a>
                                         &nbsp;
                                         <a v-if="(user.role_slug == 'tournament.administrator' || user.role_slug == 'Results.administrator')" class="text-primary icon-size-1-2" href="javascript:void(0)"
-                                        @click="editTournamentPermission(user)">
+                                        @click="editTournamentPermission(user, false)">
                                         <i class="fas fa-eye fa-1x"></i>
                                         </a>
                                         &nbsp;
@@ -155,7 +155,7 @@
             </div>
         </div>
         <user-modal v-if="userStatus" :userId="userId"
-        :userRoles="userRoles" :publishedTournaments="publishedTournaments" :isMasterAdmin="isMasterAdmin" @showChangePrivilegeModal="showChangePrivilegeModal()"></user-modal>
+        :userRoles="userRoles" :publishedTournaments="publishedTournaments" :isMasterAdmin="isMasterAdmin" @showChangePrivilegeModal="showChangePrivilegeModal()" @editTournamentPermission="editTournamentPermission"></user-modal>
         <delete-modal :deleteConfirmMsg="deleteConfirmMsg" @confirmed="deleteConfirmed()"></delete-modal>
         <resend-modal :resendConfirm="resendConfirm" @confirmed="resendConfirmed()"></resend-modal>
         <active-modal
@@ -165,7 +165,7 @@
            @closeModal="closeConfirm()">
          </active-modal>
          <!-- <tournament-permission-modal :user="currentUserInTournamentPermission"></tournament-permission-modal> -->
-         <permission-modal :user="currentUserInTournamentPermission"></permission-modal>
+         <permission-modal :user="currentUserInTournamentPermission" :isCompulsoryTournamentSelection="isCompulsoryTournamentSelection"></permission-modal>
          <confirm-privilege-change-modal @confirmed="privilegeChangeConfirmed()"></confirm-privilege-change-modal>
     </div>
 </template>
@@ -220,6 +220,7 @@
                 recordCounts: [5,10,20,50,100],
                 currentUserInTournamentPermission: null,
                 allLanguages: [],
+                isCompulsoryTournamentSelection: false,
             }
         },
 
@@ -331,8 +332,8 @@
                 });
               },1000)
             },
-            editUser(id) {
-                this.userId = id
+            editUser(user) {
+                this.userId = user.id
                 this.userModalTitle="Edit User";
                  this.userStatus = true
                  let vm = this
@@ -415,7 +416,8 @@
 
                 // window.location.href = "/api/users/getUserTableData?report_download=yes&"+userSearch+"&"+userSlugType;
              },
-            editTournamentPermission(user) {
+            editTournamentPermission(user, isCompulsorySelection) {
+              this.isCompulsoryTournamentSelection = isCompulsorySelection;
               this.currentUserInTournamentPermission = user;
               this.$root.$emit('getUserTournaments', user);
               if(this.$store.state.Users.userDetails.role_slug != 'tournament.administrator') {

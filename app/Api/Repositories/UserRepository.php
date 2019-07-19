@@ -18,7 +18,6 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Pagination\Paginator;
 use Laraspace\Traits\AuthUserDetail;
 use Laraspace\Models\RoleUser;
-use Laraspace\Models\TournamentAdminUser;
 
 class UserRepository {
 
@@ -71,13 +70,7 @@ class UserRepository {
                                               ->pluck('tournament_user.user_id')
                                               ->toArray();
 
-
-          $tournamentAdminUserIds = TournamentAdminUser::where('added_by', $loggedInUser->id)
-                                                        ->pluck('user_id')
-                                                        ->toArray();
-
-          $userTournamentsArray = array_merge($tournamentUserIds, $tournamentAdminUserIds);
-          $finalTournamentUnique = array_unique($userTournamentsArray);
+          $finalTournamentUnique = array_unique($tournamentUserIds);
           $user = $user->whereIn('users.id', $finalTournamentUnique);
         }
 
@@ -194,19 +187,8 @@ class UserRepository {
                  // return  $deletedUser->attachRole($data['userType']);
             }else{
                     $user = User::create($userData);
-                    $user->attachRole($data['userType']);
-
-                    if($loggedInUser->hasRole('tournament.administrator')) {
-                        $tournamentAdminUser = new TournamentAdminUser();
-                        $tournamentAdminUser->user_id = $user->id;
-                        $tournamentAdminUser->added_by = $loggedInUser['id'];        
-                        $tournamentAdminUser->save();
-                    } 
+                    $user->attachRole($data['userType']); 
                     return ['status'=>'created','user'=>$user];
-
-
-                    // print_r($user);
-                   // return  $user->attachRole($data['userType']);
               }
         }
         catch (\PDOException  $e) {
@@ -321,8 +303,6 @@ class UserRepository {
       if($user->hasRole('Results.administrator') && $user->tournaments()->count() == 0) {
         $mobileUserRole = Role::where('slug', 'mobile.user')->first();
         $roleMobileUser = RoleUser::where('user_id', $data['user']['id'])->update(['role_id' => $mobileUserRole->id]);
-
-        $tournamentAdminUserIds = TournamentAdminUser::where('user_id', $user->id)->delete();
       }
       if($loggedInUser->hasRole('tournament.administrator') && $user->hasRole('Results.administrator')) {
         $tournamentsArray = Tournament::whereIn('id', $newlySelectedTournamentsIds)->get()->toArray();
@@ -379,25 +359,33 @@ class UserRepository {
 
     public function verifyResultAdminUser($data)
     {
-      $user = User::where('email', $data['email'])->first();
+      $user = User::join('role_user', 'users.id', '=', 'role_user.user_id')
+                ->leftjoin('roles', 'roles.id', '=', 'role_user.role_id')
+                ->leftjoin('people', 'people.id', '=', 'users.person_id')
+                ->leftjoin('countries', 'countries.id', '=', 'users.country_id')
+                ->select('users.id as id', 'people.first_name as first_name', 'people.last_name as last_name', 'users.email as email', 'roles.id as role_id', 'roles.name as role_name', 'roles.slug as role_slug', 'users.is_verified as is_verified', 'users.is_mobile_user as is_mobile_user', 'users.is_desktop_user as is_desktop_user', 'users.organisation as organisation', 'users.locale as locale', 'users.role as role','countries.name as country', 'users.device as device', 'users.app_version as app_version', 'users.provider as provider')
+                ->where('email', $data['email'])->first();
       $loggedInUser = $this->getCurrentLoggedInUserDetail();
 
       if($user) {
-        $tournamentAdminUser = TournamentAdminUser::where('user_id', $user->id)->where('added_by', $loggedInUser->id)->first();
+        $tournamentIds = $loggedInUser->tournaments->pluck('id')->toArray();
 
-        if($tournamentAdminUser) {
+        $tournamentUserIds = TournamentUser::leftjoin('role_user', 'tournament_user.user_id', '=', 'role_user.user_id')
+                              ->leftjoin('roles', 'roles.id', '=', 'role_user.role_id')
+                              ->whereIn('tournament_id', $tournamentIds)
+                              ->where('tournament_user.user_id', '!=', $loggedInUser->id)
+                              ->where('slug', 'Results.administrator')
+                              ->pluck('tournament_user.user_id')
+                              ->toArray();
+
+        if(in_array($user->id, $tournamentUserIds)) {
           return ['status_code'=> 200, 'isAlreadyAdded' => true];
         }
 
         if($user->roles()->first()->slug != 'Results.administrator') {
           return ['status_code'=> 200, 'emailExists' => true];
         } else {
-          $tournamentAdminUser = new TournamentAdminUser();
-          $tournamentAdminUser->user_id = $user->id;
-          $tournamentAdminUser->added_by = $loggedInUser->id;
-          $tournamentAdminUser->save();
-
-          return ['status_code'=> 200, 'isResultAdmin' => true];
+          return ['status_code'=> 200, 'isResultAdmin' => true, 'user' => $user];
         }
       } else {
         return ['status_code'=> 200, 'emailExists' => false];
