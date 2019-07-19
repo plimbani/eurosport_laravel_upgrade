@@ -270,8 +270,8 @@ class PitchController extends BaseController
         }
 
 
-        \Excel::create('Pitch planner', function($excel) use ($tournamentDates, $tournamentPitches, $time, $matches) {
-            $excel->sheet('pitch_planner', function($sheet) use ($tournamentDates, $tournamentPitches, $time, $matches)
+        \Excel::create('Match planner', function($excel) use ($tournamentDates, $tournamentPitches, $time, $matches) {
+            $excel->sheet('Match planner', function($sheet) use ($tournamentDates, $tournamentPitches, $time, $matches)
             {
                 $rowCount = 1;
                 $cell = 2;
