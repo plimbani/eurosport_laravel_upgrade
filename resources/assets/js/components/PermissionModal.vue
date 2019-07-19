@@ -4,8 +4,8 @@
       <div class="modal-content">
         <form name="frmTournamentPermission" id="frmTournamentPermission" method="POST">
             <div class="modal-header">
-                <h5 class="modal-title">{{$lang.user_management_permission_title}}</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <h5 class="modal-title" v-if="user != null">{{$lang.user_management_permission_title}}  - {{ user.first_name }} {{ user.last_name}} {{ user.email }}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" v-if="!isCompulsoryTournamentSelection">
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
@@ -22,6 +22,11 @@
                     <div class="tab-content">
                         <div class="tab-pane" id="tournament-list" role="tab-pane">
                           <tournament-listing :allTournaments="allTournaments" @setSelectedTournaments="setSelectedTournaments"></tournament-listing>
+                          <div class="form-group row" v-if="selectTournamentError">
+                            <div class="col-sm-12">
+                              <p class="text-danger mb-0">Please select at least one tournament.</p>
+                            </div>
+                          </div>
                         </div>
                         <div class="tab-pane" id="website-list" role="tabpanel">
                             <website-listing :allWebsites="allWebsites" @setSelectedWebsites="setSelectedWebsites"></website-listing>
@@ -30,7 +35,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">{{$lang.user_management_user_cancle}}</button>
+                <button v-if="!isCompulsoryTournamentSelection" type="button" class="btn btn-danger" data-dismiss="modal">{{$lang.user_management_user_cancle}}</button>
                 <button type="button" class="btn btn-primary" @click="submitPermissions()">{{$lang.user_management_user_save}}</button>
             </div> 
         </form>
@@ -61,10 +66,11 @@
             formValues: {
               tournaments: [],
               websites: []
-            }
+            },
+            selectTournamentError: false,
           }
         },
-        props:['user'],
+        props:['user', 'isCompulsoryTournamentSelection'],
         created() {
         },
         beforeMount() {
@@ -104,23 +110,38 @@
         },        
         methods: {
           submitPermissions() {
+            let vm = this;
+
+            this.formValues.tournaments = [];
+            this.formValues.websites = [];
+
             this.$root.$emit('getSelectedTournaments');
             this.$root.$emit('getSelectedWebsites');
 
-            let data = { user: this.user, tournaments: this.formValues.tournaments, websites: this.formValues.websites}
+            // usage as a promise (2.1.0+, see note below)
+            Vue.nextTick()
+              .then(function () {
+                vm.selectTournamentError = false;
+                if(vm.isCompulsoryTournamentSelection && vm.formValues.tournaments.length === 0) {
+                  vm.selectTournamentError = true;
+                  return false;
+                }
 
-            User.changePermissions(data).then(
-              (response)=> {
-                toastr.success('Permissions have been updated successfully.', 'Permissions', {timeOut: 5000});
-                $("#permission_modal").modal("hide");
-                this.$root.$emit('getResults');
-                this.formValues.tournaments = [];
-              },
-              (error)=>{
-              }
+                let data = { user: vm.user, tournaments: vm.formValues.tournaments, websites: vm.formValues.websites}
+                $("body .js-loader").removeClass('d-none');
+                User.changePermissions(data).then(
+                  (response)=> {
+                    toastr.success('Permissions have been updated successfully.', 'Permissions', {timeOut: 5000});
+                    $("body .js-loader").addClass('d-none');
+                    $("#permission_modal").modal("hide");
+                    vm.$root.$emit('getResults');
+                    vm.formValues.tournaments = [];
+                  },
+                  (error)=>{
+                  }
 
-            )
-
+                )
+              });
           },
           setSelectedTournaments(tournaments) {
             this.formValues.tournaments = tournaments;
