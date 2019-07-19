@@ -1,4 +1,5 @@
-.header,.site-header {
+.header,
+.site-header {
     @include gradient-directional(lighten($ls-color-blue--light-gradient, 45%), $white, 90deg);
     z-index: 10;
     box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 7px 0 rgba(0, 0, 0, 0.06), 0 3px 1px -1px rgba(0, 0, 0, 0.14);
@@ -7,17 +8,26 @@
     p,
     a {
         color: $theme-color-primary;
+        @extend .font-weight-bold;
     }
 
     .header-list {
         li {
-            @extend .mr-3;
-            font-size: 0.875rem;
             font-family: $base-font-family;
-            @extend .font-weight-bold;
 
-            i {
-                @extend .ml-1;
+            a {
+                @extend .mr-3;
+                font-size: 0.9375rem;
+
+                i {
+                    @extend .ml-1;
+                }
+            }
+
+            &:last-child {
+                a {
+                    @extend .mr-0;
+                }
             }
         }
     }
