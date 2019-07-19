@@ -15,6 +15,7 @@ use JWTAuth;
 use Laraspace\Models\User;
 use Laraspace\Models\UserFavourites;
 use Laraspace\Traits\TournamentAccess;
+use Laraspace\Models\TempFixture;
 use View;
 use File;
 use Storage;
@@ -1025,5 +1026,11 @@ class TournamentService implements TournamentContract
     public function getUserTransactions($user) {
       $data = $this->tournamentRepoObj->getUserTransactions($user);
       return ['data' => $data, 'status_code' => '200']; 
+    }
+
+    public function getTournamentExpireDate($data) {
+      $matchCount = TempFixture::where('tournament_id', $data['data']['tournament_id'])->count();
+      $expireTime = $this->tournamentRepoObj->getTournamentExpireTime($data['data']['tournament_id'],$data['data']['tournament_end_date'],$matchCount);
+      return $expireTime;
     }
 }
