@@ -110,7 +110,7 @@
             return { 
                 tournaments: [],
                 access_code_popup:"",
-                baseUrl:"",
+                appUrl:"",
                 url:"tournament-detail",
                 dashboardTournamentDisplayDateFormat:"",
                 currentDateTime: moment(),
@@ -123,8 +123,8 @@
             getTournamentList(){
                 axios.get(Constant.apiBaseUrl+'tournaments/list', {}).then(response =>  {
                         if (response.data.success) { 
-                            this.baseUrl = response.data.data.baseUrl;
-                            this.tournaments = response.data.data.data;
+                            this.appUrl = appUrl;
+                            this.tournaments = response.data.data;
                         }else{ 
                             toastr['error'](response.data.message, 'Error');
                         }
@@ -181,7 +181,7 @@
 
             openSharePopup(tournament){
                 let tournamentAccessCode = tournament.access_code.toUpperCase();
-                this.access_code_popup = this.baseUrl + '/' + this.url + '?code=' + tournamentAccessCode;
+                this.access_code_popup = this.appUrl + '/' + this.url + '?code=' + tournamentAccessCode;
                 $("#open_share_popup").modal('show'); 
             },
 
