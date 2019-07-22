@@ -45,6 +45,14 @@ export default {
       }
       return true;
     },
+    ValidateImageMinimumDimension(image, requiredWidthHeight) {
+      var height = image.height;
+      var width = image.width;
+      if (height < requiredWidthHeight && width < requiredWidthHeight) {
+        return false;
+      }
+      return true;
+    },
     ValidateImageType(file) {
       if(file.type != '') {
         var extension = file.type.split('/')[1].toLowerCase();

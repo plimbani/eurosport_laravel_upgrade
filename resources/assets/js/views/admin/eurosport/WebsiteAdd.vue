@@ -91,7 +91,7 @@
 												<input type="file" id="selectFile" style="display:none;" @change="onTournamentLogoChange($event)">
 											</div>
 											<div class="col-sm-12">
-												<p class="help-block text-muted pb-0 mb-0">Preferred size: 300px × 300px (jpg, png or gif)</p>
+												<p class="help-block text-muted pb-0 mb-0">Required size is: 500px or above (jpg, png or gif)</p>
 											</div>
 										</div>
 								</div>
@@ -504,23 +504,35 @@ export default {
 
 			// Read image
 			reader.addEventListener("load", function () {
-				vm.tournament_logo_image = reader.result;
+				var image = new Image();
+				image.src = reader.result;
+
+				//Validate the File Height and Width.
+				image.onload = function () {
+					if(Plugin.ValidateImageMinimumDimension(this, 500) == false) {
+						toastr['error']('Tournament logo should be 500px or more', 'Error');
+						return;
+					} else {
+						vm.tournament_logo_image = reader.result;
+
+						vm.is_tournament_logo_uploading = true;
+						var formData = new FormData();
+						formData.append('image', files[0]);
+						axios.post('/api/websites/uploadTournamentLogo', formData).then(
+						  (response)=> {
+						  	vm.tournament_logo_image = response.data;
+						  	vm.is_tournament_logo_uploading = false;
+						  },
+						  (error)=>{
+						  }
+						);
+					}
+				}
 			}, false);
+
 			if (files[0]) {
 				reader.readAsDataURL(files[0]);
 			}
-
-			this.is_tournament_logo_uploading = true;
-      var formData = new FormData();
-      formData.append('image', files[0]);
-      axios.post('/api/websites/uploadTournamentLogo', formData).then(
-	      (response)=> {
-	      	this.tournament_logo_image = response.data;
-	      	this.is_tournament_logo_uploading = false;
-	      },
-	      (error)=>{
-	      }
-      );
 		},
 		onSocialSharingGraphicImageChange(e) {
 			var vm = this;

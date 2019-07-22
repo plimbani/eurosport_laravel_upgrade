@@ -137,8 +137,8 @@ class MatchController extends BaseController
         return $this->matchObj->generateMatchPrint($request->all());
     }
 
-    public function generateCategoryReport(Request $request, $ageGroupId) {
-        return $this->matchObj->generateCategoryReport($ageGroupId);
+    public function generateCategoryReport(Request $request, $ageGroupId, $tournamentId) {
+        return $this->matchObj->generateCategoryReport($ageGroupId, $tournamentId);
     }
 
     public function removeAssignedReferee(RemoveAssignedRefereeRequest $request)
@@ -294,7 +294,7 @@ class MatchController extends BaseController
                     'tournamentId' => $tournamentId,
                 ];
 
-                $matchRepoObj->setMatchSchedule($matchData, true);
+                $matchRepoObj->setAutomaticMatchSchedule($matchData, true);
 
                 $awayTeamScore = rand(1,20);
                 $homeTeamScore = rand(1,20);
@@ -826,9 +826,10 @@ class MatchController extends BaseController
         return $this->matchObj->saveStandingsManually($request);
     }
 
-    public function getSignedUrlForMatchReport(GetSignedUrlForMatchReportRequest $request, $ageCategory)
+    public function getSignedUrlForMatchReport(GetSignedUrlForMatchReportRequest $request)
     {
-        $signedUrl = UrlSigner::sign(url('api/match/report/generate/' . $ageCategory), Carbon::now()->addMinutes(config('config-variables.signed_url_interval')));
+        $requestData = $request->all();
+        $signedUrl = UrlSigner::sign(url('api/match/report/generate/' . $requestData['ageCategoryData']['ageCategory'].'/'.$requestData['ageCategoryData']['tournament_id']), Carbon::now()->addMinutes(config('config-variables.signed_url_interval')));
         
         return $signedUrl;
     }
@@ -906,5 +907,10 @@ class MatchController extends BaseController
     public function matchUnscheduledFixtures(Request $request)
     {
         return $this->matchObj->matchUnscheduledFixtures($request->all());
+    }
+
+    public function saveScheduleMatches(Request $request) 
+    {
+        return $this->matchObj->saveScheduleMatches($request->all());
     }
 }

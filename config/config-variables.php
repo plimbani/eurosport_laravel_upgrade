@@ -93,4 +93,7 @@ return [
         "refund" => "The payment has been refunded.",
         "payment_requested" => "The payment has been requested."
     ],
+    'favicon' => [
+        'apiurl' => env('FAVICON_API_URL', ''),
+    ],
 ];

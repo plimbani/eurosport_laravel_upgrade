@@ -74,7 +74,7 @@ const actions = {
 	commit(types.SET_TOURNAMENT_TOTAL_TIME, totalTime)
   },
   setTournamentStatus({commit}, status) {
-	commit(types.SET_TOURNAMENT_STATUS, status)
+	 commit(types.SET_TOURNAMENT_STATUS, status)
   },
   SetTournamentName ({commit}, tournamentData) {
   commit(types.CURRENT_TOURNAMENT, tournamentData)
@@ -171,24 +171,25 @@ const actions = {
         'tournamentId':tournamentId,
         'age_category':''
       }
-       commit(types.SET_REFEREES,'')
-       commit(types.TOTAL_REFEREES, 0)
-  	 Tournament.getReferees(tournamentData).then(
-      (response) => {
-        if(response.data.referees){
-          // vm.referees = response.data.referees
-          // vm.$store.dispatch('SetTotalReferee', response.data.referees.length)
-          commit(types.TOTAL_REFEREES, response.data.referees.length)
-           commit(types.SET_REFEREES, response.data.referees)
-        }else{
-          // vm.referees = ''
-          // vm.$store.dispatch('SetTotalReferee', 0)
-        }
+      commit(types.SET_REFEREES,'')
+      commit(types.TOTAL_REFEREES, 0)
 
-      },
-      (error) => {
-      }
-    )
+      return new Promise((resolve, reject) => {
+        Tournament.getReferees(tournamentData).then(
+          (response) => {
+            if(response.data.referees){
+              // vm.referees = response.data.referees
+              // vm.$store.dispatch('SetTotalReferee', response.data.referees.length)
+              commit(types.TOTAL_REFEREES, response.data.referees.length)
+              commit(types.SET_REFEREES, response.data.referees)
+            }
+            resolve(response.data);
+          },
+          (error) => {
+            reject(response);
+          }
+        )
+      });
   },
   setCompetationWithGames({commit}) {
     commit(types.SET_COMPETITION_WITH_GAMES)
@@ -213,7 +214,7 @@ const actions = {
 // mutations
 const mutations = {
   [types.SET_TOURNAMENT_STATUS] (state, tournamentField) {
-	state.tournamentStatus = tournamentField.tournamentStatus
+	 state.tournamentStatus = tournamentField.tournamentStatus;
   },
   [types.CURRENT_TOURNAMENT] (state, currentTournament) {
  	//alert(JSON.stringify(currentTournamentName))
@@ -363,10 +364,10 @@ const mutations = {
 
               displayMatchName = displayMatchName.replace('@HOME', displayHomeTeamPlaceholder).replace('@AWAY', displayAwayTeamPlaceholder)
 
-              var person = {'fullGame':fullgame1,'competationColorCode':competationColorCode, 'matchName':mtchNum, 'displayMatchName': displayMatchName,'matchTime':matchTime,'matchId': match.fid,'isScheduled': match.is_scheduled,'ageGroupId':match.age_group_id};
-              comp.push(person)
+              var matchData = {'fullGame':fullgame1,'competationColorCode':competationColorCode, 'matchName':mtchNum, 'displayMatchName': displayMatchName,'matchTime':matchTime,'matchId': match.fid,'isScheduled': match.is_scheduled,'ageGroupId':match.age_group_id,'competitionId':match.competitionId,'venueId':match.venueId,'categoryAgeColor':match.category_age_color,'categoryAgeFontColor':match.category_age_font_color, 'scheduleLastUpdateDateTime':match.schedule_last_update_date_time};
+              comp.push(matchData)
 
-              if(match.is_scheduled!=1){
+              if(match.is_scheduled != 1){
                 matchCount = matchCount + 1
                 matchCountDisplay = matchCountDisplay + 1
               }

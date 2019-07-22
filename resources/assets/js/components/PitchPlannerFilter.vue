@@ -63,7 +63,13 @@ export default {
   },
   props:['section'],
   mounted() {
-    this.clearFilter()
+    this.filterBy = ''
+    this.dropDown = ''
+    this.filterKey = this.filterBy
+    this.filterValue = this.dropDown
+    let tournamentFilter = {'filterKey': this.filterKey,'filterValue':this.filterValue,'filterDependentKey': this.filterDependentKey,'filterDependentValue': this.filterDependentValue}
+    this.$store.dispatch('setTournamentFilter', tournamentFilter);
+    this.$root.$emit('getPitchesByTournamentFilter',this.filterKey,this.filterValue,this.filterDependentKey,this.filterDependentValue);
   },
   methods: {
     clearFilter(){
@@ -127,7 +133,8 @@ export default {
     getMatchesByFilter() {
       let tournamentFilter = {'filterKey': this.filterKey,'filterValue':this.filterValue,'filterDependentKey': this.filterDependentKey,'filterDependentValue': this.filterDependentValue}
       this.$store.dispatch('setTournamentFilter', tournamentFilter);
-      this.$root.$emit('getPitchesByTournamentFilter',this.filterKey,this.filterValue,this.filterDependentKey,this.filterDependentValue);
+      // this.$root.$emit('getPitchesByTournamentFilter',this.filterKey,this.filterValue,this.filterDependentKey,this.filterDependentValue);
+      this.$root.$emit('filterMatches',this.filterKey,this.filterValue,this.filterDependentKey,this.filterDependentValue);
     },
     filteredGroupName(actualGroupName) {
       let splittedName = actualGroupName.split("-");

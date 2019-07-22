@@ -26,6 +26,7 @@ class Kernel extends ConsoleKernel
         Commands\RemoveExpirePreviewDomain::class,
         Commands\sendEmailCustomerStandingResultsAndDeleteTournamentUser::class,
         Commands\unfavouriteUserTournamentRemove::class,
+        Commands\generateFavicon::class,
     ];
 
     /**
