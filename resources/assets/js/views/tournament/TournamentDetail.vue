@@ -32,7 +32,7 @@
                             <h4 class="text-uppercase font-weight-bold">Follow on your phone</h4>
                             <p class="mb-4">Download and open the tournament planner app and enter the following code to follow {{ tournamentData.name }}.</p>
 
-                            <div class="app-code text-center py-3">
+                            <div class="app-code text-uppercase text-center py-3">
                                 <h3 class="font-weight-bold m-0">{{tournamentData.access_code}}</h3>
                             </div>
                             

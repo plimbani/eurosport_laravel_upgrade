@@ -33,7 +33,6 @@ use Laraspace\Models\TournamentUser;
 use Laraspace\Models\TournamentPricing;
 use Laraspace\Models\TransactionHistory;
 use Laraspace\Models\Transaction;
-use Laraspace\Models\User;
 
 class TournamentRepository
 {

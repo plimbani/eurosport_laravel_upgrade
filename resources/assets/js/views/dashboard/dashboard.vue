@@ -180,7 +180,8 @@
             },
 
             openSharePopup(tournament){
-                this.access_code_popup = this.baseUrl + '/' + this.url + '?code=' + tournament.access_code;
+                let tournamentAccessCode = tournament.access_code.toUpperCase();
+                this.access_code_popup = this.baseUrl + '/' + this.url + '?code=' + tournamentAccessCode;
                 $("#open_share_popup").modal('show'); 
             },
 
