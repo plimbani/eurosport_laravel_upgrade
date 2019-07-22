@@ -90,7 +90,6 @@ return [
             "60" => 32
         ] 
     ],
->>>>>>> e5966f1367d36442483dccb014f51405f015394b
     "age_category_color" => [
         '#C2B182', '#b0e0e6', '#DCB8D4', '#ffe4e1', '#0099cc', '#ffa500', '#6dc066', '#ffff00','#d3ffce',
         '#c39797', '#00A998', '#ffc3a0', '#f5f5dc', '#ffd700', '#cbbeb5', '#1874CD', '#ffc0cb', '#a0db8e',
