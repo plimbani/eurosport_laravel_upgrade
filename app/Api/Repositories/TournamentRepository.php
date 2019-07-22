@@ -25,6 +25,7 @@ use Laraspace\Models\Venue;
 use Laraspace\Models\Website;
 use Laraspace\Models\TournamentSponsor;
 use Illuminate\Support\Facades\Storage;
+use Laraspace\Models\AgeCategoryDivision;
 use Laraspace\Models\Position;
 use Laraspace\Models\MatchStanding;
 use Laraspace\Models\TeamManualRanking;
@@ -128,13 +129,20 @@ class TournamentRepository
           } */
     }
 
-    public function getTemplate($tournamentTemplateId)
+    public function getTemplate($tournamentTemplateId, $ageCategoryId)
     {
-        $tournamentTemplateData = [];
-        $tournamentTemplate = TournamentTemplates::find($tournamentTemplateId);
-        $tournamentTemplateData['json_data'] = $tournamentTemplate->json_data;
-        $tournamentTemplateData['image']     = $tournamentTemplate->image;
-        $tournamentTemplateData['graphic_image']     = $tournamentTemplate->graphic_image ? getenv('S3_URL').$tournamentTemplate->graphic_image : null;
+        $tournamentTemplateData              = [];
+        $tournamentTemplateData['json_data'] = '';        
+        if($tournamentTemplateId != NULL) {
+            $tournamentTemplate                  = TournamentTemplates::find($tournamentTemplateId);
+            $tournamentTemplateData['json_data'] = $tournamentTemplate->json_data;
+            $tournamentTemplateData['image']     = $tournamentTemplate->image;
+            $tournamentTemplateData['graphic_image']     = $tournamentTemplate->graphic_image ? getenv('S3_URL').$tournamentTemplate->graphic_image : null;
+        } else {
+            $tournamentCompetitionTemplate = TournamentCompetationTemplates::find($ageCategoryId);
+            $tournamentTemplateData['json_data'] = $tournamentCompetitionTemplate->template_json_data;
+        }
+
         return $tournamentTemplateData;
     }
 
@@ -152,12 +160,9 @@ class TournamentRepository
     public function getAllTemplatesFromMatches($data = array())
     {
         if (is_array($data) && count($data['tournamentData']) > 0 && $data['tournamentData']['minimum_matches'] != '' && $data['tournamentData']['total_teams'] != '') {
-            // TODO: need to Add
-            return TournamentTemplates::where(['total_teams' => $data['tournamentData']['total_teams'], 'minimum_matches' => $data['tournamentData']['minimum_matches']])->orderBy('name')->get();
+            return TournamentTemplates::where(['total_teams' => $data['tournamentData']['total_teams'], 'minimum_matches' => $data['tournamentData']['minimum_matches']])->where('editor_type', $data['tournamentData']['tournament_format'])->where('is_latest', 1)->orderBy('name')->get();
         } else {
-            // here we modified the data
             return;
-            // return TournamentTemplates::get();
         }
     }
 
@@ -832,7 +837,7 @@ class TournamentRepository
     public function getCategoryCompetitions($data)
     {
         $token = \JWTAuth::getToken();
-        $categoryCompetitions = Competition::where('tournament_competation_template_id', $data['ageGroupId']);
+        $categoryCompetitions = Competition::with('AgeCategoryDivision')->where('tournament_competation_template_id', $data['ageGroupId']);
         if (isset($data['competationType'])) {
             $categoryCompetitions = $categoryCompetitions->where('competation_type', $data['competationType']);
         }
@@ -845,7 +850,28 @@ class TournamentRepository
         }
 
         $categoryCompetitions = $categoryCompetitions->get();
-        return $categoryCompetitions;
+
+        if ( !isset($data['fromDrawList']))
+        {
+            return $categoryCompetitions;
+        }
+
+        $categoryCompetitions = $categoryCompetitions->toArray();
+        $divisionsData = [];
+        $data = [];
+        foreach ($categoryCompetitions as $key => $value) {
+            if ( isset($value['age_category_division']) )
+            {
+                $divisionsData[$value['age_category_division_id'].'|'.$value['age_category_division']['name']][$value['competation_round_no']][] = $value;
+
+                unset($categoryCompetitions[$key]);  
+            }
+        }
+
+        $data['round_robin'] = $categoryCompetitions;
+        $data['division'] = $divisionsData;
+        
+        return $data;
     }
 
     public function getAllPublishedTournaments($data)
@@ -1257,6 +1283,19 @@ class TournamentRepository
         } else {
             return '';
         }
+    }
+
+    /**
+    * Update category division display name.
+    */
+    public function updateCategoryDivisionName($data)
+    {
+        return AgeCategoryDivision::where('tournament_id', $data['tournamentData']
+                                    ['tournament_id'])
+                                    ->where('tournament_competition_template_id', 
+                                    $data['tournamentData']['currentAgeCategoryId'])
+                                    ->where('id', $data['tournamentData']['divisionId'])
+                                    ->update(['name' => $data['tournamentData']['categoryDivisionName']]);
     }
 
     public function duplicateTournament($data)

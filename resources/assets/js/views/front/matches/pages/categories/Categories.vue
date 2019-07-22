@@ -49,6 +49,38 @@
             </tbody>
         </table>
       </div>
+
+      <div class="row">
+        <div v-for="(roundData,index) in divData" class="col-md-6">
+          <h6 class="mt-2">
+            <strong>{{ index | getDivName}}</strong>
+          </h6>
+          <div v-for="(draw1,index1) in roundData">
+            <h6 class="mt-2">
+              <strong>{{ index1 }}</strong>
+            </h6>
+
+            <table class="table table-hover table-bordered mt-2">
+              <thead>
+                  <tr>
+                      <th>{{$t('matches.categories')}}</th>
+                      <th class="text-center" style="width:200px">{{$t('matches.type')}}</th>
+                      <th class="text-center" style="width:100px">{{ $t('matches.teams')}}</th>
+                  </tr>
+              </thead>
+              <tbody>
+                <tr  v-for="draw in draw1"> <!--  -->
+                    <td>
+                      <a class="pull-left text-left text-primary" @click.prevent="showCompetitionDetail(draw)" href=""><u>{{ draw.display_name }}</u> </a>
+                    </td>
+                    <td class="text-center">{{ draw.competation_type }}</td>
+                    <td class="text-center">{{ draw.team_size }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
     </div>
   
     <!-- Competition detail page -->
@@ -98,6 +130,7 @@
           type: '',
         },
         currentCategoryId: '',
+        divData: [],
         templateGraphicImageName: '',
         templateGraphicImagePath: '',
       };
@@ -134,7 +167,8 @@
         this.currentCategoryId = ageGroupId;
 		    CategoryList.getCategoryCompetitions(tournamentData).then(
 	        (response) => {
-	          this.groupsData = response.data.competitions;
+	          this.groupsData = response.data.competitions.round_robin;
+            this.divData = response.data.competitions.division;
 	          this.showView = 'groups';
 	        },
 	        (error) => {
@@ -183,6 +217,16 @@
         this.templateGraphicImageName = imageName;
         this.templateGraphicImagePath = imagePath;
       }
-    }
+    },
+    filters: {
+      getDivName: function (value) {
+        if (!value) return ''
+        return value.split("|")[1];
+      },
+      getDivId: function (value) {
+        if (!value) return ''
+        return value.split("|")[0];
+      }
+    },
 	}
 </script>

@@ -28,7 +28,8 @@ export default {
   },
   getTemplate(templateData) {
     let templateId = templateData['tournamentTemplateId']
-    return api.post('tournaments/getTemplate', {'tournamentTemplateId': templateId});
+    let ageCategoryId = templateData['ageCategoryId']
+    return api.post('tournaments/getTemplate', {'tournamentTemplateId': templateId, 'ageCategoryId': ageCategoryId});
      // return api.post('tournaments/getTemplate', {'tournamentTemplateId': templateId});
   },
   deleteCompetation(competationId) {
@@ -63,8 +64,8 @@ export default {
   assignCategory(data) {
     return api.post('team/category/assign',{ data})
  },
- getAllDraws(tournamentData) {
-    return api.post('match/getDraws',{'tournamentId': tournamentData})
+ getAllDraws(tournamentData,competationFormatId) {
+    return api.post('match/getDraws',{'tournamentId': tournamentData,'competationFormatId':competationFormatId})
  },
  getFixtures(tournamentData) {
     return api.post('match/getFixtures',{'tournamentData': tournamentData})
@@ -275,6 +276,9 @@ export default {
   },
   matchUnscheduledFixtures(matchData) {
     return api.post('match/fixtureUnschedule',{'matchData': matchData})
+  },
+  updateCategoryDivisionName(tournamentId) {
+    return api.post('tournament/updateCategoryDivisionName', {'tournamentData':tournamentId});
   },
   duplicateTournament(copyTournamentData) {
     return api.post('duplicateTournament', copyTournamentData)

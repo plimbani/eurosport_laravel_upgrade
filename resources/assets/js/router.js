@@ -93,6 +93,9 @@ import TournamentDetail from './views/tournament/TournamentDetail.vue'
 import UsersTournament from './views/userstournament/UsersTournament.vue'
 import TournamentsTransaction from './views/tournamentstransaction/TournamentsTransaction.vue'
 
+// Template management Layout
+import LayoutTemplateManagement from './views/layouts/LayoutTemplateManagement.vue'
+
 // Duplicate Tournament Layout
 import LayoutDuplicateTournament from './views/layouts/LayoutDuplicateTournament.vue'
 
@@ -248,6 +251,12 @@ const routes = [
         component: LayoutUserManagement,
         meta: { requiresAuth: true },
         name: 'users_list'
+    },
+    {
+        path: '/templates',
+        component: LayoutTemplateManagement,
+        meta: { requiresAuth: true },
+        name: 'templates_list'
     },
 
     // Duplicate tournament copy routes
