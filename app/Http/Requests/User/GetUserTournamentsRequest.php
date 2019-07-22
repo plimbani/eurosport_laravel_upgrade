@@ -5,7 +5,7 @@ namespace Laraspace\Http\Requests\User;
 use Laraspace\Traits\AuthUserDetail;
 use Illuminate\Foundation\Http\FormRequest;
 
-class GetUsetTournamentsRequest extends FormRequest
+class GetUserTournamentsRequest extends FormRequest
 {
     use AuthUserDetail;
     
@@ -18,7 +18,7 @@ class GetUsetTournamentsRequest extends FormRequest
     {
         $loggedInUser = $this->getCurrentLoggedInUserDetail();
 
-        if($loggedInUser->hasRole('Super.administrator') || $loggedInUser->hasRole('Master.administrator')) {
+        if($loggedInUser->hasRole('Super.administrator') || $loggedInUser->hasRole('Master.administrator') || $loggedInUser->hasRole('tournament.administrator')) {
             return true;
         }
         return false;
