@@ -43,8 +43,9 @@ class addDivisionAndUpdateExistingData extends Command
     public function handle()
     {
         $templateIds = explode(',',$this->argument('templateIds'));
-        $type1Templates = array('New TT2','New TT26','New TT44','New TT70','New TT72','New TT100');
+        $type1Templates = array('New TT2','New TT26','New TT44','New TT70','New TT72','New TT100'); // New TT152
         $type1DiffFormateTemplates = array('New TT58','New TT85','New TT135','New TT136','T.13.5');
+        $type2DiffDivCode = array('T.14.5 (v3)');
 
         $tournamentTemplates = TournamentTemplates::where('no_of_divisions','>',0)->whereNotNull('no_of_divisions')->whereIn('id',$templateIds)->limit(1)->get()->toArray();
 
@@ -55,6 +56,8 @@ class addDivisionAndUpdateExistingData extends Command
 
             $isType1Template = false;
             $isType1DiffFormateTemplates = false;
+            $istype2DiffDivCode = false;
+            
 
             if ( in_array($ttvalue['name'], $type1Templates))
             {
@@ -64,6 +67,11 @@ class addDivisionAndUpdateExistingData extends Command
             if ( in_array($ttvalue['name'], $type1DiffFormateTemplates))
             {
                 $isType1DiffFormateTemplates = true;
+            }
+
+            if ( in_array($ttvalue['name'], $type2DiffDivCode))
+            {
+                $istype2DiffDivCode = true;
             }
 
             //get tournament_comp_template from template id
