@@ -10,14 +10,14 @@ use Laraspace\Models\AgeCategoryDivision;
 use Laraspace\Models\Competition;
 use Laraspace\Models\Position;
 
-class addDivisionAndUpdateExistingData extends Command
+class addDivisionAndUpdateExistingDataType4 extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'setup:divisionUpdate{templateIds}';
+    protected $signature = 'setup:divisionUpdateType4{templateIds}';
 
     /**
      * The console command description.
@@ -44,9 +44,7 @@ class addDivisionAndUpdateExistingData extends Command
     public function handle()
     {
         $templateIds = explode(',',$this->argument('templateIds'));
-        $type1Templates = array('New TT2','New TT26','New TT44','New TT70','New TT72','New TT100');
-        $type1DiffFormateTemplates = array('New TT58','New TT85','New TT135','New TT136','T.13.5');
-        $type2DiffDivCode = array('T.14.5 (v3)');  // New TT152
+        $type1Templates = array('New TT76');
 
         $tournamentTemplates = TournamentTemplates::where('no_of_divisions','>',0)->whereNotNull('no_of_divisions')->whereIn('id',$templateIds)->limit(1)->get()->toArray();
 
@@ -55,24 +53,11 @@ class addDivisionAndUpdateExistingData extends Command
             //get json from template
             $templateJson = json_decode($ttvalue['json_data'], true);
 
-            $isType1Template = false;
-            $isType1DiffFormateTemplates = false;
-            $istype2DiffDivCode = false;
-            
+            $isType4Template = false;        
 
             if ( in_array($ttvalue['name'], $type1Templates))
             {
-                $isType1Template = true;
-            }
-
-            if ( in_array($ttvalue['name'], $type1DiffFormateTemplates))
-            {
-                $isType1DiffFormateTemplates = true;
-            }
-
-            if ( in_array($ttvalue['name'], $type2DiffDivCode))
-            {
-                $istype2DiffDivCode = true;
+                $isType4Template = true;
             }
 
             //get tournament_comp_template from template id
@@ -90,14 +75,8 @@ class addDivisionAndUpdateExistingData extends Command
                 $this->info('comp template count is :- '.$count);
                 $this->info('Fetching existing age group and id is  :- '.$tctvalue['id']);
 
-                if ( $istype2DiffDivCode )
-                {
-                    $existingCompetition = Competition::where('competation_round_no','!=','Round 1')->where('tournament_competation_template_id',$tournament_comp_template_id)->where('tournament_id',$tournament_id)->where('competation_type','Elimination')->pluck('id','name')->toArray();
-                }
-                else
-                {
-                   $existingCompetition = Competition::where('competation_round_no','!=','Round 1')->where('tournament_competation_template_id',$tournament_comp_template_id)->where('tournament_id',$tournament_id)->pluck('id','name')->toArray(); 
-                }
+                $existingCompetition = Competition::where('competation_round_no','!=','Round 1')->where('tournament_competation_template_id',$tournament_comp_template_id)->where('tournament_id',$tournament_id)->pluck('id','name')->toArray(); 
+
 
                 $displayName = $tctvalue['group_name'].'-'.$tctvalue['category_age'];
                 $ageCategoryOnly = $tctvalue['category_age'];
@@ -128,7 +107,6 @@ class addDivisionAndUpdateExistingData extends Command
 
                     $result = AgeCategoryDivision::create($divData);
                     $newDivisionId = $result->id;
-                    //$newDivisionId = 5;
 
                     $lastround = end($dvalue['format_name']);
                     foreach ($dvalue['format_name'] as $roundkey => $roundValue) {
@@ -204,12 +182,28 @@ class addDivisionAndUpdateExistingData extends Command
                                 $updateMatchData = [];
                                 $updateMatchData['competition_id'] = $competitionUpdateId;
 
-                                $updatedMatchNumber = str_replace('CAT.', $displayName.'-', $mvalue['match_number']);
+                                if ( $isType4Template && $islastDiv && $islastRound )
+                                {
 
-                                TempFixture::where('tournament_id',$tournament_id)->where('age_group_id',$tournament_comp_template_id)->where('match_number',$updatedMatchNumber)->update($updateMatchData);
+                                    $updatedMatchNumber = str_replace('CAT.', $displayName.'-', $mvalue['match_number']);
 
 
-                                $this->info('iterating temp fixture matches and updated with new competition id , match_number = '.$mvalue['match_number'].' and tournament_id = '.$tournament_id.' and age_group_id = '.$tournament_comp_template_id.' and new updated competition is '.$competitionUpdateId.'.');
+                                    $updteDisplayMatchNumber = str_replace('CAT.', $ageCategoryOnly.'.', $mvalue['display_match_number']);
+
+                                    $updateMatchData['match_number'] = $updatedMatchNumber;
+                                    $updateMatchData['display_match_number'] = $updteDisplayMatchNumber;
+
+                                    if ( $isType4Template && !array_key_exists('position', $mvalue))
+                                    {
+                                        $matchNumberArray = explode('.',$mvalue['match_number']);
+                                        $matchNumberArray = end($matchNumberArray);
+
+                                        TempFixture::where('tournament_id',$tournament_id)->where('age_group_id',$tournament_comp_template_id)->where('match_number','like','%'.$matchNumberArray.'%')->update($updateMatchData);
+                                    }
+
+                                    $this->info('iterating temp fixture matches and updated with new competition id , match_number = '.$mvalue['match_number'].' and tournament_id = '.$tournament_id.' and age_group_id = '.$tournament_comp_template_id.' and new updated competition is '.$competitionUpdateId.'.');
+                                    
+                                }
                             }
                         }
                     }

@@ -25,6 +25,7 @@ class Kernel extends ConsoleKernel
         Commands\removeDanglingImages::class,
         Commands\RemoveExpirePreviewDomain::class,
         Commands\addDivisionAndUpdateExistingData::class,
+        Commands\addDivisionAndUpdateExistingDataType1::class,
         Commands\generateFavicon::class,
     ];
 
