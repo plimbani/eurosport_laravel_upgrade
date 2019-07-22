@@ -291,12 +291,6 @@ class UserRepository {
         return true;
     }
 
-    public function getUserTournaments($id)
-    {
-        $user = User::find($id);
-        return $user->tournaments()->pluck('id');
-    }
-
     public function getUserWebsites($id)
     {
         $user = User::find($id);

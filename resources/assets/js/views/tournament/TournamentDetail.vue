@@ -33,7 +33,7 @@
                             <p class="mb-4">Download and open the tournament planner app and enter the following code to follow {{ tournamentData.name }}.</p>
 
                             <div class="app-code text-center py-3">
-                                <h3 class="font-weight-bold m-0">{{tournamentData.access_code}}</h3>
+                                <h3 class="font-weight-bold m-0">{{tournamentData.access_code | upperCase}}</h3>
                             </div>
                             
                             <ul class="list-unstyled get-app mb-0 text-xl-center mt-4">
@@ -82,6 +82,11 @@
         },
         components: {
             ScheduleAndResult,
+        },
+        filters: {
+          upperCase: function(value) {
+            return value.toUpperCase()
+          }
         },
         computed: {
             displayTournamentDateFormat(){
