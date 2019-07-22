@@ -212,15 +212,6 @@ export default {
     GetSelectComponent(componentName) {
       // here we check for Tournament Add
        this.$router.push({name: componentName})
-      if(componentName != 'competition_format' || componentName != 'pitch_planner' ||  componentName != 'tournament_add' ) {
-        setTimeout( function(){
-          if ($(document).height() > $(window).height()) {
-            $('.site-footer').removeClass('sticky');
-          } else {
-            $('.site-footer').addClass('sticky');
-          }
-        },2000 )
-      }
     },
 
     editTournamentMessage() {
