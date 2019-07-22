@@ -439,11 +439,6 @@ import { ErrorBag } from 'vee-validate';
                 this.showOrganisation = true;
               }
 
-              this.showUserType = true;
-              if(this.$data.formValues.id !== "") {
-                this.showUserType = false;
-              }
-
               this.isCustomer = false;
               this.showUserRole = true;
               if(roleData && roleData.slug === 'customer') {
