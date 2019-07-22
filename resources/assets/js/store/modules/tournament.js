@@ -227,6 +227,8 @@ const mutations = {
 	state.tournamentStatus = currentTournament.tournamentStatus
 	state.tournamentLogo = currentTournament.tournamentLogo
   state.access_code = currentTournament.access_code
+  state.tournament_type = currentTournament.tournament_type
+  state.custom_tournament_format = currentTournament.custom_tournament_format
 
   // Optional Fields
   state.facebook = currentTournament.facebook

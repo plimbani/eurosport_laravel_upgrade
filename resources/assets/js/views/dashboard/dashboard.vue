@@ -171,7 +171,9 @@
                     facebook:selectedTournament.facebook,
                     website:selectedTournament.website,
                     twitter:selectedTournament.twitter,
-                    access_code:selectedTournament.access_code
+                    access_code:selectedTournament.access_code,
+                    tournament_type: selectedTournament.tournament_type,
+                    custom_tournament_format: selectedTournament.custom_tournament_format
                 }
                 this.$store.dispatch('SetTournamentName', tournamentSel);
                 let currentNavigationData = {activeTab:'tournament_add', currentPage: 'Tournament details'};

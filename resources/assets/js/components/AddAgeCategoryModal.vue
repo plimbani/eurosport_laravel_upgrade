@@ -88,7 +88,8 @@
                     <span class="help is-danger" v-show="errors.has('pitch_size')">{{$lang.pitch_modal_details_size_required}}</span>
                   </div>
               </div>
-              <div class="form-group row align-items-center" :class="{'has-error': errors.has('tournament_format') }">
+              <div class="form-group row align-items-center" :class="{'has-error': errors.has('tournament_format') }" 
+              v-if="displayTournamentFormatAndType">
                 <div class="col-sm-4 form-control-label">Tournament format*</div>
                 <div class="col-sm-8">
                   <div class="row">
@@ -119,7 +120,7 @@
                   </div>
                 </div>
               </div>
-              <div class="form-group row align-items-center" v-if="tournament_format == 'basic'">
+              <div class="form-group row align-items-center" v-if="tournament_format == 'basic' && isTournamentTypeShown">
                 <div class="col-sm-4 form-control-label">Type</div>
                 <div class="col-sm-8">
                   <div class="row">
@@ -589,6 +590,7 @@ export default {
       remarks: '',
       templateGraphicImageName: '',
       templateGraphicImagePath: '',
+      isTournamentTypeShown: true
     }
   },
   watch: {
@@ -761,6 +763,37 @@ export default {
 
       return groupSize;
     },
+    currentTournamentDetail() {
+      return this.$store.state.Tournament;
+    },
+    displayTournamentFormatAndType() {
+      if(this.userDetails.role_slug == 'customer') {
+        if(this.currentTournamentDetail.tournament_type == 'cup' && this.currentTournamentDetail.custom_tournament_format == 0) {
+          this.isTournamentTypeShown = false;
+          this.tournament_format = 'basic';
+          this.competition_type = 'knockout';
+          this.dispTempl = false;
+          return false;
+        }
+
+        if(this.currentTournamentDetail.tournament_type == 'cup' && this.currentTournamentDetail.custom_tournament_format == 1) {
+          this.dispTempl = false;
+          this.isTournamentTypeShown = false;
+          if(this.tournament_format == 'basic') {
+            this.competition_type = 'knockout';
+          }
+        }
+
+        if(this.currentTournamentDetail.tournament_type == 'league') {
+          this.isTournamentTypeShown = false;
+          this.tournament_format = 'basic';
+          this.competition_type = 'league';
+          this.dispTempl = false;
+          return false;
+        }
+      }
+      return true;
+    }    
   },
   methods: {
     checkV(id) {
