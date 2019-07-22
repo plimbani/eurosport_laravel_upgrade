@@ -21,7 +21,7 @@
             // }
         },
         mounted() {
-            // this.changeFooterStyle();                    
+            // this.changeFooterStyle();
         }
     }
 </script>

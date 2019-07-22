@@ -287,7 +287,6 @@ class TournamentService implements TournamentContract
      */
     public function create($data)
     {
-         //exit;
         $data = $data->all();
 
 
@@ -297,9 +296,6 @@ class TournamentService implements TournamentContract
         $id = ($data['tournamentData']['tournamentId'] !=0 || $data['tournamentData']['tournamentId'] !=0) ? $data['tournamentData']['tournamentId']:'';
 
         $data['tournamentData']['image_logo']=$this->saveTournamentLogo($data,$id);
-
-        //\File::put($path , $imgData);
-        //print_r($imgData);
 
         $resultData = $this->tournamentRepoObj->create($data['tournamentData']);
 
@@ -365,8 +361,6 @@ class TournamentService implements TournamentContract
             //$s3->put($path, $img->save());
 
             return $timeStamp.'.png';
-
-
         } else {
             // If its Edit
             return '';

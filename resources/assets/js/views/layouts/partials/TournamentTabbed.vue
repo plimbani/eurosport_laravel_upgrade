@@ -213,7 +213,6 @@ export default {
       // here we check for Tournament Add
        this.$router.push({name: componentName})
     },
-
     editTournamentMessage() {
       this.TournamentId = this.$store.state.Tournament.tournamentId
       let TournamentData = {'tournament_id': this.TournamentId}

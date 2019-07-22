@@ -377,9 +377,7 @@ class TeamRepository
     }
     public function getTeamList($data)
     {
-      // First get the tournamentId
       $tournamentId = $data['tournament_id'];
-      // unset it
       unset($data['tournament_id']);
 
       $fieldName = key($data);
@@ -388,8 +386,7 @@ class TeamRepository
       //$url = getenv('S3_URL');
 
       if($fieldName == 'group_id') {
-
-        return Team::leftJoin('competitions','competitions.id','=','teams.competation_id')
+        $teams = Team::leftJoin('competitions','competitions.id','=','teams.competation_id')
             ->join('countries','countries.id','=','teams.country_id')
             ->join('tournament_competation_template','tournament_competation_template.id','=','teams.age_group_id')
             ->select('teams.*',
@@ -402,10 +399,23 @@ class TeamRepository
               'competitions.name as GroupName',
               DB::raw('CONCAT("'.$this->AwsUrl.'", countries.logo) AS countryLogo'))
             ->where('competitions.id','=',$value)
-            ->where('competitions.tournament_id','=',$tournamentId)->get();
+            ->where('competitions.tournament_id','=',$tournamentId);
+
+        if(app('request')->header('ismobileuser') && app('request')->header('ismobileuser') == "true") {
+          $teams = $teams->where(function($q) use($tournamentId) {
+            return $q->whereHas('homeFixtures', function($q1) use($tournamentId) {
+              $q1->where('is_scheduled', 1)->where('tournament_id', $tournamentId);
+            })->orWhereHas('awayFixtures', function($q2) use($tournamentId) {
+              $q2->where('is_scheduled', 1)->where('tournament_id', $tournamentId);
+            });
+          });
+        }
+
+        $teams = $teams->get();
+        return $teams;
       }
 
-      return Team::where('teams.'.$fieldName,'=',$value)
+      $teams = Team::where('teams.'.$fieldName,'=',$value)
             ->join('countries','countries.id','=','teams.country_id')
             ->join('tournament_competation_template','tournament_competation_template.id','=','teams.age_group_id')
             ->join('competitions','competitions.id',
@@ -418,7 +428,20 @@ class TeamRepository
               'competitions.id as GroupId',
               'competitions.name as GroupName',
               DB::raw('CONCAT("'.$this->AwsUrl.'", countries.logo) AS countryLogo'))
-            ->where('teams.tournament_id','=',$tournamentId)->get();
+            ->where('teams.tournament_id','=',$tournamentId);
+
+      if(app('request')->header('ismobileuser') && app('request')->header('ismobileuser') == "true") {
+        $teams = $teams->where(function($q) use($tournamentId) {
+          return $q->whereHas('homeFixtures', function($q1) use($tournamentId) {
+            $q1->where('is_scheduled', 1)->where('tournament_id', $tournamentId);
+          })->orWhereHas('awayFixtures', function($q2) use($tournamentId) {
+            $q2->where('is_scheduled', 1)->where('tournament_id', $tournamentId);
+          });
+        });
+      }
+
+      $teams = $teams->get();
+      return $teams;
     }
 
     public function changeTeamName($data)
