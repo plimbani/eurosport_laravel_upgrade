@@ -163,7 +163,7 @@
         )
     	},
     	showCategoryGroups(ageGroupId) {
-				let tournamentData = {'ageGroupId': ageGroupId};
+				let tournamentData = {'ageGroupId': ageGroupId,'fromDrawList':1};
         this.currentCategoryId = ageGroupId;
 		    CategoryList.getCategoryCompetitions(tournamentData).then(
 	        (response) => {
@@ -179,7 +179,7 @@
     		this.showView = 'category';
     	},
       showCompetitionDetail(group) {
-        this.showView = 'competition';
+        // this.showView = 'competition';
         var id = group.id;
         var competitionName = group.name;
         var competitionType = group.actual_competition_type;
@@ -202,6 +202,7 @@
             if(response.data.status_code == 200) {
               vm.matches = response.data.data;
               vm.$root.$emit('setMatchesForMatchList', _.cloneDeep(response.data.data));
+              vm.showView = 'competition';
             }
           },
           (error) => {
@@ -209,7 +210,7 @@
         )
       },
       showCompetitionViewFromCategory(id, competitionName, competitionType) {
-        this.showView = 'competition';
+        // this.showView = 'competition';
         this.getSelectedCompetitionDetails(id, competitionName, competitionType);
       },
       viewGraphicImage : function(imageName, imagePath){

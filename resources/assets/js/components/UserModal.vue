@@ -13,7 +13,7 @@
             <div v-if="isNormalUserFields">
               <div class="modal-body">
                 <div class="form-group row" :class="{'has-error': errors.has('name') }">
-                  <div class="col-sm-5 form-control-label">{{$lang.user_management_add_name}}</div>
+                  <label class="col-sm-5 form-control-label">{{$lang.user_management_add_name}}</label>
                   <div class="col-sm-6">
                       <input v-model="formValues.name" v-validate="'required|alpha_spaces'"
                       :class="{'is-danger': errors.has('name') }"
@@ -26,7 +26,7 @@
                   </div>
                 </div>
                 <div class="form-group row">
-                    <div class="col-sm-5 form-control-label">{{$lang.user_management_add_surname}}</div>
+                    <label class="col-sm-5 form-control-label">{{$lang.user_management_add_surname}}</label>
                     <div class="col-sm-6">
                         <input v-model="formValues.surname" v-validate="'required|alpha_spaces'" :class="{'is-danger': errors.has('surname') }" name="surname" key="surname" type="text" class="form-control" placeholder="Enter second name">
                         <i v-show="errors.has('surname')" class="fas fa-warning"></i>
@@ -34,10 +34,9 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <div class="col-sm-5 form-control-label">{{$lang.user_management_email}}</div>
+                    <label class="col-sm-5 form-control-label">{{$lang.user_management_email}}</label>
                     <div class="col-sm-6">
                         <input v-model="formValues.emailAddress" v-validate="'required|email'" :class="{'is-danger': errors.has('email_address') }" name="email_address" key="email_address" type="email" class="form-control" placeholder="Enter email address">
-
                         <i v-show="errors.has('email_address')" class="fas fa-warning"></i>
                         <span class="help is-danger" v-show="errors.has('email_address')">{{$lang.user_management_email_required}}</span>
                        <span class="help is-danger" v-if="existEmail == true">Email already exists</span>
@@ -45,7 +44,7 @@
                 </div>
 
                 <div v-if="showUserType" class="form-group row">
-                    <div class="col-sm-5 form-control-label">{{$lang.user_management_user_type}}</div>
+                    <label class="col-sm-5 form-control-label">{{$lang.user_management_user_type}}</label>
                     <div class="col-sm-6">
                       <select v-validate="'required'":class="{'is-danger': errors.has('user_type') }" class="form-control ls-select2" name="user_type" key="user_type" v-model="formValues.userType" @change="userTypeChanged()" :disabled="formValues.provider == 'facebook'" v-if="userRole != 'Tournament administrator'">
                         <option value="">Select</option>
@@ -53,14 +52,14 @@
                             {{ role.name }}
                         </option>
                       </select>
-                      <select class="form-control ls-select2" disabled v-if="userRole == 'Tournament administrator'">
-                          <option value="">Results administrator</option>
+                      <select class="form-control ls-select2" key="user_type" name="user_type" v-model="formValues.userType" disabled v-if="userRole == 'Tournament administrator'">
+                          <option v-bind:value="getResultAdminRoleId()">Results administrator</option>
                       </select>
                       <span class="help is-danger" v-show="errors.has('user_type')">{{$lang.user_management_user_type_required}}</span>
                     </div>
                 </div>
                 <div class="form-group row" v-show="showOrganisation">
-                    <div class="col-sm-5 form-control-label">{{$lang.user_management_organisation}}</div>
+                    <label class="col-sm-5 form-control-label">{{$lang.user_management_organisation}}</label>
                     <div class="col-sm-6">
                         <input v-model="formValues.organisation" v-validate="{ rules: { required: showOrganisation } }" :class="{'is-danger': errors.has('organisation') }" name="organisation" key="organisation" type="text" class="form-control" placeholder="Enter organisation name">
                         <i v-show="errors.has('organisation')" class="fas fa-warning"></i>
@@ -68,16 +67,17 @@
                     </div>
                 </div>
                 <div v-if="showUserRole" class="form-group row">
-                    <div class="col-sm-5 form-control-label">{{$lang.user_management_role}}</div>
-                    <div class="col-sm-6">
-                      <select class="form-control ls-select2" name="role" key="role" v-model="formValues.role">
-                        <option value="">Select</option>
-                          <option v-for="role in roleOptions" :value="role">
-                            {{ role }}
-                          </option>
+                  <label class="col-sm-5 form-control-label">{{$lang.user_management_role}}</label>
+                  <div class="col-sm-6">
+                    <select class="form-control ls-select2" name="role" key="role" v-model="formValues.role">
+                      <option value="">Select</option>
+                        <option v-for="role in roleOptions" :value="role">
+                          {{ role }}
+                        </option>
                       </select>
                     </div>
                 </div>
+
                 <div v-if="defaultAppTournament != 'commercialisation'" class="form-group row">
                     <label class="col-sm-5 form-control-label">{{$lang.user_management_default_app_tournament}}</label>
                     <div class="col-sm-6">
@@ -92,7 +92,7 @@
                 </div>
 
                 <div v-if="!showUserType && isCustomer" class="form-group row">
-                    <div class="col-sm-5 form-control-label"> {{$lang.user_management_status}}</div>
+                    <label class="col-sm-5 form-control-label"> {{$lang.user_management_status}}</label>
                      <div class="col-sm-6">
                         <select class="form-control" id="country" v-model="formValues.status" 
                         v-validate="'required'" :class="{'is-danger': errors.has('status') }" name="status">
@@ -105,9 +105,9 @@
                 </div>
                 
                 <div v-if="isCustomer" class="form-group row">
-                    <div class="col-sm-5 form-control-label">
+                    <label class="col-sm-5 form-control-label">
                       {{$lang.user_management_job_title}}                      
-                    </div>
+                    </label>
                     <div class="col-sm-6">
                         <input v-model="formValues.job_title" v-validate="'alpha_spaces'" :class="{'is-danger': errors.has('job_title') }" name="job_title" type="text" class="form-control" placeholder="Enter Job Title">
                         <i v-show="errors.has('job_title')" class="fas fa-warning"></i>
@@ -115,28 +115,28 @@
                     </div>
                 </div>
                 <div v-if="isCustomer" class="form-group row">
-                     <div class="col-sm-5 form-control-label">{{$lang.user_management_address}}</div> 
+                     <label class="col-sm-5 form-control-label">{{$lang.user_management_address}}</label> 
                      <div class="col-sm-6">
                         <input type="textarea" class="form-control  mb-4" placeholder="Address" id="address-line-1" name="address" v-model="formValues.address"> 
                         <input type="text" class="form-control" placeholder="Address Line 2 " id="address-line-2" v-model="formValues.address_2">  
                      </div>                     
                 </div>
                 <div v-if="isCustomer" class="form-group row">
-                    <div class="col-sm-5 form-control-label">{{$lang.user_management_city}}</div>
+                    <label class="col-sm-5 form-control-label">{{$lang.user_management_city}}</label>
                     <div class="col-sm-6">
                         <input type="textarea" class="form-control form-control-danger" placeholder="City" id="city" name="city" v-model="formValues.city">
                     </div> 
                 </div>
 
                 <div v-if="isCustomer" class="form-group row">
-                    <div class="col-sm-5 form-control-label">{{$lang.user_management_zipcode}}</div>
+                    <label class="col-sm-5 form-control-label">{{$lang.user_management_zipcode}}</label>
                      <div class="col-sm-6">                       
                         <input type="textarea" class="form-control form-control-danger" placeholder="Zip" id="zipcode" name="zip" v-model="formValues.zip"> 
                      </div>
                 </div>
 
                 <div v-if="isCustomer" class="form-group row">
-                    <div class="col-sm-5 form-control-label">{{$lang.user_management_country}}</div>
+                    <label class="col-sm-5 form-control-label">{{$lang.user_management_country}}</label>
                      <div class="col-sm-6">
                         <select class="form-control ls-select2" id="country" v-model="formValues.country" >
                             <option v-for="(value, key) in countries" :value="value">{{key}}</option>
@@ -439,11 +439,6 @@ import { ErrorBag } from 'vee-validate';
                 this.showOrganisation = true;
               }
 
-              this.showUserType = true;
-              if(this.$data.formValues.id !== "") {
-                this.showUserType = false;
-              }
-
               this.isCustomer = false;
               this.showUserRole = true;
               if(roleData && roleData.slug === 'customer') {
@@ -508,6 +503,15 @@ import { ErrorBag } from 'vee-validate';
                   )
                 }
               }).catch((errors) => {});
+            },
+            getResultAdminRoleId() {
+              var result = _.result(_.find(this.userRolesOptions, function(obj) {
+                return obj.slug === 'Results.administrator';
+              }), 'id');
+
+              this.formValues.userType = result;
+
+              return result;
             }
         }
     }

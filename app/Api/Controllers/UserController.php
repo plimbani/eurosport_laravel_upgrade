@@ -89,7 +89,7 @@ class UserController extends BaseController
 
     public function getUserTableData(Request $request)
     {
-        return $userData = $this->userObj->getUserTableData($request->all());
+      return $userData = $this->userObj->getUserTableData($request->all());
     }
 
     /**
@@ -277,13 +277,14 @@ class UserController extends BaseController
     }
 
     public function getSignedUrlForUsersTableData(GetSignedUrlForUsersTableDataRequest $request)
-    {
+    { 
+
         $reportData = $request->all();
+        $token = JWTAuth::getToken();
+        $reportData['token'] = strval($token);
         ksort($reportData);
-        $reportData = http_build_query($reportData);
-
+        $reportData  = http_build_query($reportData);
         $signedUrl = UrlSigner::sign(url('api/users/getUserTableData?' . $reportData), Carbon::now()->addMinutes(config('config-variables.signed_url_interval')));
-
         return $signedUrl;
     }
     /**
