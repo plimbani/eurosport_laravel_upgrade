@@ -36,13 +36,6 @@ export default {
       this.$store.dispatch('SetPitches',tournamentId);
       this.$store.dispatch('SetVenues',tournamentId);
     }
-
-      if ($(document).height() > $(window).height()) {
-         $('.site-footer').removeClass('sticky');
-      } else {
-         $('.site-footer').addClass('sticky');
-      }
-
   },
   methods: {
 
