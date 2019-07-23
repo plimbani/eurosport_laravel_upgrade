@@ -106,7 +106,7 @@ export default {
     	tournamentStartDataDisplay() {
 	     	let startDate = this.tournamentStartDate;
 	     	let currentDate = this.currentDate;
-	     	if(startDate > currentDate){
+	     	if(this.$store.state.Users.userDetails.role_slug == 'customer' && startDate > currentDate){
 	     		return true
 	     	} else {
 	     		return false
@@ -201,9 +201,9 @@ export default {
 			// Here we again
 		},
 		exportCategoryReport() {
-			let ageCategory	= this.ageCategory
-			if(ageCategory!=''){
-				Tournament.getSignedUrlForMatchReport(ageCategory).then(
+			let ageCategoryData = {'ageCategory': this.ageCategory, 'tournament_id': this.TournamentId}
+			if(this.ageCategory !=''){
+				Tournament.getSignedUrlForMatchReport(ageCategoryData).then(
 					(response) => {
 						window.location.href = response.data;
 					},
@@ -211,7 +211,6 @@ export default {
 
 					}
 				)
-    			// window.location.href = "/api/match/report/generate/"+ageCategory;
 			} else {
     			toastr['error']('Please select age category.', 'Error');
 			}

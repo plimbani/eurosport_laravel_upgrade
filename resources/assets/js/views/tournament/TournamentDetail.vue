@@ -33,7 +33,7 @@
                             <p class="mb-4">Download and open the tournament planner app and enter the following code to follow {{ tournamentData.name }}.</p>
 
                             <div class="app-code text-center py-3">
-                                <h3 class="font-weight-bold m-0">{{tournamentData.access_code}}</h3>
+                                <h3 class="font-weight-bold m-0">{{tournamentData.access_code | upperCase}}</h3>
                             </div>
                             
                             <ul class="list-unstyled get-app mb-0 text-xl-center mt-4">
@@ -44,7 +44,7 @@
                     </div>
                     <div class="row" v-if="!tournamentData.id && isTournamentDetailCallDone">
                         <div class="col-xl-12 text-center">
-                            Tournament detail not found
+                            {{tournamentError}}
                         </div>
                     </div>
                 </div>
@@ -64,7 +64,6 @@
                 contactData:[],
                 tournamentSponsers:[],
                 code:"",
-                baseUrl:"",
                 googleAppStoreLink:"",
                 appleStoreLink:"",
                 appleStoreDeepLink:"", 
@@ -75,12 +74,18 @@
                 },
                 tournamentDisplayDateFormat:"",
                 isTournamentDetailCallDone: false,
+                tournamentError:'',
             }
         },
         mounted() {
         },
         components: {
             ScheduleAndResult,
+        },
+        filters: {
+          upperCase: function(value) {
+            return value.toUpperCase()
+          }
         },
         computed: {
             displayTournamentDateFormat(){
@@ -136,7 +141,7 @@
             getTournamentDetail(){
                  axios.get(Constant.apiBaseUrl+'tournament-by-code?tournament='+this.code, {}).then(response =>  { 
                         this.isTournamentDetailCallDone = true;
-                        if (response.data.success && typeof response.data.data != "undefined" && typeof response.data.data.tournament_details != "undefined") {
+                        if (response.data.success && typeof response.data.data != "undefined" && typeof response.data.data.tournament_details != "undefined" && response.data.data.tournamentStatus != 'Unpublished') {
                              this.tournamentData = response.data.data.tournament_details;
                              this.contactData = response.data.data.contact_details;
                              if((this.contactData).length > 0){
@@ -146,7 +151,6 @@
                              }
 
                              this.tournamentSponsers = response.data.data.tournament_sponsor;
-                             this.baseUrl = response.data.data.baseUrl;
                              this.googleAppStoreLink = response.data.data.googleAppStoreLink;
                              this.appleStoreLink = response.data.data.appleStoreLink;
                              this.appleStoreDeepLink = response.data.data.appleStoreDeepLink;
@@ -155,7 +159,16 @@
                             this.tournamentData = {};
                             this.contactData= [];
                             this.tournamentSponsers= [];
-                            toastr['error']("Tournament detail not found.", 'Error');
+                            if ( response.data.data.tournamentStatus == 'Unpublished')
+                            {
+                                this.tournamentError = "Tournament is not yet published or in preview mode.";
+                                toastr['error'](this.tournamentError, 'Error');
+                            }
+                            else
+                            {
+                                this.tournamentError = "Tournament detail not found.";
+                                toastr['error'](this.tournamentError, 'Error');
+                            }
                          }
                  }).catch(error => {
                     this.tournamentData = {};
@@ -179,7 +192,7 @@
             tournamentDetailGoogleStoreLink() {
                 if(/Android/i.test(navigator.userAgent)){ 
                     //this.$router.push({ path: 'mtournament-detail', query: { code: this.code }})
-                    window.location.href = this.baseUrl+'/tournament/openApp?code='+this.code;
+                    window.location.href = appUrl+'/tournament/openApp?code='+this.code;
                 }
 
                 if (!navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/)) {

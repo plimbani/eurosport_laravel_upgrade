@@ -15,6 +15,7 @@ use JWTAuth;
 use Laraspace\Models\User;
 use Laraspace\Models\UserFavourites;
 use Laraspace\Traits\TournamentAccess;
+use Laraspace\Models\TempFixture;
 use View;
 use File;
 use Storage;
@@ -286,7 +287,6 @@ class TournamentService implements TournamentContract
      */
     public function create($data)
     {
-         //exit;
         $data = $data->all();
 
 
@@ -296,9 +296,6 @@ class TournamentService implements TournamentContract
         $id = ($data['tournamentData']['tournamentId'] !=0 || $data['tournamentData']['tournamentId'] !=0) ? $data['tournamentData']['tournamentId']:'';
 
         $data['tournamentData']['image_logo']=$this->saveTournamentLogo($data,$id);
-
-        //\File::put($path , $imgData);
-        //print_r($imgData);
 
         $resultData = $this->tournamentRepoObj->create($data['tournamentData']);
 
@@ -364,8 +361,6 @@ class TournamentService implements TournamentContract
             //$s3->put($path, $img->save());
 
             return $timeStamp.'.png';
-
-
         } else {
             // If its Edit
             return '';
@@ -1025,5 +1020,11 @@ class TournamentService implements TournamentContract
     public function getUserTransactions($user) {
       $data = $this->tournamentRepoObj->getUserTransactions($user);
       return ['data' => $data, 'status_code' => '200']; 
+    }
+
+    public function getTournamentExpireDate($data) {
+      $matchCount = TempFixture::where('tournament_id', $data['data']['tournament_id'])->count();
+      $expireTime = $this->tournamentRepoObj->getTournamentExpireTime($data['data']['tournament_id'],$data['data']['tournament_end_date'],$matchCount);
+      return $expireTime;
     }
 }

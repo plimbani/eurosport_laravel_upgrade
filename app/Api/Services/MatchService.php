@@ -17,6 +17,8 @@ use Laraspace\Models\Team;
 use Laraspace\Models\Position;
 use Laraspace\Traits\TournamentAccess;
 use Laraspace\Models\TournamentCompetationTemplates;
+use Laraspace\Models\Tournament;
+use Laraspace\Models\Pitch;
 
 class MatchService implements MatchContract
 {
@@ -24,8 +26,8 @@ class MatchService implements MatchContract
 
     public function __construct()
     {
-      $this->tournamentLogo = getenv('S3_URL') . '/assets/img/tournament_logo/';
-      $this->matchRepoObj = new \Laraspace\Api\Repositories\MatchRepository();
+        $this->matchRepoObj = new \Laraspace\Api\Repositories\MatchRepository();
+        $this->tournamentLogo =  getenv('S3_URL').'/assets/img/tournament_logo/';
     }
 
     public function getAllMatches()
@@ -165,12 +167,24 @@ class MatchService implements MatchContract
         }
     }
 
-    public function scheduleMatch($matchData) {
-        $data = $matchData->all()['matchData'];
-        $scheduledResult = $this->matchRepoObj->setMatchSchedule($matchData->all()['matchData']);
+    public function scheduleMatch($data) {
+        $matchFixturesStatusArray = [];
+        $areAllMatchFixtureScheduled = false;
+        $data = $data->all()['data'];
+        $scheduledResult = $this->matchRepoObj->setMatchSchedule($data);
+
+        $unChangedFixturesArray = [];
+        if($scheduledResult['status'] === false) {
+          $unChangedFixturesArray[] = $scheduledResult['data']['match_number'];
+        }
+
+        if(count($unChangedFixturesArray) === 0) {
+          $areAllMatchFixtureScheduled = true;
+        }
+
         if ($scheduledResult) {
             if($scheduledResult != -1 && $scheduledResult != -2){
-              return ['status_code' => '200', 'data' => $scheduledResult, 'message' => 'Match has been scheduled successfully'];
+              return ['status_code' => '200', 'data' => $scheduledResult, 'message' => 'Match has been scheduled successfully', 'unChangedFixturesArray' => $unChangedFixturesArray, 'areAllMatchFixtureScheduled' => $areAllMatchFixtureScheduled];
             } else if($scheduledResult == -1){
               return ['status_code' => '200', 'data' => $scheduledResult, 'message' => 'One or both teams are scheduled for a team interval.'];
             } else if($scheduledResult == -2){
@@ -239,7 +253,7 @@ class MatchService implements MatchContract
       return $pdf->inline('Pitch.pdf');
     }
 
-    public function generateCategoryReport($ageGroupId,$allCategory = false)
+    public function generateCategoryReport($ageGroupId,$tournamentId,$allCategory = false)
     {
       $competitions = Competition::where('tournament_competation_template_id',$ageGroupId)->get();
       $date = new \DateTime(date('H:i d M Y'));
@@ -278,12 +292,17 @@ class MatchService implements MatchContract
           $resultMatchesTableAfterFirstRound[$competition->id] = ['name' => $competition['name'], 'results' => $resultMatchesAfterFirstRound['data'], 'actual_competition_type' => $competition['actual_competition_type']];
         }
       }
+
+      $tournamentLogo = null;
+      $tournamentDetail = Tournament::find($tournamentId);
+      if($tournamentDetail->logo != null) {
+        $tournamentLogo = $this->tournamentLogo. $tournamentDetail->logo;
+      }
+
       $pdfData['leagueTable'] = $leagueTable;
       $pdfData['resultGridTable'] = $resultGridTable;
       $pdfData['resultMatchesTable'] = $resultMatchesTable;
       $pdfData['resultMatchesTableAfterFirstRound'] = $resultMatchesTableAfterFirstRound;
-
-      // dd($pdfData);
 
       if ( $allCategory )
       {
@@ -292,17 +311,20 @@ class MatchService implements MatchContract
       else
       {
 
-        $pdf = PDF::loadView('age_category.summary_report',['data' => $pdfData])
-              ->setPaper('a4')
-              ->setOption('header-spacing', '5')
-              ->setOption('header-font-size', 7)
-              ->setOption('header-font-name', 'Open Sans')
-              ->setOrientation('portrait')
-              ->setOption('footer-right', 'Page [page] of [toPage]')
-              ->setOption('header-right', $date->format('H:i d M Y'))
-              ->setOption('margin-top', 20)
-              ->setOption('margin-bottom', 20);
-          return $pdf->download('Summary report.pdf');
+        $pdf = PDF::loadView('age_category.summary_report',['data' => $pdfData, 'tournamentLogo' => 
+        $tournamentLogo])
+            ->setPaper('a4')
+            ->setOption('header-spacing', '5')
+            ->setOption('header-font-size', 7)
+            ->setOption('header-font-name', 'Open Sans')
+            ->setOption('footer-spacing', '5')
+            ->setOption('footer-font-size', 7)
+            ->setOrientation('portrait')
+            ->setOption('footer-right', 'Page [page] of [toPage]')
+            ->setOption('header-right', $date->format('H:i d M Y'))
+            ->setOption('margin-top', 20)
+            ->setOption('margin-bottom', 20);
+        return $pdf->download('Summary report.pdf');
       }
     }
 
@@ -2521,7 +2543,7 @@ class MatchService implements MatchContract
       $pdfData['tournamentLogo'] = '';
       
       foreach ($ageCategories as $ageKey => $ageValue) {
-        $pdfData['age_group'][$ageValue->id] = $this->generateCategoryReport($ageValue->id,true);
+        $pdfData['age_group'][$ageValue->id] = $this->generateCategoryReport($ageValue->id,$tournamentId,true);
         $pdfData['age_group'][$ageValue->id]['ageCategoryName'] = $ageValue->group_name.' ('.$ageValue->category_age.')';
       }
 
@@ -2547,9 +2569,15 @@ class MatchService implements MatchContract
       return $file;
     }
     
-    public function matchUnscheduledFixtures($matchId)
+    public function matchUnscheduledFixtures($matchData)
     {
-        return $this->matchRepoObj->matchUnscheduledFixtures($matchId);
+      $areAllMatchFixtureUnScheduled = false;
+      $result = $this->matchRepoObj->matchUnscheduledFixtures($matchData);
+      if(sizeof($result['conflictedFixtureMatchNumber']) === 0) {
+        $areAllMatchFixtureUnScheduled = true;
+      }
+
+      return ['status_code' => '200', 'data' => $result, 'message' => 'Match has been unscheduled successfully', 'conflictedFixturesArray' => $result['conflictedFixtureMatchNumber'], 'areAllMatchFixtureUnScheduled' => $areAllMatchFixtureUnScheduled];
     }
 
     public function processFixtures($fixtures)
@@ -2559,6 +2587,26 @@ class MatchService implements MatchContract
       foreach($allFixtures as $fixture) {
         $this->calculateCupLeagueTable($fixture);
       }
+    }
+
+    public function saveScheduleMatches($scheduleMatches)
+    {
+      $matchFixturesStatusArray = [];
+      $areAllMatchFixtureScheduled = false;
+      foreach ($scheduleMatches as $scheduleMatch) {
+        $scheduleMatch['venue_id'] = Pitch::find($scheduleMatch['pitchId'])->venue_id;
+        $data = $this->matchRepoObj->saveScheduleMatches($scheduleMatch);
+        
+        if($data['status'] == false) {
+          $matchFixturesStatusArray[] = $data['match_data']->match_number;
+        }
+
+        if(sizeof($matchFixturesStatusArray) === 0) {
+          $areAllMatchFixtureScheduled = true;
+        }
+      }
+
+      return ['status_code' => '200', 'message' => 'Match has been scheduled successfully', 'conflictedFixturesArray' => $matchFixturesStatusArray, 'areAllMatchFixtureScheduled' => $areAllMatchFixtureScheduled];
     }
 
     public function moveMatchStandings($tournamentId, $ageCategoryId, $competitionId)
@@ -2589,7 +2637,6 @@ class MatchService implements MatchContract
           }
         }
       }
-      // Manual standing insert - end
 
       $result = DB::table('match_standing')
                       ->join('competitions', 'match_standing.competition_id', '=', 'competitions.id')

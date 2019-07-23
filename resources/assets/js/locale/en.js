@@ -160,7 +160,7 @@ module.exports= {
   user_management_ok: "Ok",
   user_management_error: "Error",
   user_management_status_required: "This field is required.",
-
+  tournament_administrator_add_user: "Add",
   tournament_manage_edition: "Select an existing tournament",
   tournament_select_website: "Select an existing website",
   tournament_information: "Tournament details",

@@ -48,7 +48,9 @@ class sendEmailCustomerStandingResultsAndDeleteTournamentUser extends Command
     public function handle()
     {
         $customerRoleId = Role::where('slug', 'customer')->first()->id;
-        $customerUsers = RoleUser::with('tournament_user.tournaments','user')->where('role_id', $customerRoleId)->get();
+        $customerUsers = RoleUser::with('tournament_user.filter_tournaments_with_endate','user')
+        ->where('role_id', $customerRoleId)
+        ->get();
 
         if ( $customerUsers->count() > 0)
         {
@@ -58,10 +60,10 @@ class sendEmailCustomerStandingResultsAndDeleteTournamentUser extends Command
         foreach ($customerUsers as $ckey => $cvalue) {
             $customerEmail = $cvalue['user']['email'];
             foreach ($cvalue['tournament_user'] as $tkey => $tournamentData) {
-                if ( !empty($tournamentData['tournaments']))
+                if ( !empty($tournamentData['filter_tournaments_with_endate']))
                 {
-                    $tournamentId = $tournamentData['tournaments']['id'];
-                    $tournamentName = $tournamentData['tournaments']['name'];
+                    $tournamentId = $tournamentData['filter_tournaments_with_endate']['id'];
+                    $tournamentName = $tournamentData['filter_tournaments_with_endate']['name'];
 
                     $anyUnscheduleMatchInTournament = TempFixture::where('tournament_id',$tournamentId)->where('is_scheduled',0)->count();
 
@@ -73,6 +75,7 @@ class sendEmailCustomerStandingResultsAndDeleteTournamentUser extends Command
 
                         if ( !empty( $lastMatchEndTime->match_endtime ))
                         {
+
                             // Add 8 hours in date end time
                             $finalDate = Carbon::parse($lastMatchEndTime->match_endtime);
                             //$deleteDate = Carbon::parse($lastMatchEndTime->match_endtime);
