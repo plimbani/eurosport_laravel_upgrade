@@ -53,8 +53,15 @@ class UserRepository {
     {
         ini_set('memory_limit','256M');
         $loggedInUser = $this->getCurrentLoggedInUserDetail();
-        $tournamentIds = $loggedInUser->tournaments->pluck('id')->toArray();
 
+        if($loggedInUser == null){
+          if($data['token']){
+            $loggedInUser = JWTAuth::authenticate($data['token']);
+          }
+        }
+
+        $tournamentIds = $loggedInUser->tournaments->pluck('id')->toArray();
+        
         $user = User::join('role_user', 'users.id', '=', 'role_user.user_id')
                 ->leftjoin('roles', 'roles.id', '=', 'role_user.role_id')
                 ->leftjoin('people', 'people.id', '=', 'users.person_id')
