@@ -79,9 +79,11 @@
                                     <td v-else>
                                       <a href="#"  @click="resendModalOpen(user.email)"><u>Re-send</u></a>
                                     </td>
-                                    <td class="text-center" @click="redirectToTournamentList(user)">
-                                      <a href="javascript:void(0)" class="centered text-primary" v-if="user.role_slug == 'customer'"><u>{{ user.tournaments_count }}</u></a>
-                                      <a href="javascript:void(0)" class="centered" v-else>-</a>
+                                    <td class="text-center">
+                                      <a v-if="user.role_slug == 'customer' && user.tournaments_count != 0" @click="redirectToTournamentList(user)" href="javascript:void(0)" class="centered text-primary"><u>{{ user.tournaments_count }}</u></a>
+                                      <span v-else-if="user.role_slug == 'customer' && user.tournaments_count == 0">{{ user.tournaments_count }}
+                                      </span>
+                                      <span v-else>-</span>
                                     </td>
                                     <td>{{ user.device }}</td>
                                     <td>{{ user.app_version }}</td>
