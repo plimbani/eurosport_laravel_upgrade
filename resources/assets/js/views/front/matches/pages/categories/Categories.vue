@@ -27,8 +27,8 @@
 
 		<!-- For category groups -->
 		<div class="" v-if="showView == 'groups'">
-      <a @click="changeTable()" href="javascript:void(0)" aria-expanded="true" class="btn btn-primary mb-2 text-white">
-      <i aria-hidden="true" class="fas fa-angle-double-left"></i> Back to category list</a>
+      <button @click="changeTable()" href="javascript:void(0)" aria-expanded="true" class="btn btn-primary mb-2 text-white">
+      <i aria-hidden="true" class="fas fa-angle-double-left"></i> Back to category list</button>
       <div class="table-responsive" v-if="groupsData.length > 0">
         <table class="table table-hover table-bordered mt-2">
           <thead class="no-border">
@@ -130,12 +130,14 @@
         )
     	},
     	showCategoryGroups(ageGroupId) {
+        let vm = this;
 				let tournamentData = {'ageGroupId': ageGroupId};
         this.currentCategoryId = ageGroupId;
 		    CategoryList.getCategoryCompetitions(tournamentData).then(
 	        (response) => {
-	          this.groupsData = response.data.competitions;
-	          this.showView = 'groups';
+	          vm.groupsData = response.data.competitions;
+            console.log('vm.groupsData', vm.groupsData);
+	          vm.showView = 'groups';
 	        },
 	        (error) => {
 	        }

@@ -312,6 +312,7 @@ return [
         'Html' => Collective\Html\HtmlFacade::class,
         'UrlSigner' => Spatie\UrlSigner\Laravel\UrlSignerFacade::class,
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
+        'GuzzleHttpClient' => GuzzleHttp\Client::class,
     ],
 
 ];

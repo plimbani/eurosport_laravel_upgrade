@@ -83,7 +83,13 @@ export default {
           } else {
             toastr['success']('Referees are uploaded successfully', 'Success');
             $('#uploadRefereesModal').modal('hide')
-            this.$store.dispatch('getAllReferee',this.$store.state.Tournament.tournamentId);
+            this.$store.dispatch('getAllReferee',this.$store.state.Tournament.tournamentId).then(function() {
+              if($("#save_schedule_fixtures").is(':visible') === true) {
+                $('.js-referee-draggable-block').draggable('disable');
+              } else {
+                $('.js-referee-draggable-block').draggable('enable');
+              }
+            });
           }
           this.isSaveInProcess = false;
           $('#filename').text('');

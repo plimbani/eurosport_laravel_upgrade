@@ -56,6 +56,7 @@
     <style id="antiClickjack">body{display:none !important;}</style>
     <script>
         var appScheme = "{{ config('app.app_scheme') }}";
+        var appUrl = "{{ config('config-variables.app_url') }}";
         var previewUrlExpireTimeMinutes = "{{ config('config-variables.preview_url_expire_time') }}";
     </script>
     <script type="text/javascript">

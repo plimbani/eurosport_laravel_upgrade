@@ -22,6 +22,9 @@ class UpdateRequest extends FormRequest
         $request = $this->all();
         $loggedInUser = $this->getCurrentLoggedInUserDetail();
         $usersRole = User::findOrFail($id)->roles()->first();
+        if($loggedInUser->hasRole('tournament.administrator') && $usersRole->slug == 'Results.administrator') {
+          return true;
+        }
         if(!($loggedInUser->hasRole('Super.administrator') || $loggedInUser->hasRole('Master.administrator'))) {
           if($id != $loggedInUser->id) {
             return false;
