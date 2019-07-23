@@ -246,7 +246,7 @@
 
                 <div id="colors_tab" class="tab-pane" v-if="!isResultAdmin">
                   <div class="form-group row">
-                    <div class="col-sm-3 form-control-label">{{ $lang.pitch_modal_age_category_color }} ({{ matchDetail.category_age.category_age }})*</div>
+                    <label class="col-sm-3 form-control-label">{{ $lang.pitch_modal_age_category_color }} ({{ matchDetail.category_age.category_age }})*</label>
                     <div class="col-sm-6">
                       <input v-validate="'required'" :class="{'is-danger': errors.has('age_category_color'), 'js-colorpicker form-control demo minicolors-input': true }" type="text" name="age_category_color" v-model="matchDetail.age_category_color" @input="matchDetail.age_category_color" id="age_category_color" data-name="age_category_color" />
                       <span class="help is-danger" v-show="errors.has('age_category_color')">This field is required</span>
@@ -254,7 +254,7 @@
                   </div>
 
                   <div class="form-group row">
-                    <div class="col-sm-3 form-control-label">{{ $lang.pitch_modal_group_color }} ({{ formatGroupName() }})*</div>                    
+                    <label class="col-sm-3 form-control-label">{{ $lang.pitch_modal_group_color }} ({{ formatGroupName() }})*</label>                    
                     <div class="col-sm-6">
                       <input  v-validate="'required'" :class="{'is-danger': errors.has('group_color'), 'form-control demo minicolors-input js-colorpicker' : true }" type="text" id="group_color" data-name="group_color" name="group_color" v-model="matchDetail.group_color" @input="matchDetail.group_color"/>
                       <span class="help is-danger" v-show="errors.has('group_color')">This field is required</span>

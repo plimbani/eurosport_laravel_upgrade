@@ -41,7 +41,7 @@
   @elseif(Config::get('config-variables.current_layout') == 'tmp')
     <img  src="{{ asset('assets/img/tmplogo.svg')}}" id="logo-desk" alt="Laraspace Logo" class="hidden-sm-down text-center" width="200px">
   @elseif(Config::get('config-variables.current_layout') == 'commercialisation')
-    <img  src="{{ asset('assets/img/easy-match-manager/emm.svg')}}" id="logo-desk" alt="Laraspace Logo" class="hidden-sm-down text-center" width="200px">
+    <img  src="{{ asset('assets/img/easy-match-manager.jpg')}}" id="logo-desk" alt="Laraspace Logo" class="hidden-sm-down text-center" width="200px">
   @endif 
 
   <h3>League table summary</h3>
