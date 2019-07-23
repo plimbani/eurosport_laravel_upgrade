@@ -64,7 +64,6 @@
                 contactData:[],
                 tournamentSponsers:[],
                 code:"",
-                baseUrl:"",
                 googleAppStoreLink:"",
                 appleStoreLink:"",
                 appleStoreDeepLink:"", 
@@ -152,7 +151,6 @@
                              }
 
                              this.tournamentSponsers = response.data.data.tournament_sponsor;
-                             this.baseUrl = response.data.data.baseUrl;
                              this.googleAppStoreLink = response.data.data.googleAppStoreLink;
                              this.appleStoreLink = response.data.data.appleStoreLink;
                              this.appleStoreDeepLink = response.data.data.appleStoreDeepLink;
@@ -194,7 +192,7 @@
             tournamentDetailGoogleStoreLink() {
                 if(/Android/i.test(navigator.userAgent)){ 
                     //this.$router.push({ path: 'mtournament-detail', query: { code: this.code }})
-                    window.location.href = this.baseUrl+'/tournament/openApp?code='+this.code;
+                    window.location.href = appUrl+'/tournament/openApp?code='+this.code;
                 }
 
                 if (!navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/)) {
