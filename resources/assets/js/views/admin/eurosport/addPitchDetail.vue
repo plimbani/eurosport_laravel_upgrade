@@ -25,7 +25,7 @@
                   <div class="card mb-2">
                     <div class="card-block">
                       <div class="form-group row">
-                        <div class="col-sm-6 form-control-label">{{$lang.pitch_modal_details_location}}*</div>
+                        <label class="col-sm-6 form-control-label">{{$lang.pitch_modal_details_location}}*</label>
                         <div class="col-sm-6">
                             <select name="location" id="location" class="form-control" v-validate="'required'" :class="{'is-danger': errors.has('location') }">
                                 <option :value="venue.id" v-for="(venue,key) in venues">{{venue.name}}</option>
@@ -34,7 +34,7 @@
                         </div>
                       </div>
                       <div class="form-group row">
-                        <div class="col-sm-6 form-control-label">{{$lang.pitch_modal_details_name}}*</div>
+                        <label class="col-sm-6 form-control-label">{{$lang.pitch_modal_details_name}}*</label>
                         <div class="col-sm-6">
                             <input type="text" v-validate="'required'" :class="{'is-danger': errors.has('pitch_number') }" name="pitch_number" id="pitch_number" class="form-control">
                                 <i v-show="errors.has('pitch_number')" class="fas fa-warning"></i>
@@ -42,7 +42,7 @@
                         </div>
                       </div>
                       <div class="form-group row">
-                        <div class="col-sm-6 form-control-label">{{$lang.pitch_modal_details_type}}*</div>
+                        <label class="col-sm-6 form-control-label">{{$lang.pitch_modal_details_type}}*</label>
                         <div class="col-sm-6">
                             <select name="pitch_type" id="pitch_type" class="form-control" v-validate="'required'" :class="{'is-danger': errors.has('pitch_type') }">
                                 <option value="">{{$lang.pitch_modal_pitch_type}}</option>
@@ -55,7 +55,7 @@
                         </div>
                       </div>
                       <div class="form-group row mb-0">
-                        <div class="col-sm-6 form-control-label">{{$lang.pitch_modal_details_size}}*</div>
+                        <label class="col-sm-6 form-control-label">{{$lang.pitch_modal_details_size}}*</label>
                         <div class="col-sm-6">
                             <select name="pitch_size" id="pitch_size" class="form-control pull-left" v-validate="'required'" :class="{'is-danger': errors.has('pitch_size') }">
                                 <option value="">{{$lang.pitch_modal_pitch_size}}</option>
