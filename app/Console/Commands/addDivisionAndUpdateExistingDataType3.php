@@ -49,6 +49,7 @@ class addDivisionAndUpdateExistingDataType3 extends Command
         $tournamentTemplates = TournamentTemplates::where('no_of_divisions','>',0)->whereNotNull('no_of_divisions')->whereIn('id',$templateIds)->limit(1)->get()->toArray();
 
         $notMatchedCompetition = [];
+        $noMatchedPosition = [];
         foreach ($tournamentTemplates as $ttkey => $ttvalue) {
             //get json from template
             $templateJson = json_decode($ttvalue['json_data'], true);
@@ -62,6 +63,7 @@ class addDivisionAndUpdateExistingDataType3 extends Command
 
             //get tournament_comp_template from template id
             $allTournamentCompTemplates = TournamentCompetationTemplates::where('tournament_template_id',$ttvalue['id'])->limit(1)->get()->toArray();
+
 
             $this->info('Fetching all competation template for id :- '.$ttvalue['id']);
             $count = 1;
@@ -180,10 +182,12 @@ class addDivisionAndUpdateExistingDataType3 extends Command
 
                             foreach ($matchTypevalue['groups']['match'] as $mkey => $mvalue) {
                                 $updateMatchData = [];
+                                $positionMatchData = [];
                                 $updateMatchData['competition_id'] = $competitionUpdateId;
 
                                 if ( $istype2DiffDivCode )
                                 {
+                                    $positionMatchData['match_number'] = $mvalue['match_number'];
                                     $updatedMatchNumber = str_replace('CAT.', $displayName.'-', $mvalue['match_number']);
 
 
@@ -203,7 +207,11 @@ class addDivisionAndUpdateExistingDataType3 extends Command
                                     else
                                     {
                                         TempFixture::where('tournament_id',$tournament_id)->where('age_group_id',$tournament_comp_template_id)->where('position',$mvalue['position'])->update($updateMatchData);
-                                    }
+
+                                        $tempFixturePositions = explode('-',$mvalue['position']);
+
+                                        Position::where('age_category_id',$tournament_comp_template_id)->where('dependent_type','match')->whereIn('position',$tempFixturePositions)->update($positionMatchData);
+                                        }
 
 
                                     $this->info('iterating temp fixture matches and updated with new competition id , match_number = '.$mvalue['match_number'].' and tournament_id = '.$tournament_id.' and age_group_id = '.$tournament_comp_template_id.' and new updated competition is '.$competitionUpdateId.'.');
@@ -217,37 +225,45 @@ class addDivisionAndUpdateExistingDataType3 extends Command
 
 
                 // update match positions
-                // foreach ($positions as $pkey => $pvalue) {
-                //     $positionMatchNumberArray = explode('.',$pvalue['match_number']);
-                //     $positionMatchNumberArray = end($positionMatchNumberArray);
+                foreach ($positions as $pkey => $pvalue) {
+                    $updatePositionRow = [];
 
-                //     $dbRowFound = false;
-                //     $updatePosition = $pvalue['position'];
-                //     if ( $pvalue['dependent_type'] == 'match')
-                //     {
-                //         $resultType = $pvalue['result_type'];
+                    $dbRowFound = false;
+                    $updatePositionRow['position'] = $pvalue['position'];
+                    if ( $pvalue['dependent_type'] == 'match')
+                    {
+                        $positionMatchNumberArray = explode('.',$pvalue['match_number']);
+                        $positionMatchNumberArray = end($positionMatchNumberArray);
+                        $resultType = $pvalue['result_type'];
 
-                //         $posId = Position::where('age_category_id',$tournament_comp_template_id)->where('result_type',$resultType)->where('dependent_type','match')->where('match_number','like','%'.$positionMatchNumberArray.'%')->get(['id']);
+                        $posId = Position::where('age_category_id',$tournament_comp_template_id)->where('result_type',$resultType)->where('dependent_type','match')->where('match_number','like','%'.$positionMatchNumberArray.'%')->get(['id'])->toArray();
 
-                //         echo "<pre>";print_r($posId);exit();
+                        if ( sizeof($posId) > 0 )
+                        {
+                            $posId = head($posId);
+                            $dbRowFound = true;
+                            Position::where('id',$posId['id'])->update($updatePositionRow);
+                        }
+                    }
 
+                    if ( $dbRowFound == false )
+                    {
+                        $noMatchedPosition[$tournament_comp_template_id.$pvalue['match_number']]['match_number'] = $pvalue['match_number'];
 
-                //     }
-                //     else if ($pvalue['dependent_type'] == 'ranking')
-                //     {
+                        $noMatchedPosition[$tournament_comp_template_id.$pvalue['match_number']]['age_category_id'] = $tournament_comp_template_id;
+                        $noMatchedPosition[$tournament_comp_template_id.$pvalue['match_number']]['position'] = $pvalue['position'];
+                        $noMatchedPosition[$tournament_comp_template_id.$pvalue['match_number']]['dependent_type'] = $pvalue['dependent_type'];
 
-                //     }
+                        $noMatchedPosition[$tournament_comp_template_id.$pvalue['match_number']]['result_type'] = $pvalue['result_type'];
 
-                //     if ( $dbRowFound == false )
-                //     {
-
-                //     }
-                // }
+                    }
+                }
 
                 $count++;
             }
             echo "<pre>no match existing competition name issue";print_r($notMatchedCompetition);
             $this->info("Script executed.");
         }
+        echo "<pre>noMatchedPosition";print_r($noMatchedPosition);
     }
 }

@@ -44,7 +44,7 @@ class addDivisionAndUpdateExistingDataType4 extends Command
     public function handle()
     {
         $templateIds = explode(',',$this->argument('templateIds'));
-        $type1Templates = array('New TT76');
+        $type1Templates = array('T.19.4');
 
         $tournamentTemplates = TournamentTemplates::where('no_of_divisions','>',0)->whereNotNull('no_of_divisions')->whereIn('id',$templateIds)->limit(1)->get()->toArray();
 
@@ -61,7 +61,8 @@ class addDivisionAndUpdateExistingDataType4 extends Command
             }
 
             //get tournament_comp_template from template id
-            $allTournamentCompTemplates = TournamentCompetationTemplates::where('tournament_template_id',$ttvalue['id'])->limit(1)->get()->toArray();
+            $allTournamentCompTemplates = TournamentCompetationTemplates::where('tournament_template_id',$ttvalue['id'])->where('id','654')->limit(1)->get()->toArray();
+
 
             $this->info('Fetching all competation template for id :- '.$ttvalue['id']);
             $count = 1;
@@ -83,127 +84,51 @@ class addDivisionAndUpdateExistingDataType4 extends Command
 
 
                 // add division entry for current template
-                $divisions = $templateJson['tournament_competation_format']['divisions'];
+                $divisions = $templateJson['tournament_competation_format']['format_name'];
                 $positions = $templateJson['tournament_positions'];
                 $order = 1;
 
                 $lastDiv = end($divisions);
 
-                foreach ($divisions as $dkey => $dvalue) {
+                foreach ($divisions as $dkey => $roundValue) {
                     $islastDiv = false;
 
-                    if ( $dvalue == $lastDiv)
+                    if ( $roundValue == $lastDiv)
                     {
                         $islastDiv = true;
                     }
-                    $this->info('Create a new entry in division table for tournament_id = '.$tournament_id.' and tournament_competition_template_id = '.$tournament_comp_template_id);
 
+                    foreach ($roundValue['match_type'] as $matchTypeKey => $matchTypevalue)         {
+                        $this->info('iterating match type');
+                        $groupNameTocheck = $displayName.'-'.$matchTypevalue['groups']['group_name'];
+                        list($compType,$compMatchMultiple) = explode('-',$matchTypevalue['name']);
+                        
 
-                    $divData = [];
-                    $divData['name'] = "Division ".$order;
-                    $divData['order'] = $order;
-                    $divData['tournament_id'] = $tournament_id;
-                    $divData['tournament_competition_template_id'] = $tournament_comp_template_id;
+                        foreach ($matchTypevalue['groups']['match'] as $mkey => $mvalue) {
+                            $updateMatchData = [];
 
-                    $result = AgeCategoryDivision::create($divData);
-                    $newDivisionId = $result->id;
-
-                    $lastround = end($dvalue['format_name']);
-                    foreach ($dvalue['format_name'] as $roundkey => $roundValue) {
-                        $islastRound = false;
-
-                        if ( $roundValue == $lastround)
-                        {
-                            $islastRound = true;
-                        }
-
-                        $roundName = $roundValue['name'];
-                        $this->info('_________________________________________________________________________________________');
-                        $this->info('looping on new round.');
-
-                        foreach ($roundValue['match_type'] as $matchTypeKey => $matchTypevalue) {
-                            $this->info('iterating match type');
-                            $groupNameTocheck = $displayName.'-'.$matchTypevalue['groups']['group_name'];
-                            list($compType,$compMatchMultiple) = explode('-',$matchTypevalue['name']);
-
-                            $competitionData = [];
-                            $competitionData['tournament_competation_template_id'] = $tournament_comp_template_id;
-                            $competitionData['tournament_id'] = $tournament_id;
-                            $competitionData['age_category_division_id'] = $newDivisionId;
-                            $competitionData['display_name'] = $tournament_id;
-                            $competitionData['team_size'] = $matchTypevalue['group_count'];
-                            $competitionData['competation_type'] = ($compType == 'RR') ? 'Round Robin' : 'Elimination';
-                            $competitionData['actual_competition_type'] = ($compType == 'RR') ? 'Round Robin' : 'Elimination';
-                            $competitionData['competation_round_no'] = $roundName;
-
-                            
-
-                            if (array_key_exists($groupNameTocheck, $existingCompetition) )
+                            if ( $isType4Template && $islastDiv && $mkey > 1 )
                             {
 
-                                $competitionData['name'] = $groupNameTocheck;
-                                $competitionData['display_name'] = $groupNameTocheck;
-                                $competitionData['actual_name'] = $groupNameTocheck;
+                                $updatedMatchNumber = str_replace('CAT.', $displayName.'-', $mvalue['match_number']);
 
-                                $competitionUpdateId = $existingCompetition[$groupNameTocheck];
 
-                                Competition::where('id',$competitionUpdateId)->update($competitionData);
-                                $this->info('Update Existing competition with new value , and comp id is :- '.$competitionUpdateId);
-                                unset($existingCompetition[$groupNameTocheck]);
-                            }
-                            else
-                            {
+                                $updteDisplayMatchNumber = str_replace('CAT.', $ageCategoryOnly.'.', $mvalue['display_match_number']);
 
-                                $competitionData['name'] = $groupNameTocheck;
-                                $competitionData['display_name'] = $groupNameTocheck;
-                                $competitionData['actual_name'] = $groupNameTocheck;
-                                if ( sizeof($existingCompetition) > 0 )
+                                $updateMatchData['match_number'] = $updatedMatchNumber;
+                                $updateMatchData['display_match_number'] = $updteDisplayMatchNumber;
+
+                                if ( $isType4Template && !array_key_exists('position', $mvalue))
                                 {
-                                    // if not matched then overwrite existing one
-                                    $competitionUpdateId = head($existingCompetition);
+                                    $matchNumberArray = explode('.',$mvalue['match_number']);
+                                    $matchNumberArray = end($matchNumberArray);
 
-                                    $notMatchedCompetition[$competitionUpdateId] = "id = ".$competitionUpdateId." and tournament_id = ".$tournament_id;
 
-                                    Competition::where('id',$competitionUpdateId)->update($competitionData);
-                                    $this->info('Not match with DB competiton , Update Existing competition with new value. , and comp id is :- '.$competitionUpdateId);
-                                    $needToRemovekey = array_search($competitionUpdateId,$existingCompetition);
-                                    unset($existingCompetition[$needToRemovekey]);
+                                    TempFixture::where('tournament_id',$tournament_id)->where('age_group_id',$tournament_comp_template_id)->where('match_number','like','%'.$matchNumberArray.'%')->update($updateMatchData);
                                 }
-                                else
-                                {
 
-                                    $compResult = Competition::create($competitionData);
-                                    $competitionUpdateId = $compResult->id;
-                                    $this->info('Create new competition and id is :- '.$competitionUpdateId);
-                                }
-                            }
-
-                            foreach ($matchTypevalue['groups']['match'] as $mkey => $mvalue) {
-                                $updateMatchData = [];
-                                $updateMatchData['competition_id'] = $competitionUpdateId;
-
-                                if ( $isType4Template && $islastDiv && $islastRound )
-                                {
-
-                                    $updatedMatchNumber = str_replace('CAT.', $displayName.'-', $mvalue['match_number']);
-
-
-                                    $updteDisplayMatchNumber = str_replace('CAT.', $ageCategoryOnly.'.', $mvalue['display_match_number']);
-
-                                    $updateMatchData['match_number'] = $updatedMatchNumber;
-                                    $updateMatchData['display_match_number'] = $updteDisplayMatchNumber;
-
-                                    if ( $isType4Template && !array_key_exists('position', $mvalue))
-                                    {
-                                        $matchNumberArray = explode('.',$mvalue['match_number']);
-                                        $matchNumberArray = end($matchNumberArray);
-
-                                        TempFixture::where('tournament_id',$tournament_id)->where('age_group_id',$tournament_comp_template_id)->where('match_number','like','%'.$matchNumberArray.'%')->update($updateMatchData);
-                                    }
-
-                                    $this->info('iterating temp fixture matches and updated with new competition id , match_number = '.$mvalue['match_number'].' and tournament_id = '.$tournament_id.' and age_group_id = '.$tournament_comp_template_id.' and new updated competition is '.$competitionUpdateId.'.');
-                                    
-                                }
+                                $this->info('iterating temp fixture matches and updated with new competition id , match_number = '.$mvalue['match_number'].' and tournament_id = '.$tournament_id.' and age_group_id = '.$tournament_comp_template_id.'.');
+                                
                             }
                         }
                     }
@@ -215,5 +140,7 @@ class addDivisionAndUpdateExistingDataType4 extends Command
             echo "<pre>no match existing competition name issue";print_r($notMatchedCompetition);
             $this->info("Script executed.");
         }
+
+        echo "<pre>noMatchedPosition";print_r($noMatchedPosition);
     }
 }

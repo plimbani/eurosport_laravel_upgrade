@@ -26,6 +26,9 @@ class Kernel extends ConsoleKernel
         Commands\RemoveExpirePreviewDomain::class,
         Commands\addDivisionAndUpdateExistingData::class,
         Commands\addDivisionAndUpdateExistingDataType1::class,
+        Commands\addDivisionAndUpdateExistingDataType2::class,
+        Commands\addDivisionAndUpdateExistingDataType3::class,
+        Commands\addDivisionAndUpdateExistingDataType4::class,
         Commands\generateFavicon::class,
     ];
 
