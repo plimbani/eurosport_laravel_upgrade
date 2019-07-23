@@ -9,12 +9,12 @@
 			<div class="col-md-12 mb-3">
 				<div class="row">
 					<div class="col-md-12">
-						<label class="mt-3"><h6 class="mr-3 mb-0">{{ currentSelectedTeamName }}</h6></label>
+						<label class="mt-3"><h6 class="font-weight-bold mr-3">{{ currentSelectedTeamName }}</h6></label>
 					</div>
 				</div>
 				<div class="row">
 					<div class="col-md-12">
-						<matches :matches="teamMatches" :competitionDetail="'{}'" :currentView="currentView" :fromView="'Teams'"></matches>
+						<matches :matches="teamMatches" :competitionDetail="'{}'" :currentView="currentView" :fromView="'Teams'" :isDivExist="isDivExist" :isDivExistData="isDivExistData"></matches>
 					</div>
 				</div>
 			</div>
@@ -29,7 +29,9 @@
 		props: ['teamMatches','currentView', 'currentSelectedTeamName', 'fromView'],
 		data() {
 			return {
-				teamView: 'matchList'
+				teamView: 'matchList',
+				isDivExist: false,
+				isDivExistData: [],
 			}
 		},
 		mounted() {

@@ -27,8 +27,8 @@
                         <label class="custom_select_box d-block mb-0" for="match_score">
                             <select id="match_score"  class="border-0" v-on:change="onChangeAllMatchScore" v-model="matchScoreFilter">
                               <option value="all">All matches</option>
-                              <option value="scored">Scored</option>
-                              <option value="notscored">Not scored</option>
+                              <option value="played">Scored</option>
+                              <option value="to_be_played">Not scored</option>
                             </select>
                         </label>
                     </div>
@@ -263,7 +263,6 @@
         )
       },
       showCompetitionData(id, competitionName, competitionType) {
-        this.currentView = 'Competition';
         this.getCompetitionDetails(id, competitionName, competitionType);
       },
       getCompetitionDetails(competitionId, competitionName, competitionType) {
@@ -280,6 +279,7 @@
             if(response.data.status_code == 200) {
               vm.matches = response.data.data;
               vm.$root.$emit('setMatchesForMatchList', _.cloneDeep(response.data.data));
+              vm.currentView = 'Competition';
             }
           },
           (error) => {
