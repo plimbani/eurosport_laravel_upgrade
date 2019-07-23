@@ -130,12 +130,14 @@
         )
     	},
     	showCategoryGroups(ageGroupId) {
+        let vm = this;
 				let tournamentData = {'ageGroupId': ageGroupId};
         this.currentCategoryId = ageGroupId;
 		    CategoryList.getCategoryCompetitions(tournamentData).then(
 	        (response) => {
-	          this.groupsData = response.data.competitions;
-	          this.showView = 'groups';
+	          vm.groupsData = response.data.competitions;
+            console.log('vm.groupsData', vm.groupsData);
+	          vm.showView = 'groups';
 	        },
 	        (error) => {
 	        }

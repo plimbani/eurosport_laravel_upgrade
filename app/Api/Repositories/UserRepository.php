@@ -325,9 +325,9 @@ class UserRepository {
       }
       if($loggedInUser->hasRole('tournament.administrator') && $user->hasRole('Results.administrator')) {
         $tournamentsArray = Tournament::whereIn('id', $newlySelectedTournamentsIds)->get()->toArray();
-
         foreach ($tournamentsArray as $key => $tournament) {
           $email_details['userName'] = $data['user']['first_name'];
+          $email_details['tournamentId'] = $tournament['id'];
           $email_details['tournamentName'] = $tournament['name'];
           $userEmail = $data['user']['email'];
           $subject = 'Euro-Sportring Tournament Planner - New tournament access';
