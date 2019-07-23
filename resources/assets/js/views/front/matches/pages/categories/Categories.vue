@@ -163,6 +163,7 @@
         )
     	},
     	showCategoryGroups(ageGroupId) {
+        let vm = this;
 				let tournamentData = {'ageGroupId': ageGroupId};
         this.currentCategoryId = ageGroupId;
 		    CategoryList.getCategoryCompetitions(tournamentData).then(

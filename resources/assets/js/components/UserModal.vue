@@ -51,8 +51,8 @@
                               {{ role.name }}
                           </option>
                         </select>
-                        <select class="form-control ls-select2" disabled v-if="userRole == 'Tournament administrator'">
-                          <option value="">Results administrator</option>
+                        <select class="form-control ls-select2" key="user_type" name="user_type" v-model="formValues.userType" disabled v-if="userRole == 'Tournament administrator'">
+                          <option v-bind:value="getResultAdminRoleId()">Results administrator</option>
                         </select>
                         <span class="help is-danger" v-show="errors.has('user_type')">{{$lang.user_management_user_type_required}}</span>
                       </div>
@@ -400,6 +400,15 @@ import { ErrorBag } from 'vee-validate';
                   )
                 }
               }).catch((errors) => {});
+            },
+            getResultAdminRoleId() {
+              var result = _.result(_.find(this.userRolesOptions, function(obj) {
+                return obj.slug === 'Results.administrator';
+              }), 'id');
+
+              this.formValues.userType = result;
+
+              return result;
             }
         }
     }
