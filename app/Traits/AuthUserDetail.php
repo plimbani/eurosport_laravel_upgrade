@@ -14,7 +14,10 @@ trait AuthUserDetail
 	 */
 	protected function getCurrentLoggedInUserDetail()
 	{
-		$token=JWTAuth::getToken();
+		$token = JWTAuth::getToken();
+		if(!$token) {
+			return null;
+		}
 		$authUser = JWTAuth::parseToken()->toUser();
 		$userObj = User::with('roles', 'tournaments')->where('id', $authUser->id)->first();
 

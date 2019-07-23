@@ -13,7 +13,7 @@
             <div v-if="isNormalUserFields">
               <div class="modal-body">
                 <div class="form-group row" :class="{'has-error': errors.has('name') }">
-                  <div class="col-sm-5 form-control-label">{{$lang.user_management_add_name}}</div>
+                  <label class="col-sm-5 form-control-label">{{$lang.user_management_add_name}}</label>
                   <div class="col-sm-6">
                       <input v-model="formValues.name" v-validate="'required|alpha_spaces'"
                       :class="{'is-danger': errors.has('name') }"
@@ -26,7 +26,7 @@
                   </div>
                 </div>
                 <div class="form-group row">
-                    <div class="col-sm-5 form-control-label">{{$lang.user_management_add_surname}}</div>
+                    <label class="col-sm-5 form-control-label">{{$lang.user_management_add_surname}}</label>
                     <div class="col-sm-6">
                         <input v-model="formValues.surname" v-validate="'required|alpha_spaces'" :class="{'is-danger': errors.has('surname') }" name="surname" key="surname" type="text" class="form-control" placeholder="Enter second name">
                         <i v-show="errors.has('surname')" class="fas fa-warning"></i>
@@ -34,7 +34,7 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <div class="col-sm-5 form-control-label">{{$lang.user_management_email}}</div>
+                    <label class="col-sm-5 form-control-label">{{$lang.user_management_email}}</label>
                     <div class="col-sm-6">
                         <input v-model="formValues.emailAddress" v-validate="'required|email'" :class="{'is-danger': errors.has('email_address') }" name="email_address" key="email_address" type="email" class="form-control" placeholder="Enter email address">
                         <i v-show="errors.has('email_address')" class="fas fa-warning"></i>
@@ -67,7 +67,7 @@
                     </div>
                 </div>
                 <div v-if="showUserRole" class="form-group row">
-                  <div class="col-sm-5 form-control-label">{{$lang.user_management_role}}</div>
+                  <label class="col-sm-5 form-control-label">{{$lang.user_management_role}}</label>
                   <div class="col-sm-6">
                     <select class="form-control ls-select2" name="role" key="role" v-model="formValues.role">
                       <option value="">Select</option>
@@ -92,7 +92,7 @@
                 </div>
 
                 <div v-if="!showUserType && isCustomer" class="form-group row">
-                    <div class="col-sm-5 form-control-label"> {{$lang.user_management_status}}</div>
+                    <label class="col-sm-5 form-control-label"> {{$lang.user_management_status}}</label>
                      <div class="col-sm-6">
                         <select class="form-control" id="country" v-model="formValues.status" 
                         v-validate="'required'" :class="{'is-danger': errors.has('status') }" name="status">
@@ -105,9 +105,9 @@
                 </div>
                 
                 <div v-if="isCustomer" class="form-group row">
-                    <div class="col-sm-5 form-control-label">
+                    <label class="col-sm-5 form-control-label">
                       {{$lang.user_management_job_title}}                      
-                    </div>
+                    </label>
                     <div class="col-sm-6">
                         <input v-model="formValues.job_title" v-validate="'alpha_spaces'" :class="{'is-danger': errors.has('job_title') }" name="job_title" type="text" class="form-control" placeholder="Enter Job Title">
                         <i v-show="errors.has('job_title')" class="fas fa-warning"></i>
@@ -115,28 +115,28 @@
                     </div>
                 </div>
                 <div v-if="isCustomer" class="form-group row">
-                     <div class="col-sm-5 form-control-label">{{$lang.user_management_address}}</div> 
+                     <label class="col-sm-5 form-control-label">{{$lang.user_management_address}}</label> 
                      <div class="col-sm-6">
                         <input type="textarea" class="form-control  mb-4" placeholder="Address" id="address-line-1" name="address" v-model="formValues.address"> 
                         <input type="text" class="form-control" placeholder="Address Line 2 " id="address-line-2" v-model="formValues.address_2">  
                      </div>                     
                 </div>
                 <div v-if="isCustomer" class="form-group row">
-                    <div class="col-sm-5 form-control-label">{{$lang.user_management_city}}</div>
+                    <label class="col-sm-5 form-control-label">{{$lang.user_management_city}}</label>
                     <div class="col-sm-6">
                         <input type="textarea" class="form-control form-control-danger" placeholder="City" id="city" name="city" v-model="formValues.city">
                     </div> 
                 </div>
 
                 <div v-if="isCustomer" class="form-group row">
-                    <div class="col-sm-5 form-control-label">{{$lang.user_management_zipcode}}</div>
+                    <label class="col-sm-5 form-control-label">{{$lang.user_management_zipcode}}</label>
                      <div class="col-sm-6">                       
                         <input type="textarea" class="form-control form-control-danger" placeholder="Zip" id="zipcode" name="zip" v-model="formValues.zip"> 
                      </div>
                 </div>
 
                 <div v-if="isCustomer" class="form-group row">
-                    <div class="col-sm-5 form-control-label">{{$lang.user_management_country}}</div>
+                    <label class="col-sm-5 form-control-label">{{$lang.user_management_country}}</label>
                      <div class="col-sm-6">
                         <select class="form-control ls-select2" id="country" v-model="formValues.country" >
                             <option v-for="(value, key) in countries" :value="value">{{key}}</option>
