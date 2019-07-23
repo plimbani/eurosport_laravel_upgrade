@@ -37,7 +37,6 @@
                     <div class="col-sm-5 form-control-label">{{$lang.user_management_email}}</div>
                     <div class="col-sm-6">
                         <input v-model="formValues.emailAddress" v-validate="'required|email'" :class="{'is-danger': errors.has('email_address') }" name="email_address" key="email_address" type="email" class="form-control" placeholder="Enter email address">
-
                         <i v-show="errors.has('email_address')" class="fas fa-warning"></i>
                         <span class="help is-danger" v-show="errors.has('email_address')">{{$lang.user_management_email_required}}</span>
                        <span class="help is-danger" v-if="existEmail == true">Email already exists</span>
@@ -45,7 +44,7 @@
                 </div>
 
                 <div v-if="showUserType" class="form-group row">
-                    <div class="col-sm-5 form-control-label">{{$lang.user_management_user_type}}</div>
+                    <label class="col-sm-5 form-control-label">{{$lang.user_management_user_type}}</label>
                     <div class="col-sm-6">
                       <select v-validate="'required'":class="{'is-danger': errors.has('user_type') }" class="form-control ls-select2" name="user_type" key="user_type" v-model="formValues.userType" @change="userTypeChanged()" :disabled="formValues.provider == 'facebook'" v-if="userRole != 'Tournament administrator'">
                         <option value="">Select</option>
@@ -53,14 +52,14 @@
                             {{ role.name }}
                         </option>
                       </select>
-                      <select class="form-control ls-select2" disabled v-if="userRole == 'Tournament administrator'">
-                          <option value="">Results administrator</option>
+                      <select class="form-control ls-select2" key="user_type" name="user_type" v-model="formValues.userType" disabled v-if="userRole == 'Tournament administrator'">
+                          <option v-bind:value="getResultAdminRoleId()">Results administrator</option>
                       </select>
                       <span class="help is-danger" v-show="errors.has('user_type')">{{$lang.user_management_user_type_required}}</span>
                     </div>
                 </div>
                 <div class="form-group row" v-show="showOrganisation">
-                    <div class="col-sm-5 form-control-label">{{$lang.user_management_organisation}}</div>
+                    <label class="col-sm-5 form-control-label">{{$lang.user_management_organisation}}</label>
                     <div class="col-sm-6">
                         <input v-model="formValues.organisation" v-validate="{ rules: { required: showOrganisation } }" :class="{'is-danger': errors.has('organisation') }" name="organisation" key="organisation" type="text" class="form-control" placeholder="Enter organisation name">
                         <i v-show="errors.has('organisation')" class="fas fa-warning"></i>
@@ -68,16 +67,17 @@
                     </div>
                 </div>
                 <div v-if="showUserRole" class="form-group row">
-                    <div class="col-sm-5 form-control-label">{{$lang.user_management_role}}</div>
-                    <div class="col-sm-6">
-                      <select class="form-control ls-select2" name="role" key="role" v-model="formValues.role">
-                        <option value="">Select</option>
-                          <option v-for="role in roleOptions" :value="role">
-                            {{ role }}
-                          </option>
+                  <div class="col-sm-5 form-control-label">{{$lang.user_management_role}}</div>
+                  <div class="col-sm-6">
+                    <select class="form-control ls-select2" name="role" key="role" v-model="formValues.role">
+                      <option value="">Select</option>
+                        <option v-for="role in roleOptions" :value="role">
+                          {{ role }}
+                        </option>
                       </select>
                     </div>
                 </div>
+
                 <div v-if="defaultAppTournament != 'commercialisation'" class="form-group row">
                     <label class="col-sm-5 form-control-label">{{$lang.user_management_default_app_tournament}}</label>
                     <div class="col-sm-6">
@@ -503,6 +503,15 @@ import { ErrorBag } from 'vee-validate';
                   )
                 }
               }).catch((errors) => {});
+            },
+            getResultAdminRoleId() {
+              var result = _.result(_.find(this.userRolesOptions, function(obj) {
+                return obj.slug === 'Results.administrator';
+              }), 'id');
+
+              this.formValues.userType = result;
+
+              return result;
             }
         }
     }
