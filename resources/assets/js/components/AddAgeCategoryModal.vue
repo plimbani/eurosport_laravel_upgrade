@@ -89,7 +89,7 @@
                   </div>
               </div>
               <div class="form-group row align-items-center" :class="{'has-error': errors.has('tournament_format') }">
-                <div class="col-sm-4 form-control-label">Tournament format*</div>
+                <label class="col-sm-4 form-control-label">Tournament format*</label>
                 <div class="col-sm-8">
                   <div class="row">
                     <div class="col-md-4">
@@ -120,7 +120,7 @@
                 </div>
               </div>
               <div class="form-group row align-items-center" v-if="tournament_format == 'basic'">
-                <div class="col-sm-4 form-control-label">Type</div>
+                <label class="col-sm-4 form-control-label">Type</label>
                 <div class="col-sm-8">
                   <div class="row">
                     <div class="col-md-4">
