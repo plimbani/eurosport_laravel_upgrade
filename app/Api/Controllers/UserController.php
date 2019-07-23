@@ -265,10 +265,11 @@ class UserController extends BaseController
     { 
 
         $reportData = $request->all();
+        $token = JWTAuth::getToken();
+        $reportData['token'] = strval($token);
         ksort($reportData);
         $reportData  = http_build_query($reportData);
-        $token = JWTAuth::getToken();
-        $signedUrl = UrlSigner::sign(url('api/users/getUserTableData?' . $reportData. '&token='. $token), Carbon::now()->addMinutes(config('config-variables.signed_url_interval')));
+        $signedUrl = UrlSigner::sign(url('api/users/getUserTableData?' . $reportData), Carbon::now()->addMinutes(config('config-variables.signed_url_interval')));
         return $signedUrl;
     }
 
