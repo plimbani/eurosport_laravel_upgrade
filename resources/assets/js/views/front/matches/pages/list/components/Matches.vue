@@ -1,23 +1,23 @@
 <template>
     <div>
       <!-- <hr class="hr m-0"> -->
-      <div class="table-responsive" v-if="matchData.length > 0 && isDivExist == 0">
+      <div class="table-responsive" v-if="matchData.length > 0 && !isDivExist">
         <table id="matchSchedule" class="table">
 
           <MatchListTableHead :currentView="currentView" :showPlacingForMatch="showPlacingForMatch()"></MatchListTableHead>
     
-          <MatchListTableBody :currentView="currentView" :showPlacingForMatch="showPlacingForMatch()" :matchData="matchData" :isDivExist="isDivExist" @showCompetitionData="showCompetitionData"></MatchListTableBody>
+          <MatchListTableBody :currentView="currentView" :showPlacingForMatch="showPlacingForMatch()" :matchData="getMatchList()" :isDivExist="isDivExist" @showCompetitionData="showCompetitionData"></MatchListTableBody>
         </table>
       </div>
 
 
-      <div class="table-responsive" v-for="(matches,index) in isDivExistData" v-if="matchData.length > 0 && isDivExist == 1" >
+      <div class="table-responsive" v-for="(matches,index) in isDivExistData" v-if="matchData.length > 0 && isDivExist" >
         <label class="mb-0"><h5 class="mb-2">{{index}}</h5></label><br>
-        <label class="mb-0"><h6 class="mb-2">{{ getCompetitionName(matches) }} matches</h6></label>
+        <h6 class="mb-2 font-weight-bold">{{ getCompetitionName(matches) }} matches</h6>
         <table class="table">
           <MatchListTableHead :currentView="currentView" :showPlacingForMatch="showPlacingForMatch()"></MatchListTableHead>
 
-          <MatchListTableBody :currentView="currentView" :showPlacingForMatch="showPlacingForMatch()" :matchData="matches" :isDivExist="isDivExist" @showCompetitionData="showCompetitionData"></MatchListTableBody>
+          <MatchListTableBody :currentView="currentView" :showPlacingForMatch="showPlacingForMatch()" :matchData="getMatchList()" :isDivExist="isDivExist" @showCompetitionData="showCompetitionData"></MatchListTableBody>
 
         </table>
       </div>
