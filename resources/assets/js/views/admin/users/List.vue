@@ -81,7 +81,7 @@
                                     </td>
                                     <td class="text-center">
                                       <a v-if="user.role_slug == 'customer' && user.tournaments_count != 0" @click="redirectToTournamentList(user)" href="javascript:void(0)" class="centered text-primary"><u>{{ user.tournaments_count }}</u></a>
-                                      <span v-else-if="user.tournaments_count == 0">{{ user.tournaments_count }}
+                                      <span v-else-if="user.role_slug == 'customer' && user.tournaments_count == 0">{{ user.tournaments_count }}
                                       </span>
                                       <span v-else>-</span>
                                     </td>
