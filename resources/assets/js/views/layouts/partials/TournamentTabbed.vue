@@ -119,6 +119,7 @@ export default {
       unChangedMatchScoresInfoModalOpen: false,
       unChangedMatchScores: [],
       getTournamentExpireDateValue:'',
+
     }
   },
   filters: {
@@ -142,9 +143,11 @@ export default {
       //let expireTime = moment(displayTournamentEndDate).add(8, 'hours').format('DD/MM/YYYY HH:mm:ss');
       let tournamentStartDate = this.$store.state.Tournament.tournamentStartDate;
 
-      let expireTime = moment(this.getTournamentExpireDateValue).format('DD/MM/YYYY HH:mm:ss');
+      let expireTime = moment(this.getTournamentExpireDateValue).format('YYYY-MM-DD HH:mm:ss');
+      let currentDateTime = moment().format('YYYY-MM-DD HH:mm:ss');
+
       //if(displayTournamentEndDate) {
-        if(this.$store.state.Users.userDetails.role_slug == 'customer' && tournamentStartDate <= this.currentDate && expireTime >= this.currentDateTime) {
+        if(this.$store.state.Users.userDetails.role_slug == 'customer' && tournamentStartDate <= this.currentDate && expireTime >= currentDateTime) {
            return true;
         } else {
           return false;

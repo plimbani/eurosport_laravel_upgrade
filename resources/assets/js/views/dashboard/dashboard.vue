@@ -240,9 +240,9 @@
                 //let currentDateTime = this.currentDateTime;
                 let tournamentEndDate = endDate;
 
-                let tournamentExpireTime = moment(tournamentEndDate).format('DD/MM/YYYY HH:mm:ss');
-                let currentDateTime = moment(this.currentDateTime).format('DD/MM/YYYY HH:mm:ss');
-
+                let tournamentExpireTime = moment(tournamentEndDate).format('YYYY-MM-DD HH:mm:ss');
+                let currentDateTime = moment(this.currentDateTime).format('YYYY-MM-DD HH:mm:ss');
+                console.log("currentDateTime",currentDateTime);
                 if(tournamentExpireTime > currentDateTime) {
                    return false;
                 } else {

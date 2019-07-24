@@ -24,17 +24,40 @@
                             <div class="col-sm-6 col-md-7 col-lg-7">
                                 <p v-if="!paymentFlag" class="mb-0" id="reeiptDetails">{{tournament.tournament_max_teams}} team license for a {{tournament.dayDifference}} day tournament</p>
 
-                                <p v-if="paymentFlag" class="mb-0" id="reeiptDetails">{{tournament.tournament_max_teams}} (+{{tournament.teamDifference}}) Team licence for a  {{this.totaldays}} ({{daysign}} {{tournament.dayDifference}}) day</p>
+                                <p v-if="paymentFlag" class="mb-0" id="reeiptDetails">
+                                    <span v-if="tournament.teamDifference == 0">{{tournament.tournament_max_teams }} teams
+                                    </span>
+                                    <span v-if="tournament.teamDifference > 0">Additional {{tournament.teamDifference }} teams
+                                    </span>
+                                    <span v-if="tournament.teamDifference < 0">Reduce {{Math.abs(tournament.teamDifference)}} teams
+                                    </span>
+                                </p>
+
+                                <p v-if="paymentFlag" class="mb-0" id="reeiptDetails && tournament.tournament_type == 'cup' && tournament.custom_tournament_format == 1">
+                                    <span>Tournament formats
+                                    </span>
+                                </p>
+
+                                <p v-if="paymentFlag" class="mb-0" id="reeiptDetails && tournament.transactionDifferenceAmountValue > 0">
+                                    <span>Paid amount
+                                    </span>
+                                </p>
 
                             </div>
-                            <div class="col-sm-6 col-md-5 col-lg-5">
-                                <p class="text-sm-right mb-0 mt-3 mt-sm-0"> {{paymentObj.currency == 'EUR' ? '€' : '£' }} {{paymentObj.amount}}</p>
+                            <div class="col-sm-6 col-md-5 col-lg-5" v-if="!paymentFlag">
+                                <p class="text-sm-right mb-0 mt-3 mt-sm-0"> {{paymentObj.currency == 'EUR' ? '€' : '£' }}{{paymentObj.amount}}</p>
+                            </div>
+
+                            <div class="col-sm-6 col-md-5 col-lg-5" v-if="paymentFlag">
+                                <p class="text-sm-right mb-0 mt-3 mt-sm-0"> {{paymentObj.currency == 'EUR' ? '€' : '£' }}{{returnFormatedNumber(managePrice)}}</p>
+                                <p class="text-sm-right mb-0 mt-3 mt-sm-0"> {{paymentObj.currency == 'EUR' ? '€' : '£' }}{{returnFormatedNumber(manageAdvancePrice)}}</p>
+                                <p class="text-sm-right mb-0 mt-3 mt-sm-0"> {{paymentObj.currency == 'EUR' ? '€' : '£' }}{{returnFormatedNumber(manageDifferencePrice)}}</p>
                             </div>
                         </div>
 
                         <div class="divider my-3 opacited"></div>
 
-                        <p class="text-sm-right font-weight-bold">{{paymentObj.currency == 'EUR' ? '€' : '£' }} {{paymentObj.amount}}</p>
+                        <p class="text-sm-right font-weight-bold">{{paymentObj.currency == 'EUR' ? '€' : '£' }}{{paymentObj.amount}}</p>
 
                         <p class="py-3">You may now proceed to your dashboard and begin adding your tournament details.</p>
                         <button v-if="tournament_id" class="btn btn-primary" v-on:click="redirectToDashboardPage()">Get started</button>
@@ -66,6 +89,21 @@
                 },
                 tournament:{},
                 userDetail:this.$store.state.Users.userDetails,
+            }
+        },
+        computed: {
+            managePrice(){
+                return this.tournament.tournamentLicenseBasicPriceDisplay
+            },
+            manageDifferencePrice(){
+                if (this.tournament.payment_currency == 'GBP')
+                {
+                    return this.tournament.transactionDifferenceAmountValue*(parseFloat(this.tournament.gpbConvertValue));
+                }
+                return this.tournament.transactionDifferenceAmountValue;
+            },
+            manageAdvancePrice(){
+                return this.tournament.tournamentLicenseAdvancePriceDisplay;
             }
         },
         methods: {
@@ -145,7 +183,10 @@
                   (error)=> {
                   }
                 );
-            },           
+            }, 
+            returnFormatedNumber(value){
+                return Number(value).toFixed(2);  
+            },          
             
         },
         beforeMount(){  
