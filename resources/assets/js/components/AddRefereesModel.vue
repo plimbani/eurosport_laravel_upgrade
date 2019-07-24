@@ -11,7 +11,7 @@
         <div class="modal-body">
           <form name="frmReferee" id="frmReferee" >
             <div class="form-group row">
-              <div class="col-sm-5 form-control-label">{{$lang.add_refree_modal_first_name}}</div>
+              <label class="col-sm-5 form-control-label">{{$lang.add_refree_modal_first_name}}</label>
               <div class="col-sm-6">
                 <input type="text" name="first_name" id="first_name"  v-validate="'required'" v-model="formValues.first_name" class="form-control"  :class="{'is-danger': errors.has('ageCategory_name') }" >
                 <i v-show="errors.has('first_name')" class="fas fa-warning"> </i>
@@ -20,7 +20,7 @@
               </div>
             </div>
             <div class="form-group row">
-              <div class="col-sm-5 form-control-label">{{$lang.add_refree_modal_last_name}}</div>
+              <label class="col-sm-5 form-control-label">{{$lang.add_refree_modal_last_name}}</label>
               <div class="col-sm-6">
                 <input type="text" name="last_name" id="last_name"  v-validate="'required'" v-model="formValues.last_name"  class="form-control" >
                 <i v-show="errors.has('last_name')" class="fas fa-warning"> </i>
@@ -28,19 +28,19 @@
                </div>
             </div>
             <div class="form-group row">
-              <div class="col-sm-5 form-control-label">{{$lang.add_refree_modal_telephone}}</div>
+              <label class="col-sm-5 form-control-label">{{$lang.add_refree_modal_telephone}}</label>
               <div class="col-sm-6">
                 <input type="text" name="telephone" id="telephone" v-model="formValues.telephone" class="form-control" >
               </div>
             </div>
             <div class="form-group row">
-              <div class="col-sm-5 form-control-label">{{$lang.add_refree_modal_email}}</div>
+              <label class="col-sm-5 form-control-label">{{$lang.add_refree_modal_email}}</label>
               <div class="col-sm-6">
                 <input type="email"  name="email" id="email" v-model="formValues.email" class="form-control" >
               </div>
             </div>
             <div class="form-group row">
-              <div class="col-sm-5 form-control-label">{{$lang.add_refree_modal_category_age}}</div>
+              <label class="col-sm-5 form-control-label">{{$lang.add_refree_modal_category_age}}</label>
               <div class="col-sm-6">
                 <!-- <select  name="ageCategories" id="ageCategories" v-model="formValues.age_group_id"  class="form-control ls-select2">
                       <option value="">Please Select</option>
@@ -60,7 +60,7 @@
               </div>
             </div>
             <div class="form-group row">
-              <div class="col-sm-5 form-control-label">{{$lang.add_refree_modal_availability}}</div>
+              <label class="col-sm-5 form-control-label">{{$lang.add_refree_modal_availability}}</label>
               <div class="col-sm-6">
                 <textarea name="availability" id="availability" v-model="formValues.comments" class="form-control" placeholder="e.g. Day 1 all day"></textarea>
               </div>
