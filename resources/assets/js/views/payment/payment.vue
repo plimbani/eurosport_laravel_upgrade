@@ -28,13 +28,13 @@
 
                             </div>
                             <div class="col-sm-6 col-md-5 col-lg-5">
-                                <p class="text-sm-right mb-0 mt-3 mt-sm-0"> {{paymentObj.currency == 'EUR' ? '€' : '£' }} {{paymentObj.amount}}</p>
+                                <p class="text-sm-right mb-0 mt-3 mt-sm-0"> {{paymentObj.currency == 'EUR' ? '€' : '£' }} {{ returnFormatedNumber(paymentObj.amount) }}</p>
                             </div>
                         </div>
 
                         <div class="divider my-3 opacited"></div>
 
-                        <p class="text-sm-right font-weight-bold">{{paymentObj.currency == 'EUR' ? '€' : '£' }} {{paymentObj.amount}}</p>
+                        <p class="text-sm-right font-weight-bold">{{paymentObj.currency == 'EUR' ? '€' : '£' }} {{ returnFormatedNumber(paymentObj.amount) }}</p>
 
                         <p class="py-3">You may now proceed to your dashboard and begin adding your tournament details.</p>
                         <button v-if="tournament_id" class="btn btn-primary" v-on:click="redirectToDashboardPage()">Get started</button>
@@ -146,7 +146,9 @@
                   }
                 );
             },           
-            
+            returnFormatedNumber(value){
+                return Number(value).toFixed(2);  
+            },
         },
         beforeMount(){  
             let tournament = Ls.get('orderInfo'); 
