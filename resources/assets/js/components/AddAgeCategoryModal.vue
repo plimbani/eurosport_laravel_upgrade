@@ -23,7 +23,7 @@
               </div>
 
               <div class="form-group row align-items-center" :class="{'has-error': errors.has('category_age') }">
-                <div class="col-sm-4 form-control-label">{{$lang.competation_label_age_category_name}}</div>
+                <label class="col-sm-4 form-control-label">{{$lang.competation_label_age_category_name}}</label>
                 <div class="col-sm-8">
                   <div class="row">
                     <div class="col-sm-12">
@@ -58,10 +58,10 @@
               </div>
 
               <div class="form-group row align-items-center" :class="{'has-error': errors.has('competation_format.ageCategory_name') }">
-                <div class="col-sm-4 form-control-label">
+                <label class="col-sm-4 form-control-label">
                   {{$lang.competation_label_name_category}}
                   <span class="pr-2 pl-2 text-primary" data-toggle="popover" data-animation="false" data-placement="right" data-content="Enter an additional name for the category"><i class="fas fa-info-circle"></i></span>
-                </div>
+                </label>
                 <div class="col-sm-8">
                   <div class="row">
                     <div class="col-sm-12">
@@ -75,7 +75,7 @@
               </div>
 
               <div class="form-group row align-items-center">
-                  <div class="col-sm-4 form-control-label">Pitch size*</div>
+                  <label class="col-sm-4 form-control-label">Pitch size*</label>
                   <div class="col-sm-8">
                     <select name="pitch_size" id="pitch_size" class="form-control ls-select2" v-model="competation_format.pitch_size" v-validate="'required'" :class="{'is-danger': errors.has('pitch_size') }" :disabled="isPitchSizeDisabled">
                        <option value="">{{$lang.pitch_modal_pitch_size}}</option>
@@ -143,7 +143,7 @@
                 </div>            
               </div>
               <div class="form-group row align-items-center" :class="{'has-error': errors.has('number_teams') }">
-                <div class="col-sm-4 form-control-label">{{$lang.competation_label_number_teams}}</div>
+                <label class="col-sm-4 form-control-label">{{$lang.competation_label_number_teams}}</label>
                 <div class="col-sm-8">
                   <div class="row">
                     <div class="col-sm-12">
@@ -170,7 +170,7 @@
                 </div>
               </div>
               <div class="form-group row align-items-center" :class="{'has-error': errors.has('competation_format.minimum_matches') }">
-                <div class="col-sm-4 form-control-label">{{$lang.competation_label_minimum_matches}}</div>
+                <label class="col-sm-4 form-control-label">{{$lang.competation_label_minimum_matches}}</label>
                 <div class="col-sm-8">
                   <div class="row">
                     <div class="col-sm-12">
@@ -189,8 +189,10 @@
                   </div>
                 </div>
               </div>
-              <div class="form-group row align-items-top" :class="{'has-error': errors.has('tournamentTemplate') }">
-                <div class="col-sm-4">{{$lang.competation_label_template}}</div>
+
+              <div class="form-group row align-items-top"
+               :class="{'has-error': errors.has('tournamentTemplate') }">
+                <label class="col-sm-4">{{$lang.competation_label_template}}</label>
                 <div class="col-sm-8">
                   <div class="row align-items-center">
                     <div class="col-sm-12" v-show="errors.has('tournamentTemplate')">
@@ -293,7 +295,7 @@
                 </div>
               </div>
               <div class="form-group row align-items-center">
-                <div class="col-sm-4 form-control-label">{{$lang.competation_modal_game_duration}}</div>
+                <label class="col-sm-4 form-control-label">{{$lang.competation_modal_game_duration}}</label>
                 <div class="col-sm-8">
                   <div class="row align-items-center">
                     <div class="col-sm-3">
@@ -318,7 +320,7 @@
                 </div>
               </div>
               <div class="form-group row align-items-center">
-                <div class="col-sm-4 form-control-label">{{$lang.competation_modal_duration_final}}</div>
+                <label class="col-sm-4 form-control-label">{{$lang.competation_modal_duration_final}}</label>
                 <div class="col-sm-8">
                   <div class="row align-items-center">
                      <div class="col-sm-3">
@@ -342,7 +344,7 @@
                 </div>
               </div>
               <div class="form-group row align-items-center" v-show="haveTwoHalvesRR">
-                <div class="col-sm-4 form-control-label">{{$lang.competation_modal_half_time_break}}</div>
+                <label class="col-sm-4 form-control-label">{{$lang.competation_modal_half_time_break}}</label>
                 <div class="col-sm-8">
                   <div class="row">
                     <div class="col-sm-4">
@@ -355,7 +357,7 @@
                 </div>
               </div>
               <div class="form-group row align-items-center" v-show="haveTwoHalvesFM">
-                <div class="col-sm-4 form-control-label">{{$lang.competation_modal_half_time_break_final}}</div>
+                <label class="col-sm-4 form-control-label">{{$lang.competation_modal_half_time_break_final}}</label>
                 <div class="col-sm-8">
                   <div class="row">
                     <div class="col-sm-4">
@@ -368,7 +370,7 @@
                 </div>
               </div>
               <div class="form-group row align-items-center">
-                <div class="col-sm-4 form-control-label">{{$lang.competation_modal_match_interval}}</div>
+                <label class="col-sm-4 form-control-label">{{$lang.competation_modal_match_interval}}</label>
                 <div class="col-sm-8">
                   <div class="row align-items-center">
                     <div class="col-sm-4">
@@ -385,7 +387,7 @@
                 </div>
               </div>
               <div class="form-group row align-items-center">
-                <div class="col-sm-4 form-control-label">{{$lang.competation_modal_match_interval_final}}</div>
+                <label class="col-sm-4 form-control-label">{{$lang.competation_modal_match_interval_final}}</label>
                 <div class="col-sm-8">
                   <div class="row align-items-center">
                     <div class="col-sm-4">
@@ -403,7 +405,7 @@
                 </div>
               </div>
               <div class="form-group row align-items-center">
-                <div class="col-sm-4 form-control-label">{{$lang.competation_modal_team_interval}}</div>
+                <label class="col-sm-4 form-control-label">{{$lang.competation_modal_team_interval}}</label>
                 <div class="col-sm-8">
                   <div class="row align-items-center">
                     <div class="col-sm-4">
@@ -418,10 +420,10 @@
                 </div>
               </div>
               <div class="form-group row align-items-center"> 
-                <div class="col-sm-4 form-control-label">
+                <label class="col-sm-4 form-control-label">
                   Ranking structure*
                   <span class="pr-2 pl-2 text-primary" data-toggle="popover" data-animation="false" data-placement="right" data-content="Enter the number of points for a win, draw or loss"><i class="fas fa-info-circle"></i></span>
-                </div>
+                </label>
                 <div class="col-sm-8">
                   <div class="row align-items-center">
                     <div class="col-sm-4">
@@ -461,7 +463,7 @@
                 </div>
               </div>
               <div class="form-group row">
-                <div class="col-sm-4 form-control-label">{{$lang.competation_modal_category_rules}}</div>
+                <label class="col-sm-4 form-control-label">{{$lang.competation_modal_category_rules}}</label>
                 <div class="col-sm-8">
                   <div class="draggable--section">
                     <draggable :options="{draggable:'.category-rules', handle: '.rules-handle'}" v-model="competation_format.rules" :move="onRuleMove">
@@ -496,7 +498,7 @@
                 </div>
               </div>
               <div class="form-group row align-items-center">
-                <div class="col-sm-4 form-control-label">Message to teams</div>
+                <label class="col-sm-4 form-control-label">Message to teams</label>
                 <div class="col-sm-8">
                   <div class="row align-items-center">
                     <div class="col-sm-12">
