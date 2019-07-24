@@ -10,7 +10,7 @@
                 </div>
                 <div class="modal-body">
                   <div class="form-group row">
-                      <div class="col-sm-4 form-control-label">{{$lang.user_management_add_name}}</div>
+                      <label class="col-sm-4 form-control-label">{{$lang.user_management_add_name}}</label>
                       <div class="col-sm-7">
                           <input  v-validate="'required|alpha'" v-model="userData.name" :class="{'is-danger': errors.has('name') }" name="name" type="text" class="form-control" placeholder="Your name">
                           <i v-show="errors.has('name')" class="fas fa-warning"></i>
@@ -18,7 +18,7 @@
                       </div>
                   </div>
                   <div class="form-group row">
-                      <div class="col-sm-4 form-control-label">{{$lang.user_desktop_surname}}</div>
+                      <label class="col-sm-4 form-control-label">{{$lang.user_desktop_surname}}</label>
                       <div class="col-sm-7">
                           <input  v-validate="'required|alpha'" v-model="userData.surname" :class="{'is-danger': errors.has('surname') }" name="surname" type="text" class="form-control" placeholder="Enter second name">
                           <i v-show="errors.has('surname')" class="fas fa-warning"></i>
@@ -26,7 +26,7 @@
                       </div>
                   </div>
                   <div class="form-group row">
-                      <div class="col-sm-4 form-control-label">{{$lang.user_management_role}}</div>
+                      <label class="col-sm-4 form-control-label">{{$lang.user_management_role}}</label>
                       <div class="col-sm-7">
                         <select v-validate="'required'":class="{'is-danger': errors.has('role') }" class="form-control ls-select2" name="role" v-model="userData.role">
                             <option value="">Select</option>
@@ -39,7 +39,7 @@
                       </div>
                   </div>
                   <div class="form-group row">
-                      <div class="col-sm-4 form-control-label">{{$lang.user_management_country}}</div>
+                      <label class="col-sm-4 form-control-label">{{$lang.user_management_country}}</label>
                       <div class="col-sm-7">
                         <select v-validate="'required'":class="{'is-danger': errors.has('country') }" class="form-control ls-select2" name="country" v-model="userData.country_id">
                             <option value="">Select</option>
@@ -53,7 +53,7 @@
                   </div>
 
                   <div class="form-group row">
-                    <div class="col-sm-4 form-control-label">{{$lang.user_management_email}}</div>
+                    <label class="col-sm-4 form-control-label">{{$lang.user_management_email}}</label>
                     <div class="col-sm-7">
 
                         <input v-model="userData.emailAddress" v-validate="'required|email'" :class="{'is-danger': errors.has('email') }" name="email" type="email" class="form-control" placeholder="Enter email address" @change="hideEmailExistMessage()">
