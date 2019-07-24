@@ -6,6 +6,12 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Laraspace\Models\TournamentTemplates;
 use Laraspace\Api\Contracts\TemplateContract;
+use Laraspace\Http\Requests\Template\EditRequest;
+use Laraspace\Http\Requests\Template\StoreRequest;
+use Laraspace\Http\Requests\Template\UpdateRequest;
+use Laraspace\Http\Requests\Template\DeleteRequest;
+use Laraspace\Http\Requests\Template\GetTemplatesRequest;
+use Laraspace\Http\Requests\Template\TemplateDetailRequest;
 
 class TemplateController extends BaseController
 {
@@ -19,7 +25,7 @@ class TemplateController extends BaseController
     /**
      * Get all templates
      */
-    public function getTemplates(Request $request)
+    public function getTemplates(GetTemplatesRequest $request)
     {
        return $this->templateObj->getTemplates($request->all());
     }
@@ -27,7 +33,7 @@ class TemplateController extends BaseController
     /**
      * Get template detail
      */
-    public function getTemplateDetail(Request $request)
+    public function getTemplateDetail(TemplateDetailRequest $request)
     {
         return $this->templateObj->getTemplateDetail($request->all());
     }
@@ -43,7 +49,7 @@ class TemplateController extends BaseController
     /**
      * Save template data
      */
-    public function saveTemplateDetail(Request $request)
+    public function saveTemplateDetail(StoreRequest $request)
     {
         return $this->templateObj->saveTemplateDetail($request->all());
     }
@@ -51,7 +57,7 @@ class TemplateController extends BaseController
     /**
      * Delete template
      */
-    public function deleteTemplate(Request $request, $id)
+    public function deleteTemplate(DeleteRequest $request, $id)
     {
         return $this->templateObj->deleteTemplate($id);
     }
@@ -59,7 +65,7 @@ class TemplateController extends BaseController
     /**
      * Edit template
      */
-    public function editTemplate(Request $request, $id)
+    public function editTemplate(EditRequest $request, $id)
     {
         return $this->templateObj->editTemplate($id);
     }
@@ -67,7 +73,7 @@ class TemplateController extends BaseController
     /**
      * Update template
      */
-    public function updateTemplateDetail(Request $request)
+    public function updateTemplateDetail(UpdateRequest $request)
     {
         return $this->templateObj->updateTemplateDetail($request->all());
     }
