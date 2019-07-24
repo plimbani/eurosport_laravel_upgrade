@@ -3,11 +3,12 @@
 namespace Laraspace\Http\Requests\Template;
 
 use Laraspace\Traits\AuthUserDetail;
+use Laraspace\Traits\TemplateAccess;
 use Illuminate\Foundation\Http\FormRequest;
 
 class EditRequest extends FormRequest
 {
-    use AuthUserDetail;
+    use TemplateAccess;
 
     /**
      * Determine if the user is authorized to make this request.
@@ -16,11 +17,18 @@ class EditRequest extends FormRequest
      */
     public function authorize()
     {
+        $templateId = $this->route('id');
         $loggedInUser = $this->getCurrentLoggedInUserDetail();
+
         if($loggedInUser->hasRole('Super.administrator') || $loggedInUser->hasRole('tournament.administrator') || $loggedInUser->hasRole('Internal.administrator')) {
             return true;
         }
-        return false;
+
+        $isTemplateAccessible = $this->checkForTemplateAccess($templateId);
+        if(!$isTemplateAccessible) {
+            return false;
+        }
+        // return true;
     }
 
     /**
