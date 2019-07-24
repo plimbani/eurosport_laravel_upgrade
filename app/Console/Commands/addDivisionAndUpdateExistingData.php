@@ -45,7 +45,7 @@ class addDivisionAndUpdateExistingData extends Command
     {
         $templateIds = explode(',',$this->argument('templateIds'));
 
-        $tournamentTemplates = TournamentTemplates::where('no_of_divisions','>',0)->whereNotNull('no_of_divisions')->whereIn('id',$templateIds)->limit(1)->get()->toArray();
+        $tournamentTemplates = TournamentTemplates::where('no_of_divisions','>',0)->whereNotNull('no_of_divisions')->whereIn('id',$templateIds)->get()->toArray();
 
         $notMatchedCompetition = [];
         $noMatchedFixtures = [];
@@ -54,7 +54,7 @@ class addDivisionAndUpdateExistingData extends Command
             $templateJson = json_decode($ttvalue['json_data'], true);
 
             //get tournament_comp_template from template id
-            $allTournamentCompTemplates = TournamentCompetationTemplates::where('tournament_template_id',$ttvalue['id'])->where('id','2543')->limit(10)->get()->toArray();
+            $allTournamentCompTemplates = TournamentCompetationTemplates::where('tournament_template_id',$ttvalue['id'])->limit(10)->get()->toArray();
 
             //$this->info('Fetching all competation template for id :- '.$ttvalue['id']);
             $count = 1;

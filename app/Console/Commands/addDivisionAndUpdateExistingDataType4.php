@@ -44,7 +44,7 @@ class addDivisionAndUpdateExistingDataType4 extends Command
     public function handle()
     {
         $templateIds = explode(',',$this->argument('templateIds'));
-        $type1Templates = array('T.19.4');
+        $type1Templates = array('107');
 
         $tournamentTemplates = TournamentTemplates::where('no_of_divisions','>',0)->whereNotNull('no_of_divisions')->whereIn('id',$templateIds)->limit(20)->get()->toArray();
 
@@ -56,7 +56,7 @@ class addDivisionAndUpdateExistingDataType4 extends Command
 
             $isType4Template = false;        
 
-            if ( in_array($ttvalue['name'], $type1Templates))
+            if ( in_array($ttvalue['id'], $type1Templates))
             {
                 $isType4Template = true;
             }
@@ -90,77 +90,80 @@ class addDivisionAndUpdateExistingDataType4 extends Command
 
                 $lastDiv = end($divisions);
                 $updatedCompetition = '';
-                foreach ($divisions as $dkey => $roundValue) {
-                    $islastDiv = false;
+                if ( $isType4Template )
+                {
+                    foreach ($divisions as $dkey => $roundValue) {
+                        $islastDiv = false;
 
-                    if ( $roundValue == $lastDiv)
-                    {
-                        $islastDiv = true;
-                    }
+                        if ( $roundValue == $lastDiv)
+                        {
+                            $islastDiv = true;
+                        }
 
-                    foreach ($roundValue['match_type'] as $matchTypeKey => $matchTypevalue)         {
-                        //$this->info('iterating match type');
-                        $groupNameTocheck = $displayName.'-'.$matchTypevalue['groups']['group_name'];
-                        list($compType,$compMatchMultiple) = explode('-',$matchTypevalue['name']);
-                        
+                        foreach ($roundValue['match_type'] as $matchTypeKey => $matchTypevalue)         {
+                            //$this->info('iterating match type');
+                            $groupNameTocheck = $displayName.'-'.$matchTypevalue['groups']['group_name'];
+                            list($compType,$compMatchMultiple) = explode('-',$matchTypevalue['name']);
+                            
 
-                        foreach ($matchTypevalue['groups']['match'] as $mkey => $mvalue) {
-                            $fixtureRow = false;
-                            $updateMatchData = [];
-                            if ( $isType4Template && $islastDiv && $mkey == 0 )
-                            {
-                                $matchNumberArray = explode('.',$mvalue['match_number']);
-                                $matchNumberArray = end($matchNumberArray);
-
-                                $db_competition_id = TempFixture::where('tournament_id',$tournament_id)->where('age_group_id',$tournament_comp_template_id)->where('match_number','like','%'.$matchNumberArray.'%')->get(['competition_id'])->toArray();
-
-                                $db_competition_id = head($db_competition_id);
-                                $updatedCompetition = $db_competition_id['competition_id'];
-                                
-                            }
-                            if ( $isType4Template && $islastDiv && $mkey > 1 )
-                            {
-                                $updatedMatchNumber = str_replace('CAT.', $displayName.'-', $mvalue['match_number']);
-
-
-                                $updteDisplayMatchNumber = str_replace('CAT.', $ageCategoryOnly.'.', $mvalue['display_match_number']);
-
-                                $updateMatchData['match_number'] = $updatedMatchNumber;
-                                $updateMatchData['display_match_number'] = $updteDisplayMatchNumber;
-
-                                $updateMatchData['competition_id'] = $updatedCompetition;
-
-                                if ( $isType4Template && !array_key_exists('position', $mvalue))
+                            foreach ($matchTypevalue['groups']['match'] as $mkey => $mvalue) {
+                                $fixtureRow = false;
+                                $updateMatchData = [];
+                                if ( $isType4Template && $islastDiv && $mkey == 0 )
                                 {
                                     $matchNumberArray = explode('.',$mvalue['match_number']);
                                     $matchNumberArray = end($matchNumberArray);
 
-                                    $fixtureId = TempFixture::where('tournament_id',$tournament_id)->where('age_group_id',$tournament_comp_template_id)->where('match_number','like','%'.$matchNumberArray.'%')->get(['id'])->toArray();
+                                    $db_competition_id = TempFixture::where('tournament_id',$tournament_id)->where('age_group_id',$tournament_comp_template_id)->where('match_number','like','%'.$matchNumberArray.'%')->get(['competition_id'])->toArray();
 
-                                    if ( sizeof($fixtureId) > 0 )
-                                    {
-                                        $fixtureId = head($fixtureId);
-                                        $fixtureRow = true;
-                                        TempFixture::where('id',$fixtureId['id'])->update($updateMatchData);
-                                    }
+                                    $db_competition_id = head($db_competition_id);
+                                    $updatedCompetition = $db_competition_id['competition_id'];
+                                    
                                 }
-
-                                if ( $fixtureRow == false)
+                                if ( $isType4Template && $islastDiv && $mkey > 1 )
                                 {
-                                    $noMatchedFixtures[$tournament_id.'.'.$tournament_comp_template_id.'.'.$updatedMatchNumber]['tournament_id'] = $tournament_id;
+                                    $updatedMatchNumber = str_replace('CAT.', $displayName.'-', $mvalue['match_number']);
 
-                                    $noMatchedFixtures[$tournament_id.'.'.$tournament_comp_template_id.'.'.$updatedMatchNumber]['age_category_id'] = $tournament_comp_template_id;
 
-                                    $noMatchedFixtures[$tournament_id.'.'.$tournament_comp_template_id.'.'.$updatedMatchNumber]['match_number'] = $updatedMatchNumber;
+                                    $updteDisplayMatchNumber = str_replace('CAT.', $ageCategoryOnly.'.', $mvalue['display_match_number']);
 
+                                    $updateMatchData['match_number'] = $updatedMatchNumber;
+                                    $updateMatchData['display_match_number'] = $updteDisplayMatchNumber;
+
+                                    $updateMatchData['competition_id'] = $updatedCompetition;
+
+                                    if ( $isType4Template && !array_key_exists('position', $mvalue))
+                                    {
+                                        $matchNumberArray = explode('.',$mvalue['match_number']);
+                                        $matchNumberArray = end($matchNumberArray);
+
+                                        $fixtureId = TempFixture::where('tournament_id',$tournament_id)->where('age_group_id',$tournament_comp_template_id)->where('match_number','like','%'.$matchNumberArray.'%')->get(['id'])->toArray();
+
+                                        if ( sizeof($fixtureId) > 0 )
+                                        {
+                                            $fixtureId = head($fixtureId);
+                                            $fixtureRow = true;
+                                            TempFixture::where('id',$fixtureId['id'])->update($updateMatchData);
+                                        }
+                                    }
+
+                                    if ( $fixtureRow == false)
+                                    {
+                                        $noMatchedFixtures[$tournament_id.'.'.$tournament_comp_template_id.'.'.$updatedMatchNumber]['tournament_id'] = $tournament_id;
+
+                                        $noMatchedFixtures[$tournament_id.'.'.$tournament_comp_template_id.'.'.$updatedMatchNumber]['age_category_id'] = $tournament_comp_template_id;
+
+                                        $noMatchedFixtures[$tournament_id.'.'.$tournament_comp_template_id.'.'.$updatedMatchNumber]['match_number'] = $updatedMatchNumber;
+
+                                    }
+
+                                    //$this->info('iterating temp fixture matches and updated with new competition id , match_number = '.$mvalue['match_number'].' and tournament_id = '.$tournament_id.' and age_group_id = '.$tournament_comp_template_id.'.');
+                                    
                                 }
-
-                                //$this->info('iterating temp fixture matches and updated with new competition id , match_number = '.$mvalue['match_number'].' and tournament_id = '.$tournament_id.' and age_group_id = '.$tournament_comp_template_id.'.');
-                                
                             }
                         }
+                        $order++;
                     }
-                    $order++;
                 }
 
                 $count++;
