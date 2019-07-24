@@ -40,6 +40,7 @@ class PitchController extends BaseController
     public function __construct(PitchContract $pitchObj)
     {
         $this->pitchObj = $pitchObj;
+        $this->tournamentLogo =  getenv('S3_URL').'/assets/img/tournament_logo/';
         // $this->middleware('auth');
         // $this->middleware('jwt.auth');
     }
@@ -142,7 +143,6 @@ class PitchController extends BaseController
         $date = new \DateTime(date('H:i d M Y'));
 
         $pitchPlannerPrintData = $this->pitchObj->getPitchPlannerPrintData($tournamentId);
-
         $pitchPlannerPdf =  "Pitch planner - ".$pitchPlannerPrintData['tournamentData']->name;
         $tournamentStartDate = Carbon::createFromFormat('d/m/Y H:i:s', $pitchPlannerPrintData['tournamentData']->start_date.'00:00:00');
         $tournamentEndDate = Carbon::createFromFormat('d/m/Y H:i:s', $pitchPlannerPrintData['tournamentData']->end_date.'00:00:00');
@@ -155,14 +155,20 @@ class PitchController extends BaseController
             $tournamentStartDate->addDay();
         }
 
+        $tournamentLogo = null;
+        $tournamentDetail = Tournament::find($tournamentId);
+        if($tournamentDetail->logo != null) {
+            $tournamentLogo = $this->tournamentLogo. $tournamentDetail->logo;
+        }
         $matches = collect([]);
 
         $tournamentPitches = [];
 
-        foreach ($pitchPlannerPrintData['matches'] as $match) {
-
+        foreach ($pitchPlannerPrintData['matches'] as $match) { 
             $stdate = Carbon::parse($match->match_datetime);
-            
+            $compelitionType = $match->competation_type;
+            $competitionActualName = explode('-', ($match->actual_name));
+           
             $matches->push([
                     'match_id' => $match->id,
                     'referee_id' => $match->referee_id,
@@ -176,18 +182,21 @@ class PitchController extends BaseController
                     'match_name' => str_replace('@AWAY', $match->away_team_name, str_replace('@HOME', $match->home_team_name, $match->display_match_number)),
                     'hometeam_score' => $match->hometeam_score,
                     'awayteam_score' => $match->awayteam_score,
+                    'actual_name' => $competitionActualName[2].' '.$competitionActualName[3],
+                    'competation_type' => $match->competation_type,
                 ]);
-
             $tournamentPitches[$match->pitch_id] = $match->pitch_number;
         }
+
         $currentLayout = config('config-variables.current_layout');
-        $data = ['pitchPlannerPrintData' => $pitchPlannerPrintData, 'tournamentDates' => $tournamentDates, 'matches' => $matches, 'tournamentPitches' => $tournamentPitches, 'currentLayout' => $currentLayout];
+        $data = ['pitchPlannerPrintData' => $pitchPlannerPrintData, 'tournamentDates' => $tournamentDates, 'matches' => $matches, 'tournamentPitches' => $tournamentPitches, 'currentLayout' => $currentLayout, 'tournamentLogo' => $tournamentLogo];
 
         $pdf = PDF::loadView('pitchplanner.tournament_matches',$data)
             ->setPaper('a4')
             ->setOption('header-spacing', '5')
             ->setOption('header-font-size', 7)
             ->setOption('header-font-name', 'Open Sans')
+            ->setOption('footer-spacing', '5')
             ->setOption('footer-font-size', 7)
             ->setOption('footer-font-name', 'Open Sans')
             ->setOrientation('portrait')
@@ -235,6 +244,8 @@ class PitchController extends BaseController
         $matches = collect();
         $tournamentPitches = [];
         foreach ($pitchPlannerExportData['matches'] as $match) {
+            $compelitionType = $match->competation_type;
+            $competitionActualName = explode('-', ($match->actual_name));
             $stdate = Carbon::parse($match->match_datetime);
             $matches->push([
                 'match_id' => $match->id,
@@ -252,6 +263,8 @@ class PitchController extends BaseController
                 'age_category_color' => $match->age_category_color,
                 'category_age_color' => $match->category_age_color,
                 'category_age_font_color' => $match->category_age_font_color,
+                'actual_name' => $competitionActualName[2].' '.$competitionActualName[3],
+                'competation_type' => $match->competation_type,
             ]);
         }
 
@@ -270,8 +283,8 @@ class PitchController extends BaseController
         }
 
 
-        \Excel::create('Pitch planner', function($excel) use ($tournamentDates, $tournamentPitches, $time, $matches) {
-            $excel->sheet('pitch_planner', function($sheet) use ($tournamentDates, $tournamentPitches, $time, $matches)
+        \Excel::create('Match planner', function($excel) use ($tournamentDates, $tournamentPitches, $time, $matches) {
+            $excel->sheet('Match planner', function($sheet) use ($tournamentDates, $tournamentPitches, $time, $matches)
             {
                 $rowCount = 1;
                 $cell = 2;
@@ -438,16 +451,18 @@ class PitchController extends BaseController
                             $startIndex = array_search($startTime, $time);
                             $endIndex = array_search($endTime, $time);
 
-                            $matchTime = $startTime . ' - ' . Carbon::parse($endTime)->addMinute(5)->format('H:i'). "\n";
+                            $matchActualName = $match['competation_type'] == 'Round Robin' ? ' ('.$match['actual_name'].')' : '';
+                            $matchTime = $startTime . ' - ' . Carbon::parse($endTime)->addMinute(5)->format('H:i'). $matchActualName . "\n";
                             $refreeName = '';
                             if($match['referre_name'] != ' '){
                                 $refreeName = $match['referre_name']."\n";
                             }
                             $score = '';
+                            
                             if($match['hometeam_score'] !== null && $match['awayteam_score'] !== null) {
                                 $score = "\n".$match['hometeam_score'] . ' - ' .$match['awayteam_score'];
                             }
-                            $matchString = $matchTime .$refreeName .$match['match_name'] .$score;
+                            $matchString = $refreeName .$matchTime. $match['match_name'] .$score;
 
                             // displaying fixtures
                             $sheet->cell($startIndex.$cell, function($cell) use ($matchString, $ageCategoryColor, $ageCategoryFontColor) {

@@ -41,14 +41,6 @@
             return {
                 'currentYear': new Date().getFullYear()
             }
-        },
-        mounted() {
-            $(document).ready( function(){
-                var headerHeight = $(".header").outerHeight();
-                var footerHeight = $(".footer").outerHeight();
-                // $('.main-section').css({ 'min-height': 'calc(100vh - ' + (headerHeight + footerHeight) + 'px)' });
-                $('.main-section').css({ 'min-height': 'calc(100vh - ' + (footerHeight) + 'px)' });
-            });
-        }            
+        }          
     }
 </script>

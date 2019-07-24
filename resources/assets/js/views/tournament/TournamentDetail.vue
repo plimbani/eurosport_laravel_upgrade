@@ -33,7 +33,7 @@
                             <p class="mb-4">Download and open the tournament planner app and enter the following code to follow {{ tournamentData.name }}.</p>
 
                             <div class="app-code text-center py-3">
-                                <h3 class="font-weight-bold m-0">{{tournamentData.access_code}}</h3>
+                                <h3 class="font-weight-bold m-0">{{tournamentData.access_code | upperCase}}</h3>
                             </div>
                             
                             <ul class="list-unstyled get-app mb-0 text-xl-center mt-4">
@@ -64,7 +64,6 @@
                 contactData:[],
                 tournamentSponsers:[],
                 code:"",
-                baseUrl:"",
                 googleAppStoreLink:"",
                 appleStoreLink:"",
                 appleStoreDeepLink:"", 
@@ -82,6 +81,11 @@
         },
         components: {
             ScheduleAndResult,
+        },
+        filters: {
+          upperCase: function(value) {
+            return value.toUpperCase()
+          }
         },
         computed: {
             displayTournamentDateFormat(){
@@ -147,7 +151,6 @@
                              }
 
                              this.tournamentSponsers = response.data.data.tournament_sponsor;
-                             this.baseUrl = response.data.data.baseUrl;
                              this.googleAppStoreLink = response.data.data.googleAppStoreLink;
                              this.appleStoreLink = response.data.data.appleStoreLink;
                              this.appleStoreDeepLink = response.data.data.appleStoreDeepLink;
@@ -189,7 +192,7 @@
             tournamentDetailGoogleStoreLink() {
                 if(/Android/i.test(navigator.userAgent)){ 
                     //this.$router.push({ path: 'mtournament-detail', query: { code: this.code }})
-                    window.location.href = this.baseUrl+'/tournament/openApp?code='+this.code;
+                    window.location.href = appUrl+'/tournament/openApp?code='+this.code;
                 }
 
                 if (!navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/)) {

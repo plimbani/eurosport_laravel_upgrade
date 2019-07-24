@@ -15,7 +15,7 @@
         </div>
         <div v-if="refereeStatus" v-for="referee in referees">
           <div>
-            <draggable-referee :referee="referee" :competationList="competationListData"></draggable-referee>
+            <draggable-referee :referee="referee" :competationList="competationListData" :isMatchScheduleInEdit="isMatchScheduleInEdit"></draggable-referee>
           </div>
         </div>
       </div>
@@ -29,7 +29,7 @@
   import _ from 'lodash';
 
   export default {
-    props: ['competationList'],
+    props: ['competationList', 'isMatchScheduleInEdit'],
     data() {
     return {
       'tournamentId': this.$store.state.Tournament.tournamentId,

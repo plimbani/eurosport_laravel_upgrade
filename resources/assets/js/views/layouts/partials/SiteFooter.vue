@@ -22,20 +22,6 @@
         },
         mounted() {
             // this.changeFooterStyle();
-
-            $(window).resize(function() {
-                if ($(document).height() > $(window).height()) {
-                    $('.site-footer').removeClass('sticky');    
-                } else {
-                   $('.site-footer').addClass('sticky');
-                }
-            });
-            if ($(document).height() > $(window).height()) {
-                    $('.site-footer').removeClass('sticky');    
-                } else {
-                   $('.site-footer').addClass('sticky');
-                }
-                        
         }
     }
 </script>

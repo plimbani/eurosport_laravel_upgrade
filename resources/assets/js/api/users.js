@@ -64,4 +64,7 @@ export default {
   validateUserEmail(formData) {
     return api.post('user/validateemail',formData)
   },
+  verifyResultAdminUser(data) {
+    return api.post('user/verifyResultAdminUser', data);
+  }
 }

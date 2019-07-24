@@ -81,7 +81,7 @@
                 }
                 
                 axios.post(Constant.apiBaseUrl+'customer-tournament',params).then(response =>  {  
-                     this.usersTourmanents = response.data.data.data;
+                     this.usersTourmanents = response.data.data;
                 }).catch(error => {
                     this.disabled = false;
                      console.log("error in getTournamentListOfUser::",error);
