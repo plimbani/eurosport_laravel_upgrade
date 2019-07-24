@@ -56,9 +56,7 @@
                         </div>
 
                         <div class="divider my-3 opacited"></div>
-
-                        <p class="text-sm-right font-weight-bold">{{paymentObj.currency == 'EUR' ? '€' : '£' }}{{paymentObj.amount}}</p>
-
+                        <p class="text-sm-right font-weight-bold">{{paymentObj.currency == 'EUR' ? '€' : '£' }} {{ returnFormatedNumber(paymentObj.amount) }}</p>
                         <p class="py-3">You may now proceed to your dashboard and begin adding your tournament details.</p>
                         <button v-if="tournament_id" class="btn btn-primary" v-on:click="redirectToDashboardPage()">Get started</button>
                         <button v-if="!tournament_id" class="btn btn-primary" disabled="true">Get started</button>
@@ -183,11 +181,10 @@
                   (error)=> {
                   }
                 );
-            }, 
+            },           
             returnFormatedNumber(value){
                 return Number(value).toFixed(2);  
-            },          
-            
+            },
         },
         beforeMount(){  
             let tournament = Ls.get('orderInfo'); 
