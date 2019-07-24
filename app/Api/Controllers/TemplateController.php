@@ -10,6 +10,7 @@ use Laraspace\Http\Requests\Template\EditRequest;
 use Laraspace\Http\Requests\Template\StoreRequest;
 use Laraspace\Http\Requests\Template\UpdateRequest;
 use Laraspace\Http\Requests\Template\DeleteRequest;
+use Laraspace\Http\Requests\Template\GetTemplatesRequest;
 use Laraspace\Http\Requests\Template\TemplateDetailRequest;
 
 class TemplateController extends BaseController
@@ -24,7 +25,7 @@ class TemplateController extends BaseController
     /**
      * Get all templates
      */
-    public function getTemplates(Request $request)
+    public function getTemplates(GetTemplatesRequest $request)
     {
        return $this->templateObj->getTemplates($request->all());
     }
