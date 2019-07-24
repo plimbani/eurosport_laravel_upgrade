@@ -159,6 +159,10 @@
 			        				$('#edit_template_modal').modal('hide');
 			        				vm.$root.$emit('clearFormFields');
 			        				vm.$root.$emit('getTemplates');
+
+			        				if(this.userDetails.role_slug == 'customer') {
+			        					this.$router.push({name: 'dashboard'});
+			        				}
 			        			},
 			        			(error) => {
 			        			}
@@ -170,6 +174,9 @@
 			        				$('#add_new_template_modal').modal('hide');
 			        				vm.$root.$emit('clearFormFields');
 			        				vm.$root.$emit('getTemplates');
+			        				if(this.userDetails.role_slug == 'customer') {
+			        					this.$router.push({name: 'dashboard'});
+			        				}
 			        			},
 			        			(error) => {
 			        			}

@@ -115,6 +115,9 @@
             closeModal() {
                 let vm = this;
                 $('#add_new_template_modal').modal('hide');
+                if(this.userDetails.role_slug == 'customer') {
+                    this.$router.push({name: 'dashboard'});
+                }
             },
             clearFormFields() {
                 let vm = this;

@@ -162,6 +162,15 @@
           this.getUsersForFilter();
         },
         mounted() {
+          if(this.userDetails.role_slug == 'customer' && this.$route.query.from == 'add') {
+            this.addTemplate();
+          }
+
+          if(this.userDetails.role_slug == 'customer' && this.$route.query.from == 'edit') {
+            let templateId = this.$route.query.templateId;
+            this.editTemplate(templateId);
+          }
+
           setTimeout( function(){
             if ($(document).height() > $(window).height()) {
               $('.site-footer').removeClass('sticky');

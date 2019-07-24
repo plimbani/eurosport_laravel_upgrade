@@ -78,6 +78,9 @@
             },
             closeModal() {
                 $('#edit_template_modal').modal('hide');
+                if(this.userDetails.role_slug == 'customer') {
+                    this.$router.push({name: 'dashboard'});
+                }
             },
             clearFormFields() {
                 this.errors.clear();
