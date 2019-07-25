@@ -210,7 +210,7 @@
 
                                     <div class="row" v-if="!buyLicenseReduceTeamAndDay">
                                         <div class="col-8">
-                                           <p class="mb-0" >Paid amount</p>
+                                           <p class="mb-0">Already paid amount</p>
                                         </div>
                                         <div class="col-4 text-right">
                                             <p class="text-sm-right mb-0 mt-3 mt-sm-0">

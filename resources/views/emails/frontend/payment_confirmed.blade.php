@@ -144,7 +144,7 @@ $days = $interval->format('%a') + 1;
                                                                     <tbody>
                                                                         <tr>
                                                                             <td style="text-align: right; width: 200px;" width="200" align="right">
-                                                                                <img height="auto" src="https://i.imgur.com/rttk6GO.png" style="border:0;display:block;outline:none;text-decoration:none;height:auto;width:100%;" width="200">
+                                                                                <img height="auto" src="{{asset('assets/img/easy-match-manager.jpg')}}" style="border:0;display:block;outline:none;text-decoration:none;height:auto;width:100%;" width="200">
                                                                             </td>
                                                                         </tr>
                                                                     </tbody>
