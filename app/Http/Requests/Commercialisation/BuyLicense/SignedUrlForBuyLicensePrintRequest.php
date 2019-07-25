@@ -1,11 +1,11 @@
 <?php
 
-namespace Laraspace\Http\Requests\Commercialisation\Customer;
+namespace Laraspace\Http\Requests\Commercialisation\BuyLicense;
 
 use Laraspace\Traits\AuthUserDetail;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateRequest extends FormRequest
+class SignedUrlForBuyLicensePrintRequest extends FormRequest
 {
     use AuthUserDetail;
     
@@ -31,10 +31,7 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'first_name' => 'required',
-            'last_name' => 'required',
-            'email' => 'required',
-            'organisation' => 'required',
+            //
         ];
     }
 }
