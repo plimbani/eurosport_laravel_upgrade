@@ -199,6 +199,25 @@ class TransactionRepository
     {
         $data = array_change_key_case($requestData['paymentResponse'], CASE_UPPER);
         $tournament = $requestData['tournament'];
+
+
+        if ( array_key_exists('tournamentLicenseBasicPriceDisplay', $tournament))
+        {
+            $tournament['tournamentLicenseBasicPriceDisplay'] = number_format((float)$tournament['tournamentLicenseBasicPriceDisplay'], 2, '.', '');
+            $tournament['tournamentLicenseAdvancePriceDisplay'] = number_format((float)$tournament['tournamentLicenseAdvancePriceDisplay'], 2, '.', '');
+
+
+            if ( $tournament['payment_currency'] == 'GBP')
+            {
+               $tournament['transactionDifferenceAmountValue'] = number_format((float)$tournament['transactionDifferenceAmountValue']*($tournament['gpbConvertValue']), 2, '.', '');
+            }
+            else
+            {
+                $tournament['transactionDifferenceAmountValue'] = number_format((float)$tournament['transactionDifferenceAmountValue'], 2, '.', '');
+            }
+
+        }
+
         $authUser = JWTAuth::parseToken()->toUser();
         $paymentStatus = config('app.payment_status');
         $existsTransaction = Transaction::where('tournament_id', $tournament['old_tournament_id'])->first();        

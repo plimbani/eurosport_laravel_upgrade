@@ -33,13 +33,13 @@
                                     </span>
                                 </p>
 
-                                <p v-if="paymentFlag" class="mb-0" id="reeiptDetails && tournament.tournament_type == 'cup' && tournament.custom_tournament_format == 1">
+                                <p v-if="paymentFlag && tournament.tournament_type == 'cup' && tournament.custom_tournament_format == 1" class="mb-0" id="reeiptDetails">
                                     <span>Tournament formats
                                     </span>
                                 </p>
 
                                 <p v-if="paymentFlag" class="mb-0" id="reeiptDetails && tournament.transactionDifferenceAmountValue > 0">
-                                    <span>Paid amount
+                                    <span>Already paid amount
                                     </span>
                                 </p>
 
@@ -50,13 +50,13 @@
 
                             <div class="col-sm-6 col-md-5 col-lg-5" v-if="paymentFlag">
                                 <p class="text-sm-right mb-0 mt-3 mt-sm-0"> {{paymentObj.currency == 'EUR' ? '€' : '£' }}{{returnFormatedNumber(managePrice)}}</p>
-                                <p class="text-sm-right mb-0 mt-3 mt-sm-0"> {{paymentObj.currency == 'EUR' ? '€' : '£' }}{{returnFormatedNumber(manageAdvancePrice)}}</p>
-                                <p class="text-sm-right mb-0 mt-3 mt-sm-0"> {{paymentObj.currency == 'EUR' ? '€' : '£' }}{{returnFormatedNumber(manageDifferencePrice)}}</p>
+                                <p class="text-sm-right mb-0 mt-3 mt-sm-0"  v-if="tournament.tournament_type == 'cup' && tournament.custom_tournament_format == 1"> {{paymentObj.currency == 'EUR' ? '€' : '£' }}{{returnFormatedNumber(manageAdvancePrice)}}</p>
+                                <p class="text-sm-right mb-0 mt-3 mt-sm-0">-{{paymentObj.currency == 'EUR' ? '€' : '£' }}{{returnFormatedNumber(manageDifferencePrice)}}</p>
                             </div>
                         </div>
 
                         <div class="divider my-3 opacited"></div>
-                        <p class="text-sm-right font-weight-bold">{{paymentObj.currency == 'EUR' ? '€' : '£' }} {{ returnFormatedNumber(paymentObj.amount) }}</p>
+                        <p class="text-sm-right font-weight-bold">{{paymentObj.currency == 'EUR' ? '€' : '£' }}{{returnFormatedNumber(paymentObj.amount)}}</p>
                         <p class="py-3">You may now proceed to your dashboard and begin adding your tournament details.</p>
                         <button v-if="tournament_id" class="btn btn-primary" v-on:click="redirectToDashboardPage()">Get started</button>
                         <button v-if="!tournament_id" class="btn btn-primary" disabled="true">Get started</button>
@@ -157,7 +157,7 @@
             },
 
             printReceipt() {
-                let tournamentData = {'tournament_id':this.tournament_id, 'user_name':this.userDetail.name};
+                let tournamentData = {'tournament_id':this.tournament_id, 'user_name':this.userDetail.name,'tournament':this.tournament};
                 Commercialisation.getSignedUrlForBuyLicensePrint(tournamentData).then(
                 (response) => {
                     window.location.href = response.data;

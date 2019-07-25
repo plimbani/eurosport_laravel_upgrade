@@ -181,6 +181,10 @@
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody>
+                                                                        <?php
+                                                                            if (!array_key_exists('id',$data['tournamentData']))
+                                                                            {
+                                                                        ?>
                                                                         <tr>
                                                                             <th style="font-family:Roboto, Helvetica, Arial, sans-serif;font-size:16px;font-weight:300;line-height:24px;text-align:left;color:#555;" align="left"><p><?php echo $data['tournamentName']; ?> - <?php echo $data['maximumTeams']; ?> team license for a <?php echo $data['days']; ?> day tournament</p>
                                                                             </th>
@@ -195,6 +199,94 @@
 																			 ?></p>
 																			 </td>
                                                                         </tr>
+                                                                        <?php
+                                                                        } else {
+                                                                        ?>
+                                                                        <tr>
+                                                                            <th style="font-family:Roboto, Helvetica, Arial, sans-serif;font-size:16px;font-weight:300;line-height:15px;text-align:left;color:#555;" align="left">
+                                                                                <p>
+                                                                                <?php 
+                                                                                    if ($data['tournamentData']['teamDifference'] == 0)
+                                                                                    {
+                                                                                        echo $data['tournamentData']['tournament_max_teams'].' teams';
+                                                                                    }
+
+                                                                                    if ($data['tournamentData']['teamDifference'] > 0)
+                                                                                    {
+                                                                                        echo 'Additional '.$data['tournamentData']['teamDifference'].' teams';
+                                                                                    }
+
+                                                                                    if ($data['tournamentData']['teamDifference'] < 0)
+                                                                                    {
+                                                                                        echo 'Reduce '.abs($data['tournamentData']['teamDifference']).' teams';
+                                                                                    }
+                                                                                ?>   
+                                                                                </p>
+                                                                            </th>
+                                                                            <td style="text-align: right; font-family:Roboto, Helvetica, Arial, sans-serif;font-size:16px;font-weight:300;line-height:15px;color:#555;" align="right"><p>
+                                                                            <?php if($data['tournamentData']['payment_currency'] == "GBP") 
+                                                                            {
+                                                                                echo "&#163;";
+                                                                            } else { 
+                                                                                echo "&#128;"; 
+                                                                            }
+                                                                             echo $data['tournamentData']['tournamentLicenseBasicPriceDisplay'];
+                                                                             ?></p>
+                                                                             </td>
+                                                                        </tr>
+
+                                                                        <?php 
+                                                                            if ( $data['tournamentData']['tournament_type'] == 'cup' && $data['tournamentData']['custom_tournament_format'] == 1 )
+                                                                            {
+                                                                        ?>
+                                                                            <tr>
+                                                                                <th style="font-family:Roboto, Helvetica, Arial, sans-serif;font-size:16px;font-weight:300;line-height:15px;text-align:left;color:#555;" align="left">
+                                                                                    <p>
+                                                                                        Tournament formats  
+                                                                                    </p>
+                                                                                </th>
+                                                                                <td style="text-align: right; font-family:Roboto, Helvetica, Arial, sans-serif;font-size:16px;font-weight:300;line-height:15px;color:#555;" align="right"><p>
+                                                                                <?php if($data['tournamentData']['payment_currency'] == "GBP") 
+                                                                                {
+                                                                                    echo "&#163;";
+                                                                                } else { 
+                                                                                    echo "&#128;"; 
+                                                                                }
+                                                                                 echo $data['tournamentData']['tournamentLicenseAdvancePriceDisplay'];
+                                                                                 ?></p>
+                                                                                 </td>
+                                                                            </tr>
+                                                                        <?php
+                                                                        }
+                                                                        ?>
+
+                                                                        <?php
+                                                                            if ( $data['tournamentData']['transactionDifferenceAmountValue'] > 0)
+                                                                            {
+                                                                        ?>
+                                                                            <tr>
+                                                                                <th style="font-family:Roboto, Helvetica, Arial, sans-serif;font-size:16px;font-weight:300;line-height:15px;text-align:left;color:#555;" align="left">
+                                                                                    <p>
+                                                                                    Already paid amount
+                                                                                    </p>
+                                                                                </th>
+                                                                                <td style="text-align: right; font-family:Roboto, Helvetica, Arial, sans-serif;font-size:16px;font-weight:300;line-height:15px;color:#555;" align="right"><p>
+                                                                                -
+                                                                                <?php if($data['tournamentData']['payment_currency'] == "GBP") 
+                                                                                {
+                                                                                    echo "&#163;";
+                                                                                } else { 
+                                                                                    echo "&#128;"; 
+                                                                                }
+                                                                                 echo $data['tournamentData']['transactionDifferenceAmountValue'];
+                                                                                 ?></p>
+                                                                                 </td>
+                                                                            </tr>
+                                                                        <?php
+                                                                        }
+                                                                        ?>
+                                                                        <?php 
+                                                                        } ?>
                                                                     </tbody>
                                                                     <thead class="footer">
                                                                         <tr>
