@@ -52,7 +52,6 @@ class TransactionService implements TransactionContract {
         $datetime2 = new \DateTime($tdate);
         $interval = $datetime1->diff($datetime2);
         $days = $interval->format('%a') + 1;
-
         if (count($transaction) > 1) {
             $amount  = $transaction[0]->amount;
             $maxTeam = $transaction[0]->maximum_teams." (+".$transaction[0]->team_size.")";
@@ -69,13 +68,14 @@ class TransactionService implements TransactionContract {
         $pdfData = [
             'days' => $days,
             'maximumTeams' => $maxTeam,
-            'amount' => number_format($amount,2),
+            'amount' => number_format((float)$amount, 2, '.', ''),
             'orderNumber' => $transaction[0]->order_id,
 			'currency' => $transaction[0]->currency,
             'tournamentCreatedAtDateFormat' => $tournamentCreatedAtDateFormat,
-            list($firstName, $lastName) = explode(' ', $_GET['user_name']),
+            list($firstName, $lastName) = explode(' ', $data['user_name']),
             'userFirstName' => $firstName,
-            'tournamentName' => $tournamentName
+            'tournamentName' => $tournamentName,
+            'tournamentData' => $data,
         ];
         
         $date = new \DateTime(date('H:i d M Y'));
