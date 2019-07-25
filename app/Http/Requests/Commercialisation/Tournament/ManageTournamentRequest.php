@@ -1,14 +1,14 @@
 <?php
 
-namespace Laraspace\Http\Requests\Commercialisation\BuyLicense;
+namespace Laraspace\Http\Requests\Commercialisation\Tournament;
 
 use Laraspace\Traits\AuthUserDetail;
 use Illuminate\Foundation\Http\FormRequest;
 
-class CustomerTransactionsRequest extends FormRequest
+class ManageTournamentRequest extends FormRequest
 {
     use AuthUserDetail;
-
+    
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -17,7 +17,7 @@ class CustomerTransactionsRequest extends FormRequest
     public function authorize()
     {
         $user = $this->getCurrentLoggedInUserDetail();
-        if($user->hasRole('Master.administrator') || $user->hasRole('Super.administrator')) {
+        if($user->hasRole('customer')) {
             return true;
         }
         return false;
@@ -31,7 +31,7 @@ class CustomerTransactionsRequest extends FormRequest
     public function rules()
     {
         return [
-            'tournament_id' => 'required',
+            //
         ];
     }
 }
