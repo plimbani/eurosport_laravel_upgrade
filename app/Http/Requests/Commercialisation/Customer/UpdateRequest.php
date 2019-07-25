@@ -17,7 +17,7 @@ class UpdateRequest extends FormRequest
     public function authorize()
     {
         $user = $this->getCurrentLoggedInUserDetail();
-        if($user->hasRole('customer')) {
+        if($user->hasRole('customer') && ($user->id == $this->all()['id'])) {
             return true;
         }
         return false;
