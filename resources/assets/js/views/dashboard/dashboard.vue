@@ -142,6 +142,10 @@
         },
         mounted() {
             this.getTemplateList();
+
+            if(this.userDetails.role_slug == 'customer' && this.$route.query.error == true) {
+                toastr['error']('This action is unauthorized.', 'Error');
+            }
         },
         methods: {
             getTournamentList(){

@@ -231,6 +231,9 @@
                 });
               },
               (error)=> {
+                if(this.userDetails.role_slug == 'customer' && this.$route.query.from == 'edit') {
+                  this.$router.push({name:'dashboard', query: {error: true}});
+                }
               }
             )
           },

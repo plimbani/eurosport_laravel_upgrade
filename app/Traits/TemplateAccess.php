@@ -17,13 +17,10 @@ trait TemplateAccess
 	protected function checkForTemplateAccess($id)
 	{
 		$user = $this->getCurrentLoggedInUserDetail();
-		if($user->hasRole('customer')) {
-			$templatesIds = $user->templates()->pluck('id')->toArray();
-			if (in_array($id, $templatesIds)) {
-				return true;
-			}
-			return false;
+		$templatesIds = $user->templates()->pluck('id')->toArray();
+		if (in_array($id, $templatesIds)) {
+			return true;
 		}
-		return true;
+		return false;
 	}
 }

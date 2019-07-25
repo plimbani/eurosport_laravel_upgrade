@@ -24,11 +24,14 @@ class EditRequest extends FormRequest
             return true;
         }
 
-        $isTemplateAccessible = $this->checkForTemplateAccess($templateId);
-        if(!$isTemplateAccessible) {
-            return false;
+        if($loggedInUser->hasRole('customer')) {
+            $isTemplateAccessible = $this->checkForTemplateAccess($templateId);
+            if($isTemplateAccessible) {
+                return true;
+            }
         }
-        // return true;
+
+        return false;
     }
 
     /**
