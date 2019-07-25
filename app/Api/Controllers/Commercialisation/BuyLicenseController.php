@@ -57,9 +57,14 @@ class BuyLicenseController extends BaseController
     public function generateHashKey(Request $request)
     {
         $requestData = $request->all();
+        $amount = ($requestData['tournamentPricingValue'] * 100);
+        if ( is_float($amount) )
+        {
+            $amount = (int)($amount);
+        }
         
         $orderId = 'ORDER-' . uniqid() . '-' . time();
-        $shaInString = 'AMOUNT=' . ($requestData['tournamentPricingValue'] * 100) . config('app.SHA_IN_PASS_PHRASE') .
+        $shaInString = 'AMOUNT=' . ($amount) . config('app.SHA_IN_PASS_PHRASE') .
                 'CURRENCY=' . substr($requestData['currency_type'], 0, 3) . config('app.SHA_IN_PASS_PHRASE') . 'ORDERID=' . $orderId . config('app.SHA_IN_PASS_PHRASE') .
                 'PMLIST=' . $requestData['PMLIST'] . config('app.SHA_IN_PASS_PHRASE') . 'PMLISTTYPE=' . $requestData['PMLISTTYPE'] . config('app.SHA_IN_PASS_PHRASE') .
                 'PSPID=' . config('app.PSPID') . config('app.SHA_IN_PASS_PHRASE');

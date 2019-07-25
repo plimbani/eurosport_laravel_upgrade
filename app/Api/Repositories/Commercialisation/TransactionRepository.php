@@ -268,7 +268,7 @@ class TransactionRepository
             //Send conformation mail to customer
             $subject = 'Easy Match Manager - Order confirmation';
             $email_templates = 'emails.frontend.payment_confirmed';
-            $emailData = ['paymentResponse' => $requestData['paymentResponse'], 'tournament' => $requestData['tournament'], 'user' => $authUser->profile, 'is_manage_license' => 1, 'tournamentCreatedAtDateFormat' => $tournamentCreatedAtDateFormat];
+            $emailData = ['paymentResponse' => $requestData['paymentResponse'], 'tournament' => $tournament, 'user' => $authUser->profile, 'is_manage_license' => 1, 'tournamentCreatedAtDateFormat' => $tournamentCreatedAtDateFormat];
 			Mail::to($authUser->email)
                     ->send(new SendMail($emailData, $subject, $email_templates, NULL, NULL, NULL));
         }
