@@ -17,7 +17,7 @@ class GetTemplatesRequest extends FormRequest
     public function authorize()
     {
         $loggedInUser = $this->getCurrentLoggedInUserDetail();
-        if($loggedInUser->hasRole('Super.administrator') || $loggedInUser->hasRole('tournament.administrator') || $loggedInUser->hasRole('Internal.administrator')) {
+        if($loggedInUser->hasRole('Super.administrator') || $loggedInUser->hasRole('tournament.administrator') || $loggedInUser->hasRole('Internal.administrator') || $loggedInUser->hasRole('customer')) {
             return true;
         }
         return false;

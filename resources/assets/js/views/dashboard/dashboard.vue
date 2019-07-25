@@ -68,24 +68,24 @@
                         <button class="btn btn-success" v-on:click="redirectToAddTournament()">Add Tournament</button>
 
                         <h3 class="text-uppercase font-weight-bold mb-4 mt-5">Manage Templates</h3>
-                        <div class="row">
+                        <div class="row" v-for="template in templates">
                             <div class="col-md-6 col-lg-12 d-flex">
                                 <div class="card w-100">
                                     <div class="card-block">
                                         <div class="row align-items-center">
                                             <div class="col-xl-7">
-                                                <p class="h7 mb-0 text-uppercase">Version 1</p>
-                                                <h3 class="font-weight-bold mb-2">Ben’s 4x4 + Knockout</h3>
+                                                <p class="h7 mb-0 text-uppercase">Version {{ template.version }}</p>
+                                                <h3 class="font-weight-bold mb-2">{{ template.name }}</h3>
                                                 <ul class="list-unstyled mb-0">
-                                                    <li class="d-block d-lg-inline pb-1 pb-sm-0 pr-sm-2"><img src="/images/team.png" alt=""> &nbsp;32 Teams</li>
-                                                    <li class="d-block d-lg-inline pb-1 pb-sm-0 pr-sm-2"><img src="/images/match.png" alt=""> &nbsp;48 Matches</li>
-                                                    <li class="d-block d-lg-inline"><img src="/images/date.png" alt=""> &nbsp;19th - 22nd October 2018</li>
+                                                    <li class="d-block d-lg-inline pb-1 pb-sm-0 pr-sm-2"><img src="/images/team.png" alt=""> &nbsp;{{ template.total_teams }} Teams</li>
+                                                    <li class="d-block d-lg-inline pb-1 pb-sm-0 pr-sm-2"><img src="/images/match.png" alt=""> &nbsp;{{ template.total_matches }} Matches</li>
+                                                    <!-- <li class="d-block d-lg-inline"><img src="/images/date.png" alt=""> &nbsp;19th - 22nd October 2018</li> -->
                                                 </ul>
                                             </div>
                                             <div class="col-xl-5 mt-3 mt-lg-0 text-lg-right">
                                                 <div class="btn-group">
-                                                    <button class="btn btn-link"><img src="/images/delete.png" alt=""> Delete</button>
-                                                    <button class="btn btn-outline ml-2"><img src="/images/edit.png" alt=""> Edit</button>
+                                                    <button class="btn btn-link" @click="deleteTemplate(template)"><img src="/images/delete.png" alt=""> Delete</button>
+                                                    <button class="btn btn-outline ml-2" @click="editTemplate(template.id)"><img src="/images/edit.png" alt=""> Edit</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -93,17 +93,33 @@
                                 </div>
                             </div>
                         </div>
-                        <button class="btn btn-success">Add Template</button>
+                        
+                        <div class="row" v-if="templates.length == 0">
+                            <div class="col-md-6 col-lg-12 d-flex">
+                                <div class="card w-100">
+                                    <div class="card-block">
+                                        <h4 class="mb-0">No templates found.</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-success" @click="addTemplate()">Add Template</button>
                     </div>
                 </div>
             </div>
         </div>
+        <delete-modal :deleteConfirmMsg="deleteConfirmMsg" @confirmed="deleteConfirmed()"></delete-modal>
+        <template-in-use-modal v-show="templateInUseModal"></template-in-use-modal>
     </div>
 </template>
 <script type="text/babel">
     import Auth from '../../services/auth'
     import Ls from '../../services/ls'
     import Constant from '../../services/constant'
+    import Template from '../../api/template'
+    import DeleteModal from '../../components/DeleteModal.vue'
+    import TemplateInUseModal from '../../components/TemplateInUseModal.vue'
     
     export default {
         data() {
@@ -113,10 +129,23 @@
                 url:"tournament-detail",
                 dashboardTournamentDisplayDateFormat:"",
                 currentDateTime: moment(),
+                templates: [],
+                deleteAction: '',
+                templateInUseModal: false,
+                deleteConfirmMsg: 'Are you sure you would like to delete this template?',
             }
         },
+        components: {
+            DeleteModal, TemplateInUseModal
+        },        
         computed: {
+        },
+        mounted() {
+            this.getTemplateList();
 
+            if(this.userDetails.role_slug == 'customer' && this.$route.query.error == true) {
+                toastr['error']('This action is unauthorized.', 'Error');
+            }
         },
         methods: {
             getTournamentList(){
@@ -130,8 +159,7 @@
                      
                  });                
             },
-            isTournamentExpired(expireDate){
-                
+            isTournamentExpired(expireDate){                
                 let expireDateArr = expireDate.split("/");
                 let currentDateArr = moment().format("DD/MM/YYYY").split("/");
 
@@ -150,9 +178,7 @@
                 }else{
                     return false;
                 }
-
-            }, 
-
+            },
             redirectToTournamentDetailPage(selectedTournament){
                 let name = selectedTournament.name
                 let id = selectedTournament.id
@@ -169,20 +195,20 @@
                     facebook:selectedTournament.facebook,
                     website:selectedTournament.website,
                     twitter:selectedTournament.twitter,
-                    access_code:selectedTournament.access_code
+                    access_code:selectedTournament.access_code,
+                    tournament_type: selectedTournament.tournament_type,
+                    custom_tournament_format: selectedTournament.custom_tournament_format
                 }
                 this.$store.dispatch('SetTournamentName', tournamentSel);
                 let currentNavigationData = {activeTab:'tournament_add', currentPage: 'Tournament details'};
                 this.$store.dispatch('setActiveTab', currentNavigationData);
                 this.$router.push({name:'tournament_add'});
             },
-
             openSharePopup(tournament){
                 let tournamentAccessCode = tournament.access_code.toUpperCase();
                 this.access_code_popup = appUrl + '/' + this.url + '?code=' + tournamentAccessCode;
                 $("#open_share_popup").modal('show'); 
             },
-
             getAccessCode (event) {
                 
             },
@@ -249,7 +275,6 @@
                   return true;
                 }
             },
-
             tournamentDashboardManageLicense(startDate) {
                 let currentDateTime = this.currentDateTime;
                 let tournamentStartDate = moment(startDate, 'DD/MM/YYYY HH:mm:ss');
@@ -258,8 +283,50 @@
                 } else {
                     return false
                 }
-            }      
-            
+            },
+            getTemplateList() {
+                Template.getTemplates().then(
+                    (response)=> {
+                        this.templates = response.data.data.data;
+                    },
+                    (error)=> {
+                    }
+                )
+            },
+            addTemplate() {
+                this.$router.push({name: 'templates_list', query: {from: 'add'}});
+            },
+            editTemplate(templateId) {
+                this.$router.push({name: 'templates_list', query: {templateId: templateId, from: 'edit'}});
+            },
+            deleteTemplate(template) {
+                Template.getTemplateDetail(template).then(
+                  (response)=> {
+                      if(response.data.data.length == 0) {
+                        this.deleteAction="template/delete/" +template.id;
+                        $('#delete_modal').modal('show');
+                      } else {
+                        this.templateInUseModal = true;
+                        $('#template_in_use_modal').modal('show');
+                      }
+                  },
+                  (error)=> {
+                  }
+                )
+            },
+            deleteConfirmed() {
+                $("body .js-loader").removeClass('d-none');
+                Template.deleteTemplate(this.deleteAction).then(
+                  (response)=> {
+                    $("body .js-loader").addClass('d-none');
+                    $("#delete_modal").modal("hide");
+                    toastr.success('Template has been deleted successfully.', 'Delete Template', {timeOut: 5000});
+                    this.getTemplateList();
+                  },
+                  (error)=> {
+                  }
+                )
+            },
         },
         beforeMount(){  
              this.getTournamentList();

@@ -34,15 +34,15 @@ class TemplateRepository
     public function getTemplates($data)
     {
         $loggedInUser = $this->getCurrentLoggedInUserDetail();
-        $templates = TournamentTemplates::leftjoin('users', 'tournament_template.created_by', '=', 'users.id');                                        
+        $templates = TournamentTemplates::leftjoin('users', 'tournament_template.created_by', '=', 'users.id');
+
         if(isset($data['teamSearch']) && $data['teamSearch'] !== '') {
             $templates->where('total_teams', $data['teamSearch']);
         }
         if(isset($data['createdBySearch']) && $data['createdBySearch'] !== '') {
             $templates->where('created_by', $data['createdBySearch']);
         }
-
-        if($loggedInUser->hasRole('tournament.administrator')) {
+        if($loggedInUser->hasRole('tournament.administrator') || $loggedInUser->hasRole('customer')) {
             $templates->where('created_by', $loggedInUser->id);
         }
 
@@ -50,10 +50,14 @@ class TemplateRepository
         $templates->orderBy('tournament_template.created_at');
         $templates->select('tournament_template.*', 'users.email as userEmail');
         $templatesData = $templates->get();
-        
+
+        // for customer
+        if($loggedInUser->hasRole('customer')) {
+            return ['data' => $templatesData, 'status_code' => '200'];
+        }
+
         $currentPage = $data['currentPage']; 
         Paginator::currentPageResolver(function () use ($currentPage) {
-
           return $currentPage;
         });
         return $templates->paginate($data['noOfRecords']);
