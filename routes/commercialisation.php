@@ -35,6 +35,8 @@ Route::group(['middleware' => 'jwt.auth'], function() {
     Route::get('v1/getUserTransactions', '\Laraspace\Api\Controllers\Commercialisation\TournamentController@getUserTransactions');
 
     Route::post('getSignedUrlForBuyLicensePrint', '\Laraspace\Api\Controllers\Commercialisation\BuyLicenseController@getSignedUrlForBuyLicensePrint');
+
+    Route::post('v1/generateHashKey', '\Laraspace\Api\Controllers\Commercialisation\BuyLicenseController@generateHashKey');
 });
 
 $api->version('v1', ['middleware' => 'signedurl'], function($api) {
@@ -42,8 +44,6 @@ $api->version('v1', ['middleware' => 'signedurl'], function($api) {
 });
 
 Route::get('v1/tournament-pricing-bands', '\Laraspace\Api\Controllers\Commercialisation\TournamentPricingController@getTournamentPricingBands');
-
-Route::post('v1/generateHashKey', '\Laraspace\Api\Controllers\Commercialisation\BuyLicenseController@generateHashKey');
 
 //Payment response callback URL
 Route::post('v1/payment/response', '\Laraspace\Api\Controllers\Commercialisation\BuyLicenseController@paymentResponse');
