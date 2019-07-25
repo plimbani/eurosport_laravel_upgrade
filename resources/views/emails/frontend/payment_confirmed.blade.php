@@ -303,7 +303,7 @@ $days = $interval->format('%a') + 1;
                                                                                 echo $email_details['tournament']['tournament_name']; ?> - <?php echo $email_details['tournament']['tournament_max_teams']; ?> team license for a <?php echo $email_details['tournament']['dayDifference']; ?> day tournament
                                                                             </p>
                                                                             </th>
-                                                                            <td style="text-align: right; font-family:Roboto, Helvetica, Arial, sans-serif;font-size:16px;font-weight:300;line-height:24px;color:#555;" align="right"><p>
+                                                                            <td valign="top" style="text-align: right; font-family:Roboto, Helvetica, Arial, sans-serif;font-size:16px;font-weight:300;line-height:24px;color:#555;white-space: nowrap;" align="right"><p>
                                                                                 <?php if($email_details['paymentResponse']['currency'] == "GBP") {echo "&#163;";} else { echo "&#x20AC;"; }
                                                                                 ?>
                                                                                 <?php echo number_format($email_details['paymentResponse']['amount'],2); ?></p></td>
