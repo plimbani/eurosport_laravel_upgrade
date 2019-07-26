@@ -30,7 +30,10 @@
 </style>
 
 <center>
-  <img  src="{{ asset('assets/img/tmplogo.svg')}}" alt="Laraspace Logo" class="hidden-sm-down text-center" width="200px" height="100px">
+  <?php 
+    $logo = (Config::get('config-variables.current_layout') == 'tmp') ? 'assets/img/tmplogo.svg' : 'assets/img/easy-match-manager/emm.svg';
+  ?>
+  <img  src="{{ asset($logo)}}" alt="Laraspace Logo" width="200px">
 </center>
   <h4>Match Details</h4>
   @foreach($resultData as $data)
