@@ -36,11 +36,12 @@
               <div class="row d-flex flex-row align-items-center">
                   <div class="col-md-12">
                     <div class="table-responsive">
-                      <table class="table add-category-table">
+                      <table class="table add-category-table tbl-template">
                         <thead>
                             <tr>
                                 <th>{{$lang.template_name}}</th>
                                 <th>{{$lang.template_teams}}</th>
+                                <th>{{$lang.template_min_matches}}</th>
                                 <th>{{$lang.template_avg_teams}}</th>
                                 <th>{{$lang.template_total_matches}}</th>
                                 <th>{{$lang.template_divisions}}</th>
@@ -54,9 +55,10 @@
                           <tr class="" v-for="template in templateList.templateData.data">
                             <td>{{ template.name }}</td>
                             <td>{{ template.total_teams }}</td>
+                            <td>{{ template.minimum_matches }}</td>
                             <td>{{ template.avg_matches }}</td>
                             <td>{{ template.total_matches }}</td>
-                            <td>{{ template.divisions }}</td>
+                            <td>{{ template.no_of_divisions }}</td>
                             <td>{{ template.version }}</td>
                             <td>{{ template.created_at | createdAtFilter }}</td>
                             <td>{{ template.userEmail }}</td>
@@ -75,7 +77,7 @@
                                 </a>
                             </td>
                           </tr>
-                          <tr><td colspan="8"></td></tr>
+                          <tr><td colspan="10"></td></tr>
                         </tbody>
                       </table>
                     </div>

@@ -498,7 +498,7 @@ class AgeGroupService implements AgeGroupContract
 
       $positions = [];
       for ($i=1; $i <= $totalTeams; $i++) {
-        $positions[] = ['position' => $i, 'dependent_type' => 'match', 'match_number' => '', 'result_type' => ''];
+        $positions[] = ['position' => $i, 'dependent_type' => 'ranking', 'ranking' => $i. 'A'];
       }
 
       $finalArray['tournament_positions'] = $positions;
@@ -817,5 +817,12 @@ class AgeGroupService implements AgeGroupContract
       }
 
       return $matches;
+    }
+
+    public function deleteFinalPlacingTeam($data) {
+      $data = $this->ageGroupObj->deleteFinalPlacingTeam($data);
+      if ($data) {
+        return ['data' => $data, 'status_code' => '200', 'message' => 'Teams has been deleted Successfully'];
+      }
     }
 }

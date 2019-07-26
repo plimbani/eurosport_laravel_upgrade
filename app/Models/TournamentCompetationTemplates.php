@@ -27,5 +27,10 @@ class TournamentCompetationTemplates extends Model
     public function TournamentTemplate()
     {
     	 return $this->belongsTo('Laraspace\Models\TournamentTemplates');
-    }    
+    }
+
+    public function scheduledFixtures()
+    {
+        return $this->hasMany('Laraspace\Models\TempFixture', 'age_group_id')->where('is_scheduled', '=', 1);
+    }
 }

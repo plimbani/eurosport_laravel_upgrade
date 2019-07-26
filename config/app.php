@@ -303,6 +303,7 @@ return [
         'UrlSigner' => Spatie\UrlSigner\Laravel\UrlSignerFacade::class,
         'Uuid' => Webpatser\Uuid\Uuid::class,
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
+        'GuzzleHttpClient' => GuzzleHttp\Client::class,
     ],
 
 ];

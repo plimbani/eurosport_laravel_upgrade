@@ -22,7 +22,7 @@
 		            <div class="col-md-6" v-if="groupData.type == 'round_robin'">
 		                <div class="form-group mb-0">
 		                    <label>Teams play each other</label>
-		                    <select class="form-control ls-select2" v-model="groupData.teams_play_each_other" @change="setMatches()">
+		                    <select class="form-control ls-select2" v-model="groupData.teams_play_each_other" @change="setMatches('teams_play_each_other_change')">
 		                        <option value="once">Once</option>
 		                        <option value="twice">Twice</option>
 		                        <option value="three_times">Three times</option>
@@ -136,9 +136,9 @@
                 this.$root.$emit('updatePositions');
         	},
         	displayTeams() {
-        		var i;
-        		var oldGroupMatchesData = _.cloneDeep(this.groupData.matches);
-        		var oldGroupTeamData = _.cloneDeep(this.groupData.teams);
+        		let i;
+        		let oldGroupMatchesData = _.cloneDeep(this.groupData.matches);
+        		let oldGroupTeamData = _.cloneDeep(this.groupData.teams);
 				this.groupData.teams = [];
 				this.groupData.matches = [];
 				let vm = this;
@@ -152,7 +152,7 @@
 						this.groupData.teams.push({position_type: oldGroupTeamData[i].position_type, group: oldGroupTeamData[i].group, position: oldGroupTeamData[i].position});
 						continue;
 					}
-					if(this.roundIndex === 0 && ((this.groupData.type === 'placing_match' && this.index ===this.getFirstPlacingMatch()) || this.divisionIndex !== -1)) {
+					if(this.roundIndex === 0 && ((this.groupData.type === 'placing_match' && this.index === this.getFirstPlacingMatch()) || this.divisionIndex !== -1)) {
 						this.groupData.teams.push({	position_type: 'team', group: '', position: i});
 						continue;
 					}
@@ -162,9 +162,10 @@
 					}
 				    this.groupData.teams.push({position_type: 'placed', group: '', position: ''});
 				}
+
 				Vue.nextTick()
 					.then(function () {
-						vm.setMatches();	
+						vm.setMatches('no_of_team_change');	
 					});
         	},
 			getSuffixForPosition(d) {
@@ -180,7 +181,7 @@
 		    	let vm = this;
 		    	Vue.nextTick()
 					.then(function () {
-						vm.setMatches();
+						vm.setMatches('assign_position');
 					});
 		    },
 		    onChangeGroupType() {
@@ -190,7 +191,7 @@
 		    	this.updateTeamPositions();
 		    	Vue.nextTick()
 					.then(function () {
-						vm.setMatches();	
+						vm.setMatches('group_type_change');	
 					});
 		    },
 		    getGroupsForSelection(teamIndex) {
@@ -274,7 +275,6 @@
 						if(roundIndex >= vm.roundIndex) return false;
 					});
 				}
-
 				return groupsForSelection;
 		    },
 		    getPositionsForSelection(teamIndex, group) {
@@ -361,7 +361,7 @@
 		    	this.groupData.teams[teamIndex].position = '';
 		    	Vue.nextTick()
 					.then(function () {
-						vm.setMatches();
+						vm.setMatches('position_type_change');
 					});
 		    },
 		    onGroupChange(teamIndex) {
@@ -369,7 +369,7 @@
 		    	this.groupData.teams[teamIndex].position = '';
 		    	Vue.nextTick()
 					.then(function () {
-						vm.setMatches();
+						vm.setMatches('group_change');
 					});
 		    },
 		    getPositionTypes() {
@@ -416,7 +416,7 @@
 		    	let index = _.findIndex(this.roundData.groups, {'type': 'placing_match'});
 		    	return index;
 		    },
-		    setMatches() {
+		    setMatches(change) {
 		    	let vm = this;
 
         		let groupData = this.groupData;
@@ -499,7 +499,7 @@
 	    		if(groupData.type == "placing_match") {
 	    			_.forEach(groupData.teams, function(team, teamIndex) {
 	    				if(teamIndex % 2 === 0) {
-		    				let isFinal = (typeof oldGroupMatchesData[teamIndex/2] !== 'undefined' && typeof oldGroupMatchesData[teamIndex/2]['is_final']) ? oldGroupMatchesData[teamIndex/2]['is_final'] : false;
+		    				let isFinal = (typeof oldGroupMatchesData[teamIndex/2] !== 'undefined' && typeof oldGroupMatchesData[teamIndex/2]['is_final'] !== 'undefined') ? oldGroupMatchesData[teamIndex/2]['is_final'] : false;
 		    				vm.groupData.matches.push({is_final: isFinal});
 			    		}
 		    		});

@@ -74,6 +74,12 @@
                         templateName: '',
                         no_of_teams: '',
                         editor: 'advance',
+                        remarks: '',
+                        template_font_color: '',
+                        roundSchedules: [''],
+                        graphic_image: '',
+                        image:'',
+                        minimum_match: '',
                     },
                     steptwo: {
                         rounds: [{
@@ -98,12 +104,6 @@
                         placings: []
                     },
                     stepfour: {
-                        remarks: '',
-                        template_font_color: '',
-                        roundSchedules: [''],
-                        graphic_image: '',
-                        image:'',
-                        imagePath :''
                     }
                 }
             },

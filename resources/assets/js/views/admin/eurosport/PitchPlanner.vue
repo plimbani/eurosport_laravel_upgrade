@@ -58,22 +58,14 @@ var moment = require('moment');
       }
         this.$store.dispatch('setActiveTab', currentNavigationData)
       }
-
-       if ($(document).height() > $(window).height()) {
-         $('.site-footer').removeClass('sticky');
-      } else {
-         $('.site-footer').addClass('sticky');
-      }
     },
     computed: {
       PitchAvailable: function() {
-        let tournamentTime = this.$store.state.Tournament.currentTotalTime
-        let pitchCapacity = this.$store.state.Pitch.pitchCapacity
-        if(pitchCapacity > tournamentTime){
-          return true
-        }else{
-          return false
+        let pitches = this.$store.state.Pitch.pitches;
+        if(pitches != undefined && (pitches.length > 0)) {
+          return true;
         }
+        return false;
       },
       isPitchPlannerInEnlargeMode() {
         return this.$store.state.Pitch.isPitchPlannerInEnlargeMode

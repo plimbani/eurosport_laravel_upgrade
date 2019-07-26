@@ -71,6 +71,7 @@ module.exports= {
   template_management_add_new_template: "Add new template",
   template_name: "Name",
   template_teams: "Teams",
+  template_min_matches: "Min matches",  
   template_avg_teams: "Avg matches",
   template_total_matches: "Total matches",
   template_divisions: "Divisions",
@@ -179,6 +180,7 @@ module.exports= {
   user_management_re_activate: "Are you sure you would like to re-activate this user?",
   user_management_ok: "Ok",
   user_management_error: "Error",
+  tournament_administrator_add_user: "Add",
 
   tournament_manage_edition: "Select an existing tournament",
   tournament_select_website: "Select an existing website",

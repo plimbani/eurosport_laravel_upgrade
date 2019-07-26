@@ -160,13 +160,27 @@ class ResetPasswordController extends Controller
         // the application's home authenticated view. If there is an error we can
         // redirect them back to where they came from with their error message.
 
-        $response == Password::PASSWORD_RESET
-                ? $this->sendResetResponse($response)
-                : $this->sendResetFailedResponse($request, $response);
-        if($userData->roles[0]->id != $mobileUserRoleId)
-            return redirect('/login/passwordupdated');
+        $error = false;
+        if ( $response != Password::PASSWORD_RESET )
+        {
+            $error = true;
+        }
+
+        if (!$error)
+        {
+            if($userData->roles[0]->id != $mobileUserRoleId) {
+                $url = '/login/passwordupdated';
+            }else {
+                $url = '/mlogin?reset=reset password';
+            }
+        }
         else
-            return redirect('/mlogin')->with('reset','reset password');
+        {
+            $url = '/password/reset/'.$data['token'].'?userEmail='.$data['email'].'&error='.trans($response);
+        }
+
+        
+        return $url;
     }
 
     public function userMlogin(Request $request) {

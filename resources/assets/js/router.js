@@ -2,6 +2,7 @@ import Vue from 'vue'
 import store from './store'
 import VueRouter from 'vue-router'
 
+import Ls from './services/ls'
 import AuthService from './services/auth'
 
 /*
@@ -18,6 +19,9 @@ import LayoutFront from './views/layouts/LayoutFront.vue'
 //Login : Auth
 import Login from './views/auth/Login.vue'
 import Register from './views/auth/Register.vue'
+import PasswordReset from './views/auth/Reset.vue'
+import PasswordSet from './views/auth/PasswordSet.vue'
+import Verfied from './views/auth/Verified.vue'
 
 // Error : Not Found page
 import NotFoundPage from './views/errors/404.vue'
@@ -303,6 +307,22 @@ const routes = [
                 component: Register,
                 name: 'register'
             },
+            {
+                path: 'user/setpassword/:token*',
+                component: PasswordSet,
+                name: 'PasswordSet'
+            },
+            {
+                path: 'password/reset/:token*',
+                component: PasswordReset,
+                name: 'PasswordReset'
+            },
+            {
+                path: 'mlogin',
+                component: Verfied,
+                name: 'Verfied'
+            },
+            
         ]
     },
 
@@ -331,14 +351,20 @@ router.beforeEach((to, from, next) => {
         store.dispatch('ResetWebsiteDetail');
     }
 
+    if(to.name == 'login' && (typeof to.query.redirect_tournament_id != 'undefined')) {
+        Ls.set('redirect_tournament_id', to.query.redirect_tournament_id);
+    }
+
     let routesForResultAdmin = ['welcome', 'tournaments_summary_details'];
 
     // If the next route is requires user to be Logged IN
+
     if (to.matched.some(m => m.meta.requiresAuth)){
         return AuthService.check(data).then((response) => {
             if(!response.authenticated){
                 return next({ path : '/login'})
             }
+
             if(response.authenticated && typeof response.hasAccess !== 'undefined' && response.hasAccess == false){
                 return next({ path : '/admin'});
             }
@@ -350,6 +376,24 @@ router.beforeEach((to, from, next) => {
         })
     }
 
+    let checkTokenValidate = ['login','PasswordReset','PasswordSet', 'home', 'front_schedule'];
+    if(Ls.get('auth.token'))
+    {
+        return axios.get('/api/auth/token_validate').then(response =>  {
+            if(response.data.authenticated == true) {
+                if ( checkTokenValidate.indexOf(to.name) !== -1)
+                {
+                   return next({ path : '/admin'}) 
+                }
+            }
+            else
+            {
+                Ls.remove('auth.token');
+            }
+            return next()
+        }).catch(error => {
+        });
+    }
     return next()
 });
 

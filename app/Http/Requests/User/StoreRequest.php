@@ -23,7 +23,7 @@ class StoreRequest extends FormRequest
             }
         }
         $loggedInUser = $this->getCurrentLoggedInUserDetail();
-        if($loggedInUser->hasRole('Super.administrator')) {
+        if($loggedInUser->hasRole('Super.administrator') || $loggedInUser->hasRole('tournament.administrator')) {
             return true;
         }
         if($loggedInUser->hasRole('Master.administrator')) {
