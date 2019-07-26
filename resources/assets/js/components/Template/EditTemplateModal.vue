@@ -8,7 +8,7 @@
                         <div class="col-md-12">
                             <div class="row align-items-center">
                                 <div class="col-8">
-                                    <h4 class="modal-title" id="editTemplateModal">Edit template</h4>
+                                    <h4 class="modal-title" id="editTemplateModal">Edit Template</h4>
                                 </div>
                                 <div class="col-4">
                                     <button type="button" class="close" aria-label="Close" @click="closeModal()">
