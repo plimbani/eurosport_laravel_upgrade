@@ -49,12 +49,16 @@ class addDivisionAndUpdateExistingData extends Command
 
         $notMatchedCompetition = [];
         $noMatchedFixtures = [];
+
         foreach ($tournamentTemplates as $ttkey => $ttvalue) {
             //get json from template
             $templateJson = json_decode($ttvalue['json_data'], true);
 
             //get tournament_comp_template from template id
-            $allTournamentCompTemplates = TournamentCompetationTemplates::where('tournament_template_id',$ttvalue['id'])->limit(10)->get()->toArray();
+            $allTournamentCompTemplates = TournamentCompetationTemplates::where('tournament_template_id',$ttvalue['id'])->get()->toArray();
+
+
+            //echo "<pre>";print_r($allTournamentCompTemplates);exit();
 
             //$this->info('Fetching all competation template for id :- '.$ttvalue['id']);
             $count = 1;
@@ -80,6 +84,8 @@ class addDivisionAndUpdateExistingData extends Command
                 $order = 1;
 
                 $lastDiv = end($divisions);
+
+                $checkTempFixtureCount = TempFixture::where('tournament_id',$tournament_id)->where('age_group_id',$tournament_comp_template_id)->count();
 
                 foreach ($divisions as $dkey => $dvalue) {
 
@@ -171,14 +177,46 @@ class addDivisionAndUpdateExistingData extends Command
                                     $fixtureRow = true;
                                     TempFixture::where('id',$fixtureId['id'])->update($updateMatchData);
                                 }
+                                else
+                                {
+                                    list($category,$group,$matchnumber) = explode('.',$updatedMatchNumber);
+                                    list($home,$away) = explode('-',$matchnumber);
 
-                                if ( $fixtureRow == false)
+                                    $findReverseMatch = $away.'-'.$home;
+
+                                    $updatedMatchNumberReverse = implode('.',array($category,$group,$findReverseMatch));
+
+                                    $fixtureId = TempFixture::where('tournament_id',$tournament_id)->where('age_group_id',$tournament_comp_template_id)->where('match_number',$updatedMatchNumberReverse)->get(['id'])->toArray();
+
+                                    if ( sizeof($fixtureId) > 0 )
+                                    {
+                                        $fixtureId = head($fixtureId);
+                                        $fixtureRow = 'reverseFixture';
+                                        TempFixture::where('id',$fixtureId['id'])->update($updateMatchData);
+                                    }
+                                }
+                                
+
+                                if ( $fixtureRow == false || $fixtureRow == 'reverseFixture')
                                 {
                                     $noMatchedFixtures[$tournament_id.'.'.$tournament_comp_template_id.'.'.$updatedMatchNumber]['tournament_id'] = $tournament_id;
 
                                     $noMatchedFixtures[$tournament_id.'.'.$tournament_comp_template_id.'.'.$updatedMatchNumber]['age_category_id'] = $tournament_comp_template_id;
 
                                     $noMatchedFixtures[$tournament_id.'.'.$tournament_comp_template_id.'.'.$updatedMatchNumber]['match_number'] = $updatedMatchNumber;
+
+                                    if ( $fixtureRow == 'reverseFixture' )
+                                    {
+                                        $noMatchedFixtures[$tournament_id.'.'.$tournament_comp_template_id.'.'.$updatedMatchNumber]['error'] = 'Reverse fixture found and updated competition.';
+                                    }
+                                    else if ( $checkTempFixtureCount == 0 )
+                                    {
+                                        $noMatchedFixtures[$tournament_id.'.'.$tournament_comp_template_id.'.'.$updatedMatchNumber]['error'] = 'No fixtures found.';
+                                    }
+                                    else
+                                    {
+                                        $noMatchedFixtures[$tournament_id.'.'.$tournament_comp_template_id.'.'.$updatedMatchNumber]['error'] = 'Need to check manually.';
+                                    }
 
                                 }
 
