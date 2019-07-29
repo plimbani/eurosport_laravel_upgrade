@@ -126,7 +126,7 @@
                     <div class="col-md-4">
                       <div class="checkbox">
                         <div class="c-input">
-                          <input class="euro-radio" type="radio" name="competition_type" value="league" id="radio_league" v-model="competition_type" v-validate="'required'" :class="{'is-danger': errors.has('competition_type') }">
+                          <input class="euro-radio" type="radio" name="competition_type" value="league" id="radio_league" v-model="competition_type" v-validate="'required'" :class="{'is-danger': errors.has('competition_type') }" @change="setNumberTeams('league')">
                           <label for="radio_league">League</label>
                         </div>
                       </div>
@@ -134,7 +134,7 @@
                     <div class="col-md-4">
                       <div class="checkbox">
                         <div class="c-input">
-                          <input class="euro-radio" type="radio" name="competition_type" value="knockout" id="radio_knockout" v-model="competition_type" v-validate="'required'" :class="{'is-danger': errors.has('competition_type') }">
+                          <input class="euro-radio" type="radio" name="competition_type" value="knockout" id="radio_knockout" v-model="competition_type" v-validate="'required'" :class="{'is-danger': errors.has('competition_type') }" @change="setNumberTeams('knockout')">
                           <label for="radio_knockout">Knockout</label>
                         </div>
                       </div>
@@ -255,7 +255,7 @@
                         </div>
                       </div>
                     </div>
-                    <div v-if="(this.competation_format.id != '') && options.length == 0" class="col-sm-12">
+                    <div v-if="options.length == 0" class="col-sm-12">
                       No templates found.
                     </div>
                   </div>
@@ -618,8 +618,8 @@ export default {
       if(this.minimum_matches != '' && val != '' && (this.tournament_format == 'advance' || this.tournament_format == 'festival') ) {
         this.trempVal = true
         this.competation_format.minimum_matches = val
-        this.competation_format.total_teams = this.number_teams
-        this.competation_format.tournament_format = this.tournament_format
+        // this.competation_format.total_teams = this.number_teams
+        // this.competation_format.tournament_format = this.tournament_format
 
         this.TournamentCompetationList(this.competation_format)
       } else {
@@ -634,8 +634,8 @@ export default {
       if(this.minimum_matches != '' && val != '' && (this.tournament_format == 'advance' || this.tournament_format == 'festival') ) {
         this.trempVal = true
         this.competation_format.minimum_matches = this.minimum_matches
-        this.competation_format.total_teams = this.number_teams
-        this.competation_format.tournament_format = this.tournament_format
+        // this.competation_format.total_teams = this.number_teams
+        // this.competation_format.tournament_format = this.tournament_format
 
         this.TournamentCompetationList(this.competation_format)
       } else {
@@ -649,8 +649,8 @@ export default {
       if(this.minimum_matches != '' && val != '' && (this.tournament_format == 'advance' || this.tournament_format == 'festival') ) {
         this.trempVal = true
         this.competation_format.minimum_matches = this.minimum_matches
-        this.competation_format.total_teams = this.number_teams
-        this.competation_format.tournament_format = this.tournament_format
+        // this.competation_format.total_teams = this.number_teams
+        // this.competation_format.tournament_format = this.tournament_format
 
         this.TournamentCompetationList(this.competation_format)
       } else {
@@ -913,7 +913,7 @@ export default {
 
             this.tournament_format = resp.tournament_format;
             this.competition_type = resp.competition_type;
-            this.group_size = resp.group_size;
+            this.group_size = resp.group_size == null ? '' : resp.group_size;
             this.remarks = resp.remarks;
             this.template_font_color = resp.template_font_color;
 
@@ -1152,9 +1152,15 @@ export default {
       if(this.tournament_format == 'basic') {
         if(this.competation_format.competition_type == null) {
           this.competition_type = 'league';
+          this.setNumberTeams('league');
         }
         this.dispTempl = false;
       }
+
+      if(this.competation_format.id != '' && this.competation_format.tournament_format == this.tournament_format) {
+        this.number_teams = this.competation_format.total_teams;
+      }
+
     },
     viewGraphicalPreview(imageName, imagePath){
       $('#displayGraphicImage').modal('show');
@@ -1169,6 +1175,24 @@ export default {
       var roundScheduleData = JSON.parse(data.json_data).round_schedule;
       if(roundScheduleData) {
         return data.total_teams +" teams: "+ roundScheduleData.join(" - ");
+      }
+    },
+    setNumberTeams(type) {
+      // if(this.competation_format.id != '' && this.competation_format.competition_type == 'league' && type == 'knockout') {
+      //   if(this.number_teams >= 8) {
+      //     this.number_teams = this.competation_format.total_teams;
+      //   } else {
+      //     this.number_teams = '';
+      //   }
+      // }
+      // if(this.competation_format.id != '' && type == 'league') {
+      //   this.number_teams = this.competation_format.total_teams;
+      // }
+
+      if(this.competation_format.id != '' && (type == 'league' || type == 'knockout')) {
+        this.number_teams = '';
+      } else {
+        this.number_teams = this.competation_format.total_teams;
       }
     }
   }
