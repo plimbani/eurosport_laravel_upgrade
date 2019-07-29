@@ -88,6 +88,10 @@ import WebsiteVisitors from './views/admin/eurosport/WebsiteVisitors.vue';
 import WebsiteMedia from './views/admin/eurosport/WebsiteMedia.vue';
 import WebsiteContact from './views/admin/eurosport/WebsiteContact.vue';
 
+import AddTemplateModal from './components/Template/AddTemplateModal';
+import EditTemplateModal from './components/Template/EditTemplateModal';
+import TemplateList from './views/admin/templates/List.vue';
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -214,10 +218,25 @@ const routes = [
         name: 'users_list'
     },
     {
-        path: '/templates',
-        component: LayoutTemplateManagement,
+        path: '/', component: LayoutTemplateManagement,
         meta: { requiresAuth: true },
-        name: 'templates_list'
+        children: [
+            {
+               path: '/templates_list',
+               component: TemplateList,
+               name: 'templates_list'
+            },
+            {
+                path: '/add_new_template',
+                component: AddTemplateModal,
+                name: 'add_new_template'
+            },
+            {
+                path: '/edit_template',
+                component: EditTemplateModal,
+                name: 'edit_template'
+            }
+        ]
     },
 
 

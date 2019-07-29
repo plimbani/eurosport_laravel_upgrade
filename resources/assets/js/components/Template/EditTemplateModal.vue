@@ -44,6 +44,7 @@
     import StepTwo from './StepTwo.vue'
     import StepThree from './StepThree.vue'
     import StepFour from './StepFour.vue'
+    import Template from '../../../api/template.js'
 
 	export default {
         props: ['editTemplateDetail'],

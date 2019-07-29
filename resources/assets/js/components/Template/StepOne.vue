@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<div class="container" id="step1-template-setting">
+		<div id="step1-template-setting">
             <div class="row justify-content-center">
                 <div class="col-md-12">
             		<h5>{{ $lang.add_template_modal_step1_header }}</h5>

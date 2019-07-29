@@ -517,7 +517,7 @@ e.preventDefault();
 removeLocation (index, location){
     let pitches = this.$store.state.Pitch.pitches;
     if(pitches) {
-        let removeVenue = _.find(pitches, ['venue_id', location.tournament_location_id]); 
+        let removeVenue = _.find(pitches, ['venue_id', location.tournament_location_id]);
         if(removeVenue) {
           $("#remove_venue").modal('show');
         }  else {
@@ -525,14 +525,14 @@ removeLocation (index, location){
               if(this.locations[index].tournament_location_id != '') {
                 this.tournament.del_location.push(this.locations[index].tournament_location_id)
               }
-              this.locations.splice(index,1)  
+              this.locations.splice(index,1)
         }
     } else {
               // here first we get the location id of it
               if(this.locations[index].tournament_location_id != '') {
                 this.tournament.del_location.push(this.locations[index].tournament_location_id)
               }
-              this.locations.splice(index,1)  
+              this.locations.splice(index,1)
     }
 },
 next() {
