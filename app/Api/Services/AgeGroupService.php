@@ -676,7 +676,7 @@ class AgeGroupService implements AgeGroupContract
 
       $positions = [];
       $positions[0] = ['position' => 1, 'dependent_type' => 'match', 'match_number' => $lastRoundMatches[0]['match_number'], 'result_type' => 'winner'];
-      $positions[1] = ['position' => 2, 'dependent_type' => 'match', 'match_number' => $lastRoundMatches[0]['match_number'], 'result_type' => 'looser'];
+      $positions[1] = ['position' => 2, 'dependent_type' => 'match', 'match_number' => $lastRoundMatches[0]['match_number'], 'result_type' => 'loser'];
 
       $finalArray['tournament_positions'] = $positions;
 
