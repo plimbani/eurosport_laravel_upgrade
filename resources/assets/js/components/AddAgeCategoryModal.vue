@@ -618,8 +618,8 @@ export default {
       if(this.minimum_matches != '' && val != '' && (this.tournament_format == 'advance' || this.tournament_format == 'festival') ) {
         this.trempVal = true
         this.competation_format.minimum_matches = val
-        // this.competation_format.total_teams = this.number_teams
-        // this.competation_format.tournament_format = this.tournament_format
+        this.competation_format.total_teams = this.number_teams
+        this.competation_format.tournament_format = this.tournament_format
 
         this.TournamentCompetationList(this.competation_format)
       } else {
@@ -634,8 +634,8 @@ export default {
       if(this.minimum_matches != '' && val != '' && (this.tournament_format == 'advance' || this.tournament_format == 'festival') ) {
         this.trempVal = true
         this.competation_format.minimum_matches = this.minimum_matches
-        // this.competation_format.total_teams = this.number_teams
-        // this.competation_format.tournament_format = this.tournament_format
+        this.competation_format.total_teams = this.number_teams
+        this.competation_format.tournament_format = this.tournament_format
 
         this.TournamentCompetationList(this.competation_format)
       } else {
@@ -649,8 +649,8 @@ export default {
       if(this.minimum_matches != '' && val != '' && (this.tournament_format == 'advance' || this.tournament_format == 'festival') ) {
         this.trempVal = true
         this.competation_format.minimum_matches = this.minimum_matches
-        // this.competation_format.total_teams = this.number_teams
-        // this.competation_format.tournament_format = this.tournament_format
+        this.competation_format.total_teams = this.number_teams
+        this.competation_format.tournament_format = this.tournament_format
 
         this.TournamentCompetationList(this.competation_format)
       } else {
@@ -1157,6 +1157,7 @@ export default {
         this.dispTempl = false;
       }
 
+      // to populate old value again
       if(this.competation_format.id != '' && this.competation_format.tournament_format == this.tournament_format) {
         this.number_teams = this.competation_format.total_teams;
       }
