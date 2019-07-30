@@ -1,41 +1,23 @@
 <template>
-	<div class="modal fade bg-modal-color refdel" id="edit_template_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
-      <div class="modal-dialog add-newtemplate-modal">
-        <div class="modal-content border-0 rounded-0">
-            <div class="modal-header">
-                <div class="container">
-                    <div class="row justify-content-center">
-                        <div class="col-md-12">
-                            <div class="row align-items-center">
-                                <div class="col-8">
-                                    <h4 class="modal-title" id="editTemplateModal">Edit Template</h4>
-                                </div>
-                                <div class="col-4">
-                                    <button type="button" class="close" aria-label="Close" @click="closeModal()">
-                                        <span aria-hidden="true">×</span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
+    <div class="tab-content">
+        <div class="card">
+            <div class="card-block">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <step-one v-show="currentStep === 1" :templateFormDetail="templateFormDetail" @change-tab-index="changeTabIndex" :templateGraphicImage="templateGraphicImage"></step-one>
+
+                        <!-- Step 2 -->
+                        <step-two v-show="currentStep === 2" :templateFormDetail="templateFormDetail" @change-tab-index="changeTabIndex"></step-two>
+
+                        <!-- Step 3 -->
+                        <step-three v-show="currentStep === 3" :templateFormDetail="templateFormDetail" @change-tab-index="changeTabIndex"></step-three>
+                
+                        <!-- Step 4 -->
+                        <step-four v-show="currentStep === 4" :templateFormDetail="templateFormDetail" :editTournamentTemplateId="editTournamentTemplateId" @change-tab-index="changeTabIndex"></step-four>
                     </div>
                 </div>
             </div>
-            <div class="modal-body">
-                <!-- Step 1 -->
-                <step-one v-show="currentStep === 1" :templateFormDetail="templateFormDetail" @change-tab-index="changeTabIndex" 
-                :templateGraphicImage="templateGraphicImage"></step-one>
-
-                <!-- Step 2 -->
-                <step-two v-show="currentStep === 2" :templateFormDetail="templateFormDetail" @change-tab-index="changeTabIndex"></step-two>
-
-                <!-- Step 3 -->
-                <step-three v-show="currentStep === 3" :templateFormDetail="templateFormDetail" @change-tab-index="changeTabIndex"></step-three>
-                
-                <!-- Step 4 -->
-                <step-four v-show="currentStep === 4" :templateFormDetail="templateFormDetail" :editedTemplateId="editedTemplateId" @change-tab-index="changeTabIndex"></step-four>
-            </div>
         </div>
-      </div>
     </div>
 </template>
 <script type="text/babel">
@@ -44,16 +26,16 @@
     import StepTwo from './StepTwo.vue'
     import StepThree from './StepThree.vue'
     import StepFour from './StepFour.vue'
-    import Template from '../../../api/template.js'
+    import Template from '../../api/template.js'
 
 	export default {
-        props: ['editTemplateDetail'],
 		data() {
 		    return {
                 currentStep: 1,
-                templateFormDetail: _.cloneDeep(JSON.parse(this.editTemplateDetail.template_form_detail)),
-                editedTemplateId: this.editTemplateDetail.id,
-                templateGraphicImage: this.editTemplateDetail.graphic_image,
+                templateFormDetail: '',
+                templateGraphicImage: '',
+                editTournamentTemplateId: '',
+                editTournamentDetail:'',
 		    }
 		},
         created() {
@@ -66,10 +48,7 @@
             StepOne, StepTwo, StepThree, StepFour
         },
 		mounted() {
-            let vm = this;
-            $('#edit_template_modal').on('hidden.bs.modal', function () {
-                vm.$emit('editTemplateModalHidden');
-            });
+            this.editTemplate();
 		},
 		methods: {
             changeTabIndex(from, to, key, data) {
@@ -77,12 +56,23 @@
                 this.currentStep = to;
                 this.templateFormDetail.steptwo.rounds[0].no_of_teams = this.templateFormDetail.stepone.no_of_teams;
             },
-            closeModal() {
-                $('#edit_template_modal').modal('hide');
-            },
             clearFormFields() {
                 this.errors.clear();
-            }
+            },
+            editTemplate() {
+            this.editTournamentTemplateId = this.$route.query.id
+            Template.editTemplate(this.editTournamentTemplateId).then(
+              (response)=> {
+                this.editTournamentDetail = response.data.data;
+                this.templateFormDetail =  _.cloneDeep(JSON.parse(this.editTournamentDetail.template_form_detail));
+                this.editTournamentTemplateId = this.editTournamentTemplateId;
+                this.templateGraphicImage = this.editTournamentDetail.graphic_image;
+              },
+              (error)=> {
+              }
+            )
+          },
+
 		}
 	}
 </script>

@@ -24,10 +24,12 @@ export default  {
   	},
     currentPage() {
       return (this.$store.state.currentPage == '') ? '' : this.$store.state.currentPage      
-    },
-    redirectToTournamentList(){
-        return this.$router.push({name: 'templates_list'});
-    },
+    }
+  },
+  methods:{
+    redirectToTournamentList() {
+      return this.$router.push({name: 'templates_list'})
+    }
   }
 }
 </script>

@@ -109,8 +109,6 @@
         <delete-modal :deleteConfirmMsg="deleteConfirmMsg" @confirmed="deleteConfirmed()"></delete-modal>
         <template-info-modal v-show="templateInfoModal" :templateDetail="templateDetail"></template-info-modal>
         <template-in-use-modal v-show="templateInUseModal"></template-in-use-modal>
-        <add-template-modal @addTemplateModalHidden="addTemplateModalHidden" v-if="isAdd"></add-template-modal>
-        <edit-template-modal :editTemplateDetail="editTemplateDetail" @editTemplateModalHidden="editTemplateModalHidden" v-if="isEdit"></edit-template-modal>
     </div>
 </template>
 <script type="text/babel">
@@ -122,12 +120,10 @@
     import DeleteModal from '../../../components/DeleteModal.vue'
     import TemplateInfoModal from '../../../components/TemplateInfoModal.vue'
     import TemplateInUseModal from '../../../components/TemplateInUseModal.vue'
-    import AddTemplateModal from '../../../components/Template/AddTemplateModal.vue'
-    import EditTemplateModal from '../../../components/Template/EditTemplateModal.vue'
 
     export default {
         components: {
-          TemplateInfoModal, DeleteModal, TemplateInUseModal, AddTemplateModal, EditTemplateModal, pagination
+          TemplateInfoModal, DeleteModal, TemplateInUseModal, pagination
         },
         data() {
             return {
@@ -143,15 +139,12 @@
                 templateInUseModal: false,
                 templateDetail: '',
                 deleteAction: '',
-                editTemplateDetail: '',
-                isEdit: false,
-                isAdd: false,
                 deleteConfirmMsg: 'Are you sure you would like to delete this template?',
                 templateList: {
                 templateData: [],
                 templateCount: 0,
                 },
-                isListGettingUpdate: Boolean,
+                isListGettingUpdate: true,
             }
         },
         filters: {
@@ -159,7 +152,6 @@
             return moment(value).format("Do MMMM YYYY");
           }
         },
-
         created() {
           this.getUsersForFilter();
         },
@@ -202,29 +194,12 @@
             )
           },
           addTemplate() {
-            this.isAdd = true;
             this.$router.push({ name: 'add_new_template' })
-            // Vue.nextTick()
-            // .then(function () {
-            //   $('#add_new_template_modal').modal('show');
-            // });
-          },
-          addTemplateModalHidden() {
-            this.isAdd = false;
-          },
-          editTemplateModalHidden() {
-            this.isEdit = false;
           },
           editTemplate(templateId) {
             Template.editTemplate(templateId).then(
               (response)=> {
-                this.isEdit = true;
-                this.editTemplateDetail = response.data.data;
-                // this.$router.push({ name: 'edit_template', query: {id:templateId}})
-                Vue.nextTick()
-                  .then(function () {
-                    $('#edit_template_modal').modal('show');
-                });
+                this.$router.push({ name: 'edit_template', query: {id:templateId}})
               },
               (error)=> {
               }
