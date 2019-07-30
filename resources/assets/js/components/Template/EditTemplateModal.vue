@@ -13,7 +13,7 @@
                         <step-three v-show="currentStep === 3" :templateFormDetail="templateFormDetail" @change-tab-index="changeTabIndex"></step-three>
                 
                         <!-- Step 4 -->
-                        <step-four v-show="currentStep === 4" :templateFormDetail="templateFormDetail" :editTournamentTemplateId="editTournamentTemplateId" @change-tab-index="changeTabIndex"></step-four>
+                        <step-four v-show="currentStep === 4" :templateFormDetail="templateFormDetail" :editedTemplateId="editedTemplateId" @change-tab-index="changeTabIndex"></step-four>
                     </div>
                 </div>
             </div>
@@ -34,7 +34,7 @@
                 currentStep: 1,
                 templateFormDetail: '',
                 templateGraphicImage: '',
-                editTournamentTemplateId: '',
+                editedTemplateId: '',
                 editTournamentDetail:'',
 		    }
 		},
@@ -60,18 +60,17 @@
                 this.errors.clear();
             },
             editTemplate() {
-            this.editTournamentTemplateId = this.$route.query.id
-            Template.editTemplate(this.editTournamentTemplateId).then(
-              (response)=> {
-                this.editTournamentDetail = response.data.data;
-                this.templateFormDetail =  _.cloneDeep(JSON.parse(this.editTournamentDetail.template_form_detail));
-                this.editTournamentTemplateId = this.editTournamentTemplateId;
-                this.templateGraphicImage = this.editTournamentDetail.graphic_image;
-              },
-              (error)=> {
-              }
-            )
-          },
+            this.editedTemplateId = this.$route.params.id
+                Template.editTemplate(this.editedTemplateId).then(
+                  (response)=> {
+                    this.editTournamentDetail = response.data.data;
+                    this.templateFormDetail =  _.cloneDeep(JSON.parse(this.editTournamentDetail.template_form_detail));
+                    this.templateGraphicImage = this.editTournamentDetail.graphic_image;
+                  },
+                  (error)=> {
+                  }
+                )
+            },
 
 		}
 	}

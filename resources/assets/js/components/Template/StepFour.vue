@@ -159,6 +159,7 @@
 			        				$('#edit_template_modal').modal('hide');
 			        				vm.$root.$emit('clearFormFields');
 			        				vm.$root.$emit('getTemplates');
+			        				vm.$router.push({name: 'templates_list'})
 			        			},
 			        			(error) => {
 			        			}
@@ -170,6 +171,7 @@
 			        				$('#add_new_template_modal').modal('hide');
 			        				vm.$root.$emit('clearFormFields');
 			        				vm.$root.$emit('getTemplates');
+			        				vm.$router.push({name: 'templates_list'})
 			        			},
 			        			(error) => {
 			        			}

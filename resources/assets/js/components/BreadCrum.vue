@@ -1,14 +1,16 @@
 <template>
 <div class="row">
-  <div class="col-sm-12">
-    <div class="page-header">
-      <ol class="breadcrumb">
-        <li><a href="/admin">Home</a></li>
-        <li v-if="TournamentName != ''"><a href="#">{{TournamentName}}</a></li>
-        <li class="active"><a href="javascript:void(0)" @click="redirectToTournamentList()">{{currentPage}}</a></li>
-      </ol>
-    </div>
-  </div>
+ <div class="col-sm-12">
+   <div class="page-header">
+     <ol class="breadcrumb">
+       <li><a href="/admin">Home</a></li>
+       <li v-if="TournamentName != ''"><a href="#">{{TournamentName}}</a></li>
+       <li class="active"><a>{{currentPage}}</a></li>
+       <li v-if="$route.name == 'add_new_template'"><span>Add Template</span></li>
+       <li v-if="$route.name == 'edit_template'"><span>Edit Template</span></li>
+     </ol>
+   </div>
+ </div>
 </div>
 </template>
 <script>

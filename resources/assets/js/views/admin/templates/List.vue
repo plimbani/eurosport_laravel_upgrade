@@ -199,7 +199,7 @@
           editTemplate(templateId) {
             Template.editTemplate(templateId).then(
               (response)=> {
-                this.$router.push({ name: 'edit_template', query: {id:templateId}})
+                this.$router.push({ name: 'edit_template', params: {id:templateId}})
               },
               (error)=> {
               }
