@@ -1179,17 +1179,6 @@ export default {
       }
     },
     setNumberTeams(type) {
-      // if(this.competation_format.id != '' && this.competation_format.competition_type == 'league' && type == 'knockout') {
-      //   if(this.number_teams >= 8) {
-      //     this.number_teams = this.competation_format.total_teams;
-      //   } else {
-      //     this.number_teams = '';
-      //   }
-      // }
-      // if(this.competation_format.id != '' && type == 'league') {
-      //   this.number_teams = this.competation_format.total_teams;
-      // }
-
       if(this.competation_format.id != '' && (type == 'league' || type == 'knockout')) {
         this.number_teams = '';
       } else {
