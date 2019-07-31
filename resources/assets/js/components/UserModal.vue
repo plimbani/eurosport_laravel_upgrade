@@ -107,7 +107,7 @@
                       <input v-model="result_admin_email" key="result_admin_email" v-validate="resultTournamentAdministratorEmail" name="result_admin_email" :class="{'is-danger': errors.has('result_admin_email') }" type="email" class="form-control" placeholder="Enter email address">
                       <i v-show="errors.has('result_admin_email')" class="fas fa-warning"></i>
                       <span class="help is-danger" v-show="errors.has('result_admin_email')">{{$lang.user_management_email_required}}</span>
-                     <span class="help is-danger" v-if="existEmail == true">Email already exist</span>
+                     <span class="help is-danger" v-if="existEmail == true">Email already exists</span>
                   </div>
                 </div>
                 <div class="form-group row" v-if="isUserExists">
@@ -211,7 +211,10 @@ import { ErrorBag } from 'vee-validate';
             } else {
               return '';
             }
-          }
+          },
+          isTournamentAdmin() {
+            return this.$store.state.Users.userDetails.role_slug == 'tournament.administrator';
+          },
         },
         created() {
           this.$root.$on('privilegeChangeConfirmed', this.updateUser);
@@ -302,7 +305,12 @@ import { ErrorBag } from 'vee-validate';
                                 toastr.success('User has been added successfully.', 'Add User', {timeOut: 5000});
                                 $("#user_form_modal").modal("hide");
                                 $("body .js-loader").addClass('d-none');
-                                setTimeout(Plugin.reloadPage, 500);
+
+                                if(response.data.user.role_slug === 'Results.administrator' && this.isTournamentAdmin) {
+                                  this.$emit('editTournamentPermission', response.data.user, true);
+                                  return true;
+                                }
+                                vm.$root.$emit('getResults');
                               },
                               (error)=>{
                                 $("body .js-loader").addClass('d-none');
@@ -381,7 +389,8 @@ import { ErrorBag } from 'vee-validate';
                       }
                       if(response.data.isResultAdmin) {
                         $("#user_form_modal").modal("hide");
-                        setTimeout(Plugin.reloadPage, 500);
+                        this.$emit('editTournamentPermission', response.data.user, true);
+                        // setTimeout(Plugin.reloadPage, 500);
                       }
                       this.$validator.errors.clear()
                       this.$validator.reset();
