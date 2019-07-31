@@ -7,7 +7,7 @@
        <li v-if="TournamentName != ''"><a href="#">{{TournamentName}}</a></li>
        <li class="active" v-if="$route.name == 'templates_list'"><span>{{currentPage}}</span></li>
        <li class="active" v-else><a href="javascript:void(0)" @click="redirectToTournamentList()">{{currentPage}}</a></li>
-       <li v-if="$route.name == 'add_new_template'"><span>Add Template</span></li>
+       <li v-if="$route.name == 'add_new_template'"><span>Add New Template</span></li>
        <li v-if="$route.name == 'edit_template'"><span>Edit Template</span></li>
      </ol>
    </div>
