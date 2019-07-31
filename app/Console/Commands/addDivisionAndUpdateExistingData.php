@@ -167,9 +167,12 @@ class addDivisionAndUpdateExistingData extends Command
                                 $updateMatchData = [];
                                 $updateMatchData['competition_id'] = $competitionUpdateId;
 
+                                $matchNumberArray = explode('.',$mvalue['match_number']);
+                                $matchNumberArray = end($matchNumberArray);
+
                                 $updatedMatchNumber = str_replace('CAT.', $displayName.'-', $mvalue['match_number']);
 
-                                $fixtureId = TempFixture::where('tournament_id',$tournament_id)->where('age_group_id',$tournament_comp_template_id)->where('match_number',$updatedMatchNumber)->get(['id'])->toArray();
+                                $fixtureId = TempFixture::where('tournament_id',$tournament_id)->where('age_group_id',$tournament_comp_template_id)->where('match_number','like','%'.$matchNumberArray.'%')->get(['id'])->toArray();
 
                                 if ( sizeof($fixtureId) > 0 )
                                 {
@@ -186,7 +189,7 @@ class addDivisionAndUpdateExistingData extends Command
 
                                     $updatedMatchNumberReverse = implode('.',array($category,$group,$findReverseMatch));
 
-                                    $fixtureId = TempFixture::where('tournament_id',$tournament_id)->where('age_group_id',$tournament_comp_template_id)->where('match_number',$updatedMatchNumberReverse)->get(['id'])->toArray();
+                                    $fixtureId = TempFixture::where('tournament_id',$tournament_id)->where('age_group_id',$tournament_comp_template_id)->where('match_number','like','%'.$findReverseMatch.'%')->get(['id'])->toArray();
 
                                     if ( sizeof($fixtureId) > 0 )
                                     {
@@ -197,7 +200,7 @@ class addDivisionAndUpdateExistingData extends Command
                                 }
                                 
 
-                                if ( $fixtureRow == false || $fixtureRow == 'reverseFixture')
+                                if ( $fixtureRow === false || $fixtureRow === "reverseFixture")
                                 {
                                     $noMatchedFixtures[$tournament_id.'.'.$tournament_comp_template_id.'.'.$updatedMatchNumber]['tournament_id'] = $tournament_id;
 
@@ -232,6 +235,6 @@ class addDivisionAndUpdateExistingData extends Command
             //$this->info("Script executed.");
         }
 
-        echo "<pre> no match fixtures";print_r($noMatchedFixtures);
+        echo "<pre> Fixtures Error";print_r($noMatchedFixtures);
     }
 }
