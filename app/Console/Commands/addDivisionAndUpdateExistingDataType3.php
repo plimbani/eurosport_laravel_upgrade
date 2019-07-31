@@ -46,7 +46,7 @@ class addDivisionAndUpdateExistingDataType3 extends Command
         $templateIds = explode(',',$this->argument('templateIds'));
         $type2DiffDivCode = array('124');  // New TT152
 
-        $tournamentTemplates = TournamentTemplates::where('no_of_divisions','>',0)->whereNotNull('no_of_divisions')->whereIn('id',$templateIds)->limit(20)->get()->toArray();
+        $tournamentTemplates = TournamentTemplates::where('no_of_divisions','>',0)->whereNotNull('no_of_divisions')->whereIn('id',$templateIds)->get()->toArray();
 
         $notMatchedCompetition = [];
         $noMatchedPosition = [];
@@ -63,7 +63,9 @@ class addDivisionAndUpdateExistingDataType3 extends Command
             }
 
             //get tournament_comp_template from template id
-            $allTournamentCompTemplates = TournamentCompetationTemplates::where('tournament_template_id',$ttvalue['id'])->limit(20)->get()->toArray();
+            $allTournamentCompTemplates = TournamentCompetationTemplates::join('tournaments', 'tournament_competation_template.tournament_id', '=', 'tournaments.id')->where('tournament_template_id',$ttvalue['id'])->whereNull('tournaments.deleted_at')
+            ->select('tournament_competation_template.*')
+            ->get()->toArray();
 
             //$this->info('Fetching all competation template for id :- '.$ttvalue['id']);
             $count = 1;
