@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="add_user_btn d-flex align-items-center justify-content-end add-new-template">
-          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#template_form_modal" @click="addTemplate()">{{$lang.template_management_add_new_template}}</button>
+          <button type="button" class="btn btn-primary" @click="addTemplate()">{{$lang.template_management_add_new_template}}</button>
         </div>
         <div class="tab-content">
           <div class="card">
@@ -109,8 +109,6 @@
         <delete-modal :deleteConfirmMsg="deleteConfirmMsg" @confirmed="deleteConfirmed()"></delete-modal>
         <template-info-modal v-show="templateInfoModal" :templateDetail="templateDetail"></template-info-modal>
         <template-in-use-modal v-show="templateInUseModal"></template-in-use-modal>
-        <add-template-modal @addTemplateModalHidden="addTemplateModalHidden" v-if="isAdd"></add-template-modal>
-        <edit-template-modal :editTemplateDetail="editTemplateDetail" @editTemplateModalHidden="editTemplateModalHidden" v-if="isEdit"></edit-template-modal>
     </div>
 </template>
 <script type="text/babel">
@@ -122,12 +120,10 @@
     import DeleteModal from '../../../components/DeleteModal.vue'
     import TemplateInfoModal from '../../../components/TemplateInfoModal.vue'
     import TemplateInUseModal from '../../../components/TemplateInUseModal.vue'
-    import AddTemplateModal from '../../../components/Template/AddTemplateModal.vue'
-    import EditTemplateModal from '../../../components/Template/EditTemplateModal.vue'
 
     export default {
         components: {
-          TemplateInfoModal, DeleteModal, TemplateInUseModal, AddTemplateModal, EditTemplateModal, pagination
+          TemplateInfoModal, DeleteModal, TemplateInUseModal, pagination
         },
         data() {
             return {
@@ -143,15 +139,13 @@
                 templateInUseModal: false,
                 templateDetail: '',
                 deleteAction: '',
-                editTemplateDetail: '',
-                isEdit: false,
-                isAdd: false,
                 deleteConfirmMsg: 'Are you sure you would like to delete this template?',
+                templateList: {
+                templateData: [],
+                templateCount: 0,
+                },
+                isListGettingUpdate: true,
             }
-        },
-        props: {
-          templateList: Object,
-          isListGettingUpdate: Boolean
         },
         filters: {
           createdAtFilter(value) {
@@ -173,6 +167,7 @@
          setTimeout(() => {
             this.shown = true
           }, 1000)
+         this.getTemplates();
         },
         methods: {
           openTemplateInfoModal(template) {
@@ -180,7 +175,7 @@
             this.templateInfoModal = true;
             setTimeout(() => {
               $('#template_info_modal').modal('show');
-              this.$root.$emit('getTemplateDetail');
+              this.getTemplates();
             }, 500);
           },
           deleteTemplate(template) {
@@ -199,27 +194,12 @@
             )
           },
           addTemplate() {
-            this.isAdd = true;
-            Vue.nextTick()
-            .then(function () {
-              $('#add_new_template_modal').modal('show');
-            });
-          },
-          addTemplateModalHidden() {
-            this.isAdd = false;
-          },
-          editTemplateModalHidden() {
-            this.isEdit = false;
+            this.$router.push({ name: 'add_new_template' })
           },
           editTemplate(templateId) {
             Template.editTemplate(templateId).then(
               (response)=> {
-                this.isEdit = true;
-                this.editTemplateDetail = response.data.data;
-                Vue.nextTick()
-                  .then(function () {
-                    $('#edit_template_modal').modal('show');
-                });
+                this.$router.push({ name: 'edit_template', params: {id:templateId}})
               },
               (error)=> {
               }
@@ -228,7 +208,7 @@
           clear() {
             this.teamSearch = '';
             this.createdBySearch = '';
-            this.$root.$emit('clearSearch');
+            this.clearSearch();
           },
           deleteConfirmed() {
             $("body .js-loader").removeClass('d-none');
@@ -237,14 +217,14 @@
                 $("body .js-loader").addClass('d-none');
                 $("#delete_modal").modal("hide");
                 toastr.success('Template has been deleted successfully.', 'Delete Template', {timeOut: 5000});
-                this.$parent.getTemplates();
+                this.getTemplates();
               },
               (error)=> {
               }
             )
           },
           filterData() {
-            this.$root.$emit('setSearch', this.teamSearch, this.createdBySearch);
+            this.getTemplates(this.teamSearch, this.createdBySearch);
           },
           getUsersForFilter() {
             Template.getUsersForFilter().then(
@@ -256,11 +236,48 @@
             )
           },
           getResults(page = 1) {
-              this.$root.$emit('setSearch', this.teamSearch,this.createdBySearch, page, this.no_of_records);
+              this.getTemplates(this.teamSearch,this.createdBySearch, page, this.no_of_records);
           },
           onNoOfRecordsChange() {
-              this.$root.$emit('setSearch', this.teamSearch,this.createdBySearch, 1, this.no_of_records);
+              this.getTemplates(this.teamSearch,this.createdBySearch, 1, this.no_of_records);
+          },
+
+          getTemplates(teamSearch='', createdBySearch='', currentPage=1, noOfRecords=20) {
+            let templateData = {};
+            this.isListGettingUpdate = true;
+
+            templateData.currentPage = currentPage;
+
+            templateData.noOfRecords = noOfRecords;
+
+            if(teamSearch != '') {
+                  templateData.teamSearch = teamSearch;
+              }
+            if(createdBySearch != '') {
+                  templateData.createdBySearch = createdBySearch;
+              }
+
+            $("body .js-loader").removeClass('d-none');
+            Template.getTemplates(templateData).then(
+              (response)=> {
+                $("body .js-loader").addClass('d-none');
+                if(response.data) {
+                  this.templateList.templateData = response.data.data;
+                  this.templateList.templateCount = response.data.data.data.length;
+                } else {
+                  this.templateList.templateData = [];
+                  this.templateList.templateCount = 0;
+                }
+                this.isListGettingUpdate = false;
+              },
+                  (error)=> {
+                  }
+              )
+          },
+          clearSearch() {
+            this.getTemplates();
           }
+
         }
     }
 </script>

@@ -1,6 +1,6 @@
 <template>  
     <div>
-        <div class="container" id="step2-template-setting">
+        <div id="step2-template-setting">
             <div class="row justify-content-center">
                 <div class="col-md-12">
                     <h5>{{ $lang.add_template_modal_step2_header }}</h5>
@@ -12,7 +12,7 @@
                     <div class="form-group">
                         <div class="btn-group">
                             <button type="button" class="btn btn-success" @click="addNewRound()" :disabled="templateFormDetail.steptwo.divisions.length > 0"><small><i class="jv-icon jv-plus"></i></small> &nbsp;Add a round</button>
-                            <button type="button" class="btn btn-success" @click="addNewDivision()" :disabled="templateFormDetail.steptwo.rounds.length === 0"><small><i class="jv-icon jv-plus"></i></small> &nbsp;Add a divison</button>
+                            <button type="button" class="btn btn-success" @click="addNewDivision()" :disabled="templateFormDetail.steptwo.rounds.length === 0"><small><i class="jv-icon jv-plus"></i></small> &nbsp;Add a division</button>
                         </div>
                         <span class="info-editor text-primary" data-toggle="popover" data-animation="false" data-placement="right" :data-popover-content="'#editor_detail'"><i class="fa fa-info-circle"></i></span>
                         <div v-bind:id="'editor_detail'" style="display:none;">

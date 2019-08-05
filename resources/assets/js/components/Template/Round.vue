@@ -1,7 +1,7 @@
 <template>
     <div class="card mb-3">
         <div class="card-block">
-            <h6 class="font-weight-bold">{{ getRoundName }} <span :class="{'pull-right': true, 'is-disabled': (index === 0 && divisionIndex === -1)}"><a href="javascript:void(0)" @click="removeRound(index)"><i class="jv-icon jv-dustbin"></i></a></span></h6>
+            <h6 class="font-weight-bold">{{ getRoundName }} <span v-if="!(index === 0 && divisionIndex === -1)" :class="{'pull-right': true}"><a href="javascript:void(0)" @click="removeRound(index)"><i class="jv-icon jv-dustbin"></i></a></span></h6>
             <div class="form-group">
                 <label>Number of teams in round</label>
                 <select class="form-control ls-select2" v-model="roundData.no_of_teams" :disabled="isRoundDisabled" @change="onTeamChange()">

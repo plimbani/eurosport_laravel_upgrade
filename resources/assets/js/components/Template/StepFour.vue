@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<div class="container" id="">
+		<div id="">
 			<div class="row justify-content-center">
 				<div class="col-md-12">
 					<div class="row">
@@ -159,6 +159,7 @@
 			        				$('#edit_template_modal').modal('hide');
 			        				vm.$root.$emit('clearFormFields');
 			        				vm.$root.$emit('getTemplates');
+			        				vm.$router.push({name: 'templates_list'})
 			        			},
 			        			(error) => {
 			        			}
@@ -170,6 +171,7 @@
 			        				$('#add_new_template_modal').modal('hide');
 			        				vm.$root.$emit('clearFormFields');
 			        				vm.$root.$emit('getTemplates');
+			        				vm.$router.push({name: 'templates_list'})
 			        			},
 			        			(error) => {
 			        			}
