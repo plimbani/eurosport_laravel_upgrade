@@ -2,7 +2,7 @@
 	<div>
 	    <div class="card mb-3">
 	    	<div class="card-block">
-		        <h6 class="font-weight-bold">{{ getGroupName }} <span class="pull-right"><a href="javascript:void(0)" @click="removeGroup()"><i class="jv-icon jv-dustbin"></i></a></span></h6>
+		        <h6 class="font-weight-bold">{{ getGroupName }} <span class="pull-right"><a href="javascript:void(0)" @click="removeGroup()"><i class="fas fa-trash text-danger"></i></a></span></h6>
 		        <div class="form-group">
 		            <div class="radio">
 		                <label><input type="radio" checked="checked" value="round_robin" v-model="groupData.type" @change="onChangeGroupType()"> Round robin</label>
@@ -12,7 +12,7 @@
 		        <div class="row">
 		            <div class="col-md-6">
 		                <div class="form-group mb-0">
-		                    <label>Number of teams in group</label>
+		                    <label>Number of teams</label>
 		                    <select :data-last-selected="last_selected_teams" class="form-control ls-select2" v-model="groupData.no_of_teams" @change="onTeamChange($event)">
 		                    	<option v-for="n in 28" v-if="n >= 2" :value="n">{{ n }}</option>
 		                    </select>
