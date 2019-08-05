@@ -80,6 +80,22 @@
                 <img class="img-fluid" :src="templateGraphicViewImage">
               </div>
             </div>
+
+            <div class="row">
+              <div class="col-md-12">
+                <div class="col-md-3" v-for="(round, index) in rounds()" v-if="index == 0">
+                  <div>
+                    <h4>{{ round.name }}</h4>
+                    <div v-for="group in round.match_type">
+                      <h5>{{ group.groups.group_name }}</h5>
+                      <ul class="list-unstyled">
+                        <li v-for="team in group.group_count"># {{ team }}</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </form>
         </div>
        </div>
@@ -87,22 +103,32 @@
   </div>
 </template>
 <script type="text/babel">
-   export default {
-     props: ['templateData','totalTime','templateGraphicViewImage'],
-     filters: {
-    formatTime: function(time) {
-      var hours = Math.floor( time /   60);
-      var minutes = Math.floor(time % 60);
+  export default {
+    data() {
+      return {
+      }
+    },
+    props: ['templateData','totalTime','templateGraphicViewImage', 'fixures'],
+    filters: {
+      formatTime: function(time) {
+        var hours = Math.floor( time /   60);
+        var minutes = Math.floor(time % 60);
 
-      return hours+ 'h '+minutes+'m'
-    }
-   },
+        return hours+ 'h '+minutes+'m'
+      }
+    },
    methods:{
     displayRoundSchedule() {
       var roundScheduleData = this.templateData.round_schedule;
       if(roundScheduleData) {
         return this.templateData.tournament_teams +" teams " + roundScheduleData.join(" - ");
       }
+    },
+    rounds() {
+      if(this.templateData.tournament_competation_format != undefined) {
+        return this.templateData.tournament_competation_format.format_name;
+      }
+      return [];
     }
    }
  }
