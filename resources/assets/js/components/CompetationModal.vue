@@ -82,17 +82,41 @@
             </div>
 
             <div class="row">
-              <div class="col-md-12">
-                <div class="col-md-3" v-for="(round, index) in rounds()" v-if="index == 0">
-                  <div>
-                    <h4>{{ round.name }}</h4>
-                    <div v-for="group in round.match_type">
-                      <h5>{{ group.groups.group_name }}</h5>
-                      <ul class="list-unstyled">
-                        <li v-for="team in group.group_count"># {{ team }}</li>
-                      </ul>
+              <div class="col-md-4" v-for="(round, roundIndex) in rounds()">
+                <h4>{{ round.name }}</h4>
+                <div v-for="(group, groupIndex) in round.match_type">
+                  
+                  <!-- round 1 -->
+                  <div v-if="roundIndex == 0">
+                    <h5>{{ group.groups.group_name }}</h5>
+                    <ul class="list-unstyled">
+                      <li v-for="team in group.group_count"># {{ team }}</li>
+                    </ul>
+                  </div>
+
+
+                <!-- round 2 -->
+                <div v-for="(match, matchIndex) in group.groups.match">
+                  <div class="row" v-if="roundIndex == 1">
+                    <div class="col-md-6">
+                      <p>Match {{ roundIndex + 1 }} . {{ matchIndex + 1 }}</p>
+                    </div>
+                    <div class="col-md-6">
+                      <p>{{ match.display_home_team_placeholder_name }} - {{ match.display_away_team_placeholder_name }}</p>
                     </div>
                   </div>
+
+                  <!-- round 3 -->
+                  <div v-if="roundIndex == lastRoundIndex">
+                    <div class="col-md-6 row">
+                        <p>Final</p>
+                    </div>
+                    <div class="col-md-6 row">
+                        <p> winner {{ match.display_home_team_placeholder_name  }} - winner {{ match.display_away_team_placeholder_name }}</p>
+                    </div>
+                  </div>
+                </div>
+
                 </div>
               </div>
             </div>
@@ -117,6 +141,11 @@
         return hours+ 'h '+minutes+'m'
       }
     },
+    computed: {
+      lastRoundIndex() {
+        return _.findLastIndex(this.templateData.tournament_competation_format.format_name);
+      }
+    },
    methods:{
     displayRoundSchedule() {
       var roundScheduleData = this.templateData.round_schedule;
@@ -129,6 +158,9 @@
         return this.templateData.tournament_competation_format.format_name;
       }
       return [];
+    },
+    positions() {
+      return this.templateData.tournament_positions;
     }
    }
  }
