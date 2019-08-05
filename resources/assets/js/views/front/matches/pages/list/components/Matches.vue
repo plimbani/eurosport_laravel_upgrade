@@ -23,7 +23,7 @@
       </div>
 
       <div class="no-data h6 text-muted" v-if="matchData.length == 0">{{ $t('matches.no_matches_found') }}</div>
-      <paginate v-if="currentView != 'Competition'" name="matchlist" :list="matchData" ref="paginator" :per="noOfRecords" class="paginate-list"></paginate>
+      <paginate v-if="currentView != 'Competition' && matchData.length > 0" name="matchlist" :list="matchData" ref="paginator" :per="noOfRecords" class="paginate-list"></paginate>
       <div v-if="currentView != 'Competition'">
         <!-- <div v-if="matchData.length > 0">
             <select class="form-control ls-select2" name="noOfRecords" v-model="noOfRecords">
@@ -136,10 +136,11 @@
         return true;
       },
       getMatchList() {
-        if(this.currentView != 'Competition') {
-          return this.paginated('matchlist');
+        let vm = this;
+        if(vm.currentView != 'Competition') {
+          return vm.paginated('matchlist');
         } else {
-          return this.matchData;
+          return vm.matchData;
         }
       },
       setMatchesForMatchList(matchData) {

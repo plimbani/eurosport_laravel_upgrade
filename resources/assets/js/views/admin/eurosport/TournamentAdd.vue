@@ -207,12 +207,19 @@
                 v-model="location.tournament_venue_country"
                 v-validate="'required'" :class="{'is-danger': errors.has('tournament_venue_country'+index) }">
                   <option value="">{{$lang.tournament_country_please_select}}</option>
+                  <option value="Albania">Albania</option>
+                  <option value="Algeria">Algeria</option>
                   <option value="Andorra">Andorra</option>
+                  <option value="Argentina">Argentina</option>
+                  <option value="Australia">Australia</option>
                   <option value="Austria">Austria</option>
                   <option value="Belgium">Belgium</option>
+                  <option value="Bosnia and Herzegovina">Bosnia and Herzegovina</option>
+                  <option value="Brazil">Brazil</option>
                   <option value="Belarus">Belarus</option>
                   <option value="Bulgaria">Bulgaria</option>
                   <option value="Canada">Canada</option>
+                  <option value="China">China</option>
                   <option value="Croatia">Croatia</option>
                   <option value="Czech Republic">Czech Republic</option>
                   <option value="Denmark">Denmark</option>
@@ -230,8 +237,10 @@
                   <option value="Iceland">Iceland</option>
                   <option value="Ireland">Ireland</option>
                   <option value="Isle of man">Isle of man</option>
+                  <option value="Israel">Israel</option>
                   <option value="Italy">Italy</option>
                   <option value="Japan">Japan</option>
+                  <option value="Kosovo">Kosovo</option>
                   <option value="Latvia">Latvia</option>
                   <option value="Liechtenstein">Liechtenstein</option>
                   <option value="Lithuania">Lithuania</option>
@@ -241,12 +250,18 @@
                   <option value="Moldava">Moldava</option>
                   <option value="Monaco">Monaco</option>
                   <option value="Montenegro">Montenegro</option>
+                  <option value="Morocco">Morocco</option>
                   <option value="Netherlands">Netherlands</option>
+                  <option value="New Zealand">New Zealand</option>
                   <option value="Northern Ireland">Northern Ireland</option>
                   <option value="Norway">Norway</option>
+                  <option value="Peru">Peru</option>
                   <option value="Poland">Poland</option>
                   <option value="Portugal">Portugal</option>
+                  <option value="Republic of Moldova">Republic of Moldova</option>
+                  <option value="Republic of Serbia">Republic of Serbia</option>
                   <option value="Romania">Romania</option>
+                  <option value="Russian Federation">Russian Federation</option>
                   <option value="San Marino">San Marino</option>
                   <option value="Scotland">Scotland</option>
                   <option value="Serbia">Serbia</option>
@@ -256,10 +271,14 @@
                   <option value="Spain">Spain</option>
                   <option value="Sweden">Sweden</option>
                   <option value="Switzerland">Switzerland</option>
+                  <option value="Tunisia">Tunisia</option>
+                  <option value="Turkey">Turkey</option>
                   <option value="Ukraine">Ukraine</option>
-                  <option value="United States">United States</option>
-                  <option value="Wales">Wales</option>
+                  <option value="United Arab Emirates">United Arab Emirates</option>
                   <option value="United Kingdom">United Kingdom</option>
+                  <option value="United States of America">United States of America</option>
+                  <option value="Uzbekistan">Uzbekistan</option>
+                  <option value="Wales">Wales</option>
                 </select>
                 <i v-show="errors.has('tournament_venue_country'+index)" class="fas fa-warning"></i>
                 <span class="help is-danger" v-show="errors.has('tournament_venue_country'+index)">{{$lang.tournament_validation_country}}</span>
@@ -455,11 +474,6 @@ $('.panel-title').on('click',function(){
     $('#opt_icon').removeClass('fa-minus')
   }
 });
-if ($(document).height() > $(window).height()) {
-        $('.site-footer').removeClass('sticky');
-    } else {
-       $('.site-footer').addClass('sticky');
-    }
 },
 methods: {
 selectImage() {
@@ -503,7 +517,7 @@ e.preventDefault();
 removeLocation (index, location){
     let pitches = this.$store.state.Pitch.pitches;
     if(pitches) {
-        let removeVenue = _.find(pitches, ['venue_id', location.tournament_location_id]); 
+        let removeVenue = _.find(pitches, ['venue_id', location.tournament_location_id]);
         if(removeVenue) {
           $("#remove_venue").modal('show');
         }  else {
@@ -511,14 +525,14 @@ removeLocation (index, location){
               if(this.locations[index].tournament_location_id != '') {
                 this.tournament.del_location.push(this.locations[index].tournament_location_id)
               }
-              this.locations.splice(index,1)  
+              this.locations.splice(index,1)
         }
     } else {
               // here first we get the location id of it
               if(this.locations[index].tournament_location_id != '') {
                 this.tournament.del_location.push(this.locations[index].tournament_location_id)
               }
-              this.locations.splice(index,1)  
+              this.locations.splice(index,1)
     }
 },
 next() {

@@ -31,7 +31,7 @@ use Laraspace\Http\Requests\User\GetUserWebsitesRequest;
 use Laraspace\Http\Requests\User\ChangePermissionRequest;
 use Laraspace\Http\Requests\User\GetUserDetailsRequest;
 use Laraspace\Http\Requests\User\RemoveFavouriteRequest;
-use Laraspace\Http\Requests\User\GetUsetTournamentsRequest;
+use Laraspace\Http\Requests\User\GetUserTournamentsRequest;
 use Laraspace\Http\Requests\User\SetDefaultFavouriteRequest;
 use Laraspace\Http\Requests\User\TournamentPermissionRequest;
 use Laraspace\Http\Requests\User\GetSignedUrlForUsersTableDataRequest;
@@ -88,7 +88,7 @@ class UserController extends BaseController
 
     public function getUserTableData(Request $request)
     {
-        return $userData = $this->userObj->getUserTableData($request->all());
+      return $userData = $this->userObj->getUserTableData($request->all());
     }
 
 
@@ -253,7 +253,7 @@ class UserController extends BaseController
       return $this->userObj->changePermissions($request->all());  
     }
 
-    public function getUserTournaments(GetUsetTournamentsRequest $request, $id) {
+    public function getUserTournaments(GetUserTournamentsRequest $request, $id) {
       return $this->userObj->getUserTournaments($id);
     }
 
@@ -262,13 +262,14 @@ class UserController extends BaseController
     }
 
     public function getSignedUrlForUsersTableData(GetSignedUrlForUsersTableDataRequest $request)
-    {
+    { 
+
         $reportData = $request->all();
+        $token = JWTAuth::getToken();
+        $reportData['token'] = strval($token);
         ksort($reportData);
         $reportData  = http_build_query($reportData);
-
         $signedUrl = UrlSigner::sign(url('api/users/getUserTableData?' . $reportData), Carbon::now()->addMinutes(config('config-variables.signed_url_interval')));
-
         return $signedUrl;
     }
 
@@ -323,5 +324,10 @@ class UserController extends BaseController
 
     public function validateUserEmail(Request $request) {
       return $this->userObj->validateUserEmail($request->all());
+    }
+
+    public function verifyResultAdminUser(Request $request)
+    {
+      return $this->userObj->verifyResultAdminUser($request->all());
     }
 }

@@ -10,8 +10,8 @@ export default {
 		return axios.post('/api/match/getFixtures', {'tournamentData': data});
 	},
 	// Get all competitions
-	getAllDraws(tournamentId) {
-    return axios.post('/api/match/getDraws', {'tournamentId': tournamentId});
+	getAllDraws(tournamentId,currentAgeCategoryId) {
+    return axios.post('/api/match/getDraws', {'tournamentId': tournamentId,'competationFormatId':currentAgeCategoryId});
 	},
 	// Get competition grid
 	getDrawTable(data) {

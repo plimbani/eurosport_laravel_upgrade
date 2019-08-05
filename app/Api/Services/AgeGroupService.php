@@ -74,10 +74,6 @@ class AgeGroupService implements AgeGroupContract
           return ['status_code' => '403', 'message' => 'This category cannot be added as it exceeds the maximum teams set for this tournament.'];
         }
 
-        $tournamentTemplateDivisions = json_decode($data['tournamentTemplate']['json_data']);
-
-        // TODO: Here we set the value for Other Data
-        // Impliclityly Add 2 For Multiplication
         if($data['game_duration_RR'] == 'other') {
           $data['game_duration_RR'] = $data['halves_RR'] * $data['game_duration_RR_other'];
         } else {
@@ -901,5 +897,12 @@ class AgeGroupService implements AgeGroupContract
       }
 
       return $matches;
+    }
+
+    public function deleteFinalPlacingTeam($data) {
+      $data = $this->ageGroupObj->deleteFinalPlacingTeam($data);
+      if ($data) {
+        return ['data' => $data, 'status_code' => '200', 'message' => 'Teams has been deleted Successfully'];
+      }
     }
 }

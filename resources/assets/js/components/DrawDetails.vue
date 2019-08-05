@@ -84,7 +84,7 @@
     <h6 v-if="otherData.DrawType != 'Elimination'" class="mb-0 fieldset-title">
     {{otherData.DrawName}} standings
     <a href="#" @click="manualRankingModalOpen()" v-if="isUserDataExist && teamList.length > 0"><span>(<u>manual ranking</u>)</span></a>
-    <span style="float: right;" v-if="DrawName.competation_round_no != 'Round 1' && isUserDataExist"><a href="javascript:void(0)" @click="refreshStanding()">Refresh standing</a></span>
+    <!-- <span style="float: right;" v-if="DrawName.competation_round_no != 'Round 1' && isUserDataExist"><a href="javascript:void(0)" @click="refreshStanding()">Refresh standing</a></span> -->
     </h6>
     <teamStanding :currentCompetationId="currentCompetationId" :drawType="otherData.DrawType" v-if="currentCompetationId != 0 && teamStatus == true" >
     </teamStanding>
@@ -141,7 +141,7 @@ export default {
     let drawname1 = []
     
     let vm = this
-      Tournament.getAllDraws([TournamentId,currentAgeCategoryId]).then(
+      Tournament.getAllDraws(TournamentId,currentAgeCategoryId).then(
         (response)=> {
           if(response.data.status_code == 200) {
             this.drawList = response.data.data.mainData

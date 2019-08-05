@@ -2,6 +2,7 @@ import Vue from 'vue'
 import store from './store'
 import VueRouter from 'vue-router'
 
+import Ls from './services/ls'
 import AuthService from './services/auth'
 
 /*
@@ -86,6 +87,10 @@ import WebsiteStay from './views/admin/eurosport/WebsiteStay.vue';
 import WebsiteVisitors from './views/admin/eurosport/WebsiteVisitors.vue';
 import WebsiteMedia from './views/admin/eurosport/WebsiteMedia.vue';
 import WebsiteContact from './views/admin/eurosport/WebsiteContact.vue';
+
+import AddTemplate from './components/Template/AddTemplate';
+import EditTemplate from './components/Template/EditTemplate';
+import TemplateList from './views/admin/templates/List.vue';
 
 Vue.use(VueRouter)
 
@@ -213,10 +218,25 @@ const routes = [
         name: 'users_list'
     },
     {
-        path: '/templates',
-        component: LayoutTemplateManagement,
+        path: '/', component: LayoutTemplateManagement,
         meta: { requiresAuth: true },
-        name: 'templates_list'
+        children: [
+            {
+               path: '/templates_list',
+               component: TemplateList,
+               name: 'templates_list'
+            },
+            {
+                path: '/add_new_template',
+                component: AddTemplate,
+                name: 'add_new_template'
+            },
+            {
+                path: '/edit_template/:id',
+                component: EditTemplate,
+                name: 'edit_template'
+            }
+        ]
     },
 
 
@@ -350,28 +370,16 @@ router.beforeEach((to, from, next) => {
         store.dispatch('ResetWebsiteDetail');
     }
 
-    let routesForResultAdmin = ['welcome', 'tournaments_summary_details'];
-
-    let checkTokenValidate = ['login','PasswordReset','PasswordSet'];
-    if ( checkTokenValidate.indexOf(to.name) !== -1)
-    {
-        return axios.get('/api/auth/token_validate').then(response =>  {
-            if(response.data.authenticated == true) {
-                return next({ path : '/admin'})
-            }
-            else
-            {
-                return next();
-            }
-        }).catch(error => {
-        });
+    if(to.name == 'login' && (typeof to.query.redirect_tournament_id != 'undefined')) {
+        Ls.set('redirect_tournament_id', to.query.redirect_tournament_id);
     }
+
+    let routesForResultAdmin = ['welcome', 'tournaments_summary_details'];
 
     // If the next route is requires user to be Logged IN
 
     if (to.matched.some(m => m.meta.requiresAuth)){
         return AuthService.check(data).then((response) => {
-
             if(!response.authenticated){
                 return next({ path : '/login'})
             }
@@ -385,6 +393,25 @@ router.beforeEach((to, from, next) => {
             store.dispatch('setScoreAutoUpdate',response.is_score_auto_update);
             return next()
         })
+    }
+
+    let checkTokenValidate = ['login','PasswordReset','PasswordSet', 'home', 'front_schedule'];
+    if(Ls.get('auth.token'))
+    {
+        return axios.get('/api/auth/token_validate').then(response =>  {
+            if(response.data.authenticated == true) {
+                if ( checkTokenValidate.indexOf(to.name) !== -1)
+                {
+                   return next({ path : '/admin'}) 
+                }
+            }
+            else
+            {
+                Ls.remove('auth.token');
+            }
+            return next()
+        }).catch(error => {
+        });
     }
     return next()
 });

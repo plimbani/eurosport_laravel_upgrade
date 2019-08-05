@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<div class="container" id="step1-template-setting">
+		<div id="step1-template-setting">
             <div class="row justify-content-center">
                 <div class="col-md-12">
             		<h5>{{ $lang.add_template_modal_step1_header }}</h5>
@@ -12,16 +12,12 @@
             		</div>
                     <div class="form-group">
                         <label for="competition_type">Template type</label>
-                        <span class="ml-1 text-primary" data-toggle="popover" data-animation="false" data-placement="right" :data-popover-content="'#divison_detail'"><i class="fa fa-info-circle"></i></span>
-                        <div v-bind:id="'divison_detail'" style="display:none;">
-                            <div class="popover-body">Editor description</div>
-                        </div>
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="checkbox">
                                     <div class="c-input">
                                         <input class="euro-radio" type="radio" name="editor" value="advance" v-model="templateFormDetail.stepone.editor" id="radio_advance">
-                                        <label for="radio_advance">Advance</label>
+                                        <label for="radio_advance">Advanced</label>
                                     </div>
                                 </div>
                             </div>
@@ -38,7 +34,7 @@
             		<div class="form-group" :class="{'has-error': errors.has('no_of_teams') }">
             			<label>{{$lang.add_template_modal_number_of_teams}}</label>
                         <select class="form-control ls-select2" name="no_of_teams" v-model="templateFormDetail.stepone.no_of_teams" v-validate="'required'" :class="{'is-danger': errors.has('no_of_teams') }" data-vv-as="number of teams">
-                            <option value="">Number of teams</option>
+                            <option value="">Number of teams in group</option>
                             <option :value="team" v-for="team in teamsToDisplay">{{ team }}</option>
                         </select>
                         <i v-show="errors.has('no_of_teams')" class="fa fa-warning"></i>
@@ -58,7 +54,11 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="remarks">Round schedule</label>
+                            <label for="remarks">Competition format (round schedule)</label>
+                            <span class="ml-1 text-primary" data-toggle="popover" data-animation="false" data-placement="right" :data-popover-content="'#competition_format'"><i class="fa fa-info-circle"></i></span>
+                            <div v-bind:id="'competition_format'" style="display:none;">
+                                <div class="popover-body">Add an entry for each round e.g. 4 x 4</div>
+                            </div>
                             <div v-for="(roundSchedule, index) in templateFormDetail.stepone.roundSchedules" class="row">
                                 <div class="col-sm-6 col-md-4 col-lg-4 col-xl-4">
                                     <div class="form-group" :class="{'has-error': errors.has('round_schedule'+index) }">
@@ -72,11 +72,11 @@
 
                                 <div class="col-sm-2 col-md-2 col-lg-2 col-xl-3 text-left text-sm-center" v-if="templateFormDetail.stepone.roundSchedules.length > 1">
                                     <div class="form-group">
-                                        <p class="m-0"><a href="javascript:void(0)" class="text-primary" @click="removeRoundSchedule(index)"><u>Delete</u></a></p>
+                                        <p class="m-0"><a href="javascript:void(0)" class="text-primary" @click="removeRoundSchedule(index)"><i class="fas fa-trash text-danger"></i></a></p>
                                     </div>
                                 </div>
                             </div>
-                            <a href="javascript:void(0)" class="text-primary" @click="addNewRoundSchedule()"><u>Add</u></a>
+                            <a href="javascript:void(0)" class="text-primary" @click="addNewRoundSchedule()"><u>+ Add round</u></a>
                         </div>
 
                         <div class="form-group" v-if="(userDetails.role_slug == 'Internal.administrator' || userDetails.role_slug == 'Super.administrator' || userDetails.role_slug == 'Tournament administrator')">
@@ -96,7 +96,11 @@
                         </div>
 
                         <div class="form-group row">
-                            <label class="col-12 form-control-label">Colour</label>
+                            <label class="col-12 form-control-label">Template key</label>
+                            <span class="ml-1 text-primary" data-toggle="popover" data-animation="false" data-placement="right" :data-popover-content="'#color'"><i class="fa fa-info-circle"></i></span>
+                            <div v-bind:id="'color'" style="display:none;">
+                                <div class="popover-body">Template key: Green = preferred, Orange = second option, Red = last resort</div>
+                            </div>
                             <div class="col-12">
                                 <div class="template-font-color-box pull-left mr-2" @click="setTemplateFontColor(color)" v-for="color in templateFontColors" :style="{'background-color': color}" :class="{ 'template-font-color-active' : templateFormDetail.stepone.template_font_color == color }" ></div>
                                 <input type="hidden" name="template_font_color" v-model="templateFormDetail.stepone.template_font_color" v-validate="'required'" :class="{'is-danger': errors.has('template_font_color') }" data-vv-as="template font color">

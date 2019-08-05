@@ -2,7 +2,7 @@
 	<div>
 	    <div class="card mb-3">
 	    	<div class="card-block">
-		        <h6 class="font-weight-bold">{{ getGroupName }} <span class="pull-right"><a href="javascript:void(0)" @click="removeGroup()"><i class="jv-icon jv-dustbin"></i></a></span></h6>
+		        <h6 class="font-weight-bold">{{ getGroupName }} <span class="pull-right"><a href="javascript:void(0)" @click="removeGroup()"><i class="fas fa-trash text-danger"></i></a></span></h6>
 		        <div class="form-group">
 		            <div class="radio">
 		                <label><input type="radio" checked="checked" value="round_robin" v-model="groupData.type" @change="onChangeGroupType()"> Round robin</label>
@@ -12,7 +12,7 @@
 		        <div class="row">
 		            <div class="col-md-6">
 		                <div class="form-group mb-0">
-		                    <label>Number of teams in group</label>
+		                    <label>Number of teams</label>
 		                    <select :data-last-selected="last_selected_teams" class="form-control ls-select2" v-model="groupData.no_of_teams" @change="onTeamChange($event)">
 		                    	<option v-for="n in 28" v-if="n >= 2" :value="n">{{ n }}</option>
 		                    </select>
@@ -121,7 +121,7 @@
         	onTeamChange() {
  				let groupTotalTeams = this.$parent.getGroupTotalTeams(this.roundIndex);
                 if(this.roundIndex === 0 && groupTotalTeams > this.roundData.no_of_teams) {
-                    toastr['error']('Round team count get exceeds.', 'Error');
+                    toastr['error']('The number of teams selected exceeds total teams in the round.', 'Error');
                     this.groupData.no_of_teams = this.last_selected_teams;
                     return false;
                 }

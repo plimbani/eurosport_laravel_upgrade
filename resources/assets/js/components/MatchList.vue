@@ -2,7 +2,7 @@
 <div class="row">
   <div class="col-md-12">
   <button type="button" name="save" class="btn btn-primary pull-right mb-3" @click="saveMatchScore()" v-if="getCurrentScheduleView == 'matchList' && isUserDataExist && matchData.length > 0">Save</button> 
-  <div class="row align-items-center mb-3" v-if="isDivExist == 0">
+  <div class="row align-items-center mb-3" v-if="isDivExist == 0 && currentView !='matchListing'">
     <div class="col-md-10">
       <label class="mb-0">
         <h6 class="mb-0">{{otherData.DrawName}} matches</h6>
@@ -76,7 +76,7 @@ import VuePaginate from 'vue-paginate'
 import UnSavedMatchScoresInfoModal from '../components/UnsavedMatchScoresInfo.vue'
 
 export default {
-  props: ['matchData1', 'DrawName', 'otherData'],
+  props: ['matchData1', 'DrawName', 'otherData', 'currentView'],
   components: {
     PitchModal,
     DeleteModal1,
