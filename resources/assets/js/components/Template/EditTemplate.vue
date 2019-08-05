@@ -48,9 +48,9 @@
         components: {
             StepOne, StepTwo, StepThree, StepFour
         },
-		mounted() {
+        mounted() {
             this.editTemplate();
-		},
+        },
 		methods: {
             changeTabIndex(from, to, key, data) {
                 this.templateFormDetail[key] = _.cloneDeep(data);

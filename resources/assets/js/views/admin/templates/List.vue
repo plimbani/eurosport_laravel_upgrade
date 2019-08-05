@@ -40,6 +40,7 @@
                         <thead>
                             <tr>
                                 <th>{{$lang.template_name}}</th>
+                                <th>{{$lang.template_type}}</th>
                                 <th>{{$lang.template_teams}}</th>
                                 <th>{{$lang.template_min_matches}}</th>
                                 <th>{{$lang.template_avg_teams}}</th>
@@ -54,6 +55,8 @@
                         <tbody v-if="!isListGettingUpdate">
                           <tr class="" v-for="template in templateList.templateData.data">
                             <td>{{ template.name }}</td>
+                            <td v-if="template.editor_type =='advance'">Advanced</td>
+                            <td v-else>Festival</td>
                             <td>{{ template.total_teams }}</td>
                             <td>{{ template.minimum_matches }}</td>
                             <td>{{ template.avg_matches }}</td>
@@ -73,7 +76,7 @@
                                 </a>
                                 <a href="javascript:void(0)"
                                   @click="deleteTemplate(template)">
-                                  <i class="jv-icon jv-dustbin"></i>
+                                  <i class="fas fa-trash text-danger"></i>
                                 </a>
                             </td>
                           </tr>

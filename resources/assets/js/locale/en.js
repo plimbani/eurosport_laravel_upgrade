@@ -70,6 +70,7 @@ module.exports= {
   template_management_template: "Templates",
   template_management_add_new_template: "Add new template",
   template_name: "Name",
+  template_type: "Type",
   template_teams: "Teams",
   template_min_matches: "Min matches",  
   template_avg_teams: "Avg matches",
@@ -97,9 +98,9 @@ module.exports= {
   add_template_modal_back_button: "Back",
   add_template_modal_save_button: "Save",
 
-  add_template_modal_step2_header: "Step 2 : Setup rounds",
-  add_template_modal_step3_header: "Step 3 : Placings",
-  add_template_modal_step4_header: "Step 4 : Review",
+  add_template_modal_step2_header: "Step 2: Setup rounds",
+  add_template_modal_step3_header: "Step 3: Placings",
+  add_template_modal_step4_header: "Step 4: Review",
   
   duplicate_tournament: "Tournaments",
   duplicate_tournamet_tournament_name: "Tournament name",

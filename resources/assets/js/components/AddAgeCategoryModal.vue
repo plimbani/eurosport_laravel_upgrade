@@ -96,7 +96,7 @@
                         <div class="checkbox">
                             <div class="c-input">
                                 <input class="euro-radio" type="radio" name="tournament_format" value="advance" id="radio_advance" v-model="tournament_format" @change="validateTemplate()">
-                                <label for="radio_advance">Advance</label>
+                                <label for="radio_advance">Advanced</label>
                             </div>
                         </div>
                     </div>
@@ -511,7 +511,9 @@
                 </div>
               </div>
               <div class="form-group row align-items-center" v-if="this.tournament_format == 'basic'">
-                <div class="col-sm-4 form-control-label">Template font color</div>
+                <label class="col-sm-4 form-control-label">Template key
+                <span class="pr-2 pl-2 text-primary" data-toggle="popover" data-animation="false" data-placement="right" data-content="Enter the number of points for a win, draw or loss"><i class="fas fa-info-circle"></i></span>
+                </label>
                 <div class="col-sm-8">
                   <div class="row align-items-center">
                     <div class="col-sm-12">
