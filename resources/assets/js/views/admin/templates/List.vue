@@ -76,7 +76,7 @@
                                 </a>
                                 <a href="javascript:void(0)"
                                   @click="deleteTemplate(template)">
-                                  <i class="jv-icon jv-dustbin"></i>
+                                  <i class="fas fa-trash text-danger"></i>
                                 </a>
                             </td>
                           </tr>

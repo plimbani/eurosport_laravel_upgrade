@@ -38,6 +38,12 @@
                 editTournamentDetail:'',
 		    }
 		},
+        created() {
+            this.$root.$on('clearFormFields', this.clearFormFields);
+        },
+        beforeCreate: function() {
+            this.$root.$off('clearFormFields');
+        },
         components: {
             StepOne, StepTwo, StepThree, StepFour
         },
@@ -49,6 +55,9 @@
                 this.templateFormDetail[key] = _.cloneDeep(data);
                 this.currentStep = to;
                 this.templateFormDetail.steptwo.rounds[0].no_of_teams = this.templateFormDetail.stepone.no_of_teams;
+            },
+            clearFormFields() {
+                this.errors.clear();
             },
             editTemplate() {
             this.editedTemplateId = this.$route.params.id
