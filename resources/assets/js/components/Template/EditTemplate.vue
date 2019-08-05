@@ -3,7 +3,7 @@
         <div class="card">
             <div class="card-block">
                 <div class="row">
-                    <div class="col-lg-12">
+                    <div class="col-lg-12" v-if="showEditForm">
                         <step-one v-show="currentStep === 1" :templateFormDetail="templateFormDetail" @change-tab-index="changeTabIndex" :templateGraphicImage="templateGraphicImage"></step-one>
 
                         <!-- Step 2 -->
@@ -36,6 +36,7 @@
                 templateGraphicImage: '',
                 editedTemplateId: '',
                 editTournamentDetail:'',
+                showEditForm:false,
 		    }
 		},
         created() {
@@ -66,6 +67,7 @@
                     this.editTournamentDetail = response.data.data;
                     this.templateFormDetail =  _.cloneDeep(JSON.parse(this.editTournamentDetail.template_form_detail));
                     this.templateGraphicImage = this.editTournamentDetail.graphic_image;
+                    this.showEditForm = true;
                   },
                   (error)=> {
                   }

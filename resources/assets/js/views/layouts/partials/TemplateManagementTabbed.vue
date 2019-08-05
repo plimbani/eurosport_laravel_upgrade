@@ -4,18 +4,10 @@
 			<div class="row">
 				<div class="col-lg-12">
 					<div class="tabs tabs-primary template_tabs">
-						<ul class="nav nav-tabs" role="tablist">
-							<li class="nav-item" v-if="$route.name == 'templates_list'">
+						<ul class="nav nav-tabs" role="tablist" v-if="$route.name == 'templates_list'">
+							<li class="nav-item">
 								<a class="nav-link active" data-toggle="tab"
 								href="javascript:void(0)" role="tab"><div class="wrapper-tab">{{$lang.template_management_template}}</div></a>
-							</li>
-							<li class="nav-item" v-if="$route.name == 'add_new_template'">
-								<a class="nav-link active" data-toggle="tab"
-								href="javascript:void(0)" role="tab"><div class="wrapper-tab">Add New Template</div></a>
-							</li>
-							<li class="nav-item" v-if="$route.name == 'edit_template'">
-								<a class="nav-link active" data-toggle="tab"
-								href="javascript:void(0)" role="tab"><div class="wrapper-tab">Edit Template</div></a>
 							</li>
 						</ul>
 						<router-view></router-view>

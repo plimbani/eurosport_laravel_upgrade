@@ -156,9 +156,7 @@
 	        				Template.updateTemplateDetail(templateData).then(
 			        			(response) => {
 			        				toastr.success('Template has been updated successfully.', 'Update Template', {timeOut: 5000});
-			        				$('#edit_template_modal').modal('hide');
 			        				vm.$root.$emit('clearFormFields');
-			        				vm.$root.$emit('getTemplates');
 			        				vm.$router.push({name: 'templates_list'})
 			        			},
 			        			(error) => {
@@ -168,9 +166,7 @@
 			        		Template.saveTemplateDetail(templateData).then(
 			        			(response) => {
 			        				toastr.success('Template has been added successfully.', 'Add Template', {timeOut: 5000});
-			        				$('#add_new_template_modal').modal('hide');
 			        				vm.$root.$emit('clearFormFields');
-			        				vm.$root.$emit('getTemplates');
 			        				vm.$router.push({name: 'templates_list'})
 			        			},
 			        			(error) => {

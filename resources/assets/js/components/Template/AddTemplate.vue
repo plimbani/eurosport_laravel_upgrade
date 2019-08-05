@@ -6,7 +6,7 @@
                     <div class="col-lg-12">
                         <step-one v-show="currentStep === 1" :templateFormDetail="templateFormDetail" @change-tab-index="changeTabIndex"></step-one>
 
-                         <!-- Step 2 -->
+                        <!-- Step 2 -->
                         <step-two v-show="currentStep === 2" :templateFormDetail="templateFormDetail" @change-tab-index="changeTabIndex"></step-two>
 
                         <!-- Step 3 -->
@@ -46,9 +46,6 @@
         },
 		mounted() {
             let vm = this;
-            $('#add_new_template_modal').on('hidden.bs.modal', function () {
-                vm.$emit('addTemplateModalHidden');
-            });
 		},
 		methods: {
             intialState() {
@@ -94,10 +91,6 @@
                 this.templateFormDetail[key] = _.cloneDeep(data);
                 this.currentStep = to;
                 this.templateFormDetail.steptwo.rounds[0].no_of_teams = this.templateFormDetail.stepone.no_of_teams;
-            },
-            closeModal() {
-                let vm = this;
-                $('#add_new_template_modal').modal('hide');
             },
             clearFormFields() {
                 let vm = this;
