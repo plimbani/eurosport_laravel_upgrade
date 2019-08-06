@@ -12,7 +12,7 @@
           <div class="modal-body">
           <form name="addMessage" id="addMessage" class="col-md-6 mt-4">
             <div class="form-group text-left">
-              <div>{{$lang.summary_message_compose_message}}*</div>
+              <label>{{$lang.summary_message_compose_message}}*</label>
 
               <textarea class="form-control" rows="6"
               v-validate="'required'"

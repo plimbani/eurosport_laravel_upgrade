@@ -210,7 +210,7 @@
 
                                     <div class="row" v-if="!buyLicenseReduceTeamAndDay">
                                         <div class="col-8">
-                                           <p class="mb-0" >Paid amount</p>
+                                           <p class="mb-0">Already paid amount</p>
                                         </div>
                                         <div class="col-4 text-right">
                                             <p class="text-sm-right mb-0 mt-3 mt-sm-0">
@@ -825,8 +825,8 @@
                 //let currentDateTime = this.currentDateTime;
                 let tournamentEndDate = endDate;
 
-                let tournamentExpireTime = moment(tournamentEndDate).format('DD/MM/YYYY HH:mm:ss');
-                let currentDateTime = moment().format('DD/MM/YYYY HH:mm:ss');
+                let tournamentExpireTime = moment(tournamentEndDate).format('YYYY-MM-DD HH:mm:ss');
+                let currentDateTime = moment().format('YYYY-MM-DD HH:mm:ss');
 
                 if(tournamentExpireTime > currentDateTime) {
                    return false;

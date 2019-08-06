@@ -90,8 +90,7 @@
                                     </span>
                                 </p>
                                 <p class="mb-0" v-if="id && tournamentData.transactionDifferenceAmountValue > 0">
-                                    <span>Paid amount
-                                    </span>
+                                    <span>Already paid amount</span>
                                 </p>
                             </div>
                             <div class="col-sm-6 col-md-5 col-lg-5"  v-if="!id">
@@ -201,7 +200,7 @@
                         orderInfo.pspid = this.pspid;
                         orderInfo.tournamentPricingValue = this.amount;
 
-                        this.amount = parseInt(this.amount);
+                        this.amount = parseInt(Math.round(this.amount));
                         Ls.set('orderInfo', JSON.stringify(orderInfo))
                         let self = this;
                         setTimeout(function () {
