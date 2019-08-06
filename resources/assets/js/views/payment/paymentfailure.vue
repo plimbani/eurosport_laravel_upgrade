@@ -44,10 +44,9 @@
                     paymentResponse:this.paymentObj
                 } 
                 var url = "payment/response";
-                this.status_message = this.paymentObj.STATUS_MESSAGE;
+                // this.status_message = this.paymentObj.STATUS_MESSAGE;
                 
                 if(typeof this.tournament.id != "undefined" && this.tournament.id != undefined && !this.tournament.is_renew){
-                    
                     url = "manage-tournament";
                 }
                 
