@@ -112,7 +112,7 @@
         <delete-modal :deleteConfirmMsg="deleteConfirmMsg" @confirmed="deleteConfirmed()"></delete-modal>
         <template-info-modal v-show="templateInfoModal" :templateDetail="templateDetail"></template-info-modal>
         <template-in-use-modal v-show="templateInUseModal"></template-in-use-modal>
-        <template-edit-modal v-show="templateEditModal" @confirmed="editConfirmed()"></template-edit-modal>
+        <template-version-confirm-modal v-show="templateEditModal" @confirmed="editConfirmed()"></template-version-confirm-modal>
     </div>
 </template>
 <script type="text/babel">
@@ -124,11 +124,11 @@
     import DeleteModal from '../../../components/DeleteModal.vue'
     import TemplateInfoModal from '../../../components/TemplateInfoModal.vue'
     import TemplateInUseModal from '../../../components/TemplateInUseModal.vue'
-    import TemplateEditModal from '../../../components/TemplateEditModal.vue'
+    import TemplateVersionConfirmModal from '../../../components/TemplateVersionConfirmModal.vue'
 
     export default {
         components: {
-          TemplateInfoModal, DeleteModal, TemplateInUseModal, pagination, TemplateEditModal
+          TemplateInfoModal, DeleteModal, TemplateInUseModal, pagination, TemplateVersionConfirmModal
         },
         data() {
             return {
@@ -151,7 +151,7 @@
                 templateCount: 0,
                 },
                 isListGettingUpdate: true,
-                templateEdit:'',
+                templateEdit: null,
             }
         },
         filters: {
@@ -215,6 +215,7 @@
           },
 
           checkForEditTemplate(template){
+            this.templateEdit = null;
             Template.getTemplateDetail(template).then(
               (response)=> {
                   this.templateEdit = template;
@@ -222,7 +223,7 @@
                     this.editTemplate(template.id);
                   } else {
                     this.templateEditModal = true;
-                    $('#template_edit_modal').modal('show');
+                    $('#template_version_confirm_modal').modal('show');
                     return true;
                   }
               },
@@ -251,8 +252,9 @@
           },
 
           editConfirmed(){
-            $('#template_edit_modal').modal('hide');
+            $('#template_version_confirm_modal').modal('hide');
             this.editTemplate(this.templateEdit.id);
+            this.templateEdit = null;
           },
 
           filterData() {
