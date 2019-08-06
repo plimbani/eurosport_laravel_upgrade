@@ -4,13 +4,14 @@
 	    	<div class="card-block">
 		        <h6 class="font-weight-bold">{{ getGroupName }} <span class="pull-right"><a href="javascript:void(0)" @click="removeGroup()"><i class="fas fa-trash text-danger"></i></a></span></h6>
 		        <div class="form-group">
-		        	
-                    <div class="c-input">
-                        <input type="radio" id="round-robin" class="euro-radio" checked="checked" value="round_robin" v-model="groupData.type" @change="onChangeGroupType()">
-                        <label for="round-robin" class="d-inline-flex mr-5">Round robin</label>
-                        <input type="radio" id="placing-match" class="euro-radio" value="placing_match" v-model="groupData.type" @change="onChangeGroupType()">
-                        <label for="placing-match" class="d-inline-flex">Placing match</label>
-                    </div>
+		        	<div class="radio">
+	                    <div class="c-input">
+	                        <input type="radio" id="round-robin" class="euro-radio" checked="checked" value="round_robin" v-model="groupData.type" @change="onChangeGroupType()">
+	                        <label for="round-robin" class="d-inline-flex mr-5">Round robin</label>
+	                        <input type="radio" id="placing-match" class="euro-radio" value="placing_match" v-model="groupData.type" @change="onChangeGroupType()">
+	                        <label for="placing-match" class="d-inline-flex">Placing match</label>
+	                    </div>
+	                </div>
 
 		            <!-- <div class="radio">
 		                <label><input type="radio" checked="checked" value="round_robin" v-model="groupData.type" @change="onChangeGroupType()"> Round robin</label>
