@@ -24,9 +24,7 @@
   </div>
   <div class="row align-items-center mb-3" v-if="otherData.DrawType != 'Elimination'">
     <div class="col-md-10">
-      <label class="mb-0" v-if="otherData.DrawType != 'Elimination'">
-        <h6 class="mb-0">{{otherData.DrawName}} results grid</h6>
-      </label>
+        <h6 class="mb-0 fieldset-title" v-if="otherData.DrawType != 'Elimination'">{{otherData.DrawName}} results grid</h6>
     </div>
     <div class="col-md-2">
       <button type="button" name="save" class="btn btn-primary pull-right" @click="saveMatchScore()" v-if="otherData.DrawType != 'Elimination' && isUserDataExist">Save</button>
@@ -83,17 +81,16 @@
   </table>
 
   <div class="form-group">
-    <h6 v-if="otherData.DrawType != 'Elimination'" class="mb-0">
+    <h6 v-if="otherData.DrawType != 'Elimination'" class="mb-0 fieldset-title">
     {{otherData.DrawName}} standings
     <a href="#" @click="manualRankingModalOpen()" v-if="isUserDataExist && teamList.length > 0"><span>(<u>manual ranking</u>)</span></a>
-    <span style="float: right;" v-if="DrawName.competation_round_no != 'Round 1' && isUserDataExist"><a href="javascript:void(0)" @click="refreshStanding()">Refresh standing</a></span>
+    <!-- <span style="float: right;" v-if="DrawName.competation_round_no != 'Round 1' && isUserDataExist"><a href="javascript:void(0)" @click="refreshStanding()">Refresh standing</a></span> -->
     </h6>
     <teamStanding :currentCompetationId="currentCompetationId" :drawType="otherData.DrawType" v-if="currentCompetationId != 0 && teamStatus == true" >
     </teamStanding>
     <div v-if="currentCompetationId == 0 && otherData.DrawType != 'Elimination'">No information available
     </div>
   </div>
-  
   <matchList :matchData1="matchData" :DrawName="DrawName" :otherData="otherData"></matchList>
   <manualRanking :competitionId="currentCompetationId" :teamList="teamList" :teamCount="teamCount" :isManualOverrideStanding="DrawName.is_manual_override_standing" @refreshStanding="refreshManualStanding()" @competitionAsManualStanding="competitionAsManualStanding"></manualRanking>
 </div>
@@ -101,7 +98,6 @@
 <script>
 import MatchListing from './MatchListing.vue'
 import MatchList from './MatchList.vue'
-import LocationList from'./LocationList.vue'
 import TeamStanding from './TeamStanding.vue'
 import Tournament from '../api/tournament.js'
 import ManualRanking from './manualRankingModal.vue'
@@ -145,7 +141,7 @@ export default {
     let drawname1 = []
     
     let vm = this
-      Tournament.getAllDraws([TournamentId,currentAgeCategoryId]).then(
+      Tournament.getAllDraws(TournamentId,currentAgeCategoryId).then(
         (response)=> {
           if(response.data.status_code == 200) {
             this.drawList = response.data.data.mainData
@@ -170,9 +166,42 @@ export default {
             }, {});
             this.DrawName = drawname1
             this.CompRound = round
-            if ( currDId != undefined){
-              this.refreshStanding();
-            }
+
+
+            setTimeout(function(){
+              $('#drawName optgroup .rounds').each(function() {
+                var insideOptions = $(this).html();
+                $(this).html('');
+                $(insideOptions).insertAfter($(this));
+
+                $(this).html($(this).attr('rel'));
+              });
+
+              $("#drawName").select2({
+                templateResult: function (data, container) {
+                  if (data.element) {
+                    $(container).addClass($(data.element).attr("class"));
+                  }
+                  return data.text;
+                }
+              })
+              .on('change', function () {
+                let curreId = $(this).val();
+                let drawnameChange = [];
+                vm.drawList.map(function(value, key) {
+                  if(value.id == curreId) {
+                    vm.DrawName = value;
+                  }
+                });
+
+                vm.onChangeDrawDetails();
+                if ( currDId != undefined){
+                  vm.refreshStanding();
+                }
+              });
+
+              $("#drawName").val(currDId).trigger('change');
+            },500);
             //this.DrawName = this.matchData[0];
             // find record of that
           }
@@ -187,39 +216,7 @@ export default {
       // this.$children[1].getData(this.currentCompetationId)
       // console.log(this.$children[1].getData())
 
-    setTimeout(function(){
-      $('#drawName optgroup .rounds').each(function() {
-        var insideOptions = $(this).html();
-        $(this).html('');
-        $(insideOptions).insertAfter($(this));
-
-        $(this).html($(this).attr('rel'));
-      });
-
-      $("#drawName").select2({
-        templateResult: function (data, container) {
-          if (data.element) {
-            $(container).addClass($(data.element).attr("class"));
-          }
-          return data.text;
-        }
-      })
-      .on('change', function () {
-        let curreId = $(this).val();
-        let drawnameChange = [];
-        vm.drawList.map(function(value, key) {
-          if(value.id == curreId) {
-            vm.DrawName = value;
-          }
-        });
-
-        vm.onChangeDrawDetails();
-      });
-
-      $("#drawName").val(currDId).trigger('change');
-    },500);
-
-    $('.ls-select2').select2();
+    //$('.ls-select2').select2();
  },
   filters: {
     formatDate: function(date) {
@@ -280,7 +277,7 @@ export default {
         },
     },
   components: {
-        MatchList,LocationList,MatchListing,TeamStanding,ManualRanking
+        MatchList,MatchListing,TeamStanding,ManualRanking
   },
     methods: {
         refreshManualStanding() {

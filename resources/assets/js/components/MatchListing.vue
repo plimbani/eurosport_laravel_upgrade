@@ -6,7 +6,7 @@
 				<div class="col-sm-10">
 					<div class="row">
 						<div class="col-sm-12">
-							<h6 class="font-weight-bold">{{$lang.summary_schedule_match_overview}}:</h6>
+							<h6 class="font-weight-bold fieldset-title">{{$lang.summary_schedule_match_overview}}:</h6>
 		 				</div>
 						<div class="col-6">
 							<select class="form-control ls-select2"
@@ -36,7 +36,7 @@
 		</div>
 	</div>
     <component :is="currentScheduleView"
-    :matchData1="matchData" :matchData="matchData" :otherData="otherData"
+    :matchData1="matchData" :matchData="matchData" :otherData="otherData" :currentView="currentView"
     > </component>
   </div>
 </template>
@@ -48,7 +48,6 @@ import TeamList from './TeamList.vue'
 import MatchList from './MatchList.vue'
 import DrawDetails from './DrawDetails.vue'
 import DrawsListing from './DrawsListing.vue'
-import LocationList from'./LocationList.vue'
 import DrawList from './DrawList.vue'
 // import MatchFilter from './MatchFilter.vue'
 import TournamentFilter from './TournamentFilter.vue'
@@ -57,6 +56,7 @@ import FinalPlacings from './FinalPlacings.vue'
 var moment = require('moment')
 
 export default {
+	props: ['currentView'],
 	data() {
 		return {
 			matchData: [],otherData:[],matchDate:this.$store.state.Tournament.tournamentStartDate,tournamentDates:[],
@@ -111,7 +111,7 @@ export default {
 		}
 	},
 	components: {
-		MatchList,TeamDetails,LocationList,DrawsListing,
+		MatchList,TeamDetails,DrawsListing,
 		DrawDetails,TeamList,DrawList,TournamentFilter,FinalPlacings
 	},
 	methods: {

@@ -6,6 +6,12 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Laraspace\Models\TournamentTemplates;
 use Laraspace\Api\Contracts\TemplateContract;
+use Laraspace\Http\Requests\Template\EditRequest;
+use Laraspace\Http\Requests\Template\StoreRequest;
+use Laraspace\Http\Requests\Template\UpdateRequest;
+use Laraspace\Http\Requests\Template\DeleteRequest;
+use Laraspace\Http\Requests\Template\GetTemplatesRequest;
+use Laraspace\Http\Requests\Template\TemplateDetailRequest;
 
 class TemplateController extends BaseController
 {
@@ -19,7 +25,7 @@ class TemplateController extends BaseController
     /**
      * Get all templates
      */
-    public function getTemplates(Request $request)
+    public function getTemplates(GetTemplatesRequest $request)
     {
        return $this->templateObj->getTemplates($request->all());
     }
@@ -27,7 +33,7 @@ class TemplateController extends BaseController
     /**
      * Get template detail
      */
-    public function getTemplateDetail(Request $request)
+    public function getTemplateDetail(TemplateDetailRequest $request)
     {
         return $this->templateObj->getTemplateDetail($request->all());
     }
@@ -43,7 +49,7 @@ class TemplateController extends BaseController
     /**
      * Save template data
      */
-    public function saveTemplateDetail(Request $request)
+    public function saveTemplateDetail(StoreRequest $request)
     {
         return $this->templateObj->saveTemplateDetail($request->all());
     }
@@ -51,7 +57,7 @@ class TemplateController extends BaseController
     /**
      * Delete template
      */
-    public function deleteTemplate(Request $request, $id)
+    public function deleteTemplate(DeleteRequest $request, $id)
     {
         return $this->templateObj->deleteTemplate($id);
     }
@@ -59,7 +65,7 @@ class TemplateController extends BaseController
     /**
      * Edit template
      */
-    public function editTemplate(Request $request, $id)
+    public function editTemplate(EditRequest $request, $id)
     {
         return $this->templateObj->editTemplate($id);
     }
@@ -67,7 +73,7 @@ class TemplateController extends BaseController
     /**
      * Update template
      */
-    public function updateTemplateDetail(Request $request)
+    public function updateTemplateDetail(UpdateRequest $request)
     {
         return $this->templateObj->updateTemplateDetail($request->all());
     }
@@ -221,5 +227,81 @@ class TemplateController extends BaseController
         foreach ($errors as $key => $error) {
             echo "<pre>";print_r($error);echo "</pre>";
         }
+    }
+
+    public function updateTemplateFormDetail(Request $request)
+    {
+        $templates = TournamentTemplates::where('template_form_detail', '!=', '')->get();
+        foreach ($templates as $key => $template) {
+            $templateFormDetail = json_decode($template->template_form_detail, true);
+            $rounds = $templateFormDetail['steptwo']['rounds'];
+
+            foreach ($rounds as $roundIndex => $round) {
+                foreach ($round['groups'] as $groupIndex => $group) {
+                    $newMatches = [];
+                    $groupTeams = sizeof($group['teams']);
+                    $groupMatchesCount = $groupTeams / 2;
+
+                    if($group['type'] == 'round_robin') {
+                        $templateFormDetail['steptwo']['rounds'][$roundIndex]['groups'][$groupIndex]['matches'] = [];
+                    }
+
+                    if(sizeof($group['matches']) > $groupMatchesCount) {
+                        array_splice($group['matches'], $groupMatchesCount);
+
+                        if($group['type'] == 'placing_match') {
+                            foreach ($group['matches'] as $matchIndex => $match) {
+                                $newMatches[]['is_final'] = isset($match['is_final']) ? $match['is_final'] : false;
+                            }
+                            $templateFormDetail['steptwo']['rounds'][$roundIndex]['groups'][$groupIndex]['matches'] = $newMatches;
+                        }
+                    }
+                }
+            }
+
+            $template->template_form_detail = json_encode($templateFormDetail);
+            $template->save();
+        }
+
+        echo "<pre>";print_r('script executed!');echo "</pre>";exit;
+    }
+
+    public function templateJsonUpdateScript()
+    {
+        $templates = TournamentTemplates::where('template_form_detail', '!=', '')->get();
+
+        foreach ($templates as $template) {
+            $templateFormDetail = json_decode($template->template_form_detail, true);
+            foreach ($templateFormDetail['stepfour'] as $key => $value) {
+                $templateFormDetail['stepone'][$key] = $value;
+            }
+            if(isset($templateFormDetail['stepone']['imagePath'])) {
+                unset($templateFormDetail['stepone']['imagePath']);
+            }
+            unset($templateFormDetail['stepfour']);
+            $template->template_form_detail = json_encode($templateFormDetail);
+            $template->save();
+        }
+
+        echo "<pre>";print_r('script executed.');echo "</pre>";exit;
+    }
+
+    public function scriptForDivisionsAndMinimumMatches()
+    {
+        $templates = TournamentTemplates::where('template_form_detail', '!=', '')->get();
+
+        foreach($templates as $template) {
+            $jsonData = json_decode($template->json_data, true);
+            $templateFormDetail = json_decode($template->template_form_detail, true);
+            
+            $totalDivisions = isset($jsonData['tournament_competation_format']['divisions']) ? sizeof($jsonData['tournament_competation_format']['divisions']) : 0;
+            $jsonData['tournament_min_match'] = $template->minimum_matches;
+
+            $template->json_data = json_encode($jsonData);
+            $template->no_of_divisions = $totalDivisions;
+            $template->save();
+        }
+
+        echo "<pre>";print_r('script executed.');echo "</pre>";exit;
     }
 }

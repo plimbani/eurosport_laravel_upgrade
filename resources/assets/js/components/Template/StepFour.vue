@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<div class="container" id="">
+		<div id="">
 			<div class="row justify-content-center">
 				<div class="col-md-12">
 					<div class="row">
@@ -111,70 +111,15 @@
 							</div>
 						</div>
 					</div>
+
 					<form>
-						<div class="form-group" :class="{'has-error': errors.has('remarks') }">
-							<label for="remarks">Remarks</label>
-							<input name="remarks" type="text" class="form-control" v-model="templateFormDetail.stepfour.remarks" v-validate="'required'" :class="{'is-danger': errors.has('remarks') }" placeholder="Remarks">
-							<i v-show="errors.has('remarks')" class="fa fa-warning"></i>
-                        	<span class="help is-danger" v-show="errors.has('remarks')">{{ errors.first('remarks') }}</span>
-						</div>
-
-						<div class="form-group">
-							<label for="remarks">Round schedule</label>
-							<div v-for="(roundSchedule, index) in templateFormDetail.stepfour.roundSchedules" class="row">
-								<div class="col-sm-6 col-md-4 col-lg-4 col-xl-4">
-									<div class="form-group" :class="{'has-error': errors.has('round_schedule'+index) }">
-										<input :name="'round_schedule'+index" type="text" v-model="templateFormDetail.stepfour.roundSchedules[index]" class="form-control" placeholder="Round schedule" :class="{'is-danger': errors.has('round_schedule'+index) }" v-validate="'required'" data-vv-as="Round schedule">
-									    <div class="error-block">
-									        <i v-show="errors.has('round_schedule'+index)" class="fas fa-warning"></i>
-									        <span class="help is-danger" v-show="errors.has('round_schedule'+index)">{{ errors.first('round_schedule'+index) }}</span>
-									    </div>										
-									</div>
-								</div>
-
-								<div class="col-sm-2 col-md-2 col-lg-2 col-xl-3 text-left text-sm-center" v-if="templateFormDetail.stepfour.roundSchedules.length > 1">
-									<div class="form-group">
-					                    <p class="m-0"><a href="javascript:void(0)" class="text-primary" @click="removeRoundSchedule(index)"><u>Delete</u></a></p>
-					                </div>
-								</div>
-							</div>
-							<a href="javascript:void(0)" class="text-primary" @click="addNewRoundSchedule()"><u>Add</u></a>
-						</div>
-
-						<div class="form-group" :class="{'has-error': errors.has('graphic_image') }" v-if="(userDetails.role_slug == 'Internal.administrator' || userDetails.role_slug == 'Super.administrator' || userDetails.role_slug == 'Tournament administrator')">
-							<label for="remarks">Graphic image</label>
-							<div v-if="!image">
-								<img src="/assets/img/noimage.png" class="thumb-size" />
-								<button type="button" class="btn btn-default ml-4" name="btnSelect" id="btnSelect" @click="openFileInput">	{{$lang.tournament_tournament_choose_button}}
-								</button>
-								<input type="file" class="thumb-size d-none" name="graphic_image" id="graphic_image" @change="onFileChange" v-validate="'required'" data-vv-as="Graphic image">
-								<i v-show="errors.has('graphic_image')" class="fa fa-warning"></i>
-								<div><span class="help is-danger" v-show="errors.has('graphic_image')">{{ errors.first('graphic_image') }}</span></div>
-	                        </div>	                        
-	                        <div v-else>
-								<img :src="image" class="thumb-size" />
-                            	<button class="btn btn-danger ml-4" @click="removeImage">{{$lang.tournament_tournament_remove_button}}</button>	                        	
-	                        </div>
-						</div>
-
-						<div class="form-group row">
-							<label class="col-12 form-control-label">Colour</label>
-							<div class="col-12">
-								<div class="template-font-color-box pull-left mr-2" @click="setTemplateFontColor(color)" v-for="color in templateFontColors" :style="{'background-color': color}" :class="{ 'template-font-color-active' : templateFormDetail.stepfour.template_font_color == color }" ></div>
-								<input type="hidden" name="template_font_color" v-model="templateFormDetail.stepfour.template_font_color" v-validate="'required'" :class="{'is-danger': errors.has('template_font_color') }" data-vv-as="template font color">
-							</div>
-							<div class="col-12">
-								<i v-show="errors.has('template_font_color')" class="fa fa-warning"></i>
-    	                    	<span class="help is-danger" v-show="errors.has('template_font_color')">{{ errors.first('template_font_color') }}</span>						
-							</div>
-						</div>
 						<div class="form-group row align-items-center mb-3">
 							<div class="col-12">
 								<button type="button" class="btn btn-primary" @click="back()">{{ $lang.add_template_modal_back_button }}</button>
 								<button type="button" class="btn btn-primary" @click="saveTemplateDetail">{{ $lang.add_template_modal_save_button }}</button>
 							</div>
 				    	</div>
-				    </form>
+					</form>
 				</div>
 			</div>
 		</div>
@@ -183,17 +128,12 @@
 <script type="text/javascript">
 	import Template from '../../api/template.js'
 	export default {
-		props: ['templateFormDetail', 'editedTemplateId', 'templateGraphicImage'],
+		props: ['templateFormDetail', 'editedTemplateId'],
         data() {
             return {
-            	image:'',
-            	templateFontColors: [
-            		'rgb(146,208,80)', 'rgb(255,192,0)', 'rgb(217,149,148)'
-            	],
             }
         },
         created() {
-        	this.image = this.templateGraphicImage !== undefined ? this.templateGraphicImage : null;
             this.$root.$on('updateTemplateData', this.updateTemplateData);
         },
         beforeCreate: function() {
@@ -210,16 +150,14 @@
         		var templateData = {'templateFormDetail': this.templateFormDetail};
         		this.$validator.validateAll().then((response) => {
 	        		if(response) {
-	        			this.templateFormDetail.stepfour.graphic_image = this.image;
 	        			var templateData = { 'templateFormDetail': this.templateFormDetail };
 	        			if(this.editedTemplateId) {
 	        				templateData.editedTemplateId = this.editedTemplateId;
 	        				Template.updateTemplateDetail(templateData).then(
 			        			(response) => {
 			        				toastr.success('Template has been updated successfully.', 'Update Template', {timeOut: 5000});
-			        				$('#edit_template_modal').modal('hide');
 			        				vm.$root.$emit('clearFormFields');
-			        				vm.$root.$emit('getTemplates');
+			        				vm.$router.push({name: 'templates_list'})
 			        			},
 			        			(error) => {
 			        			}
@@ -228,9 +166,8 @@
 			        		Template.saveTemplateDetail(templateData).then(
 			        			(response) => {
 			        				toastr.success('Template has been added successfully.', 'Add Template', {timeOut: 5000});
-			        				$('#add_new_template_modal').modal('hide');
 			        				vm.$root.$emit('clearFormFields');
-			        				vm.$root.$emit('getTemplates');
+			        				vm.$router.push({name: 'templates_list'})
 			        			},
 			        			(error) => {
 			        			}
@@ -242,9 +179,6 @@
         	},
         	back() {
         		this.$emit('change-tab-index', 4, 3, 'stepfour', _.cloneDeep(this.templateFormDetail.stepfour));
-        	},
-        	setTemplateFontColor(color) {
-        		this.templateFormDetail.stepfour.template_font_color = color;
         	},
 			getGroupName(groupIndex, roundIndex, divisionIndex) {
 				return this.getGroupNameByRoundAndGroupIndex(groupIndex, roundIndex, divisionIndex);
@@ -331,37 +265,6 @@
 		    	divisions[-1]['rounds'] = this.templateFormDetail.steptwo.rounds;
 		    	divisions.push(this.templateFormDetail.steptwo.divisions);
 		    },
-		    addNewRoundSchedule() {
-		    	this.templateFormDetail.stepfour.roundSchedules.push('');
-		    },
-		    removeRoundSchedule(index) {
-		    	this.templateFormDetail.stepfour.roundSchedules.splice(index, 1);
-		    },
-		    openFileInput() {
-		    	$('#graphic_image').trigger('click');
-		    },
-		    onFileChange(e) {
-				var files = e.target.files || e.dataTransfer.files;
-				if (!files.length)
-				return;
-				if(Plugin.ValidateImageSize(files) == true) {
-				  this.createImage(files[0]);
-				}
-		    },
-			createImage(file) {
-				var image = new Image();
-				var reader = new FileReader();
-				var vm = this;
-				reader.onload = (e) => {
-					vm.image = e.target.result;
-				};
-
-				reader.readAsDataURL(file);
-			},
-			removeImage(e) {
-				this.image = '';
-				e.preventDefault();
-			},
 			getTeamPlayEachOther(times) {
 				let teamPlayEachOther = {
 					'once' : 'once',

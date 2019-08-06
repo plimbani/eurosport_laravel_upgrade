@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<div class="container" id="step3-template-setting">
+		<div id="step3-template-setting">
 			<div class="row justify-content-center">
 				<div class="col-md-12">
 					<div class="row">
@@ -10,15 +10,15 @@
 					</div>
 					<div class="card mb-3">
 						<div class="card-block">
-							<div class="row align-items-center my-1" v-for="(placing, placingIndex) in templateFormDetail.stepthree.placings">
+							<div class="row my-1" v-for="(placing, placingIndex) in templateFormDetail.stepthree.placings">
 								<div class="col-md-3">
-						        	<label class="mb-0">{{ getSuffixForPosition(placingIndex + 1) }} Place</label>
+						        	<div class="title-placing"><label class="mb-0">{{ getSuffixForPosition(placingIndex + 1) }} Place</label></div>
 						        </div>
 						        <div class="col-md-9">
-						        	<div class="row align-items-center">
+						        	<div class="row">
 						        		<div class="col-md-4">
-					        				<div class="form-group mb-4">
-						        				<select class="form-control ls-select2" v-model="placing.position_type" @change="onPositionTypeChange(placingIndex)" v-validate="'required'" :class="{'is-danger': errors.has('position_type') }" :name="'position_type'+placingIndex" data-vv-as="Position type">
+					        				<div class="form-group" :class="{'has-error': errors.has('position_type'+placingIndex) }">
+						        				<select class="form-control ls-select2" v-model="placing.position_type" @change="onPositionTypeChange(placingIndex)" v-validate="'required'" :class="{'is-danger': errors.has('position_type'+placingIndex) }" :name="'position_type'+placingIndex" data-vv-as="Position type">
 							                    	<option value="placed">Placed</option>
 							                    	<option value="winner">Winner</option>
 							                    	<option value="looser">Looser</option>
@@ -28,8 +28,9 @@
 							                </div>
 						        		</div>
 						        		<div class="col-md-3">
-						        			<div class="form-group mb-4">
-							        			<select class="form-control ls-select2" v-model="placing.group" v-validate="'required'" :class="{'is-danger': errors.has('position_group') }" :name="'position_group'+placingIndex" data-vv-as="Group">
+						        			<div class="form-group" :class="{'has-error': errors.has('position_group'+placingIndex) }">
+							        			<select class="form-control ls-select2" v-model="placing.group" v-validate="'required'" :class="{'is-danger': errors.has('position_group'+placingIndex) }" 
+							        			:name="'position_group'+placingIndex" data-vv-as="Group">
 							                    	<option v-for="group in getGroupsForSelection(placingIndex)" :value="group.value">{{ group.name }}
 							                    	</option>
 							                    </select>
@@ -38,16 +39,18 @@
 							                </div>
 						        		</div>						        		
 						        		<div class="col-md-4">
-					        				<div class="form-group mb-4">
-						        				<select class="form-control ls-select2" v-model="placing.position" :name="'position_name'+placingIndex" v-validate="'required'" :class="{'is-danger': errors.has('position_name') }" data-vv-as="Match name">
+					        				<div class="form-group" :class="{'has-error': errors.has('position_name'+placingIndex) }">
+						        				<select class="form-control ls-select2" v-model="placing.position" :name="'position_name'+placingIndex" v-validate="'required'" :class="{'is-danger': errors.has('position_name'+placingIndex) }" data-vv-as="Match name">
 							                    	<option :value="position.value" v-for="position in getPositionsForSelection(placingIndex, placing.group)">{{ position.name }}</option>
 							                    </select>
 							                    <i v-show="errors.has('position_name'+placingIndex)" class="fas fa-warning"></i>
 									        	<span class="help is-danger" v-show="errors.has('position_name'+placingIndex)">{{ errors.first('position_name'+placingIndex) }}</span>
 							                </div>
 						        		</div>
-						        		<div class="col-md-1 d-flex align-items-center justify-content-center">
-						        			<a href="javascript:void(0)" @click="removePlacing(placingIndex)"><i class="jv-icon jv-dustbin"></i></a>
+						        		<div class="col-md-1 d-flex justify-content-center">
+						        			<div class="icon-delete-column">
+						        				<a href="javascript:void(0)" @click="removePlacing(placingIndex)"><i class="jv-icon jv-dustbin"></i></a>
+						        			</div>
 						        		</div>
 						        	</div>	        	
 						        </div>
@@ -76,9 +79,38 @@
 		props: ['templateFormDetail'],
         data() {
             return {
+            	errorMessages: {
+            		en: {
+            			custom: {
+            				position_type: {
+            					required: 'This field is required.',
+            				},
+            				position_group: {
+            					required: 'This field is required.',
+            				},
+            				position_name: {
+								required: 'This field is required.',
+            				}
+            			}
+            		},
+            		fr: {
+						custom: {
+            				position_type: {
+            					required: 'FThis field is required.',
+            				},
+            				position_group: {
+            					required: 'FThis field is required.',
+            				},
+            				position_name: {
+								required: 'FThis field is required.',
+            				}
+            			}
+            		}
+            	}
             }
         },
         created() {
+        	this.$validator.localize(this.errorMessages);
         	this.$root.$on('updatePositions', this.updatePositions);
         },
         beforeCreate: function() {

@@ -6,7 +6,7 @@
                 <label>Number of teams in division</label>
                 <select class="form-control ls-select2" v-model="divisionData.no_of_teams" @change="onTeamChange(index)">
                     <option value="">Number of teams</option>
-                    <option v-for="n in 28" v-if="n >= 4" :value="n">{{ n }}</option>
+                    <option v-for="n in 28" v-if="n >= 2" :value="n">{{ n }}</option>
                 </select>
             </div>
 
@@ -48,7 +48,7 @@
             </div>
             
             <!-- add new round component -->
-            <round v-for="(round, roundIndex) in divisionData.rounds" :index="roundIndex" :divisionIndex="index" :roundData="round" :templateFormDetail="templateFormDetail"></round>
+            <round v-for="(round, roundIndex) in divisionData.rounds" :index="roundIndex" :divisionIndex="index" :roundData="round" :templateFormDetail="templateFormDetail" :isSeletedRoundTeamsAndGroupTeamsNotSame="!isSeletedRoundTeamsIsInUse(roundIndex)"></round>
 
             <div class="form-group mb-0">
                 <button :disabled="divisionData.no_of_teams === 0" type="button" class="btn btn-success" @click="addNewDivisionRound(index)"><small><i class="jv-icon jv-plus"></i></small> &nbsp;Add a round</button>
@@ -226,6 +226,20 @@
                     this.templateFormDetail.steptwo.divisions[index].rounds[0].no_of_teams = this.divisionData.no_of_teams;
                 }
                 this.$root.$emit('updateRoundCount');
+            },
+            isSeletedRoundTeamsIsInUse(roundIndex) {
+                let isMatched = false;
+                let totalGroupTeams = 0;
+                let round = this.templateFormDetail.steptwo.divisions[this.index].rounds[roundIndex];
+                let roundTeams = round.no_of_teams;
+                _.forEach(round.groups, function(groupValue) {
+                    totalGroupTeams += Number(groupValue.no_of_teams);
+                });
+                if(roundTeams === totalGroupTeams) {
+                    isMatched = true;
+                }
+
+                return isMatched;
             },
         },
 

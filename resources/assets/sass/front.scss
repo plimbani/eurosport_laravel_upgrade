@@ -1327,10 +1327,10 @@ a.active-view:hover {
     float: left;
 }
 
-.help.is-danger {
-    position: absolute;
-    font-size: 13px;
-}
+// .help.is-danger {
+//     position: absolute;
+//     font-size: 13px;
+// }
 
 .unsaved-score-list li {
     padding: 5px 0;
@@ -1376,4 +1376,28 @@ a.active-view:hover {
 
 .nested-rounds {
     font-size: 0.875rem;
+}
+
+.pitch-capacity-form .form-control:-moz-placeholder { /* Firefox 18- */
+  color: $base-font-color;
+}
+
+.add-category-table {
+    &.tbl-template {
+        tr {
+
+            th,
+            td {
+                width: auto;
+
+                a {
+                    margin-right: 5px;
+
+                    &:last-child {
+                        margin-right: 0;
+                    }
+                }
+            }
+        }
+    }
 }

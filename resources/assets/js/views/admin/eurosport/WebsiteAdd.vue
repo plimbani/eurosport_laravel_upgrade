@@ -2,7 +2,7 @@
 	<div class="tab-content">
 		<div class="card">
 			<div class="card-block">
-				<h6><strong>{{$lang.website_information}}</strong></h6>
+				<h6 class="fieldset-title"><strong>{{$lang.website_information}}</strong></h6>
 				<form name="frm_website_add_edit" enctype="multipart/form-data">
 					<div class="row justify-content-between">
 						<div class="col-md-6" v-if="this.isAdmin">
@@ -91,7 +91,7 @@
 												<input type="file" id="selectFile" style="display:none;" @change="onTournamentLogoChange($event)">
 											</div>
 											<div class="col-sm-12">
-												<p class="help-block text-muted pb-0 mb-0">Preferred size: 300px × 300px (jpg, png or gif)</p>
+												<p class="help-block text-muted pb-0 mb-0">Required size is: 500px or above (jpg, png or gif)</p>
 											</div>
 										</div>
 								</div>
@@ -120,7 +120,7 @@
 					<hr class="my-4">
 					<div class="row justify-content-between">
 						<div class="col-md-12">
-							<h6><strong>{{$lang.website_customisation}}</strong></h6>
+							<h6 class="fieldset-title"><strong>{{$lang.website_customisation}}</strong></h6>
 						</div>
 						<div class="col-md-6">
 							<div class="form-group row">
@@ -265,7 +265,7 @@
 					<hr class="my-4">
 					<div class="row justify-content-between">
 						<div class="col-md-12">
-							<h6><strong>{{$lang.website_sponsors}}</strong></h6>
+							<h6 class="fieldset-title"><strong>{{$lang.website_sponsors}}</strong></h6>
 						</div>
 						<div class="col-sm-6">
 							<sponsors-list @setSponsors="setSponsors"></sponsors-list>
@@ -274,7 +274,7 @@
 					<hr class="my-4" v-if="this.isAdmin">
 					<div class="row justify-content-between" v-if="this.isAdmin">
 						<div class="col-md-12">
-							<h6><strong>{{$lang.website_page_permission}}</strong></h6>
+							<h6 class="fieldset-title"><strong>{{$lang.website_page_permission}}</strong></h6>
 						</div>
 						<div class="col-md-12">
 							<div class="form-group row">
@@ -504,23 +504,35 @@ export default {
 
 			// Read image
 			reader.addEventListener("load", function () {
-				vm.tournament_logo_image = reader.result;
+				var image = new Image();
+				image.src = reader.result;
+
+				//Validate the File Height and Width.
+				image.onload = function () {
+					if(Plugin.ValidateImageMinimumDimension(this, 500) == false) {
+						toastr['error']('Tournament logo should be 500px or more', 'Error');
+						return;
+					} else {
+						vm.tournament_logo_image = reader.result;
+
+						vm.is_tournament_logo_uploading = true;
+						var formData = new FormData();
+						formData.append('image', files[0]);
+						axios.post('/api/websites/uploadTournamentLogo', formData).then(
+						  (response)=> {
+						  	vm.tournament_logo_image = response.data;
+						  	vm.is_tournament_logo_uploading = false;
+						  },
+						  (error)=>{
+						  }
+						);
+					}
+				}
 			}, false);
+
 			if (files[0]) {
 				reader.readAsDataURL(files[0]);
 			}
-
-			this.is_tournament_logo_uploading = true;
-      var formData = new FormData();
-      formData.append('image', files[0]);
-      axios.post('/api/websites/uploadTournamentLogo', formData).then(
-	      (response)=> {
-	      	this.tournament_logo_image = response.data;
-	      	this.is_tournament_logo_uploading = false;
-	      },
-	      (error)=>{
-	      }
-      );
 		},
 		onSocialSharingGraphicImageChange(e) {
 			var vm = this;

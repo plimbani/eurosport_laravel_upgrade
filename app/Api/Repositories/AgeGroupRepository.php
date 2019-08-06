@@ -2,6 +2,7 @@
 
 namespace Laraspace\Api\Repositories;
 
+use Auth;
 use Laraspace\Models\Referee;
 use Laraspace\Models\AgeGroup;
 use Laraspace\Models\TournamentCompetationTemplates;
@@ -215,7 +216,13 @@ class AgeGroupRepository
 
         $tournamentCompeationTemplate['category_age_color'] = $predefinedAgeCategoryColorsArray[$colorIndex];
         $tournamentCompeationTemplate['category_age_font_color'] = $predefinedAgeCategoryFontColorsArray[$colorIndex];
-        $tournamentCompeationTemplate['template_json_data'] = $data['tournamentTemplate']['json_data'];
+
+        if($data['tournament_format'] == 'basic') {
+          $tournamentCompeationTemplate['template_json_data'] = $data['tournamentTemplate']['json_data'];
+        } else {
+          $tournamentCompeationTemplate['template_json_data'] = null;
+        }
+
         return TournamentCompetationTemplates::create($tournamentCompeationTemplate)->id;
       }
     }
@@ -269,14 +276,25 @@ class AgeGroupRepository
         $fieldName = key($tournamentData);
         $value = $tournamentData[$fieldName];
         if($fieldName == 'tournament_id') {
-          return TournamentCompetationTemplates::
+          $token = \JWTAuth::getToken();
+          $tournamentCompetitionTemplates = TournamentCompetationTemplates::
                  leftjoin('tournament_template', 'tournament_template.id', '=',
                   'tournament_competation_template.tournament_template_id')
                  ->leftJoin('tournaments','tournaments.id','=','tournament_competation_template.tournament_id')
                  ->select('tournament_competation_template.*','tournament_template.name as template_name',
                    \DB::raw('CONCAT("'.$this->tournamentLogoUrl.'", tournaments.logo) AS tournamentLogo'), 
-                   \DB::raw('CONCAT("'.getenv('S3_URL').'", tournament_template.graphic_image) AS graphic_image'))
-                ->where($fieldName, $value)->get();
+                   \DB::raw('CONCAT("'.getenv('S3_URL').'", tournament_template.graphic_image) AS graphic_image'),
+                  \DB::raw('(CASE WHEN tournament_competation_template.tournament_format = "basic" THEN 
+                    JSON_UNQUOTE(JSON_EXTRACT(tournament_competation_template.template_json_data, "$.tournament_name"))
+                  ELSE tournament_template.name END) AS template_name'))
+                ->where($fieldName, $value);
+
+          if(!$token || (app('request')->header('ismobileuser') && app('request')->header('ismobileuser') == "true")) {
+            $tournamentCompetitionTemplates = $tournamentCompetitionTemplates->whereHas('scheduledFixtures');
+          }
+          $tournamentCompetitionTemplates = $tournamentCompetitionTemplates->get();
+          
+          return $tournamentCompetitionTemplates;
         } else {
           return TournamentCompetationTemplates::
                  leftjoin('tournament_template', 'tournament_template.id', '=',
@@ -293,6 +311,9 @@ class AgeGroupRepository
      */
     public function deleteCompeationFormat($tournamentCompetationTemplateId)
     {
+      $competition = Competition::where('tournament_competation_template_id', $tournamentCompetationTemplateId)->delete();
+      $ageCategoryDivisions = AgeCategoryDivision::where('tournament_competition_template_id', $tournamentCompetationTemplateId)->delete();
+
       $tournamentCompetationTemplate = TournamentCompetationTemplates::find($tournamentCompetationTemplateId);
       $tournamentId = $tournamentCompetationTemplate->tournament_id;
       $tournamentReferees = Referee::where('tournament_id', $tournamentId)->get();
@@ -381,10 +402,10 @@ class AgeGroupRepository
       return true;
     }
 
-    public function getPlacingsData($data) 
-    {
-      $positions = Position::with('team', 'team.country')->where('age_category_id', $data['ageCategoryId'])->get();
-      
+    public function getPlacingsData($data) {
+      $positions = Position::with('team', 'team.country')->where('age_category_id', $data['ageCategoryId'])
+                   ->where('is_delete', '!=', 1)->get();
+
       $positionData = [];
       foreach ($positions as $key => $position) {
         $positionData[$key]['pos'] = $position->position;
@@ -392,6 +413,7 @@ class AgeGroupRepository
           $positionData[$key]['team_name'] = $position->team['name'];
           $positionData[$key]['team_flag'] = $position->team->country->country_flag;
           $positionData[$key]['team_logo'] = getenv('S3_URL') . $position->team->country->logo;
+          $positionData[$key]['position_id'] = $position->id;
         } else {
           $positionData[$key]['team_name'] = '';
 
@@ -405,6 +427,26 @@ class AgeGroupRepository
     {
       $viewGraphicImageData = TournamentCompetationTemplates::where('id', $data['age_category'])->with('TournamentTemplate')->first();
       return $viewGraphicImageData->TournamentTemplate->graphic_image ? getenv('S3_URL').$viewGraphicImageData->TournamentTemplate->graphic_image : null;
+    }
+
+    public function deleteFinalPlacingTeam($data) {
+      $position = Position::where('age_category_id', $data['ageCategoryId'])->where('id', $data['positionId'])->first();
+      $position->is_delete = 1;
+
+      $newPosition = $position->position;
+
+      $positionRecord = Position::where('age_category_id', $data['ageCategoryId'])->where('position', '>', $position->position)->orderBy('position')->get();
+
+      foreach ($positionRecord as $index => $pos) {
+          $pos->position = $newPosition;
+          $pos->save();
+          $newPosition += 1;
+      }
+
+      $position->position = $newPosition;
+      $position->save();
+
+      return $position;
     }
 
 }

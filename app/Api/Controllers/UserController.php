@@ -31,10 +31,11 @@ use Laraspace\Http\Requests\User\GetUserWebsitesRequest;
 use Laraspace\Http\Requests\User\ChangePermissionRequest;
 use Laraspace\Http\Requests\User\GetUserDetailsRequest;
 use Laraspace\Http\Requests\User\RemoveFavouriteRequest;
-use Laraspace\Http\Requests\User\GetUsetTournamentsRequest;
+use Laraspace\Http\Requests\User\GetUserTournamentsRequest;
 use Laraspace\Http\Requests\User\SetDefaultFavouriteRequest;
 use Laraspace\Http\Requests\User\TournamentPermissionRequest;
 use Laraspace\Http\Requests\User\GetSignedUrlForUsersTableDataRequest;
+use Illuminate\Http\Response;
 
 /**
  * Users Resource Description.
@@ -87,7 +88,7 @@ class UserController extends BaseController
 
     public function getUserTableData(Request $request)
     {
-        return $userData = $this->userObj->getUserTableData($request->all());
+      return $userData = $this->userObj->getUserTableData($request->all());
     }
 
 
@@ -146,10 +147,13 @@ class UserController extends BaseController
 
     public function setPassword($key, Request $request)
     {
+
       $usersPasswords = User::where(['token'=>$key])->get();
 
       $message = "";
       $error = false;
+      $redirect = '';
+
       if (count($usersPasswords) == 0) {
           $isUserVerified = User::withTrashed()->where(['token'=>$key])->get();
           if(count($isUserVerified) > 0) {
@@ -157,7 +161,8 @@ class UserController extends BaseController
               $message = "You have already set the password.";
           } else {
               //return response()->view('errors.404', [], 404);
-              return array('message'=> 'Link is Expired');
+              $error=true;
+              $message = "Link is Expired.";
           }
       }
 
@@ -172,15 +177,23 @@ class UserController extends BaseController
           $usersPassword->is_active = 1;
           $usersPassword->token = '';
           $user =  $usersPassword->save();
+
+          $redirect = '/mlogin';
         // Already set the password
        // $usersDetail['password'] = $usersPasswords[0]['password'];
        // $result = $this->userRepoObj->createPassword($usersDetail);
-          return redirect('/mlogin');
+          //return redirect('/mlogin');
       }
 
-      // echo "<pre>";print_r($usersPasswords);echo "</pre>";exit;
+      return response()->json([
+                    'success' => true,
+                    'status' => Response::HTTP_OK,
+                    'error' => $error,
+                    'message' => $message,
+                    'redirect' => $redirect,
+        ]);
 
-      return view('emails.users.setpassword', compact('usersPasswords'));
+      //return view('emails.users.setpassword', compact('usersPasswords'));
       // return view('emails.users.setpassword');
     }
 
@@ -190,8 +203,9 @@ class UserController extends BaseController
       $password = $request->password;
       $usersDetail['key'] = $key;
       $usersDetail['password'] = $password;
+
       $result = $this->userRepoObj->createPassword($usersDetail);
-      return ($result == 'Mobile') ?  redirect('/mlogin') : redirect('/login/verified');
+      return ($result == 'Mobile') ?  '/mlogin' : '/login/verified';
     }
 
     // for desktop - resend email verification
@@ -239,7 +253,7 @@ class UserController extends BaseController
       return $this->userObj->changePermissions($request->all());  
     }
 
-    public function getUserTournaments(GetUsetTournamentsRequest $request, $id) {
+    public function getUserTournaments(GetUserTournamentsRequest $request, $id) {
       return $this->userObj->getUserTournaments($id);
     }
 
@@ -248,13 +262,14 @@ class UserController extends BaseController
     }
 
     public function getSignedUrlForUsersTableData(GetSignedUrlForUsersTableDataRequest $request)
-    {
+    { 
+
         $reportData = $request->all();
+        $token = JWTAuth::getToken();
+        $reportData['token'] = strval($token);
         ksort($reportData);
         $reportData  = http_build_query($reportData);
-
         $signedUrl = UrlSigner::sign(url('api/users/getUserTableData?' . $reportData), Carbon::now()->addMinutes(config('config-variables.signed_url_interval')));
-
         return $signedUrl;
     }
 
@@ -309,5 +324,10 @@ class UserController extends BaseController
 
     public function validateUserEmail(Request $request) {
       return $this->userObj->validateUserEmail($request->all());
+    }
+
+    public function verifyResultAdminUser(Request $request)
+    {
+      return $this->userObj->verifyResultAdminUser($request->all());
     }
 }

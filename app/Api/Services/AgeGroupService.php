@@ -74,10 +74,6 @@ class AgeGroupService implements AgeGroupContract
           return ['status_code' => '403', 'message' => 'This category cannot be added as it exceeds the maximum teams set for this tournament.'];
         }
 
-        $tournamentTemplateDivisions = json_decode($data['tournamentTemplate']['json_data']);
-
-        // TODO: Here we set the value for Other Data
-        // Impliclityly Add 2 For Multiplication
         if($data['game_duration_RR'] == 'other') {
           $data['game_duration_RR'] = $data['halves_RR'] * $data['game_duration_RR_other'];
         } else {
@@ -282,11 +278,11 @@ class AgeGroupService implements AgeGroupContract
         $div_display_order = 1;
 
         if(isset($json_data->tournament_competation_format->divisions)) {
-          foreach ($json_data->tournament_competation_format->divisions as $division) {
+          foreach ($json_data->tournament_competation_format->divisions as $index => $division) {
             // Add division into age_category_divisions table
 
             $latest_div_id = AgeCategoryDivision::create([
-              'name' => $division->name,
+              'name' => "Division " .($index + 1),
               'order' => $div_display_order,
               'tournament_id' => $data['tournament_id'],
               'tournament_competition_template_id' => $tournament_competation_template_id,
@@ -582,7 +578,7 @@ class AgeGroupService implements AgeGroupContract
 
       $positions = [];
       for ($i=1; $i <= $totalTeams; $i++) {
-        $positions[] = ['position' => $i, 'dependent_type' => 'match', 'match_number' => '', 'result_type' => ''];
+        $positions[] = ['position' => $i, 'dependent_type' => 'ranking', 'ranking' => $i. 'A'];
       }
 
       $finalArray['tournament_positions'] = $positions;
@@ -879,9 +875,9 @@ class AgeGroupService implements AgeGroupContract
       return $weekRoundMatches;
     }
 
-    public function leagueKnockoutJsonMatches($fetchRoundMatches,$round,$currentGroup,$times)
+    public function leagueKnockoutJsonMatches($fetchRoundMatches, $round, $currentGroup, $times, $startRoundCount = 0)
     {
-      $currentRound = $round + 1;
+      $currentRound = $startRoundCount + $round + 1;
       $matches = [];
 
       for($i=0; $i<$times; $i++){
@@ -891,8 +887,8 @@ class AgeGroupService implements AgeGroupContract
             list($home,$away) = explode('-',$match);
 
             $matches[] = ['in_between' => $match,
-                            'match_number' => "CAT.RR$currentRound.".sprintf('%02d',$weekNumber).".$currentGroup$home-$currentGroup$away",
-                            'display_match_number' => "CAT.1.$weekNumber.@HOME-@AWAY",
+                            'match_number' => "CAT.RR" . $currentRound . '.' . sprintf('%02d',$weekNumber).".$currentGroup$home-$currentGroup$away",
+                            'display_match_number' => "CAT." . $currentRound . ".$weekNumber.@HOME-@AWAY",
                             'display_home_team_placeholder_name' => "$currentGroup$home",
                             'display_away_team_placeholder_name' => "$currentGroup$away"
                           ];
@@ -901,5 +897,12 @@ class AgeGroupService implements AgeGroupContract
       }
 
       return $matches;
+    }
+
+    public function deleteFinalPlacingTeam($data) {
+      $data = $this->ageGroupObj->deleteFinalPlacingTeam($data);
+      if ($data) {
+        return ['data' => $data, 'status_code' => '200', 'message' => 'Teams has been deleted Successfully'];
+      }
     }
 }

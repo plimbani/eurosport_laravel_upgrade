@@ -1,5 +1,5 @@
 <template>
-	<div class="card">
+	<div class="card main-card">
     <div class="card-block">
         <div class="row">
           <div class="col-lg-12">
@@ -119,15 +119,6 @@ export default {
   methods: {
   	GetSelectComponent(componentName) {
   		this.$router.push({name: componentName});
-    	if(componentName != 'website_add' || componentName != 'website_homepage') {
-        setTimeout( function(){
-      		if ($(document).height() > $(window).height()) {
-            $('.site-footer').removeClass('sticky');
-          } else {
-            $('.site-footer').addClass('sticky');
-          }
-    		},2000 )
-    	}
   	},
     generatePreviewUrl() {
       let vm = this;

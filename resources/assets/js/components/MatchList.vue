@@ -2,7 +2,7 @@
 <div class="row">
   <div class="col-md-12">
   <button type="button" name="save" class="btn btn-primary pull-right mb-3" @click="saveMatchScore()" v-if="getCurrentScheduleView == 'matchList' && isUserDataExist && matchData.length > 0">Save</button> 
-  <div class="row align-items-center mb-3" v-if="isDivExist == 0">
+  <div class="row align-items-center mb-3" v-if="isDivExist == 0 && currentView !='matchListing'">
     <div class="col-md-10">
       <label class="mb-0">
         <h6 class="mb-0">{{otherData.DrawName}} matches</h6>
@@ -13,21 +13,21 @@
     </div>
   </div>
 
-  <table id="matchSchedule" class="table table-hover table-bordered table-sm" v-if="matchData.length > 0 && isDivExist == 0">
+  <table class="table table-hover table-bordered table-sm matchSchedule" v-if="matchData.length > 0 && isDivExist == 0">
       <MatchListTableHead :isHideLocation="isHideLocation" :isUserDataExist="isUserDataExist" :getCurrentScheduleView="getCurrentScheduleView" :showPlacingForMatch="showPlacingForMatch()"></MatchListTableHead>
       
-      <MatchListTableBody :getCurrentScheduleView="getCurrentScheduleView" :showPlacingForMatch="showPlacingForMatch()" :isHideLocation="isHideLocation" :isUserDataExist="isUserDataExist" :matchData="matchData" :isDivExist="isDivExist" @openPitchModal="openPitchModal" @changeDrawDetails="changeDrawDetails"></MatchListTableBody>
+      <MatchListTableBody :getCurrentScheduleView="getCurrentScheduleView" :showPlacingForMatch="showPlacingForMatch()" :isHideLocation="isHideLocation" :isUserDataExist="isUserDataExist" :matchData="matchData" :isDivExist="isDivExist" @openPitchModal="openPitchModal" @changeDrawDetails="changeDrawDetails" @updateScore="updateScore"></MatchListTableBody>
   </table>
 
-  <div class="col-md-12" v-for="(matches,index) in isDivExistData" v-if="matchData.length > 0 && isDivExist == 1">
+  <div v-for="(matches,index) in isDivExistData" v-if="matchData.length > 0 && isDivExist == 1">
     <label class="mb-0"><h5 class="mb-2">{{index}}</h5></label><br>
     <label class="mb-0"><h6 class="mb-2">{{ getCompetitionName(matches) }} matches</h6></label>
 
-    <table id="matchSchedule" class="table table-hover table-bordered table-sm">
+    <table class="table table-hover table-bordered table-sm matchSchedule">
 
       <MatchListTableHead :isHideLocation="isHideLocation" :isUserDataExist="isUserDataExist" :getCurrentScheduleView="getCurrentScheduleView" :showPlacingForMatch="showPlacingForMatch()"></MatchListTableHead>
 
-      <MatchListTableBody :getCurrentScheduleView="getCurrentScheduleView" :showPlacingForMatch="showPlacingForMatch()" :isHideLocation="isHideLocation" :isUserDataExist="isUserDataExist" :matchData="matches" :isDivExist="isDivExist" @openPitchModal="openPitchModal" @changeDrawDetails="changeDrawDetails"></MatchListTableBody> 
+      <MatchListTableBody :getCurrentScheduleView="getCurrentScheduleView" :showPlacingForMatch="showPlacingForMatch()" :isHideLocation="isHideLocation" :isUserDataExist="isUserDataExist" :matchData="matches" :isDivExist="isDivExist" @openPitchModal="openPitchModal" @changeDrawDetails="changeDrawDetails" @updateScore="updateScore"></MatchListTableBody> 
 
     </table>
   </div>
@@ -76,7 +76,7 @@ import VuePaginate from 'vue-paginate'
 import UnSavedMatchScoresInfoModal from '../components/UnsavedMatchScoresInfo.vue'
 
 export default {
-  props: ['matchData1', 'DrawName', 'otherData'],
+  props: ['matchData1', 'DrawName', 'otherData', 'currentView'],
   components: {
     PitchModal,
     DeleteModal1,
@@ -202,7 +202,7 @@ export default {
         if ( typeof(getFirstMatch) != 'undefined' && getFirstMatch.isDivExist == 1 )
         {
           vm.isDivExist = getFirstMatch.isDivExist;
-          vm.isDivExistData = _.groupBy(vm.matchData, 'competation_round_no'); 
+          vm.isDivExistData = _.groupBy( _.sortBy(vm.matchData, ['competation_round_no']), 'competation_round_no');
         }
         else
         {
@@ -246,13 +246,13 @@ export default {
         /*vm.$root.$emit('setDrawTable',competationId)
         vm.$root.$emit('setStandingData',competationId)*/
       }
-      $('#matchSchedule').find('.js-edit-match').removeClass('match-list-editicon');
+      $('.matchSchedule').find('.js-edit-match').removeClass('match-list-editicon');
       $.each(this.matchData, function (index,value){
         var homeScoreInput = $('input[name="home_score['+value.fid+']"]');
         var awayScoreInput = $('input[name="away_score['+value.fid+']"]');
         if(homeScoreInput.length && awayScoreInput.length) {
           if(value.round == 'Elimination' && value.homeScore == value.AwayScore && value.isResultOverride == 0 && value.homeScore != '' && value.AwayScore != '' && value.homeScore != null && value.AwayScore != null) {
-            $('#matchSchedule').find('.js-edit-match[data-id='+value.fid+']').addClass('match-list-editicon'); 
+            $('.matchSchedule').find('.js-edit-match[data-id='+value.fid+']').addClass('match-list-editicon'); 
           }
         }
       });
@@ -431,7 +431,7 @@ export default {
       let matchPostData = {};
       let tournamentId = this.$store.state.Tournament.tournamentId;
       matchPostData.tournamentId = tournamentId;
-      $('#matchSchedule').find('.js-edit-match').removeClass('match-list-editicon'); 
+      $('.matchSchedule').find('.js-edit-match').removeClass('match-list-editicon'); 
       $.each(this.matchData, function (index,value){
         var homeScoreInput = $('input[name="home_score['+value.fid+']"]');
         var awayScoreInput = $('input[name="away_score['+value.fid+']"]');
@@ -444,7 +444,7 @@ export default {
           matchDataArray[index] = matchData;
           if(value.round == 'Elimination' && value.homeScore == value.AwayScore && value.isResultOverride == 0 && value.homeScore != '' && value.AwayScore != '' && value.homeScore != null && value.AwayScore != null) {
             isSameScore = true;
-            $('#matchSchedule').find('.js-edit-match[data-id='+value.fid+']').addClass('match-list-editicon'); 
+            $('.matchSchedule').find('.js-edit-match[data-id='+value.fid+']').addClass('match-list-editicon'); 
           }          
         }
       });
@@ -523,9 +523,9 @@ export default {
     checkScoreChangeOrnot()
     {
       var unsaveResult = false;
-      if ( $('#matchSchedule .scoreUpdate').length )
+      if ( $('.matchSchedule .scoreUpdate').length )
       {
-        $('#matchSchedule .scoreUpdate').each(function(){
+        $('.matchSchedule .scoreUpdate').each(function(){
           if ( !unsaveResult && !$(this).attr('readonly') && $(this).val() !== $(this).attr('rel') )
           {
             unsaveResult = true;

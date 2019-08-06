@@ -179,7 +179,7 @@
         var currentCompetition;
         var competitionRound;
         let currentAgeCategoryId =  this.categoryId;
-        MatchList.getAllDraws([tournamentData.id,currentAgeCategoryId]).then(
+        MatchList.getAllDraws(tournamentData.id,currentAgeCategoryId).then(
           (response)=> {
             if(response.data.status_code == 200) {
               vm.competitionList = response.data.data.mainData;

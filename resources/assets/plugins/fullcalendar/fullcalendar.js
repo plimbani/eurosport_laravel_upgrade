@@ -8352,6 +8352,10 @@ TimeGrid.mixin({
 			skinCss += ';display: none;';
 		}
 
+		if(typeof event.id === 'undefined') {
+			event.displayFlag = 'none';
+		}
+
 		return '<a class="' + classes.join(' ') + '"' +
 			(event.url ?
 				' href="' + htmlEscape(event.url) + '"' :
@@ -8372,6 +8376,7 @@ TimeGrid.mixin({
 							' data-full="' + htmlEscape(fullTimeText) + '"' +
 							'>' +
 								'<span>' + htmlEscape(timeText) + '</span>' +
+								(event.competition_type == 'Round Robin' ? '<span> (' + event.groupName + '</span>) ' : '') +
 								(event.remarks ? '<span class="match-fixture-comment"><i class="fas fa-comment-dots"></i></span>' : '') +
 							'</div>' :
 							''
@@ -8407,7 +8412,7 @@ TimeGrid.mixin({
 					'<div class="scheduled-match-content-strip" style="background: ' + event.fixtureStripColor + '"></div>' :
 						''
 						) +
-					((event.matchId !== '' && event.matchId !== -1) ? '<div class="checkbox d-none match-unschedule-checkbox-div"><div class="c-input"><input type="checkbox" class="euro-checkbox match-unschedule-checkbox" name="match_unschedule_check[]" id="'+ event.matchId+'"><label for="'+ event.matchId+'"></label></div></div>' : '') +
+					((event.matchId !== '' && event.matchId !== -1) ? '<div class="checkbox d-none match-unschedule-checkbox-div"><div class="c-input"><input type="checkbox" class="euro-checkbox match-unschedule-checkbox" name="match_unschedule_check[]" data-scheduleLastUpdateDateTime="'+event.scheduleLastUpdateDateTime+'" id="'+ event.matchId+'"><label for="'+ event.matchId+'"></label></div></div>' : '') +
 				'</div>' +
 			'</a>';
 	},

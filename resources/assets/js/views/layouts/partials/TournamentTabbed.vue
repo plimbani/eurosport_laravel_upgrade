@@ -1,5 +1,5 @@
 <template>
-  <div class="card">
+  <div class="card main-card">
     <div class="card-block">
       <div class="row">
         <div class="col-lg-12">
@@ -175,15 +175,6 @@ export default {
     GetSelectComponent(componentName) {
       // here we check for Tournament Add
        this.$router.push({name: componentName})
-      if(componentName != 'competition_format' || componentName != 'pitch_planner' ||  componentName != 'tournament_add' ) {
-        setTimeout( function(){
-          if ($(document).height() > $(window).height()) {
-            $('.site-footer').removeClass('sticky');
-          } else {
-            $('.site-footer').addClass('sticky');
-          }
-        },2000 )
-      }
       this.updateTabStateData();
     },
     displayTournamentCompetationList () {

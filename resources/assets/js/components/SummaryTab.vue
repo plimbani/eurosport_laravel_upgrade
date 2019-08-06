@@ -5,7 +5,7 @@
 				<label  v-show="(tournamentLogo != null && tournamentLogo != '' )">
 					<img  :src="tournamentLogo" width="50" class="mr-2">
 				</label>
-				<h6 class="mb-2">
+				<h6 class="mb-2 fieldset-title">
 					<strong>{{tournamentName}}</strong>
 				</h6>
 
@@ -33,10 +33,10 @@
  				<UnPublishedTournament>
 				</UnPublishedTournament>
 
-				<PublishTournament :tournamentStatus='tournamentStatus'>
+				<PublishTournament :canDuplicateFavourites='canDuplicateFavourites'>
 				</PublishTournament>
 
- 				<PreviewTournament>
+ 				<PreviewTournament :canDuplicateFavourites='canDuplicateFavourites'>
 				</PreviewTournament>
 
 				<div class="col-sm-4" v-if="(userDetails.role_name == 'Super administrator' || userDetails.role_name == 'Internal administrator' || userDetails.role_name == 'Master administrator')">
@@ -115,7 +115,6 @@
 </template>
 
 <script type="text/babel">
-
 	import PublishTournament from './PublishTournament.vue'
 	import UnPublishedTournament from './UnPublishedTournament.vue'
 	import PreviewTournament from './PreviewTournament.vue'
@@ -132,7 +131,8 @@
 	    		tournamentName:'',tournamentStatus:'',tournamentDates:'',tournamentDays:0,tournamentId:'',tournamentLogo:'',tournamentStatus:'',
 
 	    		deleteConfirmMsg: 'Are you sure you would like to delete this tournament?',
-                deleteAction: ''
+                deleteAction: '',
+                canDuplicateFavourites: false,
 	    	}
 	    },
 	    components: {
@@ -162,11 +162,14 @@
 	    created: function() {
        		this.$root.$on('StatusUpdate', this.updateStatus);
   		},
+  		beforeCreate: function() {
+			this.$root.$off('StatusUpdate');
+		},
 	    methods: {
-	      updateStatus(status){
+	      updateStatus(status, switchDefaultTournament){
 	      	// here we call method to update Status
 	      	let tournamentId = this.$store.state.Tournament.tournamentId;
-	      	let tournamentData = {'tournamentId': tournamentId, 'status': status}
+	      	let tournamentData = {'tournamentId': tournamentId, 'status': status, 'switchDefaultTournament': switchDefaultTournament};
 	      	if(tournamentId != undefined)
 	    	{
 	    		Tournament.updateStatus(tournamentData).then(
@@ -190,11 +193,12 @@
 	    			
               		$("#"+modal).modal("hide");
 	    				this.tournamentStatus = status
+	    				if( (this.tournamentStatus === 'Preview' || this.tournamentStatus === 'Published') && this.tournamentSummary['tournament_detail']['duplicated_from'] !== null && this.tournamentSummary['tournament_detail']['is_published_preview_once'] === 0) {
+	    					this.canDuplicateFavourites = false;
+	    				}
 	    				toastr['success']('This tournament has been '+status, 'Success');
 	    				let tournamentField = {'tournamentStatus': status}
 	    				this.$store.dispatch('setTournamentStatus',tournamentField)
-                //setTimeout(this.redirectToHomePage, 3000);
-
             }
 	    		},
 	    		(error) => {
@@ -232,6 +236,8 @@
                     locations = locations.substring(0,locations.length - 2)
     	    			this.tournamentSummary.locations = locations
 	    		   }
+
+	    		   this.canDuplicateFavourites = (this.tournamentSummary['tournament_detail']['duplicated_from'] !== null &&  this.tournamentSummary['tournament_detail']['is_published_preview_once'] === 0) ? true : false;
 
 	    			}
 	    		},

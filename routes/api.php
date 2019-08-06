@@ -21,6 +21,9 @@ Route::group(['prefix' => 'auth'], function () {
 
     // Social logins
     Route::post('social/login', 'AuthController@socialLogin');
+
+    //check token validate
+    Route::get('token_validate','AuthController@token_validate');
 });
 
 Route::get('password/reset/{token}', '\Laraspace\Api\Controllers\PasswordController@getReset');
@@ -32,7 +35,7 @@ Route::get('/mlogin', '\Laraspace\Http\Controllers\Auth\ResetPasswordController@
 $api = app('Dingo\Api\Routing\Router');
 
 $api->version('v1', ['middleware' => 'signedurl'], function ($api) {
-    $api->get('match/report/generate/{ageGroupId}',
+    $api->get('match/report/generate/{ageGroupId}/{tournamentId}',
         'Laraspace\Api\Controllers\MatchController@generateCategoryReport')->name('generate.category.report');
     $api->get('tournament/report/print', 'Laraspace\Api\Controllers\TournamentController@generatePrint');
     $api->get('match/print', 'Laraspace\Api\Controllers\MatchController@generateMatchPrint');
@@ -102,6 +105,9 @@ $api->version('v1', function ($api) {
     $api->get('getAllLanguages', 'Laraspace\Api\Controllers\UserController@getAllLanguages');
     $api->post('tournament/updateCategoryDivisionName', 'Laraspace\Api\Controllers\TournamentController@updateCategoryDivisionName');
     $api->post('/userResendEmail', '\Laraspace\Api\Controllers\UserController@userResendEmail');
+    $api->get('user/setpasswordCheck/{key}','\Laraspace\Api\Controllers\UserController@setPassword');
+
+    $api->post('deleteFinalPlacingTeam','Laraspace\Api\Controllers\AgeGroupController@deleteFinalPlacingTeam');
 });
 
 $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
@@ -139,6 +145,8 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
     $api->post('match/schedule', 'Laraspace\Api\Controllers\MatchController@scheduleMatch');
     $api->post('match/unschedule', 'Laraspace\Api\Controllers\MatchController@unscheduleMatch');
     $api->post('match/fixtureUnschedule', 'Laraspace\Api\Controllers\MatchController@matchUnscheduledFixtures');
+    $api->post('saveScheduleMatches', 'Laraspace\Api\Controllers\MatchController@saveScheduleMatches');
+    
 
     $api->post('match/detail', 'Laraspace\Api\Controllers\MatchController@getMatchDetail');
     $api->post('match/removeAssignedReferee', 'Laraspace\Api\Controllers\MatchController@removeAssignedReferee');
@@ -241,7 +249,7 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
         'Laraspace\Api\Controllers\TournamentController@saveCategoryCompetitionColor');
 
     // routes for signed url
-    $api->post('getSignedUrlForMatchReport/{ageCategory}', 'Laraspace\Api\Controllers\MatchController@getSignedUrlForMatchReport');
+    $api->post('getSignedUrlForMatchReport', 'Laraspace\Api\Controllers\MatchController@getSignedUrlForMatchReport');
 
     $api->post('getSignedUrlForTournamentReport', 'Laraspace\Api\Controllers\TournamentController@getSignedUrlForTournamentReport');
 
@@ -294,6 +302,8 @@ $api->version('v1',['middleware' => 'jwt.auth'], function ($api) {
     $api->post('getSignedUrlForGroupsViewReport', 'Laraspace\Api\Controllers\TeamController@getSignedUrlForGroupsViewReport');
 
     $api->post('user/validateemail','Laraspace\Api\Controllers\UserController@validateUserEmail');
+    
+    $api->post('user/verifyResultAdminUser','Laraspace\Api\Controllers\UserController@verifyResultAdminUser');
 });
 
 // Websites CMS routes
@@ -384,5 +394,11 @@ $api->version('v1', function ($api) {
 
     $api->post('duplicateExistingTournament', 'Laraspace\Api\Controllers\TournamentController@duplicateExistingTournament');
 
-    $api->get('compareTemplateJson/{oldId}/{newId}', 'Laraspace\Api\Controllers\TemplateController@compareJsonTemplate');    
+    $api->get('compareTemplateJson/{oldId}/{newId}', 'Laraspace\Api\Controllers\TemplateController@compareJsonTemplate');
+
+    $api->post('updateTemplateFormDetail', 'Laraspace\Api\Controllers\TemplateController@updateTemplateFormDetail');
+
+    $api->post('templateJsonUpdateScript', 'Laraspace\Api\Controllers\TemplateController@templateJsonUpdateScript');
+
+    $api->post('scriptForDivisionsAndMinimumMatches', 'Laraspace\Api\Controllers\TemplateController@scriptForDivisionsAndMinimumMatches');
 });

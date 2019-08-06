@@ -14,7 +14,6 @@ import TeamList from './TeamList.vue'
 import MatchList from './MatchList.vue'
 import DrawDetails from './DrawDetails.vue'
 import DrawsListing from './DrawsListing.vue'
-import LocationList from './LocationList.vue'
 import MatchListing from './MatchListing.vue'
 import FinalPlacings from './FinalPlacings.vue'
 import DrawList from './DrawList.vue'
@@ -22,7 +21,7 @@ import DrawList from './DrawList.vue'
 export default {
   data() {
     return {
-      matchData:[], otherData:[]
+      matchData:[], otherData:[], competitionFixtures: []
     }
   },
   mounted() {
@@ -31,7 +30,7 @@ export default {
     this.getAllTournamentTeams()
   },
   components: {
-    TeamDetails,DrawsListing,TeamList,MatchList,DrawDetails,MatchListing,LocationList,DrawList,FinalPlacings
+    TeamDetails,DrawsListing,TeamList,MatchList,DrawDetails,MatchListing,DrawList,FinalPlacings
   },
   created: function() {
        this.$root.$on('changeComp', this.setMatchData);
@@ -133,7 +132,14 @@ export default {
         (response)=> {
           $("body .js-loader").addClass('d-none');
           if(response.data.status_code == 200) {
-            this.matchData = response.data.data
+            this.matchData = response.data.data;
+            this.competitionFixtures = response.data.competitionFixtures;
+            let vm = this;
+            if(vm.competitionFixtures) {
+              vm.matchData = _.filter(vm.matchData, function(o) {
+                return vm.competitionFixtures[o.competationId] > 0;
+              });
+            }
           }
         },
         (error) => {
