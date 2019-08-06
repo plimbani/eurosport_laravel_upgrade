@@ -15,6 +15,7 @@ use Laraspace\Http\Requests\Tournament\TournamentSummary;
 use Laraspace\Http\Requests\Commercialisation\Tournament\TournamentByCustomerRequest;
 use Laraspace\Models\User;
 use Laraspace\Models\PitchAvailable;
+use Laraspace\Http\Requests\Commercialisation\Tournament\ManageTournamentRequest;
 
 /**
  * Tournament Resource Description.
@@ -105,7 +106,7 @@ class TournamentController extends BaseController
      * Manage tournament and update details
      * @param Request $request
      */
-    public function manageTournament(Request $request)
+    public function manageTournament(ManageTournamentRequest $request)
     {
         try {
             $requestData = $request->all();

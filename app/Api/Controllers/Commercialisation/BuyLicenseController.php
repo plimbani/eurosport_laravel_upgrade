@@ -9,6 +9,8 @@ use Carbon\Carbon;
 use Laraspace\Api\Services\Commercialisation\TransactionService;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
+use Laraspace\Http\Requests\Commercialisation\BuyLicense\GenerateHashKeyRequest;
+use Laraspace\Http\Requests\Commercialisation\BuyLicense\SignedUrlForBuyLicensePrintRequest;
 use Laraspace\Http\Requests\Commercialisation\BuyLicense\CustomerTransactionsRequest;
 
 /**
@@ -43,7 +45,7 @@ class BuyLicenseController extends BaseController
                             'status' => Response::HTTP_OK,
                             'data' => $transaction,
                             'error' => [],
-                            'message' => 'You payment has been done successfully.'
+                            'message' => 'Your payment has been done successfully.'
                 ]);
             }
         } catch (\Exception $ex) {
@@ -54,12 +56,17 @@ class BuyLicenseController extends BaseController
     /**
      * @desc :API created for Haskey generate 
      */
-    public function generateHashKey(Request $request)
+    public function generateHashKey(GenerateHashKeyRequest $request)
     {
         $requestData = $request->all();
+        $amount = ($requestData['tournamentPricingValue'] * 100);
+        if ( is_float($amount) )
+        {
+            $amount = (int)($amount);
+        }
         
         $orderId = 'ORDER-' . uniqid() . '-' . time();
-        $shaInString = 'AMOUNT=' . ($requestData['tournamentPricingValue'] * 100) . config('app.SHA_IN_PASS_PHRASE') .
+        $shaInString = 'AMOUNT=' . ($amount) . config('app.SHA_IN_PASS_PHRASE') .
                 'CURRENCY=' . substr($requestData['currency_type'], 0, 3) . config('app.SHA_IN_PASS_PHRASE') . 'ORDERID=' . $orderId . config('app.SHA_IN_PASS_PHRASE') .
                 'PMLIST=' . $requestData['PMLIST'] . config('app.SHA_IN_PASS_PHRASE') . 'PMLISTTYPE=' . $requestData['PMLISTTYPE'] . config('app.SHA_IN_PASS_PHRASE') .
                 'PSPID=' . config('app.PSPID') . config('app.SHA_IN_PASS_PHRASE');
@@ -132,12 +139,19 @@ class BuyLicenseController extends BaseController
 		}
     }
 
-    public function getSignedUrlForBuyLicensePrint(Request $request)
+    public function getSignedUrlForBuyLicensePrint(SignedUrlForBuyLicensePrintRequest $request)
     {
         $tournamentId = $request['tournamentData']['tournament_id'];
         $userName = $request['tournamentData']['user_name'];
-        $signedUrl = UrlSigner::sign(url('api/license/receipt/generate/'. $tournamentId.'?user_name='.$userName), Carbon::now()->addMinutes(config('config-variables.signed_url_interval')));
-        
+        $tournamentRecord = $request['tournamentData']['tournament'];
+        $data['user_name'] = $userName;
+        $data = $this->dataForManageLicense($data,$tournamentRecord);
+        ksort($data);
+        $reportData  = http_build_query($data);
+
+        $signedUrl = UrlSigner::sign(url('api/license/receipt/generate/'. $tournamentId.'?'.$reportData),Carbon::now()->addMinutes(config('config-variables.signed_url_interval')));
+
+
         return $signedUrl;
     }
 
@@ -145,5 +159,35 @@ class BuyLicenseController extends BaseController
     {
         $paymentMessages = Config('config-variables.payment_status_messages');
         return $paymentMessages;
+    }
+
+    public function dataForManageLicense($data,$tournamentRecord)
+    {
+        if (array_key_exists('id', $tournamentRecord) && $tournamentRecord['id'] != '')
+        {
+            $data['teamDifference'] = $tournamentRecord['teamDifference'];
+            $data['id'] = $tournamentRecord['id'];
+        }
+        $data['tournament_max_teams'] = $tournamentRecord['tournament_max_teams'];
+        $data['custom_tournament_format'] = $tournamentRecord['custom_tournament_format'];
+        $data['tournament_type'] = $tournamentRecord['tournament_type'];
+
+
+        $data['tournamentLicenseBasicPriceDisplay'] = number_format((float)$tournamentRecord['tournamentLicenseBasicPriceDisplay'], 2, '.', '');
+        $data['tournamentLicenseAdvancePriceDisplay'] = number_format((float)$tournamentRecord['tournamentLicenseAdvancePriceDisplay'], 2, '.', '');
+
+        $data['payment_currency'] = $tournamentRecord['payment_currency'];
+        $data['gpbConvertValue'] = $tournamentRecord['gpbConvertValue'];
+
+        if ( $tournamentRecord['payment_currency'] == 'GBP')
+        {
+           $data['transactionDifferenceAmountValue'] = number_format((float)$tournamentRecord['transactionDifferenceAmountValue']*($tournamentRecord['gpbConvertValue']), 2, '.', '');
+        }
+        else
+        {
+            $data['transactionDifferenceAmountValue'] = number_format((float)$tournamentRecord['transactionDifferenceAmountValue'], 2, '.', '');
+        }
+
+        return $data;
     }
 }

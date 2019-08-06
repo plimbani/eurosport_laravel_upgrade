@@ -2,10 +2,12 @@
 
 namespace Laraspace\Http\Requests\Commercialisation\BuyLicense;
 
+use Laraspace\Traits\AuthUserDetail;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CustomerTransactionsRequest extends FormRequest
 {
+    use AuthUserDetail;
 
     /**
      * Determine if the user is authorized to make this request.
@@ -14,7 +16,11 @@ class CustomerTransactionsRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        $user = $this->getCurrentLoggedInUserDetail();
+        if($user->hasRole('Master.administrator') || $user->hasRole('Super.administrator')) {
+            return true;
+        }
+        return false;
     }
 
     /**
