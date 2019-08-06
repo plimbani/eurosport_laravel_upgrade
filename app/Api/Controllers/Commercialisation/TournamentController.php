@@ -115,7 +115,6 @@ class TournamentController extends BaseController
                 $this->transactionRepoObj->updateTransaction($requestData);
             }
             $tournament = Tournament::findOrFail($requestData['tournament']['old_tournament_id']);
-
             $requestTournamentStartDate = Carbon::createFromFormat('d/m/Y',$requestData['tournament']['tournament_start_date']);
 
             $requestTournamentEndDate = Carbon::createFromFormat('d/m/Y',$requestData['tournament']['tournament_end_date']);
@@ -161,7 +160,35 @@ class TournamentController extends BaseController
                         'custom_tournament_format' => $customTournamentFormat,
                     ];   
                 } else {
-                    return response()->json(['status' => 'error', 'message' => 'Please unschedule matches before shortening the length of your tournament.']);
+
+                    if ( $tournamentFixture > 0)
+                    {
+                        if ( $tournament->maximum_teams != $requestData['tournament']['tournament_max_teams'])
+                        {
+                            $message = 'Please unschedule matches before editing the number of teams in your tournament.';
+                        }
+                        else
+                        {
+                            $message = 'Please unschedule matches before changing the tournament dates.';
+                        } 
+                    }
+                    else if ($tournamentPitch > 0)
+                    {
+                        if ( $tournament->maximum_teams != $requestData['tournament']['tournament_max_teams'])
+                        {
+                            $message = 'Please unschedule pitches before editing the number of teams in your tournament.';
+                        }
+                        else
+                        {
+                            $message = 'Please unschedule pitches before changing the tournament dates.';
+                        } 
+                    }
+                    else
+                    {
+                        $message = 'Please remove age categories before editing the number of teams in your tournament.';
+                    }
+
+                    return response()->json(['status' => 'error', 'message' => $message]);
                 }
                 $this->tournamentRepoObj->edit($requestData['tournament']);
             }
