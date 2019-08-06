@@ -30,7 +30,7 @@
 </style>
 
 <center>
-  <img  src="{{ asset('assets/img/tmplogo.svg')}}" id="logo-desk" alt="Laraspace Logo" class="hidden-sm-down text-center" width="200px" height="100px">
+  <img  src="{{ asset('assets/img/tmplogo.svg')}}" alt="Laraspace Logo" class="hidden-sm-down text-center" width="200px" height="100px">
 </center>
   <h4>{{ $pitchReport['pitch_number'] }} - Match Schedule</h4>
  
