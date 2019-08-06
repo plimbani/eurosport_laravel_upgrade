@@ -9,6 +9,8 @@ use Carbon\Carbon;
 use Laraspace\Api\Services\Commercialisation\TransactionService;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
+use Laraspace\Http\Requests\Commercialisation\BuyLicense\GenerateHashKeyRequest;
+use Laraspace\Http\Requests\Commercialisation\BuyLicense\SignedUrlForBuyLicensePrintRequest;
 use Laraspace\Http\Requests\Commercialisation\BuyLicense\CustomerTransactionsRequest;
 
 /**
@@ -43,7 +45,7 @@ class BuyLicenseController extends BaseController
                             'status' => Response::HTTP_OK,
                             'data' => $transaction,
                             'error' => [],
-                            'message' => 'You payment has been done successfully.'
+                            'message' => 'Your payment has been done successfully.'
                 ]);
             }
         } catch (\Exception $ex) {
@@ -54,7 +56,7 @@ class BuyLicenseController extends BaseController
     /**
      * @desc :API created for Haskey generate 
      */
-    public function generateHashKey(Request $request)
+    public function generateHashKey(GenerateHashKeyRequest $request)
     {
         $requestData = $request->all();
         $amount = ($requestData['tournamentPricingValue'] * 100);
@@ -137,7 +139,7 @@ class BuyLicenseController extends BaseController
 		}
     }
 
-    public function getSignedUrlForBuyLicensePrint(Request $request)
+    public function getSignedUrlForBuyLicensePrint(SignedUrlForBuyLicensePrintRequest $request)
     {
         $tournamentId = $request['tournamentData']['tournament_id'];
         $userName = $request['tournamentData']['user_name'];
