@@ -36,11 +36,13 @@
     }
 </style>
 <center>
-  @if(!empty($data['tournamentLogo']))
-      <img  src="{{ $data['tournamentLogo'] }}" id="logo-desk" alt="Tournament Logo" class="hidden-sm-down text-center" width="200px" height="100px">
-  @else
-    <img  src="{{ asset('assets/img/tmplogo.svg')}}" id="logo-desk" alt="Laraspace Logo" class="hidden-sm-down text-center" width="200px" height="100px">
-  @endif
+   @if($data['tournamentLogo'] != null)  
+    <img src="{{ $data['tournamentLogo'] }}" class="hidden-sm-down text-center" alt="Laraspace Logo" width="200px">
+  @elseif(Config::get('config-variables.current_layout') == 'tmp')
+    <img  src="{{ asset('assets/img/tmplogo.svg')}}" alt="Laraspace Logo" class="hidden-sm-down text-center" width="200px">
+  @elseif(Config::get('config-variables.current_layout') == 'commercialisation')
+    <img  src="{{ asset('assets/img/easy-match-manager/emm.svg')}}" alt="Laraspace Logo" class="hidden-sm-down text-center" width="200px">
+  @endif 
   <h3>League table summary</h3>
 </center>
 @foreach($data['age_group'] as $ageCategory)
