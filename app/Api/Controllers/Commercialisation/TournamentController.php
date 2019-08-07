@@ -176,11 +176,11 @@ class TournamentController extends BaseController
                     {
                         if ( $tournament->maximum_teams != $requestData['tournament']['tournament_max_teams'])
                         {
-                            $message = 'Please unschedule pitches before editing the number of teams in your tournament.';
+                            $message = 'Please remove pitches before editing the number of teams in your tournament.';
                         }
                         else
                         {
-                            $message = 'Please unschedule pitches before changing the tournament dates.';
+                            $message = 'Please remove pitches before changing the tournament dates.';
                         } 
                     }
                     else
