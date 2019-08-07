@@ -55,10 +55,7 @@
 
                         <div class="form-group">
                             <label for="remarks">Competition format (round schedule)</label>
-                            <span class="ml-1 text-primary" data-toggle="popover" data-animation="false" data-placement="right" :data-popover-content="'#competition_format'"><i class="fa fa-info-circle"></i></span>
-                            <div v-bind:id="'competition_format'" style="display:none;">
-                                <div class="popover-body">Add an entry for each round e.g. 4 x 4</div>
-                            </div>
+                             <span class="ml-1 text-primary" data-toggle="popover" data-animation="false" data-placement="right" data-content="Add an entry for each round e.g. 4 x 4"><i class="fas fa-info-circle"></i></span>
                             <div v-for="(roundSchedule, index) in templateFormDetail.stepone.roundSchedules" class="row">
                                 <div class="col-sm-6 col-md-4 col-lg-4 col-xl-4">
                                     <div class="form-group" :class="{'has-error': errors.has('round_schedule'+index) }">
@@ -97,10 +94,7 @@
 
                         <div class="form-group row">
                             <label class="col-12 form-control-label">Template key</label>
-                            <span class="ml-1 text-primary" data-toggle="popover" data-animation="false" data-placement="right" :data-popover-content="'#color'"><i class="fa fa-info-circle"></i></span>
-                            <div v-bind:id="'color'" style="display:none;">
-                                <div class="popover-body">Template key: Green = preferred, Orange = second option, Red = last resort</div>
-                            </div>
+                            <span class="ml-1 text-primary" data-toggle="popover" data-animation="false" data-placement="right" data-content="Template key: Green = preferred, Orange = second option, Red = last resort"><i class="fas fa-info-circle"></i></span>
                             <div class="col-12">
                                 <div class="template-font-color-box pull-left mr-2" @click="setTemplateFontColor(color)" v-for="color in templateFontColors" :style="{'background-color': color}" :class="{ 'template-font-color-active' : templateFormDetail.stepone.template_font_color == color }" ></div>
                                 <input type="hidden" name="template_font_color" v-model="templateFormDetail.stepone.template_font_color" v-validate="'required'" :class="{'is-danger': errors.has('template_font_color') }" data-vv-as="template font color">
