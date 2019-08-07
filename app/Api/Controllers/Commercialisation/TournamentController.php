@@ -134,11 +134,14 @@ class TournamentController extends BaseController
                 ->orwhere('stage_start_date', '>', $requestTournamentEndDateFormat);
             })->count();  
 
-            $tournamentCompetationTemplates = TournamentCompetationTemplates::where('tournament_id', $requestData['tournament']['old_tournament_id'])->pluck('total_teams')->sum();
+            $tournamentCompetationTemplatesList = TournamentCompetationTemplates::where('tournament_id', $requestData['tournament']['old_tournament_id'])->pluck('total_teams');
+
+            $tournamentCompetationTemplates = $tournamentCompetationTemplatesList->sum();
+            $tournamentCompetationTemplatesCount = $tournamentCompetationTemplatesList->count();
 
             // Tournament update license 
             if (!empty($requestData['tournament'])) {        
-                if($tournamentFixture == 0 && $tournamentPitch == 0 && $tournamentCompetationTemplates <= $tournamentMaximumTeam){
+                if($tournamentFixture == 0 && $tournamentPitch == 0 && $tournamentCompetationTemplates <= $tournamentMaximumTeam && ( ( $tournament->tournament_type == $requestData['tournament']['tournament_type'] ) || ($tournament->tournament_type != $requestData['tournament']['tournament_type'] && $tournamentCompetationTemplatesCount == 0)) ){
 
                     $customTournamentFormat = '';
 
