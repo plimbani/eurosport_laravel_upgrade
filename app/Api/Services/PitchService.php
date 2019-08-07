@@ -10,6 +10,8 @@ use Laraspace\Models\TempFixture;
 use Laraspace\Models\Pitch;
 use PDF;
 use Laraspace\Traits\TournamentAccess;
+use Laraspace\Models\PitchAvailable;
+use Laraspace\Models\PitchBreaks;
 
 class PitchService implements PitchContract
 {
@@ -109,6 +111,8 @@ class PitchService implements PitchContract
         $this->unScheduleAllocatedMatch('',$deleteId);
         $pitchRes = $this->pitchRepoObj->getPitchFromId($deleteId)->delete();
         if ($pitchRes) {
+            PitchAvailable::where('pitch_id',$deleteId)->delete();
+            PitchBreaks::where('pitch_id',$deleteId)->delete();
             return ['code' => '200', 'message' => 'Pitch Sucessfully Deleted'];
         }
     }
