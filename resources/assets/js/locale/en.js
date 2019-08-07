@@ -88,6 +88,8 @@ module.exports= {
   template_in_use_modal_header: "Warning",
   template_in_use_modal_message: "This template is being used by one or more tournaments and cannot be deleted.",
   template_in_use_modal_button_text: "Close",
+  template_edit_modal: "This template is in use. Editing this template will create a new version.",
+  template_confirmation: "Confirmation",
 
   add_template_modal_step1_header: "Step 1: Template settings",
   add_template_modal_template_name: "Template name*",
