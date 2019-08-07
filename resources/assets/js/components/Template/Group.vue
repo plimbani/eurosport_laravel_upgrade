@@ -2,17 +2,26 @@
 	<div>
 	    <div class="card mb-3">
 	    	<div class="card-block">
-		        <h6 class="font-weight-bold">{{ getGroupName }} <span class="pull-right"><a href="javascript:void(0)" @click="removeGroup()"><i class="jv-icon jv-dustbin"></i></a></span></h6>
+		        <h6 class="font-weight-bold">{{ getGroupName }} <span class="pull-right"><a href="javascript:void(0)" @click="removeGroup()"><i class="fas fa-trash text-danger"></i></a></span></h6>
 		        <div class="form-group">
-		            <div class="radio">
+		        	<div class="radio">
+	                    <div class="c-input">
+	                        <input type="radio" id="round-robin" class="euro-radio" checked="checked" value="round_robin" v-model="groupData.type" @change="onChangeGroupType()">
+	                        <label for="round-robin" class="d-inline-flex mr-5">Round robin</label>
+	                        <input type="radio" id="placing-match" class="euro-radio" value="placing_match" v-model="groupData.type" @change="onChangeGroupType()">
+	                        <label for="placing-match" class="d-inline-flex">Placing match</label>
+	                    </div>
+	                </div>
+
+		            <!-- <div class="radio">
 		                <label><input type="radio" checked="checked" value="round_robin" v-model="groupData.type" @change="onChangeGroupType()"> Round robin</label>
 		                <label><input type="radio" value="placing_match" v-model="groupData.type" @change="onChangeGroupType()"> Placing match</label>
-		            </div>
+		            </div> -->
 		        </div>
 		        <div class="row">
 		            <div class="col-md-6">
 		                <div class="form-group mb-0">
-		                    <label>Number of teams in group</label>
+		                    <label>Number of teams</label>
 		                    <select :data-last-selected="last_selected_teams" class="form-control ls-select2" v-model="groupData.no_of_teams" @change="onTeamChange($event)">
 		                    	<option v-for="n in 28" v-if="n >= 2" :value="n">{{ n }}</option>
 		                    </select>
@@ -33,17 +42,24 @@
 		        </div>
 		        <div class="row align-items-center mt-3" v-if="!(roundIndex === 0 && groupData.type === 'round_robin' && divisionIndex === -1)" v-for="(team, teamIndex) in groupData.teams">
 		        	<div class="col-md-12 mb-3" v-if="teamIndex % 2 === 0 && groupData.type === 'placing_match'">
-		        		<div class="row">
+		        		<div class="row align-items-center">
 		        			<div class="col-md-3">
 				        		<strong>Match {{ teamIndex/2 + 1 }}</strong>
 				        	</div>
 				        	<div class="col-md-9" v-if="showHideIsFinal((teamIndex/2))">
-				        		<input type="checkbox" v-model="groupData.matches[teamIndex/2].is_final" /> Final
+				        		<div class="checkbox">
+                                  	<div class="c-input">
+                                    	<input type="checkbox" id="match-status" class="euro-checkbox" v-model="groupData.matches[teamIndex/2].is_final" />
+                                    	<label for="match-status">Final </label>
+                                  	</div>
+                                </div>
+
+				        		<!-- <input type="checkbox" v-model="groupData.matches[teamIndex/2].is_final" /> Final -->
 				        	</div>
 		        		</div>
 		        	</div>
 		        	<div class="col-md-12">
-		        		<div class="row">
+		        		<div class="row align-items-center">
 				        	<div class="col-md-3">
 				        		<label class="mb-0">
 				        			{{ (groupData.type === 'round_robin' ? 'Team ' + (teamIndex + 1) : ((teamIndex % 2 === 0) ? 'Home' : 'Away') )  }}
@@ -121,7 +137,7 @@
         	onTeamChange() {
  				let groupTotalTeams = this.$parent.getGroupTotalTeams(this.roundIndex);
                 if(this.roundIndex === 0 && groupTotalTeams > this.roundData.no_of_teams) {
-                    toastr['error']('Round team count get exceeds.', 'Error');
+                    toastr['error']('The number of teams selected exceeds total teams in the round.', 'Error');
                     this.groupData.no_of_teams = this.last_selected_teams;
                     return false;
                 }

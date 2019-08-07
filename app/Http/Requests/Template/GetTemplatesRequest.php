@@ -1,14 +1,14 @@
 <?php
 
-namespace Laraspace\Http\Requests\User;
+namespace Laraspace\Http\Requests\Template;
 
 use Laraspace\Traits\AuthUserDetail;
 use Illuminate\Foundation\Http\FormRequest;
 
-class ResendEmailRequest extends FormRequest
+class GetTemplatesRequest extends FormRequest
 {
     use AuthUserDetail;
-
+    
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -17,8 +17,7 @@ class ResendEmailRequest extends FormRequest
     public function authorize()
     {
         $loggedInUser = $this->getCurrentLoggedInUserDetail();
-
-        if($loggedInUser->hasRole('Super.administrator') || $loggedInUser->hasRole('tournament.administrator') || $loggedInUser->hasRole('Master.administrator')) {
+        if($loggedInUser->hasRole('Super.administrator')) {
             return true;
         }
         return false;

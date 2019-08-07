@@ -2,7 +2,7 @@
     <div class="template-container">
         <site-header></site-header>
         <div class="main-content container-fluid" id="dashboardPage">
-            <breadCrum></breadCrum>
+            <TemplateListBreadCrumb></TemplateListBreadCrumb>
             <TemplateManagementTabbed></TemplateManagementTabbed>                 
         </div>       
         <site-footer></site-footer>
@@ -15,7 +15,7 @@
     import SiteHeaderBottom from './partials/SiteHeaderBottom.vue'
 
     import Layout from '../../helpers/layout'
-    import BreadCrum from '../../components/BreadCrum.vue'
+    import TemplateListBreadCrumb from '../../components/TemplateListBreadCrumb.vue'
     import TemplateManagementTabbed from './partials/TemplateManagementTabbed.vue'
 
     export default {
@@ -25,7 +25,7 @@
             }
         },
         components : {
-            SiteHeader , SiteHeaderBottom , SiteFooter, BreadCrum, TemplateManagementTabbed
+            SiteHeader , SiteHeaderBottom , SiteFooter, TemplateListBreadCrumb, TemplateManagementTabbed
         },
         mounted() {
             Layout.set('layout-horizontal')

@@ -1295,8 +1295,8 @@ a.active-view:hover {
 }
 
 .tbl-drawdetails th,
-.tbl-drawdetails td {
-    word-break: break-word;
+.tbl-drawdetails td:first-child {
+    white-space: nowrap;
 }
 
 .add-category-table th:nth-child(10),
@@ -1378,8 +1378,9 @@ a.active-view:hover {
     font-size: 0.875rem;
 }
 
-.pitch-capacity-form .form-control:-moz-placeholder { /* Firefox 18- */
-  color: $base-font-color;
+.pitch-capacity-form .form-control:-moz-placeholder {
+    /* Firefox 18- */
+    color: $base-font-color;
 }
 
 .add-category-table {
@@ -1397,6 +1398,32 @@ a.active-view:hover {
                         margin-right: 0;
                     }
                 }
+            }
+        }
+    }
+}
+
+.template_tabs {
+    .step3-template-setting {
+        .form-group {
+            &.has-error {
+                .help {
+                    &.is-danger {
+                        position: absolute;
+                        font-size: 12px;
+                    }
+                }
+            }
+        }
+    }
+
+    .placing-row {
+        &>.row {
+            margin-bottom: 1.5rem;
+            margin-top: 0.25rem;
+
+            &:last-child {
+                margin-bottom: 0.25rem;
             }
         }
     }

@@ -43,7 +43,7 @@
                   <span class="ml-1">{{ position.team_name }}</span>
                 </div>
                 <div class="col-sm-4 form-control-label text-right">
-                    <a @click="deleteFinalPlacingTeam(position.position_id)" class="text-primary" href="javascript:void(0)"><u>Delete</u></a>
+                    <a @click="deleteFinalPlacingTeam(position.position_id)" class="text-primary" href="javascript:void(0)"><i class="fas fa-trash text-danger"></i></a>
                 </div>
               </div>   
           </div>
