@@ -31,7 +31,7 @@
                                         <th>Teams</th>
                                         
                                         <th>Duration</th>
-                                        <th>Purchase Date</th>
+                                        <th>Purchase date</th>
                                         <th>Currency</th>
                                         <th>Total</th>
                                         

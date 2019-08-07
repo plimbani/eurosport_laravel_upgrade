@@ -39,7 +39,7 @@
                                 </p>
 
                                 <p v-if="paymentFlag" class="mb-0" id="reeiptDetails && tournament.transactionDifferenceAmountValue > 0">
-                                    <span>Already paid amount
+                                    <span>Amount already paid
                                     </span>
                                 </p>
 
