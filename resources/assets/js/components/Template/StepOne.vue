@@ -94,8 +94,8 @@
                         </div>
 
                         <div class="form-group row">
-                            <label class="col-12 form-control-label">Template key</label>
-                            <span class="ml-1 text-primary" data-toggle="popover" data-animation="false" data-placement="right" data-content="Template key: Green = preferred, Orange = second option, Red = last resort"><i class="fas fa-info-circle"></i></span>
+                            <label class="col-12 form-control-label">Template key <span class="ml-1 text-primary" data-toggle="popover" data-animation="false" data-placement="right" data-content="Template key: Green = preferred, Orange = second option, Red = last resort"><i class="fas fa-info-circle"></i></span></label>
+                            
                             <div class="col-12">
                                 <div class="template-font-color-box pull-left mr-2" @click="setTemplateFontColor(color)" v-for="color in templateFontColors" :style="{'background-color': color}" :class="{ 'template-font-color-active' : templateFormDetail.stepone.template_font_color == color }" ></div>
                                 <input type="hidden" name="template_font_color" v-model="templateFormDetail.stepone.template_font_color" v-validate="'required'" :class="{'is-danger': errors.has('template_font_color') }" data-vv-as="template font color">
