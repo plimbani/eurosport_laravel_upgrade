@@ -73,7 +73,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <a href="javascript:void(0)" class="text-primary" @click="addNewRoundSchedule()"><u>+ Add round</u></a>
+                            <button type="button" class="btn btn-primary" @click="addNewRoundSchedule()"><i class="fa fa-plus"></i> Add round</button>
+                            <!-- <a href="javascript:void(0)" class="text-primary" @click="addNewRoundSchedule()"><u>+ Add round</u></a> -->
                         </div>
 
                         <div class="form-group" v-if="(userDetails.role_slug == 'Internal.administrator' || userDetails.role_slug == 'Super.administrator' || userDetails.role_slug == 'Tournament administrator')">
