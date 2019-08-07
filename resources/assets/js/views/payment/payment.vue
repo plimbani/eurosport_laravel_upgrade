@@ -24,6 +24,8 @@
                             <div class="col-sm-6 col-md-7 col-lg-7">
                                 <p v-if="!paymentFlag" class="mb-0" id="reeiptDetails">{{tournament.tournament_max_teams}} team license for a {{tournament.dayDifference}} day tournament</p>
 
+                                <p v-if="!paymentFlag && tournament.tournament_type == 'cup' && tournament.custom_tournament_format == 1" class="mb-0" id="reeiptDetails">Create custom formats</p>
+
                                 <p v-if="paymentFlag" class="mb-0" id="reeiptDetails">
                                     <span v-if="tournament.teamDifference == 0">{{tournament.tournament_max_teams }} teams
                                     </span>
@@ -45,7 +47,8 @@
 
                             </div>
                             <div class="col-sm-6 col-md-5 col-lg-5" v-if="!paymentFlag">
-                                <p class="text-sm-right mb-0 mt-3 mt-sm-0"> {{paymentObj.currency == 'EUR' ? '€' : '£' }}{{paymentObj.amount}}</p>
+                                <p class="text-sm-right mb-0 mt-3 mt-sm-0"> {{paymentObj.currency == 'EUR' ? '€' : '£' }}{{returnFormatedNumber(managePrice)}}</p>
+                                <p class="text-sm-right mb-0 mt-3 mt-sm-0"  v-if="tournament.tournament_type == 'cup' && tournament.custom_tournament_format == 1"> {{paymentObj.currency == 'EUR' ? '€' : '£' }}{{returnFormatedNumber(manageAdvancePrice)}}</p>
                             </div>
 
                             <div class="col-sm-6 col-md-5 col-lg-5" v-if="paymentFlag">
