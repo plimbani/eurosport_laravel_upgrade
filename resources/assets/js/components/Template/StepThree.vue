@@ -12,7 +12,7 @@
 						<div class="card-block">
 							<div class="row my-1" v-for="(placing, placingIndex) in templateFormDetail.stepthree.placings">
 								<div class="col-md-3">
-						        	<div class="title-placing"><label class="mb-0">{{ getSuffixForPosition(placingIndex + 1) }} Place</label></div>
+						        	<div class="title-placing"><label class="mb-0">{{ getSuffixForPosition(placingIndex + 1) }} place</label></div>
 						        </div>
 						        <div class="col-md-9">
 						        	<div class="row">
@@ -30,7 +30,7 @@
 						        		<div class="col-md-3">
 						        			<div class="form-group" :class="{'has-error': errors.has('position_group'+placingIndex) }">
 							        			<select class="form-control ls-select2" v-model="placing.group" v-validate="'required'" :class="{'is-danger': errors.has('position_group'+placingIndex) }" 
-							        			:name="'position_group'+placingIndex" data-vv-as="Group">
+							        			:name="'position_group'+placingIndex" data-vv-as="group">
 							                    	<option v-for="group in getGroupsForSelection(placingIndex)" :value="group.value">{{ group.name }}
 							                    	</option>
 							                    </select>
@@ -40,7 +40,7 @@
 						        		</div>						        		
 						        		<div class="col-md-4">
 					        				<div class="form-group" :class="{'has-error': errors.has('position_name'+placingIndex) }">
-						        				<select class="form-control ls-select2" v-model="placing.position" :name="'position_name'+placingIndex" v-validate="'required'" :class="{'is-danger': errors.has('position_name'+placingIndex) }" data-vv-as="Match name">
+						        				<select class="form-control ls-select2" v-model="placing.position" :name="'position_name'+placingIndex" v-validate="'required'" :class="{'is-danger': errors.has('position_name'+placingIndex) }" data-vv-as="match name">
 							                    	<option :value="position.value" v-for="position in getPositionsForSelection(placingIndex, placing.group)">{{ position.name }}</option>
 							                    </select>
 							                    <i v-show="errors.has('position_name'+placingIndex)" class="fas fa-warning"></i>
