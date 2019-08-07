@@ -76,7 +76,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <a href="javascript:void(0)" class="text-primary" @click="addNewRoundSchedule()"><u>+ Add round</u></a>
+                            <button type="button" class="btn btn-primary" @click="addNewRoundSchedule()"><i class="fa fa-plus"></i> Add round</button>
+                            <!-- <a href="javascript:void(0)" class="text-primary" @click="addNewRoundSchedule()"><u>+ Add round</u></a> -->
                         </div>
 
                         <div class="form-group" v-if="(userDetails.role_slug == 'Internal.administrator' || userDetails.role_slug == 'Super.administrator' || userDetails.role_slug == 'Tournament administrator')">
@@ -96,8 +97,7 @@
                         </div>
 
                         <div class="form-group row">
-                            <label class="col-12 form-control-label">Template key</label>
-                            <span class="ml-1 text-primary" data-toggle="popover" data-animation="false" data-placement="right" :data-popover-content="'#color'"><i class="fa fa-info-circle"></i></span>
+                            <label class="col-12 form-control-label">Template key <span class="ml-1 text-primary" data-toggle="popover" data-animation="false" data-placement="right" :data-popover-content="'#color'"><i class="fa fa-info-circle"></i></span></label>                            
                             <div v-bind:id="'color'" style="display:none;">
                                 <div class="popover-body">Template key: Green = preferred, Orange = second option, Red = last resort</div>
                             </div>
