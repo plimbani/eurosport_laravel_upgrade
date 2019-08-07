@@ -167,51 +167,47 @@
                     <!-- round 2 - RR -->
                     <div v-if="roundIndex == 1 && getGroupType(group) == 'RR' && roundIndex != lastRoundIndex">
                         <div class="group-listing">
-                            <div class="group-column" v-if="roundIndex == 0">
-                                <h6 class="m-0 font-weight-bold">{{ group.groups.group_name }}</h6>
-                                <div class="bordered-box" v-for="(team, teamIndex) in getUniqueTeams(group.groups.match)">
-                                    <span class="font-weight-bold">{{ team }}</span>
-                                </div>
+                          <div class="group-column" v-if="roundIndex == 0">
+                            <h6 class="m-0 font-weight-bold">{{ group.groups.group_name }}</h6>
+                            <div class="bordered-box" v-for="(team, teamIndex) in getUniqueTeams(group.groups.match)">
+                              <span class="font-weight-bold">{{ team }}</span>
                             </div>
+                          </div>
                         </div>
                         <div class="group-listing">
-                            <div class="row-round">
-                                <div class="group-column">
-                                    <h6 class="m-0 font-weight-bold">{{ group.groups.group_name }}</h6>
-                                    <div class="bordered-box" v-for="(team, teamIndex) in getUniqueTeams(group.groups.match)">
-                                      <span class="font-weight-bold">{{ team }}</span>
-                                    </div>
-                                </div>
-
-                                <div class="group-column" v-if="roundIndex == 1">
-                                    <h6 class="m-0 font-weight-bold">Ranking</h6>
-                                    <div class="bordered-box" v-for="(team, teamIndex) in group.group_count">
-                                      <span class="font-weight-bold"># {{teamIndex+1}}{{getGroupNameIntial(group)}}</span>
-                                    </div>
-                                </div>
+                          <div class="row-round">
+                            <div class="group-column">
+                              <h6 class="m-0 font-weight-bold">{{ group.groups.group_name }}</h6>
+                              <div class="bordered-box" v-for="(team, teamIndex) in getUniqueTeams(group.groups.match)">
+                                <span class="font-weight-bold">{{ team }}</span>
+                              </div>
                             </div>
-                        </div>
-                        <!-- <ul class="list-unstyled pull-left">
-                          <li><h6 class="m-0 font-weight-bold">{{ group.groups.group_name }}</h6></li>
-                          <li v-for="(team, teamIndex) in getUniqueTeams(group.groups.match)"><a href="#">{{ team }}</a></li>
-                        </ul>
 
-                        <ul class="list-unstyled" v-if="roundIndex == 1">
-                          <li><h6 class="m-0 font-weight-bold">Ranking</h6></li>
-                          <li v-for="(team, teamIndex) in group.group_count"><a href="#"># {{teamIndex+1}}{{getGroupNameIntial(group)}}</a></li>
-                        </ul> -->
+                            <div class="group-column" v-if="roundIndex == 1">
+                              <h6 class="m-0 font-weight-bold">Ranking</h6>
+                              <div class="bordered-box" v-for="(team, teamIndex) in group.group_count">
+                                <span class="font-weight-bold"># {{teamIndex+1}}{{getGroupNameIntial(group)}}</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
                     </div>
                     
                     <!-- for last round -->
                     <div v-if="roundIndex == lastRoundIndex" v-for="(match, matchIndex) in group.groups.match">
                       <div class="row-round">
                         <div class="bordered-box"><span class="font-weight-bold small">Final</span></div>
-                        <div class="bordered-box" v-if="getGroupType(group) == 'PM'">
+                        <div class="bordered-box" v-if="getGroupType(group) == 'PM' && getMatchesWithWinnerOrLooser(match) == '#'">
                           <span class="font-weight-bold small">
                           {{ match.display_home_team_placeholder_name }}-{{match.display_away_team_placeholder_name}}
                           </span>
                         </div>
-                        <!-- <div class="bordered-box" v-if="roundIndex != 1"><span class="font-weight-bold small">Winner 3.2</span></div> -->
+                        <div class="bordered-box" v-if="getMatchesWithWinnerOrLooser(match) == 'Winner' || getMatchesWithWinnerOrLooser(match) == 'Loser'">
+                          <span class="font-weight-bold small">{{getMatchesWithWinnerOrLooser(match)}} {{ match.display_home_team_placeholder_name }}</span>
+                        </div>
+                        <div class="bordered-box" v-if="getMatchesWithWinnerOrLooser(match) == 'Winner' || getMatchesWithWinnerOrLooser(match) == 'Loser'">
+                          <span class="font-weight-bold small">{{getMatchesWithWinnerOrLooser(match)}} {{ match.display_away_team_placeholder_name }}</span>
+                        </div>
                       </div>
                       <!-- <div class="row-round">
                           <div class="bordered-box"><span class="font-weight-bold small">Place 3-4</span></div>
@@ -222,195 +218,6 @@
                   </div>
                 </div>
               </div>
-                   
-                <!-- <div class="col-round">
-                    <div class="round-img-wrapper">
-                        <img src="/assets/img/img-round.png" class="img-fluid"><span class="round-number">2</span>
-                    </div>
-                    <div class="round-details-wrapper">
-                        <div class="position-wrapper bordered-box text-center">
-                            <h6 class="p-1 text-uppercase font-weight-bold m-0 text-center">position 1-8</h6>
-                        </div>
-
-                        <div class="row-round">
-                            <div class="bordered-box"><span class="font-weight-bold small">Match 2.1</span></div>
-                            <div class="bordered-box"><span class="small">#1A - #2C</span></div>                       
-                        </div>
-
-                        <div class="row-round">
-                            <div class="bordered-box"><span class="font-weight-bold small">Match 2.2</span></div>
-                            <div class="bordered-box"><span class="small">#1A - #2C</span></div>
-                        </div>
-
-                        <div class="row-round">
-                            <div class="bordered-box"><span class="font-weight-bold small">Match 2.3</span></div>
-                            <div class="bordered-box"><span class="small">#1A - #2C</span></div>
-                        </div>
-
-                        <div class="row-round">
-                            <div class="bordered-box"><span class="font-weight-bold small">Match 2.4</span></div>
-                            <div class="bordered-box"><span class="small">#1A - #2C</span></div>
-                        </div>
-                    </div>
-
-                    <div class="round-details-wrapper">
-                        <div class="position-wrapper bordered-box text-center">
-                            <h6 class="p-1 text-uppercase font-weight-bold m-0 text-center">position 9-16</h6>
-                        </div>
-
-                        <div class="row-round">
-                            <div class="bordered-box"><span class="font-weight-bold small">Match 2.5</span></div>
-                            <div class="bordered-box"><span class="small">#1A - #2C</span></div>                       
-                        </div>
-
-                        <div class="row-round">
-                            <div class="bordered-box"><span class="font-weight-bold small">Match 2.6</span></div>
-                            <div class="bordered-box"><span class="small">#1A - #2C</span></div>
-                        </div>
-
-                        <div class="row-round">
-                            <div class="bordered-box"><span class="font-weight-bold small">Match 2.7</span></div>
-                            <div class="bordered-box"><span class="small">#1A - #2C</span></div>
-                        </div>
-
-                        <div class="row-round">
-                            <div class="bordered-box"><span class="font-weight-bold small">Match 2.8</span></div>
-                            <div class="bordered-box"><span class="small">#1A - #2C</span></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-round">
-                    <div class="round-img-wrapper">
-                        <img src="/assets/img/img-round.png" class="img-fluid"><span class="round-number">3</span>
-                    </div>
-                    <div class="round-details-wrapper">
-                        <div class="position-wrapper bordered-box text-center">
-                            <h6 class="p-1 text-uppercase font-weight-bold m-0 text-center">position 1-4</h6>
-                        </div>
-
-                        <div class="row-round">
-                            <div class="bordered-box"><span class="font-weight-bold small">Match 3.1</span></div>
-                            <div class="bordered-box"><span class="font-weight-bold small">Winner 2.1</span></div>
-                            <div class="bordered-box"><span class="font-weight-bold small">Winner 2.2</span></div>                   
-                        </div>
-
-                        <div class="row-round">
-                            <div class="bordered-box"><span class="font-weight-bold small">Match 3.2</span></div>
-                            <div class="bordered-box"><span class="font-weight-bold small">Winner 2.3</span></div>
-                            <div class="bordered-box"><span class="font-weight-bold small">Winner 2.4</span></div>                   
-                        </div>
-
-                        <div class="position-wrapper bordered-box text-center mt-2">
-                            <h6 class="p-1 text-uppercase font-weight-bold m-0 text-center">position 5-8</h6>
-                        </div>
-
-                        <div class="row-round">
-                            <div class="bordered-box"><span class="font-weight-bold small">Match 3.3</span></div>
-                            <div class="bordered-box"><span class="font-weight-bold small">Loser 2.1</span></div>
-                            <div class="bordered-box"><span class="font-weight-bold small">Loser 2.2</span></div>                   
-                        </div>
-
-                        <div class="row-round">
-                            <div class="bordered-box"><span class="font-weight-bold small">Match 3.4</span></div>
-                            <div class="bordered-box"><span class="font-weight-bold small">Loser 2.3</span></div>
-                            <div class="bordered-box"><span class="font-weight-bold small">Loser 2.4</span></div>                   
-                        </div>
-                    </div>
-
-                    <div class="round-details-wrapper">
-                        <div class="position-wrapper bordered-box text-center">
-                            <h6 class="p-1 text-uppercase font-weight-bold m-0 text-center">position 9-12</h6>
-                        </div>
-
-                        <div class="row-round">
-                            <div class="bordered-box"><span class="font-weight-bold small">Match 3.5</span></div>
-                            <div class="bordered-box"><span class="font-weight-bold small">Winner 2.5</span></div>
-                            <div class="bordered-box"><span class="font-weight-bold small">Winner 2.6</span></div>                   
-                        </div>
-
-                        <div class="row-round">
-                            <div class="bordered-box"><span class="font-weight-bold small">Match 3.6</span></div>
-                            <div class="bordered-box"><span class="font-weight-bold small">Winner 2.7</span></div>
-                            <div class="bordered-box"><span class="font-weight-bold small">Winner 2.8</span></div>                   
-                        </div>
-
-                        <div class="position-wrapper bordered-box text-center mt-2">
-                            <h6 class="p-1 text-uppercase font-weight-bold m-0 text-center">position 13-16</h6>
-                        </div>
-
-                        <div class="row-round">
-                            <div class="bordered-box"><span class="font-weight-bold small">Match 3.7</span></div>
-                            <div class="bordered-box"><span class="font-weight-bold small">Loser 2.5</span></div>
-                            <div class="bordered-box"><span class="font-weight-bold small">Loser 2.6</span></div>                   
-                        </div>
-
-                        <div class="row-round">
-                            <div class="bordered-box"><span class="font-weight-bold small">Match 3.8</span></div>
-                            <div class="bordered-box"><span class="font-weight-bold small">Loser 2.7</span></div>
-                            <div class="bordered-box"><span class="font-weight-bold small">Loser 2.8</span></div>                   
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-round">
-                    <div class="round-img-wrapper">
-                        <img src="/assets/img/img-round.png" class="img-fluid"><span class="round-number">4</span>
-                    </div>
-                    <div class="round-details-wrapper">              
-                        <div class="row-round">
-                            <div class="bordered-box"><span class="font-weight-bold small">Final</span></div>
-                            <div class="bordered-box"><span class="font-weight-bold small">Winner 3.1</span></div>
-                            <div class="bordered-box"><span class="font-weight-bold small">Winner 3.2</span></div>                   
-                        </div>
-
-                        <div class="row-round">
-                            <div class="bordered-box"><span class="font-weight-bold small">Place 3-4</span></div>
-                            <div class="bordered-box"><span class="font-weight-bold small">Loser 3.1</span></div>
-                            <div class="bordered-box"><span class="font-weight-bold small">Loser 3.2</span></div>                   
-                        </div>
-
-
-                        <div class="row-round">
-                            <div class="bordered-box"><span class="font-weight-bold small">Place 5-6</span></div>
-                            <div class="bordered-box"><span class="font-weight-bold small">Winner 3.3</span></div>
-                            <div class="bordered-box"><span class="font-weight-bold small">Winner 3.4</span></div>                   
-                        </div>
-
-                        <div class="row-round">
-                            <div class="bordered-box"><span class="font-weight-bold small">Place 7-8</span></div>
-                            <div class="bordered-box"><span class="font-weight-bold small">Loser 3.3</span></div>
-                            <div class="bordered-box"><span class="font-weight-bold small">Loser 3.4</span></div>                   
-                        </div>
-                    </div>
-
-                    <div class="round-details-wrapper">                 
-                        <div class="row-round">
-                            <div class="bordered-box"><span class="font-weight-bold small">Place 9-10</span></div>
-                            <div class="bordered-box"><span class="font-weight-bold small">Winner 3.5</span></div>
-                            <div class="bordered-box"><span class="font-weight-bold small">Winner 3.6</span></div>                   
-                        </div>
-
-                        <div class="row-round">
-                            <div class="bordered-box"><span class="font-weight-bold small">Place 11-12</span></div>
-                            <div class="bordered-box"><span class="font-weight-bold small">Loser 3.5</span></div>
-                            <div class="bordered-box"><span class="font-weight-bold small">Loser 3.6</span></div>                   
-                        </div>
-
-
-                        <div class="row-round">
-                            <div class="bordered-box"><span class="font-weight-bold small">Place 13-14</span></div>
-                            <div class="bordered-box"><span class="font-weight-bold small">Winner 3.7</span></div>
-                            <div class="bordered-box"><span class="font-weight-bold small">Winner 3.8</span></div>                   
-                        </div>
-
-                        <div class="row-round">
-                            <div class="bordered-box"><span class="font-weight-bold small">Place 15-16</span></div>
-                            <div class="bordered-box"><span class="font-weight-bold small">Loser 3.7</span></div>
-                            <div class="bordered-box"><span class="font-weight-bold small">Loser 3.8</span></div>                   
-                        </div>
-                    </div>
-                </div> -->
             </div>
 
           </form>
@@ -474,6 +281,14 @@
       let groupNameArray = groupName.split("-");
 
       return groupNameArray[1];
+    },
+    getMatchesWithWinnerOrLooser(match) {
+      let displayMatchNumber = match.display_match_number;
+      let displayMatchNumberArray = displayMatchNumber.split(".");
+      if(displayMatchNumberArray.includes("wrs") || displayMatchNumberArray.includes("lrs")) {
+        return displayMatchNumberArray[3] == 'wrs' ? 'Winner' : 'Loser';
+      } 
+      return "#";
     }
    }
  }
