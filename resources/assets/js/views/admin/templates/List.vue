@@ -71,7 +71,7 @@
                                   <i class="fa fa-info-circle"></i>
                                 </a>
                                 <a class="text-primary" href="javascript:void(0)"
-                                 @click="editTemplate(template.id)">
+                                 @click="checkForEditTemplate(template)">
                                   <i class="jv-icon jv-edit"></i>
                                 </a>
                                 <a href="javascript:void(0)"
@@ -112,6 +112,7 @@
         <delete-modal :deleteConfirmMsg="deleteConfirmMsg" @confirmed="deleteConfirmed()"></delete-modal>
         <template-info-modal v-show="templateInfoModal" :templateDetail="templateDetail"></template-info-modal>
         <template-in-use-modal v-show="templateInUseModal"></template-in-use-modal>
+        <template-version-confirm-modal v-show="templateEditModal" @confirmed="editConfirmed()"></template-version-confirm-modal>
     </div>
 </template>
 <script type="text/babel">
@@ -123,10 +124,11 @@
     import DeleteModal from '../../../components/DeleteModal.vue'
     import TemplateInfoModal from '../../../components/TemplateInfoModal.vue'
     import TemplateInUseModal from '../../../components/TemplateInUseModal.vue'
+    import TemplateVersionConfirmModal from '../../../components/TemplateVersionConfirmModal.vue'
 
     export default {
         components: {
-          TemplateInfoModal, DeleteModal, TemplateInUseModal, pagination
+          TemplateInfoModal, DeleteModal, TemplateInUseModal, pagination, TemplateVersionConfirmModal
         },
         data() {
             return {
@@ -140,6 +142,7 @@
                 createdBySearch: '',
                 templateInfoModal: false,
                 templateInUseModal: false,
+                templateEditModal: false,
                 templateDetail: '',
                 deleteAction: '',
                 deleteConfirmMsg: 'Are you sure you would like to delete this template?',
@@ -148,6 +151,7 @@
                 templateCount: 0,
                 },
                 isListGettingUpdate: true,
+                templateEdit: null,
             }
         },
         filters: {
@@ -199,6 +203,7 @@
           addTemplate() {
             this.$router.push({ name: 'add_new_template' })
           },
+
           editTemplate(templateId) {
             Template.editTemplate(templateId).then(
               (response)=> {
@@ -208,6 +213,25 @@
               }
             )
           },
+
+          checkForEditTemplate(template){
+            this.templateEdit = null;
+            Template.getTemplateDetail(template).then(
+              (response)=> {
+                  this.templateEdit = template;
+                  if(response.data.data.length == 0) {
+                    this.editTemplate(template.id);
+                  } else {
+                    this.templateEditModal = true;
+                    $('#template_version_confirm_modal').modal('show');
+                    return true;
+                  }
+              },
+              (error)=> {
+              }
+            )
+          },
+
           clear() {
             this.teamSearch = '';
             this.createdBySearch = '';
@@ -226,6 +250,13 @@
               }
             )
           },
+
+          editConfirmed(){
+            $('#template_version_confirm_modal').modal('hide');
+            this.editTemplate(this.templateEdit.id);
+            this.templateEdit = null;
+          },
+
           filterData() {
             this.getTemplates(this.teamSearch, this.createdBySearch);
           },
