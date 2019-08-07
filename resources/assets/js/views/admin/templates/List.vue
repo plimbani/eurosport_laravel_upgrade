@@ -182,7 +182,7 @@
             this.templateInfoModal = true;
             setTimeout(() => {
               $('#template_info_modal').modal('show');
-              this.getTemplates();
+              this.$root.$emit('getTemplateDetail');
             }, 500);
           },
           deleteTemplate(template) {
