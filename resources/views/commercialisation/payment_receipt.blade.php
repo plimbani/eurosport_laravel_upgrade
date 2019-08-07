@@ -291,7 +291,7 @@
                                                                             <tr>
                                                                                 <th style="font-family:Roboto, Helvetica, Arial, sans-serif;font-size:16px;font-weight:300;line-height:15px;text-align:left;color:#555;" align="left">
                                                                                     <p>
-                                                                                    Already paid amount
+                                                                                    Amount already paid
                                                                                     </p>
                                                                                 </th>
                                                                                 <td style="text-align: right; font-family:Roboto, Helvetica, Arial, sans-serif;font-size:16px;font-weight:300;line-height:15px;color:#555;" align="right"><p>

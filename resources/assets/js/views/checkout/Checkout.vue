@@ -94,7 +94,7 @@
                                     </span>
                                 </p>
                                 <p class="mb-0" v-if="id && tournamentData.transactionDifferenceAmountValue > 0">
-                                    <span>Already paid amount</span>
+                                    <span>Amount already paid</span>
                                 </p>
                             </div>
                             <div class="col-sm-6 col-md-5 col-lg-5"  v-if="!id">
