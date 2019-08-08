@@ -1138,8 +1138,9 @@ export default {
       if(this.tournament_format == 'basic') {
         this.dispTempl = false;
       }
-      Vue.nextTick(function () {
-        vm.tournamentFormatInitializePopover();
+      Vue.nextTick()
+        .then(function () {
+           vm.tournamentFormatInitializePopover();
       })
     },
     viewGraphicalPreview(imageName, imagePath){
