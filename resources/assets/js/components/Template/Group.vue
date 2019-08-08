@@ -6,10 +6,10 @@
 		        <div class="form-group">
 		        	<div class="radio">
 	                    <div class="c-input">
-	                        <input type="radio" id="round-robin" class="euro-radio" checked="checked" value="round_robin" v-model="groupData.type" @change="onChangeGroupType()">
-	                        <label for="round-robin" class="d-inline-flex mr-5">Round robin</label>
-	                        <input type="radio" id="placing-match" class="euro-radio" value="placing_match" v-model="groupData.type" @change="onChangeGroupType()">
-	                        <label for="placing-match" class="d-inline-flex">Placing match</label>
+	                        <input type="radio" :id="'round_robin' + index" class="euro-radio" checked="checked" value="round_robin" v-model="groupData.type" @change="onChangeGroupType()">
+	                        <label :for="'round_robin' + index" class="d-inline-flex mr-5">Round robin</label>
+	                        <input type="radio" :id="'placing_match' + index" class="euro-radio" value="placing_match" v-model="groupData.type" @change="onChangeGroupType()">
+	                        <label :for="'placing_match' + index" class="d-inline-flex">Placing match</label>
 	                    </div>
 	                </div>
 
@@ -49,8 +49,8 @@
 				        	<div class="col-md-9" v-if="showHideIsFinal((teamIndex/2))">
 				        		<div class="checkbox">
                                   	<div class="c-input">
-                                    	<input type="checkbox" id="match-status" class="euro-checkbox" v-model="groupData.matches[teamIndex/2].is_final" />
-                                    	<label for="match-status">Final </label>
+                                    	<input type="checkbox" :id="'match_status' + index + teamIndex" class="euro-checkbox" v-model="groupData.matches[teamIndex/2].is_final" />
+                                    	<label :for="'match_status' + index + teamIndex">Final </label>
                                   	</div>
                                 </div>
 
