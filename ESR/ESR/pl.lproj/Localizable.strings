@@ -115,7 +115,7 @@
 "alert_msg_forgot_pass_invalid_email"   =   "The selected email is invalid.";
 "alert_msg_confirmation_code_send"      =   "A new code has been sent to your email address.";
 "alert_profile_update"                  =   "Profile updated successfully.";
-"alert_tournament_details"              =   "Euro-Sportring Contact";
+"alert_tournament_details"              =   "Tournament Contact";
 
 //Button titles
 "btn_ok"                                =   "Ok";

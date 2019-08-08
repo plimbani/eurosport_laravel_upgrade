@@ -25,7 +25,7 @@
 "alert_title_email_verification" = "Email Verification";
 "alert_title_error" = "Error";
 "alert_default_tournament_remove" = "Default tournament cannot be removed from favourite.";
-"alert_profile_update" = "Profile updated successfully.";
+
 "alert_msg_logout" = "Are you sure you want to log out?";
 "alert_msg_forgot_password" = "We have sent a password reset link to your email address.";
 "alert_create_account_email" = "Please check your inbox to verify your email address and complete your account registration";
@@ -120,8 +120,8 @@
 "alert_msg_login_credentials"           =   "These credentials do not match our records.";
 "alert_msg_forgot_pass_invalid_email"   =   "The selected email is invalid.";
 "alert_msg_confirmation_code_send"      =   "A new code has been sent to your email address.";
-
-"alert_tournament_details"              =   "Euro-Sportring Contact";
+"alert_profile_update"                  =   "Profile updated successfully.";
+"alert_tournament_details"              =   "Tournament Contact";
 
 //Button titles
 "btn_ok"                                =   "Ok";
