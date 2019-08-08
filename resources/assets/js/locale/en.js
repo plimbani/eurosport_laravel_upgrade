@@ -83,7 +83,7 @@ module.exports= {
   template_modal_header: "Template Detail",
   template_modal_tournaments_listing: "Tournament",
   template_modal_age_categories_listing: "Age Categories",
-  template_modal_message: "Below are the tournaments and age categories that are using this template:",
+  template_modal_message: "Below are the tournaments and age categories that are using this template.",
   no_template_in_use_message: "This template is not currently being used in any tournament.",
   template_in_use_modal_header: "Warning",
   template_in_use_modal_message: "This template is being used by one or more tournaments and cannot be deleted.",

@@ -1,7 +1,7 @@
 <template> 
     <div class="card mb-3">
         <div class="card-block">
-            <h6 class="font-weight-bold">Division {{ index + 1 }} <span class="pull-right"><a href="javascript:void(0)" @click="removeDivision(index)"><i class="jv-icon jv-dustbin"></i></a></span></h6>
+            <h6 class="font-weight-bold">Division {{ index + 1 }} <span class="pull-right"><a href="javascript:void(0)" @click="removeDivision(index)"><i class="fas fa-trash text-danger"></i></a></span></h6>
             <div class="form-group">
                 <label>Number of teams in division</label>
                 <select class="form-control ls-select2" v-model="divisionData.no_of_teams" @change="onTeamChange(index)">

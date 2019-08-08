@@ -31,7 +31,7 @@
 							        		<div class="col-md-3">
 							        			<div class="form-group m-0" :class="{'has-error': errors.has('position_group'+placingIndex) }">
 								        			<select class="form-control ls-select2" v-model="placing.group" v-validate="'required'" :class="{'is-danger': errors.has('position_group'+placingIndex) }" 
-								        			:name="'position_group'+placingIndex" data-vv-as="Group">
+								        			:name="'position_group'+placingIndex" data-vv-as="group">
 								                    	<option v-for="group in getGroupsForSelection(placingIndex)" :value="group.value">{{ group.name }}
 								                    	</option>
 								                    </select>
@@ -41,7 +41,7 @@
 							        		</div>						        		
 							        		<div class="col-md-4">
 						        				<div class="form-group m-0" :class="{'has-error': errors.has('position_name'+placingIndex) }">
-							        				<select class="form-control ls-select2" v-model="placing.position" :name="'position_name'+placingIndex" v-validate="'required'" :class="{'is-danger': errors.has('position_name'+placingIndex) }" data-vv-as="Match name">
+							        				<select class="form-control ls-select2" v-model="placing.position" :name="'position_name'+placingIndex" v-validate="'required'" :class="{'is-danger': errors.has('position_name'+placingIndex) }" data-vv-as="match name">
 								                    	<option :value="position.value" v-for="position in getPositionsForSelection(placingIndex, placing.group)">{{ position.name }}</option>
 								                    </select>
 								                    <i v-show="errors.has('position_name'+placingIndex)" class="fas fa-warning"></i>
@@ -50,7 +50,7 @@
 							        		</div>
 							        		<div class="col-md-1 d-flex justify-content-center">
 							        			<div class="icon-delete-column">
-							        				<a href="javascript:void(0)" @click="removePlacing(placingIndex)"><i class="jv-icon jv-dustbin"></i></a>
+							        				<a href="javascript:void(0)" @click="removePlacing(placingIndex)"><i class="fas fa-trash text-danger"></i></a>
 							        			</div>
 							        		</div>
 							        	</div>	        	

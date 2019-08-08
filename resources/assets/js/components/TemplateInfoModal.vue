@@ -40,6 +40,9 @@
         created() {
             this.$root.$on('getTemplateDetail', this.getTemplateDetail);
         },
+        beforeCreate: function() {
+            this.$root.$off('getTemplateDetail');
+        },
         mounted() {
         },
         methods: {
