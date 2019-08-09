@@ -22,7 +22,7 @@
 							        				<select class="form-control ls-select2" v-model="placing.position_type" @change="onPositionTypeChange(placingIndex)" v-validate="'required'" :class="{'is-danger': errors.has('position_type'+placingIndex) }" :name="'position_type'+placingIndex" data-vv-as="Position type">
 								                    	<option value="placed">Placed</option>
 								                    	<option value="winner">Winner</option>
-								                    	<option value="looser">Looser</option>
+								                    	<option value="loser">Loser</option>
 								                    </select>
 								                    <i v-show="errors.has('position_type'+placingIndex)" class="fas fa-warning"></i>
 										        	<span class="help is-danger" v-show="errors.has('position_type'+placingIndex)">{{ errors.first('position_type'+placingIndex) }}</span>
@@ -178,7 +178,7 @@
 							return true;
 						}
 
-						if(group.type === 'placing_match' && _.indexOf(['winner', 'looser'], placing.position_type) > -1) {
+						if(group.type === 'placing_match' && _.indexOf(['winner', 'loser'], placing.position_type) > -1) {
 							groupsForSelection[placingMatchIndex] = {'name': 'PM ' + (vm.getPlacingMatchGroupName(roundData, groupIndex)), 'value': '-1,' + roundIndex + ',' + groupIndex};
 
 							if(placingMatchIndex === 0 && (placing.group === '' || typeof placing.group === 'undefined')) {
@@ -208,7 +208,7 @@
 								return true;
 							}
 
-							if(group.type === 'placing_match' && _.indexOf(['winner', 'looser'], placing.position_type) > -1) {
+							if(group.type === 'placing_match' && _.indexOf(['winner', 'loser'], placing.position_type) > -1) {
 								groupsForSelection[placingMatchIndex] = {'name': 'PM ' + (vm.getPlacingMatchGroupName(roundData, groupIndex)), 'value': divisionIndex + ',' + roundIndex + ',' + groupIndex};
 
 								if(placingMatchIndex === 0 && (placing.group === '' || typeof placing.group === 'undefined')) {
@@ -254,13 +254,13 @@
 			    		}
 
 				    	// for placing
-						if(groupType === 'placing_match' && _.indexOf(['winner', 'looser'], placing.position_type) > -1) {
+						if(groupType === 'placing_match' && _.indexOf(['winner', 'loser'], placing.position_type) > -1) {
 							let matches = numberOfTeams / 2;
 							if(this.templateFormDetail.stepthree.placings[placingIndex].position === '' || typeof this.templateFormDetail.stepthree.placings[placingIndex].position === 'undefined') {
 								this.templateFormDetail.stepthree.placings[placingIndex].position = group + ',0';
 							}
 							for (var i = 1; i <= matches; i++) {
-								positionsForSelection.push({'name': 'Match' + i, 'value': group + ',' + (i - 1)});
+								positionsForSelection.push({'name': 'Match ' + i, 'value': group + ',' + (i - 1)});
 							}
 						}
 					}
@@ -311,7 +311,7 @@
 		    					return true;
 		    				}
 		    			}
-		    			if((placing.position_type === 'winner') || (placing.position_type === 'looser')) {
+		    			if((placing.position_type === 'winner') || (placing.position_type === 'loser')) {
 		    				if(!(position[3] in selectedGroup.matches)) {
 		    					delete placings[placingIndex];
 		    					return true;

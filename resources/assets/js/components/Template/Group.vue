@@ -23,7 +23,7 @@
 		                <div class="form-group mb-0">
 		                    <label>Number of teams</label>
 		                    <select :data-last-selected="last_selected_teams" class="form-control ls-select2" v-model="groupData.no_of_teams" @change="onTeamChange($event)">
-		                    	<option v-for="n in 28" v-if="n >= 2" :value="n">{{ n }}</option>
+		                    	<option v-for="n in groupTeamsToDisplay" v-if="n >= 2" :value="n">{{ n }}</option>
 		                    </select>
 		                </div>
 		            </div>
@@ -127,6 +127,19 @@
 		    getGroupName() {
 		    	return this.getGroupNameByRoundAndGroupIndex(this.divisionIndex, this.roundIndex, this.index);
 		    },
+		    groupTeamsToDisplay() {
+		    	let teams = []; 
+	    		for (var i = 2; i <= 28; i++) {
+	    			if(this.groupData.type == 'placing_match') {
+		    			if(i % 2 == 0) {
+		    				teams.push(i);
+		    			}
+		    		} else {
+		    			teams.push(i);
+		    		}
+	    		}
+		    	return teams;
+		    }
         },
         methods: {
         	removeGroup() {
@@ -238,7 +251,7 @@
 								return true;
 							}
 
-							if(group.type === 'placing_match' && _.indexOf(['winner', 'looser'], team.position_type) > -1) {
+							if(group.type === 'placing_match' && _.indexOf(['winner', 'loser'], team.position_type) > -1) {
 								groupsForSelection[placingMatchIndex] = {'name': 'PM ' + (vm.getPlacingMatchGroupName(roundData, groupIndex)), 'value': '-1,' + roundIndex + ',' + groupIndex};
 
 								if(placingMatchIndex === 0 && (team.group === '' || typeof team.group === 'undefined')) {
@@ -276,7 +289,7 @@
 								return true;
 							}
 
-							if(group.type === 'placing_match' && _.indexOf(['winner', 'looser'], team.position_type) > -1) {
+							if(group.type === 'placing_match' && _.indexOf(['winner', 'loser'], team.position_type) > -1) {
 								groupsForSelection[placingMatchIndex] = {'name': 'PM ' + (vm.getPlacingMatchGroupName(roundData, groupIndex)), 'value': vm.divisionIndex + ',' + roundIndex + ',' + groupIndex};
 
 								if(placingMatchIndex === 0 && (team.group === '' || typeof team.group === 'undefined')) {
@@ -312,7 +325,7 @@
 				    			name += ' (PM' + vm.getPlacingMatchGroupName(roundData, position[2]);
 				    			if(team.position_type === 'winner') {
 				    				name += ' WR';
-				    			} else if(team.position_type === 'looser') {
+				    			} else if(team.position_type === 'loser') {
 				    				name += ' LR';
 				    			}
 				    			
@@ -357,13 +370,13 @@
 			    		}
 
 				    	// for placing
-						if(groupType === 'placing_match' && _.indexOf(['winner', 'looser'], team.position_type) > -1) {
+						if(groupType === 'placing_match' && _.indexOf(['winner', 'loser'], team.position_type) > -1) {
 							let matches = numberOfTeams / 2;
 							if(this.groupData.teams[teamIndex].position === '' || typeof this.groupData.teams[teamIndex].position === 'undefined') {
 								this.groupData.teams[teamIndex].position = group + ',0';
 							}
 							for (var i = 1; i <= matches; i++) {
-								positionsForSelection.push({'name': 'Match' + i, 'value': group + ',' + (i - 1)});
+								positionsForSelection.push({'name': 'Match ' + i, 'value': group + ',' + (i - 1)});
 							}
 						}
 					}
@@ -401,7 +414,7 @@
 
 				if(!(this.roundIndex === 0 && ((this.groupData.type === 'placing_match' && this.index === this.getFirstPlacingMatch())  || this.divisionIndex !== -1))) {
 					positionTypes.push({'key': 'winner', 'value': 'Winner'});
-					positionTypes.push({'key': 'looser', 'value': 'Looser'});
+					positionTypes.push({'key': 'loser', 'value': 'Loser'});
 				}
 
 				return positionTypes;
@@ -562,7 +575,7 @@
 		    		return true;
 		    	}
 		    	return false;
-		    },
+		    }
         }
     }
 </script>

@@ -374,6 +374,7 @@ module.exports= {
   competation_modal_time: "Total time required:",
   competation_modal_remark: "Remark:",
   competation_modal_group_size_required: "Group size is required",
+  competation_modal_competition_type_required: "Type is required",
 
   duplicate_tournament_copy_modal: "Duplicate Tournament",
   duplicate_tournament_copy_name: "Tournament name*",
