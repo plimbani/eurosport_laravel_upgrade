@@ -152,9 +152,15 @@ class UserRepository {
 
     public function create($data)
     {
-        $loggedInUser = $this->getCurrentLoggedInUserDetail();
-        $resultAdministratorRoleId = Role::where('slug', 'Results.administrator')->first()->id;
-        $data['userType'] = $loggedInUser->hasRole('tournament.administrator') ? $resultAdministratorRoleId : $data['userType'];
+        $token = JWTAuth::getToken();
+        if($token) {
+            $authUser = JWTAuth::parseToken()->toUser();
+            $loggedInUser = User::with('roles', 'tournaments')->where('id', $authUser->id)->first();
+            $resultAdministratorRoleId = Role::where('slug', 'Results.administrator')->first()->id;
+            if($loggedInUser->hasRole('tournament.administrator')) {
+                $data['userType'] = $resultAdministratorRoleId;
+            }
+        }
 
         $userData = [
         'person_id' => $data['person_id'],
