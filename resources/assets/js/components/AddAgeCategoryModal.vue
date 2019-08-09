@@ -60,7 +60,7 @@
               <div class="form-group row align-items-center" :class="{'has-error': errors.has('competation_format.ageCategory_name') }">
                 <label class="col-sm-4 form-control-label">
                   {{$lang.competation_label_name_category}}
-                  <span class="pr-2 pl-2 text-primary" data-toggle="popover" data-animation="false" data-placement="right" data-content="Enter an additional name for the category"><i class="fas fa-info-circle"></i></span>
+                  <span class="pr-2 pl-2 text-primary js-basic-popover" data-toggle="popover" data-animation="false" data-placement="right" data-content="Enter an additional name for the category"><i class="fas fa-info-circle"></i></span>
                 </label>
                 <div class="col-sm-8">
                   <div class="row">
@@ -119,14 +119,14 @@
                   </div>
                 </div>
               </div>
-              <div class="form-group row align-items-center" v-if="tournament_format == 'basic'">
-                <label class="col-sm-4 form-control-label">Type</label>
+              <div class="form-group row align-items-center" v-if="tournament_format == 'basic'" :class="{'has-error': errors.has('competition_type') }">
+                <label class="col-sm-4 form-control-label">Type*</label>
                 <div class="col-sm-8">
                   <div class="row">
                     <div class="col-md-4">
                       <div class="checkbox">
                         <div class="c-input">
-                          <input class="euro-radio" type="radio" name="competition_type" value="league" id="radio_league" v-model="competition_type">
+                          <input class="euro-radio" type="radio" name="competition_type" value="league" id="radio_league" v-model="competition_type" v-validate="'required'" :class="{'is-danger': errors.has('competition_type') }" @change="setNumberTeams('league')">
                           <label for="radio_league">League</label>
                         </div>
                       </div>
@@ -134,12 +134,13 @@
                     <div class="col-md-4">
                       <div class="checkbox">
                         <div class="c-input">
-                          <input class="euro-radio" type="radio" name="competition_type" value="knockout" id="radio_knockout" v-model="competition_type">
+                          <input class="euro-radio" type="radio" name="competition_type" value="knockout" id="radio_knockout" v-model="competition_type" v-validate="'required'" :class="{'is-danger': errors.has('competition_type') }" @change="setNumberTeams('knockout')">
                           <label for="radio_knockout">Knockout</label>
                         </div>
                       </div>
                     </div>              
                   </div>
+                  <span class="help is-danger" v-show="errors.has('competition_type')">{{$lang.competation_modal_competition_type_required}}</span>
                 </div>            
               </div>
               <div class="form-group row align-items-center" :class="{'has-error': errors.has('number_teams') }">
@@ -191,7 +192,7 @@
               </div>
 
               <div class="form-group row align-items-top"
-               :class="{'has-error': errors.has('tournamentTemplate') }">
+               :class="{'has-error': errors.has('tournamentTemplate') }" v-if="(tournament_format == 'advance' || tournament_format == 'festival')">
                 <label class="col-sm-4">{{$lang.competation_label_template}}</label>
                 <!-- advance or festival -->
                 <div class="col-sm-8" v-if="tournament_format == 'advance' || tournament_format == 'festival'">
@@ -203,7 +204,7 @@
                       </span>
                     </div>
 
-                    <div v-if=" dispTempl ==  true" class="col-sm-12">
+                    <div v-if="dispTempl ==  true" class="col-sm-12">
                     Select number of teams and minimum matches above to view template options
                     </div>
                     <div class="col-sm-12" v-for="option in options">
@@ -254,6 +255,9 @@
                           </div>
                         </div>
                       </div>
+                    </div>
+                    <div v-if="options.length == 0" class="col-sm-12">
+                      No templates found.
                     </div>
                   </div>
                 </div>
@@ -423,7 +427,7 @@
               <div class="form-group row align-items-center"> 
                 <label class="col-sm-4 form-control-label">
                   Ranking structure*
-                  <span class="pr-2 pl-2 text-primary" data-toggle="popover" data-animation="false" data-placement="right" data-content="Enter the number of points for a win, draw or loss"><i class="fas fa-info-circle"></i></span>
+                  <span class="pr-2 pl-2 text-primary js-basic-popover" data-toggle="popover" data-animation="false" data-placement="right" data-content="Enter the number of points for a win, draw or loss"><i class="fas fa-info-circle"></i></span>
                 </label>
                 <div class="col-sm-8">
                   <div class="row align-items-center">
@@ -476,7 +480,7 @@
                                 <div class="checkbox">
                                   <div class="c-input">
                                     <input type="checkbox" class="euro-checkbox" :value="rule.key" :id="rule.key" :checked="rule.checked" @change="changeCheckedStatus(index, $event)" :disabled="rule.key == 'match_points'">
-                                    <label :for="rule.key" class="mb-0">{{ rule.title }} <span class="pr-2 pl-2 text-primary" data-toggle="popover" data-animation="false" data-placement="right" :data-popover-content="'#category_rules'+index"><i class="fas fa-info-circle"></i></span>
+                                    <label :for="rule.key" class="mb-0">{{ rule.title }} <span class="pr-2 pl-2 text-primary js-html-popover" data-toggle="popover" data-animation="false" data-placement="right" :data-popover-content="'#category_rules'+index"><i class="fas fa-info-circle"></i></span>
                                       <div v-bind:id="'category_rules'+index" style="display:none;">
                                         <div class="popover-body">{{ rule.description }}</div>
                                       </div>
@@ -511,9 +515,9 @@
                   <span class="help-block text-muted pull-right">{{ 160 - messageLength }} characters remaining<br/>Maximum characters 160</span>
                 </div>
               </div>
-              <div class="form-group row align-items-center" v-if="this.tournament_format == 'basic'">
+              <div class="form-group row align-items-center" v-if="tournament_format == 'basic'">
                 <label class="col-sm-4 form-control-label">Template key
-                <span class="pr-2 pl-2 text-primary" data-toggle="popover" data-animation="false" data-placement="right" data-content="Enter the number of points for a win, draw or loss"><i class="fas fa-info-circle"></i></span>
+                <span class="pr-2 pl-2 text-primary js-basic-popover" data-toggle="popover" data-animation="false" data-placement="right" data-content="Template key: Green = preferred, Orange = second option, Red = last resort"><i class="fas fa-info-circle"></i></span>
                 </label>
                 <div class="col-sm-8">
                   <div class="row align-items-center">
@@ -523,7 +527,7 @@
                   </div>
                 </div>
               </div>
-              <div class="form-group row align-items-center" v-if="this.tournament_format == 'basic'">
+              <div class="form-group row align-items-center" v-if="tournament_format == 'basic'">
                 <div class="col-sm-4 form-control-label">Remarks</div>
                 <div class="col-sm-8">
                   <div class="row align-items-center">
@@ -701,19 +705,7 @@ export default {
       '10':'10',
       'Other':'other'
     });
-
-    $("[data-toggle=popover]").popover({
-        html : false,
-        trigger: 'hover',
-        content: function() {
-            var content = $(this).attr("data-popover-content");
-            return $(content).children(".popover-body").html();
-        },
-        title: function() {
-            var title = $(this).attr("data-popover-content");
-            return $(title).children(".popover-heading").html();
-        }
-    });
+    this.tournamentFormatInitializePopover();
   },
   created: function() {
      this.$root.$on('setCompetationFormatData', this.setEdit);
@@ -1144,12 +1136,25 @@ export default {
       this.template_font_color = color;
     },
     validateTemplate() {
+      let vm = this;
       if(this.tournament_format == 'advance' || this.tournament_format == 'festival') {
         this.dispTempl = true;
       }
       if(this.tournament_format == 'basic') {
+        if(this.competation_format.competition_type == null) {
+          this.competition_type = 'league';
+          this.setNumberTeams('league');
+        }
         this.dispTempl = false;
       }
+      // to populate old value again
+      if(this.competation_format.id != '' && this.competation_format.tournament_format == this.tournament_format) {
+        this.number_teams = this.competation_format.total_teams;
+      }
+      Vue.nextTick()
+        .then(function () {
+           vm.tournamentFormatInitializePopover();
+      });
     },
     viewGraphicalPreview(imageName, imagePath){
       $('#displayGraphicImage').modal('show');
@@ -1164,6 +1169,31 @@ export default {
       var roundScheduleData = JSON.parse(data.json_data).round_schedule;
       if(roundScheduleData) {
         return data.total_teams +" teams: "+ roundScheduleData.join(" - ");
+      }
+    },
+    tournamentFormatInitializePopover(){
+      $(".js-html-popover[data-toggle=popover]").popover({
+        html : false,
+        trigger: 'hover',
+        content: function() {
+            var content = $(this).attr("data-popover-content");
+            return $(content).children(".popover-body").html();
+        },
+        title: function() {
+            var title = $(this).attr("data-popover-content");
+            return $(title).children(".popover-heading").html();
+        }
+      });
+      $('.js-basic-popover[data-toggle=popover]').popover({
+          html : false,
+          trigger: 'hover'
+      }); 
+    },
+    setNumberTeams(type) {
+      if(this.competation_format.id != '' && (type == 'league' || type == 'knockout')) {
+        this.number_teams = '';
+      } else {
+        this.number_teams = this.competation_format.total_teams;
       }
     }
   }
