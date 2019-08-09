@@ -191,9 +191,9 @@
                                                                             <td valign="top" style="text-align: right; font-family:Roboto, Helvetica, Arial, sans-serif;font-size:16px;font-weight:300;line-height:24px;color:#555;white-space: nowrap;" align="right"><p>
 																			<?php if($data['currency'] == "GBP") 
 																			{
-																				echo "&#163;";
+																				echo "£";
 																			} else { 
-																				echo "&#128;"; 
+																				echo "€"; 
 																			}
                                                                             echo $data['tournamentData']['tournamentLicenseBasicPriceDisplay'];
 																			 ?></p>
@@ -213,9 +213,9 @@
                                                                                 <td style="text-align: right; font-family:Roboto, Helvetica, Arial, sans-serif;font-size:16px;font-weight:300;line-height:15px;color:#555;" align="right"><p>
                                                                                 <?php if($data['tournamentData']['payment_currency'] == "GBP") 
                                                                                 {
-                                                                                    echo "&#163;";
+                                                                                    echo "£";
                                                                                 } else { 
-                                                                                    echo "&#128;";
+                                                                                    echo "€";
                                                                                 }
                                                                                 echo $data['tournamentData']['tournamentLicenseAdvancePriceDisplay'];
                                                                                  ?></p>
@@ -250,9 +250,9 @@
                                                                             <td style="text-align: right; font-family:Roboto, Helvetica, Arial, sans-serif;font-size:16px;font-weight:300;line-height:15px;color:#555;" align="right"><p>
                                                                             <?php if($data['tournamentData']['payment_currency'] == "GBP") 
                                                                             {
-                                                                                echo "&#163;";
+                                                                                echo "£";
                                                                             } else { 
-                                                                                echo "&#128;"; 
+                                                                                echo "€"; 
                                                                             }
                                                                              echo $data['tournamentData']['tournamentLicenseBasicPriceDisplay'];
                                                                              ?></p>
@@ -272,9 +272,9 @@
                                                                                 <td style="text-align: right; font-family:Roboto, Helvetica, Arial, sans-serif;font-size:16px;font-weight:300;line-height:15px;color:#555;" align="right"><p>
                                                                                 <?php if($data['tournamentData']['payment_currency'] == "GBP") 
                                                                                 {
-                                                                                    echo "&#163;";
+                                                                                    echo "£";
                                                                                 } else { 
-                                                                                    echo "&#128;"; 
+                                                                                    echo "€"; 
                                                                                 }
                                                                                  echo $data['tournamentData']['tournamentLicenseAdvancePriceDisplay'];
                                                                                  ?></p>
@@ -298,9 +298,9 @@
                                                                                 -
                                                                                 <?php if($data['tournamentData']['payment_currency'] == "GBP") 
                                                                                 {
-                                                                                    echo "&#163;";
+                                                                                    echo "£";
                                                                                 } else { 
-                                                                                    echo "&#128;"; 
+                                                                                    echo "€"; 
                                                                                 }
                                                                                  echo $data['tournamentData']['transactionDifferenceAmountValue'];
                                                                                  ?></p>
@@ -317,11 +317,11 @@
                                                                             <th colspan="2" style="border-bottom: 0px solid #57697E; background-color: rgba(33, 150, 243,0.1); text-align: right; font-size: 16px; padding: 10px;" bgcolor="rgba(33, 150, 243,0.1)" align="right">
                                                                              <?php if($data['currency'] == "GBP") 
 																			{
-																				echo "&#163;";
+																				echo "£";
 																			} else { 
-																				echo "&#128;"; 
+																				echo "€";
 																			}
-                                                                             echo $data['amount'];
+                                                                            echo $data['amount'];
 																			 ?>
                                                                             </th>
                                                                         </tr>

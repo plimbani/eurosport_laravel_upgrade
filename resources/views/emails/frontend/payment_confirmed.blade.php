@@ -235,7 +235,7 @@ $days = $interval->format('%a') + 1;
                                                                                 <p>
                                                                                 <?php if($email_details['tournament']['payment_currency'] == "GBP") 
                                                                                 {
-                                                                                    echo "&#163;";
+                                                                                    echo "£";
                                                                                 } else { 
                                                                                    echo "&#x20AC;";
                                                                                 }
@@ -257,7 +257,7 @@ $days = $interval->format('%a') + 1;
                                                                                 <td style="text-align: right; font-family:Roboto, Helvetica, Arial, sans-serif;font-size:16px;font-weight:300;line-height:15px;color:#555;" align="right"><p>
                                                                                 <?php if($email_details['tournament']['payment_currency'] == "GBP") 
                                                                                 {
-                                                                                    echo "&#163;";
+                                                                                    echo "£";
                                                                                 } else { 
                                                                                     echo "&#x20AC;";
                                                                                 }
@@ -283,7 +283,7 @@ $days = $interval->format('%a') + 1;
                                                                                 -
                                                                                 <?php if($email_details['tournament']['payment_currency'] == "GBP") 
                                                                                 {
-                                                                                    echo "&#163;";
+                                                                                    echo "£";
                                                                                 } else { 
                                                                                     echo "&#x20AC;"; 
                                                                                 }
@@ -306,9 +306,8 @@ $days = $interval->format('%a') + 1;
                                                                             </p>
                                                                             </th>
                                                                             <td valign="top" style="text-align: right; font-family:Roboto, Helvetica, Arial, sans-serif;font-size:16px;font-weight:300;line-height:24px;color:#555;white-space: nowrap;" align="right"><p>
-                                                                                <?php if($email_details['paymentResponse']['currency'] == "GBP") {echo "&#163;";} else { echo "&#x20AC;"; }
-                                                                                ?>
-                                                                                <?php echo number_format($email_details['paymentResponse']['amount'],2); ?></p></td>
+                                                                                <?php if($email_details['paymentResponse']['currency'] == "GBP") {echo "£";} else { echo "&#x20AC;"; }
+                                                                                ?><?php echo number_format($email_details['paymentResponse']['amount'],2); ?></p></td>
                                                                         </tr>
                                                                         <?php 
                                                                             if ( $email_details['tournament']['tournament_type'] == 'cup' && $email_details['tournament']['custom_tournament_format'] == 1 )
@@ -323,7 +322,7 @@ $days = $interval->format('%a') + 1;
                                                                                 <td style="text-align: right; font-family:Roboto, Helvetica, Arial, sans-serif;font-size:16px;font-weight:300;line-height:15px;color:#555;" align="right"><p>
                                                                                 <?php if($email_details['tournament']['payment_currency'] == "GBP") 
                                                                                 {
-                                                                                    echo "&#163;";
+                                                                                    echo "£";
                                                                                 } else { 
                                                                                     echo "&#x20AC;";
                                                                                 }
@@ -340,9 +339,8 @@ $days = $interval->format('%a') + 1;
                                                                     <thead class="footer">
                                                                         <tr>
                                                                             <th colspan="2" style="border-bottom: 0px solid #57697E; background-color: rgba(33, 150, 243,0.1); text-align: right; font-size: 16px; padding: 10px;" bgcolor="rgba(33, 150, 243,0.1)" align="right">
-                                                                                <?php if($email_details['paymentResponse']['currency'] == "GBP") {echo "&#163;";} else { echo "&#x20AC;"; }
-                                                                                ?>
-                                                                                <?php echo number_format($email_details['paymentResponse']['amount'],2); ?>
+                                                                                <?php if($email_details['paymentResponse']['currency'] == "GBP") {echo "£";} else { echo "&#x20AC;";}
+                                                                                echo number_format($email_details['paymentResponse']['amount'],2); ?>
                                                                             </th>
                                                                         </tr>
                                                                     </thead>
