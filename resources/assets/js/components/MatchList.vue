@@ -16,7 +16,7 @@
   <table class="table table-hover table-bordered table-sm matchSchedule" v-if="matchData.length > 0 && isDivExist == 0">
       <MatchListTableHead :isHideLocation="isHideLocation" :isUserDataExist="isUserDataExist" :getCurrentScheduleView="getCurrentScheduleView" :showPlacingForMatch="showPlacingForMatch()"></MatchListTableHead>
       
-      <MatchListTableBody :getCurrentScheduleView="getCurrentScheduleView" :showPlacingForMatch="showPlacingForMatch()" :isHideLocation="isHideLocation" :isUserDataExist="isUserDataExist" :matchData="matchData" :isDivExist="isDivExist" @openPitchModal="openPitchModal" @changeDrawDetails="changeDrawDetails" @updateScore="updateScore"></MatchListTableBody>
+      <MatchListTableBody :getCurrentScheduleView="getCurrentScheduleView" :showPlacingForMatch="showPlacingForMatch()" :isHideLocation="isHideLocation" :isUserDataExist="isUserDataExist" :matchData="getMatchList()" :isDivExist="isDivExist" @openPitchModal="openPitchModal" @changeDrawDetails="changeDrawDetails" @updateScore="updateScore"></MatchListTableBody>
   </table>
 
   <div v-for="(matches,index) in isDivExistData" v-if="matchData.length > 0 && isDivExist == 1">
@@ -24,11 +24,9 @@
     <label class="mb-0"><h6 class="mb-2">{{ getCompetitionName(matches) }} matches</h6></label>
 
     <table class="table table-hover table-bordered table-sm matchSchedule">
-
       <MatchListTableHead :isHideLocation="isHideLocation" :isUserDataExist="isUserDataExist" :getCurrentScheduleView="getCurrentScheduleView" :showPlacingForMatch="showPlacingForMatch()"></MatchListTableHead>
 
-      <MatchListTableBody :getCurrentScheduleView="getCurrentScheduleView" :showPlacingForMatch="showPlacingForMatch()" :isHideLocation="isHideLocation" :isUserDataExist="isUserDataExist" :matchData="matches" :isDivExist="isDivExist" @openPitchModal="openPitchModal" @changeDrawDetails="changeDrawDetails" @updateScore="updateScore"></MatchListTableBody> 
-
+      <MatchListTableBody :getCurrentScheduleView="getCurrentScheduleView" :showPlacingForMatch="showPlacingForMatch()" :isHideLocation="isHideLocation" :isUserDataExist="isUserDataExist" :matchData="matches" :isDivExist="isDivExist" @openPitchModal="openPitchModal" @changeDrawDetails="changeDrawDetails" @updateScore="updateScore"></MatchListTableBody>
     </table>
   </div>
 
@@ -397,23 +395,11 @@ export default {
           });
         });
 
-      if(vm.getCurrentScheduleView != 'teamDetails' && vm.getCurrentScheduleView != 'drawDetails') {
-        return vm.paginated('matchlist');
+      if(this.getCurrentScheduleView != 'teamDetails' && this.getCurrentScheduleView != 'drawDetails') {
+        return this.paginated('matchlist');
       } else {
-        var getFirstMatch = _.head(vm.matchData);
-        if ( typeof(getFirstMatch) != 'undefined' && getFirstMatch.isDivExist == 1 )
-        {
-          vm.isDivExist = getFirstMatch.isDivExist;
-          vm.isDivExistData = _.groupBy(vm.matchData, 'competation_round_no');
-          return vm.matchData;  
-        }
-        else
-        {
-          vm.isDivExist = false;
-          vm.isDivExistData = [];
-          return vm.matchData;  
-        }
-      }
+        return this.matchData;
+      }      
     },
     showPlacingForMatch() {
       if(this.getCurrentScheduleView == 'drawDetails') {

@@ -170,7 +170,7 @@
                     <span class="help is-danger" v-show="errors.has('group_size')">{{$lang.competation_modal_group_size_required}}</span>
                 </div>
               </div>
-              <div class="form-group row align-items-center" :class="{'has-error': errors.has('competation_format.minimum_matches') }">
+              <div class="form-group row align-items-center" :class="{'has-error': errors.has('competation_format.minimum_matches') }" v-if="tournament_format == 'advance' || tournament_format == 'festival'">
                 <label class="col-sm-4 form-control-label">{{$lang.competation_label_minimum_matches}}</label>
                 <div class="col-sm-8">
                   <div class="row">
@@ -194,7 +194,8 @@
               <div class="form-group row align-items-top"
                :class="{'has-error': errors.has('tournamentTemplate') }" v-if="(tournament_format == 'advance' || tournament_format == 'festival')">
                 <label class="col-sm-4">{{$lang.competation_label_template}}</label>
-                <div class="col-sm-8">
+                <!-- advance or festival -->
+                <div class="col-sm-8" v-if="tournament_format == 'advance' || tournament_format == 'festival'">
                   <div class="row align-items-center">
                     <div class="col-sm-12" v-show="errors.has('tournamentTemplate')">
                       <span class="help is-danger"
@@ -260,31 +261,24 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-sm-12 form-control-label dispTemplate" style="display:none">
-                  <div class="form-text text-muted">
-                    Template key: Green = preferred, Orange = second option, Red = last resort
-                  </div>
-                </div>
-              </div>
-              <div class="form-group row align-items-top" v-if="(tournament_format == 'basic' && competition_type == 'knockout' && number_teams != '' && group_size != '')">
-                <div class="col-sm-4"></div>
-                <div class="col-sm-8">
+                  
+                <!-- knockout -->
+                <div class="col-sm-8" v-if="(tournament_format == 'basic' && competition_type == 'knockout' && number_teams != '' && group_size != '')">
                   <div class="row align-items-center">
                     <div class="col-sm-12">
                       <div class="card mb-1">
                         <div class="card-block">
                           <div class="row d-flex">
-                            <p>These options will create a <strong>{{competition_type}}</strong> competition with <strong>{{ number_teams }}</strong> teams. The first round will consist of <strong>{{group_size}}</strong> groups each with <strong>{{ number_teams/group_size }}</strong> teams. Following the group stage the competition will proceed to an elimination format.</p>
+                            <p>These options will create a <strong>{{competition_type}}</strong> competition with <strong>{{ number_teams }}</strong> teams. The first round will consist of <strong>{{number_teams/group_size}}</strong> groups each with <strong>{{ group_size }}</strong> teams. Following the group stage the competition will proceed to an elimination format.</p>
                           </div>
                         </div>
                       </div>                    
                     </div>
                   </div>
                 </div>
-              </div>
-              <div class="form-group row align-items-top" v-if="(tournament_format == 'basic' && competition_type == 'league' && number_teams != '')">
-                <div class="col-sm-4"></div>
-                <div class="col-sm-8">
+
+                <!-- league -->
+                <div class="col-sm-8" v-if="(tournament_format == 'basic' && competition_type == 'league' && number_teams != '')">
                   <div class="row align-items-center">
                     <div class="col-sm-12">
                       <div class="card mb-1">
@@ -295,6 +289,12 @@
                         </div>
                       </div>                    
                     </div>
+                  </div>
+                </div>
+
+                <div class="col-sm-12 form-control-label dispTemplate" style="display:none">
+                  <div class="form-text text-muted">
+                    Template key: Green = preferred, Orange = second option, Red = last resort
                   </div>
                 </div>
               </div>
@@ -605,7 +605,6 @@ export default {
       handler: function (val,oldval){
         // here we watch for changes for data
         if(this.number_teams != '' && this.minimum_matches != ''){
-
           // this.TournamentCompetationList(val)
         }
       },
@@ -829,7 +828,8 @@ export default {
             // set minimum matches and number of teams
             this.number_teams = resp.total_teams
             // this.minimum_matches  = resp.min_matches
-            this.minimum_matches  = resp.min_matches
+            this.minimum_matches  = resp.min_matches != null ? resp.min_matches : '';
+
             // Now here we have to append the value of game_duration
             //this.game_duration_rr_array.push(['130':'320'])
 
@@ -903,7 +903,7 @@ export default {
 
             this.tournament_format = resp.tournament_format;
             this.competition_type = resp.competition_type;
-            this.group_size = resp.group_size == null ? '' : resp.group_size;
+            this.group_size = resp.group_size != null ? resp.group_size : '';
             this.remarks = resp.remarks;
             this.template_font_color = resp.template_font_color;
 
