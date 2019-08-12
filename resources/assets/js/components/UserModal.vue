@@ -47,7 +47,7 @@
                       <div class="col-sm-6">
                         <select v-validate="'required'":class="{'is-danger': errors.has('user_type') }" class="form-control ls-select2" name="user_type" key="user_type" v-model="formValues.userType" @change="userTypeChanged()" :disabled="formValues.provider == 'facebook'" v-if="userRole != 'Tournament administrator'">
                           <option value="">Select</option>
-                          <option v-for="role in userRolesOptions" v-bind:value="role.id" v-if="(!(isMasterAdmin == true && role.slug == 'Super.administrator'))">
+                          <option v-for="role in getUserRolesOptions" v-bind:value="role.id" v-if="(!(isMasterAdmin == true && role.slug == 'Super.administrator'))">
                               {{ role.name }}
                           </option>
                         </select>
@@ -193,6 +193,7 @@ import { ErrorBag } from 'vee-validate';
                   }
                 },
                 isAlreadyAdded: false,
+                currentLayout: this.$store.state.Configuration.currentLayout,
             }
         },
         computed: {
@@ -214,6 +215,16 @@ import { ErrorBag } from 'vee-validate';
           },
           isTournamentAdmin() {
             return this.$store.state.Users.userDetails.role_slug == 'tournament.administrator';
+          },
+          getUserRolesOptions(){
+            if(this.currentLayout == 'commercialisation'){
+              let selectedUserType = _.filter(this.userRolesOptions, function(userRolesOption) {
+                  if(userRolesOption.slug != 'Results.administrator' && userRolesOption.slug != 'tournament.administrator') {
+                   return userRolesOption;
+                  }
+              });
+            }
+            return this.userRolesOptions;
           },
         },
         created() {
