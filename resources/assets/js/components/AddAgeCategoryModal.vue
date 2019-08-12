@@ -284,7 +284,7 @@
                       <div class="card mb-1">
                         <div class="card-block">
                           <div class="row d-flex">
-                            <p>These options will create a <strong>{{competition_type}}</strong> competition with <strong>{{ number_teams }}</strong> teams.Here, it will create a competition with a single Round Robin group where each team plays each other twice and placings are based on final group position.</p>
+                            <p>These options will create a <strong>{{competition_type}}</strong> competition with <strong>{{ number_teams }}</strong> teams. Here, it will create a competition with a single Round Robin group where each team plays each other twice and placings are based on final group position.</p>
                           </div>
                         </div>
                       </div>                    
