@@ -217,14 +217,15 @@ import { ErrorBag } from 'vee-validate';
             return this.$store.state.Users.userDetails.role_slug == 'tournament.administrator';
           },
           getUserRolesOptions(){
+            let userRolesOptions = this.userRolesOptions;
             if(this.currentLayout == 'commercialisation'){
-              let selectedUserType = _.filter(this.userRolesOptions, function(userRolesOption) {
+              let userRolesOptions = _.filter(_.cloneDeep(this.userRolesOptions), function(userRolesOption) {
                   if(userRolesOption.slug != 'Results.administrator' && userRolesOption.slug != 'tournament.administrator') {
                    return userRolesOption;
                   }
               });
             }
-            return this.userRolesOptions;
+            return userRolesOptions;
           },
         },
         created() {
