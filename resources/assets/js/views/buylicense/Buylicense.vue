@@ -118,12 +118,25 @@
                                         <div class="col-sm-6 col-md-9 col-lg-9">
                                             <p class="mb-0">{{tournamentData.tournament_max_teams}} team license for a {{dayDifference}} day tournament</p>
                                         </div>
+
                                         <div class="col-sm-6 col-md-3 col-lg-3">
                                             <p class="text-sm-right mb-0 mt-3 mt-sm-0">
                                              <span v-if="tournamentData.currency_type == 'GBP'">&#163;</span>
-                                             <span v-if="tournamentData.currency_type == 'EURO'">&#128;</span>{{returnFormatedNumber(tournamentData.tournamentPricingValue)}}
+                                             <span v-if="tournamentData.currency_type == 'EURO'">&#128;</span>{{returnFormatedNumber(manageTournamentTaemsAndDaysFormatValue)}}
                                          </p>
+                                        </div>
+                                    </div>
 
+                                    <div class="row" v-if="tournamentData.tournament_type == 'cup' && tournamentData.custom_tournament_format == 1">
+                                        <div class="col-sm-6 col-md-9 col-lg-9">
+                                            <p class="mb-0">Create custom formats</p>
+                                        </div>
+
+                                        <div class="col-sm-6 col-md-3 col-lg-3">
+                                            <p class="text-sm-right mb-0 mt-3 mt-sm-0">
+                                             <span v-if="tournamentData.currency_type == 'GBP'">&#163;</span>
+                                             <span v-if="tournamentData.currency_type == 'EURO'">&#128;</span>{{returnFormatedNumber(manageTournamentFormatValue)}}
+                                            </p>
                                         </div>
                                     </div>
 
@@ -210,7 +223,7 @@
 
                                     <div class="row" v-if="!buyLicenseReduceTeamAndDay">
                                         <div class="col-8">
-                                           <p class="mb-0">Already paid amount</p>
+                                           <p class="mb-0">Amount already paid</p>
                                         </div>
                                         <div class="col-4 text-right">
                                             <p class="text-sm-right mb-0 mt-3 mt-sm-0">

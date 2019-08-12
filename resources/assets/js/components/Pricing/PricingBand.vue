@@ -42,7 +42,7 @@
 
             <div class="col-sm-2 col-md-2 col-lg-2 col-xl-3 text-left text-sm-center" v-if="bands.length > 1">
                 <div class="form-group">
-                    <p class="m-0"><a href="javascript:void(0)" class="text-primary" @click="removeBand(bandIndex)"><u>Delete</u></a></p>
+                    <p class="m-0"><a href="javascript:void(0)" class="text-primary" @click="removeBand(bandIndex)"><i class="fas fa-trash text-danger"></i></a></p>
                 </div>
             </div>
         </div>

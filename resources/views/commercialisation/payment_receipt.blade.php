@@ -195,11 +195,35 @@
 																			} else { 
 																				echo "&#128;"; 
 																			}
-                                                                            echo $data['amount'];
+                                                                            echo $data['tournamentData']['tournamentLicenseBasicPriceDisplay'];
 																			 ?></p>
 																			 </td>
                                                                         </tr>
+
+                                                                        <?php 
+                                                                            if ( $data['tournamentData']['tournament_type'] == 'cup' && $data['tournamentData']['custom_tournament_format'] == 1 )
+                                                                            {
+                                                                        ?>
+                                                                            <tr>
+                                                                                <th style="font-family:Roboto, Helvetica, Arial, sans-serif;font-size:16px;font-weight:300;line-height:15px;text-align:left;color:#555;" align="left">
+                                                                                    <p>
+                                                                                        Create custom formats  
+                                                                                    </p>
+                                                                                </th>
+                                                                                <td style="text-align: right; font-family:Roboto, Helvetica, Arial, sans-serif;font-size:16px;font-weight:300;line-height:15px;color:#555;" align="right"><p>
+                                                                                <?php if($data['tournamentData']['payment_currency'] == "GBP") 
+                                                                                {
+                                                                                    echo "&#163;";
+                                                                                } else { 
+                                                                                    echo "&#128;";
+                                                                                }
+                                                                                echo $data['tournamentData']['tournamentLicenseAdvancePriceDisplay'];
+                                                                                 ?></p>
+                                                                                 </td>
+                                                                            </tr>
                                                                         <?php
+                                                                        } // end custom format in renew/buy
+
                                                                         } else {
                                                                         ?>
                                                                         <tr>
@@ -267,7 +291,7 @@
                                                                             <tr>
                                                                                 <th style="font-family:Roboto, Helvetica, Arial, sans-serif;font-size:16px;font-weight:300;line-height:15px;text-align:left;color:#555;" align="left">
                                                                                     <p>
-                                                                                    Already paid amount
+                                                                                    Amount already paid
                                                                                     </p>
                                                                                 </th>
                                                                                 <td style="text-align: right; font-family:Roboto, Helvetica, Arial, sans-serif;font-size:16px;font-weight:300;line-height:15px;color:#555;" align="right"><p>

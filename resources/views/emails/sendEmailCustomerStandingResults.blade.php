@@ -110,7 +110,7 @@
                                   <table role="presentation" cellpadding="0" cellspacing="0" style="border-collapse:collapse;border-spacing:0px;" align="center" border="0">
                                     <tbody>
                                       <tr>
-                                        <td style="width:200px;"><img alt="" title="" height="auto" src="{{ asset('assets/img/tmplogo.png') }}" style="border:none;border-radius:0px;display:block;outline:none;text-decoration:none;width:100%;height:auto;" width="200"></td>
+                                        <td style="width:200px;"><img alt="" title="" height="auto" src="{{ config('config_variables.current_layout') == 'tmp' ? asset('assets/img/tmplogo.png') : asset('assets/img/easy-match-manager.jpg')}}" style="border:none;border-radius:0px;display:block;outline:none;text-decoration:none;width:100%;height:auto;" width="200"></td>
                                       </tr>
                                     </tbody>
                                   </table>
