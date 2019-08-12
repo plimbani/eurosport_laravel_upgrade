@@ -47,7 +47,7 @@
                       <div class="col-sm-6">
                         <select v-validate="'required'":class="{'is-danger': errors.has('user_type') }" class="form-control ls-select2" name="user_type" key="user_type" v-model="formValues.userType" @change="userTypeChanged()" :disabled="formValues.provider == 'facebook'" v-if="userRole != 'Tournament administrator'">
                           <option value="">Select</option>
-                          <option v-for="role in userRolesOptions" v-bind:value="role.id" v-if="(!(isMasterAdmin == true && role.slug == 'Super.administrator')) && getUserRolesOptions">
+                          <option v-for="role in getUserRolesOptions" v-bind:value="role.id" v-if="(!(isMasterAdmin == true && role.slug == 'Super.administrator'))">
                               {{ role.name }}
                           </option>
                         </select>
@@ -218,9 +218,9 @@ import { ErrorBag } from 'vee-validate';
           },
           getUserRolesOptions(){
             if(this.currentLayout == 'commercialisation'){
-              let selectedUserType = _.filter(this.userRolesOptions, function(userRolesOptions) {
-                  if(userRolesOptions.slug != 'Results.administrator' && userRolesOptions.slug != 'tournament.administrator') {
-                   return userRolesOptions;
+              let selectedUserType = _.filter(this.userRolesOptions, function(userRolesOption) {
+                  if(userRolesOption.slug != 'Results.administrator' && userRolesOption.slug != 'tournament.administrator') {
+                   return userRolesOption;
                   }
               });
             }
