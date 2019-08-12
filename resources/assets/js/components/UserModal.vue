@@ -220,7 +220,6 @@ import { ErrorBag } from 'vee-validate';
             let userRolesOptions = _.cloneDeep(this.userRolesOptions);
             if(this.currentLayout == 'commercialisation' && userRolesOptions.length > 0){
               userRolesOptions = _.filter(userRolesOptions, function(userRolesOption) {
-                  console.log('userRolesOption.slug', userRolesOption.slug);
                   if(userRolesOption.slug != 'Results.administrator' && userRolesOption.slug != 'tournament.administrator') {
                     return userRolesOption;
                   }
