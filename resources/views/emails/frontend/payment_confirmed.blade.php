@@ -187,6 +187,8 @@ $days = $interval->format('%a') + 1;
                                     </tbody>
                                 </table>
                             </div>
+                            <br>
+                            <br>
                             <!--[if mso | IE]></td></tr></table></td></tr><tr><td class="" width="600px" ><table align="center" border="0" cellpadding="0" cellspacing="0" class="" style="width:570px;" width="570" ><tr><td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->
                             <div style="background:#fff;background-color:#fff;Margin:0px auto;max-width:570px;">
                                 <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="background:#fff;background-color:#fff;width:100%;">
@@ -202,35 +204,143 @@ $days = $interval->format('%a') + 1;
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody>
+                                                                        <?php
+                                                                            if(isset($email_details['is_manage_license']) && $email_details['is_manage_license'] == 1)
+                                                                            {
+                                                                        ?>
                                                                         <tr>
-                                                                            <th style="font-family:Roboto, Helvetica, Arial, sans-serif;font-size:16px;font-weight:300;line-height:24px;text-align:left;color:#555;" align="left"><p><?php 
-																			if(isset($email_details['is_manage_license']) && $email_details['is_manage_license'] == 1)
-																			{
+                                                                            <th style="font-family:Roboto, Helvetica, Arial, sans-serif;font-size:16px;font-weight:300;line-height:24px;text-align:left;color:#555;" align="left">
 
-                                                                                $daysign = "+";
-                                                                                if($email_details['tournament']['dayDifference'] < 0) {
-                                                                                    $daysign = "";
-                                                                                }
+                                                                                <p>
+                                                                                    <?php 
+                                                                                    if ($email_details['tournament']['teamDifference'] == 0)
+                                                                                    {
+                                                                                        echo $email_details['tournament']['tournament_max_teams'].' teams';
+                                                                                    }
 
-																				echo $email_details['tournament']['tournament_name']; ?> - <?php echo $email_details['tournament']['tournament_max_teams']; ?> (+ <?php echo $email_details['tournament']['teamDifference']; ?>) team license for a <?php echo $days; ?> (<?php echo $daysign; ?> <?php echo $email_details['tournament']['dayDifference']; ?>) day tournament
-																			<?php 
-                                                                            }
-																			else{
-																				echo $email_details['tournament']['tournament_name']; ?> - <?php echo $email_details['tournament']['tournament_max_teams']; ?> team license for a <?php echo $email_details['tournament']['dayDifference']; ?> day tournament
-                                                                            <?php } ?></p>
+                                                                                    if ($email_details['tournament']['teamDifference'] > 0)
+                                                                                    {
+                                                                                        echo 'Additional '.$email_details['tournament']['teamDifference'].' teams';
+                                                                                    }
+
+                                                                                    if ($email_details['tournament']['teamDifference'] < 0)
+                                                                                    {
+                                                                                        echo 'Reduce '.abs($email_details['tournament']['teamDifference']).' teams';
+                                                                                    }
+                                                                                ?> 
+                                                                                </p>
 																			</th>
-                                                                            <td style="text-align: right; font-family:Roboto, Helvetica, Arial, sans-serif;font-size:16px;font-weight:300;line-height:24px;color:#555;" align="right"><p>
-                                                                                <?php if($email_details['paymentResponse']['currency'] == "GBP") {echo "&#163;";} else { echo "&#x20AC;"; }
-                                                                                ?>
-                                                                                <?php echo number_format($email_details['paymentResponse']['amount'],2); ?></p></td>
+                                                                            <td style="text-align: right; font-family:Roboto, Helvetica, Arial, sans-serif;font-size:16px;font-weight:300;line-height:24px;color:#555;" align="right">
+                                                                                
+                                                                                <p>
+                                                                                <?php if($email_details['tournament']['payment_currency'] == "GBP") 
+                                                                                {
+                                                                                    echo "£";
+                                                                                } else { 
+                                                                                   echo "&#x20AC;";
+                                                                                }
+                                                                                 echo $email_details['tournament']['tournamentLicenseBasicPriceDisplay'];
+                                                                             ?></p>
+                                                                            </td>
                                                                         </tr>
+
+                                                                        <?php 
+                                                                            if ( $email_details['tournament']['tournament_type'] == 'cup' && $email_details['tournament']['custom_tournament_format'] == 1 )
+                                                                            {
+                                                                        ?>
+                                                                            <tr>
+                                                                                <th style="font-family:Roboto, Helvetica, Arial, sans-serif;font-size:16px;font-weight:300;line-height:15px;text-align:left;color:#555;" align="left">
+                                                                                    <p>
+                                                                                        Tournament formats  
+                                                                                    </p>
+                                                                                </th>
+                                                                                <td style="text-align: right; font-family:Roboto, Helvetica, Arial, sans-serif;font-size:16px;font-weight:300;line-height:15px;color:#555;" align="right"><p>
+                                                                                <?php if($email_details['tournament']['payment_currency'] == "GBP") 
+                                                                                {
+                                                                                    echo "£";
+                                                                                } else { 
+                                                                                    echo "&#x20AC;";
+                                                                                }
+                                                                                 echo $email_details['tournament']['tournamentLicenseAdvancePriceDisplay'];
+                                                                                 ?></p>
+                                                                                 </td>
+                                                                            </tr>
+                                                                        <?php
+                                                                        }
+                                                                        ?>
+
+                                                                        <?php
+                                                                            if ( $email_details['tournament']['transactionDifferenceAmountValue'] > 0)
+                                                                            {
+                                                                        ?>
+                                                                            <tr>
+                                                                                <th style="font-family:Roboto, Helvetica, Arial, sans-serif;font-size:16px;font-weight:300;line-height:15px;text-align:left;color:#555;" align="left">
+                                                                                    <p>
+                                                                                    Amount already paid
+                                                                                    </p>
+                                                                                </th>
+                                                                                <td style="text-align: right; font-family:Roboto, Helvetica, Arial, sans-serif;font-size:16px;font-weight:300;line-height:15px;color:#555;" align="right"><p>
+                                                                                -
+                                                                                <?php if($email_details['tournament']['payment_currency'] == "GBP") 
+                                                                                {
+                                                                                    echo "£";
+                                                                                } else { 
+                                                                                    echo "&#x20AC;"; 
+                                                                                }
+                                                                                echo $email_details['tournament']['transactionDifferenceAmountValue'];
+                                                                                 ?></p>
+                                                                                 </td>
+                                                                            </tr>
+                                                                        <?php
+                                                                        }
+                                                                        ?>
+
+                                                                        <?php
+                                                                        } else { ?>
+                                                                                                                                                    <tr>
+                                                                            <tr><th style="font-family:Roboto, Helvetica, Arial, sans-serif;font-size:16px;font-weight:300;line-height:24px;text-align:left;color:#555;" align="left">
+
+                                                                                <p><?php 
+
+                                                                                echo $email_details['tournament']['tournament_name']; ?> - <?php echo $email_details['tournament']['tournament_max_teams']; ?> team license for a <?php echo $email_details['tournament']['dayDifference']; ?> day tournament
+                                                                            </p>
+                                                                            </th>
+                                                                            <td valign="top" style="text-align: right; font-family:Roboto, Helvetica, Arial, sans-serif;font-size:16px;font-weight:300;line-height:24px;color:#555;white-space: nowrap;" align="right"><p>
+                                                                                <?php if($email_details['paymentResponse']['currency'] == "GBP") {echo "£";} else { echo "&#x20AC;"; }
+                                                                                ?><?php echo number_format($email_details['paymentResponse']['amount'],2); ?></p></td>
+                                                                        </tr>
+                                                                        <?php 
+                                                                            if ( $email_details['tournament']['tournament_type'] == 'cup' && $email_details['tournament']['custom_tournament_format'] == 1 )
+                                                                            {
+                                                                        ?>
+                                                                            <tr>
+                                                                                <th style="font-family:Roboto, Helvetica, Arial, sans-serif;font-size:16px;font-weight:300;line-height:15px;text-align:left;color:#555;" align="left">
+                                                                                    <p>
+                                                                                        Create custom formats  
+                                                                                    </p>
+                                                                                </th>
+                                                                                <td style="text-align: right; font-family:Roboto, Helvetica, Arial, sans-serif;font-size:16px;font-weight:300;line-height:15px;color:#555;" align="right"><p>
+                                                                                <?php if($email_details['tournament']['payment_currency'] == "GBP") 
+                                                                                {
+                                                                                    echo "£";
+                                                                                } else { 
+                                                                                    echo "&#x20AC;";
+                                                                                }
+                                                                                 echo number_format($email_details['tournament']['tournamentLicenseAdvancePriceDisplay'],2);
+                                                                                 ?></p>
+                                                                                 </td>
+                                                                            </tr>
+                                                                        <?php
+                                                                        }
+                                                                        ?>
+
+                                                                        <?php } ?>
                                                                     </tbody>
                                                                     <thead class="footer">
                                                                         <tr>
                                                                             <th colspan="2" style="border-bottom: 0px solid #57697E; background-color: rgba(33, 150, 243,0.1); text-align: right; font-size: 16px; padding: 10px;" bgcolor="rgba(33, 150, 243,0.1)" align="right">
-                                                                                <?php if($email_details['paymentResponse']['currency'] == "GBP") {echo "&#163;";} else { echo "&#x20AC;"; }
-                                                                                ?>
-                                                                                <?php echo number_format($email_details['paymentResponse']['amount'],2); ?>
+                                                                                <?php if($email_details['paymentResponse']['currency'] == "GBP") {echo "£";} else { echo "&#x20AC;";}
+                                                                                echo number_format($email_details['paymentResponse']['amount'],2); ?>
                                                                             </th>
                                                                         </tr>
                                                                     </thead>
