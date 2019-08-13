@@ -2531,7 +2531,6 @@ class MatchService implements MatchContract
     */
     public function getAllCategoriesReport($tournamentId)
     {
-
       $ageCategories =  DB::table('tournament_competation_template')
                             ->where('tournament_id','=',$tournamentId)
                             ->get();
@@ -2550,7 +2549,7 @@ class MatchService implements MatchContract
         $pdfData['age_group'][$ageValue->id]['ageCategoryName'] = $ageValue->group_name.' ('.$ageValue->category_age.')';
       }
 
-      if ( !empty($tournamentLogo->logo) )
+      if (!empty($tournamentLogo->logo) )
       {
         $pdfData['tournamentLogo'] = $this->tournamentLogo.$tournamentLogo->logo;
       }
@@ -2559,6 +2558,8 @@ class MatchService implements MatchContract
               ->setPaper('a4')
               ->setOption('header-spacing', '5')
               ->setOption('header-font-size', 7)
+              ->setOption('footer-spacing', '5')
+              ->setOption('footer-font-size', 7)
               ->setOption('header-font-name', 'Open Sans')
               ->setOrientation('portrait')
               ->setOption('footer-right', 'Page [page] of [toPage]')

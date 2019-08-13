@@ -34,7 +34,7 @@
                       <label class="col-md-7"><strong>{{$lang.competation_modal_format_team}}</strong></label>
                       <label class="col-md-5 pl-2">{{ templateData['tournament_teams'] }}</label>
                   </p>
-                  <p class="row no-gutters">
+                  <p class="row no-gutters" v-if="templateData['tournament_min_match'] != null">
                       <label class="col-md-7"><strong>{{$lang.competation_modal_minimum_matches}}</strong></label>
                       <label class="col-md-5 pl-2">{{ templateData['tournament_min_match'] }}</label>
                   </p>

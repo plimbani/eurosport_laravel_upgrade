@@ -170,8 +170,6 @@
                 let startDate = moment(startDateFormat);
                 let endDate = moment(endDateFormat);
                 let dayDifference = endDate.diff(startDate, 'days');
-
-                console.log("here",dayDifference);
                 
                 if(dayDifference >= 2){
                     return true;
@@ -266,9 +264,8 @@
                 //let currentDateTime = this.currentDateTime;
                 let tournamentEndDate = endDate;
 
-                let tournamentExpireTime = moment(tournamentEndDate).format('DD/MM/YYYY HH:mm:ss');
-                let currentDateTime = moment(this.currentDateTime).format('DD/MM/YYYY HH:mm:ss');
-
+                let tournamentExpireTime = moment(tournamentEndDate).format('YYYY-MM-DD HH:mm:ss');
+                let currentDateTime = moment(this.currentDateTime).format('YYYY-MM-DD HH:mm:ss');
                 if(tournamentExpireTime > currentDateTime) {
                    return false;
                 } else {

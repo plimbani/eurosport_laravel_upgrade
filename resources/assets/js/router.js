@@ -127,6 +127,10 @@ import LayoutUserTournamentTransaction from './views/layouts/LayoutUserTournamen
 // Commercialisation user tournament transaction history
 import LayoutUserTournamentTransactionHistory from './views/layouts/LayoutUserTournamentTransactionHistory.vue'
 
+import AddTemplate from './components/Template/AddTemplate';
+import EditTemplate from './components/Template/EditTemplate';
+import TemplateList from './views/admin/templates/List.vue';
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -253,10 +257,25 @@ const routes = [
         name: 'users_list'
     },
     {
-        path: '/templates',
-        component: LayoutTemplateManagement,
+        path: '/', component: LayoutTemplateManagement,
         meta: { requiresAuth: true },
-        name: 'templates_list'
+        children: [
+            {
+               path: '/templates_list',
+               component: TemplateList,
+               name: 'templates_list'
+            },
+            {
+                path: '/add_new_template',
+                component: AddTemplate,
+                name: 'add_new_template'
+            },
+            {
+                path: '/edit_template/:id',
+                component: EditTemplate,
+                name: 'edit_template'
+            }
+        ]
     },
 
     // Duplicate tournament copy routes

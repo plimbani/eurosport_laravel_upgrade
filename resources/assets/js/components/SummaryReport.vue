@@ -272,29 +272,28 @@
 								</div>
 							</div>
 						</div>
-						<div class="block-bg mt-4">
-							<form name="frmFairPlayReport" id="frmFairPlayReport" class="fair_play_report_form">
-								<div class="form-group text-left mb-0">
-									<div class="row align-items-center">
-										<div class="col-md-6">
-											<div class="row align-items-center">
-												<div class="col-md-3">
-													<label class="mb-0"><strong>{{$lang.summary_reports_age_catrgory}}</strong></label>
-												</div>
-												<div class="col-md-5">
-			         						<select name="sel_ageCategory" id="sel_ageCategory"
-			                      class="form-control ls-select2">
-			          						<option value="">{{$lang.summary_age_category_select}}</option>
-			            					<option v-for="(competation, index) in competationList"
-			            						:value="competation.id">{{competation.group_name}}</option>
-			           					</select>							
-												</div>
+					</div>
+					<div class="block-bg mt-4">
+						<form name="frmFairPlayReport" id="frmFairPlayReport" class="fair_play_report_form">
+							<div class="form-group text-left mb-0">
+								<div class="row align-items-center">
+									<div class="col-md-6">
+										<div class="row align-items-center">
+											<div class="col-md-4">
+												<label class="mb-0"><strong>{{$lang.summary_reports_age_catrgory}}</strong></label>
+											</div>
+											<div class="col-md-5">
+				         						<select name="sel_ageCategory" id="sel_ageCategory" class="form-control ls-select2">
+				          							<option value="">{{$lang.summary_age_category_select}}</option>
+				            						<option v-for="(competation, index) in competationList"
+				            						:value="competation.id">{{competation.group_name}}</option>
+				           						</select>
 											</div>
 										</div>
 									</div>
 								</div>
-							</form>
-						</div>
+							</div>
+						</form>
 						<div class="row align-items-center mt-4">
 							<div class="col-md-12">
 								<div class="d-flex align-items-center justify-content-end">

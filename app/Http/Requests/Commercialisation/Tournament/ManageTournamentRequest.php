@@ -1,11 +1,11 @@
 <?php
 
-namespace Laraspace\Http\Requests\Commercialisation\Customer;
+namespace Laraspace\Http\Requests\Commercialisation\Tournament;
 
 use Laraspace\Traits\AuthUserDetail;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateRequest extends FormRequest
+class ManageTournamentRequest extends FormRequest
 {
     use AuthUserDetail;
     
@@ -17,7 +17,7 @@ class UpdateRequest extends FormRequest
     public function authorize()
     {
         $user = $this->getCurrentLoggedInUserDetail();
-        if($user->hasRole('customer') && ($user->id == $this->all()['id'])) {
+        if($user->hasRole('customer')) {
             return true;
         }
         return false;
@@ -31,10 +31,7 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'first_name' => 'required',
-            'last_name' => 'required',
-            'email' => 'required',
-            'organisation' => 'required',
+            //
         ];
     }
 }

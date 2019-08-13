@@ -15,6 +15,7 @@ use Laraspace\Http\Requests\Tournament\TournamentSummary;
 use Laraspace\Http\Requests\Commercialisation\Tournament\TournamentByCustomerRequest;
 use Laraspace\Models\User;
 use Laraspace\Models\PitchAvailable;
+use Laraspace\Http\Requests\Commercialisation\Tournament\ManageTournamentRequest;
 
 /**
  * Tournament Resource Description.
@@ -105,7 +106,7 @@ class TournamentController extends BaseController
      * Manage tournament and update details
      * @param Request $request
      */
-    public function manageTournament(Request $request)
+    public function manageTournament(ManageTournamentRequest $request)
     {
         try {
             $requestData = $request->all();
@@ -114,7 +115,6 @@ class TournamentController extends BaseController
                 $this->transactionRepoObj->updateTransaction($requestData);
             }
             $tournament = Tournament::findOrFail($requestData['tournament']['old_tournament_id']);
-
             $requestTournamentStartDate = Carbon::createFromFormat('d/m/Y',$requestData['tournament']['tournament_start_date']);
 
             $requestTournamentEndDate = Carbon::createFromFormat('d/m/Y',$requestData['tournament']['tournament_end_date']);
@@ -134,11 +134,14 @@ class TournamentController extends BaseController
                 ->orwhere('stage_start_date', '>', $requestTournamentEndDateFormat);
             })->count();  
 
-            $tournamentCompetationTemplates = TournamentCompetationTemplates::where('tournament_id', $requestData['tournament']['old_tournament_id'])->pluck('total_teams')->sum();
+            $tournamentCompetationTemplatesList = TournamentCompetationTemplates::where('tournament_id', $requestData['tournament']['old_tournament_id'])->pluck('total_teams');
+
+            $tournamentCompetationTemplates = $tournamentCompetationTemplatesList->sum();
+            $tournamentCompetationTemplatesCount = $tournamentCompetationTemplatesList->count();
 
             // Tournament update license 
             if (!empty($requestData['tournament'])) {        
-                if($tournamentFixture == 0 && $tournamentPitch == 0 && $tournamentCompetationTemplates <= $tournamentMaximumTeam){
+                if($tournamentFixture == 0 && $tournamentPitch == 0 && $tournamentCompetationTemplates <= $tournamentMaximumTeam && ( ( $tournament->tournament_type == $requestData['tournament']['tournament_type'] ) || ($tournament->tournament_type != $requestData['tournament']['tournament_type'] && $tournamentCompetationTemplatesCount == 0)) ){
 
                     $customTournamentFormat = '';
 
@@ -160,7 +163,35 @@ class TournamentController extends BaseController
                         'custom_tournament_format' => $customTournamentFormat,
                     ];   
                 } else {
-                    return response()->json(['status' => 'error', 'message' => 'Please unschedule matches before shortening the length of your tournament.']);
+
+                    if ( $tournamentFixture > 0)
+                    {
+                        if ( $tournament->maximum_teams != $requestData['tournament']['tournament_max_teams'])
+                        {
+                            $message = 'Please unschedule matches before editing the number of teams in your tournament.';
+                        }
+                        else
+                        {
+                            $message = 'Please unschedule matches before changing the tournament dates.';
+                        } 
+                    }
+                    else if ($tournamentPitch > 0)
+                    {
+                        if ( $tournament->maximum_teams != $requestData['tournament']['tournament_max_teams'])
+                        {
+                            $message = 'Please remove pitches before editing the number of teams in your tournament.';
+                        }
+                        else
+                        {
+                            $message = 'Please remove pitches before changing the tournament dates.';
+                        } 
+                    }
+                    else
+                    {
+                        $message = 'Please remove age categories before editing the number of teams in your tournament.';
+                    }
+
+                    return response()->json(['status' => 'error', 'message' => $message]);
                 }
                 $this->tournamentRepoObj->edit($requestData['tournament']);
             }

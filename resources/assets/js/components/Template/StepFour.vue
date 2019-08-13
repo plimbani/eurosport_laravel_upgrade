@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<div class="container" id="">
+		<div id="">
 			<div class="row justify-content-center">
 				<div class="col-md-12">
 					<div class="row">
@@ -156,10 +156,8 @@
 	        				Template.updateTemplateDetail(templateData).then(
 			        			(response) => {
 			        				toastr.success('Template has been updated successfully.', 'Update Template', {timeOut: 5000});
-			        				$('#edit_template_modal').modal('hide');
 			        				vm.$root.$emit('clearFormFields');
-			        				vm.$root.$emit('getTemplates');
-
+			        				vm.$router.push({name: 'templates_list'})
 			        				if(this.userDetails.role_slug == 'customer') {
 			        					this.$router.push({name: 'dashboard'});
 			        				}
@@ -171,9 +169,8 @@
 			        		Template.saveTemplateDetail(templateData).then(
 			        			(response) => {
 			        				toastr.success('Template has been added successfully.', 'Add Template', {timeOut: 5000});
-			        				$('#add_new_template_modal').modal('hide');
 			        				vm.$root.$emit('clearFormFields');
-			        				vm.$root.$emit('getTemplates');
+									vm.$router.push({name: 'templates_list'})
 			        				if(this.userDetails.role_slug == 'customer') {
 			        					this.$router.push({name: 'dashboard'});
 			        				}
