@@ -1428,3 +1428,41 @@ a.active-view:hover {
         }
     }
 }
+
+.round-details {
+    li {
+        .round-matches{
+            span{
+                display: inline-block; 
+            }
+            .w-130{
+                width: 130px;
+            }  
+            .w-33{
+                width: 33%;
+            }  
+            .match-detail,.w-220{
+                width: 220px;
+            }  
+            .position-number{
+                width: 50px;
+            } 
+            div{     
+                >span {    
+                    &:nth-child(2){
+                        width: 7%;
+                    } 
+                }           
+            }
+            .round-matches-placings{
+                >span{
+                    text-align: left;
+                    width: 45%;
+                    &:first-child{
+                        width: 10%;
+                    }
+                }
+            }  
+        }
+    }
+}
