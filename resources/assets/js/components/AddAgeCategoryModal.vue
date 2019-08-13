@@ -151,6 +151,7 @@
                       <select class="form-control ls-select2"
                       name="number_teams"
                       v-validate="'required'" :class="{'is-danger': errors.has('number_teams') }"
+                      @change="onNumberOfTeamsChange()"
                       v-model="number_teams">
                           <option value="">{{$lang.competation_modal_select_number_teams}}</option>
                         <option :value="team" v-for="team in teamsToDisplay">{{ team }}</option>
@@ -161,7 +162,7 @@
                 </div>
               </div>
               <div class="form-group row align-items-center" :class="{'has-error': errors.has('group_size') }" v-if="competition_type == 'knockout' && tournament_format == 'basic'">
-                <div class="col-sm-4 form-control-label">{{ $lang.add_template_modal_group_size }}</div>
+                <label class="col-sm-4 form-control-label">{{ $lang.add_template_modal_group_size }}</label>
                 <div class="col-sm-8">
                     <select class="form-control ls-select2" name="group_size" v-model="group_size" v-validate="'required'" :class="{'is-danger': errors.has('group_size') }" key="group_size">
                         <option value="">Select group size</option>
@@ -517,7 +518,7 @@
                 </div>
               </div>
               <div class="form-group row align-items-center" v-if="tournament_format == 'basic'">
-                <label class="col-sm-4 form-control-label">Template key
+                <label class="col-sm-4 form-control-label">Template key*
                 <span class="pr-2 pl-2 text-primary js-basic-popover" data-toggle="popover" data-animation="false" data-placement="right" data-content="Template key: Green = preferred, Orange = second option, Red = last resort"><i class="fas fa-info-circle"></i></span>
                 </label>
                 <div class="col-sm-8">
@@ -780,7 +781,7 @@ export default {
         halftime_break_RR:'5',halftime_break_FM:'5',match_interval_RR:'5',match_interval_FM:'5',tournamentTemplate:[],
         tournament_id: '', competation_format_id:'0',id:'',
         nwTemplate:[],game_duration_RR_other:'20',
-      game_duration_FM_other:'20',match_interval_RR_other:'20',match_interval_FM_other:'20',min_matches:'',team_interval:'40', win_point: '3', draw_point: '1', loss_point: '0', rules: rules, selectedCategoryRule: null,
+      game_duration_FM_other:'20',match_interval_RR_other:'20',match_interval_FM_other:'20',min_matches:'',team_interval:'40', win_point: '3', draw_point: '1', loss_point: '0', rules: rules, selectedCategoryRule: null, competition_type: null,
       }
     },
     setEdit(id) {
@@ -878,6 +879,9 @@ export default {
             this.competation_format.rules = _.forEach(this.competation_format.rules, (value, key) => {
                 value.description = category_rules_info[value.key]
             });
+
+            this.competation_format.competition_type = resp.competition_type;
+            this.competation_format.group_size = resp.group_size != null ? resp.group_size : '';
 
             this.tournament_format = resp.tournament_format;
             this.competition_type = resp.competition_type;
@@ -1157,13 +1161,23 @@ export default {
       }); 
     },
     setNumberTeams(type) {
-      if(this.competation_format.id != '' && (type == 'league' || type == 'knockout')) {
-        this.number_teams = '';
-        this.group_size = '';
-      } else {
+      if(this.competation_format.id != '' && this.competation_format.tournament_format == 'basic' && (type == this.competation_format.competition_type)) {
         this.number_teams = this.competation_format.total_teams;
+        if(type == 'knockout') {
+          this.group_size = this.competation_format.group_size;
+        }
+      } else {
+        this.number_teams = '';
+        if(type == 'knockout') {
+          this.group_size = '';
+        }
       }
-    }
+    },
+    onNumberOfTeamsChange() {
+      if(this.competation_format.tournament_format == 'basic' && (this.competation_format.competition_type === 'knockout')) {
+        this.group_size = '';
+      }
+    },
   }
 }
 </script>
