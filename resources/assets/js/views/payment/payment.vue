@@ -47,7 +47,7 @@
 
                             </div>
                             <div class="col-sm-6 col-md-5 col-lg-5" v-if="!paymentFlag">
-                                <p class="text-sm-right mb-0 mt-3 mt-sm-0"> {{paymentObj.currency == 'EUR' ? '€' : '£' }}{{returnFormatedNumber(managePrice)}}</p>
+                                <p class="text-sm-right mb-0 mt-3 mt-sm-0"> {{paymentObj.currency == 'EUR' ? '€' : '£'}}{{returnFormatedNumber(managePrice)}}</p>
                                 <p class="text-sm-right mb-0 mt-3 mt-sm-0"  v-if="tournament.tournament_type == 'cup' && tournament.custom_tournament_format == 1"> {{paymentObj.currency == 'EUR' ? '€' : '£' }}{{returnFormatedNumber(manageAdvancePrice)}}</p>
                             </div>
 
