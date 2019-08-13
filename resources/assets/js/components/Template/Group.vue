@@ -128,20 +128,38 @@
 		    	return this.getGroupNameByRoundAndGroupIndex(this.divisionIndex, this.roundIndex, this.index);
 		    },
 		    groupTeamsToDisplay() {
-		    	let teams = []; 
-	    		for (var i = 2; i <= 28; i++) {
+		    	let teams = [];
+		    	let roundTeams = this.roundData.no_of_teams;
+		    	let roundGroups = this.roundData.groups;
+		    	let totalTeams = this.getRoundTillNowTotalTeams(false);
+		    	let currentGroupSize = 0;
+
+		    	currentGroupSize = roundTeams - totalTeams;
+
+	    		for (var i = 2; i <= currentGroupSize; i++) {
 	    			if(this.groupData.type == 'placing_match') {
 		    			if(i % 2 == 0) {
 		    				teams.push(i);
 		    			}
-		    		} else {
-		    			teams.push(i);
 		    		}
+		    		teams.push(i);
 	    		}
+
 		    	return teams;
 		    }
         },
         methods: {
+        	getRoundTillNowTotalTeams(countTillCurrentGroup) {
+        		let roundGroups = this.roundData.groups;
+        		let totalTeams = 0;
+        		let countTillGroup = countTillCurrentGroup === true ? (parseInt(this.index) + 1) : this.index;
+
+		    	for(let i=0; i<countTillGroup; i++) {
+		    		totalTeams += roundGroups[i].no_of_teams;
+		    	}
+
+		    	return totalTeams;
+        	},
         	removeGroup() {
         		this.$parent.removeGroup(this.index, this.roundIndex);
         		this.$root.$emit('updateGroupCount');
@@ -149,6 +167,8 @@
         	},
         	onTeamChange() {
  				let groupTotalTeams = this.$parent.getGroupTotalTeams(this.roundIndex);
+ 				let roundTeams = this.roundData.no_of_teams;
+ 				let totalTeams = this.getRoundTillNowTotalTeams(true);
                 if(this.roundIndex === 0 && groupTotalTeams > this.roundData.no_of_teams) {
                     toastr['error']('The number of teams selected exceeds total teams in the round.', 'Error');
                     this.groupData.no_of_teams = this.last_selected_teams;
@@ -156,6 +176,11 @@
                 }
                 if(this.groupData.type == 'placing_match' && this.groupData.no_of_teams % 2 != 0) {
                 	toastr['error']('Placing match teams should be in even numbers.', 'Error');
+                	this.groupData.no_of_teams = this.last_selected_teams;
+                	return false;
+                }
+                if((roundTeams - totalTeams) === 1 || (roundTeams - totalTeams) < 0) {
+                	toastr['error']('The selected number of teams is invalid.', 'Error');
                 	this.groupData.no_of_teams = this.last_selected_teams;
                 	return false;
                 }
@@ -215,6 +240,9 @@
 		    },
 		    onChangeGroupType() {
 		    	let vm = this;
+		    	if(this.groupData.type == 'placing_match' && this.groupData.no_of_teams % 2 != 0) {
+		    		this.groupData.no_of_teams = this.groupData.no_of_teams - 1;
+		    	}
 		    	this.$root.$emit('updateGroupCount');
 		    	this.$root.$emit('updatePositions');
 		    	this.updateTeamPositions();

@@ -43,15 +43,15 @@
 	<body>
 		<center>
 			@if($tournamentLogo != null)	
-		  		<img src="{{ $tournamentLogo }}" class="hidden-sm-down text-center" id="logo-desk" alt="Laraspace Logo" width="200px" height="100px">
+		  		<img src="{{ $tournamentLogo }}" class="hidden-sm-down text-center" alt="Laraspace Logo" width="200px" height="100px">
 		  	@endif
 
 		  	@if($tournamentLogo == null && config('config-variables.current_layout') == 'tmp')
-	  			<img src="{{ asset('assets/img/tmplogo.svg')}}" class="hidden-sm-down text-center" id="logo-desk" alt="Laraspace Logo" width="200px" height="100px">
+	  			<img src="{{ asset('assets/img/tmplogo.svg')}}" class="hidden-sm-down text-center" alt="Laraspace Logo" width="200px" height="100px">
 		  	@endif
 
 		  	@if($tournamentLogo == null && config('config-variables.current_layout') == 'commercialisation')
-		  		<img src="{{ asset('assets/img/easy-match-manager.jpg')}}" class="hidden-sm-down text-center" id="logo-desk" alt="Laraspace Logo" width="200px" height="100px">
+		  		<img src="{{ asset('assets/img/easy-match-manager.jpg')}}" class="hidden-sm-down text-center" alt="Laraspace Logo" width="200px" height="100px">
 		  	@endif
 			<h3>{{ $categoryName. ' groups' }}</h3>
 		</center>
