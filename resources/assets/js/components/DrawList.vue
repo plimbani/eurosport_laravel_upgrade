@@ -33,7 +33,7 @@
         <h6 class="mt-2">
           <strong>{{ index }}</strong>
         </h6>
-        <table class="table table-hover table-bordered" v-if="groupsData.length > 0">
+        <table class="table table-hover table-bordered" v-if="drawData.length > 0">
           <thead>
               <tr>
                   <th>{{$lang.summary_schedule_draws_categories}}</th>

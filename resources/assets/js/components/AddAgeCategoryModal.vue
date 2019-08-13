@@ -126,7 +126,7 @@
                     <div class="col-md-4">
                       <div class="checkbox">
                         <div class="c-input">
-                          <input class="euro-radio" type="radio" name="competition_type" value="league" id="radio_league" v-model="competition_type" v-validate="'required'" :class="{'is-danger': errors.has('competition_type') }" @change="setNumberTeams('league')">
+                          <input class="euro-radio" type="radio" name="competition_type" value="league" id="radio_league" v-model="competition_type" v-validate="'required'" :class="{'is-danger': errors.has('competition_type') }" @change="setNumberTeams('league')" key="competition_type">
                           <label for="radio_league">League</label>
                         </div>
                       </div>
@@ -134,7 +134,7 @@
                     <div class="col-md-4">
                       <div class="checkbox">
                         <div class="c-input">
-                          <input class="euro-radio" type="radio" name="competition_type" value="knockout" id="radio_knockout" v-model="competition_type" v-validate="'required'" :class="{'is-danger': errors.has('competition_type') }" @change="setNumberTeams('knockout')">
+                          <input class="euro-radio" type="radio" name="competition_type" value="knockout" id="radio_knockout" v-model="competition_type" v-validate="'required'" :class="{'is-danger': errors.has('competition_type') }" @change="setNumberTeams('knockout')" key="competition_type">
                           <label for="radio_knockout">Knockout</label>
                         </div>
                       </div>
@@ -163,7 +163,7 @@
               <div class="form-group row align-items-center" :class="{'has-error': errors.has('group_size') }" v-if="competition_type == 'knockout' && tournament_format == 'basic'">
                 <div class="col-sm-4 form-control-label">{{ $lang.add_template_modal_group_size }}</div>
                 <div class="col-sm-8">
-                    <select class="form-control ls-select2" name="group_size" v-model="group_size" v-validate="'required'" :class="{'is-danger': errors.has('group_size') }">
+                    <select class="form-control ls-select2" name="group_size" v-model="group_size" v-validate="'required'" :class="{'is-danger': errors.has('group_size') }" key="group_size">
                         <option value="">Select group size</option>
                         <option :value="sizeIndex" v-for="(size, sizeIndex) in getAllGroupSize"> {{ size }}</option>
                     </select>
@@ -178,7 +178,7 @@
                       <select class="form-control ls-select2"
                       name="minimum_matches"
                       v-validate="'required'" :class="{'is-danger': errors.has('minimum_matches') }"
-                      v-model="minimum_matches">
+                      v-model="minimum_matches" key="minimum_matches">
                           <option value="">{{$lang.competation_modal_select_minimum_matches}}</option>
                           <option v-if="n > 2" v-for="n in (7)"
                           v-bind:value="n">
@@ -192,7 +192,7 @@
               </div>
 
               <div class="form-group row align-items-top"
-               :class="{'has-error': errors.has('tournamentTemplate') }" v-if="(tournament_format == 'advance' || tournament_format == 'festival')">
+               :class="{'has-error': errors.has('tournamentTemplate') }">
                 <label class="col-sm-4">{{$lang.competation_label_template}}</label>
                 <!-- advance or festival -->
                 <div class="col-sm-8" v-if="tournament_format == 'advance' || tournament_format == 'festival'">
@@ -204,8 +204,8 @@
                       </span>
                     </div>
 
-                    <div v-if="dispTempl ==  true" class="col-sm-12">
-                    Select number of teams and minimum matches above to view template options
+                    <div v-if="dispTempl" class="col-sm-12 mb-2">
+                      Select number of teams and minimum matches above to view template options
                     </div>
                     <div class="col-sm-12" v-for="option in options">
                       <div class="card mb-1" v-if="checkTemplate(option)" :id="option.id">
@@ -215,7 +215,7 @@
                               <span v-if="option.id == competation_format.tournament_template_id">
                                 <div class="checkbox">
                                   <div class="c-input">
-                                      <input type="radio" class="euro-radio ttmp" name="tournamentTemplate" checked="checked" :value="option" v-validate="'required'" id="template_option">
+                                      <input type="radio" class="euro-radio ttmp" name="tournamentTemplate" checked="checked" :value="option" v-validate="'required'" id="template_option" key="tournamentTemplate">
                                       <label for="template_option"></label>
                                   </div>
                                 </div> 
@@ -231,6 +231,7 @@
                                         v-model="competation_format.tournamentTemplate"
                                         v-validate="'required'"
                                         :class="{'is-danger': errors.has('tournamentTemplate') }"
+                                        key="tournamentTemplate"
                                         v-if="checkTemplate(option)">
                                         <label :for="'tournament_template_'+option.id"></label>
                                   </div>
@@ -257,7 +258,7 @@
                       </div>
                     </div>
                     <div v-if="options.length == 0" class="col-sm-12">
-                      No templates found.
+                      <span class="help is-danger">No templates found.</span>
                     </div>
                   </div>
                 </div>
@@ -523,6 +524,11 @@
                   <div class="row align-items-center">
                     <div class="col-sm-12">
                       <div class="template-font-color-box pull-left mr-2" @click="setTemplateFontColor(color)" v-for="color in templateFontColors" :style="{'background-color': color}" :class="{ 'template-font-color-active' :template_font_color == color }"></div>
+                      <input type="hidden" name="template_font_color" v-model="template_font_color" v-validate="'required'" :class="{'is-danger': errors.has('template_font_color') }" data-vv-as="template font color" key="template_font_color">
+                    </div>
+                    <div class="col-12">
+                      <i v-show="errors.has('template_font_color')" class="fa fa-warning"></i>
+                      <span class="help is-danger" v-show="errors.has('template_font_color')">{{ errors.first('template_font_color') }}</span>                        
                     </div>
                   </div>
                 </div>
@@ -571,14 +577,11 @@ export default {
       minimum_matches:'', number_teams: '',
       optEdit: [],
       value: [],
-      tempTrue: false,
-      trempVal:false,
       dispTempl: true,
       nullTemp:false,
       selected: null,
       isTouched: false,
       isInvalid: false,
-      options: [],
       isAgeCategoryDisabled: false,
       isPitchSizeDisabled: false,
       exceedTeamLimit: false,
@@ -601,61 +604,37 @@ export default {
     }
   },
   watch: {
-    competation_format: {
-      handler: function (val,oldval){
-        // here we watch for changes for data
-        if(this.number_teams != '' && this.minimum_matches != ''){
-          // this.TournamentCompetationList(val)
-        }
-      },
-      deep:true
-    },
-    // here call methods which checkd for options values
-
     minimum_matches: function(val){
-      let tournamentData={'minimum_matches':val,'total_teams':this.number_teams}
-
-      // if(val != '' && this.number_teams != '') {
-      if(this.minimum_matches != '' && val != '' && (this.tournament_format == 'advance' || this.tournament_format == 'festival') ) {
-        this.trempVal = true
+      if(this.number_teams != '' && val != '' && (this.tournament_format == 'advance' || this.tournament_format == 'festival') ) {
         this.competation_format.minimum_matches = val
         this.competation_format.total_teams = this.number_teams
         this.competation_format.tournament_format = this.tournament_format
 
         this.TournamentCompetationList(this.competation_format)
       } else {
-        this.trempVal = false
+        this.options = [];
       }
-      //this.TournamentCompetationList(tournamentData)
     },
     number_teams: function(val){
-      let tournamentData={'minimum_matches':this.minimum_matches,'total_teams':val}
-
-      // if(this.minimum_matches != '' && val != '') {
       if(this.minimum_matches != '' && val != '' && (this.tournament_format == 'advance' || this.tournament_format == 'festival') ) {
-        this.trempVal = true
         this.competation_format.minimum_matches = this.minimum_matches
         this.competation_format.total_teams = this.number_teams
         this.competation_format.tournament_format = this.tournament_format
 
         this.TournamentCompetationList(this.competation_format)
       } else {
-        this.trempVal = false
+        this.options = [];
       }
-     // this.TournamentCompetationList(tournamentData)
     },
     tournament_format: function(val) {
-      let tournamentData={'minimum_matches':this.minimum_matches,'total_teams':val}
-
-      if(this.minimum_matches != '' && val != '' && (this.tournament_format == 'advance' || this.tournament_format == 'festival') ) {
-        this.trempVal = true
+      if(this.minimum_matches != '' && this.number_teams != '' && (this.tournament_format == 'advance' || this.tournament_format == 'festival') ) {
         this.competation_format.minimum_matches = this.minimum_matches
         this.competation_format.total_teams = this.number_teams
         this.competation_format.tournament_format = this.tournament_format
 
         this.TournamentCompetationList(this.competation_format)
       } else {
-        this.trempVal = false
+        this.options = [];
       }
     }
   },
@@ -766,9 +745,9 @@ export default {
       return true
     },
     checkTemplate(option){
-      this.dispTempl = false;
+      // this.dispTempl = false;
       if ($('.ttmp').length == 0  && (this.tournament_format == 'advance' || this.tournament_format == 'festival')) {
-        this.dispTempl = true
+        // this.dispTempl = true
       }
       if ($('.ttmp').length > 0) {
        $('.dispTemplate').css('display','block')
@@ -778,7 +757,6 @@ export default {
       }
       if(option.minimum_matches ==  this.minimum_matches
         && option.total_teams == this.number_teams) {
-        this.tempTrue = 'true'
         return true
       } else {
 
@@ -920,7 +898,7 @@ export default {
       // Now here we find the
       let that = this
 
-      let templates = this.options
+      let templates = _.cloneDeep(this.options);
       let data =[]
 
       templates.forEach(function(template, index) {
@@ -932,9 +910,10 @@ export default {
       return data
     },
     TournamentCompetationList(tournamentData=[]) {
+      let vm = this;
       Tournament.getAllTournamentTemplate(tournamentData).then(
         (response) => {
-          this.options = response.data.data
+          vm.options = response.data.data
         },
         (error) => {
         }
@@ -966,62 +945,50 @@ export default {
      this.competation_format.group_size = (this.tournament_format == 'basic' && this.competition_type == 'knockout') ? this.group_size : null;
      this.competation_format.template_font_color = this.template_font_color ? this.template_font_color : null;
      this.competation_format.remarks = this.remarks ? this.remarks : null;
-
      this.$validator.validateAll().then(
           (response) => {
-            if(this.dispTempl == true) {
-              return false;
-            }
-            if(this.isInvalid == true) {
-              return false;
-            }
-            //  if(Object.keys(this.competation_format.tournamentTemplate).length == 0)
-              if(this.competation_format.competation_format_id != '0' && typeof this.competation_format.tournamentTemplate=== 'number')
-              {
-               //alert('1')
-                // this.$validator.errors.error='adsasd'
-                //return true
-              } else {
-              //alert('3')
-                //return false
+            if(response) {
+              if ($('.ttmp').length == 0  && (this.tournament_format == 'advance' || this.tournament_format == 'festival')) {
+                return false;
               }
+              if(this.isInvalid == true) {
+                return false;
+              }
+              
+                this.isSaveInProcess = true;
+                Tournament.saveCompetationFormat(this.competation_format).then(
+                  (response) => {
+                    if(response.data.status_code == 200) {
+                      if (comp_id==''){
+                        toastr.success('Age category has been added successfully.', 'Add Age Category', {timeOut: 5000});
+                      }else{
+                        toastr.success('Age category has been edited successfully.', 'Edit Age Category', {timeOut: 5000});
+                      }
+                      //this.$router.push({name: 'competition_format'})
 
-              if(!$('input[name="tournamentTemplate"]')  )  {
-               // alert('No Template')
-              }
-              this.isSaveInProcess = true;
-              Tournament.saveCompetationFormat(this.competation_format).then(
-                (response) => {
-                  if(response.data.status_code == 200) {
-                    if (comp_id==''){
-                      toastr.success('Age category has been added successfully.', 'Add Age Category', {timeOut: 5000});
-                    }else{
-                      toastr.success('Age category has been edited successfully.', 'Edit Age Category', {timeOut: 5000});
+                      $('#AgeCategoryModal').modal('hide')
+                      // $("#ageCategoryName")[0].reset();
+
+                     // $('#ageCategoryName').reset()
+
+                      // $('#saveAge').attr('data-dismiss','modal')
+               //         $('#AgeCategoryModal').modal('hide')
+
+                      this.$root.$emit('displayCompetationList')
+                    } else if(response.data.status_code == 403) {
+                      this.exceedTeamLimitMessage = response.data.message;
+                      this.exceedTeamLimit = true;
+                      $('.add-category-table .modal').animate({ scrollTop: 0}, 500);
+                    } else {
+                      alert('Error Occured')
                     }
-                    //this.$router.push({name: 'competition_format'})
-
-                    $('#AgeCategoryModal').modal('hide')
-                    // $("#ageCategoryName")[0].reset();
-
-                   // $('#ageCategoryName').reset()
-
-                    // $('#saveAge').attr('data-dismiss','modal')
-             //         $('#AgeCategoryModal').modal('hide')
-
-                    this.$root.$emit('displayCompetationList')
-                  } else if(response.data.status_code == 403) {
-                    this.exceedTeamLimitMessage = response.data.message;
-                    this.exceedTeamLimit = true;
-                    $('.add-category-table .modal').animate({ scrollTop: 0}, 500);
-                  } else {
-                    alert('Error Occured')
-                  }
-                  this.isSaveInProcess = false;
-              },
-              (error) => {
-              }
-            )
-            // $('#saveAge').attr('data-dismiss','modal')
+                    this.isSaveInProcess = false;
+                },
+                (error) => {
+                }
+              )
+              // $('#saveAge').attr('data-dismiss','modal')
+            }
           },
           (error) => {
           }
@@ -1192,6 +1159,7 @@ export default {
     setNumberTeams(type) {
       if(this.competation_format.id != '' && (type == 'league' || type == 'knockout')) {
         this.number_teams = '';
+        this.group_size = '';
       } else {
         this.number_teams = this.competation_format.total_teams;
       }
