@@ -30,42 +30,46 @@
             <div class="row">
               <div class="col-md-6">
                 <div class="jumbotron h-100 mb-0 px-4 py-4">
-                  <p class="row">
-                      <label class="col-md-6"><strong>{{$lang.competation_modal_format_team}}</strong></label>
-                      <label class="col-md-6">{{ templateData['tournament_teams'] }}</label>
+                  <p class="row no-gutters">
+                    <label class="col-md-7"><strong>{{$lang.competation_modal_format_team}}</strong></label> 
+                    <label class="col-md-5 pl-2">{{ templateData['tournament_teams'] }}</label>
                   </p>
-                  <p class="row">
-                      <label class="col-md-6"><strong>{{$lang.competation_modal_minimum_matches}}</strong></label>
-                      <label class="col-md-6">{{ templateData['tournament_min_match'] }}</label>
+                  <p class="row no-gutters">
+                    <label class="col-md-7"><strong>{{$lang.competation_modal_format_team}}</strong></label>
+                    <label class="col-md-5 pl-2">{{ templateData['tournament_teams'] }}</label>
                   </p>
-                  <p class="row mb-0">
-                      <label class="col-md-6"><strong>{{$lang.competation_modal_foramt_competation_foramt}}</strong></label>
+                  <p class="row no-gutters">
+                      <label class="col-md-7"><strong>{{$lang.competation_modal_minimum_matches}}</strong></label>
+                      <label class="col-md-5 pl-2">{{ templateData['tournament_min_match'] }}</label>
+                  </p>
+                  <p class="row no-gutters mb-0">
+                    <label class="col-md-7"><strong>{{$lang.competation_modal_foramt_competation_foramt}}</strong></label>
                       <!-- <label class="col-md-4">{{ templateData['competation_format'] }}</label> -->
-                      <label class="col-md-6">{{templateData.tournament_teams}} teams<br/> {{templateData.competition_group_round}} <br/> {{templateData.competition_round}}</label>
+                    <label class="col-md-5 pl-2">{{templateData.tournament_teams}} teams<br/> {{templateData.competition_group_round}} <br/> {{templateData.competition_round}}</label>
                   </p>
                 </div>
               </div>
               <div class="col-md-6">
                 <div class="jumbotron mb-0 h-100 px-4 py-4 m-h-214">
-                  <p class="row">
-                      <label class="col-md-6"><strong>{{$lang.competation_modal_matches_total_matches}}</strong></label>
-                      <label class="col-md-6">{{ templateData['total_matches'] }}</label>
+                  <p class="row no-gutters">
+                      <label class="col-md-7"><strong>{{$lang.competation_modal_matches_total_matches}}</strong></label>
+                      <label class="col-md-5 pl-2">{{ templateData['total_matches'] }}</label>
                   </p>
-                  <p class="row">
-                      <label class="col-md-6"><strong>{{$lang.competation_modal_time}}</strong></label>
-                      <label class="col-md-6">{{totalTime | formatTime}} </label>
+                  <p class="row no-gutters">
+                      <label class="col-md-7"><strong>{{$lang.competation_modal_time}}</strong></label>
+                      <label class="col-md-5 pl-2">{{totalTime | formatTime}} </label>
                   </p>
-                   <p class="row">
-                      <label class="col-md-6"><strong>{{$lang.competation_modal_remark}}</strong></label>
-                      <label class="col-md-6">
+                   <p class="row no-gutters">
+                      <label class="col-md-7"><strong>{{$lang.competation_modal_remark}}</strong></label>
+                      <label class="col-md-5 pl-2">
                         <span  v-if="templateData['remark']">
                         {{templateData['remark']}} </span>
                         <span v-else>Not applicable</span>
                       </label>
                   </p>
-                  <p class="row">
-                    <label class="col-md-6"><strong>{{$lang.competation_modal_avg_games_team}}</strong></label>
-                    <label class="col-md-6">
+                  <p class="row no-gutters">
+                    <label class="col-md-7"><strong>{{$lang.competation_modal_avg_games_team}}</strong></label>
+                    <label class="col-md-5 pl-2">
                       <span  v-if="templateData['avg_game_team']">
                       {{templateData['avg_game_team']}} </span>
                       <span v-else>Not applicable</span>
