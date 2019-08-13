@@ -940,7 +940,7 @@ export default {
      // this.competation_format.nwTemplate =  this.options[0]
      this.competation_format.nwTemplate =  this.competation_format.tournamentTemplate
      // TODO : add minimum_matches and number_teams with competation format
-     this.competation_format.min_matches = this.minimum_matches
+     this.competation_format.min_matches =  this.tournament_format != 'basic' ? this.minimum_matches : null;
      this.competation_format.total_teams = this.number_teams
      this.competation_format.selectedCategoryRule = _.cloneDeep(this.competation_format.rules);
 
@@ -949,6 +949,7 @@ export default {
      this.competation_format.group_size = (this.tournament_format == 'basic' && this.competition_type == 'knockout') ? this.group_size : null;
      this.competation_format.template_font_color = this.template_font_color ? this.template_font_color : null;
      this.competation_format.remarks = this.remarks ? this.remarks : null;
+
      this.$validator.validateAll().then(
           (response) => {
             if(response) {
