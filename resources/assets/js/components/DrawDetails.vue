@@ -34,11 +34,12 @@
     <span v-if="match1Data.length == 0 && otherData.DrawType != 'Elimination'"> No information available</span>
   </div>
 <!--<h6>{{otherData.DrawName}} results grid</h6>-->
-  <table class="table table-hover table-bordered tbl-drawdetails" border="1" v-if="match1Data.length > 0 && otherData.DrawType != 'Elimination'" >
+<div class="table-responsive mb-4">
+  <table class="table table-hover table-bordered tbl-drawdetails mb-0" border="1" v-if="match1Data.length > 0 && otherData.DrawType != 'Elimination'" >
     <thead>
       <tr>
-          <th :width="(100/(match1Data.length+1)) + '%'"></th>
-          <th :width="(100/(match1Data.length+1)) + '%'" v-for="(match,index) in match1Data" class="text-center">
+          <th></th>
+          <th v-for="(match,index) in match1Data" class="text-center">
             <div class="matchteam-details d-block">
               <span v-if="match.TeamCountryFlag != null" :class="'matchteam-flag flag-icon flag-icon-'+match.TeamCountryFlag"></span>
               <div class="matchteam-dress" v-if="match.ShortsColor && match.ShirtColor">
@@ -55,7 +56,7 @@
     <tbody>
       <tr v-for="(match,index) in match1Data">
 
-          <td :width="(100/(match1Data.length+1)) + '%'">
+          <td>
             <div class="matchteam-details">
               <span v-if="match.TeamCountryFlag != null" :class="'matchteam-flag flag-icon flag-icon-' + match.TeamCountryFlag"></span>
               <div class="matchteam-dress" v-if="match.ShortsColor && match.ShirtColor">
@@ -68,7 +69,7 @@
           </td>
 
 
-          <td :width="(100/(match1Data.length+1)) + '%'" v-for="(teamMatch, ind2) in match.matches" :class="[teamMatch == 'Y' ? 'bg-light-grey' : '', '']">
+          <td v-for="(teamMatch, ind2) in match.matches" :class="[teamMatch == 'Y' ? 'bg-light-grey' : '', '']">
             <div class="text-center" v-if="teamMatch.score == null && teamMatch != 'Y' && teamMatch != 'X' ">
           {{teamMatch.date | formatDate}}</div>
             <div class="text-center" v-else> {{teamMatch.score}}</div>
@@ -79,7 +80,7 @@
         </tr>
     </tbody>
   </table>
-
+</div>
   <div class="form-group">
     <h6 v-if="otherData.DrawType != 'Elimination'" class="mb-0 fieldset-title">
     {{otherData.DrawName}} standings

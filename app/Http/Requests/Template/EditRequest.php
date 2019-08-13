@@ -19,8 +19,7 @@ class EditRequest extends FormRequest
     {
         $templateId = $this->route('id');
         $loggedInUser = $this->getCurrentLoggedInUserDetail();
-
-        if($loggedInUser->hasRole('Super.administrator') || $loggedInUser->hasRole('tournament.administrator') || $loggedInUser->hasRole('Internal.administrator')) {
+        if($loggedInUser->hasRole('Super.administrator')) {
             return true;
         }
 

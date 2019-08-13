@@ -292,8 +292,8 @@
 										</div>
 									</div>
 								</div>
-							</form>
-						</div>
+							</div>
+						</form>
 						<div class="row align-items-center mt-4">
 							<div class="col-md-12">
 								<div class="d-flex align-items-center justify-content-end">
