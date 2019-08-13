@@ -31,21 +31,17 @@
               <div class="col-md-6">
                 <div class="jumbotron h-100 mb-0 px-4 py-4">
                   <p class="row no-gutters">
-                    <label class="col-md-7"><strong>{{$lang.competation_modal_format_team}}</strong></label> 
-                    <label class="col-md-5 pl-2">{{ templateData['tournament_teams'] }}</label>
-                  </p>
-                  <p class="row no-gutters">
-                    <label class="col-md-7"><strong>{{$lang.competation_modal_format_team}}</strong></label>
-                    <label class="col-md-5 pl-2">{{ templateData['tournament_teams'] }}</label>
+                      <label class="col-md-7"><strong>{{$lang.competation_modal_format_team}}</strong></label>
+                      <label class="col-md-5 pl-2">{{ templateData['tournament_teams'] }}</label>
                   </p>
                   <p class="row no-gutters">
                       <label class="col-md-7"><strong>{{$lang.competation_modal_minimum_matches}}</strong></label>
                       <label class="col-md-5 pl-2">{{ templateData['tournament_min_match'] }}</label>
                   </p>
                   <p class="row no-gutters mb-0">
-                    <label class="col-md-7"><strong>{{$lang.competation_modal_foramt_competation_foramt}}</strong></label>
+                      <label class="col-md-7"><strong>{{$lang.competation_modal_foramt_competation_foramt}}</strong></label>
                       <!-- <label class="col-md-4">{{ templateData['competation_format'] }}</label> -->
-                    <label class="col-md-5 pl-2">{{templateData.tournament_teams}} teams<br/> {{templateData.competition_group_round}} <br/> {{templateData.competition_round}}</label>
+                      <label class="col-md-5 pl-2">{{templateData.tournament_teams}} teams<br/> {{templateData.competition_group_round}} <br/> {{templateData.competition_round}}</label>
                   </p>
                 </div>
               </div>
