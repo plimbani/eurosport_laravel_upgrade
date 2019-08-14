@@ -40,7 +40,6 @@
                   </p>
                   <p class="row no-gutters mb-0">
                       <label class="col-md-7"><strong>{{$lang.competation_modal_foramt_competation_foramt}}</strong></label>
-                      <!-- <label class="col-md-4">{{ templateData['competation_format'] }}</label> -->
                       <label class="col-md-5 pl-2">{{ displayRoundSchedule() }}</label>
                   </p>
                 </div>
