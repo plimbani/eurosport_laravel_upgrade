@@ -221,7 +221,18 @@
                     let tabWith = $('#gameReferee').width()+10;
                     
                     if( $(window).scrollTop() > (stickyHeaderTop - siteHeaderHeight)) {
-                        $('#gameReferee').css({position: 'fixed', top: '0', width: tabWith, 'margin-top':$('.site-header').height()});
+                        
+                        var headerHeight;
+                        if ( $('.site-header').length )
+                        {
+                            headerHeight = $('.site-header').height();
+                        }
+                        else
+                        {
+                            headerHeight = $('.header').height();
+                        }
+
+                        $('#gameReferee').css({position: 'fixed', top: '0', width: tabWith, 'margin-top':headerHeight});
 
                     } else {
                         $('#gameReferee').css({position: 'static', top: '0', width:tabWith, 'margin-top':0});

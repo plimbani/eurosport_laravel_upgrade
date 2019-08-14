@@ -158,7 +158,7 @@ class TransactionRepository
      * @return array
      */
     public function addTransaction($data, $tournamentRes, $userId)
-    {
+    {   
         $paymentStatus = config('app.payment_status');
         $transaction = [
             'tournament_id' => !empty($tournamentRes->id) ? $tournamentRes->id : null,
@@ -167,6 +167,7 @@ class TransactionRepository
         $response = Transaction::create($transaction);
 				
         //Add in transaction history
+
         $transactionHistory = [
             'transaction_id' => $response->id,
             'order_id' => $data['ORDERID'],
@@ -179,7 +180,7 @@ class TransactionRepository
             'card_holder_name' => (isset($data['CN'])) ? $data['CN'] : null,
             'card_number' => (isset($data['CARDNO'])) ? $data['CARDNO'] : null,
             'card_validity' => (isset($data['ED'])) ? $data['ED'] : null,
-            'transaction_date' => date('Y-m-d H:i:s', strtotime($data['TRXDATE'])),
+            'transaction_date' => date('Y-m-d H:i:s', strtotime($data['TRXDATE'].' '.date('H:i:s'))),
             'brand' => (isset($data['BRAND'])) ? $data['BRAND'] : null,
             'payment_response' => json_encode($data),
 			'no_of_days' => $tournamentRes->no_of_days
@@ -243,12 +244,12 @@ class TransactionRepository
                 'amount' => number_format($data['AMOUNT'], 2, '.', ''),
                 'status' => $paymentStatus[$data['STATUS']],
                 'currency' => $data['CURRENCY'],
-                'card_type' => $data['PM'],
-                'card_holder_name' => $data['CN'],
-                'card_number' => $data['CARDNO'],
-                'card_validity' => $data['ED'],
-                'transaction_date' => date('Y-m-d H:i:s', strtotime($data['TRXDATE'])),
-                'brand' => $data['BRAND'],
+                'card_type' => (isset($data['PM'])) ? $data['PM'] : null,
+                'card_holder_name' => (isset($data['CN'])) ? $data['CN'] : null,
+                'card_number' => (isset($data['CARDNO'])) ? $data['CARDNO'] : null,
+                'card_validity' => (isset($data['ED'])) ? $data['ED'] : null,
+                'transaction_date' => date('Y-m-d H:i:s', strtotime($data['TRXDATE'].' '.date('H:i:s'))),
+                'brand' => (isset($data['BRAND'])) ? $data['BRAND'] : null,
                 'payment_response' => json_encode($data),
                 'updated_at' => date('Y-m-d H:i:s'),
 				'no_of_days' => $tournament['dayDifference']

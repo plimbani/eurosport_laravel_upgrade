@@ -12,12 +12,15 @@
 		margin: 0cm auto;
 	}
 </style>
-
-@if($tournamentData->tournamentLogo)
-    <center>
-        <img src="{{ $tournamentData->tournamentLogo }}" height="100">
-    </center>
-@endif
+<center>
+@if($tournamentData->tournamentLogo != null)
+    <img src="{{ $tournamentData->tournamentLogo }}" class="hidden-sm-down text-center" alt="Laraspace Logo" width="200px">
+  @elseif(Config::get('config-variables.current_layout') == 'tmp')
+    <img  src="{{ asset('assets/img/tmplogo.svg')}}" alt="Laraspace Logo" class="hidden-sm-down text-center" width="200px">
+  @elseif(Config::get('config-variables.current_layout') == 'commercialisation')
+    <img  src="{{ asset('assets/img/easy-match-manager/emm.svg')}}" alt="Laraspace Logo" class="hidden-sm-down text-center" width="200px">
+  @endif 
+</center>
 
 <table class="tblpage" border="1" cellpadding="1" cellspacing="0" width="100%" style="font-size: 70%">
 	<h4>Reports</h4>

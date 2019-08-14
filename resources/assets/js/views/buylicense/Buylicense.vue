@@ -41,8 +41,8 @@
                                               <input type="radio" id="no" name="custom_tournament_format" 
                                               value="0" class="euro-radio mr-2"  v-model="tournamentData.custom_tournament_format" @change="tournammentPricingData()">
                                               <label for="no">No <span></span>
-                                              <span v-if="tournamentData.currency_type == 'GBP'">&#163; INCLUDED</span> 
-                                              <span v-if="tournamentData.currency_type == 'EURO'">&#128; INCLUDED</span></label>
+                                              <span v-if="tournamentData.currency_type == 'GBP'">£ INCLUDED</span> 
+                                              <span v-if="tournamentData.currency_type == 'EURO'">€ INCLUDED</span></label>
                                             </div>
                                         </div>
                                     </label>
@@ -52,8 +52,7 @@
                                               <input type="radio" id="yes" name="custom_tournament_format" value="1" class="euro-radio mr-2"  v-model="tournamentData.custom_tournament_format" 
                                               @change="tournammentPricingData()">
                                               <label for="yes">Yes 
-                                                <span v-if="tournamentData.currency_type == 'GBP'">&#163; {{returnFormatedNumber(tournamentData.tournamentLicenseAdvancePriceDisplay)}}</span>   
-                                                <span v-if="tournamentData.currency_type == 'EURO'">&#128; {{returnFormatedNumber(tournamentData.tournamentLicenseAdvancePriceDisplay)}}</span>
+                                                <span v-if="tournamentData.currency_type == 'GBP'">£ {{returnFormatedNumber(tournamentData.tournamentLicenseAdvancePriceDisplay)}}</span><span v-if="tournamentData.currency_type == 'EURO'">€ {{returnFormatedNumber(tournamentData.tournamentLicenseAdvancePriceDisplay)}}</span>
                                             </label>
                                             </div>
                                         </div>
@@ -118,20 +117,30 @@
                                         <div class="col-sm-6 col-md-9 col-lg-9">
                                             <p class="mb-0">{{tournamentData.tournament_max_teams}} team license for a {{dayDifference}} day tournament</p>
                                         </div>
+
                                         <div class="col-sm-6 col-md-3 col-lg-3">
                                             <p class="text-sm-right mb-0 mt-3 mt-sm-0">
-                                             <span v-if="tournamentData.currency_type == 'GBP'">&#163;</span>
-                                             <span v-if="tournamentData.currency_type == 'EURO'">&#128;</span>{{returnFormatedNumber(tournamentData.tournamentPricingValue)}}
+                                             <span v-if="tournamentData.currency_type == 'GBP'">£</span><span v-if="tournamentData.currency_type == 'EURO'">€</span>{{returnFormatedNumber(manageTournamentTaemsAndDaysFormatValue)}}
                                          </p>
+                                        </div>
+                                    </div>
 
+                                    <div class="row" v-if="tournamentData.tournament_type == 'cup' && tournamentData.custom_tournament_format == 1">
+                                        <div class="col-sm-6 col-md-9 col-lg-9">
+                                            <p class="mb-0">Create custom formats</p>
+                                        </div>
+
+                                        <div class="col-sm-6 col-md-3 col-lg-3">
+                                            <p class="text-sm-right mb-0 mt-3 mt-sm-0">
+                                             <span v-if="tournamentData.currency_type == 'GBP'">£</span><span v-if="tournamentData.currency_type == 'EURO'">€</span>{{returnFormatedNumber(manageTournamentFormatValue)}}
+                                            </p>
                                         </div>
                                     </div>
 
                                     <div class="divider my-3 opacited"></div>
 
                                     <p class="text-sm-right font-weight-bold">
-                                        <span v-if="tournamentData.currency_type == 'GBP'">&#163;</span>
-                                        <span v-if="tournamentData.currency_type == 'EURO'">&#128;</span>{{returnFormatedNumber(tournamentData.tournamentPricingValue)}}</p>
+                                        <span v-if="tournamentData.currency_type == 'GBP'">£</span><span v-if="tournamentData.currency_type == 'EURO'">€</span>{{returnFormatedNumber(tournamentData.tournamentPricingValue)}}</p>
                                 </div>
                                 <div class="card-text" v-if="id">
                                     <div class="row" v-if="new_added_teams != 0">
@@ -151,8 +160,7 @@
                                         <div class="col-4 text-right">
                                             <p class="text-sm-right mb-0 mt-3 mt-sm-0" 
                                             v-if="manageLicensePaymentPrice">
-                                             <span v-if="tournamentData.currency_type == 'GBP'">&#163;</span>
-                                             <span v-if="tournamentData.currency_type == 'EURO'">&#128;</span>{{returnFormatedNumber(manageTournamentTaemsAndDaysFormatValue)}}</p>
+                                             <span v-if="tournamentData.currency_type == 'GBP'">£</span><span v-if="tournamentData.currency_type == 'EURO'">€</span>{{returnFormatedNumber(manageTournamentTaemsAndDaysFormatValue)}}</p>
                                         </div>
                                     </div>
 
@@ -164,9 +172,7 @@
                                         </div>
                                         <div class="col-4 text-right">
                                             <p class="text-sm-right mb-0 mt-3 mt-sm-0">
-
-                                             <span v-if="tournamentData.currency_type == 'GBP'">&#163;</span>
-                                             <span v-if="tournamentData.currency_type == 'EURO'">&#128;</span>{{returnFormatedNumber(manageTournamentTaemsAndDaysFormatValue)}}</p>
+                                             <span v-if="tournamentData.currency_type == 'GBP'">£</span><span v-if="tournamentData.currency_type == 'EURO'">€</span>{{returnFormatedNumber(manageTournamentTaemsAndDaysFormatValue)}}</p>
                                         </div>
                                     </div>
 
@@ -192,8 +198,7 @@
                                         </div>
                                         <div class="col-4 text-right">
                                             <p class="text-sm-right mb-0 mt-3 mt-sm-0">
-                                             <span v-if="tournamentData.currency_type == 'GBP'">&#163;</span>
-                                             <span v-if="tournamentData.currency_type == 'EURO'">&#128;</span>{{returnFormatedNumber(manageTournamentFormatValue)}}</p>
+                                             <span v-if="tournamentData.currency_type == 'GBP'">£</span><span v-if="tournamentData.currency_type == 'EURO'">€</span>{{returnFormatedNumber(manageTournamentFormatValue)}}</p>
                                         </div>
                                     </div>
 
@@ -210,19 +215,17 @@
 
                                     <div class="row" v-if="!buyLicenseReduceTeamAndDay">
                                         <div class="col-8">
-                                           <p class="mb-0">Already paid amount</p>
+                                           <p class="mb-0">Amount already paid</p>
                                         </div>
                                         <div class="col-4 text-right">
                                             <p class="text-sm-right mb-0 mt-3 mt-sm-0">
-                                            -<span v-if="tournamentData.currency_type == 'GBP'">&#163;</span>
-                                             <span v-if="tournamentData.currency_type == 'EURO'">&#128;</span>{{returnFormatedNumber(manageTournamentAlreadyPaid)}}</p>
+                                            -<span v-if="tournamentData.currency_type == 'GBP'">£</span><span v-if="tournamentData.currency_type == 'EURO'">€</span>{{returnFormatedNumber(manageTournamentAlreadyPaid)}}</p>
                                         </div>
                                     </div>
 
                                     <div class="divider my-3 opacited"></div>
                                     <p class="text-sm-right font-weight-bold" v-if="manageLicensePaymentPrice">
-                                        <span v-if="tournamentData.currency_type == 'GBP'">&#163;</span>
-                                        <span v-if="tournamentData.currency_type == 'EURO'">&#128;</span>{{returnFormatedNumber(tournamentData.tournamentPricingValue)}}</p>
+                                        <span v-if="tournamentData.currency_type == 'GBP'">£</span><span v-if="tournamentData.currency_type == 'EURO'">€</span>{{returnFormatedNumber(tournamentData.tournamentPricingValue)}}</p>
                                 </div>
                                 <div class="row justify-content-end">
                                     <div class="col-md-7 col-lg-7" :class="!tournamentData.is_renew ? 'col-xl-6' : 'col-xl-7'">
