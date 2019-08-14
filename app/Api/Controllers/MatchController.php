@@ -322,7 +322,7 @@ class MatchController extends BaseController
 
                 $matchResult = $matchRepoObj->saveResult($matchData);
                 $allCompetitions[] = $fixture->competition_id;
-                // $competationId = $matchServiceObj->calculateCupLeagueTable($fixture);
+                $competationId = $matchServiceObj->calculateCupLeagueTable($fixture);
             }
             $allCompetitions = array_unique($allCompetitions);
             sort($allCompetitions);

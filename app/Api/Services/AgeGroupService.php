@@ -142,7 +142,7 @@ class AgeGroupService implements AgeGroupContract
         // First we check if its Edit or Update
         if(isset($data['competation_format_id']) && $data['competation_format_id'] != 0)
         {
-            if($data['tournament_template_id'] != $data['tournamentTemplate']['id'] ) {
+            if($data['tournament_template_id'] != $data['tournamentTemplate']['id'] || $tournamentTemplateObj->tournament_format != $data['tournament_format'] || ($data['tournament_format'] === 'basic' && $tournamentTemplateObj->competition_type != $data['competition_type'])) {
                 $this->ageGroupObj->deleteCompetationData($data);
 
                 $id = $data['competation_format_id'];
