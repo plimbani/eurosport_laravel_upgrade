@@ -85,7 +85,7 @@
                                             <div class="col-xl-5 mt-3 mt-lg-0 text-lg-right">
                                                 <div class="btn-group">
                                                     <button class="btn btn-link" @click="deleteTemplate(template)"><img src="/images/delete.png" alt=""> Delete</button>
-                                                    <button class="btn btn-outline ml-2" @click="editTemplate(template.id)"><img src="/images/edit.png" alt=""> Edit</button>
+                                                    <button class="btn btn-outline ml-2" @click="checkForEditTemplate(template)"><img src="/images/edit.png" alt=""> Edit</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -111,6 +111,8 @@
         </div>
         <delete-modal :deleteConfirmMsg="deleteConfirmMsg" @confirmed="deleteConfirmed()"></delete-modal>
         <template-in-use-modal v-show="templateInUseModal"></template-in-use-modal>
+        <template-version-confirm-modal v-show="templateEditModal" @confirmed="editConfirmed()"></template-version-confirm-modal>
+
     </div>
 </template>
 <script type="text/babel">
@@ -120,6 +122,7 @@
     import Template from '../../api/template'
     import DeleteModal from '../../components/DeleteModal.vue'
     import TemplateInUseModal from '../../components/TemplateInUseModal.vue'
+    import TemplateVersionConfirmModal from '../../components/TemplateVersionConfirmModal.vue'
     
     export default {
         data() {
@@ -133,10 +136,12 @@
                 deleteAction: '',
                 templateInUseModal: false,
                 deleteConfirmMsg: 'Are you sure you would like to delete this template?',
+                templateEditModal: false,
+                templateEdit: null,
             }
         },
         components: {
-            DeleteModal, TemplateInUseModal
+            DeleteModal, TemplateInUseModal, TemplateVersionConfirmModal
         },        
         computed: {
         },
@@ -292,6 +297,28 @@
             },
             addTemplate() {
                 this.$router.push({name: 'templates_list', query: {from: 'add'}});
+            },
+            checkForEditTemplate(template){
+                this.templateEdit = null;
+                Template.getTemplateDetail(template).then(
+                  (response)=> {
+                      this.templateEdit = template;
+                      if(response.data.data.length == 0) {
+                        this.editTemplate(template.id);
+                      } else {
+                        this.templateEditModal = true;
+                        $('#template_version_confirm_modal').modal('show');
+                        return true;
+                      }
+                  },
+                  (error)=> {
+                  }
+                )
+            },
+            editConfirmed(){
+                $('#template_version_confirm_modal').modal('hide');
+                this.editTemplate(this.templateEdit.id);
+                this.templateEdit = null;
             },
             editTemplate(templateId) {
                 this.$router.push({name: 'templates_list', query: {templateId: templateId, from: 'edit'}});
