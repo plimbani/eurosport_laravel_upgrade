@@ -1,6 +1,10 @@
 .layout-horizontal .main-content {
     // padding: 138px 30px 10px;
     padding-top: 85px;
+}
+
+.layout-horizontal .main-content,
+.section-hero-area {
     min-height: calc(100vh - 60px);
 }
 
@@ -25,6 +29,7 @@
         -ms-flex-align: center;
         align-items: center;
         padding: 15px 0;
+
         // background-color: color('grey','lighten-3');
         &.sticky {
             position: fixed;
@@ -61,7 +66,9 @@
             width: 25px;
         }
 
-        .dropdown-item.active, .dropdown-item.active:focus, .dropdown-item.active:hover{
+        .dropdown-item.active,
+        .dropdown-item.active:focus,
+        .dropdown-item.active:hover {
             color: $ls-color-primary;
 
             background-color: transparent;
@@ -71,7 +78,7 @@
             }
         }
 
-        &.active > a {
+        &.active>a {
             color: $ls-color-primary;
 
             &:hover {
@@ -86,7 +93,7 @@
             font-size: 14px;
         }
 
-        &.has-child > a {
+        &.has-child>a {
             padding: 12px 40px 12px 20px;
         }
 
@@ -95,7 +102,7 @@
             color: #fff;
         }
 
-        &.has-child > a::before {
+        &.has-child>a::before {
             border-color: $sidemenu-arrow-color transparent transparent;
             border-style: solid;
             border-width: 5px 4px 0;
@@ -123,11 +130,11 @@
         height: 100%;
     }
 
-    &.has-child > a::before {
+    &.has-child>a::before {
         transform: rotate(-90deg);
     }
 
-    &.has-child.open > a::before {
+    &.has-child.open>a::before {
         transform: rotate(0deg);
     }
 

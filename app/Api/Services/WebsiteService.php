@@ -167,7 +167,7 @@ class WebsiteService implements WebsiteContract
     $data['imagePath'] = $imagePath;
     $googleMapKey = env('GOOGLE_API_KEY');
     $data['googleMapKey'] = $googleMapKey;
-
+    $data['currentLayout'] = config('config-variables.current_layout');
     $matchIdleTime = config('config-variables.match_idle_time');
     $data['matchIdleTime'] = $matchIdleTime;
 
