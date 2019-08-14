@@ -125,7 +125,6 @@ class AgeGroupService implements AgeGroupContract
             $mininterval = $tournamentTemplateObj->team_interval;
         }
         
-
         $id = $this->ageGroupObj->createCompeationFormat($data);
 
         $allReferees = Referee::where('tournament_id', $data['tournament_id'])->get()->map(function ($item, $key) use (&$id) {
@@ -143,7 +142,7 @@ class AgeGroupService implements AgeGroupContract
         // First we check if its Edit or Update
         if(isset($data['competation_format_id']) && $data['competation_format_id'] != 0)
         {
-            if($data['tournament_template_id'] != $data['tournamentTemplate']['id'] ) {
+            if($data['tournament_template_id'] != $data['tournamentTemplate']['id'] || $tournamentTemplateObj->tournament_format != $data['tournament_format'] || ($data['tournament_format'] === 'basic' && $tournamentTemplateObj->competition_type != $data['competition_type'])) {
                 $this->ageGroupObj->deleteCompetationData($data);
 
                 $id = $data['competation_format_id'];
@@ -590,12 +589,18 @@ class AgeGroupService implements AgeGroupContract
     {
       $totalTeams = $data['total_teams'];
       $groupSize = $data['group_size'];
-      $competitionRound = 'RR 1-' .$totalTeams;
-      $competitionGroupRound = '1x' .$totalTeams;
       $totalGroups = $totalTeams / $groupSize;
       $finalTeams = $totalTeams / $totalGroups;
       $teamsPerGroup = $totalTeams / $totalGroups;
       $teamsForRoundTwo = [];
+
+      $knockoutRoundSizeArray = config('config-variables.knockout_round_two_size');
+      $roundSizeData = $knockoutRoundSizeArray[$groupSize][$totalTeams];
+      $knockoutRounds = log($roundSizeData, 2);
+
+      $competitionRound = 'RR 1-' .$knockoutRounds;
+      $competitionRound = $knockoutRounds. ' knockout rounds';
+      $competitionGroupRound = $totalGroups. 'x' .$groupSize;
 
       $finalArray = [];
       $finalArray['tournament_teams'] = $totalTeams;
@@ -612,10 +617,18 @@ class AgeGroupService implements AgeGroupContract
 
       $roundMatches = $this->setRoundMatches($totalTeams, $groupSize, $finalArray);
 
+      $totalMatches = 0;
+      foreach ($roundMatches['tournament_competation_format']['format_name'] as $key => $round) {
+        foreach ($round['match_type'] as $key => $group) {
+          $totalMatches += $group['total_match'];
+        }
+      }
+
       $finalMatches = count($roundMatches) + $finalMatches;
-      $totalMatchesCount = $finalMatches * $totalGroups;
-      $averageMatches = $totalMatchesCount / ($totalTeams/2);
-      $finalArray['total_matches'] = $totalMatchesCount;
+      // $totalMatchesCount = $finalMatches * $totalGroups;
+      // $averageMatches = $totalMatchesCount / ($totalTeams/2);
+      $averageMatches = $totalMatches / ($totalTeams/2);
+      $finalArray['total_matches'] = $totalMatches;
       $finalArray['avg_game_team'] = $averageMatches;
 
       return json_encode($finalArray);
@@ -692,6 +705,7 @@ class AgeGroupService implements AgeGroupContract
       $nextRoundTeams = [];
       $nextRoundMatchesArray = [];
       $matches = [];
+
       for ($round = 0; $round < $allRounds; $round++) {
         $group1 = [];
         $group2 = [];        
@@ -756,7 +770,7 @@ class AgeGroupService implements AgeGroupContract
 
       $positions = [];
       $positions[0] = ['position' => 1, 'dependent_type' => 'match', 'match_number' => $lastRoundMatches[0]['match_number'], 'result_type' => 'winner'];
-      $positions[1] = ['position' => 2, 'dependent_type' => 'match', 'match_number' => $lastRoundMatches[0]['match_number'], 'result_type' => 'looser'];
+      $positions[1] = ['position' => 2, 'dependent_type' => 'match', 'match_number' => $lastRoundMatches[0]['match_number'], 'result_type' => 'loser'];
 
       $finalArray['tournament_positions'] = $positions;
 

@@ -2403,7 +2403,7 @@ class MatchService implements MatchContract
             $positions[$i]->save();
           }
 
-          if($positions[$i]->result_type === 'looser') {
+          if($positions[$i]->result_type === 'loser') {
             $positions[$i]->team_id = $looser;
             $positions[$i]->save();
           }
@@ -2492,6 +2492,7 @@ class MatchService implements MatchContract
       $ageCategoryId = $competition->tournament_competation_template_id;
       $groupFixture = DB::table('temp_fixtures')->select('temp_fixtures.*')->where('tournament_id','=',$data['tournamentId'])->where('competition_id',$data['competitionId'])->get();
       if($competition->actual_competition_type === 'Round Robin') {
+        $findTeams = [];
         foreach ($groupFixture as $key => $value) {
           if($value->home_team == 0 || $value->away_team == 0) {
             continue;
