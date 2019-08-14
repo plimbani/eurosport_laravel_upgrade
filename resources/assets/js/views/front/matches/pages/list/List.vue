@@ -1,5 +1,6 @@
 <template>
   <div>
+    {{ updateDivExistData }}
     <div>
         <div class="row align-items-end custom_radio_btn matches-filter" v-if="currentView == 'Matches'">
             <div class="col-xl-6">
@@ -26,8 +27,8 @@
                         <label class="custom_select_box d-block mb-0" for="match_score">
                             <select id="match_score"  class="border-0" v-on:change="onChangeAllMatchScore" v-model="matchScoreFilter">
                               <option value="all">All matches</option>
-                              <option value="scored">Scored</option>
-                              <option value="notscored">Not scored</option>
+                              <option value="played">Scored</option>
+                              <option value="to_be_played">Not scored</option>
                             </select>
                         </label>
                     </div>
@@ -84,7 +85,7 @@
         </div>
         <div class="text-center view-full-information" v-if="showGroupInfo" v-html="$t('matches.view_match_info_message', {'competitionName': selectedOption.data.name})" v-on:click.capture="showCompetitionDetailPage()"></div>
     </div>
-    <component :is="currentView" :matches="matches" :competitionDetail="competitionDetail" :currentView="currentView" :fromView="'Matches'" :categoryId="currentCategoryId"></component>
+    <component :is="currentView" :matches="matches" :competitionDetail="competitionDetail" :currentView="currentView" :fromView="'Matches'" :categoryId="currentCategoryId" :isDivExist="isDivExist" :isDivExistData="isDivExistData"></component>
   </div>
 </template>
 
@@ -111,6 +112,9 @@
         filterBy: 'category_and_competition',
         currentCategoryId: '',
         matchScoreFilter: 'all',
+        isDivExist: false,
+        isDivExistData: [],
+        dropdownDrawName:[],
       };
     },
     filters: {
@@ -130,6 +134,19 @@
     computed: {
       showGroupInfo() {
         return (this.currentView == 'Matches' && this.filterBy == 'category_and_competition' && this.selectedOption != '' && this.selectedOption.class == 'competition');
+      },
+      updateDivExistData:function(){
+        var getFirstMatch = _.head(this.matches);
+        if ( typeof(getFirstMatch) != 'undefined' && getFirstMatch.isDivExist == 1 )
+        {
+          this.isDivExist = getFirstMatch.isDivExist;
+          this.isDivExistData = _.groupBy(this.matches, 'competation_round_no');
+        }
+        else
+        {
+          this.isDivExist = 0;
+          this.isDivExistData = [];
+        }
       }
     },
     components: {
@@ -246,7 +263,6 @@
         )
       },
       showCompetitionData(id, competitionName, competitionType) {
-        this.currentView = 'Competition';
         this.getCompetitionDetails(id, competitionName, competitionType);
       },
       getCompetitionDetails(competitionId, competitionName, competitionType) {
@@ -263,6 +279,7 @@
             if(response.data.status_code == 200) {
               vm.matches = response.data.data;
               vm.$root.$emit('setMatchesForMatchList', _.cloneDeep(response.data.data));
+              vm.currentView = 'Competition';
             }
           },
           (error) => {

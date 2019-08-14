@@ -93,6 +93,9 @@ import TournamentDetail from './views/tournament/TournamentDetail.vue'
 import UsersTournament from './views/userstournament/UsersTournament.vue'
 import TournamentsTransaction from './views/tournamentstransaction/TournamentsTransaction.vue'
 
+// Template management Layout
+import LayoutTemplateManagement from './views/layouts/LayoutTemplateManagement.vue'
+
 // Duplicate Tournament Layout
 import LayoutDuplicateTournament from './views/layouts/LayoutDuplicateTournament.vue'
 
@@ -123,6 +126,10 @@ import LayoutUserTournamentTransaction from './views/layouts/LayoutUserTournamen
 
 // Commercialisation user tournament transaction history
 import LayoutUserTournamentTransactionHistory from './views/layouts/LayoutUserTournamentTransactionHistory.vue'
+
+import AddTemplate from './components/Template/AddTemplate';
+import EditTemplate from './components/Template/EditTemplate';
+import TemplateList from './views/admin/templates/List.vue';
 
 Vue.use(VueRouter)
 
@@ -248,6 +255,27 @@ const routes = [
         component: LayoutUserManagement,
         meta: { requiresAuth: true },
         name: 'users_list'
+    },
+    {
+        path: '/', component: LayoutTemplateManagement,
+        meta: { requiresAuth: true },
+        children: [
+            {
+               path: '/templates_list',
+               component: TemplateList,
+               name: 'templates_list'
+            },
+            {
+                path: '/add_new_template',
+                component: AddTemplate,
+                name: 'add_new_template'
+            },
+            {
+                path: '/edit_template/:id',
+                component: EditTemplate,
+                name: 'edit_template'
+            }
+        ]
     },
 
     // Duplicate tournament copy routes

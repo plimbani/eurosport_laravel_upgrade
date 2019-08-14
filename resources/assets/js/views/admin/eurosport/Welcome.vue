@@ -1,7 +1,7 @@
 <template>
   <div class="main-content container-fluid" id="dashboardPage">
     <div class="row home-content">
-      <div class="d-flex mb-4" :class="isResultAdmin ? 'col-sm-6' : 'col-sm-4'">
+      <div class="d-flex mb-4" :class="isResultAdmin || isInternalAdmin ? 'col-sm-6' : 'col-sm-4'">
         <div class="card mb-0 w-100">
           <div class="card-header">
             <h5 class="text-center"><strong>{{$lang.welcome_manage_tournament}}</strong></h5>
@@ -11,7 +11,7 @@
               <button type="button" class="btn btn-success col-sm-10" data-target="#tournament_details_modal" data-toggle="modal">{{$lang.welcome_add_button_tournament_details}}</button>
               <AddTournamentDetailsModal></AddTournamentDetailsModal>
             </div>
-            <div class= "form-group" v-if="(userDetails.role_name != 'Tournament administrator' &&  userDetails.role_name != 'Internal administrator' && userDetails.role_slug != 'Results.administrator')">
+            <div class= "form-group" v-if="(userDetails.role_name != 'Tournament administrator' && userDetails.role_slug != 'Results.administrator')">
               <button class="btn btn-primary col-sm-10 btn-theme" @click="addNewTournament()">{{$lang.welcome_add_button_new_edition}}</button>
             </div>
              <div class="form-group" v-if="( userDetails.role_name == 'Internal administrator' || userDetails.role_slug == 'tournament.administrator' || userDetails.role_name == 'Master administrator' || userDetails.role_name == 'Super administrator')">
@@ -24,37 +24,41 @@
           </div>
         </div>
       </div>
-      <div class="d-flex mb-4" :class="isResultAdmin ? 'col-sm-6' : 'col-sm-4'">
+      <div class="d-flex mb-4" :class="isResultAdmin ? 'col-sm-6' : 'col-sm-4'" v-if="!isInternalAdmin">
         <div class="card mb-0 w-100">
           <div class="card-header">
             <h5 class="text-center"
-            v-if="(userDetails.role_name != 'Internal administrator' && userDetails.role_slug != 'Results.administrator')"><strong>{{$lang.welcome_manage_user}}</strong></h5>
+            v-if="(userDetails.role_slug != 'Results.administrator')"><strong>{{$lang.welcome_administration}}</strong></h5>
             <h5 class="text-center" v-if="(userDetails.role_slug == 'Results.administrator')"><strong>{{$lang.welcome_add_tournament_permission}}</strong></h5>
-            <h5 class="text-center" v-if="(userDetails.role_name == 'Internal administrator')"><strong>{{$lang.welcome_add_tournament}}</strong></h5>
-            <!-- <h5 class="text-center" v-else><strong>{{$lang.welcome_add_tournament}}</strong> -->
             </h5>
           </div>
           <div class="card-block text-center">
-              <div class="form-group" v-if="(userDetails.role_name == 'Internal administrator') ">
+              <!-- <div class="form-group" v-if="(userDetails.role_name == 'Internal administrator') ">
                 <ol class="col-sm-10 offset-sm-1">
                   <li class="text-left">Add your tournament details</li>
                   <li class="text-left">{{$lang.welcome_add_new_tournament_review}}</li>
                   <li class="text-left">{{$lang.welcome_add_new_tournament_publish}}!</li>
                 </ol>
-              </div>
+              </div> -->
               <div class="form-group" v-if="userDetails.role_slug == 'Results.administrator'">
                 <ol class="col-sm-10 offset-sm-1">
                   <li class="text-left">{{$lang.welcome_view_tournaments_assigned_to_you}}</li>
                   <li class="text-left">{{$lang.welcome_add_details_about_matches}}</li>
                 </ol>
               </div>
-              <button class="btn btn-primary col-sm-10 btn-theme" @click="addNewTournament()" v-if="(userDetails.role_name == 'Internal administrator') ">{{$lang.welcome_add_button_new_edition}} </button>
-              <button class="btn btn-primary col-sm-10 btn-theme" @click="userList()" v-if="(userDetails.role_name == 'Master administrator' || userDetails.role_name == 'Super administrator' || userDetails.role_slug == 'tournament.administrator')">{{$lang.welcome_add_new_user}}</button>
-              <br>
+              <!-- <button class="btn btn-primary col-sm-10 btn-theme" @click="addNewTournament()" v-if="(userDetails.role_name == 'Internal administrator') ">{{$lang.welcome_add_button_new_edition}} </button> -->
+
+              <div class="form-group" v-if="(userDetails.role_name == 'Master administrator' || userDetails.role_name == 'Super administrator' || userDetails.role_slug == 'tournament.administrator')">
+                <button class="btn btn-primary col-sm-10 btn-theme" @click="userList()">{{$lang.welcome_add_new_user}}</button>
+              </div>
+
+              <div class="form-group" v-if="(userDetails.role_slug == 'Super.administrator')">
+                <button class="btn btn-primary col-sm-10 btn-theme" @click="templateList()">{{$lang.welcome_manage_templates}}</button>
+              </div>
           </div>
         </div>
       </div>
-      <div class="col-sm-4 d-flex mb-4" v-if="userDetails.role_slug != 'Results.administrator'">
+      <div class="d-flex mb-4" :class="isInternalAdmin ? 'col-sm-6' : 'col-sm-4'" v-if="userDetails.role_slug != 'Results.administrator'">
         <div :class="{ 'card mb-0 w-100': true, 'is-disabled': currentLayout === 'commercialisation' }">
           <div class="card-header">
             <h5 class="text-center"><strong>{{$lang.welcome_manage_websites}}</strong></h5>
@@ -98,6 +102,12 @@ computed: {
     isResultAdmin() {
       return this.$store.state.Users.userDetails.role_slug == 'Results.administrator';
     },
+    isTournamentAdmin() {
+      return this.$store.state.Users.userDetails.role_slug == 'tournament.administrator';
+    },
+    isInternalAdmin() {
+      return this.$store.state.Users.userDetails.role_slug == 'Internal.administrator';
+    }
   },
   mounted() {
     let tournamentAdd  = {name:'', 'currentPage':'Home'}
@@ -139,10 +149,19 @@ computed: {
       this.$store.dispatch('setActiveTab', currentNavigationData)
       this.$router.push({name: 'website_add'})
     },
+    templateList() {
+      let currentNavigationData = {activeTab:'tournament_add', currentPage: 'Templates'};
+      this.$store.dispatch('setActiveTab', currentNavigationData);
+      let tournamentAdd  = {name:'', 'currentPage':'Templates'}
+      this.$store.dispatch('SetTournamentName', tournamentAdd)
+      this.$router.push({ name: 'templates_list' });
+    },
+    manageTemplate() {
+      this.templateList();
+    },
     duplicateTournament() {
       let currentNavigationData = {currentPage:'Tournaments'}
       this.$store.dispatch('setActiveTab', currentNavigationData)
-
       this.$router.push({ name: 'duplicate_tournament_copy' })
     }
   }

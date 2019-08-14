@@ -33,7 +33,8 @@
         "toin0u/geocoder-laravel": "1.x-dev",
         "toin0u/geotools-laravel": "~1.0",
         "tymon/jwt-auth": "0.5.*",
-        "wemersonjanuario/wkhtmltopdf-windows": "0.12.2.3"
+        "wemersonjanuario/wkhtmltopdf-windows": "0.12.2.3",
+        "webpatser/laravel-uuid": "2.*"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.1",

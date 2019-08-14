@@ -84,7 +84,7 @@ export default {
   			Tournament.getAllDraws(TournamentId).then(
   				(response)=> {
   					if(response.data.status_code == 200) {
-  						vm.matchData = response.data.data
+  						vm.matchData = response.data.data.mainData
   						vm.matchData.map(function(value, key) {
 							if(value.actual_competition_type == 'Elimination') {
 								value.name = _.replace(value.name, '-Group', '');
@@ -112,17 +112,17 @@ export default {
 			this.otherData.DrawName = drawName
 			this.otherData.DrawId = drawId
       		this.otherData.DrawType = CompetationType
-
+      		let vm = this;
 			Tournament.getFixtures(tournamentData).then(
 				(response)=> {
 					if(response.data.status_code == 200) {
-						this.matchData = response.data.data;
-						this.matchData.map(function(value, key) {
+						vm.matchData = response.data.data;
+						vm.matchData.map(function(value, key) {
 			                value.name = _.replace(value.name, '-Group', '');
 			                return value;
 			            })
 
-						this.$root.$emit('setMatchDataOfMatchList', this.matchData);
+						this.$root.$emit('setMatchDataOfMatchList', vm.matchData);
 
 						$("body .js-loader").addClass('d-none');
 					}

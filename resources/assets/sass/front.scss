@@ -1166,6 +1166,61 @@ gmap-map {
     }
 }
 
+.add-new-template.add_user_btn {
+    right: 15px;
+}
+
+.add-newtemplate-modal.modal-dialog {
+    position: fixed;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    max-width: inherit;
+}
+
+.add-newtemplate-modal.modal-dialog .radio label+label {
+    margin-left: 10px;
+}
+
+.add-newtemplate-modal.modal-dialog .info-editor {
+    margin-left: 20px;
+    font-size: 18px;
+    color: #000;
+    vertical-align: middle;
+}
+
+.add-newtemplate-modal.modal-dialog .btn-group .btn {
+    border-radius: 0.25rem !important;
+}
+
+.add-newtemplate-modal.modal-dialog .btn-group .btn+.btn {
+    margin-left: 10px;
+}
+
+.popover.bs-tether-element.show {
+    z-index: 9999;
+}
+
+.modal-dialog.add-newtemplate-modal {
+    overflow-y: auto;
+    height: 100vh;
+}
+
+.add-newtemplate-modal .modal-content {
+    min-height: 100%;
+}
+
+.template-font-color-box {
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+}
+
+.template-font-color-active {
+    border: 3px solid #000;
+}
+
 a.aecor-anchor {
     text-decoration: underline;
     color: #757575;
@@ -1215,6 +1270,12 @@ a.active-view:hover {
     max-width: 900px;
 }
 
+#select2-drawName-results li.rounds {
+    font-weight: bold;
+    color: rgb(89, 89, 89);
+
+}
+
 .stage-top-horizontal-scroll {
     width: calc(100% - 41px);
     min-height: 15px;
@@ -1241,8 +1302,8 @@ a.active-view:hover {
 }
 
 .tbl-drawdetails th,
-.tbl-drawdetails td {
-    word-break: break-word;
+.tbl-drawdetails td:first-child {
+    white-space: nowrap;
 }
 
 .add-category-table th:nth-child(10),
@@ -1275,10 +1336,15 @@ a.active-view:hover {
 }
 
 .pull-left {
-  float: left;
+    float: left;
 }
 
-.unsaved-score-list li{
+// .help.is-danger {
+//     position: absolute;
+//     font-size: 13px;
+// }
+
+.unsaved-score-list li {
     padding: 5px 0;
     font-size: 14px;
 }
@@ -1294,15 +1360,112 @@ a.active-view:hover {
     }
 }
 
-.pitch-capacity-form .form-control::-webkit-input-placeholder { /* Chrome/Opera/Safari */
-  color: $base-font-color;
+.pitch-capacity-form .form-control::-webkit-input-placeholder {
+    /* Chrome/Opera/Safari */
+    color: $base-font-color;
 }
-.pitch-capacity-form .form-control::-moz-placeholder { /* Firefox 19+ */
-  color: $base-font-color;
+
+.pitch-capacity-form .form-control::-moz-placeholder {
+    /* Firefox 19+ */
+    color: $base-font-color;
 }
-.pitch-capacity-form .form-control:-ms-input-placeholder { /* IE 10+ */
-  color: $base-font-color;
+
+.pitch-capacity-form .form-control:-ms-input-placeholder {
+    /* IE 10+ */
+    color: $base-font-color;
 }
-.pitch-capacity-form .form-control:-moz-placeholder { /* Firefox 18- */
-  color: $base-font-color;
+
+.pitch-capacity-form .form-control:-moz-placeholder {
+    /* Firefox 18- */
+    color: $base-font-color;
+}
+
+.round-title {
+    a {
+        color: $ls-color-black;
+    }
+}
+
+.nested-rounds {
+    font-size: 0.875rem;
+}
+
+.pitch-capacity-form .form-control:-moz-placeholder {
+    /* Firefox 18- */
+    color: $base-font-color;
+}
+
+.add-category-table {
+    &.tbl-template {
+        tr {
+
+            th,
+            td {
+                width: auto;
+
+                a {
+                    margin-right: 5px;
+
+                    &:last-child {
+                        margin-right: 0;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.template_tabs {
+    .step3-template-setting {
+        .form-group {
+            &.has-error {
+                .help {
+                    &.is-danger {
+                        position: absolute;
+                        font-size: 12px;
+                    }
+                }
+            }
+        }
+    }
+
+    .placing-row {
+        &>.row {
+            margin-bottom: 1.5rem;
+            margin-top: 0.25rem;
+
+            &:last-child {
+                margin-bottom: 0.25rem;
+            }
+        }
+    }
+}
+
+.round-details {
+    li {
+        .round-matches{
+            span{
+                display: inline-block; 
+                &.w-7{
+                    width: 7%;
+                } 
+                &.w-80{
+                    width: 80px;
+                }
+                &.w-250{
+                    width: 250px;
+                }
+                &.w-33{
+                    width: 33%;
+                }  
+                &.position-number{
+                    width: 40px;
+                } 
+            }
+        }
+    }
+}
+.pricing_tabs .error-block {
+    position: absolute;
+    font-size: 0.75rem;
 }

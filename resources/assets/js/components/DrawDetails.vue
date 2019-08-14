@@ -8,15 +8,17 @@
   </div>
   <div class="form-group row">
     <div class="col-md-3">
-      <select class="form-control ls-select2"
-        v-on:change="onChangeDrawDetails"
-        v-model="DrawName">
+      <select class="form-control" id="drawName" v-on:change="onChangeDrawDetails">
         <!-- <option value="">Select</option> -->
-        <option
-        v-for="option in drawList"
-        v-bind:value="option"
-        >{{option.name}}
-        </option>
+        <optgroup :label="key" v-for="(round, key) in dropdownDrawName.round_robin">
+          <option v-bind:value="group.id" :label="group.display_name" :rel="group.actual_competition_type" v-for="group in round">{{group.display_name}}</option>
+        </optgroup>
+
+        <optgroup :label="index" class="division" v-for="(division, index) in dropdownDrawName.divisions">
+          <option class="rounds" disabled="true" :rel="roundIndex" :label="roundIndex" v-for="(divRound, roundIndex) in division">
+          <option v-bind:value="divGroup.id" class="placingMatches" :label="divGroup.display_name" :rel="divGroup.actual_competition_type" v-for="divGroup in divRound">&nbsp;&nbsp;&nbsp;&nbsp;{{ divGroup.display_name }}</option>
+          </option>
+        </optgroup>
       </select>
     </div>
   </div>
@@ -32,11 +34,12 @@
     <span v-if="match1Data.length == 0 && otherData.DrawType != 'Elimination'"> No information available</span>
   </div>
 <!--<h6>{{otherData.DrawName}} results grid</h6>-->
-  <table class="table table-hover table-bordered tbl-drawdetails" border="1" v-if="match1Data.length > 0 && otherData.DrawType != 'Elimination'" >
+<div class="table-responsive mb-4">
+  <table class="table table-hover table-bordered tbl-drawdetails mb-0" border="1" v-if="match1Data.length > 0 && otherData.DrawType != 'Elimination'" >
     <thead>
       <tr>
-          <th :width="(100/(match1Data.length+1)) + '%'"></th>
-          <th :width="(100/(match1Data.length+1)) + '%'" v-for="(match,index) in match1Data" class="text-center">
+          <th></th>
+          <th v-for="(match,index) in match1Data" class="text-center">
             <div class="matchteam-details d-block">
               <span v-if="match.TeamCountryFlag != null" :class="'matchteam-flag flag-icon flag-icon-'+match.TeamCountryFlag"></span>
               <div class="matchteam-dress" v-if="match.ShortsColor && match.ShirtColor">
@@ -53,7 +56,7 @@
     <tbody>
       <tr v-for="(match,index) in match1Data">
 
-          <td :width="(100/(match1Data.length+1)) + '%'">
+          <td>
             <div class="matchteam-details">
               <span v-if="match.TeamCountryFlag != null" :class="'matchteam-flag flag-icon flag-icon-' + match.TeamCountryFlag"></span>
               <div class="matchteam-dress" v-if="match.ShortsColor && match.ShirtColor">
@@ -66,7 +69,7 @@
           </td>
 
 
-          <td :width="(100/(match1Data.length+1)) + '%'" v-for="(teamMatch, ind2) in match.matches" :class="[teamMatch == 'Y' ? 'bg-light-grey' : '', '']">
+          <td v-for="(teamMatch, ind2) in match.matches" :class="[teamMatch == 'Y' ? 'bg-light-grey' : '', '']">
             <div class="text-center" v-if="teamMatch.score == null && teamMatch != 'Y' && teamMatch != 'X' ">
           {{teamMatch.date | formatDate}}</div>
             <div class="text-center" v-else> {{teamMatch.score}}</div>
@@ -77,28 +80,19 @@
         </tr>
     </tbody>
   </table>
-
+</div>
   <div class="form-group">
     <h6 v-if="otherData.DrawType != 'Elimination'" class="mb-0 fieldset-title">
     {{otherData.DrawName}} standings
     <a href="#" @click="manualRankingModalOpen()" v-if="isUserDataExist && teamList.length > 0"><span>(<u>manual ranking</u>)</span></a>
-    <span style="float: right;" v-if="DrawName.competation_round_no != 'Round 1' && isUserDataExist"><a href="javascript:void(0)" @click="refreshStanding()">Refresh standing</a></span>
+    <!-- <span style="float: right;" v-if="DrawName.competation_round_no != 'Round 1' && isUserDataExist"><a href="javascript:void(0)" @click="refreshStanding()">Refresh standing</a></span> -->
     </h6>
     <teamStanding :currentCompetationId="currentCompetationId" :drawType="otherData.DrawType" v-if="currentCompetationId != 0 && teamStatus == true" >
     </teamStanding>
     <div v-if="currentCompetationId == 0 && otherData.DrawType != 'Elimination'">No information available
     </div>
   </div>
-
-  <div class="row align-items-center mb-3">
-    <div class="col-md-10">
-        <h6 class="mb-0 fieldset-title">{{otherData.DrawName}} matches</h6>
-    </div>
-    <div class="col-md-2">
-      <button type="button" name="save" class="btn btn-primary pull-right" @click="saveMatchScore()" v-if="otherData.DrawType == 'Elimination' && isUserDataExist">Save</button>
-    </div>
-  </div>
-  <matchList :matchData1="matchData" :DrawName="DrawName"></matchList>
+  <matchList :matchData1="matchData" :DrawName="DrawName" :otherData="otherData"></matchList>
   <manualRanking :competitionId="currentCompetationId" :teamList="teamList" :teamCount="teamCount" :isManualOverrideStanding="DrawName.is_manual_override_standing" @refreshStanding="refreshManualStanding()" @competitionAsManualStanding="competitionAsManualStanding"></manualRanking>
 </div>
 </template>
@@ -127,6 +121,7 @@ export default {
             matchStatus: true,
             teamList: [],
             teamCount: 0,
+            dropdownDrawName:[]
         }
     },
     created: function() {
@@ -142,24 +137,27 @@ export default {
     // here call method to get All Draws
     let TournamentId = this.$store.state.Tournament.tournamentId
     let currDId = this.currentCompetationId
+    let currentAgeCategoryId =  this.$store.state.currentAgeCategoryId;
     let round = 'Round Robin'
     let drawname1 = []
+    
     let vm = this
-      Tournament.getAllDraws(TournamentId).then(
+      Tournament.getAllDraws(TournamentId,currentAgeCategoryId).then(
         (response)=> {
           if(response.data.status_code == 200) {
-            this.drawList = response.data.data
+            this.drawList = response.data.data.mainData
 
-            vm.drawList = response.data.data
+            vm.drawList = response.data.data.mainData;
+            vm.dropdownDrawName = response.data.data.ageCategoryData;
             vm.drawList.map(function(value, key) {
               if(value.actual_competition_type == 'Elimination') {
                 value.name = _.replace(value.name, '-Group', '');
-
                 return value;
               }
             })
 
-            var uniqueArray = response.data.data.filter(function(item, pos) {
+
+            var uniqueArray = response.data.data.mainData.filter(function(item, pos) {
 
               if(item['id'] == currDId)
               {
@@ -169,9 +167,42 @@ export default {
             }, {});
             this.DrawName = drawname1
             this.CompRound = round
-            if ( currDId != undefined){
-              this.refreshStanding();
-            }
+
+
+            setTimeout(function(){
+              $('#drawName optgroup .rounds').each(function() {
+                var insideOptions = $(this).html();
+                $(this).html('');
+                $(insideOptions).insertAfter($(this));
+
+                $(this).html($(this).attr('rel'));
+              });
+
+              $("#drawName").select2({
+                templateResult: function (data, container) {
+                  if (data.element) {
+                    $(container).addClass($(data.element).attr("class"));
+                  }
+                  return data.text;
+                }
+              })
+              .on('change', function () {
+                let curreId = $(this).val();
+                let drawnameChange = [];
+                vm.drawList.map(function(value, key) {
+                  if(value.id == curreId) {
+                    vm.DrawName = value;
+                  }
+                });
+
+                vm.onChangeDrawDetails();
+                if ( currDId != undefined){
+                  vm.refreshStanding();
+                }
+              });
+
+              $("#drawName").val(currDId).trigger('change');
+            },500);
             //this.DrawName = this.matchData[0];
             // find record of that
           }
@@ -185,6 +216,8 @@ export default {
       // Call child class Method
       // this.$children[1].getData(this.currentCompetationId)
       // console.log(this.$children[1].getData())
+
+    //$('.ls-select2').select2();
  },
   filters: {
     formatDate: function(date) {
@@ -290,6 +323,7 @@ export default {
            )
         },
         onChangeDrawDetails() {
+
           this.$store.dispatch('setCurrentScheduleView','drawDetails')
 
           window.competitionChange = this.DrawName;

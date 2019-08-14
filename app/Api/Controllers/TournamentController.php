@@ -260,6 +260,7 @@ class TournamentController extends BaseController
     {
         return $this->tournamentObj->updateCompetitionDisplayName($request->all());
     }
+
     /*
     * Upload tournament sponser image
     *
@@ -293,6 +294,14 @@ class TournamentController extends BaseController
     */
     public function getTournamentAccessCodeDetail(Request $request) {
         return $this->tournamentObj->getTournamentAccessCodeDetail($request->all());  
+    }
+
+    /**
+     * Update category division display name.
+    */
+    public function updateCategoryDivisionName(Request $request)
+    {
+        return $this->tournamentObj->updateCategoryDivisionName($request->all());
     }
 
     public function duplicateTournament(DuplicateTournamentRequest $request)

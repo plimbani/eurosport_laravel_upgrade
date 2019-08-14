@@ -34,13 +34,13 @@
                       <label class="col-md-7"><strong>{{$lang.competation_modal_format_team}}</strong></label>
                       <label class="col-md-5 pl-2">{{ templateData['tournament_teams'] }}</label>
                   </p>
-                  <p class="row no-gutters">
+                  <p class="row no-gutters" v-if="templateData['tournament_min_match'] != null">
                       <label class="col-md-7"><strong>{{$lang.competation_modal_minimum_matches}}</strong></label>
                       <label class="col-md-5 pl-2">{{ templateData['tournament_min_match'] }}</label>
                   </p>
                   <p class="row no-gutters mb-0">
                       <label class="col-md-7"><strong>{{$lang.competation_modal_foramt_competation_foramt}}</strong></label>
-                      <label class="col-md-5 pl-2">{{templateData.tournament_teams}} teams<br/> {{templateData.competition_group_round}} <br/> {{templateData.competition_round}}</label>
+                      <label class="col-md-5 pl-2">{{ displayRoundSchedule() }}</label>
                   </p>
                 </div>
               </div>
@@ -93,6 +93,14 @@
       var minutes = Math.floor(time % 60);
 
       return hours+ 'h '+minutes+'m'
+    }
+   },
+   methods:{
+    displayRoundSchedule() {
+      var roundScheduleData = this.templateData.round_schedule;
+      if(roundScheduleData) {
+        return this.templateData.tournament_teams +" teams " + roundScheduleData.join(" - ");
+      }
     }
    }
  }
