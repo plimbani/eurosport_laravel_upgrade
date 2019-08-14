@@ -2403,7 +2403,7 @@ class MatchService implements MatchContract
             $positions[$i]->save();
           }
 
-          if($positions[$i]->result_type === 'looser') {
+          if($positions[$i]->result_type === 'loser') {
             $positions[$i]->team_id = $looser;
             $positions[$i]->save();
           }
