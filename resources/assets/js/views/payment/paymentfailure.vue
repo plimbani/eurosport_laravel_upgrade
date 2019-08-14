@@ -5,7 +5,7 @@
                 <div class="row justify-content-between">
                     <div class="col-md-12">
                         <h1 class="font-weight-bold">Transaction - {{status_message}}</h1>
-                        <p>{{ predefined_payment_status_messages[status_message] }}</p>
+                        <p>{{ predefined_payment_status_messages[status_message.toLowerCase()] }}</p>
                     </div>
                     <div class="col-md-12">
                         <button class="btn btn-success" v-on:click="redirectToDashboardPage()">Go to dashboard</button>
@@ -45,9 +45,7 @@
                 } 
                 var url = "payment/response";
                 this.status_message = this.paymentObj.STATUS_MESSAGE;
-                
                 if(typeof this.tournament.id != "undefined" && this.tournament.id != undefined && !this.tournament.is_renew){
-                    
                     url = "manage-tournament";
                 }
                 
